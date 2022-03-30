@@ -46,7 +46,7 @@ msgstr "Ismael Asensio"
 #: kcmrules.cpp:34
 #, kde-format
 msgid "Author"
-msgstr "Autor"
+msgstr "Autoria"
 
 #: kcmrules.cpp:38
 #, kde-format
@@ -59,7 +59,7 @@ msgid ""
 msgstr ""
 "<p><h1>Valors específics de la finestra</h1> Ací podeu personalitzar valors "
 "de la finestra específicament per a només algunes finestres.</p><p>Recordeu "
-"que aquesta configuració no tindrà efecte si no useu el KWin com a gestor de "
+"que esta configuració no tindrà efecte si no useu el KWin com a gestor de "
 "finestres. Si useu un gestor de finestres diferent, consulteu a la "
 "documentació la manera de personalitzar el comportament de la finestra.</p>"
 
@@ -81,12 +81,12 @@ msgstr "Valors de la finestra per a %1"
 #: main.cpp:31
 #, kde-format
 msgid "KWinRules KCM launcher"
-msgstr "Llançador del KCM de KWinRules"
+msgstr "Iniciador del KCM de KWinRules"
 
 #: main.cpp:32
 #, kde-format
 msgid "KWin id of the window for special window settings."
-msgstr "ID del KWin de la finestra per a opcions especials d'aquesta."
+msgstr "ID del KWin de la finestra per a opcions especials d'esta."
 
 #: main.cpp:33
 #, kde-format
@@ -97,7 +97,7 @@ msgstr ""
 #: main.cpp:40
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
-msgstr "Aquesta utilitat d'ajuda no està pensada per a cridar-se directament."
+msgstr "Esta utilitat d'ajuda no està pensada per a cridar-se directament."
 
 #: main.cpp:44
 #, kde-format
@@ -160,7 +160,7 @@ msgid ""
 msgstr ""
 "La propietat de la finestra s'establirà immediatament al valor indicat i no "
 "es veurà afectat més tard\n"
-"(aquesta acció se suprimirà més tard)."
+"(esta acció se suprimirà més tard)."
 
 #: optionsmodel.cpp:161
 #, kde-format
@@ -173,7 +173,7 @@ msgid ""
 "The value of the window property will be remembered and, every time the "
 "window is created, the last remembered value will be applied."
 msgstr ""
-"Es recordarà el valor de la propietat de la finestra, i s'aplicarà el darrer "
+"Es recordarà el valor de la propietat de la finestra, i s'aplicarà l'últim "
 "valor recordat cada vegada que es cree la finestra."
 
 #: optionsmodel.cpp:165
@@ -190,7 +190,7 @@ msgid ""
 msgstr ""
 "La propietat de la finestra no es veurà afectada i per tant s'usarà la "
 "gestió predeterminada per a ella.\n"
-"En especificar això, es blocaran que tinguen efecte les opcions més "
+"En especificar açò, es blocaran que tinguen efecte les opcions més "
 "genèriques de finestra."
 
 #: optionsmodel.cpp:169
@@ -215,7 +215,7 @@ msgid ""
 "(this action will be deleted after the window is hidden)."
 msgstr ""
 "La propietat de la finestra es forçarà al valor indicat fins que s'oculti\n"
-"(aquesta acció se suprimirà després d'ocultar la finestra)."
+"(esta acció se suprimirà després d'ocultar la finestra)."
 
 #: package/contents/ui/FileDialogLoader.qml:14
 #, kde-format
@@ -256,7 +256,7 @@ msgid ""
 "Click the <interface>Add Property...</interface> button below to add some "
 "window properties that will be affected by the rule"
 msgstr ""
-"Feu clic al botó <interface>Afig propietat...</interface> de sota per a "
+"Feu clic al botó <interface>Afig propietat...</interface> de davall per a "
 "afegir diverses propietats de les finestres que seran afectades per la regla"
 
 #: package/contents/ui/RulesEditor.qml:85
@@ -339,7 +339,7 @@ msgstr "Actualment no s'han definit regles per a finestres específiques"
 msgctxt "@info"
 msgid "Click the <interface>Add New...</interface> button below to add some"
 msgstr ""
-"Feu clic al botó <interface>Afig nova...</interface> de sota per afegir-ne"
+"Feu clic al botó <interface>Afig nova...</interface> de davall per afegir-ne"
 
 #: package/contents/ui/RulesList.qml:68
 #, kde-format
@@ -432,10 +432,10 @@ msgid ""
 "types."
 msgstr ""
 "Heu especificat la classe de finestra com a sense importància.\n"
-"Això significa que els valors possiblement aplicaran a les finestres de "
-"totes les aplicacions. Si realment voleu crear un arranjament genèric, es "
-"recomana que, com a mínim, limiteu els tipus de finestra per tal d'evitar "
-"tipus de finestra especials."
+"Açò significa que els valors possiblement aplicaran a les finestres de totes "
+"les aplicacions. Si realment voleu crear un arranjament genèric, es recomana "
+"que, com a mínim, limiteu els tipus de finestra per tal d'evitar tipus de "
+"finestra especials."
 
 #: rulesmodel.cpp:248
 #, kde-format
@@ -444,9 +444,9 @@ msgid ""
 "initial settings for size and position. To enforce these settings, also "
 "force the property \"%1\" to \"Yes\"."
 msgstr ""
-"Diverses aplicacions defineixen la seua pròpia geometria després d'iniciar-"
+"Diverses aplicacions definisquen la seua pròpia geometria després d'iniciar-"
 "se, substituint la vostra configuració inicial de mida i posició. Per a "
-"forçar aquesta configuració, forceu també la propietat «%1» a «Sí»."
+"forçar esta configuració, forceu també la propietat «%1» a «Sí»."
 
 #: rulesmodel.cpp:363
 #, kde-format
@@ -576,7 +576,7 @@ msgid ""
 "to unconditionally popup in the middle of your screen."
 msgstr ""
 "Les finestres poden sol·licitar que apareguen en una posició determinada.\n"
-"Per defecte, això substitueix l'estratègia d'emplaçament\n"
+"Per defecte, açò substitueix l'estratègia d'emplaçament\n"
 "que pot ser desagradable si el client abusa de la funcionalitat\n"
 "d'emergir incondicionalment en el mig de la pantalla."
 
@@ -609,13 +609,13 @@ msgstr ""
 "una certa relació d'aspecte, o créixer només per a valors superiors a un "
 "concret\n"
 "(p. ex. per a les dimensions d'un caràcter).\n"
-"Això pot ser inútil i la restricció evitarà les dimensions arbitràries\n"
+"Açò pot ser inútil i la restricció evitarà les dimensions arbitràries\n"
 "com l'àrea completa de la pantalla."
 
 #: rulesmodel.cpp:536
 #, kde-format
 msgid "Keep above other windows"
-msgstr "Mantén sobre les altres finestres"
+msgstr "Mantín sobre les altres finestres"
 
 #: rulesmodel.cpp:536 rulesmodel.cpp:541 rulesmodel.cpp:546 rulesmodel.cpp:552
 #: rulesmodel.cpp:558 rulesmodel.cpp:564
@@ -626,7 +626,7 @@ msgstr "Organització i accés"
 #: rulesmodel.cpp:541
 #, kde-format
 msgid "Keep below other windows"
-msgstr "Mantén sota les altres finestres"
+msgstr "Mantín davall les altres finestres"
 
 #: rulesmodel.cpp:546
 #, kde-format
@@ -706,8 +706,8 @@ msgid ""
 msgstr ""
 "El KWin intenta evitar que les finestres agafin el focus\n"
 "(«activar») mentre esteu treballant en una altra finestra,\n"
-"però això a vegades pot fallar o sobreactuar.\n"
-"«Cap» permetrà incondicionalment que aquesta finestra agafi el focus,\n"
+"però açò a vegades pot fallar o sobreactuar.\n"
+"«Cap» permetrà incondicionalment que esta finestra agafi el focus,\n"
 "mentre que «Extrem» evitarà completament que agafi el focus."
 
 #: rulesmodel.cpp:602
@@ -724,7 +724,7 @@ msgid ""
 "Otherwise it's interleaved with the stealing prevention\n"
 "assigned to the window that wants the focus."
 msgstr ""
-"Això controla la protecció del focus de la finestra activa actualment.\n"
+"Açò controla la protecció del focus de la finestra activa actualment.\n"
 "Sense cedirà sempre el focus,\n"
 "Extrema el mantindrà.\n"
 "Altrament està vinculat amb la prevenció de robatori assignada a la finestra "
@@ -745,7 +745,7 @@ msgstr ""
 "Les finestres poden evitar aconseguir el focus (activar-se) en ser "
 "clicades.\n"
 "Per altra banda, podríeu desitjar evitar que una finestra\n"
-"aconseguïsca el focus en un clic de ratolí."
+"aconseguisca el focus en un clic de ratolí."
 
 #: rulesmodel.cpp:621
 #, kde-format
@@ -766,7 +766,7 @@ msgid ""
 msgstr ""
 "Quan s'usa, una finestra rebrà\n"
 "totes les entrades de teclat mentre siga activa, incloent-hi Alt+Tab, etc.\n"
-"Això és interessant especialment per a emuladors o màquines virtuals.\n"
+"Açò és interessant especialment per a emuladors o màquines virtuals.\n"
 "\n"
 "Avís:\n"
 "No podreu fer Alt+Tab fora de la finestra\n"
@@ -811,7 +811,7 @@ msgstr "Finestra d'utilitat"
 #: rulesmodel.cpp:731
 #, kde-format
 msgid "Dock (panel)"
-msgstr "Acoblador (plafó)"
+msgstr "Acoblador (quadre)"
 
 #: rulesmodel.cpp:732
 #, kde-format
@@ -897,7 +897,7 @@ msgstr "A la cantonada superior esquerra"
 #: rulesmodel.cpp:793
 #, kde-format
 msgid "Under Mouse"
-msgstr "Sota el ratolí"
+msgstr "Davall el ratolí"
 
 #: rulesmodel.cpp:794
 #, kde-format
@@ -934,4 +934,4 @@ msgstr "Extrema"
 msgid "Could not detect window properties. The window is not managed by KWin."
 msgstr ""
 "No s'han pogut detectar les propietats de la finestra. El KWin no gestiona "
-"aquesta finestra."
+"esta finestra."

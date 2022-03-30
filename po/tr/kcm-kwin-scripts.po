@@ -3,20 +3,21 @@
 #
 # Serdar Soytetir <tulliana@gmail.com>, 2012.
 # Volkan Gezer <volkangezer@gmail.com>, 2013.
+# Emir SARI <emir_sari@icloud.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-01-14 02:21+0000\n"
-"PO-Revision-Date: 2017-10-23 11:14+0000\n"
-"Last-Translator: İşbaran <isbaran@gmail.com>\n"
+"PO-Revision-Date: 2022-03-18 23:52+0300\n"
+"Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -46,7 +47,7 @@ msgstr "Tamás Krutki"
 #: module.cpp:105
 #, kde-format
 msgid "Import KWin Script"
-msgstr "İçeriye KWin Betiği Aktar..."
+msgstr "KWin Betiği İçe Aktar.."
 
 #: module.cpp:106
 #, kde-format
@@ -72,7 +73,7 @@ msgstr "\"%1\" betiği başarıyla içe aktarıldı."
 #: module.cpp:183
 #, kde-format
 msgid "Error when uninstalling KWin Script: %1"
-msgstr ""
+msgstr "KWin Betiği kaldırılırken hata: %1"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, Module)
 #: module.ui:14
@@ -84,10 +85,10 @@ msgstr "KWin betik yapılandırması"
 #: module.ui:55
 #, kde-format
 msgid "Install from File..."
-msgstr ""
+msgstr "Dosyadan Kur..."
 
 #. i18n: ectx: property (text), widget (KNS3::Button, ghnsButton)
 #: module.ui:67
 #, kde-format
 msgid "Get New Scripts..."
-msgstr "Yeni Betikleri Getir..."
+msgstr "Yeni Betikler Al..."

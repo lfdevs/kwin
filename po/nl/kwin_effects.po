@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-02-18 02:17+0000\n"
+"POT-Creation-Date: 2022-03-09 02:12+0000\n"
 "PO-Revision-Date: 2022-02-15 09:34+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
@@ -68,7 +68,7 @@ msgstr ""
 "Een positie selecteren voor kleurkiezen met links klikken of Enter.\n"
 "Escape of rechts klikken om te annuleren."
 
-#: desktopgrid/desktopgrid.cpp:109 desktopgrid/desktopgrid_config.cpp:55
+#: desktopgrid/desktopgrid.cpp:116 desktopgrid/desktopgrid_config.cpp:55
 #, kde-format
 msgid "Show Desktop Grid"
 msgstr "Bureaubladraster tonen"

@@ -107,8 +107,8 @@ msgid ""
 "Check this option if the window border should be painted in the titlebar "
 "color. Otherwise it will be painted in the background color."
 msgstr ""
-"Marqueu aquesta opció si la vora de la finestra s'ha de pintar en el color "
-"de la barra de títol. Altrament es pintarà en el color del fons."
+"Marqueu esta opció si la vora de la finestra s'ha de pintar en el color de "
+"la barra de títol. Altrament es pintarà en el color del fons."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_coloredBorder)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:56
@@ -123,9 +123,8 @@ msgid ""
 "Check this option if you want the buttons to fade in when the mouse pointer "
 "hovers over them and fade out again when it moves away."
 msgstr ""
-"Marqueu aquesta opció si desitgeu que els botons sobresurtin quan "
-"l'apuntador del ratolí passe per sobre i tornen a l'estat normal quan "
-"s'allunyi."
+"Marqueu esta opció si desitgeu que els botons sobresurtin quan l'apuntador "
+"del ratolí passe per damunt i tornen a l'estat normal quan s'allunyi."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_animateButtons)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:69

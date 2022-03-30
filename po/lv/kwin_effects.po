@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-02-18 02:17+0000\n"
+"POT-Creation-Date: 2022-03-09 02:12+0000\n"
 "PO-Revision-Date: 2016-08-23 23:15+0300\n"
 "Last-Translator: Ingmārs Dīriņš <melhiors14@gmail.com>\n"
 "Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
@@ -67,7 +67,7 @@ msgid ""
 "Escape or right click to cancel."
 msgstr ""
 
-#: desktopgrid/desktopgrid.cpp:109 desktopgrid/desktopgrid_config.cpp:55
+#: desktopgrid/desktopgrid.cpp:116 desktopgrid/desktopgrid_config.cpp:55
 #, kde-format
 msgid "Show Desktop Grid"
 msgstr "Parādīt darbvirsmas režģi"

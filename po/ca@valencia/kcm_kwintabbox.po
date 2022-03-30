@@ -50,7 +50,7 @@ msgstr "Alternativa"
 #: main.cpp:61
 #, kde-format
 msgid "Get New Task Switchers..."
-msgstr "Obtén commutadors nous de tasques..."
+msgstr "Obtín commutadors nous de tasques..."
 
 #: main.cpp:75
 #, kde-format
@@ -228,8 +228,7 @@ msgid ""
 "windows. This option requires desktop effects to be active."
 msgstr ""
 "La finestra actualment seleccionada es ressaltarà esvaint totes les altres "
-"finestres. Aquesta opció requereix que els efectes d'escriptori estiguen "
-"actius."
+"finestres. Esta opció requereix que els efectes d'escriptori estiguen actius."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HighlightWindows)
 #: main.ui:552

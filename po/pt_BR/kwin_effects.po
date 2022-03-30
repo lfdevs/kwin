@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-02-18 02:17+0000\n"
+"POT-Creation-Date: 2022-03-09 02:12+0000\n"
 "PO-Revision-Date: 2022-03-04 09:12-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -67,7 +67,7 @@ msgstr ""
 "Selecione uma posição para escolha de cores com clique esquerdo ou enter.\n"
 "Escape ou clique direito para cancelar."
 
-#: desktopgrid/desktopgrid.cpp:109 desktopgrid/desktopgrid_config.cpp:55
+#: desktopgrid/desktopgrid.cpp:116 desktopgrid/desktopgrid_config.cpp:55
 #, kde-format
 msgid "Show Desktop Grid"
 msgstr "Mostrar a grade de áreas de trabalho"

@@ -11,20 +11,21 @@
 # Serdar SOYTETİR <tulliana@gmail.com>, 2010, 2012.
 # Volkan Gezer <volkangezer@gmail.com>, 2013, 2015, 2017.
 # Kaan Ozdincer <kaanozdincer@gmail.com>, 2014.
+# Emir SARI <emir_sari@icloud.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-01-14 02:21+0000\n"
-"PO-Revision-Date: 2015-02-08 13:59+0100\n"
-"Last-Translator: Volkan Gezer <volkangezer@gmail.com>\n"
+"PO-Revision-Date: 2022-03-19 20:35+0300\n"
+"Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -38,18 +39,16 @@ msgstr "gorkem@kde.org, jnmbk@users.sourceforge.net, volkangezer@gmail.com"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
 #: actions.ui:17
-#, fuzzy, kde-format
-#| msgid "Inactive Inner Window"
+#, kde-format
 msgid "Inactive Inner Window Actions"
-msgstr "Etkin Olmayan Pencerenin İçi"
+msgstr "Etkin Olmayan Pencere İçi Eylemleri"
 
 #. i18n: ectx: property (text), widget (QLabel, label_1)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: actions.ui:26 mouse.ui:177
-#, fuzzy, kde-format
-#| msgid "&Double-click:"
+#, kde-format
 msgid "&Left click:"
-msgstr "&Çift tıklama:"
+msgstr "&Sol tıklama:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandWindow1)
 #: actions.ui:39
@@ -65,19 +64,17 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindow2)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindow3)
 #: actions.ui:43 actions.ui:83 actions.ui:123
-#, fuzzy, kde-format
-#| msgid "Activate, Raise & Pass Click"
+#, kde-format
 msgid "Activate, raise and pass click"
-msgstr "Etkinleştir, Yükselt ve Tıklamayı Geç"
+msgstr "Etkinleştir, yükselt ve tıklamayı geç"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindow1)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindow2)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindow3)
 #: actions.ui:48 actions.ui:88 actions.ui:128
-#, fuzzy, kde-format
-#| msgid "Activate & Pass Click"
+#, kde-format
 msgid "Activate and pass click"
-msgstr "Etkinleştir ve Tıklamayı Geç"
+msgstr "Etkinleştir ve tıklamayı geç"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindow1)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindow2)
@@ -99,18 +96,16 @@ msgstr "Etkinleştir"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar3)
 #: actions.ui:58 actions.ui:98 actions.ui:138 mouse.ui:283 mouse.ui:398
 #: mouse.ui:513
-#, fuzzy, kde-format
-#| msgid "Activate & Raise"
+#, kde-format
 msgid "Activate and raise"
-msgstr "Etkinleştir ve Yükselt"
+msgstr "Etkinleştir ve yükselt"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: actions.ui:66 mouse.ui:200
-#, fuzzy, kde-format
-#| msgid "&Double-click:"
+#, kde-format
 msgid "&Middle click:"
-msgstr "&Çift tıklama:"
+msgstr "&Orta tıklama:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandWindow2)
 #: actions.ui:79
@@ -127,7 +122,7 @@ msgstr ""
 #: actions.ui:106 mouse.ui:213
 #, kde-format
 msgid "&Right click:"
-msgstr ""
+msgstr "Sa&ğ tıklama:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandWindow3)
 #: actions.ui:119
@@ -142,8 +137,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: actions.ui:146 mouse.ui:88
-#, fuzzy, kde-format
-#| msgid "M&ouse wheel:"
+#, kde-format
 msgid "Mouse &wheel:"
 msgstr "&Fare tekerleği:"
 
@@ -166,31 +160,27 @@ msgstr "Kaydır"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindowWheel)
 #: actions.ui:168
-#, fuzzy, kde-format
-#| msgid "Activate & Scroll"
+#, kde-format
 msgid "Activate and scroll"
-msgstr "Etkinleştir & Kaydır"
+msgstr "Etkinleştir ve kaydır"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindowWheel)
 #: actions.ui:173
-#, fuzzy, kde-format
-#| msgid "Activate, Raise & Scroll"
+#, kde-format
 msgid "Activate, raise and scroll"
-msgstr "Etkinleştir, Yükselt & Kaydır"
+msgstr "Etkinleştir, yükselt ve kaydır"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: actions.ui:184
-#, fuzzy, kde-format
-#| msgid "Inner Window, Titlebar & Frame"
+#, kde-format
 msgid "Inner Window, Titlebar and Frame Actions"
-msgstr "Pencere İçi, Başlık Çubuğu & Çerçeve"
+msgstr "Pencere İçi, Başlık Çubuğu ve Çerçeve Eylemleri"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: actions.ui:195
-#, fuzzy, kde-format
-#| msgid "Modifier &key:"
+#, kde-format
 msgid "Mo&difier key:"
-msgstr "&Değiştirici tuş:"
+msgstr "&Değiştirici düğme:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandAllKey)
 #: actions.ui:205
@@ -199,7 +189,7 @@ msgid ""
 "Here you select whether holding the Meta key or Alt key will allow you to "
 "perform the following actions."
 msgstr ""
-"Meta ve Alt tuşlarına basılı tutmanın aşağıdaki eylemleri yapmanıza izin "
+"Meta ve Alt düğmelerine basılı tutmanın aşağıdaki eylemleri yapmanıza izin "
 "verip vermeyeceğini buradan seçebilirsiniz."
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAllKey)
@@ -216,18 +206,16 @@ msgstr "Alt"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: actions.ui:236
-#, fuzzy, kde-format
-#| msgid "   + "
+#, kde-format
 msgid "  + "
 msgstr "   + "
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: actions.ui:248 mouse.ui:601
-#, fuzzy, kde-format
-#| msgid "&Double-click:"
+#, kde-format
 msgid "L&eft click:"
-msgstr "&Çift tıklama:"
+msgstr "&Sol tıklama:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandAll1)
 #: actions.ui:261
@@ -251,10 +239,9 @@ msgstr "Taşı"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll2)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll3)
 #: actions.ui:270 actions.ui:340 actions.ui:410
-#, fuzzy, kde-format
-#| msgid "Activate, Raise & Move"
+#, kde-format
 msgid "Activate, raise and move"
-msgstr "Etkinleştir, Yükselt & Taşı"
+msgstr "Etkinleştir, yükselt ve taşı"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll1)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll2)
@@ -267,10 +254,9 @@ msgstr "Etkinleştir, Yükselt & Taşı"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar3)
 #: actions.ui:275 actions.ui:345 actions.ui:415 mouse.ui:246 mouse.ui:308
 #: mouse.ui:361 mouse.ui:423 mouse.ui:476 mouse.ui:538
-#, fuzzy, kde-format
-#| msgid "Toggle Raise & Lower"
+#, kde-format
 msgid "Toggle raise and lower"
-msgstr "Yükseltme & Alçaltma Geçişi Yap"
+msgstr "Yükseltme ve alçaltma geçişi yap"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll1)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll2)
@@ -333,19 +319,17 @@ msgstr "Küçült"
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll2)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll3)
 #: actions.ui:300 actions.ui:370 actions.ui:440
-#, fuzzy, kde-format
-#| msgid "Decrease Opacity"
+#, kde-format
 msgid "Decrease opacity"
-msgstr "Şeffaflığı Azalt"
+msgstr "Matlığı azalt"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll1)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll2)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll3)
 #: actions.ui:305 actions.ui:375 actions.ui:445
-#, fuzzy, kde-format
-#| msgid "Increase Opacity"
+#, kde-format
 msgid "Increase opacity"
-msgstr "Şeffaflığı Arttır"
+msgstr "Matlığı artır"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll1)
@@ -363,17 +347,15 @@ msgstr "Şeffaflığı Arttır"
 #: actions.ui:310 actions.ui:380 actions.ui:450 actions.ui:505 mouse.ui:80
 #: mouse.ui:132 mouse.ui:271 mouse.ui:333 mouse.ui:386 mouse.ui:448
 #: mouse.ui:501 mouse.ui:563
-#, fuzzy, kde-format
-#| msgid "Nothing"
+#, kde-format
 msgid "Do nothing"
-msgstr "Hiçbiri"
+msgstr "Bir şey yapma"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: actions.ui:318
-#, fuzzy, kde-format
-#| msgid "Middle b&utton:"
+#, kde-format
 msgid "Middle &click:"
-msgstr "O&rta düğme:"
+msgstr "O&rta tıklama:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandAll2)
 #: actions.ui:331
@@ -390,7 +372,7 @@ msgstr ""
 #: actions.ui:388 mouse.ui:671
 #, kde-format
 msgid "Right clic&k:"
-msgstr ""
+msgstr "Sağ tı&klama:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandAll3)
 #: actions.ui:401
@@ -404,8 +386,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: actions.ui:458
-#, fuzzy, kde-format
-#| msgid "M&ouse wheel:"
+#, kde-format
 msgid "Mo&use wheel:"
 msgstr "&Fare tekerleği:"
 
@@ -416,83 +397,74 @@ msgid ""
 "Here you can customize KDE's behavior when scrolling with the mouse wheel in "
 "a window while pressing the modifier key."
 msgstr ""
-"Bir pencereye değiştirici tuşa basarken fare tekerleğini kaydırdığınızdaki "
-"KDE davranışını buradan özelleştirebilirsiniz."
+"Bir pencereye değiştirici düğmeye basarken fare tekerleğini "
+"kaydırdığınızdaki KDE davranışını buradan özelleştirebilirsiniz."
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandTitlebarWheel)
 #: actions.ui:475 mouse.ui:102
-#, fuzzy, kde-format
-#| msgid "Raise/Lower"
+#, kde-format
 msgid "Raise/lower"
-msgstr "Yükselt/Alçalt"
+msgstr "Yükselt/alçalt"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandTitlebarWheel)
 #: actions.ui:480 mouse.ui:107
-#, fuzzy, kde-format
-#| msgid "Shade/Unshade"
+#, kde-format
 msgid "Shade/unshade"
-msgstr "Gölgele/Gölgeleme"
+msgstr "Gölgele/gölgeleme"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandTitlebarWheel)
 #: actions.ui:485 mouse.ui:112
-#, fuzzy, kde-format
-#| msgid "Maximize/Restore"
+#, kde-format
 msgid "Maximize/restore"
-msgstr "Büyüt/Geri Al"
+msgstr "Büyüt/geri al"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandTitlebarWheel)
 #: actions.ui:490 mouse.ui:117
-#, fuzzy, kde-format
-#| msgid "Keep Above/Below"
+#, kde-format
 msgid "Keep above/below"
-msgstr "Üstte/Altta Tut"
+msgstr "Üstte/altta aut"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandTitlebarWheel)
 #: actions.ui:495 mouse.ui:122
-#, fuzzy, kde-format
-#| msgid "Move to Previous/Next Desktop"
+#, kde-format
 msgid "Move to previous/next desktop"
-msgstr "Önceki/Sonraki Masaüstüne Taşı"
+msgstr "Önceki/sonraki masaüstüne taşı"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandTitlebarWheel)
 #: actions.ui:500 mouse.ui:127
-#, fuzzy, kde-format
-#| msgid "Change Opacity"
+#, kde-format
 msgid "Change opacity"
-msgstr "Şeffaflığı Değiştir"
+msgstr "Matlığı değiştir"
 
 #. i18n: ectx: property (text), widget (QLabel, shadeHoverLabel)
 #: advanced.ui:20
-#, fuzzy, kde-format
-#| msgid "Window Tabbing"
+#, kde-format
 msgid "Window &unshading:"
-msgstr "Pencere Değiştirme"
+msgstr "Pencere gölgelemesini kapat:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShadeHover)
 #: advanced.ui:32
-#, fuzzy, kde-format
-#| msgid ""
-#| "If Shade Hover is enabled, a shaded window will un-shade automatically "
-#| "when the mouse pointer has been over the title bar for some time."
+#, kde-format
 msgid ""
 "<html><head/><body><p>If this option is enabled, a shaded window will "
 "unshade automatically when the mouse pointer has been over the titlebar for "
 "some time.</p></body></html>"
 msgstr ""
-"Eğer 'Otomatik Açıl' etkin ise, fare işaretçisi başlık çubuğunun üzerinde "
-"bir süre kaldığında gizlenmiş pencere kendiliğinden açılacaktır."
+"<html><head/><body><p>Bu seçenek etkin ise gölgelendirilmiş bir pencere eğer "
+"fare imleci üzerinde bir süre kaldıysa kendiliğinden gölgeliği indirecektir."
+"</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShadeHover)
 #: advanced.ui:35
 #, kde-format
 msgid "On titlebar hover after:"
-msgstr ""
+msgstr "Başlık çubuğu üzerinde bulunma:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_ShadeHoverInterval)
 #: advanced.ui:42
@@ -514,10 +486,9 @@ msgstr " ms"
 
 #. i18n: ectx: property (text), widget (QLabel, windowPlacementLabel)
 #: advanced.ui:66
-#, fuzzy, kde-format
-#| msgid "&Placement:"
+#, kde-format
 msgid "Window &placement:"
-msgstr "&Yerleştirme:"
+msgstr "Pencere &yerleştirmesi:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_Placement)
 #: advanced.ui:76
@@ -550,27 +521,50 @@ msgid ""
 "\"><span style=\" font-style:italic;\">Under mouse</span> will place the "
 "window under the pointer</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p>Konumlandırma ilkesi yeni bir pencerenin ekranda "
+"nerede görüneceğini belirler.</p><ul style=\"margin-top: 0px; margin-bottom: "
+"0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" "
+"margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-style:italic;"
+"\">Akıllı</span>, olabildiğince pencereleri üst üste bindirmemeye çalışır</"
+"li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-style:"
+"italic;\">Büyütme</span>, her pencereyi olabildiğince büyük yaparak ekranı "
+"doldurmaya çalışır. Bazı pencerelerin görünme ayarlarını pencereye özel "
+"ayarlardan el ile ayarlamak yararlı olabilir.</li><li style=\" margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\" font-style:italic;"
+"\">Basamaklandırma</span>, pencereleri basamaklandırır</li><li style=\" "
+"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-style:italic;"
+"\">Rastgele</span>, rastgele bir konum kullanır</li><li style=\" margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\" font-style:italic;\">Ortalanmış</"
+"span>, pencereleri ortaya konumlandırır</li><li style=\" margin-top:0px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-style:italic;\">Sıfır köşeli</span>, "
+"pencereleri sol üst köşede konumlandırır</li><li style=\" margin-top:0px; "
+"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-style:italic;\">Farenin altı</span>, "
+"pencereleri imlecin altına koyar</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_Placement)
 #: advanced.ui:80
-#, fuzzy, kde-format
-#| msgid "Snap windows onl&y when overlapping"
+#, kde-format
 msgid "Minimal Overlapping"
-msgstr "&Pencereleri sadece üst üste gelirken yapıştır"
+msgstr "En Az Üst Üste Binme"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_Placement)
 #: advanced.ui:85
-#, fuzzy, kde-format
-#| msgid "Maximize"
+#, kde-format
 msgid "Maximized"
-msgstr "Ekranı kapla"
+msgstr "Büyütülmüş"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_Placement)
 #: advanced.ui:90
-#, fuzzy, kde-format
-#| msgid "Cascade"
+#, kde-format
 msgid "Cascaded"
-msgstr "Kademeli"
+msgstr "Basamaklandırılmış"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_Placement)
 #: advanced.ui:95
@@ -588,14 +582,13 @@ msgstr "Ortalanmış"
 #: advanced.ui:105
 #, kde-format
 msgid "In Top-Left Corner"
-msgstr ""
+msgstr "Sol Üst Köşede"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_Placement)
 #: advanced.ui:110
-#, fuzzy, kde-format
-#| msgid "Under Mouse"
+#, kde-format
 msgid "Under mouse"
-msgstr "Farenin Altı"
+msgstr "Farenin altı"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
 #: advanced.ui:118
@@ -605,6 +598,9 @@ msgid ""
 "windows are allowed to do so. This will override the window placement mode "
 "defined above."
 msgstr ""
+"Açıldığında, pencere konumlarını anımsayabilen pencerelere bunu yapmaları "
+"için izin verilir. Bu, yukarıda tanımlanan pencere konumlandırma kipini "
+"geçersiz kılar."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
 #: advanced.ui:121
@@ -612,13 +608,14 @@ msgstr ""
 msgid ""
 "Allow apps to remember the positions of their own windows, if they support it"
 msgstr ""
+"Destekliyorlarsa uygulamaların kendi pencerelerinin konumlarını "
+"anımsamalarına izin ver"
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
 #: advanced.ui:128
-#, fuzzy, kde-format
-#| msgid "Special Windows"
+#, kde-format
 msgid "&Special windows:"
-msgstr "Özel Pencereler"
+msgstr "Ö&zel Pencereler"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
 #: advanced.ui:138
@@ -644,61 +641,58 @@ msgstr "Etkin olmayan uygulamaların yardımcı pencerelerini gizle"
 #: focus.ui:22
 #, kde-format
 msgid "Window &activation policy:"
-msgstr ""
+msgstr "Pencere &etkinleştirme ilkesi:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, windowFocusPolicy)
 #: focus.ui:32
 #, kde-format
 msgid "With this option you can specify how and when windows will be focused."
 msgstr ""
+"Bu seçenek ile, pencerelerin nasıl ve ne zaman odaklanacağını "
+"belirtebilirsiniz."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicy)
 #: focus.ui:36
-#, fuzzy, kde-format
-#| msgid "Click to Focus"
+#, kde-format
 msgctxt "sassa asas"
 msgid "Click to focus"
-msgstr "Tıklayarak Odaklama"
+msgstr "Odak için tıkla"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicy)
 #: focus.ui:41
 #, kde-format
 msgid "Click to focus (mouse precedence)"
-msgstr ""
+msgstr "Odak için tıkla (fare önceliği)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicy)
 #: focus.ui:46
-#, fuzzy, kde-format
-#| msgid "Focus Follows Mouse"
+#, kde-format
 msgid "Focus follows mouse"
-msgstr "Fare ile Odaklama"
+msgstr "Odak fareyi izler"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicy)
 #: focus.ui:51
 #, kde-format
 msgid "Focus follows mouse (mouse precedence)"
-msgstr ""
+msgstr "Odak fareyi izler (fare önceliği)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicy)
 #: focus.ui:56
-#, fuzzy, kde-format
-#| msgid "Focus Under Mouse"
+#, kde-format
 msgid "Focus under mouse"
-msgstr "Farenin Altından Odaklama"
+msgstr "Odak farenin altında"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicy)
 #: focus.ui:61
-#, fuzzy, kde-format
-#| msgid "Focus Strictly Under Mouse"
+#, kde-format
 msgid "Focus strictly under mouse"
-msgstr "Farenin Tam Altından Odaklama"
+msgstr "Odak katıca farenin altında"
 
 #. i18n: ectx: property (text), widget (QLabel, delayFocusOnLabel)
 #: focus.ui:69
-#, fuzzy, kde-format
-#| msgid "&Delay focus by"
+#, kde-format
 msgid "&Delay focus by:"
-msgstr "O&daklama gecikmesi"
+msgstr "O&dak gecikmesi:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_DelayFocusInterval)
 #: focus.ui:82
@@ -712,38 +706,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, focusStealingLabel)
 #: focus.ui:101
-#, fuzzy, kde-format
-#| msgid "Focus &stealing prevention"
+#, kde-format
 msgid "Focus &stealing prevention:"
-msgstr "Odak &çalmayı engelleme"
+msgstr "Odak &çalma koruması:"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_FocusStealingPreventionLevel)
 #: focus.ui:114
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p>This option specifies how much KWin will try to prevent unwanted focus "
-#| "stealing caused by unexpected activation of new windows. (Note: This "
-#| "feature does not work with the Focus Under Mouse or Focus Strictly Under "
-#| "Mouse focus policies.)\n"
-#| "<ul>\n"
-#| "<li><em>None:</em> Prevention is turned off and new windows always become "
-#| "activated.</li>\n"
-#| "<li><em>Low:</em> Prevention is enabled; when some window does not have "
-#| "support for the underlying mechanism and KWin cannot reliably decide "
-#| "whether to activate the window or not, it will be activated. This setting "
-#| "may have both worse and better results than the medium level, depending "
-#| "on the applications.</li>\n"
-#| "<li><em>Medium:</em> Prevention is enabled.</li>\n"
-#| "<li><em>High:</em> New windows get activated only if no window is "
-#| "currently active or if they belong to the currently active application. "
-#| "This setting is probably not really usable when not using mouse focus "
-#| "policy.</li>\n"
-#| "<li><em>Extreme:</em> All windows must be explicitly activated by the "
-#| "user.</li>\n"
-#| "</ul></p>\n"
-#| "<p>Windows that are prevented from stealing focus are marked as demanding "
-#| "attention, which by default means their taskbar entry will be "
-#| "highlighted. This can be changed in the Notifications control module.</p>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>This option specifies how much KWin will try to "
 "prevent unwanted focus stealing caused by unexpected activation of new "
@@ -776,26 +745,35 @@ msgid ""
 "by default means their taskbar entry will be highlighted. This can be "
 "changed in the Notifications control module.</p></body></html>"
 msgstr ""
-"<p>Bu ayar, KWin'in, yeni pencerelerin beklenmedik bir şekilde etkin "
-"olmasından kaynaklanan odak çalmasını engellemek için ne kadar uğraşacağını "
-"belirler. (Not: Bu özellik Farenin Altından Odaklama veya Farenin Tam "
-"Altından Odaklama yöntemleriyle çalışmaz.)\n"
-"<ul>\n"
-"<li><em>Hiçbiri:</em> Engelleme kapalıdır ve yeni pencereler her zaman etkin "
-"olur.</li>\n"
-"<li><em>Düşük:</em> Engelleme açıktır; bazı pencereler altyapıyı "
-"desteklemiyorlarsa ve KWin doğru bir şekilde karar veremiyorsa "
-"etkinleşecektir.</li>\n"
-"<li><em>Orta:</em> Engelleme açıktır.</li>\n"
-"<li><em>Yüksek:</em> Yeni pencereler sadece hiçbir pencere etkin değilse "
-"veya geçerli uygulamaya aitse etkinleştirilir. Bu ayar fare odaklama yöntemi "
-"kullanılmıyorsa kullanışlı olmayabilir.</li>\n"
-"<li><em>Çok Yüksek:</em> Tüm pencereler kullanıcı tarafından "
-"etkinleştirilmelidir.</li>\n"
-"</ul></p>\n"
-"<p>Odak çalması engellenen pencereler ilgi istiyor olarak işaretlenir, yani "
-"öntanımlı olarak görev çubuğu girdisi vurgulanır. Bu davranış Bildirimler "
-"kontrol modülünden değiştirilebilir.</p>"
+"<html><head/><body><p>Bu ayar, KWin'in, yeni pencerelerin beklenmedik bir "
+"şekilde etkin olmasından kaynaklanan odak çalmasını engellemek için ne kadar "
+"uğraşacağını belirler. (Not: Bu özellik <span style=\" font-style:italic;"
+"\">Odak farenin altında</span> veya <span style=\" font-style:italic;\">Odak "
+"katıca farenin altında</span> yöntemleriyle çalışmaz.)</p><ul style=\"margin-"
+"top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
+"indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-style:italic;\">Hiçbiri:</span> Engelleme kapalıdır ve yeni "
+"pencereler her zaman etkin olur.</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-style:italic;\">Düşük:</em> Engelleme "
+"açıktır; bazı pencereler altyapıyı desteklemiyorlarsa ve KWin doğru bir "
+"şekilde karar veremiyorsa etkinleşecektir. Bu ayar, uygulamaya bağlı olarak "
+"bazen iyi bazen de kötü başarım gösterebilir.</li><li style=\" margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\" font-style:italic;\">Orta:</"
+"span>Engelleme açıktır.</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"margin-left:0px;margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\"><span style=\" font-style:italic;\">Yüksek:</span> Yeni pencereler sadece "
+"hiçbir pencere etkin değilse veya geçerli uygulamaya aitse etkinleştirilir. "
+"Bu ayar fare odaklama yöntemi kullanılmıyorsa kullanışlı olmayabilir.</"
+"li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-style:"
+"italic;\">Çok Yüksek:</span> Tüm pencereler kullanıcı tarafından "
+"etkinleştirilmelidir.</li></ul><p>Odak çalması engellenen pencereler ilgi "
+"istiyor olarak işaretlenir, yani öntanımlı olarak görev çubuğu girdisi "
+"vurgulanır. Bu davranış Bildirimler denetim modülünden değiştirilebilir.</"
+"p></body></html>"
 
 #. i18n: Focus Stealing Prevention Level
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_BorderSnapZone)
@@ -837,10 +815,9 @@ msgstr "Çok Yüksek"
 
 #. i18n: ectx: property (text), widget (QLabel, raisingWindowsLabel)
 #: focus.ui:146
-#, fuzzy, kde-format
-#| msgid "Raising windows"
+#, kde-format
 msgid "Raising windows:"
-msgstr "Pencere yükseltme"
+msgstr "Pencereleri yükseltme:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ClickRaise)
 #: focus.ui:153
@@ -857,8 +834,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ClickRaise)
 #: focus.ui:156
-#, fuzzy, kde-format
-#| msgid "C&lick raises active window"
+#, kde-format
 msgid "&Click raises active window"
 msgstr "Tık&lama etkin pencereyi yükseltir"
 
@@ -869,15 +845,14 @@ msgid ""
 "When this option is enabled, a window in the background will automatically "
 "come to the front when the mouse pointer has been over it for some time."
 msgstr ""
-"Bu seçenek etkin ise, arka plandaki bir pencerenin üzerine fareyi getirip "
-"bir süre tuttuğunuz zaman bu pencere otomatik olarak öne getirilecektir."
+"Bu seçenek etkin ise arka plandaki bir pencerenin üzerine fareyi getirip bir "
+"süre tuttuğunuz zaman bu pencere otomatik olarak öne getirilecektir."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoRaise)
 #: focus.ui:168
-#, fuzzy, kde-format
-#| msgid "&Raise on hover, delayed by"
+#, kde-format
 msgid "&Raise on hover, delayed by:"
-msgstr "&Üzerine gelince yükselt, gecikme"
+msgstr "&Üzerine gelince yükselt, gecikme:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_AutoRaiseInterval)
 #: focus.ui:175
@@ -891,29 +866,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, multiscreenBehaviorLabel)
 #: focus.ui:196
-#, fuzzy, kde-format
-#| msgid "Multiscreen behaviour"
+#, kde-format
 msgid "Multiscreen behavior:"
-msgstr "Çok ekranlı davranış"
+msgstr "Çok ekranlı davranış:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ActiveMouseScreen)
 #: focus.ui:203
-#, fuzzy, kde-format
-#| msgid ""
-#| "When this option is enabled, the active Xinerama screen (where new "
-#| "windows appear, for example) is the screen containing the mouse pointer. "
-#| "When disabled, the active Xinerama screen is the screen containing the "
-#| "focused window. By default this option is disabled for Click to focus and "
-#| "enabled for other focus policies."
+#, kde-format
 msgid ""
 "When this option is enabled, the active screen (where new windows appear, "
 "for example) is the screen containing the mouse pointer. When disabled, the "
 "active screen is the screen containing the focused window."
 msgstr ""
-"Bu ayar etkinse, etkin Xinemara ekranı (örneğin yeni pencerelerin açıldığı "
-"ekran) fare işaretçisinin olduğu ekrandır. Etkin değilse, etkin Xinemara "
-"ekranı odaklı pencerenin olduğu ekrandır. Bu ayar Tıklayarak odaklama için "
-"öntanımlı olarak etkin değildir, diğer odaklama yöntemleri için etkindir."
+"Bu seçenek etkinse etkin ekran (örneğin yeni pencerelerin açıldığı ekran) "
+"fare işaretçisinin olduğu ekrandır. Etkin değilse etkin ekranı odaklı "
+"pencerenin olduğu ekrandır."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ActiveMouseScreen)
 #: focus.ui:206
@@ -923,21 +890,16 @@ msgstr "Etkin pencere fareyi &izlesin"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SeparateScreenFocus)
 #: focus.ui:213
-#, fuzzy, kde-format
-#| msgid ""
-#| "When this option is enabled, focus operations are limited only to the "
-#| "active Xinerama screen"
+#, kde-format
 msgid ""
 "When this option is enabled, focus operations are limited only to the active "
 "screen"
 msgstr ""
-"Bu ayar etkinse, odaklama işlemleri sadece etkin olan Xinerama ekranında "
-"geçerli olur"
+"Bu ayar etkinse odaklama işlemleri yalnızca etkin olan ekranda geçerli olur"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SeparateScreenFocus)
 #: focus.ui:216
-#, fuzzy, kde-format
-#| msgid "S&eparate screen focus"
+#, kde-format
 msgid "&Separate screen focus"
 msgstr "&Ekran odaklanmasını ayır"
 
@@ -945,34 +907,30 @@ msgstr "&Ekran odaklanmasını ayır"
 #: focus.ui:229
 #, kde-format
 msgid "Window activation policy description"
-msgstr ""
+msgstr "Pencere etkinleştirme ilke açıklaması"
 
 #: main.cpp:73
 #, kde-format
 msgid "&Focus"
-msgstr "&Odaklama"
+msgstr "&Odakla"
 
 #: main.cpp:79
-#, fuzzy, kde-format
-#| msgid "&Titlebar Actions"
+#, kde-format
 msgid "Titlebar A&ctions"
 msgstr "&Başlık Çubuğu Eylemleri"
 
 #: main.cpp:85
-#, fuzzy, kde-format
-#| msgid "Window Actio&ns"
+#, kde-format
 msgid "W&indow Actions"
 msgstr "Pencere &Eylemleri"
 
 #: main.cpp:91
-#, fuzzy, kde-format
-#| msgid "&Placement:"
+#, kde-format
 msgid "Mo&vement"
-msgstr "&Yerleştirme:"
+msgstr "&Hareket"
 
 #: main.cpp:97
-#, fuzzy, kde-format
-#| msgid "Ad&vanced"
+#, kde-format
 msgid "Adva&nced"
 msgstr "&Gelişmiş"
 
@@ -1046,7 +1004,7 @@ msgstr ""
 "sergileyebileceğine buradan karar verebilirsiniz. Ayrıca, yeni pencereler "
 "için odaklama ve yerleşim yöntemini de belirleyebilirsiniz.</p> <p>Ancak "
 "KWin pencere yöneticisini kullanmıyorsanız burada yaptığınız seçenekler "
-"etkin olmayacaktır. Başka bir pencere yöneticisi kullanıyorsanız, pencere "
+"etkin olmayacaktır. Başka bir pencere yöneticisi kullanıyorsanız pencere "
 "davranışlarını değiştirmek için lütfen onun yardım belgelerine bakınız.</p>"
 
 #: main.cpp:204
@@ -1061,10 +1019,9 @@ msgstr "Pencere &Eylemleri"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
 #: mouse.ui:17
-#, fuzzy, kde-format
-#| msgid "&Titlebar Actions"
+#, kde-format
 msgid "Titlebar Actions"
-msgstr "&Başlık Çubuğu Eylemleri"
+msgstr "Başlık Çubuğu Eylemleri"
 
 #. i18n: ectx: property (text), widget (QLabel, label_1)
 #: mouse.ui:26
@@ -1096,7 +1053,7 @@ msgstr "Ekranı kapla"
 #: mouse.ui:45 mouse.ui:620 mouse.ui:655 mouse.ui:690
 #, kde-format
 msgid "Vertically maximize"
-msgstr ""
+msgstr "Dikey olarak büyüt"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TitlebarDoubleClickCommand)
@@ -1106,7 +1063,7 @@ msgstr ""
 #: mouse.ui:50 mouse.ui:625 mouse.ui:660 mouse.ui:695
 #, kde-format
 msgid "Horizontally maximize"
-msgstr ""
+msgstr "Yatay olarak büyüt"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TitlebarDoubleClickCommand)
@@ -1139,24 +1096,21 @@ msgstr "Kapat"
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TitlebarDoubleClickCommand)
 #: mouse.ui:75
-#, fuzzy, kde-format
-#| msgid "On All Desktops"
+#, kde-format
 msgid "Show on all desktops"
-msgstr "Tüm Masaüstlerinde"
+msgstr "Tüm masaüstlerinde göster"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandTitlebarWheel)
 #: mouse.ui:98
-#, fuzzy, kde-format
-#| msgid "Behavior on <em>double</em> click into the titlebar."
+#, kde-format
 msgid "Behavior on <em>mouse wheel</em> scroll over the titlebar."
 msgstr "Başlık çubuğuna <em>çift</em> tıklandığındaki davranış."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: mouse.ui:143
-#, fuzzy, kde-format
-#| msgid "&Titlebar Actions"
+#, kde-format
 msgid "Titlebar and Frame Actions"
-msgstr "&Başlık Çubuğu Eylemleri"
+msgstr "Başlık Çubuğu ve Çerçeve Eylemleri"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: mouse.ui:167
@@ -1190,10 +1144,9 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar3)
 #: mouse.ui:266 mouse.ui:328 mouse.ui:381 mouse.ui:443 mouse.ui:496
 #: mouse.ui:558
-#, fuzzy, kde-format
-#| msgid "Operations Menu"
+#, kde-format
 msgid "Show actions menu"
-msgstr "İşlemler Menüsü"
+msgstr "Eylemler menüsünü göster"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandInactiveTitlebar1)
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_CommandInactiveTitlebar2)
@@ -1211,17 +1164,15 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar3)
 #: mouse.ui:288 mouse.ui:403 mouse.ui:518
-#, fuzzy, kde-format
-#| msgid "Activate & Lower"
+#, kde-format
 msgid "Activate and lower"
-msgstr "Etkinleştir ve Alçalt"
+msgstr "Etkinleştir ve alçalt"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: mouse.ui:589
-#, fuzzy, kde-format
-#| msgid "Maximize Button"
+#, kde-format
 msgid "Maximize Button Actions"
-msgstr "Büyütme Düğmesi"
+msgstr "Büyütme Düğmesi Eylemleri"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_8)
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_MaximizeButtonLeftClickCommand)
@@ -1239,10 +1190,9 @@ msgstr "Büyütme düğmesine <em>orta</em> tuşla tıklandığındaki davranı�
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: mouse.ui:636
-#, fuzzy, kde-format
-#| msgid "Middle b&utton:"
+#, kde-format
 msgid "Middle c&lick:"
-msgstr "O&rta düğme:"
+msgstr "O&rta tıklama:"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_10)
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_MaximizeButtonRightClickCommand)
@@ -1253,23 +1203,18 @@ msgstr "Büyütme düğmesine <em>sağ</em> tıklandığındaki davranış."
 
 #. i18n: ectx: property (text), widget (QLabel, borderSnapLabel)
 #: moving.ui:20
-#, fuzzy, kde-format
-#| msgid "&Border snap zone:"
+#, kde-format
 msgid "Screen &edge snap zone:"
 msgstr "&Kenar yapışma alanı:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_BorderSnapZone)
 #: moving.ui:30
-#, fuzzy, kde-format
-#| msgid ""
-#| "Here you can set the snap zone for screen borders, i.e. the 'strength' of "
-#| "the magnetic field which will make windows snap to the border when moved "
-#| "near it."
+#, kde-format
 msgid ""
 "Here you can set the snap zone for screen edges, i.e. the 'strength' of the "
 "magnetic field which will make windows snap to the border when moved near it."
 msgstr ""
-"Buradan ekran kenarları için yapışma alanınını ayarlayabilirsiniz. "
+"Buradan ekran kenarları için yapışma alanınını (ayarlayabilirsiniz. "
 "Pencerelerin kenara yapışmasını sağlayan manyetik alanın kuvveti gibi "
 "düşünülebilir."
 
@@ -1277,10 +1222,9 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_WindowSnapZone)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_CenterSnapZone)
 #: moving.ui:36 moving.ui:68 moving.ui:100
-#, fuzzy, kde-format
-#| msgid " pixel"
+#, kde-format
 msgid " px"
-msgstr " piksel"
+msgstr " pks"
 
 #. i18n: ectx: property (text), widget (QLabel, windowSnapLabel)
 #: moving.ui:52
@@ -1319,10 +1263,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, OverlapSnapLabel)
 #: moving.ui:113
-#, fuzzy, kde-format
-#| msgid "Raising windows"
+#, kde-format
 msgid "&Snap windows:"
-msgstr "Pencere yükseltme"
+msgstr "P&encere yapıştırma:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SnapOnlyWhenOverlapping)
 #: moving.ui:123
@@ -1338,36 +1281,22 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SnapOnlyWhenOverlapping)
 #: moving.ui:126
-#, fuzzy, kde-format
-#| msgid "Snap windows onl&y when overlapping"
+#, kde-format
 msgid "Only when overlapping"
-msgstr "&Pencereleri sadece üst üste gelirken yapıştır"
+msgstr "&Pencereleri yalnızca üst üste gelmişlerse yapıştır"
 
 #: windows.cpp:98
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>Click To Focus</b><br>\n"
-#| "A window becomes active when you click into it.<br><br>\n"
-#| "This behaviour is common on other operating systems and<br>\n"
-#| "likely what you want."
+#, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
 "This behavior is common on other operating systems and likely what you want."
 msgstr ""
-"<b>Odaklanmak için TIkla</b><br>\n"
-"Bir pencere içerisine tıkladığınızda etkin olur.<br><br>\n"
-"Bu davranış diğer işletim sistemlerindeki ile ortaktır ve muhtemelen<br>\n"
+"<em>Odak için tıkla:</em> Bir pencere içerisine tıkladığınızda etkin olur. "
+"Bu davranış diğer işletim sistemlerindeki ile ortaktır ve muhtemelen "
 "istediğiniz şeydir."
 
 #: windows.cpp:102
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>Click To Focus - Mouse Precedence</b><br>\n"
-#| "This is mostly the same as <i>Click To Focus</i><br><br>\n"
-#| "If an active window has to be chosen by the system<br>\n"
-#| "(eg. because the currently active one was closed) <br>\n"
-#| "the window under the mouse is the preferred candidate.<br><br>\n"
-#| "Unusual, but possible variant of <i>Click To Focus</i>."
+#, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
 "focus</em>. If an active window has to be chosen by the system (eg. because "
@@ -1375,69 +1304,41 @@ msgid ""
 "preferred candidate. Unusual, but possible variant of <em>Click to focus</"
 "em>."
 msgstr ""
-"<b>Odaklanmak için Tıkla - Fare Önceliği</b><br>\n"
-"Bu büyük ölçüde <i>Odaklanmak için Tıkla</i> ile aynıdır<br><br>\n"
-"Eğer etkin bir pencere sistem tarafından seçilmeli ise<br>\n"
-"(örn. geçerli olan kapatıldığından dolayı) <br>\n"
-"aday olarak farenin altındaki pencere tercih edilir.<br><br>\n"
-"Farklı bir seçenektir ancak <i>Odaklanmak için Tıkla</i> için bir "
+"<em>Odak için tıkla (fare önceliği)</em>Bu büyük ölçüde <i>Odak için tıkla</"
+"i> ile aynıdır. Eğer etkin bir pencere sistem tarafından seçilmeli ise (örn. "
+"geçerli olan kapatıldığından dolayı) aday olarak farenin altındaki pencere "
+"tercih edilir. Farklı bir seçenektir ancak <i>Odak için tıkla</i> için bir "
 "alternatiftir."
 
 #: windows.cpp:107
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>Focus Follows Mouse</b><br>\n"
-#| "Moving the mouse onto a window will activate it.<br><br>\n"
-#| "Eg. windows randomly appearing under the mouse will not gain the focus."
-#| "<br>\n"
-#| "Focus stealing prevention takes place as usual.<br><br>\n"
-#| "Think as <i>Click To Focus</i> just without having to actually click."
+#, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
 "it. Eg. windows randomly appearing under the mouse will not gain the focus. "
 "<em>Focus stealing prevention</em> takes place as usual. Think as <em>Click "
 "to focus</em> just without having to actually click."
 msgstr ""
-"<b>Odak Fareyi Takip Eder</b><br>\n"
-"Farenin bir pencere üzerine sürüklenmesi, o pencereyi etkinleştirir."
-"<br><br>\n"
-"Örn. farenin altında rastgele görünen pencereler odaklanılmayacaktır.<br>\n"
-"Odak çalma koruması, alışıldığı gibi kullanılır.<br><br>\n"
-"<i>Odaklanmak için Tıkla</i> olarak düşünün, sadece gerçekten tıklamadan."
+"<em>Odak fareyi izler:</em>Farenin bir pencere üzerine sürüklenmesi, o "
+"pencereyi etkinleştirir. Örneğin, farenin altında rastgele görünen "
+"pencereler odaklanılmayacaktır. <em>Odak çalma koruması</em>, alışıldığı "
+"gibi kullanılır.<em>Odak için tıkla</em> olarak düşünün, yalnızca gerçekten "
+"tıklamadan."
 
 #: windows.cpp:111
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>Focus Follows Mouse - Mouse Precedence</b><br>\n"
-#| "This is mostly the same as <i>Focus Follows Mouse</i><br><br>\n"
-#| "If an active window has to be chosen by the system<br>\n"
-#| "(eg. because the currently active one was closed) <br>\n"
-#| "the window under the mouse is the preferred candidate.<br><br>\n"
-#| "Choose this, if you want a hover controlled focus."
+#, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
 "has to be chosen by the system (eg. because the currently active one was "
 "closed) the window under the mouse is the preferred candidate. Choose this, "
 "if you want a hover controlled focus."
 msgstr ""
-"<b>Odak Fareyi Takip Eder - Fare Önceliği</b><br>\n"
-"<i>Odak Fareyi Takip Eder</i> ile büyük ölçüde aynıdır.<br><br>\n"
-"Eğer etkin bir pencere sistem tarafından seçilmeli ise<br>\n"
-"(örn. geçerli olan kapatıldığından dolayı) <br>\n"
-"aday olarak farenin altındaki pencere tercih edilir.<br><br>\n"
-"Eğer fare ile belirtme denetimli odaklama isterseniz bunu seçin."
+"Bu genelde <em>Odak fareyi izler</em> ile aynıdır. Eğer bir etkin pencerenin "
+"sistem tarafından seçilmesi gerekiyorsa (örn. çünkü etkin olan kapatılmış "
+"olabilir) farenin altında olan pencere yeğlenen adaydır. İmleç altı "
+"tarafından denetlenen bir odak istiyorsanız bunu seçin."
 
 #: windows.cpp:116
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>Focus Under Mouse</b><br>\n"
-#| "The focus always remains on the window under the mouse.<br><br>\n"
-#| "\n"
-#| "Notice:<br>\n"
-#| "<b>Focus stealing prevention</b> and the <b>tabbox (\"Alt+Tab\")</b><br>\n"
-#| "contradict the policy and <b>will not work</b>.<br><br>\n"
-#| "You very likely want to use<br>\n"
-#| "<i>Focus Follows Mouse - Mouse Precedence</i> instead!"
+#, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
 "mouse.<br/><strong>Warning:</strong> <em>Focus stealing prevention</em> and "
@@ -1445,29 +1346,14 @@ msgid ""
 "not work. You very likely want to use <em>Focus follows mouse (mouse "
 "precedence)</em> instead!"
 msgstr ""
-"<b>Odak Farenin Altında</b><br>\n"
-"Odak her zaman farenin altındaki pencerede kalır..<br><br>\n"
-"\n"
-"Not:<br>\n"
-"<b>Odak çalma koruması</b> ve <b>sekme kutusu (\"Alt+Tab\")</b><br>\n"
-"bu ilke ile çatışır ve <b>çalışmaz</b>.<br><br>\n"
-"Muhtemelen bunun yerine<br>\n"
-"<i>Odak Fareyi Takip Eder - Fare Önceliği</i> kullanmak isteyeceksiniz!"
+"<em>Odak farenin altında:</em> Odak her zaman farenin altındaki pencerede "
+"kalır.<br/><strong>Uyarı:</strong> <em>Odak çalma koruması</em> ve <em>sekme "
+"kutusu ('Alt+Tab)'</em>, etkinleştirme ilkesine karşıttır ve çalışmazlar. Bu "
+"durumda <em>Odak fareyi izler (fare önceliği)</em>'ni kullanmak "
+"isteyeceksinizdir!"
 
 #: windows.cpp:120
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>Focus Strictly Under Mouse</b><br>\n"
-#| "The focus is always on the window under the mouse - in doubt nowhere -"
-#| "<br>\n"
-#| "very much like the focus behaviour in an unmanaged legacy X11 environment."
-#| "<br><br>\n"
-#| "\n"
-#| "Notice:<br>\n"
-#| "<b>Focus stealing prevention</b> and the <b>tabbox (\"Alt+Tab\")</b><br>\n"
-#| "contradict the policy and <b>will not work</b>.<br><br>\n"
-#| "You very likely want to use<br>\n"
-#| "<i>Focus Follows Mouse - Mouse Precedence</i> instead!"
+#, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "
 "the mouse (in doubt nowhere) very much like the focus behavior in an "
@@ -1476,13 +1362,9 @@ msgid ""
 "activation policy and will not work. You very likely want to use <em>Focus "
 "follows mouse (mouse precedence)</em> instead!"
 msgstr ""
-"<b>Odak Şiddetle Farenin Altında</b><br>\n"
-"Odak her zaman pencerenin altındaki pencerededir - herhangi bir şüphede<br>\n"
-"hiçbir yerde - yönetilmeyen eski X11 ortamındaki odaklanma davranışına "
-"oldukça benzer.<br><br>\n"
-"\n"
-"Not:<br>\n"
-"<b>Odak çalma koruması</b> ve <b>sekme kutusu (\"Alt+Tab\")</b><br>\n"
-"bu ilke ile çatışır ve <b>çalışmaz</b>.<br><br>\n"
-"Muhtemelen bunun yerine<br>\n"
-"<i>Odak Fareyi Takip Eder - Fare Önceliği</i> kullanmak isteyeceksiniz!"
+"<em>Odak katıca farenin altında:</em> Odak her zaman farenin altındaki "
+"pencerede kalır (kuşkudaysa hiçbir yerde) ve bu eski yönetilmeyen X11 "
+"ortamlarındaki davranışa çok benzer.<br/><strong>Uyarı:</strong> <em>Odak "
+"çalma koruması</em> ve <em>sekme kutusu ('Alt+Tab)'</em>, etkinleştirme "
+"ilkesine karşıttır ve çalışmazlar. Bu durumda <em>Odak fareyi izler (fare "
+"önceliği)</em>'ni kullanmak isteyeceksinizdir!"

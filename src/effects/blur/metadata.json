@@ -13,6 +13,7 @@
         "Description[fr]": "Rend flou l'arrière-plan sous les fenêtres semi-transparentes",
         "Description[hu]": "Elmosódottá teszi a félig áttetsző ablakok hátterét",
         "Description[ia]": "Obscura le fundo detra fenestras semi-transparente",
+        "Description[id]": "Memburamkan belakang latar-belakang window semi transparan",
         "Description[it]": "Sfoca lo sfondo dietro a finestre semitrasparenti",
         "Description[ko]": "반투명 창의 뒷배경을 흐리게 합니다",
         "Description[nl]": "Vervaagt de achtergrond van halftransparante vensters",
@@ -23,6 +24,7 @@
         "Description[sk]": "Rozmaže pozadie za polopriehľadnými oknami",
         "Description[sl]": "Zamegli ozadje za polprosojnimi okni",
         "Description[sv]": "Gör bakgrunden bakom halvgenomskinliga fönster suddig",
+        "Description[tr]": "Yarı saydam pencerelerin ardını bulanıklaştır",
         "Description[uk]": "Розмивання тла напівпрозорих вікон",
         "Description[x-test]": "xxBlurs the background behind semi-transparent windowsxx",
         "Description[zh_CN]": "对半透明窗口的背景进行虚化处理",
@@ -52,6 +54,7 @@
         "Name[sk]": "Rozmazanie",
         "Name[sl]": "Zamegljeno",
         "Name[sv]": "Oskärpa",
+        "Name[tr]": "Bulanıklaştır",
         "Name[uk]": "Розмиття",
         "Name[x-test]": "xxBlurxx",
         "Name[zh_CN]": "窗口背景虚化"

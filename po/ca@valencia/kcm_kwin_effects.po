@@ -47,7 +47,7 @@ msgid ""
 "Author: %1\n"
 "License: %2"
 msgstr ""
-"Autor: %1\n"
+"Autoria: %1\n"
 "Llicència: %2"
 
 #: package/contents/ui/Effect.qml:121
@@ -65,7 +65,7 @@ msgstr "Configura..."
 #: package/contents/ui/main.qml:20
 #, kde-format
 msgid "This module lets you configure desktop effects."
-msgstr "Aquest mòdul permet configurar els efectes de l'escriptori."
+msgstr "Este mòdul permet configurar els efectes de l'escriptori."
 
 #: package/contents/ui/main.qml:27
 #, kde-format
@@ -94,4 +94,4 @@ msgstr "Exclou els efectes interns"
 #: package/contents/ui/main.qml:125
 #, kde-format
 msgid "Get New Desktop Effects..."
-msgstr "Obtén efectes nous d'escriptori..."
+msgstr "Obtín efectes nous d'escriptori..."

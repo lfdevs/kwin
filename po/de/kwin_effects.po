@@ -1,7 +1,7 @@
 # Thomas Reitelbach <tr@erdfunkstelle.de>, 2007, 2008, 2009, 2010.
 # Burkhard Lück <lueck@hube-lueck.de>, 2009, 2012, 2013, 2014, 2015, 2017, 2018, 2019, 2021.
 # Johannes Obermayr <johannesobermayr@gmx.de>, 2010.
-# Frederik Schwarzer <schwarzer@kde.org>, 2010, 2011, 2012, 2013, 2015, 2016, 2018, 2020, 2021.
+# Frederik Schwarzer <schwarzer@kde.org>, 2010, 2011, 2012, 2013, 2015, 2016, 2018, 2020, 2021, 2022.
 # Markus Slopianka <kamikazow@fishmouth.net>, 2010.
 # Felix Schweighofer <felix.schweighofer@googlemail.com>, 2010.
 # Hendrik Knackstedt <kn.hendrik@gmail.com>, 2011.
@@ -9,15 +9,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-02-18 02:17+0000\n"
-"PO-Revision-Date: 2021-04-20 06:13+0200\n"
-"Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
+"POT-Creation-Date: 2022-03-09 02:12+0000\n"
+"PO-Revision-Date: 2022-03-13 10:17+0100\n"
+"Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -64,7 +65,7 @@ msgstr ""
 "Wählen Sie mit einem linken Mausklick oder der Eingabetaste eine Position "
 "zur Farbwahl. Mit der Taste ESC oder einem rechten Mausklick brechen Sie ab."
 
-#: desktopgrid/desktopgrid.cpp:109 desktopgrid/desktopgrid_config.cpp:55
+#: desktopgrid/desktopgrid.cpp:116 desktopgrid/desktopgrid_config.cpp:55
 #, kde-format
 msgid "Show Desktop Grid"
 msgstr "Arbeitsflächen-Raster anzeigen"
@@ -618,15 +619,14 @@ msgid "Delete virtual desktop"
 msgstr ""
 
 #: overview/qml/DesktopBar.qml:278
-#, fuzzy, kde-format
-#| msgid "Desktop"
+#, kde-format
 msgid "Add Desktop"
-msgstr "Arbeitsfläche"
+msgstr "Arbeitsfläche hinzufügen"
 
 #: overview/qml/ScreenView.qml:119
 #, kde-format
 msgid "Search..."
-msgstr ""
+msgstr "Suchen ..."
 
 #: presentwindows/presentwindows.cpp:71
 #: presentwindows/presentwindows_config.cpp:60

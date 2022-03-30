@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-02-18 02:17+0000\n"
-"PO-Revision-Date: 2022-02-05 18:23+0200\n"
+"POT-Creation-Date: 2022-03-09 02:12+0000\n"
+"PO-Revision-Date: 2022-03-18 23:17+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -71,7 +71,7 @@ msgstr ""
 "Valitse väripoimintakohta napsauttamalla hiirellä tai Enter-näppäimellä.\n"
 "Peru hiiren oikealla painikkeella tai Esc-näppäimellä."
 
-#: desktopgrid/desktopgrid.cpp:109 desktopgrid/desktopgrid_config.cpp:55
+#: desktopgrid/desktopgrid.cpp:116 desktopgrid/desktopgrid_config.cpp:55
 #, kde-format
 msgid "Show Desktop Grid"
 msgstr "Näytä työpöytäruudukko"
@@ -620,18 +620,17 @@ msgstr "Sumenna tausta:"
 #: overview/qml/DesktopBar.qml:188
 #, kde-format
 msgid "Delete virtual desktop"
-msgstr ""
+msgstr "Poista virtuaalityöpöytä"
 
 #: overview/qml/DesktopBar.qml:278
-#, fuzzy, kde-format
-#| msgid "Desktop"
+#, kde-format
 msgid "Add Desktop"
-msgstr "Työpöytä"
+msgstr "Lisää työpöytä"
 
 #: overview/qml/ScreenView.qml:119
 #, kde-format
 msgid "Search..."
-msgstr ""
+msgstr "Etsi…"
 
 #: presentwindows/presentwindows.cpp:71
 #: presentwindows/presentwindows_config.cpp:60

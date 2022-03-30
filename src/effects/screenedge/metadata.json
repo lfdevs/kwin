@@ -13,6 +13,7 @@
         "Description[fr]": "Mets en valeur le bord de l'écran à l'approche",
         "Description[hu]": "Kiemeli a képernyő szélét megközelítéskor",
         "Description[ia]": "Evidentia un margine de schermo quando on approxima se",
+        "Description[id]": "Sorot tepian layar ketika kursor mendekati tepi",
         "Description[it]": "Evidenzia il bordo dello schermo quando ti avvicini",
         "Description[ko]": "화면 경계에 도달할 때 강조하기",
         "Description[nl]": "Accentueert een schermrand bij nadering",
@@ -23,6 +24,7 @@
         "Description[sk]": "Zvýrazní okraj obrazovky pri priblížení",
         "Description[sl]": "Osvetli rob zaslona, ko se mu bliža",
         "Description[sv]": "Markerar en skärmkant när man närmar sig den",
+        "Description[tr]": "Yaklaşırken bir ekran kenarını vurgular",
         "Description[uk]": "Підсвічує край екрана у разі наближення вказівника",
         "Description[x-test]": "xxHighlights a screen edge when approachingxx",
         "Description[zh_CN]": "接近屏幕边缘时高亮显示",
@@ -51,6 +53,7 @@
         "Name[sk]": "Hrana obrazovky",
         "Name[sl]": "Rob zaslona",
         "Name[sv]": "Skärmkant",
+        "Name[tr]": "Ekran Kenarı",
         "Name[uk]": "Край екрана",
         "Name[x-test]": "xxScreen Edgexx",
         "Name[zh_CN]": "屏幕边缘高亮"

@@ -34,7 +34,7 @@ msgstr ""
 "La composició OpenGL (per defecte) ha trencat el KWin en el passat.\n"
 "Probablement era degut a una fallada en el controlador.\n"
 "Si penseu que mentrestant l'heu actualitzat a un controlador estable, podeu "
-"reiniciar aquesta protecció però sent conscient que podria produir-se una "
+"reiniciar esta protecció però sent conscient que podria produir-se una "
 "fallada immediata!"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, scaleWarning)
@@ -55,7 +55,7 @@ msgid ""
 "windows. This can result in windows not suspending their work when minimized."
 msgstr ""
 "Mantindre la miniatura de la finestra sempre interfereix amb l'estat "
-"minimitzat de les finestres. Això pot resultar en finestres que no suspenen "
+"minimitzat de les finestres. Açò pot resultar en finestres que no suspenen "
 "el seu treball quan es minimitzen."
 
 #. i18n: ectx: property (text), widget (QLabel, compositingLabel)
@@ -80,7 +80,7 @@ msgid ""
 msgstr ""
 "Les aplicacions poden establir un senyal per a blocar la composició quan la "
 "finestra està oberta.\n"
-" Això aporta millores de rendiment als jocs, per exemple.\n"
+" Açò aporta millores de rendiment als jocs, per exemple.\n"
 " L'opció es pot sobreescriure amb regles específiques de finestra."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_WindowsBlockCompositing)
@@ -159,7 +159,7 @@ msgstr "Torna a usar el contingut de la pantalla"
 #: compositing.ui:230
 #, kde-format
 msgid "Keep window thumbnails:"
-msgstr "Mantén les miniatures de les finestres:"
+msgstr "Mantín les miniatures de les finestres:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_HiddenPreviews)
 #: compositing.ui:238

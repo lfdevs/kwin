@@ -13,6 +13,7 @@
         "Description[fr]": "Afficher un effet indiquant la position du pointeur de la souris quand activé",
         "Description[hu]": "Aktiváláskor megjelenít egy effektust az egérkurzor megtalálásához",
         "Description[ia]": "Monstra un effecto de location de mus quando activate",
+        "Description[id]": "Menampilkan sebuah efek lokasi kursor mouse ketika diaktifkan",
         "Description[it]": "Visualizza un effetto di posizionamento del puntatore del mouse quando è attivato",
         "Description[ko]": "활성화되었을 때 마우스 커서의 위치를 표시합니다",
         "Description[nl]": "Toont de positie van de muisaanwijzer wanneer geactiveerd",
@@ -23,6 +24,7 @@
         "Description[sk]": "Zobrazí pri aktivácii efekt zvýrazňujúci pozíciu kurzoru myši",
         "Description[sl]": "Prikaži prostorski učinek kazalca miške, ko je aktiviran",
         "Description[sv]": "Visa en lokaliseringseffekt för muspekaren om aktiverad",
+        "Description[tr]": "Etkinleştirildiğinde bir fare imleci bulma efekti görüntüle",
         "Description[uk]": "Показ наближення вказівника миші",
         "Description[x-test]": "xxDisplay a mouse cursor locating effect when activatedxx",
         "Description[zh_CN]": "激活时突出显示鼠标所在位置",
@@ -52,6 +54,7 @@
         "Name[sk]": "Sledovať myš",
         "Name[sl]": "Sledi miški",
         "Name[sv]": "Följ musen",
+        "Name[tr]": "Fareyi İzle",
         "Name[uk]": "Сліди мишки",
         "Name[x-test]": "xxTrack Mousexx",
         "Name[zh_CN]": "鼠标定位"

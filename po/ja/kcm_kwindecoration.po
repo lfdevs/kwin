@@ -6,21 +6,22 @@
 # AWASHIRO Ikuya <ikuya@oooug.jp>, 2004.
 # Yukiko Bando <ybando@k6.dion.ne.jp>, 2006, 2008, 2010.
 # Tomohiro Hyakutake <tomhioo@outlook.jp>, 2019.
-# Fumiaki Okushi <fumiaki.okushi@gmail.com>, 2005, 2010, 2015, 2019.
+# R.Suga <21r.suga@gmail.com>, 2022.
+# Fumiaki Okushi <fumiaki.okushi@gmail.com>, 2005, 2010, 2015, 2019, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-01-22 02:14+0000\n"
-"PO-Revision-Date: 2019-06-08 14:01-0700\n"
+"PO-Revision-Date: 2022-03-12 18:14-0800\n"
 "Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 19.04.1\n"
+"X-Generator: Lokalize 21.12.3\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
@@ -28,17 +29,19 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Noboru Sinohara,Toyohiro Asukai,Kurose Shushi"
+msgstr "Noboru Sinohara,Toyohiro Asukai,Kurose Shushi,R.Suga"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "shinobo@leo.bekkoame.ne.jp,toyohiro@ksmplus.com,md81@bird.email.ne.jp"
+msgstr ""
+"shinobo@leo.bekkoame.ne.jp,toyohiro@ksmplus.com,md81@bird.email.ne.jp,21r."
+"suga@gmail.com"
 
 #: declarative-plugin/buttonsmodel.cpp:54
 #, kde-format
 msgid "More actions for this window"
-msgstr ""
+msgstr "このウィンドウのその他のアクション"
 
 #: declarative-plugin/buttonsmodel.cpp:56
 #, kde-format
@@ -78,12 +81,12 @@ msgstr "シェード"
 #: declarative-plugin/buttonsmodel.cpp:70
 #, kde-format
 msgid "Keep below other windows"
-msgstr ""
+msgstr "他のウィンドウより下に表示"
 
 #: declarative-plugin/buttonsmodel.cpp:72
 #, kde-format
 msgid "Keep above other windows"
-msgstr ""
+msgstr "他のウィンドウより上に表示"
 
 #: kcm.cpp:49
 #, kde-format
@@ -93,18 +96,18 @@ msgstr "ウィンドウの装飾"
 #: kcm.cpp:53
 #, kde-format
 msgid "Valerio Pilo"
-msgstr ""
+msgstr "Valerio Pilo"
 
 #: kcm.cpp:54
 #, kde-format
 msgid "Author"
-msgstr ""
+msgstr "作者"
 
 #: kcm.cpp:184
 #, kde-format
 msgctxt "%1 is the name of a border size"
 msgid "Theme's default (%1)"
-msgstr ""
+msgstr "テーマのデフォルト (%1)"
 
 #: kwin-applywindowdecoration.cpp:32
 #, kde-format
@@ -113,6 +116,9 @@ msgid ""
 "active session, without accidentally setting it to one that is either not "
 "available, or which is already set."
 msgstr ""
+"このツールを使用すると、使用できなかったり既に設定されているテーマに 誤って設"
+"定することなく、ウィンドウ装飾テーマを現在アクティブな セッションのみに設定で"
+"きます。"
 
 #: kwin-applywindowdecoration.cpp:33
 #, kde-format
@@ -121,12 +127,14 @@ msgid ""
 "full path will attempt to find a theme in that directory, and then apply "
 "that if one can be deduced."
 msgstr ""
+"KWin に設定するウィンドウ装飾テーマの名前です。フルパスを指定するとそのディレ"
+"クトリでテーマを見つけようとします。推測できる場合はそれを適用します。"
 
 #: kwin-applywindowdecoration.cpp:34
 #, kde-format
 msgid ""
 "Show all the themes available on the system (and which is the current theme)"
-msgstr ""
+msgstr "システムで使用可能なすべてのテーマ(と現在のテーマ)を表示"
 
 #: kwin-applywindowdecoration.cpp:65
 #, kde-format
@@ -134,6 +142,8 @@ msgid ""
 "Resolved %1 to the KWin Aurorae theme \"%2\", and will attempt to set that "
 "as your current theme."
 msgstr ""
+"%1 を KWin Aurorae テーマ \"%2\" に解決し、それを現在のテーマ として設定しま"
+"す。"
 
 #: kwin-applywindowdecoration.cpp:71
 #, kde-format
@@ -141,17 +151,19 @@ msgid ""
 "You attempted to pass a file path, but this could not be resolved to a "
 "theme, and we will have to abort, due to having no theme to set"
 msgstr ""
+"ファイルパスが指定されましたが、解決できませんでした。設定するテーマがないた"
+"め、中止します"
 
 #: kwin-applywindowdecoration.cpp:77
 #, kde-format
 msgid ""
 "The requested theme \"%1\" is already set as the window decoration theme."
-msgstr ""
+msgstr "指定されたテーマ \"%1\" は既にウィンドウ装飾テーマに設定されています。"
 
 #: kwin-applywindowdecoration.cpp:99
 #, kde-format
 msgid "Successfully applied the cursor theme %1 to your current Plasma session"
-msgstr ""
+msgstr "現在の Plasma セッションにカーソルテーマ %1 を適用しました。"
 
 #: kwin-applywindowdecoration.cpp:102
 #, kde-format
@@ -159,6 +171,8 @@ msgid ""
 "Failed to save your theme settings - the reason is unknown, but this is an "
 "unrecoverable error. You may find that simply trying again will work."
 msgstr ""
+"テーマの設定を保存できませんでした - 理由は不明で、回復できないエラーです。も"
+"う一度試すとうまくいくかもしれません。"
 
 #: kwin-applywindowdecoration.cpp:106
 #, kde-format
@@ -166,11 +180,13 @@ msgid ""
 "Could not find theme \"%1\". The theme should be one of the following "
 "options: %2"
 msgstr ""
+"テーマ \"%1\" が見つかりませんでした。このテーマは 次のいずれかのオプションで"
+"ある必要があります: %2"
 
 #: kwin-applywindowdecoration.cpp:111
 #, kde-format
 msgid "You have the following KWin window decoration themes on your system:"
-msgstr ""
+msgstr "システムには、これらの KWin ウィンドウ装飾テーマがあります:"
 
 #: package/contents/ui/Buttons.qml:85
 #, kde-format
@@ -180,17 +196,17 @@ msgstr "タイトルバー"
 #: package/contents/ui/Buttons.qml:245
 #, kde-format
 msgid "Drop button here to remove it"
-msgstr ""
+msgstr "ここにボタンをドラッグして削除"
 
 #: package/contents/ui/Buttons.qml:261
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
-msgstr ""
+msgstr "ボタンをこことタイトルバーの間にドラッグ"
 
 #: package/contents/ui/main.qml:19
 #, kde-format
 msgid "This module lets you configure the window decorations."
-msgstr ""
+msgstr "このモジュールでウィンドウ装飾を設定できます。"
 
 #: package/contents/ui/main.qml:53
 #, kde-format
@@ -208,7 +224,7 @@ msgstr "タイトルバーのボタン"
 #, kde-format
 msgctxt "Selector label"
 msgid "Window border size:"
-msgstr ""
+msgstr "ウィンドウの枠のサイズ:"
 
 #: package/contents/ui/main.qml:114
 #, kde-format
@@ -226,13 +242,13 @@ msgstr "メニューボタンをダブルクリックしてウィンドウを閉
 #, kde-format
 msgctxt "popup tip"
 msgid "Click and hold on the menu button to show the menu."
-msgstr ""
+msgstr "メニューボタンを長押ししてメニューを表示する。"
 
 #: package/contents/ui/main.qml:167
 #, kde-format
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
-msgstr "タイトルバーのボタンにツールチップを表示"
+msgstr "タイトルバーボタンのツールチップを表示"
 
 #: package/contents/ui/Themes.qml:92
 #, kde-format
@@ -240,18 +256,14 @@ msgid "Edit %1 Theme"
 msgstr "テーマ %1 を編集"
 
 #: utils.cpp:26
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "No Borders"
+#, kde-format
 msgid "No Borders"
 msgstr "枠なし"
 
 #: utils.cpp:27
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "No Borders"
+#, kde-format
 msgid "No Side Borders"
-msgstr "枠なし"
+msgstr "横の枠なし"
 
 #: utils.cpp:28
 #, kde-format

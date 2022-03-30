@@ -13,6 +13,7 @@
         "Description[fr]": "Permet de sélectionner une couleur",
         "Description[hu]": "Támogatja a színválasztást",
         "Description[ia]": "Supporta seliger un color",
+        "Description[id]": "Mendukung penukilan warna",
         "Description[it]": "Supporta la selezione di un colore",
         "Description[ko]": "색상 선택 지원",
         "Description[nl]": "Ondersteunt een kleur kiezen",
@@ -23,6 +24,7 @@
         "Description[sk]": "Podporuje výber farby",
         "Description[sl]": "Podpira izbiro barve",
         "Description[sv]": "Stöder att hämta en färg",
+        "Description[tr]": "Bir rent seçmeyi destekler",
         "Description[uk]": "Підтримка взяття кольору з екрана",
         "Description[x-test]": "xxSupports picking a colorxx",
         "Description[zh_CN]": "拾色器专用辅助特效",
@@ -52,6 +54,7 @@
         "Name[sk]": "Výber farby",
         "Name[sl]": "Izbirnik barv",
         "Name[sv]": "Färghämtare",
+        "Name[tr]": "Renk Seçici",
         "Name[uk]": "Піпетка",
         "Name[x-test]": "xxColor Pickerxx",
         "Name[zh_CN]": "拾色器"

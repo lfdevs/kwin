@@ -10,20 +10,21 @@
 # Serdar SOYTETİR <tulliana@gmail.com>, 2010, 2012.
 # Volkan Gezer <volkangezer@gmail.com>, 2013, 2014, 2017.
 # Kaan Ozdincer <kaanozdincer@gmail.com>, 2014.
+# Emir SARI <emir_sari@icloud.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-02-15 02:15+0000\n"
-"PO-Revision-Date: 2017-06-09 14:24+0100\n"
-"Last-Translator: Volkan Gezer <volkangezer@gmail.com>\n"
+"PO-Revision-Date: 2022-03-20 12:27+0300\n"
+"Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -335,13 +336,13 @@ msgstr "Fark"
 #, kde-format
 msgctxt "A key press event"
 msgid "Key Press"
-msgstr "Tuş Basımı"
+msgstr "Düğme Basımı"
 
 #: debug_console.cpp:260
 #, kde-format
 msgctxt "A key release event"
 msgid "Key Release"
-msgstr "Tuş Bırakma"
+msgstr "Düğme Bırakma"
 
 #: debug_console.cpp:269
 #, kde-format
@@ -371,7 +372,7 @@ msgstr "Meta"
 #, kde-format
 msgctxt "A keyboard modifier"
 msgid "Keypad"
-msgstr "Tuş Takımı"
+msgstr "Düğme Takımı"
 
 #: debug_console.cpp:289
 #, kde-format
@@ -395,7 +396,7 @@ msgstr "Tarama kodu"
 #, kde-format
 msgctxt "Key according to Qt"
 msgid "Qt::Key code"
-msgstr ""
+msgstr "Qt::Düğme kodu"
 
 #: debug_console.cpp:302
 #, kde-format
@@ -552,13 +553,13 @@ msgstr "Sekmeye Geç"
 #, kde-format
 msgctxt "Name of a hardware switch"
 msgid "Notebook lid"
-msgstr ""
+msgstr "Dizüstü kapağı"
 
 #: debug_console.cpp:473
 #, kde-format
 msgctxt "Name of a hardware switch"
 msgid "Tablet mode"
-msgstr ""
+msgstr "Tablet kipi"
 
 #: debug_console.cpp:475
 #, fuzzy, kde-format
@@ -571,29 +572,29 @@ msgstr "Sekmeye Geç"
 #, kde-format
 msgctxt "The hardware switch got turned off"
 msgid "Off"
-msgstr ""
+msgstr "Kapalı"
 
 #: debug_console.cpp:482
 #, kde-format
 msgctxt "The hardware switch got turned on"
 msgid "On"
-msgstr ""
+msgstr "Açık"
 
 #: debug_console.cpp:487
 #, kde-format
 msgctxt "State of a hardware switch (on/off)"
 msgid "State"
-msgstr ""
+msgstr "Durum"
 
 #: debug_console.cpp:502
 #, kde-format
 msgid "Tablet Tool"
-msgstr ""
+msgstr "Tablet Aracı"
 
 #: debug_console.cpp:503
 #, kde-format
 msgid "EventType"
-msgstr ""
+msgstr "Olay Türü"
 
 #: debug_console.cpp:504 debug_console.cpp:547 debug_console.cpp:560
 #, fuzzy, kde-format
@@ -616,7 +617,7 @@ msgstr "başlık"
 #: debug_console.cpp:509
 #, kde-format
 msgid "Pressure"
-msgstr ""
+msgstr "Baskı"
 
 #: debug_console.cpp:510
 #, fuzzy, kde-format
@@ -636,27 +637,23 @@ msgstr "Değiştiriciler"
 #: debug_console.cpp:520
 #, kde-format
 msgid "Tablet Tool Button"
-msgstr ""
+msgstr "Tablet Aracı Düğmesi"
 
 #: debug_console.cpp:521 debug_console.cpp:534
-#, fuzzy, kde-format
-#| msgctxt "A button in a mouse press/release event"
-#| msgid "Button"
+#, kde-format
 msgid "Button"
 msgstr "Düğme"
 
 #: debug_console.cpp:522 debug_console.cpp:535
-#, fuzzy, kde-format
-#| msgctxt "All currently pressed buttons in a mouse press/release event"
-#| msgid "Pressed Buttons"
+#, kde-format
 msgid "Pressed"
-msgstr "Basılı Düğmeler"
+msgstr "Basılı"
 
 #: debug_console.cpp:523 debug_console.cpp:536 debug_console.cpp:549
 #: debug_console.cpp:562
 #, kde-format
 msgid "Tablet"
-msgstr ""
+msgstr "Tablet"
 
 #: debug_console.cpp:533
 #, kde-format
@@ -671,12 +668,12 @@ msgstr ""
 #: debug_console.cpp:546 debug_console.cpp:559
 #, kde-format
 msgid "Number"
-msgstr ""
+msgstr "Sayı"
 
 #: debug_console.cpp:548 debug_console.cpp:561
 #, kde-format
 msgid "isFinger"
-msgstr ""
+msgstr "buParmaktır"
 
 #: debug_console.cpp:558
 #, kde-format
@@ -892,7 +889,7 @@ msgstr "Dahili Pencereler"
 #: debug_console.ui:32
 #, kde-format
 msgid "Quit Debug Console"
-msgstr ""
+msgstr "Hata Ayıklama Konsolundan Çık"
 
 #. i18n: ectx: attribute (title), widget (QWidget, windows)
 #: debug_console.ui:45
@@ -904,57 +901,55 @@ msgstr "Pencereler"
 #: debug_console.ui:59
 #, kde-format
 msgid "Surfaces"
-msgstr ""
+msgstr "Yüzeyler"
 
 #. i18n: ectx: attribute (title), widget (QWidget, input)
 #: debug_console.ui:69
-#, fuzzy, kde-format
-#| msgid "Input Device"
+#, kde-format
 msgid "Input Events"
-msgstr "Giriş Aygıtı"
+msgstr "Giriş Olayları"
 
 #. i18n: ectx: attribute (title), widget (QWidget, inputDevices)
 #: debug_console.ui:86
-#, fuzzy, kde-format
-#| msgid "Input Device"
+#, kde-format
 msgid "Input Devices"
-msgstr "Giriş Aygıtı"
+msgstr "Giriş Aygıtları"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: debug_console.ui:96
 #, kde-format
 msgid "OpenGL"
-msgstr ""
+msgstr "OpenGL"
 
 #. i18n: ectx: property (text), widget (QLabel, noOpenGLLabel)
 #: debug_console.ui:102
 #, kde-format
 msgid "No OpenGL compositor running"
-msgstr ""
+msgstr "Bir OpenGL bileşikleştiricisi çalışmıyor"
 
 #. i18n: ectx: property (title), widget (QGroupBox, driverInfoBox)
 #: debug_console.ui:130
 #, kde-format
 msgid "OpenGL (ES) driver information"
-msgstr ""
+msgstr "OpenGL (es) sürücü bilgisi"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: debug_console.ui:136
 #, kde-format
 msgid "Vendor:"
-msgstr ""
+msgstr "Üretici:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: debug_console.ui:143
 #, kde-format
 msgid "Renderer:"
-msgstr ""
+msgstr "Gerçekleyici:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: debug_console.ui:150
 #, kde-format
 msgid "Version:"
-msgstr ""
+msgstr "Sürüm:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: debug_console.ui:157
@@ -966,32 +961,31 @@ msgstr ""
 #: debug_console.ui:164
 #, kde-format
 msgid "Driver:"
-msgstr ""
+msgstr "Sürücü:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: debug_console.ui:171
 #, kde-format
 msgid "GPU class:"
-msgstr ""
+msgstr "GPU sınıfı:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: debug_console.ui:178
 #, kde-format
 msgid "OpenGL Version:"
-msgstr ""
+msgstr "OpenGL Sürümü:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: debug_console.ui:185
 #, kde-format
 msgid "GLSL Version:"
-msgstr ""
+msgstr "GLSL Sürümü:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, platformExtensionsBox)
 #: debug_console.ui:251
-#, fuzzy, kde-format
-#| msgid "&Extensions"
+#, kde-format
 msgid "Platform Extensions"
-msgstr "&Uzantılar"
+msgstr "Platform Uzantıları"
 
 #. i18n: ectx: property (title), widget (QGroupBox, glExtensionsBox)
 #: debug_console.ui:267
@@ -1035,26 +1029,26 @@ msgstr "Değiştiriciler"
 #: debug_console.ui:388
 #, kde-format
 msgid "LEDs"
-msgstr ""
+msgstr "LED'ler"
 
 #. i18n: ectx: property (title), widget (QGroupBox, activeLedsBox)
 #: debug_console.ui:404
 #, kde-format
 msgid "Active LEDs"
-msgstr ""
+msgstr "Etkin LED'ler"
 
 #. i18n: ectx: attribute (title), widget (QWidget, clipboard)
 #. i18n: ectx: property (text), widget (KTitleWidget, ktitlewidget)
 #: debug_console.ui:425 debug_console.ui:439
 #, kde-format
 msgid "Clipboard"
-msgstr ""
+msgstr "Pano"
 
 #. i18n: ectx: property (text), widget (KTitleWidget, ktitlewidget_2)
 #: debug_console.ui:479
 #, kde-format
 msgid "Primary Selection"
-msgstr ""
+msgstr "Birincil Seçim"
 
 #: helpers/killer/killer.cpp:30
 #, kde-format
@@ -1099,7 +1093,7 @@ msgstr "Sonlandırılacak uygulamanın adı"
 #: helpers/killer/killer.cpp:41
 #, kde-format
 msgid "name"
-msgstr "isim"
+msgstr "ad"
 
 #: helpers/killer/killer.cpp:43
 #, kde-format
@@ -1226,10 +1220,9 @@ msgid "KWin"
 msgstr "KWin"
 
 #: main.cpp:205
-#, fuzzy, kde-format
-#| msgid "(c) 1999-2013, The KDE Developers"
+#, kde-format
 msgid "(c) 1999-2019, The KDE Developers"
-msgstr "(c) 1999-2013, KDE Geliştiricileri"
+msgstr "(c) 1999-2019, KDE Geliştiricileri"
 
 #: main.cpp:207
 #, kde-format
@@ -1254,22 +1247,22 @@ msgstr "Luboš Luňák"
 #: main.cpp:211
 #, kde-format
 msgid "Martin Flöser"
-msgstr ""
+msgstr "Martin Flöser"
 
 #: main.cpp:212
 #, kde-format
 msgid "David Edmundson"
-msgstr ""
+msgstr "David Edmundson"
 
 #: main.cpp:213
 #, kde-format
 msgid "Roman Gilg"
-msgstr ""
+msgstr "Roman Gilg"
 
 #: main.cpp:214
 #, kde-format
 msgid "Vlad Zahorodnii"
-msgstr ""
+msgstr "Vlad Zahorodnii"
 
 #: main.cpp:223
 #, kde-format
@@ -1606,26 +1599,26 @@ msgstr "Pencereyi Etkinleştir (%1)"
 #, kde-format
 msgctxt "Night Color was disabled"
 msgid "Night Color Off"
-msgstr ""
+msgstr "Gece Rengi Kapalı"
 
 #: plugins/nightcolor/nightcolormanager.cpp:63
 #, kde-format
 msgctxt "Night Color was enabled"
 msgid "Night Color On"
-msgstr ""
+msgstr "Gece Rengi Açık"
 
 #: plugins/nightcolor/nightcolormanager.cpp:102
 #: plugins/nightcolor/nightcolormanager.cpp:105
 #: plugins/nightcolor/nightcolormanager.cpp:112
 #, kde-format
 msgid "Toggle Night Color"
-msgstr ""
+msgstr "Gece Rengini Aç/Kapat"
 
 #. i18n: ectx: label, entry (count), group (General)
 #: rulebooksettingsbase.kcfg:9
 #, kde-format
 msgid "Total rules count (legacy)"
-msgstr ""
+msgstr "Toplam kural sayısı (eski)"
 
 #. i18n: ectx: label, entry (ruleGroupList), group (General)
 #: rulebooksettingsbase.kcfg:13
@@ -1671,10 +1664,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (windowrole), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:34
-#, fuzzy, kde-format
-#| msgid "Windows"
+#, kde-format
 msgid "Window role"
-msgstr "Pencereler"
+msgstr "Pencere rolü"
 
 #. i18n: ectx: label, entry (windowrolematch), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:37
@@ -1684,10 +1676,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (title), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:44
-#, fuzzy, kde-format
-#| msgid "Windows"
+#, kde-format
 msgid "Window title"
-msgstr "Pencereler"
+msgstr "Pencere başlığı"
 
 #. i18n: ectx: label, entry (titlematch), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:47
@@ -1871,38 +1862,33 @@ msgstr ""
 
 #. i18n: ectx: label, entry (maximizevert), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:194
-#, fuzzy, kde-format
-#| msgid "Maximize Window Vertically"
+#, kde-format
 msgid "Maximized vertically"
-msgstr "Pencereyi Dikey Büyüt"
+msgstr "Dikey büyütülmüş"
 
 #. i18n: ectx: label, entry (maximizevertrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:198
-#, fuzzy, kde-format
-#| msgid "Maximize Window Vertically"
+#, kde-format
 msgid "Maximized vertically rule type"
-msgstr "Pencereyi Dikey Büyüt"
+msgstr "Dikey büyütülmüş kural türü"
 
 #. i18n: ectx: label, entry (maximizehoriz), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:205
-#, fuzzy, kde-format
-#| msgid "Maximize Window Horizontally"
+#, kde-format
 msgid "Maximized horizontally"
-msgstr "Pencereyi Yatay Büyüt"
+msgstr "Yatay büyütülmüş"
 
 #. i18n: ectx: label, entry (maximizehorizrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:209
-#, fuzzy, kde-format
-#| msgid "Maximize Window Horizontally"
+#, kde-format
 msgid "Maximized horizontally rule type"
-msgstr "Pencereyi Yatay Büyüt"
+msgstr "Yatay büyütülmüş kural türü"
 
 #. i18n: ectx: label, entry (minimize), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:216
-#, fuzzy, kde-format
-#| msgid "Minimize"
+#, kde-format
 msgid "Minimized"
-msgstr "Simge Durumuna Küçült"
+msgstr "Simge burumuna küçültülmüş"
 
 #. i18n: ectx: label, entry (minimizerule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:220
@@ -1949,10 +1935,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (skipswitcher), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:260
-#, fuzzy, kde-format
-#| msgid "Switch to Tab"
+#, kde-format
 msgid "Skip switcher"
-msgstr "Sekmeye Geç"
+msgstr "Değiştiriciyi geç"
 
 #. i18n: ectx: label, entry (skipswitcherrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:264
@@ -1962,17 +1947,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (above), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:271
-#, fuzzy, kde-format
-#| msgid "Keep above others"
+#, kde-format
 msgid "Keep above"
-msgstr "Diğerlerinin Üzerinde Tut"
+msgstr "Üzerinde tut"
 
 #. i18n: ectx: label, entry (aboverule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:275
-#, fuzzy, kde-format
-#| msgid "Keep above others"
+#, kde-format
 msgid "Keep above rule type"
-msgstr "Diğerlerinin Üzerinde Tut"
+msgstr "Üzerinde tut kural türü"
 
 #. i18n: ectx: label, entry (below), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:282
@@ -2028,16 +2011,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (blockcompositing), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:323
-#, fuzzy, kde-format
-#| msgid "Suspend Compositing"
+#, kde-format
 msgid "Block Compositing"
-msgstr "Birleşikliği Askıya Al"
+msgstr "Bileşikliği Engelle"
 
 #. i18n: ectx: label, entry (blockcompositingrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:327
 #, kde-format
 msgid "Block Compositing rule type"
-msgstr ""
+msgstr "Bileşikleştirme kural türünü engelle"
 
 #. i18n: ectx: label, entry (fsplevel), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:332
@@ -2383,28 +2365,24 @@ msgid "&Extensions"
 msgstr "&Uzantılar"
 
 #: useractions.cpp:451
-#, fuzzy, kde-format
-#| msgid "&All Desktops"
+#, kde-format
 msgid "&Desktops"
-msgstr "Tüm M&asaüstlerine"
+msgstr "M&asaüstleri"
 
 #: useractions.cpp:464
-#, fuzzy, kde-format
-#| msgid "Move To &Desktop"
+#, kde-format
 msgid "Move to &Desktop"
 msgstr "&Masaüstüne Taşı"
 
 #: useractions.cpp:481
-#, fuzzy, kde-format
-#| msgid "Move To &Screen"
+#, kde-format
 msgid "Move to &Screen"
 msgstr "&Ekrana Taşı"
 
 #: useractions.cpp:497
-#, fuzzy, kde-format
-#| msgid "Ac&tivities"
+#, kde-format
 msgid "Show in &Activities"
-msgstr "&Etkinlikler"
+msgstr "&Etkinliklerde Göster"
 
 #: useractions.cpp:512 useractions.cpp:579
 #, kde-format
@@ -2412,9 +2390,7 @@ msgid "&All Desktops"
 msgstr "Tüm M&asaüstlerine"
 
 #: useractions.cpp:554
-#, fuzzy, kde-format
-#| msgctxt "Create a new desktop and move there the window"
-#| msgid "&New Desktop"
+#, kde-format
 msgctxt "Create a new desktop and move the window there"
 msgid "&New Desktop"
 msgstr "&Yeni Masaüstü"
@@ -2425,19 +2401,16 @@ msgid "Move to %1 %2"
 msgstr ""
 
 #: useractions.cpp:636
-#, fuzzy, kde-format
-#| msgctxt "Create a new desktop and move there the window"
-#| msgid "&New Desktop"
+#, kde-format
 msgctxt "Create a new desktop and add the window to that desktop"
 msgid "Add to &New Desktop"
-msgstr "&Yeni Masaüstü"
+msgstr "Yeni Ma&saüstüne Ekle"
 
 #: useractions.cpp:648
-#, fuzzy, kde-format
-#| msgid "Move To &Desktop"
+#, kde-format
 msgctxt "Create a new desktop and move the window to that desktop"
 msgid "Move to New Desktop"
-msgstr "&Masaüstüne Taşı"
+msgstr "&Yeni Masaüstüne Taşı"
 
 #: useractions.cpp:679
 #, kde-format
@@ -2757,7 +2730,7 @@ msgstr "Pencereyi Öldür"
 #: useractions.cpp:1087
 #, kde-format
 msgid "Suspend Compositing"
-msgstr "Birleşikliği Askıya Al"
+msgstr "Bileşikliği Askıya Al"
 
 #: useractions.cpp:1088
 #, kde-format

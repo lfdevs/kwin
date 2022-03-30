@@ -75,7 +75,7 @@ msgstr "L'script «%1» s'ha importat correctament."
 #: module.cpp:183
 #, kde-format
 msgid "Error when uninstalling KWin Script: %1"
-msgstr "Error en desinstal·lar l'Script del KWin: %1"
+msgstr "S'ha produït un error en desinstal·lar l'Script del KWin: %1"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, Module)
 #: module.ui:14
@@ -93,4 +93,4 @@ msgstr "Instal·la des d'un fitxer..."
 #: module.ui:67
 #, kde-format
 msgid "Get New Scripts..."
-msgstr "Obtén scripts nous..."
+msgstr "Obtín scripts nous..."

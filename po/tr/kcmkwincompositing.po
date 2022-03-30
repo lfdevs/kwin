@@ -6,31 +6,25 @@
 # Serdar Soytetir <tulliana@gmail.com>, 2007, 2008, 2009, 2011.
 # Serdar SOYTETİR <tulliana@gmail.com>, 2010, 2012.
 # Volkan Gezer <volkangezer@gmail.com>, 2013, 2014, 2017.
+# Emir SARI <emir_sari@icloud.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-01-14 02:21+0000\n"
-"PO-Revision-Date: 2017-10-23 11:20+0000\n"
-"Last-Translator: İşbaran <isbaran@gmail.com>\n"
+"PO-Revision-Date: 2022-03-19 19:50+0300\n"
+"Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, glCrashedWarning)
 #: compositing.ui:31
-#, fuzzy, kde-format
-#| msgid ""
-#| "OpenGL compositing (the default) has crashed KWin in the past.\n"
-#| "This was most likely due to a driver bug.\n"
-#| "If you think that you have meanwhile upgraded to a stable driver,\n"
-#| "you can reset this protection but be aware that this might result in an "
-#| "immediate crash!\n"
-#| "Alternatively, you might want to use the XRender backend instead."
+#, kde-format
 msgid ""
 "OpenGL compositing (the default) has crashed KWin in the past.\n"
 "This was most likely due to a driver bug.\n"
@@ -38,13 +32,11 @@ msgid ""
 "you can reset this protection but be aware that this might result in an "
 "immediate crash!"
 msgstr ""
-"Daha önceden OpenGL derlemesi (öntanımlı) KWin'in çökmesine sebep oldu.\n"
-"Bu muhtemelen bir sürücü hatasıdır.\n"
-"Eğer bu durumun kararlı bir sürücüye yükseltme yaparken olduğunu "
-"düşünüyorsanız\n"
-"bu korumayı sıfırlayabilirsiniz ancak bu işlemin ani çökmeye neden "
-"olabileceğini unutmayın!\n"
-"Alternatif olarak, XRender arka ucunu kullanmak isteyebilirsiniz."
+"OpenGL bileşikleştirmesi (öntanımlı), daha önce KWin'in çökmesine neden "
+"oldu.\n"
+"Bu, genelde sürücü sorunlarından dolayı olabilir.\n"
+"Daha sonradan kararlı bir sürücüye yükseltme yapmışsanız bu korumayı "
+"sıfırlayabilirsiniz; ancak bu anında çökmelere neden olabilir."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, scaleWarning)
 #: compositing.ui:44
@@ -54,7 +46,7 @@ msgid ""
 "performance regressions and rendering artifacts."
 msgstr ""
 "\"Kesin\" ölçekleme yöntemi tüm donanımlar tarafından desteklenmemektedir ve "
-"performans düşüklüğü veya gerçekleme sorunlarına yolaçabilir."
+"başarım düşüklüğü veya gerçekleme sorunlarına yolaçabilir."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, windowThumbnailWarning)
 #: compositing.ui:67
@@ -69,17 +61,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, compositingLabel)
 #: compositing.ui:79
-#, fuzzy, kde-format
-#| msgid "Compositing type:"
+#, kde-format
 msgid "Compositing:"
-msgstr "Birleşiklik tipi:"
+msgstr "Bileşikleştirme:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Enabled)
 #: compositing.ui:86
-#, fuzzy, kde-format
-#| msgid "Enable compositor on startup"
+#, kde-format
 msgid "Enable on startup"
-msgstr "Masaüstü Efektlerini başlangıçta etkinleştir"
+msgstr "Başlangıçta etkinleştir"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_WindowsBlockCompositing)
 #: compositing.ui:95
@@ -89,7 +79,7 @@ msgid ""
 " This brings performance improvements for e.g. games.\n"
 " The setting can be overruled by window-specific rules."
 msgstr ""
-"Uygulamalar, pencere açıkken birleşimi engellemek için bir ipucu "
+"Uygulamalar, pencere açıkken bileşikleştirmeyi engellemek için bir ipucu "
 "belirleyebilir.\n"
 "Bu, örneğin; oyunlar için performans iyileştirmeleri getirebilir.\n"
 "Ayar, pencereye özgü kurallar tarafından geçersiz kılınabilir."
@@ -98,7 +88,7 @@ msgstr ""
 #: compositing.ui:98
 #, kde-format
 msgid "Allow applications to block compositing"
-msgstr "Uygulamaların, birleştirmeyi engellemesine izin ver"
+msgstr "Uygulamaların, bileşikleştirmeyi engellemesine izin ver"
 
 #. i18n: ectx: property (text), widget (QLabel, animationSpeedLabel)
 #: compositing.ui:105
@@ -122,7 +112,7 @@ msgstr "Anında"
 #: compositing.ui:174
 #, kde-format
 msgid "Scale method:"
-msgstr "Ölçekleme yöntemi:"
+msgstr "Ölçek yöntemi:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_glTextureFilter)
 #: compositing.ui:184
@@ -158,13 +148,13 @@ msgstr "Sadece maliyetsiz ise"
 #: compositing.ui:217
 #, kde-format
 msgid "Full screen repaints"
-msgstr "Tam ekran yeniden çizim"
+msgstr "Tam ekran yeniden çizimleri"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_glPreferBufferSwap)
 #: compositing.ui:222
 #, kde-format
 msgid "Re-use screen content"
-msgstr "Ekran içeriğini tekrar kullan"
+msgstr "Ekran içeriğini yeniden kullan"
 
 #. i18n: ectx: property (text), widget (QLabel, label_HiddenPreviews)
 #: compositing.ui:230
@@ -188,44 +178,43 @@ msgstr "Sadece Gösterilen Pencereler için"
 #: compositing.ui:248
 #, kde-format
 msgid "Always"
-msgstr "Her zaman"
+msgstr "Her Zaman"
 
 #. i18n: ectx: property (text), widget (QLabel, latencyLabel)
 #: compositing.ui:256
 #, kde-format
 msgid "Latency:"
-msgstr ""
+msgstr "Gecikme:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
 #: compositing.ui:264
 #, kde-format
 msgid "Force lowest latency (may cause dropped frames)"
-msgstr ""
+msgstr "En düşük gecikmeyi zorla (çerçeve düşmelerine neden olabilir)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
 #: compositing.ui:269
 #, kde-format
 msgid "Prefer lower latency"
-msgstr ""
+msgstr "Düşük gecikmeyi yeğle"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
 #: compositing.ui:274
 #, kde-format
 msgid "Balance of latency and smoothness"
-msgstr ""
+msgstr "Gecikme ve düzgünlük dengesi"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
 #: compositing.ui:279
 #, kde-format
 msgid "Prefer smoother animations"
-msgstr ""
+msgstr "Daha düzgün canlandırmaları yeğle"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
 #: compositing.ui:284
-#, fuzzy, kde-format
-#| msgid "Various animations"
+#, kde-format
 msgid "Force smoothest animations"
-msgstr "Çeşitli Canlandırmalar"
+msgstr "En düzgün canlandırmayı zorla"
 
 #: main.cpp:76
 #, kde-format
@@ -238,18 +227,18 @@ msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
 "video."
 msgstr ""
-"\"Sadece kalitesiz olduğunda\" sadece bir video gibi tam ekran "
-"değişikliklerinde parçalanmayı engeller."
+"\"Yalnızca kalitesiz olduğunda\" yalnızca bir video gibi tam ekran "
+"değişikliklerinde yaşarmayı engeller."
 
 #: main.cpp:139
 #, kde-format
 msgid "\"Full screen repaints\" can cause performance problems."
-msgstr "\"Tam ekran onarumı\" performans sorunlarına yok açabilir."
+msgstr "\"Tam ekran yeniden çizimleri\" başarım sorunlarına yol açabilir."
 
 #: main.cpp:143
 #, kde-format
 msgid ""
 "\"Re-use screen content\" causes severe performance problems on MESA drivers."
 msgstr ""
-"\"Ekran içeriğini yeniden kullan\" MESA sürücülerinde şiddetli performans "
+"\"Ekran içeriğini yeniden kullan\" MESA sürücülerinde şiddetli başarım "
 "sorunlarına yol açabilir."

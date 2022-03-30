@@ -13,6 +13,7 @@
         "Description[fr]": "Mettre en valeur les zones de bureau ayant été récemment mises à jour",
         "Description[hu]": "Kiemeli az asztalon az éppen felfrissített területet",
         "Description[ia]": "Evidentia areas del scriptorio que ha essite actualisate recentemente",
+        "Description[id]": "Sorot wilayah desktop yang baru saja diperbarui",
         "Description[it]": "Evidenzia aree del desktop che sono state aggiornate di recente",
         "Description[ko]": "최근에 다시 그려진 바탕 화면의 영역을 표시합니다",
         "Description[nl]": "Accentueert gebieden van het bureaublad die recentelijk zijn geactualiseerd",
@@ -23,6 +24,7 @@
         "Description[sk]": "Zvýrazní oblasti plochy, ktoré boli práve aktualizované",
         "Description[sl]": "Osvetli območja namizja, ki so bili pred kratkim posodobljeni",
         "Description[sv]": "Markera områden på skärmen som nyligen har uppdaterats",
+        "Description[tr]": "Masaüstünün yeni güncellenen alanlarını vurgula",
         "Description[uk]": "Підсвічує області екрана, у яких спостерігалося оновлення",
         "Description[x-test]": "xxHighlight areas of the desktop that have been recently updatedxx",
         "Description[zh_CN]": "突出显示最近更新过的桌面区域",
@@ -52,6 +54,7 @@
         "Name[sk]": "Zobraziť kresbu",
         "Name[sl]": "Prikaži barvo",
         "Name[sv]": "Visa uppritning",
+        "Name[tr]": "Boyamayı Göster",
         "Name[uk]": "Показ малювання",
         "Name[x-test]": "xxShow Paintxx",
         "Name[zh_CN]": "突出显示画面更新区域"

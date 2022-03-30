@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-02-18 02:17+0000\n"
+"POT-Creation-Date: 2022-03-09 02:12+0000\n"
 "PO-Revision-Date: 2022-02-15 18:30+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: Arabic <kde-l10n-ar@kde.org>\n"
@@ -65,7 +65,7 @@ msgstr ""
 "حدد موقع لمنتقي اللون بالنقر الأيسر أو الضغط على زر الدخول. \n"
 "للإلغاء اضغط زر الهروب أو انقر بزر الفأرة الأيمن ."
 
-#: desktopgrid/desktopgrid.cpp:109 desktopgrid/desktopgrid_config.cpp:55
+#: desktopgrid/desktopgrid.cpp:116 desktopgrid/desktopgrid_config.cpp:55
 #, kde-format
 msgid "Show Desktop Grid"
 msgstr "أظهر شبكة سطح المكتب"

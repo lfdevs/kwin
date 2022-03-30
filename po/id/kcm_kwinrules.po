@@ -2,22 +2,22 @@
 # Copyright (C) 2010 This_file_is_part_of_KDE
 # This file is distributed under the same license as the kcmkwinrules package.
 # Andhika Padmawan <andhika.padmawan@gmail.com>, 2010-2014.
-# Wantoyo <wantoyek@gmail.com>, 2017, 2018, 2019, 2020, 2021.
+# Wantoyo <wantoyek@gmail.com>, 2017, 2018, 2019, 2020, 2021, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-01-14 02:21+0000\n"
-"PO-Revision-Date: 2021-04-18 00:40+0700\n"
-"Last-Translator: Wantoyo <wantoyek@gmail.com>\n"
+"PO-Revision-Date: 2022-03-11 21:35+0700\n"
+"Last-Translator: Wantoyek <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 20.12.1\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -30,20 +30,19 @@ msgid "Your emails"
 msgstr "andhika.padmawan@gmail.com"
 
 #: kcmrules.cpp:29
-#, fuzzy, kde-format
-#| msgid "Window ro&le:"
+#, kde-format
 msgid "Window Rules"
-msgstr "Pe&ran window:"
+msgstr "Aturan Window"
 
 #: kcmrules.cpp:33
 #, kde-format
 msgid "Ismael Asensio"
-msgstr ""
+msgstr "Ismael Asensio"
 
 #: kcmrules.cpp:34
 #, kde-format
 msgid "Author"
-msgstr ""
+msgstr "Penulis"
 
 #: kcmrules.cpp:38
 #, kde-format
@@ -65,7 +64,7 @@ msgstr ""
 #: kcmrules.cpp:246
 #, kde-format
 msgid "Copy of %1"
-msgstr ""
+msgstr "Salinan %1"
 
 #: kcmrules.cpp:425
 #, kde-format
@@ -80,7 +79,7 @@ msgstr "Pengesetan window untuk %1"
 #: main.cpp:31
 #, kde-format
 msgid "KWinRules KCM launcher"
-msgstr ""
+msgstr "Peluncur KWinRules KCM"
 
 #: main.cpp:32
 #, kde-format
@@ -140,6 +139,9 @@ msgid ""
 "created.\n"
 "No further changes will be affected."
 msgstr ""
+"Properti window hanya akan diatur ke nilai yang diberikan setelah window "
+"dibuat.\n"
+"Tidak ada perubahan lebih lanjut yang akan terpengaruh."
 
 #: optionsmodel.cpp:157
 #, kde-format
@@ -153,6 +155,9 @@ msgid ""
 "be affected later\n"
 "(this action will be deleted afterwards)."
 msgstr ""
+"Properti window akan segera disetel ke nilai yang diberikan dan tidak akan "
+"terpengaruh nanti\n"
+"(tindakan ini akan dihapus setelahnya)."
 
 #: optionsmodel.cpp:161
 #, kde-format
@@ -165,6 +170,8 @@ msgid ""
 "The value of the window property will be remembered and, every time the "
 "window is created, the last remembered value will be applied."
 msgstr ""
+"Nilai properti window akan diingat dan, setiap kali window dibuat, nilai "
+"yang terakhir yang diingat akan diterapkan."
 
 #: optionsmodel.cpp:165
 #, kde-format
@@ -178,6 +185,10 @@ msgid ""
 "for it will be used.\n"
 "Specifying this will block more generic window settings from taking effect."
 msgstr ""
+"Properti window tidak akan terpengaruh dan oleh karena itu penanganan "
+"default untuk itu akan digunakan.\n"
+"Menentukan ini akan memblokir pengaturan window lebih umumnya dari "
+"pengambilan efek."
 
 #: optionsmodel.cpp:169
 #, kde-format
@@ -187,7 +198,7 @@ msgstr "Paksa"
 #: optionsmodel.cpp:170
 #, kde-format
 msgid "The window property will be always forced to the given value."
-msgstr ""
+msgstr "Properti window akan selalu dipaksa ke nilai yang diberikan."
 
 #: optionsmodel.cpp:172
 #, kde-format
@@ -200,11 +211,14 @@ msgid ""
 "The window property will be forced to the given value until it is hidden\n"
 "(this action will be deleted after the window is hidden)."
 msgstr ""
+"Properti window akan dipaksa ke nilai yang diberikan sampai ia "
+"disembunyikan\n"
+"(aksi ini akan dihapus setelah window disembunyikan)."
 
 #: package/contents/ui/FileDialogLoader.qml:14
 #, kde-format
 msgid "Select File"
-msgstr ""
+msgstr "Pilih File"
 
 #: package/contents/ui/FileDialogLoader.qml:26
 #, kde-format
@@ -214,25 +228,24 @@ msgstr "Peraturan KWin (*.kwinrule)"
 #: package/contents/ui/OptionsComboBox.qml:35
 #, kde-format
 msgid "None selected"
-msgstr ""
+msgstr "Tidak ada yang dipilih"
 
 #: package/contents/ui/OptionsComboBox.qml:41
 #, kde-format
 msgid "All selected"
-msgstr ""
+msgstr "Semua dipilih"
 
 #: package/contents/ui/OptionsComboBox.qml:43
 #, kde-format
 msgid "%1 selected"
 msgid_plural "%1 selected"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 dipilih"
+msgstr[1] "%1 terpilih"
 
 #: package/contents/ui/RulesEditor.qml:63
-#, fuzzy, kde-format
-#| msgid "&Detect Window Properties"
+#, kde-format
 msgid "No window properties changed"
-msgstr "&Deteksi Properti Window"
+msgstr "Tidak ada properti window yang diubah"
 
 #: package/contents/ui/RulesEditor.qml:64
 #, kde-kuit-format
@@ -241,48 +254,47 @@ msgid ""
 "Click the <interface>Add Property...</interface> button below to add some "
 "window properties that will be affected by the rule"
 msgstr ""
+"Klik tombol <interface>Tambahkan Properti...</interface> di bawah untuk "
+"menambahkan beberapa properti window yang akan dipengaruhi oleh aturan"
 
 #: package/contents/ui/RulesEditor.qml:85
-#, fuzzy, kde-format
-#| msgid "&Closeable"
+#, kde-format
 msgid "Close"
-msgstr "Dapat &ditutup"
+msgstr "Tutup"
 
 #: package/contents/ui/RulesEditor.qml:85
-#, fuzzy, kde-format
-#| msgid "&New..."
+#, kde-format
 msgid "Add Property..."
-msgstr "&Baru..."
+msgstr "Tambahkan Properti..."
 
 #: package/contents/ui/RulesEditor.qml:98
-#, fuzzy, kde-format
-#| msgid "&Detect Window Properties"
+#, kde-format
 msgid "Detect Window Properties"
-msgstr "&Deteksi Properti Window"
+msgstr "Deteksi Properti Window"
 
 #: package/contents/ui/RulesEditor.qml:114
 #: package/contents/ui/RulesEditor.qml:121
 #, kde-format
 msgid "Instantly"
-msgstr ""
+msgstr "Secara instan"
 
 #: package/contents/ui/RulesEditor.qml:115
 #: package/contents/ui/RulesEditor.qml:126
 #, kde-format
 msgid "After %1 second"
 msgid_plural "After %1 seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Sesudah %1 detik"
+msgstr[1] "Sesudah %1 detik"
 
 #: package/contents/ui/RulesEditor.qml:147
 #, kde-format
 msgid "Error"
-msgstr ""
+msgstr "Galat"
 
 #: package/contents/ui/RulesEditor.qml:162
 #, kde-format
 msgid "Add property to the rule"
-msgstr ""
+msgstr "Tambahkan properti ke aturan"
 
 #: package/contents/ui/RulesEditor.qml:259
 #: package/contents/ui/ValueEditor.qml:54
@@ -301,74 +313,72 @@ msgstr "Tidak"
 #: package/contents/ui/ValueEditor.qml:179
 #, kde-format
 msgid "%1 %"
-msgstr ""
+msgstr "%1 %"
 
 #: package/contents/ui/RulesEditor.qml:263
 #, kde-format
 msgctxt "Coordinates (x, y)"
 msgid "(%1, %2)"
-msgstr ""
+msgstr "(%1, %2)"
 
 #: package/contents/ui/RulesEditor.qml:265
 #, kde-format
 msgctxt "Size (width, height)"
 msgid "(%1, %2)"
-msgstr ""
+msgstr "(%1, %2)"
 
 #: package/contents/ui/RulesList.qml:59
 #, kde-format
 msgid "No rules for specific windows are currently set"
-msgstr ""
+msgstr "Tidak ada aturan untuk menentukan window yang diatur saat ini"
 
 #: package/contents/ui/RulesList.qml:60
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Click the <interface>Add New...</interface> button below to add some"
 msgstr ""
+"Klik tombol <interface>Tambahkan Baru...</interface> di bawah untuk "
+"menambahkan beberapa"
 
 #: package/contents/ui/RulesList.qml:68
 #, kde-format
 msgid "Select the rules to export"
-msgstr ""
+msgstr "Pilih aturan untuk mengekspor"
 
 #: package/contents/ui/RulesList.qml:72
 #, kde-format
 msgid "Unselect All"
-msgstr ""
+msgstr "Tak pilih semua"
 
 #: package/contents/ui/RulesList.qml:72
 #, kde-format
 msgid "Select All"
-msgstr ""
+msgstr "Pilih Semua"
 
 #: package/contents/ui/RulesList.qml:86
 #, kde-format
 msgid "Save Rules"
-msgstr ""
+msgstr "Simpan Aturan"
 
 #: package/contents/ui/RulesList.qml:97
-#, fuzzy, kde-format
-#| msgid "&New..."
+#, kde-format
 msgid "Add New..."
-msgstr "&Baru..."
+msgstr "Tambahkan Baru..."
 
 #: package/contents/ui/RulesList.qml:108
-#, fuzzy, kde-format
-#| msgid "&Import"
+#, kde-format
 msgid "Import..."
-msgstr "&Impor"
+msgstr "Impor..."
 
 #: package/contents/ui/RulesList.qml:116
-#, fuzzy, kde-format
-#| msgid "&Export"
+#, kde-format
 msgid "Cancel Export"
-msgstr "&Ekspor"
+msgstr "Batalkan Ekspor"
 
 #: package/contents/ui/RulesList.qml:116
-#, fuzzy, kde-format
-#| msgid "&Export"
+#, kde-format
 msgid "Export..."
-msgstr "&Ekspor"
+msgstr "Ekspor..."
 
 #: package/contents/ui/RulesList.qml:206
 #, kde-format
@@ -378,7 +388,7 @@ msgstr "Edit"
 #: package/contents/ui/RulesList.qml:215
 #, kde-format
 msgid "Duplicate"
-msgstr ""
+msgstr "Duplikat"
 
 #: package/contents/ui/RulesList.qml:224
 #, kde-format
@@ -399,7 +409,7 @@ msgstr "Ekspor Peraturan"
 #, kde-format
 msgctxt "(x, y) coordinates separator in size/position"
 msgid "x"
-msgstr ""
+msgstr "x"
 
 #: rulesmodel.cpp:222
 #, kde-format
@@ -407,10 +417,9 @@ msgid "Settings for %1"
 msgstr "Pengaturan untuk %1"
 
 #: rulesmodel.cpp:225
-#, fuzzy, kde-format
-#| msgid "Window settings for %1"
+#, kde-format
 msgid "New window settings"
-msgstr "Pengesetan window untuk %1"
+msgstr "Pengaturan window baru"
 
 #: rulesmodel.cpp:241
 #, kde-format
@@ -434,112 +443,98 @@ msgid ""
 "initial settings for size and position. To enforce these settings, also "
 "force the property \"%1\" to \"Yes\"."
 msgstr ""
+"Beberapa aplikasi mengatur geometrinya sendiri setelah memulai, "
+"mengesampingkan pengaturan awal kamu untuk ukuran dan posisi. Untuk "
+"menerapkan pengaturan ini, paksa juga properti \"%1\" menjadi \"Ya\"."
 
 #: rulesmodel.cpp:363
-#, fuzzy, kde-format
-#| msgid "&Description:"
+#, kde-format
 msgid "Description"
-msgstr "&Deskripsi:"
+msgstr "Deskripsi"
 
 #: rulesmodel.cpp:363 rulesmodel.cpp:371 rulesmodel.cpp:379 rulesmodel.cpp:386
 #: rulesmodel.cpp:392 rulesmodel.cpp:400 rulesmodel.cpp:405 rulesmodel.cpp:411
-#, fuzzy, kde-format
-#| msgid "&Window matching"
+#, kde-format
 msgid "Window matching"
-msgstr "Kecocokan &window"
+msgstr "Kecocokan window"
 
 #: rulesmodel.cpp:371
-#, fuzzy, kde-format
-#| msgid "Window &class (application):"
+#, kde-format
 msgid "Window class (application)"
-msgstr "Kelas jend&ela (aplikasi):"
+msgstr "Kelas window (aplikasi)"
 
 #: rulesmodel.cpp:379
-#, fuzzy, kde-format
-#| msgid "Match w&hole window class"
+#, kde-format
 msgid "Match whole window class"
-msgstr "Cocokkan seluru&h kelas window"
+msgstr "Cocokkan seluruh kelas window"
 
 #: rulesmodel.cpp:386
-#, fuzzy, kde-format
-#| msgid "Match w&hole window class"
+#, kde-format
 msgid "Whole window class"
-msgstr "Cocokkan seluru&h kelas window"
+msgstr "Seluruh kelas window"
 
 #: rulesmodel.cpp:392
-#, fuzzy, kde-format
-#| msgid "Window &types:"
+#, kde-format
 msgid "Window types"
-msgstr "&Tipe window:"
+msgstr "Tipe window"
 
 #: rulesmodel.cpp:400
-#, fuzzy, kde-format
-#| msgid "Window ro&le:"
+#, kde-format
 msgid "Window role"
-msgstr "Pe&ran window:"
+msgstr "Aturan window"
 
 #: rulesmodel.cpp:405
-#, fuzzy, kde-format
-#| msgid "Window t&itle:"
+#, kde-format
 msgid "Window title"
-msgstr "Judul w&indow:"
+msgstr "Judul window"
 
 #: rulesmodel.cpp:411
-#, fuzzy, kde-format
-#| msgid "&Machine (hostname):"
+#, kde-format
 msgid "Machine (hostname)"
-msgstr "&Mesin (nama host):"
+msgstr "Mesin (nama host)"
 
 #: rulesmodel.cpp:417
-#, fuzzy, kde-format
-#| msgid "&Position"
+#, kde-format
 msgid "Position"
-msgstr "&Posisi"
+msgstr "Posisi"
 
 #: rulesmodel.cpp:417 rulesmodel.cpp:423 rulesmodel.cpp:429 rulesmodel.cpp:434
 #: rulesmodel.cpp:442 rulesmodel.cpp:448 rulesmodel.cpp:464 rulesmodel.cpp:478
 #: rulesmodel.cpp:483 rulesmodel.cpp:488 rulesmodel.cpp:493 rulesmodel.cpp:498
 #: rulesmodel.cpp:505 rulesmodel.cpp:515 rulesmodel.cpp:520 rulesmodel.cpp:525
-#, fuzzy, kde-format
-#| msgid "&Size && Position"
+#, kde-format
 msgid "Size & Position"
-msgstr "&Ukuran && Posisi"
+msgstr "Ukuran & Posisi"
 
 #: rulesmodel.cpp:423
-#, fuzzy, kde-format
-#| msgid "&Size"
+#, kde-format
 msgid "Size"
-msgstr "&Ukuran"
+msgstr "Ukuran"
 
 #: rulesmodel.cpp:429
-#, fuzzy, kde-format
-#| msgid "Maximized &horizontally"
+#, kde-format
 msgid "Maximized horizontally"
-msgstr "Maksimalkan secara &mendatar"
+msgstr "Dimaksimalkan secara mendatar"
 
 #: rulesmodel.cpp:434
-#, fuzzy, kde-format
-#| msgid "Maximized &vertically"
+#, kde-format
 msgid "Maximized vertically"
-msgstr "Maksimalkan secara &menegak"
+msgstr "Dimaksimalkan secara tegak"
 
 #: rulesmodel.cpp:442
-#, fuzzy, kde-format
-#| msgid "All Desktops"
+#, kde-format
 msgid "Virtual Desktop"
-msgstr "Semua Desktop"
+msgstr "Virtual Desktop"
 
 #: rulesmodel.cpp:448
-#, fuzzy, kde-format
-#| msgid "All Desktops"
+#, kde-format
 msgid "Virtual Desktops"
-msgstr "Semua Desktop"
+msgstr "Virtual Desktops"
 
 #: rulesmodel.cpp:464
-#, fuzzy, kde-format
-#| msgid "All Activities"
+#, kde-format
 msgid "Activities"
-msgstr "Semua Activities"
+msgstr "Aktivitas"
 
 #: rulesmodel.cpp:478
 #, kde-format
@@ -547,34 +542,29 @@ msgid "Screen"
 msgstr "Layar"
 
 #: rulesmodel.cpp:483
-#, fuzzy, kde-format
-#| msgid "&Fullscreen"
+#, kde-format
 msgid "Fullscreen"
-msgstr "&Layar Penuh"
+msgstr "Layar penuh"
 
 #: rulesmodel.cpp:488
-#, fuzzy, kde-format
-#| msgid "M&inimized"
+#, kde-format
 msgid "Minimized"
-msgstr "M&inimalkan"
+msgstr "Diminimalkan"
 
 #: rulesmodel.cpp:493
-#, fuzzy, kde-format
-#| msgid "Sh&aded"
+#, kde-format
 msgid "Shaded"
-msgstr "Berti&rai"
+msgstr "Ditiraikan"
 
 #: rulesmodel.cpp:498
-#, fuzzy, kde-format
-#| msgid "Initial p&lacement"
+#, kde-format
 msgid "Initial placement"
-msgstr "P&enempatan awal"
+msgstr "Penempatan inisial"
 
 #: rulesmodel.cpp:505
-#, fuzzy, kde-format
-#| msgid "Ignore requested &geometry"
+#, kde-format
 msgid "Ignore requested geometry"
-msgstr "Abaikan &geometri diminta"
+msgstr "Abaikan geometri yang diminta"
 
 #: rulesmodel.cpp:507
 #, kde-format
@@ -590,16 +580,14 @@ msgstr ""
 "sehingga muncul tiba-tiba di tengah layar anda."
 
 #: rulesmodel.cpp:515
-#, fuzzy, kde-format
-#| msgid "M&inimum size"
+#, kde-format
 msgid "Minimum Size"
-msgstr "Ukuran m&inimum"
+msgstr "Ukuran Minimum"
 
 #: rulesmodel.cpp:520
-#, fuzzy, kde-format
-#| msgid "M&aximum size"
+#, kde-format
 msgid "Maximum Size"
-msgstr "Ukur&an maksimum"
+msgstr "Ukuran Maksimum"
 
 #: rulesmodel.cpp:525
 #, kde-format
@@ -624,25 +612,23 @@ msgstr ""
 #: rulesmodel.cpp:536
 #, kde-format
 msgid "Keep above other windows"
-msgstr ""
+msgstr "Tetap di atas window lainnya"
 
 #: rulesmodel.cpp:536 rulesmodel.cpp:541 rulesmodel.cpp:546 rulesmodel.cpp:552
 #: rulesmodel.cpp:558 rulesmodel.cpp:564
-#, fuzzy, kde-format
-#| msgid "&Arrangement && Access"
+#, kde-format
 msgid "Arrangement & Access"
-msgstr "&Penempatan && Akses"
+msgstr "Penempatan & Akses"
 
 #: rulesmodel.cpp:541
 #, kde-format
 msgid "Keep below other windows"
-msgstr ""
+msgstr "Tetap di bawah window lainnya"
 
 #: rulesmodel.cpp:546
-#, fuzzy, kde-format
-#| msgid "Skip &taskbar"
+#, kde-format
 msgid "Skip taskbar"
-msgstr "Lewati bilah-&tugas"
+msgstr "Lewati bilah-tugas"
 
 #: rulesmodel.cpp:548
 #, kde-format
@@ -650,10 +636,9 @@ msgid "Window shall (not) appear in the taskbar."
 msgstr "Window (tidak) muncul di taskbar."
 
 #: rulesmodel.cpp:552
-#, fuzzy, kde-format
-#| msgid "Skip pa&ger"
+#, kde-format
 msgid "Skip pager"
-msgstr "Lewati pe&mbatas"
+msgstr "Lewati pemisah"
 
 #: rulesmodel.cpp:554
 #, kde-format
@@ -661,10 +646,9 @@ msgid "Window shall (not) appear in the manager for virtual desktops"
 msgstr "Window (jangan) tampil di pengelola untuk desktop virtual"
 
 #: rulesmodel.cpp:558
-#, fuzzy, kde-format
-#| msgid "Skip &switcher"
+#, kde-format
 msgid "Skip switcher"
-msgstr "Lewati peng&alih"
+msgstr "Lewati pengalih"
 
 #: rulesmodel.cpp:560
 #, kde-format
@@ -677,42 +661,36 @@ msgid "Shortcut"
 msgstr "Pintasan"
 
 #: rulesmodel.cpp:570
-#, fuzzy, kde-format
-#| msgid "&No titlebar and frame"
+#, kde-format
 msgid "No titlebar and frame"
-msgstr "&Tak ada bilah judul dan bingkai"
+msgstr "Tanpa bilah-judul dan kerangka"
 
 #: rulesmodel.cpp:570 rulesmodel.cpp:575 rulesmodel.cpp:581 rulesmodel.cpp:586
 #: rulesmodel.cpp:591 rulesmodel.cpp:602 rulesmodel.cpp:613 rulesmodel.cpp:621
 #: rulesmodel.cpp:634 rulesmodel.cpp:639 rulesmodel.cpp:645 rulesmodel.cpp:650
-#, fuzzy, kde-format
-#| msgid "Appearance && &Fixes"
+#, kde-format
 msgid "Appearance & Fixes"
-msgstr "Penampilan && &Perbaikan"
+msgstr "Penampilan & Perbaikan"
 
 #: rulesmodel.cpp:575
-#, fuzzy, kde-format
-#| msgid "Titlebar color &scheme"
+#, kde-format
 msgid "Titlebar color scheme"
-msgstr "&Skema warna titlebar"
+msgstr "Skema warna titlebar"
 
 #: rulesmodel.cpp:581
-#, fuzzy, kde-format
-#| msgid "A&ctive opacity"
+#, kde-format
 msgid "Active opacity"
-msgstr "Opasitas akti&f"
+msgstr "Opasitas aktif"
 
 #: rulesmodel.cpp:586
-#, fuzzy, kde-format
-#| msgid "I&nactive opacity"
+#, kde-format
 msgid "Inactive opacity"
-msgstr "Opasitas tida&k aktif"
+msgstr "Opasitas tak-aktif"
 
 #: rulesmodel.cpp:591
-#, fuzzy, kde-format
-#| msgid "&Focus stealing prevention"
+#, kde-format
 msgid "Focus stealing prevention"
-msgstr "Pen&cegahan mencuri fokus"
+msgstr "Pencegahan pencurian fokus"
 
 #: rulesmodel.cpp:593
 #, kde-format
@@ -750,10 +728,9 @@ msgstr ""
 "terhadap window yang ingin fokus."
 
 #: rulesmodel.cpp:613
-#, fuzzy, kde-format
-#| msgid "Accept &focus"
+#, kde-format
 msgid "Accept focus"
-msgstr "Setujui &fokus"
+msgstr "Terima fokus"
 
 #: rulesmodel.cpp:615
 #, kde-format
@@ -793,16 +770,14 @@ msgstr ""
 "menampilkan KRunner) ketika ini aktif!"
 
 #: rulesmodel.cpp:634
-#, fuzzy, kde-format
-#| msgid "&Closeable"
+#, kde-format
 msgid "Closeable"
-msgstr "Dapat &ditutup"
+msgstr "Bisa ditutup"
 
 #: rulesmodel.cpp:639
-#, fuzzy, kde-format
-#| msgid "Window &type"
+#, kde-format
 msgid "Set window type"
-msgstr "T&ipe window"
+msgstr "Atur tipe window"
 
 #: rulesmodel.cpp:645
 #, kde-format
@@ -863,7 +838,7 @@ msgstr "Bilah Menu Tersendiri"
 #: rulesmodel.cpp:738
 #, kde-format
 msgid "On Screen Display"
-msgstr ""
+msgstr "Berada Di Layar (OSD)"
 
 #: rulesmodel.cpp:745
 #, kde-format
@@ -926,9 +901,7 @@ msgid "On Main Window"
 msgstr "Di Window Utama"
 
 #: rulesmodel.cpp:802
-#, fuzzy, kde-format
-#| msgctxt "no focus stealing prevention"
-#| msgid "None"
+#, kde-format
 msgid "None"
 msgstr "Nihil"
 
@@ -955,4 +928,4 @@ msgstr "Ekstrem"
 #: rulesmodel.cpp:852
 #, kde-format
 msgid "Could not detect window properties. The window is not managed by KWin."
-msgstr ""
+msgstr "Tidak bisa mendeteksi window. Window tidaklah dikelola oleh KWin."

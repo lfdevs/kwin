@@ -1,16 +1,16 @@
 # Translation of kwin_effects.po to Catalan (Valencian)
-# Copyright (C) 2007-2021 This_file_is_part_of_KDE
+# Copyright (C) 2007-2022 This_file_is_part_of_KDE
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
 #
-# Josep M. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2018, 2019, 2020, 2021.
+# Josep M. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2018, 2019, 2020, 2021, 2022.
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2014, 2015, 2016, 2018, 2019, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-02-18 02:17+0000\n"
-"PO-Revision-Date: 2021-10-22 10:05+0200\n"
+"POT-Creation-Date: 2022-03-09 02:12+0000\n"
+"PO-Revision-Date: 2022-02-15 10:20+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -67,7 +67,7 @@ msgstr ""
 "la tecla de retorn.\n"
 "La tecla d'escapada o clic dret per a cancel·lar."
 
-#: desktopgrid/desktopgrid.cpp:109 desktopgrid/desktopgrid_config.cpp:55
+#: desktopgrid/desktopgrid.cpp:116 desktopgrid/desktopgrid_config.cpp:55
 #, kde-format
 msgid "Show Desktop Grid"
 msgstr "Mostra la quadrícula de l'escriptori"
@@ -159,7 +159,7 @@ msgstr "Aparença"
 #: desktopgrid/desktopgrid_config.ui:23
 #, kde-format
 msgid "Zoom &duration:"
-msgstr "&Durada del zoom:"
+msgstr "&Duració del zoom:"
 
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_ZoomDuration)
 #: desktopgrid/desktopgrid_config.ui:42
@@ -266,7 +266,7 @@ msgstr "Enfosquiment:"
 #: diminactive/diminactive_config.ui:47
 #, kde-format
 msgid "Docks and panels"
-msgstr "Acobladors i plafons"
+msgstr "Acobladors i quadres"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimDesktop)
 #: diminactive/diminactive_config.ui:54
@@ -278,7 +278,7 @@ msgstr "Escriptori"
 #: diminactive/diminactive_config.ui:61
 #, kde-format
 msgid "Keep above windows"
-msgstr "Mantén les finestres damunt"
+msgstr "Mantín les finestres damunt"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimByGroup)
 #: diminactive/diminactive_config.ui:68
@@ -297,7 +297,7 @@ msgstr "Finestres a pantalla completa"
 #: slide/slide_config.ui:19
 #, kde-format
 msgid "Duration:"
-msgstr "Durada:"
+msgstr "Duració:"
 
 #. i18n: Duration of the slide animation.
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
@@ -374,7 +374,7 @@ msgstr "&Radi:"
 #: magiclamp/magiclamp_config.ui:17
 #, kde-format
 msgid "Animation duration:"
-msgstr "Durada de l'animació:"
+msgstr "Duració de l'animació:"
 
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_AnimationDuration)
 #: magiclamp/magiclamp_config.ui:36
@@ -506,7 +506,7 @@ msgstr " ms"
 #: mouseclick/mouseclick_config.ui:145
 #, kde-format
 msgid "Ring Duration:"
-msgstr "Durada del cèrcol:"
+msgstr "Duració del cèrcol:"
 
 #. i18n: ectx: property (text), widget (QLabel, ring_radius_label)
 #: mouseclick/mouseclick_config.ui:155
@@ -616,18 +616,17 @@ msgstr "Difumina el fons:"
 #: overview/qml/DesktopBar.qml:188
 #, kde-format
 msgid "Delete virtual desktop"
-msgstr ""
+msgstr "Suprimeix l'escriptori virtual"
 
 #: overview/qml/DesktopBar.qml:278
-#, fuzzy, kde-format
-#| msgid "Desktop"
+#, kde-format
 msgid "Add Desktop"
-msgstr "Escriptori"
+msgstr "Afig un escriptori"
 
 #: overview/qml/ScreenView.qml:119
 #, kde-format
 msgid "Search..."
-msgstr ""
+msgstr "Busca..."
 
 #: presentwindows/presentwindows.cpp:71
 #: presentwindows/presentwindows_config.cpp:60
@@ -826,7 +825,7 @@ msgstr "Ignora les finestres &minimitzades"
 #: presentwindows/presentwindows_config.ui:427
 #, kde-format
 msgid "Show &panels"
-msgstr "Mostra els &plafons"
+msgstr "Mostra els &quadres"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
 #: presentwindows/presentwindows_config.ui:446
@@ -850,7 +849,7 @@ msgstr "Proporciona botons per a tancar les finestres"
 #: scale/package/contents/ui/config.ui:46
 #, kde-format
 msgid "Window open scale:"
-msgstr "Escala en obrir la finestra:"
+msgstr "Escala en obri la finestra:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_OutScale)
 #: scale/package/contents/ui/config.ui:53
@@ -894,7 +893,7 @@ msgstr ""
 #: showfps/showfps.cpp:50
 #, kde-format
 msgid "This effect is not a benchmark"
-msgstr "Aquest efecte no és cap prova de referència"
+msgstr "Este efecte no és cap prova de referència"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: showfps/showfps_config.ui:23
@@ -1001,7 +1000,7 @@ msgstr "Commuta la miniatura per a la finestra actual"
 #: thumbnailaside/thumbnailaside_config.ui:23
 #, kde-format
 msgid "Maximum &width:"
-msgstr "A&mplada màxima:"
+msgstr "Amp&lària màxima:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: thumbnailaside/thumbnailaside_config.ui:36
@@ -1288,8 +1287,8 @@ msgid ""
 "Enable tracking of the focused location. This needs QAccessible to be "
 "enabled per application (\"export QT_LINUX_ACCESSIBILITY_ALWAYS_ON=1\")."
 msgstr ""
-"Activa el seguiment de la ubicació enfocada. Això necessita que l'aplicació "
-"active «QAccessible» («export QT_LINUX_ACCESSIBILITY_ALWAYS_ON=1»)."
+"Activa el seguiment de la ubicació enfocada. Açò necessita que l'aplicació "
+"activi «QAccessible» («export QT_LINUX_ACCESSIBILITY_ALWAYS_ON=1»)."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_EnableFocusTracking)
 #: zoom/zoom_config.ui:69
@@ -1304,8 +1303,8 @@ msgid ""
 "Enable tracking of the text cursor. This needs QAccessible to be enabled per "
 "application (\"export QT_LINUX_ACCESSIBILITY_ALWAYS_ON=1\")."
 msgstr ""
-"Activa el seguiment del cursor de text. Això necessita que l'aplicació "
-"active «QAccessible» («export QT_LINUX_ACCESSIBILITY_ALWAYS_ON=1»)."
+"Activa el seguiment del cursor de text. Açò necessita que l'aplicació activi "
+"«QAccessible» («export QT_LINUX_ACCESSIBILITY_ALWAYS_ON=1»)."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_EnableTextCaretTracking)
 #: zoom/zoom_config.ui:79
@@ -1335,7 +1334,7 @@ msgstr "Escala"
 #: zoom/zoom_config.ui:108
 #, kde-format
 msgid "Keep"
-msgstr "Mantén"
+msgstr "Mantín"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MousePointer)
 #: zoom/zoom_config.ui:113

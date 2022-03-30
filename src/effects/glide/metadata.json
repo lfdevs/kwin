@@ -12,6 +12,7 @@
         "Description[fr]": "Faire glisser les fenêtres lorsqu'elles apparaissent ou disparaissent",
         "Description[hu]": "Be- és kicsúsztatja az ablakokat ahogy azok megjelennek vagy eltűnnek",
         "Description[ia]": "Glissa fenestras quando illes appare e disappare",
+        "Description[id]": "Window berkisi sebagaimana ia muncul atau menghilang",
         "Description[it]": "Planata delle finestre quando appaiono o scompaiono",
         "Description[ko]": "창이 나타나거나 사라질 때 미끄러짐 효과 사용하기",
         "Description[nl]": "Vensters laten glijden als ze verschijnen of verdwijnen",
@@ -22,6 +23,7 @@
         "Description[sk]": "Kĺzať okná ako sa objavujú alebo miznú",
         "Description[sl]": "Okna drsijo, ko se pojavijo ali izginejo",
         "Description[sv]": "Glid fönster när de visas eller försvinner",
+        "Description[tr]": "Pencereleri görünürken veya kaybolurken süzülmelerini sağla",
         "Description[uk]": "Ковзання вікон при появі або зникненні",
         "Description[x-test]": "xxGlide windows as they appear or disappearxx",
         "Description[zh_CN]": "窗口显示/隐藏时呈现滑翔过渡动效",
@@ -51,6 +53,7 @@
         "Name[sk]": "Kĺzať",
         "Name[sl]": "Drsanje",
         "Name[sv]": "Glid",
+        "Name[tr]": "Süzül",
         "Name[uk]": "Плин",
         "Name[x-test]": "xxGlidexx",
         "Name[zh_CN]": "滑翔动效"

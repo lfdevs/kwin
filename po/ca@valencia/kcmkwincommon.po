@@ -77,7 +77,7 @@ msgstr "Gestió de les finestres"
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Open/Close Animation"
-msgstr "Animació en obrir/tancar la finestra"
+msgstr "Animació en obri/tancar la finestra"
 
 #: effectsmodel.cpp:244
 #, kde-format

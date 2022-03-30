@@ -59,7 +59,7 @@ msgstr "Gestor d'activitats"
 #: main.cpp:123 touch.cpp:121
 #, kde-format
 msgid "Application Launcher"
-msgstr "Llançador d'aplicacions"
+msgstr "Iniciador d'aplicacions"
 
 #: main.cpp:127 touch.cpp:125
 #, kde-format

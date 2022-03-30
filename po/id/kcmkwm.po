@@ -2,22 +2,22 @@
 # Copyright (C) 2010 This_file_is_part_of_KDE
 # This file is distributed under the same license as the kcmkwm package.
 # Andhika Padmawan <andhika.padmawan@gmail.com>, 2010-2014.
-# Wantoyo <wantoyek@gmail.com>, 2017, 2018, 2019, 2020.
+# Wantoyo <wantoyek@gmail.com>, 2017, 2018, 2019, 2020, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-01-14 02:21+0000\n"
-"PO-Revision-Date: 2020-05-03 09:56+0700\n"
-"Last-Translator: Wantoyo <wantoyek@gmail.com>\n"
+"PO-Revision-Date: 2022-03-11 19:38+0700\n"
+"Last-Translator: Wantoyek <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 19.12.1\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -593,6 +593,9 @@ msgid ""
 "windows are allowed to do so. This will override the window placement mode "
 "defined above."
 msgstr ""
+"Ketika dinyalakan, aplikasi yang bisa mengingat posisi window-nya diizinkan "
+"untuk melakukannya. Ini akan menimpa mode penempatan jendela yang ditentukan "
+"di atas."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
 #: advanced.ui:121
@@ -600,6 +603,7 @@ msgstr ""
 msgid ""
 "Allow apps to remember the positions of their own windows, if they support it"
 msgstr ""
+"Izinkan aplikasi untuk mengingat posisi window-nya, jika itu mendukungnya"
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
 #: advanced.ui:128
@@ -865,23 +869,15 @@ msgstr "Perilaku multilayar:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ActiveMouseScreen)
 #: focus.ui:203
-#, fuzzy, kde-format
-#| msgid ""
-#| "When this option is enabled, the active Xinerama screen (where new "
-#| "windows appear, for example) is the screen containing the mouse pointer. "
-#| "When disabled, the active Xinerama screen is the screen containing the "
-#| "focused window. By default this option is disabled for Click to focus and "
-#| "enabled for other focus policies."
+#, kde-format
 msgid ""
 "When this option is enabled, the active screen (where new windows appear, "
 "for example) is the screen containing the mouse pointer. When disabled, the "
 "active screen is the screen containing the focused window."
 msgstr ""
-"Jika opsi ini difungsikan, layar Xinerama aktif (tempat window baru muncul, "
-"misalnya) adalah layar yang berisi penunjuk mouse. Ketika dinonfungsikan, "
-"layar Xinerama aktif adalah layar yang berisi window terfokus. Secara baku "
-"opsi ini dinonfungsikan untuk Klik untuk fokus dan difungsikan untuk "
-"kebijakan fokus lainnya."
+"Ketika opsi ini difungsikan, layar yang aktif (di mana window baru muncul, "
+"misalnya) adalah layar yang mengandung mouse pointer. Ketika dinonfungsikan, "
+"layar yang aktif adalah layar yang mengandung window terfokus."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ActiveMouseScreen)
 #: focus.ui:206
@@ -891,16 +887,12 @@ msgstr "Layar aktif &mengikuti mouse"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SeparateScreenFocus)
 #: focus.ui:213
-#, fuzzy, kde-format
-#| msgid ""
-#| "When this option is enabled, focus operations are limited only to the "
-#| "active Xinerama screen"
+#, kde-format
 msgid ""
 "When this option is enabled, focus operations are limited only to the active "
 "screen"
 msgstr ""
-"Jika opsi ini difungsikan, operasi fokus hanya terbatas ke layar Xinerama "
-"aktif."
+"Ketika opsi ini difungsikan, operasi fokus dibatasi hanya ke layar yang aktif"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SeparateScreenFocus)
 #: focus.ui:216
@@ -1059,7 +1051,7 @@ msgstr "Maksimalkan"
 #: mouse.ui:45 mouse.ui:620 mouse.ui:655 mouse.ui:690
 #, kde-format
 msgid "Vertically maximize"
-msgstr ""
+msgstr "Maksimalkan secara tegak"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TitlebarDoubleClickCommand)
@@ -1069,7 +1061,7 @@ msgstr ""
 #: mouse.ui:50 mouse.ui:625 mouse.ui:660 mouse.ui:695
 #, kde-format
 msgid "Horizontally maximize"
-msgstr ""
+msgstr "Maksimalkan secara mendatar"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TitlebarDoubleClickCommand)

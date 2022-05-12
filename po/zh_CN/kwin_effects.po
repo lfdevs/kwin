@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-03-09 02:12+0000\n"
-"PO-Revision-Date: 2022-03-16 15:50\n"
+"PO-Revision-Date: 2022-04-26 15:33\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -1318,13 +1318,13 @@ msgstr "启用文本光标跟踪"
 #: zoom/zoom_config.ui:86
 #, kde-format
 msgid "Mouse Pointer:"
-msgstr "鼠标指针："
+msgstr "鼠标光标："
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_MousePointer)
 #: zoom/zoom_config.ui:99
 #, kde-format
 msgid "Visibility of the mouse-pointer."
-msgstr "鼠标指针的显示方式。"
+msgstr "鼠标光标的显示方式。"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MousePointer)
 #: zoom/zoom_config.ui:103

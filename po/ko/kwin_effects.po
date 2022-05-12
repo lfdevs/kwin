@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-03-09 02:12+0000\n"
-"PO-Revision-Date: 2022-02-20 21:29+0100\n"
+"PO-Revision-Date: 2022-04-16 00:38+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -61,7 +61,7 @@ msgid ""
 "Escape or right click to cancel."
 msgstr ""
 "왼쪽 단추를 누르거나 Enter 키를 눌러서 색상을 가져올 지점을 선택합니다.\n"
-"Esc 키나 오른쪽 단추를 누르면 취소합니다."
+"Esc 키나 오른쪽 단추를 클릭하면 취소합니다."
 
 #: desktopgrid/desktopgrid.cpp:116 desktopgrid/desktopgrid_config.cpp:55
 #, kde-format
@@ -869,7 +869,7 @@ msgid ""
 "Escape or right click to cancel."
 msgstr ""
 "왼쪽 단추를 누르거나 Enter 키를 눌러서 스크린샷을 찍을 창을 선택합니다.\n"
-"Esc 키나 오른쪽 단추를 누르면 취소합니다."
+"Esc 키나 오른쪽 단추를 클릭하면 취소합니다."
 
 #: screenshot/screenshotdbusinterface1.cpp:791
 #: screenshot/screenshotdbusinterface2.cpp:489
@@ -878,8 +878,8 @@ msgid ""
 "Create screen shot with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
-"왼쪽 단추를 누르거나 Enter 키를 누르면 스크린샷을 찍습니다.\n"
-"Esc 키나 오른쪽 단추를 누르면 취소합니다."
+"왼쪽 단추를 누르거나 Enter 키를 클릭하면 스크린샷을 찍습니다.\n"
+"Esc 키나 오른쪽 단추를 클릭하면 취소합니다."
 
 #: showfps/showfps.cpp:50
 #, kde-format

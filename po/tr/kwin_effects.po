@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-03-09 02:12+0000\n"
-"PO-Revision-Date: 2022-03-19 20:44+0300\n"
+"PO-Revision-Date: 2022-04-21 11:03+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -74,7 +74,7 @@ msgstr ""
 #: desktopgrid/desktopgrid.cpp:116 desktopgrid/desktopgrid_config.cpp:55
 #, kde-format
 msgid "Show Desktop Grid"
-msgstr "Masaüstü Kılavuzunu Göster"
+msgstr "Masaüstü Izgarasını Göster"
 
 #: desktopgrid/desktopgrid_config.cpp:50 invert/invert_config.cpp:36
 #: lookingglass/lookingglass_config.cpp:56 magnifier/magnifier_config.cpp:56
@@ -407,7 +407,7 @@ msgstr "&Genişlik:"
 #: magnifier/magnifier_config.ui:42 magnifier/magnifier_config.ui:74
 #, kde-format
 msgid " px"
-msgstr " px"
+msgstr " pks"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: magnifier/magnifier_config.ui:55
@@ -894,7 +894,7 @@ msgstr ""
 #: showfps/showfps.cpp:50
 #, kde-format
 msgid "This effect is not a benchmark"
-msgstr "Bu efekt bir kıyaslama değildir"
+msgstr "Bu efekt bir karşılaştırma değildir"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: showfps/showfps_config.ui:23
@@ -1080,13 +1080,13 @@ msgstr "Meta"
 #: translucency/package/contents/ui/config.ui:14
 #, kde-format
 msgid "Translucency"
-msgstr "Şeffaflık"
+msgstr "Yarı Saydamlık"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_opacityGroupBox)
 #: translucency/package/contents/ui/config.ui:20
 #, kde-format
 msgid "General Translucency Settings"
-msgstr "Genel Şeffaflık Ayarları"
+msgstr "Genel Yarı Saydamlık Ayarları"
 
 #. i18n: ectx: property (text), widget (QLabel, comboboxpopup_label)
 #: translucency/package/contents/ui/config.ui:64
@@ -1114,7 +1114,7 @@ msgstr "Pencereler:"
 #: translucency/package/contents/ui/config.ui:418
 #, kde-format
 msgid "Transparent"
-msgstr "Şeffaf"
+msgstr "Saydam"
 
 #. i18n: ectx: property (text), widget (QLabel, menus_label)
 #: translucency/package/contents/ui/config.ui:188
@@ -1138,7 +1138,7 @@ msgstr "Etkin olmayan pencereler:"
 #: translucency/package/contents/ui/config.ui:267
 #, kde-format
 msgid "Set menu translucency independently"
-msgstr "Menü şeffaflığını bağımsız olarak ayarla"
+msgstr "Menü saydamlığını bağımsız olarak ayarla"
 
 #. i18n: ectx: property (text), widget (QLabel, dropdownmenus_label)
 #: translucency/package/contents/ui/config.ui:285

@@ -1,14 +1,14 @@
 # Translation of kcmkwinrules to Korean.
 # Copyright (C) 2007-2008 This_file_is_part_of_KDE
 # This file is distributed under the same license as the kdebase package.
-# Shinjo Park <kde@peremen.name>, 2007, 2008, 2009, 2010, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021.
+# Shinjo Park <kde@peremen.name>, 2007, 2008, 2009, 2010, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-01-14 02:21+0000\n"
-"PO-Revision-Date: 2021-11-12 00:51+0100\n"
+"PO-Revision-Date: 2022-04-16 23:07+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -244,8 +244,8 @@ msgid ""
 "Click the <interface>Add Property...</interface> button below to add some "
 "window properties that will be affected by the rule"
 msgstr ""
-"아래의 <interface>속성 추가...</interface> 단추를 눌러서 규칙에 영향을 받을 "
-"창 속성을 추가하십시오"
+"아래의 <interface>속성 추가...</interface> 단추를 클릭해서 규칙에 영향을 받"
+"을 창 속성을 추가하십시오"
 
 #: package/contents/ui/RulesEditor.qml:85
 #, kde-format
@@ -725,8 +725,8 @@ msgid ""
 "On the other hand you might wish to prevent a window\n"
 "from getting focused on a mouse click."
 msgstr ""
-"특정한 창은 마우스를 눌러도 초점을 받지 않을 수 있습니다.\n"
-"또한, 특정한 창에서 마우스를 눌러도 초점을 받지 않도록\n"
+"특정한 창은 마우스를 클릭해도 초점을 받지 않을 수 있습니다.\n"
+"또한, 특정한 창에서 마우스를 클릭해도 초점을 받지 않도록\n"
 "설정할 수도 있습니다."
 
 #: rulesmodel.cpp:621

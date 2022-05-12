@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-03-09 02:12+0000\n"
-"PO-Revision-Date: 2022-02-21 18:41+0100\n"
+"PO-Revision-Date: 2022-04-07 19:43+0200\n"
 "Last-Translator: Phu Hung Nguyen <phu.nguyen@kdemail.net>\n"
 "Language-Team: Vietnamese <kde-l10n-vi@kde.org>\n"
 "Language: vi\n"
@@ -885,7 +885,7 @@ msgstr ""
 #: showfps/showfps.cpp:50
 #, kde-format
 msgid "This effect is not a benchmark"
-msgstr "Hiệu ứng này không phải là một điểm chuẩn"
+msgstr "Hiệu ứng này không phải là một sự chuẩn kiểm"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: showfps/showfps_config.ui:23

@@ -15,6 +15,7 @@
 #include "inputpanelv1integration.h"
 #include "keyboard_input.h"
 #include "screens.h"
+#include "scene.h"
 #include "layershellv1integration.h"
 #include "main.h"
 #include "xdgshellintegration.h"
@@ -213,10 +214,6 @@ KWaylandServer::ClientConnection *WaylandServer::inputMethodConnection() const
 
 void WaylandServer::registerShellClient(AbstractClient *client)
 {
-    if (client->isLockScreen()) {
-        ScreenLocker::KSldApp::self()->lockScreenShown();
-    }
-
     if (client->readyForPainting()) {
         Q_EMIT shellClientAdded(client);
     } else {
@@ -607,11 +604,14 @@ void WaylandServer::initScreenLocker()
             }
             ScreenLocker::KSldApp::self()->setWaylandFd(clientFd);
 
+            new LockScreenPresentationWatcher(this);
+
             const QVector<SeatInterface *> seatIfaces = m_display->seats();
             for (auto *seat : seatIfaces) {
                 connect(seat, &KWaylandServer::SeatInterface::timestampChanged,
                         screenLockerApp, &ScreenLocker::KSldApp::userActivity);
             }
+            Compositor::self()->scene()->addRepaintFull();
         }
     );
 
@@ -629,6 +629,7 @@ void WaylandServer::initScreenLocker()
                            screenLockerApp, &ScreenLocker::KSldApp::userActivity);
             }
             ScreenLocker::KSldApp::self()->setWaylandFd(-1);
+            Compositor::self()->scene()->addRepaintFull();
         }
     );
 
@@ -797,4 +798,23 @@ QString WaylandServer::socketName() const
     return QString();
 }
 
+WaylandServer::LockScreenPresentationWatcher::LockScreenPresentationWatcher(WaylandServer *server)
+{
+    connect(server, &WaylandServer::shellClientAdded, this, [this](AbstractClient *client) {
+        if (client->isLockScreen()) {
+            connect(client->output()->renderLoop(), &RenderLoop::framePresented, this, [this, client]() {
+                // only signal lockScreenShown once all outputs have been presented at least once
+                m_signaledOutputs << client->output();
+                if (m_signaledOutputs.size() == kwinApp()->platform()->enabledOutputs().size()) {
+                    ScreenLocker::KSldApp::self()->lockScreenShown();
+                    delete this;
+                }
+            });
+        }
+    });
+    QTimer::singleShot(1000, this, [this]() {
+        ScreenLocker::KSldApp::self()->lockScreenShown();
+        delete this;
+    });
+}
 }

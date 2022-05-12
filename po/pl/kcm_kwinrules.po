@@ -2,13 +2,13 @@
 # Mikolaj Machowski <mikmach@wp.pl>, 2004, 2005, 2007, 2010.
 # Krzysztof Lichota <lichota@mimuw.edu.pl>, 2005, 2006.
 # Marta Rybczyńska <kde-i18n@rybczynska.net>, 2008, 2010, 2013.
-# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2011, 2012, 2013, 2014, 2015, 2017, 2018, 2019, 2020, 2021.
+# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2011, 2012, 2013, 2014, 2015, 2017, 2018, 2019, 2020, 2021, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-01-14 02:21+0000\n"
-"PO-Revision-Date: 2021-11-28 08:00+0100\n"
+"PO-Revision-Date: 2022-04-25 20:18+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -118,7 +118,7 @@ msgstr "Jest równe"
 #: optionsmodel.cpp:147
 #, kde-format
 msgid "Substring Match"
-msgstr "Zawiera"
+msgstr "Podciąg jest równy"
 
 #: optionsmodel.cpp:148
 #, kde-format
@@ -451,7 +451,7 @@ msgstr "Opis"
 #: rulesmodel.cpp:392 rulesmodel.cpp:400 rulesmodel.cpp:405 rulesmodel.cpp:411
 #, kde-format
 msgid "Window matching"
-msgstr "Dopasowywanie okna"
+msgstr "Rozpoznaj po oknie"
 
 #: rulesmodel.cpp:371
 #, kde-format
@@ -461,7 +461,7 @@ msgstr "Klasa okna (aplikacja)"
 #: rulesmodel.cpp:379
 #, kde-format
 msgid "Match whole window class"
-msgstr "Dopasuj do całej klasy okna"
+msgstr "Rozpoznaj po całej klasie okna"
 
 #: rulesmodel.cpp:386
 #, kde-format

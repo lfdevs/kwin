@@ -426,7 +426,7 @@ msgstr "Maximitza/restaura"
 #: actions.ui:490 mouse.ui:117
 #, kde-format
 msgid "Keep above/below"
-msgstr "Mantín damunt/a davall"
+msgstr "Mantín damunt/davall"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandTitlebarWheel)
@@ -457,8 +457,8 @@ msgid ""
 "some time.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Si el desplegat automàtic està activat, una finestra "
-"plegada es desplegarà automàticament quan l'apuntador del ratolí estiga "
-"damunt de la barra de títol durant un temps</p></body></html>"
+"plegada es desplegarà automàticament quan el punter del ratolí estiga damunt "
+"de la barra de títol durant un temps</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShadeHover)
 #: advanced.ui:35
@@ -473,8 +473,8 @@ msgid ""
 "Sets the time in milliseconds before the window unshades when the mouse "
 "pointer goes over the shaded window."
 msgstr ""
-"Estableix el temps en mil·lisegons abans que la finestra es desplegui si "
-"l'apuntador del ratolí està per damunt de la finestra plegada."
+"Estableix el temps en mil·lisegons abans que la finestra es desplegui si el "
+"punter del ratolí està per damunt de la finestra plegada."
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_DelayFocusInterval)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_AutoRaiseInterval)
@@ -543,10 +543,10 @@ msgstr ""
 "\">Centrada</span> col·locarà la finestra centrada</li><li style=\" margin-"
 "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
 "indent:0; text-indent:0px;\"><span style=\" font-style:italic;\">Arraconada</"
-"span> col·locarà la finestra a la cantonada superior esquerra</li><li style="
-"\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -"
-"qt-block-indent:0; text-indent:0px;\"><span style=\" font-style:italic;"
-"\">Davall el ratolí</span> col·locarà la finestra davall l'apuntador</li></"
+"span> col·locarà la finestra en el cantó superior esquerre</li><li style=\" "
+"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-style:italic;"
+"\">Davall el ratolí</span> col·locarà la finestra davall el punter</li></"
 "ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_Placement)
@@ -583,7 +583,7 @@ msgstr "Centrada"
 #: advanced.ui:105
 #, kde-format
 msgid "In Top-Left Corner"
-msgstr "A la cantonada superior esquerra"
+msgstr "En el cantó superior esquerre"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_Placement)
 #: advanced.ui:110
@@ -702,7 +702,7 @@ msgid ""
 "automatically receive focus."
 msgstr ""
 "Este és el retard després del qual rebrà automàticament el focus la finestra "
-"damunt de la qual hi ha l'apuntador del ratolí."
+"damunt de la qual hi ha el punter del ratolí."
 
 #. i18n: ectx: property (text), widget (QLabel, focusStealingLabel)
 #: focus.ui:101
@@ -745,7 +745,7 @@ msgid ""
 "by default means their taskbar entry will be highlighted. This can be "
 "changed in the Notifications control module.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Esta opció especifica quan el KWin provarà d'evitar un "
+"<html><head/><body><p>Esta opció especifica quan KWin provarà d'evitar un "
 "robatori de focus no desitjat causat per una activació inesperada de "
 "finestres noves. (Nota: Esta característica no funciona amb les polítiques "
 "<span style=\" font-style:italic;\">Focus davall el ratolí</span> o <span "
@@ -758,7 +758,7 @@ msgstr ""
 "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
 "indent:0; text-indent:0px;\"><span style=\" font-style:italic;\">Baixa:</"
 "span> La prevenció està activada; quan una finestra determinada no admet el "
-"mecanisme subjacent i el KWin no pot decidir de manera fiable si activar la "
+"mecanisme subjacent i KWin no pot decidir de manera fiable si activar la "
 "finestra o no, s'activarà. Este valor pot empitjorar o millorar els "
 "resultats del nivell mitjà, depenent de les aplicacions.</li><li style=\" "
 "margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
@@ -767,14 +767,14 @@ msgstr ""
 "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
 "indent:0; text-indent:0px;\"><span style=\" font-style:italic;\">Alta:</"
 "span> Les finestres noves s'activen només si no hi ha cap finestra activa "
-"actualment o si pertanyen a l'aplicació activa. Este arranjament "
+"actualment o si pertanyen a l'aplicació activa. Esta configuració "
 "probablement no és realment usable si no s'usa la política de focus al "
 "ratolí.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\" font-style:italic;\">Extrema:</span> Totes les finestres s'han "
 "d'activar explícitament per l'usuari.</li></ul><p>Les finestres a les quals "
 "s'impedeix que robin el focus es marquen com a sol·licitants d'atenció, el "
-"que significa que, per omissió, la seua entrada a la barra de tasques es "
+"que significa que, per defecte, la seua entrada a la barra de tasques es "
 "ressaltarà. Açò es pot canviar al mòdul de control de Notificacions.</p></"
 "body></html>"
 
@@ -832,7 +832,8 @@ msgid ""
 msgstr ""
 "Quan s'activa esta opció, la finestra activa es passarà a primer pla quan "
 "cliqueu en qualsevol lloc del contingut de la finestra. Per a canviar-ho per "
-"a finestres inactives, heu de canviar l'arranjament de la pestanya d'accions."
+"a finestres inactives, heu de canviar la configuració de la pestanya "
+"d'accions."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ClickRaise)
 #: focus.ui:156
@@ -848,7 +849,7 @@ msgid ""
 "come to the front when the mouse pointer has been over it for some time."
 msgstr ""
 "Quan esta opció està activada, una finestra del fons passarà a primer pla "
-"automàticament quan l'apuntador del ratolí hi estiga damunt durant un temps."
+"automàticament quan el punter del ratolí hi estiga damunt durant un temps."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoRaise)
 #: focus.ui:168
@@ -945,7 +946,7 @@ msgstr "Mòdul de configuració del comportament de les finestres"
 #: main.cpp:103
 #, kde-format
 msgid "(c) 1997 - 2002 KWin and KControl Authors"
-msgstr "(c) 1997 - 2002 autors del KWin i KControl"
+msgstr "(c) 1997 - 2002 autors de KWin i KControl"
 
 #: main.cpp:105
 #, kde-format
@@ -1220,7 +1221,7 @@ msgid ""
 "magnetic field which will make windows snap to the border when moved near it."
 msgstr ""
 "Ací podeu establir la zona d'atracció per a les vores de la pantalla, la "
-"«força» del camp magnètic que fa que les finestres s'enganxin a la vora quan "
+"«força» del camp magnètic que fa que les finestres s'apeguen a la vora quan "
 "es mouen a prop."
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_BorderSnapZone)
@@ -1246,8 +1247,8 @@ msgid ""
 "moved near another window."
 msgstr ""
 "Ací podeu establir la zona d'atracció per a les finestres, la «força» del "
-"camp magnètic que fa que les finestres s'enganxin entre elles quan es mouen "
-"a prop d'una altra finestra."
+"camp magnètic que fa que les finestres s'apeguen entre elles quan es mouen a "
+"prop d'una atra finestra."
 
 #. i18n: ectx: property (text), widget (QLabel, centerSnaplabel)
 #: moving.ui:84
@@ -1264,14 +1265,14 @@ msgid ""
 "when moved near it."
 msgstr ""
 "Ací podeu establir la zona d'atracció per al centre de la pantalla, la "
-"«força» del camp magnètic que fa que les finestres s'enganxin al centre quan "
+"«força» del camp magnètic que fa que les finestres s'apeguen al centre quan "
 "es mouen a prop."
 
 #. i18n: ectx: property (text), widget (QLabel, OverlapSnapLabel)
 #: moving.ui:113
 #, kde-format
 msgid "&Snap windows:"
-msgstr "E&nganxa les finestres:"
+msgstr "A&pega les finestres:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SnapOnlyWhenOverlapping)
 #: moving.ui:123
@@ -1282,8 +1283,8 @@ msgid ""
 "window or border."
 msgstr ""
 "Ací podeu establir que les finestres només s'ajustaran si proveu "
-"d'encavallar-les, no s'ajustaran si només estan a prop d'una altra finestra "
-"o vora."
+"d'encavallar-les, no s'ajustaran si només estan a prop d'una atra finestra o "
+"vora."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SnapOnlyWhenOverlapping)
 #: moving.ui:126
@@ -1298,7 +1299,7 @@ msgid ""
 "This behavior is common on other operating systems and likely what you want."
 msgstr ""
 "<em>Clic al focus:</em> Una finestra esdevé activa quan hi cliqueu. Este "
-"comportament és comú en altres sistemes operatius i segurament és el que "
+"comportament és comú en atres sistemes operatius i segurament és el que "
 "voldreu."
 
 #: windows.cpp:102

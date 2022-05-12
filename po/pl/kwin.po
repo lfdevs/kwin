@@ -1,5 +1,5 @@
 # translation of kwin.po to
-# Version: $Revision: 1619220 $
+# Version: $Revision: 1622479 $
 # translation of kwin.po to Polish
 # translation of kwin.po to
 # Norbert Popiołek <norbert@kde.com.pl>
@@ -10,13 +10,13 @@
 # Marta Rybczyńska <kde-i18n@rybczynska.net>, 2009, 2013.
 # Maciej Wikło <maciej.wiklo@wp.pl>, 2010.
 # Mirek Sabiniewicz <m.sabiniewicz@gmail.com>, 2010.
-# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021.
+# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-02-15 02:15+0000\n"
-"PO-Revision-Date: 2021-12-30 13:20+0100\n"
+"POT-Creation-Date: 2022-04-12 02:09+0000\n"
+"PO-Revision-Date: 2022-04-10 09:32+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -46,11 +46,11 @@ msgid "Your emails"
 msgstr ""
 "mrudolf@kdewebdev.org, norbert@kde.com.pl, lukasz.wojnilowicz@gmail.com"
 
-#: abstract_client.cpp:2764
+#: abstract_client.cpp:2767
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
-msgstr "(Brak odpowiedzi)"
+msgstr "(Nie odpowiada)"
 
 #: abstract_wayland_output.cpp:216
 #, kde-format
@@ -402,7 +402,7 @@ msgstr "Zeskanuj kodu"
 #, kde-format
 msgctxt "Key according to Qt"
 msgid "Qt::Key code"
-msgstr "Qt::Kod klawisza"
+msgstr "Kod Qt::Key"
 
 #: debug_console.cpp:302
 #, kde-format
@@ -1006,7 +1006,7 @@ msgstr "Układ klawiatury"
 #: debug_console.ui:337
 #, kde-format
 msgid "Current Layout:"
-msgstr "Bieżący układ"
+msgstr "Bieżący układ:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, activeModifiersBox)
 #: debug_console.ui:372
@@ -1149,9 +1149,9 @@ msgid ""
 "para><para><warning>Terminating the application will close all of its child "
 "windows. Any unsaved data will be lost.</warning></para>"
 msgstr ""
-"<para>Czy chcesz zakończyć ten program?</para><para><warning>Zakończenie "
-"programu zamknie jego wszystkie okna podrzędne. Wszystkie niezapisane dane "
-"zostaną utracone.</warning></para>"
+"<para>Czy na pewno zakończyć ten program?</para><para><warning>Zakończenie "
+"tego programu spowoduje zamknięcie wszystkich okien mu podległych oraz "
+"utratę niezapisanych danych.</warning></para>"
 
 #: helpers/killer/killer.cpp:92
 #, kde-format
@@ -2255,7 +2255,7 @@ msgstr "&Zwiń"
 #: useractions.cpp:275
 #, kde-format
 msgid "&No Border"
-msgstr "&Brak obramowania"
+msgstr "Brak obramowa&nia"
 
 #: useractions.cpp:283
 #, kde-format
@@ -2265,12 +2265,12 @@ msgstr "&Ustaw skrót okna..."
 #: useractions.cpp:288
 #, kde-format
 msgid "Configure Special &Window Settings..."
-msgstr "Ustawienia dla &wyjątkowych okien..."
+msgstr "Usta&wienia szczególne dla okien..."
 
 #: useractions.cpp:293
 #, kde-format
 msgid "Configure S&pecial Application Settings..."
-msgstr "Ustawienia dla wyjątkowych a&plikacji..."
+msgstr "Ustawienia szczególne dla a&plikacji..."
 
 #: useractions.cpp:301
 #, kde-format

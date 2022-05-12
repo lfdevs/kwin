@@ -1,14 +1,14 @@
 # Translation of kcmkwm to Korean.
 # Copyright (C) 1999, 2007 Free Software Foundation, Inc.
 # Linux Korea, Co. <kde@linuxkorea.co.kr>, 1999.
-# Shinjo Park <kde@peremen.name>, 2007, 2008, 2009, 2010, 2012, 2013, 2015, 2019, 2020, 2021.
+# Shinjo Park <kde@peremen.name>, 2007, 2008, 2009, 2010, 2012, 2013, 2015, 2019, 2020, 2021, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-01-14 02:21+0000\n"
-"PO-Revision-Date: 2021-05-17 00:45+0200\n"
+"PO-Revision-Date: 2022-04-16 23:09+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 20.12.3\n"
+"X-Generator: Lokalize 21.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -48,8 +48,8 @@ msgid ""
 "In this row you can customize left click behavior when clicking into an "
 "inactive inner window ('inner' means: not titlebar, not frame)."
 msgstr ""
-"이 열에서 비활성된 창 내부를 왼쪽 단추로 눌렀을 때 행동을 사용자 정의할 수 있"
-"습니다 (창 내부는 제목 표시줄과 프레임을 제외함)."
+"이 열에서 비활성된 창 내부를 왼쪽 단추로 클릭했을 때 행동을 사용자 정의할 수 "
+"있습니다 (창 내부는 제목 표시줄과 프레임을 제외함)."
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindow1)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandWindow2)
@@ -105,8 +105,8 @@ msgid ""
 "In this row you can customize middle click behavior when clicking into an "
 "inactive inner window ('inner' means: not titlebar, not frame)."
 msgstr ""
-"이 열에서 비활성된 창 내부를 가운데 단추로 눌렀을 때 행동을 사용자 정의할 수 "
-"있습니다 (창 내부는 제목 표시줄과 프레임을 제외함)."
+"이 열에서 비활성된 창 내부를 가운데 단추로 클릭했을 때 행동을 사용자 정의할 "
+"수 있습니다 (창 내부는 제목 표시줄과 프레임을 제외함)."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
@@ -122,8 +122,8 @@ msgid ""
 "In this row you can customize right click behavior when clicking into an "
 "inactive inner window ('inner' means: not titlebar, not frame)."
 msgstr ""
-"이 열에서 비활성된 창 내부를 오른쪽 단추로 눌렀을 때 행동을 사용자 정의할 수 "
-"있습니다 (창 내부는 제목 표시줄과 프레임을 제외함)."
+"이 열에서 비활성된 창 내부를 오른쪽 단추로 클릭했을 때 행동을 사용자 정의할 "
+"수 있습니다 (창 내부는 제목 표시줄과 프레임을 제외함)."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -213,8 +213,8 @@ msgid ""
 "In this row you can customize left click behavior when clicking into the "
 "titlebar or the frame."
 msgstr ""
-"이 열에서 창 제목 표시줄이나 프레임을 왼쪽 단추로 눌렀을 때 행동을 사용자 정"
-"의할 수 있습니다."
+"이 열에서 창 제목 표시줄이나 프레임을 왼쪽 단추로 클릭했을 때 행동을 사용자 "
+"정의할 수 있습니다."
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll1)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandAll2)
@@ -353,8 +353,8 @@ msgid ""
 "In this row you can customize middle click behavior when clicking into the "
 "titlebar or the frame."
 msgstr ""
-"이 열에서 창 제목 표시줄이나 프레임을 가운데 단추로 눌렀을 때 행동을 사용자 "
-"정의할 수 있습니다."
+"이 열에서 창 제목 표시줄이나 프레임을 가운데 단추로 클릭했을 때 행동을 사용"
+"자 정의할 수 있습니다."
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
@@ -370,8 +370,8 @@ msgid ""
 "In this row you can customize right click behavior when clicking into the "
 "titlebar or the frame."
 msgstr ""
-"이 열에서 창 제목 표시줄이나 프레임을 오른쪽 단추로 눌렀을 때 행동을 사용자 "
-"정의할 수 있습니다."
+"이 열에서 창 제목 표시줄이나 프레임을 오른쪽 단추로 클릭했을 때 행동을 사용"
+"자 정의할 수 있습니다."
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: actions.ui:458
@@ -634,13 +634,13 @@ msgstr "이 옵션을 사용하여 창에 초점을 맞출 시간과 방법을 �
 #, kde-format
 msgctxt "sassa asas"
 msgid "Click to focus"
-msgstr "눌러서 초점 맞추기"
+msgstr "클릭해서 초점 맞추기"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicy)
 #: focus.ui:41
 #, kde-format
 msgid "Click to focus (mouse precedence)"
-msgstr "눌러서 초점 맞추기(마우스 우선)"
+msgstr "클릭해서 초점 맞추기(마우스 우선)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicy)
 #: focus.ui:46
@@ -801,8 +801,8 @@ msgid ""
 "when you click somewhere into the window contents. To change it for inactive "
 "windows, you need to change the settings in the Actions tab."
 msgstr ""
-"이 옵션을 사용하면 창 내용의 임의의 부분을 눌렀을 때 활성 창을 맨 앞으로 가져"
-"옵니다. 비활성 창에 대해서 변경하려면 동작 탭의 설정을 변경해야 합니다."
+"이 옵션을 사용하면 창 내용의 임의의 부분을 클릭했을 때 활성 창을 맨 앞으로 가"
+"져옵니다. 비활성 창에 대해서 변경하려면 동작 탭의 설정을 변경해야 합니다."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ClickRaise)
 #: focus.ui:156
@@ -969,10 +969,10 @@ msgid ""
 "manager. If you do use a different window manager, please refer to its "
 "documentation for how to customize window behavior.</p>"
 msgstr ""
-"<p><h1>창 동작</h1> 이곳에서 창을 옮기거나, 크기를 조정하거나, 누를 때 행동"
-"을 지정할 수 있습니다. 또한 새 창에 대한 배치 및 초점 정책을 설정할 수 있습니"
-"다.</p><p>이 설정은 창 관리자가 KWin일 때에만 작동합니다. 만약 다른 창 관리자"
-"를 사용한다면 창 관리자의 문서를 참고해서 설정하십시오.</p>"
+"<p><h1>창 동작</h1> 이곳에서 창을 옮기거나, 크기를 조정하거나, 클릭했을 때 행"
+"동을 지정할 수 있습니다. 또한 새 창에 대한 배치 및 초점 정책을 설정할 수 있습"
+"니다.</p><p>이 설정은 창 관리자가 KWin일 때에만 작동합니다. 만약 다른 창 관리"
+"자를 사용한다면 창 관리자의 문서를 참고해서 설정하십시오.</p>"
 
 #: main.cpp:204
 #, kde-format
@@ -994,13 +994,13 @@ msgstr "제목 표시줄 동작"
 #: mouse.ui:26
 #, kde-format
 msgid "&Double-click:"
-msgstr "두 번 누름(&D):"
+msgstr "두 번 클릭(&D):"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_TitlebarDoubleClickCommand)
 #: mouse.ui:36
 #, kde-format
 msgid "Behavior on <em>double</em> click into the titlebar."
-msgstr "제목 표시줄을 <em>두 번</em> 눌렀을 때 행동입니다."
+msgstr "제목 표시줄을 <em>두 번</em> 클릭했을 때 행동입니다."
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TitlebarDoubleClickCommand)
@@ -1044,7 +1044,7 @@ msgstr "수평 최대화"
 #: mouse.ui:548
 #, kde-format
 msgid "Shade"
-msgstr "명암"
+msgstr "말아 올리기"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TitlebarDoubleClickCommand)
@@ -1100,8 +1100,8 @@ msgid ""
 "Behavior on <em>left</em> click into the titlebar or frame of an <em>active</"
 "em> window."
 msgstr ""
-"<em>활성</em> 창의 제목 표시줄 및 프레임을 <em>왼쪽</em> 단추로 눌렀을 때 행"
-"동입니다."
+"<em>활성</em> 창의 제목 표시줄 및 프레임을 <em>왼쪽</em> 단추로 클릭했을 때 "
+"행동입니다."
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandActiveTitlebar1)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar1)
@@ -1124,8 +1124,8 @@ msgid ""
 "Behavior on <em>left</em> click into the titlebar or frame of an "
 "<em>inactive</em> window."
 msgstr ""
-"<em>비활성</em> 창의 제목 표시줄 및 프레임을 <em>왼쪽</em> 단추로 눌렀을 때 "
-"행동입니다."
+"<em>비활성</em> 창의 제목 표시줄 및 프레임을 <em>왼쪽</em> 단추로 클릭했을 "
+"때 행동입니다."
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar1)
 #. i18n: ectx: property (text), item, widget (KComboBox, kcfg_CommandInactiveTitlebar2)
@@ -1146,14 +1146,14 @@ msgstr "최대화 단추 동작"
 #: mouse.ui:598 mouse.ui:611
 #, kde-format
 msgid "Behavior on <em>left</em> click onto the maximize button."
-msgstr "최대화 단추를 <em>왼쪽</em> 단추로 눌렀을 때 행동입니다."
+msgstr "최대화 단추를 <em>왼쪽</em> 단추로 클릭했을 때 행동입니다."
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_9)
 #. i18n: ectx: property (whatsThis), widget (KComboBox, kcfg_MaximizeButtonMiddleClickCommand)
 #: mouse.ui:633 mouse.ui:646
 #, kde-format
 msgid "Behavior on <em>middle</em> click onto the maximize button."
-msgstr "최대화 단추를 <em>가운데</em> 단추로 눌렀을 때 행동입니다."
+msgstr "최대화 단추를 <em>가운데</em> 단추로 클릭했을 때 행동입니다."
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: mouse.ui:636
@@ -1166,7 +1166,7 @@ msgstr "가운데 단추 클릭(&L):"
 #: mouse.ui:668 mouse.ui:681
 #, kde-format
 msgid "Behavior on <em>right</em> click onto the maximize button."
-msgstr "최대화 단추를 <em>오른쪽</em> 단추로 눌렀을 때 행동입니다."
+msgstr "최대화 단추를 <em>오른쪽</em> 단추로 클릭했을 때 행동입니다."
 
 #. i18n: ectx: property (text), widget (QLabel, borderSnapLabel)
 #: moving.ui:20
@@ -1255,8 +1255,8 @@ msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
 "This behavior is common on other operating systems and likely what you want."
 msgstr ""
-"<em>눌러서 초점 맞춤:</em> 창을 누르면 초점을 맞춥니다. 이 행동은 다른 운영체"
-"제에서 취하는 방식이며 대부분 경우 원하는 방식입니다."
+"<em>클릭해서 초점 맞춤:</em> 창을 클릭하면 초점을 맞춥니다. 이 행동은 다른 운"
+"영체제에서 취하는 방식이며 대부분 경우 원하는 방식입니다."
 
 #: windows.cpp:102
 #, kde-format
@@ -1267,10 +1267,10 @@ msgid ""
 "preferred candidate. Unusual, but possible variant of <em>Click to focus</"
 "em>."
 msgstr ""
-"<em>눌러서 초점 맞춤(마우스 우선):</em> 이 설정은 <em>누르면 초점을 맞춤</"
-"em> 설정과 유사합니다. 만약 현재 창이 닫히는 등 시스템에서 활성 창을 선택하여"
-"야 하면 현재 마우스 포인터 아래의 창을 선택합니다. <em>누르면 초점을 맞춤</"
-"em> 설정의 파생형입니다."
+"<em>클릭해서 초점 맞춤(마우스 우선):</em> 이 설정은 <em>클릭하면 초점을 맞춤"
+"</em> 설정과 유사합니다. 만약 현재 창이 닫히는 등 시스템에서 활성 창을 선택하"
+"여야 하면 현재 마우스 포인터 아래의 창을 선택합니다. <em>클릭하면 초점을 맞춤"
+"</em> 설정의 파생형입니다."
 
 #: windows.cpp:107
 #, kde-format
@@ -1282,8 +1282,8 @@ msgid ""
 msgstr ""
 "<em>마우스가 초점을 따라감:</em> 마우스를 창으로 이동하면 활성화됩니다. 예. "
 "마우스 아래에 무작위적으로 표시되는 창은 초점을 받지 못합니다. 초점 훔치기 방"
-"지는 평소대로 작동합니다. 실제로 누르지 않아도 되는 <em>누르면 초점을 맞춤</"
-"em>으로 생각하십시오."
+"지는 평소대로 작동합니다. 실제로 클릭하지 않아도 되는 <em>클릭하면 초점을 맞"
+"춤</em>으로 생각하십시오."
 
 #: windows.cpp:111
 #, kde-format

@@ -1132,7 +1132,7 @@ msgstr "Afficher sur tous les bureaux"
 #, kde-format
 msgid "Behavior on <em>mouse wheel</em> scroll over the titlebar."
 msgstr ""
-"Comportement lors d'un défilement <em> avec la roulette de souris</em> sur "
+"Comportement lors d'un défilement <em> avec la molette de la souris</em> sur "
 "la barre de titre."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)

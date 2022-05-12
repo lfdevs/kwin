@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-01-14 02:21+0000\n"
-"PO-Revision-Date: 2022-03-16 15:50\n"
+"PO-Revision-Date: 2022-04-26 15:33\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -116,7 +116,7 @@ msgstr "显示/隐藏桌面总览"
 msgid ""
 "You can trigger an action by pushing the mouse cursor against the "
 "corresponding screen edge or corner."
-msgstr "您可以将鼠标指针推到屏幕边缘或者四角来触发指定操作。"
+msgstr "您可以将鼠标光标推到屏幕边缘或者四角来触发指定操作。"
 
 #. i18n: ectx: property (text), widget (QLabel, quickMaximizeLabel)
 #: main.ui:67
@@ -171,7 +171,7 @@ msgstr "屏幕高度后触发"
 #, kde-format
 msgid ""
 "Change desktop when the mouse cursor is pushed against the edge of the screen"
-msgstr "鼠标指针推到屏幕边缘是切换虚拟桌面"
+msgstr "鼠标光标推到屏幕边缘时切换虚拟桌面"
 
 #. i18n: ectx: property (text), widget (QLabel, desktopSwitchLabel)
 #: main.ui:147
@@ -204,7 +204,7 @@ msgstr "总是启用"
 msgid ""
 "Amount of time required for the mouse cursor to be pushed against the edge "
 "of the screen before the action is triggered"
-msgstr "鼠标指针被推向屏幕边缘后触发操作前的等待时间"
+msgstr "鼠标光标推到屏幕边缘后触发操作前的等待时间"
 
 #. i18n: ectx: property (text), widget (QLabel, activationDelayLabel)
 #: main.ui:179

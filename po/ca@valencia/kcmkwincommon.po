@@ -82,4 +82,4 @@ msgstr "Animació en obri/tancar la finestra"
 #: effectsmodel.cpp:244
 #, kde-format
 msgid "KWin development team"
-msgstr "Equip de desenvolupament del KWin"
+msgstr "Equip de desenvolupament de KWin"

@@ -57,8 +57,8 @@ msgstr "Obtín commutadors nous de tasques..."
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."
 msgstr ""
-"L'arranjament de la política de focus limita la funcionalitat de navegar per "
-"les finestres."
+"La configuració de la política de focus limita la funcionalitat de navegar "
+"per les finestres."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:32
@@ -118,7 +118,7 @@ msgstr "Escriptori actual"
 #: main.ui:164
 #, kde-format
 msgid "All other desktops"
-msgstr "Tots els altres escriptoris"
+msgstr "Tots els atres escriptoris"
 
 #. i18n: ectx: property (text), widget (QCheckBox, filterActivities)
 #: main.ui:174
@@ -136,7 +136,7 @@ msgstr "Activitat actual"
 #: main.ui:225
 #, kde-format
 msgid "All other activities"
-msgstr "Totes les altres activitats"
+msgstr "Totes les atres activitats"
 
 #. i18n: ectx: property (text), widget (QCheckBox, filterScreens)
 #: main.ui:235
@@ -154,7 +154,7 @@ msgstr "Pantalla actual"
 #: main.ui:286
 #, kde-format
 msgid "All other screens"
-msgstr "Totes les altres pantalles"
+msgstr "Totes les atres pantalles"
 
 #. i18n: ectx: property (text), widget (QCheckBox, filterMinimization)
 #: main.ui:296
@@ -227,7 +227,7 @@ msgid ""
 "The currently selected window will be highlighted by fading out all other "
 "windows. This option requires desktop effects to be active."
 msgstr ""
-"La finestra actualment seleccionada es ressaltarà esvaint totes les altres "
+"La finestra actualment seleccionada es ressaltarà esvaint totes les atres "
 "finestres. Esta opció requereix que els efectes d'escriptori estiguen actius."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HighlightWindows)

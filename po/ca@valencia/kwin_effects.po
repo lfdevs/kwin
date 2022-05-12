@@ -412,7 +412,7 @@ msgstr " px"
 #: magnifier/magnifier_config.ui:55
 #, kde-format
 msgid "&Height:"
-msgstr "A&lçada:"
+msgstr "A&lçària:"
 
 #: mouseclick/mouseclick.cpp:33 mouseclick/mouseclick_config.cpp:51
 #, kde-format
@@ -451,7 +451,7 @@ msgstr "↑"
 #: mouseclick/mouseclick_config.ui:21
 #, kde-format
 msgid "Basic Settings"
-msgstr "Arranjament bàsic"
+msgstr "Configuració bàsic"
 
 #. i18n: ectx: property (text), widget (QLabel, button1_label)
 #: mouseclick/mouseclick_config.ui:37
@@ -475,7 +475,7 @@ msgstr "Color del botó dret del ratolí:"
 #: mouseclick/mouseclick_config.ui:91
 #, kde-format
 msgid "Advanced Settings"
-msgstr "Arranjament avançat"
+msgstr "Configuració avançat"
 
 #. i18n: ectx: property (title), widget (QGroupBox, rings)
 #: mouseclick/mouseclick_config.ui:97

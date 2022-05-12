@@ -74,7 +74,7 @@ msgid ""
 "effect's settings."
 msgstr ""
 "Consell: per a trobar els detalls o configurar la manera d'activar un "
-"efecte, examineu l'arranjament de l'efecte."
+"efecte, examineu la configuració de l'efecte."
 
 #: package/contents/ui/main.qml:47
 #, kde-format

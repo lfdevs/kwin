@@ -34,12 +34,12 @@ msgstr "txemaq@gmail.com"
 #: module.cpp:40
 #, kde-format
 msgid "KWin Scripts"
-msgstr "Scripts del KWin"
+msgstr "Scripts de KWin"
 
 #: module.cpp:42
 #, kde-format
 msgid "Configure KWin scripts"
-msgstr "Configuració dels scripts del KWin"
+msgstr "Configuració dels scripts de KWin"
 
 #: module.cpp:45
 #, kde-format
@@ -49,12 +49,12 @@ msgstr "Tamás Krutki"
 #: module.cpp:105
 #, kde-format
 msgid "Import KWin Script"
-msgstr "Importació de script del KWin"
+msgstr "Importació de script de KWin"
 
 #: module.cpp:106
 #, kde-format
 msgid "*.kwinscript|KWin scripts (*.kwinscript)"
-msgstr "*.kwinscript|Scripts del KWin (*.kwinscript)"
+msgstr "*.kwinscript|Scripts de KWin (*.kwinscript)"
 
 #: module.cpp:125
 #, kde-format
@@ -75,13 +75,13 @@ msgstr "L'script «%1» s'ha importat correctament."
 #: module.cpp:183
 #, kde-format
 msgid "Error when uninstalling KWin Script: %1"
-msgstr "S'ha produït un error en desinstal·lar l'Script del KWin: %1"
+msgstr "S'ha produït un error en desinstal·lar l'Script de KWin: %1"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, Module)
 #: module.ui:14
 #, kde-format
 msgid "KWin script configuration"
-msgstr "Configuració dels scripts del KWin"
+msgstr "Configuració dels scripts de KWin"
 
 #. i18n: ectx: property (text), widget (QPushButton, importScriptButton)
 #: module.ui:55

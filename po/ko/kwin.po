@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-02-15 02:15+0000\n"
+"POT-Creation-Date: 2022-04-12 02:09+0000\n"
 "PO-Revision-Date: 2021-11-14 18:45+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -30,7 +30,7 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "kde@peremen.name"
 
-#: abstract_client.cpp:2764
+#: abstract_client.cpp:2767
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
@@ -1163,7 +1163,7 @@ msgid ""
 "Escape or right click to cancel."
 msgstr ""
 "왼쪽 단추를 누르거나 Enter 키를 눌러서 강제로 닫을 창을 선택합니다.\n"
-"Esc 키나 오른쪽 단추를 누르면 취소합니다."
+"Esc 키나 오른쪽 단추를 클릭하면 취소합니다."
 
 #: main.cpp:196 main.cpp:226
 #, kde-format

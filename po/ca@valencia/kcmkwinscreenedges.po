@@ -49,7 +49,7 @@ msgstr "Bloqueig de la pantalla"
 #: main.cpp:121 touch.cpp:119
 #, kde-format
 msgid "Show KRunner"
-msgstr "Mostra el KRunner"
+msgstr "Mostra KRunner"
 
 #: main.cpp:122 touch.cpp:120
 #, kde-format
@@ -109,7 +109,7 @@ msgid ""
 "corresponding screen edge or corner."
 msgstr ""
 "Podeu activar una acció empenyent el cursor del ratolí contra la vora o "
-"cantonada corresponent de la pantalla."
+"cantó corresponent de la pantalla."
 
 #. i18n: ectx: property (text), widget (QLabel, quickMaximizeLabel)
 #: main.ui:67

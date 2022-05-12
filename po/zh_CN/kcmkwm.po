@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-01-14 02:21+0000\n"
-"PO-Revision-Date: 2022-03-16 15:50\n"
+"PO-Revision-Date: 2022-04-26 15:33\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -444,7 +444,7 @@ msgid ""
 "unshade automatically when the mouse pointer has been over the titlebar for "
 "some time.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>如果此选项被启用，当鼠标指针在标题栏上停留一段时间后，"
+"<html><head/><body><p>如果此选项被启用，当鼠标光标在标题栏上停留一段时间后，"
 "阴影窗口将自动取消阴影。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShadeHover)
@@ -459,7 +459,7 @@ msgstr "标题栏悬停后："
 msgid ""
 "Sets the time in milliseconds before the window unshades when the mouse "
 "pointer goes over the shaded window."
-msgstr "设置鼠标指针在卷起的窗口上停留多少毫秒后窗口自动展开。"
+msgstr "设置鼠标光标在卷起的窗口上悬停多少毫秒后自动展开窗口。"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_DelayFocusInterval)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_AutoRaiseInterval)
@@ -841,8 +841,8 @@ msgid ""
 "for example) is the screen containing the mouse pointer. When disabled, the "
 "active screen is the screen containing the focused window."
 msgstr ""
-"启用此项时，活动屏幕 (显示新窗口的屏幕) 将是正在显示鼠标指针的屏幕。禁用此项"
-"时，活动屏幕将是包含焦点窗口的屏幕。"
+"启用此项时，活动屏幕 (显示新窗口的屏幕) 将是鼠标光标所在的屏幕。禁用此项时，"
+"活动屏幕将是焦点窗口所在的屏幕。"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ActiveMouseScreen)
 #: focus.ui:206

@@ -10,33 +10,27 @@
 namespace KWin
 {
 
-X11PlaceholderOutput::X11PlaceholderOutput(QObject *parent)
-    : AbstractOutput(parent)
+X11PlaceholderOutput::X11PlaceholderOutput(RenderLoop *loop, QObject *parent)
+    : Output(parent)
+    , m_loop(loop)
 {
-}
-
-QString X11PlaceholderOutput::name() const
-{
-    return QStringLiteral("Placeholder-0");
-}
-
-QRect X11PlaceholderOutput::geometry() const
-{
+    QSize pixelSize;
     xcb_screen_t *screen = kwinApp()->x11DefaultScreen();
     if (screen) {
-        return QRect(0, 0, screen->width_in_pixels, screen->height_in_pixels);
+        pixelSize = QSize(screen->width_in_pixels, screen->height_in_pixels);
     }
-    return QRect();
+
+    auto mode = QSharedPointer<OutputMode>::create(pixelSize, 60000);
+    setModesInternal({mode}, mode);
+
+    setInformation(Information{
+        .name = QStringLiteral("Placeholder-0"),
+    });
 }
 
-int X11PlaceholderOutput::refreshRate() const
+RenderLoop *X11PlaceholderOutput::renderLoop() const
 {
-    return 60000;
-}
-
-QSize X11PlaceholderOutput::pixelSize() const
-{
-    return geometry().size();
+    return m_loop;
 }
 
 } // namespace KWin

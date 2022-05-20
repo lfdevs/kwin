@@ -1,46 +1,59 @@
 add_subdirectory(helper)
 
-set(KWinIntegrationTestFramework_SOURCES
+add_library(KWinIntegrationTestFramework SHARED)
+if (QT_MAJOR_VERSION EQUAL "5")
+    ecm_add_qtwayland_client_protocol(KWinIntegrationTestFramework
+        PROTOCOL ${WaylandProtocols_DATADIR}/unstable/input-method/input-method-unstable-v1.xml
+        BASENAME input-method-unstable-v1
+    )
+    ecm_add_qtwayland_client_protocol(KWinIntegrationTestFramework
+        PROTOCOL ${WaylandProtocols_DATADIR}/unstable/text-input/text-input-unstable-v3.xml
+        BASENAME text-input-unstable-v3
+    )
+    ecm_add_qtwayland_client_protocol(KWinIntegrationTestFramework
+        PROTOCOL protocols/wlr-layer-shell-unstable-v1.xml
+        BASENAME wlr-layer-shell-unstable-v1
+    )
+    ecm_add_qtwayland_client_protocol(KWinIntegrationTestFramework
+        PROTOCOL ${WaylandProtocols_DATADIR}/stable/xdg-shell/xdg-shell.xml
+        BASENAME xdg-shell
+    )
+    ecm_add_qtwayland_client_protocol(KWinIntegrationTestFramework
+        PROTOCOL ${WaylandProtocols_DATADIR}/unstable/xdg-decoration/xdg-decoration-unstable-v1.xml
+        BASENAME xdg-decoration-unstable-v1
+    )
+    ecm_add_qtwayland_client_protocol(KWinIntegrationTestFramework
+        PROTOCOL ${WaylandProtocols_DATADIR}/unstable/idle-inhibit/idle-inhibit-unstable-v1.xml
+        BASENAME idle-inhibit-unstable-v1
+    )
+    ecm_add_qtwayland_client_protocol(KWinIntegrationTestFramework
+        PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-output-device-v2.xml
+        BASENAME kde-output-device-v2
+    )
+    ecm_add_qtwayland_client_protocol(KWinIntegrationTestFramework
+        PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-output-management-v2.xml
+        BASENAME kde-output-management-v2
+    )
+else()
+    qt6_generate_wayland_protocol_client_sources(KWinIntegrationTestFramework FILES
+        ${WaylandProtocols_DATADIR}/unstable/input-method/input-method-unstable-v1.xml
+        ${WaylandProtocols_DATADIR}/unstable/text-input/text-input-unstable-v3.xml
+        ${CMAKE_CURRENT_SOURCE_DIR}/protocols/wlr-layer-shell-unstable-v1.xml
+        ${WaylandProtocols_DATADIR}/stable/xdg-shell/xdg-shell.xml
+        ${WaylandProtocols_DATADIR}/unstable/xdg-decoration/xdg-decoration-unstable-v1.xml
+        ${WaylandProtocols_DATADIR}/unstable/idle-inhibit/idle-inhibit-unstable-v1.xml
+        ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-output-device-v2.xml
+        ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-output-management-v2.xml
+    )
+endif()
+
+target_sources(KWinIntegrationTestFramework PRIVATE
     ../../src/cursor.cpp
 
     generic_scene_opengl_test.cpp
     kwin_wayland_test.cpp
     test_helpers.cpp
 )
-ecm_add_qtwayland_client_protocol(KWinIntegrationTestFramework_SOURCES
-    PROTOCOL ${WaylandProtocols_DATADIR}/unstable/input-method/input-method-unstable-v1.xml
-    BASENAME input-method-unstable-v1
-)
-ecm_add_qtwayland_client_protocol(KWinIntegrationTestFramework_SOURCES
-    PROTOCOL ${WaylandProtocols_DATADIR}/unstable/text-input/text-input-unstable-v3.xml
-    BASENAME text-input-unstable-v3
-)
-ecm_add_qtwayland_client_protocol(KWinIntegrationTestFramework_SOURCES
-    PROTOCOL protocols/wlr-layer-shell-unstable-v1.xml
-    BASENAME wlr-layer-shell-unstable-v1
-)
-ecm_add_qtwayland_client_protocol(KWinIntegrationTestFramework_SOURCES
-    PROTOCOL ${WaylandProtocols_DATADIR}/stable/xdg-shell/xdg-shell.xml
-    BASENAME xdg-shell
-)
-ecm_add_qtwayland_client_protocol(KWinIntegrationTestFramework_SOURCES
-    PROTOCOL ${WaylandProtocols_DATADIR}/unstable/xdg-decoration/xdg-decoration-unstable-v1.xml
-    BASENAME xdg-decoration-unstable-v1
-)
-ecm_add_qtwayland_client_protocol(KWinIntegrationTestFramework_SOURCES
-    PROTOCOL ${WaylandProtocols_DATADIR}/unstable/idle-inhibit/idle-inhibit-unstable-v1.xml
-    BASENAME idle-inhibit-unstable-v1
-)
-ecm_add_qtwayland_client_protocol(KWinIntegrationTestFramework_SOURCES
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-output-device-v2.xml
-    BASENAME kde-output-device-v2
-)
-ecm_add_qtwayland_client_protocol(KWinIntegrationTestFramework_SOURCES
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-output-management-v2.xml
-    BASENAME kde-output-management-v2
-)
-
-add_library(KWinIntegrationTestFramework SHARED ${KWinIntegrationTestFramework_SOURCES})
 target_link_libraries(KWinIntegrationTestFramework
     PUBLIC
         Qt::Test
@@ -49,7 +62,6 @@ target_link_libraries(KWinIntegrationTestFramework
         kwin
 
     PRIVATE
-        kwin4_effect_builtins
         # Own libraries
         KWinXwaylandServerModule
 
@@ -59,6 +71,7 @@ target_link_libraries(KWinIntegrationTestFramework
         KF5WindowSystemKWinPlugin
         KF5IdleTimeKWinPlugin
 )
+kcoreaddons_target_static_plugins(KWinIntegrationTestFramework "kwin/effects/plugins" LINK_OPTION "PRIVATE")
 set_target_properties(KWinIntegrationTestFramework PROPERTIES CXX_VISIBILITY_PRESET default)
 
 function(integrationTest)
@@ -78,7 +91,9 @@ function(integrationTest)
 endfunction()
 
 integrationTest(NAME testDontCrashGlxgears SRCS dont_crash_glxgears.cpp)
-integrationTest(NAME testLockScreen SRCS lockscreen.cpp)
+if (KWIN_BUILD_SCREENLOCKER)
+    integrationTest(NAME testLockScreen SRCS lockscreen.cpp)
+endif()
 integrationTest(WAYLAND_ONLY NAME testDecorationInput SRCS decoration_input_test.cpp)
 integrationTest(WAYLAND_ONLY NAME testInternalWindow SRCS internal_window.cpp)
 integrationTest(WAYLAND_ONLY NAME testTouchInput SRCS touch_input_test.cpp)
@@ -91,15 +106,16 @@ integrationTest(NAME testDebugConsole SRCS debug_console_test.cpp)
 integrationTest(NAME testDontCrashEmptyDeco SRCS dont_crash_empty_deco.cpp)
 integrationTest(WAYLAND_ONLY NAME testPlasmaSurface SRCS plasma_surface_test.cpp)
 integrationTest(WAYLAND_ONLY NAME testMaximized SRCS maximize_test.cpp)
-integrationTest(WAYLAND_ONLY NAME testXdgShellClient SRCS xdgshellclient_test.cpp)
+integrationTest(WAYLAND_ONLY NAME testXdgShellWindow SRCS xdgshellwindow_test.cpp)
 integrationTest(WAYLAND_ONLY NAME testDontCrashNoBorder SRCS dont_crash_no_border.cpp)
 integrationTest(NAME testXwaylandSelections SRCS xwayland_selections_test.cpp)
 integrationTest(WAYLAND_ONLY NAME testSceneOpenGL SRCS scene_opengl_test.cpp )
 integrationTest(WAYLAND_ONLY NAME testSceneOpenGLES SRCS scene_opengl_es_test.cpp )
-integrationTest(WAYLAND_ONLY NAME testNoXdgRuntimeDir SRCS no_xdg_runtime_dir_test.cpp)
 integrationTest(WAYLAND_ONLY NAME testScreenChanges SRCS screen_changes_test.cpp)
 integrationTest(NAME testModiferOnlyShortcut SRCS modifier_only_shortcut_test.cpp)
-integrationTest(WAYLAND_ONLY NAME testTabBox SRCS tabbox_test.cpp)
+if (KWIN_BUILD_TABBOX)
+    integrationTest(WAYLAND_ONLY NAME testTabBox SRCS tabbox_test.cpp)
+endif()
 integrationTest(WAYLAND_ONLY NAME testWindowSelection SRCS window_selection_test.cpp)
 integrationTest(WAYLAND_ONLY NAME testPointerConstraints SRCS pointer_constraints_test.cpp)
 integrationTest(WAYLAND_ONLY NAME testKeyboardLayout SRCS keyboard_layout_test.cpp)
@@ -107,9 +123,9 @@ integrationTest(WAYLAND_ONLY NAME testKeymapCreationFailure SRCS keymap_creation
 integrationTest(WAYLAND_ONLY NAME testShowingDesktop SRCS showing_desktop_test.cpp)
 integrationTest(WAYLAND_ONLY NAME testDontCrashUseractionsMenu SRCS dont_crash_useractions_menu.cpp)
 integrationTest(WAYLAND_ONLY NAME testKWinBindings SRCS kwinbindings_test.cpp)
-integrationTest(WAYLAND_ONLY NAME testLayerShellV1Client SRCS layershellv1client_test.cpp)
+integrationTest(WAYLAND_ONLY NAME testLayerShellV1Window SRCS layershellv1window_test.cpp)
 integrationTest(WAYLAND_ONLY NAME testVirtualDesktop SRCS virtual_desktop_test.cpp)
-integrationTest(WAYLAND_ONLY NAME testXdgShellClientRules SRCS xdgshellclient_rules_test.cpp)
+integrationTest(WAYLAND_ONLY NAME testXdgShellWindowRules SRCS xdgshellwindow_rules_test.cpp)
 integrationTest(WAYLAND_ONLY NAME testIdleInhibition SRCS idle_inhibition_test.cpp)
 integrationTest(WAYLAND_ONLY NAME testDontCrashCursorPhysicalSizeEmpty SRCS dont_crash_cursor_physical_size_empty.cpp)
 integrationTest(WAYLAND_ONLY NAME testDontCrashReinitializeCompositor SRCS dont_crash_reinitialize_compositor.cpp)
@@ -124,10 +140,7 @@ integrationTest(WAYLAND_ONLY NAME testOutputChanges SRCS outputchanges_test.cpp)
 
 qt_add_dbus_interfaces(DBUS_SRCS ${CMAKE_BINARY_DIR}/src/org.kde.kwin.VirtualKeyboard.xml)
 integrationTest(WAYLAND_ONLY NAME testVirtualKeyboardDBus SRCS test_virtualkeyboard_dbus.cpp ${DBUS_SRCS})
-
-if (KWIN_BUILD_CMS)
-    integrationTest(WAYLAND_ONLY NAME testNightColor SRCS nightcolor_test.cpp LIBS KWinNightColorPlugin)
-endif()
+integrationTest(WAYLAND_ONLY NAME testNightColor SRCS nightcolor_test.cpp LIBS KWinNightColorPlugin)
 
 if (XCB_ICCCM_FOUND)
     integrationTest(NAME testMoveResize SRCS move_resize_window_test.cpp LIBS XCB::ICCCM)
@@ -139,7 +152,7 @@ if (XCB_ICCCM_FOUND)
     integrationTest(NAME testX11DesktopWindow SRCS desktop_window_x11_test.cpp LIBS XCB::ICCCM)
     integrationTest(NAME testXwaylandInput SRCS xwayland_input_test.cpp LIBS XCB::ICCCM)
     integrationTest(NAME testWindowRules SRCS window_rules_test.cpp LIBS XCB::ICCCM)
-    integrationTest(NAME testX11Client SRCS x11_client_test.cpp LIBS XCB::ICCCM)
+    integrationTest(NAME testX11Window SRCS x11_window_test.cpp LIBS XCB::ICCCM)
     integrationTest(NAME testQuickTiling SRCS quick_tiling_test.cpp LIBS XCB::ICCCM)
     integrationTest(NAME testGlobalShortcuts SRCS globalshortcuts_test.cpp LIBS XCB::ICCCM)
     integrationTest(NAME testSceneQPainter SRCS scene_qpainter_test.cpp LIBS XCB::ICCCM)

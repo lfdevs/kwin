@@ -7,22 +7,22 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "decorationbridge.h"
+
+#include <config-kwin.h>
+
 #include "decoratedclient.h"
 #include "decorations_logging.h"
 #include "settings.h"
 // KWin core
-#include "abstract_client.h"
+#include "wayland/server_decoration_interface.h"
 #include "wayland_server.h"
+#include "window.h"
 #include "workspace.h"
-#include <config-kwin.h>
 
 // KDecoration
-#include <KDecoration2/Decoration>
 #include <KDecoration2/DecoratedClient>
+#include <KDecoration2/Decoration>
 #include <KDecoration2/DecorationSettings>
-
-// KWayland
-#include <KWaylandServer/server_decoration_interface.h>
 
 // Frameworks
 #include <KPluginFactory>
@@ -50,7 +50,6 @@ KWIN_SINGLETON_FACTORY(DecorationBridge)
 DecorationBridge::DecorationBridge(QObject *parent)
     : KDecoration2::DecorationBridge(parent)
     , m_factory(nullptr)
-    , m_blur(false)
     , m_showToolTips(false)
     , m_settings()
     , m_noPlugin(false)
@@ -141,7 +140,9 @@ void DecorationBridge::initPlugin()
 
 static void recreateDecorations()
 {
-    Workspace::self()->forEachAbstractClient([](AbstractClient *c) { c->invalidateDecoration(); });
+    Workspace::self()->forEachAbstractClient([](Window *window) {
+        window->invalidateDecoration();
+    });
 }
 
 void DecorationBridge::reconfigure()
@@ -193,7 +194,6 @@ void DecorationBridge::reconfigure()
 void DecorationBridge::loadMetaData(const QJsonObject &object)
 {
     // reset all settings
-    m_blur = false;
     m_recommendedBorderSize = QString();
     m_theme = QString();
     m_defaultTheme = QString();
@@ -205,10 +205,6 @@ void DecorationBridge::loadMetaData(const QJsonObject &object)
         return;
     }
     const QVariantMap decoSettingsMap = decoSettings.toObject().toVariantMap();
-    auto blurIt = decoSettingsMap.find(QStringLiteral("blur"));
-    if (blurIt != decoSettingsMap.end()) {
-        m_blur = blurIt.value().toBool();
-    }
     auto recBorderSizeIt = decoSettingsMap.find(QStringLiteral("recommendedBorderSize"));
     if (recBorderSizeIt != decoSettingsMap.end()) {
         m_recommendedBorderSize = recBorderSizeIt.value().toString();
@@ -234,7 +230,7 @@ void DecorationBridge::findTheme(const QVariantMap &map)
 
 std::unique_ptr<KDecoration2::DecoratedClientPrivate> DecorationBridge::createClient(KDecoration2::DecoratedClient *client, KDecoration2::Decoration *decoration)
 {
-    return std::unique_ptr<DecoratedClientImpl>(new DecoratedClientImpl(static_cast<AbstractClient*>(decoration->parent()), client, decoration));
+    return std::unique_ptr<DecoratedClientImpl>(new DecoratedClientImpl(static_cast<Window *>(decoration->parent()), client, decoration));
 }
 
 std::unique_ptr<KDecoration2::DecorationSettingsPrivate> DecorationBridge::settings(KDecoration2::DecorationSettings *parent)
@@ -242,7 +238,7 @@ std::unique_ptr<KDecoration2::DecorationSettingsPrivate> DecorationBridge::setti
     return std::unique_ptr<SettingsImpl>(new SettingsImpl(parent));
 }
 
-KDecoration2::Decoration *DecorationBridge::createDecoration(AbstractClient *client)
+KDecoration2::Decoration *DecorationBridge::createDecoration(Window *window)
 {
     if (m_noPlugin) {
         return nullptr;
@@ -250,19 +246,18 @@ KDecoration2::Decoration *DecorationBridge::createDecoration(AbstractClient *cli
     if (!m_factory) {
         return nullptr;
     }
-    QVariantMap args({ {QStringLiteral("bridge"), QVariant::fromValue(this)} });
+    QVariantMap args({{QStringLiteral("bridge"), QVariant::fromValue(this)}});
 
     if (!m_theme.isEmpty()) {
         args.insert(QStringLiteral("theme"), m_theme);
     }
-    auto deco = m_factory->create<KDecoration2::Decoration>(client, QVariantList({args}));
+    auto deco = m_factory->create<KDecoration2::Decoration>(window, QVariantList({args}));
     deco->setSettings(m_settings);
     deco->init();
     return deco;
 }
 
-static
-QString settingsProperty(const QVariant &variant)
+static QString settingsProperty(const QVariant &variant)
 {
     if (QLatin1String(variant.typeName()) == QLatin1String("KDecoration2::BorderSize")) {
         return QString::number(variant.toInt());
@@ -289,9 +284,8 @@ QString DecorationBridge::supportInformation() const
         b.append(QStringLiteral("Plugin: %1\n").arg(m_plugin));
         b.append(QStringLiteral("Theme: %1\n").arg(m_theme));
         b.append(QStringLiteral("Plugin recommends border size: %1\n").arg(m_recommendedBorderSize.isNull() ? "No" : m_recommendedBorderSize));
-        b.append(QStringLiteral("Blur: %1\n").arg(m_blur));
         const QMetaObject *metaOptions = m_settings->metaObject();
-        for (int i=0; i<metaOptions->propertyCount(); ++i) {
+        for (int i = 0; i < metaOptions->propertyCount(); ++i) {
             const QMetaProperty property = metaOptions->property(i);
             if (QLatin1String(property.name()) == QLatin1String("objectName")) {
                 continue;

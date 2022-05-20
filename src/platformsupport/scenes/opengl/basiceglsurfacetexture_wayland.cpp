@@ -10,10 +10,9 @@
 #include "kwingltexture.h"
 #include "surfaceitem_wayland.h"
 #include "utils/common.h"
-
-#include <KWaylandServer/drmclientbuffer.h>
-#include <KWaylandServer/linuxdmabufv1clientbuffer.h>
-#include <KWaylandServer/shmclientbuffer.h>
+#include "wayland/drmclientbuffer.h"
+#include "wayland/linuxdmabufv1clientbuffer.h"
+#include "wayland/shmclientbuffer.h"
 
 namespace KWin
 {
@@ -202,8 +201,7 @@ EGLImageKHR BasicEGLSurfaceTextureWayland::attach(KWaylandServer::DrmClientBuffe
 
     const EGLint attribs[] = {
         EGL_WAYLAND_PLANE_WL, 0,
-        EGL_NONE
-    };
+        EGL_NONE};
     EGLImageKHR image = eglCreateImageKHR(backend()->eglDisplay(), EGL_NO_CONTEXT,
                                           EGL_WAYLAND_BUFFER_WL,
                                           static_cast<EGLClientBuffer>(buffer->resource()), attribs);

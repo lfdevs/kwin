@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-01-22 02:14+0000\n"
+"POT-Creation-Date: 2022-03-26 00:45+0000\n"
 "PO-Revision-Date: 2019-12-12 22:21+0000\n"
 "Last-Translator: Vivek KJ Pazhedath <vivekkj2004@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -29,52 +29,52 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "shijualexonline@gmail.com,snalledam@dataone.in,vivekkj2004@gmail.com"
 
-#: declarative-plugin/buttonsmodel.cpp:54
+#: declarative-plugin/buttonsmodel.cpp:53
 #, kde-format
 msgid "More actions for this window"
 msgstr ""
 
-#: declarative-plugin/buttonsmodel.cpp:56
+#: declarative-plugin/buttonsmodel.cpp:55
 #, kde-format
 msgid "Application menu"
 msgstr ""
 
-#: declarative-plugin/buttonsmodel.cpp:58
+#: declarative-plugin/buttonsmodel.cpp:57
 #, fuzzy, kde-format
 msgid "On all desktops"
 msgstr "എല്ലാ പണിയിടങ്ങളിലും"
 
-#: declarative-plugin/buttonsmodel.cpp:60
+#: declarative-plugin/buttonsmodel.cpp:59
 #, kde-format
 msgid "Minimize"
 msgstr "ചെറുതാക്കുക"
 
-#: declarative-plugin/buttonsmodel.cpp:62
+#: declarative-plugin/buttonsmodel.cpp:61
 #, kde-format
 msgid "Maximize"
 msgstr "വലുതാക്കുക"
 
-#: declarative-plugin/buttonsmodel.cpp:64
+#: declarative-plugin/buttonsmodel.cpp:63
 #, kde-format
 msgid "Close"
 msgstr "അടയ്ക്കുക"
 
-#: declarative-plugin/buttonsmodel.cpp:66
+#: declarative-plugin/buttonsmodel.cpp:65
 #, kde-format
 msgid "Context help"
 msgstr ""
 
-#: declarative-plugin/buttonsmodel.cpp:68
+#: declarative-plugin/buttonsmodel.cpp:67
 #, kde-format
 msgid "Shade"
 msgstr "മറയ്ക്കുക"
 
-#: declarative-plugin/buttonsmodel.cpp:70
+#: declarative-plugin/buttonsmodel.cpp:69
 #, kde-format
 msgid "Keep below other windows"
 msgstr ""
 
-#: declarative-plugin/buttonsmodel.cpp:72
+#: declarative-plugin/buttonsmodel.cpp:71
 #, kde-format
 msgid "Keep above other windows"
 msgstr ""
@@ -94,7 +94,7 @@ msgstr ""
 msgid "Author"
 msgstr ""
 
-#: kcm.cpp:184
+#: kcm.cpp:183
 #, kde-format
 msgctxt "%1 is the name of a border size"
 msgid "Theme's default (%1)"
@@ -147,21 +147,21 @@ msgstr ""
 msgid "Successfully applied the cursor theme %1 to your current Plasma session"
 msgstr ""
 
-#: kwin-applywindowdecoration.cpp:102
+#: kwin-applywindowdecoration.cpp:103
 #, kde-format
 msgid ""
 "Failed to save your theme settings - the reason is unknown, but this is an "
 "unrecoverable error. You may find that simply trying again will work."
 msgstr ""
 
-#: kwin-applywindowdecoration.cpp:106
+#: kwin-applywindowdecoration.cpp:107
 #, kde-format
 msgid ""
 "Could not find theme \"%1\". The theme should be one of the following "
 "options: %2"
 msgstr ""
 
-#: kwin-applywindowdecoration.cpp:111
+#: kwin-applywindowdecoration.cpp:112
 #, kde-format
 msgid "You have the following KWin window decoration themes on your system:"
 msgstr ""
@@ -233,47 +233,47 @@ msgstr "ജാലകത്തിന്റെ ബട്ടണുകളെക്�
 msgid "Edit %1 Theme"
 msgstr ""
 
-#: utils.cpp:26
+#: utils.cpp:25
 #, fuzzy, kde-format
 msgid "No Borders"
 msgstr "വക്കിന്റെ വലുപ്പം:"
 
-#: utils.cpp:27
+#: utils.cpp:26
 #, fuzzy, kde-format
 msgid "No Side Borders"
 msgstr "വക്കിന്റെ വലുപ്പം:"
 
-#: utils.cpp:28
+#: utils.cpp:27
 #, fuzzy, kde-format
 msgid "Tiny"
 msgstr "ചെറുത്"
 
-#: utils.cpp:29
+#: utils.cpp:28
 #, fuzzy, kde-format
 msgid "Normal"
 msgstr "സാധാരണമായത്"
 
-#: utils.cpp:30
+#: utils.cpp:29
 #, fuzzy, kde-format
 msgid "Large"
 msgstr "വലിയത്"
 
-#: utils.cpp:31
+#: utils.cpp:30
 #, fuzzy, kde-format
 msgid "Very Large"
 msgstr "വളരെ വലുത്"
 
-#: utils.cpp:32
+#: utils.cpp:31
 #, fuzzy, kde-format
 msgid "Huge"
 msgstr "ഭീമമായത്"
 
-#: utils.cpp:33
+#: utils.cpp:32
 #, fuzzy, kde-format
 msgid "Very Huge"
 msgstr "അതിഭീമമായത് "
 
-#: utils.cpp:34
+#: utils.cpp:33
 #, fuzzy, kde-format
 msgid "Oversized"
 msgstr "ബൃഹത്തായ"

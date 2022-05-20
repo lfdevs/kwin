@@ -7,12 +7,13 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "kwin_wayland_test.h"
-#include "abstract_client.h"
-#include "abstract_output.h"
+
 #include "cursor.h"
+#include "output.h"
 #include "platform.h"
 #include "screens.h"
 #include "wayland_server.h"
+#include "window.h"
 #include "workspace.h"
 
 #include <KConfigGroup>
@@ -34,8 +35,6 @@ private Q_SLOTS:
     void testSize_data();
     void testSize();
     void testCount();
-    void testIntersecting_data();
-    void testIntersecting();
     void testCurrent_data();
     void testCurrent();
     void testCurrentWithFollowsMouse_data();
@@ -46,7 +45,7 @@ private Q_SLOTS:
 
 void ScreensTest::initTestCase()
 {
-    qRegisterMetaType<KWin::AbstractClient *>();
+    qRegisterMetaType<KWin::Window *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(applicationStartedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
@@ -82,7 +81,7 @@ static void purge(KConfig *config)
 
 void ScreensTest::cleanup()
 {
-    // Destroy the wayland connection of the test client.
+    // Destroy the wayland connection of the test window.
     Test::destroyWaylandConnection();
 
     // Wipe the screens config clean.
@@ -142,35 +141,6 @@ void ScreensTest::testCount()
     QCOMPARE(countChangedSpy.count(), 1);
 }
 
-void ScreensTest::testIntersecting_data()
-{
-    QTest::addColumn<QVector<QRect>>("geometries");
-    QTest::addColumn<QRect>("testGeometry");
-    QTest::addColumn<int>("expectedCount");
-
-    QTest::newRow("null-rect") << QVector<QRect>{{QRect{0, 0, 100, 100}}} << QRect() << 0;
-    QTest::newRow("non-overlapping") << QVector<QRect>{{QRect{0, 0, 100, 100}}} << QRect(100, 0, 100, 100) << 0;
-    QTest::newRow("in-between") << QVector<QRect>{{QRect{0, 0, 10, 20}, QRect{20, 40, 10, 20}}} << QRect(15, 0, 2, 2) << 0;
-    QTest::newRow("gap-overlapping") << QVector<QRect>{{QRect{0, 0, 10, 20}, QRect{20, 40, 10, 20}}} << QRect(9, 10, 200, 200) << 2;
-    QTest::newRow("larger") << QVector<QRect>{{QRect{0, 0, 100, 100}}} << QRect(-10, -10, 200, 200) << 1;
-    QTest::newRow("several") << QVector<QRect>{{QRect{0, 0, 100, 100}, QRect{100, 0, 100, 100}, QRect{200, 100, 100, 100}, QRect{300, 100, 100, 100}}} << QRect(0, 0, 300, 300) << 3;
-}
-
-void ScreensTest::testIntersecting()
-{
-    QSignalSpy changedSpy(screens(), &Screens::changed);
-    QVERIFY(changedSpy.isValid());
-
-    QFETCH(QVector<QRect>, geometries);
-    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::QueuedConnection,
-                              Q_ARG(int, geometries.count()), Q_ARG(QVector<QRect>, geometries));
-    QVERIFY(changedSpy.wait());
-
-    QFETCH(QRect, testGeometry);
-    QCOMPARE(screens()->count(), geometries.count());
-    QTEST(screens()->intersecting(testGeometry), "expectedCount");
-}
-
 void ScreensTest::testCurrent_data()
 {
     QTest::addColumn<int>("currentId");
@@ -182,7 +152,7 @@ void ScreensTest::testCurrent_data()
 void ScreensTest::testCurrent()
 {
     QFETCH(int, currentId);
-    AbstractOutput *output = kwinApp()->platform()->findOutput(currentId);
+    Output *output = kwinApp()->platform()->findOutput(currentId);
 
     // Disable "active screen follows mouse"
     auto group = kwinApp()->config()->group("Windows");
@@ -227,7 +197,7 @@ void ScreensTest::testCurrentWithFollowsMouse()
     KWin::Cursors::self()->mouse()->setPos(cursorPos);
 
     QFETCH(int, expectedId);
-    AbstractOutput *expected = kwinApp()->platform()->findOutput(expectedId);
+    Output *expected = kwinApp()->platform()->findOutput(expectedId);
     QCOMPARE(workspace()->activeOutput(), expected);
 }
 
@@ -264,7 +234,7 @@ void ScreensTest::testCurrentPoint()
     workspace()->setActiveOutput(cursorPos);
 
     QFETCH(int, expectedId);
-    AbstractOutput *expected = kwinApp()->platform()->findOutput(expectedId);
+    Output *expected = kwinApp()->platform()->findOutput(expectedId);
     QCOMPARE(workspace()->activeOutput(), expected);
 }
 

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-01-22 02:14+0000\n"
-"PO-Revision-Date: 2022-04-01 10:25+0100\n"
+"POT-Creation-Date: 2022-03-26 00:45+0000\n"
+"PO-Revision-Date: 2022-05-05 12:48+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
 "Language: ro\n"
@@ -31,52 +31,52 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "sergiu@cip.md"
 
-#: declarative-plugin/buttonsmodel.cpp:54
+#: declarative-plugin/buttonsmodel.cpp:53
 #, kde-format
 msgid "More actions for this window"
 msgstr "Acțiuni suplimentare pentru această fereastră"
 
-#: declarative-plugin/buttonsmodel.cpp:56
+#: declarative-plugin/buttonsmodel.cpp:55
 #, kde-format
 msgid "Application menu"
 msgstr "Meniul aplicației"
 
-#: declarative-plugin/buttonsmodel.cpp:58
+#: declarative-plugin/buttonsmodel.cpp:57
 #, kde-format
 msgid "On all desktops"
 msgstr "Pe toate birourile"
 
-#: declarative-plugin/buttonsmodel.cpp:60
+#: declarative-plugin/buttonsmodel.cpp:59
 #, kde-format
 msgid "Minimize"
 msgstr "Minimizează"
 
-#: declarative-plugin/buttonsmodel.cpp:62
+#: declarative-plugin/buttonsmodel.cpp:61
 #, kde-format
 msgid "Maximize"
 msgstr "Maximizează"
 
-#: declarative-plugin/buttonsmodel.cpp:64
+#: declarative-plugin/buttonsmodel.cpp:63
 #, kde-format
 msgid "Close"
 msgstr "Închide"
 
-#: declarative-plugin/buttonsmodel.cpp:66
+#: declarative-plugin/buttonsmodel.cpp:65
 #, kde-format
 msgid "Context help"
 msgstr "Ajutor contextual"
 
-#: declarative-plugin/buttonsmodel.cpp:68
+#: declarative-plugin/buttonsmodel.cpp:67
 #, kde-format
 msgid "Shade"
 msgstr "Strânge"
 
-#: declarative-plugin/buttonsmodel.cpp:70
+#: declarative-plugin/buttonsmodel.cpp:69
 #, kde-format
 msgid "Keep below other windows"
 msgstr "Ține sub alte ferestre"
 
-#: declarative-plugin/buttonsmodel.cpp:72
+#: declarative-plugin/buttonsmodel.cpp:71
 #, kde-format
 msgid "Keep above other windows"
 msgstr "Ține deasupra altor ferestre"
@@ -96,7 +96,7 @@ msgstr "Valerio Pilo"
 msgid "Author"
 msgstr "Autor"
 
-#: kcm.cpp:184
+#: kcm.cpp:183
 #, kde-format
 msgctxt "%1 is the name of a border size"
 msgid "Theme's default (%1)"
@@ -143,6 +143,8 @@ msgstr ""
 msgid ""
 "The requested theme \"%1\" is already set as the window decoration theme."
 msgstr ""
+"Tematica cerută „%1” e stabilită deja ca tematică pentru decorațiunile "
+"ferestrelor."
 
 #: kwin-applywindowdecoration.cpp:99
 #, kde-format
@@ -151,14 +153,14 @@ msgstr ""
 "Tematica pentru cursor %1 a fost aplicată cu succes la sesiunea Plasma "
 "actuală"
 
-#: kwin-applywindowdecoration.cpp:102
+#: kwin-applywindowdecoration.cpp:103
 #, kde-format
 msgid ""
 "Failed to save your theme settings - the reason is unknown, but this is an "
 "unrecoverable error. You may find that simply trying again will work."
 msgstr ""
 
-#: kwin-applywindowdecoration.cpp:106
+#: kwin-applywindowdecoration.cpp:107
 #, kde-format
 msgid ""
 "Could not find theme \"%1\". The theme should be one of the following "
@@ -167,7 +169,7 @@ msgstr ""
 "Tematica „%1” nu a putut fi găsită. Tematica trebuie să fie una dintre "
 "următoarele opțiuni: %2"
 
-#: kwin-applywindowdecoration.cpp:111
+#: kwin-applywindowdecoration.cpp:112
 #, kde-format
 msgid "You have the following KWin window decoration themes on your system:"
 msgstr ""
@@ -240,47 +242,47 @@ msgstr "Arată indicii pentru butoanele barei de titlu"
 msgid "Edit %1 Theme"
 msgstr "Modifică tematica %1"
 
-#: utils.cpp:26
+#: utils.cpp:25
 #, kde-format
 msgid "No Borders"
 msgstr "Fără contur"
 
-#: utils.cpp:27
+#: utils.cpp:26
 #, kde-format
 msgid "No Side Borders"
 msgstr "Fără contur lateral"
 
-#: utils.cpp:28
+#: utils.cpp:27
 #, kde-format
 msgid "Tiny"
 msgstr "Minuscul"
 
-#: utils.cpp:29
+#: utils.cpp:28
 #, kde-format
 msgid "Normal"
 msgstr "Normal"
 
-#: utils.cpp:30
+#: utils.cpp:29
 #, kde-format
 msgid "Large"
 msgstr "Mare"
 
-#: utils.cpp:31
+#: utils.cpp:30
 #, kde-format
 msgid "Very Large"
 msgstr "Foarte mare"
 
-#: utils.cpp:32
+#: utils.cpp:31
 #, kde-format
 msgid "Huge"
 msgstr "Imens"
 
-#: utils.cpp:33
+#: utils.cpp:32
 #, kde-format
 msgid "Very Huge"
 msgstr "Foarte imens"
 
-#: utils.cpp:34
+#: utils.cpp:33
 #, kde-format
 msgid "Oversized"
 msgstr "Supradimensionat"

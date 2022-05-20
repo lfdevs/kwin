@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-01-14 02:21+0000\n"
+"POT-Creation-Date: 2022-03-26 00:45+0000\n"
 "PO-Revision-Date: 2021-12-08 00:25+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -17,17 +17,17 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Lokalize 21.08.1\n"
 
-#: kwintabboxconfigform.cpp:77
+#: kwintabboxconfigform.cpp:76
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: layoutpreview.cpp:136
+#: layoutpreview.cpp:133
 #, kde-format
 msgid "Show Desktop"
 msgstr "바탕 화면 표시"
 
-#: layoutpreview.cpp:166
+#: layoutpreview.cpp:163
 #, kde-format
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
@@ -66,13 +66,13 @@ msgstr "내용"
 msgid "Include \"Show Desktop\" icon"
 msgstr "\"바탕 화면 표시\" 아이콘 포함"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, switchingModeCombo)
+#. i18n: ectx: property (text), item, widget (QComboBox, switchingModeCombo)
 #: main.ui:55
 #, kde-format
 msgid "Recently used"
 msgstr "최근 사용된 순서"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, switchingModeCombo)
+#. i18n: ectx: property (text), item, widget (QComboBox, switchingModeCombo)
 #: main.ui:60
 #, kde-format
 msgid "Stacking order"

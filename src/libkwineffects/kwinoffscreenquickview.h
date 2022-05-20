@@ -10,8 +10,8 @@
 #pragma once
 
 #include <QObject>
-#include <QUrl>
 #include <QRect>
+#include <QUrl>
 
 #include <kwineffects_export.h>
 
@@ -93,6 +93,9 @@ public:
      */
     void setGeometry(const QRect &rect);
     QRect geometry() const;
+
+    void setOpacity(qreal opacity);
+    qreal opacity() const;
 
     /**
      * Render the current scene graph into the FBO.
@@ -184,6 +187,7 @@ public:
     QQuickItem *rootItem() const;
 
     void setSource(const QUrl &source);
+    void setSource(const QUrl &source, const QVariantMap &initialProperties);
 
 private:
     class Private;

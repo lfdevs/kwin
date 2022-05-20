@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-01-22 02:14+0000\n"
+"POT-Creation-Date: 2022-03-26 00:45+0000\n"
 "PO-Revision-Date: 2021-06-11 12:33+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -39,52 +39,52 @@ msgstr ""
 "translator@legisign.org,eleknader@phnet.fi,teemu.rytilahti@kde-fi.org,"
 "ilpo@iki.fi,karvonen.jorma@gmail.com"
 
-#: declarative-plugin/buttonsmodel.cpp:54
+#: declarative-plugin/buttonsmodel.cpp:53
 #, kde-format
 msgid "More actions for this window"
 msgstr "Lisätoimintoja tälle ikkunalle"
 
-#: declarative-plugin/buttonsmodel.cpp:56
+#: declarative-plugin/buttonsmodel.cpp:55
 #, kde-format
 msgid "Application menu"
 msgstr "Sovelluksen valikko"
 
-#: declarative-plugin/buttonsmodel.cpp:58
+#: declarative-plugin/buttonsmodel.cpp:57
 #, kde-format
 msgid "On all desktops"
 msgstr "Kaikilla työpöydillä"
 
-#: declarative-plugin/buttonsmodel.cpp:60
+#: declarative-plugin/buttonsmodel.cpp:59
 #, kde-format
 msgid "Minimize"
 msgstr "Pienennä"
 
-#: declarative-plugin/buttonsmodel.cpp:62
+#: declarative-plugin/buttonsmodel.cpp:61
 #, kde-format
 msgid "Maximize"
 msgstr "Suurenna"
 
-#: declarative-plugin/buttonsmodel.cpp:64
+#: declarative-plugin/buttonsmodel.cpp:63
 #, kde-format
 msgid "Close"
 msgstr "Sulje"
 
-#: declarative-plugin/buttonsmodel.cpp:66
+#: declarative-plugin/buttonsmodel.cpp:65
 #, kde-format
 msgid "Context help"
 msgstr "Kontekstiohje"
 
-#: declarative-plugin/buttonsmodel.cpp:68
+#: declarative-plugin/buttonsmodel.cpp:67
 #, kde-format
 msgid "Shade"
 msgstr "Rullaa"
 
-#: declarative-plugin/buttonsmodel.cpp:70
+#: declarative-plugin/buttonsmodel.cpp:69
 #, kde-format
 msgid "Keep below other windows"
 msgstr "Pidä muiden ikkunoiden alla"
 
-#: declarative-plugin/buttonsmodel.cpp:72
+#: declarative-plugin/buttonsmodel.cpp:71
 #, kde-format
 msgid "Keep above other windows"
 msgstr "Pidä muiden ikkunoiden yllä"
@@ -104,7 +104,7 @@ msgstr "Valerio Pilo"
 msgid "Author"
 msgstr "Tekijä"
 
-#: kcm.cpp:184
+#: kcm.cpp:183
 #, kde-format
 msgctxt "%1 is the name of a border size"
 msgid "Theme's default (%1)"
@@ -168,7 +168,7 @@ msgstr "Pyydetty teema ”%1” on jo asetettu ikkunakoristeteemaksi."
 msgid "Successfully applied the cursor theme %1 to your current Plasma session"
 msgstr "Kohdistinteeman %1 käyttöönotto nykyiseen Plasma-istuntoon onnistui"
 
-#: kwin-applywindowdecoration.cpp:102
+#: kwin-applywindowdecoration.cpp:103
 #, kde-format
 msgid ""
 "Failed to save your theme settings - the reason is unknown, but this is an "
@@ -177,14 +177,14 @@ msgstr ""
 "Asetuksia ei voitu tallentaa; syy on tuntematon, mutta tästä virheestä ei "
 "voi palautua. Uudelleen yrittäminen saattaa auttaa."
 
-#: kwin-applywindowdecoration.cpp:106
+#: kwin-applywindowdecoration.cpp:107
 #, kde-format
 msgid ""
 "Could not find theme \"%1\". The theme should be one of the following "
 "options: %2"
 msgstr "Teemaa ”%1” ei löytynyt. Teeman tulisi olla yksi seuraavista: %2"
 
-#: kwin-applywindowdecoration.cpp:111
+#: kwin-applywindowdecoration.cpp:112
 #, kde-format
 msgid "You have the following KWin window decoration themes on your system:"
 msgstr "Järjestelmään on asennettu seuraavat KWin-ikkunakoristeteemat:"
@@ -256,47 +256,47 @@ msgstr "Näytä otsikkopalkkipainikkeiden työkaluvihjeet"
 msgid "Edit %1 Theme"
 msgstr "Muokkaa teemaa %1"
 
-#: utils.cpp:26
+#: utils.cpp:25
 #, kde-format
 msgid "No Borders"
 msgstr "Ei reunuksia"
 
-#: utils.cpp:27
+#: utils.cpp:26
 #, kde-format
 msgid "No Side Borders"
 msgstr "Ei sivureunuksia"
 
-#: utils.cpp:28
+#: utils.cpp:27
 #, kde-format
 msgid "Tiny"
 msgstr "Pieni"
 
-#: utils.cpp:29
+#: utils.cpp:28
 #, kde-format
 msgid "Normal"
 msgstr "Tavallinen"
 
-#: utils.cpp:30
+#: utils.cpp:29
 #, kde-format
 msgid "Large"
 msgstr "Suuri"
 
-#: utils.cpp:31
+#: utils.cpp:30
 #, kde-format
 msgid "Very Large"
 msgstr "Hyvin suuri"
 
-#: utils.cpp:32
+#: utils.cpp:31
 #, kde-format
 msgid "Huge"
 msgstr "Valtava"
 
-#: utils.cpp:33
+#: utils.cpp:32
 #, kde-format
 msgid "Very Huge"
 msgstr "Aivan valtava"
 
-#: utils.cpp:34
+#: utils.cpp:33
 #, kde-format
 msgid "Oversized"
 msgstr "Ylisuuri"

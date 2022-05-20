@@ -9,11 +9,12 @@
 #ifndef KWIN_WAYLAND_OUTPUT_H
 #define KWIN_WAYLAND_OUTPUT_H
 
-#include "abstract_wayland_output.h"
+#include "output.h"
 
 #include <KWayland/Client/xdgshell.h>
 
 #include <QObject>
+#include <QTimer>
 
 namespace KWayland
 {
@@ -35,7 +36,7 @@ namespace Wayland
 {
 class WaylandBackend;
 
-class WaylandOutput : public AbstractWaylandOutput
+class WaylandOutput : public Output
 {
     Q_OBJECT
 public:
@@ -46,12 +47,16 @@ public:
 
     void init(const QPoint &logicalPosition, const QSize &pixelSize);
 
-    virtual void lockPointer(KWayland::Client::Pointer *pointer, bool lock) {
+    virtual void lockPointer(KWayland::Client::Pointer *pointer, bool lock)
+    {
         Q_UNUSED(pointer)
         Q_UNUSED(lock)
     }
 
-    virtual bool pointerIsLocked() { return false; }
+    virtual bool pointerIsLocked()
+    {
+        return false;
+    }
 
     /**
      * @brief defines the geometry of the output
@@ -60,27 +65,30 @@ public:
      */
     void setGeometry(const QPoint &logicalPosition, const QSize &pixelSize);
 
-    KWayland::Client::Surface* surface() const {
+    KWayland::Client::Surface *surface() const
+    {
         return m_surface;
     }
 
-    bool rendered() const {
+    bool rendered() const
+    {
         return m_rendered;
     }
-    void resetRendered() {
+    void resetRendered()
+    {
         m_rendered = false;
     }
 
     void updateEnablement(bool enable) override;
-    void updateTransform(Transform transform) override;
-    void setDpmsMode(KWin::AbstractWaylandOutput::DpmsMode mode) override;
+    void setDpmsMode(DpmsMode mode) override;
 
 Q_SIGNALS:
     void sizeChanged(const QSize &size);
     void frameRendered();
 
 protected:
-    WaylandBackend *backend() {
+    WaylandBackend *backend()
+    {
         return m_backend;
     }
 

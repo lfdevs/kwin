@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-01-22 02:14+0000\n"
+"POT-Creation-Date: 2022-03-26 00:45+0000\n"
 "PO-Revision-Date: 2021-09-23 12:03+0200\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
@@ -27,52 +27,52 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "g.sora@tiscali.it"
 
-#: declarative-plugin/buttonsmodel.cpp:54
+#: declarative-plugin/buttonsmodel.cpp:53
 #, kde-format
 msgid "More actions for this window"
 msgstr "Altere actiones per iste fenestra"
 
-#: declarative-plugin/buttonsmodel.cpp:56
+#: declarative-plugin/buttonsmodel.cpp:55
 #, kde-format
 msgid "Application menu"
 msgstr "Menu de application"
 
-#: declarative-plugin/buttonsmodel.cpp:58
+#: declarative-plugin/buttonsmodel.cpp:57
 #, kde-format
 msgid "On all desktops"
 msgstr "Super omne scriptorios"
 
-#: declarative-plugin/buttonsmodel.cpp:60
+#: declarative-plugin/buttonsmodel.cpp:59
 #, kde-format
 msgid "Minimize"
 msgstr "Minimisa"
 
-#: declarative-plugin/buttonsmodel.cpp:62
+#: declarative-plugin/buttonsmodel.cpp:61
 #, kde-format
 msgid "Maximize"
 msgstr "Maximiza"
 
-#: declarative-plugin/buttonsmodel.cpp:64
+#: declarative-plugin/buttonsmodel.cpp:63
 #, kde-format
 msgid "Close"
 msgstr "Claude"
 
-#: declarative-plugin/buttonsmodel.cpp:66
+#: declarative-plugin/buttonsmodel.cpp:65
 #, kde-format
 msgid "Context help"
 msgstr "Adjuta de contexto"
 
-#: declarative-plugin/buttonsmodel.cpp:68
+#: declarative-plugin/buttonsmodel.cpp:67
 #, kde-format
 msgid "Shade"
 msgstr "Umbra"
 
-#: declarative-plugin/buttonsmodel.cpp:70
+#: declarative-plugin/buttonsmodel.cpp:69
 #, kde-format
 msgid "Keep below other windows"
 msgstr "Mantene infra altere fenestras"
 
-#: declarative-plugin/buttonsmodel.cpp:72
+#: declarative-plugin/buttonsmodel.cpp:71
 #, kde-format
 msgid "Keep above other windows"
 msgstr "Mantene supra altere fenestras"
@@ -92,7 +92,7 @@ msgstr "Valerio Pilo"
 msgid "Author"
 msgstr "Autor"
 
-#: kcm.cpp:184
+#: kcm.cpp:183
 #, kde-format
 msgctxt "%1 is the name of a border size"
 msgid "Theme's default (%1)"
@@ -161,7 +161,7 @@ msgstr ""
 "Applicate con successo le thema de cursor  %1  a tu session de Plasma "
 "currente"
 
-#: kwin-applywindowdecoration.cpp:102
+#: kwin-applywindowdecoration.cpp:103
 #, kde-format
 msgid ""
 "Failed to save your theme settings - the reason is unknown, but this is an "
@@ -171,7 +171,7 @@ msgstr ""
 "isto es un error irrecuperabile. Tu pote trovar que simplemente essayar de "
 "novo functionara."
 
-#: kwin-applywindowdecoration.cpp:106
+#: kwin-applywindowdecoration.cpp:107
 #, kde-format
 msgid ""
 "Could not find theme \"%1\". The theme should be one of the following "
@@ -180,7 +180,7 @@ msgstr ""
 "Non poteva trovar le thema \"%1\". Le thema deberea esser un del sequente "
 "optiones: %2"
 
-#: kwin-applywindowdecoration.cpp:111
+#: kwin-applywindowdecoration.cpp:112
 #, kde-format
 msgid "You have the following KWin window decoration themes on your system:"
 msgstr ""
@@ -253,47 +253,47 @@ msgstr "Monstra consilios de button de fenestra de barra de titulo"
 msgid "Edit %1 Theme"
 msgstr "Edita Thema %1"
 
-#: utils.cpp:26
+#: utils.cpp:25
 #, kde-format
 msgid "No Borders"
 msgstr "Necun Bordos"
 
-#: utils.cpp:27
+#: utils.cpp:26
 #, kde-format
 msgid "No Side Borders"
 msgstr "Necun boordos lateral"
 
-#: utils.cpp:28
+#: utils.cpp:27
 #, kde-format
 msgid "Tiny"
 msgstr "Minuscule"
 
-#: utils.cpp:29
+#: utils.cpp:28
 #, kde-format
 msgid "Normal"
 msgstr "Normal"
 
-#: utils.cpp:30
+#: utils.cpp:29
 #, kde-format
 msgid "Large"
 msgstr "Grande (Large)"
 
-#: utils.cpp:31
+#: utils.cpp:30
 #, kde-format
 msgid "Very Large"
 msgstr "Multe Grande"
 
-#: utils.cpp:32
+#: utils.cpp:31
 #, kde-format
 msgid "Huge"
 msgstr "Ponderose (Huge)"
 
-#: utils.cpp:33
+#: utils.cpp:32
 #, kde-format
 msgid "Very Huge"
 msgstr "Multe Ponderose"
 
-#: utils.cpp:34
+#: utils.cpp:33
 #, kde-format
 msgid "Oversized"
 msgstr "Super dimensionate"

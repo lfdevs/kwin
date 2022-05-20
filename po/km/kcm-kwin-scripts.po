@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm-kwin-scripts\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-01-14 02:21+0000\n"
+"POT-Creation-Date: 2022-04-25 00:48+0000\n"
 "PO-Revision-Date: 2012-06-14 13:51+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer\n"
@@ -30,33 +30,18 @@ msgstr ""
 "khoemsokhem@khmeros.info,​​mornmet@khmeros.info,sutha@khmeros.info,"
 "ratanak@khmeros.info,sophea@khmeros.info"
 
-#: module.cpp:40
-#, kde-format
-msgid "KWin Scripts"
-msgstr "ស្គ្រិប KWin"
-
-#: module.cpp:42
-#, kde-format
-msgid "Configure KWin scripts"
-msgstr "កំណត់​រចនាសម្ព័ន្ធ​ស្គ្រីប KWin"
-
-#: module.cpp:45
-#, kde-format
-msgid "Tamás Krutki"
-msgstr "Tamás Krutki"
-
-#: module.cpp:105
+#: module.cpp:57
 #, fuzzy, kde-format
 #| msgid "Import KWin script..."
 msgid "Import KWin Script"
 msgstr "នាំចូល​ស្គ្រីប KWin​..."
 
-#: module.cpp:106
+#: module.cpp:58
 #, kde-format
 msgid "*.kwinscript|KWin scripts (*.kwinscript)"
 msgstr ""
 
-#: module.cpp:125
+#: module.cpp:96
 #, kde-format
 msgctxt "Placeholder is error message returned from the install service"
 msgid ""
@@ -64,32 +49,13 @@ msgid ""
 "%1"
 msgstr ""
 
-#: module.cpp:139
+#: module.cpp:108
 #, kde-format
 msgctxt "Placeholder is name of the script that was imported"
 msgid "The script \"%1\" was successfully imported."
 msgstr ""
 
-#: module.cpp:183
+#: module.cpp:146
 #, kde-format
 msgid "Error when uninstalling KWin Script: %1"
 msgstr ""
-
-#. i18n: ectx: property (windowTitle), widget (QWidget, Module)
-#: module.ui:14
-#, kde-format
-msgid "KWin script configuration"
-msgstr "ការ​កំណត់​រចនាសម្ព័ន្ធ​ស្គ្រីប KWin"
-
-#. i18n: ectx: property (text), widget (QPushButton, importScriptButton)
-#: module.ui:55
-#, kde-format
-msgid "Install from File..."
-msgstr ""
-
-#. i18n: ectx: property (text), widget (KNS3::Button, ghnsButton)
-#: module.ui:67
-#, fuzzy, kde-format
-#| msgid "Get New Script..."
-msgid "Get New Scripts..."
-msgstr "យក​ស្គ្រីប​ថ្មី..."

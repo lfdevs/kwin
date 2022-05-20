@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-01-14 02:21+0000\n"
-"PO-Revision-Date: 2021-07-31 17:03+0200\n"
+"POT-Creation-Date: 2022-03-26 00:45+0000\n"
+"PO-Revision-Date: 2021-12-10 07:41+0100\n"
 "Last-Translator: Phu Hung Nguyen <phu.nguyen@kdemail.net>\n"
 "Language-Team: Vietnamese <kde-l10n-vi@kde.org>\n"
 "Language: vi\n"
@@ -17,19 +17,17 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Lokalize 20.12.2\n"
 
-#: kwintabboxconfigform.cpp:77
+#: kwintabboxconfigform.cpp:76
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: layoutpreview.cpp:136
-#, fuzzy, kde-format
-#| msgctxt "An example Desktop Name"
-#| msgid "Desktop 1"
+#: layoutpreview.cpp:133
+#, kde-format
 msgid "Show Desktop"
-msgstr "Bàn làm việc 1"
+msgstr "Hiện bàn làm việc"
 
-#: layoutpreview.cpp:166
+#: layoutpreview.cpp:163
 #, kde-format
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
@@ -70,13 +68,13 @@ msgstr "Nội dung"
 msgid "Include \"Show Desktop\" icon"
 msgstr "Bao gồm biểu tượng \"Hiện bàn làm việc\""
 
-#. i18n: ectx: property (text), item, widget (KComboBox, switchingModeCombo)
+#. i18n: ectx: property (text), item, widget (QComboBox, switchingModeCombo)
 #: main.ui:55
 #, kde-format
 msgid "Recently used"
 msgstr "Dùng gần đây"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, switchingModeCombo)
+#. i18n: ectx: property (text), item, widget (QComboBox, switchingModeCombo)
 #: main.ui:60
 #, kde-format
 msgid "Stacking order"

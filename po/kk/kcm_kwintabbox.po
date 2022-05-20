@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-01-14 02:21+0000\n"
+"POT-Creation-Date: 2022-03-26 00:45+0000\n"
 "PO-Revision-Date: 2013-03-12 04:44+0600\n"
 "Last-Translator: Sairan Kikkarin <sairan@computer.org>\n"
 "Language-Team: Kazakh <kde-i18n-doc@kde.org>\n"
@@ -17,19 +17,19 @@ msgstr ""
 "X-Generator: Lokalize 1.2\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: kwintabboxconfigform.cpp:77
+#: kwintabboxconfigform.cpp:76
 #, kde-format
 msgid "KWin"
 msgstr ""
 
-#: layoutpreview.cpp:136
+#: layoutpreview.cpp:133
 #, fuzzy, kde-format
 #| msgctxt "An example Desktop Name"
 #| msgid "Desktop 1"
 msgid "Show Desktop"
 msgstr "1-үстел"
 
-#: layoutpreview.cpp:166
+#: layoutpreview.cpp:163
 #, kde-format
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
@@ -69,13 +69,13 @@ msgstr "Мазмұны"
 msgid "Include \"Show Desktop\" icon"
 msgstr "\"Үстелді көрсету\" таңбашасын қоса"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, switchingModeCombo)
+#. i18n: ectx: property (text), item, widget (QComboBox, switchingModeCombo)
 #: main.ui:55
 #, kde-format
 msgid "Recently used"
 msgstr "Жуырда қолданған"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, switchingModeCombo)
+#. i18n: ectx: property (text), item, widget (QComboBox, switchingModeCombo)
 #: main.ui:60
 #, kde-format
 msgid "Stacking order"

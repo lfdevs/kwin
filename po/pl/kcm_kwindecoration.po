@@ -1,5 +1,5 @@
 # translation of kcmkwindecoration.po to Polish
-# Version: $Revision: 1617513 $
+# Version: $Revision: 1621448 $
 # translation of kcmkwindecoration.po to
 # Norbert Popiołek <norbert@kde.com.pl>\n"
 # Michał Rudolf <mrudolf@kdewebdev.org>, 2002.
@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-01-22 02:14+0000\n"
+"POT-Creation-Date: 2022-03-26 00:45+0000\n"
 "PO-Revision-Date: 2021-12-30 13:20+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -35,52 +35,52 @@ msgid "Your emails"
 msgstr ""
 "mrudolf@kdewebdev.org, norbert@kde.com.pl, lukasz.wojnilowicz@gmail.com"
 
-#: declarative-plugin/buttonsmodel.cpp:54
+#: declarative-plugin/buttonsmodel.cpp:53
 #, kde-format
 msgid "More actions for this window"
 msgstr "Więcej działań dla tego okna"
 
-#: declarative-plugin/buttonsmodel.cpp:56
+#: declarative-plugin/buttonsmodel.cpp:55
 #, kde-format
 msgid "Application menu"
 msgstr "Menu programów"
 
-#: declarative-plugin/buttonsmodel.cpp:58
+#: declarative-plugin/buttonsmodel.cpp:57
 #, kde-format
 msgid "On all desktops"
 msgstr "Na wszystkich pulpitach"
 
-#: declarative-plugin/buttonsmodel.cpp:60
+#: declarative-plugin/buttonsmodel.cpp:59
 #, kde-format
 msgid "Minimize"
 msgstr "Zminimalizuj"
 
-#: declarative-plugin/buttonsmodel.cpp:62
+#: declarative-plugin/buttonsmodel.cpp:61
 #, kde-format
 msgid "Maximize"
 msgstr "Zmaksymalizuj"
 
-#: declarative-plugin/buttonsmodel.cpp:64
+#: declarative-plugin/buttonsmodel.cpp:63
 #, kde-format
 msgid "Close"
 msgstr "Zamknij"
 
-#: declarative-plugin/buttonsmodel.cpp:66
+#: declarative-plugin/buttonsmodel.cpp:65
 #, kde-format
 msgid "Context help"
 msgstr "Pomoc podręczna"
 
-#: declarative-plugin/buttonsmodel.cpp:68
+#: declarative-plugin/buttonsmodel.cpp:67
 #, kde-format
 msgid "Shade"
 msgstr "Zwiń"
 
-#: declarative-plugin/buttonsmodel.cpp:70
+#: declarative-plugin/buttonsmodel.cpp:69
 #, kde-format
 msgid "Keep below other windows"
 msgstr "Utrzymuj pod innymi oknami"
 
-#: declarative-plugin/buttonsmodel.cpp:72
+#: declarative-plugin/buttonsmodel.cpp:71
 #, kde-format
 msgid "Keep above other windows"
 msgstr "Utrzymuj nad innymi oknami"
@@ -100,7 +100,7 @@ msgstr "Valerio Pilo"
 msgid "Author"
 msgstr "Autor"
 
-#: kcm.cpp:184
+#: kcm.cpp:183
 #, kde-format
 msgctxt "%1 is the name of a border size"
 msgid "Theme's default (%1)"
@@ -164,7 +164,7 @@ msgstr "Żądany wygląd \"%1\" jest już ustawiony jako wygląd dla okien."
 msgid "Successfully applied the cursor theme %1 to your current Plasma session"
 msgstr "Pomyślnie zastosowano wygląd dla wskaźników %1 w bieżącej sesji Plazmy"
 
-#: kwin-applywindowdecoration.cpp:102
+#: kwin-applywindowdecoration.cpp:103
 #, kde-format
 msgid ""
 "Failed to save your theme settings - the reason is unknown, but this is an "
@@ -173,7 +173,7 @@ msgstr ""
 "Nie udało się zapisać ustawień wyglądu z nieznanego powodu, lecz jest to "
 "błąd, z którego nie można się wycofać. Spróbuj ponownie."
 
-#: kwin-applywindowdecoration.cpp:106
+#: kwin-applywindowdecoration.cpp:107
 #, kde-format
 msgid ""
 "Could not find theme \"%1\". The theme should be one of the following "
@@ -182,7 +182,7 @@ msgstr ""
 "Nie można znaleźć wyglądu \"%1\". Wygląd powinien być jednym z następujących "
 "ustawień: %2"
 
-#: kwin-applywindowdecoration.cpp:111
+#: kwin-applywindowdecoration.cpp:112
 #, kde-format
 msgid "You have the following KWin window decoration themes on your system:"
 msgstr "Masz następujące wyglądy dla okien dla KWin w swoim systemie:"
@@ -254,47 +254,47 @@ msgstr "Pokaż podpowiedź po najechaniu na przycisk paska tytułu"
 msgid "Edit %1 Theme"
 msgstr "Edytuj wygląd %1..."
 
-#: utils.cpp:26
+#: utils.cpp:25
 #, kde-format
 msgid "No Borders"
 msgstr "Bez obramowań"
 
-#: utils.cpp:27
+#: utils.cpp:26
 #, kde-format
 msgid "No Side Borders"
 msgstr "Brak bocznego obramowania"
 
-#: utils.cpp:28
+#: utils.cpp:27
 #, kde-format
 msgid "Tiny"
 msgstr "Małe"
 
-#: utils.cpp:29
+#: utils.cpp:28
 #, kde-format
 msgid "Normal"
 msgstr "Normalne"
 
-#: utils.cpp:30
+#: utils.cpp:29
 #, kde-format
 msgid "Large"
 msgstr "Duże"
 
-#: utils.cpp:31
+#: utils.cpp:30
 #, kde-format
 msgid "Very Large"
 msgstr "Bardzo duże"
 
-#: utils.cpp:32
+#: utils.cpp:31
 #, kde-format
 msgid "Huge"
 msgstr "Wielkie"
 
-#: utils.cpp:33
+#: utils.cpp:32
 #, kde-format
 msgid "Very Huge"
 msgstr "Bardzo wielkie"
 
-#: utils.cpp:34
+#: utils.cpp:33
 #, kde-format
 msgid "Oversized"
 msgstr "Przewymiarowane"

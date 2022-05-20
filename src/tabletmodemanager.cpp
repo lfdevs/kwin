@@ -9,9 +9,11 @@
 
 #include "backends/libinput/device.h"
 #include "input.h"
-#include "inputdevice.h"
 #include "input_event.h"
 #include "input_event_spy.h"
+#include "inputdevice.h"
+#include "main.h"
+#include "wayland_server.h"
 
 #include <QDBusConnection>
 
@@ -22,7 +24,7 @@ KWIN_SINGLETON_FACTORY_VARIABLE(TabletModeManager, s_manager)
 
 static bool shouldIgnoreDevice(InputDevice *device)
 {
-    auto libinput_device = qobject_cast<LibInput::Device*>(device);
+    auto libinput_device = qobject_cast<LibInput::Device *>(device);
     if (!libinput_device) {
         return false;
     }
@@ -63,9 +65,8 @@ public:
     }
 
 private:
-    TabletModeManager * const m_parent;
+    TabletModeManager *const m_parent;
 };
-
 
 class TabletModeTouchpadRemovedSpy : public QObject
 {
@@ -102,25 +103,54 @@ public:
     }
 
 private:
-    TabletModeManager * const m_parent;
+    TabletModeManager *const m_parent;
 };
 
 TabletModeManager::TabletModeManager(QObject *parent)
     : QObject(parent)
 {
-    if (input()->hasTabletModeSwitch()) {
-        input()->installInputEventSpy(new TabletModeSwitchEventSpy(this));
-    } else {
-        hasTabletModeInputChanged(false);
+    if (waylandServer()) {
+        if (input()->hasTabletModeSwitch()) {
+            input()->installInputEventSpy(new TabletModeSwitchEventSpy(this));
+        } else {
+            hasTabletModeInputChanged(false);
+        }
     }
+
+    KSharedConfig::Ptr kwinSettings = kwinApp()->config();
+    m_settingsWatcher = KConfigWatcher::create(kwinSettings);
+    connect(m_settingsWatcher.data(), &KConfigWatcher::configChanged, this, &KWin::TabletModeManager::refreshSettings);
+    refreshSettings();
 
     QDBusConnection::sessionBus().registerObject(QStringLiteral("/org/kde/KWin"),
                                                  QStringLiteral("org.kde.KWin.TabletModeManager"),
                                                  this,
-                                                 QDBusConnection::ExportAllProperties | QDBusConnection::ExportAllSignals
-    );
+                                                 QDBusConnection::ExportAllProperties | QDBusConnection::ExportAllSignals);
 
-    connect(input(), &InputRedirection::hasTabletModeSwitchChanged, this, &TabletModeManager::hasTabletModeInputChanged);
+    if (waylandServer()) {
+        connect(input(), &InputRedirection::hasTabletModeSwitchChanged, this, &TabletModeManager::hasTabletModeInputChanged);
+    }
+}
+
+void KWin::TabletModeManager::refreshSettings()
+{
+    KSharedConfig::Ptr kwinSettings = kwinApp()->config();
+    KConfigGroup cg = kwinSettings->group("Input");
+    const QString tabletModeConfig = cg.readPathEntry("TabletMode", QStringLiteral("auto"));
+    const bool oldEffectiveTabletMode = effectiveTabletMode();
+    if (tabletModeConfig == QStringLiteral("on")) {
+        m_configuredMode = ConfiguredMode::On;
+        if (!m_detecting) {
+            Q_EMIT tabletModeAvailableChanged(true);
+        }
+        Q_EMIT tabletModeChanged(true);
+    } else if (tabletModeConfig == QStringLiteral("off")) {
+        m_configuredMode = ConfiguredMode::Off;
+        Q_EMIT tabletModeChanged(false);
+    } else {
+        m_configuredMode = ConfiguredMode::Auto;
+        Q_EMIT tabletModeChanged(effectiveTabletMode());
+    }
 }
 
 void KWin::TabletModeManager::hasTabletModeInputChanged(bool set)
@@ -143,6 +173,23 @@ bool TabletModeManager::isTabletModeAvailable() const
     return m_detecting;
 }
 
+bool TabletModeManager::effectiveTabletMode() const
+{
+    switch (m_configuredMode) {
+    case ConfiguredMode::Off:
+        return false;
+    case ConfiguredMode::On:
+        return true;
+    case ConfiguredMode::Auto:
+    default:
+        if (!waylandServer()) {
+            return false;
+        } else {
+            return m_isTabletMode;
+        }
+    }
+}
+
 bool TabletModeManager::isTablet() const
 {
     return m_isTabletMode;
@@ -154,16 +201,26 @@ void TabletModeManager::setIsTablet(bool tablet)
         return;
     }
 
+    const bool oldTabletMode = effectiveTabletMode();
     m_isTabletMode = tablet;
-    Q_EMIT tabletModeChanged(tablet);
+    if (effectiveTabletMode() != oldTabletMode) {
+        Q_EMIT tabletModeChanged(effectiveTabletMode());
+    }
 }
 
 void KWin::TabletModeManager::setTabletModeAvailable(bool detecting)
 {
-    if (m_detecting != detecting) {
-        m_detecting = detecting;
-        Q_EMIT tabletModeAvailableChanged(detecting);
+    if (m_detecting == detecting) {
+        return;
     }
+
+    m_detecting = detecting;
+    Q_EMIT tabletModeAvailableChanged(isTabletModeAvailable());
+}
+
+KWin::TabletModeManager::ConfiguredMode KWin::TabletModeManager::configuredMode() const
+{
+    return m_configuredMode;
 }
 
 } // namespace KWin

@@ -12,13 +12,16 @@
 // Qt
 #include <QApplication>
 #include <QtTest>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <private/qtx11extras_p.h>
+#else
 #include <QX11Info>
+#endif
 #include <netwm.h>
 // xcb
 #include <xcb/xcb.h>
 
 using namespace KWin;
-using namespace KWin::Xcb;
 
 class TestXcbWrapper : public QObject
 {
@@ -45,21 +48,22 @@ private Q_SLOTS:
     void testMotifEmpty();
     void testMotif_data();
     void testMotif();
+
 private:
-    void testEmpty(WindowGeometry &geometry);
-    void testGeometry(WindowGeometry &geometry, const QRect &rect);
-    Window m_testWindow;
+    void testEmpty(Xcb::WindowGeometry &geometry);
+    void testGeometry(Xcb::WindowGeometry &geometry, const QRect &rect);
+    Xcb::Window m_testWindow;
 };
 
 void TestXcbWrapper::initTestCase()
 {
     qApp->setProperty("x11RootWindow", QVariant::fromValue<quint32>(QX11Info::appRootWindow()));
-    qApp->setProperty("x11Connection", QVariant::fromValue<void*>(QX11Info::connection()));
+    qApp->setProperty("x11Connection", QVariant::fromValue<void *>(QX11Info::connection()));
 }
 
 void TestXcbWrapper::init()
 {
-    const uint32_t values[] = { true };
+    const uint32_t values[] = {true};
     m_testWindow.create(QRect(0, 0, 10, 10), XCB_WINDOW_CLASS_INPUT_ONLY, XCB_CW_OVERRIDE_REDIRECT, values);
     QVERIFY(m_testWindow.isValid());
 }
@@ -69,16 +73,16 @@ void TestXcbWrapper::cleanup()
     m_testWindow.reset();
 }
 
-void TestXcbWrapper::testEmpty(WindowGeometry &geometry)
+void TestXcbWrapper::testEmpty(Xcb::WindowGeometry &geometry)
 {
-    QCOMPARE(geometry.window(), noneWindow());
+    QCOMPARE(geometry.window(), KWin::noneWindow());
     QVERIFY(!geometry.data());
     QCOMPARE(geometry.isNull(), true);
     QCOMPARE(geometry.rect(), QRect());
     QVERIFY(!geometry);
 }
 
-void TestXcbWrapper::testGeometry(WindowGeometry &geometry, const QRect &rect)
+void TestXcbWrapper::testGeometry(Xcb::WindowGeometry &geometry, const QRect &rect)
 {
     QCOMPARE(geometry.window(), (xcb_window_t)m_testWindow);
     // now lets retrieve some data
@@ -95,22 +99,22 @@ void TestXcbWrapper::testGeometry(WindowGeometry &geometry, const QRect &rect)
 
 void TestXcbWrapper::defaultCtor()
 {
-    WindowGeometry geometry;
+    Xcb::WindowGeometry geometry;
     testEmpty(geometry);
     QVERIFY(!geometry.isRetrieved());
 }
 
 void TestXcbWrapper::normalCtor()
 {
-    WindowGeometry geometry(m_testWindow);
+    Xcb::WindowGeometry geometry(m_testWindow);
     QVERIFY(!geometry.isRetrieved());
     testGeometry(geometry, QRect(0, 0, 10, 10));
 }
 
 void TestXcbWrapper::copyCtorEmpty()
 {
-    WindowGeometry geometry;
-    WindowGeometry other(geometry);
+    Xcb::WindowGeometry geometry;
+    Xcb::WindowGeometry other(geometry);
     testEmpty(geometry);
     QVERIFY(geometry.isRetrieved());
     testEmpty(other);
@@ -119,9 +123,9 @@ void TestXcbWrapper::copyCtorEmpty()
 
 void TestXcbWrapper::copyCtorBeforeRetrieve()
 {
-    WindowGeometry geometry(m_testWindow);
+    Xcb::WindowGeometry geometry(m_testWindow);
     QVERIFY(!geometry.isRetrieved());
-    WindowGeometry other(geometry);
+    Xcb::WindowGeometry other(geometry);
     testEmpty(geometry);
     QVERIFY(geometry.isRetrieved());
 
@@ -131,11 +135,11 @@ void TestXcbWrapper::copyCtorBeforeRetrieve()
 
 void TestXcbWrapper::copyCtorAfterRetrieve()
 {
-    WindowGeometry geometry(m_testWindow);
+    Xcb::WindowGeometry geometry(m_testWindow);
     QVERIFY(geometry);
     QVERIFY(geometry.isRetrieved());
     QCOMPARE(geometry.rect(), QRect(0, 0, 10, 10));
-    WindowGeometry other(geometry);
+    Xcb::WindowGeometry other(geometry);
     testEmpty(geometry);
     QVERIFY(geometry.isRetrieved());
 
@@ -145,8 +149,8 @@ void TestXcbWrapper::copyCtorAfterRetrieve()
 
 void TestXcbWrapper::assignementEmpty()
 {
-    WindowGeometry geometry;
-    WindowGeometry other;
+    Xcb::WindowGeometry geometry;
+    Xcb::WindowGeometry other;
     testEmpty(geometry);
     testEmpty(other);
 
@@ -156,63 +160,63 @@ void TestXcbWrapper::assignementEmpty()
     testEmpty(other);
     QVERIFY(!other.isRetrieved());
 
-QT_WARNING_PUSH
-QT_WARNING_DISABLE_CLANG("-Wself-assign-overloaded")
+    QT_WARNING_PUSH
+    QT_WARNING_DISABLE_CLANG("-Wself-assign-overloaded")
     // test assignment to self
     geometry = geometry;
     other = other;
     testEmpty(geometry);
     testEmpty(other);
-QT_WARNING_POP
+    QT_WARNING_POP
 }
 
 void TestXcbWrapper::assignmentBeforeRetrieve()
 {
-    WindowGeometry geometry(m_testWindow);
-    WindowGeometry other = geometry;
+    Xcb::WindowGeometry geometry(m_testWindow);
+    Xcb::WindowGeometry other = geometry;
     QVERIFY(geometry.isRetrieved());
     testEmpty(geometry);
 
     QVERIFY(!other.isRetrieved());
     testGeometry(other, QRect(0, 0, 10, 10));
 
-    other = WindowGeometry(m_testWindow);
+    other = Xcb::WindowGeometry(m_testWindow);
     QVERIFY(!other.isRetrieved());
     QCOMPARE(other.window(), (xcb_window_t)m_testWindow);
-    other = WindowGeometry();
+    other = Xcb::WindowGeometry();
     testEmpty(geometry);
 
-QT_WARNING_PUSH
-QT_WARNING_DISABLE_CLANG("-Wself-assign-overloaded")
+    QT_WARNING_PUSH
+    QT_WARNING_DISABLE_CLANG("-Wself-assign-overloaded")
     // test assignment to self
     geometry = geometry;
     other = other;
     testEmpty(geometry);
-QT_WARNING_POP
+    QT_WARNING_POP
 }
 
 void TestXcbWrapper::assignmentAfterRetrieve()
 {
-    WindowGeometry geometry(m_testWindow);
+    Xcb::WindowGeometry geometry(m_testWindow);
     QVERIFY(geometry);
     QVERIFY(geometry.isRetrieved());
-    WindowGeometry other = geometry;
+    Xcb::WindowGeometry other = geometry;
     testEmpty(geometry);
 
     QVERIFY(other.isRetrieved());
     testGeometry(other, QRect(0, 0, 10, 10));
 
-QT_WARNING_PUSH
-QT_WARNING_DISABLE_CLANG("-Wself-assign-overloaded")
+    QT_WARNING_PUSH
+    QT_WARNING_DISABLE_CLANG("-Wself-assign-overloaded")
     // test assignment to self
     geometry = geometry;
     other = other;
     testEmpty(geometry);
     testGeometry(other, QRect(0, 0, 10, 10));
-QT_WARNING_POP
+    QT_WARNING_POP
 
     // set to empty again
-    other = WindowGeometry();
+    other = Xcb::WindowGeometry();
     testEmpty(other);
 }
 
@@ -221,20 +225,20 @@ void TestXcbWrapper::discard()
     // discard of reply cannot be tested properly as we cannot check whether the reply has been discarded
     // therefore it's more or less just a test to ensure that it doesn't crash and the code paths
     // are taken.
-    WindowGeometry *geometry = new WindowGeometry();
+    Xcb::WindowGeometry *geometry = new Xcb::WindowGeometry();
     delete geometry;
 
-    geometry = new WindowGeometry(m_testWindow);
+    geometry = new Xcb::WindowGeometry(m_testWindow);
     delete geometry;
 
-    geometry = new WindowGeometry(m_testWindow);
+    geometry = new Xcb::WindowGeometry(m_testWindow);
     QVERIFY(geometry->data());
     delete geometry;
 }
 
 void TestXcbWrapper::testQueryTree()
 {
-    Tree tree(m_testWindow);
+    Xcb::Tree tree(m_testWindow);
     // should have root as parent
     QCOMPARE(tree.parent(), static_cast<xcb_window_t>(QX11Info::appRootWindow()));
     // shouldn't have any children
@@ -242,7 +246,7 @@ void TestXcbWrapper::testQueryTree()
     QVERIFY(!tree.children());
 
     // query for root
-    Tree root(QX11Info::appRootWindow());
+    Xcb::Tree root(QX11Info::appRootWindow());
     // shouldn't have a parent
     QCOMPARE(root.parent(), xcb_window_t(XCB_WINDOW_NONE));
     QVERIFY(root->children_len > 0);
@@ -257,7 +261,7 @@ void TestXcbWrapper::testQueryTree()
     QVERIFY(found);
 
     // query for not existing window
-    Tree doesntExist(XCB_WINDOW_NONE);
+    Xcb::Tree doesntExist(XCB_WINDOW_NONE);
     QCOMPARE(doesntExist.parent(), xcb_window_t(XCB_WINDOW_NONE));
     QVERIFY(doesntExist.isNull());
     QVERIFY(doesntExist.isRetrieved());
@@ -273,18 +277,18 @@ void TestXcbWrapper::testCurrentInput()
     m_testWindow.focus(XCB_INPUT_FOCUS_PARENT, QX11Info::appTime());
     xcb_flush(c);
 
-    CurrentInput input;
+    Xcb::CurrentInput input;
     QCOMPARE(input.window(), (xcb_window_t)m_testWindow);
 
     // creating a copy should make the input object have no window any more
-    CurrentInput input2(input);
+    Xcb::CurrentInput input2(input);
     QCOMPARE(input2.window(), (xcb_window_t)m_testWindow);
     QCOMPARE(input.window(), xcb_window_t(XCB_WINDOW_NONE));
 }
 
 void TestXcbWrapper::testTransientFor()
 {
-    TransientFor transient(m_testWindow);
+    Xcb::TransientFor transient(m_testWindow);
     QCOMPARE(transient.window(), (xcb_window_t)m_testWindow);
     // our m_testWindow doesn't have a transient for hint
     xcb_window_t compareWindow = XCB_WINDOW_NONE;
@@ -298,12 +302,12 @@ void TestXcbWrapper::testTransientFor()
     QVERIFY(!ok);
 
     // Create a Window with a transient for hint
-    Window transientWindow(createWindow());
+    Xcb::Window transientWindow(KWin::createWindow());
     xcb_window_t testWindowId = m_testWindow;
     transientWindow.changeProperty(XCB_ATOM_WM_TRANSIENT_FOR, XCB_ATOM_WINDOW, 32, 1, &testWindowId);
 
     // let's get another transient object
-    TransientFor realTransient(transientWindow);
+    Xcb::TransientFor realTransient(transientWindow);
     QVERIFY(realTransient.getTransientFor(&compareWindow));
     QCOMPARE(compareWindow, (xcb_window_t)m_testWindow);
     ok = false;
@@ -314,37 +318,37 @@ void TestXcbWrapper::testTransientFor()
     QVERIFY(ok);
     ok = false;
     QCOMPARE(realTransient.value<xcb_window_t>(), (xcb_window_t)m_testWindow);
-    QCOMPARE(realTransient.value<xcb_window_t*>(nullptr, &ok)[0], (xcb_window_t)m_testWindow);
+    QCOMPARE(realTransient.value<xcb_window_t *>(nullptr, &ok)[0], (xcb_window_t)m_testWindow);
     QVERIFY(ok);
-    QCOMPARE(realTransient.value<xcb_window_t*>()[0], (xcb_window_t)m_testWindow);
+    QCOMPARE(realTransient.value<xcb_window_t *>()[0], (xcb_window_t)m_testWindow);
 
     // test for a not existing window
-    TransientFor doesntExist(XCB_WINDOW_NONE);
+    Xcb::TransientFor doesntExist(XCB_WINDOW_NONE);
     QVERIFY(!doesntExist.getTransientFor(&compareWindow));
 }
 
 void TestXcbWrapper::testPropertyByteArray()
 {
-    Window testWindow(createWindow());
-    Property prop(false, testWindow, XCB_ATOM_WM_NAME, XCB_ATOM_STRING, 0, 100000);
+    Xcb::Window testWindow(KWin::createWindow());
+    Xcb::Property prop(false, testWindow, XCB_ATOM_WM_NAME, XCB_ATOM_STRING, 0, 100000);
     QCOMPARE(prop.toByteArray(), QByteArray());
     bool ok = true;
     QCOMPARE(prop.toByteArray(&ok), QByteArray());
     QVERIFY(!ok);
     ok = true;
-    QVERIFY(!prop.value<const char*>());
-    QCOMPARE(prop.value<const char*>("bar", &ok), "bar");
+    QVERIFY(!prop.value<const char *>());
+    QCOMPARE(prop.value<const char *>("bar", &ok), "bar");
     QVERIFY(!ok);
-    QCOMPARE(QByteArray(StringProperty(testWindow, XCB_ATOM_WM_NAME)), QByteArray());
+    QCOMPARE(QByteArray(Xcb::StringProperty(testWindow, XCB_ATOM_WM_NAME)), QByteArray());
 
     testWindow.changeProperty(XCB_ATOM_WM_NAME, XCB_ATOM_STRING, 8, 3, "foo");
-    prop = Property(false, testWindow, XCB_ATOM_WM_NAME, XCB_ATOM_STRING, 0, 100000);
+    prop = Xcb::Property(false, testWindow, XCB_ATOM_WM_NAME, XCB_ATOM_STRING, 0, 100000);
     QCOMPARE(prop.toByteArray(), QByteArrayLiteral("foo"));
     QCOMPARE(prop.toByteArray(&ok), QByteArrayLiteral("foo"));
     QVERIFY(ok);
-    QCOMPARE(prop.value<const char*>(nullptr, &ok), "foo");
+    QCOMPARE(prop.value<const char *>(nullptr, &ok), "foo");
     QVERIFY(ok);
-    QCOMPARE(QByteArray(StringProperty(testWindow, XCB_ATOM_WM_NAME)), QByteArrayLiteral("foo"));
+    QCOMPARE(QByteArray(Xcb::StringProperty(testWindow, XCB_ATOM_WM_NAME)), QByteArrayLiteral("foo"));
 
     // verify incorrect format and type
     QCOMPARE(prop.toByteArray(32), QByteArray());
@@ -352,41 +356,41 @@ void TestXcbWrapper::testPropertyByteArray()
 
     // verify empty property
     testWindow.changeProperty(XCB_ATOM_WM_NAME, XCB_ATOM_STRING, 8, 0, nullptr);
-    prop = Property(false, testWindow, XCB_ATOM_WM_NAME, XCB_ATOM_STRING, 0, 100000);
+    prop = Xcb::Property(false, testWindow, XCB_ATOM_WM_NAME, XCB_ATOM_STRING, 0, 100000);
     QCOMPARE(prop.toByteArray(), QByteArray());
     QCOMPARE(prop.toByteArray(&ok), QByteArray());
-    //valid bytearray
+    // valid bytearray
     QVERIFY(ok);
-    //The bytearray should be empty
+    // The bytearray should be empty
     QVERIFY(prop.toByteArray().isEmpty());
-    //The bytearray should be not null
+    // The bytearray should be not null
     QVERIFY(!prop.toByteArray().isNull());
-    QVERIFY(!prop.value<const char*>());
-    QCOMPARE(QByteArray(StringProperty(testWindow, XCB_ATOM_WM_NAME)), QByteArray());
+    QVERIFY(!prop.value<const char *>());
+    QCOMPARE(QByteArray(Xcb::StringProperty(testWindow, XCB_ATOM_WM_NAME)), QByteArray());
 
     // verify non existing property
     Xcb::Atom invalid(QByteArrayLiteral("INVALID_ATOM"));
-    prop = Property(false, testWindow, invalid, XCB_ATOM_STRING, 0, 100000);
+    prop = Xcb::Property(false, testWindow, invalid, XCB_ATOM_STRING, 0, 100000);
     QCOMPARE(prop.toByteArray(), QByteArray());
     QCOMPARE(prop.toByteArray(&ok), QByteArray());
-    //invalid bytearray
+    // invalid bytearray
     QVERIFY(!ok);
-    //The bytearray should be empty
+    // The bytearray should be empty
     QVERIFY(prop.toByteArray().isEmpty());
-    //The bytearray should be not null
+    // The bytearray should be not null
     QVERIFY(prop.toByteArray().isNull());
-    QVERIFY(!prop.value<const char*>());
-    QCOMPARE(QByteArray(StringProperty(testWindow, XCB_ATOM_WM_NAME)), QByteArray());
+    QVERIFY(!prop.value<const char *>());
+    QCOMPARE(QByteArray(Xcb::StringProperty(testWindow, XCB_ATOM_WM_NAME)), QByteArray());
 }
 
 void TestXcbWrapper::testPropertyBool()
 {
-    Window testWindow(createWindow());
-    Atom blockCompositing(QByteArrayLiteral("_KDE_NET_WM_BLOCK_COMPOSITING"));
+    Xcb::Window testWindow(KWin::createWindow());
+    Xcb::Atom blockCompositing(QByteArrayLiteral("_KDE_NET_WM_BLOCK_COMPOSITING"));
     QVERIFY(blockCompositing != XCB_ATOM_NONE);
     NETWinInfo info(QX11Info::connection(), testWindow, QX11Info::appRootWindow(), NET::Properties(), NET::WM2BlockCompositing);
 
-    Property prop(false, testWindow, blockCompositing, XCB_ATOM_CARDINAL, 0, 100000);
+    Xcb::Property prop(false, testWindow, blockCompositing, XCB_ATOM_CARDINAL, 0, 100000);
     bool ok = true;
     QVERIFY(!prop.toBool());
     QVERIFY(!prop.toBool(&ok));
@@ -394,7 +398,7 @@ void TestXcbWrapper::testPropertyBool()
 
     info.setBlockingCompositing(true);
     xcb_flush(QX11Info::connection());
-    prop = Property(false, testWindow, blockCompositing, XCB_ATOM_CARDINAL, 0, 100000);
+    prop = Xcb::Property(false, testWindow, blockCompositing, XCB_ATOM_CARDINAL, 0, 100000);
     QVERIFY(prop.toBool());
     QVERIFY(prop.toBool(&ok));
     QVERIFY(ok);
@@ -408,7 +412,7 @@ void TestXcbWrapper::testPropertyBool()
     // incorrect value:
     uint32_t d[] = {1, 0};
     testWindow.changeProperty(blockCompositing, XCB_ATOM_CARDINAL, 32, 2, d);
-    prop = Property(false, testWindow, blockCompositing, XCB_ATOM_CARDINAL, 0, 100000);
+    prop = Xcb::Property(false, testWindow, blockCompositing, XCB_ATOM_CARDINAL, 0, 100000);
     QVERIFY(!prop.toBool());
     ok = true;
     QVERIFY(!prop.toBool(&ok));
@@ -417,26 +421,26 @@ void TestXcbWrapper::testPropertyBool()
 
 void TestXcbWrapper::testAtom()
 {
-    Atom atom(QByteArrayLiteral("WM_CLIENT_MACHINE"));
+    Xcb::Atom atom(QByteArrayLiteral("WM_CLIENT_MACHINE"));
     QCOMPARE(atom.name(), QByteArrayLiteral("WM_CLIENT_MACHINE"));
     QVERIFY(atom == XCB_ATOM_WM_CLIENT_MACHINE);
     QVERIFY(atom.isValid());
 
     // test the const paths
-    const Atom &atom2(atom);
+    const Xcb::Atom &atom2(atom);
     QVERIFY(atom2.isValid());
     QVERIFY(atom2 == XCB_ATOM_WM_CLIENT_MACHINE);
     QCOMPARE(atom2.name(), QByteArrayLiteral("WM_CLIENT_MACHINE"));
 
-    //destroy before retrieved
-    Atom atom3(QByteArrayLiteral("WM_CLIENT_MACHINE"));
+    // destroy before retrieved
+    Xcb::Atom atom3(QByteArrayLiteral("WM_CLIENT_MACHINE"));
     QCOMPARE(atom3.name(), QByteArrayLiteral("WM_CLIENT_MACHINE"));
 }
 
 void TestXcbWrapper::testMotifEmpty()
 {
-    Atom atom(QByteArrayLiteral("_MOTIF_WM_HINTS"));
-    MotifHints hints(atom);
+    Xcb::Atom atom(QByteArrayLiteral("_MOTIF_WM_HINTS"));
+    Xcb::MotifHints hints(atom);
     // pre init
     QCOMPARE(hints.hasDecoration(), false);
     QCOMPARE(hints.noBorder(), false);
@@ -479,20 +483,20 @@ void TestXcbWrapper::testMotif_data()
     QTest::addColumn<bool>("expectedMaximize");
     QTest::addColumn<bool>("expectedClose");
 
-    QTest::newRow("none")     << 0u <<  0u << 0u << false << false << true  << true  << true  << true  << true;
-    QTest::newRow("noborder") << 2u <<  5u << 0u << true  << true  << true  << true  << true  << true  << true;
-    QTest::newRow("border")   << 2u <<  5u << 1u << true  << false << true  << true  << true  << true  << true;
-    QTest::newRow("resize")   << 1u <<  2u << 1u << false << false << true  << false << false << false << false;
-    QTest::newRow("move")     << 1u <<  4u << 1u << false << false << false << true  << false << false << false;
-    QTest::newRow("minimize") << 1u <<  8u << 1u << false << false << false << false << true  << false << false;
-    QTest::newRow("maximize") << 1u << 16u << 1u << false << false << false << false << false << true  << false;
-    QTest::newRow("close")    << 1u << 32u << 1u << false << false << false << false << false << false << true;
+    QTest::newRow("none") << 0u << 0u << 0u << false << false << true << true << true << true << true;
+    QTest::newRow("noborder") << 2u << 5u << 0u << true << true << true << true << true << true << true;
+    QTest::newRow("border") << 2u << 5u << 1u << true << false << true << true << true << true << true;
+    QTest::newRow("resize") << 1u << 2u << 1u << false << false << true << false << false << false << false;
+    QTest::newRow("move") << 1u << 4u << 1u << false << false << false << true << false << false << false;
+    QTest::newRow("minimize") << 1u << 8u << 1u << false << false << false << false << true << false << false;
+    QTest::newRow("maximize") << 1u << 16u << 1u << false << false << false << false << false << true << false;
+    QTest::newRow("close") << 1u << 32u << 1u << false << false << false << false << false << false << true;
 
-    QTest::newRow("resize/all")   << 1u <<  3u << 1u << false << false << false << true  << true  << true  << true;
-    QTest::newRow("move/all")     << 1u <<  5u << 1u << false << false << true  << false << true  << true  << true;
-    QTest::newRow("minimize/all") << 1u <<  9u << 1u << false << false << true  << true  << false << true  << true;
-    QTest::newRow("maximize/all") << 1u << 17u << 1u << false << false << true  << true  << true  << false << true;
-    QTest::newRow("close/all")    << 1u << 33u << 1u << false << false << true  << true  << true  << true  << false;
+    QTest::newRow("resize/all") << 1u << 3u << 1u << false << false << false << true << true << true << true;
+    QTest::newRow("move/all") << 1u << 5u << 1u << false << false << true << false << true << true << true;
+    QTest::newRow("minimize/all") << 1u << 9u << 1u << false << false << true << true << false << true << true;
+    QTest::newRow("maximize/all") << 1u << 17u << 1u << false << false << true << true << true << false << true;
+    QTest::newRow("close/all") << 1u << 33u << 1u << false << false << true << true << true << true << false;
 
     QTest::newRow("all") << 1u << 62u << 1u << false << false << true << true << true << true << true;
     QTest::newRow("all/all") << 1u << 63u << 1u << false << false << false << false << false << false << false;
@@ -501,7 +505,7 @@ void TestXcbWrapper::testMotif_data()
 
 void TestXcbWrapper::testMotif()
 {
-    Atom atom(QByteArrayLiteral("_MOTIF_WM_HINTS"));
+    Xcb::Atom atom(QByteArrayLiteral("_MOTIF_WM_HINTS"));
     QFETCH(quint32, flags);
     QFETCH(quint32, functions);
     QFETCH(quint32, decorations);
@@ -510,11 +514,10 @@ void TestXcbWrapper::testMotif()
         functions,
         decorations,
         0,
-        0
-    };
+        0};
     xcb_change_property(QX11Info::connection(), XCB_PROP_MODE_REPLACE, m_testWindow, atom, atom, 32, 5, data);
     xcb_flush(QX11Info::connection());
-    MotifHints hints(atom);
+    Xcb::MotifHints hints(atom);
     hints.init(m_testWindow);
     hints.read();
     QTEST(hints.hasDecoration(), "expectedHasDecoration");

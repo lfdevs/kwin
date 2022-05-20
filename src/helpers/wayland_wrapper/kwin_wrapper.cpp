@@ -21,19 +21,20 @@
  */
 
 #include <QCoreApplication>
+#include <QDBusConnection>
 #include <QDebug>
 #include <QProcess>
 #include <QTemporaryFile>
-#include <QDBusConnection>
 
+#include <KSignalHandler>
 #include <UpdateLaunchEnvironmentJob>
 
 #include <signal.h>
 
 #include "wl-socket.h"
-#include "xwaylandsocket.h"
-#include "xauthority.h"
 #include "wrapper_logging.h"
+#include "xauthority.h"
+#include "xwaylandsocket.h"
 
 class KWinWrapper : public QObject
 {
@@ -108,7 +109,6 @@ void KWinWrapper::run()
         if (m_xauthorityFile.open()) {
             args << "--xwayland-xauthority" << m_xauthorityFile.fileName();
         }
-
     }
 
     // attach our main process arguments
@@ -156,17 +156,17 @@ void KWinWrapper::run()
     });
 }
 
-void sigtermHandler(int)
-{
-    qApp->quit();
-}
-
 int main(int argc, char **argv)
 {
     QCoreApplication app(argc, argv);
     app.setQuitLockEnabled(false); // don't exit when the first KJob finishes
 
-    signal(SIGTERM, sigtermHandler);
+    KSignalHandler::self()->watchSignal(SIGTERM);
+    QObject::connect(KSignalHandler::self(), &KSignalHandler::signalReceived, &app, [&app](int signal) {
+        if (signal == SIGTERM) {
+            app.quit();
+        }
+    });
 
     KWinWrapper wrapper(&app);
     wrapper.run();

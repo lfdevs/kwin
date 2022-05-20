@@ -5,9 +5,9 @@
 */
 
 #include "kcm.h"
+#include "desktopeffectsdata.h"
 #include "effectsfilterproxymodel.h"
 #include "effectsmodel.h"
-#include "desktopeffectsdata.h"
 
 #include <KAboutData>
 #include <KLocalizedString>
@@ -17,7 +17,7 @@
 #include <QWindow>
 
 K_PLUGIN_FACTORY_WITH_JSON(DesktopEffectsKCMFactory,
-                           "kcm_kwin_effects.json",
+                           "metadata.json",
                            registerPlugin<KWin::DesktopEffectsKCM>();
                            registerPlugin<KWin::DesktopEffectsData>();)
 
@@ -35,8 +35,7 @@ DesktopEffectsKCM::DesktopEffectsKCM(QObject *parent, const QVariantList &args)
         i18n("Desktop Effects"),
         QStringLiteral("2.0"),
         QString(),
-        KAboutLicense::GPL
-    );
+        KAboutLicense::GPL);
     about->addAuthor(i18n("Vlad Zahorodnii"), QString(), QStringLiteral("vlad.zahorodnii@kde.org"));
     setAboutData(about);
 

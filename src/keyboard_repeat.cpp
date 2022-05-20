@@ -7,12 +7,11 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "keyboard_repeat.h"
-#include "keyboard_input.h"
 #include "input_event.h"
+#include "keyboard_input.h"
+#include "wayland/keyboard_interface.h"
+#include "wayland/seat_interface.h"
 #include "wayland_server.h"
-
-#include <KWaylandServer/keyboard_interface.h>
-#include <KWaylandServer/seat_interface.h>
 
 #include <QTimer>
 

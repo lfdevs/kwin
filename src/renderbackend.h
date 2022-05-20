@@ -7,14 +7,16 @@
 #pragma once
 
 #include "kwinglobals.h"
+#include "rendertarget.h"
 
 #include <QObject>
 
 namespace KWin
 {
 
-class AbstractOutput;
+class Output;
 class OverlayWindow;
+class OutputLayer;
 
 /**
  * The RenderBackend class is the base class for all rendering backends.
@@ -31,8 +33,8 @@ public:
 
     virtual bool checkGraphicsReset();
 
-    virtual QRegion beginFrame(AbstractOutput *output) = 0;
-    virtual void endFrame(AbstractOutput *output, const QRegion &renderedRegion, const QRegion &damagedRegion) = 0;
+    virtual OutputLayer *primaryLayer(Output *output) = 0;
+    virtual void present(Output *output) = 0;
 };
 
 } // namespace KWin

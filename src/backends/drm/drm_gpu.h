@@ -10,11 +10,13 @@
 #ifndef DRM_GPU_H
 #define DRM_GPU_H
 
-#include <qobject.h>
-#include <QVector>
-#include <QSocketNotifier>
+#include "drm_virtual_output.h"
+
 #include <QPointer>
 #include <QSize>
+#include <QSocketNotifier>
+#include <QVector>
+#include <qobject.h>
 
 #include <epoxy/egl.h>
 #include <sys/types.h>
@@ -39,8 +41,8 @@ class DrmBackend;
 class EglGbmBackend;
 class DrmPipeline;
 class DrmAbstractOutput;
-class DrmVirtualOutput;
 class DrmLeaseOutput;
+class DrmRenderBackend;
 
 class DrmGpu : public QObject
 {
@@ -58,7 +60,6 @@ public:
     bool isNVidia() const;
     gbm_device *gbmDevice() const;
     EGLDisplay eglDisplay() const;
-    EglGbmBackend *eglBackend() const;
     DrmBackend *platform() const;
     /**
      * Returns the clock from which presentation timestamps are sourced. The returned value
@@ -67,25 +68,22 @@ public:
     clockid_t presentationClock() const;
     QSize cursorSize() const;
 
-    QVector<DrmAbstractOutput*> outputs() const;
-    const QVector<DrmPipeline*> pipelines() const;
+    QVector<DrmAbstractOutput *> outputs() const;
+    const QVector<DrmPipeline *> pipelines() const;
 
     void setEglDisplay(EGLDisplay display);
-    void setEglBackend(EglGbmBackend *eglBackend);
 
     bool updateOutputs();
 
-    enum VirtualOutputMode { Placeholder, Full };
-    DrmVirtualOutput *createVirtualOutput(const QString &name, const QSize &size, double scale, VirtualOutputMode mode);
+    DrmVirtualOutput *createVirtualOutput(const QString &name, const QSize &size, double scale, DrmVirtualOutput::Type type);
     void removeVirtualOutput(DrmVirtualOutput *output);
 
-    enum class TestMode {
-        TestOnly,
-        TestWithCrtcReallocation
-    };
-    bool testPendingConfiguration(TestMode mode = TestMode::TestWithCrtcReallocation);
+    bool testPendingConfiguration();
     bool needsModeset() const;
     bool maybeModeset();
+
+    void releaseBuffers();
+    void recreateSurfaces();
 
 Q_SIGNALS:
     void outputAdded(DrmAbstractOutput *output);
@@ -102,9 +100,9 @@ private:
     void initDrmResources();
     void waitIdle();
 
-    bool checkCrtcAssignment(QVector<DrmConnector*> connectors, QVector<DrmCrtc*> crtcs);
+    bool checkCrtcAssignment(QVector<DrmConnector *> connectors, const QVector<DrmCrtc *> &crtcs);
     bool testPipelines();
-    QVector<DrmObject*> unusedObjects() const;
+    QVector<DrmObject *> unusedObjects() const;
 
     void handleLeaseRequest(KWaylandServer::DrmLeaseV1Interface *leaseRequest);
     void handleLeaseRevoked(KWaylandServer::DrmLeaseV1Interface *lease);
@@ -119,20 +117,19 @@ private:
     bool m_isNVidia;
     bool m_isVirtualMachine;
     clockid_t m_presentationClock;
-    gbm_device* m_gbmDevice;
+    gbm_device *m_gbmDevice;
     EGLDisplay m_eglDisplay = EGL_NO_DISPLAY;
-    QPointer<EglGbmBackend> m_eglBackend;
-    DrmBackend* const m_platform;
+    DrmBackend *const m_platform;
 
-    QVector<DrmPlane*> m_planes;
-    QVector<DrmCrtc*> m_crtcs;
-    QVector<DrmConnector*> m_connectors;
-    QVector<DrmObject*> m_allObjects;
-    QVector<DrmPipeline*> m_pipelines;
+    QVector<DrmPlane *> m_planes;
+    QVector<DrmCrtc *> m_crtcs;
+    QVector<DrmConnector *> m_connectors;
+    QVector<DrmObject *> m_allObjects;
+    QVector<DrmPipeline *> m_pipelines;
 
-    QVector<DrmOutput*> m_drmOutputs;
-    QVector<DrmAbstractOutput*> m_outputs;
-    QVector<DrmLeaseOutput*> m_leaseOutputs;
+    QVector<DrmOutput *> m_drmOutputs;
+    QVector<DrmAbstractOutput *> m_outputs;
+    QVector<DrmLeaseOutput *> m_leaseOutputs;
     KWaylandServer::DrmLeaseDeviceV1Interface *m_leaseDevice = nullptr;
 
     QSocketNotifier *m_socketNotifier = nullptr;

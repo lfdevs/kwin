@@ -6,13 +6,13 @@
 # Ivan Petrouchtchak <fr.ivan@ukrainian-orthodox.org>, 2004, 2005, 2006, 2007, 2008.
 # Eugene Onischenko <oneugene@ukr.net>, 2005.
 # Andriy Rysin <rysin@kde.org>, 2006.
-# Yuri Chornoivan <yurchor@ukr.net>, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2017, 2018, 2019, 2020, 2021.
+# Yuri Chornoivan <yurchor@ukr.net>, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2017, 2018, 2019, 2020, 2021, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwinrules\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-01-14 02:21+0000\n"
-"PO-Revision-Date: 2021-09-04 08:52+0300\n"
+"POT-Creation-Date: 2022-04-18 00:45+0000\n"
+"PO-Revision-Date: 2022-04-18 08:45+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -33,22 +33,22 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "oneugene@ukr.net,iip@telus.net"
 
-#: kcmrules.cpp:29
+#: kcmrules.cpp:28
 #, kde-format
 msgid "Window Rules"
 msgstr "Правила вікон"
 
-#: kcmrules.cpp:33
+#: kcmrules.cpp:32
 #, kde-format
 msgid "Ismael Asensio"
 msgstr "Ismael Asensio"
 
-#: kcmrules.cpp:34
+#: kcmrules.cpp:33
 #, kde-format
 msgid "Author"
 msgstr "Автор"
 
-#: kcmrules.cpp:38
+#: kcmrules.cpp:37
 #, kde-format
 msgid ""
 "<p><h1>Window-specific Settings</h1> Here you can customize window settings "
@@ -63,17 +63,17 @@ msgstr ""
 "іншим інструментом керування вікнами, зверніться до його документації, щоб "
 "дізнатися більше про зміну поведінки вікон.</p>"
 
-#: kcmrules.cpp:246
+#: kcmrules.cpp:243
 #, kde-format
 msgid "Copy of %1"
 msgstr "Копія %1"
 
-#: kcmrules.cpp:425
+#: kcmrules.cpp:422
 #, kde-format
 msgid "Application settings for %1"
 msgstr "Параметри програми для %1"
 
-#: kcmrules.cpp:445 rulesmodel.cpp:219
+#: kcmrules.cpp:442 rulesmodel.cpp:215
 #, kde-format
 msgid "Window settings for %1"
 msgstr "Параметри вікна для %1"
@@ -109,32 +109,32 @@ msgstr "Зміна параметрів вікон окремих програм
 msgid "Edit Window-Specific Settings"
 msgstr "Зміна параметрів вікон"
 
-#: optionsmodel.cpp:145
+#: optionsmodel.cpp:198
 #, kde-format
 msgid "Unimportant"
 msgstr "Неважливо"
 
-#: optionsmodel.cpp:146
+#: optionsmodel.cpp:199
 #, kde-format
 msgid "Exact Match"
 msgstr "Повна відповідність"
 
-#: optionsmodel.cpp:147
+#: optionsmodel.cpp:200
 #, kde-format
 msgid "Substring Match"
 msgstr "Відповідність підрядка"
 
-#: optionsmodel.cpp:148
+#: optionsmodel.cpp:201
 #, kde-format
 msgid "Regular Expression"
 msgstr "Формальний вираз"
 
-#: optionsmodel.cpp:153
+#: optionsmodel.cpp:205
 #, kde-format
 msgid "Apply Initially"
 msgstr "Застосовувати спочатку"
 
-#: optionsmodel.cpp:154
+#: optionsmodel.cpp:206
 #, kde-format
 msgid ""
 "The window property will be only set to the given value after the window is "
@@ -145,12 +145,12 @@ msgstr ""
 "вікна.\n"
 "Інші зміни не застосовуватимуться."
 
-#: optionsmodel.cpp:157
+#: optionsmodel.cpp:209
 #, kde-format
 msgid "Apply Now"
 msgstr "Застосувати зараз"
 
-#: optionsmodel.cpp:158
+#: optionsmodel.cpp:210
 #, kde-format
 msgid ""
 "The window property will be set to the given value immediately and will not "
@@ -161,12 +161,12 @@ msgstr ""
 "змінюватиметься пізніше\n"
 "(цю дію буде пізніше вилучено)."
 
-#: optionsmodel.cpp:161
+#: optionsmodel.cpp:213
 #, kde-format
 msgid "Remember"
 msgstr "Запам'ятати"
 
-#: optionsmodel.cpp:162
+#: optionsmodel.cpp:214
 #, kde-format
 msgid ""
 "The value of the window property will be remembered and, every time the "
@@ -175,12 +175,12 @@ msgstr ""
 "Значення властивості вікна буде збережено і, під час кожного створення "
 "вікна, буде застосовано останнє збережене значення."
 
-#: optionsmodel.cpp:165
+#: optionsmodel.cpp:217
 #, kde-format
 msgid "Do Not Affect"
 msgstr "Не впливати"
 
-#: optionsmodel.cpp:166
+#: optionsmodel.cpp:218
 #, kde-format
 msgid ""
 "The window property will not be affected and therefore the default handling "
@@ -192,23 +192,23 @@ msgstr ""
 "Якщо задано цей варіант, вплив на вікно загальніших параметрів буде "
 "заблоковано."
 
-#: optionsmodel.cpp:169
+#: optionsmodel.cpp:221
 #, kde-format
 msgid "Force"
 msgstr "Примусово встановити"
 
-#: optionsmodel.cpp:170
+#: optionsmodel.cpp:222
 #, kde-format
 msgid "The window property will be always forced to the given value."
 msgstr ""
 "Для властивості вікна завжди примусово застосовуватиметься вказане значення."
 
-#: optionsmodel.cpp:172
+#: optionsmodel.cpp:224
 #, kde-format
 msgid "Force Temporarily"
 msgstr "Встановити тимчасово"
 
-#: optionsmodel.cpp:173
+#: optionsmodel.cpp:225
 #, kde-format
 msgid ""
 "The window property will be forced to the given value until it is hidden\n"
@@ -316,8 +316,8 @@ msgid "No"
 msgstr "Ні"
 
 #: package/contents/ui/RulesEditor.qml:261
-#: package/contents/ui/ValueEditor.qml:172
-#: package/contents/ui/ValueEditor.qml:179
+#: package/contents/ui/ValueEditor.qml:171
+#: package/contents/ui/ValueEditor.qml:178
 #, kde-format
 msgid "%1 %"
 msgstr "%1 %"
@@ -412,23 +412,23 @@ msgstr "Правила імпортування"
 msgid "Export Rules"
 msgstr "Експортування правил"
 
-#: package/contents/ui/ValueEditor.qml:207
+#: package/contents/ui/ValueEditor.qml:206
 #, kde-format
 msgctxt "(x, y) coordinates separator in size/position"
 msgid "x"
 msgstr "⨯"
 
-#: rulesmodel.cpp:222
+#: rulesmodel.cpp:218
 #, kde-format
 msgid "Settings for %1"
 msgstr "Параметри для %1"
 
-#: rulesmodel.cpp:225
+#: rulesmodel.cpp:221
 #, kde-format
 msgid "New window settings"
 msgstr "Параметри нових вікон"
 
-#: rulesmodel.cpp:241
+#: rulesmodel.cpp:237
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
@@ -442,7 +442,7 @@ msgstr ""
 "програм. Якщо ви справді хочете створити загальні параметри, рекомендується, "
 "принаймні, обмежити тип вікон, щоб не зачіпати особливих типів вікон."
 
-#: rulesmodel.cpp:248
+#: rulesmodel.cpp:244
 #, kde-format
 msgid ""
 "Some applications set their own geometry after starting, overriding your "
@@ -454,126 +454,126 @@ msgstr ""
 "застосувати ці параметри, слід також примусово встановити для властивості "
 "«%1» значення «Так»."
 
-#: rulesmodel.cpp:363
+#: rulesmodel.cpp:359
 #, kde-format
 msgid "Description"
 msgstr "Опис"
 
-#: rulesmodel.cpp:363 rulesmodel.cpp:371 rulesmodel.cpp:379 rulesmodel.cpp:386
-#: rulesmodel.cpp:392 rulesmodel.cpp:400 rulesmodel.cpp:405 rulesmodel.cpp:411
+#: rulesmodel.cpp:359 rulesmodel.cpp:367 rulesmodel.cpp:375 rulesmodel.cpp:382
+#: rulesmodel.cpp:388 rulesmodel.cpp:396 rulesmodel.cpp:401 rulesmodel.cpp:407
 #, kde-format
 msgid "Window matching"
 msgstr "Відповідність вікон"
 
-#: rulesmodel.cpp:371
+#: rulesmodel.cpp:367
 #, kde-format
 msgid "Window class (application)"
 msgstr "Клас вікна (програма)"
 
-#: rulesmodel.cpp:379
+#: rulesmodel.cpp:375
 #, kde-format
 msgid "Match whole window class"
 msgstr "Відповідність усьому класу вікон"
 
-#: rulesmodel.cpp:386
+#: rulesmodel.cpp:382
 #, kde-format
 msgid "Whole window class"
 msgstr "Увесь клас вікон"
 
-#: rulesmodel.cpp:392
+#: rulesmodel.cpp:388
 #, kde-format
 msgid "Window types"
 msgstr "Типи вікон"
 
-#: rulesmodel.cpp:400
+#: rulesmodel.cpp:396
 #, kde-format
 msgid "Window role"
 msgstr "Роль вікна"
 
-#: rulesmodel.cpp:405
+#: rulesmodel.cpp:401
 #, kde-format
 msgid "Window title"
 msgstr "Заголовок вікна"
 
-#: rulesmodel.cpp:411
+#: rulesmodel.cpp:407
 #, kde-format
 msgid "Machine (hostname)"
 msgstr "Комп'ютер (назва вузла)"
 
-#: rulesmodel.cpp:417
+#: rulesmodel.cpp:413
 #, kde-format
 msgid "Position"
 msgstr "Позиція"
 
-#: rulesmodel.cpp:417 rulesmodel.cpp:423 rulesmodel.cpp:429 rulesmodel.cpp:434
-#: rulesmodel.cpp:442 rulesmodel.cpp:448 rulesmodel.cpp:464 rulesmodel.cpp:478
-#: rulesmodel.cpp:483 rulesmodel.cpp:488 rulesmodel.cpp:493 rulesmodel.cpp:498
-#: rulesmodel.cpp:505 rulesmodel.cpp:515 rulesmodel.cpp:520 rulesmodel.cpp:525
+#: rulesmodel.cpp:413 rulesmodel.cpp:419 rulesmodel.cpp:425 rulesmodel.cpp:430
+#: rulesmodel.cpp:438 rulesmodel.cpp:444 rulesmodel.cpp:463 rulesmodel.cpp:479
+#: rulesmodel.cpp:484 rulesmodel.cpp:489 rulesmodel.cpp:494 rulesmodel.cpp:499
+#: rulesmodel.cpp:506 rulesmodel.cpp:516 rulesmodel.cpp:521 rulesmodel.cpp:526
 #, kde-format
 msgid "Size & Position"
 msgstr "Розмір і розташування"
 
-#: rulesmodel.cpp:423
+#: rulesmodel.cpp:419
 #, kde-format
 msgid "Size"
 msgstr "Розмір"
 
-#: rulesmodel.cpp:429
+#: rulesmodel.cpp:425
 #, kde-format
 msgid "Maximized horizontally"
 msgstr "Максимізація горизонтально"
 
-#: rulesmodel.cpp:434
+#: rulesmodel.cpp:430
 #, kde-format
 msgid "Maximized vertically"
 msgstr "Максимізація вертикально"
 
-#: rulesmodel.cpp:442
+#: rulesmodel.cpp:438
 #, kde-format
 msgid "Virtual Desktop"
 msgstr "Віртуальна стільниця"
 
-#: rulesmodel.cpp:448
+#: rulesmodel.cpp:444
 #, kde-format
 msgid "Virtual Desktops"
 msgstr "Віртуальні стільниці"
 
-#: rulesmodel.cpp:464
+#: rulesmodel.cpp:463
 #, kde-format
 msgid "Activities"
 msgstr "Простори дій"
 
-#: rulesmodel.cpp:478
+#: rulesmodel.cpp:479
 #, kde-format
 msgid "Screen"
 msgstr "Екран"
 
-#: rulesmodel.cpp:483
+#: rulesmodel.cpp:484
 #, kde-format
 msgid "Fullscreen"
 msgstr "На весь екран"
 
-#: rulesmodel.cpp:488
+#: rulesmodel.cpp:489
 #, kde-format
 msgid "Minimized"
 msgstr "Мінімізовано"
 
-#: rulesmodel.cpp:493
+#: rulesmodel.cpp:494
 #, kde-format
 msgid "Shaded"
 msgstr "Згорнуто"
 
-#: rulesmodel.cpp:498
+#: rulesmodel.cpp:499
 #, kde-format
 msgid "Initial placement"
 msgstr "Початкове розташування"
 
-#: rulesmodel.cpp:505
+#: rulesmodel.cpp:506
 #, kde-format
 msgid "Ignore requested geometry"
 msgstr "Ігнорувати запитану позицію"
 
-#: rulesmodel.cpp:507
+#: rulesmodel.cpp:508
 #, kde-format
 msgid ""
 "Windows can ask to appear in a certain position.\n"
@@ -586,22 +586,22 @@ msgstr ""
 "Подібне розташування може конфліктувати з налаштуваннями\n"
 "клієнтської частини на розташування вікна посередині екрана."
 
-#: rulesmodel.cpp:515
+#: rulesmodel.cpp:516
 #, kde-format
 msgid "Minimum Size"
 msgstr "Мінімальний розмір"
 
-#: rulesmodel.cpp:520
+#: rulesmodel.cpp:521
 #, kde-format
 msgid "Maximum Size"
 msgstr "Максимальний розмір"
 
-#: rulesmodel.cpp:525
+#: rulesmodel.cpp:526
 #, kde-format
 msgid "Obey geometry restrictions"
 msgstr "Зважати на обмеження розмірів"
 
-#: rulesmodel.cpp:527
+#: rulesmodel.cpp:528
 #, kde-format
 msgid ""
 "Eg. terminals or video players can ask to keep a certain aspect ratio\n"
@@ -618,92 +618,92 @@ msgstr ""
 "Подібний метод розташування може не працювати і заважати довільному\n"
 "визначенню розмірів, зокрема розгортанню вікна на весь екран."
 
-#: rulesmodel.cpp:536
+#: rulesmodel.cpp:537
 #, kde-format
 msgid "Keep above other windows"
 msgstr "Утримувати над іншими вікнами"
 
-#: rulesmodel.cpp:536 rulesmodel.cpp:541 rulesmodel.cpp:546 rulesmodel.cpp:552
-#: rulesmodel.cpp:558 rulesmodel.cpp:564
+#: rulesmodel.cpp:537 rulesmodel.cpp:542 rulesmodel.cpp:547 rulesmodel.cpp:553
+#: rulesmodel.cpp:559 rulesmodel.cpp:565
 #, kde-format
 msgid "Arrangement & Access"
 msgstr "Впорядкування і доступ"
 
-#: rulesmodel.cpp:541
+#: rulesmodel.cpp:542
 #, kde-format
 msgid "Keep below other windows"
 msgstr "Утримувати під іншими вікнами"
 
-#: rulesmodel.cpp:546
+#: rulesmodel.cpp:547
 #, kde-format
 msgid "Skip taskbar"
 msgstr "Пропустити панель задач"
 
-#: rulesmodel.cpp:548
+#: rulesmodel.cpp:549
 #, kde-format
 msgid "Window shall (not) appear in the taskbar."
 msgstr "Визначає, чи має бути вікно показано на смужці задач."
 
-#: rulesmodel.cpp:552
+#: rulesmodel.cpp:553
 #, kde-format
 msgid "Skip pager"
 msgstr "Пропустити пейджер"
 
-#: rulesmodel.cpp:554
+#: rulesmodel.cpp:555
 #, kde-format
 msgid "Window shall (not) appear in the manager for virtual desktops"
 msgstr ""
 "Визначає, чи має бути показано вікно у засобі керування віртуальними "
 "стільницями"
 
-#: rulesmodel.cpp:558
+#: rulesmodel.cpp:559
 #, kde-format
 msgid "Skip switcher"
 msgstr "Пропустити перемикач"
 
-#: rulesmodel.cpp:560
+#: rulesmodel.cpp:561
 #, kde-format
 msgid "Window shall (not) appear in the Alt+Tab list"
 msgstr "Визначає, чи має бути показано вікно у списку Alt+Tab."
 
-#: rulesmodel.cpp:564
+#: rulesmodel.cpp:565
 #, kde-format
 msgid "Shortcut"
 msgstr "Скорочення"
 
-#: rulesmodel.cpp:570
+#: rulesmodel.cpp:571
 #, kde-format
 msgid "No titlebar and frame"
 msgstr "Без смужки заголовка і рамки"
 
-#: rulesmodel.cpp:570 rulesmodel.cpp:575 rulesmodel.cpp:581 rulesmodel.cpp:586
-#: rulesmodel.cpp:591 rulesmodel.cpp:602 rulesmodel.cpp:613 rulesmodel.cpp:621
-#: rulesmodel.cpp:634 rulesmodel.cpp:639 rulesmodel.cpp:645 rulesmodel.cpp:650
+#: rulesmodel.cpp:571 rulesmodel.cpp:576 rulesmodel.cpp:582 rulesmodel.cpp:587
+#: rulesmodel.cpp:592 rulesmodel.cpp:603 rulesmodel.cpp:614 rulesmodel.cpp:622
+#: rulesmodel.cpp:635 rulesmodel.cpp:640 rulesmodel.cpp:646 rulesmodel.cpp:651
 #, kde-format
 msgid "Appearance & Fixes"
 msgstr "Вигляд і виправлення"
 
-#: rulesmodel.cpp:575
+#: rulesmodel.cpp:576
 #, kde-format
 msgid "Titlebar color scheme"
 msgstr "Схема кольорів смужки заголовка"
 
-#: rulesmodel.cpp:581
+#: rulesmodel.cpp:582
 #, kde-format
 msgid "Active opacity"
 msgstr "Непрозорість активного"
 
-#: rulesmodel.cpp:586
+#: rulesmodel.cpp:587
 #, kde-format
 msgid "Inactive opacity"
 msgstr "Непрозорість неактивного"
 
-#: rulesmodel.cpp:591
+#: rulesmodel.cpp:592
 #, kde-format
 msgid "Focus stealing prevention"
 msgstr "Запобігання викраденню фокуса"
 
-#: rulesmodel.cpp:593
+#: rulesmodel.cpp:594
 #, kde-format
 msgid ""
 "KWin tries to prevent windows from taking the focus\n"
@@ -718,12 +718,12 @@ msgstr ""
 "«Немає» надає цьому вікну безумовний доступ до отримання фокусу, а\n"
 "«Екстремальний» повністю запобігає отриманню вікном фокуса."
 
-#: rulesmodel.cpp:602
+#: rulesmodel.cpp:603
 #, kde-format
 msgid "Focus protection"
 msgstr "Захист фокусування"
 
-#: rulesmodel.cpp:604
+#: rulesmodel.cpp:605
 #, kde-format
 msgid ""
 "This controls the focus protection of the currently active window.\n"
@@ -738,12 +738,12 @@ msgstr ""
 "Інші варіанти призводитимуть до перемежовування із захистом від\n"
 "втрати фокусування, призначеним для вікна, яке хоче отримати фокусування."
 
-#: rulesmodel.cpp:613
+#: rulesmodel.cpp:614
 #, kde-format
 msgid "Accept focus"
 msgstr "Допускає фокус"
 
-#: rulesmodel.cpp:615
+#: rulesmodel.cpp:616
 #, kde-format
 msgid ""
 "Windows may prevent to get the focus (activate) when being clicked.\n"
@@ -754,12 +754,12 @@ msgstr ""
 "З іншого боку, ви можете самі запобігти фокусуванню вікна\n"
 "у відповідь на клацання кнопкою миші."
 
-#: rulesmodel.cpp:621
+#: rulesmodel.cpp:622
 #, kde-format
 msgid "Ignore global shortcuts"
 msgstr "Ігнорувати загальні скорочення"
 
-#: rulesmodel.cpp:623
+#: rulesmodel.cpp:624
 #, kde-format
 msgid ""
 "When used, a window will receive\n"
@@ -781,25 +781,30 @@ msgstr ""
 "KRunner),\n"
 "доки цю можливість буде задіяно!"
 
-#: rulesmodel.cpp:634
+#: rulesmodel.cpp:635
 #, kde-format
 msgid "Closeable"
 msgstr "Можна закрити"
 
-#: rulesmodel.cpp:639
+#: rulesmodel.cpp:640
 #, kde-format
 msgid "Set window type"
 msgstr "Встановити тип вікна"
 
-#: rulesmodel.cpp:645
+#: rulesmodel.cpp:646
 #, kde-format
 msgid "Desktop file name"
 msgstr "Назва стільничного файла"
 
-#: rulesmodel.cpp:650
+#: rulesmodel.cpp:651
 #, kde-format
 msgid "Block compositing"
 msgstr "Блоковий композитний режим"
+
+#: rulesmodel.cpp:727
+#, kde-format
+msgid "All Window Types"
+msgstr "Усі типи вікон"
 
 #: rulesmodel.cpp:728
 #, kde-format
@@ -841,7 +846,7 @@ msgstr "Вікно вітання"
 msgid "Desktop"
 msgstr "Стільниця"
 
-#. i18n("Unmanaged Window")   },  deprecated
+#. i18n("Unmanaged Window")},  deprecated
 #: rulesmodel.cpp:737
 #, kde-format
 msgid "Standalone Menubar"
@@ -852,92 +857,104 @@ msgstr "Незалежна смужка меню"
 msgid "On Screen Display"
 msgstr "Екранна панель"
 
-#: rulesmodel.cpp:745
+#: rulesmodel.cpp:748
 #, kde-format
 msgid "All Desktops"
 msgstr "Всі стільниці"
 
-#: rulesmodel.cpp:764
+#: rulesmodel.cpp:750
+#, kde-format
+msgctxt "@info:tooltip in the virtual desktop list"
+msgid "Make the window available on all desktops"
+msgstr "Зробити так, щоб вікно було доступним на всіх стільницях"
+
+#: rulesmodel.cpp:769
 #, kde-format
 msgid "All Activities"
 msgstr "Всі простори дій"
 
-#: rulesmodel.cpp:785
+#: rulesmodel.cpp:771
+#, kde-format
+msgctxt "@info:tooltip in the activity list"
+msgid "Make the window available on all activities"
+msgstr "Зробити так, щоб вікно було доступним в усіх просторах дій"
+
+#: rulesmodel.cpp:792
 #, kde-format
 msgid "Default"
 msgstr "Типовий"
 
-#: rulesmodel.cpp:786
+#: rulesmodel.cpp:793
 #, kde-format
 msgid "No Placement"
 msgstr "Немає розташування"
 
-#: rulesmodel.cpp:787
+#: rulesmodel.cpp:794
 #, kde-format
 msgid "Minimal Overlapping"
 msgstr "Мінімальне перекриття"
 
-#: rulesmodel.cpp:788
+#: rulesmodel.cpp:795
 #, kde-format
 msgid "Maximized"
 msgstr "Максимізовано"
 
-#: rulesmodel.cpp:789
+#: rulesmodel.cpp:796
 #, kde-format
 msgid "Cascaded"
 msgstr "Уступами"
 
-#: rulesmodel.cpp:790
+#: rulesmodel.cpp:797
 #, kde-format
 msgid "Centered"
 msgstr "У центрі"
 
-#: rulesmodel.cpp:791
+#: rulesmodel.cpp:798
 #, kde-format
 msgid "Random"
 msgstr "Випадковий"
 
-#: rulesmodel.cpp:792
+#: rulesmodel.cpp:799
 #, kde-format
 msgid "In Top-Left Corner"
 msgstr "У лівому верхньому куті"
 
-#: rulesmodel.cpp:793
+#: rulesmodel.cpp:800
 #, kde-format
 msgid "Under Mouse"
 msgstr "Під мишкою"
 
-#: rulesmodel.cpp:794
+#: rulesmodel.cpp:801
 #, kde-format
 msgid "On Main Window"
 msgstr "На головному вікні"
 
-#: rulesmodel.cpp:802
+#: rulesmodel.cpp:808
 #, kde-format
 msgid "None"
 msgstr "Немає"
 
-#: rulesmodel.cpp:803
+#: rulesmodel.cpp:809
 #, kde-format
 msgid "Low"
 msgstr "Низький"
 
-#: rulesmodel.cpp:804
+#: rulesmodel.cpp:810
 #, kde-format
 msgid "Normal"
 msgstr "Звичайний"
 
-#: rulesmodel.cpp:805
+#: rulesmodel.cpp:811
 #, kde-format
 msgid "High"
 msgstr "Високий"
 
-#: rulesmodel.cpp:806
+#: rulesmodel.cpp:812
 #, kde-format
 msgid "Extreme"
 msgstr "Екстремальний"
 
-#: rulesmodel.cpp:852
+#: rulesmodel.cpp:855
 #, kde-format
 msgid "Could not detect window properties. The window is not managed by KWin."
 msgstr ""

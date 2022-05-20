@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-01-14 02:21+0000\n"
+"POT-Creation-Date: 2022-03-26 00:45+0000\n"
 "PO-Revision-Date: 2021-12-25 13:37+0300\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -23,17 +23,17 @@ msgstr ""
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
 
-#: kwintabboxconfigform.cpp:77
+#: kwintabboxconfigform.cpp:76
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: layoutpreview.cpp:136
+#: layoutpreview.cpp:133
 #, kde-format
 msgid "Show Desktop"
 msgstr "Показать рабочий стол"
 
-#: layoutpreview.cpp:166
+#: layoutpreview.cpp:163
 #, kde-format
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
@@ -73,13 +73,13 @@ msgstr "Содержание списка окон"
 msgid "Include \"Show Desktop\" icon"
 msgstr "Включать пункт «Показать рабочий стол»"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, switchingModeCombo)
+#. i18n: ectx: property (text), item, widget (QComboBox, switchingModeCombo)
 #: main.ui:55
 #, kde-format
 msgid "Recently used"
 msgstr "По времени последнего переключения на окно"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, switchingModeCombo)
+#. i18n: ectx: property (text), item, widget (QComboBox, switchingModeCombo)
 #: main.ui:60
 #, kde-format
 msgid "Stacking order"

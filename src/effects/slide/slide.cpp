@@ -15,6 +15,8 @@
 // KConfigSkeleton
 #include "slideconfig.h"
 
+#include <cmath>
+
 namespace KWin
 {
 
@@ -23,25 +25,29 @@ SlideEffect::SlideEffect()
     initConfig<SlideConfig>();
     reconfigure(ReconfigureAll);
 
-    m_timeLine.setEasingCurve(QEasingCurve::OutCubic);
-
     connect(effects, QOverload<int, int, EffectWindow *>::of(&EffectsHandler::desktopChanged),
             this, &SlideEffect::desktopChanged);
+    connect(effects, QOverload<uint, QPointF, EffectWindow *>::of(&EffectsHandler::desktopChanging),
+            this, &SlideEffect::desktopChanging);
+    connect(effects, QOverload<>::of(&EffectsHandler::desktopChangingCancelled),
+            this, &SlideEffect::desktopChangingCancelled);
     connect(effects, &EffectsHandler::windowAdded,
             this, &SlideEffect::windowAdded);
     connect(effects, &EffectsHandler::windowDeleted,
             this, &SlideEffect::windowDeleted);
     connect(effects, &EffectsHandler::numberDesktopsChanged,
-            this, &SlideEffect::stop);
+            this, &SlideEffect::finishedSwitching);
     connect(effects, &EffectsHandler::screenAdded,
-            this, &SlideEffect::stop);
+            this, &SlideEffect::finishedSwitching);
     connect(effects, &EffectsHandler::screenRemoved,
-            this, &SlideEffect::stop);
+            this, &SlideEffect::finishedSwitching);
+
+    m_currentPosition = effects->desktopCoords(effects->currentDesktop());
 }
 
 SlideEffect::~SlideEffect()
 {
-    stop();
+    finishedSwitching();
 }
 
 bool SlideEffect::supported()
@@ -53,8 +59,11 @@ void SlideEffect::reconfigure(ReconfigureFlags)
 {
     SlideConfig::self()->read();
 
-    m_timeLine.setDuration(
-        std::chrono::milliseconds(animationTime<SlideConfig>(500)));
+    const qreal springConstant = 200.0 / effects->animationTimeFactor();
+    const qreal dampingRatio = 1.1;
+
+    m_motionX = SpringMotion(springConstant, dampingRatio);
+    m_motionY = SpringMotion(springConstant, dampingRatio);
 
     m_hGap = SlideConfig::horizontalGap();
     m_vGap = SlideConfig::verticalGap();
@@ -62,58 +71,16 @@ void SlideEffect::reconfigure(ReconfigureFlags)
     m_slideBackground = SlideConfig::slideBackground();
 }
 
-void SlideEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseconds presentTime)
-{
-    std::chrono::milliseconds delta = std::chrono::milliseconds::zero();
-    if (m_lastPresentTime.count()) {
-        delta = presentTime - m_lastPresentTime;
-    }
-    m_lastPresentTime = presentTime;
-
-    m_timeLine.update(delta);
-
-    data.mask |= PAINT_SCREEN_TRANSFORMED
-              |  PAINT_SCREEN_BACKGROUND_FIRST;
-
-    effects->prePaintScreen(data, presentTime);
-}
-
-/**
- * Wrap vector @p diff around grid @p w x @p h.
- *
- * Wrapping is done in such a way that magnitude of x and y component of vector
- * @p diff is less than half of @p w and half of @p h, respectively. This will
- * result in having the "shortest" path between two points.
- *
- * @param diff Vector between two points
- * @param w Width of the desktop grid
- * @param h Height of the desktop grid
- */
-inline void wrapDiff(QPoint &diff, int w, int h)
-{
-    if (diff.x() > w/2) {
-        diff.setX(diff.x() - w);
-    } else if (diff.x() < -w/2) {
-        diff.setX(diff.x() + w);
-    }
-
-    if (diff.y() > h/2) {
-        diff.setY(diff.y() - h);
-    } else if (diff.y() < -h/2) {
-        diff.setY(diff.y() + h);
-    }
-}
-
 inline QRegion buildClipRegion(const QPoint &pos, int w, int h)
 {
     const QSize screenSize = effects->virtualScreenSize();
     QRegion r = QRect(pos, screenSize);
     if (effects->optionRollOverDesktops()) {
-        r |= (r & QRect(-w, 0, w, h)).translated(w, 0);  // W
-        r |= (r & QRect(w, 0, w, h)).translated(-w, 0);  // E
+        r |= (r & QRect(-w, 0, w, h)).translated(w, 0); // W
+        r |= (r & QRect(w, 0, w, h)).translated(-w, 0); // E
 
-        r |= (r & QRect(0, -h, w, h)).translated(0, h);  // N
-        r |= (r & QRect(0, h, w, h)).translated(0, -h);  // S
+        r |= (r & QRect(0, -h, w, h)).translated(0, h); // N
+        r |= (r & QRect(0, h, w, h)).translated(0, -h); // S
 
         r |= (r & QRect(-w, -h, w, h)).translated(w, h); // NW
         r |= (r & QRect(w, -h, w, h)).translated(-w, h); // NE
@@ -123,31 +90,71 @@ inline QRegion buildClipRegion(const QPoint &pos, int w, int h)
     return r;
 }
 
+void SlideEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseconds presentTime)
+{
+    std::chrono::milliseconds timeDelta = std::chrono::milliseconds::zero();
+    if (m_lastPresentTime.count()) {
+        timeDelta = presentTime - m_lastPresentTime;
+    }
+    m_lastPresentTime = presentTime;
+
+    if (m_state == State::ActiveAnimation) {
+        m_motionX.advance(timeDelta);
+        m_motionY.advance(timeDelta);
+        const QSize virtualSpaceSize = effects->virtualScreenSize();
+        m_currentPosition.setX(m_motionX.position() / virtualSpaceSize.width());
+        m_currentPosition.setY(m_motionY.position() / virtualSpaceSize.height());
+    }
+
+    const int w = effects->desktopGridWidth();
+    const int h = effects->desktopGridHeight();
+
+    // Clipping
+    m_paintCtx.visibleDesktops.clear();
+    m_paintCtx.visibleDesktops.reserve(4); // 4 - maximum number of visible desktops
+    bool includedX = false, includedY = false;
+    for (int i = 1; i <= effects->numberOfDesktops(); i++) {
+        if (effects->desktopGridCoords(i).x() % w == (int)(m_currentPosition.x()) % w) {
+            includedX = true;
+        } else if (effects->desktopGridCoords(i).x() % w == ((int)(m_currentPosition.x()) + 1) % w) {
+            includedX = true;
+        }
+        if (effects->desktopGridCoords(i).y() % h == (int)(m_currentPosition.y()) % h) {
+            includedY = true;
+        } else if (effects->desktopGridCoords(i).y() % h == ((int)(m_currentPosition.y()) + 1) % h) {
+            includedY = true;
+        }
+
+        if (includedX && includedY) {
+            m_paintCtx.visibleDesktops << i;
+        }
+    }
+
+    data.mask |= PAINT_SCREEN_TRANSFORMED | PAINT_SCREEN_BACKGROUND_FIRST;
+
+    effects->prePaintScreen(data, presentTime);
+}
+
 void SlideEffect::paintScreen(int mask, const QRegion &region, ScreenPaintData &data)
 {
     const bool wrap = effects->optionRollOverDesktops();
-    const int w = workspaceWidth();
-    const int h = workspaceHeight();
+    const int w = effects->desktopGridWidth();
+    const int h = effects->desktopGridHeight();
+    bool wrappingX = false, wrappingY = false;
 
-    QPoint currentPos = m_startPos + m_diff * m_timeLine.value();
+    QPointF drawPosition = forcePositivePosition(m_currentPosition);
 
-    // When "Desktop navigation wraps around" checkbox is checked, currentPos
-    // can be outside the rectangle Rect{x:-w, y:-h, width:2*w, height: 2*h},
-    // so we map currentPos back to the rect.
     if (wrap) {
-        currentPos.setX(currentPos.x() % w);
-        currentPos.setY(currentPos.y() % h);
+        drawPosition = constrainToDrawableRange(drawPosition);
     }
 
-    QVector<int> visibleDesktops;
-    visibleDesktops.reserve(4); // 4 - maximum number of visible desktops
-    const QRegion clipRegion = buildClipRegion(currentPos, w, h);
-    for (int i = 1; i <= effects->numberOfDesktops(); i++) {
-        const QRect desktopGeo = desktopGeometry(i);
-        if (!clipRegion.contains(desktopGeo)) {
-            continue;
-        }
-        visibleDesktops << i;
+    // If we're wrapping, draw the desktop in the second position.
+    if (drawPosition.x() > w - 1) {
+        wrappingX = true;
+    }
+
+    if (drawPosition.y() > h - 1) {
+        wrappingY = true;
     }
 
     // When we enter a virtual desktop that has a window in fullscreen mode,
@@ -173,17 +180,32 @@ void SlideEffect::paintScreen(int mask, const QRegion &region, ScreenPaintData &
     // Windows, such as docks or keep-above windows, are painted in
     // the last pass so they are above other windows.
     m_paintCtx.firstPass = true;
-    const int lastDesktop = visibleDesktops.last();
-    for (int desktop : qAsConst(visibleDesktops)) {
+    const int lastDesktop = m_paintCtx.visibleDesktops.last();
+    for (int desktop : qAsConst(m_paintCtx.visibleDesktops)) {
         m_paintCtx.desktop = desktop;
         m_paintCtx.lastPass = (lastDesktop == desktop);
-        m_paintCtx.translation = desktopCoords(desktop) - currentPos;
-        if (wrap) {
-            wrapDiff(m_paintCtx.translation, w, h);
+        m_paintCtx.translation = QPointF(effects->desktopGridCoords(desktop)) - drawPosition; // TODO: verify
+
+        // Decide if that first desktop should be drawn at 0 or the higher position used for wrapping.
+        if (effects->desktopGridCoords(desktop).x() == 0 && wrappingX) {
+            m_paintCtx.translation = QPointF(m_paintCtx.translation.x() + w, m_paintCtx.translation.y());
         }
+
+        if (effects->desktopGridCoords(desktop).y() == 0 && wrappingY) {
+            m_paintCtx.translation = QPointF(m_paintCtx.translation.x(), m_paintCtx.translation.y() + h);
+        }
+
         effects->paintScreen(mask, region, data);
         m_paintCtx.firstPass = false;
     }
+}
+
+QPoint SlideEffect::getDrawCoords(QPointF pos, EffectScreen *screen)
+{
+    QPoint c = QPoint();
+    c.setX(pos.x() * (screen->geometry().width() + m_hGap));
+    c.setY(pos.y() * (screen->geometry().height() + m_vGap));
+    return c;
 }
 
 /**
@@ -202,10 +224,8 @@ bool SlideEffect::isTranslated(const EffectWindow *w) const
         return false;
     } else if (w == m_movingWindow) {
         return false;
-    } else if (w->isOnDesktop(m_paintCtx.desktop)) {
-        return true;
     }
-    return false;
+    return true;
 }
 
 /**
@@ -251,78 +271,58 @@ bool SlideEffect::isPainted(const EffectWindow *w) const
 
 void SlideEffect::prePaintWindow(EffectWindow *w, WindowPrePaintData &data, std::chrono::milliseconds presentTime)
 {
-    const bool painted = isPainted(w);
-    if (painted) {
-        w->enablePainting(EffectWindow::PAINT_DISABLED_BY_DESKTOP);
-    } else {
-        w->disablePainting(EffectWindow::PAINT_DISABLED_BY_DESKTOP);
-    }
-    if (painted && isTranslated(w)) {
-        data.setTransformed();
-    }
+    data.setTransformed();
     effects->prePaintWindow(w, data, presentTime);
 }
 
 void SlideEffect::paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data)
 {
-    if (isTranslated(w)) {
-        data += m_paintCtx.translation;
+    if (!isPainted(w)) {
+        return;
     }
-    effects->paintWindow(w, mask, region, data);
+
+    for (EffectScreen *screen : effects->screens()) {
+        QPoint translation = getDrawCoords(m_paintCtx.translation, screen);
+        if (isTranslated(w)) {
+            data += translation;
+        }
+
+        effects->paintWindow(
+            w,
+            mask,
+            // Only paint the region that intersects the current screen and desktop.
+            region.intersected(effects->clientArea(ScreenArea, w)).intersected(effects->clientArea(ScreenArea, screen, effects->currentDesktop())),
+            data);
+
+        if (isTranslated(w)) {
+            // Undo the translation for the next screen. I know, it hurts me too.
+            data += QPoint(-translation.x(), -translation.y());
+        }
+    }
 }
 
 void SlideEffect::postPaintScreen()
 {
-    if (m_timeLine.done()) {
-        stop();
+    if (m_state == State::ActiveAnimation && !m_motionX.isMoving() && !m_motionY.isMoving()) {
+        finishedSwitching();
     }
 
     effects->addRepaintFull();
     effects->postPaintScreen();
 }
 
-/**
- * Get position of the top-left corner of desktop @p id within desktop grid with gaps.
- * @param id ID of a virtual desktop
+/*
+ * Negative desktop positions aren't allowed.
  */
-QPoint SlideEffect::desktopCoords(int id) const
+QPointF SlideEffect::forcePositivePosition(QPointF p) const
 {
-    QPoint c = effects->desktopCoords(id);
-    const QPoint gridPos = effects->desktopGridCoords(id);
-    c.setX(c.x() + m_hGap * gridPos.x());
-    c.setY(c.y() + m_vGap * gridPos.y());
-    return c;
-}
-
-/**
- * Get geometry of desktop @p id within desktop grid with gaps.
- * @param id ID of a virtual desktop
- */
-QRect SlideEffect::desktopGeometry(int id) const
-{
-    QRect g = effects->virtualScreenGeometry();
-    g.translate(desktopCoords(id));
-    return g;
-}
-
-/**
- * Get width of a virtual desktop grid.
- */
-int SlideEffect::workspaceWidth() const
-{
-    int w = effects->workspaceWidth();
-    w += m_hGap * effects->desktopGridWidth();
-    return w;
-}
-
-/**
- * Get height of a virtual desktop grid.
- */
-int SlideEffect::workspaceHeight() const
-{
-    int h = effects->workspaceHeight();
-    h += m_vGap * effects->desktopGridHeight();
-    return h;
+    if (p.x() < 0) {
+        p.setX(p.x() + std::ceil(-p.x() / effects->desktopGridWidth()) * effects->desktopGridWidth());
+    }
+    if (p.y() < 0) {
+        p.setY(p.y() + std::ceil(-p.y() / effects->desktopGridHeight()) * effects->desktopGridHeight());
+    }
+    return p;
 }
 
 bool SlideEffect::shouldElevate(const EffectWindow *w) const
@@ -333,56 +333,60 @@ bool SlideEffect::shouldElevate(const EffectWindow *w) const
     return w->isDock() && !m_slideDocks;
 }
 
-void SlideEffect::start(int old, int current, EffectWindow *movingWindow)
+/*
+ * This function is called when the desktop changes.
+ * Called AFTER the gesture is released.
+ * Sets up animation to round off to the new current desktop.
+ */
+void SlideEffect::startAnimation(int old, int current, EffectWindow *movingWindow)
 {
-    m_movingWindow = movingWindow;
+    Q_UNUSED(old)
 
-    const bool wrap = effects->optionRollOverDesktops();
-    const int w = workspaceWidth();
-    const int h = workspaceHeight();
-
-    if (m_active) {
-        QPoint passed = m_diff * m_timeLine.value();
-        QPoint currentPos = m_startPos + passed;
-        QPoint delta = desktopCoords(current) - desktopCoords(old);
-        if (wrap) {
-            wrapDiff(delta, w, h);
-        }
-        m_diff += delta - passed;
-        m_startPos = currentPos;
-        // TODO: Figure out how to smooth movement.
-        m_timeLine.reset();
-        return;
+    if (m_state == State::Inactive) {
+        prepareSwitching();
     }
 
+    m_state = State::ActiveAnimation;
+    m_movingWindow = movingWindow;
+
+    m_startPos = m_currentPosition;
+    m_endPos = effects->desktopGridCoords(current);
+    if (effects->optionRollOverDesktops()) {
+        optimizePath();
+    }
+
+    const QSize virtualSpaceSize = effects->virtualScreenSize();
+    m_motionX.setAnchor(m_endPos.x() * virtualSpaceSize.width());
+    m_motionX.setPosition(m_startPos.x() * virtualSpaceSize.width());
+    m_motionY.setAnchor(m_endPos.y() * virtualSpaceSize.height());
+    m_motionY.setPosition(m_startPos.y() * virtualSpaceSize.height());
+
+    effects->setActiveFullScreenEffect(this);
+    effects->addRepaintFull();
+}
+
+void SlideEffect::prepareSwitching()
+{
     const auto windows = effects->stackingOrder();
     for (EffectWindow *w : windows) {
         if (shouldElevate(w)) {
             effects->setElevatedWindow(w, true);
             m_elevatedWindows << w;
         }
+        w->refVisible(EffectWindow::PAINT_DISABLED_BY_DESKTOP);
         w->setData(WindowForceBackgroundContrastRole, QVariant(true));
         w->setData(WindowForceBlurRole, QVariant(true));
     }
-
-    m_diff = desktopCoords(current) - desktopCoords(old);
-    if (wrap) {
-        wrapDiff(m_diff, w, h);
-    }
-    m_startPos = desktopCoords(old);
-    m_timeLine.reset();
-    m_active = true;
-    effects->setActiveFullScreenEffect(this);
-    effects->addRepaintFull();
 }
 
-void SlideEffect::stop()
+void SlideEffect::finishedSwitching()
 {
-    if (!m_active) {
+    if (m_state == State::Inactive) {
         return;
     }
     const EffectWindowList windows = effects->stackingOrder();
     for (EffectWindow *w : windows) {
+        w->unrefVisible(EffectWindow::PAINT_DISABLED_BY_DESKTOP);
         w->setData(WindowForceBackgroundContrastRole, QVariant());
         w->setData(WindowForceBlurRole, QVariant());
     }
@@ -394,35 +398,93 @@ void SlideEffect::stop()
 
     m_paintCtx.fullscreenWindows.clear();
     m_movingWindow = nullptr;
-    m_active = false;
+    m_state = State::Inactive;
     m_lastPresentTime = std::chrono::milliseconds::zero();
     effects->setActiveFullScreenEffect(nullptr);
+    m_currentPosition = effects->desktopGridCoords(effects->currentDesktop());
 }
 
 void SlideEffect::desktopChanged(int old, int current, EffectWindow *with)
 {
-    if (effects->activeFullScreenEffect() && effects->activeFullScreenEffect() != this) {
+    if (effects->hasActiveFullScreenEffect() && effects->activeFullScreenEffect() != this) {
+        m_currentPosition = effects->desktopGridCoords(effects->currentDesktop());
         return;
     }
-    start(old, current, with);
+
+    startAnimation(old, current, with);
+}
+
+void SlideEffect::desktopChanging(uint old, QPointF desktopOffset, EffectWindow *with)
+{
+    if (effects->hasActiveFullScreenEffect() && effects->activeFullScreenEffect() != this) {
+        return;
+    }
+
+    if (m_state == State::Inactive) {
+        prepareSwitching();
+    }
+
+    m_state = State::ActiveGesture;
+    m_movingWindow = with;
+
+    // Find desktop position based on animationDelta
+    QPoint gridPos = effects->desktopGridCoords(old);
+    m_currentPosition.setX(gridPos.x() + desktopOffset.x());
+    m_currentPosition.setY(gridPos.y() + desktopOffset.y());
+
+    if (effects->optionRollOverDesktops()) {
+        m_currentPosition = forcePositivePosition(m_currentPosition);
+    } else {
+        m_currentPosition = moveInsideDesktopGrid(m_currentPosition);
+    }
+
+    effects->setActiveFullScreenEffect(this);
+    effects->addRepaintFull();
+}
+
+void SlideEffect::desktopChangingCancelled()
+{
+    // If the fingers have been lifted and the current desktop didn't change, start animation
+    // to move back to the original virtual desktop.
+    if (effects->activeFullScreenEffect() == this) {
+        startAnimation(effects->currentDesktop(), effects->currentDesktop(), nullptr);
+    }
+}
+
+QPointF SlideEffect::moveInsideDesktopGrid(QPointF p)
+{
+    if (p.x() < 0) {
+        p.setX(0);
+    }
+    if (p.y() < 0) {
+        p.setY(0);
+    }
+    if (p.x() > effects->desktopGridWidth() - 1) {
+        p.setX(effects->desktopGridWidth() - 1);
+    }
+    if (p.y() > effects->desktopGridHeight() - 1) {
+        p.setY(effects->desktopGridHeight() - 1);
+    }
+    return p;
 }
 
 void SlideEffect::windowAdded(EffectWindow *w)
 {
-    if (!m_active) {
+    if (m_state == State::Inactive) {
         return;
     }
     if (shouldElevate(w)) {
         effects->setElevatedWindow(w, true);
         m_elevatedWindows << w;
     }
+    w->refVisible(EffectWindow::PAINT_DISABLED_BY_DESKTOP);
     w->setData(WindowForceBackgroundContrastRole, QVariant(true));
     w->setData(WindowForceBlurRole, QVariant(true));
 }
 
 void SlideEffect::windowDeleted(EffectWindow *w)
 {
-    if (!m_active) {
+    if (m_state == State::Inactive) {
         return;
     }
     if (w == m_movingWindow) {
@@ -430,6 +492,78 @@ void SlideEffect::windowDeleted(EffectWindow *w)
     }
     m_elevatedWindows.removeAll(w);
     m_paintCtx.fullscreenWindows.removeAll(w);
+}
+
+/*
+ * Find the fastest path between two desktops.
+ * This function decides when it's better to wrap around the grid or not.
+ * Only call if wrapping is enabled.
+ */
+void SlideEffect::optimizePath()
+{
+    int w = effects->desktopGridWidth();
+    int h = effects->desktopGridHeight();
+
+    // Keep coordinates as low as possible
+    if (m_startPos.x() >= w && m_endPos.x() >= w) {
+        m_startPos.setX(fmod(m_startPos.x(), w));
+        m_endPos.setX(fmod(m_endPos.x(), w));
+    }
+    if (m_startPos.y() >= h && m_endPos.y() >= h) {
+        m_startPos.setY(fmod(m_startPos.y(), h));
+        m_endPos.setY(fmod(m_endPos.y(), h));
+    }
+
+    // Is there is a shorter possible route?
+    // If the x distance to be traveled is more than half the grid width, it's faster to wrap.
+    // To avoid negative coordinates, take the lower coordinate and raise.
+    if (std::abs((m_startPos.x() - m_endPos.x())) > w / 2.0) {
+        if (m_startPos.x() < m_endPos.x()) {
+            while (m_startPos.x() < m_endPos.x()) {
+                m_startPos.setX(m_startPos.x() + w);
+            }
+        } else {
+            while (m_endPos.x() < m_startPos.x()) {
+                m_endPos.setX(m_endPos.x() + w);
+            }
+        }
+        // Keep coordinates as low as possible
+        if (m_startPos.x() >= w && m_endPos.x() >= w) {
+            m_startPos.setX(fmod(m_startPos.x(), w));
+            m_endPos.setX(fmod(m_endPos.x(), w));
+        }
+    }
+
+    // Same for y
+    if (std::abs((m_endPos.y() - m_startPos.y())) > (double)h / (double)2) {
+        if (m_startPos.y() < m_endPos.y()) {
+            while (m_startPos.y() < m_endPos.y()) {
+                m_startPos.setY(m_startPos.y() + h);
+            }
+        } else {
+            while (m_endPos.y() < m_startPos.y()) {
+                m_endPos.setY(m_endPos.y() + h);
+            }
+        }
+        // Keep coordinates as low as possible
+        if (m_startPos.y() >= h && m_endPos.y() >= h) {
+            m_startPos.setY(fmod(m_startPos.y(), h));
+            m_endPos.setY(fmod(m_endPos.y(), h));
+        }
+    }
+}
+
+/*
+ * Takes the point and uses modulus to keep draw position within [0, desktopGridWidth]
+ * The render loop will draw the first desktop (0) after the last one (at position desktopGridWidth) for the wrap animation.
+ * This function finds the true fastest path, regardless of which direction the animation is already going;
+ * I was a little upset about this limitation until I realized that MacOS can't even wrap desktops :)
+ */
+QPointF SlideEffect::constrainToDrawableRange(QPointF p)
+{
+    p.setX(fmod(p.x(), effects->desktopGridWidth()));
+    p.setY(fmod(p.y(), effects->desktopGridHeight()));
+    return p;
 }
 
 } // namespace KWin

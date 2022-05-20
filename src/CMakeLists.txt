@@ -19,17 +19,27 @@ if (KWIN_BUILD_KCMS)
     add_subdirectory(kcmkwin)
 endif()
 
-set(kwin_SRCS
+add_library(kwin SHARED)
+set_target_properties(kwin PROPERTIES
+   VERSION ${PROJECT_VERSION}
+   SOVERSION ${PROJECT_VERSION_MAJOR}
+)
+
+target_sources(kwin PRIVATE
     3rdparty/xcursor.c
-    abstract_client.cpp
-    abstract_output.cpp
-    abstract_wayland_output.cpp
     activation.cpp
     appmenu.cpp
     atoms.cpp
     client_machine.cpp
+    colors/colordevice.cpp
+    colors/colorlut.cpp
+    colors/colormanager.cpp
+    colors/colorpipelinestage.cpp
+    colors/colortransformation.cpp
     composite.cpp
     cursor.cpp
+    cursordelegate_opengl.cpp
+    cursordelegate_qpainter.cpp
     dbusinterface.cpp
     debug_console.cpp
     decorationitem.cpp
@@ -56,9 +66,9 @@ set(kwin_SRCS
     inputbackend.cpp
     inputdevice.cpp
     inputmethod.cpp
-    inputpanelv1client.cpp
     inputpanelv1integration.cpp
-    internal_client.cpp
+    inputpanelv1window.cpp
+    internalwindow.cpp
     item.cpp
     keyboard_input.cpp
     keyboard_layout.cpp
@@ -66,8 +76,8 @@ set(kwin_SRCS
     keyboard_repeat.cpp
     killwindow.cpp
     layers.cpp
-    layershellv1client.cpp
     layershellv1integration.cpp
+    layershellv1window.cpp
     linux_dmabuf.cpp
     main.cpp
     modifier_only_shortcuts.cpp
@@ -77,6 +87,9 @@ set(kwin_SRCS
     options.cpp
     osd.cpp
     outline.cpp
+    output.cpp
+    outputconfiguration.cpp
+    outputlayer.cpp
     overlaywindow.cpp
     placement.cpp
     platform.cpp
@@ -86,13 +99,15 @@ set(kwin_SRCS
     popup_input_filter.cpp
     renderbackend.cpp
     renderjournal.cpp
+    renderlayer.cpp
+    renderlayerdelegate.cpp
     renderloop.cpp
+    rendertarget.cpp
     rootinfo_filter.cpp
     rulebooksettings.cpp
     rules.cpp
     scene.cpp
     screenedge.cpp
-    screenlockerwatcher.cpp
     screens.cpp
     scripting/v2/clientmodel.cpp
     scripting/v3/clientmodel.cpp
@@ -104,7 +119,7 @@ set(kwin_SRCS
     scripting/scripting.cpp
     scripting/scripting_logging.cpp
     scripting/scriptingutils.cpp
-    scripting/thumbnailitem.cpp
+    scripting/windowthumbnailitem.cpp
     scripting/workspace_wrapper.cpp
     session.cpp
     session_consolekit.cpp
@@ -119,7 +134,7 @@ set(kwin_SRCS
     surfaceitem_x11.cpp
     syncalarmx11filter.cpp
     tablet_input.cpp
-    toplevel.cpp
+    tabletmodemanager.cpp
     hide_cursor_spy.cpp
     touch_input.cpp
     udev.cpp
@@ -130,52 +145,24 @@ set(kwin_SRCS
     virtualkeyboard_dbus.cpp
     was_user_interaction_x11_filter.cpp
     wayland_server.cpp
-    waylandclient.cpp
     waylandoutput.cpp
-    waylandoutputconfig.cpp
     waylandoutputdevicev2.cpp
     waylandshellintegration.cpp
+    waylandwindow.cpp
+    window.cpp
     window_property_notify_x11_filter.cpp
     windowitem.cpp
     workspace.cpp
-    x11client.cpp
     x11eventfilter.cpp
     x11syncmanager.cpp
+    x11window.cpp
     xcursortheme.cpp
     xdgactivationv1.cpp
-    xdgshellclient.cpp
     xdgshellintegration.cpp
+    xdgshellwindow.cpp
     xkb.cpp
-    xwaylandclient.cpp
-    xwl/xwayland_interface.cpp
-)
-
-qt_add_dbus_adaptor(kwin_SRCS scripting/org.kde.kwin.Script.xml scripting/scripting.h KWin::AbstractScript)
-
-kconfig_add_kcfg_files(kwin_SRCS settings.kcfgc)
-kconfig_add_kcfg_files(kwin_SRCS rulesettings.kcfgc)
-kconfig_add_kcfg_files(kwin_SRCS rulebooksettingsbase.kcfgc)
-
-qt_add_dbus_adaptor(kwin_SRCS org.kde.KWin.xml dbusinterface.h KWin::DBusInterface)
-qt_add_dbus_adaptor(kwin_SRCS org.kde.kwin.Compositing.xml dbusinterface.h KWin::CompositorDBusInterface)
-qt_add_dbus_adaptor(kwin_SRCS ${kwin_effects_dbus_xml} effects.h KWin::EffectsHandlerImpl)
-qt_add_dbus_adaptor(kwin_SRCS org.kde.KWin.VirtualDesktopManager.xml dbusinterface.h KWin::VirtualDesktopManagerDBusInterface)
-qt_add_dbus_adaptor(kwin_SRCS org.kde.KWin.Session.xml sm.h KWin::SessionManager)
-qt_add_dbus_adaptor(kwin_SRCS org.kde.KWin.Plugins.xml dbusinterface.h KWin::PluginManagerDBusInterface)
-
-qt_add_dbus_interface(kwin_SRCS ${KSCREENLOCKER_DBUS_INTERFACES_DIR}/kf5_org.freedesktop.ScreenSaver.xml screenlocker_interface)
-qt_add_dbus_interface(kwin_SRCS ${KSCREENLOCKER_DBUS_INTERFACES_DIR}/org.kde.screensaver.xml kscreenlocker_interface)
-qt_add_dbus_interface(kwin_SRCS org.kde.kappmenu.xml appmenu_interface)
-
-ki18n_wrap_ui(kwin_SRCS
-    debug_console.ui
-    shortcutdialog.ui
-)
-
-add_library(kwin SHARED ${kwin_SRCS})
-set_target_properties(kwin PROPERTIES
-   VERSION ${PROJECT_VERSION}
-   SOVERSION ${PROJECT_VERSION_MAJOR}
+    xwaylandwindow.cpp
+    xwayland/xwayland_interface.cpp
 )
 
 target_link_libraries(kwin
@@ -192,17 +179,12 @@ target_link_libraries(kwin
     KF5::GlobalAccel
     KF5::GlobalAccelPrivate
     KF5::I18n
-    KF5::Notifications
     KF5::Package
-    KF5::Plasma
-    KF5::QuickAddons
+    KF5::Service
     KF5::WindowSystem
 
     KDecoration2::KDecoration
     KDecoration2::KDecoration2Private
-
-    PW::KScreenLocker
-    Plasma::KWaylandServer
 
     XCB::COMPOSITE
     XCB::CURSOR
@@ -220,27 +202,66 @@ target_link_libraries(kwin
 
     UDev::UDev
     XKB::XKB
-    Qt5::XkbCommonSupportPrivate
+    EGL::EGL
     epoxy::epoxy
 
     Threads::Threads
+    Wayland::Server
+    lcms2::lcms2
+)
+if (QT_MAJOR_VERSION EQUAL "5")
+    target_link_libraries(kwin Qt5::X11Extras Qt5::XkbCommonSupportPrivate)
+endif()
+
+if (KWIN_BUILD_NOTIFICATIONS)
+    target_link_libraries(kwin KF5::Notifications)
+endif()
+
+kconfig_add_kcfg_files(kwin
+    settings.kcfgc
+    rulesettings.kcfgc
+    rulebooksettingsbase.kcfgc
+)
+
+ki18n_wrap_ui(kwin
+    debug_console.ui
+    shortcutdialog.ui
+)
+
+set(kwin_dbus_SRCS)
+qt_add_dbus_adaptor(kwin_dbus_SRCS scripting/org.kde.kwin.Script.xml scripting/scripting.h KWin::AbstractScript)
+qt_add_dbus_adaptor(kwin_dbus_SRCS org.kde.KWin.xml dbusinterface.h KWin::DBusInterface)
+qt_add_dbus_adaptor(kwin_dbus_SRCS org.kde.kwin.Compositing.xml dbusinterface.h KWin::CompositorDBusInterface)
+qt_add_dbus_adaptor(kwin_dbus_SRCS ${kwin_effects_dbus_xml} effects.h KWin::EffectsHandlerImpl)
+qt_add_dbus_adaptor(kwin_dbus_SRCS org.kde.KWin.VirtualDesktopManager.xml dbusinterface.h KWin::VirtualDesktopManagerDBusInterface)
+qt_add_dbus_adaptor(kwin_dbus_SRCS org.kde.KWin.Session.xml sm.h KWin::SessionManager)
+qt_add_dbus_adaptor(kwin_dbus_SRCS org.kde.KWin.Plugins.xml dbusinterface.h KWin::PluginManagerDBusInterface)
+
+if (KWIN_BUILD_SCREENLOCKER)
+    qt_add_dbus_interface(kwin_dbus_SRCS ${KSCREENLOCKER_DBUS_INTERFACES_DIR}/kf5_org.freedesktop.ScreenSaver.xml screenlocker_interface)
+    qt_add_dbus_interface(kwin_dbus_SRCS ${KSCREENLOCKER_DBUS_INTERFACES_DIR}/org.kde.screensaver.xml kscreenlocker_interface)
+endif()
+
+qt_add_dbus_interface(kwin_dbus_SRCS org.kde.kappmenu.xml appmenu_interface)
+
+target_sources(kwin PRIVATE
+    ${kwin_dbus_SRCS}
 )
 
 add_subdirectory(backends)
 add_subdirectory(scenes)
 add_subdirectory(utils)
-
-if (KWIN_BUILD_CMS)
-    target_sources(kwin PRIVATE
-        colordevice.cpp
-        colormanager.cpp
-    )
-    target_link_libraries(kwin lcms2::lcms2)
-endif()
+add_subdirectory(wayland)
+add_subdirectory(xwayland)
 
 if (KWIN_BUILD_ACTIVITIES)
     target_sources(kwin PRIVATE activities.cpp)
     target_link_libraries(kwin KF5::Activities)
+endif()
+
+if (KWIN_BUILD_SCREENLOCKER)
+    target_sources(kwin PRIVATE screenlockerwatcher.cpp)
+    target_link_libraries(kwin PW::KScreenLocker)
 endif()
 
 if (KWIN_BUILD_TABBOX)
@@ -258,37 +279,29 @@ if (KWIN_BUILD_TABBOX)
     target_link_libraries(kwin Qt::GuiPrivate)
 endif()
 
-qt5_generate_dbus_interface(virtualkeyboard_dbus.h org.kde.kwin.VirtualKeyboard.xml OPTIONS -A)
-qt5_generate_dbus_interface(tabletmodemanager.h org.kde.KWin.TabletModeManager.xml OPTIONS -A)
+qt_generate_dbus_interface(virtualkeyboard_dbus.h org.kde.kwin.VirtualKeyboard.xml OPTIONS -A)
+qt_generate_dbus_interface(tabletmodemanager.h org.kde.KWin.TabletModeManager.xml OPTIONS -A)
 
 generate_export_header(kwin EXPORT_FILE_NAME kwin_export.h)
 
 add_executable(kwin_x11 main_x11.cpp)
 target_link_libraries(kwin_x11
-    kwin4_effect_builtins
     kwin
     KF5::Crash
-    Qt::X11Extras
 )
+kcoreaddons_target_static_plugins(kwin_x11 "kwin/effects/plugins")
 
 install(TARGETS kwin ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)
 install(TARGETS kwin_x11 ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
-add_subdirectory(xwl)
+add_executable(kwin_wayland main_wayland.cpp)
 
-add_executable(kwin_wayland
-    main_wayland.cpp
-    tabletmodemanager.cpp
-)
 target_link_libraries(kwin_wayland
-    kwin4_effect_builtins
     kwin
     KF5::Crash
     KWinXwaylandServerModule
 )
-if (HAVE_LIBCAP)
-    target_link_libraries(kwin_wayland ${Libcap_LIBRARIES})
-endif()
+kcoreaddons_target_static_plugins(kwin_wayland "kwin/effects/plugins")
 
 install(TARGETS kwin_wayland ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 if (HAVE_LIBCAP)
@@ -323,7 +336,9 @@ if (PipeWire_FOUND)
 endif()
 
 install(FILES kwin.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR} RENAME ${KWIN_NAME}.kcfg)
-install(FILES kwin.notifyrc DESTINATION ${KDE_INSTALL_KNOTIFY5RCDIR} RENAME ${KWIN_NAME}.notifyrc)
+if (KWIN_BUILD_NOTIFICATIONS)
+    install(FILES kwin.notifyrc DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR} RENAME ${KWIN_NAME}.notifyrc)
+endif()
 install(
     FILES
         org.kde.KWin.VirtualDesktopManager.xml
@@ -339,4 +354,4 @@ install(
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/kwin_export.h DESTINATION ${KDE_INSTALL_INCLUDEDIR} COMPONENT Devel)
 
 # Install the KWin/Script service type
-install(FILES scripting/kwinscript.desktop DESTINATION ${KDE_INSTALL_KSERVICETYPES5DIR})
+install(FILES scripting/kwinscript.desktop DESTINATION ${KDE_INSTALL_KSERVICETYPESDIR})

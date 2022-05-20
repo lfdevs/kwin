@@ -7,14 +7,16 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "screens.h"
-#include <abstract_client.h>
-#include "abstract_output.h"
-#include "cursor.h"
-#include "utils/common.h"
-#include "settings.h"
-#include <workspace.h>
+
 #include <config-kwin.h>
+
+#include "cursor.h"
+#include "output.h"
 #include "platform.h"
+#include "settings.h"
+#include "utils/common.h"
+#include <window.h>
+#include <workspace.h>
 
 namespace KWin
 {
@@ -55,7 +57,7 @@ void Screens::init()
 
 QRect Screens::geometry(int screen) const
 {
-    if (AbstractOutput *output = findOutput(screen)) {
+    if (Output *output = findOutput(screen)) {
         return output->geometry();
     }
     return QRect();
@@ -63,7 +65,7 @@ QRect Screens::geometry(int screen) const
 
 qreal Screens::scale(int screen) const
 {
-    if (AbstractOutput *output = findOutput(screen)) {
+    if (Output *output = findOutput(screen)) {
         return output->scale();
     }
     return 1.0;
@@ -107,23 +109,7 @@ void Screens::setCount(int count)
     Q_EMIT countChanged(previous, count);
 }
 
-int Screens::intersecting(const QRect &r) const
-{
-    int cnt = 0;
-    for (int i = 0; i < count(); ++i) {
-        if (geometry(i).intersects(r)) {
-            ++cnt;
-        }
-    }
-    return cnt;
-}
-
-int Screens::number(const QPoint &pos) const
-{
-    return kwinApp()->platform()->enabledOutputs().indexOf(kwinApp()->platform()->outputAt(pos));
-}
-
-AbstractOutput *Screens::findOutput(int screen) const
+Output *Screens::findOutput(int screen) const
 {
     return kwinApp()->platform()->findOutput(screen);
 }

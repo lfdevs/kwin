@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-01-14 02:21+0000\n"
-"PO-Revision-Date: 2021-08-02 11:43+0200\n"
+"POT-Creation-Date: 2022-03-26 00:45+0000\n"
+"PO-Revision-Date: 2021-11-22 11:48+0100\n"
 "Last-Translator: Phu Hung Nguyen <phu.nguyen@kdemail.net>\n"
 "Language-Team: Vietnamese <kde-l10n-vi@kde.org>\n"
 "Language: vi\n"
@@ -58,14 +58,13 @@ msgstr ""
 #: compositing.ui:79
 #, kde-format
 msgid "Compositing:"
-msgstr ""
+msgstr "Kết hợp:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Enabled)
 #: compositing.ui:86
-#, fuzzy, kde-format
-#| msgid "Enable compositor on startup"
+#, kde-format
 msgid "Enable on startup"
-msgstr "Bật trình kết hợp khi khởi động"
+msgstr "Bật khi khởi động"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_WindowsBlockCompositing)
 #: compositing.ui:95
@@ -211,12 +210,12 @@ msgstr "Ưu tiên hình ảnh mượt"
 msgid "Force smoothest animations"
 msgstr "Hình ảnh mượt mà nhất có thể"
 
-#: main.cpp:76
+#: main.cpp:74
 #, kde-format
 msgid "Re-enable OpenGL detection"
 msgstr "Bật lại tính năng phát hiện OpenGL"
 
-#: main.cpp:135
+#: main.cpp:130
 #, kde-format
 msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
@@ -225,12 +224,12 @@ msgstr ""
 "\"Chỉ khi tiêu tốn ít\" chỉ ngăn ngừa rách hình cho các thay đổi toàn màn "
 "hình chẳng hạn như khi phát phim."
 
-#: main.cpp:139
+#: main.cpp:134
 #, kde-format
 msgid "\"Full screen repaints\" can cause performance problems."
 msgstr "\"Tô lại toàn bộ màn hình\" có thể gây ra các vấn đề về hiệu năng."
 
-#: main.cpp:143
+#: main.cpp:138
 #, kde-format
 msgid ""
 "\"Re-use screen content\" causes severe performance problems on MESA drivers."

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: கேபசூ 4.1 தமிழாக்கம்\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-03-09 02:12+0000\n"
+"POT-Creation-Date: 2022-05-14 00:46+0000\n"
 "PO-Revision-Date: 2022-01-23 17:37+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -16,16 +16,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Lokalize 21.12.1\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr ""
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, labelConstantBlurDescription)
 #: blur/blur_config.ui:17
@@ -54,7 +44,7 @@ msgstr "அதிகம்"
 msgid "Noise strength:"
 msgstr "&வலிமை:"
 
-#: colorpicker/colorpicker.cpp:107
+#: colorpicker/colorpicker.cpp:100
 #, kde-format
 msgid ""
 "Select a position for color picking with left click or enter.\n"
@@ -64,22 +54,21 @@ msgstr ""
 "கொண்டு தேர்ந்தெடுங்கள்.\n"
 "கைவிட Escape வசையையோ வலது க்ளிக்கையோ பயன்படுத்துங்கள்."
 
-#: desktopgrid/desktopgrid.cpp:116 desktopgrid/desktopgrid_config.cpp:55
-#, kde-format
-msgid "Show Desktop Grid"
-msgstr "பணிமேடை கிரிடை காட்டு"
-
-#: desktopgrid/desktopgrid_config.cpp:50 invert/invert_config.cpp:36
-#: lookingglass/lookingglass_config.cpp:56 magnifier/magnifier_config.cpp:56
-#: mouseclick/mouseclick_config.cpp:48 mousemark/mousemark_config.cpp:54
-#: overview/kcm/overvieweffectkcm.cpp:35
-#: presentwindows/presentwindows_config.cpp:49
-#: showpaint/showpaint_config.cpp:34
-#: thumbnailaside/thumbnailaside_config.cpp:55
-#: trackmouse/trackmouse_config.cpp:52 zoom/zoom_config.cpp:57
+#: desktopgrid/desktopgrid_config.cpp:51 invert/invert_config.cpp:35
+#: lookingglass/lookingglass_config.cpp:55 magnifier/magnifier_config.cpp:57
+#: mouseclick/mouseclick_config.cpp:49 mousemark/mousemark_config.cpp:52
+#: overview/kcm/overvieweffectkcm.cpp:35 showpaint/showpaint_config.cpp:33
+#: thumbnailaside/thumbnailaside_config.cpp:56
+#: trackmouse/trackmouse_config.cpp:52
+#: windowview/kcm/windowvieweffectkcm.cpp:35 zoom/zoom_config.cpp:58
 #, kde-format
 msgid "KWin"
 msgstr "கேவின்"
+
+#: desktopgrid/desktopgrid_config.cpp:56 desktopgrid/desktopgrideffect.cpp:35
+#, kde-format
+msgid "Show Desktop Grid"
+msgstr "பணிமேடை கிரிடை காட்டு"
 
 #: desktopgrid/desktopgrid_config.cpp:63
 #, kde-format
@@ -146,101 +135,77 @@ msgstr "நடு"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: desktopgrid/desktopgrid_config.ui:17 mousemark/mousemark_config.ui:17
-#: presentwindows/presentwindows_config.ui:387
 #: thumbnailaside/thumbnailaside_config.ui:17
 #, kde-format
 msgid "Appearance"
 msgstr "தோற்றம்"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: desktopgrid/desktopgrid_config.ui:23
-#, kde-format
-msgid "Zoom &duration:"
-msgstr "&அசைவூட்டம் நீடிக்கும் காலம்:"
-
-#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_ZoomDuration)
-#: desktopgrid/desktopgrid_config.ui:42
-#, kde-format
-msgctxt "Duration of zoom"
-msgid "Default"
-msgstr "இயல்பிருப்பு"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: desktopgrid/desktopgrid_config.ui:55
-#, kde-format
-msgid "Border wid&th:"
-msgstr "விளிம்புகளின் &அகலம்:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#: desktopgrid/desktopgrid_config.ui:84
-#, kde-format
-msgid "Desktop &name alignment:"
-msgstr "பணிமேடையின் &பெயர் காட்டப்படுவது:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_7)
-#: desktopgrid/desktopgrid_config.ui:107
-#, kde-format
-msgid "&Layout mode:"
-msgstr "&தளவமைக்கும் முறை:"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
-#: desktopgrid/desktopgrid_config.ui:127
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DesktopLayoutMode)
+#: desktopgrid/desktopgrid_config.ui:30
 #, kde-format
 msgid "Pager"
 msgstr "பணிமேடை மாற்றியை பொறுத்து"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
-#: desktopgrid/desktopgrid_config.ui:132
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DesktopLayoutMode)
+#: desktopgrid/desktopgrid_config.ui:35
 #, kde-format
 msgid "Automatic"
 msgstr "தானாக"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
-#: desktopgrid/desktopgrid_config.ui:137
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DesktopLayoutMode)
+#: desktopgrid/desktopgrid_config.ui:40
 #, kde-format
 msgid "Custom"
 msgstr "விருப்பமானது"
 
 #. i18n: ectx: property (text), widget (QLabel, layoutRowsLabel)
-#: desktopgrid/desktopgrid_config.ui:145
+#: desktopgrid/desktopgrid_config.ui:48
 #, kde-format
 msgid "N&umber of rows:"
 msgstr "வரிசைகளின் &எண்ணிக்கை:"
 
-#. i18n: ectx: property (text), widget (QLabel, clickBehaviorLabel)
-#: desktopgrid/desktopgrid_config.ui:177
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: desktopgrid/desktopgrid_config.ui:103
 #, kde-format
-msgid "Click behavior:"
-msgstr "க்ளிக் செய்வது:"
-
-#. i18n: ectx: property (toolTip), widget (QRadioButton, switchDesktopAndActivateWindow)
-#: desktopgrid/desktopgrid_config.ui:190
-#, kde-format
-msgid ""
-"If the Present Windows effect is enabled, it will be automatically triggered."
-msgstr "'சாளரங்களை முன்வை' என்பது இயக்கப்படின், அது தானாக தூண்டப்படும்."
-
-#. i18n: ectx: property (text), widget (QRadioButton, switchDesktopAndActivateWindow)
-#: desktopgrid/desktopgrid_config.ui:193
-#, kde-format
-msgid "Switch desktop and activate window"
-msgstr "பணிமேடையை மாற்றி சாளரத்தை செயல்படுத்தும்"
-
-#. i18n: ectx: property (text), widget (QRadioButton, switchDesktopOnly)
-#: desktopgrid/desktopgrid_config.ui:203
-#, kde-format
-msgid "Switch desktop only"
-msgstr "பணிமேடையை மட்டும் மாற்றும்"
+msgid "Desktop &name alignment:"
+msgstr "பணிமேடையின் &பெயர் காட்டப்படுவது:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowAddRemove)
-#: desktopgrid/desktopgrid_config.ui:213
+#: desktopgrid/desktopgrid_config.ui:116
 #, kde-format
 msgid "Show buttons to alter count of virtual desktops"
 msgstr "பணிமேடைகளின் எண்ணிக்கையை மாற்றும் பட்டன்களை காட்டு"
 
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#: desktopgrid/desktopgrid_config.ui:123
+#, fuzzy, kde-format
+#| msgid "&Layout mode:"
+msgid "&Grid layout mode:"
+msgstr "&தளவமைக்கும் முறை:"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
+#: desktopgrid/desktopgrid_config.ui:137 overview/kcm/overvieweffectkcm.ui:30
+#: windowview/kcm/windowvieweffectkcm.ui:30
+#, kde-format
+msgid "Closest"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
+#: desktopgrid/desktopgrid_config.ui:142 overview/kcm/overvieweffectkcm.ui:35
+#: windowview/kcm/windowvieweffectkcm.ui:35
+#, kde-format
+msgid "Natural"
+msgstr "இயல்பானது"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: desktopgrid/desktopgrid_config.ui:150
+#, fuzzy, kde-format
+#| msgid "Windows"
+msgid "Windows layout:"
+msgstr "சாளரங்கள்"
+
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: desktopgrid/desktopgrid_config.ui:236
-#: presentwindows/presentwindows_config.ui:17
+#: desktopgrid/desktopgrid_config.ui:166
 #, kde-format
 msgid "Activation"
 msgstr "தூண்டுவது"
@@ -289,22 +254,18 @@ msgstr "முழுத்திரை சாளரங்கள்"
 
 #. i18n: ectx: property (text), widget (QLabel, label_Duration)
 #: glide/glide_config.ui:19 scale/package/contents/ui/config.ui:17
-#: slide/slide_config.ui:19
 #, kde-format
 msgid "Duration:"
 msgstr "நீடிக்கும் காலம்:"
 
-#. i18n: Duration of the slide animation.
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
 #: glide/glide_config.ui:32 scale/package/contents/ui/config.ui:30
-#: slide/slide_config.ui:32
 #, kde-format
 msgid "Default"
 msgstr "இயல்பிருப்பு"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Duration)
 #: glide/glide_config.ui:35 scale/package/contents/ui/config.ui:33
-#: slide/slide_config.ui:35
 #, kde-format
 msgid " milliseconds"
 msgstr " மில்லிநொடிகள்"
@@ -342,12 +303,12 @@ msgstr "தூரம்:"
 msgid "Window Close Animation"
 msgstr "சாளரங்களை மூடும்போது"
 
-#: invert/invert.cpp:42 invert/invert_config.cpp:39
+#: invert/invert.cpp:42 invert/invert_config.cpp:38
 #, kde-format
 msgid "Toggle Invert Effect"
 msgstr "புரட்டலை நிலைமாற்று"
 
-#: invert/invert.cpp:50 invert/invert_config.cpp:45
+#: invert/invert.cpp:50 invert/invert_config.cpp:44
 #, kde-format
 msgid "Toggle Invert Effect on Window"
 msgstr "சாளரத்திற்கான புரட்டலை நிலைமாற்று"
@@ -408,35 +369,35 @@ msgstr " px"
 msgid "&Height:"
 msgstr "&உயரம்"
 
-#: mouseclick/mouseclick.cpp:33 mouseclick/mouseclick_config.cpp:51
+#: mouseclick/mouseclick.cpp:34 mouseclick/mouseclick_config.cpp:52
 #, kde-format
 msgid "Toggle Mouse Click Effect"
 msgstr "சுட்டி க்ளிக் அசைவூட்டத்தை நிலைமாற்று"
 
-#: mouseclick/mouseclick.cpp:41
+#: mouseclick/mouseclick.cpp:42
 #, kde-format
 msgctxt "Left mouse button"
 msgid "Left"
 msgstr "இடது"
 
-#: mouseclick/mouseclick.cpp:42
+#: mouseclick/mouseclick.cpp:43
 #, kde-format
 msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr "நடு"
 
-#: mouseclick/mouseclick.cpp:43
+#: mouseclick/mouseclick.cpp:44
 #, kde-format
 msgctxt "Right mouse button"
 msgid "Right"
 msgstr "வலது"
 
-#: mouseclick/mouseclick.h:62
+#: mouseclick/mouseclick.h:73
 #, kde-format
 msgid "↓"
 msgstr "↓"
 
-#: mouseclick/mouseclick.h:63
+#: mouseclick/mouseclick.h:74
 #, kde-format
 msgid "↑"
 msgstr "↑"
@@ -538,23 +499,23 @@ msgstr "உரையை காட்டு:"
 msgid "Clear All Mouse Marks"
 msgstr "சுட்டியின் அனைத்து தடங்களையும் அழி"
 
-#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:63
+#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:61
 #, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr "சுட்டியின் கடைசி தடத்தை அழி"
 
-#: mousemark/mousemark_config.cpp:43
+#: mousemark/mousemark_config.cpp:55
+#, kde-format
+msgid "Clear Mouse Marks"
+msgstr "சுட்டியின் தடங்களை அழி"
+
+#: mousemark/mousemark_config.cpp:102
 #, kde-format
 msgctxt "Suffix"
 msgid " pixel"
 msgid_plural " pixels"
 msgstr[0] " பிக்செல்"
 msgstr[1] " பிக்செல்கள்"
-
-#: mousemark/mousemark_config.cpp:57
-#, kde-format
-msgid "Clear Mouse Marks"
-msgstr "சுட்டியின் தடங்களை அழி"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: mousemark/mousemark_config.ui:23
@@ -574,38 +535,30 @@ msgstr "&நிறம்;"
 msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr "Shift+Meta விசைகளை அழுத்திக்கொண்டே சுட்டியை நகர்த்தி வரையுங்கள்."
 
-#: overview/kcm/overvieweffectkcm.cpp:41 overview/overvieweffect.cpp:37
+#: overview/kcm/overvieweffectkcm.cpp:41 overview/overvieweffect.cpp:43
 #, kde-format
 msgid "Toggle Overview"
 msgstr "மேலோட்டத்தை காட்டு/மறை"
 
 #. i18n: ectx: property (text), widget (QLabel, label_LayoutMode)
-#. i18n: ectx: property (text), widget (QLabel, label_3)
 #: overview/kcm/overvieweffectkcm.ui:22
-#: presentwindows/presentwindows_config.ui:393
+#: windowview/kcm/windowvieweffectkcm.ui:22
 #, kde-format
 msgid "Layout mode:"
 msgstr "தளவமைக்கும் முறை:"
 
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
-#: overview/kcm/overvieweffectkcm.ui:30
-#, kde-format
-msgid "Closest"
-msgstr ""
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
-#: overview/kcm/overvieweffectkcm.ui:35
-#: presentwindows/presentwindows_config.ui:441
-#, kde-format
-msgid "Natural"
-msgstr "இயல்பானது"
-
 #. i18n: ectx: property (text), widget (QLabel, label_BlurBackground)
-#: overview/kcm/overvieweffectkcm.ui:56
+#: overview/kcm/overvieweffectkcm.ui:53
 #, kde-format
 msgid "Blur background:"
 msgstr "பின்புலத்தை மங்கலாக்கு:"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: overview/kcm/overvieweffectkcm.ui:70
+#, fuzzy, kde-format
+#| msgid "Ignore &minimized windows"
+msgid "Ignore minimized windows:"
+msgstr "&ஒதுக்கப்பட்ட சாளரங்களை பொருட்படுத்தாதே"
 
 #: overview/qml/DesktopBar.qml:188
 #, kde-format
@@ -618,227 +571,15 @@ msgstr ""
 msgid "Add Desktop"
 msgstr "பணிமேடை"
 
-#: overview/qml/ScreenView.qml:119
+#: overview/qml/ScreenView.qml:169
 #, kde-format
 msgid "Search..."
 msgstr ""
 
-#: presentwindows/presentwindows.cpp:71
-#: presentwindows/presentwindows_config.cpp:60
+#: private/qml/WindowHeap.qml:171
 #, kde-format
-msgid "Toggle Present Windows (Current desktop)"
-msgstr "சாளர முன்வைப்பை காட்டு/மறை (தற்போதைய பணிமேடை)"
-
-#: presentwindows/presentwindows.cpp:80
-#: presentwindows/presentwindows_config.cpp:54
-#, kde-format
-msgid "Toggle Present Windows (All desktops)"
-msgstr "சாளர முன்வைப்பை காட்டு/மறை (எல்லா பணிமேடைகளும்)"
-
-#: presentwindows/presentwindows.cpp:90
-#: presentwindows/presentwindows_config.cpp:66
-#, kde-format
-msgid "Toggle Present Windows (Window class)"
-msgstr "சாளர முன்வைப்பை காட்டு/மறை (சாளர வகையை பொறுத்து)"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
-#: presentwindows/presentwindows_config.ui:39
-#, kde-format
-msgid "Natural Layout Settings"
-msgstr "இயல்பான தளவமைப்புக்கான அமைப்புகள்"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_FillGaps)
-#: presentwindows/presentwindows_config.ui:45
-#, kde-format
-msgid "Fill &gaps"
-msgstr "இடைவெளிகளை &நிரப்பு"
-
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#: presentwindows/presentwindows_config.ui:65
-#, kde-format
-msgid "Faster"
-msgstr "வேகமாக"
-
-#. i18n: ectx: property (text), widget (QLabel, label_5)
-#: presentwindows/presentwindows_config.ui:112
-#, kde-format
-msgid "Nicer"
-msgstr "அழகாக"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
-#: presentwindows/presentwindows_config.ui:122
-#, kde-format
-msgid "Windows"
-msgstr "சாளரங்கள்"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#. i18n: ectx: property (text), widget (QLabel, label_8)
-#: presentwindows/presentwindows_config.ui:128
-#: presentwindows/presentwindows_config.ui:282
-#, kde-format
-msgid "Left button:"
-msgstr "இடது பட்டன்:"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LeftButtonWindow)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonWindow)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonWindow)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LeftButtonDesktop)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonDesktop)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonDesktop)
-#: presentwindows/presentwindows_config.ui:139
-#: presentwindows/presentwindows_config.ui:183
-#: presentwindows/presentwindows_config.ui:232
-#: presentwindows/presentwindows_config.ui:293
-#: presentwindows/presentwindows_config.ui:327
-#: presentwindows/presentwindows_config.ui:361
-#, kde-format
-msgid "No action"
-msgstr "எதுவும் செய்யாது"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LeftButtonWindow)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonWindow)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonWindow)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LeftButtonDesktop)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonDesktop)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonDesktop)
-#: presentwindows/presentwindows_config.ui:144
-#: presentwindows/presentwindows_config.ui:188
-#: presentwindows/presentwindows_config.ui:237
-#: presentwindows/presentwindows_config.ui:298
-#: presentwindows/presentwindows_config.ui:332
-#: presentwindows/presentwindows_config.ui:366
-#, kde-format
-msgid "Activate window"
-msgstr "சாளரத்தை செயல்படுத்தும்"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LeftButtonWindow)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonWindow)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonWindow)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LeftButtonDesktop)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonDesktop)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonDesktop)
-#: presentwindows/presentwindows_config.ui:149
-#: presentwindows/presentwindows_config.ui:193
-#: presentwindows/presentwindows_config.ui:242
-#: presentwindows/presentwindows_config.ui:303
-#: presentwindows/presentwindows_config.ui:337
-#: presentwindows/presentwindows_config.ui:371
-#, kde-format
-msgid "End effect"
-msgstr "முன்வைப்பதை நிறுத்தும்"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LeftButtonWindow)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonWindow)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonWindow)
-#: presentwindows/presentwindows_config.ui:154
-#: presentwindows/presentwindows_config.ui:198
-#: presentwindows/presentwindows_config.ui:247
-#, kde-format
-msgid "Bring window to current desktop"
-msgstr "தற்போதைய பணிமேடைக்கு சாளரத்தை கொண்டுவரும்"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LeftButtonWindow)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonWindow)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonWindow)
-#: presentwindows/presentwindows_config.ui:159
-#: presentwindows/presentwindows_config.ui:203
-#: presentwindows/presentwindows_config.ui:252
-#, kde-format
-msgid "Send window to all desktops"
-msgstr "அனைத்து பணிமேடைகளுக்கு சாளரத்தை அனுப்பும்"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LeftButtonWindow)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonWindow)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonWindow)
-#: presentwindows/presentwindows_config.ui:164
-#: presentwindows/presentwindows_config.ui:208
-#: presentwindows/presentwindows_config.ui:257
-#, kde-format
-msgid "(Un-)Minimize window"
-msgstr "சாளரத்தை ஒதுக்கும்/காட்டும்"
-
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#. i18n: ectx: property (text), widget (QLabel, label_9)
-#: presentwindows/presentwindows_config.ui:172
-#: presentwindows/presentwindows_config.ui:316
-#, kde-format
-msgid "Middle button:"
-msgstr "நடு பட்டன்:"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonWindow)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonWindow)
-#: presentwindows/presentwindows_config.ui:213
-#: presentwindows/presentwindows_config.ui:262
-#, kde-format
-msgid "Close window"
-msgstr "சாளரத்தை மூடும்"
-
-#. i18n: ectx: property (text), widget (QLabel, label_7)
-#. i18n: ectx: property (text), widget (QLabel, label_10)
-#: presentwindows/presentwindows_config.ui:221
-#: presentwindows/presentwindows_config.ui:350
-#, kde-format
-msgid "Right button:"
-msgstr "வலது பட்டன்:"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_5)
-#: presentwindows/presentwindows_config.ui:273
-#, kde-format
-msgctxt "@title:group actions when clicking on desktop"
-msgid "Desktop"
-msgstr "பணிமேடை"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LeftButtonDesktop)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonDesktop)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonDesktop)
-#: presentwindows/presentwindows_config.ui:308
-#: presentwindows/presentwindows_config.ui:342
-#: presentwindows/presentwindows_config.ui:376
-#, kde-format
-msgid "Show desktop"
-msgstr "பணிமேடையை காட்டும்"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DrawWindowCaptions)
-#: presentwindows/presentwindows_config.ui:406
-#, kde-format
-msgid "Display window &titles"
-msgstr "சாளர &தலைப்புகளை காட்டு"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DrawWindowIcons)
-#: presentwindows/presentwindows_config.ui:413
-#, kde-format
-msgid "Display window &icons"
-msgstr "சாளர &சின்னங்களை காட்டு"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_IgnoreMinimized)
-#: presentwindows/presentwindows_config.ui:420
-#, kde-format
-msgid "Ignore &minimized windows"
-msgstr "&ஒதுக்கப்பட்ட சாளரங்களை பொருட்படுத்தாதே"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowPanel)
-#: presentwindows/presentwindows_config.ui:427
-#, kde-format
-msgid "Show &panels"
-msgstr "&பலகைகளை காட்டு"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
-#: presentwindows/presentwindows_config.ui:446
-#, kde-format
-msgid "Regular Grid"
-msgstr "மாறாத கிரிட்"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
-#: presentwindows/presentwindows_config.ui:451
-#, kde-format
-msgid "Flexible Grid"
-msgstr "மாறக்கூடிய கிரிட்"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowClosingWindows)
-#: presentwindows/presentwindows_config.ui:459
-#, kde-format
-msgid "Provide buttons to close the windows"
-msgstr "சாளரங்களை மூடும் பட்டன்களை காட்டு"
+msgid "Drag Down To Close"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_InScale)
 #: scale/package/contents/ui/config.ui:46
@@ -852,20 +593,20 @@ msgstr "சாளர திறப்புக்கான அளவுமாற�
 msgid "Window close scale:"
 msgstr "சாளரத்தை மூடும்போது அளவுமாற்றம்:"
 
-#: screenshot/screenshotdbusinterface1.cpp:472
+#: screenshot/screenshotdbusinterface1.cpp:480
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr "திரைப்பிடிப்பு"
 
-#: screenshot/screenshotdbusinterface1.cpp:473
+#: screenshot/screenshotdbusinterface1.cpp:481
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr "திரைப்பிடிப்பு %1 என்ற இடத்திற்கு சேமிக்கப்பட்டது"
 
-#: screenshot/screenshotdbusinterface1.cpp:788
-#: screenshot/screenshotdbusinterface2.cpp:471
+#: screenshot/screenshotdbusinterface1.cpp:797
+#: screenshot/screenshotdbusinterface2.cpp:472
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
@@ -875,8 +616,8 @@ msgstr ""
 "தேர்ந்தெடுங்கள்.\n"
 "கைவிட escape விசையை அல்லது வலது க்ளிக்கை பயன்படுத்துங்கள்."
 
-#: screenshot/screenshotdbusinterface1.cpp:791
-#: screenshot/screenshotdbusinterface2.cpp:489
+#: screenshot/screenshotdbusinterface1.cpp:800
+#: screenshot/screenshotdbusinterface2.cpp:490
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -885,7 +626,7 @@ msgstr ""
 "படமெடுக்க இடது க்ளிக்கை அல்லது enter விசையை பயன்படுத்துங்கள்.\n"
 "கைவிட escape விசையை அல்லது வலது க்ளிக்கை பயன்படுத்துங்கள்."
 
-#: showfps/showfps.cpp:50
+#: showfps/showfps.cpp:52
 #, kde-format
 msgid "This effect is not a benchmark"
 msgstr "இந்த அசைவூட்டம் ஒரு நிலைக்குறி (benchmark) அல்ல"
@@ -896,37 +637,37 @@ msgstr "இந்த அசைவூட்டம் ஒரு நிலைக்
 msgid "Text position:"
 msgstr "உரையின் இருப்பிடம்:"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TextPosition)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TextPosition)
 #: showfps/showfps_config.ui:43
 #, kde-format
 msgid "Inside Graph"
 msgstr "வரைபடத்திற்குள்"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TextPosition)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TextPosition)
 #: showfps/showfps_config.ui:48
 #, kde-format
 msgid "Nowhere"
 msgstr "எங்குமில்லை"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TextPosition)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TextPosition)
 #: showfps/showfps_config.ui:53
 #, kde-format
 msgid "Top Left"
 msgstr "இடது மேற்புறம்"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TextPosition)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TextPosition)
 #: showfps/showfps_config.ui:58
 #, kde-format
 msgid "Top Right"
 msgstr "வலது மேற்புறம்"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TextPosition)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TextPosition)
 #: showfps/showfps_config.ui:63
 #, kde-format
 msgid "Bottom Left"
 msgstr "இடது கீழ்புறம்"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TextPosition)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TextPosition)
 #: showfps/showfps_config.ui:68
 #, kde-format
 msgid "Bottom Right"
@@ -950,44 +691,81 @@ msgstr "உரையின் நிறம்:"
 msgid "Text alpha:"
 msgstr "உரையின் ஒளிபுகாமை:"
 
-#: showpaint/showpaint.cpp:39 showpaint/showpaint_config.cpp:39
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: showfps/showfps_config.ui:154
+#, kde-format
+msgid "Show graph:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowGraph)
+#: showfps/showfps_config.ui:167
+#, kde-format
+msgid "Show on active screen"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: showfps/showfps_config.ui:174
+#, fuzzy, kde-format
+#| msgid "Show Text:"
+msgid "Show Message:"
+msgstr "உரையை காட்டு:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowNoBenchmark)
+#: showfps/showfps_config.ui:187
+#, kde-format
+msgid "Show \"not a benchmark\" message"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: showfps/showfps_config.ui:194
+#, kde-format
+msgid "Colorize Text:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ColorizeText)
+#: showfps/showfps_config.ui:207
+#, kde-format
+msgid "Color text by value (green > yellow > red)"
+msgstr ""
+
+#: showpaint/showpaint.cpp:38 showpaint/showpaint_config.cpp:38
 #, fuzzy, kde-format
 #| msgid "Show Desktop Grid"
 msgid "Toggle Show Paint"
 msgstr "பணிமேசை தடுப்பினை காட்டுக"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_Gaps)
-#: slide/slide_config.ui:50
+#: slide/slide_config.ui:17
 #, kde-format
 msgid "Gap between desktops"
 msgstr "பணிமேடைகளுக்கிடையேயான இடைவெளி"
 
 #. i18n: ectx: property (text), widget (QLabel, label_HorizontalGap)
-#: slide/slide_config.ui:56
+#: slide/slide_config.ui:23
 #, kde-format
 msgid "Horizontal:"
 msgstr "கிடைமட்டமாக:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_VerticalGap)
-#: slide/slide_config.ui:79
+#: slide/slide_config.ui:46
 #, kde-format
 msgid "Vertical:"
 msgstr "நெடுக்காக:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideDocks)
-#: slide/slide_config.ui:105
+#: slide/slide_config.ui:72
 #, kde-format
 msgid "Slide docks"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideBackground)
-#: slide/slide_config.ui:112
+#: slide/slide_config.ui:79
 #, kde-format
 msgid "Slide desktop background"
 msgstr ""
 
 #: thumbnailaside/thumbnailaside.cpp:29
-#: thumbnailaside/thumbnailaside_config.cpp:60
+#: thumbnailaside/thumbnailaside_config.cpp:61
 #, kde-format
 msgid "Toggle Thumbnail for Current Window"
 msgstr "தற்போதைய சாளரத்திற்கான சிறுபடத்தை காட்டு/மறை"
@@ -1024,7 +802,7 @@ msgstr "&ஒளிபுகாமை:"
 msgid " %"
 msgstr " %"
 
-#: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:57
+#: trackmouse/trackmouse.cpp:45 trackmouse/trackmouse_config.cpp:57
 #, kde-format
 msgid "Track mouse"
 msgstr "சுட்டியை கண்டுபிடி"
@@ -1153,6 +931,38 @@ msgstr "மேல்தோன்றும் பட்டிகள்:"
 msgid "Torn-off menus:"
 msgstr "பிரித்தெடுத்த பட்டிகள்:"
 
+#: windowview/kcm/windowvieweffectkcm.cpp:41 windowview/windowvieweffect.cpp:56
+#, kde-format
+msgid "Toggle Present Windows (Current desktop)"
+msgstr "சாளர முன்வைப்பை காட்டு/மறை (தற்போதைய பணிமேடை)"
+
+#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:71
+#, kde-format
+msgid "Toggle Present Windows (All desktops)"
+msgstr "சாளர முன்வைப்பை காட்டு/மறை (எல்லா பணிமேடைகளும்)"
+
+#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:86
+#, kde-format
+msgid "Toggle Present Windows (Window class)"
+msgstr "சாளர முன்வைப்பை காட்டு/மறை (சாளர வகையை பொறுத்து)"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_IgnoreMinimized)
+#: windowview/kcm/windowvieweffectkcm.ui:53
+#, kde-format
+msgid "Ignore &minimized windows"
+msgstr "&ஒதுக்கப்பட்ட சாளரங்களை பொருட்படுத்தாதே"
+
+#: windowview/qml/main.qml:132
+#, kde-format
+msgid "No Matches"
+msgstr ""
+
+#: windowview/qml/main.qml:132
+#, fuzzy, kde-format
+#| msgid "Windows"
+msgid "No Windows"
+msgstr "சாளரங்கள்"
+
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20
 #, kde-format
@@ -1213,52 +1023,52 @@ msgstr "குறைவு"
 msgid "More"
 msgstr "அதிகம்"
 
-#: zoom/zoom.cpp:69
+#: zoom/zoom.cpp:68
 #, kde-format
 msgid "Move Zoomed Area to Left"
 msgstr "உருப்பெருக்கப்பட்ட பரப்பளவை இடதுபுறமாக நகர்த்து"
 
-#: zoom/zoom.cpp:77
+#: zoom/zoom.cpp:76
 #, kde-format
 msgid "Move Zoomed Area to Right"
 msgstr "உருப்பெருக்கப்பட்ட பரப்பளவை வலதுபுறமாக நகர்த்து"
 
-#: zoom/zoom.cpp:85
+#: zoom/zoom.cpp:84
 #, kde-format
 msgid "Move Zoomed Area Upwards"
 msgstr "உருப்பெருக்கப்பட்ட பரப்பளவை மேலே நகர்த்து"
 
-#: zoom/zoom.cpp:93
+#: zoom/zoom.cpp:92
 #, kde-format
 msgid "Move Zoomed Area Downwards"
 msgstr "உருப்பெருக்கப்பட்ட பரப்பளவை கீழே நகர்த்து"
 
-#: zoom/zoom.cpp:102 zoom/zoom_config.cpp:107
+#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:108
 #, kde-format
 msgid "Move Mouse to Focus"
 msgstr "குவியத்திற்கு சுட்டியை நகர்த்து"
 
-#: zoom/zoom.cpp:110 zoom/zoom_config.cpp:114
+#: zoom/zoom.cpp:109 zoom/zoom_config.cpp:115
 #, kde-format
 msgid "Move Mouse to Center"
 msgstr "மையத்திற்கு சுட்டியை நகர்த்து"
 
-#: zoom/zoom_config.cpp:79
+#: zoom/zoom_config.cpp:80
 #, kde-format
 msgid "Move Left"
 msgstr "இடதுபுறமாக நகர்"
 
-#: zoom/zoom_config.cpp:86
+#: zoom/zoom_config.cpp:87
 #, kde-format
 msgid "Move Right"
 msgstr "வலதுபுறமாக நகர்"
 
-#: zoom/zoom_config.cpp:93
+#: zoom/zoom_config.cpp:94
 #, kde-format
 msgid "Move Up"
 msgstr "மேலே நகர்"
 
-#: zoom/zoom_config.cpp:100
+#: zoom/zoom_config.cpp:101
 #, kde-format
 msgid "Move Down"
 msgstr "கீழே நகர்"

@@ -6,39 +6,46 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
+#include <config-kwin.h>
+
 #include "kwin_wayland_test.h"
+
+#if KWIN_BUILD_SCREENLOCKER
 #include "screenlockerwatcher.h"
+#endif
+#include "inputmethod.h"
+#include "wayland/display.h"
 #include "wayland_server.h"
 #include "workspace.h"
-#include "inputmethod.h"
 
+#include <KWayland/Client/appmenu.h>
 #include <KWayland/Client/compositor.h>
 #include <KWayland/Client/connection_thread.h>
 #include <KWayland/Client/event_queue.h>
-#include <KWayland/Client/registry.h>
+#include <KWayland/Client/output.h>
 #include <KWayland/Client/plasmashell.h>
 #include <KWayland/Client/plasmawindowmanagement.h>
 #include <KWayland/Client/pointerconstraints.h>
+#include <KWayland/Client/registry.h>
 #include <KWayland/Client/seat.h>
 #include <KWayland/Client/server_decoration.h>
 #include <KWayland/Client/shadow.h>
 #include <KWayland/Client/shm_pool.h>
-#include <KWayland/Client/output.h>
 #include <KWayland/Client/subcompositor.h>
 #include <KWayland/Client/subsurface.h>
 #include <KWayland/Client/surface.h>
 #include <KWayland/Client/textinput.h>
-#include <KWayland/Client/appmenu.h>
-#include <KWaylandServer/display.h>
 
-//screenlocker
+// screenlocker
+#if KWIN_BUILD_SCREENLOCKER
 #include <KScreenLocker/KsldApp>
+#endif
 
 #include <QThread>
 
 // system
-#include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/types.h>
 #include <unistd.h>
 
 using namespace KWayland::Client;
@@ -218,7 +225,8 @@ IdleInhibitorV1::~IdleInhibitorV1()
     destroy();
 }
 
-static struct {
+static struct
+{
     ConnectionThread *connection = nullptr;
     EventQueue *queue = nullptr;
     KWayland::Client::Compositor *compositor = nullptr;
@@ -234,7 +242,7 @@ static struct {
     Registry *registry = nullptr;
     WaylandOutputManagementV2 *outputManagementV2 = nullptr;
     QThread *thread = nullptr;
-    QVector<Output*> outputs;
+    QVector<KWayland::Client::Output *> outputs;
     QVector<WaylandOutputDeviceV2 *> outputDevicesV2;
     IdleInhibitManagerV1 *idleInhibitManagerV1 = nullptr;
     AppMenuManager *appMenu = nullptr;
@@ -247,9 +255,9 @@ static struct {
     TextInputManagerV3 *textInputManagerV3 = nullptr;
 } s_waylandConnection;
 
-AbstractClient *inputPanelClient()
+Window *inputPanelWindow()
 {
-    return s_waylandConnection.inputMethodV1->client();
+    return s_waylandConnection.inputMethodV1->window();
 }
 
 MockInputMethod *inputMethod()
@@ -265,7 +273,6 @@ KWayland::Client::Surface *inputPanelSurface()
 MockInputMethod::MockInputMethod(struct wl_registry *registry, int id, int version)
     : QtWayland::zwp_input_method_v1(registry, id, version)
 {
-
 }
 MockInputMethod::~MockInputMethod()
 {
@@ -279,7 +286,7 @@ void MockInputMethod::zwp_input_method_v1_activate(struct ::zwp_input_method_con
         m_inputMethodSurface = Test::createInputPanelSurfaceV1(m_inputSurface, s_waylandConnection.outputs.first());
     }
     m_context = context;
-    m_client = Test::renderAndWaitForShown(m_inputSurface, QSize(1280, 400), Qt::blue);
+    m_window = Test::renderAndWaitForShown(m_inputSurface, QSize(1280, 400), Qt::blue);
 
     Q_EMIT activate();
 }
@@ -339,13 +346,13 @@ bool setupWaylandConnection(AdditionalWaylandInterfaces flags)
     registry->setEventQueue(s_waylandConnection.queue);
 
     QObject::connect(registry, &Registry::outputAnnounced, [=](quint32 name, quint32 version) {
-        Output* output = registry->createOutput(name, version, s_waylandConnection.registry);
+        KWayland::Client::Output *output = registry->createOutput(name, version, s_waylandConnection.registry);
         s_waylandConnection.outputs << output;
-        QObject::connect(output, &Output::removed, [=]() {
+        QObject::connect(output, &KWayland::Client::Output::removed, [=]() {
             output->deleteLater();
             s_waylandConnection.outputs.removeOne(output);
         });
-        QObject::connect(output, &Output::destroyed, [=]() {
+        QObject::connect(output, &KWayland::Client::Output::destroyed, [=]() {
             s_waylandConnection.outputs.removeOne(output);
         });
     });
@@ -459,28 +466,28 @@ bool setupWaylandConnection(AdditionalWaylandInterfaces flags)
     }
     if (flags.testFlag(AdditionalWaylandInterface::Decoration)) {
         s_waylandConnection.decoration = registry->createServerSideDecorationManager(registry->interface(Registry::Interface::ServerSideDecorationManager).name,
-                                                                                    registry->interface(Registry::Interface::ServerSideDecorationManager).version);
+                                                                                     registry->interface(Registry::Interface::ServerSideDecorationManager).version);
         if (!s_waylandConnection.decoration->isValid()) {
             return false;
         }
     }
     if (flags.testFlag(AdditionalWaylandInterface::PlasmaShell)) {
         s_waylandConnection.plasmaShell = registry->createPlasmaShell(registry->interface(Registry::Interface::PlasmaShell).name,
-                                                                     registry->interface(Registry::Interface::PlasmaShell).version);
+                                                                      registry->interface(Registry::Interface::PlasmaShell).version);
         if (!s_waylandConnection.plasmaShell->isValid()) {
             return false;
         }
     }
     if (flags.testFlag(AdditionalWaylandInterface::WindowManagement)) {
         s_waylandConnection.windowManagement = registry->createPlasmaWindowManagement(registry->interface(Registry::Interface::PlasmaWindowManagement).name,
-                                                                                     registry->interface(Registry::Interface::PlasmaWindowManagement).version);
+                                                                                      registry->interface(Registry::Interface::PlasmaWindowManagement).version);
         if (!s_waylandConnection.windowManagement->isValid()) {
             return false;
         }
     }
     if (flags.testFlag(AdditionalWaylandInterface::PointerConstraints)) {
         s_waylandConnection.pointerConstraints = registry->createPointerConstraints(registry->interface(Registry::Interface::PointerConstraintsUnstableV1).name,
-                                                                                   registry->interface(Registry::Interface::PointerConstraintsUnstableV1).version);
+                                                                                    registry->interface(Registry::Interface::PointerConstraintsUnstableV1).version);
         if (!s_waylandConnection.pointerConstraints->isValid()) {
             return false;
         }
@@ -609,7 +616,7 @@ PointerConstraints *waylandPointerConstraints()
     return s_waylandConnection.pointerConstraints;
 }
 
-AppMenuManager* waylandAppMenuManager()
+AppMenuManager *waylandAppMenuManager()
 {
     return s_waylandConnection.appMenu;
 }
@@ -639,12 +646,12 @@ QVector<KWin::Test::WaylandOutputDeviceV2 *> waylandOutputDevicesV2()
     return s_waylandConnection.outputDevicesV2;
 }
 
-bool waitForWaylandSurface(AbstractClient *client)
+bool waitForWaylandSurface(Window *window)
 {
-    if (client->surface()) {
+    if (window->surface()) {
         return true;
     }
-    QSignalSpy surfaceChangedSpy(client, &Toplevel::surfaceChanged);
+    QSignalSpy surfaceChangedSpy(window, &Window::surfaceChanged);
     return surfaceChangedSpy.wait();
 }
 
@@ -698,30 +705,30 @@ void render(KWayland::Client::Surface *surface, const QImage &img)
     surface->commit(KWayland::Client::Surface::CommitFlag::None);
 }
 
-AbstractClient *waitForWaylandWindowShown(int timeout)
+Window *waitForWaylandWindowShown(int timeout)
 {
-    QSignalSpy clientAddedSpy(workspace(), &Workspace::clientAdded);
-    if (!clientAddedSpy.isValid()) {
+    QSignalSpy windowAddedSpy(workspace(), &Workspace::windowAdded);
+    if (!windowAddedSpy.isValid()) {
         return nullptr;
     }
-    if (!clientAddedSpy.wait(timeout)) {
+    if (!windowAddedSpy.wait(timeout)) {
         return nullptr;
     }
-    return clientAddedSpy.first().first().value<AbstractClient *>();
+    return windowAddedSpy.first().first().value<Window *>();
 }
 
-AbstractClient *renderAndWaitForShown(KWayland::Client::Surface *surface, const QSize &size, const QColor &color, const QImage::Format &format, int timeout)
+Window *renderAndWaitForShown(KWayland::Client::Surface *surface, const QSize &size, const QColor &color, const QImage::Format &format, int timeout)
 {
-    QSignalSpy clientAddedSpy(workspace(), &Workspace::clientAdded);
-    if (!clientAddedSpy.isValid()) {
+    QSignalSpy windowAddedSpy(workspace(), &Workspace::windowAdded);
+    if (!windowAddedSpy.isValid()) {
         return nullptr;
     }
     render(surface, size, color, format);
     flushWaylandConnection();
-    if (!clientAddedSpy.wait(timeout)) {
+    if (!windowAddedSpy.wait(timeout)) {
         return nullptr;
     }
-    return clientAddedSpy.first().first().value<AbstractClient *>();
+    return windowAddedSpy.first().first().value<Window *>();
 }
 
 void flushWaylandConnection()
@@ -757,7 +764,7 @@ SubSurface *createSubSurface(KWayland::Client::Surface *surface, KWayland::Clien
     return s;
 }
 
-LayerSurfaceV1 *createLayerSurfaceV1(KWayland::Client::Surface *surface, const QString &scope, Output *output, LayerShellV1::layer layer)
+LayerSurfaceV1 *createLayerSurfaceV1(KWayland::Client::Surface *surface, const QString &scope, KWayland::Client::Output *output, LayerShellV1::layer layer)
 {
     LayerShellV1 *shell = s_waylandConnection.layerShellV1;
     if (!shell) {
@@ -776,7 +783,7 @@ LayerSurfaceV1 *createLayerSurfaceV1(KWayland::Client::Surface *surface, const Q
     return shellSurface;
 }
 
-QtWayland::zwp_input_panel_surface_v1 *createInputPanelSurfaceV1(KWayland::Client::Surface *surface, Output *output)
+QtWayland::zwp_input_panel_surface_v1 *createInputPanelSurfaceV1(KWayland::Client::Surface *surface, KWayland::Client::Output *output)
 {
     if (!s_waylandConnection.inputPanelV1) {
         qWarning() << "Unable to create the input panel surface. The interface input_panel global is not bound";
@@ -884,15 +891,16 @@ IdleInhibitorV1 *createIdleInhibitorV1(KWayland::Client::Surface *surface)
     return new IdleInhibitorV1(manager, surface);
 }
 
-bool waitForWindowDestroyed(AbstractClient *client)
+bool waitForWindowDestroyed(Window *window)
 {
-    QSignalSpy destroyedSpy(client, &QObject::destroyed);
+    QSignalSpy destroyedSpy(window, &QObject::destroyed);
     if (!destroyedSpy.isValid()) {
         return false;
     }
     return destroyedSpy.wait();
 }
 
+#if KWIN_BUILD_SCREENLOCKER
 bool lockScreen()
 {
     if (waylandServer()->isScreenLocked()) {
@@ -959,6 +967,7 @@ bool unlockScreen()
     }
     return true;
 }
+#endif // KWIN_BUILD_LOCKSCREEN
 
 void initWaylandWorkspace()
 {
@@ -1265,5 +1274,170 @@ uint32_t WaylandOutputDeviceV2::rgbRange() const
     return m_rgbRange;
 }
 
+VirtualInputDevice::VirtualInputDevice(QObject *parent)
+    : InputDevice(parent)
+{
+}
+
+void VirtualInputDevice::setPointer(bool set)
+{
+    m_pointer = set;
+}
+
+void VirtualInputDevice::setKeyboard(bool set)
+{
+    m_keyboard = set;
+}
+
+void VirtualInputDevice::setTouch(bool set)
+{
+    m_touch = set;
+}
+
+void VirtualInputDevice::setName(const QString &name)
+{
+    m_name = name;
+}
+
+QString VirtualInputDevice::sysName() const
+{
+    return QString();
+}
+
+QString VirtualInputDevice::name() const
+{
+    return m_name;
+}
+
+bool VirtualInputDevice::isEnabled() const
+{
+    return true;
+}
+
+void VirtualInputDevice::setEnabled(bool enabled)
+{
+    Q_UNUSED(enabled)
+}
+
+LEDs VirtualInputDevice::leds() const
+{
+    return LEDs();
+}
+
+void VirtualInputDevice::setLeds(LEDs leds)
+{
+    Q_UNUSED(leds)
+}
+
+bool VirtualInputDevice::isKeyboard() const
+{
+    return m_keyboard;
+}
+
+bool VirtualInputDevice::isAlphaNumericKeyboard() const
+{
+    return m_keyboard;
+}
+
+bool VirtualInputDevice::isPointer() const
+{
+    return m_pointer;
+}
+
+bool VirtualInputDevice::isTouchpad() const
+{
+    return false;
+}
+
+bool VirtualInputDevice::isTouch() const
+{
+    return m_touch;
+}
+
+bool VirtualInputDevice::isTabletTool() const
+{
+    return false;
+}
+
+bool VirtualInputDevice::isTabletPad() const
+{
+    return false;
+}
+
+bool VirtualInputDevice::isTabletModeSwitch() const
+{
+    return false;
+}
+
+bool VirtualInputDevice::isLidSwitch() const
+{
+    return false;
+}
+
+void keyboardKeyPressed(quint32 key, quint32 time)
+{
+    auto virtualKeyboard = static_cast<WaylandTestApplication *>(kwinApp())->virtualKeyboard();
+    Q_EMIT virtualKeyboard->keyChanged(key, InputRedirection::KeyboardKeyState::KeyboardKeyPressed, time, virtualKeyboard);
+}
+
+void keyboardKeyReleased(quint32 key, quint32 time)
+{
+    auto virtualKeyboard = static_cast<WaylandTestApplication *>(kwinApp())->virtualKeyboard();
+    Q_EMIT virtualKeyboard->keyChanged(key, InputRedirection::KeyboardKeyState::KeyboardKeyReleased, time, virtualKeyboard);
+}
+
+void pointerAxisHorizontal(qreal delta, quint32 time, qint32 discreteDelta, InputRedirection::PointerAxisSource source)
+{
+    auto virtualPointer = static_cast<WaylandTestApplication *>(kwinApp())->virtualPointer();
+    Q_EMIT virtualPointer->pointerAxisChanged(InputRedirection::PointerAxis::PointerAxisHorizontal, delta, discreteDelta, source, time, virtualPointer);
+}
+
+void pointerAxisVertical(qreal delta, quint32 time, qint32 discreteDelta, InputRedirection::PointerAxisSource source)
+{
+    auto virtualPointer = static_cast<WaylandTestApplication *>(kwinApp())->virtualPointer();
+    Q_EMIT virtualPointer->pointerAxisChanged(InputRedirection::PointerAxis::PointerAxisVertical, delta, discreteDelta, source, time, virtualPointer);
+}
+
+void pointerButtonPressed(quint32 button, quint32 time)
+{
+    auto virtualPointer = static_cast<WaylandTestApplication *>(kwinApp())->virtualPointer();
+    Q_EMIT virtualPointer->pointerButtonChanged(button, InputRedirection::PointerButtonState::PointerButtonPressed, time, virtualPointer);
+}
+
+void pointerButtonReleased(quint32 button, quint32 time)
+{
+    auto virtualPointer = static_cast<WaylandTestApplication *>(kwinApp())->virtualPointer();
+    Q_EMIT virtualPointer->pointerButtonChanged(button, InputRedirection::PointerButtonState::PointerButtonReleased, time, virtualPointer);
+}
+
+void pointerMotion(const QPointF &position, quint32 time)
+{
+    auto virtualPointer = static_cast<WaylandTestApplication *>(kwinApp())->virtualPointer();
+    Q_EMIT virtualPointer->pointerMotionAbsolute(position, time, virtualPointer);
+}
+
+void touchCancel()
+{
+    auto virtualTouch = static_cast<WaylandTestApplication *>(kwinApp())->virtualTouch();
+    Q_EMIT virtualTouch->touchCanceled(virtualTouch);
+}
+
+void touchDown(qint32 id, const QPointF &pos, quint32 time)
+{
+    auto virtualTouch = static_cast<WaylandTestApplication *>(kwinApp())->virtualTouch();
+    Q_EMIT virtualTouch->touchDown(id, pos, time, virtualTouch);
+}
+
+void touchMotion(qint32 id, const QPointF &pos, quint32 time)
+{
+    auto virtualTouch = static_cast<WaylandTestApplication *>(kwinApp())->virtualTouch();
+    Q_EMIT virtualTouch->touchMotion(id, pos, time, virtualTouch);
+}
+
+void touchUp(qint32 id, quint32 time)
+{
+    auto virtualTouch = static_cast<WaylandTestApplication *>(kwinApp())->virtualTouch();
+    Q_EMIT virtualTouch->touchUp(id, time, virtualTouch);
+}
 }
 }

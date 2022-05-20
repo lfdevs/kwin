@@ -8,6 +8,7 @@
 
 #include "glxconvenience.h"
 
+#include <algorithm>
 #include <deque>
 
 namespace KWin
@@ -19,7 +20,8 @@ GLXFBConfig chooseGlxFbConfig(Display *display, const int attributes[])
     GLXFBConfig *configs = glXChooseFBConfig(display, DefaultScreen(display),
                                              attributes, &configCount);
 
-    struct FBConfig {
+    struct FBConfig
+    {
         GLXFBConfig config;
         int depth;
         int stencil;

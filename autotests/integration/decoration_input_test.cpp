@@ -7,16 +7,16 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "kwin_wayland_test.h"
-#include "abstract_client.h"
-#include "abstract_output.h"
+
 #include "cursor.h"
-#include "internal_client.h"
+#include "internalwindow.h"
+#include "output.h"
 #include "platform.h"
 #include "pointer_input.h"
-#include "touch_input.h"
-#include "screenedge.h"
 #include "screens.h"
+#include "touch_input.h"
 #include "wayland_server.h"
+#include "window.h"
 #include "workspace.h"
 #include <kwineffects.h>
 
@@ -24,8 +24,8 @@
 #include "decorations/decorationbridge.h"
 #include "decorations/settings.h"
 
-#include <KWayland/Client/connection_thread.h>
 #include <KWayland/Client/compositor.h>
+#include <KWayland/Client/connection_thread.h>
 #include <KWayland/Client/keyboard.h>
 #include <KWayland/Client/pointer.h>
 #include <KWayland/Client/seat.h>
@@ -72,26 +72,23 @@ private Q_SLOTS:
     void testTooltipDoesntEatKeyEvents();
 
 private:
-    AbstractClient *showWindow();
+    Window *showWindow();
 };
 
-#define MOTION(target) \
-    kwinApp()->platform()->pointerMotion(target, timestamp++)
+#define MOTION(target) Test::pointerMotion(target, timestamp++)
 
-#define PRESS \
-    kwinApp()->platform()->pointerButtonPressed(BTN_LEFT, timestamp++)
+#define PRESS Test::pointerButtonPressed(BTN_LEFT, timestamp++)
 
-#define RELEASE \
-    kwinApp()->platform()->pointerButtonReleased(BTN_LEFT, timestamp++)
+#define RELEASE Test::pointerButtonReleased(BTN_LEFT, timestamp++)
 
-AbstractClient *DecorationInputTest::showWindow()
+Window *DecorationInputTest::showWindow()
 {
     using namespace KWayland::Client;
-#define VERIFY(statement) \
-    if (!QTest::qVerify((statement), #statement, "", __FILE__, __LINE__))\
+#define VERIFY(statement)                                                 \
+    if (!QTest::qVerify((statement), #statement, "", __FILE__, __LINE__)) \
         return nullptr;
-#define COMPARE(actual, expected) \
-    if (!QTest::qCompare(actual, expected, #actual, #expected, __FILE__, __LINE__))\
+#define COMPARE(actual, expected)                                                   \
+    if (!QTest::qCompare(actual, expected, #actual, #expected, __FILE__, __LINE__)) \
         return nullptr;
 
     KWayland::Client::Surface *surface = Test::createSurface(Test::waylandCompositor());
@@ -111,20 +108,20 @@ AbstractClient *DecorationInputTest::showWindow()
 
     // let's render
     shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy.last().at(0).value<quint32>());
-    auto c = Test::renderAndWaitForShown(surface, QSize(500, 50), Qt::blue);
-    VERIFY(c);
-    COMPARE(workspace()->activeClient(), c);
+    auto window = Test::renderAndWaitForShown(surface, QSize(500, 50), Qt::blue);
+    VERIFY(window);
+    COMPARE(workspace()->activeWindow(), window);
 
 #undef VERIFY
 #undef COMPARE
 
-    return c;
+    return window;
 }
 
 void DecorationInputTest::initTestCase()
 {
-    qRegisterMetaType<KWin::AbstractClient *>();
-    qRegisterMetaType<KWin::InternalClient *>();
+    qRegisterMetaType<KWin::Window *>();
+    qRegisterMetaType<KWin::InternalWindow *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(applicationStartedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
@@ -177,41 +174,41 @@ void DecorationInputTest::testAxis_data()
 
 void DecorationInputTest::testAxis()
 {
-    AbstractClient *c = showWindow();
-    QVERIFY(c);
-    QVERIFY(c->isDecorated());
-    QVERIFY(!c->noBorder());
-    QCOMPARE(c->titlebarPosition(), Qt::TopEdge);
-    QVERIFY(!c->keepAbove());
-    QVERIFY(!c->keepBelow());
+    Window *window = showWindow();
+    QVERIFY(window);
+    QVERIFY(window->isDecorated());
+    QVERIFY(!window->noBorder());
+    QCOMPARE(window->titlebarPosition(), Qt::TopEdge);
+    QVERIFY(!window->keepAbove());
+    QVERIFY(!window->keepBelow());
 
     quint32 timestamp = 1;
-    MOTION(QPoint(c->frameGeometry().center().x(), c->clientPos().y() / 2));
+    MOTION(QPoint(window->frameGeometry().center().x(), window->clientPos().y() / 2));
     QVERIFY(input()->pointer()->decoration());
     QCOMPARE(input()->pointer()->decoration()->decoration()->sectionUnderMouse(), Qt::TitleBarArea);
 
     // TODO: mouse wheel direction looks wrong to me
     // simulate wheel
-    kwinApp()->platform()->pointerAxisVertical(5.0, timestamp++);
-    QVERIFY(c->keepBelow());
-    QVERIFY(!c->keepAbove());
-    kwinApp()->platform()->pointerAxisVertical(-5.0, timestamp++);
-    QVERIFY(!c->keepBelow());
-    QVERIFY(!c->keepAbove());
-    kwinApp()->platform()->pointerAxisVertical(-5.0, timestamp++);
-    QVERIFY(!c->keepBelow());
-    QVERIFY(c->keepAbove());
+    Test::pointerAxisVertical(5.0, timestamp++);
+    QVERIFY(window->keepBelow());
+    QVERIFY(!window->keepAbove());
+    Test::pointerAxisVertical(-5.0, timestamp++);
+    QVERIFY(!window->keepBelow());
+    QVERIFY(!window->keepAbove());
+    Test::pointerAxisVertical(-5.0, timestamp++);
+    QVERIFY(!window->keepBelow());
+    QVERIFY(window->keepAbove());
 
     // test top most deco pixel, BUG: 362860
-    c->move(QPoint(0, 0));
+    window->move(QPoint(0, 0));
     QFETCH(QPoint, decoPoint);
     MOTION(decoPoint);
     QVERIFY(input()->pointer()->decoration());
-    QCOMPARE(input()->pointer()->decoration()->client(), c);
+    QCOMPARE(input()->pointer()->decoration()->window(), window);
     QTEST(input()->pointer()->decoration()->decoration()->sectionUnderMouse(), "expectedSection");
-    kwinApp()->platform()->pointerAxisVertical(5.0, timestamp++);
-    QVERIFY(!c->keepBelow());
-    QVERIFY(!c->keepAbove());
+    Test::pointerAxisVertical(5.0, timestamp++);
+    QVERIFY(!window->keepBelow());
+    QVERIFY(!window->keepAbove());
 }
 
 void DecorationInputTest::testDoubleClick_data()
@@ -226,42 +223,42 @@ void DecorationInputTest::testDoubleClick_data()
 
 void KWin::DecorationInputTest::testDoubleClick()
 {
-    AbstractClient *c = showWindow();
-    QVERIFY(c);
-    QVERIFY(c->isDecorated());
-    QVERIFY(!c->noBorder());
-    QVERIFY(!c->isOnAllDesktops());
+    Window *window = showWindow();
+    QVERIFY(window);
+    QVERIFY(window->isDecorated());
+    QVERIFY(!window->noBorder());
+    QVERIFY(!window->isOnAllDesktops());
     quint32 timestamp = 1;
-    MOTION(QPoint(c->frameGeometry().center().x(), c->clientPos().y() / 2));
+    MOTION(QPoint(window->frameGeometry().center().x(), window->clientPos().y() / 2));
 
     // double click
     PRESS;
     RELEASE;
     PRESS;
     RELEASE;
-    QVERIFY(c->isOnAllDesktops());
+    QVERIFY(window->isOnAllDesktops());
     // double click again
     PRESS;
     RELEASE;
-    QVERIFY(c->isOnAllDesktops());
+    QVERIFY(window->isOnAllDesktops());
     PRESS;
     RELEASE;
-    QVERIFY(!c->isOnAllDesktops());
+    QVERIFY(!window->isOnAllDesktops());
 
     // test top most deco pixel, BUG: 362860
-    c->move(QPoint(0, 0));
+    window->move(QPoint(0, 0));
     QFETCH(QPoint, decoPoint);
     MOTION(decoPoint);
     QVERIFY(input()->pointer()->decoration());
-    QCOMPARE(input()->pointer()->decoration()->client(), c);
+    QCOMPARE(input()->pointer()->decoration()->window(), window);
     QTEST(input()->pointer()->decoration()->decoration()->sectionUnderMouse(), "expectedSection");
     // double click
     PRESS;
     RELEASE;
-    QVERIFY(!c->isOnAllDesktops());
+    QVERIFY(!window->isOnAllDesktops());
     PRESS;
     RELEASE;
-    QVERIFY(c->isOnAllDesktops());
+    QVERIFY(window->isOnAllDesktops());
 }
 
 void DecorationInputTest::testDoubleTap_data()
@@ -276,59 +273,59 @@ void DecorationInputTest::testDoubleTap_data()
 
 void KWin::DecorationInputTest::testDoubleTap()
 {
-    AbstractClient *c = showWindow();
-    QVERIFY(c);
-    QVERIFY(c->isDecorated());
-    QVERIFY(!c->noBorder());
-    QVERIFY(!c->isOnAllDesktops());
+    Window *window = showWindow();
+    QVERIFY(window);
+    QVERIFY(window->isDecorated());
+    QVERIFY(!window->noBorder());
+    QVERIFY(!window->isOnAllDesktops());
     quint32 timestamp = 1;
-    const QPoint tapPoint(c->frameGeometry().center().x(), c->clientPos().y() / 2);
+    const QPoint tapPoint(window->frameGeometry().center().x(), window->clientPos().y() / 2);
 
     // double tap
-    kwinApp()->platform()->touchDown(0, tapPoint, timestamp++);
-    kwinApp()->platform()->touchUp(0, timestamp++);
-    kwinApp()->platform()->touchDown(0, tapPoint, timestamp++);
-    kwinApp()->platform()->touchUp(0, timestamp++);
-    QVERIFY(c->isOnAllDesktops());
+    Test::touchDown(0, tapPoint, timestamp++);
+    Test::touchUp(0, timestamp++);
+    Test::touchDown(0, tapPoint, timestamp++);
+    Test::touchUp(0, timestamp++);
+    QVERIFY(window->isOnAllDesktops());
     // double tap again
-    kwinApp()->platform()->touchDown(0, tapPoint, timestamp++);
-    kwinApp()->platform()->touchUp(0, timestamp++);
-    QVERIFY(c->isOnAllDesktops());
-    kwinApp()->platform()->touchDown(0, tapPoint, timestamp++);
-    kwinApp()->platform()->touchUp(0, timestamp++);
-    QVERIFY(!c->isOnAllDesktops());
+    Test::touchDown(0, tapPoint, timestamp++);
+    Test::touchUp(0, timestamp++);
+    QVERIFY(window->isOnAllDesktops());
+    Test::touchDown(0, tapPoint, timestamp++);
+    Test::touchUp(0, timestamp++);
+    QVERIFY(!window->isOnAllDesktops());
 
     // test top most deco pixel, BUG: 362860
     //
     // Not directly at (0, 0), otherwise ScreenEdgeInputFilter catches
     // event before DecorationEventFilter.
-    c->move(QPoint(10, 10));
+    window->move(QPoint(10, 10));
     QFETCH(QPoint, decoPoint);
     // double click
-    kwinApp()->platform()->touchDown(0, decoPoint, timestamp++);
+    Test::touchDown(0, decoPoint, timestamp++);
     QVERIFY(input()->touch()->decoration());
-    QCOMPARE(input()->touch()->decoration()->client(), c);
+    QCOMPARE(input()->touch()->decoration()->window(), window);
     QTEST(input()->touch()->decoration()->decoration()->sectionUnderMouse(), "expectedSection");
-    kwinApp()->platform()->touchUp(0, timestamp++);
-    QVERIFY(!c->isOnAllDesktops());
-    kwinApp()->platform()->touchDown(0, decoPoint, timestamp++);
-    kwinApp()->platform()->touchUp(0, timestamp++);
-    QVERIFY(c->isOnAllDesktops());
+    Test::touchUp(0, timestamp++);
+    QVERIFY(!window->isOnAllDesktops());
+    Test::touchDown(0, decoPoint, timestamp++);
+    Test::touchUp(0, timestamp++);
+    QVERIFY(window->isOnAllDesktops());
 }
 
 void DecorationInputTest::testHover()
 {
-    AbstractClient *c = showWindow();
-    QVERIFY(c);
-    QVERIFY(c->isDecorated());
-    QVERIFY(!c->noBorder());
+    Window *window = showWindow();
+    QVERIFY(window);
+    QVERIFY(window->isDecorated());
+    QVERIFY(!window->noBorder());
 
     // our left border is moved out of the visible area, so move the window to a better place
-    c->move(QPoint(20, 0));
+    window->move(QPoint(20, 0));
 
     quint32 timestamp = 1;
-    MOTION(QPoint(c->frameGeometry().center().x(), c->clientPos().y() / 2));
-    QCOMPARE(c->cursor(), CursorShape(Qt::ArrowCursor));
+    MOTION(QPoint(window->frameGeometry().center().x(), window->clientPos().y() / 2));
+    QCOMPARE(window->cursor(), CursorShape(Qt::ArrowCursor));
 
     // There is a mismatch of the cursor key positions between windows
     // with and without borders (with borders one can move inside a bit and still
@@ -341,26 +338,26 @@ void DecorationInputTest::testHover()
         return hasBorders ? -1 : 0;
     };
 
-    MOTION(QPoint(c->frameGeometry().x(), 0));
-    QCOMPARE(c->cursor(), CursorShape(KWin::ExtendedCursor::SizeNorthWest));
-    MOTION(QPoint(c->frameGeometry().x() + c->frameGeometry().width() / 2, 0));
-    QCOMPARE(c->cursor(), CursorShape(KWin::ExtendedCursor::SizeNorth));
-    MOTION(QPoint(c->frameGeometry().x() + c->frameGeometry().width() - 1, 0));
-    QCOMPARE(c->cursor(), CursorShape(KWin::ExtendedCursor::SizeNorthEast));
-    MOTION(QPoint(c->frameGeometry().x() + c->frameGeometry().width() + deviation(), c->height() / 2));
-    QCOMPARE(c->cursor(), CursorShape(KWin::ExtendedCursor::SizeEast));
-    MOTION(QPoint(c->frameGeometry().x() + c->frameGeometry().width() + deviation(), c->height() - 1));
-    QCOMPARE(c->cursor(), CursorShape(KWin::ExtendedCursor::SizeSouthEast));
-    MOTION(QPoint(c->frameGeometry().x() + c->frameGeometry().width() / 2, c->height() + deviation()));
-    QCOMPARE(c->cursor(), CursorShape(KWin::ExtendedCursor::SizeSouth));
-    MOTION(QPoint(c->frameGeometry().x(), c->height() + deviation()));
-    QCOMPARE(c->cursor(), CursorShape(KWin::ExtendedCursor::SizeSouthWest));
-    MOTION(QPoint(c->frameGeometry().x() - 1, c->height() / 2));
-    QCOMPARE(c->cursor(), CursorShape(KWin::ExtendedCursor::SizeWest));
+    MOTION(QPoint(window->frameGeometry().x(), 0));
+    QCOMPARE(window->cursor(), CursorShape(KWin::ExtendedCursor::SizeNorthWest));
+    MOTION(QPoint(window->frameGeometry().x() + window->frameGeometry().width() / 2, 0));
+    QCOMPARE(window->cursor(), CursorShape(KWin::ExtendedCursor::SizeNorth));
+    MOTION(QPoint(window->frameGeometry().x() + window->frameGeometry().width() - 1, 0));
+    QCOMPARE(window->cursor(), CursorShape(KWin::ExtendedCursor::SizeNorthEast));
+    MOTION(QPoint(window->frameGeometry().x() + window->frameGeometry().width() + deviation(), window->height() / 2));
+    QCOMPARE(window->cursor(), CursorShape(KWin::ExtendedCursor::SizeEast));
+    MOTION(QPoint(window->frameGeometry().x() + window->frameGeometry().width() + deviation(), window->height() - 1));
+    QCOMPARE(window->cursor(), CursorShape(KWin::ExtendedCursor::SizeSouthEast));
+    MOTION(QPoint(window->frameGeometry().x() + window->frameGeometry().width() / 2, window->height() + deviation()));
+    QCOMPARE(window->cursor(), CursorShape(KWin::ExtendedCursor::SizeSouth));
+    MOTION(QPoint(window->frameGeometry().x(), window->height() + deviation()));
+    QCOMPARE(window->cursor(), CursorShape(KWin::ExtendedCursor::SizeSouthWest));
+    MOTION(QPoint(window->frameGeometry().x() - 1, window->height() / 2));
+    QCOMPARE(window->cursor(), CursorShape(KWin::ExtendedCursor::SizeWest));
 
-    MOTION(c->frameGeometry().center());
+    MOTION(window->frameGeometry().center());
     QEXPECT_FAIL("", "Cursor not set back on leave", Continue);
-    QCOMPARE(c->cursor(), CursorShape(Qt::ArrowCursor));
+    QCOMPARE(window->cursor(), CursorShape(Qt::ArrowCursor));
 }
 
 void DecorationInputTest::testPressToMove_data()
@@ -369,57 +366,57 @@ void DecorationInputTest::testPressToMove_data()
     QTest::addColumn<QPoint>("offset2");
     QTest::addColumn<QPoint>("offset3");
 
-    QTest::newRow("To right")  << QPoint(10, 0)  << QPoint(20, 0)  << QPoint(30, 0);
-    QTest::newRow("To left")   << QPoint(-10, 0) << QPoint(-20, 0) << QPoint(-30, 0);
-    QTest::newRow("To bottom") << QPoint(0, 10)  << QPoint(0, 20)  << QPoint(0, 30);
-    QTest::newRow("To top")    << QPoint(0, -10) << QPoint(0, -20) << QPoint(0, -30);
+    QTest::newRow("To right") << QPoint(10, 0) << QPoint(20, 0) << QPoint(30, 0);
+    QTest::newRow("To left") << QPoint(-10, 0) << QPoint(-20, 0) << QPoint(-30, 0);
+    QTest::newRow("To bottom") << QPoint(0, 10) << QPoint(0, 20) << QPoint(0, 30);
+    QTest::newRow("To top") << QPoint(0, -10) << QPoint(0, -20) << QPoint(0, -30);
 }
 
 void DecorationInputTest::testPressToMove()
 {
-    AbstractClient *c = showWindow();
-    QVERIFY(c);
-    QVERIFY(c->isDecorated());
-    QVERIFY(!c->noBorder());
-    c->move(screens()->geometry(0).center() - QPoint(c->width()/2, c->height()/2));
-    QSignalSpy startMoveResizedSpy(c, &AbstractClient::clientStartUserMovedResized);
+    Window *window = showWindow();
+    QVERIFY(window);
+    QVERIFY(window->isDecorated());
+    QVERIFY(!window->noBorder());
+    window->move(screens()->geometry(0).center() - QPoint(window->width() / 2, window->height() / 2));
+    QSignalSpy startMoveResizedSpy(window, &Window::clientStartUserMovedResized);
     QVERIFY(startMoveResizedSpy.isValid());
-    QSignalSpy clientFinishUserMovedResizedSpy(c, &AbstractClient::clientFinishUserMovedResized);
+    QSignalSpy clientFinishUserMovedResizedSpy(window, &Window::clientFinishUserMovedResized);
     QVERIFY(clientFinishUserMovedResizedSpy.isValid());
 
     quint32 timestamp = 1;
-    MOTION(QPoint(c->frameGeometry().center().x(), c->y() + c->clientPos().y() / 2));
-    QCOMPARE(c->cursor(), CursorShape(Qt::ArrowCursor));
+    MOTION(QPoint(window->frameGeometry().center().x(), window->y() + window->clientPos().y() / 2));
+    QCOMPARE(window->cursor(), CursorShape(Qt::ArrowCursor));
 
     PRESS;
-    QVERIFY(!c->isInteractiveMove());
+    QVERIFY(!window->isInteractiveMove());
     QFETCH(QPoint, offset);
-    MOTION(QPoint(c->frameGeometry().center().x(), c->y() + c->clientPos().y() / 2) + offset);
-    const QPoint oldPos = c->pos();
-    QVERIFY(c->isInteractiveMove());
+    MOTION(QPoint(window->frameGeometry().center().x(), window->y() + window->clientPos().y() / 2) + offset);
+    const QPoint oldPos = window->pos();
+    QVERIFY(window->isInteractiveMove());
     QCOMPARE(startMoveResizedSpy.count(), 1);
 
     RELEASE;
-    QTRY_VERIFY(!c->isInteractiveMove());
+    QTRY_VERIFY(!window->isInteractiveMove());
     QCOMPARE(clientFinishUserMovedResizedSpy.count(), 1);
     QEXPECT_FAIL("", "Just trigger move doesn't move the window", Continue);
-    QCOMPARE(c->pos(), oldPos + offset);
+    QCOMPARE(window->pos(), oldPos + offset);
 
     // again
     PRESS;
-    QVERIFY(!c->isInteractiveMove());
+    QVERIFY(!window->isInteractiveMove());
     QFETCH(QPoint, offset2);
-    MOTION(QPoint(c->frameGeometry().center().x(), c->y() + c->clientPos().y() / 2) + offset2);
-    QVERIFY(c->isInteractiveMove());
+    MOTION(QPoint(window->frameGeometry().center().x(), window->y() + window->clientPos().y() / 2) + offset2);
+    QVERIFY(window->isInteractiveMove());
     QCOMPARE(startMoveResizedSpy.count(), 2);
     QFETCH(QPoint, offset3);
-    MOTION(QPoint(c->frameGeometry().center().x(), c->y() + c->clientPos().y() / 2) + offset3);
+    MOTION(QPoint(window->frameGeometry().center().x(), window->y() + window->clientPos().y() / 2) + offset3);
 
     RELEASE;
-    QTRY_VERIFY(!c->isInteractiveMove());
+    QTRY_VERIFY(!window->isInteractiveMove());
     QCOMPARE(clientFinishUserMovedResizedSpy.count(), 2);
     // TODO: the offset should also be included
-    QCOMPARE(c->pos(), oldPos + offset2 + offset3);
+    QCOMPARE(window->pos(), oldPos + offset2 + offset3);
 }
 
 void DecorationInputTest::testTapToMove_data()
@@ -428,58 +425,58 @@ void DecorationInputTest::testTapToMove_data()
     QTest::addColumn<QPoint>("offset2");
     QTest::addColumn<QPoint>("offset3");
 
-    QTest::newRow("To right")  << QPoint(10, 0)  << QPoint(20, 0)  << QPoint(30, 0);
-    QTest::newRow("To left")   << QPoint(-10, 0) << QPoint(-20, 0) << QPoint(-30, 0);
-    QTest::newRow("To bottom") << QPoint(0, 10)  << QPoint(0, 20)  << QPoint(0, 30);
-    QTest::newRow("To top")    << QPoint(0, -10) << QPoint(0, -20) << QPoint(0, -30);
+    QTest::newRow("To right") << QPoint(10, 0) << QPoint(20, 0) << QPoint(30, 0);
+    QTest::newRow("To left") << QPoint(-10, 0) << QPoint(-20, 0) << QPoint(-30, 0);
+    QTest::newRow("To bottom") << QPoint(0, 10) << QPoint(0, 20) << QPoint(0, 30);
+    QTest::newRow("To top") << QPoint(0, -10) << QPoint(0, -20) << QPoint(0, -30);
 }
 
 void DecorationInputTest::testTapToMove()
 {
-    AbstractClient *c = showWindow();
-    QVERIFY(c);
-    QVERIFY(c->isDecorated());
-    QVERIFY(!c->noBorder());
-    c->move(screens()->geometry(0).center() - QPoint(c->width()/2, c->height()/2));
-    QSignalSpy startMoveResizedSpy(c, &AbstractClient::clientStartUserMovedResized);
+    Window *window = showWindow();
+    QVERIFY(window);
+    QVERIFY(window->isDecorated());
+    QVERIFY(!window->noBorder());
+    window->move(screens()->geometry(0).center() - QPoint(window->width() / 2, window->height() / 2));
+    QSignalSpy startMoveResizedSpy(window, &Window::clientStartUserMovedResized);
     QVERIFY(startMoveResizedSpy.isValid());
-    QSignalSpy clientFinishUserMovedResizedSpy(c, &AbstractClient::clientFinishUserMovedResized);
+    QSignalSpy clientFinishUserMovedResizedSpy(window, &Window::clientFinishUserMovedResized);
     QVERIFY(clientFinishUserMovedResizedSpy.isValid());
 
     quint32 timestamp = 1;
-    QPoint p = QPoint(c->frameGeometry().center().x(), c->y() + c->clientPos().y() / 2);
+    QPoint p = QPoint(window->frameGeometry().center().x(), window->y() + window->clientPos().y() / 2);
 
-    kwinApp()->platform()->touchDown(0, p, timestamp++);
-    QVERIFY(!c->isInteractiveMove());
+    Test::touchDown(0, p, timestamp++);
+    QVERIFY(!window->isInteractiveMove());
     QFETCH(QPoint, offset);
     QCOMPARE(input()->touch()->decorationPressId(), 0);
-    kwinApp()->platform()->touchMotion(0, p + offset, timestamp++);
-    const QPoint oldPos = c->pos();
-    QVERIFY(c->isInteractiveMove());
+    Test::touchMotion(0, p + offset, timestamp++);
+    const QPoint oldPos = window->pos();
+    QVERIFY(window->isInteractiveMove());
     QCOMPARE(startMoveResizedSpy.count(), 1);
 
-    kwinApp()->platform()->touchUp(0, timestamp++);
-    QTRY_VERIFY(!c->isInteractiveMove());
+    Test::touchUp(0, timestamp++);
+    QTRY_VERIFY(!window->isInteractiveMove());
     QCOMPARE(clientFinishUserMovedResizedSpy.count(), 1);
     QEXPECT_FAIL("", "Just trigger move doesn't move the window", Continue);
-    QCOMPARE(c->pos(), oldPos + offset);
+    QCOMPARE(window->pos(), oldPos + offset);
 
     // again
-    kwinApp()->platform()->touchDown(1, p + offset, timestamp++);
+    Test::touchDown(1, p + offset, timestamp++);
     QCOMPARE(input()->touch()->decorationPressId(), 1);
-    QVERIFY(!c->isInteractiveMove());
+    QVERIFY(!window->isInteractiveMove());
     QFETCH(QPoint, offset2);
-    kwinApp()->platform()->touchMotion(1, QPoint(c->frameGeometry().center().x(), c->y() + c->clientPos().y() / 2) + offset2, timestamp++);
-    QVERIFY(c->isInteractiveMove());
+    Test::touchMotion(1, QPoint(window->frameGeometry().center().x(), window->y() + window->clientPos().y() / 2) + offset2, timestamp++);
+    QVERIFY(window->isInteractiveMove());
     QCOMPARE(startMoveResizedSpy.count(), 2);
     QFETCH(QPoint, offset3);
-    kwinApp()->platform()->touchMotion(1, QPoint(c->frameGeometry().center().x(), c->y() + c->clientPos().y() / 2) + offset3, timestamp++);
+    Test::touchMotion(1, QPoint(window->frameGeometry().center().x(), window->y() + window->clientPos().y() / 2) + offset3, timestamp++);
 
-    kwinApp()->platform()->touchUp(1, timestamp++);
-    QTRY_VERIFY(!c->isInteractiveMove());
+    Test::touchUp(1, timestamp++);
+    QTRY_VERIFY(!window->isInteractiveMove());
     QCOMPARE(clientFinishUserMovedResizedSpy.count(), 2);
     // TODO: the offset should also be included
-    QCOMPARE(c->pos(), oldPos + offset2 + offset3);
+    QCOMPARE(window->pos(), oldPos + offset2 + offset3);
 }
 
 void DecorationInputTest::testResizeOutsideWindow_data()
@@ -502,14 +499,14 @@ void DecorationInputTest::testResizeOutsideWindow()
     workspace()->slotReconfigure();
 
     // now create window
-    AbstractClient *c = showWindow();
-    QVERIFY(c);
-    QVERIFY(c->isDecorated());
-    QVERIFY(!c->noBorder());
-    c->move(screens()->geometry(0).center() - QPoint(c->width()/2, c->height()/2));
-    QVERIFY(c->frameGeometry() != c->inputGeometry());
-    QVERIFY(c->inputGeometry().contains(c->frameGeometry()));
-    QSignalSpy startMoveResizedSpy(c, &AbstractClient::clientStartUserMovedResized);
+    Window *window = showWindow();
+    QVERIFY(window);
+    QVERIFY(window->isDecorated());
+    QVERIFY(!window->noBorder());
+    window->move(screens()->geometry(0).center() - QPoint(window->width() / 2, window->height() / 2));
+    QVERIFY(window->frameGeometry() != window->inputGeometry());
+    QVERIFY(window->inputGeometry().contains(window->frameGeometry()));
+    QSignalSpy startMoveResizedSpy(window, &Window::clientStartUserMovedResized);
     QVERIFY(startMoveResizedSpy.isValid());
 
     // go to border
@@ -517,27 +514,27 @@ void DecorationInputTest::testResizeOutsideWindow()
     QFETCH(Qt::Edge, edge);
     switch (edge) {
     case Qt::LeftEdge:
-        MOTION(QPoint(c->frameGeometry().x() -1, c->frameGeometry().center().y()));
+        MOTION(QPoint(window->frameGeometry().x() - 1, window->frameGeometry().center().y()));
         break;
     case Qt::RightEdge:
-        MOTION(QPoint(c->frameGeometry().x() + c->frameGeometry().width() +1, c->frameGeometry().center().y()));
+        MOTION(QPoint(window->frameGeometry().x() + window->frameGeometry().width() + 1, window->frameGeometry().center().y()));
         break;
     case Qt::BottomEdge:
-        MOTION(QPoint(c->frameGeometry().center().x(), c->frameGeometry().y() + c->frameGeometry().height() + 1));
+        MOTION(QPoint(window->frameGeometry().center().x(), window->frameGeometry().y() + window->frameGeometry().height() + 1));
         break;
     default:
         break;
     }
-    QVERIFY(!c->frameGeometry().contains(KWin::Cursors::self()->mouse()->pos()));
+    QVERIFY(!window->frameGeometry().contains(KWin::Cursors::self()->mouse()->pos()));
 
     // pressing should trigger resize
     PRESS;
-    QVERIFY(!c->isInteractiveResize());
+    QVERIFY(!window->isInteractiveResize());
     QVERIFY(startMoveResizedSpy.wait());
-    QVERIFY(c->isInteractiveResize());
+    QVERIFY(window->isInteractiveResize());
 
     RELEASE;
-    QVERIFY(!c->isInteractiveResize());
+    QVERIFY(!window->isInteractiveResize());
 }
 
 void DecorationInputTest::testModifierClickUnrestrictedMove_data()
@@ -550,33 +547,33 @@ void DecorationInputTest::testModifierClickUnrestrictedMove_data()
     const QString alt = QStringLiteral("Alt");
     const QString meta = QStringLiteral("Meta");
 
-    QTest::newRow("Left Alt + Left Click")    << KEY_LEFTALT  << BTN_LEFT   << alt << false;
-    QTest::newRow("Left Alt + Right Click")   << KEY_LEFTALT  << BTN_RIGHT  << alt << false;
-    QTest::newRow("Left Alt + Middle Click")  << KEY_LEFTALT  << BTN_MIDDLE << alt << false;
-    QTest::newRow("Right Alt + Left Click")   << KEY_RIGHTALT << BTN_LEFT   << alt << false;
-    QTest::newRow("Right Alt + Right Click")  << KEY_RIGHTALT << BTN_RIGHT  << alt << false;
+    QTest::newRow("Left Alt + Left Click") << KEY_LEFTALT << BTN_LEFT << alt << false;
+    QTest::newRow("Left Alt + Right Click") << KEY_LEFTALT << BTN_RIGHT << alt << false;
+    QTest::newRow("Left Alt + Middle Click") << KEY_LEFTALT << BTN_MIDDLE << alt << false;
+    QTest::newRow("Right Alt + Left Click") << KEY_RIGHTALT << BTN_LEFT << alt << false;
+    QTest::newRow("Right Alt + Right Click") << KEY_RIGHTALT << BTN_RIGHT << alt << false;
     QTest::newRow("Right Alt + Middle Click") << KEY_RIGHTALT << BTN_MIDDLE << alt << false;
     // now everything with meta
-    QTest::newRow("Left Meta + Left Click")    << KEY_LEFTMETA  << BTN_LEFT   << meta << false;
-    QTest::newRow("Left Meta + Right Click")   << KEY_LEFTMETA  << BTN_RIGHT  << meta << false;
-    QTest::newRow("Left Meta + Middle Click")  << KEY_LEFTMETA  << BTN_MIDDLE << meta << false;
-    QTest::newRow("Right Meta + Left Click")   << KEY_RIGHTMETA << BTN_LEFT   << meta << false;
-    QTest::newRow("Right Meta + Right Click")  << KEY_RIGHTMETA << BTN_RIGHT  << meta << false;
+    QTest::newRow("Left Meta + Left Click") << KEY_LEFTMETA << BTN_LEFT << meta << false;
+    QTest::newRow("Left Meta + Right Click") << KEY_LEFTMETA << BTN_RIGHT << meta << false;
+    QTest::newRow("Left Meta + Middle Click") << KEY_LEFTMETA << BTN_MIDDLE << meta << false;
+    QTest::newRow("Right Meta + Left Click") << KEY_RIGHTMETA << BTN_LEFT << meta << false;
+    QTest::newRow("Right Meta + Right Click") << KEY_RIGHTMETA << BTN_RIGHT << meta << false;
     QTest::newRow("Right Meta + Middle Click") << KEY_RIGHTMETA << BTN_MIDDLE << meta << false;
 
     // and with capslock
-    QTest::newRow("Left Alt + Left Click/CapsLock")    << KEY_LEFTALT  << BTN_LEFT   << alt << true;
-    QTest::newRow("Left Alt + Right Click/CapsLock")   << KEY_LEFTALT  << BTN_RIGHT  << alt << true;
-    QTest::newRow("Left Alt + Middle Click/CapsLock")  << KEY_LEFTALT  << BTN_MIDDLE << alt << true;
-    QTest::newRow("Right Alt + Left Click/CapsLock")   << KEY_RIGHTALT << BTN_LEFT   << alt << true;
-    QTest::newRow("Right Alt + Right Click/CapsLock")  << KEY_RIGHTALT << BTN_RIGHT  << alt << true;
+    QTest::newRow("Left Alt + Left Click/CapsLock") << KEY_LEFTALT << BTN_LEFT << alt << true;
+    QTest::newRow("Left Alt + Right Click/CapsLock") << KEY_LEFTALT << BTN_RIGHT << alt << true;
+    QTest::newRow("Left Alt + Middle Click/CapsLock") << KEY_LEFTALT << BTN_MIDDLE << alt << true;
+    QTest::newRow("Right Alt + Left Click/CapsLock") << KEY_RIGHTALT << BTN_LEFT << alt << true;
+    QTest::newRow("Right Alt + Right Click/CapsLock") << KEY_RIGHTALT << BTN_RIGHT << alt << true;
     QTest::newRow("Right Alt + Middle Click/CapsLock") << KEY_RIGHTALT << BTN_MIDDLE << alt << true;
     // now everything with meta
-    QTest::newRow("Left Meta + Left Click/CapsLock")    << KEY_LEFTMETA  << BTN_LEFT   << meta << true;
-    QTest::newRow("Left Meta + Right Click/CapsLock")   << KEY_LEFTMETA  << BTN_RIGHT  << meta << true;
-    QTest::newRow("Left Meta + Middle Click/CapsLock")  << KEY_LEFTMETA  << BTN_MIDDLE << meta << true;
-    QTest::newRow("Right Meta + Left Click/CapsLock")   << KEY_RIGHTMETA << BTN_LEFT   << meta << true;
-    QTest::newRow("Right Meta + Right Click/CapsLock")  << KEY_RIGHTMETA << BTN_RIGHT  << meta << true;
+    QTest::newRow("Left Meta + Left Click/CapsLock") << KEY_LEFTMETA << BTN_LEFT << meta << true;
+    QTest::newRow("Left Meta + Right Click/CapsLock") << KEY_LEFTMETA << BTN_RIGHT << meta << true;
+    QTest::newRow("Left Meta + Middle Click/CapsLock") << KEY_LEFTMETA << BTN_MIDDLE << meta << true;
+    QTest::newRow("Right Meta + Left Click/CapsLock") << KEY_RIGHTMETA << BTN_LEFT << meta << true;
+    QTest::newRow("Right Meta + Right Click/CapsLock") << KEY_RIGHTMETA << BTN_RIGHT << meta << true;
     QTest::newRow("Right Meta + Middle Click/CapsLock") << KEY_RIGHTMETA << BTN_MIDDLE << meta << true;
 }
 
@@ -599,34 +596,34 @@ void DecorationInputTest::testModifierClickUnrestrictedMove()
     QCOMPARE(options->commandAll3(), Options::MouseUnrestrictedMove);
 
     // create a window
-    AbstractClient *c = showWindow();
-    QVERIFY(c);
-    QVERIFY(c->isDecorated());
-    QVERIFY(!c->noBorder());
-    c->move(screens()->geometry(0).center() - QPoint(c->width()/2, c->height()/2));
+    Window *window = showWindow();
+    QVERIFY(window);
+    QVERIFY(window->isDecorated());
+    QVERIFY(!window->noBorder());
+    window->move(screens()->geometry(0).center() - QPoint(window->width() / 2, window->height() / 2));
     // move cursor on window
-    Cursors::self()->mouse()->setPos(QPoint(c->frameGeometry().center().x(), c->y() + c->clientPos().y() / 2));
+    Cursors::self()->mouse()->setPos(QPoint(window->frameGeometry().center().x(), window->y() + window->clientPos().y() / 2));
 
     // simulate modifier+click
     quint32 timestamp = 1;
     QFETCH(bool, capsLock);
     if (capsLock) {
-        kwinApp()->platform()->keyboardKeyPressed(KEY_CAPSLOCK, timestamp++);
+        Test::keyboardKeyPressed(KEY_CAPSLOCK, timestamp++);
     }
     QFETCH(int, modifierKey);
     QFETCH(int, mouseButton);
-    kwinApp()->platform()->keyboardKeyPressed(modifierKey, timestamp++);
-    QVERIFY(!c->isInteractiveMove());
-    kwinApp()->platform()->pointerButtonPressed(mouseButton, timestamp++);
-    QVERIFY(c->isInteractiveMove());
+    Test::keyboardKeyPressed(modifierKey, timestamp++);
+    QVERIFY(!window->isInteractiveMove());
+    Test::pointerButtonPressed(mouseButton, timestamp++);
+    QVERIFY(window->isInteractiveMove());
     // release modifier should not change it
-    kwinApp()->platform()->keyboardKeyReleased(modifierKey, timestamp++);
-    QVERIFY(c->isInteractiveMove());
+    Test::keyboardKeyReleased(modifierKey, timestamp++);
+    QVERIFY(window->isInteractiveMove());
     // but releasing the key should end move/resize
-    kwinApp()->platform()->pointerButtonReleased(mouseButton, timestamp++);
-    QVERIFY(!c->isInteractiveMove());
+    Test::pointerButtonReleased(mouseButton, timestamp++);
+    QVERIFY(!window->isInteractiveMove());
     if (capsLock) {
-        kwinApp()->platform()->keyboardKeyReleased(KEY_CAPSLOCK, timestamp++);
+        Test::keyboardKeyReleased(KEY_CAPSLOCK, timestamp++);
     }
 }
 
@@ -639,13 +636,13 @@ void DecorationInputTest::testModifierScrollOpacity_data()
     const QString alt = QStringLiteral("Alt");
     const QString meta = QStringLiteral("Meta");
 
-    QTest::newRow("Left Alt")   << KEY_LEFTALT  << alt << false;
-    QTest::newRow("Right Alt")  << KEY_RIGHTALT << alt << false;
-    QTest::newRow("Left Meta")  << KEY_LEFTMETA  << meta << false;
+    QTest::newRow("Left Alt") << KEY_LEFTALT << alt << false;
+    QTest::newRow("Right Alt") << KEY_RIGHTALT << alt << false;
+    QTest::newRow("Left Meta") << KEY_LEFTMETA << meta << false;
     QTest::newRow("Right Meta") << KEY_RIGHTMETA << meta << false;
-    QTest::newRow("Left Alt/CapsLock")   << KEY_LEFTALT  << alt << true;
-    QTest::newRow("Right Alt/CapsLock")  << KEY_RIGHTALT << alt << true;
-    QTest::newRow("Left Meta/CapsLock")  << KEY_LEFTMETA  << meta << true;
+    QTest::newRow("Left Alt/CapsLock") << KEY_LEFTALT << alt << true;
+    QTest::newRow("Right Alt/CapsLock") << KEY_RIGHTALT << alt << true;
+    QTest::newRow("Left Meta/CapsLock") << KEY_LEFTMETA << meta << true;
     QTest::newRow("Right Meta/CapsLock") << KEY_RIGHTMETA << meta << true;
 }
 
@@ -661,32 +658,32 @@ void DecorationInputTest::testModifierScrollOpacity()
     group.sync();
     workspace()->slotReconfigure();
 
-    AbstractClient *c = showWindow();
-    QVERIFY(c);
-    QVERIFY(c->isDecorated());
-    QVERIFY(!c->noBorder());
-    c->move(screens()->geometry(0).center() - QPoint(c->width()/2, c->height()/2));
+    Window *window = showWindow();
+    QVERIFY(window);
+    QVERIFY(window->isDecorated());
+    QVERIFY(!window->noBorder());
+    window->move(screens()->geometry(0).center() - QPoint(window->width() / 2, window->height() / 2));
     // move cursor on window
-    Cursors::self()->mouse()->setPos(QPoint(c->frameGeometry().center().x(), c->y() + c->clientPos().y() / 2));
+    Cursors::self()->mouse()->setPos(QPoint(window->frameGeometry().center().x(), window->y() + window->clientPos().y() / 2));
     // set the opacity to 0.5
-    c->setOpacity(0.5);
-    QCOMPARE(c->opacity(), 0.5);
+    window->setOpacity(0.5);
+    QCOMPARE(window->opacity(), 0.5);
 
     // simulate modifier+wheel
     quint32 timestamp = 1;
     QFETCH(bool, capsLock);
     if (capsLock) {
-        kwinApp()->platform()->keyboardKeyPressed(KEY_CAPSLOCK, timestamp++);
+        Test::keyboardKeyPressed(KEY_CAPSLOCK, timestamp++);
     }
     QFETCH(int, modifierKey);
-    kwinApp()->platform()->keyboardKeyPressed(modifierKey, timestamp++);
-    kwinApp()->platform()->pointerAxisVertical(-5, timestamp++);
-    QCOMPARE(c->opacity(), 0.6);
-    kwinApp()->platform()->pointerAxisVertical(5, timestamp++);
-    QCOMPARE(c->opacity(), 0.5);
-    kwinApp()->platform()->keyboardKeyReleased(modifierKey, timestamp++);
+    Test::keyboardKeyPressed(modifierKey, timestamp++);
+    Test::pointerAxisVertical(-5, timestamp++);
+    QCOMPARE(window->opacity(), 0.6);
+    Test::pointerAxisVertical(5, timestamp++);
+    QCOMPARE(window->opacity(), 0.5);
+    Test::keyboardKeyReleased(modifierKey, timestamp++);
     if (capsLock) {
-        kwinApp()->platform()->keyboardKeyReleased(KEY_CAPSLOCK, timestamp++);
+        Test::keyboardKeyReleased(KEY_CAPSLOCK, timestamp++);
     }
 }
 
@@ -694,7 +691,10 @@ class EventHelper : public QObject
 {
     Q_OBJECT
 public:
-    EventHelper() : QObject() {}
+    EventHelper()
+        : QObject()
+    {
+    }
     ~EventHelper() override = default;
 
     bool eventFilter(QObject *watched, QEvent *event) override
@@ -717,40 +717,40 @@ void DecorationInputTest::testTouchEvents()
 {
     // this test verifies that the decoration gets a hover leave event on touch release
     // see BUG 386231
-    AbstractClient *c = showWindow();
-    QVERIFY(c);
-    QVERIFY(c->isDecorated());
-    QVERIFY(!c->noBorder());
+    Window *window = showWindow();
+    QVERIFY(window);
+    QVERIFY(window->isDecorated());
+    QVERIFY(!window->noBorder());
 
     EventHelper helper;
-    c->decoration()->installEventFilter(&helper);
+    window->decoration()->installEventFilter(&helper);
     QSignalSpy hoverMoveSpy(&helper, &EventHelper::hoverMove);
     QVERIFY(hoverMoveSpy.isValid());
     QSignalSpy hoverLeaveSpy(&helper, &EventHelper::hoverLeave);
     QVERIFY(hoverLeaveSpy.isValid());
 
     quint32 timestamp = 1;
-    const QPoint tapPoint(c->frameGeometry().center().x(), c->clientPos().y() / 2);
+    const QPoint tapPoint(window->frameGeometry().center().x(), window->clientPos().y() / 2);
 
     QVERIFY(!input()->touch()->decoration());
-    kwinApp()->platform()->touchDown(0, tapPoint, timestamp++);
+    Test::touchDown(0, tapPoint, timestamp++);
     QVERIFY(input()->touch()->decoration());
-    QCOMPARE(input()->touch()->decoration()->decoration(), c->decoration());
+    QCOMPARE(input()->touch()->decoration()->decoration(), window->decoration());
     QCOMPARE(hoverMoveSpy.count(), 1);
     QCOMPARE(hoverLeaveSpy.count(), 0);
-    kwinApp()->platform()->touchUp(0, timestamp++);
+    Test::touchUp(0, timestamp++);
     QCOMPARE(hoverMoveSpy.count(), 1);
     QCOMPARE(hoverLeaveSpy.count(), 1);
 
-    QCOMPARE(c->isInteractiveMove(), false);
+    QCOMPARE(window->isInteractiveMove(), false);
 
     // let's check that a hover motion is sent if the pointer is on deco, when touch release
     Cursors::self()->mouse()->setPos(tapPoint);
     QCOMPARE(hoverMoveSpy.count(), 2);
-    kwinApp()->platform()->touchDown(0, tapPoint, timestamp++);
+    Test::touchDown(0, tapPoint, timestamp++);
     QCOMPARE(hoverMoveSpy.count(), 3);
     QCOMPARE(hoverLeaveSpy.count(), 1);
-    kwinApp()->platform()->touchUp(0, timestamp++);
+    Test::touchUp(0, timestamp++);
     QCOMPARE(hoverMoveSpy.count(), 3);
     QCOMPARE(hoverLeaveSpy.count(), 2);
 }
@@ -766,32 +766,32 @@ void DecorationInputTest::testTooltipDoesntEatKeyEvents()
     QSignalSpy enteredSpy(keyboard, &KWayland::Client::Keyboard::entered);
     QVERIFY(enteredSpy.isValid());
 
-    AbstractClient *c = showWindow();
-    QVERIFY(c);
-    QVERIFY(c->isDecorated());
-    QVERIFY(!c->noBorder());
+    Window *window = showWindow();
+    QVERIFY(window);
+    QVERIFY(window->isDecorated());
+    QVERIFY(!window->noBorder());
     QVERIFY(enteredSpy.wait());
 
     QSignalSpy keyEvent(keyboard, &KWayland::Client::Keyboard::keyChanged);
     QVERIFY(keyEvent.isValid());
 
-    QSignalSpy clientAddedSpy(workspace(), &Workspace::internalClientAdded);
-    QVERIFY(clientAddedSpy.isValid());
-    c->decoratedClient()->requestShowToolTip(QStringLiteral("test"));
+    QSignalSpy windowAddedSpy(workspace(), &Workspace::internalWindowAdded);
+    QVERIFY(windowAddedSpy.isValid());
+    window->decoratedClient()->requestShowToolTip(QStringLiteral("test"));
     // now we should get an internal window
-    QVERIFY(clientAddedSpy.wait());
-    InternalClient *internal = clientAddedSpy.first().first().value<InternalClient *>();
+    QVERIFY(windowAddedSpy.wait());
+    InternalWindow *internal = windowAddedSpy.first().first().value<InternalWindow *>();
     QVERIFY(internal->isInternal());
-    QVERIFY(internal->internalWindow()->flags().testFlag(Qt::ToolTip));
+    QVERIFY(internal->handle()->flags().testFlag(Qt::ToolTip));
 
     // now send a key
     quint32 timestamp = 0;
-    kwinApp()->platform()->keyboardKeyPressed(KEY_A, timestamp++);
+    Test::keyboardKeyPressed(KEY_A, timestamp++);
     QVERIFY(keyEvent.wait());
-    kwinApp()->platform()->keyboardKeyReleased(KEY_A, timestamp++);
+    Test::keyboardKeyReleased(KEY_A, timestamp++);
     QVERIFY(keyEvent.wait());
 
-    c->decoratedClient()->requestHideToolTip();
+    window->decoratedClient()->requestHideToolTip();
     Test::waitForWindowDestroyed(internal);
 }
 

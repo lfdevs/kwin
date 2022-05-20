@@ -34,7 +34,8 @@ bool ScreenTransformEffect::supported()
 qreal transformAngle(EffectScreen::Transform current, EffectScreen::Transform old)
 {
     auto ensureShort = [](int angle) {
-        return angle > 180 ? angle - 360 : angle < -180 ? angle + 360 : angle;
+        return angle > 180 ? angle - 360 : angle < -180 ? angle + 360
+                                                        : angle;
     };
     // % 4 to ignore flipped cases (for now)
     return ensureShort((int(current) % 4 - int(old) % 4) * 90);
@@ -65,17 +66,12 @@ void ScreenTransformEffect::addScreen(EffectScreen *screen)
         // Rendering the current scene into a texture
         const bool c = state.m_texture->create();
         Q_ASSERT(c);
-        GLRenderTarget renderTarget(*state.m_texture);
-        GLRenderTarget::pushRenderTarget(&renderTarget);
-
-        GLVertexBuffer::setVirtualScreenGeometry(screen->geometry());
-        GLRenderTarget::setVirtualScreenGeometry(screen->geometry());
-        GLVertexBuffer::setVirtualScreenScale(screen->devicePixelRatio());
-        GLRenderTarget::setVirtualScreenScale(screen->devicePixelRatio());
+        GLFramebuffer fbo(state.m_texture.data());
+        GLFramebuffer::pushFramebuffer(&fbo);
 
         effects->renderScreen(screen);
         state.m_captured = true;
-        GLRenderTarget::popRenderTarget();
+        GLFramebuffer::popFramebuffer();
     });
 }
 
@@ -146,7 +142,7 @@ void ScreenTransformEffect::paintScreen(int mask, const QRegion &region, KWin::S
             shader->setUniform(GLShader::ModelViewProjectionMatrix, matrix);
 
             state.m_texture->bind();
-            state.m_texture->render(screen->geometry(), textureRect);
+            state.m_texture->render(textureRect);
             state.m_texture->unbind();
         }
         effects->addRepaintFull();

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-03-09 02:12+0000\n"
-"PO-Revision-Date: 2022-02-15 10:20+0100\n"
+"POT-Creation-Date: 2022-05-14 00:46+0000\n"
+"PO-Revision-Date: 2022-05-07 12:05+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -20,16 +20,6 @@ msgstr ""
 "X-Generator: Lokalize 20.12.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Josep M. Ferrer"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "txemaq@gmail.com"
 
 #. i18n: ectx: property (text), widget (QLabel, labelConstantBlurDescription)
 #: blur/blur_config.ui:17
@@ -57,7 +47,7 @@ msgstr "Potent"
 msgid "Noise strength:"
 msgstr "Potència del soroll:"
 
-#: colorpicker/colorpicker.cpp:107
+#: colorpicker/colorpicker.cpp:100
 #, kde-format
 msgid ""
 "Select a position for color picking with left click or enter.\n"
@@ -67,22 +57,21 @@ msgstr ""
 "la tecla de retorn.\n"
 "La tecla d'escapada o clic dret per a cancel·lar."
 
-#: desktopgrid/desktopgrid.cpp:116 desktopgrid/desktopgrid_config.cpp:55
-#, kde-format
-msgid "Show Desktop Grid"
-msgstr "Mostra la quadrícula de l'escriptori"
-
-#: desktopgrid/desktopgrid_config.cpp:50 invert/invert_config.cpp:36
-#: lookingglass/lookingglass_config.cpp:56 magnifier/magnifier_config.cpp:56
-#: mouseclick/mouseclick_config.cpp:48 mousemark/mousemark_config.cpp:54
-#: overview/kcm/overvieweffectkcm.cpp:35
-#: presentwindows/presentwindows_config.cpp:49
-#: showpaint/showpaint_config.cpp:34
-#: thumbnailaside/thumbnailaside_config.cpp:55
-#: trackmouse/trackmouse_config.cpp:52 zoom/zoom_config.cpp:57
+#: desktopgrid/desktopgrid_config.cpp:51 invert/invert_config.cpp:35
+#: lookingglass/lookingglass_config.cpp:55 magnifier/magnifier_config.cpp:57
+#: mouseclick/mouseclick_config.cpp:49 mousemark/mousemark_config.cpp:52
+#: overview/kcm/overvieweffectkcm.cpp:35 showpaint/showpaint_config.cpp:33
+#: thumbnailaside/thumbnailaside_config.cpp:56
+#: trackmouse/trackmouse_config.cpp:52
+#: windowview/kcm/windowvieweffectkcm.cpp:35 zoom/zoom_config.cpp:58
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
+
+#: desktopgrid/desktopgrid_config.cpp:56 desktopgrid/desktopgrideffect.cpp:35
+#, kde-format
+msgid "Show Desktop Grid"
+msgstr "Mostra la quadrícula de l'escriptori"
 
 #: desktopgrid/desktopgrid_config.cpp:63
 #, kde-format
@@ -149,103 +138,75 @@ msgstr "Centre"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: desktopgrid/desktopgrid_config.ui:17 mousemark/mousemark_config.ui:17
-#: presentwindows/presentwindows_config.ui:387
 #: thumbnailaside/thumbnailaside_config.ui:17
 #, kde-format
 msgid "Appearance"
 msgstr "Aparença"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: desktopgrid/desktopgrid_config.ui:23
-#, kde-format
-msgid "Zoom &duration:"
-msgstr "&Durada del zoom:"
-
-#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_ZoomDuration)
-#: desktopgrid/desktopgrid_config.ui:42
-#, kde-format
-msgctxt "Duration of zoom"
-msgid "Default"
-msgstr "Omissió"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: desktopgrid/desktopgrid_config.ui:55
-#, kde-format
-msgid "Border wid&th:"
-msgstr "Amplada de la &vora:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#: desktopgrid/desktopgrid_config.ui:84
-#, kde-format
-msgid "Desktop &name alignment:"
-msgstr "Alineació del &nom de l'escriptori:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_7)
-#: desktopgrid/desktopgrid_config.ui:107
-#, kde-format
-msgid "&Layout mode:"
-msgstr "Mode de &disposició:"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
-#: desktopgrid/desktopgrid_config.ui:127
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DesktopLayoutMode)
+#: desktopgrid/desktopgrid_config.ui:30
 #, kde-format
 msgid "Pager"
 msgstr "Paginador"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
-#: desktopgrid/desktopgrid_config.ui:132
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DesktopLayoutMode)
+#: desktopgrid/desktopgrid_config.ui:35
 #, kde-format
 msgid "Automatic"
 msgstr "Automàtic"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
-#: desktopgrid/desktopgrid_config.ui:137
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DesktopLayoutMode)
+#: desktopgrid/desktopgrid_config.ui:40
 #, kde-format
 msgid "Custom"
 msgstr "A mida"
 
 #. i18n: ectx: property (text), widget (QLabel, layoutRowsLabel)
-#: desktopgrid/desktopgrid_config.ui:145
+#: desktopgrid/desktopgrid_config.ui:48
 #, kde-format
 msgid "N&umber of rows:"
 msgstr "N&ombre de files:"
 
-#. i18n: ectx: property (text), widget (QLabel, clickBehaviorLabel)
-#: desktopgrid/desktopgrid_config.ui:177
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: desktopgrid/desktopgrid_config.ui:103
 #, kde-format
-msgid "Click behavior:"
-msgstr "Comportament del clic:"
-
-#. i18n: ectx: property (toolTip), widget (QRadioButton, switchDesktopAndActivateWindow)
-#: desktopgrid/desktopgrid_config.ui:190
-#, kde-format
-msgid ""
-"If the Present Windows effect is enabled, it will be automatically triggered."
-msgstr ""
-"Si l'efecte «Presenta les finestres» està habilitat, s'activarà "
-"automàticament."
-
-#. i18n: ectx: property (text), widget (QRadioButton, switchDesktopAndActivateWindow)
-#: desktopgrid/desktopgrid_config.ui:193
-#, kde-format
-msgid "Switch desktop and activate window"
-msgstr "Canvia a l'escriptori i activa la finestra"
-
-#. i18n: ectx: property (text), widget (QRadioButton, switchDesktopOnly)
-#: desktopgrid/desktopgrid_config.ui:203
-#, kde-format
-msgid "Switch desktop only"
-msgstr "Només canvia a l'escriptori"
+msgid "Desktop &name alignment:"
+msgstr "Alineació del &nom de l'escriptori:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowAddRemove)
-#: desktopgrid/desktopgrid_config.ui:213
+#: desktopgrid/desktopgrid_config.ui:116
 #, kde-format
 msgid "Show buttons to alter count of virtual desktops"
 msgstr "Mostra els botons per a alterar el comptador d'escriptoris virtuals"
 
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#: desktopgrid/desktopgrid_config.ui:123
+#, kde-format
+msgid "&Grid layout mode:"
+msgstr "Mode de disposició de &quadrícula::"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
+#: desktopgrid/desktopgrid_config.ui:137 overview/kcm/overvieweffectkcm.ui:30
+#: windowview/kcm/windowvieweffectkcm.ui:30
+#, kde-format
+msgid "Closest"
+msgstr "El més proper"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
+#: desktopgrid/desktopgrid_config.ui:142 overview/kcm/overvieweffectkcm.ui:35
+#: windowview/kcm/windowvieweffectkcm.ui:35
+#, kde-format
+msgid "Natural"
+msgstr "Natural"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: desktopgrid/desktopgrid_config.ui:150
+#, kde-format
+msgid "Windows layout:"
+msgstr "Disposició de les finestres:"
+
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: desktopgrid/desktopgrid_config.ui:236
-#: presentwindows/presentwindows_config.ui:17
+#: desktopgrid/desktopgrid_config.ui:166
 #, kde-format
 msgid "Activation"
 msgstr "Activació"
@@ -294,22 +255,18 @@ msgstr "Finestres a pantalla completa"
 
 #. i18n: ectx: property (text), widget (QLabel, label_Duration)
 #: glide/glide_config.ui:19 scale/package/contents/ui/config.ui:17
-#: slide/slide_config.ui:19
 #, kde-format
 msgid "Duration:"
 msgstr "Durada:"
 
-#. i18n: Duration of the slide animation.
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
 #: glide/glide_config.ui:32 scale/package/contents/ui/config.ui:30
-#: slide/slide_config.ui:32
 #, kde-format
 msgid "Default"
 msgstr "Predeterminada"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Duration)
 #: glide/glide_config.ui:35 scale/package/contents/ui/config.ui:33
-#: slide/slide_config.ui:35
 #, kde-format
 msgid " milliseconds"
 msgstr " mil·lisegons"
@@ -347,12 +304,12 @@ msgstr "Distància:"
 msgid "Window Close Animation"
 msgstr "Animació del tancament de la finestra"
 
-#: invert/invert.cpp:42 invert/invert_config.cpp:39
+#: invert/invert.cpp:42 invert/invert_config.cpp:38
 #, kde-format
 msgid "Toggle Invert Effect"
 msgstr "Commuta l'efecte d'inversió"
 
-#: invert/invert.cpp:50 invert/invert_config.cpp:45
+#: invert/invert.cpp:50 invert/invert_config.cpp:44
 #, kde-format
 msgid "Toggle Invert Effect on Window"
 msgstr "Commuta l'efecte d'inversió a la finestra"
@@ -414,35 +371,35 @@ msgstr " px"
 msgid "&Height:"
 msgstr "A&lçada:"
 
-#: mouseclick/mouseclick.cpp:33 mouseclick/mouseclick_config.cpp:51
+#: mouseclick/mouseclick.cpp:34 mouseclick/mouseclick_config.cpp:52
 #, kde-format
 msgid "Toggle Mouse Click Effect"
 msgstr "Commuta l'efecte del clic del ratolí"
 
-#: mouseclick/mouseclick.cpp:41
+#: mouseclick/mouseclick.cpp:42
 #, kde-format
 msgctxt "Left mouse button"
 msgid "Left"
 msgstr "Esquerre"
 
-#: mouseclick/mouseclick.cpp:42
+#: mouseclick/mouseclick.cpp:43
 #, kde-format
 msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr "Mig"
 
-#: mouseclick/mouseclick.cpp:43
+#: mouseclick/mouseclick.cpp:44
 #, kde-format
 msgctxt "Right mouse button"
 msgid "Right"
 msgstr "Dret"
 
-#: mouseclick/mouseclick.h:62
+#: mouseclick/mouseclick.h:73
 #, kde-format
 msgid "↓"
 msgstr "↓"
 
-#: mouseclick/mouseclick.h:63
+#: mouseclick/mouseclick.h:74
 #, kde-format
 msgid "↑"
 msgstr "↑"
@@ -544,23 +501,23 @@ msgstr "Mostra el text:"
 msgid "Clear All Mouse Marks"
 msgstr "Neteja totes les marques del ratolí"
 
-#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:63
+#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:61
 #, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr "Neteja l'última marca del ratolí"
 
-#: mousemark/mousemark_config.cpp:43
+#: mousemark/mousemark_config.cpp:55
+#, kde-format
+msgid "Clear Mouse Marks"
+msgstr "Neteja les marques del ratolí"
+
+#: mousemark/mousemark_config.cpp:102
 #, kde-format
 msgctxt "Suffix"
 msgid " pixel"
 msgid_plural " pixels"
 msgstr[0] " píxel"
 msgstr[1] " píxels"
-
-#: mousemark/mousemark_config.cpp:57
-#, kde-format
-msgid "Clear Mouse Marks"
-msgstr "Neteja les marques del ratolí"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: mousemark/mousemark_config.ui:23
@@ -580,38 +537,29 @@ msgstr "&Color:"
 msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr "Dibuixa amb el ratolí prement les tecles Maj+Meta i movent el ratolí."
 
-#: overview/kcm/overvieweffectkcm.cpp:41 overview/overvieweffect.cpp:37
+#: overview/kcm/overvieweffectkcm.cpp:41 overview/overvieweffect.cpp:43
 #, kde-format
 msgid "Toggle Overview"
 msgstr "Commuta a la vista general"
 
 #. i18n: ectx: property (text), widget (QLabel, label_LayoutMode)
-#. i18n: ectx: property (text), widget (QLabel, label_3)
 #: overview/kcm/overvieweffectkcm.ui:22
-#: presentwindows/presentwindows_config.ui:393
+#: windowview/kcm/windowvieweffectkcm.ui:22
 #, kde-format
 msgid "Layout mode:"
 msgstr "Mode de disposició:"
 
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
-#: overview/kcm/overvieweffectkcm.ui:30
-#, kde-format
-msgid "Closest"
-msgstr "El més proper"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
-#: overview/kcm/overvieweffectkcm.ui:35
-#: presentwindows/presentwindows_config.ui:441
-#, kde-format
-msgid "Natural"
-msgstr "Natural"
-
 #. i18n: ectx: property (text), widget (QLabel, label_BlurBackground)
-#: overview/kcm/overvieweffectkcm.ui:56
+#: overview/kcm/overvieweffectkcm.ui:53
 #, kde-format
 msgid "Blur background:"
 msgstr "Difumina el fons:"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: overview/kcm/overvieweffectkcm.ui:70
+#, kde-format
+msgid "Ignore minimized windows:"
+msgstr "Ignora les finestres minimitzades:"
 
 #: overview/qml/DesktopBar.qml:188
 #, kde-format
@@ -623,227 +571,15 @@ msgstr "Suprimeix l'escriptori virtual"
 msgid "Add Desktop"
 msgstr "Afegeix un escriptori"
 
-#: overview/qml/ScreenView.qml:119
+#: overview/qml/ScreenView.qml:169
 #, kde-format
 msgid "Search..."
 msgstr "Cerca..."
 
-#: presentwindows/presentwindows.cpp:71
-#: presentwindows/presentwindows_config.cpp:60
+#: private/qml/WindowHeap.qml:171
 #, kde-format
-msgid "Toggle Present Windows (Current desktop)"
-msgstr "Commuta les finestres presents (escriptori actual)"
-
-#: presentwindows/presentwindows.cpp:80
-#: presentwindows/presentwindows_config.cpp:54
-#, kde-format
-msgid "Toggle Present Windows (All desktops)"
-msgstr "Commuta les finestres presents (tots els escriptoris)"
-
-#: presentwindows/presentwindows.cpp:90
-#: presentwindows/presentwindows_config.cpp:66
-#, kde-format
-msgid "Toggle Present Windows (Window class)"
-msgstr "Commuta les finestres presents (classe de finestra)"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
-#: presentwindows/presentwindows_config.ui:39
-#, kde-format
-msgid "Natural Layout Settings"
-msgstr "Configuració de disposició natural"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_FillGaps)
-#: presentwindows/presentwindows_config.ui:45
-#, kde-format
-msgid "Fill &gaps"
-msgstr "Omple els &buits"
-
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#: presentwindows/presentwindows_config.ui:65
-#, kde-format
-msgid "Faster"
-msgstr "Més ràpid"
-
-#. i18n: ectx: property (text), widget (QLabel, label_5)
-#: presentwindows/presentwindows_config.ui:112
-#, kde-format
-msgid "Nicer"
-msgstr "Millor"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
-#: presentwindows/presentwindows_config.ui:122
-#, kde-format
-msgid "Windows"
-msgstr "Finestres"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#. i18n: ectx: property (text), widget (QLabel, label_8)
-#: presentwindows/presentwindows_config.ui:128
-#: presentwindows/presentwindows_config.ui:282
-#, kde-format
-msgid "Left button:"
-msgstr "Botó esquerre:"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LeftButtonWindow)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonWindow)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonWindow)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LeftButtonDesktop)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonDesktop)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonDesktop)
-#: presentwindows/presentwindows_config.ui:139
-#: presentwindows/presentwindows_config.ui:183
-#: presentwindows/presentwindows_config.ui:232
-#: presentwindows/presentwindows_config.ui:293
-#: presentwindows/presentwindows_config.ui:327
-#: presentwindows/presentwindows_config.ui:361
-#, kde-format
-msgid "No action"
-msgstr "Sense acció"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LeftButtonWindow)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonWindow)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonWindow)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LeftButtonDesktop)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonDesktop)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonDesktop)
-#: presentwindows/presentwindows_config.ui:144
-#: presentwindows/presentwindows_config.ui:188
-#: presentwindows/presentwindows_config.ui:237
-#: presentwindows/presentwindows_config.ui:298
-#: presentwindows/presentwindows_config.ui:332
-#: presentwindows/presentwindows_config.ui:366
-#, kde-format
-msgid "Activate window"
-msgstr "Activa la finestra"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LeftButtonWindow)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonWindow)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonWindow)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LeftButtonDesktop)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonDesktop)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonDesktop)
-#: presentwindows/presentwindows_config.ui:149
-#: presentwindows/presentwindows_config.ui:193
-#: presentwindows/presentwindows_config.ui:242
-#: presentwindows/presentwindows_config.ui:303
-#: presentwindows/presentwindows_config.ui:337
-#: presentwindows/presentwindows_config.ui:371
-#, kde-format
-msgid "End effect"
-msgstr "Finalitza l'efecte"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LeftButtonWindow)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonWindow)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonWindow)
-#: presentwindows/presentwindows_config.ui:154
-#: presentwindows/presentwindows_config.ui:198
-#: presentwindows/presentwindows_config.ui:247
-#, kde-format
-msgid "Bring window to current desktop"
-msgstr "Trasllada la finestra a l'escriptori actual"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LeftButtonWindow)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonWindow)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonWindow)
-#: presentwindows/presentwindows_config.ui:159
-#: presentwindows/presentwindows_config.ui:203
-#: presentwindows/presentwindows_config.ui:252
-#, kde-format
-msgid "Send window to all desktops"
-msgstr "Envia la finestra a tots els escriptoris"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LeftButtonWindow)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonWindow)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonWindow)
-#: presentwindows/presentwindows_config.ui:164
-#: presentwindows/presentwindows_config.ui:208
-#: presentwindows/presentwindows_config.ui:257
-#, kde-format
-msgid "(Un-)Minimize window"
-msgstr "(Des)minimitza la finestra"
-
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#. i18n: ectx: property (text), widget (QLabel, label_9)
-#: presentwindows/presentwindows_config.ui:172
-#: presentwindows/presentwindows_config.ui:316
-#, kde-format
-msgid "Middle button:"
-msgstr "Botó del mig:"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonWindow)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonWindow)
-#: presentwindows/presentwindows_config.ui:213
-#: presentwindows/presentwindows_config.ui:262
-#, kde-format
-msgid "Close window"
-msgstr "Tanca la finestra"
-
-#. i18n: ectx: property (text), widget (QLabel, label_7)
-#. i18n: ectx: property (text), widget (QLabel, label_10)
-#: presentwindows/presentwindows_config.ui:221
-#: presentwindows/presentwindows_config.ui:350
-#, kde-format
-msgid "Right button:"
-msgstr "Botó dret:"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_5)
-#: presentwindows/presentwindows_config.ui:273
-#, kde-format
-msgctxt "@title:group actions when clicking on desktop"
-msgid "Desktop"
-msgstr "Escriptori"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LeftButtonDesktop)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_MiddleButtonDesktop)
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_RightButtonDesktop)
-#: presentwindows/presentwindows_config.ui:308
-#: presentwindows/presentwindows_config.ui:342
-#: presentwindows/presentwindows_config.ui:376
-#, kde-format
-msgid "Show desktop"
-msgstr "Mostra l'escriptori"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DrawWindowCaptions)
-#: presentwindows/presentwindows_config.ui:406
-#, kde-format
-msgid "Display window &titles"
-msgstr "Mostra els &títols de les finestres"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DrawWindowIcons)
-#: presentwindows/presentwindows_config.ui:413
-#, kde-format
-msgid "Display window &icons"
-msgstr "Mostra les &icones de les finestres"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_IgnoreMinimized)
-#: presentwindows/presentwindows_config.ui:420
-#, kde-format
-msgid "Ignore &minimized windows"
-msgstr "Ignora les finestres &minimitzades"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowPanel)
-#: presentwindows/presentwindows_config.ui:427
-#, kde-format
-msgid "Show &panels"
-msgstr "Mostra els &plafons"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
-#: presentwindows/presentwindows_config.ui:446
-#, kde-format
-msgid "Regular Grid"
-msgstr "Quadrícula normal"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_LayoutMode)
-#: presentwindows/presentwindows_config.ui:451
-#, kde-format
-msgid "Flexible Grid"
-msgstr "Quadrícula flexible"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowClosingWindows)
-#: presentwindows/presentwindows_config.ui:459
-#, kde-format
-msgid "Provide buttons to close the windows"
-msgstr "Proporciona botons per a tancar les finestres"
+msgid "Drag Down To Close"
+msgstr "Arrossegueu cap avall per a tancar"
 
 #. i18n: ectx: property (text), widget (QLabel, label_InScale)
 #: scale/package/contents/ui/config.ui:46
@@ -857,20 +593,20 @@ msgstr "Escala en obrir la finestra:"
 msgid "Window close scale:"
 msgstr "Escala en tancar la finestra:"
 
-#: screenshot/screenshotdbusinterface1.cpp:472
+#: screenshot/screenshotdbusinterface1.cpp:480
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr "Captura de pantalla"
 
-#: screenshot/screenshotdbusinterface1.cpp:473
+#: screenshot/screenshotdbusinterface1.cpp:481
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr "La captura de pantalla s'ha desat a %1"
 
-#: screenshot/screenshotdbusinterface1.cpp:788
-#: screenshot/screenshotdbusinterface2.cpp:471
+#: screenshot/screenshotdbusinterface1.cpp:797
+#: screenshot/screenshotdbusinterface2.cpp:472
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
@@ -880,8 +616,8 @@ msgstr ""
 "retorn.\n"
 "La tecla d'escapada o clic dret per a cancel·lar."
 
-#: screenshot/screenshotdbusinterface1.cpp:791
-#: screenshot/screenshotdbusinterface2.cpp:489
+#: screenshot/screenshotdbusinterface1.cpp:800
+#: screenshot/screenshotdbusinterface2.cpp:490
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -890,7 +626,7 @@ msgstr ""
 "Creeu una captura de pantalla amb el clic esquerre o la tecla de retorn.\n"
 "La tecla d'escapada o clic dret per a cancel·lar."
 
-#: showfps/showfps.cpp:50
+#: showfps/showfps.cpp:52
 #, kde-format
 msgid "This effect is not a benchmark"
 msgstr "Aquest efecte no és cap prova de referència"
@@ -901,37 +637,37 @@ msgstr "Aquest efecte no és cap prova de referència"
 msgid "Text position:"
 msgstr "Posició del text:"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TextPosition)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TextPosition)
 #: showfps/showfps_config.ui:43
 #, kde-format
 msgid "Inside Graph"
 msgstr "Dins del gràfic"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TextPosition)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TextPosition)
 #: showfps/showfps_config.ui:48
 #, kde-format
 msgid "Nowhere"
 msgstr "Enlloc"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TextPosition)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TextPosition)
 #: showfps/showfps_config.ui:53
 #, kde-format
 msgid "Top Left"
 msgstr "A dalt a l'esquerra"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TextPosition)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TextPosition)
 #: showfps/showfps_config.ui:58
 #, kde-format
 msgid "Top Right"
 msgstr "A dalt a la dreta"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TextPosition)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TextPosition)
 #: showfps/showfps_config.ui:63
 #, kde-format
 msgid "Bottom Left"
 msgstr "A baix a l'esquerra"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_TextPosition)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TextPosition)
 #: showfps/showfps_config.ui:68
 #, kde-format
 msgid "Bottom Right"
@@ -955,43 +691,79 @@ msgstr "Color del text:"
 msgid "Text alpha:"
 msgstr "Alfa del text:"
 
-#: showpaint/showpaint.cpp:39 showpaint/showpaint_config.cpp:39
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: showfps/showfps_config.ui:154
+#, kde-format
+msgid "Show graph:"
+msgstr "Mostra un gràfic:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowGraph)
+#: showfps/showfps_config.ui:167
+#, kde-format
+msgid "Show on active screen"
+msgstr "Mostra en la pantalla activa"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: showfps/showfps_config.ui:174
+#, kde-format
+msgid "Show Message:"
+msgstr "Mostra un missatge:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowNoBenchmark)
+#: showfps/showfps_config.ui:187
+#, kde-format
+msgid "Show \"not a benchmark\" message"
+msgstr "Mostra el missatge «no és cap prova de referència»"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: showfps/showfps_config.ui:194
+#, kde-format
+msgid "Colorize Text:"
+msgstr "Color del text:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ColorizeText)
+#: showfps/showfps_config.ui:207
+#, kde-format
+msgid "Color text by value (green > yellow > red)"
+msgstr "Color del text segons el valor (verd > groc > vermell)"
+
+#: showpaint/showpaint.cpp:38 showpaint/showpaint_config.cpp:38
 #, kde-format
 msgid "Toggle Show Paint"
 msgstr "Commuta la mostra del pintat"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_Gaps)
-#: slide/slide_config.ui:50
+#: slide/slide_config.ui:17
 #, kde-format
 msgid "Gap between desktops"
 msgstr "Espai entre escriptoris"
 
 #. i18n: ectx: property (text), widget (QLabel, label_HorizontalGap)
-#: slide/slide_config.ui:56
+#: slide/slide_config.ui:23
 #, kde-format
 msgid "Horizontal:"
 msgstr "Horitzontal:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_VerticalGap)
-#: slide/slide_config.ui:79
+#: slide/slide_config.ui:46
 #, kde-format
 msgid "Vertical:"
 msgstr "Vertical:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideDocks)
-#: slide/slide_config.ui:105
+#: slide/slide_config.ui:72
 #, kde-format
 msgid "Slide docks"
 msgstr "Llisca els acobladors"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideBackground)
-#: slide/slide_config.ui:112
+#: slide/slide_config.ui:79
 #, kde-format
 msgid "Slide desktop background"
 msgstr "Llisca el fons de l'escriptori"
 
 #: thumbnailaside/thumbnailaside.cpp:29
-#: thumbnailaside/thumbnailaside_config.cpp:60
+#: thumbnailaside/thumbnailaside_config.cpp:61
 #, kde-format
 msgid "Toggle Thumbnail for Current Window"
 msgstr "Commuta la miniatura per a la finestra actual"
@@ -1028,7 +800,7 @@ msgstr "&Opacitat:"
 msgid " %"
 msgstr " %"
 
-#: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:57
+#: trackmouse/trackmouse.cpp:45 trackmouse/trackmouse_config.cpp:57
 #, kde-format
 msgid "Track mouse"
 msgstr "Seguiment del ratolí"
@@ -1157,6 +929,37 @@ msgstr "Menús emergents:"
 msgid "Torn-off menus:"
 msgstr "Menús d'apagat:"
 
+#: windowview/kcm/windowvieweffectkcm.cpp:41 windowview/windowvieweffect.cpp:56
+#, kde-format
+msgid "Toggle Present Windows (Current desktop)"
+msgstr "Commuta les finestres presents (escriptori actual)"
+
+#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:71
+#, kde-format
+msgid "Toggle Present Windows (All desktops)"
+msgstr "Commuta les finestres presents (tots els escriptoris)"
+
+#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:86
+#, kde-format
+msgid "Toggle Present Windows (Window class)"
+msgstr "Commuta les finestres presents (classe de finestra)"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_IgnoreMinimized)
+#: windowview/kcm/windowvieweffectkcm.ui:53
+#, kde-format
+msgid "Ignore &minimized windows"
+msgstr "Ignora les finestres &minimitzades"
+
+#: windowview/qml/main.qml:132
+#, kde-format
+msgid "No Matches"
+msgstr "Sense coincidències"
+
+#: windowview/qml/main.qml:132
+#, kde-format
+msgid "No Windows"
+msgstr "Sense finestres"
+
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20
 #, kde-format
@@ -1217,52 +1020,52 @@ msgstr "Menys"
 msgid "More"
 msgstr "Més"
 
-#: zoom/zoom.cpp:69
+#: zoom/zoom.cpp:68
 #, kde-format
 msgid "Move Zoomed Area to Left"
 msgstr "Mou l'àrea ampliada a l'esquerra"
 
-#: zoom/zoom.cpp:77
+#: zoom/zoom.cpp:76
 #, kde-format
 msgid "Move Zoomed Area to Right"
 msgstr "Mou l'àrea ampliada a la dreta"
 
-#: zoom/zoom.cpp:85
+#: zoom/zoom.cpp:84
 #, kde-format
 msgid "Move Zoomed Area Upwards"
 msgstr "Mou l'àrea ampliada cap a dalt"
 
-#: zoom/zoom.cpp:93
+#: zoom/zoom.cpp:92
 #, kde-format
 msgid "Move Zoomed Area Downwards"
 msgstr "Mou l'àrea ampliada cap a baix"
 
-#: zoom/zoom.cpp:102 zoom/zoom_config.cpp:107
+#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:108
 #, kde-format
 msgid "Move Mouse to Focus"
 msgstr "Mou el ratolí al focus"
 
-#: zoom/zoom.cpp:110 zoom/zoom_config.cpp:114
+#: zoom/zoom.cpp:109 zoom/zoom_config.cpp:115
 #, kde-format
 msgid "Move Mouse to Center"
 msgstr "Mou el ratolí al centre"
 
-#: zoom/zoom_config.cpp:79
+#: zoom/zoom_config.cpp:80
 #, kde-format
 msgid "Move Left"
 msgstr "Mou a l'esquerra"
 
-#: zoom/zoom_config.cpp:86
+#: zoom/zoom_config.cpp:87
 #, kde-format
 msgid "Move Right"
 msgstr "Mou a la dreta"
 
-#: zoom/zoom_config.cpp:93
+#: zoom/zoom_config.cpp:94
 #, kde-format
 msgid "Move Up"
 msgstr "Mou amunt"
 
-#: zoom/zoom_config.cpp:100
+#: zoom/zoom_config.cpp:101
 #, kde-format
 msgid "Move Down"
 msgstr "Mou avall"

@@ -13,8 +13,8 @@
 
 #include <kcmodule.h>
 
+#include "desktopgrideffect.h"
 #include "ui_desktopgrid_config.h"
-#include "desktopgrid.h"
 
 namespace KWin
 {
@@ -23,14 +23,14 @@ class DesktopGridEffectConfigForm : public QWidget, public Ui::DesktopGridEffect
 {
     Q_OBJECT
 public:
-    explicit DesktopGridEffectConfigForm(QWidget* parent);
+    explicit DesktopGridEffectConfigForm(QWidget *parent);
 };
 
 class DesktopGridEffectConfig : public KCModule
 {
     Q_OBJECT
 public:
-    explicit DesktopGridEffectConfig(QWidget* parent = nullptr, const QVariantList& args = QVariantList());
+    explicit DesktopGridEffectConfig(QWidget *parent = nullptr, const QVariantList &args = QVariantList());
     ~DesktopGridEffectConfig() override;
 
 public Q_SLOTS:
@@ -39,11 +39,11 @@ public Q_SLOTS:
     void defaults() override;
 
 private Q_SLOTS:
-    void layoutSelectionChanged();
+    void desktopLayoutSelectionChanged();
 
 private:
-    DesktopGridEffectConfigForm* m_ui;
-    KActionCollection* m_actionCollection;
+    DesktopGridEffectConfigForm *m_ui;
+    KActionCollection *m_actionCollection;
 };
 
 } // namespace

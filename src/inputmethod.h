@@ -9,19 +9,19 @@
 #ifndef KWIN_VIRTUAL_KEYBOARD_H
 #define KWIN_VIRTUAL_KEYBOARD_H
 
-#include <vector>
+#include "wayland/textinput_v2_interface.h"
+
 #include <utility>
+#include <vector>
 
 #include <QObject>
 
-#include <kwinglobals.h>
 #include <kwin_export.h>
+#include <kwinglobals.h>
 
 #include <QPointer>
 #include <QTimer>
-#include <KWaylandServer/textinput_v2_interface.h>
 
-class KStatusNotifierItem;
 class QProcess;
 
 namespace KWaylandServer
@@ -32,8 +32,8 @@ class InputMethodGrabV1;
 namespace KWin
 {
 
-class AbstractClient;
-class InputPanelV1Client;
+class Window;
+class InputPanelV1Window;
 
 /**
  * This class implements the zwp_input_method_unstable_v1, which is currently used to provide
@@ -43,13 +43,17 @@ class KWIN_EXPORT InputMethod : public QObject
 {
     Q_OBJECT
 public:
-    enum ForwardModifiersForce { NoForce = 0, Force = 1 };
+    enum ForwardModifiersForce {
+        NoForce = 0,
+        Force = 1,
+    };
 
     ~InputMethod() override;
 
     void init();
     void setEnabled(bool enable);
-    bool isEnabled() const {
+    bool isEnabled() const
+    {
         return m_enabled;
     }
     bool isActive() const;
@@ -59,7 +63,8 @@ public:
     bool isVisible() const;
     bool isAvailable() const;
 
-    void setPanel(InputPanelV1Client* client);
+    InputPanelV1Window *panel() const;
+    void setPanel(InputPanelV1Window *panel);
     void setInputMethodCommand(const QString &path);
 
     KWaylandServer::InputMethodGrabV1 *keyboardGrab();
@@ -68,6 +73,7 @@ public:
     void forwardModifiers(ForwardModifiersForce force);
 
 Q_SIGNALS:
+    void panelChanged();
     void activeChanged(bool active);
     void enabledChanged(bool enabled);
     void visibleChanged();
@@ -101,14 +107,15 @@ private:
     void setTextDirection(uint32_t serial, Qt::LayoutDirection direction);
     void startInputMethod();
     void stopInputMethod();
-    void setTrackedClient(AbstractClient *trackedClient);
+    void setTrackedWindow(Window *trackedWindow);
     void installKeyboardGrab(KWaylandServer::InputMethodGrabV1 *keyboardGrab);
     void updateModifiersMap(const QByteArray &modifiers);
 
     bool touchEventTriggered() const;
     void resetPendingPreedit();
 
-    struct {
+    struct
+    {
         QString text = QString();
         qint32 cursor = 0;
         std::vector<std::pair<quint32, quint32>> highlightRanges;
@@ -116,8 +123,8 @@ private:
 
     bool m_enabled = true;
     quint32 m_serial = 0;
-    QPointer<InputPanelV1Client> m_inputClient;
-    QPointer<AbstractClient> m_trackedClient;
+    QPointer<InputPanelV1Window> m_panel;
+    QPointer<Window> m_trackedWindow;
     QPointer<KWaylandServer::InputMethodGrabV1> m_keyboardGrab;
 
     QProcess *m_inputMethodProcess = nullptr;

@@ -11,13 +11,13 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-#include <kwinglobals.h>
 #include <config-kwin.h>
+#include <kwinglobals.h>
 
 #include <KSharedConfig>
 // Qt
-#include <QApplication>
 #include <QAbstractNativeEventFilter>
+#include <QApplication>
 #include <QProcessEnvironment>
 
 class KPluginMetaData;
@@ -32,7 +32,11 @@ class X11EventFilter;
 class XcbEventFilter : public QAbstractNativeEventFilter
 {
 public:
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     bool nativeEventFilter(const QByteArray &eventType, void *message, long int *result) override;
+#else
+    bool nativeEventFilter(const QByteArray &eventType, void *message, qintptr *result) override;
+#endif
 };
 
 class X11EventFilterContainer : public QObject
@@ -48,7 +52,7 @@ private:
     X11EventFilter *m_filter;
 };
 
-class KWIN_EXPORT Application : public  QApplication
+class KWIN_EXPORT Application : public QApplication
 {
     Q_OBJECT
     Q_PROPERTY(quint32 x11Time READ x11Time WRITE setX11Time)
@@ -82,17 +86,21 @@ public:
 
     void setConfigLock(bool lock);
 
-    KSharedConfigPtr config() const {
+    KSharedConfigPtr config() const
+    {
         return m_config;
     }
-    void setConfig(KSharedConfigPtr config) {
+    void setConfig(KSharedConfigPtr config)
+    {
         m_config = std::move(config);
     }
 
-    KSharedConfigPtr kxkbConfig() const {
+    KSharedConfigPtr kxkbConfig() const
+    {
         return m_kxkbConfig;
     }
-    void setKxkbConfig(KSharedConfigPtr config) {
+    void setKxkbConfig(KSharedConfigPtr config)
+    {
         m_kxkbConfig = std::move(config);
     }
 
@@ -114,14 +122,16 @@ public:
     void unregisterEventFilter(X11EventFilter *filter);
     bool dispatchEvent(xcb_generic_event_t *event);
 
-    xcb_timestamp_t x11Time() const {
+    xcb_timestamp_t x11Time() const
+    {
         return m_x11Time;
     }
     enum class TimestampUpdate {
         OnlyIfLarger,
         Always
     };
-    void setX11Time(xcb_timestamp_t timestamp, TimestampUpdate force = TimestampUpdate::OnlyIfLarger) {
+    void setX11Time(xcb_timestamp_t timestamp, TimestampUpdate force = TimestampUpdate::OnlyIfLarger)
+    {
         if ((timestamp > m_x11Time || force == TimestampUpdate::Always) && timestamp != 0) {
             m_x11Time = timestamp;
         }
@@ -159,36 +169,34 @@ public:
     /**
      * @returns the X11 root window.
      */
-    xcb_window_t x11RootWindow() const {
+    xcb_window_t x11RootWindow() const
+    {
         return m_rootWindow;
     }
 
     /**
      * @returns the X11 xcb connection
      */
-    xcb_connection_t *x11Connection() const {
+    xcb_connection_t *x11Connection() const
+    {
         return m_connection;
     }
 
     /**
      * @returns the X11 default screen
      */
-    xcb_screen_t *x11DefaultScreen() const {
+    xcb_screen_t *x11DefaultScreen() const
+    {
         return m_defaultScreen;
     }
 
-    /**
-     * Returns @c true if we're in the middle of destroying the X11 connection.
-     */
-    bool isClosingX11Connection() const {
-        return m_isClosingX11Connection;
-    }
-
-#ifdef KWIN_BUILD_ACTIVITIES
-    bool usesKActivities() const {
+#if KWIN_BUILD_ACTIVITIES
+    bool usesKActivities() const
+    {
         return m_useKActivities;
     }
-    void setUseKActivities(bool use) {
+    void setUseKActivities(bool use)
+    {
         m_useKActivities = use;
     }
 #endif
@@ -196,11 +204,13 @@ public:
     virtual QProcessEnvironment processStartupEnvironment() const;
 
     void initPlatform(const KPluginMetaData &plugin);
-    Platform *platform() const {
+    Platform *platform() const
+    {
         return m_platform;
     }
 
-    bool isTerminating() const {
+    bool isTerminating() const
+    {
         return m_terminating;
     }
 
@@ -241,31 +251,32 @@ protected:
      * Inheriting classes should use this method to set the X11 root window
      * before accessing any X11 specific code pathes.
      */
-    void setX11RootWindow(xcb_window_t root) {
+    void setX11RootWindow(xcb_window_t root)
+    {
         m_rootWindow = root;
     }
     /**
      * Inheriting classes should use this method to set the xcb connection
      * before accessing any X11 specific code pathes.
      */
-    void setX11Connection(xcb_connection_t *c) {
+    void setX11Connection(xcb_connection_t *c)
+    {
         m_connection = c;
     }
     /**
      * Inheriting classes should use this method to set the default screen
      * before accessing any X11 specific code pathes.
      */
-    void setX11DefaultScreen(xcb_screen_t *screen) {
+    void setX11DefaultScreen(xcb_screen_t *screen)
+    {
         m_defaultScreen = screen;
     }
     void destroyAtoms();
     void destroyPlatform();
 
-    void setTerminating() {
+    void setTerminating()
+    {
         m_terminating = true;
-    }
-    void setClosingX11Connection(bool set) {
-        m_isClosingX11Connection = set;
     }
 
 protected:
@@ -283,17 +294,16 @@ private:
     xcb_window_t m_rootWindow = XCB_WINDOW_NONE;
     xcb_connection_t *m_connection = nullptr;
     xcb_screen_t *m_defaultScreen = nullptr;
-#ifdef KWIN_BUILD_ACTIVITIES
+#if KWIN_BUILD_ACTIVITIES
     bool m_useKActivities = true;
 #endif
     Platform *m_platform = nullptr;
     bool m_terminating = false;
-    bool m_isClosingX11Connection = false;
 };
 
 inline static Application *kwinApp()
 {
-    return static_cast<Application*>(QCoreApplication::instance());
+    return static_cast<Application *>(QCoreApplication::instance());
 }
 
 namespace Xwl
@@ -306,16 +316,19 @@ class KWIN_EXPORT ApplicationWaylandAbstract : public Application
     Q_OBJECT
 public:
     ~ApplicationWaylandAbstract() override = 0;
+
 protected:
     friend class Xwl::Xwayland;
 
     ApplicationWaylandAbstract(OperationMode mode, int &argc, char **argv);
-    virtual void setProcessStartupEnvironment(const QProcessEnvironment &environment) {
+    virtual void setProcessStartupEnvironment(const QProcessEnvironment &environment)
+    {
         Q_UNUSED(environment);
     }
-    virtual void startSession() {}
+    virtual void startSession()
+    {
+    }
 };
-
 
 } // namespace
 

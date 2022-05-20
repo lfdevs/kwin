@@ -5,9 +5,9 @@
 */
 
 #include "item.h"
-#include "abstract_output.h"
 #include "composite.h"
 #include "main.h"
+#include "output.h"
 #include "platform.h"
 #include "renderloop.h"
 #include "scene.h"
@@ -30,6 +30,19 @@ Item::~Item()
         if (!dirty.isEmpty()) {
             Compositor::self()->scene()->addRepaint(dirty);
         }
+    }
+}
+
+qreal Item::opacity() const
+{
+    return m_opacity;
+}
+
+void Item::setOpacity(qreal opacity)
+{
+    if (m_opacity != opacity) {
+        m_opacity = opacity;
+        scheduleRepaint(boundingRect());
     }
 }
 
@@ -157,6 +170,16 @@ void Item::updateBoundingRect()
     }
 }
 
+QRegion Item::shape() const
+{
+    return rect();
+}
+
+QRegion Item::opaque() const
+{
+    return QRegion();
+}
+
 QPoint Item::rootPosition() const
 {
     QPoint ret = position();
@@ -182,12 +205,26 @@ void Item::setTransform(const QMatrix4x4 &transform)
 
 QRegion Item::mapToGlobal(const QRegion &region) const
 {
+    if (region.isEmpty()) {
+        return QRegion();
+    }
     return region.translated(rootPosition());
 }
 
 QRect Item::mapToGlobal(const QRect &rect) const
 {
+    if (rect.isEmpty()) {
+        return QRect();
+    }
     return rect.translated(rootPosition());
+}
+
+QRect Item::mapFromGlobal(const QRect &rect) const
+{
+    if (rect.isEmpty()) {
+        return QRect();
+    }
+    return rect.translated(-rootPosition());
 }
 
 void Item::stackBefore(Item *sibling)
@@ -255,9 +292,9 @@ void Item::scheduleRepaint(const QRegion &region)
 
 void Item::scheduleRepaintInternal(const QRegion &region)
 {
+    const QVector<Output *> outputs = kwinApp()->platform()->enabledOutputs();
     const QRegion globalRegion = mapToGlobal(region);
-    if (kwinApp()->platform()->isPerScreenRenderingEnabled()) {
-        const QVector<AbstractOutput *> outputs = kwinApp()->platform()->enabledOutputs();
+    if (kwinApp()->operationMode() != Application::OperationModeX11) {
         for (const auto &output : outputs) {
             const QRegion dirtyRegion = globalRegion & output->geometry();
             if (!dirtyRegion.isEmpty()) {
@@ -266,8 +303,8 @@ void Item::scheduleRepaintInternal(const QRegion &region)
             }
         }
     } else {
-        m_repaints[nullptr] += globalRegion;
-        kwinApp()->platform()->renderLoop()->scheduleRepaint(this);
+        m_repaints[outputs.constFirst()] += globalRegion;
+        outputs.constFirst()->renderLoop()->scheduleRepaint(this);
     }
 }
 
@@ -276,16 +313,16 @@ void Item::scheduleFrame()
     if (!isVisible()) {
         return;
     }
-    if (kwinApp()->platform()->isPerScreenRenderingEnabled()) {
+    const QVector<Output *> outputs = kwinApp()->platform()->enabledOutputs();
+    if (kwinApp()->operationMode() != Application::OperationModeX11) {
         const QRect geometry = mapToGlobal(rect());
-        const QVector<AbstractOutput *> outputs = kwinApp()->platform()->enabledOutputs();
-        for (const AbstractOutput *output : outputs) {
+        for (const Output *output : outputs) {
             if (output->geometry().intersects(geometry)) {
                 output->renderLoop()->scheduleRepaint(this);
             }
         }
     } else {
-        kwinApp()->platform()->renderLoop()->scheduleRepaint(this);
+        outputs.constFirst()->renderLoop()->scheduleRepaint(this);
     }
 }
 
@@ -311,19 +348,24 @@ WindowQuadList Item::quads() const
     return m_quads.value();
 }
 
-QRegion Item::repaints(AbstractOutput *output) const
+QRegion Item::repaints(Output *output) const
 {
     return m_repaints.value(output, QRect(QPoint(0, 0), screens()->size()));
 }
 
-void Item::resetRepaints(AbstractOutput *output)
+void Item::resetRepaints(Output *output)
 {
     m_repaints.insert(output, QRegion());
 }
 
-void Item::removeRepaints(AbstractOutput *output)
+void Item::removeRepaints(Output *output)
 {
     m_repaints.remove(output);
+}
+
+bool Item::explicitVisible() const
+{
+    return m_explicitVisible;
 }
 
 bool Item::isVisible() const
@@ -333,15 +375,15 @@ bool Item::isVisible() const
 
 void Item::setVisible(bool visible)
 {
-    if (m_visible != visible) {
-        m_visible = visible;
+    if (m_explicitVisible != visible) {
+        m_explicitVisible = visible;
         updateEffectiveVisibility();
     }
 }
 
 bool Item::computeEffectiveVisibility() const
 {
-    return m_visible && (!m_parentItem || m_parentItem->isVisible());
+    return m_explicitVisible && (!m_parentItem || m_parentItem->isVisible());
 }
 
 void Item::updateEffectiveVisibility()
@@ -352,7 +394,11 @@ void Item::updateEffectiveVisibility()
     }
 
     m_effectiveVisible = effectiveVisible;
-    scheduleRepaintInternal(boundingRect());
+    if (!m_effectiveVisible) {
+        Compositor::self()->scene()->addRepaint(mapToGlobal(boundingRect()));
+    } else {
+        scheduleRepaintInternal(boundingRect());
+    }
 
     for (Item *childItem : qAsConst(m_childItems)) {
         childItem->updateEffectiveVisibility();

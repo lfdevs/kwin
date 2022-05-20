@@ -14,7 +14,10 @@
 // Include with base class for effects.
 #include <kwineffects.h>
 
-#include <KWaylandServer/slide_interface.h>
+namespace KWaylandServer
+{
+class SlideManagerInterface;
+}
 
 namespace KWin
 {
@@ -35,7 +38,8 @@ public:
     void reconfigure(ReconfigureFlags flags) override;
     bool isActive() const override;
 
-    int requestedEffectChainPosition() const override {
+    int requestedEffectChainPosition() const override
+    {
         return 40;
     }
 
@@ -51,6 +55,7 @@ private Q_SLOTS:
     void slotWindowDeleted(EffectWindow *w);
     void slotPropertyNotify(EffectWindow *w, long atom);
     void slotWaylandSlideOnShowChanged(EffectWindow *w);
+    void slotWindowFrameGeometryChanged(EffectWindow *w, const QRect &);
 
     void slideIn(EffectWindow *w);
     void slideOut(EffectWindow *w);
@@ -60,6 +65,7 @@ private:
     void setupAnimData(EffectWindow *w);
     void setupInternalWindowSlide(EffectWindow *w);
     void setupSlideData(EffectWindow *w);
+    void setupInputPanelSlide();
 
     static KWaylandServer::SlideManagerInterface *s_slideManager;
     static QTimer *s_slideManagerRemoveTimer;
@@ -74,7 +80,10 @@ private:
         Out
     };
 
-    struct Animation {
+    struct Animation
+    {
+        EffectWindowDeletedRef deletedRef;
+        EffectWindowVisibleRef visibleRef;
         AnimationKind kind;
         TimeLine timeLine;
         std::chrono::milliseconds lastPresentTime = std::chrono::milliseconds::zero();
@@ -88,14 +97,15 @@ private:
         Bottom
     };
 
-    struct AnimationData {
+    struct AnimationData
+    {
         int offset;
         Location location;
         std::chrono::milliseconds slideInDuration;
         std::chrono::milliseconds slideOutDuration;
         int slideLength;
     };
-    QHash<const EffectWindow*, AnimationData> m_animationsData;
+    QHash<const EffectWindow *, AnimationData> m_animationsData;
 };
 
 inline int SlidingPopupsEffect::slideInDuration() const

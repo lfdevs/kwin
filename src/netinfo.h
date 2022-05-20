@@ -14,15 +14,15 @@
 
 #include <NETWM>
 
-#include <xcb/xcb.h>
 #include <memory>
+#include <xcb/xcb.h>
 
 namespace KWin
 {
 
-class AbstractClient;
+class Window;
 class RootInfoFilter;
-class X11Client;
+class X11Window;
 
 /**
  * NET WM Protocol handler class
@@ -33,7 +33,7 @@ public:
     static RootInfo *create();
     static void destroy();
 
-    void setActiveClient(AbstractClient *client);
+    void setActiveClient(Window *client);
 
 protected:
     void changeNumberOfDesktops(int n) override;
@@ -47,7 +47,7 @@ protected:
     void changeShowingDesktop(bool showing) override;
 
 private:
-    RootInfo(xcb_window_t w, const char* name, NET::Properties properties, NET::WindowTypes types,
+    RootInfo(xcb_window_t w, const char *name, NET::Properties properties, NET::WindowTypes types,
              NET::States states, NET::Properties2 properties2, NET::Actions actions, int scr = -1);
     static RootInfo *s_self;
     friend RootInfo *rootInfo();
@@ -67,7 +67,7 @@ inline RootInfo *rootInfo()
 class WinInfo : public NETWinInfo
 {
 public:
-    WinInfo(X11Client *c, xcb_window_t window,
+    WinInfo(X11Window *c, xcb_window_t window,
             xcb_window_t rwin, NET::Properties properties, NET::Properties2 properties2);
     void changeDesktop(int desktop) override;
     void changeFullscreenMonitors(NETFullscreenMonitors topology) override;
@@ -75,7 +75,7 @@ public:
     void disable();
 
 private:
-    X11Client *m_client;
+    X11Window *m_client;
 };
 
 } // KWin

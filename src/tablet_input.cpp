@@ -7,21 +7,17 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "tablet_input.h"
-#include "abstract_client.h"
 #include "decorations/decoratedclient.h"
 #include "input_event.h"
 #include "input_event_spy.h"
 #include "pointer_input.h"
-#include "toplevel.h"
+#include "wayland/seat_interface.h"
+#include "wayland/surface_interface.h"
 #include "wayland_server.h"
+#include "window.h"
 #include "workspace.h"
 // KDecoration
 #include <KDecoration2/Decoration>
-// KWayland
-#include <KWaylandServer/seat_interface.h>
-#include <KWaylandServer/surface_interface.h>
-// screenlocker
-#include <KScreenLocker/KsldApp>
 // Qt
 #include <QHoverEvent>
 #include <QWindow>
@@ -41,8 +37,12 @@ void TabletInputRedirection::init()
     setInited(true);
     InputDeviceHandler::init();
 
-    connect(workspace(), &QObject::destroyed, this, [this] { setInited(false); });
-    connect(waylandServer(), &QObject::destroyed, this, [this] { setInited(false); });
+    connect(workspace(), &QObject::destroyed, this, [this] {
+        setInited(false);
+    });
+    connect(waylandServer(), &QObject::destroyed, this, [this] {
+        setInited(false);
+    });
 }
 
 void TabletInputRedirection::tabletToolEvent(KWin::InputRedirection::TabletEventType type, const QPointF &pos,
@@ -73,11 +73,11 @@ void TabletInputRedirection::tabletToolEvent(KWin::InputRedirection::TabletEvent
 
     const auto button = m_tipDown ? Qt::LeftButton : Qt::NoButton;
     TabletEvent ev(t, pos, pos, QTabletEvent::Stylus, QTabletEvent::Pen, pressure,
-                    xTilt, yTilt,
-                    0, // tangentialPressure
-                    rotation,
-                    0, // z
-                    Qt::NoModifier, tabletToolId.m_uniqueId, button, button, tabletToolId);
+                   xTilt, yTilt,
+                   0, // tangentialPressure
+                   rotation,
+                   0, // z
+                   Qt::NoModifier, tabletToolId.m_uniqueId, button, button, tabletToolId);
 
     ev.setTimestamp(time);
     input()->processSpies(std::bind(&InputEventSpy::tabletToolEvent, std::placeholders::_1, &ev));
@@ -93,7 +93,7 @@ void KWin::TabletInputRedirection::tabletToolButtonEvent(uint button, bool isPre
 {
     input()->processSpies(std::bind(&InputEventSpy::tabletToolButtonEvent,
                                     std::placeholders::_1, button, isPressed, tabletToolId));
-    input()->processFilters(std::bind( &InputEventFilter::tabletToolButtonEvent,
+    input()->processFilters(std::bind(&InputEventFilter::tabletToolButtonEvent,
                                       std::placeholders::_1, button, isPressed, tabletToolId));
     input()->setLastInputHandler(this);
 }
@@ -101,30 +101,30 @@ void KWin::TabletInputRedirection::tabletToolButtonEvent(uint button, bool isPre
 void KWin::TabletInputRedirection::tabletPadButtonEvent(uint button, bool isPressed,
                                                         const TabletPadId &tabletPadId)
 {
-    input()->processSpies(std::bind( &InputEventSpy::tabletPadButtonEvent,
-                                     std::placeholders::_1, button, isPressed, tabletPadId));
-    input()->processFilters(std::bind( &InputEventFilter::tabletPadButtonEvent,
-                                       std::placeholders::_1, button, isPressed, tabletPadId));
+    input()->processSpies(std::bind(&InputEventSpy::tabletPadButtonEvent,
+                                    std::placeholders::_1, button, isPressed, tabletPadId));
+    input()->processFilters(std::bind(&InputEventFilter::tabletPadButtonEvent,
+                                      std::placeholders::_1, button, isPressed, tabletPadId));
     input()->setLastInputHandler(this);
 }
 
 void KWin::TabletInputRedirection::tabletPadStripEvent(int number, int position, bool isFinger,
                                                        const TabletPadId &tabletPadId)
 {
-    input()->processSpies(std::bind( &InputEventSpy::tabletPadStripEvent,
-                                     std::placeholders::_1, number, position, isFinger, tabletPadId));
-    input()->processFilters(std::bind( &InputEventFilter::tabletPadStripEvent,
-                                       std::placeholders::_1, number, position, isFinger, tabletPadId));
+    input()->processSpies(std::bind(&InputEventSpy::tabletPadStripEvent,
+                                    std::placeholders::_1, number, position, isFinger, tabletPadId));
+    input()->processFilters(std::bind(&InputEventFilter::tabletPadStripEvent,
+                                      std::placeholders::_1, number, position, isFinger, tabletPadId));
     input()->setLastInputHandler(this);
 }
 
 void KWin::TabletInputRedirection::tabletPadRingEvent(int number, int position, bool isFinger,
                                                       const TabletPadId &tabletPadId)
 {
-    input()->processSpies(std::bind( &InputEventSpy::tabletPadRingEvent,
-                                     std::placeholders::_1, number, position, isFinger, tabletPadId));
-    input()->processFilters(std::bind( &InputEventFilter::tabletPadRingEvent,
-                                       std::placeholders::_1, number, position, isFinger, tabletPadId));
+    input()->processSpies(std::bind(&InputEventSpy::tabletPadRingEvent,
+                                    std::placeholders::_1, number, position, isFinger, tabletPadId));
+    input()->processFilters(std::bind(&InputEventFilter::tabletPadRingEvent,
+                                      std::placeholders::_1, number, position, isFinger, tabletPadId));
     input()->setLastInputHandler(this);
 }
 
@@ -152,32 +152,30 @@ void TabletInputRedirection::cleanupDecoration(Decoration::DecoratedClientImpl *
         return;
     }
 
-    const auto pos = m_lastPosition - now->client()->pos();
+    const auto pos = m_lastPosition - now->window()->pos();
     QHoverEvent event(QEvent::HoverEnter, pos, pos);
     QCoreApplication::instance()->sendEvent(now->decoration(), &event);
-    now->client()->processDecorationMove(pos.toPoint(), m_lastPosition.toPoint());
+    now->window()->processDecorationMove(pos.toPoint(), m_lastPosition.toPoint());
 
-    m_decorationGeometryConnection = connect(decoration()->client(), &AbstractClient::frameGeometryChanged, this,
-        [this] {
+    m_decorationGeometryConnection = connect(
+        decoration()->window(), &Window::frameGeometryChanged, this, [this]() {
             // ensure maximize button gets the leave event when maximizing/restore a window, see BUG 385140
             const auto oldDeco = decoration();
             update();
-            if (oldDeco &&
-                oldDeco == decoration() &&
-                !decoration()->client()->isInteractiveMove() &&
-                !decoration()->client()->isInteractiveResize()) {
+            if (oldDeco && oldDeco == decoration() && !decoration()->window()->isInteractiveMove() && !decoration()->window()->isInteractiveResize()) {
                 // position of window did not change, we need to send HoverMotion manually
-                const QPointF p = m_lastPosition - decoration()->client()->pos();
+                const QPointF p = m_lastPosition - decoration()->window()->pos();
                 QHoverEvent event(QEvent::HoverMove, p, p);
                 QCoreApplication::instance()->sendEvent(decoration()->decoration(), &event);
             }
-        }, Qt::QueuedConnection);
+        },
+        Qt::QueuedConnection);
 
     // if our decoration gets destroyed whilst it has focus, we pass focus on to the same client
     m_decorationDestroyedConnection = connect(now, &QObject::destroyed, this, &TabletInputRedirection::update, Qt::QueuedConnection);
 }
 
-void TabletInputRedirection::focusUpdate(Toplevel *focusOld, Toplevel *focusNow)
+void TabletInputRedirection::focusUpdate(Window *focusOld, Window *focusNow)
 {
     Q_UNUSED(focusOld)
     Q_UNUSED(focusNow)

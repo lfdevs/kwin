@@ -8,7 +8,11 @@
 #include "glxconvenience.h"
 #include "logging.h"
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <private/qtx11extras_p.h>
+#else
 #include <QX11Info>
+#endif
 
 namespace KWin
 {
@@ -39,13 +43,12 @@ SGIVideoSyncVsyncMonitorHelper::SGIVideoSyncVsyncMonitorHelper(QObject *parent)
         return;
     }
 
-    Window rootWindow = DefaultRootWindow(m_display);
+    ::Window rootWindow = DefaultRootWindow(m_display);
 
     const int attribs[] = {
         GLX_RENDER_TYPE, GLX_RGBA_BIT,
         GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
-        0
-    };
+        0};
 
     GLXFBConfig config = chooseGlxFbConfig(m_display, attribs);
     if (!config) {

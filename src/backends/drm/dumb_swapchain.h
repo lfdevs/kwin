@@ -9,10 +9,12 @@
 
 #pragma once
 
-#include <QVector>
-#include <QSize>
-#include <QSharedPointer>
+#include "utils/damagejournal.h"
+
 #include <QImage>
+#include <QSharedPointer>
+#include <QSize>
+#include <QVector>
 
 namespace KWin
 {
@@ -23,11 +25,11 @@ class DrmGpu;
 class DumbSwapchain
 {
 public:
-    DumbSwapchain(DrmGpu *gpu, const QSize &size, uint32_t drmFormat, QImage::Format imageFormat = QImage::Format_RGB32);
+    DumbSwapchain(DrmGpu *gpu, const QSize &size, uint32_t drmFormat);
 
-    QSharedPointer<DrmDumbBuffer> acquireBuffer(int *age = nullptr);
-    QSharedPointer<DrmDumbBuffer> currentBuffer() const;
-    void releaseBuffer(QSharedPointer<DrmDumbBuffer> buffer);
+    std::shared_ptr<DrmDumbBuffer> acquireBuffer(QRegion *needsRepaint = nullptr);
+    std::shared_ptr<DrmDumbBuffer> currentBuffer() const;
+    void releaseBuffer(const std::shared_ptr<DrmDumbBuffer> &buffer, const QRegion &damage = {});
 
     qsizetype slotCount() const;
     QSize size() const;
@@ -37,7 +39,7 @@ public:
 private:
     struct Slot
     {
-        QSharedPointer<DrmDumbBuffer> buffer;
+        std::shared_ptr<DrmDumbBuffer> buffer;
         int age = 0;
     };
 
@@ -45,6 +47,7 @@ private:
     int index = 0;
     uint32_t m_format;
     QVector<Slot> m_slots;
+    DamageJournal m_damageJournal;
 };
 
 }

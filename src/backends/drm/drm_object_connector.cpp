@@ -9,18 +9,32 @@
 */
 #include "drm_object_connector.h"
 #include "drm_gpu.h"
+#include "drm_object_crtc.h"
+#include "drm_output.h"
+#include "drm_pipeline.h"
 #include "drm_pointer.h"
 #include "logging.h"
-#include "drm_pipeline.h"
 
 #include <main.h>
 // frameworks
 #include <KConfigGroup>
 
 #include <cerrno>
+#include <cstring>
+#include <libxcvt/libxcvt.h>
 
 namespace KWin
 {
+
+static bool checkIfEqual(const drmModeModeInfo *one, const drmModeModeInfo *two)
+{
+    return std::memcmp(one, two, sizeof(drmModeModeInfo)) == 0;
+}
+
+static QSize resolutionForMode(const drmModeModeInfo *info)
+{
+    return QSize(info->hdisplay, info->vdisplay);
+}
 
 static quint64 refreshRateForMode(_drmModeModeInfo *m)
 {
@@ -39,11 +53,19 @@ static quint64 refreshRateForMode(_drmModeModeInfo *m)
     return refreshRate;
 }
 
+static OutputMode::Flags flagsForMode(const drmModeModeInfo *info)
+{
+    OutputMode::Flags flags;
+    if (info->type & DRM_MODE_TYPE_PREFERRED) {
+        flags |= OutputMode::Flag::Preferred;
+    }
+    return flags;
+}
+
 DrmConnectorMode::DrmConnectorMode(DrmConnector *connector, drmModeModeInfo nativeMode)
-    : m_connector(connector)
+    : OutputMode(resolutionForMode(&nativeMode), refreshRateForMode(&nativeMode), flagsForMode(&nativeMode))
+    , m_connector(connector)
     , m_nativeMode(nativeMode)
-    , m_size(nativeMode.hdisplay, nativeMode.vdisplay)
-    , m_refreshRate(refreshRateForMode(&nativeMode))
 {
 }
 
@@ -60,16 +82,6 @@ drmModeModeInfo *DrmConnectorMode::nativeMode()
     return &m_nativeMode;
 }
 
-QSize DrmConnectorMode::size() const
-{
-    return m_size;
-}
-
-uint32_t DrmConnectorMode::refreshRate() const
-{
-    return m_refreshRate;
-}
-
 uint32_t DrmConnectorMode::blobId()
 {
     if (!m_blobId) {
@@ -80,47 +92,42 @@ uint32_t DrmConnectorMode::blobId()
     return m_blobId;
 }
 
+bool DrmConnectorMode::operator==(const DrmConnectorMode &otherMode)
+{
+    return checkIfEqual(&m_nativeMode, &otherMode.m_nativeMode);
+}
+
 DrmConnector::DrmConnector(DrmGpu *gpu, uint32_t connectorId)
     : DrmObject(gpu, connectorId, {
-            PropertyDefinition(QByteArrayLiteral("CRTC_ID"), Requirement::Required),
-            PropertyDefinition(QByteArrayLiteral("non-desktop"), Requirement::Optional),
-            PropertyDefinition(QByteArrayLiteral("DPMS"), Requirement::RequiredForLegacy),
-            PropertyDefinition(QByteArrayLiteral("EDID"), Requirement::Optional),
-            PropertyDefinition(QByteArrayLiteral("overscan"), Requirement::Optional),
-            PropertyDefinition(QByteArrayLiteral("vrr_capable"), Requirement::Optional),
-            PropertyDefinition(QByteArrayLiteral("underscan"), Requirement::Optional, {
-                QByteArrayLiteral("off"),
-                QByteArrayLiteral("on"),
-                QByteArrayLiteral("auto")
-            }),
-            PropertyDefinition(QByteArrayLiteral("underscan vborder"), Requirement::Optional),
-            PropertyDefinition(QByteArrayLiteral("underscan hborder"), Requirement::Optional),
-            PropertyDefinition(QByteArrayLiteral("Broadcast RGB"), Requirement::Optional, {
-                QByteArrayLiteral("Automatic"),
-                QByteArrayLiteral("Full"),
-                QByteArrayLiteral("Limited 16:235")
-            }),
-            PropertyDefinition(QByteArrayLiteral("max bpc"), Requirement::Optional),
-            PropertyDefinition(QByteArrayLiteral("link-status"), Requirement::Optional, {
-                QByteArrayLiteral("Good"),
-                QByteArrayLiteral("Bad")
-            }),
-        }, DRM_MODE_OBJECT_CONNECTOR)
+                                      PropertyDefinition(QByteArrayLiteral("CRTC_ID"), Requirement::Required),
+                                      PropertyDefinition(QByteArrayLiteral("non-desktop"), Requirement::Optional),
+                                      PropertyDefinition(QByteArrayLiteral("DPMS"), Requirement::RequiredForLegacy),
+                                      PropertyDefinition(QByteArrayLiteral("EDID"), Requirement::Optional),
+                                      PropertyDefinition(QByteArrayLiteral("overscan"), Requirement::Optional),
+                                      PropertyDefinition(QByteArrayLiteral("vrr_capable"), Requirement::Optional),
+                                      PropertyDefinition(QByteArrayLiteral("underscan"), Requirement::Optional, {QByteArrayLiteral("off"), QByteArrayLiteral("on"), QByteArrayLiteral("auto")}),
+                                      PropertyDefinition(QByteArrayLiteral("underscan vborder"), Requirement::Optional),
+                                      PropertyDefinition(QByteArrayLiteral("underscan hborder"), Requirement::Optional),
+                                      PropertyDefinition(QByteArrayLiteral("Broadcast RGB"), Requirement::Optional, {QByteArrayLiteral("Automatic"), QByteArrayLiteral("Full"), QByteArrayLiteral("Limited 16:235")}),
+                                      PropertyDefinition(QByteArrayLiteral("max bpc"), Requirement::Optional),
+                                      PropertyDefinition(QByteArrayLiteral("link-status"), Requirement::Optional, {QByteArrayLiteral("Good"), QByteArrayLiteral("Bad")}),
+                                  },
+                DRM_MODE_OBJECT_CONNECTOR)
     , m_pipeline(new DrmPipeline(this))
     , m_conn(drmModeGetConnector(gpu->fd(), connectorId))
 {
     if (m_conn) {
         for (int i = 0; i < m_conn->count_encoders; ++i) {
-            m_encoders << m_conn->encoders[i];
+            DrmScopedPointer<drmModeEncoder> enc(drmModeGetEncoder(gpu->fd(), m_conn->encoders[i]));
+            if (!enc) {
+                qCWarning(KWIN_DRM) << "failed to get encoder" << m_conn->encoders[i];
+                continue;
+            }
+            m_possibleCrtcs |= enc->possible_crtcs;
         }
     } else {
         qCWarning(KWIN_DRM) << "drmModeGetConnector failed!" << strerror(errno);
     }
-}
-
-DrmConnector::~DrmConnector()
-{
-    qDeleteAll(m_modes);
 }
 
 bool DrmConnector::init()
@@ -154,8 +161,15 @@ static QHash<int, QByteArray> s_connectorNames = {
     {DRM_MODE_CONNECTOR_eDP, QByteArrayLiteral("eDP")},
     {DRM_MODE_CONNECTOR_VIRTUAL, QByteArrayLiteral("Virtual")},
     {DRM_MODE_CONNECTOR_DSI, QByteArrayLiteral("DSI")},
-#ifdef DRM_MODE_CONNECTOR_DPI
     {DRM_MODE_CONNECTOR_DPI, QByteArrayLiteral("DPI")},
+#ifdef DRM_MODE_CONNECTOR_WRITEBACK
+    {DRM_MODE_CONNECTOR_WRITEBACK, QByteArrayLiteral("Writeback")},
+#endif
+#ifdef DRM_MODE_CONNECTOR_SPI
+    {DRM_MODE_CONNECTOR_SPI, QByteArrayLiteral("SPI")},
+#endif
+#ifdef DRM_MODE_CONNECTOR_USB
+    {DRM_MODE_CONNECTOR_USB, QByteArrayLiteral("USB")},
 #endif
 };
 
@@ -176,7 +190,7 @@ QString DrmConnector::modelName() const
 bool DrmConnector::isInternal() const
 {
     return m_conn->connector_type == DRM_MODE_CONNECTOR_LVDS || m_conn->connector_type == DRM_MODE_CONNECTOR_eDP
-                || m_conn->connector_type == DRM_MODE_CONNECTOR_DSI;
+        || m_conn->connector_type == DRM_MODE_CONNECTOR_DSI;
 }
 
 QSize DrmConnector::physicalSize() const
@@ -184,68 +198,34 @@ QSize DrmConnector::physicalSize() const
     return m_physicalSize;
 }
 
-DrmConnectorMode *DrmConnector::currentMode() const
-{
-    return m_modes[m_modeIndex];
-}
-
-int DrmConnector::currentModeIndex() const
-{
-    return m_modeIndex;
-}
-
-QVector<DrmConnectorMode *> DrmConnector::modes() const
+QList<QSharedPointer<DrmConnectorMode>> DrmConnector::modes() const
 {
     return m_modes;
 }
 
-void DrmConnector::setModeIndex(int index)
+QSharedPointer<DrmConnectorMode> DrmConnector::findMode(const drmModeModeInfo &modeInfo) const
 {
-    m_modeIndex = index;
+    const auto it = std::find_if(m_modes.constBegin(), m_modes.constEnd(), [&modeInfo](const auto &mode) {
+        return checkIfEqual(mode->nativeMode(), &modeInfo);
+    });
+    return it == m_modes.constEnd() ? nullptr : *it;
 }
 
-static bool checkIfEqual(const drmModeModeInfo *one, const drmModeModeInfo *two)
-{
-    return one->clock       == two->clock
-        && one->hdisplay    == two->hdisplay
-        && one->hsync_start == two->hsync_start
-        && one->hsync_end   == two->hsync_end
-        && one->htotal      == two->htotal
-        && one->hskew       == two->hskew
-        && one->vdisplay    == two->vdisplay
-        && one->vsync_start == two->vsync_start
-        && one->vsync_end   == two->vsync_end
-        && one->vtotal      == two->vtotal
-        && one->vscan       == two->vscan
-        && one->vrefresh    == two->vrefresh;
-}
-
-void DrmConnector::findCurrentMode(drmModeModeInfo currentMode)
-{
-    for (int i = 0; i < m_modes.count(); i++) {
-        if (checkIfEqual(m_modes[i]->nativeMode(), &currentMode)) {
-            m_modeIndex = i;
-            return;
-        }
-    }
-    m_modeIndex = 0;
-}
-
-AbstractWaylandOutput::SubPixel DrmConnector::subpixel() const
+Output::SubPixel DrmConnector::subpixel() const
 {
     switch (m_conn->subpixel) {
     case DRM_MODE_SUBPIXEL_UNKNOWN:
-        return AbstractWaylandOutput::SubPixel::Unknown;
+        return Output::SubPixel::Unknown;
     case DRM_MODE_SUBPIXEL_NONE:
-        return AbstractWaylandOutput::SubPixel::None;
+        return Output::SubPixel::None;
     case DRM_MODE_SUBPIXEL_HORIZONTAL_RGB:
-        return AbstractWaylandOutput::SubPixel::Horizontal_RGB;
+        return Output::SubPixel::Horizontal_RGB;
     case DRM_MODE_SUBPIXEL_HORIZONTAL_BGR:
-        return AbstractWaylandOutput::SubPixel::Horizontal_BGR;
+        return Output::SubPixel::Horizontal_BGR;
     case DRM_MODE_SUBPIXEL_VERTICAL_RGB:
-        return AbstractWaylandOutput::SubPixel::Vertical_RGB;
+        return Output::SubPixel::Vertical_RGB;
     case DRM_MODE_SUBPIXEL_VERTICAL_BGR:
-        return AbstractWaylandOutput::SubPixel::Vertical_BGR;
+        return Output::SubPixel::Vertical_BGR;
     default:
         Q_UNREACHABLE();
     }
@@ -289,27 +269,16 @@ bool DrmConnector::needsModeset() const
     return rgb && rgb->needsCommit();
 }
 
-void DrmConnector::updateModes()
-{
-    qDeleteAll(m_modes);
-    m_modes.clear();
-
-    // reload modes
-    for (int i = 0; i < m_conn->count_modes; i++) {
-        m_modes.append(new DrmConnectorMode(this, m_conn->modes[i]));
-    }
-}
-
 bool DrmConnector::hasRgbRange() const
 {
     const auto &rgb = getProp(PropertyIndex::Broadcast_RGB);
     return rgb && rgb->hasAllEnums();
 }
 
-AbstractWaylandOutput::RgbRange DrmConnector::rgbRange() const
+Output::RgbRange DrmConnector::rgbRange() const
 {
     const auto &rgb = getProp(PropertyIndex::Broadcast_RGB);
-    return rgb->enumForValue<AbstractWaylandOutput::RgbRange>(rgb->pending());
+    return rgb->enumForValue<Output::RgbRange>(rgb->pending());
 }
 
 bool DrmConnector::updateProperties()
@@ -356,24 +325,46 @@ bool DrmConnector::updateProperties()
     // the size might be completely borked. E.g. Samsung SyncMaster 2494HS reports 160x90 while in truth it's 520x292
     // as this information is used to calculate DPI info, it's going to result in everything being huge
     const QByteArray unknown = QByteArrayLiteral("unknown");
-    KConfigGroup group = kwinApp()->config()->group("EdidOverwrite").group(m_edid.eisaId().isEmpty() ? unknown : m_edid.eisaId())
-                                                       .group(m_edid.monitorName().isEmpty() ? unknown : m_edid.monitorName())
-                                                       .group(m_edid.serialNumber().isEmpty() ? unknown : m_edid.serialNumber());
+    KConfigGroup group = kwinApp()->config()->group("EdidOverwrite").group(m_edid.eisaId().isEmpty() ? unknown : m_edid.eisaId()).group(m_edid.monitorName().isEmpty() ? unknown : m_edid.monitorName()).group(m_edid.serialNumber().isEmpty() ? unknown : m_edid.serialNumber());
     if (group.hasKey("PhysicalSize")) {
         const QSize overwriteSize = group.readEntry("PhysicalSize", m_physicalSize);
         qCWarning(KWIN_DRM) << "Overwriting monitor physical size for" << m_edid.eisaId() << "/" << m_edid.monitorName() << "/" << m_edid.serialNumber() << " from " << m_physicalSize << "to " << overwriteSize;
         m_physicalSize = overwriteSize;
     }
 
-    // init modes
-    updateModes();
+    // update modes
+    bool equal = m_conn->count_modes == m_driverModes.count();
+    for (int i = 0; equal && i < m_conn->count_modes; i++) {
+        equal &= checkIfEqual(m_driverModes[i]->nativeMode(), &m_conn->modes[i]);
+    }
+    if (!equal) {
+        // reload modes
+        m_driverModes.clear();
+        for (int i = 0; i < m_conn->count_modes; i++) {
+            m_driverModes.append(QSharedPointer<DrmConnectorMode>::create(this, m_conn->modes[i]));
+        }
+        if (m_driverModes.isEmpty()) {
+            return false;
+        } else {
+            m_modes.clear();
+            m_modes.append(m_driverModes);
+            m_modes.append(generateCommonModes());
+            if (!m_pipeline->mode()) {
+                m_pipeline->setMode(m_modes.constFirst());
+                m_pipeline->applyPendingChanges();
+            }
+            if (m_pipeline->output()) {
+                m_pipeline->output()->updateModes();
+            }
+        }
+    }
 
     return true;
 }
 
-QVector<uint32_t> DrmConnector::encoders() const
+bool DrmConnector::isCrtcSupported(DrmCrtc *crtc) const
 {
-    return m_encoders;
+    return (m_possibleCrtcs & (1 << crtc->pipeIndex()));
 }
 
 bool DrmConnector::isNonDesktop() const
@@ -405,7 +396,75 @@ DrmConnector::LinkStatus DrmConnector::linkStatus() const
     return LinkStatus::Good;
 }
 
-QDebug& operator<<(QDebug& s, const KWin::DrmConnector *obj)
+static const QVector<QSize> s_commonModes = {
+    /* 4:3 (1.33) */
+    QSize(1600, 1200),
+    QSize(1280, 1024), /* 5:4 (1.25) */
+    QSize(1024, 768),
+    /* 16:10 (1.6) */
+    QSize(2560, 1600),
+    QSize(1920, 1200),
+    QSize(1280, 800),
+    /* 16:9 (1.77) */
+    QSize(5120, 2880),
+    QSize(3840, 2160),
+    QSize(3200, 1800),
+    QSize(2880, 1620),
+    QSize(2560, 1440),
+    QSize(1920, 1080),
+    QSize(1600, 900),
+    QSize(1368, 768),
+    QSize(1280, 720),
+};
+
+QList<QSharedPointer<DrmConnectorMode>> DrmConnector::generateCommonModes()
+{
+    QList<QSharedPointer<DrmConnectorMode>> ret;
+    uint32_t maxBandwidthEstimation = 0;
+    QSize maxSize;
+    for (const auto &mode : qAsConst(m_driverModes)) {
+        if (mode->size().width() > maxSize.width() || mode->size().height() > maxSize.height()) {
+            maxSize = mode->size();
+            maxBandwidthEstimation = std::max(maxBandwidthEstimation, static_cast<uint32_t>(mode->size().width() * mode->size().height() * mode->refreshRate()));
+        }
+    }
+    for (const auto &size : s_commonModes) {
+        uint32_t bandwidthEstimation = size.width() * size.height() * 60000;
+        const auto it = std::find_if(m_driverModes.constBegin(), m_driverModes.constEnd(), [size](const auto &mode) {
+            return mode->size() == size;
+        });
+        if (it == m_driverModes.constEnd() && size.width() <= maxSize.width() && size.height() <= maxSize.height() && bandwidthEstimation < maxBandwidthEstimation) {
+            ret << generateMode(size, 60000);
+        }
+    }
+    return ret;
+}
+
+QSharedPointer<DrmConnectorMode> DrmConnector::generateMode(const QSize &size, uint32_t refreshRate)
+{
+    auto modeInfo = libxcvt_gen_mode_info(size.width(), size.height(), refreshRate, false, false);
+
+    drmModeModeInfo mode;
+    mode.vdisplay = modeInfo->vdisplay;
+    mode.hdisplay = modeInfo->hdisplay;
+    mode.clock = modeInfo->dot_clock;
+    mode.hsync_start = modeInfo->hsync_start;
+    mode.hsync_end = modeInfo->hsync_end;
+    mode.htotal = modeInfo->htotal;
+    mode.vsync_start = modeInfo->vsync_start;
+    mode.vsync_end = modeInfo->vsync_end;
+    mode.vtotal = modeInfo->vtotal;
+    mode.vrefresh = modeInfo->vrefresh;
+    mode.flags = modeInfo->mode_flags;
+
+    mode.type = DRM_MODE_TYPE_USERDEF;
+    sprintf(mode.name, "%dx%d@%d", size.width(), size.height(), mode.vrefresh);
+
+    free(modeInfo);
+    return QSharedPointer<DrmConnectorMode>::create(this, mode);
+}
+
+QDebug &operator<<(QDebug &s, const KWin::DrmConnector *obj)
 {
     QDebugStateSaver saver(s);
     if (obj) {
@@ -417,11 +476,7 @@ QDebug& operator<<(QDebug& s, const KWin::DrmConnector *obj)
             connState = QStringLiteral("Connected");
         }
 
-        s.nospace() << "DrmConnector(id=" << obj->id() <<
-                       ", gpu="<< obj->gpu() <<
-                       ", name="<< obj->modelName() <<
-                       ", connection=" << connState <<
-                       ", countMode=" << (obj->m_conn ? obj->m_conn->count_modes : 0)
+        s.nospace() << "DrmConnector(id=" << obj->id() << ", gpu=" << obj->gpu() << ", name=" << obj->modelName() << ", connection=" << connState << ", countMode=" << (obj->m_conn ? obj->m_conn->count_modes : 0)
                     << ')';
     } else {
         s << "DrmConnector(0x0)";

@@ -9,51 +9,45 @@
 */
 #include "drm_virtual_output.h"
 
+#include "drm_backend.h"
+#include "drm_gpu.h"
+#include "drm_layer.h"
+#include "drm_render_backend.h"
+#include "logging.h"
 #include "renderloop_p.h"
 #include "softwarevsyncmonitor.h"
-#include "drm_gpu.h"
-#include "drm_backend.h"
-#include "logging.h"
 
 namespace KWin
 {
-static int s_serial = 0;
-DrmVirtualOutput::DrmVirtualOutput(DrmGpu *gpu, const QSize &size)
-    : DrmVirtualOutput(QString::number(s_serial++), gpu, size)
-{
-}
 
-DrmVirtualOutput::DrmVirtualOutput(const QString &name, DrmGpu *gpu, const QSize &size)
+DrmVirtualOutput::DrmVirtualOutput(const QString &name, DrmGpu *gpu, const QSize &size, Type type)
     : DrmAbstractOutput(gpu)
     , m_vsyncMonitor(SoftwareVsyncMonitor::create(this))
 {
     connect(m_vsyncMonitor, &VsyncMonitor::vblankOccurred, this, &DrmVirtualOutput::vblank);
 
-    setName("Virtual-" + name);
-    m_modeIndex = 0;
-    QVector<Mode> modes = {{size, 60000, AbstractWaylandOutput::ModeFlags(AbstractWaylandOutput::ModeFlag::Current) | AbstractWaylandOutput::ModeFlag::Preferred, 0}};
-    initialize(QLatin1String("model_") + name,
-               QLatin1String("manufacturer_") + name,
-               QLatin1String("eisa_") + name,
-               QLatin1String("serial_") + name,
-               modes[m_modeIndex].size,
-               modes,
-               QByteArray("EDID_") + name.toUtf8());
-    m_renderLoop->setRefreshRate(modes[m_modeIndex].refreshRate);
+    auto mode = QSharedPointer<OutputMode>::create(size, 60000, OutputMode::Flag::Preferred);
+    setModesInternal({mode}, mode);
+    m_renderLoop->setRefreshRate(mode->refreshRate());
+
+    setInformation(Information{
+        .name = QStringLiteral("Virtual-") + name,
+        .physicalSize = size,
+        .placeholder = type == Type::Placeholder,
+    });
+
+    recreateSurface();
 }
 
 DrmVirtualOutput::~DrmVirtualOutput()
 {
 }
 
-bool DrmVirtualOutput::present(const QSharedPointer<DrmBuffer> &buffer, QRegion damagedRegion)
+bool DrmVirtualOutput::present()
 {
-    Q_UNUSED(damagedRegion)
-
-    m_currentBuffer = buffer;
     m_vsyncMonitor->arm();
     m_pageFlipPending = true;
-    Q_EMIT outputChange(damagedRegion);
+    Q_EMIT outputChange(m_layer->currentDamage());
     return true;
 }
 
@@ -72,51 +66,17 @@ void DrmVirtualOutput::setDpmsMode(DpmsMode mode)
 
 void DrmVirtualOutput::updateEnablement(bool enable)
 {
-    gpu()->platform()->enableOutput(this, enable);
+    m_gpu->platform()->enableOutput(this, enable);
 }
 
-QSize DrmVirtualOutput::bufferSize() const
+DrmOutputLayer *DrmVirtualOutput::outputLayer() const
 {
-    return pixelSize();
+    return m_layer.data();
 }
 
-QSize DrmVirtualOutput::sourceSize() const
+void DrmVirtualOutput::recreateSurface()
 {
-    return pixelSize();
-}
-
-bool DrmVirtualOutput::isFormatSupported(uint32_t drmFormat) const
-{
-    Q_UNUSED(drmFormat);
-    return true;
-}
-
-QVector<uint64_t> DrmVirtualOutput::supportedModifiers(uint32_t drmFormat) const
-{
-    Q_UNUSED(drmFormat);
-    // empty list -> implicit modifiers are used / modifier is freely chosen by gbm
-    return {};
-}
-
-int DrmVirtualOutput::gammaRampSize() const
-{
-    return 200;
-}
-
-bool DrmVirtualOutput::setGammaRamp(const GammaRamp &gamma)
-{
-    Q_UNUSED(gamma);
-    return true;
-}
-
-bool DrmVirtualOutput::needsSoftwareTransformation() const
-{
-    return false;
-}
-
-int DrmVirtualOutput::maxBpc() const
-{
-    return 8;
+    m_layer = m_gpu->platform()->renderBackend()->createLayer(this);
 }
 
 }

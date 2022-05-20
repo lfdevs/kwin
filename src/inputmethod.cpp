@@ -7,40 +7,43 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "inputmethod.h"
-#include "abstract_client.h"
-#include "virtualkeyboard_dbus.h"
+
+#include <config-kwin.h>
+
 #include "input.h"
-#include "inputpanelv1client.h"
+#include "inputpanelv1window.h"
 #include "keyboard_input.h"
-#include "utils/common.h"
 #include "screens.h"
+#include "utils/common.h"
+#include "virtualkeyboard_dbus.h"
 #include "wayland_server.h"
+#include "window.h"
 #include "workspace.h"
+#if KWIN_BUILD_SCREENLOCKER
 #include "screenlockerwatcher.h"
+#endif
 #include "deleted.h"
-#include "touch_input.h"
 #include "tablet_input.h"
+#include "touch_input.h"
+#include "wayland/display.h"
+#include "wayland/inputmethod_v1_interface.h"
+#include "wayland/keyboard_interface.h"
+#include "wayland/seat_interface.h"
+#include "wayland/surface_interface.h"
+#include "wayland/textinput_v3_interface.h"
 
-#include <KWaylandServer/display.h>
-#include <KWaylandServer/keyboard_interface.h>
-#include <KWaylandServer/seat_interface.h>
-#include <KWaylandServer/textinput_v3_interface.h>
-#include <KWaylandServer/surface_interface.h>
-#include <KWaylandServer/inputmethod_v1_interface.h>
-
-#include <KShell>
-#include <KStatusNotifierItem>
 #include <KLocalizedString>
+#include <KShell>
 
 #include <QDBusConnection>
-#include <QDBusPendingCall>
 #include <QDBusMessage>
-#include <QMenu>
+#include <QDBusPendingCall>
 #include <QKeyEvent>
+#include <QMenu>
 
 #include <linux/input-event-codes.h>
-#include <xkbcommon/xkbcommon-keysyms.h>
 #include <unistd.h>
+#include <xkbcommon/xkbcommon-keysyms.h>
 
 using namespace KWaylandServer;
 
@@ -77,7 +80,9 @@ void InputMethod::init()
     connect(&m_inputMethodCrashTimer, &QTimer::timeout, this, [this] {
         m_inputMethodCrashes = 0;
     });
+#if KWIN_BUILD_SCREENLOCKER
     connect(ScreenLockerWatcher::self(), &ScreenLockerWatcher::aboutToLock, this, &InputMethod::hide);
+#endif
 
     new VirtualKeyboardDBus(this);
     qCDebug(KWIN_VIRTUALKEYBOARD) << "Registering the DBus interface";
@@ -110,16 +115,16 @@ void InputMethod::init()
 
 void InputMethod::show()
 {
-    if (m_inputClient) {
-        m_inputClient->showClient();
+    if (m_panel) {
+        m_panel->showClient();
         updateInputPanelState();
     }
 }
 
 void InputMethod::hide()
 {
-    if (m_inputClient) {
-        m_inputClient->hideClient();
+    if (m_panel) {
+        m_panel->hideClient();
         updateInputPanelState();
     }
 }
@@ -155,45 +160,51 @@ void InputMethod::setActive(bool active)
     }
 }
 
-void InputMethod::setPanel(InputPanelV1Client *client)
+InputPanelV1Window *InputMethod::panel() const
 {
-    Q_ASSERT(client->isInputMethod());
-    if (m_inputClient) {
-        qCWarning(KWIN_VIRTUALKEYBOARD) << "Replacing input client" << m_inputClient << "with" << client;
-        disconnect(m_inputClient, nullptr, this, nullptr);
-    }
-
-    m_inputClient = client;
-    connect(client->surface(), &SurfaceInterface::inputChanged, this, &InputMethod::updateInputPanelState);
-    connect(client, &QObject::destroyed, this, [this] {
-        if (m_trackedClient) {
-            m_trackedClient->setVirtualKeyboardGeometry({});
-        }
-    });
-    connect(m_inputClient, &AbstractClient::frameGeometryChanged, this, &InputMethod::updateInputPanelState);
-    connect(m_inputClient, &AbstractClient::windowHidden, this, &InputMethod::updateInputPanelState);
-    connect(m_inputClient, &AbstractClient::windowClosed, this, &InputMethod::updateInputPanelState);
-    connect(m_inputClient, &AbstractClient::windowShown, this, &InputMethod::visibleChanged);
-    connect(m_inputClient, &AbstractClient::windowHidden, this, &InputMethod::visibleChanged);
-    connect(m_inputClient, &AbstractClient::windowClosed, this, &InputMethod::visibleChanged);
-    Q_EMIT visibleChanged();
-    updateInputPanelState();
+    return m_panel;
 }
 
-void InputMethod::setTrackedClient(AbstractClient* trackedClient)
+void InputMethod::setPanel(InputPanelV1Window *panel)
 {
-    // Reset the old client virtual keybaord geom if necessary
-    // Old and new clients could be the same if focus moves between subsurfaces
-    if (m_trackedClient == trackedClient) {
+    Q_ASSERT(panel->isInputMethod());
+    if (m_panel) {
+        qCWarning(KWIN_VIRTUALKEYBOARD) << "Replacing input panel" << m_panel << "with" << panel;
+        disconnect(m_panel, nullptr, this, nullptr);
+    }
+
+    m_panel = panel;
+    connect(panel->surface(), &SurfaceInterface::inputChanged, this, &InputMethod::updateInputPanelState);
+    connect(panel, &QObject::destroyed, this, [this] {
+        if (m_trackedWindow) {
+            m_trackedWindow->setVirtualKeyboardGeometry({});
+        }
+    });
+    connect(m_panel, &Window::frameGeometryChanged, this, &InputMethod::updateInputPanelState);
+    connect(m_panel, &Window::windowHidden, this, &InputMethod::updateInputPanelState);
+    connect(m_panel, &Window::windowClosed, this, &InputMethod::updateInputPanelState);
+    connect(m_panel, &Window::windowShown, this, &InputMethod::visibleChanged);
+    connect(m_panel, &Window::windowHidden, this, &InputMethod::visibleChanged);
+    connect(m_panel, &Window::windowClosed, this, &InputMethod::visibleChanged);
+    Q_EMIT visibleChanged();
+    updateInputPanelState();
+    Q_EMIT panelChanged();
+}
+
+void InputMethod::setTrackedWindow(Window *trackedWindow)
+{
+    // Reset the old window virtual keybaord geom if necessary
+    // Old and new windows could be the same if focus moves between subsurfaces
+    if (m_trackedWindow == trackedWindow) {
         return;
     }
-    if (m_trackedClient) {
-        m_trackedClient->setVirtualKeyboardGeometry(QRect());
-        disconnect(m_trackedClient, &AbstractClient::frameGeometryChanged, this, &InputMethod::updateInputPanelState);
+    if (m_trackedWindow) {
+        m_trackedWindow->setVirtualKeyboardGeometry(QRect());
+        disconnect(m_trackedWindow, &Window::frameGeometryChanged, this, &InputMethod::updateInputPanelState);
     }
-    m_trackedClient = trackedClient;
-    if (m_trackedClient) {
-        connect(m_trackedClient, &AbstractClient::frameGeometryChanged, this, &InputMethod::updateInputPanelState, Qt::QueuedConnection);
+    m_trackedWindow = trackedWindow;
+    if (m_trackedWindow) {
+        connect(m_trackedWindow, &Window::frameGeometryChanged, this, &InputMethod::updateInputPanelState, Qt::QueuedConnection);
     }
     updateInputPanelState();
 }
@@ -201,7 +212,7 @@ void InputMethod::setTrackedClient(AbstractClient* trackedClient)
 void InputMethod::handleFocusedSurfaceChanged()
 {
     SurfaceInterface *focusedSurface = waylandServer()->seat()->focusedTextInputSurface();
-    setTrackedClient(waylandServer()->findClient(focusedSurface));
+    setTrackedWindow(waylandServer()->findWindow(focusedSurface));
     if (!focusedSurface) {
         setActive(false);
     }
@@ -256,8 +267,8 @@ void InputMethod::textInputInterfaceV2StateUpdated(quint32 serial, KWaylandServe
     if (!t2 || !t2->isEnabled()) {
         return;
     }
-    if (m_inputClient && shouldShowOnActive()) {
-        m_inputClient->allow();
+    if (m_panel && shouldShowOnActive()) {
+        m_panel->allow();
     }
     switch (reason) {
     case KWaylandServer::TextInputV2Interface::UpdateReason::StateChange:
@@ -330,8 +341,7 @@ void InputMethod::setEnabled(bool enabled)
         QStringLiteral("org.kde.plasmashell"),
         QStringLiteral("/org/kde/osdService"),
         QStringLiteral("org.kde.osdService"),
-        QStringLiteral("virtualKeyboardEnabledChanged")
-    );
+        QStringLiteral("virtualKeyboardEnabledChanged"));
     msg.setArguments({enabled});
     QDBusConnection::sessionBus().asyncCall(msg);
     if (!m_enabled) {
@@ -347,7 +357,7 @@ void InputMethod::setEnabled(bool enabled)
 
 static quint32 keysymToKeycode(quint32 sym)
 {
-    switch(sym) {
+    switch (sym) {
     case XKB_KEY_BackSpace:
         return KEY_BACKSPACE;
     case XKB_KEY_Return:
@@ -510,7 +520,7 @@ void InputMethod::setPreeditString(uint32_t serial, const QString &text, const Q
                 if (preedit.highlightRanges.front().first == cursor) {
                     quint32 end = preedit.highlightRanges.front().second;
                     bool nonContinousHighlight = false;
-                    for (size_t i = 1 ; i < preedit.highlightRanges.size(); i ++) {
+                    for (size_t i = 1; i < preedit.highlightRanges.size(); i++) {
                         if (end >= preedit.highlightRanges[i].first) {
                             end = std::max(end, preedit.highlightRanges[i].second);
                         } else {
@@ -606,21 +616,21 @@ void InputMethod::updateInputPanelState()
         return;
     }
 
-    if (m_inputClient && shouldShowOnActive()) {
-        m_inputClient->allow();
+    if (m_panel && shouldShowOnActive()) {
+        m_panel->allow();
     }
 
     QRect overlap = QRect(0, 0, 0, 0);
-    if (m_trackedClient) {
-        const bool bottomKeyboard = m_inputClient && m_inputClient->mode() != InputPanelV1Client::Overlay && m_inputClient->isShown();
-        m_trackedClient->setVirtualKeyboardGeometry(bottomKeyboard ? m_inputClient->inputGeometry() : QRect());
+    if (m_trackedWindow) {
+        const bool bottomKeyboard = m_panel && m_panel->mode() != InputPanelV1Window::Overlay && m_panel->isShown();
+        m_trackedWindow->setVirtualKeyboardGeometry(bottomKeyboard ? m_panel->inputGeometry() : QRect());
 
-        if (m_inputClient && m_inputClient->mode() != InputPanelV1Client::Overlay) {
-            overlap = m_trackedClient->frameGeometry() & m_inputClient->inputGeometry();
-            overlap.moveTo(m_trackedClient->mapToLocal(overlap.topLeft()));
+        if (m_panel && m_panel->mode() != InputPanelV1Window::Overlay) {
+            overlap = m_trackedWindow->frameGeometry() & m_panel->inputGeometry();
+            overlap.moveTo(m_trackedWindow->mapToLocal(overlap.topLeft()));
         }
     }
-    t->setInputPanelState(m_inputClient && m_inputClient->isShown(), overlap);
+    t->setInputPanelState(m_panel && m_panel->isShown(), overlap);
 }
 
 void InputMethod::setInputMethodCommand(const QString &command)
@@ -679,6 +689,10 @@ void InputMethod::startInputMethod()
     QProcessEnvironment environment = kwinApp()->processStartupEnvironment();
     environment.insert(QStringLiteral("WAYLAND_SOCKET"), QByteArray::number(socket));
     environment.insert(QStringLiteral("QT_QPA_PLATFORM"), QStringLiteral("wayland"));
+    // When we use Maliit as virtual keyboard, we want KWin to handle the animation
+    // since that works a lot better. So we need to tell Maliit to not do client side
+    // animation.
+    environment.insert(QStringLiteral("MALIIT_ENABLE_ANIMATIONS"), "0");
 
     m_inputMethodProcess = new QProcess(this);
     m_inputMethodProcess->setProcessChannelMode(QProcess::ForwardedErrorChannel);
@@ -730,7 +744,7 @@ void InputMethod::updateModifiersMap(const QByteArray &modifiers)
 
 bool InputMethod::isVisible() const
 {
-    return m_inputClient && m_inputClient->isShown();
+    return m_panel && m_panel->isShown();
 }
 
 bool InputMethod::isAvailable() const
@@ -738,7 +752,8 @@ bool InputMethod::isAvailable() const
     return !m_inputMethodCommand.isEmpty();
 }
 
-void InputMethod::resetPendingPreedit() {
+void InputMethod::resetPendingPreedit()
+{
     preedit.text = QString();
     preedit.cursor = 0;
     preedit.highlightRanges.clear();

@@ -11,10 +11,10 @@
 #include "basiceglsurfacetexture_internal.h"
 #include "basiceglsurfacetexture_wayland.h"
 #include "composite.h"
-#include "virtual_backend.h"
 #include "options.h"
 #include "screens.h"
 #include "softwarevsyncmonitor.h"
+#include "virtual_backend.h"
 #include "virtual_output.h"
 #include <logging.h>
 // kwin libs
@@ -30,9 +30,26 @@
 namespace KWin
 {
 
+VirtualOutputLayer::VirtualOutputLayer(EglGbmBackend *backend)
+    : m_backend(backend)
+{
+}
+
+OutputLayerBeginFrameInfo VirtualOutputLayer::beginFrame()
+{
+    return m_backend->beginFrame();
+}
+
+void VirtualOutputLayer::endFrame(const QRegion &renderedRegion, const QRegion &damagedRegion)
+{
+    Q_UNUSED(renderedRegion)
+    Q_UNUSED(damagedRegion)
+}
+
 EglGbmBackend::EglGbmBackend(VirtualBackend *b)
     : AbstractEglBackend()
     , m_backend(b)
+    , m_layer(new VirtualOutputLayer(this))
 {
     // Egl is always direct rendering
     setIsDirectRendering(true);
@@ -40,8 +57,8 @@ EglGbmBackend::EglGbmBackend(VirtualBackend *b)
 
 EglGbmBackend::~EglGbmBackend()
 {
-    while (GLRenderTarget::isRenderTargetBound()) {
-        GLRenderTarget::popRenderTarget();
+    while (GLFramebuffer::currentFramebuffer()) {
+        GLFramebuffer::popFramebuffer();
     }
     delete m_fbo;
     delete m_backBuffer;
@@ -64,8 +81,9 @@ bool EglGbmBackend::initializeEgl()
         }
     }
 
-    if (display == EGL_NO_DISPLAY)
+    if (display == EGL_NO_DISPLAY) {
         return false;
+    }
     setEglDisplay(display);
     return initEglAPI();
 }
@@ -84,13 +102,13 @@ void EglGbmBackend::init()
     initKWinGL();
 
     m_backBuffer = new GLTexture(GL_RGB8, screens()->size().width(), screens()->size().height());
-    m_fbo = new GLRenderTarget(*m_backBuffer);
+    m_fbo = new GLFramebuffer(m_backBuffer);
     if (!m_fbo->valid()) {
         setFailed("Could not create framebuffer object");
         return;
     }
-    GLRenderTarget::pushRenderTarget(m_fbo);
-    if (!m_fbo->isRenderTargetBound()) {
+    GLFramebuffer::pushFramebuffer(m_fbo);
+    if (!GLFramebuffer::currentFramebuffer()) {
         setFailed("Failed to bind framebuffer object");
         return;
     }
@@ -117,13 +135,20 @@ bool EglGbmBackend::initRenderingContext()
 bool EglGbmBackend::initBufferConfigs()
 {
     const EGLint config_attribs[] = {
-        EGL_SURFACE_TYPE,         EGL_WINDOW_BIT,
-        EGL_RED_SIZE,             1,
-        EGL_GREEN_SIZE,           1,
-        EGL_BLUE_SIZE,            1,
-        EGL_ALPHA_SIZE,           0,
-        EGL_RENDERABLE_TYPE,      isOpenGLES() ? EGL_OPENGL_ES2_BIT : EGL_OPENGL_BIT,
-        EGL_CONFIG_CAVEAT,        EGL_NONE,
+        EGL_SURFACE_TYPE,
+        EGL_WINDOW_BIT,
+        EGL_RED_SIZE,
+        1,
+        EGL_GREEN_SIZE,
+        1,
+        EGL_BLUE_SIZE,
+        1,
+        EGL_ALPHA_SIZE,
+        0,
+        EGL_RENDERABLE_TYPE,
+        isOpenGLES() ? EGL_OPENGL_ES2_BIT : EGL_OPENGL_BIT,
+        EGL_CONFIG_CAVEAT,
+        EGL_NONE,
         EGL_NONE,
     };
 
@@ -150,13 +175,15 @@ SurfaceTexture *EglGbmBackend::createSurfaceTextureWayland(SurfacePixmapWayland 
     return new BasicEGLSurfaceTextureWayland(this, pixmap);
 }
 
-QRegion EglGbmBackend::beginFrame(AbstractOutput *output)
+OutputLayerBeginFrameInfo EglGbmBackend::beginFrame()
 {
-    Q_UNUSED(output)
-    if (!GLRenderTarget::isRenderTargetBound()) {
-        GLRenderTarget::pushRenderTarget(m_fbo);
+    if (!GLFramebuffer::currentFramebuffer()) {
+        GLFramebuffer::pushFramebuffer(m_fbo);
     }
-    return QRegion(0, 0, screens()->size().width(), screens()->size().height());
+    return OutputLayerBeginFrameInfo{
+        .renderTarget = RenderTarget(m_fbo),
+        .repaint = infiniteRegion(),
+    };
 }
 
 static void convertFromGLImage(QImage &img, int w, int h)
@@ -176,35 +203,38 @@ static void convertFromGLImage(QImage &img, int w, int h)
     } else {
         // OpenGL gives ABGR (i.e. RGBA backwards); Qt wants ARGB
         for (int y = 0; y < h; y++) {
-            uint *q = reinterpret_cast<uint*>(img.scanLine(y));
+            uint *q = reinterpret_cast<uint *>(img.scanLine(y));
             for (int x = 0; x < w; ++x) {
                 const uint pixel = *q;
                 *q = ((pixel << 16) & 0xff0000) | ((pixel >> 16) & 0xff)
-                     | (pixel & 0xff00ff00);
+                    | (pixel & 0xff00ff00);
 
                 q++;
             }
         }
-
     }
     img = img.mirrored();
 }
 
-void EglGbmBackend::endFrame(AbstractOutput *output, const QRegion &renderedRegion, const QRegion &damagedRegion)
+OutputLayer *EglGbmBackend::primaryLayer(Output *output)
 {
-    Q_UNUSED(renderedRegion)
-    Q_UNUSED(damagedRegion)
+    Q_UNUSED(output)
+    return m_layer.get();
+}
+
+void EglGbmBackend::present(Output *output)
+{
     glFlush();
 
     static_cast<VirtualOutput *>(output)->vsyncMonitor()->arm();
 
     if (m_backend->saveFrames()) {
         QImage img = QImage(QSize(m_backBuffer->width(), m_backBuffer->height()), QImage::Format_ARGB32);
-        glReadnPixels(0, 0, m_backBuffer->width(), m_backBuffer->height(), GL_RGBA, GL_UNSIGNED_BYTE, img.sizeInBytes(), (GLvoid*)img.bits());
+        glReadnPixels(0, 0, m_backBuffer->width(), m_backBuffer->height(), GL_RGBA, GL_UNSIGNED_BYTE, img.sizeInBytes(), (GLvoid *)img.bits());
         convertFromGLImage(img, m_backBuffer->width(), m_backBuffer->height());
         img.save(QStringLiteral("%1/%2.png").arg(m_backend->saveFrames()).arg(QString::number(m_frameCounter++)));
     }
-    GLRenderTarget::popRenderTarget();
+    GLFramebuffer::popFramebuffer();
 
     eglSwapBuffers(eglDisplay(), surface());
 }

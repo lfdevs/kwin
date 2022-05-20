@@ -5,9 +5,9 @@
 */
 
 #include "desktopbackgrounditem.h"
-#include "abstract_client.h"
-#include "abstract_output.h"
-#ifdef KWIN_BUILD_ACTIVITIES
+#include "output.h"
+#include "window.h"
+#if KWIN_BUILD_ACTIVITIES
 #include "activities.h"
 #endif
 #include "main.h"
@@ -40,12 +40,12 @@ void DesktopBackgroundItem::setOutputName(const QString &name)
     setOutput(kwinApp()->platform()->findOutput(name));
 }
 
-AbstractOutput *DesktopBackgroundItem::output() const
+Output *DesktopBackgroundItem::output() const
 {
     return m_output;
 }
 
-void DesktopBackgroundItem::setOutput(AbstractOutput *output)
+void DesktopBackgroundItem::setOutput(Output *output)
 {
     if (m_output != output) {
         m_output = output;
@@ -100,13 +100,13 @@ void DesktopBackgroundItem::updateWindow()
 
     QString activity = m_activity;
     if (activity.isEmpty()) {
-#ifdef KWIN_BUILD_ACTIVITIES
+#if KWIN_BUILD_ACTIVITIES
         activity = Activities::self()->current();
 #endif
     }
 
     const auto clients = workspace()->allClientList();
-    for (AbstractClient *client : clients) {
+    for (Window *client : clients) {
         if (client->isDesktop() && client->isOnOutput(m_output) && client->isOnDesktop(desktop) && client->isOnActivity(activity)) {
             setClient(client);
             break;
@@ -115,3 +115,5 @@ void DesktopBackgroundItem::updateWindow()
 }
 
 } // namespace KWin
+
+#include "moc_desktopbackgrounditem.cpp"

@@ -252,7 +252,8 @@ void ScreenShotSinkPipe2::flush(const QImage &image)
         const QByteArray buffer(reinterpret_cast<const char *>(image.constBits()),
                                 image.sizeInBytes());
         writeBufferToPipe(fileDescriptor, buffer);
-    }, m_fileDescriptor, image);
+    },
+                      m_fileDescriptor, image);
 
     // The ownership of the pipe file descriptor has been moved to the worker thread.
     m_fileDescriptor = -1;
@@ -334,7 +335,7 @@ QVariantMap ScreenShotDBusInterface2::CaptureWindow(const QString &handle,
         return QVariantMap();
     }
 
-    EffectWindow *window = effects->findWindow(handle);
+    EffectWindow *window = effects->findWindow(QUuid(handle));
     if (!window) {
         bool ok;
         const int winId = handle.toInt(&ok);

@@ -1,13 +1,13 @@
 # Copyright (C) YEAR This file is copyright:
 # This file is distributed under the same license as the kwin package.
 #
-# Phu Hung Nguyen <phu.nguyen@kdemail.net>, 2021.
+# Phu Hung Nguyen <phu.nguyen@kdemail.net>, 2021, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-01-14 02:21+0000\n"
-"PO-Revision-Date: 2021-10-06 15:24+0200\n"
+"POT-Creation-Date: 2022-05-12 00:46+0000\n"
+"PO-Revision-Date: 2022-05-12 17:49+0200\n"
 "Last-Translator: Phu Hung Nguyen <phu.nguyen@kdemail.net>\n"
 "Language-Team: Vietnamese <kde-l10n-vi@kde.org>\n"
 "Language: vi\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 20.12.2\n"
+"X-Generator: Lokalize 21.12.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -27,75 +27,65 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "phu.nguyen@kdemail.net"
 
-#: main.cpp:118 touch.cpp:116
+#: main.cpp:130 touch.cpp:124
 #, kde-format
 msgid "No Action"
 msgstr "Không hành động"
 
-#: main.cpp:119 touch.cpp:117
+#: main.cpp:131 touch.cpp:125
 #, kde-format
 msgid "Show Desktop"
 msgstr "Hiện bàn làm việc"
 
-#: main.cpp:120 touch.cpp:118
+#: main.cpp:132 touch.cpp:126
 #, kde-format
 msgid "Lock Screen"
 msgstr "Khoá màn hình"
 
-#: main.cpp:121 touch.cpp:119
+#: main.cpp:133 touch.cpp:127
 #, kde-format
 msgid "Show KRunner"
 msgstr "Hiện KRunner"
 
-#: main.cpp:122 touch.cpp:120
+#: main.cpp:134 touch.cpp:128
 #, kde-format
 msgid "Activity Manager"
 msgstr "Trình quản lí Hoạt động"
 
-#: main.cpp:123 touch.cpp:121
+#: main.cpp:135 touch.cpp:129
 #, kde-format
 msgid "Application Launcher"
 msgstr "Trình khởi chạy ứng dụng"
 
-#: main.cpp:127 touch.cpp:125
+#: main.cpp:139 touch.cpp:133
 #, kde-format
 msgid "Present Windows"
-msgstr ""
+msgstr "Các cửa sổ hiện thời"
 
-#: main.cpp:128 touch.cpp:126
+#: main.cpp:140 touch.cpp:134
 #, kde-format
 msgid "%1 - All Desktops"
 msgstr "%1 - Tất cả các bàn làm việc"
 
-#: main.cpp:129 touch.cpp:127
+#: main.cpp:141 touch.cpp:135
 #, kde-format
 msgid "%1 - Current Desktop"
 msgstr "%1 - Bàn làm việc hiện tại"
 
-#: main.cpp:130 touch.cpp:128
+#: main.cpp:142 touch.cpp:136
 #, kde-format
 msgid "%1 - Current Application"
 msgstr "%1 - Ứng dụng hiện tại"
 
-#: main.cpp:131 touch.cpp:129
-#, kde-format
-msgid "Desktop Grid"
-msgstr ""
-
-#: main.cpp:133 touch.cpp:131
+#: main.cpp:144 touch.cpp:138
 #, kde-format
 msgid "Toggle window switching"
 msgstr "Bật/tắt chuyển cửa sổ"
 
-#: main.cpp:134 touch.cpp:132
+#: main.cpp:145 touch.cpp:139
 #, kde-format
 msgid "Toggle alternative window switching"
 msgstr "Bật/tắt chuyển cửa sổ thay thế"
-
-#: main.cpp:136 touch.cpp:134
-#, kde-format
-msgid "Toggle Overview"
-msgstr "Bật/tắt tổng quan"
 
 #. i18n: ectx: property (text), widget (QLabel, infoLabel)
 #: main.ui:23
@@ -131,64 +121,76 @@ msgstr "&Lát:"
 msgid "Windows dragged to left or right edge"
 msgstr "Các cửa sổ được kéo sang cạnh trái hoặc phải"
 
-#. i18n: ectx: property (text), widget (QLabel, electricBorderCornerRatioLabel)
+#. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:101
+#, kde-format
+msgid "Behavior"
+msgstr "Ứng xử"
+
+#. i18n: ectx: property (text), widget (QCheckBox, remainActiveOnFullscreen)
+#: main.ui:108
+#, kde-format
+msgid "Remain active when windows are fullscreen"
+msgstr "Vẫn hoạt động khi cửa sổ chiếm toàn màn hình"
+
+#. i18n: ectx: property (text), widget (QLabel, electricBorderCornerRatioLabel)
+#: main.ui:115
 #, kde-format
 msgid "Trigger &quarter tiling in:"
 msgstr "Kích hoạt lát phần tư ở kh&oảng:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, electricBorderCornerRatioSpin)
-#: main.ui:116
+#: main.ui:130
 #, no-c-format, kde-format
 msgid "%"
 msgstr "%"
 
 #. i18n: ectx: property (prefix), widget (QSpinBox, electricBorderCornerRatioSpin)
-#: main.ui:119
+#: main.ui:133
 #, kde-format
 msgid "Outer "
 msgstr "ngoài "
 
 #. i18n: ectx: property (text), widget (QLabel, label_1)
-#: main.ui:135
+#: main.ui:149
 #, kde-format
 msgid "of the screen"
 msgstr "cạnh màn hình"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, desktopSwitchLabel)
-#: main.ui:144
+#: main.ui:174
 #, kde-format
 msgid ""
 "Change desktop when the mouse cursor is pushed against the edge of the screen"
 msgstr "Đổi bàn làm việc khi con trỏ chuột bị đẩy vào cạnh màn hình"
 
 #. i18n: ectx: property (text), widget (QLabel, desktopSwitchLabel)
-#: main.ui:147
+#: main.ui:177
 #, kde-format
 msgid "&Switch desktop on edge:"
 msgstr "Chuyển &bàn làm việc ở cạnh:"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_ElectricBorders)
-#: main.ui:158
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ElectricBorders)
+#: main.ui:188
 #, kde-format
 msgctxt "Switch desktop on edge"
 msgid "Disabled"
 msgstr "Tắt"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_ElectricBorders)
-#: main.ui:163
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ElectricBorders)
+#: main.ui:193
 #, kde-format
 msgid "Only When Moving Windows"
 msgstr "Chỉ khi di chuyển cửa sổ"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, kcfg_ElectricBorders)
-#: main.ui:168
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ElectricBorders)
+#: main.ui:198
 #, kde-format
 msgid "Always Enabled"
 msgstr "Luôn bật"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, activationDelayLabel)
-#: main.ui:176
+#: main.ui:206
 #, kde-format
 msgid ""
 "Amount of time required for the mouse cursor to be pushed against the edge "
@@ -198,20 +200,20 @@ msgstr ""
 "hành động được kích hoạt"
 
 #. i18n: ectx: property (text), widget (QLabel, activationDelayLabel)
-#: main.ui:179
+#: main.ui:209
 #, kde-format
 msgid "Activation &delay:"
 msgstr "Độ trễ &kích hoạt:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_ElectricBorderDelay)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_ElectricBorderCooldown)
-#: main.ui:189 main.ui:224
+#: main.ui:219 main.ui:254
 #, kde-format
 msgid " ms"
 msgstr " ms"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, triggerCooldownLabel)
-#: main.ui:208
+#: main.ui:238
 #, kde-format
 msgid ""
 "Amount of time required after triggering an action until the next trigger "
@@ -221,7 +223,7 @@ msgstr ""
 "hoạt tiếp theo có thể xảy ra"
 
 #. i18n: ectx: property (text), widget (QLabel, triggerCooldownLabel)
-#: main.ui:211
+#: main.ui:241
 #, kde-format
 msgid "&Reactivation delay:"
 msgstr "Độ trễ &tái kích hoạt:"

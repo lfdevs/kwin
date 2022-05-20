@@ -4,7 +4,7 @@
 #
 # Goodhorse <franklin@goodhorse.idv.tw>, 2008.
 # Franklin Weng <franklin@goodhorse.idv.tw>, 2008, 2010, 2011, 2012, 2013, 2014.
-# Jeff Huang <s8321414@gmail.com>, 2016.
+# Jeff Huang <s8321414@gmail.com>, 2016, 2022.
 # pan93412 <pan93412@gmail.com>, 2018, 2019.
 # Franklin Weng <franklin at goodhorse dot idv dot tw>, 2007, 2008.
 # Frank Weng (a.k.a. Franklin) <franklin at goodhorse dot idv dot tw>, 2008, 2009, 2010.
@@ -12,27 +12,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-01-14 02:21+0000\n"
-"PO-Revision-Date: 2019-01-04 23:25+0800\n"
-"Last-Translator: pan93412 <pan93412@gmail.com>\n"
-"Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
+"POT-Creation-Date: 2022-03-26 00:45+0000\n"
+"PO-Revision-Date: 2022-03-08 21:39+0800\n"
+"Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
+"Language-Team: Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 18.12.0\n"
+"X-Generator: Lokalize 21.12.3\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, glCrashedWarning)
 #: compositing.ui:31
-#, fuzzy, kde-format
-#| msgid ""
-#| "OpenGL compositing (the default) has crashed KWin in the past.\n"
-#| "This was most likely due to a driver bug.\n"
-#| "If you think that you have meanwhile upgraded to a stable driver,\n"
-#| "you can reset this protection but be aware that this might result in an "
-#| "immediate crash!\n"
-#| "Alternatively, you might want to use the XRender backend instead."
+#, kde-format
 msgid ""
 "OpenGL compositing (the default) has crashed KWin in the past.\n"
 "This was most likely due to a driver bug.\n"
@@ -41,10 +34,9 @@ msgid ""
 "immediate crash!"
 msgstr ""
 "OpenGL 組合（預設）過去會將 KWin 搞掛掉。\n"
-"這主要是因為一個驅動程式的問題。\n"
+"這主要是因為驅動程式的問題。\n"
 "如果您認為您已經更新到一個較穩定的驅動程式，\n"
-"您可以將此保護重置，但請注意可能會立即導致崩潰。\n"
-"另外，您也可以考慮改用 XRender 後端介面。"
+"您可以將此保護重設，但請注意可能會立即導致當機！"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, scaleWarning)
 #: compositing.ui:44
@@ -68,14 +60,13 @@ msgstr ""
 #: compositing.ui:79
 #, kde-format
 msgid "Compositing:"
-msgstr ""
+msgstr "組合："
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Enabled)
 #: compositing.ui:86
-#, fuzzy, kde-format
-#| msgid "Enable compositor on startup"
+#, kde-format
 msgid "Enable on startup"
-msgstr "啟動時開啟組合器"
+msgstr "啟動時啟用"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_WindowsBlockCompositing)
 #: compositing.ui:95
@@ -189,56 +180,56 @@ msgstr "總是"
 #: compositing.ui:256
 #, kde-format
 msgid "Latency:"
-msgstr ""
+msgstr "延遲："
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
 #: compositing.ui:264
 #, kde-format
 msgid "Force lowest latency (may cause dropped frames)"
-msgstr ""
+msgstr "強制最低延遲（可能會造成畫面遺失）"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
 #: compositing.ui:269
 #, kde-format
 msgid "Prefer lower latency"
-msgstr ""
+msgstr "偏好較低延遲"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
 #: compositing.ui:274
 #, kde-format
 msgid "Balance of latency and smoothness"
-msgstr ""
+msgstr "平衡延遲與平滑"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
 #: compositing.ui:279
 #, kde-format
 msgid "Prefer smoother animations"
-msgstr ""
+msgstr "偏好較平滑的動畫"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
 #: compositing.ui:284
 #, kde-format
 msgid "Force smoothest animations"
-msgstr ""
+msgstr "強制最平滑的動畫"
 
-#: main.cpp:76
+#: main.cpp:74
 #, kde-format
 msgid "Re-enable OpenGL detection"
 msgstr "重新開啟 OpenGL 偵測"
 
-#: main.cpp:135
+#: main.cpp:130
 #, kde-format
 msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
 "video."
 msgstr "「只更新主要區域」只會避免老是全螢幕更新。"
 
-#: main.cpp:139
+#: main.cpp:134
 #, kde-format
 msgid "\"Full screen repaints\" can cause performance problems."
 msgstr "「整個螢幕重繪」可能會造成效能問題。"
 
-#: main.cpp:143
+#: main.cpp:138
 #, kde-format
 msgid ""
 "\"Re-use screen content\" causes severe performance problems on MESA drivers."

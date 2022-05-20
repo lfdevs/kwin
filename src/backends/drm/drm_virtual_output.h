@@ -19,35 +19,32 @@ namespace KWin
 
 class SoftwareVsyncMonitor;
 class VirtualBackend;
+class DrmPipelineLayer;
 
 class DrmVirtualOutput : public DrmAbstractOutput
 {
     Q_OBJECT
+
 public:
-    DrmVirtualOutput(const QString &name, DrmGpu *gpu, const QSize &size);
-    DrmVirtualOutput(DrmGpu *gpu, const QSize &size);
+    enum class Type {
+        Virtual,
+        Placeholder,
+    };
+
+    DrmVirtualOutput(const QString &name, DrmGpu *gpu, const QSize &size, Type type);
     ~DrmVirtualOutput() override;
 
-    bool present(const QSharedPointer<DrmBuffer> &buffer, QRegion damagedRegion) override;
-    QSize bufferSize() const override;
-    QSize sourceSize() const override;
-
-    bool isFormatSupported(uint32_t drmFormat) const override;
-    QVector<uint64_t> supportedModifiers(uint32_t drmFormat) const override;
-    int maxBpc() const override;
-
-    int gammaRampSize() const override;
-    bool setGammaRamp(const GammaRamp &gamma) override;
-    bool needsSoftwareTransformation() const override;
+    bool present() override;
+    DrmOutputLayer *outputLayer() const override;
+    void recreateSurface();
 
 private:
     void vblank(std::chrono::nanoseconds timestamp);
     void setDpmsMode(DpmsMode mode) override;
     void updateEnablement(bool enable) override;
 
-    QSharedPointer<DrmBuffer> m_currentBuffer;
+    QSharedPointer<DrmOutputLayer> m_layer;
     bool m_pageFlipPending = true;
-    int m_modeIndex = 0;
 
     SoftwareVsyncMonitor *m_vsyncMonitor;
 };

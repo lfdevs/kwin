@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincommon\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-01-14 02:21+0000\n"
+"POT-Creation-Date: 2022-03-26 00:45+0000\n"
 "PO-Revision-Date: 2019-01-10 21:36+0100\n"
 "Last-Translator: iRoman Paholík <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -73,7 +73,7 @@ msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Open/Close Animation"
 msgstr "Animácia otvorenia/zatvorenia okna"
 
-#: effectsmodel.cpp:244
+#: effectsmodel.cpp:243
 #, kde-format
 msgid "KWin development team"
 msgstr "Vývojový tím KWin"

@@ -16,7 +16,7 @@
 namespace KWin
 {
 
-class GLRenderTarget;
+class GLFramebuffer;
 class GLShader;
 class GLTexture;
 class GLVertexBuffer;
@@ -34,14 +34,15 @@ public:
 
     void reconfigure(ReconfigureFlags) override;
 
-    void prePaintScreen(ScreenPrePaintData& data, std::chrono::milliseconds presentTime) override;
+    void prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseconds presentTime) override;
     void paintScreen(int mask, const QRegion &region, ScreenPaintData &data) override;
     bool isActive() const override;
 
     static bool supported();
 
     // for properties
-    int initialRadius() const {
+    int initialRadius() const
+    {
         return initialradius;
     }
     QRect magnifierArea() const;
@@ -50,9 +51,9 @@ public Q_SLOTS:
     void toggle();
     void zoomIn();
     void zoomOut();
-    void slotMouseChanged(const QPoint& pos, const QPoint& old,
-                              Qt::MouseButtons buttons, Qt::MouseButtons oldbuttons,
-                              Qt::KeyboardModifiers modifiers, Qt::KeyboardModifiers oldmodifiers);
+    void slotMouseChanged(const QPoint &pos, const QPoint &old,
+                          Qt::MouseButtons buttons, Qt::MouseButtons oldbuttons,
+                          Qt::KeyboardModifiers modifiers, Qt::KeyboardModifiers oldmodifiers);
     void slotWindowDamaged();
 
 private:
@@ -63,7 +64,7 @@ private:
     int radius;
     int initialradius;
     GLTexture *m_texture;
-    GLRenderTarget *m_fbo;
+    GLFramebuffer *m_fbo;
     GLVertexBuffer *m_vbo;
     GLShader *m_shader;
     std::chrono::milliseconds m_lastPresentTime;

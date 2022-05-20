@@ -19,14 +19,32 @@
 #include "x11_platform.h"
 
 #include <QOpenGLContext>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QtPlatformHeaders/QEGLNativeContext>
+#endif
 
 namespace KWin
 {
 
+EglLayer::EglLayer(EglBackend *backend)
+    : m_backend(backend)
+{
+}
+
+OutputLayerBeginFrameInfo EglLayer::beginFrame()
+{
+    return m_backend->beginFrame();
+}
+
+void EglLayer::endFrame(const QRegion &renderedRegion, const QRegion &damagedRegion)
+{
+    m_backend->endFrame(renderedRegion, damagedRegion);
+}
+
 EglBackend::EglBackend(Display *display, X11StandalonePlatform *backend)
     : EglOnXBackend(display)
     , m_backend(backend)
+    , m_layer(new EglLayer(this))
 {
     // There is no any way to determine when a buffer swap completes with EGL. Fallback
     // to software vblank events. Could we use the Present extension to get notified when
@@ -46,7 +64,7 @@ EglBackend::~EglBackend()
     // No completion events will be received for in-flight frames, this may lock the
     // render loop. We need to ensure that the render loop is back to its initial state
     // if the render backend is about to be destroyed.
-    RenderLoopPrivate::get(kwinApp()->platform()->renderLoop())->invalidate();
+    RenderLoopPrivate::get(m_backend->renderLoop())->invalidate();
 }
 
 SurfaceTexture *EglBackend::createSurfaceTextureX11(SurfacePixmapX11 *texture)
@@ -61,6 +79,7 @@ void EglBackend::init()
     EGLContext shareContext = EGL_NO_CONTEXT;
     if (qtShareContext) {
         qDebug(KWIN_X11STANDALONE) << "Global share context format:" << qtShareContext->format();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         const QVariant nativeHandle = qtShareContext->nativeHandle();
         if (!nativeHandle.canConvert<QEGLNativeContext>()) {
             setFailed(QStringLiteral("Invalid QOpenGLContext::globalShareContext()"));
@@ -70,11 +89,23 @@ void EglBackend::init()
             shareContext = handle.context();
             shareDisplay = handle.display();
         }
+#else
+        const auto nativeHandle = qtShareContext->nativeInterface<QNativeInterface::QEGLContext>();
+        if (nativeHandle) {
+            shareContext = nativeHandle->nativeContext();
+            shareDisplay = nativeHandle->display();
+        } else {
+            setFailed(QStringLiteral("Invalid QOpenGLContext::globalShareContext()"));
+            return;
+        }
+#endif
     }
     if (shareContext == EGL_NO_CONTEXT) {
         setFailed(QStringLiteral("QOpenGLContext::globalShareContext() is required"));
         return;
     }
+
+    m_fbo.reset(new GLFramebuffer(0, screens()->size()));
 
     kwinApp()->platform()->setSceneEglDisplay(shareDisplay);
     kwinApp()->platform()->setSceneEglGlobalShareContext(shareContext);
@@ -87,54 +118,62 @@ void EglBackend::screenGeometryChanged()
 
     // The back buffer contents are now undefined
     m_bufferAge = 0;
+    m_fbo.reset(new GLFramebuffer(0, screens()->size()));
 }
 
-QRegion EglBackend::beginFrame(AbstractOutput *output)
+OutputLayerBeginFrameInfo EglBackend::beginFrame()
 {
-    Q_UNUSED(output)
     makeCurrent();
-
-    const QSize size = screens()->size();
-    glViewport(0, 0, size.width(), size.height());
 
     QRegion repaint;
     if (supportsBufferAge()) {
-        repaint = m_damageJournal.accumulate(m_bufferAge, screens()->geometry());
+        repaint = m_damageJournal.accumulate(m_bufferAge, infiniteRegion());
     }
 
     eglWaitNative(EGL_CORE_NATIVE_ENGINE);
 
-    return repaint;
+    // Push the default framebuffer to the render target stack.
+    GLFramebuffer::pushFramebuffer(m_fbo.data());
+    return OutputLayerBeginFrameInfo{
+        .renderTarget = RenderTarget(m_fbo.data()),
+        .repaint = repaint,
+    };
 }
 
-void EglBackend::endFrame(AbstractOutput *output, const QRegion &renderedRegion, const QRegion &damagedRegion)
+void EglBackend::endFrame(const QRegion &renderedRegion, const QRegion &damagedRegion)
+{
+    // Save the damaged region to history
+    if (supportsBufferAge()) {
+        m_damageJournal.add(damagedRegion);
+    }
+    m_lastRenderedRegion = renderedRegion;
+}
+
+void EglBackend::present(Output *output)
 {
     Q_UNUSED(output)
-
     // Start the software vsync monitor. There is no any reliable way to determine when
     // eglSwapBuffers() or eglSwapBuffersWithDamageEXT() completes.
     m_vsyncMonitor->arm();
 
-    QRegion effectiveRenderedRegion = renderedRegion;
+    QRegion effectiveRenderedRegion = m_lastRenderedRegion;
     if (!GLPlatform::instance()->isGLES()) {
         const QRegion displayRegion(screens()->geometry());
-        if (!supportsBufferAge() && options->glPreferBufferSwap() == Options::CopyFrontBuffer && renderedRegion != displayRegion) {
+        if (!supportsBufferAge() && options->glPreferBufferSwap() == Options::CopyFrontBuffer && m_lastRenderedRegion != displayRegion) {
             glReadBuffer(GL_FRONT);
-            copyPixels(displayRegion - renderedRegion);
+            copyPixels(displayRegion - m_lastRenderedRegion);
             glReadBuffer(GL_BACK);
             effectiveRenderedRegion = displayRegion;
         }
     }
 
+    // Pop the default render target from the render target stack.
+    GLFramebuffer::popFramebuffer();
+
     presentSurface(surface(), effectiveRenderedRegion, screens()->geometry());
 
     if (overlayWindow() && overlayWindow()->window()) { // show the window only after the first pass,
-        overlayWindow()->show();   // since that pass may take long
-    }
-
-    // Save the damaged region to history
-    if (supportsBufferAge()) {
-        m_damageJournal.add(damagedRegion);
+        overlayWindow()->show(); // since that pass may take long
     }
 }
 
@@ -154,6 +193,12 @@ void EglBackend::presentSurface(EGLSurface surface, const QRegion &damage, const
             eglPostSubBufferNV(eglDisplay(), surface, r.left(), screenGeometry.height() - r.bottom() - 1, r.width(), r.height());
         }
     }
+}
+
+OutputLayer *EglBackend::primaryLayer(Output *output)
+{
+    Q_UNUSED(output)
+    return m_layer.get();
 }
 
 void EglBackend::vblank(std::chrono::nanoseconds timestamp)
@@ -221,10 +266,12 @@ bool EglPixmapTexturePrivate::create(SurfacePixmapX11 *pixmap)
     q->bind();
     const EGLint attribs[] = {
         EGL_IMAGE_PRESERVED_KHR, EGL_TRUE,
-        EGL_NONE
-    };
-    m_image = eglCreateImageKHR(m_backend->eglDisplay(), EGL_NO_CONTEXT, EGL_NATIVE_PIXMAP_KHR,
-                                reinterpret_cast<EGLClientBuffer>(nativePixmap), attribs);
+        EGL_NONE};
+    m_image = eglCreateImageKHR(m_backend->eglDisplay(),
+                                EGL_NO_CONTEXT,
+                                EGL_NATIVE_PIXMAP_KHR,
+                                reinterpret_cast<EGLClientBuffer>(static_cast<uintptr_t>(nativePixmap)),
+                                attribs);
 
     if (EGL_NO_IMAGE_KHR == m_image) {
         qCDebug(KWIN_CORE) << "failed to create egl image";

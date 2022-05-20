@@ -7,28 +7,31 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "drm_backend.h"
-#include "backends/libinput/libinputbackend.h"
+
 #include <config-kwin.h>
-#include "drm_output.h"
+
+#include "backends/libinput/libinputbackend.h"
+#include "composite.h"
+#include "cursor.h"
+#include "drm_fourcc.h"
+#include "drm_gpu.h"
 #include "drm_object_connector.h"
 #include "drm_object_crtc.h"
 #include "drm_object_plane.h"
-#include "composite.h"
-#include "cursor.h"
+#include "drm_output.h"
+#include "drm_pipeline.h"
+#include "drm_render_backend.h"
+#include "drm_virtual_output.h"
+#include "egl_gbm_backend.h"
+#include "gbm_dmabuf.h"
 #include "logging.h"
 #include "main.h"
+#include "outputconfiguration.h"
 #include "renderloop.h"
 #include "scene.h"
 #include "scene_qpainter_drm_backend.h"
 #include "session.h"
 #include "udev.h"
-#include "drm_gpu.h"
-#include "egl_multi_backend.h"
-#include "drm_pipeline.h"
-#include "drm_virtual_output.h"
-#include "waylandoutputconfig.h"
-#include "egl_gbm_backend.h"
-#include "gbm_dmabuf.h"
 // KF5
 #include <KCoreAddons>
 #include <KLocalizedString>
@@ -41,33 +44,50 @@
 #include <QSocketNotifier>
 // system
 #include <algorithm>
-#include <sys/stat.h>
-#include <unistd.h>
 #include <cerrno>
 #include <math.h>
+#include <sys/stat.h>
+#include <unistd.h>
 // drm
 #include <gbm.h>
-#include <xf86drm.h>
 #include <libdrm/drm_mode.h>
-
-#include "drm_gpu.h"
-#include "egl_multi_backend.h"
-#include "drm_pipeline.h"
+#include <xf86drm.h>
 
 namespace KWin
 {
+
+static QStringList splitPathList(const QString &input, const QChar delimiter)
+{
+    QStringList ret;
+    QString tmp;
+    for (int i = 0; i < input.size(); i++) {
+        if (input[i] == delimiter) {
+            if (i > 0 && input[i - 1] == '\\') {
+                tmp[tmp.size() - 1] = delimiter;
+            } else if (!tmp.isEmpty()) {
+                ret.append(tmp);
+                tmp = QString();
+            }
+        } else {
+            tmp.append(input[i]);
+        }
+    }
+    if (!tmp.isEmpty()) {
+        ret.append(tmp);
+    }
+    return ret;
+}
 
 DrmBackend::DrmBackend(QObject *parent)
     : Platform(parent)
     , m_udev(new Udev)
     , m_udevMonitor(m_udev->monitor())
     , m_session(Session::create(this))
-    , m_explicitGpus(qEnvironmentVariable("KWIN_DRM_DEVICES").split(':', Qt::SkipEmptyParts))
+    , m_explicitGpus(splitPathList(qEnvironmentVariable("KWIN_DRM_DEVICES"), ':'))
     , m_dpmsFilter()
 {
     setSupportsPointerWarping(true);
     setSupportsGammaControl(true);
-    setPerScreenRenderingEnabled(true);
     supportsOutputChanges();
 }
 
@@ -110,7 +130,7 @@ void DrmBackend::turnOutputsOn()
 {
     m_dpmsFilter.reset();
     for (auto it = m_enabledOutputs.constBegin(), end = m_enabledOutputs.constEnd(); it != end; it++) {
-        (*it)->setDpmsMode(AbstractWaylandOutput::DpmsMode::On);
+        (*it)->setDpmsMode(Output::DpmsMode::On);
     }
 }
 
@@ -121,7 +141,7 @@ void DrmBackend::checkOutputsAreOn()
         return;
     }
     for (auto it = m_enabledOutputs.constBegin(), end = m_enabledOutputs.constEnd(); it != end; it++) {
-        if ((*it)->dpmsMode() != AbstractWaylandOutput::DpmsMode::On) {
+        if ((*it)->dpmsMode() != Output::DpmsMode::On) {
             // dpms still disabled, need to keep the filter
             return;
         }
@@ -327,7 +347,7 @@ void DrmBackend::updateOutputs()
         }
     }
 
-    std::sort(m_outputs.begin(), m_outputs.end(), [] (DrmAbstractOutput *a, DrmAbstractOutput *b) {
+    std::sort(m_outputs.begin(), m_outputs.end(), [](DrmAbstractOutput *a, DrmAbstractOutput *b) {
         auto da = qobject_cast<DrmOutput *>(a);
         auto db = qobject_cast<DrmOutput *>(b);
         if (da && !db) {
@@ -346,100 +366,100 @@ void DrmBackend::updateOutputs()
 
 namespace KWinKScreenIntegration
 {
-    /// See KScreen::Output::hashMd5
-    QString outputHash(DrmAbstractOutput *output)
-    {
-        QCryptographicHash hash(QCryptographicHash::Md5);
-        if (!output->edid().isEmpty()) {
-            hash.addData(output->edid());
-        } else {
-            hash.addData(output->name().toLatin1());
-        }
-        return QString::fromLatin1(hash.result().toHex());
+/// See KScreen::Output::hashMd5
+QString outputHash(DrmAbstractOutput *output)
+{
+    QCryptographicHash hash(QCryptographicHash::Md5);
+    if (!output->edid().isEmpty()) {
+        hash.addData(output->edid());
+    } else {
+        hash.addData(output->name().toLatin1());
     }
-
-    /// See KScreen::Config::connectedOutputsHash in libkscreen
-    QString connectedOutputsHash(const QVector<DrmAbstractOutput*> &outputs)
-    {
-        QStringList hashedOutputs;
-        hashedOutputs.reserve(outputs.count());
-        for (auto output : qAsConst(outputs)) {
-            if (!output->isPlaceholder()) {
-                hashedOutputs << outputHash(output);
-            }
-        }
-        std::sort(hashedOutputs.begin(), hashedOutputs.end());
-        const auto hash = QCryptographicHash::hash(hashedOutputs.join(QString()).toLatin1(), QCryptographicHash::Md5);
-        return QString::fromLatin1(hash.toHex());
-    }
-
-    QMap<DrmAbstractOutput*, QJsonObject> outputsConfig(const QVector<DrmAbstractOutput*> &outputs)
-    {
-        const QString kscreenJsonPath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("kscreen/") % connectedOutputsHash(outputs));
-        if (kscreenJsonPath.isEmpty()) {
-            return {};
-        }
-
-        QFile f(kscreenJsonPath);
-        if (!f.open(QIODevice::ReadOnly)) {
-            qCWarning(KWIN_DRM) << "Could not open file" << kscreenJsonPath;
-            return {};
-        }
-
-        QJsonParseError error;
-        const auto doc = QJsonDocument::fromJson(f.readAll(), &error);
-        if (error.error != QJsonParseError::NoError) {
-            qCWarning(KWIN_DRM) << "Failed to parse" << kscreenJsonPath << error.errorString();
-            return {};
-        }
-
-        QMap<DrmAbstractOutput*, QJsonObject> ret;
-        const auto outputsJson = doc.array();
-        for (const auto &outputJson : outputsJson) {
-            const auto outputObject = outputJson.toObject();
-            for (auto it = outputs.constBegin(), itEnd = outputs.constEnd(); it != itEnd; ) {
-                if (!ret.contains(*it) && outputObject["id"] == outputHash(*it)) {
-                    ret[*it] = outputObject;
-                    continue;
-                }
-                ++it;
-            }
-        }
-        return ret;
-    }
-
-    /// See KScreen::Output::Rotation
-    enum Rotation {
-        None = 1,
-        Left = 2,
-        Inverted = 4,
-        Right = 8,
-    };
-
-    DrmOutput::Transform toDrmTransform(int rotation)
-    {
-        switch (Rotation(rotation)) {
-        case None:
-            return DrmOutput::Transform::Normal;
-        case Left:
-            return DrmOutput::Transform::Rotated90;
-        case Inverted:
-            return DrmOutput::Transform::Rotated180;
-        case Right:
-            return DrmOutput::Transform::Rotated270;
-        default:
-            Q_UNREACHABLE();
-        }
-    }
+    return QString::fromLatin1(hash.result().toHex());
 }
 
-bool DrmBackend::readOutputsConfiguration(const QVector<DrmAbstractOutput*> &outputs)
+/// See KScreen::Config::connectedOutputsHash in libkscreen
+QString connectedOutputsHash(const QVector<DrmAbstractOutput *> &outputs)
+{
+    QStringList hashedOutputs;
+    hashedOutputs.reserve(outputs.count());
+    for (auto output : qAsConst(outputs)) {
+        if (!output->isPlaceholder()) {
+            hashedOutputs << outputHash(output);
+        }
+    }
+    std::sort(hashedOutputs.begin(), hashedOutputs.end());
+    const auto hash = QCryptographicHash::hash(hashedOutputs.join(QString()).toLatin1(), QCryptographicHash::Md5);
+    return QString::fromLatin1(hash.toHex());
+}
+
+QMap<DrmAbstractOutput *, QJsonObject> outputsConfig(const QVector<DrmAbstractOutput *> &outputs)
+{
+    const QString kscreenJsonPath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("kscreen/") % connectedOutputsHash(outputs));
+    if (kscreenJsonPath.isEmpty()) {
+        return {};
+    }
+
+    QFile f(kscreenJsonPath);
+    if (!f.open(QIODevice::ReadOnly)) {
+        qCWarning(KWIN_DRM) << "Could not open file" << kscreenJsonPath;
+        return {};
+    }
+
+    QJsonParseError error;
+    const auto doc = QJsonDocument::fromJson(f.readAll(), &error);
+    if (error.error != QJsonParseError::NoError) {
+        qCWarning(KWIN_DRM) << "Failed to parse" << kscreenJsonPath << error.errorString();
+        return {};
+    }
+
+    QMap<DrmAbstractOutput *, QJsonObject> ret;
+    const auto outputsJson = doc.array();
+    for (const auto &outputJson : outputsJson) {
+        const auto outputObject = outputJson.toObject();
+        for (auto it = outputs.constBegin(), itEnd = outputs.constEnd(); it != itEnd;) {
+            if (!ret.contains(*it) && outputObject["id"] == outputHash(*it)) {
+                ret[*it] = outputObject;
+                continue;
+            }
+            ++it;
+        }
+    }
+    return ret;
+}
+
+/// See KScreen::Output::Rotation
+enum Rotation {
+    None = 1,
+    Left = 2,
+    Inverted = 4,
+    Right = 8,
+};
+
+DrmOutput::Transform toDrmTransform(int rotation)
+{
+    switch (Rotation(rotation)) {
+    case None:
+        return DrmOutput::Transform::Normal;
+    case Left:
+        return DrmOutput::Transform::Rotated90;
+    case Inverted:
+        return DrmOutput::Transform::Rotated180;
+    case Right:
+        return DrmOutput::Transform::Rotated270;
+    default:
+        Q_UNREACHABLE();
+    }
+}
+}
+
+bool DrmBackend::readOutputsConfiguration(const QVector<DrmAbstractOutput *> &outputs)
 {
     Q_ASSERT(!outputs.isEmpty());
     const auto outputsInfo = KWinKScreenIntegration::outputsConfig(outputs);
 
-    AbstractWaylandOutput *primaryOutput = outputs.constFirst();
-    WaylandOutputConfig cfg;
+    Output *primaryOutput = outputs.constFirst();
+    OutputConfiguration cfg;
     // default position goes from left to right
     QPoint pos(0, 0);
     for (const auto &output : qAsConst(outputs)) {
@@ -463,7 +483,7 @@ bool DrmBackend::readOutputsConfiguration(const QVector<DrmAbstractOutput*> &out
 
             props->overscan = static_cast<uint32_t>(outputInfo["overscan"].toInt(props->overscan));
             props->vrrPolicy = static_cast<RenderLoop::VrrPolicy>(outputInfo["vrrpolicy"].toInt(static_cast<uint32_t>(props->vrrPolicy)));
-            props->rgbRange = static_cast<AbstractWaylandOutput::RgbRange>(outputInfo["rgbrange"].toInt(static_cast<uint32_t>(props->rgbRange)));
+            props->rgbRange = static_cast<Output::RgbRange>(outputInfo["rgbrange"].toInt(static_cast<uint32_t>(props->rgbRange)));
 
             if (const QJsonObject mode = outputInfo["mode"].toObject(); !mode.isEmpty()) {
                 const QJsonObject size = mode["size"].toObject();
@@ -518,7 +538,7 @@ void DrmBackend::enableOutput(DrmAbstractOutput *output, bool enable)
             outputs.removeOne(output);
             if (!readOutputsConfiguration(outputs)) {
                 // config is invalid or failed to apply -> Try to enable an output anyways
-                WaylandOutputConfig cfg;
+                OutputConfiguration cfg;
                 cfg.changeSet(outputs.constFirst())->enabled = true;
                 if (!applyOutputChanges(cfg)) {
                     qCCritical(KWIN_DRM) << "Could not enable any outputs!";
@@ -527,7 +547,7 @@ void DrmBackend::enableOutput(DrmAbstractOutput *output, bool enable)
         }
         if (m_enabledOutputs.count() == 1 && !kwinApp()->isTerminating()) {
             qCDebug(KWIN_DRM) << "adding placeholder output";
-            m_placeHolderOutput = primaryGpu()->createVirtualOutput({}, m_enabledOutputs.constFirst()->pixelSize(), 1, DrmGpu::Placeholder);
+            m_placeHolderOutput = primaryGpu()->createVirtualOutput({}, m_enabledOutputs.constFirst()->pixelSize(), 1, DrmVirtualOutput::Type::Placeholder);
             // placeholder doesn't actually need to render anything
             m_placeHolderOutput->renderLoop()->inhibit();
             m_placeholderFilter.reset(new PlaceholderInputEventFilter());
@@ -546,23 +566,23 @@ InputBackend *DrmBackend::createInputBackend()
 
 QPainterBackend *DrmBackend::createQPainterBackend()
 {
-    return new DrmQPainterBackend(this, m_gpus.at(0));
+    return new DrmQPainterBackend(this);
 }
 
 OpenGLBackend *DrmBackend::createOpenGLBackend()
 {
-    auto primaryBackend = new EglGbmBackend(this, m_gpus.at(0));
-    AbstractEglBackend::setPrimaryBackend(primaryBackend);
-    EglMultiBackend *backend = new EglMultiBackend(this, primaryBackend);
-    for (int i = 1; i < m_gpus.count(); i++) {
-        backend->addGpu(m_gpus[i]);
-    }
-    return backend;
+    return new EglGbmBackend(this);
 }
 
 void DrmBackend::sceneInitialized()
 {
-    updateOutputs();
+    if (m_outputs.isEmpty()) {
+        updateOutputs();
+    } else {
+        for (const auto &gpu : qAsConst(m_gpus)) {
+            gpu->recreateSurfaces();
+        }
+    }
 }
 
 QVector<CompositingType> DrmBackend::supportedCompositors() const
@@ -578,7 +598,8 @@ QString DrmBackend::supportInformation() const
     QString supportInfo;
     QDebug s(&supportInfo);
     s.nospace();
-    s << "Name: " << "DRM" << Qt::endl;
+    s << "Name: "
+      << "DRM" << Qt::endl;
     s << "Active: " << m_active << Qt::endl;
     for (int g = 0; g < m_gpus.size(); g++) {
         s << "Atomic Mode Setting on GPU " << g << ": " << m_gpus.at(g)->atomicModeSetting() << Qt::endl;
@@ -586,15 +607,15 @@ QString DrmBackend::supportInformation() const
     return supportInfo;
 }
 
-AbstractOutput *DrmBackend::createVirtualOutput(const QString &name, const QSize &size, double scale)
+Output *DrmBackend::createVirtualOutput(const QString &name, const QSize &size, double scale)
 {
-    auto output = primaryGpu()->createVirtualOutput(name, size * scale, scale, DrmGpu::Full);
+    auto output = primaryGpu()->createVirtualOutput(name, size * scale, scale, DrmVirtualOutput::Type::Virtual);
     readOutputsConfiguration(m_outputs);
     Q_EMIT screensQueried();
     return output;
 }
 
-void DrmBackend::removeVirtualOutput(AbstractOutput *output)
+void DrmBackend::removeVirtualOutput(Output *output)
 {
     auto virtualOutput = qobject_cast<DrmVirtualOutput *>(output);
     if (!virtualOutput) {
@@ -603,11 +624,37 @@ void DrmBackend::removeVirtualOutput(AbstractOutput *output)
     primaryGpu()->removeVirtualOutput(virtualOutput);
 }
 
-DmaBufTexture *DrmBackend::createDmaBufTexture(const QSize &size)
+QSharedPointer<DmaBufTexture> DrmBackend::createDmaBufTexture(const QSize &size)
 {
-    if (primaryGpu()->eglBackend() && primaryGpu()->gbmDevice()) {
-        primaryGpu()->eglBackend()->makeCurrent();
-        return GbmDmaBuf::createBuffer(size, primaryGpu()->gbmDevice());
+    if (const auto eglBackend = dynamic_cast<EglGbmBackend *>(m_renderBackend); eglBackend && primaryGpu()->gbmDevice()) {
+        eglBackend->makeCurrent();
+
+        const int format = GBM_FORMAT_ARGB8888;
+        const uint64_t modifiers[] = {DRM_FORMAT_MOD_LINEAR};
+
+        gbm_bo *bo = gbm_bo_create_with_modifiers(primaryGpu()->gbmDevice(),
+                                                  size.width(),
+                                                  size.height(),
+                                                  format,
+                                                  modifiers, 1);
+
+        // If modifiers are not supported fallback to gbm_bo_create().
+        if (!bo && errno == ENOSYS) {
+            bo = gbm_bo_create(primaryGpu()->gbmDevice(),
+                               size.width(),
+                               size.height(),
+                               format,
+                               GBM_BO_USE_RENDERING | GBM_BO_USE_LINEAR);
+        }
+        if (!bo) {
+            return nullptr;
+        }
+
+        // The bo will be kept around until the last fd is closed.
+        const DmaBufAttributes attributes = dmaBufAttributesForBo(bo);
+        gbm_bo_destroy(bo);
+
+        return QSharedPointer<DmaBufTexture>::create(eglBackend->importDmaBufAsTexture(attributes), attributes);
     } else {
         return nullptr;
     }
@@ -638,14 +685,14 @@ DrmGpu *DrmBackend::findGpuByFd(int fd) const
     return nullptr;
 }
 
-bool DrmBackend::applyOutputChanges(const WaylandOutputConfig &config)
+bool DrmBackend::applyOutputChanges(const OutputConfiguration &config)
 {
-    QVector<DrmOutput*> toBeEnabled;
-    QVector<DrmOutput*> toBeDisabled;
+    QVector<DrmOutput *> toBeEnabled;
+    QVector<DrmOutput *> toBeDisabled;
     for (const auto &gpu : qAsConst(m_gpus)) {
         const auto &outputs = gpu->outputs();
         for (const auto &o : outputs) {
-            DrmOutput *output = qobject_cast<DrmOutput*>(o);
+            DrmOutput *output = qobject_cast<DrmOutput *>(o);
             if (!output) {
                 // virtual outputs don't need testing
                 continue;
@@ -677,7 +724,7 @@ bool DrmBackend::applyOutputChanges(const WaylandOutputConfig &config)
     }
     // only then apply changes to the virtual outputs
     for (const auto &output : qAsConst(m_outputs)) {
-        if (!qobject_cast<DrmOutput*>(output)) {
+        if (!qobject_cast<DrmOutput *>(output)) {
             output->applyChanges(config);
         }
     }
@@ -687,4 +734,20 @@ bool DrmBackend::applyOutputChanges(const WaylandOutputConfig &config)
     return true;
 }
 
+void DrmBackend::setRenderBackend(DrmRenderBackend *backend)
+{
+    m_renderBackend = backend;
+}
+
+DrmRenderBackend *DrmBackend::renderBackend() const
+{
+    return m_renderBackend;
+}
+
+void DrmBackend::releaseBuffers()
+{
+    for (const auto &gpu : qAsConst(m_gpus)) {
+        gpu->releaseBuffers();
+    }
+}
 }

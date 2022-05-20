@@ -10,14 +10,16 @@
 
 #include "drm_object.h"
 
-#include <qobjectdefs.h>
-#include <QSharedPointer>
 #include <QMap>
+#include <QPoint>
+#include <QSize>
+#include <memory>
+#include <qobjectdefs.h>
 
 namespace KWin
 {
 
-class DrmBuffer;
+class DrmFramebuffer;
 class DrmCrtc;
 
 class DrmPlane : public DrmObject
@@ -53,12 +55,12 @@ public:
     Q_ENUM(TypeIndex)
 
     enum class Transformation : uint32_t {
-        Rotate0     = 1 << 0,
-        Rotate90    = 1 << 1,
-        Rotate180   = 1 << 2,
-        Rotate270   = 1 << 3,
-        ReflectX    = 1 << 4,
-        ReflectY    = 1 << 5
+        Rotate0 = 1 << 0,
+        Rotate90 = 1 << 1,
+        Rotate180 = 1 << 2,
+        Rotate270 = 1 << 3,
+        ReflectX = 1 << 4,
+        ReflectY = 1 << 5
     };
     Q_ENUM(Transformation)
     Q_DECLARE_FLAGS(Transformations, Transformation);
@@ -71,22 +73,24 @@ public:
     bool isCrtcSupported(int pipeIndex) const;
     QMap<uint32_t, QVector<uint64_t>> formats() const;
 
-    QSharedPointer<DrmBuffer> current() const;
-    QSharedPointer<DrmBuffer> next() const;
-    void setCurrent(const QSharedPointer<DrmBuffer> &b);
-    void setNext(const QSharedPointer<DrmBuffer> &b);
+    std::shared_ptr<DrmFramebuffer> current() const;
+    std::shared_ptr<DrmFramebuffer> next() const;
+    void setCurrent(const std::shared_ptr<DrmFramebuffer> &b);
+    void setNext(const std::shared_ptr<DrmFramebuffer> &b);
     void flipBuffer();
 
-    void setBuffer(DrmBuffer *buffer);
+    void setBuffer(DrmFramebuffer *buffer);
     void set(const QPoint &srcPos, const QSize &srcSize, const QPoint &dstPos, const QSize &dstSize);
 
     bool setTransformation(Transformations t);
     Transformations transformation();
     Transformations supportedTransformations() const;
 
+    void releaseBuffers();
+
 private:
-    QSharedPointer<DrmBuffer> m_current;
-    QSharedPointer<DrmBuffer> m_next;
+    std::shared_ptr<DrmFramebuffer> m_current;
+    std::shared_ptr<DrmFramebuffer> m_next;
 
     QMap<uint32_t, QVector<uint64_t>> m_supportedFormats;
     uint32_t m_possibleCrtcs;
@@ -96,4 +100,3 @@ private:
 }
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(KWin::DrmPlane::Transformations)
-

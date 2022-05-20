@@ -16,7 +16,7 @@
 
 namespace KWin
 {
-class AbstractOutput;
+class Output;
 class OpenGLBackend;
 class SurfaceItem;
 class SurfacePixmapInternal;
@@ -55,19 +55,8 @@ public:
     virtual SurfaceTexture *createSurfaceTextureX11(SurfacePixmapX11 *pixmap);
     virtual SurfaceTexture *createSurfaceTextureWayland(SurfacePixmapWayland *pixmap);
 
-    /**
-     * Notifies about starting to paint.
-     *
-     * @p damage contains the reported damage as suggested by windows and effects on prepaint calls.
-     */
-    virtual void aboutToStartPainting(AbstractOutput *output, const QRegion &damage);
     virtual bool makeCurrent() = 0;
     virtual void doneCurrent() = 0;
-    /**
-     * Tries to directly scan out a surface to the screen)
-     * @return if the scanout fails (or is not supported on the specified screen)
-     */
-    virtual bool scanout(AbstractOutput *output, SurfaceItem *surfaceItem);
 
     /**
      * @brief Whether the creation of the Backend failed.
@@ -77,7 +66,8 @@ public:
      *
      * @return bool @c true if the creation of the Backend failed, @c false otherwise.
      */
-    bool isFailed() const {
+    bool isFailed() const
+    {
         return m_failed;
     }
     /**
@@ -88,11 +78,13 @@ public:
      *
      * @return bool @c true if the GL context is direct, @c false if indirect
      */
-    bool isDirectRendering() const {
+    bool isDirectRendering() const
+    {
         return m_directRendering;
     }
 
-    bool supportsBufferAge() const {
+    bool supportsBufferAge() const
+    {
         return m_haveBufferAge;
     }
 
@@ -109,21 +101,22 @@ public:
     {
         return m_haveNativeFence;
     }
-    virtual bool directScanoutAllowed(AbstractOutput *output) const;
 
     /**
      * The backend specific extensions (e.g. EGL/GLX extensions).
      *
      * Not the OpenGL (ES) extension!
      */
-    QList<QByteArray> extensions() const {
+    QList<QByteArray> extensions() const
+    {
         return m_extensions;
     }
 
     /**
      * @returns whether the backend specific extensions contains @p extension.
      */
-    bool hasExtension(const QByteArray &extension) const {
+    bool hasExtension(const QByteArray &extension) const
+    {
         return m_extensions.contains(extension);
     }
 
@@ -132,7 +125,7 @@ public:
      */
     void copyPixels(const QRegion &region);
 
-    virtual QSharedPointer<GLTexture> textureForOutput(AbstractOutput *output) const;
+    virtual QSharedPointer<GLTexture> textureForOutput(Output *output) const;
 
 protected:
     /**
@@ -153,11 +146,13 @@ protected:
      *
      * @param direct @c true if the OpenGL context is direct, @c false if indirect
      */
-    void setIsDirectRendering(bool direct) {
+    void setIsDirectRendering(bool direct)
+    {
         m_directRendering = direct;
     }
 
-    void setSupportsBufferAge(bool value) {
+    void setSupportsBufferAge(bool value)
+    {
         m_haveBufferAge = value;
     }
 
@@ -181,7 +176,8 @@ protected:
      *
      * These are the EGL/GLX extensions, not the OpenGL extensions
      */
-    void setExtensions(const QList<QByteArray> &extensions) {
+    void setExtensions(const QList<QByteArray> &extensions)
+    {
         m_extensions = extensions;
     }
 

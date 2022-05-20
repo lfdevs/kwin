@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm-kwin-scripts\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-01-14 02:21+0000\n"
+"POT-Creation-Date: 2022-04-25 00:48+0000\n"
 "PO-Revision-Date: 2020-08-30 09:30+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@neuf.fr>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
@@ -37,32 +37,17 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "jcorn@free.fr, renard@kde.org, sdepiets@gmail.com"
 
-#: module.cpp:40
-#, kde-format
-msgid "KWin Scripts"
-msgstr "Scripts KWin"
-
-#: module.cpp:42
-#, kde-format
-msgid "Configure KWin scripts"
-msgstr "Configurer des scripts KWin"
-
-#: module.cpp:45
-#, kde-format
-msgid "Tamás Krutki"
-msgstr "Tamas Krutki"
-
-#: module.cpp:105
+#: module.cpp:57
 #, kde-format
 msgid "Import KWin Script"
 msgstr "Importer un script KWin"
 
-#: module.cpp:106
+#: module.cpp:58
 #, kde-format
 msgid "*.kwinscript|KWin scripts (*.kwinscript)"
 msgstr "*.kwinscript|scripts KWin (*.kwinscript)"
 
-#: module.cpp:125
+#: module.cpp:96
 #, kde-format
 msgctxt "Placeholder is error message returned from the install service"
 msgid ""
@@ -72,31 +57,13 @@ msgstr ""
 "Impossible d'importer le script sélectionné.\n"
 "%1"
 
-#: module.cpp:139
+#: module.cpp:108
 #, kde-format
 msgctxt "Placeholder is name of the script that was imported"
 msgid "The script \"%1\" was successfully imported."
 msgstr "Le script « %1 » a été importé avec succès."
 
-#: module.cpp:183
+#: module.cpp:146
 #, kde-format
 msgid "Error when uninstalling KWin Script: %1"
 msgstr "Erreur durant la désinstallation du script « KWin » : %1"
-
-#. i18n: ectx: property (windowTitle), widget (QWidget, Module)
-#: module.ui:14
-#, kde-format
-msgid "KWin script configuration"
-msgstr "Configuration du script KWin"
-
-#. i18n: ectx: property (text), widget (QPushButton, importScriptButton)
-#: module.ui:55
-#, kde-format
-msgid "Install from File..."
-msgstr "Installer à partir d'un fichier..."
-
-#. i18n: ectx: property (text), widget (KNS3::Button, ghnsButton)
-#: module.ui:67
-#, kde-format
-msgid "Get New Scripts..."
-msgstr "Obtenir de nouveaux scripts..."

@@ -13,7 +13,7 @@
 
 namespace KWin
 {
-class GLRenderTarget;
+class GLFramebuffer;
 class GLTexture;
 
 class ScreenTransformEffect : public Effect
@@ -38,7 +38,8 @@ public:
     static bool supported();
 
 private:
-    struct ScreenState {
+    struct ScreenState
+    {
         ~ScreenState();
         bool isSecondHalf() const
         {

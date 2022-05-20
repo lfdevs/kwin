@@ -11,14 +11,14 @@
 
 #include "drm_object.h"
 
-#include <QSharedPointer>
 #include <QPoint>
+#include <memory>
 
 namespace KWin
 {
 
 class DrmBackend;
-class DrmBuffer;
+class DrmFramebuffer;
 class DrmDumbBuffer;
 class GammaRamp;
 class DrmGpu;
@@ -48,16 +48,17 @@ public:
     DrmPlane *cursorPlane() const;
     drmModeModeInfo queryCurrentMode();
 
-    QSharedPointer<DrmBuffer> current() const;
-    QSharedPointer<DrmBuffer> next() const;
-    void setCurrent(const QSharedPointer<DrmBuffer> &buffer);
-    void setNext(const QSharedPointer<DrmBuffer> &buffer);
+    std::shared_ptr<DrmFramebuffer> current() const;
+    std::shared_ptr<DrmFramebuffer> next() const;
+    void setCurrent(const std::shared_ptr<DrmFramebuffer> &buffer);
+    void setNext(const std::shared_ptr<DrmFramebuffer> &buffer);
     void flipBuffer();
+    void releaseBuffers();
 
 private:
     DrmScopedPointer<drmModeCrtc> m_crtc;
-    QSharedPointer<DrmBuffer> m_currentBuffer;
-    QSharedPointer<DrmBuffer> m_nextBuffer;
+    std::shared_ptr<DrmFramebuffer> m_currentBuffer;
+    std::shared_ptr<DrmFramebuffer> m_nextBuffer;
     int m_pipeIndex;
     DrmPlane *m_primaryPlane;
     DrmPlane *m_cursorPlane;
@@ -66,4 +67,3 @@ private:
 }
 
 #endif
-

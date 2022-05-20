@@ -6,9 +6,8 @@
 
 #include "fakeinputbackend.h"
 #include "fakeinputdevice.h"
+#include "wayland/fakeinput_interface.h"
 #include "wayland_server.h"
-
-#include <KWaylandServer/fakeinput_interface.h>
 
 namespace KWin
 {
@@ -21,16 +20,14 @@ FakeInputBackend::FakeInputBackend(QObject *parent)
 void FakeInputBackend::initialize()
 {
     auto fakeInput = new KWaylandServer::FakeInputInterface(waylandServer()->display(), this);
-    connect(fakeInput, &KWaylandServer::FakeInputInterface::deviceCreated, this,
-        [this] (KWaylandServer::FakeInputDevice *fakeDevice) {
-            auto device = new FakeInputDevice(fakeDevice, this);
-            Q_EMIT deviceAdded(device);
+    connect(fakeInput, &KWaylandServer::FakeInputInterface::deviceCreated, this, [this](KWaylandServer::FakeInputDevice *fakeDevice) {
+        auto device = new FakeInputDevice(fakeDevice, this);
+        Q_EMIT deviceAdded(device);
 
-            connect(fakeDevice, &QObject::destroyed, this, [this, device]() {
-                Q_EMIT deviceRemoved(device);
-            });
-        }
-    );
+        connect(fakeDevice, &QObject::destroyed, this, [this, device]() {
+            Q_EMIT deviceRemoved(device);
+        });
+    });
 }
 
 } // namespace KWin

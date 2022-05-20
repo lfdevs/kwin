@@ -3,15 +3,15 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-
 #include "blur_config.h"
-// KConfigSkeleton
-#include "blurconfig.h"
+
 #include <config-kwin.h>
 
-#include <kwineffects_interface.h>
-#include <KAboutData>
+// KConfigSkeleton
+#include "blurconfig.h"
+
 #include <KPluginFactory>
+#include <kwineffects_interface.h>
 
 K_PLUGIN_CLASS(KWin::BlurEffectConfig)
 
@@ -24,8 +24,6 @@ BlurEffectConfig::BlurEffectConfig(QWidget *parent, const QVariantList &args)
     ui.setupUi(this);
     BlurConfig::instance(KWIN_CONFIG);
     addConfig(BlurConfig::self(), this);
-
-    load();
 }
 
 BlurEffectConfig::~BlurEffectConfig()

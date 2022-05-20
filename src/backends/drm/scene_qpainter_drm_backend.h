@@ -6,46 +6,38 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-#ifndef KWIN_SCENE_QPAINTER_DRM_BACKEND_H
-#define KWIN_SCENE_QPAINTER_DRM_BACKEND_H
+#pragma once
+#include "drm_render_backend.h"
+#include "dumb_swapchain.h"
 #include "qpainterbackend.h"
-#include "utils/common.h"
 
 #include <QObject>
-#include <QVector>
 #include <QSharedPointer>
-
-#include "dumb_swapchain.h"
+#include <QVector>
 
 namespace KWin
 {
 
 class DrmBackend;
-class DrmDumbBuffer;
 class DrmAbstractOutput;
-class DrmGpu;
+class DrmQPainterLayer;
+class DrmPipeline;
 
-class DrmQPainterBackend : public QPainterBackend
+class DrmQPainterBackend : public QPainterBackend, public DrmRenderBackend
 {
     Q_OBJECT
 public:
-    DrmQPainterBackend(DrmBackend *backend, DrmGpu *gpu);
+    DrmQPainterBackend(DrmBackend *backend);
+    ~DrmQPainterBackend();
 
-    QImage *bufferForScreen(AbstractOutput *output) override;
-    QRegion beginFrame(AbstractOutput *output) override;
-    void endFrame(AbstractOutput *output, const QRegion &renderedRegion, const QRegion &damagedRegion) override;
+    void present(Output *output) override;
+    OutputLayer *primaryLayer(Output *output) override;
+
+    QSharedPointer<DrmPipelineLayer> createPrimaryLayer(DrmPipeline *pipeline) override;
+    QSharedPointer<DrmOverlayLayer> createCursorLayer(DrmPipeline *pipeline) override;
+    QSharedPointer<DrmOutputLayer> createLayer(DrmVirtualOutput *output) override;
 
 private:
-    void initOutput(DrmAbstractOutput *output);
-    struct Output {
-        DrmAbstractOutput *output;
-        QSharedPointer<DumbSwapchain> swapchain;
-        DamageJournal damageJournal;
-    };
-    QMap<AbstractOutput *, Output> m_outputs;
     DrmBackend *m_backend;
-    DrmGpu *m_gpu;
 };
 }
-
-#endif

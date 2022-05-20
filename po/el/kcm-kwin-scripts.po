@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-01-14 02:21+0000\n"
+"POT-Creation-Date: 2022-04-25 00:48+0000\n"
 "PO-Revision-Date: 2017-06-12 16:45+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -29,32 +29,17 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "capoiosct@gmail.com"
 
-#: module.cpp:40
-#, kde-format
-msgid "KWin Scripts"
-msgstr "Σενάρια KWin"
-
-#: module.cpp:42
-#, kde-format
-msgid "Configure KWin scripts"
-msgstr "Ρύθμιση των σεναρίων KWin"
-
-#: module.cpp:45
-#, kde-format
-msgid "Tamás Krutki"
-msgstr "Tamás Krutki"
-
-#: module.cpp:105
+#: module.cpp:57
 #, kde-format
 msgid "Import KWin Script"
 msgstr "Εισαγωγή σεναρίου KWin"
 
-#: module.cpp:106
+#: module.cpp:58
 #, kde-format
 msgid "*.kwinscript|KWin scripts (*.kwinscript)"
 msgstr "*.kwinscript|σενάρια KWin (*.kwinscript)"
 
-#: module.cpp:125
+#: module.cpp:96
 #, kde-format
 msgctxt "Placeholder is error message returned from the install service"
 msgid ""
@@ -64,32 +49,13 @@ msgstr ""
 "Αδυναμία εισαγωγής του επιλεγμένου σεναρίου.\n"
 "%1"
 
-#: module.cpp:139
+#: module.cpp:108
 #, kde-format
 msgctxt "Placeholder is name of the script that was imported"
 msgid "The script \"%1\" was successfully imported."
 msgstr "Το σενάριο \"%1\" εγκαταστάθηκε επιτυχώς."
 
-#: module.cpp:183
+#: module.cpp:146
 #, kde-format
 msgid "Error when uninstalling KWin Script: %1"
 msgstr ""
-
-#. i18n: ectx: property (windowTitle), widget (QWidget, Module)
-#: module.ui:14
-#, kde-format
-msgid "KWin script configuration"
-msgstr "Διαμόρφωση σεναρίου KWin"
-
-#. i18n: ectx: property (text), widget (QPushButton, importScriptButton)
-#: module.ui:55
-#, kde-format
-msgid "Install from File..."
-msgstr ""
-
-#. i18n: ectx: property (text), widget (KNS3::Button, ghnsButton)
-#: module.ui:67
-#, fuzzy, kde-format
-#| msgid "Get New Script..."
-msgid "Get New Scripts..."
-msgstr "Λήψη νέων σεναρίων..."

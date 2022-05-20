@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-09-10 00:19+0000\n"
+"POT-Creation-Date: 2022-03-26 00:45+0000\n"
 "PO-Revision-Date: 2021-07-25 12:31+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian\n"
@@ -32,18 +32,18 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "sergiu@cip.md"
 
-#: desktopsmodel.cpp:466
+#: desktopsmodel.cpp:465
 #, kde-format
 msgid "There was an error connecting to the compositor."
 msgstr "A avut loc o eroare în timpul conectării la compozitor."
 
-#: desktopsmodel.cpp:665
+#: desktopsmodel.cpp:664
 #, kde-format
 msgid "There was an error saving the settings to the compositor."
 msgstr ""
 "A avut loc o eroare în timpul salvării configurărilor pentru compozitor."
 
-#: desktopsmodel.cpp:668
+#: desktopsmodel.cpp:667
 #, kde-format
 msgid "There was an error requesting information from the compositor."
 msgstr "A avut loc o eroare în timpul cererii informațiilor de la compozitor."

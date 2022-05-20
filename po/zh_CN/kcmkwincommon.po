@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-01-14 02:21+0000\n"
-"PO-Revision-Date: 2022-04-26 15:33\n"
+"POT-Creation-Date: 2022-03-26 00:45+0000\n"
+"PO-Revision-Date: 2022-05-15 15:45\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -19,8 +19,8 @@ msgstr ""
 "X-Crowdin-Project: kdeorg\n"
 "X-Crowdin-Project-ID: 269464\n"
 "X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /kf5-stable/messages/kwin/kcmkwincommon.pot\n"
-"X-Crowdin-File-ID: 9572\n"
+"X-Crowdin-File: /kf5-trunk/messages/kwin/kcmkwincommon.pot\n"
+"X-Crowdin-File-ID: 9558\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -80,7 +80,7 @@ msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Open/Close Animation"
 msgstr "窗口打开/关闭动效"
 
-#: effectsmodel.cpp:244
+#: effectsmodel.cpp:243
 #, kde-format
 msgid "KWin development team"
 msgstr "KWin 开发团队"

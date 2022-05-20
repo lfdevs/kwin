@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-01-14 02:21+0000\n"
+"POT-Creation-Date: 2022-03-26 00:45+0000\n"
 "PO-Revision-Date: 2022-02-22 23:11+0100\n"
 "Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-doc@kde.org>\n"
@@ -216,12 +216,12 @@ msgstr "Flüssige Animationen bevorzugen"
 msgid "Force smoothest animations"
 msgstr "Flüssigste Animationen erzwingen"
 
-#: main.cpp:76
+#: main.cpp:74
 #, kde-format
 msgid "Re-enable OpenGL detection"
 msgstr "OpenGL-Erkennung wieder aktivieren"
 
-#: main.cpp:135
+#: main.cpp:130
 #, kde-format
 msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
@@ -230,12 +230,12 @@ msgstr ""
 "„Nur wenn Aufwand vertretbar“ verhindert nur das Zerreißen bei Änderungen im "
 "Vollbildmodus wie zum Beispiel bei einem Video."
 
-#: main.cpp:139
+#: main.cpp:134
 #, kde-format
 msgid "\"Full screen repaints\" can cause performance problems."
 msgstr "„Vollständiges Neuzeichnen“ kann zu Leistungsproblemen führen."
 
-#: main.cpp:143
+#: main.cpp:138
 #, kde-format
 msgid ""
 "\"Re-use screen content\" causes severe performance problems on MESA drivers."

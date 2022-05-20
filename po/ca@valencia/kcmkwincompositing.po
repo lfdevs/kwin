@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-01-14 02:21+0000\n"
+"POT-Creation-Date: 2022-03-26 00:45+0000\n"
 "PO-Revision-Date: 2021-11-14 09:54+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -153,7 +153,7 @@ msgstr "Repinta tota la pantalla"
 #: compositing.ui:222
 #, kde-format
 msgid "Re-use screen content"
-msgstr "Torna a usar el contingut de la pantalla"
+msgstr "Torna a utilitzar el contingut de la pantalla"
 
 #. i18n: ectx: property (text), widget (QLabel, label_HiddenPreviews)
 #: compositing.ui:230
@@ -215,12 +215,12 @@ msgstr "Prefereix animacions més suaus"
 msgid "Force smoothest animations"
 msgstr "Força animacions més suaus"
 
-#: main.cpp:76
+#: main.cpp:74
 #, kde-format
 msgid "Re-enable OpenGL detection"
-msgstr "Torna a activar la detecció de l'OpenGL"
+msgstr "Torna a activar la detecció d'OpenGL"
 
-#: main.cpp:135
+#: main.cpp:130
 #, kde-format
 msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
@@ -229,15 +229,15 @@ msgstr ""
 "«Només quan siga econòmic» només prevé el parpelleig dels canvis a pantalla "
 "completa, com un vídeo."
 
-#: main.cpp:139
+#: main.cpp:134
 #, kde-format
 msgid "\"Full screen repaints\" can cause performance problems."
 msgstr "«Repinta tota la pantalla» pot causar problemes de rendiment."
 
-#: main.cpp:143
+#: main.cpp:138
 #, kde-format
 msgid ""
 "\"Re-use screen content\" causes severe performance problems on MESA drivers."
 msgstr ""
-"«Torna a usar el contingut de la pantalla» causa greus problemes de "
+"«Torna a utilitzar el contingut de la pantalla» causa greus problemes de "
 "rendiment amb els controladors de MESA."

@@ -8,7 +8,11 @@
 */
 
 #include <QTest>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <private/qtx11extras_p.h>
+#else
 #include <QX11Info>
+#endif
 
 #include <KPluginMetaData>
 
@@ -27,7 +31,6 @@ public:
 
 protected:
     void performStartup() override;
-
 };
 
 X11TestApplication::X11TestApplication(int &argc, char **argv)
@@ -43,7 +46,7 @@ X11TestApplication::X11TestApplication(int &argc, char **argv)
     addLibraryPath(ownPath);
 
     const KPluginMetaData plugin = KPluginMetaData::findPluginById(QStringLiteral("org.kde.kwin.platforms"),
-                                                        QStringLiteral("KWinX11Platform"));
+                                                                   QStringLiteral("KWinX11Platform"));
     if (!plugin.isValid()) {
         quit();
         return;

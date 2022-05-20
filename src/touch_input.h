@@ -13,22 +13,22 @@
 
 #include <QHash>
 #include <QObject>
-#include <QPointer>
 #include <QPointF>
+#include <QPointer>
 
 namespace KWin
 {
 
 class InputDevice;
 class InputRedirection;
-class Toplevel;
+class Window;
 
 namespace Decoration
 {
 class DecoratedClientImpl;
 }
 
-class TouchInputRedirection : public InputDeviceHandler
+class KWIN_EXPORT TouchInputRedirection : public InputDeviceHandler
 {
     Q_OBJECT
 public:
@@ -45,31 +45,37 @@ public:
     void cancel();
     void frame();
 
-    void setDecorationPressId(qint32 id) {
+    void setDecorationPressId(qint32 id)
+    {
         m_decorationId = id;
     }
-    qint32 decorationPressId() const {
+    qint32 decorationPressId() const
+    {
         return m_decorationId;
     }
-    void setInternalPressId(qint32 id) {
+    void setInternalPressId(qint32 id)
+    {
         m_internalId = id;
     }
-    qint32 internalPressId() const {
+    qint32 internalPressId() const
+    {
         return m_internalId;
     }
 
-    QPointF position() const override {
+    QPointF position() const override
+    {
         return m_lastPosition;
     }
 
-    int touchPointCount() const {
+    int touchPointCount() const
+    {
         return m_activeTouchPoints.count();
     }
 
 private:
     void cleanupDecoration(Decoration::DecoratedClientImpl *old, Decoration::DecoratedClientImpl *now) override;
 
-    void focusUpdate(Toplevel *focusOld, Toplevel *focusNow) override;
+    void focusUpdate(Window *focusOld, Window *focusNow) override;
 
     QSet<qint32> m_activeTouchPoints;
     bool m_inited = false;

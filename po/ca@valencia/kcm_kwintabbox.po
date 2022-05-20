@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-01-14 02:21+0000\n"
+"POT-Creation-Date: 2022-03-26 00:45+0000\n"
 "PO-Revision-Date: 2021-12-01 09:45+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -21,17 +21,17 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
 
-#: kwintabboxconfigform.cpp:77
+#: kwintabboxconfigform.cpp:76
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: layoutpreview.cpp:136
+#: layoutpreview.cpp:133
 #, kde-format
 msgid "Show Desktop"
 msgstr "Mostra l'escriptori"
 
-#: layoutpreview.cpp:166
+#: layoutpreview.cpp:163
 #, kde-format
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
@@ -72,13 +72,13 @@ msgstr "Contingut"
 msgid "Include \"Show Desktop\" icon"
 msgstr "Inclou la icona «Mostra l'escriptori»"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, switchingModeCombo)
+#. i18n: ectx: property (text), item, widget (QComboBox, switchingModeCombo)
 #: main.ui:55
 #, kde-format
 msgid "Recently used"
 msgstr "Usades recentment"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, switchingModeCombo)
+#. i18n: ectx: property (text), item, widget (QComboBox, switchingModeCombo)
 #: main.ui:60
 #, kde-format
 msgid "Stacking order"
@@ -217,8 +217,8 @@ msgstr "Visualització"
 #, kde-format
 msgid "The effect to replace the list window when desktop effects are active."
 msgstr ""
-"L'efecte de substituir la llista de finestres quan els efectes d'escriptori "
-"estan actius."
+"L'efecte de substituir la llista de finestres quan els efectes de "
+"l'escriptori estan actius."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HighlightWindows)
 #: main.ui:549
@@ -228,7 +228,8 @@ msgid ""
 "windows. This option requires desktop effects to be active."
 msgstr ""
 "La finestra actualment seleccionada es ressaltarà esvaint totes les atres "
-"finestres. Esta opció requereix que els efectes d'escriptori estiguen actius."
+"finestres. Esta opció requereix que els efectes de l'escriptori estiguen "
+"actius."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HighlightWindows)
 #: main.ui:552

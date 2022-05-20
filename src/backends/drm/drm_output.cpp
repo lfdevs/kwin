@@ -8,34 +8,37 @@
 */
 #include "drm_output.h"
 #include "drm_backend.h"
-#include "drm_object_crtc.h"
-#include "drm_object_connector.h"
-#include "drm_gpu.h"
-#include "drm_pipeline.h"
 #include "drm_buffer.h"
+#include "drm_gpu.h"
+#include "drm_object_connector.h"
+#include "drm_object_crtc.h"
+#include "drm_pipeline.h"
 
 #include "composite.h"
 #include "cursor.h"
+#include "drm_dumb_buffer.h"
+#include "drm_layer.h"
+#include "dumb_swapchain.h"
+#include "egl_gbm_backend.h"
+#include "kwinglutils.h"
 #include "logging.h"
 #include "main.h"
+#include "outputconfiguration.h"
 #include "renderloop.h"
 #include "renderloop_p.h"
 #include "scene.h"
 #include "screens.h"
 #include "session.h"
-#include "waylandoutputconfig.h"
-#include "dumb_swapchain.h"
-#include "cursor.h"
 // Qt
-#include <QMatrix4x4>
 #include <QCryptographicHash>
+#include <QMatrix4x4>
 #include <QPainter>
 // c++
 #include <cerrno>
 // drm
-#include <xf86drm.h>
-#include <libdrm/drm_mode.h>
 #include <drm_fourcc.h>
+#include <libdrm/drm_mode.h>
+#include <xf86drm.h>
 
 namespace KWin
 {
@@ -46,24 +49,44 @@ DrmOutput::DrmOutput(DrmPipeline *pipeline)
     , m_connector(pipeline->connector())
 {
     m_pipeline->setOutput(this);
-    auto conn = m_pipeline->connector();
-    m_renderLoop->setRefreshRate(conn->currentMode()->refreshRate());
-    setSubPixelInternal(conn->subpixel());
-    setInternal(conn->isInternal());
-    setCapabilityInternal(DrmOutput::Capability::Dpms);
+    const auto conn = m_pipeline->connector();
+    m_renderLoop->setRefreshRate(m_pipeline->mode()->refreshRate());
+
+    Capabilities capabilities = Capability::Dpms;
     if (conn->hasOverscan()) {
-        setCapabilityInternal(Capability::Overscan);
+        capabilities |= Capability::Overscan;
         setOverscanInternal(conn->overscan());
     }
     if (conn->vrrCapable()) {
-        setCapabilityInternal(Capability::Vrr);
+        capabilities |= Capability::Vrr;
         setVrrPolicy(RenderLoop::VrrPolicy::Automatic);
     }
     if (conn->hasRgbRange()) {
-        setCapabilityInternal(Capability::RgbRange);
+        capabilities |= Capability::RgbRange;
         setRgbRangeInternal(conn->rgbRange());
     }
-    initOutputDevice();
+
+    const Edid *edid = conn->edid();
+
+    setInformation(Information{
+        .name = conn->connectorName(),
+        .manufacturer = edid->manufacturerString(),
+        .model = conn->modelName(),
+        .serialNumber = edid->serialNumber(),
+        .eisaId = edid->eisaId(),
+        .physicalSize = conn->physicalSize(),
+        .edid = edid->raw(),
+        .subPixel = conn->subpixel(),
+        .capabilities = capabilities,
+        .internal = conn->isInternal(),
+    });
+
+    const QList<QSharedPointer<OutputMode>> modes = getModes();
+    QSharedPointer<OutputMode> currentMode = m_pipeline->mode();
+    if (!currentMode) {
+        currentMode = modes.constFirst();
+    }
+    setModesInternal(modes, currentMode);
 
     m_turnOffTimer.setSingleShot(true);
     m_turnOffTimer.setInterval(dimAnimationTime());
@@ -81,127 +104,88 @@ DrmOutput::~DrmOutput()
     m_pipeline->setOutput(nullptr);
 }
 
-static bool isCursorSpriteCompatible(const QImage *buffer, const QImage *sprite)
-{
-    // Note that we need compare the rects in the device independent pixels because the
-    // buffer and the cursor sprite image may have different scale factors.
-    const QRect bufferRect(QPoint(0, 0), buffer->size() / buffer->devicePixelRatio());
-    const QRect spriteRect(QPoint(0, 0), sprite->size() / sprite->devicePixelRatio());
-
-    return bufferRect.contains(spriteRect);
-}
-
 void DrmOutput::updateCursor()
 {
     static bool valid;
     static const bool forceSoftwareCursor = qEnvironmentVariableIntValue("KWIN_FORCE_SW_CURSOR", &valid) == 1 && valid;
-    if (forceSoftwareCursor) {
+    // hardware cursors are broken with the NVidia proprietary driver
+    if (forceSoftwareCursor || (!valid && m_gpu->isNVidia())) {
         m_setCursorSuccessful = false;
         return;
     }
-    if (!m_pipeline->pending.crtc) {
+    const auto layer = m_pipeline->cursorLayer();
+    if (!m_pipeline->crtc() || !layer) {
         return;
     }
     const Cursor *cursor = Cursors::self()->currentCursor();
-    if (!cursor) {
-        m_pipeline->setCursor(nullptr);
-        return;
-    }
-    const QImage cursorImage = cursor->image();
-    if (cursorImage.isNull() || Cursors::self()->isCursorHidden()) {
-        m_pipeline->setCursor(nullptr);
-        return;
-    }
-    if (m_cursor && m_cursor->isEmpty()) {
-        m_pipeline->setCursor(nullptr);
-        return;
-    }
-    const auto plane = m_pipeline->pending.crtc->cursorPlane();
-    if (!m_cursor || (plane && !plane->formats().value(m_cursor->drmFormat()).contains(DRM_FORMAT_MOD_LINEAR))) {
-        if (plane && (!plane->formats().contains(DRM_FORMAT_ARGB8888) || !plane->formats().value(DRM_FORMAT_ARGB8888).contains(DRM_FORMAT_MOD_LINEAR))) {
-            m_pipeline->setCursor(nullptr);
-            m_setCursorSuccessful = false;
-            return;
+    if (!cursor || cursor->image().isNull() || Cursors::self()->isCursorHidden()) {
+        if (layer->isVisible()) {
+            layer->setVisible(false);
+            m_pipeline->setCursor();
         }
-        m_cursor = QSharedPointer<DumbSwapchain>::create(m_gpu, m_gpu->cursorSize(), plane ? DRM_FORMAT_ARGB8888 : DRM_FORMAT_XRGB8888, QImage::Format::Format_ARGB32_Premultiplied);
-        if (!m_cursor || m_cursor->isEmpty()) {
-            m_pipeline->setCursor(nullptr);
-            m_setCursorSuccessful = false;
-            return;
-        }
+        return;
     }
-    m_cursor->releaseBuffer(m_cursor->currentBuffer());
-    m_cursor->acquireBuffer();
-    QImage *c = m_cursor->currentBuffer()->image();
-    c->setDevicePixelRatio(scale());
-    if (!isCursorSpriteCompatible(c, &cursorImage)) {
-        // If the cursor image is too big, fall back to rendering the software cursor.
-        m_pipeline->setCursor(nullptr);
+    const QMatrix4x4 monitorMatrix = logicalToNativeMatrix(geometry(), scale(), transform());
+    const QRect cursorRect = monitorMatrix.mapRect(cursor->geometry());
+    if (cursorRect.width() > m_gpu->cursorSize().width() || cursorRect.height() > m_gpu->cursorSize().height()) {
+        if (layer->isVisible()) {
+            layer->setVisible(false);
+            m_pipeline->setCursor();
+        }
         m_setCursorSuccessful = false;
         return;
     }
-    c->fill(Qt::transparent);
-    QPainter p;
-    p.begin(c);
-    p.setWorldTransform(logicalToNativeMatrix(cursor->rect(), 1, transform()).toTransform());
-    p.setRenderHint(QPainter::SmoothPixmapTransform);
-    p.drawImage(QPoint(0, 0), cursorImage);
-    p.end();
-    m_setCursorSuccessful = m_pipeline->setCursor(m_cursor->currentBuffer(), logicalToNativeMatrix(cursor->rect(), scale(), transform()).map(cursor->hotspot()));
-    moveCursor();
+    if (dynamic_cast<EglGbmBackend *>(m_gpu->platform()->renderBackend())) {
+        renderCursorOpengl(cursor->geometry().size() * scale());
+    } else {
+        renderCursorQPainter();
+    }
+    const QSize surfaceSize = m_gpu->cursorSize() / scale();
+    const QRect layerRect = monitorMatrix.mapRect(QRect(cursor->geometry().topLeft(), surfaceSize));
+    layer->setPosition(layerRect.topLeft());
+    layer->setVisible(cursor->geometry().intersects(geometry()));
+    if (layer->isVisible()) {
+        m_setCursorSuccessful = m_pipeline->setCursor(logicalToNativeMatrix(QRect(QPoint(), layerRect.size()), scale(), transform()).map(cursor->hotspot()));
+        layer->setVisible(m_setCursorSuccessful);
+    }
 }
 
 void DrmOutput::moveCursor()
 {
-    if (!m_setCursorSuccessful || !m_pipeline->pending.crtc) {
+    if (!m_setCursorSuccessful || !m_pipeline->crtc()) {
         return;
     }
+    const auto layer = m_pipeline->cursorLayer();
     Cursor *cursor = Cursors::self()->currentCursor();
+    if (!cursor || cursor->image().isNull() || Cursors::self()->isCursorHidden() || !cursor->geometry().intersects(geometry())) {
+        if (layer->isVisible()) {
+            layer->setVisible(false);
+            m_pipeline->setCursor();
+        }
+        return;
+    }
     const QMatrix4x4 monitorMatrix = logicalToNativeMatrix(geometry(), scale(), transform());
-    const QMatrix4x4 hotspotMatrix = logicalToNativeMatrix(cursor->rect(), scale(), transform());
-    m_moveCursorSuccessful = m_pipeline->moveCursor(monitorMatrix.map(cursor->pos()) - hotspotMatrix.map(cursor->hotspot()));
+    const QSize surfaceSize = m_gpu->cursorSize() / scale();
+    const QRect cursorRect = monitorMatrix.mapRect(QRect(cursor->geometry().topLeft(), surfaceSize));
+    layer->setVisible(true);
+    layer->setPosition(cursorRect.topLeft());
+    m_moveCursorSuccessful = m_pipeline->moveCursor();
+    layer->setVisible(m_moveCursorSuccessful);
     if (!m_moveCursorSuccessful) {
-        m_pipeline->setCursor(nullptr);
+        m_pipeline->setCursor();
     }
 }
 
-QVector<AbstractWaylandOutput::Mode> DrmOutput::getModes() const
+QList<QSharedPointer<OutputMode>> DrmOutput::getModes() const
 {
-    bool modeFound = false;
-    QVector<Mode> modes;
-    auto conn = m_pipeline->connector();
-    QVector<DrmConnectorMode *> modelist = conn->modes();
+    const auto drmModes = m_pipeline->connector()->modes();
 
-    modes.reserve(modelist.count());
-    for (int i = 0; i < modelist.count(); ++i) {
-        Mode mode;
-        if (i == conn->currentModeIndex()) {
-            mode.flags |= ModeFlag::Current;
-            modeFound = true;
-        }
-        if (modelist[i]->nativeMode()->type & DRM_MODE_TYPE_PREFERRED) {
-            mode.flags |= ModeFlag::Preferred;
-        }
-
-        mode.id = i;
-        mode.size = modelist[i]->size();
-        mode.refreshRate = modelist[i]->refreshRate();
-        modes << mode;
+    QList<QSharedPointer<OutputMode>> ret;
+    ret.reserve(drmModes.count());
+    for (const QSharedPointer<DrmConnectorMode> &drmMode : drmModes) {
+        ret.append(drmMode);
     }
-    if (!modeFound) {
-        // select first mode by default
-        modes[0].flags |= ModeFlag::Current;
-    }
-    return modes;
-}
-
-void DrmOutput::initOutputDevice()
-{
-    const auto conn = m_pipeline->connector();
-    setName(conn->connectorName());
-    initialize(conn->modelName(), conn->edid()->manufacturerString(),
-               conn->edid()->eisaId(), conn->edid()->serialNumber(),
-               conn->physicalSize(), getModes(), conn->edid()->raw());
+    return ret;
 }
 
 void DrmOutput::updateEnablement(bool enable)
@@ -238,7 +222,7 @@ bool DrmOutput::setDrmDpmsMode(DpmsMode mode)
         setDpmsModeInternal(mode);
         return true;
     }
-    m_pipeline->pending.active = active;
+    m_pipeline->setActive(active);
     if (DrmPipeline::commitPipelines({m_pipeline}, active ? DrmPipeline::CommitMode::Test : DrmPipeline::CommitMode::CommitModeset)) {
         m_pipeline->applyPendingChanges();
         setDpmsModeInternal(mode);
@@ -290,79 +274,51 @@ DrmPlane::Transformations outputToPlaneTransform(DrmOutput::Transform transform)
 
 void DrmOutput::updateModes()
 {
-    auto conn = m_pipeline->connector();
-    conn->updateModes();
+    const QList<QSharedPointer<OutputMode>> modes = getModes();
 
-    const auto modes = getModes();
-    setModes(modes);
-
-    auto it = std::find_if(modes.constBegin(), modes.constEnd(),
-        [](const AbstractWaylandOutput::Mode &mode){
-            return mode.flags.testFlag(ModeFlag::Current);
-        }
-    );
-    Q_ASSERT(it != modes.constEnd());
-    AbstractWaylandOutput::Mode mode = *it;
-
-    // mode changed
-    if (mode.size != modeSize() || mode.refreshRate != refreshRate()) {
-        m_pipeline->pending.modeIndex = mode.id;
-        if (DrmPipeline::commitPipelines({m_pipeline}, DrmPipeline::CommitMode::Test)) {
-            m_pipeline->applyPendingChanges();
-            auto mode = m_pipeline->connector()->currentMode();
-            setCurrentModeInternal(mode->size(), mode->refreshRate());
-            m_renderLoop->setRefreshRate(mode->refreshRate());
-        } else {
-            qCWarning(KWIN_DRM) << "Setting changed mode failed!";
-            m_pipeline->revertPendingChanges();
+    if (m_pipeline->crtc()) {
+        const auto currentMode = m_pipeline->connector()->findMode(m_pipeline->crtc()->queryCurrentMode());
+        if (currentMode != m_pipeline->mode()) {
+            // DrmConnector::findCurrentMode might fail
+            m_pipeline->setMode(currentMode ? currentMode : m_pipeline->connector()->modes().constFirst());
+            if (m_gpu->testPendingConfiguration()) {
+                m_pipeline->applyPendingChanges();
+                m_renderLoop->setRefreshRate(m_pipeline->mode()->refreshRate());
+            } else {
+                qCWarning(KWIN_DRM) << "Setting changed mode failed!";
+                m_pipeline->revertPendingChanges();
+            }
         }
     }
-}
 
-bool DrmOutput::needsSoftwareTransformation() const
-{
-    return m_pipeline->pending.bufferTransformation != m_pipeline->pending.sourceTransformation;
-}
-
-bool DrmOutput::present(const QSharedPointer<DrmBuffer> &buffer, QRegion damagedRegion)
-{
-    if (!buffer || buffer->bufferId() == 0) {
-        presentFailed();
-        return false;
+    QSharedPointer<OutputMode> currentMode = m_pipeline->mode();
+    if (!currentMode) {
+        currentMode = modes.constFirst();
     }
+
+    setModesInternal(modes, currentMode);
+}
+
+bool DrmOutput::present()
+{
     RenderLoopPrivate *renderLoopPrivate = RenderLoopPrivate::get(m_renderLoop);
-    if (m_pipeline->pending.syncMode != renderLoopPrivate->presentMode) {
-        m_pipeline->pending.syncMode = renderLoopPrivate->presentMode;
+    if (m_pipeline->syncMode() != renderLoopPrivate->presentMode) {
+        m_pipeline->setSyncMode(renderLoopPrivate->presentMode);
         if (DrmPipeline::commitPipelines({m_pipeline}, DrmPipeline::CommitMode::Test)) {
             m_pipeline->applyPendingChanges();
         } else {
             m_pipeline->revertPendingChanges();
         }
     }
-    if (m_pipeline->present(buffer)) {
-        Q_EMIT outputChange(damagedRegion);
+    bool modeset = gpu()->needsModeset();
+    if (modeset ? m_pipeline->maybeModeset() : m_pipeline->present()) {
+        Q_EMIT outputChange(m_pipeline->primaryLayer()->currentDamage());
         return true;
-    } else {
-        return false;
+    } else if (!modeset) {
+        qCWarning(KWIN_DRM) << "Presentation failed!" << strerror(errno);
+        frameFailed();
     }
-}
-
-int DrmOutput::gammaRampSize() const
-{
-    return m_pipeline->pending.crtc ? m_pipeline->pending.crtc->gammaRampSize() : 256;
-}
-
-bool DrmOutput::setGammaRamp(const GammaRamp &gamma)
-{
-    m_pipeline->pending.gamma = QSharedPointer<DrmGammaRamp>::create(m_gpu, gamma);
-    if (DrmPipeline::commitPipelines({m_pipeline}, DrmPipeline::CommitMode::Test)) {
-        m_pipeline->applyPendingChanges();
-        m_renderLoop->scheduleRepaint();
-        return true;
-    } else {
-        m_pipeline->revertPendingChanges();
-        return false;
-    }
+    return false;
 }
 
 DrmConnector *DrmOutput::connector() const
@@ -375,57 +331,33 @@ DrmPipeline *DrmOutput::pipeline() const
     return m_pipeline;
 }
 
-QSize DrmOutput::bufferSize() const
-{
-    return m_pipeline->bufferSize();
-}
-
-QSize DrmOutput::sourceSize() const
-{
-    return m_pipeline->sourceSize();
-}
-
-bool DrmOutput::isFormatSupported(uint32_t drmFormat) const
-{
-    return m_pipeline->isFormatSupported(drmFormat);
-}
-
-QVector<uint64_t> DrmOutput::supportedModifiers(uint32_t drmFormat) const
-{
-    return m_pipeline->supportedModifiers(drmFormat);
-}
-
-bool DrmOutput::queueChanges(const WaylandOutputConfig &config)
+bool DrmOutput::queueChanges(const OutputConfiguration &config)
 {
     static bool valid;
     static int envOnlySoftwareRotations = qEnvironmentVariableIntValue("KWIN_DRM_SW_ROTATIONS_ONLY", &valid) == 1 || !valid;
 
-    auto props = config.constChangeSet(this);
-    m_pipeline->pending.active = props->enabled;
-    auto modelist = m_connector->modes();
-    int index = -1;
-    for (int i = 0; i < modelist.size(); i++) {
-        if (modelist[i]->size() == props->modeSize && modelist[i]->refreshRate() == props->refreshRate) {
-            index = i;
-            break;
-        }
-    }
-    if (index == -1) {
+    const auto props = config.constChangeSet(this);
+    m_pipeline->setActive(props->enabled);
+    const auto modelist = m_connector->modes();
+    const auto it = std::find_if(modelist.begin(), modelist.end(), [&props](const auto &mode) {
+        return mode->size() == props->modeSize && mode->refreshRate() == props->refreshRate;
+    });
+    if (it == modelist.end()) {
         qCWarning(KWIN_DRM).nospace() << "Could not find mode " << props->modeSize << "@" << props->refreshRate << " for output " << this;
         return false;
     }
-    m_pipeline->pending.modeIndex = index;
-    m_pipeline->pending.overscan = props->overscan;
-    m_pipeline->pending.rgbRange = props->rgbRange;
-    m_pipeline->pending.sourceTransformation = outputToPlaneTransform(props->transform);
+    m_pipeline->setMode(*it);
+    m_pipeline->setOverscan(props->overscan);
+    m_pipeline->setRgbRange(props->rgbRange);
+    m_pipeline->setRenderOrientation(outputToPlaneTransform(props->transform));
     if (!envOnlySoftwareRotations && m_gpu->atomicModeSetting()) {
-        m_pipeline->pending.bufferTransformation = m_pipeline->pending.sourceTransformation;
+        m_pipeline->setBufferOrientation(m_pipeline->renderOrientation());
     }
-    m_pipeline->pending.enabled = props->enabled;
+    m_pipeline->setEnable(props->enabled);
     return true;
 }
 
-void DrmOutput::applyQueuedChanges(const WaylandOutputConfig &config)
+void DrmOutput::applyQueuedChanges(const OutputConfiguration &config)
 {
     if (!m_connector->isConnected()) {
         return;
@@ -434,7 +366,7 @@ void DrmOutput::applyQueuedChanges(const WaylandOutputConfig &config)
     m_pipeline->applyPendingChanges();
 
     auto props = config.constChangeSet(this);
-    setEnabled(props->enabled && m_pipeline->pending.crtc);
+    setEnabled(props->enabled && m_pipeline->crtc());
     if (!isEnabled() && m_pipeline->needsModeset()) {
         m_gpu->maybeModeset();
     }
@@ -442,16 +374,17 @@ void DrmOutput::applyQueuedChanges(const WaylandOutputConfig &config)
     setScale(props->scale);
     setTransformInternal(props->transform);
 
-    m_connector->setModeIndex(m_pipeline->pending.modeIndex);
-    auto mode = m_connector->currentMode();
-    setCurrentModeInternal(mode->size(), mode->refreshRate());
+    const auto mode = m_pipeline->mode();
+    setCurrentModeInternal(mode);
     m_renderLoop->setRefreshRate(mode->refreshRate());
-    setOverscanInternal(m_pipeline->pending.overscan);
-    setRgbRangeInternal(m_pipeline->pending.rgbRange);
+    setOverscanInternal(m_pipeline->overscan());
+    setRgbRangeInternal(m_pipeline->rgbRange());
     setVrrPolicy(props->vrrPolicy);
 
     m_renderLoop->scheduleRepaint();
     Q_EMIT changed();
+
+    updateCursor();
 }
 
 void DrmOutput::revertQueuedChanges()
@@ -459,25 +392,96 @@ void DrmOutput::revertQueuedChanges()
     m_pipeline->revertPendingChanges();
 }
 
-void DrmOutput::pageFlipped(std::chrono::nanoseconds timestamp)
-{
-    RenderLoopPrivate::get(m_renderLoop)->notifyFrameCompleted(timestamp);
-}
-
-void DrmOutput::presentFailed()
-{
-    RenderLoopPrivate::get(m_renderLoop)->notifyFrameFailed();
-}
-
-int DrmOutput::maxBpc() const
-{
-    auto prop = m_connector->getProp(DrmConnector::PropertyIndex::MaxBpc);
-    return prop ? prop->maxValue() : 8;
-}
-
 bool DrmOutput::usesSoftwareCursor() const
 {
     return !m_setCursorSuccessful || !m_moveCursorSuccessful;
 }
 
+DrmOutputLayer *DrmOutput::outputLayer() const
+{
+    return m_pipeline->primaryLayer();
+}
+
+void DrmOutput::setColorTransformation(const QSharedPointer<ColorTransformation> &transformation)
+{
+    m_pipeline->setColorTransformation(transformation);
+    if (DrmPipeline::commitPipelines({m_pipeline}, DrmPipeline::CommitMode::Test)) {
+        m_pipeline->applyPendingChanges();
+        m_renderLoop->scheduleRepaint();
+    } else {
+        m_pipeline->revertPendingChanges();
+    }
+}
+
+void DrmOutput::renderCursorOpengl(const QSize &cursorSize)
+{
+    const auto layer = m_pipeline->cursorLayer();
+    auto allocateTexture = [this]() {
+        const QImage img = Cursors::self()->currentCursor()->image();
+        if (img.isNull()) {
+            m_cursorTextureDirty = false;
+            return;
+        }
+        m_cursorTexture.reset(new GLTexture(img));
+        m_cursorTexture->setWrapMode(GL_CLAMP_TO_EDGE);
+        m_cursorTextureDirty = false;
+    };
+
+    const auto [renderTarget, repaint] = layer->beginFrame();
+
+    if (!m_cursorTexture) {
+        allocateTexture();
+
+        // handle shape update on case cursor image changed
+        connect(Cursors::self(), &Cursors::currentCursorChanged, this, [this]() {
+            m_cursorTextureDirty = true;
+        });
+    } else if (m_cursorTextureDirty) {
+        const QImage image = Cursors::self()->currentCursor()->image();
+        if (image.size() == m_cursorTexture->size()) {
+            m_cursorTexture->update(image);
+            m_cursorTextureDirty = false;
+        } else {
+            allocateTexture();
+        }
+    }
+
+    QMatrix4x4 mvp;
+    mvp.ortho(QRect(QPoint(), renderTarget.size()));
+
+    glClear(GL_COLOR_BUFFER_BIT);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    m_cursorTexture->bind();
+    ShaderBinder binder(ShaderTrait::MapTexture);
+    binder.shader()->setUniform(GLShader::ModelViewProjectionMatrix, mvp);
+    m_cursorTexture->render(QRect(0, 0, cursorSize.width(), cursorSize.height()));
+    m_cursorTexture->unbind();
+    glDisable(GL_BLEND);
+
+    layer->endFrame(infiniteRegion(), infiniteRegion());
+}
+
+void DrmOutput::renderCursorQPainter()
+{
+    const auto layer = m_pipeline->cursorLayer();
+    const Cursor *cursor = Cursors::self()->currentCursor();
+    const QImage cursorImage = cursor->image();
+
+    const auto [renderTarget, repaint] = layer->beginFrame();
+
+    QImage *c = std::get<QImage *>(renderTarget.nativeHandle());
+    c->setDevicePixelRatio(scale());
+    c->fill(Qt::transparent);
+
+    QPainter p;
+    p.begin(c);
+    p.setWorldTransform(logicalToNativeMatrix(cursor->rect(), 1, transform()).toTransform());
+    p.setRenderHint(QPainter::SmoothPixmapTransform);
+    p.drawImage(QPoint(0, 0), cursorImage);
+    p.end();
+
+    layer->endFrame(infiniteRegion(), infiniteRegion());
+}
 }

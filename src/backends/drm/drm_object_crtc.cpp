@@ -8,24 +8,18 @@
 */
 #include "drm_object_crtc.h"
 #include "drm_backend.h"
-#include "drm_output.h"
 #include "drm_buffer.h"
+#include "drm_gpu.h"
+#include "drm_output.h"
 #include "drm_pointer.h"
 #include "logging.h"
-#include "drm_gpu.h"
 #include <cerrno>
 
 namespace KWin
 {
 
 DrmCrtc::DrmCrtc(DrmGpu *gpu, uint32_t crtcId, int pipeIndex, DrmPlane *primaryPlane, DrmPlane *cursorPlane)
-    : DrmObject(gpu, crtcId, {
-        PropertyDefinition(QByteArrayLiteral("MODE_ID"), Requirement::Required),
-        PropertyDefinition(QByteArrayLiteral("ACTIVE"), Requirement::Required),
-        PropertyDefinition(QByteArrayLiteral("VRR_ENABLED"), Requirement::Optional),
-        PropertyDefinition(QByteArrayLiteral("GAMMA_LUT"), Requirement::Optional),
-        PropertyDefinition(QByteArrayLiteral("GAMMA_LUT_SIZE"), Requirement::Optional)
-    }, DRM_MODE_OBJECT_CRTC)
+    : DrmObject(gpu, crtcId, {PropertyDefinition(QByteArrayLiteral("MODE_ID"), Requirement::Required), PropertyDefinition(QByteArrayLiteral("ACTIVE"), Requirement::Required), PropertyDefinition(QByteArrayLiteral("VRR_ENABLED"), Requirement::Optional), PropertyDefinition(QByteArrayLiteral("GAMMA_LUT"), Requirement::Optional), PropertyDefinition(QByteArrayLiteral("GAMMA_LUT_SIZE"), Requirement::Optional)}, DRM_MODE_OBJECT_CRTC)
     , m_crtc(drmModeGetCrtc(gpu->fd(), crtcId))
     , m_pipeIndex(pipeIndex)
     , m_primaryPlane(primaryPlane)
@@ -67,19 +61,22 @@ int DrmCrtc::pipeIndex() const
     return m_pipeIndex;
 }
 
-QSharedPointer<DrmBuffer> DrmCrtc::current() const
+std::shared_ptr<DrmFramebuffer> DrmCrtc::current() const
 {
     return m_currentBuffer;
 }
-QSharedPointer<DrmBuffer> DrmCrtc::next() const
+
+std::shared_ptr<DrmFramebuffer> DrmCrtc::next() const
 {
     return m_nextBuffer;
 }
-void DrmCrtc::setCurrent(const QSharedPointer<DrmBuffer> &buffer)
+
+void DrmCrtc::setCurrent(const std::shared_ptr<DrmFramebuffer> &buffer)
 {
     m_currentBuffer = buffer;
 }
-void DrmCrtc::setNext(const QSharedPointer<DrmBuffer> &buffer)
+
+void DrmCrtc::setNext(const std::shared_ptr<DrmFramebuffer> &buffer)
 {
     m_nextBuffer = buffer;
 }
@@ -111,4 +108,13 @@ void DrmCrtc::disable()
     setPending(PropertyIndex::ModeId, 0);
 }
 
+void DrmCrtc::releaseBuffers()
+{
+    if (m_nextBuffer) {
+        m_nextBuffer->releaseBuffer();
+    }
+    if (m_currentBuffer) {
+        m_currentBuffer->releaseBuffer();
+    }
+}
 }

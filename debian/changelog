@@ -1,3 +1,13 @@
+kwin (4:5.24.90-1) experimental; urgency=medium
+
+  [ Aurélien COUDERC ]
+  * New upstream release (5.24.90).
+  * Retire kwin-wayland-backend-fbdev.
+  * Update the list of installed files from build logs.
+  * Drop symbols files, useless for non-public library packages.
+
+ -- Aurélien COUDERC <coucouf@debian.org>  Fri, 20 May 2022 11:47:01 +0200
+
 kwin (4:5.24.5-1) unstable; urgency=medium
 
   [ Aurélien COUDERC ]

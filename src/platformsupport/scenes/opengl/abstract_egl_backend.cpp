@@ -7,14 +7,15 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "abstract_egl_backend.h"
-#include "egl_dmabuf.h"
 #include "composite.h"
+#include "egl_dmabuf.h"
 #include "options.h"
+#include "output.h"
 #include "platform.h"
+#include "utils/common.h"
 #include "utils/egl_context_attribute_builder.h"
+#include "wayland/display.h"
 #include "wayland_server.h"
-#include "abstract_wayland_output.h"
-#include <KWaylandServer/display.h>
 // kwin libs
 #include <kwinglplatform.h>
 #include <kwinglutils.h>
@@ -36,14 +37,9 @@ static bool isOpenGLES_helper()
     return QOpenGLContext::openGLModuleType() == QOpenGLContext::LibGLES;
 }
 
-AbstractEglBackend *AbstractEglBackend::s_primaryBackend = nullptr;
-
 AbstractEglBackend::AbstractEglBackend(dev_t deviceId)
     : m_deviceId(deviceId)
 {
-    if (s_primaryBackend == nullptr) {
-        setPrimaryBackend(this);
-    }
     connect(Compositor::self(), &Compositor::aboutToDestroy, this, &AbstractEglBackend::teardown);
 }
 
@@ -85,12 +81,10 @@ void AbstractEglBackend::teardown()
 void AbstractEglBackend::cleanup()
 {
     cleanupSurfaces();
-    if (isPrimary()) {
-        cleanupGL();
-        doneCurrent();
-        eglDestroyContext(m_display, m_context);
-        eglReleaseThread();
-    }
+    cleanupGL();
+    doneCurrent();
+    eglDestroyContext(m_display, m_context);
+    eglReleaseThread();
 }
 
 void AbstractEglBackend::cleanupSurfaces()
@@ -142,7 +136,7 @@ bool AbstractEglBackend::initEglAPI()
 }
 
 typedef void (*eglFuncPtr)();
-static eglFuncPtr getProcAddress(const char* name)
+static eglFuncPtr getProcAddress(const char *name)
 {
     return eglGetProcAddress(name);
 }
@@ -152,8 +146,9 @@ void AbstractEglBackend::initKWinGL()
     GLPlatform *glPlatform = GLPlatform::instance();
     glPlatform->detect(EglPlatformInterface);
     options->setGlPreferBufferSwap(options->glPreferBufferSwap()); // resolve autosetting
-    if (options->glPreferBufferSwap() == Options::AutoSwapStrategy)
+    if (options->glPreferBufferSwap() == Options::AutoSwapStrategy) {
         options->setGlPreferBufferSwap('e'); // for unknown drivers - should not happen
+    }
     glPlatform->printResults();
     initGL(&getProcAddress);
 }
@@ -206,12 +201,12 @@ void AbstractEglBackend::initWayland()
 void AbstractEglBackend::initClientExtensions()
 {
     // Get the list of client extensions
-    const char* clientExtensionsCString = eglQueryString(EGL_NO_DISPLAY, EGL_EXTENSIONS);
+    const char *clientExtensionsCString = eglQueryString(EGL_NO_DISPLAY, EGL_EXTENSIONS);
     const QByteArray clientExtensionsString = QByteArray::fromRawData(clientExtensionsCString, qstrlen(clientExtensionsCString));
     if (clientExtensionsString.isEmpty()) {
         // If eglQueryString() returned NULL, the implementation doesn't support
         // EGL_EXT_client_extensions. Expect an EGL_BAD_DISPLAY error.
-        (void) eglGetError();
+        (void)eglGetError();
     }
 
     m_clientExtensions = clientExtensionsString.split(' ');
@@ -358,11 +353,10 @@ EGLContext AbstractEglBackend::createContextInternal(EGLContext sharedContext)
     return ctx;
 }
 
-void AbstractEglBackend::setEglDisplay(const EGLDisplay &display) {
+void AbstractEglBackend::setEglDisplay(const EGLDisplay &display)
+{
     m_display = display;
-    if (isPrimary()) {
-        kwinApp()->platform()->setSceneEglDisplay(display);
-    }
+    kwinApp()->platform()->setSceneEglDisplay(display);
 }
 
 void AbstractEglBackend::setConfig(const EGLConfig &config)
@@ -375,14 +369,11 @@ void AbstractEglBackend::setSurface(const EGLSurface &surface)
     m_surface = surface;
 }
 
-QSharedPointer<GLTexture> AbstractEglBackend::textureForOutput(AbstractOutput *requestedOutput) const
+QSharedPointer<GLTexture> AbstractEglBackend::textureForOutput(Output *requestedOutput) const
 {
     QSharedPointer<GLTexture> texture(new GLTexture(GL_RGBA8, requestedOutput->pixelSize()));
-    GLRenderTarget renderTarget(*texture);
-
-    const QRect geo = requestedOutput->geometry();
-    QRect invGeo(geo.left(), geo.bottom(), geo.width(), -geo.height());
-    renderTarget.blitFromFramebuffer(invGeo);
+    GLFramebuffer renderTarget(texture.data());
+    renderTarget.blitFromFramebuffer(QRect(0, texture->height(), texture->width(), -texture->height()));
     return texture;
 }
 

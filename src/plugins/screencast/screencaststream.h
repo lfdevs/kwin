@@ -9,15 +9,17 @@
 #pragma once
 
 #include "config-kwin.h"
-#include "kwinglobals.h"
 
-#include <KWaylandServer/screencast_v1_interface.h>
+#include "kwinglobals.h"
+#include "wayland/screencast_v1_interface.h"
 
 #include <QHash>
 #include <QObject>
 #include <QSharedPointer>
 #include <QSize>
 #include <QSocketNotifier>
+#include <chrono>
+#include <optional>
 
 #include <pipewire/pipewire.h>
 #include <spa/param/format-utils.h>
@@ -44,19 +46,23 @@ public:
     bool init();
     uint framerate();
     uint nodeId();
-    QString error() const {
+    QString error() const
+    {
         return m_error;
     }
 
     void stop();
 
-    /** Renders @p frame into the current framebuffer into the stream */
+    /**
+     * Renders @p frame into the current framebuffer into the stream
+     * @p timestamp
+     */
     void recordFrame(const QRegion &damagedRegion);
 
     void setCursorMode(KWaylandServer::ScreencastV1Interface::CursorMode mode, qreal scale, const QRect &viewport);
 
 public Q_SLOTS:
-     void recordCursor();
+    void recordCursor();
 
 Q_SIGNALS:
     void streamReady(quint32 nodeId);
@@ -76,7 +82,7 @@ private:
     void newStreamParams();
     void tryEnqueue(pw_buffer *buffer);
     void enqueue();
-    spa_pod* buildFormat(struct spa_pod_builder *b, enum spa_video_format format, struct spa_rectangle *resolution,
+    spa_pod *buildFormat(struct spa_pod_builder *b, enum spa_video_format format, struct spa_rectangle *resolution,
                          struct spa_fraction *defaultFramerate, struct spa_fraction *minFramerate, struct spa_fraction *maxFramerate,
                          uint64_t *modifiers, int modifier_count);
 
@@ -95,7 +101,8 @@ private:
     bool m_hasModifier = false;
     QString m_error;
 
-    struct {
+    struct
+    {
         KWaylandServer::ScreencastV1Interface::CursorMode mode = KWaylandServer::ScreencastV1Interface::Hidden;
         const QSize bitmapSize = QSize(256, 256);
         qreal scale = 1;
@@ -111,6 +118,8 @@ private:
     pw_buffer *m_pendingBuffer = nullptr;
     QSocketNotifier *m_pendingNotifier = nullptr;
     EGLNativeFence *m_pendingFence = nullptr;
+    std::optional<std::chrono::nanoseconds> m_start;
+    quint64 m_sequential = 0;
 };
 
 } // namespace KWin

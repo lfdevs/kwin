@@ -22,8 +22,8 @@
 
 namespace KWin
 {
-class AbstractClient;
-class AbstractOutput;
+class Window;
+class Output;
 class Platform;
 
 class KWIN_EXPORT Screens : public QObject
@@ -62,9 +62,6 @@ public:
      * @see sizeChanged()
      */
     QSize size() const;
-    int number(const QPoint &pos) const;
-
-    int intersecting(const QRect &r) const;
 
 Q_SIGNALS:
     void countChanged(int previousCount, int newCount);
@@ -106,7 +103,7 @@ private Q_SLOTS:
     void updateSize();
 
 private:
-    AbstractOutput *findOutput(int screenId) const;
+    Output *findOutput(int screenId) const;
 
     int m_count;
     QSize m_boundingSize;
@@ -115,26 +112,22 @@ private:
     KWIN_SINGLETON(Screens)
 };
 
-inline
-int Screens::count() const
+inline int Screens::count() const
 {
     return m_count;
 }
 
-inline
-QSize Screens::size() const
+inline QSize Screens::size() const
 {
     return m_boundingSize;
 }
 
-inline
-QRect Screens::geometry() const
+inline QRect Screens::geometry() const
 {
-    return QRect(QPoint(0,0), size());
+    return QRect(QPoint(0, 0), size());
 }
 
-inline
-Screens *screens()
+inline Screens *screens()
 {
     return Screens::self();
 }

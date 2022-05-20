@@ -8,10 +8,9 @@
 */
 #ifndef KWIN_PLATFORM_H
 #define KWIN_PLATFORM_H
+#include <epoxy/egl.h>
 #include <kwin_export.h>
 #include <kwinglobals.h>
-#include <epoxy/egl.h>
-#include "input.h"
 
 #include <QImage>
 #include <QObject>
@@ -20,14 +19,16 @@
 
 class QAction;
 
-namespace KWaylandServer {
+namespace KWaylandServer
+{
 class OutputConfigurationV2Interface;
 }
 
 namespace KWin
 {
 
-class AbstractOutput;
+class Window;
+class Output;
 class Edge;
 class Compositor;
 class DmaBufTexture;
@@ -37,19 +38,18 @@ class OpenGLBackend;
 class Outline;
 class OutlineVisual;
 class QPainterBackend;
-class RenderLoop;
 class Scene;
 class ScreenEdges;
 class Session;
-class Toplevel;
-class WaylandOutputConfig;
+class OutputConfiguration;
 
-class KWIN_EXPORT Outputs : public QVector<AbstractOutput*>
+class KWIN_EXPORT Outputs : public QVector<Output *>
 {
 public:
     Outputs(){};
-    template <typename T>
-    Outputs(const QVector<T> &other) {
+    template<typename T>
+    Outputs(const QVector<T> &other)
+    {
         resize(other.size());
         std::copy(other.constBegin(), other.constEnd(), begin());
     }
@@ -66,10 +66,7 @@ public:
     virtual InputBackend *createInputBackend();
     virtual OpenGLBackend *createOpenGLBackend();
     virtual QPainterBackend *createQPainterBackend();
-    virtual DmaBufTexture *createDmaBufTexture(const QSize &size) {
-        Q_UNUSED(size);
-        return nullptr;
-    }
+    virtual QSharedPointer<DmaBufTexture> createDmaBufTexture(const QSize &size);
 
     /**
      * Allows the platform to create a platform specific screen edge.
@@ -105,13 +102,6 @@ public:
      */
     void setSceneEglGlobalShareContext(EGLContext context);
 
-    /**
-     * Implementing subclasses should provide a size in case the backend represents
-     * a basic screen and uses the BasicScreens.
-     *
-     * Base implementation returns an invalid size.
-     */
-    virtual QSize screenSize() const;
     /**
      * Implement this method to receive configuration change requests through KWayland's
      * OutputManagement interface.
@@ -172,7 +162,7 @@ public:
     /**
      * Starts an interactive window selection process.
      *
-     * Once the user selected a window the @p callback is invoked with the selected Toplevel as
+     * Once the user selected a window the @p callback is invoked with the selected Window as
      * argument. In case the user cancels the interactive window selection or selecting a window is currently
      * not possible (e.g. screen locked) the @p callback is invoked with a @c nullptr argument.
      *
@@ -185,7 +175,7 @@ public:
      * @param callback The function to invoke once the interactive window selection ends
      * @param cursorName The optional name of the cursor shape to use, default is crosshair
      */
-    virtual void startInteractiveWindowSelection(std::function<void(KWin::Toplevel*)> callback, const QByteArray &cursorName = QByteArray());
+    virtual void startInteractiveWindowSelection(std::function<void(KWin::Window *)> callback, const QByteArray &cursorName = QByteArray());
 
     /**
      * Starts an interactive position selection process.
@@ -230,28 +220,36 @@ public:
      */
     virtual PlatformCursorImage cursorImage() const;
 
-    bool isReady() const {
+    bool isReady() const
+    {
         return m_ready;
     }
-    void setInitialWindowSize(const QSize &size) {
+    void setInitialWindowSize(const QSize &size)
+    {
         m_initialWindowSize = size;
     }
-    void setDeviceIdentifier(const QByteArray &identifier) {
+    void setDeviceIdentifier(const QByteArray &identifier)
+    {
         m_deviceIdentifier = identifier;
     }
-    bool supportsPointerWarping() const {
+    bool supportsPointerWarping() const
+    {
         return m_pointerWarping;
     }
-    int initialOutputCount() const {
+    int initialOutputCount() const
+    {
         return m_initialOutputCount;
     }
-    void setInitialOutputCount(int count) {
+    void setInitialOutputCount(int count)
+    {
         m_initialOutputCount = count;
     }
-    qreal initialOutputScale() const {
+    qreal initialOutputScale() const
+    {
         return m_initialOutputScale;
     }
-    void setInitialOutputScale(qreal scale) {
+    void setInitialOutputScale(qreal scale)
+    {
         m_initialOutputScale = scale;
     }
 
@@ -294,22 +292,25 @@ public:
      * Whether gamma control is supported by the backend.
      * @since 5.12
      */
-    bool supportsGammaControl() const {
+    bool supportsGammaControl() const
+    {
         return m_supportsGammaControl;
     }
 
     // outputs with connections (org_kde_kwin_outputdevice)
-    virtual Outputs outputs() const {
+    virtual Outputs outputs() const
+    {
         return Outputs();
     }
     // actively compositing outputs (wl_output)
-    virtual Outputs enabledOutputs() const {
+    virtual Outputs enabledOutputs() const
+    {
         return Outputs();
     }
-    AbstractOutput *findOutput(int screenId) const;
-    AbstractOutput *findOutput(const QUuid &uuid) const;
-    AbstractOutput *findOutput(const QString &name) const;
-    AbstractOutput *outputAt(const QPoint &pos) const;
+    Output *findOutput(int screenId) const;
+    Output *findOutput(const QUuid &uuid) const;
+    Output *findOutput(const QString &name) const;
+    Output *outputAt(const QPoint &pos) const;
 
     /**
      * A string of information to include in kwin debug output
@@ -339,67 +340,29 @@ public:
         m_selectedCompositor = type;
     }
 
-    /**
-     * Returns @c true if rendering is split per screen; otherwise returns @c false.
-     */
-    bool isPerScreenRenderingEnabled() const;
-
-    /**
-     * If the Platform doesn't support per screen rendering, this function returns the
-     * RenderLoop that drives compositing.
-     */
-    virtual RenderLoop *renderLoop() const;
-
-    virtual AbstractOutput *createVirtualOutput(const QString &name, const QSize &size, qreal scaling);
-    virtual void removeVirtualOutput(AbstractOutput *output);
+    virtual Output *createVirtualOutput(const QString &name, const QSize &size, qreal scaling);
+    virtual void removeVirtualOutput(Output *output);
 
     /**
      * @returns the primary output amomg the enabled outputs
      */
-    AbstractOutput *primaryOutput() const {
+    Output *primaryOutput() const
+    {
         return m_primaryOutput;
     }
 
     /**
      * Assigns a the @p primary output among the enabled outputs
      */
-    void setPrimaryOutput(AbstractOutput *primary);
+    void setPrimaryOutput(Output *primary);
 
     /**
      * Applies the output changes. Default implementation only sets values common between platforms
      */
-    virtual bool applyOutputChanges(const WaylandOutputConfig &config);
+    virtual bool applyOutputChanges(const OutputConfiguration &config);
 
 public Q_SLOTS:
-    void pointerMotion(const QPointF &position, quint32 time);
-    void pointerButtonPressed(quint32 button, quint32 time);
-    void pointerButtonReleased(quint32 button, quint32 time);
-    void pointerAxisHorizontal(qreal delta, quint32 time, qint32 discreteDelta = 0,
-        InputRedirection::PointerAxisSource source = InputRedirection::PointerAxisSourceUnknown);
-    void pointerAxisVertical(qreal delta, quint32 time, qint32 discreteDelta = 0,
-        InputRedirection::PointerAxisSource source = InputRedirection::PointerAxisSourceUnknown);
-    void keyboardKeyPressed(quint32 key, quint32 time);
-    void keyboardKeyReleased(quint32 key, quint32 time);
-    void keyboardModifiers(uint32_t modsDepressed, uint32_t modsLatched, uint32_t modsLocked, uint32_t group);
-    void keymapChange(int fd, uint32_t size);
-    void touchDown(qint32 id, const QPointF &pos, quint32 time);
-    void touchUp(qint32 id, quint32 time);
-    void touchMotion(qint32 id, const QPointF &pos, quint32 time);
-    void cancelTouchSequence();
-    void touchCancel();
-    void touchFrame();
-
-    void processSwipeGestureBegin(int fingerCount, quint32 time);
-    void processSwipeGestureUpdate(const QSizeF &delta, quint32 time);
-    void processSwipeGestureEnd(quint32 time);
-    void processSwipeGestureCancelled(quint32 time);
-    void processPinchGestureBegin(int fingerCount, quint32 time);
-    void processPinchGestureUpdate(qreal scale, qreal angleDelta, const QSizeF &delta, quint32 time);
-    void processPinchGestureEnd(quint32 time);
-    void processPinchGestureCancelled(quint32 time);
-
-    void cursorRendered(const QRect &geometry);
-    virtual void sceneInitialized() {};
+    virtual void sceneInitialized(){};
 
 Q_SIGNALS:
     void screensQueried();
@@ -408,16 +371,16 @@ Q_SIGNALS:
      * This signal is emitted when an output has been connected. The @a output is not ready
      * for compositing yet.
      */
-    void outputAdded(AbstractOutput *output);
+    void outputAdded(Output *output);
     /**
      * This signal is emitted when an output has been disconnected.
      */
-    void outputRemoved(AbstractOutput *output);
+    void outputRemoved(Output *output);
     /**
      * This signal is emitted when the @a output has become activated and it is ready for
      * compositing.
      */
-    void outputEnabled(AbstractOutput *output);
+    void outputEnabled(Output *output);
     /**
      * This signal is emitted when the @a output has been deactivated and it is no longer
      * being composited. The outputDisabled() signal is guaranteed to be emitted before the
@@ -425,40 +388,40 @@ Q_SIGNALS:
      *
      * @see outputEnabled, outputRemoved
      */
-    void outputDisabled(AbstractOutput *output);
+    void outputDisabled(Output *output);
 
-    void primaryOutputChanged(AbstractOutput *primaryOutput);
+    void primaryOutputChanged(Output *primaryOutput);
 
 protected:
     explicit Platform(QObject *parent = nullptr);
     void repaint(const QRect &rect);
     void setReady(bool ready);
-    void setPerScreenRenderingEnabled(bool enabled);
-    QSize initialWindowSize() const {
+    QSize initialWindowSize() const
+    {
         return m_initialWindowSize;
     }
-    QByteArray deviceIdentifier() const {
+    QByteArray deviceIdentifier() const
+    {
         return m_deviceIdentifier;
     }
-    void setSupportsPointerWarping(bool set) {
+    void setSupportsPointerWarping(bool set)
+    {
         m_pointerWarping = set;
     }
-    void setSupportsGammaControl(bool set) {
+    void setSupportsGammaControl(bool set)
+    {
         m_supportsGammaControl = set;
     }
 
     /**
      * Whether the backend is supposed to change the configuration of outputs.
      */
-    void supportsOutputChanges() {
+    void supportsOutputChanges()
+    {
         m_supportsOutputChanges = true;
     }
 
 private:
-    void triggerCursorRepaint();
-    struct {
-        QRect lastRenderedGeometry;
-    } m_cursor;
     bool m_ready = false;
     QSize m_initialWindowSize;
     QByteArray m_deviceIdentifier;
@@ -469,9 +432,8 @@ private:
     EGLContext m_globalShareContext = EGL_NO_CONTEXT;
     bool m_supportsGammaControl = false;
     bool m_supportsOutputChanges = false;
-    bool m_isPerScreenRenderingEnabled = false;
     CompositingType m_selectedCompositor = NoCompositing;
-    AbstractOutput *m_primaryOutput = nullptr;
+    Output *m_primaryOutput = nullptr;
 };
 
 }

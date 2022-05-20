@@ -16,7 +16,7 @@
 #include <virtualkeyboarddata.h>
 #include <virtualkeyboardsettings.h>
 
-K_PLUGIN_FACTORY_WITH_JSON(KcmVirtualKeyboardFactory, "kcm_virtualkeyboard.json", registerPlugin<KcmVirtualKeyboard>(); registerPlugin<VirtualKeyboardData>();)
+K_PLUGIN_FACTORY_WITH_JSON(KcmVirtualKeyboardFactory, "metadata.json", registerPlugin<KcmVirtualKeyboard>(); registerPlugin<VirtualKeyboardData>();)
 
 KcmVirtualKeyboard::KcmVirtualKeyboard(QObject *parent, const QVariantList &args)
     : KQuickAddons::ManagedConfigModule(parent)
@@ -100,3 +100,4 @@ int VirtualKeyboardsModel::rowCount(const QModelIndex &parent) const
 }
 
 #include "kcmvirtualkeyboard.moc"
+#include "moc_kcmvirtualkeyboard.cpp"

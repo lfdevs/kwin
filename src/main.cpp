@@ -7,14 +7,13 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-
 #include "main.h"
-// kwin
-#include "platform.h"
+
+#include <config-kwin.h>
+
 #include "atoms.h"
-#ifdef KWIN_BUILD_CMS
+#include "platform.h"
 #include "colormanager.h"
-#endif
 #include "composite.h"
 #include "cursor.h"
 #include "input.h"
@@ -22,9 +21,12 @@
 #include "options.h"
 #include "pluginmanager.h"
 #include "screens.h"
+#if KWIN_BUILD_SCREENLOCKER
 #include "screenlockerwatcher.h"
+#endif
 #include "sm.h"
 #include "utils/xcbutils.h"
+#include "wayland/surface_interface.h"
 #include "workspace.h"
 #include "x11eventfilter.h"
 
@@ -34,23 +36,18 @@
 #include <KAboutData>
 #include <KLocalizedString>
 #include <KPluginMetaData>
-#include <KWaylandServer/surface_interface.h>
 // Qt
-#include <qplatformdefs.h>
 #include <QCommandLineParser>
+#include <QLibraryInfo>
 #include <QQuickWindow>
 #include <QStandardPaths>
 #include <QTranslator>
-#include <QLibraryInfo>
+#include <qplatformdefs.h>
 
-// system
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif // HAVE_UNISTD_H
-
-#ifdef HAVE_MALLOC_H
+#if __has_include(<malloc.h>)
 #include <malloc.h>
-#endif // HAVE_MALLOC_H
+#endif
+#include <unistd.h>
 
 // xcb
 #include <xcb/damage.h>
@@ -63,9 +60,9 @@ Q_DECLARE_METATYPE(KSharedConfigPtr)
 namespace KWin
 {
 
-Options* options;
+Options *options;
 
-Atoms* atoms;
+Atoms *atoms;
 
 int screen_number = -1;
 bool is_multihead = false;
@@ -101,7 +98,7 @@ Application::Application(Application::OperationMode mode, int &argc, char **argv
     , m_operationMode(mode)
 {
     qRegisterMetaType<Options::WindowOperation>("Options::WindowOperation");
-    qRegisterMetaType<KWin::EffectWindow*>();
+    qRegisterMetaType<KWin::EffectWindow *>();
     qRegisterMetaType<KWaylandServer::SurfaceInterface *>("KWaylandServer::SurfaceInterface *");
     qRegisterMetaType<KSharedConfigPtr>();
     qRegisterMetaType<std::chrono::nanoseconds>();
@@ -142,7 +139,7 @@ void Application::start()
     }
     if (!m_config->isImmutable() && m_configLock) {
         // TODO: This shouldn't be necessary
-        //config->setReadOnly( true );
+        // config->setReadOnly( true );
         m_config->reparseConfiguration();
     }
     if (!m_kxkbConfig) {
@@ -193,25 +190,23 @@ bool Application::wasCrash()
     return crashes > 0;
 }
 
-static const char description[] = I18N_NOOP("KDE window manager");
-
 void Application::createAboutData()
 {
-    KAboutData aboutData(QStringLiteral(KWIN_NAME),          // The program name used internally
-                         i18n("KWin"),                       // A displayable program name string
+    KAboutData aboutData(QStringLiteral(KWIN_NAME), // The program name used internally
+                         i18n("KWin"), // A displayable program name string
                          QStringLiteral(KWIN_VERSION_STRING), // The program version string
-                         i18n(description),                  // Short description of what the app does
-                         KAboutLicense::GPL,            // The license this code is released under
-                         i18n("(c) 1999-2019, The KDE Developers"));   // Copyright Statement
+                         i18n("KDE window manager"), // Short description of what the app does
+                         KAboutLicense::GPL, // The license this code is released under
+                         i18n("(c) 1999-2019, The KDE Developers")); // Copyright Statement
 
     aboutData.addAuthor(i18n("Matthias Ettrich"), QString(), QStringLiteral("ettrich@kde.org"));
     aboutData.addAuthor(i18n("Cristian Tibirna"), QString(), QStringLiteral("tibirna@kde.org"));
-    aboutData.addAuthor(i18n("Daniel M. Duley"),  QString(), QStringLiteral("mosfet@kde.org"));
-    aboutData.addAuthor(i18n("Luboš Luňák"),      QString(), QStringLiteral("l.lunak@kde.org"));
-    aboutData.addAuthor(i18n("Martin Flöser"),    QString(), QStringLiteral("mgraesslin@kde.org"));
-    aboutData.addAuthor(i18n("David Edmundson"),  QStringLiteral("Maintainer"), QStringLiteral("davidedmundson@kde.org"));
-    aboutData.addAuthor(i18n("Roman Gilg"),       QStringLiteral("Maintainer"), QStringLiteral("subdiff@gmail.com"));
-    aboutData.addAuthor(i18n("Vlad Zahorodnii"),  QStringLiteral("Maintainer"), QStringLiteral("vlad.zahorodnii@kde.org"));
+    aboutData.addAuthor(i18n("Daniel M. Duley"), QString(), QStringLiteral("mosfet@kde.org"));
+    aboutData.addAuthor(i18n("Luboš Luňák"), QString(), QStringLiteral("l.lunak@kde.org"));
+    aboutData.addAuthor(i18n("Martin Flöser"), QString(), QStringLiteral("mgraesslin@kde.org"));
+    aboutData.addAuthor(i18n("David Edmundson"), QStringLiteral("Maintainer"), QStringLiteral("davidedmundson@kde.org"));
+    aboutData.addAuthor(i18n("Roman Gilg"), QStringLiteral("Maintainer"), QStringLiteral("subdiff@gmail.com"));
+    aboutData.addAuthor(i18n("Vlad Zahorodnii"), QStringLiteral("Maintainer"), QStringLiteral("vlad.zahorodnii@kde.org"));
     KAboutData::setApplicationData(aboutData);
 }
 
@@ -254,12 +249,8 @@ void Application::setupMalloc()
     // due to fragmentation especially if we use the raster graphicssystem. On the
     // otherside if the threshold is too low, free() starts to permanently ask the kernel
     // about shrinking the heap.
-#ifdef HAVE_UNISTD_H
     const int pagesize = sysconf(_SC_PAGESIZE);
-#else
-    const int pagesize = 4*1024;
-#endif // HAVE_UNISTD_H
-    mallopt(M_TRIM_THRESHOLD, 5*pagesize);
+    mallopt(M_TRIM_THRESHOLD, 5 * pagesize);
 #endif // M_TRIM_THRESHOLD
 }
 
@@ -278,13 +269,15 @@ void Application::createWorkspace()
     // critical startup section where x errors cause kwin to abort.
 
     // create workspace.
-    (void) new Workspace();
+    (void)new Workspace();
     Q_EMIT workspaceCreated();
 }
 
 void Application::createInput()
 {
+#if KWIN_BUILD_SCREENLOCKER
     ScreenLockerWatcher::create(this);
+#endif
     auto input = InputRedirection::create(this);
     input->init();
     m_platform->createPlatformCursor(this);
@@ -316,9 +309,7 @@ void Application::createPlugins()
 
 void Application::createColorManager()
 {
-#ifdef KWIN_BUILD_CMS
     ColorManager::create(this);
-#endif
 }
 
 void Application::createInputMethod()
@@ -358,9 +349,7 @@ void Application::destroyPlugins()
 
 void Application::destroyColorManager()
 {
-#ifdef KWIN_BUILD_CMS
     delete ColorManager::self();
-#endif
 }
 
 void Application::destroyInputMethod()
@@ -402,34 +391,32 @@ void Application::unregisterEventFilter(X11EventFilter *filter)
 
 bool Application::dispatchEvent(xcb_generic_event_t *event)
 {
-    static const QVector<QByteArray> s_xcbEerrors({
-        QByteArrayLiteral("Success"),
-        QByteArrayLiteral("BadRequest"),
-        QByteArrayLiteral("BadValue"),
-        QByteArrayLiteral("BadWindow"),
-        QByteArrayLiteral("BadPixmap"),
-        QByteArrayLiteral("BadAtom"),
-        QByteArrayLiteral("BadCursor"),
-        QByteArrayLiteral("BadFont"),
-        QByteArrayLiteral("BadMatch"),
-        QByteArrayLiteral("BadDrawable"),
-        QByteArrayLiteral("BadAccess"),
-        QByteArrayLiteral("BadAlloc"),
-        QByteArrayLiteral("BadColor"),
-        QByteArrayLiteral("BadGC"),
-        QByteArrayLiteral("BadIDChoice"),
-        QByteArrayLiteral("BadName"),
-        QByteArrayLiteral("BadLength"),
-        QByteArrayLiteral("BadImplementation"),
-        QByteArrayLiteral("Unknown")
-    });
+    static const QVector<QByteArray> s_xcbEerrors({QByteArrayLiteral("Success"),
+                                                   QByteArrayLiteral("BadRequest"),
+                                                   QByteArrayLiteral("BadValue"),
+                                                   QByteArrayLiteral("BadWindow"),
+                                                   QByteArrayLiteral("BadPixmap"),
+                                                   QByteArrayLiteral("BadAtom"),
+                                                   QByteArrayLiteral("BadCursor"),
+                                                   QByteArrayLiteral("BadFont"),
+                                                   QByteArrayLiteral("BadMatch"),
+                                                   QByteArrayLiteral("BadDrawable"),
+                                                   QByteArrayLiteral("BadAccess"),
+                                                   QByteArrayLiteral("BadAlloc"),
+                                                   QByteArrayLiteral("BadColor"),
+                                                   QByteArrayLiteral("BadGC"),
+                                                   QByteArrayLiteral("BadIDChoice"),
+                                                   QByteArrayLiteral("BadName"),
+                                                   QByteArrayLiteral("BadLength"),
+                                                   QByteArrayLiteral("BadImplementation"),
+                                                   QByteArrayLiteral("Unknown")});
 
     kwinApp()->updateX11Time(event);
 
     const uint8_t x11EventType = event->response_type & ~0x80;
     if (!x11EventType) {
         // let's check whether it's an error from one of the extensions KWin uses
-        xcb_generic_error_t *error = reinterpret_cast<xcb_generic_error_t*>(event);
+        xcb_generic_error_t *error = reinterpret_cast<xcb_generic_error_t *>(event);
         const QVector<Xcb::ExtensionData> extensions = Xcb::Extensions::self()->extensions();
         for (const auto &extension : extensions) {
             if (error->major_code == extension.majorOpcode) {
@@ -446,11 +433,11 @@ bool Application::dispatchEvent(xcb_generic_event_t *event)
                     errorName = QByteArrayLiteral("Unknown");
                 }
                 qCWarning(KWIN_CORE, "XCB error: %d (%s), sequence: %d, resource id: %d, major code: %d (%s), minor code: %d (%s)",
-                         int(error->error_code), errorName.constData(),
-                         int(error->sequence), int(error->resource_id),
-                         int(error->major_code), extension.name.constData(),
-                         int(error->minor_code),
-                         extension.opCodes.size() > error->minor_code ? extension.opCodes.at(error->minor_code).constData() : "Unknown");
+                          int(error->error_code), errorName.constData(),
+                          int(error->sequence), int(error->resource_id),
+                          int(error->major_code), extension.name.constData(),
+                          int(error->minor_code),
+                          extension.opCodes.size() > error->minor_code ? extension.opCodes.at(error->minor_code).constData() : "Unknown");
                 return true;
             }
         }
@@ -500,21 +487,21 @@ void Application::updateX11Time(xcb_generic_event_t *event)
 {
     xcb_timestamp_t time = XCB_TIME_CURRENT_TIME;
     const uint8_t eventType = event->response_type & ~0x80;
-    switch(eventType) {
+    switch (eventType) {
     case XCB_KEY_PRESS:
     case XCB_KEY_RELEASE:
-        time = reinterpret_cast<xcb_key_press_event_t*>(event)->time;
+        time = reinterpret_cast<xcb_key_press_event_t *>(event)->time;
         break;
     case XCB_BUTTON_PRESS:
     case XCB_BUTTON_RELEASE:
-        time = reinterpret_cast<xcb_button_press_event_t*>(event)->time;
+        time = reinterpret_cast<xcb_button_press_event_t *>(event)->time;
         break;
     case XCB_MOTION_NOTIFY:
-        time = reinterpret_cast<xcb_motion_notify_event_t*>(event)->time;
+        time = reinterpret_cast<xcb_motion_notify_event_t *>(event)->time;
         break;
     case XCB_ENTER_NOTIFY:
     case XCB_LEAVE_NOTIFY:
-        time = reinterpret_cast<xcb_enter_notify_event_t*>(event)->time;
+        time = reinterpret_cast<xcb_enter_notify_event_t *>(event)->time;
         break;
     case XCB_FOCUS_IN:
     case XCB_FOCUS_OUT:
@@ -538,16 +525,16 @@ void Application::updateX11Time(xcb_generic_event_t *event)
         // no timestamp
         return;
     case XCB_PROPERTY_NOTIFY:
-        time = reinterpret_cast<xcb_property_notify_event_t*>(event)->time;
+        time = reinterpret_cast<xcb_property_notify_event_t *>(event)->time;
         break;
     case XCB_SELECTION_CLEAR:
-        time = reinterpret_cast<xcb_selection_clear_event_t*>(event)->time;
+        time = reinterpret_cast<xcb_selection_clear_event_t *>(event)->time;
         break;
     case XCB_SELECTION_REQUEST:
-        time = reinterpret_cast<xcb_selection_request_event_t*>(event)->time;
+        time = reinterpret_cast<xcb_selection_request_event_t *>(event)->time;
         break;
     case XCB_SELECTION_NOTIFY:
-        time = reinterpret_cast<xcb_selection_notify_event_t*>(event)->time;
+        time = reinterpret_cast<xcb_selection_notify_event_t *>(event)->time;
         break;
     case XCB_COLORMAP_NOTIFY:
     case XCB_CLIENT_MESSAGE:
@@ -559,10 +546,10 @@ void Application::updateX11Time(xcb_generic_event_t *event)
         // extension handling
         if (Xcb::Extensions::self()) {
             if (eventType == Xcb::Extensions::self()->shapeNotifyEvent()) {
-                time = reinterpret_cast<xcb_shape_notify_event_t*>(event)->server_time;
+                time = reinterpret_cast<xcb_shape_notify_event_t *>(event)->server_time;
             }
             if (eventType == Xcb::Extensions::self()->damageNotifyEvent()) {
-                time = reinterpret_cast<xcb_damage_notify_event_t*>(event)->timestamp;
+                time = reinterpret_cast<xcb_damage_notify_event_t *>(event)->timestamp;
             }
         }
         break;
@@ -570,7 +557,11 @@ void Application::updateX11Time(xcb_generic_event_t *event)
     setX11Time(time);
 }
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 bool XcbEventFilter::nativeEventFilter(const QByteArray &eventType, void *message, long int *result)
+#else
+bool XcbEventFilter::nativeEventFilter(const QByteArray &eventType, void *message, qintptr *result)
+#endif
 {
     Q_UNUSED(result)
     if (eventType == "xcb_generic_event_t") {
@@ -607,4 +598,3 @@ ApplicationWaylandAbstract::~ApplicationWaylandAbstract()
 }
 
 } // namespace
-

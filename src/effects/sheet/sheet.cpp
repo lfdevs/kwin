@@ -39,8 +39,8 @@ void SheetEffect::reconfigure(ReconfigureFlags flags)
 
     // TODO: Rename AnimationTime config key to Duration.
     const int d = animationTime(SheetConfig::animationTime() != 0
-        ? SheetConfig::animationTime()
-        : 300);
+                                    ? SheetConfig::animationTime()
+                                    : 300);
     m_duration = std::chrono::milliseconds(static_cast<int>(d));
 }
 
@@ -67,7 +67,6 @@ void SheetEffect::prePaintWindow(EffectWindow *w, WindowPrePaintData &data, std:
 {
     if (m_animations.contains(w)) {
         data.setTransformed();
-        w->enablePainting(EffectWindow::PAINT_DISABLED_BY_DELETE);
     }
 
     effects->prePaintWindow(w, data, presentTime);
@@ -118,9 +117,6 @@ void SheetEffect::postPaintWindow(EffectWindow *w)
         EffectWindow *w = animationIt.key();
         w->addRepaintFull();
         if ((*animationIt).timeLine.done()) {
-            if (w->isDeleted()) {
-                w->unrefWindow();
-            }
             animationIt = m_animations.erase(animationIt);
         } else {
             ++animationIt;
@@ -164,14 +160,14 @@ void SheetEffect::slotWindowAdded(EffectWindow *w)
 
     const auto windows = effects->stackingOrder();
     auto parentIt = std::find_if(windows.constBegin(), windows.constEnd(),
-        [w](EffectWindow *p) {
-            return p->findModal() == w;
-        });
+                                 [w](EffectWindow *p) {
+                                     return p->findModal() == w;
+                                 });
     if (parentIt != windows.constEnd()) {
         animation.parentY = (*parentIt)->y();
     }
 
-    w->setData(WindowAddedGrabRole, QVariant::fromValue(static_cast<void*>(this)));
+    w->setData(WindowAddedGrabRole, QVariant::fromValue(static_cast<void *>(this)));
 
     w->addRepaintFull();
 }
@@ -186,10 +182,9 @@ void SheetEffect::slotWindowClosed(EffectWindow *w)
         return;
     }
 
-    w->refWindow();
-
     Animation &animation = m_animations[w];
-
+    animation.deletedRef = EffectWindowDeletedRef(w);
+    animation.visibleRef = EffectWindowVisibleRef(w, EffectWindow::PAINT_DISABLED_BY_DELETE);
     animation.timeLine.reset();
     animation.parentY = 0;
     animation.timeLine.setDuration(m_duration);
@@ -198,14 +193,14 @@ void SheetEffect::slotWindowClosed(EffectWindow *w)
 
     const auto windows = effects->stackingOrder();
     auto parentIt = std::find_if(windows.constBegin(), windows.constEnd(),
-        [w](EffectWindow *p) {
-            return p->findModal() == w;
-        });
+                                 [w](EffectWindow *p) {
+                                     return p->findModal() == w;
+                                 });
     if (parentIt != windows.constEnd()) {
         animation.parentY = (*parentIt)->y();
     }
 
-    w->setData(WindowClosedGrabRole, QVariant::fromValue(static_cast<void*>(this)));
+    w->setData(WindowClosedGrabRole, QVariant::fromValue(static_cast<void *>(this)));
 
     w->addRepaintFull();
 }

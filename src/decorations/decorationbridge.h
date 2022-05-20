@@ -26,7 +26,7 @@ class DecorationSettings;
 namespace KWin
 {
 
-class AbstractClient;
+class Window;
 
 namespace Decoration
 {
@@ -40,25 +40,25 @@ public:
     static bool hasPlugin();
 
     void init();
-    KDecoration2::Decoration *createDecoration(AbstractClient *client);
+    KDecoration2::Decoration *createDecoration(Window *window);
 
     std::unique_ptr<KDecoration2::DecoratedClientPrivate> createClient(KDecoration2::DecoratedClient *client, KDecoration2::Decoration *decoration) override;
     std::unique_ptr<KDecoration2::DecorationSettingsPrivate> settings(KDecoration2::DecorationSettings *parent) override;
 
-    bool needsBlur() const {
-        return m_blur;
-    }
-    QString recommendedBorderSize() const {
+    QString recommendedBorderSize() const
+    {
         return m_recommendedBorderSize;
     }
 
-    bool showToolTips() const {
+    bool showToolTips() const
+    {
         return m_showToolTips;
     }
 
     void reconfigure();
 
-    const QSharedPointer<KDecoration2::DecorationSettings> &settings() const {
+    const QSharedPointer<KDecoration2::DecorationSettings> &settings() const
+    {
         return m_settings;
     }
 
@@ -75,7 +75,6 @@ private:
     QString readTheme() const;
     void readDecorationOptions();
     KPluginFactory *m_factory;
-    bool m_blur;
     bool m_showToolTips;
     QString m_recommendedBorderSize;
     QString m_plugin;

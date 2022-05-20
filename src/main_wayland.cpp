@@ -7,67 +7,84 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "main_wayland.h"
-#include "composite.h"
-#include "inputmethod.h"
-#include "workspace.h"
+
 #include <config-kwin.h>
-// kwin
-#include "platform.h"
+
+#include "composite.h"
 #include "effects.h"
+#include "inputmethod.h"
+#include "platform.h"
 #include "tabletmodemanager.h"
-
+#include "utils/realtime.h"
+#include "wayland/display.h"
+#include "wayland/seat_interface.h"
 #include "wayland_server.h"
-#include "xwl/xwayland.h"
-
-// KWayland
-#include <KWaylandServer/display.h>
-#include <KWaylandServer/seat_interface.h>
+#include "workspace.h"
+#include "xwayland/xwayland.h"
+#include "xwayland/xwaylandlauncher.h"
 
 // KDE
 #include <KCrash>
 #include <KDesktopFile>
 #include <KLocalizedString>
 #include <KPluginMetaData>
-#include <KQuickAddons/QtQuickSettings>
 #include <KShell>
 
 // Qt
-#include <qplatformdefs.h>
 #include <QCommandLineParser>
+#include <QDBusInterface>
+#include <QDebug>
 #include <QFileInfo>
 #include <QProcess>
-#include <QStyle>
-#include <QDebug>
 #include <QWindow>
-#include <QDBusInterface>
-
-// system
-#if HAVE_SYS_PRCTL_H
-#include <sys/prctl.h>
-#endif
-#if HAVE_SYS_PROCCTL_H
-#include <sys/procctl.h>
-#endif
-
-#if HAVE_LIBCAP
-#include <sys/capability.h>
-#endif
+#include <qplatformdefs.h>
 
 #include <sched.h>
+#include <sys/resource.h>
 
-#include <iostream>
 #include <iomanip>
+#include <iostream>
 
 Q_IMPORT_PLUGIN(KWinIntegrationPlugin)
 Q_IMPORT_PLUGIN(KGlobalAccelImpl)
 Q_IMPORT_PLUGIN(KWindowSystemKWinPlugin)
 Q_IMPORT_PLUGIN(KWinIdleTimePoller)
-#ifdef PipeWire_FOUND
+#if PipeWire_FOUND
 Q_IMPORT_PLUGIN(ScreencastManagerFactory)
 #endif
 
 namespace KWin
 {
+
+static rlimit originalNofileLimit = {
+    .rlim_cur = 0,
+    .rlim_max = 0,
+};
+
+static bool bumpNofileLimit()
+{
+    if (getrlimit(RLIMIT_NOFILE, &originalNofileLimit) == -1) {
+        std::cerr << "Failed to bump RLIMIT_NOFILE limit, getrlimit() failed: " << strerror(errno) << std::endl;
+        return false;
+    }
+
+    rlimit limit = originalNofileLimit;
+    limit.rlim_cur = limit.rlim_max;
+
+    if (setrlimit(RLIMIT_NOFILE, &limit) == -1) {
+        std::cerr << "Failed to bump RLIMIT_NOFILE limit, setrlimit() failed: " << strerror(errno) << std::endl;
+        return false;
+    }
+
+    return true;
+}
+
+static void restoreNofileLimit()
+{
+    if (setrlimit(RLIMIT_NOFILE, &originalNofileLimit) == -1) {
+        std::cerr << "Failed to restore RLIMIT_NOFILE limit, legacy apps might be broken" << std::endl;
+    }
+}
 
 static void sighandler(int)
 {
@@ -81,30 +98,6 @@ void disableDrKonqi()
 // run immediately, before Q_CORE_STARTUP functions
 // that would enable drkonqi
 Q_CONSTRUCTOR_FUNCTION(disableDrKonqi)
-
-enum class RealTimeFlags
-{
-    DontReset,
-    ResetOnFork
-};
-
-namespace {
-void gainRealTime(RealTimeFlags flags = RealTimeFlags::DontReset)
-{
-#if HAVE_SCHED_RESET_ON_FORK
-    const int minPriority = sched_get_priority_min(SCHED_RR);
-    struct sched_param sp;
-    sp.sched_priority = minPriority;
-    int policy = SCHED_RR;
-    if (flags == RealTimeFlags::ResetOnFork) {
-        policy |= SCHED_RESET_ON_FORK;
-    }
-    sched_setscheduler(0, policy, &sp);
-#else
-    Q_UNUSED(flags);
-#endif
-}
-}
 
 //************************************
 // ApplicationWayland
@@ -124,15 +117,12 @@ ApplicationWayland::~ApplicationWayland()
 
     // need to unload all effects prior to destroying X connection as they might do X calls
     if (effects) {
-        static_cast<EffectsHandlerImpl*>(effects)->unloadAllEffects();
+        static_cast<EffectsHandlerImpl *>(effects)->unloadAllEffects();
     }
     delete m_xwayland;
     m_xwayland = nullptr;
     destroyWorkspace();
 
-    if (QStyle *s = style()) {
-        s->unpolish(this);
-    }
     destroyInputMethod();
     destroyCompositor();
     destroyInput();
@@ -153,11 +143,7 @@ void ApplicationWayland::performStartup()
     waylandServer()->initPlatform();
     createColorManager();
 
-    // try creating the Wayland Backend
     createInput();
-    // now libinput thread has been created, adjust scheduler to not leak into other processes
-    gainRealTime(RealTimeFlags::ResetOnFork);
-
     createInputMethod();
     TabletModeManager::create(this);
     createPlugins();
@@ -186,9 +172,9 @@ void ApplicationWayland::continueStartupWithScene()
     }
 
     m_xwayland = new Xwl::Xwayland(this);
-    m_xwayland->setListenFDs(m_xwaylandListenFds);
-    m_xwayland->setDisplayName(m_xwaylandDisplay);
-    m_xwayland->setXauthority(m_xwaylandXauthority);
+    m_xwayland->xwaylandLauncher()->setListenFDs(m_xwaylandListenFds);
+    m_xwayland->xwaylandLauncher()->setDisplayName(m_xwaylandDisplay);
+    m_xwayland->xwaylandLauncher()->setXauthority(m_xwaylandXauthority);
     connect(m_xwayland, &Xwl::Xwayland::errorOccurred, this, &ApplicationWayland::finalizeStartup);
     connect(m_xwayland, &Xwl::Xwayland::started, this, &ApplicationWayland::finalizeStartup);
     m_xwayland->start();
@@ -234,7 +220,7 @@ void ApplicationWayland::startSession()
             QProcess *p = new QProcess(this);
             p->setProcessChannelMode(QProcess::ForwardedErrorChannel);
             p->setProcessEnvironment(processStartupEnvironment());
-            connect(p, qOverload<int, QProcess::ExitStatus>(&QProcess::finished), this, [p] (int code, QProcess::ExitStatus status) {
+            connect(p, qOverload<int, QProcess::ExitStatus>(&QProcess::finished), this, [p](int code, QProcess::ExitStatus status) {
                 p->deleteLater();
                 if (status == QProcess::CrashExit) {
                     qWarning() << "Session process has crashed";
@@ -258,7 +244,7 @@ void ApplicationWayland::startSession()
     }
     // start the applications passed to us as command line arguments
     if (!m_applicationsToStart.isEmpty()) {
-        for (const QString &application: qAsConst(m_applicationsToStart)) {
+        for (const QString &application : qAsConst(m_applicationsToStart)) {
             QStringList arguments = KShell::splitArgs(application);
             if (arguments.isEmpty()) {
                 qWarning("Failed to launch application: %s is an invalid command",
@@ -281,7 +267,6 @@ void ApplicationWayland::startSession()
 
 static const QString s_waylandPlugin = QStringLiteral("KWinWaylandWaylandBackend");
 static const QString s_x11Plugin = QStringLiteral("KWinWaylandX11Backend");
-static const QString s_fbdevPlugin = QStringLiteral("KWinWaylandFbdevBackend");
 static const QString s_drmPlugin = QStringLiteral("KWinWaylandDrmBackend");
 static const QString s_virtualPlugin = QStringLiteral("KWinWaylandVirtualBackend");
 
@@ -293,90 +278,34 @@ static QString automaticBackendSelection()
     if (qEnvironmentVariableIsSet("DISPLAY")) {
         return s_x11Plugin;
     }
-    // Only default to drm when there's dri drivers. This way fbdev will be
-    // used when running using nomodeset
-    if (QFileInfo::exists("/dev/dri")) {
-        return s_drmPlugin;
-    }
-    return s_fbdevPlugin;
-}
-
-static void disablePtrace()
-{
-#if HAVE_PR_SET_DUMPABLE
-    // check whether we are running under a debugger
-    const QFileInfo parent(QStringLiteral("/proc/%1/exe").arg(getppid()));
-    if (parent.isSymLink() &&
-            (parent.symLinkTarget().endsWith(QLatin1String("/gdb")) ||
-             parent.symLinkTarget().endsWith(QLatin1String("/gdbserver")) ||
-             parent.symLinkTarget().endsWith(QLatin1String("/lldb-server")))) {
-        // debugger, don't adjust
-        return;
-    }
-
-    // disable ptrace in kwin_wayland
-    prctl(PR_SET_DUMPABLE, 0);
-#endif
-#if HAVE_PROC_TRACE_CTL
-    // FreeBSD's rudimentary procfs does not support /proc/<pid>/exe
-    // We could use the P_TRACED flag of the process to find out
-    // if the process is being debugged ond FreeBSD.
-    int mode = PROC_TRACE_CTL_DISABLE;
-    procctl(P_PID, getpid(), PROC_TRACE_CTL, &mode);
-#endif
-
-}
-
-static void unsetDumpable(int sig)
-{
-#if HAVE_PR_SET_DUMPABLE
-    prctl(PR_SET_DUMPABLE, 1);
-#endif
-    signal(sig, SIG_IGN);
-    raise(sig);
-    return;
-}
-
-void dropNiceCapability()
-{
-#if HAVE_LIBCAP
-    cap_t caps = cap_get_proc();
-    if (!caps) {
-        return;
-    }
-    cap_value_t capList[] = { CAP_SYS_NICE };
-    if (cap_set_flag(caps, CAP_PERMITTED, 1, capList, CAP_CLEAR) == -1) {
-        cap_free(caps);
-        return;
-    }
-    if (cap_set_flag(caps, CAP_EFFECTIVE, 1, capList, CAP_CLEAR) == -1) {
-        cap_free(caps);
-        return;
-    }
-    cap_set_proc(caps);
-    cap_free(caps);
-#endif
+    return s_drmPlugin;
 }
 
 } // namespace
 
-int main(int argc, char * argv[])
+int main(int argc, char *argv[])
 {
-    KWin::disablePtrace();
     KWin::Application::setupMalloc();
     KWin::Application::setupLocalizedString();
     KWin::gainRealTime();
-    KWin::dropNiceCapability();
 
-    if (signal(SIGTERM, KWin::sighandler) == SIG_IGN)
+    if (signal(SIGTERM, KWin::sighandler) == SIG_IGN) {
         signal(SIGTERM, SIG_IGN);
-    if (signal(SIGINT, KWin::sighandler) == SIG_IGN)
+    }
+    if (signal(SIGINT, KWin::sighandler) == SIG_IGN) {
         signal(SIGINT, SIG_IGN);
-    if (signal(SIGHUP, KWin::sighandler) == SIG_IGN)
+    }
+    if (signal(SIGHUP, KWin::sighandler) == SIG_IGN) {
         signal(SIGHUP, SIG_IGN);
-    signal(SIGABRT, KWin::unsetDumpable);
-    signal(SIGSEGV, KWin::unsetDumpable);
+    }
     signal(SIGPIPE, SIG_IGN);
+
+    // It's easy to exceed the file descriptor limit because many things are backed using fds
+    // nowadays, e.g. dmabufs, shm buffers, etc. Bump the RLIMIT_NOFILE limit to handle that.
+    // Some apps may still use select(), so we reset the limit to its original value in fork().
+    if (KWin::bumpNofileLimit()) {
+        pthread_atfork(nullptr, nullptr, KWin::restoreNofileLimit);
+    }
 
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
 
@@ -392,22 +321,19 @@ int main(int argc, char * argv[])
     qunsetenv("QT_QPA_PLATFORM");
 
     KWin::Application::createAboutData();
-    KQuickAddons::QtQuickSettings::init();
 
     const auto availablePlugins = KPluginMetaData::findPlugins(QStringLiteral("org.kde.kwin.waylandbackends"));
-    auto hasPlugin = [&availablePlugins] (const QString &name) {
+    auto hasPlugin = [&availablePlugins](const QString &name) {
         return std::any_of(availablePlugins.begin(), availablePlugins.end(),
-            [name] (const KPluginMetaData &plugin) {
-                return plugin.pluginId() == name;
-            }
-        );
+                           [name](const KPluginMetaData &plugin) {
+                               return plugin.pluginId() == name;
+                           });
     };
     const bool hasSizeOption = hasPlugin(KWin::s_x11Plugin) || hasPlugin(KWin::s_virtualPlugin);
     const bool hasOutputCountOption = hasPlugin(KWin::s_x11Plugin);
     const bool hasX11Option = hasPlugin(KWin::s_x11Plugin);
     const bool hasVirtualOption = hasPlugin(KWin::s_virtualPlugin);
     const bool hasWaylandOption = hasPlugin(KWin::s_waylandPlugin);
-    const bool hasFramebufferOption = hasPlugin(KWin::s_fbdevPlugin);
     const bool hasDrmOption = hasPlugin(KWin::s_drmPlugin);
 
     QCommandLineOption xwaylandOption(QStringLiteral("xwayland"),
@@ -415,11 +341,6 @@ int main(int argc, char * argv[])
     QCommandLineOption waylandSocketOption(QStringList{QStringLiteral("s"), QStringLiteral("socket")},
                                            i18n("Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."),
                                            QStringLiteral("socket"));
-    QCommandLineOption framebufferOption(QStringLiteral("framebuffer"),
-                                         i18n("Render to framebuffer."));
-    QCommandLineOption framebufferDeviceOption(QStringLiteral("fb-device"),
-                                               i18n("The framebuffer device to render to."),
-                                               QStringLiteral("fbdev"));
     QCommandLineOption x11DisplayOption(QStringLiteral("x11-display"),
                                         i18n("The X11 Display to use in windowed mode on platform X11."),
                                         QStringLiteral("display"));
@@ -437,33 +358,33 @@ int main(int argc, char * argv[])
     heightOption.setDefaultValue(QString::number(768));
 
     QCommandLineOption scaleOption(QStringLiteral("scale"),
-                                    i18n("The scale for windowed mode. Default value is 1."),
-                                    QStringLiteral("scale"));
+                                   i18n("The scale for windowed mode. Default value is 1."),
+                                   QStringLiteral("scale"));
     scaleOption.setDefaultValue(QString::number(1));
 
     QCommandLineOption outputCountOption(QStringLiteral("output-count"),
-                                    i18n("The number of windows to open as outputs in windowed mode. Default value is 1"),
-                                    QStringLiteral("count"));
+                                         i18n("The number of windows to open as outputs in windowed mode. Default value is 1"),
+                                         QStringLiteral("count"));
     outputCountOption.setDefaultValue(QString::number(1));
 
     QCommandLineOption waylandSocketFdOption(QStringLiteral("wayland-fd"),
-                                    i18n("Wayland socket to use for incoming connections. This can be combined with --socket to name the socket"),
-                                    QStringLiteral("wayland-fd"));
+                                             i18n("Wayland socket to use for incoming connections. This can be combined with --socket to name the socket"),
+                                             QStringLiteral("wayland-fd"));
 
     QCommandLineOption xwaylandListenFdOption(QStringLiteral("xwayland-fd"),
-                                    i18n("XWayland socket to use for Xwayland's incoming connections. This can be set multiple times"),
-                                    QStringLiteral("xwayland-fds"));
+                                              i18n("XWayland socket to use for Xwayland's incoming connections. This can be set multiple times"),
+                                              QStringLiteral("xwayland-fds"));
 
     QCommandLineOption xwaylandDisplayOption(QStringLiteral("xwayland-display"),
                                              i18n("Name of the xwayland display that has been pre-set up"),
                                              "xwayland-display");
 
     QCommandLineOption xwaylandXAuthorityOption(QStringLiteral("xwayland-xauthority"),
-                                             i18n("Name of the xauthority file "),
-                                             "xwayland-xauthority");
+                                                i18n("Name of the xauthority file "),
+                                                "xwayland-xauthority");
 
     QCommandLineOption replaceOption(QStringLiteral("replace"),
-                                    i18n("Exits this instance so it can be restarted by kwin_wayland_wrapper."));
+                                     i18n("Exits this instance so it can be restarted by kwin_wayland_wrapper."));
 
     QCommandLineParser parser;
     a.setupCommandLine(&parser);
@@ -480,10 +401,6 @@ int main(int argc, char * argv[])
     }
     if (hasWaylandOption) {
         parser.addOption(waylandDisplayOption);
-    }
-    if (hasFramebufferOption) {
-        parser.addOption(framebufferOption);
-        parser.addOption(framebufferDeviceOption);
     }
     if (hasVirtualOption) {
         parser.addOption(virtualFbOption);
@@ -507,9 +424,10 @@ int main(int argc, char * argv[])
     parser.addOption(inputMethodOption);
 
     QCommandLineOption listBackendsOption(QStringLiteral("list-backends"),
-                                           i18n("List all available backends and quit."));
+                                          i18n("List all available backends and quit."));
     parser.addOption(listBackendsOption);
 
+#if KWIN_BUILD_SCREENLOCKER
     QCommandLineOption screenLockerOption(QStringLiteral("lockscreen"),
                                           i18n("Starts the session in locked mode."));
     parser.addOption(screenLockerOption);
@@ -517,12 +435,13 @@ int main(int argc, char * argv[])
     QCommandLineOption noScreenLockerOption(QStringLiteral("no-lockscreen"),
                                             i18n("Starts the session without lock screen support."));
     parser.addOption(noScreenLockerOption);
+#endif
 
     QCommandLineOption noGlobalShortcutsOption(QStringLiteral("no-global-shortcuts"),
                                                i18n("Starts the session without global shortcuts support."));
     parser.addOption(noGlobalShortcutsOption);
 
-#ifdef KWIN_BUILD_ACTIVITIES
+#if KWIN_BUILD_ACTIVITIES
     QCommandLineOption noActivitiesOption(QStringLiteral("no-kactivities"),
                                           i18n("Disable KActivities integration."));
     parser.addOption(noActivitiesOption);
@@ -540,7 +459,7 @@ int main(int argc, char * argv[])
     parser.process(a);
     a.processCommandLine(&parser);
 
-#ifdef KWIN_BUILD_ACTIVITIES
+#if KWIN_BUILD_ACTIVITIES
     if (parser.isSet(noActivitiesOption)) {
         a.setUseKActivities(false);
     }
@@ -548,12 +467,12 @@ int main(int argc, char * argv[])
 
     if (parser.isSet(replaceOption)) {
         QDBusMessage msg = QDBusMessage::createMethodCall(QStringLiteral("org.kde.KWin"), QStringLiteral("/KWin"),
-                                         QStringLiteral("org.kde.KWin"), QStringLiteral("replace"));
+                                                          QStringLiteral("org.kde.KWin"), QStringLiteral("replace"));
         QDBusConnection::sessionBus().call(msg, QDBus::NoBlock);
         return 0;
     }
     if (parser.isSet(listBackendsOption)) {
-        for (const auto &plugin: availablePlugins) {
+        for (const auto &plugin : availablePlugins) {
             std::cout << std::setw(40) << std::left << qPrintable(plugin.name()) << qPrintable(plugin.description()) << std::endl;
         }
         return 0;
@@ -611,10 +530,6 @@ int main(int argc, char * argv[])
         pluginName = KWin::s_waylandPlugin;
     }
 
-    if (hasFramebufferOption && parser.isSet(framebufferOption)) {
-        pluginName = KWin::s_fbdevPlugin;
-        deviceIdentifier = parser.value(framebufferDeviceOption).toUtf8();
-    }
     if (hasVirtualOption && parser.isSet(virtualFbOption)) {
         pluginName = KWin::s_virtualPlugin;
     }
@@ -625,10 +540,9 @@ int main(int argc, char * argv[])
     }
 
     auto pluginIt = std::find_if(availablePlugins.begin(), availablePlugins.end(),
-        [&pluginName] (const KPluginMetaData &plugin) {
-            return plugin.pluginId() == pluginName;
-        }
-    );
+                                 [&pluginName](const KPluginMetaData &plugin) {
+                                     return plugin.pluginId() == pluginName;
+                                 });
     if (pluginIt == availablePlugins.end()) {
         std::cerr << "FATAL ERROR: could not find a backend" << std::endl;
         return 1;
@@ -638,21 +552,22 @@ int main(int argc, char * argv[])
     KWin::WaylandServer *server = KWin::WaylandServer::create(&a);
 
     KWin::WaylandServer::InitializationFlags flags;
+#if KWIN_BUILD_SCREENLOCKER
     if (parser.isSet(screenLockerOption)) {
         flags = KWin::WaylandServer::InitializationFlag::LockScreen;
     } else if (parser.isSet(noScreenLockerOption)) {
         flags = KWin::WaylandServer::InitializationFlag::NoLockScreenIntegration;
     }
+#endif
     if (parser.isSet(noGlobalShortcutsOption)) {
         flags |= KWin::WaylandServer::InitializationFlag::NoGlobalShortcuts;
     }
-
 
     const QString socketName = parser.value(waylandSocketOption);
     if (parser.isSet(waylandSocketFdOption)) {
         bool ok;
         int fd = parser.value(waylandSocketFdOption).toInt(&ok);
-        if (ok ) {
+        if (ok) {
             // make sure we don't leak this FD to children
             fcntl(fd, F_SETFD, O_CLOEXEC);
             server->display()->addSocketFileDescriptor(fd, socketName);
@@ -699,10 +614,10 @@ int main(int argc, char * argv[])
 
         if (parser.isSet(xwaylandListenFdOption)) {
             const QStringList fdStrings = parser.values(xwaylandListenFdOption);
-            for (const QString &fdString: fdStrings){
+            for (const QString &fdString : fdStrings) {
                 bool ok;
                 int fd = fdString.toInt(&ok);
-                if (ok ) {
+                if (ok) {
                     // make sure we don't leak this FD to children
                     fcntl(fd, F_SETFD, O_CLOEXEC);
                     a.addXwaylandSocketFileDescriptor(fd);

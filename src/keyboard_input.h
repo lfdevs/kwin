@@ -13,8 +13,8 @@
 #include "xkb.h"
 
 #include <QObject>
-#include <QPointer>
 #include <QPointF>
+#include <QPointer>
 
 #include <KSharedConfig>
 
@@ -32,11 +32,11 @@ typedef uint32_t xkb_layout_index_t;
 namespace KWin
 {
 
+class Window;
 class InputDevice;
 class InputRedirection;
 class KeyboardLayout;
 class ModifiersChangedSpy;
-class Toplevel;
 
 class KWIN_EXPORT KeyboardInputRedirection : public QObject
 {
@@ -63,13 +63,16 @@ public:
      */
     void processKeymapChange(int fd, uint32_t size);
 
-    Xkb *xkb() const {
+    Xkb *xkb() const
+    {
         return m_xkb.data();
     }
-    Qt::KeyboardModifiers modifiers() const {
+    Qt::KeyboardModifiers modifiers() const
+    {
         return m_xkb->modifiers();
     }
-    Qt::KeyboardModifiers modifiersRelevantForGlobalShortcuts() const {
+    Qt::KeyboardModifiers modifiersRelevantForGlobalShortcuts() const
+    {
         return m_xkb->modifiersRelevantForGlobalShortcuts();
     }
 
@@ -80,7 +83,7 @@ private:
     InputRedirection *m_input;
     bool m_inited = false;
     QScopedPointer<Xkb> m_xkb;
-    QMetaObject::Connection m_activeClientSurfaceChangedConnection;
+    QMetaObject::Connection m_activeWindowSurfaceChangedConnection;
     ModifiersChangedSpy *m_modifiersChangedSpy = nullptr;
     KeyboardLayout *m_keyboardLayout = nullptr;
 };

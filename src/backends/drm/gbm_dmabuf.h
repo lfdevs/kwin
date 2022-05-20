@@ -6,28 +6,41 @@
 
 #pragma once
 
+#include "config-kwin.h"
 #include "dmabuftexture.h"
+
 #include <gbm.h>
-#include <QSize>
-#include <epoxy/egl.h>
 
 namespace KWin
 {
 
-class GbmDmaBuf : public DmaBufTexture
+inline DmaBufAttributes dmaBufAttributesForBo(gbm_bo *bo)
 {
-public:
-    ~GbmDmaBuf();
+    DmaBufAttributes attributes;
+    attributes.planeCount = gbm_bo_get_plane_count(bo);
+    attributes.width = gbm_bo_get_width(bo);
+    attributes.height = gbm_bo_get_height(bo);
+    attributes.format = gbm_bo_get_format(bo);
 
-    int fd() const override;
-    quint32 stride() const override;
+#if HAVE_GBM_BO_GET_FD_FOR_PLANE
+    for (int i = 0; i < attributes.planeCount; ++i) {
+        attributes.fd[i] = gbm_bo_get_fd_for_plane(bo, i);
+        attributes.offset[i] = gbm_bo_get_offset(bo, i);
+        attributes.pitch[i] = gbm_bo_get_stride_for_plane(bo, i);
+        attributes.modifier[i] = gbm_bo_get_modifier(bo);
+    }
+#else
+    if (attributes.planeCount > 1) {
+        return attributes;
+    }
 
-    static GbmDmaBuf *createBuffer(const QSize &size, gbm_device *device);
+    attributes.fd[0] = gbm_bo_get_fd(bo);
+    attributes.offset[0] = gbm_bo_get_offset(bo, 0);
+    attributes.pitch[0] = gbm_bo_get_stride_for_plane(bo, 0);
+    attributes.modifier[0] = gbm_bo_get_modifier(bo);
+#endif
 
-private:
-    GbmDmaBuf(GLTexture *texture, gbm_bo *bo, int fd);
-    struct gbm_bo *const m_bo;
-    const int m_fd;
-};
-
+    return attributes;
 }
+
+} // namespace KWin

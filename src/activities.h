@@ -16,13 +16,14 @@
 
 #include <kactivities/controller.h>
 
-namespace KActivities {
+namespace KActivities
+{
 class Controller;
 }
 
 namespace KWin
 {
-class AbstractClient;
+class Window;
 
 class KWIN_EXPORT Activities : public QObject
 {
@@ -35,11 +36,11 @@ public:
     bool start(const QString &id);
     void setCurrent(const QString &activity);
     /**
-     * Adds/removes client \a c to/from \a activity.
+     * Adds/removes window \a window to/from \a activity.
      *
      * Takes care of transients as well.
      */
-    void toggleClientOnActivity(KWin::AbstractClient *c, const QString &activity, bool dont_activate);
+    void toggleWindowOnActivity(Window *window, const QString &activity, bool dont_activate);
 
     QStringList running() const;
     QStringList all() const;
@@ -72,7 +73,7 @@ Q_SIGNALS:
 private Q_SLOTS:
     void slotRemoved(const QString &activity);
     void slotCurrentChanged(const QString &newActivity);
-    void reallyStop(const QString &id);   //dbus deadlocks suck
+    void reallyStop(const QString &id); // dbus deadlocks suck
 
 private:
     QString m_previous;
@@ -82,32 +83,27 @@ private:
     KWIN_SINGLETON(Activities)
 };
 
-inline
-QStringList Activities::all() const
+inline QStringList Activities::all() const
 {
     return m_controller->activities();
 }
 
-inline
-const QString &Activities::current() const
+inline const QString &Activities::current() const
 {
     return m_current;
 }
 
-inline
-const QString &Activities::previous() const
+inline const QString &Activities::previous() const
 {
     return m_previous;
 }
 
-inline
-QStringList Activities::running() const
+inline QStringList Activities::running() const
 {
     return m_controller->activities(KActivities::Info::Running);
 }
 
-inline
-QString Activities::nullUuid()
+inline QString Activities::nullUuid()
 {
     // cloned from kactivities/src/lib/core/consumer.cpp
     return QStringLiteral("00000000-0000-0000-0000-000000000000");

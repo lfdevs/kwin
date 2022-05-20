@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "kwinglobals.h"
 #include "kwineffects.h"
+#include "kwinglobals.h"
 
 #include <QMatrix4x4>
 #include <QObject>
@@ -17,7 +17,7 @@
 namespace KWin
 {
 
-class AbstractOutput;
+class Output;
 
 /**
  * The Item class is the base class for items in the scene.
@@ -29,6 +29,9 @@ class KWIN_EXPORT Item : public QObject
 public:
     explicit Item(Item *parent = nullptr);
     ~Item() override;
+
+    qreal opacity() const;
+    void setOpacity(qreal opacity);
 
     QPoint position() const;
     void setPosition(const QPoint &point);
@@ -47,6 +50,9 @@ public:
      * Returns the enclosing rectangle of the item and all of its descendants.
      */
     QRect boundingRect() const;
+
+    virtual QRegion shape() const;
+    virtual QRegion opaque() const;
 
     /**
      * Returns the visual parent of the item. Note that the visual parent differs from
@@ -72,6 +78,11 @@ public:
      * system.
      */
     QRect mapToGlobal(const QRect &rect) const;
+    /**
+     * Maps the given @a rect from the scene's coordinate system to the item's coordinate
+     * system.
+     */
+    QRect mapFromGlobal(const QRect &rect) const;
 
     /**
      * Moves this item right before the specified @a sibling in the parent's children list.
@@ -82,13 +93,14 @@ public:
      */
     void stackAfter(Item *sibling);
 
+    bool explicitVisible() const;
     bool isVisible() const;
     void setVisible(bool visible);
 
     void scheduleRepaint(const QRegion &region);
     void scheduleFrame();
-    QRegion repaints(AbstractOutput *output) const;
-    void resetRepaints(AbstractOutput *output);
+    QRegion repaints(Output *output) const;
+    void resetRepaints(Output *output);
 
     WindowQuadList quads() const;
     virtual void preprocess();
@@ -122,7 +134,7 @@ private:
 
     bool computeEffectiveVisibility() const;
     void updateEffectiveVisibility();
-    void removeRepaints(AbstractOutput *output);
+    void removeRepaints(Output *output);
 
     QPointer<Item> m_parentItem;
     QList<Item *> m_childItems;
@@ -130,10 +142,11 @@ private:
     QRect m_boundingRect;
     QPoint m_position;
     QSize m_size = QSize(0, 0);
+    qreal m_opacity = 1;
     int m_z = 0;
-    bool m_visible = true;
+    bool m_explicitVisible = true;
     bool m_effectiveVisible = true;
-    QMap<AbstractOutput *, QRegion> m_repaints;
+    QMap<Output *, QRegion> m_repaints;
     mutable std::optional<WindowQuadList> m_quads;
     mutable std::optional<QList<Item *>> m_sortedChildItems;
 };

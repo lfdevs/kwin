@@ -7,53 +7,56 @@
  *    SPDX-License-Identifier: GPL-2.0-or-later
  */
 
-#include "drm_pipeline.h"
-#include "drm_gpu.h"
 #include "drm_buffer.h"
-#include "drm_object_crtc.h"
+#include "drm_gpu.h"
+#include "drm_layer.h"
 #include "drm_object_connector.h"
+#include "drm_object_crtc.h"
+#include "drm_pipeline.h"
 #include "logging.h"
 
 #include <errno.h>
+#include <gbm.h>
 
 namespace KWin
 {
 
 bool DrmPipeline::presentLegacy()
 {
-    if ((!pending.crtc->current() || pending.crtc->current()->needsModeChange(m_primaryBuffer.get())) && !legacyModeset()) {
+    if (!m_pending.crtc->current() && !legacyModeset()) {
         return false;
     }
-    if (drmModePageFlip(gpu()->fd(), pending.crtc->id(), m_primaryBuffer ? m_primaryBuffer->bufferId() : 0, DRM_MODE_PAGE_FLIP_EVENT, nullptr) != 0) {
-        qCWarning(KWIN_DRM) << "Page flip failed:" << strerror(errno) << m_primaryBuffer;
+    const auto buffer = m_pending.layer->currentBuffer();
+    if (drmModePageFlip(gpu()->fd(), m_pending.crtc->id(), buffer->framebufferId(), DRM_MODE_PAGE_FLIP_EVENT, nullptr) != 0) {
+        qCWarning(KWIN_DRM) << "Page flip failed:" << strerror(errno);
         return false;
     }
     m_pageflipPending = true;
-    pending.crtc->setNext(m_primaryBuffer);
+    m_pending.crtc->setNext(buffer);
     return true;
 }
 
 bool DrmPipeline::legacyModeset()
 {
-    auto mode = m_connector->modes().at(pending.modeIndex);
     uint32_t connId = m_connector->id();
-    if (!checkTestBuffer() || drmModeSetCrtc(gpu()->fd(), pending.crtc->id(), m_primaryBuffer->bufferId(), 0, 0, &connId, 1, mode->nativeMode()) != 0) {
-        qCWarning(KWIN_DRM) << "Modeset failed!" << strerror(errno);
-        pending = m_next;
-        m_primaryBuffer = m_oldTestBuffer;
+    if (!m_pending.layer->checkTestBuffer()) {
         return false;
     }
-    m_oldTestBuffer = nullptr;
+    const auto buffer = m_pending.layer->currentBuffer();
+    if (drmModeSetCrtc(gpu()->fd(), m_pending.crtc->id(), buffer->framebufferId(), 0, 0, &connId, 1, m_pending.mode->nativeMode()) != 0) {
+        qCWarning(KWIN_DRM) << "Modeset failed!" << strerror(errno);
+        return false;
+    }
     // make sure the buffer gets kept alive, or the modeset gets reverted by the kernel
-    if (pending.crtc->current()) {
-        pending.crtc->setNext(m_primaryBuffer);
+    if (m_pending.crtc->current()) {
+        m_pending.crtc->setNext(buffer);
     } else {
-        pending.crtc->setCurrent(m_primaryBuffer);
+        m_pending.crtc->setCurrent(buffer);
     }
     return true;
 }
 
-bool DrmPipeline::commitPipelinesLegacy(const QVector<DrmPipeline*> &pipelines, CommitMode mode)
+bool DrmPipeline::commitPipelinesLegacy(const QVector<DrmPipeline *> &pipelines, CommitMode mode)
 {
     bool failure = false;
     for (const auto &pipeline : pipelines) {
@@ -72,7 +75,7 @@ bool DrmPipeline::commitPipelinesLegacy(const QVector<DrmPipeline*> &pipelines, 
     } else {
         for (const auto &pipeline : pipelines) {
             pipeline->applyPendingChanges();
-            pipeline->m_current = pipeline->pending;
+            pipeline->m_current = pipeline->m_pending;
             if (mode == CommitMode::CommitModeset && mode != CommitMode::Test && pipeline->activePending()) {
                 pipeline->pageFlipped(std::chrono::steady_clock::now().time_since_epoch());
             }
@@ -83,31 +86,30 @@ bool DrmPipeline::commitPipelinesLegacy(const QVector<DrmPipeline*> &pipelines, 
 
 bool DrmPipeline::applyPendingChangesLegacy()
 {
-    if (!pending.active && pending.crtc) {
-        drmModeSetCursor(gpu()->fd(), pending.crtc->id(), 0, 0, 0);
+    if (!m_pending.active && m_pending.crtc) {
+        drmModeSetCursor(gpu()->fd(), m_pending.crtc->id(), 0, 0, 0);
     }
     if (activePending()) {
-        auto vrr = pending.crtc->getProp(DrmCrtc::PropertyIndex::VrrEnabled);
-        if (vrr && !vrr->setPropertyLegacy(pending.syncMode == RenderLoopPrivate::SyncMode::Adaptive)) {
+        auto vrr = m_pending.crtc->getProp(DrmCrtc::PropertyIndex::VrrEnabled);
+        if (vrr && !vrr->setPropertyLegacy(m_pending.syncMode == RenderLoopPrivate::SyncMode::Adaptive)) {
             qCWarning(KWIN_DRM) << "Setting vrr failed!" << strerror(errno);
             return false;
         }
         if (const auto &rgbRange = m_connector->getProp(DrmConnector::PropertyIndex::Broadcast_RGB)) {
-            rgbRange->setEnumLegacy(pending.rgbRange);
+            rgbRange->setEnumLegacy(m_pending.rgbRange);
         }
         if (const auto overscan = m_connector->getProp(DrmConnector::PropertyIndex::Overscan)) {
-            overscan->setPropertyLegacy(pending.overscan);
+            overscan->setPropertyLegacy(m_pending.overscan);
         } else if (const auto underscan = m_connector->getProp(DrmConnector::PropertyIndex::Underscan)) {
             const uint32_t hborder = calculateUnderscan();
-            underscan->setEnumLegacy(pending.overscan != 0 ? DrmConnector::UnderscanOptions::On : DrmConnector::UnderscanOptions::Off);
-            m_connector->getProp(DrmConnector::PropertyIndex::Underscan_vborder)->setPropertyLegacy(pending.overscan);
+            underscan->setEnumLegacy(m_pending.overscan != 0 ? DrmConnector::UnderscanOptions::On : DrmConnector::UnderscanOptions::Off);
+            m_connector->getProp(DrmConnector::PropertyIndex::Underscan_vborder)->setPropertyLegacy(m_pending.overscan);
             m_connector->getProp(DrmConnector::PropertyIndex::Underscan_hborder)->setPropertyLegacy(hborder);
         }
-        if (needsModeset() &&!legacyModeset()) {
+        if (needsModeset() && !legacyModeset()) {
             return false;
         }
-        if (pending.gamma && drmModeCrtcSetGamma(gpu()->fd(), pending.crtc->id(), pending.gamma->size(),
-                                    pending.gamma->red(), pending.gamma->green(), pending.gamma->blue()) != 0) {
+        if (m_pending.gamma && drmModeCrtcSetGamma(gpu()->fd(), m_pending.crtc->id(), m_pending.gamma->lut().size(), m_pending.gamma->lut().red(), m_pending.gamma->lut().green(), m_pending.gamma->lut().blue()) != 0) {
             qCWarning(KWIN_DRM) << "Setting gamma failed!" << strerror(errno);
             return false;
         }
@@ -123,23 +125,26 @@ bool DrmPipeline::applyPendingChangesLegacy()
 
 bool DrmPipeline::setCursorLegacy()
 {
-    const QSize &s = pending.cursorBo ? pending.cursorBo->size() : QSize(64, 64);
-    int ret = drmModeSetCursor2(gpu()->fd(), pending.crtc->id(),
-                                pending.cursorBo ? pending.cursorBo->handle() : 0,
-                                s.width(), s.height(),
-                                pending.cursorHotspot.x(), pending.cursorHotspot.y());
-    if (ret == -ENOTSUP) {
-        // for NVIDIA case that does not support drmModeSetCursor2
-        ret = drmModeSetCursor(gpu()->fd(), pending.crtc->id(),
-                               pending.cursorBo ? pending.cursorBo->handle() : 0,
-                               s.width(), s.height());
-    }
-    return ret == 0;
+    const auto bo = cursorLayer()->currentBuffer();
+    const uint32_t handle = bo && bo->buffer() && cursorLayer()->isVisible() ? bo->buffer()->handles()[0] : 0;
+
+    struct drm_mode_cursor2 arg = {
+        .flags = DRM_MODE_CURSOR_BO | DRM_MODE_CURSOR_MOVE,
+        .crtc_id = m_pending.crtc->id(),
+        .x = m_pending.cursorLayer->position().x(),
+        .y = m_pending.cursorLayer->position().y(),
+        .width = (uint32_t)gpu()->cursorSize().width(),
+        .height = (uint32_t)gpu()->cursorSize().height(),
+        .handle = handle,
+        .hot_x = m_pending.cursorHotspot.x(),
+        .hot_y = m_pending.cursorHotspot.y(),
+    };
+    return drmIoctl(gpu()->fd(), DRM_IOCTL_MODE_CURSOR2, &arg) == 0;
 }
 
 bool DrmPipeline::moveCursorLegacy()
 {
-    return drmModeMoveCursor(gpu()->fd(), pending.crtc->id(), pending.cursorPos.x(), pending.cursorPos.y()) == 0;
+    return drmModeMoveCursor(gpu()->fd(), m_pending.crtc->id(), cursorLayer()->position().x(), cursorLayer()->position().y()) == 0;
 }
 
 }

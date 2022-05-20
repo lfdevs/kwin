@@ -7,7 +7,7 @@
 import QtQuick 2.12
 import QtGraphicalEffects 1.12
 import org.kde.kwin 3.0 as KWinComponents
-import org.kde.kwin.private.overview 1.0
+import org.kde.kwin.private.effects 1.0
 import org.kde.milou 0.3 as Milou
 import org.kde.plasma.components 3.0 as PC3
 import org.kde.plasma.core 2.0 as PlasmaCore
@@ -41,17 +41,81 @@ FocusScope {
     Keys.forwardTo: searchField
 
     KWinComponents.DesktopBackgroundItem {
+        id: backgroundItem
         activity: KWinComponents.Workspace.currentActivity
         desktop: KWinComponents.Workspace.currentVirtualDesktop
         outputName: targetScreen.name
+        property real blurRadius: 0
 
         layer.enabled: effect.blurBackground
         layer.effect: FastBlur {
-            radius: container.organized ? 64 : 0
+            radius: backgroundItem.blurRadius
+        }
+    }
 
-            Behavior on radius {
-                NumberAnimation { duration: effect.animationDuration; easing.type: Easing.OutCubic }
+    state: {
+        if (effect.gestureInProgress) {
+            return "partial";
+        } else if (container.organized) {
+            return "active";
+        } else {
+            return "initial";
+        }
+    }
+
+    states: [
+        State {
+            name: "initial"
+            PropertyChanges {
+                target: underlay
+                opacity: 0
             }
+            PropertyChanges {
+                target: topBar
+                opacity: 0
+            }
+            PropertyChanges {
+                target: backgroundItem
+                blurRadius: 0
+            }
+        },
+        State {
+            name: "partial"
+            PropertyChanges {
+                target: underlay
+                opacity: 0.75 * effect.partialActivationFactor
+            }
+            PropertyChanges {
+                target: topBar
+                opacity: effect.partialActivationFactor
+            }
+            PropertyChanges {
+                target: backgroundItem
+                blurRadius: 64 * effect.partialActivationFactor
+            }
+        },
+        State {
+            name: "active"
+            PropertyChanges {
+                target: underlay
+                opacity: 0.75
+            }
+            PropertyChanges {
+                target: topBar
+                opacity: 1
+            }
+            PropertyChanges {
+                target: backgroundItem
+                blurRadius: 64
+            }
+        }
+    ]
+    transitions: Transition {
+        to: "initial, active"
+        NumberAnimation {
+            duration: effect.animationDuration
+            properties: "opacity, blurRadius"
+            easing.type: Easing.OutCubic
         }
     }
 
@@ -59,33 +123,19 @@ FocusScope {
         id: underlay
         anchors.fill: parent
         color: PlasmaCore.ColorScope.backgroundColor
-        opacity: container.organized ? 0.75 : 0
-
-        Behavior on opacity {
-            OpacityAnimator { duration: effect.animationDuration; easing.type: Easing.OutCubic }
-        }
 
         TapHandler {
             onTapped: effect.deactivate();
         }
     }
 
-    ExpoArea {
-        id: heapArea
-        screen: targetScreen
-    }
-
     Column {
-        x: heapArea.x
-        y: heapArea.y
-        width: heapArea.width
-        height: heapArea.height
+        anchors.fill: parent
 
         Item {
             id: topBar
             width: parent.width
             height: searchBar.height + desktopBar.height
-            opacity: container.organized ? 1 : 0
 
             Rectangle {
                 id: desktopBar
@@ -123,10 +173,6 @@ FocusScope {
                     onTextEdited: forceActiveFocus();
                 }
             }
-
-            Behavior on opacity {
-                OpacityAnimator { duration: effect.animationDuration; easing.type: Easing.OutCubic }
-            }
         }
 
         Item {
@@ -137,18 +183,24 @@ FocusScope {
                 id: heap
                 visible: !(container.organized && searchField.text)
                 anchors.fill: parent
+                layout: effect.layout
                 padding: PlasmaCore.Units.largeSpacing
+                animationDuration: effect.animationDuration
                 animationEnabled: container.animationEnabled
                 organized: container.organized
+                supportsCloseWindows: true
+                supportsDragUpGesture: true
                 model: KWinComponents.ClientFilterModel {
                     activity: KWinComponents.Workspace.currentActivity
                     desktop: KWinComponents.Workspace.currentVirtualDesktop
                     screenName: targetScreen.name
                     clientModel: stackModel
+                    minimizedWindows: !effect.ignoreMinimized
                     windowType: ~KWinComponents.ClientFilterModel.Dock &
                             ~KWinComponents.ClientFilterModel.Desktop &
                             ~KWinComponents.ClientFilterModel.Notification;
                 }
+                onActivated: effect.deactivate();
             }
 
             Milou.ResultsView {
@@ -176,15 +228,19 @@ FocusScope {
 
         KWinComponents.WindowThumbnailItem {
             id: windowThumbnail
-            visible: !model.client.hidden
+            visible: !model.client.hidden && opacity > 0
             wId: model.client.internalId
             x: model.client.x - targetScreen.geometry.x
             y: model.client.y - targetScreen.geometry.y
             width: model.client.width
             height: model.client.height
+            opacity: container.effect.gestureInProgress
+                ? 1 - container.effect.partialActivationFactor
+                : (model.client.hidden || container.organized) ? 0 : 1
 
-            TapHandler {
-                onTapped: effect.deactivate();
+            Behavior on opacity {
+                enabled: !container.effect.gestureInProgress
+                NumberAnimation { duration: animationDuration; easing.type: Easing.OutCubic }
             }
         }
     }

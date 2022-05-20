@@ -7,33 +7,32 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#include "scripting/scriptedeffect.h"
-#include "libkwineffects/anidata_p.h"
+#include "kwin_wayland_test.h"
 
-#include "abstract_client.h"
 #include "composite.h"
 #include "cursor.h"
 #include "deleted.h"
 #include "effectloader.h"
 #include "effects.h"
-#include "kwin_wayland_test.h"
+#include "libkwineffects/anidata_p.h"
 #include "platform.h"
 #include "renderbackend.h"
+#include "scripting/scriptedeffect.h"
 #include "virtualdesktops.h"
 #include "wayland_server.h"
+#include "window.h"
 #include "workspace.h"
-
-#include <QJSValue>
-#include <QQmlEngine>
 
 #include <KConfigGroup>
 #include <KGlobalAccel>
-
 #include <KWayland/Client/compositor.h>
 #include <KWayland/Client/connection_thread.h>
 #include <KWayland/Client/registry.h>
 #include <KWayland/Client/slide.h>
 #include <KWayland/Client/surface.h>
+
+#include <QJSValue>
+#include <QQmlEngine>
 
 using namespace KWin;
 using namespace std::chrono_literals;
@@ -79,8 +78,8 @@ public:
     bool load(const QString &name);
     using AnimationEffect::AniMap;
     using AnimationEffect::state;
-    Q_INVOKABLE void sendTestResponse(const QString &out); //proxies triggers out from the tests
-    QList<QAction*> actions(); //returns any QActions owned by the ScriptEngine
+    Q_INVOKABLE void sendTestResponse(const QString &out); // proxies triggers out from the tests
+    QList<QAction *> actions(); // returns any QActions owned by the ScriptEngine
 Q_SIGNALS:
     void testOutput(const QString &data);
 };
@@ -106,30 +105,30 @@ bool ScriptedEffectWithDebugSpy::load(const QString &name)
     QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
     const QString path = QFINDTESTDATA("./scripts/" + name + ".js");
     engine()->globalObject().setProperty("sendTestResponse", selfContext.property("sendTestResponse"));
-        if (!init(name, path)) {
+    if (!init(name, path)) {
         return false;
     }
 
     // inject our newly created effect to be registered with the EffectsHandlerImpl::loaded_effects
     // this is private API so some horrible code is used to find the internal effectloader
     // and register ourselves
-    auto c = effects->children();
-    for (auto it = c.begin(); it != c.end(); ++it) {
+    auto children = effects->children();
+    for (auto it = children.begin(); it != children.end(); ++it) {
         if (qstrcmp((*it)->metaObject()->className(), "KWin::EffectLoader") != 0) {
             continue;
         }
-        QMetaObject::invokeMethod(*it, "effectLoaded", Q_ARG(KWin::Effect*, this), Q_ARG(QString, name));
+        QMetaObject::invokeMethod(*it, "effectLoaded", Q_ARG(KWin::Effect *, this), Q_ARG(QString, name));
         break;
     }
 
-    return (static_cast<EffectsHandlerImpl*>(effects)->isEffectLoaded(name));
+    return (static_cast<EffectsHandlerImpl *>(effects)->isEffectLoaded(name));
 }
 
 void ScriptedEffectsTest::initTestCase()
 {
-    qRegisterMetaType<KWin::AbstractClient*>();
-    qRegisterMetaType<KWin::Deleted*>();
-    qRegisterMetaType<KWin::Effect*>();
+    qRegisterMetaType<KWin::Window *>();
+    qRegisterMetaType<KWin::Deleted *>();
+    qRegisterMetaType<KWin::Effect *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(applicationStartedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
@@ -196,7 +195,7 @@ void ScriptedEffectsTest::testEffectsHandler()
     shellSurface->set_title("WindowA");
     auto *c = Test::renderAndWaitForShown(surface, QSize(100, 50), Qt::blue);
     QVERIFY(c);
-    QCOMPARE(workspace()->activeClient(), c);
+    QCOMPARE(workspace()->activeWindow(), c);
 
     waitFor("windowAdded - WindowA");
     waitFor("stackingOrder - 1 WindowA");
@@ -250,7 +249,7 @@ void ScriptedEffectsTest::testAnimations_data()
     QTest::addColumn<int>("animationCount");
 
     QTest::newRow("single") << "animationTest" << 1;
-    QTest::newRow("multi")  << "animationTestMulti" << 2;
+    QTest::newRow("multi") << "animationTestMulti" << 2;
 }
 
 void ScriptedEffectsTest::testAnimations()
@@ -275,7 +274,7 @@ void ScriptedEffectsTest::testAnimations()
     shellSurface->set_title("Window 1");
     auto *c = Test::renderAndWaitForShown(surface, QSize(100, 50), Qt::blue);
     QVERIFY(c);
-    QCOMPARE(workspace()->activeClient(), c);
+    QCOMPARE(workspace()->activeWindow(), c);
 
     {
         const auto state = effect->state();
@@ -353,7 +352,7 @@ void ScriptedEffectsTest::testFullScreenEffect_data()
     QTest::addColumn<QString>("file");
 
     QTest::newRow("single") << "fullScreenEffectTest";
-    QTest::newRow("multi")  << "fullScreenEffectTestMulti";
+    QTest::newRow("multi") << "fullScreenEffectTestMulti";
     QTest::newRow("global") << "fullScreenEffectTestGlobal";
 }
 
@@ -368,8 +367,8 @@ void ScriptedEffectsTest::testFullScreenEffect()
 
     QVERIFY(effectMain->load(file));
 
-    //load any random effect from another test to confirm fullscreen effect state is correctly
-    //shown as being someone else
+    // load any random effect from another test to confirm fullscreen effect state is correctly
+    // shown as being someone else
     auto effectOther = new ScriptedEffectWithDebugSpy();
     QVERIFY(effectOther->load("screenEdgeTouchTest"));
     QSignalSpy isActiveFullScreenEffectSpyOther(effectOther, &ScriptedEffect::isActiveFullScreenEffectChanged);
@@ -382,12 +381,12 @@ void ScriptedEffectsTest::testFullScreenEffect()
     shellSurface->set_title("Window 1");
     auto *c = Test::renderAndWaitForShown(surface, QSize(100, 50), Qt::blue);
     QVERIFY(c);
-    QCOMPARE(workspace()->activeClient(), c);
+    QCOMPARE(workspace()->activeWindow(), c);
 
     QCOMPARE(effects->hasActiveFullScreenEffect(), false);
     QCOMPARE(effectMain->isActiveFullScreenEffect(), false);
 
-    //trigger animation
+    // trigger animation
     KWin::VirtualDesktopManager::self()->setCurrent(2);
 
     QCOMPARE(effects->activeFullScreenEffect(), effectMain);
@@ -400,18 +399,18 @@ void ScriptedEffectsTest::testFullScreenEffect()
     QCOMPARE(effectOther->isActiveFullScreenEffect(), false);
     QCOMPARE(isActiveFullScreenEffectSpyOther.count(), 0);
 
-    //after 500ms trigger another full screen animation
+    // after 500ms trigger another full screen animation
     QTest::qWait(500);
     KWin::VirtualDesktopManager::self()->setCurrent(1);
     QCOMPARE(effects->activeFullScreenEffect(), effectMain);
 
-    //after 1000ms (+a safety margin for time based tests) we should still be the active full screen effect
-    //despite first animation expiring
-    QTest::qWait(500+100);
+    // after 1000ms (+a safety margin for time based tests) we should still be the active full screen effect
+    // despite first animation expiring
+    QTest::qWait(500 + 100);
     QCOMPARE(effects->activeFullScreenEffect(), effectMain);
 
-    //after 1500ms (+a safetey margin) we should have no full screen effect
-    QTest::qWait(500+100);
+    // after 1500ms (+a safetey margin) we should have no full screen effect
+    QTest::qWait(500 + 100);
     QCOMPARE(effects->activeFullScreenEffect(), nullptr);
 }
 
@@ -420,8 +419,8 @@ void ScriptedEffectsTest::testKeepAlive_data()
     QTest::addColumn<QString>("file");
     QTest::addColumn<bool>("keepAlive");
 
-    QTest::newRow("keep")        << "keepAliveTest"         << true;
-    QTest::newRow("don't keep")  << "keepAliveTestDontKeep" << false;
+    QTest::newRow("keep") << "keepAliveTest" << true;
+    QTest::newRow("don't keep") << "keepAliveTestDontKeep" << false;
 }
 
 void ScriptedEffectsTest::testKeepAlive()
@@ -445,7 +444,7 @@ void ScriptedEffectsTest::testKeepAlive()
     QVERIFY(shellSurface);
     auto *c = Test::renderAndWaitForShown(surface, QSize(100, 50), Qt::blue);
     QVERIFY(c);
-    QCOMPARE(workspace()->activeClient(), c);
+    QCOMPARE(workspace()->activeWindow(), c);
 
     // no active animations at the beginning
     QCOMPARE(effect->state().count(), 0);
@@ -483,20 +482,20 @@ void ScriptedEffectsTest::testGrab()
     QVERIFY(effectOutputSpy.isValid());
     QVERIFY(effect->load(QStringLiteral("grabTest")));
 
-    // create test client
+    // create test window
     using namespace KWayland::Client;
     KWayland::Client::Surface *surface = Test::createSurface(Test::waylandCompositor());
     QVERIFY(surface);
     Test::XdgToplevel *shellSurface = Test::createXdgToplevelSurface(surface, surface);
     QVERIFY(shellSurface);
-    AbstractClient *c = Test::renderAndWaitForShown(surface, QSize(100, 50), Qt::blue);
-    QVERIFY(c);
-    QCOMPARE(workspace()->activeClient(), c);
+    Window *window = Test::renderAndWaitForShown(surface, QSize(100, 50), Qt::blue);
+    QVERIFY(window);
+    QCOMPARE(workspace()->activeWindow(), window);
 
-    // the test effect should grab the test client successfully
+    // the test effect should grab the test window successfully
     QCOMPARE(effectOutputSpy.count(), 1);
     QCOMPARE(effectOutputSpy.first().first(), QStringLiteral("ok"));
-    QCOMPARE(c->effectWindow()->data(WindowAddedGrabRole).value<void *>(), effect);
+    QCOMPARE(window->effectWindow()->data(WindowAddedGrabRole).value<void *>(), effect);
 }
 
 void ScriptedEffectsTest::testGrabAlreadyGrabbedWindow()
@@ -516,20 +515,20 @@ void ScriptedEffectsTest::testGrabAlreadyGrabbedWindow()
     QVERIFY(grabberOutputSpy.isValid());
     QVERIFY(grabber->load(QStringLiteral("grabAlreadyGrabbedWindowTest_grabber")));
 
-    // create test client
+    // create test window
     using namespace KWayland::Client;
     KWayland::Client::Surface *surface = Test::createSurface(Test::waylandCompositor());
     QVERIFY(surface);
     Test::XdgToplevel *shellSurface = Test::createXdgToplevelSurface(surface, surface);
     QVERIFY(shellSurface);
-    AbstractClient *c = Test::renderAndWaitForShown(surface, QSize(100, 50), Qt::blue);
-    QVERIFY(c);
-    QCOMPARE(workspace()->activeClient(), c);
+    Window *window = Test::renderAndWaitForShown(surface, QSize(100, 50), Qt::blue);
+    QVERIFY(window);
+    QCOMPARE(workspace()->activeWindow(), window);
 
     // effect that initially held the grab should still hold the grab
     QCOMPARE(ownerOutputSpy.count(), 1);
     QCOMPARE(ownerOutputSpy.first().first(), QStringLiteral("ok"));
-    QCOMPARE(c->effectWindow()->data(WindowAddedGrabRole).value<void *>(), owner);
+    QCOMPARE(window->effectWindow()->data(WindowAddedGrabRole).value<void *>(), owner);
 
     // effect that tried to grab already grabbed window should fail miserably
     QCOMPARE(grabberOutputSpy.count(), 1);
@@ -553,24 +552,24 @@ void ScriptedEffectsTest::testGrabAlreadyGrabbedWindowForced()
     QVERIFY(thiefOutputSpy.isValid());
     QVERIFY(thief->load(QStringLiteral("grabAlreadyGrabbedWindowForcedTest_thief")));
 
-    // create test client
+    // create test window
     using namespace KWayland::Client;
     KWayland::Client::Surface *surface = Test::createSurface(Test::waylandCompositor());
     QVERIFY(surface);
     Test::XdgToplevel *shellSurface = Test::createXdgToplevelSurface(surface, surface);
     QVERIFY(shellSurface);
-    AbstractClient *c = Test::renderAndWaitForShown(surface, QSize(100, 50), Qt::blue);
-    QVERIFY(c);
-    QCOMPARE(workspace()->activeClient(), c);
+    Window *window = Test::renderAndWaitForShown(surface, QSize(100, 50), Qt::blue);
+    QVERIFY(window);
+    QCOMPARE(workspace()->activeWindow(), window);
 
     // verify that the owner in fact held the grab
     QCOMPARE(ownerOutputSpy.count(), 1);
     QCOMPARE(ownerOutputSpy.first().first(), QStringLiteral("ok"));
 
-    // effect that grabbed the test client forcefully should now hold the grab
+    // effect that grabbed the test window forcefully should now hold the grab
     QCOMPARE(thiefOutputSpy.count(), 1);
     QCOMPARE(thiefOutputSpy.first().first(), QStringLiteral("ok"));
-    QCOMPARE(c->effectWindow()->data(WindowAddedGrabRole).value<void *>(), thief);
+    QCOMPARE(window->effectWindow()->data(WindowAddedGrabRole).value<void *>(), thief);
 }
 
 void ScriptedEffectsTest::testUngrab()
@@ -584,28 +583,28 @@ void ScriptedEffectsTest::testUngrab()
     QVERIFY(effectOutputSpy.isValid());
     QVERIFY(effect->load(QStringLiteral("ungrabTest")));
 
-    // create test client
+    // create test window
     using namespace KWayland::Client;
     KWayland::Client::Surface *surface = Test::createSurface(Test::waylandCompositor());
     QVERIFY(surface);
     Test::XdgToplevel *shellSurface = Test::createXdgToplevelSurface(surface, surface);
     QVERIFY(shellSurface);
-    AbstractClient *c = Test::renderAndWaitForShown(surface, QSize(100, 50), Qt::blue);
-    QVERIFY(c);
-    QCOMPARE(workspace()->activeClient(), c);
+    Window *window = Test::renderAndWaitForShown(surface, QSize(100, 50), Qt::blue);
+    QVERIFY(window);
+    QCOMPARE(workspace()->activeWindow(), window);
 
-    // the test effect should grab the test client successfully
+    // the test effect should grab the test window successfully
     QCOMPARE(effectOutputSpy.count(), 1);
     QCOMPARE(effectOutputSpy.first().first(), QStringLiteral("ok"));
-    QCOMPARE(c->effectWindow()->data(WindowAddedGrabRole).value<void *>(), effect);
+    QCOMPARE(window->effectWindow()->data(WindowAddedGrabRole).value<void *>(), effect);
 
     // when the test effect sees that a window was minimized, it will try to ungrab it
     effectOutputSpy.clear();
-    c->setMinimized(true);
+    window->setMinimized(true);
 
     QCOMPARE(effectOutputSpy.count(), 1);
     QCOMPARE(effectOutputSpy.first().first(), QStringLiteral("ok"));
-    QCOMPARE(c->effectWindow()->data(WindowAddedGrabRole).value<void *>(), nullptr);
+    QCOMPARE(window->effectWindow()->data(WindowAddedGrabRole).value<void *>(), nullptr);
 }
 
 void ScriptedEffectsTest::testRedirect_data()
@@ -613,9 +612,9 @@ void ScriptedEffectsTest::testRedirect_data()
     QTest::addColumn<QString>("file");
     QTest::addColumn<bool>("shouldTerminate");
     QTest::newRow("animate/DontTerminateAtSource") << "redirectAnimateDontTerminateTest" << false;
-    QTest::newRow("animate/TerminateAtSource")     << "redirectAnimateTerminateTest"     << true;
-    QTest::newRow("set/DontTerminate")             << "redirectSetDontTerminateTest"     << false;
-    QTest::newRow("set/Terminate")                 << "redirectSetTerminateTest"         << true;
+    QTest::newRow("animate/TerminateAtSource") << "redirectAnimateTerminateTest" << true;
+    QTest::newRow("set/DontTerminate") << "redirectSetDontTerminateTest" << false;
+    QTest::newRow("set/Terminate") << "redirectSetTerminateTest" << true;
 }
 
 void ScriptedEffectsTest::testRedirect()
@@ -627,19 +626,19 @@ void ScriptedEffectsTest::testRedirect()
     QFETCH(QString, file);
     QVERIFY(effect->load(file));
 
-    // create test client
+    // create test window
     using namespace KWayland::Client;
     KWayland::Client::Surface *surface = Test::createSurface(Test::waylandCompositor());
     QVERIFY(surface);
     Test::XdgToplevel *shellSurface = Test::createXdgToplevelSurface(surface, surface);
     QVERIFY(shellSurface);
-    AbstractClient *c = Test::renderAndWaitForShown(surface, QSize(100, 50), Qt::blue);
-    QVERIFY(c);
-    QCOMPARE(workspace()->activeClient(), c);
+    Window *window = Test::renderAndWaitForShown(surface, QSize(100, 50), Qt::blue);
+    QVERIFY(window);
+    QCOMPARE(workspace()->activeWindow(), window);
 
-    auto around = [] (std::chrono::milliseconds elapsed,
-                      std::chrono::milliseconds pivot,
-                      std::chrono::milliseconds margin) {
+    auto around = [](std::chrono::milliseconds elapsed,
+                     std::chrono::milliseconds pivot,
+                     std::chrono::milliseconds margin) {
         return qAbs(elapsed.count() - pivot.count()) < margin.count();
     };
 
@@ -648,21 +647,21 @@ void ScriptedEffectsTest::testRedirect()
     {
         const auto state = effect->state();
         QCOMPARE(state.count(), 1);
-        QCOMPARE(state.firstKey(), c->effectWindow());
+        QCOMPARE(state.firstKey(), window->effectWindow());
         const QList<AniData> animations = state.first().first;
         QCOMPARE(animations.count(), 1);
         QCOMPARE(animations[0].timeLine.direction(), TimeLine::Forward);
         QVERIFY(around(animations[0].timeLine.elapsed(), 0ms, 50ms));
     }
 
-    // minimize the test client after 250ms, when the test effect sees that
+    // minimize the test window after 250ms, when the test effect sees that
     // a window was minimized, it will try to reverse animation for it
     QTest::qWait(250);
 
     QSignalSpy effectOutputSpy(effect, &ScriptedEffectWithDebugSpy::testOutput);
     QVERIFY(effectOutputSpy.isValid());
 
-    c->setMinimized(true);
+    window->setMinimized(true);
 
     QCOMPARE(effectOutputSpy.count(), 1);
     QCOMPARE(effectOutputSpy.first().first(), QStringLiteral("ok"));
@@ -670,7 +669,7 @@ void ScriptedEffectsTest::testRedirect()
     {
         const auto state = effect->state();
         QCOMPARE(state.count(), 1);
-        QCOMPARE(state.firstKey(), c->effectWindow());
+        QCOMPARE(state.firstKey(), window->effectWindow());
         const QList<AniData> animations = state.first().first;
         QCOMPARE(animations.count(), 1);
         QCOMPARE(animations[0].timeLine.direction(), TimeLine::Backward);
@@ -688,7 +687,7 @@ void ScriptedEffectsTest::testRedirect()
     } else {
         const auto state = effect->state();
         QCOMPARE(state.count(), 1);
-        QCOMPARE(state.firstKey(), c->effectWindow());
+        QCOMPARE(state.firstKey(), window->effectWindow());
         const QList<AniData> animations = state.first().first;
         QCOMPARE(animations.count(), 1);
         QCOMPARE(animations[0].timeLine.direction(), TimeLine::Backward);
@@ -705,19 +704,19 @@ void ScriptedEffectsTest::testComplete()
     auto effect = new ScriptedEffectWithDebugSpy;
     QVERIFY(effect->load(QStringLiteral("completeTest")));
 
-    // create test client
+    // create test window
     using namespace KWayland::Client;
     KWayland::Client::Surface *surface = Test::createSurface(Test::waylandCompositor());
     QVERIFY(surface);
     Test::XdgToplevel *shellSurface = Test::createXdgToplevelSurface(surface, surface);
     QVERIFY(shellSurface);
-    AbstractClient *c = Test::renderAndWaitForShown(surface, QSize(100, 50), Qt::blue);
-    QVERIFY(c);
-    QCOMPARE(workspace()->activeClient(), c);
+    Window *window = Test::renderAndWaitForShown(surface, QSize(100, 50), Qt::blue);
+    QVERIFY(window);
+    QCOMPARE(workspace()->activeWindow(), window);
 
-    auto around = [] (std::chrono::milliseconds elapsed,
-                      std::chrono::milliseconds pivot,
-                      std::chrono::milliseconds margin) {
+    auto around = [](std::chrono::milliseconds elapsed,
+                     std::chrono::milliseconds pivot,
+                     std::chrono::milliseconds margin) {
         return qAbs(elapsed.count() - pivot.count()) < margin.count();
     };
 
@@ -725,7 +724,7 @@ void ScriptedEffectsTest::testComplete()
     {
         const auto state = effect->state();
         QCOMPARE(state.count(), 1);
-        QCOMPARE(state.firstKey(), c->effectWindow());
+        QCOMPARE(state.firstKey(), window->effectWindow());
         const QList<AniData> animations = state.first().first;
         QCOMPARE(animations.count(), 1);
         QVERIFY(around(animations[0].timeLine.elapsed(), 0ms, 50ms));
@@ -738,19 +737,19 @@ void ScriptedEffectsTest::testComplete()
     {
         const auto state = effect->state();
         QCOMPARE(state.count(), 1);
-        QCOMPARE(state.firstKey(), c->effectWindow());
+        QCOMPARE(state.firstKey(), window->effectWindow());
         const QList<AniData> animations = state.first().first;
         QCOMPARE(animations.count(), 1);
         QVERIFY(around(animations[0].timeLine.elapsed(), 250ms, 50ms));
         QVERIFY(!animations[0].timeLine.done());
     }
 
-    // minimize the test client, when the test effect sees that a window was
+    // minimize the test window, when the test effect sees that a window was
     // minimized, it will try to complete animation for it
     QSignalSpy effectOutputSpy(effect, &ScriptedEffectWithDebugSpy::testOutput);
     QVERIFY(effectOutputSpy.isValid());
 
-    c->setMinimized(true);
+    window->setMinimized(true);
 
     QCOMPARE(effectOutputSpy.count(), 1);
     QCOMPARE(effectOutputSpy.first().first(), QStringLiteral("ok"));
@@ -758,7 +757,7 @@ void ScriptedEffectsTest::testComplete()
     {
         const auto state = effect->state();
         QCOMPARE(state.count(), 1);
-        QCOMPARE(state.firstKey(), c->effectWindow());
+        QCOMPARE(state.firstKey(), window->effectWindow());
         const QList<AniData> animations = state.first().first;
         QCOMPARE(animations.count(), 1);
         QCOMPARE(animations[0].timeLine.elapsed(), 1000ms);

@@ -11,12 +11,11 @@
 #include <QSize>
 #include <kwinglutils.h>
 
+#include "drm_object_plane.h"
 #include "egl_gbm_backend.h"
 
 namespace KWin
 {
-
-class DrmAbstractOutput;
 
 class ShadowBuffer
 {
@@ -25,20 +24,19 @@ public:
     ~ShadowBuffer();
 
     bool isComplete() const;
+    void render(DrmPlane::Transformations transform);
 
-    void bind();
-    void render(DrmAbstractOutput *output);
-
-    int texture() const;
-
-    QSize textureSize() const;
+    GLFramebuffer *fbo() const;
+    QSharedPointer<GLTexture> texture() const;
+    uint32_t drmFormat() const;
 
 private:
-    GLint internalFormat(const GbmFormat &format);
-    GLuint m_texture;
-    GLuint m_framebuffer;
+    GLint internalFormat(const GbmFormat &format) const;
+    QSharedPointer<GLTexture> m_texture;
+    QScopedPointer<GLFramebuffer> m_fbo;
     QScopedPointer<GLVertexBuffer> m_vbo;
-    QSize m_size;
+    const QSize m_size;
+    const uint32_t m_drmFormat;
 };
 
 }

@@ -4,13 +4,17 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-
 #include "screenshotdbusinterface1.h"
+
+#include <config-kwin.h>
+
 #include "screenshotlogging.h"
 #include "utils/serviceutils.h"
 
 #include <KLocalizedString>
+#if KWIN_BUILD_NOTIFICATIONS
 #include <KNotification>
+#endif
 
 #include <QDBusConnection>
 #include <QDBusConnectionInterface>
@@ -341,7 +345,8 @@ void ScreenShotSinkPipe1::flush(const QImage &image)
         } else {
             close(fd);
         }
-    }, m_fileDescriptor, image);
+    },
+                      m_fileDescriptor, image);
 
     // The ownership of the pipe file descriptor has been moved to the worker thread.
     m_fileDescriptor = -1;
@@ -363,7 +368,8 @@ void ScreenShotSinkPipe1::flushMulti(const QList<QImage> &images)
         } else {
             close(fd);
         }
-    }, m_fileDescriptor, images);
+    },
+                      m_fileDescriptor, images);
 
     // The ownership of the pipe file descriptor has been moved to the worker thread.
     m_fileDescriptor = -1;
@@ -414,7 +420,7 @@ static xcb_pixmap_t xpixmapFromImage(const QImage &image)
     xcb_gcontext_t gc = xcb_generate_id(c);
 
     xcb_create_pixmap(c, image.depth(), pixmap, effects->x11RootWindow(),
-        image.width(), image.height());
+                      image.width(), image.height());
     xcb_create_gc(c, gc, pixmap, 0, nullptr);
 
     const int bytesPerPixel = image.depth() >> 3;
@@ -468,10 +474,13 @@ static QString saveTempImage(const QImage &image)
     }
     image.save(&temp);
     temp.close();
+    qCInfo(KWIN_SCREENSHOT) << "Screenshot saved to" << temp.fileName();
+#if KWIN_BUILD_NOTIFICATIONS
     KNotification::event(KNotification::Notification,
                          i18nc("Notification caption that a screenshot got saved to file", "Screenshot"),
                          i18nc("Notification with path to screenshot file", "Screenshot saved to %1", temp.fileName()),
                          QStringLiteral("spectacle"));
+#endif
     return temp.fileName();
 }
 
@@ -535,9 +544,9 @@ void ScreenShotDBusInterface1::screenshotWindowUnderCursor(int mask)
     while (it != first) {
         hoveredWindow = *(--it);
         if (hoveredWindow->isOnCurrentDesktop()
-                && !hoveredWindow->isMinimized()
-                && !hoveredWindow->isDeleted()
-                && hoveredWindow->frameGeometry().contains(cursor)) {
+            && !hoveredWindow->isMinimized()
+            && !hoveredWindow->isDeleted()
+            && hoveredWindow->frameGeometry().contains(cursor)) {
             break;
         }
         hoveredWindow = nullptr;
@@ -777,7 +786,7 @@ QString ScreenShotDBusInterface1::screenshotArea(int x, int y, int width, int he
 
 bool ScreenShotDBusInterface1::isTakingScreenshot() const
 {
-    return m_source;
+    return !m_source.isNull();
 }
 
 void ScreenShotDBusInterface1::showInfoMessage(InfoMessageMode mode)

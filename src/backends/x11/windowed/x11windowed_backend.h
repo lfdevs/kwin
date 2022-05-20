@@ -86,38 +86,43 @@ class KWIN_EXPORT X11WindowedBackend : public Platform
     Q_OBJECT
     Q_INTERFACES(KWin::Platform)
     Q_PLUGIN_METADATA(IID "org.kde.kwin.Platform" FILE "x11.json")
-    Q_PROPERTY(QSize size READ screenSize NOTIFY sizeChanged)
 public:
     X11WindowedBackend(QObject *parent = nullptr);
     ~X11WindowedBackend() override;
     bool initialize() override;
     Session *session() const override;
 
-    xcb_connection_t *connection() const {
+    xcb_connection_t *connection() const
+    {
         return m_connection;
     }
-    xcb_screen_t *screen() const {
+    xcb_screen_t *screen() const
+    {
         return m_screen;
     }
-    int screenNumer() const {
+    int screenNumer() const
+    {
         return m_screenNumber;
     }
     xcb_window_t window() const;
-    xcb_window_t windowForScreen(AbstractOutput *output) const;
-    Display *display() const {
+    xcb_window_t windowForScreen(Output *output) const;
+    Display *display() const
+    {
         return m_display;
     }
     xcb_window_t rootWindow() const;
-    bool hasXInput() const {
+    bool hasXInput() const
+    {
         return m_hasXInput;
     }
 
     OpenGLBackend *createOpenGLBackend() override;
-    QPainterBackend* createQPainterBackend() override;
+    QPainterBackend *createQPainterBackend() override;
     InputBackend *createInputBackend() override;
     void warpPointer(const QPointF &globalPos) override;
 
-    QVector<CompositingType> supportedCompositors() const override {
+    QVector<CompositingType> supportedCompositors() const override
+    {
         if (selectedCompositor() != NoCompositing) {
             return {selectedCompositor()};
         }
@@ -169,7 +174,7 @@ private:
     int m_majorVersion = 0;
     int m_minorVersion = 0;
 
-    QVector<X11WindowedOutput*> m_outputs;
+    QVector<X11WindowedOutput *> m_outputs;
 };
 
 }

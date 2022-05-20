@@ -5,10 +5,10 @@
 */
 
 #include "colordintegration.h"
-#include "abstract_output.h"
 #include "colorddevice.h"
 #include "colordlogging.h"
 #include "main.h"
+#include "output.h"
 #include "platform.h"
 
 #include <QDBusPendingCallWatcher>
@@ -24,8 +24,7 @@ ColordIntegration::ColordIntegration(QObject *parent)
 
     auto watcher = new QDBusServiceWatcher(QStringLiteral("org.freedesktop.ColorManager"),
                                            QDBusConnection::systemBus(),
-                                           QDBusServiceWatcher::WatchForRegistration |
-                                           QDBusServiceWatcher::WatchForUnregistration, this);
+                                           QDBusServiceWatcher::WatchForRegistration | QDBusServiceWatcher::WatchForUnregistration, this);
 
     connect(watcher, &QDBusServiceWatcher::serviceRegistered, this, &ColordIntegration::initialize);
     connect(watcher, &QDBusServiceWatcher::serviceUnregistered, this, &ColordIntegration::teardown);
@@ -44,8 +43,8 @@ void ColordIntegration::initialize()
                                         QStringLiteral("/org/freedesktop/ColorManager"),
                                         QDBusConnection::systemBus(), this);
 
-    const QVector<AbstractOutput *> outputs = platform->outputs();
-    for (AbstractOutput *output : outputs) {
+    const QVector<Output *> outputs = platform->outputs();
+    for (Output *output : outputs) {
         handleOutputAdded(output);
     }
 
@@ -57,8 +56,8 @@ void ColordIntegration::teardown()
 {
     const Platform *platform = kwinApp()->platform();
 
-    const QVector<AbstractOutput *> outputs = platform->outputs();
-    for (AbstractOutput *output : outputs) {
+    const QVector<Output *> outputs = platform->outputs();
+    for (Output *output : outputs) {
         handleOutputRemoved(output);
     }
 
@@ -69,7 +68,7 @@ void ColordIntegration::teardown()
     disconnect(platform, &Platform::outputRemoved, this, &ColordIntegration::handleOutputRemoved);
 }
 
-void ColordIntegration::handleOutputAdded(AbstractOutput *output)
+void ColordIntegration::handleOutputAdded(Output *output)
 {
     ColordDevice *device = new ColordDevice(output, this);
 
@@ -97,7 +96,7 @@ void ColordIntegration::handleOutputAdded(AbstractOutput *output)
     }
 
     QDBusPendingReply<QDBusObjectPath> reply =
-            m_colordInterface->CreateDevice(output->name(), QStringLiteral("temp"), properties);
+        m_colordInterface->CreateDevice(output->name(), QStringLiteral("temp"), properties);
 
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(reply, this);
     connect(watcher, &QDBusPendingCallWatcher::finished, this, [this, device, watcher]() {
@@ -122,7 +121,7 @@ void ColordIntegration::handleOutputAdded(AbstractOutput *output)
     });
 }
 
-void ColordIntegration::handleOutputRemoved(AbstractOutput *output)
+void ColordIntegration::handleOutputRemoved(Output *output)
 {
     ColordDevice *device = m_outputToDevice.take(output);
     if (device) {

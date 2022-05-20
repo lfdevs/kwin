@@ -19,8 +19,8 @@
 #include <KLocalizedString>
 
 #include <QPainter>
-#include <QVector2D>
 #include <QPalette>
+#include <QVector2D>
 
 #include <cmath>
 
@@ -37,17 +37,20 @@ ShowFpsEffect::ShowFpsEffect()
 {
     initConfig<ShowFpsConfig>();
     for (int i = 0;
-            i < NUM_PAINTS;
-            ++i) {
-        paints[ i ] = 0;
-        paint_size[ i ] = 0;
+         i < NUM_PAINTS;
+         ++i) {
+        paints[i] = 0;
+        paint_size[i] = 0;
     }
     for (int i = 0;
-            i < MAX_FPS;
-            ++i)
-        frames[ i ] = 0;
-    m_noBenchmark->setAlignment(Qt::AlignTop | Qt::AlignRight);
-    m_noBenchmark->setText(i18n("This effect is not a benchmark"));
+         i < MAX_FPS;
+         ++i) {
+        frames[i] = 0;
+    }
+    if (m_showNoBenchmark) {
+        m_noBenchmark->setAlignment(Qt::AlignTop | Qt::AlignRight);
+        m_noBenchmark->setText(i18n("This effect is not a benchmark"));
+    }
     reconfigure(ReconfigureAll);
 }
 
@@ -61,15 +64,20 @@ void ShowFpsEffect::reconfigure(ReconfigureFlags)
     alpha = ShowFpsConfig::alpha();
     x = ShowFpsConfig::x();
     y = ShowFpsConfig::y();
+    m_showNoBenchmark = ShowFpsConfig::showNoBenchmark();
+    m_showGraph = ShowFpsConfig::showGraph();
+    m_colorizeText = ShowFpsConfig::colorizeText();
     const QSize screenSize = effects->virtualScreenSize();
-    if (x == -10000)   // there's no -0 :(
+    if (x == -10000) { // there's no -0 :(
         x = screenSize.width() - 2 * NUM_PAINTS - FPS_WIDTH;
-    else if (x < 0)
+    } else if (x < 0) {
         x = screenSize.width() - 2 * NUM_PAINTS - FPS_WIDTH - x;
-    if (y == -10000)
+    }
+    if (y == -10000) {
         y = screenSize.height() - MAX_TIME;
-    else if (y < 0)
+    } else if (y < 0) {
         y = screenSize.height() - MAX_TIME - y;
+    }
     fps_rect = QRect(x, y, FPS_WIDTH + 2 * NUM_PAINTS, MAX_TIME);
     m_noBenchmark->setPosition(fps_rect.bottomRight() + QPoint(-6, 6));
 
@@ -78,11 +86,12 @@ void ShowFpsEffect::reconfigure(ReconfigureFlags)
     textColor = ShowFpsConfig::textColor();
     double textAlpha = ShowFpsConfig::textAlpha();
 
-    if (!textColor.isValid())
+    if (!textColor.isValid()) {
         textColor = QPalette().color(QPalette::Active, QPalette::WindowText);
+    }
     textColor.setAlphaF(textAlpha);
 
-    switch(textPosition) {
+    switch (textPosition) {
     case TOP_LEFT:
         fpsTextRect = QRect(0, 0, 100, 100);
         textAlign = Qt::AlignTop | Qt::AlignLeft;
@@ -110,19 +119,28 @@ void ShowFpsEffect::reconfigure(ReconfigureFlags)
     }
 }
 
-void ShowFpsEffect::prePaintScreen(ScreenPrePaintData& data, std::chrono::milliseconds presentTime)
+void ShowFpsEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseconds presentTime)
 {
-    frames[ frames_pos ] = QDateTime::currentMSecsSinceEpoch();
-    if (++frames_pos == MAX_FPS)
+    frames[frames_pos] = QDateTime::currentMSecsSinceEpoch();
+    if (++frames_pos == MAX_FPS) {
         frames_pos = 0;
+    }
     effects->prePaintScreen(data, presentTime);
     data.paint += fps_rect;
 
-    paint_size[ paints_pos ] = 0;
+    paint_size[paints_pos] = 0;
     t.restart();
+
+    // detect highest monitor refresh rate
+    int num_screens = effects->screens().size();
+    detectedMaxFps = 0;
+    for (int i = 0; i < num_screens; ++i) {
+        detectedMaxFps = std::max(effects->screens().at(i)->refreshRate(), detectedMaxFps);
+    }
+    detectedMaxFps /= 1000; // convert mHz to Hz (see kwineffects.h: EffectScreen)
 }
 
-void ShowFpsEffect::paintWindow(EffectWindow* w, int mask, QRegion region, WindowPaintData& data)
+void ShowFpsEffect::paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data)
 {
     effects->paintWindow(w, mask, region, data);
 
@@ -134,31 +152,34 @@ void ShowFpsEffect::paintWindow(EffectWindow* w, int mask, QRegion region, Windo
     for (const QRect &r : r2) {
         winsize += r.width() * r.height();
     }
-    paint_size[ paints_pos ] += winsize;
+    paint_size[paints_pos] += winsize;
 }
 
-void ShowFpsEffect::paintScreen(int mask, const QRegion &region, ScreenPaintData& data)
+void ShowFpsEffect::paintScreen(int mask, const QRegion &region, ScreenPaintData &data)
 {
     effects->paintScreen(mask, region, data);
     int lastFrame = frames_pos - 1;
-    if (lastFrame < 0)
+    if (lastFrame < 0) {
         lastFrame = MAX_FPS - 1;
+    }
     const qint64 lastTimestamp = frames[lastFrame];
     int fps = 0;
     for (int i = 0;
-            i < MAX_FPS;
-            ++i)
-        if (abs(lastTimestamp - frames[ i ]) < 1000)
+         i < MAX_FPS;
+         ++i) {
+        if (abs(lastTimestamp - frames[i]) < 1000) {
             ++fps; // count all frames in the last second
-    if (fps > MAX_TIME)
-        fps = MAX_TIME; // keep it the same height
+        }
+    }
     if (effects->isOpenGLCompositing()) {
         paintGL(fps, data.projectionMatrix());
         glFinish(); // make sure all rendering is done
     } else if (effects->compositingType() == QPainterCompositing) {
         paintQPainter(fps);
     }
-    m_noBenchmark->render(infiniteRegion(), 1.0, alpha);
+    if (m_showNoBenchmark) {
+        m_noBenchmark->render(infiniteRegion(), 1.0, alpha);
+    }
 }
 
 void ShowFpsEffect::paintGL(int fps, const QMatrix4x4 &projectionMatrix)
@@ -171,55 +192,54 @@ void ShowFpsEffect::paintGL(int fps, const QMatrix4x4 &projectionMatrix)
     // means that the contents also blend with the background, I guess
     ShaderBinder binder(ShaderTrait::UniformColor);
     binder.shader()->setUniform(GLShader::ModelViewProjectionMatrix, projectionMatrix);
-    GLVertexBuffer *vbo = GLVertexBuffer::streamingBuffer();
-    vbo->reset();
-    QColor color(255, 255, 255);
-    color.setAlphaF(alpha);
-    vbo->setColor(color);
-    QVector<float> verts;
-    verts.reserve(12);
-    verts << x + 2 * NUM_PAINTS + FPS_WIDTH << y;
-    verts << x << y;
-    verts << x << y + MAX_TIME;
-    verts << x << y + MAX_TIME;
-    verts << x + 2 * NUM_PAINTS + FPS_WIDTH << y + MAX_TIME;
-    verts << x + 2 * NUM_PAINTS + FPS_WIDTH << y;
-    vbo->setData(6, 2, verts.constData(), nullptr);
-    vbo->render(GL_TRIANGLES);
-    y += MAX_TIME; // paint up from the bottom
-    color.setRed(0);
-    color.setGreen(0);
-    vbo->setColor(color);
-    verts.clear();
-    verts << x + FPS_WIDTH << y - fps;
-    verts << x << y - fps;
-    verts << x << y;
-    verts << x << y;
-    verts << x + FPS_WIDTH << y;
-    verts << x + FPS_WIDTH << y - fps;
-    vbo->setData(6, 2, verts.constData(), nullptr);
-    vbo->render(GL_TRIANGLES);
+    if (m_showGraph) {
+        GLVertexBuffer *vbo = GLVertexBuffer::streamingBuffer();
+        vbo->reset();
+        QColor color(255, 255, 255);
+        color.setAlphaF(alpha);
+        vbo->setColor(color);
+        QVector<float> verts;
+        verts.reserve(12);
+        verts << x + 2 * NUM_PAINTS + FPS_WIDTH << y;
+        verts << x << y;
+        verts << x << y + MAX_TIME;
+        verts << x << y + MAX_TIME;
+        verts << x + 2 * NUM_PAINTS + FPS_WIDTH << y + MAX_TIME;
+        verts << x + 2 * NUM_PAINTS + FPS_WIDTH << y;
+        vbo->setData(6, 2, verts.constData(), nullptr);
+        vbo->render(GL_TRIANGLES);
+        y += MAX_TIME; // paint up from the bottom
+        color.setRed(0);
+        color.setGreen(0);
+        vbo->setColor(color);
+        verts.clear();
+        verts << x + FPS_WIDTH << y - fps;
+        verts << x << y - fps;
+        verts << x << y;
+        verts << x << y;
+        verts << x + FPS_WIDTH << y;
+        verts << x + FPS_WIDTH << y - fps;
+        vbo->setData(6, 2, verts.constData(), nullptr);
+        vbo->render(GL_TRIANGLES);
 
+        color.setBlue(0);
+        vbo->setColor(color);
+        QVector<float> vertices;
+        for (int i = 10; i < MAX_TIME; i += 10) {
+            vertices << x << y - i;
+            vertices << x + FPS_WIDTH << y - i;
+        }
+        vbo->setData(vertices.size() / 2, 2, vertices.constData(), nullptr);
+        vbo->render(GL_LINES);
+        x += FPS_WIDTH;
 
-    color.setBlue(0);
-    vbo->setColor(color);
-    QVector<float> vertices;
-    for (int i = 10;
-            i < MAX_TIME;
-            i += 10) {
-        vertices << x << y - i;
-        vertices << x + FPS_WIDTH << y - i;
+        // Paint FPS graph
+        paintFPSGraph(x, y);
+        x += NUM_PAINTS;
+
+        // Paint amount of rendered pixels graph
+        paintDrawSizeGraph(x, y);
     }
-    vbo->setData(vertices.size() / 2, 2, vertices.constData(), nullptr);
-    vbo->render(GL_LINES);
-    x += FPS_WIDTH;
-
-    // Paint FPS graph
-    paintFPSGraph(x, y);
-    x += NUM_PAINTS;
-
-    // Paint amount of rendered pixels graph
-    paintDrawSizeGraph(x, y);
 
     // Paint FPS numerical value
     if (fpsTextRect.isValid()) {
@@ -229,7 +249,7 @@ void ShowFpsEffect::paintGL(int fps, const QMatrix4x4 &projectionMatrix)
         QMatrix4x4 mvp = projectionMatrix;
         mvp.translate(fpsTextRect.x(), fpsTextRect.y());
         binder.shader()->setUniform(GLShader::ModelViewProjectionMatrix, mvp);
-        fpsText->render(QRegion(fpsTextRect), fpsTextRect);
+        fpsText->render(fpsTextRect);
         fpsText->unbind();
         effects->addRepaint(fpsTextRect);
     }
@@ -243,26 +263,28 @@ void ShowFpsEffect::paintQPainter(int fps)
     QPainter *painter = effects->scenePainter();
     painter->save();
 
-    QColor color(255, 255, 255);
-    color.setAlphaF(alpha);
+    if (m_showGraph) {
+        QColor color(255, 255, 255);
+        color.setAlphaF(alpha);
 
-    painter->setCompositionMode(QPainter::CompositionMode_SourceOver);
-    painter->fillRect(x, y, 2 * NUM_PAINTS + FPS_WIDTH, MAX_TIME, color);
-    color.setRed(0);
-    color.setGreen(0);
-    painter->fillRect(x, y + MAX_TIME - fps, FPS_WIDTH, fps, color);
+        painter->setCompositionMode(QPainter::CompositionMode_SourceOver);
+        painter->fillRect(x, y, 2 * NUM_PAINTS + FPS_WIDTH, MAX_TIME, color);
+        color.setRed(0);
+        color.setGreen(0);
+        painter->fillRect(x, y + MAX_TIME - fps, FPS_WIDTH, fps, color);
 
-    color.setBlue(0);
-    for (int i = 10; i < MAX_TIME; i += 10) {
-        painter->setPen(color);
-        painter->drawLine(x, y + MAX_TIME - i, x + FPS_WIDTH, y + MAX_TIME - i);
+        color.setBlue(0);
+        for (int i = 10; i < MAX_TIME; i += 10) {
+            painter->setPen(color);
+            painter->drawLine(x, y + MAX_TIME - i, x + FPS_WIDTH, y + MAX_TIME - i);
+        }
+
+        // Paint FPS graph
+        paintFPSGraph(x + FPS_WIDTH, y + MAX_TIME - 1);
+
+        // Paint amount of rendered pixels graph
+        paintDrawSizeGraph(x + FPS_WIDTH + NUM_PAINTS, y + MAX_TIME - 1);
     }
-
-    // Paint FPS graph
-    paintFPSGraph(x + FPS_WIDTH, y + MAX_TIME - 1);
-
-    // Paint amount of rendered pixels graph
-    paintDrawSizeGraph(x + FPS_WIDTH + NUM_PAINTS, y + MAX_TIME - 1);
 
     // Paint FPS numerical value
     painter->setPen(Qt::black);
@@ -278,9 +300,9 @@ void ShowFpsEffect::paintFPSGraph(int x, int y)
     lines << 10 << 20 << 50;
     QList<int> values;
     for (int i = 0;
-            i < NUM_PAINTS;
-            ++i) {
-        values.append(paints[(i + paints_pos) % NUM_PAINTS ]);
+         i < NUM_PAINTS;
+         ++i) {
+        values.append(paints[(i + paints_pos) % NUM_PAINTS]);
     }
     paintGraph(x, y, values, lines, true);
 }
@@ -288,25 +310,27 @@ void ShowFpsEffect::paintFPSGraph(int x, int y)
 void ShowFpsEffect::paintDrawSizeGraph(int x, int y)
 {
     int max_drawsize = 0;
-    for (int i = 0; i < NUM_PAINTS; i++)
-        max_drawsize = qMax(max_drawsize, paint_size[ i ]);
+    for (int i = 0; i < NUM_PAINTS; i++) {
+        max_drawsize = qMax(max_drawsize, paint_size[i]);
+    }
 
     // Log of min/max values shown on graph
     const float max_pixels_log = 7.2f;
     const float min_pixels_log = 2.0f;
-    const int minh = 5;  // Minimum height of the bar when  value > 0
+    const int minh = 5; // Minimum height of the bar when  value > 0
 
     float drawscale = (MAX_TIME - minh) / (max_pixels_log - min_pixels_log);
     QList<int> drawlines;
 
-    for (int logh = (int)min_pixels_log; logh <= max_pixels_log; logh++)
+    for (int logh = (int)min_pixels_log; logh <= max_pixels_log; logh++) {
         drawlines.append((int)((logh - min_pixels_log) * drawscale) + minh);
+    }
 
     QList<int> drawvalues;
     for (int i = 0;
-            i < NUM_PAINTS;
-            ++i) {
-        int value = paint_size[(i + paints_pos) % NUM_PAINTS ];
+         i < NUM_PAINTS;
+         ++i) {
+        int value = paint_size[(i + paints_pos) % NUM_PAINTS];
         int h = 0;
         if (value > 0) {
             h = (int)((log10((double)value) - min_pixels_log) * drawscale);
@@ -337,7 +361,7 @@ void ShowFpsEffect::paintGraph(int x, int y, QList<int> values, QList<int> lines
         int lastValue = 0;
         verts.clear();
         for (int i = 0; i < values.count(); i++) {
-            int value = values[ i ];
+            int value = values[i];
             if (colorize && value != lastValue) {
                 if (!verts.isEmpty()) {
                     vbo->setData(verts.size() / 2, 2, verts.constData(), nullptr);
@@ -373,7 +397,7 @@ void ShowFpsEffect::paintGraph(int x, int y, QList<int> values, QList<int> lines
         QColor color(0, 0, 0);
         color.setAlphaF(alpha);
         for (int i = 0; i < values.count(); i++) {
-            int value = values[ i ];
+            int value = values[i];
             if (colorize) {
                 if (value <= 10) {
                     color = QColor(0, 255, 0);
@@ -394,9 +418,10 @@ void ShowFpsEffect::paintGraph(int x, int y, QList<int> values, QList<int> lines
 void ShowFpsEffect::postPaintScreen()
 {
     effects->postPaintScreen();
-    paints[ paints_pos ] = t.elapsed();
-    if (++paints_pos == NUM_PAINTS)
+    paints[paints_pos] = t.elapsed();
+    if (++paints_pos == NUM_PAINTS) {
         paints_pos = 0;
+    }
     effects->addRepaint(fps_rect);
 }
 
@@ -406,7 +431,22 @@ QImage ShowFpsEffect::fpsTextImage(int fps)
     im.fill(Qt::transparent);
     QPainter painter(&im);
     painter.setFont(textFont);
-    painter.setPen(textColor);
+    QColor col = textColor;
+    if (detectedMaxFps > 0) {
+        fps = std::min(fps, detectedMaxFps);
+    }
+    if (m_colorizeText) {
+        if (fps >= detectedMaxFps * 0.75) {
+            col = QColor(0, 255, 0); // green
+        } else if (fps >= detectedMaxFps * 0.5) {
+            col = QColor(255, 255, 0); // yellow
+        } else if (fps >= detectedMaxFps * 0.25) {
+            col = QColor(255, 0, 0); // red
+        } else {
+            col = QColor(0, 0, 0); // black
+        }
+    }
+    painter.setPen(col);
     painter.drawText(QRect(0, 0, 100, 100), textAlign, QString::number(fps));
     painter.end();
     return im;

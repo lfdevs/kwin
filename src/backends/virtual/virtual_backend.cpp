@@ -7,150 +7,28 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "virtual_backend.h"
-#include "virtual_output.h"
+
+#include <config-kwin.h>
+
+#include "composite.h"
+#include "egl_gbm_backend.h"
 #include "scene_qpainter_virtual_backend.h"
 #include "session.h"
+#include "virtual_output.h"
 #include "wayland_server.h"
-#include "egl_gbm_backend.h"
 // Qt
 #include <QTemporaryDir>
 // system
 #include <fcntl.h>
 #include <unistd.h>
-#include <config-kwin.h>
 
 namespace KWin
 {
-
-VirtualInputDevice::VirtualInputDevice(QObject *parent)
-    : InputDevice(parent)
-{
-}
-
-void VirtualInputDevice::setPointer(bool set)
-{
-    m_pointer = set;
-}
-
-void VirtualInputDevice::setKeyboard(bool set)
-{
-    m_keyboard = set;
-}
-
-void VirtualInputDevice::setTouch(bool set)
-{
-    m_touch = set;
-}
-
-void VirtualInputDevice::setName(const QString &name)
-{
-    m_name = name;
-}
-
-QString VirtualInputDevice::sysName() const
-{
-    return QString();
-}
-
-QString VirtualInputDevice::name() const
-{
-    return m_name;
-}
-
-bool VirtualInputDevice::isEnabled() const
-{
-    return true;
-}
-
-void VirtualInputDevice::setEnabled(bool enabled)
-{
-    Q_UNUSED(enabled)
-}
-
-LEDs VirtualInputDevice::leds() const
-{
-    return LEDs();
-}
-
-void VirtualInputDevice::setLeds(LEDs leds)
-{
-    Q_UNUSED(leds)
-}
-
-bool VirtualInputDevice::isKeyboard() const
-{
-    return m_keyboard;
-}
-
-bool VirtualInputDevice::isAlphaNumericKeyboard() const
-{
-    return m_keyboard;
-}
-
-bool VirtualInputDevice::isPointer() const
-{
-    return m_pointer;
-}
-
-bool VirtualInputDevice::isTouchpad() const
-{
-    return false;
-}
-
-bool VirtualInputDevice::isTouch() const
-{
-    return m_touch;
-}
-
-bool VirtualInputDevice::isTabletTool() const
-{
-    return false;
-}
-
-bool VirtualInputDevice::isTabletPad() const
-{
-    return false;
-}
-
-bool VirtualInputDevice::isTabletModeSwitch() const
-{
-    return false;
-}
-
-bool VirtualInputDevice::isLidSwitch() const
-{
-    return false;
-}
-
-VirtualInputBackend::VirtualInputBackend(VirtualBackend *backend, QObject *parent)
-    : InputBackend(parent)
-    , m_backend(backend)
-{
-}
-
-void VirtualInputBackend::initialize()
-{
-    Q_EMIT deviceAdded(m_backend->virtualPointer());
-    Q_EMIT deviceAdded(m_backend->virtualKeyboard());
-    Q_EMIT deviceAdded(m_backend->virtualTouch());
-}
 
 VirtualBackend::VirtualBackend(QObject *parent)
     : Platform(parent)
     , m_session(Session::create(Session::Type::Noop, this))
 {
-    m_virtualKeyboard.reset(new VirtualInputDevice());
-    m_virtualKeyboard->setName(QStringLiteral("Virtual Keyboard 1"));
-    m_virtualKeyboard->setKeyboard(true);
-
-    m_virtualPointer.reset(new VirtualInputDevice());
-    m_virtualPointer->setName(QStringLiteral("Virtual Pointer 1"));
-    m_virtualPointer->setPointer(true);
-
-    m_virtualTouch.reset(new VirtualInputDevice());
-    m_virtualTouch->setName(QStringLiteral("Virtual Touch 1"));
-    m_virtualTouch->setTouch(true);
-
     if (qEnvironmentVariableIsSet("KWIN_WAYLAND_VIRTUAL_SCREENSHOTS")) {
         m_screenshotDir.reset(new QTemporaryDir);
         if (!m_screenshotDir->isValid()) {
@@ -164,7 +42,6 @@ VirtualBackend::VirtualBackend(QObject *parent)
     supportsOutputChanges();
     setSupportsPointerWarping(true);
     setSupportsGammaControl(true);
-    setPerScreenRenderingEnabled(true);
 }
 
 VirtualBackend::~VirtualBackend()
@@ -190,7 +67,7 @@ bool VirtualBackend::initialize()
     if (m_outputs.isEmpty()) {
         VirtualOutput *dummyOutput = new VirtualOutput(this);
         dummyOutput->init(QPoint(0, 0), initialWindowSize());
-        m_outputs << dummyOutput ;
+        m_outputs << dummyOutput;
         m_outputsEnabled << dummyOutput;
         Q_EMIT outputAdded(dummyOutput);
         Q_EMIT outputEnabled(dummyOutput);
@@ -201,32 +78,12 @@ bool VirtualBackend::initialize()
     return true;
 }
 
-VirtualInputDevice *VirtualBackend::virtualPointer() const
-{
-    return m_virtualPointer.data();
-}
-
-VirtualInputDevice *VirtualBackend::virtualKeyboard() const
-{
-    return m_virtualKeyboard.data();
-}
-
-VirtualInputDevice *VirtualBackend::virtualTouch() const
-{
-    return m_virtualTouch.data();
-}
-
 QString VirtualBackend::screenshotDirPath() const
 {
     if (m_screenshotDir.isNull()) {
         return QString();
     }
     return m_screenshotDir->path();
-}
-
-InputBackend *VirtualBackend::createInputBackend()
-{
-    return new VirtualInputBackend(this);
 }
 
 QPainterBackend *VirtualBackend::createQPainterBackend()
@@ -305,7 +162,7 @@ void VirtualBackend::enableOutput(VirtualOutput *output, bool enable)
     Q_EMIT screensQueried();
 }
 
-void VirtualBackend::removeOutput(AbstractOutput *output)
+void VirtualBackend::removeOutput(Output *output)
 {
     VirtualOutput *virtualOutput = static_cast<VirtualOutput *>(output);
     virtualOutput->setEnabled(false);
@@ -318,4 +175,14 @@ void VirtualBackend::removeOutput(AbstractOutput *output)
     Q_EMIT screensQueried();
 }
 
+QImage VirtualBackend::captureOutput(Output *output) const
+{
+    if (auto backend = qobject_cast<VirtualQPainterBackend *>(Compositor::self()->backend())) {
+        if (auto layer = backend->primaryLayer(output)) {
+            return *layer->image();
+        }
+    }
+    return QImage();
 }
+
+} // namespace KWin

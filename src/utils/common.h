@@ -16,8 +16,8 @@
 // kwin
 #include <kwinglobals.h>
 // Qt
-#include <QLoggingCategory>
 #include <QList>
+#include <QLoggingCategory>
 #include <QMatrix4x4>
 #include <QPoint>
 #include <QRect>
@@ -54,11 +54,11 @@ Q_ENUM_NS(Layer)
 
 enum StrutArea {
     StrutAreaInvalid = 0, // Null
-    StrutAreaTop     = 1 << 0,
-    StrutAreaRight   = 1 << 1,
-    StrutAreaBottom  = 1 << 2,
-    StrutAreaLeft    = 1 << 3,
-    StrutAreaAll     = StrutAreaTop | StrutAreaRight | StrutAreaBottom | StrutAreaLeft,
+    StrutAreaTop = 1 << 0,
+    StrutAreaRight = 1 << 1,
+    StrutAreaBottom = 1 << 2,
+    StrutAreaLeft = 1 << 3,
+    StrutAreaAll = StrutAreaTop | StrutAreaRight | StrutAreaBottom | StrutAreaLeft,
 };
 Q_DECLARE_FLAGS(StrutAreas, StrutArea)
 
@@ -67,11 +67,13 @@ class StrutRect : public QRect
 public:
     explicit StrutRect(QRect rect = QRect(), StrutArea area = StrutAreaInvalid);
     StrutRect(int x, int y, int width, int height, StrutArea area = StrutAreaInvalid);
-    StrutRect(const StrutRect& other);
-    StrutRect &operator=(const StrutRect& other);
-    inline StrutArea area() const {
+    StrutRect(const StrutRect &other);
+    StrutRect &operator=(const StrutRect &other);
+    inline StrutArea area() const
+    {
         return m_area;
     }
+
 private:
     StrutArea m_area;
 };
@@ -90,32 +92,32 @@ enum ShadeMode {
  * @note these values are written to session files, don't change the order
  */
 enum MaximizeMode {
-    MaximizeRestore    = 0, ///< The window is not maximized in any direction.
-    MaximizeVertical   = 1, ///< The window is maximized vertically.
+    MaximizeRestore = 0, ///< The window is not maximized in any direction.
+    MaximizeVertical = 1, ///< The window is maximized vertically.
     MaximizeHorizontal = 2, ///< The window is maximized horizontally.
     /// Equal to @p MaximizeVertical | @p MaximizeHorizontal
     MaximizeFull = MaximizeVertical | MaximizeHorizontal,
 };
 
-inline
-MaximizeMode operator^(MaximizeMode m1, MaximizeMode m2)
+inline MaximizeMode operator^(MaximizeMode m1, MaximizeMode m2)
 {
     return MaximizeMode(int(m1) ^ int(m2));
 }
 
 enum class QuickTileFlag {
-    None        = 0,
-    Left        = 1 << 0,
-    Right       = 1 << 1,
-    Top         = 1 << 2,
-    Bottom      = 1 << 3,
-    Horizontal  = Left | Right,
-    Vertical    = Top | Bottom,
-    Maximize    = Left | Right | Top | Bottom,
+    None = 0,
+    Left = 1 << 0,
+    Right = 1 << 1,
+    Top = 1 << 2,
+    Bottom = 1 << 3,
+    Horizontal = Left | Right,
+    Vertical = Top | Bottom,
+    Maximize = Left | Right | Top | Bottom,
 };
 Q_DECLARE_FLAGS(QuickTileMode, QuickTileFlag)
 
-template <typename T> using ScopedCPointer = QScopedPointer<T, QScopedPointerPodDeleter>;
+template<typename T>
+using ScopedCPointer = QScopedPointer<T, QScopedPointerPodDeleter>;
 
 void KWIN_EXPORT updateXTime();
 void KWIN_EXPORT grabXServer();
@@ -140,10 +142,12 @@ static inline QRegion mapRegion(const QMatrix4x4 &matrix, const QRegion &region)
 class XServerGrabber
 {
 public:
-    XServerGrabber() {
+    XServerGrabber()
+    {
         grabXServer();
     }
-    ~XServerGrabber() {
+    ~XServerGrabber()
+    {
         ungrabXServer();
     }
 };
@@ -153,73 +157,6 @@ Qt::MouseButton x11ToQtMouseButton(int button);
 Qt::MouseButton KWIN_EXPORT x11ToQtMouseButton(int button);
 Qt::MouseButtons KWIN_EXPORT x11ToQtMouseButtons(int state);
 Qt::KeyboardModifiers KWIN_EXPORT x11ToQtKeyboardModifiers(int state);
-
-/**
- * The DamageJournal class is a helper that tracks last N damage regions.
- */
-class KWIN_EXPORT DamageJournal
-{
-public:
-    /**
-     * Returns the maximum number of damage regions that can be stored in the journal.
-     */
-    int capacity() const
-    {
-        return m_capacity;
-    }
-
-    /**
-     * Sets the maximum number of damage regions that can be stored in the journal
-     * to @a capacity.
-     */
-    void setCapacity(int capacity)
-    {
-        m_capacity = capacity;
-    }
-
-    /**
-     * Adds the specified @a region to the journal.
-     */
-    void add(const QRegion &region)
-    {
-        while (m_log.size() >= m_capacity) {
-            m_log.takeLast();
-        }
-        m_log.prepend(region);
-    }
-
-    /**
-     * Clears the damage journal. Typically, one would want to clear the damage journal
-     * if a buffer swap fails for some reason.
-     */
-    void clear()
-    {
-        m_log.clear();
-    }
-
-    /**
-     * Accumulates the damage regions in the log up to the specified @a bufferAge.
-     *
-     * If the specified buffer age value refers to a damage region older than the last
-     * one in the journal, @a fallback will be returned.
-     */
-    QRegion accumulate(int bufferAge, const QRegion &fallback = QRegion()) const
-    {
-        QRegion region;
-        if (bufferAge > 0 && bufferAge <= m_log.size()) {
-            for (int i = 0; i < bufferAge - 1; ++i) {
-                region |= m_log[i];
-            }
-        } else {
-            region = fallback;
-        }
-        return region;
-    }
-
-private:
-    QList<QRegion> m_log;
-    int m_capacity = 10;
-};
 
 KWIN_EXPORT QPoint popupOffset(const QRect &anchorRect, const Qt::Edges anchorEdge, const Qt::Edges gravity, const QSize popupSize);
 

@@ -12,19 +12,22 @@
 #include <kwinglobals.h>
 
 #include <QObject>
-#include <QTimer>
 #include <QRegion>
+#include <QTimer>
 
 namespace KWin
 {
 
-class AbstractOutput;
+class Output;
 class CompositorSelectionOwner;
+class CursorView;
 class RenderBackend;
+class RenderLayer;
 class RenderLoop;
+class RenderTarget;
 class Scene;
-class Toplevel;
-class X11Client;
+class Window;
+class X11Window;
 class X11SyncManager;
 
 class KWIN_EXPORT Compositor : public QObject
@@ -65,10 +68,12 @@ public:
      */
     bool isActive();
 
-    Scene *scene() const {
+    Scene *scene() const
+    {
         return m_scene;
     }
-    RenderBackend *backend() const {
+    RenderBackend *backend() const
+    {
         return m_backend;
     }
 
@@ -77,14 +82,14 @@ public:
      *
      * @return bool @c true if there is a Compositor and it is active, @c false otherwise
      */
-    static bool compositing() {
+    static bool compositing()
+    {
         return s_compositor != nullptr && s_compositor->isActive();
     }
 
     // for delayed supportproperty management of effects
     void keepSupportProperty(xcb_atom_t atom);
     void removeSupportProperty(xcb_atom_t atom);
-    QList<Toplevel *> windowsToRender() const;
 
 Q_SIGNALS:
     void compositingToggled(bool active);
@@ -119,8 +124,6 @@ protected Q_SLOTS:
 
 private Q_SLOTS:
     void handleFrameRequested(RenderLoop *renderLoop);
-    void handleOutputEnabled(AbstractOutput *output);
-    void handleOutputDisabled(AbstractOutput *output);
 
 private:
     void initializeX11();
@@ -129,11 +132,20 @@ private:
     void releaseCompositorSelection();
     void deleteUnusedSupportProperties();
 
-    void registerRenderLoop(RenderLoop *renderLoop, AbstractOutput *output);
-    void unregisterRenderLoop(RenderLoop *renderLoop);
-
     bool attemptOpenGLCompositing();
     bool attemptQPainterCompositing();
+
+    Output *findOutput(RenderLoop *loop) const;
+    void addOutput(Output *output);
+    void removeOutput(Output *output);
+
+    void addSuperLayer(RenderLayer *layer);
+    void removeSuperLayer(RenderLayer *layer);
+
+    void prePaintPass(RenderLayer *layer);
+    void postPaintPass(RenderLayer *layer);
+    void preparePaintPass(RenderLayer *layer, QRegion *repaint);
+    void paintPass(RenderLayer *layer, RenderTarget *target, const QRegion &region);
 
     State m_state = State::Off;
     CompositorSelectionOwner *m_selectionOwner = nullptr;
@@ -142,7 +154,7 @@ private:
     QTimer m_unusedSupportPropertyTimer;
     Scene *m_scene = nullptr;
     RenderBackend *m_backend = nullptr;
-    QMap<RenderLoop *, AbstractOutput *> m_renderLoops;
+    QHash<RenderLoop *, RenderLayer *> m_superlayers;
 };
 
 class KWIN_EXPORT WaylandCompositor final : public Compositor
@@ -166,11 +178,11 @@ class KWIN_EXPORT X11Compositor final : public Compositor
     Q_OBJECT
 public:
     enum SuspendReason {
-        NoReasonSuspend     = 0,
-        UserSuspend         = 1 << 0,
-        BlockRuleSuspend    = 1 << 1,
-        ScriptSuspend       = 1 << 2,
-        AllReasonSuspend    = 0xff
+        NoReasonSuspend = 0,
+        UserSuspend = 1 << 0,
+        BlockRuleSuspend = 1 << 1,
+        ScriptSuspend = 1 << 2,
+        AllReasonSuspend = 0xff
     };
     Q_DECLARE_FLAGS(SuspendReasons, SuspendReason)
     Q_ENUM(SuspendReason)
@@ -227,7 +239,7 @@ public:
      */
     bool isOverlayWindowVisible() const;
 
-    void updateClientCompositeBlocking(X11Client *client = nullptr);
+    void updateClientCompositeBlocking(X11Window *client = nullptr);
 
     static X11Compositor *self();
 

@@ -6,11 +6,12 @@
 
 #pragma once
 
-#include "abstract_wayland_output.h"
+#include "output.h"
+#include "wayland/output_interface.h"
+#include "wayland/utils.h"
+#include "wayland/xdgoutput_v1_interface.h"
 
-#include <KWaylandServer/output_interface.h>
-#include <KWaylandServer/xdgoutput_v1_interface.h>
-#include <KWaylandServer/utils.h>
+#include <QTimer>
 
 namespace KWin
 {
@@ -20,19 +21,19 @@ class WaylandOutput : public QObject
     Q_OBJECT
 
 public:
-    explicit WaylandOutput(AbstractWaylandOutput *output, QObject *parent = nullptr);
+    explicit WaylandOutput(Output *output, QObject *parent = nullptr);
 
     KWaylandServer::OutputInterface *waylandOutput() const;
 
 private Q_SLOTS:
     void handleDpmsModeChanged();
-    void handleDpmsModeRequested(KWaylandServer::OutputInterface::DpmsMode dpmsMode);
+    void handleDpmsModeRequested(KWin::Output::DpmsMode dpmsMode);
 
     void update();
     void scheduleUpdate();
 
 private:
-    AbstractWaylandOutput *m_platformOutput;
+    Output *m_platformOutput;
     QTimer m_updateTimer;
     KWaylandServer::ScopedGlobalPointer<KWaylandServer::OutputInterface> m_waylandOutput;
     KWaylandServer::XdgOutputV1Interface *m_xdgOutputV1;

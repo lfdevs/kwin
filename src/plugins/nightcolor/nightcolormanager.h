@@ -12,9 +12,9 @@
 #include "constants.h"
 #include "plugin.h"
 
+#include <QDateTime>
 #include <QObject>
 #include <QPair>
-#include <QDateTime>
 
 #include <KConfigWatcher>
 
@@ -26,8 +26,8 @@ namespace KWin
 class ClockSkewNotifier;
 class NightColorDBusInterface;
 
-typedef QPair<QDateTime,QDateTime> DateTimes;
-typedef QPair<QTime,QTime> Times;
+typedef QPair<QDateTime, QDateTime> DateTimes;
+typedef QPair<QTime, QTime> Times;
 
 /**
  * This enum type is used to specify operation mode of the night color manager.
@@ -179,9 +179,20 @@ public:
     void reconfigure();
     static NightColorManager *self();
 
+    /**
+     * Previews a given temperature for a short time (15s).
+     */
+    void preview(uint previewTemp);
+
+    /**
+     * Stops an ongoing preview.
+     * Has no effect if there is currently no preview.
+     */
+    void stopPreview();
+
 public Q_SLOTS:
     void resetSlowUpdateStartTimer();
-    void quickAdjust();
+    void quickAdjust(int targetTemp);
 
 Q_SIGNALS:
     /**
@@ -234,7 +245,7 @@ private:
     /**
      * Quick shift on manual change to current target Temperature
      */
-    void resetQuickAdjustTimer();
+    void resetQuickAdjustTimer(int targetTemp);
     /**
      * Slow shift to daytime target Temperature
      */
@@ -272,8 +283,8 @@ private:
     DateTimes m_next = DateTimes();
 
     // manual times from config
-    QTime m_morning = QTime(6,0);
-    QTime m_evening = QTime(18,0);
+    QTime m_morning = QTime(6, 0);
+    QTime m_evening = QTime(18, 0);
     int m_trTime = 30; // saved in minutes > 1
 
     // auto location provided by work space
@@ -286,6 +297,7 @@ private:
     QTimer *m_slowUpdateStartTimer = nullptr;
     QTimer *m_slowUpdateTimer = nullptr;
     QTimer *m_quickAdjustTimer = nullptr;
+    QTimer *m_previewTimer = nullptr;
 
     int m_currentTemp = NEUTRAL_TEMPERATURE;
     int m_targetTemperature = NEUTRAL_TEMPERATURE;

@@ -10,14 +10,16 @@
 #define KWIN_SCRIPTING_MODEL_H
 
 #include <QAbstractItemModel>
-#include <QSortFilterProxyModel>
 #include <QList>
+#include <QSortFilterProxyModel>
 
-namespace KWin {
-class AbstractClient;
+namespace KWin
+{
+class Window;
 class Client;
 
-namespace ScriptingModels::V2 {
+namespace ScriptingModels::V2
+{
 
 class AbstractLevel;
 
@@ -30,20 +32,20 @@ public:
     enum Exclusion {
         NoExclusion = 0,
         // window types
-        DesktopWindowsExclusion       = 1 << 0,
-        DockWindowsExclusion          = 1 << 1,
-        UtilityWindowsExclusion       = 1 << 2,
-        SpecialWindowsExclusion       = 1 << 3,
+        DesktopWindowsExclusion = 1 << 0,
+        DockWindowsExclusion = 1 << 1,
+        UtilityWindowsExclusion = 1 << 2,
+        SpecialWindowsExclusion = 1 << 3,
         // windows with flags
-        SkipTaskbarExclusion          = 1 << 4,
-        SkipPagerExclusion            = 1 << 5,
-        SwitchSwitcherExclusion       = 1 << 6,
+        SkipTaskbarExclusion = 1 << 4,
+        SkipPagerExclusion = 1 << 5,
+        SwitchSwitcherExclusion = 1 << 6,
         // based on state
-        OtherDesktopsExclusion        = 1 << 7,
-        OtherActivitiesExclusion      = 1 << 8,
-        MinimizedExclusion            = 1 << 9,
+        OtherDesktopsExclusion = 1 << 7,
+        OtherActivitiesExclusion = 1 << 8,
+        MinimizedExclusion = 1 << 9,
         NonSelectedWindowTabExclusion = 1 << 10,
-        NotAcceptingFocusExclusion    = 1 << 11
+        NotAcceptingFocusExclusion = 1 << 11
     };
     Q_DECLARE_FLAGS(Exclusions, Exclusion)
     Q_FLAGS(Exclusions)
@@ -137,7 +139,7 @@ public:
     virtual const AbstractLevel *levelForId(quint32 id) const = 0;
     virtual AbstractLevel *parentForId(quint32 child) const = 0;
     virtual int rowForId(quint32 child) const = 0;
-    virtual AbstractClient *clientForId(quint32 child) const = 0;
+    virtual Window *clientForId(quint32 child) const = 0;
 
     virtual void setScreen(uint screen);
     virtual void setVirtualDesktop(uint virtualDesktop);
@@ -150,9 +152,11 @@ Q_SIGNALS:
     void endInsert();
     void beginRemove(int rowStart, int rowEnd, quint32 parentId);
     void endRemove();
+
 protected:
     AbstractLevel(ClientModel *model, AbstractLevel *parent);
     ClientModel *model() const;
+
 private:
     ClientModel *m_model;
     AbstractLevel *m_parent;
@@ -180,14 +184,15 @@ public:
     const AbstractLevel *levelForId(quint32 id) const override;
     AbstractLevel *parentForId(quint32 child) const override;
     int rowForId(quint32 child) const override;
-    AbstractClient *clientForId(quint32 child) const override;
+    Window *clientForId(quint32 child) const override;
 private Q_SLOTS:
     void desktopCountChanged(uint previousCount, uint newCount);
     void screenCountChanged(int previousCount, int newCount);
     void activityAdded(const QString &id);
     void activityRemoved(const QString &id);
+
 private:
-    QList<AbstractLevel*> m_children;
+    QList<AbstractLevel *> m_children;
     QList<ClientModel::LevelRestriction> m_childRestrictions;
 };
 
@@ -214,24 +219,25 @@ public:
     quint32 idForRow(int row) const override;
     bool containsId(quint32 id) const;
     int rowForId(quint32 row) const override;
-    AbstractClient *clientForId(quint32 child) const override;
+    Window *clientForId(quint32 child) const override;
     const AbstractLevel *levelForId(quint32 id) const override;
     AbstractLevel *parentForId(quint32 child) const override;
 public Q_SLOTS:
-    void clientAdded(KWin::AbstractClient *client);
-    void clientRemoved(KWin::AbstractClient *client);
+    void clientAdded(KWin::Window *client);
+    void clientRemoved(KWin::Window *client);
 private Q_SLOTS:
     // uses sender()
     void reInit();
+
 private:
-    void checkClient(KWin::AbstractClient *client);
-    void setupClientConnections(AbstractClient *client);
-    void addClient(AbstractClient *client);
-    void removeClient(AbstractClient *client);
-    bool shouldAdd(AbstractClient *client) const;
-    bool exclude(AbstractClient *client) const;
-    bool containsClient(AbstractClient *client) const;
-    QMap<quint32, AbstractClient*> m_clients;
+    void checkClient(KWin::Window *client);
+    void setupClientConnections(Window *client);
+    void addClient(Window *client);
+    void removeClient(Window *client);
+    bool shouldAdd(Window *client) const;
+    bool exclude(Window *client) const;
+    bool containsClient(Window *client) const;
+    QMap<quint32, Window *> m_clients;
 };
 
 class SimpleClientModel : public ClientModel
@@ -296,74 +302,62 @@ private:
     QString m_filter;
 };
 
-inline
-int ClientLevel::count() const
+inline int ClientLevel::count() const
 {
     return m_clients.count();
 }
 
-inline
-const QString &AbstractLevel::activity() const
+inline const QString &AbstractLevel::activity() const
 {
     return m_activity;
 }
 
-inline
-AbstractLevel *AbstractLevel::parentLevel() const
+inline AbstractLevel *AbstractLevel::parentLevel() const
 {
     return m_parent;
 }
 
-inline
-ClientModel *AbstractLevel::model() const
+inline ClientModel *AbstractLevel::model() const
 {
     return m_model;
 }
 
-inline
-uint AbstractLevel::screen() const
+inline uint AbstractLevel::screen() const
 {
     return m_screen;
 }
 
-inline
-uint AbstractLevel::virtualDesktop() const
+inline uint AbstractLevel::virtualDesktop() const
 {
     return m_virtualDesktop;
 }
 
-inline
-ClientModel::LevelRestriction AbstractLevel::restriction() const
+inline ClientModel::LevelRestriction AbstractLevel::restriction() const
 {
     return m_restriction;
 }
 
-inline
-ClientModel::LevelRestrictions AbstractLevel::restrictions() const
+inline ClientModel::LevelRestrictions AbstractLevel::restrictions() const
 {
     return m_restrictions;
 }
 
-inline
-quint32 AbstractLevel::id() const
+inline quint32 AbstractLevel::id() const
 {
     return m_id;
 }
 
-inline
-ClientModel::Exclusions ClientModel::exclusions() const
+inline ClientModel::Exclusions ClientModel::exclusions() const
 {
     return m_exclusions;
 }
 
-inline
-ClientModel *ClientFilterModel::clientModel() const
+inline ClientModel *ClientFilterModel::clientModel() const
 {
     return m_clientModel;
 }
 
-inline
-const QString &ClientFilterModel::filter() const
+inline const QString &ClientFilterModel::filter() const
 {
     return m_filter;
 }

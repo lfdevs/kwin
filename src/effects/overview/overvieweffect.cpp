@@ -5,8 +5,6 @@
 */
 
 #include "overvieweffect.h"
-#include "expoarea.h"
-#include "expolayout.h"
 #include "overviewconfig.h"
 
 #include <KGlobalAccel>
@@ -23,14 +21,22 @@ namespace KWin
 OverviewEffect::OverviewEffect()
     : m_shutdownTimer(new QTimer(this))
 {
-    qmlRegisterType<ExpoArea>("org.kde.kwin.private.overview", 1, 0, "ExpoArea");
-    qmlRegisterType<ExpoLayout>("org.kde.kwin.private.overview", 1, 0, "ExpoLayout");
-    qmlRegisterType<ExpoCell>("org.kde.kwin.private.overview", 1, 0, "ExpoCell");
-
     m_shutdownTimer->setSingleShot(true);
     connect(m_shutdownTimer, &QTimer::timeout, this, &OverviewEffect::realDeactivate);
 
-    const QKeySequence defaultToggleShortcut = Qt::META + Qt::Key_W;
+    m_realtimeToggleAction = new QAction(this);
+    connect(m_realtimeToggleAction, &QAction::triggered, this, [this]() {
+        if (isRunning() && m_partialActivationFactor > 0.5) {
+            activate();
+        } else {
+            deactivate();
+        }
+        m_partialActivationFactor = 0;
+        Q_EMIT gestureInProgressChanged();
+        Q_EMIT partialActivationFactorChanged();
+    });
+
+    const QKeySequence defaultToggleShortcut = Qt::META | Qt::Key_W;
     m_toggleAction = new QAction(this);
     connect(m_toggleAction, &QAction::triggered, this, &OverviewEffect::toggle);
     m_toggleAction->setObjectName(QStringLiteral("Overview"));
@@ -39,6 +45,24 @@ OverviewEffect::OverviewEffect()
     KGlobalAccel::self()->setShortcut(m_toggleAction, {defaultToggleShortcut});
     m_toggleShortcut = KGlobalAccel::self()->shortcut(m_toggleAction);
     effects->registerGlobalShortcut({defaultToggleShortcut}, m_toggleAction);
+
+    auto progressCallback = [this](qreal progress) {
+        if (m_status == Status::Active) {
+            return;
+        }
+        const bool wasInProgress = m_partialActivationFactor > 0;
+        m_partialActivationFactor = progress;
+        Q_EMIT partialActivationFactorChanged();
+        if (!wasInProgress) {
+            Q_EMIT gestureInProgressChanged();
+        }
+        if (!isRunning()) {
+            partialActivate();
+        }
+    };
+
+    effects->registerRealtimeTouchpadPinchShortcut(PinchDirection::Contracting, 4, m_realtimeToggleAction, progressCallback);
+    effects->registerTouchscreenSwipeShortcut(SwipeDirection::Up, 3, m_realtimeToggleAction, progressCallback);
 
     connect(effects, &EffectsHandler::screenAboutToLock, this, &OverviewEffect::realDeactivate);
 
@@ -54,16 +78,16 @@ OverviewEffect::~OverviewEffect()
 
 QVariantMap OverviewEffect::initialProperties(EffectScreen *screen)
 {
-    return QVariantMap {
-        { QStringLiteral("effect"), QVariant::fromValue(this) },
-        { QStringLiteral("targetScreen"), QVariant::fromValue(screen) },
+    return QVariantMap{
+        {QStringLiteral("effect"), QVariant::fromValue(this)},
+        {QStringLiteral("targetScreen"), QVariant::fromValue(screen)},
     };
 }
 
 void OverviewEffect::reconfigure(ReconfigureFlags)
 {
     OverviewConfig::self()->read();
-    setLayout(ExpoLayout::LayoutMode(OverviewConfig::layoutMode()));
+    setLayout(OverviewConfig::layoutMode());
     setAnimationDuration(animationTime(200));
     setBlurBackground(OverviewConfig::blurBackground());
 
@@ -87,7 +111,26 @@ void OverviewEffect::reconfigure(ReconfigureFlags)
     const QList<int> touchActivateBorders = OverviewConfig::touchBorderActivate();
     for (const int &border : touchActivateBorders) {
         m_touchBorderActivate.append(ElectricBorder(border));
-        effects->registerTouchBorder(ElectricBorder(border), m_toggleAction);
+        effects->registerRealtimeTouchBorder(ElectricBorder(border), m_realtimeToggleAction, [this](ElectricBorder border, const QSizeF &deltaProgress, const EffectScreen *screen) {
+            Q_UNUSED(screen)
+            if (m_status == Status::Active) {
+                return;
+            }
+            const bool wasInProgress = m_partialActivationFactor > 0;
+            const int maxDelta = 500; // Arbitrary logical pixels value seems to behave better than scaledScreenSize
+            if (border == ElectricTop || border == ElectricBottom) {
+                m_partialActivationFactor = std::min(1.0, qAbs(deltaProgress.height()) / maxDelta);
+            } else {
+                m_partialActivationFactor = std::min(1.0, qAbs(deltaProgress.width()) / maxDelta);
+            }
+            Q_EMIT partialActivationFactorChanged();
+            if (!wasInProgress) {
+                Q_EMIT gestureInProgressChanged();
+            }
+            if (!isRunning()) {
+                partialActivate();
+            }
+        });
     }
 }
 
@@ -104,12 +147,17 @@ void OverviewEffect::setAnimationDuration(int duration)
     }
 }
 
-ExpoLayout::LayoutMode OverviewEffect::layout() const
+int OverviewEffect::layout() const
 {
     return m_layout;
 }
 
-void OverviewEffect::setLayout(ExpoLayout::LayoutMode layout)
+bool OverviewEffect::ignoreMinimized() const
+{
+    return OverviewConfig::ignoreMinimized();
+}
+
+void OverviewEffect::setLayout(int layout)
 {
     if (m_layout != layout) {
         m_layout = layout;
@@ -130,6 +178,16 @@ void OverviewEffect::setBlurBackground(bool blur)
     }
 }
 
+qreal OverviewEffect::partialActivationFactor() const
+{
+    return m_partialActivationFactor;
+}
+
+bool OverviewEffect::gestureInProgress() const
+{
+    return m_partialActivationFactor > 0;
+}
+
 int OverviewEffect::requestedEffectChainPosition() const
 {
     return 70;
@@ -146,11 +204,14 @@ bool OverviewEffect::borderActivated(ElectricBorder border)
 
 void OverviewEffect::toggle()
 {
-    if (!isRunning()) {
+    if (!isRunning() || m_partialActivationFactor > 0.5) {
         activate();
     } else {
         deactivate();
     }
+    m_partialActivationFactor = 0;
+    Q_EMIT gestureInProgressChanged();
+    Q_EMIT partialActivationFactorChanged();
 }
 
 void OverviewEffect::activate()
@@ -158,6 +219,16 @@ void OverviewEffect::activate()
     if (effects->isScreenLocked()) {
         return;
     }
+    m_status = Status::Active;
+    setRunning(true);
+}
+
+void OverviewEffect::partialActivate()
+{
+    if (effects->isScreenLocked()) {
+        return;
+    }
+    m_status = Status::Activating;
     setRunning(true);
 }
 
@@ -168,11 +239,13 @@ void OverviewEffect::deactivate()
         QMetaObject::invokeMethod(view->rootItem(), "stop");
     }
     m_shutdownTimer->start(animationDuration());
+    m_status = Status::Inactive;
 }
 
 void OverviewEffect::realDeactivate()
 {
     setRunning(false);
+    m_status = Status::Inactive;
 }
 
 void OverviewEffect::quickDeactivate()
@@ -182,7 +255,7 @@ void OverviewEffect::quickDeactivate()
 
 void OverviewEffect::grabbedKeyboardEvent(QKeyEvent *keyEvent)
 {
-    if (m_toggleShortcut.contains(keyEvent->key() + keyEvent->modifiers())) {
+    if (m_toggleShortcut.contains(keyEvent->key() | keyEvent->modifiers())) {
         if (keyEvent->type() == QEvent::KeyPress) {
             toggle();
         }

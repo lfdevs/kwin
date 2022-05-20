@@ -34,13 +34,14 @@ set(testVirtualDesktops_SRCS
 add_executable(testVirtualDesktops ${testVirtualDesktops_SRCS})
 
 target_link_libraries(testVirtualDesktops
+    kwin
+
     Qt::Test
     Qt::Widgets
 
     KF5::ConfigCore
     KF5::GlobalAccel
     KF5::I18n
-    Plasma::KWaylandServer
     KF5::WindowSystem
 )
 add_test(NAME kwin-testVirtualDesktops COMMAND testVirtualDesktops)
@@ -60,7 +61,6 @@ target_link_libraries(testClientMachine
     Qt::Concurrent
     Qt::Test
     Qt::Widgets
-    Qt::X11Extras
 
     KF5::ConfigCore
     KF5::WindowSystem
@@ -70,6 +70,11 @@ target_link_libraries(testClientMachine
 
     ${X11_X11_LIB} # to make jenkins happy
 )
+if (QT_MAJOR_VERSION EQUAL "5")
+    target_link_libraries(testClientMachine Qt::X11Extras)
+else()
+    target_link_libraries(testClientMachine Qt::GuiPrivate)
+endif()
 add_test(NAME kwin-testClientMachine COMMAND testClientMachine)
 ecm_mark_as_test(testClientMachine)
 
@@ -84,13 +89,17 @@ add_executable(testXcbWrapper ${testXcbWrapper_SRCS})
 target_link_libraries(testXcbWrapper
     Qt::Test
     Qt::Widgets
-    Qt::X11Extras
 
     KF5::ConfigCore
     KF5::WindowSystem
 
     XCB::XCB
 )
+if (QT_MAJOR_VERSION EQUAL "5")
+    target_link_libraries(testXcbWrapper Qt::X11Extras)
+else()
+    target_link_libraries(testXcbWrapper Qt::GuiPrivate)
+endif()
 add_test(NAME kwin-testXcbWrapper COMMAND testXcbWrapper)
 ecm_mark_as_test(testXcbWrapper)
 
@@ -100,7 +109,6 @@ if (XCB_ICCCM_FOUND)
     target_link_libraries(testXcbSizeHints
         Qt::Test
         Qt::Widgets
-        Qt::X11Extras
 
         KF5::ConfigCore
         KF5::WindowSystem
@@ -108,6 +116,11 @@ if (XCB_ICCCM_FOUND)
         XCB::ICCCM
         XCB::XCB
     )
+    if (QT_MAJOR_VERSION EQUAL "5")
+        target_link_libraries(testXcbSizeHints Qt::X11Extras)
+    else()
+        target_link_libraries(testXcbSizeHints Qt::GuiPrivate)
+    endif()
     add_test(NAME kwin-testXcbSizeHints COMMAND testXcbSizeHints)
     ecm_mark_as_test(testXcbSizeHints)
 endif()
@@ -123,13 +136,17 @@ add_executable(testXcbWindow ${testXcbWindow_SRCS})
 target_link_libraries(testXcbWindow
     Qt::Test
     Qt::Widgets
-    Qt::X11Extras
 
     KF5::ConfigCore
     KF5::WindowSystem
 
     XCB::XCB
 )
+if (QT_MAJOR_VERSION EQUAL "5")
+    target_link_libraries(testXcbWindow Qt::X11Extras)
+else()
+    target_link_libraries(testXcbWindow Qt::GuiPrivate)
+endif()
 add_test(NAME kwin-testXcbWindow COMMAND testXcbWindow)
 ecm_mark_as_test(testXcbWindow)
 
@@ -205,19 +222,24 @@ set(testXkb_SRCS
 )
 add_executable(testXkb ${testXkb_SRCS})
 target_link_libraries(testXkb
+    kwin
+
     Qt::Gui
     Qt::Test
     Qt::Widgets
 
     KF5::ConfigCore
-    Plasma::KWaylandServer
     KF5::WindowSystem
 
     kwineffects
 
     XKB::XKB
-    Qt5::XkbCommonSupportPrivate
 )
+if (QT_MAJOR_VERSION EQUAL "5")
+    target_link_libraries(testXkb Qt5::XkbCommonSupportPrivate)
+else()
+    target_link_libraries(testXkb Qt::GuiPrivate)
+endif()
 add_test(NAME kwin-testXkb COMMAND testXkb)
 ecm_mark_as_test(testXkb)
 

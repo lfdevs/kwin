@@ -8,19 +8,22 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "touch_input.h"
-#include "abstract_client.h"
-#include "pointer_input.h"
-#include "input_event_spy.h"
-#include "toplevel.h"
-#include "wayland_server.h"
-#include "workspace.h"
+
+#include <config-kwin.h>
+
 #include "decorations/decoratedclient.h"
+#include "input_event_spy.h"
+#include "pointer_input.h"
+#include "wayland/seat_interface.h"
+#include "wayland_server.h"
+#include "window.h"
+#include "workspace.h"
 // KDecoration
 #include <KDecoration2/Decoration>
-// KWayland
-#include <KWaylandServer/seat_interface.h>
 // screenlocker
+#if KWIN_BUILD_SCREENLOCKER
 #include <KScreenLocker/KsldApp>
+#endif
 // Qt
 #include <QHoverEvent>
 #include <QWindow>
@@ -45,17 +48,21 @@ void TouchInputRedirection::init()
     setInited(true);
     InputDeviceHandler::init();
 
+#if KWIN_BUILD_SCREENLOCKER
     if (waylandServer()->hasScreenLockerIntegration()) {
-        connect(ScreenLocker::KSldApp::self(), &ScreenLocker::KSldApp::lockStateChanged, this,
-            [this] {
-                cancel();
-                // position doesn't matter
-                update();
-            }
-        );
+        connect(ScreenLocker::KSldApp::self(), &ScreenLocker::KSldApp::lockStateChanged, this, [this]() {
+            cancel();
+            // position doesn't matter
+            update();
+        });
     }
-    connect(workspace(), &QObject::destroyed, this, [this] { setInited(false); });
-    connect(waylandServer(), &QObject::destroyed, this, [this] { setInited(false); });
+#endif
+    connect(workspace(), &QObject::destroyed, this, [this] {
+        setInited(false);
+    });
+    connect(waylandServer(), &QObject::destroyed, this, [this] {
+        setInited(false);
+    });
 }
 
 bool TouchInputRedirection::focusUpdatesBlocked()
@@ -80,18 +87,18 @@ bool TouchInputRedirection::positionValid() const
     return !m_activeTouchPoints.isEmpty();
 }
 
-void TouchInputRedirection::focusUpdate(Toplevel *focusOld, Toplevel *focusNow)
+void TouchInputRedirection::focusUpdate(Window *focusOld, Window *focusNow)
 {
     // TODO: handle pointer grab aka popups
 
-    if (AbstractClient *ac = qobject_cast<AbstractClient*>(focusOld)) {
-        ac->pointerLeaveEvent();
+    if (focusOld && focusOld->isClient()) {
+        focusOld->pointerLeaveEvent();
     }
     disconnect(m_focusGeometryConnection);
     m_focusGeometryConnection = QMetaObject::Connection();
 
-    if (AbstractClient *ac = qobject_cast<AbstractClient*>(focusNow)) {
-        ac->pointerEnterEvent(m_lastPosition.toPoint());
+    if (focusNow && focusNow->isClient()) {
+        focusNow->pointerEnterEvent(m_lastPosition.toPoint());
     }
 
     auto seat = waylandServer()->seat();
@@ -104,18 +111,16 @@ void TouchInputRedirection::focusUpdate(Toplevel *focusOld, Toplevel *focusNow)
 
     // FIXME: add input transformation API to KWaylandServer::SeatInterface for touch input
     seat->setFocusedTouchSurface(focusNow->surface(), -1 * focusNow->inputTransformation().map(focusNow->pos()) + focusNow->pos());
-    m_focusGeometryConnection = connect(focusNow, &Toplevel::frameGeometryChanged, this,
-        [this] {
-            if (!focus()) {
-                return;
-            }
-            auto seat = waylandServer()->seat();
-            if (focus()->surface() != seat->focusedTouchSurface()) {
-                return;
-            }
-            seat->setFocusedTouchSurfacePosition(-1 * focus()->inputTransformation().map(focus()->pos()) + focus()->pos());
+    m_focusGeometryConnection = connect(focusNow, &Window::frameGeometryChanged, this, [this]() {
+        if (!focus()) {
+            return;
         }
-    );
+        auto seat = waylandServer()->seat();
+        if (focus()->surface() != seat->focusedTouchSurface()) {
+            return;
+        }
+        seat->setFocusedTouchSurfacePosition(-1 * focus()->inputTransformation().map(focus()->pos()) + focus()->pos());
+    });
 }
 
 void TouchInputRedirection::cleanupDecoration(Decoration::DecoratedClientImpl *old, Decoration::DecoratedClientImpl *now)
@@ -191,7 +196,7 @@ void TouchInputRedirection::cancel()
     // the compositor will not receive any TOUCH_MOTION or TOUCH_UP events for that slot.
     if (!m_activeTouchPoints.isEmpty()) {
         m_activeTouchPoints.clear();
-        waylandServer()->seat()->notifyTouchCancel();
+        input()->processFilters(std::bind(&InputEventFilter::touchCancel, std::placeholders::_1));
     }
 }
 
@@ -200,7 +205,7 @@ void TouchInputRedirection::frame()
     if (!inited() || !waylandServer()->seat()->hasTouch()) {
         return;
     }
-    waylandServer()->seat()->notifyTouchFrame();
+    input()->processFilters(std::bind(&InputEventFilter::touchFrame, std::placeholders::_1));
 }
 
 }

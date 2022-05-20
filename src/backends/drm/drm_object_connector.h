@@ -15,36 +15,34 @@
 #include <QSize>
 
 #include "drm_object.h"
-#include "edid.h"
 #include "drm_pointer.h"
-#include "abstract_wayland_output.h"
+#include "edid.h"
+#include "output.h"
 
 namespace KWin
 {
 
 class DrmPipeline;
 class DrmConnector;
+class DrmCrtc;
 
 /**
  * The DrmConnectorMode class represents a native mode and the associated blob.
  */
-class DrmConnectorMode
+class DrmConnectorMode : public OutputMode
 {
 public:
     DrmConnectorMode(DrmConnector *connector, drmModeModeInfo nativeMode);
-    ~DrmConnectorMode();
+    ~DrmConnectorMode() override;
 
     uint32_t blobId();
-
     drmModeModeInfo *nativeMode();
-    QSize size() const;
-    uint32_t refreshRate() const;
+
+    bool operator==(const DrmConnectorMode &otherMode);
 
 private:
     DrmConnector *m_connector;
     drmModeModeInfo m_nativeMode;
-    QSize m_size;
-    uint32_t m_refreshRate;
     uint32_t m_blobId = 0;
 };
 
@@ -52,7 +50,6 @@ class DrmConnector : public DrmObject
 {
 public:
     DrmConnector(DrmGpu *gpu, uint32_t connectorId);
-    ~DrmConnector() override;
 
     enum class PropertyIndex : uint32_t {
         CrtcId = 0,
@@ -85,7 +82,7 @@ public:
     bool updateProperties() override;
     void disable() override;
 
-    QVector<uint32_t> encoders() const;
+    bool isCrtcSupported(DrmCrtc *crtc) const;
     bool isConnected() const;
     bool isNonDesktop() const;
     bool isInternal() const;
@@ -96,33 +93,32 @@ public:
     QString modelName() const;
     QSize physicalSize() const;
 
-    DrmConnectorMode *currentMode() const;
-    int currentModeIndex() const;
-    QVector<DrmConnectorMode *> modes() const;
-    void setModeIndex(int index);
-    void findCurrentMode(drmModeModeInfo currentMode);
-    void updateModes();
+    QList<QSharedPointer<DrmConnectorMode>> modes() const;
+    QSharedPointer<DrmConnectorMode> findMode(const drmModeModeInfo &modeInfo) const;
 
-    AbstractWaylandOutput::SubPixel subpixel() const;
+    Output::SubPixel subpixel() const;
     bool hasOverscan() const;
     uint32_t overscan() const;
     bool vrrCapable() const;
     bool hasRgbRange() const;
-    AbstractWaylandOutput::RgbRange rgbRange() const;
+    Output::RgbRange rgbRange() const;
     LinkStatus linkStatus() const;
 
 private:
+    QList<QSharedPointer<DrmConnectorMode>> generateCommonModes();
+    QSharedPointer<DrmConnectorMode> generateMode(const QSize &size, uint32_t refreshRate);
+
     QScopedPointer<DrmPipeline> m_pipeline;
     DrmScopedPointer<drmModeConnector> m_conn;
-    QVector<uint32_t> m_encoders;
     Edid m_edid;
     QSize m_physicalSize = QSize(-1, -1);
-    QVector<DrmConnectorMode *> m_modes;
-    int m_modeIndex = 0;
+    QList<QSharedPointer<DrmConnectorMode>> m_driverModes;
+    QList<QSharedPointer<DrmConnectorMode>> m_modes;
+    uint32_t m_possibleCrtcs = 0;
 
-    friend QDebug& operator<<(QDebug& s, const KWin::DrmConnector *obj);
+    friend QDebug &operator<<(QDebug &s, const KWin::DrmConnector *obj);
 };
 
-QDebug& operator<<(QDebug& s, const KWin::DrmConnector *obj);
+QDebug &operator<<(QDebug &s, const KWin::DrmConnector *obj);
 
 }

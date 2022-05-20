@@ -9,8 +9,7 @@
 #include "vsyncmonitor.h"
 
 #include <epoxy/glx.h>
-#include <GL/glxext.h>
-#include "fixx11h.h"
+#include <fixx11h.h>
 
 #include <QThread>
 
@@ -40,7 +39,7 @@ Q_SIGNALS:
 
 private:
     Display *m_display = nullptr;
-    Window m_dummyWindow = 0;
+    ::Window m_dummyWindow = 0;
     GLXContext m_localContext = 0;
     GLXDrawable m_drawable = 0;
 };

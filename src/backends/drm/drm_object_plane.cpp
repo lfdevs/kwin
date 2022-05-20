@@ -7,11 +7,13 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "drm_object_plane.h"
+
+#include "config-kwin.h"
+
 #include "drm_buffer.h"
 #include "drm_gpu.h"
 #include "drm_pointer.h"
 #include "logging.h"
-#include "config-kwin.h"
 
 #include <drm_fourcc.h>
 
@@ -20,29 +22,21 @@ namespace KWin
 
 DrmPlane::DrmPlane(DrmGpu *gpu, uint32_t planeId)
     : DrmObject(gpu, planeId, {
-        PropertyDefinition(QByteArrayLiteral("type"), Requirement::Required, {
-            QByteArrayLiteral("Overlay"),
-            QByteArrayLiteral("Primary"),
-            QByteArrayLiteral("Cursor")}),
-        PropertyDefinition(QByteArrayLiteral("SRC_X"), Requirement::Required),
-        PropertyDefinition(QByteArrayLiteral("SRC_Y"), Requirement::Required),
-        PropertyDefinition(QByteArrayLiteral("SRC_W"), Requirement::Required),
-        PropertyDefinition(QByteArrayLiteral("SRC_H"), Requirement::Required),
-        PropertyDefinition(QByteArrayLiteral("CRTC_X"), Requirement::Required),
-        PropertyDefinition(QByteArrayLiteral("CRTC_Y"), Requirement::Required),
-        PropertyDefinition(QByteArrayLiteral("CRTC_W"), Requirement::Required),
-        PropertyDefinition(QByteArrayLiteral("CRTC_H"), Requirement::Required),
-        PropertyDefinition(QByteArrayLiteral("FB_ID"), Requirement::Required),
-        PropertyDefinition(QByteArrayLiteral("CRTC_ID"), Requirement::Required),
-        PropertyDefinition(QByteArrayLiteral("rotation"), Requirement::Optional, {
-            QByteArrayLiteral("rotate-0"),
-            QByteArrayLiteral("rotate-90"),
-            QByteArrayLiteral("rotate-180"),
-            QByteArrayLiteral("rotate-270"),
-            QByteArrayLiteral("reflect-x"),
-            QByteArrayLiteral("reflect-y")}),
-        PropertyDefinition(QByteArrayLiteral("IN_FORMATS"), Requirement::Optional),
-        }, DRM_MODE_OBJECT_PLANE)
+                                  PropertyDefinition(QByteArrayLiteral("type"), Requirement::Required, {QByteArrayLiteral("Overlay"), QByteArrayLiteral("Primary"), QByteArrayLiteral("Cursor")}),
+                                  PropertyDefinition(QByteArrayLiteral("SRC_X"), Requirement::Required),
+                                  PropertyDefinition(QByteArrayLiteral("SRC_Y"), Requirement::Required),
+                                  PropertyDefinition(QByteArrayLiteral("SRC_W"), Requirement::Required),
+                                  PropertyDefinition(QByteArrayLiteral("SRC_H"), Requirement::Required),
+                                  PropertyDefinition(QByteArrayLiteral("CRTC_X"), Requirement::Required),
+                                  PropertyDefinition(QByteArrayLiteral("CRTC_Y"), Requirement::Required),
+                                  PropertyDefinition(QByteArrayLiteral("CRTC_W"), Requirement::Required),
+                                  PropertyDefinition(QByteArrayLiteral("CRTC_H"), Requirement::Required),
+                                  PropertyDefinition(QByteArrayLiteral("FB_ID"), Requirement::Required),
+                                  PropertyDefinition(QByteArrayLiteral("CRTC_ID"), Requirement::Required),
+                                  PropertyDefinition(QByteArrayLiteral("rotation"), Requirement::Optional, {QByteArrayLiteral("rotate-0"), QByteArrayLiteral("rotate-90"), QByteArrayLiteral("rotate-180"), QByteArrayLiteral("rotate-270"), QByteArrayLiteral("reflect-x"), QByteArrayLiteral("reflect-y")}),
+                                  PropertyDefinition(QByteArrayLiteral("IN_FORMATS"), Requirement::Optional),
+                              },
+                DRM_MODE_OBJECT_PLANE)
 {
 }
 
@@ -60,7 +54,7 @@ bool DrmPlane::init()
     bool success = initProps();
     if (success) {
         m_supportedTransformations = Transformations();
-        auto checkSupport = [this] (uint64_t value, Transformation t) {
+        auto checkSupport = [this](uint64_t value, Transformation t) {
             if (propHasEnum(PropertyIndex::Rotation, value)) {
                 m_supportedTransformations |= t;
             }
@@ -113,7 +107,7 @@ DrmPlane::TypeIndex DrmPlane::type() const
     return prop->enumForValue<DrmPlane::TypeIndex>(prop->current());
 }
 
-void DrmPlane::setNext(const QSharedPointer<DrmBuffer> &b)
+void DrmPlane::setNext(const std::shared_ptr<DrmFramebuffer> &b)
 {
     m_next = b;
 }
@@ -154,9 +148,9 @@ void DrmPlane::set(const QPoint &srcPos, const QSize &srcSize, const QPoint &dst
     setPending(PropertyIndex::CrtcH, dstSize.height());
 }
 
-void DrmPlane::setBuffer(DrmBuffer *buffer)
+void DrmPlane::setBuffer(DrmFramebuffer *buffer)
 {
-    setPending(PropertyIndex::FbId, buffer ? buffer->bufferId() : 0);
+    setPending(PropertyIndex::FbId, buffer ? buffer->framebufferId() : 0);
 }
 
 bool DrmPlane::needsModeset() const
@@ -181,17 +175,17 @@ QMap<uint32_t, QVector<uint64_t>> DrmPlane::formats() const
     return m_supportedFormats;
 }
 
-QSharedPointer<DrmBuffer> DrmPlane::current() const
+std::shared_ptr<DrmFramebuffer> DrmPlane::current() const
 {
     return m_current;
 }
 
-QSharedPointer<DrmBuffer> DrmPlane::next() const
+std::shared_ptr<DrmFramebuffer> DrmPlane::next() const
 {
     return m_next;
 }
 
-void DrmPlane::setCurrent(const QSharedPointer<DrmBuffer> &b)
+void DrmPlane::setCurrent(const std::shared_ptr<DrmFramebuffer> &b)
 {
     m_current = b;
 }
@@ -207,4 +201,13 @@ void DrmPlane::disable()
     setPending(PropertyIndex::FbId, 0);
 }
 
+void DrmPlane::releaseBuffers()
+{
+    if (m_next) {
+        m_next->releaseBuffer();
+    }
+    if (m_current) {
+        m_current->releaseBuffer();
+    }
+}
 }

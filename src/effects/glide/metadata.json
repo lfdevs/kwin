@@ -19,6 +19,7 @@
         "Description[nl]": "Vensters laten glijden als ze verschijnen of verdwijnen",
         "Description[nn]": "Glid inn/ut vindauge",
         "Description[pl]": "Okna obracają się na zawiasie przy otwieraniu lub zamykaniu",
+        "Description[pt]": "Deslizar as janelas à medida que aparecem e desaparecem",
         "Description[pt_BR]": "Deslizar as janelas à medida que aparecem ou desaparecem",
         "Description[ro]": "Ferestrele se scurg când apar sau dispar",
         "Description[ru]": "Эффект «глиссирования» окон при появлении и исчезновении",
@@ -27,6 +28,7 @@
         "Description[sv]": "Glid fönster när de visas eller försvinner",
         "Description[tr]": "Pencereleri görünürken veya kaybolurken süzülmelerini sağla",
         "Description[uk]": "Ковзання вікон при появі або зникненні",
+        "Description[vi]": "Lướt các cửa sổ khi chúng xuất hiện hoặc biến mất",
         "Description[x-test]": "xxGlide windows as they appear or disappearxx",
         "Description[zh_CN]": "窗口显示/隐藏时呈现滑翔过渡动效",
         "EnabledByDefault": false,
@@ -59,6 +61,7 @@
         "Name[sv]": "Glid",
         "Name[tr]": "Süzül",
         "Name[uk]": "Плин",
+        "Name[vi]": "Lướt",
         "Name[x-test]": "xxGlidexx",
         "Name[zh_CN]": "滑翔动效"
     },

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-01-14 02:21+0000\n"
+"POT-Creation-Date: 2022-03-26 00:45+0000\n"
 "PO-Revision-Date: 2021-11-17 14:01+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -214,12 +214,12 @@ msgstr "Dajaj prednost gladkim animacijam"
 msgid "Force smoothest animations"
 msgstr "Prisilite gladke animacije"
 
-#: main.cpp:76
+#: main.cpp:74
 #, kde-format
 msgid "Re-enable OpenGL detection"
 msgstr "Znova omogoči zaznavanje OpenGL-ja"
 
-#: main.cpp:135
+#: main.cpp:130
 #, kde-format
 msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
@@ -228,14 +228,14 @@ msgstr ""
 "\"Samo, če ne zmanjša hitrosti delovanja\" preprečuje trganje samo za "
 "celozaslonske spremembe (npr. ob gledanju videa)."
 
-#: main.cpp:139
+#: main.cpp:134
 #, kde-format
 msgid "\"Full screen repaints\" can cause performance problems."
 msgstr ""
 "»Ponovni izrisi celotnega zaslona« lahko povzroči težave s hitrostjo "
 "delovanja."
 
-#: main.cpp:143
+#: main.cpp:138
 #, kde-format
 msgid ""
 "\"Re-use screen content\" causes severe performance problems on MESA drivers."

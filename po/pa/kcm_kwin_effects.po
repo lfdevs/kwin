@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-06-19 00:18+0000\n"
+"POT-Creation-Date: 2022-03-26 00:45+0000\n"
 "PO-Revision-Date: 2021-05-02 16:25-0700\n"
 "Last-Translator: A S Alam <aalam@satluj.org>\n"
 "Language-Team: Punjabi <punjabi-users@lists.sf.net>\n"
@@ -32,7 +32,7 @@ msgstr "alam.yellow@gmail.com"
 msgid "Desktop Effects"
 msgstr "ਡੈਸਕਟਾਪ ਪਰਭਾਵ"
 
-#: kcm.cpp:40
+#: kcm.cpp:39
 #, kde-format
 msgid "Vlad Zahorodnii"
 msgstr ""

@@ -6,8 +6,9 @@
 
 #include "kwinquickeffect.h"
 
-#include <KDeclarative/QmlObjectSharedEngine>
+#include "sharedqmlengine.h"
 
+#include <QQmlEngine>
 #include <QQuickItem>
 #include <QWindow>
 
@@ -17,9 +18,12 @@ namespace KWin
 class QuickSceneEffectPrivate
 {
 public:
-    static QuickSceneEffectPrivate *get(QuickSceneEffect *effect) { return effect->d.data(); }
+    static QuickSceneEffectPrivate *get(QuickSceneEffect *effect)
+    {
+        return effect->d.data();
+    }
 
-    QScopedPointer<KDeclarative::QmlObjectSharedEngine> qmlEngine;
+    SharedQmlEngine::Ptr qmlEngine;
     QScopedPointer<QQmlComponent> qmlComponent;
     QUrl source;
     QHash<EffectScreen *, QuickSceneView *> views;
@@ -55,7 +59,9 @@ void QuickSceneView::setRootItem(QQuickItem *item)
     m_rootItem.reset(item);
     m_rootItem->setParentItem(contentItem());
 
-    auto updateSize = [this]() { m_rootItem->setSize(contentItem()->size()); };
+    auto updateSize = [this]() {
+        m_rootItem->setSize(contentItem()->size());
+    };
     updateSize();
     connect(contentItem(), &QQuickItem::widthChanged, m_rootItem.data(), updateSize);
     connect(contentItem(), &QQuickItem::heightChanged, m_rootItem.data(), updateSize);
@@ -229,7 +235,10 @@ void QuickSceneEffect::handleScreenRemoved(EffectScreen *screen)
 void QuickSceneEffect::addScreen(EffectScreen *screen)
 {
     QuickSceneView *view = new QuickSceneView(this, screen);
-    view->setRootItem(qobject_cast<QQuickItem *>(d->qmlComponent->createWithInitialProperties(initialProperties(screen))));
+    auto properties = initialProperties(screen);
+    properties["width"] = view->geometry().width();
+    properties["height"] = view->geometry().height();
+    view->setRootItem(qobject_cast<QQuickItem *>(d->qmlComponent->createWithInitialProperties(properties)));
     view->setAutomaticRepaint(false);
 
     connect(view, &QuickSceneView::repaintNeeded, this, [view]() {
@@ -254,11 +263,11 @@ void QuickSceneEffect::startInternal()
     }
 
     if (!d->qmlEngine) {
-        d->qmlEngine.reset(new KDeclarative::QmlObjectSharedEngine(this));
+        d->qmlEngine = SharedQmlEngine::engine();
     }
 
     if (!d->qmlComponent) {
-        d->qmlComponent.reset(new QQmlComponent(d->qmlEngine->engine()));
+        d->qmlComponent.reset(new QQmlComponent(d->qmlEngine.data()));
         d->qmlComponent->loadUrl(d->source);
         if (d->qmlComponent->isError()) {
             qWarning().nospace() << "Failed to load " << d->source << ": " << d->qmlComponent->errors();

@@ -83,7 +83,7 @@ Event::~Event()
 Device *Event::device() const
 {
     if (!m_device) {
-        m_device = Device::getDevice(libinput_event_get_device(m_event));
+        m_device = Device::get(libinput_event_get_device(m_event));
     }
     return m_device;
 }
@@ -206,8 +206,8 @@ qreal PointerEvent::axisValue(InputRedirection::PointerAxis axis) const
 {
     Q_ASSERT(type() == LIBINPUT_EVENT_POINTER_AXIS);
     const libinput_pointer_axis a = axis == InputRedirection::PointerAxisHorizontal
-                                          ? LIBINPUT_POINTER_AXIS_SCROLL_HORIZONTAL
-                                          : LIBINPUT_POINTER_AXIS_SCROLL_VERTICAL;
+        ? LIBINPUT_POINTER_AXIS_SCROLL_HORIZONTAL
+        : LIBINPUT_POINTER_AXIS_SCROLL_VERTICAL;
     return libinput_event_pointer_get_axis_value(m_pointerEvent, a) * device()->scrollFactor();
 }
 
@@ -341,8 +341,7 @@ SwitchEvent::~SwitchEvent() = default;
 
 SwitchEvent::State SwitchEvent::state() const
 {
-    switch (libinput_event_switch_get_switch_state(m_switchEvent))
-    {
+    switch (libinput_event_switch_get_switch_state(m_switchEvent)) {
     case LIBINPUT_SWITCH_STATE_OFF:
         return State::Off;
     case LIBINPUT_SWITCH_STATE_ON:

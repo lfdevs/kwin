@@ -1,3 +1,9 @@
+kwin (4:5.24.90-2) experimental; urgency=medium
+
+  * Tighten build dependency to libkdecorations2-dev (>= 4:5.24.90~).
+
+ -- Aurélien COUDERC <coucouf@debian.org>  Tue, 31 May 2022 22:25:39 +0200
+
 kwin (4:5.24.90-1) experimental; urgency=medium
 
   [ Aurélien COUDERC ]

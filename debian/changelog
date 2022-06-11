@@ -3,6 +3,7 @@ kwin (4:5.25.0-1) UNRELEASED; urgency=medium
   * New upstream release (5.25.0).
   * Tighten cross-plasma components dependencies.
   * Update the list of installed files from build logs.
+  * Bump Standards-Version to 4.6.1, no change required.
 
  -- Aurélien COUDERC <coucouf@debian.org>  Fri, 10 Jun 2022 00:24:00 +0200
 

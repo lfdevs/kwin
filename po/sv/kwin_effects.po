@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-05-14 00:46+0000\n"
+"POT-Creation-Date: 2022-06-07 03:05+0000\n"
 "PO-Revision-Date: 2022-05-08 18:51+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -574,7 +574,7 @@ msgstr "Lägg till skrivbord"
 msgid "Search..."
 msgstr "Sök..."
 
-#: private/qml/WindowHeap.qml:171
+#: private/qml/WindowHeap.qml:231
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "Dra ner för att stänga"
@@ -931,12 +931,12 @@ msgstr "Avrivna menyer:"
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Ändra befintliga fönster (nuvarande skrivbord)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:71
+#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:66
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Ändra befintliga fönster (alla skrivbord)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:86
+#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:76
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Ändra befintliga fönster (fönsterklass)"
@@ -947,12 +947,12 @@ msgstr "Ändra befintliga fönster (fönsterklass)"
 msgid "Ignore &minimized windows"
 msgstr "Ignorera &minimerade fönster"
 
-#: windowview/qml/main.qml:132
+#: windowview/qml/main.qml:137
 #, kde-format
 msgid "No Matches"
 msgstr "Inga träffar"
 
-#: windowview/qml/main.qml:132
+#: windowview/qml/main.qml:137
 #, kde-format
 msgid "No Windows"
 msgstr "Inga fönster"

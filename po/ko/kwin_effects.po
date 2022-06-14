@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-05-14 00:46+0000\n"
+"POT-Creation-Date: 2022-06-07 03:05+0000\n"
 "PO-Revision-Date: 2022-05-16 00:00+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -570,7 +570,7 @@ msgstr "바탕 화면 추가"
 msgid "Search..."
 msgstr "검색..."
 
-#: private/qml/WindowHeap.qml:171
+#: private/qml/WindowHeap.qml:231
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "아래로 드래그해서 닫기"
@@ -927,12 +927,12 @@ msgstr "떼낸 메뉴:"
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "보이는 창 바꾸기 (현재 데스크톱)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:71
+#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:66
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "보이는 창 바꾸기 (모든 데스크톱)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:86
+#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:76
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "보이는 창 바꾸기 (창 클래스)"
@@ -943,12 +943,12 @@ msgstr "보이는 창 바꾸기 (창 클래스)"
 msgid "Ignore &minimized windows"
 msgstr "최소화된 창 무시하기(&M)"
 
-#: windowview/qml/main.qml:132
+#: windowview/qml/main.qml:137
 #, kde-format
 msgid "No Matches"
 msgstr "검색 결과 없음"
 
-#: windowview/qml/main.qml:132
+#: windowview/qml/main.qml:137
 #, kde-format
 msgid "No Windows"
 msgstr "창 없음"

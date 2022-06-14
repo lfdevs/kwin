@@ -32,15 +32,15 @@
 </authorgroup>
 
 <date
->14 апреля 2016 г.</date>
+>9 апреля 2021 г.</date>
 <releaseinfo
->Plasma 5.6</releaseinfo>
+>Plasma 5.20</releaseinfo>
 
 <keywordset>
 <keyword
 >KDE</keyword>
 <keyword
->KControl</keyword>
+>параметры системы</keyword>
 <keyword
 >рабочий стол</keyword>
 <keyword
@@ -55,17 +55,21 @@
 
 <para
 >В основной части окна представлены все доступные эффекты. Они объединены в группы <guilabel
->Анимация переключения рабочих столов</guilabel
+>Специальные возможности</guilabel
 >, <guilabel
 >Внешний вид</guilabel
 >, <guilabel
+>Управление фокусом</guilabel
+>, <guilabel
+>Анимация показа рабочего стола</guilabel
+>, <guilabel
 >Инструменты</guilabel
 >, <guilabel
->Специальные возможности</guilabel
+>Анимация переключения рабочих столов</guilabel
 >, <guilabel
 >Управление окнами</guilabel
 > и <guilabel
->Управление фокусом</guilabel
+>Анимация закрытия и открытия окна</guilabel
 >.</para>
 <para
 >Над окном с перечнем эффектов располагается строка поиска эффектов.</para>
@@ -73,7 +77,7 @@
 <para
 >Обычно пользователям не требуется менять параметры фильтрации списка эффектов. Но это можно сделать с помощью кнопки <inlinemediaobject
 ><imageobject
-><imagedata fileref="configure-filter.png" format="PNG"/> </imageobject
+><imagedata fileref="configure-effects.png" format="PNG"/> </imageobject
 ></inlinemediaobject
 >. </para>
 
@@ -108,7 +112,7 @@
 
 <para
 >Некоторые эффекты являются взаимоисключающими. Например, можно включить либо эффект <guilabel
->Анимация сворачивания</guilabel
+>Максимизировать</guilabel
 >, либо эффект <guilabel
 >Волшебная лампа</guilabel
 >. Одновременное включение этих эффектов нарушает работу анимации. </para>
@@ -117,7 +121,7 @@
 >Для группы взаимоисключающих эффектов графический интерфейс предусматривает переключатели: включить можно только один из таких эффектов. </para>
 
 <para
->По умолчанию скрыты эффекты, которые не поддерживаются используемым в данный момент сервисом графических эффектов (&eg;, эффекты OpenGL при использовании XRender). </para
+>По умолчанию скрыты эффекты, которые не поддерживаются используемым в данный момент сервисом графических эффектов (например, эффекты OpenGL при использовании программной отрисовки). </para
 > 
 
 <para
@@ -127,7 +131,6 @@
 39 effects + 7 internal (XRender compositor)
 Internal effects
 Appearance (Dashboard, Highlight Windows, KSreen, Screenshot, Window Geometry)
-Candy (Startup feedback)
 Window Management (Cover Switch)
 -->
 

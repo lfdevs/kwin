@@ -34,6 +34,19 @@ DropArea {
             drag.source.desktop = desktopView.desktop.x11DesktopNumber;
         }
     }
+    Connections {
+        target: effect
+        function onItemDroppedOutOfScreen(globalPos, item, screen) {
+            if (screen != targetScreen) {
+                return;
+            }
+            const pos = screen.mapFromGlobal(globalPos);
+            if (!desktopView.contains(desktopView.mapFromItem(null, pos.x, pos.y))) {
+                return;
+            }
+            item.client.desktop = desktopView.desktop.x11DesktopNumber;
+        }
+    }
     Repeater {
         model: KWinComponents.ClientFilterModel {
             activity: KWinComponents.Workspace.currentActivity
@@ -105,6 +118,16 @@ DropArea {
                     ~KWinComponents.ClientFilterModel.Notification;
         }
         onActivated: effect.deactivate(effect.animationDuration);
+        onWindowClicked: {
+            if (eventPoint.event.button !== Qt.MiddleButton) {
+                return;
+            }
+            if (window.desktop > -1) {
+                window.desktop = -1;
+            } else {
+                window.desktop = desktopView.desktop.x11DesktopNumber;
+            }
+        }
         Behavior on x {
             enabled: !dragHandler.active
             XAnimator {

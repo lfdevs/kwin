@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-05-19 00:46+0000\n"
+"POT-Creation-Date: 2022-05-28 03:09+0000\n"
 "PO-Revision-Date: 2020-03-18 15:37+0200\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -1153,7 +1153,7 @@ msgstr "&Baigti programos %1 darbą"
 msgid "Wait Longer"
 msgstr "Palaukti ilgiau"
 
-#: input.cpp:3093
+#: input.cpp:3099
 #, fuzzy, kde-format
 #| msgctxt "A touch up event"
 #| msgid "Touch Up"
@@ -2680,7 +2680,7 @@ msgstr "Perjungti vienu darbalaukiu į apačią"
 msgid "Switch to Desktop %1"
 msgstr "Perjungti į darbalaukį %1"
 
-#: window.cpp:3425
+#: window.cpp:3431
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"

@@ -1,43 +1,42 @@
 # Translation of kcm_kwindecoration.po to Catalan (Valencian)
-# Copyright (C) 2001-2019 This_file_is_part_of_KDE
+# Copyright (C) 2001-2021 This_file_is_part_of_KDE
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
 #
-# Josep M. Ferrer <txemaq@gmail.com>, 2001, 2002, 2007, 2008, 2009, 2010, 2012, 2013, 2014, 2015, 2018, 2019.
+# Josep M. Ferrer <txemaq@gmail.com>, 2001, 2002, 2007, 2008, 2009, 2010, 2012, 2013, 2014, 2015, 2018, 2019, 2020, 2021.
 # Albert Astals Cid <aacid@kde.org>, 2004.
 # Sebastià Pla i Sanz <sps@sastia.com>, 2004, 2005.
-# Antoni Bella Pérez <antonibella5@yahoo.com>, 2017, 2019.
-# Empar Montoro Martín <montoro_mde@gva.es>, 2019.
+# Antoni Bella Pérez <antonibella5@yahoo.com>, 2017, 2019, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-03-26 00:45+0000\n"
-"PO-Revision-Date: 2019-08-28 11:58+0200\n"
-"Last-Translator: Empar Montoro Martín <montoro_mde@gva.es>\n"
+"PO-Revision-Date: 2021-10-11 17:47+0200\n"
+"Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 19.04.2\n"
+"X-Generator: Lokalize 20.12.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Josep M. Ferrer,Albert Astals Cid,Sebastià Pla i Sanz, Empar Montoro"
+msgstr "Josep M. Ferrer,Albert Astals Cid,Sebastià Pla i Sanz"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "txemaq@post.com,aacid@kde.org,sps@sastia.com,montoro_mde@gva.es"
+msgstr "txemaq@post.com,aacid@kde.org,sps@sastia.com"
 
 #: declarative-plugin/buttonsmodel.cpp:53
 #, kde-format
 msgid "More actions for this window"
-msgstr ""
+msgstr "Més accions per a esta finestra"
 
 #: declarative-plugin/buttonsmodel.cpp:55
 #, kde-format
@@ -47,17 +46,17 @@ msgstr "Menú d'aplicacions"
 #: declarative-plugin/buttonsmodel.cpp:57
 #, kde-format
 msgid "On all desktops"
-msgstr "En tots els escriptoris"
+msgstr "A tots els escriptoris"
 
 #: declarative-plugin/buttonsmodel.cpp:59
 #, kde-format
 msgid "Minimize"
-msgstr "Minimitza"
+msgstr "Minimisa"
 
 #: declarative-plugin/buttonsmodel.cpp:61
 #, kde-format
 msgid "Maximize"
-msgstr "Maximitza"
+msgstr "Maximisa"
 
 #: declarative-plugin/buttonsmodel.cpp:63
 #, kde-format
@@ -77,12 +76,12 @@ msgstr "Plega"
 #: declarative-plugin/buttonsmodel.cpp:69
 #, kde-format
 msgid "Keep below other windows"
-msgstr ""
+msgstr "Mantin davall les atres finestres"
 
 #: declarative-plugin/buttonsmodel.cpp:71
 #, kde-format
 msgid "Keep above other windows"
-msgstr ""
+msgstr "Mantin sobre les atres finestres"
 
 #: kcm.cpp:49
 #, kde-format
@@ -97,13 +96,13 @@ msgstr "Valerio Pilo"
 #: kcm.cpp:54
 #, kde-format
 msgid "Author"
-msgstr "Autor"
+msgstr "Autoria"
 
 #: kcm.cpp:183
 #, kde-format
 msgctxt "%1 is the name of a border size"
 msgid "Theme's default (%1)"
-msgstr ""
+msgstr "Predeterminat del tema (%1)"
 
 #: kwin-applywindowdecoration.cpp:32
 #, kde-format
@@ -112,6 +111,9 @@ msgid ""
 "active session, without accidentally setting it to one that is either not "
 "available, or which is already set."
 msgstr ""
+"Esta eina permet definir el tema de decoració de les finestres per a la "
+"sessió activa actual, sense posar-ne accidentalment un que no estiga "
+"disponible, o que ya estiga definit."
 
 #: kwin-applywindowdecoration.cpp:33
 #, kde-format
@@ -120,12 +122,16 @@ msgid ""
 "full path will attempt to find a theme in that directory, and then apply "
 "that if one can be deduced."
 msgstr ""
+"El nom del tema de decoració de les finestres que voleu definir per a KWin. "
+"En indicar un camí complet s'intentarà trobar un tema en este directori, i "
+"després aplicar-lo si se'n pot deduir un."
 
 #: kwin-applywindowdecoration.cpp:34
 #, kde-format
 msgid ""
 "Show all the themes available on the system (and which is the current theme)"
 msgstr ""
+"Mostra tots els temes disponibles en el sistema (i quin és el tema actual)"
 
 #: kwin-applywindowdecoration.cpp:65
 #, kde-format
@@ -133,6 +139,8 @@ msgid ""
 "Resolved %1 to the KWin Aurorae theme \"%2\", and will attempt to set that "
 "as your current theme."
 msgstr ""
+"S'ha resolt %1 al tema «%2» Aurorae de KWin, i s'intentarà establir este com "
+"a tema actual."
 
 #: kwin-applywindowdecoration.cpp:71
 #, kde-format
@@ -140,17 +148,22 @@ msgid ""
 "You attempted to pass a file path, but this could not be resolved to a "
 "theme, and we will have to abort, due to having no theme to set"
 msgstr ""
+"S'ha intentat indicar un camí de fitxer, pero no s'ha pogut resoldre com a "
+"tema, per tant cal interrompre-ho, ya que no hi ha cap tema a establir"
 
 #: kwin-applywindowdecoration.cpp:77
 #, kde-format
 msgid ""
 "The requested theme \"%1\" is already set as the window decoration theme."
 msgstr ""
+"El tema solicitat «%1» ya està establit com a tema de decoració de les "
+"finestres."
 
 #: kwin-applywindowdecoration.cpp:99
 #, kde-format
 msgid "Successfully applied the cursor theme %1 to your current Plasma session"
 msgstr ""
+"El tema del cursor %1 s'ha aplicat correctament a la sessió actual de Plasma"
 
 #: kwin-applywindowdecoration.cpp:103
 #, kde-format
@@ -158,6 +171,9 @@ msgid ""
 "Failed to save your theme settings - the reason is unknown, but this is an "
 "unrecoverable error. You may find that simply trying again will work."
 msgstr ""
+"No s'ha pogut guardar la vostra configuració del tema. El motiu és "
+"desconegut, pero hi ha un error no recuperable. Podria ser que funcione en "
+"tornar-ho a intentar."
 
 #: kwin-applywindowdecoration.cpp:107
 #, kde-format
@@ -165,11 +181,14 @@ msgid ""
 "Could not find theme \"%1\". The theme should be one of the following "
 "options: %2"
 msgstr ""
+"No s'ha pogut trobar el tema «%1». El tema hauria de ser una de les opcions "
+"següents: %2"
 
 #: kwin-applywindowdecoration.cpp:112
 #, kde-format
 msgid "You have the following KWin window decoration themes on your system:"
 msgstr ""
+"En el sistema hi ha els temes següents de decoració de les finestres de KWin:"
 
 #: package/contents/ui/Buttons.qml:85
 #, kde-format
@@ -179,17 +198,17 @@ msgstr "Barra de títol"
 #: package/contents/ui/Buttons.qml:245
 #, kde-format
 msgid "Drop button here to remove it"
-msgstr "Deixeu anar el botó ací per eliminar-lo"
+msgstr "Deixeu anar el botó ací per a eliminar-lo"
 
 #: package/contents/ui/Buttons.qml:261
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
-msgstr "Arrossegueu els botons des d'ací fins a la barra de títol"
+msgstr "Arrossegueu els botons entre ací i la barra de títol"
 
 #: package/contents/ui/main.qml:19
 #, kde-format
 msgid "This module lets you configure the window decorations."
-msgstr "Aquest mòdul permet configurar les decoracions de les finestres."
+msgstr "Este mòdul permet configurar les decoracions de les finestres."
 
 #: package/contents/ui/main.qml:53
 #, kde-format
@@ -207,13 +226,13 @@ msgstr "Botons de la barra de títol"
 #, kde-format
 msgctxt "Selector label"
 msgid "Window border size:"
-msgstr ""
+msgstr "Mida de la vora de la finestra:"
 
 #: package/contents/ui/main.qml:114
 #, kde-format
 msgctxt "button text"
 msgid "Get New Window Decorations..."
-msgstr "Obtín decoracions noves de finestra..."
+msgstr "Obtin decoracions noves de finestra..."
 
 #: package/contents/ui/main.qml:143
 #, kde-format
@@ -225,13 +244,13 @@ msgstr "Tanca les finestres amb doble clic al botó del menú"
 #, kde-format
 msgctxt "popup tip"
 msgid "Click and hold on the menu button to show the menu."
-msgstr ""
+msgstr "Feu clic i manteniu premut el botó del menú per a mostrar el menú."
 
 #: package/contents/ui/main.qml:167
 #, kde-format
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
-msgstr "Mostra els consells dels botons de la barra de títol"
+msgstr "Mostra els consells dels botons a la barra de títol"
 
 #: package/contents/ui/Themes.qml:92
 #, kde-format
@@ -276,7 +295,7 @@ msgstr "Enorme"
 #: utils.cpp:32
 #, kde-format
 msgid "Very Huge"
-msgstr "Gegant"
+msgstr "Molt enorme"
 
 #: utils.cpp:33
 #, kde-format

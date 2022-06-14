@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-05-14 00:46+0000\n"
+"POT-Creation-Date: 2022-06-07 03:05+0000\n"
 "PO-Revision-Date: 2010-01-03 13:04+0000\n"
 "Last-Translator: Sveinn í Felli <sveinki@nett.is>\n"
 "Language-Team: Icelandic <kde-isl@molar.is>\n"
@@ -618,7 +618,7 @@ msgstr "Skjáborð"
 msgid "Search..."
 msgstr ""
 
-#: private/qml/WindowHeap.qml:171
+#: private/qml/WindowHeap.qml:231
 #, kde-format
 msgid "Drag Down To Close"
 msgstr ""
@@ -983,12 +983,12 @@ msgstr "Lausar valmyndir:"
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Víxla núverandi gluggum (á þessu skjáborði)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:71
+#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:66
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Víxla núverandi gluggum (á öllum skjáborðum)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:86
+#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:76
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Víxla núverandi gluggum (gluggaflokkur)"
@@ -999,12 +999,12 @@ msgstr "Víxla núverandi gluggum (gluggaflokkur)"
 msgid "Ignore &minimized windows"
 msgstr "Hunsa &minnkaða glugga"
 
-#: windowview/qml/main.qml:132
+#: windowview/qml/main.qml:137
 #, kde-format
 msgid "No Matches"
 msgstr ""
 
-#: windowview/qml/main.qml:132
+#: windowview/qml/main.qml:137
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "No Windows"

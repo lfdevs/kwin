@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-05-14 00:46+0000\n"
+"POT-Creation-Date: 2022-06-07 03:05+0000\n"
 "PO-Revision-Date: 2022-05-07 20:37+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@neuf.fr>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
@@ -586,7 +586,7 @@ msgstr "Ajouter un bureau"
 msgid "Search..."
 msgstr "Rechercher..."
 
-#: private/qml/WindowHeap.qml:171
+#: private/qml/WindowHeap.qml:231
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "Glisser vers le bas pour fermer"
@@ -943,12 +943,12 @@ msgstr "Menus d'extinction :"
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Activer / désactiver la présentation des fenêtres (bureau courant)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:71
+#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:66
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Activer / désactiver la présentation des fenêtres (tous les bureaux)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:86
+#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:76
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Activer / désactiver la présentation des fenêtres (Classe de fenêtre)"
@@ -959,12 +959,12 @@ msgstr "Activer / désactiver la présentation des fenêtres (Classe de fenêtr
 msgid "Ignore &minimized windows"
 msgstr "Ignorer les fenêtres &minimisées"
 
-#: windowview/qml/main.qml:132
+#: windowview/qml/main.qml:137
 #, kde-format
 msgid "No Matches"
 msgstr "Aucune correspondance"
 
-#: windowview/qml/main.qml:132
+#: windowview/qml/main.qml:137
 #, kde-format
 msgid "No Windows"
 msgstr "Aucune fenêtre"

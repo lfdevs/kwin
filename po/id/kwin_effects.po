@@ -8,16 +8,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-05-14 00:46+0000\n"
-"PO-Revision-Date: 2022-03-11 19:45+0700\n"
-"Last-Translator: Wantoyek <wantoyek@gmail.com>\n"
+"POT-Creation-Date: 2022-06-07 03:05+0000\n"
+"PO-Revision-Date: 2022-06-04 07:35+0700\n"
+"Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 21.12.3\n"
+"X-Generator: Lokalize 22.04.1\n"
 
 #. i18n: ectx: property (text), widget (QLabel, labelConstantBlurDescription)
 #: blur/blur_config.ui:17
@@ -180,10 +180,9 @@ msgstr "Tampilkan tombol untuk mengubah cacah desktop virtual"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: desktopgrid/desktopgrid_config.ui:123
-#, fuzzy, kde-format
-#| msgid "&Layout mode:"
+#, kde-format
 msgid "&Grid layout mode:"
-msgstr "Mode tata &letak:"
+msgstr "Mode tataletak &kisi:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
 #: desktopgrid/desktopgrid_config.ui:137 overview/kcm/overvieweffectkcm.ui:30
@@ -201,10 +200,9 @@ msgstr "Natural"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: desktopgrid/desktopgrid_config.ui:150
-#, fuzzy, kde-format
-#| msgid "Windows"
+#, kde-format
 msgid "Windows layout:"
-msgstr "Window"
+msgstr "Tataletak window:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: desktopgrid/desktopgrid_config.ui:166
@@ -559,10 +557,9 @@ msgstr "Buramkan latar belakang:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: overview/kcm/overvieweffectkcm.ui:70
-#, fuzzy, kde-format
-#| msgid "Ignore &minimized windows"
+#, kde-format
 msgid "Ignore minimized windows:"
-msgstr "Abaikan window yang di&minimalkan"
+msgstr "Window diminimalkan yang diabaikan:"
 
 #: overview/qml/DesktopBar.qml:188
 #, kde-format
@@ -579,10 +576,10 @@ msgstr "Tambahkan Desktop"
 msgid "Search..."
 msgstr "Cari..."
 
-#: private/qml/WindowHeap.qml:171
+#: private/qml/WindowHeap.qml:231
 #, kde-format
 msgid "Drag Down To Close"
-msgstr ""
+msgstr "Sèrèt Turun Untuk Menutup"
 
 #. i18n: ectx: property (text), widget (QLabel, label_InScale)
 #: scale/package/contents/ui/config.ui:46
@@ -695,41 +692,39 @@ msgstr "Alfa teks:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: showfps/showfps_config.ui:154
-#, fuzzy, kde-format
-#| msgid "Show caps"
+#, kde-format
 msgid "Show graph:"
-msgstr "Tampilkan kap"
+msgstr "Tampilkan grafik:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowGraph)
 #: showfps/showfps_config.ui:167
 #, kde-format
 msgid "Show on active screen"
-msgstr ""
+msgstr "Tampilkan pada layar yang aktif"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: showfps/showfps_config.ui:174
-#, fuzzy, kde-format
-#| msgid "Show Text:"
+#, kde-format
 msgid "Show Message:"
-msgstr "Tampilkan Teks:"
+msgstr "Tampilkan Pesan:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowNoBenchmark)
 #: showfps/showfps_config.ui:187
 #, kde-format
 msgid "Show \"not a benchmark\" message"
-msgstr ""
+msgstr "Tampilkan pesan \"bukan patokan\""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: showfps/showfps_config.ui:194
 #, kde-format
 msgid "Colorize Text:"
-msgstr ""
+msgstr "Teks Berwarna:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ColorizeText)
 #: showfps/showfps_config.ui:207
 #, kde-format
 msgid "Color text by value (green > yellow > red)"
-msgstr ""
+msgstr "Warna teks berdasarkan nilai (hijau > kuning  > merah)"
 
 #: showpaint/showpaint.cpp:38 showpaint/showpaint_config.cpp:38
 #, kde-format
@@ -938,12 +933,12 @@ msgstr "Menu cabik:"
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Jungkit Present Windows (Desktop saat ini)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:71
+#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:66
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Jungkit Present Windows (Semua desktop)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:86
+#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:76
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Jungkit Present Windows (Kelas window)"
@@ -954,16 +949,15 @@ msgstr "Jungkit Present Windows (Kelas window)"
 msgid "Ignore &minimized windows"
 msgstr "Abaikan window yang di&minimalkan"
 
-#: windowview/qml/main.qml:132
+#: windowview/qml/main.qml:137
 #, kde-format
 msgid "No Matches"
-msgstr ""
+msgstr "Tidak Ada Yang Cocok"
 
-#: windowview/qml/main.qml:132
-#, fuzzy, kde-format
-#| msgid "Windows"
+#: windowview/qml/main.qml:137
+#, kde-format
 msgid "No Windows"
-msgstr "Window"
+msgstr "Tidah Ada Window"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20

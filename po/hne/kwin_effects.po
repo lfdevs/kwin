@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-05-14 00:46+0000\n"
+"POT-Creation-Date: 2022-06-07 03:05+0000\n"
 "PO-Revision-Date: 2009-01-29 14:19+0530\n"
 "Last-Translator: Ravishankar Shrivastava <raviratlami@aol.in>\n"
 "Language-Team: Hindi <kde-i18n-doc@lists.kde.org>\n"
@@ -602,7 +602,7 @@ msgstr "डेस्कटाप घन"
 msgid "Search..."
 msgstr ""
 
-#: private/qml/WindowHeap.qml:171
+#: private/qml/WindowHeap.qml:231
 #, kde-format
 msgid "Drag Down To Close"
 msgstr ""
@@ -962,12 +962,12 @@ msgstr "टार्न-आफ मेन्यू:"
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "अभी हाल के के विंडोज ल टागल करव (अभी वाले डेस्कटाप)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:71
+#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:66
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "अभी हाल के के विंडोज ल टागल करव (सब्बो डेस्कटाप)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:86
+#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:76
 #, fuzzy, kde-format
 #| msgid "Toggle Present Windows (All desktops)"
 msgid "Toggle Present Windows (Window class)"
@@ -979,12 +979,12 @@ msgstr "अभी हाल के के विंडोज ल टागल �
 msgid "Ignore &minimized windows"
 msgstr "सबसे छोटे करे गे विंडो ल अनदेखा करव (&m)"
 
-#: windowview/qml/main.qml:132
+#: windowview/qml/main.qml:137
 #, kde-format
 msgid "No Matches"
 msgstr ""
 
-#: windowview/qml/main.qml:132
+#: windowview/qml/main.qml:137
 #, fuzzy, kde-format
 #| msgid "&Wobbliness"
 msgid "No Windows"

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-05-14 00:46+0000\n"
-"PO-Revision-Date: 2022-04-28 14:34+0200\n"
+"POT-Creation-Date: 2022-06-07 03:05+0000\n"
+"PO-Revision-Date: 2022-05-25 18:58+0200\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.04.0\n"
+"X-Generator: Lokalize 20.04.2\n"
 
 #. i18n: ectx: property (text), widget (QLabel, labelConstantBlurDescription)
 #: blur/blur_config.ui:17
@@ -176,10 +176,9 @@ msgstr "Monstra buttones pro cambiar le numero de scriptorios virtual"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: desktopgrid/desktopgrid_config.ui:123
-#, fuzzy, kde-format
-#| msgid "&Layout mode:"
+#, kde-format
 msgid "&Grid layout mode:"
-msgstr "Modo de &disposition:"
+msgstr "Modo de disposition a &Grillia:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
 #: desktopgrid/desktopgrid_config.ui:137 overview/kcm/overvieweffectkcm.ui:30
@@ -197,10 +196,9 @@ msgstr "Natural"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: desktopgrid/desktopgrid_config.ui:150
-#, fuzzy, kde-format
-#| msgid "Windows"
+#, kde-format
 msgid "Windows layout:"
-msgstr "Fenestras"
+msgstr "Disposition de Fenestras:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: desktopgrid/desktopgrid_config.ui:166
@@ -553,10 +551,9 @@ msgstr "Fundo de disfocalisar:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: overview/kcm/overvieweffectkcm.ui:70
-#, fuzzy, kde-format
-#| msgid "Ignore &minimized windows"
+#, kde-format
 msgid "Ignore minimized windows:"
-msgstr "Ignora fenestras &minimizate"
+msgstr "Ignora fenestras minimizate"
 
 #: overview/qml/DesktopBar.qml:188
 #, kde-format
@@ -573,7 +570,7 @@ msgstr "Adde Scriptorio"
 msgid "Search..."
 msgstr "Cerca..."
 
-#: private/qml/WindowHeap.qml:171
+#: private/qml/WindowHeap.qml:231
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "Trahe a basso pro clauder"
@@ -609,7 +606,7 @@ msgid ""
 "Select window to screen shot with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
-"Selige fenestra pro captura de schermo per cliccar a sinitre o Enter.\n"
+"Selige fenestra pro captura de schermo per cliccar a sinistra o Enter.\n"
 "Escappa o clicca a dextere pro cancellar."
 
 #: screenshot/screenshotdbusinterface1.cpp:800
@@ -930,12 +927,12 @@ msgstr "Menus de laceration:"
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Commuta fenestras presente (scriptorio currente)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:71
+#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:66
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Commuta (Toggle) fenestras presente (Omne scriptorios)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:86
+#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:76
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Commuta fenestra presente (classe de fenestra)"
@@ -946,16 +943,15 @@ msgstr "Commuta fenestra presente (classe de fenestra)"
 msgid "Ignore &minimized windows"
 msgstr "Ignora fenestras &minimizate"
 
-#: windowview/qml/main.qml:132
+#: windowview/qml/main.qml:137
 #, kde-format
 msgid "No Matches"
-msgstr ""
+msgstr "Nulle correspondentias"
 
-#: windowview/qml/main.qml:132
-#, fuzzy, kde-format
-#| msgid "Windows"
+#: windowview/qml/main.qml:137
+#, kde-format
 msgid "No Windows"
-msgstr "Fenestras"
+msgstr "Nulle fenestras"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20

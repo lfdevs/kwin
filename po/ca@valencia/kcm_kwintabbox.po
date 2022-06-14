@@ -50,14 +50,14 @@ msgstr "Alternativa"
 #: main.cpp:61
 #, kde-format
 msgid "Get New Task Switchers..."
-msgstr "Obtín commutadors nous de tasques..."
+msgstr "Obtin commutadors nous de tasques..."
 
 #: main.cpp:75
 #, kde-format
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."
 msgstr ""
-"La configuració de la política de focus limita la funcionalitat de navegar "
+"La configuració de la política de focus llimita la funcionalitat de navegar "
 "per les finestres."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
@@ -76,7 +76,7 @@ msgstr "Inclou la icona «Mostra l'escriptori»"
 #: main.ui:55
 #, kde-format
 msgid "Recently used"
-msgstr "Usades recentment"
+msgstr "Utilisades recentment"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, switchingModeCombo)
 #: main.ui:60
@@ -160,7 +160,7 @@ msgstr "Totes les atres pantalles"
 #: main.ui:296
 #, kde-format
 msgid "Minimization"
-msgstr "Minimització"
+msgstr "Minimisació"
 
 #. i18n: ectx: property (text), widget (QRadioButton, visibleWindows)
 #: main.ui:340
@@ -210,7 +210,7 @@ msgstr "Aplicació actual"
 #: main.ui:489
 #, kde-format
 msgid "Visualization"
-msgstr "Visualització"
+msgstr "Visualisació"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, effectCombo)
 #: main.ui:519
@@ -228,7 +228,7 @@ msgid ""
 "windows. This option requires desktop effects to be active."
 msgstr ""
 "La finestra actualment seleccionada es ressaltarà esvaint totes les atres "
-"finestres. Esta opció requereix que els efectes de l'escriptori estiguen "
+"finestres. Esta opció requerix que els efectes de l'escriptori estiguen "
 "actius."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HighlightWindows)

@@ -5,6 +5,7 @@
 */
 
 import QtQuick 2.12
+import QtQuick.Window 2.12
 import org.kde.kirigami 2.12 as Kirigami
 import org.kde.kwin 3.0 as KWinComponents
 import org.kde.kwin.private.effects 1.0
@@ -29,7 +30,6 @@ FocusScope {
     property int selectedIndex: -1
     property int animationDuration: PlasmaCore.Units.longDuration
     property bool animationEnabled: false
-    property bool dragEnabled: true
     property bool absolutePositioning: true
     property real padding: 0
     property var showOnly: []
@@ -41,10 +41,63 @@ FocusScope {
     property bool dragActive: false
 
     signal activated()
+    //TODO: for 5.26 the delegate will be a separate component instead
+    signal windowClicked(QtObject window, EventPoint eventPoint)
 
     function activateIndex(index) {
         KWinComponents.Workspace.activeClient = windowsRepeater.itemAt(index).client;
         activated();
+    }
+
+    KWinComponents.WindowThumbnailItem {
+        id: otherScreenThumbnail
+        z: 2
+        property KWinComponents.WindowThumbnailItem cloneOf
+        visible: false
+        wId: cloneOf ? cloneOf.wId : null
+        width: cloneOf ? cloneOf.width : 0
+        height: cloneOf ? cloneOf.height : 0
+        onCloneOfChanged: {
+            if (!cloneOf) {
+                visible = false;
+            }
+        }
+    }
+
+    Connections {
+        target: effect
+        function onItemDraggedOutOfScreen(item, screens) {
+            let found = false;
+
+            // don't put a proxy for item's own screen
+            if (screens.length === 0 || item.screen === targetScreen) {
+                otherScreenThumbnail.visible = false;
+                return;
+            }
+
+            for (let i in screens) {
+                if (targetScreen === screens[i]) {
+                    found = true;
+                    let globalPos = item.screen.mapToGlobal(item.mapToItem(null, 0,0));
+                    let heapRelativePos = targetScreen.mapFromGlobal(globalPos);
+                    heapRelativePos = heap.mapFromItem(null, heapRelativePos.x, heapRelativePos.y);
+                    otherScreenThumbnail.cloneOf = item
+                    otherScreenThumbnail.x = heapRelativePos.x;
+                    otherScreenThumbnail.y = heapRelativePos.y;
+                    otherScreenThumbnail.visible = true;
+                }
+            }
+
+            if (!found) {
+                otherScreenThumbnail.visible = false;
+            }
+        }
+        function onItemDroppedOutOfScreen(pos, item, screen) {
+            if (screen === targetScreen) {
+                // To actually move we neeed a screen number rather than an EffectScreen
+                KWinComponents.Workspace.sendClientToScreen(item.client, KWinComponents.Workspace.screenAt(pos));
+            }
+        }
     }
 
     ExpoLayout {
@@ -117,10 +170,17 @@ FocusScope {
                     id: thumbSource
                     wId: thumb.client.internalId
                     state: thumb.activeDragHandler.active ? "drag" : "normal"
+                    readonly property QtObject screen: targetScreen
+                    readonly property QtObject client: thumb.client
 
                     Drag.active: thumb.activeDragHandler.active
                     Drag.source: thumb.client
-                    Drag.hotSpot: Qt.point(width * 0.5, height * 0.5)
+                    Drag.hotSpot: Qt.point(
+                        thumb.activeDragHandler.centroid.pressPosition.x * thumb.activeDragHandler.targetScale,
+                        thumb.activeDragHandler.centroid.pressPosition.y * thumb.activeDragHandler.targetScale)
+
+                    onXChanged: effect.checkItemDraggedOutOfScreen(thumbSource)
+                    onYChanged: effect.checkItemDraggedOutOfScreen(thumbSource)
 
                     states: [
                         State {
@@ -327,15 +387,16 @@ FocusScope {
                 }
 
                 TapHandler {
-                    enabled: heap.supportsCloseWindows
                     acceptedPointerTypes: PointerDevice.GenericPointer | PointerDevice.Pen
-                    acceptedButtons: Qt.MiddleButton
-                    onTapped: thumb.client.closeWindow()
+                    acceptedButtons: Qt.LeftButton | Qt.MiddleButton | Qt.RightButton
+                    onTapped: {
+                        heap.windowClicked(thumb.client, eventPoint)
+                    }
                 }
 
                 component DragManager : DragHandler {
                     id: dragHandler
-                    enabled: heap.dragEnabled
+                    enabled: heap.supportsCloseWindows
                     target: null
 
                     readonly property double targetScale: {
@@ -357,6 +418,8 @@ FocusScope {
                             thumb.activeDragHandler = dragHandler;
                         } else {
                             thumbSource.Drag.drop();
+                            let globalPos = targetScreen.mapToGlobal(centroid.scenePosition);
+                            effect.checkItemDroppedOutOfScreen(globalPos, thumbSource);
                         }
                     }
                 }

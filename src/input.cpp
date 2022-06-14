@@ -1075,8 +1075,12 @@ public:
                 }
                 m_lastTouchDownTime = time;
                 auto output = kwinApp()->platform()->outputAt(pos.toPoint());
-                float xfactor = output->physicalSize().width() / (float)output->geometry().width();
-                float yfactor = output->physicalSize().height() / (float)output->geometry().height();
+                auto physicalSize = output->physicalSize();
+                if (!physicalSize.isValid()) {
+                    physicalSize = QSize(190, 100);
+                }
+                float xfactor = physicalSize.width() / (float)output->geometry().width();
+                float yfactor = physicalSize.height() / (float)output->geometry().height();
                 bool distanceMatch = std::any_of(m_touchPoints.constBegin(), m_touchPoints.constEnd(), [pos, xfactor, yfactor](const auto &point) {
                     QPointF p = pos - point;
                     return std::abs(xfactor * p.x()) + std::abs(yfactor * p.y()) < 50;
@@ -1131,8 +1135,10 @@ public:
             m_gestureTaken &= m_touchPoints.count() > 0;
             m_gestureCancelled &= m_gestureTaken;
             return true;
+        } else {
+            m_gestureCancelled &= m_touchPoints.count() > 0;
+            return false;
         }
-        return false;
     }
 
     bool touchCancel() override
@@ -3254,6 +3260,11 @@ void InputRedirection::registerGlobalAccel(KGlobalAccelInterface *interface)
 void InputRedirection::registerTouchscreenSwipeShortcut(SwipeDirection direction, uint fingerCount, QAction *action, std::function<void(qreal)> progressCallback)
 {
     m_shortcuts->registerTouchscreenSwipe(action, progressCallback, direction, fingerCount);
+}
+
+void InputRedirection::forceRegisterTouchscreenSwipeShortcut(SwipeDirection direction, uint fingerCount, QAction *action, std::function<void(qreal)> progressCallback)
+{
+    m_shortcuts->forceRegisterTouchscreenSwipe(action, progressCallback, direction, fingerCount);
 }
 
 void InputRedirection::warpPointer(const QPointF &pos)

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-05-19 00:46+0000\n"
+"POT-Creation-Date: 2022-05-28 03:09+0000\n"
 "PO-Revision-Date: 2021-10-17 11:16+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English <kde-l10n-en_gb@kde.org>\n"
@@ -1137,7 +1137,7 @@ msgstr "&Terminate Application %1"
 msgid "Wait Longer"
 msgstr "Wait Longer"
 
-#: input.cpp:3093
+#: input.cpp:3099
 #, kde-format
 msgid "Touchpad"
 msgstr "Touchpad"
@@ -2617,7 +2617,7 @@ msgstr "Switch One Desktop Down"
 msgid "Switch to Desktop %1"
 msgstr "Switch to Desktop %1"
 
-#: window.cpp:3425
+#: window.cpp:3431
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"

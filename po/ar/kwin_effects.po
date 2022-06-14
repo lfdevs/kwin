@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-05-14 00:46+0000\n"
-"PO-Revision-Date: 2022-04-07 10:14+0400\n"
+"POT-Creation-Date: 2022-06-07 03:05+0000\n"
+"PO-Revision-Date: 2022-05-28 23:29+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: Arabic <kde-l10n-ar@kde.org>\n"
 "Language: ar\n"
@@ -179,10 +179,9 @@ msgstr "اعرض أزرار لتغير عدد الأسطح الافتراضية"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: desktopgrid/desktopgrid_config.ui:123
-#, fuzzy, kde-format
-#| msgid "&Layout mode:"
+#, kde-format
 msgid "&Grid layout mode:"
-msgstr "وضع الت&صميم:"
+msgstr "نمط وضع ال&شبكة:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
 #: desktopgrid/desktopgrid_config.ui:137 overview/kcm/overvieweffectkcm.ui:30
@@ -200,10 +199,9 @@ msgstr "طبيعي"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: desktopgrid/desktopgrid_config.ui:150
-#, fuzzy, kde-format
-#| msgid "Windows"
+#, kde-format
 msgid "Windows layout:"
-msgstr "النوافذ"
+msgstr "وضع النوافذ:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: desktopgrid/desktopgrid_config.ui:166
@@ -560,10 +558,9 @@ msgstr "الخلفية الغشاوة:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: overview/kcm/overvieweffectkcm.ui:70
-#, fuzzy, kde-format
-#| msgid "Ignore &minimized windows"
+#, kde-format
 msgid "Ignore minimized windows:"
-msgstr "تجاهل النوافذ المص&غّرة"
+msgstr "تجاهل النوافذ المصغّرة:"
 
 #: overview/qml/DesktopBar.qml:188
 #, kde-format
@@ -580,7 +577,7 @@ msgstr "أضف سطح المكتب"
 msgid "Search..."
 msgstr "ابحث..."
 
-#: private/qml/WindowHeap.qml:171
+#: private/qml/WindowHeap.qml:231
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "اسحب للأسفل للإغلاق"
@@ -937,12 +934,12 @@ msgstr "القوائم المفصولة:"
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "بدّل عرض النوافذ (سطح المكتب الحالي)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:71
+#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:66
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "بدّل عرض النوافذ (جميع الأسطح)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:86
+#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:76
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "بدّل عرض النوافذ (نوع النافذة)"
@@ -953,16 +950,15 @@ msgstr "بدّل عرض النوافذ (نوع النافذة)"
 msgid "Ignore &minimized windows"
 msgstr "تجاهل النوافذ المص&غّرة"
 
-#: windowview/qml/main.qml:132
+#: windowview/qml/main.qml:137
 #, kde-format
 msgid "No Matches"
-msgstr ""
+msgstr "لا يوجد تطابق"
 
-#: windowview/qml/main.qml:132
-#, fuzzy, kde-format
-#| msgid "Windows"
+#: windowview/qml/main.qml:137
+#, kde-format
 msgid "No Windows"
-msgstr "النوافذ"
+msgstr "لا يوجد نوافذ"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20

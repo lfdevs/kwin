@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-05-19 00:46+0000\n"
+"POT-Creation-Date: 2022-05-28 03:09+0000\n"
 "PO-Revision-Date: 2021-05-02 16:55-0700\n"
 "Last-Translator: A S Alam <aalam@satluj.org>\n"
 "Language-Team: Punjabi <punjabi-users@lists.sf.net>\n"
@@ -1134,7 +1134,7 @@ msgstr "ਐਪਲੀਕੇਸ਼ਨ %1 ਖਤਮ ਕਰੋ(&T)"
 msgid "Wait Longer"
 msgstr "ਕੁਝ ਉਡੀਕ ਕਰੋ"
 
-#: input.cpp:3093
+#: input.cpp:3099
 #, fuzzy, kde-format
 #| msgctxt "A touch down event"
 #| msgid "Touch down"
@@ -2652,7 +2652,7 @@ msgstr "ਇੱਕ ਡੈਸਕਟਾਪ ਹੇਠਾਂ ਜਾਓ"
 msgid "Switch to Desktop %1"
 msgstr "ਡੈਸਕਟਾਪ %1 ਉੱਤੇ ਜਾਓ"
 
-#: window.cpp:3425
+#: window.cpp:3431
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"

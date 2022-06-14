@@ -41,6 +41,8 @@
 #include <QAction>
 #include <QDBusInterface>
 #include <QDBusPendingCall>
+#include <QFontDatabase>
+#include <QFontMetrics>
 #include <QMouseEvent>
 #include <QSharedPointer>
 #include <QTextStream>
@@ -576,7 +578,7 @@ void Edge::setGeometry(const QRect &geometry)
 void Edge::checkBlocking()
 {
     Window *client = Workspace::self()->activeWindow();
-    const bool newValue = !m_edges->remainActiveOnFullscreen() && client && client->isFullScreen() && client->frameGeometry().contains(m_geometry.center());
+    const bool newValue = !m_edges->remainActiveOnFullscreen() && client && client->isFullScreen() && client->frameGeometry().contains(m_geometry.center()) && !(effects && effects->hasActiveFullScreenEffect());
     if (newValue == m_blocked) {
         return;
     }
@@ -775,17 +777,8 @@ ScreenEdges::ScreenEdges(QObject *parent)
     , m_actionLeft(ElectricActionNone)
     , m_gestureRecognizer(new GestureRecognizer(this))
 {
-    // TODO: Maybe calculate the corner offset based on font metrics instead?
-    const auto outputs = kwinApp()->platform()->enabledOutputs();
-    if (!outputs.isEmpty()) {
-        const QSize size = outputs[0]->geometry().size();
-        const QSizeF physicalSize = outputs[0]->physicalSize();
-
-        const int physicalDpiX = size.width() / physicalSize.width() * qreal(25.4);
-        const int physicalDpiY = size.height() / physicalSize.height() * qreal(25.4);
-
-        m_cornerOffset = (physicalDpiX + physicalDpiY + 5) / 6;
-    }
+    const int gridUnit = QFontMetrics(QFontDatabase::systemFont(QFontDatabase::GeneralFont)).boundingRect(QLatin1Char('M')).height();
+    m_cornerOffset = 4 * gridUnit;
 
     connect(workspace(), &Workspace::windowRemoved, this, &ScreenEdges::deleteEdgeForClient);
 }

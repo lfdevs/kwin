@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase/kwin_effects.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-05-14 00:46+0000\n"
+"POT-Creation-Date: 2022-06-07 03:05+0000\n"
 "PO-Revision-Date: 2007-11-14 08:24-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -603,7 +603,7 @@ msgstr "Deasc"
 msgid "Search..."
 msgstr ""
 
-#: private/qml/WindowHeap.qml:171
+#: private/qml/WindowHeap.qml:231
 #, kde-format
 msgid "Drag Down To Close"
 msgstr ""
@@ -963,12 +963,12 @@ msgstr "Roghchlár stróicthe:"
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Scoránaigh na Fuinneoga atá ann (Deasc reatha)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:71
+#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:66
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Scoránaigh na Fuinneoga atá ann (Gach deasc)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:86
+#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:76
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Scoránaigh na Fuinneoga atá ann (Aicme fhuinneoige)"
@@ -979,12 +979,12 @@ msgstr "Scoránaigh na Fuinneoga atá ann (Aicme fhuinneoige)"
 msgid "Ignore &minimized windows"
 msgstr "Déan nea&mhshuim d'fhuinneoga íoslaghdaithe"
 
-#: windowview/qml/main.qml:132
+#: windowview/qml/main.qml:137
 #, kde-format
 msgid "No Matches"
 msgstr ""
 
-#: windowview/qml/main.qml:132
+#: windowview/qml/main.qml:137
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "No Windows"

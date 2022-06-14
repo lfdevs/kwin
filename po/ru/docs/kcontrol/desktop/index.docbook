@@ -56,9 +56,9 @@
 </authorgroup>
 
 <date
->9 апреля 2015 г.</date>
+>9 апреля 2021 г.</date>
 <releaseinfo
->Plasma 5.3</releaseinfo>
+>Plasma 5.20</releaseinfo>
 
 <keywordset>
 <keyword
@@ -66,39 +66,28 @@
 <keyword
 >Параметры системы</keyword>
 <keyword
+>виртуальный</keyword>
+<keyword
 >рабочий стол</keyword>
 </keywordset>
 </articleinfo>
 
-<sect1 id="virtual-desktops">
-
-<title
->Рабочие столы</title>
-
-<sect2 id="desktop-number">
-<title
-><guilabel
->Число, расположение и способ переключения рабочих столов</guilabel
-></title>
-
 <para
->&kde; предоставляет возможность работы на нескольких рабочих столах. Эта вкладка модуля программы &systemsettings; позволяет настроить количества рабочих столов и их названия, а также количество рядов рабочих столов, отображаемых в виджете «Переключение рабочих столов». Для задания количество рабочих столов и количества рядов служат поля ввода со счётчиками. Текстовые поля, расположенные ниже, позволяют присвоить рабочим столам имена.</para
-> 
-<!-- not in 5.3
+>&kde; позволяет использовать несколько рабочих столов. </para>
 <para
->Enable <guilabel
->Different widgets for each desktop</guilabel
-> 
-to use independent widgets and wallpapers on each individual desktop.
-</para>
--->
-</sect2>
-
-<sect2 id="desktop-switching">
-<title
-><guilabel
->Переключение</guilabel
-></title>
+>Для изменения названия рабочего стола воспользуйтесь кнопкой <guibutton
+>Переименовать</guibutton
+> (появляется при наведении указателя мыши на элемент рабочего стола в списке) и укажите нужный текст в поле ввода. </para>
+<para
+>Чтобы удалить рабочий стол, воспользуйтесь кнопкой с изображением корзины, расположенной справа от названия рабочего стола. </para>
+<para
+>Для добавления рабочего стола в список нажмите кнопку <guibutton
+>Добавить</guibutton
+> (название по умолчанию — <guilabel
+>Новый рабочий стол</guilabel
+>). </para>
+<para
+>Можно настроить количество строк в элементе переключателя на панели. Воспользуйтесь полем ввода строк, расположенным под списком, чтобы изменить количество рабочих столов. Расположение рабочих столов будет автоматически изменено в соответствии со строками. </para>
 
 <variablelist>
 <varlistentry>
@@ -115,26 +104,24 @@ to use independent widgets and wallpapers on each individual desktop.
 <varlistentry>
 <term
 ><guilabel
->Анимация переключения рабочих столов</guilabel
+>Анимация при переключении</guilabel
 ></term>
 <listitem
 ><para
 >Раскрывающийся список позволяет выбрать следующие варианты анимации переключения рабочих столов: <guilabel
->Без анимации</guilabel
->, <guilabel
 >Прокрутка</guilabel
 >, <guilabel
 >Анимация куба рабочих столов</guilabel
 > и <guilabel
 >Плавная смена рабочих столов</guilabel
->. Если для выбранного варианта анимации предусмотрена настройка параметров, то нажатие значка справа от раскрывающегося списка откроет диалоговое окно настройки. </para
+>. Также можно отключить анимацию, сняв флажок. Если для выбранного варианта анимации предусмотрена настройка параметров, то нажатие значка справа от раскрывающегося списка откроет диалоговое окно настройки. </para
 ></listitem>
 </varlistentry>
 
 <varlistentry>
 <term
 ><guilabel
->Вывод имени рабочего стола при переключении</guilabel
+>Показывать экранное уведомление при переключении</guilabel
 ></term>
 <listitem
 ><para
@@ -150,17 +137,6 @@ to use independent widgets and wallpapers on each individual desktop.
 <listitem
 ><para
 >Включите этот параметр для вывода схемы логического расположения рабочих столов при их переключении. </para
-></listitem>
-</varlistentry>
-
-<varlistentry>
-<term
-><guilabel
->Комбинации клавиш</guilabel
-></term>
-<listitem
-><para
->В этой части окна показываются настроенные комбинации клавиш переключения рабочих столов и предоставляется возможность их редактирования. </para
 ></listitem>
 </varlistentry>
 
@@ -182,7 +158,5 @@ to use independent widgets and wallpapers on each individual desktop.
 >S</keycap
 ></keycombo
 >).</para>
-</sect2>
-</sect1>
 
 </article>

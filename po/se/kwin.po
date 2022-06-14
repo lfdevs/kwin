@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-05-01 00:52+0000\n"
+"POT-Creation-Date: 2022-05-19 00:46+0000\n"
 "PO-Revision-Date: 2007-12-20 11:35+0100\n"
 "Last-Translator: Børre Gaup <boerre@skolelinux.no>\n"
 "Language-Team: Northern Sami <l10n-no@lister.huftis.org>\n"
@@ -29,12 +29,12 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "boerre@skolelinux.no"
 
-#: composite.cpp:633
+#: composite.cpp:632
 #, kde-format
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr ""
 
-#: composite.cpp:836
+#: composite.cpp:835
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -1126,7 +1126,7 @@ msgstr ""
 msgid "Wait Longer"
 msgstr ""
 
-#: input.cpp:3030
+#: input.cpp:3093
 #, kde-format
 msgid "Touchpad"
 msgstr ""
@@ -1208,128 +1208,128 @@ msgstr "Ale geavat heivehusmolssaeavttuid"
 msgid "Indicate that KWin has recently crashed n times"
 msgstr "Muittut ahte KWin dál easka lea riekčanan máŋgii"
 
-#: main_wayland.cpp:355
+#: main_wayland.cpp:340
 #, kde-format
 msgid "Start a rootless Xwayland server."
 msgstr ""
 
-#: main_wayland.cpp:357
+#: main_wayland.cpp:342
 #, kde-format
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
 
-#: main_wayland.cpp:360
+#: main_wayland.cpp:345
 #, kde-format
 msgid "The X11 Display to use in windowed mode on platform X11."
 msgstr ""
 
-#: main_wayland.cpp:363
+#: main_wayland.cpp:348
 #, kde-format
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr ""
 
-#: main_wayland.cpp:365
+#: main_wayland.cpp:350
 #, kde-format
 msgid "Render to a virtual framebuffer."
 msgstr ""
 
-#: main_wayland.cpp:367
+#: main_wayland.cpp:352
 #, kde-format
 msgid "The width for windowed mode. Default width is 1024."
 msgstr ""
 
-#: main_wayland.cpp:371
+#: main_wayland.cpp:356
 #, kde-format
 msgid "The height for windowed mode. Default height is 768."
 msgstr ""
 
-#: main_wayland.cpp:376
+#: main_wayland.cpp:361
 #, kde-format
 msgid "The scale for windowed mode. Default value is 1."
 msgstr ""
 
-#: main_wayland.cpp:381
+#: main_wayland.cpp:366
 #, kde-format
 msgid ""
 "The number of windows to open as outputs in windowed mode. Default value is 1"
 msgstr ""
 
-#: main_wayland.cpp:386
+#: main_wayland.cpp:371
 #, kde-format
 msgid ""
 "Wayland socket to use for incoming connections. This can be combined with --"
 "socket to name the socket"
 msgstr ""
 
-#: main_wayland.cpp:390
+#: main_wayland.cpp:375
 #, kde-format
 msgid ""
 "XWayland socket to use for Xwayland's incoming connections. This can be set "
 "multiple times"
 msgstr ""
 
-#: main_wayland.cpp:394
+#: main_wayland.cpp:379
 #, kde-format
 msgid "Name of the xwayland display that has been pre-set up"
 msgstr ""
 
-#: main_wayland.cpp:398
+#: main_wayland.cpp:383
 #, kde-format
 msgid "Name of the xauthority file "
 msgstr ""
 
-#: main_wayland.cpp:402
+#: main_wayland.cpp:387
 #, kde-format
 msgid "Exits this instance so it can be restarted by kwin_wayland_wrapper."
 msgstr ""
 
-#: main_wayland.cpp:431
+#: main_wayland.cpp:416
 #, kde-format
 msgid "Render through drm node."
 msgstr ""
 
-#: main_wayland.cpp:437
+#: main_wayland.cpp:422
 #, kde-format
 msgid "Input method that KWin starts."
 msgstr ""
 
-#: main_wayland.cpp:442
+#: main_wayland.cpp:427
 #, kde-format
 msgid "List all available backends and quit."
 msgstr ""
 
-#: main_wayland.cpp:447
+#: main_wayland.cpp:432
 #, kde-format
 msgid "Starts the session in locked mode."
 msgstr ""
 
-#: main_wayland.cpp:451
+#: main_wayland.cpp:436
 #, kde-format
 msgid "Starts the session without lock screen support."
 msgstr ""
 
-#: main_wayland.cpp:456
+#: main_wayland.cpp:441
 #, kde-format
 msgid "Starts the session without global shortcuts support."
 msgstr ""
 
-#: main_wayland.cpp:461 main_x11.cpp:458
+#: main_wayland.cpp:446 main_x11.cpp:461
 #, kde-format
 msgid "Disable KActivities integration."
 msgstr ""
 
-#: main_wayland.cpp:466
+#: main_wayland.cpp:451
 #, kde-format
 msgid "Exit after the session application, which is started by KWin, closed."
 msgstr ""
 
-#: main_wayland.cpp:471
+#: main_wayland.cpp:456
 #, kde-format
 msgid "Applications to start once Wayland and Xwayland server are started"
 msgstr ""
 
-#: main_x11.cpp:65
+#: main_x11.cpp:66
 #, kde-format
 msgid ""
 "KWin is unstable.\n"
@@ -1340,7 +1340,7 @@ msgstr ""
 "Lea riekčanan moddii maŋŋálága.\n"
 "Sáhtát válljet vuodjit muhttin eará lásegieđahalli:"
 
-#: main_x11.cpp:234
+#: main_x11.cpp:235
 #, kde-format
 msgid ""
 "kwin: unable to claim manager selection, another wm running? (try using --"
@@ -1349,12 +1349,12 @@ msgstr ""
 "kwin: Ii sáhttán gieđahallat lásiid. Leago eará lásegieđahalli jođus? "
 "(Geahččal --replace molssaeavttuin)\n"
 
-#: main_x11.cpp:257
+#: main_x11.cpp:258
 #, kde-format
 msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr ""
 
-#: main_x11.cpp:451
+#: main_x11.cpp:454
 #, kde-format
 msgid "Replace already-running ICCCM2.0-compliant window manager"
 msgstr "Buhtte ICCCM2.0-heivvolaš lásegieđahalli mii juo lea jođus"
@@ -1454,47 +1454,47 @@ msgctxt "Note this is a KRunner keyword"
 msgid "desktop"
 msgstr ""
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:264
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:267
 #, kde-format
 msgid "Switch to desktop %1"
 msgstr ""
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:305
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:308
 #, kde-format
 msgid "Close running window on %1"
 msgstr ""
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:308
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:311
 #, kde-format
 msgid "(Un)minimize running window on %1"
 msgstr ""
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:311
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:314
 #, kde-format
 msgid "Maximize/restore running window on %1"
 msgstr ""
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:314
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:317
 #, kde-format
 msgid "Toggle fullscreen for running window on %1"
 msgstr ""
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:317
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:320
 #, kde-format
 msgid "(Un)shade running window on %1"
 msgstr ""
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:320
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:323
 #, kde-format
 msgid "Toggle keep above for running window on %1"
 msgstr ""
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:323
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:326
 #, kde-format
 msgid "Toggle keep below running window on %1"
 msgstr ""
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:327
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:330
 #, kde-format
 msgid "Activate running window on %1"
 msgstr ""
@@ -2588,18 +2588,18 @@ msgstr "Lonut bajil čállinbeavdái"
 msgid "Switch One Desktop Down"
 msgstr "Lonut vuolil čállinbeavdái"
 
-#: virtualdesktops.cpp:903
+#: virtualdesktops.cpp:893
 #, kde-format
 msgid "Switch to Desktop %1"
 msgstr ""
 
-#: window.cpp:3474
+#: window.cpp:3425
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr ""
 
-#: workspace.cpp:1476
+#: workspace.cpp:1453
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

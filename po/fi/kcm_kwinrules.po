@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the kde-workspace package.
 # Ilpo Kantonen <ilpo@iki.fi>, 2004, 2005.
 # Teemu Rytilahti <teemu.rytilahti@kde-fi.org>, 2008.
-# Tommi Nieminen <translator@legisign.org>, 2009, 2011, 2012, 2017, 2018, 2019, 2020, 2021.
+# Tommi Nieminen <translator@legisign.org>, 2009, 2011, 2012, 2017, 2018, 2019, 2020, 2021, 2022.
 # Jorma Karvonen <karvonen.jorma@gmail.com>, 2010.
 # Lasse Liehu <lliehu@kolumbus.fi>, 2011, 2012, 2013, 2014, 2015, 2016.
 #
@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-04-18 00:45+0000\n"
-"PO-Revision-Date: 2021-09-05 10:46+0300\n"
+"PO-Revision-Date: 2022-04-19 18:33+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -793,10 +793,9 @@ msgid "Block compositing"
 msgstr "Estä koostaminen"
 
 #: rulesmodel.cpp:727
-#, fuzzy, kde-format
-#| msgid "Window types"
+#, kde-format
 msgid "All Window Types"
-msgstr "Ikkunatyypit"
+msgstr "Kaikki ikkunatyypit"
 
 #: rulesmodel.cpp:728
 #, kde-format
@@ -858,7 +857,7 @@ msgstr "Kaikki työpöydät"
 #, kde-format
 msgctxt "@info:tooltip in the virtual desktop list"
 msgid "Make the window available on all desktops"
-msgstr ""
+msgstr "Aseta saataville kaikilta työpöydiltä"
 
 #: rulesmodel.cpp:769
 #, kde-format
@@ -869,7 +868,7 @@ msgstr "Kaikki aktiviteetit"
 #, kde-format
 msgctxt "@info:tooltip in the activity list"
 msgid "Make the window available on all activities"
-msgstr ""
+msgstr "Aseta saataville kaikista aktiviteeteista"
 
 #: rulesmodel.cpp:792
 #, kde-format

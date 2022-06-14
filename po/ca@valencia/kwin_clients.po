@@ -74,7 +74,7 @@ msgstr "Mida dels botons:"
 #: aurorae/themes/plastik/package/contents/ui/config.ui:14
 #, kde-format
 msgid "Config Dialog"
-msgstr "Diàleg de configuració"
+msgstr "Diàlec de configuració"
 
 #. i18n: ectx: property (title), widget (KButtonGroup, titleAlign)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:23

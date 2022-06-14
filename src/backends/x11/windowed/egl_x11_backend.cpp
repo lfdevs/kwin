@@ -44,11 +44,12 @@ OutputLayerBeginFrameInfo EglX11Output::beginFrame()
     };
 }
 
-void EglX11Output::endFrame(const QRegion &renderedRegion, const QRegion &damagedRegion)
+bool EglX11Output::endFrame(const QRegion &renderedRegion, const QRegion &damagedRegion)
 {
     Q_UNUSED(renderedRegion)
     m_lastDamage = damagedRegion;
     GLFramebuffer::popFramebuffer();
+    return true;
 }
 
 EGLSurface EglX11Output::surface() const
@@ -102,6 +103,8 @@ bool EglX11Backend::createSurfaces()
 
 void EglX11Backend::present(Output *output)
 {
+    static_cast<X11WindowedOutput *>(output)->vsyncMonitor()->arm();
+
     const auto &renderOutput = m_outputs[output];
     presentSurface(renderOutput->surface(), renderOutput->lastDamage(), output->geometry());
 }

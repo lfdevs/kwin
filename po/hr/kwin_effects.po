@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-05-14 00:46+0000\n"
+"POT-Creation-Date: 2022-06-07 03:05+0000\n"
 "PO-Revision-Date: 2011-07-12 17:50+0200\n"
 "Last-Translator: Marko Dimjašević <marko@dimjasevic.net>\n"
 "Language-Team: Croatian <kde-croatia-list@lists.sourceforge.net>\n"
@@ -620,7 +620,7 @@ msgstr "Radna površina"
 msgid "Search..."
 msgstr ""
 
-#: private/qml/WindowHeap.qml:171
+#: private/qml/WindowHeap.qml:231
 #, kde-format
 msgid "Drag Down To Close"
 msgstr ""
@@ -984,12 +984,12 @@ msgstr "Odvojeni izbornici:"
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Uključi prisutne prozore (trenutna radna površina)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:71
+#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:66
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Uključi prisutne prozore (sve radne površine)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:86
+#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:76
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Uključi prisutne prozore (klase prozora)"
@@ -1000,12 +1000,12 @@ msgstr "Uključi prisutne prozore (klase prozora)"
 msgid "Ignore &minimized windows"
 msgstr "Zanemari spušte&ne prozore"
 
-#: windowview/qml/main.qml:132
+#: windowview/qml/main.qml:137
 #, kde-format
 msgid "No Matches"
 msgstr ""
 
-#: windowview/qml/main.qml:132
+#: windowview/qml/main.qml:137
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "No Windows"

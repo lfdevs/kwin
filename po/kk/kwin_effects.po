@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-05-14 00:46+0000\n"
+"POT-Creation-Date: 2022-06-07 03:05+0000\n"
 "PO-Revision-Date: 2013-09-30 00:41+0600\n"
 "Last-Translator: Sairan Kikkarin <sairan@computer.org>\n"
 "Language-Team: Kazakh <kde-i18n-doc@kde.org>\n"
@@ -599,7 +599,7 @@ msgstr "Үстел"
 msgid "Search..."
 msgstr ""
 
-#: private/qml/WindowHeap.qml:171
+#: private/qml/WindowHeap.qml:231
 #, kde-format
 msgid "Drag Down To Close"
 msgstr ""
@@ -961,12 +961,12 @@ msgstr "Тармақты мәзірллер:"
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "'Терезелерді көрсету' күйін терістеу (незардағы терезе үшін)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:71
+#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:66
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "'Терезелерді көрсету' күйін терістеу (барлық терезе үшін)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:86
+#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:76
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "'Терезелерді көрсету' күйін терістеу (терезе класы үшін)"
@@ -977,12 +977,12 @@ msgstr "'Терезелерді көрсету' күйін терістеу (т�
 msgid "Ignore &minimized windows"
 msgstr "&Түйіп қойған терезелерді елемеу"
 
-#: windowview/qml/main.qml:132
+#: windowview/qml/main.qml:137
 #, kde-format
 msgid "No Matches"
 msgstr ""
 
-#: windowview/qml/main.qml:132
+#: windowview/qml/main.qml:137
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "No Windows"

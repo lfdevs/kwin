@@ -43,15 +43,15 @@
 </authorgroup>
 
 <date
->14 июля 2015 г.</date>
+>09 апреля 2021 г.</date>
 <releaseinfo
->Plasma 5.3</releaseinfo>
+>Plasma 5.20</releaseinfo>
 
 <keywordset>
 <keyword
 >KDE</keyword>
 <keyword
->KControl</keyword>
+>параметры системы</keyword>
 <keyword
 >параметры системы</keyword>
 <keyword
@@ -88,14 +88,12 @@
 >. Вкладка <guilabel
 >Дополнительно</guilabel
 > предназначена для настройки специальных параметров, таких как <quote
->группировка окон</quote
-> и <quote
 >свёртывание в заголовок</quote
 >. </para>
 
 <note>
 <para
->Параметры, заданные в данном модуле, применяются только к диспетчеру окон &kwin; — стандартному диспетчеру окон &kde;. Если используется другой диспетчер, следует изучить его документацию, чтобы узнать, как настроить поведение окон. </para>
+>Параметры, заданные в данном модуле, применяются только к диспетчеру окон &kwin; — стандартному диспетчеру окон &plasma;. Если используется другой диспетчер, следует изучить его документацию, чтобы узнать, как настроить поведение окон. </para>
 </note>
 
 <sect2 id="action-focus">
@@ -116,10 +114,10 @@
 
 <sect3 id="action-focus-focuspolicy">
 <title
->Режимы смены фокуса</title>
+>Настройка активации окон</title>
 
 <para
->В &kde; существует шесть режимов смены фокуса: </para>
+>В &kwin; существует шесть режимов смены фокуса: </para>
 
 <variablelist>
 <varlistentry>
@@ -311,7 +309,7 @@
 <para
 >В режиме смены фокуса по наведению возможно использование функции автоматического выдвижения. При выборе параметра <guilabel
 >Выдвигать при наведении, с задержкой</guilabel
-> &kde; выводит окно на передний план, если указатель мыши находится над окном в течение определённого времени. Интервал задержки выдвижения окна задаётся при помощи соответствующего поля. </para>
+> &kwin; выводит окно на передний план, если указатель мыши находится над окном в течение определённого времени. Интервал задержки выдвижения окна задаётся при помощи соответствующего поля. </para>
 
 <tip>
 <para
@@ -354,7 +352,7 @@
 <para
 >При выборе варианта <guilabel
 >Распахнуть</guilabel
-> &kde; разворачивает окно на весь экран по двойному щелчку кнопкой мыши по строке заголовка. Можно также задать разворачивание окон только по горизонтали или по вертикали.</para>
+> &kwin; разворачивает окно на весь экран по двойному щелчку кнопкой мыши по строке заголовка. Можно также задать разворачивание окон только по горизонтали или по вертикали.</para>
 
 <para
 >Вариант <guilabel
@@ -363,16 +361,16 @@
 
 <para
 >Аналогично настраивается параметр <guilabel
->Действие колеса</guilabel
+>Колесо мыши</guilabel
 >. </para>
-<!--FIXME Raise/Lower Shade/Unshade Maximize/Restore Keep Above/Below Move to Previous/Next Desktop Change Opacity  Switch to Window Tab to the Left/Reght -->
+<!--FIXME Raise/Lower Shade/Unshade Maximize/Restore Keep Above/Below Move to Previous/Next Desktop Change Opacity -->
 
 <tip>
 <para
->Окна могут автоматически разворачиваться при наведении указателя мыши на свёрнутый заголовок. Для этого во вкладке <guilabel
+>Окна могут автоматически разворачиваться при наведении указателя мыши на свёрнутый заголовок. Для этого на вкладке <guilabel
 >Дополнительно</guilabel
-> нужно отметить флажком параметр <guilabel
->Разворачивать из заголовка мышью</guilabel
+> следует установить флажок <guilabel
+>Разворачивать окно из заголовка</guilabel
 >. </para>
 </tip>
 
@@ -381,7 +379,7 @@
 <sect3 id="action-actions-sec2">
 <title
 ><guilabel
->Заголовок и рамка</guilabel
+>Действия заголовка и границы окна</guilabel
 ></title>
 
 <para
@@ -428,13 +426,13 @@
 </varlistentry>
 
 <!--FIXME missing:
-Minimize, Shade, Close, Start Window Tab Drag
+Minimize, Shade, Close
 -->
 
 <varlistentry>
 <term
 ><guilabel
->Ничего</guilabel
+>Ничего не делать</guilabel
 ></term>
 <listitem>
 <para
@@ -445,7 +443,7 @@ Minimize, Shade, Close, Start Window Tab Drag
 <varlistentry>
 <term
 ><guilabel
->Меню операций</guilabel
+>Показать меню действий</guilabel
 ></term>
 <listitem>
 <para
@@ -459,7 +457,7 @@ Minimize, Shade, Close, Start Window Tab Drag
 <sect3 id="action-actions-maximize-button">
 <title
 ><guilabel
->Кнопка разворачивания</guilabel
+>Действия кнопки разворачивания</guilabel
 ></title>
 <para
 >Этот раздел служит для назначения действий, выполняемых при нажатии на кнопку разворачивания окна различными кнопками мыши. Возможно разворачивание окна только по горизонтали, только по вертикали или сразу в обоих направлениях. </para>
@@ -527,9 +525,46 @@ Minimize, Shade, Close, Start Window Tab Drag
 >Окно становится активным и выдвигается на передний план, а нажатие кнопки мыши не передаётся в приложение внутри этого окна. </para>
 </listitem>
 </varlistentry>
+</variablelist>
 
-<!--FIXME Wheel Scroll, Activate & Scroll, Activate, Raise & Scroll-->
+<para
+>Для параметра <guilabel
+>Колесо мыши</guilabel
+> возможны следующие варианты: </para>
 
+<variablelist>
+<varlistentry>
+<term
+><guilabel
+>Прокрутка в окне</guilabel
+></term>
+<listitem>
+<para
+>Прокрутка содержимого внутри окна. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Передать фокус и прокрутить в окне</guilabel
+></term>
+<listitem>
+<para
+>Окно, по которому был сделан щелчок, становится активным, и выполняется прокрутка содержимого внутри окна. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Передать фокус, выдвинуть и прокрутить в окне</guilabel
+></term>
+<listitem>
+<para
+>Окно, по которому был сделан щелчок, становится активным, выдвигается на передний план, и выполняется прокрутка содержимого внутри окна. </para>
+</listitem>
+</varlistentry>
 </variablelist>
 </sect3>
 
@@ -540,7 +575,7 @@ Minimize, Shade, Close, Start Window Tab Drag
 ></title>
 
 <para
->Этот раздел служит для назначения дополнительных действий, выполняемых при щелчке по окну различными кнопками мыши при нажатой дополнительной клавише клавиатуры (по умолчанию это клавиша &Alt;).</para>
+>Этот раздел служит для назначения дополнительных действий, выполняемых при щелчке по окну различными кнопками мыши при нажатой дополнительной клавише клавиатуры (по умолчанию это клавиша &Meta;).</para>
 
 <para
 >Как в и предыдущем разделе, действия раздельно назначаются для <mousebutton
@@ -644,7 +679,7 @@ Increase Opacity + Decrease Opacity
 <!--FIXME
 Mouse Wheel has different choices:
 Raise/Lower, Shade/Unshade, Maximize/Restore, Keep Above/Below, 
-Move to Previous/Next Desktop, Change Opacity, Switch to Window Tab to the Left/Right
+Move to Previous/Next Desktop, Change Opacity
 Nothing
 -->
 
@@ -656,19 +691,20 @@ Nothing
 <title
 >Перемещение</title>
 
+<para
+>Вкладка содержит параметры отображения окон на экране во время их перемещения.</para>
+
 <sect3>
 <title
 ><guilabel
->Окно</guilabel
+>Геометрия окна</guilabel
 ></title>
-<para
->Вкладка содержит параметры отображения окон на экране во время их перемещения.</para>
 
 <variablelist>
 <varlistentry>
 <term
 ><guilabel
->Показывать геометрию окна при перемещении или изменении размера</guilabel
+>Показывать при перемещении или изменении размера</guilabel
 ></term>
 <listitem>
 <para
@@ -731,7 +767,7 @@ Nothing
 <varlistentry>
 <term
 ><guilabel
->Привязывать окна, только если они перекрываются</guilabel
+>Привязывать окна: Только при перекрытии</guilabel
 ></term>
 <listitem>
 
@@ -755,12 +791,12 @@ Nothing
 
 <variablelist>
 <title
->Свёртывание в заголовок</title>
+>Разворачивать окно из заголовка</title>
 
 <varlistentry>
 <term
 ><guilabel
->Разворачивать из заголовка мышью</guilabel
+>После наведения курсора, с задержкой</guilabel
 ></term>
 <listitem>
 <para
@@ -770,30 +806,6 @@ Nothing
 </variablelist>
 
 <variablelist>
-<title
->Группировка окон</title>
-
-<varlistentry>
-<term
-><guilabel
->Автоматически группировать похожие окна</guilabel
-></term>
-<listitem
-><para
->Если параметр включен, то при открытии нового окна будет проверяться, связано ли такое окно с другими существующими окнами. Если новое окно связано с существующим, то такие окна будут объединены в группу.</para
-></listitem>
-</varlistentry>
-
-<varlistentry>
-<term
-><guilabel
->Автоматически переключаться на новое окно в группе</guilabel
-></term>
-<listitem
-><para
->При включении этого параметра происходит автоматическое переключение на новое окно, добавленное в группу.</para
-></listitem>
-</varlistentry>
 
 <varlistentry>
 <term
@@ -803,7 +815,7 @@ Nothing
 <listitem
 ><para
 >Возможны следующие варианты размещения нового окна на рабочем столе: <guilabel
->Оптимальное</guilabel
+>С минимальным перекрытием</guilabel
 > — допускается минимальное перекрытие окон; <guilabel
 >Каскадом</guilabel
 > — окна располагаются каскадом; <guilabel
@@ -812,7 +824,9 @@ Nothing
 >По центру</guilabel
 > — все новые окна располагаются в центре экрана; <guilabel
 >В левом верхнем углу</guilabel
-> — все окна открываются в верхнем левом углу экрана.</para
+> — все окна открываются в верхнем левом углу экрана. Установите флажок <guilabel
+>Разрешить сохранять геометрию окон приложениям, поддерживающим эту функцию</guilabel
+> для сохранения данных о положении окон &plasma;.</para
 ></listitem>
 </varlistentry>
 

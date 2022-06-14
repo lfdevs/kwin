@@ -108,7 +108,7 @@ Q_SIGNALS:
         QSignalSpy lockStateChangedSpy(ScreenLocker::KSldApp::self(), &ScreenLocker::KSldApp::lockStateChanged); \
         QVERIFY(lockStateChangedSpy.isValid());                                                                  \
         ScreenLocker::KSldApp::self()->lock(ScreenLocker::EstablishLock::Immediate);                             \
-        QCOMPARE(lockStateChangedSpy.count(), 1);                                                                \
+        QTRY_COMPARE(ScreenLocker::KSldApp::self()->lockState(), ScreenLocker::KSldApp::Locked);                 \
         QVERIFY(waylandServer()->isScreenLocked());                                                              \
     } while (false)
 
@@ -176,6 +176,8 @@ Window *LockScreenTest::showWindow()
 void LockScreenTest::initTestCase()
 {
     qRegisterMetaType<KWin::Window *>();
+    qRegisterMetaType<KWin::ElectricBorder>("ElectricBorder");
+
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(applicationStartedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));

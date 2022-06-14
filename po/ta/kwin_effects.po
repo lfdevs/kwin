@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: கேபசூ 4.1 தமிழாக்கம்\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-05-14 00:46+0000\n"
-"PO-Revision-Date: 2022-01-23 17:37+0530\n"
+"POT-Creation-Date: 2022-06-07 03:05+0000\n"
+"PO-Revision-Date: 2022-06-04 21:11+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 21.12.1\n"
+"X-Generator: Lokalize 22.04.1\n"
 
 #. i18n: ectx: property (text), widget (QLabel, labelConstantBlurDescription)
 #: blur/blur_config.ui:17
@@ -178,17 +178,16 @@ msgstr "பணிமேடைகளின் எண்ணிக்கையை �
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: desktopgrid/desktopgrid_config.ui:123
-#, fuzzy, kde-format
-#| msgid "&Layout mode:"
+#, kde-format
 msgid "&Grid layout mode:"
-msgstr "&தளவமைக்கும் முறை:"
+msgstr "&கிரிடை தளவமைக்கும் முறை:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
 #: desktopgrid/desktopgrid_config.ui:137 overview/kcm/overvieweffectkcm.ui:30
 #: windowview/kcm/windowvieweffectkcm.ui:30
 #, kde-format
 msgid "Closest"
-msgstr ""
+msgstr "பக்கத்து பக்கத்தில்"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
 #: desktopgrid/desktopgrid_config.ui:142 overview/kcm/overvieweffectkcm.ui:35
@@ -199,10 +198,9 @@ msgstr "இயல்பானது"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: desktopgrid/desktopgrid_config.ui:150
-#, fuzzy, kde-format
-#| msgid "Windows"
+#, kde-format
 msgid "Windows layout:"
-msgstr "சாளரங்கள்"
+msgstr "சாளரங்களின் தளவமைப்பு:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: desktopgrid/desktopgrid_config.ui:166
@@ -453,7 +451,7 @@ msgstr " பிக்செல்"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RingLife)
 #: mouseclick/mouseclick_config.ui:132
-#, fuzzy, kde-format
+#, kde-format
 msgid " msec"
 msgstr " மிநொ"
 
@@ -555,31 +553,29 @@ msgstr "பின்புலத்தை மங்கலாக்கு:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: overview/kcm/overvieweffectkcm.ui:70
-#, fuzzy, kde-format
-#| msgid "Ignore &minimized windows"
+#, kde-format
 msgid "Ignore minimized windows:"
-msgstr "&ஒதுக்கப்பட்ட சாளரங்களை பொருட்படுத்தாதே"
+msgstr "ஒதுக்கப்பட்ட சாளரங்களை பொருட்படுத்தாதே:"
 
 #: overview/qml/DesktopBar.qml:188
 #, kde-format
 msgid "Delete virtual desktop"
-msgstr ""
+msgstr "மெய்நிகர் பணிமேடையே நீக்கு"
 
 #: overview/qml/DesktopBar.qml:278
-#, fuzzy, kde-format
-#| msgid "Desktop"
+#, kde-format
 msgid "Add Desktop"
-msgstr "பணிமேடை"
+msgstr "பணிமேடையை சேர்"
 
 #: overview/qml/ScreenView.qml:169
 #, kde-format
 msgid "Search..."
-msgstr ""
+msgstr "தேடு..."
 
-#: private/qml/WindowHeap.qml:171
+#: private/qml/WindowHeap.qml:231
 #, kde-format
 msgid "Drag Down To Close"
-msgstr ""
+msgstr "மூடு கீழே இழுங்கள்"
 
 #. i18n: ectx: property (text), widget (QLabel, label_InScale)
 #: scale/package/contents/ui/config.ui:46
@@ -695,18 +691,17 @@ msgstr "உரையின் ஒளிபுகாமை:"
 #: showfps/showfps_config.ui:154
 #, kde-format
 msgid "Show graph:"
-msgstr ""
+msgstr "வரைபடத்தை காட்டு:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowGraph)
 #: showfps/showfps_config.ui:167
 #, kde-format
 msgid "Show on active screen"
-msgstr ""
+msgstr "செயலிலுள்ள திரையில் காட்டு"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: showfps/showfps_config.ui:174
-#, fuzzy, kde-format
-#| msgid "Show Text:"
+#, kde-format
 msgid "Show Message:"
 msgstr "உரையை காட்டு:"
 
@@ -720,19 +715,18 @@ msgstr ""
 #: showfps/showfps_config.ui:194
 #, kde-format
 msgid "Colorize Text:"
-msgstr ""
+msgstr "உரைக்கு நிறமிடு:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ColorizeText)
 #: showfps/showfps_config.ui:207
 #, kde-format
 msgid "Color text by value (green > yellow > red)"
-msgstr ""
+msgstr "உரைக்கு மதிப்பின் அடிப்படையில் நிறமிடு (பச்சை > மஞ்சள் > சிவப்பு)"
 
 #: showpaint/showpaint.cpp:38 showpaint/showpaint_config.cpp:38
-#, fuzzy, kde-format
-#| msgid "Show Desktop Grid"
+#, kde-format
 msgid "Toggle Show Paint"
-msgstr "பணிமேசை தடுப்பினை காட்டுக"
+msgstr "திரைப்புதுப்பிபுகளைக் காட்டுவதை இயக்கு/முடக்கு"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_Gaps)
 #: slide/slide_config.ui:17
@@ -760,9 +754,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideBackground)
 #: slide/slide_config.ui:79
-#, kde-format
+#, fuzzy, kde-format
 msgid "Slide desktop background"
-msgstr ""
+msgstr "பின்புலப்படத்தை "
 
 #: thumbnailaside/thumbnailaside.cpp:29
 #: thumbnailaside/thumbnailaside_config.cpp:61
@@ -936,12 +930,12 @@ msgstr "பிரித்தெடுத்த பட்டிகள்:"
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "சாளர முன்வைப்பை காட்டு/மறை (தற்போதைய பணிமேடை)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:71
+#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:66
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "சாளர முன்வைப்பை காட்டு/மறை (எல்லா பணிமேடைகளும்)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:86
+#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:76
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "சாளர முன்வைப்பை காட்டு/மறை (சாளர வகையை பொறுத்து)"
@@ -952,16 +946,15 @@ msgstr "சாளர முன்வைப்பை காட்டு/மறை
 msgid "Ignore &minimized windows"
 msgstr "&ஒதுக்கப்பட்ட சாளரங்களை பொருட்படுத்தாதே"
 
-#: windowview/qml/main.qml:132
+#: windowview/qml/main.qml:137
 #, kde-format
 msgid "No Matches"
-msgstr ""
+msgstr "பொருத்தங்கள் இல்லை"
 
-#: windowview/qml/main.qml:132
-#, fuzzy, kde-format
-#| msgid "Windows"
+#: windowview/qml/main.qml:137
+#, kde-format
 msgid "No Windows"
-msgstr "சாளரங்கள்"
+msgstr "சாளரங்கள் இல்லை"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20

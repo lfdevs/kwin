@@ -32,10 +32,10 @@ msgid ""
 "immediate crash!"
 msgstr ""
 "La composició OpenGL (per defecte) ha trencat KWin en el passat.\n"
-"Probablement era degut a una fallada en el controlador.\n"
-"Si penseu que mentrestant l'heu actualitzat a un controlador estable, podeu "
-"reiniciar esta protecció però sent conscient que podria produir-se una "
-"fallada immediata!"
+"Probablement era degut a un fallo en el controlador.\n"
+"Si penseu que mentrestant l'heu actualisat a un controlador estable, podeu "
+"reiniciar esta protecció pero sent conscient que podria produir-se un fallo "
+"immediata!"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, scaleWarning)
 #: compositing.ui:44
@@ -55,8 +55,8 @@ msgid ""
 "windows. This can result in windows not suspending their work when minimized."
 msgstr ""
 "Mantindre la miniatura de la finestra sempre interfereix amb l'estat "
-"minimitzat de les finestres. Açò pot resultar en finestres que no suspenen "
-"el seu treball quan es minimitzen."
+"minimisat de les finestres. Açò pot resultar en finestres que no suspenen el "
+"seu treball quan es minimisen."
 
 #. i18n: ectx: property (text), widget (QLabel, compositingLabel)
 #: compositing.ui:79
@@ -117,7 +117,7 @@ msgstr "Mètode d'escala:"
 #: compositing.ui:184
 #, kde-format
 msgid "Smooth"
-msgstr "Suavitzat"
+msgstr "Suavisat"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_glTextureFilter)
 #: compositing.ui:189
@@ -153,13 +153,13 @@ msgstr "Repinta tota la pantalla"
 #: compositing.ui:222
 #, kde-format
 msgid "Re-use screen content"
-msgstr "Torna a utilitzar el contingut de la pantalla"
+msgstr "Torna a utilisar el contingut de la pantalla"
 
 #. i18n: ectx: property (text), widget (QLabel, label_HiddenPreviews)
 #: compositing.ui:230
 #, kde-format
 msgid "Keep window thumbnails:"
-msgstr "Mantín les miniatures de les finestres:"
+msgstr "Mantin les miniatures de les finestres:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_HiddenPreviews)
 #: compositing.ui:238
@@ -171,7 +171,7 @@ msgstr "Mai"
 #: compositing.ui:243
 #, kde-format
 msgid "Only for Shown Windows"
-msgstr "Només per a les finestres visualitzades"
+msgstr "Només per a les finestres visualisades"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_HiddenPreviews)
 #: compositing.ui:248
@@ -226,7 +226,7 @@ msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
 "video."
 msgstr ""
-"«Només quan siga econòmic» només prevé el parpelleig dels canvis a pantalla "
+"«Només quan siga econòmic» només prevé el parpalleig dels canvis a pantalla "
 "completa, com un vídeo."
 
 #: main.cpp:134
@@ -239,5 +239,5 @@ msgstr "«Repinta tota la pantalla» pot causar problemes de rendiment."
 msgid ""
 "\"Re-use screen content\" causes severe performance problems on MESA drivers."
 msgstr ""
-"«Torna a utilitzar el contingut de la pantalla» causa greus problemes de "
+"«Torna a utilisar el contingut de la pantalla» causa greus problemes de "
 "rendiment amb els controladors de MESA."

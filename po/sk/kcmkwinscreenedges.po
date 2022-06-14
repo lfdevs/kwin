@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-05-12 00:46+0000\n"
-"PO-Revision-Date: 2022-05-16 18:23+0200\n"
+"PO-Revision-Date: 2022-05-28 15:46+0200\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
 "Language: sk\n"
@@ -150,7 +150,7 @@ msgstr "%"
 #: main.ui:133
 #, kde-format
 msgid "Outer "
-msgstr "Vonkajší"
+msgstr "Vonkajších "
 
 #. i18n: ectx: property (text), widget (QLabel, label_1)
 #: main.ui:149

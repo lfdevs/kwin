@@ -60,4 +60,4 @@ msgstr "L'script «%1» s'ha importat correctament."
 #: module.cpp:146
 #, kde-format
 msgid "Error when uninstalling KWin Script: %1"
-msgstr "S'ha produït un error en desinstal·lar l'Script de KWin: %1"
+msgstr "S'ha produït un error en desinstalar l'Script de KWin: %1"

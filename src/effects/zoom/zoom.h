@@ -24,7 +24,9 @@ namespace KWin
 class ZoomAccessibilityIntegration;
 #endif
 
+class GLFramebuffer;
 class GLTexture;
+class GLVertexBuffer;
 
 class ZoomEffect
     : public Effect
@@ -46,6 +48,7 @@ public:
     void paintScreen(int mask, const QRegion &region, ScreenPaintData &data) override;
     void postPaintScreen() override;
     bool isActive() const override;
+    int requestedEffectChainPosition() const override;
     // for properties
     qreal configuredZoomFactor() const
     {
@@ -93,6 +96,7 @@ private Q_SLOTS:
                           Qt::MouseButtons buttons, Qt::MouseButtons oldbuttons,
                           Qt::KeyboardModifiers modifiers, Qt::KeyboardModifiers oldmodifiers);
     void slotWindowDamaged();
+    void slotScreenRemoved(EffectScreen *screen);
 
 private:
     void showCursor();
@@ -100,7 +104,16 @@ private:
     void moveZoom(int x, int y);
 
 private:
+    struct OffscreenData
+    {
+        QScopedPointer<GLTexture> texture;
+        QScopedPointer<GLFramebuffer> framebuffer;
+        QScopedPointer<GLVertexBuffer> vbo;
+        QRect viewport;
+    };
+
     GLTexture *ensureCursorTexture();
+    OffscreenData *ensureOffscreenData(EffectScreen *screen);
     void markCursorTextureDirty();
 
 #if HAVE_ACCESSIBILITY
@@ -137,6 +150,7 @@ private:
     int xMove, yMove;
     double moveFactor;
     std::chrono::milliseconds lastPresentTime;
+    QHash<EffectScreen *, OffscreenData *> m_offscreenData;
 };
 
 } // namespace

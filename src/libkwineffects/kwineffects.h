@@ -1980,6 +1980,9 @@ public:
      */
     virtual QRect geometry() const = 0;
 
+    Q_INVOKABLE QPointF mapToGlobal(const QPointF &pos) const;
+    Q_INVOKABLE QPointF mapFromGlobal(const QPointF &pos) const;
+
     /**
      * Returns the screen's refresh rate in milli-hertz.
      */
@@ -3807,15 +3810,9 @@ public:
     qreal value() const;
 
     /**
-     * Updates the progress of the timeline.
-     *
-     * @note The delta value should be a non-negative number, i.e. it
-     * should be greater or equal to 0.
-     *
-     * @param delta The number milliseconds passed since last frame
-     * @since 5.14
+     * Advances the timeline to the specified @a timestamp.
      */
-    void update(std::chrono::milliseconds delta);
+    void advance(std::chrono::milliseconds timestamp);
 
     /**
      * Returns the number of elapsed milliseconds.

@@ -57,11 +57,11 @@ msgid ""
 "manager. If you do use a different window manager, please refer to its "
 "documentation for how to customize window behavior.</p>"
 msgstr ""
-"<p><h1>Valors específics de la finestra</h1> Ací podeu personalitzar valors "
+"<p><h1>Valors específics de la finestra</h1> Ací podeu personalisar valors "
 "de la finestra específicament per a només algunes finestres.</p><p>Recordeu "
-"que esta configuració no tindrà efecte si no utilitzeu KWin com a gestor de "
-"finestres. Si utilitzeu un gestor de finestres diferent, consulteu a la "
-"documentació la manera de personalitzar el comportament de la finestra.</p>"
+"que esta configuració no tindrà efecte si no utiliseu KWin com a gestor de "
+"finestres. Si utiliseu un gestor de finestres diferent, consulteu a la "
+"documentació la manera de personalisar el comportament de la finestra.</p>"
 
 #: kcmrules.cpp:243
 #, kde-format
@@ -188,7 +188,7 @@ msgid ""
 "for it will be used.\n"
 "Specifying this will block more generic window settings from taking effect."
 msgstr ""
-"La propietat de la finestra no es vorà afectada i per tant s'utilitzarà la "
+"La propietat de la finestra no es vorà afectada i per tant s'utilisarà la "
 "gestió predeterminada per a ella.\n"
 "En especificar açò, es blocaran que tinguen efecte les opcions més "
 "genèriques de finestra."
@@ -214,7 +214,7 @@ msgid ""
 "The window property will be forced to the given value until it is hidden\n"
 "(this action will be deleted after the window is hidden)."
 msgstr ""
-"La propietat de la finestra es forçarà al valor indicat fins que s'oculti\n"
+"La propietat de la finestra es forçarà al valor indicat fins que s'oculte\n"
 "(esta acció se suprimirà després d'ocultar la finestra)."
 
 #: package/contents/ui/FileDialogLoader.qml:14
@@ -374,7 +374,7 @@ msgstr "Importa..."
 #: package/contents/ui/RulesList.qml:116
 #, kde-format
 msgid "Cancel Export"
-msgstr "Cancel·la l'exportació"
+msgstr "Cancela l'exportació"
 
 #: package/contents/ui/RulesList.qml:116
 #, kde-format
@@ -394,7 +394,7 @@ msgstr "Duplica"
 #: package/contents/ui/RulesList.qml:224
 #, kde-format
 msgid "Delete"
-msgstr "Suprimeix"
+msgstr "Suprimix"
 
 #: package/contents/ui/RulesList.qml:237
 #, kde-format
@@ -444,7 +444,7 @@ msgid ""
 "initial settings for size and position. To enforce these settings, also "
 "force the property \"%1\" to \"Yes\"."
 msgstr ""
-"Diverses aplicacions defineixen la seua pròpia geometria després d'iniciar-"
+"Diverses aplicacions definixen la seua pròpia geometria després d'iniciar-"
 "se, substituint la vostra configuració inicial de mida i posició. Per a "
 "forçar esta configuració, forceu també la propietat «%1» a «Sí»."
 
@@ -467,7 +467,7 @@ msgstr "Classe de finestra (aplicació)"
 #: rulesmodel.cpp:375
 #, kde-format
 msgid "Match whole window class"
-msgstr "Coincideix amb la classe de finestra completa"
+msgstr "Coincidix amb la classe de finestra completa"
 
 #: rulesmodel.cpp:382
 #, kde-format
@@ -515,12 +515,12 @@ msgstr "Mida"
 #: rulesmodel.cpp:425
 #, kde-format
 msgid "Maximized horizontally"
-msgstr "Maximitzada horitzontalment"
+msgstr "Maximisada horisontalment"
 
 #: rulesmodel.cpp:430
 #, kde-format
 msgid "Maximized vertically"
-msgstr "Maximitzada verticalment"
+msgstr "Maximisada verticalment"
 
 #: rulesmodel.cpp:438
 #, kde-format
@@ -550,7 +550,7 @@ msgstr "Pantalla completa"
 #: rulesmodel.cpp:489
 #, kde-format
 msgid "Minimized"
-msgstr "Minimitzada"
+msgstr "Minimisada"
 
 #: rulesmodel.cpp:494
 #, kde-format
@@ -575,8 +575,8 @@ msgid ""
 "what might be nasty if the client abuses the feature\n"
 "to unconditionally popup in the middle of your screen."
 msgstr ""
-"Les finestres poden sol·licitar que apareguen en una posició determinada.\n"
-"Per defecte, açò substitueix l'estratègia d'emplaçament\n"
+"Les finestres poden solicitar que apareguen en una posició determinada.\n"
+"De manera predeterminada, açò substituïx l'estratègia d'emplaçament\n"
 "que pot ser desagradable si el client abusa de la funcionalitat\n"
 "d'emergir incondicionalment en el mig de la pantalla."
 
@@ -604,8 +604,7 @@ msgid ""
 "This may be pointless and the restriction prevents arbitrary dimensions\n"
 "like your complete screen area."
 msgstr ""
-"P. ex. els terminals o els reproductors de vídeo poden sol·licitar "
-"mantindre\n"
+"P. ex. els terminals o els reproductors de vídeo poden solicitar mantindre\n"
 "una certa relació d'aspecte, o créixer només per a valors superiors a un "
 "concret\n"
 "(p. ex. per a les dimensions d'un caràcter).\n"
@@ -615,18 +614,18 @@ msgstr ""
 #: rulesmodel.cpp:537
 #, kde-format
 msgid "Keep above other windows"
-msgstr "Mantín sobre les atres finestres"
+msgstr "Mantin sobre les atres finestres"
 
 #: rulesmodel.cpp:537 rulesmodel.cpp:542 rulesmodel.cpp:547 rulesmodel.cpp:553
 #: rulesmodel.cpp:559 rulesmodel.cpp:565
 #, kde-format
 msgid "Arrangement & Access"
-msgstr "Organització i accés"
+msgstr "Organisació i accés"
 
 #: rulesmodel.cpp:542
 #, kde-format
 msgid "Keep below other windows"
-msgstr "Mantín davall les atres finestres"
+msgstr "Mantin davall les atres finestres"
 
 #: rulesmodel.cpp:547
 #, kde-format
@@ -706,7 +705,7 @@ msgid ""
 msgstr ""
 "KWin intenta evitar que les finestres agafin el focus\n"
 "(«activar») mentre esteu treballant en una atra finestra,\n"
-"però açò a vegades pot fallar o sobreactuar.\n"
+"pero açò a vegades pot fallar o sobreactuar.\n"
 "«Cap» permetrà incondicionalment que esta finestra agafi el focus,\n"
 "mentre que «Extrem» evitarà completament que agafi el focus."
 
@@ -764,13 +763,13 @@ msgid ""
 "nor use any other global shortcut (such as Alt+F2 to show KRunner)\n"
 "while it's active!"
 msgstr ""
-"Quan s'utilitza, una finestra rebrà\n"
+"Quan s'utilisa, una finestra rebrà\n"
 "totes les entrades de teclat mentre siga activa, incloent-hi Alt+Tab, etc.\n"
 "Açò és interessant especialment per a emuladors o màquines virtuals.\n"
 "\n"
 "Avís:\n"
 "No podreu fer Alt+Tab fora de la finestra\n"
-"ni utilitzar cap atra drecera global (com Alt+F2 per a mostrar KRunner)\n"
+"ni utilisar cap atra drecera global (com Alt+F2 per a mostrar KRunner)\n"
 "mentre siga actiu!"
 
 #: rulesmodel.cpp:635
@@ -781,7 +780,7 @@ msgstr "Es pot tancar"
 #: rulesmodel.cpp:640
 #, kde-format
 msgid "Set window type"
-msgstr "Estableix el tipus de finestra"
+msgstr "Establix el tipus de finestra"
 
 #: rulesmodel.cpp:646
 #, kde-format
@@ -806,7 +805,7 @@ msgstr "Finestra normal"
 #: rulesmodel.cpp:729
 #, kde-format
 msgid "Dialog Window"
-msgstr "Finestra de diàleg"
+msgstr "Finestra de diàlec"
 
 #: rulesmodel.cpp:730
 #, kde-format
@@ -816,7 +815,7 @@ msgstr "Finestra d'utilitat"
 #: rulesmodel.cpp:731
 #, kde-format
 msgid "Dock (panel)"
-msgstr "Acoblador (quadre)"
+msgstr "Acoblador (quadro)"
 
 #: rulesmodel.cpp:732
 #, kde-format
@@ -847,7 +846,7 @@ msgstr "Barra de menús aïllada"
 #: rulesmodel.cpp:738
 #, kde-format
 msgid "On Screen Display"
-msgstr "Visualització en pantalla"
+msgstr "Visualisació en pantalla"
 
 #: rulesmodel.cpp:748
 #, kde-format
@@ -889,7 +888,7 @@ msgstr "Superposició mínima"
 #: rulesmodel.cpp:795
 #, kde-format
 msgid "Maximized"
-msgstr "Maximitzada"
+msgstr "Maximisada"
 
 #: rulesmodel.cpp:796
 #, kde-format

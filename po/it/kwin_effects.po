@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-05-14 00:46+0000\n"
-"PO-Revision-Date: 2022-05-07 01:58+0200\n"
+"POT-Creation-Date: 2022-06-07 03:05+0000\n"
+"PO-Revision-Date: 2022-05-09 01:07+0200\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -180,10 +180,9 @@ msgstr "Mostra i pulsanti per modificare il conteggio dei desktop virtuali"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: desktopgrid/desktopgrid_config.ui:123
-#, fuzzy, kde-format
-#| msgid "&Layout mode:"
+#, kde-format
 msgid "&Grid layout mode:"
-msgstr "Moda&lità di disposizione:"
+msgstr "Modalità di disposizione in &griglia:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
 #: desktopgrid/desktopgrid_config.ui:137 overview/kcm/overvieweffectkcm.ui:30
@@ -201,10 +200,9 @@ msgstr "Naturale"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: desktopgrid/desktopgrid_config.ui:150
-#, fuzzy, kde-format
-#| msgid "Windows"
+#, kde-format
 msgid "Windows layout:"
-msgstr "Finestre"
+msgstr "Disposizione delle finestre:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: desktopgrid/desktopgrid_config.ui:166
@@ -557,10 +555,9 @@ msgstr "Sfondo sfocato:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: overview/kcm/overvieweffectkcm.ui:70
-#, fuzzy, kde-format
-#| msgid "Ignore &minimized windows"
+#, kde-format
 msgid "Ignore minimized windows:"
-msgstr "Ignora finestre minimizzate"
+msgstr "Ignora le finestre minimizzate:"
 
 #: overview/qml/DesktopBar.qml:188
 #, kde-format
@@ -577,7 +574,7 @@ msgstr "Aggiungi desktop"
 msgid "Search..."
 msgstr "Cerca..."
 
-#: private/qml/WindowHeap.qml:171
+#: private/qml/WindowHeap.qml:231
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "Trascina verso il basso per chiudere"
@@ -935,12 +932,12 @@ msgstr "Menu staccati:"
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Attiva/disattiva presentazione delle finestre (Desktop attuale)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:71
+#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:66
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Attiva/disattiva presentazione delle finestre (Tutti i desktop)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:86
+#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:76
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Attiva/disattiva presentazione delle finestre (Classe di finestre)"
@@ -951,12 +948,12 @@ msgstr "Attiva/disattiva presentazione delle finestre (Classe di finestre)"
 msgid "Ignore &minimized windows"
 msgstr "Ignora finestre minimizzate"
 
-#: windowview/qml/main.qml:132
+#: windowview/qml/main.qml:137
 #, kde-format
 msgid "No Matches"
 msgstr "Nessuna corrispondenza"
 
-#: windowview/qml/main.qml:132
+#: windowview/qml/main.qml:137
 #, kde-format
 msgid "No Windows"
 msgstr "Nessuna finestra"

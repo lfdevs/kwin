@@ -10,15 +10,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-04-14 00:46+0000\n"
-"PO-Revision-Date: 2022-02-13 15:23+0100\n"
+"POT-Creation-Date: 2022-06-07 03:05+0000\n"
+"PO-Revision-Date: 2022-05-23 21:27+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
 "Language: nn\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 21.12.2\n"
+"X-Generator: Lokalize 22.04.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
@@ -59,22 +59,21 @@ msgstr ""
 "Vel stad å henta farge frå med venstreklikk eller «Enter».\n"
 "Høgreklikk eller trykk «Escape» for å avbryta."
 
-#: desktopgrid/desktopgrid.cpp:118 desktopgrid/desktopgrid_config.cpp:56
-#, kde-format
-msgid "Show Desktop Grid"
-msgstr "Vis skrivebordsoversikt"
-
 #: desktopgrid/desktopgrid_config.cpp:51 invert/invert_config.cpp:35
 #: lookingglass/lookingglass_config.cpp:55 magnifier/magnifier_config.cpp:57
 #: mouseclick/mouseclick_config.cpp:49 mousemark/mousemark_config.cpp:52
-#: overview/kcm/overvieweffectkcm.cpp:35
-#: presentwindows/presentwindows_config.cpp:50
-#: showpaint/showpaint_config.cpp:33
+#: overview/kcm/overvieweffectkcm.cpp:35 showpaint/showpaint_config.cpp:33
 #: thumbnailaside/thumbnailaside_config.cpp:56
-#: trackmouse/trackmouse_config.cpp:52 zoom/zoom_config.cpp:58
+#: trackmouse/trackmouse_config.cpp:52
+#: windowview/kcm/windowvieweffectkcm.cpp:35 zoom/zoom_config.cpp:58
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
+
+#: desktopgrid/desktopgrid_config.cpp:56 desktopgrid/desktopgrideffect.cpp:35
+#, kde-format
+msgid "Show Desktop Grid"
+msgstr "Vis skrivebordsoversikt"
 
 #: desktopgrid/desktopgrid_config.cpp:63
 #, kde-format
@@ -141,102 +140,75 @@ msgstr "I midten"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: desktopgrid/desktopgrid_config.ui:17 mousemark/mousemark_config.ui:17
-#: presentwindows/presentwindows_config.ui:387
 #: thumbnailaside/thumbnailaside_config.ui:17
 #, kde-format
 msgid "Appearance"
 msgstr "Utsjånad"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: desktopgrid/desktopgrid_config.ui:23
-#, kde-format
-msgid "Zoom &duration:"
-msgstr "&Forstørringstid:"
-
-#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_ZoomDuration)
-#: desktopgrid/desktopgrid_config.ui:42
-#, kde-format
-msgctxt "Duration of zoom"
-msgid "Default"
-msgstr "Standard"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: desktopgrid/desktopgrid_config.ui:55
-#, kde-format
-msgid "Border wid&th:"
-msgstr "Kantbrei&dd:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#: desktopgrid/desktopgrid_config.ui:84
-#, kde-format
-msgid "Desktop &name alignment:"
-msgstr "Justering av skrivebords&namn:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_7)
-#: desktopgrid/desktopgrid_config.ui:107
-#, kde-format
-msgid "&Layout mode:"
-msgstr "&Utforming:"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
-#: desktopgrid/desktopgrid_config.ui:127
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DesktopLayoutMode)
+#: desktopgrid/desktopgrid_config.ui:30
 #, kde-format
 msgid "Pager"
 msgstr "Skrivebordsvising"
 
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
-#: desktopgrid/desktopgrid_config.ui:132
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DesktopLayoutMode)
+#: desktopgrid/desktopgrid_config.ui:35
 #, kde-format
 msgid "Automatic"
 msgstr "Automatisk"
 
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
-#: desktopgrid/desktopgrid_config.ui:137
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DesktopLayoutMode)
+#: desktopgrid/desktopgrid_config.ui:40
 #, kde-format
 msgid "Custom"
 msgstr "Tilpassa"
 
 #. i18n: ectx: property (text), widget (QLabel, layoutRowsLabel)
-#: desktopgrid/desktopgrid_config.ui:145
+#: desktopgrid/desktopgrid_config.ui:48
 #, kde-format
 msgid "N&umber of rows:"
 msgstr "T&al på rader:"
 
-#. i18n: ectx: property (text), widget (QLabel, clickBehaviorLabel)
-#: desktopgrid/desktopgrid_config.ui:177
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: desktopgrid/desktopgrid_config.ui:103
 #, kde-format
-msgid "Click behavior:"
-msgstr "Klikkåtferd:"
-
-#. i18n: ectx: property (toolTip), widget (QRadioButton, switchDesktopAndActivateWindow)
-#: desktopgrid/desktopgrid_config.ui:190
-#, kde-format
-msgid ""
-"If the Present Windows effect is enabled, it will be automatically triggered."
-msgstr ""
-"Viss «Presenter vindauge»-effekten er påslått, vert han automatisk køyrd."
-
-#. i18n: ectx: property (text), widget (QRadioButton, switchDesktopAndActivateWindow)
-#: desktopgrid/desktopgrid_config.ui:193
-#, kde-format
-msgid "Switch desktop and activate window"
-msgstr "Byt skrivebord og gjer vindauget gjeldande"
-
-#. i18n: ectx: property (text), widget (QRadioButton, switchDesktopOnly)
-#: desktopgrid/desktopgrid_config.ui:203
-#, kde-format
-msgid "Switch desktop only"
-msgstr "Berre byt skrivebord"
+msgid "Desktop &name alignment:"
+msgstr "Justering av skrivebords&namn:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowAddRemove)
-#: desktopgrid/desktopgrid_config.ui:213
+#: desktopgrid/desktopgrid_config.ui:116
 #, kde-format
 msgid "Show buttons to alter count of virtual desktops"
 msgstr "Vis knappar for å endra talet på virtuelle skrivebord"
 
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#: desktopgrid/desktopgrid_config.ui:123
+#, kde-format
+msgid "&Grid layout mode:"
+msgstr "&Rutenett-utforming:"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
+#: desktopgrid/desktopgrid_config.ui:137 overview/kcm/overvieweffectkcm.ui:30
+#: windowview/kcm/windowvieweffectkcm.ui:30
+#, kde-format
+msgid "Closest"
+msgstr "Næraste"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
+#: desktopgrid/desktopgrid_config.ui:142 overview/kcm/overvieweffectkcm.ui:35
+#: windowview/kcm/windowvieweffectkcm.ui:35
+#, kde-format
+msgid "Natural"
+msgstr "Naturleg"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: desktopgrid/desktopgrid_config.ui:150
+#, kde-format
+msgid "Windows layout:"
+msgstr "Vindaugsutformingar:"
+
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: desktopgrid/desktopgrid_config.ui:236
-#: presentwindows/presentwindows_config.ui:17
+#: desktopgrid/desktopgrid_config.ui:166
 #, kde-format
 msgid "Activation"
 msgstr "Bruk"
@@ -285,22 +257,18 @@ msgstr "Fullskjermsvindauge"
 
 #. i18n: ectx: property (text), widget (QLabel, label_Duration)
 #: glide/glide_config.ui:19 scale/package/contents/ui/config.ui:17
-#: slide/slide_config.ui:19
 #, kde-format
 msgid "Duration:"
 msgstr "Lengd:"
 
-#. i18n: Duration of the slide animation.
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_Duration)
 #: glide/glide_config.ui:32 scale/package/contents/ui/config.ui:30
-#: slide/slide_config.ui:32
 #, kde-format
 msgid "Default"
 msgstr "Standard"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Duration)
 #: glide/glide_config.ui:35 scale/package/contents/ui/config.ui:33
-#: slide/slide_config.ui:35
 #, kde-format
 msgid " milliseconds"
 msgstr " millisekund"
@@ -576,268 +544,43 @@ msgid "Toggle Overview"
 msgstr "Slå på/av oversikt"
 
 #. i18n: ectx: property (text), widget (QLabel, label_LayoutMode)
-#. i18n: ectx: property (text), widget (QLabel, label_3)
 #: overview/kcm/overvieweffectkcm.ui:22
-#: presentwindows/presentwindows_config.ui:393
+#: windowview/kcm/windowvieweffectkcm.ui:22
 #, kde-format
 msgid "Layout mode:"
 msgstr "Utforming:"
 
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
-#: overview/kcm/overvieweffectkcm.ui:30
-#, kde-format
-msgid "Closest"
-msgstr "Næraste"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
-#: overview/kcm/overvieweffectkcm.ui:35
-#: presentwindows/presentwindows_config.ui:441
-#, kde-format
-msgid "Natural"
-msgstr "Naturleg"
-
 #. i18n: ectx: property (text), widget (QLabel, label_BlurBackground)
-#: overview/kcm/overvieweffectkcm.ui:56
+#: overview/kcm/overvieweffectkcm.ui:53
 #, kde-format
 msgid "Blur background:"
 msgstr "Uklar bakgrunn:"
 
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: overview/kcm/overvieweffectkcm.ui:70
+#, kde-format
+msgid "Ignore minimized windows:"
+msgstr "Ignorer minimerte vindauge:"
+
 #: overview/qml/DesktopBar.qml:188
 #, kde-format
 msgid "Delete virtual desktop"
-msgstr ""
+msgstr "Slett virtuelt skrivebord"
 
 #: overview/qml/DesktopBar.qml:278
 #, kde-format
 msgid "Add Desktop"
-msgstr ""
+msgstr "Legg til skrivebord"
 
-#: overview/qml/ScreenView.qml:177
+#: overview/qml/ScreenView.qml:169
 #, kde-format
 msgid "Search..."
-msgstr ""
+msgstr "Søk …"
 
-#: presentwindows/presentwindows.cpp:71
-#: presentwindows/presentwindows_config.cpp:61
-#, kde-format
-msgid "Toggle Present Windows (Current desktop)"
-msgstr "Vis/gøym vindauge (på det gjeldande skrivebordet)"
-
-#: presentwindows/presentwindows.cpp:80
-#: presentwindows/presentwindows_config.cpp:55
-#, kde-format
-msgid "Toggle Present Windows (All desktops)"
-msgstr "Vis/gøym vindauge (på alle skriveborda)"
-
-#: presentwindows/presentwindows.cpp:98
-#: presentwindows/presentwindows_config.cpp:67
-#, kde-format
-msgid "Toggle Present Windows (Window class)"
-msgstr "Vis/gøym vindauge (i vindaugsklassen)"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
-#: presentwindows/presentwindows_config.ui:39
-#, kde-format
-msgid "Natural Layout Settings"
-msgstr "Val for naturleg utforming"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_FillGaps)
-#: presentwindows/presentwindows_config.ui:45
-#, kde-format
-msgid "Fill &gaps"
-msgstr "Fyll &hòl"
-
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#: presentwindows/presentwindows_config.ui:65
-#, kde-format
-msgid "Faster"
-msgstr "Raskare"
-
-#. i18n: ectx: property (text), widget (QLabel, label_5)
-#: presentwindows/presentwindows_config.ui:112
-#, kde-format
-msgid "Nicer"
-msgstr "Finare"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
-#: presentwindows/presentwindows_config.ui:122
-#, kde-format
-msgid "Windows"
-msgstr "Vindauge"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#. i18n: ectx: property (text), widget (QLabel, label_8)
-#: presentwindows/presentwindows_config.ui:128
-#: presentwindows/presentwindows_config.ui:282
-#, kde-format
-msgid "Left button:"
-msgstr "Venstreknapp:"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LeftButtonWindow)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MiddleButtonWindow)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RightButtonWindow)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LeftButtonDesktop)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MiddleButtonDesktop)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RightButtonDesktop)
-#: presentwindows/presentwindows_config.ui:139
-#: presentwindows/presentwindows_config.ui:183
-#: presentwindows/presentwindows_config.ui:232
-#: presentwindows/presentwindows_config.ui:293
-#: presentwindows/presentwindows_config.ui:327
-#: presentwindows/presentwindows_config.ui:361
-#, kde-format
-msgid "No action"
-msgstr "Inga handling"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LeftButtonWindow)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MiddleButtonWindow)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RightButtonWindow)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LeftButtonDesktop)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MiddleButtonDesktop)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RightButtonDesktop)
-#: presentwindows/presentwindows_config.ui:144
-#: presentwindows/presentwindows_config.ui:188
-#: presentwindows/presentwindows_config.ui:237
-#: presentwindows/presentwindows_config.ui:298
-#: presentwindows/presentwindows_config.ui:332
-#: presentwindows/presentwindows_config.ui:366
-#, kde-format
-msgid "Activate window"
-msgstr "Aktiver vindauge"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LeftButtonWindow)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MiddleButtonWindow)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RightButtonWindow)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LeftButtonDesktop)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MiddleButtonDesktop)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RightButtonDesktop)
-#: presentwindows/presentwindows_config.ui:149
-#: presentwindows/presentwindows_config.ui:193
-#: presentwindows/presentwindows_config.ui:242
-#: presentwindows/presentwindows_config.ui:303
-#: presentwindows/presentwindows_config.ui:337
-#: presentwindows/presentwindows_config.ui:371
-#, kde-format
-msgid "End effect"
-msgstr "Slutteffekt"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LeftButtonWindow)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MiddleButtonWindow)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RightButtonWindow)
-#: presentwindows/presentwindows_config.ui:154
-#: presentwindows/presentwindows_config.ui:198
-#: presentwindows/presentwindows_config.ui:247
-#, kde-format
-msgid "Bring window to current desktop"
-msgstr "Hent fram vindauget til det gjeldande skrivebordet"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LeftButtonWindow)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MiddleButtonWindow)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RightButtonWindow)
-#: presentwindows/presentwindows_config.ui:159
-#: presentwindows/presentwindows_config.ui:203
-#: presentwindows/presentwindows_config.ui:252
-#, kde-format
-msgid "Send window to all desktops"
-msgstr "Send vindauget til alle skriveborda"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LeftButtonWindow)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MiddleButtonWindow)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RightButtonWindow)
-#: presentwindows/presentwindows_config.ui:164
-#: presentwindows/presentwindows_config.ui:208
-#: presentwindows/presentwindows_config.ui:257
-#, kde-format
-msgid "(Un-)Minimize window"
-msgstr "Minimer/gjenopprett vindauget"
-
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#. i18n: ectx: property (text), widget (QLabel, label_9)
-#: presentwindows/presentwindows_config.ui:172
-#: presentwindows/presentwindows_config.ui:316
-#, kde-format
-msgid "Middle button:"
-msgstr "Midtknapp:"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MiddleButtonWindow)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RightButtonWindow)
-#: presentwindows/presentwindows_config.ui:213
-#: presentwindows/presentwindows_config.ui:262
-#, kde-format
-msgid "Close window"
-msgstr "Lukk vindauget"
-
-#. i18n: ectx: property (text), widget (QLabel, label_7)
-#. i18n: ectx: property (text), widget (QLabel, label_10)
-#: presentwindows/presentwindows_config.ui:221
-#: presentwindows/presentwindows_config.ui:350
-#, kde-format
-msgid "Right button:"
-msgstr "Høgreknapp:"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_5)
-#: presentwindows/presentwindows_config.ui:273
-#, kde-format
-msgctxt "@title:group actions when clicking on desktop"
-msgid "Desktop"
-msgstr "Skrivebord"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LeftButtonDesktop)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MiddleButtonDesktop)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RightButtonDesktop)
-#: presentwindows/presentwindows_config.ui:308
-#: presentwindows/presentwindows_config.ui:342
-#: presentwindows/presentwindows_config.ui:376
-#, kde-format
-msgid "Show desktop"
-msgstr "Vis skrivebord"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DrawWindowCaptions)
-#: presentwindows/presentwindows_config.ui:406
-#, kde-format
-msgid "Display window &titles"
-msgstr "Vis vindaugs&titlar"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DrawWindowIcons)
-#: presentwindows/presentwindows_config.ui:413
-#, kde-format
-msgid "Display window &icons"
-msgstr "Vis vindaugs&ikon"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_IgnoreMinimized)
-#: presentwindows/presentwindows_config.ui:420
-#, kde-format
-msgid "Ignore &minimized windows"
-msgstr "Ignorer &minimerte vindauge"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowPanel)
-#: presentwindows/presentwindows_config.ui:427
-#, kde-format
-msgid "Show &panels"
-msgstr "Vis &panel"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
-#: presentwindows/presentwindows_config.ui:446
-#, kde-format
-msgid "Regular Grid"
-msgstr "Vanleg rutenett"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
-#: presentwindows/presentwindows_config.ui:451
-#, kde-format
-msgid "Flexible Grid"
-msgstr "Tilpassa rutenett"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowClosingWindows)
-#: presentwindows/presentwindows_config.ui:459
-#, kde-format
-msgid "Provide buttons to close the windows"
-msgstr "Set på knappar til å lukka vindauga"
-
-#: private/qml/WindowHeap.qml:141
+#: private/qml/WindowHeap.qml:231
 #, kde-format
 msgid "Drag Down To Close"
-msgstr ""
+msgstr "Dra ned for å lukka"
 
 #. i18n: ectx: property (text), widget (QLabel, label_InScale)
 #: scale/package/contents/ui/config.ui:46
@@ -952,37 +695,37 @@ msgstr "Tekstgjennomsikt:"
 #: showfps/showfps_config.ui:154
 #, kde-format
 msgid "Show graph:"
-msgstr ""
+msgstr "Vis graf:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowGraph)
 #: showfps/showfps_config.ui:167
 #, kde-format
 msgid "Show on active screen"
-msgstr ""
+msgstr "Vis på gjeldande skjerm"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: showfps/showfps_config.ui:174
 #, kde-format
 msgid "Show Message:"
-msgstr ""
+msgstr "Vis melding:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowNoBenchmark)
 #: showfps/showfps_config.ui:187
 #, kde-format
 msgid "Show \"not a benchmark\" message"
-msgstr ""
+msgstr "Vis «ikkje ein ytingstest»-melding"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: showfps/showfps_config.ui:194
 #, kde-format
 msgid "Colorize Text:"
-msgstr ""
+msgstr "Fargelegg tekst:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ColorizeText)
 #: showfps/showfps_config.ui:207
 #, kde-format
 msgid "Color text by value (green > yellow > red)"
-msgstr ""
+msgstr "Fargelegg tekst etter verdi (grøn > gul > raud)"
 
 #: showpaint/showpaint.cpp:38 showpaint/showpaint_config.cpp:38
 #, kde-format
@@ -990,31 +733,31 @@ msgid "Toggle Show Paint"
 msgstr "Vis/gøym oppteikning"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_Gaps)
-#: slide/slide_config.ui:50
+#: slide/slide_config.ui:17
 #, kde-format
 msgid "Gap between desktops"
 msgstr "Avstand mellom skrivebord"
 
 #. i18n: ectx: property (text), widget (QLabel, label_HorizontalGap)
-#: slide/slide_config.ui:56
+#: slide/slide_config.ui:23
 #, kde-format
 msgid "Horizontal:"
 msgstr "Vassrett:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_VerticalGap)
-#: slide/slide_config.ui:79
+#: slide/slide_config.ui:46
 #, kde-format
 msgid "Vertical:"
 msgstr "Loddrett:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideDocks)
-#: slide/slide_config.ui:105
+#: slide/slide_config.ui:72
 #, kde-format
 msgid "Slide docks"
 msgstr "Glid dokkar"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideBackground)
-#: slide/slide_config.ui:112
+#: slide/slide_config.ui:79
 #, kde-format
 msgid "Slide desktop background"
 msgstr "Glid skrivebordsbakgrunn"
@@ -1185,6 +928,37 @@ msgstr "Sprettoppmenyar:"
 #, kde-format
 msgid "Torn-off menus:"
 msgstr "Avrivne menyar:"
+
+#: windowview/kcm/windowvieweffectkcm.cpp:41 windowview/windowvieweffect.cpp:56
+#, kde-format
+msgid "Toggle Present Windows (Current desktop)"
+msgstr "Vis/gøym vindauge (på det gjeldande skrivebordet)"
+
+#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:66
+#, kde-format
+msgid "Toggle Present Windows (All desktops)"
+msgstr "Vis/gøym vindauge (på alle skriveborda)"
+
+#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:76
+#, kde-format
+msgid "Toggle Present Windows (Window class)"
+msgstr "Vis/gøym vindauge (i vindaugsklassen)"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_IgnoreMinimized)
+#: windowview/kcm/windowvieweffectkcm.ui:53
+#, kde-format
+msgid "Ignore &minimized windows"
+msgstr "Ignorer &minimerte vindauge"
+
+#: windowview/qml/main.qml:137
+#, kde-format
+msgid "No Matches"
+msgstr "Ingen treff"
+
+#: windowview/qml/main.qml:137
+#, kde-format
+msgid "No Windows"
+msgstr "Ingen vindauge"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20

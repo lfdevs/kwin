@@ -47,9 +47,9 @@ msgstr "Sense"
 #: kcmvirtualkeyboard.cpp:74
 #, kde-format
 msgid "Do not use any virtual keyboard"
-msgstr "No utilitzar cap teclat virtual"
+msgstr "No utilisar cap teclat virtual"
 
 #: package/contents/ui/main.qml:16
 #, kde-format
 msgid "This module lets you choose the virtual keyboard to use."
-msgstr "Este mòdul permet triar el teclat virtual a utilitzar."
+msgstr "Este mòdul permet triar el teclat virtual a utilisar."

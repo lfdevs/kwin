@@ -1,10 +1,10 @@
-kwin (4:5.25.1-1) UNRELEASED; urgency=medium
+kwin (4:5.25.1-1) experimental; urgency=medium
 
   [ Patrick Franz ]
   * New upstream release (5.25.1).
   * Tighten inter-Plasma dependencies.
 
- -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Tue, 21 Jun 2022 21:27:35 +0200
+ -- Patrick Franz <deltaone@debian.org>  Tue, 21 Jun 2022 21:47:26 +0200
 
 kwin (4:5.25.0-1) experimental; urgency=medium
 

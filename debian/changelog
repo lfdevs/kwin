@@ -2,6 +2,7 @@ kwin (4:5.25.1-1) UNRELEASED; urgency=medium
 
   [ Patrick Franz ]
   * New upstream release (5.25.1).
+  * Tighten inter-Plasma dependencies.
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Tue, 21 Jun 2022 21:27:35 +0200
 

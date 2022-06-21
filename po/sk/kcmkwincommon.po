@@ -1,18 +1,19 @@
 # translation of kcmkwincommon.po to Slovak
 # Roman Paholik <wizzardsk@gmail.com>, 2019.
+# Matej Mrenica <matejm98mthw@gmail.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincommon\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-03-26 00:45+0000\n"
-"PO-Revision-Date: 2019-01-10 21:36+0100\n"
-"Last-Translator: iRoman Paholík <wizzardsk@gmail.com>\n"
-"Language-Team: Slovak <kde-sk@linux.sk>\n"
+"PO-Revision-Date: 2022-06-14 18:42+0200\n"
+"Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
+"Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 18.12.1\n"
+"X-Generator: Lokalize 22.04.2\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #, kde-format
@@ -47,7 +48,7 @@ msgstr "Zameranie"
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Show Desktop Animation"
-msgstr "Zobrazovať animáciu pluchy"
+msgstr "Zobrazovať animáciu plochy"
 
 #: effectsmodel.cpp:56
 #, kde-format

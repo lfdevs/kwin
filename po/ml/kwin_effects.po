@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-07 03:05+0000\n"
+"POT-Creation-Date: 2022-06-18 02:12+0000\n"
 "PO-Revision-Date: 2019-12-12 22:14+0000\n"
 "Last-Translator: Vivek KJ Pazhedath <vivekkj2004@gmail.com>\n"
 "Language-Team: SMC <smc.org.in>\n"
@@ -530,7 +530,7 @@ msgstr "&നിറം:"
 msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr "മൌസ് ഉപയോഗിച്ച് വരക്കാന്‍ Shift+Meta കീസ് അമര്‍ത്തിപിടിച്ചിട്ട് മൌസ് അനക്കുക."
 
-#: overview/kcm/overvieweffectkcm.cpp:41 overview/overvieweffect.cpp:43
+#: overview/kcm/overvieweffectkcm.cpp:41 overview/overvieweffect.cpp:31
 #, fuzzy, kde-format
 #| msgid "Toggle Invert Effect"
 msgid "Toggle Overview"
@@ -921,17 +921,17 @@ msgstr "പൊങ്ങി വരുന്ന വിഭവസൂചികകള�
 msgid "Torn-off menus:"
 msgstr "കീറി-പോയിരിക്കുന്ന വിഭവസൂചികകള്‍:"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:41 windowview/windowvieweffect.cpp:56
+#: windowview/kcm/windowvieweffectkcm.cpp:41 windowview/windowvieweffect.cpp:44
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "നിലവിലുള്ള ജാലകങ്ങള്‍ ടോഗിള്‍ ചെയ്യുക (നിലവിലുള്ള പണിയിടത്തിനായി)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:66
+#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:54
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "നിലവിലുള്ള ജാലകങ്ങള്‍ ടോഗിള്‍ ചെയ്യുക (എല്ലാ പണിയിടങ്ങള്‍ക്കുമായി)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:76
+#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:64
 #, fuzzy, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "നിലവിലുള്ള ജാലകങ്ങള്‍ ടോഗിള്‍ ചെയ്യുക (എല്ലാ പണിയിടങ്ങള്‍ക്കുമായി)"
@@ -942,12 +942,12 @@ msgstr "നിലവിലുള്ള ജാലകങ്ങള്‍ ടോഗ�
 msgid "Ignore &minimized windows"
 msgstr "&മിനിമൈസ് ചെയ്തിരിക്കുന്ന ജാലകങ്ങള്‍ അവഗണിക്കുക"
 
-#: windowview/qml/main.qml:137
+#: windowview/qml/main.qml:149
 #, kde-format
 msgid "No Matches"
 msgstr ""
 
-#: windowview/qml/main.qml:137
+#: windowview/qml/main.qml:149
 #, fuzzy, kde-format
 msgid "No Windows"
 msgstr "&കുലുക്കം"

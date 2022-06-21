@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-07 03:05+0000\n"
+"POT-Creation-Date: 2022-06-18 02:12+0000\n"
 "PO-Revision-Date: 2022-05-28 23:29+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: Arabic <kde-l10n-ar@kde.org>\n"
@@ -538,7 +538,7 @@ msgstr "اللو&ن:"
 msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr "اسحب بالفأرة بالضغط على المفاتيح Shift+Meta وتحريك الفأرة."
 
-#: overview/kcm/overvieweffectkcm.cpp:41 overview/overvieweffect.cpp:43
+#: overview/kcm/overvieweffectkcm.cpp:41 overview/overvieweffect.cpp:31
 #, kde-format
 msgid "Toggle Overview"
 msgstr "بدل النظرة العامة"
@@ -929,17 +929,17 @@ msgstr "القوائم المنبثقة:"
 msgid "Torn-off menus:"
 msgstr "القوائم المفصولة:"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:41 windowview/windowvieweffect.cpp:56
+#: windowview/kcm/windowvieweffectkcm.cpp:41 windowview/windowvieweffect.cpp:44
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "بدّل عرض النوافذ (سطح المكتب الحالي)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:66
+#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:54
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "بدّل عرض النوافذ (جميع الأسطح)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:76
+#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:64
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "بدّل عرض النوافذ (نوع النافذة)"
@@ -950,12 +950,12 @@ msgstr "بدّل عرض النوافذ (نوع النافذة)"
 msgid "Ignore &minimized windows"
 msgstr "تجاهل النوافذ المص&غّرة"
 
-#: windowview/qml/main.qml:137
+#: windowview/qml/main.qml:149
 #, kde-format
 msgid "No Matches"
 msgstr "لا يوجد تطابق"
 
-#: windowview/qml/main.qml:137
+#: windowview/qml/main.qml:149
 #, kde-format
 msgid "No Windows"
 msgstr "لا يوجد نوافذ"

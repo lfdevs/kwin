@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-05-28 03:09+0000\n"
+"POT-Creation-Date: 2022-06-15 02:14+0000\n"
 "PO-Revision-Date: 2021-11-10 18:31+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -41,13 +41,13 @@ msgstr ""
 "ilpo@iki.fi, mikko.piippo@helsinki.fi, lliehu@kolumbus.fi, "
 "translator@legisign.org"
 
-#: composite.cpp:632
+#: composite.cpp:629
 #, kde-format
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr ""
 "Työpöytätehosteet käynnistettiin uudelleen, koska grafiikka nollattiin."
 
-#: composite.cpp:835
+#: composite.cpp:832
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "

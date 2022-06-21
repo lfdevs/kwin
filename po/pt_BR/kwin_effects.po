@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-07 03:05+0000\n"
-"PO-Revision-Date: 2022-04-13 10:52-0300\n"
+"POT-Creation-Date: 2022-06-18 02:12+0000\n"
+"PO-Revision-Date: 2022-06-09 14:02-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 20.04.2\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #. i18n: ectx: property (text), widget (QLabel, labelConstantBlurDescription)
 #: blur/blur_config.ui:17
@@ -181,10 +181,9 @@ msgstr "Mostrar os botões para alterar o número de áreas de trabalho virtuais
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: desktopgrid/desktopgrid_config.ui:123
-#, fuzzy, kde-format
-#| msgid "&Layout mode:"
+#, kde-format
 msgid "&Grid layout mode:"
-msgstr "Modo de &layout:"
+msgstr "Modo de layout da &grade:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
 #: desktopgrid/desktopgrid_config.ui:137 overview/kcm/overvieweffectkcm.ui:30
@@ -202,10 +201,9 @@ msgstr "Natural"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: desktopgrid/desktopgrid_config.ui:150
-#, fuzzy, kde-format
-#| msgid "Windows"
+#, kde-format
 msgid "Windows layout:"
-msgstr "Janelas"
+msgstr "Layout de janelas:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: desktopgrid/desktopgrid_config.ui:166
@@ -540,7 +538,7 @@ msgstr ""
 "Desenhe com o mouse mantendo pressionadas as teclas Shift+Meta e movendo o "
 "mouse."
 
-#: overview/kcm/overvieweffectkcm.cpp:41 overview/overvieweffect.cpp:43
+#: overview/kcm/overvieweffectkcm.cpp:41 overview/overvieweffect.cpp:31
 #, kde-format
 msgid "Toggle Overview"
 msgstr "Ativar visão geral"
@@ -560,10 +558,9 @@ msgstr "Borrar plano de fundo:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: overview/kcm/overvieweffectkcm.ui:70
-#, fuzzy, kde-format
-#| msgid "Ignore &minimized windows"
+#, kde-format
 msgid "Ignore minimized windows:"
-msgstr "Ignorar as janelas &minimizadas"
+msgstr "Ignorar janelas minimizadas:"
 
 #: overview/qml/DesktopBar.qml:188
 #, kde-format
@@ -932,17 +929,17 @@ msgstr "Menus instantâneos:"
 msgid "Torn-off menus:"
 msgstr "Menus de desligamento:"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:41 windowview/windowvieweffect.cpp:56
+#: windowview/kcm/windowvieweffectkcm.cpp:41 windowview/windowvieweffect.cpp:44
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Alternar as janelas presentes (área de trabalho atual)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:66
+#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:54
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Alternar as janelas presentes (todas as áreas de trabalho)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:76
+#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:64
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Alternar as janelas presentes (classe de janelas)"
@@ -953,16 +950,15 @@ msgstr "Alternar as janelas presentes (classe de janelas)"
 msgid "Ignore &minimized windows"
 msgstr "Ignorar as janelas &minimizadas"
 
-#: windowview/qml/main.qml:137
+#: windowview/qml/main.qml:149
 #, kde-format
 msgid "No Matches"
-msgstr ""
+msgstr "Nenhuma ocorrência"
 
-#: windowview/qml/main.qml:137
-#, fuzzy, kde-format
-#| msgid "Windows"
+#: windowview/qml/main.qml:149
+#, kde-format
 msgid "No Windows"
-msgstr "Janelas"
+msgstr "Sem janelas"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20

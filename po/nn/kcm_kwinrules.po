@@ -10,14 +10,14 @@ msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-04-18 00:45+0000\n"
-"PO-Revision-Date: 2022-01-15 18:28+0100\n"
+"PO-Revision-Date: 2022-06-18 14:19+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
 "Language: nn\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 21.12.1\n"
+"X-Generator: Lokalize 22.04.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
@@ -792,7 +792,7 @@ msgstr "Blokksamansetjing"
 #: rulesmodel.cpp:727
 #, kde-format
 msgid "All Window Types"
-msgstr ""
+msgstr "Alle vindaugstypar"
 
 #: rulesmodel.cpp:728
 #, kde-format
@@ -854,7 +854,7 @@ msgstr "Alle skrivebord"
 #, kde-format
 msgctxt "@info:tooltip in the virtual desktop list"
 msgid "Make the window available on all desktops"
-msgstr ""
+msgstr "Vis vindauget på alle skriveborda"
 
 #: rulesmodel.cpp:769
 #, kde-format
@@ -865,7 +865,7 @@ msgstr "Alle aktivitetar"
 #, kde-format
 msgctxt "@info:tooltip in the activity list"
 msgid "Make the window available on all activities"
-msgstr ""
+msgstr "Tilgjengeleg i alle aktivitetar"
 
 #: rulesmodel.cpp:792
 #, kde-format

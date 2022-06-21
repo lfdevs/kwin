@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-07 03:05+0000\n"
+"POT-Creation-Date: 2022-06-18 02:12+0000\n"
 "PO-Revision-Date: 2022-04-19 18:34+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -543,7 +543,7 @@ msgstr ""
 "Piirrä hiirellä ruudulle painamalla Shift+Meta-näppäimiä ja siirtämällä "
 "hiirtä."
 
-#: overview/kcm/overvieweffectkcm.cpp:41 overview/overvieweffect.cpp:43
+#: overview/kcm/overvieweffectkcm.cpp:41 overview/overvieweffect.cpp:31
 #, kde-format
 msgid "Toggle Overview"
 msgstr "Näytä tai piilota yleiskuva"
@@ -935,17 +935,17 @@ msgstr "Ponnahdusvalikot:"
 msgid "Torn-off menus:"
 msgstr "Irrotetut valikot:"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:41 windowview/windowvieweffect.cpp:56
+#: windowview/kcm/windowvieweffectkcm.cpp:41 windowview/windowvieweffect.cpp:44
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Ikkunoiden esittäminen näkyviin/piiloon (nykyinen työpöytä)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:66
+#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:54
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Ikkunoiden esittäminen näkyviin/piiloon (kaikki työpöydät)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:76
+#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:64
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Ikkunoiden esittäminen näkyviin/piiloon (ikkunaluokka)"
@@ -956,12 +956,12 @@ msgstr "Ikkunoiden esittäminen näkyviin/piiloon (ikkunaluokka)"
 msgid "Ignore &minimized windows"
 msgstr "Ohita &pienennetyt ikkunat"
 
-#: windowview/qml/main.qml:137
+#: windowview/qml/main.qml:149
 #, kde-format
 msgid "No Matches"
 msgstr ""
 
-#: windowview/qml/main.qml:137
+#: windowview/qml/main.qml:149
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "No Windows"

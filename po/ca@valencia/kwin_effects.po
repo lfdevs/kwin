@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-07 03:05+0000\n"
+"POT-Creation-Date: 2022-06-18 02:12+0000\n"
 "PO-Revision-Date: 2022-05-07 12:05+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -55,7 +55,7 @@ msgid ""
 msgstr ""
 "Seleccioneu una posició per a la selecció del color amb el clic esquerre o "
 "la tecla de retorn.\n"
-"La tecla d'escapada o clic dret per a cancelar."
+"La tecla d'escapada o clic dret per a cancel·lar."
 
 #: desktopgrid/desktopgrid_config.cpp:51 invert/invert_config.cpp:35
 #: lookingglass/lookingglass_config.cpp:55 magnifier/magnifier_config.cpp:57
@@ -183,7 +183,7 @@ msgstr "Mostra els botons per a alterar el comptador d'escriptoris virtuals"
 #: desktopgrid/desktopgrid_config.ui:123
 #, kde-format
 msgid "&Grid layout mode:"
-msgstr "Modo de disposició de &quadrícula::"
+msgstr "Mode de disposició de &quadrícula::"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
 #: desktopgrid/desktopgrid_config.ui:137 overview/kcm/overvieweffectkcm.ui:30
@@ -269,7 +269,7 @@ msgstr "Predeterminada"
 #: glide/glide_config.ui:35 scale/package/contents/ui/config.ui:33
 #, kde-format
 msgid " milliseconds"
-msgstr " milisegons"
+msgstr " mil·lisegons"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_InAnimation)
 #: glide/glide_config.ui:50
@@ -344,7 +344,7 @@ msgstr "Predeterminat"
 #: magiclamp/magiclamp_config.ui:39
 #, kde-format
 msgid "milliseconds"
-msgstr " milisegons"
+msgstr " mil·lisegons"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupSize)
 #: magnifier/magnifier_config.ui:17
@@ -444,7 +444,7 @@ msgstr "Cèrcols"
 #: mouseclick/mouseclick_config.ui:103
 #, kde-format
 msgid "Line Width:"
-msgstr "Amplària de la llínea:"
+msgstr "Amplària de la línia:"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, kcfg_LineWidth)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RingSize)
@@ -537,7 +537,7 @@ msgstr "&Color:"
 msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr "Dibuixa amb el ratolí prement les tecles Maj+Meta i movent el ratolí."
 
-#: overview/kcm/overvieweffectkcm.cpp:41 overview/overvieweffect.cpp:43
+#: overview/kcm/overvieweffectkcm.cpp:41 overview/overvieweffect.cpp:31
 #, kde-format
 msgid "Toggle Overview"
 msgstr "Canvia a la vista general"
@@ -547,7 +547,7 @@ msgstr "Canvia a la vista general"
 #: windowview/kcm/windowvieweffectkcm.ui:22
 #, kde-format
 msgid "Layout mode:"
-msgstr "Modo de disposició:"
+msgstr "Mode de disposició:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_BlurBackground)
 #: overview/kcm/overvieweffectkcm.ui:53
@@ -559,7 +559,7 @@ msgstr "Difumina el fons:"
 #: overview/kcm/overvieweffectkcm.ui:70
 #, kde-format
 msgid "Ignore minimized windows:"
-msgstr "Ignora les finestres minimisades:"
+msgstr "Ignora les finestres minimitzades:"
 
 #: overview/qml/DesktopBar.qml:188
 #, kde-format
@@ -614,7 +614,7 @@ msgid ""
 msgstr ""
 "Seleccioneu la finestra a capturar amb el clic esquerre o la tecla de "
 "retorn.\n"
-"La tecla d'escapada o clic dret per a cancelar."
+"La tecla d'escapada o clic dret per a cancel·lar."
 
 #: screenshot/screenshotdbusinterface1.cpp:800
 #: screenshot/screenshotdbusinterface2.cpp:490
@@ -624,12 +624,12 @@ msgid ""
 "Escape or right click to cancel."
 msgstr ""
 "Creeu una captura de pantalla amb el clic esquerre o la tecla de retorn.\n"
-"La tecla d'escapada o clic dret per a cancelar."
+"La tecla d'escapada o clic dret per a cancel·lar."
 
 #: showfps/showfps.cpp:52
 #, kde-format
 msgid "This effect is not a benchmark"
-msgstr "Est efecte no és cap prova de referència"
+msgstr "Este efecte no és cap prova de referència"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: showfps/showfps_config.ui:23
@@ -742,7 +742,7 @@ msgstr "Espai entre escriptoris"
 #: slide/slide_config.ui:23
 #, kde-format
 msgid "Horizontal:"
-msgstr "Horisontal:"
+msgstr "Horitzontal:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_VerticalGap)
 #: slide/slide_config.ui:46
@@ -772,13 +772,13 @@ msgstr "Canvia la miniatura per a la finestra actual"
 #: thumbnailaside/thumbnailaside_config.ui:23
 #, kde-format
 msgid "Maximum &width:"
-msgstr "Amp&lària màxima:"
+msgstr "A&mplària màxima:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: thumbnailaside/thumbnailaside_config.ui:36
 #, kde-format
 msgid "&Spacing:"
-msgstr "Es&payat:"
+msgstr "Es&paiat:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Spacing)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_MaxWidth)
@@ -877,7 +877,7 @@ msgstr "Opac"
 #: translucency/package/contents/ui/config.ui:137
 #, kde-format
 msgid "Dialogs:"
-msgstr "Diàlecs:"
+msgstr "Diàlegs:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
@@ -929,17 +929,17 @@ msgstr "Menús emergents:"
 msgid "Torn-off menus:"
 msgstr "Menús d'apagat:"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:41 windowview/windowvieweffect.cpp:56
+#: windowview/kcm/windowvieweffectkcm.cpp:41 windowview/windowvieweffect.cpp:44
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Canvia les finestres presents (escriptori actual)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:66
+#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:54
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Canvia les finestres presents (tots els escriptoris)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:76
+#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:64
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Canvia les finestres presents (classe de finestra)"
@@ -948,14 +948,14 @@ msgstr "Canvia les finestres presents (classe de finestra)"
 #: windowview/kcm/windowvieweffectkcm.ui:53
 #, kde-format
 msgid "Ignore &minimized windows"
-msgstr "Ignora les finestres &minimisades"
+msgstr "Ignora les finestres &minimitzades"
 
-#: windowview/qml/main.qml:137
+#: windowview/qml/main.qml:149
 #, kde-format
 msgid "No Matches"
 msgstr "Sense coincidències"
 
-#: windowview/qml/main.qml:137
+#: windowview/qml/main.qml:149
 #, kde-format
 msgid "No Windows"
 msgstr "Sense finestres"
@@ -1000,7 +1000,7 @@ msgstr "Sacseja en &redimensionar"
 #: wobblywindows/wobblywindows_config.ui:182
 #, kde-format
 msgid "Enable &advanced mode"
-msgstr "Activa el modo &avançat"
+msgstr "Activa el mode &avançat"
 
 #. i18n: ectx: property (title), widget (QGroupBox, basicGroup)
 #: wobblywindows/wobblywindows_config.ui:192

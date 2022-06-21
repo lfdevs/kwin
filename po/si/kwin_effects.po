@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-07 03:05+0000\n"
+"POT-Creation-Date: 2022-06-18 02:12+0000\n"
 "PO-Revision-Date: 2009-12-22 01:06+0530\n"
 "Last-Translator: Danishka Navin <danishka@gmail.com>\n"
 "Language-Team: Sinhala <danishka@gmail.com>\n"
@@ -569,7 +569,7 @@ msgstr "වර්‍ණය (&C):"
 msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr "Shift+මෙටා යතුර ඔබා මවුසත ගෙනයෑමෙන් ඇඳිය හැක."
 
-#: overview/kcm/overvieweffectkcm.cpp:41 overview/overvieweffect.cpp:43
+#: overview/kcm/overvieweffectkcm.cpp:41 overview/overvieweffect.cpp:31
 #, fuzzy, kde-format
 #| msgid "Toggle Invert Effect"
 msgid "Toggle Overview"
@@ -972,17 +972,17 @@ msgstr "පොප්අප් මෙනු:"
 msgid "Torn-off menus:"
 msgstr "මෙනු වසන්න:"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:41 windowview/windowvieweffect.cpp:56
+#: windowview/kcm/windowvieweffectkcm.cpp:41 windowview/windowvieweffect.cpp:44
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "පවතින කවුළු අතර මාරුවන්න (වත්මන් වැඩතලය)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:66
+#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:54
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "පවතින කවුළු අතර මාරුවන්න (සියලු වැඩතල)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:76
+#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:64
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "පවතින කවුළු අතර මාරුවන්න (කවුලු කාණ්ඩය)"
@@ -993,12 +993,12 @@ msgstr "පවතින කවුළු අතර මාරුවන්න (ක�
 msgid "Ignore &minimized windows"
 msgstr "හැකිලූ කවුළු මඟහරින්න  (&m)"
 
-#: windowview/qml/main.qml:137
+#: windowview/qml/main.qml:149
 #, kde-format
 msgid "No Matches"
 msgstr ""
 
-#: windowview/qml/main.qml:137
+#: windowview/qml/main.qml:149
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "No Windows"

@@ -235,6 +235,7 @@ FocusScope {
 
                 PlasmaCore.IconItem {
                     id: icon
+                    usesPlasmaTheme: false
                     width: PlasmaCore.Units.iconSizes.large
                     height: width
                     source: thumb.client.icon
@@ -396,8 +397,8 @@ FocusScope {
 
                 component DragManager : DragHandler {
                     id: dragHandler
-                    enabled: heap.supportsCloseWindows
                     target: null
+                    grabPermissions: PointerHandler.CanTakeOverFromAnything
 
                     readonly property double targetScale: {
                         if (!heap.supportsDragUpGesture) {
@@ -442,11 +443,8 @@ FocusScope {
                     }
 
                     onActiveChanged: {
-                        if (!heap.supportsCloseWindows) {
-                            return;
-                        }
                         if (!active) {
-                            if (targetOpacity < 0.4) {
+                            if (heap.supportsCloseWindows && targetOpacity < 0.4) {
                                 thumb.client.closeWindow();
                             }
                         }

@@ -57,11 +57,11 @@ msgid ""
 "manager. If you do use a different window manager, please refer to its "
 "documentation for how to customize window behavior.</p>"
 msgstr ""
-"<p><h1>Valors específics de la finestra</h1> Ací podeu personalisar valors "
+"<p><h1>Valors específics de la finestra</h1> Ací podeu personalitzar valors "
 "de la finestra específicament per a només algunes finestres.</p><p>Recordeu "
-"que esta configuració no tindrà efecte si no utiliseu KWin com a gestor de "
-"finestres. Si utiliseu un gestor de finestres diferent, consulteu a la "
-"documentació la manera de personalisar el comportament de la finestra.</p>"
+"que esta configuració no tindrà efecte si no utilitzeu KWin com a gestor de "
+"finestres. Si utilitzeu un gestor de finestres diferent, consulteu a la "
+"documentació la manera de personalitzar el comportament de la finestra.</p>"
 
 #: kcmrules.cpp:243
 #, kde-format
@@ -188,7 +188,7 @@ msgid ""
 "for it will be used.\n"
 "Specifying this will block more generic window settings from taking effect."
 msgstr ""
-"La propietat de la finestra no es vorà afectada i per tant s'utilisarà la "
+"La propietat de la finestra no es vorà afectada i per tant s'utilitzarà la "
 "gestió predeterminada per a ella.\n"
 "En especificar açò, es blocaran que tinguen efecte les opcions més "
 "genèriques de finestra."
@@ -374,7 +374,7 @@ msgstr "Importa..."
 #: package/contents/ui/RulesList.qml:116
 #, kde-format
 msgid "Cancel Export"
-msgstr "Cancela l'exportació"
+msgstr "Cancel·la l'exportació"
 
 #: package/contents/ui/RulesList.qml:116
 #, kde-format
@@ -515,12 +515,12 @@ msgstr "Mida"
 #: rulesmodel.cpp:425
 #, kde-format
 msgid "Maximized horizontally"
-msgstr "Maximisada horisontalment"
+msgstr "Maximitzada horitzontalment"
 
 #: rulesmodel.cpp:430
 #, kde-format
 msgid "Maximized vertically"
-msgstr "Maximisada verticalment"
+msgstr "Maximitzada verticalment"
 
 #: rulesmodel.cpp:438
 #, kde-format
@@ -550,7 +550,7 @@ msgstr "Pantalla completa"
 #: rulesmodel.cpp:489
 #, kde-format
 msgid "Minimized"
-msgstr "Minimisada"
+msgstr "Minimitzada"
 
 #: rulesmodel.cpp:494
 #, kde-format
@@ -575,7 +575,7 @@ msgid ""
 "what might be nasty if the client abuses the feature\n"
 "to unconditionally popup in the middle of your screen."
 msgstr ""
-"Les finestres poden solicitar que apareguen en una posició determinada.\n"
+"Les finestres poden sol·licitar que apareguen en una posició determinada.\n"
 "De manera predeterminada, açò substituïx l'estratègia d'emplaçament\n"
 "que pot ser desagradable si el client abusa de la funcionalitat\n"
 "d'emergir incondicionalment en el mig de la pantalla."
@@ -593,7 +593,7 @@ msgstr "Mida màxima"
 #: rulesmodel.cpp:526
 #, kde-format
 msgid "Obey geometry restrictions"
-msgstr "Obeeix les restriccions de geometria"
+msgstr "Obeïx les restriccions de geometria"
 
 #: rulesmodel.cpp:528
 #, kde-format
@@ -604,7 +604,8 @@ msgid ""
 "This may be pointless and the restriction prevents arbitrary dimensions\n"
 "like your complete screen area."
 msgstr ""
-"P. ex. els terminals o els reproductors de vídeo poden solicitar mantindre\n"
+"P. ex. els terminals o els reproductors de vídeo poden sol·licitar "
+"mantindre\n"
 "una certa relació d'aspecte, o créixer només per a valors superiors a un "
 "concret\n"
 "(p. ex. per a les dimensions d'un caràcter).\n"
@@ -614,18 +615,18 @@ msgstr ""
 #: rulesmodel.cpp:537
 #, kde-format
 msgid "Keep above other windows"
-msgstr "Mantin sobre les atres finestres"
+msgstr "Mantin sobre les altres finestres"
 
 #: rulesmodel.cpp:537 rulesmodel.cpp:542 rulesmodel.cpp:547 rulesmodel.cpp:553
 #: rulesmodel.cpp:559 rulesmodel.cpp:565
 #, kde-format
 msgid "Arrangement & Access"
-msgstr "Organisació i accés"
+msgstr "Organització i accés"
 
 #: rulesmodel.cpp:542
 #, kde-format
 msgid "Keep below other windows"
-msgstr "Mantin davall les atres finestres"
+msgstr "Mantin davall les altres finestres"
 
 #: rulesmodel.cpp:547
 #, kde-format
@@ -704,8 +705,8 @@ msgid ""
 "\"Extreme\" will completely prevent it from taking the focus."
 msgstr ""
 "KWin intenta evitar que les finestres agafin el focus\n"
-"(«activar») mentre esteu treballant en una atra finestra,\n"
-"pero açò a vegades pot fallar o sobreactuar.\n"
+"(«activar») mentre esteu treballant en una altra finestra,\n"
+"però açò a vegades pot fallar o sobreactuar.\n"
 "«Cap» permetrà incondicionalment que esta finestra agafi el focus,\n"
 "mentre que «Extrem» evitarà completament que agafi el focus."
 
@@ -726,8 +727,8 @@ msgstr ""
 "Controla la protecció del focus de la finestra activa actualment.\n"
 "Sense cedirà sempre el focus,\n"
 "Extrema el mantindrà.\n"
-"D'atra manera està vinculat amb la prevenció de robatori assignada a la "
-"finestra que vol el focus."
+"Altrament està vinculat amb la prevenció de robatori assignada a la finestra "
+"que vol el focus."
 
 #: rulesmodel.cpp:614
 #, kde-format
@@ -743,8 +744,8 @@ msgid ""
 msgstr ""
 "Les finestres poden evitar aconseguir el focus (activar-se) en ser "
 "clicades.\n"
-"Per atra banda, podríeu desitjar evitar que una finestra\n"
-"aconseguïsca el focus en un clic de ratolí."
+"Per altra banda, podríeu desitjar evitar que una finestra\n"
+"aconseguisca el focus en un clic de ratolí."
 
 #: rulesmodel.cpp:622
 #, kde-format
@@ -763,13 +764,13 @@ msgid ""
 "nor use any other global shortcut (such as Alt+F2 to show KRunner)\n"
 "while it's active!"
 msgstr ""
-"Quan s'utilisa, una finestra rebrà\n"
+"Quan s'utilitza, una finestra rebrà\n"
 "totes les entrades de teclat mentre siga activa, incloent-hi Alt+Tab, etc.\n"
 "Açò és interessant especialment per a emuladors o màquines virtuals.\n"
 "\n"
 "Avís:\n"
 "No podreu fer Alt+Tab fora de la finestra\n"
-"ni utilisar cap atra drecera global (com Alt+F2 per a mostrar KRunner)\n"
+"ni utilitzar cap altra drecera global (com Alt+F2 per a mostrar KRunner)\n"
 "mentre siga actiu!"
 
 #: rulesmodel.cpp:635
@@ -805,7 +806,7 @@ msgstr "Finestra normal"
 #: rulesmodel.cpp:729
 #, kde-format
 msgid "Dialog Window"
-msgstr "Finestra de diàlec"
+msgstr "Finestra de diàleg"
 
 #: rulesmodel.cpp:730
 #, kde-format
@@ -846,7 +847,7 @@ msgstr "Barra de menús aïllada"
 #: rulesmodel.cpp:738
 #, kde-format
 msgid "On Screen Display"
-msgstr "Visualisació en pantalla"
+msgstr "Visualització en pantalla"
 
 #: rulesmodel.cpp:748
 #, kde-format
@@ -888,7 +889,7 @@ msgstr "Superposició mínima"
 #: rulesmodel.cpp:795
 #, kde-format
 msgid "Maximized"
-msgstr "Maximisada"
+msgstr "Maximitzada"
 
 #: rulesmodel.cpp:796
 #, kde-format

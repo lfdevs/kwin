@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-05-28 03:09+0000\n"
+"POT-Creation-Date: 2022-06-15 02:14+0000\n"
 "PO-Revision-Date: 2022-04-26 09:15+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -33,21 +33,21 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "sps@sastia.com"
 
-#: composite.cpp:632
+#: composite.cpp:629
 #, kde-format
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr ""
 "Els efectes de l'escriptori es reiniciaran a causa d'una reinicialització "
 "gràfica"
 
-#: composite.cpp:835
+#: composite.cpp:832
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
 "resume using the '%1' shortcut."
 msgstr ""
-"Una atra aplicació ha suspès els efectes de l'escriptori.<br/>Podeu "
-"reprendre-ho utilisant la drecera «%1»."
+"Una altra aplicació ha suspès els efectes de l'escriptori.<br/>Podeu "
+"reprendre-ho utilitzant la drecera «%1»."
 
 #: debug_console.cpp:76
 #, kde-format
@@ -260,7 +260,7 @@ msgstr "Posició global"
 #, kde-format
 msgctxt "A mouse pointer button press event"
 msgid "Pointer Button Press"
-msgstr "Botó premut del punter"
+msgstr "Botó premut de l'apuntador"
 
 #: debug_console.cpp:207 debug_console.cpp:215
 #, kde-format
@@ -284,13 +284,13 @@ msgstr "Botons premuts"
 #, kde-format
 msgctxt "A mouse pointer button release event"
 msgid "Pointer Button Release"
-msgstr "Botó lliberat del punter"
+msgstr "Botó alliberat de l'apuntador"
 
 #: debug_console.cpp:232
 #, kde-format
 msgctxt "A mouse pointer axis (wheel) event"
 msgid "Pointer Axis"
-msgstr "Eix del punter"
+msgstr "Eix de l'apuntador"
 
 #: debug_console.cpp:236
 #, kde-format
@@ -302,7 +302,7 @@ msgstr "Orientació"
 #, kde-format
 msgctxt "An orientation of a pointer axis event"
 msgid "Horizontal"
-msgstr "Horisontal"
+msgstr "Horitzontal"
 
 #: debug_console.cpp:238
 #, kde-format
@@ -326,7 +326,7 @@ msgstr "Tecla premuda"
 #, kde-format
 msgctxt "A key release event"
 msgid "Key Release"
-msgstr "Tecla lliberada"
+msgstr "Tecla alliberada"
 
 #: debug_console.cpp:266
 #, kde-format
@@ -446,7 +446,7 @@ msgstr "Quants dits"
 #, kde-format
 msgctxt "A pinch gesture is updated"
 msgid "Pinch update"
-msgstr "S'actualisa una pessigada"
+msgstr "S'actualitza una pessigada"
 
 #: debug_console.cpp:371
 #, kde-format
@@ -476,13 +476,13 @@ msgstr "Delta Y"
 #, kde-format
 msgctxt "A pinch gesture ended"
 msgid "Pinch end"
-msgstr "Finalisa una pessigada"
+msgstr "Finalitza una pessigada"
 
 #: debug_console.cpp:397
 #, kde-format
 msgctxt "A pinch gesture got cancelled"
 msgid "Pinch cancelled"
-msgstr "S'ha cancelat una pessigada"
+msgstr "S'ha cancel·lat una pessigada"
 
 #: debug_console.cpp:409
 #, kde-format
@@ -500,7 +500,7 @@ msgstr "Quants dits"
 #, kde-format
 msgctxt "A swipe gesture is updated"
 msgid "Swipe update"
-msgstr "S'actualisa passar el dit"
+msgstr "S'actualitza passar el dit"
 
 #: debug_console.cpp:424
 #, kde-format
@@ -518,13 +518,13 @@ msgstr "Delta Y"
 #, kde-format
 msgctxt "A swipe gesture ended"
 msgid "Swipe end"
-msgstr "Passar el dit ha finalisat"
+msgstr "Passar el dit ha finalitzat"
 
 #: debug_console.cpp:448
 #, kde-format
 msgctxt "A swipe gesture got cancelled"
 msgid "Swipe cancelled"
-msgstr "S'ha cancelat passar el dit"
+msgstr "S'ha cancel·lat passar el dit"
 
 #: debug_console.cpp:460
 #, kde-format
@@ -542,7 +542,7 @@ msgstr "Tapa del portàtil"
 #, kde-format
 msgctxt "Name of a hardware switch"
 msgid "Tablet mode"
-msgstr "Modo tauleta"
+msgstr "Mode tauleta"
 
 #: debug_console.cpp:472
 #, kde-format
@@ -576,7 +576,7 @@ msgstr "Eina de tauleta"
 #: debug_console.cpp:500
 #, kde-format
 msgid "EventType"
-msgstr "Tipus de succés"
+msgstr "Tipus d'esdeveniment"
 
 #: debug_console.cpp:501 debug_console.cpp:544 debug_console.cpp:557
 #, kde-format
@@ -882,7 +882,7 @@ msgstr "Superfícies"
 #: debug_console.ui:69
 #, kde-format
 msgid "Input Events"
-msgstr "Successos d'entrada"
+msgstr "Esdeveniments d'entrada"
 
 #. i18n: ectx: attribute (title), widget (QWidget, inputDevices)
 #: debug_console.ui:86
@@ -918,7 +918,7 @@ msgstr "Fabricant:"
 #: debug_console.ui:143
 #, kde-format
 msgid "Renderer:"
-msgstr "Renderisador:"
+msgstr "Renderitzador:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: debug_console.ui:150
@@ -1025,7 +1025,7 @@ msgstr "Gestor de finestres"
 #: helpers/killer/killer.cpp:43
 #, kde-format
 msgid "PID of the application to terminate"
-msgstr "El PID de l'aplicació a finalisar"
+msgstr "El PID de l'aplicació a finalitzar"
 
 #: helpers/killer/killer.cpp:43
 #, kde-format
@@ -1045,7 +1045,7 @@ msgstr "nom de la màquina"
 #: helpers/killer/killer.cpp:47
 #, kde-format
 msgid "Caption of the window to be terminated"
-msgstr "Llegenda de la finestra que es finalisarà"
+msgstr "Llegenda de la finestra que es finalitzarà"
 
 #: helpers/killer/killer.cpp:47
 #, kde-format
@@ -1055,7 +1055,7 @@ msgstr "llegenda"
 #: helpers/killer/killer.cpp:49
 #, kde-format
 msgid "Name of the application to be terminated"
-msgstr "Nom de l'aplicació que es finalisarà"
+msgstr "Nom de l'aplicació que es finalitzarà"
 
 #: helpers/killer/killer.cpp:49
 #, kde-format
@@ -1106,7 +1106,7 @@ msgid ""
 "%3) but the application is not responding.</para>"
 msgstr ""
 "<para>Heu intentat tancar la finestra «%1» de l'aplicació «%2» (ID del "
-"procés: %3), pero l'aplicació no està responent.</para>"
+"procés: %3), però l'aplicació no està responent.</para>"
 
 #: helpers/killer/killer.cpp:93
 #, kde-kuit-format
@@ -1116,7 +1116,7 @@ msgid ""
 "%3), running on host \"%4\", but the application is not responding.</para>"
 msgstr ""
 "<para>Heu intentat tancar la finestra «%1» de l'aplicació «%2» (ID del "
-"procés: %3), executant-se en el servidor «%4», pero l'aplicació no està "
+"procés: %3), executant-se en el servidor «%4», però l'aplicació no està "
 "responent.</para>"
 
 #: helpers/killer/killer.cpp:96
@@ -1127,14 +1127,14 @@ msgid ""
 "para><para><warning>Terminating the application will close all of its child "
 "windows. Any unsaved data will be lost.</warning></para>"
 msgstr ""
-"<para>Voleu finalisar esta aplicació?</para><para><warning>En finalisar-la "
+"<para>Voleu finalitzar esta aplicació?</para><para><warning>En finalitzar-la "
 "es tancaran totes les seues finestres filles. Qualsevol dada no guardada es "
 "perdrà.</warning></para>"
 
 #: helpers/killer/killer.cpp:99
 #, kde-format
 msgid "&Terminate Application %1"
-msgstr "&Finalisa l'aplicació %1"
+msgstr "&Finalitza l'aplicació %1"
 
 #: helpers/killer/killer.cpp:100
 #, kde-format
@@ -1159,7 +1159,7 @@ msgid ""
 msgstr ""
 "Seleccioneu la finestra a forçar el tancament amb el clic esquerre o "
 "retorn.\n"
-"La tecla Esc o un clic dret per a cancelar."
+"La tecla Esc o un clic dret per a cancel·lar."
 
 #: main.cpp:196
 #, kde-format
@@ -1236,45 +1236,45 @@ msgstr "Iniciar un servidor Xwayland sense finestra arrel."
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
-"Nom del sòcol Wayland a escoltar. Si no està definit, s'utilisa «wayland-0»."
+"Nom del sòcol Wayland a escoltar. Si no està definit, s'utilitza «wayland-0»."
 
 #: main_wayland.cpp:345
 #, kde-format
 msgid "The X11 Display to use in windowed mode on platform X11."
-msgstr "La pantalla X11 a utilisar en modo de finestra en la plataforma X11."
+msgstr "La pantalla X11 a utilitzar en mode de finestra en la plataforma X11."
 
 #: main_wayland.cpp:348
 #, kde-format
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr ""
-"La pantalla Wayland a utilisar en modo de finestra en la plataforma Wayland."
+"La pantalla Wayland a utilitzar en mode de finestra en la plataforma Wayland."
 
 #: main_wayland.cpp:350
 #, kde-format
 msgid "Render to a virtual framebuffer."
-msgstr "Renderisa a un «framebuffer» virtual."
+msgstr "Renderitza a un «framebuffer» virtual."
 
 #: main_wayland.cpp:352
 #, kde-format
 msgid "The width for windowed mode. Default width is 1024."
-msgstr "L'amplària del modo de finestra. L'amplària predeterminada és 1024."
+msgstr "L'amplària del mode de finestra. L'amplària predeterminada és 1024."
 
 #: main_wayland.cpp:356
 #, kde-format
 msgid "The height for windowed mode. Default height is 768."
-msgstr "L'alçària del modo de finestra. L'alçària predeterminada és 768."
+msgstr "L'alçària del mode de finestra. L'alçària predeterminada és 768."
 
 #: main_wayland.cpp:361
 #, kde-format
 msgid "The scale for windowed mode. Default value is 1."
-msgstr "L'escala per al modo de finestra. El valor predeterminat és 1."
+msgstr "L'escala per al mode de finestra. El valor predeterminat és 1."
 
 #: main_wayland.cpp:366
 #, kde-format
 msgid ""
 "The number of windows to open as outputs in windowed mode. Default value is 1"
 msgstr ""
-"El nombre de finestres a obrir com a eixida en el modo de finestra. El valor "
+"El nombre de finestres a obrir com a eixida en el mode de finestra. El valor "
 "predeterminat és 1"
 
 #: main_wayland.cpp:371
@@ -1283,7 +1283,7 @@ msgid ""
 "Wayland socket to use for incoming connections. This can be combined with --"
 "socket to name the socket"
 msgstr ""
-"Sòcol Wayland a utilisar per a les connexions entrants. Açò es pot combinar "
+"Sòcol Wayland a utilitzar per a les connexions entrants. Açò es pot combinar "
 "amb «--sòcol» per a anomenar el sòcol"
 
 #: main_wayland.cpp:375
@@ -1292,8 +1292,8 @@ msgid ""
 "XWayland socket to use for Xwayland's incoming connections. This can be set "
 "multiple times"
 msgstr ""
-"Sòcol XWayland a utilisar per a les connexions entrants del XWayland. Açò es "
-"pot definir diverses vegades"
+"Sòcol XWayland a utilitzar per a les connexions entrants del XWayland. Açò "
+"es pot definir diverses vegades"
 
 #: main_wayland.cpp:379
 #, kde-format
@@ -1314,7 +1314,7 @@ msgstr ""
 #: main_wayland.cpp:416
 #, kde-format
 msgid "Render through drm node."
-msgstr "Renderisa mitjançant el nodo del DRM."
+msgstr "Renderitza mitjançant el node del DRM."
 
 #: main_wayland.cpp:422
 #, kde-format
@@ -1329,17 +1329,17 @@ msgstr "Llista tots els dorsals disponibles i ix."
 #: main_wayland.cpp:432
 #, kde-format
 msgid "Starts the session in locked mode."
-msgstr "Inicia la sessió en modo bloquejat."
+msgstr "Inicia la sessió en mode bloquejat."
 
 #: main_wayland.cpp:436
 #, kde-format
 msgid "Starts the session without lock screen support."
-msgstr "Inicia la sessió sense el soport del bloqueig de pantalla."
+msgstr "Inicia la sessió sense el suport del bloqueig de pantalla."
 
 #: main_wayland.cpp:441
 #, kde-format
 msgid "Starts the session without global shortcuts support."
-msgstr "Inicia la sessió sense el soport de les dreceres globals."
+msgstr "Inicia la sessió sense el suport de les dreceres globals."
 
 #: main_wayland.cpp:446 main_x11.cpp:461
 #, kde-format
@@ -1367,9 +1367,9 @@ msgid ""
 "It seems to have crashed several times in a row.\n"
 "You can select another window manager to run:"
 msgstr ""
-"KWin no està estabilisat.\n"
+"KWin no està estabilitzat.\n"
 "Sembla que ha fallat diverses vegades seguides.\n"
-"Podeu seleccionar un atre gestor de finestres a executar:"
+"Podeu seleccionar un altre gestor de finestres a executar:"
 
 #: main_x11.cpp:235
 #, kde-format
@@ -1377,21 +1377,21 @@ msgid ""
 "kwin: unable to claim manager selection, another wm running? (try using --"
 "replace)\n"
 msgstr ""
-"kwin: no s'ha pogut reclamar la selecció del gestor, hi ha un atre wm "
+"kwin: no s'ha pogut reclamar la selecció del gestor, hi ha un altre wm "
 "executant-se? (proveu l'ús de --replace)\n"
 
 #: main_x11.cpp:258
 #, kde-format
 msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr ""
-"kwin: hi ha un atre gestor de finestres executant-se (proveu l'ús de --"
+"kwin: hi ha un altre gestor de finestres executant-se (proveu l'ús de --"
 "replace)\n"
 
 #: main_x11.cpp:454
 #, kde-format
 msgid "Replace already-running ICCCM2.0-compliant window manager"
 msgstr ""
-"Substituïx el gestor de finestres conforme amb ICCCM2.0 que ya s'executa"
+"Substituïx el gestor de finestres conforme amb ICCCM2.0 que ja s'executa"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:60
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:62
@@ -1419,7 +1419,7 @@ msgstr "min"
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "minimize"
-msgstr "minimisa"
+msgstr "minimitza"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:72
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:74
@@ -1433,7 +1433,7 @@ msgstr "max"
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "maximize"
-msgstr "maximisa"
+msgstr "maximitza"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:78
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:80
@@ -1501,12 +1501,12 @@ msgstr "Tanca la finestra en execució en %1"
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:311
 #, kde-format
 msgid "(Un)minimize running window on %1"
-msgstr "(Des)minimisa la finestra en execució en %1"
+msgstr "(Des)minimitza la finestra en execució en %1"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:314
 #, kde-format
 msgid "Maximize/restore running window on %1"
-msgstr "Maximisa/restaura la finestra en execució en %1"
+msgstr "Maximitza/restaura la finestra en execució en %1"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:317
 #, kde-format
@@ -1790,37 +1790,37 @@ msgstr "Tipus de regla d'establir el tipus de finestra"
 #: rulesettings.kcfg:194
 #, kde-format
 msgid "Maximized vertically"
-msgstr "Maximisada verticalment"
+msgstr "Maximitzada verticalment"
 
 #. i18n: ectx: label, entry (maximizevertrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:198
 #, kde-format
 msgid "Maximized vertically rule type"
-msgstr "Tipus de regla de maximisada verticalment"
+msgstr "Tipus de regla de maximitzada verticalment"
 
 #. i18n: ectx: label, entry (maximizehoriz), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:205
 #, kde-format
 msgid "Maximized horizontally"
-msgstr "Maximisada horisontalment"
+msgstr "Maximitzada horitzontalment"
 
 #. i18n: ectx: label, entry (maximizehorizrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:209
 #, kde-format
 msgid "Maximized horizontally rule type"
-msgstr "Tipus de regla de maximisada horisontalment"
+msgstr "Tipus de regla de maximitzada horitzontalment"
 
 #. i18n: ectx: label, entry (minimize), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:216
 #, kde-format
 msgid "Minimized"
-msgstr "Minimisada"
+msgstr "Minimitzada"
 
 #. i18n: ectx: label, entry (minimizerule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:220
 #, kde-format
 msgid "Minimized rule type"
-msgstr "Tipus de regla de minimisada"
+msgstr "Tipus de regla de minimitzada"
 
 #. i18n: ectx: label, entry (shade), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:227
@@ -1892,7 +1892,7 @@ msgstr "Mantin per davall"
 #: rulesettings.kcfg:286
 #, kde-format
 msgid "Keep below rule type"
-msgstr "Tipus de regla davall les atres"
+msgstr "Tipus de regla davall les altres"
 
 #. i18n: ectx: label, entry (fullscreen), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:293
@@ -2030,7 +2030,7 @@ msgstr "Tipus de regla d'agrupar automàticament per ID"
 #: rulesettings.kcfg:398
 #, kde-format
 msgid "Obey geometry restrictions"
-msgstr "Obeeix les restriccions de geometria"
+msgstr "Obeïx les restriccions de geometria"
 
 #. i18n: ectx: label, entry (strictgeometryrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:402
@@ -2079,14 +2079,14 @@ msgstr "Tipus de regla de nom de fitxer «desktop»"
 msgctxt "Error message"
 msgid "Plugin does not provide configuration file in expected location"
 msgstr ""
-"El conector no ha proporcionat cap fitxer de configuració en la ubicació "
+"El connector no ha proporcionat cap fitxer de configuració en la ubicació "
 "esperada"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ShortcutDialog)
 #: shortcutdialog.ui:14
 #, kde-format
 msgid "Dialog"
-msgstr "Diàlec"
+msgstr "Diàleg"
 
 #. i18n: ectx: property (text), widget (QToolButton, clearButton)
 #: shortcutdialog.ui:25
@@ -2154,7 +2154,7 @@ msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
 "Contact your distribution about this."
 msgstr ""
-"La instalació del commutador de finestres està trencada, no es troben els "
+"La instal·lació del commutador de finestres està trencada, no es troben els "
 "recursos.\n"
 "Contacteu amb la vostra distribució respecte a açò."
 
@@ -2167,8 +2167,8 @@ msgid ""
 "keyboard shortcut."
 msgstr ""
 "Heu triat mostrar una finestra sense la vora.\n"
-"Sense la vora no podreu tornar-la a activar utilisant el ratolí: per a fer-"
-"ho utiliseu el menú d'operacions de la finestra, activat utilisant la "
+"Sense la vora no podreu tornar-la a activar utilitzant el ratolí: per a fer-"
+"ho utilitzeu el menú d'operacions de la finestra, activat utilitzant la "
 "drecera de teclat %1."
 
 #: useractions.cpp:175
@@ -2179,11 +2179,11 @@ msgid ""
 "mode off you will not be able to disable it again using the mouse: use the "
 "window operations menu instead, activated using the %1 keyboard shortcut."
 msgstr ""
-"Heu triat mostrar una finestra en modo pantalla completa.\n"
-"Si la mateixa aplicació no té una opció per a apagar el modo pantalla "
-"completa, no podreu tornar-lo a desactivar utilisant el ratolí: per a fer-ho "
-"utiliseu el menú d'operacions de la finestra, activat utilisant la drecera "
-"de teclat %1."
+"Heu triat mostrar una finestra en mode pantalla completa.\n"
+"Si la mateixa aplicació no té una opció per a apagar el mode pantalla "
+"completa, no podreu tornar-lo a desactivar utilitzant el ratolí: per a fer-"
+"ho utilitzeu el menú d'operacions de la finestra, activat utilitzant la "
+"drecera de teclat %1."
 
 #: useractions.cpp:242
 #, kde-format
@@ -2198,12 +2198,12 @@ msgstr "&Redimensiona"
 #: useractions.cpp:252
 #, kde-format
 msgid "Keep &Above Others"
-msgstr "Mantin sobre les &atres"
+msgstr "Mantin sobre les &altres"
 
 #: useractions.cpp:258
 #, kde-format
 msgid "Keep &Below Others"
-msgstr "Mantin &davall les atres"
+msgstr "Mantin &davall les altres"
 
 #: useractions.cpp:264
 #, kde-format
@@ -2246,12 +2246,12 @@ msgstr "Configura el gestor de f&inestres..."
 #: useractions.cpp:327
 #, kde-format
 msgid "Ma&ximize"
-msgstr "Ma&ximisa"
+msgstr "Ma&ximitza"
 
 #: useractions.cpp:333
 #, kde-format
 msgid "Mi&nimize"
-msgstr "Mi&nimisa"
+msgstr "Mi&nimitza"
 
 #: useractions.cpp:339
 #, kde-format
@@ -2333,13 +2333,13 @@ msgstr "&Totes les activitats"
 #, kde-format
 msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
 msgid "<b>%1</b> is already in use"
-msgstr "<b>%1</b> ya està utilisat"
+msgstr "<b>%1</b> ja està utilitzat"
 
 #: useractions.cpp:891
 #, kde-format
 msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
 msgid "<b>%1</b> is used by %2 in %3"
-msgstr "<b>%1</b> està utilisat per %2 a %3"
+msgstr "<b>%1</b> està utilitzat per %2 a %3"
 
 #: useractions.cpp:987
 msgid "Window Operations Menu"
@@ -2351,19 +2351,19 @@ msgstr "Tanca la finestra"
 
 #: useractions.cpp:991
 msgid "Maximize Window"
-msgstr "Maximisa la finestra"
+msgstr "Maximitza la finestra"
 
 #: useractions.cpp:993
 msgid "Maximize Window Vertically"
-msgstr "Maximisa la finestra en vertical"
+msgstr "Maximitza la finestra en vertical"
 
 #: useractions.cpp:995
 msgid "Maximize Window Horizontally"
-msgstr "Maximisa la finestra en horisontal"
+msgstr "Maximitza la finestra en horitzontal"
 
 #: useractions.cpp:997
 msgid "Minimize Window"
-msgstr "Minimisa la finestra"
+msgstr "Minimitza la finestra"
 
 #: useractions.cpp:999
 msgid "Shade Window"
@@ -2399,11 +2399,11 @@ msgstr "Oculta la vora de la finestra"
 
 #: useractions.cpp:1015
 msgid "Keep Window Above Others"
-msgstr "Mantin la finestra per damunt de les atres"
+msgstr "Mantin la finestra per damunt de les altres"
 
 #: useractions.cpp:1017
 msgid "Keep Window Below Others"
-msgstr "Mantin la finestra per davall de les atres"
+msgstr "Mantin la finestra per davall de les altres"
 
 #: useractions.cpp:1019
 msgid "Activate Window Demanding Attention"
@@ -2435,7 +2435,7 @@ msgstr "Mou la finestra cap avall"
 
 #: useractions.cpp:1033
 msgid "Expand Window Horizontally"
-msgstr "Expandix la finestra en horisontal"
+msgstr "Expandix la finestra en horitzontal"
 
 #: useractions.cpp:1035
 msgid "Expand Window Vertically"
@@ -2443,11 +2443,11 @@ msgstr "Expandix la finestra en vertical"
 
 #: useractions.cpp:1037
 msgid "Shrink Window Horizontally"
-msgstr "Encongeix la finestra en horisontal"
+msgstr "Encull la finestra en horitzontal"
 
 #: useractions.cpp:1039
 msgid "Shrink Window Vertically"
-msgstr "Encongeix la finestra en vertical"
+msgstr "Encull la finestra en vertical"
 
 #: useractions.cpp:1041
 msgid "Quick Tile Window to the Left"
@@ -2499,7 +2499,7 @@ msgstr "Canvia a la finestra de l'esquerra"
 
 #: useractions.cpp:1065
 msgid "Increase Opacity of Active Window by 5 %"
-msgstr "Aumenta l'opacitat de la finestra activa en un 5%"
+msgstr "Augmenta l'opacitat de la finestra activa en un 5%"
 
 #: useractions.cpp:1067
 msgid "Decrease Opacity of Active Window by 5 %"
@@ -2578,7 +2578,7 @@ msgstr "Suspèn la composició"
 
 #: useractions.cpp:1106
 msgid "Invert Screen Colors"
-msgstr "Inverteix els colors de la pantalla"
+msgstr "Invertix els colors de la pantalla"
 
 #: useractions.cpp:1173
 #, kde-format
@@ -2657,10 +2657,10 @@ msgid ""
 "like https://paste.kde.org instead of pasting into support threads.\n"
 msgstr ""
 "Informació d'ajuda de KWin:\n"
-"S'hauria d'utilisar la informació següent quan se solicite ajuda, p. ex. en "
-"https://forum.kde.org.\n"
+"S'hauria d'utilitzar la informació següent quan se sol·licite ajuda, p. ex. "
+"en https://forum.kde.org.\n"
 "Proporciona informació sobre la instància actual en execució, amb les "
-"opcions que s'utilisen,\n"
+"opcions que s'utilitzen,\n"
 "quin controlador OpenGL i quins efectes s'estan executant.\n"
 "Per favor, publiqueu la informació que hi ha davall este text introductori "
 "en un servei d'apegades\n"

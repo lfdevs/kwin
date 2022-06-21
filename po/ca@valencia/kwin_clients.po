@@ -74,7 +74,7 @@ msgstr "Mida dels botons:"
 #: aurorae/themes/plastik/package/contents/ui/config.ui:14
 #, kde-format
 msgid "Config Dialog"
-msgstr "Diàlec de configuració"
+msgstr "Diàleg de configuració"
 
 #. i18n: ectx: property (title), widget (KButtonGroup, titleAlign)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:23
@@ -108,7 +108,7 @@ msgid ""
 "color. Otherwise it will be painted in the background color."
 msgstr ""
 "Marqueu esta opció si la vora de la finestra s'ha de pintar en el color de "
-"la barra de títol. D'atra manera es pintarà en el color del fons."
+"la barra de títol. Altrament es pintarà en el color del fons."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_coloredBorder)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:56
@@ -123,7 +123,7 @@ msgid ""
 "Check this option if you want the buttons to fade in when the mouse pointer "
 "hovers over them and fade out again when it moves away."
 msgstr ""
-"Marqueu esta opció si voleu que els botons sobresurtin quan el punter del "
+"Marqueu esta opció si voleu que els botons sobresurtin quan l'apuntador del "
 "ratolí passe per damunt i tornen a l'estat normal quan s'allunyi."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_animateButtons)

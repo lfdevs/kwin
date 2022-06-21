@@ -51,12 +51,12 @@ msgstr "A tots els escriptoris"
 #: declarative-plugin/buttonsmodel.cpp:59
 #, kde-format
 msgid "Minimize"
-msgstr "Minimisa"
+msgstr "Minimitza"
 
 #: declarative-plugin/buttonsmodel.cpp:61
 #, kde-format
 msgid "Maximize"
-msgstr "Maximisa"
+msgstr "Maximitza"
 
 #: declarative-plugin/buttonsmodel.cpp:63
 #, kde-format
@@ -76,12 +76,12 @@ msgstr "Plega"
 #: declarative-plugin/buttonsmodel.cpp:69
 #, kde-format
 msgid "Keep below other windows"
-msgstr "Mantin davall les atres finestres"
+msgstr "Mantin davall les altres finestres"
 
 #: declarative-plugin/buttonsmodel.cpp:71
 #, kde-format
 msgid "Keep above other windows"
-msgstr "Mantin sobre les atres finestres"
+msgstr "Mantin sobre les altres finestres"
 
 #: kcm.cpp:49
 #, kde-format
@@ -113,7 +113,7 @@ msgid ""
 msgstr ""
 "Esta eina permet definir el tema de decoració de les finestres per a la "
 "sessió activa actual, sense posar-ne accidentalment un que no estiga "
-"disponible, o que ya estiga definit."
+"disponible, o que ja estiga definit."
 
 #: kwin-applywindowdecoration.cpp:33
 #, kde-format
@@ -148,15 +148,15 @@ msgid ""
 "You attempted to pass a file path, but this could not be resolved to a "
 "theme, and we will have to abort, due to having no theme to set"
 msgstr ""
-"S'ha intentat indicar un camí de fitxer, pero no s'ha pogut resoldre com a "
-"tema, per tant cal interrompre-ho, ya que no hi ha cap tema a establir"
+"S'ha intentat indicar un camí de fitxer, però no s'ha pogut resoldre com a "
+"tema, per tant cal interrompre-ho, ja que no hi ha cap tema a establir"
 
 #: kwin-applywindowdecoration.cpp:77
 #, kde-format
 msgid ""
 "The requested theme \"%1\" is already set as the window decoration theme."
 msgstr ""
-"El tema solicitat «%1» ya està establit com a tema de decoració de les "
+"El tema sol·licitat «%1» ja està establit com a tema de decoració de les "
 "finestres."
 
 #: kwin-applywindowdecoration.cpp:99
@@ -172,7 +172,7 @@ msgid ""
 "unrecoverable error. You may find that simply trying again will work."
 msgstr ""
 "No s'ha pogut guardar la vostra configuració del tema. El motiu és "
-"desconegut, pero hi ha un error no recuperable. Podria ser que funcione en "
+"desconegut, però hi ha un error no recuperable. Podria ser que funcione en "
 "tornar-ho a intentar."
 
 #: kwin-applywindowdecoration.cpp:107

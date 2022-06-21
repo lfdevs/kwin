@@ -10,15 +10,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-05-28 03:09+0000\n"
-"PO-Revision-Date: 2022-03-03 21:09+0100\n"
+"POT-Creation-Date: 2022-06-15 02:14+0000\n"
+"PO-Revision-Date: 2022-06-18 14:21+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
 "Language: nn\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 21.12.2\n"
+"X-Generator: Lokalize 22.04.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
@@ -34,13 +34,13 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "gaute@verdsveven.com,korsvoll@skulelinux.no,karl@huftis.org"
 
-#: composite.cpp:632
+#: composite.cpp:629
 #, kde-format
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr ""
 "Skrivebordseffektane vart starta på nytt, på grunn av ei grafikk-nullstilling"
 
-#: composite.cpp:835
+#: composite.cpp:832
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -843,7 +843,7 @@ msgstr "oppgåve"
 #: debug_console.cpp:1199
 #, kde-format
 msgid "X11 Windows"
-msgstr ""
+msgstr "X11-vindauge"
 
 #: debug_console.cpp:1201
 #, kde-format

@@ -6,7 +6,7 @@ Uploaders: Aurélien COUDERC <coucouf@debian.org>,
            Norbert Preining <norbert@preining.info>,
            Patrick Franz <deltaone@debian.org>,
            Scarlett Moore <sgmoore@kde.org>,
-Build-Depends: breeze-dev (>= 4:5.25.0~),
+Build-Depends: breeze-dev (>= 4:5.25.1~),
                cmake (>= 3.16~),
                debhelper-compat (= 13),
                dh-python,
@@ -14,7 +14,7 @@ Build-Depends: breeze-dev (>= 4:5.25.0~),
                gettext,
                hwdata,
                kinit-dev (>= 5.70.0~),
-               kscreenlocker-dev (>= 5.25.0~),
+               kscreenlocker-dev (>= 5.25.1~),
                libcap-dev [linux-any],
                libdrm-dev (>= 2.4.62~),
                libegl1-mesa-dev (>= 1.2~),
@@ -26,7 +26,7 @@ Build-Depends: breeze-dev (>= 4:5.25.0~),
                libgbm-dev,
                libice-dev,
                libinput-dev (>= 1.19~),
-               libkdecorations2-dev (>= 4:5.25.0~),
+               libkdecorations2-dev (>= 4:5.25.1~),
                libkf5activities-dev (>= 5.91~),
                libkf5auth-dev (>= 5.91~),
                libkf5config-dev (>= 5.91~),
@@ -108,8 +108,8 @@ Depends: hwdata,
          qml-module-qtmultimedia,
          ${misc:Depends},
          ${shlibs:Depends},
-Recommends: libqt5multimedia5-plugins, plasma-desktop (>= 4:5.24)
-Suggests: kwin-addons (>= 4:5.24)
+Recommends: libqt5multimedia5-plugins, plasma-desktop (>= 4:5.25)
+Suggests: kwin-addons (>= 4:5.25)
 Breaks: plasma-workspace (<< 4:5.14), plasma-workspace-dev (<< 4:5.14)
 Description: KDE window manager, common files
  KWin (pronounced as one syllable "kwin") is the window
@@ -173,7 +173,7 @@ Description: KDE window manager - devel files
 
 Package: kwin-wayland
 Architecture: any
-Depends: kwayland-integration (>= 5.24),
+Depends: kwayland-integration (>= 5.25),
          kwin-wayland-backend-drm (= ${binary:Version}) | kwin-wayland-backend-x11 (= ${binary:Version}) | kwin-wayland-backend-virtual (= ${binary:Version}) | kwin-wayland-backend-wayland (= ${binary:Version}),
          libcap2-bin [linux-any],
          xwayland,

@@ -24,6 +24,7 @@ class WindowViewEffect : public QuickSceneEffect
     Q_PROPERTY(PresentWindowsMode mode READ mode NOTIFY modeChanged)
     Q_PROPERTY(qreal partialActivationFactor READ partialActivationFactor NOTIFY partialActivationFactorChanged)
     Q_PROPERTY(bool gestureInProgress READ gestureInProgress NOTIFY gestureInProgressChanged)
+    Q_PROPERTY(QString searchText MEMBER m_searchText NOTIFY searchTextChanged)
 
 public:
     enum PresentWindowsMode {
@@ -37,6 +38,7 @@ public:
     enum class Status {
         Inactive,
         Activating,
+        Deactivating,
         Active
     };
 
@@ -53,13 +55,14 @@ public:
 
     void reconfigure(ReconfigureFlags) override;
     int requestedEffectChainPosition() const override;
-
     void grabbedKeyboardEvent(QKeyEvent *e) override;
-
     bool borderActivated(ElectricBorder border) override;
-    void partialActivate();
+
     qreal partialActivationFactor() const;
+    void setPartialActivationFactor(qreal factor);
+
     bool gestureInProgress() const;
+    void setGestureInProgress(bool gesture);
 
     void setMode(PresentWindowsMode mode);
     void toggleMode(PresentWindowsMode mode);
@@ -70,6 +73,11 @@ public Q_SLOTS:
     void activate();
     void deactivate(int timeout);
 
+    void partialActivate(qreal factor);
+    void cancelPartialActivate();
+    void partialDeactivate(qreal factor);
+    void cancelPartialDeactivate();
+
 Q_SIGNALS:
     void animationDurationChanged();
     void partialActivationFactorChanged();
@@ -77,6 +85,7 @@ Q_SIGNALS:
     void modeChanged();
     void layoutChanged();
     void ignoreMinimizedChanged();
+    void searchTextChanged();
 
 protected:
     QVariantMap initialProperties(EffectScreen *screen) override;
@@ -102,11 +111,13 @@ private:
     QList<ElectricBorder> m_touchBorderActivate;
     QList<ElectricBorder> m_touchBorderActivateAll;
     QList<ElectricBorder> m_touchBorderActivateClass;
+    QString m_searchText;
     Status m_status = Status::Inactive;
     qreal m_partialActivationFactor = 0;
     PresentWindowsMode m_mode;
     int m_animationDuration = 200;
     int m_layout = 1;
+    bool m_gestureInProgress = false;
 };
 
 } // namespace KWin

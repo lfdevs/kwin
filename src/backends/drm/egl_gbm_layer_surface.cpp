@@ -273,7 +273,7 @@ std::shared_ptr<DrmFramebuffer> EglGbmLayerSurface::importBuffer()
 
 std::shared_ptr<DrmFramebuffer> EglGbmLayerSurface::importDmabuf()
 {
-    const auto imported = GbmBuffer::importBuffer(m_gpu, m_currentBuffer.get(), m_gbmSurface->flags());
+    const auto imported = GbmBuffer::importBuffer(m_gpu, m_currentBuffer.get(), m_gbmSurface->flags() | GBM_BO_USE_SCANOUT);
     if (!imported) {
         qCWarning(KWIN_DRM, "failed to import gbm_bo for multi-gpu usage: %s", strerror(errno));
         return nullptr;
@@ -347,6 +347,19 @@ std::shared_ptr<DrmFramebuffer> EglGbmLayerSurface::renderTestBuffer(const QSize
     glClear(GL_COLOR_BUFFER_BIT);
     m_currentBuffer = m_gbmSurface->swapBuffers(infiniteRegion());
     if (m_currentBuffer) {
+        if (m_gpu != m_eglBackend->gpu()) {
+            auto oldImportMode = m_importMode;
+            auto buffer = importBuffer();
+            if (buffer) {
+                return buffer;
+            } else if (m_importMode != oldImportMode) {
+                // try again with the new import mode
+                // recursion depth is limited by the number of import modes
+                return renderTestBuffer(bufferSize, formats, additionalFlags);
+            } else {
+                return nullptr;
+            }
+        }
         return DrmFramebuffer::createFramebuffer(m_currentBuffer);
     } else {
         return nullptr;

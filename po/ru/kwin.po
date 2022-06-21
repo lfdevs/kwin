@@ -22,9 +22,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-05-28 03:09+0000\n"
-"PO-Revision-Date: 2022-02-18 12:01+0300\n"
-"Last-Translator: Мария Шикунова <translation-team@basealt.ru>\n"
+"POT-Creation-Date: 2022-06-15 02:14+0000\n"
+"PO-Revision-Date: 2022-06-18 10:06+0300\n"
+"Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -49,13 +49,13 @@ msgid "Your emails"
 msgstr ""
 "asm@som.kiev.ua,mokhin@bog.msu.ru,kekcuHa@gmail.com,gammaray@basealt.ru"
 
-#: composite.cpp:632
+#: composite.cpp:629
 #, kde-format
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr ""
 "Подсистема эффектов рабочего стола была перезапущена из-за сброса графики"
 
-#: composite.cpp:835
+#: composite.cpp:832
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -866,10 +866,9 @@ msgid "task"
 msgstr "задача"
 
 #: debug_console.cpp:1199
-#, fuzzy, kde-format
-#| msgid "Windows"
+#, kde-format
 msgid "X11 Windows"
-msgstr "Окна"
+msgstr "Окна X11"
 
 #: debug_console.cpp:1201
 #, kde-format
@@ -2430,7 +2429,7 @@ msgstr "Поместить окно на задний план"
 
 #: useractions.cpp:1019
 msgid "Activate Window Demanding Attention"
-msgstr "Активировать привлечение внимания к окну"
+msgstr "Активировать окно, требующее внимания"
 
 #: useractions.cpp:1021
 msgid "Setup Window Shortcut"
@@ -2593,7 +2592,7 @@ msgstr "Переключиться на предыдущий экран"
 
 #: useractions.cpp:1104
 msgid "Kill Window"
-msgstr "Удалить окно"
+msgstr "Принудительно закрыть окно"
 
 #: useractions.cpp:1105
 msgid "Suspend Compositing"

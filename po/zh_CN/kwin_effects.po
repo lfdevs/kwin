@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-07 03:05+0000\n"
-"PO-Revision-Date: 2022-06-05 04:20\n"
+"POT-Creation-Date: 2022-06-18 02:12+0000\n"
+"PO-Revision-Date: 2022-06-19 07:03\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -542,7 +542,7 @@ msgstr "颜色(&C)："
 msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr "按住 Shift+Meta 键并移动鼠标即绘制线条。"
 
-#: overview/kcm/overvieweffectkcm.cpp:41 overview/overvieweffect.cpp:43
+#: overview/kcm/overvieweffectkcm.cpp:41 overview/overvieweffect.cpp:31
 #, kde-format
 msgid "Toggle Overview"
 msgstr "显示/隐藏桌面总览"
@@ -933,17 +933,17 @@ msgstr "弹出菜单："
 msgid "Torn-off menus:"
 msgstr "拆分菜单："
 
-#: windowview/kcm/windowvieweffectkcm.cpp:41 windowview/windowvieweffect.cpp:56
+#: windowview/kcm/windowvieweffectkcm.cpp:41 windowview/windowvieweffect.cpp:44
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "显示/隐藏窗口平铺 (当前桌面)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:66
+#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:54
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "显示/隐藏窗口平铺 (全部桌面)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:76
+#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:64
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "显示/隐藏窗口平铺 (窗口类)"
@@ -954,12 +954,12 @@ msgstr "显示/隐藏窗口平铺 (窗口类)"
 msgid "Ignore &minimized windows"
 msgstr "忽略最小化窗口(&M)"
 
-#: windowview/qml/main.qml:137
+#: windowview/qml/main.qml:149
 #, kde-format
 msgid "No Matches"
 msgstr "无匹配项"
 
-#: windowview/qml/main.qml:137
+#: windowview/qml/main.qml:149
 #, kde-format
 msgid "No Windows"
 msgstr "无窗口"

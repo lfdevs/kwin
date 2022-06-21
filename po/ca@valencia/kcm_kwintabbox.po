@@ -57,7 +57,7 @@ msgstr "Obtin commutadors nous de tasques..."
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."
 msgstr ""
-"La configuració de la política de focus llimita la funcionalitat de navegar "
+"La configuració de la política de focus limita la funcionalitat de navegar "
 "per les finestres."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
@@ -76,7 +76,7 @@ msgstr "Inclou la icona «Mostra l'escriptori»"
 #: main.ui:55
 #, kde-format
 msgid "Recently used"
-msgstr "Utilisades recentment"
+msgstr "Utilitzades recentment"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, switchingModeCombo)
 #: main.ui:60
@@ -118,7 +118,7 @@ msgstr "Escriptori actual"
 #: main.ui:164
 #, kde-format
 msgid "All other desktops"
-msgstr "Tots els atres escriptoris"
+msgstr "Tots els altres escriptoris"
 
 #. i18n: ectx: property (text), widget (QCheckBox, filterActivities)
 #: main.ui:174
@@ -136,7 +136,7 @@ msgstr "Activitat actual"
 #: main.ui:225
 #, kde-format
 msgid "All other activities"
-msgstr "Totes les atres activitats"
+msgstr "Totes les altres activitats"
 
 #. i18n: ectx: property (text), widget (QCheckBox, filterScreens)
 #: main.ui:235
@@ -154,13 +154,13 @@ msgstr "Pantalla actual"
 #: main.ui:286
 #, kde-format
 msgid "All other screens"
-msgstr "Totes les atres pantalles"
+msgstr "Totes les altres pantalles"
 
 #. i18n: ectx: property (text), widget (QCheckBox, filterMinimization)
 #: main.ui:296
 #, kde-format
 msgid "Minimization"
-msgstr "Minimisació"
+msgstr "Minimització"
 
 #. i18n: ectx: property (text), widget (QRadioButton, visibleWindows)
 #: main.ui:340
@@ -198,7 +198,7 @@ msgstr "Totes les finestres"
 #: main.ui:428 main.ui:448
 #, kde-format
 msgid "Reverse"
-msgstr "Inverteix"
+msgstr "Invertix"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: main.ui:470
@@ -210,7 +210,7 @@ msgstr "Aplicació actual"
 #: main.ui:489
 #, kde-format
 msgid "Visualization"
-msgstr "Visualisació"
+msgstr "Visualització"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, effectCombo)
 #: main.ui:519
@@ -227,7 +227,7 @@ msgid ""
 "The currently selected window will be highlighted by fading out all other "
 "windows. This option requires desktop effects to be active."
 msgstr ""
-"La finestra actualment seleccionada es ressaltarà esvaint totes les atres "
+"La finestra actualment seleccionada es ressaltarà esvaint totes les altres "
 "finestres. Esta opció requerix que els efectes de l'escriptori estiguen "
 "actius."
 

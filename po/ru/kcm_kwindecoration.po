@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-03-26 00:45+0000\n"
-"PO-Revision-Date: 2022-01-20 11:25+0300\n"
+"PO-Revision-Date: 2022-06-18 09:48+0300\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -263,7 +263,7 @@ msgstr "Редактировать оформление %1"
 #: utils.cpp:25
 #, kde-format
 msgid "No Borders"
-msgstr "Нет рамки"
+msgstr "Без рамки"
 
 #: utils.cpp:26
 #, kde-format

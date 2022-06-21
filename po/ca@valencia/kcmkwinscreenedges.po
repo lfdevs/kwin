@@ -105,7 +105,7 @@ msgstr ""
 #: main.ui:67
 #, kde-format
 msgid "&Maximize:"
-msgstr "&Maximisa:"
+msgstr "&Maximitza:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ElectricBorderMaximize)
 #: main.ui:77

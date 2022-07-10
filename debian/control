@@ -129,6 +129,7 @@ Recommends: plasma-framework,
             qml-module-qtquick-virtualkeyboard,
             qml-module-qtquick-window2,
             qml-module-qtquick2,
+            systemsettings,
 Description: KDE window manager data files
  KWin (pronounced as one syllable "kwin") is the window
  manager for the KDE Plasma Desktop. It gives you complete

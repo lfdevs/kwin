@@ -4,6 +4,7 @@ kwin (4:5.25.2-1) UNRELEASED; urgency=medium
   * New upstream release (5.25.2).
   * Drop now unused build dependencies on libkf5kio-dev, kinit-dev,
     libqt5sensors5-dev and qtscript5-dev.
+  * Refresh lintian overrides.
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Tue, 28 Jun 2022 15:59:43 +0200
 

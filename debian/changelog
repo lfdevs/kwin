@@ -1,4 +1,4 @@
-kwin (4:5.25.3-1) UNRELEASED; urgency=medium
+kwin (4:5.25.3-1) unstable; urgency=medium
 
   [ Aurélien COUDERC ]
   * New upstream release (5.25.2).
@@ -7,8 +7,9 @@ kwin (4:5.25.3-1) UNRELEASED; urgency=medium
   * Refresh lintian overrides.
   * Add a Recommends on systemsettings used to invoke KCMs.
   * New upstream release (5.25.3).
+  * Release to unstable
 
- -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Tue, 28 Jun 2022 15:59:43 +0200
+ -- Aurélien COUDERC <coucouf@debian.org>  Sun, 17 Jul 2022 15:29:13 +0200
 
 kwin (4:5.25.1-1) experimental; urgency=medium
 

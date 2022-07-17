@@ -79,6 +79,8 @@ private:
     void updateParams();
     void coreFailed(const QString &errorMessage);
     void sendCursorData(Cursor *cursor, spa_meta_cursor *spa_cursor);
+    void addHeader(spa_buffer *spaBuffer);
+    void addDamage(spa_buffer *spaBuffer, const QRegion &damagedRegion);
     void newStreamParams();
     void tryEnqueue(pw_buffer *buffer);
     void enqueue();
@@ -110,6 +112,7 @@ private:
         qint64 lastKey = 0;
         QRect lastRect;
         QScopedPointer<GLTexture> texture;
+        bool visible = false;
     } m_cursor;
     QRect cursorGeometry(Cursor *cursor) const;
 

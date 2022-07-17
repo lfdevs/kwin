@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-15 02:14+0000\n"
-"PO-Revision-Date: 2022-03-13 10:18+0100\n"
+"POT-Creation-Date: 2022-07-04 02:16+0000\n"
+"PO-Revision-Date: 2022-07-02 12:42+0200\n"
 "Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 21.12.3\n"
+"X-Generator: Lokalize 22.04.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -877,7 +877,7 @@ msgstr "Fenster"
 
 #. i18n: ectx: attribute (title), widget (QWidget, surfaces)
 #: debug_console.ui:59
-#, fuzzy, kde-format
+#, kde-format
 msgid "Surfaces"
 msgstr "Oberflächen"
 
@@ -1145,18 +1145,14 @@ msgid "Wait Longer"
 msgstr "Länger warten"
 
 #: input.cpp:3099
-#, fuzzy, kde-format
-#| msgctxt "A touch up event"
-#| msgid "Touch Up"
+#, kde-format
 msgid "Touchpad"
-msgstr "Touch-Berührung gelöst"
+msgstr "Touchpad"
 
 #: keyboard_layout.cpp:46
-#, fuzzy, kde-format
-#| msgctxt "tooltip title"
-#| msgid "Keyboard Layout"
+#, kde-format
 msgid "Keyboard Layout Switcher"
-msgstr "Tastaturbelegung"
+msgstr "Umschaltung der Tastaturbelegung"
 
 #: killwindow.cpp:33
 #, kde-format
@@ -1409,49 +1405,46 @@ msgstr "Bereits laufende ICCCM2.0-kompatible Fensterverwaltung ersetzen"
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "activate"
-msgstr ""
+msgstr "Aktivieren"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:63
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:65
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "close"
-msgstr ""
+msgstr "Schließen"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:66
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:68
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "min"
-msgstr ""
+msgstr "Min"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:69
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:71
-#, fuzzy, kde-format
-#| msgid "Minimized"
+#, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "minimize"
-msgstr "Minimiert"
+msgstr "Minimieren"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:72
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:74
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "max"
-msgstr ""
+msgstr "Max"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:75
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:77
-#, fuzzy, kde-format
-#| msgid "Maximize"
+#, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "maximize"
 msgstr "Maximieren"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:78
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:80
-#, fuzzy, kde-format
-#| msgid "Fullscreen"
+#, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "fullscreen"
 msgstr "Vollbild"
@@ -1466,30 +1459,26 @@ msgstr "Fensterheber rückgängig"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:84
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:86
-#, fuzzy, kde-format
-#| msgid "Keep above"
+#, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "keep above"
 msgstr "Im Vordergrund halten"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:87
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:89
-#, fuzzy, kde-format
-#| msgid "Keep below"
+#, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "keep below"
 msgstr "Im Hintergrund halten"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:94
-#, fuzzy, kde-format
-#| msgid "Windows"
+#, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "window"
 msgstr "Fenster"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:104
-#, fuzzy, kde-format
-#| msgid "name"
+#, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "name"
 msgstr "Name"
@@ -1503,11 +1492,10 @@ msgstr "Name"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:108
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:161
-#, fuzzy, kde-format
-#| msgid "&Desktops"
+#, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "desktop"
-msgstr "&Arbeitsflächen"
+msgstr "Arbeitsfläche"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:267
 #, kde-format
@@ -2173,7 +2161,7 @@ msgstr "Nächster Eintrag in Arbeitsflächenliste"
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "Nächster Eintrag in Arbeitsflächenliste (Gegenrichtung)"
 
-#: tabbox/tabboxhandler.cpp:277
+#: tabbox/tabboxhandler.cpp:288
 #, kde-format
 msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
@@ -2321,9 +2309,7 @@ msgid "&All Desktops"
 msgstr "&Alle Arbeitsflächen"
 
 #: useractions.cpp:555
-#, fuzzy, kde-format
-#| msgctxt "Create a new desktop and move there the window"
-#| msgid "&New Desktop"
+#, kde-format
 msgctxt "Create a new desktop and move the window there"
 msgid "&New Desktop"
 msgstr "&Neue Arbeitsfläche"
@@ -2331,22 +2317,19 @@ msgstr "&Neue Arbeitsfläche"
 #: useractions.cpp:625
 #, kde-format
 msgid "Move to %1 %2"
-msgstr ""
+msgstr "Verschieben nach %1 %2"
 
 #: useractions.cpp:638
-#, fuzzy, kde-format
-#| msgctxt "Create a new desktop and move there the window"
-#| msgid "&New Desktop"
+#, kde-format
 msgctxt "Create a new desktop and add the window to that desktop"
 msgid "Add to &New Desktop"
-msgstr "&Neue Arbeitsfläche"
+msgstr "Zur &neuen Arbeitsfläche hinzufügen"
 
 #: useractions.cpp:650
-#, fuzzy, kde-format
-#| msgid "Move to &Desktop"
+#, kde-format
 msgctxt "Create a new desktop and move the window to that desktop"
 msgid "Move to New Desktop"
-msgstr "Auf &Arbeitsfläche verschieben"
+msgstr "Auf neue Arbeitsfläche verschieben"
 
 #: useractions.cpp:681
 #, kde-format
@@ -2446,40 +2429,30 @@ msgid "Setup Window Shortcut"
 msgstr "Kurzbefehl für Fenster einrichten"
 
 #: useractions.cpp:1023
-#, fuzzy
-#| msgid "Move Window to Group"
 msgid "Move Window to the Center"
-msgstr "Fenster zur Gruppe verschieben"
+msgstr "Fenster zentrieren"
 
 #: useractions.cpp:1025
-#, fuzzy
 msgid "Move Window Right"
 msgstr "Fenster nach rechts verschieben"
 
 #: useractions.cpp:1027
-#, fuzzy
 msgid "Move Window Left"
 msgstr "Fenster nach links verschieben"
 
 #: useractions.cpp:1029
-#, fuzzy
 msgid "Move Window Up"
 msgstr "Fenster nach oben verschieben"
 
 #: useractions.cpp:1031
-#, fuzzy
 msgid "Move Window Down"
 msgstr "Fenster nach unten verschieben"
 
 #: useractions.cpp:1033
-#, fuzzy
-#| msgid "Maximize Window Horizontally"
 msgid "Expand Window Horizontally"
 msgstr "Fenster waagerecht maximieren"
 
 #: useractions.cpp:1035
-#, fuzzy
-#| msgid "Maximize Window Vertically"
 msgid "Expand Window Vertically"
 msgstr "Fenster senkrecht maximieren"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-18 02:12+0000\n"
+"POT-Creation-Date: 2022-06-25 02:35+0000\n"
 "PO-Revision-Date: 2013-09-30 00:41+0600\n"
 "Last-Translator: Sairan Kikkarin <sairan@computer.org>\n"
 "Language-Team: Kazakh <kde-i18n-doc@kde.org>\n"
@@ -594,12 +594,12 @@ msgstr ""
 msgid "Add Desktop"
 msgstr "Үстел"
 
-#: overview/qml/ScreenView.qml:169
+#: overview/qml/ScreenView.qml:170
 #, kde-format
 msgid "Search..."
 msgstr ""
 
-#: private/qml/WindowHeap.qml:231
+#: private/qml/WindowHeapDelegate.qml:149
 #, kde-format
 msgid "Drag Down To Close"
 msgstr ""
@@ -977,12 +977,12 @@ msgstr "'Терезелерді көрсету' күйін терістеу (т�
 msgid "Ignore &minimized windows"
 msgstr "&Түйіп қойған терезелерді елемеу"
 
-#: windowview/qml/main.qml:149
+#: windowview/qml/main.qml:157
 #, kde-format
 msgid "No Matches"
 msgstr ""
 
-#: windowview/qml/main.qml:149
+#: windowview/qml/main.qml:157
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "No Windows"

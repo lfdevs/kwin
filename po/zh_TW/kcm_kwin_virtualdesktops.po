@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-03-26 00:45+0000\n"
+"POT-Creation-Date: 2022-07-12 02:19+0000\n"
 "PO-Revision-Date: 2022-03-08 21:13+0800\n"
 "Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.slat.org>\n"
@@ -32,17 +32,17 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "franklin@goodhorse.idv.tw, s8321414@gmail.com"
 
-#: desktopsmodel.cpp:465
+#: desktopsmodel.cpp:467
 #, kde-format
 msgid "There was an error connecting to the compositor."
 msgstr "連線到合成器時發生錯誤。"
 
-#: desktopsmodel.cpp:664
+#: desktopsmodel.cpp:666
 #, kde-format
 msgid "There was an error saving the settings to the compositor."
 msgstr "儲存設定到合成器時發生錯誤。"
 
-#: desktopsmodel.cpp:667
+#: desktopsmodel.cpp:669
 #, kde-format
 msgid "There was an error requesting information from the compositor."
 msgstr "從合成器請求資訊時發生錯誤。"

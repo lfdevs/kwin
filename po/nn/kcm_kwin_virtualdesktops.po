@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-03-26 00:45+0000\n"
+"POT-Creation-Date: 2022-07-12 02:19+0000\n"
 "PO-Revision-Date: 2022-01-15 18:26+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
@@ -30,17 +30,17 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "karl@huftis.org"
 
-#: desktopsmodel.cpp:465
+#: desktopsmodel.cpp:467
 #, kde-format
 msgid "There was an error connecting to the compositor."
 msgstr "Feil ved tilkopling til samansetjaren."
 
-#: desktopsmodel.cpp:664
+#: desktopsmodel.cpp:666
 #, kde-format
 msgid "There was an error saving the settings to the compositor."
 msgstr "Feil ved lagring av innstillingar til samansetjaren."
 
-#: desktopsmodel.cpp:667
+#: desktopsmodel.cpp:669
 #, kde-format
 msgid "There was an error requesting information from the compositor."
 msgstr "Feil ved førespurnad om informasjon frå samansetjaren."

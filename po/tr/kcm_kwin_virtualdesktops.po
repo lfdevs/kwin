@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-03-26 00:45+0000\n"
+"POT-Creation-Date: 2022-07-12 02:19+0000\n"
 "PO-Revision-Date: 2022-03-18 23:44+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -32,17 +32,17 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "tulliana@gmail.com, ibrahim@pardus.org.tr"
 
-#: desktopsmodel.cpp:465
+#: desktopsmodel.cpp:467
 #, kde-format
 msgid "There was an error connecting to the compositor."
 msgstr "Bileşikleştiriciye bağlanırken bir hata oluştu."
 
-#: desktopsmodel.cpp:664
+#: desktopsmodel.cpp:666
 #, kde-format
 msgid "There was an error saving the settings to the compositor."
 msgstr "Ayarları bileşikleştiriciye kaydederken bir hata oluştu."
 
-#: desktopsmodel.cpp:667
+#: desktopsmodel.cpp:669
 #, kde-format
 msgid "There was an error requesting information from the compositor."
 msgstr "Bileşikleştiriciden bilgi istenirken bir hata oluştu."

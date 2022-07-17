@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-18 02:12+0000\n"
+"POT-Creation-Date: 2022-06-25 02:35+0000\n"
 "PO-Revision-Date: 2022-04-10 02:31+0400\n"
 "Last-Translator: Kheyyam Gojayev <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -568,12 +568,12 @@ msgstr "Virtual iş masasını sil"
 msgid "Add Desktop"
 msgstr "İş masası əlavə et"
 
-#: overview/qml/ScreenView.qml:169
+#: overview/qml/ScreenView.qml:170
 #, kde-format
 msgid "Search..."
 msgstr "Axtarış..."
 
-#: private/qml/WindowHeap.qml:231
+#: private/qml/WindowHeapDelegate.qml:149
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "Bağlamaq üçün aşağı çəkin"
@@ -946,12 +946,12 @@ msgstr "Tək sinifə aid pəncərəni göstərmək"
 msgid "Ignore &minimized windows"
 msgstr "Yığılmış pəncərələri yox saymaq"
 
-#: windowview/qml/main.qml:149
+#: windowview/qml/main.qml:157
 #, kde-format
 msgid "No Matches"
 msgstr ""
 
-#: windowview/qml/main.qml:149
+#: windowview/qml/main.qml:157
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "No Windows"

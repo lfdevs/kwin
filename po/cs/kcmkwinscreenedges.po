@@ -127,7 +127,7 @@ msgstr "Okna přetažená na levý nebo pravý okraj"
 #: main.ui:101
 #, kde-format
 msgid "Behavior"
-msgstr ""
+msgstr "Chování"
 
 #. i18n: ectx: property (text), widget (QCheckBox, remainActiveOnFullscreen)
 #: main.ui:108

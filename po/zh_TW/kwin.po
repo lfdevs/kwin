@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-15 02:14+0000\n"
+"POT-Creation-Date: 2022-07-04 02:16+0000\n"
 "PO-Revision-Date: 2020-03-18 20:58+0800\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -2166,7 +2166,7 @@ msgstr "瀏覽桌面清單項目"
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "瀏覽桌面清單項目（反向）"
 
-#: tabbox/tabboxhandler.cpp:277
+#: tabbox/tabboxhandler.cpp:288
 #, kde-format
 msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"

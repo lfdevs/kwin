@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-15 02:14+0000\n"
+"POT-Creation-Date: 2022-07-04 02:16+0000\n"
 "PO-Revision-Date: 2022-04-26 09:15+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -46,7 +46,7 @@ msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
 "resume using the '%1' shortcut."
 msgstr ""
-"Una altra aplicació ha suspès els efectes de l'escriptori.<br/>Podeu "
+"Una altra aplicació ha suspés els efectes de l'escriptori.<br/>Podeu "
 "reprendre-ho utilitzant la drecera «%1»."
 
 #: debug_console.cpp:76
@@ -1350,7 +1350,7 @@ msgstr "Desactiva la integració de les «KActivities»."
 #, kde-format
 msgid "Exit after the session application, which is started by KWin, closed."
 msgstr ""
-"Ix després de tancar l'aplicació de sessió, la qual ha estat iniciada per "
+"Ix després de tancar l'aplicació de sessió, la qual ha sigut iniciada per "
 "KWin."
 
 #: main_wayland.cpp:456
@@ -1368,7 +1368,7 @@ msgid ""
 "You can select another window manager to run:"
 msgstr ""
 "KWin no està estabilitzat.\n"
-"Sembla que ha fallat diverses vegades seguides.\n"
+"Pareix que ha fallat diverses vegades seguides.\n"
 "Podeu seleccionar un altre gestor de finestres a executar:"
 
 #: main_x11.cpp:235
@@ -1454,14 +1454,14 @@ msgstr "plega"
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "keep above"
-msgstr "mantin al damunt"
+msgstr "mantín al damunt"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:87
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:89
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "keep below"
-msgstr "mantin per davall"
+msgstr "mantín per davall"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:94
 #, kde-format
@@ -1874,19 +1874,19 @@ msgstr "Tipus de regla d'ignorar el commutador"
 #: rulesettings.kcfg:271
 #, kde-format
 msgid "Keep above"
-msgstr "Mantin al damunt"
+msgstr "Mantín al damunt"
 
 #. i18n: ectx: label, entry (aboverule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:275
 #, kde-format
 msgid "Keep above rule type"
-msgstr "Tipus de regla mantin al damunt"
+msgstr "Tipus de regla mantín al damunt"
 
 #. i18n: ectx: label, entry (below), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:282
 #, kde-format
 msgid "Keep below"
-msgstr "Mantin per davall"
+msgstr "Mantín per davall"
 
 #. i18n: ectx: label, entry (belowrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:286
@@ -2148,7 +2148,7 @@ msgstr "Recorre la llista d'escriptoris"
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "Recorre la llista d'escriptoris (a la inversa)"
 
-#: tabbox/tabboxhandler.cpp:277
+#: tabbox/tabboxhandler.cpp:288
 #, kde-format
 msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
@@ -2198,12 +2198,12 @@ msgstr "&Redimensiona"
 #: useractions.cpp:252
 #, kde-format
 msgid "Keep &Above Others"
-msgstr "Mantin sobre les &altres"
+msgstr "Mantín sobre les &altres"
 
 #: useractions.cpp:258
 #, kde-format
 msgid "Keep &Below Others"
-msgstr "Mantin &davall les altres"
+msgstr "Mantín &davall les altres"
 
 #: useractions.cpp:264
 #, kde-format
@@ -2399,11 +2399,11 @@ msgstr "Oculta la vora de la finestra"
 
 #: useractions.cpp:1015
 msgid "Keep Window Above Others"
-msgstr "Mantin la finestra per damunt de les altres"
+msgstr "Mantín la finestra per damunt de les altres"
 
 #: useractions.cpp:1017
 msgid "Keep Window Below Others"
-msgstr "Mantin la finestra per davall de les altres"
+msgstr "Mantín la finestra per davall de les altres"
 
 #: useractions.cpp:1019
 msgid "Activate Window Demanding Attention"
@@ -2507,7 +2507,7 @@ msgstr "Disminuïx l'opacitat de la finestra activa en un 5%"
 
 #: useractions.cpp:1070
 msgid "Keep Window on All Desktops"
-msgstr "Mantin la finestra a tots els escriptoris"
+msgstr "Mantín la finestra a tots els escriptoris"
 
 #: useractions.cpp:1081
 #, kde-format
@@ -2574,7 +2574,7 @@ msgstr "Mata la finestra"
 
 #: useractions.cpp:1105
 msgid "Suspend Compositing"
-msgstr "Suspèn la composició"
+msgstr "Suspén la composició"
 
 #: useractions.cpp:1106
 msgid "Invert Screen Colors"

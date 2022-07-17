@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the kcm_kwintabbox package.
 # Andhika Padmawan <andhika.padmawan@gmail.com>, 2010-2014.
 # Wantoyo <wantoyek@gmail.com>, 2017, 2018, 2019, 2022.
+# Aziz Adam Adrian <4.adam.adrian@gmail.com>, 2022.
 #
 msgid ""
 msgstr ""
@@ -17,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 21.12.3\n"
+"X-Generator: Lokalize 22.04.2\n"
 
 #: kwintabboxconfigform.cpp:76
 #, kde-format

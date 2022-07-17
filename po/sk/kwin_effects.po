@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-18 02:12+0000\n"
+"POT-Creation-Date: 2022-06-25 02:35+0000\n"
 "PO-Revision-Date: 2022-05-16 18:28+0200\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -568,12 +568,12 @@ msgstr "Vymazať virtuálnu plochu"
 msgid "Add Desktop"
 msgstr "Pridať na pracovnú plochu"
 
-#: overview/qml/ScreenView.qml:169
+#: overview/qml/ScreenView.qml:170
 #, kde-format
 msgid "Search..."
 msgstr "Hľadať..."
 
-#: private/qml/WindowHeap.qml:231
+#: private/qml/WindowHeapDelegate.qml:149
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "Ťahaním nadol zatvoríte"
@@ -946,12 +946,12 @@ msgstr "Zapnúť efekt súčasné okná (trieda okna)"
 msgid "Ignore &minimized windows"
 msgstr "Ignorovať &minimalizované okná"
 
-#: windowview/qml/main.qml:149
+#: windowview/qml/main.qml:157
 #, kde-format
 msgid "No Matches"
 msgstr "Žiadne zhody"
 
-#: windowview/qml/main.qml:149
+#: windowview/qml/main.qml:157
 #, kde-format
 msgid "No Windows"
 msgstr "Žiadne okná"

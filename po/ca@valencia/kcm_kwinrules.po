@@ -144,7 +144,7 @@ msgid ""
 msgstr ""
 "La propietat de la finestra només s'establirà al valor indicat després de "
 "crear la finestra.\n"
-"Els canvis posteriors no es voran afectats."
+"Els canvis posteriors no es veuran afectats."
 
 #: optionsmodel.cpp:209
 #, kde-format
@@ -159,7 +159,7 @@ msgid ""
 "(this action will be deleted afterwards)."
 msgstr ""
 "La propietat de la finestra s'establirà immediatament al valor indicat i no "
-"es vorà afectat més tard\n"
+"es veurà afectat més tard\n"
 "(esta acció se suprimirà més tard)."
 
 #: optionsmodel.cpp:213
@@ -188,7 +188,7 @@ msgid ""
 "for it will be used.\n"
 "Specifying this will block more generic window settings from taking effect."
 msgstr ""
-"La propietat de la finestra no es vorà afectada i per tant s'utilitzarà la "
+"La propietat de la finestra no es veurà afectada i per tant s'utilitzarà la "
 "gestió predeterminada per a ella.\n"
 "En especificar açò, es blocaran que tinguen efecte les opcions més "
 "genèriques de finestra."
@@ -615,7 +615,7 @@ msgstr ""
 #: rulesmodel.cpp:537
 #, kde-format
 msgid "Keep above other windows"
-msgstr "Mantin sobre les altres finestres"
+msgstr "Mantín sobre les altres finestres"
 
 #: rulesmodel.cpp:537 rulesmodel.cpp:542 rulesmodel.cpp:547 rulesmodel.cpp:553
 #: rulesmodel.cpp:559 rulesmodel.cpp:565
@@ -626,7 +626,7 @@ msgstr "Organització i accés"
 #: rulesmodel.cpp:542
 #, kde-format
 msgid "Keep below other windows"
-msgstr "Mantin davall les altres finestres"
+msgstr "Mantín davall les altres finestres"
 
 #: rulesmodel.cpp:547
 #, kde-format
@@ -704,11 +704,11 @@ msgid ""
 "\"None\" will unconditionally allow this window to get the focus while\n"
 "\"Extreme\" will completely prevent it from taking the focus."
 msgstr ""
-"KWin intenta evitar que les finestres agafin el focus\n"
+"KWin intenta evitar que les finestres agafen el focus\n"
 "(«activar») mentre esteu treballant en una altra finestra,\n"
 "però açò a vegades pot fallar o sobreactuar.\n"
-"«Cap» permetrà incondicionalment que esta finestra agafi el focus,\n"
-"mentre que «Extrem» evitarà completament que agafi el focus."
+"«Cap» permetrà incondicionalment que esta finestra agafe el focus,\n"
+"mentre que «Extrem» evitarà completament que agafe el focus."
 
 #: rulesmodel.cpp:603
 #, kde-format

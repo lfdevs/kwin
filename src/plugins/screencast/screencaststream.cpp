@@ -424,7 +424,7 @@ void ScreenCastStream::recordFrame(const QRegion &damagedRegion)
             m_cursor.texture->setYInverted(false);
             m_cursor.texture->bind();
             const auto cursorRect = cursorGeometry(cursor);
-            mvp.translate(cursorRect.left(), r.height() - cursorRect.top() - cursor->image().height() * m_cursor.scale);
+            mvp.translate(cursorRect.left(), r.height() - cursorRect.top() - cursor->image().height());
             shader->setUniform(GLShader::ModelViewProjectionMatrix, mvp);
 
             glEnable(GL_BLEND);
@@ -444,7 +444,30 @@ void ScreenCastStream::recordFrame(const QRegion &damagedRegion)
                        (spa_meta_cursor *)spa_buffer_find_meta_data(spa_buffer, SPA_META_Cursor, sizeof(spa_meta_cursor)));
     }
 
-    if (spa_meta *vdMeta = spa_buffer_find_meta(spa_buffer, SPA_META_VideoDamage)) {
+    addDamage(spa_buffer, damagedRegion | QRect({0, 0}, size));
+    addHeader(spa_buffer);
+    tryEnqueue(buffer);
+}
+
+void ScreenCastStream::addHeader(spa_buffer *spaBuffer)
+{
+    spa_meta_header *spaHeader = (spa_meta_header *)spa_buffer_find_meta_data(spaBuffer, SPA_META_Header, sizeof(spaHeader));
+    if (spaHeader) {
+        spaHeader->flags = 0;
+        spaHeader->dts_offset = 0;
+        spaHeader->seq = m_sequential++;
+
+        const auto timestamp = m_source->clock();
+        if (!m_start) {
+            m_start = timestamp;
+        }
+        spaHeader->pts = (timestamp - m_start.value()).count();
+    }
+}
+
+void ScreenCastStream::addDamage(spa_buffer *spaBuffer, const QRegion &damagedRegion)
+{
+    if (spa_meta *vdMeta = spa_buffer_find_meta(spaBuffer, SPA_META_VideoDamage)) {
         struct spa_meta_region *r = (spa_meta_region *)spa_meta_first(vdMeta);
 
         // If there's too many rectangles, we just send the bounding rect
@@ -467,21 +490,6 @@ void ScreenCastStream::recordFrame(const QRegion &damagedRegion)
             r->region = SPA_REGION(0, 0, 0, 0);
         }
     }
-
-    spa_meta_header *spaHeader = (spa_meta_header *)spa_buffer_find_meta_data(spa_buffer, SPA_META_Header, sizeof(spaHeader));
-    if (spaHeader) {
-        spaHeader->flags = 0;
-        spaHeader->dts_offset = 0;
-        spaHeader->seq = m_sequential++;
-
-        const auto timestamp = m_source->clock();
-        if (!m_start) {
-            m_start = timestamp;
-        }
-        spaHeader->pts = (timestamp - m_start.value()).count();
-    }
-
-    tryEnqueue(buffer);
 }
 
 void ScreenCastStream::recordCursor()
@@ -502,6 +510,10 @@ void ScreenCastStream::recordCursor()
         return;
     }
 
+    if (!m_cursor.viewport.contains(Cursors::self()->currentCursor()->pos()) && !m_cursor.visible) {
+        return;
+    }
+
     m_pendingBuffer = pw_stream_dequeue_buffer(pwStream);
     if (!m_pendingBuffer) {
         return;
@@ -509,8 +521,11 @@ void ScreenCastStream::recordCursor()
 
     struct spa_buffer *spa_buffer = m_pendingBuffer->buffer;
     spa_buffer->datas[0].chunk->size = 0;
+
     sendCursorData(Cursors::self()->currentCursor(),
                    (spa_meta_cursor *)spa_buffer_find_meta_data(spa_buffer, SPA_META_Cursor, sizeof(spa_meta_cursor)));
+    addHeader(spa_buffer);
+    addDamage(spa_buffer, {});
     enqueue();
 }
 
@@ -619,10 +634,21 @@ QRect ScreenCastStream::cursorGeometry(Cursor *cursor) const
 
 void ScreenCastStream::sendCursorData(Cursor *cursor, spa_meta_cursor *spa_meta_cursor)
 {
-    if (!cursor || !spa_meta_cursor || !m_cursor.viewport.contains(cursor->pos())) {
+    if (!cursor || !spa_meta_cursor) {
         return;
     }
 
+    if (!m_cursor.viewport.contains(cursor->pos())) {
+        spa_meta_cursor->id = 0;
+        spa_meta_cursor->position.x = -1;
+        spa_meta_cursor->position.y = -1;
+        spa_meta_cursor->hotspot.x = -1;
+        spa_meta_cursor->hotspot.y = -1;
+        spa_meta_cursor->bitmap_offset = 0;
+        m_cursor.visible = false;
+        return;
+    }
+    m_cursor.visible = true;
     const auto position = (cursor->pos() - m_cursor.viewport.topLeft()) * m_cursor.scale;
 
     spa_meta_cursor->id = 1;

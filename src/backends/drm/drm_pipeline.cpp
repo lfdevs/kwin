@@ -169,12 +169,16 @@ bool DrmPipeline::commitPipelinesAtomic(const QVector<DrmPipeline *> &pipelines,
 
 bool DrmPipeline::populateAtomicValues(drmModeAtomicReq *req, uint32_t &flags)
 {
-    if (needsModeset()) {
-        prepareAtomicModeset();
+    bool modeset = needsModeset();
+    if (modeset) {
         flags |= DRM_MODE_ATOMIC_ALLOW_MODESET;
+        m_pending.needsModeset = true;
     }
     if (activePending()) {
         flags |= DRM_MODE_PAGE_FLIP_EVENT;
+    }
+    if (m_pending.needsModeset) {
+        prepareAtomicModeset();
     }
     if (m_pending.crtc) {
         m_pending.crtc->setPending(DrmCrtc::PropertyIndex::VrrEnabled, m_pending.syncMode == RenderLoopPrivate::SyncMode::Adaptive);
@@ -285,6 +289,7 @@ void DrmPipeline::atomicCommitSuccessful(CommitMode mode)
         }
     }
     if (mode != CommitMode::Test) {
+        m_pending.needsModeset = false;
         if (activePending()) {
             m_pageflipPending = true;
         }
@@ -429,6 +434,20 @@ bool DrmPipeline::pruneModifier()
 
 bool DrmPipeline::needsModeset() const
 {
+    if (m_connector->needsModeset()) {
+        return true;
+    }
+    if (m_pending.crtc) {
+        if (m_pending.crtc->needsModeset()) {
+            return true;
+        }
+        if (auto primary = m_pending.crtc->primaryPlane(); primary && primary->needsModeset()) {
+            return true;
+        }
+        if (auto cursor = m_pending.crtc->cursorPlane(); cursor && cursor->needsModeset()) {
+            return true;
+        }
+    }
     return m_pending.crtc != m_current.crtc
         || m_pending.active != m_current.active
         || m_pending.mode != m_current.mode

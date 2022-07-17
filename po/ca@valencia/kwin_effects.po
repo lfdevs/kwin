@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-18 02:12+0000\n"
+"POT-Creation-Date: 2022-06-25 02:35+0000\n"
 "PO-Revision-Date: 2022-05-07 12:05+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -239,7 +239,7 @@ msgstr "Escriptori"
 #: diminactive/diminactive_config.ui:61
 #, kde-format
 msgid "Keep above windows"
-msgstr "Mantin les finestres damunt"
+msgstr "Mantín les finestres damunt"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimByGroup)
 #: diminactive/diminactive_config.ui:68
@@ -571,12 +571,12 @@ msgstr "Suprimix l'escriptori virtual"
 msgid "Add Desktop"
 msgstr "Afig un escriptori"
 
-#: overview/qml/ScreenView.qml:169
+#: overview/qml/ScreenView.qml:170
 #, kde-format
 msgid "Search..."
 msgstr "Busca..."
 
-#: private/qml/WindowHeap.qml:231
+#: private/qml/WindowHeapDelegate.qml:149
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "Arrossegueu cap avall per a tancar"
@@ -950,12 +950,12 @@ msgstr "Canvia les finestres presents (classe de finestra)"
 msgid "Ignore &minimized windows"
 msgstr "Ignora les finestres &minimitzades"
 
-#: windowview/qml/main.qml:149
+#: windowview/qml/main.qml:157
 #, kde-format
 msgid "No Matches"
 msgstr "Sense coincidències"
 
-#: windowview/qml/main.qml:149
+#: windowview/qml/main.qml:157
 #, kde-format
 msgid "No Windows"
 msgstr "Sense finestres"
@@ -988,13 +988,13 @@ msgstr "Factor de &moviment:"
 #: wobblywindows/wobblywindows_config.ui:155
 #, kde-format
 msgid "Wo&bble when moving"
-msgstr "&Sacseja en moure"
+msgstr "&Sacsa en moure"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResizeWobble)
 #: wobblywindows/wobblywindows_config.ui:162
 #, kde-format
 msgid "Wobble when &resizing"
-msgstr "Sacseja en &redimensionar"
+msgstr "Sacsa en &redimensionar"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AdvancedMode)
 #: wobblywindows/wobblywindows_config.ui:182
@@ -1006,7 +1006,7 @@ msgstr "Activa el mode &avançat"
 #: wobblywindows/wobblywindows_config.ui:192
 #, kde-format
 msgid "&Wobbliness"
-msgstr "&Sacseig"
+msgstr "&Sacsament"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: wobblywindows/wobblywindows_config.ui:201
@@ -1137,7 +1137,7 @@ msgstr "Escala"
 #: zoom/zoom_config.ui:108
 #, kde-format
 msgid "Keep"
-msgstr "Mantin"
+msgstr "Mantín"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MousePointer)
 #: zoom/zoom_config.ui:113

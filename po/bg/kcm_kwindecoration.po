@@ -3,19 +3,20 @@
 #
 # Zlatko Popov <zlatkopopov@fsa-bg.org>, 2006, 2007, 2008.
 # Yasen Pramatarov <yasen@lindeas.com>, 2009, 2010.
+# Mincho Kondarev <mkondarev@yahoo.de>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-03-26 00:45+0000\n"
-"PO-Revision-Date: 2010-10-05 23:36+0300\n"
-"Last-Translator: Yasen Pramatarov <yasen@lindeas.com>\n"
+"PO-Revision-Date: 2022-05-21 18:34+0200\n"
+"Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Lokalize 22.04.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -31,18 +32,17 @@ msgstr "radnev@yahoo.com"
 #: declarative-plugin/buttonsmodel.cpp:53
 #, kde-format
 msgid "More actions for this window"
-msgstr ""
+msgstr "Допълнителни действия за този прозорец"
 
 #: declarative-plugin/buttonsmodel.cpp:55
 #, kde-format
 msgid "Application menu"
-msgstr ""
+msgstr "Меню на програмата"
 
 #: declarative-plugin/buttonsmodel.cpp:57
-#, fuzzy, kde-format
-#| msgid "On All Desktops"
+#, kde-format
 msgid "On all desktops"
-msgstr "Към всички работни плотове"
+msgstr "На всички работни плотове"
 
 #: declarative-plugin/buttonsmodel.cpp:59
 #, kde-format
@@ -62,7 +62,7 @@ msgstr "Затваряне"
 #: declarative-plugin/buttonsmodel.cpp:65
 #, kde-format
 msgid "Context help"
-msgstr ""
+msgstr "Контекстна помощ"
 
 #: declarative-plugin/buttonsmodel.cpp:67
 #, kde-format
@@ -72,34 +72,33 @@ msgstr "Сгъване"
 #: declarative-plugin/buttonsmodel.cpp:69
 #, kde-format
 msgid "Keep below other windows"
-msgstr ""
+msgstr "Задържане под другите прозорците"
 
 #: declarative-plugin/buttonsmodel.cpp:71
 #, kde-format
 msgid "Keep above other windows"
-msgstr ""
+msgstr "Задържане над другите прозорци"
 
 #: kcm.cpp:49
-#, fuzzy, kde-format
-#| msgid "Get New Decorations..."
+#, kde-format
 msgid "Window Decorations"
-msgstr "Взимане на нови декорации..."
+msgstr "Декорации на прозорци"
 
 #: kcm.cpp:53
 #, kde-format
 msgid "Valerio Pilo"
-msgstr ""
+msgstr "Valerio Pilo"
 
 #: kcm.cpp:54
 #, kde-format
 msgid "Author"
-msgstr ""
+msgstr "Автор"
 
 #: kcm.cpp:183
 #, kde-format
 msgctxt "%1 is the name of a border size"
 msgid "Theme's default (%1)"
-msgstr ""
+msgstr "По подразбиране за темата (%1)"
 
 #: kwin-applywindowdecoration.cpp:32
 #, kde-format
@@ -108,6 +107,9 @@ msgid ""
 "active session, without accidentally setting it to one that is either not "
 "available, or which is already set."
 msgstr ""
+"Този инструмент ви позволява да зададете темата за декорация на прозорци за "
+"текущата сесия, без случайно да го зададете на този, който или не е на "
+"разположение, или който вече е зададен."
 
 #: kwin-applywindowdecoration.cpp:33
 #, kde-format
@@ -116,12 +118,15 @@ msgid ""
 "full path will attempt to find a theme in that directory, and then apply "
 "that if one can be deduced."
 msgstr ""
+"Името на темата на декорация на прозореца, която искате да зададете за KWin. "
+"Посочването на пълен път ще се опита да намери тема в тази директория и след "
+"това да я приложи, ако може да бъде намерена."
 
 #: kwin-applywindowdecoration.cpp:34
 #, kde-format
 msgid ""
 "Show all the themes available on the system (and which is the current theme)"
-msgstr ""
+msgstr "Показване на всички налични теми на системата (и коя е текущата тема)"
 
 #: kwin-applywindowdecoration.cpp:65
 #, kde-format
@@ -129,6 +134,8 @@ msgid ""
 "Resolved %1 to the KWin Aurorae theme \"%2\", and will attempt to set that "
 "as your current theme."
 msgstr ""
+"%1 се насочи към KWin Aurorae тема \"%2\" и ще опита да я настрои като "
+"текуща тема."
 
 #: kwin-applywindowdecoration.cpp:71
 #, kde-format
@@ -136,17 +143,20 @@ msgid ""
 "You attempted to pass a file path, but this could not be resolved to a "
 "theme, and we will have to abort, due to having no theme to set"
 msgstr ""
+"Вие се опитахте да зададете път на файла за тема, но тя не може да бъде "
+"намерена и действието ще бъде прекратено."
 
 #: kwin-applywindowdecoration.cpp:77
 #, kde-format
 msgid ""
 "The requested theme \"%1\" is already set as the window decoration theme."
 msgstr ""
+"Заявената тема \"%1\" вече е зададена като тема за декорация на прозорци."
 
 #: kwin-applywindowdecoration.cpp:99
 #, kde-format
 msgid "Successfully applied the cursor theme %1 to your current Plasma session"
-msgstr ""
+msgstr "Успешно прилагане на тема на курсора %1 към текущата сесия на Plasma"
 
 #: kwin-applywindowdecoration.cpp:103
 #, kde-format
@@ -154,6 +164,9 @@ msgid ""
 "Failed to save your theme settings - the reason is unknown, but this is an "
 "unrecoverable error. You may find that simply trying again will work."
 msgstr ""
+"Неуспешно запазване на настройките на темата ви - причината е неизвестна, но "
+"това е невъзстановима грешка. Може да откриете, че просто ако опитате отново "
+"може да работи."
 
 #: kwin-applywindowdecoration.cpp:107
 #, kde-format
@@ -161,140 +174,121 @@ msgid ""
 "Could not find theme \"%1\". The theme should be one of the following "
 "options: %2"
 msgstr ""
+"Не може да се намери тема \"%1\". Темата трябва да има следните опции: %2"
 
 #: kwin-applywindowdecoration.cpp:112
 #, kde-format
 msgid "You have the following KWin window decoration themes on your system:"
-msgstr ""
+msgstr "Имате следните теми на KWin декорации на вашата система:"
 
 #: package/contents/ui/Buttons.qml:85
 #, kde-format
 msgid "Titlebar"
-msgstr ""
+msgstr "Заглавна лента"
 
 #: package/contents/ui/Buttons.qml:245
 #, kde-format
 msgid "Drop button here to remove it"
-msgstr ""
+msgstr "Пуснете бутона тук, за да го премахнете"
 
 #: package/contents/ui/Buttons.qml:261
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
-msgstr ""
+msgstr "Завлечете бутони от тук и заглавната лента непосредствено отгоре"
 
 #: package/contents/ui/main.qml:19
 #, kde-format
 msgid "This module lets you configure the window decorations."
-msgstr ""
+msgstr "Този модул ви позволява да конфигурирате декорациите на прозорците."
 
 #: package/contents/ui/main.qml:53
 #, kde-format
 msgctxt "tab label"
 msgid "Theme"
-msgstr ""
+msgstr "Тема"
 
 #: package/contents/ui/main.qml:57
-#, fuzzy, kde-format
-#| msgid "Buttons"
+#, kde-format
 msgctxt "tab label"
 msgid "Titlebar Buttons"
-msgstr "Бутони"
+msgstr "Бутони на заглавната лента"
 
 #: package/contents/ui/main.qml:93
-#, fuzzy, kde-format
-#| msgid "Border size:"
+#, kde-format
 msgctxt "Selector label"
 msgid "Window border size:"
-msgstr "Размер на рамката:"
+msgstr "Размер на границите на прозорец:"
 
 #: package/contents/ui/main.qml:114
-#, fuzzy, kde-format
-#| msgid "Get New Decorations..."
+#, kde-format
 msgctxt "button text"
 msgid "Get New Window Decorations..."
-msgstr "Взимане на нови декорации..."
+msgstr "Изтегляне на нови декорации за прозорци..."
 
 #: package/contents/ui/main.qml:143
 #, kde-format
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
-msgstr ""
+msgstr "Затваряне на прозорците при двукратно щракане върху бутона на менюто"
 
 #: package/contents/ui/main.qml:160
 #, kde-format
 msgctxt "popup tip"
 msgid "Click and hold on the menu button to show the menu."
-msgstr ""
+msgstr "Щракнете и задръжте меню бутона, за да бъде показано менюто."
 
 #: package/contents/ui/main.qml:167
-#, fuzzy, kde-format
-#| msgid "&Show window button tooltips"
+#, kde-format
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
-msgstr "Пок&азване на подсказките за бутоните на прозореца"
+msgstr "Показване на подсказките за бутоните на заглавната лента"
 
 #: package/contents/ui/Themes.qml:92
 #, kde-format
 msgid "Edit %1 Theme"
-msgstr ""
+msgstr "Редактиране на %1 тема"
 
 #: utils.cpp:25
-#, fuzzy, kde-format
-#| msgid "Border size:"
+#, kde-format
 msgid "No Borders"
-msgstr "Размер на рамката:"
+msgstr "Без граници"
 
 #: utils.cpp:26
-#, fuzzy, kde-format
-#| msgid "Border size:"
+#, kde-format
 msgid "No Side Borders"
-msgstr "Размер на рамката:"
+msgstr "Без странични граници"
 
 #: utils.cpp:27
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Tiny"
+#, kde-format
 msgid "Tiny"
-msgstr "Малък"
+msgstr "Миниатюрен"
 
 #: utils.cpp:28
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Normal"
+#, kde-format
 msgid "Normal"
-msgstr "Нормален"
+msgstr "Нормално"
 
 #: utils.cpp:29
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Large"
+#, kde-format
 msgid "Large"
 msgstr "Голям"
 
 #: utils.cpp:30
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Very Large"
+#, kde-format
 msgid "Very Large"
 msgstr "Много голям"
 
 #: utils.cpp:31
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Huge"
+#, kde-format
 msgid "Huge"
 msgstr "Огромен"
 
 #: utils.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Very Huge"
+#, kde-format
 msgid "Very Huge"
 msgstr "Много огромен"
 
 #: utils.cpp:33
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Oversized"
+#, kde-format
 msgid "Oversized"
 msgstr "Свръх огромен"

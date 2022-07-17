@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase/kwin_effects.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-18 02:12+0000\n"
+"POT-Creation-Date: 2022-06-25 02:35+0000\n"
 "PO-Revision-Date: 2007-11-14 08:24-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -598,12 +598,12 @@ msgstr ""
 msgid "Add Desktop"
 msgstr "Deasc"
 
-#: overview/qml/ScreenView.qml:169
+#: overview/qml/ScreenView.qml:170
 #, kde-format
 msgid "Search..."
 msgstr ""
 
-#: private/qml/WindowHeap.qml:231
+#: private/qml/WindowHeapDelegate.qml:149
 #, kde-format
 msgid "Drag Down To Close"
 msgstr ""
@@ -979,12 +979,12 @@ msgstr "Scoránaigh na Fuinneoga atá ann (Aicme fhuinneoige)"
 msgid "Ignore &minimized windows"
 msgstr "Déan nea&mhshuim d'fhuinneoga íoslaghdaithe"
 
-#: windowview/qml/main.qml:149
+#: windowview/qml/main.qml:157
 #, kde-format
 msgid "No Matches"
 msgstr ""
 
-#: windowview/qml/main.qml:149
+#: windowview/qml/main.qml:157
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "No Windows"

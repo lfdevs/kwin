@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-18 02:12+0000\n"
+"POT-Creation-Date: 2022-06-25 02:35+0000\n"
 "PO-Revision-Date: 2022-05-05 12:51+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -575,12 +575,12 @@ msgstr "Șterge biroul virtual"
 msgid "Add Desktop"
 msgstr "Adaugă birou"
 
-#: overview/qml/ScreenView.qml:169
+#: overview/qml/ScreenView.qml:170
 #, kde-format
 msgid "Search..."
 msgstr "Caută…"
 
-#: private/qml/WindowHeap.qml:231
+#: private/qml/WindowHeapDelegate.qml:149
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "Trage în jos pentru a închide"
@@ -953,12 +953,12 @@ msgstr "Comută ferestre prezente (clasa ferestrei)"
 msgid "Ignore &minimized windows"
 msgstr "Ignoră ferestrele &minimizate"
 
-#: windowview/qml/main.qml:149
+#: windowview/qml/main.qml:157
 #, kde-format
 msgid "No Matches"
 msgstr ""
 
-#: windowview/qml/main.qml:149
+#: windowview/qml/main.qml:157
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "No Windows"

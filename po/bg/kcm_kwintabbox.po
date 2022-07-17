@@ -2,38 +2,37 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Yasen Pramatarov <yasen@lindeas.com>, 2009, 2011.
+# Mincho Kondarev <mkondarev@yahoo.de>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwintabbox\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-03-26 00:45+0000\n"
-"PO-Revision-Date: 2011-04-29 22:11+0300\n"
-"Last-Translator: Yasen Pramatarov <yasen@lindeas.com>\n"
-"Language-Team: Bulgarian <dict@fsa-bg.org>\n"
+"PO-Revision-Date: 2022-06-19 17:36+0200\n"
+"Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
+"Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.0\n"
+"X-Generator: Lokalize 22.04.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: kwintabboxconfigform.cpp:76
 #, kde-format
 msgid "KWin"
-msgstr ""
+msgstr "KWin"
 
 #: layoutpreview.cpp:133
-#, fuzzy, kde-format
-#| msgid "All Desktops"
+#, kde-format
 msgid "Show Desktop"
-msgstr "Всички работни плотове"
+msgstr "Показване на работния плот"
 
 #: layoutpreview.cpp:163
-#, fuzzy, kde-format
-#| msgid "All Desktops"
+#, kde-format
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
-msgstr "Всички работни плотове"
+msgstr "Работен плот 1"
 
 #: main.cpp:58
 #, kde-format
@@ -48,26 +47,27 @@ msgstr "Алтернативни"
 #: main.cpp:61
 #, kde-format
 msgid "Get New Task Switchers..."
-msgstr ""
+msgstr "Изтеглете нови превключватели на задачи..."
 
 #: main.cpp:75
 #, kde-format
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."
 msgstr ""
+"Настройките на политиката за фокусиране ограничават функционалността на "
+"навигацията през прозорци."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:32
 #, kde-format
 msgid "Content"
-msgstr ""
+msgstr "Съдържание"
 
 #. i18n: ectx: property (text), widget (QCheckBox, showDesktop)
 #: main.ui:41
-#, fuzzy, kde-format
-#| msgid "Include desktop"
+#, kde-format
 msgid "Include \"Show Desktop\" icon"
-msgstr "Включване на работния плот"
+msgstr "Включване на иконата \"Показване на работния плот\""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, switchingModeCombo)
 #: main.ui:55
@@ -79,13 +79,13 @@ msgstr "Скорошно използвани"
 #: main.ui:60
 #, kde-format
 msgid "Stacking order"
-msgstr ""
+msgstr "Ред на пакетиране"
 
 #. i18n: ectx: property (text), widget (QCheckBox, oneAppWindow)
 #: main.ui:68
 #, kde-format
 msgid "Only one window per application"
-msgstr ""
+msgstr "Само един прозорец за приложение"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: main.ui:78
@@ -95,135 +95,127 @@ msgstr "Подреждане:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: main.ui:104
-#, fuzzy, kde-format
-#| msgid "List windows:"
+#, kde-format
 msgid "Filter windows by"
-msgstr "Списък на прозорците:"
+msgstr "Филтриране на прозорците по"
 
 #. i18n: ectx: property (text), widget (QCheckBox, filterDesktops)
 #: main.ui:113
-#, fuzzy, kde-format
-#| msgid "All Desktops"
+#, kde-format
 msgid "Virtual desktops"
-msgstr "Всички работни плотове"
+msgstr "Виртуални работни плотове"
 
 #. i18n: ectx: property (text), widget (QRadioButton, currentDesktop)
 #: main.ui:157
-#, fuzzy, kde-format
-#| msgid "Current Desktop"
+#, kde-format
 msgid "Current desktop"
 msgstr "Текущ работен плот"
 
 #. i18n: ectx: property (text), widget (QRadioButton, otherDesktops)
 #: main.ui:164
-#, fuzzy, kde-format
-#| msgid "All Desktops"
+#, kde-format
 msgid "All other desktops"
-msgstr "Всички работни плотове"
+msgstr "Всички други работни плотове"
 
 #. i18n: ectx: property (text), widget (QCheckBox, filterActivities)
 #: main.ui:174
 #, kde-format
 msgid "Activities"
-msgstr ""
+msgstr "Дейности"
 
 #. i18n: ectx: property (text), widget (QRadioButton, currentActivity)
 #: main.ui:218
 #, kde-format
 msgid "Current activity"
-msgstr ""
+msgstr "Текуща дейност"
 
 #. i18n: ectx: property (text), widget (QRadioButton, otherActivities)
 #: main.ui:225
 #, kde-format
 msgid "All other activities"
-msgstr ""
+msgstr "Всички други дейности"
 
 #. i18n: ectx: property (text), widget (QCheckBox, filterScreens)
 #: main.ui:235
 #, kde-format
 msgid "Screens"
-msgstr ""
+msgstr "Екрани"
 
 #. i18n: ectx: property (text), widget (QRadioButton, currentScreen)
 #: main.ui:279
-#, fuzzy, kde-format
-#| msgid "Current Desktop"
+#, kde-format
 msgid "Current screen"
-msgstr "Текущ работен плот"
+msgstr "Текущ екран"
 
 #. i18n: ectx: property (text), widget (QRadioButton, otherScreens)
 #: main.ui:286
 #, kde-format
 msgid "All other screens"
-msgstr ""
+msgstr "Всички останали екрани"
 
 #. i18n: ectx: property (text), widget (QCheckBox, filterMinimization)
 #: main.ui:296
-#, fuzzy, kde-format
-#| msgid "Minimum Size"
+#, kde-format
 msgid "Minimization"
-msgstr "Минимален размер"
+msgstr "Минимизиране"
 
 #. i18n: ectx: property (text), widget (QRadioButton, visibleWindows)
 #: main.ui:340
-#, fuzzy, kde-format
-#| msgid "List windows:"
+#, kde-format
 msgid "Visible windows"
-msgstr "Списък на прозорците:"
+msgstr "Видими прозорци"
 
 #. i18n: ectx: property (text), widget (QRadioButton, hiddenWindows)
 #: main.ui:347
-#, fuzzy, kde-format
-#| msgid "List windows:"
+#, kde-format
 msgid "Hidden windows"
-msgstr "Списък на прозорците:"
+msgstr "Скрити прозорци"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: main.ui:386
 #, kde-format
 msgid "Shortcuts"
-msgstr ""
+msgstr "Комбинации"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: main.ui:395 main.ui:438
 #, kde-format
 msgid "Forward"
-msgstr ""
+msgstr "Напред"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:418
-#, fuzzy, kde-format
-#| msgid "List windows:"
+#, kde-format
 msgid "All windows"
-msgstr "Списък на прозорците:"
+msgstr "Всички прозорци"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: main.ui:428 main.ui:448
 #, kde-format
 msgid "Reverse"
-msgstr ""
+msgstr "Обратно"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: main.ui:470
 #, kde-format
 msgid "Current application"
-msgstr ""
+msgstr "Текущо приложение"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: main.ui:489
-#, fuzzy, kde-format
-#| msgid "Navigation"
+#, kde-format
 msgid "Visualization"
-msgstr "Навигация"
+msgstr "Визуализация"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, effectCombo)
 #: main.ui:519
 #, kde-format
 msgid "The effect to replace the list window when desktop effects are active."
 msgstr ""
+"Ефектът, който да замени списъка на прозорци, когато са активирани ефектите "
+"на работния плот."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HighlightWindows)
 #: main.ui:549
@@ -232,10 +224,12 @@ msgid ""
 "The currently selected window will be highlighted by fading out all other "
 "windows. This option requires desktop effects to be active."
 msgstr ""
+"Избраният в момента прозорец ще бъде осветен чрез избледняване на всички "
+"останали прозорци. Тази опция изисква ефектите на работния плот да бъдат "
+"активирани."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HighlightWindows)
 #: main.ui:552
-#, fuzzy, kde-format
-#| msgid "Show outline of selected window"
+#, kde-format
 msgid "Show selected window"
-msgstr "Показване на рамка около избраиня прозорец"
+msgstr "Показване на избрания прозорец"

@@ -1,19 +1,9 @@
-# translation of kcmkonq.po to zh_CN
-# Copyright (C) 2003 Free Software Foundation, Inc.
-#
-# Wang Jian <lark@linux.net.cn>, 2000.
-#   Updated by Peace Lu <hepinglu@linpus.com.tw>, 2002.
-# Xiong Jiang <jxiong@offtopic.org>, 2003.
-# Funda Wang <fundawang@linux.net.cn>, 2002, 2004.
-# Lie Ex <lilith.ex@gmail.com>, 2009.
-# Weng Xuetian <wengxt@gmail.com>, 2013.
-# Feng Chao <chaofeng111@gmail.com>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-03-26 00:45+0000\n"
-"PO-Revision-Date: 2022-06-19 07:03\n"
+"POT-Creation-Date: 2022-07-12 02:19+0000\n"
+"PO-Revision-Date: 2022-07-10 09:25\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -37,17 +27,17 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "kde-china@kde.org, i@guoyunhe.me"
 
-#: desktopsmodel.cpp:465
+#: desktopsmodel.cpp:467
 #, kde-format
 msgid "There was an error connecting to the compositor."
 msgstr "连接到显示特效混合器时出错。"
 
-#: desktopsmodel.cpp:664
+#: desktopsmodel.cpp:666
 #, kde-format
 msgid "There was an error saving the settings to the compositor."
 msgstr "保存显示特效混合器设置时出错。"
 
-#: desktopsmodel.cpp:667
+#: desktopsmodel.cpp:669
 #, kde-format
 msgid "There was an error requesting information from the compositor."
 msgstr "获取显示特效混合器信息时出错。"

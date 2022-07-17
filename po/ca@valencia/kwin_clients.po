@@ -123,8 +123,8 @@ msgid ""
 "Check this option if you want the buttons to fade in when the mouse pointer "
 "hovers over them and fade out again when it moves away."
 msgstr ""
-"Marqueu esta opció si voleu que els botons sobresurtin quan l'apuntador del "
-"ratolí passe per damunt i tornen a l'estat normal quan s'allunyi."
+"Marqueu esta opció si voleu que els botons sobreïsquen quan l'apuntador del "
+"ratolí passe per damunt i tornen a l'estat normal quan s'allunye."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_animateButtons)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:69

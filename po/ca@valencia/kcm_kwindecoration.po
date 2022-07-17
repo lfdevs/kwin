@@ -76,12 +76,12 @@ msgstr "Plega"
 #: declarative-plugin/buttonsmodel.cpp:69
 #, kde-format
 msgid "Keep below other windows"
-msgstr "Mantin davall les altres finestres"
+msgstr "Mantín davall les altres finestres"
 
 #: declarative-plugin/buttonsmodel.cpp:71
 #, kde-format
 msgid "Keep above other windows"
-msgstr "Mantin sobre les altres finestres"
+msgstr "Mantín sobre les altres finestres"
 
 #: kcm.cpp:49
 #, kde-format
@@ -232,7 +232,7 @@ msgstr "Mida de la vora de la finestra:"
 #, kde-format
 msgctxt "button text"
 msgid "Get New Window Decorations..."
-msgstr "Obtin decoracions noves de finestra..."
+msgstr "Obtín decoracions noves de finestra..."
 
 #: package/contents/ui/main.qml:143
 #, kde-format

@@ -68,6 +68,10 @@ KWinCompositingKCM::KWinCompositingKCM(QWidget *parent, const QVariantList &args
     , m_settings(new KWinCompositingSetting(this))
 {
     m_form.setupUi(this);
+
+    // AnimationDurationFactor should be written to the same place as the lnf to avoid conflicts
+    m_settings->findItem("AnimationDurationFactor")->setWriteFlags(KConfigBase::Global | KConfigBase::Notify);
+
     addConfig(m_settings, this);
 
     m_form.glCrashedWarning->setIcon(QIcon::fromTheme(QStringLiteral("dialog-warning")));
@@ -105,8 +109,8 @@ void KWinCompositingKCM::init()
     // animation speed
     m_form.animationDurationFactor->setMaximum(s_animationMultipliers.size() - 1);
     connect(m_form.animationDurationFactor, &QSlider::valueChanged, this, [this]() {
-        m_settings->setAnimationDurationFactor(s_animationMultipliers[m_form.animationDurationFactor->value()]);
         updateUnmanagedItemStatus();
+        m_settings->setAnimationDurationFactor(s_animationMultipliers[m_form.animationDurationFactor->value()]);
     });
 
     if (isRunningPlasma()) {
@@ -209,6 +213,9 @@ void KWinCompositingKCM::save()
     m_settings->save();
 
     KCModule::save();
+
+    // This clears up old entries that are now migrated to kdeglobals
+    KConfig("kwinrc", KConfig::NoGlobals).group("KDE").revertToDefault("AnimationDurationFactor");
 
     // Send signal to all kwin instances
     QDBusMessage message = QDBusMessage::createSignal(QStringLiteral("/Compositor"),

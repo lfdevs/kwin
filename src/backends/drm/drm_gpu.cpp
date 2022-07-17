@@ -258,7 +258,6 @@ bool DrmGpu::updateOutputs()
             return c->id() == currentConnector;
         });
         DrmConnector *conn = it == m_connectors.constEnd() ? nullptr : *it;
-        bool updateSuccess = true;
         if (!conn) {
             conn = new DrmConnector(this, currentConnector);
             if (!conn->init()) {
@@ -267,13 +266,14 @@ bool DrmGpu::updateOutputs()
             }
             m_connectors << conn;
             m_allObjects << conn;
-        } else if (conn->updateProperties()) {
-            removedConnectors.removeOne(conn);
         } else {
-            updateSuccess = false;
+            conn->updateProperties();
+            removedConnectors.removeOne(conn);
         }
-        if (conn->isConnected() && updateSuccess) {
-            if (conn->isNonDesktop() ? !findLeaseOutput(conn->id()) : !findOutput(conn->id())) {
+        auto output = findOutput(conn->id());
+        auto leaseOutput = findLeaseOutput(conn->id());
+        if (conn->isConnected()) {
+            if (!output && !leaseOutput) {
                 qCDebug(KWIN_DRM, "New %soutput on GPU %s: %s", conn->isNonDesktop() ? "non-desktop " : "", qPrintable(m_devNode), qPrintable(conn->modelName()));
                 const auto pipeline = conn->pipeline();
                 m_pipelines << pipeline;
@@ -291,10 +291,13 @@ bool DrmGpu::updateOutputs()
                 pipeline->setActive(!conn->isNonDesktop());
                 pipeline->applyPendingChanges();
             }
-        } else if (auto output = findOutput(conn->id())) {
-            removeOutput(output);
-        } else if (auto leaseOutput = findLeaseOutput(conn->id())) {
-            removeLeaseOutput(leaseOutput);
+        } else {
+            conn->disable();
+            if (output) {
+                removeOutput(output);
+            } else if (leaseOutput) {
+                removeLeaseOutput(leaseOutput);
+            }
         }
     }
     for (const auto &connector : qAsConst(removedConnectors)) {
@@ -432,22 +435,22 @@ bool DrmGpu::testPendingConfiguration()
 
 bool DrmGpu::testPipelines()
 {
-    // pipelines that are enabled but not active need to be activated for the test
     QVector<DrmPipeline *> inactivePipelines;
-    for (const auto &pipeline : qAsConst(m_pipelines)) {
-        if (!pipeline->active()) {
-            pipeline->setActive(true);
-            inactivePipelines << pipeline;
-        }
-    }
+    std::copy_if(m_pipelines.constBegin(), m_pipelines.constEnd(), std::back_inserter(inactivePipelines), [](const auto pipeline) {
+        return pipeline->enabled() && !pipeline->active();
+    });
     const auto unused = unusedObjects();
     bool test = DrmPipeline::commitPipelines(m_pipelines, DrmPipeline::CommitMode::Test, unused);
-    // disable inactive pipelines again
-    for (const auto &pipeline : qAsConst(inactivePipelines)) {
-        pipeline->setActive(false);
-    }
     if (!inactivePipelines.isEmpty() && test) {
+        // ensure that pipelines that are set as enabled but currently inactive
+        // still work when they need to be set active again
+        for (const auto pipeline : qAsConst(inactivePipelines)) {
+            pipeline->setActive(true);
+        }
         test = DrmPipeline::commitPipelines(m_pipelines, DrmPipeline::CommitMode::Test, unused);
+        for (const auto pipeline : qAsConst(inactivePipelines)) {
+            pipeline->setActive(false);
+        }
     }
     return test;
 }

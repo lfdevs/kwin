@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwin_virtualdesktops\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-03-26 00:45+0000\n"
+"POT-Creation-Date: 2022-07-12 02:19+0000\n"
 "PO-Revision-Date: 2021-05-27 08:37+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -30,19 +30,19 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "yurchor@ukr.net"
 
-#: desktopsmodel.cpp:465
+#: desktopsmodel.cpp:467
 #, kde-format
 msgid "There was an error connecting to the compositor."
 msgstr ""
 "Під час спроби встановити з'єднання із засобом композиції сталася помилка."
 
-#: desktopsmodel.cpp:664
+#: desktopsmodel.cpp:666
 #, kde-format
 msgid "There was an error saving the settings to the compositor."
 msgstr ""
 "Під час спроби зберегти параметри роботи засобу композиції сталася помилка."
 
-#: desktopsmodel.cpp:667
+#: desktopsmodel.cpp:669
 #, kde-format
 msgid "There was an error requesting information from the compositor."
 msgstr "Під час спроби отримати дані від засобу композиції сталася помилка."

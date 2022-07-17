@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-18 02:12+0000\n"
+"POT-Creation-Date: 2022-06-25 02:35+0000\n"
 "PO-Revision-Date: 2010-01-03 13:04+0000\n"
 "Last-Translator: Sveinn í Felli <sveinki@nett.is>\n"
 "Language-Team: Icelandic <kde-isl@molar.is>\n"
@@ -613,12 +613,12 @@ msgstr ""
 msgid "Add Desktop"
 msgstr "Skjáborð"
 
-#: overview/qml/ScreenView.qml:169
+#: overview/qml/ScreenView.qml:170
 #, kde-format
 msgid "Search..."
 msgstr ""
 
-#: private/qml/WindowHeap.qml:231
+#: private/qml/WindowHeapDelegate.qml:149
 #, kde-format
 msgid "Drag Down To Close"
 msgstr ""
@@ -999,12 +999,12 @@ msgstr "Víxla núverandi gluggum (gluggaflokkur)"
 msgid "Ignore &minimized windows"
 msgstr "Hunsa &minnkaða glugga"
 
-#: windowview/qml/main.qml:149
+#: windowview/qml/main.qml:157
 #, kde-format
 msgid "No Matches"
 msgstr ""
 
-#: windowview/qml/main.qml:149
+#: windowview/qml/main.qml:157
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "No Windows"

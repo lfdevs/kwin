@@ -94,4 +94,4 @@ msgstr "Exclou els efectes interns"
 #: package/contents/ui/main.qml:125
 #, kde-format
 msgid "Get New Desktop Effects..."
-msgstr "Obtin efectes nous d'escriptori..."
+msgstr "Obtín efectes nous d'escriptori..."

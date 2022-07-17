@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-18 02:12+0000\n"
-"PO-Revision-Date: 2022-02-16 09:40+0100\n"
+"POT-Creation-Date: 2022-06-25 02:35+0000\n"
+"PO-Revision-Date: 2022-06-27 14:36+0200\n"
 "Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 21.12.2\n"
+"X-Generator: Lokalize 22.04.2\n"
 "X-Language: cs_CZ\n"
 "X-Source-Language: en_US\n"
 
@@ -179,10 +179,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: desktopgrid/desktopgrid_config.ui:123
-#, fuzzy, kde-format
-#| msgid "&Layout mode:"
+#, kde-format
 msgid "&Grid layout mode:"
-msgstr "Režim roz&ložení:"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
 #: desktopgrid/desktopgrid_config.ui:137 overview/kcm/overvieweffectkcm.ui:30
@@ -200,10 +199,9 @@ msgstr "Přirozený"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: desktopgrid/desktopgrid_config.ui:150
-#, fuzzy, kde-format
-#| msgid "Windows"
+#, kde-format
 msgid "Windows layout:"
-msgstr "Okna"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: desktopgrid/desktopgrid_config.ui:166
@@ -557,10 +555,9 @@ msgstr "Rozmazat pozadí:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: overview/kcm/overvieweffectkcm.ui:70
-#, fuzzy, kde-format
-#| msgid "Ignore &minimized windows"
+#, kde-format
 msgid "Ignore minimized windows:"
-msgstr "Ignorovat &minimalizovaná okna"
+msgstr ""
 
 #: overview/qml/DesktopBar.qml:188
 #, kde-format
@@ -572,12 +569,12 @@ msgstr "Smazat virtuální plochu"
 msgid "Add Desktop"
 msgstr "Přidat plochu"
 
-#: overview/qml/ScreenView.qml:169
+#: overview/qml/ScreenView.qml:170
 #, kde-format
 msgid "Search..."
 msgstr "Hledat..."
 
-#: private/qml/WindowHeap.qml:231
+#: private/qml/WindowHeapDelegate.qml:149
 #, kde-format
 msgid "Drag Down To Close"
 msgstr ""
@@ -788,7 +785,7 @@ msgstr " pixelů"
 #: thumbnailaside/thumbnailaside_config.ui:68
 #, kde-format
 msgid "&Opacity:"
-msgstr "Neprůhledn&ost:"
+msgstr "&Krytí:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Opacity)
 #: thumbnailaside/thumbnailaside_config.ui:87
@@ -946,12 +943,12 @@ msgstr "Zapnout současná okna (třída okno)"
 msgid "Ignore &minimized windows"
 msgstr "Ignorovat &minimalizovaná okna"
 
-#: windowview/qml/main.qml:149
+#: windowview/qml/main.qml:157
 #, kde-format
 msgid "No Matches"
 msgstr "Žádný nevyhovuje"
 
-#: windowview/qml/main.qml:149
+#: windowview/qml/main.qml:157
 #, kde-format
 msgid "No Windows"
 msgstr "Žádná okna"

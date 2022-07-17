@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-04-18 00:45+0000\n"
-"PO-Revision-Date: 2022-04-15 04:13+0200\n"
+"PO-Revision-Date: 2022-07-02 12:32+0200\n"
 "Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 21.12.3\n"
+"X-Generator: Lokalize 22.04.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -793,10 +793,9 @@ msgid "Block compositing"
 msgstr "Compositing blockieren"
 
 #: rulesmodel.cpp:727
-#, fuzzy, kde-format
-#| msgid "Window types"
+#, kde-format
 msgid "All Window Types"
-msgstr "Fenstertypen"
+msgstr "Alle Fenstertypen"
 
 #: rulesmodel.cpp:728
 #, kde-format
@@ -858,7 +857,7 @@ msgstr "Alle Arbeitsflächen"
 #, kde-format
 msgctxt "@info:tooltip in the virtual desktop list"
 msgid "Make the window available on all desktops"
-msgstr ""
+msgstr "Fenster soll auf allen Arbeitsflächen verfügbar sein"
 
 #: rulesmodel.cpp:769
 #, kde-format
@@ -869,7 +868,7 @@ msgstr "Alle Aktivitäten"
 #, kde-format
 msgctxt "@info:tooltip in the activity list"
 msgid "Make the window available on all activities"
-msgstr ""
+msgstr "Fenster soll in allen Aktivitäten verfügbar sein"
 
 #: rulesmodel.cpp:792
 #, kde-format

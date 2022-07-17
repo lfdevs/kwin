@@ -167,7 +167,7 @@ msgstr "exterior de la pantalla"
 msgid ""
 "Change desktop when the mouse cursor is pushed against the edge of the screen"
 msgstr ""
-"Canvia l'escriptori quan s'empenyi el cursor del ratolí contra la vora de la "
+"Canvia l'escriptori quan s'empenya el cursor del ratolí contra la vora de la "
 "pantalla"
 
 #. i18n: ectx: property (text), widget (QLabel, desktopSwitchLabel)

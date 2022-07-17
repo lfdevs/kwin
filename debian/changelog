@@ -1,3 +1,16 @@
+kwin (4:5.25.3-1) unstable; urgency=medium
+
+  [ Aurélien COUDERC ]
+  * New upstream release (5.25.2).
+  * Drop now unused build dependencies on libkf5kio-dev, kinit-dev,
+    libqt5sensors5-dev and qtscript5-dev.
+  * Refresh lintian overrides.
+  * Add a Recommends on systemsettings used to invoke KCMs.
+  * New upstream release (5.25.3).
+  * Release to unstable
+
+ -- Aurélien COUDERC <coucouf@debian.org>  Sun, 17 Jul 2022 15:29:13 +0200
+
 kwin (4:5.25.1-1) experimental; urgency=medium
 
   [ Patrick Franz ]

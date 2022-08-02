@@ -43,6 +43,11 @@ public:
      */
     void setDrmMaster(bool hasDrmMaster);
 
+    /**
+     * Must be called after connectors have been added or removed
+     */
+    void done();
+
 Q_SIGNALS:
     /**
      * Emitted when a lease is requested. The compositor needs to either
@@ -95,9 +100,14 @@ public:
 
     /**
      * Deny the lease request. The compositor may call this in response to
-     * DrmLeaseDeviceV1Interface::leaseRequested or when it detects a lease being ended with libdrm
+     * DrmLeaseDeviceV1Interface::leaseRequested
      */
     void deny();
+
+    /**
+     * revoke a granted lease request and offer the leased connectors again
+     */
+    void revoke();
 
     /**
      * The connectors this lease (request) encompasses

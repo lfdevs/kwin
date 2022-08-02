@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-25 02:35+0000\n"
+"POT-Creation-Date: 2022-07-28 02:12+0000\n"
 "PO-Revision-Date: 2022-05-25 18:58+0200\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
@@ -570,7 +570,7 @@ msgstr "Adde Scriptorio"
 msgid "Search..."
 msgstr "Cerca..."
 
-#: private/qml/WindowHeapDelegate.qml:149
+#: private/qml/WindowHeapDelegate.qml:150
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "Trahe a basso pro clauder"

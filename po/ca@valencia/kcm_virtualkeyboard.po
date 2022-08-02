@@ -52,4 +52,4 @@ msgstr "No utilitzar cap teclat virtual"
 #: package/contents/ui/main.qml:16
 #, kde-format
 msgid "This module lets you choose the virtual keyboard to use."
-msgstr "Este mòdul permet triar el teclat virtual a utilitzar."
+msgstr "Este mòdul permet triar el teclat virtual que s'utilitzarà."

@@ -17,6 +17,7 @@
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
+#include <KApplicationTrader>
 #include <KDesktopFile>
 
 using namespace KWaylandServer;
@@ -31,6 +32,25 @@ static bool isPrivilegedInWindowManagement(const ClientConnection *client)
     return requestedInterfaces.contains(QLatin1String("org_kde_plasma_window_management"));
 }
 
+static const QString windowDesktopFileName(Window *window)
+{
+    QString ret = window->desktopFileName();
+    if (!ret.isEmpty()) {
+        return ret;
+    }
+
+    // Fallback to StartupWMClass for legacy apps
+    const auto resourceName = window->resourceName();
+    const auto service = KApplicationTrader::query([&resourceName](const KService::Ptr &service) {
+        return service->property("StartupWMClass").toString().compare(resourceName, Qt::CaseInsensitive) == 0;
+    });
+
+    if (!service.isEmpty()) {
+        ret = service.constFirst()->desktopEntryName();
+    }
+    return ret;
+}
+
 XdgActivationV1Integration::XdgActivationV1Integration(XdgActivationV1Interface *activation, QObject *parent)
     : QObject(parent)
 {
@@ -41,7 +61,7 @@ XdgActivationV1Integration::XdgActivationV1Integration(XdgActivationV1Interface 
         }
 
         // We check that it's not the app that we are trying to activate
-        if (window->desktopFileName() != m_currentActivationToken->applicationId) {
+        if (windowDesktopFileName(window) != m_currentActivationToken->applicationId) {
             // But also that the new one has been requested after the token was requested
             if (window->lastUsageSerial() < m_currentActivationToken->serial) {
                 return;
@@ -75,7 +95,7 @@ QString XdgActivationV1Integration::requestToken(bool isPrivileged, SurfaceInter
     }
     QSharedPointer<PlasmaWindowActivationInterface> pwActivation(waylandServer()->plasmaActivationFeedback()->createActivation(appId));
     bool showNotify = false;
-    QIcon icon;
+    QIcon icon = QIcon::fromTheme(QStringLiteral("system-run"));
     if (const QString desktopFilePath = Window::findDesktopFile(appId); !desktopFilePath.isEmpty()) {
         KDesktopFile df(desktopFilePath);
         Window *window = Workspace::self()->activeWindow();
@@ -83,11 +103,10 @@ QString XdgActivationV1Integration::requestToken(bool isPrivileged, SurfaceInter
             const auto desktop = df.desktopGroup();
             showNotify = desktop.readEntry("X-KDE-StartupNotify", desktop.readEntry("StartupNotify", true));
         }
-        icon = QIcon::fromTheme(df.readIcon(), QIcon::fromTheme(QStringLiteral("system-run")));
+        icon = QIcon::fromTheme(df.readIcon(), icon);
     }
     m_currentActivationToken.reset(new ActivationToken{newToken, isPrivileged, surface, serial, seat, appId, showNotify, pwActivation});
     if (showNotify) {
-        const auto icon = QIcon::fromTheme(Window::iconFromDesktopFile(appId), QIcon::fromTheme(QStringLiteral("system-run")));
         Q_EMIT effects->startupAdded(m_currentActivationToken->token, icon);
     }
     return newToken;

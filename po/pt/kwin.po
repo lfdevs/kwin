@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-07-04 02:16+0000\n"
+"POT-Creation-Date: 2022-07-29 02:20+0000\n"
 "PO-Revision-Date: 2022-05-04 18:56+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -1151,7 +1151,7 @@ msgstr "&Terminar a Aplicação %1"
 msgid "Wait Longer"
 msgstr "Esperar um Pouco"
 
-#: input.cpp:3099
+#: input.cpp:3132
 #, kde-format
 msgid "Touchpad"
 msgstr "Rato por toque"
@@ -2162,7 +2162,7 @@ msgstr ""
 "A instalação do Selector de Janelas está com problemas; faltam os recursos.\n"
 "Contacte a sua distribuição acerca disto."
 
-#: useractions.cpp:168
+#: useractions.cpp:159
 #, kde-format
 msgid ""
 "You have selected to show a window without its border.\n"
@@ -2175,7 +2175,7 @@ msgstr ""
 "rato. Utilize o menu de operações da janela em alternativa, activado através "
 "do atalho de teclado '%1'."
 
-#: useractions.cpp:175
+#: useractions.cpp:166
 #, kde-format
 msgid ""
 "You have selected to show a window in fullscreen mode.\n"
@@ -2189,57 +2189,57 @@ msgstr ""
 "operações da janela em alternativa, activado através do atalho de teclado "
 "'%1'."
 
-#: useractions.cpp:242
+#: useractions.cpp:236
 #, kde-format
 msgid "&Move"
 msgstr "&Mover"
 
-#: useractions.cpp:247
+#: useractions.cpp:241
 #, kde-format
 msgid "&Resize"
 msgstr "Dimensiona&r"
 
-#: useractions.cpp:252
+#: useractions.cpp:246
 #, kde-format
 msgid "Keep &Above Others"
 msgstr "Manter por Cim&a das Outras"
 
-#: useractions.cpp:258
+#: useractions.cpp:252
 #, kde-format
 msgid "Keep &Below Others"
 msgstr "Manter por &Baixo das Outras"
 
-#: useractions.cpp:264
+#: useractions.cpp:258
 #, kde-format
 msgid "&Fullscreen"
 msgstr "&Ecrã Completo"
 
-#: useractions.cpp:270
+#: useractions.cpp:264
 #, kde-format
 msgid "&Shade"
 msgstr "Enro&lar"
 
-#: useractions.cpp:276
+#: useractions.cpp:270
 #, kde-format
 msgid "&No Border"
 msgstr "Sem Co&ntorno"
 
-#: useractions.cpp:284
+#: useractions.cpp:278
 #, kde-format
 msgid "Set Window Short&cut..."
 msgstr "Definir o Atal&ho da Janela..."
 
-#: useractions.cpp:289
+#: useractions.cpp:283
 #, kde-format
 msgid "Configure Special &Window Settings..."
 msgstr "Configurar as Regras E&speciais de Janelas..."
 
-#: useractions.cpp:294
+#: useractions.cpp:288
 #, kde-format
 msgid "Configure S&pecial Application Settings..."
 msgstr "Configurar as Regras E&speciais das Aplicações..."
 
-#: useractions.cpp:301
+#: useractions.cpp:295
 #, kde-format
 msgctxt ""
 "Entry in context menu of window decoration to open the configuration module "
@@ -2247,80 +2247,80 @@ msgctxt ""
 msgid "Configure W&indow Manager..."
 msgstr "Configurar o Gestor de &Janelas..."
 
-#: useractions.cpp:327
+#: useractions.cpp:321
 #, kde-format
 msgid "Ma&ximize"
 msgstr "Ma&ximizar"
 
-#: useractions.cpp:333
+#: useractions.cpp:327
 #, kde-format
 msgid "Mi&nimize"
 msgstr "Mi&nimizar"
 
-#: useractions.cpp:339
+#: useractions.cpp:333
 #, kde-format
 msgid "&More Actions"
 msgstr "&Mais Acções"
 
-#: useractions.cpp:342
+#: useractions.cpp:336
 #, kde-format
 msgid "&Close"
 msgstr "Fe&char"
 
-#: useractions.cpp:410
+#: useractions.cpp:406
 #, kde-format
 msgid "&Extensions"
 msgstr "&Extensões"
 
-#: useractions.cpp:449
+#: useractions.cpp:453
 #, kde-format
 msgid "&Desktops"
 msgstr "&Ecrãs"
 
-#: useractions.cpp:463
+#: useractions.cpp:467
 #, kde-format
 msgid "Move to &Desktop"
 msgstr "Mover Para o &Ecrã"
 
-#: useractions.cpp:480
+#: useractions.cpp:484
 #, kde-format
 msgid "Move to &Screen"
 msgstr "Mover Para o &Ecrã"
 
-#: useractions.cpp:497
+#: useractions.cpp:501
 #, kde-format
 msgid "Show in &Activities"
 msgstr "Mostrar nas &Actividades"
 
-#: useractions.cpp:513 useractions.cpp:581
+#: useractions.cpp:517 useractions.cpp:585
 #, kde-format
 msgid "&All Desktops"
 msgstr "To&dos os Ecrãs"
 
-#: useractions.cpp:555
+#: useractions.cpp:559
 #, kde-format
 msgctxt "Create a new desktop and move the window there"
 msgid "&New Desktop"
 msgstr "&Novo Ecrã"
 
-#: useractions.cpp:625
+#: useractions.cpp:629
 #, kde-format
 msgid "Move to %1 %2"
 msgstr "Mover para o %1 %2"
 
-#: useractions.cpp:638
+#: useractions.cpp:642
 #, kde-format
 msgctxt "Create a new desktop and add the window to that desktop"
 msgid "Add to &New Desktop"
 msgstr "Adicionar a um &Novo Ecrã"
 
-#: useractions.cpp:650
+#: useractions.cpp:654
 #, kde-format
 msgctxt "Create a new desktop and move the window to that desktop"
 msgid "Move to New Desktop"
 msgstr "Mover Para um Novo Ecrã"
 
-#: useractions.cpp:681
+#: useractions.cpp:685
 #, kde-format
 msgctxt ""
 "@item:inmenu List of all Screens to send a window to. First argument is a "
@@ -2328,268 +2328,268 @@ msgctxt ""
 msgid "Screen &%1 (%2)"
 msgstr "Ecrã &%1 (%2)"
 
-#: useractions.cpp:707
+#: useractions.cpp:711
 #, kde-format
 msgid "&All Activities"
 msgstr "Tod&as as Actividades"
 
-#: useractions.cpp:889
+#: useractions.cpp:893
 #, kde-format
 msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
 msgid "<b>%1</b> is already in use"
 msgstr "O <b>%1</b> já está em uso"
 
-#: useractions.cpp:891
+#: useractions.cpp:895
 #, kde-format
 msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
 msgid "<b>%1</b> is used by %2 in %3"
 msgstr "O <b>%1</b> está em uso por %2 em %3"
 
-#: useractions.cpp:987
+#: useractions.cpp:991
 msgid "Window Operations Menu"
 msgstr "Menu de Operações da Janela"
 
-#: useractions.cpp:989
+#: useractions.cpp:993
 msgid "Close Window"
 msgstr "Fechar a Janela"
 
-#: useractions.cpp:991
+#: useractions.cpp:995
 msgid "Maximize Window"
 msgstr "Maximizar a Janela"
 
-#: useractions.cpp:993
+#: useractions.cpp:997
 msgid "Maximize Window Vertically"
 msgstr "Maximizar Verticalmente a Janela"
 
-#: useractions.cpp:995
+#: useractions.cpp:999
 msgid "Maximize Window Horizontally"
 msgstr "Maximizar Horizontalmente a Janela"
 
-#: useractions.cpp:997
+#: useractions.cpp:1001
 msgid "Minimize Window"
 msgstr "Minimizar a Janela"
 
-#: useractions.cpp:999
+#: useractions.cpp:1003
 msgid "Shade Window"
 msgstr "Enrolar a Janela"
 
-#: useractions.cpp:1001
+#: useractions.cpp:1005
 msgid "Move Window"
 msgstr "Mover a Janela"
 
-#: useractions.cpp:1003
+#: useractions.cpp:1007
 msgid "Resize Window"
 msgstr "Redimensionar a Janela"
 
-#: useractions.cpp:1005
+#: useractions.cpp:1009
 msgid "Raise Window"
 msgstr "Elevar a Janela"
 
-#: useractions.cpp:1007
+#: useractions.cpp:1011
 msgid "Lower Window"
 msgstr "Baixar a Janela"
 
-#: useractions.cpp:1009
+#: useractions.cpp:1013
 msgid "Toggle Window Raise/Lower"
 msgstr "Elevar/Baixar a Janela"
 
-#: useractions.cpp:1011
+#: useractions.cpp:1015
 msgid "Make Window Fullscreen"
 msgstr "Janela a Ocupar Todo o Ecrã"
 
-#: useractions.cpp:1013
+#: useractions.cpp:1017
 msgid "Hide Window Border"
 msgstr "Esconder o Contorno da Janela"
 
-#: useractions.cpp:1015
+#: useractions.cpp:1019
 msgid "Keep Window Above Others"
 msgstr "Manter a Janela Acima das Outras"
 
-#: useractions.cpp:1017
+#: useractions.cpp:1021
 msgid "Keep Window Below Others"
 msgstr "Manter a Janela Debaixo das Outras"
 
-#: useractions.cpp:1019
+#: useractions.cpp:1023
 msgid "Activate Window Demanding Attention"
 msgstr "Activar a Janela que Necessita de Atenção"
 
-#: useractions.cpp:1021
+#: useractions.cpp:1025
 msgid "Setup Window Shortcut"
 msgstr "Configurar o Atalho da Janela"
 
-#: useractions.cpp:1023
+#: useractions.cpp:1027
 msgid "Move Window to the Center"
 msgstr "Mover a Janela para o Centro"
 
-#: useractions.cpp:1025
+#: useractions.cpp:1029
 msgid "Move Window Right"
 msgstr "Mover a Janela para a Direita"
 
-#: useractions.cpp:1027
+#: useractions.cpp:1031
 msgid "Move Window Left"
 msgstr "Mover a Janela para a Esquerda"
 
-#: useractions.cpp:1029
+#: useractions.cpp:1033
 msgid "Move Window Up"
 msgstr "Mover a Janela para Cima"
 
-#: useractions.cpp:1031
+#: useractions.cpp:1035
 msgid "Move Window Down"
 msgstr "Mover a Janela para Baixo"
 
-#: useractions.cpp:1033
+#: useractions.cpp:1037
 msgid "Expand Window Horizontally"
 msgstr "Expandir Horizontalmente a Janela"
 
-#: useractions.cpp:1035
+#: useractions.cpp:1039
 msgid "Expand Window Vertically"
 msgstr "Expandir Verticalmente a Janela"
 
-#: useractions.cpp:1037
+#: useractions.cpp:1041
 msgid "Shrink Window Horizontally"
 msgstr "Diminuir Horizontalmente a Janela"
 
-#: useractions.cpp:1039
+#: useractions.cpp:1043
 msgid "Shrink Window Vertically"
 msgstr "Diminuir Verticalmente a Janela"
 
-#: useractions.cpp:1041
+#: useractions.cpp:1045
 msgid "Quick Tile Window to the Left"
 msgstr "Colocar a Janela Lado-a-Lado à Esquerda"
 
-#: useractions.cpp:1043
+#: useractions.cpp:1047
 msgid "Quick Tile Window to the Right"
 msgstr "Colocar a Janela Lado-a-Lado à Direita"
 
-#: useractions.cpp:1045
+#: useractions.cpp:1049
 msgid "Quick Tile Window to the Top"
 msgstr "Colocar Rapidamente a Janela Lado-a-Lado no Topo"
 
-#: useractions.cpp:1047
+#: useractions.cpp:1051
 msgid "Quick Tile Window to the Bottom"
 msgstr "Colocar Rapidamente a Janela Lado-a-Lado no Fundo"
 
-#: useractions.cpp:1049
+#: useractions.cpp:1053
 msgid "Quick Tile Window to the Top Left"
 msgstr "Colocar Rapidamente a Janela Lado-a-Lado em Cima-Esquerda"
 
-#: useractions.cpp:1051
+#: useractions.cpp:1055
 msgid "Quick Tile Window to the Bottom Left"
 msgstr "Colocar Rapidamente a Janela Lado-a-Lado em Baixo-Esquerda"
 
-#: useractions.cpp:1053
+#: useractions.cpp:1057
 msgid "Quick Tile Window to the Top Right"
 msgstr "Colocar Rapidamente a Janela Lado-a-Lado em Cima-Direita"
 
-#: useractions.cpp:1055
+#: useractions.cpp:1059
 msgid "Quick Tile Window to the Bottom Right"
 msgstr "Colocar Rapidamente a Janela Lado-a-Lado em Baixo-Direita"
 
-#: useractions.cpp:1057
+#: useractions.cpp:1061
 msgid "Switch to Window Above"
 msgstr "Mudar para a Janela Acima"
 
-#: useractions.cpp:1059
+#: useractions.cpp:1063
 msgid "Switch to Window Below"
 msgstr "Mudar para a Janela Abaixo"
 
-#: useractions.cpp:1061
+#: useractions.cpp:1065
 msgid "Switch to Window to the Right"
 msgstr "Mudar para a Janela à Direita"
 
-#: useractions.cpp:1063
+#: useractions.cpp:1067
 msgid "Switch to Window to the Left"
 msgstr "Mudar para a Janela à Esquerda"
 
-#: useractions.cpp:1065
+#: useractions.cpp:1069
 msgid "Increase Opacity of Active Window by 5 %"
 msgstr "Aumentar a Opacidade da Janela Activa em 5 %"
 
-#: useractions.cpp:1067
+#: useractions.cpp:1071
 msgid "Decrease Opacity of Active Window by 5 %"
 msgstr "Diminuir a Opacidade da Janela Activa em 5 %"
 
-#: useractions.cpp:1070
+#: useractions.cpp:1074
 msgid "Keep Window on All Desktops"
 msgstr "Manter a Janela em Todos os Ecrãs"
 
-#: useractions.cpp:1081
+#: useractions.cpp:1085
 #, kde-format
 msgid "Window to Desktop %1"
 msgstr "Janela para o Ecrã %1"
 
-#: useractions.cpp:1083
+#: useractions.cpp:1087
 msgid "Window to Next Desktop"
 msgstr "Janela para o Próximo Ecrã"
 
-#: useractions.cpp:1084
+#: useractions.cpp:1088
 msgid "Window to Previous Desktop"
 msgstr "Janela para o Ecrã Anterior"
 
-#: useractions.cpp:1085
+#: useractions.cpp:1089
 msgid "Window One Desktop to the Right"
 msgstr "Janela para um Ecrã à Direita"
 
-#: useractions.cpp:1086
+#: useractions.cpp:1090
 msgid "Window One Desktop to the Left"
 msgstr "Janela para um Ecrã à Esquerda"
 
-#: useractions.cpp:1087
+#: useractions.cpp:1091
 msgid "Window One Desktop Up"
 msgstr "Janela para Um Ecrã Acima"
 
-#: useractions.cpp:1088
+#: useractions.cpp:1092
 msgid "Window One Desktop Down"
 msgstr "Janela para um Ecrã Abaixo"
 
-#: useractions.cpp:1091
+#: useractions.cpp:1095
 #, kde-format
 msgid "Window to Screen %1"
 msgstr "Janela para o Ecrã %1"
 
-#: useractions.cpp:1093
+#: useractions.cpp:1097
 msgid "Window to Next Screen"
 msgstr "Janela para o Ecrã Seguinte"
 
-#: useractions.cpp:1094
+#: useractions.cpp:1098
 msgid "Window to Previous Screen"
 msgstr "Janela para o Ecrã Anterior"
 
-#: useractions.cpp:1095
+#: useractions.cpp:1099
 msgid "Show Desktop"
 msgstr "Mostrar o Ecrã"
 
-#: useractions.cpp:1098
+#: useractions.cpp:1102
 #, kde-format
 msgid "Switch to Screen %1"
 msgstr "Mudar para o Ecrã %1"
 
-#: useractions.cpp:1101
+#: useractions.cpp:1105
 msgid "Switch to Next Screen"
 msgstr "Mudar para o Ecrã Seguinte"
 
-#: useractions.cpp:1102
+#: useractions.cpp:1106
 msgid "Switch to Previous Screen"
 msgstr "Mudar para o Ecrã Anterior"
 
-#: useractions.cpp:1104
+#: useractions.cpp:1108
 msgid "Kill Window"
 msgstr "Matar a Janela"
 
-#: useractions.cpp:1105
+#: useractions.cpp:1109
 msgid "Suspend Compositing"
 msgstr "Suspender a Composição"
 
-#: useractions.cpp:1106
+#: useractions.cpp:1110
 msgid "Invert Screen Colors"
 msgstr "Inverter as Cores do Ecrã"
 
-#: useractions.cpp:1173
+#: useractions.cpp:1177
 #, kde-format
 msgid "Activate Window (%1)"
 msgstr "Activar a Janela (%1)"
 
-#: useractions.cpp:1324
+#: useractions.cpp:1328
 #, kde-format
 msgid ""
 "The window manager is configured to consider the screen with the mouse on it "

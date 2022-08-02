@@ -31,11 +31,12 @@ msgid ""
 "you can reset this protection but be aware that this might result in an "
 "immediate crash!"
 msgstr ""
-"La composició OpenGL (per defecte) ha trencat KWin en el passat.\n"
-"Probablement era degut a un fallo en el controlador.\n"
+"La composició OpenGL (de manera predeterminada) ha trencat KWin en el "
+"passat.\n"
+"Probablement era degut a una fallada en el controlador.\n"
 "Si penseu que mentrestant l'heu actualitzat a un controlador estable, podeu "
-"reiniciar esta protecció però sent conscient que podria produir-se un fallo "
-"immediata!"
+"reiniciar esta protecció però sent conscient que podria produir-se una "
+"fallada immediata!"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, scaleWarning)
 #: compositing.ui:44

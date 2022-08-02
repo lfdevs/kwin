@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-07-02 02:34+0000\n"
-"PO-Revision-Date: 2022-07-10 09:25\n"
+"PO-Revision-Date: 2022-07-30 15:57\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -55,7 +55,7 @@ msgstr ""
 #: compositing.ui:79
 #, kde-format
 msgid "Compositing:"
-msgstr "显示特效混合："
+msgstr "显示特效合成："
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Enabled)
 #: compositing.ui:86
@@ -71,7 +71,7 @@ msgid ""
 " This brings performance improvements for e.g. games.\n"
 " The setting can be overruled by window-specific rules."
 msgstr ""
-"允许应用程序在窗口打开时阻止特效混合。\n"
+"允许应用程序在窗口打开时阻止显示特效合成。\n"
 "此设置可以改善游戏等应用程序的性能。\n"
 "此设置可被窗口特定规则覆盖。"
 
@@ -79,7 +79,7 @@ msgstr ""
 #: compositing.ui:98
 #, kde-format
 msgid "Allow applications to block compositing"
-msgstr "允许应用程序阻止特效混合"
+msgstr "允许应用程序阻止显示特效合成"
 
 #. i18n: ectx: property (text), widget (QLabel, animationSpeedLabel)
 #: compositing.ui:105

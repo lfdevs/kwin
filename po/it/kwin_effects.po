@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-25 02:35+0000\n"
+"POT-Creation-Date: 2022-07-28 02:12+0000\n"
 "PO-Revision-Date: 2022-05-09 01:07+0200\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 22.04.0\n"
+"X-Generator: Lokalize 22.04.3\n"
 
 #. i18n: ectx: property (text), widget (QLabel, labelConstantBlurDescription)
 #: blur/blur_config.ui:17
@@ -574,7 +574,7 @@ msgstr "Aggiungi desktop"
 msgid "Search..."
 msgstr "Cerca..."
 
-#: private/qml/WindowHeapDelegate.qml:149
+#: private/qml/WindowHeapDelegate.qml:150
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "Trascina verso il basso per chiudere"

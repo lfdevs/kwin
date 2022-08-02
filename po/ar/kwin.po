@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-07-04 02:16+0000\n"
+"POT-Creation-Date: 2022-07-29 02:20+0000\n"
 "PO-Revision-Date: 2022-04-28 12:39+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: Arabic <kde-l10n-ar@kde.org>\n"
@@ -1130,7 +1130,7 @@ msgstr "أ&نهِ التّطبيق %1"
 msgid "Wait Longer"
 msgstr "انتظر أكثر"
 
-#: input.cpp:3099
+#: input.cpp:3132
 #, kde-format
 msgid "Touchpad"
 msgstr "لوحة اللمس"
@@ -2131,7 +2131,7 @@ msgstr ""
 "تثبيت مبدّل النّوافذ معطوب، الموارد ناقصة.\n"
 "تواصل مع توزيعتك حول هذا."
 
-#: useractions.cpp:168
+#: useractions.cpp:159
 #, kde-format
 msgid ""
 "You have selected to show a window without its border.\n"
@@ -2143,7 +2143,7 @@ msgstr ""
 "بدون الحدود لن تستطيع تمكين الحدّ مجدّدًا باستخدام الفأرة: استخدم قائمة عمليّات "
 "النّافذة بدل ذلك، لتنشيطها استخدم اختصار لوحة المفاتيح %1."
 
-#: useractions.cpp:175
+#: useractions.cpp:166
 #, kde-format
 msgid ""
 "You have selected to show a window in fullscreen mode.\n"
@@ -2156,57 +2156,57 @@ msgstr ""
 "باستخدام الفأرة: استخدم قائمة عمليّات النّافذة بدل ذلك، لتنشيطها استخدم اختصار "
 "لوحة المفاتيح %1."
 
-#: useractions.cpp:242
+#: useractions.cpp:236
 #, kde-format
 msgid "&Move"
 msgstr "ا&نقل"
 
-#: useractions.cpp:247
+#: useractions.cpp:241
 #, kde-format
 msgid "&Resize"
 msgstr "غيّر ال&حجم"
 
-#: useractions.cpp:252
+#: useractions.cpp:246
 #, kde-format
 msgid "Keep &Above Others"
 msgstr "أبقِها فو&ق غيرها"
 
-#: useractions.cpp:258
+#: useractions.cpp:252
 #, kde-format
 msgid "Keep &Below Others"
 msgstr "أبقِ ت&حت غيرها"
 
-#: useractions.cpp:264
+#: useractions.cpp:258
 #, kde-format
 msgid "&Fullscreen"
 msgstr "&ملء الشّاشة"
 
-#: useractions.cpp:270
+#: useractions.cpp:264
 #, kde-format
 msgid "&Shade"
 msgstr "&ظلّل"
 
-#: useractions.cpp:276
+#: useractions.cpp:270
 #, kde-format
 msgid "&No Border"
 msgstr "&بلا حدّ"
 
-#: useractions.cpp:284
+#: useractions.cpp:278
 #, kde-format
 msgid "Set Window Short&cut..."
 msgstr "عين اختصار ال&نّافذة..."
 
-#: useractions.cpp:289
+#: useractions.cpp:283
 #, kde-format
 msgid "Configure Special &Window Settings..."
 msgstr "اضبط إعدادات &خاصّة للنّافذة..."
 
-#: useractions.cpp:294
+#: useractions.cpp:288
 #, kde-format
 msgid "Configure S&pecial Application Settings..."
 msgstr "اضبط إعدادات خا&صّة للتّطبيق..."
 
-#: useractions.cpp:301
+#: useractions.cpp:295
 #, kde-format
 msgctxt ""
 "Entry in context menu of window decoration to open the configuration module "
@@ -2214,80 +2214,80 @@ msgctxt ""
 msgid "Configure W&indow Manager..."
 msgstr "اضبط &مدير نوافذ..."
 
-#: useractions.cpp:327
+#: useractions.cpp:321
 #, kde-format
 msgid "Ma&ximize"
 msgstr "&كبّر"
 
-#: useractions.cpp:333
+#: useractions.cpp:327
 #, kde-format
 msgid "Mi&nimize"
 msgstr "&صغّر"
 
-#: useractions.cpp:339
+#: useractions.cpp:333
 #, kde-format
 msgid "&More Actions"
 msgstr "إ&جراءات أكثر"
 
-#: useractions.cpp:342
+#: useractions.cpp:336
 #, kde-format
 msgid "&Close"
 msgstr "أ&غلق"
 
-#: useractions.cpp:410
+#: useractions.cpp:406
 #, kde-format
 msgid "&Extensions"
 msgstr "الامت&دادات"
 
-#: useractions.cpp:449
+#: useractions.cpp:453
 #, kde-format
 msgid "&Desktops"
 msgstr "أ&سطح المكتب"
 
-#: useractions.cpp:463
+#: useractions.cpp:467
 #, kde-format
 msgid "Move to &Desktop"
 msgstr "انقل إلى &سطح المكتب"
 
-#: useractions.cpp:480
+#: useractions.cpp:484
 #, kde-format
 msgid "Move to &Screen"
 msgstr "انقل إلى ال&شّاشة"
 
-#: useractions.cpp:497
+#: useractions.cpp:501
 #, kde-format
 msgid "Show in &Activities"
 msgstr "أظهر في الأ&نشطة"
 
-#: useractions.cpp:513 useractions.cpp:581
+#: useractions.cpp:517 useractions.cpp:585
 #, kde-format
 msgid "&All Desktops"
 msgstr "كلّ أ&سطح المكتب"
 
-#: useractions.cpp:555
+#: useractions.cpp:559
 #, kde-format
 msgctxt "Create a new desktop and move the window there"
 msgid "&New Desktop"
 msgstr "سطح مكتب &جديد"
 
-#: useractions.cpp:625
+#: useractions.cpp:629
 #, kde-format
 msgid "Move to %1 %2"
 msgstr "انقل إلى %1 %2"
 
-#: useractions.cpp:638
+#: useractions.cpp:642
 #, kde-format
 msgctxt "Create a new desktop and add the window to that desktop"
 msgid "Add to &New Desktop"
 msgstr "أضف سطح مكتب &جديد"
 
-#: useractions.cpp:650
+#: useractions.cpp:654
 #, kde-format
 msgctxt "Create a new desktop and move the window to that desktop"
 msgid "Move to New Desktop"
 msgstr "انقل إلى سطح المكتب جديد"
 
-#: useractions.cpp:681
+#: useractions.cpp:685
 #, kde-format
 msgctxt ""
 "@item:inmenu List of all Screens to send a window to. First argument is a "
@@ -2295,268 +2295,268 @@ msgctxt ""
 msgid "Screen &%1 (%2)"
 msgstr "الشاشة &%1 (%2)"
 
-#: useractions.cpp:707
+#: useractions.cpp:711
 #, kde-format
 msgid "&All Activities"
 msgstr "&كلّ الأنشطة"
 
-#: useractions.cpp:889
+#: useractions.cpp:893
 #, kde-format
 msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
 msgid "<b>%1</b> is already in use"
 msgstr "<b>%1</b> مستخدم بالفعل"
 
-#: useractions.cpp:891
+#: useractions.cpp:895
 #, kde-format
 msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
 msgid "<b>%1</b> is used by %2 in %3"
 msgstr "<b>%1</b> يستخدمه %2 في %3"
 
-#: useractions.cpp:987
+#: useractions.cpp:991
 msgid "Window Operations Menu"
 msgstr "قائمة عمليّات النّافذة"
 
-#: useractions.cpp:989
+#: useractions.cpp:993
 msgid "Close Window"
 msgstr "أغلق النّافذة"
 
-#: useractions.cpp:991
+#: useractions.cpp:995
 msgid "Maximize Window"
 msgstr "كبّر النّافذة"
 
-#: useractions.cpp:993
+#: useractions.cpp:997
 msgid "Maximize Window Vertically"
 msgstr "كبّر النّافذة رأسيًّا"
 
-#: useractions.cpp:995
+#: useractions.cpp:999
 msgid "Maximize Window Horizontally"
 msgstr "كبّر النّافذة أفقيًّا"
 
-#: useractions.cpp:997
+#: useractions.cpp:1001
 msgid "Minimize Window"
 msgstr "صغّر النّافذة"
 
-#: useractions.cpp:999
+#: useractions.cpp:1003
 msgid "Shade Window"
 msgstr "ظلّل النّافذة"
 
-#: useractions.cpp:1001
+#: useractions.cpp:1005
 msgid "Move Window"
 msgstr "انقل النّافذة"
 
-#: useractions.cpp:1003
+#: useractions.cpp:1007
 msgid "Resize Window"
 msgstr "غيّر حجم النّافذة"
 
-#: useractions.cpp:1005
+#: useractions.cpp:1009
 msgid "Raise Window"
 msgstr "ارفع النّافذة"
 
-#: useractions.cpp:1007
+#: useractions.cpp:1011
 msgid "Lower Window"
 msgstr "اخفض النّافذة"
 
-#: useractions.cpp:1009
+#: useractions.cpp:1013
 msgid "Toggle Window Raise/Lower"
 msgstr "بدّل رفع/خفض النّافذة"
 
-#: useractions.cpp:1011
+#: useractions.cpp:1015
 msgid "Make Window Fullscreen"
 msgstr "اجعل النّافذة بملء الشّاشة"
 
-#: useractions.cpp:1013
+#: useractions.cpp:1017
 msgid "Hide Window Border"
 msgstr "أخفِ حدّ النّافذة"
 
-#: useractions.cpp:1015
+#: useractions.cpp:1019
 msgid "Keep Window Above Others"
 msgstr "أبقِ النّافذة فوق غيرها"
 
-#: useractions.cpp:1017
+#: useractions.cpp:1021
 msgid "Keep Window Below Others"
 msgstr "أبقِ النّافذة تحت غيرها"
 
-#: useractions.cpp:1019
+#: useractions.cpp:1023
 msgid "Activate Window Demanding Attention"
 msgstr "نشّط النّافذة الطّالبة الانتباه"
 
-#: useractions.cpp:1021
+#: useractions.cpp:1025
 msgid "Setup Window Shortcut"
 msgstr "أعدّ اختصار النّافذة"
 
-#: useractions.cpp:1023
+#: useractions.cpp:1027
 msgid "Move Window to the Center"
 msgstr "حرّك النافذة إلى الوسط"
 
-#: useractions.cpp:1025
+#: useractions.cpp:1029
 msgid "Move Window Right"
 msgstr "حرّك النافذة لليمين"
 
-#: useractions.cpp:1027
+#: useractions.cpp:1031
 msgid "Move Window Left"
 msgstr "حرّك النافذة لليسار"
 
-#: useractions.cpp:1029
+#: useractions.cpp:1033
 msgid "Move Window Up"
 msgstr "حرّك النافذة للأعلى"
 
-#: useractions.cpp:1031
+#: useractions.cpp:1035
 msgid "Move Window Down"
 msgstr "حرّك النافذة للأسفل"
 
-#: useractions.cpp:1033
+#: useractions.cpp:1037
 msgid "Expand Window Horizontally"
 msgstr "كبّر النّافذة أفقيًّا"
 
-#: useractions.cpp:1035
+#: useractions.cpp:1039
 msgid "Expand Window Vertically"
 msgstr "كبّر النّافذة رأسيًّا"
 
-#: useractions.cpp:1037
+#: useractions.cpp:1041
 msgid "Shrink Window Horizontally"
 msgstr "قلص النافذة أفقيًا"
 
-#: useractions.cpp:1039
+#: useractions.cpp:1043
 msgid "Shrink Window Vertically"
 msgstr "قلص النافذة رأسيًا"
 
-#: useractions.cpp:1041
+#: useractions.cpp:1045
 msgid "Quick Tile Window to the Left"
 msgstr "رتب النافذة لليسار"
 
-#: useractions.cpp:1043
+#: useractions.cpp:1047
 msgid "Quick Tile Window to the Right"
 msgstr "رتب النافذة لليمين"
 
-#: useractions.cpp:1045
+#: useractions.cpp:1049
 msgid "Quick Tile Window to the Top"
 msgstr "رتب النافذة للأعلى"
 
-#: useractions.cpp:1047
+#: useractions.cpp:1051
 msgid "Quick Tile Window to the Bottom"
 msgstr "رتب النافذة للأسفل"
 
-#: useractions.cpp:1049
+#: useractions.cpp:1053
 msgid "Quick Tile Window to the Top Left"
 msgstr "رتب النافذة لليسار الأعلى"
 
-#: useractions.cpp:1051
+#: useractions.cpp:1055
 msgid "Quick Tile Window to the Bottom Left"
 msgstr "رتب النافذة لليسار الأسفل"
 
-#: useractions.cpp:1053
+#: useractions.cpp:1057
 msgid "Quick Tile Window to the Top Right"
 msgstr "رتب النافذة لليمين الأعلى"
 
-#: useractions.cpp:1055
+#: useractions.cpp:1059
 msgid "Quick Tile Window to the Bottom Right"
 msgstr "رتب النافذة لليمين الأسفل"
 
-#: useractions.cpp:1057
+#: useractions.cpp:1061
 msgid "Switch to Window Above"
 msgstr "بدّل إلى النّافذة العليا"
 
-#: useractions.cpp:1059
+#: useractions.cpp:1063
 msgid "Switch to Window Below"
 msgstr "بدّل إلى النّافذة السفلى"
 
-#: useractions.cpp:1061
+#: useractions.cpp:1065
 msgid "Switch to Window to the Right"
 msgstr "بدّل إلى النّافذة اليمنى"
 
-#: useractions.cpp:1063
+#: useractions.cpp:1067
 msgid "Switch to Window to the Left"
 msgstr "بدّل إلى النّافذة اليسرى"
 
-#: useractions.cpp:1065
+#: useractions.cpp:1069
 msgid "Increase Opacity of Active Window by 5 %"
 msgstr "زِد عتمة النّافذة النّشطة 5%"
 
-#: useractions.cpp:1067
+#: useractions.cpp:1071
 msgid "Decrease Opacity of Active Window by 5 %"
 msgstr "أنقص عتمة النّافذة النّشطة 5%"
 
-#: useractions.cpp:1070
+#: useractions.cpp:1074
 msgid "Keep Window on All Desktops"
 msgstr "أبقِ النّافذة في كلّ أسطح المكتب"
 
-#: useractions.cpp:1081
+#: useractions.cpp:1085
 #, kde-format
 msgid "Window to Desktop %1"
 msgstr "انقل النّافذة إلى سطح المكتب %1"
 
-#: useractions.cpp:1083
+#: useractions.cpp:1087
 msgid "Window to Next Desktop"
 msgstr "انقل النّافذة إلى سطح المكتب التّالي"
 
-#: useractions.cpp:1084
+#: useractions.cpp:1088
 msgid "Window to Previous Desktop"
 msgstr "انقل النّافذة إلى سطح المكتب السّابق"
 
-#: useractions.cpp:1085
+#: useractions.cpp:1089
 msgid "Window One Desktop to the Right"
 msgstr "انقل النافذة إلى سطح المكتب الأيمن"
 
-#: useractions.cpp:1086
+#: useractions.cpp:1090
 msgid "Window One Desktop to the Left"
 msgstr "انقل النافذة إلى سطح المكتب الأيسر"
 
-#: useractions.cpp:1087
+#: useractions.cpp:1091
 msgid "Window One Desktop Up"
 msgstr "انقل النافذة إلى سطح المكتب الأعلى"
 
-#: useractions.cpp:1088
+#: useractions.cpp:1092
 msgid "Window One Desktop Down"
 msgstr "انقل النافذة إلى سطح المكتب الأسفل"
 
-#: useractions.cpp:1091
+#: useractions.cpp:1095
 #, kde-format
 msgid "Window to Screen %1"
 msgstr "انقل النّافذة إلى الشاشة %1"
 
-#: useractions.cpp:1093
+#: useractions.cpp:1097
 msgid "Window to Next Screen"
 msgstr "انقل النّافذة إلى الشاشة التّالية"
 
-#: useractions.cpp:1094
+#: useractions.cpp:1098
 msgid "Window to Previous Screen"
 msgstr "انقل النّافذة إلى الشاشة السابقة"
 
-#: useractions.cpp:1095
+#: useractions.cpp:1099
 msgid "Show Desktop"
 msgstr "أظهر سطح المكتب"
 
-#: useractions.cpp:1098
+#: useractions.cpp:1102
 #, kde-format
 msgid "Switch to Screen %1"
 msgstr "بدّل إلى الشّاشة %1"
 
-#: useractions.cpp:1101
+#: useractions.cpp:1105
 msgid "Switch to Next Screen"
 msgstr "بدّل إلى الشّاشة التّالية"
 
-#: useractions.cpp:1102
+#: useractions.cpp:1106
 msgid "Switch to Previous Screen"
 msgstr "بدّل إلى الشّاشة السّابقة"
 
-#: useractions.cpp:1104
+#: useractions.cpp:1108
 msgid "Kill Window"
 msgstr "اقتل النّافذة"
 
-#: useractions.cpp:1105
+#: useractions.cpp:1109
 msgid "Suspend Compositing"
 msgstr "علّق التّركيب"
 
-#: useractions.cpp:1106
+#: useractions.cpp:1110
 msgid "Invert Screen Colors"
 msgstr "اعكس ألوان الشّاشة"
 
-#: useractions.cpp:1173
+#: useractions.cpp:1177
 #, kde-format
 msgid "Activate Window (%1)"
 msgstr "فعّل النّافذة (%1)"
 
-#: useractions.cpp:1324
+#: useractions.cpp:1328
 #, kde-format
 msgid ""
 "The window manager is configured to consider the screen with the mouse on it "

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-25 02:35+0000\n"
+"POT-Creation-Date: 2022-07-28 02:12+0000\n"
 "PO-Revision-Date: 2022-05-05 12:51+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -580,7 +580,7 @@ msgstr "Adaugă birou"
 msgid "Search..."
 msgstr "Caută…"
 
-#: private/qml/WindowHeapDelegate.qml:149
+#: private/qml/WindowHeapDelegate.qml:150
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "Trage în jos pentru a închide"

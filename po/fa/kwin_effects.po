@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-25 02:35+0000\n"
+"POT-Creation-Date: 2022-07-28 02:12+0000\n"
 "PO-Revision-Date: 2008-04-18 14:31+0330\n"
 "Last-Translator: Saied Taghavi <s.taghavi@gmail.com>\n"
 "Language-Team: Persian <kde-i18n-fa@kde.org>\n"
@@ -564,7 +564,7 @@ msgstr ""
 msgid "Search..."
 msgstr ""
 
-#: private/qml/WindowHeapDelegate.qml:149
+#: private/qml/WindowHeapDelegate.qml:150
 #, kde-format
 msgid "Drag Down To Close"
 msgstr ""

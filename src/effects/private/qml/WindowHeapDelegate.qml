@@ -70,7 +70,8 @@ Item {
     }
 
     visible: opacity > 0
-    z: thumb.activeDragHandler.active ? 100 : client.stackingOrder + (thumb.client.desktop == KWinComponents.Workspace.currentDesktop ? 100 : 0)
+    z: thumb.activeDragHandler.active ? 1000
+        : client.stackingOrder + (thumb.client.desktop == KWinComponents.Workspace.currentDesktop ? 100 : 0)
 
     component TweenBehavior : Behavior {
         enabled: thumb.state !== "partial" && thumb.windowHeap.animationEnabled && !thumb.activeDragHandler.active
@@ -156,6 +157,7 @@ Item {
         width: PlasmaCore.Units.iconSizes.large
         height: width
         source: thumb.client.icon
+        usesPlasmaTheme: false
         anchors.horizontalCenter: thumbSource.horizontalCenter
         anchors.bottom: thumbSource.bottom
         anchors.bottomMargin: -height / 4

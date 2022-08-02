@@ -233,7 +233,7 @@ bool DrmGpu::updateOutputs()
 
     // In principle these things are supposed to be detected through the wayland protocol.
     // In practice SteamVR doesn't always behave correctly
-    auto lessees = drmModeListLessees(m_fd);
+    DrmScopedPointer<drmModeLesseeListRes> lessees{drmModeListLessees(m_fd)};
     for (const auto &leaseOutput : qAsConst(m_leaseOutputs)) {
         if (leaseOutput->lease()) {
             bool leaseActive = false;
@@ -244,7 +244,7 @@ bool DrmGpu::updateOutputs()
                 }
             }
             if (!leaseActive) {
-                leaseOutput->lease()->deny();
+                leaseOutput->lease()->revoke();
             }
         }
     }
@@ -340,6 +340,9 @@ bool DrmGpu::updateOutputs()
         }
     }
     m_leaseDevice->setDrmMaster(true);
+    // after (potential) lease offer changes, a done event needs to be sent
+    // to signal clients to handle the changes
+    m_leaseDevice->done();
     return true;
 }
 

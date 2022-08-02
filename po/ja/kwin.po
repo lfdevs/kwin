@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-07-04 02:16+0000\n"
+"POT-Creation-Date: 2022-07-29 02:20+0000\n"
 "PO-Revision-Date: 2021-10-03 17:31-0700\n"
 "Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -1163,7 +1163,7 @@ msgstr "アプリケーション %1 を強制終了(&T)"
 msgid "Wait Longer"
 msgstr "待機する"
 
-#: input.cpp:3099
+#: input.cpp:3132
 #, kde-format
 msgid "Touchpad"
 msgstr ""
@@ -2206,7 +2206,7 @@ msgid ""
 "Contact your distribution about this."
 msgstr ""
 
-#: useractions.cpp:168
+#: useractions.cpp:159
 #, kde-format
 msgid ""
 "You have selected to show a window without its border.\n"
@@ -2219,7 +2219,7 @@ msgstr ""
 "ショートカットの %1 を使ってウィンドウ操作メニューを表示し、そこから設定して"
 "ください。"
 
-#: useractions.cpp:175
+#: useractions.cpp:166
 #, kde-format
 msgid ""
 "You have selected to show a window in fullscreen mode.\n"
@@ -2233,57 +2233,57 @@ msgstr ""
 "トカットの %1 を使ってウィンドウ操作メニューを表示し、そこから解除してくださ"
 "い。"
 
-#: useractions.cpp:242
+#: useractions.cpp:236
 #, kde-format
 msgid "&Move"
 msgstr "移動(&M)"
 
-#: useractions.cpp:247
+#: useractions.cpp:241
 #, kde-format
 msgid "&Resize"
 msgstr "リサイズ(&R)"
 
-#: useractions.cpp:252
+#: useractions.cpp:246
 #, kde-format
 msgid "Keep &Above Others"
 msgstr "常に最前面に表示(&A)"
 
-#: useractions.cpp:258
+#: useractions.cpp:252
 #, kde-format
 msgid "Keep &Below Others"
 msgstr "常に最背面に表示(&B)"
 
-#: useractions.cpp:264
+#: useractions.cpp:258
 #, kde-format
 msgid "&Fullscreen"
 msgstr "フルスクリーン(&F)"
 
-#: useractions.cpp:270
+#: useractions.cpp:264
 #, kde-format
 msgid "&Shade"
 msgstr "シェード(&S)"
 
-#: useractions.cpp:276
+#: useractions.cpp:270
 #, kde-format
 msgid "&No Border"
 msgstr "枠なし(&N)"
 
-#: useractions.cpp:284
+#: useractions.cpp:278
 #, kde-format
 msgid "Set Window Short&cut..."
 msgstr "ウィンドウにショートカットを割り当てる(&C)..."
 
-#: useractions.cpp:289
+#: useractions.cpp:283
 #, kde-format
 msgid "Configure Special &Window Settings..."
 msgstr "ウィンドウ固有の設定(&W)..."
 
-#: useractions.cpp:294
+#: useractions.cpp:288
 #, kde-format
 msgid "Configure S&pecial Application Settings..."
 msgstr "アプリケーション固有の設定(&P)..."
 
-#: useractions.cpp:301
+#: useractions.cpp:295
 #, fuzzy, kde-format
 #| msgid "KDE window manager"
 msgctxt ""
@@ -2292,60 +2292,60 @@ msgctxt ""
 msgid "Configure W&indow Manager..."
 msgstr "KDE ウィンドウマネージャ"
 
-#: useractions.cpp:327
+#: useractions.cpp:321
 #, kde-format
 msgid "Ma&ximize"
 msgstr "最大化(&X)"
 
-#: useractions.cpp:333
+#: useractions.cpp:327
 #, kde-format
 msgid "Mi&nimize"
 msgstr "最小化(&N)"
 
-#: useractions.cpp:339
+#: useractions.cpp:333
 #, kde-format
 msgid "&More Actions"
 msgstr "その他のアクション(&M)"
 
-#: useractions.cpp:342
+#: useractions.cpp:336
 #, kde-format
 msgid "&Close"
 msgstr "閉じる(&C)"
 
-#: useractions.cpp:410
+#: useractions.cpp:406
 #, kde-format
 msgid "&Extensions"
 msgstr ""
 
-#: useractions.cpp:449
+#: useractions.cpp:453
 #, fuzzy, kde-format
 #| msgid "&All Desktops"
 msgid "&Desktops"
 msgstr "すべてのデスクトップ(&A)"
 
-#: useractions.cpp:463
+#: useractions.cpp:467
 #, kde-format
 msgid "Move to &Desktop"
 msgstr "デスクトップへ移動(&D)"
 
-#: useractions.cpp:480
+#: useractions.cpp:484
 #, fuzzy, kde-format
 #| msgid "To &Desktop"
 msgid "Move to &Screen"
 msgstr "デスクトップへ移動(&D)"
 
-#: useractions.cpp:497
+#: useractions.cpp:501
 #, fuzzy, kde-format
 #| msgid "Ac&tivities"
 msgid "Show in &Activities"
 msgstr "アクティビティ(&T)"
 
-#: useractions.cpp:513 useractions.cpp:581
+#: useractions.cpp:517 useractions.cpp:585
 #, kde-format
 msgid "&All Desktops"
 msgstr "すべてのデスクトップ(&A)"
 
-#: useractions.cpp:555
+#: useractions.cpp:559
 #, fuzzy, kde-format
 #| msgctxt "Create a new desktop and move there the window"
 #| msgid "&New Desktop"
@@ -2353,12 +2353,12 @@ msgctxt "Create a new desktop and move the window there"
 msgid "&New Desktop"
 msgstr "新しいデスクトップ(&N)"
 
-#: useractions.cpp:625
+#: useractions.cpp:629
 #, kde-format
 msgid "Move to %1 %2"
 msgstr ""
 
-#: useractions.cpp:638
+#: useractions.cpp:642
 #, fuzzy, kde-format
 #| msgctxt "Create a new desktop and move there the window"
 #| msgid "&New Desktop"
@@ -2366,14 +2366,14 @@ msgctxt "Create a new desktop and add the window to that desktop"
 msgid "Add to &New Desktop"
 msgstr "新しいデスクトップ(&N)"
 
-#: useractions.cpp:650
+#: useractions.cpp:654
 #, fuzzy, kde-format
 #| msgid "Move To &Desktop"
 msgctxt "Create a new desktop and move the window to that desktop"
 msgid "Move to New Desktop"
 msgstr "デスクトップへ移動(&D)"
 
-#: useractions.cpp:681
+#: useractions.cpp:685
 #, fuzzy, kde-format
 #| msgid "Window to Screen 1"
 msgctxt ""
@@ -2382,304 +2382,304 @@ msgctxt ""
 msgid "Screen &%1 (%2)"
 msgstr "ウィンドウをスクリーン 1 へ"
 
-#: useractions.cpp:707
+#: useractions.cpp:711
 #, kde-format
 msgid "&All Activities"
 msgstr "すべてのアクティビティ(&A)"
 
-#: useractions.cpp:889
+#: useractions.cpp:893
 #, kde-format
 msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
 msgid "<b>%1</b> is already in use"
 msgstr ""
 
-#: useractions.cpp:891
+#: useractions.cpp:895
 #, kde-format
 msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
 msgid "<b>%1</b> is used by %2 in %3"
 msgstr ""
 
-#: useractions.cpp:987
+#: useractions.cpp:991
 msgid "Window Operations Menu"
 msgstr "ウィンドウ操作メニュー"
 
-#: useractions.cpp:989
+#: useractions.cpp:993
 msgid "Close Window"
 msgstr "ウィンドウを閉じる"
 
-#: useractions.cpp:991
+#: useractions.cpp:995
 msgid "Maximize Window"
 msgstr "ウィンドウを最大化"
 
-#: useractions.cpp:993
+#: useractions.cpp:997
 msgid "Maximize Window Vertically"
 msgstr "ウィンドウを縦に最大化"
 
-#: useractions.cpp:995
+#: useractions.cpp:999
 msgid "Maximize Window Horizontally"
 msgstr "ウィンドウを横に最大化"
 
-#: useractions.cpp:997
+#: useractions.cpp:1001
 msgid "Minimize Window"
 msgstr "ウィンドウを最小化"
 
-#: useractions.cpp:999
+#: useractions.cpp:1003
 msgid "Shade Window"
 msgstr "ウィンドウをシェード"
 
-#: useractions.cpp:1001
+#: useractions.cpp:1005
 msgid "Move Window"
 msgstr "ウィンドウを移動"
 
-#: useractions.cpp:1003
+#: useractions.cpp:1007
 msgid "Resize Window"
 msgstr "ウィンドウをリサイズ"
 
-#: useractions.cpp:1005
+#: useractions.cpp:1009
 msgid "Raise Window"
 msgstr "ウィンドウを前面に"
 
-#: useractions.cpp:1007
+#: useractions.cpp:1011
 msgid "Lower Window"
 msgstr "ウィンドウを背面に"
 
-#: useractions.cpp:1009
+#: useractions.cpp:1013
 msgid "Toggle Window Raise/Lower"
 msgstr "ウィンドウを前面/背面に"
 
-#: useractions.cpp:1011
+#: useractions.cpp:1015
 msgid "Make Window Fullscreen"
 msgstr "ウィンドウをフルスクリーンに"
 
-#: useractions.cpp:1013
+#: useractions.cpp:1017
 msgid "Hide Window Border"
 msgstr "ウィンドウの枠を隠す"
 
-#: useractions.cpp:1015
+#: useractions.cpp:1019
 msgid "Keep Window Above Others"
 msgstr "ウィンドウを常に最前面に表示"
 
-#: useractions.cpp:1017
+#: useractions.cpp:1021
 msgid "Keep Window Below Others"
 msgstr "ウィンドウを常に最背面に表示"
 
-#: useractions.cpp:1019
+#: useractions.cpp:1023
 msgid "Activate Window Demanding Attention"
 msgstr "操作を要求しているウィンドウをアクティブに"
 
-#: useractions.cpp:1021
+#: useractions.cpp:1025
 msgid "Setup Window Shortcut"
 msgstr "ウィンドウショートカットの設定"
 
-#: useractions.cpp:1023
+#: useractions.cpp:1027
 #, fuzzy
 #| msgid "Pack Window to the Left"
 msgid "Move Window to the Center"
 msgstr "ウィンドウを左へ寄せる"
 
-#: useractions.cpp:1025
+#: useractions.cpp:1029
 #, fuzzy
 #| msgid "Move Window"
 msgid "Move Window Right"
 msgstr "ウィンドウを移動"
 
-#: useractions.cpp:1027
+#: useractions.cpp:1031
 #, fuzzy
 #| msgid "Move Window"
 msgid "Move Window Left"
 msgstr "ウィンドウを移動"
 
-#: useractions.cpp:1029
+#: useractions.cpp:1033
 #, fuzzy
 #| msgid "Move Window"
 msgid "Move Window Up"
 msgstr "ウィンドウを移動"
 
-#: useractions.cpp:1031
+#: useractions.cpp:1035
 #, fuzzy
 #| msgid "Move Window"
 msgid "Move Window Down"
 msgstr "ウィンドウを移動"
 
-#: useractions.cpp:1033
+#: useractions.cpp:1037
 #, fuzzy
 #| msgid "Maximize Window Horizontally"
 msgid "Expand Window Horizontally"
 msgstr "ウィンドウを横に最大化"
 
-#: useractions.cpp:1035
+#: useractions.cpp:1039
 #, fuzzy
 #| msgid "Maximize Window Vertically"
 msgid "Expand Window Vertically"
 msgstr "ウィンドウを縦に最大化"
 
-#: useractions.cpp:1037
+#: useractions.cpp:1041
 #, fuzzy
 #| msgid "Pack Shrink Window Horizontally"
 msgid "Shrink Window Horizontally"
 msgstr "ウィンドウを左へ縮める"
 
-#: useractions.cpp:1039
+#: useractions.cpp:1043
 #, fuzzy
 #| msgid "Pack Shrink Window Vertically"
 msgid "Shrink Window Vertically"
 msgstr "ウィンドウを上へ縮める"
 
-#: useractions.cpp:1041
+#: useractions.cpp:1045
 msgid "Quick Tile Window to the Left"
 msgstr "ウィンドウを左にタイル化"
 
-#: useractions.cpp:1043
+#: useractions.cpp:1047
 msgid "Quick Tile Window to the Right"
 msgstr "ウィンドウを右にタイル化"
 
-#: useractions.cpp:1045
+#: useractions.cpp:1049
 #, fuzzy
 #| msgid "Quick Tile Window to the Left"
 msgid "Quick Tile Window to the Top"
 msgstr "ウィンドウを左にタイル化"
 
-#: useractions.cpp:1047
+#: useractions.cpp:1051
 #, fuzzy
 #| msgid "Quick Tile Window to the Left"
 msgid "Quick Tile Window to the Bottom"
 msgstr "ウィンドウを左にタイル化"
 
-#: useractions.cpp:1049
+#: useractions.cpp:1053
 #, fuzzy
 #| msgid "Quick Tile Window to the Left"
 msgid "Quick Tile Window to the Top Left"
 msgstr "ウィンドウを左にタイル化"
 
-#: useractions.cpp:1051
+#: useractions.cpp:1055
 #, fuzzy
 #| msgid "Quick Tile Window to the Left"
 msgid "Quick Tile Window to the Bottom Left"
 msgstr "ウィンドウを左にタイル化"
 
-#: useractions.cpp:1053
+#: useractions.cpp:1057
 #, fuzzy
 #| msgid "Quick Tile Window to the Right"
 msgid "Quick Tile Window to the Top Right"
 msgstr "ウィンドウを右にタイル化"
 
-#: useractions.cpp:1055
+#: useractions.cpp:1059
 #, fuzzy
 #| msgid "Quick Tile Window to the Right"
 msgid "Quick Tile Window to the Bottom Right"
 msgstr "ウィンドウを右にタイル化"
 
-#: useractions.cpp:1057
+#: useractions.cpp:1061
 msgid "Switch to Window Above"
 msgstr "上のウィンドウに切り替え"
 
-#: useractions.cpp:1059
+#: useractions.cpp:1063
 msgid "Switch to Window Below"
 msgstr "下のウィンドウに切り替え"
 
-#: useractions.cpp:1061
+#: useractions.cpp:1065
 msgid "Switch to Window to the Right"
 msgstr "右のウィンドウに切り替え"
 
-#: useractions.cpp:1063
+#: useractions.cpp:1067
 msgid "Switch to Window to the Left"
 msgstr "左のウィンドウに切り替え"
 
-#: useractions.cpp:1065
+#: useractions.cpp:1069
 msgid "Increase Opacity of Active Window by 5 %"
 msgstr ""
 
-#: useractions.cpp:1067
+#: useractions.cpp:1071
 msgid "Decrease Opacity of Active Window by 5 %"
 msgstr ""
 
-#: useractions.cpp:1070
+#: useractions.cpp:1074
 msgid "Keep Window on All Desktops"
 msgstr "ウィンドウをすべてのデスクトップに表示"
 
-#: useractions.cpp:1081
+#: useractions.cpp:1085
 #, fuzzy, kde-format
 #| msgid "Window to Desktop 1"
 msgid "Window to Desktop %1"
 msgstr "ウィンドウをデスクトップ 1 へ"
 
-#: useractions.cpp:1083
+#: useractions.cpp:1087
 msgid "Window to Next Desktop"
 msgstr "ウィンドウを次のデスクトップへ"
 
-#: useractions.cpp:1084
+#: useractions.cpp:1088
 msgid "Window to Previous Desktop"
 msgstr "ウィンドウを前のデスクトップへ"
 
-#: useractions.cpp:1085
+#: useractions.cpp:1089
 msgid "Window One Desktop to the Right"
 msgstr "ウィンドウを一つ右のデスクトップへ"
 
-#: useractions.cpp:1086
+#: useractions.cpp:1090
 msgid "Window One Desktop to the Left"
 msgstr "ウィンドウを一つ左のデスクトップへ"
 
-#: useractions.cpp:1087
+#: useractions.cpp:1091
 msgid "Window One Desktop Up"
 msgstr "ウィンドウを一つ上のデスクトップへ"
 
-#: useractions.cpp:1088
+#: useractions.cpp:1092
 msgid "Window One Desktop Down"
 msgstr "ウィンドウを一つ下のデスクトップへ"
 
-#: useractions.cpp:1091
+#: useractions.cpp:1095
 #, fuzzy, kde-format
 #| msgid "Window to Screen 1"
 msgid "Window to Screen %1"
 msgstr "ウィンドウをスクリーン 1 へ"
 
-#: useractions.cpp:1093
+#: useractions.cpp:1097
 msgid "Window to Next Screen"
 msgstr "ウィンドウを次のスクリーンへ"
 
-#: useractions.cpp:1094
+#: useractions.cpp:1098
 #, fuzzy
 #| msgid "Window to Previous Desktop"
 msgid "Window to Previous Screen"
 msgstr "ウィンドウを前のデスクトップへ"
 
-#: useractions.cpp:1095
+#: useractions.cpp:1099
 msgid "Show Desktop"
 msgstr "デスクトップを表示"
 
-#: useractions.cpp:1098
+#: useractions.cpp:1102
 #, kde-format
 msgid "Switch to Screen %1"
 msgstr "スクリーン %1 に切り替え"
 
-#: useractions.cpp:1101
+#: useractions.cpp:1105
 msgid "Switch to Next Screen"
 msgstr "次のスクリーンに切り替え"
 
-#: useractions.cpp:1102
+#: useractions.cpp:1106
 #, fuzzy
 #| msgid "Switch to Previous Desktop"
 msgid "Switch to Previous Screen"
 msgstr "前のデスクトップに切り替え"
 
-#: useractions.cpp:1104
+#: useractions.cpp:1108
 msgid "Kill Window"
 msgstr "ウィンドウを強制終了"
 
-#: useractions.cpp:1105
+#: useractions.cpp:1109
 msgid "Suspend Compositing"
 msgstr "コンポジティングを一時停止"
 
-#: useractions.cpp:1106
+#: useractions.cpp:1110
 msgid "Invert Screen Colors"
 msgstr ""
 
-#: useractions.cpp:1173
+#: useractions.cpp:1177
 #, kde-format
 msgid "Activate Window (%1)"
 msgstr "ウィンドウをアクティブに (%1)"
 
-#: useractions.cpp:1324
+#: useractions.cpp:1328
 #, kde-format
 msgid ""
 "The window manager is configured to consider the screen with the mouse on it "

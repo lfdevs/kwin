@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-25 02:35+0000\n"
+"POT-Creation-Date: 2022-07-28 02:12+0000\n"
 "PO-Revision-Date: 2010-06-01 10:25-0700\n"
 "Last-Translator: Deepayan Sarkar <deepayan.sarkar@gmail.com>\n"
 "Language-Team: Bengali <kde-translation@bengalinux.org>\n"
@@ -604,7 +604,7 @@ msgstr "ডেস্কটপ"
 msgid "Search..."
 msgstr ""
 
-#: private/qml/WindowHeapDelegate.qml:149
+#: private/qml/WindowHeapDelegate.qml:150
 #, kde-format
 msgid "Drag Down To Close"
 msgstr ""

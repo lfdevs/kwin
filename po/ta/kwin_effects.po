@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: கேபசூ 4.1 தமிழாக்கம்\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-25 02:35+0000\n"
-"PO-Revision-Date: 2022-07-07 20:08+0530\n"
+"POT-Creation-Date: 2022-07-28 02:12+0000\n"
+"PO-Revision-Date: 2022-07-26 21:31+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.04.2\n"
+"X-Generator: Lokalize 22.07.80\n"
 
 #. i18n: ectx: property (text), widget (QLabel, labelConstantBlurDescription)
 #: blur/blur_config.ui:17
@@ -572,7 +572,7 @@ msgstr "பணிமேடையை சேர்"
 msgid "Search..."
 msgstr "தேடு..."
 
-#: private/qml/WindowHeapDelegate.qml:149
+#: private/qml/WindowHeapDelegate.qml:150
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "மூடு கீழே இழுங்கள்"
@@ -709,7 +709,7 @@ msgstr "உரையை காட்டு:"
 #: showfps/showfps_config.ui:187
 #, kde-format
 msgid "Show \"not a benchmark\" message"
-msgstr ""
+msgstr "\"Not a benchmark\" எனும் தகவலைக் காட்டு"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: showfps/showfps_config.ui:194

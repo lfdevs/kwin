@@ -774,9 +774,9 @@ msgstr ""
 "style=\" font-style:italic;\">Extrema:</span> Totes les finestres s'han "
 "d'activar explícitament per l'usuari.</li></ul><p>Les finestres a les quals "
 "s'impedix que roben el focus es marquen com a sol·licitants d'atenció, el "
-"que significa que, per defecte, la seua entrada a la barra de tasques es "
-"ressaltarà. Açò es pot canviar al mòdul de control de Notificacions.</p></"
-"body></html>"
+"que significa que, de manera predeterminada, la seua entrada a la barra de "
+"tasques es ressaltarà. Açò es pot canviar al mòdul de control de "
+"Notificacions.</p></body></html>"
 
 #. i18n: Focus Stealing Prevention Level
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_BorderSnapZone)
@@ -882,7 +882,7 @@ msgid ""
 "active screen is the screen containing the focused window."
 msgstr ""
 "Quan esta opció està activada, la pantalla activa (p. ex. a on apareixen les "
-"noves finestres) és la pantalla amb el cursor del ratolí. Quan està "
+"finestres noves) és la pantalla amb el cursor del ratolí. Quan està "
 "desactivada, la pantalla activa és la pantalla amb la finestra enfocada."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ActiveMouseScreen)

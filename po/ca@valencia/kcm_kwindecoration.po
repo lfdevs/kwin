@@ -238,7 +238,7 @@ msgstr "Obtín decoracions noves de finestra..."
 #, kde-format
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
-msgstr "Tanca les finestres amb doble clic al botó del menú"
+msgstr "Tanca les finestres amb doble clic en el botó del menú"
 
 #: package/contents/ui/main.qml:160
 #, kde-format
@@ -250,7 +250,7 @@ msgstr "Feu clic i manteniu premut el botó del menú per a mostrar el menú."
 #, kde-format
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
-msgstr "Mostra els consells dels botons a la barra de títol"
+msgstr "Mostra els consells dels botons en la barra de títol"
 
 #: package/contents/ui/Themes.qml:92
 #, kde-format

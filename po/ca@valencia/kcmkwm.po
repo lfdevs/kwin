@@ -225,7 +225,7 @@ msgid ""
 "titlebar or the frame."
 msgstr ""
 "En esta fila podeu personalitzar el comportament del clic esquerre en clicar "
-"a la barra de títol o el marc."
+"en la barra de títol o el marc."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll2)
@@ -365,7 +365,7 @@ msgid ""
 "titlebar or the frame."
 msgstr ""
 "En esta fila podeu personalitzar el comportament del clic del mig en clicar "
-"a la barra de títol o el marc."
+"en la barra de títol o el marc."
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
@@ -381,7 +381,7 @@ msgid ""
 "In this row you can customize right click behavior when clicking into the "
 "titlebar or the frame."
 msgstr ""
-"En esta fila podeu personalitzar el comportament del clic dret en clicar a "
+"En esta fila podeu personalitzar el comportament del clic dret en clicar en "
 "la barra de títol o el marc."
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
@@ -774,7 +774,7 @@ msgstr ""
 "style=\" font-style:italic;\">Extrema:</span> Totes les finestres s'han "
 "d'activar explícitament per l'usuari.</li></ul><p>Les finestres a les quals "
 "s'impedix que roben el focus es marquen com a sol·licitants d'atenció, el "
-"que significa que, de manera predeterminada, la seua entrada a la barra de "
+"que significa que, de manera predeterminada, la seua entrada en la barra de "
 "tasques es ressaltarà. Açò es pot canviar al mòdul de control de "
 "Notificacions.</p></body></html>"
 
@@ -1037,7 +1037,7 @@ msgstr "&Doble clic:"
 #: mouse.ui:36
 #, kde-format
 msgid "Behavior on <em>double</em> click into the titlebar."
-msgstr "Comportament del <em>doble</em> clic a la barra de títol."
+msgstr "Comportament del <em>doble</em> clic en la barra de títol."
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TitlebarDoubleClickCommand)
@@ -1139,7 +1139,7 @@ msgid ""
 "Behavior on <em>left</em> click into the titlebar or frame of an <em>active</"
 "em> window."
 msgstr ""
-"Comportament en clicar amb l'<em>esquerre</em> a la barra de títol o marc "
+"Comportament en clicar amb l'<em>esquerre</em> en la barra de títol o marc "
 "d'una finestra <em>activa</em>."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar1)
@@ -1163,7 +1163,7 @@ msgid ""
 "Behavior on <em>left</em> click into the titlebar or frame of an "
 "<em>inactive</em> window."
 msgstr ""
-"Comportament en clicar amb l'<em>esquerre</em> a la barra de títol o marc "
+"Comportament en clicar amb l'<em>esquerre</em> en la barra de títol o marc "
 "d'una finestra <em>inactiva</em>."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar1)
@@ -1185,14 +1185,14 @@ msgstr "Accions del botó maximitza"
 #: mouse.ui:598 mouse.ui:611
 #, kde-format
 msgid "Behavior on <em>left</em> click onto the maximize button."
-msgstr "Comportament del clic <em>esquerre</em> al botó maximitza."
+msgstr "Comportament del clic <em>esquerre</em> en el botó maximitza."
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_9)
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_MaximizeButtonMiddleClickCommand)
 #: mouse.ui:633 mouse.ui:646
 #, kde-format
 msgid "Behavior on <em>middle</em> click onto the maximize button."
-msgstr "Comportament del clic <em>central</em> al botó maximitza."
+msgstr "Comportament del clic <em>central</em> en el botó maximitza."
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: mouse.ui:636
@@ -1205,7 +1205,7 @@ msgstr "C&lic del mig:"
 #: mouse.ui:668 mouse.ui:681
 #, kde-format
 msgid "Behavior on <em>right</em> click onto the maximize button."
-msgstr "Comportament del clic <em>dret</em> al botó maximitza."
+msgstr "Comportament del clic <em>dret</em> en el botó maximitza."
 
 #. i18n: ectx: property (text), widget (QLabel, borderSnapLabel)
 #: moving.ui:20

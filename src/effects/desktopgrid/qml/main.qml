@@ -129,8 +129,8 @@ Rectangle {
         id: grid
 
         property Item currentItem
-        readonly property real targetScale : 1 / Math.max(rows, columns)
-        property real panelOpacity
+        readonly property real targetScale: Math.min(parent.width / width, parent.height / height)
+        property real panelOpacity: 1
 
         Behavior on x {
             enabled: !container.effect.gestureInProgress
@@ -153,11 +153,18 @@ Rectangle {
                 easing.type: Easing.InOutCubic
             }
         }
+        Behavior on panelOpacity {
+            enabled: !container.effect.gestureInProgress
+            NumberAnimation {
+                duration: container.effect.animationDuration
+                easing.type: Easing.InOutCubic
+            }
+        }
 
-        width: parent.width * columns
-        height: parent.height * rows
-        rowSpacing: PlasmaCore.Units.largeSpacing
-        columnSpacing: PlasmaCore.Units.largeSpacing
+        width: (parent.width + columnSpacing) * columns - columnSpacing
+        height: (parent.height + rowSpacing) * rows - rowSpacing
+        rowSpacing: PlasmaCore.Units.gridUnit
+        columnSpacing: PlasmaCore.Units.gridUnit
         rows: container.effect.gridRows
         columns: container.effect.gridColumns
         transformOrigin: Item.TopLeft

@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-03-26 00:45+0000\n"
-"PO-Revision-Date: 2022-01-23 17:34+0530\n"
+"PO-Revision-Date: 2022-09-01 21:49+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 21.12.1\n"
+"X-Generator: Lokalize 22.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -634,12 +634,9 @@ msgstr "&சாளரங்களை செயல்படுத்தும் 
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, windowFocusPolicy)
 #: focus.ui:32
-#, fuzzy, kde-format
-#| msgid ""
-#| "Enable this option if you want an animation shown when windows are "
-#| "minimized or restored."
+#, kde-format
 msgid "With this option you can specify how and when windows will be focused."
-msgstr "."
+msgstr "சாளரங்கள் குவியத்தைப் பெறும் முறையை இத்தேர்வு நிர்ணயிக்கும்."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicy)
 #: focus.ui:36
@@ -917,17 +914,17 @@ msgstr "(c) 1997 - 2002 KWin and KControl Authors"
 #: main.cpp:105
 #, kde-format
 msgid "Matthias Ettrich"
-msgstr ""
+msgstr "மத்தையாஸ் எட்ரிச்"
 
 #: main.cpp:106
 #, kde-format
 msgid "Waldo Bastian"
-msgstr ""
+msgstr "வாலடோ பாஸ்டியான்"
 
 #: main.cpp:107
 #, kde-format
 msgid "Cristian Tibirna"
-msgstr ""
+msgstr "கிரிஸ்டியன் டிபிர்னா"
 
 #: main.cpp:108
 #, kde-format
@@ -942,12 +939,12 @@ msgstr ""
 #: main.cpp:110
 #, kde-format
 msgid "Wynn Wilkes"
-msgstr ""
+msgstr "வைன் வில்கிஸ்"
 
 #: main.cpp:111
 #, kde-format
 msgid "Pat Dowler"
-msgstr ""
+msgstr "பாட் டவுலர்"
 
 #: main.cpp:112
 #, kde-format

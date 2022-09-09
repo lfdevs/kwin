@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-03-26 00:45+0000\n"
-"PO-Revision-Date: 2022-07-30 15:57\n"
+"PO-Revision-Date: 2022-08-20 14:20\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -65,7 +65,7 @@ msgstr "上下文帮助"
 #: declarative-plugin/buttonsmodel.cpp:67
 #, kde-format
 msgid "Shade"
-msgstr "卷起"
+msgstr "折叠"
 
 #: declarative-plugin/buttonsmodel.cpp:69
 #, kde-format

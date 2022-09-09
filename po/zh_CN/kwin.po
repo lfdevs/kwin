@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-07-29 02:20+0000\n"
-"PO-Revision-Date: 2022-07-30 15:57\n"
+"POT-Creation-Date: 2022-08-10 02:20+0000\n"
+"PO-Revision-Date: 2022-08-20 14:20\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -32,7 +32,7 @@ msgstr "kde-china@kde.org"
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr "由于显卡重置，桌面效果已重启。"
 
-#: composite.cpp:832
+#: composite.cpp:834
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -1419,7 +1419,7 @@ msgstr "全屏"
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "shade"
-msgstr "卷起"
+msgstr "折叠"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:84
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:86
@@ -1488,7 +1488,7 @@ msgstr "对运行于 %1 的窗口切换全屏"
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:320
 #, kde-format
 msgid "(Un)shade running window on %1"
-msgstr "卷起/展开 %1 的窗口"
+msgstr "折叠/展开位于 %1 的窗口"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:323
 #, kde-format
@@ -1798,13 +1798,13 @@ msgstr "最小化的规则类型"
 #: rulesettings.kcfg:227
 #, kde-format
 msgid "Shaded"
-msgstr "阴影"
+msgstr "折叠"
 
 #. i18n: ectx: label, entry (shaderule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:231
 #, kde-format
 msgid "Shaded rule type"
-msgstr "阴影规则类型"
+msgstr "折叠规则类型"
 
 #. i18n: ectx: label, entry (skiptaskbar), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:238
@@ -2179,7 +2179,7 @@ msgstr "全屏(&F)"
 #: useractions.cpp:264
 #, kde-format
 msgid "&Shade"
-msgstr "卷起(&S)"
+msgstr "折叠(&S)"
 
 #: useractions.cpp:270
 #, kde-format
@@ -2333,7 +2333,7 @@ msgstr "最小化窗口"
 
 #: useractions.cpp:1003
 msgid "Shade Window"
-msgstr "卷起窗口"
+msgstr "折叠窗口"
 
 #: useractions.cpp:1005
 msgid "Move Window"
@@ -2601,7 +2601,7 @@ msgstr "切换到下面的桌面"
 msgid "Switch to Desktop %1"
 msgstr "切换到桌面 %1"
 
-#: window.cpp:3431
+#: window.cpp:3428
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"

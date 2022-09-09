@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-03-26 00:45+0000\n"
-"PO-Revision-Date: 2022-07-30 15:57\n"
+"PO-Revision-Date: 2022-08-20 14:20\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -390,7 +390,7 @@ msgstr "提升/下降"
 #: actions.ui:480 mouse.ui:107
 #, kde-format
 msgid "Shade/unshade"
-msgstr "卷起/展开"
+msgstr "折叠/展开"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandTitlebarWheel)
@@ -434,8 +434,8 @@ msgid ""
 "unshade automatically when the mouse pointer has been over the titlebar for "
 "some time.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>如果此选项被启用，当鼠标光标在标题栏上停留一段时间后，"
-"阴影窗口将自动取消阴影。</p></body></html>"
+"<html><head/><body><p>如果此选项被启用，当鼠标光标在标题栏上悬停片刻后，折叠"
+"窗口将自动展开。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShadeHover)
 #: advanced.ui:35
@@ -449,7 +449,7 @@ msgstr "标题栏悬停后："
 msgid ""
 "Sets the time in milliseconds before the window unshades when the mouse "
 "pointer goes over the shaded window."
-msgstr "设置鼠标光标在卷起的窗口上悬停多少毫秒后自动展开窗口。"
+msgstr "设置鼠标光标在折叠的窗口上悬停多少毫秒后自动展开窗口。"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_DelayFocusInterval)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_AutoRaiseInterval)
@@ -1025,7 +1025,7 @@ msgstr "水平最大化"
 #: mouse.ui:548
 #, kde-format
 msgid "Shade"
-msgstr "卷起"
+msgstr "折叠"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TitlebarDoubleClickCommand)

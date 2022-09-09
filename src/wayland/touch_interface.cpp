@@ -35,6 +35,11 @@ QList<TouchInterfacePrivate::Resource *> TouchInterfacePrivate::touchesForClient
     return resourceMap().values(client->client());
 }
 
+bool TouchInterfacePrivate::hasTouchesForClient(ClientConnection *client) const
+{
+    return resourceMap().contains(client->client());
+}
+
 TouchInterface::TouchInterface(SeatInterface *seat)
     : d(new TouchInterfacePrivate(this, seat))
 {
@@ -47,11 +52,6 @@ TouchInterface::~TouchInterface()
 SurfaceInterface *TouchInterface::focusedSurface() const
 {
     return d->focusedSurface;
-}
-
-void TouchInterface::setFocusedSurface(SurfaceInterface *surface)
-{
-    d->focusedSurface = surface;
 }
 
 void TouchInterface::sendCancel()
@@ -102,11 +102,13 @@ void TouchInterface::sendUp(qint32 id, quint32 serial)
     }
 }
 
-void TouchInterface::sendDown(qint32 id, quint32 serial, const QPointF &localPos)
+void TouchInterface::sendDown(qint32 id, quint32 serial, const QPointF &localPos, SurfaceInterface *surface)
 {
-    if (!d->focusedSurface) {
+    if (!surface) {
         return;
     }
+
+    d->focusedSurface = surface;
 
     const auto touchResources = d->touchesForClient(d->focusedSurface->client());
     for (TouchInterfacePrivate::Resource *resource : touchResources) {

@@ -1,5 +1,5 @@
 # translation of kwin.po to
-# Version: $Revision: 1630112 $
+# Version: $Revision: 1630928 $
 # translation of kwin.po to Polish
 # translation of kwin.po to
 # Norbert Popiołek <norbert@kde.com.pl>
@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-07-29 02:20+0000\n"
-"PO-Revision-Date: 2022-04-30 21:00+0200\n"
+"POT-Creation-Date: 2022-08-10 02:20+0000\n"
+"PO-Revision-Date: 2022-08-06 09:44+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -31,7 +31,7 @@ msgstr ""
 ">\n"
 ">\n"
 ">\n"
-"X-Generator: Lokalize 22.03.70\n"
+"X-Generator: Lokalize 22.04.1\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 
@@ -51,7 +51,7 @@ msgstr ""
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr "Wczytano efekty pulpitu na nowo po wyłączeniu grafiki"
 
-#: composite.cpp:832
+#: composite.cpp:834
 #, kde-format
 msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
@@ -1919,13 +1919,13 @@ msgstr "Rodzaj zasady pełnego ekranu"
 #: rulesettings.kcfg:304
 #, kde-format
 msgid "No titlebar and frame"
-msgstr "Brak paska nazwy i obramowania"
+msgstr "Bez paska nazwy i obramowania"
 
 #. i18n: ectx: label, entry (noborderrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:308
 #, kde-format
 msgid "No titlebar rule type"
-msgstr "Rodzaj zasady braku paska nazwy"
+msgstr "Rodzaj zasady bez paska nazwy"
 
 #. i18n: ectx: label, entry (decocolor), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:315
@@ -2212,17 +2212,17 @@ msgstr "Zawsze na &spodzie"
 #: useractions.cpp:258
 #, kde-format
 msgid "&Fullscreen"
-msgstr "&Pełny ekran"
+msgstr "Na całym &ekranie"
 
 #: useractions.cpp:264
 #, kde-format
 msgid "&Shade"
-msgstr "&Zwiń"
+msgstr "&Zwinięte"
 
 #: useractions.cpp:270
 #, kde-format
 msgid "&No Border"
-msgstr "Brak obramowa&nia"
+msgstr "Bez obramowa&nia"
 
 #: useractions.cpp:278
 #, kde-format
@@ -2232,7 +2232,7 @@ msgstr "&Ustaw skrót okna..."
 #: useractions.cpp:283
 #, kde-format
 msgid "Configure Special &Window Settings..."
-msgstr "Usta&wienia szczególne dla okien..."
+msgstr "Usta&wienia szczególne dla okna..."
 
 #: useractions.cpp:288
 #, kde-format
@@ -2331,7 +2331,7 @@ msgstr "Ekran &%1 (%2)"
 #: useractions.cpp:711
 #, kde-format
 msgid "&All Activities"
-msgstr "Wszystkie dzi&ałania"
+msgstr "Wszystkie &aktywności"
 
 #: useractions.cpp:893
 #, kde-format
@@ -2640,7 +2640,7 @@ msgstr "Przełącz jeden pulpit niżej"
 msgid "Switch to Desktop %1"
 msgstr "Przełącz na pulpit %1"
 
-#: window.cpp:3431
+#: window.cpp:3428
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"

@@ -12,12 +12,12 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 
 --- a/src/platformsupport/scenes/opengl/egl_dmabuf.cpp
 +++ b/src/platformsupport/scenes/opengl/egl_dmabuf.cpp
-@@ -270,7 +270,7 @@ KWaylandServer::LinuxDmaBufV1ClientBuffe
-                                                                 const QSize &size,
-                                                                 quint32 flags)
+@@ -152,7 +152,7 @@ KWaylandServer::LinuxDmaBufV1ClientBuffe
+ 
+ KWaylandServer::LinuxDmaBufV1ClientBuffer *EglDmabuf::yuvImport(DmaBufAttributes &&attrs, quint32 flags)
  {
 -    YuvFormat yuvFormat;
 +    YuvFormat yuvFormat { 0 };
      for (YuvFormat f : yuvFormats) {
-         if (f.format == format) {
+         if (f.format == attrs.format) {
              yuvFormat = f;

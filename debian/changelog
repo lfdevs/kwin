@@ -7,6 +7,7 @@ kwin (4:5.25.90-1) UNRELEASED; urgency=medium
   * Bump version of internal libraries libkwineffects and libkwinglutils
     from 13 to 14.
   * Drop obsolete internal library libkwinxrenderutils13.
+  * Update the list of installed files from build logs.
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Mon, 19 Sep 2022 23:33:54 +0200
 

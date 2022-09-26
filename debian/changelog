@@ -4,6 +4,9 @@ kwin (4:5.25.90-1) UNRELEASED; urgency=medium
   * New upstream release (5.25.90).
   * Update build-deps and deps with the info from cmake.
   * Refresh patch uninitialized-yuvformat.patch.
+  * Bump version of internal libraries libkwineffects and libkwinglutils
+    from 13 to 14.
+  * Drop obsolete internal library libkwinxrenderutils13.
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Mon, 19 Sep 2022 23:33:54 +0200
 

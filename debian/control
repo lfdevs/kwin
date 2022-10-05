@@ -172,7 +172,6 @@ Description: KDE window manager - devel files
 Package: kwin-wayland
 Architecture: any
 Depends: kwayland-integration (>= 5.25),
-         kwin-wayland-backend-drm (= ${binary:Version}) | kwin-wayland-backend-x11 (= ${binary:Version}) | kwin-wayland-backend-virtual (= ${binary:Version}) | kwin-wayland-backend-wayland (= ${binary:Version}),
          libcap2-bin [linux-any],
          xwayland,
          ${misc:Depends},
@@ -191,71 +190,6 @@ Description: KDE window manager, wayland version, PREVIEW release
  project, and is available as a PREVIEW release. Don't expect the same
  stability as with the x11 version.
 Breaks: plasma-workspace-wayland (<< 4:5.14)
-
-Package: kwin-wayland-backend-drm
-Section: libs
-Architecture: any
-Depends: ${misc:Depends}, ${shlibs:Depends}
-Provides: kwin-wayland-backend
-Description: KDE window manager drm plugin
- KWin (pronounced as one syllable "kwin") is the window
- manager for the KDE Plasma Desktop. It gives you complete
- control over your windows, making sure they're not in the way
- but aid you in your task. It paints the window decoration,
- the bar on top of every window with (configurable) buttons
- like close, maximize and minimize. It also handles placing
- of windows and switching between them.
- .
- This package is part of the KDE base workspace module
-
-Package: kwin-wayland-backend-virtual
-Section: libs
-Architecture: any
-Depends: ${misc:Depends}, ${shlibs:Depends}
-Provides: kwin-wayland-backend
-Description: KDE window manager virtual plugin
- KWin (pronounced as one syllable "kwin") is the window
- manager for the KDE Plasma Desktop. It gives you complete
- control over your windows, making sure they're not in the way
- but aid you in your task. It paints the window decoration,
- the bar on top of every window with (configurable) buttons
- like close, maximize and minimize. It also handles placing
- of windows and switching between them.
- .
- This backend allows running kwin-wayland in headless mode, useful for testing,
- or in the Cloud.
-
-Package: kwin-wayland-backend-wayland
-Section: libs
-Architecture: any
-Depends: ${misc:Depends}, ${shlibs:Depends}
-Provides: kwin-wayland-backend
-Description: KDE window manager nested wayland plugin
- KWin (pronounced as one syllable "kwin") is the window
- manager for the KDE Plasma Desktop. It gives you complete
- control over your windows, making sure they're not in the way
- but aid you in your task. It paints the window decoration,
- the bar on top of every window with (configurable) buttons
- like close, maximize and minimize. It also handles placing
- of windows and switching between them.
- .
- This package is part of the KDE base workspace module
-
-Package: kwin-wayland-backend-x11
-Section: libs
-Architecture: any
-Depends: ${misc:Depends}, ${shlibs:Depends}
-Provides: kwin-wayland-backend
-Description: KDE window manager x11 plugin
- KWin (pronounced as one syllable "kwin") is the window
- manager for the KDE Plasma Desktop. It gives you complete
- control over your windows, making sure they're not in the way
- but aid you in your task. It paints the window decoration,
- the bar on top of every window with (configurable) buttons
- like close, maximize and minimize. It also handles placing
- of windows and switching between them.
- .
- This package is part of the KDE base workspace module
 
 Package: kwin-x11
 Architecture: any

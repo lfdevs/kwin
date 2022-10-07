@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-05-12 00:46+0000\n"
+"POT-Creation-Date: 2022-07-15 00:48+0000\n"
 "PO-Revision-Date: 2022-06-04 07:22+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -36,8 +36,8 @@ msgstr "Tanpa Aksi"
 
 #: main.cpp:131 touch.cpp:125
 #, kde-format
-msgid "Show Desktop"
-msgstr "Tampilkan Desktop"
+msgid "Peek at Desktop"
+msgstr ""
 
 #: main.cpp:132 touch.cpp:126
 #, kde-format
@@ -125,8 +125,9 @@ msgstr "Menyeret window ke tepi kiri atau kanan"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:101
-#, kde-format
-msgid "Behavior"
+#, fuzzy, kde-format
+#| msgid "Behavior"
+msgid "Behavior:"
 msgstr "Perilaku"
 
 #. i18n: ectx: property (text), widget (QCheckBox, remainActiveOnFullscreen)

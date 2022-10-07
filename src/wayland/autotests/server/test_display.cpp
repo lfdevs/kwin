@@ -8,8 +8,6 @@
 // WaylandServer
 #include "wayland/clientconnection.h"
 #include "wayland/display.h"
-#include "wayland/output_interface.h"
-#include "wayland/outputmanagement_v2_interface.h"
 // Wayland
 #include <wayland-server.h>
 // system
@@ -25,10 +23,8 @@ class TestWaylandServerDisplay : public QObject
 private Q_SLOTS:
     void testSocketName();
     void testStartStop();
-    void testAddRemoveOutput();
     void testClientConnection();
     void testConnectNoSocket();
-    void testOutputManagement();
     void testAutoSocketName();
 };
 
@@ -36,7 +32,6 @@ void TestWaylandServerDisplay::testSocketName()
 {
     KWaylandServer::Display display;
     QSignalSpy changedSpy(&display, &KWaylandServer::Display::socketNamesChanged);
-    QVERIFY(changedSpy.isValid());
     QCOMPARE(display.socketNames(), QStringList());
     const QString testSName = QStringLiteral("fooBar");
     display.addSocketName(testSName);
@@ -55,9 +50,8 @@ void TestWaylandServerDisplay::testStartStop()
     QVERIFY(runtimeDir.exists());
     QVERIFY(!runtimeDir.exists(testSocketName));
 
-    QScopedPointer<KWaylandServer::Display> display(new KWaylandServer::Display);
-    QSignalSpy runningSpy(display.data(), SIGNAL(runningChanged(bool)));
-    QVERIFY(runningSpy.isValid());
+    std::unique_ptr<KWaylandServer::Display> display(new KWaylandServer::Display);
+    QSignalSpy runningSpy(display.get(), &KWaylandServer::Display::runningChanged);
     display->addSocketName(testSocketName);
     QVERIFY(!display->isRunning());
     display->start();
@@ -71,29 +65,13 @@ void TestWaylandServerDisplay::testStartStop()
     QVERIFY(!runtimeDir.exists(testSocketName));
 }
 
-void TestWaylandServerDisplay::testAddRemoveOutput()
-{
-    KWaylandServer::Display display;
-    display.addSocketName(QStringLiteral("kwin-wayland-server-display-test-output-0"));
-    display.start();
-
-    OutputInterface *output = new OutputInterface(&display);
-    QCOMPARE(display.outputs().size(), 1);
-    QCOMPARE(display.outputs().first(), output);
-
-    delete output;
-    QVERIFY(display.outputs().isEmpty());
-}
-
 void TestWaylandServerDisplay::testClientConnection()
 {
     KWaylandServer::Display display;
     display.addSocketName(QStringLiteral("kwin-wayland-server-display-test-client-connection"));
     display.start();
-    QSignalSpy connectedSpy(&display, SIGNAL(clientConnected(KWaylandServer::ClientConnection *)));
-    QVERIFY(connectedSpy.isValid());
-    QSignalSpy disconnectedSpy(&display, SIGNAL(clientDisconnected(KWaylandServer::ClientConnection *)));
-    QVERIFY(disconnectedSpy.isValid());
+    QSignalSpy connectedSpy(&display, &KWaylandServer::Display::clientConnected);
+    QSignalSpy disconnectedSpy(&display, &KWaylandServer::Display::clientDisconnected);
 
     int sv[2];
     QVERIFY(socketpair(AF_UNIX, SOCK_STREAM, 0, sv) >= 0);
@@ -150,7 +128,6 @@ void TestWaylandServerDisplay::testClientConnection()
     wl_client_destroy(client);
     QCOMPARE(disconnectedSpy.count(), 1);
     QSignalSpy clientDestroyedSpy(client2, &QObject::destroyed);
-    QVERIFY(clientDestroyedSpy.isValid());
     client2->destroy();
     QVERIFY(clientDestroyedSpy.wait());
     QCOMPARE(disconnectedSpy.count(), 2);
@@ -176,14 +153,6 @@ void TestWaylandServerDisplay::testConnectNoSocket()
     wl_client_destroy(client->client());
     close(sv[0]);
     close(sv[1]);
-}
-
-void TestWaylandServerDisplay::testOutputManagement()
-{
-    KWaylandServer::Display display;
-    display.addSocketName("kwayland-test-0");
-    display.start();
-    new OutputManagementV2Interface(&display, this);
 }
 
 void TestWaylandServerDisplay::testAutoSocketName()

@@ -8,10 +8,13 @@
 */
 #include "kwin_wayland_test.h"
 
+#include "backends/virtual/virtual_backend.h"
 #include "composite.h"
+#include "core/platform.h"
+#include "core/session.h"
 #include "effects.h"
 #include "inputmethod.h"
-#include "platform.h"
+#include "placement.h"
 #include "pluginmanager.h"
 #include "utils/xcbutils.h"
 #include "wayland_server.h"
@@ -40,7 +43,7 @@ namespace KWin
 {
 
 WaylandTestApplication::WaylandTestApplication(OperationMode mode, int &argc, char **argv)
-    : ApplicationWaylandAbstract(mode, argc, argv)
+    : Application(mode, argc, argv)
 {
     QStandardPaths::setTestModeEnabled(true);
     // TODO: add a test move to kglobalaccel instead?
@@ -59,7 +62,7 @@ WaylandTestApplication::WaylandTestApplication(OperationMode mode, int &argc, ch
 
     auto config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
     KConfigGroup windowsGroup = config->group("Windows");
-    windowsGroup.writeEntry("Placement", Placement::policyToString(Placement::Smart));
+    windowsGroup.writeEntry("Placement", Placement::policyToString(PlacementSmart));
     windowsGroup.sync();
     setConfig(config);
 
@@ -67,12 +70,8 @@ WaylandTestApplication::WaylandTestApplication(OperationMode mode, int &argc, ch
     removeLibraryPath(ownPath);
     addLibraryPath(ownPath);
 
-    const KPluginMetaData plugin = KPluginMetaData::findPluginById(QStringLiteral("org.kde.kwin.waylandbackends"), "KWinWaylandVirtualBackend");
-    if (!plugin.isValid()) {
-        quit();
-        return;
-    }
-    initPlatform(plugin);
+    setSession(Session::create(Session::Type::Noop));
+    setPlatform(std::make_unique<VirtualBackend>());
     WaylandServer::create(this);
     setProcessStartupEnvironment(QProcessEnvironment::systemEnvironment());
 }
@@ -85,9 +84,9 @@ WaylandTestApplication::~WaylandTestApplication()
     if (effects) {
         static_cast<EffectsHandlerImpl *>(effects)->unloadAllEffects();
     }
-    delete m_xwayland;
-    m_xwayland = nullptr;
+    m_xwayland.reset();
     destroyVirtualInputDevices();
+    destroyColorManager();
     destroyWorkspace();
     destroyInputMethod();
     destroyCompositor();
@@ -123,10 +122,10 @@ void WaylandTestApplication::destroyVirtualInputDevices()
 void WaylandTestApplication::performStartup()
 {
     if (!m_inputMethodServerToStart.isEmpty()) {
-        InputMethod::create();
+        createInputMethod();
         if (m_inputMethodServerToStart != QStringLiteral("internal")) {
-            InputMethod::self()->setInputMethodCommand(m_inputMethodServerToStart);
-            InputMethod::self()->setEnabled(true);
+            inputMethod()->setInputMethodCommand(m_inputMethodServerToStart);
+            inputMethod()->setEnabled(true);
         }
     }
 
@@ -135,25 +134,11 @@ void WaylandTestApplication::performStartup()
     if (!platform()->initialize()) {
         std::exit(1);
     }
-    waylandServer()->initPlatform();
-    createColorManager();
 
     // try creating the Wayland Backend
     createInput();
-    createPlugins();
     createVirtualInputDevices();
 
-    if (!platform()->enabledOutputs().isEmpty()) {
-        continueStartupWithScreens();
-    } else {
-        connect(platform(), &Platform::screensQueried, this, &WaylandTestApplication::continueStartupWithScreens);
-    }
-}
-
-void WaylandTestApplication::continueStartupWithScreens()
-{
-    disconnect(kwinApp()->platform(), &Platform::screensQueried, this, &WaylandTestApplication::continueStartupWithScreens);
-    createScreens();
     WaylandCompositor::create();
     connect(Compositor::self(), &Compositor::sceneCreated, this, &WaylandTestApplication::continueStartupWithScene);
 }
@@ -161,8 +146,8 @@ void WaylandTestApplication::continueStartupWithScreens()
 void WaylandTestApplication::finalizeStartup()
 {
     if (m_xwayland) {
-        disconnect(m_xwayland, &Xwl::Xwayland::errorOccurred, this, &WaylandTestApplication::finalizeStartup);
-        disconnect(m_xwayland, &Xwl::Xwayland::started, this, &WaylandTestApplication::finalizeStartup);
+        disconnect(m_xwayland.get(), &Xwl::Xwayland::errorOccurred, this, &WaylandTestApplication::finalizeStartup);
+        disconnect(m_xwayland.get(), &Xwl::Xwayland::started, this, &WaylandTestApplication::finalizeStartup);
     }
     notifyStarted();
 }
@@ -172,6 +157,10 @@ void WaylandTestApplication::continueStartupWithScene()
     disconnect(Compositor::self(), &Compositor::sceneCreated, this, &WaylandTestApplication::continueStartupWithScene);
 
     createWorkspace();
+    createColorManager();
+    createPlugins();
+
+    waylandServer()->initWorkspace();
 
     if (!waylandServer()->start()) {
         qFatal("Failed to initialize the Wayland server, exiting now");
@@ -182,9 +171,9 @@ void WaylandTestApplication::continueStartupWithScene()
         return;
     }
 
-    m_xwayland = new Xwl::Xwayland(this);
-    connect(m_xwayland, &Xwl::Xwayland::errorOccurred, this, &WaylandTestApplication::finalizeStartup);
-    connect(m_xwayland, &Xwl::Xwayland::started, this, &WaylandTestApplication::finalizeStartup);
+    m_xwayland = std::make_unique<Xwl::Xwayland>(this);
+    connect(m_xwayland.get(), &Xwl::Xwayland::errorOccurred, this, &WaylandTestApplication::finalizeStartup);
+    connect(m_xwayland.get(), &Xwl::Xwayland::started, this, &WaylandTestApplication::finalizeStartup);
     m_xwayland->start();
 }
 
@@ -201,5 +190,10 @@ Test::VirtualInputDevice *WaylandTestApplication::virtualKeyboard() const
 Test::VirtualInputDevice *WaylandTestApplication::virtualTouch() const
 {
     return m_virtualTouch.get();
+}
+
+XwaylandInterface *WaylandTestApplication::xwayland() const
+{
+    return m_xwayland.get();
 }
 }

@@ -19,21 +19,8 @@
 
 namespace KWin
 {
-WindowsRunner::WindowsRunner(QObject *parent)
-    : Plugin(parent)
-{
-    if (workspace()) {
-        initialize();
-    } else {
-        connect(kwinApp(), &Application::workspaceCreated, this, &WindowsRunner::initialize);
-    }
-}
 
-WindowsRunner::~WindowsRunner()
-{
-}
-
-void WindowsRunner::initialize()
+WindowsRunner::WindowsRunner()
 {
     new Krunner1Adaptor(this);
     qDBusRegisterMetaType<RemoteMatch>();
@@ -44,6 +31,8 @@ void WindowsRunner::initialize()
     QDBusConnection::sessionBus().registerObject(QStringLiteral("/WindowsRunner"), this);
     QDBusConnection::sessionBus().registerService(QStringLiteral("org.kde.KWin"));
 }
+
+WindowsRunner::~WindowsRunner() = default;
 
 RemoteActions WindowsRunner::Actions()
 {
@@ -290,7 +279,7 @@ RemoteMatch WindowsRunner::windowsMatch(const Window *window, const WindowsRunne
 
     // When there is no icon name, send a pixmap along instead
     if (match.iconName.isEmpty()) {
-        QImage convertedImage = window->icon().pixmap(QSize(16, 16)).toImage().convertToFormat(QImage::Format_RGBA8888);
+        QImage convertedImage = window->icon().pixmap(QSize(64, 64)).toImage().convertToFormat(QImage::Format_RGBA8888);
         RemoteImage remoteImage{
             convertedImage.width(),
             convertedImage.height(),

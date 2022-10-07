@@ -20,12 +20,12 @@
 
 #include <config-kwin.h>
 
+#include "core/output.h"
+#include "core/platform.h"
 #include "cursor.h"
 #include "effects.h"
 #include "gestures.h"
 #include "main.h"
-#include "output.h"
-#include "platform.h"
 #include "utils/common.h"
 #include "virtualdesktops.h"
 #include <workspace.h>
@@ -44,7 +44,6 @@
 #include <QFontDatabase>
 #include <QFontMetrics>
 #include <QMouseEvent>
-#include <QSharedPointer>
 #include <QTextStream>
 #include <QTimer>
 #include <QWidget>
@@ -296,6 +295,8 @@ bool Edge::check(const QPoint &cursorPos, const QDateTime &triggerTime, bool for
     }
     if (m_lastTrigger.isValid() && // still in cooldown
         m_lastTrigger.msecsTo(triggerTime) < edges()->reActivationThreshold() - edges()->timeThreshold()) {
+        // Reset the time, so the user has to actually keep the mouse still for this long to retrigger
+        m_lastTrigger = triggerTime;
         return false;
     }
     // no pushback so we have to activate at once
@@ -492,10 +493,10 @@ void Edge::switchDesktop(const QPoint &cursorPos)
     if (vds->currentDesktop() != oldDesktop) {
         m_pushBackBlocked = true;
         Cursors::self()->mouse()->setPos(pos);
-        QSharedPointer<QMetaObject::Connection> me(new QMetaObject::Connection);
+        QMetaObject::Connection *me = new QMetaObject::Connection();
         *me = QObject::connect(QCoreApplication::eventDispatcher(), &QAbstractEventDispatcher::aboutToBlock, this, [this, me]() {
             QObject::disconnect(*me);
-            const_cast<QSharedPointer<QMetaObject::Connection> *>(&me)->reset(nullptr);
+            delete me;
             m_pushBackBlocked = false;
         });
     }
@@ -569,7 +570,7 @@ void Edge::setGeometry(const QRect &geometry)
     doGeometryUpdate();
 
     if (isScreenEdge()) {
-        const Output *output = kwinApp()->platform()->outputAt(m_geometry.center());
+        const Output *output = workspace()->outputAt(m_geometry.center());
         m_gesture->setStartGeometry(m_geometry);
         m_gesture->setMinimumDelta(QSizeF(MINIMUM_DELTA, MINIMUM_DELTA) / output->scale());
     }
@@ -761,11 +762,9 @@ Output *Edge::output() const
 /**********************************************************
  * ScreenEdges
  *********************************************************/
-KWIN_SINGLETON_FACTORY(ScreenEdges)
 
-ScreenEdges::ScreenEdges(QObject *parent)
-    : QObject(parent)
-    , m_desktopSwitching(false)
+ScreenEdges::ScreenEdges()
+    : m_desktopSwitching(false)
     , m_desktopSwitchingMovingClients(false)
     , m_timeThreshold(0)
     , m_reactivateThreshold(0)
@@ -784,11 +783,6 @@ ScreenEdges::ScreenEdges(QObject *parent)
     m_cornerOffset = 4 * gridUnit;
 
     connect(workspace(), &Workspace::windowRemoved, this, &ScreenEdges::deleteEdgeForClient);
-}
-
-ScreenEdges::~ScreenEdges()
-{
-    s_self = nullptr;
 }
 
 void ScreenEdges::init()
@@ -957,7 +951,7 @@ void ScreenEdges::updateLayout()
 
 static bool isLeftScreen(const QRect &screen, const QRect &fullArea)
 {
-    const auto outputs = kwinApp()->platform()->enabledOutputs();
+    const auto outputs = workspace()->outputs();
     if (outputs.count() == 1) {
         return true;
     }
@@ -984,7 +978,7 @@ static bool isLeftScreen(const QRect &screen, const QRect &fullArea)
 
 static bool isRightScreen(const QRect &screen, const QRect &fullArea)
 {
-    const auto outputs = kwinApp()->platform()->enabledOutputs();
+    const auto outputs = workspace()->outputs();
     if (outputs.count() == 1) {
         return true;
     }
@@ -1011,7 +1005,7 @@ static bool isRightScreen(const QRect &screen, const QRect &fullArea)
 
 static bool isTopScreen(const QRect &screen, const QRect &fullArea)
 {
-    const auto outputs = kwinApp()->platform()->enabledOutputs();
+    const auto outputs = workspace()->outputs();
     if (outputs.count() == 1) {
         return true;
     }
@@ -1038,7 +1032,7 @@ static bool isTopScreen(const QRect &screen, const QRect &fullArea)
 
 static bool isBottomScreen(const QRect &screen, const QRect &fullArea)
 {
-    const auto outputs = kwinApp()->platform()->enabledOutputs();
+    const auto outputs = workspace()->outputs();
     if (outputs.count() == 1) {
         return true;
     }
@@ -1075,7 +1069,7 @@ void ScreenEdges::recreateEdges()
     const QRect fullArea = workspace()->geometry();
     QRegion processedRegion;
 
-    const auto outputs = kwinApp()->platform()->enabledOutputs();
+    const auto outputs = workspace()->outputs();
     for (Output *output : outputs) {
         const QRegion screen = QRegion(output->geometry()).subtracted(processedRegion);
         processedRegion += screen;
@@ -1346,10 +1340,10 @@ void ScreenEdges::createEdgeForClient(Window *client, ElectricBorder border)
     int x = 0;
     int width = 0;
     int height = 0;
-    const QRect geo = client->frameGeometry();
+    const QRect geo = client->frameGeometry().toRect();
     const QRect fullArea = workspace()->geometry();
 
-    const auto outputs = kwinApp()->platform()->enabledOutputs();
+    const auto outputs = workspace()->outputs();
     Output *foundOutput = nullptr;
     for (Output *output : outputs) {
         foundOutput = output;

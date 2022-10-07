@@ -13,9 +13,9 @@
 #include "surface_interface.h"
 #include "surfacerole_p.h"
 #include "utils/common.h"
+#include "utils/ramfile.h"
 
 #include <QHash>
-#include <QTemporaryFile>
 
 #include <unistd.h>
 
@@ -47,30 +47,11 @@ InputMethodGrabV1::~InputMethodGrabV1()
 
 void InputMethodGrabV1::sendKeymap(const QByteArray &keymap)
 {
-    QScopedPointer<QTemporaryFile> tmp(new QTemporaryFile());
-    if (!tmp->open()) {
-        qCWarning(KWIN_CORE) << "Failed to create keymap file:" << tmp->errorString();
-        return;
-    }
-
-    unlink(tmp->fileName().toUtf8().constData());
-    if (!tmp->resize(keymap.size())) {
-        qCWarning(KWIN_CORE) << "Failed to resize keymap file:" << tmp->errorString();
-        return;
-    }
-
-    uchar *address = tmp->map(0, keymap.size());
-    if (!address) {
-        qCWarning(KWIN_CORE) << "Failed to map keymap file:" << tmp->errorString();
-        return;
-    }
-
-    qstrncpy(reinterpret_cast<char *>(address), keymap.constData(), keymap.size() + 1);
-    tmp->unmap(address);
+    KWin::RamFile keymapFile("kwin-xkb-input-method-grab-keymap", keymap.constData(), keymap.size() + 1); // include QByteArray null terminator
 
     const auto resources = d->resourceMap();
     for (auto r : resources) {
-        d->send_keymap(r->handle, QtWaylandServer::wl_keyboard::keymap_format::keymap_format_xkb_v1, tmp->handle(), tmp->size());
+        d->send_keymap(r->handle, QtWaylandServer::wl_keyboard::keymap_format::keymap_format_xkb_v1, keymapFile.fd(), keymapFile.size());
     }
 }
 
@@ -142,7 +123,7 @@ public:
     {
         m_keyboardGrab.reset(new InputMethodGrabV1(q));
         m_keyboardGrab->d->add(resource->client(), id, 1);
-        Q_EMIT q->keyboardGrabRequested(m_keyboardGrab.data());
+        Q_EMIT q->keyboardGrabRequested(m_keyboardGrab.get());
     }
     void zwp_input_method_context_v1_key(Resource *, uint32_t serial, uint32_t time, uint32_t key, uint32_t state) override
     {
@@ -187,7 +168,7 @@ public:
     }
 
     InputMethodContextV1Interface *const q;
-    QScopedPointer<InputMethodGrabV1> m_keyboardGrab;
+    std::unique_ptr<InputMethodGrabV1> m_keyboardGrab;
 };
 
 InputMethodContextV1Interface::InputMethodContextV1Interface(InputMethodV1Interface *parent)
@@ -430,7 +411,7 @@ public:
         send_activate(resource->handle, addedResource->handle);
     }
 
-    QScopedPointer<InputMethodContextV1Interface> m_context;
+    std::unique_ptr<InputMethodContextV1Interface> m_context;
     InputMethodV1Interface *const q;
     Display *const m_display;
 };

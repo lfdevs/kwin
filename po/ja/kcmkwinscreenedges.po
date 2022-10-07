@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-05-12 00:46+0000\n"
+"POT-Creation-Date: 2022-07-15 00:48+0000\n"
 "PO-Revision-Date: 2020-01-18 21:57-0800\n"
 "Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -37,8 +37,8 @@ msgstr "アクションなし"
 
 #: main.cpp:131 touch.cpp:125
 #, kde-format
-msgid "Show Desktop"
-msgstr "デスクトップを表示"
+msgid "Peek at Desktop"
+msgstr ""
 
 #: main.cpp:132 touch.cpp:126
 #, kde-format
@@ -125,7 +125,7 @@ msgstr "左右の端へドラッグされたウィンドウ"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:101
 #, kde-format
-msgid "Behavior"
+msgid "Behavior:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, remainActiveOnFullscreen)

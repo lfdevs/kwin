@@ -6,12 +6,14 @@
 #pragma once
 
 #include <QObject>
+#include <memory>
 
 #include "textinput.h"
 
 struct wl_resource;
 namespace KWaylandServer
 {
+class ClientConnection;
 class Display;
 class SeatInterface;
 class SurfaceInterface;
@@ -35,7 +37,7 @@ public:
     ~TextInputManagerV2Interface() override;
 
 private:
-    QScopedPointer<TextInputManagerV2InterfacePrivate> d;
+    std::unique_ptr<TextInputManagerV2InterfacePrivate> d;
 };
 
 /**
@@ -67,7 +69,7 @@ public:
         StateReset = 2, // full state after reset
         StateEnter = 3, // full state after switching focus to a different widget on client side
     };
-    Q_ENUM(UpdateReason);
+    Q_ENUM(UpdateReason)
     /**
      * The preferred language as a RFC-3066 format language tag.
      *
@@ -120,6 +122,11 @@ public:
      * @see enabledChanged
      */
     QPointer<SurfaceInterface> surface() const;
+
+    /**
+     * @return whether @p client supports text-input-v2
+     */
+    bool clientSupportsTextInput(ClientConnection *client) const;
 
     /**
      * @return Whether the TextInputV2Interface is currently enabled for a SurfaceInterface.
@@ -277,7 +284,7 @@ private:
     friend class TextInputV2InterfacePrivate;
     explicit TextInputV2Interface(SeatInterface *seat);
 
-    QScopedPointer<TextInputV2InterfacePrivate> d;
+    std::unique_ptr<TextInputV2InterfacePrivate> d;
 };
 
 }

@@ -149,7 +149,7 @@ void StartupFeedbackEffect::reconfigure(Effect::ReconfigureFlags flags)
         m_type = BlinkingFeedback;
         if (effects->compositingType() == OpenGLCompositing) {
             ensureResources();
-            m_blinkingShader.reset(ShaderManager::instance()->generateShaderFromFile(ShaderTrait::MapTexture, QString(), QStringLiteral(":/effects/startupfeedback/shaders/blinking-startup.frag")));
+            m_blinkingShader = ShaderManager::instance()->generateShaderFromFile(ShaderTrait::MapTexture, QString(), QStringLiteral(":/effects/startupfeedback/shaders/blinking-startup.frag"));
             if (m_blinkingShader->isValid()) {
                 qCDebug(KWIN_STARTUPFEEDBACK) << "Blinking Shader is valid";
             } else {
@@ -267,7 +267,7 @@ void StartupFeedbackEffect::gotNewStartup(const QString &id, const QIcon &icon)
 
     startup.expiredTimer.reset(new QTimer());
     // Stop the animation if the startup doesn't finish within reasonable interval.
-    connect(startup.expiredTimer.data(), &QTimer::timeout, this, [this, id]() {
+    connect(startup.expiredTimer.get(), &QTimer::timeout, this, [this, id]() {
         gotRemoveStartup(id);
     });
     startup.expiredTimer->setSingleShot(true);

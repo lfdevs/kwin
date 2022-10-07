@@ -1,6 +1,7 @@
 /*
     SPDX-FileCopyrightText: 2021 Vlad Zahorodnii <vlad.zahorodnii@kde.org>
     SPDX-FileCopyrightText: 2022 Marco Martin <mart@kde.org>
+    SPDX-FileCopyrightText: 2022 ivan tkachenko <me@ratijas.tk>
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
@@ -17,6 +18,7 @@ FocusScope {
 
     required property QtObject clientModel
     required property QtObject desktop
+    required property var dndManagerStore
     readonly property bool dragActive: heap.dragActive || dragHandler.active || xAnim.running || yAnim.running
     property real panelOpacity: 1
     focus: true
@@ -30,13 +32,21 @@ FocusScope {
         onEntered: {
             drag.accepted = true;
         }
-        onDropped: {
-            if (drag.source instanceof DropArea) {
-                if (desktopView === drag.source) {
+        onDropped: drop => {
+            drop.accepted = true;
+            if (drag.source instanceof DesktopView) {
+                // dragging a desktop as a whole
+                if (drag.source === desktopView) {
+                    drop.action = Qt.IgnoreAction;
                     return;
                 }
                 effect.swapDesktops(drag.source.desktop.x11DesktopNumber, desktop.x11DesktopNumber);
             } else {
+                // dragging a KWin::Window
+                if (drag.source.desktop === desktopView.desktop.x11DesktopNumber) {
+                    drop.action = Qt.IgnoreAction;
+                    return;
+                }
                 drag.source.desktop = desktopView.desktop.x11DesktopNumber;
             }
         }
@@ -44,7 +54,7 @@ FocusScope {
     Connections {
         target: effect
         function onItemDroppedOutOfScreen(globalPos, item, screen) {
-            if (screen != targetScreen) {
+            if (screen !== targetScreen) {
                 return;
             }
             const pos = screen.mapFromGlobal(globalPos);
@@ -67,9 +77,9 @@ FocusScope {
             wId: model.client.internalId
             x: model.client.x - targetScreen.geometry.x
             y: model.client.y - targetScreen.geometry.y
+            z: model.client.stackingOrder
             width: model.client.width
             height: model.client.height
-            z: model.client.stackingOrder
             opacity: model.client.dock ? desktopView.panelOpacity : 1
         }
     }
@@ -89,11 +99,13 @@ FocusScope {
 
     WindowHeap {
         id: heap
-        function resetPosition () {
+        function resetPosition() {
             x = 0;
             y = 0;
         }
         Drag.active: dragHandler.active
+        Drag.proposedAction: Qt.MoveAction
+        Drag.supportedActions: Qt.MoveAction
         Drag.source: desktopView
         Drag.hotSpot: Qt.point(width * 0.5, height * 0.5)
         width: parent.width
@@ -104,15 +116,16 @@ FocusScope {
         absolutePositioning: false
         animationEnabled: container.animationEnabled
         organized: container.organized
-        layout: effect.layout
+        layout.mode: effect.layout
+        dndManagerStore: desktopView.dndManagerStore
         model: KWinComponents.ClientFilterModel {
             activity: KWinComponents.Workspace.currentActivity
             desktop: desktopView.desktop
             screenName: targetScreen.name
             clientModel: desktopView.clientModel
             windowType: ~KWinComponents.ClientFilterModel.Dock &
-                    ~KWinComponents.ClientFilterModel.Desktop &
-                    ~KWinComponents.ClientFilterModel.Notification;
+                        ~KWinComponents.ClientFilterModel.Desktop &
+                        ~KWinComponents.ClientFilterModel.Notification
         }
         delegate: WindowHeapDelegate {
             windowHeap: heap
@@ -121,13 +134,14 @@ FocusScope {
         }
         onActivated: effect.deactivate(effect.animationDuration);
         onWindowClicked: {
-            if (eventPoint.event.button !== Qt.MiddleButton) {
-                return;
-            }
-            if (window.desktop > -1) {
-                window.desktop = -1;
-            } else {
-                window.desktop = desktopView.desktop.x11DesktopNumber;
+            if (eventPoint.event.button === Qt.MiddleButton) {
+                window.closeWindow();
+            } else if (eventPoint.event.button === Qt.RightButton) {
+                if (window.desktop > -1) {
+                    window.desktop = -1;
+                } else {
+                    window.desktop = desktopView.desktop.x11DesktopNumber;
+                }
             }
         }
         Behavior on x {
@@ -135,7 +149,7 @@ FocusScope {
             XAnimator {
                 id: xAnim
                 duration: container.effect.animationDuration
-                easing.type: Easing.InOutCubic
+                easing.type: Easing.OutCubic
             }
         }
         Behavior on y {
@@ -143,7 +157,7 @@ FocusScope {
             YAnimator {
                 id: yAnim
                 duration: container.effect.animationDuration
-                easing.type: Easing.InOutCubic
+                easing.type: Easing.OutCubic
             }
         }
     }

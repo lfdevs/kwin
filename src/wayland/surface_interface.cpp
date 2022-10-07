@@ -25,6 +25,16 @@
 
 namespace KWaylandServer
 {
+
+static QRegion map_helper(const QMatrix4x4 &matrix, const QRegion &region)
+{
+    QRegion result;
+    for (const QRect &rect : region) {
+        result += matrix.mapRect(QRectF(rect)).toAlignedRect();
+    }
+    return result;
+}
+
 SurfaceInterfacePrivate::SurfaceInterfacePrivate(SurfaceInterface *q)
     : q(q)
 {
@@ -346,6 +356,12 @@ SurfaceInterface::SurfaceInterface(CompositorInterface *compositor, wl_resource 
     d->compositor = compositor;
     d->init(resource);
     d->client = compositor->display()->getConnection(d->resource()->client());
+
+    d->pendingScaleOverride = d->client->scaleOverride();
+    d->scaleOverride = d->pendingScaleOverride;
+    connect(d->client, &ClientConnection::scaleOverrideChanged, this, [this]() {
+        d->pendingScaleOverride = d->client->scaleOverride();
+    });
 }
 
 SurfaceInterface::~SurfaceInterface()
@@ -407,6 +423,7 @@ QMatrix4x4 SurfaceInterfacePrivate::buildSurfaceToBufferMatrix()
     }
 
     surfaceToBufferMatrix.scale(current.bufferScale, current.bufferScale);
+    surfaceToBufferMatrix.scale(scaleOverride, scaleOverride);
 
     switch (current.bufferTransform) {
     case KWin::Output::Transform::Normal:
@@ -538,12 +555,13 @@ void SurfaceInterfacePrivate::applyState(SurfaceState *next)
     const bool childrenChanged = next->childrenChanged;
     const bool visibilityChanged = bufferChanged && bool(current.buffer) != bool(next->buffer);
 
-    const QSize oldSurfaceSize = surfaceSize;
+    const QSizeF oldSurfaceSize = surfaceSize;
     const QSize oldBufferSize = bufferSize;
     const QMatrix4x4 oldSurfaceToBufferMatrix = surfaceToBufferMatrix;
     const QRegion oldInputRegion = inputRegion;
 
     next->mergeInto(&current);
+    scaleOverride = pendingScaleOverride;
 
     if (lockedPointer) {
         auto lockedPointerPrivate = LockedPointerV1InterfacePrivate::get(lockedPointer);
@@ -591,18 +609,27 @@ void SurfaceInterfacePrivate::applyState(SurfaceState *next)
             surfaceSize = implicitSurfaceSize;
         }
 
-        const QRect surfaceRect(QPoint(0, 0), surfaceSize);
-        inputRegion = current.input & surfaceRect;
+        const QRectF surfaceRect(QPoint(0, 0), surfaceSize);
+        inputRegion = current.input & surfaceRect.toAlignedRect();
 
         if (!current.buffer->hasAlphaChannel()) {
-            opaqueRegion = surfaceRect;
+            opaqueRegion = surfaceRect.toAlignedRect();
         } else {
-            opaqueRegion = current.opaque & surfaceRect;
+            opaqueRegion = current.opaque & surfaceRect.toAlignedRect();
         }
+
+        QMatrix4x4 scaleOverrideMatrix;
+        if (scaleOverride != 1.) {
+            scaleOverrideMatrix.scale(1. / scaleOverride, 1. / scaleOverride);
+        }
+
+        opaqueRegion = map_helper(scaleOverrideMatrix, opaqueRegion);
+        inputRegion = map_helper(scaleOverrideMatrix, inputRegion);
+        surfaceSize = surfaceSize / scaleOverride;
+        implicitSurfaceSize = implicitSurfaceSize / scaleOverride;
     } else {
-        // not QSize() because that will initialize width and height to -1
-        surfaceSize = QSize(0, 0);
-        implicitSurfaceSize = QSize(0, 0);
+        surfaceSize = QSizeF(0, 0);
+        implicitSurfaceSize = QSizeF(0, 0);
         bufferSize = QSize(0, 0);
         inputRegion = QRegion();
         opaqueRegion = QRegion();
@@ -734,6 +761,20 @@ void SurfaceInterfacePrivate::updateEffectiveMapped()
     }
 }
 
+bool SurfaceInterfacePrivate::contains(const QPointF &position) const
+{
+    // avoid QRectF::contains as that includes all edges
+    const qreal x = position.x();
+    const qreal y = position.y();
+
+    return mapped && x >= 0 && y >= 0 && x < surfaceSize.width() && y < surfaceSize.height();
+}
+
+bool SurfaceInterfacePrivate::inputContains(const QPointF &position) const
+{
+    return contains(position) && inputRegion.contains(QPoint(std::floor(position.x()), std::floor(position.y())));
+}
+
 QRegion SurfaceInterface::damage() const
 {
     return d->current.damage;
@@ -766,7 +807,7 @@ ClientBuffer *SurfaceInterface::buffer() const
 
 QPoint SurfaceInterface::offset() const
 {
-    return d->current.offset;
+    return d->current.offset / d->scaleOverride;
 }
 
 SurfaceInterface *SurfaceInterface::get(wl_resource *native)
@@ -800,14 +841,14 @@ SubSurfaceInterface *SurfaceInterface::subSurface() const
     return d->subSurface;
 }
 
-QSize SurfaceInterface::size() const
+QSizeF SurfaceInterface::size() const
 {
     return d->surfaceSize;
 }
 
-QRect SurfaceInterface::boundingRect() const
+QRectF SurfaceInterface::boundingRect() const
 {
-    QRect rect(QPoint(0, 0), size());
+    QRectF rect(QPoint(0, 0), size());
 
     for (const SubSurfaceInterface *subSurface : qAsConst(d->current.below)) {
         const SurfaceInterface *childSurface = subSurface->surface();
@@ -917,7 +958,7 @@ SurfaceInterface *SurfaceInterface::surfaceAt(const QPointF &position)
     }
 
     // check whether the geometry contains the pos
-    if (!size().isEmpty() && QRectF(QPoint(0, 0), size()).contains(position)) {
+    if (d->contains(position)) {
         return this;
     }
 
@@ -948,7 +989,7 @@ SurfaceInterface *SurfaceInterface::inputSurfaceAt(const QPointF &position)
     }
 
     // check whether the geometry and input region contain the pos
-    if (!size().isEmpty() && QRectF(QPoint(0, 0), size()).contains(position) && input().contains(position.toPoint())) {
+    if (d->inputContains(position)) {
         return this;
     }
 
@@ -980,7 +1021,7 @@ bool SurfaceInterface::inhibitsIdle() const
 
 LinuxDmaBufV1Feedback *SurfaceInterface::dmabufFeedbackV1() const
 {
-    return d->dmabufFeedbackV1.data();
+    return d->dmabufFeedbackV1.get();
 }
 
 QPointF SurfaceInterface::mapToBuffer(const QPointF &point) const
@@ -991,15 +1032,6 @@ QPointF SurfaceInterface::mapToBuffer(const QPointF &point) const
 QPointF SurfaceInterface::mapFromBuffer(const QPointF &point) const
 {
     return d->bufferToSurfaceMatrix.map(point);
-}
-
-static QRegion map_helper(const QMatrix4x4 &matrix, const QRegion &region)
-{
-    QRegion result;
-    for (const QRect &rect : region) {
-        result += matrix.mapRect(rect);
-    }
-    return result;
 }
 
 QRegion SurfaceInterface::mapToBuffer(const QRegion &region) const
@@ -1042,6 +1074,21 @@ QPointF SurfaceInterface::mapToChild(SurfaceInterface *child, const QPointF &poi
 QSize SurfaceInterface::bufferSize() const
 {
     return d->bufferSize;
+}
+
+qreal SurfaceInterface::scaleOverride() const
+{
+    return d->scaleOverride;
+}
+
+QPoint SurfaceInterface::toSurfaceLocal(const QPoint &point) const
+{
+    return QPoint(point.x() * d->scaleOverride, point.y() * d->scaleOverride);
+}
+
+QPointF SurfaceInterface::toSurfaceLocal(const QPointF &point) const
+{
+    return QPointF(point.x() * d->scaleOverride, point.y() * d->scaleOverride);
 }
 
 } // namespace KWaylandServer

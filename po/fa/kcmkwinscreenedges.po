@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-05-12 00:46+0000\n"
+"POT-Creation-Date: 2022-07-15 00:48+0000\n"
 "PO-Revision-Date: 2012-02-25 23:06+0330\n"
 "Last-Translator: Mohammad Reza Mirdamadi <mohi@linuxshop.ir>\n"
 "Language-Team: Farsi (Persian) <kde-i18n-fa@kde.org>\n"
@@ -34,7 +34,7 @@ msgstr ""
 
 #: main.cpp:131 touch.cpp:125
 #, kde-format
-msgid "Show Desktop"
+msgid "Peek at Desktop"
 msgstr ""
 
 #: main.cpp:132 touch.cpp:126
@@ -122,7 +122,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:101
 #, kde-format
-msgid "Behavior"
+msgid "Behavior:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, remainActiveOnFullscreen)

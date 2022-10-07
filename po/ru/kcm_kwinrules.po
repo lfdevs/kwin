@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-04-18 00:45+0000\n"
+"POT-Creation-Date: 2022-08-19 00:47+0000\n"
 "PO-Revision-Date: 2022-05-05 22:50+0300\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -231,6 +231,85 @@ msgstr "Выбор файла"
 msgid "KWin Rules (*.kwinrule)"
 msgstr "Правила KWin (*.kwinrule)"
 
+#: package/contents/ui/main.qml:59
+#, kde-format
+msgid "No rules for specific windows are currently set"
+msgstr "Особые параметры окон не заданы"
+
+#: package/contents/ui/main.qml:60
+#, kde-kuit-format
+msgctxt "@info"
+msgid "Click the <interface>Add New...</interface> button below to add some"
+msgstr ""
+"Нажмите <interface>Создать...</interface> чтобы добавить особые параметры "
+"окон"
+
+#: package/contents/ui/main.qml:68
+#, kde-format
+msgid "Select the rules to export"
+msgstr "Выберите правила, которые нужно экспортировать"
+
+#: package/contents/ui/main.qml:72
+#, kde-format
+msgid "Unselect All"
+msgstr "Отменить выбор"
+
+#: package/contents/ui/main.qml:72
+#, kde-format
+msgid "Select All"
+msgstr "Выбрать все"
+
+#: package/contents/ui/main.qml:86
+#, kde-format
+msgid "Save Rules"
+msgstr "Сохранить правила"
+
+#: package/contents/ui/main.qml:97
+#, kde-format
+msgid "Add New..."
+msgstr "Создать..."
+
+#: package/contents/ui/main.qml:108
+#, kde-format
+msgid "Import..."
+msgstr "Импорт..."
+
+# BUGME: please add ellipsis --aspotashev
+#: package/contents/ui/main.qml:116
+#, kde-format
+msgid "Cancel Export"
+msgstr "Отменить экспорт"
+
+#: package/contents/ui/main.qml:116
+#, kde-format
+msgid "Export..."
+msgstr "Экспорт..."
+
+#: package/contents/ui/main.qml:206
+#, kde-format
+msgid "Edit"
+msgstr "Изменить"
+
+#: package/contents/ui/main.qml:215
+#, kde-format
+msgid "Duplicate"
+msgstr "Создать копию"
+
+#: package/contents/ui/main.qml:224
+#, kde-format
+msgid "Delete"
+msgstr "Удалить"
+
+#: package/contents/ui/main.qml:237
+#, kde-format
+msgid "Import Rules"
+msgstr "Импорт правил"
+
+#: package/contents/ui/main.qml:249
+#, kde-format
+msgid "Export Rules"
+msgstr "Экспорт правил"
+
 #: package/contents/ui/OptionsComboBox.qml:35
 #, kde-format
 msgid "None selected"
@@ -306,115 +385,36 @@ msgstr "Ошибка"
 msgid "Add property to the rule"
 msgstr "Добавление свойства в правило"
 
-#: package/contents/ui/RulesEditor.qml:259
+#: package/contents/ui/RulesEditor.qml:260
 #: package/contents/ui/ValueEditor.qml:54
 #, kde-format
 msgid "Yes"
 msgstr "Да"
 
-#: package/contents/ui/RulesEditor.qml:259
+#: package/contents/ui/RulesEditor.qml:260
 #: package/contents/ui/ValueEditor.qml:60
 #, kde-format
 msgid "No"
 msgstr "Нет"
 
-#: package/contents/ui/RulesEditor.qml:261
+#: package/contents/ui/RulesEditor.qml:262
 #: package/contents/ui/ValueEditor.qml:171
 #: package/contents/ui/ValueEditor.qml:178
 #, kde-format
 msgid "%1 %"
 msgstr "%1 %"
 
-#: package/contents/ui/RulesEditor.qml:263
+#: package/contents/ui/RulesEditor.qml:264
 #, kde-format
 msgctxt "Coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr "(%1; %2)"
 
-#: package/contents/ui/RulesEditor.qml:265
+#: package/contents/ui/RulesEditor.qml:266
 #, kde-format
 msgctxt "Size (width, height)"
 msgid "(%1, %2)"
 msgstr "(%1; %2)"
-
-#: package/contents/ui/RulesList.qml:59
-#, kde-format
-msgid "No rules for specific windows are currently set"
-msgstr "Особые параметры окон не заданы"
-
-#: package/contents/ui/RulesList.qml:60
-#, kde-kuit-format
-msgctxt "@info"
-msgid "Click the <interface>Add New...</interface> button below to add some"
-msgstr ""
-"Нажмите <interface>Создать...</interface> чтобы добавить особые параметры "
-"окон"
-
-#: package/contents/ui/RulesList.qml:68
-#, kde-format
-msgid "Select the rules to export"
-msgstr "Выберите правила, которые нужно экспортировать"
-
-#: package/contents/ui/RulesList.qml:72
-#, kde-format
-msgid "Unselect All"
-msgstr "Отменить выбор"
-
-#: package/contents/ui/RulesList.qml:72
-#, kde-format
-msgid "Select All"
-msgstr "Выбрать все"
-
-#: package/contents/ui/RulesList.qml:86
-#, kde-format
-msgid "Save Rules"
-msgstr "Сохранить правила"
-
-#: package/contents/ui/RulesList.qml:97
-#, kde-format
-msgid "Add New..."
-msgstr "Создать..."
-
-#: package/contents/ui/RulesList.qml:108
-#, kde-format
-msgid "Import..."
-msgstr "Импорт..."
-
-# BUGME: please add ellipsis --aspotashev
-#: package/contents/ui/RulesList.qml:116
-#, kde-format
-msgid "Cancel Export"
-msgstr "Отменить экспорт"
-
-#: package/contents/ui/RulesList.qml:116
-#, kde-format
-msgid "Export..."
-msgstr "Экспорт..."
-
-#: package/contents/ui/RulesList.qml:206
-#, kde-format
-msgid "Edit"
-msgstr "Изменить"
-
-#: package/contents/ui/RulesList.qml:215
-#, kde-format
-msgid "Duplicate"
-msgstr "Создать копию"
-
-#: package/contents/ui/RulesList.qml:224
-#, kde-format
-msgid "Delete"
-msgstr "Удалить"
-
-#: package/contents/ui/RulesList.qml:237
-#, kde-format
-msgid "Import Rules"
-msgstr "Импорт правил"
-
-#: package/contents/ui/RulesList.qml:249
-#, kde-format
-msgid "Export Rules"
-msgstr "Экспорт правил"
 
 #: package/contents/ui/ValueEditor.qml:206
 #, kde-format

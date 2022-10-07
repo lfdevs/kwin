@@ -15,10 +15,10 @@
 #include "nightcolorsettings.h"
 #include "suncalc.h"
 
+#include <core/platform.h>
+#include <core/session.h>
 #include <input.h>
 #include <main.h>
-#include <platform.h>
-#include <session.h>
 #include <workspace.h>
 
 #include <KGlobalAccel>
@@ -45,9 +45,9 @@ NightColorManager *NightColorManager::self()
     return s_instance;
 }
 
-NightColorManager::NightColorManager(QObject *parent)
-    : Plugin(parent)
+NightColorManager::NightColorManager()
 {
+    NightColorSettings::instance(kwinApp()->config());
     s_instance = this;
 
     m_iface = new NightColorDBusInterface(this);
@@ -74,22 +74,6 @@ NightColorManager::NightColorManager(QObject *parent)
         QDBusConnection::sessionBus().asyncCall(message);
     });
 
-    if (workspace()) {
-        init();
-    } else {
-        connect(kwinApp(), &Application::workspaceCreated, this, &NightColorManager::init);
-    }
-}
-
-NightColorManager::~NightColorManager()
-{
-    s_instance = nullptr;
-}
-
-void NightColorManager::init()
-{
-    NightColorSettings::instance(kwinApp()->config());
-
     m_configWatcher = KConfigWatcher::create(kwinApp()->config());
     connect(m_configWatcher.data(), &KConfigWatcher::configChanged, this, &NightColorManager::reconfigure);
 
@@ -115,9 +99,9 @@ void NightColorManager::init()
     KGlobalAccel::setGlobalShortcut(toggleAction, QList<QKeySequence>());
     input()->registerShortcut(QKeySequence(), toggleAction, this, &NightColorManager::toggle);
 
-    connect(ColorManager::self(), &ColorManager::deviceAdded, this, &NightColorManager::hardReset);
+    connect(kwinApp()->colorManager(), &ColorManager::deviceAdded, this, &NightColorManager::hardReset);
 
-    connect(kwinApp()->platform()->session(), &Session::activeChanged, this, [this](bool active) {
+    connect(kwinApp()->session(), &Session::activeChanged, this, [this](bool active) {
         if (active) {
             hardReset();
         } else {
@@ -152,6 +136,11 @@ void NightColorManager::init()
     });
 
     hardReset();
+}
+
+NightColorManager::~NightColorManager()
+{
+    s_instance = nullptr;
 }
 
 void NightColorManager::hardReset()
@@ -277,7 +266,8 @@ void NightColorManager::readConfig()
         break;
     }
 
-    m_nightTargetTemp = qBound(MIN_TEMPERATURE, s->nightTemperature(), NEUTRAL_TEMPERATURE);
+    m_dayTargetTemp = qBound(MIN_TEMPERATURE, s->dayTemperature(), DEFAULT_DAY_TEMPERATURE);
+    m_nightTargetTemp = qBound(MIN_TEMPERATURE, s->nightTemperature(), DEFAULT_DAY_TEMPERATURE);
 
     double lat, lng;
     auto correctReadin = [&lat, &lng]() {
@@ -492,6 +482,16 @@ void NightColorManager::preview(uint previewTemp)
     m_previewTimer->setSingleShot(true);
     connect(m_previewTimer, &QTimer::timeout, this, &NightColorManager::stopPreview);
     m_previewTimer->start(15000);
+
+    QDBusMessage message = QDBusMessage::createMethodCall(
+        QStringLiteral("org.kde.plasmashell"),
+        QStringLiteral("/org/kde/osdService"),
+        QStringLiteral("org.kde.osdService"),
+        QStringLiteral("showText"));
+    message.setArguments(
+        {QStringLiteral("preferences-desktop-display-nightcolor-on"),
+         i18n("Color Temperature Preview")});
+    QDBusConnection::sessionBus().asyncCall(message);
 }
 
 void NightColorManager::stopPreview()
@@ -639,7 +639,7 @@ bool NightColorManager::daylight() const
 int NightColorManager::currentTargetTemp() const
 {
     if (!m_running) {
-        return NEUTRAL_TEMPERATURE;
+        return DEFAULT_DAY_TEMPERATURE;
     }
 
     if (m_mode == NightColorMode::Constant) {
@@ -670,7 +670,7 @@ int NightColorManager::currentTargetTemp() const
 
 void NightColorManager::commitGammaRamps(int temperature)
 {
-    const QVector<ColorDevice *> devices = ColorManager::self()->devices();
+    const QVector<ColorDevice *> devices = kwinApp()->colorManager()->devices();
     for (ColorDevice *device : devices) {
         device->setTemperature(temperature);
     }

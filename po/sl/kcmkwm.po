@@ -1,7 +1,7 @@
 # translation of kcmkwm.po to Slovenian
 # Translation of kcmkwm.po to Slovenian
 # KDEBASE translation to Slovenian language.
-# $Id: kcmkwm.po 1621448 2022-03-26 01:32:33Z scripty $
+# $Id: kcmkwm.po 1633047 2022-09-05 01:31:02Z scripty $
 # $Source$
 #
 # Copyright (C) 2001, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
@@ -11,13 +11,13 @@
 # Jure Repinc <jlp@holodeck1.com>, 2006, 2007, 2008, 2009, 2010, 2012.
 # Andrej Vernekar <andrej.vernekar@gmail.com>, 2012.
 # Andrej Mernik <andrejm@ubuntu.si>, 2013, 2015.
-# Matjaž Jeran <matjaz.jeran@amis.net>, 2020.
+# Matjaž Jeran <matjaz.jeran@amis.net>, 2020, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-03-26 00:45+0000\n"
-"PO-Revision-Date: 2021-04-28 08:32+0200\n"
+"POT-Creation-Date: 2022-09-02 00:47+0000\n"
+"PO-Revision-Date: 2022-09-04 08:03+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Lokalize 22.04.1\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 
@@ -640,6 +640,50 @@ msgstr ""
 #, kde-format
 msgid "Hide utility windows for inactive applications"
 msgstr "Za nedejavne programe skrij okna s pripomočki"
+
+#. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyLabel)
+#: advanced.ui:148
+#, kde-format
+msgid "Virtual Desktop behavior:"
+msgstr "Obnašanje navideznega namizja:"
+
+#. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyDescriptionLabel)
+#: advanced.ui:158
+#, kde-format
+msgid "When activating a window on a different Virtual Desktop:"
+msgstr "Kadar se aktivira okno na različnem navideznem namizju:"
+
+#. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_ActivationDesktopPolicy)
+#: advanced.ui:165
+#, kde-format
+msgid ""
+"<html><head/><body><p>This setting controls what happens when an open window "
+"located on a Virtual Desktop other than the current one is activated. </"
+"p><p><span style=\" font-style:italic;\">Switch to that Virtual Desktop</"
+"span> will switch to the Virtual Desktop where the window is currently "
+"located. </p><p><span style=\" font-style:italic;\">Bring window to current "
+"Virtual Desktop</span> will cause the window to jump to the active Virtual "
+"Desktop. </p></body></html>"
+msgstr ""
+"<html><head/><body><p>Ta nastavitev nadzoruje, kaj se zgodi ob aktiviranju "
+"odprtega okna, ki se nahaja na drugem navideznem namizju izven trenutnega.</"
+"p><p><span style=\" font-style:italic;\">Preklopi na to navidezno namizje </"
+"span> Preklopi na navidezno namizje, kjer se nahaja trenutno okno.</"
+"p><p><span style=\" font-style:italic;\">Prinesi okno na trenutni navidezno "
+"namizje</span> bo povzročil preskok tega okna v aktivno navidezno namizje.</"
+"p></body></html>"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
+#: advanced.ui:169
+#, kde-format
+msgid "Switch to that Virtual Desktop"
+msgstr "Preklopi na to navidezno namizje"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
+#: advanced.ui:174
+#, kde-format
+msgid "Bring window to current Virtual Desktop"
+msgstr "Prinesi okno v trenutno navidezno namizje"
 
 #. i18n: ectx: property (text), widget (QLabel, windowFocusPolicyLabel)
 #: focus.ui:22
@@ -1288,7 +1332,7 @@ msgstr ""
 msgid "Only when overlapping"
 msgstr "Samo, če se prekrivajo"
 
-#: windows.cpp:98
+#: windows.cpp:97
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
@@ -1298,7 +1342,7 @@ msgstr ""
 "Okno postane aktivno, ko kliknete vanj. To obnašanje je pogosto pri drugih "
 "operacijskih sistemih in je najbrž to, kar želite."
 
-#: windows.cpp:102
+#: windows.cpp:101
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1313,7 +1357,7 @@ msgstr ""
 "miško. Neobičajna, vendar mogoča različica <em>Kliknite za osredotočenost</"
 "em>."
 
-#: windows.cpp:107
+#: windows.cpp:106
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1327,7 +1371,7 @@ msgstr ""
 "običajno. Mislite si <em>Kliknite za osredotočenost</em> samo, da ni treba "
 "zares klikniti."
 
-#: windows.cpp:111
+#: windows.cpp:110
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1340,7 +1384,7 @@ msgstr ""
 "prednost okno, ki je pod miško. Izberite to, če hočete imeti nadzor nad "
 "osredotočenostjo oken pod kazalko."
 
-#: windows.cpp:116
+#: windows.cpp:115
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1355,7 +1399,7 @@ msgstr ""
 "politiki aktiviranja in ne bodo delovali. Zelo verjetno bi želeli "
 "uporabljati <em>Osredotočenost sledi miški (prednost miške)</em>!"
 
-#: windows.cpp:120
+#: windows.cpp:119
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "

@@ -8,9 +8,9 @@
 */
 #include "kwin_wayland_test.h"
 
+#include "core/output.h"
+#include "core/platform.h"
 #include "cursor.h"
-#include "output.h"
-#include "platform.h"
 #include "screens.h"
 #include "wayland_server.h"
 #include "window.h"
@@ -32,9 +32,6 @@ private Q_SLOTS:
     void initTestCase();
     void init();
     void cleanup();
-    void testSize_data();
-    void testSize();
-    void testCount();
     void testCurrent_data();
     void testCurrent();
     void testCurrentWithFollowsMouse_data();
@@ -47,7 +44,6 @@ void ScreensTest::initTestCase()
 {
     qRegisterMetaType<KWin::Window *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    QVERIFY(applicationStartedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
     QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
@@ -56,11 +52,10 @@ void ScreensTest::initTestCase()
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
-    const auto outputs = kwinApp()->platform()->enabledOutputs();
+    const auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
     QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
     QCOMPARE(outputs[1]->geometry(), QRect(1280, 0, 1280, 1024));
-    Test::initWaylandWorkspace();
 }
 
 void ScreensTest::init()
@@ -94,53 +89,6 @@ void ScreensTest::cleanup()
     QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
 }
 
-void ScreensTest::testSize_data()
-{
-    QTest::addColumn<QVector<QRect>>("geometries");
-    QTest::addColumn<QSize>("expectedSize");
-
-    QTest::newRow("empty") << QVector<QRect>{{QRect()}} << QSize(0, 0);
-    QTest::newRow("cloned") << QVector<QRect>{{QRect{0, 0, 200, 100}, QRect{0, 0, 200, 100}}} << QSize(200, 100);
-    QTest::newRow("adjacent") << QVector<QRect>{{QRect{0, 0, 200, 100}, QRect{200, 100, 400, 300}}} << QSize(600, 400);
-    QTest::newRow("overlapping") << QVector<QRect>{{QRect{-10, -20, 50, 100}, QRect{0, 0, 100, 200}}} << QSize(110, 220);
-    QTest::newRow("gap") << QVector<QRect>{{QRect{0, 0, 10, 20}, QRect{20, 40, 10, 20}}} << QSize(30, 60);
-}
-
-void ScreensTest::testSize()
-{
-    QSignalSpy sizeChangedSpy(screens(), &Screens::sizeChanged);
-    QVERIFY(sizeChangedSpy.isValid());
-
-    QFETCH(QVector<QRect>, geometries);
-    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::QueuedConnection,
-                              Q_ARG(int, geometries.count()), Q_ARG(QVector<QRect>, geometries));
-
-    QVERIFY(sizeChangedSpy.wait());
-    QTEST(screens()->size(), "expectedSize");
-}
-
-void ScreensTest::testCount()
-{
-    QSignalSpy countChangedSpy(screens(), &Screens::countChanged);
-    QVERIFY(countChangedSpy.isValid());
-
-    // the test environments has two outputs
-    QCOMPARE(screens()->count(), 2);
-
-    // change to one screen
-    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::QueuedConnection, Q_ARG(int, 1));
-    QVERIFY(countChangedSpy.wait());
-    QCOMPARE(countChangedSpy.count(), 1);
-    QCOMPARE(screens()->count(), 1);
-
-    // setting the same geometries shouldn't emit the signal, but we should get a changed signal
-    QSignalSpy changedSpy(screens(), &Screens::changed);
-    QVERIFY(changedSpy.isValid());
-    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::QueuedConnection, Q_ARG(int, 1));
-    QVERIFY(changedSpy.wait());
-    QCOMPARE(countChangedSpy.count(), 1);
-}
-
 void ScreensTest::testCurrent_data()
 {
     QTest::addColumn<int>("currentId");
@@ -152,7 +100,7 @@ void ScreensTest::testCurrent_data()
 void ScreensTest::testCurrent()
 {
     QFETCH(int, currentId);
-    Output *output = kwinApp()->platform()->findOutput(currentId);
+    Output *output = workspace()->outputs().at(currentId);
 
     // Disable "active screen follows mouse"
     auto group = kwinApp()->config()->group("Windows");
@@ -179,8 +127,7 @@ void ScreensTest::testCurrentWithFollowsMouse_data()
 
 void ScreensTest::testCurrentWithFollowsMouse()
 {
-    QSignalSpy changedSpy(screens(), &Screens::changed);
-    QVERIFY(changedSpy.isValid());
+    QSignalSpy changedSpy(workspace()->screens(), &Screens::changed);
 
     // Enable "active screen follows mouse"
     auto group = kwinApp()->config()->group("Windows");
@@ -197,7 +144,7 @@ void ScreensTest::testCurrentWithFollowsMouse()
     KWin::Cursors::self()->mouse()->setPos(cursorPos);
 
     QFETCH(int, expectedId);
-    Output *expected = kwinApp()->platform()->findOutput(expectedId);
+    Output *expected = workspace()->outputs().at(expectedId);
     QCOMPARE(workspace()->activeOutput(), expected);
 }
 
@@ -216,8 +163,7 @@ void ScreensTest::testCurrentPoint_data()
 
 void ScreensTest::testCurrentPoint()
 {
-    QSignalSpy changedSpy(screens(), &KWin::Screens::changed);
-    QVERIFY(changedSpy.isValid());
+    QSignalSpy changedSpy(workspace()->screens(), &KWin::Screens::changed);
 
     QFETCH(QVector<QRect>, geometries);
     QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::QueuedConnection,
@@ -234,7 +180,7 @@ void ScreensTest::testCurrentPoint()
     workspace()->setActiveOutput(cursorPos);
 
     QFETCH(int, expectedId);
-    Output *expected = kwinApp()->platform()->findOutput(expectedId);
+    Output *expected = workspace()->outputs().at(expectedId);
     QCOMPARE(workspace()->activeOutput(), expected);
 }
 

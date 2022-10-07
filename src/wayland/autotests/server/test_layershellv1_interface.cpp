@@ -197,17 +197,15 @@ void TestLayerShellV1Interface::testDesiredSize()
 {
     // Create a test wl_surface object.
     QSignalSpy serverSurfaceCreatedSpy(m_serverCompositor, &CompositorInterface::surfaceCreated);
-    QVERIFY(serverSurfaceCreatedSpy.isValid());
-    QScopedPointer<KWayland::Client::Surface> clientSurface(m_clientCompositor->createSurface(this));
+    std::unique_ptr<KWayland::Client::Surface> clientSurface(m_clientCompositor->createSurface(this));
     QVERIFY(serverSurfaceCreatedSpy.wait());
     SurfaceInterface *serverSurface = serverSurfaceCreatedSpy.first().first().value<SurfaceInterface *>();
     QVERIFY(serverSurface);
 
     // Create a test wlr_layer_surface_v1 object.
-    QScopedPointer<LayerSurfaceV1> clientShellSurface(new LayerSurfaceV1);
+    std::unique_ptr<LayerSurfaceV1> clientShellSurface(new LayerSurfaceV1);
     clientShellSurface->init(m_clientLayerShell->get_layer_surface(*clientSurface, nullptr, LayerShellV1::layer_top, QStringLiteral("test")));
     QSignalSpy layerSurfaceCreatedSpy(m_serverLayerShell, &LayerShellV1Interface::surfaceCreated);
-    QVERIFY(layerSurfaceCreatedSpy.isValid());
     QVERIFY(layerSurfaceCreatedSpy.wait());
     auto serverShellSurface = layerSurfaceCreatedSpy.last().first().value<LayerSurfaceV1Interface *>();
     QVERIFY(serverShellSurface);
@@ -216,7 +214,6 @@ void TestLayerShellV1Interface::testDesiredSize()
     clientSurface->commit(KWayland::Client::Surface::CommitFlag::None);
 
     QSignalSpy desiredSizeChangedSpy(serverShellSurface, &LayerSurfaceV1Interface::desiredSizeChanged);
-    QVERIFY(desiredSizeChangedSpy.isValid());
     QVERIFY(desiredSizeChangedSpy.wait());
 
     QCOMPARE(serverShellSurface->desiredSize(), QSize(10, 20));
@@ -226,18 +223,16 @@ void TestLayerShellV1Interface::testScope()
 {
     // Create a test wl_surface object.
     QSignalSpy serverSurfaceCreatedSpy(m_serverCompositor, &CompositorInterface::surfaceCreated);
-    QVERIFY(serverSurfaceCreatedSpy.isValid());
-    QScopedPointer<KWayland::Client::Surface> clientSurface(m_clientCompositor->createSurface(this));
+    std::unique_ptr<KWayland::Client::Surface> clientSurface(m_clientCompositor->createSurface(this));
     QVERIFY(serverSurfaceCreatedSpy.wait());
     SurfaceInterface *serverSurface = serverSurfaceCreatedSpy.first().first().value<SurfaceInterface *>();
     QVERIFY(serverSurface);
 
     // Create a test wlr_layer_surface_v1 object.
-    QScopedPointer<LayerSurfaceV1> clientShellSurface(new LayerSurfaceV1);
+    std::unique_ptr<LayerSurfaceV1> clientShellSurface(new LayerSurfaceV1);
     clientShellSurface->init(m_clientLayerShell->get_layer_surface(*clientSurface, nullptr, LayerShellV1::layer_top, QStringLiteral("foobar")));
     clientShellSurface->set_size(100, 50);
     QSignalSpy layerSurfaceCreatedSpy(m_serverLayerShell, &LayerShellV1Interface::surfaceCreated);
-    QVERIFY(layerSurfaceCreatedSpy.isValid());
     QVERIFY(layerSurfaceCreatedSpy.wait());
     auto serverShellSurface = layerSurfaceCreatedSpy.last().first().value<LayerSurfaceV1Interface *>();
     QVERIFY(serverShellSurface);
@@ -260,17 +255,15 @@ void TestLayerShellV1Interface::testAnchor()
 {
     // Create a test wl_surface object.
     QSignalSpy serverSurfaceCreatedSpy(m_serverCompositor, &CompositorInterface::surfaceCreated);
-    QVERIFY(serverSurfaceCreatedSpy.isValid());
-    QScopedPointer<KWayland::Client::Surface> clientSurface(m_clientCompositor->createSurface(this));
+    std::unique_ptr<KWayland::Client::Surface> clientSurface(m_clientCompositor->createSurface(this));
     QVERIFY(serverSurfaceCreatedSpy.wait());
     SurfaceInterface *serverSurface = serverSurfaceCreatedSpy.first().first().value<SurfaceInterface *>();
     QVERIFY(serverSurface);
 
     // Create a test wlr_layer_surface_v1 object.
-    QScopedPointer<LayerSurfaceV1> clientShellSurface(new LayerSurfaceV1);
+    std::unique_ptr<LayerSurfaceV1> clientShellSurface(new LayerSurfaceV1);
     clientShellSurface->init(m_clientLayerShell->get_layer_surface(*clientSurface, nullptr, LayerShellV1::layer_top, QStringLiteral("test")));
     QSignalSpy layerSurfaceCreatedSpy(m_serverLayerShell, &LayerShellV1Interface::surfaceCreated);
-    QVERIFY(layerSurfaceCreatedSpy.isValid());
     QVERIFY(layerSurfaceCreatedSpy.wait());
     auto serverShellSurface = layerSurfaceCreatedSpy.last().first().value<LayerSurfaceV1Interface *>();
     QVERIFY(serverShellSurface);
@@ -283,7 +276,6 @@ void TestLayerShellV1Interface::testAnchor()
     clientSurface->commit(KWayland::Client::Surface::CommitFlag::None);
 
     QSignalSpy anchorChangedSpy(serverShellSurface, &LayerSurfaceV1Interface::anchorChanged);
-    QVERIFY(anchorChangedSpy.isValid());
     QVERIFY(anchorChangedSpy.wait());
 
     QCOMPARE(serverShellSurface->anchor(), expected);
@@ -293,17 +285,15 @@ void TestLayerShellV1Interface::testMargins()
 {
     // Create a test wl_surface object.
     QSignalSpy serverSurfaceCreatedSpy(m_serverCompositor, &CompositorInterface::surfaceCreated);
-    QVERIFY(serverSurfaceCreatedSpy.isValid());
-    QScopedPointer<KWayland::Client::Surface> clientSurface(m_clientCompositor->createSurface(this));
+    std::unique_ptr<KWayland::Client::Surface> clientSurface(m_clientCompositor->createSurface(this));
     QVERIFY(serverSurfaceCreatedSpy.wait());
     SurfaceInterface *serverSurface = serverSurfaceCreatedSpy.first().first().value<SurfaceInterface *>();
     QVERIFY(serverSurface);
 
     // Create a test wlr_layer_surface_v1 object.
-    QScopedPointer<LayerSurfaceV1> clientShellSurface(new LayerSurfaceV1);
+    std::unique_ptr<LayerSurfaceV1> clientShellSurface(new LayerSurfaceV1);
     clientShellSurface->init(m_clientLayerShell->get_layer_surface(*clientSurface, nullptr, LayerShellV1::layer_top, QStringLiteral("test")));
     QSignalSpy layerSurfaceCreatedSpy(m_serverLayerShell, &LayerShellV1Interface::surfaceCreated);
-    QVERIFY(layerSurfaceCreatedSpy.isValid());
     QVERIFY(layerSurfaceCreatedSpy.wait());
     auto serverShellSurface = layerSurfaceCreatedSpy.last().first().value<LayerSurfaceV1Interface *>();
     QVERIFY(serverShellSurface);
@@ -313,7 +303,6 @@ void TestLayerShellV1Interface::testMargins()
     clientSurface->commit(KWayland::Client::Surface::CommitFlag::None);
 
     QSignalSpy marginsChangedSpy(serverShellSurface, &LayerSurfaceV1Interface::marginsChanged);
-    QVERIFY(marginsChangedSpy.isValid());
     QVERIFY(marginsChangedSpy.wait());
 
     QCOMPARE(serverShellSurface->margins(), QMargins(40, 10, 20, 30));
@@ -323,17 +312,15 @@ void TestLayerShellV1Interface::testExclusiveZone()
 {
     // Create a test wl_surface object.
     QSignalSpy serverSurfaceCreatedSpy(m_serverCompositor, &CompositorInterface::surfaceCreated);
-    QVERIFY(serverSurfaceCreatedSpy.isValid());
-    QScopedPointer<KWayland::Client::Surface> clientSurface(m_clientCompositor->createSurface(this));
+    std::unique_ptr<KWayland::Client::Surface> clientSurface(m_clientCompositor->createSurface(this));
     QVERIFY(serverSurfaceCreatedSpy.wait());
     SurfaceInterface *serverSurface = serverSurfaceCreatedSpy.first().first().value<SurfaceInterface *>();
     QVERIFY(serverSurface);
 
     // Create a test wlr_layer_surface_v1 object.
-    QScopedPointer<LayerSurfaceV1> clientShellSurface(new LayerSurfaceV1);
+    std::unique_ptr<LayerSurfaceV1> clientShellSurface(new LayerSurfaceV1);
     clientShellSurface->init(m_clientLayerShell->get_layer_surface(*clientSurface, nullptr, LayerShellV1::layer_top, QStringLiteral("test")));
     QSignalSpy layerSurfaceCreatedSpy(m_serverLayerShell, &LayerShellV1Interface::surfaceCreated);
-    QVERIFY(layerSurfaceCreatedSpy.isValid());
     QVERIFY(layerSurfaceCreatedSpy.wait());
     auto serverShellSurface = layerSurfaceCreatedSpy.last().first().value<LayerSurfaceV1Interface *>();
     QVERIFY(serverShellSurface);
@@ -343,7 +330,6 @@ void TestLayerShellV1Interface::testExclusiveZone()
     clientSurface->commit(KWayland::Client::Surface::CommitFlag::None);
 
     QSignalSpy exclusiveZoneChangedSpy(serverShellSurface, &LayerSurfaceV1Interface::exclusiveZoneChanged);
-    QVERIFY(exclusiveZoneChangedSpy.isValid());
     QVERIFY(exclusiveZoneChangedSpy.wait());
 
     QCOMPARE(serverShellSurface->exclusiveZone(), 10);
@@ -387,17 +373,15 @@ void TestLayerShellV1Interface::testExclusiveEdge()
 {
     // Create a test wl_surface object.
     QSignalSpy serverSurfaceCreatedSpy(m_serverCompositor, &CompositorInterface::surfaceCreated);
-    QVERIFY(serverSurfaceCreatedSpy.isValid());
-    QScopedPointer<KWayland::Client::Surface> clientSurface(m_clientCompositor->createSurface(this));
+    std::unique_ptr<KWayland::Client::Surface> clientSurface(m_clientCompositor->createSurface(this));
     QVERIFY(serverSurfaceCreatedSpy.wait());
     SurfaceInterface *serverSurface = serverSurfaceCreatedSpy.first().first().value<SurfaceInterface *>();
     QVERIFY(serverSurface);
 
     // Create a test wlr_layer_surface_v1 object.
-    QScopedPointer<LayerSurfaceV1> clientShellSurface(new LayerSurfaceV1);
+    std::unique_ptr<LayerSurfaceV1> clientShellSurface(new LayerSurfaceV1);
     clientShellSurface->init(m_clientLayerShell->get_layer_surface(*clientSurface, nullptr, LayerShellV1::layer_top, QStringLiteral("test")));
     QSignalSpy layerSurfaceCreatedSpy(m_serverLayerShell, &LayerShellV1Interface::surfaceCreated);
-    QVERIFY(layerSurfaceCreatedSpy.isValid());
     QVERIFY(layerSurfaceCreatedSpy.wait());
     auto serverShellSurface = layerSurfaceCreatedSpy.last().first().value<LayerSurfaceV1Interface *>();
     QVERIFY(serverShellSurface);
@@ -411,7 +395,6 @@ void TestLayerShellV1Interface::testExclusiveEdge()
     clientSurface->commit(KWayland::Client::Surface::CommitFlag::None);
 
     QSignalSpy anchorChangedSpy(serverShellSurface, &LayerSurfaceV1Interface::anchorChanged);
-    QVERIFY(anchorChangedSpy.isValid());
     QVERIFY(anchorChangedSpy.wait());
 
     QCOMPARE(serverShellSurface->exclusiveEdge(), expected);
@@ -432,17 +415,15 @@ void TestLayerShellV1Interface::testLayer()
 {
     // Create a test wl_surface object.
     QSignalSpy serverSurfaceCreatedSpy(m_serverCompositor, &CompositorInterface::surfaceCreated);
-    QVERIFY(serverSurfaceCreatedSpy.isValid());
-    QScopedPointer<KWayland::Client::Surface> clientSurface(m_clientCompositor->createSurface(this));
+    std::unique_ptr<KWayland::Client::Surface> clientSurface(m_clientCompositor->createSurface(this));
     QVERIFY(serverSurfaceCreatedSpy.wait());
     SurfaceInterface *serverSurface = serverSurfaceCreatedSpy.first().first().value<SurfaceInterface *>();
     QVERIFY(serverSurface);
 
     // Create a test wlr_layer_surface_v1 object.
-    QScopedPointer<LayerSurfaceV1> clientShellSurface(new LayerSurfaceV1);
+    std::unique_ptr<LayerSurfaceV1> clientShellSurface(new LayerSurfaceV1);
     clientShellSurface->init(m_clientLayerShell->get_layer_surface(*clientSurface, nullptr, LayerShellV1::layer_top, QStringLiteral("test")));
     QSignalSpy layerSurfaceCreatedSpy(m_serverLayerShell, &LayerShellV1Interface::surfaceCreated);
-    QVERIFY(layerSurfaceCreatedSpy.isValid());
     QVERIFY(layerSurfaceCreatedSpy.wait());
     auto serverShellSurface = layerSurfaceCreatedSpy.last().first().value<LayerSurfaceV1Interface *>();
     QVERIFY(serverShellSurface);
@@ -455,7 +436,6 @@ void TestLayerShellV1Interface::testLayer()
     clientSurface->commit(KWayland::Client::Surface::CommitFlag::None);
 
     QSignalSpy committedSpy(serverSurface, &SurfaceInterface::committed);
-    QVERIFY(committedSpy.isValid());
     QVERIFY(committedSpy.wait());
 
     QCOMPARE(serverShellSurface->layer(), expected);
@@ -465,40 +445,38 @@ void TestLayerShellV1Interface::testPopup()
 {
     // Create a test wl_surface object for the panel.
     QSignalSpy serverPanelSurfaceCreatedSpy(m_serverCompositor, &CompositorInterface::surfaceCreated);
-    QVERIFY(serverPanelSurfaceCreatedSpy.isValid());
-    QScopedPointer<KWayland::Client::Surface> clientPanelSurface(m_clientCompositor->createSurface(this));
+    std::unique_ptr<KWayland::Client::Surface> clientPanelSurface(m_clientCompositor->createSurface(this));
     QVERIFY(serverPanelSurfaceCreatedSpy.wait());
     SurfaceInterface *serverPanelSurface = serverPanelSurfaceCreatedSpy.last().first().value<SurfaceInterface *>();
     QVERIFY(serverPanelSurface);
 
     // Create a test wlr_layer_surface_v1 object for the panel..
-    QScopedPointer<LayerSurfaceV1> clientPanelShellSurface(new LayerSurfaceV1);
+    std::unique_ptr<LayerSurfaceV1> clientPanelShellSurface(new LayerSurfaceV1);
     clientPanelShellSurface->init(m_clientLayerShell->get_layer_surface(*clientPanelSurface, nullptr, LayerShellV1::layer_top, QStringLiteral("panel")));
     clientPanelShellSurface->set_size(100, 50);
     QSignalSpy layerSurfaceCreatedSpy(m_serverLayerShell, &LayerShellV1Interface::surfaceCreated);
-    QVERIFY(layerSurfaceCreatedSpy.isValid());
     QVERIFY(layerSurfaceCreatedSpy.wait());
     auto serverPanelShellSurface = layerSurfaceCreatedSpy.last().first().value<LayerSurfaceV1Interface *>();
     QVERIFY(serverPanelShellSurface);
 
     // Create a wl_surface object for the popup.
-    QScopedPointer<KWayland::Client::Surface> clientPopupSurface(m_clientCompositor->createSurface(this));
+    std::unique_ptr<KWayland::Client::Surface> clientPopupSurface(m_clientCompositor->createSurface(this));
     QVERIFY(serverPanelSurfaceCreatedSpy.wait());
     SurfaceInterface *serverPopupSurface = serverPanelSurfaceCreatedSpy.last().first().value<SurfaceInterface *>();
     QVERIFY(serverPopupSurface);
 
     // Create an xdg_surface object for the popup.
-    QScopedPointer<XdgSurface> clientXdgSurface(new XdgSurface);
+    std::unique_ptr<XdgSurface> clientXdgSurface(new XdgSurface);
     clientXdgSurface->init(m_clientXdgShell->get_xdg_surface(*clientPopupSurface));
 
     // Create an xdg_positioner object for the popup.
-    QScopedPointer<::XdgPositioner> positioner(new ::XdgPositioner);
+    std::unique_ptr<::XdgPositioner> positioner(new ::XdgPositioner);
     positioner->init(m_clientXdgShell->create_positioner());
     positioner->set_size(100, 100);
     positioner->set_anchor_rect(0, 0, 10, 10);
 
     // Create an xdg_popup surface.
-    QScopedPointer<XdgPopup> clientXdgPopup(new XdgPopup);
+    std::unique_ptr<XdgPopup> clientXdgPopup(new XdgPopup);
     clientXdgPopup->init(clientXdgSurface->get_popup(nullptr, positioner->object()));
 
     // Wait for the server side to catch up.
@@ -514,7 +492,6 @@ void TestLayerShellV1Interface::testPopup()
     // Commit the initial state of the xdg_popup surface.
     clientPopupSurface->commit(KWayland::Client::Surface::CommitFlag::None);
     QSignalSpy initializeRequestedSpy(serverPopupShellSurface, &XdgPopupInterface::initializeRequested);
-    QVERIFY(initializeRequestedSpy.isValid());
     QVERIFY(initializeRequestedSpy.wait());
 
     // The popup should be a transient for the panel.

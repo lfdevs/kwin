@@ -16,7 +16,7 @@ namespace KWaylandServer
 {
 TouchInterfacePrivate *TouchInterfacePrivate::get(TouchInterface *touch)
 {
-    return touch->d.data();
+    return touch->d.get();
 }
 
 TouchInterfacePrivate::TouchInterfacePrivate(TouchInterface *q, SeatInterface *seat)
@@ -84,9 +84,11 @@ void TouchInterface::sendMotion(qint32 id, const QPointF &localPos)
         return;
     }
 
+    QPointF pos = d->focusedSurface->toSurfaceLocal(localPos);
+
     const auto touchResources = d->touchesForClient(d->focusedSurface->client());
     for (TouchInterfacePrivate::Resource *resource : touchResources) {
-        d->send_motion(resource->handle, d->seat->timestamp(), id, wl_fixed_from_double(localPos.x()), wl_fixed_from_double(localPos.y()));
+        d->send_motion(resource->handle, d->seat->timestamp(), id, wl_fixed_from_double(pos.x()), wl_fixed_from_double(pos.y()));
     }
 }
 
@@ -110,6 +112,8 @@ void TouchInterface::sendDown(qint32 id, quint32 serial, const QPointF &localPos
 
     d->focusedSurface = surface;
 
+    QPointF pos = d->focusedSurface->toSurfaceLocal(localPos);
+
     const auto touchResources = d->touchesForClient(d->focusedSurface->client());
     for (TouchInterfacePrivate::Resource *resource : touchResources) {
         d->send_down(resource->handle,
@@ -117,8 +121,8 @@ void TouchInterface::sendDown(qint32 id, quint32 serial, const QPointF &localPos
                      d->seat->timestamp(),
                      d->focusedSurface->resource(),
                      id,
-                     wl_fixed_from_double(localPos.x()),
-                     wl_fixed_from_double(localPos.y()));
+                     wl_fixed_from_double(pos.x()),
+                     wl_fixed_from_double(pos.y()));
     }
 }
 

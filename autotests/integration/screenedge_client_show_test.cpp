@@ -8,10 +8,10 @@
 */
 #include "kwin_wayland_test.h"
 
+#include "core/output.h"
+#include "core/platform.h"
 #include "cursor.h"
 #include "deleted.h"
-#include "output.h"
-#include "platform.h"
 #include "screenedge.h"
 #include "wayland_server.h"
 #include "workspace.h"
@@ -43,7 +43,6 @@ void ScreenEdgeClientShowTest::initTestCase()
     qRegisterMetaType<KWin::Window *>();
     qRegisterMetaType<KWin::Deleted *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    QVERIFY(applicationStartedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
     QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
@@ -58,12 +57,11 @@ void ScreenEdgeClientShowTest::initTestCase()
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
-    const auto outputs = kwinApp()->platform()->enabledOutputs();
+    const auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
     QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
     QCOMPARE(outputs[1]->geometry(), QRect(1280, 0, 1280, 1024));
     setenv("QT_QPA_PLATFORM", "wayland", true);
-    Test::initWaylandWorkspace();
 }
 
 void ScreenEdgeClientShowTest::init()
@@ -75,7 +73,7 @@ void ScreenEdgeClientShowTest::init()
 
 struct XcbConnectionDeleter
 {
-    static inline void cleanup(xcb_connection_t *pointer)
+    void operator()(xcb_connection_t *pointer)
     {
         xcb_disconnect(pointer);
     }
@@ -102,14 +100,14 @@ void ScreenEdgeClientShowTest::testScreenEdgeShowHideX11()
     // that should trigger a show of the window whenever the cursor is pushed against the screen edge
 
     // create the test window
-    QScopedPointer<xcb_connection_t, XcbConnectionDeleter> c(xcb_connect(nullptr, nullptr));
-    QVERIFY(!xcb_connection_has_error(c.data()));
+    std::unique_ptr<xcb_connection_t, XcbConnectionDeleter> c(xcb_connect(nullptr, nullptr));
+    QVERIFY(!xcb_connection_has_error(c.get()));
     // atom for the screenedge show hide functionality
-    Xcb::Atom atom(QByteArrayLiteral("_KDE_NET_WM_SCREEN_EDGE_SHOW"), false, c.data());
+    Xcb::Atom atom(QByteArrayLiteral("_KDE_NET_WM_SCREEN_EDGE_SHOW"), false, c.get());
 
-    xcb_window_t windowId = xcb_generate_id(c.data());
+    xcb_window_t windowId = xcb_generate_id(c.get());
     QFETCH(QRect, windowGeometry);
-    xcb_create_window(c.data(), XCB_COPY_FROM_PARENT, windowId, rootWindow(),
+    xcb_create_window(c.get(), XCB_COPY_FROM_PARENT, windowId, rootWindow(),
                       windowGeometry.x(),
                       windowGeometry.y(),
                       windowGeometry.width(),
@@ -119,14 +117,13 @@ void ScreenEdgeClientShowTest::testScreenEdgeShowHideX11()
     memset(&hints, 0, sizeof(hints));
     xcb_icccm_size_hints_set_position(&hints, 1, windowGeometry.x(), windowGeometry.y());
     xcb_icccm_size_hints_set_size(&hints, 1, windowGeometry.width(), windowGeometry.height());
-    xcb_icccm_set_wm_normal_hints(c.data(), windowId, &hints);
-    NETWinInfo info(c.data(), windowId, rootWindow(), NET::WMAllProperties, NET::WM2AllProperties);
+    xcb_icccm_set_wm_normal_hints(c.get(), windowId, &hints);
+    NETWinInfo info(c.get(), windowId, rootWindow(), NET::WMAllProperties, NET::WM2AllProperties);
     info.setWindowType(NET::Dock);
-    xcb_map_window(c.data(), windowId);
-    xcb_flush(c.data());
+    xcb_map_window(c.get(), windowId);
+    xcb_flush(c.get());
 
     QSignalSpy windowCreatedSpy(workspace(), &Workspace::windowAdded);
-    QVERIFY(windowCreatedSpy.isValid());
     QVERIFY(windowCreatedSpy.wait());
     X11Window *window = windowCreatedSpy.last().first().value<X11Window *>();
     QVERIFY(window);
@@ -136,25 +133,21 @@ void ScreenEdgeClientShowTest::testScreenEdgeShowHideX11()
     QVERIFY(!window->isHiddenInternal());
 
     QSignalSpy effectsWindowAdded(effects, &EffectsHandler::windowAdded);
-    QVERIFY(effectsWindowAdded.isValid());
     QVERIFY(effectsWindowAdded.wait());
 
     // now try to hide
     QFETCH(quint32, location);
-    xcb_change_property(c.data(), XCB_PROP_MODE_REPLACE, windowId, atom, XCB_ATOM_CARDINAL, 32, 1, &location);
-    xcb_flush(c.data());
+    xcb_change_property(c.get(), XCB_PROP_MODE_REPLACE, windowId, atom, XCB_ATOM_CARDINAL, 32, 1, &location);
+    xcb_flush(c.get());
 
     QSignalSpy effectsWindowHiddenSpy(effects, &EffectsHandler::windowHidden);
-    QVERIFY(effectsWindowHiddenSpy.isValid());
     QSignalSpy clientHiddenSpy(window, &X11Window::windowHidden);
-    QVERIFY(clientHiddenSpy.isValid());
     QVERIFY(clientHiddenSpy.wait());
     QVERIFY(window->isHiddenInternal());
     QCOMPARE(effectsWindowHiddenSpy.count(), 1);
 
     // now trigger the edge
     QSignalSpy effectsWindowShownSpy(effects, &EffectsHandler::windowShown);
-    QVERIFY(effectsWindowShownSpy.isValid());
     QFETCH(QPoint, triggerPos);
     Cursors::self()->mouse()->setPos(triggerPos);
     QVERIFY(!window->isHiddenInternal());
@@ -165,8 +158,8 @@ void ScreenEdgeClientShowTest::testScreenEdgeShowHideX11()
 
     // hide window again
     Cursors::self()->mouse()->setPos(QPoint(640, 512));
-    xcb_change_property(c.data(), XCB_PROP_MODE_REPLACE, windowId, atom, XCB_ATOM_CARDINAL, 32, 1, &location);
-    xcb_flush(c.data());
+    xcb_change_property(c.get(), XCB_PROP_MODE_REPLACE, windowId, atom, XCB_ATOM_CARDINAL, 32, 1, &location);
+    xcb_flush(c.get());
     QVERIFY(clientHiddenSpy.wait());
     QVERIFY(window->isHiddenInternal());
     QFETCH(QRect, resizedWindowGeometry);
@@ -178,10 +171,9 @@ void ScreenEdgeClientShowTest::testScreenEdgeShowHideX11()
 
     // destroy window again
     QSignalSpy windowClosedSpy(window, &X11Window::windowClosed);
-    QVERIFY(windowClosedSpy.isValid());
-    xcb_unmap_window(c.data(), windowId);
-    xcb_destroy_window(c.data(), windowId);
-    xcb_flush(c.data());
+    xcb_unmap_window(c.get(), windowId);
+    xcb_destroy_window(c.get(), windowId);
+    xcb_flush(c.get());
     QVERIFY(windowClosedSpy.wait());
 }
 
@@ -206,14 +198,14 @@ void ScreenEdgeClientShowTest::testScreenEdgeShowX11Touch()
     // that should trigger a show of the window whenever the touch screen swipe gesture is triggered
 
     // create the test window
-    QScopedPointer<xcb_connection_t, XcbConnectionDeleter> c(xcb_connect(nullptr, nullptr));
-    QVERIFY(!xcb_connection_has_error(c.data()));
+    std::unique_ptr<xcb_connection_t, XcbConnectionDeleter> c(xcb_connect(nullptr, nullptr));
+    QVERIFY(!xcb_connection_has_error(c.get()));
     // atom for the screenedge show hide functionality
-    Xcb::Atom atom(QByteArrayLiteral("_KDE_NET_WM_SCREEN_EDGE_SHOW"), false, c.data());
+    Xcb::Atom atom(QByteArrayLiteral("_KDE_NET_WM_SCREEN_EDGE_SHOW"), false, c.get());
 
-    xcb_window_t windowId = xcb_generate_id(c.data());
+    xcb_window_t windowId = xcb_generate_id(c.get());
     QFETCH(QRect, windowGeometry);
-    xcb_create_window(c.data(), XCB_COPY_FROM_PARENT, windowId, rootWindow(),
+    xcb_create_window(c.get(), XCB_COPY_FROM_PARENT, windowId, rootWindow(),
                       windowGeometry.x(),
                       windowGeometry.y(),
                       windowGeometry.width(),
@@ -223,14 +215,13 @@ void ScreenEdgeClientShowTest::testScreenEdgeShowX11Touch()
     memset(&hints, 0, sizeof(hints));
     xcb_icccm_size_hints_set_position(&hints, 1, windowGeometry.x(), windowGeometry.y());
     xcb_icccm_size_hints_set_size(&hints, 1, windowGeometry.width(), windowGeometry.height());
-    xcb_icccm_set_wm_normal_hints(c.data(), windowId, &hints);
-    NETWinInfo info(c.data(), windowId, rootWindow(), NET::WMAllProperties, NET::WM2AllProperties);
+    xcb_icccm_set_wm_normal_hints(c.get(), windowId, &hints);
+    NETWinInfo info(c.get(), windowId, rootWindow(), NET::WMAllProperties, NET::WM2AllProperties);
     info.setWindowType(NET::Dock);
-    xcb_map_window(c.data(), windowId);
-    xcb_flush(c.data());
+    xcb_map_window(c.get(), windowId);
+    xcb_flush(c.get());
 
     QSignalSpy windowCreatedSpy(workspace(), &Workspace::windowAdded);
-    QVERIFY(windowCreatedSpy.isValid());
     QVERIFY(windowCreatedSpy.wait());
     X11Window *window = windowCreatedSpy.last().first().value<X11Window *>();
     QVERIFY(window);
@@ -240,25 +231,21 @@ void ScreenEdgeClientShowTest::testScreenEdgeShowX11Touch()
     QVERIFY(!window->isHiddenInternal());
 
     QSignalSpy effectsWindowAdded(effects, &EffectsHandler::windowAdded);
-    QVERIFY(effectsWindowAdded.isValid());
     QVERIFY(effectsWindowAdded.wait());
 
     // now try to hide
     QFETCH(quint32, location);
-    xcb_change_property(c.data(), XCB_PROP_MODE_REPLACE, windowId, atom, XCB_ATOM_CARDINAL, 32, 1, &location);
-    xcb_flush(c.data());
+    xcb_change_property(c.get(), XCB_PROP_MODE_REPLACE, windowId, atom, XCB_ATOM_CARDINAL, 32, 1, &location);
+    xcb_flush(c.get());
 
     QSignalSpy effectsWindowHiddenSpy(effects, &EffectsHandler::windowHidden);
-    QVERIFY(effectsWindowHiddenSpy.isValid());
     QSignalSpy clientHiddenSpy(window, &X11Window::windowHidden);
-    QVERIFY(clientHiddenSpy.isValid());
     QVERIFY(clientHiddenSpy.wait());
     QVERIFY(window->isHiddenInternal());
     QCOMPARE(effectsWindowHiddenSpy.count(), 1);
 
     // now trigger the edge
     QSignalSpy effectsWindowShownSpy(effects, &EffectsHandler::windowShown);
-    QVERIFY(effectsWindowShownSpy.isValid());
     quint32 timestamp = 0;
     QFETCH(QPoint, touchDownPos);
     QFETCH(QPoint, targetPos);
@@ -271,10 +258,9 @@ void ScreenEdgeClientShowTest::testScreenEdgeShowX11Touch()
 
     // destroy window again
     QSignalSpy windowClosedSpy(window, &X11Window::windowClosed);
-    QVERIFY(windowClosedSpy.isValid());
-    xcb_unmap_window(c.data(), windowId);
-    xcb_destroy_window(c.data(), windowId);
-    xcb_flush(c.data());
+    xcb_unmap_window(c.get(), windowId);
+    xcb_destroy_window(c.get(), windowId);
+    xcb_flush(c.get());
     QVERIFY(windowClosedSpy.wait());
 }
 

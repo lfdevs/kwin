@@ -9,10 +9,10 @@
 */
 
 #include "eglplatformcontext.h"
+#include "core/platform.h"
 #include "eglhelpers.h"
 #include "internalwindow.h"
 #include "offscreensurface.h"
-#include "platform.h"
 #include "utils/egl_context_attribute_builder.h"
 #include "window.h"
 
@@ -129,7 +129,7 @@ GLuint EGLPlatformContext::defaultFramebufferObject(QPlatformSurface *surface) c
 {
     if (Window *window = dynamic_cast<Window *>(surface)) {
         const auto &fbo = window->contentFBO();
-        if (!fbo.isNull()) {
+        if (fbo) {
             return fbo->handle();
         }
         qCDebug(KWIN_QPA) << "No default framebuffer object for internal window";

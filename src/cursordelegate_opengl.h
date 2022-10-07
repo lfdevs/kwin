@@ -5,8 +5,9 @@
 */
 
 #pragma once
+#include <memory>
 
-#include "renderlayerdelegate.h"
+#include "core/renderlayerdelegate.h"
 
 namespace KWin
 {
@@ -24,7 +25,7 @@ public:
     void paint(RenderTarget *renderTarget, const QRegion &region) override;
 
 private:
-    QScopedPointer<GLTexture> m_cursorTexture;
+    std::unique_ptr<GLTexture> m_cursorTexture;
     bool m_cursorTextureDirty = false;
 };
 

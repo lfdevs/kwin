@@ -70,7 +70,7 @@ class KWIN_EXPORT SurfaceInterface : public QObject
     Q_PROPERTY(QRegion input READ input NOTIFY inputChanged)
     Q_PROPERTY(qint32 bufferScale READ bufferScale NOTIFY bufferScaleChanged)
     Q_PROPERTY(KWin::Output::Transform bufferTransform READ bufferTransform NOTIFY bufferTransformChanged)
-    Q_PROPERTY(QSize size READ size NOTIFY sizeChanged)
+    Q_PROPERTY(QSizeF size READ size NOTIFY sizeChanged)
 public:
     explicit SurfaceInterface(CompositorInterface *compositor, wl_resource *resource);
     ~SurfaceInterface() override;
@@ -181,13 +181,13 @@ public:
      * Note that there is no direct relationship between the surface size and the buffer size.
      * In order to determine the size of the currently attached buffer, use buffer()->size().
      */
-    QSize size() const;
+    QSizeF size() const;
     /**
      * Returns the rectangle that bounds this surface and all of its sub-surfaces.
      *
      * QPoint(0, 0) corresponds to the upper left corner of this surface.
      */
-    QRect boundingRect() const;
+    QRectF boundingRect() const;
     /**
      * Returns the size of the attached buffer, in device pixels.
      *
@@ -315,6 +315,21 @@ public:
      */
     static SurfaceInterface *get(quint32 id, const ClientConnection *client);
 
+    /**
+     * @see ClientConnection::setScaleOverride
+     */
+    qreal scaleOverride() const;
+    /**
+     * Convert a co-ordinate from kwin logical space to surface logical space
+     * @internal
+     */
+    QPoint toSurfaceLocal(const QPoint &point) const;
+    /**
+     * Convert a co-ordinate from kwin logical space to surface logical space
+     * @internal
+     */
+    QPointF toSurfaceLocal(const QPointF &point) const;
+
 Q_SIGNALS:
     /**
      * This signal is emitted when the underlying wl_surface resource is about to be freed.
@@ -412,7 +427,7 @@ Q_SIGNALS:
     void committed();
 
 private:
-    QScopedPointer<SurfaceInterfacePrivate> d;
+    std::unique_ptr<SurfaceInterfacePrivate> d;
     friend class SurfaceInterfacePrivate;
 };
 

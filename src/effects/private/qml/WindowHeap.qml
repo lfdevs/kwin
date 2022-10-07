@@ -1,12 +1,13 @@
 /*
     SPDX-FileCopyrightText: 2021 Vlad Zahorodnii <vlad.zahorodnii@kde.org>
+    SPDX-FileCopyrightText: 2022 ivan tkachenko <me@ratijas.tk>
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-import QtQuick 2.12
-import QtQuick.Window 2.12
-import org.kde.kirigami 2.12 as Kirigami
+import QtQuick 2.15
+import QtQuick.Window 2.15
+import org.kde.kirigami 2.20 as Kirigami
 import org.kde.kwin 3.0 as KWinComponents
 import org.kde.kwin.private.effects 1.0
 import org.kde.plasma.components 3.0 as PC3
@@ -24,16 +25,16 @@ FocusScope {
 
     property alias model: windowsRepeater.model
     property alias delegate: windowsRepeater.delegate
-    property alias layout: expoLayout.mode
-    property alias expoLayout: expoLayout
+    readonly property alias count: windowsRepeater.count
+
+    property alias layout: expoLayout
     property int selectedIndex: -1
     property int animationDuration: PlasmaCore.Units.longDuration
     property bool animationEnabled: false
     property bool absolutePositioning: true
     property real padding: 0
+    // Either a string "activeClass" or a list internalIds of clients
     property var showOnly: []
-    property string activeClass
-    readonly property alias count: windowsRepeater.count
 
     required property bool organized
     readonly property bool effectiveOrganized: expoLayout.ready && organized
@@ -48,12 +49,18 @@ FocusScope {
         activated();
     }
 
+    property var dndManagerStore: ({})
+
+    function saveDND(key: int, rect: rect) {
+        dndManagerStore[key] = rect;
+    }
+
     KWinComponents.WindowThumbnailItem {
         id: otherScreenThumbnail
         z: 2
         property KWinComponents.WindowThumbnailItem cloneOf
         visible: false
-        wId: cloneOf ? cloneOf.wId : null
+        client: cloneOf ? cloneOf.client : null
         width: cloneOf ? cloneOf.width : 0
         height: cloneOf ? cloneOf.height : 0
         onCloneOfChanged: {
@@ -101,15 +108,32 @@ FocusScope {
 
     ExpoLayout {
         id: expoLayout
-        x: heap.padding
-        y: heap.padding
-        width: parent.width - 2 * heap.padding
-        height: parent.height - 2 * heap.padding
-        spacing: PlasmaCore.Units.largeSpacing
+
+        anchors.fill: parent
+        anchors.margins: heap.padding
+        spacing: PlasmaCore.Units.smallSpacing * 5
 
         Repeater {
             id: windowsRepeater
-            delegate: WindowHeapDelegate {}
+
+            onItemAdded: (index, item) => {
+                // restore/reparent from drop
+                var key = item.client.internalId;
+                if (key in heap.dndManagerStore) {
+                    expoLayout.forceLayout();
+                    var oldGlobalRect = heap.dndManagerStore[key];
+                    item.restoreDND(oldGlobalRect);
+                    delete heap.dndManagerStore[key];
+                } else if (heap.effectiveOrganized) {
+                    // New window has opened in the middle of a running effect.
+                    // Make sure it is positioned before enabling its animations.
+                    expoLayout.forceLayout();
+                }
+                item.animationEnabled = true;
+            }
+            delegate: WindowHeapDelegate {
+                windowHeap: heap
+            }
         }
     }
 
@@ -124,7 +148,7 @@ FocusScope {
     }
 
     function findNextItem(selectedIndex, direction) {
-        if (selectedIndex == -1) {
+        if (selectedIndex === -1) {
             return findFirstItem();
         }
 
@@ -146,7 +170,7 @@ FocusScope {
                 }
 
                 if (candidateItem.x + candidateItem.width < selectedItem.x + selectedItem.width) {
-                    if (nextIndex == -1) {
+                    if (nextIndex === -1) {
                         nextIndex = candidateIndex;
                     } else {
                         const nextItem = windowsRepeater.itemAt(nextIndex);
@@ -171,11 +195,11 @@ FocusScope {
                 }
 
                 if (selectedItem.x < candidateItem.x) {
-                    if (nextIndex == -1) {
+                    if (nextIndex === -1) {
                         nextIndex = candidateIndex;
                     } else {
                         const nextItem = windowsRepeater.itemAt(nextIndex);
-                        if (nextIndex == -1 || candidateItem.x < nextItem.x) {
+                        if (nextIndex === -1 || candidateItem.x < nextItem.x) {
                             nextIndex = candidateIndex;
                         }
                     }
@@ -196,7 +220,7 @@ FocusScope {
                 }
 
                 if (candidateItem.y + candidateItem.height < selectedItem.y + selectedItem.height) {
-                    if (nextIndex == -1) {
+                    if (nextIndex === -1) {
                         nextIndex = candidateIndex;
                     } else {
                         const nextItem = windowsRepeater.itemAt(nextIndex);
@@ -221,7 +245,7 @@ FocusScope {
                 }
 
                 if (selectedItem.y < candidateItem.y) {
-                    if (nextIndex == -1) {
+                    if (nextIndex === -1) {
                         nextIndex = candidateIndex;
                     } else {
                         const nextItem = windowsRepeater.itemAt(nextIndex);
@@ -238,30 +262,30 @@ FocusScope {
     }
 
     function resetSelected() {
-        heap.selectedIndex = -1;
+        selectedIndex = -1;
     }
 
     function selectNextItem(direction) {
-        const nextIndex = findNextItem(heap.selectedIndex, direction);
-        if (nextIndex != -1) {
-            heap.selectedIndex = nextIndex;
+        const nextIndex = findNextItem(selectedIndex, direction);
+        if (nextIndex !== -1) {
+            selectedIndex = nextIndex;
             return true;
         }
         return false;
     }
 
     function selectLastItem(direction) {
-        let last = heap.selectedIndex;
+        let last = selectedIndex;
         while (true) {
             const next = findNextItem(last, direction);
-            if (next == -1) {
+            if (next === -1) {
                 break;
             } else {
                 last = next;
             }
         }
-        if (last != -1) {
-            heap.selectedIndex = last;
+        if (last !== -1) {
+            selectedIndex = last;
             return true;
         }
         return false;
@@ -300,8 +324,8 @@ FocusScope {
         case Qt.Key_Space:
             handled = true;
             let selectedItem = null;
-            if (heap.selectedIndex != -1) {
-                selectedItem = windowsRepeater.itemAt(heap.selectedIndex);
+            if (selectedIndex !== -1) {
+                selectedItem = windowsRepeater.itemAt(selectedIndex);
             } else {
                 // If the window heap has only one visible window, activate it.
                 for (let i = 0; i < windowsRepeater.count; ++i) {
@@ -318,7 +342,7 @@ FocusScope {
             if (selectedItem) {
                 handled = true;
                 KWinComponents.Workspace.activeClient = selectedItem.client;
-                heap.activated();
+                activated();
             }
             break;
         default:

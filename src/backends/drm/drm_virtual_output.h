@@ -26,12 +26,7 @@ class DrmVirtualOutput : public DrmAbstractOutput
     Q_OBJECT
 
 public:
-    enum class Type {
-        Virtual,
-        Placeholder,
-    };
-
-    DrmVirtualOutput(const QString &name, DrmGpu *gpu, const QSize &size, Type type);
+    DrmVirtualOutput(const QString &name, DrmGpu *gpu, const QSize &size, qreal scale);
     ~DrmVirtualOutput() override;
 
     bool present() override;
@@ -41,12 +36,11 @@ public:
 private:
     void vblank(std::chrono::nanoseconds timestamp);
     void setDpmsMode(DpmsMode mode) override;
-    void updateEnablement(bool enable) override;
 
-    QSharedPointer<DrmOutputLayer> m_layer;
+    std::shared_ptr<DrmOutputLayer> m_layer;
     bool m_pageFlipPending = true;
 
-    SoftwareVsyncMonitor *m_vsyncMonitor;
+    std::unique_ptr<SoftwareVsyncMonitor> m_vsyncMonitor;
 };
 
 }

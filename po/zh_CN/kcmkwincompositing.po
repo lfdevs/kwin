@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-07-02 02:34+0000\n"
-"PO-Revision-Date: 2022-08-20 14:20\n"
+"POT-Creation-Date: 2022-07-02 00:49+0000\n"
+"PO-Revision-Date: 2022-08-20 14:17\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -14,8 +14,8 @@ msgstr ""
 "X-Crowdin-Project: kdeorg\n"
 "X-Crowdin-Project-ID: 269464\n"
 "X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /kf5-stable/messages/kwin/kcmkwincompositing.pot\n"
-"X-Crowdin-File-ID: 2542\n"
+"X-Crowdin-File: /kf5-trunk/messages/kwin/kcmkwincompositing.pot\n"
+"X-Crowdin-File-ID: 4299\n"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, glCrashedWarning)
 #: compositing.ui:31
@@ -207,12 +207,12 @@ msgstr "动效流畅度优先"
 msgid "Force smoothest animations"
 msgstr "强制最流畅动效"
 
-#: main.cpp:78
+#: main.cpp:79
 #, kde-format
 msgid "Re-enable OpenGL detection"
 msgstr "重新启用 OpenGL 检测"
 
-#: main.cpp:134
+#: main.cpp:135
 #, kde-format
 msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
@@ -220,12 +220,12 @@ msgid ""
 msgstr ""
 "“只在资源消耗较少时”只能防止全屏内容变化时造成的撕裂现象，例如在播放视频时。"
 
-#: main.cpp:138
+#: main.cpp:139
 #, kde-format
 msgid "\"Full screen repaints\" can cause performance problems."
 msgstr "“全屏重新绘制”可能导致性能问题。"
 
-#: main.cpp:142
+#: main.cpp:143
 #, kde-format
 msgid ""
 "\"Re-use screen content\" causes severe performance problems on MESA drivers."

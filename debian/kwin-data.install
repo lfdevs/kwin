@@ -16,7 +16,6 @@ usr/share/kpackage/kcms/kcm_kwin*
 usr/share/kpackage/kcms/kcm_virtualkeyboard/
 usr/share/krunner/dbusplugins/kwin-runner-windows.desktop
 usr/share/kservices5/kwin/
-usr/share/kservices5/kcm_kwin*.desktop
 usr/share/kservicetypes5/kwin*.desktop
 usr/share/kwin/
 usr/share/locale/

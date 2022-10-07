@@ -8,38 +8,29 @@
 */
 #include "virtual_backend.h"
 
-#include <config-kwin.h>
-
 #include "composite.h"
-#include "egl_gbm_backend.h"
-#include "scene_qpainter_virtual_backend.h"
-#include "session.h"
+#include "virtual_egl_backend.h"
 #include "virtual_output.h"
-#include "wayland_server.h"
+#include "virtual_qpainter_backend.h"
 // Qt
 #include <QTemporaryDir>
-// system
-#include <fcntl.h>
-#include <unistd.h>
 
 namespace KWin
 {
 
 VirtualBackend::VirtualBackend(QObject *parent)
     : Platform(parent)
-    , m_session(Session::create(Session::Type::Noop, this))
 {
     if (qEnvironmentVariableIsSet("KWIN_WAYLAND_VIRTUAL_SCREENSHOTS")) {
         m_screenshotDir.reset(new QTemporaryDir);
         if (!m_screenshotDir->isValid()) {
             m_screenshotDir.reset();
         }
-        if (!m_screenshotDir.isNull()) {
+        if (m_screenshotDir) {
             qDebug() << "Screenshots saved to: " << m_screenshotDir->path();
         }
     }
 
-    supportsOutputChanges();
     setSupportsPointerWarping(true);
     setSupportsGammaControl(true);
 }
@@ -49,11 +40,6 @@ VirtualBackend::~VirtualBackend()
     if (sceneEglDisplay() != EGL_NO_DISPLAY) {
         eglTerminate(sceneEglDisplay());
     }
-}
-
-Session *VirtualBackend::session() const
-{
-    return m_session;
 }
 
 bool VirtualBackend::initialize()
@@ -68,32 +54,31 @@ bool VirtualBackend::initialize()
         VirtualOutput *dummyOutput = new VirtualOutput(this);
         dummyOutput->init(QPoint(0, 0), initialWindowSize());
         m_outputs << dummyOutput;
-        m_outputsEnabled << dummyOutput;
         Q_EMIT outputAdded(dummyOutput);
-        Q_EMIT outputEnabled(dummyOutput);
+        dummyOutput->updateEnabled(true);
     }
     setReady(true);
 
-    Q_EMIT screensQueried();
+    Q_EMIT outputsQueried();
     return true;
 }
 
 QString VirtualBackend::screenshotDirPath() const
 {
-    if (m_screenshotDir.isNull()) {
+    if (!m_screenshotDir) {
         return QString();
     }
     return m_screenshotDir->path();
 }
 
-QPainterBackend *VirtualBackend::createQPainterBackend()
+std::unique_ptr<QPainterBackend> VirtualBackend::createQPainterBackend()
 {
-    return new VirtualQPainterBackend(this);
+    return std::make_unique<VirtualQPainterBackend>(this);
 }
 
-OpenGLBackend *VirtualBackend::createOpenGLBackend()
+std::unique_ptr<OpenGLBackend> VirtualBackend::createOpenGLBackend()
 {
-    return new EglGbmBackend(this);
+    return std::make_unique<VirtualEglBackend>(this);
 }
 
 Outputs VirtualBackend::outputs() const
@@ -101,17 +86,11 @@ Outputs VirtualBackend::outputs() const
     return m_outputs;
 }
 
-Outputs VirtualBackend::enabledOutputs() const
-{
-    return m_outputsEnabled;
-}
-
 void VirtualBackend::setVirtualOutputs(int count, QVector<QRect> geometries, QVector<int> scales)
 {
     Q_ASSERT(geometries.size() == 0 || geometries.size() == count);
     Q_ASSERT(scales.size() == 0 || scales.size() == count);
 
-    const QVector<VirtualOutput *> disabled = m_outputsEnabled;
     const QVector<VirtualOutput *> removed = m_outputs;
 
     int sumWidth = 0;
@@ -125,54 +104,21 @@ void VirtualBackend::setVirtualOutputs(int count, QVector<QRect> geometries, QVe
             sumWidth += initialWindowSize().width();
         }
         if (scales.size()) {
-            vo->setScale(scales.at(i));
+            vo->updateScale(scales.at(i));
         }
         m_outputs.append(vo);
-        m_outputsEnabled.append(vo);
         Q_EMIT outputAdded(vo);
-        Q_EMIT outputEnabled(vo);
-    }
-
-    for (VirtualOutput *output : disabled) {
-        m_outputsEnabled.removeOne(output);
-        Q_EMIT outputDisabled(output);
+        vo->updateEnabled(true);
     }
 
     for (VirtualOutput *output : removed) {
+        output->updateEnabled(false);
         m_outputs.removeOne(output);
         Q_EMIT outputRemoved(output);
-        delete output;
+        output->unref();
     }
 
-    Q_EMIT screensQueried();
-}
-
-void VirtualBackend::enableOutput(VirtualOutput *output, bool enable)
-{
-    if (enable) {
-        Q_ASSERT(!m_outputsEnabled.contains(output));
-        m_outputsEnabled << output;
-        Q_EMIT outputEnabled(output);
-    } else {
-        Q_ASSERT(m_outputsEnabled.contains(output));
-        m_outputsEnabled.removeOne(output);
-        Q_EMIT outputDisabled(output);
-    }
-
-    Q_EMIT screensQueried();
-}
-
-void VirtualBackend::removeOutput(Output *output)
-{
-    VirtualOutput *virtualOutput = static_cast<VirtualOutput *>(output);
-    virtualOutput->setEnabled(false);
-
-    m_outputs.removeOne(virtualOutput);
-    Q_EMIT outputRemoved(virtualOutput);
-
-    delete virtualOutput;
-
-    Q_EMIT screensQueried();
+    Q_EMIT outputsQueried();
 }
 
 QImage VirtualBackend::captureOutput(Output *output) const

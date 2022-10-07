@@ -6,10 +6,9 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-#ifndef KWIN_WAYLAND_OUTPUT_H
-#define KWIN_WAYLAND_OUTPUT_H
+#pragma once
 
-#include "output.h"
+#include "core/output.h"
 
 #include <KWayland/Client/xdgshell.h>
 
@@ -40,12 +39,12 @@ class WaylandOutput : public Output
 {
     Q_OBJECT
 public:
-    WaylandOutput(KWayland::Client::Surface *surface, WaylandBackend *backend);
+    WaylandOutput(const QString &name, std::unique_ptr<KWayland::Client::Surface> &&surface, WaylandBackend *backend);
     ~WaylandOutput() override;
 
     RenderLoop *renderLoop() const override;
 
-    void init(const QPoint &logicalPosition, const QSize &pixelSize);
+    void init(const QSize &pixelSize);
 
     virtual void lockPointer(KWayland::Client::Pointer *pointer, bool lock)
     {
@@ -58,29 +57,17 @@ public:
         return false;
     }
 
-    /**
-     * @brief defines the geometry of the output
-     * @param logicalPosition top left position of the output in compositor space
-     * @param pixelSize output size as seen from the outside
-     */
-    void setGeometry(const QPoint &logicalPosition, const QSize &pixelSize);
+    void resize(const QSize &pixelSize);
 
     KWayland::Client::Surface *surface() const
     {
-        return m_surface;
+        return m_surface.get();
     }
 
-    bool rendered() const
-    {
-        return m_rendered;
-    }
-    void resetRendered()
-    {
-        m_rendered = false;
-    }
-
-    void updateEnablement(bool enable) override;
     void setDpmsMode(DpmsMode mode) override;
+
+    void updateDpmsMode(DpmsMode dpmsMode);
+    void updateEnabled(bool enabled);
 
 Q_SIGNALS:
     void sizeChanged(const QSize &size);
@@ -93,18 +80,17 @@ protected:
     }
 
 private:
-    RenderLoop *m_renderLoop;
-    KWayland::Client::Surface *m_surface;
+    std::unique_ptr<RenderLoop> m_renderLoop;
+    std::unique_ptr<KWayland::Client::Surface> m_surface;
     WaylandBackend *m_backend;
     QTimer m_turnOffTimer;
-
-    bool m_rendered = false;
 };
 
 class XdgShellOutput : public WaylandOutput
 {
 public:
-    XdgShellOutput(KWayland::Client::Surface *surface,
+    XdgShellOutput(const QString &name,
+                   std::unique_ptr<KWayland::Client::Surface> &&surface,
                    KWayland::Client::XdgShell *xdgShell,
                    WaylandBackend *backend, int number);
     ~XdgShellOutput() override;
@@ -115,14 +101,12 @@ private:
     void handleConfigure(const QSize &size, KWayland::Client::XdgShellSurface::States states, quint32 serial);
     void updateWindowTitle();
 
-    KWayland::Client::XdgShellSurface *m_xdgShellSurface = nullptr;
+    std::unique_ptr<KWayland::Client::XdgShellSurface> m_xdgShellSurface;
     int m_number;
-    KWayland::Client::LockedPointer *m_pointerLock = nullptr;
+    std::unique_ptr<KWayland::Client::LockedPointer> m_pointerLock;
     bool m_hasPointerLock = false;
     bool m_hasBeenConfigured = false;
 };
 
-}
-}
-
-#endif
+} // namespace Wayland
+} // namespace KWin

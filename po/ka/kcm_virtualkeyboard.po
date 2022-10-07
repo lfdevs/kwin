@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2021-04-27 00:19+0000\n"
-"PO-Revision-Date: 2022-08-30 10:40+0200\n"
+"PO-Revision-Date: 2022-08-22 06:36+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.1.1\n"
 
 #, kde-format
@@ -41,7 +41,7 @@ msgstr "აირჩიეთ ვირტუალური კლავია�
 #: kcmvirtualkeyboard.cpp:70
 #, kde-format
 msgid "None"
-msgstr "არაფერი"
+msgstr "არცერთი"
 
 #: kcmvirtualkeyboard.cpp:74
 #, kde-format

@@ -12,14 +12,13 @@
 
 #include "config-kwin.h"
 
-#include "platform.h"
+#include "core/platform.h"
 #include "utils/common.h"
 
 #ifndef KCMRULES
 
 #include <QProcess>
 
-#include "screens.h"
 #include "settings.h"
 #include <QOpenGLContext>
 #include <kwinglplatform.h>
@@ -44,7 +43,8 @@ Options::Options(QObject *parent)
     , m_shadeHoverInterval(0)
     , m_separateScreenFocus(false)
     , m_activeMouseScreen(false)
-    , m_placement(Placement::NoPlacement)
+    , m_placement(PlacementNone)
+    , m_activationDesktopPolicy(Options::defaultActivationDesktopPolicy())
     , m_borderSnapZone(0)
     , m_windowSnapZone(0)
     , m_centerSnapZone(0)
@@ -235,13 +235,22 @@ void Options::setActiveMouseScreen(bool activeMouseScreen)
     Q_EMIT activeMouseScreenChanged();
 }
 
-void Options::setPlacement(int placement)
+void Options::setPlacement(PlacementPolicy placement)
 {
-    if (m_placement == static_cast<Placement::Policy>(placement)) {
+    if (m_placement == placement) {
         return;
     }
-    m_placement = static_cast<Placement::Policy>(placement);
+    m_placement = placement;
     Q_EMIT placementChanged();
+}
+
+void Options::setActivationDesktopPolicy(ActivationDesktopPolicy activationDesktopPolicy)
+{
+    if (m_activationDesktopPolicy == activationDesktopPolicy) {
+        return;
+    }
+    m_activationDesktopPolicy = activationDesktopPolicy;
+    Q_EMIT activationDesktopPolicyChanged();
 }
 
 void Options::setBorderSnapZone(int borderSnapZone)
@@ -760,15 +769,10 @@ void Options::syncFromKcfgc()
     setActiveMouseScreen(m_settings->activeMouseScreen());
     setRollOverDesktops(m_settings->rollOverDesktops());
     setFocusStealingPreventionLevel(m_settings->focusStealingPreventionLevel());
+    setActivationDesktopPolicy(m_settings->activationDesktopPolicy());
     setXwaylandCrashPolicy(m_settings->xwaylandCrashPolicy());
     setXwaylandMaxCrashCount(m_settings->xwaylandMaxCrashCount());
-
-#if KWIN_BUILD_DECORATIONS
     setPlacement(m_settings->placement());
-#else
-    setPlacement(Placement::Maximizing);
-#endif
-
     setAutoRaise(m_settings->autoRaise());
     setAutoRaiseInterval(m_settings->autoRaiseInterval());
     setDelayFocusInterval(m_settings->delayFocusInterval());

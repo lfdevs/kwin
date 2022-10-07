@@ -9,7 +9,9 @@
 #ifndef KWIN_SCENE_QPAINTER_BACKEND_H
 #define KWIN_SCENE_QPAINTER_BACKEND_H
 
-#include "renderbackend.h"
+#include "core/renderbackend.h"
+
+#include <memory>
 
 class QImage;
 class QRegion;
@@ -33,8 +35,8 @@ public:
 
     CompositingType compositingType() const override final;
 
-    SurfaceTexture *createSurfaceTextureInternal(SurfacePixmapInternal *pixmap);
-    SurfaceTexture *createSurfaceTextureWayland(SurfacePixmapWayland *pixmap);
+    std::unique_ptr<SurfaceTexture> createSurfaceTextureInternal(SurfacePixmapInternal *pixmap);
+    std::unique_ptr<SurfaceTexture> createSurfaceTextureWayland(SurfacePixmapWayland *pixmap);
 
     /**
      * @brief Whether the creation of the Backend failed.

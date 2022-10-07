@@ -29,7 +29,7 @@ static bool isPrivilegedInWindowManagement(const ClientConnection *client)
 {
     Q_ASSERT(client);
     auto requestedInterfaces = client->property("requestedInterfaces").toStringList();
-    return requestedInterfaces.contains(QLatin1String("org_kde_plasma_window_management"));
+    return requestedInterfaces.contains(QLatin1String("org_kde_plasma_window_management")) || requestedInterfaces.contains(QLatin1String("kde_lockscreen_overlay_v1"));
 }
 
 static const QString windowDesktopFileName(Window *window)
@@ -93,7 +93,6 @@ QString XdgActivationV1Integration::requestToken(bool isPrivileged, SurfaceInter
     if (m_currentActivationToken) {
         clear();
     }
-    QSharedPointer<PlasmaWindowActivationInterface> pwActivation(waylandServer()->plasmaActivationFeedback()->createActivation(appId));
     bool showNotify = false;
     QIcon icon = QIcon::fromTheme(QStringLiteral("system-run"));
     if (const QString desktopFilePath = Window::findDesktopFile(appId); !desktopFilePath.isEmpty()) {
@@ -105,7 +104,7 @@ QString XdgActivationV1Integration::requestToken(bool isPrivileged, SurfaceInter
         }
         icon = QIcon::fromTheme(df.readIcon(), icon);
     }
-    m_currentActivationToken.reset(new ActivationToken{newToken, isPrivileged, surface, serial, seat, appId, showNotify, pwActivation});
+    m_currentActivationToken.reset(new ActivationToken{newToken, isPrivileged, surface, serial, seat, appId, showNotify, waylandServer()->plasmaActivationFeedback()->createActivation(appId)});
     if (showNotify) {
         Q_EMIT effects->startupAdded(m_currentActivationToken->token, icon);
     }
@@ -147,7 +146,5 @@ void XdgActivationV1Integration::clear()
     }
     m_currentActivationToken.reset();
 }
-
-XdgActivationV1Integration::ActivationToken::~ActivationToken() = default;
 
 }

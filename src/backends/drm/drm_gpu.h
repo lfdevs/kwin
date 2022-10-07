@@ -10,7 +10,7 @@
 #ifndef DRM_GPU_H
 #define DRM_GPU_H
 
-#include "drm_virtual_output.h"
+#include "drm_pipeline.h"
 
 #include <QPointer>
 #include <QSize>
@@ -39,10 +39,9 @@ class DrmConnector;
 class DrmPlane;
 class DrmBackend;
 class EglGbmBackend;
-class DrmPipeline;
 class DrmAbstractOutput;
-class DrmLeaseOutput;
 class DrmRenderBackend;
+class DrmVirtualOutput;
 
 class DrmGpu : public QObject
 {
@@ -54,6 +53,9 @@ public:
     int fd() const;
     dev_t deviceId() const;
     QString devNode() const;
+
+    bool isRemoved() const;
+    void setRemoved();
 
     bool atomicModeSetting() const;
     bool addFB2ModifiersSupported() const;
@@ -68,17 +70,19 @@ public:
     clockid_t presentationClock() const;
     QSize cursorSize() const;
 
-    QVector<DrmAbstractOutput *> outputs() const;
+    QVector<DrmVirtualOutput *> virtualOutputs() const;
+    QVector<DrmOutput *> drmOutputs() const;
     const QVector<DrmPipeline *> pipelines() const;
 
     void setEglDisplay(EGLDisplay display);
 
     bool updateOutputs();
+    void removeOutputs();
 
-    DrmVirtualOutput *createVirtualOutput(const QString &name, const QSize &size, double scale, DrmVirtualOutput::Type type);
+    DrmVirtualOutput *createVirtualOutput(const QString &name, const QSize &size, double scale);
     void removeVirtualOutput(DrmVirtualOutput *output);
 
-    bool testPendingConfiguration();
+    DrmPipeline::Error testPendingConfiguration();
     bool needsModeset() const;
     bool maybeModeset();
 
@@ -88,20 +92,16 @@ public:
 Q_SIGNALS:
     void outputAdded(DrmAbstractOutput *output);
     void outputRemoved(DrmAbstractOutput *output);
-    void outputEnabled(DrmAbstractOutput *output);
-    void outputDisabled(DrmAbstractOutput *output);
 
 private:
     void dispatchEvents();
     DrmOutput *findOutput(quint32 connector);
-    DrmLeaseOutput *findLeaseOutput(quint32 connector);
     void removeOutput(DrmOutput *output);
-    void removeLeaseOutput(DrmLeaseOutput *output);
     void initDrmResources();
     void waitIdle();
 
-    bool checkCrtcAssignment(QVector<DrmConnector *> connectors, const QVector<DrmCrtc *> &crtcs);
-    bool testPipelines();
+    DrmPipeline::Error checkCrtcAssignment(QVector<DrmConnector *> connectors, const QVector<DrmCrtc *> &crtcs);
+    DrmPipeline::Error testPipelines();
     QVector<DrmObject *> unusedObjects() const;
 
     void handleLeaseRequest(KWaylandServer::DrmLeaseV1Interface *leaseRequest);
@@ -116,20 +116,20 @@ private:
     bool m_addFB2ModifiersSupported = false;
     bool m_isNVidia;
     bool m_isVirtualMachine;
+    bool m_isRemoved = false;
     clockid_t m_presentationClock;
     gbm_device *m_gbmDevice;
     EGLDisplay m_eglDisplay = EGL_NO_DISPLAY;
     DrmBackend *const m_platform;
 
-    QVector<DrmPlane *> m_planes;
-    QVector<DrmCrtc *> m_crtcs;
-    QVector<DrmConnector *> m_connectors;
+    std::vector<std::unique_ptr<DrmPlane>> m_planes;
+    std::vector<std::unique_ptr<DrmCrtc>> m_crtcs;
+    std::vector<std::unique_ptr<DrmConnector>> m_connectors;
     QVector<DrmObject *> m_allObjects;
     QVector<DrmPipeline *> m_pipelines;
 
     QVector<DrmOutput *> m_drmOutputs;
-    QVector<DrmAbstractOutput *> m_outputs;
-    QVector<DrmLeaseOutput *> m_leaseOutputs;
+    QVector<DrmVirtualOutput *> m_virtualOutputs;
     KWaylandServer::DrmLeaseDeviceV1Interface *m_leaseDevice = nullptr;
 
     QSocketNotifier *m_socketNotifier = nullptr;

@@ -34,10 +34,20 @@ class KStartupInfoId;
 namespace KWin
 {
 
+namespace Decoration
+{
+class DecorationBridge;
+}
+
 namespace Xcb
 {
 class Tree;
 class Window;
+}
+
+namespace TabBox
+{
+class TabBox;
 }
 
 class Window;
@@ -54,7 +64,21 @@ class UserActionsMenu;
 class VirtualDesktop;
 class X11Window;
 class X11EventFilter;
+class FocusChain;
+class ApplicationMenu;
+class PlacementTracker;
 enum class Predicate;
+class Outline;
+class RuleBook;
+class ScreenEdges;
+class Screens;
+#if KWIN_BUILD_ACTIVITIES
+class Activities;
+#endif
+class PlaceholderInputEventFilter;
+class PlaceholderOutput;
+class Placement;
+class OutputConfiguration;
 
 class KWIN_EXPORT Workspace : public QObject
 {
@@ -138,10 +162,10 @@ public:
      */
     Window *findInternal(QWindow *w) const;
 
-    QRect clientArea(clientAreaOption, const Output *output, const VirtualDesktop *desktop) const;
-    QRect clientArea(clientAreaOption, const Window *window) const;
-    QRect clientArea(clientAreaOption, const Window *window, const Output *output) const;
-    QRect clientArea(clientAreaOption, const Window *window, const QPoint &pos) const;
+    QRectF clientArea(clientAreaOption, const Output *output, const VirtualDesktop *desktop) const;
+    QRectF clientArea(clientAreaOption, const Window *window) const;
+    QRectF clientArea(clientAreaOption, const Window *window, const Output *output) const;
+    QRectF clientArea(clientAreaOption, const Window *window, const QPointF &pos) const;
 
     /**
      * Returns the geometry of this Workspace, i.e. the bounding rectangle of all outputs.
@@ -151,9 +175,14 @@ public:
 
     bool initializing() const;
 
+    Output *xineramaIndexToOutput(int index) const;
+
+    Output *primaryOutput() const;
+    void setPrimaryOutput(Output *output);
+
     Output *activeOutput() const;
     void setActiveOutput(Output *output);
-    void setActiveOutput(const QPoint &pos);
+    void setActiveOutput(const QPointF &pos);
 
     /**
      * Returns the active window, i.e. the window that has the focus (or None
@@ -192,9 +221,9 @@ public:
      */
     void setMoveResizeWindow(Window *window);
 
-    QRect adjustClientArea(Window *window, const QRect &area) const;
-    QPoint adjustWindowPosition(Window *window, QPoint pos, bool unrestricted, double snapAdjust = 1.0);
-    QRect adjustWindowSize(Window *window, QRect moveResizeGeom, Gravity gravity);
+    QRectF adjustClientArea(Window *window, const QRectF &area) const;
+    QPointF adjustWindowPosition(Window *window, QPointF pos, bool unrestricted, double snapAdjust = 1.0);
+    QRectF adjustWindowSize(Window *window, QRectF moveResizeGeom, Gravity gravity);
     void raiseWindow(Window *window, bool nogroup = false);
     void lowerWindow(Window *window, bool nogroup = false);
     void raiseWindowRequest(Window *window, NET::RequestSource src = NET::FromApplication, xcb_timestamp_t timestamp = 0);
@@ -266,7 +295,6 @@ private:
     // Unsorted
 
 public:
-    bool isOnCurrentHead();
     // True when performing Workspace::updateClientArea().
     // The calls below are valid only in that case.
     bool inUpdateClientArea() const;
@@ -326,6 +354,9 @@ public:
     Output *previousOutput(Output *reference) const;
     void switchToOutput(Output *output);
 
+    QList<Output *> outputs() const;
+    Output *outputAt(const QPointF &pos) const;
+
     /**
      * Set "Show Desktop" status
      *
@@ -359,10 +390,10 @@ public:
     void setWasUserInteraction();
     bool wasUserInteraction() const;
 
-    int packPositionLeft(const Window *window, int oldX, bool leftEdge) const;
-    int packPositionRight(const Window *window, int oldX, bool rightEdge) const;
-    int packPositionUp(const Window *window, int oldY, bool topEdge) const;
-    int packPositionDown(const Window *window, int oldY, bool bottomEdge) const;
+    qreal packPositionLeft(const Window *window, qreal oldX, bool leftEdge) const;
+    qreal packPositionRight(const Window *window, qreal oldX, bool rightEdge) const;
+    qreal packPositionUp(const Window *window, qreal oldY, bool topEdge) const;
+    qreal packPositionDown(const Window *window, qreal oldY, bool bottomEdge) const;
 
     void cancelDelayFocus();
     void requestDelayFocus(Window *);
@@ -374,8 +405,8 @@ public:
      * since an active window doesn't receive mouse events, it must also be invoked if a (potentially)
      * active window might be moved/resize away from the cursor (causing a leave event)
      */
-    void updateFocusMousePosition(const QPoint &pos);
-    QPoint focusMousePosition() const;
+    void updateFocusMousePosition(const QPointF &pos);
+    QPointF focusMousePosition() const;
 
     /**
      * Returns a window that is currently being moved or resized by the user.
@@ -419,6 +450,26 @@ public:
     {
         return m_lastActiveWindow;
     }
+    FocusChain *focusChain() const;
+    ApplicationMenu *applicationMenu() const;
+    Decoration::DecorationBridge *decorationBridge() const;
+    Outline *outline() const;
+    Placement *placement() const;
+    RuleBook *rulebook() const;
+    ScreenEdges *screenEdges() const;
+    Screens *screens() const;
+#if KWIN_BUILD_TABBOX
+    TabBox::TabBox *tabbox() const;
+#endif
+#if KWIN_BUILD_ACTIVITIES
+    Activities *activities() const;
+#endif
+
+    /**
+     * Apply the requested output configuration. Note that you must use this function
+     * instead of Platform::applyOutputChanges().
+     */
+    bool applyOutputConfiguration(const OutputConfiguration &config);
 
 public Q_SLOTS:
     void performWindowOperation(KWin::Window *window, Options::WindowOperation op);
@@ -499,8 +550,7 @@ private Q_SLOTS:
     void slotCurrentDesktopChangingCancelled();
     void slotDesktopAdded(VirtualDesktop *desktop);
     void slotDesktopRemoved(VirtualDesktop *desktop);
-    void slotOutputEnabled(Output *output);
-    void slotOutputDisabled(Output *output);
+    void slotPlatformOutputsQueried();
 
 Q_SIGNALS:
     /**
@@ -527,6 +577,10 @@ Q_SIGNALS:
     void deletedRemoved(KWin::Deleted *);
     void configChanged();
     void showingDesktopChanged(bool showing, bool animated);
+    void primaryOutputChanged();
+    void outputAdded(KWin::Output *);
+    void outputRemoved(KWin::Output *);
+    void outputsChanged();
     /**
      * This signal is emitted when the stacking order changed, i.e. a window is risen
      * or lowered
@@ -586,6 +640,10 @@ private:
     void activateWindowOnNewDesktop(VirtualDesktop *desktop);
     Window *findWindowToActivateOnDesktop(VirtualDesktop *desktop);
     void removeWindow(Window *window);
+    QString getPlacementTrackerHash();
+
+    void updateOutputConfiguration();
+    void updateOutputs();
 
     struct Constraint
     {
@@ -607,7 +665,11 @@ private:
     void updateXStackingOrder();
     void updateTabbox();
 
+    QList<Output *> m_outputs;
     Output *m_activeOutput = nullptr;
+    Output *m_primaryOutput = nullptr;
+    QString m_outputsHash;
+
     Window *m_activeWindow;
     Window *m_lastActiveWindow;
     Window *m_moveResizeWindow;
@@ -615,7 +677,7 @@ private:
     // Delay(ed) window focus timer and window
     QTimer *delayFocusTimer;
     Window *m_delayFocusWindow;
-    QPoint focusMousePos;
+    QPointF focusMousePos;
 
     QList<X11Window *> m_x11Clients;
     QList<Window *> m_allClients;
@@ -635,7 +697,7 @@ private:
     QList<Group *> groups;
 
     bool was_user_interaction;
-    QScopedPointer<X11EventFilter> m_wasUserInteractionFilter;
+    std::unique_ptr<X11EventFilter> m_wasUserInteractionFilter;
 
     int block_focus;
 
@@ -660,12 +722,12 @@ private:
 
     bool workspaceInit;
 
-    QScopedPointer<KStartupInfo> m_startup;
-    QScopedPointer<ColorMapper> m_colorMapper;
+    std::unique_ptr<KStartupInfo> m_startup;
+    std::unique_ptr<ColorMapper> m_colorMapper;
 
-    QHash<const VirtualDesktop *, QRect> m_workAreas;
+    QHash<const VirtualDesktop *, QRectF> m_workAreas;
     QHash<const VirtualDesktop *, StrutRects> m_restrictedAreas;
-    QHash<const VirtualDesktop *, QHash<const Output *, QRect>> m_screenAreas;
+    QHash<const VirtualDesktop *, QHash<const Output *, QRectF>> m_screenAreas;
     QRect m_geometry;
 
     QHash<const Output *, QRect> m_oldScreenGeometries;
@@ -676,14 +738,32 @@ private:
     int m_setActiveWindowRecursion = 0;
     int m_blockStackingUpdates = 0; // When > 0, stacking updates are temporarily disabled
     bool m_blockedPropagatingNewWindows; // Propagate also new windows after enabling stacking updates?
-    QScopedPointer<Xcb::Window> m_nullFocus;
+    std::unique_ptr<Xcb::Window> m_nullFocus;
     friend class StackingUpdatesBlocker;
 
-    QScopedPointer<KillWindow> m_windowKiller;
-    QScopedPointer<X11EventFilter> m_movingClientFilter;
-    QScopedPointer<X11EventFilter> m_syncAlarmFilter;
+    std::unique_ptr<KillWindow> m_windowKiller;
+    std::unique_ptr<X11EventFilter> m_movingClientFilter;
+    std::unique_ptr<X11EventFilter> m_syncAlarmFilter;
 
     SessionManager *m_sessionManager;
+    std::unique_ptr<FocusChain> m_focusChain;
+    std::unique_ptr<ApplicationMenu> m_applicationMenu;
+    std::unique_ptr<Decoration::DecorationBridge> m_decorationBridge;
+    std::unique_ptr<Outline> m_outline;
+    std::unique_ptr<Placement> m_placement;
+    std::unique_ptr<RuleBook> m_rulebook;
+    std::unique_ptr<ScreenEdges> m_screenEdges;
+    std::unique_ptr<Screens> m_screens;
+#if KWIN_BUILD_TABBOX
+    std::unique_ptr<TabBox::TabBox> m_tabbox;
+#endif
+#if KWIN_BUILD_ACTIVITIES
+    std::unique_ptr<Activities> m_activities;
+#endif
+    std::unique_ptr<PlacementTracker> m_placementTracker;
+
+    PlaceholderOutput *m_placeholderOutput = nullptr;
+    std::unique_ptr<PlaceholderInputEventFilter> m_placeholderFilter;
 
 private:
     friend bool performTransiencyCheck();
@@ -726,6 +806,11 @@ private:
 
 //---------------------------------------------------------
 // Unsorted
+
+inline QList<Output *> Workspace::outputs() const
+{
+    return m_outputs;
+}
 
 inline bool Workspace::initializing() const
 {
@@ -785,12 +870,12 @@ inline void Workspace::forceRestacking()
     StackingUpdatesBlocker blocker(this); // Do restacking if not blocked
 }
 
-inline void Workspace::updateFocusMousePosition(const QPoint &pos)
+inline void Workspace::updateFocusMousePosition(const QPointF &pos)
 {
     focusMousePos = pos;
 }
 
-inline QPoint Workspace::focusMousePosition() const
+inline QPointF Workspace::focusMousePosition() const
 {
     return focusMousePos;
 }

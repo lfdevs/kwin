@@ -7,7 +7,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "wayland_output.h"
-#include "renderloop.h"
+#include "core/renderloop.h"
 #include "wayland_backend.h"
 #include "wayland_server.h"
 
@@ -24,64 +24,59 @@ namespace Wayland
 using namespace KWayland::Client;
 static const int s_refreshRate = 60000; // TODO: can we get refresh rate data from Wayland host?
 
-WaylandOutput::WaylandOutput(Surface *surface, WaylandBackend *backend)
+WaylandOutput::WaylandOutput(const QString &name, std::unique_ptr<Surface> &&surface, WaylandBackend *backend)
     : Output(backend)
-    , m_renderLoop(new RenderLoop(this))
-    , m_surface(surface)
+    , m_renderLoop(std::make_unique<RenderLoop>())
+    , m_surface(std::move(surface))
     , m_backend(backend)
 {
-    static int identifier = -1;
-    identifier++;
     setInformation(Information{
-        .name = QStringLiteral("WL-%1").arg(identifier),
+        .name = name,
+        .model = name,
         .capabilities = Capability::Dpms,
     });
 
-    connect(surface, &Surface::frameRendered, this, [this] {
-        m_rendered = true;
-        Q_EMIT frameRendered();
-    });
+    connect(m_surface.get(), &Surface::frameRendered, this, &WaylandOutput::frameRendered);
     m_turnOffTimer.setSingleShot(true);
     m_turnOffTimer.setInterval(dimAnimationTime());
     connect(&m_turnOffTimer, &QTimer::timeout, this, [this] {
-        setDpmsModeInternal(DpmsMode::Off);
+        updateDpmsMode(DpmsMode::Off);
     });
 }
 
 WaylandOutput::~WaylandOutput()
 {
     m_surface->destroy();
-    delete m_surface;
 }
 
 RenderLoop *WaylandOutput::renderLoop() const
 {
-    return m_renderLoop;
+    return m_renderLoop.get();
 }
 
-void WaylandOutput::init(const QPoint &logicalPosition, const QSize &pixelSize)
+void WaylandOutput::init(const QSize &pixelSize)
 {
     m_renderLoop->setRefreshRate(s_refreshRate);
 
-    auto mode = QSharedPointer<OutputMode>::create(pixelSize, s_refreshRate);
-    setModesInternal({mode}, mode);
+    auto mode = std::make_shared<OutputMode>(pixelSize, s_refreshRate);
 
-    moveTo(logicalPosition);
-    setScale(backend()->initialOutputScale());
+    State initialState;
+    initialState.modes = {mode};
+    initialState.currentMode = mode;
+    initialState.scale = m_backend->initialOutputScale();
+    setState(initialState);
 }
 
-void WaylandOutput::setGeometry(const QPoint &logicalPosition, const QSize &pixelSize)
+void WaylandOutput::resize(const QSize &pixelSize)
 {
-    auto mode = QSharedPointer<OutputMode>::create(pixelSize, s_refreshRate);
-    setModesInternal({mode}, mode);
+    auto mode = std::make_shared<OutputMode>(pixelSize, s_refreshRate);
 
-    moveTo(logicalPosition);
-    Q_EMIT m_backend->screensQueried();
-}
+    State next = m_state;
+    next.modes = {mode};
+    next.currentMode = mode;
+    setState(next);
 
-void WaylandOutput::updateEnablement(bool enable)
-{
-    setDpmsMode(enable ? DpmsMode::On : DpmsMode::Off);
+    Q_EMIT m_backend->outputsQueried();
 }
 
 void WaylandOutput::setDpmsMode(DpmsMode mode)
@@ -97,21 +92,37 @@ void WaylandOutput::setDpmsMode(DpmsMode mode)
         m_backend->clearDpmsFilter();
 
         if (mode != dpmsMode()) {
-            setDpmsModeInternal(mode);
+            updateDpmsMode(mode);
             Q_EMIT wakeUp();
         }
     }
 }
 
-XdgShellOutput::XdgShellOutput(Surface *surface, XdgShell *xdgShell, WaylandBackend *backend, int number)
-    : WaylandOutput(surface, backend)
+void WaylandOutput::updateDpmsMode(DpmsMode dpmsMode)
+{
+    State next = m_state;
+    next.dpmsMode = dpmsMode;
+    setState(next);
+}
+
+void WaylandOutput::updateEnabled(bool enabled)
+{
+    State next = m_state;
+    next.enabled = enabled;
+    setState(next);
+}
+
+XdgShellOutput::XdgShellOutput(const QString &name, std::unique_ptr<Surface> &&waylandSurface, XdgShell *xdgShell, WaylandBackend *backend, int number)
+    : WaylandOutput(name, std::move(waylandSurface), backend)
+    , m_xdgShellSurface(xdgShell->createSurface(surface()))
     , m_number(number)
 {
-    m_xdgShellSurface = xdgShell->createSurface(surface, this);
     updateWindowTitle();
 
-    connect(m_xdgShellSurface, &XdgShellSurface::configureRequested, this, &XdgShellOutput::handleConfigure);
-    connect(m_xdgShellSurface, &XdgShellSurface::closeRequested, qApp, &QCoreApplication::quit);
+    connect(m_xdgShellSurface.get(), &XdgShellSurface::configureRequested, this, &XdgShellOutput::handleConfigure);
+    connect(m_xdgShellSurface.get(), &XdgShellSurface::closeRequested, qApp, &QCoreApplication::quit);
+    connect(this, &WaylandOutput::enabledChanged, this, &XdgShellOutput::updateWindowTitle);
+    connect(this, &WaylandOutput::dpmsModeChanged, this, &XdgShellOutput::updateWindowTitle);
 
     connect(backend, &WaylandBackend::pointerLockSupportedChanged, this, &XdgShellOutput::updateWindowTitle);
     connect(backend, &WaylandBackend::pointerLockChanged, this, [this](bool locked) {
@@ -130,13 +141,12 @@ XdgShellOutput::XdgShellOutput(Surface *surface, XdgShell *xdgShell, WaylandBack
         updateWindowTitle();
     });
 
-    surface->commit(KWayland::Client::Surface::CommitFlag::None);
+    surface()->commit(KWayland::Client::Surface::CommitFlag::None);
 }
 
 XdgShellOutput::~XdgShellOutput()
 {
     m_xdgShellSurface->destroy();
-    delete m_xdgShellSurface;
 }
 
 void XdgShellOutput::handleConfigure(const QSize &size, XdgShellSurface::States states, quint32 serial)
@@ -144,7 +154,7 @@ void XdgShellOutput::handleConfigure(const QSize &size, XdgShellSurface::States 
     Q_UNUSED(states);
     m_xdgShellSurface->ackConfigure(serial);
     if (size.width() > 0 && size.height() > 0) {
-        setGeometry(geometry().topLeft(), size);
+        resize(size * scale());
         if (m_hasBeenConfigured) {
             Q_EMIT sizeChanged(size);
         }
@@ -164,22 +174,25 @@ void XdgShellOutput::updateWindowTitle()
     } else if (backend()->pointerConstraints()) {
         grab = i18n("Press right control key to grab pointer");
     }
-    const QString title = i18nc("Title of nested KWin Wayland with Wayland socket identifier as argument",
-                                "KDE Wayland Compositor #%1 (%2)", m_number, waylandServer()->socketName());
 
-    if (grab.isEmpty()) {
-        m_xdgShellSurface->setTitle(title);
-    } else {
-        m_xdgShellSurface->setTitle(title + QStringLiteral(" — ") + grab);
+    QString title = i18nc("Title of nested KWin Wayland with Wayland socket identifier as argument",
+                          "KDE Wayland Compositor #%1 (%2)", m_number, waylandServer()->socketName());
+
+    if (!isEnabled()) {
+        title += i18n("- Output disabled");
+    } else if (dpmsMode() != DpmsMode::On) {
+        title += i18n("- Output dimmed");
+    } else if (!grab.isEmpty()) {
+        title += QStringLiteral(" — ") + grab;
     }
+    m_xdgShellSurface->setTitle(title);
 }
 
 void XdgShellOutput::lockPointer(Pointer *pointer, bool lock)
 {
     if (!lock) {
         const bool surfaceWasLocked = m_pointerLock && m_hasPointerLock;
-        delete m_pointerLock;
-        m_pointerLock = nullptr;
+        m_pointerLock.reset();
         m_hasPointerLock = false;
         if (surfaceWasLocked) {
             Q_EMIT backend()->pointerLockChanged(false);
@@ -188,21 +201,17 @@ void XdgShellOutput::lockPointer(Pointer *pointer, bool lock)
     }
 
     Q_ASSERT(!m_pointerLock);
-    m_pointerLock = backend()->pointerConstraints()->lockPointer(surface(), pointer, nullptr,
-                                                                 PointerConstraints::LifeTime::OneShot,
-                                                                 this);
+    m_pointerLock.reset(backend()->pointerConstraints()->lockPointer(surface(), pointer, nullptr, PointerConstraints::LifeTime::OneShot));
     if (!m_pointerLock->isValid()) {
-        delete m_pointerLock;
-        m_pointerLock = nullptr;
+        m_pointerLock.reset();
         return;
     }
-    connect(m_pointerLock, &LockedPointer::locked, this, [this]() {
+    connect(m_pointerLock.get(), &LockedPointer::locked, this, [this]() {
         m_hasPointerLock = true;
         Q_EMIT backend()->pointerLockChanged(true);
     });
-    connect(m_pointerLock, &LockedPointer::unlocked, this, [this]() {
-        delete m_pointerLock;
-        m_pointerLock = nullptr;
+    connect(m_pointerLock.get(), &LockedPointer::unlocked, this, [this]() {
+        m_pointerLock.reset();
         m_hasPointerLock = false;
         Q_EMIT backend()->pointerLockChanged(false);
     });

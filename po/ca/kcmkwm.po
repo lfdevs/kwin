@@ -1,19 +1,20 @@
 # Translation of kcmkwm.po to Catalan
-# Copyright (C) 1998-2021 This_file_is_part_of_KDE
+# Copyright (C) 1998-2022 This_file_is_part_of_KDE
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
 #
 # Sebastià Pla i Sanz <sps@sastia.com>, 1998, 1999, 2000, 2001, 2002, 2004, 2005, 2006.
-# Antoni Bella Pérez <antonibella5@yahoo.com>, 2003, 2011, 2013, 2015, 2020, 2021.
+# Antoni Bella Pérez <antonibella5@yahoo.com>, 2003, 2011, 2013, 2015, 2020, 2021, 2022.
 # Albert Astals Cid <aacid@kde.org>, 2005.
-# Josep M. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2020, 2021.
+# Josep M. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022.
 # Manuel Tortosa Moreno <manutortosa@chakra-project.org>, 2009.
+# Empar Montoro Martín <montoro_mde@gva.es>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-03-26 00:45+0000\n"
-"PO-Revision-Date: 2021-10-11 18:14+0200\n"
+"POT-Creation-Date: 2022-09-02 00:47+0000\n"
+"PO-Revision-Date: 2022-09-03 18:06+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -637,6 +638,51 @@ msgstr ""
 #, kde-format
 msgid "Hide utility windows for inactive applications"
 msgstr "Oculta les finestres d'utilitat per a les aplicacions inactives"
+
+#. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyLabel)
+#: advanced.ui:148
+#, kde-format
+msgid "Virtual Desktop behavior:"
+msgstr "Comportament dels escriptoris virtuals:"
+
+#. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyDescriptionLabel)
+#: advanced.ui:158
+#, kde-format
+msgid "When activating a window on a different Virtual Desktop:"
+msgstr "En activar una finestra en un escriptori virtual diferent:"
+
+# NdT: "Switch to that Virtual Desktop" vol dir que es canvia a l'altre escriptori virtual (no a l'actual com implica «aquest»), per això, ho tradueixo com a «aquell». En cas de canviar-ho, també cal canviar la doc (kcontrol_windowbehavior.po). 
+#. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_ActivationDesktopPolicy)
+#: advanced.ui:165
+#, kde-format
+msgid ""
+"<html><head/><body><p>This setting controls what happens when an open window "
+"located on a Virtual Desktop other than the current one is activated. </"
+"p><p><span style=\" font-style:italic;\">Switch to that Virtual Desktop</"
+"span> will switch to the Virtual Desktop where the window is currently "
+"located. </p><p><span style=\" font-style:italic;\">Bring window to current "
+"Virtual Desktop</span> will cause the window to jump to the active Virtual "
+"Desktop. </p></body></html>"
+msgstr ""
+"<html><head/><body><p>Aquest paràmetre controla què passa quan s'activa una "
+"finestra oberta en un escriptori virtual diferent de l'actual. </p><p><span "
+"style=\" font-style:italic;\">Canvia a aquell escriptori virtual</span> "
+"canviarà a l'escriptori virtual on es troba actualment la finestra. </"
+"p><p><span style=\" font-style:italic;\">Trasllada la finestra a "
+"l'escriptori virtual actual</span> farà que la finestra vagi a l'escriptori "
+"virtual actiu. </p></body></html>"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
+#: advanced.ui:169
+#, kde-format
+msgid "Switch to that Virtual Desktop"
+msgstr "Canvia a aquell escriptori virtual"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
+#: advanced.ui:174
+#, kde-format
+msgid "Bring window to current Virtual Desktop"
+msgstr "Trasllada la finestra a l'escriptori virtual actual"
 
 #. i18n: ectx: property (text), widget (QLabel, windowFocusPolicyLabel)
 #: focus.ui:22
@@ -1293,7 +1339,7 @@ msgstr ""
 msgid "Only when overlapping"
 msgstr "Només en encavallar-se"
 
-#: windows.cpp:98
+#: windows.cpp:97
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
@@ -1303,7 +1349,7 @@ msgstr ""
 "comportament és comú en altres sistemes operatius i segurament és el que "
 "voldreu."
 
-#: windows.cpp:102
+#: windows.cpp:101
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1318,7 +1364,7 @@ msgstr ""
 "la finestra que hi ha sota el ratolí. No és habitual, però és una possible "
 "variació de <em>Clic al focus</em>."
 
-#: windows.cpp:107
+#: windows.cpp:106
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1332,7 +1378,7 @@ msgstr ""
 "funciona com és habitual. Penseu en <em>Clic al focus</em> però sense que "
 "calgui fer clic."
 
-#: windows.cpp:111
+#: windows.cpp:110
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1346,7 +1392,7 @@ msgstr ""
 "ratolí. Seleccioneu aquesta si voleu un focus controlat en passar-hi per "
 "sobre."
 
-#: windows.cpp:116
+#: windows.cpp:115
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1361,7 +1407,7 @@ msgstr ""
 "la política i no funcionaran. En el seu lloc, segurament voldreu usar <em>El "
 "focus segueix el ratolí (prioritat al ratolí)</em>."
 
-#: windows.cpp:120
+#: windows.cpp:119
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "

@@ -8,9 +8,9 @@
 */
 #include "kwin_wayland_test.h"
 
+#include "core/platform.h"
 #include "keyboard_input.h"
 #include "keyboard_layout.h"
-#include "platform.h"
 #include "virtualdesktops.h"
 #include "wayland_server.h"
 #include "window.h"
@@ -42,8 +42,6 @@ public:
         : layoutsReconfiguredSpy(this, &KeyboardLayoutTest::layoutListChanged)
         , layoutChangedSpy(this, &KeyboardLayoutTest::layoutChanged)
     {
-        QVERIFY(layoutsReconfiguredSpy.isValid());
-        QVERIFY(layoutChangedSpy.isValid());
 
         QVERIFY(QDBusConnection::sessionBus().connect(QStringLiteral("org.kde.keyboard"), QStringLiteral("/Layouts"), QStringLiteral("org.kde.KeyboardLayouts"), QStringLiteral("layoutListChanged"), this, SIGNAL(layoutListChanged())));
         QVERIFY(QDBusConnection::sessionBus().connect(QStringLiteral("org.kde.keyboard"), QStringLiteral("/Layouts"), QStringLiteral("org.kde.KeyboardLayouts"), QStringLiteral("layoutChanged"), this, SIGNAL(layoutChanged(uint))));
@@ -134,7 +132,6 @@ void KeyboardLayoutTest::initTestCase()
 {
     qRegisterMetaType<KWin::Window *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    QVERIFY(applicationStartedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
 
@@ -146,7 +143,6 @@ void KeyboardLayoutTest::initTestCase()
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
-    Test::initWaylandWorkspace();
 
     // don't get DBus signal on one-layout configuration
     //    QVERIFY(layoutsReconfiguredSpy.wait());
@@ -394,7 +390,6 @@ void KeyboardLayoutTest::testVirtualDesktopPolicy()
 
     // check there are no more layouts left in config than the last actual non-default layouts number
     QSignalSpy deletedDesktopSpy(deletedDesktop, &VirtualDesktop::aboutToBeDestroyed);
-    QVERIFY(deletedDesktopSpy.isValid());
     QVERIFY(deletedDesktopSpy.wait());
     resetLayouts();
     QCOMPARE(layoutGroup.keyList().filter(QStringLiteral("LayoutDefault")).count(), 1);
@@ -418,9 +413,9 @@ void KeyboardLayoutTest::testWindowPolicy()
 
     // create a window
     using namespace KWayland::Client;
-    QScopedPointer<KWayland::Client::Surface> surface(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.data()));
-    auto c1 = Test::renderAndWaitForShown(surface.data(), QSize(100, 100), Qt::blue);
+    std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get()));
+    auto c1 = Test::renderAndWaitForShown(surface.get(), QSize(100, 100), Qt::blue);
     QVERIFY(c1);
 
     // now switch layout
@@ -429,9 +424,9 @@ void KeyboardLayoutTest::testWindowPolicy()
     QCOMPARE(xkb->layoutName(), QStringLiteral("German"));
 
     // create a second window
-    QScopedPointer<KWayland::Client::Surface> surface2(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface2(Test::createXdgToplevelSurface(surface2.data()));
-    auto c2 = Test::renderAndWaitForShown(surface2.data(), QSize(100, 100), Qt::red);
+    std::unique_ptr<KWayland::Client::Surface> surface2(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface2(Test::createXdgToplevelSurface(surface2.get()));
+    auto c2 = Test::renderAndWaitForShown(surface2.get(), QSize(100, 100), Qt::red);
     QVERIFY(c2);
     // this should have switched back to English
     QCOMPARE(xkb->layoutName(), QStringLiteral("English (US)"));
@@ -465,17 +460,17 @@ void KeyboardLayoutTest::testApplicationPolicy()
 
     // create a window
     using namespace KWayland::Client;
-    QScopedPointer<KWayland::Client::Surface> surface(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.data()));
+    std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get()));
     shellSurface->set_app_id(QStringLiteral("org.kde.foo"));
-    auto c1 = Test::renderAndWaitForShown(surface.data(), QSize(100, 100), Qt::blue);
+    auto c1 = Test::renderAndWaitForShown(surface.get(), QSize(100, 100), Qt::blue);
     QVERIFY(c1);
 
     // create a second window
-    QScopedPointer<KWayland::Client::Surface> surface2(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface2(Test::createXdgToplevelSurface(surface2.data()));
+    std::unique_ptr<KWayland::Client::Surface> surface2(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface2(Test::createXdgToplevelSurface(surface2.get()));
     shellSurface2->set_app_id(QStringLiteral("org.kde.foo"));
-    auto c2 = Test::renderAndWaitForShown(surface2.data(), QSize(100, 100), Qt::red);
+    auto c2 = Test::renderAndWaitForShown(surface2.get(), QSize(100, 100), Qt::red);
     QVERIFY(c2);
     // now switch layout
     layoutChangedSpy.clear();

@@ -71,7 +71,6 @@ void TestXdgDecoration::init()
     // setup connection
     m_connection = new KWayland::Client::ConnectionThread;
     QSignalSpy connectedSpy(m_connection, &ConnectionThread::connected);
-    QVERIFY(connectedSpy.isValid());
     m_connection->setSocketName(s_socketName);
 
     m_thread = new QThread(this);
@@ -184,9 +183,9 @@ void TestXdgDecoration::testDecoration()
     QSignalSpy decorationCreatedSpy(m_xdgDecorationManagerInterface, &XdgDecorationManagerV1Interface::decorationCreated);
 
     // create shell surface and deco object
-    QScopedPointer<Surface> surface(m_compositor->createSurface());
-    QScopedPointer<XdgShellSurface> shellSurface(m_xdgShell->createSurface(surface.data()));
-    QScopedPointer<XdgDecoration> decoration(m_xdgDecorationManager->getToplevelDecoration(shellSurface.data()));
+    std::unique_ptr<Surface> surface(m_compositor->createSurface());
+    std::unique_ptr<XdgShellSurface> shellSurface(m_xdgShell->createSurface(surface.get()));
+    std::unique_ptr<XdgDecoration> decoration(m_xdgDecorationManager->getToplevelDecoration(shellSurface.get()));
 
     // and receive all these on the "server"
     QVERIFY(surfaceCreatedSpy.count() || surfaceCreatedSpy.wait());
@@ -201,7 +200,7 @@ void TestXdgDecoration::testDecoration()
     QCOMPARE(decorationIface->toplevel(), shellSurfaceIface);
     QCOMPARE(decorationIface->preferredMode(), XdgToplevelDecorationV1Interface::Mode::Undefined);
 
-    QSignalSpy clientConfiguredSpy(decoration.data(), &XdgDecoration::modeChanged);
+    QSignalSpy clientConfiguredSpy(decoration.get(), &XdgDecoration::modeChanged);
     QSignalSpy modeRequestedSpy(decorationIface, &XdgToplevelDecorationV1Interface::preferredModeChanged);
 
     // server configuring a client

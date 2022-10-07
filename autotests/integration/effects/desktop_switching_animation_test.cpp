@@ -10,10 +10,10 @@
 #include "kwin_wayland_test.h"
 
 #include "composite.h"
+#include "core/platform.h"
+#include "core/renderbackend.h"
 #include "effectloader.h"
 #include "effects.h"
-#include "platform.h"
-#include "renderbackend.h"
 #include "virtualdesktops.h"
 #include "wayland_server.h"
 #include "window.h"
@@ -44,7 +44,6 @@ void DesktopSwitchingAnimationTest::initTestCase()
 
     qRegisterMetaType<KWin::Window *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    QVERIFY(applicationStartedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
 
@@ -62,7 +61,6 @@ void DesktopSwitchingAnimationTest::initTestCase()
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
-    Test::initWaylandWorkspace();
 
     QCOMPARE(Compositor::self()->backend()->compositingType(), KWin::OpenGLCompositing);
 }
@@ -105,11 +103,11 @@ void DesktopSwitchingAnimationTest::testSwitchDesktops()
     // The Fade Desktop effect will do nothing if there are no windows to fade,
     // so we have to create a dummy test window.
     using namespace KWayland::Client;
-    QScopedPointer<KWayland::Client::Surface> surface(Test::createSurface());
-    QVERIFY(!surface.isNull());
-    QScopedPointer<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.data()));
-    QVERIFY(!shellSurface.isNull());
-    Window *window = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::blue);
+    std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
+    QVERIFY(surface != nullptr);
+    std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get()));
+    QVERIFY(shellSurface != nullptr);
+    Window *window = Test::renderAndWaitForShown(surface.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window);
     QCOMPARE(window->desktops().count(), 1);
     QCOMPARE(window->desktops().first(), VirtualDesktopManager::self()->desktops().first());

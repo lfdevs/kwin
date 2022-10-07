@@ -9,6 +9,8 @@
 
 #include <QObject>
 
+#include <memory>
+
 namespace KWaylandServer
 {
 class Display;
@@ -55,7 +57,7 @@ public:
     ~DpmsManagerInterface() override;
 
 private:
-    QScopedPointer<DpmsManagerInterfacePrivate> d;
+    std::unique_ptr<DpmsManagerInterfacePrivate> d;
 };
 
 }

@@ -22,7 +22,7 @@
                 "Name[id]": "Marco Martin",
                 "Name[it]": "Marco Martin",
                 "Name[ja]": "Marco Martin",
-                "Name[ka]": "მაკრო მარტინი",
+                "Name[ka]": "Marco Martin",
                 "Name[ko]": "Marco Martin",
                 "Name[lt]": "Marco Martin",
                 "Name[nl]": "Marco Martin",
@@ -40,7 +40,8 @@
                 "Name[uk]": "Marco Martin",
                 "Name[vi]": "Marco Martin",
                 "Name[x-test]": "xxMarco Martinxx",
-                "Name[zh_CN]": "Marco Martin"
+                "Name[zh_CN]": "Marco Martin",
+                "Name[zh_TW]": "Marco Martin"
             }
         ],
         "Name": "KWin Script",
@@ -79,6 +80,7 @@
         "Name[vi]": "Kịch bản KWin",
         "Name[x-test]": "xxKWin Scriptxx",
         "Name[zh_CN]": "KWin 脚本",
+        "Name[zh_TW]": "KWin 文稿",
         "Version": "1"
     }
 }

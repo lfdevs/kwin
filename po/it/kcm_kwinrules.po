@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-04-18 00:45+0000\n"
+"POT-Creation-Date: 2022-08-19 00:47+0000\n"
 "PO-Revision-Date: 2022-04-19 18:18+0200\n"
 "Last-Translator: Paolo Zamponi <zapaolo@email.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -227,6 +227,85 @@ msgstr "Seleziona file"
 msgid "KWin Rules (*.kwinrule)"
 msgstr "Regole di KWin (*.kwinrule)"
 
+#: package/contents/ui/main.qml:59
+#, kde-format
+msgid "No rules for specific windows are currently set"
+msgstr "Attualmente non sono state impostate regole per finestre specifiche"
+
+#: package/contents/ui/main.qml:60
+#, kde-kuit-format
+msgctxt "@info"
+msgid "Click the <interface>Add New...</interface> button below to add some"
+msgstr ""
+"Fai clic sul pulsante <interface>Aggiungi nuova...</interface> qui sotto per "
+"aggiungere"
+
+#: package/contents/ui/main.qml:68
+#, kde-format
+msgid "Select the rules to export"
+msgstr "Seleziona le regole da esportare"
+
+#: package/contents/ui/main.qml:72
+#, kde-format
+msgid "Unselect All"
+msgstr "Deseleziona tutto"
+
+#: package/contents/ui/main.qml:72
+#, kde-format
+msgid "Select All"
+msgstr "Seleziona tutto"
+
+#: package/contents/ui/main.qml:86
+#, kde-format
+msgid "Save Rules"
+msgstr "Salva regole"
+
+# Femminile, si riferisce a «regola»
+#: package/contents/ui/main.qml:97
+#, kde-format
+msgid "Add New..."
+msgstr "Aggiungi nuova..."
+
+#: package/contents/ui/main.qml:108
+#, kde-format
+msgid "Import..."
+msgstr "Importa..."
+
+#: package/contents/ui/main.qml:116
+#, kde-format
+msgid "Cancel Export"
+msgstr "Annulla esportazione"
+
+#: package/contents/ui/main.qml:116
+#, kde-format
+msgid "Export..."
+msgstr "Esporta..."
+
+#: package/contents/ui/main.qml:206
+#, kde-format
+msgid "Edit"
+msgstr "Modifica"
+
+#: package/contents/ui/main.qml:215
+#, kde-format
+msgid "Duplicate"
+msgstr "Duplica"
+
+#: package/contents/ui/main.qml:224
+#, kde-format
+msgid "Delete"
+msgstr "Elimina"
+
+#: package/contents/ui/main.qml:237
+#, kde-format
+msgid "Import Rules"
+msgstr "Importa regole"
+
+#: package/contents/ui/main.qml:249
+#, kde-format
+msgid "Export Rules"
+msgstr "Esporta regole"
+
 #: package/contents/ui/OptionsComboBox.qml:35
 #, kde-format
 msgid "None selected"
@@ -299,115 +378,36 @@ msgstr "Errore"
 msgid "Add property to the rule"
 msgstr "Aggiungi proprietà alla regola"
 
-#: package/contents/ui/RulesEditor.qml:259
+#: package/contents/ui/RulesEditor.qml:260
 #: package/contents/ui/ValueEditor.qml:54
 #, kde-format
 msgid "Yes"
 msgstr "Sì"
 
-#: package/contents/ui/RulesEditor.qml:259
+#: package/contents/ui/RulesEditor.qml:260
 #: package/contents/ui/ValueEditor.qml:60
 #, kde-format
 msgid "No"
 msgstr "No"
 
-#: package/contents/ui/RulesEditor.qml:261
+#: package/contents/ui/RulesEditor.qml:262
 #: package/contents/ui/ValueEditor.qml:171
 #: package/contents/ui/ValueEditor.qml:178
 #, kde-format
 msgid "%1 %"
 msgstr "%1 %"
 
-#: package/contents/ui/RulesEditor.qml:263
+#: package/contents/ui/RulesEditor.qml:264
 #, kde-format
 msgctxt "Coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr "(%1, %2)"
 
-#: package/contents/ui/RulesEditor.qml:265
+#: package/contents/ui/RulesEditor.qml:266
 #, kde-format
 msgctxt "Size (width, height)"
 msgid "(%1, %2)"
 msgstr "(%1, %2)"
-
-#: package/contents/ui/RulesList.qml:59
-#, kde-format
-msgid "No rules for specific windows are currently set"
-msgstr "Attualmente non sono state impostate regole per finestre specifiche"
-
-#: package/contents/ui/RulesList.qml:60
-#, kde-kuit-format
-msgctxt "@info"
-msgid "Click the <interface>Add New...</interface> button below to add some"
-msgstr ""
-"Fai clic sul pulsante <interface>Aggiungi nuova...</interface> qui sotto per "
-"aggiungere"
-
-#: package/contents/ui/RulesList.qml:68
-#, kde-format
-msgid "Select the rules to export"
-msgstr "Seleziona le regole da esportare"
-
-#: package/contents/ui/RulesList.qml:72
-#, kde-format
-msgid "Unselect All"
-msgstr "Deseleziona tutto"
-
-#: package/contents/ui/RulesList.qml:72
-#, kde-format
-msgid "Select All"
-msgstr "Seleziona tutto"
-
-#: package/contents/ui/RulesList.qml:86
-#, kde-format
-msgid "Save Rules"
-msgstr "Salva regole"
-
-# Femminile, si riferisce a «regola»
-#: package/contents/ui/RulesList.qml:97
-#, kde-format
-msgid "Add New..."
-msgstr "Aggiungi nuova..."
-
-#: package/contents/ui/RulesList.qml:108
-#, kde-format
-msgid "Import..."
-msgstr "Importa..."
-
-#: package/contents/ui/RulesList.qml:116
-#, kde-format
-msgid "Cancel Export"
-msgstr "Annulla esportazione"
-
-#: package/contents/ui/RulesList.qml:116
-#, kde-format
-msgid "Export..."
-msgstr "Esporta..."
-
-#: package/contents/ui/RulesList.qml:206
-#, kde-format
-msgid "Edit"
-msgstr "Modifica"
-
-#: package/contents/ui/RulesList.qml:215
-#, kde-format
-msgid "Duplicate"
-msgstr "Duplica"
-
-#: package/contents/ui/RulesList.qml:224
-#, kde-format
-msgid "Delete"
-msgstr "Elimina"
-
-#: package/contents/ui/RulesList.qml:237
-#, kde-format
-msgid "Import Rules"
-msgstr "Importa regole"
-
-#: package/contents/ui/RulesList.qml:249
-#, kde-format
-msgid "Export Rules"
-msgstr "Esporta regole"
 
 #: package/contents/ui/ValueEditor.qml:206
 #, kde-format

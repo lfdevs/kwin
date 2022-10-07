@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedge.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-05-12 00:46+0000\n"
+"POT-Creation-Date: 2022-07-15 00:48+0000\n"
 "PO-Revision-Date: 2019-12-12 22:16+0000\n"
 "Last-Translator: Vivek KJ Pazhedath <vivekkj2004@gmail.com>\n"
 "Language-Team: SMC <smc.org.in>\n"
@@ -34,8 +34,8 @@ msgstr "നടപടിയില്ല"
 
 #: main.cpp:131 touch.cpp:125
 #, kde-format
-msgid "Show Desktop"
-msgstr "പണിയിടം കാണിയ്ക്കുക"
+msgid "Peek at Desktop"
+msgstr ""
 
 #: main.cpp:132 touch.cpp:126
 #, kde-format
@@ -124,7 +124,7 @@ msgstr "സ്ക്രീനിന്റെ വശത്തേയ്ക്ക�
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:101
 #, kde-format
-msgid "Behavior"
+msgid "Behavior:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, remainActiveOnFullscreen)

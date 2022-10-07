@@ -10,10 +10,10 @@
 #include "kwin_wayland_test.h"
 
 #include "composite.h"
+#include "core/platform.h"
+#include "core/renderbackend.h"
 #include "effectloader.h"
 #include "effects.h"
-#include "platform.h"
-#include "renderbackend.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
@@ -45,7 +45,6 @@ void MinimizeAnimationTest::initTestCase()
 
     qRegisterMetaType<KWin::Window *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    QVERIFY(applicationStartedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
 
@@ -63,7 +62,6 @@ void MinimizeAnimationTest::initTestCase()
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
-    Test::initWaylandWorkspace();
 
     QCOMPARE(Compositor::self()->backend()->compositingType(), KWin::OpenGLCompositing);
 }
@@ -100,20 +98,19 @@ void MinimizeAnimationTest::testMinimizeUnminimize()
     using namespace KWayland::Client;
 
     QSignalSpy plasmaWindowCreatedSpy(Test::waylandWindowManagement(), &PlasmaWindowManagement::windowCreated);
-    QVERIFY(plasmaWindowCreatedSpy.isValid());
 
     // Create a panel at the top of the screen.
     const QRect panelRect = QRect(0, 0, 1280, 36);
-    QScopedPointer<KWayland::Client::Surface> panelSurface(Test::createSurface());
-    QVERIFY(!panelSurface.isNull());
-    QScopedPointer<Test::XdgToplevel> panelShellSurface(Test::createXdgToplevelSurface(panelSurface.data()));
-    QVERIFY(!panelShellSurface.isNull());
-    QScopedPointer<PlasmaShellSurface> plasmaPanelShellSurface(Test::waylandPlasmaShell()->createSurface(panelSurface.data()));
-    QVERIFY(!plasmaPanelShellSurface.isNull());
+    std::unique_ptr<KWayland::Client::Surface> panelSurface(Test::createSurface());
+    QVERIFY(panelSurface != nullptr);
+    std::unique_ptr<Test::XdgToplevel> panelShellSurface(Test::createXdgToplevelSurface(panelSurface.get()));
+    QVERIFY(panelShellSurface != nullptr);
+    std::unique_ptr<PlasmaShellSurface> plasmaPanelShellSurface(Test::waylandPlasmaShell()->createSurface(panelSurface.get()));
+    QVERIFY(plasmaPanelShellSurface != nullptr);
     plasmaPanelShellSurface->setRole(PlasmaShellSurface::Role::Panel);
     plasmaPanelShellSurface->setPosition(panelRect.topLeft());
     plasmaPanelShellSurface->setPanelBehavior(PlasmaShellSurface::PanelBehavior::AlwaysVisible);
-    Window *panel = Test::renderAndWaitForShown(panelSurface.data(), panelRect.size(), Qt::blue);
+    Window *panel = Test::renderAndWaitForShown(panelSurface.get(), panelRect.size(), Qt::blue);
     QVERIFY(panel);
     QVERIFY(panel->isDock());
     QCOMPARE(panel->frameGeometry(), panelRect);
@@ -121,11 +118,11 @@ void MinimizeAnimationTest::testMinimizeUnminimize()
     QCOMPARE(plasmaWindowCreatedSpy.count(), 1);
 
     // Create the test window.
-    QScopedPointer<KWayland::Client::Surface> surface(Test::createSurface());
-    QVERIFY(!surface.isNull());
-    QScopedPointer<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.data()));
-    QVERIFY(!shellSurface.isNull());
-    Window *window = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::red);
+    std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
+    QVERIFY(surface != nullptr);
+    std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get()));
+    QVERIFY(shellSurface != nullptr);
+    Window *window = Test::renderAndWaitForShown(surface.get(), QSize(100, 50), Qt::red);
     QVERIFY(window);
     QVERIFY(plasmaWindowCreatedSpy.wait());
     QCOMPARE(plasmaWindowCreatedSpy.count(), 2);
@@ -135,9 +132,9 @@ void MinimizeAnimationTest::testMinimizeUnminimize()
     auto plasmaWindow = plasmaWindowCreatedSpy.last().first().value<PlasmaWindow *>();
     QVERIFY(plasmaWindow);
     const QRect iconRect = QRect(0, 0, 42, 36);
-    plasmaWindow->setMinimizedGeometry(panelSurface.data(), iconRect);
+    plasmaWindow->setMinimizedGeometry(panelSurface.get(), iconRect);
     Test::flushWaylandConnection();
-    QTRY_COMPARE(window->iconGeometry(), iconRect.translated(panel->frameGeometry().topLeft()));
+    QTRY_COMPARE(window->iconGeometry(), iconRect.translated(panel->frameGeometry().topLeft().toPoint()));
 
     // Load effect that will be tested.
     QFETCH(QString, effectName);

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-05-12 00:46+0000\n"
+"POT-Creation-Date: 2022-07-15 00:48+0000\n"
 "PO-Revision-Date: 2022-07-21 19:01+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -40,8 +40,8 @@ msgstr "Ei toimintoa"
 
 #: main.cpp:131 touch.cpp:125
 #, kde-format
-msgid "Show Desktop"
-msgstr "Näytä työpöytä"
+msgid "Peek at Desktop"
+msgstr "Kurkista työpöydälle"
 
 #: main.cpp:132 touch.cpp:126
 #, kde-format
@@ -130,7 +130,7 @@ msgstr "Vasempaan tai oikeaan reunaan vedetyt ikkunat"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:101
 #, kde-format
-msgid "Behavior"
+msgid "Behavior:"
 msgstr "Toiminta:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, remainActiveOnFullscreen)

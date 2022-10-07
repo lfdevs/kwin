@@ -35,6 +35,7 @@ WindowItem::WindowItem(Window *window, Item *parent)
     if (waylandServer()) {
         connect(waylandServer(), &WaylandServer::lockStateChanged, this, &WindowItem::updateVisibility);
     }
+    connect(window, &Window::lockScreenOverlayChanged, this, &WindowItem::updateVisibility);
     connect(window, &Window::minimizedChanged, this, &WindowItem::updateVisibility);
     connect(window, &Window::hiddenChanged, this, &WindowItem::updateVisibility);
     connect(window, &Window::activitiesChanged, this, &WindowItem::updateVisibility);
@@ -55,17 +56,17 @@ WindowItem::~WindowItem()
 
 SurfaceItem *WindowItem::surfaceItem() const
 {
-    return m_surfaceItem.data();
+    return m_surfaceItem.get();
 }
 
 DecorationItem *WindowItem::decorationItem() const
 {
-    return m_decorationItem.data();
+    return m_decorationItem.get();
 }
 
 ShadowItem *WindowItem::shadowItem() const
 {
-    return m_shadowItem.data();
+    return m_shadowItem.get();
 }
 
 Window *WindowItem::window() const
@@ -127,7 +128,7 @@ void WindowItem::handleWindowClosed(Window *original, Deleted *deleted)
 bool WindowItem::computeVisibility() const
 {
     if (waylandServer() && waylandServer()->isScreenLocked()) {
-        return m_window->isLockScreen() || m_window->isInputMethod();
+        return m_window->isLockScreen() || m_window->isInputMethod() || m_window->isLockScreenOverlay();
     }
     if (m_window->isDeleted()) {
         if (m_forceVisibleByDeleteCount == 0) {
@@ -187,8 +188,8 @@ void WindowItem::updateSurfaceItem(SurfaceItem *surfaceItem)
 
 void WindowItem::updateSurfacePosition()
 {
-    const QRect bufferGeometry = m_window->bufferGeometry();
-    const QRect frameGeometry = m_window->frameGeometry();
+    const QRectF bufferGeometry = m_window->bufferGeometry();
+    const QRectF frameGeometry = m_window->frameGeometry();
 
     m_surfaceItem->setPosition(bufferGeometry.topLeft() - frameGeometry.topLeft());
 }
@@ -206,9 +207,9 @@ void WindowItem::updateShadowItem()
             m_shadowItem.reset(new ShadowItem(shadow, m_window, this));
         }
         if (m_decorationItem) {
-            m_shadowItem->stackBefore(m_decorationItem.data());
+            m_shadowItem->stackBefore(m_decorationItem.get());
         } else if (m_surfaceItem) {
-            m_shadowItem->stackBefore(m_decorationItem.data());
+            m_shadowItem->stackBefore(m_decorationItem.get());
         }
     } else {
         m_shadowItem.reset();
@@ -223,9 +224,9 @@ void WindowItem::updateDecorationItem()
     if (m_window->decoration()) {
         m_decorationItem.reset(new DecorationItem(m_window->decoration(), m_window, this));
         if (m_shadowItem) {
-            m_decorationItem->stackAfter(m_shadowItem.data());
+            m_decorationItem->stackAfter(m_shadowItem.get());
         } else if (m_surfaceItem) {
-            m_decorationItem->stackBefore(m_surfaceItem.data());
+            m_decorationItem->stackBefore(m_surfaceItem.get());
         }
     } else {
         m_decorationItem.reset();

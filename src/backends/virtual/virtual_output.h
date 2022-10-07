@@ -6,10 +6,9 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-#ifndef KWIN_VIRTUAL_OUTPUT_H
-#define KWIN_VIRTUAL_OUTPUT_H
+#pragma once
 
-#include "output.h"
+#include "core/output.h"
 
 #include <QObject>
 #include <QRect>
@@ -33,7 +32,8 @@ public:
 
     void init(const QPoint &logicalPosition, const QSize &pixelSize);
     void setGeometry(const QRect &geo);
-    void updateEnablement(bool enable) override;
+    void updateScale(qreal scale);
+    void updateEnabled(bool enabled);
 
 private:
     void vblank(std::chrono::nanoseconds timestamp);
@@ -42,13 +42,11 @@ private:
     friend class VirtualBackend;
 
     VirtualBackend *m_backend;
-    RenderLoop *m_renderLoop;
-    SoftwareVsyncMonitor *m_vsyncMonitor;
+    std::unique_ptr<RenderLoop> m_renderLoop;
+    std::unique_ptr<SoftwareVsyncMonitor> m_vsyncMonitor;
     int m_gammaSize = 200;
     bool m_gammaResult = true;
     int m_identifier;
 };
 
-}
-
-#endif
+} // namespace KWin

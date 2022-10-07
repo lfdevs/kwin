@@ -7,22 +7,22 @@
 # AbdulAziz AlSharif <a.a-a.s@hotmail.com>, 2007.
 # Youssef Chahibi <chahibi@gmail.com>, 2007.
 # zayed <zayed.alsaidi@gmail.com>, 2008.
-# Zayed Al-Saidi <zayed.alsaidi@gmail.com>, 2010, 2021.
+# Zayed Al-Saidi <zayed.alsaidi@gmail.com>, 2010, 2021, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-03-26 00:45+0000\n"
-"PO-Revision-Date: 2021-12-31 08:00+0400\n"
+"POT-Creation-Date: 2022-09-02 00:47+0000\n"
+"PO-Revision-Date: 2022-09-04 20:44+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
-"Language-Team: \n"
+"Language-Team: ar\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
-"X-Generator: Lokalize 19.12.3\n"
+"X-Generator: Lokalize 22.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -626,6 +626,49 @@ msgstr ""
 #, kde-format
 msgid "Hide utility windows for inactive applications"
 msgstr "اخفِ نوافذ المساعدة للتطبيقات الخاملة"
+
+#. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyLabel)
+#: advanced.ui:148
+#, kde-format
+msgid "Virtual Desktop behavior:"
+msgstr "سلوك سطح المكتب الافتراضي:"
+
+#. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyDescriptionLabel)
+#: advanced.ui:158
+#, kde-format
+msgid "When activating a window on a different Virtual Desktop:"
+msgstr "عند تنشيط نافذة على سطح مكتب أخر:"
+
+#. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_ActivationDesktopPolicy)
+#: advanced.ui:165
+#, kde-format
+msgid ""
+"<html><head/><body><p>This setting controls what happens when an open window "
+"located on a Virtual Desktop other than the current one is activated. </"
+"p><p><span style=\" font-style:italic;\">Switch to that Virtual Desktop</"
+"span> will switch to the Virtual Desktop where the window is currently "
+"located. </p><p><span style=\" font-style:italic;\">Bring window to current "
+"Virtual Desktop</span> will cause the window to jump to the active Virtual "
+"Desktop. </p></body></html>"
+msgstr ""
+"<html><head/><body><p>هذا الإعداد يتحكم بما يحديث عند تنشيط نافذة مفتوحة على "
+"سطح مكتب افتراضي أخر غير الحالي. </p><p><span style=\" font-style:italic;"
+"\">بدّل إلى ذلك المكتب</span> سيبدل إلى سطح المكتب الافتراضي حيث توجد تلك "
+"النافذة. </p><p><span style=\" font-style:italic;\">اجلب النافذة إلى سطح "
+"المكتب الحالي</span> سيجعل النافذة تقفز إلى سطح المكتب الافتراضي الحالي. </"
+"p></body></html>"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
+#: advanced.ui:169
+#, kde-format
+msgid "Switch to that Virtual Desktop"
+msgstr "بدّل إلى ذلك المكتب"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
+#: advanced.ui:174
+#, kde-format
+msgid "Bring window to current Virtual Desktop"
+msgstr "اجلب النافذة إلى سطح المكتب الحالي"
 
 #. i18n: ectx: property (text), widget (QLabel, windowFocusPolicyLabel)
 #: focus.ui:22
@@ -1265,7 +1308,7 @@ msgstr ""
 msgid "Only when overlapping"
 msgstr "فقط عندما تكون تغطي بعضها"
 
-#: windows.cpp:98
+#: windows.cpp:97
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
@@ -1274,7 +1317,7 @@ msgstr ""
 "<em> انقر للتركيز: </em> تصبح النافذة نشطة عندما تنقر عليها.هذا السلوك شائع "
 "في أنظمة التشغيل الأخرى وعلى الأرجح ما تريده."
 
-#: windows.cpp:102
+#: windows.cpp:101
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1288,7 +1331,7 @@ msgstr ""
 "بسبب إغلاق النافذة النشطة حاليًا) ، فإن النافذة الموجودة أسفل الفأرة هي "
 "المرشح المفضل. هذا غير معتاد ولكنه  تنويع ممكن لـ <em> انقر للتركيز </em>."
 
-#: windows.cpp:107
+#: windows.cpp:106
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1301,7 +1344,7 @@ msgstr ""
 "يستمر <em> التركيز على منع السرقة </em> كالمعتاد. إنها تشبه <em> انقر "
 "للتركيز </em> دون الحاجة إلى النقر فعليًا."
 
-#: windows.cpp:111
+#: windows.cpp:110
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1314,7 +1357,7 @@ msgstr ""
 "حاليًا) ، فإن النافذة الموجودة أسفل الفأرة هي المرشح المفضل. اختر هذا ، إذا "
 "كنت تريد تركيزًا متحكمًا فيه بواسطة التحويم."
 
-#: windows.cpp:116
+#: windows.cpp:115
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1329,7 +1372,7 @@ msgstr ""
 "من المحتمل جدًا أنك تريد استخدام <em> التركيز يتبع الفأرة (أولوية الفأرة) </"
 "em> بدلاً من ذلك!"
 
-#: windows.cpp:120
+#: windows.cpp:119
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "

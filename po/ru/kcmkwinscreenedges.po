@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-05-12 00:46+0000\n"
+"POT-Creation-Date: 2022-07-15 00:48+0000\n"
 "PO-Revision-Date: 2022-08-18 09:16+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -45,8 +45,8 @@ msgstr "Ничего не делать"
 
 #: main.cpp:131 touch.cpp:125
 #, kde-format
-msgid "Show Desktop"
-msgstr "Показать рабочий стол"
+msgid "Peek at Desktop"
+msgstr ""
 
 #: main.cpp:132 touch.cpp:126
 #, kde-format
@@ -134,8 +134,8 @@ msgstr "При перемещении к правому или левому кр
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:101
-#, kde-format
-msgid "Behavior"
+#, fuzzy, kde-format
+msgid "Behavior:"
 msgstr "Поведение"
 
 #. i18n: ectx: property (text), widget (QCheckBox, remainActiveOnFullscreen)

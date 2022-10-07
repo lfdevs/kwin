@@ -1,10 +1,10 @@
-# Translation of kcm_kwin_effects.po to Euskara/Basque (eu).
-# Copyright (C) 2019, This file is copyright:
+# Translation for kcm_kwin_effects.po to Euskara/Basque (eu).
+# Copyright (C) 2019-2022, This file is copyright:
 # This file is distributed under the same license as the kwin package.
-# KDE Euskaratzeko proiektuaren arduraduna <xalba@euskalnet.net>.
+# KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>.
 #
 # Translators:
-# Iñigo Salvador Azurmendi <xalba@euskalnet.net>, 2019.
+# Iñigo Salvador Azurmendi <xalba@ni.eus>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"

@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.16)
 
-set(PROJECT_VERSION "5.25.5") # Handled by release scripts
+set(PROJECT_VERSION "5.25.90") # Handled by release scripts
 project(KWin VERSION ${PROJECT_VERSION})
 
 set(CMAKE_C_STANDARD 99)
 
 set(QT_MIN_VERSION "5.15.2")
-set(KF5_MIN_VERSION "5.94")
+set(KF5_MIN_VERSION "5.98.0")
 set(KDE_COMPILERSETTINGS_LEVEL "5.82")
 
 find_package(ECM ${KF5_MIN_VERSION} REQUIRED NO_MODULE)
@@ -41,7 +41,7 @@ if (QT_MAJOR_VERSION EQUAL "5")
     find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS X11Extras)
     find_package(Qt5XkbCommonSupport REQUIRED)
 else()
-    find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS WaylandClient)
+    find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS WaylandClient ShaderTools)
 endif()
 
 find_package(Qt${QT_MAJOR_VERSION}Test ${QT_MIN_VERSION} CONFIG QUIET)
@@ -70,7 +70,7 @@ add_definitions(-DMESA_EGL_NO_X11_HEADERS)
 add_definitions(-DEGL_NO_X11)
 add_definitions(-DEGL_NO_PLATFORM_SPECIFIC_TYPES)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # required frameworks by Core
@@ -160,7 +160,7 @@ add_feature_info("Breeze-Decoration" HAVE_BREEZE_DECO "Default decoration plugin
 
 find_package(EGL)
 set_package_properties(EGL PROPERTIES
-    TYPE RUNTIME
+    TYPE REQUIRED
     PURPOSE "Required to build KWin with EGL support"
 )
 
@@ -179,6 +179,19 @@ if (epoxy_HAS_GLX)
         set(HAVE_DL_LIBRARY TRUE)
     endif()
 endif()
+
+check_cxx_source_compiles("
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <unistd.h>
+
+int main() {
+    const int size = 10;
+    int fd = memfd_create(\"test\", MFD_CLOEXEC | MFD_ALLOW_SEALING);
+    ftruncate(fd, size);
+    fcntl(fd, F_ADD_SEALS, F_SEAL_SHRINK | F_SEAL_GROW | F_SEAL_WRITE | F_SEAL_SEAL);
+    mmap(nullptr, size, PROT_WRITE, MAP_SHARED, fd, 0);
+}" HAVE_MEMFD)
 
 find_package(Wayland 1.2 OPTIONAL_COMPONENTS Egl)
 set_package_properties(Wayland PROPERTIES
@@ -202,7 +215,7 @@ set_package_properties(WaylandProtocols PROPERTIES
     URL "https://gitlab.freedesktop.org/wayland/wayland-protocols/"
 )
 
-find_package(PlasmaWaylandProtocols CONFIG)
+find_package(PlasmaWaylandProtocols 1.8 CONFIG)
 set_package_properties(PlasmaWaylandProtocols PROPERTIES
     TYPE REQUIRED
     PURPOSE "Collection of Plasma-specific Wayland protocols"
@@ -234,7 +247,7 @@ set_package_properties(UDev PROPERTIES
     PURPOSE "Required for input handling on Wayland."
 )
 
-find_package(Libdrm 2.4.62)
+find_package(Libdrm 2.4.108)
 set_package_properties(Libdrm PROPERTIES TYPE REQUIRED PURPOSE "Required for drm output on Wayland.")
 
 find_package(gbm)
@@ -281,6 +294,7 @@ find_package(XCB 1.10 REQUIRED COMPONENTS
     SYNC
     XCB
     XFIXES
+    XINERAMA
 )
 set_package_properties(XCB PROPERTIES TYPE REQUIRED)
 
@@ -351,7 +365,7 @@ set(HAVE_ACCESSIBILITY ${QAccessibilityClient_FOUND})
 
 include(ECMFindQmlModule)
 ecm_find_qmlmodule(QtQuick 2.3)
-ecm_find_qmlmodule(QtQuick.Controls 1.2)
+ecm_find_qmlmodule(QtQuick.Controls 2.15)
 ecm_find_qmlmodule(QtQuick.Layouts 1.3)
 ecm_find_qmlmodule(QtQuick.Window 2.1)
 ecm_find_qmlmodule(QtMultimedia 5.0)

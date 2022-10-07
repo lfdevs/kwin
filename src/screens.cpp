@@ -10,9 +10,9 @@
 
 #include <config-kwin.h>
 
+#include "core/output.h"
+#include "core/platform.h"
 #include "cursor.h"
-#include "output.h"
-#include "platform.h"
 #include "settings.h"
 #include "utils/common.h"
 #include <window.h>
@@ -21,46 +21,17 @@
 namespace KWin
 {
 
-Screens *Screens::s_self = nullptr;
-Screens *Screens::create(QObject *parent)
+Screens::Screens()
+    : m_maxScale(1.0)
 {
-    Q_ASSERT(!s_self);
-    s_self = new Screens(parent);
-    Q_ASSERT(s_self);
-    s_self->init();
-    return s_self;
-}
-
-Screens::Screens(QObject *parent)
-    : QObject(parent)
-    , m_count(0)
-    , m_maxScale(1.0)
-{
-    connect(kwinApp()->platform(), &Platform::screensQueried, this, &Screens::updateCount);
-    connect(kwinApp()->platform(), &Platform::screensQueried, this, &Screens::changed);
-}
-
-Screens::~Screens()
-{
-    s_self = nullptr;
+    connect(workspace(), &Workspace::outputsChanged, this, &Screens::changed);
 }
 
 void Screens::init()
 {
-    updateCount();
-    connect(this, &Screens::countChanged, this, &Screens::changed, Qt::QueuedConnection);
     connect(this, &Screens::changed, this, &Screens::updateSize);
-    connect(this, &Screens::sizeChanged, this, &Screens::geometryChanged);
 
     Q_EMIT changed();
-}
-
-QRect Screens::geometry(int screen) const
-{
-    if (Output *output = findOutput(screen)) {
-        return output->geometry();
-    }
-    return QRect();
 }
 
 qreal Screens::scale(int screen) const
@@ -78,15 +49,9 @@ qreal Screens::maxScale() const
 
 void Screens::updateSize()
 {
-    QRect bounding;
     qreal maxScale = 1.0;
-    for (int i = 0; i < count(); ++i) {
-        bounding = bounding.united(geometry(i));
+    for (int i = 0; i < workspace()->outputs().count(); ++i) {
         maxScale = qMax(maxScale, scale(i));
-    }
-    if (m_boundingSize != bounding.size()) {
-        m_boundingSize = bounding.size();
-        Q_EMIT sizeChanged();
     }
     if (!qFuzzyCompare(m_maxScale, maxScale)) {
         m_maxScale = maxScale;
@@ -94,24 +59,9 @@ void Screens::updateSize()
     }
 }
 
-void Screens::updateCount()
-{
-    setCount(kwinApp()->platform()->enabledOutputs().size());
-}
-
-void Screens::setCount(int count)
-{
-    if (m_count == count) {
-        return;
-    }
-    const int previous = m_count;
-    m_count = count;
-    Q_EMIT countChanged(previous, count);
-}
-
 Output *Screens::findOutput(int screen) const
 {
-    return kwinApp()->platform()->findOutput(screen);
+    return workspace()->outputs().value(screen);
 }
 
 } // namespace

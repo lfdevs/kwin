@@ -5,12 +5,13 @@
 #
 # Josep M. Ferrer <txemaq@gmail.com>, 2009, 2010, 2012, 2013, 2014, 2016, 2017, 2018, 2019, 2021, 2022.
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2015, 2016, 2019, 2020.
+# Empar Montoro Martín <montoro_mde@gva.es>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-05-12 00:46+0000\n"
-"PO-Revision-Date: 2022-05-12 10:32+0200\n"
+"POT-Creation-Date: 2022-07-15 00:48+0000\n"
+"PO-Revision-Date: 2022-07-15 09:52+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -38,8 +39,8 @@ msgstr "Cap acció"
 
 #: main.cpp:131 touch.cpp:125
 #, kde-format
-msgid "Show Desktop"
-msgstr "Mostra l'escriptori"
+msgid "Peek at Desktop"
+msgstr "Ullada a l'escriptori"
 
 #: main.cpp:132 touch.cpp:126
 #, kde-format
@@ -128,8 +129,8 @@ msgstr "Finestres arrossegades a la vora dreta o esquerra"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:101
 #, kde-format
-msgid "Behavior"
-msgstr "Comportament"
+msgid "Behavior:"
+msgstr "Comportament:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, remainActiveOnFullscreen)
 #: main.ui:108

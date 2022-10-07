@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-07-02 02:34+0000\n"
-"PO-Revision-Date: 2022-08-30 10:41+0200\n"
+"POT-Creation-Date: 2022-07-02 00:49+0000\n"
+"PO-Revision-Date: 2022-08-22 06:35+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.1.1\n"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, glCrashedWarning)
@@ -199,12 +199,12 @@ msgstr "რბილი ანიმაციების არჩევან�
 msgid "Force smoothest animations"
 msgstr "ნაძალადევი რბილი ანიმაციები"
 
-#: main.cpp:78
+#: main.cpp:79
 #, kde-format
 msgid "Re-enable OpenGL detection"
 msgstr "OpenGL-ის პოვნის თავიდან ჩართვა"
 
-#: main.cpp:134
+#: main.cpp:135
 #, kde-format
 msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
@@ -213,13 +213,13 @@ msgstr ""
 "\"მხოლოდ როცა იაფია\" ფიფქებს მხოლოდ მთელ ეკრანზე გაშვების დროს აცილებს, "
 "მაგალითად, ვიდეოს დაკვრის დროს."
 
-#: main.cpp:138
+#: main.cpp:139
 #, kde-format
 msgid "\"Full screen repaints\" can cause performance problems."
 msgstr ""
 "\"ეკრანის სრული გადახატვა\", როგორც წესი, იწვევს წარმადობის პრობლემებს."
 
-#: main.cpp:142
+#: main.cpp:143
 #, kde-format
 msgid ""
 "\"Re-use screen content\" causes severe performance problems on MESA drivers."

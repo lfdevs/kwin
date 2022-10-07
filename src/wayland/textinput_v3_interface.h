@@ -13,6 +13,7 @@
 struct wl_resource;
 namespace KWaylandServer
 {
+class ClientConnection;
 class Display;
 class SeatInterface;
 class SurfaceInterface;
@@ -36,7 +37,7 @@ public:
     ~TextInputManagerV3Interface() override;
 
 private:
-    QScopedPointer<TextInputManagerV3InterfacePrivate> d;
+    std::unique_ptr<TextInputManagerV3InterfacePrivate> d;
 };
 
 /**
@@ -148,6 +149,11 @@ public:
      */
     void done();
 
+    /**
+     * @return whether @p client supports text-input-v3
+     */
+    bool clientSupportsTextInput(ClientConnection *client) const;
+
 Q_SIGNALS:
 
     /**
@@ -189,7 +195,7 @@ private:
     friend class TextInputV3InterfacePrivate;
     explicit TextInputV3Interface(SeatInterface *seat);
 
-    QScopedPointer<TextInputV3InterfacePrivate> d;
+    std::unique_ptr<TextInputV3InterfacePrivate> d;
 };
 
 }

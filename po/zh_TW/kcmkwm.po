@@ -8,30 +8,31 @@
 # Franklin Weng <franklin at goodhorse dot idv dot tw>, 2007, 2008.
 # pan93412 <pan93412@gmail.com>, 2019, 2020.
 # Jeff Huang <s8321414@gmail.com>, 2022.
+# Kisaragi Hiu <mail@kisaragi-hiu.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-03-26 00:45+0000\n"
-"PO-Revision-Date: 2022-03-08 21:44+0800\n"
-"Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
-"Language-Team: Chinese <zh-l10n@lists.slat.org>\n"
+"POT-Creation-Date: 2022-09-02 00:47+0000\n"
+"PO-Revision-Date: 2022-06-29 12:42+0900\n"
+"Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
+"Language-Team: Traditional Chinese <zh-l10n@linux.org.tw>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 21.12.3\n"
+"X-Generator: Lokalize 22.04.2\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Paladin Liu, Jeff Huang"
+msgstr "Paladin Liu, Jeff Huang, Kisaragi Hiu"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "paladin@ms1.hinet.net, s8321414@gmail.com"
+msgstr "paladin@ms1.hinet.net, s8321414@gmail.com, mail@kisaragi-hiu.com"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
 #: actions.ui:17
@@ -611,6 +612,43 @@ msgstr ""
 msgid "Hide utility windows for inactive applications"
 msgstr "隱藏非作用中應用程式的公用視窗"
 
+#. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyLabel)
+#: advanced.ui:148
+#, kde-format
+msgid "Virtual Desktop behavior:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyDescriptionLabel)
+#: advanced.ui:158
+#, kde-format
+msgid "When activating a window on a different Virtual Desktop:"
+msgstr ""
+
+#. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_ActivationDesktopPolicy)
+#: advanced.ui:165
+#, kde-format
+msgid ""
+"<html><head/><body><p>This setting controls what happens when an open window "
+"located on a Virtual Desktop other than the current one is activated. </"
+"p><p><span style=\" font-style:italic;\">Switch to that Virtual Desktop</"
+"span> will switch to the Virtual Desktop where the window is currently "
+"located. </p><p><span style=\" font-style:italic;\">Bring window to current "
+"Virtual Desktop</span> will cause the window to jump to the active Virtual "
+"Desktop. </p></body></html>"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
+#: advanced.ui:169
+#, kde-format
+msgid "Switch to that Virtual Desktop"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
+#: advanced.ui:174
+#, kde-format
+msgid "Bring window to current Virtual Desktop"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QLabel, windowFocusPolicyLabel)
 #: focus.ui:22
 #, kde-format
@@ -715,6 +753,28 @@ msgid ""
 "by default means their taskbar entry will be highlighted. This can be "
 "changed in the Notifications control module.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>此選項指定KWin要多強烈地防止焦點意外被突然啟用的新視窗"
+"盜取。（注意：本功能與「將游標下位置設為焦點」及「嚴格將游標下位置設為焦點」"
+"焦點策略不相容。）</p><ul style=\"margin-top:0px;margin-bottom:0px;margin-"
+"left:0px;margin-right:0px;-qt-list-indent:1;\"><li style=\"margin-top:12px;"
+"margin-bottom:0px;margin-left:0px;margin-right:0px;-qt-block-indent:0;text-"
+"indent:0px;\"><span style=\"font-style:italic\">無</span>：不防止，新視窗一定"
+"會成為作用中。</li><li style=\"margin-top:0px;margin-bottom:0px;margin-"
+"left:0px;margin-right:0px;-qt-block-indent:0;text-indent:0px;\"><span style="
+"\"font-style:italic\">低</span>：啟用防止；如果一個視窗不支援底層的機制而KWin"
+"無法確定是否應該將其設為作用中，此選項將使KWin決定將其設為作用中。此選項依應"
+"用程式可能會比「中」設定好或不好。</li><li style=\"margin-top:0px;margin-"
+"bottom:0px;margin-left:0px;margin-right:0px;-qt-block-indent:0;text-"
+"indent:0px;\"><span style=\"font-style:italic\">中</span>：啟用防止。</"
+"li><li style=\"margin-top:0px;margin-bottom:0px;margin-left:0px;margin-"
+"right:0px;-qt-block-indent:0;text-indent:0px;\"><span style=\"font-style:"
+"italic\">高</span>：新視窗只在沒有作用中視窗或跟作用中視窗來自相同應用程式的"
+"時候才會成為作用中。這個設定在使用滑鼠焦點策略的時候大概不會很能用。</li><li "
+"style=\"margin-top:0px;margin-bottom:12px;margin-left:0px;margin-right:0px;-"
+"qt-block-indent:0;text-indent:0px;\"><span style=\"font-style:italic\">最高</"
+"span>：沒有視窗會自動成為作用中。</li></ul><p>被防止盜取焦點的視窗會被標記為"
+"要求注意，而這預設代表它們在工作列上的項目會被突顯。這可以在「通知」設定模組"
+"進行變更。</p></body></html>"
 
 #. i18n: Focus Stealing Prevention Level
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_BorderSnapZone)
@@ -809,20 +869,14 @@ msgstr "多螢幕行為："
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ActiveMouseScreen)
 #: focus.ui:203
-#, fuzzy, kde-format
-#| msgid ""
-#| "When this option is enabled, the active Xinerama screen (where new "
-#| "windows appear, for example) is the screen containing the mouse pointer. "
-#| "When disabled, the active Xinerama screen is the screen containing the "
-#| "focused window. By default this option is disabled for Click to focus and "
-#| "enabled for other focus policies."
+#, kde-format
 msgid ""
 "When this option is enabled, the active screen (where new windows appear, "
 "for example) is the screen containing the mouse pointer. When disabled, the "
 "active screen is the screen containing the focused window."
 msgstr ""
-"開啟此選項的話，作用中的 Xinerama 螢幕（例如新的視窗出現）會是有滑鼠指標的螢"
-"幕。反之，則為有焦點的視窗。預設為關閉，要點選才會取得焦點。"
+"當此選項啟用，作用中螢幕（也就是新視窗會出現的螢幕）會是滑鼠游標所在的螢幕。"
+"此選項停用時，作用中螢幕是焦點所在視窗的螢幕。"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ActiveMouseScreen)
 #: focus.ui:206
@@ -832,14 +886,11 @@ msgstr "跟隨滑鼠決定作用中螢幕(&M)"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SeparateScreenFocus)
 #: focus.ui:213
-#, fuzzy, kde-format
-#| msgid ""
-#| "When this option is enabled, focus operations are limited only to the "
-#| "active Xinerama screen"
+#, kde-format
 msgid ""
 "When this option is enabled, focus operations are limited only to the active "
 "screen"
-msgstr "開啟此選項的話，焦點操作就會只限於目前作用中的 Xinerama 螢幕"
+msgstr "當此選項啟用，焦點操作就會只限於目前作用中的螢幕"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SeparateScreenFocus)
 #: focus.ui:216
@@ -1219,7 +1270,7 @@ msgstr ""
 msgid "Only when overlapping"
 msgstr "僅在重疊時"
 
-#: windows.cpp:98
+#: windows.cpp:97
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
@@ -1228,7 +1279,7 @@ msgstr ""
 "<em>按一下成為焦點：</em>視窗將會在按下時作用。這個行為就如同其他作業系統，且"
 "通常就是您所想要的。"
 
-#: windows.cpp:102
+#: windows.cpp:101
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1241,7 +1292,7 @@ msgstr ""
 "系統要選取某個視窗成使用中（例如：因為目前的使用中視窗已被關閉），則滑鼠下方"
 "的視窗會第一順位使用。算是 <em>按一下取得焦點</em> 的變化型。"
 
-#: windows.cpp:107
+#: windows.cpp:106
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1250,10 +1301,10 @@ msgid ""
 "to focus</em> just without having to actually click."
 msgstr ""
 "<em>將焦點設成滑鼠所在位置：</em>將會把某個滑鼠移動到的視窗設為焦點。例如：隨"
-"機出現在滑鼠底下的視窗不會取得焦點。通常會有 <em>防止盜取焦點</em>。可以想成 "
+"機出現在滑鼠底下的視窗不會取得焦點。<em>防止盜取焦點</em>仍然有效。可以想成 "
 "<em>按一下取得焦點</em>，但不用實際點選。"
 
-#: windows.cpp:111
+#: windows.cpp:110
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1265,7 +1316,7 @@ msgstr ""
 "（例如：因為目前的使用中視窗已被關閉），則滑鼠下方的視窗會第一順位使用。如果"
 "你想要由懸停控制的焦點，請選擇。"
 
-#: windows.cpp:116
+#: windows.cpp:115
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1279,7 +1330,7 @@ msgstr ""
 "略相衝突，且不會運作。通常你可能會想用<em>將焦點設為滑鼠所在位置 (滑鼠優先)</"
 "em>代替！"
 
-#: windows.cpp:120
+#: windows.cpp:119
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "

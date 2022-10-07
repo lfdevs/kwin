@@ -31,10 +31,18 @@ class KWIN_EXPORT XdgActivationV1Integration : public QObject
 public:
     XdgActivationV1Integration(KWaylandServer::XdgActivationV1Interface *activation, QObject *parent);
 
+    QString requestPrivilegedToken(KWaylandServer::SurfaceInterface *surface, uint serial, KWaylandServer::SeatInterface *seat, const QString &appId)
+    {
+        return requestToken(true, surface, serial, seat, appId);
+    }
+    void activateSurface(KWaylandServer::SurfaceInterface *surface, const QString &token);
+
+private:
+    QString requestToken(bool isPrivileged, KWaylandServer::SurfaceInterface *surface, uint serial, KWaylandServer::SeatInterface *seat, const QString &appId);
+    void clear();
+
     struct ActivationToken
     {
-        ~ActivationToken();
-
         const QString token;
         const bool isPrivileged;
         const QPointer<const KWaylandServer::SurfaceInterface> surface;
@@ -42,16 +50,9 @@ public:
         const KWaylandServer::SeatInterface *seat;
         const QString applicationId;
         const bool showNotify;
-        const QSharedPointer<KWaylandServer::PlasmaWindowActivationInterface> activation;
+        const std::unique_ptr<KWaylandServer::PlasmaWindowActivationInterface> activation;
     };
-
-    QString requestToken(bool isPrivileged, KWaylandServer::SurfaceInterface *surface, uint serial, KWaylandServer::SeatInterface *seat, const QString &appId);
-    void activateSurface(KWaylandServer::SurfaceInterface *surface, const QString &token);
-
-private:
-    void clear();
-
-    QScopedPointer<ActivationToken> m_currentActivationToken;
+    std::unique_ptr<ActivationToken> m_currentActivationToken;
 };
 
 }

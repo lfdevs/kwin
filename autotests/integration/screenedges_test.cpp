@@ -10,10 +10,10 @@
 
 #include "kwin_wayland_test.h"
 
+#include "core/platform.h"
 #include "cursor.h"
 #include "effectloader.h"
 #include "main.h"
-#include "platform.h"
 #include "screenedge.h"
 #include "wayland_server.h"
 #include "window.h"
@@ -68,7 +68,6 @@ void ScreenEdgesTest::initTestCase()
     qRegisterMetaType<KWin::ElectricBorder>("ElectricBorder");
 
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    QVERIFY(applicationStartedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
 
@@ -85,12 +84,11 @@ void ScreenEdgesTest::initTestCase()
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
-    Test::initWaylandWorkspace();
 }
 
 void ScreenEdgesTest::init()
 {
-    ScreenEdges::self()->recreateEdges();
+    workspace()->screenEdges()->recreateEdges();
     Workspace::self()->setActiveOutput(QPoint(640, 512));
     KWin::Cursors::self()->mouse()->setPos(QPoint(640, 512));
 
@@ -126,7 +124,7 @@ void ScreenEdgesTest::testTouchCallback()
     group.writeEntry("Right", "none");
     config->sync();
 
-    auto s = ScreenEdges::self();
+    auto s = workspace()->screenEdges();
     s->setConfig(config);
     s->reconfigure();
 
@@ -178,8 +176,8 @@ void ScreenEdgesTest::testTouchCallback()
     }
 
     // reserve another action
-    QScopedPointer<QAction> action2(new QAction);
-    s->reserveTouch(border, action2.data());
+    std::unique_ptr<QAction> action2(new QAction);
+    s->reserveTouch(border, action2.get());
     for (auto edge : edges) {
         QCOMPARE(edge->isReserved(), edge->border() == border);
         QCOMPARE(edge->activatesForPointer(), false);
@@ -222,7 +220,7 @@ void ScreenEdgesTest::testPushBack()
     config->group("Windows").writeEntry("ElectricBorderPushbackPixels", pushback);
     config->sync();
 
-    auto s = ScreenEdges::self();
+    auto s = workspace()->screenEdges();
     s->setConfig(config);
     s->reconfigure();
 
@@ -255,16 +253,16 @@ void ScreenEdgesTest::testClientEdge()
     // This test verifies that a window will be shown when its screen edge is activated.
     QFETCH(QRect, geometry);
 
-    QScopedPointer<KWayland::Client::Surface> surface(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.data()));
-    Window *window = Test::renderAndWaitForShown(surface.data(), geometry.size(), Qt::red);
+    std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get()));
+    Window *window = Test::renderAndWaitForShown(surface.get(), geometry.size(), Qt::red);
     QVERIFY(window);
     QVERIFY(window->isActive());
     window->move(geometry.topLeft());
 
     // Reserve an electric border.
     QFETCH(ElectricBorder, border);
-    ScreenEdges::self()->reserve(window, border);
+    workspace()->screenEdges()->reserve(window, border);
 
     // Hide the window.
     window->hideClient();
@@ -302,7 +300,7 @@ void ScreenEdgesTest::testObjectEdge()
 
     // Reserve a screen edge border.
     QFETCH(ElectricBorder, border);
-    ScreenEdges::self()->reserve(border, &callback, "callback");
+    workspace()->screenEdges()->reserve(border, &callback, "callback");
 
     QFETCH(QPointF, triggerPoint);
     QFETCH(QPointF, delta);

@@ -6,16 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-04-18 00:45+0000\n"
-"PO-Revision-Date: 2022-04-22 12:34+0400\n"
-"Last-Translator: Kheyyam Gojayev <xxmn77@gmail.com>\n"
+"POT-Creation-Date: 2022-08-19 00:47+0000\n"
+"PO-Revision-Date: 2022-07-03 14:23+0400\n"
+"Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
 "Language: az\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 21.12.3\n"
+"X-Generator: Lokalize 22.04.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -219,6 +219,84 @@ msgstr "Faylı seçmək"
 msgid "KWin Rules (*.kwinrule)"
 msgstr "KWin qaydaları (*.kwinrule)"
 
+#: package/contents/ui/main.qml:59
+#, kde-format
+msgid "No rules for specific windows are currently set"
+msgstr "Hal-hazırda xüsusi pəncərələr üçün qaydalar təyin edilməyib"
+
+#: package/contents/ui/main.qml:60
+#, kde-kuit-format
+msgctxt "@info"
+msgid "Click the <interface>Add New...</interface> button below to add some"
+msgstr ""
+"Bəzilərini əlavə etmək üçün aşağıdakı <interface>Yenisini əlavə edin...</"
+"interface> düyməsinə vurun"
+
+#: package/contents/ui/main.qml:68
+#, kde-format
+msgid "Select the rules to export"
+msgstr "İxrac etmək üçün qaydaları seçmək"
+
+#: package/contents/ui/main.qml:72
+#, kde-format
+msgid "Unselect All"
+msgstr "Bütün seçimləri ləğv etmək"
+
+#: package/contents/ui/main.qml:72
+#, kde-format
+msgid "Select All"
+msgstr "Hamısını seçmək"
+
+#: package/contents/ui/main.qml:86
+#, kde-format
+msgid "Save Rules"
+msgstr "Qaydaları saxlamaq"
+
+#: package/contents/ui/main.qml:97
+#, kde-format
+msgid "Add New..."
+msgstr "Yenisini əlavə etmək..."
+
+#: package/contents/ui/main.qml:108
+#, kde-format
+msgid "Import..."
+msgstr "İdxal..."
+
+#: package/contents/ui/main.qml:116
+#, kde-format
+msgid "Cancel Export"
+msgstr "İxracı dayandırmaq..."
+
+#: package/contents/ui/main.qml:116
+#, kde-format
+msgid "Export..."
+msgstr "İxrac..."
+
+#: package/contents/ui/main.qml:206
+#, kde-format
+msgid "Edit"
+msgstr "Düzəliş etmək"
+
+#: package/contents/ui/main.qml:215
+#, kde-format
+msgid "Duplicate"
+msgstr "Təkrarı"
+
+#: package/contents/ui/main.qml:224
+#, kde-format
+msgid "Delete"
+msgstr "Silmək"
+
+#: package/contents/ui/main.qml:237
+#, kde-format
+msgid "Import Rules"
+msgstr "Qaydaları idxal etmək"
+
+#: package/contents/ui/main.qml:249
+#, kde-format
+msgid "Export Rules"
+msgstr "Qaydaları ixrac etmək"
+
 #: package/contents/ui/OptionsComboBox.qml:35
 #, kde-format
 msgid "None selected"
@@ -290,114 +368,36 @@ msgstr "Xəta"
 msgid "Add property to the rule"
 msgstr "Xüsusiyyətləri qaydaya əlaə etmək"
 
-#: package/contents/ui/RulesEditor.qml:259
+#: package/contents/ui/RulesEditor.qml:260
 #: package/contents/ui/ValueEditor.qml:54
 #, kde-format
 msgid "Yes"
 msgstr "Bəli"
 
-#: package/contents/ui/RulesEditor.qml:259
+#: package/contents/ui/RulesEditor.qml:260
 #: package/contents/ui/ValueEditor.qml:60
 #, kde-format
 msgid "No"
 msgstr "1"
 
-#: package/contents/ui/RulesEditor.qml:261
+#: package/contents/ui/RulesEditor.qml:262
 #: package/contents/ui/ValueEditor.qml:171
 #: package/contents/ui/ValueEditor.qml:178
 #, kde-format
 msgid "%1 %"
 msgstr "%1 %"
 
-#: package/contents/ui/RulesEditor.qml:263
+#: package/contents/ui/RulesEditor.qml:264
 #, kde-format
 msgctxt "Coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr "(%1, %2)"
 
-#: package/contents/ui/RulesEditor.qml:265
+#: package/contents/ui/RulesEditor.qml:266
 #, kde-format
 msgctxt "Size (width, height)"
 msgid "(%1, %2)"
 msgstr "(%1, %2)"
-
-#: package/contents/ui/RulesList.qml:59
-#, kde-format
-msgid "No rules for specific windows are currently set"
-msgstr "Hal-hazırda xüsusi pəncərələr üçün qaydalar təyin edilməyib"
-
-#: package/contents/ui/RulesList.qml:60
-#, kde-kuit-format
-msgctxt "@info"
-msgid "Click the <interface>Add New...</interface> button below to add some"
-msgstr ""
-"Bəzilərini əlavə etmək üçün aşağıdakı <interface>Yenisini əlavə edin...</"
-"interface> düyməsinə vurun"
-
-#: package/contents/ui/RulesList.qml:68
-#, kde-format
-msgid "Select the rules to export"
-msgstr "İxrac etmək üçün qaydaları seçmək"
-
-#: package/contents/ui/RulesList.qml:72
-#, kde-format
-msgid "Unselect All"
-msgstr "Bütün seçimləri ləğv etmək"
-
-#: package/contents/ui/RulesList.qml:72
-#, kde-format
-msgid "Select All"
-msgstr "Hamısını seçmək"
-
-#: package/contents/ui/RulesList.qml:86
-#, kde-format
-msgid "Save Rules"
-msgstr "Qaydaları saxlamaq"
-
-#: package/contents/ui/RulesList.qml:97
-#, kde-format
-msgid "Add New..."
-msgstr "Yenisini əlavə etmək..."
-
-#: package/contents/ui/RulesList.qml:108
-#, kde-format
-msgid "Import..."
-msgstr "İdxal..."
-
-#: package/contents/ui/RulesList.qml:116
-#, kde-format
-msgid "Cancel Export"
-msgstr "İxracı dayandırmaq..."
-
-#: package/contents/ui/RulesList.qml:116
-#, kde-format
-msgid "Export..."
-msgstr "İxrac..."
-
-#: package/contents/ui/RulesList.qml:206
-#, kde-format
-msgid "Edit"
-msgstr "Düzəliş etmək"
-
-#: package/contents/ui/RulesList.qml:215
-#, kde-format
-msgid "Duplicate"
-msgstr "Təkrarı"
-
-#: package/contents/ui/RulesList.qml:224
-#, kde-format
-msgid "Delete"
-msgstr "Silmək"
-
-#: package/contents/ui/RulesList.qml:237
-#, kde-format
-msgid "Import Rules"
-msgstr "Qaydaları idxal etmək"
-
-#: package/contents/ui/RulesList.qml:249
-#, kde-format
-msgid "Export Rules"
-msgstr "Qaydaları ixrac etmək"
 
 #: package/contents/ui/ValueEditor.qml:206
 #, kde-format
@@ -517,7 +517,7 @@ msgstr "Şaquli tam açmaq"
 #: rulesmodel.cpp:438
 #, kde-format
 msgid "Virtual Desktop"
-msgstr "Virtual İş Masası"
+msgstr "Virtual İş masası"
 
 #: rulesmodel.cpp:444
 #, kde-format
@@ -634,7 +634,7 @@ msgstr "Pəncərə tapşırıq panelində görünəcək/görünməyəcək."
 #: rulesmodel.cpp:553
 #, kde-format
 msgid "Skip pager"
-msgstr "İş Masası dəyişdiricisində göstərməmək"
+msgstr "İş masası dəyişdiricisində göstərməmək"
 
 #: rulesmodel.cpp:555
 #, kde-format
@@ -834,7 +834,7 @@ msgstr "Açılış ekranı"
 #: rulesmodel.cpp:735
 #, kde-format
 msgid "Desktop"
-msgstr "İş Masası"
+msgstr "İş masası"
 
 #. i18n("Unmanaged Window")},  deprecated
 #: rulesmodel.cpp:737
@@ -861,7 +861,7 @@ msgstr "Pəncərələri bütün iş masalarında əlçatan edin"
 #: rulesmodel.cpp:769
 #, kde-format
 msgid "All Activities"
-msgstr "Bütün İş Otaqları"
+msgstr "Bütün İş otaqları"
 
 #: rulesmodel.cpp:771
 #, kde-format

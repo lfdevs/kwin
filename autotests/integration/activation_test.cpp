@@ -9,9 +9,9 @@
 
 #include "kwin_wayland_test.h"
 
+#include "core/output.h"
+#include "core/platform.h"
 #include "cursor.h"
-#include "output.h"
-#include "platform.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
@@ -49,18 +49,16 @@ void ActivationTest::initTestCase()
     qRegisterMetaType<Window *>();
 
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    QVERIFY(applicationStartedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
     QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
-    const auto outputs = kwinApp()->platform()->enabledOutputs();
+    const auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
     QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
     QCOMPARE(outputs[1]->geometry(), QRect(1280, 0, 1280, 1024));
-    Test::initWaylandWorkspace();
 }
 
 void ActivationTest::init()
@@ -88,15 +86,15 @@ void ActivationTest::testSwitchToWindowToLeft()
     stackScreensHorizontally();
 
     // Create several windows on the left screen.
-    QScopedPointer<KWayland::Client::Surface> surface1(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface1(Test::createXdgToplevelSurface(surface1.data()));
-    Window *window1 = Test::renderAndWaitForShown(surface1.data(), QSize(100, 50), Qt::blue);
+    std::unique_ptr<KWayland::Client::Surface> surface1(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface1(Test::createXdgToplevelSurface(surface1.get()));
+    Window *window1 = Test::renderAndWaitForShown(surface1.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window1);
     QVERIFY(window1->isActive());
 
-    QScopedPointer<KWayland::Client::Surface> surface2(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface2(Test::createXdgToplevelSurface(surface2.data()));
-    Window *window2 = Test::renderAndWaitForShown(surface2.data(), QSize(100, 50), Qt::blue);
+    std::unique_ptr<KWayland::Client::Surface> surface2(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface2(Test::createXdgToplevelSurface(surface2.get()));
+    Window *window2 = Test::renderAndWaitForShown(surface2.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window2);
     QVERIFY(window2->isActive());
 
@@ -104,15 +102,15 @@ void ActivationTest::testSwitchToWindowToLeft()
     window2->move(QPoint(500, 200));
 
     // Create several windows on the right screen.
-    QScopedPointer<KWayland::Client::Surface> surface3(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface3(Test::createXdgToplevelSurface(surface3.data()));
-    Window *window3 = Test::renderAndWaitForShown(surface3.data(), QSize(100, 50), Qt::blue);
+    std::unique_ptr<KWayland::Client::Surface> surface3(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface3(Test::createXdgToplevelSurface(surface3.get()));
+    Window *window3 = Test::renderAndWaitForShown(surface3.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window3);
     QVERIFY(window3->isActive());
 
-    QScopedPointer<KWayland::Client::Surface> surface4(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface4(Test::createXdgToplevelSurface(surface4.data()));
-    Window *window4 = Test::renderAndWaitForShown(surface4.data(), QSize(100, 50), Qt::blue);
+    std::unique_ptr<KWayland::Client::Surface> surface4(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface4(Test::createXdgToplevelSurface(surface4.get()));
+    Window *window4 = Test::renderAndWaitForShown(surface4.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window4);
     QVERIFY(window4->isActive());
 
@@ -156,15 +154,15 @@ void ActivationTest::testSwitchToWindowToRight()
     stackScreensHorizontally();
 
     // Create several windows on the left screen.
-    QScopedPointer<KWayland::Client::Surface> surface1(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface1(Test::createXdgToplevelSurface(surface1.data()));
-    Window *window1 = Test::renderAndWaitForShown(surface1.data(), QSize(100, 50), Qt::blue);
+    std::unique_ptr<KWayland::Client::Surface> surface1(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface1(Test::createXdgToplevelSurface(surface1.get()));
+    Window *window1 = Test::renderAndWaitForShown(surface1.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window1);
     QVERIFY(window1->isActive());
 
-    QScopedPointer<KWayland::Client::Surface> surface2(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface2(Test::createXdgToplevelSurface(surface2.data()));
-    Window *window2 = Test::renderAndWaitForShown(surface2.data(), QSize(100, 50), Qt::blue);
+    std::unique_ptr<KWayland::Client::Surface> surface2(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface2(Test::createXdgToplevelSurface(surface2.get()));
+    Window *window2 = Test::renderAndWaitForShown(surface2.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window2);
     QVERIFY(window2->isActive());
 
@@ -172,15 +170,15 @@ void ActivationTest::testSwitchToWindowToRight()
     window2->move(QPoint(500, 200));
 
     // Create several windows on the right screen.
-    QScopedPointer<KWayland::Client::Surface> surface3(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface3(Test::createXdgToplevelSurface(surface3.data()));
-    Window *window3 = Test::renderAndWaitForShown(surface3.data(), QSize(100, 50), Qt::blue);
+    std::unique_ptr<KWayland::Client::Surface> surface3(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface3(Test::createXdgToplevelSurface(surface3.get()));
+    Window *window3 = Test::renderAndWaitForShown(surface3.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window3);
     QVERIFY(window3->isActive());
 
-    QScopedPointer<KWayland::Client::Surface> surface4(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface4(Test::createXdgToplevelSurface(surface4.data()));
-    Window *window4 = Test::renderAndWaitForShown(surface4.data(), QSize(100, 50), Qt::blue);
+    std::unique_ptr<KWayland::Client::Surface> surface4(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface4(Test::createXdgToplevelSurface(surface4.get()));
+    Window *window4 = Test::renderAndWaitForShown(surface4.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window4);
     QVERIFY(window4->isActive());
 
@@ -224,15 +222,15 @@ void ActivationTest::testSwitchToWindowAbove()
     stackScreensVertically();
 
     // Create several windows on the top screen.
-    QScopedPointer<KWayland::Client::Surface> surface1(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface1(Test::createXdgToplevelSurface(surface1.data()));
-    Window *window1 = Test::renderAndWaitForShown(surface1.data(), QSize(100, 50), Qt::blue);
+    std::unique_ptr<KWayland::Client::Surface> surface1(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface1(Test::createXdgToplevelSurface(surface1.get()));
+    Window *window1 = Test::renderAndWaitForShown(surface1.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window1);
     QVERIFY(window1->isActive());
 
-    QScopedPointer<KWayland::Client::Surface> surface2(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface2(Test::createXdgToplevelSurface(surface2.data()));
-    Window *window2 = Test::renderAndWaitForShown(surface2.data(), QSize(100, 50), Qt::blue);
+    std::unique_ptr<KWayland::Client::Surface> surface2(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface2(Test::createXdgToplevelSurface(surface2.get()));
+    Window *window2 = Test::renderAndWaitForShown(surface2.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window2);
     QVERIFY(window2->isActive());
 
@@ -240,15 +238,15 @@ void ActivationTest::testSwitchToWindowAbove()
     window2->move(QPoint(200, 500));
 
     // Create several windows on the bottom screen.
-    QScopedPointer<KWayland::Client::Surface> surface3(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface3(Test::createXdgToplevelSurface(surface3.data()));
-    Window *window3 = Test::renderAndWaitForShown(surface3.data(), QSize(100, 50), Qt::blue);
+    std::unique_ptr<KWayland::Client::Surface> surface3(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface3(Test::createXdgToplevelSurface(surface3.get()));
+    Window *window3 = Test::renderAndWaitForShown(surface3.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window3);
     QVERIFY(window3->isActive());
 
-    QScopedPointer<KWayland::Client::Surface> surface4(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface4(Test::createXdgToplevelSurface(surface4.data()));
-    Window *window4 = Test::renderAndWaitForShown(surface4.data(), QSize(100, 50), Qt::blue);
+    std::unique_ptr<KWayland::Client::Surface> surface4(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface4(Test::createXdgToplevelSurface(surface4.get()));
+    Window *window4 = Test::renderAndWaitForShown(surface4.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window4);
     QVERIFY(window4->isActive());
 
@@ -292,15 +290,15 @@ void ActivationTest::testSwitchToWindowBelow()
     stackScreensVertically();
 
     // Create several windows on the top screen.
-    QScopedPointer<KWayland::Client::Surface> surface1(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface1(Test::createXdgToplevelSurface(surface1.data()));
-    Window *window1 = Test::renderAndWaitForShown(surface1.data(), QSize(100, 50), Qt::blue);
+    std::unique_ptr<KWayland::Client::Surface> surface1(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface1(Test::createXdgToplevelSurface(surface1.get()));
+    Window *window1 = Test::renderAndWaitForShown(surface1.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window1);
     QVERIFY(window1->isActive());
 
-    QScopedPointer<KWayland::Client::Surface> surface2(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface2(Test::createXdgToplevelSurface(surface2.data()));
-    Window *window2 = Test::renderAndWaitForShown(surface2.data(), QSize(100, 50), Qt::blue);
+    std::unique_ptr<KWayland::Client::Surface> surface2(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface2(Test::createXdgToplevelSurface(surface2.get()));
+    Window *window2 = Test::renderAndWaitForShown(surface2.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window2);
     QVERIFY(window2->isActive());
 
@@ -308,15 +306,15 @@ void ActivationTest::testSwitchToWindowBelow()
     window2->move(QPoint(200, 500));
 
     // Create several windows on the bottom screen.
-    QScopedPointer<KWayland::Client::Surface> surface3(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface3(Test::createXdgToplevelSurface(surface3.data()));
-    Window *window3 = Test::renderAndWaitForShown(surface3.data(), QSize(100, 50), Qt::blue);
+    std::unique_ptr<KWayland::Client::Surface> surface3(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface3(Test::createXdgToplevelSurface(surface3.get()));
+    Window *window3 = Test::renderAndWaitForShown(surface3.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window3);
     QVERIFY(window3->isActive());
 
-    QScopedPointer<KWayland::Client::Surface> surface4(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface4(Test::createXdgToplevelSurface(surface4.data()));
-    Window *window4 = Test::renderAndWaitForShown(surface4.data(), QSize(100, 50), Qt::blue);
+    std::unique_ptr<KWayland::Client::Surface> surface4(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface4(Test::createXdgToplevelSurface(surface4.get()));
+    Window *window4 = Test::renderAndWaitForShown(surface4.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window4);
     QVERIFY(window4->isActive());
 
@@ -361,36 +359,34 @@ void ActivationTest::testSwitchToWindowMaximized()
     stackScreensHorizontally();
 
     // Create several maximized windows on the left screen.
-    QScopedPointer<KWayland::Client::Surface> surface1(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface1(Test::createXdgToplevelSurface(surface1.data()));
-    QSignalSpy toplevelConfigureRequestedSpy1(shellSurface1.data(), &Test::XdgToplevel::configureRequested);
+    std::unique_ptr<KWayland::Client::Surface> surface1(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface1(Test::createXdgToplevelSurface(surface1.get()));
+    QSignalSpy toplevelConfigureRequestedSpy1(shellSurface1.get(), &Test::XdgToplevel::configureRequested);
     QSignalSpy surfaceConfigureRequestedSpy1(shellSurface1->xdgSurface(), &Test::XdgSurface::configureRequested);
-    Window *window1 = Test::renderAndWaitForShown(surface1.data(), QSize(100, 50), Qt::blue);
+    Window *window1 = Test::renderAndWaitForShown(surface1.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window1);
     QVERIFY(window1->isActive());
     QVERIFY(surfaceConfigureRequestedSpy1.wait()); // Wait for the configure event with the activated state.
     workspace()->slotWindowMaximize();
     QVERIFY(surfaceConfigureRequestedSpy1.wait());
     QSignalSpy frameGeometryChangedSpy1(window1, &Window::frameGeometryChanged);
-    QVERIFY(frameGeometryChangedSpy1.isValid());
     shellSurface1->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy1.last().at(0).value<quint32>());
-    Test::render(surface1.data(), toplevelConfigureRequestedSpy1.last().at(0).toSize(), Qt::red);
+    Test::render(surface1.get(), toplevelConfigureRequestedSpy1.last().at(0).toSize(), Qt::red);
     QVERIFY(frameGeometryChangedSpy1.wait());
 
-    QScopedPointer<KWayland::Client::Surface> surface2(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface2(Test::createXdgToplevelSurface(surface2.data()));
-    QSignalSpy toplevelConfigureRequestedSpy2(shellSurface2.data(), &Test::XdgToplevel::configureRequested);
+    std::unique_ptr<KWayland::Client::Surface> surface2(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface2(Test::createXdgToplevelSurface(surface2.get()));
+    QSignalSpy toplevelConfigureRequestedSpy2(shellSurface2.get(), &Test::XdgToplevel::configureRequested);
     QSignalSpy surfaceConfigureRequestedSpy2(shellSurface2->xdgSurface(), &Test::XdgSurface::configureRequested);
-    Window *window2 = Test::renderAndWaitForShown(surface2.data(), QSize(100, 50), Qt::blue);
+    Window *window2 = Test::renderAndWaitForShown(surface2.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window2);
     QVERIFY(window2->isActive());
     QVERIFY(surfaceConfigureRequestedSpy2.wait()); // Wait for the configure event with the activated state.
     workspace()->slotWindowMaximize();
     QVERIFY(surfaceConfigureRequestedSpy2.wait());
     QSignalSpy frameGeometryChangedSpy2(window2, &Window::frameGeometryChanged);
-    QVERIFY(frameGeometryChangedSpy2.isValid());
     shellSurface2->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy2.last().at(0).value<quint32>());
-    Test::render(surface2.data(), toplevelConfigureRequestedSpy2.last().at(0).toSize(), Qt::red);
+    Test::render(surface2.get(), toplevelConfigureRequestedSpy2.last().at(0).toSize(), Qt::red);
     QVERIFY(frameGeometryChangedSpy2.wait());
 
     const QList<Window *> stackingOrder = workspace()->stackingOrder();
@@ -399,15 +395,15 @@ void ActivationTest::testSwitchToWindowMaximized()
     QCOMPARE(window2->maximizeMode(), MaximizeFull);
 
     // Create several windows on the right screen.
-    QScopedPointer<KWayland::Client::Surface> surface3(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface3(Test::createXdgToplevelSurface(surface3.data()));
-    Window *window3 = Test::renderAndWaitForShown(surface3.data(), QSize(100, 50), Qt::blue);
+    std::unique_ptr<KWayland::Client::Surface> surface3(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface3(Test::createXdgToplevelSurface(surface3.get()));
+    Window *window3 = Test::renderAndWaitForShown(surface3.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window3);
     QVERIFY(window3->isActive());
 
-    QScopedPointer<KWayland::Client::Surface> surface4(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface4(Test::createXdgToplevelSurface(surface4.data()));
-    Window *window4 = Test::renderAndWaitForShown(surface4.data(), QSize(100, 50), Qt::blue);
+    std::unique_ptr<KWayland::Client::Surface> surface4(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface4(Test::createXdgToplevelSurface(surface4.get()));
+    Window *window4 = Test::renderAndWaitForShown(surface4.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window4);
     QVERIFY(window4->isActive());
 
@@ -448,36 +444,34 @@ void ActivationTest::testSwitchToWindowFullScreen()
     stackScreensVertically();
 
     // Create several maximized windows on the top screen.
-    QScopedPointer<KWayland::Client::Surface> surface1(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface1(Test::createXdgToplevelSurface(surface1.data()));
-    QSignalSpy toplevelConfigureRequestedSpy1(shellSurface1.data(), &Test::XdgToplevel::configureRequested);
+    std::unique_ptr<KWayland::Client::Surface> surface1(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface1(Test::createXdgToplevelSurface(surface1.get()));
+    QSignalSpy toplevelConfigureRequestedSpy1(shellSurface1.get(), &Test::XdgToplevel::configureRequested);
     QSignalSpy surfaceConfigureRequestedSpy1(shellSurface1->xdgSurface(), &Test::XdgSurface::configureRequested);
-    Window *window1 = Test::renderAndWaitForShown(surface1.data(), QSize(100, 50), Qt::blue);
+    Window *window1 = Test::renderAndWaitForShown(surface1.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window1);
     QVERIFY(window1->isActive());
     QVERIFY(surfaceConfigureRequestedSpy1.wait()); // Wait for the configure event with the activated state.
     workspace()->slotWindowFullScreen();
     QVERIFY(surfaceConfigureRequestedSpy1.wait());
     QSignalSpy frameGeometryChangedSpy1(window1, &Window::frameGeometryChanged);
-    QVERIFY(frameGeometryChangedSpy1.isValid());
     shellSurface1->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy1.last().at(0).value<quint32>());
-    Test::render(surface1.data(), toplevelConfigureRequestedSpy1.last().at(0).toSize(), Qt::red);
+    Test::render(surface1.get(), toplevelConfigureRequestedSpy1.last().at(0).toSize(), Qt::red);
     QVERIFY(frameGeometryChangedSpy1.wait());
 
-    QScopedPointer<KWayland::Client::Surface> surface2(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface2(Test::createXdgToplevelSurface(surface2.data()));
-    QSignalSpy toplevelConfigureRequestedSpy2(shellSurface2.data(), &Test::XdgToplevel::configureRequested);
+    std::unique_ptr<KWayland::Client::Surface> surface2(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface2(Test::createXdgToplevelSurface(surface2.get()));
+    QSignalSpy toplevelConfigureRequestedSpy2(shellSurface2.get(), &Test::XdgToplevel::configureRequested);
     QSignalSpy surfaceConfigureRequestedSpy2(shellSurface2->xdgSurface(), &Test::XdgSurface::configureRequested);
-    Window *window2 = Test::renderAndWaitForShown(surface2.data(), QSize(100, 50), Qt::blue);
+    Window *window2 = Test::renderAndWaitForShown(surface2.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window2);
     QVERIFY(window2->isActive());
     QVERIFY(surfaceConfigureRequestedSpy2.wait()); // Wait for the configure event with the activated state.
     workspace()->slotWindowFullScreen();
     QVERIFY(surfaceConfigureRequestedSpy2.wait());
     QSignalSpy frameGeometryChangedSpy2(window2, &Window::frameGeometryChanged);
-    QVERIFY(frameGeometryChangedSpy2.isValid());
     shellSurface2->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy2.last().at(0).value<quint32>());
-    Test::render(surface2.data(), toplevelConfigureRequestedSpy2.last().at(0).toSize(), Qt::red);
+    Test::render(surface2.get(), toplevelConfigureRequestedSpy2.last().at(0).toSize(), Qt::red);
     QVERIFY(frameGeometryChangedSpy2.wait());
 
     const QList<Window *> stackingOrder = workspace()->stackingOrder();
@@ -486,15 +480,15 @@ void ActivationTest::testSwitchToWindowFullScreen()
     QVERIFY(window2->isFullScreen());
 
     // Create several windows on the bottom screen.
-    QScopedPointer<KWayland::Client::Surface> surface3(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface3(Test::createXdgToplevelSurface(surface3.data()));
-    Window *window3 = Test::renderAndWaitForShown(surface3.data(), QSize(100, 50), Qt::blue);
+    std::unique_ptr<KWayland::Client::Surface> surface3(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface3(Test::createXdgToplevelSurface(surface3.get()));
+    Window *window3 = Test::renderAndWaitForShown(surface3.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window3);
     QVERIFY(window3->isActive());
 
-    QScopedPointer<KWayland::Client::Surface> surface4(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface4(Test::createXdgToplevelSurface(surface4.data()));
-    Window *window4 = Test::renderAndWaitForShown(surface4.data(), QSize(100, 50), Qt::blue);
+    std::unique_ptr<KWayland::Client::Surface> surface4(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface4(Test::createXdgToplevelSurface(surface4.get()));
+    Window *window4 = Test::renderAndWaitForShown(surface4.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window4);
     QVERIFY(window4->isActive());
 

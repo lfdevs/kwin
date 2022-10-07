@@ -8,7 +8,7 @@
 */
 #include "kwin_wayland_test.h"
 
-#include "platform.h"
+#include "core/platform.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
@@ -37,13 +37,11 @@ void ShowingDesktopTest::initTestCase()
 {
     qRegisterMetaType<KWin::Window *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    QVERIFY(applicationStartedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
-    Test::initWaylandWorkspace();
 }
 
 void ShowingDesktopTest::init()
@@ -58,12 +56,12 @@ void ShowingDesktopTest::cleanup()
 
 void ShowingDesktopTest::testRestoreFocus()
 {
-    QScopedPointer<KWayland::Client::Surface> surface1(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface1(Test::createXdgToplevelSurface(surface1.data()));
-    auto window1 = Test::renderAndWaitForShown(surface1.data(), QSize(100, 50), Qt::blue);
-    QScopedPointer<KWayland::Client::Surface> surface2(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface2(Test::createXdgToplevelSurface(surface2.data()));
-    auto window2 = Test::renderAndWaitForShown(surface2.data(), QSize(100, 50), Qt::blue);
+    std::unique_ptr<KWayland::Client::Surface> surface1(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface1(Test::createXdgToplevelSurface(surface1.get()));
+    auto window1 = Test::renderAndWaitForShown(surface1.get(), QSize(100, 50), Qt::blue);
+    std::unique_ptr<KWayland::Client::Surface> surface2(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface2(Test::createXdgToplevelSurface(surface2.get()));
+    auto window2 = Test::renderAndWaitForShown(surface2.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window1 != window2);
 
     QCOMPARE(workspace()->activeWindow(), window2);
@@ -80,25 +78,25 @@ void ShowingDesktopTest::testRestoreFocusWithDesktopWindow()
 {
     // first create a desktop window
 
-    QScopedPointer<KWayland::Client::Surface> desktopSurface(Test::createSurface());
-    QVERIFY(!desktopSurface.isNull());
-    QScopedPointer<Test::XdgToplevel> desktopShellSurface(Test::createXdgToplevelSurface(desktopSurface.data()));
-    QVERIFY(!desktopSurface.isNull());
-    QScopedPointer<PlasmaShellSurface> plasmaSurface(Test::waylandPlasmaShell()->createSurface(desktopSurface.data()));
-    QVERIFY(!plasmaSurface.isNull());
+    std::unique_ptr<KWayland::Client::Surface> desktopSurface(Test::createSurface());
+    QVERIFY(desktopSurface != nullptr);
+    std::unique_ptr<Test::XdgToplevel> desktopShellSurface(Test::createXdgToplevelSurface(desktopSurface.get()));
+    QVERIFY(desktopSurface != nullptr);
+    std::unique_ptr<PlasmaShellSurface> plasmaSurface(Test::waylandPlasmaShell()->createSurface(desktopSurface.get()));
+    QVERIFY(plasmaSurface != nullptr);
     plasmaSurface->setRole(PlasmaShellSurface::Role::Desktop);
 
-    auto desktop = Test::renderAndWaitForShown(desktopSurface.data(), QSize(100, 50), Qt::blue);
+    auto desktop = Test::renderAndWaitForShown(desktopSurface.get(), QSize(100, 50), Qt::blue);
     QVERIFY(desktop);
     QVERIFY(desktop->isDesktop());
 
     // now create some windows
-    QScopedPointer<KWayland::Client::Surface> surface1(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface1(Test::createXdgToplevelSurface(surface1.data()));
-    auto window1 = Test::renderAndWaitForShown(surface1.data(), QSize(100, 50), Qt::blue);
-    QScopedPointer<KWayland::Client::Surface> surface2(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface2(Test::createXdgToplevelSurface(surface2.data()));
-    auto window2 = Test::renderAndWaitForShown(surface2.data(), QSize(100, 50), Qt::blue);
+    std::unique_ptr<KWayland::Client::Surface> surface1(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface1(Test::createXdgToplevelSurface(surface1.get()));
+    auto window1 = Test::renderAndWaitForShown(surface1.get(), QSize(100, 50), Qt::blue);
+    std::unique_ptr<KWayland::Client::Surface> surface2(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface2(Test::createXdgToplevelSurface(surface2.get()));
+    auto window2 = Test::renderAndWaitForShown(surface2.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window1 != window2);
 
     QCOMPARE(workspace()->activeWindow(), window2);

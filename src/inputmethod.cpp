@@ -13,7 +13,6 @@
 #include "input.h"
 #include "inputpanelv1window.h"
 #include "keyboard_input.h"
-#include "screens.h"
 #include "utils/common.h"
 #include "virtualkeyboard_dbus.h"
 #include "wayland_server.h"
@@ -34,6 +33,7 @@
 
 #include <KLocalizedString>
 #include <KShell>
+#include <KKeyServer>
 
 #include <QDBusConnection>
 #include <QDBusMessage>
@@ -50,10 +50,35 @@ using namespace KWaylandServer;
 namespace KWin
 {
 
-KWIN_SINGLETON_FACTORY(InputMethod)
+static std::vector<quint32> textToKey(const QString &text)
+{
+    if (text.isEmpty()) {
+        return {};
+    }
 
-InputMethod::InputMethod(QObject *parent)
-    : QObject(parent)
+    auto sequence = QKeySequence::fromString(text);
+    if (sequence.isEmpty()) {
+        return {};
+    }
+
+    int sym;
+    if (!KKeyServer::keyQtToSymX(sequence[0], &sym)) {
+        return {};
+    }
+
+    auto keyCode = KWin::input()->keyboard()->xkb()->keycodeFromKeysym(sym);
+    if (!keyCode) {
+        return {};
+    }
+
+    if (text.isUpper()) {
+        return {KEY_LEFTSHIFT, quint32(keyCode.value())};
+    }
+
+    return {quint32(keyCode.value())};
+}
+
+InputMethod::InputMethod()
 {
     m_enabled = kwinApp()->config()->group("Wayland").readEntry("VirtualKeyboardEnabled", true);
     // this is actually too late. Other processes are started before init,
@@ -69,7 +94,6 @@ InputMethod::InputMethod(QObject *parent)
 InputMethod::~InputMethod()
 {
     stopInputMethod();
-    s_self = nullptr;
 }
 
 void InputMethod::init()
@@ -81,7 +105,7 @@ void InputMethod::init()
         m_inputMethodCrashes = 0;
     });
 #if KWIN_BUILD_SCREENLOCKER
-    connect(ScreenLockerWatcher::self(), &ScreenLockerWatcher::aboutToLock, this, &InputMethod::hide);
+    connect(kwinApp()->screenLockerWatcher(), &ScreenLockerWatcher::aboutToLock, this, &InputMethod::hide);
 #endif
 
     new VirtualKeyboardDBus(this);
@@ -131,7 +155,8 @@ void InputMethod::hide()
 
 bool InputMethod::shouldShowOnActive() const
 {
-    return input()->touch() == input()->lastInputHandler()
+    static bool alwaysShowIm = qEnvironmentVariableIntValue("KWIN_IM_SHOW_ALWAYS") != 0;
+    return alwaysShowIm || input()->touch() == input()->lastInputHandler()
         || input()->tablet() == input()->lastInputHandler();
 }
 
@@ -211,10 +236,20 @@ void InputMethod::setTrackedWindow(Window *trackedWindow)
 
 void InputMethod::handleFocusedSurfaceChanged()
 {
-    SurfaceInterface *focusedSurface = waylandServer()->seat()->focusedTextInputSurface();
+    auto seat = waylandServer()->seat();
+    SurfaceInterface *focusedSurface = seat->focusedTextInputSurface();
+
     setTrackedWindow(waylandServer()->findWindow(focusedSurface));
     if (!focusedSurface) {
         setActive(false);
+    }
+
+    const auto client = focusedSurface ? focusedSurface->client() : nullptr;
+    bool ret = seat->textInputV2()->clientSupportsTextInput(client)
+            || seat->textInputV3()->clientSupportsTextInput(client);
+    if (ret != m_activeClientSupportsTextInput) {
+        m_activeClientSupportsTextInput = ret;
+        Q_EMIT activeClientSupportsTextInputChanged();
     }
 }
 
@@ -388,17 +423,14 @@ void InputMethod::keysymReceived(quint32 serial, quint32 time, quint32 sym, bool
         }
         return;
     }
-    auto t3 = waylandServer()->seat()->textInputV3();
-    if (t3 && t3->isEnabled()) {
-        KWaylandServer::KeyboardKeyState state;
-        if (pressed) {
-            state = KWaylandServer::KeyboardKeyState::Pressed;
-        } else {
-            state = KWaylandServer::KeyboardKeyState::Released;
-        }
-        waylandServer()->seat()->notifyKeyboardKey(keysymToKeycode(sym), state);
-        return;
+
+    KWaylandServer::KeyboardKeyState state;
+    if (pressed) {
+        state = KWaylandServer::KeyboardKeyState::Pressed;
+    } else {
+        state = KWaylandServer::KeyboardKeyState::Released;
     }
+    waylandServer()->seat()->notifyKeyboardKey(keysymToKeycode(sym), state);
 }
 
 void InputMethod::commitString(qint32 serial, const QString &text)
@@ -413,7 +445,31 @@ void InputMethod::commitString(qint32 serial, const QString &text)
         t3->done();
         return;
     } else {
-        qCWarning(KWIN_VIRTUALKEYBOARD) << "We have nobody to commit to!!!";
+        // The application has no way of communicating with the input method.
+        // So instead, try to convert what we get from the input method into
+        // keycodes and send those as fake input to the client.
+        auto keys = textToKey(text);
+        if (keys.empty()) {
+            return;
+        }
+
+        // First, send all the extracted keys as pressed keys to the client.
+        for (const auto &key : keys) {
+            waylandServer()->seat()->notifyKeyboardKey(key, KWaylandServer::KeyboardKeyState::Pressed);
+        }
+
+        // Then, send key release for those keys in reverse.
+        for (auto itr = keys.rbegin(); itr != keys.rend(); ++itr) {
+            // Since we are faking key events, we do not have distinct press/release
+            // events. So instead, just queue the button release so it gets sent
+            // a few moments after the press.
+            auto key = *itr;
+            QMetaObject::invokeMethod(
+                this, [key]() {
+                    waylandServer()->seat()->notifyKeyboardKey(key, KWaylandServer::KeyboardKeyState::Released);
+                },
+                Qt::QueuedConnection);
+        }
     }
 }
 
@@ -583,12 +639,16 @@ void InputMethod::adoptInputMethodContext()
         inputContext->sendContentType(t2->contentHints(), t2->contentPurpose());
         connect(inputContext, &KWaylandServer::InputMethodContextV1Interface::language, this, &InputMethod::setLanguage);
         connect(inputContext, &KWaylandServer::InputMethodContextV1Interface::textDirection, this, &InputMethod::setTextDirection);
-    }
-
-    if (t3 && t3->isEnabled()) {
+    } else if (t3 && t3->isEnabled()) {
         inputContext->sendSurroundingText(t3->surroundingText(), t3->surroundingTextCursorPosition(), t3->surroundingTextSelectionAnchor());
         inputContext->sendContentType(t3->contentHints(), t3->contentPurpose());
+    } else {
+        // When we have neither text-input-v2 nor text-input-v3 we can only send
+        // fake key events, not more complex text. So ask the input method to
+        // only send basic characters without any pre-editing.
+        inputContext->sendContentType(KWaylandServer::TextInputContentHint::Latin, KWaylandServer::TextInputContentPurpose::Normal);
     }
+
     inputContext->sendCommitState(m_serial++);
 
     connect(inputContext, &KWaylandServer::InputMethodContextV1Interface::keysym, this, &InputMethod::keysymReceived, Qt::UniqueConnection);
@@ -620,17 +680,17 @@ void InputMethod::updateInputPanelState()
         m_panel->allow();
     }
 
-    QRect overlap = QRect(0, 0, 0, 0);
+    QRectF overlap = QRectF(0, 0, 0, 0);
     if (m_trackedWindow) {
         const bool bottomKeyboard = m_panel && m_panel->mode() != InputPanelV1Window::Overlay && m_panel->isShown();
-        m_trackedWindow->setVirtualKeyboardGeometry(bottomKeyboard ? m_panel->inputGeometry() : QRect());
+        m_trackedWindow->setVirtualKeyboardGeometry(bottomKeyboard ? m_panel->inputGeometry() : QRectF());
 
         if (m_panel && m_panel->mode() != InputPanelV1Window::Overlay) {
             overlap = m_trackedWindow->frameGeometry() & m_panel->inputGeometry();
             overlap.moveTo(m_trackedWindow->mapToLocal(overlap.topLeft()));
         }
     }
-    t->setInputPanelState(m_panel && m_panel->isShown(), overlap);
+    t->setInputPanelState(m_panel && m_panel->isShown(), overlap.toRect());
 }
 
 void InputMethod::setInputMethodCommand(const QString &command)
@@ -757,6 +817,17 @@ void InputMethod::resetPendingPreedit()
     preedit.text = QString();
     preedit.cursor = 0;
     preedit.highlightRanges.clear();
+}
+
+bool InputMethod::activeClientSupportsTextInput() const
+{
+    return m_activeClientSupportsTextInput;
+}
+
+void InputMethod::forceActivate()
+{
+    setActive(true);
+    show();
 }
 
 }

@@ -8,7 +8,7 @@
 */
 #include "kwin_wayland_test.h"
 
-#include "platform.h"
+#include "core/platform.h"
 #include "plugins/nightcolor/constants.h"
 #include "plugins/nightcolor/nightcolormanager.h"
 #include "wayland_server.h"
@@ -34,7 +34,6 @@ private Q_SLOTS:
 void NightColorTest::initTestCase()
 {
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    QVERIFY(applicationStartedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
     QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
@@ -43,7 +42,6 @@ void NightColorTest::initTestCase()
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
-    Test::initWaylandWorkspace();
 
     NightColorManager *manager = NightColorManager::self();
     QVERIFY(manager);

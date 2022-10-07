@@ -48,6 +48,7 @@ public:
         Force = 1,
     };
 
+    InputMethod();
     ~InputMethod() override;
 
     void init();
@@ -71,6 +72,8 @@ public:
     bool shouldShowOnActive() const;
 
     void forwardModifiers(ForwardModifiersForce force);
+    bool activeClientSupportsTextInput() const;
+    void forceActivate();
 
 Q_SIGNALS:
     void panelChanged();
@@ -78,6 +81,7 @@ Q_SIGNALS:
     void enabledChanged(bool enabled);
     void visibleChanged();
     void availableChanged();
+    void activeClientSupportsTextInputChanged();
 
 private Q_SLOTS:
     // textinput interface slots
@@ -133,8 +137,7 @@ private:
     QString m_inputMethodCommand;
 
     bool m_hasPendingModifiers = false;
-
-    KWIN_SINGLETON(InputMethod)
+    bool m_activeClientSupportsTextInput = false;
 };
 
 }

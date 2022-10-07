@@ -10,7 +10,7 @@
 # Pablo de Vicente <vicnte@oan.es>, 2003.
 # Pablo de Vicente <p.devicente@wanadoo.es>, 2004.
 # Juan Manuel Garcia Molina <juanma@superiodico.net>, 2005.
-# Eloy Cuadra <ecuadra@eloihr.net>, 2005, 2006, 2009, 2010, 2012, 2013, 2015, 2019, 2020, 2021, %Y.
+# Eloy Cuadra <ecuadra@eloihr.net>, 2005, 2006, 2009, 2010, 2012, 2013, 2015, 2019, 2020, 2021, 2022, %Y.
 # Pablo de Vicente <pablo.devicente@gmail.com>, 2006.
 # Enrique Matias Sanchez (aka Quique) <cronopios@gmail.com>, 2007.
 # Cristina Yenyxe González García <the.blue.valkyrie@gmail.com>, 2010.
@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-03-26 00:45+0000\n"
-"PO-Revision-Date: 2021-04-27 19:51+0200\n"
+"POT-Creation-Date: 2022-09-02 00:47+0000\n"
+"PO-Revision-Date: 2022-09-04 12:33+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -29,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "First-Translator: Boris Wesslowski <Boris@Wesslowski.com>\n"
-"X-Generator: Lokalize 21.04.0\n"
+"X-Generator: Lokalize 22.08.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -646,6 +646,50 @@ msgstr ""
 #, kde-format
 msgid "Hide utility windows for inactive applications"
 msgstr "Ocultar la ventana de utilidades para aplicaciones inactivas"
+
+#. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyLabel)
+#: advanced.ui:148
+#, kde-format
+msgid "Virtual Desktop behavior:"
+msgstr "Comportamiento del escritorio virtual:"
+
+#. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyDescriptionLabel)
+#: advanced.ui:158
+#, kde-format
+msgid "When activating a window on a different Virtual Desktop:"
+msgstr "Al activar una ventana en un escritorio virtual distinto:"
+
+#. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_ActivationDesktopPolicy)
+#: advanced.ui:165
+#, kde-format
+msgid ""
+"<html><head/><body><p>This setting controls what happens when an open window "
+"located on a Virtual Desktop other than the current one is activated. </"
+"p><p><span style=\" font-style:italic;\">Switch to that Virtual Desktop</"
+"span> will switch to the Virtual Desktop where the window is currently "
+"located. </p><p><span style=\" font-style:italic;\">Bring window to current "
+"Virtual Desktop</span> will cause the window to jump to the active Virtual "
+"Desktop. </p></body></html>"
+msgstr ""
+"<html><head/><body><p>Este ajuste controla lo que ocurre cuando se activa "
+"una ventana abierta en un escritorio virtual distinto del actual.</"
+"p><p><span style=\" font-style:italic;\">Cambiar a ese escritorio virtual</"
+"span> cambiará al escritorio virtual donde se encuentra situada la ventana.</"
+"p><p><span style=\" font-style:italic;\">Traer la ventana al escritorio "
+"virtual actual</span> hará que la ventana se mueva al escritorio virtual "
+"actual.</p></body></html>"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
+#: advanced.ui:169
+#, kde-format
+msgid "Switch to that Virtual Desktop"
+msgstr "Cambiar a ese escritorio virtual"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
+#: advanced.ui:174
+#, kde-format
+msgid "Bring window to current Virtual Desktop"
+msgstr "Traer la ventana al escritorio virtual actual"
 
 #. i18n: ectx: property (text), widget (QLabel, windowFocusPolicyLabel)
 #: focus.ui:22
@@ -1303,7 +1347,7 @@ msgstr ""
 msgid "Only when overlapping"
 msgstr "Solo cuando se solapen"
 
-#: windows.cpp:98
+#: windows.cpp:97
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
@@ -1313,7 +1357,7 @@ msgstr ""
 "clic sobre ellas. Este comportamiento es común a otros sistemas operativos y "
 "seguramente es el que desea."
 
-#: windows.cpp:102
+#: windows.cpp:101
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1328,7 +1372,7 @@ msgstr ""
 "la ventana que queda bajo el puntero del ratón es la candidata preferente. "
 "Es una variante inusual, pero posible de <em>Pulsar para enfocar</em>."
 
-#: windows.cpp:107
+#: windows.cpp:106
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1342,7 +1386,7 @@ msgstr ""
 "em> tiene lugar como siempre. Considérelo como <em>Pulsar para enfocar</em>, "
 "pero si tener que hacer clic."
 
-#: windows.cpp:111
+#: windows.cpp:110
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1356,7 +1400,7 @@ msgstr ""
 "ventana que queda bajo el puntero del ratón es la candidata preferente. "
 "Elija esta opción si quiere controlar el foco por donde pase el ratón."
 
-#: windows.cpp:116
+#: windows.cpp:115
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1372,7 +1416,7 @@ msgstr ""
 "probable que prefiera usar <em>El foco sigue al ratón (el ratón tiene "
 "prioridad</em> en su lugar."
 
-#: windows.cpp:120
+#: windows.cpp:119
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "

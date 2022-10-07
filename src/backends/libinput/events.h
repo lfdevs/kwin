@@ -38,7 +38,7 @@ public:
         return m_event;
     }
 
-    static Event *create(libinput_event *event);
+    static std::unique_ptr<Event> create(libinput_event *event);
 
 protected:
     Event(libinput_event *event, libinput_event_type type);
@@ -307,11 +307,7 @@ public:
         return state == LIBINPUT_TABLET_TOOL_PROXIMITY_STATE_IN;
     }
 
-    QPointF transformedPosition(const QSize &size) const
-    {
-        return {libinput_event_tablet_tool_get_x_transformed(m_tabletToolEvent, size.width()),
-                libinput_event_tablet_tool_get_y_transformed(m_tabletToolEvent, size.height())};
-    }
+    QPointF transformedPosition(const QSize &size) const;
 
     struct libinput_tablet_tool *tool()
     {
@@ -343,6 +339,11 @@ public:
         return libinput_event_tablet_tool_get_tool(m_tabletToolEvent);
     }
 
+    uint32_t time() const
+    {
+        return libinput_event_tablet_tool_get_time(m_tabletToolEvent);
+    }
+
 private:
     libinput_event_tablet_tool *m_tabletToolEvent;
 };
@@ -363,6 +364,10 @@ public:
     libinput_tablet_pad_ring_axis_source source() const
     {
         return libinput_event_tablet_pad_get_ring_source(m_tabletPadEvent);
+    }
+    uint32_t time() const
+    {
+        return libinput_event_tablet_pad_get_time(m_tabletPadEvent);
     }
 
 private:
@@ -386,6 +391,10 @@ public:
     {
         return libinput_event_tablet_pad_get_strip_source(m_tabletPadEvent);
     }
+    uint32_t time() const
+    {
+        return libinput_event_tablet_pad_get_time(m_tabletPadEvent);
+    }
 
 private:
     libinput_event_tablet_pad *m_tabletPadEvent;
@@ -404,6 +413,10 @@ public:
     {
         const auto state = libinput_event_tablet_pad_get_button_state(m_tabletPadEvent);
         return state == LIBINPUT_BUTTON_STATE_PRESSED;
+    }
+    uint32_t time() const
+    {
+        return libinput_event_tablet_pad_get_time(m_tabletPadEvent);
     }
 
 private:

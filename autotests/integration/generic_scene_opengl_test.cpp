@@ -8,10 +8,10 @@
 */
 #include "generic_scene_opengl_test.h"
 #include "composite.h"
+#include "core/platform.h"
+#include "core/renderbackend.h"
 #include "cursor.h"
 #include "effectloader.h"
-#include "platform.h"
-#include "renderbackend.h"
 #include "scene.h"
 #include "wayland_server.h"
 #include "window.h"
@@ -40,7 +40,6 @@ void GenericSceneOpenGLTest::initTestCase()
 {
     qRegisterMetaType<KWin::Window *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    QVERIFY(applicationStartedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
 
@@ -71,7 +70,6 @@ void GenericSceneOpenGLTest::testRestart()
 {
     // simple restart of the OpenGL compositor without any windows being shown
     QSignalSpy sceneCreatedSpy(KWin::Compositor::self(), &Compositor::sceneCreated);
-    QVERIFY(sceneCreatedSpy.isValid());
     KWin::Compositor::self()->reinitialize();
     if (sceneCreatedSpy.isEmpty()) {
         QVERIFY(sceneCreatedSpy.wait());

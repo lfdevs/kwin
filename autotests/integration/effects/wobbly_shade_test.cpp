@@ -9,11 +9,11 @@
 #include "kwin_wayland_test.h"
 
 #include "composite.h"
+#include "core/platform.h"
+#include "core/renderbackend.h"
 #include "cursor.h"
 #include "effectloader.h"
 #include "effects.h"
-#include "platform.h"
-#include "renderbackend.h"
 #include "wayland_server.h"
 #include "workspace.h"
 #include "x11window.h"
@@ -47,7 +47,6 @@ void WobblyWindowsShadeTest::initTestCase()
     qRegisterMetaType<KWin::Window *>();
     qRegisterMetaType<KWin::Effect *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    QVERIFY(applicationStartedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
 
@@ -87,7 +86,7 @@ void WobblyWindowsShadeTest::cleanup()
 
 struct XcbConnectionDeleter
 {
-    static inline void cleanup(xcb_connection_t *pointer)
+    void operator()(xcb_connection_t *pointer)
     {
         xcb_disconnect(pointer);
     }
@@ -100,11 +99,11 @@ void WobblyWindowsShadeTest::testShadeMove()
     QVERIFY(e->loadEffect(QStringLiteral("wobblywindows")));
     QVERIFY(e->isEffectLoaded(QStringLiteral("wobblywindows")));
 
-    QScopedPointer<xcb_connection_t, XcbConnectionDeleter> c(xcb_connect(nullptr, nullptr));
-    QVERIFY(!xcb_connection_has_error(c.data()));
+    std::unique_ptr<xcb_connection_t, XcbConnectionDeleter> c(xcb_connect(nullptr, nullptr));
+    QVERIFY(!xcb_connection_has_error(c.get()));
     const QRect windowGeometry(0, 0, 100, 200);
-    xcb_window_t windowId = xcb_generate_id(c.data());
-    xcb_create_window(c.data(), XCB_COPY_FROM_PARENT, windowId, rootWindow(),
+    xcb_window_t windowId = xcb_generate_id(c.get());
+    xcb_create_window(c.get(), XCB_COPY_FROM_PARENT, windowId, rootWindow(),
                       windowGeometry.x(),
                       windowGeometry.y(),
                       windowGeometry.width(),
@@ -114,13 +113,12 @@ void WobblyWindowsShadeTest::testShadeMove()
     memset(&hints, 0, sizeof(hints));
     xcb_icccm_size_hints_set_position(&hints, 1, windowGeometry.x(), windowGeometry.y());
     xcb_icccm_size_hints_set_size(&hints, 1, windowGeometry.width(), windowGeometry.height());
-    xcb_icccm_set_wm_normal_hints(c.data(), windowId, &hints);
-    xcb_map_window(c.data(), windowId);
-    xcb_flush(c.data());
+    xcb_icccm_set_wm_normal_hints(c.get(), windowId, &hints);
+    xcb_map_window(c.get(), windowId);
+    xcb_flush(c.get());
 
     // we should get a window for it
     QSignalSpy windowCreatedSpy(workspace(), &Workspace::windowAdded);
-    QVERIFY(windowCreatedSpy.isValid());
     QVERIFY(windowCreatedSpy.wait());
     X11Window *window = windowCreatedSpy.first().first().value<X11Window *>();
     QVERIFY(window);
@@ -131,7 +129,6 @@ void WobblyWindowsShadeTest::testShadeMove()
     QVERIFY(window->isActive());
 
     QSignalSpy windowShownSpy(window, &Window::windowShown);
-    QVERIFY(windowShownSpy.isValid());
     QVERIFY(windowShownSpy.wait());
 
     // now shade the window
@@ -139,7 +136,6 @@ void WobblyWindowsShadeTest::testShadeMove()
     QVERIFY(window->isShade());
 
     QSignalSpy windowStartUserMovedResizedSpy(e, &EffectsHandler::windowStartUserMovedResized);
-    QVERIFY(windowStartUserMovedResizedSpy.isValid());
 
     // begin move
     QVERIFY(workspace()->moveResizeWindow() == nullptr);

@@ -12,8 +12,8 @@
 
 #include "drm_buffer.h"
 #include "drm_gpu.h"
+#include "drm_logging.h"
 #include "drm_pointer.h"
-#include "logging.h"
 
 #include <drm_fourcc.h>
 
@@ -42,7 +42,7 @@ DrmPlane::DrmPlane(DrmGpu *gpu, uint32_t planeId)
 
 bool DrmPlane::init()
 {
-    DrmScopedPointer<drmModePlane> p(drmModeGetPlane(gpu()->fd(), id()));
+    DrmUniquePtr<drmModePlane> p(drmModeGetPlane(gpu()->fd(), id()));
 
     if (!p) {
         qCWarning(KWIN_DRM) << "Failed to get kernel plane" << id();
@@ -68,25 +68,9 @@ bool DrmPlane::init()
 
         // read formats from blob if available and if modifiers are supported, and from the plane object if not
         if (const auto formatProp = getProp(PropertyIndex::In_Formats); formatProp && formatProp->immutableBlob() && gpu()->addFB2ModifiersSupported()) {
-            auto blob = static_cast<drm_format_modifier_blob *>(formatProp->immutableBlob()->data);
-            auto modifiers = reinterpret_cast<drm_format_modifier *>(reinterpret_cast<uint8_t *>(blob) + blob->modifiers_offset);
-            uint32_t *formatarr = reinterpret_cast<uint32_t *>(reinterpret_cast<uint8_t *>(blob) + blob->formats_offset);
-
-            for (uint32_t f = 0; f < blob->count_formats; f++) {
-                auto format = formatarr[f];
-                QVector<uint64_t> mods;
-                for (uint32_t m = 0; m < blob->count_modifiers; m++) {
-                    auto modifier = &modifiers[m];
-                    // The modifier advertisement blob is partitioned into groups of 64 formats
-                    if (m < modifier->offset || m > modifier->offset + 63) {
-                        continue;
-                    }
-                    if (!(modifier->formats & (1 << (f - modifier->offset)))) {
-                        continue;
-                    }
-                    mods << modifier->modifier;
-                }
-                m_supportedFormats.insert(format, mods);
+            drmModeFormatModifierIterator iterator{};
+            while (drmModeFormatModifierBlobIterNext(formatProp->immutableBlob(), &iterator)) {
+                m_supportedFormats[iterator.fmt].push_back(iterator.mod);
             }
         } else {
             for (uint32_t i = 0; i < p->count_formats; i++) {
@@ -153,18 +137,6 @@ void DrmPlane::setBuffer(DrmFramebuffer *buffer)
     setPending(PropertyIndex::FbId, buffer ? buffer->framebufferId() : 0);
 }
 
-bool DrmPlane::needsModeset() const
-{
-    if (!gpu()->atomicModeSetting() || type() == TypeIndex::Cursor) {
-        return false;
-    }
-    auto rotation = getProp(PropertyIndex::Rotation);
-    if (rotation && rotation->needsCommit()) {
-        return true;
-    }
-    return getProp(PropertyIndex::CrtcId)->needsCommit();
-}
-
 bool DrmPlane::isCrtcSupported(int pipeIndex) const
 {
     return (m_possibleCrtcs & (1 << pipeIndex));
@@ -199,6 +171,7 @@ void DrmPlane::disable()
 {
     setPending(PropertyIndex::CrtcId, 0);
     setPending(PropertyIndex::FbId, 0);
+    m_next = nullptr;
 }
 
 void DrmPlane::releaseBuffers()

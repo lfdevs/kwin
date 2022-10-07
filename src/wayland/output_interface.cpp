@@ -9,6 +9,8 @@
 #include "display_p.h"
 #include "utils.h"
 
+#include "core/output.h"
+
 #include "qwayland-server-wayland.h"
 
 #include <QPointer>
@@ -16,12 +18,12 @@
 
 namespace KWaylandServer
 {
-static const int s_version = 3;
+static const int s_version = 4;
 
 class OutputInterfacePrivate : public QtWaylandServer::wl_output
 {
 public:
-    explicit OutputInterfacePrivate(Display *display, OutputInterface *q);
+    explicit OutputInterfacePrivate(Display *display, OutputInterface *q, KWin::Output *handle);
 
     void sendScale(Resource *resource);
     void sendGeometry(Resource *resource);
@@ -32,6 +34,7 @@ public:
 
     OutputInterface *q;
     QPointer<Display> display;
+    QPointer<KWin::Output> handle;
     QSize physicalSize;
     QPoint globalPosition;
     QString manufacturer = QStringLiteral("org.kde.kwin");
@@ -40,11 +43,8 @@ public:
     KWin::Output::SubPixel subPixel = KWin::Output::SubPixel::Unknown;
     KWin::Output::Transform transform = KWin::Output::Transform::Normal;
     OutputInterface::Mode mode;
-    struct
-    {
-        KWin::Output::DpmsMode mode = KWin::Output::DpmsMode::Off;
-        bool supported = false;
-    } dpms;
+    QString name;
+    QString description;
 
 private:
     void output_destroy_global() override;
@@ -52,10 +52,11 @@ private:
     void output_release(Resource *resource) override;
 };
 
-OutputInterfacePrivate::OutputInterfacePrivate(Display *display, OutputInterface *q)
+OutputInterfacePrivate::OutputInterfacePrivate(Display *display, OutputInterface *q, KWin::Output *handle)
     : QtWaylandServer::wl_output(*display, s_version)
     , q(q)
     , display(display)
+    , handle(handle)
 {
 }
 
@@ -159,6 +160,13 @@ void OutputInterfacePrivate::output_bind_resource(Resource *resource)
         return; // We are waiting for the wl_output global to be destroyed.
     }
 
+    if (resource->version() >= WL_OUTPUT_NAME_SINCE_VERSION) {
+        send_name(resource->handle, name);
+    }
+    if (resource->version() >= WL_OUTPUT_DESCRIPTION_SINCE_VERSION) {
+        send_description(resource->handle, description);
+    }
+
     sendMode(resource);
     sendScale(resource);
     sendGeometry(resource);
@@ -167,9 +175,9 @@ void OutputInterfacePrivate::output_bind_resource(Resource *resource)
     Q_EMIT q->bound(display->getConnection(resource->client()), resource->handle);
 }
 
-OutputInterface::OutputInterface(Display *display, QObject *parent)
+OutputInterface::OutputInterface(Display *display, KWin::Output *handle, QObject *parent)
     : QObject(parent)
-    , d(new OutputInterfacePrivate(display, this))
+    , d(new OutputInterfacePrivate(display, this, handle))
 {
     DisplayPrivate *displayPrivate = DisplayPrivate::get(display);
     displayPrivate->outputs.append(this);
@@ -178,6 +186,11 @@ OutputInterface::OutputInterface(Display *display, QObject *parent)
 OutputInterface::~OutputInterface()
 {
     remove();
+}
+
+KWin::Output *OutputInterface::handle() const
+{
+    return d->handle;
 }
 
 bool OutputInterface::isRemoved() const
@@ -236,6 +249,16 @@ void OutputInterface::setMode(const Mode &mode)
 void OutputInterface::setMode(const QSize &size, int refreshRate)
 {
     setMode({size, refreshRate});
+}
+
+void OutputInterface::setName(const QString &name)
+{
+    d->name = name;
+}
+
+void OutputInterface::setDescription(const QString &description)
+{
+    d->description = description;
 }
 
 QSize OutputInterface::physicalSize() const
@@ -347,34 +370,6 @@ void OutputInterface::setTransform(KWin::Output::Transform transform)
     Q_EMIT transformChanged(d->transform);
 }
 
-void OutputInterface::setDpmsMode(KWin::Output::DpmsMode mode)
-{
-    if (d->dpms.mode == mode) {
-        return;
-    }
-    d->dpms.mode = mode;
-    Q_EMIT dpmsModeChanged();
-}
-
-void OutputInterface::setDpmsSupported(bool supported)
-{
-    if (d->dpms.supported == supported) {
-        return;
-    }
-    d->dpms.supported = supported;
-    Q_EMIT dpmsSupportedChanged();
-}
-
-KWin::Output::DpmsMode OutputInterface::dpmsMode() const
-{
-    return d->dpms.mode;
-}
-
-bool OutputInterface::isDpmsSupported() const
-{
-    return d->dpms.supported;
-}
-
 QVector<wl_resource *> OutputInterface::clientResources(ClientConnection *client) const
 {
     const auto outputResources = d->resourceMap().values(client->client());
@@ -386,14 +381,6 @@ QVector<wl_resource *> OutputInterface::clientResources(ClientConnection *client
     }
 
     return ret;
-}
-
-bool OutputInterface::isEnabled() const
-{
-    if (!d->dpms.supported) {
-        return true;
-    }
-    return d->dpms.mode == KWin::Output::DpmsMode::On;
 }
 
 void OutputInterface::done()
@@ -415,6 +402,11 @@ OutputInterface *OutputInterface::get(wl_resource *native)
         return outputPrivate->q;
     }
     return nullptr;
+}
+
+Display *OutputInterface::display() const
+{
+    return d->display;
 }
 
 } // namespace KWaylandServer

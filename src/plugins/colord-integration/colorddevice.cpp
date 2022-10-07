@@ -9,7 +9,7 @@
 #include "colordlogging.h"
 #include "colordprofileinterface.h"
 #include "colormanager.h"
-#include "output.h"
+#include "core/output.h"
 
 namespace KWin
 {
@@ -54,7 +54,7 @@ void ColordDevice::updateProfile()
         return;
     }
 
-    ColorDevice *device = ColorManager::self()->findDevice(m_output);
+    ColorDevice *device = kwinApp()->colorManager()->findDevice(m_output);
     if (device) {
         device->setProfile(profile.filename());
     }

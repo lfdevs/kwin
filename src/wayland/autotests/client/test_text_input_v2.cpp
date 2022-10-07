@@ -85,7 +85,6 @@ void TextInputTest::init()
     // setup connection
     m_connection = new KWayland::Client::ConnectionThread;
     QSignalSpy connectedSpy(m_connection, &ConnectionThread::connected);
-    QVERIFY(connectedSpy.isValid());
     m_connection->setSocketName(s_socketName);
 
     m_thread = new QThread(this);
@@ -100,7 +99,6 @@ void TextInputTest::init()
 
     Registry registry;
     QSignalSpy interfacesAnnouncedSpy(&registry, &Registry::interfacesAnnounced);
-    QVERIFY(interfacesAnnouncedSpy.isValid());
     registry.setEventQueue(m_queue);
     registry.create(m_connection);
     QVERIFY(registry.isValid());
@@ -110,7 +108,6 @@ void TextInputTest::init()
     m_seat = registry.createSeat(registry.interface(Registry::Interface::Seat).name, registry.interface(Registry::Interface::Seat).version, this);
     QVERIFY(m_seat->isValid());
     QSignalSpy hasKeyboardSpy(m_seat, &Seat::hasKeyboardChanged);
-    QVERIFY(hasKeyboardSpy.isValid());
     QVERIFY(hasKeyboardSpy.wait());
     m_keyboard = m_seat->createKeyboard(this);
     QVERIFY(m_keyboard->isValid());
@@ -186,18 +183,15 @@ void TextInputTest::testEnterLeave_data()
 void TextInputTest::testEnterLeave()
 {
     // this test verifies that enter leave are sent correctly
-    QScopedPointer<Surface> surface(m_compositor->createSurface());
+    std::unique_ptr<Surface> surface(m_compositor->createSurface());
 
-    QScopedPointer<TextInput> textInput(createTextInput());
+    std::unique_ptr<TextInput> textInput(createTextInput());
     auto serverSurface = waitForSurface();
     QVERIFY(serverSurface);
-    QVERIFY(!textInput.isNull());
-    QSignalSpy enteredSpy(textInput.data(), &TextInput::entered);
-    QVERIFY(enteredSpy.isValid());
-    QSignalSpy leftSpy(textInput.data(), &TextInput::left);
-    QVERIFY(leftSpy.isValid());
+    QVERIFY(textInput != nullptr);
+    QSignalSpy enteredSpy(textInput.get(), &TextInput::entered);
+    QSignalSpy leftSpy(textInput.get(), &TextInput::left);
     QSignalSpy textInputChangedSpy(m_seatInterface, &SeatInterface::focusedTextInputSurfaceChanged);
-    QVERIFY(textInputChangedSpy.isValid());
 
     // now let's try to enter it
     QVERIFY(!m_seatInterface->focusedTextInputSurface());
@@ -207,7 +201,7 @@ void TextInputTest::testEnterLeave()
     QFETCH(bool, updatesDirectly);
     QCOMPARE(bool(m_seatInterface->textInputV2()), updatesDirectly);
     QCOMPARE(textInputChangedSpy.isEmpty(), !updatesDirectly);
-    textInput->enable(surface.data());
+    textInput->enable(surface.get());
     // this should trigger on server side
     if (!updatesDirectly) {
         QVERIFY(textInputChangedSpy.wait());
@@ -216,7 +210,6 @@ void TextInputTest::testEnterLeave()
     auto serverTextInput = m_seatInterface->textInputV2();
     QVERIFY(serverTextInput);
     QSignalSpy enabledChangedSpy(serverTextInput, &TextInputV2Interface::enabledChanged);
-    QVERIFY(enabledChangedSpy.isValid());
     if (updatesDirectly) {
         QVERIFY(enabledChangedSpy.wait());
         enabledChangedSpy.clear();
@@ -229,7 +222,7 @@ void TextInputTest::testEnterLeave()
         QVERIFY(enteredSpy.wait());
     }
     QCOMPARE(enteredSpy.count(), 1);
-    QCOMPARE(textInput->enteredSurface(), surface.data());
+    QCOMPARE(textInput->enteredSurface(), surface.get());
 
     // now trigger a leave
     m_seatInterface->setFocusedKeyboardSurface(nullptr);
@@ -244,11 +237,11 @@ void TextInputTest::testEnterLeave()
     QVERIFY(m_seatInterface->textInputV2());
     QVERIFY(enteredSpy.wait());
     QCOMPARE(enteredSpy.count(), 2);
-    QCOMPARE(textInput->enteredSurface(), surface.data());
+    QCOMPARE(textInput->enteredSurface(), surface.get());
     QVERIFY(serverTextInput->isEnabled());
 
     // let's deactivate on client side
-    textInput->disable(surface.data());
+    textInput->disable(surface.get());
     QVERIFY(enabledChangedSpy.wait());
     QCOMPARE(enabledChangedSpy.count(), 3);
     QVERIFY(!serverTextInput->isEnabled());
@@ -257,7 +250,7 @@ void TextInputTest::testEnterLeave()
     // should still be the same text input
     QCOMPARE(m_seatInterface->textInputV2(), serverTextInput);
     // reset
-    textInput->enable(surface.data());
+    textInput->enable(surface.get());
     QVERIFY(enabledChangedSpy.wait());
 
     // delete the client and wait for the server to catch up
@@ -271,11 +264,10 @@ void TextInputTest::testEnterLeave()
 void TextInputTest::testFocusedBeforeCreateTextInput()
 {
     // this test verifies that enter leave are sent correctly
-    QScopedPointer<Surface> surface(m_compositor->createSurface());
+    std::unique_ptr<Surface> surface(m_compositor->createSurface());
     auto serverSurface = waitForSurface();
     // now let's try to enter it
     QSignalSpy textInputChangedSpy(m_seatInterface, &SeatInterface::focusedTextInputSurfaceChanged);
-    QVERIFY(textInputChangedSpy.isValid());
     QVERIFY(!m_seatInterface->focusedTextInputSurface());
     m_seatInterface->setFocusedKeyboardSurface(serverSurface);
     QCOMPARE(m_seatInterface->focusedTextInputSurface(), serverSurface);
@@ -285,19 +277,17 @@ void TextInputTest::testFocusedBeforeCreateTextInput()
     QCOMPARE(m_seatInterface->textInputV2()->surface(), nullptr);
 
     QVERIFY(serverSurface);
-    QScopedPointer<TextInput> textInput(createTextInput());
-    QVERIFY(!textInput.isNull());
-    QSignalSpy enteredSpy(textInput.data(), &TextInput::entered);
-    QVERIFY(enteredSpy.isValid());
-    QSignalSpy leftSpy(textInput.data(), &TextInput::left);
-    QVERIFY(leftSpy.isValid());
+    std::unique_ptr<TextInput> textInput(createTextInput());
+    QVERIFY(textInput != nullptr);
+    QSignalSpy enteredSpy(textInput.get(), &TextInput::entered);
+    QSignalSpy leftSpy(textInput.get(), &TextInput::left);
 
     // and trigger an enter
     if (enteredSpy.isEmpty()) {
         QVERIFY(enteredSpy.wait());
     }
     QCOMPARE(enteredSpy.count(), 1);
-    QCOMPARE(textInput->enteredSurface(), surface.data());
+    QCOMPARE(textInput->enteredSurface(), surface.get());
 
     // This is not null anymore because there is a text input object associated with it.
     QCOMPARE(m_seatInterface->textInputV2()->surface(), serverSurface);
@@ -316,13 +306,13 @@ void TextInputTest::testShowHidePanel()
 {
     // this test verifies that the requests for show/hide panel work
     // and that status is properly sent to the client
-    QScopedPointer<Surface> surface(m_compositor->createSurface());
+    std::unique_ptr<Surface> surface(m_compositor->createSurface());
     auto serverSurface = waitForSurface();
     QVERIFY(serverSurface);
 
-    QScopedPointer<TextInput> textInput(createTextInput());
-    QVERIFY(!textInput.isNull());
-    textInput->enable(surface.data());
+    std::unique_ptr<TextInput> textInput(createTextInput());
+    QVERIFY(textInput != nullptr);
+    textInput->enable(surface.get());
     m_connection->flush();
     m_display->dispatchEvents();
 
@@ -331,11 +321,8 @@ void TextInputTest::testShowHidePanel()
     QVERIFY(ti);
 
     QSignalSpy showPanelRequestedSpy(ti, &TextInputV2Interface::requestShowInputPanel);
-    QVERIFY(showPanelRequestedSpy.isValid());
     QSignalSpy hidePanelRequestedSpy(ti, &TextInputV2Interface::requestHideInputPanel);
-    QVERIFY(hidePanelRequestedSpy.isValid());
-    QSignalSpy inputPanelStateChangedSpy(textInput.data(), &TextInput::inputPanelStateChanged);
-    QVERIFY(inputPanelStateChangedSpy.isValid());
+    QSignalSpy inputPanelStateChangedSpy(textInput.get(), &TextInput::inputPanelStateChanged);
 
     QCOMPARE(textInput->isInputPanelVisible(), false);
     textInput->showInputPanel();
@@ -355,13 +342,13 @@ void TextInputTest::testCursorRectangle()
 {
     // this test verifies that passing the cursor rectangle from client to server works
     // and that setting visibility state from server to client works
-    QScopedPointer<Surface> surface(m_compositor->createSurface());
+    std::unique_ptr<Surface> surface(m_compositor->createSurface());
     auto serverSurface = waitForSurface();
     QVERIFY(serverSurface);
 
-    QScopedPointer<TextInput> textInput(createTextInput());
-    QVERIFY(!textInput.isNull());
-    textInput->enable(surface.data());
+    std::unique_ptr<TextInput> textInput(createTextInput());
+    QVERIFY(textInput != nullptr);
+    textInput->enable(surface.get());
     m_connection->flush();
     m_display->dispatchEvents();
 
@@ -370,7 +357,6 @@ void TextInputTest::testCursorRectangle()
     QVERIFY(ti);
     QCOMPARE(ti->cursorRectangle(), QRect());
     QSignalSpy cursorRectangleChangedSpy(ti, &TextInputV2Interface::cursorRectangleChanged);
-    QVERIFY(cursorRectangleChangedSpy.isValid());
 
     textInput->setCursorRectangle(QRect(10, 20, 30, 40));
     QVERIFY(cursorRectangleChangedSpy.wait());
@@ -380,13 +366,13 @@ void TextInputTest::testCursorRectangle()
 void TextInputTest::testPreferredLanguage()
 {
     // this test verifies that passing the preferred language from client to server works
-    QScopedPointer<Surface> surface(m_compositor->createSurface());
+    std::unique_ptr<Surface> surface(m_compositor->createSurface());
     auto serverSurface = waitForSurface();
     QVERIFY(serverSurface);
 
-    QScopedPointer<TextInput> textInput(createTextInput());
-    QVERIFY(!textInput.isNull());
-    textInput->enable(surface.data());
+    std::unique_ptr<TextInput> textInput(createTextInput());
+    QVERIFY(textInput != nullptr);
+    textInput->enable(surface.get());
     m_connection->flush();
     m_display->dispatchEvents();
 
@@ -396,7 +382,6 @@ void TextInputTest::testPreferredLanguage()
     QVERIFY(ti->preferredLanguage().isEmpty());
 
     QSignalSpy preferredLanguageChangedSpy(ti, &TextInputV2Interface::preferredLanguageChanged);
-    QVERIFY(preferredLanguageChangedSpy.isValid());
     textInput->setPreferredLanguage(QStringLiteral("foo"));
     QVERIFY(preferredLanguageChangedSpy.wait());
     QCOMPARE(ti->preferredLanguage(), QStringLiteral("foo").toUtf8());
@@ -405,13 +390,13 @@ void TextInputTest::testPreferredLanguage()
 void TextInputTest::testReset()
 {
     // this test verifies that the reset request is properly passed from client to server
-    QScopedPointer<Surface> surface(m_compositor->createSurface());
+    std::unique_ptr<Surface> surface(m_compositor->createSurface());
     auto serverSurface = waitForSurface();
     QVERIFY(serverSurface);
 
-    QScopedPointer<TextInput> textInput(createTextInput());
-    QVERIFY(!textInput.isNull());
-    textInput->enable(surface.data());
+    std::unique_ptr<TextInput> textInput(createTextInput());
+    QVERIFY(textInput != nullptr);
+    textInput->enable(surface.get());
     m_connection->flush();
     m_display->dispatchEvents();
 
@@ -420,7 +405,6 @@ void TextInputTest::testReset()
     QVERIFY(ti);
 
     QSignalSpy stateUpdatedSpy(ti, &TextInputV2Interface::stateUpdated);
-    QVERIFY(stateUpdatedSpy.isValid());
 
     textInput->reset();
     QVERIFY(stateUpdatedSpy.wait());
@@ -429,13 +413,13 @@ void TextInputTest::testReset()
 void TextInputTest::testSurroundingText()
 {
     // this test verifies that surrounding text is properly passed around
-    QScopedPointer<Surface> surface(m_compositor->createSurface());
+    std::unique_ptr<Surface> surface(m_compositor->createSurface());
     auto serverSurface = waitForSurface();
     QVERIFY(serverSurface);
 
-    QScopedPointer<TextInput> textInput(createTextInput());
-    QVERIFY(!textInput.isNull());
-    textInput->enable(surface.data());
+    std::unique_ptr<TextInput> textInput(createTextInput());
+    QVERIFY(textInput != nullptr);
+    textInput->enable(surface.get());
     m_connection->flush();
     m_display->dispatchEvents();
 
@@ -447,7 +431,6 @@ void TextInputTest::testSurroundingText()
     QCOMPARE(ti->surroundingTextSelectionAnchor(), 0);
 
     QSignalSpy surroundingTextChangedSpy(ti, &TextInputV2Interface::surroundingTextChanged);
-    QVERIFY(surroundingTextChangedSpy.isValid());
 
     textInput->setSurroundingText(QStringLiteral("100 €, 100 $"), 5, 6);
     QVERIFY(surroundingTextChangedSpy.wait());
@@ -501,13 +484,13 @@ void TextInputTest::testContentHints_data()
 void TextInputTest::testContentHints()
 {
     // this test verifies that content hints are properly passed from client to server
-    QScopedPointer<Surface> surface(m_compositor->createSurface());
+    std::unique_ptr<Surface> surface(m_compositor->createSurface());
     auto serverSurface = waitForSurface();
     QVERIFY(serverSurface);
 
-    QScopedPointer<TextInput> textInput(createTextInput());
-    QVERIFY(!textInput.isNull());
-    textInput->enable(surface.data());
+    std::unique_ptr<TextInput> textInput(createTextInput());
+    QVERIFY(textInput != nullptr);
+    textInput->enable(surface.get());
     m_connection->flush();
     m_display->dispatchEvents();
 
@@ -517,7 +500,6 @@ void TextInputTest::testContentHints()
     QCOMPARE(ti->contentHints(), KWaylandServer::TextInputContentHints());
 
     QSignalSpy contentTypeChangedSpy(ti, &TextInputV2Interface::contentTypeChanged);
-    QVERIFY(contentTypeChangedSpy.isValid());
     QFETCH(TextInput::ContentHints, clientHints);
     textInput->setContentType(clientHints, TextInput::ContentPurpose::Normal);
     QVERIFY(contentTypeChangedSpy.wait());
@@ -555,13 +537,13 @@ void TextInputTest::testContentPurpose_data()
 void TextInputTest::testContentPurpose()
 {
     // this test verifies that content purpose are properly passed from client to server
-    QScopedPointer<Surface> surface(m_compositor->createSurface());
+    std::unique_ptr<Surface> surface(m_compositor->createSurface());
     auto serverSurface = waitForSurface();
     QVERIFY(serverSurface);
 
-    QScopedPointer<TextInput> textInput(createTextInput());
-    QVERIFY(!textInput.isNull());
-    textInput->enable(surface.data());
+    std::unique_ptr<TextInput> textInput(createTextInput());
+    QVERIFY(textInput != nullptr);
+    textInput->enable(surface.get());
     m_connection->flush();
     m_display->dispatchEvents();
 
@@ -571,7 +553,6 @@ void TextInputTest::testContentPurpose()
     QCOMPARE(ti->contentPurpose(), KWaylandServer::TextInputContentPurpose::Normal);
 
     QSignalSpy contentTypeChangedSpy(ti, &TextInputV2Interface::contentTypeChanged);
-    QVERIFY(contentTypeChangedSpy.isValid());
     QFETCH(TextInput::ContentPurpose, clientPurpose);
     textInput->setContentType(TextInput::ContentHints(), clientPurpose);
     QVERIFY(contentTypeChangedSpy.wait());
@@ -601,15 +582,15 @@ void TextInputTest::testTextDirection_data()
 void TextInputTest::testTextDirection()
 {
     // this test verifies that the text direction is sent from server to client
-    QScopedPointer<Surface> surface(m_compositor->createSurface());
+    std::unique_ptr<Surface> surface(m_compositor->createSurface());
     auto serverSurface = waitForSurface();
     QVERIFY(serverSurface);
 
-    QScopedPointer<TextInput> textInput(createTextInput());
-    QVERIFY(!textInput.isNull());
+    std::unique_ptr<TextInput> textInput(createTextInput());
+    QVERIFY(textInput != nullptr);
     // default should be auto
     QCOMPARE(textInput->textDirection(), Qt::LayoutDirectionAuto);
-    textInput->enable(surface.data());
+    textInput->enable(surface.get());
     m_connection->flush();
     m_display->dispatchEvents();
 
@@ -618,8 +599,7 @@ void TextInputTest::testTextDirection()
     QVERIFY(ti);
 
     // let's send the new text direction
-    QSignalSpy textDirectionChangedSpy(textInput.data(), &TextInput::textDirectionChanged);
-    QVERIFY(textDirectionChangedSpy.isValid());
+    QSignalSpy textDirectionChangedSpy(textInput.get(), &TextInput::textDirectionChanged);
     QFETCH(Qt::LayoutDirection, textDirection);
     ti->setTextDirection(textDirection);
     QVERIFY(textDirectionChangedSpy.wait());
@@ -637,15 +617,15 @@ void TextInputTest::testTextDirection()
 void TextInputTest::testLanguage()
 {
     // this test verifies that language is sent from server to client
-    QScopedPointer<Surface> surface(m_compositor->createSurface());
+    std::unique_ptr<Surface> surface(m_compositor->createSurface());
     auto serverSurface = waitForSurface();
     QVERIFY(serverSurface);
 
-    QScopedPointer<TextInput> textInput(createTextInput());
-    QVERIFY(!textInput.isNull());
+    std::unique_ptr<TextInput> textInput(createTextInput());
+    QVERIFY(textInput != nullptr);
     // default should be empty
     QVERIFY(textInput->language().isEmpty());
-    textInput->enable(surface.data());
+    textInput->enable(surface.get());
     m_connection->flush();
     m_display->dispatchEvents();
 
@@ -654,8 +634,7 @@ void TextInputTest::testLanguage()
     QVERIFY(ti);
 
     // let's send the new language
-    QSignalSpy langugageChangedSpy(textInput.data(), &TextInput::languageChanged);
-    QVERIFY(langugageChangedSpy.isValid());
+    QSignalSpy langugageChangedSpy(textInput.get(), &TextInput::languageChanged);
     ti->setLanguage(QByteArrayLiteral("foo"));
     QVERIFY(langugageChangedSpy.wait());
     QCOMPARE(textInput->language(), QByteArrayLiteral("foo"));
@@ -673,13 +652,13 @@ void TextInputTest::testKeyEvent()
     qRegisterMetaType<Qt::KeyboardModifiers>();
     qRegisterMetaType<TextInput::KeyState>();
     // this test verifies that key events are properly sent to the client
-    QScopedPointer<Surface> surface(m_compositor->createSurface());
+    std::unique_ptr<Surface> surface(m_compositor->createSurface());
     auto serverSurface = waitForSurface();
     QVERIFY(serverSurface);
 
-    QScopedPointer<TextInput> textInput(createTextInput());
-    QVERIFY(!textInput.isNull());
-    textInput->enable(surface.data());
+    std::unique_ptr<TextInput> textInput(createTextInput());
+    QVERIFY(textInput != nullptr);
+    textInput->enable(surface.get());
     m_connection->flush();
     m_display->dispatchEvents();
 
@@ -688,8 +667,7 @@ void TextInputTest::testKeyEvent()
     QVERIFY(ti);
 
     // TODO: test modifiers
-    QSignalSpy keyEventSpy(textInput.data(), &TextInput::keyEvent);
-    QVERIFY(keyEventSpy.isValid());
+    QSignalSpy keyEventSpy(textInput.get(), &TextInput::keyEvent);
     m_seatInterface->setTimestamp(100);
     ti->keysymPressed(2);
     QVERIFY(keyEventSpy.wait());
@@ -711,18 +689,18 @@ void TextInputTest::testKeyEvent()
 void TextInputTest::testPreEdit()
 {
     // this test verifies that pre-edit is correctly passed to the client
-    QScopedPointer<Surface> surface(m_compositor->createSurface());
+    std::unique_ptr<Surface> surface(m_compositor->createSurface());
     auto serverSurface = waitForSurface();
     QVERIFY(serverSurface);
 
-    QScopedPointer<TextInput> textInput(createTextInput());
-    QVERIFY(!textInput.isNull());
+    std::unique_ptr<TextInput> textInput(createTextInput());
+    QVERIFY(textInput != nullptr);
     // verify default values
     QVERIFY(textInput->composingText().isEmpty());
     QVERIFY(textInput->composingFallbackText().isEmpty());
     QCOMPARE(textInput->composingTextCursorPosition(), 0);
 
-    textInput->enable(surface.data());
+    textInput->enable(surface.get());
     m_connection->flush();
     m_display->dispatchEvents();
 
@@ -731,8 +709,7 @@ void TextInputTest::testPreEdit()
     QVERIFY(ti);
 
     // now let's pass through some pre-edit events
-    QSignalSpy composingTextChangedSpy(textInput.data(), &TextInput::composingTextChanged);
-    QVERIFY(composingTextChangedSpy.isValid());
+    QSignalSpy composingTextChangedSpy(textInput.get(), &TextInput::composingTextChanged);
     ti->setPreEditCursor(1);
     ti->preEdit(QByteArrayLiteral("foo"), QByteArrayLiteral("bar"));
     QVERIFY(composingTextChangedSpy.wait());
@@ -753,12 +730,12 @@ void TextInputTest::testPreEdit()
 void TextInputTest::testCommit()
 {
     // this test verifies that the commit is handled correctly by the client
-    QScopedPointer<Surface> surface(m_compositor->createSurface());
+    std::unique_ptr<Surface> surface(m_compositor->createSurface());
     auto serverSurface = waitForSurface();
     QVERIFY(serverSurface);
 
-    QScopedPointer<TextInput> textInput(createTextInput());
-    QVERIFY(!textInput.isNull());
+    std::unique_ptr<TextInput> textInput(createTextInput());
+    QVERIFY(textInput != nullptr);
     // verify default values
     QCOMPARE(textInput->commitText(), QByteArray());
     QCOMPARE(textInput->cursorPosition(), 0);
@@ -766,7 +743,7 @@ void TextInputTest::testCommit()
     QCOMPARE(textInput->deleteSurroundingText().beforeLength, 0u);
     QCOMPARE(textInput->deleteSurroundingText().afterLength, 0u);
 
-    textInput->enable(surface.data());
+    textInput->enable(surface.get());
     m_connection->flush();
     m_display->dispatchEvents();
 
@@ -775,8 +752,7 @@ void TextInputTest::testCommit()
     QVERIFY(ti);
 
     // now let's commit
-    QSignalSpy committedSpy(textInput.data(), &TextInput::committed);
-    QVERIFY(committedSpy.isValid());
+    QSignalSpy committedSpy(textInput.get(), &TextInput::committed);
     ti->setCursorPosition(3, 4);
     ti->deleteSurroundingText(2, 1);
     ti->commitString(QByteArrayLiteral("foo"));

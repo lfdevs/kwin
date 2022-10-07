@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-05-12 00:46+0000\n"
+"POT-Creation-Date: 2022-07-15 00:48+0000\n"
 "PO-Revision-Date: 2021-11-19 12:00+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -36,8 +36,8 @@ msgstr "Nincs művelet"
 
 #: main.cpp:131 touch.cpp:125
 #, kde-format
-msgid "Show Desktop"
-msgstr "Asztal megjelenítése"
+msgid "Peek at Desktop"
+msgstr ""
 
 #: main.cpp:132 touch.cpp:126
 #, kde-format
@@ -126,7 +126,7 @@ msgstr "Az ablakot a bal vagy jobb oldali élhez húzták"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:101
 #, kde-format
-msgid "Behavior"
+msgid "Behavior:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, remainActiveOnFullscreen)

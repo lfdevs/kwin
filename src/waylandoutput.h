@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "output.h"
+#include "core/output.h"
 #include "wayland/output_interface.h"
 #include "wayland/utils.h"
 #include "wayland/xdgoutput_v1_interface.h"
@@ -23,12 +23,7 @@ class WaylandOutput : public QObject
 public:
     explicit WaylandOutput(Output *output, QObject *parent = nullptr);
 
-    KWaylandServer::OutputInterface *waylandOutput() const;
-
 private Q_SLOTS:
-    void handleDpmsModeChanged();
-    void handleDpmsModeRequested(KWin::Output::DpmsMode dpmsMode);
-
     void update();
     void scheduleUpdate();
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-03-26 00:45+0000\n"
+"POT-Creation-Date: 2022-09-02 00:47+0000\n"
 "PO-Revision-Date: 2013-10-18 20:17+0000\n"
 "Last-Translator: Samir Ribić <Unknown>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -637,6 +637,43 @@ msgstr ""
 #, kde-format
 msgid "Hide utility windows for inactive applications"
 msgstr "Sakrij pomoćne prozore za neaktivne aplikacije"
+
+#. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyLabel)
+#: advanced.ui:148
+#, kde-format
+msgid "Virtual Desktop behavior:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyDescriptionLabel)
+#: advanced.ui:158
+#, kde-format
+msgid "When activating a window on a different Virtual Desktop:"
+msgstr ""
+
+#. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_ActivationDesktopPolicy)
+#: advanced.ui:165
+#, kde-format
+msgid ""
+"<html><head/><body><p>This setting controls what happens when an open window "
+"located on a Virtual Desktop other than the current one is activated. </"
+"p><p><span style=\" font-style:italic;\">Switch to that Virtual Desktop</"
+"span> will switch to the Virtual Desktop where the window is currently "
+"located. </p><p><span style=\" font-style:italic;\">Bring window to current "
+"Virtual Desktop</span> will cause the window to jump to the active Virtual "
+"Desktop. </p></body></html>"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
+#: advanced.ui:169
+#, kde-format
+msgid "Switch to that Virtual Desktop"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
+#: advanced.ui:174
+#, kde-format
+msgid "Bring window to current Virtual Desktop"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, windowFocusPolicyLabel)
 #: focus.ui:22
@@ -1339,7 +1376,7 @@ msgstr ""
 msgid "Only when overlapping"
 msgstr "Namjesti prozore samo pri &preklapanju"
 
-#: windows.cpp:98
+#: windows.cpp:97
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Click To Focus</b><br>\n"
@@ -1355,7 +1392,7 @@ msgstr ""
 "Ovo ponašanje je uobičajeno u drugim operativnim sistemima i <br>\n"
 "vjerovatno je ono što želite."
 
-#: windows.cpp:102
+#: windows.cpp:101
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Click To Focus - Mouse Precedence</b><br>\n"
@@ -1378,7 +1415,7 @@ msgstr ""
 "prozor pod mišem je preferirani kandidat.<br><br>\n"
 "Neobična, ali moguća varijanta <i>Klik na fokus</i>."
 
-#: windows.cpp:107
+#: windows.cpp:106
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Follows Mouse</b><br>\n"
@@ -1399,7 +1436,7 @@ msgstr ""
 "Sprečavanje krađe fokusa radi kao obično.<br><br>\n"
 "Gledajte na ovo kao <i>klik na fokus</i> bez potrebe za stvarnim klikom."
 
-#: windows.cpp:111
+#: windows.cpp:110
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Follows Mouse - Mouse Precedence</b><br>\n"
@@ -1421,7 +1458,7 @@ msgstr ""
 "prozor pod mišem je preferirani kandidat.<br><br>\n"
 "Odaberite ovo za fokus kontrolisan nadlijetanjem."
 
-#: windows.cpp:116
+#: windows.cpp:115
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Under Mouse</b><br>\n"
@@ -1448,7 +1485,7 @@ msgstr ""
 "Možda želite koristiti<br>\n"
 "<i>Fokus prati miša - prioritet mišem</i> umjesto toga!"
 
-#: windows.cpp:120
+#: windows.cpp:119
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Strictly Under Mouse</b><br>\n"

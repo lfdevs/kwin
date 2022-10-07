@@ -116,7 +116,7 @@ XdgToplevel::~XdgToplevel()
 
 XdgSurface *XdgToplevel::xdgSurface() const
 {
-    return m_xdgSurface.data();
+    return m_xdgSurface.get();
 }
 
 void XdgToplevel::xdg_toplevel_configure(int32_t width, int32_t height, wl_array *states)
@@ -175,7 +175,7 @@ XdgPopup::~XdgPopup()
 
 XdgSurface *XdgPopup::xdgSurface() const
 {
-    return m_xdgSurface.data();
+    return m_xdgSurface.get();
 }
 
 void XdgPopup::xdg_popup_configure(int32_t x, int32_t y, int32_t width, int32_t height)
@@ -283,10 +283,10 @@ void MockInputMethod::zwp_input_method_v1_activate(struct ::zwp_input_method_con
     Q_UNUSED(context)
     if (!m_inputSurface) {
         m_inputSurface = Test::createSurface();
-        m_inputMethodSurface = Test::createInputPanelSurfaceV1(m_inputSurface, s_waylandConnection.outputs.first());
+        m_inputMethodSurface = Test::createInputPanelSurfaceV1(m_inputSurface.get(), s_waylandConnection.outputs.first());
     }
     m_context = context;
-    m_window = Test::renderAndWaitForShown(m_inputSurface, QSize(1280, 400), Qt::blue);
+    m_window = Test::renderAndWaitForShown(m_inputSurface.get(), QSize(1280, 400), Qt::blue);
 
     Q_EMIT activate();
 }
@@ -300,8 +300,7 @@ void MockInputMethod::zwp_input_method_v1_deactivate(struct ::zwp_input_method_c
     if (m_inputSurface) {
         m_inputSurface->release();
         m_inputSurface->destroy();
-        delete m_inputSurface;
-        m_inputSurface = nullptr;
+        m_inputSurface.reset();
         delete m_inputMethodSurface;
         m_inputMethodSurface = nullptr;
     }
@@ -534,8 +533,6 @@ void destroyWaylandConnection()
     s_waylandConnection.idleInhibitManagerV1 = nullptr;
     delete s_waylandConnection.shm;
     s_waylandConnection.shm = nullptr;
-    delete s_waylandConnection.queue;
-    s_waylandConnection.queue = nullptr;
     delete s_waylandConnection.registry;
     s_waylandConnection.registry = nullptr;
     delete s_waylandConnection.appMenu;
@@ -550,12 +547,12 @@ void destroyWaylandConnection()
     s_waylandConnection.layerShellV1 = nullptr;
     delete s_waylandConnection.outputManagementV2;
     s_waylandConnection.outputManagementV2 = nullptr;
+
+    delete s_waylandConnection.queue; // Must be destroyed last
+    s_waylandConnection.queue = nullptr;
+
     if (s_waylandConnection.thread) {
-        QSignalSpy spy(s_waylandConnection.connection, &QObject::destroyed);
         s_waylandConnection.connection->deleteLater();
-        if (spy.isEmpty()) {
-            QVERIFY(spy.wait());
-        }
         s_waylandConnection.thread->quit();
         s_waylandConnection.thread->wait();
         delete s_waylandConnection.thread;
@@ -639,6 +636,16 @@ TextInputManagerV3 *waylandTextInputManagerV3()
 QVector<KWayland::Client::Output *> waylandOutputs()
 {
     return s_waylandConnection.outputs;
+}
+
+KWayland::Client::Output *waylandOutput(const QString &name)
+{
+    for (KWayland::Client::Output *output : std::as_const(s_waylandConnection.outputs)) {
+        if (output->name() == name) {
+            return output;
+        }
+    }
+    return nullptr;
 }
 
 QVector<KWin::Test::WaylandOutputDeviceV2 *> waylandOutputDevicesV2()
@@ -738,17 +745,13 @@ void flushWaylandConnection()
     }
 }
 
-KWayland::Client::Surface *createSurface(QObject *parent)
+std::unique_ptr<KWayland::Client::Surface> createSurface()
 {
     if (!s_waylandConnection.compositor) {
         return nullptr;
     }
-    auto s = s_waylandConnection.compositor->createSurface(parent);
-    if (!s->isValid()) {
-        delete s;
-        return nullptr;
-    }
-    return s;
+    std::unique_ptr<KWayland::Client::Surface> s{s_waylandConnection.compositor->createSurface()};
+    return s->isValid() ? std::move(s) : nullptr;
 }
 
 SubSurface *createSubSurface(KWayland::Client::Surface *surface, KWayland::Client::Surface *parentSurface, QObject *parent)
@@ -804,7 +807,6 @@ QtWayland::zwp_input_panel_surface_v1 *createInputPanelSurfaceV1(KWayland::Clien
 static void waitForConfigured(XdgSurface *shellSurface)
 {
     QSignalSpy surfaceConfigureRequestedSpy(shellSurface, &XdgSurface::configureRequested);
-    QVERIFY(surfaceConfigureRequestedSpy.isValid());
 
     shellSurface->surface()->commit(KWayland::Client::Surface::CommitFlag::None);
     QVERIFY(surfaceConfigureRequestedSpy.wait());
@@ -917,15 +919,15 @@ bool lockScreen()
     if (!waylandServer()->isScreenLocked()) {
         return false;
     }
-    if (!ScreenLockerWatcher::self()->isLocked()) {
-        QSignalSpy lockedSpy(ScreenLockerWatcher::self(), &ScreenLockerWatcher::locked);
+    if (!kwinApp()->screenLockerWatcher()->isLocked()) {
+        QSignalSpy lockedSpy(kwinApp()->screenLockerWatcher(), &ScreenLockerWatcher::locked);
         if (!lockedSpy.isValid()) {
             return false;
         }
         if (!lockedSpy.wait()) {
             return false;
         }
-        if (!ScreenLockerWatcher::self()->isLocked()) {
+        if (!kwinApp()->screenLockerWatcher()->isLocked()) {
             return false;
         }
     }
@@ -953,28 +955,21 @@ bool unlockScreen()
     if (waylandServer()->isScreenLocked()) {
         return true;
     }
-    if (ScreenLockerWatcher::self()->isLocked()) {
-        QSignalSpy lockedSpy(ScreenLockerWatcher::self(), &ScreenLockerWatcher::locked);
+    if (kwinApp()->screenLockerWatcher()->isLocked()) {
+        QSignalSpy lockedSpy(kwinApp()->screenLockerWatcher(), &ScreenLockerWatcher::locked);
         if (!lockedSpy.isValid()) {
             return false;
         }
         if (!lockedSpy.wait()) {
             return false;
         }
-        if (ScreenLockerWatcher::self()->isLocked()) {
+        if (kwinApp()->screenLockerWatcher()->isLocked()) {
             return false;
         }
     }
     return true;
 }
 #endif // KWIN_BUILD_LOCKSCREEN
-
-void initWaylandWorkspace()
-{
-    QSignalSpy workspaceInitializedSpy(waylandServer(), &WaylandServer::initialized);
-    waylandServer()->initWorkspace();
-    QVERIFY(workspaceInitializedSpy.count() || workspaceInitializedSpy.wait());
-}
 
 WaylandOutputManagementV2::WaylandOutputManagementV2(struct ::wl_registry *registry, int id, int version)
     : QObject()

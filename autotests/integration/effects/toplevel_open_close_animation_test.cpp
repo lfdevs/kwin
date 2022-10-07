@@ -10,11 +10,11 @@
 #include "kwin_wayland_test.h"
 
 #include "composite.h"
+#include "core/platform.h"
+#include "core/renderbackend.h"
 #include "deleted.h"
 #include "effectloader.h"
 #include "effects.h"
-#include "platform.h"
-#include "renderbackend.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
@@ -47,7 +47,6 @@ void ToplevelOpenCloseAnimationTest::initTestCase()
     qRegisterMetaType<KWin::Window *>();
     qRegisterMetaType<KWin::Deleted *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    QVERIFY(applicationStartedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
 
@@ -65,7 +64,6 @@ void ToplevelOpenCloseAnimationTest::initTestCase()
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
-    Test::initWaylandWorkspace();
 
     QCOMPARE(Compositor::self()->backend()->compositingType(), KWin::OpenGLCompositing);
 }
@@ -114,11 +112,11 @@ void ToplevelOpenCloseAnimationTest::testAnimateToplevels()
 
     // Create the test window.
     using namespace KWayland::Client;
-    QScopedPointer<KWayland::Client::Surface> surface(Test::createSurface());
-    QVERIFY(!surface.isNull());
-    QScopedPointer<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.data()));
-    QVERIFY(!shellSurface.isNull());
-    Window *window = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::blue);
+    std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
+    QVERIFY(surface != nullptr);
+    std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get()));
+    QVERIFY(shellSurface != nullptr);
+    Window *window = Test::renderAndWaitForShown(surface.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window);
     QVERIFY(effect->isActive());
 
@@ -128,7 +126,6 @@ void ToplevelOpenCloseAnimationTest::testAnimateToplevels()
     // Close the test window, the effect should start animating the disappearing
     // of the window.
     QSignalSpy windowClosedSpy(window, &Window::windowClosed);
-    QVERIFY(windowClosedSpy.isValid());
     shellSurface.reset();
     surface.reset();
     QVERIFY(windowClosedSpy.wait());
@@ -158,11 +155,11 @@ void ToplevelOpenCloseAnimationTest::testDontAnimatePopups()
 
     // Create the main window.
     using namespace KWayland::Client;
-    QScopedPointer<KWayland::Client::Surface> mainWindowSurface(Test::createSurface());
-    QVERIFY(!mainWindowSurface.isNull());
-    QScopedPointer<Test::XdgToplevel> mainWindowShellSurface(Test::createXdgToplevelSurface(mainWindowSurface.data()));
-    QVERIFY(!mainWindowShellSurface.isNull());
-    Window *mainWindow = Test::renderAndWaitForShown(mainWindowSurface.data(), QSize(100, 50), Qt::blue);
+    std::unique_ptr<KWayland::Client::Surface> mainWindowSurface(Test::createSurface());
+    QVERIFY(mainWindowSurface != nullptr);
+    std::unique_ptr<Test::XdgToplevel> mainWindowShellSurface(Test::createXdgToplevelSurface(mainWindowSurface.get()));
+    QVERIFY(mainWindowShellSurface != nullptr);
+    Window *mainWindow = Test::renderAndWaitForShown(mainWindowSurface.get(), QSize(100, 50), Qt::blue);
     QVERIFY(mainWindow);
 
     // Load effect that will be tested.
@@ -175,17 +172,17 @@ void ToplevelOpenCloseAnimationTest::testDontAnimatePopups()
     QVERIFY(!effect->isActive());
 
     // Create a popup, it should not be animated.
-    QScopedPointer<KWayland::Client::Surface> popupSurface(Test::createSurface());
-    QVERIFY(!popupSurface.isNull());
-    QScopedPointer<Test::XdgPositioner> positioner(Test::createXdgPositioner());
+    std::unique_ptr<KWayland::Client::Surface> popupSurface(Test::createSurface());
+    QVERIFY(popupSurface != nullptr);
+    std::unique_ptr<Test::XdgPositioner> positioner(Test::createXdgPositioner());
     QVERIFY(positioner);
     positioner->set_size(20, 20);
     positioner->set_anchor_rect(0, 0, 10, 10);
     positioner->set_gravity(Test::XdgPositioner::gravity_bottom_right);
     positioner->set_anchor(Test::XdgPositioner::anchor_bottom_left);
-    QScopedPointer<Test::XdgPopup> popupShellSurface(Test::createXdgPopupSurface(popupSurface.data(), mainWindowShellSurface->xdgSurface(), positioner.data()));
-    QVERIFY(!popupShellSurface.isNull());
-    Window *popup = Test::renderAndWaitForShown(popupSurface.data(), QSize(20, 20), Qt::red);
+    std::unique_ptr<Test::XdgPopup> popupShellSurface(Test::createXdgPopupSurface(popupSurface.get(), mainWindowShellSurface->xdgSurface(), positioner.get()));
+    QVERIFY(popupShellSurface != nullptr);
+    Window *popup = Test::renderAndWaitForShown(popupSurface.get(), QSize(20, 20), Qt::red);
     QVERIFY(popup);
     QVERIFY(popup->isPopupWindow());
     QCOMPARE(popup->transientFor(), mainWindow);
@@ -193,7 +190,6 @@ void ToplevelOpenCloseAnimationTest::testDontAnimatePopups()
 
     // Destroy the popup, it should not be animated.
     QSignalSpy popupClosedSpy(popup, &Window::windowClosed);
-    QVERIFY(popupClosedSpy.isValid());
     popupShellSurface.reset();
     popupSurface.reset();
     QVERIFY(popupClosedSpy.wait());

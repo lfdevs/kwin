@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-04-18 00:45+0000\n"
+"POT-Creation-Date: 2022-08-19 00:47+0000\n"
 "PO-Revision-Date: 2022-06-18 14:19+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
@@ -227,6 +227,82 @@ msgstr "Vel fil"
 msgid "KWin Rules (*.kwinrule)"
 msgstr "KWin-reglar (*.kwinrule)"
 
+#: package/contents/ui/main.qml:59
+#, kde-format
+msgid "No rules for specific windows are currently set"
+msgstr "Ingen reglar er definerte for spesifikke vindauge"
+
+#: package/contents/ui/main.qml:60
+#, kde-kuit-format
+msgctxt "@info"
+msgid "Click the <interface>Add New...</interface> button below to add some"
+msgstr "Trykk <interface>Legg til ny</interface> for å leggja til ein ny regel"
+
+#: package/contents/ui/main.qml:68
+#, kde-format
+msgid "Select the rules to export"
+msgstr "Vel reglane du vil eksportera"
+
+#: package/contents/ui/main.qml:72
+#, kde-format
+msgid "Unselect All"
+msgstr "Fjern merking"
+
+#: package/contents/ui/main.qml:72
+#, kde-format
+msgid "Select All"
+msgstr "Merk alle"
+
+#: package/contents/ui/main.qml:86
+#, kde-format
+msgid "Save Rules"
+msgstr "Lagra reglar"
+
+#: package/contents/ui/main.qml:97
+#, kde-format
+msgid "Add New..."
+msgstr "Legg til ny …"
+
+#: package/contents/ui/main.qml:108
+#, kde-format
+msgid "Import..."
+msgstr "Importer …"
+
+#: package/contents/ui/main.qml:116
+#, kde-format
+msgid "Cancel Export"
+msgstr "Avbryt eksport"
+
+#: package/contents/ui/main.qml:116
+#, kde-format
+msgid "Export..."
+msgstr "Eksporter …"
+
+#: package/contents/ui/main.qml:206
+#, kde-format
+msgid "Edit"
+msgstr "Rediger"
+
+#: package/contents/ui/main.qml:215
+#, kde-format
+msgid "Duplicate"
+msgstr "Lag kopi"
+
+#: package/contents/ui/main.qml:224
+#, kde-format
+msgid "Delete"
+msgstr "Slett"
+
+#: package/contents/ui/main.qml:237
+#, kde-format
+msgid "Import Rules"
+msgstr "Importer reglar"
+
+#: package/contents/ui/main.qml:249
+#, kde-format
+msgid "Export Rules"
+msgstr "Eksporter reglar"
+
 #: package/contents/ui/OptionsComboBox.qml:35
 #, kde-format
 msgid "None selected"
@@ -298,112 +374,36 @@ msgstr "Feil"
 msgid "Add property to the rule"
 msgstr "Legg eigenskap til regelen"
 
-#: package/contents/ui/RulesEditor.qml:259
+#: package/contents/ui/RulesEditor.qml:260
 #: package/contents/ui/ValueEditor.qml:54
 #, kde-format
 msgid "Yes"
 msgstr "Ja"
 
-#: package/contents/ui/RulesEditor.qml:259
+#: package/contents/ui/RulesEditor.qml:260
 #: package/contents/ui/ValueEditor.qml:60
 #, kde-format
 msgid "No"
 msgstr "Nei"
 
-#: package/contents/ui/RulesEditor.qml:261
+#: package/contents/ui/RulesEditor.qml:262
 #: package/contents/ui/ValueEditor.qml:171
 #: package/contents/ui/ValueEditor.qml:178
 #, kde-format
 msgid "%1 %"
 msgstr "%1 %"
 
-#: package/contents/ui/RulesEditor.qml:263
+#: package/contents/ui/RulesEditor.qml:264
 #, kde-format
 msgctxt "Coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr "(%1, %2)"
 
-#: package/contents/ui/RulesEditor.qml:265
+#: package/contents/ui/RulesEditor.qml:266
 #, kde-format
 msgctxt "Size (width, height)"
 msgid "(%1, %2)"
 msgstr "(%1, %2)"
-
-#: package/contents/ui/RulesList.qml:59
-#, kde-format
-msgid "No rules for specific windows are currently set"
-msgstr "Ingen reglar er definerte for spesifikke vindauge"
-
-#: package/contents/ui/RulesList.qml:60
-#, kde-kuit-format
-msgctxt "@info"
-msgid "Click the <interface>Add New...</interface> button below to add some"
-msgstr "Trykk <interface>Legg til ny</interface> for å leggja til ein ny regel"
-
-#: package/contents/ui/RulesList.qml:68
-#, kde-format
-msgid "Select the rules to export"
-msgstr "Vel reglane du vil eksportera"
-
-#: package/contents/ui/RulesList.qml:72
-#, kde-format
-msgid "Unselect All"
-msgstr "Fjern merking"
-
-#: package/contents/ui/RulesList.qml:72
-#, kde-format
-msgid "Select All"
-msgstr "Merk alle"
-
-#: package/contents/ui/RulesList.qml:86
-#, kde-format
-msgid "Save Rules"
-msgstr "Lagra reglar"
-
-#: package/contents/ui/RulesList.qml:97
-#, kde-format
-msgid "Add New..."
-msgstr "Legg til ny …"
-
-#: package/contents/ui/RulesList.qml:108
-#, kde-format
-msgid "Import..."
-msgstr "Importer …"
-
-#: package/contents/ui/RulesList.qml:116
-#, kde-format
-msgid "Cancel Export"
-msgstr "Avbryt eksport"
-
-#: package/contents/ui/RulesList.qml:116
-#, kde-format
-msgid "Export..."
-msgstr "Eksporter …"
-
-#: package/contents/ui/RulesList.qml:206
-#, kde-format
-msgid "Edit"
-msgstr "Rediger"
-
-#: package/contents/ui/RulesList.qml:215
-#, kde-format
-msgid "Duplicate"
-msgstr "Lag kopi"
-
-#: package/contents/ui/RulesList.qml:224
-#, kde-format
-msgid "Delete"
-msgstr "Slett"
-
-#: package/contents/ui/RulesList.qml:237
-#, kde-format
-msgid "Import Rules"
-msgstr "Importer reglar"
-
-#: package/contents/ui/RulesList.qml:249
-#, kde-format
-msgid "Export Rules"
-msgstr "Eksporter reglar"
 
 #: package/contents/ui/ValueEditor.qml:206
 #, kde-format

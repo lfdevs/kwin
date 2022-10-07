@@ -32,6 +32,7 @@ class QWheelEvent;
 
 namespace KWin
 {
+class IdleDetector;
 class Window;
 class GlobalShortcutsManager;
 class InputEventFilter;
@@ -166,8 +167,17 @@ public:
      */
     void uninstallInputEventSpy(InputEventSpy *spy);
 
-    Window *findToplevel(const QPoint &pos);
-    Window *findManagedToplevel(const QPoint &pos);
+    void simulateUserActivity();
+
+    void addIdleDetector(IdleDetector *detector);
+    void removeIdleDetector(IdleDetector *detector);
+
+    QList<Window *> idleInhibitors() const;
+    void addIdleInhibitor(Window *inhibitor);
+    void removeIdleInhibitor(Window *inhibitor);
+
+    Window *findToplevel(const QPointF &pos);
+    Window *findManagedToplevel(const QPointF &pos);
     GlobalShortcutsManager *shortcuts() const
     {
         return m_shortcuts;
@@ -312,7 +322,7 @@ private:
     void installInputEventFilter(InputEventFilter *filter);
     void updateLeds(LEDs leds);
     void updateAvailableInputDevices();
-    void addInputBackend(InputBackend *inputBackend);
+    void addInputBackend(std::unique_ptr<InputBackend> &&inputBackend);
     KeyboardInputRedirection *m_keyboard;
     PointerInputRedirection *m_pointer;
     TabletInputRedirection *m_tablet;
@@ -321,9 +331,11 @@ private:
 
     GlobalShortcutsManager *m_shortcuts;
 
-    QList<InputBackend *> m_inputBackends;
+    std::vector<std::unique_ptr<InputBackend>> m_inputBackends;
     QList<InputDevice *> m_inputDevices;
 
+    QList<IdleDetector *> m_idleDetectors;
+    QList<Window *> m_idleInhibitors;
     WindowSelectorFilter *m_windowSelector = nullptr;
 
     QVector<InputEventFilter *> m_filters;
@@ -420,10 +432,10 @@ public:
     virtual bool switchEvent(SwitchEvent *event);
 
     virtual bool tabletToolEvent(TabletEvent *event);
-    virtual bool tabletToolButtonEvent(uint button, bool pressed, const TabletToolId &tabletToolId);
-    virtual bool tabletPadButtonEvent(uint button, bool pressed, const TabletPadId &tabletPadId);
-    virtual bool tabletPadStripEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId);
-    virtual bool tabletPadRingEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId);
+    virtual bool tabletToolButtonEvent(uint button, bool pressed, const TabletToolId &tabletToolId, uint time);
+    virtual bool tabletPadButtonEvent(uint button, bool pressed, const TabletPadId &tabletPadId, uint time);
+    virtual bool tabletPadStripEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId, uint time);
+    virtual bool tabletPadRingEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId, uint time);
 
 protected:
     void passToWaylandServer(QKeyEvent *event);

@@ -78,10 +78,8 @@ class KWIN_EXPORT NightColorManager : public Plugin
     Q_OBJECT
 
 public:
-    explicit NightColorManager(QObject *parent = nullptr);
+    explicit NightColorManager();
     ~NightColorManager() override;
-
-    void init();
 
     void autoLocationUpdate(double latitude, double longitude);
 
@@ -302,9 +300,9 @@ private:
     QTimer *m_quickAdjustTimer = nullptr;
     QTimer *m_previewTimer = nullptr;
 
-    int m_currentTemp = NEUTRAL_TEMPERATURE;
-    int m_targetTemperature = NEUTRAL_TEMPERATURE;
-    int m_dayTargetTemp = NEUTRAL_TEMPERATURE;
+    int m_currentTemp = DEFAULT_DAY_TEMPERATURE;
+    int m_targetTemperature = DEFAULT_DAY_TEMPERATURE;
+    int m_dayTargetTemp = DEFAULT_DAY_TEMPERATURE;
     int m_nightTargetTemp = DEFAULT_NIGHT_TEMPERATURE;
 
     int m_inhibitReferenceCount = 0;

@@ -30,9 +30,11 @@ Dependencies:
     'frameworks/kdoctools': '@stable'
     'frameworks/krunner': '@stable'
     'frameworks/kirigami': '@stable'
+    'libraries/libqaccessibilityclient': '@same'
     'plasma/breeze': '@same'
     'plasma/kdecoration': '@same'
     'plasma/kscreenlocker': '@same'
 
 Options:
   use-ccache: True
+  require-passing-tests-on: [ 'Linux']

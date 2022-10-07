@@ -18,6 +18,7 @@
 #include <QStyledItemDelegate>
 #include <QVector>
 #include <functional>
+#include <memory>
 
 class QTextEdit;
 
@@ -108,8 +109,8 @@ private:
     void initGLTab();
     void updateKeyboardTab();
 
-    QScopedPointer<Ui::DebugConsole> m_ui;
-    QScopedPointer<DebugConsoleFilter> m_inputFilter;
+    std::unique_ptr<Ui::DebugConsole> m_ui;
+    std::unique_ptr<DebugConsoleFilter> m_inputFilter;
 };
 
 class SurfaceTreeModel : public QAbstractItemModel
@@ -152,10 +153,10 @@ public:
     void switchEvent(SwitchEvent *event) override;
 
     void tabletToolEvent(TabletEvent *event) override;
-    void tabletToolButtonEvent(uint button, bool pressed, const TabletToolId &tabletToolId) override;
-    void tabletPadButtonEvent(uint button, bool pressed, const TabletPadId &tabletPadId) override;
-    void tabletPadStripEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId) override;
-    void tabletPadRingEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId) override;
+    void tabletToolButtonEvent(uint button, bool pressed, const TabletToolId &tabletToolId, uint time) override;
+    void tabletPadButtonEvent(uint button, bool pressed, const TabletPadId &tabletPadId, uint time) override;
+    void tabletPadStripEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId, uint time) override;
+    void tabletPadRingEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId, uint time) override;
 
 private:
     QTextEdit *m_textEdit;

@@ -8,10 +8,9 @@
 */
 #include "kwin_wayland_test.h"
 
+#include "core/output.h"
+#include "core/platform.h"
 #include "cursor.h"
-#include "output.h"
-#include "platform.h"
-#include "screens.h"
 #include "wayland_server.h"
 #include "workspace.h"
 
@@ -38,14 +37,12 @@ private Q_SLOTS:
 void ScreenChangesTest::initTestCase()
 {
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    QVERIFY(applicationStartedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
     setenv("QT_QPA_PLATFORM", "wayland", true);
-    Test::initWaylandWorkspace();
 }
 
 void ScreenChangesTest::init()
@@ -68,11 +65,8 @@ void ScreenChangesTest::testScreenAddRemove()
     // first create a registry to get signals about Outputs announced/removed
     Registry registry;
     QSignalSpy allAnnounced(&registry, &Registry::interfacesAnnounced);
-    QVERIFY(allAnnounced.isValid());
     QSignalSpy outputAnnouncedSpy(&registry, &Registry::outputAnnounced);
-    QVERIFY(outputAnnouncedSpy.isValid());
     QSignalSpy outputRemovedSpy(&registry, &Registry::outputRemoved);
-    QVERIFY(outputRemovedSpy.isValid());
     registry.create(Test::waylandConnection());
     QVERIFY(registry.isValid());
     registry.setup();
@@ -81,23 +75,19 @@ void ScreenChangesTest::testScreenAddRemove()
     auto xdgOutputManager = registry.createXdgOutputManager(xdgOMData.name, xdgOMData.version);
 
     // should be one output
-    QCOMPARE(screens()->count(), 1);
+    QCOMPARE(workspace()->outputs().count(), 1);
     QCOMPARE(outputAnnouncedSpy.count(), 1);
     const quint32 firstOutputId = outputAnnouncedSpy.first().first().value<quint32>();
     QVERIFY(firstOutputId != 0u);
     outputAnnouncedSpy.clear();
 
     // let's announce a new output
-    QSignalSpy screensChangedSpy(screens(), &Screens::changed);
-    QVERIFY(screensChangedSpy.isValid());
     const QVector<QRect> geometries{QRect(0, 0, 1280, 1024), QRect(1280, 0, 1280, 1024)};
     QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs",
                               Qt::DirectConnection,
                               Q_ARG(int, 2),
                               Q_ARG(QVector<QRect>, geometries));
-    QVERIFY(screensChangedSpy.wait());
-    QCOMPARE(screensChangedSpy.count(), 2);
-    const auto outputs = kwinApp()->platform()->enabledOutputs();
+    auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
     QCOMPARE(outputs[0]->geometry(), geometries[0]);
     QCOMPARE(outputs[1]->geometry(), geometries[1]);
@@ -121,32 +111,32 @@ void ScreenChangesTest::testScreenAddRemove()
     QCOMPARE(outputRemovedSpy.count(), 1);
 
     // let's create the output objects to ensure they are correct
-    QScopedPointer<KWayland::Client::Output> o1(registry.createOutput(outputAnnouncedSpy.first().first().value<quint32>(), outputAnnouncedSpy.first().last().value<quint32>()));
+    std::unique_ptr<KWayland::Client::Output> o1(registry.createOutput(outputAnnouncedSpy.first().first().value<quint32>(), outputAnnouncedSpy.first().last().value<quint32>()));
     QVERIFY(o1->isValid());
-    QSignalSpy o1ChangedSpy(o1.data(), &KWayland::Client::Output::changed);
-    QVERIFY(o1ChangedSpy.isValid());
+    QSignalSpy o1ChangedSpy(o1.get(), &KWayland::Client::Output::changed);
     QVERIFY(o1ChangedSpy.wait());
-    QCOMPARE(o1->geometry(), geometries.at(0));
-    QScopedPointer<KWayland::Client::Output> o2(registry.createOutput(outputAnnouncedSpy.last().first().value<quint32>(), outputAnnouncedSpy.last().last().value<quint32>()));
+    KWin::Output *serverOutput1 = kwinApp()->platform()->findOutput(o1->name()); // use wl_output.name to find the compositor side output
+    QCOMPARE(o1->globalPosition(), serverOutput1->geometry().topLeft());
+    QCOMPARE(o1->pixelSize(), serverOutput1->modeSize());
+    std::unique_ptr<KWayland::Client::Output> o2(registry.createOutput(outputAnnouncedSpy.last().first().value<quint32>(), outputAnnouncedSpy.last().last().value<quint32>()));
     QVERIFY(o2->isValid());
-    QSignalSpy o2ChangedSpy(o2.data(), &KWayland::Client::Output::changed);
-    QVERIFY(o2ChangedSpy.isValid());
+    QSignalSpy o2ChangedSpy(o2.get(), &KWayland::Client::Output::changed);
     QVERIFY(o2ChangedSpy.wait());
-    QCOMPARE(o2->geometry(), geometries.at(1));
+    KWin::Output *serverOutput2 = kwinApp()->platform()->findOutput(o2->name()); // use wl_output.name to find the compositor side output
+    QCOMPARE(o2->globalPosition(), serverOutput2->geometry().topLeft());
+    QCOMPARE(o2->pixelSize(), serverOutput2->modeSize());
 
     // and check XDGOutput is synced
-    QScopedPointer<XdgOutput> xdgO1(xdgOutputManager->getXdgOutput(o1.data()));
-    QSignalSpy xdgO1ChangedSpy(xdgO1.data(), &XdgOutput::changed);
-    QVERIFY(xdgO1ChangedSpy.isValid());
+    std::unique_ptr<XdgOutput> xdgO1(xdgOutputManager->getXdgOutput(o1.get()));
+    QSignalSpy xdgO1ChangedSpy(xdgO1.get(), &XdgOutput::changed);
     QVERIFY(xdgO1ChangedSpy.wait());
-    QCOMPARE(xdgO1->logicalPosition(), geometries.at(0).topLeft());
-    QCOMPARE(xdgO1->logicalSize(), geometries.at(0).size());
-    QScopedPointer<XdgOutput> xdgO2(xdgOutputManager->getXdgOutput(o2.data()));
-    QSignalSpy xdgO2ChangedSpy(xdgO2.data(), &XdgOutput::changed);
-    QVERIFY(xdgO2ChangedSpy.isValid());
+    QCOMPARE(xdgO1->logicalPosition(), serverOutput1->geometry().topLeft());
+    QCOMPARE(xdgO1->logicalSize(), serverOutput1->geometry().size());
+    std::unique_ptr<XdgOutput> xdgO2(xdgOutputManager->getXdgOutput(o2.get()));
+    QSignalSpy xdgO2ChangedSpy(xdgO2.get(), &XdgOutput::changed);
     QVERIFY(xdgO2ChangedSpy.wait());
-    QCOMPARE(xdgO2->logicalPosition(), geometries.at(1).topLeft());
-    QCOMPARE(xdgO2->logicalSize(), geometries.at(1).size());
+    QCOMPARE(xdgO2->logicalPosition(), serverOutput2->geometry().topLeft());
+    QCOMPARE(xdgO2->logicalSize(), serverOutput2->geometry().size());
 
     QVERIFY(xdgO1->name().startsWith("Virtual-"));
     QVERIFY(xdgO1->name() != xdgO2->name());
@@ -155,22 +145,18 @@ void ScreenChangesTest::testScreenAddRemove()
     // now let's try to remove one output again
     outputAnnouncedSpy.clear();
     outputRemovedSpy.clear();
-    screensChangedSpy.clear();
 
-    QSignalSpy o1RemovedSpy(o1.data(), &KWayland::Client::Output::removed);
-    QVERIFY(o1RemovedSpy.isValid());
-    QSignalSpy o2RemovedSpy(o2.data(), &KWayland::Client::Output::removed);
-    QVERIFY(o2RemovedSpy.isValid());
+    QSignalSpy o1RemovedSpy(o1.get(), &KWayland::Client::Output::removed);
+    QSignalSpy o2RemovedSpy(o2.get(), &KWayland::Client::Output::removed);
 
     const QVector<QRect> geometries2{QRect(0, 0, 1280, 1024)};
     QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs",
                               Qt::DirectConnection,
                               Q_ARG(int, 1),
                               Q_ARG(QVector<QRect>, geometries2));
-    QVERIFY(screensChangedSpy.wait());
-    QCOMPARE(screensChangedSpy.count(), 2);
-    QCOMPARE(screens()->count(), 1);
-    QCOMPARE(screens()->geometry(0), geometries2.at(0));
+    outputs = workspace()->outputs();
+    QCOMPARE(outputs.count(), 1);
+    QCOMPARE(outputs[0]->geometry(), geometries2.at(0));
 
     QVERIFY(outputAnnouncedSpy.wait());
     QCOMPARE(outputAnnouncedSpy.count(), 1);

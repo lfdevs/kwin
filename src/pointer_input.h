@@ -13,7 +13,7 @@
 
 #include "cursor.h"
 #include "input.h"
-#include "xcursortheme.h"
+#include "utils/xcursortheme.h"
 
 #include <QElapsedTimer>
 #include <QObject>
@@ -40,7 +40,6 @@ namespace Decoration
 class DecoratedClientImpl;
 }
 
-uint32_t qtMouseButtonToButton(Qt::MouseButton button);
 
 class KWIN_EXPORT PointerInputRedirection : public InputDeviceHandler
 {

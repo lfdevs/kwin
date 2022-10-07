@@ -8,19 +8,20 @@
 # Franklin Weng <franklin@goodhorse.idv.tw>, 2011, 2012, 2013, 2015.
 # Jeff Huang <s8321414@gmail.com>, 2016, 2022.
 # pan93412 <pan93412@gmail.com>, 2018, 2019, 2020.
+# Kisaragi Hiu <mail@kisaragi-hiu.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-04-18 00:45+0000\n"
-"PO-Revision-Date: 2022-03-08 21:34+0800\n"
-"Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
-"Language-Team: Chinese <zh-l10n@lists.slat.org>\n"
+"POT-Creation-Date: 2022-08-19 00:47+0000\n"
+"PO-Revision-Date: 2022-06-19 22:32+0900\n"
+"Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
+"Language-Team: Traditional Chinese <zh-l10n@linux.org.tw>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 21.12.3\n"
+"X-Generator: Lokalize 22.04.2\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #, kde-format
@@ -218,6 +219,82 @@ msgstr "選擇檔案"
 msgid "KWin Rules (*.kwinrule)"
 msgstr "KWin 規則 (*.kwinrule)"
 
+#: package/contents/ui/main.qml:59
+#, kde-format
+msgid "No rules for specific windows are currently set"
+msgstr "目前未設定特定視窗規則"
+
+#: package/contents/ui/main.qml:60
+#, kde-kuit-format
+msgctxt "@info"
+msgid "Click the <interface>Add New...</interface> button below to add some"
+msgstr "點擊下方的<interface>新增……</interface>按鈕以新增一些"
+
+#: package/contents/ui/main.qml:68
+#, kde-format
+msgid "Select the rules to export"
+msgstr "選取要匯出的規則"
+
+#: package/contents/ui/main.qml:72
+#, kde-format
+msgid "Unselect All"
+msgstr "全部不選取"
+
+#: package/contents/ui/main.qml:72
+#, kde-format
+msgid "Select All"
+msgstr "全部選取"
+
+#: package/contents/ui/main.qml:86
+#, kde-format
+msgid "Save Rules"
+msgstr "儲存規則"
+
+#: package/contents/ui/main.qml:97
+#, kde-format
+msgid "Add New..."
+msgstr "新增…"
+
+#: package/contents/ui/main.qml:108
+#, kde-format
+msgid "Import..."
+msgstr "匯入…"
+
+#: package/contents/ui/main.qml:116
+#, kde-format
+msgid "Cancel Export"
+msgstr "取消匯出"
+
+#: package/contents/ui/main.qml:116
+#, kde-format
+msgid "Export..."
+msgstr "匯出…"
+
+#: package/contents/ui/main.qml:206
+#, kde-format
+msgid "Edit"
+msgstr "編輯"
+
+#: package/contents/ui/main.qml:215
+#, kde-format
+msgid "Duplicate"
+msgstr "再製"
+
+#: package/contents/ui/main.qml:224
+#, kde-format
+msgid "Delete"
+msgstr "刪除"
+
+#: package/contents/ui/main.qml:237
+#, kde-format
+msgid "Import Rules"
+msgstr "匯入規則"
+
+#: package/contents/ui/main.qml:249
+#, kde-format
+msgid "Export Rules"
+msgstr "匯出規則"
+
 #: package/contents/ui/OptionsComboBox.qml:35
 #, kde-format
 msgid "None selected"
@@ -287,112 +364,36 @@ msgstr "錯誤"
 msgid "Add property to the rule"
 msgstr "新增屬性至規則"
 
-#: package/contents/ui/RulesEditor.qml:259
+#: package/contents/ui/RulesEditor.qml:260
 #: package/contents/ui/ValueEditor.qml:54
 #, kde-format
 msgid "Yes"
 msgstr "是"
 
-#: package/contents/ui/RulesEditor.qml:259
+#: package/contents/ui/RulesEditor.qml:260
 #: package/contents/ui/ValueEditor.qml:60
 #, kde-format
 msgid "No"
 msgstr "否"
 
-#: package/contents/ui/RulesEditor.qml:261
+#: package/contents/ui/RulesEditor.qml:262
 #: package/contents/ui/ValueEditor.qml:171
 #: package/contents/ui/ValueEditor.qml:178
 #, kde-format
 msgid "%1 %"
 msgstr "%1 %"
 
-#: package/contents/ui/RulesEditor.qml:263
+#: package/contents/ui/RulesEditor.qml:264
 #, kde-format
 msgctxt "Coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr "(%1, %2)"
 
-#: package/contents/ui/RulesEditor.qml:265
+#: package/contents/ui/RulesEditor.qml:266
 #, kde-format
 msgctxt "Size (width, height)"
 msgid "(%1, %2)"
 msgstr "(%1, %2)"
-
-#: package/contents/ui/RulesList.qml:59
-#, kde-format
-msgid "No rules for specific windows are currently set"
-msgstr "目前未設定特定視窗規則"
-
-#: package/contents/ui/RulesList.qml:60
-#, kde-kuit-format
-msgctxt "@info"
-msgid "Click the <interface>Add New...</interface> button below to add some"
-msgstr "點擊下方的<interface>新增……</interface>按鈕以新增一些"
-
-#: package/contents/ui/RulesList.qml:68
-#, kde-format
-msgid "Select the rules to export"
-msgstr "選取要匯出的規則"
-
-#: package/contents/ui/RulesList.qml:72
-#, kde-format
-msgid "Unselect All"
-msgstr "全部不選取"
-
-#: package/contents/ui/RulesList.qml:72
-#, kde-format
-msgid "Select All"
-msgstr "全部選取"
-
-#: package/contents/ui/RulesList.qml:86
-#, kde-format
-msgid "Save Rules"
-msgstr "儲存規則"
-
-#: package/contents/ui/RulesList.qml:97
-#, kde-format
-msgid "Add New..."
-msgstr "新增…"
-
-#: package/contents/ui/RulesList.qml:108
-#, kde-format
-msgid "Import..."
-msgstr "匯入…"
-
-#: package/contents/ui/RulesList.qml:116
-#, kde-format
-msgid "Cancel Export"
-msgstr "取消匯出"
-
-#: package/contents/ui/RulesList.qml:116
-#, kde-format
-msgid "Export..."
-msgstr "匯出…"
-
-#: package/contents/ui/RulesList.qml:206
-#, kde-format
-msgid "Edit"
-msgstr "編輯"
-
-#: package/contents/ui/RulesList.qml:215
-#, kde-format
-msgid "Duplicate"
-msgstr "再製"
-
-#: package/contents/ui/RulesList.qml:224
-#, kde-format
-msgid "Delete"
-msgstr "刪除"
-
-#: package/contents/ui/RulesList.qml:237
-#, kde-format
-msgid "Import Rules"
-msgstr "匯入規則"
-
-#: package/contents/ui/RulesList.qml:249
-#, kde-format
-msgid "Export Rules"
-msgstr "匯出規則"
 
 #: package/contents/ui/ValueEditor.qml:206
 #, kde-format
@@ -767,10 +768,9 @@ msgid "Block compositing"
 msgstr "阻擋組合"
 
 #: rulesmodel.cpp:727
-#, fuzzy, kde-format
-#| msgid "Window types"
+#, kde-format
 msgid "All Window Types"
-msgstr "視窗類型"
+msgstr "所有視窗類型"
 
 #: rulesmodel.cpp:728
 #, kde-format
@@ -832,7 +832,7 @@ msgstr "所有桌面"
 #, kde-format
 msgctxt "@info:tooltip in the virtual desktop list"
 msgid "Make the window available on all desktops"
-msgstr ""
+msgstr "讓視窗顯示在所有桌面上"
 
 #: rulesmodel.cpp:769
 #, kde-format
@@ -843,7 +843,7 @@ msgstr "所有的活動"
 #, kde-format
 msgctxt "@info:tooltip in the activity list"
 msgid "Make the window available on all activities"
-msgstr ""
+msgstr "讓視窗顯示在所有活動裡"
 
 #: rulesmodel.cpp:792
 #, kde-format

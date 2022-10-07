@@ -7,16 +7,16 @@
 #include <QtTest>
 // KWin
 #include "wayland/display.h"
-#include "wayland/dpms_interface.h"
 #include "wayland/output_interface.h"
 #include "wayland/xdgoutput_v1_interface.h"
 
 #include "KWayland/Client/connection_thread.h"
-#include "KWayland/Client/dpms.h"
 #include "KWayland/Client/event_queue.h"
 #include "KWayland/Client/output.h"
 #include "KWayland/Client/registry.h"
 #include "KWayland/Client/xdgoutput.h"
+
+#include "../../tests/fakeoutput.h"
 
 class TestXdgOutput : public QObject
 {
@@ -30,6 +30,7 @@ private Q_SLOTS:
 
 private:
     KWaylandServer::Display *m_display;
+    std::unique_ptr<FakeOutput> m_outputHandle;
     KWaylandServer::OutputInterface *m_serverOutput;
     KWaylandServer::XdgOutputManagerV1Interface *m_serverXdgOutputManager;
     KWaylandServer::XdgOutputV1Interface *m_serverXdgOutput;
@@ -58,7 +59,10 @@ void TestXdgOutput::init()
     m_display->start();
     QVERIFY(m_display->isRunning());
 
-    m_serverOutput = new OutputInterface(m_display, this);
+    m_outputHandle = std::make_unique<FakeOutput>();
+    m_outputHandle->setMode(QSize(1920, 1080), 60000);
+
+    m_serverOutput = new OutputInterface(m_display, m_outputHandle.get(), this);
     m_serverOutput->setMode(QSize(1920, 1080));
 
     m_serverXdgOutputManager = new XdgOutputManagerV1Interface(m_display, this);
@@ -105,6 +109,7 @@ void TestXdgOutput::cleanup()
 
     delete m_serverOutput;
     m_serverOutput = nullptr;
+    m_outputHandle.reset();
 
     delete m_display;
     m_display = nullptr;
@@ -134,11 +139,11 @@ void TestXdgOutput::testChanges()
     output.setup(registry.bindOutput(announced.first().first().value<quint32>(), announced.first().last().value<quint32>()));
     QVERIFY(outputChanged.wait());
 
-    QScopedPointer<KWayland::Client::XdgOutputManager> xdgOutputManager(
+    std::unique_ptr<KWayland::Client::XdgOutputManager> xdgOutputManager(
         registry.createXdgOutputManager(xdgOutputAnnounced.first().first().value<quint32>(), xdgOutputAnnounced.first().last().value<quint32>(), this));
 
-    QScopedPointer<KWayland::Client::XdgOutput> xdgOutput(xdgOutputManager->getXdgOutput(&output, this));
-    QSignalSpy xdgOutputChanged(xdgOutput.data(), &KWayland::Client::XdgOutput::changed);
+    std::unique_ptr<KWayland::Client::XdgOutput> xdgOutput(xdgOutputManager->getXdgOutput(&output, this));
+    QSignalSpy xdgOutputChanged(xdgOutput.get(), &KWayland::Client::XdgOutput::changed);
 
     // check details are sent on client bind
     QVERIFY(xdgOutputChanged.wait());

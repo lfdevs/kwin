@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-05-12 00:46+0000\n"
-"PO-Revision-Date: 2022-07-21 19:30+0200\n"
+"POT-Creation-Date: 2022-07-15 00:48+0000\n"
+"PO-Revision-Date: 2022-07-21 19:19+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -35,8 +35,8 @@ msgstr "Без действие"
 
 #: main.cpp:131 touch.cpp:125
 #, kde-format
-msgid "Show Desktop"
-msgstr "Показване на работния плот"
+msgid "Peek at Desktop"
+msgstr "Поглед върху работния плот"
 
 #: main.cpp:132 touch.cpp:126
 #, kde-format
@@ -125,7 +125,7 @@ msgstr "При завличане на прозорците в левия или
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:101
 #, kde-format
-msgid "Behavior"
+msgid "Behavior:"
 msgstr "Поведение:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, remainActiveOnFullscreen)

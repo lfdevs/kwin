@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-05-12 00:46+0000\n"
-"PO-Revision-Date: 2022-08-20 14:20\n"
+"POT-Creation-Date: 2022-07-15 00:48+0000\n"
+"PO-Revision-Date: 2022-08-20 14:17\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -14,8 +14,8 @@ msgstr ""
 "X-Crowdin-Project: kdeorg\n"
 "X-Crowdin-Project-ID: 269464\n"
 "X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /kf5-stable/messages/kwin/kcmkwinscreenedges.pot\n"
-"X-Crowdin-File-ID: 2548\n"
+"X-Crowdin-File: /kf5-trunk/messages/kwin/kcmkwinscreenedges.pot\n"
+"X-Crowdin-File-ID: 4403\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -36,8 +36,8 @@ msgstr "无操作"
 
 #: main.cpp:131 touch.cpp:125
 #, kde-format
-msgid "Show Desktop"
-msgstr "显示桌面"
+msgid "Peek at Desktop"
+msgstr "暂时显示桌面"
 
 #: main.cpp:132 touch.cpp:126
 #, kde-format
@@ -124,8 +124,8 @@ msgstr "将窗口拖到屏幕左/右边缘"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:101
 #, kde-format
-msgid "Behavior"
-msgstr "行为"
+msgid "Behavior:"
+msgstr "行为："
 
 #. i18n: ectx: property (text), widget (QCheckBox, remainActiveOnFullscreen)
 #: main.ui:108

@@ -6,8 +6,8 @@
 */
 #pragma once
 
+#include "core/output.h"
 #include "kwin_export.h"
-#include "output.h"
 
 #include <QObject>
 #include <QPoint>
@@ -15,6 +15,11 @@
 
 struct wl_resource;
 struct wl_client;
+
+namespace KWin
+{
+class Output;
+}
 
 namespace KWaylandServer
 {
@@ -43,11 +48,13 @@ public:
         int refreshRate = 60000;
     };
 
-    explicit OutputInterface(Display *display, QObject *parent = nullptr);
+    explicit OutputInterface(Display *display, KWin::Output *handle, QObject *parent = nullptr);
     ~OutputInterface() override;
 
     bool isRemoved() const;
     void remove();
+
+    KWin::Output *handle() const;
 
     QSize physicalSize() const;
     QPoint globalPosition() const;
@@ -59,8 +66,6 @@ public:
     KWin::Output::SubPixel subPixel() const;
     KWin::Output::Transform transform() const;
     Mode mode() const;
-    bool isDpmsSupported() const;
-    KWin::Output::DpmsMode dpmsMode() const;
 
     void setPhysicalSize(const QSize &size);
     void setGlobalPosition(const QPoint &pos);
@@ -71,27 +76,13 @@ public:
     void setTransform(KWin::Output::Transform transform);
     void setMode(const Mode &mode);
     void setMode(const QSize &size, int refreshRate = 60000);
-
-    /**
-     * Sets whether Dpms is supported for this output.
-     * Default is @c false.
-     */
-    void setDpmsSupported(bool supported);
-    /**
-     * Sets the currently used dpms mode.
-     * Default is @c DpmsMode::On.
-     */
-    void setDpmsMode(KWin::Output::DpmsMode mode);
+    void setName(const QString &name);
+    void setDescription(const QString &description);
 
     /**
      * @returns all wl_resources bound for the @p client
      */
     QVector<wl_resource *> clientResources(ClientConnection *client) const;
-
-    /**
-     * Returns @c true if the output is on; otherwise returns false.
-     */
-    bool isEnabled() const;
 
     /**
      * Submit changes to all clients.
@@ -105,6 +96,8 @@ public:
 
     static OutputInterface *get(wl_resource *native);
 
+    Display *display() const;
+
 Q_SIGNALS:
     void physicalSizeChanged(const QSize &);
     void globalPositionChanged(const QPoint &);
@@ -116,15 +109,7 @@ Q_SIGNALS:
     void subPixelChanged(KWin::Output::SubPixel);
     void transformChanged(KWin::Output::Transform);
     void modeChanged();
-    void dpmsModeChanged();
-    void dpmsSupportedChanged();
     void removed();
-
-    /**
-     * Change of dpms @p mode is requested.
-     * A server is free to ignore this request.
-     */
-    void dpmsModeRequested(KWin::Output::DpmsMode mode);
 
     /**
      * Emitted when a client binds to a given output
@@ -133,7 +118,7 @@ Q_SIGNALS:
     void bound(ClientConnection *client, wl_resource *boundResource);
 
 private:
-    QScopedPointer<OutputInterfacePrivate> d;
+    std::unique_ptr<OutputInterfacePrivate> d;
 };
 
 } // namespace KWaylandServer

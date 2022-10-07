@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: desktop_kdebase\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-08-10 02:20+0000\n"
+"POT-Creation-Date: 2022-09-14 00:46+0000\n"
 "PO-Revision-Date: 2008-11-06 22:08+0100\n"
 "Last-Translator: Eduard Werner <edi.werner@gmx.de>\n"
 "Language-Team: en_US <kde-i18n-doc@lists.kde.org>\n"
@@ -50,23 +50,23 @@ msgid ""
 "Escape or right click to cancel."
 msgstr ""
 
-#: desktopgrid/desktopgrid_config.cpp:51 invert/invert_config.cpp:35
-#: lookingglass/lookingglass_config.cpp:55 magnifier/magnifier_config.cpp:57
-#: mouseclick/mouseclick_config.cpp:49 mousemark/mousemark_config.cpp:52
-#: overview/kcm/overvieweffectkcm.cpp:35 showpaint/showpaint_config.cpp:33
-#: thumbnailaside/thumbnailaside_config.cpp:56
+#: desktopgrid/desktopgrid_config.cpp:49 invert/invert_config.cpp:35
+#: magnifier/magnifier_config.cpp:55 mouseclick/mouseclick_config.cpp:48
+#: mousemark/mousemark_config.cpp:50 overview/kcm/overvieweffectkcm.cpp:35
+#: showpaint/showpaint_config.cpp:33
+#: thumbnailaside/thumbnailaside_config.cpp:54
 #: trackmouse/trackmouse_config.cpp:52
 #: windowview/kcm/windowvieweffectkcm.cpp:35 zoom/zoom_config.cpp:58
 #, kde-format
 msgid "KWin"
 msgstr ""
 
-#: desktopgrid/desktopgrid_config.cpp:56 desktopgrid/desktopgrideffect.cpp:35
+#: desktopgrid/desktopgrid_config.cpp:54 desktopgrid/desktopgrideffect.cpp:35
 #, kde-format
 msgid "Show Desktop Grid"
 msgstr ""
 
-#: desktopgrid/desktopgrid_config.cpp:63
+#: desktopgrid/desktopgrid_config.cpp:61
 #, kde-format
 msgctxt "Desktop name alignment:"
 msgid "Disabled"
@@ -74,13 +74,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
-#: desktopgrid/desktopgrid_config.cpp:64 glide/glide_config.ui:70
+#: desktopgrid/desktopgrid_config.cpp:62 glide/glide_config.ui:70
 #: glide/glide_config.ui:168
 #, kde-format
 msgid "Top"
 msgstr ""
 
-#: desktopgrid/desktopgrid_config.cpp:65
+#: desktopgrid/desktopgrid_config.cpp:63
 #, fuzzy, kde-format
 #| msgctxt "keyboard-key-name"
 #| msgid "Right"
@@ -89,13 +89,13 @@ msgstr "Naprawo"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
-#: desktopgrid/desktopgrid_config.cpp:66 glide/glide_config.ui:75
+#: desktopgrid/desktopgrid_config.cpp:64 glide/glide_config.ui:75
 #: glide/glide_config.ui:173
 #, kde-format
 msgid "Right"
 msgstr ""
 
-#: desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid_config.cpp:65
 #, fuzzy, kde-format
 #| msgctxt "toolbar position string"
 #| msgid "Bottom"
@@ -104,13 +104,13 @@ msgstr "Deleka"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
-#: desktopgrid/desktopgrid_config.cpp:68 glide/glide_config.ui:80
+#: desktopgrid/desktopgrid_config.cpp:66 glide/glide_config.ui:80
 #: glide/glide_config.ui:178
 #, kde-format
 msgid "Bottom"
 msgstr ""
 
-#: desktopgrid/desktopgrid_config.cpp:69
+#: desktopgrid/desktopgrid_config.cpp:67
 #, fuzzy, kde-format
 #| msgctxt "toolbar position string"
 #| msgid "Bottom"
@@ -119,20 +119,20 @@ msgstr "Deleka"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
-#: desktopgrid/desktopgrid_config.cpp:70 glide/glide_config.ui:85
+#: desktopgrid/desktopgrid_config.cpp:68 glide/glide_config.ui:85
 #: glide/glide_config.ui:183
 #, kde-format
 msgid "Left"
 msgstr ""
 
-#: desktopgrid/desktopgrid_config.cpp:71
+#: desktopgrid/desktopgrid_config.cpp:69
 #, fuzzy, kde-format
 #| msgctxt "keyboard-key-name"
 #| msgid "Left"
 msgid "Top-Left"
 msgstr "Nalěwo"
 
-#: desktopgrid/desktopgrid_config.cpp:72
+#: desktopgrid/desktopgrid_config.cpp:70
 #, kde-format
 msgid "Center"
 msgstr ""
@@ -328,12 +328,6 @@ msgstr ""
 msgid "Fade to black (fullscreen splash screens only)"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: lookingglass/lookingglass_config.ui:24
-#, kde-format
-msgid "&Radius:"
-msgstr ""
-
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: magiclamp/magiclamp_config.ui:17
 #, fuzzy, kde-format
@@ -380,7 +374,7 @@ msgstr ""
 msgid "&Height:"
 msgstr ""
 
-#: mouseclick/mouseclick.cpp:34 mouseclick/mouseclick_config.cpp:52
+#: mouseclick/mouseclick.cpp:34 mouseclick/mouseclick_config.cpp:51
 #, kde-format
 msgid "Toggle Mouse Click Effect"
 msgstr ""
@@ -407,12 +401,12 @@ msgctxt "Right mouse button"
 msgid "Right"
 msgstr "Naprawo"
 
-#: mouseclick/mouseclick.h:73
+#: mouseclick/mouseclick.h:61
 #, kde-format
 msgid "↓"
 msgstr ""
 
-#: mouseclick/mouseclick.h:74
+#: mouseclick/mouseclick.h:62
 #, kde-format
 msgid "↑"
 msgstr ""
@@ -492,8 +486,7 @@ msgid "Ring Count:"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, font)
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: mouseclick/mouseclick_config.ui:210 showfps/showfps_config.ui:17
+#: mouseclick/mouseclick_config.ui:210
 #, kde-format
 msgid "Text"
 msgstr ""
@@ -515,17 +508,17 @@ msgstr "Name=Dźěłowy powjerch"
 msgid "Clear All Mouse Marks"
 msgstr ""
 
-#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:61
+#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:59
 #, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr ""
 
-#: mousemark/mousemark_config.cpp:55
+#: mousemark/mousemark_config.cpp:53
 #, kde-format
 msgid "Clear Mouse Marks"
 msgstr ""
 
-#: mousemark/mousemark_config.cpp:102
+#: mousemark/mousemark_config.cpp:100
 #, kde-format
 msgctxt "Suffix"
 msgid " pixel"
@@ -553,6 +546,12 @@ msgstr ""
 msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr ""
 
+#: outputlocator/outputlocator.cpp:48
+#, kde-format
+msgctxt "@label"
+msgid "Unknown"
+msgstr ""
+
 #: overview/kcm/overvieweffectkcm.cpp:41 overview/overvieweffect.cpp:31
 #, kde-format
 msgid "Toggle Overview"
@@ -578,25 +577,38 @@ msgstr "Wo słowo dozady"
 msgid "Ignore minimized windows:"
 msgstr "Name=Zakładne wokno"
 
-#: overview/qml/DesktopBar.qml:188
+#: overview/qml/DesktopBar.qml:185
 #, kde-format
-msgid "Delete virtual desktop"
+msgid "Delete Virtual Desktop"
 msgstr ""
 
-#: overview/qml/DesktopBar.qml:278
+#: overview/qml/DesktopBar.qml:281
 #, fuzzy, kde-format
-msgid "Add Desktop"
+msgid "Add Virtual Desktop"
 msgstr "Name=Dźěłowy powjerch"
 
-#: overview/qml/ScreenView.qml:170
+#: overview/qml/ScreenView.qml:206
 #, kde-format
 msgid "Search..."
 msgstr ""
 
-#: private/qml/WindowHeapDelegate.qml:150
+#: overview/qml/ScreenView.qml:233
+#, fuzzy, kde-format
+#| msgid "Close window?"
+msgid "No matching windows"
+msgstr "Wokno začinić?"
+
+#: private/qml/WindowHeapDelegate.qml:206
 #, kde-format
 msgid "Drag Down To Close"
 msgstr ""
+
+#: private/qml/WindowHeapDelegate.qml:447
+#, fuzzy, kde-format
+#| msgid "Close window?"
+msgctxt "@info:tooltip as in: 'close this window'"
+msgid "Close window"
+msgstr "Wokno začinić?"
 
 #. i18n: ectx: property (text), widget (QLabel, label_InScale)
 #: scale/package/contents/ui/config.ui:46
@@ -640,105 +652,35 @@ msgid ""
 "Escape or right click to cancel."
 msgstr ""
 
-#: showfps/showfps.cpp:52
-#, kde-format
-msgid "This effect is not a benchmark"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: showfps/showfps_config.ui:23
-#, kde-format
-msgid "Text position:"
-msgstr ""
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TextPosition)
-#: showfps/showfps_config.ui:43
-#, kde-format
-msgid "Inside Graph"
-msgstr ""
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TextPosition)
-#: showfps/showfps_config.ui:48
-#, kde-format
-msgid "Nowhere"
-msgstr ""
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TextPosition)
-#: showfps/showfps_config.ui:53
-#, kde-format
-msgid "Top Left"
-msgstr ""
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TextPosition)
-#: showfps/showfps_config.ui:58
-#, kde-format
-msgid "Top Right"
-msgstr ""
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TextPosition)
-#: showfps/showfps_config.ui:63
-#, kde-format
-msgid "Bottom Left"
-msgstr ""
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TextPosition)
-#: showfps/showfps_config.ui:68
-#, kde-format
-msgid "Bottom Right"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: showfps/showfps_config.ui:76
-#, kde-format
-msgid "Text font:"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: showfps/showfps_config.ui:96
-#, kde-format
-msgid "Text color:"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: showfps/showfps_config.ui:119
-#, kde-format
-msgid "Text alpha:"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: showfps/showfps_config.ui:154
-#, kde-format
-msgid "Show graph:"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowGraph)
-#: showfps/showfps_config.ui:167
-#, kde-format
-msgid "Show on active screen"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: showfps/showfps_config.ui:174
+#: showfps/qml/main.qml:110
 #, fuzzy, kde-format
-msgid "Show Message:"
-msgstr "Name=Dźěłowy powjerch"
+#| msgid "Saturday"
+msgctxt "@label"
+msgid "Paint Duration"
+msgstr "Sobotu"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowNoBenchmark)
-#: showfps/showfps_config.ui:187
+#: showfps/qml/main.qml:162
 #, kde-format
-msgid "Show \"not a benchmark\" message"
+msgctxt "@label"
+msgid "Paint Amount"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: showfps/showfps_config.ui:194
+#: showfps/qml/main.qml:175
 #, kde-format
-msgid "Colorize Text:"
+msgctxt "@label"
+msgid "Current FPS"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ColorizeText)
-#: showfps/showfps_config.ui:207
+#: showfps/qml/main.qml:184
 #, kde-format
-msgid "Color text by value (green > yellow > red)"
+msgctxt "@label"
+msgid "Maximum FPS"
+msgstr ""
+
+#: showfps/qml/main.qml:192
+#, kde-format
+msgctxt "@label"
+msgid "This effect is not a benchmark"
 msgstr ""
 
 #: showpaint/showpaint.cpp:38 showpaint/showpaint_config.cpp:38
@@ -778,7 +720,7 @@ msgid "Slide desktop background"
 msgstr ""
 
 #: thumbnailaside/thumbnailaside.cpp:29
-#: thumbnailaside/thumbnailaside_config.cpp:61
+#: thumbnailaside/thumbnailaside_config.cpp:59
 #, kde-format
 msgid "Toggle Thumbnail for Current Window"
 msgstr ""
@@ -815,7 +757,7 @@ msgstr ""
 msgid " %"
 msgstr ""
 
-#: trackmouse/trackmouse.cpp:45 trackmouse/trackmouse_config.cpp:57
+#: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:57
 #, fuzzy, kde-format
 msgid "Track mouse"
 msgstr "Swójstwa %2"
@@ -946,17 +888,17 @@ msgstr ""
 msgid "Torn-off menus:"
 msgstr ""
 
-#: windowview/kcm/windowvieweffectkcm.cpp:41 windowview/windowvieweffect.cpp:44
+#: windowview/kcm/windowvieweffectkcm.cpp:41 windowview/windowvieweffect.cpp:45
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr ""
 
-#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:54
+#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:55
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr ""
 
-#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:64
+#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:65
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr ""
@@ -967,16 +909,21 @@ msgstr ""
 msgid "Ignore &minimized windows"
 msgstr ""
 
-#: windowview/qml/main.qml:157
+#: windowview/qml/main.qml:203
 #, kde-format
 msgid "No Matches"
 msgstr ""
 
-#: windowview/qml/main.qml:157
+#: windowview/qml/main.qml:203
 #, fuzzy, kde-format
 #| msgid "Close window?"
 msgid "No Windows"
 msgstr "Wokno začinić?"
+
+#: windowview/windowvieweffect.cpp:74
+#, kde-format
+msgid "Toggle Present Windows (Window class on current desktop)"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20

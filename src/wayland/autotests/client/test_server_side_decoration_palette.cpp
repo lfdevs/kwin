@@ -68,7 +68,6 @@ void TestServerSideDecorationPalette::init()
     // setup connection
     m_connection = new KWayland::Client::ConnectionThread;
     QSignalSpy connectedSpy(m_connection, &ConnectionThread::connected);
-    QVERIFY(connectedSpy.isValid());
     m_connection->setSocketName(s_socketName);
 
     m_thread = new QThread(this);
@@ -85,10 +84,8 @@ void TestServerSideDecorationPalette::init()
 
     Registry registry;
     QSignalSpy compositorSpy(&registry, &Registry::compositorAnnounced);
-    QVERIFY(compositorSpy.isValid());
 
     QSignalSpy registrySpy(&registry, &Registry::serverSideDecorationPaletteManagerAnnounced);
-    QVERIFY(registrySpy.isValid());
 
     QVERIFY(!registry.eventQueue());
     registry.setEventQueue(m_queue);
@@ -137,9 +134,8 @@ void TestServerSideDecorationPalette::cleanup()
 void TestServerSideDecorationPalette::testCreateAndSet()
 {
     QSignalSpy serverSurfaceCreated(m_compositorInterface, &KWaylandServer::CompositorInterface::surfaceCreated);
-    QVERIFY(serverSurfaceCreated.isValid());
 
-    QScopedPointer<KWayland::Client::Surface> surface(m_compositor->createSurface());
+    std::unique_ptr<KWayland::Client::Surface> surface(m_compositor->createSurface());
     QVERIFY(serverSurfaceCreated.wait());
 
     auto serverSurface = serverSurfaceCreated.first().first().value<KWaylandServer::SurfaceInterface *>();
@@ -147,7 +143,7 @@ void TestServerSideDecorationPalette::testCreateAndSet()
 
     QVERIFY(!m_paletteManagerInterface->paletteForSurface(serverSurface));
 
-    auto palette = m_paletteManager->create(surface.data(), surface.data());
+    auto palette = m_paletteManager->create(surface.get(), surface.get());
     QVERIFY(paletteCreatedSpy.wait());
     auto paletteInterface = paletteCreatedSpy.first().first().value<KWaylandServer::ServerSideDecorationPaletteInterface *>();
     QCOMPARE(m_paletteManagerInterface->paletteForSurface(serverSurface), paletteInterface);
@@ -163,7 +159,6 @@ void TestServerSideDecorationPalette::testCreateAndSet()
 
     // and destroy
     QSignalSpy destroyedSpy(paletteInterface, &QObject::destroyed);
-    QVERIFY(destroyedSpy.isValid());
     delete palette;
     QVERIFY(destroyedSpy.wait());
     QVERIFY(!m_paletteManagerInterface->paletteForSurface(serverSurface));

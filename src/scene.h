@@ -10,8 +10,8 @@
 #ifndef KWIN_SCENE_H
 #define KWIN_SCENE_H
 
+#include "core/renderlayerdelegate.h"
 #include "kwineffects.h"
-#include "renderlayerdelegate.h"
 #include "utils/common.h"
 #include "window.h"
 
@@ -72,7 +72,7 @@ class KWIN_EXPORT Scene : public QObject
     Q_OBJECT
 
 public:
-    explicit Scene(QObject *parent = nullptr);
+    explicit Scene();
     ~Scene() override;
 
     void initialize();
@@ -132,8 +132,6 @@ public:
     virtual void doneOpenGLContextCurrent();
     virtual bool supportsNativeFence() const;
 
-    virtual QMatrix4x4 screenProjectionMatrix() const;
-
     virtual DecorationRenderer *createDecorationRenderer(Decoration::DecoratedClientImpl *) = 0;
 
     /**
@@ -159,15 +157,15 @@ public:
      */
     virtual QVector<QByteArray> openGLPlatformInterfaceExtensions() const;
 
-    virtual QSharedPointer<GLTexture> textureForOutput(Output *output) const
+    virtual std::shared_ptr<GLTexture> textureForOutput(Output *output) const
     {
         Q_UNUSED(output);
         return {};
     }
 
-    virtual SurfaceTexture *createSurfaceTextureInternal(SurfacePixmapInternal *pixmap);
-    virtual SurfaceTexture *createSurfaceTextureX11(SurfacePixmapX11 *pixmap);
-    virtual SurfaceTexture *createSurfaceTextureWayland(SurfacePixmapWayland *pixmap);
+    virtual std::unique_ptr<SurfaceTexture> createSurfaceTextureInternal(SurfacePixmapInternal *pixmap);
+    virtual std::unique_ptr<SurfaceTexture> createSurfaceTextureX11(SurfacePixmapX11 *pixmap);
+    virtual std::unique_ptr<SurfaceTexture> createSurfaceTextureWayland(SurfacePixmapWayland *pixmap);
 
     QMatrix4x4 renderTargetProjectionMatrix() const;
     QRect renderTargetRect() const;
@@ -194,10 +192,10 @@ protected:
     // shared implementation of painting the screen in the generic
     // (unoptimized) way
     void preparePaintGenericScreen();
-    virtual void paintGenericScreen(int mask, const ScreenPaintData &data);
+    void paintGenericScreen(int mask, const ScreenPaintData &data);
     // shared implementation of painting the screen in an optimized way
     void preparePaintSimpleScreen();
-    virtual void paintSimpleScreen(int mask, const QRegion &region);
+    void paintSimpleScreen(int mask, const QRegion &region);
     // paint the background (not the desktop background - the whole background)
     virtual void paintBackground(const QRegion &region) = 0;
     // called after all effects had their paintWindow() called

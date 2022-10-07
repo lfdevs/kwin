@@ -11,7 +11,6 @@
 
 #include "deleted.h"
 #include "effects.h"
-#include "platform.h"
 #include "surfaceitem_x11.h"
 #include "utils/common.h"
 #include "wayland/surface_interface.h"
@@ -97,7 +96,7 @@ void Unmanaged::initialize()
     // though the window has been painted.  To avoid this we mark the whole window as damaged
     // and schedule a repaint immediately after creating the damage object.
     if (auto item = surfaceItem()) {
-        item->addDamage(item->rect());
+        item->addDamage(item->rect().toAlignedRect());
     }
 }
 
@@ -115,6 +114,7 @@ bool Unmanaged::track(xcb_window_t w)
     if (geo.isNull()) {
         return false;
     }
+
     setWindowHandles(w); // the window is also the frame
     Xcb::selectInput(w, attr->your_event_mask | XCB_EVENT_MASK_STRUCTURE_NOTIFY | XCB_EVENT_MASK_PROPERTY_CHANGE);
     m_bufferGeometry = geo.rect();
@@ -193,7 +193,7 @@ QVector<VirtualDesktop *> Unmanaged::desktops() const
     return QVector<VirtualDesktop *>();
 }
 
-QPoint Unmanaged::clientPos() const
+QPointF Unmanaged::clientPos() const
 {
     return QPoint(0, 0); // unmanaged windows don't have decorations
 }
@@ -232,7 +232,7 @@ QWindow *Unmanaged::findInternalWindow() const
 
 void Unmanaged::checkOutput()
 {
-    setOutput(kwinApp()->platform()->outputAt(frameGeometry().center()));
+    setOutput(workspace()->outputAt(frameGeometry().center()));
 }
 
 void Unmanaged::damageNotifyEvent()

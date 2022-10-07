@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-03-26 00:45+0000\n"
+"POT-Creation-Date: 2022-09-02 00:47+0000\n"
 "PO-Revision-Date: 2017-05-23 08:15-0400\n"
 "Last-Translator: Elkana Bardugo <ttv200@gmail.com>\n"
 "Language-Team: Hebrew <kde-i18n-doc@kde.org>\n"
@@ -639,6 +639,43 @@ msgstr ""
 #, kde-format
 msgid "Hide utility windows for inactive applications"
 msgstr "הסתר חלונות שירות עבור יישומים לא פעילים"
+
+#. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyLabel)
+#: advanced.ui:148
+#, kde-format
+msgid "Virtual Desktop behavior:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyDescriptionLabel)
+#: advanced.ui:158
+#, kde-format
+msgid "When activating a window on a different Virtual Desktop:"
+msgstr ""
+
+#. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_ActivationDesktopPolicy)
+#: advanced.ui:165
+#, kde-format
+msgid ""
+"<html><head/><body><p>This setting controls what happens when an open window "
+"located on a Virtual Desktop other than the current one is activated. </"
+"p><p><span style=\" font-style:italic;\">Switch to that Virtual Desktop</"
+"span> will switch to the Virtual Desktop where the window is currently "
+"located. </p><p><span style=\" font-style:italic;\">Bring window to current "
+"Virtual Desktop</span> will cause the window to jump to the active Virtual "
+"Desktop. </p></body></html>"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
+#: advanced.ui:169
+#, kde-format
+msgid "Switch to that Virtual Desktop"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
+#: advanced.ui:174
+#, kde-format
+msgid "Bring window to current Virtual Desktop"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, windowFocusPolicyLabel)
 #: focus.ui:22
@@ -1329,7 +1366,7 @@ msgstr ""
 msgid "Only when overlapping"
 msgstr "הצמד חלו&נות רק אם הם נערמים"
 
-#: windows.cpp:98
+#: windows.cpp:97
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Click To Focus</b><br>\n"
@@ -1345,7 +1382,7 @@ msgstr ""
 "התנהגות זו נפוצה לרוב מערכות ההפעלה<br>\n"
 "סביר להניח שתרצה אותה"
 
-#: windows.cpp:102
+#: windows.cpp:101
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Click To Focus - Mouse Precedence</b><br>\n"
@@ -1368,7 +1405,7 @@ msgstr ""
 "החלון שמתחת העכבר יועדף<br><br>\n"
 "כרגיך, אך מעט שונה מ<i>לחץ כדי להתמקד</i>."
 
-#: windows.cpp:107
+#: windows.cpp:106
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Follows Mouse</b><br>\n"
@@ -1389,7 +1426,7 @@ msgstr ""
 "מניעת גניבת התמקדות תפעל כרגיל<br><br>\n"
 "זה כמו <i>לחץ כדי להתמקד</i> רק בלי ממש ללחוץ."
 
-#: windows.cpp:111
+#: windows.cpp:110
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Follows Mouse - Mouse Precedence</b><br>\n"
@@ -1411,7 +1448,7 @@ msgstr ""
 "החלון שמתחת העכבר יועדף<br><br>\n"
 "בחר בזה אם אתה רוצה שריחוף ישלוט בהתמקדות."
 
-#: windows.cpp:116
+#: windows.cpp:115
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Under Mouse</b><br>\n"
@@ -1438,7 +1475,7 @@ msgstr ""
 "סביר להניח ביותר שתרצה להשתמש במדיניות<br>\n"
 "<i>התמקדות עוקבת עכבר – עכבר קודם</i> במקום!"
 
-#: windows.cpp:120
+#: windows.cpp:119
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Strictly Under Mouse</b><br>\n"

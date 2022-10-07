@@ -8,15 +8,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-03-26 00:45+0000\n"
-"PO-Revision-Date: 2022-06-28 09:54+0200\n"
+"POT-Creation-Date: 2022-09-02 00:47+0000\n"
+"PO-Revision-Date: 2022-09-02 18:52+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.04.2\n"
+"X-Generator: Lokalize 22.08.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -628,6 +628,50 @@ msgstr ""
 #, kde-format
 msgid "Hide utility windows for inactive applications"
 msgstr "Скриване на помощните прозорци на неактивните програми"
+
+#. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyLabel)
+#: advanced.ui:148
+#, kde-format
+msgid "Virtual Desktop behavior:"
+msgstr "Поведение на виртуален работен плот:"
+
+#. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyDescriptionLabel)
+#: advanced.ui:158
+#, kde-format
+msgid "When activating a window on a different Virtual Desktop:"
+msgstr "При активиране на прозорец на друг виртуален работен плот:"
+
+#. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_ActivationDesktopPolicy)
+#: advanced.ui:165
+#, kde-format
+msgid ""
+"<html><head/><body><p>This setting controls what happens when an open window "
+"located on a Virtual Desktop other than the current one is activated. </"
+"p><p><span style=\" font-style:italic;\">Switch to that Virtual Desktop</"
+"span> will switch to the Virtual Desktop where the window is currently "
+"located. </p><p><span style=\" font-style:italic;\">Bring window to current "
+"Virtual Desktop</span> will cause the window to jump to the active Virtual "
+"Desktop. </p></body></html>"
+msgstr ""
+"<html><head/><body><p>Тази настройка контролира какво се случва, когато се "
+"активира отворен прозорец, който се намира на виртуален работен плот, "
+"различен от текущия. </p><p><span style=\" font-style:italic;\">Превключване "
+"към другия виртуален работен плот</span> ще превключи към виртуалния работен "
+"плот, на който се намира прозореца. </p><p><span style=\" font-style:italic;"
+"\">Преместване на прозореца в текущия виртуален работен плот</span> ще "
+"премести прозореца в активния виртуален работен плот. </p></body></html>"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
+#: advanced.ui:169
+#, kde-format
+msgid "Switch to that Virtual Desktop"
+msgstr "Превключване към другия виртуален работен плот"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
+#: advanced.ui:174
+#, kde-format
+msgid "Bring window to current Virtual Desktop"
+msgstr "Преместване на прозореца в текущия виртуален работен плот"
 
 #. i18n: ectx: property (text), widget (QLabel, windowFocusPolicyLabel)
 #: focus.ui:22
@@ -1288,7 +1332,7 @@ msgstr ""
 msgid "Only when overlapping"
 msgstr "Само при припокриване"
 
-#: windows.cpp:98
+#: windows.cpp:97
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
@@ -1298,7 +1342,7 @@ msgstr ""
 "върху него.Това поведение е често срещано при други операционни системи и е "
 "вероятно това, което искате."
 
-#: windows.cpp:102
+#: windows.cpp:101
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1313,7 +1357,7 @@ msgstr ""
 "е предпочитан кандидат. Необичаен, но възможен вариант на <em> Щракване за "
 "фокусиране </em>."
 
-#: windows.cpp:107
+#: windows.cpp:106
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1327,7 +1371,7 @@ msgstr ""
 "Предотвратяване на отнемане на фокус </em>. Приемете го като <em> Щракване "
 "за фокусиране</em> , но без да се налага действително да щраквате."
 
-#: windows.cpp:111
+#: windows.cpp:110
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1340,7 +1384,7 @@ msgstr ""
 "момента) прозорецът под мишката е предпочитан кандидат. Изберете това,ако "
 "искате фокус, контролиран от задържането на показалеца."
 
-#: windows.cpp:116
+#: windows.cpp:115
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1355,7 +1399,7 @@ msgstr ""
 "на политиката и няма да работят. Много вероятно, вместо това,  ще искате да "
 "използвате <em> Фокусът следва мишката (предимство на мишката) </em>!"
 
-#: windows.cpp:120
+#: windows.cpp:119
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "

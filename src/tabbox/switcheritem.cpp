@@ -9,7 +9,7 @@
 #include "switcheritem.h"
 // KWin
 #include "composite.h"
-#include "output.h"
+#include "core/output.h"
 #include "screens.h"
 #include "tabboxhandler.h"
 #include "workspace.h"
@@ -34,7 +34,7 @@ SwitcherItem::SwitcherItem(QObject *parent)
             setCurrentIndex(tabBox->currentIndex().row());
         }
     });
-    connect(screens(), &Screens::changed, this, &SwitcherItem::screenGeometryChanged);
+    connect(workspace()->screens(), &Screens::changed, this, &SwitcherItem::screenGeometryChanged);
     connect(Compositor::self(), &Compositor::compositingToggled, this, &SwitcherItem::compositingChanged);
 }
 

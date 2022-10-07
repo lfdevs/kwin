@@ -31,11 +31,12 @@
         "Description[sl]": "Prikaži predogledne sličice oken na robu zaslona",
         "Description[sv]": "Visa miniatyrbilder av fönster vid skärmkanten",
         "Description[ta]": "திரையின் ஓரத்தில் சிறுபடங்களை காட்டும்",
-        "Description[tr]": "Pencere küçük resimlerini ekranın kenarında görüntüle",
+        "Description[tr]": "Pencere küçük görsellerini ekranın kenarında görüntüle",
         "Description[uk]": "Показ мініатюр вікон при наведенні на край екрана",
         "Description[vi]": "Hiển thị các hình nhỏ cửa sổ ở cạnh màn hình",
         "Description[x-test]": "xxDisplay window thumbnails on the edge of the screenxx",
         "Description[zh_CN]": "在屏幕边缘显示窗口的缩略图",
+        "Description[zh_TW]": "在螢幕邊緣顯示視窗縮圖",
         "EnabledByDefault": false,
         "Id": "thumbnailaside",
         "License": "GPL",
@@ -69,11 +70,12 @@
         "Name[sl]": "Predogledno sličico na stran",
         "Name[sv]": "Miniatyrbild vid sidan om",
         "Name[ta]": "ஓரத்தில் சிறுபடம்",
-        "Name[tr]": "Küçük Resim Kenarda",
+        "Name[tr]": "Küçük Görsel Kenarda",
         "Name[uk]": "Мініатюри збоку",
         "Name[vi]": "Hình nhỏ ở cạnh",
         "Name[x-test]": "xxThumbnail Asidexx",
-        "Name[zh_CN]": "缩略图置边"
+        "Name[zh_CN]": "缩略图置边",
+        "Name[zh_TW]": "在一旁的縮圖"
     },
     "X-KDE-ConfigModule": "kwin_thumbnailaside_config"
 }

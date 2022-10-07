@@ -75,7 +75,6 @@ void TestPointerConstraints::init()
     // setup connection
     m_connection = new KWayland::Client::ConnectionThread;
     QSignalSpy connectedSpy(m_connection, &ConnectionThread::connected);
-    QVERIFY(connectedSpy.isValid());
     m_connection->setSocketName(s_socketName);
 
     m_thread = new QThread(this);
@@ -90,9 +89,7 @@ void TestPointerConstraints::init()
 
     Registry registry;
     QSignalSpy interfacesAnnouncedSpy(&registry, &Registry::interfacesAnnounced);
-    QVERIFY(interfacesAnnouncedSpy.isValid());
     QSignalSpy interfaceAnnouncedSpy(&registry, &Registry::interfaceAnnounced);
-    QVERIFY(interfaceAnnouncedSpy.isValid());
     registry.setEventQueue(m_queue);
     registry.create(m_connection);
     QVERIFY(registry.isValid());
@@ -114,7 +111,6 @@ void TestPointerConstraints::init()
     QVERIFY(m_seat);
     QVERIFY(m_seat->isValid());
     QSignalSpy pointerChangedSpy(m_seat, &Seat::hasPointerChanged);
-    QVERIFY(pointerChangedSpy.isValid());
     QVERIFY(pointerChangedSpy.wait());
     m_pointer = m_seat->createPointer(this);
     QVERIFY(m_pointer);
@@ -168,8 +164,7 @@ void TestPointerConstraints::testLockPointer()
     // this test verifies the basic interaction for lock pointer
     // first create a surface
     QSignalSpy surfaceCreatedSpy(m_compositorInterface, &CompositorInterface::surfaceCreated);
-    QVERIFY(surfaceCreatedSpy.isValid());
-    QScopedPointer<Surface> surface(m_compositor->createSurface());
+    std::unique_ptr<Surface> surface(m_compositor->createSurface());
     QVERIFY(surface->isValid());
     QVERIFY(surfaceCreatedSpy.wait());
 
@@ -180,13 +175,10 @@ void TestPointerConstraints::testLockPointer()
 
     // now create the locked pointer
     QSignalSpy pointerConstraintsChangedSpy(serverSurface, &SurfaceInterface::pointerConstraintsChanged);
-    QVERIFY(pointerConstraintsChangedSpy.isValid());
     QFETCH(PointerConstraints::LifeTime, clientLifeTime);
-    QScopedPointer<LockedPointer> lockedPointer(m_pointerConstraints->lockPointer(surface.data(), m_pointer, nullptr, clientLifeTime));
-    QSignalSpy lockedSpy(lockedPointer.data(), &LockedPointer::locked);
-    QVERIFY(lockedSpy.isValid());
-    QSignalSpy unlockedSpy(lockedPointer.data(), &LockedPointer::unlocked);
-    QVERIFY(unlockedSpy.isValid());
+    std::unique_ptr<LockedPointer> lockedPointer(m_pointerConstraints->lockPointer(surface.get(), m_pointer, nullptr, clientLifeTime));
+    QSignalSpy lockedSpy(lockedPointer.get(), &LockedPointer::locked);
+    QSignalSpy unlockedSpy(lockedPointer.get(), &LockedPointer::unlocked);
     QVERIFY(lockedPointer->isValid());
     QVERIFY(pointerConstraintsChangedSpy.wait());
 
@@ -204,9 +196,7 @@ void TestPointerConstraints::testLockPointer()
 
     // try setting a region
     QSignalSpy destroyedSpy(serverLockedPointer, &QObject::destroyed);
-    QVERIFY(destroyedSpy.isValid());
     QSignalSpy regionChangedSpy(serverLockedPointer, &LockedPointerV1Interface::regionChanged);
-    QVERIFY(regionChangedSpy.isValid());
     lockedPointer->setRegion(m_compositor->createRegion(QRegion(0, 5, 10, 20), m_compositor));
     // it's double buffered
     QVERIFY(!regionChangedSpy.wait(500));
@@ -221,10 +211,8 @@ void TestPointerConstraints::testLockPointer()
 
     // let's lock the surface
     QSignalSpy lockedChangedSpy(serverLockedPointer, &LockedPointerV1Interface::lockedChanged);
-    QVERIFY(lockedChangedSpy.isValid());
     m_seatInterface->notifyPointerEnter(serverSurface, QPointF(0, 0));
     QSignalSpy pointerMotionSpy(m_pointer, &Pointer::motion);
-    QVERIFY(pointerMotionSpy.isValid());
     m_seatInterface->notifyPointerMotion(QPoint(0, 1));
     m_seatInterface->notifyPointerFrame();
     QVERIFY(pointerMotionSpy.wait());
@@ -285,8 +273,7 @@ void TestPointerConstraints::testConfinePointer()
     // this test verifies the basic interaction for confined pointer
     // first create a surface
     QSignalSpy surfaceCreatedSpy(m_compositorInterface, &CompositorInterface::surfaceCreated);
-    QVERIFY(surfaceCreatedSpy.isValid());
-    QScopedPointer<Surface> surface(m_compositor->createSurface());
+    std::unique_ptr<Surface> surface(m_compositor->createSurface());
     QVERIFY(surface->isValid());
     QVERIFY(surfaceCreatedSpy.wait());
 
@@ -297,13 +284,10 @@ void TestPointerConstraints::testConfinePointer()
 
     // now create the confined pointer
     QSignalSpy pointerConstraintsChangedSpy(serverSurface, &SurfaceInterface::pointerConstraintsChanged);
-    QVERIFY(pointerConstraintsChangedSpy.isValid());
     QFETCH(PointerConstraints::LifeTime, clientLifeTime);
-    QScopedPointer<ConfinedPointer> confinedPointer(m_pointerConstraints->confinePointer(surface.data(), m_pointer, nullptr, clientLifeTime));
-    QSignalSpy confinedSpy(confinedPointer.data(), &ConfinedPointer::confined);
-    QVERIFY(confinedSpy.isValid());
-    QSignalSpy unconfinedSpy(confinedPointer.data(), &ConfinedPointer::unconfined);
-    QVERIFY(unconfinedSpy.isValid());
+    std::unique_ptr<ConfinedPointer> confinedPointer(m_pointerConstraints->confinePointer(surface.get(), m_pointer, nullptr, clientLifeTime));
+    QSignalSpy confinedSpy(confinedPointer.get(), &ConfinedPointer::confined);
+    QSignalSpy unconfinedSpy(confinedPointer.get(), &ConfinedPointer::unconfined);
     QVERIFY(confinedPointer->isValid());
     QVERIFY(pointerConstraintsChangedSpy.wait());
 
@@ -321,9 +305,7 @@ void TestPointerConstraints::testConfinePointer()
 
     // try setting a region
     QSignalSpy destroyedSpy(serverConfinedPointer, &QObject::destroyed);
-    QVERIFY(destroyedSpy.isValid());
     QSignalSpy regionChangedSpy(serverConfinedPointer, &ConfinedPointerV1Interface::regionChanged);
-    QVERIFY(regionChangedSpy.isValid());
     confinedPointer->setRegion(m_compositor->createRegion(QRegion(0, 5, 10, 20), m_compositor));
     // it's double buffered
     QVERIFY(!regionChangedSpy.wait(500));
@@ -338,7 +320,6 @@ void TestPointerConstraints::testConfinePointer()
 
     // let's confine the surface
     QSignalSpy confinedChangedSpy(serverConfinedPointer, &ConfinedPointerV1Interface::confinedChanged);
-    QVERIFY(confinedChangedSpy.isValid());
     m_seatInterface->notifyPointerEnter(serverSurface, QPointF(0, 0));
     serverConfinedPointer->setConfined(true);
     QCOMPARE(serverConfinedPointer->isConfined(), true);
@@ -384,17 +365,17 @@ void TestPointerConstraints::testAlreadyConstrained()
 {
     // this test verifies that creating a pointer constraint for an already constrained surface triggers an error
     // first create a surface
-    QScopedPointer<Surface> surface(m_compositor->createSurface());
+    std::unique_ptr<Surface> surface(m_compositor->createSurface());
     QVERIFY(surface->isValid());
     QFETCH(Constraint, firstConstraint);
-    QScopedPointer<ConfinedPointer> confinedPointer;
-    QScopedPointer<LockedPointer> lockedPointer;
+    std::unique_ptr<ConfinedPointer> confinedPointer;
+    std::unique_ptr<LockedPointer> lockedPointer;
     switch (firstConstraint) {
     case Constraint::Lock:
-        lockedPointer.reset(m_pointerConstraints->lockPointer(surface.data(), m_pointer, nullptr, PointerConstraints::LifeTime::OneShot));
+        lockedPointer.reset(m_pointerConstraints->lockPointer(surface.get(), m_pointer, nullptr, PointerConstraints::LifeTime::OneShot));
         break;
     case Constraint::Confine:
-        confinedPointer.reset(m_pointerConstraints->confinePointer(surface.data(), m_pointer, nullptr, PointerConstraints::LifeTime::OneShot));
+        confinedPointer.reset(m_pointerConstraints->confinePointer(surface.get(), m_pointer, nullptr, PointerConstraints::LifeTime::OneShot));
         break;
     default:
         Q_UNREACHABLE();
@@ -402,16 +383,15 @@ void TestPointerConstraints::testAlreadyConstrained()
     QVERIFY(confinedPointer || lockedPointer);
 
     QSignalSpy errorSpy(m_connection, &ConnectionThread::errorOccurred);
-    QVERIFY(errorSpy.isValid());
     QFETCH(Constraint, secondConstraint);
-    QScopedPointer<ConfinedPointer> confinedPointer2;
-    QScopedPointer<LockedPointer> lockedPointer2;
+    std::unique_ptr<ConfinedPointer> confinedPointer2;
+    std::unique_ptr<LockedPointer> lockedPointer2;
     switch (secondConstraint) {
     case Constraint::Lock:
-        lockedPointer2.reset(m_pointerConstraints->lockPointer(surface.data(), m_pointer, nullptr, PointerConstraints::LifeTime::OneShot));
+        lockedPointer2.reset(m_pointerConstraints->lockPointer(surface.get(), m_pointer, nullptr, PointerConstraints::LifeTime::OneShot));
         break;
     case Constraint::Confine:
-        confinedPointer2.reset(m_pointerConstraints->confinePointer(surface.data(), m_pointer, nullptr, PointerConstraints::LifeTime::OneShot));
+        confinedPointer2.reset(m_pointerConstraints->confinePointer(surface.get(), m_pointer, nullptr, PointerConstraints::LifeTime::OneShot));
         break;
     default:
         Q_UNREACHABLE();

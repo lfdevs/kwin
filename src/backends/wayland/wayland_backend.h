@@ -7,13 +7,14 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-#ifndef KWIN_WAYLAND_BACKEND_H
-#define KWIN_WAYLAND_BACKEND_H
+#pragma once
+
 #include <config-kwin.h>
 // KWin
-#include "inputbackend.h"
-#include "inputdevice.h"
-#include "platform.h"
+#include "core/inputbackend.h"
+#include "core/inputdevice.h"
+#include "core/platform.h"
+#include "utils/filedescriptor.h"
 #include <kwinglobals.h>
 // Qt
 #include <QHash>
@@ -28,6 +29,7 @@ struct wl_display;
 struct wl_event_queue;
 struct wl_seat;
 struct gbm_device;
+struct gbm_bo;
 
 namespace KWayland
 {
@@ -67,13 +69,13 @@ namespace Wayland
 class WaylandBackend;
 class WaylandSeat;
 class WaylandOutput;
+class WaylandEglBackend;
 
-class WaylandCursor : public QObject
+class WaylandCursor
 {
-    Q_OBJECT
 public:
     explicit WaylandCursor(WaylandBackend *backend);
-    ~WaylandCursor() override;
+    virtual ~WaylandCursor();
 
     virtual void init();
     virtual void move(const QPointF &globalPosition)
@@ -90,7 +92,7 @@ protected:
 
     KWayland::Client::Surface *surface() const
     {
-        return m_surface;
+        return m_surface.get();
     }
     WaylandBackend *backend() const
     {
@@ -98,13 +100,12 @@ protected:
     }
 
 private:
-    WaylandBackend *m_backend;
-    KWayland::Client::Surface *m_surface = nullptr;
+    WaylandBackend *const m_backend;
+    std::unique_ptr<KWayland::Client::Surface> m_surface;
 };
 
 class WaylandSubSurfaceCursor : public WaylandCursor
 {
-    Q_OBJECT
 public:
     explicit WaylandSubSurfaceCursor(WaylandBackend *backend);
     ~WaylandSubSurfaceCursor() override;
@@ -120,7 +121,7 @@ private:
 
     QPointF absoluteToRelativePosition(const QPointF &position);
     WaylandOutput *m_output = nullptr;
-    KWayland::Client::SubSurface *m_subSurface = nullptr;
+    std::unique_ptr<KWayland::Client::SubSurface> m_subSurface;
 };
 
 class WaylandInputDevice : public InputDevice
@@ -156,14 +157,14 @@ public:
     KWayland::Client::Pointer *nativePointer() const;
 
 private:
-    WaylandSeat *m_seat;
+    WaylandSeat *const m_seat;
 
-    QScopedPointer<KWayland::Client::Keyboard> m_keyboard;
-    QScopedPointer<KWayland::Client::Touch> m_touch;
-    QScopedPointer<KWayland::Client::RelativePointer> m_relativePointer;
-    QScopedPointer<KWayland::Client::Pointer> m_pointer;
-    QScopedPointer<KWayland::Client::PointerPinchGesture> m_pinchGesture;
-    QScopedPointer<KWayland::Client::PointerSwipeGesture> m_swipeGesture;
+    std::unique_ptr<KWayland::Client::Keyboard> m_keyboard;
+    std::unique_ptr<KWayland::Client::Touch> m_touch;
+    std::unique_ptr<KWayland::Client::RelativePointer> m_relativePointer;
+    std::unique_ptr<KWayland::Client::Pointer> m_pointer;
+    std::unique_ptr<KWayland::Client::PointerPinchGesture> m_pinchGesture;
+    std::unique_ptr<KWayland::Client::PointerSwipeGesture> m_swipeGesture;
 
     uint32_t m_enteredSerial = 0;
 };
@@ -197,19 +198,19 @@ public:
 
     WaylandInputDevice *pointerDevice() const
     {
-        return m_pointerDevice;
+        return m_pointerDevice.get();
     }
     WaylandInputDevice *relativePointerDevice() const
     {
-        return m_relativePointerDevice;
+        return m_relativePointerDevice.get();
     }
     WaylandInputDevice *keyboardDevice() const
     {
-        return m_keyboardDevice;
+        return m_keyboardDevice.get();
     }
     WaylandInputDevice *touchDevice() const
     {
-        return m_touchDevice;
+        return m_touchDevice.get();
     }
 
     void createRelativePointer();
@@ -230,10 +231,10 @@ private:
     KWayland::Client::Seat *m_seat;
     WaylandBackend *m_backend;
 
-    WaylandInputDevice *m_pointerDevice = nullptr;
-    WaylandInputDevice *m_relativePointerDevice = nullptr;
-    WaylandInputDevice *m_keyboardDevice = nullptr;
-    WaylandInputDevice *m_touchDevice = nullptr;
+    std::unique_ptr<WaylandInputDevice> m_pointerDevice;
+    std::unique_ptr<WaylandInputDevice> m_relativePointerDevice;
+    std::unique_ptr<WaylandInputDevice> m_keyboardDevice;
+    std::unique_ptr<WaylandInputDevice> m_touchDevice;
 };
 
 /**
@@ -245,27 +246,25 @@ private:
 class KWIN_EXPORT WaylandBackend : public Platform
 {
     Q_OBJECT
-    Q_INTERFACES(KWin::Platform)
-    Q_PLUGIN_METADATA(IID "org.kde.kwin.Platform" FILE "wayland.json")
+
 public:
     explicit WaylandBackend(QObject *parent = nullptr);
     ~WaylandBackend() override;
     bool initialize() override;
-    Session *session() const override;
     wl_display *display();
     KWayland::Client::Compositor *compositor();
     KWayland::Client::SubCompositor *subCompositor();
     KWayland::Client::ShmPool *shmPool();
 
-    InputBackend *createInputBackend() override;
-    OpenGLBackend *createOpenGLBackend() override;
-    QPainterBackend *createQPainterBackend() override;
+    std::unique_ptr<InputBackend> createInputBackend() override;
+    std::unique_ptr<OpenGLBackend> createOpenGLBackend() override;
+    std::unique_ptr<QPainterBackend> createQPainterBackend() override;
 
     void flush();
 
     WaylandSeat *seat() const
     {
-        return m_seat;
+        return m_seat.get();
     }
     KWayland::Client::PointerGestures *pointerGestures() const
     {
@@ -289,7 +288,6 @@ public:
     WaylandOutput *getOutputAt(const QPointF &globalPosition);
     WaylandOutput *findOutput(KWayland::Client::Surface *nativeSurface) const;
     Outputs outputs() const override;
-    Outputs enabledOutputs() const override;
     QVector<WaylandOutput *> waylandOutputs() const
     {
         return m_outputs;
@@ -300,6 +298,19 @@ public:
 
     Output *createVirtualOutput(const QString &name, const QSize &size, double scale) override;
     void removeVirtualOutput(Output *output) override;
+
+    std::optional<DmaBufParams> testCreateDmaBuf(const QSize &size, quint32 format, const QVector<uint64_t> &modifiers) override;
+    std::shared_ptr<DmaBufTexture> createDmaBufTexture(const QSize &size, quint32 format, uint64_t modifier) override;
+
+    gbm_device *gbmDevice() const
+    {
+        return m_gbmDevice;
+    }
+
+    void setEglBackend(WaylandEglBackend *eglBackend)
+    {
+        m_eglBackend = eglBackend;
+    }
 
 Q_SIGNALS:
     void systemCompositorDied();
@@ -314,38 +325,37 @@ private:
     void createOutputs();
     void destroyOutputs();
 
-    void updateScreenSize(WaylandOutput *output);
-    WaylandOutput *createOutput(const QPoint &position, const QSize &size);
+    WaylandOutput *createOutput(const QString &name, const QSize &size);
 
-    Session *m_session;
     wl_display *m_display;
-    KWayland::Client::EventQueue *m_eventQueue;
-    KWayland::Client::Registry *m_registry;
-    KWayland::Client::Compositor *m_compositor;
-    KWayland::Client::SubCompositor *m_subCompositor;
-    KWayland::Client::XdgShell *m_xdgShell = nullptr;
-    KWayland::Client::ShmPool *m_shm;
-    KWayland::Client::ConnectionThread *m_connectionThreadObject;
+    std::unique_ptr<KWayland::Client::EventQueue> m_eventQueue;
+    std::unique_ptr<KWayland::Client::Registry> m_registry;
+    std::unique_ptr<KWayland::Client::Compositor> m_compositor;
+    std::unique_ptr<KWayland::Client::SubCompositor> m_subCompositor;
+    std::unique_ptr<KWayland::Client::XdgShell> m_xdgShell;
+    std::unique_ptr<KWayland::Client::ShmPool> m_shm;
+    std::unique_ptr<KWayland::Client::ConnectionThread> m_connectionThreadObject;
 
-    WaylandSeat *m_seat = nullptr;
+    std::unique_ptr<WaylandSeat> m_seat;
     KWayland::Client::RelativePointerManager *m_relativePointerManager = nullptr;
     KWayland::Client::PointerConstraints *m_pointerConstraints = nullptr;
     KWayland::Client::PointerGestures *m_pointerGestures = nullptr;
+    WaylandEglBackend *m_eglBackend = nullptr;
 
-    QThread *m_connectionThread;
+    std::unique_ptr<QThread> m_connectionThread;
     QVector<WaylandOutput *> m_outputs;
     int m_pendingInitialOutputs = 0;
 
-    WaylandCursor *m_waylandCursor = nullptr;
+    std::unique_ptr<WaylandCursor> m_waylandCursor;
 
-    QScopedPointer<DpmsInputEventFilter> m_dpmsFilter;
+    std::unique_ptr<DpmsInputEventFilter> m_dpmsFilter;
 
     bool m_pointerLockRequested = false;
     KWayland::Client::ServerSideDecorationManager *m_ssdManager = nullptr;
     KWayland::Client::ServerSideDecorationManager *ssdManager();
     int m_nextId = 0;
 #if HAVE_WAYLAND_EGL
-    int m_drmFileDescriptor = 0;
+    FileDescriptor m_drmFileDescriptor;
     gbm_device *m_gbmDevice;
 #endif
 };
@@ -357,20 +367,18 @@ inline wl_display *WaylandBackend::display()
 
 inline KWayland::Client::Compositor *WaylandBackend::compositor()
 {
-    return m_compositor;
+    return m_compositor.get();
 }
 
 inline KWayland::Client::SubCompositor *WaylandBackend::subCompositor()
 {
-    return m_subCompositor;
+    return m_subCompositor.get();
 }
 
 inline KWayland::Client::ShmPool *WaylandBackend::shmPool()
 {
-    return m_shm;
+    return m_shm.get();
 }
 
 } // namespace Wayland
 } // namespace KWin
-
-#endif //  KWIN_WAYLAND_BACKEND_H

@@ -89,42 +89,42 @@ void TabletInputRedirection::tabletToolEvent(KWin::InputRedirection::TabletEvent
 }
 
 void KWin::TabletInputRedirection::tabletToolButtonEvent(uint button, bool isPressed,
-                                                         const TabletToolId &tabletToolId)
+                                                         const TabletToolId &tabletToolId, uint time)
 {
     input()->processSpies(std::bind(&InputEventSpy::tabletToolButtonEvent,
-                                    std::placeholders::_1, button, isPressed, tabletToolId));
+                                    std::placeholders::_1, button, isPressed, tabletToolId, time));
     input()->processFilters(std::bind(&InputEventFilter::tabletToolButtonEvent,
-                                      std::placeholders::_1, button, isPressed, tabletToolId));
+                                      std::placeholders::_1, button, isPressed, tabletToolId, time));
     input()->setLastInputHandler(this);
 }
 
 void KWin::TabletInputRedirection::tabletPadButtonEvent(uint button, bool isPressed,
-                                                        const TabletPadId &tabletPadId)
+                                                        const TabletPadId &tabletPadId, uint time)
 {
     input()->processSpies(std::bind(&InputEventSpy::tabletPadButtonEvent,
-                                    std::placeholders::_1, button, isPressed, tabletPadId));
+                                    std::placeholders::_1, button, isPressed, tabletPadId, time));
     input()->processFilters(std::bind(&InputEventFilter::tabletPadButtonEvent,
-                                      std::placeholders::_1, button, isPressed, tabletPadId));
+                                      std::placeholders::_1, button, isPressed, tabletPadId, time));
     input()->setLastInputHandler(this);
 }
 
 void KWin::TabletInputRedirection::tabletPadStripEvent(int number, int position, bool isFinger,
-                                                       const TabletPadId &tabletPadId)
+                                                       const TabletPadId &tabletPadId, uint time)
 {
     input()->processSpies(std::bind(&InputEventSpy::tabletPadStripEvent,
-                                    std::placeholders::_1, number, position, isFinger, tabletPadId));
+                                    std::placeholders::_1, number, position, isFinger, tabletPadId, time));
     input()->processFilters(std::bind(&InputEventFilter::tabletPadStripEvent,
-                                      std::placeholders::_1, number, position, isFinger, tabletPadId));
+                                      std::placeholders::_1, number, position, isFinger, tabletPadId, time));
     input()->setLastInputHandler(this);
 }
 
 void KWin::TabletInputRedirection::tabletPadRingEvent(int number, int position, bool isFinger,
-                                                      const TabletPadId &tabletPadId)
+                                                      const TabletPadId &tabletPadId, uint time)
 {
     input()->processSpies(std::bind(&InputEventSpy::tabletPadRingEvent,
-                                    std::placeholders::_1, number, position, isFinger, tabletPadId));
+                                    std::placeholders::_1, number, position, isFinger, tabletPadId, time));
     input()->processFilters(std::bind(&InputEventFilter::tabletPadRingEvent,
-                                      std::placeholders::_1, number, position, isFinger, tabletPadId));
+                                      std::placeholders::_1, number, position, isFinger, tabletPadId, time));
     input()->setLastInputHandler(this);
 }
 
@@ -155,7 +155,7 @@ void TabletInputRedirection::cleanupDecoration(Decoration::DecoratedClientImpl *
     const auto pos = m_lastPosition - now->window()->pos();
     QHoverEvent event(QEvent::HoverEnter, pos, pos);
     QCoreApplication::instance()->sendEvent(now->decoration(), &event);
-    now->window()->processDecorationMove(pos.toPoint(), m_lastPosition.toPoint());
+    now->window()->processDecorationMove(pos, m_lastPosition);
 
     m_decorationGeometryConnection = connect(
         decoration()->window(), &Window::frameGeometryChanged, this, [this]() {

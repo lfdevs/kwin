@@ -8,10 +8,10 @@
 */
 #include "kwin_wayland_test.h"
 
+#include "core/platform.h"
 #include "cursor.h"
 #include "input.h"
 #include "keyboard_input.h"
-#include "platform.h"
 #include "screenedge.h"
 #include "wayland_server.h"
 #include "workspace.h"
@@ -90,7 +90,6 @@ void NoGlobalShortcutsTest::initTestCase()
 {
     qRegisterMetaType<KWin::ElectricBorder>("ElectricBorder");
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    QVERIFY(applicationStartedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName, KWin::WaylandServer::InitializationFlag::NoGlobalShortcuts));
 
@@ -100,7 +99,6 @@ void NoGlobalShortcutsTest::initTestCase()
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
-    Test::initWaylandWorkspace();
 }
 
 void NoGlobalShortcutsTest::init()
@@ -140,7 +138,6 @@ void NoGlobalShortcutsTest::testTrigger()
     // test based on ModifierOnlyShortcutTest::testTrigger
     Target target;
     QSignalSpy triggeredSpy(&target, &Target::shortcutTriggered);
-    QVERIFY(triggeredSpy.isValid());
 
     KConfigGroup group = kwinApp()->config()->group("ModifierOnlyShortcuts");
     QFETCH(QStringList, metaConfig);
@@ -172,13 +169,12 @@ void NoGlobalShortcutsTest::testTrigger()
 
 void NoGlobalShortcutsTest::testKGlobalAccel()
 {
-    QScopedPointer<QAction> action(new QAction(nullptr));
+    std::unique_ptr<QAction> action(new QAction(nullptr));
     action->setProperty("componentName", QStringLiteral(KWIN_NAME));
     action->setObjectName(QStringLiteral("globalshortcuts-test-meta-shift-w"));
-    QSignalSpy triggeredSpy(action.data(), &QAction::triggered);
-    QVERIFY(triggeredSpy.isValid());
-    KGlobalAccel::self()->setShortcut(action.data(), QList<QKeySequence>{Qt::META | Qt::SHIFT | Qt::Key_W}, KGlobalAccel::NoAutoloading);
-    input()->registerShortcut(Qt::META | Qt::SHIFT | Qt::Key_W, action.data());
+    QSignalSpy triggeredSpy(action.get(), &QAction::triggered);
+    KGlobalAccel::self()->setShortcut(action.get(), QList<QKeySequence>{Qt::META | Qt::SHIFT | Qt::Key_W}, KGlobalAccel::NoAutoloading);
+    input()->registerShortcut(Qt::META | Qt::SHIFT | Qt::Key_W, action.get());
 
     // press meta+shift+w
     quint32 timestamp = 0;
@@ -200,10 +196,9 @@ void NoGlobalShortcutsTest::testKGlobalAccel()
 void NoGlobalShortcutsTest::testPointerShortcut()
 {
     // based on LockScreenTest::testPointerShortcut
-    QScopedPointer<QAction> action(new QAction(nullptr));
-    QSignalSpy actionSpy(action.data(), &QAction::triggered);
-    QVERIFY(actionSpy.isValid());
-    input()->registerPointerShortcut(Qt::MetaModifier, Qt::LeftButton, action.data());
+    std::unique_ptr<QAction> action(new QAction(nullptr));
+    QSignalSpy actionSpy(action.get(), &QAction::triggered);
+    input()->registerPointerShortcut(Qt::MetaModifier, Qt::LeftButton, action.get());
 
     // try to trigger the shortcut
     quint32 timestamp = 1;
@@ -231,9 +226,8 @@ void NoGlobalShortcutsTest::testAxisShortcut_data()
 void NoGlobalShortcutsTest::testAxisShortcut()
 {
     // based on LockScreenTest::testAxisShortcut
-    QScopedPointer<QAction> action(new QAction(nullptr));
-    QSignalSpy actionSpy(action.data(), &QAction::triggered);
-    QVERIFY(actionSpy.isValid());
+    std::unique_ptr<QAction> action(new QAction(nullptr));
+    QSignalSpy actionSpy(action.get(), &QAction::triggered);
     QFETCH(Qt::Orientation, direction);
     QFETCH(int, sign);
     PointerAxisDirection axisDirection = PointerAxisUp;
@@ -242,7 +236,7 @@ void NoGlobalShortcutsTest::testAxisShortcut()
     } else {
         axisDirection = sign > 0 ? PointerAxisLeft : PointerAxisRight;
     }
-    input()->registerAxisShortcut(Qt::MetaModifier, axisDirection, action.data());
+    input()->registerAxisShortcut(Qt::MetaModifier, axisDirection, action.get());
 
     // try to trigger the shortcut
     quint32 timestamp = 1;
@@ -262,8 +256,7 @@ void NoGlobalShortcutsTest::testAxisShortcut()
 void NoGlobalShortcutsTest::testScreenEdge()
 {
     // based on LockScreenTest::testScreenEdge
-    QSignalSpy screenEdgeSpy(ScreenEdges::self(), &ScreenEdges::approaching);
-    QVERIFY(screenEdgeSpy.isValid());
+    QSignalSpy screenEdgeSpy(workspace()->screenEdges(), &ScreenEdges::approaching);
     QCOMPARE(screenEdgeSpy.count(), 0);
 
     quint32 timestamp = 1;

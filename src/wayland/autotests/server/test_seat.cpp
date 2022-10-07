@@ -32,13 +32,12 @@ void TestWaylandServerSeat::testCapabilities()
     KWaylandServer::Display display;
     display.addSocketName(s_socketName);
     display.start();
-    SeatInterface *seat = new SeatInterface(&display);
+    SeatInterface *seat = new SeatInterface(&display, &display);
     QVERIFY(!seat->hasKeyboard());
     QVERIFY(!seat->hasPointer());
     QVERIFY(!seat->hasTouch());
 
-    QSignalSpy keyboardSpy(seat, SIGNAL(hasKeyboardChanged(bool)));
-    QVERIFY(keyboardSpy.isValid());
+    QSignalSpy keyboardSpy(seat, &SeatInterface::hasKeyboardChanged);
     seat->setHasKeyboard(true);
     QCOMPARE(keyboardSpy.count(), 1);
     QVERIFY(keyboardSpy.last().first().toBool());
@@ -50,8 +49,7 @@ void TestWaylandServerSeat::testCapabilities()
     seat->setHasKeyboard(false);
     QCOMPARE(keyboardSpy.count(), 2);
 
-    QSignalSpy pointerSpy(seat, SIGNAL(hasPointerChanged(bool)));
-    QVERIFY(pointerSpy.isValid());
+    QSignalSpy pointerSpy(seat, &SeatInterface::hasPointerChanged);
     seat->setHasPointer(true);
     QCOMPARE(pointerSpy.count(), 1);
     QVERIFY(pointerSpy.last().first().toBool());
@@ -63,8 +61,7 @@ void TestWaylandServerSeat::testCapabilities()
     seat->setHasPointer(false);
     QCOMPARE(pointerSpy.count(), 2);
 
-    QSignalSpy touchSpy(seat, SIGNAL(hasTouchChanged(bool)));
-    QVERIFY(touchSpy.isValid());
+    QSignalSpy touchSpy(seat, &SeatInterface::hasTouchChanged);
     seat->setHasTouch(true);
     QCOMPARE(touchSpy.count(), 1);
     QVERIFY(touchSpy.last().first().toBool());
@@ -82,11 +79,10 @@ void TestWaylandServerSeat::testName()
     KWaylandServer::Display display;
     display.addSocketName(s_socketName);
     display.start();
-    SeatInterface *seat = new SeatInterface(&display);
+    SeatInterface *seat = new SeatInterface(&display, &display);
     QCOMPARE(seat->name(), QString());
 
-    QSignalSpy nameSpy(seat, SIGNAL(nameChanged(QString)));
-    QVERIFY(nameSpy.isValid());
+    QSignalSpy nameSpy(seat, &SeatInterface::nameChanged);
     const QString name = QStringLiteral("foobar");
     seat->setName(name);
     QCOMPARE(seat->name(), name);
@@ -101,7 +97,7 @@ void TestWaylandServerSeat::testPointerButton()
     KWaylandServer::Display display;
     display.addSocketName(s_socketName);
     display.start();
-    SeatInterface *seat = new SeatInterface(&display);
+    SeatInterface *seat = new SeatInterface(&display, &display);
     seat->setHasPointer(true);
 
     // no button pressed yet, should be released and no serial
@@ -132,10 +128,9 @@ void TestWaylandServerSeat::testPointerPos()
     KWaylandServer::Display display;
     display.addSocketName(s_socketName);
     display.start();
-    SeatInterface *seat = new SeatInterface(&display);
+    SeatInterface *seat = new SeatInterface(&display, &display);
     seat->setHasPointer(true);
-    QSignalSpy seatPosSpy(seat, SIGNAL(pointerPosChanged(QPointF)));
-    QVERIFY(seatPosSpy.isValid());
+    QSignalSpy seatPosSpy(seat, &SeatInterface::pointerPosChanged);
 
     QCOMPARE(seat->pointerPos(), QPointF());
 
@@ -162,7 +157,7 @@ void TestWaylandServerSeat::testRepeatInfo()
     KWaylandServer::Display display;
     display.addSocketName(s_socketName);
     display.start();
-    SeatInterface *seat = new SeatInterface(&display);
+    SeatInterface *seat = new SeatInterface(&display, &display);
     seat->setHasKeyboard(true);
     QCOMPARE(seat->keyboard()->keyRepeatRate(), 0);
     QCOMPARE(seat->keyboard()->keyRepeatDelay(), 0);
@@ -181,14 +176,14 @@ void TestWaylandServerSeat::testMultiple()
     display.addSocketName(s_socketName);
     display.start();
     QVERIFY(display.seats().isEmpty());
-    SeatInterface *seat1 = new SeatInterface(&display);
+    SeatInterface *seat1 = new SeatInterface(&display, &display);
     QCOMPARE(display.seats().count(), 1);
     QCOMPARE(display.seats().at(0), seat1);
-    SeatInterface *seat2 = new SeatInterface(&display);
+    SeatInterface *seat2 = new SeatInterface(&display, &display);
     QCOMPARE(display.seats().count(), 2);
     QCOMPARE(display.seats().at(0), seat1);
     QCOMPARE(display.seats().at(1), seat2);
-    SeatInterface *seat3 = new SeatInterface(&display);
+    SeatInterface *seat3 = new SeatInterface(&display, &display);
     QCOMPARE(display.seats().count(), 3);
     QCOMPARE(display.seats().at(0), seat1);
     QCOMPARE(display.seats().at(1), seat2);

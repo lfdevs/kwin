@@ -6,16 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-08-10 02:20+0000\n"
-"PO-Revision-Date: 2022-04-10 02:31+0400\n"
-"Last-Translator: Kheyyam Gojayev <xxmn77@gmail.com>\n"
+"POT-Creation-Date: 2022-09-14 00:46+0000\n"
+"PO-Revision-Date: 2022-08-19 17:11+0400\n"
+"Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
 "Language: az\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 21.12.3\n"
+"X-Generator: Lokalize 22.04.3\n"
 
 #. i18n: ectx: property (text), widget (QLabel, labelConstantBlurDescription)
 #: blur/blur_config.ui:17
@@ -52,23 +52,23 @@ msgstr ""
 "Sol kliklə və ya Enter düyməsi ilə rəng seçimi yerini açın.\n"
 "İmtina etmək üçün: Escape düyməsi və ya sol klik."
 
-#: desktopgrid/desktopgrid_config.cpp:51 invert/invert_config.cpp:35
-#: lookingglass/lookingglass_config.cpp:55 magnifier/magnifier_config.cpp:57
-#: mouseclick/mouseclick_config.cpp:49 mousemark/mousemark_config.cpp:52
-#: overview/kcm/overvieweffectkcm.cpp:35 showpaint/showpaint_config.cpp:33
-#: thumbnailaside/thumbnailaside_config.cpp:56
+#: desktopgrid/desktopgrid_config.cpp:49 invert/invert_config.cpp:35
+#: magnifier/magnifier_config.cpp:55 mouseclick/mouseclick_config.cpp:48
+#: mousemark/mousemark_config.cpp:50 overview/kcm/overvieweffectkcm.cpp:35
+#: showpaint/showpaint_config.cpp:33
+#: thumbnailaside/thumbnailaside_config.cpp:54
 #: trackmouse/trackmouse_config.cpp:52
 #: windowview/kcm/windowvieweffectkcm.cpp:35 zoom/zoom_config.cpp:58
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
 
-#: desktopgrid/desktopgrid_config.cpp:56 desktopgrid/desktopgrideffect.cpp:35
+#: desktopgrid/desktopgrid_config.cpp:54 desktopgrid/desktopgrideffect.cpp:35
 #, kde-format
 msgid "Show Desktop Grid"
 msgstr "İş Masalarını göstərmək"
 
-#: desktopgrid/desktopgrid_config.cpp:63
+#: desktopgrid/desktopgrid_config.cpp:61
 #, kde-format
 msgctxt "Desktop name alignment:"
 msgid "Disabled"
@@ -76,57 +76,57 @@ msgstr "Söndürülüb"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
-#: desktopgrid/desktopgrid_config.cpp:64 glide/glide_config.ui:70
+#: desktopgrid/desktopgrid_config.cpp:62 glide/glide_config.ui:70
 #: glide/glide_config.ui:168
 #, kde-format
 msgid "Top"
 msgstr "Yuxarıda"
 
-#: desktopgrid/desktopgrid_config.cpp:65
+#: desktopgrid/desktopgrid_config.cpp:63
 #, kde-format
 msgid "Top-Right"
 msgstr "Yuxarı sağda"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
-#: desktopgrid/desktopgrid_config.cpp:66 glide/glide_config.ui:75
+#: desktopgrid/desktopgrid_config.cpp:64 glide/glide_config.ui:75
 #: glide/glide_config.ui:173
 #, kde-format
 msgid "Right"
 msgstr "Sağda"
 
-#: desktopgrid/desktopgrid_config.cpp:67
+#: desktopgrid/desktopgrid_config.cpp:65
 #, kde-format
 msgid "Bottom-Right"
 msgstr "Aşağı sağda"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
-#: desktopgrid/desktopgrid_config.cpp:68 glide/glide_config.ui:80
+#: desktopgrid/desktopgrid_config.cpp:66 glide/glide_config.ui:80
 #: glide/glide_config.ui:178
 #, kde-format
 msgid "Bottom"
 msgstr "Aşağıda"
 
-#: desktopgrid/desktopgrid_config.cpp:69
+#: desktopgrid/desktopgrid_config.cpp:67
 #, kde-format
 msgid "Bottom-Left"
 msgstr "Aşağı solda"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
-#: desktopgrid/desktopgrid_config.cpp:70 glide/glide_config.ui:85
+#: desktopgrid/desktopgrid_config.cpp:68 glide/glide_config.ui:85
 #: glide/glide_config.ui:183
 #, kde-format
 msgid "Left"
 msgstr "Solda"
 
-#: desktopgrid/desktopgrid_config.cpp:71
+#: desktopgrid/desktopgrid_config.cpp:69
 #, kde-format
 msgid "Top-Left"
 msgstr "Yuxarı solda"
 
-#: desktopgrid/desktopgrid_config.cpp:72
+#: desktopgrid/desktopgrid_config.cpp:70
 #, kde-format
 msgid "Center"
 msgstr "Mərkəzdə"
@@ -166,7 +166,7 @@ msgstr "Sətirlərin sa&yı:"
 #: desktopgrid/desktopgrid_config.ui:103
 #, kde-format
 msgid "Desktop &name alignment:"
-msgstr "İş Masasının adı:"
+msgstr "İş masasının adı:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowAddRemove)
 #: desktopgrid/desktopgrid_config.ui:116
@@ -176,10 +176,9 @@ msgstr "Virtual İş Masalarının sayını gösərmək üçün düymələri gö
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: desktopgrid/desktopgrid_config.ui:123
-#, fuzzy, kde-format
-#| msgid "&Layout mode:"
+#, kde-format
 msgid "&Grid layout mode:"
-msgstr "Yer&ləşdirmə:"
+msgstr "&Torlu maket rejimi:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
 #: desktopgrid/desktopgrid_config.ui:137 overview/kcm/overvieweffectkcm.ui:30
@@ -197,10 +196,9 @@ msgstr "Təbii"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: desktopgrid/desktopgrid_config.ui:150
-#, fuzzy, kde-format
-#| msgid "Windows"
+#, kde-format
 msgid "Windows layout:"
-msgstr "Pəncərələr"
+msgstr "Pəncərə maketi:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: desktopgrid/desktopgrid_config.ui:166
@@ -230,7 +228,7 @@ msgstr "Dok-lar və Panellər"
 #: diminactive/diminactive_config.ui:54
 #, kde-format
 msgid "Desktop"
-msgstr "İş Masası"
+msgstr "İş masası"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimKeepAbove)
 #: diminactive/diminactive_config.ui:61
@@ -317,12 +315,6 @@ msgstr "Pəncərədəki neqativ effekt açarı"
 msgid "Fade to black (fullscreen splash screens only)"
 msgstr "qaralmaqla yox olma (yalnız tamekranlı salamlama pəncərəsi üçün)"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: lookingglass/lookingglass_config.ui:24
-#, kde-format
-msgid "&Radius:"
-msgstr "&Radius:"
-
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: magiclamp/magiclamp_config.ui:17
 #, kde-format
@@ -367,7 +359,7 @@ msgstr " piksel"
 msgid "&Height:"
 msgstr "&Hündürlük:"
 
-#: mouseclick/mouseclick.cpp:34 mouseclick/mouseclick_config.cpp:52
+#: mouseclick/mouseclick.cpp:34 mouseclick/mouseclick_config.cpp:51
 #, kde-format
 msgid "Toggle Mouse Click Effect"
 msgstr "Siçan kliki effektinin açarı"
@@ -390,12 +382,12 @@ msgctxt "Right mouse button"
 msgid "Right"
 msgstr "Sağ"
 
-#: mouseclick/mouseclick.h:73
+#: mouseclick/mouseclick.h:61
 #, kde-format
 msgid "↓"
 msgstr "↓"
 
-#: mouseclick/mouseclick.h:74
+#: mouseclick/mouseclick.h:62
 #, kde-format
 msgid "↑"
 msgstr "↑"
@@ -474,8 +466,7 @@ msgid "Ring Count:"
 msgstr "Sayı:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, font)
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: mouseclick/mouseclick_config.ui:210 showfps/showfps_config.ui:17
+#: mouseclick/mouseclick_config.ui:210
 #, kde-format
 msgid "Text"
 msgstr "Mətn"
@@ -497,17 +488,17 @@ msgstr "Mətni Göstər:"
 msgid "Clear All Mouse Marks"
 msgstr "Siçanın bütün nişanlarını silmək"
 
-#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:61
+#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:59
 #, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr "Siçanın sonuncu nişanını silmək"
 
-#: mousemark/mousemark_config.cpp:55
+#: mousemark/mousemark_config.cpp:53
 #, kde-format
 msgid "Clear Mouse Marks"
 msgstr "Siçanın nişanlarını silmək"
 
-#: mousemark/mousemark_config.cpp:102
+#: mousemark/mousemark_config.cpp:100
 #, kde-format
 msgctxt "Suffix"
 msgid " pixel"
@@ -533,6 +524,12 @@ msgstr "&Rəng:"
 msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr "Shift+Meta düymələrini sıxaraq siçanı hətəkət etdirməklə rəsm çəkmək."
 
+#: outputlocator/outputlocator.cpp:48
+#, kde-format
+msgctxt "@label"
+msgid "Unknown"
+msgstr "Naməlum"
+
 #: overview/kcm/overvieweffectkcm.cpp:41 overview/overvieweffect.cpp:31
 #, kde-format
 msgid "Toggle Overview"
@@ -553,30 +550,40 @@ msgstr "Fon bulanıqlığı:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: overview/kcm/overvieweffectkcm.ui:70
-#, fuzzy, kde-format
-#| msgid "Ignore &minimized windows"
+#, kde-format
 msgid "Ignore minimized windows:"
-msgstr "Yığılmış pəncərələri yox saymaq"
+msgstr "Yığılmış pəncərələri yox saymaq:"
 
-#: overview/qml/DesktopBar.qml:188
+#: overview/qml/DesktopBar.qml:185
 #, kde-format
-msgid "Delete virtual desktop"
-msgstr "Virtual iş masasını sil"
+msgid "Delete Virtual Desktop"
+msgstr "Virtual iş masasını silin"
 
-#: overview/qml/DesktopBar.qml:278
+#: overview/qml/DesktopBar.qml:281
 #, kde-format
-msgid "Add Desktop"
-msgstr "İş masası əlavə et"
+msgid "Add Virtual Desktop"
+msgstr "Virtual iş masası əlavə edin"
 
-#: overview/qml/ScreenView.qml:170
+#: overview/qml/ScreenView.qml:206
 #, kde-format
 msgid "Search..."
 msgstr "Axtarış..."
 
-#: private/qml/WindowHeapDelegate.qml:150
+#: overview/qml/ScreenView.qml:233
+#, kde-format
+msgid "No matching windows"
+msgstr "Uyğun pəncərələr yoxdur"
+
+#: private/qml/WindowHeapDelegate.qml:206
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "Bağlamaq üçün aşağı çəkin"
+
+#: private/qml/WindowHeapDelegate.qml:447
+#, kde-format
+msgctxt "@info:tooltip as in: 'close this window'"
+msgid "Close window"
+msgstr "Pəncərəni bağlayın"
 
 #. i18n: ectx: property (text), widget (QLabel, label_InScale)
 #: scale/package/contents/ui/config.ui:46
@@ -622,111 +629,40 @@ msgstr ""
 "Sol klik və ya enter düyməsi ilə ekranın şəklini çəkmək.\n"
 "Bundan imtina etmək üçün Escape və ya sol klik."
 
-#: showfps/showfps.cpp:52
+#: showfps/qml/main.qml:110
 #, kde-format
+msgctxt "@label"
+msgid "Paint Duration"
+msgstr "Çəkmə müddəti"
+
+#: showfps/qml/main.qml:162
+#, kde-format
+msgctxt "@label"
+msgid "Paint Amount"
+msgstr "Çəkiliş sayı"
+
+#: showfps/qml/main.qml:175
+#, kde-format
+msgctxt "@label"
+msgid "Current FPS"
+msgstr "Cari kadr tezliyi"
+
+#: showfps/qml/main.qml:184
+#, kde-format
+msgctxt "@label"
+msgid "Maximum FPS"
+msgstr "Maksimum kadr tezliyi"
+
+#: showfps/qml/main.qml:192
+#, kde-format
+msgctxt "@label"
 msgid "This effect is not a benchmark"
-msgstr "bu effekt - sürət yoxlaması deyil"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: showfps/showfps_config.ui:23
-#, kde-format
-msgid "Text position:"
-msgstr "Mətn Yeri:"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TextPosition)
-#: showfps/showfps_config.ui:43
-#, kde-format
-msgid "Inside Graph"
-msgstr "Qrafikanın tərkibində"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TextPosition)
-#: showfps/showfps_config.ui:48
-#, kde-format
-msgid "Nowhere"
-msgstr "Heç bir yerdə"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TextPosition)
-#: showfps/showfps_config.ui:53
-#, kde-format
-msgid "Top Left"
-msgstr "Yuxarı solda"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TextPosition)
-#: showfps/showfps_config.ui:58
-#, kde-format
-msgid "Top Right"
-msgstr "Yuxarı sağda"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TextPosition)
-#: showfps/showfps_config.ui:63
-#, kde-format
-msgid "Bottom Left"
-msgstr "Aşağı solda"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TextPosition)
-#: showfps/showfps_config.ui:68
-#, kde-format
-msgid "Bottom Right"
-msgstr "Aşağı sağda"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: showfps/showfps_config.ui:76
-#, kde-format
-msgid "Text font:"
-msgstr "Mətnin şrifti:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: showfps/showfps_config.ui:96
-#, kde-format
-msgid "Text color:"
-msgstr "Mətnin rəngi:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: showfps/showfps_config.ui:119
-#, kde-format
-msgid "Text alpha:"
-msgstr "Mətnin yarımşəffaflığı:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: showfps/showfps_config.ui:154
-#, kde-format
-msgid "Show graph:"
-msgstr "Qrafiki göstərmək:"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowGraph)
-#: showfps/showfps_config.ui:167
-#, kde-format
-msgid "Show on active screen"
-msgstr "Aktiv ekranda göstərmək"
-
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: showfps/showfps_config.ui:174
-#, kde-format
-msgid "Show Message:"
-msgstr "İsmarıcı göstərmək:"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowNoBenchmark)
-#: showfps/showfps_config.ui:187
-#, kde-format
-msgid "Show \"not a benchmark\" message"
-msgstr "\"Bir müqayisə deyil\" ismarıcını göstərmək"
-
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: showfps/showfps_config.ui:194
-#, kde-format
-msgid "Colorize Text:"
-msgstr "Mətnin rənglənməsi:"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ColorizeText)
-#: showfps/showfps_config.ui:207
-#, kde-format
-msgid "Color text by value (green > yellow > red)"
-msgstr "Mətni dəyərinə görə rəngləmək (yaşıl > sarı > qırmızı)"
+msgstr "Bu effekt sürət yoxlaması deyil"
 
 #: showpaint/showpaint.cpp:38 showpaint/showpaint_config.cpp:38
 #, kde-format
 msgid "Toggle Show Paint"
-msgstr "Görüntülənənin işıqlanma açarı"
+msgstr "Rəsm göstərilmə açarı"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_Gaps)
 #: slide/slide_config.ui:17
@@ -759,7 +695,7 @@ msgid "Slide desktop background"
 msgstr "İş Masaları fonlarını sürüşdürmək"
 
 #: thumbnailaside/thumbnailaside.cpp:29
-#: thumbnailaside/thumbnailaside_config.cpp:61
+#: thumbnailaside/thumbnailaside_config.cpp:59
 #, kde-format
 msgid "Toggle Thumbnail for Current Window"
 msgstr "Cari İç Masasının miniatürlərini göstərmək/gizlətmək"
@@ -796,7 +732,7 @@ msgstr "&Qeyri-şəffaflıq:"
 msgid " %"
 msgstr " %"
 
-#: trackmouse/trackmouse.cpp:45 trackmouse/trackmouse_config.cpp:57
+#: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:57
 #, kde-format
 msgid "Track mouse"
 msgstr "Kursorun izi"
@@ -925,17 +861,17 @@ msgstr "Açılan menyular:"
 msgid "Torn-off menus:"
 msgstr "Qopan menyular:"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:41 windowview/windowvieweffect.cpp:44
+#: windowview/kcm/windowvieweffectkcm.cpp:41 windowview/windowvieweffect.cpp:45
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
-msgstr "Cari İş Masasının bütün pəncərələrini göstərmək"
+msgstr "Cari İş masasının bütün pəncərələrini göstərmək"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:54
+#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:55
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Bütün İş Masalarının bütün pəncərələrini göstərmək"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:64
+#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:65
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Tək sinifə aid pəncərəni göstərmək"
@@ -946,16 +882,22 @@ msgstr "Tək sinifə aid pəncərəni göstərmək"
 msgid "Ignore &minimized windows"
 msgstr "Yığılmış pəncərələri yox saymaq"
 
-#: windowview/qml/main.qml:157
+#: windowview/qml/main.qml:203
 #, kde-format
 msgid "No Matches"
-msgstr ""
+msgstr "Oxşarları yoxdur"
 
-#: windowview/qml/main.qml:157
-#, fuzzy, kde-format
-#| msgid "Windows"
+#: windowview/qml/main.qml:203
+#, kde-format
 msgid "No Windows"
-msgstr "Pəncərələr"
+msgstr "Pəncərələr yoxdur"
+
+#: windowview/windowvieweffect.cpp:74
+#, kde-format
+msgid "Toggle Present Windows (Window class on current desktop)"
+msgstr ""
+"\"Pəncərələrə baxış\"ı aktiv edin və ya söndürün (cari iş masasındakı "
+"pəncərə sinfi)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20
@@ -1134,7 +1076,7 @@ msgstr "Miqyas"
 #: zoom/zoom_config.ui:108
 #, kde-format
 msgid "Keep"
-msgstr "Saxlamaq"
+msgstr "Saxlayın"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MousePointer)
 #: zoom/zoom_config.ui:113

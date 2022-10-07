@@ -32,11 +32,28 @@ target_sources(kwin PRIVATE
     atoms.cpp
     client_machine.cpp
     colors/colordevice.cpp
-    colors/colorlut.cpp
     colors/colormanager.cpp
-    colors/colorpipelinestage.cpp
-    colors/colortransformation.cpp
     composite.cpp
+    core/colorlut.cpp
+    core/colorpipelinestage.cpp
+    core/colortransformation.cpp
+    core/inputbackend.cpp
+    core/inputdevice.cpp
+    core/output.cpp
+    core/outputconfiguration.cpp
+    core/outputlayer.cpp
+    core/overlaywindow.cpp
+    core/platform.cpp
+    core/renderbackend.cpp
+    core/renderjournal.cpp
+    core/renderlayer.cpp
+    core/renderlayerdelegate.cpp
+    core/renderloop.cpp
+    core/rendertarget.cpp
+    core/session.cpp
+    core/session_consolekit.cpp
+    core/session_logind.cpp
+    core/session_noop.cpp
     cursor.cpp
     cursordelegate_opengl.cpp
     cursordelegate_qpainter.cpp
@@ -59,12 +76,12 @@ target_sources(kwin PRIVATE
     gestures.cpp
     globalshortcuts.cpp
     group.cpp
+    hide_cursor_spy.cpp
     idle_inhibition.cpp
+    idledetector.cpp
     input.cpp
     input_event.cpp
     input_event_spy.cpp
-    inputbackend.cpp
-    inputdevice.cpp
     inputmethod.cpp
     inputpanelv1integration.cpp
     inputpanelv1window.cpp
@@ -81,37 +98,27 @@ target_sources(kwin PRIVATE
     linux_dmabuf.cpp
     main.cpp
     modifier_only_shortcuts.cpp
+    mousebuttons.cpp
     moving_client_x11_filter.cpp
     netinfo.cpp
     onscreennotification.cpp
     options.cpp
     osd.cpp
     outline.cpp
-    output.cpp
-    outputconfiguration.cpp
-    outputlayer.cpp
-    overlaywindow.cpp
+    placeholderinputeventfilter.cpp
+    placeholderoutput.cpp
     placement.cpp
-    platform.cpp
+    placementtracker.cpp
     plugin.cpp
     pluginmanager.cpp
     pointer_input.cpp
     popup_input_filter.cpp
-    renderbackend.cpp
-    renderjournal.cpp
-    renderlayer.cpp
-    renderlayerdelegate.cpp
-    renderloop.cpp
-    rendertarget.cpp
     rootinfo_filter.cpp
     rulebooksettings.cpp
     rules.cpp
     scene.cpp
     screenedge.cpp
     screens.cpp
-    scripting/v2/clientmodel.cpp
-    scripting/v3/clientmodel.cpp
-    scripting/v3/virtualdesktopmodel.cpp
     scripting/dbuscall.cpp
     scripting/desktopbackgrounditem.cpp
     scripting/screenedgeitem.cpp
@@ -119,12 +126,11 @@ target_sources(kwin PRIVATE
     scripting/scripting.cpp
     scripting/scripting_logging.cpp
     scripting/scriptingutils.cpp
+    scripting/v2/clientmodel.cpp
+    scripting/v3/clientmodel.cpp
+    scripting/v3/virtualdesktopmodel.cpp
     scripting/windowthumbnailitem.cpp
     scripting/workspace_wrapper.cpp
-    session.cpp
-    session_consolekit.cpp
-    session_logind.cpp
-    session_noop.cpp
     shadow.cpp
     shadowitem.cpp
     sm.cpp
@@ -135,9 +141,7 @@ target_sources(kwin PRIVATE
     syncalarmx11filter.cpp
     tablet_input.cpp
     tabletmodemanager.cpp
-    hide_cursor_spy.cpp
     touch_input.cpp
-    udev.cpp
     unmanaged.cpp
     useractions.cpp
     virtualdesktops.cpp
@@ -146,7 +150,6 @@ target_sources(kwin PRIVATE
     was_user_interaction_x11_filter.cpp
     wayland_server.cpp
     waylandoutput.cpp
-    waylandoutputdevicev2.cpp
     waylandshellintegration.cpp
     waylandwindow.cpp
     window.cpp
@@ -156,13 +159,11 @@ target_sources(kwin PRIVATE
     x11eventfilter.cpp
     x11syncmanager.cpp
     x11window.cpp
-    xcursortheme.cpp
     xdgactivationv1.cpp
     xdgshellintegration.cpp
     xdgshellwindow.cpp
     xkb.cpp
     xwaylandwindow.cpp
-    xwayland/xwayland_interface.cpp
 )
 
 target_link_libraries(kwin
@@ -199,6 +200,7 @@ target_link_libraries(kwin
     XCB::SYNC
     XCB::XCB
     XCB::XFIXES
+    XCB::XINERAMA
 
     UDev::UDev
     XKB::XKB
@@ -286,6 +288,7 @@ generate_export_header(kwin EXPORT_FILE_NAME kwin_export.h)
 
 add_executable(kwin_x11 main_x11.cpp)
 target_link_libraries(kwin_x11
+    KWinX11Platform
     kwin
     KF5::Crash
 )

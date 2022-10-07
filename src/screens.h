@@ -29,18 +29,11 @@ class Platform;
 class KWIN_EXPORT Screens : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(int count READ count WRITE setCount NOTIFY countChanged)
 
 public:
-    ~Screens() override;
-    int count() const;
-    QRect geometry(int screen) const;
-    /**
-     * The bounding geometry of all screens combined. Overlapping areas
-     * are not counted multiple times.
-     * @see geometryChanged()
-     */
-    QRect geometry() const;
+    explicit Screens();
+
+    void init();
 
     /**
      * The highest scale() of all connected screens
@@ -54,50 +47,17 @@ public:
      * The output scale for this display, for use by high DPI displays
      */
     qreal scale(int screen) const;
-    /**
-     * The bounding size of all screens combined. Overlapping areas
-     * are not counted multiple times.
-     *
-     * @see geometry()
-     * @see sizeChanged()
-     */
-    QSize size() const;
 
 Q_SIGNALS:
-    void countChanged(int previousCount, int newCount);
     /**
      * Emitted whenever the screens are changed either count or geometry.
      */
     void changed();
     /**
-     * Emitted when the geometry of all screens combined changes.
-     * Not emitted when the geometry of an individual screen changes.
-     * @see geometry()
-     */
-    void geometryChanged();
-    /**
-     * Emitted when the size of all screens combined changes.
-     * Not emitted when the size of an individual screen changes.
-     * @see size()
-     */
-    void sizeChanged();
-    /**
      * Emitted when the maximum scale of all attached screens changes
      * @see maxScale
      */
     void maxScaleChanged();
-
-protected Q_SLOTS:
-    void setCount(int count);
-    void updateCount();
-
-protected:
-    /**
-     * Called once the singleton instance has been created.
-     * Any initialization code should go into this method. Overriding classes have to call
-     * the base implementation first.
-     */
-    void init();
 
 private Q_SLOTS:
     void updateSize();
@@ -105,33 +65,8 @@ private Q_SLOTS:
 private:
     Output *findOutput(int screenId) const;
 
-    int m_count;
-    QSize m_boundingSize;
     qreal m_maxScale;
-
-    KWIN_SINGLETON(Screens)
 };
-
-inline int Screens::count() const
-{
-    return m_count;
-}
-
-inline QSize Screens::size() const
-{
-    return m_boundingSize;
-}
-
-inline QRect Screens::geometry() const
-{
-    return QRect(QPoint(0, 0), size());
-}
-
-inline Screens *screens()
-{
-    return Screens::self();
-}
-
 }
 
 #endif // KWIN_SCREENS_H

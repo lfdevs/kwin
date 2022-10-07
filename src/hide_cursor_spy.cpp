@@ -10,7 +10,6 @@
 #include "cursor.h"
 #include "input_event.h"
 #include "main.h"
-#include "platform.h"
 
 namespace KWin
 {

@@ -7,9 +7,9 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "screen.h"
+#include "core/output.h"
 #include "integration.h"
 #include "logging.h"
-#include "output.h"
 #include "platformcursor.h"
 
 #include <qpa/qwindowsysteminterface.h>
@@ -78,7 +78,7 @@ QSizeF Screen::physicalSize() const
 
 QPlatformCursor *Screen::cursor() const
 {
-    return m_cursor.data();
+    return m_cursor.get();
 }
 
 QDpi Screen::logicalDpi() const

@@ -11,13 +11,13 @@
 #include "drm_backend.h"
 #include "drm_buffer.h"
 #include "drm_dumb_buffer.h"
+#include "drm_dumb_swapchain.h"
 #include "drm_gpu.h"
+#include "drm_logging.h"
 #include "drm_output.h"
 #include "drm_pipeline.h"
+#include "drm_qpainter_backend.h"
 #include "drm_virtual_output.h"
-#include "dumb_swapchain.h"
-#include "logging.h"
-#include "scene_qpainter_drm_backend.h"
 
 #include <drm_fourcc.h>
 
@@ -173,49 +173,5 @@ QRegion DrmVirtualQPainterLayer::currentDamage() const
 
 void DrmVirtualQPainterLayer::releaseBuffers()
 {
-}
-
-DrmLeaseQPainterLayer::DrmLeaseQPainterLayer(DrmPipeline *pipeline)
-    : DrmPipelineLayer(pipeline)
-{
-}
-
-bool DrmLeaseQPainterLayer::checkTestBuffer()
-{
-    const auto size = m_pipeline->bufferSize();
-    if (!m_framebuffer || m_buffer->size() != size) {
-        m_buffer = DrmDumbBuffer::createDumbBuffer(m_pipeline->gpu(), size, DRM_FORMAT_XRGB8888);
-        if (m_buffer) {
-            m_framebuffer = DrmFramebuffer::createFramebuffer(m_buffer);
-            if (!m_framebuffer) {
-                qCWarning(KWIN_DRM, "Failed to create dumb framebuffer for lease output: %s", strerror(errno));
-            }
-        } else {
-            m_framebuffer.reset();
-        }
-    }
-    return m_framebuffer != nullptr;
-}
-
-std::shared_ptr<DrmFramebuffer> DrmLeaseQPainterLayer::currentBuffer() const
-{
-    return m_framebuffer;
-}
-
-std::optional<OutputLayerBeginFrameInfo> DrmLeaseQPainterLayer::beginFrame()
-{
-    return std::nullopt;
-}
-
-bool DrmLeaseQPainterLayer::endFrame(const QRegion &damagedRegion, const QRegion &renderedRegion)
-{
-    Q_UNUSED(damagedRegion)
-    Q_UNUSED(renderedRegion)
-    return false;
-}
-
-void DrmLeaseQPainterLayer::releaseBuffers()
-{
-    m_buffer.reset();
 }
 }

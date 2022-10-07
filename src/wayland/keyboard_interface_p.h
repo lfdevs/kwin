@@ -6,6 +6,7 @@
 #pragma once
 
 #include "keyboard_interface.h"
+#include "utils/ramfile.h"
 
 #include <qwayland-server-wayland.h>
 
@@ -31,13 +32,14 @@ public:
 
     static KeyboardInterfacePrivate *get(KeyboardInterface *keyboard)
     {
-        return keyboard->d.data();
+        return keyboard->d.get();
     }
 
     SeatInterface *seat;
     SurfaceInterface *focusedSurface = nullptr;
     QMetaObject::Connection destroyConnection;
     QByteArray keymap;
+    KWin::RamFile sharedKeymapFile;
 
     struct
     {

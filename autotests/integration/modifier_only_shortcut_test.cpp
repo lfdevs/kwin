@@ -10,10 +10,10 @@
 
 #include "kwin_wayland_test.h"
 
+#include "core/platform.h"
 #include "cursor.h"
 #include "input.h"
 #include "keyboard_input.h"
-#include "platform.h"
 #include "wayland_server.h"
 #include "workspace.h"
 
@@ -82,7 +82,6 @@ void Target::shortcut()
 void ModifierOnlyShortcutTest::initTestCase()
 {
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    QVERIFY(applicationStartedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
 
@@ -92,7 +91,6 @@ void ModifierOnlyShortcutTest::initTestCase()
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
-    Test::initWaylandWorkspace();
 }
 
 void ModifierOnlyShortcutTest::init()
@@ -132,7 +130,6 @@ void ModifierOnlyShortcutTest::testTrigger()
     // this test verifies that modifier only shortcut triggers correctly
     Target target;
     QSignalSpy triggeredSpy(&target, &Target::shortcutTriggered);
-    QVERIFY(triggeredSpy.isValid());
 
     KConfigGroup group = kwinApp()->config()->group("ModifierOnlyShortcuts");
     QFETCH(QStringList, metaConfig);
@@ -248,7 +245,6 @@ void ModifierOnlyShortcutTest::testCapsLock()
     // but other shortcuts still trigger even when Capslock is on
     Target target;
     QSignalSpy triggeredSpy(&target, &Target::shortcutTriggered);
-    QVERIFY(triggeredSpy.isValid());
 
     KConfigGroup group = kwinApp()->config()->group("ModifierOnlyShortcuts");
     group.writeEntry("Meta", QStringList());
@@ -334,7 +330,6 @@ void ModifierOnlyShortcutTest::testGlobalShortcutsDisabled()
     // see BUG: 370146
     Target target;
     QSignalSpy triggeredSpy(&target, &Target::shortcutTriggered);
-    QVERIFY(triggeredSpy.isValid());
 
     KConfigGroup group = kwinApp()->config()->group("ModifierOnlyShortcuts");
     QFETCH(QStringList, metaConfig);

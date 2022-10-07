@@ -7,13 +7,13 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "composite.h"
+#include "core/platform.h"
+#include "core/renderbackend.h"
 #include "cursor.h"
 #include "deleted.h"
 #include "effectloader.h"
 #include "effects.h"
 #include "kwin_wayland_test.h"
-#include "platform.h"
-#include "renderbackend.h"
 #include "wayland_server.h"
 #include "workspace.h"
 #include "x11window.h"
@@ -52,7 +52,6 @@ void SlidingPopupsTest::initTestCase()
     qRegisterMetaType<KWin::Deleted *>();
     qRegisterMetaType<KWin::Effect *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    QVERIFY(applicationStartedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
 
@@ -98,7 +97,7 @@ void SlidingPopupsTest::cleanup()
 
 struct XcbConnectionDeleter
 {
-    static inline void cleanup(xcb_connection_t *pointer)
+    void operator()(xcb_connection_t *pointer)
     {
         xcb_disconnect(pointer);
     }
@@ -133,7 +132,6 @@ void SlidingPopupsTest::testWithOtherEffect()
     auto effectloader = e->findChild<AbstractEffectLoader *>();
     QVERIFY(effectloader);
     QSignalSpy effectLoadedSpy(effectloader, &AbstractEffectLoader::effectLoaded);
-    QVERIFY(effectLoadedSpy.isValid());
 
     Effect *slidingPoupus = nullptr;
     Effect *otherEffect = nullptr;
@@ -162,14 +160,13 @@ void SlidingPopupsTest::testWithOtherEffect()
     QTest::qWait(50);
 
     QSignalSpy windowAddedSpy(effects, &EffectsHandler::windowAdded);
-    QVERIFY(windowAddedSpy.isValid());
 
     // create an xcb window
-    QScopedPointer<xcb_connection_t, XcbConnectionDeleter> c(xcb_connect(nullptr, nullptr));
-    QVERIFY(!xcb_connection_has_error(c.data()));
+    std::unique_ptr<xcb_connection_t, XcbConnectionDeleter> c(xcb_connect(nullptr, nullptr));
+    QVERIFY(!xcb_connection_has_error(c.get()));
     const QRect windowGeometry(0, 0, 100, 200);
-    xcb_window_t windowId = xcb_generate_id(c.data());
-    xcb_create_window(c.data(), XCB_COPY_FROM_PARENT, windowId, rootWindow(),
+    xcb_window_t windowId = xcb_generate_id(c.get());
+    xcb_create_window(c.get(), XCB_COPY_FROM_PARENT, windowId, rootWindow(),
                       windowGeometry.x(),
                       windowGeometry.y(),
                       windowGeometry.width(),
@@ -179,27 +176,26 @@ void SlidingPopupsTest::testWithOtherEffect()
     memset(&hints, 0, sizeof(hints));
     xcb_icccm_size_hints_set_position(&hints, 1, windowGeometry.x(), windowGeometry.y());
     xcb_icccm_size_hints_set_size(&hints, 1, windowGeometry.width(), windowGeometry.height());
-    xcb_icccm_set_wm_normal_hints(c.data(), windowId, &hints);
-    NETWinInfo winInfo(c.data(), windowId, rootWindow(), NET::Properties(), NET::Properties2());
+    xcb_icccm_set_wm_normal_hints(c.get(), windowId, &hints);
+    NETWinInfo winInfo(c.get(), windowId, rootWindow(), NET::Properties(), NET::Properties2());
     winInfo.setWindowType(NET::Normal);
 
     // and get the slide atom
     const QByteArray effectAtomName = QByteArrayLiteral("_KDE_SLIDE");
-    xcb_intern_atom_cookie_t atomCookie = xcb_intern_atom_unchecked(c.data(), false, effectAtomName.length(), effectAtomName.constData());
+    xcb_intern_atom_cookie_t atomCookie = xcb_intern_atom_unchecked(c.get(), false, effectAtomName.length(), effectAtomName.constData());
     const int size = 2;
     int32_t data[size];
     data[0] = 0;
     data[1] = 0;
-    QScopedPointer<xcb_intern_atom_reply_t, QScopedPointerPodDeleter> atom(xcb_intern_atom_reply(c.data(), atomCookie, nullptr));
-    QVERIFY(!atom.isNull());
-    xcb_change_property(c.data(), XCB_PROP_MODE_REPLACE, windowId, atom->atom, atom->atom, 32, size, data);
+    UniqueCPtr<xcb_intern_atom_reply_t> atom(xcb_intern_atom_reply(c.get(), atomCookie, nullptr));
+    QVERIFY(atom != nullptr);
+    xcb_change_property(c.get(), XCB_PROP_MODE_REPLACE, windowId, atom->atom, atom->atom, 32, size, data);
 
-    xcb_map_window(c.data(), windowId);
-    xcb_flush(c.data());
+    xcb_map_window(c.get(), windowId);
+    xcb_flush(c.get());
 
     // we should get a window for it
     QSignalSpy windowCreatedSpy(workspace(), &Workspace::windowAdded);
-    QVERIFY(windowCreatedSpy.isValid());
     QVERIFY(windowCreatedSpy.wait());
     X11Window *window = windowCreatedSpy.first().first().value<X11Window *>();
     QVERIFY(window);
@@ -217,14 +213,12 @@ void SlidingPopupsTest::testWithOtherEffect()
     QVERIFY(!otherEffect->isActive());
 
     // and destroy the window again
-    xcb_unmap_window(c.data(), windowId);
-    xcb_flush(c.data());
+    xcb_unmap_window(c.get(), windowId);
+    xcb_flush(c.get());
 
     QSignalSpy windowClosedSpy(window, &X11Window::windowClosed);
-    QVERIFY(windowClosedSpy.isValid());
 
     QSignalSpy windowDeletedSpy(effects, &EffectsHandler::windowDeleted);
-    QVERIFY(windowDeletedSpy.isValid());
     QVERIFY(windowClosedSpy.wait());
 
     // again we should have the sliding popups active
@@ -237,7 +231,7 @@ void SlidingPopupsTest::testWithOtherEffect()
     QTRY_VERIFY(!slidingPoupus->isActive());
     QTest::qWait(300);
     QVERIFY(!otherEffect->isActive());
-    xcb_destroy_window(c.data(), windowId);
+    xcb_destroy_window(c.get(), windowId);
     c.reset();
 }
 
@@ -271,7 +265,6 @@ void SlidingPopupsTest::testWithOtherEffectWayland()
     auto effectloader = e->findChild<AbstractEffectLoader *>();
     QVERIFY(effectloader);
     QSignalSpy effectLoadedSpy(effectloader, &AbstractEffectLoader::effectLoaded);
-    QVERIFY(effectLoadedSpy.isValid());
 
     Effect *slidingPoupus = nullptr;
     Effect *otherEffect = nullptr;
@@ -296,32 +289,30 @@ void SlidingPopupsTest::testWithOtherEffectWayland()
     QVERIFY(!slidingPoupus->isActive());
     QVERIFY(!otherEffect->isActive());
     QSignalSpy windowAddedSpy(effects, &EffectsHandler::windowAdded);
-    QVERIFY(windowAddedSpy.isValid());
 
     using namespace KWayland::Client;
     // the test created the slide protocol, let's create a Registry and listen for it
-    QScopedPointer<Registry> registry(new Registry);
+    std::unique_ptr<Registry> registry(new Registry);
     registry->create(Test::waylandConnection());
 
-    QSignalSpy interfacesAnnouncedSpy(registry.data(), &Registry::interfacesAnnounced);
-    QVERIFY(interfacesAnnouncedSpy.isValid());
+    QSignalSpy interfacesAnnouncedSpy(registry.get(), &Registry::interfacesAnnounced);
     registry->setup();
     QVERIFY(interfacesAnnouncedSpy.wait());
     auto slideInterface = registry->interface(Registry::Interface::Slide);
     QVERIFY(slideInterface.name != 0);
-    QScopedPointer<SlideManager> slideManager(registry->createSlideManager(slideInterface.name, slideInterface.version));
+    std::unique_ptr<SlideManager> slideManager(registry->createSlideManager(slideInterface.name, slideInterface.version));
     QVERIFY(slideManager);
 
     // create Wayland window
-    QScopedPointer<KWayland::Client::Surface> surface(Test::createSurface());
+    std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
     QVERIFY(surface);
-    QScopedPointer<Slide> slide(slideManager->createSlide(surface.data()));
+    std::unique_ptr<Slide> slide(slideManager->createSlide(surface.get()));
     slide->setLocation(Slide::Location::Left);
     slide->commit();
-    QScopedPointer<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.data()));
+    std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get()));
     QVERIFY(shellSurface);
     QCOMPARE(windowAddedSpy.count(), 0);
-    auto window = Test::renderAndWaitForShown(surface.data(), QSize(10, 20), Qt::blue);
+    auto window = Test::renderAndWaitForShown(surface.get(), QSize(10, 20), Qt::blue);
     QVERIFY(window);
     QVERIFY(window->isNormalWindow());
 
@@ -340,10 +331,8 @@ void SlidingPopupsTest::testWithOtherEffectWayland()
     surface.reset();
 
     QSignalSpy windowClosedSpy(window, &X11Window::windowClosed);
-    QVERIFY(windowClosedSpy.isValid());
 
     QSignalSpy windowDeletedSpy(effects, &EffectsHandler::windowDeleted);
-    QVERIFY(windowDeletedSpy.isValid());
     QVERIFY(windowClosedSpy.wait());
 
     // again we should have the sliding popups active

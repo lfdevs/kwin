@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.2\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-07-02 02:34+0000\n"
+"POT-Creation-Date: 2022-07-02 00:49+0000\n"
 "PO-Revision-Date: 2021-11-19 11:58+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -215,12 +215,12 @@ msgstr "Simább animációk előnyben"
 msgid "Force smoothest animations"
 msgstr "Simább animációk kényszerítése"
 
-#: main.cpp:78
+#: main.cpp:79
 #, kde-format
 msgid "Re-enable OpenGL detection"
 msgstr "OpenGL felismerés újra bekapcsolása"
 
-#: main.cpp:134
+#: main.cpp:135
 #, kde-format
 msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
@@ -229,12 +229,12 @@ msgstr ""
 "A „Csak ha olcsó” csak a teljes képernyős alkalmazásoknál, például "
 "videolejátszásnál akadályozza meg a kép szétesését."
 
-#: main.cpp:138
+#: main.cpp:139
 #, kde-format
 msgid "\"Full screen repaints\" can cause performance problems."
 msgstr "A „Teljes színtér újrarajzolása” teljesítményproblémákat okozhat."
 
-#: main.cpp:142
+#: main.cpp:143
 #, kde-format
 msgid ""
 "\"Re-use screen content\" causes severe performance problems on MESA drivers."

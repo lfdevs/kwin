@@ -20,7 +20,7 @@ namespace KWin
 static const int s_lineWidth = 4;
 static const QColor s_lineColor = QColor(128, 128, 128, 128);
 
-static QRegion computeDirtyRegion(const QRect &windowRect)
+static QRegion computeDirtyRegion(const QRectF &windowRect)
 {
     const QMargins outlineMargins(
         s_lineWidth / 2,
@@ -32,28 +32,28 @@ static QRegion computeDirtyRegion(const QRect &windowRect)
 
     const QList<EffectScreen *> screens = effects->screens();
     for (EffectScreen *screen : screens) {
-        const QRect screenRect = effects->clientArea(ScreenArea, screen, effects->currentDesktop());
+        const QRectF screenRect = effects->clientArea(ScreenArea, screen, effects->currentDesktop());
 
-        QRect screenWindowRect = windowRect;
+        QRectF screenWindowRect = windowRect;
         screenWindowRect.moveCenter(screenRect.center());
 
-        QRect verticalBarRect(0, 0, s_lineWidth, screenRect.height());
+        QRectF verticalBarRect(0, 0, s_lineWidth, screenRect.height());
         verticalBarRect.moveCenter(screenRect.center());
         verticalBarRect.adjust(-1, -1, 1, 1);
-        dirtyRegion += verticalBarRect;
+        dirtyRegion += verticalBarRect.toAlignedRect();
 
-        QRect horizontalBarRect(0, 0, screenRect.width(), s_lineWidth);
+        QRectF horizontalBarRect(0, 0, screenRect.width(), s_lineWidth);
         horizontalBarRect.moveCenter(screenRect.center());
         horizontalBarRect.adjust(-1, -1, 1, 1);
-        dirtyRegion += horizontalBarRect;
+        dirtyRegion += horizontalBarRect.toAlignedRect();
 
-        const QRect outlineOuterRect = screenWindowRect
-                                           .marginsAdded(outlineMargins)
-                                           .adjusted(-1, -1, 1, 1);
-        const QRect outlineInnerRect = screenWindowRect
-                                           .marginsRemoved(outlineMargins)
-                                           .adjusted(1, 1, -1, -1);
-        dirtyRegion += QRegion(outlineOuterRect) - QRegion(outlineInnerRect);
+        const QRectF outlineOuterRect = screenWindowRect
+                                            .marginsAdded(outlineMargins)
+                                            .adjusted(-1, -1, 1, 1);
+        const QRectF outlineInnerRect = screenWindowRect
+                                            .marginsRemoved(outlineMargins)
+                                            .adjusted(1, 1, -1, -1);
+        dirtyRegion += QRegion(outlineOuterRect.toRect()) - QRegion(outlineInnerRect.toRect());
     }
 
     return dirtyRegion;
@@ -117,7 +117,7 @@ void SnapHelperEffect::paintScreen(int mask, const QRegion &region, ScreenPaintD
         QVector<float> verts;
         verts.reserve(screens.count() * 24);
         for (EffectScreen *screen : screens) {
-            const QRect rect = effects->clientArea(ScreenArea, screen, effects->currentDesktop());
+            const QRectF rect = effects->clientArea(ScreenArea, screen, effects->currentDesktop());
             const int midX = rect.x() + rect.width() / 2;
             const int midY = rect.y() + rect.height() / 2;
             const int halfWidth = m_geometry.width() / 2;
@@ -163,13 +163,13 @@ void SnapHelperEffect::paintScreen(int mask, const QRegion &region, ScreenPaintD
         painter->setBrush(Qt::NoBrush);
 
         for (EffectScreen *screen : screens) {
-            const QRect rect = effects->clientArea(ScreenArea, screen, effects->currentDesktop());
+            const QRectF rect = effects->clientArea(ScreenArea, screen, effects->currentDesktop());
             // Center lines.
             painter->drawLine(rect.center().x(), rect.y(), rect.center().x(), rect.y() + rect.height());
             painter->drawLine(rect.x(), rect.center().y(), rect.x() + rect.width(), rect.center().y());
 
             // Window outline.
-            QRect outlineRect(0, 0, m_geometry.width(), m_geometry.height());
+            QRectF outlineRect(0, 0, m_geometry.width(), m_geometry.height());
             outlineRect.moveCenter(rect.center());
             painter->drawRect(outlineRect);
         }
@@ -246,7 +246,7 @@ void SnapHelperEffect::slotWindowFinishUserMovedResized(EffectWindow *w)
     effects->addRepaint(computeDirtyRegion(m_geometry));
 }
 
-void SnapHelperEffect::slotWindowFrameGeometryChanged(EffectWindow *w, const QRect &old)
+void SnapHelperEffect::slotWindowFrameGeometryChanged(EffectWindow *w, const QRectF &old)
 {
     if (w != m_window) {
         return;

@@ -39,6 +39,7 @@ class PlasmaWindowActivationFeedbackInterface;
 class PlasmaVirtualDesktopManagementInterface;
 class PlasmaWindowManagementInterface;
 class PrimaryOutputV1Interface;
+class OutputDeviceV2Interface;
 class OutputManagementV2Interface;
 class XdgForeignV2Interface;
 class XdgOutputManagerV1Interface;
@@ -47,6 +48,7 @@ class LinuxDmaBufV1ClientBuffer;
 class TabletManagerV2Interface;
 class KeyboardShortcutsInhibitManagerV1Interface;
 class XdgDecorationManagerV1Interface;
+class PrimarySelectionDeviceManagerV1Interface;
 }
 
 namespace KWin
@@ -59,7 +61,6 @@ class XdgPopupWindow;
 class XdgSurfaceWindow;
 class XdgToplevelWindow;
 class WaylandOutput;
-class WaylandOutputDevice;
 
 class KWIN_EXPORT WaylandServer : public QObject
 {
@@ -178,7 +179,6 @@ public:
      */
     bool hasGlobalShortcutSupport() const;
 
-    void initPlatform();
     void initWorkspace();
 
     KWaylandServer::ClientConnection *xWaylandConnection() const;
@@ -208,8 +208,6 @@ public:
      */
     SocketPairConnection createConnection();
 
-    void simulateUserActivity();
-
     QSet<KWaylandServer::LinuxDmaBufV1ClientBuffer *> linuxDmabufBuffers() const
     {
         return m_linuxDmabufBuffers;
@@ -222,8 +220,7 @@ public:
     {
         m_linuxDmabufBuffers.remove(buffer);
     }
-
-    Output *findOutput(KWaylandServer::OutputInterface *output) const;
+    void setEnablePrimarySelection(bool enable);
 
     /**
      * Returns the first socket name that can be used to connect to this server.
@@ -291,10 +288,11 @@ private:
     KWaylandServer::XdgForeignV2Interface *m_XdgForeign = nullptr;
     KWaylandServer::PrimaryOutputV1Interface *m_primary = nullptr;
     XdgActivationV1Integration *m_xdgActivationIntegration = nullptr;
+    KWaylandServer::PrimarySelectionDeviceManagerV1Interface *m_primarySelectionDeviceManager = nullptr;
     QList<Window *> m_windows;
     InitializationFlags m_initFlags;
     QHash<Output *, WaylandOutput *> m_waylandOutputs;
-    QHash<Output *, WaylandOutputDevice *> m_waylandOutputDevices;
+    QHash<Output *, KWaylandServer::OutputDeviceV2Interface *> m_waylandOutputDevices;
     KWIN_SINGLETON(WaylandServer)
 };
 

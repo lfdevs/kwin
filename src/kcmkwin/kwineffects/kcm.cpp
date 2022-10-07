@@ -17,7 +17,7 @@
 #include <QWindow>
 
 K_PLUGIN_FACTORY_WITH_JSON(DesktopEffectsKCMFactory,
-                           "metadata.json",
+                           "kcm_kwin_effects.json",
                            registerPlugin<KWin::DesktopEffectsKCM>();
                            registerPlugin<KWin::DesktopEffectsData>();)
 
@@ -39,7 +39,7 @@ DesktopEffectsKCM::DesktopEffectsKCM(QObject *parent, const QVariantList &args)
     about->addAuthor(i18n("Vlad Zahorodnii"), QString(), QStringLiteral("vlad.zahorodnii@kde.org"));
     setAboutData(about);
 
-    setButtons(Apply | Default);
+    setButtons(Apply | Default | Help);
 
     connect(m_model, &EffectsModel::dataChanged, this, &DesktopEffectsKCM::updateNeedsSave);
     connect(m_model, &EffectsModel::loaded, this, &DesktopEffectsKCM::updateNeedsSave);

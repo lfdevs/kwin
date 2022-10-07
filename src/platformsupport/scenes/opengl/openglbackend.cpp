@@ -11,8 +11,9 @@
 #include <kwineffects.h>
 #include <kwinglutils_funcs.h>
 
-#include "screens.h"
+#include "surfaceitem.h"
 #include "utils/common.h"
+#include "workspace.h"
 
 #include <QElapsedTimer>
 
@@ -43,9 +44,9 @@ void OpenGLBackend::setFailed(const QString &reason)
     m_failed = true;
 }
 
-void OpenGLBackend::copyPixels(const QRegion &region)
+void OpenGLBackend::copyPixels(const QRegion &region, const QSize &screenSize)
 {
-    const int height = screens()->size().height();
+    const int height = screenSize.height();
     for (const QRect &r : region) {
         const int x0 = r.x();
         const int y0 = height - r.y() - r.height();
@@ -56,25 +57,25 @@ void OpenGLBackend::copyPixels(const QRegion &region)
     }
 }
 
-QSharedPointer<KWin::GLTexture> OpenGLBackend::textureForOutput(Output *output) const
+std::shared_ptr<KWin::GLTexture> OpenGLBackend::textureForOutput(Output *output) const
 {
     Q_UNUSED(output)
     return {};
 }
 
-SurfaceTexture *OpenGLBackend::createSurfaceTextureInternal(SurfacePixmapInternal *pixmap)
+std::unique_ptr<SurfaceTexture> OpenGLBackend::createSurfaceTextureInternal(SurfacePixmapInternal *pixmap)
 {
     Q_UNUSED(pixmap)
     return nullptr;
 }
 
-SurfaceTexture *OpenGLBackend::createSurfaceTextureX11(SurfacePixmapX11 *pixmap)
+std::unique_ptr<SurfaceTexture> OpenGLBackend::createSurfaceTextureX11(SurfacePixmapX11 *pixmap)
 {
     Q_UNUSED(pixmap)
     return nullptr;
 }
 
-SurfaceTexture *OpenGLBackend::createSurfaceTextureWayland(SurfacePixmapWayland *pixmap)
+std::unique_ptr<SurfaceTexture> OpenGLBackend::createSurfaceTextureWayland(SurfacePixmapWayland *pixmap)
 {
     Q_UNUSED(pixmap)
     return nullptr;

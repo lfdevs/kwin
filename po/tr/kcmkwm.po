@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-03-26 00:45+0000\n"
-"PO-Revision-Date: 2022-09-01 11:52+0300\n"
+"POT-Creation-Date: 2022-09-02 00:47+0000\n"
+"PO-Revision-Date: 2022-09-02 11:41+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -638,6 +638,50 @@ msgstr ""
 #, kde-format
 msgid "Hide utility windows for inactive applications"
 msgstr "Etkin olmayan uygulamaların yardımcı pencerelerini gizle"
+
+#. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyLabel)
+#: advanced.ui:148
+#, kde-format
+msgid "Virtual Desktop behavior:"
+msgstr "Sanal Masaüstü davranışı:"
+
+#. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyDescriptionLabel)
+#: advanced.ui:158
+#, kde-format
+msgid "When activating a window on a different Virtual Desktop:"
+msgstr "Başka bir Sanal Masaüstü'nde bir pencereyi etkinleştirirken:"
+
+#. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_ActivationDesktopPolicy)
+#: advanced.ui:165
+#, kde-format
+msgid ""
+"<html><head/><body><p>This setting controls what happens when an open window "
+"located on a Virtual Desktop other than the current one is activated. </"
+"p><p><span style=\" font-style:italic;\">Switch to that Virtual Desktop</"
+"span> will switch to the Virtual Desktop where the window is currently "
+"located. </p><p><span style=\" font-style:italic;\">Bring window to current "
+"Virtual Desktop</span> will cause the window to jump to the active Virtual "
+"Desktop. </p></body></html>"
+msgstr ""
+"<html><head/><body><p>Bu ayar, geçerli Sanal Masaüstü'nden başka bir "
+"masaüstünde bulunan bir pencere etkinleştirildiğinde ne olacağını denetler. "
+"</p><p><span style=\" font-style:italic;\">Diğer Sanal Masaüstü'ne Geç</"
+"span>, pencerenin şu anda bulunduğu Sanal Masaüstü'ne geçecektir. </"
+"p><p><span style=\" font-style:italic;\">Pencereyi Geçerli Sanal Masaüstü'ne "
+"Getir</span>, pencerenin etkin Sanal Masaüstü'ne geçmesine neden olur. </p></"
+"body></html>"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
+#: advanced.ui:169
+#, kde-format
+msgid "Switch to that Virtual Desktop"
+msgstr "Diğer Sanal Masaüstü'ne Geç"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
+#: advanced.ui:174
+#, kde-format
+msgid "Bring window to current Virtual Desktop"
+msgstr "Pencereyi Geçerli Sanal Masaüstü'ne Getir"
 
 #. i18n: ectx: property (text), widget (QLabel, windowFocusPolicyLabel)
 #: focus.ui:22
@@ -1287,7 +1331,7 @@ msgstr ""
 msgid "Only when overlapping"
 msgstr "&Pencereleri yalnızca üst üste gelmişlerse yapıştır"
 
-#: windows.cpp:98
+#: windows.cpp:97
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
@@ -1297,7 +1341,7 @@ msgstr ""
 "Bu davranış diğer işletim sistemlerindeki ile ortaktır ve muhtemelen "
 "istediğiniz şeydir."
 
-#: windows.cpp:102
+#: windows.cpp:101
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1312,7 +1356,7 @@ msgstr ""
 "tercih edilir. Farklı bir seçenektir ancak <i>Odak için tıkla</i> için bir "
 "alternatiftir."
 
-#: windows.cpp:107
+#: windows.cpp:106
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1326,7 +1370,7 @@ msgstr ""
 "gibi kullanılır.<em>Odak için tıkla</em> olarak düşünün, yalnızca gerçekten "
 "tıklamadan."
 
-#: windows.cpp:111
+#: windows.cpp:110
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1339,7 +1383,7 @@ msgstr ""
 "olabilir) farenin altında olan pencere yeğlenen adaydır. İmleç altı "
 "tarafından denetlenen bir odak istiyorsanız bunu seçin."
 
-#: windows.cpp:116
+#: windows.cpp:115
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1354,7 +1398,7 @@ msgstr ""
 "durumda <em>Odak fareyi izler (fare önceliği)</em>'ni kullanmak "
 "isteyeceksinizdir!"
 
-#: windows.cpp:120
+#: windows.cpp:119
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "

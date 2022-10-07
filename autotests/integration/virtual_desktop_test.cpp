@@ -8,8 +8,8 @@
 */
 #include "kwin_wayland_test.h"
 
+#include "core/platform.h"
 #include "main.h"
-#include "platform.h"
 #include "virtualdesktops.h"
 #include "wayland_server.h"
 #include "window.h"
@@ -40,7 +40,6 @@ void VirtualDesktopTest::initTestCase()
 {
     qRegisterMetaType<KWin::Window *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    QVERIFY(applicationStartedSpy.isValid());
     kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
 
@@ -50,7 +49,6 @@ void VirtualDesktopTest::initTestCase()
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
-    Test::initWaylandWorkspace();
 
     if (kwinApp()->x11Connection()) {
         // verify the current desktop x11 property on startup, see BUG: 391034
@@ -128,14 +126,13 @@ void VirtualDesktopTest::testLastDesktopRemoved()
     QCOMPARE(VirtualDesktopManager::self()->current(), 2u);
 
     // now create a window on this desktop
-    QScopedPointer<KWayland::Client::Surface> surface(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.data()));
-    auto window = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::blue);
+    std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get()));
+    auto window = Test::renderAndWaitForShown(surface.get(), QSize(100, 50), Qt::blue);
 
     QVERIFY(window);
     QCOMPARE(window->desktop(), 2);
     QSignalSpy desktopPresenceChangedSpy(window, &Window::desktopPresenceChanged);
-    QVERIFY(desktopPresenceChangedSpy.isValid());
 
     QCOMPARE(window->desktops().count(), 1u);
     QCOMPARE(VirtualDesktopManager::self()->currentDesktop(), window->desktops().first());
@@ -163,14 +160,13 @@ void VirtualDesktopTest::testWindowOnMultipleDesktops()
     QCOMPARE(VirtualDesktopManager::self()->current(), 3u);
 
     // now create a window on this desktop
-    QScopedPointer<KWayland::Client::Surface> surface(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.data()));
-    auto window = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::blue);
+    std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get()));
+    auto window = Test::renderAndWaitForShown(surface.get(), QSize(100, 50), Qt::blue);
 
     QVERIFY(window);
     QCOMPARE(window->desktop(), 3u);
     QSignalSpy desktopPresenceChangedSpy(window, &Window::desktopPresenceChanged);
-    QVERIFY(desktopPresenceChangedSpy.isValid());
 
     QCOMPARE(window->desktops().count(), 1u);
     QCOMPARE(VirtualDesktopManager::self()->currentDesktop(), window->desktops().first());
@@ -242,14 +238,13 @@ void VirtualDesktopTest::testRemoveDesktopWithWindow()
     QCOMPARE(VirtualDesktopManager::self()->current(), 3u);
 
     // now create a window on this desktop
-    QScopedPointer<KWayland::Client::Surface> surface(Test::createSurface());
-    QScopedPointer<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.data()));
-    auto window = Test::renderAndWaitForShown(surface.data(), QSize(100, 50), Qt::blue);
+    std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get()));
+    auto window = Test::renderAndWaitForShown(surface.get(), QSize(100, 50), Qt::blue);
 
     QVERIFY(window);
     QCOMPARE(window->desktop(), 3u);
     QSignalSpy desktopPresenceChangedSpy(window, &Window::desktopPresenceChanged);
-    QVERIFY(desktopPresenceChangedSpy.isValid());
 
     QCOMPARE(window->desktops().count(), 1u);
     QCOMPARE(VirtualDesktopManager::self()->currentDesktop(), window->desktops().first());

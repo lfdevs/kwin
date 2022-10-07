@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-05-12 00:46+0000\n"
+"POT-Creation-Date: 2022-07-15 00:48+0000\n"
 "PO-Revision-Date: 2014-10-20 19:32+0000\n"
 "Last-Translator: Samir Ribić <Unknown>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -37,11 +37,10 @@ msgstr "samir.ribic@etf.unsa.ba"
 msgid "No Action"
 msgstr "Bez radnje"
 
-# >> @option:check Screen edge action
 #: main.cpp:131 touch.cpp:125
 #, kde-format
-msgid "Show Desktop"
-msgstr "Prikaži površ"
+msgid "Peek at Desktop"
+msgstr ""
 
 # >> @option:check Screen edge action
 #: main.cpp:132 touch.cpp:126
@@ -134,7 +133,7 @@ msgstr "Popločaj prozore prevučene uz strane ekrana"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:101
 #, kde-format
-msgid "Behavior"
+msgid "Behavior:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, remainActiveOnFullscreen)
@@ -247,6 +246,10 @@ msgid ""
 "of the screen."
 msgstr ""
 "Za okidanje radnje gurnite pokazivač miša uz ivicu ekrana u smjeru radnje."
+
+# >> @option:check Screen edge action
+
+
 
 
 

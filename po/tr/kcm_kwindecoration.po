@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-03-26 00:45+0000\n"
+"POT-Creation-Date: 2022-06-14 00:50+0000\n"
 "PO-Revision-Date: 2022-03-18 23:40+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -220,25 +220,25 @@ msgctxt "Selector label"
 msgid "Window border size:"
 msgstr "Pencere kenarlığı boyutu:"
 
-#: package/contents/ui/main.qml:114
+#: package/contents/ui/main.qml:112
 #, kde-format
 msgctxt "button text"
 msgid "Get New Window Decorations..."
 msgstr "Yeni Pencere Dekorasyonları Al..."
 
-#: package/contents/ui/main.qml:143
+#: package/contents/ui/main.qml:141
 #, kde-format
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
 msgstr "Menü düğmesine çift tıklayarak pencereleri kapatın"
 
-#: package/contents/ui/main.qml:160
+#: package/contents/ui/main.qml:158
 #, kde-format
 msgctxt "popup tip"
 msgid "Click and hold on the menu button to show the menu."
 msgstr "Menüyü göstermek için menü düğmesine tıklayın ve basılı tutun."
 
-#: package/contents/ui/main.qml:167
+#: package/contents/ui/main.qml:165
 #, kde-format
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"

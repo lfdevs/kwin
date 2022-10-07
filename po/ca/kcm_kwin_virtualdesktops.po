@@ -5,11 +5,12 @@
 #
 # Josep M. Ferrer <txemaq@gmail.com>, 2007, 2009, 2010, 2013, 2014, 2018, 2019, 2021.
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2015, 2016, 2019, 2020.
+# Alfredo Vicente <alviboi@gmail.com>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-07-12 02:19+0000\n"
+"POT-Creation-Date: 2022-07-12 00:47+0000\n"
 "PO-Revision-Date: 2021-10-11 17:45+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -73,7 +74,7 @@ msgctxt "@info:tooltip"
 msgid "Remove"
 msgstr "Elimina"
 
-#: package/contents/ui/main.qml:136
+#: package/contents/ui/main.qml:137
 #, kde-format
 msgid ""
 "Virtual desktops have been changed outside this settings application. Saving "
@@ -82,55 +83,55 @@ msgstr ""
 "S'han canviat els escriptoris virtuals fora d'aquesta aplicació de "
 "configuració. Ara, el desament sobreescriurà els canvis."
 
-#: package/contents/ui/main.qml:152
+#: package/contents/ui/main.qml:153
 #, kde-format
 msgid "Row %1"
 msgstr "Fila %1"
 
-#: package/contents/ui/main.qml:165
+#: package/contents/ui/main.qml:166
 #, kde-format
 msgctxt "@action:button"
 msgid "Add"
 msgstr "Afegeix"
 
-#: package/contents/ui/main.qml:168
+#: package/contents/ui/main.qml:169
 #, kde-format
 msgid "New Desktop"
 msgstr "Escriptori nou"
 
-#: package/contents/ui/main.qml:183
+#: package/contents/ui/main.qml:184
 #, kde-format
 msgid "1 Row"
 msgid_plural "%1 Rows"
 msgstr[0] "1 fila"
 msgstr[1] "%1 files"
 
-#: package/contents/ui/main.qml:199
+#: package/contents/ui/main.qml:200
 #, kde-format
 msgid "Options:"
 msgstr "Opcions:"
 
-#: package/contents/ui/main.qml:201
+#: package/contents/ui/main.qml:202
 #, kde-format
 msgid "Navigation wraps around"
 msgstr "La navegació dona la volta"
 
-#: package/contents/ui/main.qml:219
+#: package/contents/ui/main.qml:220
 #, kde-format
 msgid "Show animation when switching:"
 msgstr "En canviar, mostra l'animació:"
 
-#: package/contents/ui/main.qml:270
+#: package/contents/ui/main.qml:271
 #, kde-format
 msgid "Show on-screen display when switching:"
 msgstr "En canviar, mostra a la pantalla:"
 
-#: package/contents/ui/main.qml:289
+#: package/contents/ui/main.qml:290
 #, kde-format
 msgid "%1 ms"
 msgstr "%1 ms"
 
-#: package/contents/ui/main.qml:313
+#: package/contents/ui/main.qml:314
 #, kde-format
 msgid "Show desktop layout indicators"
 msgstr "Mostra els indicadors per a la disposició de l'escriptori"

@@ -10,10 +10,12 @@
 
 #include <config-kwin.h>
 
+#include "core/output.h"
+#include "core/platform.h"
 #include "libinput_logging.h"
 #include "main.h"
-#include "output.h"
-#include "platform.h"
+#include "mousebuttons.h"
+#include "pointer_input.h"
 
 #include <QDBusArgument>
 #include <QDBusConnection>
@@ -95,7 +97,8 @@ enum class ConfigKey {
     ScrollFactor,
     Orientation,
     Calibration,
-    OutputName
+    OutputName,
+    OutputArea,
 };
 
 struct ConfigDataBase
@@ -183,25 +186,27 @@ struct ConfigData<CalibrationMatrix> : public ConfigDataBase
     }
 };
 
-static const QMap<ConfigKey, ConfigDataBase *> s_configData{
-    {ConfigKey::Enabled, new ConfigData<bool>(QByteArrayLiteral("Enabled"), &Device::setEnabled, &Device::isEnabledByDefault)},
-    {ConfigKey::LeftHanded, new ConfigData<bool>(QByteArrayLiteral("LeftHanded"), &Device::setLeftHanded, &Device::leftHandedEnabledByDefault)},
-    {ConfigKey::DisableWhileTyping, new ConfigData<bool>(QByteArrayLiteral("DisableWhileTyping"), &Device::setDisableWhileTyping, &Device::disableWhileTypingEnabledByDefault)},
-    {ConfigKey::PointerAcceleration, new ConfigData<QString>(QByteArrayLiteral("PointerAcceleration"), &Device::setPointerAccelerationFromString, &Device::defaultPointerAccelerationToString)},
-    {ConfigKey::PointerAccelerationProfile, new ConfigData<quint32>(QByteArrayLiteral("PointerAccelerationProfile"), &Device::setPointerAccelerationProfileFromInt, &Device::defaultPointerAccelerationProfileToInt)},
-    {ConfigKey::TapToClick, new ConfigData<bool>(QByteArrayLiteral("TapToClick"), &Device::setTapToClick, &Device::tapToClickEnabledByDefault)},
-    {ConfigKey::TapAndDrag, new ConfigData<bool>(QByteArrayLiteral("TapAndDrag"), &Device::setTapAndDrag, &Device::tapAndDragEnabledByDefault)},
-    {ConfigKey::TapDragLock, new ConfigData<bool>(QByteArrayLiteral("TapDragLock"), &Device::setTapDragLock, &Device::tapDragLockEnabledByDefault)},
-    {ConfigKey::MiddleButtonEmulation, new ConfigData<bool>(QByteArrayLiteral("MiddleButtonEmulation"), &Device::setMiddleEmulation, &Device::middleEmulationEnabledByDefault)},
-    {ConfigKey::LmrTapButtonMap, new ConfigData<bool>(QByteArrayLiteral("LmrTapButtonMap"), &Device::setLmrTapButtonMap, &Device::lmrTapButtonMapEnabledByDefault)},
-    {ConfigKey::NaturalScroll, new ConfigData<bool>(QByteArrayLiteral("NaturalScroll"), &Device::setNaturalScroll, &Device::naturalScrollEnabledByDefault)},
-    {ConfigKey::ScrollMethod, new ConfigData<quint32>(QByteArrayLiteral("ScrollMethod"), &Device::activateScrollMethodFromInt, &Device::defaultScrollMethodToInt)},
-    {ConfigKey::ScrollButton, new ConfigData<quint32>(QByteArrayLiteral("ScrollButton"), &Device::setScrollButton, &Device::defaultScrollButton)},
-    {ConfigKey::ClickMethod, new ConfigData<quint32>(QByteArrayLiteral("ClickMethod"), &Device::setClickMethodFromInt, &Device::defaultClickMethodToInt)},
-    {ConfigKey::ScrollFactor, new ConfigData<qreal>(QByteArrayLiteral("ScrollFactor"), &Device::setScrollFactor, &Device::scrollFactorDefault)},
-    {ConfigKey::Orientation, new ConfigData<DeviceOrientation>{}},
-    {ConfigKey::Calibration, new ConfigData<CalibrationMatrix>{}},
-    {ConfigKey::OutputName, new ConfigData<QString>(QByteArrayLiteral("OutputName"), &Device::setOutputName, &Device::defaultOutputName)}};
+static const QMap<ConfigKey, std::shared_ptr<ConfigDataBase>> s_configData{
+    {ConfigKey::Enabled, std::make_shared<ConfigData<bool>>(QByteArrayLiteral("Enabled"), &Device::setEnabled, &Device::isEnabledByDefault)},
+    {ConfigKey::LeftHanded, std::make_shared<ConfigData<bool>>(QByteArrayLiteral("LeftHanded"), &Device::setLeftHanded, &Device::leftHandedEnabledByDefault)},
+    {ConfigKey::DisableWhileTyping, std::make_shared<ConfigData<bool>>(QByteArrayLiteral("DisableWhileTyping"), &Device::setDisableWhileTyping, &Device::disableWhileTypingEnabledByDefault)},
+    {ConfigKey::PointerAcceleration, std::make_shared<ConfigData<QString>>(QByteArrayLiteral("PointerAcceleration"), &Device::setPointerAccelerationFromString, &Device::defaultPointerAccelerationToString)},
+    {ConfigKey::PointerAccelerationProfile, std::make_shared<ConfigData<quint32>>(QByteArrayLiteral("PointerAccelerationProfile"), &Device::setPointerAccelerationProfileFromInt, &Device::defaultPointerAccelerationProfileToInt)},
+    {ConfigKey::TapToClick, std::make_shared<ConfigData<bool>>(QByteArrayLiteral("TapToClick"), &Device::setTapToClick, &Device::tapToClickEnabledByDefault)},
+    {ConfigKey::TapAndDrag, std::make_shared<ConfigData<bool>>(QByteArrayLiteral("TapAndDrag"), &Device::setTapAndDrag, &Device::tapAndDragEnabledByDefault)},
+    {ConfigKey::TapDragLock, std::make_shared<ConfigData<bool>>(QByteArrayLiteral("TapDragLock"), &Device::setTapDragLock, &Device::tapDragLockEnabledByDefault)},
+    {ConfigKey::MiddleButtonEmulation, std::make_shared<ConfigData<bool>>(QByteArrayLiteral("MiddleButtonEmulation"), &Device::setMiddleEmulation, &Device::middleEmulationEnabledByDefault)},
+    {ConfigKey::LmrTapButtonMap, std::make_shared<ConfigData<bool>>(QByteArrayLiteral("LmrTapButtonMap"), &Device::setLmrTapButtonMap, &Device::lmrTapButtonMapEnabledByDefault)},
+    {ConfigKey::NaturalScroll, std::make_shared<ConfigData<bool>>(QByteArrayLiteral("NaturalScroll"), &Device::setNaturalScroll, &Device::naturalScrollEnabledByDefault)},
+    {ConfigKey::ScrollMethod, std::make_shared<ConfigData<quint32>>(QByteArrayLiteral("ScrollMethod"), &Device::activateScrollMethodFromInt, &Device::defaultScrollMethodToInt)},
+    {ConfigKey::ScrollButton, std::make_shared<ConfigData<quint32>>(QByteArrayLiteral("ScrollButton"), &Device::setScrollButton, &Device::defaultScrollButton)},
+    {ConfigKey::ClickMethod, std::make_shared<ConfigData<quint32>>(QByteArrayLiteral("ClickMethod"), &Device::setClickMethodFromInt, &Device::defaultClickMethodToInt)},
+    {ConfigKey::ScrollFactor, std::make_shared<ConfigData<qreal>>(QByteArrayLiteral("ScrollFactor"), &Device::setScrollFactor, &Device::scrollFactorDefault)},
+    {ConfigKey::Orientation, std::make_shared<ConfigData<DeviceOrientation>>()},
+    {ConfigKey::Calibration, std::make_shared<ConfigData<CalibrationMatrix>>()},
+    {ConfigKey::OutputName, std::make_shared<ConfigData<QString>>(QByteArrayLiteral("OutputName"), &Device::setOutputName, &Device::defaultOutputName)},
+    {ConfigKey::OutputArea, std::make_shared<ConfigData<QRectF>>(QByteArrayLiteral("OutputArea"), &Device::setOutputArea, &Device::defaultOutputArea)},
+};
 
 namespace
 {
@@ -330,31 +335,14 @@ Device::Device(libinput_device *device, QObject *parent)
         m_size = QSizeF(width, height);
     }
     if (m_pointer) {
-        if (libinput_device_pointer_has_button(m_device, BTN_LEFT) == 1) {
-            m_supportedButtons |= Qt::LeftButton;
-        }
-        if (libinput_device_pointer_has_button(m_device, BTN_MIDDLE) == 1) {
-            m_supportedButtons |= Qt::MiddleButton;
-        }
-        if (libinput_device_pointer_has_button(m_device, BTN_RIGHT) == 1) {
-            m_supportedButtons |= Qt::RightButton;
-        }
-        if (libinput_device_pointer_has_button(m_device, BTN_SIDE) == 1) {
-            m_supportedButtons |= Qt::ExtraButton1;
-        }
-        if (libinput_device_pointer_has_button(m_device, BTN_EXTRA) == 1) {
-            m_supportedButtons |= Qt::ExtraButton2;
-        }
-        if (libinput_device_pointer_has_button(m_device, BTN_BACK) == 1) {
-            m_supportedButtons |= Qt::BackButton;
-        }
-        if (libinput_device_pointer_has_button(m_device, BTN_FORWARD) == 1) {
-            m_supportedButtons |= Qt::ForwardButton;
-        }
-        if (libinput_device_pointer_has_button(m_device, BTN_TASK) == 1) {
-            m_supportedButtons |= Qt::TaskButton;
+        // 0x120 is the first joystick Button
+        for (int button = BTN_LEFT; button < 0x120; ++button) {
+            if (libinput_device_pointer_has_button(m_device, button)) {
+                m_supportedButtons |= buttonToQtMouseButton(button);
+            }
         }
     }
+
     if (m_keyboard) {
         m_alphaNumericKeyboard = checkAlphaNumericKeyboard(m_device);
     }
@@ -644,8 +632,11 @@ void Device::setOutputName(const QString &name)
         setOutput(nullptr);
         return;
     }
-    auto outputs = kwinApp()->platform()->enabledOutputs();
+    auto outputs = kwinApp()->platform()->outputs();
     for (int i = 0; i < outputs.count(); ++i) {
+        if (!outputs[i]->isEnabled()) {
+            continue;
+        }
         if (outputs[i]->name() == name) {
             setOutput(outputs[i]);
             break;
@@ -706,5 +697,28 @@ void Device::setLeds(LEDs leds)
     }
 }
 
+bool Device::supportsOutputArea() const
+{
+    return m_tabletTool;
+}
+
+QRectF Device::defaultOutputArea() const
+{
+    return QRectF(0, 0, 1, 1);
+}
+
+QRectF Device::outputArea() const
+{
+    return m_outputArea;
+}
+
+void Device::setOutputArea(const QRectF &outputArea)
+{
+    if (m_outputArea != outputArea) {
+        m_outputArea = outputArea;
+        writeEntry(ConfigKey::OutputArea, m_outputArea);
+        Q_EMIT outputAreaChanged();
+    }
+}
 }
 }

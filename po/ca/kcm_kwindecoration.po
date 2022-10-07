@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-03-26 00:45+0000\n"
+"POT-Creation-Date: 2022-06-14 00:50+0000\n"
 "PO-Revision-Date: 2021-10-11 17:47+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -229,25 +229,25 @@ msgctxt "Selector label"
 msgid "Window border size:"
 msgstr "Mida de la vora de la finestra:"
 
-#: package/contents/ui/main.qml:114
+#: package/contents/ui/main.qml:112
 #, kde-format
 msgctxt "button text"
 msgid "Get New Window Decorations..."
 msgstr "Obtén decoracions noves de finestra..."
 
-#: package/contents/ui/main.qml:143
+#: package/contents/ui/main.qml:141
 #, kde-format
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
 msgstr "Tanca les finestres amb doble clic al botó del menú"
 
-#: package/contents/ui/main.qml:160
+#: package/contents/ui/main.qml:158
 #, kde-format
 msgctxt "popup tip"
 msgid "Click and hold on the menu button to show the menu."
 msgstr "Feu clic i manteniu premut el botó del menú per a mostrar el menú."
 
-#: package/contents/ui/main.qml:167
+#: package/contents/ui/main.qml:165
 #, kde-format
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"

@@ -5,6 +5,7 @@
 #
 # Josep M. Ferrer <txemaq@gmail.com>, 2013, 2017.
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2020.
+# Empar Montoro Martín <montoro_mde@gva.es>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"

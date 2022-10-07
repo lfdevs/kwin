@@ -18,7 +18,7 @@
 #include <KPluginFactory>
 
 K_PLUGIN_FACTORY_WITH_JSON(VirtualDesktopsFactory,
-                           "metadata.json",
+                           "kcm_kwin_virtualdesktops.json",
                            registerPlugin<KWin::VirtualDesktops>();
                            registerPlugin<KWin::VirtualDesktopsData>();)
 
@@ -36,7 +36,7 @@ VirtualDesktops::VirtualDesktops(QObject *parent, const QVariantList &args)
 
     qmlRegisterAnonymousType<VirtualDesktopsSettings>("org.kde.kwin.kcm.desktop", 0);
 
-    setButtons(Apply | Default);
+    setButtons(Apply | Default | Help);
 
     QObject::connect(m_data->desktopsModel(), &KWin::DesktopsModel::userModifiedChanged,
                      this, &VirtualDesktops::settingsChanged);

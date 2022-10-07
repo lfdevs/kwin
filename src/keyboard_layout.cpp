@@ -7,11 +7,11 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "keyboard_layout.h"
+#include "core/platform.h"
 #include "input_event.h"
 #include "keyboard_input.h"
 #include "keyboard_layout_switching.h"
 #include "main.h"
-#include "platform.h"
 
 #include <KGlobalAccel>
 #include <KLocalizedString>
@@ -108,7 +108,6 @@ void KeyboardLayout::reconfigure()
         const QString policyKey = m_configGroup.readEntry("SwitchMode", QStringLiteral("Global"));
         m_xkb->reconfigure();
         if (!m_policy || m_policy->name() != policyKey) {
-            delete m_policy;
             m_policy = KeyboardLayoutSwitching::Policy::create(m_xkb, this, m_configGroup, policyKey);
         }
     } else {

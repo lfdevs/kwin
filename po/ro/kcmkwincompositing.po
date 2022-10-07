@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-07-02 02:34+0000\n"
+"POT-Creation-Date: 2022-07-02 00:49+0000\n"
 "PO-Revision-Date: 2022-04-01 10:26+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -218,12 +218,12 @@ msgstr "Preferă animații mai netede"
 msgid "Force smoothest animations"
 msgstr "Forțează cele mai netede animații"
 
-#: main.cpp:78
+#: main.cpp:79
 #, kde-format
 msgid "Re-enable OpenGL detection"
 msgstr "Reactivează detectarea OpenGL"
 
-#: main.cpp:134
+#: main.cpp:135
 #, kde-format
 msgid ""
 "\"Only when cheap\" only prevents tearing for full screen changes like a "
@@ -232,12 +232,12 @@ msgstr ""
 "„Doar când e ieftină” previne frânturile doar pentru schimbări ale "
 "întregului ecran, ca un film."
 
-#: main.cpp:138
+#: main.cpp:139
 #, kde-format
 msgid "\"Full screen repaints\" can cause performance problems."
 msgstr "„Redesenare ecran întreg” poate provoca probleme de performanță."
 
-#: main.cpp:142
+#: main.cpp:143
 #, kde-format
 msgid ""
 "\"Re-use screen content\" causes severe performance problems on MESA drivers."

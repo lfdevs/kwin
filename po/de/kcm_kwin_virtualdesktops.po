@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-07-12 02:19+0000\n"
+"POT-Creation-Date: 2022-07-12 00:47+0000\n"
 "PO-Revision-Date: 2021-06-01 15:07+0200\n"
 "Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -69,7 +69,7 @@ msgctxt "@info:tooltip"
 msgid "Remove"
 msgstr "Entfernen"
 
-#: package/contents/ui/main.qml:136
+#: package/contents/ui/main.qml:137
 #, kde-format
 msgid ""
 "Virtual desktops have been changed outside this settings application. Saving "
@@ -79,55 +79,55 @@ msgstr ""
 "Anwendung geändert. Speichern Sie die hier vorgenommenen Einstellungen, "
 "werden die Änderungen überschrieben."
 
-#: package/contents/ui/main.qml:152
+#: package/contents/ui/main.qml:153
 #, kde-format
 msgid "Row %1"
 msgstr "Zeile %1"
 
-#: package/contents/ui/main.qml:165
+#: package/contents/ui/main.qml:166
 #, kde-format
 msgctxt "@action:button"
 msgid "Add"
 msgstr "Hinzufügen"
 
-#: package/contents/ui/main.qml:168
+#: package/contents/ui/main.qml:169
 #, kde-format
 msgid "New Desktop"
 msgstr "Neue Arbeitsfläche"
 
-#: package/contents/ui/main.qml:183
+#: package/contents/ui/main.qml:184
 #, kde-format
 msgid "1 Row"
 msgid_plural "%1 Rows"
 msgstr[0] "1 Zeile"
 msgstr[1] "%1 Zeilen"
 
-#: package/contents/ui/main.qml:199
+#: package/contents/ui/main.qml:200
 #, kde-format
 msgid "Options:"
 msgstr "Einstellungen:"
 
-#: package/contents/ui/main.qml:201
+#: package/contents/ui/main.qml:202
 #, kde-format
 msgid "Navigation wraps around"
 msgstr "Automatisch zur Gegenseite navigieren"
 
-#: package/contents/ui/main.qml:219
+#: package/contents/ui/main.qml:220
 #, kde-format
 msgid "Show animation when switching:"
 msgstr "Animation beim Wechseln anzeigen:"
 
-#: package/contents/ui/main.qml:270
+#: package/contents/ui/main.qml:271
 #, kde-format
 msgid "Show on-screen display when switching:"
 msgstr "On-Screen-Display beim Wechseln anzeigen:"
 
-#: package/contents/ui/main.qml:289
+#: package/contents/ui/main.qml:290
 #, kde-format
 msgid "%1 ms"
 msgstr "%1 ms"
 
-#: package/contents/ui/main.qml:313
+#: package/contents/ui/main.qml:314
 #, kde-format
 msgid "Show desktop layout indicators"
 msgstr "Arbeitsflächenvorschau anzeigen"

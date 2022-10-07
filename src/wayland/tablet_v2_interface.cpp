@@ -259,7 +259,8 @@ void TabletToolV2Interface::sendButton(uint32_t button, bool pressed)
 
 void TabletToolV2Interface::sendMotion(const QPointF &pos)
 {
-    d->send_motion(d->targetResource(), wl_fixed_from_double(pos.x()), wl_fixed_from_double(pos.y()));
+    const QPointF surfacePos = d->m_surface->toSurfaceLocal(pos);
+    d->send_motion(d->targetResource(), wl_fixed_from_double(surfacePos.x()), wl_fixed_from_double(surfacePos.y()));
 }
 
 void TabletToolV2Interface::sendDistance(uint32_t distance)
@@ -629,6 +630,11 @@ public:
         for (auto *tool : qAsConst(m_tools)) {
             sendToolAdded(resource, tool);
         }
+    }
+
+    void zwp_tablet_seat_v2_destroy(Resource *resource) override
+    {
+        wl_resource_destroy(resource->handle);
     }
 
     void sendToolAdded(Resource *resource, TabletToolV2Interface *tool)

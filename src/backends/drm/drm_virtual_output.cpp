@@ -9,31 +9,35 @@
 */
 #include "drm_virtual_output.h"
 
+#include "core/renderloop_p.h"
 #include "drm_backend.h"
 #include "drm_gpu.h"
 #include "drm_layer.h"
+#include "drm_logging.h"
 #include "drm_render_backend.h"
-#include "logging.h"
-#include "renderloop_p.h"
 #include "softwarevsyncmonitor.h"
 
 namespace KWin
 {
 
-DrmVirtualOutput::DrmVirtualOutput(const QString &name, DrmGpu *gpu, const QSize &size, Type type)
+DrmVirtualOutput::DrmVirtualOutput(const QString &name, DrmGpu *gpu, const QSize &size, qreal scale)
     : DrmAbstractOutput(gpu)
-    , m_vsyncMonitor(SoftwareVsyncMonitor::create(this))
+    , m_vsyncMonitor(SoftwareVsyncMonitor::create())
 {
-    connect(m_vsyncMonitor, &VsyncMonitor::vblankOccurred, this, &DrmVirtualOutput::vblank);
+    connect(m_vsyncMonitor.get(), &VsyncMonitor::vblankOccurred, this, &DrmVirtualOutput::vblank);
 
-    auto mode = QSharedPointer<OutputMode>::create(size, 60000, OutputMode::Flag::Preferred);
-    setModesInternal({mode}, mode);
+    auto mode = std::make_shared<OutputMode>(size, 60000, OutputMode::Flag::Preferred);
     m_renderLoop->setRefreshRate(mode->refreshRate());
 
     setInformation(Information{
         .name = QStringLiteral("Virtual-") + name,
         .physicalSize = size,
-        .placeholder = type == Type::Placeholder,
+    });
+
+    setState(State{
+        .scale = scale,
+        .modes = {mode},
+        .currentMode = mode,
     });
 
     recreateSurface();
@@ -54,24 +58,20 @@ bool DrmVirtualOutput::present()
 void DrmVirtualOutput::vblank(std::chrono::nanoseconds timestamp)
 {
     if (m_pageFlipPending) {
-        RenderLoopPrivate *renderLoopPrivate = RenderLoopPrivate::get(m_renderLoop);
-        renderLoopPrivate->notifyFrameCompleted(timestamp);
+        DrmAbstractOutput::pageFlipped(timestamp);
     }
 }
 
 void DrmVirtualOutput::setDpmsMode(DpmsMode mode)
 {
-    setDpmsModeInternal(mode);
-}
-
-void DrmVirtualOutput::updateEnablement(bool enable)
-{
-    m_gpu->platform()->enableOutput(this, enable);
+    State next = m_state;
+    next.dpmsMode = mode;
+    setState(next);
 }
 
 DrmOutputLayer *DrmVirtualOutput::outputLayer() const
 {
-    return m_layer.data();
+    return m_layer.get();
 }
 
 void DrmVirtualOutput::recreateSurface()

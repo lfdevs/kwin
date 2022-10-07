@@ -8,7 +8,7 @@
 */
 #pragma once
 
-#include "output.h"
+#include "core/output.h"
 
 namespace KWin
 {
@@ -32,10 +32,12 @@ public:
     virtual bool present() = 0;
     virtual DrmOutputLayer *outputLayer() const = 0;
 
+    void updateEnabled(bool enabled);
+
 protected:
     friend class DrmGpu;
 
-    RenderLoop *m_renderLoop;
+    std::unique_ptr<RenderLoop> m_renderLoop;
     DrmGpu *const m_gpu;
 };
 

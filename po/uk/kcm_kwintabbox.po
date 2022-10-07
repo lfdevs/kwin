@@ -3,13 +3,13 @@
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
 #
-# Yuri Chornoivan <yurchor@ukr.net>, 2009, 2010, 2011, 2012, 2018, 2021.
+# Yuri Chornoivan <yurchor@ukr.net>, 2009, 2010, 2011, 2012, 2018, 2021, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwintabbox\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-03-26 00:45+0000\n"
-"PO-Revision-Date: 2021-12-01 09:05+0200\n"
+"POT-Creation-Date: 2022-06-15 00:48+0000\n"
+"PO-Revision-Date: 2022-06-15 14:38+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: kwintabboxconfigform.cpp:76
+#: kwintabboxconfigform.cpp:77
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
@@ -89,136 +89,142 @@ msgstr "Порядок у стосі"
 msgid "Only one window per application"
 msgstr "Лише одне вікно на програму"
 
-#. i18n: ectx: property (text), widget (QLabel, label_8)
+#. i18n: ectx: property (text), widget (QCheckBox, orderMinimized)
 #: main.ui:78
+#, kde-format
+msgid "Order minimized windows after unminimized windows"
+msgstr "Розташовувати мінімізовані вікна після немінімізованих вікон"
+
+#. i18n: ectx: property (text), widget (QLabel, label_8)
+#: main.ui:88
 #, kde-format
 msgid "Sort order:"
 msgstr "Впорядкування:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: main.ui:104
+#: main.ui:114
 #, kde-format
 msgid "Filter windows by"
 msgstr "Фільтрувати вікна за такими критеріями"
 
 #. i18n: ectx: property (text), widget (QCheckBox, filterDesktops)
-#: main.ui:113
+#: main.ui:123
 #, kde-format
 msgid "Virtual desktops"
 msgstr "Віртуальні стільниці"
 
 #. i18n: ectx: property (text), widget (QRadioButton, currentDesktop)
-#: main.ui:157
+#: main.ui:167
 #, kde-format
 msgid "Current desktop"
 msgstr "Поточна стільниця"
 
 #. i18n: ectx: property (text), widget (QRadioButton, otherDesktops)
-#: main.ui:164
+#: main.ui:174
 #, kde-format
 msgid "All other desktops"
 msgstr "Всі інші стільниці"
 
 #. i18n: ectx: property (text), widget (QCheckBox, filterActivities)
-#: main.ui:174
+#: main.ui:184
 #, kde-format
 msgid "Activities"
 msgstr "Простори дій"
 
 #. i18n: ectx: property (text), widget (QRadioButton, currentActivity)
-#: main.ui:218
+#: main.ui:228
 #, kde-format
 msgid "Current activity"
 msgstr "Поточний простір дій"
 
 #. i18n: ectx: property (text), widget (QRadioButton, otherActivities)
-#: main.ui:225
+#: main.ui:235
 #, kde-format
 msgid "All other activities"
 msgstr "Всі інші простори дій"
 
 #. i18n: ectx: property (text), widget (QCheckBox, filterScreens)
-#: main.ui:235
+#: main.ui:245
 #, kde-format
 msgid "Screens"
 msgstr "Екрани"
 
 #. i18n: ectx: property (text), widget (QRadioButton, currentScreen)
-#: main.ui:279
+#: main.ui:289
 #, kde-format
 msgid "Current screen"
 msgstr "Поточний екран"
 
 #. i18n: ectx: property (text), widget (QRadioButton, otherScreens)
-#: main.ui:286
+#: main.ui:296
 #, kde-format
 msgid "All other screens"
 msgstr "Всі інші екрани"
 
 #. i18n: ectx: property (text), widget (QCheckBox, filterMinimization)
-#: main.ui:296
+#: main.ui:306
 #, kde-format
 msgid "Minimization"
 msgstr "Мінімізація"
 
 #. i18n: ectx: property (text), widget (QRadioButton, visibleWindows)
-#: main.ui:340
+#: main.ui:350
 #, kde-format
 msgid "Visible windows"
 msgstr "Видимі вікна"
 
 #. i18n: ectx: property (text), widget (QRadioButton, hiddenWindows)
-#: main.ui:347
+#: main.ui:357
 #, kde-format
 msgid "Hidden windows"
 msgstr "Приховані вікна"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
-#: main.ui:386
+#: main.ui:396
 #, kde-format
 msgid "Shortcuts"
 msgstr "Скорочення"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: main.ui:395 main.ui:438
+#: main.ui:405 main.ui:448
 #, kde-format
 msgid "Forward"
 msgstr "Вперед"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: main.ui:418
+#: main.ui:428
 #, kde-format
 msgid "All windows"
 msgstr "Всі вікна"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: main.ui:428 main.ui:448
+#: main.ui:438 main.ui:458
 #, kde-format
 msgid "Reverse"
 msgstr "Назад"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: main.ui:470
+#: main.ui:480
 #, kde-format
 msgid "Current application"
 msgstr "Поточна програма"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: main.ui:489
+#: main.ui:499
 #, kde-format
 msgid "Visualization"
 msgstr "Візуалізація"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, effectCombo)
-#: main.ui:519
+#: main.ui:529
 #, kde-format
 msgid "The effect to replace the list window when desktop effects are active."
 msgstr "Ефект зміни вікна у списку, якщо увімкнено ефекти стільниці."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HighlightWindows)
-#: main.ui:549
+#: main.ui:559
 #, kde-format
 msgid ""
 "The currently selected window will be highlighted by fading out all other "
@@ -228,7 +234,7 @@ msgstr ""
 "Щоб подібне виокремлення працювало, ви маєте увімкнути ефекти стільниці."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HighlightWindows)
-#: main.ui:552
+#: main.ui:562
 #, kde-format
 msgid "Show selected window"
 msgstr "Показати позначене вікно"

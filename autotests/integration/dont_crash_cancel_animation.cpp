@@ -9,10 +9,10 @@
 #include "kwin_wayland_test.h"
 
 #include "composite.h"
+#include "core/platform.h"
 #include "deleted.h"
 #include "effectloader.h"
 #include "effects.h"
-#include "platform.h"
 #include "scripting/scriptedeffect.h"
 #include "wayland_server.h"
 #include "window.h"
@@ -50,7 +50,6 @@ void DontCrashCancelAnimationFromAnimationEndedTest::initTestCase()
     kwinApp()->start();
     QVERIFY(Compositor::self());
     QSignalSpy compositorToggledSpy(Compositor::self(), &Compositor::compositingToggled);
-    QVERIFY(compositorToggledSpy.isValid());
     QVERIFY(compositorToggledSpy.wait());
     QVERIFY(effects);
 }
@@ -83,12 +82,12 @@ void DontCrashCancelAnimationFromAnimationEndedTest::testScript()
 
     using namespace KWayland::Client;
     // create a window
-    KWayland::Client::Surface *surface = Test::createSurface(Test::waylandCompositor());
+    std::unique_ptr<KWayland::Client::Surface> surface{Test::createSurface()};
     QVERIFY(surface);
-    Test::XdgToplevel *shellSurface = Test::createXdgToplevelSurface(surface, surface);
+    Test::XdgToplevel *shellSurface = Test::createXdgToplevelSurface(surface.get(), surface.get());
     QVERIFY(shellSurface);
     // let's render
-    auto window = Test::renderAndWaitForShown(surface, QSize(100, 50), Qt::blue);
+    Window *window = Test::renderAndWaitForShown(surface.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window);
     QCOMPARE(workspace()->activeWindow(), window);
 
@@ -97,9 +96,8 @@ void DontCrashCancelAnimationFromAnimationEndedTest::testScript()
 
     // wait for the window to be passed to Deleted
     QSignalSpy windowDeletedSpy(window, &Window::windowClosed);
-    QVERIFY(windowDeletedSpy.isValid());
 
-    surface->deleteLater();
+    surface.reset();
 
     QVERIFY(windowDeletedSpy.wait());
     // make sure we animate

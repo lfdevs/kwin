@@ -3,7 +3,7 @@
         "Category": "Accessibility",
         "Description": "Magnify the entire desktop",
         "Description[ar]": "كبّر كلّ سطح المكتب",
-        "Description[az]": "İş Masasının miqyasının dəyişdirilməsi",
+        "Description[az]": "İş masasının miqyasının dəyişdirilməsi",
         "Description[bg]": "Увеличаване на целия работен плот",
         "Description[ca@valencia]": "Amplia tot l'escriptori",
         "Description[ca]": "Amplia tot l'escriptori",
@@ -36,6 +36,7 @@
         "Description[vi]": "Phóng đại toàn bộ bàn làm việc",
         "Description[x-test]": "xxMagnify the entire desktopxx",
         "Description[zh_CN]": "放大显示整个桌面，视图跟随鼠标移动",
+        "Description[zh_TW]": "放大整個桌面",
         "EnabledByDefault": true,
         "Id": "zoom",
         "License": "GPL",
@@ -57,6 +58,7 @@
         "Name[id]": "Zoom",
         "Name[it]": "Ingrandimento",
         "Name[ja]": "ズーム",
+        "Name[ka]": "გადიდება",
         "Name[ko]": "확대/축소",
         "Name[nl]": "Zoomen",
         "Name[nn]": "Forstørr skrivebordet",
@@ -73,7 +75,8 @@
         "Name[uk]": "Масштабування",
         "Name[vi]": "Thu phóng",
         "Name[x-test]": "xxZoomxx",
-        "Name[zh_CN]": "缩放"
+        "Name[zh_CN]": "缩放",
+        "Name[zh_TW]": "縮放"
     },
     "X-KDE-ConfigModule": "kwin_zoom_config",
     "org.kde.kwin.effect": {

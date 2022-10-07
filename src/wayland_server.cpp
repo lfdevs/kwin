@@ -11,15 +11,14 @@
 #include <config-kwin.h>
 
 #include "composite.h"
+#include "core/output.h"
+#include "core/platform.h"
 #include "idle_inhibition.h"
 #include "inputpanelv1integration.h"
 #include "keyboard_input.h"
 #include "layershellv1integration.h"
 #include "main.h"
-#include "output.h"
-#include "platform.h"
 #include "scene.h"
-#include "screens.h"
 #include "unmanaged.h"
 #include "utils/serviceutils.h"
 #include "virtualdesktops.h"
@@ -38,8 +37,9 @@
 #include "wayland/keyboard_shortcuts_inhibit_v1_interface.h"
 #include "wayland/keystate_interface.h"
 #include "wayland/linuxdmabufv1clientbuffer.h"
+#include "wayland/lockscreen_overlay_v1_interface.h"
 #include "wayland/output_interface.h"
-#include "wayland/outputconfiguration_v2_interface.h"
+#include "wayland/outputdevice_v2_interface.h"
 #include "wayland/outputmanagement_v2_interface.h"
 #include "wayland/plasmashell_interface.h"
 #include "wayland/plasmavirtualdesktop_interface.h"
@@ -62,7 +62,6 @@
 #include "wayland/xdgoutput_v1_interface.h"
 #include "wayland/xdgshell_interface.h"
 #include "waylandoutput.h"
-#include "waylandoutputdevicev2.h"
 #include "workspace.h"
 #include "x11window.h"
 #include "xdgactivationv1.h"
@@ -138,6 +137,7 @@ public:
         QByteArrayLiteral("org_kde_kwin_keystate"),
         QByteArrayLiteral("zkde_screencast_unstable_v1"),
         QByteArrayLiteral("org_kde_plasma_activation_feedback"),
+        QByteArrayLiteral("kde_lockscreen_overlay_v1"),
     };
 
     const QSet<QByteArray> inputmethodInterfaces = {"zwp_input_panel_v1", "zwp_input_method_v1"};
@@ -172,7 +172,7 @@ public:
             if (!requestedInterfaces.toStringList().contains(QString::fromUtf8(interfaceName))) {
                 if (KWIN_CORE().isDebugEnabled()) {
                     const QString id = client->executablePath() + QLatin1Char('|') + QString::fromUtf8(interfaceName);
-                    if (!m_reported.contains({id})) {
+                    if (!m_reported.contains(id)) {
                         m_reported.insert(id);
                         qCDebug(KWIN_CORE) << "Interface" << interfaceName << "not in X-KDE-Wayland-Interfaces of" << client->executablePath();
                     }
@@ -273,68 +273,42 @@ void WaylandServer::registerXdgGenericWindow(Window *window)
     qCDebug(KWIN_CORE) << "Received invalid xdg shell window:" << window->surface();
 }
 
-void WaylandServer::initPlatform()
-{
-    connect(kwinApp()->platform(), &Platform::outputAdded, this, &WaylandServer::handleOutputAdded);
-    connect(kwinApp()->platform(), &Platform::outputRemoved, this, &WaylandServer::handleOutputRemoved);
-
-    connect(kwinApp()->platform(), &Platform::outputEnabled, this, &WaylandServer::handleOutputEnabled);
-    connect(kwinApp()->platform(), &Platform::outputDisabled, this, &WaylandServer::handleOutputDisabled);
-
-    connect(kwinApp()->platform(), &Platform::primaryOutputChanged, this, [this](Output *primaryOutput) {
-        m_primary->setPrimaryOutput(primaryOutput ? primaryOutput->name() : QString());
-    });
-    if (auto primaryOutput = kwinApp()->platform()->primaryOutput()) {
-        m_primary->setPrimaryOutput(primaryOutput->name());
-    }
-
-    const QVector<Output *> outputs = kwinApp()->platform()->outputs();
-    for (Output *output : outputs) {
-        handleOutputAdded(output);
-    }
-
-    const QVector<Output *> enabledOutputs = kwinApp()->platform()->enabledOutputs();
-    for (Output *output : enabledOutputs) {
-        handleOutputEnabled(output);
-    }
-}
-
 void WaylandServer::handleOutputAdded(Output *output)
 {
-    if (!output->isPlaceholder()) {
-        m_waylandOutputDevices.insert(output, new WaylandOutputDevice(output));
+    if (!output->isPlaceholder() && !output->isNonDesktop()) {
+        m_waylandOutputDevices.insert(output, new KWaylandServer::OutputDeviceV2Interface(m_display, output));
     }
 }
 
 void WaylandServer::handleOutputRemoved(Output *output)
 {
-    if (!output->isPlaceholder()) {
-        delete m_waylandOutputDevices.take(output);
+    if (auto outputDevice = m_waylandOutputDevices.take(output)) {
+        outputDevice->remove();
     }
 }
 
 void WaylandServer::handleOutputEnabled(Output *output)
 {
-    if (!output->isPlaceholder()) {
+    if (!output->isPlaceholder() && !output->isNonDesktop()) {
         m_waylandOutputs.insert(output, new WaylandOutput(output));
     }
 }
 
 void WaylandServer::handleOutputDisabled(Output *output)
 {
-    if (!output->isPlaceholder()) {
+    if (!output->isPlaceholder() && !output->isNonDesktop()) {
         delete m_waylandOutputs.take(output);
     }
 }
 
-Output *WaylandServer::findOutput(KWaylandServer::OutputInterface *outputIface) const
+void WaylandServer::setEnablePrimarySelection(bool enable)
 {
-    for (auto it = m_waylandOutputs.constBegin(); it != m_waylandOutputs.constEnd(); ++it) {
-        if ((*it)->waylandOutput() == outputIface) {
-            return it.key();
-        }
+    if (!enable && m_primarySelectionDeviceManager != nullptr) {
+        delete m_primarySelectionDeviceManager;
+        m_primarySelectionDeviceManager = nullptr;
+    } else if (enable && m_primarySelectionDeviceManager == nullptr) {
+        m_primarySelectionDeviceManager = new PrimarySelectionDeviceManagerV1Interface(m_display, m_display);
     }
-    return nullptr;
 }
 
 bool WaylandServer::start()
@@ -415,7 +389,10 @@ bool WaylandServer::init(InitializationFlags flags)
     new RelativePointerManagerV1Interface(m_display, m_display);
     m_dataDeviceManager = new DataDeviceManagerInterface(m_display, m_display);
     new DataControlDeviceManagerV1Interface(m_display, m_display);
-    new PrimarySelectionDeviceManagerV1Interface(m_display, m_display);
+
+    const auto kwinConfig = kwinApp()->config();
+    setEnablePrimarySelection(kwinConfig->group("Wayland").readEntry("EnablePrimarySelection", true));
+
     m_idle = new IdleInterface(m_display, m_display);
     auto idleInhibition = new IdleInhibition(m_idle);
     connect(this, &WaylandServer::windowAdded, idleInhibition, &IdleInhibition::registerClient);
@@ -479,9 +456,6 @@ bool WaylandServer::init(InitializationFlags flags)
     });
 
     m_outputManagement = new OutputManagementV2Interface(m_display, m_display);
-    connect(m_outputManagement, &OutputManagementV2Interface::configurationChangeRequested, this, [](KWaylandServer::OutputConfigurationV2Interface *config) {
-        kwinApp()->platform()->requestOutputsChange(config);
-    });
     m_primary = new PrimaryOutputV1Interface(m_display, m_display);
 
     m_xdgOutputManagerV1 = new XdgOutputManagerV1Interface(m_display, m_display);
@@ -498,6 +472,15 @@ bool WaylandServer::init(InitializationFlags flags)
     } else {
         connect(static_cast<Application *>(qApp), &Application::workspaceCreated, this, init);
     }
+
+    auto aboveLockscreen = new KWaylandServer::LockscreenOverlayV1Interface(m_display, this);
+    connect(aboveLockscreen, &KWaylandServer::LockscreenOverlayV1Interface::allowRequested, this, [](SurfaceInterface *surface) {
+        auto w = waylandServer()->findWindow(surface);
+        if (!w) {
+            return;
+        }
+        w->setLockScreenOverlay(true);
+    });
 
     return true;
 }
@@ -550,6 +533,28 @@ void WaylandServer::initWorkspace()
             connect(workspace(), &Workspace::stackingOrderChanged, this, f);
         });
     }
+
+    if (auto primaryOutput = workspace()->primaryOutput()) {
+        m_primary->setPrimaryOutput(primaryOutput->name());
+    }
+    connect(workspace(), &Workspace::primaryOutputChanged, this, [this]() {
+        const Output *primaryOutput = workspace()->primaryOutput();
+        m_primary->setPrimaryOutput(primaryOutput ? primaryOutput->name() : QString());
+    });
+
+    const auto availableOutputs = kwinApp()->platform()->outputs();
+    for (Output *output : availableOutputs) {
+        handleOutputAdded(output);
+    }
+    connect(kwinApp()->platform(), &Platform::outputAdded, this, &WaylandServer::handleOutputAdded);
+    connect(kwinApp()->platform(), &Platform::outputRemoved, this, &WaylandServer::handleOutputRemoved);
+
+    const auto outputs = workspace()->outputs();
+    for (Output *output : outputs) {
+        handleOutputEnabled(output);
+    }
+    connect(workspace(), &Workspace::outputAdded, this, &WaylandServer::handleOutputEnabled);
+    connect(workspace(), &Workspace::outputRemoved, this, &WaylandServer::handleOutputDisabled);
 
     if (hasScreenLockerIntegration()) {
         initScreenLocker();
@@ -642,6 +647,12 @@ int WaylandServer::createXWaylandConnection()
         return -1;
     }
     m_xwaylandConnection = socket.connection;
+
+    m_xwaylandConnection->setScaleOverride(kwinApp()->xwaylandScale());
+    connect(kwinApp(), &Application::xwaylandScaleChanged, m_xwaylandConnection, [this]() {
+        m_xwaylandConnection->setScaleOverride(kwinApp()->xwaylandScale());
+    });
+
     return socket.fd;
 }
 
@@ -737,13 +748,6 @@ bool WaylandServer::hasGlobalShortcutSupport() const
     return !m_initFlags.testFlag(InitializationFlag::NoGlobalShortcuts);
 }
 
-void WaylandServer::simulateUserActivity()
-{
-    if (m_idle) {
-        m_idle->simulateUserActivity();
-    }
-}
-
 bool WaylandServer::isKeyboardShortcutsInhibited() const
 {
     auto surface = seat()->focusedKeyboardSurface();
@@ -773,7 +777,7 @@ WaylandServer::LockScreenPresentationWatcher::LockScreenPresentationWatcher(Wayl
                 // window might be destroyed before a frame is presented, so it's wrapped in QPointer
                 if (windowGuard) {
                     m_signaledOutputs << windowGuard->output();
-                    if (m_signaledOutputs.size() == kwinApp()->platform()->enabledOutputs().size()) {
+                    if (m_signaledOutputs.size() == workspace()->outputs().size()) {
                         ScreenLocker::KSldApp::self()->lockScreenShown();
                         delete this;
                     }

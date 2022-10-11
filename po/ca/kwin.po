@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-13 00:47+0000\n"
+"POT-Creation-Date: 2022-10-06 02:46+0000\n"
 "PO-Revision-Date: 2022-09-13 11:04+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -1227,50 +1227,50 @@ msgstr "Desactiva les opcions de configuració"
 msgid "Indicate that KWin has recently crashed n times"
 msgstr "Indica que el KWin ha fallat recentment n vegades"
 
-#: main_wayland.cpp:325
+#: main_wayland.cpp:318
 #, kde-format
 msgid "Start a rootless Xwayland server."
 msgstr "Iniciar un servidor Xwayland sense finestra arrel."
 
-#: main_wayland.cpp:327
+#: main_wayland.cpp:320
 #, kde-format
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
 "Nom del sòcol Wayland a escoltar. Si no està definit, s'usa «wayland-0»."
 
-#: main_wayland.cpp:330
+#: main_wayland.cpp:323
 #, kde-format
 msgid "The X11 Display to use in windowed mode on platform X11."
 msgstr "La pantalla X11 a usar en mode de finestra en la plataforma X11."
 
-#: main_wayland.cpp:333
+#: main_wayland.cpp:326
 #, kde-format
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr ""
 "La pantalla Wayland a usar en mode de finestra en la plataforma Wayland."
 
-#: main_wayland.cpp:335
+#: main_wayland.cpp:328
 #, kde-format
 msgid "Render to a virtual framebuffer."
 msgstr "Renderitza a un «framebuffer» virtual."
 
-#: main_wayland.cpp:337
+#: main_wayland.cpp:330
 #, kde-format
 msgid "The width for windowed mode. Default width is 1024."
 msgstr "L'amplada del mode de finestra. L'amplada per defecte és 1024."
 
-#: main_wayland.cpp:341
+#: main_wayland.cpp:334
 #, kde-format
 msgid "The height for windowed mode. Default height is 768."
 msgstr "L'alçada del mode de finestra. L'alçada per defecte és 768."
 
-#: main_wayland.cpp:346
+#: main_wayland.cpp:339
 #, kde-format
 msgid "The scale for windowed mode. Default value is 1."
 msgstr "L'escala per al mode de finestra. El valor per defecte és 1."
 
-#: main_wayland.cpp:351
+#: main_wayland.cpp:344
 #, kde-format
 msgid ""
 "The number of windows to open as outputs in windowed mode. Default value is 1"
@@ -1278,7 +1278,7 @@ msgstr ""
 "El nombre de finestres a obrir com a sortida en el mode de finestra. El "
 "valor per defecte és 1"
 
-#: main_wayland.cpp:356
+#: main_wayland.cpp:349
 #, kde-format
 msgid ""
 "Wayland socket to use for incoming connections. This can be combined with --"
@@ -1287,7 +1287,7 @@ msgstr ""
 "Sòcol Wayland a usar per a les connexions entrants. Això es pot combinar amb "
 "«--sòcol» per a anomenar el sòcol"
 
-#: main_wayland.cpp:360
+#: main_wayland.cpp:353
 #, kde-format
 msgid ""
 "XWayland socket to use for Xwayland's incoming connections. This can be set "
@@ -1296,68 +1296,68 @@ msgstr ""
 "Sòcol XWayland a usar per a les connexions entrants del XWayland. Això es "
 "pot definir diverses vegades"
 
-#: main_wayland.cpp:364
+#: main_wayland.cpp:357
 #, kde-format
 msgid "Name of the xwayland display that has been pre-set up"
 msgstr "Nom de la pantalla «xwayland» que s'ha predefinit"
 
-#: main_wayland.cpp:368
+#: main_wayland.cpp:361
 #, kde-format
 msgid "Name of the xauthority file "
 msgstr "Nom del fitxer «xauthority» "
 
-#: main_wayland.cpp:372
+#: main_wayland.cpp:365
 #, kde-format
 msgid "Exits this instance so it can be restarted by kwin_wayland_wrapper."
 msgstr ""
 "Surt d'aquesta instància de manera que el «kwin_wayland_wrapper» la pot "
 "reiniciar."
 
-#: main_wayland.cpp:374
+#: main_wayland.cpp:367
 #, kde-format
 msgid "Render through drm node."
 msgstr "Renderitza mitjançant el node del DRM."
 
-#: main_wayland.cpp:395
+#: main_wayland.cpp:388
 #, kde-format
 msgid "Input method that KWin starts."
 msgstr "Mètode d'entrada que inicia el KWin."
 
-#: main_wayland.cpp:401
+#: main_wayland.cpp:394
 #, kde-format
 msgid "Starts the session in locked mode."
 msgstr "Inicia la sessió en mode bloquejat."
 
-#: main_wayland.cpp:405
+#: main_wayland.cpp:398
 #, kde-format
 msgid "Starts the session without lock screen support."
 msgstr "Inicia la sessió sense el suport del bloqueig de pantalla."
 
-#: main_wayland.cpp:410
+#: main_wayland.cpp:403
 #, kde-format
 msgid "Starts the session without global shortcuts support."
 msgstr "Inicia la sessió sense el suport de les dreceres globals."
 
-#: main_wayland.cpp:415 main_x11.cpp:387
+#: main_wayland.cpp:408 main_x11.cpp:380
 #, kde-format
 msgid "Disable KActivities integration."
 msgstr "Desactiva la integració de les «KActivities»."
 
-#: main_wayland.cpp:420
+#: main_wayland.cpp:413
 #, kde-format
 msgid "Exit after the session application, which is started by KWin, closed."
 msgstr ""
 "Surt després de tancar l'aplicació de sessió, la qual ha estat iniciada pel "
 "KWin."
 
-#: main_wayland.cpp:425
+#: main_wayland.cpp:418
 #, kde-format
 msgid "Applications to start once Wayland and Xwayland server are started"
 msgstr ""
 "Les aplicacions a iniciar un cop s'han engegat el Wayland i el servidor "
 "Xwayland"
 
-#: main_x11.cpp:67
+#: main_x11.cpp:63
 #, kde-format
 msgid ""
 "KWin is unstable.\n"
@@ -1368,7 +1368,7 @@ msgstr ""
 "Sembla que ha fallat diverses vegades seguides.\n"
 "Podeu seleccionar un altre gestor de finestres a executar:"
 
-#: main_x11.cpp:220
+#: main_x11.cpp:216
 #, kde-format
 msgid ""
 "kwin: unable to claim manager selection, another wm running? (try using --"
@@ -1377,14 +1377,14 @@ msgstr ""
 "kwin: no s'ha pogut reclamar la selecció del gestor, hi ha un altre wm "
 "executant-se? (proveu l'ús de --replace)\n"
 
-#: main_x11.cpp:241
+#: main_x11.cpp:237
 #, kde-format
 msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr ""
 "kwin: hi ha un altre gestor de finestres executant-se (proveu l'ús de --"
 "replace)\n"
 
-#: main_x11.cpp:380
+#: main_x11.cpp:373
 #, kde-format
 msgid "Replace already-running ICCCM2.0-compliant window manager"
 msgstr ""
@@ -2150,7 +2150,7 @@ msgstr "Recorre la llista d'escriptoris"
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "Recorre la llista d'escriptoris (a la inversa)"
 
-#: tabbox/tabboxhandler.cpp:289
+#: tabbox/tabboxhandler.cpp:290
 #, kde-format
 msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
@@ -2694,13 +2694,13 @@ msgstr "Canvia un escriptori avall"
 msgid "Switch to Desktop %1"
 msgstr "Canvia a l'escriptori %1"
 
-#: window.cpp:3430
+#: window.cpp:3428
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(No respon)"
 
-#: workspace.cpp:1682
+#: workspace.cpp:1677
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

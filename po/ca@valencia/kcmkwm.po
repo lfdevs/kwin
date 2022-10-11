@@ -14,14 +14,14 @@ msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-09-02 00:47+0000\n"
-"PO-Revision-Date: 2022-09-03 18:06+0200\n"
-"Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
+"PO-Revision-Date: 2022-09-19 06:48+0200\n"
+"Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 20.12.0\n"
+"X-Generator: Lokalize 22.08.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
 
@@ -55,9 +55,9 @@ msgid ""
 "In this row you can customize left click behavior when clicking into an "
 "inactive inner window ('inner' means: not titlebar, not frame)."
 msgstr ""
-"En esta fila podeu personalitzar el comportament del clic esquerre del "
-"ratolí en clicar a una finestra inactiva interna («interna» significa: ni la "
-"barra de títol, ni el marc)."
+"En esta fila podeu personalitzar el comportament quan es fa clic esquerre a "
+"dins d'una finestra inactiva interna («interna» significa: ni la barra de "
+"títol, ni el marc)."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindow1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindow2)
@@ -113,9 +113,9 @@ msgid ""
 "In this row you can customize middle click behavior when clicking into an "
 "inactive inner window ('inner' means: not titlebar, not frame)."
 msgstr ""
-"En esta fila podeu personalitzar el comportament del clic del mig del ratolí "
-"en clicar a una finestra inactiva interna («interna» significa: ni la barra "
-"de títol, ni el marc)."
+"En esta fila podeu personalitzar el comportament quan es fa clic del mig a "
+"dins d'una finestra inactiva interna («interna» significa: ni la barra de "
+"títol, ni el marc)."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
@@ -131,9 +131,9 @@ msgid ""
 "In this row you can customize right click behavior when clicking into an "
 "inactive inner window ('inner' means: not titlebar, not frame)."
 msgstr ""
-"En esta fila podeu personalitzar el comportament del clic dret del ratolí en "
-"clicar a una finestra inactiva interna («interna» significa: ni la barra de "
-"títol, ni el marc)."
+"En esta fila podeu personalitzar el comportament quan es fa clic dret a dins "
+"d'una finestra inactiva interna («interna» significa: ni la barra de títol, "
+"ni el marc)."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -225,8 +225,8 @@ msgid ""
 "In this row you can customize left click behavior when clicking into the "
 "titlebar or the frame."
 msgstr ""
-"En esta fila podeu personalitzar el comportament del clic esquerre en clicar "
-"en la barra de títol o el marc."
+"En esta fila podeu personalitzar el comportament quan es fa clic esquerre a "
+"dins de la barra de títol o en el marc."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll2)
@@ -365,8 +365,8 @@ msgid ""
 "In this row you can customize middle click behavior when clicking into the "
 "titlebar or the frame."
 msgstr ""
-"En esta fila podeu personalitzar el comportament del clic del mig en clicar "
-"en la barra de títol o el marc."
+"En esta fila podeu personalitzar el comportament quan es fa clic del mig a "
+"dins de la barra de títol o en el marc."
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
@@ -382,8 +382,8 @@ msgid ""
 "In this row you can customize right click behavior when clicking into the "
 "titlebar or the frame."
 msgstr ""
-"En esta fila podeu personalitzar el comportament del clic dret en clicar en "
-"la barra de títol o el marc."
+"En esta fila podeu personalitzar el comportament quan es fa clic dret a dins "
+"de la barra de títol o en el marc."
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: actions.ui:458
@@ -544,7 +544,7 @@ msgstr ""
 "style=\" font-style:italic;\">Centrada</span> col·locarà la finestra "
 "centrada</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-style:italic;\">Arraconada</span> col·locarà la finestra al "
+"style=\" font-style:italic;\">Arraconada</span> col·locarà la finestra en el "
 "cantó superior esquerre</li><li style=\" margin-top:0px; margin-bottom:12px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
 "\"><span style=\" font-style:italic;\">Davall el ratolí</span> col·locarà la "
@@ -651,7 +651,7 @@ msgstr "Comportament dels escriptoris virtuals:"
 msgid "When activating a window on a different Virtual Desktop:"
 msgstr "En activar una finestra en un escriptori virtual diferent:"
 
-# NdT: "Switch to that Virtual Desktop" vol dir que es canvia a l'altre escriptori virtual (no a l'actual com implica «aquest»), per això, ho tradueixo com a «aquell». En cas de canviar-ho, també cal canviar la doc (kcontrol_windowbehavior.po). 
+# NdT: "Switch to that Virtual Desktop" vol dir que es canvia a l'altre escriptori virtual (no a l'actual com implica «aquest»), per això, ho tradueixo com a «aquell». En cas de canviar-ho, també cal canviar la doc (kcontrol_windowbehavior.po).
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_ActivationDesktopPolicy)
 #: advanced.ui:165
 #, kde-format
@@ -814,8 +814,8 @@ msgstr ""
 "indent:0; text-indent:0px;\"><span style=\" font-style:italic;\">Alta:</"
 "span> Les finestres noves s'activen només si no hi ha cap finestra activa "
 "actualment o si pertanyen a l'aplicació activa. Esta configuració "
-"probablement no és realment usable si no s'utilitza la política de focus al "
-"ratolí.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
+"probablement no és realment utilitzable si no s'utilitza la política de "
+"focus al ratolí.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\" font-style:italic;\">Extrema:</span> Totes les finestres s'han "
 "d'activar explícitament per l'usuari.</li></ul><p>Les finestres a les quals "
@@ -1083,7 +1083,7 @@ msgstr "&Doble clic:"
 #: mouse.ui:36
 #, kde-format
 msgid "Behavior on <em>double</em> click into the titlebar."
-msgstr "Comportament del <em>doble</em> clic en la barra de títol."
+msgstr "Comportament del <em>doble</em> clic a dins de la barra de títol."
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TitlebarDoubleClickCommand)
@@ -1185,8 +1185,8 @@ msgid ""
 "Behavior on <em>left</em> click into the titlebar or frame of an <em>active</"
 "em> window."
 msgstr ""
-"Comportament en clicar amb l'<em>esquerre</em> en la barra de títol o marc "
-"d'una finestra <em>activa</em>."
+"Comportament en fer clic <em>esquerre</em> a dins de la barra de títol o en "
+"el marc d'una finestra <em>activa</em>."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar1)
@@ -1209,8 +1209,8 @@ msgid ""
 "Behavior on <em>left</em> click into the titlebar or frame of an "
 "<em>inactive</em> window."
 msgstr ""
-"Comportament en clicar amb l'<em>esquerre</em> en la barra de títol o marc "
-"d'una finestra <em>inactiva</em>."
+"Comportament en fer clic <em>esquerre</em> a dins de la barra de títol o en "
+"el marc d'una finestra <em>inactiva</em>."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
@@ -1417,7 +1417,7 @@ msgstr ""
 "<em>Focus estrictament davall el ratolí:</em> El focus sempre està en la "
 "finestra davall el ratolí (en cas de dubte, no està enlloc) molt pareixent "
 "al comportament del focus en un entorn X11 antic no gestionat.<br/"
-"><strong>Avís:</strong> La <em>prevenció de robatori de focus</em> i la "
-"<em>caixa de pestanyes («Alt+Tab»)</em> entren en contradicció amb la "
+"><strong>Avís:</strong> La <em>prevenció de robatori de focus</em> i el "
+"<em>quadro de pestanyes («Alt+Tab»)</em> entren en contradicció amb la "
 "política i no funcionaran. En el seu lloc, segurament voldreu utilitzar el "
 "<em>Focus seguix el ratolí (prioritat al ratolí)</em>."

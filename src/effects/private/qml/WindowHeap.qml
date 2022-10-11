@@ -26,6 +26,16 @@ FocusScope {
     property alias model: windowsRepeater.model
     property alias delegate: windowsRepeater.delegate
     readonly property alias count: windowsRepeater.count
+    readonly property bool activeEmpty: {
+        var children = expoLayout.visibleChildren;
+        for (var i = 0; i < children.length; i++) {
+            var child = children[i];
+            if (child instanceof WindowHeapDelegate && !child.activeHidden) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     property alias layout: expoLayout
     property int selectedIndex: -1
@@ -53,6 +63,15 @@ FocusScope {
 
     function saveDND(key: int, rect: rect) {
         dndManagerStore[key] = rect;
+    }
+    function containsDND(key: int): bool {
+        return key in dndManagerStore;
+    }
+    function restoreDND(key: int): rect {
+        return dndManagerStore[key];
+    }
+    function deleteDND(key: int) {
+        delete dndManagerStore[key];
     }
 
     KWinComponents.WindowThumbnailItem {
@@ -84,9 +103,7 @@ FocusScope {
             for (let i in screens) {
                 if (targetScreen === screens[i]) {
                     found = true;
-                    let globalPos = item.screen.mapToGlobal(item.mapToItem(null, 0,0));
-                    let heapRelativePos = targetScreen.mapFromGlobal(globalPos);
-                    heapRelativePos = heap.mapFromItem(null, heapRelativePos.x, heapRelativePos.y);
+                    const heapRelativePos = heap.mapFromGlobal(item.mapToGlobal(0, 0));
                     otherScreenThumbnail.cloneOf = item
                     otherScreenThumbnail.x = heapRelativePos.x;
                     otherScreenThumbnail.y = heapRelativePos.y;
@@ -119,11 +136,11 @@ FocusScope {
             onItemAdded: (index, item) => {
                 // restore/reparent from drop
                 var key = item.client.internalId;
-                if (key in heap.dndManagerStore) {
+                if (heap.containsDND(key)) {
                     expoLayout.forceLayout();
-                    var oldGlobalRect = heap.dndManagerStore[key];
+                    var oldGlobalRect = heap.restoreDND(key);
                     item.restoreDND(oldGlobalRect);
-                    delete heap.dndManagerStore[key];
+                    heap.deleteDND(key);
                 } else if (heap.effectiveOrganized) {
                     // New window has opened in the middle of a running effect.
                     // Make sure it is positioned before enabling its animations.
@@ -322,7 +339,7 @@ FocusScope {
             break;
         case Qt.Key_Return:
         case Qt.Key_Space:
-            handled = true;
+            handled = false;
             let selectedItem = null;
             if (selectedIndex !== -1) {
                 selectedItem = windowsRepeater.itemAt(selectedIndex);

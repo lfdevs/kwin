@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-14 00:46+0000\n"
+"POT-Creation-Date: 2022-09-28 02:28+0000\n"
 "PO-Revision-Date: 2022-08-22 17:10+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English <kde-l10n-en_gb@kde.org>\n"
@@ -61,7 +61,7 @@ msgstr ""
 #: showpaint/showpaint_config.cpp:33
 #: thumbnailaside/thumbnailaside_config.cpp:54
 #: trackmouse/trackmouse_config.cpp:52
-#: windowview/kcm/windowvieweffectkcm.cpp:35 zoom/zoom_config.cpp:58
+#: windowview/kcm/windowvieweffectkcm.cpp:36 zoom/zoom_config.cpp:58
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
@@ -557,32 +557,27 @@ msgstr "Blur background:"
 msgid "Ignore minimized windows:"
 msgstr "Ignore minimised windows:"
 
-#: overview/qml/DesktopBar.qml:185
+#: overview/qml/DesktopBar.qml:186
 #, kde-format
 msgid "Delete Virtual Desktop"
 msgstr "Delete Virtual Desktop"
 
-#: overview/qml/DesktopBar.qml:281
+#: overview/qml/DesktopBar.qml:282
 #, kde-format
 msgid "Add Virtual Desktop"
 msgstr "Add Virtual Desktop"
 
-#: overview/qml/ScreenView.qml:206
-#, kde-format
-msgid "Search..."
-msgstr "Search..."
-
-#: overview/qml/ScreenView.qml:233
+#: overview/qml/ScreenView.qml:226
 #, kde-format
 msgid "No matching windows"
 msgstr "No matching windows"
 
-#: private/qml/WindowHeapDelegate.qml:206
+#: private/qml/WindowHeapDelegate.qml:152
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "Drag Down To Close"
 
-#: private/qml/WindowHeapDelegate.qml:447
+#: private/qml/WindowHeapDelegate.qml:462
 #, kde-format
 msgctxt "@info:tooltip as in: 'close this window'"
 msgid "Close window"
@@ -864,20 +859,25 @@ msgstr "Popup menus:"
 msgid "Torn-off menus:"
 msgstr "Torn-off menus:"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:41 windowview/windowvieweffect.cpp:45
+#: windowview/kcm/windowvieweffectkcm.cpp:42 windowview/windowvieweffect.cpp:45
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Toggle Present Windows (Current desktop)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:55
+#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:55
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Toggle Present Windows (All desktops)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:65
+#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:65
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Toggle Present Windows (Window class)"
+
+#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:75
+#, kde-format
+msgid "Toggle Present Windows (Window class on current desktop)"
+msgstr "Toggle Present Windows (Window class on current desktop)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_IgnoreMinimized)
 #: windowview/kcm/windowvieweffectkcm.ui:53
@@ -885,20 +885,15 @@ msgstr "Toggle Present Windows (Window class)"
 msgid "Ignore &minimized windows"
 msgstr "Ignore &minimised windows"
 
-#: windowview/qml/main.qml:203
+#: windowview/qml/main.qml:106
 #, kde-format
 msgid "No Matches"
 msgstr "No Matches"
 
-#: windowview/qml/main.qml:203
+#: windowview/qml/main.qml:106
 #, kde-format
 msgid "No Windows"
 msgstr "No Windows"
-
-#: windowview/windowvieweffect.cpp:74
-#, kde-format
-msgid "Toggle Present Windows (Window class on current desktop)"
-msgstr "Toggle Present Windows (Window class on current desktop)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20

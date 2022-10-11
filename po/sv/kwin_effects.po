@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-14 00:46+0000\n"
-"PO-Revision-Date: 2022-08-03 10:14+0200\n"
+"POT-Creation-Date: 2022-09-28 02:28+0000\n"
+"PO-Revision-Date: 2022-09-18 11:32+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -61,7 +61,7 @@ msgstr ""
 #: showpaint/showpaint_config.cpp:33
 #: thumbnailaside/thumbnailaside_config.cpp:54
 #: trackmouse/trackmouse_config.cpp:52
-#: windowview/kcm/windowvieweffectkcm.cpp:35 zoom/zoom_config.cpp:58
+#: windowview/kcm/windowvieweffectkcm.cpp:36 zoom/zoom_config.cpp:58
 #, kde-format
 msgid "KWin"
 msgstr "Kwin"
@@ -532,7 +532,7 @@ msgstr ""
 #, kde-format
 msgctxt "@label"
 msgid "Unknown"
-msgstr ""
+msgstr "Okänd"
 
 #: overview/kcm/overvieweffectkcm.cpp:41 overview/overvieweffect.cpp:31
 #, kde-format
@@ -558,32 +558,27 @@ msgstr "Gör bakgrund suddig:"
 msgid "Ignore minimized windows:"
 msgstr "Ignorera minimerade fönster:"
 
-#: overview/qml/DesktopBar.qml:185
+#: overview/qml/DesktopBar.qml:186
 #, kde-format
 msgid "Delete Virtual Desktop"
 msgstr "Ta bort virtuellt skrivbord"
 
-#: overview/qml/DesktopBar.qml:281
+#: overview/qml/DesktopBar.qml:282
 #, kde-format
 msgid "Add Virtual Desktop"
 msgstr "Lägg till virtuellt skrivbord"
 
-#: overview/qml/ScreenView.qml:206
-#, kde-format
-msgid "Search..."
-msgstr "Sök..."
-
-#: overview/qml/ScreenView.qml:233
+#: overview/qml/ScreenView.qml:226
 #, kde-format
 msgid "No matching windows"
 msgstr "Inga matchande fönster"
 
-#: private/qml/WindowHeapDelegate.qml:206
+#: private/qml/WindowHeapDelegate.qml:152
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "Dra ner för att stänga"
 
-#: private/qml/WindowHeapDelegate.qml:447
+#: private/qml/WindowHeapDelegate.qml:462
 #, kde-format
 msgctxt "@info:tooltip as in: 'close this window'"
 msgid "Close window"
@@ -634,35 +629,31 @@ msgstr ""
 "Escape eller högerklick för att avbryta."
 
 #: showfps/qml/main.qml:110
-#, fuzzy, kde-format
-#| msgid "Ring Duration:"
+#, kde-format
 msgctxt "@label"
 msgid "Paint Duration"
-msgstr "Ringvaraktighet:"
+msgstr "Målningsvaraktighet"
 
 #: showfps/qml/main.qml:162
-#, fuzzy, kde-format
-#| msgid "Ring Count:"
+#, kde-format
 msgctxt "@label"
 msgid "Paint Amount"
-msgstr "Antal ringar:"
+msgstr "Målningsmängd"
 
 #: showfps/qml/main.qml:175
 #, kde-format
 msgctxt "@label"
 msgid "Current FPS"
-msgstr ""
+msgstr "Nuvarande antal bilder per sekund"
 
 #: showfps/qml/main.qml:184
-#, fuzzy, kde-format
-#| msgid "Maximum &width:"
+#, kde-format
 msgctxt "@label"
 msgid "Maximum FPS"
-msgstr "Maximal &bredd:"
+msgstr "Maximalt antal bilder per sekund"
 
 #: showfps/qml/main.qml:192
-#, fuzzy, kde-format
-#| msgid "This effect is not a benchmark"
+#, kde-format
 msgctxt "@label"
 msgid "This effect is not a benchmark"
 msgstr "Effekten är inte en prestandamätning"
@@ -869,20 +860,25 @@ msgstr "Sammanhangsberoende menyer:"
 msgid "Torn-off menus:"
 msgstr "Avrivna menyer:"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:41 windowview/windowvieweffect.cpp:45
+#: windowview/kcm/windowvieweffectkcm.cpp:42 windowview/windowvieweffect.cpp:45
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Ändra befintliga fönster (nuvarande skrivbord)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:55
+#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:55
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Ändra befintliga fönster (alla skrivbord)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:65
+#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:65
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Ändra befintliga fönster (fönsterklass)"
+
+#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:75
+#, kde-format
+msgid "Toggle Present Windows (Window class on current desktop)"
+msgstr "Ändra förinställda fönster (fönsterklass på nuvarande skrivbord)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_IgnoreMinimized)
 #: windowview/kcm/windowvieweffectkcm.ui:53
@@ -890,21 +886,15 @@ msgstr "Ändra befintliga fönster (fönsterklass)"
 msgid "Ignore &minimized windows"
 msgstr "Ignorera &minimerade fönster"
 
-#: windowview/qml/main.qml:203
+#: windowview/qml/main.qml:106
 #, kde-format
 msgid "No Matches"
 msgstr "Inga träffar"
 
-#: windowview/qml/main.qml:203
+#: windowview/qml/main.qml:106
 #, kde-format
 msgid "No Windows"
 msgstr "Inga fönster"
-
-#: windowview/windowvieweffect.cpp:74
-#, fuzzy, kde-format
-#| msgid "Toggle Present Windows (Current desktop)"
-msgid "Toggle Present Windows (Window class on current desktop)"
-msgstr "Ändra befintliga fönster (nuvarande skrivbord)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20

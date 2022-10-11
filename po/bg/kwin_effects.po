@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-14 00:46+0000\n"
+"POT-Creation-Date: 2022-09-28 02:28+0000\n"
 "PO-Revision-Date: 2022-08-19 23:08+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
@@ -59,7 +59,7 @@ msgstr ""
 #: showpaint/showpaint_config.cpp:33
 #: thumbnailaside/thumbnailaside_config.cpp:54
 #: trackmouse/trackmouse_config.cpp:52
-#: windowview/kcm/windowvieweffectkcm.cpp:35 zoom/zoom_config.cpp:58
+#: windowview/kcm/windowvieweffectkcm.cpp:36 zoom/zoom_config.cpp:58
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
@@ -557,32 +557,27 @@ msgstr "Замъгляване на фона:"
 msgid "Ignore minimized windows:"
 msgstr "Игнориране на минимизираните прозорци:"
 
-#: overview/qml/DesktopBar.qml:185
+#: overview/qml/DesktopBar.qml:186
 #, kde-format
 msgid "Delete Virtual Desktop"
 msgstr "Изтриване на виртуален работен плот"
 
-#: overview/qml/DesktopBar.qml:281
+#: overview/qml/DesktopBar.qml:282
 #, kde-format
 msgid "Add Virtual Desktop"
 msgstr "Добавяне на виртуален работен плот"
 
-#: overview/qml/ScreenView.qml:206
-#, kde-format
-msgid "Search..."
-msgstr "Търсене..."
-
-#: overview/qml/ScreenView.qml:233
+#: overview/qml/ScreenView.qml:226
 #, kde-format
 msgid "No matching windows"
 msgstr "Няма съвпадащи прозорци"
 
-#: private/qml/WindowHeapDelegate.qml:206
+#: private/qml/WindowHeapDelegate.qml:152
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "Завличане надолу за затваряне"
 
-#: private/qml/WindowHeapDelegate.qml:447
+#: private/qml/WindowHeapDelegate.qml:462
 #, kde-format
 msgctxt "@info:tooltip as in: 'close this window'"
 msgid "Close window"
@@ -864,20 +859,25 @@ msgstr "Изскачащи менюта:"
 msgid "Torn-off menus:"
 msgstr "Отделящи се менюта:"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:41 windowview/windowvieweffect.cpp:45
+#: windowview/kcm/windowvieweffectkcm.cpp:42 windowview/windowvieweffect.cpp:45
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Превключване на настоящи прозорци (текущ работен плот)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:55
+#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:55
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Превключване на настоящи прозорци (всички работни плотове)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:65
+#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:65
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Превключване на настоящи прозорци (клас Windows)"
+
+#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:75
+#, kde-format
+msgid "Toggle Present Windows (Window class on current desktop)"
+msgstr "Превключване на настоящи прозорци (текущ работен плот)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_IgnoreMinimized)
 #: windowview/kcm/windowvieweffectkcm.ui:53
@@ -885,20 +885,15 @@ msgstr "Превключване на настоящи прозорци (кла�
 msgid "Ignore &minimized windows"
 msgstr "Игнориране на минимизираните прозорци"
 
-#: windowview/qml/main.qml:203
+#: windowview/qml/main.qml:106
 #, kde-format
 msgid "No Matches"
 msgstr "Няма съвпадения"
 
-#: windowview/qml/main.qml:203
+#: windowview/qml/main.qml:106
 #, kde-format
 msgid "No Windows"
 msgstr "Без прозорци"
-
-#: windowview/windowvieweffect.cpp:74
-#, kde-format
-msgid "Toggle Present Windows (Window class on current desktop)"
-msgstr "Превключване на настоящи прозорци (текущ работен плот)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.2\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-14 00:46+0000\n"
+"POT-Creation-Date: 2022-09-28 02:28+0000\n"
 "PO-Revision-Date: 2021-11-19 13:44+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -63,7 +63,7 @@ msgstr ""
 #: showpaint/showpaint_config.cpp:33
 #: thumbnailaside/thumbnailaside_config.cpp:54
 #: trackmouse/trackmouse_config.cpp:52
-#: windowview/kcm/windowvieweffectkcm.cpp:35 zoom/zoom_config.cpp:58
+#: windowview/kcm/windowvieweffectkcm.cpp:36 zoom/zoom_config.cpp:58
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
@@ -562,34 +562,29 @@ msgstr "Háttér elmosása:"
 msgid "Ignore minimized windows:"
 msgstr "A minimalizált ablakok ki&hagyása"
 
-#: overview/qml/DesktopBar.qml:185
+#: overview/qml/DesktopBar.qml:186
 #, kde-format
 msgid "Delete Virtual Desktop"
 msgstr ""
 
-#: overview/qml/DesktopBar.qml:281
+#: overview/qml/DesktopBar.qml:282
 #, fuzzy, kde-format
 #| msgid "Desktop"
 msgid "Add Virtual Desktop"
 msgstr "Asztal"
 
-#: overview/qml/ScreenView.qml:206
-#, kde-format
-msgid "Search..."
-msgstr ""
-
-#: overview/qml/ScreenView.qml:233
+#: overview/qml/ScreenView.qml:226
 #, fuzzy, kde-format
 #| msgid "Moving windows:"
 msgid "No matching windows"
 msgstr "Elmozgatott ablakok:"
 
-#: private/qml/WindowHeapDelegate.qml:206
+#: private/qml/WindowHeapDelegate.qml:152
 #, kde-format
 msgid "Drag Down To Close"
 msgstr ""
 
-#: private/qml/WindowHeapDelegate.qml:447
+#: private/qml/WindowHeapDelegate.qml:462
 #, fuzzy, kde-format
 #| msgid "Close window"
 msgctxt "@info:tooltip as in: 'close this window'"
@@ -876,20 +871,26 @@ msgstr "Felbukkanó menük:"
 msgid "Torn-off menus:"
 msgstr "Letéphető menük:"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:41 windowview/windowvieweffect.cpp:45
+#: windowview/kcm/windowvieweffectkcm.cpp:42 windowview/windowvieweffect.cpp:45
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "A jelenlegi ablakok átváltása (ezen az asztalon)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:55
+#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:55
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "A jelenlegi ablakok átváltása (az összes asztalon)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:65
+#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:65
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "A jelenlegi ablakok átváltása (ablak osztály)"
+
+#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:75
+#, fuzzy, kde-format
+#| msgid "Toggle Present Windows (Current desktop)"
+msgid "Toggle Present Windows (Window class on current desktop)"
+msgstr "A jelenlegi ablakok átváltása (ezen az asztalon)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_IgnoreMinimized)
 #: windowview/kcm/windowvieweffectkcm.ui:53
@@ -897,22 +898,16 @@ msgstr "A jelenlegi ablakok átváltása (ablak osztály)"
 msgid "Ignore &minimized windows"
 msgstr "A minimalizált ablakok ki&hagyása"
 
-#: windowview/qml/main.qml:203
+#: windowview/qml/main.qml:106
 #, kde-format
 msgid "No Matches"
 msgstr ""
 
-#: windowview/qml/main.qml:203
+#: windowview/qml/main.qml:106
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "No Windows"
 msgstr "Ablakok"
-
-#: windowview/windowvieweffect.cpp:74
-#, fuzzy, kde-format
-#| msgid "Toggle Present Windows (Current desktop)"
-msgid "Toggle Present Windows (Window class on current desktop)"
-msgstr "A jelenlegi ablakok átváltása (ezen az asztalon)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20

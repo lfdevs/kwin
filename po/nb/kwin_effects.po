@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-08 00:49+0000\n"
+"POT-Creation-Date: 2022-09-28 02:28+0000\n"
 "PO-Revision-Date: 2015-08-27 20:55+0200\n"
 "Last-Translator: Bjørn Steensrud <bjornst@skogkatt.homelinux.org>\n"
 "Language-Team: Norwegian Bokmål <l10n-no@lister.huftis.org>\n"
@@ -58,7 +58,7 @@ msgstr ""
 #: showpaint/showpaint_config.cpp:33
 #: thumbnailaside/thumbnailaside_config.cpp:54
 #: trackmouse/trackmouse_config.cpp:52
-#: windowview/kcm/windowvieweffectkcm.cpp:35 zoom/zoom_config.cpp:58
+#: windowview/kcm/windowvieweffectkcm.cpp:36 zoom/zoom_config.cpp:58
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
@@ -525,7 +525,7 @@ msgstr "&Farge:"
 msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr "Tegn med musa ved å holde Shift + Meta og flytte musa."
 
-#: outputlocator/outputlocator.cpp:40
+#: outputlocator/outputlocator.cpp:48
 #, kde-format
 msgctxt "@label"
 msgid "Unknown"
@@ -555,32 +555,27 @@ msgstr ""
 msgid "Ignore minimized windows:"
 msgstr ""
 
-#: overview/qml/DesktopBar.qml:185
+#: overview/qml/DesktopBar.qml:186
 #, kde-format
 msgid "Delete Virtual Desktop"
 msgstr ""
 
-#: overview/qml/DesktopBar.qml:279
+#: overview/qml/DesktopBar.qml:282
 #, kde-format
 msgid "Add Virtual Desktop"
 msgstr ""
 
-#: overview/qml/ScreenView.qml:204
-#, kde-format
-msgid "Search..."
-msgstr ""
-
-#: overview/qml/ScreenView.qml:231
+#: overview/qml/ScreenView.qml:226
 #, kde-format
 msgid "No matching windows"
 msgstr ""
 
-#: private/qml/WindowHeapDelegate.qml:153
+#: private/qml/WindowHeapDelegate.qml:152
 #, kde-format
 msgid "Drag Down To Close"
 msgstr ""
 
-#: private/qml/WindowHeapDelegate.qml:381
+#: private/qml/WindowHeapDelegate.qml:462
 #, kde-format
 msgctxt "@info:tooltip as in: 'close this window'"
 msgid "Close window"
@@ -858,20 +853,25 @@ msgstr "Sprettoppmenyer:"
 msgid "Torn-off menus:"
 msgstr "Avrevne menyer:"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:41 windowview/windowvieweffect.cpp:45
+#: windowview/kcm/windowvieweffectkcm.cpp:42 windowview/windowvieweffect.cpp:45
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Slå av/på nærværende vinduer (gjeldende skrivebord)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:55
+#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:55
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Slå av/på nærværende vinduer  (alle skrivebord) "
 
-#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:65
+#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:65
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Slå av/på nærværende vinduer (Vindusklasse) "
+
+#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:75
+#, kde-format
+msgid "Toggle Present Windows (Window class on current desktop)"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_IgnoreMinimized)
 #: windowview/kcm/windowvieweffectkcm.ui:53
@@ -879,19 +879,14 @@ msgstr "Slå av/på nærværende vinduer (Vindusklasse) "
 msgid "Ignore &minimized windows"
 msgstr "Ignorer &minimerte vinduer"
 
-#: windowview/qml/main.qml:203
+#: windowview/qml/main.qml:106
 #, kde-format
 msgid "No Matches"
 msgstr ""
 
-#: windowview/qml/main.qml:203
+#: windowview/qml/main.qml:106
 #, kde-format
 msgid "No Windows"
-msgstr ""
-
-#: windowview/windowvieweffect.cpp:74
-#, kde-format
-msgid "Toggle Present Windows (Window class on current desktop)"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)

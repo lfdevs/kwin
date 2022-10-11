@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-14 00:46+0000\n"
+"POT-Creation-Date: 2022-09-28 02:28+0000\n"
 "PO-Revision-Date: 2022-08-18 19:42+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -64,7 +64,7 @@ msgstr ""
 #: showpaint/showpaint_config.cpp:33
 #: thumbnailaside/thumbnailaside_config.cpp:54
 #: trackmouse/trackmouse_config.cpp:52
-#: windowview/kcm/windowvieweffectkcm.cpp:35 zoom/zoom_config.cpp:58
+#: windowview/kcm/windowvieweffectkcm.cpp:36 zoom/zoom_config.cpp:58
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
@@ -561,32 +561,27 @@ msgstr "Atzealde lausoa:"
 msgid "Ignore minimized windows:"
 msgstr "Jaramonik ez minimizatutako leihoei:"
 
-#: overview/qml/DesktopBar.qml:185
+#: overview/qml/DesktopBar.qml:186
 #, kde-format
 msgid "Delete Virtual Desktop"
 msgstr "Ezabatu alegiazko mahaigaina"
 
-#: overview/qml/DesktopBar.qml:281
+#: overview/qml/DesktopBar.qml:282
 #, kde-format
 msgid "Add Virtual Desktop"
 msgstr "Gehitu alegiazko mahaigaina"
 
-#: overview/qml/ScreenView.qml:206
-#, kde-format
-msgid "Search..."
-msgstr "Bilatu..."
-
-#: overview/qml/ScreenView.qml:233
+#: overview/qml/ScreenView.qml:226
 #, kde-format
 msgid "No matching windows"
 msgstr "Ez dago bat datorren leihorik"
 
-#: private/qml/WindowHeapDelegate.qml:206
+#: private/qml/WindowHeapDelegate.qml:152
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "Arrastatu behera ixteko"
 
-#: private/qml/WindowHeapDelegate.qml:447
+#: private/qml/WindowHeapDelegate.qml:462
 #, kde-format
 msgctxt "@info:tooltip as in: 'close this window'"
 msgid "Close window"
@@ -870,20 +865,25 @@ msgstr "Menu gainerakorrak:"
 msgid "Torn-off menus:"
 msgstr "Goitik beherako menuak:"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:41 windowview/windowvieweffect.cpp:45
+#: windowview/kcm/windowvieweffectkcm.cpp:42 windowview/windowvieweffect.cpp:45
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Aktibatu/desaktibatu leihoen aurkezpena (uneko mahaigainean)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:55
+#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:55
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Aktibatu/desaktibatu leihoen aurkezpena (mahaigain guztietan)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:65
+#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:65
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Aktibatu/desaktibatu leihoen aurkezpena (leiho klasea)"
+
+#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:75
+#, kde-format
+msgid "Toggle Present Windows (Window class on current desktop)"
+msgstr "Txandakatu aurkeztutako leihoak (uneko mahaigaineko leiho klasea)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_IgnoreMinimized)
 #: windowview/kcm/windowvieweffectkcm.ui:53
@@ -891,20 +891,15 @@ msgstr "Aktibatu/desaktibatu leihoen aurkezpena (leiho klasea)"
 msgid "Ignore &minimized windows"
 msgstr "Jaramonik ez &minimizatutako leihoei"
 
-#: windowview/qml/main.qml:203
+#: windowview/qml/main.qml:106
 #, kde-format
 msgid "No Matches"
 msgstr "Ez dago bat datorrenik"
 
-#: windowview/qml/main.qml:203
+#: windowview/qml/main.qml:106
 #, kde-format
 msgid "No Windows"
 msgstr "Leihorik ez"
-
-#: windowview/windowvieweffect.cpp:74
-#, kde-format
-msgid "Toggle Present Windows (Window class on current desktop)"
-msgstr "Txandakatu aurkeztutako leihoak (uneko mahaigaineko leiho klasea)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20

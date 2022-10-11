@@ -1587,8 +1587,6 @@ void Window::maximize(MaximizeMode m)
 
 void Window::setMaximize(bool vertically, bool horizontally)
 {
-    // changeMaximize() flips the state, so change from set->flip
-    Q_EMIT clientMaximizedStateAboutToChange(this, MaximizeMode((vertically ? MaximizeVertical : 0) | (horizontally ? MaximizeHorizontal : 0)));
     const MaximizeMode oldMode = requestedMaximizeMode();
     changeMaximize(
         oldMode & MaximizeHorizontal ? !horizontally : horizontally,
@@ -3502,6 +3500,9 @@ void Window::setOnActivities(const QStringList &newActivitiesList)
     if (!Workspace::self()->activities()) {
         return;
     }
+    if (Workspace::self()->activities()->serviceStatus() != KActivities::Consumer::Running) {
+        return;
+    }
     const auto allActivities = Workspace::self()->activities()->all();
     const auto activityList = [&] {
         auto result = rules()->checkActivity(newActivitiesList);
@@ -3988,15 +3989,6 @@ void Window::checkWorkspacePosition(QRectF oldGeometry, const VirtualDesktop *ol
 
     if (!oldGeometry.isValid()) {
         oldGeometry = newGeom;
-    }
-
-    // this can be true only if this window was mapped before KWin
-    // was started - in such case, don't adjust position to workarea,
-    // because the window already had its position, and if a window
-    // with a strut altering the workarea would be managed in initialization
-    // after this one, this window would be moved
-    if (!workspace() || workspace()->initializing()) {
-        return;
     }
 
     VirtualDesktop *desktop = !isOnCurrentDesktop() ? desktops().constLast() : VirtualDesktopManager::self()->currentDesktop();

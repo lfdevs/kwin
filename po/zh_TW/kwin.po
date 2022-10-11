@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-13 00:47+0000\n"
+"POT-Creation-Date: 2022-10-06 02:46+0000\n"
 "PO-Revision-Date: 2022-06-24 03:21+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@linux.org.tw>\n"
@@ -1223,54 +1223,54 @@ msgstr "取消設定選項"
 msgid "Indicate that KWin has recently crashed n times"
 msgstr "指出 KWin 最近已經連續崩潰數次"
 
-#: main_wayland.cpp:325
+#: main_wayland.cpp:318
 #, kde-format
 msgid "Start a rootless Xwayland server."
 msgstr "啟動 rootless Xwayland 伺服器。"
 
-#: main_wayland.cpp:327
+#: main_wayland.cpp:320
 #, kde-format
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr "Wayland 監聽的 socket 名稱。如果沒設定，則使用 \"wayland-0\"。"
 
-#: main_wayland.cpp:330
+#: main_wayland.cpp:323
 #, kde-format
 msgid "The X11 Display to use in windowed mode on platform X11."
 msgstr "在 X11 平台上的視窗模式要使用的 X11 顯示。"
 
-#: main_wayland.cpp:333
+#: main_wayland.cpp:326
 #, kde-format
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr "在 Wayland 平台上的視窗模式要使用的 Wayland 顯示。"
 
-#: main_wayland.cpp:335
+#: main_wayland.cpp:328
 #, kde-format
 msgid "Render to a virtual framebuffer."
 msgstr "成像到虛擬影格緩衝區。"
 
-#: main_wayland.cpp:337
+#: main_wayland.cpp:330
 #, kde-format
 msgid "The width for windowed mode. Default width is 1024."
 msgstr "視窗模式的寬度。預設為 1024。"
 
-#: main_wayland.cpp:341
+#: main_wayland.cpp:334
 #, kde-format
 msgid "The height for windowed mode. Default height is 768."
 msgstr "視窗模式的高度。預設為 768。"
 
-#: main_wayland.cpp:346
+#: main_wayland.cpp:339
 #, kde-format
 msgid "The scale for windowed mode. Default value is 1."
 msgstr "視窗模式的縮放係數。預設為 1。"
 
-#: main_wayland.cpp:351
+#: main_wayland.cpp:344
 #, kde-format
 msgid ""
 "The number of windows to open as outputs in windowed mode. Default value is 1"
 msgstr "視窗模式輸出要開啟的視窗數。預設為 1"
 
-#: main_wayland.cpp:356
+#: main_wayland.cpp:349
 #, kde-format
 msgid ""
 "Wayland socket to use for incoming connections. This can be combined with --"
@@ -1279,69 +1279,69 @@ msgstr ""
 "Wayland 接收到的連線所使用的 socket 名稱。這可以跟 --socket 一起使用來指定 "
 "socket 名稱"
 
-#: main_wayland.cpp:360
+#: main_wayland.cpp:353
 #, kde-format
 msgid ""
 "XWayland socket to use for Xwayland's incoming connections. This can be set "
 "multiple times"
 msgstr "Xwayland 接收到的連線所使用的 socket。這可以被重複設定"
 
-#: main_wayland.cpp:364
+#: main_wayland.cpp:357
 #, kde-format
 msgid "Name of the xwayland display that has been pre-set up"
 msgstr "已經先設定好的 xwayland 顯示的名稱"
 
-#: main_wayland.cpp:368
+#: main_wayland.cpp:361
 #, kde-format
 msgid "Name of the xauthority file "
 msgstr "xauthority 檔案名稱"
 
-#: main_wayland.cpp:372
+#: main_wayland.cpp:365
 #, kde-format
 msgid "Exits this instance so it can be restarted by kwin_wayland_wrapper."
 msgstr "離開這個實體讓它能被 kwin_wayland_wrapper 重啟。"
 
-#: main_wayland.cpp:374
+#: main_wayland.cpp:367
 #, kde-format
 msgid "Render through drm node."
 msgstr "透過 drm 節點成像。"
 
-#: main_wayland.cpp:395
+#: main_wayland.cpp:388
 #, kde-format
 msgid "Input method that KWin starts."
 msgstr "KWin 啟動的輸入法。"
 
-#: main_wayland.cpp:401
+#: main_wayland.cpp:394
 #, kde-format
 msgid "Starts the session in locked mode."
 msgstr "以鎖定模式啟動工作階段."
 
-#: main_wayland.cpp:405
+#: main_wayland.cpp:398
 #, kde-format
 msgid "Starts the session without lock screen support."
 msgstr "在無鎖定螢幕支援的情況下開啟工作階段。"
 
-#: main_wayland.cpp:410
+#: main_wayland.cpp:403
 #, kde-format
 msgid "Starts the session without global shortcuts support."
 msgstr "在無全域快速鍵支援的情況下開啟工作階段。"
 
-#: main_wayland.cpp:415 main_x11.cpp:387
+#: main_wayland.cpp:408 main_x11.cpp:380
 #, kde-format
 msgid "Disable KActivities integration."
 msgstr "關閉 KActivities 整合。"
 
-#: main_wayland.cpp:420
+#: main_wayland.cpp:413
 #, kde-format
 msgid "Exit after the session application, which is started by KWin, closed."
 msgstr "在由 KWin 啟動的工作階段應用程式關閉後離開。"
 
-#: main_wayland.cpp:425
+#: main_wayland.cpp:418
 #, kde-format
 msgid "Applications to start once Wayland and Xwayland server are started"
 msgstr "Wayland 與 Xwayland 伺服器啟動後要執行的應用程式"
 
-#: main_x11.cpp:67
+#: main_x11.cpp:63
 #, kde-format
 msgid ""
 "KWin is unstable.\n"
@@ -1352,7 +1352,7 @@ msgstr ""
 "它似乎連續崩潰了數次。\n"
 "您可以選擇其他的視窗管理員："
 
-#: main_x11.cpp:220
+#: main_x11.cpp:216
 #, kde-format
 msgid ""
 "kwin: unable to claim manager selection, another wm running? (try using --"
@@ -1360,12 +1360,12 @@ msgid ""
 msgstr ""
 "kwin：無法宣告管理程式選擇區，是否有其他 wm 在執行？(嘗試使用 --replace)\n"
 
-#: main_x11.cpp:241
+#: main_x11.cpp:237
 #, kde-format
 msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr "kwin：另一個視窗管理員正在運行中（請試著使用 --replace）\n"
 
-#: main_x11.cpp:380
+#: main_x11.cpp:373
 #, kde-format
 msgid "Replace already-running ICCCM2.0-compliant window manager"
 msgstr "置換已在執行中的 ICCCM2.0-相容視窗管理程式"
@@ -2128,7 +2128,7 @@ msgstr "瀏覽桌面清單項目"
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "瀏覽桌面清單項目（反向）"
 
-#: tabbox/tabboxhandler.cpp:289
+#: tabbox/tabboxhandler.cpp:290
 #, kde-format
 msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
@@ -2668,13 +2668,13 @@ msgstr "切換到下面的桌面"
 msgid "Switch to Desktop %1"
 msgstr "切換到桌面 %1"
 
-#: window.cpp:3430
+#: window.cpp:3428
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "（沒有回應）"
 
-#: workspace.cpp:1682
+#: workspace.cpp:1677
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

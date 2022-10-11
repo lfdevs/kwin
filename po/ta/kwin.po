@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-13 00:47+0000\n"
+"POT-Creation-Date: 2022-10-06 02:46+0000\n"
 "PO-Revision-Date: 2022-09-13 21:05+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -1226,12 +1226,12 @@ msgstr "விருப்பத்தேர்வுகளை முடக்�
 msgid "Indicate that KWin has recently crashed n times"
 msgstr "சமீபத்தில் கேவின் n முறை முறிவடைந்துள்ளதென்பதை குறிக்கும்"
 
-#: main_wayland.cpp:325
+#: main_wayland.cpp:318
 #, kde-format
 msgid "Start a rootless Xwayland server."
 msgstr "ரூட்டாக இயங்காத (rootless) Xwayland சேவையகத்தை துவக்கும்."
 
-#: main_wayland.cpp:327
+#: main_wayland.cpp:320
 #, kde-format
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
@@ -1239,38 +1239,38 @@ msgstr ""
 "கவனிக்க வேண்டிய Wayland சாக்கெட். அமைக்கப்படவில்லையெனில், \"wayland-0\" "
 "பயன்படுத்தப்படும்."
 
-#: main_wayland.cpp:330
+#: main_wayland.cpp:323
 #, kde-format
 msgid "The X11 Display to use in windowed mode on platform X11."
 msgstr "X11 இயக்குதளத்தில், சாளரப்பயன்முறையில் இருக்கும்போது பயன்படுத்தவேண்டிய X11 திரை."
 
-#: main_wayland.cpp:333
+#: main_wayland.cpp:326
 #, kde-format
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr ""
 "Wayland இயக்குதளத்தில், சாளரப்பயன்முறையில் இருக்கும்போது பயன்படுத்தவேண்டிய Wayland திரை."
 
-#: main_wayland.cpp:335
+#: main_wayland.cpp:328
 #, kde-format
 msgid "Render to a virtual framebuffer."
 msgstr ""
 
-#: main_wayland.cpp:337
+#: main_wayland.cpp:330
 #, kde-format
 msgid "The width for windowed mode. Default width is 1024."
 msgstr ""
 
-#: main_wayland.cpp:341
+#: main_wayland.cpp:334
 #, kde-format
 msgid "The height for windowed mode. Default height is 768."
 msgstr ""
 
-#: main_wayland.cpp:346
+#: main_wayland.cpp:339
 #, kde-format
 msgid "The scale for windowed mode. Default value is 1."
 msgstr ""
 
-#: main_wayland.cpp:351
+#: main_wayland.cpp:344
 #, kde-format
 msgid ""
 "The number of windows to open as outputs in windowed mode. Default value is 1"
@@ -1278,76 +1278,76 @@ msgstr ""
 "சாளர பயன்முறையில் வெளியீடுகளாக திறக்க வேண்டிய சாளரங்களின் எண்ணிக்கை. இயல்பிருப்பு "
 "மதிப்பு 1 ஆகும்"
 
-#: main_wayland.cpp:356
+#: main_wayland.cpp:349
 #, kde-format
 msgid ""
 "Wayland socket to use for incoming connections. This can be combined with --"
 "socket to name the socket"
 msgstr ""
 
-#: main_wayland.cpp:360
+#: main_wayland.cpp:353
 #, kde-format
 msgid ""
 "XWayland socket to use for Xwayland's incoming connections. This can be set "
 "multiple times"
 msgstr ""
 
-#: main_wayland.cpp:364
+#: main_wayland.cpp:357
 #, kde-format
 msgid "Name of the xwayland display that has been pre-set up"
 msgstr "ஏற்கனவே அமைக்கப்பட்டுள்ள xwayland திரையின் பெயர்"
 
-#: main_wayland.cpp:368
+#: main_wayland.cpp:361
 #, kde-format
 msgid "Name of the xauthority file "
 msgstr "xauthority கோப்பின் பெயர்"
 
-#: main_wayland.cpp:372
+#: main_wayland.cpp:365
 #, kde-format
 msgid "Exits this instance so it can be restarted by kwin_wayland_wrapper."
 msgstr ""
 
-#: main_wayland.cpp:374
+#: main_wayland.cpp:367
 #, kde-format
 msgid "Render through drm node."
 msgstr ""
 
-#: main_wayland.cpp:395
+#: main_wayland.cpp:388
 #, kde-format
 msgid "Input method that KWin starts."
 msgstr "கேவின் துவக்கும் உள்ளீட்டு முறை."
 
-#: main_wayland.cpp:401
+#: main_wayland.cpp:394
 #, kde-format
 msgid "Starts the session in locked mode."
 msgstr "அமர்வை பூட்டிய நிலையில் தொடங்கும்."
 
-#: main_wayland.cpp:405
+#: main_wayland.cpp:398
 #, kde-format
 msgid "Starts the session without lock screen support."
 msgstr "திரையை பூட்டும் ஆதரவில்லாமல் அமர்வை துவக்கும்."
 
-#: main_wayland.cpp:410
+#: main_wayland.cpp:403
 #, kde-format
 msgid "Starts the session without global shortcuts support."
 msgstr "பொது சுருக்குவழிகளுக்கான ஆதரவில்லாமல் அமர்வை துவக்கும்."
 
-#: main_wayland.cpp:415 main_x11.cpp:387
+#: main_wayland.cpp:408 main_x11.cpp:380
 #, kde-format
 msgid "Disable KActivities integration."
 msgstr "KActivities ஒருங்கிணைப்பை முடக்கு."
 
-#: main_wayland.cpp:420
+#: main_wayland.cpp:413
 #, kde-format
 msgid "Exit after the session application, which is started by KWin, closed."
 msgstr "அமர்வு நிரல் (கேவின்னால் துவக்கப்படுவது) வெளியேறும்போது வெளியேறு."
 
-#: main_wayland.cpp:425
+#: main_wayland.cpp:418
 #, kde-format
 msgid "Applications to start once Wayland and Xwayland server are started"
 msgstr "Wayland மற்றும் Xwayland சேவையகத்தை துவக்கிய பின் துவக்கப்பட வேண்டிய செயலிகள்"
 
-#: main_x11.cpp:67
+#: main_x11.cpp:63
 #, kde-format
 msgid ""
 "KWin is unstable.\n"
@@ -1358,7 +1358,7 @@ msgstr ""
 "வரிசையாக பலமுறை முறிவடைந்துள்ளது.\n"
 "வேறொரு சாளர மேலாளியை நீங்கள் தேர்வு செய்யலாம்:"
 
-#: main_x11.cpp:220
+#: main_x11.cpp:216
 #, kde-format
 msgid ""
 "kwin: unable to claim manager selection, another wm running? (try using --"
@@ -1367,13 +1367,13 @@ msgstr ""
 "கேவின்: சாளர மேலாளர் ஆக முடியவில்லை. இன்னொரு சாளர மேலாளி உபயோகத்தில் உள்ளதா? (--"
 "replace என்பதை பயன்படுத்தி பாருங்கள்)\n"
 
-#: main_x11.cpp:241
+#: main_x11.cpp:237
 #, kde-format
 msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr ""
 "கேவின்: இன்னொரு சாளர மேலாளர் இயங்குகிறது(--replace என்பதை பயன்படுத்தி பாருங்கள்)\n"
 
-#: main_x11.cpp:380
+#: main_x11.cpp:373
 #, kde-format
 msgid "Replace already-running ICCCM2.0-compliant window manager"
 msgstr "ஏற்கனவே ஓடிக்கொண்டிருக்கும் ICCCM2.0 சாளர மேலாளருக்கு பதிலாக இயங்கும்"
@@ -2145,7 +2145,7 @@ msgstr "பணிமேடைகளின் பட்டியலில் ம�
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "பணிமேடைகளின் பட்டியலில் பின்னே செல்"
 
-#: tabbox/tabboxhandler.cpp:289
+#: tabbox/tabboxhandler.cpp:290
 #, kde-format
 msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
@@ -2685,13 +2685,13 @@ msgstr "கீழுள்ள பணிமேடைக்கு தாவு"
 msgid "Switch to Desktop %1"
 msgstr "பணிமேடை %1-க்கு தாவு"
 
-#: window.cpp:3430
+#: window.cpp:3428
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(பதிலளிக்கவில்லை)"
 
-#: workspace.cpp:1682
+#: workspace.cpp:1677
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

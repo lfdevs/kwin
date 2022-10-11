@@ -1,5 +1,6 @@
 /*
     SPDX-FileCopyrightText: 2021 Vlad Zahorodnii <vlad.zahorodnii@kde.org>
+    SPDX-FileCopyrightText: 2022 ivan tkachenko <me@ratijas.tk>
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
@@ -89,6 +90,22 @@ Item {
         }
     }
 
+    PlasmaExtras.PlaceholderMessage {
+        anchors.centerIn: parent
+        width: parent.width - (PlasmaCore.Units.gridUnit * 8)
+
+        visible: heap.activeEmpty
+        // Otherwise it's always 100% opaque even while the blurry desktop background's
+        // opacity is changing, which looks weird and is different from what Overview does.
+        opacity: container.organized ? 1 : 0
+        Behavior on opacity {
+            OpacityAnimator { duration: container.effect.animationDuration; easing.type: Easing.OutCubic }
+        }
+
+        iconName: "edit-none"
+        text: effect.searchText.length > 0 ? i18nd("kwin_effects", "No Matches") : i18nd("kwin_effects", "No Windows")
+    }
+
     ColumnLayout {
         width: targetScreen.geometry.width
         height: targetScreen.geometry.height
@@ -106,17 +123,12 @@ Item {
                 OpacityAnimator { duration: container.effect.animationDuration; easing.type: Easing.OutCubic }
             }
 
-            // Binding loops will be avoided from the fact that setting the text to the same won't emit textChanged
             // We can't use activeFocus because is not reliable on qml effects
-            onTextChanged: {
+            text: effect.searchText
+            onTextEdited: {
                 effect.searchText = text;
                 heap.resetSelected();
                 heap.selectNextItem(WindowHeap.Direction.Down);
-            }
-            Binding {
-                target: searchField
-                property: "text"
-                value: effect.searchText
             }
             Keys.priority: Keys.AfterItem
             Keys.forwardTo: heap
@@ -194,13 +206,6 @@ Item {
             }
             onActivated: effect.deactivate(container.effect.animationDuration);
         }
-    }
-    PlasmaExtras.PlaceholderMessage {
-        anchors.centerIn: parent
-        width: parent.width - (PlasmaCore.Units.gridUnit * 8)
-        visible: heap.count === 0
-        iconName: "edit-none"
-        text: effect.searchText.length > 0 ? i18nd("kwin_effects", "No Matches") : i18nd("kwin_effects", "No Windows")
     }
 
     Repeater {

@@ -301,16 +301,6 @@ void WaylandServer::handleOutputDisabled(Output *output)
     }
 }
 
-void WaylandServer::setEnablePrimarySelection(bool enable)
-{
-    if (!enable && m_primarySelectionDeviceManager != nullptr) {
-        delete m_primarySelectionDeviceManager;
-        m_primarySelectionDeviceManager = nullptr;
-    } else if (enable && m_primarySelectionDeviceManager == nullptr) {
-        m_primarySelectionDeviceManager = new PrimarySelectionDeviceManagerV1Interface(m_display, m_display);
-    }
-}
-
 bool WaylandServer::start()
 {
     return m_display->start();
@@ -391,7 +381,8 @@ bool WaylandServer::init(InitializationFlags flags)
     new DataControlDeviceManagerV1Interface(m_display, m_display);
 
     const auto kwinConfig = kwinApp()->config();
-    setEnablePrimarySelection(kwinConfig->group("Wayland").readEntry("EnablePrimarySelection", true));
+    m_seat->setPrimarySelectionEnabled(kwinConfig->group("Wayland").readEntry("EnablePrimarySelection", true));
+    new PrimarySelectionDeviceManagerV1Interface(m_display, m_display);
 
     m_idle = new IdleInterface(m_display, m_display);
     auto idleInhibition = new IdleInhibition(m_idle);
@@ -587,7 +578,6 @@ void WaylandServer::initScreenLocker()
             connect(seat, &KWaylandServer::SeatInterface::timestampChanged,
                     screenLockerApp, &ScreenLocker::KSldApp::userActivity);
         }
-        Q_EMIT lockStateChanged();
     });
 
     connect(ScreenLocker::KSldApp::self(), &ScreenLocker::KSldApp::unlocked, this, [this, screenLockerApp]() {
@@ -603,8 +593,9 @@ void WaylandServer::initScreenLocker()
                        screenLockerApp, &ScreenLocker::KSldApp::userActivity);
         }
         ScreenLocker::KSldApp::self()->setWaylandFd(-1);
-        Q_EMIT lockStateChanged();
     });
+
+    connect(screenLockerApp, &ScreenLocker::KSldApp::lockStateChanged, this, &WaylandServer::lockStateChanged);
 
     ScreenLocker::KSldApp::self()->initialize();
 
@@ -687,7 +678,9 @@ void WaylandServer::destroyInputMethodConnection()
 void WaylandServer::removeWindow(Window *c)
 {
     m_windows.removeAll(c);
-    Q_EMIT windowRemoved(c);
+    if (c->readyForPainting()) {
+        Q_EMIT windowRemoved(c);
+    }
 }
 
 static Window *findWindowInList(const QList<Window *> &windows, const KWaylandServer::SurfaceInterface *surface)

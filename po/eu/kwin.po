@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-13 00:47+0000\n"
+"POT-Creation-Date: 2022-10-06 02:46+0000\n"
 "PO-Revision-Date: 2022-09-13 05:29+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -1230,12 +1230,12 @@ msgstr "Desgaitu konfigurazio-aukerak"
 msgid "Indicate that KWin has recently crashed n times"
 msgstr "KWin oraintsu n aldiz kraskatu dela adierazten du"
 
-#: main_wayland.cpp:325
+#: main_wayland.cpp:318
 #, kde-format
 msgid "Start a rootless Xwayland server."
 msgstr "Abiarazi root gabeko Xwayland zerbitzari bat."
 
-#: main_wayland.cpp:327
+#: main_wayland.cpp:320
 #, kde-format
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
@@ -1243,39 +1243,39 @@ msgstr ""
 "Entzun beharreko Wayland hargunearen izena. Ezartzen ez bada \"wayland-0\" "
 "erabiltzen da."
 
-#: main_wayland.cpp:330
+#: main_wayland.cpp:323
 #, kde-format
 msgid "The X11 Display to use in windowed mode on platform X11."
 msgstr "Erabili beharreko X11 bistaratzailea X11 plataformaren leiho-moduan."
 
-#: main_wayland.cpp:333
+#: main_wayland.cpp:326
 #, kde-format
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr ""
 "Erabili beharreko Wayland bistaratzailea, leihodun moduan, Wayland "
 "plataforman."
 
-#: main_wayland.cpp:335
+#: main_wayland.cpp:328
 #, kde-format
 msgid "Render to a virtual framebuffer."
 msgstr "Errendatu alegiazko framebuffer batera."
 
-#: main_wayland.cpp:337
+#: main_wayland.cpp:330
 #, kde-format
 msgid "The width for windowed mode. Default width is 1024."
 msgstr "Leiho-moduaren zabalera. Zabalera lehenetsia 1024koa da."
 
-#: main_wayland.cpp:341
+#: main_wayland.cpp:334
 #, kde-format
 msgid "The height for windowed mode. Default height is 768."
 msgstr "Leiho-moduaren altuera. Altuera lehenetsia 768koa da."
 
-#: main_wayland.cpp:346
+#: main_wayland.cpp:339
 #, kde-format
 msgid "The scale for windowed mode. Default value is 1."
 msgstr "Leiho-moduaren eskala. Balio lehenetsia 1 da."
 
-#: main_wayland.cpp:351
+#: main_wayland.cpp:344
 #, kde-format
 msgid ""
 "The number of windows to open as outputs in windowed mode. Default value is 1"
@@ -1283,7 +1283,7 @@ msgstr ""
 "Leiho-moduan irteera gisa ireki beharreko leiho kopurua. Balio lehenetsia 1 "
 "da"
 
-#: main_wayland.cpp:356
+#: main_wayland.cpp:349
 #, kde-format
 msgid ""
 "Wayland socket to use for incoming connections. This can be combined with --"
@@ -1292,7 +1292,7 @@ msgstr ""
 "Sarrerako konexioekin erabili beharreko Wayland-en hargunea. Hori beste "
 "horrekin konbinatu daiteke -- hargunea izendatzeko hargunea"
 
-#: main_wayland.cpp:360
+#: main_wayland.cpp:353
 #, kde-format
 msgid ""
 "XWayland socket to use for Xwayland's incoming connections. This can be set "
@@ -1301,64 +1301,64 @@ msgstr ""
 "Sarrerako konexioekin erabili beharreko XWayland-en hargunea. Hori hainbat "
 "aldiz ezar daiteke"
 
-#: main_wayland.cpp:364
+#: main_wayland.cpp:357
 #, kde-format
 msgid "Name of the xwayland display that has been pre-set up"
 msgstr "Aurre-ezarri den xwayland pantailaren izena"
 
-#: main_wayland.cpp:368
+#: main_wayland.cpp:361
 #, kde-format
 msgid "Name of the xauthority file "
 msgstr "xauthority fitxategiaren izena "
 
-#: main_wayland.cpp:372
+#: main_wayland.cpp:365
 #, kde-format
 msgid "Exits this instance so it can be restarted by kwin_wayland_wrapper."
 msgstr ""
 "Instantzia honetatik ateratzen da kwin_wayland_wrapper bidez berrabiarazteko."
 
-#: main_wayland.cpp:374
+#: main_wayland.cpp:367
 #, kde-format
 msgid "Render through drm node."
 msgstr "Errendatu drm moduaren bidez."
 
-#: main_wayland.cpp:395
+#: main_wayland.cpp:388
 #, kde-format
 msgid "Input method that KWin starts."
 msgstr "KWin-ek abiatzen duen sarrera metodoa."
 
-#: main_wayland.cpp:401
+#: main_wayland.cpp:394
 #, kde-format
 msgid "Starts the session in locked mode."
 msgstr "Saioa modu giltzatuan abiatzen du."
 
-#: main_wayland.cpp:405
+#: main_wayland.cpp:398
 #, kde-format
 msgid "Starts the session without lock screen support."
 msgstr "Saioa abiatzen du giltzatze-pantaila euskarririk gabe."
 
-#: main_wayland.cpp:410
+#: main_wayland.cpp:403
 #, kde-format
 msgid "Starts the session without global shortcuts support."
 msgstr "Saioa abiatzen du lasterbide orokorren euskarririk gabe."
 
-#: main_wayland.cpp:415 main_x11.cpp:387
+#: main_wayland.cpp:408 main_x11.cpp:380
 #, kde-format
 msgid "Disable KActivities integration."
 msgstr "Desgaitu KActivities bateratzea."
 
-#: main_wayland.cpp:420
+#: main_wayland.cpp:413
 #, kde-format
 msgid "Exit after the session application, which is started by KWin, closed."
 msgstr "Irten saio aplikazioa, KWin-ek abiatu duena, ixten denean."
 
-#: main_wayland.cpp:425
+#: main_wayland.cpp:418
 #, kde-format
 msgid "Applications to start once Wayland and Xwayland server are started"
 msgstr ""
 "Wayland eta Xwayland zerbitzaria abiatu ondoren abiatu beharreko aplikazioak"
 
-#: main_x11.cpp:67
+#: main_x11.cpp:63
 #, kde-format
 msgid ""
 "KWin is unstable.\n"
@@ -1369,7 +1369,7 @@ msgstr ""
 "Zenbait alditan jarraian kraskatu dela dirudi.\n"
 "Beste leiho-kudeatzaile bat aukeratu dezakezu:"
 
-#: main_x11.cpp:220
+#: main_x11.cpp:216
 #, kde-format
 msgid ""
 "kwin: unable to claim manager selection, another wm running? (try using --"
@@ -1378,13 +1378,13 @@ msgstr ""
 "kwin: ezin da abiatu hautatutako kudeatzailea; beste leiho-kudeatzaileren "
 "bat dago martxan? (saiatu --replace erabiliz)\n"
 
-#: main_x11.cpp:241
+#: main_x11.cpp:237
 #, kde-format
 msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr ""
 "kwin: beste leiho-kudeatzaile bat martxan dago (saiatu --replace erabiliz)\n"
 
-#: main_x11.cpp:380
+#: main_x11.cpp:373
 #, kde-format
 msgid "Replace already-running ICCCM2.0-compliant window manager"
 msgstr ""
@@ -2152,7 +2152,7 @@ msgstr "Pasatu mahaigain-zerrenda batetik bestera"
 msgid "Walk Through Desktop List (Reverse)"
 msgstr "Pasatu mahaigain-zerrenda batetik bestera (alderantziz)"
 
-#: tabbox/tabboxhandler.cpp:289
+#: tabbox/tabboxhandler.cpp:290
 #, kde-format
 msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
@@ -2694,13 +2694,13 @@ msgstr "Aldatu beheko mahaigainera"
 msgid "Switch to Desktop %1"
 msgstr "Aldatu %1 mahaigainera"
 
-#: window.cpp:3430
+#: window.cpp:3428
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(Ez du erantzuten)"
 
-#: workspace.cpp:1682
+#: workspace.cpp:1677
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

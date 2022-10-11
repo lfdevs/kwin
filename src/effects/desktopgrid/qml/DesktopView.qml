@@ -88,7 +88,6 @@ FocusScope {
         id: dragHandler
         target: heap
         grabPermissions: PointerHandler.ApprovesTakeOverByHandlersOfSameType
-        cursorShape: active ? Qt.ClosedHandCursor : Qt.ArrowCursor
         onActiveChanged: {
             if (!active) {
                 heap.Drag.drop();
@@ -146,7 +145,7 @@ FocusScope {
         }
         Behavior on x {
             enabled: !dragHandler.active
-            XAnimator {
+            NumberAnimation {
                 id: xAnim
                 duration: container.effect.animationDuration
                 easing.type: Easing.OutCubic
@@ -154,12 +153,18 @@ FocusScope {
         }
         Behavior on y {
             enabled: !dragHandler.active
-            YAnimator {
+            NumberAnimation {
                 id: yAnim
                 duration: container.effect.animationDuration
                 easing.type: Easing.OutCubic
             }
         }
+    }
+
+    MouseArea {
+        anchors.fill: heap
+        acceptedButtons: Qt.NoButton
+        cursorShape: dragHandler.active ? Qt.ClosedHandCursor : Qt.ArrowCursor
     }
 
     PC3.Control {

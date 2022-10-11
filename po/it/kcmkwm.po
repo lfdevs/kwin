@@ -4,14 +4,14 @@
 # Pino Toscano <toscano.pino@tiscali.it>, 2006.
 # Luciano Montanaro <mikelima@cirulla.net>, 2007, 2008, 2009, 2010, 2011, 2012.
 # Luigi Toscano <luigi.toscano@tiscali.it>, 2013.
-# Vincenzo Reale <smart2128vr@gmail.com>, 2015, 2018, 2019, 2020, 2021.
+# Vincenzo Reale <smart2128vr@gmail.com>, 2015, 2018, 2019, 2020, 2021, 2022.
 # Paolo Zamponi <zapaolo@email.it>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-09-02 00:47+0000\n"
-"PO-Revision-Date: 2021-04-27 14:09+0200\n"
+"PO-Revision-Date: 2022-09-05 19:09+0200\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 21.04.0\n"
+"X-Generator: Lokalize 22.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -639,13 +639,13 @@ msgstr "Nascondi le finestre accessorie delle applicazioni inattive"
 #: advanced.ui:148
 #, kde-format
 msgid "Virtual Desktop behavior:"
-msgstr ""
+msgstr "Comportamento del desktop virtuale:"
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyDescriptionLabel)
 #: advanced.ui:158
 #, kde-format
 msgid "When activating a window on a different Virtual Desktop:"
-msgstr ""
+msgstr "Quando si attiva una finestra su un desktop virtuale diverso:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_ActivationDesktopPolicy)
 #: advanced.ui:165
@@ -659,18 +659,25 @@ msgid ""
 "Virtual Desktop</span> will cause the window to jump to the active Virtual "
 "Desktop. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Questa impostazione controlla cosa succede quando "
+"viene attivata una finestra aperta situata su un desktop virtuale diverso da "
+"quello attuale.</p><p><span style=\" font-style:italic;\">Passa a quel "
+"desktop virtuale</span> passerà al desktop virtuale in cui si trova "
+"attualmente la finestra. </p><p><span style=\" font-style:italic;\">Porta la "
+"finestra al desktop virtuale attuale</span> farà passare la finestra al "
+"desktop virtuale attivo. </p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
 #: advanced.ui:169
 #, kde-format
 msgid "Switch to that Virtual Desktop"
-msgstr ""
+msgstr "Passa a quel desktop virtuale"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
 #: advanced.ui:174
 #, kde-format
 msgid "Bring window to current Virtual Desktop"
-msgstr ""
+msgstr "Porta la finestra sul desktop virtuale attuale"
 
 #. i18n: ectx: property (text), widget (QLabel, windowFocusPolicyLabel)
 #: focus.ui:22

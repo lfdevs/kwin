@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-14 00:46+0000\n"
-"PO-Revision-Date: 2022-06-04 07:35+0700\n"
+"POT-Creation-Date: 2022-09-28 02:28+0000\n"
+"PO-Revision-Date: 2022-09-27 18:12+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 22.04.1\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #. i18n: ectx: property (text), widget (QLabel, labelConstantBlurDescription)
 #: blur/blur_config.ui:17
@@ -62,7 +62,7 @@ msgstr ""
 #: showpaint/showpaint_config.cpp:33
 #: thumbnailaside/thumbnailaside_config.cpp:54
 #: trackmouse/trackmouse_config.cpp:52
-#: windowview/kcm/windowvieweffectkcm.cpp:35 zoom/zoom_config.cpp:58
+#: windowview/kcm/windowvieweffectkcm.cpp:36 zoom/zoom_config.cpp:58
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
@@ -202,7 +202,7 @@ msgstr "Natural"
 #: desktopgrid/desktopgrid_config.ui:150
 #, kde-format
 msgid "Windows layout:"
-msgstr "Tataletak window:"
+msgstr "Tataletak jendela:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: desktopgrid/desktopgrid_config.ui:166
@@ -244,7 +244,7 @@ msgstr "Jendela tetap di atas"
 #: diminactive/diminactive_config.ui:68
 #, kde-format
 msgid "By window group"
-msgstr "Berdasarkan grup window"
+msgstr "Berdasarkan grup jendela"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimFullScreen)
 #: diminactive/diminactive_config.ui:75
@@ -274,7 +274,7 @@ msgstr " milidetik"
 #: glide/glide_config.ui:50
 #, kde-format
 msgid "Window Open Animation"
-msgstr "Animasi Pembukaan Window"
+msgstr "Animasi Pembukaan Jendela"
 
 #. i18n: ectx: property (text), widget (QLabel, label_InRotationEdge)
 #. i18n: ectx: property (text), widget (QLabel, label_OutRotationEdge)
@@ -301,7 +301,7 @@ msgstr "Jarak:"
 #: glide/glide_config.ui:148
 #, kde-format
 msgid "Window Close Animation"
-msgstr "Animasi Penutupan Window"
+msgstr "Animasi Penutupan Jendela"
 
 #: invert/invert.cpp:42 invert/invert_config.cpp:38
 #, kde-format
@@ -311,7 +311,7 @@ msgstr "Jungkit Efek Invert"
 #: invert/invert.cpp:50 invert/invert_config.cpp:44
 #, kde-format
 msgid "Toggle Invert Effect on Window"
-msgstr "Jungkit Efek Invert pada Window"
+msgstr "Jungkit Efek Invert pada Jendela"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FadeToBlack)
 #: login/package/contents/ui/config.ui:17
@@ -558,37 +558,32 @@ msgstr "Buramkan latar belakang:"
 #: overview/kcm/overvieweffectkcm.ui:70
 #, kde-format
 msgid "Ignore minimized windows:"
-msgstr "Window diminimalkan yang diabaikan:"
+msgstr "Jendela diminimalkan yang diabaikan:"
 
-#: overview/qml/DesktopBar.qml:185
+#: overview/qml/DesktopBar.qml:186
 #, fuzzy, kde-format
 #| msgid "Delete virtual desktop"
 msgid "Delete Virtual Desktop"
 msgstr "Hapus virtual desktop"
 
-#: overview/qml/DesktopBar.qml:281
+#: overview/qml/DesktopBar.qml:282
 #, fuzzy, kde-format
 #| msgid "Add Desktop"
 msgid "Add Virtual Desktop"
 msgstr "Tambahkan Desktop"
 
-#: overview/qml/ScreenView.qml:206
-#, kde-format
-msgid "Search..."
-msgstr "Cari..."
-
-#: overview/qml/ScreenView.qml:233
+#: overview/qml/ScreenView.qml:226
 #, fuzzy, kde-format
 #| msgid "Moving windows:"
 msgid "No matching windows"
 msgstr "Pemindahan window:"
 
-#: private/qml/WindowHeapDelegate.qml:206
+#: private/qml/WindowHeapDelegate.qml:152
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "Sèrèt Turun Untuk Menutup"
 
-#: private/qml/WindowHeapDelegate.qml:447
+#: private/qml/WindowHeapDelegate.qml:462
 #, fuzzy, kde-format
 #| msgid "Close window"
 msgctxt "@info:tooltip as in: 'close this window'"
@@ -599,13 +594,13 @@ msgstr "Tutup window"
 #: scale/package/contents/ui/config.ui:46
 #, kde-format
 msgid "Window open scale:"
-msgstr "Skala pembukaan window:"
+msgstr "Skala pembukaan jendela:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_OutScale)
 #: scale/package/contents/ui/config.ui:53
 #, kde-format
 msgid "Window close scale:"
-msgstr "Skala penutupan window:"
+msgstr "Skala penutupan jendela:"
 
 #: screenshot/screenshotdbusinterface1.cpp:480
 #, kde-format
@@ -626,7 +621,7 @@ msgid ""
 "Select window to screen shot with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
-"Pilih window untuk mencuplik layar dengan klik kiri atau enter.\n"
+"Pilih jendela untuk mencuplik layar dengan klik kiri atau enter.\n"
 "Escape atau klik kanan untuk membatalkan."
 
 #: screenshot/screenshotdbusinterface1.cpp:800
@@ -712,7 +707,7 @@ msgstr "Geser latarbelakang desktop"
 #: thumbnailaside/thumbnailaside_config.cpp:59
 #, kde-format
 msgid "Toggle Thumbnail for Current Window"
-msgstr "Jungkit Gambar-mini untuk Window Saat Ini"
+msgstr "Jungkit Gambar-mini untuk Jendela Saat Ini"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: thumbnailaside/thumbnailaside_config.ui:23
@@ -843,13 +838,13 @@ msgstr "Menu:"
 #: translucency/package/contents/ui/config.ui:207
 #, kde-format
 msgid "Moving windows:"
-msgstr "Pemindahan window:"
+msgstr "Pemindahan jendela:"
 
 #. i18n: ectx: property (text), widget (QLabel, inactive_label)
 #: translucency/package/contents/ui/config.ui:226
 #, kde-format
 msgid "Inactive windows:"
-msgstr "Window tak aktif:"
+msgstr "Jendela tak aktif:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, kcfg_IndividualMenuConfig)
 #: translucency/package/contents/ui/config.ui:267
@@ -875,42 +870,42 @@ msgstr "Menu popup:"
 msgid "Torn-off menus:"
 msgstr "Menu cabik:"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:41 windowview/windowvieweffect.cpp:45
+#: windowview/kcm/windowvieweffectkcm.cpp:42 windowview/windowvieweffect.cpp:45
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Jungkit Present Windows (Desktop saat ini)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:55
+#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:55
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Jungkit Present Windows (Semua desktop)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:65
+#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:65
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
-msgstr "Jungkit Present Windows (Kelas window)"
+msgstr "Jungkit Present Windows (Kelas jendela)"
+
+#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:75
+#, fuzzy, kde-format
+#| msgid "Toggle Present Windows (Current desktop)"
+msgid "Toggle Present Windows (Window class on current desktop)"
+msgstr "Jungkit Present Windows (Desktop saat ini)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_IgnoreMinimized)
 #: windowview/kcm/windowvieweffectkcm.ui:53
 #, kde-format
 msgid "Ignore &minimized windows"
-msgstr "Abaikan window yang di&minimalkan"
+msgstr "Abaikan jendela yang di&minimalkan"
 
-#: windowview/qml/main.qml:203
+#: windowview/qml/main.qml:106
 #, kde-format
 msgid "No Matches"
 msgstr "Tidak Ada Yang Cocok"
 
-#: windowview/qml/main.qml:203
+#: windowview/qml/main.qml:106
 #, kde-format
 msgid "No Windows"
-msgstr "Tidah Ada Window"
-
-#: windowview/windowvieweffect.cpp:74
-#, fuzzy, kde-format
-#| msgid "Toggle Present Windows (Current desktop)"
-msgid "Toggle Present Windows (Window class on current desktop)"
-msgstr "Jungkit Present Windows (Desktop saat ini)"
+msgstr "Tidah Ada Jendela"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20

@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-07-02 00:49+0000\n"
-"PO-Revision-Date: 2022-03-11 20:34+0700\n"
-"Last-Translator: Wantoyek <wantoyek@gmail.com>\n"
+"PO-Revision-Date: 2022-09-27 18:12+0700\n"
+"Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
@@ -52,8 +52,8 @@ msgid ""
 "Keeping the window thumbnail always interferes with the minimized state of "
 "windows. This can result in windows not suspending their work when minimized."
 msgstr ""
-"Menjaga thumbail window selalu turut campur dengan keadaan window yang "
-"diminimalkan. Ini bisa mengakibatkan di window enggak mensuspensi "
+"Menjaga thumbail jendela selalu turut campur dengan keadaan jendela yang "
+"diminimalkan. Ini bisa mengakibatkan di jendela enggak mensuspensi "
 "pekerjaannya ketika ia diminimalkan."
 
 #. i18n: ectx: property (text), widget (QLabel, compositingLabel)
@@ -77,9 +77,9 @@ msgid ""
 " The setting can be overruled by window-specific rules."
 msgstr ""
 "Aplikasi bisa mengeset sebuah petunjuk untuk memblokir pengomposisian ketika "
-"window terbuka.\n"
+"jendela terbuka.\n"
 " Ini membawa penambahan-baik kinerja untuk misalnya permainan.\n"
-" Setelan bisa diapkir oleh peraturan window tertentu."
+" Setelan bisa diapkir oleh peraturan jendela tertentu."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_WindowsBlockCompositing)
 #: compositing.ui:98
@@ -159,7 +159,7 @@ msgstr "Gunakan-ulang konten layar"
 #: compositing.ui:230
 #, kde-format
 msgid "Keep window thumbnails:"
-msgstr "Jaga gambar-mini window:"
+msgstr "Jaga gambar-mini jendela:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_HiddenPreviews)
 #: compositing.ui:238
@@ -171,7 +171,7 @@ msgstr "Tak Pernah"
 #: compositing.ui:243
 #, kde-format
 msgid "Only for Shown Windows"
-msgstr "Hanya untuk Window yang Ditampilkan"
+msgstr "Hanya untuk Jendela yang Ditampilkan"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_HiddenPreviews)
 #: compositing.ui:248

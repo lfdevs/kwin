@@ -9,9 +9,9 @@ msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-08-19 00:47+0000\n"
-"PO-Revision-Date: 2022-08-19 20:36+0700\n"
+"PO-Revision-Date: 2022-09-27 18:12+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
-"Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
+"Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,7 +32,7 @@ msgstr "andhika.padmawan@gmail.com"
 #: kcmrules.cpp:28
 #, kde-format
 msgid "Window Rules"
-msgstr "Peraturan Window"
+msgstr "Peraturan Jendela"
 
 #: kcmrules.cpp:32
 #, kde-format
@@ -53,13 +53,13 @@ msgid ""
 "manager. If you do use a different window manager, please refer to its "
 "documentation for how to customize window behavior.</p>"
 msgstr ""
-"<p><h1>Pengaturan Window Spesifik</h1> Di sini kamu bisa mengkustomisasikan "
-"pengaturan window secara spesifik hanya untuk beberapa window.</p> <p>Perlu "
-"dicatat bahwa konfigurasi ini tidak akan berpengaruh jika kamu tidak "
-"menggunakan KWin sebagai pengelola window kamu. Jika kamu menggunakan "
-"pengelola window yang berbeda, silakan merujuk ke dokumentasi pengelola "
-"window tersebut untuk mengetahui bagaimana cara mengkustomisasikan perilaku "
-"window.</p>"
+"<p><h1>Pengaturan Jendela Spesifik</h1> Di sini kamu bisa mengkustomisasikan "
+"pengaturan jendela secara spesifik hanya untuk beberapa jendela.</p> "
+"<p>Perlu dicatat bahwa konfigurasi ini tidak akan berpengaruh jika kamu "
+"tidak menggunakan KWin sebagai pengelola jendela kamu. Jika kamu menggunakan "
+"pengelola jendela yang berbeda, silakan merujuk ke dokumentasi pengelola "
+"jendela tersebut untuk mengetahui bagaimana cara mengkustomisasikan perilaku "
+"jendela.</p>"
 
 #: kcmrules.cpp:243
 #, kde-format
@@ -74,7 +74,7 @@ msgstr "Pengaturan aplikasi untuk %1"
 #: kcmrules.cpp:442 rulesmodel.cpp:215
 #, kde-format
 msgid "Window settings for %1"
-msgstr "Pengaturan window untuk %1"
+msgstr "Pengaturan jendela untuk %1"
 
 #: main.cpp:31
 #, kde-format
@@ -84,12 +84,12 @@ msgstr "Peluncur KWinRules KCM"
 #: main.cpp:32
 #, kde-format
 msgid "KWin id of the window for special window settings."
-msgstr "Id KWin pada window untuk pengaturan window spesial."
+msgstr "Id KWin pada jendela untuk pengaturan jendela spesial."
 
 #: main.cpp:33
 #, kde-format
 msgid "Whether the settings should affect all windows of the application."
-msgstr "Apakah pengaturan akan mempengaruhi semua window aplikasi."
+msgstr "Apakah pengaturan akan mempengaruhi semua jendela aplikasi."
 
 #: main.cpp:40
 #, kde-format
@@ -105,7 +105,7 @@ msgstr "Edit Pengaturan Aplikasi Spesifik"
 #: main.cpp:45
 #, kde-format
 msgid "Edit Window-Specific Settings"
-msgstr "Edit Pengaturan Window Spesifik"
+msgstr "Edit Pengaturan Jendela Spesifik"
 
 #: optionsmodel.cpp:198
 #, kde-format
@@ -139,7 +139,7 @@ msgid ""
 "created.\n"
 "No further changes will be affected."
 msgstr ""
-"Properti window hanya akan diatur ke nilai yang diberikan setelah window "
+"Properti jendela hanya akan diatur ke nilai yang diberikan setelah jendela "
 "dibuat.\n"
 "Tidak ada perubahan lebih lanjut yang akan terpengaruh."
 
@@ -155,7 +155,7 @@ msgid ""
 "be affected later\n"
 "(this action will be deleted afterwards)."
 msgstr ""
-"Properti window akan segera disetel ke nilai yang diberikan dan tidak akan "
+"Properti jendela akan segera disetel ke nilai yang diberikan dan tidak akan "
 "terpengaruh nanti\n"
 "(tindakan ini akan dihapus setelahnya)."
 
@@ -170,7 +170,7 @@ msgid ""
 "The value of the window property will be remembered and, every time the "
 "window is created, the last remembered value will be applied."
 msgstr ""
-"Nilai properti window akan diingat dan, setiap kali window dibuat, nilai "
+"Nilai properti jendela akan diingat dan, setiap kali jendela dibuat, nilai "
 "yang terakhir yang diingat akan diterapkan."
 
 #: optionsmodel.cpp:217
@@ -185,9 +185,9 @@ msgid ""
 "for it will be used.\n"
 "Specifying this will block more generic window settings from taking effect."
 msgstr ""
-"Properti window tidak akan terpengaruh dan oleh karena itu penanganan "
+"Properti jendela tidak akan terpengaruh dan oleh karena itu penanganan "
 "default untuk itu akan digunakan.\n"
-"Menentukan ini akan memblokir pengaturan window lebih umumnya dari "
+"Menentukan ini akan memblokir pengaturan jendela lebih umumnya dari "
 "pengambilan efek."
 
 #: optionsmodel.cpp:221
@@ -198,7 +198,7 @@ msgstr "Paksa"
 #: optionsmodel.cpp:222
 #, kde-format
 msgid "The window property will be always forced to the given value."
-msgstr "Properti window akan selalu dipaksa ke nilai yang diberikan."
+msgstr "Properti jendela akan selalu dipaksa ke nilai yang diberikan."
 
 #: optionsmodel.cpp:224
 #, kde-format
@@ -211,9 +211,9 @@ msgid ""
 "The window property will be forced to the given value until it is hidden\n"
 "(this action will be deleted after the window is hidden)."
 msgstr ""
-"Properti window akan dipaksa ke nilai yang diberikan sampai ia "
+"Properti jendela akan dipaksa ke nilai yang diberikan sampai ia "
 "disembunyikan\n"
-"(aksi ini akan dihapus setelah window disembunyikan)."
+"(aksi ini akan dihapus setelah jendela disembunyikan)."
 
 #: package/contents/ui/FileDialogLoader.qml:14
 #, kde-format
@@ -228,7 +228,7 @@ msgstr "Peraturan KWin (*.kwinrule)"
 #: package/contents/ui/main.qml:59
 #, kde-format
 msgid "No rules for specific windows are currently set"
-msgstr "Tidak ada peraturan untuk window tertentu yang diatur saat ini"
+msgstr "Tidak ada peraturan untuk jendela tertentu yang diatur saat ini"
 
 #: package/contents/ui/main.qml:60
 #, kde-kuit-format
@@ -323,7 +323,7 @@ msgstr[1] "%1 terpilih"
 #: package/contents/ui/RulesEditor.qml:63
 #, kde-format
 msgid "No window properties changed"
-msgstr "Tidak ada properti window yang diubah"
+msgstr "Tidak ada properti jendela yang diubah"
 
 #: package/contents/ui/RulesEditor.qml:64
 #, kde-kuit-format
@@ -333,7 +333,7 @@ msgid ""
 "window properties that will be affected by the rule"
 msgstr ""
 "Klik tombol <interface>Tambahkan Properti...</interface> di bawah untuk "
-"menambahkan beberapa properti window yang akan dipengaruhi oleh peraturan"
+"menambahkan beberapa properti jendela yang akan dipengaruhi oleh peraturan"
 
 #: package/contents/ui/RulesEditor.qml:85
 #, kde-format
@@ -348,7 +348,7 @@ msgstr "Tambahkan Properti..."
 #: package/contents/ui/RulesEditor.qml:98
 #, kde-format
 msgid "Detect Window Properties"
-msgstr "Deteksi Properti Window"
+msgstr "Deteksi Properti Jendela"
 
 #: package/contents/ui/RulesEditor.qml:114
 #: package/contents/ui/RulesEditor.qml:121
@@ -419,7 +419,7 @@ msgstr "Pengaturan untuk %1"
 #: rulesmodel.cpp:221
 #, kde-format
 msgid "New window settings"
-msgstr "Pengaturan window baru"
+msgstr "Pengaturan jendela baru"
 
 #: rulesmodel.cpp:237
 #, kde-format
@@ -430,11 +430,11 @@ msgid ""
 "recommended you at least limit the window types to avoid special window "
 "types."
 msgstr ""
-"Anda telah menentukan kelas window sebagai tidak penting.\n"
-"Ini berarti pengaturan mungkin akan diterapkan ke window dari semua "
+"Anda telah menentukan kelas jendela sebagai tidak penting.\n"
+"Ini berarti pengaturan mungkin akan diterapkan ke jendela dari semua "
 "aplikasi. Jika anda ingin menciptakan pengaturan generik, maka disarankan "
-"kepada anda untuk setidaknya membatasi tipe window untuk menghindari tipe "
-"window spesial."
+"kepada anda untuk setidaknya membatasi tipe jendela untuk menghindari tipe "
+"jendela spesial."
 
 #: rulesmodel.cpp:244
 #, kde-format
@@ -456,37 +456,37 @@ msgstr "Deskripsi"
 #: rulesmodel.cpp:388 rulesmodel.cpp:396 rulesmodel.cpp:401 rulesmodel.cpp:407
 #, kde-format
 msgid "Window matching"
-msgstr "Kecocokan window"
+msgstr "Kecocokan jendela"
 
 #: rulesmodel.cpp:367
 #, kde-format
 msgid "Window class (application)"
-msgstr "Kelas window (aplikasi)"
+msgstr "Kelas jendela (aplikasi)"
 
 #: rulesmodel.cpp:375
 #, kde-format
 msgid "Match whole window class"
-msgstr "Cocokkan seluruh kelas window"
+msgstr "Cocokkan seluruh kelas jendela"
 
 #: rulesmodel.cpp:382
 #, kde-format
 msgid "Whole window class"
-msgstr "Seluruh kelas window"
+msgstr "Seluruh kelas jendela"
 
 #: rulesmodel.cpp:388
 #, kde-format
 msgid "Window types"
-msgstr "Tipe window"
+msgstr "Tipe jendela"
 
 #: rulesmodel.cpp:396
 #, kde-format
 msgid "Window role"
-msgstr "Peraturan window"
+msgstr "Peraturan jendela"
 
 #: rulesmodel.cpp:401
 #, kde-format
 msgid "Window title"
-msgstr "Judul window"
+msgstr "Judul jendela"
 
 #: rulesmodel.cpp:407
 #, kde-format
@@ -574,7 +574,7 @@ msgid ""
 "what might be nasty if the client abuses the feature\n"
 "to unconditionally popup in the middle of your screen."
 msgstr ""
-"Window dapat bertanya untuk tampak pada posisi tertentu.\n"
+"Jendela dapat bertanya untuk tampak pada posisi tertentu.\n"
 "Standarnya ini menimpa strategi penempatan\n"
 "yang dapat berakibat buruk jika klien menyalahgunakan fitur\n"
 "sehingga muncul tiba-tiba di tengah layar anda."
@@ -612,7 +612,7 @@ msgstr ""
 #: rulesmodel.cpp:537
 #, kde-format
 msgid "Keep above other windows"
-msgstr "Tetap di atas window lainnya"
+msgstr "Tetap di atas jendela lainnya"
 
 #: rulesmodel.cpp:537 rulesmodel.cpp:542 rulesmodel.cpp:547 rulesmodel.cpp:553
 #: rulesmodel.cpp:559 rulesmodel.cpp:565
@@ -623,7 +623,7 @@ msgstr "Penempatan & Akses"
 #: rulesmodel.cpp:542
 #, kde-format
 msgid "Keep below other windows"
-msgstr "Tetap di bawah window lainnya"
+msgstr "Tetap di bawah jendela lainnya"
 
 #: rulesmodel.cpp:547
 #, kde-format
@@ -633,7 +633,7 @@ msgstr "Lewati bilah-tugas"
 #: rulesmodel.cpp:549
 #, kde-format
 msgid "Window shall (not) appear in the taskbar."
-msgstr "Window (tidak) muncul di taskbar."
+msgstr "Jendela (tidak) muncul di taskbar."
 
 #: rulesmodel.cpp:553
 #, kde-format
@@ -643,7 +643,7 @@ msgstr "Lewati pemisah"
 #: rulesmodel.cpp:555
 #, kde-format
 msgid "Window shall (not) appear in the manager for virtual desktops"
-msgstr "Window (jangan) tampil di pengelola untuk desktop virtual"
+msgstr "Jendela (jangan) tampil di pengelola untuk desktop virtual"
 
 #: rulesmodel.cpp:559
 #, kde-format
@@ -653,7 +653,7 @@ msgstr "Lewati pengalih"
 #: rulesmodel.cpp:561
 #, kde-format
 msgid "Window shall (not) appear in the Alt+Tab list"
-msgstr "Window (jangan) tampil di senarai Alt+Tab"
+msgstr "Jendela (jangan) tampil di senarai Alt+Tab"
 
 #: rulesmodel.cpp:565
 #, kde-format
@@ -663,7 +663,7 @@ msgstr "Pintasan"
 #: rulesmodel.cpp:571
 #, kde-format
 msgid "No titlebar and frame"
-msgstr "Tanpa bilah-judul dan kerangka"
+msgstr "Tanpa bilah judul dan kerangka"
 
 #: rulesmodel.cpp:571 rulesmodel.cpp:576 rulesmodel.cpp:582 rulesmodel.cpp:587
 #: rulesmodel.cpp:592 rulesmodel.cpp:603 rulesmodel.cpp:614 rulesmodel.cpp:622
@@ -701,10 +701,10 @@ msgid ""
 "\"None\" will unconditionally allow this window to get the focus while\n"
 "\"Extreme\" will completely prevent it from taking the focus."
 msgstr ""
-"KWin coba mencegah window mengambil fokus\n"
-"(\"aktifkan\") ketika anda bekerja di window lain,\n"
+"KWin coba mencegah jendela mengambil fokus\n"
+"(\"aktifkan\") ketika anda bekerja di jendela lain,\n"
 "tapi hal ini terkadang gagal atau superaktivitas.\n"
-"\"Nihil\" tanpa syarat akan mengizinkan window ini mendapat fokus\n"
+"\"Nihil\" tanpa syarat akan mengizinkan jendela ini mendapat fokus\n"
 "sedangkan \"Ekstrem\" akan sepenuhnya mencegah ini mengambil fokus."
 
 #: rulesmodel.cpp:603
@@ -721,11 +721,11 @@ msgid ""
 "Otherwise it's interleaved with the stealing prevention\n"
 "assigned to the window that wants the focus."
 msgstr ""
-"Ini mengendalikan proteksi fokus dari window yang sedang aktif.\n"
+"Ini mengendalikan proteksi fokus dari jendela yang sedang aktif.\n"
 "Nihil yang akan selalu memberikan fokus,\n"
 "Ekstrim akan menjaganya.\n"
 "Sebaliknya disisipkan dengan menentukan pencegahan pencurian\n"
-"terhadap window yang ingin fokus."
+"terhadap jendela yang ingin fokus."
 
 #: rulesmodel.cpp:614
 #, kde-format
@@ -739,8 +739,8 @@ msgid ""
 "On the other hand you might wish to prevent a window\n"
 "from getting focused on a mouse click."
 msgstr ""
-"Window dapat mencegah mendapatkan fokus (diaktifkan) ketika diklik.\n"
-"Sebaliknya anda mungkin ingin mencegah window\n"
+"Jendela dapat mencegah mendapatkan fokus (diaktifkan) ketika diklik.\n"
+"Sebaliknya anda mungkin ingin mencegah jendela\n"
 "mendapatkan fokus dengan klik mouse."
 
 #: rulesmodel.cpp:622
@@ -760,12 +760,12 @@ msgid ""
 "nor use any other global shortcut (such as Alt+F2 to show KRunner)\n"
 "while it's active!"
 msgstr ""
-"Jika digunakan, window akan menerima\n"
+"Jika digunakan, jendela akan menerima\n"
 "semua input keyboard ketika aktif, termasuk Alt+Tab dsb.\n"
 "Ini menarik terutama untuk emulator atau mesin virtual.\n"
 "\n"
 "Perhatian:\n"
-"anda tidak akan bisa Alt+Tab keluar window\n"
+"anda tidak akan bisa Alt+Tab keluar jendela\n"
 "atau menggunakan pintasan global lainnya (misalnya Alt+F2 untuk\n"
 "menampilkan KRunner) ketika ini aktif!"
 
@@ -777,7 +777,7 @@ msgstr "Bisa ditutup"
 #: rulesmodel.cpp:640
 #, kde-format
 msgid "Set window type"
-msgstr "Atur tipe window"
+msgstr "Atur tipe jendela"
 
 #: rulesmodel.cpp:646
 #, kde-format
@@ -792,22 +792,22 @@ msgstr "Komposit blok"
 #: rulesmodel.cpp:727
 #, kde-format
 msgid "All Window Types"
-msgstr "Semua Tipe window"
+msgstr "Semua Tipe jendela"
 
 #: rulesmodel.cpp:728
 #, kde-format
 msgid "Normal Window"
-msgstr "Window Normal"
+msgstr "Jendela Normal"
 
 #: rulesmodel.cpp:729
 #, kde-format
 msgid "Dialog Window"
-msgstr "Window Dialog"
+msgstr "Jendela Dialog"
 
 #: rulesmodel.cpp:730
 #, kde-format
 msgid "Utility Window"
-msgstr "Window Utilitas"
+msgstr "Jendela Utilitas"
 
 #: rulesmodel.cpp:731
 #, kde-format
@@ -854,7 +854,7 @@ msgstr "Semua Desktop"
 #, kde-format
 msgctxt "@info:tooltip in the virtual desktop list"
 msgid "Make the window available on all desktops"
-msgstr "Buat window tersedia di semua desktop"
+msgstr "Buat jendela tersedia di semua desktop"
 
 #: rulesmodel.cpp:769
 #, kde-format
@@ -865,7 +865,7 @@ msgstr "Semua Activities"
 #, kde-format
 msgctxt "@info:tooltip in the activity list"
 msgid "Make the window available on all activities"
-msgstr "Buat window tersedia di semua aktivitas"
+msgstr "Buat jendela tersedia di semua aktivitas"
 
 #: rulesmodel.cpp:792
 #, kde-format
@@ -915,7 +915,7 @@ msgstr "Di Bawah Mouse"
 #: rulesmodel.cpp:801
 #, kde-format
 msgid "On Main Window"
-msgstr "Di Window Utama"
+msgstr "Di Jendela Utama"
 
 #: rulesmodel.cpp:808
 #, kde-format
@@ -945,4 +945,4 @@ msgstr "Ekstrem"
 #: rulesmodel.cpp:855
 #, kde-format
 msgid "Could not detect window properties. The window is not managed by KWin."
-msgstr "Tidak bisa mendeteksi window. Window tidaklah dikelola oleh KWin."
+msgstr "Tidak bisa mendeteksi jendela. Jendela tidaklah dikelola oleh KWin."

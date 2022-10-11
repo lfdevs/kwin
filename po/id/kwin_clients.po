@@ -2,21 +2,22 @@
 # Copyright (C) 2010 This_file_is_part_of_KDE
 # This file is distributed under the same license as the kwin_clients package.
 # Andhika Padmawan <andhika.padmawan@gmail.com>, 2010.
-# Wantoyo <wantoyek@gmail.com>, 2017, 2018, 2019.
+# Wantoyo <wantoyek@gmail.com>, 2017, 2018, 2019, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-08-07 00:48+0000\n"
-"PO-Revision-Date: 2019-06-30 21:02+0700\n"
-"Last-Translator: Wantoyo <wantoyek@gmail.com>\n"
+"PO-Revision-Date: 2022-09-27 18:12+0700\n"
+"Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #: aurorae/src/aurorae.cpp:725
 #, kde-format
@@ -106,14 +107,14 @@ msgid ""
 "Check this option if the window border should be painted in the titlebar "
 "color. Otherwise it will be painted in the background color."
 msgstr ""
-"Centang opsi ini jika batas window harus digambar dengan warna bilah judul. "
-"Sebaliknya batas window akan digambar dengan warna latar belakang."
+"Centang opsi ini jika batas jendela harus digambar dengan warna bilah judul. "
+"Sebaliknya batas jendela akan digambar dengan warna latar belakang."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_coloredBorder)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:56
 #, kde-format
 msgid "Colored window border"
-msgstr "Batas window berwarna"
+msgstr "Batas jendela berwarna"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_animateButtons)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:66

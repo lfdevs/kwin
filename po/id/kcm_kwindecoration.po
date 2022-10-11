@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-06-14 00:50+0000\n"
-"PO-Revision-Date: 2022-03-11 06:41+0700\n"
-"Last-Translator: Wantoyek <wantoyek@gmail.com>\n"
+"PO-Revision-Date: 2022-09-27 18:04+0700\n"
+"Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
@@ -32,7 +32,7 @@ msgstr "wantoyek@gmail.com"
 #: declarative-plugin/buttonsmodel.cpp:53
 #, kde-format
 msgid "More actions for this window"
-msgstr "Aksi selebihnya untuk window ini"
+msgstr "Aksi selebihnya untuk jendela ini"
 
 #: declarative-plugin/buttonsmodel.cpp:55
 #, kde-format
@@ -72,17 +72,17 @@ msgstr "Tiraikan"
 #: declarative-plugin/buttonsmodel.cpp:69
 #, kde-format
 msgid "Keep below other windows"
-msgstr "Tetap di bawah window lainnya"
+msgstr "Tetap di bawah jendela lainnya"
 
 #: declarative-plugin/buttonsmodel.cpp:71
 #, kde-format
 msgid "Keep above other windows"
-msgstr "Tetap di atas window lainnya"
+msgstr "Tetap di atas jendela lainnya"
 
 #: kcm.cpp:49
 #, kde-format
 msgid "Window Decorations"
-msgstr "Dekorasi Window"
+msgstr "Dekorasi Jendela"
 
 #: kcm.cpp:53
 #, kde-format
@@ -107,7 +107,7 @@ msgid ""
 "active session, without accidentally setting it to one that is either not "
 "available, or which is already set."
 msgstr ""
-"Alat ini memungkinkan kamu untuk mengatur tema dekorasi window untuk sesi "
+"Alat ini memungkinkan kamu untuk mengatur tema dekorasi jendela untuk sesi "
 "yang aktif saat ini, tanpa sengaja mengaturnya ke sesi yang tidak tersedia, "
 "atau yang sudah diatur."
 
@@ -118,7 +118,7 @@ msgid ""
 "full path will attempt to find a theme in that directory, and then apply "
 "that if one can be deduced."
 msgstr ""
-"Nama tema dekorasi window yang ingin kamu atur untuk KWin. Melewati path "
+"Nama tema dekorasi jendela yang ingin kamu atur untuk KWin. Melewati path "
 "lengkap akan mencoba menemukan tema di direktori itu, dan kemudian "
 "menerapkannya jika seseorang menyimpulkannya."
 
@@ -152,7 +152,7 @@ msgstr ""
 msgid ""
 "The requested theme \"%1\" is already set as the window decoration theme."
 msgstr ""
-"Tema \"%1\" yang diminta sudah ditetapkan sebagai tema dekorasi window."
+"Tema \"%1\" yang diminta sudah ditetapkan sebagai tema dekorasi jendela."
 
 #: kwin-applywindowdecoration.cpp:99
 #, kde-format
@@ -181,7 +181,7 @@ msgstr ""
 #: kwin-applywindowdecoration.cpp:112
 #, kde-format
 msgid "You have the following KWin window decoration themes on your system:"
-msgstr "Kamu memiliki tema dekorasi window KWin berikut ini di sistemmu:"
+msgstr "Kamu memiliki tema dekorasi jendela KWin berikut ini di sistemmu:"
 
 #: package/contents/ui/Buttons.qml:85
 #, kde-format
@@ -201,7 +201,7 @@ msgstr "Seret tombol antara di sini dan di bilah judul"
 #: package/contents/ui/main.qml:19
 #, kde-format
 msgid "This module lets you configure the window decorations."
-msgstr "Modul ini membiarkanmu mengkonfigurasi dekorasi window."
+msgstr "Modul ini membiarkanmu mengkonfigurasi dekorasi jendela."
 
 #: package/contents/ui/main.qml:53
 #, kde-format
@@ -219,19 +219,19 @@ msgstr "Tombol Bilah Judul"
 #, kde-format
 msgctxt "Selector label"
 msgid "Window border size:"
-msgstr "Ukuran bingkai window:"
+msgstr "Ukuran bingkai jendela:"
 
 #: package/contents/ui/main.qml:112
 #, kde-format
 msgctxt "button text"
 msgid "Get New Window Decorations..."
-msgstr "Dapatkan Dekorasi Window Baru..."
+msgstr "Dapatkan Dekorasi Jendela Baru..."
 
 #: package/contents/ui/main.qml:141
 #, kde-format
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
-msgstr "Tutup window dengan klik ganda tombol menu"
+msgstr "Tutup jendela dengan klik ganda tombol menu"
 
 #: package/contents/ui/main.qml:158
 #, kde-format
@@ -243,7 +243,7 @@ msgstr "Klik dan tahan di tombol menu untuk menampilkan menu."
 #, kde-format
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
-msgstr "Tampilkan tips-alat tombol bilah-judul"
+msgstr "Tampilkan tips-alat tombol bilah judul"
 
 #: package/contents/ui/Themes.qml:92
 #, kde-format

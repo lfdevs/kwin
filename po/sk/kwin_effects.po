@@ -8,15 +8,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-14 00:46+0000\n"
-"PO-Revision-Date: 2022-05-16 18:28+0200\n"
+"POT-Creation-Date: 2022-09-28 02:28+0000\n"
+"PO-Revision-Date: 2022-09-18 20:17+0200\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.04.1\n"
+"X-Generator: Lokalize 22.08.1\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #. i18n: ectx: property (text), widget (QLabel, labelConstantBlurDescription)
@@ -60,7 +60,7 @@ msgstr ""
 #: showpaint/showpaint_config.cpp:33
 #: thumbnailaside/thumbnailaside_config.cpp:54
 #: trackmouse/trackmouse_config.cpp:52
-#: windowview/kcm/windowvieweffectkcm.cpp:35 zoom/zoom_config.cpp:58
+#: windowview/kcm/windowvieweffectkcm.cpp:36 zoom/zoom_config.cpp:58
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
@@ -531,7 +531,7 @@ msgstr "Kreslite môžete myšou držaním kláves Shift+Meta a pohybom myšou."
 #, kde-format
 msgctxt "@label"
 msgid "Unknown"
-msgstr ""
+msgstr "Neznáme"
 
 #: overview/kcm/overvieweffectkcm.cpp:41 overview/overvieweffect.cpp:31
 #, kde-format
@@ -557,37 +557,28 @@ msgstr "Rozmazať pozadie:"
 msgid "Ignore minimized windows:"
 msgstr "Ignorovať minimalizované okná:"
 
-#: overview/qml/DesktopBar.qml:185
-#, fuzzy, kde-format
-#| msgid "Delete virtual desktop"
+#: overview/qml/DesktopBar.qml:186
+#, kde-format
 msgid "Delete Virtual Desktop"
 msgstr "Vymazať virtuálnu plochu"
 
-#: overview/qml/DesktopBar.qml:281
-#, fuzzy, kde-format
-#| msgid "Add Desktop"
-msgid "Add Virtual Desktop"
-msgstr "Pridať na pracovnú plochu"
-
-#: overview/qml/ScreenView.qml:206
+#: overview/qml/DesktopBar.qml:282
 #, kde-format
-msgid "Search..."
-msgstr "Hľadať..."
+msgid "Add Virtual Desktop"
+msgstr "Pridať virtuálnu plochu"
 
-#: overview/qml/ScreenView.qml:233
-#, fuzzy, kde-format
-#| msgid "Moving windows:"
+#: overview/qml/ScreenView.qml:226
+#, kde-format
 msgid "No matching windows"
-msgstr "Pri presune okien:"
+msgstr "Žiadne zhodné okná"
 
-#: private/qml/WindowHeapDelegate.qml:206
+#: private/qml/WindowHeapDelegate.qml:152
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "Ťahaním nadol zatvoríte"
 
-#: private/qml/WindowHeapDelegate.qml:447
-#, fuzzy, kde-format
-#| msgid "Close window"
+#: private/qml/WindowHeapDelegate.qml:462
+#, kde-format
 msgctxt "@info:tooltip as in: 'close this window'"
 msgid "Close window"
 msgstr "Zatvoriť okno"
@@ -637,35 +628,31 @@ msgstr ""
 "Escape alebo pravý klik na zrušenie."
 
 #: showfps/qml/main.qml:110
-#, fuzzy, kde-format
-#| msgid "Ring Duration:"
+#, kde-format
 msgctxt "@label"
 msgid "Paint Duration"
-msgstr "Trvanie prstenca:"
+msgstr "Trvanie kreslenia"
 
 #: showfps/qml/main.qml:162
-#, fuzzy, kde-format
-#| msgid "Ring Count:"
+#, kde-format
 msgctxt "@label"
 msgid "Paint Amount"
-msgstr "Počet prstencov:"
+msgstr "Množstvo kreslenia"
 
 #: showfps/qml/main.qml:175
 #, kde-format
 msgctxt "@label"
 msgid "Current FPS"
-msgstr ""
+msgstr "Aktuálne FPS"
 
 #: showfps/qml/main.qml:184
-#, fuzzy, kde-format
-#| msgid "Maximum &width:"
+#, kde-format
 msgctxt "@label"
 msgid "Maximum FPS"
-msgstr "Ma&ximálna šírka:"
+msgstr "Maximálne FPS"
 
 #: showfps/qml/main.qml:192
-#, fuzzy, kde-format
-#| msgid "This effect is not a benchmark"
+#, kde-format
 msgctxt "@label"
 msgid "This effect is not a benchmark"
 msgstr "Tento efekt nie je benchmark"
@@ -872,20 +859,26 @@ msgstr "Vyskakovacie ponuky:"
 msgid "Torn-off menus:"
 msgstr "Odtrhnuté ponuky:"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:41 windowview/windowvieweffect.cpp:45
+#: windowview/kcm/windowvieweffectkcm.cpp:42 windowview/windowvieweffect.cpp:45
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Zapnúť efekt súčasné okná (aktuálna plocha)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:48 windowview/windowvieweffect.cpp:55
+#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:55
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Zapnúť efekt súčasné okná (všetky plochy)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:55 windowview/windowvieweffect.cpp:65
+#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:65
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Zapnúť efekt súčasné okná (trieda okna)"
+
+#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:75
+#, kde-format
+msgid "Toggle Present Windows (Window class on current desktop)"
+msgstr ""
+"Prepínanie prítomných okien (trieda okien na aktuálnej pracovnej ploche)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_IgnoreMinimized)
 #: windowview/kcm/windowvieweffectkcm.ui:53
@@ -893,21 +886,15 @@ msgstr "Zapnúť efekt súčasné okná (trieda okna)"
 msgid "Ignore &minimized windows"
 msgstr "Ignorovať &minimalizované okná"
 
-#: windowview/qml/main.qml:203
+#: windowview/qml/main.qml:106
 #, kde-format
 msgid "No Matches"
 msgstr "Žiadne zhody"
 
-#: windowview/qml/main.qml:203
+#: windowview/qml/main.qml:106
 #, kde-format
 msgid "No Windows"
 msgstr "Žiadne okná"
-
-#: windowview/windowvieweffect.cpp:74
-#, fuzzy, kde-format
-#| msgid "Toggle Present Windows (Current desktop)"
-msgid "Toggle Present Windows (Window class on current desktop)"
-msgstr "Zapnúť efekt súčasné okná (aktuálna plocha)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20

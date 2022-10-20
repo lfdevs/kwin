@@ -14,7 +14,8 @@ override_dh_python3:
 
 
 override_dh_auto_configure:
-	dh_auto_configure -Skf5 -- -DBUILD_TESTING=OFF
+	dh_auto_configure -Skf5 -- -DBUILD_TESTING=OFF \
+		-DQTWAYLANDSCANNER_KDE_EXECUTABLE=/usr/lib/qt5/bin/qtwaylandscanner
 
 override_dh_auto_test:
 	# Disable auto tests at build time

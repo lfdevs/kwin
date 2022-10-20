@@ -1,4 +1,4 @@
-kwin (4:5.26.1-1) UNRELEASED; urgency=medium
+kwin (4:5.26.1-1) unstable; urgency=medium
 
   [ Aurélien COUDERC ]
   * New upstream release (5.26.1).
@@ -7,7 +7,7 @@ kwin (4:5.26.1-1) UNRELEASED; urgency=medium
   [ Helmut Grohne ]
   * Improve cross building: Pass qtwaylandscanner to cmake. (Closes: #1022136)
 
- -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Thu, 20 Oct 2022 21:58:55 +0200
+ -- Aurélien COUDERC <coucouf@debian.org>  Thu, 20 Oct 2022 21:58:56 +0200
 
 kwin (4:5.26.0-1) unstable; urgency=medium
 

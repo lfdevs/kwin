@@ -5,6 +5,7 @@ kwin (4:5.26.2.1-1) UNRELEASED; urgency=medium
   * Update build-deps and deps with the info from cmake.
   * New upstream release (5.26.2.1).
   * Update build-deps and deps with the info from cmake.
+  * Tighten cross-plasma components dependencies.
 
   [ Helmut Grohne ]
   * Improve cross building: Pass qtwaylandscanner to cmake. (Closes: #1022136)

@@ -16,6 +16,15 @@ namespace KWaylandServer
 {
 static const int s_version = 1;
 
+static QRegion mapScaleOverride(const QRegion &region, qreal scaleOverride)
+{
+    QRegion out;
+    for (const QRect &rect : region) {
+        out += QRect(rect.topLeft() / scaleOverride, rect.size() / scaleOverride);
+    }
+    return out;
+}
+
 PointerConstraintsV1InterfacePrivate::PointerConstraintsV1InterfacePrivate(Display *display)
     : QtWaylandServer::zwp_pointer_constraints_v1(*display, s_version)
 {
@@ -62,9 +71,7 @@ void PointerConstraintsV1InterfacePrivate::zwp_pointer_constraints_v1_lock_point
         return;
     }
 
-    auto lockedPointer = new LockedPointerV1Interface(LockedPointerV1Interface::LifeTime(lifetime), regionFromResource(region_resource), lockedPointerResource);
-
-    SurfaceInterfacePrivate::get(surface)->installPointerConstraint(lockedPointer);
+    new LockedPointerV1Interface(surface, LockedPointerV1Interface::LifeTime(lifetime), regionFromResource(region_resource), lockedPointerResource);
 }
 
 void PointerConstraintsV1InterfacePrivate::zwp_pointer_constraints_v1_confine_pointer(Resource *resource,
@@ -102,10 +109,7 @@ void PointerConstraintsV1InterfacePrivate::zwp_pointer_constraints_v1_confine_po
         return;
     }
 
-    auto confinedPointer =
-        new ConfinedPointerV1Interface(ConfinedPointerV1Interface::LifeTime(lifetime), regionFromResource(region_resource), confinedPointerResource);
-
-    SurfaceInterfacePrivate::get(surface)->installPointerConstraint(confinedPointer);
+    new ConfinedPointerV1Interface(surface, ConfinedPointerV1Interface::LifeTime(lifetime), regionFromResource(region_resource), confinedPointerResource);
 }
 
 void PointerConstraintsV1InterfacePrivate::zwp_pointer_constraints_v1_destroy(Resource *resource)
@@ -129,11 +133,13 @@ LockedPointerV1InterfacePrivate *LockedPointerV1InterfacePrivate::get(LockedPoin
 }
 
 LockedPointerV1InterfacePrivate::LockedPointerV1InterfacePrivate(LockedPointerV1Interface *q,
+                                                                 SurfaceInterface *surface,
                                                                  LockedPointerV1Interface::LifeTime lifeTime,
                                                                  const QRegion &region,
                                                                  ::wl_resource *resource)
     : QtWaylandServer::zwp_locked_pointer_v1(resource)
     , q(q)
+    , surface(surface)
     , lifeTime(lifeTime)
     , region(region)
 {
@@ -141,13 +147,14 @@ LockedPointerV1InterfacePrivate::LockedPointerV1InterfacePrivate(LockedPointerV1
 
 void LockedPointerV1InterfacePrivate::commit()
 {
+    qreal scaleOverride = surface->scaleOverride();
     if (hasPendingRegion) {
-        region = pendingRegion;
+        region = mapScaleOverride(pendingRegion, scaleOverride);
         hasPendingRegion = false;
         Q_EMIT q->regionChanged();
     }
     if (hasPendingHint) {
-        hint = pendingHint;
+        hint = pendingHint / scaleOverride;
         hasPendingHint = false;
         Q_EMIT q->cursorPositionHintChanged();
     }
@@ -179,9 +186,10 @@ void LockedPointerV1InterfacePrivate::zwp_locked_pointer_v1_set_region(Resource 
     hasPendingRegion = true;
 }
 
-LockedPointerV1Interface::LockedPointerV1Interface(LifeTime lifeTime, const QRegion &region, ::wl_resource *resource)
-    : d(new LockedPointerV1InterfacePrivate(this, lifeTime, region, resource))
+LockedPointerV1Interface::LockedPointerV1Interface(SurfaceInterface *surface, LifeTime lifeTime, const QRegion &region, ::wl_resource *resource)
+    : d(new LockedPointerV1InterfacePrivate(this, surface, lifeTime, region, resource))
 {
+    SurfaceInterfacePrivate::get(surface)->installPointerConstraint(this);
 }
 
 LockedPointerV1Interface::~LockedPointerV1Interface()
@@ -231,11 +239,13 @@ ConfinedPointerV1InterfacePrivate *ConfinedPointerV1InterfacePrivate::get(Confin
 }
 
 ConfinedPointerV1InterfacePrivate::ConfinedPointerV1InterfacePrivate(ConfinedPointerV1Interface *q,
+                                                                     SurfaceInterface *surface,
                                                                      ConfinedPointerV1Interface::LifeTime lifeTime,
                                                                      const QRegion &region,
                                                                      ::wl_resource *resource)
     : QtWaylandServer::zwp_confined_pointer_v1(resource)
     , q(q)
+    , surface(surface)
     , lifeTime(lifeTime)
     , region(region)
 {
@@ -243,8 +253,9 @@ ConfinedPointerV1InterfacePrivate::ConfinedPointerV1InterfacePrivate(ConfinedPoi
 
 void ConfinedPointerV1InterfacePrivate::commit()
 {
+    qreal scaleOverride = surface->scaleOverride();
     if (hasPendingRegion) {
-        region = pendingRegion;
+        region = mapScaleOverride(pendingRegion, scaleOverride);
         hasPendingRegion = false;
         Q_EMIT q->regionChanged();
     }
@@ -268,9 +279,10 @@ void ConfinedPointerV1InterfacePrivate::zwp_confined_pointer_v1_set_region(Resou
     hasPendingRegion = true;
 }
 
-ConfinedPointerV1Interface::ConfinedPointerV1Interface(LifeTime lifeTime, const QRegion &region, ::wl_resource *resource)
-    : d(new ConfinedPointerV1InterfacePrivate(this, lifeTime, region, resource))
+ConfinedPointerV1Interface::ConfinedPointerV1Interface(SurfaceInterface *surface, LifeTime lifeTime, const QRegion &region, ::wl_resource *resource)
+    : d(new ConfinedPointerV1InterfacePrivate(this, surface, lifeTime, region, resource))
 {
+    SurfaceInterfacePrivate::get(surface)->installPointerConstraint(this);
 }
 
 ConfinedPointerV1Interface::~ConfinedPointerV1Interface()

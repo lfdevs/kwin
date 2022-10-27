@@ -1418,7 +1418,7 @@ void EffectsHandlerImpl::registerTouchBorder(ElectricBorder border, QAction *act
 
 void EffectsHandlerImpl::registerRealtimeTouchBorder(ElectricBorder border, QAction *action, EffectsHandler::TouchBorderCallback progressCallback)
 {
-    workspace()->screenEdges()->reserveTouch(border, action, [progressCallback](ElectricBorder border, const QSizeF &deltaProgress, Output *output) {
+    workspace()->screenEdges()->reserveTouch(border, action, [progressCallback](ElectricBorder border, const QPointF &deltaProgress, Output *output) {
         progressCallback(border, deltaProgress, EffectScreenImpl::get(output));
     });
 }
@@ -1869,7 +1869,7 @@ bool EffectsHandlerImpl::isInputPanelOverlay() const
 
     auto panel = kwinApp()->inputMethod()->panel();
     if (panel) {
-        return panel->mode() == InputPanelV1Window::Overlay;
+        return panel->mode() == InputPanelV1Window::Mode::Overlay;
     }
     return true;
 }

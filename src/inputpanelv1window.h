@@ -23,8 +23,9 @@ class InputPanelV1Window : public WaylandWindow
 public:
     InputPanelV1Window(KWaylandServer::InputPanelSurfaceV1Interface *panelSurface);
 
-    enum Mode {
-        Toplevel,
+    enum class Mode {
+        None,
+        VirtualKeyboard,
         Overlay,
     };
     Q_ENUM(Mode)
@@ -88,11 +89,13 @@ private:
     void showOverlayPanel();
     void reposition();
     void setOutput(KWaylandServer::OutputInterface *output);
+    void handleMapped();
+    void maybeShow();
 
     QPointer<Output> m_output;
-    Mode m_mode = Toplevel;
+    Mode m_mode = Mode::None;
     bool m_allowed = false;
-    bool m_shouldBeShown = false;
+    bool m_virtualKeyboardShouldBeShown = false;
     const QPointer<KWaylandServer::InputPanelSurfaceV1Interface> m_panelSurface;
 };
 

@@ -130,6 +130,7 @@ void InputMethod::init()
         connect(textInputV3, &TextInputV3Interface::contentTypeChanged, this, &InputMethod::contentTypeChanged);
         connect(textInputV3, &TextInputV3Interface::stateCommitted, this, &InputMethod::stateCommitted);
         connect(textInputV3, &TextInputV3Interface::enabledChanged, this, &InputMethod::textInputInterfaceV3EnabledChanged);
+        connect(textInputV3, &TextInputV3Interface::enableRequested, this, &InputMethod::textInputInterfaceV3EnableRequested);
 
         connect(input()->keyboard()->xkb(), &Xkb::modifierStateChanged, this, [this]() {
             m_hasPendingModifiers = true;
@@ -160,6 +161,23 @@ bool InputMethod::shouldShowOnActive() const
     static bool alwaysShowIm = qEnvironmentVariableIntValue("KWIN_IM_SHOW_ALWAYS") != 0;
     return alwaysShowIm || input()->touch() == input()->lastInputHandler()
         || input()->tablet() == input()->lastInputHandler();
+}
+
+void InputMethod::refreshActive()
+{
+    auto seat = waylandServer()->seat();
+    auto t2 = seat->textInputV2();
+    auto t3 = seat->textInputV3();
+
+    bool active = false;
+    if (auto focusedSurface = seat->focusedTextInputSurface()) {
+        auto client = focusedSurface->client();
+        if ((t2->clientSupportsTextInput(client) && t2->isEnabled()) || (t3->clientSupportsTextInput(client) && t3->isEnabled())) {
+            active = true;
+        }
+    }
+
+    setActive(active);
 }
 
 void InputMethod::setActive(bool active)
@@ -234,6 +252,7 @@ void InputMethod::setTrackedWindow(Window *trackedWindow)
         disconnect(m_trackedWindow, &Window::frameGeometryChanged, this, &InputMethod::updateInputPanelState);
     }
     m_trackedWindow = trackedWindow;
+    m_shouldShowPanel = false;
     if (m_trackedWindow) {
         connect(m_trackedWindow, &Window::frameGeometryChanged, this, &InputMethod::updateInputPanelState, Qt::QueuedConnection);
     }
@@ -246,9 +265,6 @@ void InputMethod::handleFocusedSurfaceChanged()
     SurfaceInterface *focusedSurface = seat->focusedTextInputSurface();
 
     setTrackedWindow(waylandServer()->findWindow(focusedSurface));
-    if (!focusedSurface) {
-        setActive(false);
-    }
 
     const auto client = focusedSurface ? focusedSurface->client() : nullptr;
     bool ret = seat->textInputV2()->clientSupportsTextInput(client)
@@ -330,8 +346,7 @@ void InputMethod::textInputInterfaceV2EnabledChanged()
         return;
     }
 
-    auto t = waylandServer()->seat()->textInputV2();
-    setActive(t->isEnabled());
+    refreshActive();
 }
 
 void InputMethod::textInputInterfaceV3EnabledChanged()
@@ -341,8 +356,10 @@ void InputMethod::textInputInterfaceV3EnabledChanged()
     }
 
     auto t3 = waylandServer()->seat()->textInputV3();
-    setActive(t3->isEnabled());
-    if (!t3->isEnabled()) {
+    refreshActive();
+    if (t3->isEnabled()) {
+        show();
+    } else {
         // reset value of preedit when textinput is disabled
         resetPendingPreedit();
     }
@@ -366,7 +383,6 @@ void InputMethod::stateCommitted(uint32_t serial)
     if (auto inputContext = waylandServer()->inputMethod()->context()) {
         inputContext->sendCommitState(serial);
     }
-    setActive(textInputV3->isEnabled());
 }
 
 void InputMethod::setEnabled(bool enabled)
@@ -688,10 +704,10 @@ void InputMethod::updateInputPanelState()
 
     QRectF overlap = QRectF(0, 0, 0, 0);
     if (m_trackedWindow) {
-        const bool bottomKeyboard = m_panel && m_panel->mode() != InputPanelV1Window::Overlay && m_panel->isShown();
+        const bool bottomKeyboard = m_panel && m_panel->mode() != InputPanelV1Window::Mode::Overlay && m_panel->isShown();
         m_trackedWindow->setVirtualKeyboardGeometry(bottomKeyboard ? m_panel->inputGeometry() : QRectF());
 
-        if (m_panel && m_panel->mode() != InputPanelV1Window::Overlay) {
+        if (m_panel && m_panel->mode() != InputPanelV1Window::Mode::Overlay) {
             overlap = m_trackedWindow->frameGeometry() & m_panel->inputGeometry();
             overlap.moveTo(m_trackedWindow->mapToLocal(overlap.topLeft()));
         }
@@ -836,4 +852,9 @@ void InputMethod::forceActivate()
     show();
 }
 
+void InputMethod::textInputInterfaceV3EnableRequested()
+{
+    refreshActive();
+    show();
+}
 }

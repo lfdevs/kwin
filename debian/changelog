@@ -1,3 +1,17 @@
+kwin (4:5.26.2.1-1) unstable; urgency=medium
+
+  [ Aurélien COUDERC ]
+  * New upstream release (5.26.1).
+  * Update build-deps and deps with the info from cmake.
+  * New upstream release (5.26.2.1).
+  * Update build-deps and deps with the info from cmake.
+  * Tighten cross-plasma components dependencies.
+
+  [ Helmut Grohne ]
+  * Improve cross building: Pass qtwaylandscanner to cmake. (Closes: #1022136)
+
+ -- Aurélien COUDERC <coucouf@debian.org>  Thu, 27 Oct 2022 23:35:50 +0200
+
 kwin (4:5.26.0-1) unstable; urgency=medium
 
   [ Aurélien COUDERC ]

@@ -706,7 +706,7 @@ bool XdgToplevelWindow::isFullScreenable() const
 
 bool XdgToplevelWindow::isMaximizable() const
 {
-    if (!isResizable()) {
+    if (!isResizable() || isAppletPopup()) {
         return false;
     }
     if (rules()->checkMaximize(MaximizeRestore) != MaximizeRestore || rules()->checkMaximize(MaximizeFull) != MaximizeFull) {
@@ -717,7 +717,7 @@ bool XdgToplevelWindow::isMaximizable() const
 
 bool XdgToplevelWindow::isMinimizable() const
 {
-    if (isSpecialWindow() && !isTransient()) {
+    if ((isSpecialWindow() && !isTransient()) || isAppletPopup()) {
         return false;
     }
     if (!rules()->checkMinimize(true)) {
@@ -1648,7 +1648,7 @@ void XdgToplevelWindow::changeMaximize(bool horizontal, bool vertical, bool adju
         return;
     }
 
-    if (!isResizable()) {
+    if (!isResizable() || isAppletPopup()) {
         return;
     }
 

@@ -38,6 +38,7 @@
 #include <netwm.h>
 
 #include <climits>
+#include <cmath>
 #include <functional>
 
 class KConfigGroup;
@@ -188,6 +189,17 @@ enum EffectFrameStyle {
     EffectFrameUnstyled, ///< Displays a basic box around the contents.
     EffectFrameStyled ///< Displays a Plasma-styled frame around the contents.
 };
+
+/**
+ * Convert a QPointF to a QPoint by flooring instead of rounding.
+ *
+ * By default, QPointF::toPoint() rounds which can cause problems in certain
+ * cases.
+ */
+KWINEFFECTS_EXPORT inline QPoint flooredPoint(const QPointF &point)
+{
+    return QPoint(std::floor(point.x()), std::floor(point.y()));
+}
 
 /**
  * @short Base class for all KWin effects
@@ -817,7 +829,7 @@ class KWINEFFECTS_EXPORT EffectsHandler : public QObject
     friend class Effect;
 
 public:
-    using TouchBorderCallback = std::function<void(ElectricBorder border, const QSizeF &, EffectScreen *screen)>;
+    using TouchBorderCallback = std::function<void(ElectricBorder border, const QPointF &, EffectScreen *screen)>;
 
     explicit EffectsHandler(CompositingType type);
     ~EffectsHandler() override;

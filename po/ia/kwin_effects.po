@@ -177,7 +177,6 @@ msgstr "Monstra buttones pro cambiar le numero de scriptorios virtual"
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: desktopgrid/desktopgrid_config.ui:123
 #, kde-format
-#| msgid "&Layout mode:"
 msgid "&Grid layout mode:"
 msgstr "Modo de disposition de &Grillia:"
 
@@ -557,7 +556,6 @@ msgstr "Ignora fenestras minimizate"
 
 #: overview/qml/DesktopBar.qml:186
 #, kde-format
-#| msgid "Delete virtual desktop"
 msgid "Delete Virtual Desktop"
 msgstr "Dele scriptorio virtual"
 
@@ -568,7 +566,6 @@ msgstr "Adde Scriptorio Virtual"
 
 #: overview/qml/ScreenView.qml:226
 #, kde-format
-#| msgid "Moving windows:"
 msgid "No matching windows"
 msgstr "Nulle correspondentia de fenestra"
 
@@ -579,7 +576,6 @@ msgstr "Trahe a basso pro clauder"
 
 #: private/qml/WindowHeapDelegate.qml:462
 #, kde-format
-#| msgid "Close window"
 msgctxt "@info:tooltip as in: 'close this window'"
 msgid "Close window"
 msgstr "Claude fenestra"
@@ -630,14 +626,12 @@ msgstr ""
 
 #: showfps/qml/main.qml:110
 #, kde-format
-#| msgid "Ring Duration:"
 msgctxt "@label"
 msgid "Paint Duration"
 msgstr "Duration de Tinta"
 
 #: showfps/qml/main.qml:162
 #, kde-format
-#| msgid "Ring Count:"
 msgctxt "@label"
 msgid "Paint Amount"
 msgstr "Amonta de tinta"
@@ -650,14 +644,12 @@ msgstr "FPS currente"
 
 #: showfps/qml/main.qml:184
 #, kde-format
-#| msgid "Maximum &width:"
 msgctxt "@label"
 msgid "Maximum FPS"
 msgstr "FPS Maxime"
 
 #: showfps/qml/main.qml:192
 #, kde-format
-#| msgid "This effect is not a benchmark"
 msgctxt "@label"
 msgid "This effect is not a benchmark"
 msgstr "Iste effecto non es un benchmark"
@@ -881,7 +873,6 @@ msgstr "Commuta fenestra presente (classe de fenestra)"
 
 #: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:75
 #, kde-format
-#| msgid "Toggle Present Windows (Current desktop)"
 msgid "Toggle Present Windows (Window class on current desktop)"
 msgstr ""
 "Commuta fenestras presente (classe de Fenestra sur scriptorio currente)"
@@ -899,7 +890,6 @@ msgstr "Nulle correspondentias"
 
 #: windowview/qml/main.qml:106
 #, kde-format
-#| msgid "Windows"
 msgid "No Windows"
 msgstr "Nulle fenestras"
 

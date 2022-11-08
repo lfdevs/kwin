@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-28 02:28+0000\n"
+"POT-Creation-Date: 2022-11-01 02:26+0000\n"
 "PO-Revision-Date: 2019-12-12 22:14+0000\n"
 "Last-Translator: Vivek KJ Pazhedath <vivekkj2004@gmail.com>\n"
 "Language-Team: SMC <smc.org.in>\n"
@@ -543,14 +543,14 @@ msgid "Layout mode:"
 msgstr "വിന്യാസ ദശ:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_BlurBackground)
-#: overview/kcm/overvieweffectkcm.ui:53
+#: overview/kcm/overvieweffectkcm.ui:56
 #, fuzzy, kde-format
 #| msgid "Background"
 msgid "Blur background:"
 msgstr "പശ്ചാത്തലം"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: overview/kcm/overvieweffectkcm.ui:70
+#: overview/kcm/overvieweffectkcm.ui:73
 #, fuzzy, kde-format
 #| msgid "Ignore &minimized windows"
 msgid "Ignore minimized windows:"
@@ -878,7 +878,7 @@ msgid "Toggle Present Windows (Window class on current desktop)"
 msgstr "നിലവിലുള്ള ജാലകങ്ങള്‍ ടോഗിള്‍ ചെയ്യുക (നിലവിലുള്ള പണിയിടത്തിനായി)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_IgnoreMinimized)
-#: windowview/kcm/windowvieweffectkcm.ui:53
+#: windowview/kcm/windowvieweffectkcm.ui:56
 #, kde-format
 msgid "Ignore &minimized windows"
 msgstr "&മിനിമൈസ് ചെയ്തിരിക്കുന്ന ജാലകങ്ങള്‍ അവഗണിക്കുക"

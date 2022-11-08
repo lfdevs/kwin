@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.2\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-28 02:28+0000\n"
+"POT-Creation-Date: 2022-11-01 02:26+0000\n"
 "PO-Revision-Date: 2021-11-19 13:44+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -550,13 +550,13 @@ msgid "Layout mode:"
 msgstr "Elrendezés:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_BlurBackground)
-#: overview/kcm/overvieweffectkcm.ui:53
+#: overview/kcm/overvieweffectkcm.ui:56
 #, kde-format
 msgid "Blur background:"
 msgstr "Háttér elmosása:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: overview/kcm/overvieweffectkcm.ui:70
+#: overview/kcm/overvieweffectkcm.ui:73
 #, fuzzy, kde-format
 #| msgid "Ignore &minimized windows"
 msgid "Ignore minimized windows:"
@@ -893,7 +893,7 @@ msgid "Toggle Present Windows (Window class on current desktop)"
 msgstr "A jelenlegi ablakok átváltása (ezen az asztalon)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_IgnoreMinimized)
-#: windowview/kcm/windowvieweffectkcm.ui:53
+#: windowview/kcm/windowvieweffectkcm.ui:56
 #, kde-format
 msgid "Ignore &minimized windows"
 msgstr "A minimalizált ablakok ki&hagyása"

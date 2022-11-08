@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-28 02:28+0000\n"
+"POT-Creation-Date: 2022-11-01 02:26+0000\n"
 "PO-Revision-Date: 2020-06-05 22:39+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -551,14 +551,14 @@ msgid "Layout mode:"
 msgstr "Paigutusviis:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_BlurBackground)
-#: overview/kcm/overvieweffectkcm.ui:53
+#: overview/kcm/overvieweffectkcm.ui:56
 #, fuzzy, kde-format
 #| msgid "Background"
 msgid "Blur background:"
 msgstr "Taust"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: overview/kcm/overvieweffectkcm.ui:70
+#: overview/kcm/overvieweffectkcm.ui:73
 #, fuzzy, kde-format
 #| msgid "Ignore &minimized windows"
 msgid "Ignore minimized windows:"
@@ -895,7 +895,7 @@ msgid "Toggle Present Windows (Window class on current desktop)"
 msgstr "Olemasolevate akende lülitamine (aktiivsel töölaual)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_IgnoreMinimized)
-#: windowview/kcm/windowvieweffectkcm.ui:53
+#: windowview/kcm/windowvieweffectkcm.ui:56
 #, kde-format
 msgid "Ignore &minimized windows"
 msgstr "&Minimeeritud akende eiramine"

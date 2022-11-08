@@ -2,6 +2,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Joëlle Cornavin <jcorn@free.fr>, 2013.
 # Yoann Laissus <yoann.laissus@gmail.com>, 2017.
+# Xavier Besnard <xavier.besnard@neuf.fr>, 2022.
 #
 msgid ""
 msgstr ""
@@ -16,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 22.08.2\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"

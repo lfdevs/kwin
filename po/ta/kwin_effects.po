@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: கேபசூ 4.1 தமிழாக்கம்\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-28 02:28+0000\n"
+"POT-Creation-Date: 2022-11-01 02:26+0000\n"
 "PO-Revision-Date: 2022-08-18 19:41+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -545,13 +545,13 @@ msgid "Layout mode:"
 msgstr "தளவமைக்கும் முறை:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_BlurBackground)
-#: overview/kcm/overvieweffectkcm.ui:53
+#: overview/kcm/overvieweffectkcm.ui:56
 #, kde-format
 msgid "Blur background:"
 msgstr "பின்புலத்தை மங்கலாக்கு:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: overview/kcm/overvieweffectkcm.ui:70
+#: overview/kcm/overvieweffectkcm.ui:73
 #, kde-format
 msgid "Ignore minimized windows:"
 msgstr "ஒதுக்கப்பட்ட சாளரங்களை பொருட்படுத்தாதே:"
@@ -882,7 +882,7 @@ msgid "Toggle Present Windows (Window class on current desktop)"
 msgstr "சாளர முன்வைப்பை காட்டு/மறை (தற்போதைய பணிமேடையில் தற்போதைய சாளரவகை)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_IgnoreMinimized)
-#: windowview/kcm/windowvieweffectkcm.ui:53
+#: windowview/kcm/windowvieweffectkcm.ui:56
 #, kde-format
 msgid "Ignore &minimized windows"
 msgstr "&ஒதுக்கப்பட்ட சாளரங்களை பொருட்படுத்தாதே"

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-18 02:26+0000\n"
-"PO-Revision-Date: 2022-10-25 21:50+0530\n"
+"POT-Creation-Date: 2022-10-28 02:42+0000\n"
+"PO-Revision-Date: 2022-11-03 21:35+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -663,19 +663,19 @@ msgstr "எலி போன்மம்"
 #, kde-format
 msgctxt "Mouse Button"
 msgid "left"
-msgstr ""
+msgstr "இடது"
 
 #: debug_console.cpp:798
 #, kde-format
 msgctxt "Mouse Button"
 msgid "right"
-msgstr ""
+msgstr "வலது"
 
 #: debug_console.cpp:801
 #, kde-format
 msgctxt "Mouse Button"
 msgid "middle"
-msgstr ""
+msgstr "நடு"
 
 #: debug_console.cpp:804
 #, kde-format
@@ -863,7 +863,7 @@ msgstr "உள்ளக சாளரங்கள்"
 #: debug_console.ui:32
 #, kde-format
 msgid "Quit Debug Console"
-msgstr ""
+msgstr "பிழைநீக்க முனையத்திலிருந்து வெளியேறு"
 
 #. i18n: ectx: attribute (title), widget (QWidget, windows)
 #: debug_console.ui:45
@@ -1330,7 +1330,7 @@ msgstr "திரையை பூட்டும் ஆதரவில்லா�
 msgid "Starts the session without global shortcuts support."
 msgstr "பொது சுருக்குவழிகளுக்கான ஆதரவில்லாமல் அமர்வை துவக்கும்."
 
-#: main_wayland.cpp:408 main_x11.cpp:380
+#: main_wayland.cpp:408 main_x11.cpp:378
 #, kde-format
 msgid "Disable KActivities integration."
 msgstr "KActivities ஒருங்கிணைப்பை முடக்கு."
@@ -1371,7 +1371,7 @@ msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr ""
 "கேவின்: இன்னொரு சாளர மேலாளர் இயங்குகிறது(--replace என்பதை பயன்படுத்தி பாருங்கள்)\n"
 
-#: main_x11.cpp:373
+#: main_x11.cpp:371
 #, kde-format
 msgid "Replace already-running ICCCM2.0-compliant window manager"
 msgstr "ஏற்கனவே ஓடிக்கொண்டிருக்கும் ICCCM2.0 சாளர மேலாளருக்கு பதிலாக இயங்கும்"
@@ -2621,7 +2621,7 @@ msgstr "சாளரத்தை கட்டாயமாக மூடு"
 #: useractions.cpp:1119
 #, kde-format
 msgid "Suspend Compositing"
-msgstr ""
+msgstr "Compositing-ஐ முடக்கு"
 
 #: useractions.cpp:1120
 #, kde-format

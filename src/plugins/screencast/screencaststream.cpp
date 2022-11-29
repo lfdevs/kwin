@@ -102,17 +102,15 @@ void ScreenCastStream::newStreamParams()
     const int bpp = videoFormat.format == SPA_VIDEO_FORMAT_RGB || videoFormat.format == SPA_VIDEO_FORMAT_BGR ? 3 : 4;
     const int stride = SPA_ROUND_UP_N(m_resolution.width() * bpp, 4);
 
-    spa_rectangle resolution = SPA_RECTANGLE(uint32_t(m_resolution.width()), uint32_t(m_resolution.height()));
     struct spa_pod_frame f;
     spa_pod_builder_push_object(&pod_builder, &f, SPA_TYPE_OBJECT_ParamBuffers, SPA_PARAM_Buffers);
     spa_pod_builder_add(&pod_builder,
-                        SPA_FORMAT_VIDEO_size, SPA_POD_Rectangle(&resolution),
+                        SPA_PARAM_BUFFERS_size, SPA_POD_Int(stride * m_resolution.height()),
                         SPA_PARAM_BUFFERS_buffers, SPA_POD_CHOICE_RANGE_Int(16, 2, 16),
                         SPA_PARAM_BUFFERS_stride, SPA_POD_Int(stride),
                         SPA_PARAM_BUFFERS_dataType, SPA_POD_CHOICE_FLAGS_Int(buffertypes), 0);
     if (!m_dmabufParams) {
         spa_pod_builder_add(&pod_builder,
-                            SPA_PARAM_BUFFERS_size, SPA_POD_Int(stride * m_resolution.height()),
                             SPA_PARAM_BUFFERS_blocks, SPA_POD_Int(1),
                             SPA_PARAM_BUFFERS_align, SPA_POD_Int(16), 0);
     } else {
@@ -717,13 +715,15 @@ void ScreenCastStream::sendCursorData(Cursor *cursor, spa_meta_cursor *spa_meta_
     m_cursor.lastKey = image.cacheKey();
     spa_meta_cursor->bitmap_offset = sizeof(struct spa_meta_cursor);
 
+    const QSize targetSize = cursor->rect().size() * m_cursor.scale;
+
     struct spa_meta_bitmap *spa_meta_bitmap = SPA_MEMBER(spa_meta_cursor,
                                                          spa_meta_cursor->bitmap_offset,
                                                          struct spa_meta_bitmap);
     spa_meta_bitmap->format = SPA_VIDEO_FORMAT_RGBA;
     spa_meta_bitmap->offset = sizeof(struct spa_meta_bitmap);
-    spa_meta_bitmap->size.width = std::min(m_cursor.bitmapSize.width(), image.width());
-    spa_meta_bitmap->size.height = std::min(m_cursor.bitmapSize.height(), image.height());
+    spa_meta_bitmap->size.width = std::min(m_cursor.bitmapSize.width(), targetSize.width());
+    spa_meta_bitmap->size.height = std::min(m_cursor.bitmapSize.height(), targetSize.height());
     spa_meta_bitmap->stride = spa_meta_bitmap->size.width * 4;
 
     uint8_t *bitmap_data = SPA_MEMBER(spa_meta_bitmap, spa_meta_bitmap->offset, uint8_t);
@@ -732,12 +732,11 @@ void ScreenCastStream::sendCursorData(Cursor *cursor, spa_meta_cursor *spa_meta_
                 spa_meta_bitmap->size.height,
                 spa_meta_bitmap->stride,
                 QImage::Format_RGBA8888_Premultiplied);
-    dest.setDevicePixelRatio(m_cursor.scale);
     dest.fill(Qt::transparent);
 
     if (!image.isNull()) {
         QPainter painter(&dest);
-        painter.drawImage(QPoint(), image);
+        painter.drawImage(QRect({0, 0}, targetSize), image);
     }
 }
 

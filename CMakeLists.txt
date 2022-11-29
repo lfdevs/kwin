@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-set(PROJECT_VERSION "5.26.3") # Handled by release scripts
+set(PROJECT_VERSION "5.26.4") # Handled by release scripts
 project(KWin VERSION ${PROJECT_VERSION})
 
 set(CMAKE_C_STANDARD 99)
@@ -436,6 +436,7 @@ include_directories(BEFORE
 
 if (KF5DocTools_FOUND)
     add_subdirectory(doc)
+    kdoctools_install(po)
 endif()
 
 include(ECMSetupQtPluginMacroNames)
@@ -482,8 +483,3 @@ ecm_install_configured_files(INPUT plasma-kwin_x11.service.in plasma-kwin_waylan
             DESTINATION ${KDE_INSTALL_SYSTEMDUSERUNITDIR})
 
 ki18n_install(po)
-
-  find_package(KF5DocTools CONFIG)
-  if(KF5DocTools_FOUND)
-    kdoctools_install(po)
-  endif()

@@ -381,8 +381,9 @@ bool WaylandServer::init(InitializationFlags flags)
     new DataControlDeviceManagerV1Interface(m_display, m_display);
 
     const auto kwinConfig = kwinApp()->config();
-    m_seat->setPrimarySelectionEnabled(kwinConfig->group("Wayland").readEntry("EnablePrimarySelection", true));
-    new PrimarySelectionDeviceManagerV1Interface(m_display, m_display);
+    if (kwinConfig->group("Wayland").readEntry("EnablePrimarySelection", true)) {
+        new PrimarySelectionDeviceManagerV1Interface(m_display, m_display);
+    }
 
     m_idle = new IdleInterface(m_display, m_display);
     auto idleInhibition = new IdleInhibition(m_idle);

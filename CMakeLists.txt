@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-set(PROJECT_VERSION "5.26.4") # Handled by release scripts
+set(PROJECT_VERSION "5.26.5") # Handled by release scripts
 project(KWin VERSION ${PROJECT_VERSION})
 
 set(CMAKE_C_STANDARD 99)
@@ -256,6 +256,11 @@ if (${gbm_VERSION} GREATER_EQUAL 21.1)
     set(HAVE_GBM_BO_GET_FD_FOR_PLANE 1)
 else()
     set(HAVE_GBM_BO_GET_FD_FOR_PLANE 0)
+endif()
+if (${gbm_VERSION} GREATER_EQUAL 21.3)
+    set(HAVE_GBM_BO_CREATE_WITH_MODIFIERS2 1)
+else()
+    set(HAVE_GBM_BO_CREATE_WITH_MODIFIERS2 0)
 endif()
 
 pkg_check_modules(Libxcvt IMPORTED_TARGET libxcvt>=0.1.1 REQUIRED)

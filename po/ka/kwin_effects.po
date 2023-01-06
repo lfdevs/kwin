@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-01 02:26+0000\n"
-"PO-Revision-Date: 2022-09-12 20:19+0200\n"
+"PO-Revision-Date: 2022-12-03 09:03+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #. i18n: ectx: property (text), widget (QLabel, labelConstantBlurDescription)
 #: blur/blur_config.ui:17
@@ -571,7 +571,7 @@ msgstr "შესაბამისი ფანჯრების გარე�
 #: private/qml/WindowHeapDelegate.qml:152
 #, kde-format
 msgid "Drag Down To Close"
-msgstr ""
+msgstr "დასახურად ჩამოათრიეთ"
 
 #: private/qml/WindowHeapDelegate.qml:462
 #, kde-format
@@ -583,13 +583,13 @@ msgstr "ფანჯრის დახურვა"
 #: scale/package/contents/ui/config.ui:46
 #, kde-format
 msgid "Window open scale:"
-msgstr ""
+msgstr "ფანჯრის გახსნის მასშტაბი:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_OutScale)
 #: scale/package/contents/ui/config.ui:53
 #, kde-format
 msgid "Window close scale:"
-msgstr ""
+msgstr "ფანჯრის დახურვის მასშტაბი:"
 
 #: screenshot/screenshotdbusinterface1.cpp:480
 #, kde-format
@@ -601,7 +601,7 @@ msgstr "ეკრანის ანაბეჭდი"
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
-msgstr ""
+msgstr "ეკრანის ანაბეჭდი შენახულია %1-ში"
 
 #: screenshot/screenshotdbusinterface1.cpp:797
 #: screenshot/screenshotdbusinterface2.cpp:472
@@ -647,18 +647,18 @@ msgstr "მაქს. კადრი/წმ"
 #, kde-format
 msgctxt "@label"
 msgid "This effect is not a benchmark"
-msgstr ""
+msgstr "ეს ეფექტი ტესტი არაა"
 
 #: showpaint/showpaint.cpp:38 showpaint/showpaint_config.cpp:38
 #, kde-format
 msgid "Toggle Show Paint"
-msgstr ""
+msgstr "ნახატის ჩვენების გადართვა"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_Gaps)
 #: slide/slide_config.ui:17
 #, kde-format
 msgid "Gap between desktops"
-msgstr ""
+msgstr "დაშორება სამუშაო მაგიდებს შორის"
 
 #. i18n: ectx: property (text), widget (QLabel, label_HorizontalGap)
 #: slide/slide_config.ui:23
@@ -682,19 +682,19 @@ msgstr ""
 #: slide/slide_config.ui:79
 #, kde-format
 msgid "Slide desktop background"
-msgstr ""
+msgstr "გაუსვით ეკრანის ფონს"
 
 #: thumbnailaside/thumbnailaside.cpp:29
 #: thumbnailaside/thumbnailaside_config.cpp:59
 #, kde-format
 msgid "Toggle Thumbnail for Current Window"
-msgstr ""
+msgstr "მიმდინარე ფანჯრისთვის მინიატურის გადართვა"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: thumbnailaside/thumbnailaside_config.ui:23
 #, kde-format
 msgid "Maximum &width:"
-msgstr ""
+msgstr "მაქსიმალური &სიგანე:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: thumbnailaside/thumbnailaside_config.ui:36
@@ -725,7 +725,7 @@ msgstr " %"
 #: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:57
 #, kde-format
 msgid "Track mouse"
-msgstr ""
+msgstr "თაგუნას დევნება"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: trackmouse/trackmouse_config.ui:26
@@ -837,7 +837,7 @@ msgstr "ფანჯრების გამჭვირვალობის �
 #: translucency/package/contents/ui/config.ui:285
 #, kde-format
 msgid "Dropdown menus:"
-msgstr ""
+msgstr "ჩამოსაშლელი მენიუები:"
 
 #. i18n: ectx: property (text), widget (QLabel, popupmenus_label)
 #: translucency/package/contents/ui/config.ui:329
@@ -849,7 +849,7 @@ msgstr "მხტუნარა მენიუები:"
 #: translucency/package/contents/ui/config.ui:367
 #, kde-format
 msgid "Torn-off menus:"
-msgstr ""
+msgstr "მოგლეჯილი მენიუები:"
 
 #: windowview/kcm/windowvieweffectkcm.cpp:42 windowview/windowvieweffect.cpp:45
 #, kde-format
@@ -875,7 +875,7 @@ msgstr "არსებული ფანჯრების გადართ�
 #: windowview/kcm/windowvieweffectkcm.ui:56
 #, kde-format
 msgid "Ignore &minimized windows"
-msgstr ""
+msgstr "&ჩაკეცილი ფანჯრების იგნორი"
 
 #: windowview/qml/main.qml:106
 #, kde-format
@@ -915,13 +915,13 @@ msgstr "&გადაადგილების ფაქტორი:"
 #: wobblywindows/wobblywindows_config.ui:155
 #, kde-format
 msgid "Wo&bble when moving"
-msgstr ""
+msgstr "&კანკალი გადაადგილებისას"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResizeWobble)
 #: wobblywindows/wobblywindows_config.ui:162
 #, kde-format
 msgid "Wobble when &resizing"
-msgstr ""
+msgstr "კანკალი &ზომის შეცვლისას"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AdvancedMode)
 #: wobblywindows/wobblywindows_config.ui:182
@@ -933,7 +933,7 @@ msgstr "&დამატებითი პარამეტრების ჩ
 #: wobblywindows/wobblywindows_config.ui:192
 #, kde-format
 msgid "&Wobbliness"
-msgstr ""
+msgstr "&კანკალი"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: wobblywindows/wobblywindows_config.ui:201
@@ -950,22 +950,22 @@ msgstr "მეტი"
 #: zoom/zoom.cpp:68
 #, kde-format
 msgid "Move Zoomed Area to Left"
-msgstr ""
+msgstr "გადიდებული ადგილის მარცხნივ გაწევა"
 
 #: zoom/zoom.cpp:76
 #, kde-format
 msgid "Move Zoomed Area to Right"
-msgstr ""
+msgstr "გადიდებული ადგილის მარჯვნივ გაწევა"
 
 #: zoom/zoom.cpp:84
 #, kde-format
 msgid "Move Zoomed Area Upwards"
-msgstr ""
+msgstr "გადიდებული ადგილის მაღლა აწევა"
 
 #: zoom/zoom.cpp:92
 #, kde-format
 msgid "Move Zoomed Area Downwards"
-msgstr ""
+msgstr "გადიდებული ადგილის დაბლა ჩამოწევა"
 
 #: zoom/zoom.cpp:101 zoom/zoom_config.cpp:108
 #, kde-format
@@ -1022,7 +1022,7 @@ msgstr ""
 #: zoom/zoom_config.ui:69
 #, kde-format
 msgid "Enable Focus Tracking"
-msgstr ""
+msgstr "ფოკუსის თვალყურის დევნების ჩართვა"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_EnableTextCaretTracking)
 #: zoom/zoom_config.ui:76
@@ -1036,7 +1036,7 @@ msgstr ""
 #: zoom/zoom_config.ui:79
 #, kde-format
 msgid "Enable Text Cursor Tracking"
-msgstr ""
+msgstr "ტექსტის კურსორის თვალყურის დევნების ჩართვა"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: zoom/zoom_config.ui:86
@@ -1048,7 +1048,7 @@ msgstr "ჰოსტის თაგუნას მაჩვენებლი:
 #: zoom/zoom_config.ui:99
 #, kde-format
 msgid "Visibility of the mouse-pointer."
-msgstr ""
+msgstr "თაგუნას კურსორის ხილვადობა."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MousePointer)
 #: zoom/zoom_config.ui:103
@@ -1072,7 +1072,7 @@ msgstr "დამალვა"
 #: zoom/zoom_config.ui:121
 #, kde-format
 msgid "Track moving of the mouse."
-msgstr ""
+msgstr "თაგუნას მოძრაობის თვალყურის დევნება."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MouseTracking)
 #: zoom/zoom_config.ui:125
@@ -1102,4 +1102,4 @@ msgstr "გამორთულია"
 #: zoom/zoom_config.ui:148
 #, kde-format
 msgid "Mouse Tracking:"
-msgstr ""
+msgstr "თაგუნას თვალყურის დევნება:"

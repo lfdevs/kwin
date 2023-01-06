@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-07-02 00:49+0000\n"
-"PO-Revision-Date: 2022-01-30 19:29+0530\n"
+"PO-Revision-Date: 2022-12-06 19:57+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 21.12.1\n"
+"X-Generator: Lokalize 22.08.3\n"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, glCrashedWarning)
 #: compositing.ui:31
@@ -168,7 +168,7 @@ msgstr "எப்போதும்"
 #: compositing.ui:256
 #, kde-format
 msgid "Latency:"
-msgstr ""
+msgstr "தாக்கநேரம்:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
 #: compositing.ui:264
@@ -204,7 +204,7 @@ msgstr "பல்வேறு அசைவூட்டங்கள்"
 #: main.cpp:79
 #, kde-format
 msgid "Re-enable OpenGL detection"
-msgstr ""
+msgstr "OpenGL-ஐக் கண்டறிவதை மறுபடியும் இயக்கு"
 
 #: main.cpp:135
 #, kde-format

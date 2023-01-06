@@ -82,7 +82,7 @@ msgstr "Valors de la finestra per a %1"
 #: main.cpp:31
 #, kde-format
 msgid "KWinRules KCM launcher"
-msgstr "Iniciador del KCM de KWinRules"
+msgstr "Iniciador de KCM de KWinRules"
 
 #: main.cpp:32
 #, kde-format
@@ -617,7 +617,7 @@ msgstr ""
 #: rulesmodel.cpp:537
 #, kde-format
 msgid "Keep above other windows"
-msgstr "Mantín sobre les altres finestres"
+msgstr "Mantín damunt les altres finestres"
 
 #: rulesmodel.cpp:537 rulesmodel.cpp:542 rulesmodel.cpp:547 rulesmodel.cpp:553
 #: rulesmodel.cpp:559 rulesmodel.cpp:565

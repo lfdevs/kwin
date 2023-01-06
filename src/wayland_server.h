@@ -48,7 +48,6 @@ class LinuxDmaBufV1ClientBuffer;
 class TabletManagerV2Interface;
 class KeyboardShortcutsInhibitManagerV1Interface;
 class XdgDecorationManagerV1Interface;
-class PrimarySelectionDeviceManagerV1Interface;
 }
 
 namespace KWin

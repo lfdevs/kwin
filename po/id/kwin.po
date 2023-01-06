@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-22 02:44+0000\n"
+"POT-Creation-Date: 2022-12-17 02:44+0000\n"
 "PO-Revision-Date: 2022-09-27 18:25+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -1220,12 +1220,12 @@ msgstr "Nonfungsikan opsi konfigurasi"
 msgid "Indicate that KWin has recently crashed n times"
 msgstr "Mengindikasikan bahwa KWin telah mogok dalam akhir-akhir ini"
 
-#: main_wayland.cpp:318
+#: main_wayland.cpp:314
 #, kde-format
 msgid "Start a rootless Xwayland server."
 msgstr "Jalankan sebuah server Xwayland tanpa root."
 
-#: main_wayland.cpp:320
+#: main_wayland.cpp:316
 #, kde-format
 msgid ""
 "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
@@ -1233,40 +1233,40 @@ msgstr ""
 "Nama pada soket Wayland untuk dicantumkan. Jika tidak, set \"wayland-0\" "
 "akan digunakan."
 
-#: main_wayland.cpp:323
+#: main_wayland.cpp:319
 #, kde-format
 msgid "The X11 Display to use in windowed mode on platform X11."
 msgstr ""
 "Display X11 yang akan digunakan dalam mode perjendelaan pada platform X11."
 
-#: main_wayland.cpp:326
+#: main_wayland.cpp:322
 #, kde-format
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr ""
 "Display Wayland yang akan digunakan dalam mode perjendelaan pada platform "
 "Wayland."
 
-#: main_wayland.cpp:328
+#: main_wayland.cpp:324
 #, kde-format
 msgid "Render to a virtual framebuffer."
 msgstr "Render untuk framebuffer virtual."
 
-#: main_wayland.cpp:330
+#: main_wayland.cpp:326
 #, kde-format
 msgid "The width for windowed mode. Default width is 1024."
 msgstr "Lebar untuk mode perjendelaan. Lebar bakunya adalah 1024."
 
-#: main_wayland.cpp:334
+#: main_wayland.cpp:330
 #, kde-format
 msgid "The height for windowed mode. Default height is 768."
 msgstr "Tinggi untuk mode perjendelaan. Tinggi bakunya adalah 768."
 
-#: main_wayland.cpp:339
+#: main_wayland.cpp:335
 #, kde-format
 msgid "The scale for windowed mode. Default value is 1."
 msgstr "Skala untuk mode perjendelaan. Skala bakunya adalah 1."
 
-#: main_wayland.cpp:344
+#: main_wayland.cpp:340
 #, kde-format
 msgid ""
 "The number of windows to open as outputs in windowed mode. Default value is 1"
@@ -1274,7 +1274,7 @@ msgstr ""
 "Jumlah jendela yang akan dibuka sebagai output dalam mode perjendelaan. "
 "Nilai bakunya adalah 1"
 
-#: main_wayland.cpp:349
+#: main_wayland.cpp:345
 #, kde-format
 msgid ""
 "Wayland socket to use for incoming connections. This can be combined with --"
@@ -1283,7 +1283,7 @@ msgstr ""
 "Soket XWayland digunakan untuk koneksi masuk. Ini bisa dikombinasikan dengan "
 "--soket untuk menamai soket"
 
-#: main_wayland.cpp:353
+#: main_wayland.cpp:349
 #, kde-format
 msgid ""
 "XWayland socket to use for Xwayland's incoming connections. This can be set "
@@ -1292,60 +1292,60 @@ msgstr ""
 "Soket XWayland digunakan untuk koneksi masuk Xwayland. Ini bisa diatur "
 "berkali-kali"
 
-#: main_wayland.cpp:357
+#: main_wayland.cpp:353
 #, kde-format
 msgid "Name of the xwayland display that has been pre-set up"
 msgstr "Nama pada display xwayland telah diatur sebelumnya"
 
-#: main_wayland.cpp:361
+#: main_wayland.cpp:357
 #, kde-format
 msgid "Name of the xauthority file "
 msgstr "Nama pada file xauthority"
 
-#: main_wayland.cpp:365
+#: main_wayland.cpp:361
 #, kde-format
 msgid "Exits this instance so it can be restarted by kwin_wayland_wrapper."
 msgstr ""
 "Mengeluarkan instasi ini sehingga ia bisa dimulai ulang berdasarkan "
 "kwin_wayland_wrapper."
 
-#: main_wayland.cpp:367
+#: main_wayland.cpp:363
 #, kde-format
 msgid "Render through drm node."
 msgstr "Render melalui node drm."
 
-#: main_wayland.cpp:388
+#: main_wayland.cpp:384
 #, kde-format
 msgid "Input method that KWin starts."
 msgstr "Metode input yang menjalankan KWin."
 
-#: main_wayland.cpp:394
+#: main_wayland.cpp:390
 #, kde-format
 msgid "Starts the session in locked mode."
 msgstr "Menjalankan sesi dalam mode terkunci."
 
-#: main_wayland.cpp:398
+#: main_wayland.cpp:394
 #, kde-format
 msgid "Starts the session without lock screen support."
 msgstr "Menjalankan sesi tanpa dukungan layar kunci."
 
-#: main_wayland.cpp:403
+#: main_wayland.cpp:399
 #, kde-format
 msgid "Starts the session without global shortcuts support."
 msgstr "Menjalankan sesi tanpa dukungan pintasan global."
 
-#: main_wayland.cpp:408 main_x11.cpp:378
+#: main_wayland.cpp:404 main_x11.cpp:378
 #, kde-format
 msgid "Disable KActivities integration."
 msgstr "Nonfungsikan integrasi KActivities."
 
-#: main_wayland.cpp:413
+#: main_wayland.cpp:409
 #, kde-format
 msgid "Exit after the session application, which is started by KWin, closed."
 msgstr ""
 "Keluarkan sesudah aplikasi sesi, yang dijalankan oleh KWin, yang ditutup."
 
-#: main_wayland.cpp:418
+#: main_wayland.cpp:414
 #, kde-format
 msgid "Applications to start once Wayland and Xwayland server are started"
 msgstr ""
@@ -2689,7 +2689,7 @@ msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(Tidak Merespons)"
 
-#: workspace.cpp:1678
+#: workspace.cpp:1704
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

@@ -136,7 +136,7 @@ msgstr "Comportament:"
 #: main.ui:108
 #, kde-format
 msgid "Remain active when windows are fullscreen"
-msgstr "Continua actiu quan les finestres són a pantalla completa"
+msgstr "Continua actiu quan les finestres estan a pantalla completa"
 
 #. i18n: ectx: property (text), widget (QLabel, electricBorderCornerRatioLabel)
 #: main.ui:115

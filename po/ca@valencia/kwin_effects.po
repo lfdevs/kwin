@@ -313,7 +313,7 @@ msgstr "Canvia l'efecte d'inversió"
 #: invert/invert.cpp:50 invert/invert_config.cpp:44
 #, kde-format
 msgid "Toggle Invert Effect on Window"
-msgstr "Canvia l'efecte d'inversió a la finestra"
+msgstr "Canvia l'efecte d'inversió en la finestra"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FadeToBlack)
 #: login/package/contents/ui/config.ui:17

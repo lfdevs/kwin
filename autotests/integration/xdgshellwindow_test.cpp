@@ -10,7 +10,7 @@
 #include "kwin_wayland_test.h"
 
 #include "core/output.h"
-#include "core/platform.h"
+#include "core/outputbackend.h"
 #include "cursor.h"
 #include "decorations/decorationbridge.h"
 #include "decorations/settings.h"
@@ -47,7 +47,6 @@
 #include <csignal>
 
 using namespace KWin;
-using namespace KWayland::Client;
 
 static const QString s_socketName = QStringLiteral("wayland_test_kwin_xdgshellwindow-0");
 
@@ -167,9 +166,8 @@ void TestXdgShellWindow::initTestCase()
     qRegisterMetaType<KWayland::Client::Output *>();
 
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
+    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
@@ -227,7 +225,7 @@ void TestXdgShellWindow::testMapUnmap()
     QCOMPARE(configureRequestedSpy.count(), 2);
 
     // Unmap the xdg_toplevel surface by committing a null buffer.
-    surface->attachBuffer(Buffer::Ptr());
+    surface->attachBuffer(KWayland::Client::Buffer::Ptr());
     surface->commit(KWayland::Client::Surface::CommitFlag::None);
     QVERIFY(Test::waitForWindowDestroyed(window));
 
@@ -676,8 +674,8 @@ void TestXdgShellWindow::testDesktopFileName()
     shellSurface->set_app_id(QStringLiteral("org.kde.foo"));
     auto window = Test::renderAndWaitForShown(surface.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window);
-    QCOMPARE(window->desktopFileName(), QByteArrayLiteral("org.kde.foo"));
-    QCOMPARE(window->resourceClass(), QByteArrayLiteral("org.kde.foo"));
+    QCOMPARE(window->desktopFileName(), QStringLiteral("org.kde.foo"));
+    QCOMPARE(window->resourceClass(), QStringLiteral("org.kde.foo"));
     QVERIFY(window->resourceName().startsWith("testXdgShellWindow"));
     // the desktop file does not exist, so icon should be generic Wayland
     QCOMPARE(window->icon().name(), QStringLiteral("wayland"));
@@ -686,8 +684,8 @@ void TestXdgShellWindow::testDesktopFileName()
     QSignalSpy iconChangedSpy(window, &Window::iconChanged);
     shellSurface->set_app_id(QStringLiteral("org.kde.bar"));
     QVERIFY(desktopFileNameChangedSpy.wait());
-    QCOMPARE(window->desktopFileName(), QByteArrayLiteral("org.kde.bar"));
-    QCOMPARE(window->resourceClass(), QByteArrayLiteral("org.kde.bar"));
+    QCOMPARE(window->desktopFileName(), QStringLiteral("org.kde.bar"));
+    QCOMPARE(window->resourceClass(), QStringLiteral("org.kde.bar"));
     QVERIFY(window->resourceName().startsWith("testXdgShellWindow"));
     // icon should still be wayland
     QCOMPARE(window->icon().name(), QStringLiteral("wayland"));
@@ -697,7 +695,7 @@ void TestXdgShellWindow::testDesktopFileName()
     shellSurface->set_app_id(dfPath.toUtf8());
     QVERIFY(desktopFileNameChangedSpy.wait());
     QCOMPARE(iconChangedSpy.count(), 1);
-    QCOMPARE(QString::fromUtf8(window->desktopFileName()), dfPath);
+    QCOMPARE(window->desktopFileName(), dfPath);
     QCOMPARE(window->icon().name(), QStringLiteral("kwin"));
 }
 
@@ -853,7 +851,7 @@ void TestXdgShellWindow::testAppMenu()
     std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get()));
     auto window = Test::renderAndWaitForShown(surface.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window);
-    std::unique_ptr<AppMenu> menu(Test::waylandAppMenuManager()->create(surface.get()));
+    std::unique_ptr<KWayland::Client::AppMenu> menu(Test::waylandAppMenuManager()->create(surface.get()));
     QSignalSpy spy(window, &Window::hasApplicationMenuChanged);
     menu->setAddress("service.name", "object/path");
     spy.wait();
@@ -1116,7 +1114,7 @@ void TestXdgShellWindow::testXdgWindowGeometryIsntSet()
     QCOMPARE(window->bufferGeometry().size(), QSize(100, 50));
 
     std::unique_ptr<KWayland::Client::Surface> childSurface(Test::createSurface());
-    std::unique_ptr<SubSurface> subSurface(Test::createSubSurface(childSurface.get(), surface.get()));
+    std::unique_ptr<KWayland::Client::SubSurface> subSurface(Test::createSubSurface(childSurface.get(), surface.get()));
     QVERIFY(subSurface);
     subSurface->setPosition(QPoint(-20, -10));
     Test::render(childSurface.get(), QSize(100, 50), Qt::blue);
@@ -1200,7 +1198,7 @@ void TestXdgShellWindow::testXdgWindowGeometryAttachSubSurface()
     QCOMPARE(window->bufferGeometry().size(), QSize(200, 100));
 
     std::unique_ptr<KWayland::Client::Surface> childSurface(Test::createSurface());
-    std::unique_ptr<SubSurface> subSurface(Test::createSubSurface(childSurface.get(), surface.get()));
+    std::unique_ptr<KWayland::Client::SubSurface> subSurface(Test::createSubSurface(childSurface.get(), surface.get()));
     QVERIFY(subSurface);
     subSurface->setPosition(QPoint(-20, -20));
     Test::render(childSurface.get(), QSize(100, 50), Qt::blue);
@@ -1446,9 +1444,9 @@ void TestXdgShellWindow::testPointerInputTransform()
 
     // Move the pointer to (10, 5) relative to the upper left frame corner, which is located
     // at (0, 0) in the surface-local coordinates.
-    Test::pointerMotion(window->pos() + QPoint(10, 5), timestamp++);
+    Test::pointerMotion(window->pos() + QPointF(10, 5), timestamp++);
     QVERIFY(pointerMotionSpy.wait());
-    QCOMPARE(pointerMotionSpy.last().first(), QPoint(10, 5));
+    QCOMPARE(pointerMotionSpy.last().first().toPointF(), QPointF(10, 5));
 
     // Let's pretend that the window has changed the extents of the client-side drop-shadow
     // but the frame geometry didn't change.
@@ -1463,9 +1461,9 @@ void TestXdgShellWindow::testPointerInputTransform()
 
     // Move the pointer to (20, 50) relative to the upper left frame corner, which is located
     // at (10, 20) in the surface-local coordinates.
-    Test::pointerMotion(window->pos() + QPoint(20, 50), timestamp++);
+    Test::pointerMotion(window->pos() + QPointF(20, 50), timestamp++);
     QVERIFY(pointerMotionSpy.wait());
-    QCOMPARE(pointerMotionSpy.last().first(), QPoint(10, 20) + QPoint(20, 50));
+    QCOMPARE(pointerMotionSpy.last().first().toPointF(), QPointF(10, 20) + QPointF(20, 50));
 
     // Destroy the xdg-toplevel surface.
     shellSurface.reset();

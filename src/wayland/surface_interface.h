@@ -6,6 +6,7 @@
 */
 #pragma once
 
+#include "core/output.h"
 #include "output_interface.h"
 
 #include <QMatrix4x4>
@@ -26,6 +27,11 @@ class SlideInterface;
 class SubSurfaceInterface;
 class SurfaceInterfacePrivate;
 class LinuxDmaBufV1Feedback;
+
+enum class PresentationHint {
+    VSync,
+    Async
+};
 
 /**
  * @brief Resource representing a wl_surface.
@@ -307,6 +313,11 @@ public:
     LinuxDmaBufV1Feedback *dmabufFeedbackV1() const;
 
     /**
+     * @returns the current content type of this surface
+     */
+    KWin::ContentType contentType() const;
+
+    /**
      * @returns The SurfaceInterface for the @p native resource.
      */
     static SurfaceInterface *get(wl_resource *native);
@@ -329,6 +340,17 @@ public:
      * @internal
      */
     QPointF toSurfaceLocal(const QPointF &point) const;
+
+    /**
+     * @returns if the client thinks the content of this surface is suitable for presentation with tearing
+     */
+    PresentationHint presentationHint() const;
+
+    /**
+    * Sets a preferred scale that clients should provide buffers in
+     * @param scale
+     */
+    void setPreferredScale(qreal scale);
 
 Q_SIGNALS:
     /**

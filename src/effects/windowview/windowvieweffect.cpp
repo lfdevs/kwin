@@ -46,7 +46,6 @@ WindowViewEffect::WindowViewEffect()
     KGlobalAccel::self()->setDefaultShortcut(m_exposeAction, QList<QKeySequence>() << (Qt::CTRL | Qt::Key_F9));
     KGlobalAccel::self()->setShortcut(m_exposeAction, QList<QKeySequence>() << (Qt::CTRL | Qt::Key_F9));
     m_shortcut = KGlobalAccel::self()->shortcut(m_exposeAction);
-    effects->registerGlobalShortcut(Qt::CTRL | Qt::Key_F9, m_exposeAction);
     connect(m_exposeAction, &QAction::triggered, this, [this]() {
         toggleMode(ModeCurrentDesktop);
     });
@@ -56,7 +55,6 @@ WindowViewEffect::WindowViewEffect()
     KGlobalAccel::self()->setDefaultShortcut(m_exposeAllAction, QList<QKeySequence>() << (Qt::CTRL | Qt::Key_F10) << Qt::Key_LaunchC);
     KGlobalAccel::self()->setShortcut(m_exposeAllAction, QList<QKeySequence>() << (Qt::CTRL | Qt::Key_F10) << Qt::Key_LaunchC);
     m_shortcutAll = KGlobalAccel::self()->shortcut(m_exposeAllAction);
-    effects->registerGlobalShortcut(Qt::CTRL | Qt::Key_F10, m_exposeAllAction);
     connect(m_exposeAllAction, &QAction::triggered, this, [this]() {
         toggleMode(ModeAllDesktops);
     });
@@ -66,7 +64,6 @@ WindowViewEffect::WindowViewEffect()
     KGlobalAccel::self()->setDefaultShortcut(m_exposeClassAction, QList<QKeySequence>() << (Qt::CTRL | Qt::Key_F7));
     KGlobalAccel::self()->setShortcut(m_exposeClassAction, QList<QKeySequence>() << (Qt::CTRL | Qt::Key_F7));
     m_shortcutClass = KGlobalAccel::self()->shortcut(m_exposeClassAction);
-    effects->registerGlobalShortcut(Qt::CTRL | Qt::Key_F7, m_exposeClassAction);
     connect(m_exposeClassAction, &QAction::triggered, this, [this]() {
         toggleMode(ModeWindowClass);
     });
@@ -76,7 +73,6 @@ WindowViewEffect::WindowViewEffect()
     KGlobalAccel::self()->setDefaultShortcut(m_exposeClassCurrentDesktopAction, QList<QKeySequence>()); // no default shortcut
     KGlobalAccel::self()->setShortcut(m_exposeClassCurrentDesktopAction, QList<QKeySequence>());
     m_shortcutClassCurrentDesktop = KGlobalAccel::self()->shortcut(m_exposeClassCurrentDesktopAction);
-    effects->registerGlobalShortcut(QKeySequence{}, m_exposeClassCurrentDesktopAction);
     connect(m_exposeClassCurrentDesktopAction, &QAction::triggered, this, [this]() {
         toggleMode(ModeWindowClassCurrentDesktop);
     });
@@ -192,10 +188,10 @@ void WindowViewEffect::reconfigure(ReconfigureFlags)
     setAnimationDuration(animationTime(300));
     setLayout(WindowViewConfig::layoutMode());
 
-    for (ElectricBorder border : qAsConst(m_borderActivate)) {
+    for (ElectricBorder border : std::as_const(m_borderActivate)) {
         effects->unreserveElectricBorder(border, this);
     }
-    for (ElectricBorder border : qAsConst(m_borderActivateAll)) {
+    for (ElectricBorder border : std::as_const(m_borderActivateAll)) {
         effects->unreserveElectricBorder(border, this);
     }
 
@@ -225,7 +221,6 @@ void WindowViewEffect::reconfigure(ReconfigureFlags)
     }
 
     auto touchCallback = [this](ElectricBorder border, const QPointF &deltaProgress, const EffectScreen *screen) {
-        Q_UNUSED(screen)
         if (m_status == Status::Active) {
             return;
         }
@@ -240,9 +235,9 @@ void WindowViewEffect::reconfigure(ReconfigureFlags)
         }
         const int maxDelta = 500; // Arbitrary logical pixels value seems to behave better than scaledScreenSize
         if (border == ElectricTop || border == ElectricBottom) {
-            partialActivate(std::min(1.0, qAbs(deltaProgress.y()) / maxDelta));
+            partialActivate(std::min(1.0, std::abs(deltaProgress.y()) / maxDelta));
         } else {
-            partialActivate(std::min(1.0, qAbs(deltaProgress.x()) / maxDelta));
+            partialActivate(std::min(1.0, std::abs(deltaProgress.x()) / maxDelta));
         }
     };
 
@@ -384,9 +379,11 @@ void WindowViewEffect::cancelPartialActivate()
 
 void WindowViewEffect::deactivate(int timeout)
 {
-    const auto screenViews = views();
-    for (QuickSceneView *view : screenViews) {
-        QMetaObject::invokeMethod(view->rootItem(), "stop");
+    const auto screens = effects->screens();
+    for (const auto screen : screens) {
+        if (QuickSceneView *view = viewForScreen(screen)) {
+            QMetaObject::invokeMethod(view->rootItem(), "stop");
+        }
     }
     m_shutdownTimer->start(timeout);
 

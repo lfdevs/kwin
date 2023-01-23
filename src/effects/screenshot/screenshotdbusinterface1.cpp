@@ -270,7 +270,7 @@ void ScreenShotSourceMulti1::marshal(ScreenShotSink1 *sink)
     QList<QImage> images;
     images.reserve(m_sources.count());
 
-    for (ScreenShotSource1 *source : qAsConst(m_sources)) {
+    for (ScreenShotSource1 *source : std::as_const(m_sources)) {
         images.append(source->data());
     }
 
@@ -298,13 +298,11 @@ ScreenShotSink1::ScreenShotSink1(ScreenShotDBusInterface1 *interface, QDBusMessa
 
 void ScreenShotSink1::flush(const QImage &image)
 {
-    Q_UNUSED(image)
     qCWarning(KWIN_SCREENSHOT) << metaObject()->className() << "does not implement" << Q_FUNC_INFO;
 }
 
 void ScreenShotSink1::flushMulti(const QList<QImage> &images)
 {
-    Q_UNUSED(images)
     qCWarning(KWIN_SCREENSHOT) << metaObject()->className() << "does not implement" << Q_FUNC_INFO;
 }
 
@@ -430,11 +428,11 @@ static xcb_pixmap_t xpixmapFromImage(const QImage &image)
     const QSize window = pickWindowSize(image);
 
     for (int i = 0; i < image.height(); i += window.height()) {
-        const int targetHeight = qMin(image.height() - i, window.height());
+        const int targetHeight = std::min(image.height() - i, window.height());
         const uint8_t *line = image.scanLine(i);
 
         for (int j = 0; j < image.width(); j += window.width()) {
-            const int targetWidth = qMin(image.width() - j, window.width());
+            const int targetWidth = std::min(image.width() - j, window.width());
             const uint8_t *bytes = line + j * bytesPerPixel;
             const uint32_t byteCount = targetWidth * targetHeight * bytesPerPixel;
 
@@ -507,6 +505,11 @@ bool ScreenShotDBusInterface1::checkCall() const
 {
     if (!calledFromDBus()) {
         return false;
+    }
+
+    static bool permissionCheckDisabled = qEnvironmentVariableIntValue("KWIN_SCREENSHOT_NO_PERMISSION_CHECKS") == 1;
+    if (permissionCheckDisabled) {
+        return true;
     }
 
     const QDBusReply<uint> reply = connection().interface()->servicePid(message().service());

@@ -230,3 +230,12 @@ msgid ""
 "You can trigger an action by swiping from the screen edge towards the center "
 "of the screen."
 msgstr ""
+
+#~ msgid "Show Desktop"
+#~ msgstr "სამუშაო მაგიდის ჩვენება"
+
+#~ msgid "Desktop Grid"
+#~ msgstr "სამუშაო მაგიდის ბადე"
+
+#~ msgid "Toggle Overview"
+#~ msgstr "გადახედვის ჩართ/გამორთ"

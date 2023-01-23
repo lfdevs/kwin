@@ -8,7 +8,7 @@
 
 #include "screencaststream.h"
 #include "composite.h"
-#include "core/platform.h"
+#include "core/outputbackend.h"
 #include "core/renderbackend.h"
 #include "cursor.h"
 #include "dmabuftexture.h"
@@ -20,7 +20,7 @@
 #include "kwinscreencast_logging.h"
 #include "main.h"
 #include "pipewirecore.h"
-#include "scene.h"
+#include "scene/workspacescene.h"
 #include "screencastsource.h"
 #include "utils/common.h"
 
@@ -157,9 +157,9 @@ void ScreenCastStream::onStreamParamChanged(void *data, uint32_t id, const struc
     }
     if (modifierProperty && (!pw->m_dmabufParams || !receivedModifiers.contains(pw->m_dmabufParams->modifier))) {
         if (modifierProperty->flags & SPA_POD_PROP_FLAG_DONT_FIXATE) {
-            pw->m_dmabufParams = kwinApp()->platform()->testCreateDmaBuf(pw->m_resolution, spaVideoFormatToDrmFormat(pw->videoFormat.format), receivedModifiers);
+            pw->m_dmabufParams = kwinApp()->outputBackend()->testCreateDmaBuf(pw->m_resolution, spaVideoFormatToDrmFormat(pw->videoFormat.format), receivedModifiers);
         } else {
-            pw->m_dmabufParams = kwinApp()->platform()->testCreateDmaBuf(pw->m_resolution, spaVideoFormatToDrmFormat(pw->videoFormat.format), {DRM_FORMAT_MOD_INVALID});
+            pw->m_dmabufParams = kwinApp()->outputBackend()->testCreateDmaBuf(pw->m_resolution, spaVideoFormatToDrmFormat(pw->videoFormat.format), {DRM_FORMAT_MOD_INVALID});
         }
 
         qCDebug(KWIN_SCREENCAST) << "Stream dmabuf modifiers received, offering our best suited modifier" << pw->m_dmabufParams.has_value();
@@ -185,7 +185,7 @@ void ScreenCastStream::onStreamAddBuffer(void *data, pw_buffer *buffer)
 
     if (spa_data[0].type != SPA_ID_INVALID && spa_data[0].type & (1 << SPA_DATA_DmaBuf)) {
         Q_ASSERT(stream->m_dmabufParams);
-        dmabuff = kwinApp()->platform()->createDmaBufTexture(*stream->m_dmabufParams);
+        dmabuff = kwinApp()->outputBackend()->createDmaBufTexture(*stream->m_dmabufParams);
     }
 
     if (dmabuff) {
@@ -240,6 +240,8 @@ void ScreenCastStream::onStreamAddBuffer(void *data, pw_buffer *buffer)
         }
 #endif
     }
+
+    stream->m_waitForNewBuffers = false;
 }
 
 void ScreenCastStream::onStreamRemoveBuffer(void *data, pw_buffer *buffer)
@@ -257,6 +259,15 @@ void ScreenCastStream::onStreamRemoveBuffer(void *data, pw_buffer *buffer)
             close(buffer->buffer->datas[i].fd);
         }
     }
+}
+
+void ScreenCastStream::onStreamRenegotiateFormat(void *data, uint64_t)
+{
+    ScreenCastStream *stream = static_cast<ScreenCastStream *>(data);
+
+    char buffer[2048];
+    auto params = stream->buildFormats(stream->m_dmabufParams.has_value(), buffer);
+    pw_stream_update_params(stream->pwStream, params.data(), params.count());
 }
 
 ScreenCastStream::ScreenCastStream(ScreenCastSource *source, QObject *parent)
@@ -297,6 +308,8 @@ bool ScreenCastStream::init()
         return false;
     }
 
+    pwRenegotiate = pw_loop_add_event(pwCore.get()->pwMainLoop, onStreamRenegotiateFormat, this);
+
     return true;
 }
 
@@ -322,7 +335,7 @@ bool ScreenCastStream::createStream()
     // it could make sense to offer the same format as the source
     const auto format = m_source->hasAlphaChannel() ? SPA_VIDEO_FORMAT_BGRA : SPA_VIDEO_FORMAT_BGR;
     const int drmFormat = spaVideoFormatToDrmFormat(format);
-    m_hasDmaBuf = kwinApp()->platform()->testCreateDmaBuf(m_resolution, drmFormat, {DRM_FORMAT_MOD_INVALID}).has_value();
+    m_hasDmaBuf = kwinApp()->outputBackend()->testCreateDmaBuf(m_resolution, drmFormat, {DRM_FORMAT_MOD_INVALID}).has_value();
     m_modifiers = Compositor::self()->backend()->supportedFormats().value(drmFormat);
 
     char buffer[2048];
@@ -373,9 +386,17 @@ void ScreenCastStream::recordFrame(const QRegion &_damagedRegion)
         return;
     }
 
-    if (m_source->textureSize() != m_resolution) {
-        m_resolution = m_source->textureSize();
-        newStreamParams();
+    if (m_waitForNewBuffers) {
+        qCWarning(KWIN_SCREENCAST) << "Waiting for new buffers to be created";
+        return;
+    }
+
+    const auto size = m_source->textureSize();
+    if (size != m_resolution) {
+        m_resolution = size;
+        m_waitForNewBuffers = true;
+        m_dmabufParams = std::nullopt;
+        pw_loop_signal_event(pwCore.get()->pwMainLoop, pwRenegotiate);
         return;
     }
 
@@ -404,7 +425,6 @@ void ScreenCastStream::recordFrame(const QRegion &_damagedRegion)
         return;
     }
 
-    const auto size = m_source->textureSize();
     spa_data->chunk->offset = 0;
     if (data || spa_data[0].type == SPA_DATA_MemFd) {
         const bool hasAlpha = m_source->hasAlphaChannel();
@@ -445,36 +465,41 @@ void ScreenCastStream::recordFrame(const QRegion &_damagedRegion)
 
         auto cursor = Cursors::self()->currentCursor();
         if (m_cursor.mode == KWaylandServer::ScreencastV1Interface::Embedded && m_cursor.viewport.contains(cursor->pos())) {
-            GLFramebuffer::pushFramebuffer(buf->framebuffer());
+            if (!cursor->image().isNull()) {
+                GLFramebuffer::pushFramebuffer(buf->framebuffer());
 
-            QRect r(QPoint(), size);
-            auto shader = ShaderManager::instance()->pushShader(ShaderTrait::MapTexture);
+                QRect r(QPoint(), size);
+                auto shader = ShaderManager::instance()->pushShader(ShaderTrait::MapTexture);
 
-            QMatrix4x4 mvp;
-            mvp.ortho(r);
-            shader->setUniform(GLShader::ModelViewProjectionMatrix, mvp);
+                QMatrix4x4 mvp;
+                mvp.ortho(r);
+                shader->setUniform(GLShader::ModelViewProjectionMatrix, mvp);
 
-            if (!m_cursor.texture || m_cursor.lastKey != cursor->image().cacheKey()) {
-                m_cursor.texture.reset(new GLTexture(cursor->image()));
+                if (!m_cursor.texture || m_cursor.lastKey != cursor->image().cacheKey()) {
+                    m_cursor.texture.reset(new GLTexture(cursor->image()));
+                }
+
+                m_cursor.texture->setYInverted(false);
+                m_cursor.texture->bind();
+                const auto cursorRect = cursorGeometry(cursor);
+                mvp.translate(cursorRect.left(), r.height() - cursorRect.top() - cursor->image().height());
+                shader->setUniform(GLShader::ModelViewProjectionMatrix, mvp);
+
+                glEnable(GL_BLEND);
+                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+                m_cursor.texture->render(cursorRect, m_cursor.scale);
+                glDisable(GL_BLEND);
+                m_cursor.texture->unbind();
+
+                ShaderManager::instance()->popShader();
+                GLFramebuffer::popFramebuffer();
+
+                damagedRegion += QRegion{m_cursor.lastRect} | cursorRect;
+                m_cursor.lastRect = cursorRect;
+            } else {
+                damagedRegion |= m_cursor.lastRect;
+                m_cursor.lastRect = {};
             }
-
-            m_cursor.texture->setYInverted(false);
-            m_cursor.texture->bind();
-            const auto cursorRect = cursorGeometry(cursor);
-            mvp.translate(cursorRect.left(), r.height() - cursorRect.top() - cursor->image().height());
-            shader->setUniform(GLShader::ModelViewProjectionMatrix, mvp);
-
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-            m_cursor.texture->render(cursorRect);
-            glDisable(GL_BLEND);
-            m_cursor.texture->unbind();
-
-            ShaderManager::instance()->popShader();
-            GLFramebuffer::popFramebuffer();
-
-            damagedRegion += QRegion{m_cursor.lastRect} | cursorRect;
-            m_cursor.lastRect = cursorRect;
         }
     }
 
@@ -576,17 +601,16 @@ void ScreenCastStream::tryEnqueue(pw_buffer *buffer)
     // we need to insert a fence into the command stream and enqueue the pipewire buffer
     // only after the fence is signaled; otherwise stream consumers will most likely see
     // a corrupted buffer.
-    if (kwinApp()->platform()->supportsNativeFence()) {
+    if (Compositor::self()->scene()->supportsNativeFence()) {
         Q_ASSERT_X(eglGetCurrentContext(), "tryEnqueue", "no current context");
-        m_pendingFence = new EGLNativeFence(kwinApp()->platform()->sceneEglDisplay());
+        m_pendingFence = std::make_unique<EGLNativeFence>(kwinApp()->outputBackend()->sceneEglDisplay());
         if (!m_pendingFence->isValid()) {
             qCWarning(KWIN_SCREENCAST) << "Failed to create a native EGL fence";
             glFinish();
             enqueue();
         } else {
-            m_pendingNotifier = new QSocketNotifier(m_pendingFence->fileDescriptor(),
-                                                    QSocketNotifier::Read, this);
-            connect(m_pendingNotifier, &QSocketNotifier::activated, this, &ScreenCastStream::enqueue);
+            m_pendingNotifier = std::make_unique<QSocketNotifier>(m_pendingFence->fileDescriptor(), QSocketNotifier::Read);
+            connect(m_pendingNotifier.get(), &QSocketNotifier::activated, this, &ScreenCastStream::enqueue);
         }
     } else {
         // The compositing backend doesn't support native fences. We don't have any other choice
@@ -600,14 +624,12 @@ void ScreenCastStream::enqueue()
 {
     Q_ASSERT_X(m_pendingBuffer, "enqueue", "pending buffer must be valid");
 
-    delete m_pendingFence;
-    delete m_pendingNotifier;
+    m_pendingFence.reset();
+    m_pendingNotifier.reset();
 
     pw_stream_queue_buffer(pwStream, m_pendingBuffer);
 
     m_pendingBuffer = nullptr;
-    m_pendingFence = nullptr;
-    m_pendingNotifier = nullptr;
 }
 
 QVector<const spa_pod *> ScreenCastStream::buildFormats(bool fixate, char buffer[2048])

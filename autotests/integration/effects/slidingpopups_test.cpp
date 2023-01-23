@@ -7,7 +7,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "composite.h"
-#include "core/platform.h"
+#include "core/outputbackend.h"
 #include "core/renderbackend.h"
 #include "cursor.h"
 #include "deleted.h"
@@ -52,8 +52,8 @@ void SlidingPopupsTest::initTestCase()
     qRegisterMetaType<KWin::Deleted *>();
     qRegisterMetaType<KWin::Effect *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
+    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
 
     // disable all effects - we don't want to have it interact with the rendering
     auto config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
@@ -156,9 +156,6 @@ void SlidingPopupsTest::testWithOtherEffect()
     QVERIFY(!slidingPoupus->isActive());
     QVERIFY(!otherEffect->isActive());
 
-    // give the compositor some time to render
-    QTest::qWait(50);
-
     QSignalSpy windowAddedSpy(effects, &EffectsHandler::windowAdded);
 
     // create an xcb window
@@ -209,8 +206,7 @@ void SlidingPopupsTest::testWithOtherEffect()
 
     // wait till effect ends
     QTRY_VERIFY(!slidingPoupus->isActive());
-    QTest::qWait(300);
-    QVERIFY(!otherEffect->isActive());
+    QTRY_VERIFY(!otherEffect->isActive());
 
     // and destroy the window again
     xcb_unmap_window(c.get(), windowId);
@@ -228,8 +224,7 @@ void SlidingPopupsTest::testWithOtherEffect()
     QVERIFY(windowDeletedSpy.wait());
 
     QCOMPARE(windowDeletedSpy.count(), 1);
-    QTRY_VERIFY(!slidingPoupus->isActive());
-    QTest::qWait(300);
+    QVERIFY(!slidingPoupus->isActive());
     QVERIFY(!otherEffect->isActive());
     xcb_destroy_window(c.get(), windowId);
     c.reset();
@@ -290,24 +285,23 @@ void SlidingPopupsTest::testWithOtherEffectWayland()
     QVERIFY(!otherEffect->isActive());
     QSignalSpy windowAddedSpy(effects, &EffectsHandler::windowAdded);
 
-    using namespace KWayland::Client;
     // the test created the slide protocol, let's create a Registry and listen for it
-    std::unique_ptr<Registry> registry(new Registry);
+    std::unique_ptr<KWayland::Client::Registry> registry(new KWayland::Client::Registry);
     registry->create(Test::waylandConnection());
 
-    QSignalSpy interfacesAnnouncedSpy(registry.get(), &Registry::interfacesAnnounced);
+    QSignalSpy interfacesAnnouncedSpy(registry.get(), &KWayland::Client::Registry::interfacesAnnounced);
     registry->setup();
     QVERIFY(interfacesAnnouncedSpy.wait());
-    auto slideInterface = registry->interface(Registry::Interface::Slide);
+    auto slideInterface = registry->interface(KWayland::Client::Registry::Interface::Slide);
     QVERIFY(slideInterface.name != 0);
-    std::unique_ptr<SlideManager> slideManager(registry->createSlideManager(slideInterface.name, slideInterface.version));
+    std::unique_ptr<KWayland::Client::SlideManager> slideManager(registry->createSlideManager(slideInterface.name, slideInterface.version));
     QVERIFY(slideManager);
 
     // create Wayland window
     std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
     QVERIFY(surface);
-    std::unique_ptr<Slide> slide(slideManager->createSlide(surface.get()));
-    slide->setLocation(Slide::Location::Left);
+    std::unique_ptr<KWayland::Client::Slide> slide(slideManager->createSlide(surface.get()));
+    slide->setLocation(KWayland::Client::Slide::Location::Left);
     slide->commit();
     std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get()));
     QVERIFY(shellSurface);
@@ -323,8 +317,7 @@ void SlidingPopupsTest::testWithOtherEffectWayland()
 
     // wait till effect ends
     QTRY_VERIFY(!slidingPoupus->isActive());
-    QTest::qWait(300);
-    QVERIFY(!otherEffect->isActive());
+    QTRY_VERIFY(!otherEffect->isActive());
 
     // and destroy the window again
     shellSurface.reset();
@@ -342,8 +335,7 @@ void SlidingPopupsTest::testWithOtherEffectWayland()
     QVERIFY(windowDeletedSpy.wait());
 
     QCOMPARE(windowDeletedSpy.count(), 1);
-    QTRY_VERIFY(!slidingPoupus->isActive());
-    QTest::qWait(300);
+    QVERIFY(!slidingPoupus->isActive());
     QVERIFY(!otherEffect->isActive());
 }
 

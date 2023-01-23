@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-02 00:47+0000\n"
+"POT-Creation-Date: 2022-12-03 00:48+0000\n"
 "PO-Revision-Date: 2011-01-12 20:42+0800\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@gmail.com>\n"
 "Language-Team: Malay <kedidiemas@yahoogroups.com>\n"
@@ -517,7 +517,25 @@ msgstr "&Tempat:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_Placement)
 #: advanced.ui:76
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<p>This option specifies how much KWin will try to prevent unwanted focus "
+#| "stealing caused by unexpected activation of new windows. (Note: This "
+#| "feature does not work with the Focus Under Mouse or Focus Strictly Under "
+#| "Mouse focus policies.)<ul><li><em>None:</em> Prevention is turned off and "
+#| "new windows always become activated.</li><li><em>Low:</em> Prevention is "
+#| "enabled; when some window does not have support for the underlying "
+#| "mechanism and KWin cannot reliably decide whether to activate the window "
+#| "or not, it will be activated. This setting may have both worse and better "
+#| "results than normal level, depending on the applications.</"
+#| "li><li><em>Normal:</em> Prevention is enabled.</li><li><em>High:</em> New "
+#| "windows get activated only if no window is currently active or if they "
+#| "belong to the currently active application. This setting is probably not "
+#| "really usable when not using mouse focus policy.</li><li><em>Extreme:</"
+#| "em> All windows must be explicitly activated by the user.</li></ul></"
+#| "p><p>Windows that are prevented from stealing focus are marked as "
+#| "demanding attention, which by default means their taskbar entry will be "
+#| "highlighted. This can be changed in the Notifications control module.</p>"
 msgid ""
 "<html><head/><body><p>The placement policy determines where a new window "
 "will appear on the desktop.</p><ul style=\"margin-top: 0px; margin-bottom: "
@@ -531,13 +549,10 @@ msgid ""
 "whole screen. It might be useful to selectively affect placement of some "
 "windows using the window-specific settings.</li><li style=\" margin-top:0px; "
 "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\"><span style=\" font-style:italic;\">Cascade</span> will "
-"cascade the windows</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"text-indent:0px;\"><span style=\" font-style:italic;\">Random</span> will "
+"use a random position</li><li style=\" margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-style:italic;\">Random</span> will use a random "
-"position</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-style:italic;\">Centered</span> will place the window "
+"\"><span style=\" font-style:italic;\">Centered</span> will place the window "
 "centered</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\" font-style:italic;\">Zero-cornered</span> will place the window in "
@@ -546,6 +561,25 @@ msgid ""
 "\"><span style=\" font-style:italic;\">Under mouse</span> will place the "
 "window under the pointer</li></ul></body></html>"
 msgstr ""
+"<p>Pilihan ini menentukan sebanyak mana KWin akan cuba mencegah pencurian "
+"fokus yang tidak diingini oleh pengaktifan tetingkap baru yang tidak "
+"dijangka. (Perhatian: Ciri ini tidak berfungsi dengan dasar Fokus Di Bawah "
+"Tetikus atau Fokus Betul-betul Di Bawah Tetikus.)<ul><li><em>Tiada:</em> "
+"Pencegahan ditutup dan tetingkap baru akan sentiasa diaktifkan.</"
+"li><li><em>Rendah:</em> Pencegahan diaktifkan; apabila sesetengah tetingkap "
+"tidak mempunyai sokongan bagi mekanisme yang mendasari dan KWin tidak boleh "
+"memutuskan sama ada hendak mengaktifkan tetingkap atau tidak, ia akan "
+"diaktifkan. Tetapan ini boleh mempunyai hasil yang lebih buruk dan lebih "
+"baik daripada tahap normal, bergantung pada aplikasi.</li><li><em>Normal:</"
+"em> Pencegahan diaktifkan.</li><li><em>Tinggi:</em> Tetingkap baru "
+"diaktifkan hanya apabila tiada tetingkap pada masa ini aktif atau jika ia "
+"milik aplikasi yang aktif masa ini. Tetapan ini mungkin benar-benar berguna "
+"apabila tidak menggunakan dasar fokus tetikus.</li><li><em>Ekstrim:</em> "
+"Semua tetingkap mestilah jelas diaktifkan oleh pengguna.</li></ul></"
+"p><p>Tetingkap yang dihalang daripada mencuri fokus ditandakan sebagai "
+"memerlukan perhatian, dimana secara default bermaksud masukan bar tugas "
+"mereka akan disorotkan. Ini boleh diubah didalam modul kawalan Pemberitahuan."
+"</p>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:80
@@ -564,38 +598,31 @@ msgstr "Maksimumkan"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:90
-#, fuzzy, kde-format
-#| msgid "Cascade"
-msgid "Cascaded"
-msgstr "Bertindih"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:95
 #, kde-format
 msgid "Random"
 msgstr "Rawak"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:100
+#: advanced.ui:95
 #, kde-format
 msgid "Centered"
 msgstr "Ketengah"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:105
+#: advanced.ui:100
 #, kde-format
 msgid "In Top-Left Corner"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:110
+#: advanced.ui:105
 #, fuzzy, kde-format
 #| msgid "Focus Under Mouse"
 msgid "Under mouse"
 msgstr "Fokus Di Bawah Tetikus"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:118
+#: advanced.ui:113
 #, kde-format
 msgid ""
 "When turned on, apps which are able to remember the positions of their "
@@ -604,21 +631,21 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:121
+#: advanced.ui:116
 #, kde-format
 msgid ""
 "Allow apps to remember the positions of their own windows, if they support it"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
-#: advanced.ui:128
+#: advanced.ui:123
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "&Special windows:"
 msgstr "Tetingkap"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:138
+#: advanced.ui:133
 #, kde-format
 msgid ""
 "When turned on, utility windows (tool windows, torn-off menus,...) of "
@@ -632,25 +659,25 @@ msgstr ""
 "tetingkap dengan jenis tetingkap yang betul untuk menjadikan ciri berfungsi."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:141
+#: advanced.ui:136
 #, kde-format
 msgid "Hide utility windows for inactive applications"
 msgstr "Sembunyikan tetingkap kemudahan untuk aplikasi tak aktif"
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyLabel)
-#: advanced.ui:148
+#: advanced.ui:143
 #, kde-format
 msgid "Virtual Desktop behavior:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyDescriptionLabel)
-#: advanced.ui:158
+#: advanced.ui:153
 #, kde-format
 msgid "When activating a window on a different Virtual Desktop:"
 msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:165
+#: advanced.ui:160
 #, kde-format
 msgid ""
 "<html><head/><body><p>This setting controls what happens when an open window "
@@ -663,13 +690,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:169
+#: advanced.ui:164
 #, kde-format
 msgid "Switch to that Virtual Desktop"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:174
+#: advanced.ui:169
 #, kde-format
 msgid "Bring window to current Virtual Desktop"
 msgstr ""
@@ -1426,3 +1453,388 @@ msgid ""
 "activation policy and will not work. You very likely want to use <em>Focus "
 "follows mouse (mouse precedence)</em> instead!"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Cascade"
+#~ msgid "Cascaded"
+#~ msgstr "Bertindih"
+
+#~ msgid ""
+#~ "Enable this option if you want a window's geometry to be displayed while "
+#~ "it is being moved or resized. The window position relative to the top-"
+#~ "left corner of the screen is displayed together with its size."
+#~ msgstr ""
+#~ "Aktifkan opsyen ini jika anda ingin geometri tetingkap dipaparkan semasa "
+#~ "ia digerakkan atau disaizkan semula. Posisi tetingkap yang relatif kepada "
+#~ "sudut kiri atas skrin dipaparkan bersama dengan saiznya."
+
+#, fuzzy
+#~| msgid "Display window &geometry when moving or resizing"
+#~ msgid "Display when moving or resizing"
+#~ msgstr "Paparkan &geometri tetingkap semasa bergerak atau mensaiz semula"
+
+#~ msgid "Maximize (vertical only)"
+#~ msgstr "Maksimakan (menegak sahaja)"
+
+#~ msgid "Maximize (horizontal only)"
+#~ msgstr "Maksimakan (melintang sahaja)"
+
+#~ msgid "Smart"
+#~ msgstr "Pintar"
+
+#~ msgid "Maximizing"
+#~ msgstr "Memaksimakan"
+
+#, fuzzy
+#~| msgid "Zero-Cornered"
+#~ msgid "Zero-cornered"
+#~ msgstr "Bersudut Sifar"
+
+#, fuzzy
+#~| msgctxt "@title:group"
+#~| msgid "Window Switching"
+#~ msgid "Window tabbing:"
+#~ msgstr "Menukar Tetingkap"
+
+#, fuzzy
+#~| msgctxt "@title:group"
+#~| msgid "Window Switching"
+#~ msgid "Start window tab drag"
+#~ msgstr "Menukar Tetingkap"
+
+#, fuzzy
+#~| msgid "Right button:"
+#~ msgid "Ri&ght button:"
+#~ msgstr "Butang kanan:"
+
+#, fuzzy
+#~| msgid "Wheel"
+#~ msgid "&Wheel"
+#~ msgstr "Roda"
+
+#, fuzzy
+#~| msgid "Left button:"
+#~ msgid "&Left button:"
+#~ msgstr "Butang kiri:"
+
+#, fuzzy
+#~| msgid "Right button:"
+#~ msgid "&Right button:"
+#~ msgstr "Butang kanan:"
+
+#, fuzzy
+#~| msgid "Middle button:"
+#~ msgid "M&iddle button:"
+#~ msgstr "Butang tengah:"
+
+#, fuzzy
+#~| msgid "Left button:"
+#~ msgid "Left &button"
+#~ msgstr "Butang kiri:"
+
+#, fuzzy
+#~| msgid ""
+#~| "The placement policy determines where a new window will appear on the "
+#~| "desktop. <ul> <li><em>Smart</em> will try to achieve a minimum overlap "
+#~| "of windows</li> <li><em>Maximizing</em> will try to maximize every "
+#~| "window to fill the whole screen. It might be useful to selectively "
+#~| "affect placement of some windows using the window-specific settings.</"
+#~| "li> <li><em>Cascade</em> will cascade the windows</li> <li><em>Random</"
+#~| "em> will use a random position</li> <li><em>Centered</em> will place the "
+#~| "window centered</li> <li><em>Zero-Cornered</em> will place the window in "
+#~| "the top-left corner</li></ul>"
+#~ msgid ""
+#~ "The placement policy determines where a new window will appear on the "
+#~ "desktop.<br><ul>\n"
+#~ "<li><em>Smart</em> will try to achieve a minimum overlap of windows</li>\n"
+#~ "<li><em>Maximizing</em> will try to maximize every window to fill the "
+#~ "whole screen. It might be useful to selectively affect placement of some "
+#~ "windows using the window-specific settings.</li>\n"
+#~ "<li><em>Cascade</em> will cascade the windows</li>\n"
+#~ "<li><em>Random</em> will use a random position</li>\n"
+#~ "<li><em>Centered</em> will place the window centered</li>\n"
+#~ "<li><em>Zero-Cornered</em> will place the window in the top-left corner</"
+#~ "li>\n"
+#~ "<li><em>Under Mouse</em> will place the window under the pointer</li>\n"
+#~ "</ul>"
+#~ msgstr ""
+#~ "Dasar penempatan menentukan di mana tetingkap baru akan muncul pada "
+#~ "desktop. <ul> <li><em>Pintar</em> akan cuba mencapai tindihan minimum "
+#~ "bagi tetingkap</li> <li><em>Maksimum</em> akan cuba memaksimumkan setiap "
+#~ "tetingkap untuk memenuhi seluruh skrin. Ia mungkin berguna untuk memilih "
+#~ "kesan penempatan bagi sesetengah tetingkap apabila menggunakan tetapan "
+#~ "tetingkap-spesifik</li> <li><em>Lata</em> akan melatakan tetingkap</li> "
+#~ "<li><em>Rawak</em> akan menggunakan kedudukan rawak</li> <li><em>Tengah</"
+#~ "em> akan menempatkan tetingkap di tengah</li> <li><em>Sudut Sifar</em> "
+#~ "akan menempatkan tetingkap di sudut kiri atas</li></ul>"
+
+#~ msgid "Shading"
+#~ msgstr "Pewarnaan"
+
+#~ msgid "Dela&y:"
+#~ msgstr "&Lengah:"
+
+#~ msgid "&Enable hover"
+#~ msgstr "&Aktifkan hover"
+
+#, fuzzy
+#~| msgid "&Policy:"
+#~ msgid "Policy"
+#~ msgstr "&Polisi:"
+
+#~ msgid "&Moving"
+#~ msgstr "&Bergerak"
+
+#, fuzzy
+#~| msgid "Titlebar wheel event:"
+#~ msgid "Wheel event:"
+#~ msgstr "Peristiwa roda bar tajuk:"
+
+#~ msgid "Handle mouse wheel events"
+#~ msgstr "Kendalikan peristiwa reroda tetikus"
+
+#~ msgid ""
+#~ "In this column you can customize mouse clicks into the titlebar or the "
+#~ "frame of an active window."
+#~ msgstr ""
+#~ "Dalam lajur ini anda boleh suaikan klik tetikus ke dalam bar tajuk atau "
+#~ "bingkai tetingkap aktif."
+
+#~ msgid ""
+#~ "In this column you can customize mouse clicks into the titlebar or the "
+#~ "frame of an inactive window."
+#~ msgstr ""
+#~ "Dalam lajur ini anda boleh suaikan klik tetikus ke dalam bar tajuk atau "
+#~ "bingkai tetingkap tak aktif."
+
+#~ msgid "Left button:"
+#~ msgstr "Butang kiri:"
+
+#~ msgid "Middle button:"
+#~ msgstr "Butang tengah:"
+
+#~ msgid ""
+#~ "Behavior on <em>middle</em> click into the titlebar or frame of an "
+#~ "<em>active</em> window."
+#~ msgstr ""
+#~ "Peri laku terhadap klik <em>tengah</em> ke dalam bar tajuk atau bingkai "
+#~ "tetingkap <em>aktif</em>."
+
+#~ msgid "Right button:"
+#~ msgstr "Butang kanan:"
+
+#~ msgid ""
+#~ "Behavior on <em>right</em> click into the titlebar or frame of an "
+#~ "<em>active</em> window."
+#~ msgstr ""
+#~ "Peri laku terhadap klik <em>kanan</em> ke dalam bar tajuk atau bingkai "
+#~ "tetingkap <em>aktif</em>."
+
+#, fuzzy
+#~| msgid "Titlebar && Frame"
+#~ msgid "Titlebar & Frame"
+#~ msgstr "Bar Tajuk && Bingkai"
+
+#, fuzzy
+#~| msgid "&Titlebar Actions"
+#~ msgid "Titlebar"
+#~ msgstr "&Tindakan Bar Tajuk"
+
+#, fuzzy
+#~| msgid "&Center snap zone:"
+#~ msgid "no center snap zone"
+#~ msgstr "&Zon snap tengah:"
+
+#, fuzzy
+#~| msgid "&Window snap zone:"
+#~ msgid "no window snap zone"
+#~ msgstr "&Zon snap tetingkap:"
+
+#, fuzzy
+#~| msgid "&Border snap zone:"
+#~ msgid "no border snap zone"
+#~ msgstr "&Zon snap sempadan:"
+
+#~ msgid "Windows"
+#~ msgstr "Tetingkap"
+
+#~ msgid "Snap Zones"
+#~ msgstr "Zon Snap"
+
+#~ msgid "kcmkwinoptions"
+#~ msgstr "kcmkwinoptions"
+
+#, fuzzy
+#~| msgid ""
+#~| "The focus policy is used to determine the active window, i.e. the window "
+#~| "you can work in. <ul> <li><em>Click to focus:</em> A window becomes "
+#~| "active when you click into it. This is the behavior you might know from "
+#~| "other operating systems.</li> <li><em>Focus follows mouse:</em> Moving "
+#~| "the mouse pointer actively on to a normal window activates it. New "
+#~| "windows will receive the focus, without you having to point the mouse at "
+#~| "them explicitly. Very practical if you are using the mouse a lot.</li> "
+#~| "<li><em>Focus under mouse:</em> The window that happens to be under the "
+#~| "mouse pointer is active. If the mouse points nowhere, the last window "
+#~| "that was under the mouse has focus. New windows will not automatically "
+#~| "receive the focus.</li> <li><em>Focus strictly under mouse:</em> Only "
+#~| "the window under the mouse pointer is active. If the mouse points "
+#~| "nowhere, nothing has focus.</li> </ul>Note that 'Focus under mouse' and "
+#~| "'Focus strictly under mouse' prevent certain features such as the Alt"
+#~| "+Tab walk through windows dialog in the KDE mode from working properly."
+#~ msgid ""
+#~ "The focus policy is used to determine the active window, i.e. the window "
+#~ "you can work in. <ul>\n"
+#~ "<li><em>Click to focus:</em> A window becomes active when you click into "
+#~ "it. This is the behavior you might know from other operating systems.</"
+#~ "li> <li><em>Focus follows mouse:</em> Moving the mouse pointer actively "
+#~ "on to a normal window activates it. New windows will receive the focus, "
+#~ "without you having to point the mouse at them explicitly. Very practical "
+#~ "if you are using the mouse a lot.</li>\n"
+#~ "<li><em>Focus under mouse:</em> The window that happens to be under the "
+#~ "mouse pointer is active. If the mouse points nowhere, the last window "
+#~ "that was under the mouse has focus. New windows will not automatically "
+#~ "receive the focus.</li>\n"
+#~ "<li><em>Focus strictly under mouse:</em> Only the window under the mouse "
+#~ "pointer is active. If the mouse points nowhere, nothing has focus.</li>\n"
+#~ "</ul>\n"
+#~ "Note that 'Focus under mouse' and 'Focus strictly under mouse' prevent "
+#~ "certain features such as the Alt+Tab walk through windows dialog in the "
+#~ "KDE mode from working properly."
+#~ msgstr ""
+#~ "Dasar fokus digunakan untuk menentukan tetingkap aktif, iaitu tetingkap "
+#~ "yang anda boleh usahakan. <ul> <li><em>Klik untuk fokus:</em>Tetingkap "
+#~ "menjadi aktif apabila anda klik padanya. Ini ialah peri laku yang mungkin "
+#~ "anda tahu daripada sistem operasi lain.</li> <li><em>Fokus menuruti "
+#~ "tetikus:</em> Menggerakkan penuding tetikus dengan aktif pada tetingkap "
+#~ "normal akan mengaktifkannya. Tetingkap baru akan menerima fokus itu, "
+#~ "tanpa perlu menuding tetikus padanya dengan jelas. Sangat praktikal jika "
+#~ "anda banyak menggunakan tetikus.</li> <li><em>Fokus di bawah tetikus:</"
+#~ "em> Tetingkap yang berada di bawah penuding tetikus adalah aktif. Jika "
+#~ "tetikus tidak menuding mana-mana, tetingkap terakhir di bawah tetikus "
+#~ "mendapat fokus. Tetingkap baru akan secara automatik menerima fokus.</li> "
+#~ "<li><em>Fokus betul-betul di bawah tetikus:</em> Hanya tetingkap di bawah "
+#~ "penuding tetikus adalah aktif. Jika tetikus tidak menuding mana-mana, "
+#~ "tiada apa yang mendapat fokus. </li> </ul>Ambil perhatian bahawa 'Fokus "
+#~ "di bawah tetikus' dan 'Fokus betul-betul di bawah tetikus' mencegah ciri "
+#~ "tertentu seperti dialog tetingkap terus rentas Alt+Tab dalam mod KDE "
+#~ "daripada berfungsi dengan betul."
+
+#~ msgid ""
+#~ "When enabled, this feature activates the border of maximized windows and "
+#~ "allows you to move or resize them, just like for normal windows"
+#~ msgstr ""
+#~ "Apabila diaktifkan, ciri ini mengaktifkan sempadan tetingkap maksimum dan "
+#~ "membolehkan anda menggerakkan atau mensaizkan semula tetingkap, sama "
+#~ "seperti bagi tetingkap normal"
+
+#, fuzzy
+#~| msgid "Display content in &resizing windows"
+#~ msgid "Display borders on &maximized windows"
+#~ msgstr "Papar kandungan ketika menukar saiz tetingkap"
+
+#~ msgctxt "@item:inlistbox behavior on double click"
+#~ msgid "Minimize"
+#~ msgstr "Minimakan"
+
+#~ msgctxt "@item:inlistbox behavior on double click"
+#~ msgid "Close"
+#~ msgstr "Tutup"
+
+#~ msgid ""
+#~ "Here you can customize mouse click behavior when clicking on the titlebar "
+#~ "or the frame of a window."
+#~ msgstr ""
+#~ "Di sini anda boleh menyesuaikan klik tetikus apabila mengklik bar tajuk "
+#~ "atau bingkai tetingkap."
+
+#~ msgid ""
+#~ "Behavior on <em>right</em> click into the titlebar or frame of an "
+#~ "<em>inactive</em> window."
+#~ msgstr ""
+#~ "Peri laku terhadap klik <em>kanan</em> ke dalam bar tajuk atau bingkai "
+#~ "tetingkap <em>tak aktif</em>."
+
+#~ msgid ""
+#~ "Behavior on <em>middle</em> click into the titlebar or frame of an "
+#~ "<em>inactive</em> window."
+#~ msgstr ""
+#~ "Peri laku klik <em>tengah</em> ke dalam bar tajuk atau bingkai "
+#~ "tetingkap<em>tak aktif</em>."
+
+#~ msgid ""
+#~ "Here you can customize behavior when clicking on the maximize button."
+#~ msgstr ""
+#~ "Di sini anda boleh suaikan peri laku apabila mengklik ke atas butang "
+#~ "maksimum."
+
+#~ msgid ""
+#~ "Here you can customize mouse click behavior when clicking on an inactive "
+#~ "inner window ('inner' means: not titlebar, not frame)."
+#~ msgstr ""
+#~ "Di sini anda boleh suaikan peri laku klik tetikus apabila mengklik "
+#~ "tetingkap dalam tak aktif ('dalam' bermakna: bukan bar tajuk, bukan "
+#~ "bingkai)."
+
+#~ msgid ""
+#~ "Here you can customize KDE's behavior when clicking somewhere into a "
+#~ "window while pressing a modifier key."
+#~ msgstr ""
+#~ "Di sini anda boleh menyesuaikan peri laku KDE apabila mengklik mana-mana "
+#~ "dalam tetingkap semasa menekan kekunci pengubah suai."
+
+#~ msgctxt "no border snap zone"
+#~ msgid "none"
+#~ msgstr "tiada"
+
+#~ msgctxt "no window snap zone"
+#~ msgid "none"
+#~ msgstr "tiada"
+
+#~ msgctxt "no center snap zone"
+#~ msgid "none"
+#~ msgstr "tiada"
+
+#~ msgctxt "Spiral tiling layout"
+#~ msgid "Spiral"
+#~ msgstr "Pilin"
+
+#~ msgctxt "Two-column horizontal tiling layout"
+#~ msgid "Columns"
+#~ msgstr "Lajur"
+
+#~ msgctxt "Floating layout, windows aren't tiled at all"
+#~ msgid "Floating"
+#~ msgstr "Terapung"
+
+#~ msgid ""
+#~ "When this option is enabled, there will be a delay after which the window "
+#~ "the mouse pointer is over will become active (receive focus)."
+#~ msgstr ""
+#~ "Apabila opsyen ini diaktifkan, akan terdapat tempoh lengah bagi "
+#~ "tetingkap, yang tetikus berada di atasnya, akan menjadi aktif (menerima "
+#~ "fokus)."
+
+#~ msgid "Di&splay content in moving windows"
+#~ msgstr "&Paparkan kandungan dalam tetingkap bergerak"
+
+#~ msgid ""
+#~ "Enable this option if you want a window's content to be fully shown while "
+#~ "moving it, instead of just showing a window 'skeleton'. The result may "
+#~ "not be satisfying on slow machines without graphic acceleration."
+#~ msgstr ""
+#~ "Aktifkan opsyen ini jika anda ingin kandungan tetingkap dipaparkan "
+#~ "sepenuhnya semasa menggerakkannya, bukan sekadar memaparkan 'rangka' "
+#~ "tetingkap. Hasilnya mungkin tidak memuaskan bagi mesin berkuasa rendah "
+#~ "tanpa pecutan grafik."
+
+#~ msgid "Display content in &resizing windows"
+#~ msgstr "Papar kandungan ketika menukar saiz tetingkap"
+
+#~ msgid ""
+#~ "Enable this option if you want a window's content to be shown while "
+#~ "resizing it, instead of just showing a window 'skeleton'. The result may "
+#~ "not be satisfying on slow machines."
+#~ msgstr ""
+#~ "Aktifkan opsyen ini jika anda ingin kandungan tetingkap dipaparkan semasa "
+#~ "mensaizkannya semula, bukan sekadar memaparkan 'rangka' tetingkap. "
+#~ "Hasilnya boleh jadi memuaskan bagi mesin berkuasa rendah."

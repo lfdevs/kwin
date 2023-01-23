@@ -34,7 +34,6 @@ MouseClickEffect::MouseClickEffect()
     a->setText(i18n("Toggle Mouse Click Effect"));
     KGlobalAccel::self()->setDefaultShortcut(a, QList<QKeySequence>() << (Qt::META | Qt::Key_Asterisk));
     KGlobalAccel::self()->setShortcut(a, QList<QKeySequence>() << (Qt::META | Qt::Key_Asterisk));
-    effects->registerGlobalShortcut(Qt::META | Qt::Key_Asterisk, a);
     connect(a, &QAction::triggered, this, &MouseClickEffect::toggleEnabled);
 
     reconfigure(ReconfigureAll);
@@ -117,7 +116,7 @@ void MouseClickEffect::paintScreen(int mask, const QRegion &region, ScreenPaintD
             click->m_frame->render(infiniteRegion(), frameAlpha, frameAlpha);
         }
     }
-    for (const auto &tool : qAsConst(m_tabletTools)) {
+    for (const auto &tool : std::as_const(m_tabletTools)) {
         const int step = m_ringMaxSize * (1. - tool.m_pressure);
         for (qreal size = m_ringMaxSize; size > 0; size -= step) {
             drawCircle(tool.m_color, tool.m_globalPosition.x(), tool.m_globalPosition.y(), size);
@@ -205,7 +204,7 @@ void MouseClickEffect::repaint()
     if (!m_tabletTools.isEmpty()) {
         QRegion dirtyRegion;
         const int radius = m_ringMaxSize + m_lineWidth;
-        for (const auto &event : qAsConst(m_tabletTools)) {
+        for (const auto &event : std::as_const(m_tabletTools)) {
             dirtyRegion |= QRect(event.m_globalPosition.x() - radius, event.m_globalPosition.y() - radius, 2 * radius, 2 * radius);
         }
         effects->addRepaint(dirtyRegion);
@@ -277,6 +276,7 @@ void MouseClickEffect::drawCircleGl(const QColor &color, float cx, float cy, flo
     static const float theta = 2 * 3.1415926 / float(num_segments);
     static const float c = cosf(theta); // precalculate the sine and cosine
     static const float s = sinf(theta);
+    const float scale = effects->renderTargetScale();
     float t;
 
     float x = r; // we start at angle = 0
@@ -290,7 +290,7 @@ void MouseClickEffect::drawCircleGl(const QColor &color, float cx, float cy, flo
     verts.reserve(num_segments * 2);
 
     for (int ii = 0; ii < num_segments; ++ii) {
-        verts << x + cx << y + cy; // output vertex
+        verts << (x + cx) * scale << (y + cy) * scale; // output vertex
         // apply the rotation matrix
         t = x;
         x = c * x - s * y;

@@ -286,6 +286,11 @@ bool ScreenShotDBusInterface2::checkPermissions() const
         return false;
     }
 
+    static bool permissionCheckDisabled = qEnvironmentVariableIntValue("KWIN_SCREENSHOT_NO_PERMISSION_CHECKS") == 1;
+    if (permissionCheckDisabled) {
+        return true;
+    }
+
     const QDBusReply<uint> reply = connection().interface()->servicePid(message().service());
     if (reply.isValid()) {
         const uint pid = reply.value();
@@ -456,7 +461,7 @@ QVariantMap ScreenShotDBusInterface2::CaptureInteractive(uint kind,
     const QDBusMessage replyMessage = message();
 
     if (kind == 0) {
-        effects->startInteractiveWindowSelection([=](EffectWindow *window) {
+        effects->startInteractiveWindowSelection([=, this](EffectWindow *window) {
             effects->hideOnScreenMessage(EffectsHandler::OnScreenMessageHideFlag::SkipsCloseAnimation);
 
             if (!window) {
@@ -473,7 +478,7 @@ QVariantMap ScreenShotDBusInterface2::CaptureInteractive(uint kind,
                                           "Escape or right click to cancel."),
                                      QStringLiteral("spectacle"));
     } else {
-        effects->startInteractivePositionSelection([=](const QPoint &point) {
+        effects->startInteractivePositionSelection([=, this](const QPoint &point) {
             effects->hideOnScreenMessage(EffectsHandler::OnScreenMessageHideFlag::SkipsCloseAnimation);
 
             if (point == QPoint(-1, -1)) {

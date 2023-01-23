@@ -94,3 +94,14 @@ msgstr "Виключити вбудовані ефекти"
 #, kde-format
 msgid "Get New Desktop Effects..."
 msgstr "Отримати нові ефекти стільниці…"
+
+#~ msgid "Download New Desktop Effects"
+#~ msgstr "Отримати нові ефекти стільниці"
+
+#~ msgid "Exclude Desktop Effects not supported by the Compositor"
+#~ msgstr ""
+#~ "Виключити ефекти стільниці, підтримки яких не передбачено у засобі "
+#~ "композиції"
+
+#~ msgid "Search..."
+#~ msgstr "Шукати…"

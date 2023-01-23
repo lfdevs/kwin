@@ -237,3 +237,12 @@ msgid ""
 msgstr ""
 "Bạn có thể kích hoạt một hành động bằng cách hất từ cạnh màn hình vào tâm "
 "màn hình."
+
+#~ msgid "Show Desktop"
+#~ msgstr "Hiện bàn làm việc"
+
+#~ msgid "Desktop Grid"
+#~ msgstr "Lưới bàn làm việc"
+
+#~ msgid "Toggle Overview"
+#~ msgstr "Bật/tắt tổng quan"

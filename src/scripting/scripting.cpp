@@ -27,6 +27,7 @@
 #include "input.h"
 #include "options.h"
 #include "screenedge.h"
+#include "tiles/tilemanager.h"
 #include "virtualdesktops.h"
 #include "workspace.h"
 #include "x11window.h"
@@ -341,7 +342,7 @@ void KWin::Script::callDBus(const QString &service, const QString &path, const Q
 
     QVariantList dbusArguments;
     dbusArguments.reserve(jsArguments.count());
-    for (const QJSValue &jsArgument : qAsConst(jsArguments)) {
+    for (const QJSValue &jsArgument : std::as_const(jsArguments)) {
         dbusArguments << jsArgument.toVariant();
     }
 
@@ -358,7 +359,7 @@ void KWin::Script::callDBus(const QString &service, const QString &path, const Q
         self->deleteLater();
 
         if (self->isError()) {
-            qCDebug(KWIN_SCRIPTING) << "Received D-Bus message is error";
+            qCWarning(KWIN_SCRIPTING) << "Received D-Bus message is error:" << self->error().message();
             return;
         }
 
@@ -385,7 +386,6 @@ bool KWin::Script::registerShortcut(const QString &objectName, const QString &te
 
     const QKeySequence shortcut = keySequence;
     KGlobalAccel::self()->setShortcut(action, {shortcut});
-    input()->registerShortcut(shortcut, action);
 
     connect(action, &QAction::triggered, this, [this, action, callback]() {
         QJSValue(callback).call({m_engine->toScriptValue(action)});
@@ -472,7 +472,7 @@ QList<QAction *> KWin::Script::actionsForUserActionMenu(KWin::Window *client, QM
     QList<QAction *> actions;
     actions.reserve(m_userActionsMenuCallbacks.count());
 
-    for (QJSValue callback : qAsConst(m_userActionsMenuCallbacks)) {
+    for (QJSValue callback : std::as_const(m_userActionsMenuCallbacks)) {
         const QJSValue result = callback.call({m_engine->toScriptValue(client)});
         if (result.isError()) {
             continue;
@@ -639,7 +639,6 @@ bool KWin::JSEngineGlobalMethodsWrapper::registerShortcut(const QString &name, c
     a->setText(text);
     const QKeySequence shortcut = QKeySequence(keys);
     KGlobalAccel::self()->setShortcut(a, QList<QKeySequence>{shortcut});
-    KWin::input()->registerShortcut(shortcut, a);
 
     connect(a, &QAction::triggered, this, [=]() mutable {
         QJSValueList arguments;
@@ -693,8 +692,6 @@ void KWin::Scripting::init()
     qmlRegisterUncreatableType<KWin::QuickSceneView>("org.kde.kwin", 3, 0, "SceneView", QStringLiteral("Can't instantiate an object of type SceneView"));
 
     qmlRegisterSingletonType<DeclarativeScriptWorkspaceWrapper>("org.kde.kwin", 3, 0, "Workspace", [](QQmlEngine *qmlEngine, QJSEngine *jsEngine) {
-        Q_UNUSED(qmlEngine)
-        Q_UNUSED(jsEngine)
         return new DeclarativeScriptWorkspaceWrapper();
     });
     qmlRegisterSingletonInstance("org.kde.kwin", 3, 0, "Options", options);
@@ -707,6 +704,10 @@ void KWin::Scripting::init()
     qmlRegisterAnonymousType<KWin::VirtualDesktop>("org.kde.kwin", 3);
     qmlRegisterAnonymousType<KWin::X11Window>("org.kde.kwin", 3);
     qmlRegisterAnonymousType<QAbstractItemModel>("org.kde.kwin", 3);
+    qmlRegisterAnonymousType<KWin::TileManager>("org.kde.kwin", 3);
+    // TODO: call the qml types as the C++ types?
+    qmlRegisterUncreatableType<KWin::CustomTile>("org.kde.kwin", 3, 0, "CustomTile", QStringLiteral("Cannot create objects of type Tile"));
+    qmlRegisterUncreatableType<KWin::Tile>("org.kde.kwin", 3, 0, "Tile", QStringLiteral("Cannot create objects of type AbstractTile"));
 
     // TODO Plasma 6: Drop context properties.
     m_qmlEngine->rootContext()->setContextProperty(QStringLiteral("workspace"), m_workspaceWrapper);
@@ -752,7 +753,7 @@ LoadScriptList KWin::Scripting::queryScriptsToLoad()
         s_started = true;
     }
     QMap<QString, QString> pluginStates = KConfigGroup(_config, "Plugins").entryMap();
-    const QString scriptFolder = QStringLiteral(KWIN_NAME "/scripts/");
+    const QString scriptFolder = QStringLiteral("kwin/scripts/");
     const auto offers = KPackage::PackageLoader::self()->listPackages(QStringLiteral("KWin/Script"), scriptFolder);
 
     LoadScriptList scriptsToLoad;
@@ -816,7 +817,7 @@ bool KWin::Scripting::isScriptLoaded(const QString &pluginName) const
 KWin::AbstractScript *KWin::Scripting::findScript(const QString &pluginName) const
 {
     QMutexLocker locker(m_scriptsLock.get());
-    for (AbstractScript *script : qAsConst(scripts)) {
+    for (AbstractScript *script : std::as_const(scripts)) {
         if (script->pluginName() == pluginName) {
             return script;
         }
@@ -827,7 +828,7 @@ KWin::AbstractScript *KWin::Scripting::findScript(const QString &pluginName) con
 bool KWin::Scripting::unloadScript(const QString &pluginName)
 {
     QMutexLocker locker(m_scriptsLock.get());
-    for (AbstractScript *script : qAsConst(scripts)) {
+    for (AbstractScript *script : std::as_const(scripts)) {
         if (script->pluginName() == pluginName) {
             script->deleteLater();
             return true;
@@ -885,7 +886,7 @@ KWin::Scripting::~Scripting()
 QList<QAction *> KWin::Scripting::actionsForUserActionMenu(KWin::Window *c, QMenu *parent)
 {
     QList<QAction *> actions;
-    for (AbstractScript *s : qAsConst(scripts)) {
+    for (AbstractScript *s : std::as_const(scripts)) {
         // TODO: Allow declarative scripts to add their own user actions.
         if (Script *script = qobject_cast<Script *>(s)) {
             actions << script->actionsForUserActionMenu(c, parent);

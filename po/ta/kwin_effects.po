@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: கேபசூ 4.1 தமிழாக்கம்\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-01 02:26+0000\n"
-"PO-Revision-Date: 2022-08-18 19:41+0530\n"
+"POT-Creation-Date: 2023-01-18 00:58+0000\n"
+"PO-Revision-Date: 2022-12-06 20:05+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.07.90\n"
+"X-Generator: Lokalize 22.08.3\n"
 
 #. i18n: ectx: property (text), widget (QLabel, labelConstantBlurDescription)
 #: blur/blur_config.ui:17
@@ -59,6 +59,7 @@ msgstr ""
 #: mousemark/mousemark_config.cpp:50 overview/kcm/overvieweffectkcm.cpp:35
 #: showpaint/showpaint_config.cpp:33
 #: thumbnailaside/thumbnailaside_config.cpp:54
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:31
 #: trackmouse/trackmouse_config.cpp:52
 #: windowview/kcm/windowvieweffectkcm.cpp:36 zoom/zoom_config.cpp:58
 #, kde-format
@@ -196,14 +197,20 @@ msgstr "பக்கத்து பக்கத்தில்"
 msgid "Natural"
 msgstr "இயல்பானது"
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
+#: desktopgrid/desktopgrid_config.ui:147
+#, kde-format
+msgid "None"
+msgstr "ஏதுமில்லை"
+
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: desktopgrid/desktopgrid_config.ui:150
+#: desktopgrid/desktopgrid_config.ui:155
 #, kde-format
 msgid "Windows layout:"
 msgstr "சாளரங்களின் தளவமைப்பு:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: desktopgrid/desktopgrid_config.ui:166
+#: desktopgrid/desktopgrid_config.ui:171
 #, kde-format
 msgid "Activation"
 msgstr "தூண்டுவது"
@@ -306,10 +313,15 @@ msgstr "சாளரங்களை மூடும்போது"
 msgid "Toggle Invert Effect"
 msgstr "புரட்டலை நிலைமாற்று"
 
-#: invert/invert.cpp:50 invert/invert_config.cpp:44
+#: invert/invert.cpp:49 invert/invert_config.cpp:44
 #, kde-format
 msgid "Toggle Invert Effect on Window"
 msgstr "சாளரத்திற்கான புரட்டலை நிலைமாற்று"
+
+#: invert/invert.cpp:56
+#, kde-format
+msgid "Invert Screen Colors"
+msgstr "திரையிலுள்ள நிறங்களை புரட்டு"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FadeToBlack)
 #: login/package/contents/ui/config.ui:17
@@ -366,30 +378,30 @@ msgstr "&உயரம்"
 msgid "Toggle Mouse Click Effect"
 msgstr "சுட்டி க்ளிக் அசைவூட்டத்தை நிலைமாற்று"
 
-#: mouseclick/mouseclick.cpp:42
+#: mouseclick/mouseclick.cpp:41
 #, kde-format
 msgctxt "Left mouse button"
 msgid "Left"
 msgstr "இடது"
 
-#: mouseclick/mouseclick.cpp:43
+#: mouseclick/mouseclick.cpp:42
 #, kde-format
 msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr "நடு"
 
-#: mouseclick/mouseclick.cpp:44
+#: mouseclick/mouseclick.cpp:43
 #, kde-format
 msgctxt "Right mouse button"
 msgid "Right"
 msgstr "வலது"
 
-#: mouseclick/mouseclick.h:61
+#: mouseclick/mouseclick.h:60
 #, kde-format
 msgid "↓"
 msgstr "↓"
 
-#: mouseclick/mouseclick.h:62
+#: mouseclick/mouseclick.h:61
 #, kde-format
 msgid "↑"
 msgstr "↑"
@@ -485,12 +497,12 @@ msgstr "எழுத்துரு:"
 msgid "Show Text:"
 msgstr "உரையை காட்டு:"
 
-#: mousemark/mousemark.cpp:36
+#: mousemark/mousemark.cpp:39
 #, kde-format
 msgid "Clear All Mouse Marks"
 msgstr "சுட்டியின் அனைத்து தடங்களையும் அழி"
 
-#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:59
+#: mousemark/mousemark.cpp:45 mousemark/mousemark_config.cpp:59
 #, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr "சுட்டியின் கடைசி தடத்தை அழி"
@@ -556,12 +568,12 @@ msgstr "பின்புலத்தை மங்கலாக்கு:"
 msgid "Ignore minimized windows:"
 msgstr "ஒதுக்கப்பட்ட சாளரங்களை பொருட்படுத்தாதே:"
 
-#: overview/qml/DesktopBar.qml:186
+#: overview/qml/DesktopBar.qml:187
 #, kde-format
 msgid "Delete Virtual Desktop"
 msgstr "மெய்நிகர் பணிமேடையை நீக்கு"
 
-#: overview/qml/DesktopBar.qml:282
+#: overview/qml/DesktopBar.qml:283
 #, kde-format
 msgid "Add Virtual Desktop"
 msgstr "மெய்நிகர் பணிமேடையைச் சேர்"
@@ -571,12 +583,12 @@ msgstr "மெய்நிகர் பணிமேடையைச் சேர�
 msgid "No matching windows"
 msgstr "எந்த சாளரமும் பொருந்தவில்லை"
 
-#: private/qml/WindowHeapDelegate.qml:152
+#: private/qml/WindowHeapDelegate.qml:151
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "மூடு கீழே இழுங்கள்"
 
-#: private/qml/WindowHeapDelegate.qml:462
+#: private/qml/WindowHeapDelegate.qml:461
 #, kde-format
 msgctxt "@info:tooltip as in: 'close this window'"
 msgid "Close window"
@@ -594,20 +606,20 @@ msgstr "சாளர திறப்புக்கான அளவுமாற�
 msgid "Window close scale:"
 msgstr "சாளரத்தை மூடும்போது அளவுமாற்றம்:"
 
-#: screenshot/screenshotdbusinterface1.cpp:480
+#: screenshot/screenshotdbusinterface1.cpp:478
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr "திரைப்பிடிப்பு"
 
-#: screenshot/screenshotdbusinterface1.cpp:481
+#: screenshot/screenshotdbusinterface1.cpp:479
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr "திரைப்பிடிப்பு %1 என்ற இடத்திற்கு சேமிக்கப்பட்டது"
 
-#: screenshot/screenshotdbusinterface1.cpp:797
-#: screenshot/screenshotdbusinterface2.cpp:472
+#: screenshot/screenshotdbusinterface1.cpp:800
+#: screenshot/screenshotdbusinterface2.cpp:477
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
@@ -617,8 +629,8 @@ msgstr ""
 "தேர்ந்தெடுங்கள்.\n"
 "கைவிட escape விசையை அல்லது வலது க்ளிக்கை பயன்படுத்துங்கள்."
 
-#: screenshot/screenshotdbusinterface1.cpp:800
-#: screenshot/screenshotdbusinterface2.cpp:490
+#: screenshot/screenshotdbusinterface1.cpp:803
+#: screenshot/screenshotdbusinterface2.cpp:495
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -682,14 +694,8 @@ msgstr "கிடைமட்டமாக:"
 msgid "Vertical:"
 msgstr "நெடுக்காக:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideDocks)
-#: slide/slide_config.ui:72
-#, kde-format
-msgid "Slide docks"
-msgstr "பலகைகளை நழுவச்செய்"
-
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideBackground)
-#: slide/slide_config.ui:79
+#: slide/slide_config.ui:72
 #, kde-format
 msgid "Slide desktop background"
 msgstr "பின்புலப்படத்தை நழுவச்செய்"
@@ -731,6 +737,47 @@ msgstr "&ஒளிபுகாமை:"
 #, no-c-format, kde-format
 msgid " %"
 msgstr " %"
+
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:37
+#: tileseditor/tileseditoreffect.cpp:29
+#, kde-format
+msgid "Toggle Tiles Editor"
+msgstr ""
+
+#: tileseditor/qml/main.qml:147
+#, kde-format
+msgid "Padding:"
+msgstr "இடையிலான இடைவெளி:"
+
+#: tileseditor/qml/main.qml:157
+#, kde-format
+msgid "Load Layout..."
+msgstr "தளவமைப்பை ஏற்று..."
+
+#: tileseditor/qml/main.qml:271
+#, kde-format
+msgid "Close"
+msgstr "மூடு"
+
+#: tileseditor/qml/TileDelegate.qml:171
+#, kde-format
+msgid "Split Horizontally"
+msgstr "கிடைமட்டமாக பிரி"
+
+#: tileseditor/qml/TileDelegate.qml:178
+#, kde-format
+msgid "Split Vertically"
+msgstr "நெடுக்காக பிரி"
+
+#: tileseditor/qml/TileDelegate.qml:186 tileseditor/qml/TileDelegate.qml:215
+#, kde-format
+msgid "Add Floating Tile"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:195
+#, kde-format
+msgid "Delete"
+msgstr "நீக்கு"
 
 #: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:57
 #, kde-format
@@ -866,17 +913,17 @@ msgstr "பிரித்தெடுத்த பட்டிகள்:"
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "சாளர முன்வைப்பை காட்டு/மறை (தற்போதைய பணிமேடை)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:55
+#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:54
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "சாளர முன்வைப்பை காட்டு/மறை (எல்லா பணிமேடைகளும்)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:65
+#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:63
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "சாளர முன்வைப்பை காட்டு/மறை (சாளர வகையை பொறுத்து)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:75
+#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:72
 #, kde-format
 msgid "Toggle Present Windows (Window class on current desktop)"
 msgstr "சாளர முன்வைப்பை காட்டு/மறை (தற்போதைய பணிமேடையில் தற்போதைய சாளரவகை)"
@@ -887,15 +934,20 @@ msgstr "சாளர முன்வைப்பை காட்டு/மறை
 msgid "Ignore &minimized windows"
 msgstr "&ஒதுக்கப்பட்ட சாளரங்களை பொருட்படுத்தாதே"
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, kde-format
 msgid "No Matches"
 msgstr "பொருத்தங்கள் இல்லை"
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, kde-format
 msgid "No Windows"
 msgstr "சாளரங்கள் இல்லை"
+
+#: windowview/qml/main.qml:123
+#, kde-format
+msgid "Filter windows…"
+msgstr "சாளரங்களை வடிகட்டு…"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20
@@ -957,32 +1009,32 @@ msgstr "குறைவு"
 msgid "More"
 msgstr "அதிகம்"
 
-#: zoom/zoom.cpp:68
+#: zoom/zoom.cpp:65
 #, kde-format
 msgid "Move Zoomed Area to Left"
 msgstr "உருப்பெருக்கப்பட்ட பரப்பளவை இடதுபுறமாக நகர்த்து"
 
-#: zoom/zoom.cpp:76
+#: zoom/zoom.cpp:72
 #, kde-format
 msgid "Move Zoomed Area to Right"
 msgstr "உருப்பெருக்கப்பட்ட பரப்பளவை வலதுபுறமாக நகர்த்து"
 
-#: zoom/zoom.cpp:84
+#: zoom/zoom.cpp:79
 #, kde-format
 msgid "Move Zoomed Area Upwards"
 msgstr "உருப்பெருக்கப்பட்ட பரப்பளவை மேலே நகர்த்து"
 
-#: zoom/zoom.cpp:92
+#: zoom/zoom.cpp:86
 #, kde-format
 msgid "Move Zoomed Area Downwards"
 msgstr "உருப்பெருக்கப்பட்ட பரப்பளவை கீழே நகர்த்து"
 
-#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:108
+#: zoom/zoom.cpp:94 zoom/zoom_config.cpp:108
 #, kde-format
 msgid "Move Mouse to Focus"
 msgstr "குவியத்திற்கு சுட்டியை நகர்த்து"
 
-#: zoom/zoom.cpp:109 zoom/zoom_config.cpp:115
+#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:115
 #, kde-format
 msgid "Move Mouse to Center"
 msgstr "மையத்திற்கு சுட்டியை நகர்த்து"
@@ -1119,3 +1171,717 @@ msgstr "முடக்கு"
 #, kde-format
 msgid "Mouse Tracking:"
 msgstr "சுட்டியை பின்தொடர்தல்:"
+
+#~ msgid "Slide docks"
+#~ msgstr "பலகைகளை நழுவச்செய்"
+
+#~ msgid "Search..."
+#~ msgstr "தேடு..."
+
+#~ msgid "&Radius:"
+#~ msgstr "&ஆரம்:"
+
+#~ msgid "Text position:"
+#~ msgstr "உரையின் இருப்பிடம்:"
+
+#~ msgid "Inside Graph"
+#~ msgstr "வரைபடத்திற்குள்"
+
+#~ msgid "Nowhere"
+#~ msgstr "எங்குமில்லை"
+
+#~ msgid "Top Left"
+#~ msgstr "இடது மேற்புறம்"
+
+#~ msgid "Top Right"
+#~ msgstr "வலது மேற்புறம்"
+
+#~ msgid "Bottom Left"
+#~ msgstr "இடது கீழ்புறம்"
+
+#~ msgid "Bottom Right"
+#~ msgstr "வலது கீழ்புறம்"
+
+#~ msgid "Text font:"
+#~ msgstr "உரைக்கான எழுத்துரு:"
+
+#~ msgid "Text color:"
+#~ msgstr "உரையின் நிறம்:"
+
+#~ msgid "Text alpha:"
+#~ msgstr "உரையின் ஒளிபுகாமை:"
+
+#~ msgid "Show graph:"
+#~ msgstr "வரைபடத்தை காட்டு:"
+
+#~ msgid "Show on active screen"
+#~ msgstr "செயலிலுள்ள திரையில் காட்டு"
+
+#~ msgid "Show Message:"
+#~ msgstr "உரையை காட்டு:"
+
+#~ msgid "Show \"not a benchmark\" message"
+#~ msgstr "\"Not a benchmark\" எனும் தகவலைக் காட்டு"
+
+#~ msgid "Colorize Text:"
+#~ msgstr "உரைக்கு நிறமிடு:"
+
+#~ msgid "Color text by value (green > yellow > red)"
+#~ msgstr "உரைக்கு மதிப்பின் அடிப்படையில் நிறமிடு (பச்சை > மஞ்சள் > சிவப்பு)"
+
+#~ msgid "Zoom &duration:"
+#~ msgstr "&அசைவூட்டம் நீடிக்கும் காலம்:"
+
+#~ msgctxt "Duration of zoom"
+#~ msgid "Default"
+#~ msgstr "இயல்பிருப்பு"
+
+#~ msgid "Border wid&th:"
+#~ msgstr "விளிம்புகளின் &அகலம்:"
+
+#~ msgid "Click behavior:"
+#~ msgstr "க்ளிக் செய்வது:"
+
+#~ msgid ""
+#~ "If the Present Windows effect is enabled, it will be automatically "
+#~ "triggered."
+#~ msgstr "'சாளரங்களை முன்வை' என்பது இயக்கப்படின், அது தானாக தூண்டப்படும்."
+
+#~ msgid "Switch desktop and activate window"
+#~ msgstr "பணிமேடையை மாற்றி சாளரத்தை செயல்படுத்தும்"
+
+#~ msgid "Switch desktop only"
+#~ msgstr "பணிமேடையை மட்டும் மாற்றும்"
+
+#~ msgid "Natural Layout Settings"
+#~ msgstr "இயல்பான தளவமைப்புக்கான அமைப்புகள்"
+
+#~ msgid "Fill &gaps"
+#~ msgstr "இடைவெளிகளை &நிரப்பு"
+
+#~ msgid "Faster"
+#~ msgstr "வேகமாக"
+
+#~ msgid "Nicer"
+#~ msgstr "அழகாக"
+
+#~ msgid "Left button:"
+#~ msgstr "இடது பட்டன்:"
+
+#~ msgid "No action"
+#~ msgstr "எதுவும் செய்யாது"
+
+#~ msgid "Activate window"
+#~ msgstr "சாளரத்தை செயல்படுத்தும்"
+
+#~ msgid "End effect"
+#~ msgstr "முன்வைப்பதை நிறுத்தும்"
+
+#~ msgid "Bring window to current desktop"
+#~ msgstr "தற்போதைய பணிமேடைக்கு சாளரத்தை கொண்டுவரும்"
+
+#~ msgid "Send window to all desktops"
+#~ msgstr "அனைத்து பணிமேடைகளுக்கு சாளரத்தை அனுப்பும்"
+
+#~ msgid "(Un-)Minimize window"
+#~ msgstr "சாளரத்தை ஒதுக்கும்/காட்டும்"
+
+#~ msgid "Middle button:"
+#~ msgstr "நடு பட்டன்:"
+
+#~ msgid "Right button:"
+#~ msgstr "வலது பட்டன்:"
+
+#~ msgctxt "@title:group actions when clicking on desktop"
+#~ msgid "Desktop"
+#~ msgstr "பணிமேடை"
+
+#~ msgid "Show desktop"
+#~ msgstr "பணிமேடையை காட்டும்"
+
+#~ msgid "Display window &titles"
+#~ msgstr "சாளர &தலைப்புகளை காட்டு"
+
+#~ msgid "Display window &icons"
+#~ msgstr "சாளர &சின்னங்களை காட்டு"
+
+#~ msgid "Show &panels"
+#~ msgstr "&பலகைகளை காட்டு"
+
+#~ msgid "Regular Grid"
+#~ msgstr "மாறாத கிரிட்"
+
+#~ msgid "Flexible Grid"
+#~ msgstr "மாறக்கூடிய கிரிட்"
+
+#~ msgid "Provide buttons to close the windows"
+#~ msgstr "சாளரங்களை மூடும் பட்டன்களை காட்டு"
+
+#~ msgid "Scale window"
+#~ msgstr "சாளர அளவுமாற்றம்"
+
+#~ msgid "Show outline"
+#~ msgstr "கோட்டோவியம் காட்டு"
+
+#~ msgid "Display for moving windows"
+#~ msgstr "நகர்த்தப்படும் சாளரங்களுக்கு காட்டு"
+
+#~ msgid "Display for resizing windows"
+#~ msgstr "சாளரங்களின் அளவை மாற்றும்போது காட்டு"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Blur"
+#~ msgstr "மங்கலாக்கு"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Blurs the background behind semi-transparent windows"
+#~ msgstr "ஒளிபுகும் சாளரங்களின் பின்புலத்தை மங்கலாக்கும்"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Color Picker"
+#~ msgstr "நிறத் தேர்வி"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Supports picking a color"
+#~ msgstr "திரையிலுள்ள ஓர் நிறத்தை தேர்ந்தெடுக்க உதவும்"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Background contrast"
+#~ msgstr "பின்புலம் நிறமாறுபாடு"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Improve contrast and readability behind semi-transparent windows"
+#~ msgstr ""
+#~ "ஒளிபுகும் சாளரங்களுக்கு பின் உள்ளவற்றை படிக்க உதவும் வித‍த்தில் நிறங்களுக்கிடையேயான "
+#~ "மாறுபாட்டை அதிகமாக்கும்"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Grid"
+#~ msgstr "பணிமேடை கிரிட்"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Zoom out so all desktops are displayed side-by-side in a grid"
+#~ msgstr "அனைத்து பணிமேடைகளை வரிசைகளிலும் நெடுவரிசைகளிலும் காட்டும்"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Dim Inactive"
+#~ msgstr "செயலிலில்லாதவற்றின் பிரகாசத்தை குறை"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Darken inactive windows"
+#~ msgstr "செயலிலில்லாத சாளரங்களின் பிரகாசத்தை குறைக்கும்"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Fall Apart"
+#~ msgstr "நொறுக்கு"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Closed windows fall into pieces"
+#~ msgstr "மூடப்படும் சாளரங்கள் துண்டு துண்டாக நொறுங்கி மறையும்"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Highlight Window"
+#~ msgstr "சாளரத்தை முன்னிலைப்படுத்து"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlight the appropriate window when hovering over taskbar entries"
+#~ msgstr ""
+#~ "பணிப்பட்டை பதிவுகளின்மீது சுட்டியை வைக்கும்போது உரிய சாளரத்தை முன்னிலைப்படுத்தும்"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Invert"
+#~ msgstr "புரட்டு"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Inverts the color of the desktop and windows"
+#~ msgstr "பணிமேடையிலும் சாளரங்களிலும் உள்ள நிறங்களை புரட்டும்"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Looking Glass"
+#~ msgstr "பூதக்கண்ணாடி"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "A screen magnifier that looks like a fisheye lens"
+#~ msgstr "பூதக்கண்ணாடியை போல திரையில் உள்ளவற்றை பெரிதாக்கும்"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Magic Lamp"
+#~ msgstr "மாய விளக்கு"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Simulate a magic lamp when minimizing windows"
+#~ msgstr "சாளரங்களை ஒதுக்கும்போது, மாய விளக்குக்குள் அவை உறிஞ்சப்படுவதுபோல் அசைவூட்டும்"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Magnifier"
+#~ msgstr "உருப்பெருக்கி"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Magnify the section of the screen that is near the mouse cursor"
+#~ msgstr "சுட்டிக்குறிக்கு அருகிலுள்ள திரையின் பகுதியை பெரிதாக்கி காட்டும்"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Click Animation"
+#~ msgstr "சுட்டி க்ளிக் அசைவூட்டம்"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Creates an animation whenever a mouse button is clicked. This is useful "
+#~ "for screenrecordings/presentations"
+#~ msgstr ""
+#~ "சுட்டியின் பட்டன்கள் அழுத்தப்படும்போது ஓர் அசைவூட்டத்தை காட்டும். வில்லைக்காட்சிகளுக்கு/"
+#~ "திரைப்பிடிப்புகளுக்கு இதை பயன்படுத்தலாம்."
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Mark"
+#~ msgstr "சுட்டியை குறி"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Allows you to draw lines on the desktop"
+#~ msgstr "சுட்டியை கொண்டு திரையில் கோடுகள் வரையுங்கள்"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Overview"
+#~ msgstr "மேலோட்டம்"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Allows you to overview virtual desktops and windows"
+#~ msgstr "பணிமேடைகளையும் சாளரங்களையும் ஒருங்கே மேற்பார்வையிட உதவும்"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Present Windows"
+#~ msgstr "சாளரங்களை முன்வை"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Zoom out until all opened windows can be displayed side-by-side"
+#~ msgstr "அனைத்து சாளரங்களையும் பக்கத்து பக்கத்தில் சிறிதாக்கி காட்டும்"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Resize Window"
+#~ msgstr "சாளரத்தின் அளவை மாற்று"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Resizes windows with a fast texture scale instead of updating contents"
+#~ msgstr ""
+#~ "சாளரங்களின் அளவை மாற்றும்போது, உள்ளடக்கங்களை புதுப்பிக்காமல் அவற்றின் அளவை மட்டும் "
+#~ "மாற்றும்"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Screen Edge"
+#~ msgstr "திரையின் ஓரம்"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlights a screen edge when approaching"
+#~ msgstr "திரையின் ஓரத்தை நெருங்கும்போது அவ்வோரத்தை முன்னிலைப்படுத்தும்"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Screenshot"
+#~ msgstr "திரைப்பிடிப்பு"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper effect for screenshot tools"
+#~ msgstr "திரைப்பிடிப்புகளை எடுக்க உதவும் அசைவூட்டம்"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show FPS"
+#~ msgstr "FPS-ஐ காட்டு"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display KWin's performance in the corner of the screen"
+#~ msgstr "திரையின் ஓர் ஓரத்தில் கேவின்னின் செயல்திறனை காட்டு"
+
+#, fuzzy
+#~| msgid "Show Desktop Grid"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show Paint"
+#~ msgstr "பணிமேசை தடுப்பினை காட்டுக"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Startup Feedback"
+#~ msgstr "தொடக்க பின்னூட்டம்"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper effect for startup feedback"
+#~ msgstr "தொடக்க பின்னூட்டத்தை காட்ட உதவும் அசைவூட்டம்"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Thumbnail Aside"
+#~ msgstr "ஓரத்தில் சிறுபடம்"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display window thumbnails on the edge of the screen"
+#~ msgstr "திரையின் ஓரத்தில் சிறுபடங்களை காட்டும்"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Touch Points"
+#~ msgstr "தொடும் இடங்கள்"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Visualize touch points"
+#~ msgstr "தொடப்படும் இடங்களை காட்டும்"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Track Mouse"
+#~ msgstr "சுட்டியை கண்டுபிடி"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display a mouse cursor locating effect when activated"
+#~ msgstr "தூண்டப்படும்போது சுட்டிக்குறியை கண்டுபிடிக்க உதவும்"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Window Geometry"
+#~ msgstr "சாளர வடிவம்"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display window geometries on move/resize"
+#~ msgstr ""
+#~ "சாளரங்களை நகர்த்தும்போதோ அளவுமாற்றும்போதோ அவற்றின் வடிவங்களை கோட்டோவியமாக காட்டும்"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Wobbly Windows"
+#~ msgstr "ஆடும் சாளரங்கள்"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Deform windows while they are moving"
+#~ msgstr "சாளரங்களை நகர்த்தும்போது அவற்றை தள்ளாட செய்யும்"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Zoom"
+#~ msgstr "உருப்பெருக்கம்"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Magnify the entire desktop"
+#~ msgstr "முழு திரையை உருப்பெருக்கி காட்டு"
+
+#, fuzzy
+#~| msgid "Show Desktop Grid"
+#~ msgctxt "Special entry in alt+tab list for minimizing all windows"
+#~ msgid "Show Desktop"
+#~ msgstr "பணிமேசை தடுப்பினை காட்டுக"
+
+#, fuzzy
+#~| msgid "Bottom"
+#~ msgid "Zoom"
+#~ msgstr "கீழே"
+
+#, fuzzy
+#~| msgid "&Animation duration:"
+#~ msgid "Animation"
+#~ msgstr "&அசைவூட்ட காலவளவு:"
+
+#, fuzzy
+#~| msgid "Animate &switch"
+#~ msgid "Animate switch"
+#~ msgstr "அசைவூட்டி &மாற்றுக"
+
+#, fuzzy
+#~| msgid "Animation on tab box &open"
+#~ msgid "Animation on tab box open"
+#~ msgstr "தத்து பெட்டி &திறக்க அசைவூட்டம்"
+
+#, fuzzy
+#~| msgid "Animation on tab box &close"
+#~ msgid "Animation on tab box close"
+#~ msgstr "தத்து பெட்டி &மூட அசைவூட்டம்"
+
+#, fuzzy
+#~| msgid "&Reflections"
+#~ msgid "Reflections"
+#~ msgstr "&பிரதிபலிப்புகள்"
+
+#, fuzzy
+#~| msgid "&Color:"
+#~ msgid "Rear color"
+#~ msgstr "&நிறம்"
+
+#, fuzzy
+#~| msgid "Shadow color:"
+#~ msgid "Front color"
+#~ msgstr "நிழலின் நிறம்:"
+
+#, fuzzy
+#~| msgid "Show Desktop Grid"
+#~ msgid "Desktop Cylinder"
+#~ msgstr "பணிமேசை தடுப்பினை காட்டுக"
+
+#, fuzzy
+#~| msgid "Nowhere"
+#~ msgid "Desktop Sphere"
+#~ msgstr "எங்குமில்லை"
+
+#, fuzzy
+#~| msgid "Animate desktop changes"
+#~ msgid "Display desktop name"
+#~ msgstr "பணிமேசை மாற்றங்களுக்கு அசைவூட்டுக"
+
+#, fuzzy
+#~| msgid "&Reflections"
+#~ msgid "Reflection"
+#~ msgstr "&பிரதிபலிப்புகள்"
+
+#, fuzzy
+#~| msgid "&Animation duration:"
+#~ msgid "Rotation duration:"
+#~ msgstr "&அசைவூட்ட காலவளவு:"
+
+#, fuzzy
+#~| msgid "&Opacity:"
+#~ msgid "Opacity"
+#~ msgstr "&காட்டுமை:"
+
+#, fuzzy
+#~| msgid "Changes opacity of following elements:"
+#~ msgid "Do not change opacity of windows"
+#~ msgstr "கீழகாணும் உறுகப்புகளின் காணப்படும் திறனை மாற்றும்:"
+
+#, fuzzy
+#~| msgid "&Color:"
+#~ msgid "Cap color:"
+#~ msgstr "&நிறம்"
+
+#, fuzzy
+#~| msgid "Decorations:"
+#~ msgid "Sphere Cap Deformation"
+#~ msgstr "அலங்காரங்கள்:"
+
+#, fuzzy
+#~| msgid "Nowhere"
+#~ msgid "Sphere"
+#~ msgstr "எங்குமில்லை"
+
+#, fuzzy
+#~| msgid "for windows on all desktops: "
+#~ msgid "Do not animate windows on all desktops"
+#~ msgstr "அனைத்து பணிமேசைகளிலும் உள்ள சாளரங்களுக்காக:"
+
+#, fuzzy
+#~| msgid "Nowhere"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube"
+#~ msgstr "எங்குமில்லை"
+
+#, fuzzy
+#~| msgid "for windows on current desktop: "
+#~ msgid "Toggle Flip Switch (Current desktop)"
+#~ msgstr "தற்போதைய பணிமேசையின் மீதுள்ள சாளரங்களுக்காக:"
+
+#, fuzzy
+#~| msgid "for windows on all desktops: "
+#~ msgid "Toggle Flip Switch (All desktops)"
+#~ msgstr "அனைத்து பணிமேசைகளிலும் உள்ள சாளரங்களுக்காக:"
+
+#, fuzzy
+#~| msgid "F&lip Animation duration:"
+#~ msgid "Flip animation duration:"
+#~ msgstr "ம&றுதலிப்பு அசைவூட்ட காலவளவு:"
+
+#, fuzzy
+#~| msgid "Decorations:"
+#~ msgctxt "Duration of flip animation"
+#~ msgid "Default"
+#~ msgstr "அலங்காரங்கள்:"
+
+#~ msgid ""
+#~ "Filter:\n"
+#~ "%1"
+#~ msgstr ""
+#~ "வழிகட்டுக:\n"
+#~ "%1"
+
+#, fuzzy
+#~| msgid "&Animation duration:"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Minimize Animation"
+#~ msgstr "&அசைவூட்ட காலவளவு:"
+
+#~ msgid "Apply effect to &panels"
+#~ msgstr "தாக்கத்தை &பலகத்துக்கு பொருத்துக"
+
+#, fuzzy
+#~| msgid "Apply effect to &groups"
+#~ msgid "Apply effect to the desk&top"
+#~ msgstr "&குழுக்களுக்கு தாக்கத்தை பொருத்துக"
+
+#, fuzzy
+#~| msgid "Apply effect to &panels"
+#~ msgid "Apply effect to &keep-above windows"
+#~ msgstr "தாக்கத்தை &பலகத்துக்கு பொருத்துக"
+
+#~ msgid "Apply effect to &groups"
+#~ msgstr "&குழுக்களுக்கு தாக்கத்தை பொருத்துக"
+
+#, fuzzy
+#~| msgid "Decorations:"
+#~ msgctxt "Duration of the slide animation"
+#~ msgid "Default"
+#~ msgstr "அலங்காரங்கள்:"
+
+#, fuzzy
+#~| msgid "Right"
+#~ msgctxt "More brightness"
+#~ msgid "Lighter"
+#~ msgstr "வலது"
+
+#, fuzzy
+#~| msgid " msec"
+#~ msgid "ms"
+#~ msgstr " மிநொ"
+
+#, fuzzy
+#~| msgid "Apply effect to &groups"
+#~ msgid "Apply blur effect to background"
+#~ msgstr "&குழுக்களுக்கு தாக்கத்தை பொருத்துக"
+
+#~ msgid "Decorations:"
+#~ msgstr "அலங்காரங்கள்:"
+
+#, fuzzy
+#~| msgid "Shadow opacity:"
+#~ msgid "Background window &opacity:"
+#~ msgstr "நிழல் காட்டப்படுமை:"
+
+#, fuzzy
+#~| msgid "&Number of snowflakes:"
+#~ msgid "Number of windows:"
+#~ msgstr "ஸ்நோபிளேக்ஸின் &எண்ணிக்கை"
+
+#, fuzzy
+#~| msgid "Decorations:"
+#~ msgctxt "Duration of fading"
+#~ msgid "Default"
+#~ msgstr "அலங்காரங்கள்:"
+
+#~ msgid "Toggle Video Recording"
+#~ msgstr "பதிவொளி பதிதலை மாற்றுக"
+
+#~ msgid "Path to save video:"
+#~ msgstr "பதிவொளியைக் காத்தற்கான பாதை:"
+
+#~ msgid "Snow"
+#~ msgstr "பனி"
+
+#~ msgid "Toggle Snow on Desktop"
+#~ msgstr "பணிமேசையின் பனியை மாற்றுக"
+
+#, fuzzy
+#~| msgid " px"
+#~ msgid " pixel/frame"
+#~ msgid_plural " pixels/frame"
+#~ msgstr[0] " பிக்ஸ்"
+#~ msgstr[1] " பிக்ஸ்"
+
+#, fuzzy
+#~| msgid "Toggle Sharpen Effect"
+#~ msgctxt "@action Enables/Disables an effect that makes windows more sharp"
+#~ msgid "Toggle Sharpen Effect"
+#~ msgstr "கூராக்கிய தாக்கத்தை மாற்றுக"
+
+#~ msgid "&Number of snowflakes:"
+#~ msgstr "ஸ்நோபிளேக்ஸின் &எண்ணிக்கை"
+
+#~ msgid "M&inimum size of snowflake:"
+#~ msgstr "ஸ்நோப்ளேக்ஸின் &குறைந்தபட்ச அளவு:"
+
+#~ msgid "M&aximum size of snowflake:"
+#~ msgstr "ஸ்நோபிளேக்ஸின் &அதிகபட்ச அளவு:"
+
+#, fuzzy
+#~| msgid "Maximal &width:"
+#~ msgid "Maximum &vertical speed:"
+#~ msgstr "அதிகபட்ச &அகலம்:"
+
+#, fuzzy
+#~| msgid "Moved/resized windows:"
+#~ msgid "Snow &behind windows"
+#~ msgstr "சாளரங்கள் அளவு மாற்றப்பட்டன/நகர்த்தப்பட்டன:"
+
+#, fuzzy
+#~| msgid "X offset:"
+#~ msgid "&X offset:"
+#~ msgstr "X ஆப்செட்"
+
+#, fuzzy
+#~| msgid "Y offset:"
+#~ msgid "&Y offset:"
+#~ msgstr "Y ஆப்செட்"
+
+#, fuzzy
+#~| msgid " %"
+#~ msgid "%"
+#~ msgstr " %"
+
+#, fuzzy
+#~| msgid "Shadow fuzzyness:"
+#~ msgid "&Fuzziness:"
+#~ msgstr "நிழற் குறைபாடு:"
+
+#, fuzzy
+#~| msgid "Size"
+#~ msgid "&Size:"
+#~ msgstr "அளவு"
+
+#, fuzzy
+#~| msgid "Active window has stronger shadow"
+#~ msgid "&Active windows have stronger shadows"
+#~ msgstr "தற்போதைய சாளரத்திற்கு திடமான நிழலுள்ளது"
+
+#, fuzzy
+#~| msgid "Shadow color:"
+#~ msgid "Background brightness"
+#~ msgstr "நிழலின் நிறம்:"
+
+#, fuzzy
+#~| msgid "Shadow color:"
+#~ msgid "Background saturation"
+#~ msgstr "நிழலின் நிறம்:"
+
+#~ msgid "Hold Ctrl+Meta keys to see where the mouse cursor is."
+#~ msgstr ""
+#~ "எலியத்தின் இடஞ்சுட்டி இருக்கும் இடத்தை காட்ட Ctrl+Meta விசைகளை அழுத்திக் கொண்டே "
+#~ "இருக்கவும்."
+
+#, fuzzy
+#~| msgid "&Animation duration:"
+#~ msgid "Rearrange &duration:"
+#~ msgstr "&அசைவூட்ட காலவளவு:"
+
+#, fuzzy
+#~| msgid "Decorations:"
+#~ msgctxt "Duration of rearrangement"
+#~ msgid "Default"
+#~ msgstr "அலங்காரங்கள்:"
+
+#~ msgid "Animate &flip"
+#~ msgstr "&மறுதலிப்பை அசைவூட்டுக"
+
+#, fuzzy
+#~| msgid "Decorations:"
+#~ msgid "Default Shadow"
+#~ msgstr "அலங்காரங்கள்:"
+
+#, fuzzy
+#~| msgid "Decorations:"
+#~ msgid "Decoration Shadows"
+#~ msgstr "அலங்காரங்கள்:"
+
+#~ msgid "Shadow size (relative to window):"
+#~ msgstr "நிழலளவு (சாளரத்திற்கு தக்கபடி):"
+
+#, fuzzy
+#~| msgid "Animate desktop changes"
+#~ msgid "Show cube when desktop changed"
+#~ msgstr "பணிமேசை மாற்றங்களுக்கு அசைவூட்டுக"
+
+#, fuzzy
+#~| msgid "&Opacity:"
+#~ msgid "Cube &opacity:"
+#~ msgstr "&காட்டுமை:"
+
+#~ msgid "Activate when cursor is at a specific edge or corner of the screen:"
+#~ msgstr "இடஞஙசுட்டி திரையின் குறிப்பிட்ட முனையில் இருக்கும்போது செயற்படுத்துக:"
+
+#, fuzzy
+#~| msgid "Toggle Expose Effect (incl other desktops)"
+#~ msgid "Toggle Expose Effect (incl. other desktops)"
+#~ msgstr "வெளிப்படுத்தும் தாக்கத்தை மாற்றுக (ஏனைய பணிமேசைகளையும் சேர்த்து)"

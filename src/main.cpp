@@ -14,22 +14,27 @@
 #include "atoms.h"
 #include "colormanager.h"
 #include "composite.h"
-#include "core/platform.h"
+#include "core/outputbackend.h"
+#include "core/session.h"
 #include "cursor.h"
+#include "effects.h"
 #include "input.h"
 #include "inputmethod.h"
 #include "options.h"
+#include "outline.h"
 #include "pluginmanager.h"
-#if KWIN_BUILD_SCREENLOCKER
-#include "screenlockerwatcher.h"
-#endif
-#include "core/session.h"
+#include "pointer_input.h"
+#include "screenedge.h"
 #include "sm.h"
 #include "tabletmodemanager.h"
 #include "utils/xcbutils.h"
 #include "wayland/surface_interface.h"
 #include "workspace.h"
 #include "x11eventfilter.h"
+
+#if KWIN_BUILD_SCREENLOCKER
+#include "screenlockerwatcher.h"
+#endif
 
 #include <kwineffects.h>
 
@@ -43,6 +48,14 @@
 #include <QStandardPaths>
 #include <QTranslator>
 #include <qplatformdefs.h>
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <private/qtx11extras_p.h>
+#else
+#include <QX11Info>
+#endif
+
+#include <cerrno>
 
 #if __has_include(<malloc.h>)
 #include <malloc.h>
@@ -142,7 +155,7 @@ void Application::destroyAtoms()
 
 void Application::destroyPlatform()
 {
-    m_platform.reset();
+    m_outputBackend.reset();
 }
 
 void Application::resetCrashesCount()
@@ -162,7 +175,7 @@ bool Application::wasCrash()
 
 void Application::createAboutData()
 {
-    KAboutData aboutData(QStringLiteral(KWIN_NAME), // The program name used internally
+    KAboutData aboutData(QStringLiteral("kwin"), // The program name used internally
                          i18n("KWin"), // A displayable program name string
                          QStringLiteral(KWIN_VERSION_STRING), // The program version string
                          i18n("KDE window manager"), // Short description of what the app does
@@ -250,7 +263,7 @@ void Application::createInput()
 #endif
     auto input = InputRedirection::create(this);
     input->init();
-    m_platform->createPlatformCursor(this);
+    createPlatformCursor(this);
 }
 
 void Application::createAtoms()
@@ -321,6 +334,29 @@ void Application::destroyColorManager()
 void Application::destroyInputMethod()
 {
     m_inputMethod.reset();
+}
+
+std::unique_ptr<Edge> Application::createScreenEdge(ScreenEdges *edges)
+{
+    return std::make_unique<Edge>(edges);
+}
+
+void Application::createPlatformCursor(QObject *parent)
+{
+    new InputRedirectionCursor(parent);
+}
+
+std::unique_ptr<OutlineVisual> Application::createOutline(Outline *outline)
+{
+    if (Compositor::compositing()) {
+        return std::make_unique<CompositedOutlineVisual>(outline);
+    }
+    return nullptr;
+}
+
+void Application::createEffectsHandler(Compositor *compositor, WorkspaceScene *scene)
+{
+    new EffectsHandlerImpl(compositor, scene);
 }
 
 void Application::registerEventFilter(X11EventFilter *filter)
@@ -457,6 +493,35 @@ bool Application::dispatchEvent(xcb_generic_event_t *event)
     return false;
 }
 
+static quint32 monotonicTime()
+{
+    timespec ts;
+
+    const int result = clock_gettime(CLOCK_MONOTONIC, &ts);
+    if (result) {
+        qCWarning(KWIN_CORE, "Failed to query monotonic time: %s", strerror(errno));
+    }
+
+    return ts.tv_sec * 1000 + ts.tv_nsec / 1000000L;
+}
+
+void Application::updateXTime()
+{
+    switch (operationMode()) {
+    case Application::OperationModeX11:
+        setX11Time(QX11Info::getTimestamp(), TimestampUpdate::Always);
+        break;
+
+    case Application::OperationModeXwayland:
+        setX11Time(monotonicTime(), TimestampUpdate::Always);
+        break;
+
+    default:
+        // Do not update the current X11 time stamp if it's the Wayland only session.
+        break;
+    }
+}
+
 void Application::updateX11Time(xcb_generic_event_t *event)
 {
     xcb_timestamp_t time = XCB_TIME_CURRENT_TIME;
@@ -537,7 +602,6 @@ bool XcbEventFilter::nativeEventFilter(const QByteArray &eventType, void *messag
 bool XcbEventFilter::nativeEventFilter(const QByteArray &eventType, void *message, qintptr *result)
 #endif
 {
-    Q_UNUSED(result)
     if (eventType == "xcb_generic_event_t") {
         return kwinApp()->dispatchEvent(static_cast<xcb_generic_event_t *>(message));
     }
@@ -554,10 +618,10 @@ void Application::setProcessStartupEnvironment(const QProcessEnvironment &enviro
     m_processEnvironment = environment;
 }
 
-void Application::setPlatform(std::unique_ptr<Platform> &&platform)
+void Application::setOutputBackend(std::unique_ptr<OutputBackend> &&backend)
 {
-    Q_ASSERT(!m_platform);
-    m_platform = std::move(platform);
+    Q_ASSERT(!m_outputBackend);
+    m_outputBackend = std::move(backend);
 }
 
 void Application::setSession(std::unique_ptr<Session> &&session)
@@ -592,5 +656,29 @@ ScreenLockerWatcher *Application::screenLockerWatcher() const
     return m_screenLockerWatcher.get();
 }
 #endif
+
+PlatformCursorImage Application::cursorImage() const
+{
+    Cursor *cursor = Cursors::self()->currentCursor();
+    return PlatformCursorImage(cursor->image(), cursor->hotspot());
+}
+
+void Application::startInteractiveWindowSelection(std::function<void(KWin::Window *)> callback, const QByteArray &cursorName)
+{
+    if (!input()) {
+        callback(nullptr);
+        return;
+    }
+    input()->startInteractiveWindowSelection(callback, cursorName);
+}
+
+void Application::startInteractivePositionSelection(std::function<void(const QPoint &)> callback)
+{
+    if (!input()) {
+        callback(QPoint(-1, -1));
+        return;
+    }
+    input()->startInteractivePositionSelection(callback);
+}
 
 } // namespace

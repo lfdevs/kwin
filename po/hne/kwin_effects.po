@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-01 02:26+0000\n"
+"POT-Creation-Date: 2023-01-18 00:58+0000\n"
 "PO-Revision-Date: 2009-01-29 14:19+0530\n"
 "Last-Translator: Ravishankar Shrivastava <raviratlami@aol.in>\n"
 "Language-Team: Hindi <kde-i18n-doc@lists.kde.org>\n"
@@ -61,6 +61,7 @@ msgstr ""
 #: mousemark/mousemark_config.cpp:50 overview/kcm/overvieweffectkcm.cpp:35
 #: showpaint/showpaint_config.cpp:33
 #: thumbnailaside/thumbnailaside_config.cpp:54
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:31
 #: trackmouse/trackmouse_config.cpp:52
 #: windowview/kcm/windowvieweffectkcm.cpp:36 zoom/zoom_config.cpp:58
 #, kde-format
@@ -201,14 +202,20 @@ msgstr ""
 msgid "Natural"
 msgstr "प्राकृतिक"
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
+#: desktopgrid/desktopgrid_config.ui:147
+#, kde-format
+msgid "None"
+msgstr "कुछ नइ"
+
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: desktopgrid/desktopgrid_config.ui:150
+#: desktopgrid/desktopgrid_config.ui:155
 #, kde-format
 msgid "Windows layout:"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: desktopgrid/desktopgrid_config.ui:166
+#: desktopgrid/desktopgrid_config.ui:171
 #, kde-format
 msgid "Activation"
 msgstr "एक्टिवेसन"
@@ -321,10 +328,15 @@ msgstr "एक्टिवेसन"
 msgid "Toggle Invert Effect"
 msgstr "इनवर्ट प्रभाव टागल करव"
 
-#: invert/invert.cpp:50 invert/invert_config.cpp:44
+#: invert/invert.cpp:49 invert/invert_config.cpp:44
 #, kde-format
 msgid "Toggle Invert Effect on Window"
 msgstr "विंडो मं इनवर्ट प्रभाव टागल करव"
+
+#: invert/invert.cpp:56
+#, kde-format
+msgid "Invert Screen Colors"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FadeToBlack)
 #: login/package/contents/ui/config.ui:17
@@ -383,32 +395,32 @@ msgstr "ऊंचाईः (&H)"
 msgid "Toggle Mouse Click Effect"
 msgstr "एक्सपोज प्रभाव टागल करव"
 
-#: mouseclick/mouseclick.cpp:42
+#: mouseclick/mouseclick.cpp:41
 #, fuzzy, kde-format
 #| msgid "Left"
 msgctxt "Left mouse button"
 msgid "Left"
 msgstr "डेरी"
 
-#: mouseclick/mouseclick.cpp:43
+#: mouseclick/mouseclick.cpp:42
 #, kde-format
 msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr ""
 
-#: mouseclick/mouseclick.cpp:44
+#: mouseclick/mouseclick.cpp:43
 #, fuzzy, kde-format
 #| msgid "Right"
 msgctxt "Right mouse button"
 msgid "Right"
 msgstr "जेवनी"
 
-#: mouseclick/mouseclick.h:61
+#: mouseclick/mouseclick.h:60
 #, kde-format
 msgid "↓"
 msgstr ""
 
-#: mouseclick/mouseclick.h:62
+#: mouseclick/mouseclick.h:61
 #, kde-format
 msgid "↑"
 msgstr ""
@@ -510,12 +522,12 @@ msgstr ""
 msgid "Show Text:"
 msgstr "डेस्कटाप ग्रिड देखाव"
 
-#: mousemark/mousemark.cpp:36
+#: mousemark/mousemark.cpp:39
 #, kde-format
 msgid "Clear All Mouse Marks"
 msgstr "सब्बो मुसुवा चिनहा साफ करव"
 
-#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:59
+#: mousemark/mousemark.cpp:45 mousemark/mousemark_config.cpp:59
 #, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr "आखिरी मुसुवा चिनहा साफ करव"
@@ -585,12 +597,12 @@ msgstr "पिछोत अंगना"
 msgid "Ignore minimized windows:"
 msgstr "सबसे छोटे करे गे विंडो ल अनदेखा करव (&m)"
 
-#: overview/qml/DesktopBar.qml:186
+#: overview/qml/DesktopBar.qml:187
 #, kde-format
 msgid "Delete Virtual Desktop"
 msgstr ""
 
-#: overview/qml/DesktopBar.qml:282
+#: overview/qml/DesktopBar.qml:283
 #, fuzzy, kde-format
 #| msgid "Desktop Cube"
 msgid "Add Virtual Desktop"
@@ -602,12 +614,12 @@ msgstr "डेस्कटाप घन"
 msgid "No matching windows"
 msgstr "विंडो खिसकाना:"
 
-#: private/qml/WindowHeapDelegate.qml:152
+#: private/qml/WindowHeapDelegate.qml:151
 #, kde-format
 msgid "Drag Down To Close"
 msgstr ""
 
-#: private/qml/WindowHeapDelegate.qml:462
+#: private/qml/WindowHeapDelegate.qml:461
 #, fuzzy, kde-format
 #| msgid "All &other windows"
 msgctxt "@info:tooltip as in: 'close this window'"
@@ -628,28 +640,28 @@ msgstr "एक्टिवेसन"
 msgid "Window close scale:"
 msgstr "एक्टिवेसन"
 
-#: screenshot/screenshotdbusinterface1.cpp:480
+#: screenshot/screenshotdbusinterface1.cpp:478
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr ""
 
-#: screenshot/screenshotdbusinterface1.cpp:481
+#: screenshot/screenshotdbusinterface1.cpp:479
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr ""
 
-#: screenshot/screenshotdbusinterface1.cpp:797
-#: screenshot/screenshotdbusinterface2.cpp:472
+#: screenshot/screenshotdbusinterface1.cpp:800
+#: screenshot/screenshotdbusinterface2.cpp:477
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
 
-#: screenshot/screenshotdbusinterface1.cpp:800
-#: screenshot/screenshotdbusinterface2.cpp:490
+#: screenshot/screenshotdbusinterface1.cpp:803
+#: screenshot/screenshotdbusinterface2.cpp:495
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -711,14 +723,8 @@ msgstr ""
 msgid "Vertical:"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideDocks)
-#: slide/slide_config.ui:72
-#, kde-format
-msgid "Slide docks"
-msgstr ""
-
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideBackground)
-#: slide/slide_config.ui:79
+#: slide/slide_config.ui:72
 #, fuzzy, kde-format
 #| msgid "Wo&bble when moving"
 msgid "Slide desktop background"
@@ -762,6 +768,47 @@ msgstr "अपारदर्सिता: (&O)"
 #, no-c-format, kde-format
 msgid " %"
 msgstr " %"
+
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:37
+#: tileseditor/tileseditoreffect.cpp:29
+#, kde-format
+msgid "Toggle Tiles Editor"
+msgstr ""
+
+#: tileseditor/qml/main.qml:147
+#, kde-format
+msgid "Padding:"
+msgstr ""
+
+#: tileseditor/qml/main.qml:157
+#, kde-format
+msgid "Load Layout..."
+msgstr ""
+
+#: tileseditor/qml/main.qml:271
+#, kde-format
+msgid "Close"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:171
+#, kde-format
+msgid "Split Horizontally"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:178
+#, kde-format
+msgid "Split Vertically"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:186 tileseditor/qml/TileDelegate.qml:215
+#, kde-format
+msgid "Add Floating Tile"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:195
+#, kde-format
+msgid "Delete"
+msgstr ""
 
 #: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:57
 #, kde-format
@@ -898,18 +945,18 @@ msgstr "टार्न-आफ मेन्यू:"
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "अभी हाल के के विंडोज ल टागल करव (अभी वाले डेस्कटाप)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:55
+#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:54
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "अभी हाल के के विंडोज ल टागल करव (सब्बो डेस्कटाप)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:65
+#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:63
 #, fuzzy, kde-format
 #| msgid "Toggle Present Windows (All desktops)"
 msgid "Toggle Present Windows (Window class)"
 msgstr "अभी हाल के के विंडोज ल टागल करव (सब्बो डेस्कटाप)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:75
+#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:72
 #, fuzzy, kde-format
 #| msgid "Toggle Present Windows (Current desktop)"
 msgid "Toggle Present Windows (Window class on current desktop)"
@@ -921,16 +968,22 @@ msgstr "अभी हाल के के विंडोज ल टागल �
 msgid "Ignore &minimized windows"
 msgstr "सबसे छोटे करे गे विंडो ल अनदेखा करव (&m)"
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, kde-format
 msgid "No Matches"
 msgstr ""
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, fuzzy, kde-format
 #| msgid "&Wobbliness"
 msgid "No Windows"
 msgstr "डगमग-पन (&W)"
+
+#: windowview/qml/main.qml:123
+#, fuzzy, kde-format
+#| msgid "&Decorated windows"
+msgid "Filter windows…"
+msgstr "सजाय गे विंडो (&D)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20
@@ -992,32 +1045,32 @@ msgstr "कम"
 msgid "More"
 msgstr "अधिक"
 
-#: zoom/zoom.cpp:68
+#: zoom/zoom.cpp:65
 #, kde-format
 msgid "Move Zoomed Area to Left"
 msgstr ""
 
-#: zoom/zoom.cpp:76
+#: zoom/zoom.cpp:72
 #, kde-format
 msgid "Move Zoomed Area to Right"
 msgstr ""
 
-#: zoom/zoom.cpp:84
+#: zoom/zoom.cpp:79
 #, kde-format
 msgid "Move Zoomed Area Upwards"
 msgstr ""
 
-#: zoom/zoom.cpp:92
+#: zoom/zoom.cpp:86
 #, kde-format
 msgid "Move Zoomed Area Downwards"
 msgstr ""
 
-#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:108
+#: zoom/zoom.cpp:94 zoom/zoom_config.cpp:108
 #, kde-format
 msgid "Move Mouse to Focus"
 msgstr ""
 
-#: zoom/zoom.cpp:109 zoom/zoom_config.cpp:115
+#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:115
 #, kde-format
 msgid "Move Mouse to Center"
 msgstr ""
@@ -1153,3 +1206,598 @@ msgstr "अक्छम"
 #, kde-format
 msgid "Mouse Tracking:"
 msgstr ""
+
+#~ msgid "&Radius:"
+#~ msgstr "त्रिज्या: (&R)"
+
+#~ msgid "Text position:"
+#~ msgstr "पाठ स्थिति:"
+
+#~ msgid "Inside Graph"
+#~ msgstr "ग्राफ के भीतर"
+
+#~ msgid "Nowhere"
+#~ msgstr "कहीं नइ"
+
+#~ msgid "Top Left"
+#~ msgstr "ऊपरी डेरी "
+
+#~ msgid "Top Right"
+#~ msgstr "ऊपरी जेवनी "
+
+#~ msgid "Bottom Left"
+#~ msgstr "निचला डेरी "
+
+#~ msgid "Bottom Right"
+#~ msgstr "निचला जेवनी "
+
+#~ msgid "Text font:"
+#~ msgstr "पाठ फोंटः"
+
+#~ msgid "Text color:"
+#~ msgstr "पाठ रंगः"
+
+#~ msgid "Text alpha:"
+#~ msgstr "पाठ अल्फा:"
+
+#, fuzzy
+#~| msgid "Show caps"
+#~ msgid "Show graph:"
+#~ msgstr "कैप्स देखाव"
+
+#, fuzzy
+#~| msgid "Show Desktop Grid"
+#~ msgid "Show Message:"
+#~ msgstr "डेस्कटाप ग्रिड देखाव"
+
+#~ msgid "Zoom &duration:"
+#~ msgstr "जूम अवधिः (&d)"
+
+#, fuzzy
+#~ msgctxt "Duration of zoom"
+#~ msgid "Default"
+#~ msgstr "डिफाल्ट"
+
+#, fuzzy
+#~| msgid "&Border width:"
+#~ msgid "Border wid&th:"
+#~ msgstr "किनोर के चौड़ाई: (&B)"
+
+#, fuzzy
+#~| msgid "Show Desktop Grid"
+#~ msgid "Switch desktop only"
+#~ msgstr "डेस्कटाप ग्रिड देखाव"
+
+#~ msgid "Natural Layout Settings"
+#~ msgstr "प्राकृतिक खाका सेटिंग"
+
+#~ msgid "Fill &gaps"
+#~ msgstr "खाली जगह ल भरव (&g)"
+
+#~ msgid "Faster"
+#~ msgstr "तेज"
+
+#~ msgid "Nicer"
+#~ msgstr "थोड़ा नाइस"
+
+#, fuzzy
+#~| msgid "Inactive windows:"
+#~ msgid "Activate window"
+#~ msgstr "असक्रिय विंडो:"
+
+#, fuzzy
+#~| msgid "Toggle Present Windows (Current desktop)"
+#~ msgid "Bring window to current desktop"
+#~ msgstr "अभी हाल के के विंडोज ल टागल करव (अभी वाले डेस्कटाप)"
+
+#, fuzzy
+#~ msgid "Send window to all desktops"
+#~ msgstr "अभी हाल के के विंडोज ल टागल करव (सब्बो डेस्कटाप)"
+
+#, fuzzy
+#~| msgid "Ignore &minimized windows"
+#~ msgid "(Un-)Minimize window"
+#~ msgstr "सबसे छोटे करे गे विंडो ल अनदेखा करव (&m)"
+
+#, fuzzy
+#~| msgid "Desktop Cube"
+#~ msgctxt "@title:group actions when clicking on desktop"
+#~ msgid "Desktop"
+#~ msgstr "डेस्कटाप घन"
+
+#, fuzzy
+#~| msgid "Show Desktop Grid"
+#~ msgid "Show desktop"
+#~ msgstr "डेस्कटाप ग्रिड देखाव"
+
+#~ msgid "Display window &titles"
+#~ msgstr "विंडो सीर्सक देखाव (&t)"
+
+#~ msgid "Display window &icons"
+#~ msgstr "विंडो चिनहा देखाव (&i)"
+
+#, fuzzy
+#~ msgid "Show &panels"
+#~ msgstr "कैप्स देखाव"
+
+#~ msgid "Regular Grid"
+#~ msgstr "नियमित ग्रिड"
+
+#~ msgid "Flexible Grid"
+#~ msgstr "लचीला ग्रिड"
+
+#, fuzzy
+#~| msgid "All &other windows"
+#~ msgid "Scale window"
+#~ msgstr "सब्बो अउ दूसर विंडो (&o)"
+
+#, fuzzy
+#~| msgid "Display window &icons"
+#~ msgid "Display for moving windows"
+#~ msgstr "विंडो चिनहा देखाव (&i)"
+
+#, fuzzy
+#~| msgid "Display window &icons"
+#~ msgid "Display for resizing windows"
+#~ msgstr "विंडो चिनहा देखाव (&i)"
+
+#, fuzzy
+#~| msgid "&Color:"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Color Picker"
+#~ msgstr "रंग: (&C)"
+
+#, fuzzy
+#~| msgid "Background color:"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Background contrast"
+#~ msgstr "पिछोत अंगना के रंगः"
+
+#, fuzzy
+#~| msgid "Show Desktop Grid"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Grid"
+#~ msgstr "डेस्कटाप ग्रिड देखाव"
+
+#, fuzzy
+#~| msgid "Inactive windows:"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Darken inactive windows"
+#~ msgstr "असक्रिय विंडो:"
+
+#, fuzzy
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Closed windows fall into pieces"
+#~ msgstr "अभी हाल के के विंडोज ल टागल करव (सब्बो डेस्कटाप)"
+
+#, fuzzy
+#~| msgid "Activation"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Click Animation"
+#~ msgstr "एक्टिवेसन"
+
+#, fuzzy
+#~| msgid "Clear Mouse Marks"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Mark"
+#~ msgstr "मुसुवा चिनहा साफ करव"
+
+#, fuzzy
+#~| msgid "All &other windows"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Resize Window"
+#~ msgstr "सब्बो अउ दूसर विंडो (&o)"
+
+#, fuzzy
+#~| msgid "Transparent"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Transform"
+#~ msgstr "अल्पपारदर्सिता"
+
+#, fuzzy
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show Paint"
+#~ msgstr "कैप्स देखाव"
+
+#, fuzzy
+#~| msgid "Display the cube when switching desktops"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Slide desktops when switching virtual desktops"
+#~ msgstr "जब डेस्कटाप मं स्विच करथे घन देखाव"
+
+#, fuzzy
+#~| msgid "Thumbnail Bar"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Thumbnail Aside"
+#~ msgstr "छोटेफोटू पट्टी"
+
+#, fuzzy
+#~| msgid "Display window &icons"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display window geometries on move/resize"
+#~ msgstr "विंडो चिनहा देखाव (&i)"
+
+#, fuzzy
+#~| msgid "Use for window &switching"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Deform windows while they are moving"
+#~ msgstr "विंडो स्विचिंग बर उपयोग करव (&s)"
+
+#, fuzzy
+#~| msgid "Zoom"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Zoom"
+#~ msgstr "जूम"
+
+#, fuzzy
+#~| msgid "Show Desktop Grid"
+#~ msgctxt "Special entry in alt+tab list for minimizing all windows"
+#~ msgid "Show Desktop"
+#~ msgstr "डेस्कटाप ग्रिड देखाव"
+
+#~ msgid "Zoom"
+#~ msgstr "जूम"
+
+#~ msgid "Define how far away the windows should appear"
+#~ msgstr "परिभासित करव कि विंडो कतका दूर दिखही"
+
+#~ msgid "Near"
+#~ msgstr "पास"
+
+#~ msgid "Far"
+#~ msgstr "दूर"
+
+#, fuzzy
+#~| msgid "Activation"
+#~ msgid "Animation"
+#~ msgstr "एक्टिवेसन"
+
+#~ msgid "Animate switch"
+#~ msgstr "एनीमेट स्विच करव"
+
+#~ msgid "Animation on tab box open"
+#~ msgstr "टैब डब्बा खोले मं एनीमेसन"
+
+#~ msgid "Animation on tab box close"
+#~ msgstr "टैब डब्बा बंद करे मं एनीमेसन"
+
+#~ msgid "Reflections"
+#~ msgstr "रेफ्लेक्सन्स"
+
+#, fuzzy
+#~| msgid "Cap color:"
+#~ msgid "Rear color"
+#~ msgstr "कैप रंग:"
+
+#, fuzzy
+#~| msgid "Background color:"
+#~ msgid "Front color"
+#~ msgstr "पिछोत अंगना के रंगः"
+
+#~ msgid "Desktop Cube"
+#~ msgstr "डेस्कटाप घन"
+
+#, fuzzy
+#~ msgid "Desktop Cylinder"
+#~ msgstr "डेस्कटाप घन"
+
+#, fuzzy
+#~ msgid "Desktop Sphere"
+#~ msgstr "डेस्कटाप घन"
+
+#~ msgctxt "@title:tab Basic Settings"
+#~ msgid "Basic"
+#~ msgstr "मूल"
+
+#~ msgctxt "@title:tab Advanced Settings"
+#~ msgid "Advanced"
+#~ msgstr "विस्तृत"
+
+#~ msgid "Tab 1"
+#~ msgstr "टैब 1"
+
+#~ msgid "Background color:"
+#~ msgstr "पिछोत अंगना के रंगः"
+
+#~ msgid "Wallpaper:"
+#~ msgstr "वालपेपर"
+
+#~ msgid "Display desktop name"
+#~ msgstr "डेस्कटाप नाम देखाव"
+
+#~ msgid "Reflection"
+#~ msgstr "रेफ्लेक्सन्स"
+
+#~ msgid "Rotation duration:"
+#~ msgstr "रोटेसन अवधि:"
+
+#~ msgid "Opacity"
+#~ msgstr "अपारदर्सिता:"
+
+#, fuzzy
+#~ msgid "Do not change opacity of windows"
+#~ msgstr "विंडो के सीर्स मं वींडो सीर्सक देव"
+
+#~ msgid "Tab 2"
+#~ msgstr "टैब 2"
+
+#~ msgid "Caps"
+#~ msgstr "कैप्स"
+
+#~ msgid "Cap color:"
+#~ msgstr "कैप रंग:"
+
+#~ msgid "Display image on caps"
+#~ msgstr "कैप्स मं फोटू देखाव"
+
+#~ msgid "Define how far away the object should appear"
+#~ msgstr "परिभासित करव कि कतका दूर मं आब्जेक्ट दिखही"
+
+#~ msgid "Additional Options"
+#~ msgstr "अतिरिक्त विकल्प"
+
+#~ msgid "Close after mouse dragging"
+#~ msgstr "माउस खींचे के बाद बंद करव"
+
+#~ msgid "Use this effect for walking through the desktops"
+#~ msgstr "डेस्कटाप के आरपार चले मं ए प्रभाव के उपयोग करव"
+
+#, fuzzy
+#~ msgid "Sphere Cap Deformation"
+#~ msgstr "केप डिफारमेशन"
+
+#~ msgid "Sphere"
+#~ msgstr "गोला"
+
+#~ msgid "Plane"
+#~ msgstr "समतल"
+
+#, fuzzy
+#~ msgid "Do not animate windows on all desktops"
+#~ msgstr "अभी हाल के के विंडोज ल टागल करव (सब्बो डेस्कटाप)"
+
+#, fuzzy
+#~| msgid "Desktop Cube"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube"
+#~ msgstr "डेस्कटाप घन"
+
+#, fuzzy
+#~| msgid "Desktop Cube"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube Animation"
+#~ msgstr "डेस्कटाप घन"
+
+#, fuzzy
+#~| msgid "Toggle Present Windows (Current desktop)"
+#~ msgid "Toggle Flip Switch (Current desktop)"
+#~ msgstr "अभी हाल के के विंडोज ल टागल करव (अभी वाले डेस्कटाप)"
+
+#, fuzzy
+#~| msgid "Toggle Present Windows (All desktops)"
+#~ msgid "Toggle Flip Switch (All desktops)"
+#~ msgstr "अभी हाल के के विंडोज ल टागल करव (सब्बो डेस्कटाप)"
+
+#, fuzzy
+#~| msgid "F&lip animation duration:"
+#~ msgid "Flip animation duration:"
+#~ msgstr "उलटा एनीमेसन अवधि: (&l)"
+
+#, fuzzy
+#~ msgctxt "Duration of flip animation"
+#~ msgid "Default"
+#~ msgstr "डिफाल्ट"
+
+#~ msgid ""
+#~ "Filter:\n"
+#~ "%1"
+#~ msgstr ""
+#~ "फिल्टर:\n"
+#~ "%1"
+
+#, fuzzy
+#~| msgid "Activation"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Minimize Animation"
+#~ msgstr "एक्टिवेसन"
+
+#, fuzzy
+#~| msgid "Ignore &minimized windows"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Animate the minimizing of windows"
+#~ msgstr "सबसे छोटे करे गे विंडो ल अनदेखा करव (&m)"
+
+#~ msgid "Apply effect to &panels"
+#~ msgstr "प्रभाव मन ल पैनल मन मं लगाव (&p)"
+
+#~ msgid "Apply effect to the desk&top"
+#~ msgstr "प्रभाव ल डेस्कटाप मं लगाव"
+
+#, fuzzy
+#~| msgid "Apply effect to &panels"
+#~ msgid "Apply effect to &keep-above windows"
+#~ msgstr "प्रभाव मन ल पैनल मन मं लगाव (&p)"
+
+#~ msgid "Apply effect to &groups"
+#~ msgstr "प्रभाव मन ल समूह मन मं लगाव (&g)"
+
+#, fuzzy
+#~ msgctxt "Duration of the slide animation"
+#~ msgid "Default"
+#~ msgstr "डिफाल्ट"
+
+#, fuzzy
+#~| msgid "Right"
+#~ msgctxt "More brightness"
+#~ msgid "Lighter"
+#~ msgstr "जेवनी"
+
+#, fuzzy
+#~| msgid "msec"
+#~ msgid "ms"
+#~ msgstr "मि.से."
+
+#, fuzzy
+#~| msgid "Apply effect to &groups"
+#~ msgid "Apply blur effect to background"
+#~ msgstr "प्रभाव मन ल समूह मन मं लगाव (&g)"
+
+#~ msgid "Decorations:"
+#~ msgstr "सजावट:"
+
+#~ msgid "Background window &opacity:"
+#~ msgstr "विंडो पिछोत अंगना के अपारदर्सिता: (&o)"
+
+#~ msgid "&Elevate selected window"
+#~ msgstr "चुने गे विंडो उठाव (&E)"
+
+#~ msgid "&Animate walk through windows"
+#~ msgstr "विंडोज के आरपार चलना एनिमेट करव (&A)"
+
+#~ msgid "Use additional thumbnail bar"
+#~ msgstr "अतिरिक्त छोटेफोटू पट्टी उपयोग करव"
+
+#~ msgid "Dynamic mode"
+#~ msgstr "गतिसील मोड"
+
+#~ msgid "Number of windows:"
+#~ msgstr "विंडो के संख्या:"
+
+#, fuzzy
+#~| msgid " rows"
+#~ msgid " row"
+#~ msgid_plural " rows"
+#~ msgstr[0] "पंक्ति"
+#~ msgstr[1] "पंक्ति"
+
+#, fuzzy
+#~ msgctxt "Duration of fading"
+#~ msgid "Default"
+#~ msgstr "डिफाल्ट"
+
+#~ msgid "Toggle Video Recording"
+#~ msgstr "वीडियो रेकार्डिंग टागल करव"
+
+#~ msgid "Path to save video:"
+#~ msgstr "वीडियो सहेजे के पथ:"
+
+#~ msgid "Snow"
+#~ msgstr "बर्फीला"
+
+#~ msgid "Toggle Snow on Desktop"
+#~ msgstr "एक्सपोज प्रभाव टागल करव (अऊ दूसर डेस्कटाप सम्मिलित)"
+
+#, fuzzy
+#~| msgid " px/frame"
+#~ msgid " pixel/frame"
+#~ msgid_plural " pixels/frame"
+#~ msgstr[0] "पीएक्स/फ्रेम"
+#~ msgstr[1] "पीएक्स/फ्रेम"
+
+#~ msgctxt "@action Enables/Disables an effect that makes windows more sharp"
+#~ msgid "Toggle Sharpen Effect"
+#~ msgstr "सुस्पस्टता प्रभाव टागल करव"
+
+#~ msgid "&Number of snowflakes:"
+#~ msgstr "बरफ के टुकड़ा मन के संख्याः (&N)"
+
+#~ msgid "M&inimum size of snowflake:"
+#~ msgstr "बरफ के टुकड़ा मन के सबसे कम आकारः (i)"
+
+#~ msgid "M&aximum size of snowflake:"
+#~ msgstr "बरफ के टुकड़ा मन के सबसे अधिक आकार: (&a)"
+
+#~ msgid "Maximum &vertical speed:"
+#~ msgstr "सबसे अधिक खड़ी गति (&v):"
+
+#~ msgid "Maximum &horizontal speed:"
+#~ msgstr "सबसे अधिक आड़ी गति (&h):"
+
+#~ msgid "Snow &behind windows"
+#~ msgstr "विंडो के पीछू देखाव (&b)"
+
+#~ msgid "&X offset:"
+#~ msgstr "&X आफसेट:"
+
+#~ msgid "&Y offset:"
+#~ msgstr "&Y आफसेट:"
+
+#~ msgid "%"
+#~ msgstr "%"
+
+#~ msgid "&Fuzziness:"
+#~ msgstr "फजीनेस: (&F)"
+
+#~ msgid "&Size:"
+#~ msgstr "आकार: (&S)"
+
+#, fuzzy
+#~ msgid "&Active windows have stronger shadows"
+#~ msgstr "सक्रिय विंडो मं बड़े छइंहा (&A)"
+
+#, fuzzy
+#~| msgid "Background"
+#~ msgid "Background brightness"
+#~ msgstr "पिछोत अंगना"
+
+#, fuzzy
+#~| msgid "Background"
+#~ msgid "Background saturation"
+#~ msgstr "पिछोत अंगना"
+
+#~ msgid "Hold Ctrl+Meta keys to see where the mouse cursor is."
+#~ msgstr "मुसुवा संकेतक कहाँ हे ओला देखे बर कंट्रोल+मेटा कुंजी दबा कर रखव."
+
+#~ msgid "Rearrange &duration:"
+#~ msgstr "फिर से जमाय के अवधिः (&d)"
+
+#, fuzzy
+#~ msgctxt "Duration of rearrangement"
+#~ msgid "Default"
+#~ msgstr "डिफाल्ट"
+
+#~ msgid "Animate &flip"
+#~ msgstr "एनीमेट फ्लिप करव (f)"
+
+#~ msgid "Custom..."
+#~ msgstr "मनमाफिक..."
+
+#~ msgid "Default Shadow"
+#~ msgstr "डिफाल्ट छइंहा"
+
+#~ msgid "Decoration Shadows"
+#~ msgstr "सजावट छइंहा"
+
+#~ msgid "Force default shadows for:"
+#~ msgstr "एखर बर डिफाल्ट छइंहा जबरन लगाव:"
+
+#~ msgid "&Undecorated normal windows"
+#~ msgstr "बिन सजाए सामान्य विंडो (&U)"
+
+#~ msgid "Span cube on all screens in multi screen setup"
+#~ msgstr "मल्टी स्क्रीन सेटअप मं घन ल सब्बो स्क्रीन मं स्पान करव"
+
+#~ msgid "Shadow size (relative to window):"
+#~ msgstr "छइंहा आकार (विंडो के सापेक्छ):"
+
+#, fuzzy
+#~| msgid "Animate desktop changes"
+#~ msgid "Show cube when desktop changed"
+#~ msgstr "डेस्कटाप बदलाव मन ल एनीमेट करव"
+
+#~ msgid "Advanced opacity settings for menus:"
+#~ msgstr "मेन्यू बर विस्तृत पारदर्सिता सेटिंग:"
+
+#~ msgid "Set individual opacity for different menu types"
+#~ msgstr "विविध किसम के मेन्यू किसिमों बर खुद के पारदर्सिता सेट करव"
+
+#, fuzzy
+#~| msgid "&Opacity:"
+#~ msgid "Cube &opacity:"
+#~ msgstr "अपारदर्सिता: (&O)"
+
+#~ msgid "Activate when cursor is at a specific edge or corner of the screen:"
+#~ msgstr "तब सक्रिय करव जब संकेतक स्क्रीन के कोनो खास किनारे या कोना मं हो :"
+
+#~ msgid "Toggle Expose Effect (incl. other desktops)"
+#~ msgstr "एक्सपोज प्रभाव टागल करव (अऊ दूसर डेस्कटाप सम्मिलित)"

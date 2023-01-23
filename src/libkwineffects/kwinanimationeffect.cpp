@@ -47,7 +47,7 @@ quint64 AnimationEffectPrivate::m_animCounter = 0;
 
 AnimationEffect::AnimationEffect()
     : CrossFadeEffect()
-    , d_ptr(new AnimationEffectPrivate())
+    , d_ptr(std::make_unique<AnimationEffectPrivate>())
 {
     if (!s_clock.isValid()) {
         s_clock.start();
@@ -57,10 +57,7 @@ AnimationEffect::AnimationEffect()
     QMetaObject::invokeMethod(this, &AnimationEffect::init, Qt::QueuedConnection);
 }
 
-AnimationEffect::~AnimationEffect()
-{
-    delete d_ptr;
-}
+AnimationEffect::~AnimationEffect() = default;
 
 void AnimationEffect::init()
 {
@@ -429,6 +426,14 @@ bool AnimationEffect::cancel(quint64 animationId)
         }
     }
     return false;
+}
+
+void AnimationEffect::animationEnded(EffectWindow *w, Attribute a, uint meta)
+{
+}
+
+void AnimationEffect::genericAnimation(EffectWindow *w, WindowPaintData &data, float progress, uint meta)
+{
 }
 
 void AnimationEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseconds presentTime)
@@ -913,8 +918,8 @@ void AnimationEffect::updateLayerRepaints()
             case Scale: {
                 createRegion = true;
                 const QSize sz = entry.key()->frameGeometry().size().toSize();
-                float fx = qMax(fixOvershoot(anim->from[0], *anim, 1), fixOvershoot(anim->to[0], *anim, 2));
-                //                     float fx = qMax(interpolated(*anim,0), anim->to[0]);
+                float fx = std::max(fixOvershoot(anim->from[0], *anim, 1), fixOvershoot(anim->to[0], *anim, 2));
+                //                     float fx = std::max(interpolated(*anim,0), anim->to[0]);
                 if (fx >= 0.0) {
                     if (anim->attribute == Size) {
                         fx /= sz.width();
@@ -922,8 +927,8 @@ void AnimationEffect::updateLayerRepaints()
                     f[0] *= fx;
                     t[0] += geometryCompensation(anim->meta & AnimationEffect::Horizontal, fx) * sz.width();
                 }
-                //                     float fy = qMax(interpolated(*anim,1), anim->to[1]);
-                float fy = qMax(fixOvershoot(anim->from[1], *anim, 1), fixOvershoot(anim->to[1], *anim, 2));
+                //                     float fy = std::max(interpolated(*anim,1), anim->to[1]);
+                float fy = std::max(fixOvershoot(anim->from[1], *anim, 1), fixOvershoot(anim->to[1], *anim, 2));
                 if (fy >= 0.0) {
                     if (anim->attribute == Size) {
                         fy /= sz.height();

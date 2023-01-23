@@ -243,3 +243,47 @@ msgid ""
 msgstr ""
 "U kunt een actie starten door vanaf de rand van het scherm in de richting "
 "van het centrum te vegen."
+
+#~ msgid "Show Desktop"
+#~ msgstr "Bureaublad tonen"
+
+#~ msgid "Desktop Grid"
+#~ msgstr "Bureaubladraster"
+
+#~ msgid "Toggle Overview"
+#~ msgstr "Overzicht omschakelen"
+
+#~ msgid "%1 - Cube"
+#~ msgstr "%1 - kubus"
+
+#~ msgid "%1 - Cylinder"
+#~ msgstr "%1 - cilinder"
+
+#~ msgid "%1 - Sphere"
+#~ msgstr "%1 - bol"
+
+#~ msgid "Active Screen Corners and Edges"
+#~ msgstr "Hoeken en randen van het actieve scherm"
+
+#~ msgid "Window Management"
+#~ msgstr "Vensterbeheer"
+
+#~ msgid "Maximize windows by dragging them to the top edge of the screen"
+#~ msgstr ""
+#~ "Vensters maximaliseren door ze naar de bovenrand van het scherm te slepen"
+
+#~ msgid "Quarter tiling triggered in the outer"
+#~ msgstr "Kwartgedeelten laten overlappen gestart in de buitenste"
+
+#~ msgid "Other Settings"
+#~ msgstr "Overige instellingen"
+
+#~ msgctxt "Open krunner"
+#~ msgid "Run Command"
+#~ msgstr "Commando uitvoeren"
+
+#~ msgid "Show Dashboard"
+#~ msgstr "Dashboard tonen"
+
+#~ msgid "Prevent Screen Locking"
+#~ msgstr "Scherm vergrendelen voorkomen"

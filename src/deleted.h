@@ -7,8 +7,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#ifndef KWIN_DELETED_H
-#define KWIN_DELETED_H
+#pragma once
 
 #include "window.h"
 
@@ -58,7 +57,7 @@ public:
     {
         return m_wasClient;
     }
-    QByteArray windowRole() const override;
+    QString windowRole() const override;
 
     bool isFullScreen() const override
     {
@@ -105,7 +104,7 @@ public:
     { /* nothing to do */
         return geometry;
     }
-    WindowItem *createItem() override;
+    std::unique_ptr<WindowItem> createItem(Scene *scene) override;
 
     /**
      * Returns whether the client was a popup.
@@ -159,7 +158,7 @@ private:
     QList<Window *> m_mainWindows;
     bool m_wasClient;
     NET::WindowType m_type = NET::Unknown;
-    QByteArray m_windowRole;
+    QString m_windowRole;
     bool m_fullscreen;
     bool m_keepAbove;
     bool m_keepBelow;
@@ -177,5 +176,3 @@ inline void Deleted::refWindow()
 } // namespace
 
 Q_DECLARE_METATYPE(KWin::Deleted *)
-
-#endif

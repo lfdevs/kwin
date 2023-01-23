@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-08-19 00:47+0000\n"
+"POT-Creation-Date: 2022-12-11 00:48+0000\n"
 "PO-Revision-Date: 2009-12-28 17:56+0530\n"
 "Last-Translator: Danishka Navin <danishka@gmail.com>\n"
 "Language-Team: Sinhala <danishka@gmail.com>\n"
@@ -62,12 +62,12 @@ msgstr ""
 msgid "Copy of %1"
 msgstr ""
 
-#: kcmrules.cpp:422
+#: kcmrules.cpp:423
 #, kde-format
 msgid "Application settings for %1"
 msgstr "%1 සඳහා භාවිතයෙදවුම් සැකසුම් නොමැත"
 
-#: kcmrules.cpp:442 rulesmodel.cpp:215
+#: kcmrules.cpp:445 rulesmodel.cpp:215
 #, kde-format
 msgid "Window settings for %1"
 msgstr "%1 සඳහා කවුළු සැකසුම්"
@@ -349,43 +349,38 @@ msgid_plural "After %1 seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: package/contents/ui/RulesEditor.qml:147
-#, kde-format
-msgid "Error"
-msgstr ""
-
-#: package/contents/ui/RulesEditor.qml:162
+#: package/contents/ui/RulesEditor.qml:175
 #, kde-format
 msgid "Add property to the rule"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:260
+#: package/contents/ui/RulesEditor.qml:273
 #: package/contents/ui/ValueEditor.qml:54
 #, kde-format
 msgid "Yes"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:260
+#: package/contents/ui/RulesEditor.qml:273
 #: package/contents/ui/ValueEditor.qml:60
 #, fuzzy, kde-format
 #| msgid "None"
 msgid "No"
 msgstr "නොමැති"
 
-#: package/contents/ui/RulesEditor.qml:262
+#: package/contents/ui/RulesEditor.qml:275
 #: package/contents/ui/ValueEditor.qml:171
 #: package/contents/ui/ValueEditor.qml:178
 #, kde-format
 msgid "%1 %"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:264
+#: package/contents/ui/RulesEditor.qml:277
 #, kde-format
 msgctxt "Coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:266
+#: package/contents/ui/RulesEditor.qml:279
 #, kde-format
 msgctxt "Size (width, height)"
 msgid "(%1, %2)"
@@ -777,165 +772,466 @@ msgstr ""
 msgid "Block compositing"
 msgstr ""
 
-#: rulesmodel.cpp:727
+#: rulesmodel.cpp:703
+#, fuzzy, kde-format
+#| msgid "Window &class (application type):"
+msgid "Window class not available"
+msgstr "කවුළු කණ්ඩායම (යෙදුම් වර්‍ගය) (&c):"
+
+#: rulesmodel.cpp:704
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"This application is not providing a class for the window, so KWin cannot use "
+"it to match and apply any rules. If you still want to apply some rules to "
+"it, try to match other properties like the window title instead.<nl/><nl/"
+">Please consider reporting this bug to the application's developers."
+msgstr ""
+
+#: rulesmodel.cpp:738
 #, fuzzy, kde-format
 #| msgid "Window &types:"
 msgid "All Window Types"
 msgstr "කවුළු වර්ග (&t) :"
 
-#: rulesmodel.cpp:728
+#: rulesmodel.cpp:739
 #, kde-format
 msgid "Normal Window"
 msgstr "සාමාන්‍ය කවුළුව "
 
-#: rulesmodel.cpp:729
+#: rulesmodel.cpp:740
 #, kde-format
 msgid "Dialog Window"
 msgstr "සංවාද කවුළුව"
 
-#: rulesmodel.cpp:730
+#: rulesmodel.cpp:741
 #, kde-format
 msgid "Utility Window"
 msgstr "උපයෝගී කවුළුව"
 
-#: rulesmodel.cpp:731
+#: rulesmodel.cpp:742
 #, kde-format
 msgid "Dock (panel)"
 msgstr "තොටුපල (පැනලය)"
 
-#: rulesmodel.cpp:732
+#: rulesmodel.cpp:743
 #, kde-format
 msgid "Toolbar"
 msgstr "මෙවලම් තීරුව"
 
-#: rulesmodel.cpp:733
+#: rulesmodel.cpp:744
 #, kde-format
 msgid "Torn-Off Menu"
 msgstr "මෙනුව හකුළන්න"
 
-#: rulesmodel.cpp:734
+#: rulesmodel.cpp:745
 #, kde-format
 msgid "Splash Screen"
 msgstr "ස්පලෑශ් තිරය"
 
-#: rulesmodel.cpp:735
+#: rulesmodel.cpp:746
 #, kde-format
 msgid "Desktop"
 msgstr "වැඩතලය"
 
 #. i18n("Unmanaged Window")},  deprecated
-#: rulesmodel.cpp:737
+#: rulesmodel.cpp:748
 #, kde-format
 msgid "Standalone Menubar"
 msgstr "තනිව නැගීසිටින මෙනු බාර"
 
-#: rulesmodel.cpp:738
+#: rulesmodel.cpp:749
 #, kde-format
 msgid "On Screen Display"
 msgstr ""
 
-#: rulesmodel.cpp:748
+#: rulesmodel.cpp:759
 #, kde-format
 msgid "All Desktops"
 msgstr "සියළු වැඩතල"
 
-#: rulesmodel.cpp:750
+#: rulesmodel.cpp:761
 #, kde-format
 msgctxt "@info:tooltip in the virtual desktop list"
 msgid "Make the window available on all desktops"
 msgstr ""
 
-#: rulesmodel.cpp:769
+#: rulesmodel.cpp:780
 #, kde-format
 msgid "All Activities"
 msgstr ""
 
-#: rulesmodel.cpp:771
+#: rulesmodel.cpp:782
 #, kde-format
 msgctxt "@info:tooltip in the activity list"
 msgid "Make the window available on all activities"
 msgstr ""
 
-#: rulesmodel.cpp:792
+#: rulesmodel.cpp:803
 #, kde-format
 msgid "Default"
 msgstr "පෙරනිමිය"
 
-#: rulesmodel.cpp:793
+#: rulesmodel.cpp:804
 #, kde-format
 msgid "No Placement"
 msgstr "ස්ථානකරණයක් නොමැත"
 
-#: rulesmodel.cpp:794
+#: rulesmodel.cpp:805
 #, kde-format
 msgid "Minimal Overlapping"
 msgstr ""
 
-#: rulesmodel.cpp:795
+#: rulesmodel.cpp:806
 #, fuzzy, kde-format
 #| msgid "Maximizing"
 msgid "Maximized"
 msgstr "විහිදමින්"
 
-#: rulesmodel.cpp:796
-#, fuzzy, kde-format
-#| msgid "Cascade"
-msgid "Cascaded"
-msgstr "ඇද හැලෙන"
-
-#: rulesmodel.cpp:797
+#: rulesmodel.cpp:807
 #, kde-format
 msgid "Centered"
 msgstr "මධ්‍යගත"
 
-#: rulesmodel.cpp:798
+#: rulesmodel.cpp:808
 #, kde-format
 msgid "Random"
 msgstr "අහඹු"
 
-#: rulesmodel.cpp:799
+#: rulesmodel.cpp:809
 #, fuzzy, kde-format
 #| msgid "Top-Left Corner"
 msgid "In Top-Left Corner"
 msgstr "ඉහළ-වම් මුල්ල"
 
-#: rulesmodel.cpp:800
+#: rulesmodel.cpp:810
 #, kde-format
 msgid "Under Mouse"
 msgstr "මවුසය යට"
 
-#: rulesmodel.cpp:801
+#: rulesmodel.cpp:811
 #, kde-format
 msgid "On Main Window"
 msgstr "ප්‍රධාන කවුළුව මත"
 
-#: rulesmodel.cpp:808
+#: rulesmodel.cpp:818
 #, fuzzy, kde-format
 #| msgid "None"
 msgid "None"
 msgstr "නොමැති"
 
-#: rulesmodel.cpp:809
+#: rulesmodel.cpp:819
 #, kde-format
 msgid "Low"
 msgstr "අඩු"
 
-#: rulesmodel.cpp:810
+#: rulesmodel.cpp:820
 #, kde-format
 msgid "Normal"
 msgstr "සාමාන්‍ය"
 
-#: rulesmodel.cpp:811
+#: rulesmodel.cpp:821
 #, kde-format
 msgid "High"
 msgstr "ඉහළ"
 
-#: rulesmodel.cpp:812
+#: rulesmodel.cpp:822
 #, kde-format
 msgid "Extreme"
 msgstr "අසීමිත"
 
-#: rulesmodel.cpp:855
+#: rulesmodel.cpp:865
+#, fuzzy, kde-format
+#| msgid "On Main Window"
+msgid "Unmanaged window"
+msgstr "ප්‍රධාන කවුළුව මත"
+
+#: rulesmodel.cpp:866
 #, kde-format
 msgid "Could not detect window properties. The window is not managed by KWin."
 msgstr ""
+
+#, fuzzy
+#~| msgid "Cascade"
+#~ msgid "Cascaded"
+#~ msgstr "ඇද හැලෙන"
+
+#, fuzzy
+#~| msgid "Keep &above"
+#~ msgid "Keep above"
+#~ msgstr "ඉහළින් තබන්න (&a)"
+
+#, fuzzy
+#~| msgid "Keep &below"
+#~ msgid "Keep below"
+#~ msgstr "පහළින් තබන්න (&b)"
+
+#~ msgid "KWin"
+#~ msgstr "KWin"
+
+#~ msgid "KWin helper utility"
+#~ msgstr "KWin උදව් උපයෝගීතාව"
+
+#, fuzzy
+#~| msgid "&Detect Window Properties"
+#~ msgid "Select properties"
+#~ msgstr "කවුළු වත්කම් හදුනාගන්න (&D)"
+
+#~ msgid "Override Type"
+#~ msgstr "අභික්‍රමණ ක්‍රමය"
+
+#~ msgid "Unknown - will be treated as Normal Window"
+#~ msgstr "නොදන්නා - සාමාන්‍ය කවුළුවක් ලෙස සැලකේ "
+
+#~ msgid "Information About Selected Window"
+#~ msgstr "තෝරාගත් කවුළුව සඳහා තොරතුරු පෙන්වන්න"
+
+#~ msgid "Class:"
+#~ msgstr "පංතිය:"
+
+#~ msgid "Role:"
+#~ msgstr "චරිතය:"
+
+#~ msgid "Type:"
+#~ msgstr "වර්ගය:"
+
+#~ msgid "Title:"
+#~ msgstr "මාතෘකාව:"
+
+#~ msgid "Machine:"
+#~ msgstr "පරිගණකය:"
+
+#, fuzzy
+#~| msgid ""
+#~| "A single shortcut can be easily assigned or cleared using the two "
+#~| "buttons. Only shortcuts with modifiers can be used.<p>\n"
+#~| "It is possible to have several possible shortcuts, and the first "
+#~| "available shortcut will be used. The shortcuts are specified using space-"
+#~| "separated shortcut sets. One set is specified as <i>base</i>+(<i>list</"
+#~| "i>), where base are modifiers and list is a list of keys.<br>\n"
+#~| "For example \"<b>Shift+Alt+(123) Shift+Ctrl+(ABC)</b>\" will first try "
+#~| "<b>Shift+Alt+1</b>, then others with <b>Shift+Ctrl+C</b> as the last one."
+#~ msgid ""
+#~ "A single shortcut can be easily assigned or cleared using the two "
+#~ "buttons. Only shortcuts with modifiers can be used.<p>\n"
+#~ "It is possible to have several possible shortcuts, and the first "
+#~ "available shortcut will be used. The shortcuts are specified using "
+#~ "shortcut sets separated by \" - \". One set is specified as <i>base</i>"
+#~ "+(<i>list</i>), where base are modifiers and list is a list of keys.<br>\n"
+#~ "For example \"<b>Shift+Alt+(123) Shift+Ctrl+(ABC)</b>\" will first try "
+#~ "<b>Shift+Alt+1</b>, then others with <b>Shift+Ctrl+C</b> as the last one."
+#~ msgstr ""
+#~ "බොත්තම් දෙක ආධාරෙන් පහසුවෙන් තනි කෙටිමඟක් සැකසීම පිරිසිදු කිරීම කල හැක. සකසන සහිත කෙටිමං "
+#~ "පමණක් යොදාගත හැක.<p>\n"
+#~ " කෙටිමං කිහිපයක් පවත්වාගැනීම සිදු කළහැක, පවතින පළමු කෙටිමඟ පමණක් යොදාගැනේ. ඉඩකින් වෙන්වූ "
+#~ "කට්ටල ලෙස කෙටිමං සඳහන් කෙරේ. එක් කට්ටලයක් සඳහන් කෙරෙන්නේ <i>මූලය</i>+(<i>ලැයිස්තුව</"
+#~ "i>) ලෙසයි, මූලය යනු වෙනස්කරනය හා ලැයිස්තුව යනු යතුරු ලැයිස්තුව වන සේ.<br>\n"
+#~ "උදාහරණයක් ලෙස \"<b>Shift+Alt+(123) Shift+Ctrl+(ABC)</b>\" විසින් මුලින්ම <b>Shift"
+#~ "+Alt+1</b>උත්සාහ කරනු ඇති අතර, අනික්වා <b>Shift+Ctrl+C</b> අවසන ලෙස ගැනේ."
+
+#~ msgid "&Single Shortcut"
+#~ msgstr "තනි කෙටිමඟ (&S)"
+
+#~ msgid "C&lear"
+#~ msgstr "පිරිසිදු කරන්න (&l)"
+
+#~ msgid "Window-Specific Settings Configuration Module"
+#~ msgstr "කවුළු නිවේශිත සැකසුම් පාලක මොඩියුලය"
+
+#~ msgid "(c) 2004 KWin and KControl Authors"
+#~ msgstr "(c) 2004 KWin and KControl Authors"
+
+#~ msgid "Lubos Lunak"
+#~ msgstr "Lubos Lunak"
+
+#~ msgid "Remember settings separately for every window"
+#~ msgstr "සෑම කවුළුවක් සඳහාම වෙන් වෙන්ව සැකසුම් මතක තබා ගන්න"
+
+#~ msgid "Show internal settings for remembering"
+#~ msgstr "මතක තබා ගැනීම සඳහා අභ්‍යන්තර සැකසුම් පෙන්වන්න "
+
+#~ msgid "Internal setting for remembering"
+#~ msgstr "මතක තබා ගැනීම සඳහා අභ්‍යන්තර සැකසුම්"
+
+#~ msgid "&Modify..."
+#~ msgstr "වෙනස් කරන්න... (&M)"
+
+#~ msgid "Move &Up"
+#~ msgstr "ඉහළට ගෙනයන්න (&U)"
+
+#~ msgid "Move &Down"
+#~ msgstr "පහළට ගෙනයන්න (&D)"
+
+#~ msgid ""
+#~ "Enable this checkbox to alter this window property for the specified "
+#~ "window(s)."
+#~ msgstr ""
+#~ "නිවේශිත කවුළු(ව) සඳහා මෙම කවුළු වත්කම අතික්‍රමණය කිරීමට මෙම සලකුණු කොටුව සක්‍රීය කරන්න."
+
+#, fuzzy
+#~| msgid ""
+#~| "Specify how the window property should be affected:<ul><li><em>Do Not "
+#~| "Affect:</em> The window property will not be affected and therefore the "
+#~| "default handling for it will be used. Specifying this will block more "
+#~| "generic window settings from taking effect.</li><li><em>Apply Initially:"
+#~| "</em> The window property will be only set to the given value after the "
+#~| "window is created. No further changes will be affected.</"
+#~| "li><li><em>Remember:</em> The value of the window property will be "
+#~| "remembered and every time time the window is created, the last "
+#~| "remembered value will be applied.</li><li><em>Force:</em> The window "
+#~| "property will be always forced to the given value.</li><li><em>Apply Now:"
+#~| "</em> The window property will be set to the given value immediately and "
+#~| "will not be affected later (this action will be deleted afterwards).</"
+#~| "li><li><em>Force temporarily:</em> The window property will be forced to "
+#~| "the given value until it is hidden (this action will be deleted after "
+#~| "the window is hidden).</li></ul>"
+#~ msgid ""
+#~ "Specify how the window property should be affected:<ul><li><em>Do Not "
+#~ "Affect:</em> The window property will not be affected and therefore the "
+#~ "default handling for it will be used. Specifying this will block more "
+#~ "generic window settings from taking effect.</li><li><em>Apply Initially:</"
+#~ "em> The window property will be only set to the given value after the "
+#~ "window is created. No further changes will be affected.</"
+#~ "li><li><em>Remember:</em> The value of the window property will be "
+#~ "remembered and every time the window is created, the last remembered "
+#~ "value will be applied.</li><li><em>Force:</em> The window property will "
+#~ "be always forced to the given value.</li><li><em>Apply Now:</em> The "
+#~ "window property will be set to the given value immediately and will not "
+#~ "be affected later (this action will be deleted afterwards).</"
+#~ "li><li><em>Force temporarily:</em> The window property will be forced to "
+#~ "the given value until it is hidden (this action will be deleted after the "
+#~ "window is hidden).</li></ul>"
+#~ msgstr ""
+#~ "කවුළු වත්කම් බලපැවැත්විය යුතු ආකාරය ඇතුළත් කරන්න:<ul><li><em>බල නොපවත්වන්න:</em> කවුළු "
+#~ "වත්කම් බල නොපාන අතර එම නිසා ඒ සඳහා පෙරනිමි හැසිරවීම් භාවිත වේ මෙය සඳහන් කිරීමෙ බොහෝ "
+#~ "සාමාන්‍ය කවුළු සැකසුම් බලපැවැත්වීම වලකාලයි. </li><li><em>තනි තනිව ඇතුළත් කරන්න:</em> "
+#~ "කවුළු වත්කම් සැකසෙනු ඇත්තේ කවුළුව නිර්‍මාණය වූ පසු දෙනලද අගයන් සඳහායි.</li><li><em>මතක "
+#~ "තබාගන්න:</em> කවුළු වත්කමේ අගය මතක තබාගැනෙන අතර එය කවුළුව නිර්‍මාණ වන සෑම "
+#~ "අවස්ථාවකදීම අවසන් වරට මතක තබාගත් අගන් ඇතුළත් වේ.</li><li><em>බලයෙන්:</em> කවුළු "
+#~ "වත්කම සඳහා සැමවිටම දෙනලද අගය යෙදීමට බල කරයි.</li><li><em>දැන් ඇතුළත් කරන්න:</em> "
+#~ "කවුළු වත්කම ක්‍ෂනිකයෙන් දෙනලද අගයන්ට සැකසෙනු ඇති අතර පසුව බල නොපැවැත්වේ (ඉන් පසු මෙම ක්‍"
+#~ "රියාව මකා දැමේ). </li><li><em>තාවකාලිකව බල කරන්න:</em> සඟවන තෙක් කවුළු වත්කම "
+#~ "සඳහා දෙනලද අගයන් යෙදීමට බල කරයි (කවුළුව සැඟවුනු පසු මෙම ක්‍රියාව මකාදැමේ).</li></ul>"
+
+#~ msgid ""
+#~ "Specify how the window property should be affected:<ul><li><em>Do Not "
+#~ "Affect:</em> The window property will not be affected and therefore the "
+#~ "default handling for it will be used. Specifying this will block more "
+#~ "generic window settings from taking effect.</li><li><em>Force:</em> The "
+#~ "window property will be always forced to the given value.</"
+#~ "li><li><em>Force temporarily:</em> The window property will be forced to "
+#~ "the given value until it is hidden (this action will be deleted after the "
+#~ "window is hidden).</li></ul>"
+#~ msgstr ""
+#~ "කවුළු වත්කම් බලපැවැත්විය යුතු ආකාරය ඇතුළත් කරන්න:<ul><li><em>බල නොපවත්වන්න:</em> කවුළු "
+#~ "වත්කම් බල නොපාන අතර එම නිසා ඒ සඳහා පෙරනිමි හැසිරවීම් භාවිත වේ මෙය සඳහන් කිරීමෙ බොහෝ "
+#~ "සාමාන්‍ය කවුළු සැකසුම් බලපැවැත්වීම වලකාලයි. </li> <li><em>බලයෙන්:</em> කවුළු වත්කම "
+#~ "සඳහා සැමවිටම දෙනලද අගය යෙදීමට බල කරයි.</li> <li><em>තාවකාලිකව බල කරන්න:</em> "
+#~ "සඟවන තෙක් කවුළු වත්කම සඳහා දෙනලද අගයන් යෙදීමට බල කරයි (කවුළුව සැඟවුනු පසු මෙම ක්‍රියාව "
+#~ "මකාදැමේ).</li></ul>"
+
+#~ msgid "Unnamed entry"
+#~ msgstr "නම් නොකල ඇතුළත් කිරීමක්"
+
+#~ msgid ""
+#~ "This configuration dialog allows altering settings only for the selected "
+#~ "window or application. Find the setting you want to affect, enable the "
+#~ "setting using the checkbox, select in what way the setting should be "
+#~ "affected and to which value."
+#~ msgstr ""
+#~ "මෙම සංවාදය ඉඩ දෙන්නේ තෝරාගත් වැඩසටහනේ හෝ යෙදුමේ සැකසුම් වෙනස් කිරීමට පමණි. ඔබට "
+#~ "ඇවැසි සැකසුම සොයාගෙන, එය සලකුණු කොටුව මගින් සක්‍රීය කර, ඒවා බලපැවැත්විය යුතු ක්‍රමය හා "
+#~ "අගය ලබාදෙන්න."
+
+#~ msgid "Consult the documentation for more details."
+#~ msgstr "වැඩි විස්තර සඳහා ලේඛන පරිශීලනය කරන්න"
+
+#~ msgid "Edit Shortcut"
+#~ msgstr "කෙටිමං සකසන්න"
+
+#~ msgid "0123456789-+,xX:"
+#~ msgstr "0123456789-+,xX:"
+
+#~ msgid "&Desktop"
+#~ msgstr "වැඩතලය (&D)"
+
+#~ msgid "Smart"
+#~ msgstr "ස්මාට්"
+
+#~ msgid "kcmkwinrules"
+#~ msgstr "kcmkwinrules"
+
+#~ msgid "Opaque"
+#~ msgstr "පාරාන්ධ"
+
+#~ msgid "Transparent"
+#~ msgstr "පාරර්‍දෘශ්‍ය "
+
+#~ msgid "&Moving/resizing"
+#~ msgstr "ගෙනයමින්/ප්‍රමාණය වෙනස් කරමින් (&M)"
+
+#, fuzzy
+#~| msgid "Title:"
+#~ msgid "Tiled"
+#~ msgstr "මාතෘකාව:"
+
+#~ msgid ""
+#~ "For selecting all windows belonging to a specific application, selecting "
+#~ "only window class should usually work."
+#~ msgstr ""
+#~ "නිශ්චිත යෙදුමකට අයත් කවුළු සියල්ල තේරීම සඳහා, සාමාන්‍යයෙන් කවුළු කාණ්ඩය පමණක් තෝරාගැනීම ක්‍"
+#~ "රියා කරයි. "
+
+#~ msgid "Use window &class (whole application)"
+#~ msgstr "කවුළු පන්තිය භාවිත කරන්න (මුළු භාවිත යෙදුම සඳහාම) (&c)"
+
+#~ msgid ""
+#~ "For selecting a specific window in an application, both window class and "
+#~ "window role should be selected. Window class will determine the "
+#~ "application, and window role the specific window in the application; many "
+#~ "applications do not provide useful window roles though."
+#~ msgstr ""
+#~ "නිශ්චිත කවුළුවක් තෝරාගැනීම සඳහා , කවුළු කාණ්ඩය හා කවුළු චරිතය යන දෙකම තෝරාගත යුතු බව "
+#~ "සලකන්න. කවුළු කාණ්ඩය භාවිත යෙදවුම හඳුනාගන්නා අතර, කවුළු චරිතය එම යෙදුමේ නිශ්චිත කවුළුව "
+#~ "නිවේශනය කරයි, කෙසේවුවත් බොහෝ යෙදවුම් නිසි කවුළු චරිත නොසපයයි."
+
+#~ msgid "Use window class and window &role (specific window)"
+#~ msgstr "කවුළු කාණ්ඩය හා කවුළු චරිතය භාවිත කරන්න (නිශ්චිත කවුළුව) (&r)"
+
+#~ msgid ""
+#~ "With some (non-KDE) applications whole window class can be sufficient for "
+#~ "selecting a specific window in an application, as they set whole window "
+#~ "class to contain both application and window role."
+#~ msgstr ""
+#~ "ඇතැම් (KDE නොවන) යෙදුම් වල නිශ්චිත කවුළුව තේරීම සඳහා මුළු කවුළු කාණ්ඩය යෙදීම ප්‍රමාණවත් විය "
+#~ "හැක. ඒවායේ සම්පූර්‍ණ කවුළු කාණ්ඩය භාවිත යෙදවුම හා කවුළු චරිතිය යන දෙකම දරන බැවින්."
+
+#~ msgid "Use &whole window class (specific window)"
+#~ msgstr "මුළු කවුළු කණ්ඩායම (නිශ්චිත කවුළුව) (&w)"
+
+#~ msgid "Match also window &title"
+#~ msgstr "කවුළු මාතෘකාවද ගලපන්න (&t)"
+
+#~ msgid "Extra role:"
+#~ msgstr "අමතර චරිතය:"
+
+#~ msgid "Window &Extra"
+#~ msgstr "කවුළු අමතර (&E)"
+
+#~ msgid "&Geometry"
+#~ msgstr "ජ්‍යාමිතිය (&G)"
+
+#~ msgid "&Preferences"
+#~ msgstr "අභිප්‍රේත (&P)"
+
+#~ msgid "&No border"
+#~ msgstr "මායිමක් නොමැත (&N)"
+
+#~ msgid "0123456789"
+#~ msgstr "0123456789"
+
+#~ msgid "W&orkarounds"
+#~ msgstr "වැඩවාර (&o)"
+
+#~ msgid "Strictly obey geometry"
+#~ msgstr "ජ්‍යාමිතිය තදින් පිළිපදින්න"

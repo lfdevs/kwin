@@ -237,3 +237,46 @@ msgid ""
 "of the screen."
 msgstr ""
 "Wyzwala działanie, przy przesuwaniu z krawędzi ekranu w kierunku jego środka."
+
+#~ msgid "Show Desktop"
+#~ msgstr "Pokaż pulpit"
+
+#~ msgid "Desktop Grid"
+#~ msgstr "Siatka pulpitu"
+
+#~ msgid "Toggle Overview"
+#~ msgstr "Przestaw widok przeglądu"
+
+#~ msgid "%1 - Cube"
+#~ msgstr "%1 - Kostka"
+
+#~ msgid "%1 - Cylinder"
+#~ msgstr "%1 - Walec"
+
+#~ msgid "%1 - Sphere"
+#~ msgstr "%1 - Kula"
+
+#~ msgid "Active Screen Corners and Edges"
+#~ msgstr "Narożniki i krawędzie aktywnego ekranu"
+
+#~ msgid "Window Management"
+#~ msgstr "Zarządzanie oknami"
+
+#~ msgid "Maximize windows by dragging them to the top edge of the screen"
+#~ msgstr "Okno zajmie cały ekran po przeciągnięciu go do górnej krawędzi"
+
+#~ msgid "Quarter tiling triggered in the outer"
+#~ msgstr "Okno zajmie ćwierć ekranu po przeciągnięciu go do zewnętrznych"
+
+#~ msgid "Other Settings"
+#~ msgstr "Inne ustawienia"
+
+#~ msgctxt "Open krunner"
+#~ msgid "Run Command"
+#~ msgstr "Wykonaj polecenie"
+
+#~ msgid "Show Dashboard"
+#~ msgstr "Pokaż tablicę"
+
+#~ msgid "Prevent Screen Locking"
+#~ msgstr "Powstrzymaj blokowanie ekranu"

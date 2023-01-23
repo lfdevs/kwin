@@ -8,6 +8,7 @@
 */
 #include "dpmsinputeventfilter.h"
 #include "core/output.h"
+#include "input_event.h"
 #include "main.h"
 #include "wayland/seat_interface.h"
 #include "wayland_server.h"
@@ -28,22 +29,19 @@ DpmsInputEventFilter::DpmsInputEventFilter()
 
 DpmsInputEventFilter::~DpmsInputEventFilter() = default;
 
-bool DpmsInputEventFilter::pointerEvent(QMouseEvent *event, quint32 nativeButton)
+bool DpmsInputEventFilter::pointerEvent(MouseEvent *event, quint32 nativeButton)
 {
-    Q_UNUSED(event)
-    Q_UNUSED(nativeButton)
     notify();
     return true;
 }
 
-bool DpmsInputEventFilter::wheelEvent(QWheelEvent *event)
+bool DpmsInputEventFilter::wheelEvent(WheelEvent *event)
 {
-    Q_UNUSED(event)
     notify();
     return true;
 }
 
-bool DpmsInputEventFilter::keyEvent(QKeyEvent *event)
+bool DpmsInputEventFilter::keyEvent(KeyEvent *event)
 {
     if (event->type() == QKeyEvent::KeyPress) {
         notify();
@@ -51,10 +49,8 @@ bool DpmsInputEventFilter::keyEvent(QKeyEvent *event)
     return true;
 }
 
-bool DpmsInputEventFilter::touchDown(qint32 id, const QPointF &pos, quint32 time)
+bool DpmsInputEventFilter::touchDown(qint32 id, const QPointF &pos, std::chrono::microseconds time)
 {
-    Q_UNUSED(pos)
-    Q_UNUSED(time)
     if (m_enableDoubleTap) {
         if (m_touchPoints.isEmpty()) {
             if (!m_doubleTapTimer.isValid()) {
@@ -78,13 +74,13 @@ bool DpmsInputEventFilter::touchDown(qint32 id, const QPointF &pos, quint32 time
     return true;
 }
 
-bool DpmsInputEventFilter::touchUp(qint32 id, quint32 time)
+bool DpmsInputEventFilter::touchUp(qint32 id, std::chrono::microseconds time)
 {
     if (m_enableDoubleTap) {
         m_touchPoints.removeAll(id);
         if (m_touchPoints.isEmpty() && m_doubleTapTimer.isValid() && m_secondTap) {
             if (m_doubleTapTimer.elapsed() < qApp->doubleClickInterval()) {
-                waylandServer()->seat()->setTimestamp(time);
+                waylandServer()->seat()->setTimestamp(std::chrono::duration_cast<std::chrono::milliseconds>(time));
                 notify();
             }
             m_doubleTapTimer.invalidate();
@@ -94,11 +90,8 @@ bool DpmsInputEventFilter::touchUp(qint32 id, quint32 time)
     return true;
 }
 
-bool DpmsInputEventFilter::touchMotion(qint32 id, const QPointF &pos, quint32 time)
+bool DpmsInputEventFilter::touchMotion(qint32 id, const QPointF &pos, std::chrono::microseconds time)
 {
-    Q_UNUSED(id)
-    Q_UNUSED(pos)
-    Q_UNUSED(time)
     // ignore the event
     return true;
 }

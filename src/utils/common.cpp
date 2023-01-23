@@ -15,6 +15,7 @@
 */
 
 #include "utils/common.h"
+#include "utils/c_ptr.h"
 
 #include <QPainter>
 #include <QWidget>
@@ -23,13 +24,6 @@
 #ifndef KCMRULES
 #include <QApplication>
 #include <QDebug>
-
-#include "atoms.h"
-#include "core/platform.h"
-#include "workspace.h"
-
-#include <cstdio>
-
 #endif
 
 Q_LOGGING_CATEGORY(KWIN_CORE, "kwin_core", QtWarningMsg)
@@ -70,11 +64,6 @@ StrutRect &StrutRect::operator=(const StrutRect &other)
         m_area = other.area();
     }
     return *this;
-}
-
-void updateXTime()
-{
-    kwinApp()->platform()->updateXTime();
 }
 
 static int server_grab_count = 0;

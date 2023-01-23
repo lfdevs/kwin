@@ -244,3 +244,46 @@ msgid ""
 msgstr ""
 "Әрекетті істеу үшін тышқанның меңзерін керек бағыттағы экранның шетіне апару "
 "керек."
+
+#~ msgid "Show Desktop"
+#~ msgstr "Үстелді көрсету"
+
+#, fuzzy
+#~| msgid "Cube"
+#~ msgid "%1 - Cube"
+#~ msgstr "Текше"
+
+#, fuzzy
+#~| msgid "Cylinder"
+#~ msgid "%1 - Cylinder"
+#~ msgstr "Цилиндр"
+
+#, fuzzy
+#~| msgid "Sphere"
+#~ msgid "%1 - Sphere"
+#~ msgstr "Сфера"
+
+#, fuzzy
+#~| msgid "Active Screen Edge Actions"
+#~ msgid "Active Screen Corners and Edges"
+#~ msgstr "Белсенді экран шетінің әрекеттері"
+
+#~ msgid "Window Management"
+#~ msgstr "Терезе басқаруы"
+
+#, fuzzy
+#~| msgid "Maximize windows by dragging them to the top of the screen"
+#~ msgid "Maximize windows by dragging them to the top edge of the screen"
+#~ msgstr "Терезені кеңейту үшін экранның жоғарына тарту"
+
+#~ msgid "Quarter tiling triggered in the outer"
+#~ msgstr "Сырттағыда ширектеп қатарлауы"
+
+#~ msgid "Other Settings"
+#~ msgstr "Басқа параметрлері"
+
+#~ msgid "Show Dashboard"
+#~ msgstr "Аспаптар панелін көрсету"
+
+#~ msgid "Prevent Screen Locking"
+#~ msgstr "Экранды бұғаттауын болдырмау"

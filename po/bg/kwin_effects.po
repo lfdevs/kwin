@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-01 02:26+0000\n"
-"PO-Revision-Date: 2022-08-19 23:08+0200\n"
+"POT-Creation-Date: 2023-01-18 00:58+0000\n"
+"PO-Revision-Date: 2022-12-05 00:31+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.04.3\n"
+"X-Generator: Lokalize 22.08.3\n"
 
 #. i18n: ectx: property (text), widget (QLabel, labelConstantBlurDescription)
 #: blur/blur_config.ui:17
@@ -58,6 +58,7 @@ msgstr ""
 #: mousemark/mousemark_config.cpp:50 overview/kcm/overvieweffectkcm.cpp:35
 #: showpaint/showpaint_config.cpp:33
 #: thumbnailaside/thumbnailaside_config.cpp:54
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:31
 #: trackmouse/trackmouse_config.cpp:52
 #: windowview/kcm/windowvieweffectkcm.cpp:36 zoom/zoom_config.cpp:58
 #, kde-format
@@ -195,14 +196,20 @@ msgstr "Най-близкия"
 msgid "Natural"
 msgstr "Естествено"
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
+#: desktopgrid/desktopgrid_config.ui:147
+#, kde-format
+msgid "None"
+msgstr "Без"
+
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: desktopgrid/desktopgrid_config.ui:150
+#: desktopgrid/desktopgrid_config.ui:155
 #, kde-format
 msgid "Windows layout:"
 msgstr "Оформление на прозорци:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: desktopgrid/desktopgrid_config.ui:166
+#: desktopgrid/desktopgrid_config.ui:171
 #, kde-format
 msgid "Activation"
 msgstr "Включване"
@@ -305,10 +312,15 @@ msgstr "Анимация за затваряне на прозорец"
 msgid "Toggle Invert Effect"
 msgstr "Превключване на ефект обръщане на цветовете"
 
-#: invert/invert.cpp:50 invert/invert_config.cpp:44
+#: invert/invert.cpp:49 invert/invert_config.cpp:44
 #, kde-format
 msgid "Toggle Invert Effect on Window"
 msgstr "Превключване на ефект обръщане на цветовете за прозорец"
+
+#: invert/invert.cpp:56
+#, kde-format
+msgid "Invert Screen Colors"
+msgstr "Обръщане на цветовете на екрана"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FadeToBlack)
 #: login/package/contents/ui/config.ui:17
@@ -365,30 +377,30 @@ msgstr "&Височина:"
 msgid "Toggle Mouse Click Effect"
 msgstr "Превключване на ефекта на щракване с мишката"
 
-#: mouseclick/mouseclick.cpp:42
+#: mouseclick/mouseclick.cpp:41
 #, kde-format
 msgctxt "Left mouse button"
 msgid "Left"
 msgstr "Отляво"
 
-#: mouseclick/mouseclick.cpp:43
+#: mouseclick/mouseclick.cpp:42
 #, kde-format
 msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr "Среден"
 
-#: mouseclick/mouseclick.cpp:44
+#: mouseclick/mouseclick.cpp:43
 #, kde-format
 msgctxt "Right mouse button"
 msgid "Right"
 msgstr "Отдясно"
 
-#: mouseclick/mouseclick.h:61
+#: mouseclick/mouseclick.h:60
 #, kde-format
 msgid "↓"
 msgstr "↓"
 
-#: mouseclick/mouseclick.h:62
+#: mouseclick/mouseclick.h:61
 #, kde-format
 msgid "↑"
 msgstr "↑"
@@ -484,12 +496,12 @@ msgstr "Шрифт:"
 msgid "Show Text:"
 msgstr "Показване на текст:"
 
-#: mousemark/mousemark.cpp:36
+#: mousemark/mousemark.cpp:39
 #, kde-format
 msgid "Clear All Mouse Marks"
 msgstr "Изчистване на всички маркировки на мишката"
 
-#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:59
+#: mousemark/mousemark.cpp:45 mousemark/mousemark_config.cpp:59
 #, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr "Изчистване на последната маркировка на мишката"
@@ -557,12 +569,12 @@ msgstr "Замъгляване на фона:"
 msgid "Ignore minimized windows:"
 msgstr "Игнориране на минимизираните прозорци:"
 
-#: overview/qml/DesktopBar.qml:186
+#: overview/qml/DesktopBar.qml:187
 #, kde-format
 msgid "Delete Virtual Desktop"
 msgstr "Изтриване на виртуален работен плот"
 
-#: overview/qml/DesktopBar.qml:282
+#: overview/qml/DesktopBar.qml:283
 #, kde-format
 msgid "Add Virtual Desktop"
 msgstr "Добавяне на виртуален работен плот"
@@ -572,12 +584,12 @@ msgstr "Добавяне на виртуален работен плот"
 msgid "No matching windows"
 msgstr "Няма съвпадащи прозорци"
 
-#: private/qml/WindowHeapDelegate.qml:152
+#: private/qml/WindowHeapDelegate.qml:151
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "Завличане надолу за затваряне"
 
-#: private/qml/WindowHeapDelegate.qml:462
+#: private/qml/WindowHeapDelegate.qml:461
 #, kde-format
 msgctxt "@info:tooltip as in: 'close this window'"
 msgid "Close window"
@@ -595,20 +607,20 @@ msgstr "Мащаб на отворен прозорец:"
 msgid "Window close scale:"
 msgstr "Мащаб на затваряне на прозорец:"
 
-#: screenshot/screenshotdbusinterface1.cpp:480
+#: screenshot/screenshotdbusinterface1.cpp:478
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr "Екранна снимка"
 
-#: screenshot/screenshotdbusinterface1.cpp:481
+#: screenshot/screenshotdbusinterface1.cpp:479
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr "Снимката на екрана е запазена на %1"
 
-#: screenshot/screenshotdbusinterface1.cpp:797
-#: screenshot/screenshotdbusinterface2.cpp:472
+#: screenshot/screenshotdbusinterface1.cpp:800
+#: screenshot/screenshotdbusinterface2.cpp:477
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
@@ -617,8 +629,8 @@ msgstr ""
 "Изберете прозорец за екранна снимка с левия бутон или въвеждане.\n"
 "Натиснете клавиш Escape  или десния бутон на мишката, за да отмените."
 
-#: screenshot/screenshotdbusinterface1.cpp:800
-#: screenshot/screenshotdbusinterface2.cpp:490
+#: screenshot/screenshotdbusinterface1.cpp:803
+#: screenshot/screenshotdbusinterface2.cpp:495
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -680,14 +692,8 @@ msgstr "Хоризонтално:"
 msgid "Vertical:"
 msgstr "Вертикално:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideDocks)
-#: slide/slide_config.ui:72
-#, kde-format
-msgid "Slide docks"
-msgstr "Плъзгащи докове"
-
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideBackground)
-#: slide/slide_config.ui:79
+#: slide/slide_config.ui:72
 #, kde-format
 msgid "Slide desktop background"
 msgstr "Сменяне на фона на работния плот"
@@ -729,6 +735,47 @@ msgstr "&Непрозрачност:"
 #, no-c-format, kde-format
 msgid " %"
 msgstr " %"
+
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:37
+#: tileseditor/tileseditoreffect.cpp:29
+#, kde-format
+msgid "Toggle Tiles Editor"
+msgstr "Превключване на редактор на разпределение"
+
+#: tileseditor/qml/main.qml:147
+#, kde-format
+msgid "Padding:"
+msgstr "Отстъп:"
+
+#: tileseditor/qml/main.qml:157
+#, kde-format
+msgid "Load Layout..."
+msgstr "Зареждане на оформление..."
+
+#: tileseditor/qml/main.qml:271
+#, kde-format
+msgid "Close"
+msgstr "Затваряне"
+
+#: tileseditor/qml/TileDelegate.qml:171
+#, kde-format
+msgid "Split Horizontally"
+msgstr "Хоризонтално разделяне"
+
+#: tileseditor/qml/TileDelegate.qml:178
+#, kde-format
+msgid "Split Vertically"
+msgstr "Вертикално разделяне"
+
+#: tileseditor/qml/TileDelegate.qml:186 tileseditor/qml/TileDelegate.qml:215
+#, kde-format
+msgid "Add Floating Tile"
+msgstr "Добавяне на плаващи плочки"
+
+#: tileseditor/qml/TileDelegate.qml:195
+#, kde-format
+msgid "Delete"
+msgstr "Изтриване"
 
 #: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:57
 #, kde-format
@@ -864,17 +911,17 @@ msgstr "Отделящи се менюта:"
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Превключване на настоящи прозорци (текущ работен плот)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:55
+#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:54
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Превключване на настоящи прозорци (всички работни плотове)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:65
+#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:63
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Превключване на настоящи прозорци (клас Windows)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:75
+#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:72
 #, kde-format
 msgid "Toggle Present Windows (Window class on current desktop)"
 msgstr "Превключване на настоящи прозорци (текущ работен плот)"
@@ -885,15 +932,20 @@ msgstr "Превключване на настоящи прозорци (тек�
 msgid "Ignore &minimized windows"
 msgstr "Игнориране на минимизираните прозорци"
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, kde-format
 msgid "No Matches"
 msgstr "Няма съвпадения"
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, kde-format
 msgid "No Windows"
 msgstr "Без прозорци"
+
+#: windowview/qml/main.qml:123
+#, kde-format
+msgid "Filter windows…"
+msgstr "Филтриране на прозорците…"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20
@@ -955,32 +1007,32 @@ msgstr "По-малко"
 msgid "More"
 msgstr "Повече"
 
-#: zoom/zoom.cpp:68
+#: zoom/zoom.cpp:65
 #, kde-format
 msgid "Move Zoomed Area to Left"
 msgstr "Преместване на увеличената област наляво"
 
-#: zoom/zoom.cpp:76
+#: zoom/zoom.cpp:72
 #, kde-format
 msgid "Move Zoomed Area to Right"
 msgstr "Преместване на увеличената област надясно"
 
-#: zoom/zoom.cpp:84
+#: zoom/zoom.cpp:79
 #, kde-format
 msgid "Move Zoomed Area Upwards"
 msgstr "Преместване на увеличената област нагоре"
 
-#: zoom/zoom.cpp:92
+#: zoom/zoom.cpp:86
 #, kde-format
 msgid "Move Zoomed Area Downwards"
 msgstr "Преместване на намалената зона надолу"
 
-#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:108
+#: zoom/zoom.cpp:94 zoom/zoom_config.cpp:108
 #, kde-format
 msgid "Move Mouse to Focus"
 msgstr "Преместване на мишката във фокуса"
 
-#: zoom/zoom.cpp:109 zoom/zoom_config.cpp:115
+#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:115
 #, kde-format
 msgid "Move Mouse to Center"
 msgstr "Преместване на мишката в центъра"

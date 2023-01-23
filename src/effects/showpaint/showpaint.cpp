@@ -38,7 +38,6 @@ ShowPaintEffect::ShowPaintEffect()
     toggleAction->setText(i18n("Toggle Show Paint"));
     KGlobalAccel::self()->setDefaultShortcut(toggleAction, {});
     KGlobalAccel::self()->setShortcut(toggleAction, {});
-    effects->registerGlobalShortcut({}, toggleAction);
 
     connect(toggleAction, &QAction::triggered, this, &ShowPaintEffect::toggle);
 }
@@ -48,7 +47,7 @@ void ShowPaintEffect::paintScreen(int mask, const QRegion &region, ScreenPaintDa
     m_painted = QRegion();
     effects->paintScreen(mask, region, data);
     if (effects->isOpenGLCompositing()) {
-        paintGL(data.projectionMatrix());
+        paintGL(data.projectionMatrix(), effects->renderTargetScale());
     } else if (effects->compositingType() == QPainterCompositing) {
         paintQPainter();
     }
@@ -63,7 +62,7 @@ void ShowPaintEffect::paintWindow(EffectWindow *w, int mask, QRegion region, Win
     effects->paintWindow(w, mask, region, data);
 }
 
-void ShowPaintEffect::paintGL(const QMatrix4x4 &projection)
+void ShowPaintEffect::paintGL(const QMatrix4x4 &projection, qreal scale)
 {
     GLVertexBuffer *vbo = GLVertexBuffer::streamingBuffer();
     vbo->reset();
@@ -78,12 +77,13 @@ void ShowPaintEffect::paintGL(const QMatrix4x4 &projection)
     QVector<float> verts;
     verts.reserve(m_painted.rectCount() * 12);
     for (const QRect &r : m_painted) {
-        verts << r.x() + r.width() << r.y();
-        verts << r.x() << r.y();
-        verts << r.x() << r.y() + r.height();
-        verts << r.x() << r.y() + r.height();
-        verts << r.x() + r.width() << r.y() + r.height();
-        verts << r.x() + r.width() << r.y();
+        const auto deviceRect = scaledRect(r, scale);
+        verts << deviceRect.x() + deviceRect.width() << deviceRect.y();
+        verts << deviceRect.x() << deviceRect.y();
+        verts << deviceRect.x() << deviceRect.y() + deviceRect.height();
+        verts << deviceRect.x() << deviceRect.y() + deviceRect.height();
+        verts << deviceRect.x() + deviceRect.width() << deviceRect.y() + deviceRect.height();
+        verts << deviceRect.x() + deviceRect.width() << deviceRect.y();
     }
     vbo->setData(verts.count() / 2, 2, verts.data(), nullptr);
     vbo->render(GL_TRIANGLES);

@@ -7,11 +7,10 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "keyboard_layout.h"
-#include "core/platform.h"
 #include "input_event.h"
 #include "keyboard_input.h"
 #include "keyboard_layout_switching.h"
-#include "main.h"
+#include "xkb.h"
 
 #include <KGlobalAccel>
 #include <KLocalizedString>
@@ -48,7 +47,6 @@ void KeyboardLayout::init()
     KGlobalAccel::self()->setDefaultShortcut(switchKeyboardAction, QList<QKeySequence>({sequence}));
     KGlobalAccel::self()->setShortcut(switchKeyboardAction, QList<QKeySequence>({sequence}));
 
-    kwinApp()->platform()->setupActionForGlobalAccel(switchKeyboardAction);
     connect(switchKeyboardAction, &QAction::triggered, this, &KeyboardLayout::switchToNextLayout);
 
     QDBusConnection::sessionBus().connect(QString(),

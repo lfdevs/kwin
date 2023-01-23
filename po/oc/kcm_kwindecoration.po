@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-26 02:35+0000\n"
+"POT-Creation-Date: 2022-10-26 00:47+0000\n"
 "PO-Revision-Date: 2008-08-05 22:26+0200\n"
 "Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan (lengadocian) <ubuntu-l10n-oci@lists.ubuntu.com>\n"
@@ -288,3 +288,64 @@ msgstr "Fòrt bèl"
 #| msgid "Resize"
 msgid "Oversized"
 msgstr "Redimensionar"
+
+#~ msgid "Menu"
+#~ msgstr "Menut"
+
+#, fuzzy
+#~| msgid "Normal"
+#~ msgid "Form"
+#~ msgstr "Normal"
+
+#, fuzzy
+#~| msgid "Buttons"
+#~ msgid "Button size:"
+#~ msgstr "Botons"
+
+#, fuzzy
+#~| msgid "Tiny"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Tiny"
+#~ msgstr "Minuscul"
+
+#, fuzzy
+#~| msgid "Normal"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Normal"
+#~ msgstr "Normal"
+
+#, fuzzy
+#~| msgid "Large"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Large"
+#~ msgstr "Grand"
+
+#, fuzzy
+#~| msgid "Very Large"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Very Large"
+#~ msgstr "Fòrt bèl"
+
+#, fuzzy
+#~| msgid "Very Large"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Very Huge"
+#~ msgstr "Fòrt bèl"
+
+#, fuzzy
+#~| msgid "Resize"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Oversized"
+#~ msgstr "Redimensionar"
+
+#~ msgid "KDE"
+#~ msgstr "KDE"
+
+#~ msgid "Resize"
+#~ msgstr "Redimensionar"
+
+#~ msgid "Help"
+#~ msgstr "Ajuda"
+
+#~ msgid "Active Window"
+#~ msgstr "Fenèstra activa"

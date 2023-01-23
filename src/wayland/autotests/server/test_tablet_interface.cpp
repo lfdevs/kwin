@@ -23,6 +23,7 @@
 #include "qwayland-tablet-unstable-v2.h"
 
 using namespace KWaylandServer;
+using namespace std::literals;
 
 class Tablet : public QtWayland::zwp_tablet_v2
 {
@@ -265,7 +266,7 @@ void TestTabletInterface::testAdd()
     QCOMPARE(m_tabletSeatClient->m_tablets.count(), 1);
 
     QSignalSpy toolSpy(m_tabletSeatClient, &TabletSeat::toolAdded);
-    m_tool = seatInterface->addTool(KWaylandServer::TabletToolV2Interface::Pen, 0, 0, {TabletToolV2Interface::Tilt, TabletToolV2Interface::Pressure});
+    m_tool = seatInterface->addTool(KWaylandServer::TabletToolV2Interface::Pen, 0, 0, {TabletToolV2Interface::Tilt, TabletToolV2Interface::Pressure}, "my tablet");
     QVERIFY(m_tool);
     QVERIFY(toolSpy.wait() || toolSpy.count() == 1);
     QCOMPARE(m_tabletSeatClient->m_tools.count(), 1);
@@ -301,7 +302,7 @@ void TestTabletInterface::testAddPad()
     QVERIFY(m_tabletSeatClient->m_pads[0]->buttonStates.isEmpty());
     QSignalSpy buttonSpy(m_tabletSeatClient->m_pads[0], &TabletPad::buttonReceived);
     m_tabletPad->setCurrentSurface(m_surfaces[0], m_tablet);
-    m_tabletPad->sendButton(123, 0, QtWayland::zwp_tablet_pad_v2::button_state_pressed);
+    m_tabletPad->sendButton(123ms, 0, QtWayland::zwp_tablet_pad_v2::button_state_pressed);
     QVERIFY(buttonSpy.count() || buttonSpy.wait(100));
     QCOMPARE(m_tabletSeatClient->m_pads[0]->doneCalled, true);
     QCOMPARE(m_tabletSeatClient->m_pads[0]->buttonStates.count(), 1);

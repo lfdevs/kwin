@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-03-26 00:45+0000\n"
+"POT-Creation-Date: 2022-11-01 00:48+0000\n"
 "PO-Revision-Date: 2017-05-18 03:12+0300\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -29,8 +29,86 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "exclusion@gmail.com"
 
-#: genericscriptedconfig.cpp:76
+#: genericscriptedconfig.cpp:70
 #, kde-format
 msgctxt "Error message"
-msgid "Plugin does not provide configuration file in expected location"
-msgstr "Конфигурация модуля не найдена в ожидаемом расположении"
+msgid "Could not locate package metadata"
+msgstr ""
+
+#: genericscriptedconfig.cpp:84
+#, kde-format
+msgctxt "Required file does not exist"
+msgid "%1 does not contain a valid metadata.json file"
+msgstr ""
+
+#: genericscriptedconfig.cpp:90 genericscriptedconfig.cpp:96
+#, kde-format
+msgctxt "Required file does not exist"
+msgid "%1 does not exist"
+msgstr ""
+
+#~ msgctxt "Error message"
+#~ msgid "Plugin does not provide configuration file in expected location"
+#~ msgstr "Конфигурация модуля не найдена в ожидаемом расположении"
+
+#~ msgctxt "Assertion failed in KWin script with given value"
+#~ msgid "Assertion failed: %1 is not null"
+#~ msgstr "Невыполнение условия: %1 не null"
+
+#~ msgctxt "Assertion failed in KWin script"
+#~ msgid "Assertion failed: argument is null"
+#~ msgstr "Невыполнение условия: аргумент равен null"
+
+#~ msgctxt "Error in KWin Script"
+#~ msgid ""
+#~ "Invalid number of arguments. At least service, path, interface and method "
+#~ "need to be provided"
+#~ msgstr ""
+#~ "Недопустимое число аргументов. Должны быть переданы как минимум аргументы "
+#~ "service, path, interface и method."
+
+#~ msgctxt "Error in KWin Script"
+#~ msgid ""
+#~ "Invalid type. Service, path, interface and method need to be string values"
+#~ msgstr ""
+#~ "Неверный тип. Аргументы service, path, interface и method должны быть "
+#~ "строковыми."
+
+#~ msgctxt "syntax error in KWin script"
+#~ msgid "Invalid number of arguments"
+#~ msgstr "Неверное число аргументов"
+
+#~ msgctxt ""
+#~ "KWin Scripting function received incorrect value for an expected type"
+#~ msgid "%1 is not a variant type"
+#~ msgstr "%1 не типа variant"
+
+#~ msgctxt ""
+#~ "KWin Scripting function received incorrect value for an expected type"
+#~ msgid "%1 is not of required type"
+#~ msgstr "%1 не требуемого типа"
+
+#~ msgctxt "KWin Scripting error thrown due to incorrect argument"
+#~ msgid "Second argument to registerScreenEdge needs to be a callback"
+#~ msgstr ""
+#~ "Вторым аргументом registerScreenEdge должна быть функция обратного вызова"
+
+#~ msgctxt "KWin Scripting error thrown due to incorrect argument"
+#~ msgid "Second argument to registerTouchScreenEdge needs to be a callback"
+#~ msgstr ""
+#~ "Вторым аргументом registerTouchScreenEdge должна быть функция обратного "
+#~ "вызова"
+
+#~ msgctxt "KWin Scripting error thrown due to incorrect argument"
+#~ msgid "Argument for registerUserActionsMenu needs to be a callback"
+#~ msgstr ""
+#~ "Аргументом registerUserActionsMenu должна быть функция обратного вызова"
+
+#~ msgctxt "Assertion failed in KWin script with given value"
+#~ msgid "Assertion failed: %1"
+#~ msgstr "Невыполнение условия: %1"
+
+#~ msgctxt ""
+#~ "Assertion failed in KWin script with expected value and actual value"
+#~ msgid "Assertion failed: Expected %1, got %2"
+#~ msgstr "Невыполнение условия: Ожидалось %1, а получено %2"

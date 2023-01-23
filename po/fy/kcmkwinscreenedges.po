@@ -247,3 +247,44 @@ msgid ""
 msgstr ""
 "Om in aksje te setten, druk jo mûs tsjin de râne fan it skerm yn de "
 "rjochting fan de aksje."
+
+#~ msgid "Show Desktop"
+#~ msgstr "Buroblêd sjen litte"
+
+#, fuzzy
+#~| msgid "Cube"
+#~ msgid "%1 - Cube"
+#~ msgstr "Kubus"
+
+#, fuzzy
+#~| msgid "Cylinder"
+#~ msgid "%1 - Cylinder"
+#~ msgstr "Silinder"
+
+#, fuzzy
+#~| msgid "Sphere"
+#~ msgid "%1 - Sphere"
+#~ msgstr "Bol"
+
+#, fuzzy
+#~| msgid "Active Screen Edge Actions"
+#~ msgid "Active Screen Corners and Edges"
+#~ msgstr "Aktive skermrâne akjses"
+
+#~ msgid "Window Management"
+#~ msgstr "Finsterbehear"
+
+#, fuzzy
+#~| msgid "Maximize windows by dragging them to the top of the screen"
+#~ msgid "Maximize windows by dragging them to the top edge of the screen"
+#~ msgstr ""
+#~ "Maksimalisearje finsters troch har te slepen nei de boppekant fan it skerm"
+
+#~ msgid "Other Settings"
+#~ msgstr "Oare ynstellings"
+
+#~ msgid "Show Dashboard"
+#~ msgstr "Dashboard sjen litte"
+
+#~ msgid "Prevent Screen Locking"
+#~ msgstr "Skermskoatteling foarkomme"

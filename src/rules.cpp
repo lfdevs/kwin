@@ -120,11 +120,11 @@ void Rules::readFromSettings(const RuleSettings *settings)
     if (description.isEmpty()) {
         description = settings->descriptionLegacy();
     }
-    READ_MATCH_STRING(wmclass, .toLower().toLatin1());
+    READ_MATCH_STRING(wmclass, );
     wmclasscomplete = settings->wmclasscomplete();
-    READ_MATCH_STRING(windowrole, .toLower().toLatin1());
+    READ_MATCH_STRING(windowrole, );
     READ_MATCH_STRING(title, );
-    READ_MATCH_STRING(clientmachine, .toLower().toLatin1());
+    READ_MATCH_STRING(clientmachine, .toLower());
     types = NET::WindowTypeMask(settings->types());
     READ_FORCE_RULE(placement, );
     READ_SET_RULE(position);
@@ -335,36 +335,36 @@ bool Rules::matchType(NET::WindowType match_type) const
     return true;
 }
 
-bool Rules::matchWMClass(const QByteArray &match_class, const QByteArray &match_name) const
+bool Rules::matchWMClass(const QString &match_class, const QString &match_name) const
 {
     if (wmclassmatch != UnimportantMatch) {
         // TODO optimize?
-        QByteArray cwmclass = wmclasscomplete
+        QString cwmclass = wmclasscomplete
             ? match_name + ' ' + match_class
             : match_class;
-        if (wmclassmatch == RegExpMatch && !QRegularExpression(QString::fromUtf8(wmclass)).match(QString::fromUtf8(cwmclass)).hasMatch()) {
+        if (wmclassmatch == RegExpMatch && !QRegularExpression(wmclass).match(cwmclass).hasMatch()) {
             return false;
         }
-        if (wmclassmatch == ExactMatch && wmclass != cwmclass) {
+        if (wmclassmatch == ExactMatch && cwmclass.compare(wmclass, Qt::CaseInsensitive) != 0) { // TODO Plasma 6: Make it case sensitive
             return false;
         }
-        if (wmclassmatch == SubstringMatch && !cwmclass.contains(wmclass)) {
+        if (wmclassmatch == SubstringMatch && !cwmclass.contains(wmclass, Qt::CaseInsensitive)) { // TODO Plasma 6: Make it case sensitive
             return false;
         }
     }
     return true;
 }
 
-bool Rules::matchRole(const QByteArray &match_role) const
+bool Rules::matchRole(const QString &match_role) const
 {
     if (windowrolematch != UnimportantMatch) {
-        if (windowrolematch == RegExpMatch && !QRegularExpression(QString::fromUtf8(windowrole)).match(QString::fromUtf8(match_role)).hasMatch()) {
+        if (windowrolematch == RegExpMatch && !QRegularExpression(windowrole).match(match_role).hasMatch()) {
             return false;
         }
-        if (windowrolematch == ExactMatch && windowrole != match_role) {
+        if (windowrolematch == ExactMatch && match_role.compare(windowrole, Qt::CaseInsensitive) != 0) { // TODO Plasma 6: Make it case sensitive
             return false;
         }
-        if (windowrolematch == SubstringMatch && !match_role.contains(windowrole)) {
+        if (windowrolematch == SubstringMatch && !match_role.contains(windowrole, Qt::CaseInsensitive)) { // TODO Plasma 6: Make it case sensitive
             return false;
         }
     }
@@ -387,7 +387,7 @@ bool Rules::matchTitle(const QString &match_title) const
     return true;
 }
 
-bool Rules::matchClientMachine(const QByteArray &match_machine, bool local) const
+bool Rules::matchClientMachine(const QString &match_machine, bool local) const
 {
     if (clientmachinematch != UnimportantMatch) {
         // if it's localhost, check also "localhost" before checking hostname
@@ -396,7 +396,7 @@ bool Rules::matchClientMachine(const QByteArray &match_machine, bool local) cons
             return true;
         }
         if (clientmachinematch == RegExpMatch
-            && !QRegularExpression(QString::fromUtf8(clientmachine)).match(QString::fromUtf8(match_machine)).hasMatch()) {
+            && !QRegularExpression(clientmachine).match(match_machine).hasMatch()) {
             return false;
         }
         if (clientmachinematch == ExactMatch
@@ -420,7 +420,7 @@ bool Rules::match(const Window *c) const
     if (!matchWMClass(c->resourceClass(), c->resourceName())) {
         return false;
     }
-    if (!matchRole(c->windowRole().toLower())) {
+    if (!matchRole(c->windowRole())) {
         return false;
     }
     if (!matchClientMachine(c->clientMachine()->hostName(), c->clientMachine()->isLocal())) {
@@ -970,7 +970,7 @@ void RuleBook::load()
 {
     deleteAll();
     if (!m_config) {
-        m_config = KSharedConfig::openConfig(QStringLiteral(KWIN_NAME "rulesrc"), KConfig::NoGlobals);
+        m_config = KSharedConfig::openConfig(QStringLiteral("kwinrulesrc"), KConfig::NoGlobals);
     } else {
         m_config->reparseConfiguration();
     }
@@ -987,7 +987,7 @@ void RuleBook::save()
         return;
     }
     QVector<Rules *> filteredRules;
-    for (const auto &rule : qAsConst(m_rules)) {
+    for (const auto &rule : std::as_const(m_rules)) {
         if (!rule->isTemporary()) {
             filteredRules.append(rule);
         }

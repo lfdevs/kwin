@@ -6,8 +6,7 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-#ifndef KWIN_WAYLAND_SERVER_H
-#define KWIN_WAYLAND_SERVER_H
+#pragma once
 
 #include <kwinglobals.h>
 
@@ -38,7 +37,6 @@ class PlasmaShellInterface;
 class PlasmaWindowActivationFeedbackInterface;
 class PlasmaVirtualDesktopManagementInterface;
 class PlasmaWindowManagementInterface;
-class PrimaryOutputV1Interface;
 class OutputDeviceV2Interface;
 class OutputManagementV2Interface;
 class XdgForeignV2Interface;
@@ -48,6 +46,12 @@ class LinuxDmaBufV1ClientBuffer;
 class TabletManagerV2Interface;
 class KeyboardShortcutsInhibitManagerV1Interface;
 class XdgDecorationManagerV1Interface;
+class XWaylandKeyboardGrabManagerV1Interface;
+class ContentTypeManagerV1Interface;
+class DrmLeaseManagerV1;
+class TearingControlManagerV1Interface;
+class XwaylandShellV1Interface;
+class OutputOrderV1Interface;
 }
 
 namespace KWin
@@ -59,7 +63,6 @@ class XdgActivationV1Integration;
 class XdgPopupWindow;
 class XdgSurfaceWindow;
 class XdgToplevelWindow;
-class WaylandOutput;
 
 class KWIN_EXPORT WaylandServer : public QObject
 {
@@ -124,6 +127,10 @@ public:
     KWaylandServer::KeyboardShortcutsInhibitManagerV1Interface *keyboardShortcutsInhibitManager() const
     {
         return m_keyboardShortcutsInhibitManager;
+    }
+    KWaylandServer::XwaylandShellV1Interface *xwaylandShell() const
+    {
+        return m_xwaylandShell;
     }
 
     bool isKeyboardShortcutsInhibited() const;
@@ -284,12 +291,17 @@ private:
     QPointer<KWaylandServer::ClientConnection> m_inputMethodServerConnection;
     KWaylandServer::ClientConnection *m_screenLockerClientConnection = nullptr;
     KWaylandServer::XdgForeignV2Interface *m_XdgForeign = nullptr;
-    KWaylandServer::PrimaryOutputV1Interface *m_primary = nullptr;
     XdgActivationV1Integration *m_xdgActivationIntegration = nullptr;
+    KWaylandServer::XWaylandKeyboardGrabManagerV1Interface *m_xWaylandKeyboardGrabManager = nullptr;
+    KWaylandServer::ContentTypeManagerV1Interface *m_contentTypeManager = nullptr;
+    KWaylandServer::TearingControlManagerV1Interface *m_tearingControlInterface = nullptr;
+    KWaylandServer::XwaylandShellV1Interface *m_xwaylandShell = nullptr;
     QList<Window *> m_windows;
     InitializationFlags m_initFlags;
-    QHash<Output *, WaylandOutput *> m_waylandOutputs;
+    QHash<Output *, KWaylandServer::OutputInterface *> m_waylandOutputs;
     QHash<Output *, KWaylandServer::OutputDeviceV2Interface *> m_waylandOutputDevices;
+    KWaylandServer::DrmLeaseManagerV1 *m_leaseManager = nullptr;
+    KWaylandServer::OutputOrderV1Interface *m_outputOrder = nullptr;
     KWIN_SINGLETON(WaylandServer)
 };
 
@@ -299,5 +311,3 @@ inline WaylandServer *waylandServer()
 }
 
 } // namespace KWin
-
-#endif

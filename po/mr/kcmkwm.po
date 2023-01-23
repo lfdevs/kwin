@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-02 00:47+0000\n"
+"POT-Creation-Date: 2022-12-03 00:48+0000\n"
 "PO-Revision-Date: 2013-02-24 11:33+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -524,13 +524,10 @@ msgid ""
 "whole screen. It might be useful to selectively affect placement of some "
 "windows using the window-specific settings.</li><li style=\" margin-top:0px; "
 "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\"><span style=\" font-style:italic;\">Cascade</span> will "
-"cascade the windows</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"text-indent:0px;\"><span style=\" font-style:italic;\">Random</span> will "
+"use a random position</li><li style=\" margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-style:italic;\">Random</span> will use a random "
-"position</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-style:italic;\">Centered</span> will place the window "
+"\"><span style=\" font-style:italic;\">Centered</span> will place the window "
 "centered</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\" font-style:italic;\">Zero-cornered</span> will place the window in "
@@ -556,38 +553,31 @@ msgstr "मोठी करा"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:90
-#, fuzzy, kde-format
-#| msgid "Cascade"
-msgid "Cascaded"
-msgstr "श्रृंखला"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:95
 #, kde-format
 msgid "Random"
 msgstr "विनाक्रम"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:100
+#: advanced.ui:95
 #, kde-format
 msgid "Centered"
 msgstr "केंद्रीत"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:105
+#: advanced.ui:100
 #, kde-format
 msgid "In Top-Left Corner"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:110
+#: advanced.ui:105
 #, fuzzy, kde-format
 #| msgid "Under Mouse"
 msgid "Under mouse"
 msgstr "माऊस खाली"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:118
+#: advanced.ui:113
 #, kde-format
 msgid ""
 "When turned on, apps which are able to remember the positions of their "
@@ -596,21 +586,21 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:121
+#: advanced.ui:116
 #, kde-format
 msgid ""
 "Allow apps to remember the positions of their own windows, if they support it"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
-#: advanced.ui:128
+#: advanced.ui:123
 #, fuzzy, kde-format
 #| msgid "Special Windows"
 msgid "&Special windows:"
 msgstr "विशिष्ठ चौकटी"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:138
+#: advanced.ui:133
 #, kde-format
 msgid ""
 "When turned on, utility windows (tool windows, torn-off menus,...) of "
@@ -620,25 +610,25 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:141
+#: advanced.ui:136
 #, kde-format
 msgid "Hide utility windows for inactive applications"
 msgstr "निष्क्रिय अनुप्रयोगांकरीता मदत चौकटी लपवा"
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyLabel)
-#: advanced.ui:148
+#: advanced.ui:143
 #, kde-format
 msgid "Virtual Desktop behavior:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyDescriptionLabel)
-#: advanced.ui:158
+#: advanced.ui:153
 #, kde-format
 msgid "When activating a window on a different Virtual Desktop:"
 msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:165
+#: advanced.ui:160
 #, kde-format
 msgid ""
 "<html><head/><body><p>This setting controls what happens when an open window "
@@ -651,13 +641,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:169
+#: advanced.ui:164
 #, kde-format
 msgid "Switch to that Virtual Desktop"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:174
+#: advanced.ui:169
 #, kde-format
 msgid "Bring window to current Virtual Desktop"
 msgstr ""
@@ -1327,3 +1317,251 @@ msgid ""
 "activation policy and will not work. You very likely want to use <em>Focus "
 "follows mouse (mouse precedence)</em> instead!"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Cascade"
+#~ msgid "Cascaded"
+#~ msgstr "श्रृंखला"
+
+#, fuzzy
+#~| msgid "Display window &geometry when moving or resizing"
+#~ msgid "Display when moving or resizing"
+#~ msgstr "हलवताना किंवा आकार बदलताना चौकट भूमिती दर्शवा (&G)"
+
+#~ msgid "Maximize (vertical only)"
+#~ msgstr "मोठी करा (फक्त उभी)"
+
+#~ msgid "Maximize (horizontal only)"
+#~ msgstr "मोठी करा (फक्त आडवी)"
+
+#~ msgid "Smart"
+#~ msgstr "हुशार"
+
+#~ msgid "Maximizing"
+#~ msgstr "वाढवित आहे"
+
+#, fuzzy
+#~| msgid "Zero-Cornered"
+#~ msgid "Zero-cornered"
+#~ msgstr "शून्य-कोपरा"
+
+#, fuzzy
+#~| msgid "Switch to Window Tab to the Left/Right"
+#~ msgid "Switch to window tab to the left/right"
+#~ msgstr "उजव्या/डाव्या चौकट टॅब वर जा"
+
+#, fuzzy
+#~| msgid "Window Tabbing"
+#~ msgid "Window tabbing:"
+#~ msgstr "चौकट टॅबिंग"
+
+#, fuzzy
+#~| msgid "Switch to automatically grouped windows immediately"
+#~ msgid "&Switch to automatically grouped windows immediately"
+#~ msgstr "स्वयंचलितरित्या समूह केलेल्या चौकटींवर लगेच जा"
+
+#, fuzzy
+#~| msgid "Hide inactive window tabs from the taskbar"
+#~ msgid "&Hide inactive window tabs from the taskbar"
+#~ msgstr "निष्क्रिय चौकट टॅब कार्यपट्टीवरून लपवा"
+
+#, fuzzy
+#~| msgid "Start Window Tab Drag"
+#~ msgid "Start window tab drag"
+#~ msgstr "चौकट टॅब खेचणे सुरु करा"
+
+#~ msgid "Ri&ght button:"
+#~ msgstr "उजवे बटन (&G):"
+
+#~ msgid "&Wheel"
+#~ msgstr "चक्र (&W)"
+
+#~ msgid "&Left button:"
+#~ msgstr "डावे बटन (&L):"
+
+#~ msgid "&Right button:"
+#~ msgstr "उजवे बटन (&R):"
+
+#~ msgid "M&iddle button:"
+#~ msgstr "मधले बटन (&I):"
+
+#~ msgid "Left &button"
+#~ msgstr "डावे बटन (&B)"
+
+#~ msgid "Automatically group similar windows"
+#~ msgstr "स्वयंचलितरित्या सारख्या चौकटींचा समूह करा"
+
+#~ msgid "Shading"
+#~ msgstr "रंगछटा"
+
+#~ msgid "Dela&y:"
+#~ msgstr "विलंब (&Y):"
+
+#~ msgid "&Enable hover"
+#~ msgstr "माऊस वर फिरवणे कार्यान्वित करा (&E)"
+
+#, fuzzy
+#~| msgid "&Policy:"
+#~ msgid "Policy"
+#~ msgstr "धोरण (&P):"
+
+#~ msgid "&Moving"
+#~ msgstr "हलविणे (&M)"
+
+#~ msgid "Wheel event:"
+#~ msgstr "चक्र घटना :"
+
+#~ msgid "Handle mouse wheel events"
+#~ msgstr "माऊस चक्र घटना हाताळा"
+
+#~ msgid ""
+#~ "In this column you can customize mouse clicks into the titlebar or the "
+#~ "frame of an active window."
+#~ msgstr ""
+#~ "सक्रिय चौकटीतील शिर्षकपट्टी किंवा फ्रेम अंतर्गत क्लिक करतेवेळी तुम्ही या स्तंभतील माऊस "
+#~ "क्लिकचे वर्तन इच्छिक करू शकता."
+
+#~ msgid ""
+#~ "In this column you can customize mouse clicks into the titlebar or the "
+#~ "frame of an inactive window."
+#~ msgstr ""
+#~ "निष्क्रिय चौकटतील शिर्षकपट्टी किंवा फ्रेम अंतर्गत क्लिक करतेवेळी तुम्ही या स्तंभतील माऊस "
+#~ "क्लिकचे वर्तन इच्छिक करू शकता."
+
+#~ msgid "Left button:"
+#~ msgstr "डावे बटन :"
+
+#~ msgid "Middle button:"
+#~ msgstr "मधले बटन :"
+
+#~ msgid ""
+#~ "Behavior on <em>middle</em> click into the titlebar or frame of an "
+#~ "<em>active</em> window."
+#~ msgstr ""
+#~ "<em>सक्रिय</em> चौकटतील शिर्षकपट्टी किंवा फ्रेम अंतर्गत क्लिक केल्यावर <em>मध्य</em> "
+#~ "क्लिकचे वर्तन."
+
+#~ msgid "Right button:"
+#~ msgstr "उजवे बटन :"
+
+#~ msgid ""
+#~ "Behavior on <em>right</em> click into the titlebar or frame of an "
+#~ "<em>active</em> window."
+#~ msgstr ""
+#~ "<em>सक्रिय</em> चौकटतील शिर्षकपट्टी किंवा फ्रेम अंतर्गत क्लिक केल्यावर <em>उजव्या</"
+#~ "em> क्लिकचे वर्तन."
+
+#~ msgid "Titlebar & Frame"
+#~ msgstr "शिर्षकपट्टी व फ्रेम"
+
+#~ msgid "Titlebar"
+#~ msgstr "शिर्षकपट्टी"
+
+#~ msgid "no center snap zone"
+#~ msgstr "केंद्र खेचण्याचे क्षेत्र नाही"
+
+#~ msgid "no window snap zone"
+#~ msgstr "चौकट खेचण्याचे क्षेत्र नाही"
+
+#~ msgid "no border snap zone"
+#~ msgstr "किनार खेचण्याचे क्षेत्र नाही"
+
+#~ msgid "Windows"
+#~ msgstr "Windows"
+
+#~ msgid "Snap Zones"
+#~ msgstr "खेचण्याची क्षेत्रे"
+
+#~ msgid "kcmkwinoptions"
+#~ msgstr "kcmkwinoptions"
+
+#~ msgid "&Raise, with the following delay:"
+#~ msgstr "पुढील विलंबानंतर वर घ्या (&R):"
+
+#~ msgid "&When the active window disappears, pass focus to window under mouse"
+#~ msgstr "ज्यावेळी सक्रिय चौकट गायब होते त्यावेळी लक्ष माऊस खालील चौकटीवर हलवा"
+
+#~ msgid "Display borders on &maximized windows"
+#~ msgstr "मोठ्या केलेल्या चौकटींचे किनारे दर्शवा (&M)"
+
+#, fuzzy
+#~| msgid "Minimize"
+#~ msgctxt "@item:inlistbox behavior on double click"
+#~ msgid "Minimize"
+#~ msgstr "लहान करा"
+
+#~ msgid ""
+#~ "Here you can customize mouse click behavior when clicking on the titlebar "
+#~ "or the frame of a window."
+#~ msgstr ""
+#~ "शिर्षकपट्टी किंवा फ्रेम अंतर्गत क्लिक करतेवेळी तुम्ही येथे माउस क्लिकचे वर्तन इच्छिक करू "
+#~ "शकता."
+
+#~ msgid ""
+#~ "Behavior on <em>right</em> click into the titlebar or frame of an "
+#~ "<em>inactive</em> window."
+#~ msgstr ""
+#~ "<em>निष्क्रीय</em> चौकटतील शिर्षकपट्टी किंवा फ्रेम अंतर्गत क्लिक केल्यावर <em>उजव्या</"
+#~ "em> क्लिकचे वर्तन."
+
+#~ msgid ""
+#~ "Behavior on <em>middle</em> click into the titlebar or frame of an "
+#~ "<em>inactive</em> window."
+#~ msgstr ""
+#~ "<em>निष्क्रीय</em> चौकटतील शिर्षकपट्टी किंवा फ्रेम अंतर्गत क्लिक केल्यावर <em>मध्य</"
+#~ "em> क्लिकचे वर्तन."
+
+#~ msgid ""
+#~ "Here you can customize behavior when clicking on the maximize button."
+#~ msgstr "बटन वाढविण्याकरीता क्लिक करतेवेळी तुम्ही वर्तन इच्छिक करू शकता."
+
+#~ msgid ""
+#~ "Here you can customize mouse click behavior when clicking on an inactive "
+#~ "inner window ('inner' means: not titlebar, not frame)."
+#~ msgstr ""
+#~ "निष्क्रीय आंतरीक चौकटवर क्लिक करतेवेळी तुम्ही माउस क्लिक वर्तन इच्छिक करू शकता "
+#~ "('आंतरीक' म्हणजे: शिर्षकपट्टी नाही, फ्रेम नाही)."
+
+#~ msgid ""
+#~ "Here you can customize KDE's behavior when clicking somewhere into a "
+#~ "window while pressing a modifier key."
+#~ msgstr ""
+#~ "परिवर्तक कि दाबतेवेळी चौकट अंतर्गत क्लिक करतेवेळी येथे तुम्ही KDE चे वर्तन इच्छिक करू "
+#~ "शकता."
+
+#, fuzzy
+#~| msgid "none"
+#~ msgctxt "no border snap zone"
+#~ msgid "none"
+#~ msgstr "काही नाहीं"
+
+#, fuzzy
+#~| msgid "none"
+#~ msgctxt "no window snap zone"
+#~ msgid "none"
+#~ msgstr "काही नाहीं"
+
+#, fuzzy
+#~| msgid "none"
+#~ msgctxt "no center snap zone"
+#~ msgid "none"
+#~ msgstr "काही नाहीं"
+
+#, fuzzy
+#~| msgid "Nothing"
+#~ msgctxt "Floating layout, windows aren't tiled at all"
+#~ msgid "Floating"
+#~ msgstr "काहिच नाही"
+
+#~ msgctxt "Focus Stealing Prevention Level"
+#~ msgid "Normal"
+#~ msgstr "साधारण"
+
+#~ msgid "D&isabled"
+#~ msgstr "अकार्यान्वीत (&i)"
+
+#~ msgid "Only &when moving windows"
+#~ msgstr "फक्त चौकट हलवितेवेळी (&w)"
+
+#~ msgid "A&lways enabled"
+#~ msgstr "नेहमी कार्यान्वीत (&l)"

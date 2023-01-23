@@ -10,7 +10,7 @@
 #include "kwin_wayland_test.h"
 
 #include "atoms.h"
-#include "core/platform.h"
+#include "core/outputbackend.h"
 #include "deleted.h"
 #include "main.h"
 #include "wayland_server.h"
@@ -56,8 +56,8 @@ void StackingOrderTest::initTestCase()
     qRegisterMetaType<KWin::Deleted *>();
 
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
+    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
 
     kwinApp()->setConfig(KSharedConfig::openConfig(QString(), KConfig::SimpleConfig));
 
@@ -244,7 +244,6 @@ void StackingOrderTest::testDeletedTransient()
 
     // Close the top-most transient.
     connect(transient2, &Window::windowClosed, this, [](Window *original, Deleted *deleted) {
-        Q_UNUSED(original)
         deleted->refWindow();
     });
 
@@ -659,7 +658,6 @@ void StackingOrderTest::testDeletedGroupTransient()
 
     // Unmap the transient.
     connect(transient, &X11Window::windowClosed, this, [](Window *original, Deleted *deleted) {
-        Q_UNUSED(original)
         deleted->refWindow();
     });
 

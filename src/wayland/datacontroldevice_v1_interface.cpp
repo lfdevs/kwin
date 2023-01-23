@@ -107,7 +107,6 @@ DataControlOfferV1Interface *DataControlDeviceV1InterfacePrivate::createDataOffe
 
 void DataControlDeviceV1InterfacePrivate::zwlr_data_control_device_v1_destroy_resource(QtWaylandServer::zwlr_data_control_device_v1::Resource *resource)
 {
-    Q_UNUSED(resource)
     delete q;
 }
 
@@ -138,38 +137,13 @@ DataControlSourceV1Interface *DataControlDeviceV1Interface::primarySelection() c
 
 void DataControlDeviceV1Interface::sendSelection(AbstractDataSource *other)
 {
-    if (!other) {
-        sendClearSelection();
-        return;
-    }
     DataControlOfferV1Interface *offer = d->createDataOffer(other);
-    if (!offer) {
-        return;
-    }
-    d->send_selection(offer->resource());
-}
-
-void DataControlDeviceV1Interface::sendClearSelection()
-{
-    d->send_selection(nullptr);
+    d->send_selection(offer ? offer->resource() : nullptr);
 }
 
 void DataControlDeviceV1Interface::sendPrimarySelection(KWaylandServer::AbstractDataSource *other)
 {
-    if (!other) {
-        sendClearPrimarySelection();
-        return;
-    }
     DataControlOfferV1Interface *offer = d->createDataOffer(other);
-    if (!offer) {
-        return;
-    }
-    d->send_primary_selection(offer->resource());
+    d->send_primary_selection(offer ? offer->resource() : nullptr);
 }
-
-void DataControlDeviceV1Interface::sendClearPrimarySelection()
-{
-    d->send_primary_selection(nullptr);
-}
-
 }

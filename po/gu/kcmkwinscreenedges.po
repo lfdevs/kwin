@@ -232,3 +232,38 @@ msgid ""
 "You can trigger an action by swiping from the screen edge towards the center "
 "of the screen."
 msgstr ""
+
+#~ msgid "Show Desktop"
+#~ msgstr "ડેસ્કટોપને બતાવો"
+
+#, fuzzy
+#~| msgid "Cube"
+#~ msgid "%1 - Cube"
+#~ msgstr "સમઘન"
+
+#, fuzzy
+#~| msgid "Cylinder"
+#~ msgid "%1 - Cylinder"
+#~ msgstr "નળાકાર"
+
+#, fuzzy
+#~| msgid "Sphere"
+#~ msgid "%1 - Sphere"
+#~ msgstr "ગોળો"
+
+#, fuzzy
+#~| msgid "Active Screen Edge Actions"
+#~ msgid "Active Screen Corners and Edges"
+#~ msgstr "સક્રિય સ્ક્રીન બાજુ ક્રિયા"
+
+#~ msgid "Window Management"
+#~ msgstr "વિન્ડો સંચાલન"
+
+#~ msgid "Other Settings"
+#~ msgstr "બીજા સુયોજનો"
+
+#~ msgid "Show Dashboard"
+#~ msgstr "ડૅશબોર્ડને બતાવો"
+
+#~ msgid "Prevent Screen Locking"
+#~ msgstr "સ્ક્રીનને તાળુ મારવાથી અટકાવો"

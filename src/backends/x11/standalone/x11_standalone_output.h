@@ -6,8 +6,7 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-#ifndef KWIN_X11_OUTPUT_H
-#define KWIN_X11_OUTPUT_H
+#pragma once
 
 #include "core/output.h"
 #include <kwin_export.h>
@@ -20,7 +19,7 @@
 namespace KWin
 {
 
-class X11StandalonePlatform;
+class X11StandaloneBackend;
 
 /**
  * X11 output representation
@@ -30,11 +29,9 @@ class KWIN_EXPORT X11Output : public Output
     Q_OBJECT
 
 public:
-    explicit X11Output(X11StandalonePlatform *backend, QObject *parent = nullptr);
+    explicit X11Output(X11StandaloneBackend *backend, QObject *parent = nullptr);
 
     void updateEnabled(bool enabled);
-
-    bool usesSoftwareCursor() const override;
 
     RenderLoop *renderLoop() const override;
     void setRenderLoop(RenderLoop *loop);
@@ -48,15 +45,13 @@ private:
     void setCrtc(xcb_randr_crtc_t crtc);
     void setGammaRampSize(int size);
 
-    X11StandalonePlatform *m_backend;
+    X11StandaloneBackend *m_backend;
     RenderLoop *m_loop = nullptr;
     xcb_randr_crtc_t m_crtc = XCB_NONE;
     int m_gammaRampSize;
     int m_xineramaNumber = 0;
 
-    friend class X11StandalonePlatform;
+    friend class X11StandaloneBackend;
 };
 
 }
-
-#endif

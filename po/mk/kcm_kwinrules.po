@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-08-19 00:47+0000\n"
+"POT-Creation-Date: 2022-12-11 00:48+0000\n"
 "PO-Revision-Date: 2010-01-29 22:41+0100\n"
 "Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
 "Language-Team: Macedonian <mkde-l10n@lists.sourceforge.net>\n"
@@ -64,12 +64,12 @@ msgstr ""
 msgid "Copy of %1"
 msgstr ""
 
-#: kcmrules.cpp:422
+#: kcmrules.cpp:423
 #, kde-format
 msgid "Application settings for %1"
 msgstr "Поставувања за апликација за %1"
 
-#: kcmrules.cpp:442 rulesmodel.cpp:215
+#: kcmrules.cpp:445 rulesmodel.cpp:215
 #, kde-format
 msgid "Window settings for %1"
 msgstr "Поставувања за прозорец за %1"
@@ -353,23 +353,18 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: package/contents/ui/RulesEditor.qml:147
-#, kde-format
-msgid "Error"
-msgstr ""
-
-#: package/contents/ui/RulesEditor.qml:162
+#: package/contents/ui/RulesEditor.qml:175
 #, kde-format
 msgid "Add property to the rule"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:260
+#: package/contents/ui/RulesEditor.qml:273
 #: package/contents/ui/ValueEditor.qml:54
 #, kde-format
 msgid "Yes"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:260
+#: package/contents/ui/RulesEditor.qml:273
 #: package/contents/ui/ValueEditor.qml:60
 #, fuzzy, kde-format
 #| msgctxt "no focus stealing prevention"
@@ -377,20 +372,20 @@ msgstr ""
 msgid "No"
 msgstr "Нема"
 
-#: package/contents/ui/RulesEditor.qml:262
+#: package/contents/ui/RulesEditor.qml:275
 #: package/contents/ui/ValueEditor.qml:171
 #: package/contents/ui/ValueEditor.qml:178
 #, kde-format
 msgid "%1 %"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:264
+#: package/contents/ui/RulesEditor.qml:277
 #, kde-format
 msgctxt "Coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:266
+#: package/contents/ui/RulesEditor.qml:279
 #, kde-format
 msgctxt "Size (width, height)"
 msgid "(%1, %2)"
@@ -784,166 +779,493 @@ msgstr ""
 msgid "Block compositing"
 msgstr ""
 
-#: rulesmodel.cpp:727
+#: rulesmodel.cpp:703
+#, fuzzy, kde-format
+#| msgid "Window &class (application type):"
+msgid "Window class not available"
+msgstr "&Класа на прозорец (тип на апликација):"
+
+#: rulesmodel.cpp:704
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"This application is not providing a class for the window, so KWin cannot use "
+"it to match and apply any rules. If you still want to apply some rules to "
+"it, try to match other properties like the window title instead.<nl/><nl/"
+">Please consider reporting this bug to the application's developers."
+msgstr ""
+
+#: rulesmodel.cpp:738
 #, fuzzy, kde-format
 #| msgid "Window &types:"
 msgid "All Window Types"
 msgstr "&Типови на прозорец:"
 
-#: rulesmodel.cpp:728
+#: rulesmodel.cpp:739
 #, kde-format
 msgid "Normal Window"
 msgstr "Нормален прозорец"
 
-#: rulesmodel.cpp:729
+#: rulesmodel.cpp:740
 #, kde-format
 msgid "Dialog Window"
 msgstr "Прозорец со дијалог"
 
-#: rulesmodel.cpp:730
+#: rulesmodel.cpp:741
 #, kde-format
 msgid "Utility Window"
 msgstr "Прозорец со корисни алатки"
 
-#: rulesmodel.cpp:731
+#: rulesmodel.cpp:742
 #, kde-format
 msgid "Dock (panel)"
 msgstr "Вкотвено (панел)"
 
-#: rulesmodel.cpp:732
+#: rulesmodel.cpp:743
 #, kde-format
 msgid "Toolbar"
 msgstr "Алатник"
 
-#: rulesmodel.cpp:733
+#: rulesmodel.cpp:744
 #, kde-format
 msgid "Torn-Off Menu"
 msgstr "Откачено мени"
 
-#: rulesmodel.cpp:734
+#: rulesmodel.cpp:745
 #, kde-format
 msgid "Splash Screen"
 msgstr "Почетен екран"
 
-#: rulesmodel.cpp:735
+#: rulesmodel.cpp:746
 #, kde-format
 msgid "Desktop"
 msgstr "Работна површина"
 
 #. i18n("Unmanaged Window")},  deprecated
-#: rulesmodel.cpp:737
+#: rulesmodel.cpp:748
 #, kde-format
 msgid "Standalone Menubar"
 msgstr "Самостојно мени"
 
-#: rulesmodel.cpp:738
+#: rulesmodel.cpp:749
 #, kde-format
 msgid "On Screen Display"
 msgstr ""
 
-#: rulesmodel.cpp:748
+#: rulesmodel.cpp:759
 #, kde-format
 msgid "All Desktops"
 msgstr "Сите површини"
 
-#: rulesmodel.cpp:750
+#: rulesmodel.cpp:761
 #, kde-format
 msgctxt "@info:tooltip in the virtual desktop list"
 msgid "Make the window available on all desktops"
 msgstr ""
 
-#: rulesmodel.cpp:769
+#: rulesmodel.cpp:780
 #, kde-format
 msgid "All Activities"
 msgstr ""
 
-#: rulesmodel.cpp:771
+#: rulesmodel.cpp:782
 #, kde-format
 msgctxt "@info:tooltip in the activity list"
 msgid "Make the window available on all activities"
 msgstr ""
 
-#: rulesmodel.cpp:792
+#: rulesmodel.cpp:803
 #, kde-format
 msgid "Default"
 msgstr "Стандардно"
 
-#: rulesmodel.cpp:793
+#: rulesmodel.cpp:804
 #, kde-format
 msgid "No Placement"
 msgstr "Нема поставување"
 
-#: rulesmodel.cpp:794
+#: rulesmodel.cpp:805
 #, kde-format
 msgid "Minimal Overlapping"
 msgstr ""
 
-#: rulesmodel.cpp:795
+#: rulesmodel.cpp:806
 #, fuzzy, kde-format
 #| msgid "Maximizing"
 msgid "Maximized"
 msgstr "Раширувачко"
 
-#: rulesmodel.cpp:796
-#, fuzzy, kde-format
-#| msgid "Cascade"
-msgid "Cascaded"
-msgstr "Каскадно"
-
-#: rulesmodel.cpp:797
+#: rulesmodel.cpp:807
 #, kde-format
 msgid "Centered"
 msgstr "Во средина"
 
-#: rulesmodel.cpp:798
+#: rulesmodel.cpp:808
 #, kde-format
 msgid "Random"
 msgstr "Случајно"
 
-#: rulesmodel.cpp:799
+#: rulesmodel.cpp:809
 #, fuzzy, kde-format
 #| msgid "Top-Left Corner"
 msgid "In Top-Left Corner"
 msgstr "Горен лев агол"
 
-#: rulesmodel.cpp:800
+#: rulesmodel.cpp:810
 #, kde-format
 msgid "Under Mouse"
 msgstr "Под глушецот"
 
-#: rulesmodel.cpp:801
+#: rulesmodel.cpp:811
 #, kde-format
 msgid "On Main Window"
 msgstr "На главниот прозорец"
 
-#: rulesmodel.cpp:808
+#: rulesmodel.cpp:818
 #, fuzzy, kde-format
 #| msgctxt "no focus stealing prevention"
 #| msgid "None"
 msgid "None"
 msgstr "Нема"
 
-#: rulesmodel.cpp:809
+#: rulesmodel.cpp:819
 #, kde-format
 msgid "Low"
 msgstr "Ниско"
 
-#: rulesmodel.cpp:810
+#: rulesmodel.cpp:820
 #, kde-format
 msgid "Normal"
 msgstr "Нормално"
 
-#: rulesmodel.cpp:811
+#: rulesmodel.cpp:821
 #, kde-format
 msgid "High"
 msgstr "Високо"
 
-#: rulesmodel.cpp:812
+#: rulesmodel.cpp:822
 #, kde-format
 msgid "Extreme"
 msgstr "Екстремно"
 
-#: rulesmodel.cpp:855
+#: rulesmodel.cpp:865
+#, fuzzy, kde-format
+#| msgid "On Main Window"
+msgid "Unmanaged window"
+msgstr "На главниот прозорец"
+
+#: rulesmodel.cpp:866
 #, kde-format
 msgid "Could not detect window properties. The window is not managed by KWin."
 msgstr ""
+
+#, fuzzy
+#~| msgid "Cascade"
+#~ msgid "Cascaded"
+#~ msgstr "Каскадно"
+
+#, fuzzy
+#~| msgid "Keep &above"
+#~ msgid "Keep above"
+#~ msgstr "Задржи н&ад"
+
+#, fuzzy
+#~| msgid "Keep &below"
+#~ msgid "Keep below"
+#~ msgstr "Задржи &под"
+
+#~ msgid "KWin"
+#~ msgstr "KWin"
+
+#~ msgid "KWin helper utility"
+#~ msgstr "Помошна алатка на KWin "
+
+#, fuzzy
+#~| msgid "&Detect Window Properties"
+#~ msgid "Select properties"
+#~ msgstr "&Најди ги својствата на прозорецот"
+
+#~ msgid "Override Type"
+#~ msgstr "Отфрли тип"
+
+#~ msgid "Unknown - will be treated as Normal Window"
+#~ msgstr "Непознат - ќе се третира како нормален прозорец"
+
+#~ msgid "Information About Selected Window"
+#~ msgstr "Информација за избраниот прозорец"
+
+#~ msgid "Class:"
+#~ msgstr "Класа:"
+
+#~ msgid "Role:"
+#~ msgstr "Улога:"
+
+#~ msgid "Type:"
+#~ msgstr "Тип:"
+
+#~ msgid "Title:"
+#~ msgstr "Наслов:"
+
+#~ msgid "Machine:"
+#~ msgstr "Машина:"
+
+#, fuzzy
+#~| msgid ""
+#~| "A single shortcut can be easily assigned or cleared using the two "
+#~| "buttons. Only shortcuts with modifiers can be used.<p>\n"
+#~| "It is possible to have several possible shortcuts, and the first "
+#~| "available shortcut will be used. The shortcuts are specified using space-"
+#~| "separated shortcut sets. One set is specified as <i>base</i>+(<i>list</"
+#~| "i>), where base are modifiers and list is a list of keys.<br>\n"
+#~| "For example \"<b>Shift+Alt+(123) Shift+Ctrl+(ABC)</b>\" will first try "
+#~| "<b>Shift+Alt+1</b>, then others with <b>Shift+Ctrl+C</b> as the last one."
+#~ msgid ""
+#~ "A single shortcut can be easily assigned or cleared using the two "
+#~ "buttons. Only shortcuts with modifiers can be used.<p>\n"
+#~ "It is possible to have several possible shortcuts, and the first "
+#~ "available shortcut will be used. The shortcuts are specified using "
+#~ "shortcut sets separated by \" - \". One set is specified as <i>base</i>"
+#~ "+(<i>list</i>), where base are modifiers and list is a list of keys.<br>\n"
+#~ "For example \"<b>Shift+Alt+(123) Shift+Ctrl+(ABC)</b>\" will first try "
+#~ "<b>Shift+Alt+1</b>, then others with <b>Shift+Ctrl+C</b> as the last one."
+#~ msgstr ""
+#~ "Со користење на двете копчиња може лесно да се додели единечна кратенка. "
+#~ "Може да се користат само кратенки со модификатори.<p>\n"
+#~ "Можно е да има повеќе можни кратенки, а ќе се користи првата достапна. "
+#~ "Кратенките се одредени со множества кратенки разделени со празно место. "
+#~ "Едно множество е зададено како <i>база</i>+(<i>листа</i>), каде што база "
+#~ "се модификаторите е листа е листа на тастери.<br>\n"
+#~ "На пример „<b>Shift+Alt+(123) Shift+Ctrl+(ABC)</b>“ прво ќе се обиде со "
+#~ "<b>Shift+Alt+1</b>, а потоа и со останатите каде што <b>Shift+Ctrl+C</b> "
+#~ "е последната."
+
+#~ msgid "&Single Shortcut"
+#~ msgstr "Единечна &кратенка"
+
+#~ msgid "C&lear"
+#~ msgstr "Исчи&сти"
+
+#~ msgid "Window-Specific Settings Configuration Module"
+#~ msgstr "Модул за конфигурација на поставувања специфични за прозорец"
+
+#~ msgid "(c) 2004 KWin and KControl Authors"
+#~ msgstr "(c) 2004 Авторите на KWin и KControl"
+
+#~ msgid "Lubos Lunak"
+#~ msgstr "Lubos Lunak"
+
+#~ msgid "Remember settings separately for every window"
+#~ msgstr "Запомни ги поставувањата посебно за секој прозорец"
+
+#~ msgid "Show internal settings for remembering"
+#~ msgstr "Покажи внатрешни поставувања за запомнување"
+
+#~ msgid "Internal setting for remembering"
+#~ msgstr "Внатрешно поставување за запомнување"
+
+#~ msgid "&Modify..."
+#~ msgstr "&Измени..."
+
+#~ msgid "Move &Up"
+#~ msgstr "Помести на&горе"
+
+#~ msgid "Move &Down"
+#~ msgstr "Помести на&долу"
+
+#~ msgid ""
+#~ "Enable this checkbox to alter this window property for the specified "
+#~ "window(s)."
+#~ msgstr ""
+#~ "Обележете го ова поле за да го измените ова својство на прозорец, за "
+#~ "наведениот прозорец (прозорци)."
+
+#, fuzzy
+#~| msgid ""
+#~| "Specify how the window property should be affected:<ul><li><em>Do Not "
+#~| "Affect:</em> The window property will not be affected and therefore the "
+#~| "default handling for it will be used. Specifying this will block more "
+#~| "generic window settings from taking effect.</li><li><em>Apply Initially:"
+#~| "</em> The window property will be only set to the given value after the "
+#~| "window is created. No further changes will be affected.</"
+#~| "li><li><em>Remember:</em> The value of the window property will be "
+#~| "remembered and every time time the window is created, the last "
+#~| "remembered value will be applied.</li><li><em>Force:</em> The window "
+#~| "property will be always forced to the given value.</li><li><em>Apply Now:"
+#~| "</em> The window property will be set to the given value immediately and "
+#~| "will not be affected later (this action will be deleted afterwards).</"
+#~| "li><li><em>Force temporarily:</em> The window property will be forced to "
+#~| "the given value until it is hidden (this action will be deleted after "
+#~| "the window is hidden).</li></ul>"
+#~ msgid ""
+#~ "Specify how the window property should be affected:<ul><li><em>Do Not "
+#~ "Affect:</em> The window property will not be affected and therefore the "
+#~ "default handling for it will be used. Specifying this will block more "
+#~ "generic window settings from taking effect.</li><li><em>Apply Initially:</"
+#~ "em> The window property will be only set to the given value after the "
+#~ "window is created. No further changes will be affected.</"
+#~ "li><li><em>Remember:</em> The value of the window property will be "
+#~ "remembered and every time the window is created, the last remembered "
+#~ "value will be applied.</li><li><em>Force:</em> The window property will "
+#~ "be always forced to the given value.</li><li><em>Apply Now:</em> The "
+#~ "window property will be set to the given value immediately and will not "
+#~ "be affected later (this action will be deleted afterwards).</"
+#~ "li><li><em>Force temporarily:</em> The window property will be forced to "
+#~ "the given value until it is hidden (this action will be deleted after the "
+#~ "window is hidden).</li></ul>"
+#~ msgstr ""
+#~ "Одредете како ќе биде влијаено на параметарот на прозорецот:"
+#~ "<ul><li><em>Не влијај:</em> На параметарот на прозорецот нема да се "
+#~ "влијае и поради тоа ќе се користи стандардното ракување за него. "
+#~ "Одредувањето на ова ќе ги блокира поопштите поставувања на прозорци.</"
+#~ "li><li><em>Примени иницијално:</em> Параметарот на прозорецот ќе биде "
+#~ "поставен на дадената вредност откако ќе се создаде прозорецот. На "
+#~ "понатамошните промени нема да се влијае.</li><li><em>Запомни:</em> "
+#~ "Вредноста на параметарот на прозорецот ќе биде запомнета и секој пат кога "
+#~ "ќе се креира прозорецот ќе биде применета последната запомнета вредност.</"
+#~ "li><li><em>Форсирај:</em> Параметарот на прозорецот секогаш ќе биде "
+#~ "форсиран на дадената вредност.</li><li><em>Примени сега:</em> Параметарот "
+#~ "на прозорецот ќе биде поставен на дадената вредност веднаш и на него нема "
+#~ "да се влијае понатаму (ова дејство ќе биде избришано по поставувањето).</"
+#~ "li><li><em>Форсирај привремено:</em> Параметарот на прозорецот ќе биде "
+#~ "форсиран на дадената вредност сѐ додека не се сокрие (ова дејство ќе биде "
+#~ "избришано откако прозорецот ќе се скрие).</li></ul>"
+
+#~ msgid ""
+#~ "Specify how the window property should be affected:<ul><li><em>Do Not "
+#~ "Affect:</em> The window property will not be affected and therefore the "
+#~ "default handling for it will be used. Specifying this will block more "
+#~ "generic window settings from taking effect.</li><li><em>Force:</em> The "
+#~ "window property will be always forced to the given value.</"
+#~ "li><li><em>Force temporarily:</em> The window property will be forced to "
+#~ "the given value until it is hidden (this action will be deleted after the "
+#~ "window is hidden).</li></ul>"
+#~ msgstr ""
+#~ "Одредете како ќе биде влијаено на параметарот на прозорецот:"
+#~ "<ul><li><em>Не влијај:</em> На параметарот на прозорецот нема да се "
+#~ "влијае и поради тоа ќе се користи стандардното ракување за него. "
+#~ "Одредувањето на ова ќе ги блокира поопштите поставувања на прозорци.</"
+#~ "li><li><em>Форсирај:</em> Параметарот на прозорецот секогаш ќе биде "
+#~ "форсиран на дадената вредност.</li><li><em>Форсирај привремено:</em> "
+#~ "Параметарот на прозорецот ќе биде форсиран на дадената вредност сѐ додека "
+#~ "не се сокрие (ова дејство ќе биде избришано откако прозорецот ќе се "
+#~ "скрие).</li></ul>"
+
+#~ msgid "Unnamed entry"
+#~ msgstr "Неименувана ставка"
+
+#~ msgid ""
+#~ "This configuration dialog allows altering settings only for the selected "
+#~ "window or application. Find the setting you want to affect, enable the "
+#~ "setting using the checkbox, select in what way the setting should be "
+#~ "affected and to which value."
+#~ msgstr ""
+#~ "Овој дијалог за конфигурација овозможува измена на поставувања само за "
+#~ "избраниот прозорец или апликација. Пронајдете го поставувањето што сакате "
+#~ "да го измените, вклучете го со полињата за избор и изберете на каков "
+#~ "начин поставувањето ќе влијае и со колкави вредности."
+
+#~ msgid "Consult the documentation for more details."
+#~ msgstr "Разгледајте ја документацијата за повеќе детали."
+
+#~ msgid "Edit Shortcut"
+#~ msgstr "Уреди кратенка"
+
+#~ msgid "0123456789-+,xX:"
+#~ msgstr "0123456789-+,xX:"
+
+#~ msgid "&Desktop"
+#~ msgstr "&Работна површина"
+
+#~ msgid "Autog&roup in foreground"
+#~ msgstr "Автом. &групирај во преден план"
+
+#~ msgid "Autogroup by I&D"
+#~ msgstr "Автом. групирај според &ид."
+
+#~ msgid "Autogroup with &identical"
+#~ msgstr "Автом. групирај со &идентичните"
+
+#~ msgid "Smart"
+#~ msgstr "Паметно"
+
+#~ msgid "kcmkwinrules"
+#~ msgstr "kcmkwinrules"
+
+#~ msgid "Opaque"
+#~ msgstr "Непроѕирно"
+
+#~ msgid "Transparent"
+#~ msgstr "Проѕирно"
+
+#~ msgid "&Moving/resizing"
+#~ msgstr "Пре&местување/менување големина"
+
+#, fuzzy
+#~| msgid "Title:"
+#~ msgid "Tiled"
+#~ msgstr "Наслов:"
+
+#~ msgid ""
+#~ "For selecting all windows belonging to a specific application, selecting "
+#~ "only window class should usually work."
+#~ msgstr ""
+#~ "За избирање на сите прозорци кои припаѓаат на одредена апликација, "
+#~ "доволно е да се избере класата на прозорецот."
+
+#~ msgid "Use window &class (whole application)"
+#~ msgstr "Користи ја &класата на прозорецот (цела апликација)"
+
+#~ msgid ""
+#~ "For selecting a specific window in an application, both window class and "
+#~ "window role should be selected. Window class will determine the "
+#~ "application, and window role the specific window in the application; many "
+#~ "applications do not provide useful window roles though."
+#~ msgstr ""
+#~ "За избирање на специфичен прозорец во апликација, треба да се изберат и "
+#~ "класата и улогата на прозорецот. Класата на прозорецот ќе ја одреди "
+#~ "апликацијата, а улогата на прозорецот ќе го одреди специфичниот прозорец "
+#~ "во апликацијата; сепак повеќето апликации не даваат корисни улоги на "
+#~ "прозорците."
+
+#~ msgid "Use window class and window &role (specific window)"
+#~ msgstr "Користи ги класата и улогата на п&розорецот (специфичен прозорец)"
+
+#~ msgid ""
+#~ "With some (non-KDE) applications whole window class can be sufficient for "
+#~ "selecting a specific window in an application, as they set whole window "
+#~ "class to contain both application and window role."
+#~ msgstr ""
+#~ "За некои апликации (кои не се KDE) целосната класа на прозорци е доволна "
+#~ "за избирање на специфичен прозорец во апликација, бидејќи тие ја "
+#~ "поставуваат целосната класа на прозорец да ги содржи и апликацијата и "
+#~ "улогата на прозорецот."
+
+#~ msgid "Use &whole window class (specific window)"
+#~ msgstr "Користи ја &целосната класа на прозорец (специфичен прозорец)"
+
+#~ msgid "Match also window &title"
+#~ msgstr "Користи го и &насловот на прозорецот"
+
+#~ msgid "Extra role:"
+#~ msgstr "Екстра улога:"
+
+#~ msgid "Window &Extra"
+#~ msgstr "&Екстра прозорец"
+
+#~ msgid "&Geometry"
+#~ msgstr "&Геометрија"
+
+#~ msgid "&Preferences"
+#~ msgstr "&Параметри"
+
+#~ msgid "&No border"
+#~ msgstr "&Без раб"
+
+#~ msgid "0123456789"
+#~ msgstr "0123456789"
+
+#~ msgid "W&orkarounds"
+#~ msgstr "За&обиколни"
+
+#~ msgid "Strictly obey geometry"
+#~ msgstr "Придржувај се строго на геометријата"

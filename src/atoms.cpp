@@ -58,6 +58,7 @@ Atoms::Atoms()
     , netscape_url(QByteArrayLiteral("_NETSCAPE_URL"))
     , moz_url(QByteArrayLiteral("text/x-moz-url"))
     , wl_surface_id(QByteArrayLiteral("WL_SURFACE_ID"))
+    , wl_surface_serial(QByteArrayLiteral("WL_SURFACE_SERIAL"))
     , kde_net_wm_appmenu_service_name(QByteArrayLiteral("_KDE_NET_WM_APPMENU_SERVICE_NAME"))
     , kde_net_wm_appmenu_object_path(QByteArrayLiteral("_KDE_NET_WM_APPMENU_OBJECT_PATH"))
     , clipboard(QByteArrayLiteral("CLIPBOARD"))
@@ -80,11 +81,8 @@ void Atoms::retrieveHelpers()
         return;
     }
     // just retrieve the atoms once, all others are retrieved when being accessed
-    // Q_UNUSED is used in the hope that the compiler doesn't optimize the operations away
-    xcb_atom_t atom = m_dtSmWindowInfo;
-    Q_UNUSED(atom)
-    atom = m_motifSupport;
-    Q_UNUSED(atom)
+    m_dtSmWindowInfo.getReply();
+    m_motifSupport.getReply();
     m_helpersRetrieved = true;
 }
 

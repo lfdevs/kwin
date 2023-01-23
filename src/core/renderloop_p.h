@@ -45,12 +45,17 @@ public:
     RenderLoop::VrrPolicy vrrPolicy = RenderLoop::VrrPolicy::Never;
     std::optional<LatencyPolicy> latencyPolicy;
     Item *fullscreenItem = nullptr;
+    bool allowTearing = false;
 
     enum class SyncMode {
         Fixed,
         Adaptive,
+        /* adaptive if possible, async if not */
+        AdaptiveAsync,
+        Async
     };
     SyncMode presentMode = SyncMode::Fixed;
+    bool canDoTearing = false;
 };
 
 } // namespace KWin

@@ -9,7 +9,7 @@
 #include "kwin_wayland_test.h"
 
 #include "core/output.h"
-#include "core/platform.h"
+#include "core/outputbackend.h"
 #include "cursor.h"
 #include "deleted.h"
 #include "wayland/seat_interface.h"
@@ -50,9 +50,8 @@ void InputStackingOrderTest::initTestCase()
     qRegisterMetaType<KWin::Window *>();
     qRegisterMetaType<KWin::Deleted *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
+    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
@@ -65,7 +64,6 @@ void InputStackingOrderTest::initTestCase()
 
 void InputStackingOrderTest::init()
 {
-    using namespace KWayland::Client;
     QVERIFY(Test::setupWaylandConnection(Test::AdditionalWaylandInterface::Seat));
     QVERIFY(Test::waitForWaylandPointer());
 
@@ -90,13 +88,13 @@ void InputStackingOrderTest::testPointerFocusUpdatesOnStackingOrderChange()
     // the pointer is in the overlapping area which means the top most window has focus
     // as soon as the top most window gets lowered the window should lose focus and the
     // other window should gain focus without a mouse event in between
-    using namespace KWayland::Client;
+
     // create pointer and signal spy for enter and leave signals
     auto pointer = Test::waylandSeat()->createPointer(Test::waylandSeat());
     QVERIFY(pointer);
     QVERIFY(pointer->isValid());
-    QSignalSpy enteredSpy(pointer, &Pointer::entered);
-    QSignalSpy leftSpy(pointer, &Pointer::left);
+    QSignalSpy enteredSpy(pointer, &KWayland::Client::Pointer::entered);
+    QSignalSpy leftSpy(pointer, &KWayland::Client::Pointer::left);
 
     // now create the two windows and make them overlap
     QSignalSpy windowAddedSpy(workspace(), &Workspace::windowAdded);

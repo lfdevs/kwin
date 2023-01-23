@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-08-07 00:48+0000\n"
+"POT-Creation-Date: 2022-11-16 00:48+0000\n"
 "PO-Revision-Date: 2019-09-17 13:22+0500\n"
 "Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
 "Language-Team: Tajik <kde-i18n-doc@kde.org>\n"
@@ -121,3 +121,205 @@ msgstr ""
 #, kde-format
 msgid "Animate buttons"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Center"
+#~ msgid "General"
+#~ msgstr "Марказ"
+
+#, fuzzy
+#~| msgid "Large"
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "Large"
+#~ msgstr "Калон"
+
+#, fuzzy
+#~| msgid "Large"
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "Very Large"
+#~ msgstr "Калон"
+
+#, fuzzy
+#~| msgid "Large"
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "Huge"
+#~ msgstr "Калон"
+
+#, fuzzy
+#~| msgid "Small"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Small"
+#~ msgstr "Хурд"
+
+#, fuzzy
+#~| msgid "Minimize Window"
+#~ msgid "Outline active window title"
+#~ msgstr "Хурдкунии тиреза"
+
+#, fuzzy
+#~| msgid "Shade"
+#~ msgid "Shadows"
+#~ msgstr "Соя"
+
+#, fuzzy
+#~| msgid "Minimize Window"
+#~ msgid "Active Window Glow"
+#~ msgstr "Хурдкунии тиреза"
+
+#, fuzzy
+#~| msgid "Minimize Window"
+#~ msgid "Use window title"
+#~ msgstr "Хурдкунии тиреза"
+
+#, fuzzy
+#~| msgid "Minimize Window"
+#~ msgid "Outline active window title:"
+#~ msgstr "Хурдкунии тиреза"
+
+#, fuzzy
+#~| msgid "Minimize Window"
+#~ msgid "Hide window title bar"
+#~ msgstr "Хурдкунии тиреза"
+
+#, fuzzy
+#~| msgid "Restore"
+#~ msgid "Remove"
+#~ msgstr "Бозсозӣ"
+
+#, fuzzy
+#~| msgid "Oxygen"
+#~ msgid "Oxygen Shadow Demo"
+#~ msgstr "Oxygen"
+
+#, fuzzy
+#~| msgid "Minimize Window"
+#~ msgid "Inactive Windows"
+#~ msgstr "Хурдкунии тиреза"
+
+#, fuzzy
+#~| msgid "Minimize Window"
+#~ msgid "Active Windows"
+#~ msgstr "Хурдкунии тиреза"
+
+#~ msgid "Oxygen"
+#~ msgstr "Oxygen"
+
+#~ msgid "Help"
+#~ msgstr "Роҳнамо"
+
+#~ msgid "Minimize"
+#~ msgstr "Кушодкунӣ"
+
+#~ msgid "Maximize"
+#~ msgstr "Кушодкунӣ"
+
+#~ msgid "Close"
+#~ msgstr "Хуруҷ"
+
+#~ msgid "On All Desktops"
+#~ msgstr "Дар ҳамаи мизҳои корӣ"
+
+#~ msgid "Menu"
+#~ msgstr "Меню"
+
+#~ msgid "On all desktops"
+#~ msgstr "Дар ҳамаи мизҳои корӣ"
+
+#~ msgid "Shade"
+#~ msgstr "Соя"
+
+#~ msgid "Resize"
+#~ msgstr "Бозандозагирӣ"
+
+#~ msgid "Restore"
+#~ msgstr "Бозсозӣ"
+
+#~ msgctxt "Help button label, one character"
+#~ msgid "?"
+#~ msgstr "?"
+
+#~ msgid "Minimize Window"
+#~ msgstr "Хурдкунии тиреза"
+
+#~ msgid "Shade Window"
+#~ msgstr "Соякунии тиреза"
+
+#~ msgid "Close Window"
+#~ msgstr "Хуруҷи тиреза"
+
+#~ msgid "Laptop"
+#~ msgstr "Ноутбук"
+
+#, fuzzy
+#~| msgid "Shade"
+#~ msgid "Save"
+#~ msgstr "Соя"
+
+#~ msgid "Large"
+#~ msgstr "Калон"
+
+#~ msgid "Small"
+#~ msgstr "Хурд"
+
+#~ msgid "Plastik"
+#~ msgstr "Пластика"
+
+#, fuzzy
+#~| msgid "On All Desktops"
+#~ msgid "All Desktops"
+#~ msgstr "Дар ҳамаи мизҳои корӣ"
+
+#, fuzzy
+#~| msgid "Close"
+#~ msgid "Close Item"
+#~ msgstr "Хуруҷ"
+
+#~ msgid "&Left"
+#~ msgstr "&Чап"
+
+#, fuzzy
+#~| msgid "Center"
+#~ msgid "&Center"
+#~ msgstr "Марказ"
+
+#~ msgid "&Right"
+#~ msgstr "&Рост"
+
+#, fuzzy
+#~| msgid "Maximize"
+#~ msgid "Maximum"
+#~ msgstr "Кушодкунӣ"
+
+#, fuzzy
+#~| msgid "Shade"
+#~ msgid "Shadow style:"
+#~ msgstr "Соя"
+
+#~ msgid "KDE 2"
+#~ msgstr "KDE 2"
+
+#~ msgid "Quartz"
+#~ msgstr "Квартс"
+
+#~ msgid "Redmond"
+#~ msgstr "Редмонд"
+
+#~ msgid "Medium"
+#~ msgstr "Миёна"
+
+#~ msgid "Modern System"
+#~ msgstr "Системаи ҳозира"
+
+#~ msgid "Web"
+#~ msgstr "Интернет"
+
+#~ msgid "Keramik"
+#~ msgstr "Keramik"
+
+#, fuzzy
+#~| msgid "Minimize Window"
+#~ msgid "Glow active window"
+#~ msgstr "Хурдкунии тиреза"
+
+#~ msgid "Ozone"
+#~ msgstr "Ozone"

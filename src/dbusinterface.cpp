@@ -17,7 +17,6 @@
 #include "atoms.h"
 #include "composite.h"
 #include "core/output.h"
-#include "core/platform.h"
 #include "core/renderbackend.h"
 #include "debug_console.h"
 #include "kwinadaptor.h"
@@ -63,43 +62,30 @@ bool DBusInterface::showingDesktop() const
     return workspace()->showingDesktop();
 }
 
-// wrap void methods with no arguments to Workspace
-#define WRAP(name)                 \
-    void DBusInterface::name()     \
-    {                              \
-        Workspace::self()->name(); \
-    }
-
-WRAP(reconfigure)
-
-#undef WRAP
+void DBusInterface::reconfigure()
+{
+    Workspace::self()->reconfigure();
+}
 
 void DBusInterface::killWindow()
 {
     Workspace::self()->slotKillWindow();
 }
 
-#define WRAP(name)                        \
-    void DBusInterface::name()            \
-    {                                     \
-        workspace()->placement()->name(); \
-    }
+void DBusInterface::cascadeDesktop()
+{
+    workspace()->placement()->cascadeDesktop();
+}
 
-WRAP(cascadeDesktop)
-WRAP(unclutterDesktop)
+void DBusInterface::unclutterDesktop()
+{
+    workspace()->placement()->unclutterDesktop();
+}
 
-#undef WRAP
-
-// wrap returning methods with no arguments to Workspace
-#define WRAP(rettype, name)               \
-    rettype DBusInterface::name()         \
-    {                                     \
-        return Workspace::self()->name(); \
-    }
-
-WRAP(QString, supportInformation)
-
-#undef WRAP
+QString DBusInterface::supportInformation()
+{
+    return Workspace::self()->supportInformation();
+}
 
 QString DBusInterface::activeOutputName()
 {
@@ -114,7 +100,6 @@ bool DBusInterface::startActivity(const QString &in0)
     }
     return Workspace::self()->activities()->start(in0);
 #else
-    Q_UNUSED(in0)
     return false;
 #endif
 }
@@ -127,7 +112,6 @@ bool DBusInterface::stopActivity(const QString &in0)
     }
     return Workspace::self()->activities()->stop(in0);
 #else
-    Q_UNUSED(in0)
     return false;
 #endif
 }
@@ -144,12 +128,12 @@ bool DBusInterface::setCurrentDesktop(int desktop)
 
 void DBusInterface::nextDesktop()
 {
-    VirtualDesktopManager::self()->moveTo<DesktopNext>();
+    VirtualDesktopManager::self()->moveTo(VirtualDesktopManager::Direction::Next);
 }
 
 void DBusInterface::previousDesktop()
 {
-    VirtualDesktopManager::self()->moveTo<DesktopPrevious>();
+    VirtualDesktopManager::self()->moveTo(VirtualDesktopManager::Direction::Previous);
 }
 
 void DBusInterface::showDebugConsole()
@@ -193,6 +177,7 @@ QVariantMap clientToVariantMap(const Window *c)
             {QStringLiteral("skipSwitcher"), c->skipSwitcher()},
             {QStringLiteral("maximizeHorizontal"), c->maximizeMode() & MaximizeHorizontal},
             {QStringLiteral("maximizeVertical"), c->maximizeMode() & MaximizeVertical},
+            {QStringLiteral("uuid"), c->internalId().toString()},
 #if KWIN_BUILD_ACTIVITIES
             {QStringLiteral("activities"), c->activities()},
 #endif
@@ -204,7 +189,7 @@ QVariantMap DBusInterface::queryWindowInfo()
 {
     m_replyQueryWindowInfo = message();
     setDelayedReply(true);
-    kwinApp()->platform()->startInteractiveWindowSelection(
+    kwinApp()->startInteractiveWindowSelection(
         [this](Window *t) {
             if (!t) {
                 QDBusConnection::sessionBus().send(m_replyQueryWindowInfo.createErrorReply(
@@ -287,11 +272,6 @@ CompositorDBusInterface::CompositorDBusInterface(Compositor *parent)
                  QStringLiteral("reinit"), this, SLOT(reinitialize()));
 }
 
-QString CompositorDBusInterface::compositingNotPossibleReason() const
-{
-    return kwinApp()->platform()->compositingNotPossibleReason();
-}
-
 QString CompositorDBusInterface::compositingType() const
 {
     if (!m_compositor->compositing()) {
@@ -319,17 +299,22 @@ bool CompositorDBusInterface::isActive() const
 
 bool CompositorDBusInterface::isCompositingPossible() const
 {
-    return kwinApp()->platform()->compositingPossible();
+    return m_compositor->compositingPossible();
+}
+
+QString CompositorDBusInterface::compositingNotPossibleReason() const
+{
+    return m_compositor->compositingNotPossibleReason();
 }
 
 bool CompositorDBusInterface::isOpenGLBroken() const
 {
-    return kwinApp()->platform()->openGLCompositingIsBroken();
+    return m_compositor->openGLCompositingIsBroken();
 }
 
 bool CompositorDBusInterface::platformRequiresCompositing() const
 {
-    return kwinApp()->platform()->requiresCompositing();
+    return kwinApp()->operationMode() != Application::OperationModeX11; // TODO: Remove this property?
 }
 
 void CompositorDBusInterface::resume()
@@ -381,13 +366,10 @@ VirtualDesktopManagerDBusInterface::VirtualDesktopManagerDBusInterface(VirtualDe
                                                  this);
 
     connect(m_manager, &VirtualDesktopManager::currentChanged, this, [this](uint previousDesktop, uint newDesktop) {
-        Q_UNUSED(previousDesktop);
-        Q_UNUSED(newDesktop);
         Q_EMIT currentChanged(m_manager->currentDesktop()->id());
     });
 
     connect(m_manager, &VirtualDesktopManager::countChanged, this, [this](uint previousCount, uint newCount) {
-        Q_UNUSED(previousCount);
         Q_EMIT countChanged(newCount);
         Q_EMIT desktopsChanged(desktops());
     });

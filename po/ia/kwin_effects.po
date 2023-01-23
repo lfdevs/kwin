@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-01 02:26+0000\n"
-"PO-Revision-Date: 2022-10-06 12:15+0200\n"
+"POT-Creation-Date: 2023-01-18 00:58+0000\n"
+"PO-Revision-Date: 2022-11-28 16:20+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -57,6 +57,7 @@ msgstr ""
 #: mousemark/mousemark_config.cpp:50 overview/kcm/overvieweffectkcm.cpp:35
 #: showpaint/showpaint_config.cpp:33
 #: thumbnailaside/thumbnailaside_config.cpp:54
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:31
 #: trackmouse/trackmouse_config.cpp:52
 #: windowview/kcm/windowvieweffectkcm.cpp:36 zoom/zoom_config.cpp:58
 #, kde-format
@@ -194,14 +195,20 @@ msgstr "Plus vicine"
 msgid "Natural"
 msgstr "Natural"
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
+#: desktopgrid/desktopgrid_config.ui:147
+#, kde-format
+msgid "None"
+msgstr "Necun"
+
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: desktopgrid/desktopgrid_config.ui:150
+#: desktopgrid/desktopgrid_config.ui:155
 #, kde-format
 msgid "Windows layout:"
 msgstr "Disposition de Fenestras:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: desktopgrid/desktopgrid_config.ui:166
+#: desktopgrid/desktopgrid_config.ui:171
 #, kde-format
 msgid "Activation"
 msgstr "Activation"
@@ -304,10 +311,15 @@ msgstr "Fenestra Claude Animation"
 msgid "Toggle Invert Effect"
 msgstr "Commuta effecto de inverter"
 
-#: invert/invert.cpp:50 invert/invert_config.cpp:44
+#: invert/invert.cpp:49 invert/invert_config.cpp:44
 #, kde-format
 msgid "Toggle Invert Effect on Window"
 msgstr "Commuta effecto de inverter sur fenestra"
+
+#: invert/invert.cpp:56
+#, kde-format
+msgid "Invert Screen Colors"
+msgstr "Inverte colores de schermo"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FadeToBlack)
 #: login/package/contents/ui/config.ui:17
@@ -364,30 +376,30 @@ msgstr "A&ltessa:"
 msgid "Toggle Mouse Click Effect"
 msgstr "Commuta effecto de cliccar per le mus"
 
-#: mouseclick/mouseclick.cpp:42
+#: mouseclick/mouseclick.cpp:41
 #, kde-format
 msgctxt "Left mouse button"
 msgid "Left"
 msgstr "Sinistre"
 
-#: mouseclick/mouseclick.cpp:43
+#: mouseclick/mouseclick.cpp:42
 #, kde-format
 msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr "Centro"
 
-#: mouseclick/mouseclick.cpp:44
+#: mouseclick/mouseclick.cpp:43
 #, kde-format
 msgctxt "Right mouse button"
 msgid "Right"
 msgstr "Dextere"
 
-#: mouseclick/mouseclick.h:61
+#: mouseclick/mouseclick.h:60
 #, kde-format
 msgid "↓"
 msgstr "↓"
 
-#: mouseclick/mouseclick.h:62
+#: mouseclick/mouseclick.h:61
 #, kde-format
 msgid "↑"
 msgstr "↑"
@@ -483,12 +495,12 @@ msgstr "Font:"
 msgid "Show Text:"
 msgstr "Monstra texto:"
 
-#: mousemark/mousemark.cpp:36
+#: mousemark/mousemark.cpp:39
 #, kde-format
 msgid "Clear All Mouse Marks"
 msgstr "Netta omne tracias de mus"
 
-#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:59
+#: mousemark/mousemark.cpp:45 mousemark/mousemark_config.cpp:59
 #, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr "Netta ultime tracia de mus"
@@ -554,12 +566,12 @@ msgstr "Fundo de disfocalisar:"
 msgid "Ignore minimized windows:"
 msgstr "Ignora fenestras minimizate"
 
-#: overview/qml/DesktopBar.qml:186
+#: overview/qml/DesktopBar.qml:187
 #, kde-format
 msgid "Delete Virtual Desktop"
 msgstr "Dele scriptorio virtual"
 
-#: overview/qml/DesktopBar.qml:282
+#: overview/qml/DesktopBar.qml:283
 #, kde-format
 msgid "Add Virtual Desktop"
 msgstr "Adde Scriptorio Virtual"
@@ -569,12 +581,12 @@ msgstr "Adde Scriptorio Virtual"
 msgid "No matching windows"
 msgstr "Nulle correspondentia de fenestra"
 
-#: private/qml/WindowHeapDelegate.qml:152
+#: private/qml/WindowHeapDelegate.qml:151
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "Trahe a basso pro clauder"
 
-#: private/qml/WindowHeapDelegate.qml:462
+#: private/qml/WindowHeapDelegate.qml:461
 #, kde-format
 msgctxt "@info:tooltip as in: 'close this window'"
 msgid "Close window"
@@ -592,20 +604,20 @@ msgstr "Fenestra aperi scala:"
 msgid "Window close scale:"
 msgstr "Fenestra claude scala:"
 
-#: screenshot/screenshotdbusinterface1.cpp:480
+#: screenshot/screenshotdbusinterface1.cpp:478
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr "Captura de schermo"
 
-#: screenshot/screenshotdbusinterface1.cpp:481
+#: screenshot/screenshotdbusinterface1.cpp:479
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr "Captura de schermo salveguardate a %1"
 
-#: screenshot/screenshotdbusinterface1.cpp:797
-#: screenshot/screenshotdbusinterface2.cpp:472
+#: screenshot/screenshotdbusinterface1.cpp:800
+#: screenshot/screenshotdbusinterface2.cpp:477
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
@@ -614,8 +626,8 @@ msgstr ""
 "Selige fenestra pro captura de schermo per cliccar a sinitre o Enter.\n"
 "Escappa o clicca a dextere pro cancellar."
 
-#: screenshot/screenshotdbusinterface1.cpp:800
-#: screenshot/screenshotdbusinterface2.cpp:490
+#: screenshot/screenshotdbusinterface1.cpp:803
+#: screenshot/screenshotdbusinterface2.cpp:495
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -677,14 +689,8 @@ msgstr "Horizontal:"
 msgid "Vertical:"
 msgstr "Vertical:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideDocks)
-#: slide/slide_config.ui:72
-#, kde-format
-msgid "Slide docks"
-msgstr "Glissa bassinos"
-
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideBackground)
-#: slide/slide_config.ui:79
+#: slide/slide_config.ui:72
 #, kde-format
 msgid "Slide desktop background"
 msgstr "Glissa fundo de scriptorio"
@@ -726,6 +732,50 @@ msgstr "&Opacitate:"
 #, no-c-format, kde-format
 msgid " %"
 msgstr "%"
+
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:37
+#: tileseditor/tileseditoreffect.cpp:29
+#, kde-format
+msgid "Toggle Tiles Editor"
+msgstr ""
+
+#: tileseditor/qml/main.qml:147
+#, kde-format
+msgid "Padding:"
+msgstr ""
+
+#: tileseditor/qml/main.qml:157
+#, kde-format
+msgid "Load Layout..."
+msgstr ""
+
+#: tileseditor/qml/main.qml:271
+#, fuzzy, kde-format
+#| msgid "Closest"
+msgid "Close"
+msgstr "Plus vicine"
+
+#: tileseditor/qml/TileDelegate.qml:171
+#, fuzzy, kde-format
+#| msgid "Horizontal:"
+msgid "Split Horizontally"
+msgstr "Horizontal:"
+
+#: tileseditor/qml/TileDelegate.qml:178
+#, fuzzy, kde-format
+#| msgid "Vertical:"
+msgid "Split Vertically"
+msgstr "Vertical:"
+
+#: tileseditor/qml/TileDelegate.qml:186 tileseditor/qml/TileDelegate.qml:215
+#, kde-format
+msgid "Add Floating Tile"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:195
+#, kde-format
+msgid "Delete"
+msgstr ""
 
 #: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:57
 #, kde-format
@@ -861,17 +911,17 @@ msgstr "Menus de laceration:"
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Commuta fenestras presente (scriptorio currente)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:55
+#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:54
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Commuta (Toggle) fenestras presente (Omne scriptorios)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:65
+#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:63
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Commuta fenestra presente (classe de fenestra)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:75
+#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:72
 #, kde-format
 msgid "Toggle Present Windows (Window class on current desktop)"
 msgstr ""
@@ -883,15 +933,20 @@ msgstr ""
 msgid "Ignore &minimized windows"
 msgstr "Ignora fenestras &minimizate"
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, kde-format
 msgid "No Matches"
 msgstr "Nulle correspondentias"
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, kde-format
 msgid "No Windows"
 msgstr "Nulle fenestras"
+
+#: windowview/qml/main.qml:123
+#, kde-format
+msgid "Filter windows…"
+msgstr "Filtra fenestras…"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20
@@ -953,32 +1008,32 @@ msgstr "Minus"
 msgid "More"
 msgstr "Plus"
 
-#: zoom/zoom.cpp:68
+#: zoom/zoom.cpp:65
 #, kde-format
 msgid "Move Zoomed Area to Left"
 msgstr "Move area sub zoom a sinistra"
 
-#: zoom/zoom.cpp:76
+#: zoom/zoom.cpp:72
 #, kde-format
 msgid "Move Zoomed Area to Right"
 msgstr "Move area sub zoom a dextera"
 
-#: zoom/zoom.cpp:84
+#: zoom/zoom.cpp:79
 #, kde-format
 msgid "Move Zoomed Area Upwards"
 msgstr "Move area sub zoom in alto"
 
-#: zoom/zoom.cpp:92
+#: zoom/zoom.cpp:86
 #, kde-format
 msgid "Move Zoomed Area Downwards"
 msgstr "Move area sub zoom a basso"
 
-#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:108
+#: zoom/zoom.cpp:94 zoom/zoom_config.cpp:108
 #, kde-format
 msgid "Move Mouse to Focus"
 msgstr "Move mus pro focalisar"
 
-#: zoom/zoom.cpp:109 zoom/zoom_config.cpp:115
+#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:115
 #, kde-format
 msgid "Move Mouse to Center"
 msgstr "Move mus pro centrar"
@@ -1115,3 +1170,964 @@ msgstr "Disactivate"
 #, kde-format
 msgid "Mouse Tracking:"
 msgstr "Tracia le mus:"
+
+#~ msgid "Slide docks"
+#~ msgstr "Glissa bassinos"
+
+#~ msgid "Search..."
+#~ msgstr "Cerca..."
+
+#~ msgid "&Radius:"
+#~ msgstr "&Radius:"
+
+#~ msgid "Text position:"
+#~ msgstr "Position de texto:"
+
+#~ msgid "Inside Graph"
+#~ msgstr "Intra graphico"
+
+#~ msgid "Nowhere"
+#~ msgstr "Nusquam"
+
+#~ msgid "Top Left"
+#~ msgstr "In alto sinistre"
+
+#~ msgid "Top Right"
+#~ msgstr "In alto dextere"
+
+#~ msgid "Bottom Left"
+#~ msgstr "A basso sinistre"
+
+#~ msgid "Bottom Right"
+#~ msgstr "A basso dextere"
+
+#~ msgid "Text font:"
+#~ msgstr "Font de texto:"
+
+#~ msgid "Text color:"
+#~ msgstr "&Color de texto :"
+
+#~ msgid "Text alpha:"
+#~ msgstr "Texto alpha:"
+
+#~ msgid "Show graph:"
+#~ msgstr "Monstra Graphico:"
+
+#~ msgid "Show on active screen"
+#~ msgstr "Monstra sur schermo active"
+
+#~ msgid "Show Message:"
+#~ msgstr "Monstra message:"
+
+#~ msgid "Show \"not a benchmark\" message"
+#~ msgstr "Monstra message de \"Non un benchmark\""
+
+#~ msgid "Colorize Text:"
+#~ msgstr "Colora Texto:"
+
+#~ msgid "Color text by value (green > yellow > red)"
+#~ msgstr "Colora texto per valor (verde > jalne > rubie)"
+
+#~ msgid "Zoom &duration:"
+#~ msgstr "&Duration de zoom:"
+
+#~ msgctxt "Duration of zoom"
+#~ msgid "Default"
+#~ msgstr "Standard"
+
+#~ msgid "Border wid&th:"
+#~ msgstr "Largessa de &bordo:"
+
+#~ msgid "Click behavior:"
+#~ msgstr "Pulsa comportamento:"
+
+#~ msgid ""
+#~ "If the Present Windows effect is enabled, it will be automatically "
+#~ "triggered."
+#~ msgstr ""
+#~ "Si le effecto de Fenestra Presente (Present Windows) es habilitate, illoo "
+#~ "essera discatenate automaticamente."
+
+#~ msgid "Switch desktop and activate window"
+#~ msgstr "Commuta scriptorio e activa fenestra"
+
+#~ msgid "Switch desktop only"
+#~ msgstr "Commuta solmente scriptorio"
+
+#~ msgid "Natural Layout Settings"
+#~ msgstr "Preferentias de disposition natural"
+
+#~ msgid "Fill &gaps"
+#~ msgstr "P&lena differentias"
+
+#~ msgid "Faster"
+#~ msgstr "Plus rapide"
+
+#~ msgid "Nicer"
+#~ msgstr "Plus belle"
+
+#~ msgid "Left button:"
+#~ msgstr "Button sinistre:"
+
+#~ msgid "No action"
+#~ msgstr "Nulle action"
+
+#~ msgid "Activate window"
+#~ msgstr "Activa fenestra"
+
+#~ msgid "End effect"
+#~ msgstr "Effecto final"
+
+#~ msgid "Bring window to current desktop"
+#~ msgstr "Porta fenestra al scriptorio currente"
+
+#~ msgid "Send window to all desktops"
+#~ msgstr "Invia fenestra super omne scriptorios"
+
+#~ msgid "(Un-)Minimize window"
+#~ msgstr "(De-)Minimisa fenestra"
+
+#~ msgid "Middle button:"
+#~ msgstr "Button de centro:"
+
+#~ msgid "Right button:"
+#~ msgstr "Button dextere:"
+
+#~ msgctxt "@title:group actions when clicking on desktop"
+#~ msgid "Desktop"
+#~ msgstr "Scriptorio"
+
+#~ msgid "Show desktop"
+#~ msgstr "Monstra scriptorio"
+
+#~ msgid "Display window &titles"
+#~ msgstr "Monstra &titulos de fenestra"
+
+#~ msgid "Display window &icons"
+#~ msgstr "Monstra &icones de fenestra"
+
+#~ msgid "Show &panels"
+#~ msgstr "Monstra &pannellos"
+
+#~ msgid "Regular Grid"
+#~ msgstr "Grillia regular"
+
+#~ msgid "Flexible Grid"
+#~ msgstr "Grillia Flexibile"
+
+#~ msgid "Provide buttons to close the windows"
+#~ msgstr "Provide buttones pro clauder le fenestras"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Giovanni Sora"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "g.sora@tiscali.it"
+
+#~ msgid "Scale window"
+#~ msgstr "Scala fenestra"
+
+#~ msgid "Show outline"
+#~ msgstr "Monstra contorno"
+
+#~ msgid "Toggle window geometry display (effect only)"
+#~ msgstr "Commuta monstrator de geometria de fenestra (sol effecto)"
+
+#~ msgid "Toggle KWin composited geometry display"
+#~ msgstr "Commuta monstrator de geometria composite de KWin"
+
+#~ msgid "Display for moving windows"
+#~ msgstr "Monstrator pro mover fenestras"
+
+#~ msgid "Display for resizing windows"
+#~ msgstr "Monstrator pro redimensionar fenestras"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Blur"
+#~ msgstr "Obscura (Blur)"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Blurs the background behind semi-transparent windows"
+#~ msgstr "Obscura le fundo detra fenestras semi-transparente"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Color Picker"
+#~ msgstr "Selector de colores"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Supports picking a color"
+#~ msgstr "Supporta seliger un color"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Background contrast"
+#~ msgstr "Contrasto de fundo"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Improve contrast and readability behind semi-transparent windows"
+#~ msgstr ""
+#~ "Meliora contrasto de fundo  e legibilitate detra fenestras semi-"
+#~ "transparente"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Grid"
+#~ msgstr "Grillia de scriptorio"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Zoom out so all desktops are displayed side-by-side in a grid"
+#~ msgstr ""
+#~ "Face zoom retro assi que omne scriptorios es monstrate flanco a flanco in "
+#~ "un grillia"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Dim Inactive"
+#~ msgstr "Dim Inactive"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Darken inactive windows"
+#~ msgstr "Fenestras inactive obscurate"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Fall Apart"
+#~ msgstr "Cade a pecias"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Closed windows fall into pieces"
+#~ msgstr "Fenestras claudite cade in pecias"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Glide"
+#~ msgstr "Glissa"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Glide windows as they appear or disappear"
+#~ msgstr "Glissa fenestras quando illes appare e disappare"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Highlight Window"
+#~ msgstr "Evidentia fenestra"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlight the appropriate window when hovering over taskbar entries"
+#~ msgstr ""
+#~ "Evidentia le appropriate fenestra quando il es suspendite super entratas "
+#~ "de barra de carga"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Invert"
+#~ msgstr "Inverte"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Inverts the color of the desktop and windows"
+#~ msgstr "Il inverte le colores del scriptorio e del fenestras"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Kscreen"
+#~ msgstr "Kscreen"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper Effect for KScreen"
+#~ msgstr "Effecto de adjutante pro KScreen"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Looking Glass"
+#~ msgstr "Looking Glass"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "A screen magnifier that looks like a fisheye lens"
+#~ msgstr "Un aggranditor de schermo semblante lentes fisheye"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Magic Lamp"
+#~ msgstr "Lampa Magic"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Simulate a magic lamp when minimizing windows"
+#~ msgstr "Simula un lampa magic quando minimisa fenestras"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Magnifier"
+#~ msgstr "Aggranditor"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Magnify the section of the screen that is near the mouse cursor"
+#~ msgstr "Aggrandi le section del schermo que es vicin al cursor del mus"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Click Animation"
+#~ msgstr "Animation de click de mus"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Creates an animation whenever a mouse button is clicked. This is useful "
+#~ "for screenrecordings/presentations"
+#~ msgstr ""
+#~ "Crea un animation quando un button de mus es pressate. Isto es util pro "
+#~ "registrationes de schermo/presentationes"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Mark"
+#~ msgstr "Marca de mus"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Allows you to draw lines on the desktop"
+#~ msgstr "Permitte te designar lineas super le scriptorio"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Overview"
+#~ msgstr "Vista de insimul"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Allows you to overview virtual desktops and windows"
+#~ msgstr "Permitte te a supervider scriptorios virtual e fenestre"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Present Windows"
+#~ msgstr "Fenestras actual"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Zoom out until all opened windows can be displayed side-by-side"
+#~ msgstr ""
+#~ "Zoom foras usque omne fenestras aperite pote esser monstrate flanco a "
+#~ "flanco"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Resize Window"
+#~ msgstr "Redimensiona fenestra"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Resizes windows with a fast texture scale instead of updating contents"
+#~ msgstr ""
+#~ "Redimensiona fenestras con un rapide scala de textura in vice de "
+#~ "actualisar contentos"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Screen Edge"
+#~ msgstr "Margines de schermo"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlights a screen edge when approaching"
+#~ msgstr "Evidentia un margine de schermo quando on approxima se"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Screenshot"
+#~ msgstr "Captura de schermo"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper effect for screenshot tools"
+#~ msgstr "Effecto adjutante pro instrumentos de instantanee de schermo"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Transform"
+#~ msgstr "Transforma"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Animates display transformations"
+#~ msgstr "Anima transformationes de monstrator "
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Sheet"
+#~ msgstr "Folio"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Make modal dialogs smoothly fly in and out when they are shown or hidden"
+#~ msgstr ""
+#~ "Face que le dialogos modal pote volar dulcemente  intra e foras quando "
+#~ "illes es monstrate o celate"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show FPS"
+#~ msgstr "Monstra FPS"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display KWin's performance in the corner of the screen"
+#~ msgstr "Monstra le rendimento de KWin in le angulo del schermo"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show Paint"
+#~ msgstr "Monstra pictura"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlight areas of the desktop that have been recently updated"
+#~ msgstr ""
+#~ "Evidentia areas del scriptorio que ha essite actualisate recentemente"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Slide"
+#~ msgstr "Glissar"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Slide desktops when switching virtual desktops"
+#~ msgstr "Glissa scriptorios quando on commuta scriptorios virtual"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Slide Back"
+#~ msgstr "Glissa de retro"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Slide back windows when another window is raised"
+#~ msgstr "Glissa retro fenestras quando un altere fenestra es elevate"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Sliding popups"
+#~ msgstr "Popups glissante"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Sliding animation for Plasma popups"
+#~ msgstr "Animation glissante pro popups de Plasma"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Snap Helper"
+#~ msgstr "Adjutante de photo"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Help you locate the center of the screen when moving a window"
+#~ msgstr "Adjuta localisar le centro del schermo quando tu move un fenestra"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Startup Feedback"
+#~ msgstr "Retorno ab lanceamento"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper effect for startup feedback"
+#~ msgstr "Effecto de adjutante pro retorno ab lanceamento"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Thumbnail Aside"
+#~ msgstr "Miniatura a parte"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display window thumbnails on the edge of the screen"
+#~ msgstr "Monstra miniaturas de fenestra al margine del schermo"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Touch Points"
+#~ msgstr "Punctos de contacto"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Visualize touch points"
+#~ msgstr "Visualisa punctos de contacto"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Track Mouse"
+#~ msgstr "Tracia mus"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display a mouse cursor locating effect when activated"
+#~ msgstr "Monstra un effecto de location de mus quando activate"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Window Geometry"
+#~ msgstr "Geometria de fenestra"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display window geometries on move/resize"
+#~ msgstr "Monstra geometrias de fenestra quando on move/redimensiona"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Wobbly Windows"
+#~ msgstr "Fenestras Tremulante"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Deform windows while they are moving"
+#~ msgstr "Deforma fenestras durante que illes es movente"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Zoom"
+#~ msgstr "Zoom"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Magnify the entire desktop"
+#~ msgstr "Aggrandi le integre scriptorio"
+
+#~ msgid "Kompose"
+#~ msgstr "Kompose"
+
+#~ msgctxt "Special entry in alt+tab list for minimizing all windows"
+#~ msgid "Show Desktop"
+#~ msgstr "Monstra Scriptorio"
+
+#~ msgid "Zoom"
+#~ msgstr "Zoom"
+
+#~ msgid "Define how far away the windows should appear"
+#~ msgstr "Defini quanto lontan le fenestra  debe apparer"
+
+#~ msgid "Near"
+#~ msgstr "Vicin"
+
+#~ msgid "Far"
+#~ msgstr "Lontan"
+
+#~ msgid "Animation"
+#~ msgstr "Animation"
+
+#~ msgid "Animate switch"
+#~ msgstr "Commutation animate"
+
+#~ msgid "Animation on tab box open"
+#~ msgstr "Animation super cassetta de scheda aperite"
+
+#~ msgid "Animation on tab box close"
+#~ msgstr "Animation quando on claude le quadro de scheda"
+
+#~ msgid "Reflections"
+#~ msgstr "Reflexiones"
+
+#~ msgid "Rear color"
+#~ msgstr "Color de retro"
+
+#~ msgid "Front color"
+#~ msgstr "Color de fronte"
+
+#~ msgid "Desktop Cube"
+#~ msgstr "Scriptorio a cubo"
+
+#~ msgid "Desktop Cylinder"
+#~ msgstr "Scriptorio a cylindro"
+
+#~ msgid "Desktop Sphere"
+#~ msgstr "Scriptorio a sphera"
+
+#~ msgctxt "@title:tab Basic Settings"
+#~ msgid "Basic"
+#~ msgstr "Basic"
+
+#~ msgctxt "@title:tab Advanced Settings"
+#~ msgid "Advanced"
+#~ msgstr "Avantiate"
+
+#~ msgid "Tab 1"
+#~ msgstr "Tab 1"
+
+#~ msgid "Background color:"
+#~ msgstr "Color de fundo:"
+
+#~ msgid "Wallpaper:"
+#~ msgstr "Tapete de papiro:"
+
+#~ msgid "Display desktop name"
+#~ msgstr "Monstra nomine de scriptorio"
+
+#~ msgid "Reflection"
+#~ msgstr "Reflexion"
+
+#~ msgid "Rotation duration:"
+#~ msgstr "Duration de rotation:"
+
+#~ msgid "Windows hover above cube"
+#~ msgstr "Fenestras es suspendite supra le cubo"
+
+#~ msgid "Opacity"
+#~ msgstr "Opacitate"
+
+#~ msgid "Do not change opacity of windows"
+#~ msgstr "Non cambia opacitate de fenestras"
+
+#~ msgid "Tab 2"
+#~ msgstr "Tab 2"
+
+#~ msgid "Caps"
+#~ msgstr "Caps"
+
+#~ msgid "Cap color:"
+#~ msgstr "Color de tappo (cap)"
+
+#~ msgid "Display image on caps"
+#~ msgstr "Monstra image sur le tappos (caps)"
+
+#~ msgid "Define how far away the object should appear"
+#~ msgstr "Defini quanto lontan le objecto debe apparer"
+
+#~ msgid "Additional Options"
+#~ msgstr "Optiones additional"
+
+#~ msgid ""
+#~ "If enabled the effect will be deactivated after rotating the cube with "
+#~ "the mouse,\n"
+#~ "otherwise it will remain active"
+#~ msgstr ""
+#~ "Si activate, le effecto essera deactivate post rotar le cubo con le mus,\n"
+#~ "alteremente illo remanera active"
+
+#~ msgid "Close after mouse dragging"
+#~ msgstr "Claude postea traher le mus"
+
+#~ msgid "Use this effect for walking through the desktops"
+#~ msgstr "Usa iste effecto pro transversar scriptorios"
+
+#~ msgid "Invert mouse"
+#~ msgstr "Inverte Mus"
+
+#~ msgid "Sphere Cap Deformation"
+#~ msgstr "Deformation de Tappo (cap) de Sphera"
+
+#~ msgid "Sphere"
+#~ msgstr "Sphera"
+
+#~ msgid "Plane"
+#~ msgstr "Plane"
+
+#~ msgid "Do not animate windows on all desktops"
+#~ msgstr "Non anima fenestras super omne scriptorios"
+
+#~ msgid "Do not animate panels"
+#~ msgstr "Non anima pannellos"
+
+#~ msgid "Use pager layout for animation"
+#~ msgstr "Usa disposition de paginator pro animation"
+
+#~ msgid "Start animation when moving windows towards screen edges"
+#~ msgstr ""
+#~ "Initia animation quando on move fenestras verso le limites de schermo"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Cover Switch"
+#~ msgstr "Commutator de copertura"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display a Cover Flow effect for the alt+tab window switcher"
+#~ msgstr ""
+#~ "Monstra un effecto de fluxo de copertura pro le commutator de fenestra alt"
+#~ "+tab"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube"
+#~ msgstr "Scriptorio a Cubo"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display each virtual desktop on a side of a cube"
+#~ msgstr "Monstra cata scriptorio virtual sur un facie de un cubo"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube Animation"
+#~ msgstr "Animation de cubo de scriptorio"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Animate desktop switching with a cube"
+#~ msgstr "Commuta scriptorio animate con un cubo"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Flip Switch"
+#~ msgstr "Commutator de  colpetto (Flip)"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Flip through windows that are in a stack for the alt+tab window switcher"
+#~ msgstr ""
+#~ "Colpa (Flip) trans fenestras que es in le stack per le commutator de "
+#~ "fenestra alt-tab"
+
+#~ msgid "Toggle Flip Switch (Current desktop)"
+#~ msgstr "Activa/disactiva Flip Switch (currente scriptorio)"
+
+#~ msgid "Toggle Flip Switch (All desktops)"
+#~ msgstr "Activa/disactiva Flip Switch (Omne scriptorios)"
+
+#~ msgid "Flip animation duration:"
+#~ msgstr "Tira duration de animation:"
+
+#~ msgctxt "Duration of flip animation"
+#~ msgid "Default"
+#~ msgstr "Standard"
+
+#~ msgid "Angle:"
+#~ msgstr "Angulo:"
+
+#~ msgid " °"
+#~ msgstr "°"
+
+#~ msgid "Horizontal position of front:"
+#~ msgstr "Position horizontal del fronte:"
+
+#~ msgid "Vertical position of front:"
+#~ msgstr "Position vertical del fronte"
+
+#~ msgid ""
+#~ "Filter:\n"
+#~ "%1"
+#~ msgstr ""
+#~ "Filtro:\n"
+#~ "%1"
+
+#~ msgid "Use Present Windows effect to layout the windows"
+#~ msgstr "Usa le presente effecto de fenestra pro positionar le fenestras"
+
+#~ msgid "When the focus changes, move the zoom area to the focused location."
+#~ msgstr ""
+#~ "Quando il foco cambia, mover le area de zoom a le location focalisate."
+
+#~ msgid "Follow Focus"
+#~ msgstr "Seque le foco"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Dim Screen for Administrator Mode"
+#~ msgstr "Schermo Dim pro modo de administrator"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Darkens the entire screen when requesting root privileges"
+#~ msgstr ""
+#~ "Obscura le schermo integre quando es demandate privilegios de super-"
+#~ "usator (root)"
+
+#, fuzzy
+#~| msgid "Scale"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Scale"
+#~ msgstr "Scala"
+
+#, fuzzy
+#~| msgctxt "Comment describing the KWin Effect"
+#~| msgid ""
+#~| "Make modal dialogs smoothly fly in and out when they are shown or hidden"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Make windows smoothly scale in and out when they are shown or hidden"
+#~ msgstr ""
+#~ "Face que le dialogos modal pote volar dulcemente  intra e foras quando "
+#~ "illes es monstrate o celate"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Minimize Animation"
+#~ msgstr "Animation de minimisar"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Animate the minimizing of windows"
+#~ msgstr "Anima le minimisation de fenestras"
+
+#~ msgid "Trigger on"
+#~ msgstr "Discatena sur"
+
+#~ msgid "Shortcut"
+#~ msgstr "Via Breve"
+
+#~ msgid "Apply effect to &panels"
+#~ msgstr "Applica effecto a &pannellos"
+
+#~ msgid "Apply effect to the desk&top"
+#~ msgstr "Applica effecto a scrip&torio"
+
+#~ msgid "Apply effect to &keep-above windows"
+#~ msgstr "A&pplica effectos a fenestra mantenite de supra"
+
+#~ msgid "Apply effect to &groups"
+#~ msgstr "Applica effectos a &gruppos"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Windows Glide Effect as they are open and closed"
+#~ msgstr "Effectos de glissar durante que illos es aperite e claudite"
+
+#~ msgid "Glide Effect:"
+#~ msgstr "Effecto Glissar:"
+
+#~ msgid "In"
+#~ msgstr "In"
+
+#~ msgid "Out"
+#~ msgstr "Fora"
+
+#~ msgid "Glide Angle:"
+#~ msgstr "Angulo de Glissar:"
+
+#~ msgid "-90"
+#~ msgstr "-90"
+
+#~ msgid "90"
+#~ msgstr "90"
+
+#, fuzzy
+#~| msgctxt "Duration of rotation"
+#~| msgid "Default"
+#~ msgctxt "Duration of the slide animation"
+#~ msgid "Default"
+#~ msgstr "Pro definition"
+
+#~ msgid "Strength of the effect:"
+#~ msgstr "Fortia del effecto:"
+
+#~ msgid "Save intermediate rendering results."
+#~ msgstr "Salveguarda resultatos de rendition intermediate."
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Logout"
+#~ msgstr "Clausura de session"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Desaturate the desktop when displaying the logout dialog"
+#~ msgstr ""
+#~ "De-satura le scriptorio quando il monstra le dialogo de clausura de "
+#~ "accesso"
+
+#~ msgid "Brightness of the background:"
+#~ msgstr "Intensitate de illumination de fundo"
+
+#~ msgctxt "Less brightness"
+#~ msgid "Darker"
+#~ msgstr "Plus obscur"
+
+#~ msgctxt "More brightness"
+#~ msgid "Lighter"
+#~ msgstr "Plus legier"
+
+#~ msgid "Saturation of the background:"
+#~ msgstr "Saturation del fundo:"
+
+#~ msgctxt "No saturation"
+#~ msgid "Gray"
+#~ msgstr "Gris"
+
+#~ msgid "Duration of the fade:"
+#~ msgstr "Duration de discoloration (fade):"
+
+#~ msgid "ms"
+#~ msgstr "ms"
+
+#~ msgid "The blur effect must be enabled before it can be used."
+#~ msgstr ""
+#~ "Le effecto de indistincte debe esser habilitate antea que il pote esser "
+#~ "usate."
+
+#~ msgid "Apply blur effect to background"
+#~ msgstr "Applica effecto indistincte a le fundo"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Dashboard"
+#~ msgstr "Pannello de instrumentos"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Desaturate the desktop when displaying the Plasma dashboard"
+#~ msgstr ""
+#~ "De-satura le scriptorio quando il monstra le pannello de instrumentos de "
+#~ "Plasma"
+
+#~ msgid "Decorations:"
+#~ msgstr "Decorationes:"
+
+#~ msgid "Background window &opacity:"
+#~ msgstr "&Opacitate de fenestra de fundo:"
+
+#~ msgid "&Elevate selected window"
+#~ msgstr "&Eleva fenestra seligite"
+
+#~ msgid "&Animate walk through windows"
+#~ msgstr "Camino &animate a transverso de fenestras"
+
+#~ msgid "Use additional thumbnail bar"
+#~ msgstr "Usa barra de miniatura additional"
+
+#~ msgid ""
+#~ "Only show thumbnail bar if there are at least specified number of windows"
+#~ msgstr ""
+#~ "Monstra solmente barra de miniaturas si il ha al minus un numero "
+#~ "specificate de fenestras"
+
+#~ msgid "Dynamic mode"
+#~ msgstr "Modo dynamic"
+
+#~ msgid "Number of windows:"
+#~ msgstr "Numero de fenestras:"
+
+#~ msgid " row"
+#~ msgid_plural " rows"
+#~ msgstr[0] "Linea"
+#~ msgstr[1] " Lineas"
+
+#~ msgctxt "Duration of fading"
+#~ msgid "Default"
+#~ msgstr "Pro definition"
+
+#~ msgid "Toggle Video Recording"
+#~ msgstr "Habilita/Dishabilita registration video"
+
+#~ msgid "Path to save video:"
+#~ msgstr "Percurso pro salveguardar video:"
+
+#~ msgid "Slide when switching tabs"
+#~ msgstr "Glissa quando on commuta schedas"
+
+#~ msgctxt ""
+#~ "Window geometry display, %1 and %2 are the new size, %3 and %4 are pixel "
+#~ "increments - avoid reformatting or suffixes like 'px'"
+#~ msgid ""
+#~ "Width: %1 (%3)\n"
+#~ "Height: %2 (%4)"
+#~ msgstr ""
+#~ "Largessa: %1 (%3)\n"
+#~ "Altessa: %2 (%4)"
+
+#~ msgctxt ""
+#~ "Window geometry display, %1 and %2 are the cartesian x and y coordinates "
+#~ "- avoid reformatting or suffixes like 'px'"
+#~ msgid ""
+#~ "X: %1\n"
+#~ "Y: %2"
+#~ msgstr ""
+#~ "X: %1\n"
+#~ "Y: %2"
+
+#~ msgctxt ""
+#~ "Window geometry display, %1 and %2 are the cartesian x and y coordinates, "
+#~ "%3 and %4 are the resp. increments - avoid reformatting or suffixes like "
+#~ "'px'"
+#~ msgid ""
+#~ "X: %1 (%3)\n"
+#~ "Y: %2 (%4)"
+#~ msgstr ""
+#~ "X: %1 (%3)\n"
+#~ "Y: %2 (%4)"
+
+#~ msgid "Snow"
+#~ msgstr "Nive"
+
+#~ msgid "Toggle Snow on Desktop"
+#~ msgstr "Commuta (Toggle) Nive sur scriptorio"
+
+#~ msgid " pixel/frame"
+#~ msgid_plural " pixels/frame"
+#~ msgstr[0] "pixel/quadro"
+#~ msgstr[1] "pixels/quadro"
+
+#~ msgctxt "@action Enables/Disables an effect that makes windows more sharp"
+#~ msgid "Toggle Sharpen Effect"
+#~ msgstr "Commuta effecto acute"
+
+#~ msgid "&Number of snowflakes:"
+#~ msgstr "&Numero de floccos de nive:"
+
+#~ msgid "M&inimum size of snowflake:"
+#~ msgstr "M&inime dimension de flocco de nive:"
+
+#~ msgid "M&aximum size of snowflake:"
+#~ msgstr "M&axime dimension de flocco de nive:"
+
+#~ msgid "Maximum &vertical speed:"
+#~ msgstr "Maxime velocitate &vertical:"
+
+#~ msgid "Maximum &horizontal speed:"
+#~ msgstr "Maxime velocitate &horizontal:"
+
+#~ msgid "Snow &behind windows"
+#~ msgstr "&Nive retro de fenestras"
+
+#~ msgid "&X offset:"
+#~ msgstr "Displaciamento de &X:"
+
+#~ msgid "&Y offset:"
+#~ msgstr "Displaciamento de &Y:"
+
+#~ msgid "%"
+#~ msgstr "%"
+
+#~ msgid "&Fuzziness:"
+#~ msgstr "&Fuzziness (indistincte):"
+
+#~ msgid "&Size:"
+#~ msgstr "Dimen&sion:"
+
+#~ msgid "&Active windows have stronger shadows"
+#~ msgstr "Fenestra &active ha umbras plus forte"
+
+#~ msgid "Form"
+#~ msgstr "Forma"

@@ -6,14 +6,14 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-#ifndef KWIN_DRM_BACKEND_H
-#define KWIN_DRM_BACKEND_H
-#include "core/platform.h"
+#pragma once
+#include "core/outputbackend.h"
 
 #include "dpmsinputeventfilter.h"
 
 #include <QPointer>
 #include <QSize>
+#include <QSocketNotifier>
 #include <QVector>
 
 #include <memory>
@@ -34,7 +34,7 @@ class DrmGpu;
 class DrmVirtualOutput;
 class DrmRenderBackend;
 
-class KWIN_EXPORT DrmBackend : public Platform
+class KWIN_EXPORT DrmBackend : public OutputBackend
 {
     Q_OBJECT
 
@@ -75,12 +75,16 @@ public:
     void releaseBuffers();
     void updateOutputs();
 
+    const std::vector<std::unique_ptr<DrmGpu>> &gpus() const;
+
 public Q_SLOTS:
     void turnOutputsOn();
     void sceneInitialized() override;
 
 Q_SIGNALS:
     void activeChanged();
+    void gpuAdded(DrmGpu *gpu);
+    void gpuRemoved(DrmGpu *gpu);
 
 protected:
     bool applyOutputChanges(const OutputConfiguration &config) override;
@@ -97,6 +101,7 @@ private:
 
     std::unique_ptr<Udev> m_udev;
     std::unique_ptr<UdevMonitor> m_udevMonitor;
+    std::unique_ptr<QSocketNotifier> m_socketNotifier;
     Session *m_session;
     QVector<DrmAbstractOutput *> m_outputs;
     DrmVirtualOutput *m_placeHolderOutput = nullptr;
@@ -111,5 +116,3 @@ private:
 };
 
 }
-
-#endif

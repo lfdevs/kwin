@@ -7,9 +7,9 @@
 #include "kwin_wayland_test.h"
 
 #include "composite.h"
-#include "core/platform.h"
+#include "core/outputbackend.h"
 #include "main.h"
-#include "scene.h"
+#include "scene/workspacescene.h"
 #include "wayland_server.h"
 #include "workspace.h"
 #include "x11window.h"
@@ -43,9 +43,8 @@ private Q_SLOTS:
 void XwaylandServerRestartTest::initTestCase()
 {
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
+    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
 
     KSharedConfig::Ptr config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
     KConfigGroup xwaylandGroup = config->group("Xwayland");
@@ -101,7 +100,7 @@ void XwaylandServerRestartTest::testRestart()
 
     // Render a frame to ensure that the compositor doesn't crash.
     Compositor::self()->scene()->addRepaintFull();
-    QSignalSpy frameRenderedSpy(Compositor::self()->scene(), &Scene::frameRendered);
+    QSignalSpy frameRenderedSpy(Compositor::self()->scene(), &WorkspaceScene::frameRendered);
     QVERIFY(frameRenderedSpy.wait());
 
     // Destroy the test window.

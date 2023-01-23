@@ -509,11 +509,11 @@ template<typename Slot>
 void TabBox::key(const KLazyLocalizedString &actionName, Slot slot, const QKeySequence &shortcut)
 {
     QAction *a = new QAction(this);
-    a->setProperty("componentName", QStringLiteral(KWIN_NAME));
+    a->setProperty("componentName", QStringLiteral("kwin"));
     a->setObjectName(QString::fromUtf8(actionName.untranslatedText()));
     a->setText(actionName.toString());
     KGlobalAccel::self()->setGlobalShortcut(a, QList<QKeySequence>() << shortcut);
-    input()->registerShortcut(shortcut, a, this, slot);
+    connect(a, &QAction::triggered, this, slot);
     auto cuts = KGlobalAccel::self()->shortcut(a);
     globalShortcutChanged(a, cuts.isEmpty() ? QKeySequence() : cuts.first());
 }
@@ -725,9 +725,6 @@ void TabBox::hide(bool abort)
         qCDebug(KWIN_TABBOX) << "Tab box was not properly closed by an effect";
     }
     m_tabBox->hide(abort);
-    if (kwinApp()->x11Connection()) {
-        Xcb::sync();
-    }
 }
 
 void TabBox::reconfigure()
@@ -755,12 +752,12 @@ void TabBox::reconfigure()
     QList<ElectricBorder> *borders = &m_borderActivate;
     QString borderConfig = QStringLiteral("BorderActivate");
     for (int i = 0; i < 2; ++i) {
-        for (ElectricBorder border : qAsConst(*borders)) {
+        for (ElectricBorder border : std::as_const(*borders)) {
             workspace()->screenEdges()->unreserve(border, this);
         }
         borders->clear();
         QStringList list = config.readEntry(borderConfig, QStringList());
-        for (const QString &s : qAsConst(list)) {
+        for (const QString &s : std::as_const(list)) {
             bool ok;
             const int i = s.toInt(&ok);
             if (!ok) {
@@ -1476,14 +1473,12 @@ void TabBox::modifiersReleased()
 
 int TabBox::nextDesktopStatic(int iDesktop) const
 {
-    DesktopNext functor;
-    return functor(iDesktop, true);
+    return VirtualDesktopManager::self()->inDirection(iDesktop, VirtualDesktopManager::Direction::Next, true);
 }
 
 int TabBox::previousDesktopStatic(int iDesktop) const
 {
-    DesktopPrevious functor;
-    return functor(iDesktop, true);
+    return VirtualDesktopManager::self()->inDirection(iDesktop, VirtualDesktopManager::Direction::Previous, true);
 }
 
 /**
@@ -1534,7 +1529,7 @@ bool TabBox::establishTabBoxGrab()
         m_forcedGlobalMouseGrab = true;
         return true;
     }
-    updateXTime();
+    kwinApp()->updateXTime();
     if (!grabXKeyboard()) {
         return false;
     }
@@ -1558,7 +1553,7 @@ void TabBox::removeTabBoxGrab()
         m_forcedGlobalMouseGrab = false;
         return;
     }
-    updateXTime();
+    kwinApp()->updateXTime();
     ungrabXKeyboard();
     Q_ASSERT(m_forcedGlobalMouseGrab);
     m_forcedGlobalMouseGrab = false;

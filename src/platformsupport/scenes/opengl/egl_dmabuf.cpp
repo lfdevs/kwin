@@ -94,7 +94,7 @@ EglDmabufBuffer::EglDmabufBuffer(EGLImage image,
                                  DmaBufAttributes &&attrs,
                                  quint32 flags,
                                  EglDmabuf *interfaceImpl)
-    : EglDmabufBuffer(QVector{image}, std::move(attrs), flags, interfaceImpl)
+    : EglDmabufBuffer(QVector<EGLImage>{image}, std::move(attrs), flags, interfaceImpl)
 {
     m_importType = ImportType::Direct;
 }
@@ -127,7 +127,7 @@ void EglDmabufBuffer::setImages(const QVector<EGLImage> &images)
 
 void EglDmabufBuffer::removeImages()
 {
-    for (auto image : qAsConst(m_images)) {
+    for (auto image : std::as_const(m_images)) {
         eglDestroyImageKHR(m_interfaceImpl->m_backend->eglDisplay(), image);
     }
     m_images.clear();

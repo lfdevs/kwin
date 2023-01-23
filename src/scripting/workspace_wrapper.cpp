@@ -10,7 +10,10 @@
 
 #include "workspace_wrapper.h"
 #include "core/output.h"
+#include "core/outputbackend.h"
+#include "cursor.h"
 #include "outline.h"
+#include "tiles/tilemanager.h"
 #include "virtualdesktops.h"
 #include "workspace.h"
 #include "x11window.h"
@@ -61,6 +64,7 @@ WorkspaceWrapper::WorkspaceWrapper(QObject *parent)
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     connect(QApplication::desktop(), &QDesktopWidget::resized, this, &WorkspaceWrapper::screenResized);
 #endif
+    connect(Cursors::self()->mouse(), &Cursor::posChanged, this, &WorkspaceWrapper::cursorPosChanged);
 
     const QList<Window *> clients = ws->allClientList();
     for (Window *client : clients) {
@@ -121,8 +125,6 @@ void WorkspaceWrapper::setCurrentActivity(QString activity)
     if (Workspace::self()->activities()) {
         Workspace::self()->activities()->setCurrent(activity);
     }
-#else
-    Q_UNUSED(activity)
 #endif
 }
 
@@ -138,14 +140,17 @@ QStringList WorkspaceWrapper::activityList() const
 #endif
 }
 
+QPoint WorkspaceWrapper::cursorPos() const
+{
+    return Cursors::self()->mouse()->pos();
+}
+
 #define SLOTWRAPPER(name)          \
     void WorkspaceWrapper::name()  \
     {                              \
         Workspace::self()->name(); \
     }
 
-SLOTWRAPPER(slotSwitchToNextScreen)
-SLOTWRAPPER(slotWindowToNextScreen)
 SLOTWRAPPER(slotToggleShowDesktop)
 
 SLOTWRAPPER(slotWindowMaximize)
@@ -186,6 +191,20 @@ SLOTWRAPPER(slotWindowToDesktopLeft)
 SLOTWRAPPER(slotWindowToDesktopUp)
 SLOTWRAPPER(slotWindowToDesktopDown)
 
+SLOTWRAPPER(slotWindowToPrevScreen)
+SLOTWRAPPER(slotWindowToNextScreen)
+SLOTWRAPPER(slotWindowToLeftScreen)
+SLOTWRAPPER(slotWindowToRightScreen)
+SLOTWRAPPER(slotWindowToAboveScreen)
+SLOTWRAPPER(slotWindowToBelowScreen)
+
+SLOTWRAPPER(slotSwitchToPrevScreen)
+SLOTWRAPPER(slotSwitchToNextScreen)
+SLOTWRAPPER(slotSwitchToLeftScreen)
+SLOTWRAPPER(slotSwitchToRightScreen)
+SLOTWRAPPER(slotSwitchToAboveScreen)
+SLOTWRAPPER(slotSwitchToBelowScreen)
+
 #undef SLOTWRAPPER
 
 #define SLOTWRAPPER(name, modes)                   \
@@ -218,18 +237,18 @@ SLOTWRAPPER(slotSwitchWindowLeft, DirectionWest)
 
 #undef SLOTWRAPPER
 
-#define SLOTWRAPPER(name, direction)                                                     \
-    void WorkspaceWrapper::name()                                                        \
-    {                                                                                    \
-        VirtualDesktopManager::self()->moveTo<direction>(options->isRollOverDesktops()); \
+#define SLOTWRAPPER(name, direction)                                                                                       \
+    void WorkspaceWrapper::name()                                                                                          \
+    {                                                                                                                      \
+        VirtualDesktopManager::self()->moveTo(VirtualDesktopManager::Direction::direction, options->isRollOverDesktops()); \
     }
 
-SLOTWRAPPER(slotSwitchDesktopNext, DesktopNext)
-SLOTWRAPPER(slotSwitchDesktopPrevious, DesktopPrevious)
-SLOTWRAPPER(slotSwitchDesktopRight, DesktopRight)
-SLOTWRAPPER(slotSwitchDesktopLeft, DesktopLeft)
-SLOTWRAPPER(slotSwitchDesktopUp, DesktopAbove)
-SLOTWRAPPER(slotSwitchDesktopDown, DesktopBelow)
+SLOTWRAPPER(slotSwitchDesktopNext, Next)
+SLOTWRAPPER(slotSwitchDesktopPrevious, Previous)
+SLOTWRAPPER(slotSwitchDesktopRight, Right)
+SLOTWRAPPER(slotSwitchDesktopLeft, Left)
+SLOTWRAPPER(slotSwitchDesktopUp, Up)
+SLOTWRAPPER(slotSwitchDesktopDown, Down)
 
 #undef SLOTWRAPPER
 
@@ -452,6 +471,24 @@ void WorkspaceWrapper::sendClientToScreen(Window *client, int screen)
     }
 }
 
+KWin::TileManager *WorkspaceWrapper::tilingForScreen(const QString &screenName) const
+{
+    Output *output = kwinApp()->outputBackend()->findOutput(screenName);
+    if (output) {
+        return workspace()->tileManager(output);
+    }
+    return nullptr;
+}
+
+KWin::TileManager *WorkspaceWrapper::tilingForScreen(int screen) const
+{
+    Output *output = workspace()->outputs().value(screen);
+    if (output) {
+        return workspace()->tileManager(output);
+    }
+    return nullptr;
+}
+
 QtScriptWorkspaceWrapper::QtScriptWorkspaceWrapper(QObject *parent)
     : WorkspaceWrapper(parent)
 {
@@ -473,7 +510,6 @@ int DeclarativeScriptWorkspaceWrapper::countClientList(QQmlListProperty<KWin::Wi
 qsizetype DeclarativeScriptWorkspaceWrapper::countClientList(QQmlListProperty<KWin::Window> *clients)
 #endif
 {
-    Q_UNUSED(clients)
     return workspace()->allClientList().size();
 }
 
@@ -483,7 +519,6 @@ KWin::Window *DeclarativeScriptWorkspaceWrapper::atClientList(QQmlListProperty<K
 KWin::Window *DeclarativeScriptWorkspaceWrapper::atClientList(QQmlListProperty<KWin::Window> *clients, qsizetype index)
 #endif
 {
-    Q_UNUSED(clients)
     return workspace()->allClientList().at(index);
 }
 

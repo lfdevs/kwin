@@ -243,3 +243,6 @@ msgid ""
 msgstr ""
 "Puede provocar una acción al deslizar el dedo desde el borde de la pantalla "
 "hacia el centro de la misma."
+
+#~ msgid "Show Desktop"
+#~ msgstr "Mostrar el escritorio"

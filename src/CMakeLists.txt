@@ -5,6 +5,8 @@ configure_file(config-kwin.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kwin.h)
 set(kwin_effects_dbus_xml ${CMAKE_CURRENT_SOURCE_DIR}/org.kde.kwin.Effects.xml)
 qt_add_dbus_interface(effects_interface_SRCS ${kwin_effects_dbus_xml} kwineffects_interface)
 add_library(KWinEffectsInterface STATIC ${effects_interface_SRCS})
+set_property(TARGET KWinEffectsInterface PROPERTY POSITION_INDEPENDENT_CODE ON)
+
 target_link_libraries(KWinEffectsInterface Qt::DBus)
 
 add_subdirectory(effects)
@@ -16,7 +18,7 @@ add_subdirectory(qml)
 
 add_subdirectory(libkwineffects)
 if (KWIN_BUILD_KCMS)
-    add_subdirectory(kcmkwin)
+    add_subdirectory(kcms)
 endif()
 
 add_library(kwin SHARED)
@@ -40,10 +42,10 @@ target_sources(kwin PRIVATE
     core/inputbackend.cpp
     core/inputdevice.cpp
     core/output.cpp
+    core/outputbackend.cpp
     core/outputconfiguration.cpp
     core/outputlayer.cpp
     core/overlaywindow.cpp
-    core/platform.cpp
     core/renderbackend.cpp
     core/renderjournal.cpp
     core/renderlayer.cpp
@@ -57,9 +59,9 @@ target_sources(kwin PRIVATE
     cursor.cpp
     cursordelegate_opengl.cpp
     cursordelegate_qpainter.cpp
+    cursorsource.cpp
     dbusinterface.cpp
     debug_console.cpp
-    decorationitem.cpp
     decorations/decoratedclient.cpp
     decorations/decorationbridge.cpp
     decorations/decorationpalette.cpp
@@ -86,7 +88,6 @@ target_sources(kwin PRIVATE
     inputpanelv1integration.cpp
     inputpanelv1window.cpp
     internalwindow.cpp
-    item.cpp
     keyboard_input.cpp
     keyboard_layout.cpp
     keyboard_layout_switching.cpp
@@ -116,9 +117,26 @@ target_sources(kwin PRIVATE
     rootinfo_filter.cpp
     rulebooksettings.cpp
     rules.cpp
-    scene.cpp
+    scene/cursoritem.cpp
+    scene/cursorscene.cpp
+    scene/decorationitem.cpp
+    scene/dndiconitem.cpp
+    scene/imageitem.cpp
+    scene/item.cpp
+    scene/itemrenderer.cpp
+    scene/itemrenderer_opengl.cpp
+    scene/itemrenderer_qpainter.cpp
+    scene/scene.cpp
+    scene/shadowitem.cpp
+    scene/surfaceitem.cpp
+    scene/surfaceitem_internal.cpp
+    scene/surfaceitem_wayland.cpp
+    scene/surfaceitem_x11.cpp
+    scene/windowitem.cpp
+    scene/workspacescene.cpp
+    scene/workspacescene_opengl.cpp
+    scene/workspacescene_qpainter.cpp
     screenedge.cpp
-    screens.cpp
     scripting/dbuscall.cpp
     scripting/desktopbackgrounditem.cpp
     scripting/screenedgeitem.cpp
@@ -126,21 +144,21 @@ target_sources(kwin PRIVATE
     scripting/scripting.cpp
     scripting/scripting_logging.cpp
     scripting/scriptingutils.cpp
+    scripting/tilemodel.cpp
     scripting/v2/clientmodel.cpp
     scripting/v3/clientmodel.cpp
     scripting/v3/virtualdesktopmodel.cpp
     scripting/windowthumbnailitem.cpp
     scripting/workspace_wrapper.cpp
     shadow.cpp
-    shadowitem.cpp
     sm.cpp
-    surfaceitem.cpp
-    surfaceitem_internal.cpp
-    surfaceitem_wayland.cpp
-    surfaceitem_x11.cpp
     syncalarmx11filter.cpp
     tablet_input.cpp
     tabletmodemanager.cpp
+    tiles/customtile.cpp
+    tiles/quicktile.cpp
+    tiles/tile.cpp
+    tiles/tilemanager.cpp
     touch_input.cpp
     unmanaged.cpp
     useractions.cpp
@@ -149,12 +167,10 @@ target_sources(kwin PRIVATE
     virtualkeyboard_dbus.cpp
     was_user_interaction_x11_filter.cpp
     wayland_server.cpp
-    waylandoutput.cpp
     waylandshellintegration.cpp
     waylandwindow.cpp
     window.cpp
     window_property_notify_x11_filter.cpp
-    windowitem.cpp
     workspace.cpp
     x11eventfilter.cpp
     x11syncmanager.cpp
@@ -177,6 +193,7 @@ target_link_libraries(kwin
     KF5::ConfigCore
     KF5::ConfigWidgets
     KF5::CoreAddons
+    KF5::Crash
     KF5::GlobalAccel
     KF5::GlobalAccelPrivate
     KF5::I18n
@@ -238,6 +255,7 @@ qt_add_dbus_adaptor(kwin_dbus_SRCS ${kwin_effects_dbus_xml} effects.h KWin::Effe
 qt_add_dbus_adaptor(kwin_dbus_SRCS org.kde.KWin.VirtualDesktopManager.xml dbusinterface.h KWin::VirtualDesktopManagerDBusInterface)
 qt_add_dbus_adaptor(kwin_dbus_SRCS org.kde.KWin.Session.xml sm.h KWin::SessionManager)
 qt_add_dbus_adaptor(kwin_dbus_SRCS org.kde.KWin.Plugins.xml dbusinterface.h KWin::PluginManagerDBusInterface)
+qt_add_dbus_interface(kwin_dbus_SRCS org.freedesktop.DBus.Properties.xml dbusproperties_interface)
 
 if (KWIN_BUILD_SCREENLOCKER)
     qt_add_dbus_interface(kwin_dbus_SRCS ${KSCREENLOCKER_DBUS_INTERFACES_DIR}/kf5_org.freedesktop.ScreenSaver.xml screenlocker_interface)
@@ -251,7 +269,6 @@ target_sources(kwin PRIVATE
 )
 
 add_subdirectory(backends)
-add_subdirectory(scenes)
 add_subdirectory(utils)
 add_subdirectory(wayland)
 add_subdirectory(xwayland)
@@ -290,7 +307,6 @@ add_executable(kwin_x11 main_x11.cpp)
 target_link_libraries(kwin_x11
     KWinX11Platform
     kwin
-    KF5::Crash
 )
 kcoreaddons_target_static_plugins(kwin_x11 "kwin/effects/plugins")
 
@@ -301,7 +317,6 @@ add_executable(kwin_wayland main_wayland.cpp)
 
 target_link_libraries(kwin_wayland
     kwin
-    KF5::Crash
     KWinXwaylandServerModule
 )
 kcoreaddons_target_static_plugins(kwin_wayland "kwin/effects/plugins")
@@ -338,9 +353,9 @@ if (PipeWire_FOUND)
     target_link_libraries(kwin_wayland KWinScreencastPlugin)
 endif()
 
-install(FILES kwin.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR} RENAME ${KWIN_NAME}.kcfg)
+install(FILES kwin.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
 if (KWIN_BUILD_NOTIFICATIONS)
-    install(FILES kwin.notifyrc DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR} RENAME ${KWIN_NAME}.notifyrc)
+    install(FILES kwin.notifyrc DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR})
 endif()
 install(
     FILES

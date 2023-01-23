@@ -10,8 +10,8 @@
 #include "outputmanagement_v2_interface.h"
 #include "utils/common.h"
 
+#include "core/outputbackend.h"
 #include "core/outputconfiguration.h"
-#include "core/platform.h"
 #include "main.h"
 #include "workspace.h"
 
@@ -24,7 +24,7 @@ using namespace KWin;
 namespace KWaylandServer
 {
 
-static const quint32 s_version = 2;
+static const quint32 s_version = 3;
 
 class OutputManagementV2InterfacePrivate : public QtWaylandServer::kde_output_management_v2
 {
@@ -44,7 +44,7 @@ public:
     bool applied = false;
     bool invalid = false;
     OutputConfiguration config;
-    std::optional<OutputDeviceV2Interface *> primaryOutput;
+    QVector<std::pair<uint32_t, OutputDeviceV2Interface *>> outputOrder;
 
 protected:
     void kde_output_configuration_v2_enable(Resource *resource, wl_resource *outputdevice, int32_t enable) override;
@@ -59,6 +59,7 @@ protected:
     void kde_output_configuration_v2_set_vrr_policy(Resource *resource, struct ::wl_resource *outputdevice, uint32_t policy) override;
     void kde_output_configuration_v2_set_rgb_range(Resource *resource, wl_resource *outputdevice, uint32_t rgbRange) override;
     void kde_output_configuration_v2_set_primary_output(Resource *resource, struct ::wl_resource *output) override;
+    void kde_output_configuration_v2_set_priority(Resource *resource, wl_resource *output, uint32_t priority) override;
 };
 
 OutputManagementV2InterfacePrivate::OutputManagementV2InterfacePrivate(Display *display)
@@ -96,7 +97,6 @@ OutputConfigurationV2Interface::OutputConfigurationV2Interface(wl_resource *reso
 
 void OutputConfigurationV2Interface::kde_output_configuration_v2_enable(Resource *resource, wl_resource *outputdevice, int32_t enable)
 {
-    Q_UNUSED(resource)
     if (invalid) {
         return;
     }
@@ -107,7 +107,6 @@ void OutputConfigurationV2Interface::kde_output_configuration_v2_enable(Resource
 
 void OutputConfigurationV2Interface::kde_output_configuration_v2_mode(Resource *resource, wl_resource *outputdevice, wl_resource *modeResource)
 {
-    Q_UNUSED(resource)
     if (invalid) {
         return;
     }
@@ -122,7 +121,6 @@ void OutputConfigurationV2Interface::kde_output_configuration_v2_mode(Resource *
 
 void OutputConfigurationV2Interface::kde_output_configuration_v2_transform(Resource *resource, wl_resource *outputdevice, int32_t transform)
 {
-    Q_UNUSED(resource)
     if (invalid) {
         return;
     }
@@ -155,7 +153,6 @@ void OutputConfigurationV2Interface::kde_output_configuration_v2_transform(Resou
 
 void OutputConfigurationV2Interface::kde_output_configuration_v2_position(Resource *resource, wl_resource *outputdevice, int32_t x, int32_t y)
 {
-    Q_UNUSED(resource)
     if (invalid) {
         return;
     }
@@ -166,7 +163,6 @@ void OutputConfigurationV2Interface::kde_output_configuration_v2_position(Resour
 
 void OutputConfigurationV2Interface::kde_output_configuration_v2_scale(Resource *resource, wl_resource *outputdevice, wl_fixed_t scale)
 {
-    Q_UNUSED(resource)
     if (invalid) {
         return;
     }
@@ -184,7 +180,6 @@ void OutputConfigurationV2Interface::kde_output_configuration_v2_scale(Resource 
 
 void OutputConfigurationV2Interface::kde_output_configuration_v2_overscan(Resource *resource, wl_resource *outputdevice, uint32_t overscan)
 {
-    Q_UNUSED(resource)
     if (invalid) {
         return;
     }
@@ -199,7 +194,6 @@ void OutputConfigurationV2Interface::kde_output_configuration_v2_overscan(Resour
 
 void OutputConfigurationV2Interface::kde_output_configuration_v2_set_vrr_policy(Resource *resource, wl_resource *outputdevice, uint32_t policy)
 {
-    Q_UNUSED(resource)
     if (invalid) {
         return;
     }
@@ -214,7 +208,6 @@ void OutputConfigurationV2Interface::kde_output_configuration_v2_set_vrr_policy(
 
 void OutputConfigurationV2Interface::kde_output_configuration_v2_set_rgb_range(Resource *resource, wl_resource *outputdevice, uint32_t rgbRange)
 {
-    Q_UNUSED(resource)
     if (invalid) {
         return;
     }
@@ -229,12 +222,16 @@ void OutputConfigurationV2Interface::kde_output_configuration_v2_set_rgb_range(R
 
 void OutputConfigurationV2Interface::kde_output_configuration_v2_set_primary_output(Resource *resource, struct ::wl_resource *output)
 {
-    Q_UNUSED(resource);
+    // intentionally ignored
+}
+
+void OutputConfigurationV2Interface::kde_output_configuration_v2_set_priority(Resource *resource, wl_resource *outputResource, uint32_t priority)
+{
     if (invalid) {
         return;
     }
-    if (auto o = OutputDeviceV2Interface::get(output)) {
-        primaryOutput = o;
+    if (OutputDeviceV2Interface *output = OutputDeviceV2Interface::get(outputResource)) {
+        outputOrder.push_back(std::make_pair(priority, output));
     }
 }
 
@@ -245,7 +242,6 @@ void OutputConfigurationV2Interface::kde_output_configuration_v2_destroy(Resourc
 
 void OutputConfigurationV2Interface::kde_output_configuration_v2_destroy_resource(Resource *resource)
 {
-    Q_UNUSED(resource)
     delete this;
 }
 
@@ -263,7 +259,7 @@ void OutputConfigurationV2Interface::kde_output_configuration_v2_apply(Resource 
         return;
     }
 
-    const auto allOutputs = kwinApp()->platform()->outputs();
+    const auto allOutputs = kwinApp()->outputBackend()->outputs();
     const bool allDisabled = !std::any_of(allOutputs.begin(), allOutputs.end(), [this](const auto &output) {
         return config.constChangeSet(output)->enabled;
     });
@@ -273,13 +269,38 @@ void OutputConfigurationV2Interface::kde_output_configuration_v2_apply(Resource 
         return;
     }
 
-    if (workspace()->applyOutputConfiguration(config)) {
-        if (primaryOutput.has_value()) {
-            auto requestedPrimaryOutput = (*primaryOutput)->handle();
-            if (requestedPrimaryOutput && requestedPrimaryOutput->isEnabled()) {
-                workspace()->setPrimaryOutput(requestedPrimaryOutput);
-            }
+    QVector<Output *> sortedOrder;
+    if (!outputOrder.empty()) {
+        const int desktopOutputs = std::count_if(allOutputs.begin(), allOutputs.end(), [](Output *output) {
+            return !output->isNonDesktop();
+        });
+        if (outputOrder.size() != desktopOutputs) {
+            qWarning(KWIN_CORE) << "Provided output order doesn't contain all outputs!";
+            send_failed();
+            return;
         }
+        outputOrder.erase(std::remove_if(outputOrder.begin(), outputOrder.end(), [this](const auto &pair) {
+                              return !config.constChangeSet(pair.second->handle())->enabled;
+                          }),
+                          outputOrder.end());
+        std::sort(outputOrder.begin(), outputOrder.end(), [](const auto &pair1, const auto &pair2) {
+            return pair1.first < pair2.first;
+        });
+        uint32_t i = 1;
+        for (const auto &[index, name] : std::as_const(outputOrder)) {
+            if (index != i) {
+                qCWarning(KWIN_CORE) << "Provided output order is invalid!";
+                send_failed();
+                return;
+            }
+            i++;
+        }
+        sortedOrder.reserve(outputOrder.size());
+        std::transform(outputOrder.begin(), outputOrder.end(), std::back_inserter(sortedOrder), [](const auto &pair) {
+            return pair.second->handle();
+        });
+    }
+    if (workspace()->applyOutputConfiguration(config, sortedOrder)) {
         send_applied();
     } else {
         qCDebug(KWIN_CORE) << "Applying config failed";

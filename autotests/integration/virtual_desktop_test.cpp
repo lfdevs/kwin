@@ -8,7 +8,7 @@
 */
 #include "kwin_wayland_test.h"
 
-#include "core/platform.h"
+#include "core/outputbackend.h"
 #include "main.h"
 #include "virtualdesktops.h"
 #include "wayland_server.h"
@@ -18,7 +18,6 @@
 #include <KWayland/Client/surface.h>
 
 using namespace KWin;
-using namespace KWayland::Client;
 
 static const QString s_socketName = QStringLiteral("wayland_test_kwin_virtualdesktop-0");
 
@@ -40,8 +39,8 @@ void VirtualDesktopTest::initTestCase()
 {
     qRegisterMetaType<KWin::Window *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
+    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
 
     kwinApp()->setConfig(KSharedConfig::openConfig(QString(), KConfig::SimpleConfig));
     qputenv("KWIN_XKB_DEFAULT_KEYMAP", "1");

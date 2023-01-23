@@ -10,7 +10,7 @@
 #include "kwin_wayland_test.h"
 
 #include "core/output.h"
-#include "core/platform.h"
+#include "core/outputbackend.h"
 #include "cursor.h"
 #include "placement.h"
 #include "wayland_server.h"
@@ -43,12 +43,11 @@ private Q_SLOTS:
     void initTestCase();
 
     void testPlaceSmart();
-    void testPlaceZeroCornered();
     void testPlaceMaximized();
     void testPlaceMaximizedLeavesFullscreen();
     void testPlaceCentered();
     void testPlaceUnderMouse();
-    void testPlaceCascaded();
+    void testPlaceZeroCornered();
     void testPlaceRandom();
     void testFullscreen();
 
@@ -79,9 +78,8 @@ void TestPlacement::initTestCase()
 {
     qRegisterMetaType<KWin::Window *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
+    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
 
     kwinApp()->setConfig(KSharedConfig::openConfig(QString(), KConfig::SimpleConfig));
 
@@ -148,23 +146,6 @@ void TestPlacement::testPlaceSmart()
         // 4 windows of 600, 500 should fit without overlap
         QVERIFY(!usedArea.intersects(windowPlacement.finalGeometry.toRect()));
         usedArea += windowPlacement.finalGeometry.toRect();
-        surfaces.push_back(std::move(surface));
-    }
-}
-
-void TestPlacement::testPlaceZeroCornered()
-{
-    setPlacementPolicy(PlacementZeroCornered);
-
-    std::vector<std::unique_ptr<KWayland::Client::Surface>> surfaces;
-    for (int i = 0; i < 4; i++) {
-        auto [windowPlacement, surface] = createAndPlaceWindow(QSize(600, 500));
-        // smart placement shouldn't define a size on windows
-        QCOMPARE(windowPlacement.initiallyConfiguredSize, QSize(0, 0));
-        // size should match our buffer
-        QCOMPARE(windowPlacement.finalGeometry.size(), QSize(600, 500));
-        // and it should be in the corner
-        QCOMPARE(windowPlacement.finalGeometry.topLeft(), QPoint(0, 0));
         surfaces.push_back(std::move(surface));
     }
 }
@@ -272,12 +253,12 @@ void TestPlacement::testPlaceUnderMouse()
     QVERIFY(Test::waitForWindowDestroyed(window));
 }
 
-void TestPlacement::testPlaceCascaded()
+void TestPlacement::testPlaceZeroCornered()
 {
-    // This test verifies that Cascaded placement policy works.
+    // This test verifies that the Zero-Cornered placement policy works.
 
     KConfigGroup group = kwinApp()->config()->group("Windows");
-    group.writeEntry("Placement", Placement::policyToString(PlacementCascade));
+    group.writeEntry("Placement", Placement::policyToString(PlacementZeroCornered));
     group.sync();
     workspace()->slotReconfigure();
 

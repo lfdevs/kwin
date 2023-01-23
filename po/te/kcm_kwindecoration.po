@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-26 02:35+0000\n"
+"POT-Creation-Date: 2022-10-26 00:47+0000\n"
 "PO-Revision-Date: 2009-01-16 22:16+0530\n"
 "Last-Translator: Krishna Babu K <kkrothap@redhat.com>\n"
 "Language-Team: Telugu <en@li.org>\n"
@@ -291,3 +291,121 @@ msgstr "అత్యంత భారీ"
 #| msgid "Oversized"
 msgid "Oversized"
 msgstr "మించినపరిమాణము"
+
+#~ msgid "Menu"
+#~ msgstr "మెనూ"
+
+#, fuzzy
+#~| msgid "&Window Decoration"
+#~ msgid "Download New Window Decorations"
+#~ msgstr "(&W) విండో అలంకరణ"
+
+#, fuzzy
+#~| msgid "B&order size:"
+#~ msgid "Border si&ze:"
+#~ msgstr "(&o) హద్దు పరిమాణము:"
+
+#, fuzzy
+#~| msgid "&Window Decoration"
+#~ msgid "Configure %1..."
+#~ msgstr "(&W) విండో అలంకరణ"
+
+#, fuzzy
+#~| msgid "Normal"
+#~ msgid "Form"
+#~ msgstr "సాదారణముగా"
+
+#, fuzzy
+#~| msgid "Buttons"
+#~ msgid "Button size:"
+#~ msgstr "బటన్లు"
+
+#, fuzzy
+#~| msgid "Tiny"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Tiny"
+#~ msgstr "టినీ"
+
+#, fuzzy
+#~| msgid "Normal"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Normal"
+#~ msgstr "సాదారణముగా"
+
+#, fuzzy
+#~| msgid "Large"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Large"
+#~ msgstr "పెద్ద"
+
+#, fuzzy
+#~| msgid "Very Large"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Very Large"
+#~ msgstr "చాలా పెద్ద"
+
+#, fuzzy
+#~| msgid "Huge"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Huge"
+#~ msgstr "హ్యూజ్"
+
+#, fuzzy
+#~| msgid "Very Huge"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Very Huge"
+#~ msgstr "అత్యంత భారీ"
+
+#, fuzzy
+#~| msgid "Oversized"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Oversized"
+#~ msgstr "మించినపరిమాణము"
+
+#~ msgid "KDE"
+#~ msgstr "KDE"
+
+#~ msgid "%1 (unavailable)"
+#~ msgstr "%1 (అందుబాటులోలేని)"
+
+#~ msgid "Resize"
+#~ msgstr "పునఃపరిమాణము"
+
+#~ msgid "Help"
+#~ msgstr "సహాయం"
+
+#~ msgid "Use custom titlebar button &positions"
+#~ msgstr "(&p) మలచుకొనిని శీర్షకపట్టీ బటన్ స్థానములను వుపయోగించుము"
+
+#~ msgid "B&order size:"
+#~ msgstr "(&o) హద్దు పరిమాణము:"
+
+#~ msgid "Use this combobox to change the border size of the decoration."
+#~ msgstr "అలంకరణ యొక్క హద్దు పరిమాణమును మార్చుటకు ఈ కాంబోబాక్స్‌ను వుపయోగించుము."
+
+#~ msgid "Decoration Options"
+#~ msgstr "అలంకరణ ఐచ్చికములు"
+
+#~ msgid "Window Decoration Control Module"
+#~ msgstr "విండో అలంకరణ నియంత్రణ మాడ్యూల్"
+
+#~ msgid "(c) 2001 Karol Szwed"
+#~ msgstr "(c) 2001 కారల్ స్జ్వెడ్"
+
+#~ msgid "Karol Szwed"
+#~ msgstr "కారల్ స్జ్వెడ్"
+
+#~ msgid "Active Window"
+#~ msgstr "క్రియాశీల విండో"
+
+#~ msgid "Inactive Window"
+#~ msgstr "క్రియాహీన విండో"
+
+#~ msgid "kcmkwindecoration"
+#~ msgstr "kcmkwindecoration"
+
+#~ msgid "&Buttons"
+#~ msgstr "(&B) బటన్స్"
+
+#~ msgid "Ozone"
+#~ msgstr "ఓజోన్"

@@ -6,8 +6,7 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-#ifndef KWIN_DECORATED_CLIENT_H
-#define KWIN_DECORATED_CLIENT_H
+#pragma once
 #include "options.h"
 
 #include <KDecoration2/Private/DecoratedClientPrivate>
@@ -55,6 +54,7 @@ public:
     bool providesContextHelp() const override;
     QSize size() const override;
     int width() const override;
+    QString windowClass() const override;
     WId windowId() const override;
 
     Qt::Edges adjacentScreenEdges() const override;
@@ -103,5 +103,3 @@ private:
 
 }
 }
-
-#endif

@@ -6,8 +6,7 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-#ifndef KWIN_DECORATION_BRIDGE_H
-#define KWIN_DECORATION_BRIDGE_H
+#pragma once
 
 #include <kwinglobals.h>
 
@@ -71,10 +70,10 @@ private:
     QString readPlugin();
     void loadMetaData(const QJsonObject &object);
     void findTheme(const QVariantMap &map);
-    void initPlugin();
+    bool initPlugin();
     QString readTheme() const;
     void readDecorationOptions();
-    KPluginFactory *m_factory;
+    std::unique_ptr<KPluginFactory> m_factory;
     bool m_showToolTips;
     QString m_recommendedBorderSize;
     QString m_plugin;
@@ -85,5 +84,3 @@ private:
 };
 } // Decoration
 } // KWin
-
-#endif

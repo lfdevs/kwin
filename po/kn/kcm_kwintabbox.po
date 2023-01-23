@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-15 00:48+0000\n"
+"POT-Creation-Date: 2023-01-13 00:58+0000\n"
 "PO-Revision-Date: 2010-01-15 13:41+0530\n"
 "Last-Translator: Shankar Prasad <svenkate@redhat.com>\n"
 "Language-Team: Kannada <kde-l10n-kn@kde.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "X-Generator: Lokalize 1.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: kwintabboxconfigform.cpp:77
+#: kwintabboxconfigform.cpp:80
 #, kde-format
 msgid "KWin"
 msgstr ""
@@ -251,3 +251,166 @@ msgstr ""
 #| msgid "Show outline of selected window"
 msgid "Show selected window"
 msgstr "ಆಯ್ದ ವಿಂಡೋವಿನ ಹೊರನಕಾಶೆಯನ್ನು ತೋರಿಸು"
+
+#, fuzzy
+#~| msgid "Show outline of selected window"
+#~ msgid "Outline selected window"
+#~ msgstr "ಆಯ್ದ ವಿಂಡೋವಿನ ಹೊರನಕಾಶೆಯನ್ನು ತೋರಿಸು"
+
+#~ msgid ""
+#~ "These settings are used by the \"Walk Through Windows Alternative\" "
+#~ "actions."
+#~ msgstr "ಈ ಸಂಯೋಜನೆಗಳನ್ನು \"ವಿಂಡೋಸ್‌ನ ಪರ್ಯಾಯ ಅವಲೋಕನ \"ದಿಂದ ಬಳಸಲ್ಪಡುತ್ತವೆ."
+
+#~ msgid "Walk Through Windows"
+#~ msgstr "ಕಿಟಕಿಗಳ ಅವಲೋಕನ"
+
+#~ msgid "Walk Through Windows (Reverse)"
+#~ msgstr "ಕಿಟಕಿಗಳನ್ನು ಅವಲೋಕಿಸಿ ( ಹಿಮ್ಮುಖ)"
+
+#~ msgid "Walk Through Windows Alternative"
+#~ msgstr "ವಿಂಡೋಸ್‌ಗೆ ಪರ್ಯಾಯವಾದವುಗಳನ್ನು ಅವಲೋಕಿಸಿ"
+
+#~ msgid "Walk Through Windows Alternative (Reverse)"
+#~ msgstr "ವಿಂಡೋಸ್‌ಗೆ ಪರ್ಯಾಯವಾದವುಗಳನ್ನು ಅವಲೋಕಿಸಿ (ಹಿಮ್ಮುಖ)"
+
+#, fuzzy
+#~| msgid "Walk Through Windows Alternative"
+#~ msgid "Walk Through Windows of Current Application"
+#~ msgstr "ವಿಂಡೋಸ್‌ಗೆ ಪರ್ಯಾಯವಾದವುಗಳನ್ನು ಅವಲೋಕಿಸಿ"
+
+#, fuzzy
+#~| msgid "Walk Through Windows Alternative (Reverse)"
+#~ msgid "Walk Through Windows of Current Application (Reverse)"
+#~ msgstr "ವಿಂಡೋಸ್‌ಗೆ ಪರ್ಯಾಯವಾದವುಗಳನ್ನು ಅವಲೋಕಿಸಿ (ಹಿಮ್ಮುಖ)"
+
+#, fuzzy
+#~| msgid "Walk Through Windows Alternative"
+#~ msgid "Walk Through Windows of Current Application Alternative"
+#~ msgstr "ವಿಂಡೋಸ್‌ಗೆ ಪರ್ಯಾಯವಾದವುಗಳನ್ನು ಅವಲೋಕಿಸಿ"
+
+#, fuzzy
+#~| msgid "Walk Through Windows Alternative (Reverse)"
+#~ msgid "Walk Through Windows of Current Application Alternative (Reverse)"
+#~ msgstr "ವಿಂಡೋಸ್‌ಗೆ ಪರ್ಯಾಯವಾದವುಗಳನ್ನು ಅವಲೋಕಿಸಿ (ಹಿಮ್ಮುಖ)"
+
+#~ msgid "Configure Layout"
+#~ msgstr "ಹೊರವಿನ್ಯಾಸಗಳನ್ನು ಸಂರಚಿಸಿ"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "ಶಂಕರ್ ಪ್ರಸಾದ್ ಎಂ ವಿ, ಅಶೋಕ್ ಕುಮಾರ್ ಎ"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "prasad.mvs@gmail.com; ashok567@gmail.com"
+
+#~ msgid "These settings are used by the \"Walk Through Windows\" actions."
+#~ msgstr "ಈ ಸಂಯೋಜನೆಗಳನ್ನು \"ವಿಂಡೋಸ್‌ನ ಪರ್ಯಾಯ ಅವಲೋಕನ \"ಕ್ರಿಯೆಗಳಿಂದ ಬಳಸಲ್ಪಡುತ್ತವೆ."
+
+#, fuzzy
+#~| msgid "All Desktops Grouped by Applications"
+#~ msgid "All windows from all applications"
+#~ msgstr "ಎಲ್ಲ ಗಣಕತೆರೆಗಳನ್ನು ಅನ್ವಯಿಕದಿಂದ ಗುಂಪಾಗೂಡಿಸಲಾಗಿದೆ"
+
+#~ msgid "Highlight selected window"
+#~ msgstr "ಆರಿಸಿದ ಕಿಟಕಿಯನ್ನು ಎತ್ತಿತೋರಿಸು"
+
+#~ msgid "Effect:"
+#~ msgstr "ಪರಿಣಾಮ:"
+
+#~ msgid "Display list while switching"
+#~ msgstr "ಕಿಟಕಿಗಳ ನಡುವೆ ಬದಲಾಯಿಸುವಾಗ ಪಟ್ಟಿಯನ್ನು ತೋರಿಸು"
+
+#, fuzzy
+#~| msgid "Informative"
+#~ msgctxt "Name for a window switcher layout showing icon, name and desktop"
+#~ msgid "Informative"
+#~ msgstr "ಮಾಹಿತಿಯುಕ್ತ"
+
+#, fuzzy
+#~| msgid "Compact"
+#~ msgctxt "Name for a window switcher layout showing only icon and name"
+#~ msgid "Compact"
+#~ msgstr "ಸಾಂದ್ರ"
+
+#, fuzzy
+#~| msgid "Text Only"
+#~ msgctxt "Name for a window switcher layout showing only the name"
+#~ msgid "Text"
+#~ msgstr "ಪಠ್ಯ ಮಾತ್ರ"
+
+#, fuzzy
+#~| msgid "Large Icons"
+#~ msgctxt "Name for a window switcher layout showing large icons"
+#~ msgid "Large Icons"
+#~ msgstr "ದೊಡ್ಡದಾದ ಚಿಹ್ನೆಗಳು"
+
+#, fuzzy
+#~| msgid "Small Icons"
+#~ msgctxt "Name for a window switcher layout showing small icons"
+#~ msgid "Small Icons"
+#~ msgstr "ಚಿಕ್ಕ ಚಿಹ್ನೆಗಳು"
+
+#~ msgid "No Effect"
+#~ msgstr "ಯಾವುದೆ ಪರಿಣಾಮವಿಲ್ಲ"
+
+#~ msgid "Configure Layout..."
+#~ msgstr "ಹೊರವಿನ್ಯಾಸವನ್ನು ಸಂರಚಿಸು..."
+
+#~ msgid "Item Layout"
+#~ msgstr "ವಸ್ತುವಿನ ಹೊರವಿನ್ಯಾಸ"
+
+#~ msgid "Item layout:"
+#~ msgstr "ವಸ್ತುವಿನ ಹೊರವಿನ್ಯಾಸ:"
+
+#~ msgid "Layout:"
+#~ msgstr "ಹೊರವಿನ್ಯಾಸ:"
+
+#~ msgid "Vertical"
+#~ msgstr "ಲಂಬ"
+
+#~ msgid "Horizontal"
+#~ msgstr "ಅಡ್ಡ"
+
+#~ msgid "Tabular"
+#~ msgstr "ಕೋಷ್ಟಕ"
+
+#~ msgid "Width:"
+#~ msgstr "ಅಗಲ:"
+
+#~ msgid "Minimum width, as a percentage of screen width."
+#~ msgstr "ಕನಿಷ್ಠ ಗಾತ್ರ, ತೆರೆಯ ಅಗಲದ ಶೇಕಡಾ ಭಾಗವಾಗಿ."
+
+#~ msgid " %"
+#~ msgstr " %"
+
+#~ msgid "Height:"
+#~ msgstr "ಎತ್ತರ:"
+
+#~ msgid "Minimum height, as a percentage of screen height."
+#~ msgstr "ಕನಿಷ್ಠ ಎತ್ತರ, ತೆರೆಯ ಎತ್ತರದ ಶೇಕಡಾ ಭಾಗವಾಗಿ."
+
+#~ msgid "Show Selected Item"
+#~ msgstr "ಆಯ್ದ ವಸ್ತುವನ್ನು ತೋರಿಸು"
+
+#~ msgid "Selected item view:"
+#~ msgstr "ಆಯ್ದ ವಸ್ತುವಿನ ನೋಟ:"
+
+#~ msgid "Top"
+#~ msgstr "ಮೇಲೆ"
+
+#~ msgid "Bottom"
+#~ msgstr "ಕೆಳಕ್ಕೆ"
+
+#~ msgid "Left"
+#~ msgstr "ಎಡ"
+
+#~ msgid "Right"
+#~ msgstr "ಬಲ"
+
+#~ msgid "Selected item layout:"
+#~ msgstr "ಆಯ್ದ ವಸ್ತು ಹೊರವಿನ್ಯಾಸ:"
+
+#~ msgid "General"
+#~ msgstr "ಸಾಮಾನ್ಯ"

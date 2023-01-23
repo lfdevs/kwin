@@ -42,8 +42,6 @@ WlToXDrag::WlToXDrag(Dnd *dnd)
 
 DragEventReply WlToXDrag::moveFilter(Window *target, const QPoint &pos)
 {
-    Q_UNUSED(target)
-    Q_UNUSED(pos)
     return DragEventReply::Wayland;
 }
 
@@ -77,7 +75,7 @@ Xvisit::Xvisit(Window *target, KWaylandServer::AbstractDataSource *dataSource, D
         return;
     }
     xcb_atom_t *value = static_cast<xcb_atom_t *>(xcb_get_property_value(reply));
-    m_version = qMin(*value, Dnd::version());
+    m_version = std::min(*value, Dnd::version());
     if (m_version < 1) {
         // minimal version we accept is 1
         doFinish();
@@ -150,11 +148,6 @@ bool Xvisit::handleFinished(xcb_client_message_event_t *event)
         doFinish();
         return true;
     }
-
-    const bool success = m_version > 4 ? data->data32[1] & 1 : true;
-    const xcb_atom_t usedActionAtom = m_version > 4 ? data->data32[2] : static_cast<uint32_t>(XCB_ATOM_NONE);
-    Q_UNUSED(success);
-    Q_UNUSED(usedActionAtom);
 
     if (m_dataSource) {
         m_dataSource->dndFinished();

@@ -7,6 +7,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "xkb.h"
+#include "dbusproperties_interface.h"
 #include "utils/c_ptr.h"
 #include "utils/common.h"
 #include "wayland/keyboard_interface.h"
@@ -25,6 +26,7 @@
 #include <xkbcommon/xkbcommon-compose.h>
 #include <xkbcommon/xkbcommon-keysyms.h>
 // system
+#include "main.h"
 #include <bitset>
 #include <linux/input-event-codes.h>
 #include <sys/mman.h>
@@ -35,13 +37,13 @@ Q_LOGGING_CATEGORY(KWIN_XKB, "kwin_xkbcommon", QtWarningMsg)
 /* The offset between KEY_* numbering, and keycodes in the XKB evdev
  * dataset. */
 static const int EVDEV_OFFSET = 8;
+static const char *s_locale1Interface = "org.freedesktop.locale1";
 
 namespace KWin
 {
 
 static void xkbLogHandler(xkb_context *context, xkb_log_level priority, const char *format, va_list args)
 {
-    Q_UNUSED(context)
     char buf[1024];
     int length = std::vsnprintf(buf, 1023, format, args);
     while (length > 0 && std::isspace(buf[length - 1])) {
@@ -68,9 +70,14 @@ static void xkbLogHandler(xkb_context *context, xkb_log_level priority, const ch
     }
 }
 
-Xkb::Xkb(QObject *parent)
-    : QObject(parent)
-    , m_context(xkb_context_new(XKB_CONTEXT_NO_FLAGS))
+#if HAVE_XKBCOMMON_NO_SECURE_GETENV
+constexpr xkb_context_flags KWIN_XKB_CONTEXT_FLAGS = XKB_CONTEXT_NO_SECURE_GETENV;
+#else
+constexpr xkb_context_flags KWIN_XKB_CONTEXT_FLAGS = XKB_CONTEXT_NO_FLAGS;
+#endif
+
+Xkb::Xkb(bool followLocale1)
+    : m_context(xkb_context_new(KWIN_XKB_CONTEXT_FLAGS))
     , m_keymap(nullptr)
     , m_state(nullptr)
     , m_shiftModifier(0)
@@ -86,6 +93,7 @@ Xkb::Xkb(QObject *parent)
     , m_consumedModifiers(Qt::NoModifier)
     , m_keysym(XKB_KEY_NoSymbol)
     , m_leds()
+    , m_followLocale1(followLocale1)
 {
     qRegisterMetaType<KWin::LEDs>();
     if (!m_context) {
@@ -110,6 +118,16 @@ Xkb::Xkb(QObject *parent)
         m_compose.table = xkb_compose_table_new_from_locale(m_context, locale.constData(), XKB_COMPOSE_COMPILE_NO_FLAGS);
         if (m_compose.table) {
             m_compose.state = xkb_compose_state_new(m_compose.table, XKB_COMPOSE_STATE_NO_FLAGS);
+        }
+    }
+
+    if (m_followLocale1) {
+        bool connected = QDBusConnection::systemBus().connect(s_locale1Interface, "/org/freedesktop/locale1", QStringLiteral("org.freedesktop.DBus.Properties"),
+                                                              QStringLiteral("PropertiesChanged"),
+                                                              this,
+                                                              SLOT(reconfigure()));
+        if (!connected) {
+            qCWarning(KWIN_XKB) << "Could not connect to org.freedesktop.locale1";
         }
     }
 }
@@ -141,7 +159,11 @@ void Xkb::reconfigure()
 
     xkb_keymap *keymap = nullptr;
     if (!qEnvironmentVariableIsSet("KWIN_XKB_DEFAULT_KEYMAP")) {
-        keymap = loadKeymapFromConfig();
+        if (m_followLocale1) {
+            keymap = loadKeymapFromLocale1();
+        } else {
+            keymap = loadKeymapFromConfig();
+        }
     }
     if (!keymap) {
         qCDebug(KWIN_XKB) << "Could not create xkb keymap from configuration";
@@ -222,23 +244,21 @@ xkb_keymap *Xkb::loadDefaultKeymap()
     return xkb_keymap_new_from_names(m_context, &ruleNames, XKB_KEYMAP_COMPILE_NO_FLAGS);
 }
 
-void Xkb::installKeymap(int fd, uint32_t size)
+xkb_keymap *Xkb::loadKeymapFromLocale1()
 {
-    if (!m_context) {
-        return;
-    }
-    char *map = reinterpret_cast<char *>(mmap(nullptr, size, PROT_READ, MAP_SHARED, fd, 0));
-    if (map == MAP_FAILED) {
-        return;
-    }
-    xkb_keymap *keymap = xkb_keymap_new_from_string(m_context, map, XKB_KEYMAP_FORMAT_TEXT_V1, XKB_MAP_COMPILE_PLACEHOLDER);
-    munmap(map, size);
-    if (!keymap) {
-        qCDebug(KWIN_XKB) << "Could not map keymap from file";
-        return;
-    }
-    m_ownership = Ownership::Client;
-    updateKeymap(keymap);
+    OrgFreedesktopDBusPropertiesInterface locale1Properties(s_locale1Interface, "/org/freedesktop/locale1", QDBusConnection::systemBus(), this);
+    const QVariantMap properties = locale1Properties.GetAll(s_locale1Interface);
+    const QString layouts = properties["X11Layout"].toString();
+    xkb_rule_names ruleNames = {
+        nullptr,
+        qPrintable(properties["X11Model"].toString()),
+        qPrintable(layouts),
+        qPrintable(properties["X11Variant"].toString()),
+        qPrintable(properties["X11Options"].toString()),
+    };
+    applyEnvironmentRules(ruleNames);
+    m_layoutList = layouts.split(QLatin1Char(','));
+    return xkb_keymap_new_from_names(m_context, &ruleNames, XKB_KEYMAP_COMPILE_NO_FLAGS);
 }
 
 void Xkb::updateKeymap(xkb_keymap *keymap)
@@ -284,7 +304,7 @@ void Xkb::updateKeymap(xkb_keymap *keymap)
     m_modifierState.locked = xkb_state_serialize_mods(m_state, xkb_state_component(XKB_STATE_MODS_LOCKED));
 
     auto setLock = [this](xkb_mod_index_t modifier, bool value) {
-        if (m_ownership == Ownership::Server && modifier != XKB_MOD_INVALID) {
+        if (modifier != XKB_MOD_INVALID) {
             std::bitset<sizeof(xkb_mod_mask_t) * 8> mask{m_modifierState.locked};
             if (mask.size() > modifier) {
                 mask[modifier] = value;
@@ -505,7 +525,7 @@ Qt::KeyboardModifiers Xkb::modifiersRelevantForGlobalShortcuts(uint32_t scanCode
         // in that case the shift should be removed from the consumed modifiers again
         // otherwise it would not be possible to trigger e.g. Shift+W as a shortcut
         // see BUG: 370341
-        if (QChar(toQtKey(m_keysym, scanCode, Qt::ControlModifier)).isLetter()) {
+        if (QChar::isLetter(toQtKey(m_keysym, scanCode, Qt::ControlModifier))) {
             consumedMods = Qt::KeyboardModifiers();
         }
     }

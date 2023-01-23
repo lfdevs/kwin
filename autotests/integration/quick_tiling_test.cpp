@@ -9,11 +9,12 @@
 #include "kwin_wayland_test.h"
 
 #include "core/output.h"
-#include "core/platform.h"
+#include "core/outputbackend.h"
 #include "cursor.h"
 #include "decorations/decorationbridge.h"
 #include "decorations/settings.h"
 #include "scripting/scripting.h"
+#include "utils/common.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
@@ -83,9 +84,8 @@ void QuickTilingTest::initTestCase()
     qRegisterMetaType<KWin::Window *>();
     qRegisterMetaType<KWin::MaximizeMode>("MaximizeMode");
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
+    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
 
     // set custom config which disables the Outline
     KSharedConfig::Ptr config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
@@ -131,9 +131,9 @@ void QuickTilingTest::testQuickTiling_data()
 #define FLAG(name) QuickTileMode(QuickTileFlag::name)
 
     QTest::newRow("left") << FLAG(Left) << QRectF(0, 0, 640, 1024) << QRectF(1280, 0, 640, 1024) << FLAG(Right);
-    QTest::newRow("top") << FLAG(Top) << QRectF(0, 0, 1280, 512) << QRectF(1280, 0, 1280, 512) << FLAG(Top);
+    QTest::newRow("top") << FLAG(Top) << QRectF(0, 0, 1280, 512) << QRectF(1280, 0, 1280, 512) << QuickTileMode();
     QTest::newRow("right") << FLAG(Right) << QRectF(640, 0, 640, 1024) << QRectF(1920, 0, 640, 1024) << QuickTileMode();
-    QTest::newRow("bottom") << FLAG(Bottom) << QRectF(0, 512, 1280, 512) << QRectF(1280, 512, 1280, 512) << FLAG(Bottom);
+    QTest::newRow("bottom") << FLAG(Bottom) << QRectF(0, 512, 1280, 512) << QRectF(1280, 512, 1280, 512) << QuickTileMode();
 
     QTest::newRow("top left") << (FLAG(Left) | FLAG(Top)) << QRectF(0, 0, 640, 512) << QRectF(1280, 0, 640, 512) << (FLAG(Right) | FLAG(Top));
     QTest::newRow("top right") << (FLAG(Right) | FLAG(Top)) << QRectF(640, 0, 640, 512) << QRectF(1920, 0, 640, 512) << QuickTileMode();
@@ -147,8 +147,6 @@ void QuickTilingTest::testQuickTiling_data()
 
 void QuickTilingTest::testQuickTiling()
 {
-    using namespace KWayland::Client;
-
     std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
     QVERIFY(surface != nullptr);
     std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get()));
@@ -220,8 +218,6 @@ void QuickTilingTest::testQuickMaximizing_data()
 
 void QuickTilingTest::testQuickMaximizing()
 {
-    using namespace KWayland::Client;
-
     std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
     QVERIFY(surface != nullptr);
     std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get()));
@@ -324,8 +320,6 @@ void QuickTilingTest::testQuickTilingKeyboardMove_data()
 
 void QuickTilingTest::testQuickTilingKeyboardMove()
 {
-    using namespace KWayland::Client;
-
     std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
     QVERIFY(surface != nullptr);
 
@@ -391,8 +385,6 @@ void QuickTilingTest::testQuickTilingPointerMove_data()
 
 void QuickTilingTest::testQuickTilingPointerMove()
 {
-    using namespace KWayland::Client;
-
     std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
     std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get()));
 
@@ -470,11 +462,10 @@ void QuickTilingTest::testQuickTilingTouchMove()
 {
     // test verifies that touch on decoration also allows quick tiling
     // see BUG: 390113
-    using namespace KWayland::Client;
 
     std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
     QVERIFY(surface != nullptr);
-    std::unique_ptr<ServerSideDecoration> deco(Test::waylandServerSideDecoration()->create(surface.get()));
+    std::unique_ptr<KWayland::Client::ServerSideDecoration> deco(Test::waylandServerSideDecoration()->create(surface.get()));
 
     std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get(), Test::CreationSetup::CreateOnly));
     QVERIFY(shellSurface != nullptr);
@@ -545,9 +536,9 @@ void QuickTilingTest::testX11QuickTiling_data()
 #define FLAG(name) QuickTileMode(QuickTileFlag::name)
 
     QTest::newRow("left") << FLAG(Left) << QRectF(0, 0, 640, 1024) << 0 << QuickTileMode();
-    QTest::newRow("top") << FLAG(Top) << QRectF(0, 0, 1280, 512) << 1 << FLAG(Top);
+    QTest::newRow("top") << FLAG(Top) << QRectF(0, 0, 1280, 512) << 0 << QuickTileMode();
     QTest::newRow("right") << FLAG(Right) << QRectF(640, 0, 640, 1024) << 1 << FLAG(Left);
-    QTest::newRow("bottom") << FLAG(Bottom) << QRectF(0, 512, 1280, 512) << 1 << FLAG(Bottom);
+    QTest::newRow("bottom") << FLAG(Bottom) << QRectF(0, 512, 1280, 512) << 0 << QuickTileMode();
 
     QTest::newRow("top left") << (FLAG(Left) | FLAG(Top)) << QRectF(0, 0, 640, 512) << 0 << QuickTileMode();
     QTest::newRow("top right") << (FLAG(Right) | FLAG(Top)) << QRectF(640, 0, 640, 512) << 1 << (FLAG(Left) | FLAG(Top));
@@ -597,6 +588,7 @@ void QuickTilingTest::testX11QuickTiling()
     QCOMPARE(quickTileChangedSpy.count(), 1);
 
     // quick tile to same edge again should also act like send to screen
+    // if screen is on the same edge
     const auto outputs = workspace()->outputs();
     QCOMPARE(window->output(), outputs[0]);
     window->setQuickTileMode(mode, true);
@@ -717,8 +709,6 @@ void QuickTilingTest::testShortcut_data()
 
 void QuickTilingTest::testShortcut()
 {
-    using namespace KWayland::Client;
-
     std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
     QVERIFY(surface != nullptr);
     std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get()));
@@ -800,8 +790,6 @@ void QuickTilingTest::testScript_data()
 
 void QuickTilingTest::testScript()
 {
-    using namespace KWayland::Client;
-
     std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
     QVERIFY(surface != nullptr);
     std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get()));

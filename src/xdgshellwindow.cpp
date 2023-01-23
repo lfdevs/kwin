@@ -16,6 +16,7 @@
 #include "decorations/decorationbridge.h"
 #include "deleted.h"
 #include "placement.h"
+#include "pointer_input.h"
 #include "screenedge.h"
 #include "touch_input.h"
 #include "utils/subsurfacemonitor.h"
@@ -98,8 +99,6 @@ XdgSurfaceWindow::~XdgSurfaceWindow()
 
 NET::WindowType XdgSurfaceWindow::windowType(bool direct, int supported_types) const
 {
-    Q_UNUSED(direct)
-    Q_UNUSED(supported_types)
     return m_windowType;
 }
 
@@ -308,7 +307,7 @@ void XdgSurfaceWindow::moveResizeInternal(const QRectF &rect, MoveResizeMode mod
         }
     } else {
         // If the window is moved, cancel any queued window position updates.
-        for (XdgSurfaceConfigure *configureEvent : qAsConst(m_configureEvents)) {
+        for (XdgSurfaceConfigure *configureEvent : std::as_const(m_configureEvents)) {
             configureEvent->flags.setFlag(XdgSurfaceConfigure::ConfigurePosition, false);
         }
         m_configureFlags.setFlag(XdgSurfaceConfigure::ConfigurePosition, false);
@@ -1101,7 +1100,7 @@ void XdgToplevelWindow::handleWindowTitleChanged()
 
 void XdgToplevelWindow::handleWindowClassChanged()
 {
-    const QByteArray applicationId = m_shellSurface->windowClass().toUtf8();
+    const QString applicationId = m_shellSurface->windowClass();
     setResourceClass(resourceName(), applicationId);
     if (shellSurface()->isConfigured()) {
         evaluateWindowRules();
@@ -1112,8 +1111,6 @@ void XdgToplevelWindow::handleWindowClassChanged()
 void XdgToplevelWindow::handleWindowMenuRequested(SeatInterface *seat, const QPoint &surfacePos,
                                                   quint32 serial)
 {
-    Q_UNUSED(seat)
-    Q_UNUSED(serial)
     performMouseCommand(Options::MouseOperationsMenu, pos() + surfacePos);
 }
 
@@ -1125,7 +1122,7 @@ void XdgToplevelWindow::handleMoveRequested(SeatInterface *seat, quint32 serial)
     if (isMovable()) {
         QPointF cursorPos;
         if (seat->hasImplicitPointerGrab(serial)) {
-            cursorPos = Cursors::self()->mouse()->pos();
+            cursorPos = input()->pointer()->pos();
         } else {
             cursorPos = input()->touch()->position();
         }
@@ -1149,7 +1146,7 @@ void XdgToplevelWindow::handleResizeRequested(SeatInterface *seat, XdgToplevelIn
     setInteractiveMoveResizePointerButtonDown(true);
     QPointF cursorPos;
     if (seat->hasImplicitPointerGrab(serial)) {
-        cursorPos = Cursors::self()->mouse()->pos();
+        cursorPos = input()->pointer()->pos();
     } else {
         cursorPos = input()->touch()->position();
     }
@@ -1258,7 +1255,7 @@ void XdgToplevelWindow::handleUnfullscreenRequested()
 
 void XdgToplevelWindow::handleMinimizeRequested()
 {
-    performMouseCommand(Options::MouseMinimize, Cursors::self()->mouse()->pos());
+    minimize();
 }
 
 void XdgToplevelWindow::handleTransientForChanged()
@@ -1379,7 +1376,7 @@ void XdgToplevelWindow::initialize()
     setFullScreen(rules()->checkFullScreen(initialFullScreenMode(), true), false);
     setOnActivities(rules()->checkActivity(activities(), true));
     setDesktops(rules()->checkDesktops(desktops(), true));
-    setDesktopFileName(rules()->checkDesktopFile(desktopFileName(), true).toUtf8());
+    setDesktopFileName(rules()->checkDesktopFile(desktopFileName(), true));
     if (rules()->checkMinimize(isMinimized(), true)) {
         minimize(true); // No animation.
     }
@@ -1638,11 +1635,8 @@ void XdgToplevelWindow::setFullScreen(bool set, bool user)
     doSetFullScreen();
 }
 
-/**
- * \todo Move to Window.
- */
 static bool changeMaximizeRecursion = false;
-void XdgToplevelWindow::changeMaximize(bool horizontal, bool vertical, bool adjust)
+void XdgToplevelWindow::maximize(MaximizeMode mode)
 {
     if (changeMaximizeRecursion) {
         return;
@@ -1657,24 +1651,13 @@ void XdgToplevelWindow::changeMaximize(bool horizontal, bool vertical, bool adju
     const MaximizeMode oldMode = m_requestedMaximizeMode;
     const QRectF oldGeometry = moveResizeGeometry();
 
-    // 'adjust == true' means to update the size only, e.g. after changing workspace size
-    MaximizeMode mode = m_requestedMaximizeMode;
-    if (!adjust) {
-        if (vertical) {
-            mode = MaximizeMode(mode ^ MaximizeVertical);
-        }
-        if (horizontal) {
-            mode = MaximizeMode(mode ^ MaximizeHorizontal);
-        }
-    }
-
     mode = rules()->checkMaximize(mode);
-    if (m_requestedMaximizeMode != mode) {
-        Q_EMIT clientMaximizedStateAboutToChange(this, mode);
-        m_requestedMaximizeMode = mode;
-    } else if (!adjust) {
+    if (m_requestedMaximizeMode == mode) {
         return;
     }
+
+    Q_EMIT clientMaximizedStateAboutToChange(this, mode);
+    m_requestedMaximizeMode = mode;
 
     // call into decoration update borders
     if (m_nextDecoration && !(options->borderlessMaximizedWindows() && m_requestedMaximizeMode == KWin::MaximizeFull)) {
@@ -1698,11 +1681,11 @@ void XdgToplevelWindow::changeMaximize(bool horizontal, bool vertical, bool adju
 
     if (quickTileMode() == QuickTileMode(QuickTileFlag::None)) {
         QRectF savedGeometry = geometryRestore();
-        if (!adjust && !(oldMode & MaximizeVertical)) {
+        if (!(oldMode & MaximizeVertical)) {
             savedGeometry.setTop(oldGeometry.top());
             savedGeometry.setBottom(oldGeometry.bottom());
         }
-        if (!adjust && !(oldMode & MaximizeHorizontal)) {
+        if (!(oldMode & MaximizeHorizontal)) {
             savedGeometry.setLeft(oldGeometry.left());
             savedGeometry.setRight(oldGeometry.right());
         }
@@ -1712,7 +1695,7 @@ void XdgToplevelWindow::changeMaximize(bool horizontal, bool vertical, bool adju
     const MaximizeMode delta = m_requestedMaximizeMode ^ oldMode;
     QRectF geometry = oldGeometry;
 
-    if (adjust || (delta & MaximizeHorizontal)) {
+    if (delta & MaximizeHorizontal) {
         if (m_requestedMaximizeMode & MaximizeHorizontal) {
             // Stretch the window vertically to fit the size of the maximize area.
             geometry.setX(clientArea.x());
@@ -1730,7 +1713,7 @@ void XdgToplevelWindow::changeMaximize(bool horizontal, bool vertical, bool adju
         }
     }
 
-    if (adjust || (delta & MaximizeVertical)) {
+    if (delta & MaximizeVertical) {
         if (m_requestedMaximizeMode & MaximizeVertical) {
             // Stretch the window horizontally to fit the size of the maximize area.
             geometry.setY(clientArea.y());
@@ -2020,8 +2003,6 @@ XdgSurfaceConfigure *XdgPopupWindow::sendRoleConfigure() const
 
 void XdgPopupWindow::handleGrabRequested(SeatInterface *seat, quint32 serial)
 {
-    Q_UNUSED(seat)
-    Q_UNUSED(serial)
     m_haveExplicitGrab = true;
 }
 

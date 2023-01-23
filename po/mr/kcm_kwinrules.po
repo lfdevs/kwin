@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-08-19 00:47+0000\n"
+"POT-Creation-Date: 2022-12-11 00:48+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -64,12 +64,12 @@ msgstr ""
 msgid "Copy of %1"
 msgstr ""
 
-#: kcmrules.cpp:422
+#: kcmrules.cpp:423
 #, kde-format
 msgid "Application settings for %1"
 msgstr "%1 करिता अनुप्रयोग संयोजना"
 
-#: kcmrules.cpp:442 rulesmodel.cpp:215
+#: kcmrules.cpp:445 rulesmodel.cpp:215
 #, kde-format
 msgid "Window settings for %1"
 msgstr "%1 करिता चौकट संयोजना"
@@ -353,23 +353,18 @@ msgid_plural "After %1 seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: package/contents/ui/RulesEditor.qml:147
-#, kde-format
-msgid "Error"
-msgstr ""
-
-#: package/contents/ui/RulesEditor.qml:162
+#: package/contents/ui/RulesEditor.qml:175
 #, kde-format
 msgid "Add property to the rule"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:260
+#: package/contents/ui/RulesEditor.qml:273
 #: package/contents/ui/ValueEditor.qml:54
 #, kde-format
 msgid "Yes"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:260
+#: package/contents/ui/RulesEditor.qml:273
 #: package/contents/ui/ValueEditor.qml:60
 #, fuzzy, kde-format
 #| msgctxt "no focus stealing prevention"
@@ -377,20 +372,20 @@ msgstr ""
 msgid "No"
 msgstr "काही नाही"
 
-#: package/contents/ui/RulesEditor.qml:262
+#: package/contents/ui/RulesEditor.qml:275
 #: package/contents/ui/ValueEditor.qml:171
 #: package/contents/ui/ValueEditor.qml:178
 #, kde-format
 msgid "%1 %"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:264
+#: package/contents/ui/RulesEditor.qml:277
 #, kde-format
 msgctxt "Coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:266
+#: package/contents/ui/RulesEditor.qml:279
 #, kde-format
 msgctxt "Size (width, height)"
 msgid "(%1, %2)"
@@ -780,166 +775,408 @@ msgstr ""
 msgid "Block compositing"
 msgstr "कंपोझिटींग रोखा"
 
-#: rulesmodel.cpp:727
+#: rulesmodel.cpp:703
+#, fuzzy, kde-format
+#| msgid "Window &class (application):"
+msgid "Window class not available"
+msgstr "चौकट वर्ग (अनुप्रयोग) (&C):"
+
+#: rulesmodel.cpp:704
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"This application is not providing a class for the window, so KWin cannot use "
+"it to match and apply any rules. If you still want to apply some rules to "
+"it, try to match other properties like the window title instead.<nl/><nl/"
+">Please consider reporting this bug to the application's developers."
+msgstr ""
+
+#: rulesmodel.cpp:738
 #, fuzzy, kde-format
 #| msgid "Window &types:"
 msgid "All Window Types"
 msgstr "चौकट प्रकार (&t):"
 
-#: rulesmodel.cpp:728
+#: rulesmodel.cpp:739
 #, kde-format
 msgid "Normal Window"
 msgstr "सामान्य चौकट"
 
-#: rulesmodel.cpp:729
+#: rulesmodel.cpp:740
 #, kde-format
 msgid "Dialog Window"
 msgstr "संवाद चौकट"
 
-#: rulesmodel.cpp:730
+#: rulesmodel.cpp:741
 #, kde-format
 msgid "Utility Window"
 msgstr "उपकार्यक्रम चौकट"
 
-#: rulesmodel.cpp:731
+#: rulesmodel.cpp:742
 #, kde-format
 msgid "Dock (panel)"
 msgstr "डॉक (पटल)"
 
-#: rulesmodel.cpp:732
+#: rulesmodel.cpp:743
 #, kde-format
 msgid "Toolbar"
 msgstr "साधनपट्टी"
 
-#: rulesmodel.cpp:733
+#: rulesmodel.cpp:744
 #, kde-format
 msgid "Torn-Off Menu"
 msgstr "मेन्यू दर्शवू नका"
 
-#: rulesmodel.cpp:734
+#: rulesmodel.cpp:745
 #, kde-format
 msgid "Splash Screen"
 msgstr "स्प्लॅश स्क्रीन"
 
-#: rulesmodel.cpp:735
+#: rulesmodel.cpp:746
 #, kde-format
 msgid "Desktop"
 msgstr "डेस्कटॉप"
 
 #. i18n("Unmanaged Window")},  deprecated
-#: rulesmodel.cpp:737
+#: rulesmodel.cpp:748
 #, kde-format
 msgid "Standalone Menubar"
 msgstr "स्टॅन्डअलोन मेन्यूपट्टी"
 
-#: rulesmodel.cpp:738
+#: rulesmodel.cpp:749
 #, kde-format
 msgid "On Screen Display"
 msgstr ""
 
-#: rulesmodel.cpp:748
+#: rulesmodel.cpp:759
 #, kde-format
 msgid "All Desktops"
 msgstr "सर्व डेस्कटॉप"
 
-#: rulesmodel.cpp:750
+#: rulesmodel.cpp:761
 #, kde-format
 msgctxt "@info:tooltip in the virtual desktop list"
 msgid "Make the window available on all desktops"
 msgstr ""
 
-#: rulesmodel.cpp:769
+#: rulesmodel.cpp:780
 #, kde-format
 msgid "All Activities"
 msgstr "सर्व कार्यपध्दती"
 
-#: rulesmodel.cpp:771
+#: rulesmodel.cpp:782
 #, kde-format
 msgctxt "@info:tooltip in the activity list"
 msgid "Make the window available on all activities"
 msgstr ""
 
-#: rulesmodel.cpp:792
+#: rulesmodel.cpp:803
 #, kde-format
 msgid "Default"
 msgstr "मूलभूत"
 
-#: rulesmodel.cpp:793
+#: rulesmodel.cpp:804
 #, kde-format
 msgid "No Placement"
 msgstr "स्थित केले नाही"
 
-#: rulesmodel.cpp:794
+#: rulesmodel.cpp:805
 #, kde-format
 msgid "Minimal Overlapping"
 msgstr ""
 
-#: rulesmodel.cpp:795
+#: rulesmodel.cpp:806
 #, fuzzy, kde-format
 #| msgid "Maximizing"
 msgid "Maximized"
 msgstr "वाढवित आहे"
 
-#: rulesmodel.cpp:796
-#, fuzzy, kde-format
-#| msgid "Cascade"
-msgid "Cascaded"
-msgstr "श्रृंखला"
-
-#: rulesmodel.cpp:797
+#: rulesmodel.cpp:807
 #, kde-format
 msgid "Centered"
 msgstr "केंद्रीय"
 
-#: rulesmodel.cpp:798
+#: rulesmodel.cpp:808
 #, kde-format
 msgid "Random"
 msgstr "विनाक्रम"
 
-#: rulesmodel.cpp:799
+#: rulesmodel.cpp:809
 #, fuzzy, kde-format
 #| msgid "Top-Left Corner"
 msgid "In Top-Left Corner"
 msgstr "वरील-डावीकडील कोपरा"
 
-#: rulesmodel.cpp:800
+#: rulesmodel.cpp:810
 #, kde-format
 msgid "Under Mouse"
 msgstr "माऊ खाली"
 
-#: rulesmodel.cpp:801
+#: rulesmodel.cpp:811
 #, kde-format
 msgid "On Main Window"
 msgstr "मुख्य चौकटीवर"
 
-#: rulesmodel.cpp:808
+#: rulesmodel.cpp:818
 #, fuzzy, kde-format
 #| msgctxt "no focus stealing prevention"
 #| msgid "None"
 msgid "None"
 msgstr "काही नाही"
 
-#: rulesmodel.cpp:809
+#: rulesmodel.cpp:819
 #, kde-format
 msgid "Low"
 msgstr "कमी"
 
-#: rulesmodel.cpp:810
+#: rulesmodel.cpp:820
 #, kde-format
 msgid "Normal"
 msgstr "सामान्य"
 
-#: rulesmodel.cpp:811
+#: rulesmodel.cpp:821
 #, kde-format
 msgid "High"
 msgstr "जास्त"
 
-#: rulesmodel.cpp:812
+#: rulesmodel.cpp:822
 #, kde-format
 msgid "Extreme"
 msgstr "तीव्र"
 
-#: rulesmodel.cpp:855
+#: rulesmodel.cpp:865
+#, fuzzy, kde-format
+#| msgid "Unmanaged Window"
+msgid "Unmanaged window"
+msgstr "अव्यवस्थापित चौकट"
+
+#: rulesmodel.cpp:866
 #, kde-format
 msgid "Could not detect window properties. The window is not managed by KWin."
 msgstr ""
+
+#, fuzzy
+#~| msgid "Cascade"
+#~ msgid "Cascaded"
+#~ msgstr "श्रृंखला"
+
+#, fuzzy
+#~| msgid "Keep &above"
+#~ msgid "Keep above"
+#~ msgstr "वर ठेवा (&A)"
+
+#, fuzzy
+#~| msgid "Keep &below"
+#~ msgid "Keep below"
+#~ msgstr "खाली ठेवा (&B)"
+
+#~ msgid "KWin"
+#~ msgstr "KWin"
+
+#~ msgid "KWin helper utility"
+#~ msgstr "KWin सहाय्यकीय उपकार्यक्रम"
+
+#, fuzzy
+#~| msgid "Activit&y"
+#~ msgid "Activity"
+#~ msgstr "कार्यपध्दती (&Y)"
+
+#, fuzzy
+#~| msgid "&Detect Window Properties"
+#~ msgid "Select properties"
+#~ msgstr "चौकट गुणधर्म ओळखा (&D)"
+
+#~ msgid "Override Type"
+#~ msgstr "ओव्हरराइड प्रकार"
+
+#~ msgid "Unknown - will be treated as Normal Window"
+#~ msgstr "अपरिचीत - यांस सामान्य चौकट नुरूप हाताळले जाईल"
+
+#~ msgid "Information About Selected Window"
+#~ msgstr "निवडलेल्या चौकट विषयी माहिती"
+
+#~ msgid "Class:"
+#~ msgstr "वर्ग :"
+
+#~ msgid "Role:"
+#~ msgstr "भूमीका :"
+
+#~ msgid "Type:"
+#~ msgstr "प्रकार :"
+
+#~ msgid "Title:"
+#~ msgstr "शिर्षक :"
+
+#~ msgid "Machine:"
+#~ msgstr "मशीन :"
+
+#~ msgid "Match by primary class name and"
+#~ msgstr "प्राथमिक वर्ग नावाने जुळवा"
+
+#~ msgid "Secondary class name  (resulting in term in brackets)"
+#~ msgstr "दुय्यम वर्ग नाव (कंसातील मजकूरावर ठरते)"
+
+#~ msgid "Window role (can be used to select windows by function)"
+#~ msgstr "चौकट भूमिका (कार्याप्रमाणे चौकटी निवडण्याकरिता वापरता येते)"
+
+#~ msgid "Window type (eg. all dialogs, but not the main windows)"
+#~ msgstr "चौकट प्रकार (उदा. सर्व संवाद, पण मुख्य चौकटी नाहीत)"
+
+#~ msgid ""
+#~ "Window title (very specific, can fail due to content changes or "
+#~ "translation)"
+#~ msgstr "चौकट शिर्षक (खूप निश्चित, मजकूर बदल किंवा भाषांतराने अपयशी होऊ शकते)"
+
+#~ msgid "&Single Shortcut"
+#~ msgstr "एकमेव शॉर्टकट (&S)"
+
+#~ msgid "C&lear"
+#~ msgstr "नष्ट करा (&l)"
+
+#~ msgid "Window-Specific Settings Configuration Module"
+#~ msgstr "चौकट-केंद्रीत मांडणी संयोजना विभाग"
+
+#~ msgid "(c) 2004 KWin and KControl Authors"
+#~ msgstr "(c) 2004 KWin and KControl Authors"
+
+#~ msgid "Lubos Lunak"
+#~ msgstr "Lubos Lunak"
+
+#~ msgid "Remember settings separately for every window"
+#~ msgstr "प्रत्येक चौकट करिता वेगळी संयोजना लक्षात ठेवा"
+
+#~ msgid "Show internal settings for remembering"
+#~ msgstr "लक्षात ठेवण्याकरिता आंतरीक संयोजना दर्शवा"
+
+#~ msgid "Internal setting for remembering"
+#~ msgstr "लक्षात ठेवण्याकरिता आंतरीक संयोजना"
+
+#~ msgid "&Modify..."
+#~ msgstr "बदला (&M)..."
+
+#~ msgid "Move &Up"
+#~ msgstr "वर हलवा (&U)"
+
+#~ msgid "Move &Down"
+#~ msgstr "खाली हलवा (&D)"
+
+#~ msgid ""
+#~ "Enable this checkbox to alter this window property for the specified "
+#~ "window(s)."
+#~ msgstr ""
+#~ "हा चौकट गुणधर्म निर्देशीत चौकटींकरिता  बदलण्याकरीता हा चेकबॉक्स कार्यान्वीत करा."
+
+#~ msgid "Unnamed entry"
+#~ msgstr "निनावी नोंदणी"
+
+#~ msgid "Consult the documentation for more details."
+#~ msgstr "अधिक माहिती करिता दस्तऐवजीकरण पहा."
+
+#~ msgid "Edit Shortcut"
+#~ msgstr "शॉर्टकट संपादित करा"
+
+#~ msgid "s delay"
+#~ msgstr " सेकंद विलंब"
+
+#~ msgid "x,y"
+#~ msgstr "x,y"
+
+#~ msgid "0123456789-+,xX:"
+#~ msgstr "0123456789-+,xX:"
+
+#~ msgid "width,height"
+#~ msgstr "रुंदी, उंची"
+
+#~ msgid "&Desktop"
+#~ msgstr "डेस्कटॉप (&D)"
+
+#~ msgid "Edit..."
+#~ msgstr "संपादित करा..."
+
+#~ msgid "Autog&roup in foreground"
+#~ msgstr "पृष्ठभूमी मधील स्वयंचलित समूह (&R)"
+
+#~ msgid "Autogroup by I&D"
+#~ msgstr "ID प्रमाणे स्वयंचलित समूह (&D)"
+
+#~ msgid "Autogroup with &identical"
+#~ msgstr "समानतेसह स्वयंचलित समूह (&I)"
+
+#~ msgid "%"
+#~ msgstr "%"
+
+#~ msgid "Smart"
+#~ msgstr "चतुर"
+
+#~ msgid "kcmkwinrules"
+#~ msgstr "kcmkwinrules"
+
+#~ msgid "Opaque"
+#~ msgstr "अपारदर्शक"
+
+#~ msgid "Transparent"
+#~ msgstr "पारदर्शक"
+
+#~ msgid "&Moving/resizing"
+#~ msgstr "हलविणे/आकार बदलणे (&M)"
+
+#, fuzzy
+#~| msgid "Title:"
+#~ msgid "Tiled"
+#~ msgstr "शिर्षक:"
+
+#~ msgid ""
+#~ "For selecting all windows belonging to a specific application, selecting "
+#~ "only window class should usually work."
+#~ msgstr ""
+#~ "ठराविक अनुप्रयोगच्या मालकीचे सर्व चौकट निवडण्याकरीता, फक्त चौकट वर्ग निवडणे सहसा "
+#~ "कार्यक्षम ठरायला हवे."
+
+#~ msgid "Use window &class (whole application)"
+#~ msgstr "चौकट वर्ग वापरा (संपूर्ण अनुप्रयोग) (&c)"
+
+#~ msgid ""
+#~ "For selecting a specific window in an application, both window class and "
+#~ "window role should be selected. Window class will determine the "
+#~ "application, and window role the specific window in the application; many "
+#~ "applications do not provide useful window roles though."
+#~ msgstr ""
+#~ "अनुप्रयोग अंतर्गत विशेष चौकट निवडण्याकरीता, दोन्ही चौकट वर्ग व चौकट भूमिका निवडली "
+#~ "पाहिजे. चौकट वर्ग, व चौकट भूमिका अनुप्रयोग अंतर्गत ठराविक चौकटची ओळख करतो; तसेच "
+#~ "अनेक अनुप्रयोग आवश्यक चौकट भूमिका पुरवित नाही."
+
+#~ msgid "Use window class and window &role (specific window)"
+#~ msgstr "चौकट वर्ग व चौकट भूमिका वापरा (ठराविक चौकट) (&r)"
+
+#~ msgid ""
+#~ "With some (non-KDE) applications whole window class can be sufficient for "
+#~ "selecting a specific window in an application, as they set whole window "
+#~ "class to contain both application and window role."
+#~ msgstr ""
+#~ "काहिक (विना-KDE) अनुप्रयोग सह संपूर्ण चौकट वर्ग अनुप्रयोग अंतर्गत ठराविक चौकट "
+#~ "निवडण्याकरीता पुरेसे आहे, तसेच ते संपूर्ण चौकट वर्ग यांस अनुप्रयोग व चौकट भूमिका समाविष्ट "
+#~ "करण्यास निश्चित करतो."
+
+#~ msgid "Use &whole window class (specific window)"
+#~ msgstr "संपूर्ण चौकट वर्ग वापरा (ठराविक चौकट) (&w)"
+
+#~ msgid "Match also window &title"
+#~ msgstr "चौकट शिर्षक देखिल जुळवा (&t)"
+
+#~ msgid "Extra role:"
+#~ msgstr "वाढिव भूमिका:"
+
+#~ msgid "Window &Extra"
+#~ msgstr "अगाऊ चौकट (&E)"
+
+#~ msgid "&Preferences"
+#~ msgstr "प्राधान्यता (&P)"
+
+#~ msgid "&No border"
+#~ msgstr "किनार नाही (&N)"
+
+#~ msgid "0123456789"
+#~ msgstr "0123456789"
+
+#~ msgid "Strictly obey geometry"
+#~ msgstr "जीओमेट्री सक्तपणे बाळगा"

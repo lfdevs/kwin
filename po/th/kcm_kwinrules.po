@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-08-19 00:47+0000\n"
+"POT-Creation-Date: 2022-12-11 00:48+0000\n"
 "PO-Revision-Date: 2010-07-07 14:59+0700\n"
 "Last-Translator: Thanomsub Noppaburana <donga.nb@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -64,12 +64,12 @@ msgstr ""
 msgid "Copy of %1"
 msgstr ""
 
-#: kcmrules.cpp:422
+#: kcmrules.cpp:423
 #, kde-format
 msgid "Application settings for %1"
 msgstr "ตั้งค่าโปรแกรม %1"
 
-#: kcmrules.cpp:442 rulesmodel.cpp:215
+#: kcmrules.cpp:445 rulesmodel.cpp:215
 #, kde-format
 msgid "Window settings for %1"
 msgstr "ตั้งค่าหน้าต่าง %1"
@@ -349,23 +349,18 @@ msgid "After %1 second"
 msgid_plural "After %1 seconds"
 msgstr[0] ""
 
-#: package/contents/ui/RulesEditor.qml:147
-#, kde-format
-msgid "Error"
-msgstr ""
-
-#: package/contents/ui/RulesEditor.qml:162
+#: package/contents/ui/RulesEditor.qml:175
 #, kde-format
 msgid "Add property to the rule"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:260
+#: package/contents/ui/RulesEditor.qml:273
 #: package/contents/ui/ValueEditor.qml:54
 #, kde-format
 msgid "Yes"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:260
+#: package/contents/ui/RulesEditor.qml:273
 #: package/contents/ui/ValueEditor.qml:60
 #, fuzzy, kde-format
 #| msgctxt "no focus stealing prevention"
@@ -373,20 +368,20 @@ msgstr ""
 msgid "No"
 msgstr "ไม่ป้องกัน"
 
-#: package/contents/ui/RulesEditor.qml:262
+#: package/contents/ui/RulesEditor.qml:275
 #: package/contents/ui/ValueEditor.qml:171
 #: package/contents/ui/ValueEditor.qml:178
 #, kde-format
 msgid "%1 %"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:264
+#: package/contents/ui/RulesEditor.qml:277
 #, kde-format
 msgctxt "Coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:266
+#: package/contents/ui/RulesEditor.qml:279
 #, kde-format
 msgctxt "Size (width, height)"
 msgid "(%1, %2)"
@@ -779,166 +774,482 @@ msgstr ""
 msgid "Block compositing"
 msgstr ""
 
-#: rulesmodel.cpp:727
+#: rulesmodel.cpp:703
+#, fuzzy, kde-format
+#| msgid "Window &class (application type):"
+msgid "Window class not available"
+msgstr "&คลาสของหน้าต่าง (ประเภทของโปรแกรม):"
+
+#: rulesmodel.cpp:704
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"This application is not providing a class for the window, so KWin cannot use "
+"it to match and apply any rules. If you still want to apply some rules to "
+"it, try to match other properties like the window title instead.<nl/><nl/"
+">Please consider reporting this bug to the application's developers."
+msgstr ""
+
+#: rulesmodel.cpp:738
 #, fuzzy, kde-format
 #| msgid "Window &types:"
 msgid "All Window Types"
 msgstr "&ชนิดของหน้าต่าง:"
 
-#: rulesmodel.cpp:728
+#: rulesmodel.cpp:739
 #, kde-format
 msgid "Normal Window"
 msgstr "หน้าต่างปกติ"
 
-#: rulesmodel.cpp:729
+#: rulesmodel.cpp:740
 #, kde-format
 msgid "Dialog Window"
 msgstr "กล่องตอบโต้"
 
-#: rulesmodel.cpp:730
+#: rulesmodel.cpp:741
 #, kde-format
 msgid "Utility Window"
 msgstr "หน้าต่างอรรถประโยชน์"
 
-#: rulesmodel.cpp:731
+#: rulesmodel.cpp:742
 #, kde-format
 msgid "Dock (panel)"
 msgstr "แถบพาเนล"
 
-#: rulesmodel.cpp:732
+#: rulesmodel.cpp:743
 #, kde-format
 msgid "Toolbar"
 msgstr "แถบเครื่องมือ"
 
-#: rulesmodel.cpp:733
+#: rulesmodel.cpp:744
 #, kde-format
 msgid "Torn-Off Menu"
 msgstr "เมนูที่แยกออกมาได้"
 
-#: rulesmodel.cpp:734
+#: rulesmodel.cpp:745
 #, kde-format
 msgid "Splash Screen"
 msgstr "หน้าจอเริ่มทำงาน"
 
-#: rulesmodel.cpp:735
+#: rulesmodel.cpp:746
 #, kde-format
 msgid "Desktop"
 msgstr "พื้นที่ทำงาน"
 
 #. i18n("Unmanaged Window")},  deprecated
-#: rulesmodel.cpp:737
+#: rulesmodel.cpp:748
 #, kde-format
 msgid "Standalone Menubar"
 msgstr "แถบรายการเมนูเดี่ยว"
 
-#: rulesmodel.cpp:738
+#: rulesmodel.cpp:749
 #, kde-format
 msgid "On Screen Display"
 msgstr ""
 
-#: rulesmodel.cpp:748
+#: rulesmodel.cpp:759
 #, kde-format
 msgid "All Desktops"
 msgstr "พื้นที่ทำงานทั้งหมด"
 
-#: rulesmodel.cpp:750
+#: rulesmodel.cpp:761
 #, kde-format
 msgctxt "@info:tooltip in the virtual desktop list"
 msgid "Make the window available on all desktops"
 msgstr ""
 
-#: rulesmodel.cpp:769
+#: rulesmodel.cpp:780
 #, kde-format
 msgid "All Activities"
 msgstr ""
 
-#: rulesmodel.cpp:771
+#: rulesmodel.cpp:782
 #, kde-format
 msgctxt "@info:tooltip in the activity list"
 msgid "Make the window available on all activities"
 msgstr ""
 
-#: rulesmodel.cpp:792
+#: rulesmodel.cpp:803
 #, kde-format
 msgid "Default"
 msgstr "ค่าปริยาย"
 
-#: rulesmodel.cpp:793
+#: rulesmodel.cpp:804
 #, kde-format
 msgid "No Placement"
 msgstr "ไม่ต้องย้ายตำแหน่ง"
 
-#: rulesmodel.cpp:794
+#: rulesmodel.cpp:805
 #, kde-format
 msgid "Minimal Overlapping"
 msgstr ""
 
-#: rulesmodel.cpp:795
+#: rulesmodel.cpp:806
 #, fuzzy, kde-format
 #| msgid "Maximizing"
 msgid "Maximized"
 msgstr "ขยายใหญ่สุด"
 
-#: rulesmodel.cpp:796
-#, fuzzy, kde-format
-#| msgid "Cascade"
-msgid "Cascaded"
-msgstr "เรียงลดหลั่น"
-
-#: rulesmodel.cpp:797
+#: rulesmodel.cpp:807
 #, kde-format
 msgid "Centered"
 msgstr "จัดกึ่งกลาง"
 
-#: rulesmodel.cpp:798
+#: rulesmodel.cpp:808
 #, kde-format
 msgid "Random"
 msgstr "สุ่ม"
 
-#: rulesmodel.cpp:799
+#: rulesmodel.cpp:809
 #, fuzzy, kde-format
 #| msgid "Top-Left Corner"
 msgid "In Top-Left Corner"
 msgstr "มุมบนซ้าย"
 
-#: rulesmodel.cpp:800
+#: rulesmodel.cpp:810
 #, kde-format
 msgid "Under Mouse"
 msgstr "ใต้เมาส์"
 
-#: rulesmodel.cpp:801
+#: rulesmodel.cpp:811
 #, kde-format
 msgid "On Main Window"
 msgstr "บนหน้าต่างหลัก"
 
-#: rulesmodel.cpp:808
+#: rulesmodel.cpp:818
 #, fuzzy, kde-format
 #| msgctxt "no focus stealing prevention"
 #| msgid "None"
 msgid "None"
 msgstr "ไม่ป้องกัน"
 
-#: rulesmodel.cpp:809
+#: rulesmodel.cpp:819
 #, kde-format
 msgid "Low"
 msgstr "ต่ำ"
 
-#: rulesmodel.cpp:810
+#: rulesmodel.cpp:820
 #, kde-format
 msgid "Normal"
 msgstr "ปกติ"
 
-#: rulesmodel.cpp:811
+#: rulesmodel.cpp:821
 #, kde-format
 msgid "High"
 msgstr "สูง"
 
-#: rulesmodel.cpp:812
+#: rulesmodel.cpp:822
 #, kde-format
 msgid "Extreme"
 msgstr "เข้มงวดมาก"
 
-#: rulesmodel.cpp:855
+#: rulesmodel.cpp:865
+#, fuzzy, kde-format
+#| msgid "On Main Window"
+msgid "Unmanaged window"
+msgstr "บนหน้าต่างหลัก"
+
+#: rulesmodel.cpp:866
 #, kde-format
 msgid "Could not detect window properties. The window is not managed by KWin."
 msgstr ""
+
+#, fuzzy
+#~| msgid "Cascade"
+#~ msgid "Cascaded"
+#~ msgstr "เรียงลดหลั่น"
+
+#, fuzzy
+#~| msgid "Keep &above"
+#~ msgid "Keep above"
+#~ msgstr "&คงให้อยู่เหนือหน้าต่างอื่น"
+
+#, fuzzy
+#~| msgid "Keep &below"
+#~ msgid "Keep below"
+#~ msgstr "คงให้อยู่ใ&ต้หน้าต่างอื่น"
+
+#~ msgid "KWin"
+#~ msgstr "KWin"
+
+#~ msgid "KWin helper utility"
+#~ msgstr "โปรแกรมช่วยเหลือของ KWin"
+
+#, fuzzy
+#~| msgid "&Detect Window Properties"
+#~ msgid "Select properties"
+#~ msgstr "&ตรวจคุณสมบัติของหน้าต่าง"
+
+#~ msgid "Override Type"
+#~ msgstr "ชนิดที่ใช้แทน"
+
+#~ msgid "Unknown - will be treated as Normal Window"
+#~ msgstr "ไม่ทราบชนิด - จะทำเหมือนทำกับหน้าต่างปกติ"
+
+#~ msgid "Information About Selected Window"
+#~ msgstr "ข้อมูลเกี่ยวกับหน้าต่างที่เลือก"
+
+#~ msgid "Class:"
+#~ msgstr "คลาส:"
+
+#~ msgid "Role:"
+#~ msgstr "บทบาท:"
+
+#~ msgid "Type:"
+#~ msgstr "ชนิด:"
+
+#~ msgid "Title:"
+#~ msgstr "ชื่อเรื่อง:"
+
+#~ msgid "Machine:"
+#~ msgstr "เครื่อง:"
+
+#, fuzzy
+#~| msgid ""
+#~| "A single shortcut can be easily assigned or cleared using the two "
+#~| "buttons. Only shortcuts with modifiers can be used.<p>\n"
+#~| "It is possible to have several possible shortcuts, and the first "
+#~| "available shortcut will be used. The shortcuts are specified using space-"
+#~| "separated shortcut sets. One set is specified as <i>base</i>+(<i>list</"
+#~| "i>), where base are modifiers and list is a list of keys.<br>\n"
+#~| "For example \"<b>Shift+Alt+(123) Shift+Ctrl+(ABC)</b>\" will first try "
+#~| "<b>Shift+Alt+1</b>, then others with <b>Shift+Ctrl+C</b> as the last one."
+#~ msgid ""
+#~ "A single shortcut can be easily assigned or cleared using the two "
+#~ "buttons. Only shortcuts with modifiers can be used.<p>\n"
+#~ "It is possible to have several possible shortcuts, and the first "
+#~ "available shortcut will be used. The shortcuts are specified using "
+#~ "shortcut sets separated by \" - \". One set is specified as <i>base</i>"
+#~ "+(<i>list</i>), where base are modifiers and list is a list of keys.<br>\n"
+#~ "For example \"<b>Shift+Alt+(123) Shift+Ctrl+(ABC)</b>\" will first try "
+#~ "<b>Shift+Alt+1</b>, then others with <b>Shift+Ctrl+C</b> as the last one."
+#~ msgstr ""
+#~ "คุณสามารถกำหนดปุ่มพิมพ์ลัดโดยใช้ปุ่มพิมพ์เดี่ยวได้ง่าย ๆ หรือจะใช้ปุ่มพิมพ์ลัดสองปุ่มก็ได้ "
+#~ "หากใช้สองปุ่มจะต้องใช้ปุ่มพิมพ์ลัดร่วมกับปุ่มพิมพ์ร่วม (เช่น Ctrl, Alt เป็นต้น) เท่านั้น<p>\n"
+#~ "คุณสามารถกำหนดปุ่มพิมพ์ลัดได้มากกว่าสองรายการ โดยรายการแรกจะเป็นตัวที่ถูกใช้โดยปริยาย "
+#~ "สำหรับการกำหนดปุ่มพิมพ์ลัดมากกว่าสองรายการนั้น ให้แยกแต่ละรายการด้วยการเว้นวรรค "
+#~ "ซึ่งมีรูปแบบคือ <i>ปุ่มพิมพ์ร่วม</i>+(<i>รายการของปุ่ม</i>)<br>\n"
+#~ "ตัวอย่าง เช่น \"<b>Shift+Alt+(123) Shift+Ctrl+(ABC)</b>\" "
+#~ "โดยจะใช้ปุ่มพิมพ์ตัวแรกในที่นี้คือ <b>Shift+Alt+1</b> ก่อน และใช้ <b>Shift+Ctrl+C</b> "
+#~ "เป็นค่าสุดท้าย เป็นต้น"
+
+#~ msgid "&Single Shortcut"
+#~ msgstr "เลือกปุ่มพิมพ์ลัดแบบปุ่มเ&ดี่ยว"
+
+#~ msgid "C&lear"
+#~ msgstr "&ล้าง"
+
+#~ msgid "Window-Specific Settings Configuration Module"
+#~ msgstr "มอดูลสำหรับปรับค่าหน้าต่างโดยเฉพาะ"
+
+#~ msgid "(c) 2004 KWin and KControl Authors"
+#~ msgstr "สงวนลิขสิทธิ์ (c) 2547 ผู้เขียน KWin และ KControl"
+
+#~ msgid "Lubos Lunak"
+#~ msgstr "Lubos Lunak"
+
+#~ msgid "Remember settings separately for every window"
+#~ msgstr "ให้จำค่าที่ตั้งไว้แยกสำหรับแต่ละหน้าต่าง"
+
+#~ msgid "Show internal settings for remembering"
+#~ msgstr "แสดงค่าที่ตั้งไว้ภายในเพื่อจดจำ"
+
+#~ msgid "Internal setting for remembering"
+#~ msgstr "ค่าที่ตั้งไว้ภายในสำหรับจดจำ"
+
+#~ msgid "&Modify..."
+#~ msgstr "แ&ก้ไข..."
+
+#~ msgid "Move &Up"
+#~ msgstr "เลื่อน&ขึ้น"
+
+#~ msgid "Move &Down"
+#~ msgstr "เลื่อนล&ง"
+
+#~ msgid ""
+#~ "Enable this checkbox to alter this window property for the specified "
+#~ "window(s)."
+#~ msgstr "เปิดใช้ตัวเลือกนี้เพื่อเปลี่ยนค่าคุณสมบัติต่าง ๆ ของหน้าต่างที่กำหนดเป็นค่าในรูปแบบอื่น ๆ"
+
+#, fuzzy
+#~| msgid ""
+#~| "Specify how the window property should be affected:<ul><li><em>Do Not "
+#~| "Affect:</em> The window property will not be affected and therefore the "
+#~| "default handling for it will be used. Specifying this will block more "
+#~| "generic window settings from taking effect.</li><li><em>Apply Initially:"
+#~| "</em> The window property will be only set to the given value after the "
+#~| "window is created. No further changes will be affected.</"
+#~| "li><li><em>Remember:</em> The value of the window property will be "
+#~| "remembered and every time time the window is created, the last "
+#~| "remembered value will be applied.</li><li><em>Force:</em> The window "
+#~| "property will be always forced to the given value.</li><li><em>Apply Now:"
+#~| "</em> The window property will be set to the given value immediately and "
+#~| "will not be affected later (this action will be deleted afterwards).</"
+#~| "li><li><em>Force temporarily:</em> The window property will be forced to "
+#~| "the given value until it is hidden (this action will be deleted after "
+#~| "the window is hidden).</li></ul>"
+#~ msgid ""
+#~ "Specify how the window property should be affected:<ul><li><em>Do Not "
+#~ "Affect:</em> The window property will not be affected and therefore the "
+#~ "default handling for it will be used. Specifying this will block more "
+#~ "generic window settings from taking effect.</li><li><em>Apply Initially:</"
+#~ "em> The window property will be only set to the given value after the "
+#~ "window is created. No further changes will be affected.</"
+#~ "li><li><em>Remember:</em> The value of the window property will be "
+#~ "remembered and every time the window is created, the last remembered "
+#~ "value will be applied.</li><li><em>Force:</em> The window property will "
+#~ "be always forced to the given value.</li><li><em>Apply Now:</em> The "
+#~ "window property will be set to the given value immediately and will not "
+#~ "be affected later (this action will be deleted afterwards).</"
+#~ "li><li><em>Force temporarily:</em> The window property will be forced to "
+#~ "the given value until it is hidden (this action will be deleted after the "
+#~ "window is hidden).</li></ul>"
+#~ msgstr ""
+#~ "กำหนดคุณสมบัติของหน้าต่างที่จะให้ปรับใช้:<ul><li><em>ไม่มีผล:</em> "
+#~ "คุณสมบัติของหน้าต่างจะไม่มีผลกับตัวเลือกนั้น ๆ และจะมีลักษณะตามปกติของหน้าต่าง "
+#~ "การระบุแบบนี้จะทำให้หน้าต่างแบบปกติอื่น ๆ ไม่ได้รับผลกระทบไปด้วย</li> "
+#~ "<li><em>มีผลเมื่อเริ่มเรียกใช้:</em> "
+#~ "จะมีผลกับคุณสมบัติของหน้าต่างที่กำหนดหลังจากที่หน้าต่างถูกสร้างแล้วและจะไม่มีผลอีกต่อไป</"
+#~ "li><li><em>จดจำค่า:</em> จะมีการจดจำค่าของคุณสมบัติของหน้าต่างที่กำหนด "
+#~ "และทุกครั้งที่หน้าต่างถูกสร้างแล้วจะมีการปรับใช้ค่าต่าง ๆ ที่กำหนด</li><li><em>บังคับใช้:</"
+#~ "em> จะมีการบังคับใช้ค่าที่กำหนดเพื่อปรับใช้กับหน้าต่างเสมอ</li><li><em>บังคับใช้ชั่วคราว:</"
+#~ "em> จะมีการบังคับใช้ค่าที่กำหนดเพื่อปรับใช้กับหน้าต่างจนกว่าหน้าต่างนั้นจะถูกซ่อน "
+#~ "(และการกระทำนี้จะถูกลบทิ้งหลังจากที่มีการซ่อนหน้าต่างที่กำหนด)</li></ul>"
+
+#~ msgid ""
+#~ "Specify how the window property should be affected:<ul><li><em>Do Not "
+#~ "Affect:</em> The window property will not be affected and therefore the "
+#~ "default handling for it will be used. Specifying this will block more "
+#~ "generic window settings from taking effect.</li><li><em>Force:</em> The "
+#~ "window property will be always forced to the given value.</"
+#~ "li><li><em>Force temporarily:</em> The window property will be forced to "
+#~ "the given value until it is hidden (this action will be deleted after the "
+#~ "window is hidden).</li></ul>"
+#~ msgstr ""
+#~ "กำหนดคุณสมบัติของหน้าต่างที่จะให้ปรับใช้:<ul><li><em>ไม่มีผล:</em> "
+#~ "คุณสมบัติของหน้าต่างจะไม่มีผลกับตัวเลือกนั้น ๆ และจะมีลักษณะตามปกติของหน้าต่าง "
+#~ "การระบุแบบนี้จะทำให้หน้าต่างแบบปกติอื่น ๆ ไม่ได้รับผลกระทบไปด้วย</li><li><em>บังคับใช้:</"
+#~ "em> จะมีการบังคับใช้ค่าที่กำหนดเพื่อปรับใช้กับหน้าต่างเสมอ</li><li><em>บังคับใช้ชั่วคราว:</"
+#~ "em> จะมีการบังคับใช้ค่าที่กำหนดเพื่อปรับใช้กับหน้าต่างจนกว่าหน้าต่างนั้นจะถูกซ่อน "
+#~ "(และการกระทำนี้จะถูกลบทิ้งหลังจากที่มีการซ่อนหน้าต่างที่กำหนด)</li></ul>"
+
+#~ msgid "Unnamed entry"
+#~ msgstr "รายการที่ยังไม่กำหนดชื่อ"
+
+#~ msgid ""
+#~ "This configuration dialog allows altering settings only for the selected "
+#~ "window or application. Find the setting you want to affect, enable the "
+#~ "setting using the checkbox, select in what way the setting should be "
+#~ "affected and to which value."
+#~ msgstr ""
+#~ "กล่องปรับแต่งนี้จะช่วยให้คุณได้ปรับตั้งค่าต่าง ๆ ของหน้าต่างหรือโปรแกรมที่เจาะจงได้ "
+#~ "โดยค้นหาการตั้งค่าที่คุณต้องการ, เปิดใช้งานหรือตั้งค่ามัน, เลือกมันและทำการปรับตั้งค่าต่าง ๆ "
+#~ "ตามที่ต้องการ"
+
+#~ msgid "Consult the documentation for more details."
+#~ msgstr "โปรดดูรายละเอียดเพิ่มเติมในเอกสาร"
+
+#~ msgid "Edit Shortcut"
+#~ msgstr "แก้ไขปุ่มพิมพ์ลัด"
+
+#~ msgid "0123456789-+,xX:"
+#~ msgstr "0123456789-+,xX:"
+
+#~ msgid "&Desktop"
+#~ msgstr "&พื้นที่ทำงาน"
+
+#~ msgid "Autog&roup in foreground"
+#~ msgstr "จัดกลุ่มโดยอัตโนมัติในเบื้องหน้า"
+
+#~ msgid "Autogroup by I&D"
+#~ msgstr "จัดกลุ่มโดยอัตโนมัติตามค่าประจำตั&ว"
+
+#~ msgid "Autogroup with &identical"
+#~ msgstr "จัดกลุ่มโดยอัตโนมัติเมื่อเห&มือนกัน"
+
+#~ msgid "Smart"
+#~ msgstr "อัตโนมัติ"
+
+#~ msgid "kcmkwinrules"
+#~ msgstr "kcmkwinrules"
+
+#~ msgid "Opaque"
+#~ msgstr "ทึบแสง"
+
+#~ msgid "Transparent"
+#~ msgstr "โปร่งแสง"
+
+#~ msgid "&Moving/resizing"
+#~ msgstr "การ&ย้าย/การปรับขนาด"
+
+#~ msgid "T&iling"
+#~ msgstr "ปู&หน้าต่าง"
+
+#~ msgid "Tiled"
+#~ msgstr "ปูหน้าต่าง"
+
+#~ msgid "Floating"
+#~ msgstr "ลอย"
+
+#~ msgid ""
+#~ "For selecting all windows belonging to a specific application, selecting "
+#~ "only window class should usually work."
+#~ msgstr ""
+#~ "ในการเลือกหน้าต่างทั้งหมดที่เป็นของโปรแกรมเฉพาะนั้น "
+#~ "โดยปกติแล้วการเลือกเฉพาะคลาสของหน้าต่างควรจะเพียงพอให้ใช้งานได้"
+
+#~ msgid "Use window &class (whole application)"
+#~ msgstr "ใช้&คลาสของหน้าต่าง (ทั้งโปรแกรม)"
+
+#~ msgid ""
+#~ "For selecting a specific window in an application, both window class and "
+#~ "window role should be selected. Window class will determine the "
+#~ "application, and window role the specific window in the application; many "
+#~ "applications do not provide useful window roles though."
+#~ msgstr ""
+#~ "ในการเลือกหน้าต่างเฉพาะในโปรแกรม ทั้งคลาสของหน้าต่างและบทบาทของหน้าต่างควรจะถูกเลือก "
+#~ "โดยคลาสของหน้าต่างจะเป็นตัวพิจารณาโปรแกรม "
+#~ "และบทบาทของหน้าต่างจะเป็นตัวพิจารณาหน้าต่างเฉพาะในโปรแกรม แต่อย่างไรก็ตาม "
+#~ "โปรแกรมหลาย ๆ ตัวก็ไม่ได้เตรียมบทบาทของหน้าต่าง ที่มีประโยชน์มาให้"
+
+#~ msgid "Use window class and window &role (specific window)"
+#~ msgstr "ใช้คลาสและบทบาทของหน้าต่าง (หน้าต่างเฉพาะ)"
+
+#~ msgid ""
+#~ "With some (non-KDE) applications whole window class can be sufficient for "
+#~ "selecting a specific window in an application, as they set whole window "
+#~ "class to contain both application and window role."
+#~ msgstr ""
+#~ "กับโปรแกรมบางตัว (ที่ไม่ใช่ของ KDE) แล้ว "
+#~ "การใช้คลาสของหน้าต่างทั้งหมดนั้นเพียงพอสำหรับการเลือกกำหนดหน้าต่างในโปรแกรม "
+#~ "ที่มีการตั้งค่าคลาสของหน้าต่างและมีทั้งโปรแกรมและกฏของหน้าต่าง"
+
+#~ msgid "Use &whole window class (specific window)"
+#~ msgstr "ใช้คลาสของหน้าต่าง&ทั้งอัน (หน้าต่างเฉพาะ)"
+
+#~ msgid "Match also window &title"
+#~ msgstr "ตรงกันกับ&หัวเรื่องของหน้าต่าง"
+
+#~ msgid "Extra role:"
+#~ msgstr "บทบาทพิเศษ:"
+
+#~ msgid "Window &Extra"
+#~ msgstr "หน้าต่าง&พิเศษ"
+
+#~ msgid "&Geometry"
+#~ msgstr "&มิติขนาด"
+
+#~ msgid "&Preferences"
+#~ msgstr "&ปรับแต่งคุณสมบัติ"
+
+#~ msgid "&No border"
+#~ msgstr "ไม่มีก&รอบหน้าต่าง"
+
+#~ msgid "0123456789"
+#~ msgstr "0123456789"
+
+#~ msgid "W&orkarounds"
+#~ msgstr "การ&วนรอบการทำงาน"
+
+#~ msgid "Strictly obey geometry"
+#~ msgstr "ยอมรับการปรับเปลี่ยนรูปแบบหน้าต่าง"

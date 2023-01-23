@@ -60,14 +60,11 @@ public:
 };
 
 PaintData::PaintData()
-    : d(new PaintDataPrivate())
+    : d(std::make_unique<PaintDataPrivate>())
 {
 }
 
-PaintData::~PaintData()
-{
-    delete d;
-}
+PaintData::~PaintData() = default;
 
 qreal PaintData::xScale() const
 {
@@ -204,21 +201,20 @@ void PaintData::setRotationOrigin(const QVector3D &origin)
     d->rotationOrigin = origin;
 }
 
-QMatrix4x4 PaintData::toMatrix() const
+QMatrix4x4 PaintData::toMatrix(qreal deviceScale) const
 {
     QMatrix4x4 ret;
     if (d->translation != QVector3D(0, 0, 0)) {
-        ret.translate(d->translation);
+        ret.translate(d->translation * deviceScale);
     }
     if (d->scale != QVector3D(1, 1, 1)) {
         ret.scale(d->scale);
     }
 
     if (d->rotationAngle != 0) {
-        ret.translate(d->rotationOrigin);
-        const QVector3D axis = d->rotationAxis;
-        ret.rotate(d->rotationAngle, axis.x(), axis.y(), axis.z());
-        ret.translate(-d->rotationOrigin);
+        ret.translate(d->rotationOrigin * deviceScale);
+        ret.rotate(d->rotationAngle, d->rotationAxis);
+        ret.translate(-d->rotationOrigin * deviceScale);
     }
 
     return ret;
@@ -232,8 +228,8 @@ public:
     qreal brightness;
     int screen;
     qreal crossFadeProgress;
-    QMatrix4x4 pMatrix;
-    QMatrix4x4 screenProjectionMatrix;
+    QMatrix4x4 projectionMatrix;
+    std::optional<qreal> renderTargetScale = std::nullopt;
 };
 
 WindowPaintData::WindowPaintData()
@@ -241,12 +237,11 @@ WindowPaintData::WindowPaintData()
 {
 }
 
-WindowPaintData::WindowPaintData(const QMatrix4x4 &screenProjectionMatrix)
+WindowPaintData::WindowPaintData(const QMatrix4x4 &projectionMatrix)
     : PaintData()
-    , shader(nullptr)
-    , d(new WindowPaintDataPrivate())
+    , d(std::make_unique<WindowPaintDataPrivate>())
 {
-    d->screenProjectionMatrix = screenProjectionMatrix;
+    setProjectionMatrix(projectionMatrix);
     setOpacity(1.0);
     setSaturation(1.0);
     setBrightness(1.0);
@@ -256,8 +251,7 @@ WindowPaintData::WindowPaintData(const QMatrix4x4 &screenProjectionMatrix)
 
 WindowPaintData::WindowPaintData(const WindowPaintData &other)
     : PaintData()
-    , shader(other.shader)
-    , d(new WindowPaintDataPrivate())
+    , d(std::make_unique<WindowPaintDataPrivate>())
 {
     setXScale(other.xScale());
     setYScale(other.yScale());
@@ -272,13 +266,9 @@ WindowPaintData::WindowPaintData(const WindowPaintData &other)
     setScreen(other.screen());
     setCrossFadeProgress(other.crossFadeProgress());
     setProjectionMatrix(other.projectionMatrix());
-    d->screenProjectionMatrix = other.d->screenProjectionMatrix;
 }
 
-WindowPaintData::~WindowPaintData()
-{
-    delete d;
-}
+WindowPaintData::~WindowPaintData() = default;
 
 qreal WindowPaintData::opacity() const
 {
@@ -327,7 +317,7 @@ qreal WindowPaintData::crossFadeProgress() const
 
 void WindowPaintData::setCrossFadeProgress(qreal factor)
 {
-    d->crossFadeProgress = qBound(qreal(0.0), factor, qreal(1.0));
+    d->crossFadeProgress = std::clamp(factor, 0.0, 1.0);
 }
 
 qreal WindowPaintData::multiplyOpacity(qreal factor)
@@ -350,17 +340,17 @@ qreal WindowPaintData::multiplyBrightness(qreal factor)
 
 void WindowPaintData::setProjectionMatrix(const QMatrix4x4 &matrix)
 {
-    d->pMatrix = matrix;
+    d->projectionMatrix = matrix;
 }
 
 QMatrix4x4 WindowPaintData::projectionMatrix() const
 {
-    return d->pMatrix;
+    return d->projectionMatrix;
 }
 
 QMatrix4x4 &WindowPaintData::rprojectionMatrix()
 {
-    return d->pMatrix;
+    return d->projectionMatrix;
 }
 
 WindowPaintData &WindowPaintData::operator*=(qreal scale)
@@ -407,9 +397,14 @@ WindowPaintData &WindowPaintData::operator+=(const QVector3D &translation)
     return *this;
 }
 
-QMatrix4x4 WindowPaintData::screenProjectionMatrix() const
+std::optional<qreal> WindowPaintData::renderTargetScale() const
 {
-    return d->screenProjectionMatrix;
+    return d->renderTargetScale;
+}
+
+void WindowPaintData::setRenderTargetScale(qreal scale)
+{
+    d->renderTargetScale = scale;
 }
 
 class ScreenPaintData::Private
@@ -566,13 +561,13 @@ QPoint Effect::cursorPos()
 double Effect::animationTime(const KConfigGroup &cfg, const QString &key, int defaultTime)
 {
     int time = cfg.readEntry(key, 0);
-    return time != 0 ? time : qMax(defaultTime * effects->animationTimeFactor(), 1.);
+    return time != 0 ? time : std::max(defaultTime * effects->animationTimeFactor(), 1.);
 }
 
 double Effect::animationTime(int defaultTime)
 {
     // at least 1ms, otherwise 0ms times can break some things
-    return qMax(defaultTime * effects->animationTimeFactor(), 1.);
+    return std::max(defaultTime * effects->animationTimeFactor(), 1.);
 }
 
 int Effect::requestedEffectChainPosition() const
@@ -590,73 +585,48 @@ xcb_window_t Effect::x11RootWindow() const
     return effects->x11RootWindow();
 }
 
-bool Effect::touchDown(qint32 id, const QPointF &pos, quint32 time)
+bool Effect::touchDown(qint32 id, const QPointF &pos, std::chrono::microseconds time)
 {
-    Q_UNUSED(id)
-    Q_UNUSED(pos)
-    Q_UNUSED(time)
     return false;
 }
 
-bool Effect::touchMotion(qint32 id, const QPointF &pos, quint32 time)
+bool Effect::touchMotion(qint32 id, const QPointF &pos, std::chrono::microseconds time)
 {
-    Q_UNUSED(id)
-    Q_UNUSED(pos)
-    Q_UNUSED(time)
     return false;
 }
 
-bool Effect::touchUp(qint32 id, quint32 time)
+bool Effect::touchUp(qint32 id, std::chrono::microseconds time)
 {
-    Q_UNUSED(id)
-    Q_UNUSED(time)
     return false;
 }
 
 bool Effect::perform(Feature feature, const QVariantList &arguments)
 {
-    Q_UNUSED(feature)
-    Q_UNUSED(arguments)
     return false;
 }
 
 bool Effect::tabletToolEvent(QTabletEvent *event)
 {
-    Q_UNUSED(event)
     return false;
 }
 
 bool Effect::tabletToolButtonEvent(uint button, bool pressed, quint64 tabletToolId)
 {
-    Q_UNUSED(button)
-    Q_UNUSED(pressed)
-    Q_UNUSED(tabletToolId)
     return false;
 }
 
 bool Effect::tabletPadButtonEvent(uint button, bool pressed, void *tabletPadId)
 {
-    Q_UNUSED(button)
-    Q_UNUSED(pressed)
-    Q_UNUSED(tabletPadId)
     return false;
 }
 
 bool Effect::tabletPadStripEvent(int number, int position, bool isFinger, void *tabletPadId)
 {
-    Q_UNUSED(number)
-    Q_UNUSED(position)
-    Q_UNUSED(isFinger)
-    Q_UNUSED(tabletPadId)
     return false;
 }
 
 bool Effect::tabletPadRingEvent(int number, int position, bool isFinger, void *tabletPadId)
 {
-    Q_UNUSED(number)
-    Q_UNUSED(position)
-    Q_UNUSED(isFinger)
-    Q_UNUSED(tabletPadId)
     return false;
 }
 
@@ -717,22 +687,22 @@ bool EffectsHandler::isOpenGLCompositing() const
     return compositing_type & OpenGLCompositing;
 }
 
-QRect EffectsHandler::mapToRenderTarget(const QRect &rect) const
+QRectF EffectsHandler::mapToRenderTarget(const QRectF &rect) const
 {
-    const QRect targetRect = renderTargetRect();
+    const QRectF targetRect = renderTargetRect();
     const qreal targetScale = renderTargetScale();
 
-    return QRect((rect.x() - targetRect.x()) * targetScale,
-                 (rect.y() - targetRect.y()) * targetScale,
-                 rect.width() * targetScale,
-                 rect.height() * targetScale);
+    return QRectF((rect.x() - targetRect.x()) * targetScale,
+                  (rect.y() - targetRect.y()) * targetScale,
+                  rect.width() * targetScale,
+                  rect.height() * targetScale);
 }
 
 QRegion EffectsHandler::mapToRenderTarget(const QRegion &region) const
 {
     QRegion result;
     for (const QRect &rect : region) {
-        result += mapToRenderTarget(rect);
+        result += mapToRenderTarget(QRectF(rect)).toRect();
     }
     return result;
 }
@@ -771,9 +741,8 @@ EffectWindow::Private::Private(EffectWindow *q)
 {
 }
 
-EffectWindow::EffectWindow(QObject *parent)
-    : QObject(parent)
-    , d(new Private(this))
+EffectWindow::EffectWindow()
+    : d(new Private(this))
 {
 }
 
@@ -952,16 +921,16 @@ WindowQuadList WindowQuadList::makeGrid(int maxQuadSize) const
     double top = first().top();
     double bottom = first().bottom();
 
-    for (const WindowQuad &quad : qAsConst(*this)) {
-        left = qMin(left, quad.left());
-        right = qMax(right, quad.right());
-        top = qMin(top, quad.top());
-        bottom = qMax(bottom, quad.bottom());
+    for (const WindowQuad &quad : std::as_const(*this)) {
+        left = std::min(left, quad.left());
+        right = std::max(right, quad.right());
+        top = std::min(top, quad.top());
+        bottom = std::max(bottom, quad.bottom());
     }
 
     WindowQuadList ret;
 
-    for (const WindowQuad &quad : qAsConst(*this)) {
+    for (const WindowQuad &quad : std::as_const(*this)) {
         const double quadLeft = quad.left();
         const double quadRight = quad.right();
         const double quadTop = quad.top();
@@ -979,12 +948,12 @@ WindowQuadList WindowQuadList::makeGrid(int maxQuadSize) const
 
         // Loop over all intersecting cells and add sub-quads
         for (double y = yBegin; y < quadBottom; y += maxQuadSize) {
-            const double y0 = qMax(y, quadTop);
-            const double y1 = qMin(quadBottom, y + maxQuadSize);
+            const double y0 = std::max(y, quadTop);
+            const double y1 = std::min(quadBottom, y + maxQuadSize);
 
             for (double x = xBegin; x < quadRight; x += maxQuadSize) {
-                const double x0 = qMax(x, quadLeft);
-                const double x1 = qMin(quadRight, x + maxQuadSize);
+                const double x0 = std::max(x, quadLeft);
+                const double x1 = std::min(quadRight, x + maxQuadSize);
 
                 ret.append(quad.makeSubQuad(x0, y0, x1, y1));
             }
@@ -1007,10 +976,10 @@ WindowQuadList WindowQuadList::makeRegularGrid(int xSubdivisions, int ySubdivisi
     double bottom = first().bottom();
 
     for (const WindowQuad &quad : *this) {
-        left = qMin(left, quad.left());
-        right = qMax(right, quad.right());
-        top = qMin(top, quad.top());
-        bottom = qMax(bottom, quad.bottom());
+        left = std::min(left, quad.left());
+        right = std::max(right, quad.right());
+        top = std::min(top, quad.top());
+        bottom = std::max(bottom, quad.bottom());
     }
 
     double xIncrement = (right - left) / xSubdivisions;
@@ -1036,12 +1005,12 @@ WindowQuadList WindowQuadList::makeRegularGrid(int xSubdivisions, int ySubdivisi
 
         // Loop over all intersecting cells and add sub-quads
         for (double y = yBegin; y < quadBottom; y += yIncrement) {
-            const double y0 = qMax(y, quadTop);
-            const double y1 = qMin(quadBottom, y + yIncrement);
+            const double y0 = std::max(y, quadTop);
+            const double y1 = std::min(quadBottom, y + yIncrement);
 
             for (double x = xBegin; x < quadRight; x += xIncrement) {
-                const double x0 = qMax(x, quadLeft);
-                const double x1 = qMin(quadRight, x + xIncrement);
+                const double x0 = std::max(x, quadLeft);
+                const double x1 = std::min(quadRight, x + xIncrement);
 
                 ret.append(quad.makeSubQuad(x0, y0, x1, y1));
             }
@@ -1051,88 +1020,88 @@ WindowQuadList WindowQuadList::makeRegularGrid(int xSubdivisions, int ySubdivisi
     return ret;
 }
 
-#ifndef GL_TRIANGLES
-#define GL_TRIANGLES 0x0004
-#endif
-
-#ifndef GL_QUADS
-#define GL_QUADS 0x0007
-#endif
-
-void WindowQuadList::makeInterleavedArrays(unsigned int type, GLVertex2D *vertices, const QMatrix4x4 &textureMatrix) const
+void RenderGeometry::copy(std::span<GLVertex2D> destination)
 {
-    // Since we know that the texture matrix just scales and translates
-    // we can use this information to optimize the transformation
-    const QVector2D coeff(textureMatrix(0, 0), textureMatrix(1, 1));
-    const QVector2D offset(textureMatrix(0, 3), textureMatrix(1, 3));
-
-    GLVertex2D *vertex = vertices;
-
-    Q_ASSERT(type == GL_QUADS || type == GL_TRIANGLES);
-
-    switch (type) {
-    case GL_QUADS: {
-        for (const WindowQuad &quad : *this) {
-#pragma GCC unroll 4
-            for (int j = 0; j < 4; j++) {
-                const WindowVertex &wv = quad[j];
-
-                GLVertex2D v;
-                v.position = QVector2D(wv.x(), wv.y());
-                v.texcoord = QVector2D(wv.u(), wv.v()) * coeff + offset;
-
-                *(vertex++) = v;
-            }
-        }
-    } break;
-    case GL_TRIANGLES: {
-        for (const WindowQuad &quad : *this) {
-            GLVertex2D v[4]; // Four unique vertices / quad
-
-#pragma GCC unroll 4
-            for (int j = 0; j < 4; j++) {
-                const WindowVertex &wv = quad[j];
-
-                v[j].position = QVector2D(wv.x(), wv.y());
-                v[j].texcoord = QVector2D(wv.u(), wv.v()) * coeff + offset;
-            }
-
-            // First triangle
-            *(vertex++) = v[1]; // Top-right
-            *(vertex++) = v[0]; // Top-left
-            *(vertex++) = v[3]; // Bottom-left
-
-            // Second triangle
-            *(vertex++) = v[3]; // Bottom-left
-            *(vertex++) = v[2]; // Bottom-right
-            *(vertex++) = v[1]; // Top-right
-        }
-    } break;
-    default:
-        break;
+    Q_ASSERT(int(destination.size()) >= size());
+    for (std::size_t i = 0; i < destination.size(); ++i) {
+        destination[i] = at(i);
     }
 }
 
-void WindowQuadList::makeArrays(float **vertices, float **texcoords, const QSizeF &size, bool yInverted) const
+void RenderGeometry::appendWindowVertex(const WindowVertex &windowVertex, qreal deviceScale)
 {
-    *vertices = new float[count() * 6 * 2];
-    *texcoords = new float[count() * 6 * 2];
+    GLVertex2D glVertex;
+    switch (m_vertexSnappingMode) {
+    case VertexSnappingMode::None:
+        glVertex.position = QVector2D(windowVertex.x(), windowVertex.y()) * deviceScale;
+        break;
+    case VertexSnappingMode::Round:
+        glVertex.position = roundVector(QVector2D(windowVertex.x(), windowVertex.y()) * deviceScale);
+        break;
+    }
+    glVertex.texcoord = QVector2D(windowVertex.u(), windowVertex.v());
+    append(glVertex);
+}
 
-    float *vpos = *vertices;
-    float *tpos = *texcoords;
+void RenderGeometry::appendWindowQuad(const WindowQuad &quad, qreal deviceScale)
+{
+    // Geometry assumes we're rendering triangles, so add the quad's
+    // vertices as two triangles. Vertex order is top-left, bottom-left,
+    // top-right followed by top-right, bottom-left, bottom-right.
+    appendWindowVertex(quad[0], deviceScale);
+    appendWindowVertex(quad[3], deviceScale);
+    appendWindowVertex(quad[1], deviceScale);
 
-    // Note: The positions in a WindowQuad are stored in clockwise order
-    const int index[] = {1, 0, 3, 3, 2, 1};
+    appendWindowVertex(quad[1], deviceScale);
+    appendWindowVertex(quad[3], deviceScale);
+    appendWindowVertex(quad[2], deviceScale);
+}
 
-    for (const WindowQuad &quad : *this) {
-        for (int j = 0; j < 6; j++) {
-            const WindowVertex &wv = quad[index[j]];
+void RenderGeometry::appendSubQuad(const WindowQuad &quad, const QRectF &subquad, qreal deviceScale)
+{
+    std::array<GLVertex2D, 4> vertices;
+    vertices[0].position = QVector2D(subquad.topLeft());
+    vertices[1].position = QVector2D(subquad.topRight());
+    vertices[2].position = QVector2D(subquad.bottomRight());
+    vertices[3].position = QVector2D(subquad.bottomLeft());
 
-            *vpos++ = wv.x();
-            *vpos++ = wv.y();
+    const auto deviceQuad = QRectF{QPointF(std::round(quad.left() * deviceScale), std::round(quad.top() * deviceScale)),
+                                   QPointF(std::round(quad.right() * deviceScale), std::round(quad.bottom() * deviceScale))};
 
-            *tpos++ = wv.u() / size.width();
-            *tpos++ = yInverted ? (wv.v() / size.height()) : (1.0 - wv.v() / size.height());
+    const QPointF origin = deviceQuad.topLeft();
+    const QSizeF size = deviceQuad.size();
+
+#pragma GCC unroll 4
+    for (int i = 0; i < 4; ++i) {
+        const double weight1 = (vertices[i].position.x() - origin.x()) / size.width();
+        const double weight2 = (vertices[i].position.y() - origin.y()) / size.height();
+        const double oneMinW1 = 1.0 - weight1;
+        const double oneMinW2 = 1.0 - weight2;
+
+        const float u = oneMinW1 * oneMinW2 * quad[0].u() + weight1 * oneMinW2 * quad[1].u()
+            + weight1 * weight2 * quad[2].u() + oneMinW1 * weight2 * quad[3].u();
+        const float v = oneMinW1 * oneMinW2 * quad[0].v() + weight1 * oneMinW2 * quad[1].v()
+            + weight1 * weight2 * quad[2].v() + oneMinW1 * weight2 * quad[3].v();
+        vertices[i].texcoord = QVector2D(u, v);
+    }
+
+    append(vertices[0]);
+    append(vertices[3]);
+    append(vertices[1]);
+
+    append(vertices[1]);
+    append(vertices[3]);
+    append(vertices[2]);
+}
+
+void RenderGeometry::postProcessTextureCoordinates(const QMatrix4x4 &textureMatrix)
+{
+    if (!textureMatrix.isIdentity()) {
+        const QVector2D coeff(textureMatrix(0, 0), textureMatrix(1, 1));
+        const QVector2D offset(textureMatrix(0, 3), textureMatrix(1, 3));
+
+        for (auto &vertex : (*this)) {
+            vertex.texcoord = vertex.texcoord * coeff + offset;
         }
     }
 }
@@ -1395,7 +1364,6 @@ QRectF WindowMotionManager::targetGeometry(EffectWindow *w) const
 
 EffectWindow *WindowMotionManager::windowAtPoint(QPoint point, bool useStackingOrder) const
 {
-    Q_UNUSED(useStackingOrder);
     // TODO: Stacking order uses EffectsHandler::stackingOrder() then filters by m_managedWindows
     QHash<EffectWindow *, WindowMotion>::ConstIterator it = m_managedWindows.constBegin();
     while (it != m_managedWindows.constEnd()) {
@@ -1436,14 +1404,11 @@ EffectFramePrivate::~EffectFramePrivate()
  EffectFrame
 ***************************************************************/
 EffectFrame::EffectFrame()
-    : d(new EffectFramePrivate)
+    : d(std::make_unique<EffectFramePrivate>())
 {
 }
 
-EffectFrame::~EffectFrame()
-{
-    delete d;
-}
+EffectFrame::~EffectFrame() = default;
 
 qreal EffectFrame::crossFadeProgress() const
 {

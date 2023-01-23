@@ -93,3 +93,12 @@ msgstr "Išbraukti vidinius efektus"
 #, kde-format
 msgid "Get New Desktop Effects..."
 msgstr "Gauti naujus darbalaukio efektus..."
+
+#~ msgid "Download New Desktop Effects"
+#~ msgstr "Atsisiųsti naujus darbalaukio efektus"
+
+#~ msgid "Exclude Desktop Effects not supported by the Compositor"
+#~ msgstr "Išbraukti kompozitoriaus nepalaikomus darbalaukio efektus"
+
+#~ msgid "Search..."
+#~ msgstr "Ieškoti..."

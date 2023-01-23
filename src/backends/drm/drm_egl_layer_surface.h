@@ -14,7 +14,7 @@
 #include <optional>
 
 #include "core/outputlayer.h"
-#include "drm_object_plane.h"
+#include "drm_plane.h"
 
 namespace KWaylandServer
 {
@@ -38,56 +38,61 @@ class EglGbmLayerSurface : public QObject
 {
     Q_OBJECT
 public:
-    EglGbmLayerSurface(DrmGpu *gpu, EglGbmBackend *eglBackend);
-    ~EglGbmLayerSurface();
-
     enum class BufferTarget {
         Normal,
         Linear,
         Dumb
     };
-    std::optional<OutputLayerBeginFrameInfo> startRendering(const QSize &bufferSize, DrmPlane::Transformations renderOrientation, DrmPlane::Transformations bufferOrientation, const QMap<uint32_t, QVector<uint64_t>> &formats, BufferTarget target = BufferTarget::Normal);
+    EglGbmLayerSurface(DrmGpu *gpu, EglGbmBackend *eglBackend, BufferTarget target = BufferTarget::Normal);
+    ~EglGbmLayerSurface();
+
+    std::optional<OutputLayerBeginFrameInfo> startRendering(const QSize &bufferSize, DrmPlane::Transformations renderOrientation, DrmPlane::Transformations bufferOrientation, const QMap<uint32_t, QVector<uint64_t>> &formats);
     void aboutToStartPainting(DrmOutput *output, const QRegion &damagedRegion);
-    std::optional<std::tuple<std::shared_ptr<DrmFramebuffer>, QRegion>> endRendering(DrmPlane::Transformations renderOrientation, const QRegion &damagedRegion, BufferTarget target = BufferTarget::Normal);
+    bool endRendering(DrmPlane::Transformations renderOrientation, const QRegion &damagedRegion);
 
     bool doesSurfaceFit(const QSize &size, const QMap<uint32_t, QVector<uint64_t>> &formats) const;
     std::shared_ptr<GLTexture> texture() const;
     void destroyResources();
     EglGbmBackend *eglBackend() const;
-    std::shared_ptr<DrmFramebuffer> renderTestBuffer(const QSize &bufferSize, const QMap<uint32_t, QVector<uint64_t>> &formats, BufferTarget target = BufferTarget::Normal);
+    std::shared_ptr<DrmFramebuffer> renderTestBuffer(const QSize &bufferSize, const QMap<uint32_t, QVector<uint64_t>> &formats);
+
+    std::shared_ptr<DrmFramebuffer> currentBuffer() const;
 
 private:
-    bool checkGbmSurface(const QSize &size, const QMap<uint32_t, QVector<uint64_t>> &formats, bool forceLinear);
-    bool createGbmSurface(const QSize &size, uint32_t format, const QVector<uint64_t> &modifiers, bool forceLinear);
-    bool createGbmSurface(const QSize &size, const QMap<uint32_t, QVector<uint64_t>> &formats, bool forceLinear);
-    bool doesGbmSurfaceFit(GbmSurface *surf, const QSize &size, const QMap<uint32_t, QVector<uint64_t>> &formats) const;
-
     bool doesShadowBufferFit(ShadowBuffer *buffer, const QSize &size, DrmPlane::Transformations renderOrientation, DrmPlane::Transformations bufferOrientation) const;
-    bool doesSwapchainFit(DumbSwapchain *swapchain) const;
-
-    std::shared_ptr<DrmFramebuffer> importBuffer();
-    std::shared_ptr<DrmFramebuffer> importDmabuf();
-    std::shared_ptr<DrmFramebuffer> importWithCpu();
 
     enum class MultiGpuImportMode {
         Dmabuf,
-        DumbBuffer,
-        DumbBufferXrgb8888,
-        Failed
+        DumbBuffer
     };
-    MultiGpuImportMode m_importMode = MultiGpuImportMode::Dmabuf;
+    struct Surface
+    {
+        std::shared_ptr<GbmSurface> gbmSurface;
+        std::shared_ptr<DumbSwapchain> importSwapchain;
+        MultiGpuImportMode importMode;
+        std::shared_ptr<GbmBuffer> currentBuffer;
+        std::shared_ptr<DrmFramebuffer> currentFramebuffer;
+        bool forceLinear = false;
+    };
+    bool checkSurface(const QSize &size, const QMap<uint32_t, QVector<uint64_t>> &formats);
+    bool doesSurfaceFit(const Surface &surface, const QSize &size, const QMap<uint32_t, QVector<uint64_t>> &formats) const;
+    std::optional<Surface> createSurface(const QSize &size, const QMap<uint32_t, QVector<uint64_t>> &formats) const;
+    std::optional<Surface> createSurface(const QSize &size, uint32_t format, const QVector<uint64_t> &modifiers, MultiGpuImportMode importMode) const;
+    std::shared_ptr<GbmSurface> createGbmSurface(const QSize &size, uint32_t format, const QVector<uint64_t> &modifiers, bool forceLinear) const;
 
-    QRegion m_currentDamage;
-    std::shared_ptr<GbmBuffer> m_currentBuffer;
-    std::shared_ptr<GbmSurface> m_gbmSurface;
-    std::shared_ptr<GbmSurface> m_oldGbmSurface;
+    std::shared_ptr<DrmFramebuffer> doRenderTestBuffer(Surface &surface) const;
+    std::shared_ptr<DrmFramebuffer> importBuffer(Surface &surface, const std::shared_ptr<GbmBuffer> &sourceBuffer) const;
+    std::shared_ptr<DrmFramebuffer> importDmabuf(GbmBuffer *sourceBuffer) const;
+    std::shared_ptr<DrmFramebuffer> importWithCpu(Surface &surface, GbmBuffer *sourceBuffer) const;
+
+    Surface m_surface;
+    Surface m_oldSurface;
     std::shared_ptr<ShadowBuffer> m_shadowBuffer;
     std::shared_ptr<ShadowBuffer> m_oldShadowBuffer;
-    std::shared_ptr<DumbSwapchain> m_importSwapchain;
-    std::shared_ptr<DumbSwapchain> m_oldImportSwapchain;
 
     DrmGpu *const m_gpu;
     EglGbmBackend *const m_eglBackend;
+    const BufferTarget m_bufferTarget;
 };
 
 }

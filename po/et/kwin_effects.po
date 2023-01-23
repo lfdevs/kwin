@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-01 02:26+0000\n"
+"POT-Creation-Date: 2023-01-18 00:58+0000\n"
 "PO-Revision-Date: 2020-06-05 22:39+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -58,6 +58,7 @@ msgstr ""
 #: mousemark/mousemark_config.cpp:50 overview/kcm/overvieweffectkcm.cpp:35
 #: showpaint/showpaint_config.cpp:33
 #: thumbnailaside/thumbnailaside_config.cpp:54
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:31
 #: trackmouse/trackmouse_config.cpp:52
 #: windowview/kcm/windowvieweffectkcm.cpp:36 zoom/zoom_config.cpp:58
 #, kde-format
@@ -196,15 +197,21 @@ msgstr ""
 msgid "Natural"
 msgstr "Loomulik"
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
+#: desktopgrid/desktopgrid_config.ui:147
+#, kde-format
+msgid "None"
+msgstr "Puudub"
+
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: desktopgrid/desktopgrid_config.ui:150
+#: desktopgrid/desktopgrid_config.ui:155
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "Windows layout:"
 msgstr "Aknad"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: desktopgrid/desktopgrid_config.ui:166
+#: desktopgrid/desktopgrid_config.ui:171
 #, kde-format
 msgid "Activation"
 msgstr "Aktiveerimine"
@@ -307,10 +314,16 @@ msgstr "Akna sulgemise animeerimine"
 msgid "Toggle Invert Effect"
 msgstr "Inverteerimisefekti lülitamine"
 
-#: invert/invert.cpp:50 invert/invert_config.cpp:44
+#: invert/invert.cpp:49 invert/invert_config.cpp:44
 #, kde-format
 msgid "Toggle Invert Effect on Window"
 msgstr "Inverteerimisefekti lülitamine aknal"
+
+#: invert/invert.cpp:56
+#, fuzzy, kde-format
+#| msgid "Invert cursor keys"
+msgid "Invert Screen Colors"
+msgstr "Kursoriklahvid teistpidi"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FadeToBlack)
 #: login/package/contents/ui/config.ui:17
@@ -367,30 +380,30 @@ msgstr "&Kõrgus:"
 msgid "Toggle Mouse Click Effect"
 msgstr "Lülita hiireklõpsu efekti"
 
-#: mouseclick/mouseclick.cpp:42
+#: mouseclick/mouseclick.cpp:41
 #, kde-format
 msgctxt "Left mouse button"
 msgid "Left"
 msgstr "Vasak"
 
-#: mouseclick/mouseclick.cpp:43
+#: mouseclick/mouseclick.cpp:42
 #, kde-format
 msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr "Keskmine"
 
-#: mouseclick/mouseclick.cpp:44
+#: mouseclick/mouseclick.cpp:43
 #, kde-format
 msgctxt "Right mouse button"
 msgid "Right"
 msgstr "Parem"
 
-#: mouseclick/mouseclick.h:61
+#: mouseclick/mouseclick.h:60
 #, kde-format
 msgid "↓"
 msgstr "↓"
 
-#: mouseclick/mouseclick.h:62
+#: mouseclick/mouseclick.h:61
 #, kde-format
 msgid "↑"
 msgstr "↑"
@@ -488,12 +501,12 @@ msgstr "Font:"
 msgid "Show Text:"
 msgstr "Teksti näitamine:"
 
-#: mousemark/mousemark.cpp:36
+#: mousemark/mousemark.cpp:39
 #, kde-format
 msgid "Clear All Mouse Marks"
 msgstr "Eemalda kõik hiiretähised"
 
-#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:59
+#: mousemark/mousemark.cpp:45 mousemark/mousemark_config.cpp:59
 #, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr "Eemalda viimane hiiretähis"
@@ -564,12 +577,12 @@ msgstr "Taust"
 msgid "Ignore minimized windows:"
 msgstr "&Minimeeritud akende eiramine"
 
-#: overview/qml/DesktopBar.qml:186
+#: overview/qml/DesktopBar.qml:187
 #, kde-format
 msgid "Delete Virtual Desktop"
 msgstr ""
 
-#: overview/qml/DesktopBar.qml:282
+#: overview/qml/DesktopBar.qml:283
 #, fuzzy, kde-format
 #| msgid "Desktop"
 msgid "Add Virtual Desktop"
@@ -581,12 +594,12 @@ msgstr "Töölaud"
 msgid "No matching windows"
 msgstr "Liigutatud aknad:"
 
-#: private/qml/WindowHeapDelegate.qml:152
+#: private/qml/WindowHeapDelegate.qml:151
 #, kde-format
 msgid "Drag Down To Close"
 msgstr ""
 
-#: private/qml/WindowHeapDelegate.qml:462
+#: private/qml/WindowHeapDelegate.qml:461
 #, fuzzy, kde-format
 #| msgid "Close window"
 msgctxt "@info:tooltip as in: 'close this window'"
@@ -605,20 +618,20 @@ msgstr "Akna avamise skaleerimine:"
 msgid "Window close scale:"
 msgstr "Akna sulgemise skaleerimine:"
 
-#: screenshot/screenshotdbusinterface1.cpp:480
+#: screenshot/screenshotdbusinterface1.cpp:478
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr "Ekraanipilt"
 
-#: screenshot/screenshotdbusinterface1.cpp:481
+#: screenshot/screenshotdbusinterface1.cpp:479
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr "Ekraanipilt salvestati asukohta %1"
 
-#: screenshot/screenshotdbusinterface1.cpp:797
-#: screenshot/screenshotdbusinterface2.cpp:472
+#: screenshot/screenshotdbusinterface1.cpp:800
+#: screenshot/screenshotdbusinterface2.cpp:477
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
@@ -627,8 +640,8 @@ msgstr ""
 "Vali aken ekraanipildi tegemiseks vasakklõpsu või Enteriga.\n"
 "Loobumiseks tee paremklõps või vali Escape."
 
-#: screenshot/screenshotdbusinterface1.cpp:800
-#: screenshot/screenshotdbusinterface2.cpp:490
+#: screenshot/screenshotdbusinterface1.cpp:803
+#: screenshot/screenshotdbusinterface2.cpp:495
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -694,14 +707,8 @@ msgstr "Rõhtsuunas:"
 msgid "Vertical:"
 msgstr "Püstsuunas:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideDocks)
-#: slide/slide_config.ui:72
-#, kde-format
-msgid "Slide docks"
-msgstr "Dokkide liuglemine"
-
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideBackground)
-#: slide/slide_config.ui:79
+#: slide/slide_config.ui:72
 #, kde-format
 msgid "Slide desktop background"
 msgstr "Töölaua taustapildi liuglemine"
@@ -743,6 +750,49 @@ msgstr "Lä&bipaistmatus:"
 #, no-c-format, kde-format
 msgid " %"
 msgstr " %"
+
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:37
+#: tileseditor/tileseditoreffect.cpp:29
+#, kde-format
+msgid "Toggle Tiles Editor"
+msgstr ""
+
+#: tileseditor/qml/main.qml:147
+#, kde-format
+msgid "Padding:"
+msgstr ""
+
+#: tileseditor/qml/main.qml:157
+#, kde-format
+msgid "Load Layout..."
+msgstr ""
+
+#: tileseditor/qml/main.qml:271
+#, kde-format
+msgid "Close"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:171
+#, fuzzy, kde-format
+#| msgid "Horizontal:"
+msgid "Split Horizontally"
+msgstr "Rõhtsuunas:"
+
+#: tileseditor/qml/TileDelegate.qml:178
+#, fuzzy, kde-format
+#| msgid "Vertical:"
+msgid "Split Vertically"
+msgstr "Püstsuunas:"
+
+#: tileseditor/qml/TileDelegate.qml:186 tileseditor/qml/TileDelegate.qml:215
+#, kde-format
+msgid "Add Floating Tile"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:195
+#, kde-format
+msgid "Delete"
+msgstr ""
 
 #: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:57
 #, kde-format
@@ -878,17 +928,17 @@ msgstr "Eraldatavad menüüd:"
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Olemasolevate akende lülitamine (aktiivsel töölaual)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:55
+#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:54
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Olemasolevate akende lülitamine (kõigil töölaudadel)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:65
+#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:63
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Olemasolevate akende lülitamine (Window klass)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:75
+#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:72
 #, fuzzy, kde-format
 #| msgid "Toggle Present Windows (Current desktop)"
 msgid "Toggle Present Windows (Window class on current desktop)"
@@ -900,16 +950,22 @@ msgstr "Olemasolevate akende lülitamine (aktiivsel töölaual)"
 msgid "Ignore &minimized windows"
 msgstr "&Minimeeritud akende eiramine"
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, kde-format
 msgid "No Matches"
 msgstr ""
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "No Windows"
 msgstr "Aknad"
+
+#: windowview/qml/main.qml:123
+#, fuzzy, kde-format
+#| msgid "Fullscreen windows"
+msgid "Filter windows…"
+msgstr "Täisekraanaknad"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20
@@ -971,32 +1027,32 @@ msgstr "Vähem"
 msgid "More"
 msgstr "Rohkem"
 
-#: zoom/zoom.cpp:68
+#: zoom/zoom.cpp:65
 #, kde-format
 msgid "Move Zoomed Area to Left"
 msgstr "Suurendatud ala liigutamine vasakule"
 
-#: zoom/zoom.cpp:76
+#: zoom/zoom.cpp:72
 #, kde-format
 msgid "Move Zoomed Area to Right"
 msgstr "Suurendatud ala liigutamine paremale"
 
-#: zoom/zoom.cpp:84
+#: zoom/zoom.cpp:79
 #, kde-format
 msgid "Move Zoomed Area Upwards"
 msgstr "Suurendatud ala liigutamine üles"
 
-#: zoom/zoom.cpp:92
+#: zoom/zoom.cpp:86
 #, kde-format
 msgid "Move Zoomed Area Downwards"
 msgstr "Suurendatud ala liigutamine alla"
 
-#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:108
+#: zoom/zoom.cpp:94 zoom/zoom_config.cpp:108
 #, kde-format
 msgid "Move Mouse to Focus"
 msgstr "Hiire liigutamine fookusse"
 
-#: zoom/zoom.cpp:109 zoom/zoom_config.cpp:115
+#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:115
 #, kde-format
 msgid "Move Mouse to Center"
 msgstr "Hiire liigutamine keskele"
@@ -1132,3 +1188,1028 @@ msgstr "Välja lülitatud"
 #, kde-format
 msgid "Mouse Tracking:"
 msgstr "Hiire jälgimine:"
+
+#~ msgid "Slide docks"
+#~ msgstr "Dokkide liuglemine"
+
+#~ msgid "&Radius:"
+#~ msgstr "&Raadius:"
+
+#~ msgid "Text position:"
+#~ msgstr "Teksti asukoht:"
+
+#~ msgid "Inside Graph"
+#~ msgstr "Graafiku sees"
+
+#~ msgid "Nowhere"
+#~ msgstr "Eikuskil"
+
+#~ msgid "Top Left"
+#~ msgstr "Ülal vasakul"
+
+#~ msgid "Top Right"
+#~ msgstr "Ülal paremal"
+
+#~ msgid "Bottom Left"
+#~ msgstr "All vasakul"
+
+#~ msgid "Bottom Right"
+#~ msgstr "All paremal"
+
+#~ msgid "Text font:"
+#~ msgstr "Teksti font:"
+
+#~ msgid "Text color:"
+#~ msgstr "Teksti värv:"
+
+#~ msgid "Text alpha:"
+#~ msgstr "Teksti alfa:"
+
+#, fuzzy
+#~| msgid "Show caps"
+#~ msgid "Show graph:"
+#~ msgstr "Otsatahkude näitamine"
+
+#, fuzzy
+#~| msgid "Show Text:"
+#~ msgid "Show Message:"
+#~ msgstr "Teksti näitamine:"
+
+#~ msgid "Zoom &duration:"
+#~ msgstr "Suuren&duse kestus:"
+
+#~ msgctxt "Duration of zoom"
+#~ msgid "Default"
+#~ msgstr "Vaikimisi"
+
+#~ msgid "Border wid&th:"
+#~ msgstr "&Piirde laius:"
+
+#, fuzzy
+#~| msgid "Show desktop"
+#~ msgid "Switch desktop only"
+#~ msgstr "Töölaua näitamine"
+
+#~ msgid "Natural Layout Settings"
+#~ msgstr "Loomuliku paigutuse seadistused"
+
+#~ msgid "Fill &gaps"
+#~ msgstr "Tü&himike täitmine"
+
+#~ msgid "Faster"
+#~ msgstr "Kiirem"
+
+#~ msgid "Nicer"
+#~ msgstr "Ilusam"
+
+#~ msgid "Left button:"
+#~ msgstr "Vasak nupp:"
+
+#~ msgid "No action"
+#~ msgstr "Toiming puudub"
+
+#~ msgid "Activate window"
+#~ msgstr "Akna aktiveerimine"
+
+#~ msgid "End effect"
+#~ msgstr "Efekti lõpetamine"
+
+#~ msgid "Bring window to current desktop"
+#~ msgstr "Akna toomine aktiivsele töölauale"
+
+#~ msgid "Send window to all desktops"
+#~ msgstr "Akna saatmine kõigile töölaudadele"
+
+#~ msgid "(Un-)Minimize window"
+#~ msgstr "Akna minimeerimine/maksimeerimine"
+
+#~ msgid "Middle button:"
+#~ msgstr "Keskmine nupp:"
+
+#~ msgid "Right button:"
+#~ msgstr "Parem nupp:"
+
+#~ msgctxt "@title:group actions when clicking on desktop"
+#~ msgid "Desktop"
+#~ msgstr "Töölaud"
+
+#~ msgid "Show desktop"
+#~ msgstr "Töölaua näitamine"
+
+#~ msgid "Display window &titles"
+#~ msgstr "Akende &tiitlite näitamine"
+
+#~ msgid "Display window &icons"
+#~ msgstr "Akende &ikoonide näitamine"
+
+#~ msgid "Show &panels"
+#~ msgstr "&Paneelide näitamine"
+
+#~ msgid "Regular Grid"
+#~ msgstr "Korrapärane alusvõrk"
+
+#~ msgid "Flexible Grid"
+#~ msgstr "Paindlik alusvõrk"
+
+#~ msgid "Provide buttons to close the windows"
+#~ msgstr "Nupud akende sulgemiseks"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Marek Laane"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "qiilaq69@gmail.com"
+
+#~ msgid "Scale window"
+#~ msgstr "Akna skaleerimine"
+
+#~ msgid "Show outline"
+#~ msgstr "Kontuuri näitamine"
+
+#~ msgid "Toggle window geometry display (effect only)"
+#~ msgstr "Akna geomeetria näitamise lülitamine (ainult efekt)"
+
+#~ msgid "Toggle KWin composited geometry display"
+#~ msgstr "KWini komposiitgeomeetria näitamise lülitamine"
+
+#~ msgid "Display for moving windows"
+#~ msgstr "Näitamine akna liigutamisel"
+
+#~ msgid "Display for resizing windows"
+#~ msgstr "Näitamine akna suuruse muutmisel"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Blur"
+#~ msgstr "Hägustamine"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Blurs the background behind semi-transparent windows"
+#~ msgstr "Poolläbipaistvate akende tausta hägustamine"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Color Picker"
+#~ msgstr "Värvivalija"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Supports picking a color"
+#~ msgstr "Võimaldab värvi valida"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Background contrast"
+#~ msgstr "Tausta kontrast"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Improve contrast and readability behind semi-transparent windows"
+#~ msgstr "Poolläbipaistvate akende tausta kontrasti ja loetavuse parandamine"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Grid"
+#~ msgstr "Töölauavõrgustik"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Zoom out so all desktops are displayed side-by-side in a grid"
+#~ msgstr ""
+#~ "Vähendamine, et kõik töölauad oleksid üksteise kõrval võrgustikus näha"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Dim Inactive"
+#~ msgstr "Tuhm mitteaktiivne"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Darken inactive windows"
+#~ msgstr "Tumendab mitteaktiivsed aknad"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Fall Apart"
+#~ msgstr "Lagunemine"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Closed windows fall into pieces"
+#~ msgstr "Suletud aknad lagunevad tükkideks"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Glide"
+#~ msgstr "Liuglemine"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Glide windows as they appear or disappear"
+#~ msgstr "Akende liuglemine ilmumisel või kadumisel"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Highlight Window"
+#~ msgstr "Akna esiletõstmine"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlight the appropriate window when hovering over taskbar entries"
+#~ msgstr "Akende esiletõstmine, kui kursor on nende tegumiriba kirje kohal"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Invert"
+#~ msgstr "Teistpidi"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Inverts the color of the desktop and windows"
+#~ msgstr "Muudab töölaua ja akende värvi vastupidiseks"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Kscreen"
+#~ msgstr "Kscreen"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper Effect for KScreen"
+#~ msgstr "KScreeni abiefekt"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Looking Glass"
+#~ msgstr "Suurendusklaas"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "A screen magnifier that looks like a fisheye lens"
+#~ msgstr "Ekraani suurendusklaas"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Magic Lamp"
+#~ msgstr "Imelamp"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Simulate a magic lamp when minimizing windows"
+#~ msgstr "Imelambi simuleerimine akende minimeerimisel"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Magnifier"
+#~ msgstr "Suurendaja"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Magnify the section of the screen that is near the mouse cursor"
+#~ msgstr "Suurendab hiirekursori ümbruses asuvat ekraaniosa"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Click Animation"
+#~ msgstr "Hiireklõpsu animeerimine"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Creates an animation whenever a mouse button is clicked. This is useful "
+#~ "for screenrecordings/presentations"
+#~ msgstr ""
+#~ "Animatsiooni loomine hiirenupu klõpsamise peale. See on kasulik näiteks "
+#~ "ekraanisalvestuste või esitluste jaoks"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Mark"
+#~ msgstr "Hiirejälg"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Allows you to draw lines on the desktop"
+#~ msgstr "Võimaldab tõmmata töölauale jooni"
+
+#, fuzzy
+#~| msgctxt "Comment describing the KWin Effect"
+#~| msgid "Allows you to draw lines on the desktop"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Allows you to overview virtual desktops and windows"
+#~ msgstr "Võimaldab tõmmata töölauale jooni"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Present Windows"
+#~ msgstr "Olemasolevad aknad"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Zoom out until all opened windows can be displayed side-by-side"
+#~ msgstr "Vähendamine, kuni kõiki avatud aknaid saab kuvada üksteise kõrval"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Resize Window"
+#~ msgstr "Akna suuruse muutmine"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Resizes windows with a fast texture scale instead of updating contents"
+#~ msgstr ""
+#~ "Akende suuruse muutmine kiire tekstuuri skaleerimisega sisu uuendamise "
+#~ "asemel"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Screen Edge"
+#~ msgstr "Ekraani serv"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlights a screen edge when approaching"
+#~ msgstr "Ekraani serva esiletõstmine sellele lähenemisel"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Screenshot"
+#~ msgstr "Ekraanipilt"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper effect for screenshot tools"
+#~ msgstr "Ekraanipildi tegemise tööriistade abiefekt"
+
+#, fuzzy
+#~| msgid "Transparent"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Transform"
+#~ msgstr "Läbipaistev"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Sheet"
+#~ msgstr "Ärakerimine"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Make modal dialogs smoothly fly in and out when they are shown or hidden"
+#~ msgstr ""
+#~ "Paneb modaalsed dialoogid sujuvalt peale või ära kerima, kui need "
+#~ "nähtavale tuuakse või peidetakse"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show FPS"
+#~ msgstr "FPS-i näitamine"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display KWin's performance in the corner of the screen"
+#~ msgstr "KWin'i jõudluse näitamine ekraani servas"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show Paint"
+#~ msgstr "Joonistatud alade näitamine"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlight areas of the desktop that have been recently updated"
+#~ msgstr "Töölaua hiljuti uuendatud alade esiletõstmine"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Slide"
+#~ msgstr "Liuglemine"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Slide desktops when switching virtual desktops"
+#~ msgstr "Töölaudade liuglemine virtuaalsete töölaudade vahel liikumisel"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Slide Back"
+#~ msgstr "Tagasiliuglemine"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Slide back windows when another window is raised"
+#~ msgstr "Akende tagasiliuglemine uue akna esiletoomisel"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Sliding popups"
+#~ msgstr "Liuguvad hüpikdialoogid"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Sliding animation for Plasma popups"
+#~ msgstr "Plasma hüpikdialoogide liuguv animatsioon"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Snap Helper"
+#~ msgstr "Tõmbumise abiline"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Help you locate the center of the screen when moving a window"
+#~ msgstr "Aitab akna liigutamisel tuvastada ekraani keskpaika"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Startup Feedback"
+#~ msgstr "Käivitamise tagasiside"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper effect for startup feedback"
+#~ msgstr "Käivitamise tagasiside abiefekt"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Thumbnail Aside"
+#~ msgstr "Pisipildid kõrval"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display window thumbnails on the edge of the screen"
+#~ msgstr "Ekraani serval näidatakse akende pisipilte"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Touch Points"
+#~ msgstr "Puutepunktid"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Visualize touch points"
+#~ msgstr "Puutepunktide visualiseerimine"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Track Mouse"
+#~ msgstr "Hiire jälgimine"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display a mouse cursor locating effect when activated"
+#~ msgstr "Aktiveerimisel näidatakse hiirekursori asukohta"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Window Geometry"
+#~ msgstr "Akna geomeetria"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display window geometries on move/resize"
+#~ msgstr "Akende geomeetria kuvamine liigutamisel või suuruse muutmisel"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Wobbly Windows"
+#~ msgstr "Võbisevad aknad"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Deform windows while they are moving"
+#~ msgstr "Akende moonutamine liigutamisel"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Zoom"
+#~ msgstr "Suurendus"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Magnify the entire desktop"
+#~ msgstr "Terve töölaua suurendamine"
+
+#~ msgctxt "Special entry in alt+tab list for minimizing all windows"
+#~ msgid "Show Desktop"
+#~ msgstr "Töölaua näitamine"
+
+#~ msgid "Zoom"
+#~ msgstr "Suurendus"
+
+#~ msgid "Define how far away the windows should appear"
+#~ msgstr "Määramine, kui kaugel peavad aknad ilmuma"
+
+#~ msgid "Near"
+#~ msgstr "Lähedal"
+
+#~ msgid "Far"
+#~ msgstr "Kaugel"
+
+#~ msgid "Animation"
+#~ msgstr "Animatsioon"
+
+#~ msgid "Animate switch"
+#~ msgstr "Lülitamise animeerimine"
+
+#~ msgid "Animation on tab box open"
+#~ msgstr "Animatsioon kaardikasti avamisel"
+
+#~ msgid "Animation on tab box close"
+#~ msgstr "Animatsioon kaardikasti sulgemisel"
+
+#~ msgid "Reflections"
+#~ msgstr "Peegeldused"
+
+#~ msgid "Rear color"
+#~ msgstr "Tagakülje värv:"
+
+#~ msgid "Front color"
+#~ msgstr "Esikülje värv"
+
+#~ msgid "Desktop Cube"
+#~ msgstr "Töölauakuubik"
+
+#~ msgid "Desktop Cylinder"
+#~ msgstr "Töölauasilinder"
+
+#~ msgid "Desktop Sphere"
+#~ msgstr "Töölauasfäär"
+
+#~ msgctxt "@title:tab Basic Settings"
+#~ msgid "Basic"
+#~ msgstr "Põhiline"
+
+#~ msgctxt "@title:tab Advanced Settings"
+#~ msgid "Advanced"
+#~ msgstr "Muu"
+
+#~ msgid "Tab 1"
+#~ msgstr "Kaart 1"
+
+#~ msgid "Background color:"
+#~ msgstr "Taustavärv:"
+
+#~ msgid "Wallpaper:"
+#~ msgstr "Taustapilt:"
+
+#~ msgid "Display desktop name"
+#~ msgstr "Töölaua nime näitamine"
+
+#~ msgid "Reflection"
+#~ msgstr "Peegeldus"
+
+#~ msgid "Rotation duration:"
+#~ msgstr "Pööramise kestus:"
+
+#~ msgid "Windows hover above cube"
+#~ msgstr "Aknad hõljuvad kuubiku kohal"
+
+#~ msgid "Opacity"
+#~ msgstr "Läbipaistmatus"
+
+#~ msgid "Do not change opacity of windows"
+#~ msgstr "Akna läbipaistmatust ei muudeta"
+
+#~ msgid "Tab 2"
+#~ msgstr "Kaart 2"
+
+#~ msgid "Caps"
+#~ msgstr "Otsatahud"
+
+#~ msgid "Cap color:"
+#~ msgstr "Otsatahu värv:"
+
+#~ msgid "Display image on caps"
+#~ msgstr "Pildi näitamine otsatahkudel"
+
+#~ msgid "Define how far away the object should appear"
+#~ msgstr "Määramine, kui kaugel peab objekt ilmuma"
+
+#~ msgid "Additional Options"
+#~ msgstr "Lisavalikud"
+
+#~ msgid ""
+#~ "If enabled the effect will be deactivated after rotating the cube with "
+#~ "the mouse,\n"
+#~ "otherwise it will remain active"
+#~ msgstr ""
+#~ "Kuubik on pärast selle pööramist hiirega deaktiveeritud.\n"
+#~ "Vastasel juhul jääb kuubik aktiivseks."
+
+#~ msgid "Close after mouse dragging"
+#~ msgstr "Sulgemine pärast hiirega lohistamist"
+
+#~ msgid "Use this effect for walking through the desktops"
+#~ msgstr "Kasutamine töölaua nimekirja läbikerimiseks"
+
+#~ msgid "Invert mouse"
+#~ msgstr "Hiir teistpidi"
+
+#~ msgid "Sphere Cap Deformation"
+#~ msgstr "Sfääri pooluste moonutus"
+
+#~ msgid "Sphere"
+#~ msgstr "Sfäär"
+
+#~ msgid "Plane"
+#~ msgstr "Tasapind"
+
+#~ msgid "Do not animate windows on all desktops"
+#~ msgstr "Aknaid ei animeerita kõigil töölaudadel"
+
+#~ msgid "Do not animate panels"
+#~ msgstr "Paneele ei animeerita"
+
+#~ msgid "Use pager layout for animation"
+#~ msgstr "Animeerimiseks kasutatakse töölaudade vahetajat"
+
+#~ msgid "Start animation when moving windows towards screen edges"
+#~ msgstr "Animatsiooni käivitamine akende liigutamisel ekraani servale"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Cover Switch"
+#~ msgstr "Aknalülitaja"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display a Cover Flow effect for the alt+tab window switcher"
+#~ msgstr "Cover Flow efekti näitamine Alt+TAB aknavahetajas"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube"
+#~ msgstr "Töölauakuubik"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display each virtual desktop on a side of a cube"
+#~ msgstr "Virtuaalsete töölaudade asetamine kuubikule"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube Animation"
+#~ msgstr "Töölauakuubiku animeerimine"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Animate desktop switching with a cube"
+#~ msgstr "Töölaua vahetamise animeerimine kuubikul"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Flip Switch"
+#~ msgstr "Aknalehitseja"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Flip through windows that are in a stack for the alt+tab window switcher"
+#~ msgstr "Lehitseb läbi pinus asuvate akende Alt+TAB abil"
+
+#~ msgid "Toggle Flip Switch (Current desktop)"
+#~ msgstr "Akende pöördvahetamise lülitamine (aktiivsel töölaual)"
+
+#~ msgid "Toggle Flip Switch (All desktops)"
+#~ msgstr "Akende pöördvahetamise lülitamine (kõigil töölaudadel)"
+
+#~ msgid "Flip animation duration:"
+#~ msgstr "Peegeldamisanimatsiooni kestus:"
+
+#~ msgctxt "Duration of flip animation"
+#~ msgid "Default"
+#~ msgstr "Vaikimisi"
+
+#~ msgid "Angle:"
+#~ msgstr "Nurk:"
+
+#~ msgid " °"
+#~ msgstr " °"
+
+#~ msgid "Horizontal position of front:"
+#~ msgstr "Esikülje asukoht rõhtsuunas:"
+
+#~ msgid "Vertical position of front:"
+#~ msgstr "Esikülje asukoht püstsuunas:"
+
+#~ msgid ""
+#~ "Filter:\n"
+#~ "%1"
+#~ msgstr ""
+#~ "Filter:\n"
+#~ "%1"
+
+#~ msgid "Use Present Windows effect to layout the windows"
+#~ msgstr "Olemasolevate akende efekti kasutamine akende paigutamisel"
+
+#~ msgid "When the focus changes, move the zoom area to the focused location."
+#~ msgstr "Fookuse muutmisel suurendusala liigutamine fookuses asukohta."
+
+#~ msgid "Follow Focus"
+#~ msgstr "Fookuse järgimine"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Dim Screen for Administrator Mode"
+#~ msgstr "Tuhm ekraan administraatori režiimis"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Darkens the entire screen when requesting root privileges"
+#~ msgstr "Tumendab administraatori õiguste nõudmisel kogu ekraani"
+
+#, fuzzy
+#~| msgid "Scale"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Scale"
+#~ msgstr "Skaleerimine"
+
+#, fuzzy
+#~| msgctxt "Comment describing the KWin Effect"
+#~| msgid ""
+#~| "Make modal dialogs smoothly fly in and out when they are shown or hidden"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Make windows smoothly scale in and out when they are shown or hidden"
+#~ msgstr ""
+#~ "Paneb modaalsed dialoogid sujuvalt peale või ära kerima, kui need "
+#~ "nähtavale tuuakse või peidetakse"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Minimize Animation"
+#~ msgstr "Minimeerimise animatsioon"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Animate the minimizing of windows"
+#~ msgstr "Animeerib akende minimeerimise"
+
+#~ msgid "Trigger on"
+#~ msgstr "Käivitamine"
+
+#~ msgid "Shortcut"
+#~ msgstr "Kiirklahv"
+
+#~ msgid "Apply effect to &panels"
+#~ msgstr "Efekti rakendamine &paneelidele"
+
+#~ msgid "Apply effect to the desk&top"
+#~ msgstr "Efekti rakendamine &töölauale"
+
+#~ msgid "Apply effect to &keep-above windows"
+#~ msgstr "Efekti rakendamine teiste a&kende peal hoitavatele akendele"
+
+#~ msgid "Apply effect to &groups"
+#~ msgstr "Efekti rakendamine &gruppidele"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Windows Glide Effect as they are open and closed"
+#~ msgstr "Akende liuglemise efekt nende avamisel ja sulgemisel"
+
+#~ msgid "Glide Effect:"
+#~ msgstr "Liugumisefekt:"
+
+#~ msgid "In"
+#~ msgstr "Sisse"
+
+#~ msgid "Out"
+#~ msgstr "Välja"
+
+#~ msgid "Glide Angle:"
+#~ msgstr "Liugumisnurk:"
+
+#~ msgid "-90"
+#~ msgstr "-90"
+
+#~ msgid "90"
+#~ msgstr "90"
+
+#, fuzzy
+#~| msgctxt "Duration of rotation"
+#~| msgid "Default"
+#~ msgctxt "Duration of the slide animation"
+#~ msgid "Default"
+#~ msgstr "Vaikimisi"
+
+#~ msgid "Strength of the effect:"
+#~ msgstr "Efekti tugevus:"
+
+#~ msgid "Save intermediate rendering results."
+#~ msgstr "Renderdamise vahetulemuste salvestamine."
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Logout"
+#~ msgstr "Väljalogimine"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Desaturate the desktop when displaying the logout dialog"
+#~ msgstr "Töölaua värvide tuhmistamine väljalogimisdialoogi näitamisel"
+
+#~ msgid "Brightness of the background:"
+#~ msgstr "Tausta heledus:"
+
+#~ msgctxt "Less brightness"
+#~ msgid "Darker"
+#~ msgstr "Tumedam"
+
+#~ msgctxt "More brightness"
+#~ msgid "Lighter"
+#~ msgstr "Heledam"
+
+#~ msgid "Saturation of the background:"
+#~ msgstr "Tausta küllastus:"
+
+#~ msgctxt "No saturation"
+#~ msgid "Gray"
+#~ msgstr "Hall"
+
+#~ msgid "Duration of the fade:"
+#~ msgstr "Hajumise kestus:"
+
+#~ msgid "ms"
+#~ msgstr "ms"
+
+#~ msgid "The blur effect must be enabled before it can be used."
+#~ msgstr "Enne selle kasutamist peab häguefekt olema lubatud."
+
+#~ msgid "Apply blur effect to background"
+#~ msgstr "Häguefekti rakendamine taustale"
+
+#~ msgid "Decorations:"
+#~ msgstr "Dekoratsioonid:"
+
+#~ msgid "Background window &opacity:"
+#~ msgstr "Ta&ustaakna läbipaistmatus:"
+
+#~ msgid "&Elevate selected window"
+#~ msgstr "Valitud akna &esiletõstmine"
+
+#~ msgid "&Animate walk through windows"
+#~ msgstr "&Akende animeeritud läbimine"
+
+#~ msgid "Use additional thumbnail bar"
+#~ msgstr "Täiendava pisipildiriba kasutamine"
+
+#~ msgid ""
+#~ "Only show thumbnail bar if there are at least specified number of windows"
+#~ msgstr ""
+#~ "Pisipildiriba näitamine ainult siis, kui on vähemalt määratud arv aknaid"
+
+#~ msgid "Dynamic mode"
+#~ msgstr "Dünaamiline režiim"
+
+#~ msgid "Number of windows:"
+#~ msgstr "Akende arv:"
+
+#~ msgid " row"
+#~ msgid_plural " rows"
+#~ msgstr[0] " rida"
+#~ msgstr[1] " rida"
+
+#~ msgctxt "Duration of fading"
+#~ msgid "Default"
+#~ msgstr "Vaikimisi"
+
+#~ msgid "Toggle Video Recording"
+#~ msgstr "Video salvestamise lülitamine"
+
+#~ msgid "Path to save video:"
+#~ msgstr "Video salvestamise asukoht:"
+
+#~ msgid "Slide when switching tabs"
+#~ msgstr "Liuglemine kaartide lülitamisel"
+
+#~ msgctxt ""
+#~ "Window geometry display, %1 and %2 are the new size, %3 and %4 are pixel "
+#~ "increments - avoid reformatting or suffixes like 'px'"
+#~ msgid ""
+#~ "Width: %1 (%3)\n"
+#~ "Height: %2 (%4)"
+#~ msgstr ""
+#~ "Laius: %1 (%3)\n"
+#~ "Kõrgus: %2 (%4)"
+
+#~ msgctxt ""
+#~ "Window geometry display, %1 and %2 are the cartesian x and y coordinates "
+#~ "- avoid reformatting or suffixes like 'px'"
+#~ msgid ""
+#~ "X: %1\n"
+#~ "Y: %2"
+#~ msgstr ""
+#~ "X: %1\n"
+#~ "Y: %2"
+
+#~ msgctxt ""
+#~ "Window geometry display, %1 and %2 are the cartesian x and y coordinates, "
+#~ "%3 and %4 are the resp. increments - avoid reformatting or suffixes like "
+#~ "'px'"
+#~ msgid ""
+#~ "X: %1 (%3)\n"
+#~ "Y: %2 (%4)"
+#~ msgstr ""
+#~ "X: %1 (%3)\n"
+#~ "Y: %2 (%4)"
+
+#~ msgid "Snow"
+#~ msgstr "Lumi"
+
+#~ msgid "Toggle Snow on Desktop"
+#~ msgstr "Lumeefekti lülitamine töölaual"
+
+#~ msgid " pixel/frame"
+#~ msgid_plural " pixels/frame"
+#~ msgstr[0] " piksel kaadri kohta"
+#~ msgstr[1] " pikslit kaadri kohta"
+
+#~ msgctxt "@action Enables/Disables an effect that makes windows more sharp"
+#~ msgid "Toggle Sharpen Effect"
+#~ msgstr "Teravdusefekti lülitamine"
+
+#~ msgid "&Number of snowflakes:"
+#~ msgstr "&Helveste arv:"
+
+#~ msgid "M&inimum size of snowflake:"
+#~ msgstr "Helveste m&iinimumsuurus:"
+
+#~ msgid "M&aximum size of snowflake:"
+#~ msgstr "Helveste m&aksimumsuurus:"
+
+#~ msgid "Maximum &vertical speed:"
+#~ msgstr "Maks. &vertikaalkiirus:"
+
+#~ msgid "Maximum &horizontal speed:"
+#~ msgstr "Maks. &horisontaalkiirus:"
+
+#~ msgid "Snow &behind windows"
+#~ msgstr "Lu&mi akende taga"
+
+#~ msgid "&X offset:"
+#~ msgstr "&X-nihe:"
+
+#~ msgid "&Y offset:"
+#~ msgstr "&Y-nihe:"
+
+#~ msgid "%"
+#~ msgstr "%"
+
+#~ msgid "&Fuzziness:"
+#~ msgstr "&Hägusus:"
+
+#~ msgid "&Size:"
+#~ msgstr "&Suurus:"
+
+#~ msgid "&Active windows have stronger shadows"
+#~ msgstr "&Aktiivsetel akendel on tugevam vari"
+
+#, fuzzy
+#~| msgid "Background"
+#~ msgid "Background brightness"
+#~ msgstr "Taust"
+
+#, fuzzy
+#~| msgid "Background"
+#~ msgid "Background saturation"
+#~ msgstr "Taust"
+
+#, fuzzy
+#~| msgid "End effect"
+#~ msgid "Effects"
+#~ msgstr "Efekti lõpetamine"
+
+#~ msgid "Hold Ctrl+Meta keys to see where the mouse cursor is."
+#~ msgstr "Nägemaks, kus asub hiirekursor, vajuta klahve Ctrl+Meta."
+
+#~ msgid "Rearrange &duration:"
+#~ msgstr "Ümberkorral&damise kestus:"
+
+#~ msgctxt "Duration of rearrangement"
+#~ msgid "Default"
+#~ msgstr "Vaikimisi"
+
+#~ msgid "Animate &flip"
+#~ msgstr "P&eegeldamise animeerimine"
+
+#~ msgid "Custom..."
+#~ msgstr "Kohandatud..."
+
+#~ msgid "Default Shadow"
+#~ msgstr "Vaikimisi vari"
+
+#~ msgid "Decoration Shadows"
+#~ msgstr "Dekoratsiooni varjud"
+
+#~ msgid "&Decorated windows"
+#~ msgstr "&Dekoreeritud aknad"
+
+#~ msgid "Force default shadows for:"
+#~ msgstr "Vaikimisi varju pealesundimine:"
+
+#~ msgid "&Undecorated normal windows"
+#~ msgstr "Dekoreerimata ta&valised aknad"
+
+#~ msgid ""
+#~ "If enabled span the cube across all screens on a multiscreen setup, "
+#~ "otherwise\n"
+#~ "the cube will only be displayed on a single screen"
+#~ msgstr ""
+#~ "Kuubikut näidatakse mitme ekraani korral kõigil ekraanidel.\n"
+#~ "Kui see on sisse lülitamata, näidatakse kuubikut ainult ühel ekraanil."
+
+#~ msgid "Span cube on all screens in multi screen setup"
+#~ msgstr "Kuubiku venitamine kõigile ekraanidele (mitme ekraani korral)"
+
+#~ msgid ""
+#~ "If enabled the effect will be deactivated after rotating the cylinder "
+#~ "with the mouse,\n"
+#~ "otherwise it will remain active."
+#~ msgstr ""
+#~ "Silinder on pärast selle pööramist hiirega deaktiveeritud.\n"
+#~ "Vastasel juhul jääb silinder aktiivseks."
+
+#~ msgid ""
+#~ "If enabled the effect will be deactivated after rotating the sphere with "
+#~ "the mouse,\n"
+#~ "otherwise it will remain active"
+#~ msgstr ""
+#~ "Sfäär on pärast selle pööramist hiirega deaktiveeritud.\n"
+#~ "Vastasel juhul jääb sfäär aktiivseks."
+
+#, fuzzy
+#~| msgid "Display the cube when switching desktops"
+#~ msgid "Fix panels while switching desktops"
+#~ msgstr "Kuubiku näitamine töölaudade lülitamisel"
+
+#~ msgid "Shadow opacity:"
+#~ msgstr "Varju läbipaistmatus:"
+
+#~ msgid "Shadow size (relative to window):"
+#~ msgstr "Varju suurus (akna suhtes):"
+
+#~ msgid "Shadow color:"
+#~ msgstr "Varju värv:"
+
+#~ msgid "Active screen &edge:"
+#~ msgstr "Aktiivse &ekraani serv:"
+
+#~ msgid "Active screen &edge (All desktops):"
+#~ msgstr "Aktiivse &ekraani serv (kõigil töölaudadel):"
+
+#~ msgid "Active screen &edge (Current desktop):"
+#~ msgstr "Aktiivse &ekraani serv (aktiivsel töölaual):"
+
+#~ msgid "Show cube when desktop changed"
+#~ msgstr "Kuubiku näitamine töölaua muutmisel"
+
+#~ msgid "Advanced opacity settings for menus:"
+#~ msgstr "Menüüde muud läbipaistmatuse seadistused :"
+
+#~ msgid "Set individual opacity for different menu types"
+#~ msgstr "Individuaalne läbipaistmatus erinevatele menüütüüpidele"
+
+#~ msgid "Custom grid &layout"
+#~ msgstr "Kohandatud a&lusvõrgu paigutus"
+
+#~ msgid "Select Wallpaper Image File"
+#~ msgstr "Vali taustapildi fail"
+
+#~ msgid "Cube &opacity:"
+#~ msgstr "Kuubiku lä&bipaistmatus:"
+
+#~ msgid "Fully opaque"
+#~ msgstr "Täiesti läbipaistmatu"
+
+#~ msgid "Cube &Caps"
+#~ msgstr "Kuu&biku otsatahud"
+
+#~ msgid "Activate when cursor is at a specific edge or corner of the screen:"
+#~ msgstr "Aktiveerimine, kui kursor asub ekraani määratud nurgas:"
+
+#~ msgid "Toggle Expose Effect (incl. other desktops)"
+#~ msgstr "Expose-efekti lülitamine (sh. teistel töölaudadel)"

@@ -89,3 +89,12 @@ msgstr "Jätä pois sisäiset tehosteet"
 #, kde-format
 msgid "Get New Desktop Effects..."
 msgstr "Hae uusia työpöytätehosteita…"
+
+#~ msgid "Download New Desktop Effects"
+#~ msgstr "Lataa uusia työpöytätehosteita"
+
+#~ msgid "Exclude Desktop Effects not supported by the Compositor"
+#~ msgstr "Ohita työpöytätehosteet, joita koostin ei tue"
+
+#~ msgid "Search..."
+#~ msgstr "Etsi…"

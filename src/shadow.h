@@ -7,11 +7,9 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-#ifndef KWIN_SHADOW_H
-#define KWIN_SHADOW_H
+#pragma once
 
 #include <QObject>
-#include <QPixmap>
 #include <kwineffects.h>
 
 namespace KDecoration2
@@ -72,7 +70,7 @@ public:
      * @param window The Window for which the shadow should be created
      * @return Created Shadow or @c NULL in case there is no shadow defined.
      */
-    static Shadow *createShadow(Window *window);
+    static std::unique_ptr<Shadow> createShadow(Window *window);
 
     Window *window() const;
     /**
@@ -126,27 +124,26 @@ public Q_SLOTS:
 protected:
     Shadow(Window *window);
 
-    inline const QPixmap &shadowPixmap(ShadowElements element) const
+    inline const QImage &shadowElement(ShadowElements element) const
     {
         return m_shadowElements[element];
     };
 
     virtual bool prepareBackend() = 0;
-    void setShadowElement(const QPixmap &shadow, ShadowElements element);
 
 private:
-    static Shadow *createShadowFromX11(Window *window);
-    static Shadow *createShadowFromDecoration(Window *window);
-    static Shadow *createShadowFromWayland(Window *window);
-    static Shadow *createShadowFromInternalWindow(Window *window);
+    static std::unique_ptr<Shadow> createShadowFromX11(Window *window);
+    static std::unique_ptr<Shadow> createShadowFromDecoration(Window *window);
+    static std::unique_ptr<Shadow> createShadowFromWayland(Window *window);
+    static std::unique_ptr<Shadow> createShadowFromInternalWindow(Window *window);
     static QVector<uint32_t> readX11ShadowProperty(xcb_window_t id);
     bool init(const QVector<uint32_t> &data);
     bool init(KDecoration2::Decoration *decoration);
     bool init(const QPointer<KWaylandServer::ShadowInterface> &shadow);
     bool init(const QWindow *window);
     Window *m_window;
-    // shadow pixmaps
-    QPixmap m_shadowElements[ShadowElementsCount];
+    // shadow elements
+    QImage m_shadowElements[ShadowElementsCount];
     // shadow offsets
     QMargins m_offset;
     // caches
@@ -156,5 +153,3 @@ private:
 };
 
 }
-
-#endif // KWIN_SHADOW_H

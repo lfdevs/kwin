@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-01 02:26+0000\n"
+"POT-Creation-Date: 2023-01-18 00:58+0000\n"
 "PO-Revision-Date: 2022-12-28 21:13+0000\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -63,6 +63,7 @@ msgstr ""
 #: mousemark/mousemark_config.cpp:50 overview/kcm/overvieweffectkcm.cpp:35
 #: showpaint/showpaint_config.cpp:33
 #: thumbnailaside/thumbnailaside_config.cpp:54
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:31
 #: trackmouse/trackmouse_config.cpp:52
 #: windowview/kcm/windowvieweffectkcm.cpp:36 zoom/zoom_config.cpp:58
 #, kde-format
@@ -201,14 +202,20 @@ msgstr "Cel mai apropiat"
 msgid "Natural"
 msgstr "Natural"
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
+#: desktopgrid/desktopgrid_config.ui:147
+#, fuzzy, kde-format
+msgid "None"
+msgstr "Nimic"
+
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: desktopgrid/desktopgrid_config.ui:150
+#: desktopgrid/desktopgrid_config.ui:155
 #, kde-format
 msgid "Windows layout:"
 msgstr "Aranjare ferestre:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: desktopgrid/desktopgrid_config.ui:166
+#: desktopgrid/desktopgrid_config.ui:171
 #, kde-format
 msgid "Activation"
 msgstr "Activare"
@@ -311,10 +318,16 @@ msgstr "Animație de închidere a ferestrelor"
 msgid "Toggle Invert Effect"
 msgstr "Comută efectul Inversare"
 
-#: invert/invert.cpp:50 invert/invert_config.cpp:44
+#: invert/invert.cpp:49 invert/invert_config.cpp:44
 #, kde-format
 msgid "Toggle Invert Effect on Window"
 msgstr "Comută efectul Inversare asupra ferestrei"
+
+#: invert/invert.cpp:56
+#, fuzzy, kde-format
+#| msgid "Invert cursor keys"
+msgid "Invert Screen Colors"
+msgstr "Inversează tastele cursor"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FadeToBlack)
 #: login/package/contents/ui/config.ui:17
@@ -371,30 +384,30 @@ msgstr "Î&nălțime:"
 msgid "Toggle Mouse Click Effect"
 msgstr "Comută efectul de clic al mausului"
 
-#: mouseclick/mouseclick.cpp:42
+#: mouseclick/mouseclick.cpp:41
 #, kde-format
 msgctxt "Left mouse button"
 msgid "Left"
 msgstr "Stâng"
 
-#: mouseclick/mouseclick.cpp:43
+#: mouseclick/mouseclick.cpp:42
 #, kde-format
 msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr "Mijlociu"
 
-#: mouseclick/mouseclick.cpp:44
+#: mouseclick/mouseclick.cpp:43
 #, kde-format
 msgctxt "Right mouse button"
 msgid "Right"
 msgstr "Drept"
 
-#: mouseclick/mouseclick.h:61
+#: mouseclick/mouseclick.h:60
 #, kde-format
 msgid "↓"
 msgstr "↓"
 
-#: mouseclick/mouseclick.h:62
+#: mouseclick/mouseclick.h:61
 #, kde-format
 msgid "↑"
 msgstr "↑"
@@ -490,12 +503,12 @@ msgstr "Font:"
 msgid "Show Text:"
 msgstr "Arată textul:"
 
-#: mousemark/mousemark.cpp:36
+#: mousemark/mousemark.cpp:39
 #, kde-format
 msgid "Clear All Mouse Marks"
 msgstr "Curăță toate urmele mausului"
 
-#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:59
+#: mousemark/mousemark.cpp:45 mousemark/mousemark_config.cpp:59
 #, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr "Curăță ultima urmă a mausului"
@@ -562,12 +575,12 @@ msgstr "Estompează fundalul:"
 msgid "Ignore minimized windows:"
 msgstr "Ignoră ferestrele minimizate:"
 
-#: overview/qml/DesktopBar.qml:186
+#: overview/qml/DesktopBar.qml:187
 #, kde-format
 msgid "Delete Virtual Desktop"
 msgstr "Șterge biroul virtual"
 
-#: overview/qml/DesktopBar.qml:282
+#: overview/qml/DesktopBar.qml:283
 #, kde-format
 msgid "Add Virtual Desktop"
 msgstr "Adaugă birou virtual"
@@ -577,12 +590,12 @@ msgstr "Adaugă birou virtual"
 msgid "No matching windows"
 msgstr "Nicio fereastră potrivită"
 
-#: private/qml/WindowHeapDelegate.qml:152
+#: private/qml/WindowHeapDelegate.qml:151
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "Trage în jos pentru a închide"
 
-#: private/qml/WindowHeapDelegate.qml:462
+#: private/qml/WindowHeapDelegate.qml:461
 #, kde-format
 msgctxt "@info:tooltip as in: 'close this window'"
 msgid "Close window"
@@ -600,20 +613,20 @@ msgstr "Scală deschidere fereastră:"
 msgid "Window close scale:"
 msgstr "Scală închidere fereastră:"
 
-#: screenshot/screenshotdbusinterface1.cpp:480
+#: screenshot/screenshotdbusinterface1.cpp:478
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr "Captură de ecran"
 
-#: screenshot/screenshotdbusinterface1.cpp:481
+#: screenshot/screenshotdbusinterface1.cpp:479
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr "Captură de ecran salvată în %1"
 
-#: screenshot/screenshotdbusinterface1.cpp:797
-#: screenshot/screenshotdbusinterface2.cpp:472
+#: screenshot/screenshotdbusinterface1.cpp:800
+#: screenshot/screenshotdbusinterface2.cpp:477
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
@@ -622,8 +635,8 @@ msgstr ""
 "Alegeți fereastra de capturat cu clic stâng sau Enter.\n"
 "Apăsați Escape sau clic drept pentru a anula."
 
-#: screenshot/screenshotdbusinterface1.cpp:800
-#: screenshot/screenshotdbusinterface2.cpp:490
+#: screenshot/screenshotdbusinterface1.cpp:803
+#: screenshot/screenshotdbusinterface2.cpp:495
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -689,14 +702,8 @@ msgstr "Orizontal:"
 msgid "Vertical:"
 msgstr "Vertical:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideDocks)
-#: slide/slide_config.ui:72
-#, kde-format
-msgid "Slide docks"
-msgstr "Alunecă andocările"
-
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideBackground)
-#: slide/slide_config.ui:79
+#: slide/slide_config.ui:72
 #, kde-format
 msgid "Slide desktop background"
 msgstr "Alunecă fundalul biroului"
@@ -738,6 +745,50 @@ msgstr "&Opacitate:"
 #, no-c-format, kde-format
 msgid " %"
 msgstr " %"
+
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:37
+#: tileseditor/tileseditoreffect.cpp:29
+#, kde-format
+msgid "Toggle Tiles Editor"
+msgstr ""
+
+#: tileseditor/qml/main.qml:147
+#, kde-format
+msgid "Padding:"
+msgstr ""
+
+#: tileseditor/qml/main.qml:157
+#, kde-format
+msgid "Load Layout..."
+msgstr ""
+
+#: tileseditor/qml/main.qml:271
+#, fuzzy, kde-format
+#| msgid "Closest"
+msgid "Close"
+msgstr "Cel mai apropiat"
+
+#: tileseditor/qml/TileDelegate.qml:171
+#, fuzzy, kde-format
+#| msgid "Horizontal:"
+msgid "Split Horizontally"
+msgstr "Orizontal:"
+
+#: tileseditor/qml/TileDelegate.qml:178
+#, fuzzy, kde-format
+#| msgid "Vertical:"
+msgid "Split Vertically"
+msgstr "Vertical:"
+
+#: tileseditor/qml/TileDelegate.qml:186 tileseditor/qml/TileDelegate.qml:215
+#, kde-format
+msgid "Add Floating Tile"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:195
+#, kde-format
+msgid "Delete"
+msgstr ""
 
 #: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:57
 #, kde-format
@@ -873,17 +924,17 @@ msgstr "Meniuri „rupte”"
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Comută ferestre prezente (biroul curent)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:55
+#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:54
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Comută ferestre prezente (toate birourile)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:65
+#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:63
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Comută ferestre prezente (clasa ferestrei)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:75
+#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:72
 #, fuzzy, kde-format
 #| msgid "Toggle Present Windows (Current desktop)"
 msgid "Toggle Present Windows (Window class on current desktop)"
@@ -895,15 +946,21 @@ msgstr "Comută ferestre prezente (biroul curent)"
 msgid "Ignore &minimized windows"
 msgstr "Ignoră ferestrele &minimizate"
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, kde-format
 msgid "No Matches"
 msgstr "Nicio potrivire"
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, kde-format
 msgid "No Windows"
 msgstr "Nicio fereastră"
+
+#: windowview/qml/main.qml:123
+#, fuzzy, kde-format
+#| msgid "Fullscreen windows"
+msgid "Filter windows…"
+msgstr "Ferestre pe tot ecranul"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20
@@ -965,32 +1022,32 @@ msgstr "Mai puțin"
 msgid "More"
 msgstr "Mai mult"
 
-#: zoom/zoom.cpp:68
+#: zoom/zoom.cpp:65
 #, kde-format
 msgid "Move Zoomed Area to Left"
 msgstr "Mută zona mărită spre stânga"
 
-#: zoom/zoom.cpp:76
+#: zoom/zoom.cpp:72
 #, kde-format
 msgid "Move Zoomed Area to Right"
 msgstr "Mută zona mărită spre dreapta"
 
-#: zoom/zoom.cpp:84
+#: zoom/zoom.cpp:79
 #, kde-format
 msgid "Move Zoomed Area Upwards"
 msgstr "Mută zona mărită în sus"
 
-#: zoom/zoom.cpp:92
+#: zoom/zoom.cpp:86
 #, kde-format
 msgid "Move Zoomed Area Downwards"
 msgstr "Mută zona mărită în jos"
 
-#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:108
+#: zoom/zoom.cpp:94 zoom/zoom_config.cpp:108
 #, kde-format
 msgid "Move Mouse to Focus"
 msgstr "Mută mausul la focalizarea curentă"
 
-#: zoom/zoom.cpp:109 zoom/zoom_config.cpp:115
+#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:115
 #, kde-format
 msgid "Move Mouse to Center"
 msgstr "Mută mausul la centru"
@@ -1129,3 +1186,925 @@ msgstr "Dezactivat"
 #, kde-format
 msgid "Mouse Tracking:"
 msgstr "Urmărire maus:"
+
+#~ msgid "Slide docks"
+#~ msgstr "Alunecă andocările"
+
+#~ msgid "Search..."
+#~ msgstr "Caută…"
+
+#~ msgid "&Radius:"
+#~ msgstr "&Rază:"
+
+#~ msgid "Text position:"
+#~ msgstr "Poziția textului:"
+
+#~ msgid "Inside Graph"
+#~ msgstr "În interiorul grafului"
+
+#~ msgid "Nowhere"
+#~ msgstr "Nicăieri"
+
+#~ msgid "Top Left"
+#~ msgstr "Stânga-sus"
+
+#~ msgid "Top Right"
+#~ msgstr "Drepta-sus"
+
+#~ msgid "Bottom Left"
+#~ msgstr "Stânga-jos"
+
+#~ msgid "Bottom Right"
+#~ msgstr "Dreapta-jos"
+
+#~ msgid "Text font:"
+#~ msgstr "Fontul textului:"
+
+#~ msgid "Text color:"
+#~ msgstr "Culoarea textului:"
+
+#~ msgid "Text alpha:"
+#~ msgstr "Canal alfa:"
+
+#~ msgid "Show graph:"
+#~ msgstr "Arată graficul:"
+
+#~ msgid "Show on active screen"
+#~ msgstr "Arată pe ecranul activ"
+
+#~ msgid "Show Message:"
+#~ msgstr "Arată mesajul:"
+
+#~ msgid "Show \"not a benchmark\" message"
+#~ msgstr "Arată mesajul „nu e punct de reper”"
+
+#~ msgid "Colorize Text:"
+#~ msgstr "Colorează textul:"
+
+#~ msgid "Color text by value (green > yellow > red)"
+#~ msgstr "Colorează textul după valoare (verde > galben > roșu)"
+
+#~ msgid "Zoom &duration:"
+#~ msgstr "&Durata panoramării"
+
+#~ msgctxt "Duration of zoom"
+#~ msgid "Default"
+#~ msgstr "Implicită"
+
+#~ msgid "Border wid&th:"
+#~ msgstr "Lățime con&tur:"
+
+#~ msgid "Click behavior:"
+#~ msgstr "Comportament la clic:"
+
+#~ msgid ""
+#~ "If the Present Windows effect is enabled, it will be automatically "
+#~ "triggered."
+#~ msgstr ""
+#~ "Dacă efectul „Prezentare ferestre” e activat, acesta va fi declanșat "
+#~ "automat."
+
+#~ msgid "Switch desktop and activate window"
+#~ msgstr "Schimbă biroul și activează fereastra"
+
+#~ msgid "Switch desktop only"
+#~ msgstr "Doar schimbă biroul"
+
+#~ msgid "Natural Layout Settings"
+#~ msgstr "Configurările aranjamentului natural"
+
+#~ msgid "Fill &gaps"
+#~ msgstr "Umple &spațiile"
+
+#~ msgid "Faster"
+#~ msgstr "Mai rapid"
+
+#~ msgid "Nicer"
+#~ msgstr "Mai frumos"
+
+#~ msgid "Left button:"
+#~ msgstr "Buton stânga:"
+
+#~ msgid "No action"
+#~ msgstr "Nicio acțiune"
+
+#~ msgid "Activate window"
+#~ msgstr "Activează fereastra"
+
+#~ msgid "End effect"
+#~ msgstr "Termină efectul"
+
+#~ msgid "Bring window to current desktop"
+#~ msgstr "Adu fereastra la biroul curent"
+
+#~ msgid "Send window to all desktops"
+#~ msgstr "Trimite fereastra spre toate birourile"
+
+#~ msgid "(Un-)Minimize window"
+#~ msgstr "(Dez-)Minimizează fereastra"
+
+#~ msgid "Middle button:"
+#~ msgstr "Buton mijloc:"
+
+#~ msgid "Right button:"
+#~ msgstr "Buton dreapta:"
+
+#~ msgctxt "@title:group actions when clicking on desktop"
+#~ msgid "Desktop"
+#~ msgstr "Birou"
+
+#~ msgid "Show desktop"
+#~ msgstr "Arată biroul"
+
+#~ msgid "Display window &titles"
+#~ msgstr "Afișează &titlurile ferestrelor"
+
+#~ msgid "Display window &icons"
+#~ msgstr "Afișează p&ictogramele ferestrelor"
+
+#~ msgid "Show &panels"
+#~ msgstr "Arată &panourile"
+
+#~ msgid "Regular Grid"
+#~ msgstr "Grilă regulară"
+
+#~ msgid "Flexible Grid"
+#~ msgstr "Grilă flexibilă"
+
+#~ msgid "Provide buttons to close the windows"
+#~ msgstr "Furnizează butoanele pentru a închide ferestrele"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Sergiu Bivol"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "sergiu@cip.md"
+
+#~ msgid "Scale window"
+#~ msgstr "Scalează fereastra"
+
+#~ msgid "Show outline"
+#~ msgstr "Afișează contur"
+
+#~ msgid "Toggle window geometry display (effect only)"
+#~ msgstr "Comută afișarea geometriei ferestrei (doar efectul)"
+
+#~ msgid "Toggle KWin composited geometry display"
+#~ msgstr "Comută afișarea geometriei compozite KWin"
+
+#~ msgid "Display for moving windows"
+#~ msgstr "Afișează pentru deplasarea ferestrelor"
+
+#~ msgid "Display for resizing windows"
+#~ msgstr "Afișează pentru redimensionarea ferestrelor"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Blur"
+#~ msgstr "Estompare"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Blurs the background behind semi-transparent windows"
+#~ msgstr "Estompează fundalul în spatele ferestrelor semi-transparente"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Color Picker"
+#~ msgstr "Selector de culori"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Supports picking a color"
+#~ msgstr "Permite alegerea unei culori"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Background contrast"
+#~ msgstr "Contrast de fundal"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Improve contrast and readability behind semi-transparent windows"
+#~ msgstr ""
+#~ "Îmbunătățește contrastul și lizibilitatea în spatele ferestrelor semi-"
+#~ "transparente"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Grid"
+#~ msgstr "Grilă de birou"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Zoom out so all desktops are displayed side-by-side in a grid"
+#~ msgstr ""
+#~ "Îndepărtează astfel încât toate birourile sunt afișate alăturat într-o "
+#~ "grilă"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Dim Inactive"
+#~ msgstr "Împăienjenire inactive"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Darken inactive windows"
+#~ msgstr "Întunecă ferestrele inactive"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Fall Apart"
+#~ msgstr "Spargere"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Closed windows fall into pieces"
+#~ msgstr "Ferestrele închise se sparg în bucăți"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Glide"
+#~ msgstr "Scurgere"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Glide windows as they appear or disappear"
+#~ msgstr "Ferestrele se scurg când apar sau dispar"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Highlight Window"
+#~ msgstr "Evidențiere fereastră"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlight the appropriate window when hovering over taskbar entries"
+#~ msgstr ""
+#~ "Evidențiază fereastra potrivită la planarea peste înregistrările barei de "
+#~ "sarcini"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Invert"
+#~ msgstr "Inversare"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Inverts the color of the desktop and windows"
+#~ msgstr "Inversează culorile biroului și ferestrelor"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Kscreen"
+#~ msgstr "Kscreen"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper Effect for KScreen"
+#~ msgstr "Efect ajutător pentru KScreen"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Looking Glass"
+#~ msgstr "Lentilă"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "A screen magnifier that looks like a fisheye lens"
+#~ msgstr "Lupă pentru ecran ce arată ca o lentilă de ochi de pește"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Magic Lamp"
+#~ msgstr "Lampă fermecată"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Simulate a magic lamp when minimizing windows"
+#~ msgstr "Simulează o lampă fermecată la minimizarea ferestrelor"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Magnifier"
+#~ msgstr "Lupă"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Magnify the section of the screen that is near the mouse cursor"
+#~ msgstr "Mărește secțiunea ecranului de lângă cursorul mausului"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Click Animation"
+#~ msgstr "Animație la clic de maus"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Creates an animation whenever a mouse button is clicked. This is useful "
+#~ "for screenrecordings/presentations"
+#~ msgstr ""
+#~ "Creează o animație oricând e apăsat un buton al mausului. Util pentru "
+#~ "înregistrări de ecran și prezentări"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Mark"
+#~ msgstr "Urme de maus"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Allows you to draw lines on the desktop"
+#~ msgstr "Vă permite să desenați linii pe birou"
+
+#, fuzzy
+#~| msgctxt "Comment describing the KWin Effect"
+#~| msgid "Allows you to draw lines on the desktop"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Allows you to overview virtual desktops and windows"
+#~ msgstr "Vă permite să desenați linii pe birou"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Present Windows"
+#~ msgstr "Prezintă ferestrele"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Zoom out until all opened windows can be displayed side-by-side"
+#~ msgstr ""
+#~ "Îndepărtează până toate ferestrele deschise se pot afișa una lângă alta"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Resize Window"
+#~ msgstr "Redimensionează fereastra"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Resizes windows with a fast texture scale instead of updating contents"
+#~ msgstr ""
+#~ "Redimensionează ferestrele cu o scalare rapidă a texturii în loc de "
+#~ "actualizarea conținutului"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Screen Edge"
+#~ msgstr "Muchia ecranului"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlights a screen edge when approaching"
+#~ msgstr "Evidențiază o muchie a ecranului la apropiere"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Screenshot"
+#~ msgstr "Captură de ecran"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper effect for screenshot tools"
+#~ msgstr "Efect ajutător pentru unelte de capturare a ecranului"
+
+#, fuzzy
+#~| msgid "Transparent"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Transform"
+#~ msgstr "Transparent"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Sheet"
+#~ msgstr "Foaie"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Make modal dialogs smoothly fly in and out when they are shown or hidden"
+#~ msgstr "Face dialogurile modale să zboare lin când sunt arătate sau ascunse"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show FPS"
+#~ msgstr "Arată CPS"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display KWin's performance in the corner of the screen"
+#~ msgstr "Afișează performanța KWin în colțul ecranului"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show Paint"
+#~ msgstr "Arată vopseaua"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlight areas of the desktop that have been recently updated"
+#~ msgstr "Evidențiază zonele biroului ce au fost actualizate recent"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Slide"
+#~ msgstr "Alunecă"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Slide desktops when switching virtual desktops"
+#~ msgstr "Alunecă birourile la schimbarea biroului virtual"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Slide Back"
+#~ msgstr "Alunecă înapoi"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Slide back windows when another window is raised"
+#~ msgstr "Alunecă ferestrele înapoi când altă fereastră e ridicată"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Sliding popups"
+#~ msgstr "Indicii lunecoase"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Sliding animation for Plasma popups"
+#~ msgstr "Animație lunecoasă pentru indiciile Plasma"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Snap Helper"
+#~ msgstr "Ajutător magnetic"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Help you locate the center of the screen when moving a window"
+#~ msgstr "Ajută la găsirea centrului ecranului când se mută o fereastră"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Startup Feedback"
+#~ msgstr "Reacție la lansare"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper effect for startup feedback"
+#~ msgstr "Efect ajutător pentru reacție la lansare"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Thumbnail Aside"
+#~ msgstr "Miniatură lateral"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display window thumbnails on the edge of the screen"
+#~ msgstr "Afișează miniaturile ferestrelor la marginea ecranului"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Touch Points"
+#~ msgstr "Puncte de atingere"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Visualize touch points"
+#~ msgstr "Vizualizează punctele de atingere"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Track Mouse"
+#~ msgstr "Urmărește mausul"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display a mouse cursor locating effect when activated"
+#~ msgstr "Afișează un efect de găsire a cursorului când e activat"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Window Geometry"
+#~ msgstr "Geometrie fereastră"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display window geometries on move/resize"
+#~ msgstr "Afișează geometriile ferestrelor la mutare/redimensionare"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Wobbly Windows"
+#~ msgstr "Ferestre tremurătoare"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Deform windows while they are moving"
+#~ msgstr "Deformează ferestrele în timp ce se mută"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Zoom"
+#~ msgstr "Apropiere"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Magnify the entire desktop"
+#~ msgstr "Mărește întregul birou"
+
+#~ msgctxt "Special entry in alt+tab list for minimizing all windows"
+#~ msgid "Show Desktop"
+#~ msgstr "Arată biroul"
+
+#~ msgid "Zoom"
+#~ msgstr "Apropiere"
+
+#~ msgid "Define how far away the windows should appear"
+#~ msgstr "Definește cât de departe să apară ferestrele"
+
+#~ msgid "Near"
+#~ msgstr "Aproape"
+
+#~ msgid "Far"
+#~ msgstr "Departe"
+
+#~ msgid "Animation"
+#~ msgstr "Animație"
+
+#~ msgid "Animate switch"
+#~ msgstr "Animează schimbarea"
+
+#~ msgid "Animation on tab box open"
+#~ msgstr "Animare la deschiderea filei"
+
+#~ msgid "Animation on tab box close"
+#~ msgstr "Animare la închiderea filei"
+
+#~ msgid "Reflections"
+#~ msgstr "Reflexii"
+
+#~ msgid "Rear color"
+#~ msgstr "Culoare spate"
+
+#~ msgid "Front color"
+#~ msgstr "Culoare față"
+
+#~ msgid "Desktop Cube"
+#~ msgstr "Cub de birou"
+
+#~ msgid "Desktop Cylinder"
+#~ msgstr "Cilindru de birou"
+
+#~ msgid "Desktop Sphere"
+#~ msgstr "Sferă de birou"
+
+#~ msgctxt "@title:tab Basic Settings"
+#~ msgid "Basic"
+#~ msgstr "De bază"
+
+#~ msgctxt "@title:tab Advanced Settings"
+#~ msgid "Advanced"
+#~ msgstr "Avansate"
+
+#~ msgid "Tab 1"
+#~ msgstr "Fila 1"
+
+#~ msgid "Background color:"
+#~ msgstr "Culoare fundal:"
+
+#~ msgid "Wallpaper:"
+#~ msgstr "Fundal:"
+
+#~ msgid "Display desktop name"
+#~ msgstr "Afișează denumirea biroului"
+
+#~ msgid "Reflection"
+#~ msgstr "Reflexie"
+
+#~ msgid "Rotation duration:"
+#~ msgstr "Durata rotației:"
+
+#~ msgid "Windows hover above cube"
+#~ msgstr "Ferestrele plutesc deasupra cubului"
+
+#~ msgid "Opacity"
+#~ msgstr "Opacitate"
+
+#~ msgid "Do not change opacity of windows"
+#~ msgstr "Nu modifica opacitatea ferestrelor"
+
+#~ msgid "Tab 2"
+#~ msgstr "Fila 2"
+
+#~ msgid "Caps"
+#~ msgstr "Capace"
+
+#~ msgid "Cap color:"
+#~ msgstr "Culoarea capacului:"
+
+#~ msgid "Display image on caps"
+#~ msgstr "Afișează imaginea pe capace"
+
+#~ msgid "Define how far away the object should appear"
+#~ msgstr "Definește cât de departe să apară obiectul"
+
+#~ msgid "Additional Options"
+#~ msgstr "Opțiuni suplimentare"
+
+#~ msgid ""
+#~ "If enabled the effect will be deactivated after rotating the cube with "
+#~ "the mouse,\n"
+#~ "otherwise it will remain active"
+#~ msgstr ""
+#~ "Dacă este activat, efectul va fi dezactivat după rotirea cubului cu "
+#~ "mausul, \n"
+#~ "altfel va rămâne activ"
+
+#~ msgid "Close after mouse dragging"
+#~ msgstr "Închide după tragerea cu mausul"
+
+#~ msgid "Use this effect for walking through the desktops"
+#~ msgstr "Folosește acest efect pentru a naviga între birouri"
+
+#~ msgid "Invert mouse"
+#~ msgstr "Inversează mausul"
+
+#~ msgid "Sphere Cap Deformation"
+#~ msgstr "Deformarea capacului sferei"
+
+#~ msgid "Sphere"
+#~ msgstr "Sferă"
+
+#~ msgid "Plane"
+#~ msgstr "Plan"
+
+#~ msgid "Do not animate windows on all desktops"
+#~ msgstr "Nu anima ferestrele de pe toate birourile"
+
+#~ msgid "Do not animate panels"
+#~ msgstr "Nu anima panourile"
+
+#~ msgid "Use pager layout for animation"
+#~ msgstr "Folosește aranjamentul de paginator pentru animație"
+
+#~ msgid "Start animation when moving windows towards screen edges"
+#~ msgstr "Pornește animația când se mută ferestrele spre marginile ecranului"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Cover Switch"
+#~ msgstr "Comutare copertă"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube"
+#~ msgstr "Cub de birou"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display each virtual desktop on a side of a cube"
+#~ msgstr "Afișează fiecare birou virtual pe fața unui cub"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube Animation"
+#~ msgstr "Animație Cub de birou"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Animate desktop switching with a cube"
+#~ msgstr "Animează schimbarea ferestrelor cu un cub"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Flip Switch"
+#~ msgstr "Comutare cu întoarcere"
+
+#~ msgid "Toggle Flip Switch (Current desktop)"
+#~ msgstr "Comută schimbarea prin răsturnare (biroul curent)"
+
+#~ msgid "Toggle Flip Switch (All desktops)"
+#~ msgstr "Comută schimbarea prin răsturnare (toate birourile)"
+
+#~ msgid "Flip animation duration:"
+#~ msgstr "Durata animației de răsturnare:"
+
+#~ msgctxt "Duration of flip animation"
+#~ msgid "Default"
+#~ msgstr "Implicită"
+
+#~ msgid "Angle:"
+#~ msgstr "Unghi:"
+
+#~ msgid " °"
+#~ msgstr " °"
+
+#~ msgid "Horizontal position of front:"
+#~ msgstr "Poziția orizontală a părții din față:"
+
+#~ msgid "Vertical position of front:"
+#~ msgstr "Poziția verticală a părții din față:"
+
+#~ msgid ""
+#~ "Filter:\n"
+#~ "%1"
+#~ msgstr ""
+#~ "Filtru:\n"
+#~ "%1"
+
+#~ msgid "Use Present Windows effect to layout the windows"
+#~ msgstr "Folosește efectul Prezentare Ferestre pentru a aranja ferestrele"
+
+#~ msgid "When the focus changes, move the zoom area to the focused location."
+#~ msgstr ""
+#~ "Când focusul se modifică, deplasează zona de panoramare către locația de "
+#~ "focus."
+
+#~ msgid "Follow Focus"
+#~ msgstr "Urmărește focusul"
+
+#, fuzzy
+#~| msgid "Scale"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Scale"
+#~ msgstr "Scalare"
+
+#, fuzzy
+#~| msgid "Animation"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Minimize Animation"
+#~ msgstr "Animație"
+
+#, fuzzy
+#~| msgid "Ignore &minimized windows"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Animate the minimizing of windows"
+#~ msgstr "Ignoră ferestrele &minimizate"
+
+#~ msgid "Trigger on"
+#~ msgstr "Declanșează la"
+
+#~ msgid "Shortcut"
+#~ msgstr "Scurtătură"
+
+#~ msgid "Apply effect to &panels"
+#~ msgstr "Aplică efectul la &panouri"
+
+#~ msgid "Apply effect to the desk&top"
+#~ msgstr "Aplică efectul la &birou"
+
+#~ msgid "Apply effect to &keep-above windows"
+#~ msgstr "Aplică efectul la ferestrele ținute-&deasupra"
+
+#~ msgid "Apply effect to &groups"
+#~ msgstr "Aplică efectul la &grupuri"
+
+#~ msgid "Glide Effect:"
+#~ msgstr "Efect de alunecare"
+
+#~ msgid "In"
+#~ msgstr "Intrare"
+
+#~ msgid "Out"
+#~ msgstr "Ieșire"
+
+#~ msgid "Glide Angle:"
+#~ msgstr "Unghi alunecare:"
+
+#~ msgid "-90"
+#~ msgstr "-90"
+
+#~ msgid "90"
+#~ msgstr "90"
+
+#, fuzzy
+#~| msgctxt "Duration of rotation"
+#~| msgid "Default"
+#~ msgctxt "Duration of the slide animation"
+#~ msgid "Default"
+#~ msgstr "Implicită"
+
+#~ msgid "Strength of the effect:"
+#~ msgstr "Intensitatea efectului:"
+
+#~ msgid "Save intermediate rendering results."
+#~ msgstr "Salvează rezultatele randării intermediare."
+
+#~ msgid "Brightness of the background:"
+#~ msgstr "Luminozitatea fundalului:"
+
+#~ msgctxt "Less brightness"
+#~ msgid "Darker"
+#~ msgstr "Mai întunecat"
+
+#~ msgctxt "More brightness"
+#~ msgid "Lighter"
+#~ msgstr "Mai luminos"
+
+#~ msgid "Saturation of the background:"
+#~ msgstr "Saturația fundalului:"
+
+#~ msgctxt "No saturation"
+#~ msgid "Gray"
+#~ msgstr "Gri"
+
+#~ msgid "Duration of the fade:"
+#~ msgstr "Durata estompării:"
+
+#~ msgid "ms"
+#~ msgstr "ms"
+
+#~ msgid "The blur effect must be enabled before it can be used."
+#~ msgstr ""
+#~ "Efectul de încețoșare trebuie să fie activat înainte de a fi folosit."
+
+#~ msgid "Apply blur effect to background"
+#~ msgstr "Aplică efectul de încețoșare la fundal"
+
+#~ msgid "Decorations:"
+#~ msgstr "Decorații:"
+
+#~ msgid "Background window &opacity:"
+#~ msgstr "&Opacitate fereastră în fundal:"
+
+#~ msgid "&Elevate selected window"
+#~ msgstr "Înalță fereastra al&easă"
+
+#~ msgid "&Animate walk through windows"
+#~ msgstr "&Animează defilarea printre ferestre"
+
+#~ msgid "Use additional thumbnail bar"
+#~ msgstr "Utilizează bară cu pictograme suplimentară"
+
+#~ msgid ""
+#~ "Only show thumbnail bar if there are at least specified number of windows"
+#~ msgstr ""
+#~ "Arată bara cu pictograme numai dacă sunt cel puțin numărul specificat de "
+#~ "ferestre"
+
+#~ msgid "Dynamic mode"
+#~ msgstr "Regim dinamic"
+
+#~ msgid "Number of windows:"
+#~ msgstr "Numărul de ferestre:"
+
+#~ msgid " row"
+#~ msgid_plural " rows"
+#~ msgstr[0] " rând"
+#~ msgstr[1] " rânduri"
+#~ msgstr[2] " de rânduri"
+
+#~ msgctxt "Duration of fading"
+#~ msgid "Default"
+#~ msgstr "Implicită"
+
+#~ msgid "Toggle Video Recording"
+#~ msgstr "Comută înregistrare video"
+
+#~ msgid "Path to save video:"
+#~ msgstr "Calea de salvat video:"
+
+#~ msgid "Snow"
+#~ msgstr "Zăpadă"
+
+#~ msgid "Toggle Snow on Desktop"
+#~ msgstr "Comută zăpada pe birou"
+
+#, fuzzy
+#~| msgid " px/frame"
+#~ msgid " pixel/frame"
+#~ msgid_plural " pixels/frame"
+#~ msgstr[0] " px/cadru"
+#~ msgstr[1] " px/cadru"
+#~ msgstr[2] " px/cadru"
+
+#~ msgctxt "@action Enables/Disables an effect that makes windows more sharp"
+#~ msgid "Toggle Sharpen Effect"
+#~ msgstr "Comută efectul de Ascuțire"
+
+#~ msgid "&Number of snowflakes:"
+#~ msgstr "&Numărul de fulgi:"
+
+#~ msgid "M&inimum size of snowflake:"
+#~ msgstr "Mărimea m&inimă a fulgului:"
+
+#~ msgid "M&aximum size of snowflake:"
+#~ msgstr "Mărimea m&aximă a fulgului:"
+
+#~ msgid "Maximum &vertical speed:"
+#~ msgstr "&Viteza verticală maximă:"
+
+#~ msgid "Snow &behind windows"
+#~ msgstr "&Zăpadă în spatele ferestrelor"
+
+#~ msgid "&X offset:"
+#~ msgstr "Decalaj &X:"
+
+#~ msgid "&Y offset:"
+#~ msgstr "Decalaj &Y:"
+
+#~ msgid "%"
+#~ msgstr "%"
+
+#~ msgid "&Fuzziness:"
+#~ msgstr "&Neclaritate:"
+
+#~ msgid "&Size:"
+#~ msgstr "Dimen&siune:"
+
+#, fuzzy
+#~| msgid "&Active windows has stronger shadow"
+#~ msgid "&Active windows have stronger shadows"
+#~ msgstr "Ferestrele &active au umbră mai pronunțată"
+
+#, fuzzy
+#~| msgid "Background"
+#~ msgid "Background brightness"
+#~ msgstr "Fundal"
+
+#, fuzzy
+#~| msgid "Background"
+#~ msgid "Background saturation"
+#~ msgstr "Fundal"
+
+#~ msgid "Hold Ctrl+Meta keys to see where the mouse cursor is."
+#~ msgstr "Țineți tastele Ctrl+Meta pentru a vedeaa unde se află cursorul."
+
+#~ msgid "Rearrange &duration:"
+#~ msgstr "&Durata rearanjării:"
+
+#~ msgctxt "Duration of rearrangement"
+#~ msgid "Default"
+#~ msgstr "Implicită"
+
+#~ msgid "Animate &flip"
+#~ msgstr "Animea&ză inversarea"
+
+#~ msgid "Custom..."
+#~ msgstr "Personalizat..."
+
+#~ msgid "Default Shadow"
+#~ msgstr "Umbră implicită"
+
+#~ msgid "Decoration Shadows"
+#~ msgstr "Umbrele decorațiilor"
+
+#, fuzzy
+#~| msgid "Display the cube when switching desktops"
+#~ msgid "Fix panels while switching desktops"
+#~ msgstr "Afișează cubul la comutarea birourilor"
+
+#~ msgid "Shadow size (relative to window):"
+#~ msgstr "Mărimea umbrei (raportată la fereastră):"
+
+#, fuzzy
+#~| msgid "Animate desktop changes"
+#~ msgid "Show cube when desktop changed"
+#~ msgstr "Animează schimbarea biroului"
+
+#, fuzzy
+#~| msgid "&Opacity:"
+#~ msgid "Cube &opacity:"
+#~ msgstr "&Opacitate:"
+
+#~ msgid "Activate when cursor is at a specific edge or corner of the screen:"
+#~ msgstr "Activare când cursorul e la un anumit colț sau margine a ecranului:"
+
+#, fuzzy
+#~| msgid "Toggle Expose Effect (incl other desktops)"
+#~ msgid "Toggle Expose Effect (incl. other desktops)"
+#~ msgstr "Comută efectul Expunere (incl. celelalte birouri)"

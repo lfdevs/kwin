@@ -8,11 +8,11 @@
 */
 #include "generic_scene_opengl_test.h"
 #include "composite.h"
-#include "core/platform.h"
+#include "core/outputbackend.h"
 #include "core/renderbackend.h"
 #include "cursor.h"
 #include "effectloader.h"
-#include "scene.h"
+#include "scene/workspacescene.h"
 #include "wayland_server.h"
 #include "window.h"
 
@@ -40,8 +40,8 @@ void GenericSceneOpenGLTest::initTestCase()
 {
     qRegisterMetaType<KWin::Window *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
+    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
 
     // disable all effects - we don't want to have it interact with the rendering
     auto config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
@@ -63,7 +63,6 @@ void GenericSceneOpenGLTest::initTestCase()
     QVERIFY(Compositor::self());
 
     QCOMPARE(Compositor::self()->backend()->compositingType(), KWin::OpenGLCompositing);
-    QCOMPARE(kwinApp()->platform()->selectedCompositor(), KWin::OpenGLCompositing);
 }
 
 void GenericSceneOpenGLTest::testRestart()
@@ -76,7 +75,6 @@ void GenericSceneOpenGLTest::testRestart()
     }
     QCOMPARE(sceneCreatedSpy.count(), 1);
     QCOMPARE(Compositor::self()->backend()->compositingType(), KWin::OpenGLCompositing);
-    QCOMPARE(kwinApp()->platform()->selectedCompositor(), KWin::OpenGLCompositing);
 
     // trigger a repaint
     KWin::Compositor::self()->scene()->addRepaintFull();

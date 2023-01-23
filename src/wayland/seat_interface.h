@@ -26,6 +26,7 @@ class KeyboardInterface;
 class PointerInterface;
 class SeatInterfacePrivate;
 class SurfaceInterface;
+class TextInputV1Interface;
 class TextInputV2Interface;
 class TextInputV3Interface;
 class TouchInterface;
@@ -123,35 +124,6 @@ enum class KeyboardKeyState : quint32 {
 class KWIN_EXPORT SeatInterface : public QObject
 {
     Q_OBJECT
-    /**
-     * The name of the Seat
-     */
-    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
-    /**
-     * Whether the SeatInterface supports a pointer device.
-     */
-    Q_PROPERTY(bool pointer READ hasPointer WRITE setHasPointer NOTIFY hasPointerChanged)
-    /**
-     * Whether the SeatInterface supports a keyboard device.
-     */
-    Q_PROPERTY(bool keyboard READ hasKeyboard WRITE setHasKeyboard NOTIFY hasKeyboardChanged)
-    /**
-     * Whether the SeatInterface supports a touch device.
-     * @deprecated Since 5.5, use touch
-     */
-    Q_PROPERTY(bool tourch READ hasTouch WRITE setHasTouch NOTIFY hasTouchChanged)
-    /**
-     * Whether the SeatInterface supports a touch device.
-     */
-    Q_PROPERTY(bool touch READ hasTouch WRITE setHasTouch NOTIFY hasTouchChanged)
-    /**
-     * The global pointer position.
-     */
-    Q_PROPERTY(QPointF pointerPos READ pointerPos WRITE notifyPointerMotion NOTIFY pointerPosChanged)
-    /**
-     * The current timestamp passed to the input events.
-     */
-    Q_PROPERTY(quint32 timestamp READ timestamp WRITE setTimestamp NOTIFY timestampChanged)
 public:
     explicit SeatInterface(Display *display, QObject *parent = nullptr);
     virtual ~SeatInterface();
@@ -167,8 +139,8 @@ public:
     void setHasKeyboard(bool has);
     void setHasTouch(bool has);
 
-    void setTimestamp(quint32 time);
-    quint32 timestamp() const;
+    void setTimestamp(std::chrono::microseconds time);
+    std::chrono::milliseconds timestamp() const;
 
     /**
      * @name Drag'n'Drop related methods
@@ -372,10 +344,10 @@ public:
      *
      * @param orientation The scroll axis.
      * @param delta The length of a vector along the specified axis @p orientation.
-     * @param discreteDelta The number of discrete steps, e.g. mouse wheel clicks.
+     * @param deltaV120 The high-resolution scrolling axis value.
      * @param source Describes how the axis event was physically generated.
      */
-    void notifyPointerAxis(Qt::Orientation orientation, qreal delta, qint32 discreteDelta, PointerAxisSource source);
+    void notifyPointerAxis(Qt::Orientation orientation, qreal delta, qint32 deltaV120, PointerAxisSource source);
     /**
      * @returns true if there is a pressed button with the given @p serial
      */
@@ -414,7 +386,7 @@ public:
      * @param microseconds timestamp with microseconds granularity
      * @see setPointerPos
      */
-    void relativePointerMotion(const QPointF &delta, const QPointF &deltaNonAccelerated, quint64 microseconds);
+    void relativePointerMotion(const QPointF &delta, const QPointF &deltaNonAccelerated, std::chrono::microseconds timestamp);
 
     /**
      * Starts a multi-finger swipe gesture for the currently focused pointer surface.
@@ -620,6 +592,9 @@ public:
      * @see setFocusedTextInputSurface
      */
     SurfaceInterface *focusedTextInputSurface() const;
+
+    TextInputV1Interface *textInputV1() const;
+
     /**
      * The currently focused text input, may be @c null even if there is a
      * focused text input surface set.
@@ -678,7 +653,7 @@ Q_SIGNALS:
     void hasTouchChanged(bool);
     void pointerPosChanged(const QPointF &pos);
     void touchMoved(qint32 id, quint32 serial, const QPointF &globalPosition);
-    void timestampChanged(quint32);
+    void timestampChanged();
 
     /**
      * Emitted whenever the selection changes
@@ -718,6 +693,11 @@ Q_SIGNALS:
      * @see focusedTextInput
      */
     void focusedTextInputSurfaceChanged();
+    /**
+     * Emitted whenever the focused keyboard is about to change.
+     * @see focusedKeyboardSurface
+     */
+    void focusedKeyboardSurfaceAboutToChange(SurfaceInterface *nextSurface);
 
 private:
     std::unique_ptr<SeatInterfacePrivate> d;

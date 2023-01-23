@@ -6,12 +6,12 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-#ifndef KWIN_INPUT_EVENT_H
-#define KWIN_INPUT_EVENT_H
+#pragma once
 
 #include "input.h"
 
 #include <QInputEvent>
+#include <chrono>
 
 namespace KWin
 {
@@ -22,9 +22,8 @@ class MouseEvent : public QMouseEvent
 {
 public:
     explicit MouseEvent(QEvent::Type type, const QPointF &pos, Qt::MouseButton button, Qt::MouseButtons buttons,
-                        Qt::KeyboardModifiers modifiers, quint32 timestamp,
-                        const QPointF &delta, const QPointF &deltaNonAccelerated, quint64 timestampMicroseconds,
-                        InputDevice *device);
+                        Qt::KeyboardModifiers modifiers, std::chrono::microseconds timestamp,
+                        const QPointF &delta, const QPointF &deltaNonAccelerated, InputDevice *device);
 
     QPointF delta() const
     {
@@ -36,9 +35,9 @@ public:
         return m_deltaUnccelerated;
     }
 
-    quint64 timestampMicroseconds() const
+    std::chrono::microseconds timestamp() const
     {
-        return m_timestampMicroseconds;
+        return m_timestamp;
     }
 
     InputDevice *device() const
@@ -69,7 +68,7 @@ public:
 private:
     QPointF m_delta;
     QPointF m_deltaUnccelerated;
-    quint64 m_timestampMicroseconds;
+    std::chrono::microseconds m_timestamp;
     InputDevice *m_device;
     Qt::KeyboardModifiers m_modifiersRelevantForShortcuts = Qt::KeyboardModifiers();
     quint32 m_nativeButton = 0;
@@ -79,9 +78,9 @@ private:
 class WheelEvent : public QWheelEvent
 {
 public:
-    explicit WheelEvent(const QPointF &pos, qreal delta, qint32 discreteDelta, Qt::Orientation orientation,
+    explicit WheelEvent(const QPointF &pos, qreal delta, qint32 deltaV120, Qt::Orientation orientation,
                         Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers, InputRedirection::PointerAxisSource source,
-                        quint32 timestamp, InputDevice *device);
+                        std::chrono::microseconds timestamp, InputDevice *device);
 
     Qt::Orientation orientation() const
     {
@@ -93,9 +92,9 @@ public:
         return m_delta;
     }
 
-    qint32 discreteDelta() const
+    qint32 deltaV120() const
     {
-        return m_discreteDelta;
+        return m_deltaV120;
     }
 
     InputRedirection::PointerAxisSource axisSource() const
@@ -118,20 +117,23 @@ public:
         m_modifiersRelevantForShortcuts = mods;
     }
 
+    std::chrono::microseconds timestamp() const;
+
 private:
     InputDevice *m_device;
     Qt::Orientation m_orientation;
     qreal m_delta;
-    qint32 m_discreteDelta;
+    qint32 m_deltaV120;
     InputRedirection::PointerAxisSource m_source;
     Qt::KeyboardModifiers m_modifiersRelevantForShortcuts = Qt::KeyboardModifiers();
+    const std::chrono::microseconds m_timestamp;
 };
 
 class KeyEvent : public QKeyEvent
 {
 public:
     explicit KeyEvent(QEvent::Type type, Qt::Key key, Qt::KeyboardModifiers modifiers, quint32 code, quint32 keysym,
-                      const QString &text, bool autorepeat, quint32 timestamp, InputDevice *device);
+                      const QString &text, bool autorepeat, std::chrono::microseconds timestamp, InputDevice *device);
 
     InputDevice *device() const
     {
@@ -148,28 +150,31 @@ public:
         m_modifiersRelevantForShortcuts = mods;
     }
 
+    std::chrono::microseconds timestamp() const;
+
 private:
     InputDevice *m_device;
     Qt::KeyboardModifiers m_modifiersRelevantForShortcuts = Qt::KeyboardModifiers();
+    const std::chrono::microseconds m_timestamp;
 };
 
-class SwitchEvent : public QInputEvent
+class SwitchEvent : public QEvent
 {
 public:
     enum class State {
         Off,
         On
     };
-    explicit SwitchEvent(State state, quint32 timestamp, quint64 timestampMicroseconds, InputDevice *device);
+    explicit SwitchEvent(State state, std::chrono::microseconds timestamp, InputDevice *device);
 
     State state() const
     {
         return m_state;
     }
 
-    quint64 timestampMicroseconds() const
+    std::chrono::microseconds timestamp() const
     {
-        return m_timestampMicroseconds;
+        return m_timestamp;
     }
 
     InputDevice *device() const
@@ -179,18 +184,20 @@ public:
 
 private:
     State m_state;
-    quint64 m_timestampMicroseconds;
+    std::chrono::microseconds m_timestamp;
     InputDevice *m_device;
 };
 
 class TabletToolId
 {
 public:
-    const InputRedirection::TabletToolType m_toolType;
-    const QVector<InputRedirection::Capability> m_capabilities;
-    const quint64 m_serialId;
-    const quint64 m_uniqueId;
-    void *const m_deviceGroupData;
+    QString deviceSysName;
+    InputRedirection::TabletToolType m_toolType;
+    QVector<InputRedirection::Capability> m_capabilities;
+    quint64 m_serialId;
+    quint64 m_uniqueId;
+    void *m_deviceGroupData;
+    QString m_name;
 };
 
 class TabletPadId
@@ -203,11 +210,18 @@ public:
 class TabletEvent : public QTabletEvent
 {
 public:
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    TabletEvent(Type t, const QPointingDevice *dev, const QPointF &pos, const QPointF &globalPos,
+                qreal pressure, float xTilt, float yTilt,
+                float tangentialPressure, qreal rotation, float z,
+                Qt::KeyboardModifiers keyState, Qt::MouseButton button, Qt::MouseButtons buttons, const TabletToolId &tabletId);
+#else
     TabletEvent(Type t, const QPointF &pos, const QPointF &globalPos,
                 int device, int pointerType, qreal pressure, int xTilt, int yTilt,
                 qreal tangentialPressure, qreal rotation, int z,
                 Qt::KeyboardModifiers keyState, qint64 uniqueID,
                 Qt::MouseButton button, Qt::MouseButtons buttons, const TabletToolId &tabletId);
+#endif
 
     const TabletToolId &tabletId() const
     {
@@ -219,5 +233,3 @@ private:
 };
 
 }
-
-#endif

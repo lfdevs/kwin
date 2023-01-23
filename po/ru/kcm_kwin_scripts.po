@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-20 02:18+0000\n"
+"POT-Creation-Date: 2022-09-20 00:47+0000\n"
 "PO-Revision-Date: 2022-10-01 15:10+0300\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -81,3 +81,25 @@ msgstr "Установить из файла..."
 #, kde-format
 msgid "Get New Scripts..."
 msgstr "Загрузить новые сценарии..."
+
+#~ msgid "KWin Scripts"
+#~ msgstr "Сценарии KWin"
+
+#~ msgid "Configure KWin scripts"
+#~ msgstr "Настройка сценариев KWin"
+
+#~ msgid "Tamás Krutki"
+#~ msgstr "Тамаш Крутки (Tamás Krutki)"
+
+#~ msgid "KWin script configuration"
+#~ msgstr "Параметры сценария KWin"
+
+#~ msgid "Import KWin script..."
+#~ msgstr "Импорт сценария KWin..."
+
+#~ msgid ""
+#~ "Cannot import selected script: maybe a script already exists with the "
+#~ "same name or there is a permission problem."
+#~ msgstr ""
+#~ "Не удалось импортировать выбранный сценарий: сценарий с таким именем уже "
+#~ "существует или имеются проблемы с правами доступа."

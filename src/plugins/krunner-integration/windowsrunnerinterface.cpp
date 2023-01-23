@@ -194,7 +194,6 @@ RemoteMatches WindowsRunner::Match(const QString &searchTerm)
 
 void WindowsRunner::Run(const QString &id, const QString &actionId)
 {
-    Q_UNUSED(actionId)
     // Split id to get actionId and realId. We don't use actionId because our actions list is not constant
     const QStringList parts = id.split(QLatin1Char('_'));
     auto action = WindowsRunnerAction(parts[0].toInt());
@@ -283,7 +282,7 @@ RemoteMatch WindowsRunner::windowsMatch(const Window *window, const WindowsRunne
         RemoteImage remoteImage{
             convertedImage.width(),
             convertedImage.height(),
-            convertedImage.bytesPerLine(),
+            static_cast<int>(convertedImage.bytesPerLine()),
             true, // hasAlpha
             8, // bitsPerSample
             4, // channels

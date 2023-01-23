@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-02 00:47+0000\n"
+"POT-Creation-Date: 2022-12-03 00:48+0000\n"
 "PO-Revision-Date: 2020-02-08 15:20+0100\n"
 "Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
@@ -488,7 +488,31 @@ msgstr "Vindues&placering:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_Placement)
 #: advanced.ui:76
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<p>This option specifies how much KWin will try to prevent unwanted focus "
+#| "stealing caused by unexpected activation of new windows. (Note: This "
+#| "feature does not work with the Focus Under Mouse or Focus Strictly Under "
+#| "Mouse focus policies.)\n"
+#| "<ul>\n"
+#| "<li><em>None:</em> Prevention is turned off and new windows always become "
+#| "activated.</li>\n"
+#| "<li><em>Low:</em> Prevention is enabled; when some window does not have "
+#| "support for the underlying mechanism and KWin cannot reliably decide "
+#| "whether to activate the window or not, it will be activated. This setting "
+#| "may have both worse and better results than the medium level, depending "
+#| "on the applications.</li>\n"
+#| "<li><em>Medium:</em> Prevention is enabled.</li>\n"
+#| "<li><em>High:</em> New windows get activated only if no window is "
+#| "currently active or if they belong to the currently active application. "
+#| "This setting is probably not really usable when not using mouse focus "
+#| "policy.</li>\n"
+#| "<li><em>Extreme:</em> All windows must be explicitly activated by the "
+#| "user.</li>\n"
+#| "</ul></p>\n"
+#| "<p>Windows that are prevented from stealing focus are marked as demanding "
+#| "attention, which by default means their taskbar entry will be "
+#| "highlighted. This can be changed in the Notifications control module.</p>"
 msgid ""
 "<html><head/><body><p>The placement policy determines where a new window "
 "will appear on the desktop.</p><ul style=\"margin-top: 0px; margin-bottom: "
@@ -502,13 +526,10 @@ msgid ""
 "whole screen. It might be useful to selectively affect placement of some "
 "windows using the window-specific settings.</li><li style=\" margin-top:0px; "
 "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\"><span style=\" font-style:italic;\">Cascade</span> will "
-"cascade the windows</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"text-indent:0px;\"><span style=\" font-style:italic;\">Random</span> will "
+"use a random position</li><li style=\" margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-style:italic;\">Random</span> will use a random "
-"position</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-style:italic;\">Centered</span> will place the window "
+"\"><span style=\" font-style:italic;\">Centered</span> will place the window "
 "centered</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\" font-style:italic;\">Zero-cornered</span> will place the window in "
@@ -517,6 +538,30 @@ msgid ""
 "\"><span style=\" font-style:italic;\">Under mouse</span> will place the "
 "window under the pointer</li></ul></body></html>"
 msgstr ""
+"<p>Dette angiver hvor meget KWin vil forsøge at forhindre at fokus mistes på "
+"uønsket måde på grund af at nye vinduer uventet bliver aktive. (Bemærk: "
+"Denne funktion virker ikke med Fokus under mus eller Fokus strengt under mus "
+"fokuspolitikkerne.)\n"
+"<ul>\n"
+"<li><em>Ingen:</em> Forhindring er slået fra og nye vinduer bliver altid "
+"aktive.</li>\n"
+"<li><em>Lav:</em> Forhindring er aktiveret; når et vindue  ikke har "
+"understøttelse af den underliggende mekanisme og KWin ikke kan finde ud af "
+"om det skal være aktivt eller ej, vil det blive aktiveret. Denne indstilling "
+"kan have både værre og bedre resultater end mellemniveau afhængigt af "
+"programmerne.</li>\n"
+"<li><em>Mellem:</em> Forhindring er aktiv.</li>\n"
+"<li><em>Høj:</em> Nye vinduer bliver kun aktive hvis ingen vinduer er aktive "
+"for øjeblikket eller hvis de tilhører det program der er aktivt for "
+"øjeblikket. Denne indstilling er formodentlig ikke rigtig brugbar uden brug "
+"af musens fokuspolitik.</li>\n"
+"<li><em>Ekstrem:</em> Alle vinduer skal eksplicit aktiveres af brugeren.</"
+"li>\n"
+"</ul></p>\n"
+"<p>Vinduer der er forhindret i at stjæle fokus bliver markerede som krævende "
+"opmærksomhed, hvilket som standard betyder at deres opgavelinjes indgang "
+"bliver fremhævet. Dette kan blive ændret i kontrolmodulet for "
+"bekendtgørelser.</p>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:80
@@ -533,35 +578,29 @@ msgstr "Maksimeret"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:90
 #, kde-format
-msgid "Cascaded"
-msgstr "Kaskade"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:95
-#, kde-format
 msgid "Random"
 msgstr "Tilfældig"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:100
+#: advanced.ui:95
 #, kde-format
 msgid "Centered"
 msgstr "Centreret"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:105
+#: advanced.ui:100
 #, kde-format
 msgid "In Top-Left Corner"
 msgstr "I øverste venstre hjørne"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:110
+#: advanced.ui:105
 #, kde-format
 msgid "Under mouse"
 msgstr "Under musen"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:118
+#: advanced.ui:113
 #, kde-format
 msgid ""
 "When turned on, apps which are able to remember the positions of their "
@@ -570,20 +609,20 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:121
+#: advanced.ui:116
 #, kde-format
 msgid ""
 "Allow apps to remember the positions of their own windows, if they support it"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
-#: advanced.ui:128
+#: advanced.ui:123
 #, kde-format
 msgid "&Special windows:"
 msgstr "&Specielle vinduer:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:138
+#: advanced.ui:133
 #, kde-format
 msgid ""
 "When turned on, utility windows (tool windows, torn-off menus,...) of "
@@ -597,25 +636,25 @@ msgstr ""
 "vinduestype for at funktionen skal virke."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:141
+#: advanced.ui:136
 #, kde-format
 msgid "Hide utility windows for inactive applications"
 msgstr "Skjul midlertidige vinduer for inaktive programmer"
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyLabel)
-#: advanced.ui:148
+#: advanced.ui:143
 #, kde-format
 msgid "Virtual Desktop behavior:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyDescriptionLabel)
-#: advanced.ui:158
+#: advanced.ui:153
 #, kde-format
 msgid "When activating a window on a different Virtual Desktop:"
 msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:165
+#: advanced.ui:160
 #, kde-format
 msgid ""
 "<html><head/><body><p>This setting controls what happens when an open window "
@@ -628,13 +667,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:169
+#: advanced.ui:164
 #, kde-format
 msgid "Switch to that Virtual Desktop"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:174
+#: advanced.ui:169
 #, kde-format
 msgid "Bring window to current Virtual Desktop"
 msgstr ""
@@ -1462,3 +1501,491 @@ msgstr ""
 "er i modstrid med politikken og <b>vil ikke virke</b>.<br><br>\n"
 "Du vil sikkert hellere bruge<br>\n"
 "<i>Fokus følger musen - musen har forrang</i> i stedet for!"
+
+#~ msgid "Cascaded"
+#~ msgstr "Kaskade"
+
+#~ msgid "Window &geometry:"
+#~ msgstr "Vinduets &geometri:"
+
+#~ msgid ""
+#~ "Enable this option if you want a window's geometry to be displayed while "
+#~ "it is being moved or resized. The window position relative to the top-"
+#~ "left corner of the screen is displayed together with its size."
+#~ msgstr ""
+#~ "Aktivér dette hvis du ønsker at vinduets geometri skal vises mens det "
+#~ "flyttes eller får ændret størrelse. Vinduets position relativt til det "
+#~ "øverste venstre hjørne af skærmen vises sammen med dets størrelse."
+
+#~ msgid "Display when moving or resizing"
+#~ msgstr "Vis ved flytning eller ændring af størrelse"
+
+#~ msgid "Maximize (vertical only)"
+#~ msgstr "Maksimér (kun lodret)"
+
+#~ msgid "Maximize (horizontal only)"
+#~ msgstr "Maksimér (kun vandret)"
+
+#~ msgid "Smart"
+#~ msgstr "Smart"
+
+#~ msgid "Maximizing"
+#~ msgstr "Maksimering"
+
+#, fuzzy
+#~| msgid "Zero-Cornered"
+#~ msgid "Zero-cornered"
+#~ msgstr "Nul-Hjørnet"
+
+#, fuzzy
+#~| msgid "Switch to Window Tab to the Left/Right"
+#~ msgid "Switch to window tab to the left/right"
+#~ msgstr "Skift til vinduesfaneblad til venstre/højre"
+
+#, fuzzy
+#~| msgid "Window Tabbing"
+#~ msgid "Window tabbing:"
+#~ msgstr "Vinduer i faneblade"
+
+#~ msgid ""
+#~ "When turned on immediately switch to any new window tabs that were "
+#~ "automatically added to the current group."
+#~ msgstr ""
+#~ "Når aktiveret skiftes der straks til alle nye vinduesfaneblade der "
+#~ "automatisk blev tilføjet til den aktuelle gruppe."
+
+#, fuzzy
+#~| msgid "Switch to automatically grouped windows immediately"
+#~ msgid "&Switch to automatically grouped windows immediately"
+#~ msgstr "Skift straks til automatisk grupperede vinduer"
+
+#~ msgid "When turned on hide all tabs that are not active from the taskbar."
+#~ msgstr ""
+#~ "Når aktiveret, skjules alle faneblade som ikke er aktive i opgavelinjen."
+
+#, fuzzy
+#~| msgid "Hide inactive window tabs from the taskbar"
+#~ msgid "&Hide inactive window tabs from the taskbar"
+#~ msgstr "Skjul inaktive vinduesfaneblade i opgavelinjen"
+
+#~ msgid ""
+#~ "When turned on attempt to automatically detect when a newly opened window "
+#~ "is related to an existing one and place them in the same window group."
+#~ msgstr ""
+#~ "Når aktiveret, prøves det automatisk at detektere når et nyåbnet vindue "
+#~ "er relateret til et eksisterende vindue, og placere dem i den samme "
+#~ "vinduesgruppe."
+
+#, fuzzy
+#~| msgid "Start Window Tab Drag"
+#~ msgid "Start window tab drag"
+#~ msgstr "Start trækning af vinduesfaneblad"
+
+#~ msgid "Ri&ght button:"
+#~ msgstr "&Højre knap:"
+
+#~ msgid "&Wheel"
+#~ msgstr "H&jul"
+
+#~ msgid "&Left button:"
+#~ msgstr "&Venstre knap:"
+
+#~ msgid "&Right button:"
+#~ msgstr "&Højre knap:"
+
+#~ msgid "M&iddle button:"
+#~ msgstr "M&idterste knap:"
+
+#~ msgid "Left &button"
+#~ msgstr "V&enstre knap:"
+
+#~ msgid "Automatically group similar windows"
+#~ msgstr "Gruppér ensartede vinduer automatisk"
+
+#~ msgid ""
+#~ "The placement policy determines where a new window will appear on the "
+#~ "desktop.<br><ul>\n"
+#~ "<li><em>Smart</em> will try to achieve a minimum overlap of windows</li>\n"
+#~ "<li><em>Maximizing</em> will try to maximize every window to fill the "
+#~ "whole screen. It might be useful to selectively affect placement of some "
+#~ "windows using the window-specific settings.</li>\n"
+#~ "<li><em>Cascade</em> will cascade the windows</li>\n"
+#~ "<li><em>Random</em> will use a random position</li>\n"
+#~ "<li><em>Centered</em> will place the window centered</li>\n"
+#~ "<li><em>Zero-Cornered</em> will place the window in the top-left corner</"
+#~ "li>\n"
+#~ "<li><em>Under Mouse</em> will place the window under the pointer</li>\n"
+#~ "</ul>"
+#~ msgstr ""
+#~ "Placeringspolitikken afgør hvor et nyt vindue vil komme til syne på "
+#~ "skrivebordet.<br><ul>\n"
+#~ "<li><em>Smart</em> vil forsøge at opnå et minimum af overlap af "
+#~ "vinduerne</li>\n"
+#~ "<li><em>Maksimering</em> vil forsøge at maksimere hvert vindue til at "
+#~ "fylde hele skærmen. Det kan være nyttigt selektivt at påvirke placeringen "
+#~ "af nogle vinduer ved brug af de vinduesspecifikke indstillinger.</li>\n"
+#~ "<li><em>Kaskade</em> vil stable vinduerne (kaskade)</li>\n"
+#~ "<li><em>Tilfældig</em> vil bruge en tilfældig placering</li>\n"
+#~ "<li><em>Centreret</em> vil placere vinduet centreret</li>\n"
+#~ "<li><em>Nul-hjørnet</em> vil placere vinduet i øverste venstre hjørne</"
+#~ "li>\n"
+#~ "<li><em>Under musen</em> vil placere vinduet under markøren</li>\n"
+#~ "</ul>"
+
+#~ msgid "Shading"
+#~ msgstr "Skygning"
+
+#~ msgid "Dela&y:"
+#~ msgstr "&Forsinkelse:"
+
+#~ msgid "&Enable hover"
+#~ msgstr "&Aktivér skyggesvævning"
+
+#~ msgid "Activating windows"
+#~ msgstr "Aktivering af vinduer"
+
+#~ msgid "Policy"
+#~ msgstr "Politik"
+
+#~ msgid "Click"
+#~ msgstr "Klik"
+
+#~ msgid "Hover"
+#~ msgstr "Under musen"
+
+#~ msgid "&Moving"
+#~ msgstr "&Flytning"
+
+#~ msgid "Wheel event:"
+#~ msgstr "Hjulhændelse:"
+
+#~ msgid "Handle mouse wheel events"
+#~ msgstr "Håndtér musehjulhændelser"
+
+#~ msgid ""
+#~ "In this column you can customize mouse clicks into the titlebar or the "
+#~ "frame of an active window."
+#~ msgstr ""
+#~ "I denne kolonne kan du brugerindstille museklik i titellinjen eller "
+#~ "rammen af et aktivt vindue."
+
+#~ msgid ""
+#~ "In this column you can customize mouse clicks into the titlebar or the "
+#~ "frame of an inactive window."
+#~ msgstr ""
+#~ "I denne kolonne kan du brugerindstille museklik i titellinjen eller "
+#~ "rammen af et inaktivt vindue."
+
+#~ msgid "Left button:"
+#~ msgstr "Venstre knap:"
+
+#~ msgid "Middle button:"
+#~ msgstr "Midterste knap:"
+
+#~ msgid ""
+#~ "Behavior on <em>middle</em> click into the titlebar or frame of an "
+#~ "<em>active</em> window."
+#~ msgstr ""
+#~ "Opførsel ved <em>midter</em>-klik på titellinjen eller rammen af et "
+#~ "<em>aktivt</em> vindue."
+
+#~ msgid "Right button:"
+#~ msgstr "Højre knap:"
+
+#~ msgid ""
+#~ "Behavior on <em>right</em> click into the titlebar or frame of an "
+#~ "<em>active</em> window."
+#~ msgstr ""
+#~ "Opførsel ved <em>højre</em>-klik på titellinjen eller rammen af et "
+#~ "<em>aktivt</em> vindue."
+
+#~ msgid "Titlebar & Frame"
+#~ msgstr "Titellinje og ramme"
+
+#~ msgid "Titlebar"
+#~ msgstr "Titellinje"
+
+#~ msgid "no center snap zone"
+#~ msgstr "ingen center-snapzone"
+
+#~ msgid "no window snap zone"
+#~ msgstr "ingen vindues-snapzone"
+
+#~ msgid "no border snap zone"
+#~ msgstr "ingen kant-snapzone"
+
+#~ msgid "Windows"
+#~ msgstr "Vinduer"
+
+#~ msgid "Snap Zones"
+#~ msgstr "Magnetiske zoner"
+
+#~ msgid "kcmkwinoptions"
+#~ msgstr "kcmkwinoptions"
+
+#~ msgid ""
+#~ "The focus policy is used to determine the active window, i.e. the window "
+#~ "you can work in. <ul>\n"
+#~ "<li><em>Click to focus:</em> A window becomes active when you click into "
+#~ "it. This is the behavior you might know from other operating systems.</"
+#~ "li> <li><em>Focus follows mouse:</em> Moving the mouse pointer actively "
+#~ "on to a normal window activates it. New windows will receive the focus, "
+#~ "without you having to point the mouse at them explicitly. Very practical "
+#~ "if you are using the mouse a lot.</li>\n"
+#~ "<li><em>Focus under mouse:</em> The window that happens to be under the "
+#~ "mouse pointer is active. If the mouse points nowhere, the last window "
+#~ "that was under the mouse has focus. New windows will not automatically "
+#~ "receive the focus.</li>\n"
+#~ "<li><em>Focus strictly under mouse:</em> Only the window under the mouse "
+#~ "pointer is active. If the mouse points nowhere, nothing has focus.</li>\n"
+#~ "</ul>\n"
+#~ "Note that 'Focus under mouse' and 'Focus strictly under mouse' prevent "
+#~ "certain features such as the Alt+Tab walk through windows dialog in the "
+#~ "KDE mode from working properly."
+#~ msgstr ""
+#~ "Fokuspolitikken bruges til at bestemme det aktive vindue, dvs. det vindue "
+#~ "du kan arbejde i. <ul>\n"
+#~ "<li><em>Klik for fokus:</em> Et vindue bliver aktivt når du klikker i "
+#~ "det. Det er den opførsel du måske kender fra andre operativsystemer.</li> "
+#~ "<li><em>Fokus følger mus:</em> At flytte musemarkøren aktivt over et "
+#~ "normalt vindue aktiverer det. Nye vinduer vil få fokus, uden at du skal "
+#~ "pege eksplicit på dem med musen. Meget praktisk hvis du bruger musen "
+#~ "meget.</li>\n"
+#~ "<li><em>Fokus under mus:</em> Det vindue der er under musen er aktivt. "
+#~ "Hvis musen ikke peger på noget, så har det sidste vindue der var under "
+#~ "musen fokus. Nye vinduer vil ikke automatisk få fokus. </li>\n"
+#~ "<li><em>Fokus strengt under mus:</em>. Kun det vindue der er under musen "
+#~ "er aktivt. Hvis musen ikke peger på noget har intet vindue fokus.</li>\n"
+#~ "</ul>\n"
+#~ "Bemærk at \"Fokus under mus\" og \"Fokus strengt under mus\" forhindrer "
+#~ "visse funktioner, såsom at Alt+Tab går gennem vinduer, i KDE-tilstand, i "
+#~ "at virke rigtigt."
+
+#~ msgid "&Raise, with the following delay:"
+#~ msgstr "&Hæv, med følgende forsinkelse:"
+
+#~ msgid "&When the active window disappears, pass focus to window under mouse"
+#~ msgstr ""
+#~ "&Giv fokus til vinduet under musen, når det aktive vindue forsvinder"
+
+#~ msgid ""
+#~ "When enabled, this feature activates the border of maximized windows and "
+#~ "allows you to move or resize them, just like for normal windows"
+#~ msgstr ""
+#~ "Når dette er aktiveret, er kanten på maksimerede vinduer aktiveret, og du "
+#~ "kan flytte dem eller ændre størrelse ligesom med normale vinduer."
+
+#~ msgid "Display borders on &maximized windows"
+#~ msgstr "Vis kanter ved &maksimerede vinduer"
+
+#~ msgctxt "@item:inlistbox behavior on double click"
+#~ msgid "Minimize"
+#~ msgstr "Minimér"
+
+#~ msgctxt "@item:inlistbox behavior on double click"
+#~ msgid "Close"
+#~ msgstr "Luk"
+
+#~ msgid ""
+#~ "Here you can customize mouse click behavior when clicking on the titlebar "
+#~ "or the frame of a window."
+#~ msgstr ""
+#~ "Her kan du brugerindstille museklik-opførsel for klik på titellinjen "
+#~ "eller rammen af et vindue."
+
+#~ msgid ""
+#~ "Behavior on <em>right</em> click into the titlebar or frame of an "
+#~ "<em>inactive</em> window."
+#~ msgstr ""
+#~ "Opførsel ved <em>højre</em>-klik på titellinjen eller rammen af et "
+#~ "<em>inaktivt</em> vindue."
+
+#~ msgid ""
+#~ "Behavior on <em>middle</em> click into the titlebar or frame of an "
+#~ "<em>inactive</em> window."
+#~ msgstr ""
+#~ "Opførsel ved <em>midter</em>-klik på titellinjen eller rammen af et "
+#~ "<em>inaktivt</em> vindue."
+
+#~ msgid ""
+#~ "Here you can customize behavior when clicking on the maximize button."
+#~ msgstr ""
+#~ "Her kan du brugerindstille opførslen når der klikkes på maksimér-knappen."
+
+#~ msgid ""
+#~ "Here you can customize mouse click behavior when clicking on an inactive "
+#~ "inner window ('inner' means: not titlebar, not frame)."
+#~ msgstr ""
+#~ "Her kan du brugerindstille museklik-opførsel for klik på et inaktivt "
+#~ "indre vindue ('indre' betyder: ikke titellinje, ikke ramme)."
+
+#~ msgid ""
+#~ "Here you can customize KDE's behavior when clicking somewhere into a "
+#~ "window while pressing a modifier key."
+#~ msgstr ""
+#~ "Her kan du brugerindstille KDE's opførsel ved klik et eller andet sted i "
+#~ "et vindue mens du trykker på en ændringstast."
+
+#~ msgctxt "no border snap zone"
+#~ msgid "none"
+#~ msgstr "ingen"
+
+#~ msgctxt "no window snap zone"
+#~ msgid "none"
+#~ msgstr "ingen"
+
+#~ msgctxt "no center snap zone"
+#~ msgid "none"
+#~ msgstr "ingen"
+
+#~ msgid "Tiling"
+#~ msgstr "Fliseudlægning"
+
+#~ msgid "Enable Tiling"
+#~ msgstr "Aktivér fliseudlægning"
+
+#~ msgid ""
+#~ "A tiling window manager lays out all the windows in a non-overlapping "
+#~ "manner. This way all windows are always visible."
+#~ msgstr ""
+#~ "Vindueshåndtering med fliseudlægning lægger alle vinduer ud på en måde så "
+#~ "de ikke overlapper hinanden. På den måde er alle vinduer altid synlige."
+
+#~ msgid "Default Tiling &Layout"
+#~ msgstr "Standard&layout for fliseudlægning"
+
+#~ msgctxt "Spiral tiling layout"
+#~ msgid "Spiral"
+#~ msgstr "Spiral"
+
+#~ msgctxt "Two-column horizontal tiling layout"
+#~ msgid "Columns"
+#~ msgstr "Kolonner"
+
+#~ msgctxt "Floating layout, windows aren't tiled at all"
+#~ msgid "Floating"
+#~ msgstr "Flydende"
+
+#~ msgid "Floating &Windows Raising"
+#~ msgstr "Hævning af flydende &vinduer"
+
+#~ msgctxt "Window Raising Policy"
+#~ msgid "Raise/Lower current window only"
+#~ msgstr "Hæv/sænk kun det aktuelle vindue"
+
+#~ msgctxt "Window Raising Policy"
+#~ msgid "Floating windows are always on top"
+#~ msgstr "Flydende vinduer er altid øverst"
+
+#~ msgid ""
+#~ "The window raising policy determines how floating windows are stacked "
+#~ "<ul> <li><em>Raise/Lower all</em> will raise all floating windows when a "
+#~ "floating window is activated.</li> <li><em>Raise/Lower current</em> will "
+#~ "raise only the current window.</li> <li><em>Floating windows on top</em> "
+#~ "will always keep floating windows on top, even when a tiled window is "
+#~ "activated.</ul>"
+#~ msgstr ""
+#~ "Politikken for vindueshævning bestemmer hvordan flydendevinduer stables "
+#~ "<ul> <li><em>Hæv/sænk alle</em> vil hæve alle flydende vinduer når et "
+#~ "flydende vindue aktiveres.</li> <li><em>Hæv/sænk aktuelle</em> vil kun "
+#~ "hæve det aktuelle vindue.</li> <li><em>Flydende vinduer øverst</em> vil "
+#~ "altid holde flydende vinduer øverst, selv når et fliseudlagt vindue er "
+#~ "aktiveret.</ul>"
+
+#~ msgid ""
+#~ "When this option is enabled, there will be a delay after which the window "
+#~ "the mouse pointer is over will become active (receive focus)."
+#~ msgstr ""
+#~ "Når dette er aktiveret vil der være en forsinkelse efter hvilken det "
+#~ "vindue, som musemarkøren er over, automatisk vil blive aktivt (modtage "
+#~ "fokus)."
+
+#~ msgid "Di&splay content in moving windows"
+#~ msgstr "Vis indhold i &vinduer som flyttes"
+
+#~ msgid ""
+#~ "Enable this option if you want a window's content to be fully shown while "
+#~ "moving it, instead of just showing a window 'skeleton'. The result may "
+#~ "not be satisfying on slow machines without graphic acceleration."
+#~ msgstr ""
+#~ "Aktivér dette valg, hvis du ønsker at vinduets indhold skal ses "
+#~ "fuldstændigt mens du flytter det i stedet for kun at vise et 'skelet'. "
+#~ "Resultatet vil muligvis ikke være tilfredsstillende på langsomme maskiner "
+#~ "uden grafisk acceleration."
+
+#~ msgid "Display content in &resizing windows"
+#~ msgstr "Vis indhold i vinduer som æ&ndrer størrelse"
+
+#~ msgid ""
+#~ "Enable this option if you want a window's content to be shown while "
+#~ "resizing it, instead of just showing a window 'skeleton'. The result may "
+#~ "not be satisfying on slow machines."
+#~ msgstr ""
+#~ "Gør dette valg hvis du ønsker at vinduets indhold skal ses fuldstændigt "
+#~ "mens du ændrer dets størrelse i stedet for kun at vise et 'skelet'. "
+#~ "Resultatet vil muligvis ikke være tilfredsstillende på langsomme maskiner."
+
+#~ msgid "Allow moving and resizing o&f maximized windows"
+#~ msgstr "Tillad flytning og ændring af størrelse &på maksimerede vinduer"
+
+#~ msgid "Show window list while switching windows"
+#~ msgstr "Vis vinduesliste mens der skiftes vinduer"
+
+#~ msgid ""
+#~ "Hold down the Alt key and press the Tab key repeatedly to walk through "
+#~ "the windows on the current desktop (the Alt+Tab combination can be "
+#~ "reconfigured).\n"
+#~ "\n"
+#~ "If this checkbox is checked a popup widget is shown, displaying the icons "
+#~ "of all windows to walk through and the title of the currently selected "
+#~ "one.\n"
+#~ "\n"
+#~ "Otherwise, the focus is passed to a new window each time Tab is pressed, "
+#~ "with no popup widget.  In addition, the previously activated window will "
+#~ "be sent to the back in this mode."
+#~ msgstr ""
+#~ "Hold Alt-tasten nede og tryk gentagne gange på Tab for at gå igennem "
+#~ "vinduerne på dette skrivebord (Alt+Tab-kombinationen kan ændres).\n"
+#~ "\n"
+#~ "Hvis dette afkrydsningsfelt er markeret vises en popop-kontrol, der viser "
+#~ "ikoner for alle vinduerne man går igennem og titlen på det valgte\n"
+#~ "\n"
+#~ "Ellers gives fokus til det nye vindue hver gang der trykkes på Tab uden "
+#~ "nogen popop-kontrol. Derudover vil det tidligere aktive vindue blive "
+#~ "sendt til baggrunden i denne tilstand."
+
+#~ msgid "&Traverse windows on all desktops"
+#~ msgstr "&Gå gennem alle vinduer på alle skriveborde"
+
+#~ msgid ""
+#~ "Leave this option disabled if you want to limit walking through windows "
+#~ "to the current desktop."
+#~ msgstr ""
+#~ "Lad denne indstilling være deaktiveret, hvis du ønsker at gå gennem "
+#~ "vinduerne til dette skrivebord."
+
+#~ msgid "Desktop navi&gation wraps around"
+#~ msgstr "Skrivebordsnavi&gering går rundt om"
+
+#~ msgid ""
+#~ "Enable this option if you want keyboard or active desktop border "
+#~ "navigation beyond the edge of a desktop to take you to the opposite edge "
+#~ "of the new desktop."
+#~ msgstr ""
+#~ "Aktivér denne indstilling hvis du ønsker at navigering med tastatur eller "
+#~ "aktiveskrivebordskanter udover kanten på skrivebordet skal bringe dig til "
+#~ "det næste skrivebords modsatte side."
+
+#~ msgid "Popup desktop name on desktop &switch"
+#~ msgstr "Pop skrivebordsnavn op ved skrivebords&skift"
+
+#~ msgid ""
+#~ "Enable this option if you wish to see the current desktop name popup "
+#~ "whenever the current desktop is changed."
+#~ msgstr ""
+#~ "Aktivér denne indstilling hvis du ønsker at se det aktuelle "
+#~ "skrivebordsnavn poppe op når der skiftes aktuelt skrivebord."
+
+#~ msgctxt "Focus Stealing Prevention Level"
+#~ msgid "Normal"
+#~ msgstr "Normal"

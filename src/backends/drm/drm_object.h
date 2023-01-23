@@ -12,6 +12,8 @@
 #include <QMap>
 #include <QVector>
 
+#include <vector>
+
 // drm
 #include <xf86drmMode.h>
 
@@ -62,13 +64,6 @@ public:
             return true;
         }
         return false;
-    }
-
-    template<typename T>
-    bool propHasEnum(T prop, uint64_t value) const
-    {
-        const auto &property = m_props.at(static_cast<uint32_t>(prop));
-        return property ? property->hasEnum(value) : false;
     }
 
     template<typename T>

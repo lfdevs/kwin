@@ -249,3 +249,48 @@ msgid ""
 msgstr ""
 "Vous pouvez déclencher une action en glissant depuis un côté de l'écran vers "
 "le centre."
+
+#~ msgid "Show Desktop"
+#~ msgstr "Afficher le bureau"
+
+#~ msgid "Desktop Grid"
+#~ msgstr "Grille de bureaux"
+
+#~ msgid "Toggle Overview"
+#~ msgstr "Basculer l'aperçu"
+
+#~ msgid "%1 - Cube"
+#~ msgstr "%1 - Cube"
+
+#~ msgid "%1 - Cylinder"
+#~ msgstr "%1 - Cylindre"
+
+#~ msgid "%1 - Sphere"
+#~ msgstr "%1 - Sphère"
+
+#~ msgid "Active Screen Corners and Edges"
+#~ msgstr "Bords et coins actifs de l'écran"
+
+#~ msgid "Window Management"
+#~ msgstr "Gestion des fenêtres"
+
+#~ msgid "Maximize windows by dragging them to the top edge of the screen"
+#~ msgstr ""
+#~ "Maximiser les fenêtres en les faisant glisser vers le bord supérieur de "
+#~ "l'écran"
+
+#~ msgid "Quarter tiling triggered in the outer"
+#~ msgstr "Quadrillage par quart déclenché dans l'extérieur"
+
+#~ msgid "Other Settings"
+#~ msgstr "Autres paramètres"
+
+#~ msgctxt "Open krunner"
+#~ msgid "Run Command"
+#~ msgstr "Exécuter une commande"
+
+#~ msgid "Show Dashboard"
+#~ msgstr "Afficher le tableau de bord"
+
+#~ msgid "Prevent Screen Locking"
+#~ msgstr "Empêcher le verrouillage de l'écran"

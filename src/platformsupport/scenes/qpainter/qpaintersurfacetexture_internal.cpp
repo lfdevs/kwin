@@ -5,7 +5,7 @@
 */
 
 #include "qpaintersurfacetexture_internal.h"
-#include "surfaceitem_internal.h"
+#include "scene/surfaceitem_internal.h"
 
 namespace KWin
 {
@@ -25,7 +25,6 @@ bool QPainterSurfaceTextureInternal::create()
 
 void QPainterSurfaceTextureInternal::update(const QRegion &region)
 {
-    Q_UNUSED(region)
     m_image = m_pixmap->image();
 }
 

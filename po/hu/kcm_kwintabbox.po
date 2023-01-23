@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-15 00:48+0000\n"
+"POT-Creation-Date: 2023-01-13 00:58+0000\n"
 "PO-Revision-Date: 2021-12-06 10:16+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Generator: Lokalize 21.11.90\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: kwintabboxconfigform.cpp:77
+#: kwintabboxconfigform.cpp:80
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
@@ -239,3 +239,180 @@ msgstr ""
 #, kde-format
 msgid "Show selected window"
 msgstr "Kijelölt ablak megjelenítése"
+
+#~ msgid "Tabbox layout preview"
+#~ msgstr "Ablakváltó elrendezés előnézete"
+
+#~ msgid "Outline selected window"
+#~ msgstr "Kijelölt ablak körvonalazása"
+
+#~ msgid ""
+#~ "These settings are used by the \"Walk Through Windows Alternative\" "
+#~ "actions."
+#~ msgstr ""
+#~ "Ezeket a beállításokat használják a „Ablakalternatívákon való áthaladás” "
+#~ "műveletek"
+
+#~ msgid "Walk Through Windows"
+#~ msgstr "Áthaladás az ablakokon"
+
+#~ msgid "Walk Through Windows (Reverse)"
+#~ msgstr "Áthaladás az ablakokon (Visszafele)"
+
+#~ msgid "Walk Through Windows Alternative"
+#~ msgstr "Ablakalternatívákon való áthaladás"
+
+#~ msgid "Walk Through Windows Alternative (Reverse)"
+#~ msgstr "Ablakalternatívákon való áthaladás (visszafele)"
+
+#, fuzzy
+#~| msgid "Walk Through Windows Alternative"
+#~ msgid "Walk Through Windows of Current Application"
+#~ msgstr "Ablakalternatívákon való áthaladás"
+
+#, fuzzy
+#~| msgid "Walk Through Windows Alternative (Reverse)"
+#~ msgid "Walk Through Windows of Current Application (Reverse)"
+#~ msgstr "Ablakalternatívákon való áthaladás (visszafele)"
+
+#, fuzzy
+#~| msgid "Walk Through Windows Alternative"
+#~ msgid "Walk Through Windows of Current Application Alternative"
+#~ msgstr "Ablakalternatívákon való áthaladás"
+
+#, fuzzy
+#~| msgid "Walk Through Windows Alternative (Reverse)"
+#~ msgid "Walk Through Windows of Current Application Alternative (Reverse)"
+#~ msgstr "Ablakalternatívákon való áthaladás (visszafele)"
+
+#~ msgctxt ""
+#~ "ComboBox item for window switcher based on layouts instead of a desktop "
+#~ "effect"
+#~ msgid "Layout based switcher"
+#~ msgstr "Elrendezés alapú ablakváltó"
+
+#~ msgid "Configure Layout"
+#~ msgstr "Elrendezés beállítása"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Kiszel Kristóf"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "ulysses@kubuntu.org"
+
+#~ msgid "These settings are used by the \"Walk Through Windows\" actions."
+#~ msgstr ""
+#~ "Ezeket a beállítások használják a „Ablakokon való áthaladás” műveletek."
+
+#, fuzzy
+#~| msgid "All Desktops Grouped by Applications"
+#~ msgid "All windows from all applications"
+#~ msgstr "Az összes asztal alkalmazások szerint csoportosítva"
+
+#, fuzzy
+#~| msgid "Adds an entry to minimize all windows."
+#~ msgid "Exclude minimized windows"
+#~ msgstr "Egy bejegyzés hozzáadása az összes ablak minimalizálásához."
+
+#, fuzzy
+#~| msgid "Adds an entry to minimize all windows."
+#~ msgid "Show desktop to minimize all windows"
+#~ msgstr "Egy bejegyzés hozzáadása az összes ablak minimalizálásához."
+
+#~ msgid "Highlight selected window"
+#~ msgstr "Kiválasztott ablak kiemelése"
+
+#~ msgid "Effect:"
+#~ msgstr "Hatás:"
+
+#~ msgid "Display list while switching"
+#~ msgstr "Lista megjelenítése kapcsolgatás közben"
+
+#~ msgctxt "Name for a window switcher layout showing live window thumbnails"
+#~ msgid "Thumbnails"
+#~ msgstr "Előnézetek"
+
+#~ msgctxt "Name for a window switcher layout showing icon, name and desktop"
+#~ msgid "Informative"
+#~ msgstr "Informatív "
+
+#~ msgctxt "Name for a window switcher layout showing only icon and name"
+#~ msgid "Compact"
+#~ msgstr "Kompakt"
+
+#~ msgctxt "Name for a window switcher layout showing only the name"
+#~ msgid "Text"
+#~ msgstr "Szöveg"
+
+#~ msgctxt "Name for a window switcher layout showing large icons"
+#~ msgid "Large Icons"
+#~ msgstr "Nagy ikonok"
+
+#~ msgctxt "Name for a window switcher layout showing small icons"
+#~ msgid "Small Icons"
+#~ msgstr "Kis ikonok"
+
+#~ msgid "No Effect"
+#~ msgstr "Nincs effektus"
+
+#~ msgid "Configure Layout..."
+#~ msgstr "Elrendezés beállítása…"
+
+#~ msgid "Item Layout"
+#~ msgstr "Elem elrendezés"
+
+#~ msgid "Layout:"
+#~ msgstr "Elrendezés:"
+
+#~ msgid "Vertical"
+#~ msgstr "Függőleges"
+
+#~ msgid "Horizontal"
+#~ msgstr "Vízszintes"
+
+#~ msgid "Tabular"
+#~ msgstr "Táblázatos"
+
+#~ msgid "Item layout:"
+#~ msgstr "Elem elrendezés:"
+
+#~ msgid "Width:"
+#~ msgstr "Szélesség:"
+
+#~ msgid "Minimum width, as a percentage of screen width."
+#~ msgstr "Minimum szélesség, képernyő szélesség százalékában."
+
+#~ msgid " %"
+#~ msgstr " %"
+
+#~ msgid "Height:"
+#~ msgstr "Magasság:"
+
+#~ msgid "Minimum height, as a percentage of screen height."
+#~ msgstr "Minimum magasság, a képernyő magasság százalékában."
+
+#~ msgid "Show Selected Item"
+#~ msgstr "Kiválasztott elemek megjelenítése"
+
+#~ msgid "Selected item view:"
+#~ msgstr "Kiválasztott elem nézet:"
+
+#~ msgid "Top"
+#~ msgstr "Felül"
+
+#~ msgid "Bottom"
+#~ msgstr "Alul"
+
+#~ msgid "Left"
+#~ msgstr "Bal"
+
+#~ msgid "Right"
+#~ msgstr "Jobb"
+
+#~ msgid "Selected item layout:"
+#~ msgstr "Kiválasztott elem elrendezés:"
+
+#~ msgid "General"
+#~ msgstr "Általános"

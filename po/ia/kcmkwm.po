@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-02 00:47+0000\n"
-"PO-Revision-Date: 2022-10-06 12:10+0200\n"
+"POT-Creation-Date: 2022-12-03 00:48+0000\n"
+"PO-Revision-Date: 2022-11-28 16:19+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -484,7 +484,35 @@ msgstr "&Placiamento de Fenestra:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_Placement)
 #: advanced.ui:76
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p>The placement policy determines where a new window "
+#| "will appear on the desktop.</p><ul style=\"margin-top: 0px; margin-"
+#| "bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
+#| "\"><li style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; "
+#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+#| "font-style:italic;\">Smart</span> will try to achieve a minimum overlap "
+#| "of windows</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+#| "style=\" font-style:italic;\">Maximizing</span> will try to maximize "
+#| "every window to fill the whole screen. It might be useful to selectively "
+#| "affect placement of some windows using the window-specific settings.</"
+#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+#| "font-style:italic;\">Cascade</span> will cascade the windows</li><li "
+#| "style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+#| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+#| "style:italic;\">Random</span> will use a random position</li><li style=\" "
+#| "margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+#| "block-indent:0; text-indent:0px;\"><span style=\" font-style:italic;"
+#| "\">Centered</span> will place the window centered</li><li style=\" margin-"
+#| "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+#| "indent:0; text-indent:0px;\"><span style=\" font-style:italic;\">Zero-"
+#| "cornered</span> will place the window in the top-left corner</li><li "
+#| "style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+#| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+#| "style:italic;\">Under mouse</span> will place the window under the "
+#| "pointer</li></ul></body></html>"
 msgid ""
 "<html><head/><body><p>The placement policy determines where a new window "
 "will appear on the desktop.</p><ul style=\"margin-top: 0px; margin-bottom: "
@@ -498,13 +526,10 @@ msgid ""
 "whole screen. It might be useful to selectively affect placement of some "
 "windows using the window-specific settings.</li><li style=\" margin-top:0px; "
 "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\"><span style=\" font-style:italic;\">Cascade</span> will "
-"cascade the windows</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"text-indent:0px;\"><span style=\" font-style:italic;\">Random</span> will "
+"use a random position</li><li style=\" margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-style:italic;\">Random</span> will use a random "
-"position</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-style:italic;\">Centered</span> will place the window "
+"\"><span style=\" font-style:italic;\">Centered</span> will place the window "
 "centered</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\" font-style:italic;\">Zero-cornered</span> will place the window in "
@@ -556,35 +581,29 @@ msgstr "Maximizate"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:90
 #, kde-format
-msgid "Cascaded"
-msgstr "Cascada"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:95
-#, kde-format
 msgid "Random"
 msgstr "Casual"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:100
+#: advanced.ui:95
 #, kde-format
 msgid "Centered"
 msgstr "Centrate"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:105
+#: advanced.ui:100
 #, kde-format
 msgid "In Top-Left Corner"
 msgstr "In le angulo culmine sinistre"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:110
+#: advanced.ui:105
 #, kde-format
 msgid "Under mouse"
 msgstr "Infra mus"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:118
+#: advanced.ui:113
 #, kde-format
 msgid ""
 "When turned on, apps which are able to remember the positions of their "
@@ -596,7 +615,7 @@ msgstr ""
 "fenestra definite de supra."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:121
+#: advanced.ui:116
 #, kde-format
 msgid ""
 "Allow apps to remember the positions of their own windows, if they support it"
@@ -605,13 +624,13 @@ msgstr ""
 "supporta lo"
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
-#: advanced.ui:128
+#: advanced.ui:123
 #, kde-format
 msgid "&Special windows:"
 msgstr "Fenestras &Special:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:138
+#: advanced.ui:133
 #, kde-format
 msgid ""
 "When turned on, utility windows (tool windows, torn-off menus,...) of "
@@ -626,25 +645,25 @@ msgstr ""
 "iste characteristica functiona."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:141
+#: advanced.ui:136
 #, kde-format
 msgid "Hide utility windows for inactive applications"
 msgstr "Cela fenestras de utilitate pro inactive applicationes"
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyLabel)
-#: advanced.ui:148
+#: advanced.ui:143
 #, kde-format
 msgid "Virtual Desktop behavior:"
 msgstr "Comportamento de Scriptorio Virtual"
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyDescriptionLabel)
-#: advanced.ui:158
+#: advanced.ui:153
 #, kde-format
 msgid "When activating a window on a different Virtual Desktop:"
 msgstr "Quando activar un fenestra sur un Scriptorio Virtual differente:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:165
+#: advanced.ui:160
 #, kde-format
 msgid ""
 "<html><head/><body><p>This setting controls what happens when an open window "
@@ -657,13 +676,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:169
+#: advanced.ui:164
 #, kde-format
 msgid "Switch to that Virtual Desktop"
 msgstr "Commuta aquel Scriptorio Virtual"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:174
+#: advanced.ui:169
 #, kde-format
 msgid "Bring window to current Virtual Desktop"
 msgstr "Porta fenestra al Scriptorio Virtual currente"
@@ -1408,3 +1427,452 @@ msgstr ""
 "de foco</em> e le <em>tabbox (\"Alt+Tab\")</em>contradice le politica e non "
 "functionara.Probabilmente tu volerea usar in su loco <em>Foco seque mus - "
 "Precedentia de mus</em>!"
+
+#~ msgid "Cascaded"
+#~ msgstr "Cascada"
+
+#~ msgid "Window &geometry:"
+#~ msgstr "&Geometria de fenestra:"
+
+#~ msgid ""
+#~ "Enable this option if you want a window's geometry to be displayed while "
+#~ "it is being moved or resized. The window position relative to the top-"
+#~ "left corner of the screen is displayed together with its size."
+#~ msgstr ""
+#~ "Habilita iste option si tu vole que le geometria de un fenestra sia "
+#~ "monstrate durante que il es movite o redimensionate. le position de "
+#~ "fenestra relative al angulo culmine leve de schermo es monstrate insimul "
+#~ "a su dimension."
+
+#~ msgid "Display when moving or resizing"
+#~ msgstr "Monstra quando on move o redimensiona"
+
+#~ msgid "Maximize (vertical only)"
+#~ msgstr "Maximiza (solmente vertical)"
+
+#~ msgid "Maximize (horizontal only)"
+#~ msgstr "Maximiza (solmente horizontal)"
+
+#~ msgid "Smart"
+#~ msgstr "Intelligente"
+
+#~ msgid "Maximizing"
+#~ msgstr "Maximizar"
+
+#, fuzzy
+#~| msgid "Zero-Cornered"
+#~ msgid "Zero-cornered"
+#~ msgstr "Zero-Angulate"
+
+#, fuzzy
+#~| msgid "Switch to Window Tab to the Left/Right"
+#~ msgid "Switch to window tab to the left/right"
+#~ msgstr "Vade a scheda de fenestra a Sinistra/Dextera"
+
+#, fuzzy
+#~| msgid "Window Tabbing"
+#~ msgid "Window tabbing:"
+#~ msgstr "Navigar inter fenestras (Window Tabbing)"
+
+#~ msgid ""
+#~ "When turned on immediately switch to any new window tabs that were "
+#~ "automatically added to the current group."
+#~ msgstr ""
+#~ "Quando il es active immediatemente il commuta a nove schedas de fenestra "
+#~ "que esseva automaticamente addite a le currente gruppo."
+
+#, fuzzy
+#~| msgid "Switch to automatically grouped windows immediately"
+#~ msgid "&Switch to automatically grouped windows immediately"
+#~ msgstr "Passa immediatemente a  fenestras gruppate automaticamente"
+
+#~ msgid "When turned on hide all tabs that are not active from the taskbar."
+#~ msgstr ""
+#~ "Quando il es activate il cela omne schedas que non es active ex le barra "
+#~ "de cargo"
+
+#, fuzzy
+#~| msgid "Hide inactive window tabs from the taskbar"
+#~ msgid "&Hide inactive window tabs from the taskbar"
+#~ msgstr "Cela schedas de fenestra inactive ex le barra te cargo"
+
+#~ msgid ""
+#~ "When turned on attempt to automatically detect when a newly opened window "
+#~ "is related to an existing one and place them in the same window group."
+#~ msgstr ""
+#~ "Quando il es active il tenta automaticamente de relevar quando un "
+#~ "fenestra aperite de nove es referite a un altere existente e il placia "
+#~ "los in le mesme gruppo de fenestra."
+
+#, fuzzy
+#~| msgid "Start Window Tab Drag"
+#~ msgid "Start window tab drag"
+#~ msgstr "Initia a traher scheda de fenestra"
+
+#~ msgid "Ri&ght button:"
+#~ msgstr "Button &dextere:"
+
+#~ msgid "&Wheel"
+#~ msgstr "&Rota"
+
+#~ msgid "&Left button:"
+#~ msgstr "Button &sinistre:"
+
+#~ msgid "&Right button:"
+#~ msgstr "Button &dextere:"
+
+#~ msgid "M&iddle button:"
+#~ msgstr "Button de &centro:"
+
+#~ msgid "Left &button"
+#~ msgstr "Button &sinistre:"
+
+#~ msgid "Automatically group similar windows"
+#~ msgstr "Gruppa automaticamente fenestras similar"
+
+#, fuzzy
+#~| msgid ""
+#~| "The placement policy determines where a new window will appear on the "
+#~| "desktop.\n"
+#~| "<ul>\n"
+#~| "<li><em>Smart</em> will try to achieve a minimum overlap of windows</"
+#~| "li>\n"
+#~| "<li><em>Maximizing</em> will try to maximize every window to fill the "
+#~| "whole screen. It might be useful to selectively affect placement of some "
+#~| "windows using the window-specific settings.</li>\n"
+#~| "<li><em>Cascade</em> will cascade the windows</li>\n"
+#~| "<li><em>Random</em> will use a random position</li>\n"
+#~| "<li><em>Centered</em> will place the window centered</li>\n"
+#~| "<li><em>Zero-Cornered</em> will place the window in the top-left corner</"
+#~| "li>\n"
+#~| "<li><em>Under Mouse</em> will place the window under the pointer</li>\n"
+#~| "</ul>"
+#~ msgid ""
+#~ "The placement policy determines where a new window will appear on the "
+#~ "desktop.<br><ul>\n"
+#~ "<li><em>Smart</em> will try to achieve a minimum overlap of windows</li>\n"
+#~ "<li><em>Maximizing</em> will try to maximize every window to fill the "
+#~ "whole screen. It might be useful to selectively affect placement of some "
+#~ "windows using the window-specific settings.</li>\n"
+#~ "<li><em>Cascade</em> will cascade the windows</li>\n"
+#~ "<li><em>Random</em> will use a random position</li>\n"
+#~ "<li><em>Centered</em> will place the window centered</li>\n"
+#~ "<li><em>Zero-Cornered</em> will place the window in the top-left corner</"
+#~ "li>\n"
+#~ "<li><em>Under Mouse</em> will place the window under the pointer</li>\n"
+#~ "</ul>"
+#~ msgstr ""
+#~ "Le politica de placiamento determina ubi un nove fenestra apparera sur le "
+#~ "scriptorio.\n"
+#~ "<ul>\n"
+#~ " <li><em>Intelligente</em> tentara de attinger un minime superposition de "
+#~ "fenestras</li>\n"
+#~ " <li><em>Maximisante</em> tentara de maximisar cata fenestra pro impler "
+#~ "le integre  schermo. Il pote esser utile pro influentiar selectivemente "
+#~ "le placiamento de alcun fenestras usante le preferentias specific de "
+#~ "fenestra.</li>\n"
+#~ " <li><em>Cascada</em> ponera in cascada le fenestras</li>\n"
+#~ " <li><em>Casual</em> usara un position casual</li>\n"
+#~ " <li><em>Centrate</em> placiara le fenestra centrate</li>\n"
+#~ " <li><em>Zero-Angulate</em> placiara le fenestra in le angulo al culmine "
+#~ "sinistre</li>\n"
+#~ " <li><em>Infra Mus</em>placiara le fenestra infra le punctator</li>\n"
+#~ "</ul>"
+
+#~ msgid "Shading"
+#~ msgstr "Umbrar"
+
+#~ msgid "Dela&y:"
+#~ msgstr "R&etardo:"
+
+#~ msgid "&Enable hover"
+#~ msgstr "&Habilita fluctuation"
+
+#~ msgid "Activating windows"
+#~ msgstr "Activante fenestras"
+
+#~ msgid "Policy"
+#~ msgstr "Politica"
+
+#~ msgid "Click"
+#~ msgstr "Pulsa"
+
+#~ msgid "Hover"
+#~ msgstr "Passa supra"
+
+#~ msgid "&Moving"
+#~ msgstr "&Mover"
+
+#~ msgid "Wheel event:"
+#~ msgstr "Evento de rota:"
+
+#~ msgid "Handle mouse wheel events"
+#~ msgstr "Manea eventos de rota de mus"
+
+#~ msgid ""
+#~ "In this column you can customize mouse clicks into the titlebar or the "
+#~ "frame of an active window."
+#~ msgstr ""
+#~ "In iste columna tu pote adaptar le clicks de mus in barra de titulo o le "
+#~ "quadro de un fenestra active."
+
+#~ msgid ""
+#~ "In this column you can customize mouse clicks into the titlebar or the "
+#~ "frame of an inactive window."
+#~ msgstr ""
+#~ "In iste columna tu pote adaptar le clicks de mus in barra de titulo o le "
+#~ "quadro de un fenestra inactive."
+
+#~ msgid "Left button:"
+#~ msgstr "Button sinistre:"
+
+#~ msgid "Middle button:"
+#~ msgstr "Button de centro:"
+
+#~ msgid ""
+#~ "Behavior on <em>middle</em> click into the titlebar or frame of an "
+#~ "<em>active</em> window."
+#~ msgstr ""
+#~ "Comportamento al pulsar <em>central</em> in le barra de titulo o quadro "
+#~ "de un fenestra<em>active</em> ."
+
+#~ msgid "Right button:"
+#~ msgstr "Button dextere:"
+
+#~ msgid ""
+#~ "Behavior on <em>right</em> click into the titlebar or frame of an "
+#~ "<em>active</em> window."
+#~ msgstr ""
+#~ "Comportamento al pulsar <em>dextere</em> in le barra de titulo o quadro "
+#~ "de un fenestra<em>active</em> ."
+
+#~ msgid "Titlebar & Frame"
+#~ msgstr "Barra de Titulo & Quadro"
+
+#~ msgid "Titlebar"
+#~ msgstr "Barra de titulo"
+
+#~ msgid "no center snap zone"
+#~ msgstr "necun zona de centro pro instantaneo (snap zone)"
+
+#~ msgid "no window snap zone"
+#~ msgstr "necun zona de finestra pro instantaneo (snap zone)"
+
+#~ msgid "no border snap zone"
+#~ msgstr "necun zona de bordo pro instantaneo (snap zone)"
+
+#~ msgid "Windows"
+#~ msgstr "Fenestras"
+
+#~ msgid "Snap Zones"
+#~ msgstr "Zonas de Salto"
+
+#~ msgid "kcmkwinoptions"
+#~ msgstr "kcmkwinoptions"
+
+#~ msgid ""
+#~ "The focus policy is used to determine the active window, i.e. the window "
+#~ "you can work in. <ul>\n"
+#~ "<li><em>Click to focus:</em> A window becomes active when you click into "
+#~ "it. This is the behavior you might know from other operating systems.</"
+#~ "li> <li><em>Focus follows mouse:</em> Moving the mouse pointer actively "
+#~ "on to a normal window activates it. New windows will receive the focus, "
+#~ "without you having to point the mouse at them explicitly. Very practical "
+#~ "if you are using the mouse a lot.</li>\n"
+#~ "<li><em>Focus under mouse:</em> The window that happens to be under the "
+#~ "mouse pointer is active. If the mouse points nowhere, the last window "
+#~ "that was under the mouse has focus. New windows will not automatically "
+#~ "receive the focus.</li>\n"
+#~ "<li><em>Focus strictly under mouse:</em> Only the window under the mouse "
+#~ "pointer is active. If the mouse points nowhere, nothing has focus.</li>\n"
+#~ "</ul>\n"
+#~ "Note that 'Focus under mouse' and 'Focus strictly under mouse' prevent "
+#~ "certain features such as the Alt+Tab walk through windows dialog in the "
+#~ "KDE mode from working properly."
+#~ msgstr ""
+#~ "Le politica de foco es usate pro determinar le fenestra active, i.e. le "
+#~ "fenestra ubi tu pote travaliar. <ul>\n"
+#~ " <li><em>Pulsar per focalisar:</em> Un fenestra deveni active quando tu  "
+#~ "pulsa intra lo. Isto es le comportamento tu pote cognoscer ex altere "
+#~ "systemas  operative.</li> <li><em>Foco seque mus:</em> Mover le punctator "
+#~ "de mus activemente su un fenestra normal il activa lo. Nove fenestras "
+#~ "recipera le foco, sin que tu ha de punctar lor le mus explicitemente. Il "
+#~ "es multe practic si tu usa multo le mus. </li>\n"
+#~ " <li><em>Foco Intra mus:</em> Le fenestra que occurre esser intra le "
+#~ "punctator de mus es active. Si le mus puncta in nulle parte (nusquam), le "
+#~ "ultime fenestra que esseva intra le mus ha foco. Nove fenestras "
+#~ "automaticamente non recipera le foco.</li>\n"
+#~ "<li><em>Foco strictemente intra mus:</em> Solmente le fenestra intra le "
+#~ "punctator de mus es active. Si le mus puncta in nulle parte, nihil ha "
+#~ "foco.</li>\n"
+#~ " </ul>\n"
+#~ "Tu Nota que 'Foco intra mus' e 'Foco strictemente intra mus' preveni "
+#~ "certe characteristicas como le dialogo trans fenestras de Alt+Tab in le "
+#~ "modo KDE ex functionar propriemente. "
+
+#~ msgid "&Raise, with the following delay:"
+#~ msgstr "Al&tia, con le sequente retardo:"
+
+#~ msgid "&When the active window disappears, pass focus to window under mouse"
+#~ msgstr ""
+#~ "&Quando le fenestra active dispare, il passa foco al fenestra sub mus"
+
+#~ msgid ""
+#~ "When enabled, this feature activates the border of maximized windows and "
+#~ "allows you to move or resize them, just like for normal windows"
+#~ msgstr ""
+#~ "Quando habilitate, iste characteristica activa le bordo de fenestras "
+#~ "maximizate e permitte te de mover o redimensionar los, como pro fenestras "
+#~ "normal"
+
+#~ msgid "Display borders on &maximized windows"
+#~ msgstr "Monstra bordos sur fenestras &maximizate"
+
+#~ msgctxt "@item:inlistbox behavior on double click"
+#~ msgid "Minimize"
+#~ msgstr "Minimisa"
+
+#~ msgctxt "@item:inlistbox behavior on double click"
+#~ msgid "Close"
+#~ msgstr "Claude"
+
+#~ msgid ""
+#~ "Here you can customize mouse click behavior when clicking on the titlebar "
+#~ "or the frame of a window."
+#~ msgstr ""
+#~ "Ci tu pote adaptar le comportamento del pression (click) de mus quando tu "
+#~ "pulsa sur le barra de titulo o le quadro de un fenestra."
+
+#~ msgid ""
+#~ "Behavior on <em>right</em> click into the titlebar or frame of an "
+#~ "<em>inactive</em> window."
+#~ msgstr ""
+#~ "Comportamento al pulsar <em>dextere</em> in le barra de titulo o quadro "
+#~ "de un fenestra<em>inactive</em> ."
+
+#~ msgid ""
+#~ "Behavior on <em>middle</em> click into the titlebar or frame of an "
+#~ "<em>inactive</em> window."
+#~ msgstr ""
+#~ "Comportamento al pulsar <em>central</em> in le barra de titulo o quadro "
+#~ "de un fenestra<em>inactive</em> ."
+
+#~ msgid ""
+#~ "Here you can customize behavior when clicking on the maximize button."
+#~ msgstr ""
+#~ "Hic tu pote adaptar le comportamento de quando tu pulsa sur le button de "
+#~ "maximisar."
+
+#~ msgid ""
+#~ "Here you can customize mouse click behavior when clicking on an inactive "
+#~ "inner window ('inner' means: not titlebar, not frame)."
+#~ msgstr ""
+#~ "Hic tu pote adaptar le comportamento al pulsar le mus quando tu pulsa sur "
+#~ "un fenestra interne inactive ('interne' significa: non barra de titulo, "
+#~ "non quadro)."
+
+#~ msgid ""
+#~ "Here you can customize KDE's behavior when clicking somewhere into a "
+#~ "window while pressing a modifier key."
+#~ msgstr ""
+#~ "Hic tu pote personalisar le comportamento de KDE's quando on pulsa "
+#~ "alicubi in un fenestra durante que tu pressa un clave modificator."
+
+#~ msgctxt "no border snap zone"
+#~ msgid "none"
+#~ msgstr "nulle"
+
+#~ msgctxt "no window snap zone"
+#~ msgid "none"
+#~ msgstr "nulle"
+
+#~ msgctxt "no center snap zone"
+#~ msgid "none"
+#~ msgstr "nulle"
+
+#~ msgid "Tiling"
+#~ msgstr "Tegular "
+
+#~ msgid "Enable Tiling"
+#~ msgstr "Habilita Tiling (Tegular)"
+
+#~ msgid ""
+#~ "A tiling window manager lays out all the windows in a non-overlapping "
+#~ "manner. This way all windows are always visible."
+#~ msgstr ""
+#~ "Un gerente de fenestra a tegulas dispone omne fenestra in un modo non "
+#~ "superponente. In iste modo omne fenestras es sempre visibile."
+
+#~ msgid "Default Tiling &Layout"
+#~ msgstr "Disposition a tegu&las predefinite"
+
+#~ msgctxt "Spiral tiling layout"
+#~ msgid "Spiral"
+#~ msgstr "Spiral"
+
+#~ msgctxt "Two-column horizontal tiling layout"
+#~ msgid "Columns"
+#~ msgstr "Columnas"
+
+#~ msgctxt "Floating layout, windows aren't tiled at all"
+#~ msgid "Floating"
+#~ msgstr "Fluctuante"
+
+#~ msgid "Floating &Windows Raising"
+#~ msgstr "&Altia fenestras fluctuante"
+
+#~ msgctxt "Window Raising Policy"
+#~ msgid "Raise/Lower current window only"
+#~ msgstr "Altia/Bassa solmente fenestra currente"
+
+#~ msgctxt "Window Raising Policy"
+#~ msgid "Floating windows are always on top"
+#~ msgstr "Fenestras fluctuante es sempre al culmine"
+
+#~ msgid ""
+#~ "The window raising policy determines how floating windows are stacked "
+#~ "<ul> <li><em>Raise/Lower all</em> will raise all floating windows when a "
+#~ "floating window is activated.</li> <li><em>Raise/Lower current</em> will "
+#~ "raise only the current window.</li> <li><em>Floating windows on top</em> "
+#~ "will always keep floating windows on top, even when a tiled window is "
+#~ "activated.</ul>"
+#~ msgstr ""
+#~ "Le politica de altiar fenestras determina como fenestras fluctuante es "
+#~ "ponite in pila <ul> <li><em>Altia/Bassa Omne</em> altiara omne fenestra "
+#~ "fluctuante quando un fenestra fluctuante es activate.</li> <li><em>Altia/"
+#~ "Bassa currente</em> altiara solmente le fenestra currente.</li> "
+#~ "<li><em>Fenestras fluctuante al culmine</em> sempre mantenera fenestras "
+#~ "fluctuante al culmine, anque quando un fenestra a tegula es activate.</ul>"
+
+#~ msgid ""
+#~ "When this option is enabled, there will be a delay after which the window "
+#~ "the mouse pointer is over will become active (receive focus)."
+#~ msgstr ""
+#~ "Quando iste option es habilitate, il habera un retardo postea que le "
+#~ "fenestra ubi le punctator de mus es supra devenira active (recipera foco)."
+
+#~ msgid "Di&splay content in moving windows"
+#~ msgstr "Mon&stra contento in fenestras movente"
+
+#~ msgid ""
+#~ "Enable this option if you want a window's content to be fully shown while "
+#~ "moving it, instead of just showing a window 'skeleton'. The result may "
+#~ "not be satisfying on slow machines without graphic acceleration."
+#~ msgstr ""
+#~ "Habilita iste option si tu vole que le contento de un fenestra sia "
+#~ "integremente monstrate durante que il es movente, in vice de sol monstrar "
+#~ "un 'skeleton' de fenestra. Le resultato pote non esser satisfacente sur "
+#~ "machinas lente sin acceleration graphic."
+
+#~ msgid "Display content in &resizing windows"
+#~ msgstr "Monstra contento in fenestras &redimensionante"
+
+#~ msgid ""
+#~ "Enable this option if you want a window's content to be shown while "
+#~ "resizing it, instead of just showing a window 'skeleton'. The result may "
+#~ "not be satisfying on slow machines."
+#~ msgstr ""
+#~ "Habilita iste option si tu vole que le contento de un fenestra sia "
+#~ "monstrate durante que il redimensiona, in vice de sol monstrar un "
+#~ "'skeleton' de fenestra. Le resultato  pote non esser satisfacente sur "
+#~ "machinas lente."

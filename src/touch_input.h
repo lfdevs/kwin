@@ -7,8 +7,7 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-#ifndef KWIN_TOUCH_INPUT_H
-#define KWIN_TOUCH_INPUT_H
+#pragma once
 #include "input.h"
 
 #include <QHash>
@@ -39,9 +38,9 @@ public:
     bool focusUpdatesBlocked() override;
     void init() override;
 
-    void processDown(qint32 id, const QPointF &pos, quint32 time, InputDevice *device = nullptr);
-    void processUp(qint32 id, quint32 time, InputDevice *device = nullptr);
-    void processMotion(qint32 id, const QPointF &pos, quint32 time, InputDevice *device = nullptr);
+    void processDown(qint32 id, const QPointF &pos, std::chrono::microseconds time, InputDevice *device = nullptr);
+    void processUp(qint32 id, std::chrono::microseconds time, InputDevice *device = nullptr);
+    void processMotion(qint32 id, const QPointF &pos, std::chrono::microseconds time, InputDevice *device = nullptr);
     void cancel();
     void frame();
 
@@ -87,5 +86,3 @@ private:
 };
 
 }
-
-#endif

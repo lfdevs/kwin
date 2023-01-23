@@ -8,8 +8,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#ifndef KWIN_SM_H
-#define KWIN_SM_H
+#pragma once
 
 #include <QDataStream>
 #include <QRect>
@@ -79,11 +78,11 @@ private:
 struct SessionInfo
 {
     QByteArray sessionId;
-    QByteArray windowRole;
-    QByteArray wmCommand;
-    QByteArray wmClientMachine;
-    QByteArray resourceName;
-    QByteArray resourceClass;
+    QString windowRole;
+    QString wmCommand;
+    QString wmClientMachine;
+    QString resourceName;
+    QString resourceClass;
 
     QRect geometry;
     QRect restore;
@@ -110,5 +109,3 @@ struct SessionInfo
 };
 
 } // namespace
-
-#endif

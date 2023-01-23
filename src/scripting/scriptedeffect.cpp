@@ -27,6 +27,7 @@
 #include <QFile>
 #include <QQmlEngine>
 #include <QStandardPaths>
+#include <QVector>
 
 #include <optional>
 
@@ -161,7 +162,7 @@ ScriptedEffect *ScriptedEffect::create(const KPluginMetaData &effect)
         return nullptr;
     }
     const QString scriptFile = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
-                                                      QLatin1String(KWIN_NAME "/effects/") + name + QLatin1String("/contents/") + scriptName);
+                                                      QLatin1String("kwin/effects/") + name + QLatin1String("/contents/") + scriptName);
     if (scriptFile.isNull()) {
         qCDebug(KWIN_SCRIPTING) << "Could not locate the effect script";
         return nullptr;
@@ -224,7 +225,7 @@ bool ScriptedEffect::init(const QString &effectName, const QString &pathToScript
     m_scriptFile = pathToScript;
 
     // does the effect contain an KConfigXT file?
-    const QString kconfigXTFile = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String(KWIN_NAME "/effects/") + m_effectName + QLatin1String("/contents/config/main.xml"));
+    const QString kconfigXTFile = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("kwin/effects/") + m_effectName + QLatin1String("/contents/config/main.xml"));
     if (!kconfigXTFile.isNull()) {
         KConfigGroup cg = QCoreApplication::instance()->property("config").value<KSharedConfigPtr>()->group(QStringLiteral("Effect-%1").arg(m_effectName));
         QFile xmlFile(kconfigXTFile);
@@ -319,9 +320,7 @@ QList<int> ScriptedEffect::touchEdgesForAction(const QString &action) const
 {
     QList<int> ret;
     if (m_exclusiveCategory == QStringLiteral("show-desktop") && action == QStringLiteral("show-desktop")) {
-        const QVector borders({ElectricTop, ElectricRight, ElectricBottom, ElectricLeft});
-
-        for (const auto b : borders) {
+        for (const auto b : {ElectricTop, ElectricRight, ElectricBottom, ElectricLeft}) {
             if (workspace()->screenEdges()->actionForTouchBorder(b) == ElectricActionShowDesktop) {
                 ret.append(b);
             }
@@ -656,7 +655,6 @@ void ScriptedEffect::registerShortcut(const QString &objectName, const QString &
     action->setText(text);
     const QKeySequence shortcut = QKeySequence(keySequence);
     KGlobalAccel::self()->setShortcut(action, QList<QKeySequence>() << shortcut);
-    input()->registerShortcut(shortcut, action);
     connect(action, &QAction::triggered, this, [this, action, callback]() {
         QJSValue actionObject = m_engine->newQObject(action);
         QQmlEngine::setObjectOwnership(action, QQmlEngine::CppOwnership);
@@ -804,7 +802,7 @@ uint ScriptedEffect::addFragmentShader(ShaderTrait traits, const QString &fragme
         m_engine->throwError(QStringLiteral("Failed to make OpenGL context current"));
         return 0;
     }
-    const QString shaderDir{QLatin1String(KWIN_NAME "/effects/") + m_effectName + QLatin1String("/contents/shaders/")};
+    const QString shaderDir{QLatin1String("kwin/effects/") + m_effectName + QLatin1String("/contents/shaders/")};
     const QString fragment = fragmentShaderFile.isEmpty() ? QString{} : QStandardPaths::locate(QStandardPaths::GenericDataLocation, shaderDir + fragmentShaderFile);
 
     auto shader = ShaderManager::instance()->generateShaderFromFile(static_cast<KWin::ShaderTraits>(int(traits)), {}, fragment);

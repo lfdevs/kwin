@@ -91,3 +91,12 @@ msgstr "내부 효과 제외"
 #, kde-format
 msgid "Get New Desktop Effects..."
 msgstr "새 데스크톱 효과 다운로드..."
+
+#~ msgid "Download New Desktop Effects"
+#~ msgstr "새 데스크톱 효과 다운로드"
+
+#~ msgid "Exclude Desktop Effects not supported by the Compositor"
+#~ msgstr "컴포지터에서 지원하지 않는 데스크톱 효과 제외"
+
+#~ msgid "Search..."
+#~ msgstr "찾기..."

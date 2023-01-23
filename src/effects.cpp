@@ -27,6 +27,7 @@
 #include "internalwindow.h"
 #include "osd.h"
 #include "pointer_input.h"
+#include "scene/itemrenderer.h"
 #include "unmanaged.h"
 #include "x11window.h"
 #if KWIN_BUILD_TABBOX
@@ -38,17 +39,16 @@
 #include "screenlockerwatcher.h"
 #endif
 #include "composite.h"
-#include "core/platform.h"
 #include "decorations/decorationbridge.h"
 #include "inputmethod.h"
 #include "inputpanelv1window.h"
 #include "kwinglutils.h"
+#include "scene/windowitem.h"
 #include "utils/xcbutils.h"
 #include "virtualdesktops.h"
 #include "wayland_server.h"
 #include "waylandwindow.h"
 #include "window_property_notify_x11_filter.h"
-#include "windowitem.h"
 #include "workspace.h"
 
 #include <KDecoration2/Decoration>
@@ -56,6 +56,7 @@
 
 #include <QDebug>
 #include <QMouseEvent>
+#include <QPainter>
 #include <QQmlEngine>
 #include <QQuickItem>
 #include <QQuickWindow>
@@ -117,7 +118,7 @@ static xcb_atom_t registerSupportProperty(const QByteArray &propertyName)
 
 //---------------------
 
-EffectsHandlerImpl::EffectsHandlerImpl(Compositor *compositor, Scene *scene)
+EffectsHandlerImpl::EffectsHandlerImpl(Compositor *compositor, WorkspaceScene *scene)
     : EffectsHandler(Compositor::self()->backend()->compositingType())
     , keyboard_grab_effect(nullptr)
     , fullscreen_effect(nullptr)
@@ -278,7 +279,7 @@ EffectsHandlerImpl::~EffectsHandlerImpl()
 
 void EffectsHandlerImpl::unloadAllEffects()
 {
-    for (const EffectPair &pair : qAsConst(loaded_effects)) {
+    for (const EffectPair &pair : std::as_const(loaded_effects)) {
         destroyEffect(pair.second);
     }
 
@@ -341,11 +342,9 @@ void EffectsHandlerImpl::setupWindowConnections(Window *window)
         Q_EMIT windowHidden(window->effectWindow());
     });
     connect(window, &Window::keepAboveChanged, this, [this, window](bool above) {
-        Q_UNUSED(above)
         Q_EMIT windowKeepAboveChanged(window->effectWindow());
     });
     connect(window, &Window::keepBelowChanged, this, [this, window](bool below) {
-        Q_UNUSED(below)
         Q_EMIT windowKeepBelowChanged(window->effectWindow());
     });
     connect(window, &Window::fullScreenChanged, this, [this, window]() {
@@ -565,13 +564,13 @@ void EffectsHandlerImpl::slotTabRemoved(EffectWindow *w, EffectWindow *leaderOfF
     Q_EMIT tabRemoved(w, leaderOfFormerGroup);
 }
 
-void EffectsHandlerImpl::slotWindowDamaged(Window *window, const QRegion &r)
+void EffectsHandlerImpl::slotWindowDamaged(Window *window)
 {
     if (!window->effectWindow()) {
         // can happen during tear down of window
         return;
     }
-    Q_EMIT windowDamaged(window->effectWindow(), r);
+    Q_EMIT windowDamaged(window->effectWindow());
 }
 
 void EffectsHandlerImpl::slotGeometryShapeChanged(Window *window, const QRectF &old)
@@ -709,7 +708,7 @@ bool EffectsHandlerImpl::isMouseInterception() const
     return m_grabbedMouseEffects.count() > 0;
 }
 
-bool EffectsHandlerImpl::touchDown(qint32 id, const QPointF &pos, quint32 time)
+bool EffectsHandlerImpl::touchDown(qint32 id, const QPointF &pos, std::chrono::microseconds time)
 {
     // TODO: reverse call order?
     for (auto it = loaded_effects.constBegin(); it != loaded_effects.constEnd(); ++it) {
@@ -720,7 +719,7 @@ bool EffectsHandlerImpl::touchDown(qint32 id, const QPointF &pos, quint32 time)
     return false;
 }
 
-bool EffectsHandlerImpl::touchMotion(qint32 id, const QPointF &pos, quint32 time)
+bool EffectsHandlerImpl::touchMotion(qint32 id, const QPointF &pos, std::chrono::microseconds time)
 {
     // TODO: reverse call order?
     for (auto it = loaded_effects.constBegin(); it != loaded_effects.constEnd(); ++it) {
@@ -731,7 +730,7 @@ bool EffectsHandlerImpl::touchMotion(qint32 id, const QPointF &pos, quint32 time
     return false;
 }
 
-bool EffectsHandlerImpl::touchUp(qint32 id, quint32 time)
+bool EffectsHandlerImpl::touchUp(qint32 id, std::chrono::microseconds time)
 {
     // TODO: reverse call order?
     for (auto it = loaded_effects.constBegin(); it != loaded_effects.constEnd(); ++it) {
@@ -753,9 +752,8 @@ bool EffectsHandlerImpl::tabletToolEvent(TabletEvent *event)
     return false;
 }
 
-bool EffectsHandlerImpl::tabletToolButtonEvent(uint button, bool pressed, const TabletToolId &tabletToolId, uint time)
+bool EffectsHandlerImpl::tabletToolButtonEvent(uint button, bool pressed, const TabletToolId &tabletToolId, std::chrono::microseconds time)
 {
-    Q_UNUSED(time)
     // TODO: reverse call order?
     for (auto it = loaded_effects.constBegin(); it != loaded_effects.constEnd(); ++it) {
         if (it->second->tabletToolButtonEvent(button, pressed, tabletToolId.m_uniqueId)) {
@@ -765,9 +763,8 @@ bool EffectsHandlerImpl::tabletToolButtonEvent(uint button, bool pressed, const 
     return false;
 }
 
-bool EffectsHandlerImpl::tabletPadButtonEvent(uint button, bool pressed, const TabletPadId &tabletPadId, uint time)
+bool EffectsHandlerImpl::tabletPadButtonEvent(uint button, bool pressed, const TabletPadId &tabletPadId, std::chrono::microseconds time)
 {
-    Q_UNUSED(time)
     // TODO: reverse call order?
     for (auto it = loaded_effects.constBegin(); it != loaded_effects.constEnd(); ++it) {
         if (it->second->tabletPadButtonEvent(button, pressed, tabletPadId.data)) {
@@ -777,9 +774,8 @@ bool EffectsHandlerImpl::tabletPadButtonEvent(uint button, bool pressed, const T
     return false;
 }
 
-bool EffectsHandlerImpl::tabletPadStripEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId, uint time)
+bool EffectsHandlerImpl::tabletPadStripEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId, std::chrono::microseconds time)
 {
-    Q_UNUSED(time)
     // TODO: reverse call order?
     for (auto it = loaded_effects.constBegin(); it != loaded_effects.constEnd(); ++it) {
         if (it->second->tabletPadStripEvent(number, position, isFinger, tabletPadId.data)) {
@@ -789,9 +785,8 @@ bool EffectsHandlerImpl::tabletPadStripEvent(int number, int position, bool isFi
     return false;
 }
 
-bool EffectsHandlerImpl::tabletPadRingEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId, uint time)
+bool EffectsHandlerImpl::tabletPadRingEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId, std::chrono::microseconds time)
 {
-    Q_UNUSED(time)
     // TODO: reverse call order?
     for (auto it = loaded_effects.constBegin(); it != loaded_effects.constEnd(); ++it) {
         if (it->second->tabletPadRingEvent(number, position, isFinger, tabletPadId.data)) {
@@ -799,11 +794,6 @@ bool EffectsHandlerImpl::tabletPadRingEvent(int number, int position, bool isFin
         }
     }
     return false;
-}
-
-void EffectsHandlerImpl::registerGlobalShortcut(const QKeySequence &shortcut, QAction *action)
-{
-    input()->registerShortcut(shortcut, action);
 }
 
 void EffectsHandlerImpl::registerPointerShortcut(Qt::KeyboardModifiers modifiers, Qt::MouseButton pointerButtons, QAction *action)
@@ -1087,22 +1077,22 @@ QPoint EffectsHandlerImpl::desktopCoords(int id) const
 
 int EffectsHandlerImpl::desktopAbove(int desktop, bool wrap) const
 {
-    return getDesktop<DesktopAbove>(desktop, wrap);
+    return VirtualDesktopManager::self()->inDirection(desktop, VirtualDesktopManager::Direction::Up, wrap);
 }
 
 int EffectsHandlerImpl::desktopToRight(int desktop, bool wrap) const
 {
-    return getDesktop<DesktopRight>(desktop, wrap);
+    return VirtualDesktopManager::self()->inDirection(desktop, VirtualDesktopManager::Direction::Right, wrap);
 }
 
 int EffectsHandlerImpl::desktopBelow(int desktop, bool wrap) const
 {
-    return getDesktop<DesktopBelow>(desktop, wrap);
+    return VirtualDesktopManager::self()->inDirection(desktop, VirtualDesktopManager::Direction::Down, wrap);
 }
 
 int EffectsHandlerImpl::desktopToLeft(int desktop, bool wrap) const
 {
-    return getDesktop<DesktopLeft>(desktop, wrap);
+    return VirtualDesktopManager::self()->inDirection(desktop, VirtualDesktopManager::Direction::Left, wrap);
 }
 
 QString EffectsHandlerImpl::desktopName(int desktop) const
@@ -1185,8 +1175,6 @@ void EffectsHandlerImpl::setTabBoxWindow(EffectWindow *w)
     if (window->isClient()) {
         workspace()->tabbox()->setCurrentClient(window);
     }
-#else
-    Q_UNUSED(w)
 #endif
 }
 
@@ -1194,8 +1182,6 @@ void EffectsHandlerImpl::setTabBoxDesktop(int desktop)
 {
 #if KWIN_BUILD_TABBOX
     workspace()->tabbox()->setCurrentDesktop(desktop);
-#else
-    Q_UNUSED(desktop)
 #endif
 }
 
@@ -1343,7 +1329,7 @@ bool EffectsHandlerImpl::checkInputWindowEvent(QMouseEvent *e)
     if (m_grabbedMouseEffects.isEmpty()) {
         return false;
     }
-    for (Effect *effect : qAsConst(m_grabbedMouseEffects)) {
+    for (Effect *effect : std::as_const(m_grabbedMouseEffects)) {
         effect->windowInputMouseEvent(e);
     }
     return true;
@@ -1354,7 +1340,7 @@ bool EffectsHandlerImpl::checkInputWindowEvent(QWheelEvent *e)
     if (m_grabbedMouseEffects.isEmpty()) {
         return false;
     }
-    for (Effect *effect : qAsConst(m_grabbedMouseEffects)) {
+    for (Effect *effect : std::as_const(m_grabbedMouseEffects)) {
         effect->windowInputMouseEvent(e);
     }
     return true;
@@ -1430,7 +1416,7 @@ void EffectsHandlerImpl::unregisterTouchBorder(ElectricBorder border, QAction *a
 
 QPainter *EffectsHandlerImpl::scenePainter()
 {
-    return m_scene->scenePainter();
+    return m_scene->renderer()->painter();
 }
 
 void EffectsHandlerImpl::toggleEffect(const QString &name)
@@ -1579,6 +1565,10 @@ void EffectsHandlerImpl::effectsChanged()
               std::back_inserter(loaded_effects));
 
     m_activeEffects.reserve(loaded_effects.count());
+
+    m_currentPaintScreenIterator = m_activeEffects.constBegin();
+    m_currentPaintWindowIterator = m_activeEffects.constBegin();
+    m_currentDrawWindowIterator = m_activeEffects.constBegin();
 }
 
 QStringList EffectsHandlerImpl::activeEffects() const
@@ -1705,7 +1695,7 @@ void EffectsHandlerImpl::highlightWindows(const QVector<EffectWindow *> &windows
 
 PlatformCursorImage EffectsHandlerImpl::cursorImage() const
 {
-    return kwinApp()->platform()->cursorImage();
+    return kwinApp()->cursorImage();
 }
 
 void EffectsHandlerImpl::hideCursor()
@@ -1720,7 +1710,7 @@ void EffectsHandlerImpl::showCursor()
 
 void EffectsHandlerImpl::startInteractiveWindowSelection(std::function<void(KWin::EffectWindow *)> callback)
 {
-    kwinApp()->platform()->startInteractiveWindowSelection([callback](KWin::Window *window) {
+    kwinApp()->startInteractiveWindowSelection([callback](KWin::Window *window) {
         if (window && window->effectWindow()) {
             callback(window->effectWindow());
         } else {
@@ -1731,7 +1721,7 @@ void EffectsHandlerImpl::startInteractiveWindowSelection(std::function<void(KWin
 
 void EffectsHandlerImpl::startInteractivePositionSelection(std::function<void(const QPoint &)> callback)
 {
-    kwinApp()->platform()->startInteractivePositionSelection(callback);
+    kwinApp()->startInteractivePositionSelection(callback);
 }
 
 void EffectsHandlerImpl::showOnScreenMessage(const QString &message, const QString &iconName)
@@ -1774,7 +1764,48 @@ void EffectsHandlerImpl::renderOffscreenQuickView(OffscreenQuickView *w) const
     if (!w->isVisible()) {
         return;
     }
-    scene()->paintOffscreenQuickView(w);
+    if (compositingType() == OpenGLCompositing) {
+        GLTexture *t = w->bufferAsTexture();
+        if (!t) {
+            return;
+        }
+
+        ShaderTraits traits = ShaderTrait::MapTexture;
+        const qreal a = w->opacity();
+        if (a != 1.0) {
+            traits |= ShaderTrait::Modulate;
+        }
+
+        GLShader *shader = ShaderManager::instance()->pushShader(traits);
+        const QRectF rect = scaledRect(w->geometry(), m_scene->renderer()->renderTargetScale());
+
+        QMatrix4x4 mvp(m_scene->renderer()->renderTargetProjectionMatrix());
+        mvp.translate(rect.x(), rect.y());
+        shader->setUniform(GLShader::ModelViewProjectionMatrix, mvp);
+
+        if (a != 1.0) {
+            shader->setUniform(GLShader::ModulationConstant, QVector4D(a, a, a, a));
+        }
+
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+        t->bind();
+        t->render(w->geometry(), m_scene->renderer()->renderTargetScale());
+        t->unbind();
+        glDisable(GL_BLEND);
+
+        ShaderManager::instance()->popShader();
+    } else if (compositingType() == QPainterCompositing) {
+        QPainter *painter = effects->scenePainter();
+        const QImage buffer = w->bufferAsImage();
+        if (buffer.isNull()) {
+            return;
+        }
+        painter->save();
+        painter->setOpacity(w->opacity());
+        painter->drawImage(w->geometry(), buffer);
+        painter->restore();
+    }
 }
 
 SessionState EffectsHandlerImpl::sessionState() const
@@ -1794,7 +1825,7 @@ EffectScreen *EffectsHandlerImpl::screenAt(const QPoint &point) const
 
 EffectScreen *EffectsHandlerImpl::findScreen(const QString &name) const
 {
-    for (EffectScreen *screen : qAsConst(m_effectScreens)) {
+    for (EffectScreen *screen : std::as_const(m_effectScreens)) {
         if (screen->name() == name) {
             return screen;
         }
@@ -1828,7 +1859,12 @@ void EffectsHandlerImpl::renderScreen(EffectScreen *screen)
     renderTarget.setDevicePixelRatio(screen->devicePixelRatio());
 
     auto output = static_cast<EffectScreenImpl *>(screen)->platformOutput();
-    m_scene->prePaint(output);
+
+    RenderLayer layer(output->renderLoop());
+    SceneDelegate delegate(m_scene, output);
+    delegate.setLayer(&layer);
+
+    m_scene->prePaint(&delegate);
     m_scene->paint(&renderTarget, output->geometry());
     m_scene->postPaint();
 }
@@ -1840,12 +1876,12 @@ bool EffectsHandlerImpl::isCursorHidden() const
 
 QRect EffectsHandlerImpl::renderTargetRect() const
 {
-    return m_scene->renderTargetRect();
+    return m_scene->renderer()->renderTargetRect();
 }
 
 qreal EffectsHandlerImpl::renderTargetScale() const
 {
-    return m_scene->renderTargetScale();
+    return m_scene->renderer()->renderTargetScale();
 }
 
 KWin::EffectWindow *EffectsHandlerImpl::inputPanel() const
@@ -1954,8 +1990,7 @@ EffectScreen::Transform EffectScreenImpl::transform() const
 //****************************************
 
 EffectWindowImpl::EffectWindowImpl(Window *window)
-    : EffectWindow(window)
-    , m_window(window)
+    : m_window(window)
     , m_windowItem(nullptr)
 {
     // Deleted windows are not managed. So, when windowClosed signal is
@@ -2036,7 +2071,6 @@ EffectScreen *EffectWindowImpl::screen() const
     }
 
 WINDOW_HELPER(double, opacity, opacity)
-WINDOW_HELPER(bool, hasAlpha, hasAlpha)
 WINDOW_HELPER(qreal, x, x)
 WINDOW_HELPER(qreal, y, y)
 WINDOW_HELPER(qreal, width, width)
@@ -2344,7 +2378,7 @@ EffectFrameQuickScene::EffectFrameQuickScene(EffectFrameStyle style, bool static
         break;
     }
 
-    const QString defaultPath = QStringLiteral(KWIN_NAME "/frames/plasma/frame_%1.qml").arg(name);
+    const QString defaultPath = QStringLiteral("kwin/frames/plasma/frame_%1.qml").arg(name);
     // TODO read from kwinApp()->config() "QmlPath" like Outline/OnScreenNotification
     // *if* someone really needs this to be configurable.
     const QString path = QStandardPaths::locate(QStandardPaths::GenericDataLocation, defaultPath);
@@ -2590,7 +2624,6 @@ const QRect &EffectFrameImpl::geometry() const
 
 void EffectFrameImpl::setGeometry(const QRect &geometry, bool force)
 {
-    Q_UNUSED(force)
     m_view->setGeometry(geometry);
 }
 
@@ -2625,8 +2658,6 @@ void EffectFrameImpl::setPosition(const QPoint &point)
 
 void EffectFrameImpl::render(const QRegion &region, double opacity, double frameOpacity)
 {
-    Q_UNUSED(region);
-
     if (!m_view->rootItem()) {
         return;
     }

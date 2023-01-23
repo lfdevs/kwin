@@ -8,21 +8,19 @@
 */
 #pragma once
 
-#include "core/platform.h"
+#include "core/outputbackend.h"
 
 #include <kwin_export.h>
 
 #include <QObject>
 #include <QRect>
 
-class QTemporaryDir;
-
 namespace KWin
 {
 class VirtualBackend;
 class VirtualOutput;
 
-class KWIN_EXPORT VirtualBackend : public Platform
+class KWIN_EXPORT VirtualBackend : public OutputBackend
 {
     Q_OBJECT
 
@@ -32,35 +30,27 @@ public:
 
     bool initialize() override;
 
-    bool saveFrames() const
-    {
-        return m_screenshotDir != nullptr;
-    }
-    QString screenshotDirPath() const;
-
     std::unique_ptr<QPainterBackend> createQPainterBackend() override;
     std::unique_ptr<OpenGLBackend> createOpenGLBackend() override;
 
-    Q_INVOKABLE void setVirtualOutputs(int count, QVector<QRect> geometries = QVector<QRect>(), QVector<int> scales = QVector<int>());
+    Output *addOutput(const QSize &size, qreal scale);
+
+    Q_INVOKABLE void setVirtualOutputs(const QVector<QRect> &geometries, QVector<qreal> scales = QVector<qreal>());
 
     Outputs outputs() const override;
 
     QVector<CompositingType> supportedCompositors() const override
     {
-        if (selectedCompositor() != NoCompositing) {
-            return {selectedCompositor()};
-        }
         return QVector<CompositingType>{OpenGLCompositing, QPainterCompositing};
     }
-
-    Q_INVOKABLE QImage captureOutput(Output *output) const;
 
 Q_SIGNALS:
     void virtualOutputsSet(bool countChanged);
 
 private:
+    VirtualOutput *createOutput(const QPoint &position, const QSize &size, qreal scale);
+
     QVector<VirtualOutput *> m_outputs;
-    std::unique_ptr<QTemporaryDir> m_screenshotDir;
 };
 
 } // namespace KWin

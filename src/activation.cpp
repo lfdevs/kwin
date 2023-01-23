@@ -602,7 +602,7 @@ bool Workspace::restoreFocus()
     // a timestamp *sigh*, kwin's timestamp would be older than the timestamp
     // that was used by whoever caused the focus change, and therefore
     // the attempt to restore the focus would fail due to old timestamp
-    updateXTime();
+    kwinApp()->updateXTime();
     if (should_get_focus.count() > 0) {
         return requestFocus(should_get_focus.last());
     } else if (m_lastActiveWindow) {
@@ -636,7 +636,7 @@ void X11Window::updateUserTime(xcb_timestamp_t time)
 {
     // copied in Group::updateUserTime
     if (time == XCB_TIME_CURRENT_TIME) {
-        updateXTime();
+        kwinApp()->updateXTime();
         time = xTime();
     }
     if (time != -1U
@@ -767,13 +767,11 @@ void X11Window::startupIdChanged()
     // If the ASN contains desktop, move it to the desktop, otherwise move it to the current
     // desktop (since the new ASN should make the window act like if it's a new application
     // launched). However don't affect the window's desktop if it's set to be on all desktops.
-    int desktop = VirtualDesktopManager::self()->current();
-    if (asn_data.desktop() != 0) {
-        desktop = asn_data.desktop();
+
+    if (asn_data.desktop() != 0 && !isOnAllDesktops()) {
+        workspace()->sendWindowToDesktop(this, asn_data.desktop(), true);
     }
-    if (!isOnAllDesktops()) {
-        workspace()->sendWindowToDesktop(this, desktop, true);
-    }
+
     if (asn_data.xinerama() != -1) {
         Output *output = workspace()->xineramaIndexToOutput(asn_data.xinerama());
         if (output) {
@@ -783,9 +781,6 @@ void X11Window::startupIdChanged()
     const xcb_timestamp_t timestamp = asn_id.timestamp();
     if (timestamp != 0) {
         bool activate = allowWindowActivation(timestamp);
-        if (asn_data.desktop() != 0 && !isOnCurrentDesktop()) {
-            activate = false; // it was started on different desktop than current one
-        }
         if (activate) {
             workspace()->activateWindow(this);
         } else {
@@ -930,7 +925,7 @@ void Group::updateUserTime(xcb_timestamp_t time)
 {
     // copy of X11Window::updateUserTime
     if (time == XCB_CURRENT_TIME) {
-        updateXTime();
+        kwinApp()->updateXTime();
         time = xTime();
     }
     if (time != -1U

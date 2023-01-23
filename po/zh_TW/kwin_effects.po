@@ -8,20 +8,20 @@
 # pan93412 <pan93412@gmail.com>, 2018, 2019, 2020.
 # Franklin Weng <franklin at goodhorse dot idv dot tw>, 2007, 2008.
 # Frank Weng (a.k.a. Franklin) <franklin at goodhorse dot idv dot tw>, 2008, 2009, 2010.
-# Kisaragi Hiu <mail@kisaragi-hiu.com>, 2022.
+# Kisaragi Hiu <mail@kisaragi-hiu.com>, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-01 02:26+0000\n"
-"PO-Revision-Date: 2022-06-24 02:29+0900\n"
+"POT-Creation-Date: 2023-01-18 00:58+0000\n"
+"PO-Revision-Date: 2023-01-15 20:17+0800\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@linux.org.tw>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.04.2\n"
+"X-Generator: Lokalize 22.12.0\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. i18n: ectx: property (text), widget (QLabel, labelConstantBlurDescription)
@@ -64,6 +64,7 @@ msgstr ""
 #: mousemark/mousemark_config.cpp:50 overview/kcm/overvieweffectkcm.cpp:35
 #: showpaint/showpaint_config.cpp:33
 #: thumbnailaside/thumbnailaside_config.cpp:54
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:31
 #: trackmouse/trackmouse_config.cpp:52
 #: windowview/kcm/windowvieweffectkcm.cpp:36 zoom/zoom_config.cpp:58
 #, kde-format
@@ -149,7 +150,7 @@ msgstr "外觀"
 #: desktopgrid/desktopgrid_config.ui:30
 #, kde-format
 msgid "Pager"
-msgstr "呼叫器"
+msgstr "虛擬桌面管理器"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DesktopLayoutMode)
 #: desktopgrid/desktopgrid_config.ui:35
@@ -201,14 +202,20 @@ msgstr "最近的"
 msgid "Natural"
 msgstr "自然"
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
+#: desktopgrid/desktopgrid_config.ui:147
+#, kde-format
+msgid "None"
+msgstr "無"
+
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: desktopgrid/desktopgrid_config.ui:150
+#: desktopgrid/desktopgrid_config.ui:155
 #, kde-format
 msgid "Windows layout:"
 msgstr "視窗佈局："
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: desktopgrid/desktopgrid_config.ui:166
+#: desktopgrid/desktopgrid_config.ui:171
 #, kde-format
 msgid "Activation"
 msgstr "作用"
@@ -311,10 +318,15 @@ msgstr "視窗關閉動畫"
 msgid "Toggle Invert Effect"
 msgstr "切換反轉效果"
 
-#: invert/invert.cpp:50 invert/invert_config.cpp:44
+#: invert/invert.cpp:49 invert/invert_config.cpp:44
 #, kde-format
 msgid "Toggle Invert Effect on Window"
 msgstr "在視窗上切換反轉效果"
+
+#: invert/invert.cpp:56
+#, kde-format
+msgid "Invert Screen Colors"
+msgstr "反轉螢幕顏色"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FadeToBlack)
 #: login/package/contents/ui/config.ui:17
@@ -371,30 +383,30 @@ msgstr "高度(&H)："
 msgid "Toggle Mouse Click Effect"
 msgstr "切換滑鼠點擊效果"
 
-#: mouseclick/mouseclick.cpp:42
+#: mouseclick/mouseclick.cpp:41
 #, kde-format
 msgctxt "Left mouse button"
 msgid "Left"
 msgstr "左"
 
-#: mouseclick/mouseclick.cpp:43
+#: mouseclick/mouseclick.cpp:42
 #, kde-format
 msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr "中"
 
-#: mouseclick/mouseclick.cpp:44
+#: mouseclick/mouseclick.cpp:43
 #, kde-format
 msgctxt "Right mouse button"
 msgid "Right"
 msgstr "右"
 
-#: mouseclick/mouseclick.h:61
+#: mouseclick/mouseclick.h:60
 #, kde-format
 msgid "↓"
 msgstr "↓"
 
-#: mouseclick/mouseclick.h:62
+#: mouseclick/mouseclick.h:61
 #, kde-format
 msgid "↑"
 msgstr "↑"
@@ -490,12 +502,12 @@ msgstr "字型："
 msgid "Show Text:"
 msgstr "顯示文字："
 
-#: mousemark/mousemark.cpp:36
+#: mousemark/mousemark.cpp:39
 #, kde-format
 msgid "Clear All Mouse Marks"
 msgstr "清除所有滑鼠標記"
 
-#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:59
+#: mousemark/mousemark.cpp:45 mousemark/mousemark_config.cpp:59
 #, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr "清除上一個滑鼠標記"
@@ -534,7 +546,7 @@ msgstr "按住 Shift+Meta 鍵並移動滑鼠時繪製"
 #, kde-format
 msgctxt "@label"
 msgid "Unknown"
-msgstr ""
+msgstr "未知"
 
 #: overview/kcm/overvieweffectkcm.cpp:41 overview/overvieweffect.cpp:31
 #, kde-format
@@ -560,32 +572,28 @@ msgstr "模糊背景："
 msgid "Ignore minimized windows:"
 msgstr "忽略已最小化的視窗："
 
-#: overview/qml/DesktopBar.qml:186
-#, fuzzy, kde-format
-#| msgid "Delete virtual desktop"
+#: overview/qml/DesktopBar.qml:187
+#, kde-format
 msgid "Delete Virtual Desktop"
 msgstr "刪除虛擬桌面"
 
-#: overview/qml/DesktopBar.qml:282
-#, fuzzy, kde-format
-#| msgid "Add Desktop"
+#: overview/qml/DesktopBar.qml:283
+#, kde-format
 msgid "Add Virtual Desktop"
-msgstr "新增桌面"
+msgstr "新增虛擬桌面"
 
 #: overview/qml/ScreenView.qml:226
-#, fuzzy, kde-format
-#| msgid "Moving windows:"
+#, kde-format
 msgid "No matching windows"
-msgstr "移動中視窗："
+msgstr "沒有相符的視窗"
 
-#: private/qml/WindowHeapDelegate.qml:152
+#: private/qml/WindowHeapDelegate.qml:151
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "下拉關閉"
 
-#: private/qml/WindowHeapDelegate.qml:462
-#, fuzzy, kde-format
-#| msgid "Close window"
+#: private/qml/WindowHeapDelegate.qml:461
+#, kde-format
 msgctxt "@info:tooltip as in: 'close this window'"
 msgid "Close window"
 msgstr "關閉視窗"
@@ -602,28 +610,28 @@ msgstr "視窗開啟縮放比例："
 msgid "Window close scale:"
 msgstr "視窗關閉縮放比例："
 
-#: screenshot/screenshotdbusinterface1.cpp:480
+#: screenshot/screenshotdbusinterface1.cpp:478
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr "螢幕快照"
 
-#: screenshot/screenshotdbusinterface1.cpp:481
+#: screenshot/screenshotdbusinterface1.cpp:479
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr "螢幕快照已儲存至 %1"
 
-#: screenshot/screenshotdbusinterface1.cpp:797
-#: screenshot/screenshotdbusinterface2.cpp:472
+#: screenshot/screenshotdbusinterface1.cpp:800
+#: screenshot/screenshotdbusinterface2.cpp:477
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr "選取視窗並按下滑鼠左鍵或 Enter 以進行螢幕截圖。Esc 或右鍵點選以取消。"
 
-#: screenshot/screenshotdbusinterface1.cpp:800
-#: screenshot/screenshotdbusinterface2.cpp:490
+#: screenshot/screenshotdbusinterface1.cpp:803
+#: screenshot/screenshotdbusinterface2.cpp:495
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -633,35 +641,31 @@ msgstr ""
 "Esc 或右鍵點選以取消。"
 
 #: showfps/qml/main.qml:110
-#, fuzzy, kde-format
-#| msgid "Ring Duration:"
+#, kde-format
 msgctxt "@label"
 msgid "Paint Duration"
-msgstr "環繞時間："
+msgstr "繪製時間"
 
 #: showfps/qml/main.qml:162
-#, fuzzy, kde-format
-#| msgid "Ring Count:"
+#, kde-format
 msgctxt "@label"
 msgid "Paint Amount"
-msgstr "環繞計數："
+msgstr "繪製數量"
 
 #: showfps/qml/main.qml:175
 #, kde-format
 msgctxt "@label"
 msgid "Current FPS"
-msgstr ""
+msgstr "目前 FPS"
 
 #: showfps/qml/main.qml:184
-#, fuzzy, kde-format
-#| msgid "Maximum &width:"
+#, kde-format
 msgctxt "@label"
 msgid "Maximum FPS"
-msgstr "最大寬度(&W)："
+msgstr "最大 FPS"
 
 #: showfps/qml/main.qml:192
-#, fuzzy, kde-format
-#| msgid "This effect is not a benchmark"
+#, kde-format
 msgctxt "@label"
 msgid "This effect is not a benchmark"
 msgstr "此效果非性能測試"
@@ -689,14 +693,8 @@ msgstr "水平："
 msgid "Vertical:"
 msgstr "垂直："
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideDocks)
-#: slide/slide_config.ui:72
-#, kde-format
-msgid "Slide docks"
-msgstr "滑動 dock"
-
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideBackground)
-#: slide/slide_config.ui:79
+#: slide/slide_config.ui:72
 #, kde-format
 msgid "Slide desktop background"
 msgstr "滑動桌面背景"
@@ -738,6 +736,47 @@ msgstr "不透明度(&O)："
 #, no-c-format, kde-format
 msgid " %"
 msgstr " %"
+
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:37
+#: tileseditor/tileseditoreffect.cpp:29
+#, kde-format
+msgid "Toggle Tiles Editor"
+msgstr "切換方塊編輯器"
+
+#: tileseditor/qml/main.qml:147
+#, kde-format
+msgid "Padding:"
+msgstr "填充："
+
+#: tileseditor/qml/main.qml:157
+#, kde-format
+msgid "Load Layout..."
+msgstr "載入佈局…"
+
+#: tileseditor/qml/main.qml:271
+#, kde-format
+msgid "Close"
+msgstr "關閉"
+
+#: tileseditor/qml/TileDelegate.qml:171
+#, kde-format
+msgid "Split Horizontally"
+msgstr "水平分割"
+
+#: tileseditor/qml/TileDelegate.qml:178
+#, kde-format
+msgid "Split Vertically"
+msgstr "垂直分割"
+
+#: tileseditor/qml/TileDelegate.qml:186 tileseditor/qml/TileDelegate.qml:215
+#, kde-format
+msgid "Add Floating Tile"
+msgstr "新增浮動方塊"
+
+#: tileseditor/qml/TileDelegate.qml:195
+#, kde-format
+msgid "Delete"
+msgstr "刪除"
 
 #: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:57
 #, kde-format
@@ -873,21 +912,20 @@ msgstr "脫出式選單："
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "切換展示視窗（目前的桌面）"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:55
+#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:54
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "切換展示視窗（所有桌面）"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:65
+#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:63
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "切換展示視窗（視窗類別）"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:75
-#, fuzzy, kde-format
-#| msgid "Toggle Present Windows (Current desktop)"
+#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:72
+#, kde-format
 msgid "Toggle Present Windows (Window class on current desktop)"
-msgstr "切換展示視窗（目前的桌面）"
+msgstr "切換展示視窗（目前桌面上同視窗類別）"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_IgnoreMinimized)
 #: windowview/kcm/windowvieweffectkcm.ui:56
@@ -895,15 +933,20 @@ msgstr "切換展示視窗（目前的桌面）"
 msgid "Ignore &minimized windows"
 msgstr "忽略已最小化的視窗(&M)"
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, kde-format
 msgid "No Matches"
 msgstr "無相符項目"
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, kde-format
 msgid "No Windows"
 msgstr "無視窗"
+
+#: windowview/qml/main.qml:123
+#, kde-format
+msgid "Filter windows…"
+msgstr "過濾視窗…"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20
@@ -965,32 +1008,32 @@ msgstr "較少"
 msgid "More"
 msgstr "較多"
 
-#: zoom/zoom.cpp:68
+#: zoom/zoom.cpp:65
 #, kde-format
 msgid "Move Zoomed Area to Left"
 msgstr "將縮放區域移到左邊"
 
-#: zoom/zoom.cpp:76
+#: zoom/zoom.cpp:72
 #, kde-format
 msgid "Move Zoomed Area to Right"
 msgstr "將縮放區域移到右邊"
 
-#: zoom/zoom.cpp:84
+#: zoom/zoom.cpp:79
 #, kde-format
 msgid "Move Zoomed Area Upwards"
 msgstr "將縮放區域移到上方"
 
-#: zoom/zoom.cpp:92
+#: zoom/zoom.cpp:86
 #, kde-format
 msgid "Move Zoomed Area Downwards"
 msgstr "將縮放區域移到下方"
 
-#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:108
+#: zoom/zoom.cpp:94 zoom/zoom_config.cpp:108
 #, kde-format
 msgid "Move Mouse to Focus"
 msgstr "移動滑鼠到焦點"
 
-#: zoom/zoom.cpp:109 zoom/zoom_config.cpp:115
+#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:115
 #, kde-format
 msgid "Move Mouse to Center"
 msgstr "移動滑鼠到中央"
@@ -1125,3 +1168,657 @@ msgstr "已關閉"
 #, kde-format
 msgid "Mouse Tracking:"
 msgstr "滑鼠追蹤："
+
+#~ msgid "Slide docks"
+#~ msgstr "滑動 dock"
+
+#~ msgid "Search..."
+#~ msgstr "搜尋…"
+
+#~ msgid "&Radius:"
+#~ msgstr "半徑(&R)："
+
+#~ msgid "Text position:"
+#~ msgstr "文字位置："
+
+#~ msgid "Inside Graph"
+#~ msgstr "內部圖形"
+
+#~ msgid "Nowhere"
+#~ msgstr "無"
+
+#~ msgid "Top Left"
+#~ msgstr "左上"
+
+#~ msgid "Top Right"
+#~ msgstr "右上"
+
+#~ msgid "Bottom Left"
+#~ msgstr "左下"
+
+#~ msgid "Bottom Right"
+#~ msgstr "右下"
+
+#~ msgid "Text font:"
+#~ msgstr "文字字型："
+
+#~ msgid "Text color:"
+#~ msgstr "文字顏色："
+
+#~ msgid "Text alpha:"
+#~ msgstr "文字透明度："
+
+#~ msgid "Show graph:"
+#~ msgstr "顯示圖表："
+
+#~ msgid "Show on active screen"
+#~ msgstr "在作用中螢幕顯示"
+
+#~ msgid "Show Message:"
+#~ msgstr "顯示訊息："
+
+#~ msgid "Show \"not a benchmark\" message"
+#~ msgstr "顯示「非性能測試」訊息"
+
+#~ msgid "Colorize Text:"
+#~ msgstr "為文字上色："
+
+#~ msgid "Color text by value (green > yellow > red)"
+#~ msgstr "依數值為顏色上色（綠色 > 黃色 > 紅色）"
+
+#~ msgid "Zoom &duration:"
+#~ msgstr "縮放時間(&D)："
+
+#~ msgctxt "Duration of zoom"
+#~ msgid "Default"
+#~ msgstr "預設"
+
+#~ msgid "Border wid&th:"
+#~ msgstr "框線寬度(&T)："
+
+#, fuzzy
+#~| msgid "Show desktop"
+#~ msgid "Switch desktop only"
+#~ msgstr "顯示桌面"
+
+#~ msgid "Natural Layout Settings"
+#~ msgstr "自然佈局設定"
+
+#~ msgid "Fill &gaps"
+#~ msgstr "填充間隔(&G)"
+
+#~ msgid "Faster"
+#~ msgstr "較快"
+
+#~ msgid "Nicer"
+#~ msgstr "較精細"
+
+#~ msgid "Left button:"
+#~ msgstr "滑鼠左鍵："
+
+#~ msgid "No action"
+#~ msgstr "無動作"
+
+#~ msgid "Activate window"
+#~ msgstr "啟動視窗"
+
+#~ msgid "End effect"
+#~ msgstr "結束效果"
+
+#~ msgid "Bring window to current desktop"
+#~ msgstr "將視窗帶到目前的桌面"
+
+#~ msgid "Send window to all desktops"
+#~ msgstr "將視窗傳送到所有桌面"
+
+#~ msgid "(Un-)Minimize window"
+#~ msgstr "最小化/取消最小化視窗"
+
+#~ msgid "Middle button:"
+#~ msgstr "滑鼠中鍵："
+
+#~ msgid "Right button:"
+#~ msgstr "滑鼠右鍵："
+
+#~ msgctxt "@title:group actions when clicking on desktop"
+#~ msgid "Desktop"
+#~ msgstr "桌面"
+
+#~ msgid "Show desktop"
+#~ msgstr "顯示桌面"
+
+#~ msgid "Display window &titles"
+#~ msgstr "顯示視窗標題(&T)"
+
+#~ msgid "Display window &icons"
+#~ msgstr "顯示視窗圖示(&I)"
+
+#~ msgid "Show &panels"
+#~ msgstr "顯示面板(&P)"
+
+#~ msgid "Regular Grid"
+#~ msgstr "規則格狀"
+
+#~ msgid "Flexible Grid"
+#~ msgstr "彈性格狀"
+
+#~ msgid "Provide buttons to close the windows"
+#~ msgstr "提供關閉視窗的按鍵"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Franklin Weng, Jeff Huang"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "franklin@nospam_goodhorse.idv.tw, s8321414@gmail.com"
+
+#~ msgid "Scale window"
+#~ msgstr "調整視窗大小"
+
+#~ msgid "Show outline"
+#~ msgstr "顯示外框"
+
+#~ msgid "Toggle window geometry display (effect only)"
+#~ msgstr "切換視窗位置顯示（只有效果）"
+
+#~ msgid "Toggle KWin composited geometry display"
+#~ msgstr "切換 KWin 組合位置顯示"
+
+#~ msgid "Display for moving windows"
+#~ msgstr "移動視窗顯示"
+
+#~ msgid "Display for resizing windows"
+#~ msgstr "重新調整視窗顯示"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Blur"
+#~ msgstr "模糊"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Blurs the background behind semi-transparent windows"
+#~ msgstr "將半透明視窗後的背景弄模糊"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Color Picker"
+#~ msgstr "顏色挑選器"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Supports picking a color"
+#~ msgstr "支援挑選顏色"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Background contrast"
+#~ msgstr "背景對比"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Improve contrast and readability behind semi-transparent windows"
+#~ msgstr "改善半透明視窗的對比與可讀性"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Grid"
+#~ msgstr "桌面格線"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Zoom out so all desktops are displayed side-by-side in a grid"
+#~ msgstr "縮放所有桌面，讓它們排排站"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Dim Inactive"
+#~ msgstr "將不使用的視窗變暗"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Darken inactive windows"
+#~ msgstr "將不使用的視窗變暗"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Fall Apart"
+#~ msgstr "破裂"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Closed windows fall into pieces"
+#~ msgstr "已關閉的視窗會被切割"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Glide"
+#~ msgstr "滑動"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Glide windows as they appear or disappear"
+#~ msgstr "當視窗顯示或消失時滑動視窗"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Highlight Window"
+#~ msgstr "突顯視窗"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlight the appropriate window when hovering over taskbar entries"
+#~ msgstr "當游標停在工作列的按鈕上面時，突顯視窗"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Invert"
+#~ msgstr "反轉"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Inverts the color of the desktop and windows"
+#~ msgstr "將桌面與視窗的顏色反相"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Kscreen"
+#~ msgstr "Kscreen"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper Effect for KScreen"
+#~ msgstr "KScreen 輔助效果"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Looking Glass"
+#~ msgstr "鏡射"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "A screen magnifier that looks like a fisheye lens"
+#~ msgstr "看起來像魚眼鏡片的螢幕放大器"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Magic Lamp"
+#~ msgstr "魔法燈"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Simulate a magic lamp when minimizing windows"
+#~ msgstr "最小化視窗時模擬神燈將精靈收進去的樣子"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Magnifier"
+#~ msgstr "放大鏡"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Magnify the section of the screen that is near the mouse cursor"
+#~ msgstr "將滑鼠游標附近的部份視窗放大"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Click Animation"
+#~ msgstr "滑鼠點擊動畫"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Creates an animation whenever a mouse button is clicked. This is useful "
+#~ "for screenrecordings/presentations"
+#~ msgstr "建立當滑鼠點擊時要顯示的動畫。在螢幕錄影或展示時相當有用"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Mark"
+#~ msgstr "滑鼠標記"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Allows you to draw lines on the desktop"
+#~ msgstr "讓您在您的桌面上畫線"
+
+#, fuzzy
+#~| msgctxt "Comment describing the KWin Effect"
+#~| msgid "Allows you to draw lines on the desktop"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Allows you to overview virtual desktops and windows"
+#~ msgstr "讓您在您的桌面上畫線"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Present Windows"
+#~ msgstr "展示視窗"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Zoom out until all opened windows can be displayed side-by-side"
+#~ msgstr "縮放所有開啟的視窗，讓它們排排站"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Resize Window"
+#~ msgstr "重新調整視窗大小"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Resizes windows with a fast texture scale instead of updating contents"
+#~ msgstr "用快速調整縮放而不是更新內容的方式重新調整視窗大小"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Screen Edge"
+#~ msgstr "螢幕邊緣"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlights a screen edge when approaching"
+#~ msgstr "接近時突顯螢幕邊緣"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Screenshot"
+#~ msgstr "螢幕快照"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper effect for screenshot tools"
+#~ msgstr "用於螢幕截圖工具的輔助效果"
+
+#, fuzzy
+#~| msgid "Transparent"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Transform"
+#~ msgstr "透明"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Sheet"
+#~ msgstr "表格"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Make modal dialogs smoothly fly in and out when they are shown or hidden"
+#~ msgstr "顯示或隱藏對話框時以飄下來、飄上去的方式呈現"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show FPS"
+#~ msgstr "顯示刷新頻率"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display KWin's performance in the corner of the screen"
+#~ msgstr "在螢幕角落顯示 KWin 的效能"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show Paint"
+#~ msgstr "顯示繪製"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlight areas of the desktop that have been recently updated"
+#~ msgstr "將最近更新的桌面區域突顯出來"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Slide"
+#~ msgstr "投影片"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Slide desktops when switching virtual desktops"
+#~ msgstr "切換虛擬桌面時滑過桌面"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Slide Back"
+#~ msgstr "往回滑動"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Slide back windows when another window is raised"
+#~ msgstr "另一個視窗被抬升時將此視窗滑動到背景"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Sliding popups"
+#~ msgstr "滑動彈出視窗"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Sliding animation for Plasma popups"
+#~ msgstr "Plasma 彈出視窗的滑動動畫"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Snap Helper"
+#~ msgstr "貼齊小幫手"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Help you locate the center of the screen when moving a window"
+#~ msgstr "幫助您在移動視窗時能定到螢幕中央的位置"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Startup Feedback"
+#~ msgstr "程式啟動回饋"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper effect for startup feedback"
+#~ msgstr "啟動回饋效果"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Thumbnail Aside"
+#~ msgstr "縮圖在旁邊"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display window thumbnails on the edge of the screen"
+#~ msgstr "在螢幕的邊緣顯示視窗縮圖"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Touch Points"
+#~ msgstr "觸控點"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Visualize touch points"
+#~ msgstr "可視化觸控點"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Track Mouse"
+#~ msgstr "追蹤滑鼠"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display a mouse cursor locating effect when activated"
+#~ msgstr "啟動時顯示滑鼠游標定位效果"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Window Geometry"
+#~ msgstr "視窗位置"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display window geometries on move/resize"
+#~ msgstr "移動/調整大小時顯示視窗位置"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Wobbly Windows"
+#~ msgstr "變形視窗"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Deform windows while they are moving"
+#~ msgstr "移動視窗時讓視窗「變形」"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Zoom"
+#~ msgstr "縮放"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Magnify the entire desktop"
+#~ msgstr "放大整個桌面"
+
+#~ msgctxt "Special entry in alt+tab list for minimizing all windows"
+#~ msgid "Show Desktop"
+#~ msgstr "顯示桌面"
+
+#~ msgid "Zoom"
+#~ msgstr "縮放"
+
+#~ msgid "Define how far away the windows should appear"
+#~ msgstr "定義多遠處視窗就要出現"
+
+#~ msgid "Near"
+#~ msgstr "近"
+
+#~ msgid "Far"
+#~ msgstr "遠"
+
+#~ msgid "Animation"
+#~ msgstr "動畫"
+
+#~ msgid "Animate switch"
+#~ msgstr "動畫切換"
+
+#~ msgid "Animation on tab box open"
+#~ msgstr "分頁盒開啟時使用動畫"
+
+#~ msgid "Animation on tab box close"
+#~ msgstr "分頁盒關閉時使用動畫"
+
+#~ msgid "Reflections"
+#~ msgstr "映象"
+
+#~ msgid "Rear color"
+#~ msgstr "後方顏色"
+
+#~ msgid "Front color"
+#~ msgstr "前方顏色"
+
+#~ msgid "Desktop Cube"
+#~ msgstr "桌面立方體"
+
+#~ msgid "Desktop Cylinder"
+#~ msgstr "桌面柱體"
+
+#~ msgid "Desktop Sphere"
+#~ msgstr "桌面球體"
+
+#~ msgctxt "@title:tab Basic Settings"
+#~ msgid "Basic"
+#~ msgstr "基本"
+
+#~ msgctxt "@title:tab Advanced Settings"
+#~ msgid "Advanced"
+#~ msgstr "進階"
+
+#~ msgid "Tab 1"
+#~ msgstr "Tab 1"
+
+#~ msgid "Background color:"
+#~ msgstr "背景顏色："
+
+#~ msgid "Wallpaper:"
+#~ msgstr "桌布："
+
+#~ msgid "Display desktop name"
+#~ msgstr "顯示桌面名稱"
+
+#~ msgid "Reflection"
+#~ msgstr "反射"
+
+#~ msgid "Rotation duration:"
+#~ msgstr "旋轉時間："
+
+#~ msgid "Windows hover above cube"
+#~ msgstr "視窗徘徊在立方體上"
+
+#~ msgid "Opacity"
+#~ msgstr "不透明度"
+
+#~ msgid "Do not change opacity of windows"
+#~ msgstr "不要改變視窗不透明度。"
+
+#~ msgid "Tab 2"
+#~ msgstr "Tab 2"
+
+#~ msgid "Caps"
+#~ msgstr "蓋子"
+
+#~ msgid "Cap color:"
+#~ msgstr "蓋子顏色："
+
+#~ msgid "Display image on caps"
+#~ msgstr "在蓋上顯示影像"
+
+#~ msgid "Define how far away the object should appear"
+#~ msgstr "定義多遠處物件就要出現"
+
+#~ msgid "Additional Options"
+#~ msgstr "額外選項"
+
+#~ msgid ""
+#~ "If enabled the effect will be deactivated after rotating the cube with "
+#~ "the mouse,\n"
+#~ "otherwise it will remain active"
+#~ msgstr ""
+#~ "若開啟此選項，則在使用滑鼠旋轉後取消立方體。\n"
+#~ " 否則立方體會停留在位置上。"
+
+#~ msgid "Close after mouse dragging"
+#~ msgstr "滑鼠拖曳後關閉"
+
+#~ msgid "Use this effect for walking through the desktops"
+#~ msgstr "使用此效果來依序瀏覽各個桌面"
+
+#~ msgid "Invert mouse"
+#~ msgstr "反轉滑鼠"
+
+#~ msgid "Sphere Cap Deformation"
+#~ msgstr "球體蓋子變形"
+
+#~ msgid "Sphere"
+#~ msgstr "球體"
+
+#~ msgid "Plane"
+#~ msgstr "平面"
+
+#~ msgid "Do not animate windows on all desktops"
+#~ msgstr "所有桌面上的視窗都不要用動畫"
+
+#~ msgid "Do not animate panels"
+#~ msgstr "面板不要用動畫"
+
+#~ msgid "Use pager layout for animation"
+#~ msgstr "動畫使用呼叫器佈局"
+
+#~ msgid "Start animation when moving windows towards screen edges"
+#~ msgstr "移動視窗到螢幕邊緣時啟動動畫"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Cover Switch"
+#~ msgstr "覆蓋切換"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display a Cover Flow effect for the alt+tab window switcher"
+#~ msgstr "在 alt+tab 視窗切換器中顯示覆蓋流效果"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube"
+#~ msgstr "桌面立方體"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display each virtual desktop on a side of a cube"
+#~ msgstr "將每個虛擬桌面顯示在立方體的某一邊"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube Animation"
+#~ msgstr "桌面立方體動畫"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Animate desktop switching with a cube"
+#~ msgstr "切換桌面時模擬立方體的動畫"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Flip Switch"
+#~ msgstr "翻轉切換"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Flip through windows that are in a stack for the alt+tab window switcher"
+#~ msgstr "在 alt+tab 視窗切換時翻轉在堆疊中的視窗"
+
+#~ msgid "Toggle Flip Switch (Current desktop)"
+#~ msgstr "切換翻轉（對目前桌面）"
+
+#~ msgid "Toggle Flip Switch (All desktops)"
+#~ msgstr "切換翻轉（對所有桌面）"
+
+#~ msgid "Flip animation duration:"
+#~ msgstr "動畫翻轉時間(&L)："
+
+#~ msgctxt "Duration of flip animation"
+#~ msgid "Default"
+#~ msgstr "預設"
+
+#~ msgid "Angle:"
+#~ msgstr "角度："
+
+#~ msgid " °"
+#~ msgstr " °"
+
+#~ msgid "Horizontal position of front:"
+#~ msgstr "前方水平位置："
+
+#~ msgid "Vertical position of front:"
+#~ msgstr "前方垂直位置："
+
+#~ msgid ""
+#~ "Filter:\n"
+#~ "%1"
+#~ msgstr ""
+#~ "過濾器：\n"
+#~ "%1"
+
+#~ msgid "Use Present Windows effect to layout the windows"
+#~ msgstr "使用現有視窗效果來佈局"
+
+#~ msgid "When the focus changes, move the zoom area to the focused location."
+#~ msgstr "焦點改變時，將放大的區域移動到該位置。"
+
+#~ msgid "Follow Focus"
+#~ msgstr "跟隨焦點"

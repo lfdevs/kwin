@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-08-19 00:47+0000\n"
+"POT-Creation-Date: 2022-12-11 00:48+0000\n"
 "PO-Revision-Date: 2022-04-28 14:32+0200\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
@@ -63,12 +63,12 @@ msgstr ""
 msgid "Copy of %1"
 msgstr "Copia de %1"
 
-#: kcmrules.cpp:422
+#: kcmrules.cpp:423
 #, kde-format
 msgid "Application settings for %1"
 msgstr "Preferentias de application pro %1"
 
-#: kcmrules.cpp:442 rulesmodel.cpp:215
+#: kcmrules.cpp:445 rulesmodel.cpp:215
 #, kde-format
 msgid "Window settings for %1"
 msgstr "Preferentia de fenestra per %1"
@@ -361,42 +361,37 @@ msgid_plural "After %1 seconds"
 msgstr[0] "Postea %1 secunda"
 msgstr[1] "Postea %1  secundas"
 
-#: package/contents/ui/RulesEditor.qml:147
-#, kde-format
-msgid "Error"
-msgstr "Error"
-
-#: package/contents/ui/RulesEditor.qml:162
+#: package/contents/ui/RulesEditor.qml:175
 #, kde-format
 msgid "Add property to the rule"
 msgstr "Adde proprietate al regula"
 
-#: package/contents/ui/RulesEditor.qml:260
+#: package/contents/ui/RulesEditor.qml:273
 #: package/contents/ui/ValueEditor.qml:54
 #, kde-format
 msgid "Yes"
 msgstr "Si"
 
-#: package/contents/ui/RulesEditor.qml:260
+#: package/contents/ui/RulesEditor.qml:273
 #: package/contents/ui/ValueEditor.qml:60
 #, kde-format
 msgid "No"
 msgstr "No"
 
-#: package/contents/ui/RulesEditor.qml:262
+#: package/contents/ui/RulesEditor.qml:275
 #: package/contents/ui/ValueEditor.qml:171
 #: package/contents/ui/ValueEditor.qml:178
 #, kde-format
 msgid "%1 %"
 msgstr "%1 %"
 
-#: package/contents/ui/RulesEditor.qml:264
+#: package/contents/ui/RulesEditor.qml:277
 #, kde-format
 msgctxt "Coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr "(%1, %2)"
 
-#: package/contents/ui/RulesEditor.qml:266
+#: package/contents/ui/RulesEditor.qml:279
 #, kde-format
 msgctxt "Size (width, height)"
 msgid "(%1, %2)"
@@ -787,162 +782,508 @@ msgstr "Nomine de file de scriptorio"
 msgid "Block compositing"
 msgstr "Bloca composition"
 
-#: rulesmodel.cpp:727
+#: rulesmodel.cpp:703
+#, fuzzy, kde-format
+#| msgid "Window class (application)"
+msgid "Window class not available"
+msgstr "Classe de fenestra (application):"
+
+#: rulesmodel.cpp:704
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"This application is not providing a class for the window, so KWin cannot use "
+"it to match and apply any rules. If you still want to apply some rules to "
+"it, try to match other properties like the window title instead.<nl/><nl/"
+">Please consider reporting this bug to the application's developers."
+msgstr ""
+
+#: rulesmodel.cpp:738
 #, kde-format
 msgid "All Window Types"
 msgstr "Omne typos de fenestra"
 
-#: rulesmodel.cpp:728
+#: rulesmodel.cpp:739
 #, kde-format
 msgid "Normal Window"
 msgstr "Fenestra Normal"
 
-#: rulesmodel.cpp:729
+#: rulesmodel.cpp:740
 #, kde-format
 msgid "Dialog Window"
 msgstr "Fenestra de Dialogo"
 
-#: rulesmodel.cpp:730
+#: rulesmodel.cpp:741
 #, kde-format
 msgid "Utility Window"
 msgstr "Fenestra de Utilitate"
 
-#: rulesmodel.cpp:731
+#: rulesmodel.cpp:742
 #, kde-format
 msgid "Dock (panel)"
 msgstr "Bassino (pannello)"
 
-#: rulesmodel.cpp:732
+#: rulesmodel.cpp:743
 #, kde-format
 msgid "Toolbar"
 msgstr "Barra de Instrumento"
 
-#: rulesmodel.cpp:733
+#: rulesmodel.cpp:744
 #, kde-format
 msgid "Torn-Off Menu"
 msgstr "Menu per stoppar"
 
-#: rulesmodel.cpp:734
+#: rulesmodel.cpp:745
 #, kde-format
 msgid "Splash Screen"
 msgstr "Schermo Splash"
 
-#: rulesmodel.cpp:735
+#: rulesmodel.cpp:746
 #, kde-format
 msgid "Desktop"
 msgstr "Scriptorio"
 
 #. i18n("Unmanaged Window")},  deprecated
-#: rulesmodel.cpp:737
+#: rulesmodel.cpp:748
 #, kde-format
 msgid "Standalone Menubar"
 msgstr "Barra de menu a parte"
 
-#: rulesmodel.cpp:738
+#: rulesmodel.cpp:749
 #, kde-format
 msgid "On Screen Display"
 msgstr "Monstrator de supra schermo"
 
-#: rulesmodel.cpp:748
+#: rulesmodel.cpp:759
 #, kde-format
 msgid "All Desktops"
 msgstr "Omne scriptorios"
 
-#: rulesmodel.cpp:750
+#: rulesmodel.cpp:761
 #, kde-format
 msgctxt "@info:tooltip in the virtual desktop list"
 msgid "Make the window available on all desktops"
 msgstr "Face le fenestra disponibile sur omne scriptorios"
 
-#: rulesmodel.cpp:769
+#: rulesmodel.cpp:780
 #, kde-format
 msgid "All Activities"
 msgstr "Omne Activitates"
 
-#: rulesmodel.cpp:771
+#: rulesmodel.cpp:782
 #, kde-format
 msgctxt "@info:tooltip in the activity list"
 msgid "Make the window available on all activities"
 msgstr "Face le fenestra disponibile sur omne activitates"
 
-#: rulesmodel.cpp:792
+#: rulesmodel.cpp:803
 #, kde-format
 msgid "Default"
 msgstr "Predefinite"
 
-#: rulesmodel.cpp:793
+#: rulesmodel.cpp:804
 #, kde-format
 msgid "No Placement"
 msgstr "Nulle placiamento"
 
-#: rulesmodel.cpp:794
+#: rulesmodel.cpp:805
 #, kde-format
 msgid "Minimal Overlapping"
 msgstr "Copertura o imbricatura minime"
 
-#: rulesmodel.cpp:795
+#: rulesmodel.cpp:806
 #, kde-format
 msgid "Maximized"
 msgstr "Maximizate"
 
-#: rulesmodel.cpp:796
-#, kde-format
-msgid "Cascaded"
-msgstr "Cascada"
-
-#: rulesmodel.cpp:797
+#: rulesmodel.cpp:807
 #, kde-format
 msgid "Centered"
 msgstr "Centrate"
 
-#: rulesmodel.cpp:798
+#: rulesmodel.cpp:808
 #, kde-format
 msgid "Random"
 msgstr "Casual"
 
-#: rulesmodel.cpp:799
+#: rulesmodel.cpp:809
 #, kde-format
 msgid "In Top-Left Corner"
 msgstr "In angulo culmine sinistre"
 
-#: rulesmodel.cpp:800
+#: rulesmodel.cpp:810
 #, kde-format
 msgid "Under Mouse"
 msgstr "Infra mus"
 
-#: rulesmodel.cpp:801
+#: rulesmodel.cpp:811
 #, kde-format
 msgid "On Main Window"
 msgstr "Sur fenestra principal"
 
-#: rulesmodel.cpp:808
+#: rulesmodel.cpp:818
 #, kde-format
 msgid "None"
 msgstr "Nulle"
 
-#: rulesmodel.cpp:809
+#: rulesmodel.cpp:819
 #, kde-format
 msgid "Low"
 msgstr "Basse"
 
-#: rulesmodel.cpp:810
+#: rulesmodel.cpp:820
 #, kde-format
 msgid "Normal"
 msgstr "Normal"
 
-#: rulesmodel.cpp:811
+#: rulesmodel.cpp:821
 #, kde-format
 msgid "High"
 msgstr "Alte"
 
-#: rulesmodel.cpp:812
+#: rulesmodel.cpp:822
 #, kde-format
 msgid "Extreme"
 msgstr "Extreme"
 
-#: rulesmodel.cpp:855
+#: rulesmodel.cpp:865
+#, fuzzy, kde-format
+#| msgid "Unmanaged Window"
+msgid "Unmanaged window"
+msgstr "Fenestra non gerite"
+
+#: rulesmodel.cpp:866
 #, kde-format
 msgid "Could not detect window properties. The window is not managed by KWin."
 msgstr ""
 "Non potev relevar proprietates de fenestra. Le fenestra non es gerite per "
 "KWin."
+
+#~ msgid "Error"
+#~ msgstr "Error"
+
+#~ msgid "Cascaded"
+#~ msgstr "Cascada"
+
+#~ msgid "Keep above"
+#~ msgstr "Mantene supra"
+
+#~ msgid "Keep below"
+#~ msgstr "Mantene infra"
+
+#~ msgid "KWin"
+#~ msgstr "KWin"
+
+#~ msgid "KWin helper utility"
+#~ msgstr "Utilitate de adjuta de KWin"
+
+#~ msgid "Activity"
+#~ msgstr "Activitate"
+
+#~ msgid "Select properties"
+#~ msgstr "Selige proprietates de fenestra"
+
+#~ msgid "Override Type"
+#~ msgstr "Superpassa Typo"
+
+#~ msgid "Unknown - will be treated as Normal Window"
+#~ msgstr "Incognite - il essera tractate como fenestra normal"
+
+#~ msgid "Information About Selected Window"
+#~ msgstr "Information a proposito del fenestra selectionate"
+
+#~ msgid "Class:"
+#~ msgstr "Classe:"
+
+#~ msgid "Role:"
+#~ msgstr "Rolo:"
+
+#~ msgid "Type:"
+#~ msgstr "Typo:"
+
+#~ msgid "Title:"
+#~ msgstr "Titulo:"
+
+#~ msgid "Machine:"
+#~ msgstr "Machina:"
+
+#~ msgid "Match by primary class name and"
+#~ msgstr "Correspondente per nomine de classe primari e"
+
+#~ msgid "Secondary class name  (resulting in term in brackets)"
+#~ msgstr "Nomine de classe secundari (resultante in termino in parentheses)"
+
+#~ msgid "Window role (can be used to select windows by function)"
+#~ msgstr ""
+#~ "Rolo de fenestra (il pote esser usate pro selectionar fenestras per "
+#~ "function)"
+
+#~ msgid "Window type (eg. all dialogs, but not the main windows)"
+#~ msgstr ""
+#~ "Typo de fenestra (p.ex. omne dialogos, ma non le fenestra principal)"
+
+#~ msgid ""
+#~ "Window title (very specific, can fail due to content changes or "
+#~ "translation)"
+#~ msgstr ""
+#~ "Titulo de fenestra (multo specific, il pote faller debite a "
+#~ "modificationes de contentos o traductiones)"
+
+#~ msgid ""
+#~ "A single shortcut can be easily assigned or cleared using the two "
+#~ "buttons. Only shortcuts with modifiers can be used.<p>\n"
+#~ "It is possible to have several possible shortcuts, and the first "
+#~ "available shortcut will be used. The shortcuts are specified using "
+#~ "shortcut sets separated by \" - \". One set is specified as <i>base</i>"
+#~ "+(<i>list</i>), where base are modifiers and list is a list of keys.<br>\n"
+#~ "For example \"<b>Shift+Alt+(123) Shift+Ctrl+(ABC)</b>\" will first try "
+#~ "<b>Shift+Alt+1</b>, then others with <b>Shift+Ctrl+C</b> as the last one."
+#~ msgstr ""
+#~ "Un singule via breve pote esser facilemente assignate o nettate per usar "
+#~ "duo buttones. Solmente vias breve con modificatores pote esser usate.<p>\n"
+#~ "Il es possibile haber plure de possibile vias breve, e le prime "
+#~ "disponibile via breve essera usate. Le vias breve es specificate per uso "
+#~ "de insimules de via breve separate per spatios. Un insimul es specificate "
+#~ "como <i>base</i>+(<i>lista</i>), ubi base es modificatores e lista es un "
+#~ "lista de claves.<br>\n"
+#~ "Pro exemplo \"<b>Shift+Alt+(123) Shift+Ctrl+(ABC)</b>\" prime provara "
+#~ "<b>Shift+Alt+1</b>, postea alteres con <b>Shift+Ctrl+C</b> per ultime."
+
+#~ msgid "&Single Shortcut"
+#~ msgstr "S&ingule Via Breve"
+
+#~ msgid "C&lear"
+#~ msgstr "&Netta"
+
+#~ msgid "Window-Specific Settings Configuration Module"
+#~ msgstr "Modulo de configuration de preferentias specific de fenestra"
+
+#~ msgid "(c) 2004 KWin and KControl Authors"
+#~ msgstr "(c)  2004 Autores de KWin e KControl"
+
+#~ msgid "Lubos Lunak"
+#~ msgstr "Lubos Lunak"
+
+#~ msgid "Remember settings separately for every window"
+#~ msgstr "Memora preferentias separatemente pro cata fenestra"
+
+#~ msgid "Show internal settings for remembering"
+#~ msgstr "Monstra preferentias interne pro memorar"
+
+#~ msgid "Internal setting for remembering"
+#~ msgstr "Preferentias interne pro memorar"
+
+#~ msgid "&Modify..."
+#~ msgstr "&Modifica"
+
+#~ msgid "Move &Up"
+#~ msgstr "Move in &alto"
+
+#~ msgid "Move &Down"
+#~ msgstr "Move a &basso "
+
+#~ msgid ""
+#~ "Enable this checkbox to alter this window property for the specified "
+#~ "window(s)."
+#~ msgstr ""
+#~ "Habilita iste quadrato pro alterar proprietate de iste fenestra pro "
+#~ "specific fenestra(s)."
+
+#~ msgid ""
+#~ "Specify how the window property should be affected:<ul><li><em>Do Not "
+#~ "Affect:</em> The window property will not be affected and therefore the "
+#~ "default handling for it will be used. Specifying this will block more "
+#~ "generic window settings from taking effect.</li><li><em>Apply Initially:</"
+#~ "em> The window property will be only set to the given value after the "
+#~ "window is created. No further changes will be affected.</"
+#~ "li><li><em>Remember:</em> The value of the window property will be "
+#~ "remembered and every time the window is created, the last remembered "
+#~ "value will be applied.</li><li><em>Force:</em> The window property will "
+#~ "be always forced to the given value.</li><li><em>Apply Now:</em> The "
+#~ "window property will be set to the given value immediately and will not "
+#~ "be affected later (this action will be deleted afterwards).</"
+#~ "li><li><em>Force temporarily:</em> The window property will be forced to "
+#~ "the given value until it is hidden (this action will be deleted after the "
+#~ "window is hidden).</li></ul>"
+#~ msgstr ""
+#~ "Il specifica como le proprietate de fenestra deberea esser influentiate:"
+#~ "<ul><li><em>Non influentia:</em> Le proprietate de fenestra non essera "
+#~ "influentiate e ergo le pessulo predefinite pro illo essera usate. Con le "
+#~ "specificar de isto, preferentias plus generic de fenestra essera blocate "
+#~ "ab haber effectos.</li><li><em>Applica Initialmente:</em> Le proprietate "
+#~ "de fenestra essera solmente fixate al valor date postea que le fenestra "
+#~ "es create. Nulle altere modificationes essera influentiate.</"
+#~ "li><li><em>Memorar:</em> Le valor de proprietate de fenestra essera "
+#~ "memorate e cata vice le fenestra es create, le ultime valor memorate "
+#~ "essera applicate.</li><li><em>Fortiar:</em> Le proprietate de fenestra "
+#~ "sempre essera fortiate al valor date.</li><li><em>Applicar hora:</em> Le "
+#~ "proprietate de fenestra essera fixate al valor date immediatemente e "
+#~ "postea non essera influentiate (iste action essera pois cancellate).</"
+#~ "li><li><em>Fortia temporaneemente:</em>  Le proprietate de fenestra "
+#~ "essera fortiate a le valor date usque il es celate (iste action essera "
+#~ "cancellate postea que le fenestra es celate).</li></ul>"
+
+#~ msgid ""
+#~ "Specify how the window property should be affected:<ul><li><em>Do Not "
+#~ "Affect:</em> The window property will not be affected and therefore the "
+#~ "default handling for it will be used. Specifying this will block more "
+#~ "generic window settings from taking effect.</li><li><em>Force:</em> The "
+#~ "window property will be always forced to the given value.</"
+#~ "li><li><em>Force temporarily:</em> The window property will be forced to "
+#~ "the given value until it is hidden (this action will be deleted after the "
+#~ "window is hidden).</li></ul>"
+#~ msgstr ""
+#~ "Il specifica como le proprietate de fenestra deberea esser influentiate:"
+#~ "<ul><li><em>Non influentia:</em> Le proprietate de fenestra non essera "
+#~ "influentiate e ergo le pessulo predefinite pro illo essera usate. Con le "
+#~ "specificar de isto, preferentias plus geneneric de fenestra essera "
+#~ "blocate ab haber effectos.</li><li><em>Fortia:</em> Le proprietate de "
+#~ "fenestra sempre essera fortiate a le valor date.</li><li><em>Fortia "
+#~ "temporaneemente:</em> Le proprietate de fenestra essera fortiate a le "
+#~ "valor date usque il es celate (iste action essera cancellate postea que "
+#~ "le fenestra es celate).</li></ul>"
+
+#~ msgid "Unnamed entry"
+#~ msgstr "Entrata sin nomine"
+
+#~ msgid ""
+#~ "This configuration dialog allows altering settings only for the selected "
+#~ "window or application. Find the setting you want to affect, enable the "
+#~ "setting using the checkbox, select in what way the setting should be "
+#~ "affected and to which value."
+#~ msgstr ""
+#~ "Iste dialogo de configuration permitte de alterar preferentias solmente "
+#~ "pro le fenestras selectionate. Tu trova le preferentia que tu vole "
+#~ "modificar, habilita le modifica usante le quadrato, selectiona in qual "
+#~ "modo le preferentia debe esser modificate e a qual valor."
+
+#~ msgid "Consult the documentation for more details."
+#~ msgstr "Consulta le documentation pro altere detalios"
+
+#~ msgid "Edit Shortcut"
+#~ msgstr "Edita Via Breve"
+
+#~ msgid "s delay"
+#~ msgstr "s retardo"
+
+#~ msgid "x,y"
+#~ msgstr "x,y"
+
+#~ msgid "0123456789-+,xX:"
+#~ msgstr "0123456789-+,xX:"
+
+#~ msgid "width,height"
+#~ msgstr "largessa,altessa"
+
+#~ msgid "&Desktop"
+#~ msgstr "&Scriptorio"
+
+#~ msgid "Edit..."
+#~ msgstr "Edita ..."
+
+#~ msgid "Autog&roup in foreground"
+#~ msgstr "G&ruppa automaticamente in fronte"
+
+#~ msgid "Autogroup by I&D"
+#~ msgstr "Gruppa automaticamente per I&D"
+
+#~ msgid "Autogroup with &identical"
+#~ msgstr "Gruppa automaticamente con &identic"
+
+#~ msgid "%"
+#~ msgstr "%"
+
+#~ msgid "org.kde.kwin"
+#~ msgstr "org.kde.kwin"
+
+#~ msgid "Smart"
+#~ msgstr "Intelligente"
+
+#~ msgid "kcmkwinrules"
+#~ msgstr "kcmkwinrules"
+
+#~ msgid "Opaque"
+#~ msgstr "Opaque"
+
+#~ msgid "Transparent"
+#~ msgstr "Transparente"
+
+#~ msgid "&Moving/resizing"
+#~ msgstr "&Mover/redimensionar"
+
+#~ msgid "T&iling"
+#~ msgstr "&Tegular"
+
+#~ msgid "Tiled"
+#~ msgstr "Tegulate"
+
+#~ msgid "Floating"
+#~ msgstr "Fluctuante"
+
+#~ msgid "Match Strategy"
+#~ msgstr "Strategia de correspondentia"
+
+#~ msgid ""
+#~ "For selecting all windows belonging to a specific application, selecting "
+#~ "only window class should usually work."
+#~ msgstr ""
+#~ "Pro selectionar omne fenestras appertinente a le specific application, "
+#~ "selectionar solmente classe de fenestra habitualmente functiona."
+
+#~ msgid "Use window &class (whole application)"
+#~ msgstr "Usa &classe de fenestra (application integre)"
+
+#~ msgid ""
+#~ "For selecting a specific window in an application, both window class and "
+#~ "window role should be selected. Window class will determine the "
+#~ "application, and window role the specific window in the application; many "
+#~ "applications do not provide useful window roles though."
+#~ msgstr ""
+#~ "Pro selectionar un specific fenestra in un application, sia le classe de "
+#~ "fenestra que le rolo de fenestra debe esser selectionate. Classe de "
+#~ "fenestra determinara le application, e rolo de fenestra le specific "
+#~ "fenestra in le application; plure de applicationes totevia non provide "
+#~ "utile rolos de fenestra."
+
+#~ msgid "Use window class and window &role (specific window)"
+#~ msgstr "Usa classe de fenestra e &rolo de fenestra (fenestra specific)"
+
+#~ msgid ""
+#~ "With some (non-KDE) applications whole window class can be sufficient for "
+#~ "selecting a specific window in an application, as they set whole window "
+#~ "class to contain both application and window role."
+#~ msgstr ""
+#~ "Con alcun applicationes (non-KDE) integre classe de fenestra pote esser "
+#~ "bastante per selectionar un fenestra specific in un application, postquam "
+#~ "illos fixa integre classe de fenestra pro continer sia application que "
+#~ "rolo de fenestra."
+
+#~ msgid "Use &whole window class (specific window)"
+#~ msgstr "&Usa integre classe de fenestra (fenestra specific)"
+
+#~ msgid "Match also window &title"
+#~ msgstr "Il debe coincider anque le &titulo de fenestra"
+
+#~ msgid "Extra role:"
+#~ msgstr "Rolo Extra:"
+
+#~ msgid "Window &Extra"
+#~ msgstr "&Extra de fenestra"
+
+#~ msgid "&Geometry"
+#~ msgstr "&Geometria"
+
+#~ msgid "&Preferences"
+#~ msgstr "&Preferentias"
+
+#~ msgid "&No border"
+#~ msgstr "&Nulle bordo"
+
+#~ msgid "0123456789"
+#~ msgstr "0123456789"
+
+#~ msgid "W&orkarounds"
+#~ msgstr "S&olutiones"
+
+#~ msgid "Strictly obey geometry"
+#~ msgstr "Obedi strictemente a geometria"

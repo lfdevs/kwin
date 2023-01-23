@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm-kwin-scripts\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-20 02:18+0000\n"
-"PO-Revision-Date: 2022-10-04 17:35+0200\n"
+"POT-Creation-Date: 2022-09-20 00:47+0000\n"
+"PO-Revision-Date: 2022-10-04 17:50+0200\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
 "Language: sk\n"
@@ -74,3 +74,25 @@ msgstr "Nainštalovať zo súboru..."
 #, kde-format
 msgid "Get New Scripts..."
 msgstr "Získať nové skripty..."
+
+#~ msgid "KWin Scripts"
+#~ msgstr "KWin skripty"
+
+#~ msgid "Configure KWin scripts"
+#~ msgstr "Nastaviť KWin skripty"
+
+#~ msgid "Tamás Krutki"
+#~ msgstr "Tamás Krutki"
+
+#~ msgid "KWin script configuration"
+#~ msgstr "Nastavenie KWin skriptu"
+
+#~ msgid "Import KWin script..."
+#~ msgstr "Importovať KWin skript..."
+
+#~ msgid ""
+#~ "Cannot import selected script: maybe a script already exists with the "
+#~ "same name or there is a permission problem."
+#~ msgstr ""
+#~ "Nemôžem importovať vybraný skript: možno už existuje s rovnakým názvom "
+#~ "alebo je problém s právami."

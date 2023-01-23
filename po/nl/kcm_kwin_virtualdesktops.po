@@ -1,43 +1,51 @@
 # Copyright (C) YEAR This file is copyright:
 # This file is distributed under the same license as the kwin package.
 #
-# Freek de Kruijf <freekdekruijf@kde.nl>, 2018, 2019, 2021.
+# Freek de Kruijf <freekdekruijf@kde.nl>, 2018, 2019, 2021, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-07-12 00:47+0000\n"
-"PO-Revision-Date: 2021-05-27 15:17+0200\n"
+"POT-Creation-Date: 2022-12-15 00:49+0000\n"
+"PO-Revision-Date: 2022-12-15 10:44+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
-"Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
+"Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 21.04.1\n"
+"X-Generator: Lokalize 22.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Freek de Kruijf - 2018-2019;2021"
+msgstr "Freek de Kruijf - 2018-2019;2021-2022"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "freekdekruijf@kde.nl"
 
-#: desktopsmodel.cpp:467
+#: desktopsmodel.cpp:191
+#, kde-format
+msgctxt "A numbered name for virtual desktops"
+msgid "Desktop %1"
+msgid_plural "Desktop %1"
+msgstr[0] "Bureaublad %1"
+msgstr[1] "Bureaublad %1"
+
+#: desktopsmodel.cpp:479
 #, kde-format
 msgid "There was an error connecting to the compositor."
 msgstr "Er deed zich een fout voor tijdens het verbinden met de opsteller."
 
-#: desktopsmodel.cpp:666
+#: desktopsmodel.cpp:678
 #, kde-format
 msgid "There was an error saving the settings to the compositor."
 msgstr "Er deed zich een fout voor tijdens het instellen van de opsteller."
 
-#: desktopsmodel.cpp:669
+#: desktopsmodel.cpp:681
 #, kde-format
 msgid "There was an error requesting information from the compositor."
 msgstr ""
@@ -91,11 +99,6 @@ msgctxt "@action:button"
 msgid "Add"
 msgstr "Toevoegen"
 
-#: package/contents/ui/main.qml:169
-#, kde-format
-msgid "New Desktop"
-msgstr "Nieuw bureaublad"
-
 #: package/contents/ui/main.qml:184
 #, kde-format
 msgid "1 Row"
@@ -137,3 +140,9 @@ msgstr "Indicatoren voor bureaubladindeling tonen"
 #, kde-format
 msgid "Virtual Desktops"
 msgstr "Virtuele bureaubladen"
+
+#~ msgid "Rows:"
+#~ msgstr "Rijen:"
+
+#~ msgid "Configure Virtual Desktops"
+#~ msgstr "Virtuele bureaubladen configureren"

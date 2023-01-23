@@ -44,7 +44,6 @@ TrackMouseEffect::TrackMouseEffect()
     m_action->setText(i18n("Track mouse"));
     KGlobalAccel::self()->setDefaultShortcut(m_action, QList<QKeySequence>());
     KGlobalAccel::self()->setShortcut(m_action, QList<QKeySequence>());
-    effects->registerGlobalShortcut(QKeySequence(), m_action);
 
     connect(m_action, &QAction::triggered, this, &TrackMouseEffect::toggle);
 
@@ -114,15 +113,16 @@ void TrackMouseEffect::paintScreen(int mask, const QRegion &region, ScreenPaintD
         const QPointF p = m_lastRect[0].topLeft() + QPoint(m_lastRect[0].width() / 2.0, m_lastRect[0].height() / 2.0);
         const float x = p.x();
         const float y = p.y();
+        const auto scale = effects->renderTargetScale();
         for (int i = 0; i < 2; ++i) {
-            matrix.translate(x, y, 0.0);
+            matrix.translate(x * scale, y * scale, 0.0);
             matrix.rotate(i ? -2 * m_angle : m_angle, 0, 0, 1.0);
-            matrix.translate(-x, -y, 0.0);
+            matrix.translate(-x * scale, -y * scale, 0.0);
             QMatrix4x4 mvp(matrix);
-            mvp.translate(m_lastRect[i].x(), m_lastRect[i].y());
+            mvp.translate(m_lastRect[i].x() * scale, m_lastRect[i].y() * scale);
             shader->setUniform(GLShader::ModelViewProjectionMatrix, mvp);
             m_texture[i]->bind();
-            m_texture[i]->render(m_lastRect[i]);
+            m_texture[i]->render(m_lastRect[i], scale);
             m_texture[i]->unbind();
         }
         glDisable(GL_BLEND);

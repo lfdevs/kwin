@@ -5,19 +5,16 @@
 */
 
 #include "cursordelegate_opengl.h"
+#include "composite.h"
 #include "core/renderlayer.h"
 #include "core/rendertarget.h"
 #include "cursor.h"
 #include "kwingltexture.h"
 #include "kwinglutils.h"
+#include "scene/cursorscene.h"
 
 namespace KWin
 {
-
-CursorDelegateOpenGL::CursorDelegateOpenGL(QObject *parent)
-    : RenderLayerDelegate(parent)
-{
-}
 
 CursorDelegateOpenGL::~CursorDelegateOpenGL()
 {
@@ -29,52 +26,46 @@ void CursorDelegateOpenGL::paint(RenderTarget *renderTarget, const QRegion &regi
         return;
     }
 
-    auto allocateTexture = [this]() {
-        const QImage img = Cursors::self()->currentCursor()->image();
-        if (img.isNull()) {
-            m_cursorTextureDirty = false;
-            return;
-        }
-        m_cursorTexture.reset(new GLTexture(img));
-        m_cursorTexture->setWrapMode(GL_CLAMP_TO_EDGE);
-        m_cursorTextureDirty = false;
-    };
-
-    // lazy init texture cursor only in case we need software rendering
-    if (!m_cursorTexture) {
-        allocateTexture();
-
-        // handle shape update on case cursor image changed
-        connect(Cursors::self(), &Cursors::currentCursorChanged, this, [this]() {
-            m_cursorTextureDirty = true;
-        });
-    } else if (m_cursorTextureDirty) {
-        const QImage image = Cursors::self()->currentCursor()->image();
-        if (image.size() == m_cursorTexture->size()) {
-            m_cursorTexture->update(image);
-            m_cursorTextureDirty = false;
-        } else {
-            allocateTexture();
-        }
+    // Render the cursor scene in an offscreen render target.
+    const QSize bufferSize = Cursors::self()->currentCursor()->rect().size() * renderTarget->devicePixelRatio();
+    if (!m_texture || m_texture->size() != bufferSize) {
+        m_texture = std::make_unique<GLTexture>(GL_RGBA8, bufferSize);
+        m_framebuffer = std::make_unique<GLFramebuffer>(m_texture.get());
     }
 
+    RenderTarget offscreenRenderTarget(m_framebuffer.get());
+    offscreenRenderTarget.setDevicePixelRatio(renderTarget->devicePixelRatio());
+
+    RenderLayer renderLayer(layer()->loop());
+    renderLayer.setDelegate(std::make_unique<SceneDelegate>(Compositor::self()->cursorScene()));
+    renderLayer.delegate()->prePaint();
+    renderLayer.delegate()->paint(&offscreenRenderTarget, infiniteRegion());
+    renderLayer.delegate()->postPaint();
+
+    // Show the rendered cursor scene on the screen.
     const QRect cursorRect = layer()->mapToGlobal(layer()->rect());
+    const qreal scale = renderTarget->devicePixelRatio();
 
     QMatrix4x4 mvp;
-    mvp.ortho(QRect(QPoint(0, 0), renderTarget->size() / renderTarget->devicePixelRatio()));
-    mvp.translate(cursorRect.x(), cursorRect.y());
+    mvp.ortho(QRect(QPoint(0, 0), renderTarget->size()));
+    mvp.translate(cursorRect.x() * scale, cursorRect.y() * scale);
+
+    GLFramebuffer *fbo = std::get<GLFramebuffer *>(renderTarget->nativeHandle());
+    GLFramebuffer::pushFramebuffer(fbo);
 
     // Don't need to call GLVertexBuffer::beginFrame() and GLVertexBuffer::endOfFrame() because
     // the GLVertexBuffer::streamingBuffer() is not being used when painting cursor.
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    m_cursorTexture->bind();
+    m_texture->bind();
     ShaderBinder binder(ShaderTrait::MapTexture);
     binder.shader()->setUniform(GLShader::ModelViewProjectionMatrix, mvp);
-    m_cursorTexture->render(region, QRect(0, 0, cursorRect.width(), cursorRect.height()));
-    m_cursorTexture->unbind();
+    m_texture->render(region, QRect(0, 0, cursorRect.width(), cursorRect.height()), scale);
+    m_texture->unbind();
     glDisable(GL_BLEND);
+
+    GLFramebuffer::popFramebuffer();
 }
 
 } // namespace KWin

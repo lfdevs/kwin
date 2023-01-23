@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-26 02:35+0000\n"
+"POT-Creation-Date: 2022-10-26 00:47+0000\n"
 "PO-Revision-Date: 2013-09-08 07:05+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -301,3 +301,124 @@ msgstr "ئىنتايىن چوڭ"
 #| msgid "Oversized"
 msgid "Oversized"
 msgstr "چوڭلۇقى ئېشىپ كەتكەن"
+
+#, fuzzy
+#~| msgid "Close windows by double clicking the menu button"
+#~ msgctxt "popup tip"
+#~ msgid ""
+#~ "Close by double clicking: Keep the window's Menu button pressed until it "
+#~ "appears."
+#~ msgstr "تىزىملىك توپچا قوش چېكىلسە كۆنەكنى ياپىدۇ"
+
+#~ msgid "Menu"
+#~ msgstr "تىزىملىك"
+
+#, fuzzy
+#~| msgid "Keep Below Others"
+#~ msgid "Keep below"
+#~ msgstr "ئەڭ ئاستىدا"
+
+#, fuzzy
+#~| msgid "Keep Above Others"
+#~ msgid "Keep above"
+#~ msgstr "ئەڭ ئۈستىدە"
+
+#, fuzzy
+#~| msgid "Search"
+#~ msgid "Search..."
+#~ msgstr "ئىزدە"
+
+#, fuzzy
+#~| msgid "Close windows by double clicking the menu button"
+#~ msgid "Close windows by double clicking &the menu button"
+#~ msgstr "تىزىملىك توپچا قوش چېكىلسە كۆنەكنى ياپىدۇ"
+
+#, fuzzy
+#~| msgid "Border size:"
+#~ msgid "Border si&ze:"
+#~ msgstr "گىرۋەك چوڭلۇقى:"
+
+#, fuzzy
+#~| msgid "Configure Buttons..."
+#~ msgid "Configure %1..."
+#~ msgstr "توپچا سەپلىمە…"
+
+#~ msgid "Button size:"
+#~ msgstr "توپچا چوڭلۇقى:"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Tiny"
+#~ msgstr "كىچىك"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Normal"
+#~ msgstr "نورمال"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Large"
+#~ msgstr "چوڭ"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Very Large"
+#~ msgstr "بەك چوڭ"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Huge"
+#~ msgstr "ئىنتايىن چوڭ"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Very Huge"
+#~ msgstr "ئىنتايىن چوڭ"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Oversized"
+#~ msgstr "چوڭلۇقى ئېشىپ كەتكەن"
+
+#~ msgid "KDE"
+#~ msgstr "ك د ئې(KDE)"
+
+#~ msgid "%1 (unavailable)"
+#~ msgstr "%1 (يوق)"
+
+#~ msgid "Resize"
+#~ msgstr "چوڭلۇقىنى ئۆزگەرت"
+
+#~ msgid "Help"
+#~ msgstr "ياردەم"
+
+#~ msgctxt "Button showing window actions menu"
+#~ msgid "Window Menu"
+#~ msgstr "كۆزنەك تىزىملىكى"
+
+#~ msgid "B&order size:"
+#~ msgstr "گىرۋەك چوڭلۇقى(&O):"
+
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "No Side Border"
+#~ msgstr "يان گىرۋىكى يوق"
+
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "No Border"
+#~ msgstr "گىرۋەكسىز"
+
+#~ msgid "Decoration Options"
+#~ msgstr "بېزەش تاللانمىلىرى"
+
+#~ msgid "(c) 2001 Karol Szwed"
+#~ msgstr "(c) 2001 Karol Szwed"
+
+#~ msgid "Karol Szwed"
+#~ msgstr "Karol Szwed"
+
+#~ msgid "Oxygen"
+#~ msgstr "ئوكسېگىن"
+
+#~ msgid "Active Window"
+#~ msgstr "ئاكتىپ كۆزنەك"
+
+#~ msgid "Inactive Window"
+#~ msgstr "پاسسىپ كۆزنەك"
+
+#~ msgctxt "Caption to decoration preview, %1 author name"
+#~ msgid "by %1"
+#~ msgstr "ئاپتور %1"

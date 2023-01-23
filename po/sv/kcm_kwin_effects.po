@@ -91,3 +91,12 @@ msgstr "Undanta interna effekter"
 #, kde-format
 msgid "Get New Desktop Effects..."
 msgstr "Hämta nya skrivbordseffekter..."
+
+#~ msgid "Download New Desktop Effects"
+#~ msgstr "Ladda ner nya skrivbordseffekter"
+
+#~ msgid "Exclude Desktop Effects not supported by the Compositor"
+#~ msgstr "Undanta skrivbordseffekter som inte stöds av sammansättning"
+
+#~ msgid "Search..."
+#~ msgstr "Sök..."

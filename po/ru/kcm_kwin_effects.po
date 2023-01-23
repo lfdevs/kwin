@@ -91,3 +91,12 @@ msgstr "Скрыть внутренние эффекты"
 #, kde-format
 msgid "Get New Desktop Effects..."
 msgstr "Загрузить эффекты..."
+
+#~ msgid "Download New Desktop Effects"
+#~ msgstr "Загрузка новых эффектов рабочего стола"
+
+#~ msgid "Exclude Desktop Effects not supported by the Compositor"
+#~ msgstr "Скрыть неподдерживаемые эффекты"
+
+#~ msgid "Search..."
+#~ msgstr "Поиск..."

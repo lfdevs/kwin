@@ -229,3 +229,46 @@ msgid ""
 "You can trigger an action by swiping from the screen edge towards the center "
 "of the screen."
 msgstr "동작을 실행하려면 화면 경계선에서 화면 중심으로 미십시오."
+
+#~ msgid "Show Desktop"
+#~ msgstr "바탕 화면 표시"
+
+#~ msgid "Desktop Grid"
+#~ msgstr "바탕 화면 모눈"
+
+#~ msgid "Toggle Overview"
+#~ msgstr "한눈에 보기 전환"
+
+#~ msgid "%1 - Cube"
+#~ msgstr "%1 - 큐브"
+
+#~ msgid "%1 - Cylinder"
+#~ msgstr "%1 - 실린더"
+
+#~ msgid "%1 - Sphere"
+#~ msgstr "%1 - 구"
+
+#~ msgid "Active Screen Corners and Edges"
+#~ msgstr "활성 화면 모서리 및 경계"
+
+#~ msgid "Window Management"
+#~ msgstr "창 관리"
+
+#~ msgid "Maximize windows by dragging them to the top edge of the screen"
+#~ msgstr "화면 위쪽 경계선으로 창을 끌어서 최대화하기"
+
+#~ msgid "Quarter tiling triggered in the outer"
+#~ msgstr "화면 외부의"
+
+#~ msgid "Other Settings"
+#~ msgstr "기타 설정"
+
+#~ msgctxt "Open krunner"
+#~ msgid "Run Command"
+#~ msgstr "명령 실행"
+
+#~ msgid "Show Dashboard"
+#~ msgstr "대시보드 보이기"
+
+#~ msgid "Prevent Screen Locking"
+#~ msgstr "화면 잠금 방지하기"

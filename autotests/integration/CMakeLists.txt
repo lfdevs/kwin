@@ -34,16 +34,26 @@ if (QT_MAJOR_VERSION EQUAL "5")
         PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-output-management-v2.xml
         BASENAME kde-output-management-v2
     )
+    ecm_add_qtwayland_client_protocol(KWinIntegrationTestFramework
+        PROTOCOL ${WaylandProtocols_DATADIR}/staging/fractional-scale/fractional-scale-v1.xml
+        BASENAME fractional-scale-v1
+    )
 else()
-    qt6_generate_wayland_protocol_client_sources(KWinIntegrationTestFramework FILES
-        ${WaylandProtocols_DATADIR}/unstable/input-method/input-method-unstable-v1.xml
-        ${WaylandProtocols_DATADIR}/unstable/text-input/text-input-unstable-v3.xml
-        ${CMAKE_CURRENT_SOURCE_DIR}/protocols/wlr-layer-shell-unstable-v1.xml
-        ${WaylandProtocols_DATADIR}/stable/xdg-shell/xdg-shell.xml
-        ${WaylandProtocols_DATADIR}/unstable/xdg-decoration/xdg-decoration-unstable-v1.xml
-        ${WaylandProtocols_DATADIR}/unstable/idle-inhibit/idle-inhibit-unstable-v1.xml
-        ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-output-device-v2.xml
-        ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-output-management-v2.xml
+    qt6_generate_wayland_protocol_client_sources(KWinIntegrationTestFramework
+        NO_INCLUDE_CORE_ONLY
+        FILES
+            ${WaylandProtocols_DATADIR}/unstable/input-method/input-method-unstable-v1.xml
+    )
+    qt6_generate_wayland_protocol_client_sources(KWinIntegrationTestFramework
+        FILES
+            ${WaylandProtocols_DATADIR}/unstable/text-input/text-input-unstable-v3.xml
+            ${CMAKE_CURRENT_SOURCE_DIR}/protocols/wlr-layer-shell-unstable-v1.xml
+            ${WaylandProtocols_DATADIR}/stable/xdg-shell/xdg-shell.xml
+            ${WaylandProtocols_DATADIR}/unstable/xdg-decoration/xdg-decoration-unstable-v1.xml
+            ${WaylandProtocols_DATADIR}/unstable/idle-inhibit/idle-inhibit-unstable-v1.xml
+            ${WaylandProtocols_DATADIR}/staging/fractional-scale/fractional-scale-v1.xml
+            ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-output-device-v2.xml
+            ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-output-management-v2.xml
     )
 endif()
 
@@ -127,7 +137,6 @@ integrationTest(WAYLAND_ONLY NAME testLayerShellV1Window SRCS layershellv1window
 integrationTest(WAYLAND_ONLY NAME testVirtualDesktop SRCS virtual_desktop_test.cpp)
 integrationTest(WAYLAND_ONLY NAME testXdgShellWindowRules SRCS xdgshellwindow_rules_test.cpp)
 integrationTest(WAYLAND_ONLY NAME testIdleInhibition SRCS idle_inhibition_test.cpp)
-integrationTest(WAYLAND_ONLY NAME testDontCrashCursorPhysicalSizeEmpty SRCS dont_crash_cursor_physical_size_empty.cpp)
 integrationTest(WAYLAND_ONLY NAME testDontCrashReinitializeCompositor SRCS dont_crash_reinitialize_compositor.cpp)
 integrationTest(WAYLAND_ONLY NAME testNoGlobalShortcuts SRCS no_global_shortcuts_test.cpp)
 integrationTest(WAYLAND_ONLY NAME testBufferSizeChange SRCS buffer_size_change_test.cpp )
@@ -137,6 +146,8 @@ integrationTest(WAYLAND_ONLY NAME testInputMethod SRCS inputmethod_test.cpp)
 integrationTest(WAYLAND_ONLY NAME testScreens SRCS screens_test.cpp)
 integrationTest(WAYLAND_ONLY NAME testScreenEdges SRCS screenedges_test.cpp)
 integrationTest(WAYLAND_ONLY NAME testOutputChanges SRCS outputchanges_test.cpp)
+integrationTest(WAYLAND_ONLY NAME testTiles SRCS tiles_test.cpp)
+integrationTest(WAYLAND_ONLY NAME testFractionalScaling SRCS fractional_scaling_test.cpp)
 
 qt_add_dbus_interfaces(DBUS_SRCS ${CMAKE_BINARY_DIR}/src/org.kde.kwin.VirtualKeyboard.xml)
 integrationTest(WAYLAND_ONLY NAME testVirtualKeyboardDBus SRCS test_virtualkeyboard_dbus.cpp ${DBUS_SRCS})
@@ -155,7 +166,6 @@ if (XCB_ICCCM_FOUND)
     integrationTest(NAME testX11Window SRCS x11_window_test.cpp LIBS XCB::ICCCM)
     integrationTest(NAME testQuickTiling SRCS quick_tiling_test.cpp LIBS XCB::ICCCM)
     integrationTest(NAME testGlobalShortcuts SRCS globalshortcuts_test.cpp LIBS XCB::ICCCM)
-    integrationTest(NAME testSceneQPainter SRCS scene_qpainter_test.cpp LIBS XCB::ICCCM)
     integrationTest(NAME testStackingOrder SRCS stacking_order_test.cpp LIBS XCB::ICCCM)
     integrationTest(NAME testDbusInterface SRCS dbus_interface_test.cpp LIBS XCB::ICCCM)
     integrationTest(NAME testXwaylandServerCrash SRCS xwaylandserver_crash_test.cpp LIBS XCB::ICCCM)

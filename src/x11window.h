@@ -11,7 +11,7 @@
 #pragma once
 
 // kwin
-#include "decorationitem.h"
+#include "scene/decorationitem.h"
 #include "utils/xcbutils.h"
 #include "window.h"
 // Qt
@@ -92,6 +92,8 @@ class KWIN_EXPORT X11Window : public Window
      * Only GTK+ are detected.
      */
     Q_PROPERTY(bool clientSideDecorated READ isClientSideDecorated NOTIFY clientSideDecoratedChanged)
+    Q_PROPERTY(qulonglong frameId READ frameId CONSTANT)
+    Q_PROPERTY(qulonglong windowId READ window CONSTANT)
 public:
     explicit X11Window();
     ~X11Window() override; ///< Use destroyWindow() or releaseWindow()
@@ -158,6 +160,7 @@ public:
     bool isShadeable() const override;
     bool isMaximizable() const override;
     MaximizeMode maximizeMode() const override;
+    void maximize(MaximizeMode mode) override;
 
     bool isMinimizable() const override;
     QRectF iconGeometry() const override;
@@ -354,7 +357,7 @@ protected:
     QSizeF resizeIncrements() const override;
     bool acceptsFocus() const override;
     void moveResizeInternal(const QRectF &rect, MoveResizeMode mode) override;
-    WindowItem *createItem() override;
+    std::unique_ptr<WindowItem> createItem(Scene *scene) override;
 
     // Signals for the scripting interface
     // Signals make an excellent way for communication
@@ -392,7 +395,6 @@ private:
     bool isManaged() const; ///< Returns false if this client is not yet managed
     void updateAllowedActions(bool force = false);
     QRect fullscreenMonitorsArea(NETFullscreenMonitors topology) const;
-    void changeMaximize(bool horizontal, bool vertical, bool adjust) override;
     void getWmNormalHints();
     void getMotifHints();
     void getIcons();
@@ -524,7 +526,6 @@ private:
     bool activitiesDefined; // whether the x property was actually set
 
     bool sessionActivityOverride;
-    bool needsXWindowMove;
 
     Xcb::Window m_decoInputExtent;
     QPointF input_offset;

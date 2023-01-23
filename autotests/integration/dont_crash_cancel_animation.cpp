@@ -9,7 +9,7 @@
 #include "kwin_wayland_test.h"
 
 #include "composite.h"
-#include "core/platform.h"
+#include "core/outputbackend.h"
 #include "deleted.h"
 #include "effectloader.h"
 #include "effects.h"
@@ -45,8 +45,8 @@ void DontCrashCancelAnimationFromAnimationEndedTest::initTestCase()
 {
     qRegisterMetaType<KWin::Deleted *>();
     qRegisterMetaType<KWin::Window *>();
-    kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
+    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
     kwinApp()->start();
     QVERIFY(Compositor::self());
     QSignalSpy compositorToggledSpy(Compositor::self(), &Compositor::compositingToggled);
@@ -80,7 +80,6 @@ void DontCrashCancelAnimationFromAnimationEndedTest::testScript()
     }
     QVERIFY(static_cast<EffectsHandlerImpl *>(effects)->isEffectLoaded(QStringLiteral("crashy")));
 
-    using namespace KWayland::Client;
     // create a window
     std::unique_ptr<KWayland::Client::Surface> surface{Test::createSurface()};
     QVERIFY(surface);

@@ -414,7 +414,9 @@ struct libinput_event_pointer *libinput_event_get_pointer_event(struct libinput_
     case LIBINPUT_EVENT_POINTER_MOTION:
     case LIBINPUT_EVENT_POINTER_MOTION_ABSOLUTE:
     case LIBINPUT_EVENT_POINTER_BUTTON:
-    case LIBINPUT_EVENT_POINTER_AXIS:
+    case LIBINPUT_EVENT_POINTER_SCROLL_WHEEL:
+    case LIBINPUT_EVENT_POINTER_SCROLL_FINGER:
+    case LIBINPUT_EVENT_POINTER_SCROLL_CONTINUOUS:
         return reinterpret_cast<libinput_event_pointer *>(event);
     default:
         return nullptr;
@@ -458,9 +460,9 @@ int libinput_event_gesture_get_cancelled(struct libinput_event_gesture *event)
     return 0;
 }
 
-uint32_t libinput_event_gesture_get_time(struct libinput_event_gesture *event)
+uint64_t libinput_event_gesture_get_time_usec(struct libinput_event_gesture *event)
 {
-    return event->time;
+    return event->time.count();
 }
 
 int libinput_event_gesture_get_finger_count(struct libinput_event_gesture *event)
@@ -515,9 +517,9 @@ enum libinput_key_state libinput_event_keyboard_get_key_state(struct libinput_ev
     return event->state;
 }
 
-uint32_t libinput_event_keyboard_get_time(struct libinput_event_keyboard *event)
+uint64_t libinput_event_keyboard_get_time_usec(struct libinput_event_keyboard *event)
 {
-    return event->time;
+    return event->time.count();
 }
 
 double libinput_event_pointer_get_absolute_x(struct libinput_event_pointer *event)
@@ -566,14 +568,9 @@ double libinput_event_pointer_get_dy_unaccelerated(struct libinput_event_pointer
     return event->delta.y();
 }
 
-uint32_t libinput_event_pointer_get_time(struct libinput_event_pointer *event)
-{
-    return event->time;
-}
-
 uint64_t libinput_event_pointer_get_time_usec(struct libinput_event_pointer *event)
 {
-    return quint64(event->time * 1000);
+    return event->time.count();
 }
 
 uint32_t libinput_event_pointer_get_button(struct libinput_event_pointer *event)
@@ -595,32 +592,27 @@ int libinput_event_pointer_has_axis(struct libinput_event_pointer *event, enum l
     }
 }
 
-double libinput_event_pointer_get_axis_value(struct libinput_event_pointer *event, enum libinput_pointer_axis axis)
+double libinput_event_pointer_get_scroll_value(struct libinput_event_pointer *event, enum libinput_pointer_axis axis)
 {
     if (axis == LIBINPUT_POINTER_AXIS_SCROLL_VERTICAL) {
-        return event->verticalAxisValue;
+        return event->verticalScrollValue;
     } else {
-        return event->horizontalAxisValue;
+        return event->horizontalScrollValue;
     }
 }
 
-double libinput_event_pointer_get_axis_value_discrete(struct libinput_event_pointer *event, enum libinput_pointer_axis axis)
+double libinput_event_pointer_get_scroll_value_v120(struct libinput_event_pointer *event, enum libinput_pointer_axis axis)
 {
     if (axis == LIBINPUT_POINTER_AXIS_SCROLL_VERTICAL) {
-        return event->verticalDiscreteAxisValue;
+        return event->verticalScrollValueV120;
     } else {
-        return event->horizontalDiscreteAxisValue;
+        return event->horizontalScrollValueV120;
     }
 }
 
-enum libinput_pointer_axis_source libinput_event_pointer_get_axis_source(struct libinput_event_pointer *event)
+uint64_t libinput_event_touch_get_time_usec(struct libinput_event_touch *event)
 {
-    return event->axisSource;
-}
-
-uint32_t libinput_event_touch_get_time(struct libinput_event_touch *event)
-{
-    return event->time;
+    return event->time.count();
 }
 
 double libinput_event_touch_get_x(struct libinput_event_touch *event)
@@ -659,21 +651,15 @@ struct libinput *libinput_udev_create_context(const struct libinput_interface *i
     if (!udev) {
         return nullptr;
     }
-    Q_UNUSED(interface)
-    Q_UNUSED(user_data)
     return new libinput;
 }
 
 void libinput_log_set_priority(struct libinput *libinput, enum libinput_log_priority priority)
 {
-    Q_UNUSED(libinput)
-    Q_UNUSED(priority)
 }
 
 void libinput_log_set_handler(struct libinput *libinput, libinput_log_handler log_handler)
 {
-    Q_UNUSED(libinput)
-    Q_UNUSED(log_handler)
 }
 
 struct libinput *libinput_unref(struct libinput *libinput)
@@ -696,30 +682,25 @@ int libinput_udev_assign_seat(struct libinput *libinput, const char *seat_id)
 
 int libinput_get_fd(struct libinput *libinput)
 {
-    Q_UNUSED(libinput)
     return -1;
 }
 
 int libinput_dispatch(struct libinput *libinput)
 {
-    Q_UNUSED(libinput)
     return 0;
 }
 
 struct libinput_event *libinput_get_event(struct libinput *libinput)
 {
-    Q_UNUSED(libinput)
     return nullptr;
 }
 
 void libinput_suspend(struct libinput *libinput)
 {
-    Q_UNUSED(libinput)
 }
 
 int libinput_resume(struct libinput *libinput)
 {
-    Q_UNUSED(libinput)
     return 0;
 }
 
@@ -890,14 +871,9 @@ enum libinput_switch_state libinput_event_switch_get_switch_state(struct libinpu
     }
 }
 
-uint32_t libinput_event_switch_get_time(struct libinput_event_switch *event)
-{
-    return event->time;
-}
-
 uint64_t libinput_event_switch_get_time_usec(struct libinput_event_switch *event)
 {
-    return event->timeMicroseconds;
+    return event->time.count();
 }
 
 struct libinput_event_tablet_pad *libinput_event_get_tablet_pad_event(struct libinput_event *event)
@@ -939,22 +915,18 @@ int libinput_device_tablet_pad_get_num_buttons(struct libinput_device *device)
 struct libinput_device_group *
 libinput_device_get_device_group(struct libinput_device *device)
 {
-    Q_UNUSED(device);
     return nullptr;
 }
 
 void *
 libinput_device_group_get_user_data(struct libinput_device_group *group)
 {
-    Q_UNUSED(group);
     return nullptr;
 }
 
 void libinput_device_led_update(struct libinput_device *device,
                                 enum libinput_led leds)
 {
-    Q_UNUSED(device)
-    Q_UNUSED(leds)
 }
 
 void libinput_device_set_user_data(struct libinput_device *device, void *user_data)
@@ -972,9 +944,6 @@ double
 libinput_event_tablet_tool_get_x_transformed(struct libinput_event_tablet_tool *event,
                                              uint32_t width)
 {
-    Q_UNUSED(event)
-    Q_UNUSED(width)
-
     // it's unused at the moment, it doesn't really matter what we return
     return 0;
 }
@@ -983,7 +952,5 @@ double
 libinput_event_tablet_tool_get_y_transformed(struct libinput_event_tablet_tool *event,
                                              uint32_t height)
 {
-    Q_UNUSED(event)
-    Q_UNUSED(height)
     return 4;
 }

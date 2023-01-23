@@ -32,7 +32,7 @@ public:
     void killWindow() override;
     bool isClient() const override;
     bool isPopupWindow() const override;
-    QByteArray windowRole() const override;
+    QString windowRole() const override;
     void closeWindow() override;
     bool isCloseable() const override;
     bool isMovable() const override;
@@ -72,7 +72,7 @@ protected:
     void doInteractiveResizeSync(const QRectF &rect) override;
     void updateCaption() override;
     void moveResizeInternal(const QRectF &rect, MoveResizeMode mode) override;
-    WindowItem *createItem() override;
+    std::unique_ptr<WindowItem> createItem(Scene *scene) override;
 
 private:
     void requestGeometry(const QRectF &rect);

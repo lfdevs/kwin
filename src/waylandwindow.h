@@ -27,7 +27,7 @@ public:
     Window *findModal(bool allow_itself = false) override;
     QRectF resizeWithChecks(const QRectF &geometry, const QSizeF &size) override;
     void killWindow() override;
-    QByteArray windowRole() const override;
+    QString windowRole() const override;
     bool isShown() const override;
     bool isHiddenInternal() const override;
     void hideClient() override;
@@ -44,7 +44,7 @@ protected:
     bool belongsToDesktop() const override;
     void doSetActive() override;
     void updateCaption() override;
-    WindowItem *createItem() override;
+    std::unique_ptr<WindowItem> createItem(Scene *scene) override;
 
     void cleanGrouping();
     void updateGeometry(const QRectF &rect);

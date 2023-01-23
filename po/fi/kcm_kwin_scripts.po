@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm-kwin-scripts\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-20 02:18+0000\n"
+"POT-Creation-Date: 2022-09-20 00:47+0000\n"
 "PO-Revision-Date: 2022-10-28 22:07+0300\n"
 "Last-Translator: Lasse Liehu <lasse.liehu@iki.fi>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -75,3 +75,25 @@ msgstr "Asenna tiedostosta…"
 #, kde-format
 msgid "Get New Scripts..."
 msgstr "Hae uusia skriptejä…"
+
+#~ msgid "KWin Scripts"
+#~ msgstr "KWin-skriptit"
+
+#~ msgid "Configure KWin scripts"
+#~ msgstr "KWin-skriptien asetukset"
+
+#~ msgid "Tamás Krutki"
+#~ msgstr "Tamás Krutki"
+
+#~ msgid "KWin script configuration"
+#~ msgstr "KWinin skriptiasetukset"
+
+#~ msgid "Import KWin script..."
+#~ msgstr "Tuo KWin-skripti…"
+
+#~ msgid ""
+#~ "Cannot import selected script: maybe a script already exists with the "
+#~ "same name or there is a permission problem."
+#~ msgstr ""
+#~ "Valitun skriptin tuonti epäonnistui: samanniminen skripti on jo olemassa "
+#~ "tai on käyttöoikeusongelma."

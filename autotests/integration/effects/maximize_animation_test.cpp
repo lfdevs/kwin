@@ -10,10 +10,10 @@
 #include "kwin_wayland_test.h"
 
 #include "composite.h"
-#include "core/platform.h"
+#include "core/outputbackend.h"
 #include "effectloader.h"
 #include "effects.h"
-#include "scene.h"
+#include "scene/workspacescene.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
@@ -42,8 +42,8 @@ void MaximizeAnimationTest::initTestCase()
 
     qRegisterMetaType<KWin::Window *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
+    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
 
     auto config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
     KConfigGroup plugins(config, QStringLiteral("Plugins"));
@@ -80,8 +80,6 @@ void MaximizeAnimationTest::testMaximizeRestore()
 {
     // This test verifies that the maximize effect animates a window
     // when it's maximized or restored.
-
-    using namespace KWayland::Client;
 
     // Create the test window.
     std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());

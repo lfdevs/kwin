@@ -6,8 +6,7 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-#ifndef KWIN_MAIN_X11_H
-#define KWIN_MAIN_X11_H
+#pragma once
 #include "main.h"
 
 namespace KWin
@@ -24,9 +23,16 @@ public:
 
     void setReplace(bool replace);
 
+    std::unique_ptr<Edge> createScreenEdge(ScreenEdges *parent) override;
+    void createPlatformCursor(QObject *parent = nullptr) override;
+    std::unique_ptr<OutlineVisual> createOutline(Outline *outline) override;
+    void createEffectsHandler(Compositor *compositor, WorkspaceScene *scene) override;
+    void startInteractiveWindowSelection(std::function<void(KWin::Window *)> callback, const QByteArray &cursorName = QByteArray()) override;
+    void startInteractivePositionSelection(std::function<void(const QPoint &)> callback) override;
+    PlatformCursorImage cursorImage() const override;
+
 protected:
     void performStartup() override;
-    bool notify(QObject *o, QEvent *e) override;
 
 private Q_SLOTS:
     void lostSelection();
@@ -43,5 +49,3 @@ private:
 };
 
 }
-
-#endif

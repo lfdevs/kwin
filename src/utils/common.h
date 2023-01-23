@@ -61,7 +61,7 @@ enum StrutArea {
 };
 Q_DECLARE_FLAGS(StrutAreas, StrutArea)
 
-class StrutRect : public QRect
+class KWIN_EXPORT StrutRect : public QRect
 {
 public:
     explicit StrutRect(QRect rect = QRect(), StrutArea area = StrutAreaInvalid);
@@ -103,19 +103,20 @@ inline MaximizeMode operator^(MaximizeMode m1, MaximizeMode m2)
     return MaximizeMode(int(m1) ^ int(m2));
 }
 
+// TODO: could this be in Tile itself?
 enum class QuickTileFlag {
     None = 0,
     Left = 1 << 0,
     Right = 1 << 1,
     Top = 1 << 2,
     Bottom = 1 << 3,
+    Custom = 1 << 4,
     Horizontal = Left | Right,
     Vertical = Top | Bottom,
     Maximize = Left | Right | Top | Bottom,
 };
 Q_DECLARE_FLAGS(QuickTileMode, QuickTileFlag)
 
-void KWIN_EXPORT updateXTime();
 void KWIN_EXPORT grabXServer();
 void KWIN_EXPORT ungrabXServer();
 bool KWIN_EXPORT grabXKeyboard(xcb_window_t w = XCB_WINDOW_NONE);

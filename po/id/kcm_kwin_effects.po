@@ -90,3 +90,12 @@ msgstr "Kecualikan efek internal"
 #, kde-format
 msgid "Get New Desktop Effects..."
 msgstr "Dapatkan Efek Desktop Baru..."
+
+#~ msgid "Download New Desktop Effects"
+#~ msgstr "Unduh Efek Desktop Baru"
+
+#~ msgid "Exclude Desktop Effects not supported by the Compositor"
+#~ msgstr "Kecualikan Efek Desktop yang tidak didukung oleh Kompositor"
+
+#~ msgid "Search..."
+#~ msgstr "Cari..."

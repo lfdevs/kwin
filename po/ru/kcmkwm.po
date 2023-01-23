@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-02 00:47+0000\n"
-"PO-Revision-Date: 2022-10-01 15:16+0300\n"
+"POT-Creation-Date: 2022-12-03 00:48+0000\n"
+"PO-Revision-Date: 2022-12-23 11:13+0300\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -512,13 +512,10 @@ msgid ""
 "whole screen. It might be useful to selectively affect placement of some "
 "windows using the window-specific settings.</li><li style=\" margin-top:0px; "
 "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\"><span style=\" font-style:italic;\">Cascade</span> will "
-"cascade the windows</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"text-indent:0px;\"><span style=\" font-style:italic;\">Random</span> will "
+"use a random position</li><li style=\" margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-style:italic;\">Random</span> will use a random "
-"position</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-style:italic;\">Centered</span> will place the window "
+"\"><span style=\" font-style:italic;\">Centered</span> will place the window "
 "centered</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\" font-style:italic;\">Zero-cornered</span> will place the window in "
@@ -540,9 +537,6 @@ msgstr ""
 "italic;\">Распахнуто</span>: окно будет распахнуто во весь экран. Этот "
 "вариант может быть полезен при заданном особенном поведении отдельных окон;</"
 "li>\n"
-"<li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-style:"
-"italic;\">Каскадом</span>: размещение окон каскадом;</li>\n"
 "<li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-style:"
 "italic;\">Случайное</span>: окно будет размещено в случайно определённом "
@@ -574,35 +568,29 @@ msgstr "Распахнуто"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:90
 #, kde-format
-msgid "Cascaded"
-msgstr "Каскадом"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:95
-#, kde-format
 msgid "Random"
 msgstr "Случайное"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:100
+#: advanced.ui:95
 #, kde-format
 msgid "Centered"
 msgstr "По центру"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:105
+#: advanced.ui:100
 #, kde-format
 msgid "In Top-Left Corner"
 msgstr "В верхнем левом углу"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:110
+#: advanced.ui:105
 #, kde-format
 msgid "Under mouse"
 msgstr "Под мышью"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:118
+#: advanced.ui:113
 #, kde-format
 msgid ""
 "When turned on, apps which are able to remember the positions of their "
@@ -614,7 +602,7 @@ msgstr ""
 "режимом расположения нового окна, заданным вышею."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:121
+#: advanced.ui:116
 #, kde-format
 msgid ""
 "Allow apps to remember the positions of their own windows, if they support it"
@@ -622,13 +610,13 @@ msgstr ""
 "Разрешить сохранять геометрию окон приложениям, поддерживающим эту функцию"
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
-#: advanced.ui:128
+#: advanced.ui:123
 #, kde-format
 msgid "&Special windows:"
 msgstr "&Особые окна:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:138
+#: advanced.ui:133
 #, kde-format
 msgid ""
 "When turned on, utility windows (tool windows, torn-off menus,...) of "
@@ -642,26 +630,26 @@ msgstr ""
 "устанавливать тип для таких окон."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:141
+#: advanced.ui:136
 #, kde-format
 msgid "Hide utility windows for inactive applications"
 msgstr "Скрывать служебные окна неактивных приложений"
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyLabel)
-#: advanced.ui:148
+#: advanced.ui:143
 #, kde-format
 msgid "Virtual Desktop behavior:"
 msgstr "Поведение виртуальных рабочих столов:"
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyDescriptionLabel)
-#: advanced.ui:158
+#: advanced.ui:153
 #, kde-format
 msgid "When activating a window on a different Virtual Desktop:"
 msgstr ""
 "При переключении в окно, расположенном на другом виртуальном рабочем столе:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:165
+#: advanced.ui:160
 #, kde-format
 msgid ""
 "<html><head/><body><p>This setting controls what happens when an open window "
@@ -681,13 +669,13 @@ msgstr ""
 "перемещено на активный виртуальный рабочий стол. </p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:169
+#: advanced.ui:164
 #, kde-format
 msgid "Switch to that Virtual Desktop"
 msgstr "Переключаться на этот виртуальный рабочий стол"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:174
+#: advanced.ui:169
 #, kde-format
 msgid "Bring window to current Virtual Desktop"
 msgstr "Перемещать окно на текущий виртуальный рабочий стол"
@@ -1424,3 +1412,711 @@ msgstr ""
 "смены фокуса</em> и <em>переключение через Alt+Tab</em> противоречат этому "
 "поведению и не будут работать Скорее всего вам больше понравится режим "
 "<em>Фокус следует за мышью (приоритет мыши)</em>."
+
+#~ msgid "Cascaded"
+#~ msgstr "Каскадом"
+
+#~ msgid "Window &geometry:"
+#~ msgstr "Геометрия окна:"
+
+#~ msgid ""
+#~ "Enable this option if you want a window's geometry to be displayed while "
+#~ "it is being moved or resized. The window position relative to the top-"
+#~ "left corner of the screen is displayed together with its size."
+#~ msgstr ""
+#~ "Если этот параметр включён, при перемещении или изменении размеров окна "
+#~ "будет показываться его геометрия. Кроме размеров будет также показана "
+#~ "позиция окна относительно верхнего левого угла экрана."
+
+#~ msgid "Display when moving or resizing"
+#~ msgstr "Показывать при перемещении или изменении размера"
+
+#~ msgid "Maximize (vertical only)"
+#~ msgstr "Развернуть по вертикали"
+
+#~ msgid "Maximize (horizontal only)"
+#~ msgstr "Развернуть по горизонтали"
+
+#~ msgid "Smart"
+#~ msgstr "Оптимальное"
+
+#~ msgid "Maximizing"
+#~ msgstr "Разворачивание"
+
+#, fuzzy
+#~ msgid "Zero-cornered"
+#~ msgstr "В левом верхнем углу"
+
+#, fuzzy
+#~ msgid "Switch to window tab to the left/right"
+#~ msgstr "Переключение между окнами в группе"
+
+#, fuzzy
+#~ msgid "Window tabbing:"
+#~ msgstr "Группировка окон"
+
+#~ msgid ""
+#~ "When turned on immediately switch to any new window tabs that were "
+#~ "automatically added to the current group."
+#~ msgstr "При включении будет выбрана группа окон, куда добавлено новое окно."
+
+#, fuzzy
+#~ msgid "&Switch to automatically grouped windows immediately"
+#~ msgstr "Автоматически переключаться на новое окно в группе"
+
+#~ msgid "When turned on hide all tabs that are not active from the taskbar."
+#~ msgstr ""
+#~ "Скрывать на панели задач все окна из группы, не являющиеся активными."
+
+#, fuzzy
+#~ msgid "&Hide inactive window tabs from the taskbar"
+#~ msgstr "Не показывать неактивные окна группы на панели задач"
+
+#~ msgid ""
+#~ "When turned on attempt to automatically detect when a newly opened window "
+#~ "is related to an existing one and place them in the same window group."
+#~ msgstr ""
+#~ "При включении новое окно будет сгруппировано с другими похожими окнами."
+
+#, fuzzy
+#~ msgid "Start window tab drag"
+#~ msgstr "Группировка окон перетаскиванием"
+
+#~ msgid "Ri&ght button:"
+#~ msgstr "&Правая кнопка:"
+
+#~ msgid "&Wheel"
+#~ msgstr "&Колесо"
+
+#~ msgid "&Left button:"
+#~ msgstr "&Левая кнопка:"
+
+#~ msgid "&Right button:"
+#~ msgstr "&Правая кнопка:"
+
+#~ msgid "M&iddle button:"
+#~ msgstr "Сред&няя кнопка:"
+
+#~ msgid "Left &button"
+#~ msgstr "Ле&вая кнопка:"
+
+#~ msgid "Automatically group similar windows"
+#~ msgstr "Автоматически группировать похожие окна"
+
+#~ msgid ""
+#~ "The placement policy determines where a new window will appear on the "
+#~ "desktop.<br><ul>\n"
+#~ "<li><em>Smart</em> will try to achieve a minimum overlap of windows</li>\n"
+#~ "<li><em>Maximizing</em> will try to maximize every window to fill the "
+#~ "whole screen. It might be useful to selectively affect placement of some "
+#~ "windows using the window-specific settings.</li>\n"
+#~ "<li><em>Cascade</em> will cascade the windows</li>\n"
+#~ "<li><em>Random</em> will use a random position</li>\n"
+#~ "<li><em>Centered</em> will place the window centered</li>\n"
+#~ "<li><em>Zero-Cornered</em> will place the window in the top-left corner</"
+#~ "li>\n"
+#~ "<li><em>Under Mouse</em> will place the window under the pointer</li>\n"
+#~ "</ul>"
+#~ msgstr ""
+#~ "Вариант размещения определяет, где на рабочем столе появится новое окно."
+#~ "<br><ul>\n"
+#~ "<li><em>Оптимальное</em>: новое окно постарается не закрывать остальные</"
+#~ "li>\n"
+#~ "<li><em>Разворачивание</em>: окно попытается заполнить весь экран. Может "
+#~ "быть полезно избирательно изменить размещение некоторых окон, настроив их "
+#~ "параметры.</li>\n"
+#~ "<li><em>Каскадом</em>: окна будут располагаться каскадом</li>\n"
+#~ "<li><em>Произвольное</em>: позиция окна выбирается случайным образом</"
+#~ "li>\n"
+#~ "<li><em>По центру</em>: окно будет размещено в центре экрана</li>\n"
+#~ "<li><em>В левом верхнем углу</em>: окно будет помещено в левый верхний "
+#~ "угол экрана</li>\n"
+#~ "<li><em>Под мышью</em>: окно появится под указателем мыши</li>\n"
+#~ "</ul>"
+
+#~ msgid "Shading"
+#~ msgstr "Свёртывание в заголовок"
+
+#~ msgid "Dela&y:"
+#~ msgstr "&Задержка:"
+
+#~ msgid "&Enable hover"
+#~ msgstr "&Разворачивать из заголовка мышью"
+
+#~ msgid "Activating windows"
+#~ msgstr "Активация окон"
+
+#~ msgid "Policy"
+#~ msgstr "Режим"
+
+#~ msgid "Click"
+#~ msgstr "Щелчок"
+
+#~ msgid "Hover"
+#~ msgstr "Наведение"
+
+#~ msgid "&Moving"
+#~ msgstr "&Перемещение"
+
+#~ msgid "Wheel event:"
+#~ msgstr "Действие колеса:"
+
+#~ msgid "Handle mouse wheel events"
+#~ msgstr "Действия колеса мыши"
+
+#~ msgid ""
+#~ "In this column you can customize mouse clicks into the titlebar or the "
+#~ "frame of an active window."
+#~ msgstr ""
+#~ "В этом столбце настраивается реакция на щелчок мыши на заголовке или "
+#~ "рамке активного окна."
+
+#~ msgid ""
+#~ "In this column you can customize mouse clicks into the titlebar or the "
+#~ "frame of an inactive window."
+#~ msgstr ""
+#~ "В этом столбце настраивается реакция на щелчок мыши на заголовке или "
+#~ "рамке неактивного окна."
+
+#~ msgid "Left button:"
+#~ msgstr "Левая кнопка:"
+
+#~ msgid "Middle button:"
+#~ msgstr "Средняя кнопка:"
+
+#~ msgid ""
+#~ "Behavior on <em>middle</em> click into the titlebar or frame of an "
+#~ "<em>active</em> window."
+#~ msgstr ""
+#~ "Поведение при щелчке <em>средней</em> кнопкой на заголовке или рамке "
+#~ "<em>активного</em> окна."
+
+#~ msgid "Right button:"
+#~ msgstr "Правая кнопка:"
+
+#~ msgid ""
+#~ "Behavior on <em>right</em> click into the titlebar or frame of an "
+#~ "<em>active</em> window."
+#~ msgstr ""
+#~ "Поведение при щелчке <em>правой</em> кнопкой на заголовке или рамке "
+#~ "<em>активного</em> окна."
+
+#~ msgid "Titlebar & Frame"
+#~ msgstr "Заголовок и рамка"
+
+#~ msgid "Titlebar"
+#~ msgstr "Заголовок"
+
+#~ msgid "no center snap zone"
+#~ msgstr "без зоны привязки центра"
+
+#~ msgid "no window snap zone"
+#~ msgstr "без зоны привязки окон"
+
+#~ msgid "no border snap zone"
+#~ msgstr "без зоны привязки границ"
+
+#~ msgid "Windows"
+#~ msgstr "Окно"
+
+#~ msgid "Snap Zones"
+#~ msgstr "Граничные зоны"
+
+#~ msgid "kcmkwinoptions"
+#~ msgstr "kcmkwinoptions"
+
+#~ msgid ""
+#~ "The focus policy is used to determine the active window, i.e. the window "
+#~ "you can work in. <ul>\n"
+#~ "<li><em>Click to focus:</em> A window becomes active when you click into "
+#~ "it. This is the behavior you might know from other operating systems.</"
+#~ "li> <li><em>Focus follows mouse:</em> Moving the mouse pointer actively "
+#~ "on to a normal window activates it. New windows will receive the focus, "
+#~ "without you having to point the mouse at them explicitly. Very practical "
+#~ "if you are using the mouse a lot.</li>\n"
+#~ "<li><em>Focus under mouse:</em> The window that happens to be under the "
+#~ "mouse pointer is active. If the mouse points nowhere, the last window "
+#~ "that was under the mouse has focus. New windows will not automatically "
+#~ "receive the focus.</li>\n"
+#~ "<li><em>Focus strictly under mouse:</em> Only the window under the mouse "
+#~ "pointer is active. If the mouse points nowhere, nothing has focus.</li>\n"
+#~ "</ul>\n"
+#~ "Note that 'Focus under mouse' and 'Focus strictly under mouse' prevent "
+#~ "certain features such as the Alt+Tab walk through windows dialog in the "
+#~ "KDE mode from working properly."
+#~ msgstr ""
+#~ "Режим фокуса определяет выбор активного окна, т.е. окна, в каком вы "
+#~ "работаете.<ul>\n"
+#~ "<li><em>Фокус по щелчку</em>: Окно становится активным, когда вы щёлкаете "
+#~ "его. Это поведение вы могли видеть в других операционных системах.</li> "
+#~ "<li><em>Фокус следует за мышью</em>: При перемещении указателя мыши к "
+#~ "обычному окну оно становится активным. Новые окна получают фокус сами, "
+#~ "без наведения указателя. Очень удобно, если вы часто пользуетесь мышью.</"
+#~ "li>\n"
+#~ "<li><em>Фокус под мышью</em>: Активным становится окно, оказавшееся под "
+#~ "указателем мыши. Если указатель наведён на пустое место, фокус остаётся у "
+#~ "последнего окна. Новые окна сами не получают фокус.</li>\n"
+#~ "<li><em>Фокус строго под мышью</em>: Активно только окно под указателем "
+#~ "мыши. Если указатель наведён на пустое место, окна остаются без фокуса.</"
+#~ "li>\n"
+#~ "</ul>\n"
+#~ "Заметьте, что режимы «Фокус под мышью» и «Фокус строго под мышью» мешают "
+#~ "работе некоторых функций, например переключению окон клавишами Alt+Tab "
+#~ "через диалог окон в KDE."
+
+#~ msgid "&Raise, with the following delay:"
+#~ msgstr "П&оверх всех с задержкой:"
+
+#~ msgid "&When the active window disappears, pass focus to window under mouse"
+#~ msgstr "&Когда активное окно пропадает, передать фокус окну под мышью"
+
+#~ msgid ""
+#~ "When enabled, this feature activates the border of maximized windows and "
+#~ "allows you to move or resize them, just like for normal windows"
+#~ msgstr ""
+#~ "В этом режиме можно перемещать и изменять размер развёрнутых окон, "
+#~ "используя их границу, как и для обычных окон."
+
+#~ msgid "Display borders on &maximized windows"
+#~ msgstr "Пок&азывать границы распахнутых окон"
+
+#~ msgctxt "@item:inlistbox behavior on double click"
+#~ msgid "Minimize"
+#~ msgstr "Свернуть"
+
+#~ msgctxt "@item:inlistbox behavior on double click"
+#~ msgid "Close"
+#~ msgstr "Закрыть"
+
+#~ msgid ""
+#~ "Here you can customize mouse click behavior when clicking on the titlebar "
+#~ "or the frame of a window."
+#~ msgstr ""
+#~ "Здесь вы можете настроить реакцию окна на щелчок мыши на заголовке или "
+#~ "рамке."
+
+#~ msgid ""
+#~ "Behavior on <em>right</em> click into the titlebar or frame of an "
+#~ "<em>inactive</em> window."
+#~ msgstr ""
+#~ "Поведение при щелчке <em>правой</em> кнопкой на заголовке или рамке "
+#~ "<em>неактивного</em> окна."
+
+#~ msgid ""
+#~ "Behavior on <em>middle</em> click into the titlebar or frame of an "
+#~ "<em>inactive</em> window."
+#~ msgstr ""
+#~ "Поведение при щелчке <em>средней</em> кнопкой на заголовке или рамке "
+#~ "<em>неактивного</em> окна."
+
+#~ msgid ""
+#~ "Here you can customize behavior when clicking on the maximize button."
+#~ msgstr ""
+#~ "Здесь вы можете настроить поведение при нажатии на кнопку разворачивания."
+
+#~ msgid ""
+#~ "Here you can customize mouse click behavior when clicking on an inactive "
+#~ "inner window ('inner' means: not titlebar, not frame)."
+#~ msgstr ""
+#~ "Здесь вы можете настроить реакцию на щелчок мыши внутри неактивного окна "
+#~ "(«внутри» означает: не на рамке и не на заголовке)."
+
+#~ msgid ""
+#~ "Here you can customize KDE's behavior when clicking somewhere into a "
+#~ "window while pressing a modifier key."
+#~ msgstr ""
+#~ "Здесь вы можете настроить отклик окна на щелчок мыши внутри окна при "
+#~ "нажатой управляющей клавише на клавиатуре."
+
+#~ msgctxt "no border snap zone"
+#~ msgid "none"
+#~ msgstr "нет"
+
+#~ msgctxt "no window snap zone"
+#~ msgid "none"
+#~ msgstr "нет"
+
+#~ msgctxt "no center snap zone"
+#~ msgid "none"
+#~ msgstr "нет"
+
+#~ msgid "Tiling"
+#~ msgstr "Мозаичный режим"
+
+#~ msgid "Enable Tiling"
+#~ msgstr "Включить мозаичный режим"
+
+#~ msgid ""
+#~ "A tiling window manager lays out all the windows in a non-overlapping "
+#~ "manner. This way all windows are always visible."
+#~ msgstr ""
+#~ "В мозаичном режиме диспетчер окон располагает окна без наложений. Все "
+#~ "окна будут видны."
+
+#~ msgid "Default Tiling &Layout"
+#~ msgstr "Схем&а размещения окон по умолчанию"
+
+#~ msgctxt "Spiral tiling layout"
+#~ msgid "Spiral"
+#~ msgstr "Спираль"
+
+#~ msgctxt "Two-column horizontal tiling layout"
+#~ msgid "Columns"
+#~ msgstr "Столбцы"
+
+#~ msgctxt "Floating layout, windows aren't tiled at all"
+#~ msgid "Floating"
+#~ msgstr "Свободно перемещаемые окна"
+
+#~ msgid "Floating &Windows Raising"
+#~ msgstr "По&днятие свободных окон"
+
+#~ msgctxt "Window Raising Policy"
+#~ msgid "Raise/Lower all floating windows"
+#~ msgstr "Поднимать/опускать сразу все свободные окна"
+
+#~ msgctxt "Window Raising Policy"
+#~ msgid "Raise/Lower current window only"
+#~ msgstr "Поднимать/опускать окна отдельно"
+
+#~ msgctxt "Window Raising Policy"
+#~ msgid "Floating windows are always on top"
+#~ msgstr "Поддерживать свободные окна поверх других"
+
+#~ msgid ""
+#~ "The window raising policy determines how floating windows are stacked "
+#~ "<ul> <li><em>Raise/Lower all</em> will raise all floating windows when a "
+#~ "floating window is activated.</li> <li><em>Raise/Lower current</em> will "
+#~ "raise only the current window.</li> <li><em>Floating windows on top</em> "
+#~ "will always keep floating windows on top, even when a tiled window is "
+#~ "activated.</ul>"
+#~ msgstr ""
+#~ "Политика поднятия окон определяет как будут распределены свободные окна "
+#~ "<ul> <li><em>Поднимать/опускать все</em> поднимет все свободные окна при "
+#~ "активации свободного окна.</li><li><em>Поднимать/опускать отдельно</em> "
+#~ "поднимет только текущее свободное окно.</li><li><em>Поддерживать "
+#~ "свободные окна поверх других</em> всегда поддерживает свободные окна "
+#~ "поверх окон во фрейме, даже если выбрано окно во фрейме.</ul>"
+
+#~ msgid ""
+#~ "When this option is enabled, there will be a delay after which the window "
+#~ "the mouse pointer is over will become active (receive focus)."
+#~ msgstr ""
+#~ "Если этот параметр включён, окно будет становиться активным (получать "
+#~ "фокус) при наведении на него указателя не сразу, а с задержкой."
+
+#~ msgid "Di&splay content in moving windows"
+#~ msgstr "П&оказывать содержимое перемещаемого окна"
+
+#~ msgid ""
+#~ "Enable this option if you want a window's content to be fully shown while "
+#~ "moving it, instead of just showing a window 'skeleton'. The result may "
+#~ "not be satisfying on slow machines without graphic acceleration."
+#~ msgstr ""
+#~ "Будет перемещаться все содержимое окна, а не только рамка. Результат "
+#~ "может быть неудовлетворительным на медленных машинах без графического "
+#~ "ускорителя."
+
+#~ msgid "Display content in &resizing windows"
+#~ msgstr "По&казывать содержимое при изменении размера окна"
+
+#~ msgid ""
+#~ "Enable this option if you want a window's content to be shown while "
+#~ "resizing it, instead of just showing a window 'skeleton'. The result may "
+#~ "not be satisfying on slow machines."
+#~ msgstr ""
+#~ "При изменении размера окна будет показываться все его содержимое, а не "
+#~ "только рамка. Результат может быть неудовлетворительным на медленных "
+#~ "машинах без графического ускорителя."
+
+#~ msgid "Allow moving and resizing o&f maximized windows"
+#~ msgstr ""
+#~ "Показывать &рамку у распахнутого окна для перемещения и изменения размера"
+
+#~ msgid "Show window list while switching windows"
+#~ msgstr "Показывать список окон при их переключении"
+
+#~ msgid ""
+#~ "Hold down the Alt key and press the Tab key repeatedly to walk through "
+#~ "the windows on the current desktop (the Alt+Tab combination can be "
+#~ "reconfigured).\n"
+#~ "\n"
+#~ "If this checkbox is checked a popup widget is shown, displaying the icons "
+#~ "of all windows to walk through and the title of the currently selected "
+#~ "one.\n"
+#~ "\n"
+#~ "Otherwise, the focus is passed to a new window each time Tab is pressed, "
+#~ "with no popup widget.  In addition, the previously activated window will "
+#~ "be sent to the back in this mode."
+#~ msgstr ""
+#~ "При нажатой клавише Alt вы можете использовать клавишу Tab для быстрого "
+#~ "переключения между окнами на текущем рабочем столе (сочетание Alt+Tab "
+#~ "можно перенастроить).\n"
+#~ "Если этот параметр установлен, отображается всплывающий список значков "
+#~ "всех окон для переключения между ними и заголовок текущего выбранного "
+#~ "окна.\n"
+#~ "\n"
+#~ "В противном случае при каждом нажатии Tab фокус передаётся новому окну, а "
+#~ "предыдущее окно посылается на задний план. Никаких списков при этом не "
+#~ "выводится."
+
+#~ msgid "&Traverse windows on all desktops"
+#~ msgstr "&По окнам на всех рабочих столах"
+
+#~ msgid ""
+#~ "Leave this option disabled if you want to limit walking through windows "
+#~ "to the current desktop."
+#~ msgstr ""
+#~ "Отключите этот режим, если хотите переключаться между окнами только на "
+#~ "текущем рабочем столе."
+
+#~ msgid "Desktop navi&gation wraps around"
+#~ msgstr "&С переходом по циклу"
+
+#~ msgid ""
+#~ "Enable this option if you want keyboard or active desktop border "
+#~ "navigation beyond the edge of a desktop to take you to the opposite edge "
+#~ "of the new desktop."
+#~ msgstr ""
+#~ "Установите этот параметр, если хотите при перемещении за границу рабочего "
+#~ "стола попадать на противоположную сторону нового рабочего стола."
+
+#~ msgid "Popup desktop name on desktop &switch"
+#~ msgstr "&Выводить имя рабочего стола при переключении"
+
+#~ msgid ""
+#~ "Enable this option if you wish to see the current desktop name popup "
+#~ "whenever the current desktop is changed."
+#~ msgstr "Будет показано всплывающее окошко с именем текущего рабочего стола."
+
+#~ msgctxt "Focus Stealing Prevention Level"
+#~ msgid "Normal"
+#~ msgstr "Средний"
+
+#~ msgid "Active Desktop Borders"
+#~ msgstr "Активные границы рабочего стола"
+
+#~ msgid ""
+#~ "If this option is enabled, moving the mouse to a screen border will "
+#~ "change your desktop. This is e.g. useful if you want to drag windows from "
+#~ "one desktop to the other."
+#~ msgstr ""
+#~ "Перемещение мыши за границу экрана приведёт к переключению на соседний "
+#~ "рабочий стол. Это очень удобно при перетаскивании окна с одного рабочего "
+#~ "стола на другой."
+
+#~ msgid "D&isabled"
+#~ msgstr "&Отключены"
+
+#~ msgid "Only &when moving windows"
+#~ msgstr "Только при &перемещении окон"
+
+#~ msgid "A&lways enabled"
+#~ msgstr "&Всегда включены"
+
+#~ msgid ""
+#~ "Here you can set a delay for switching desktops using the active borders "
+#~ "feature. Desktops will be switched after the mouse has been pushed "
+#~ "against a screen border for the specified number of milliseconds."
+#~ msgstr ""
+#~ "Здесь можно установить задержку переключения рабочих столов при помощи "
+#~ "функции активных границ. Переключение рабочего стола будет производиться "
+#~ "через заданное количество миллисекунд после перемещения мыши за границу "
+#~ "экрана."
+
+#~ msgid "Desktop &switch delay:"
+#~ msgstr "&Задержка переключения рабочих столов:"
+
+#~ msgid ""
+#~ "Here you can customize mouse click behavior when double clicking on the "
+#~ "titlebar of a window."
+#~ msgstr "Реакция окна на двойной щелчок мыши на заголовке окна."
+
+#~ msgid "Modifier key + left button:"
+#~ msgstr "Модификатор + левая кнопка:"
+
+#~ msgid "Modifier key + right button:"
+#~ msgstr "Модификатор + правая кнопка:"
+
+#~ msgid "Modifier key + middle button:"
+#~ msgstr "Модификатор + средняя кнопка:"
+
+#~ msgid ""
+#~ "Here you can customize KDE's behavior when middle clicking into a window "
+#~ "while pressing the modifier key."
+#~ msgstr ""
+#~ "Здесь вы можете настроить реакцию KDE на щелчок средней кнопки мыши в "
+#~ "пределах окна с одновременно нажатой клавишей модификатора."
+
+#~ msgid "Focus"
+#~ msgstr "Фокус"
+
+#~ msgid "Auto &raise"
+#~ msgstr "О&кно всплывает автоматически"
+
+#~ msgid "Active &mouse screen"
+#~ msgstr "Ограничить фокус &активным экраном"
+
+#~ msgid "Navigation"
+#~ msgstr "Навигация"
+
+#~ msgid ""
+#~ "_: NAME OF TRANSLATORS\n"
+#~ "Your names"
+#~ msgstr "Денис Першин,Герман Жеболдов,Григорий Мохин,Леонид Кантер"
+
+#~ msgid ""
+#~ "_: EMAIL OF TRANSLATORS\n"
+#~ "Your emails"
+#~ msgstr ""
+#~ "dyp@perchine.com,Hermann.Zheboldov@shq.ru,mok@kde.ru,leon@blackcatlinux."
+#~ "com"
+
+#~ msgid "&Translucency"
+#~ msgstr "&Прозрачность"
+
+#~ msgid "Anima&te"
+#~ msgstr "&Анимация"
+
+#~ msgid ""
+#~ "Animate the action of reducing the window to its titlebar (shading) as "
+#~ "well as the expansion of a shaded window"
+#~ msgstr ""
+#~ "Этот флажок включает анимацию при свёртывании окна в заголовок и при "
+#~ "восстановлении его первоначального вида из заголовка."
+
+#~ msgid ""
+#~ "_: Focus Stealing Prevention Level\n"
+#~ "None"
+#~ msgstr "Нет"
+
+#~ msgid ""
+#~ "_: Focus Stealing Prevention Level\n"
+#~ "Low"
+#~ msgstr "Низкий"
+
+#~ msgid ""
+#~ "_: Focus Stealing Prevention Level\n"
+#~ "Normal"
+#~ msgstr "Средний"
+
+#~ msgid ""
+#~ "_: Focus Stealing Prevention Level\n"
+#~ "High"
+#~ msgstr "Высокий"
+
+#~ msgid ""
+#~ "_: Focus Stealing Prevention Level\n"
+#~ "Extreme"
+#~ msgstr "Очень высокий"
+
+#~ msgid "Animate minimi&ze and restore"
+#~ msgstr "&Плавное свёртывание и восстановление"
+
+#~ msgid "Slow"
+#~ msgstr "Медленно"
+
+#~ msgid "Fast"
+#~ msgstr "Быстро"
+
+#~ msgid ""
+#~ "Here you can set the speed of the animation shown when windows are "
+#~ "minimized and restored. "
+#~ msgstr "Скорость анимации при свёртывании и восстановлении окна."
+
+#~ msgid ""
+#~ "_n:  pixel\n"
+#~ " pixels"
+#~ msgstr ""
+#~ " пиксел\n"
+#~ " пиксела\n"
+#~ " пикселов"
+
+#~ msgid ""
+#~ "<qt><b>It seems that alpha channel support is not available.</"
+#~ "b><br><br>Please make sure you have <a href=\"http://www.freedesktop.org/"
+#~ "\">Xorg &ge; 6.8</a>, and installed the kompmgr that came with kwin."
+#~ "<br>Also, make sure you have the following entries in your XConfig (e.g. /"
+#~ "etc/X11/xorg.conf):<br><br><i>Section \"Extensions\"<br>Option \"Composite"
+#~ "\" \"Enable\"<br>EndSection</i><br><br>And if your GPU provides hardware-"
+#~ "accelerated Xrender support (mainly nVidia cards):<br><br><i>Option     "
+#~ "\"RenderAccel\" \"true\"</i><br>In <i>Section \"Device\"</i></qt>"
+#~ msgstr ""
+#~ "<qt><b>Похоже, что поддержка альфа-канала недоступна.</"
+#~ "b><br><br>Убедитесь, что у вас установлена<a href=\"http://www."
+#~ "freedesktop.org/\">Xorg &ge; 6.8</a>, и установлена программа kompmgr, "
+#~ "которая поставляется с kwin.<br>Убедитесь также, что у вас есть следующие "
+#~ "записи в XConfig (т.е. /etc/X11/xorg.conf):<br><br><i>Section \"Extensions"
+#~ "\"<br>Option \"Composite\" \"Enable\"<br>EndSection</i><br><br>И что ваш "
+#~ "GPU предоставляет аппаратную поддержку Xrender (в основном - карты "
+#~ "nVidia):<br><br><i>Option     \"RenderAccel\" \"true\"</i><br>In "
+#~ "<i>Section \"Device\"</i></qt>"
+
+#~ msgid "Apply translucency only to decoration"
+#~ msgstr "Применить прозрачность только для оформления"
+
+#~ msgid "Dock windows:"
+#~ msgstr "Специальные окна:"
+
+#~ msgid "Treat 'keep above' windows as active ones"
+#~ msgstr "Считать окна со включенным \"Всегда наверху\" как активные"
+
+#~ msgid "Disable ARGB windows (ignores window alpha maps, fixes gtk1 apps)"
+#~ msgstr ""
+#~ "Отключить ARGB-окна (игнорировать альфа-карты окна, исправляет приложения "
+#~ "gtk1)"
+
+#~ msgid "Opacity"
+#~ msgstr "Непрозрачность"
+
+#~ msgid "Use shadows"
+#~ msgstr "Использовать тени"
+
+#~ msgid "Active window size:"
+#~ msgstr "Размер для активного окна:"
+
+#~ msgid "Inactive window size:"
+#~ msgstr "Размер для неактивного окна:"
+
+#~ msgid "Dock window size:"
+#~ msgstr "Размер для специальных окон:"
+
+#~ msgid "Vertical offset:"
+#~ msgstr "Вертикальное смещение:"
+
+#~ msgid "Shadow color:"
+#~ msgstr "Цвет тени:"
+
+#~ msgid "Remove shadows on move"
+#~ msgstr "Убирать тень при перемещении"
+
+#~ msgid "Remove shadows on resize"
+#~ msgstr "Убирать тень при изменении размера"
+
+#~ msgid "Shadows"
+#~ msgstr "Тени"
+
+#~ msgid "Fade-in windows (including popups)"
+#~ msgstr "Плавное появление окон (включая всплывающие)"
+
+#~ msgid "Fade between opacity changes"
+#~ msgstr "Плавное изменение прозрачности"
+
+#~ msgid "Fade-in speed:"
+#~ msgstr "Скорость плавного показа:"
+
+#~ msgid "Fade-out speed:"
+#~ msgstr "Скорость плавного скрытия:"
+
+#~ msgid "Effects"
+#~ msgstr "Эффекты"
+
+#~ msgid "Use translucency/shadows"
+#~ msgstr "Использовать прозрачность и тени"
+
+#~ msgid ""
+#~ "<qt>Translucency support is new and may cause problems<br> including "
+#~ "crashes (sometimes the translucency engine, seldom even X).</qt>"
+#~ msgstr ""
+#~ "<qt>Поддержка прозрачности появилась недавно и может<br> вызывать "
+#~ "проблемы, включая сбои в движке прозрачности и иногда в X-сервере.</qt>"

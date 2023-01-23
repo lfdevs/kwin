@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-08-07 00:48+0000\n"
+"POT-Creation-Date: 2022-11-16 00:48+0000\n"
 "PO-Revision-Date: 2009-01-16 22:16+0530\n"
 "Last-Translator: Krishna Babu K <kkrothap@redhat.com>\n"
 "Language-Team: Telugu <en@li.org>\n"
@@ -127,3 +127,133 @@ msgstr ""
 #, kde-format
 msgid "Animate buttons"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Large"
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "Large"
+#~ msgstr "పెద్ద"
+
+#, fuzzy
+#~| msgid "Large"
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "Very Large"
+#~ msgstr "పెద్ద"
+
+#, fuzzy
+#~| msgid "Large"
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "Huge"
+#~ msgstr "పెద్ద"
+
+#, fuzzy
+#~| msgid "Small"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Small"
+#~ msgstr "చిన్న"
+
+#, fuzzy
+#~| msgid "Shade"
+#~ msgid "Shadows"
+#~ msgstr "ఛాయ(షేడ్)"
+
+#, fuzzy
+#~| msgid "Restore"
+#~ msgid "Remove"
+#~ msgstr "తిరిగివుంచుము"
+
+#, fuzzy
+#~| msgid "Oxygen"
+#~ msgid "Oxygen Shadow Demo"
+#~ msgstr "Oxygen"
+
+#~ msgid "Oxygen"
+#~ msgstr "Oxygen"
+
+#~ msgid "Help"
+#~ msgstr "సహాయం"
+
+#~ msgid "Minimize"
+#~ msgstr "చిన్నదిచేయి"
+
+#~ msgid "Maximize"
+#~ msgstr "పెద్దదిచేయి"
+
+#~ msgid "Close"
+#~ msgstr "మూయి"
+
+#~ msgid "On All Desktops"
+#~ msgstr "అన్ని రంగస్థలముల పైనా"
+
+#~ msgid "Menu"
+#~ msgstr "మెనూ"
+
+#~ msgid "Shade"
+#~ msgstr "ఛాయ(షేడ్)"
+
+#~ msgid "Resize"
+#~ msgstr "పునఃపరిమాణము"
+
+#~ msgid "Restore"
+#~ msgstr "తిరిగివుంచుము"
+
+#~ msgid "Laptop"
+#~ msgstr "లాప్ టాప్"
+
+#, fuzzy
+#~| msgid "Shade"
+#~ msgid "Save"
+#~ msgstr "ఛాయ(షేడ్)"
+
+#~ msgid "Large"
+#~ msgstr "పెద్ద"
+
+#~ msgid "Small"
+#~ msgstr "చిన్న"
+
+#~ msgid "Plastik"
+#~ msgstr "ప్లాస్టిక్"
+
+#, fuzzy
+#~| msgid "On All Desktops"
+#~ msgid "All Desktops"
+#~ msgstr "అన్ని రంగస్థలముల పైనా"
+
+#, fuzzy
+#~| msgid "Close"
+#~ msgid "Close Item"
+#~ msgstr "మూయి"
+
+#, fuzzy
+#~| msgid "Maximize"
+#~ msgid "Maximum"
+#~ msgstr "పెద్దదిచేయి"
+
+#, fuzzy
+#~| msgid "Shade"
+#~ msgid "Shadow style:"
+#~ msgstr "ఛాయ(షేడ్)"
+
+#~ msgid "KDE 2"
+#~ msgstr "కెడిఈ 2"
+
+#~ msgid "Quartz"
+#~ msgstr "ఖ్వార్‍ట్జ్"
+
+#~ msgid "Redmond"
+#~ msgstr "రెడ్‌మాండ్"
+
+#~ msgid "Medium"
+#~ msgstr "మీడియం"
+
+#~ msgid "Modern System"
+#~ msgstr "ఆధునిక సిస్టమ్"
+
+#~ msgid "Web"
+#~ msgstr "వెబ్"
+
+#~ msgid "Keramik"
+#~ msgstr "కెరామిక్"
+
+#~ msgid "Ozone"
+#~ msgstr "ఓజోన్"

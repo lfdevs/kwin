@@ -5,6 +5,7 @@
     SPDX-FileCopyrightText: 1999, 2000 Matthias Ettrich <ettrich@kde.org>
     SPDX-FileCopyrightText: 2003 Lubos Lunak <l.lunak@kde.org>
     SPDX-FileCopyrightText: 2019 Vlad Zahorodnii <vlad.zahorodnii@kde.org>
+    SPDX-FileCopyrightText: 2022 Natalie Clarius <natalie_clarius@yahoo.de>
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
@@ -20,8 +21,8 @@
 #include "appmenu.h"
 #include "atoms.h"
 #include "composite.h"
+#include "core/outputbackend.h"
 #include "core/outputconfiguration.h"
-#include "core/platform.h"
 #include "cursor.h"
 #include "dbusinterface.h"
 #include "deleted.h"
@@ -38,9 +39,9 @@
 #include "pluginmanager.h"
 #include "rules.h"
 #include "screenedge.h"
-#include "screens.h"
 #include "scripting/scripting.h"
 #include "syncalarmx11filter.h"
+#include "tiles/tilemanager.h"
 #include "x11window.h"
 #if KWIN_BUILD_TABBOX
 #include "tabbox.h"
@@ -50,6 +51,7 @@
 #include "placeholderinputeventfilter.h"
 #include "placeholderoutput.h"
 #include "placementtracker.h"
+#include "tiles/tilemanager.h"
 #include "unmanaged.h"
 #include "useractions.h"
 #include "utils/xcbutils.h"
@@ -161,7 +163,6 @@ Workspace::Workspace()
     m_rulebook = std::make_unique<RuleBook>();
     m_rulebook->load();
 
-    m_screens = std::make_unique<Screens>();
     m_screenEdges = std::make_unique<ScreenEdges>();
 
     // VirtualDesktopManager needs to be created prior to init shortcuts
@@ -210,10 +211,8 @@ void Workspace::init()
     connect(options, &Options::separateScreenFocusChanged, m_focusChain.get(), &FocusChain::setSeparateScreenFocus);
     m_focusChain->setSeparateScreenFocus(options->isSeparateScreenFocus());
 
-    slotPlatformOutputsQueried();
-    connect(kwinApp()->platform(), &Platform::outputsQueried, this, &Workspace::slotPlatformOutputsQueried);
-
-    m_screens->init();
+    slotOutputBackendOutputsQueried();
+    connect(kwinApp()->outputBackend(), &OutputBackend::outputsQueried, this, &Workspace::slotOutputBackendOutputsQueried);
 
     // create VirtualDesktopManager and perform dependency injection
     VirtualDesktopManager *vds = VirtualDesktopManager::self();
@@ -270,7 +269,7 @@ void Workspace::init()
     }
 
     // broadcast that Workspace is ready, but first process all events.
-    QMetaObject::invokeMethod(this, "workspaceInitialized", Qt::QueuedConnection);
+    QMetaObject::invokeMethod(this, &Workspace::workspaceInitialized, Qt::QueuedConnection);
 
     // TODO: ungrabXServer()
 
@@ -325,7 +324,7 @@ void Workspace::initializeX11()
     if (Xcb::Extensions::self()->isSyncAvailable()) {
         m_syncAlarmFilter.reset(new SyncAlarmX11Filter);
     }
-    updateXTime(); // Needed for proper initialization of user_time in Client ctor
+    kwinApp()->updateXTime(); // Needed for proper initialization of user_time in Client ctor
 
     const uint32_t nullFocusValues[] = {true};
     m_nullFocus.reset(new Xcb::Window(QRect(-1, -1, 1, 1), XCB_WINDOW_CLASS_INPUT_ONLY, XCB_CW_OVERRIDE_REDIRECT, nullFocusValues));
@@ -506,6 +505,8 @@ Workspace::~Workspace()
     if (m_placeholderOutput) {
         m_placeholderOutput->unref();
     }
+    m_tileManagers.clear();
+
     for (Output *output : std::as_const(m_outputs)) {
         output->unref();
     }
@@ -532,7 +533,7 @@ QString connectedOutputsHash(const QVector<Output *> &outputs)
 {
     QStringList hashedOutputs;
     hashedOutputs.reserve(outputs.count());
-    for (auto output : qAsConst(outputs)) {
+    for (auto output : std::as_const(outputs)) {
         if (!output->isPlaceholder() && !output->isNonDesktop()) {
             hashedOutputs << outputHash(output);
         }
@@ -631,7 +632,7 @@ std::shared_ptr<OutputMode> parseMode(Output *output, const QJsonObject &modeInf
 {
     const QJsonObject size = modeInfo["size"].toObject();
     const QSize modeSize = QSize(size["width"].toInt(), size["height"].toInt());
-    const int refreshRate = std::round(modeInfo["refresh"].toDouble() * 1000);
+    const uint32_t refreshRate = std::round(modeInfo["refresh"].toDouble() * 1000);
 
     const auto modes = output->modes();
     auto it = std::find_if(modes.begin(), modes.end(), [&modeSize, &refreshRate](const auto &mode) {
@@ -641,12 +642,12 @@ std::shared_ptr<OutputMode> parseMode(Output *output, const QJsonObject &modeInf
 }
 }
 
-bool Workspace::applyOutputConfiguration(const OutputConfiguration &config)
+bool Workspace::applyOutputConfiguration(const OutputConfiguration &config, const QVector<Output *> &outputOrder)
 {
-    if (!kwinApp()->platform()->applyOutputChanges(config)) {
+    if (!kwinApp()->outputBackend()->applyOutputChanges(config)) {
         return false;
     }
-    updateOutputs();
+    updateOutputs(outputOrder);
     return true;
 }
 
@@ -657,24 +658,33 @@ void Workspace::updateOutputConfiguration()
         return;
     }
 
-    const auto outputs = kwinApp()->platform()->outputs();
+    const auto outputs = kwinApp()->outputBackend()->outputs();
     if (outputs.empty()) {
         // nothing to do
         return;
     }
     const QString hash = KWinKScreenIntegration::connectedOutputsHash(outputs);
-    if (m_outputsHash == hash) {
-        return;
-    }
-
     const auto outputsInfo = KWinKScreenIntegration::outputsConfig(outputs, hash);
     m_outputsHash = hash;
 
-    Output *primaryOutput = outputs.constFirst();
+    // Update the output order to a fallback list, to avoid dangling pointers
+    const auto setFallbackOutputOrder = [this, &outputs]() {
+        auto newOrder = outputs;
+        newOrder.erase(std::remove_if(newOrder.begin(), newOrder.end(), [](Output *o) {
+                           return !o->isEnabled();
+                       }),
+                       newOrder.end());
+        std::sort(newOrder.begin(), newOrder.end(), [](Output *left, Output *right) {
+            return left->name() < right->name();
+        });
+        setOutputOrder(newOrder);
+    };
+
+    std::vector<std::pair<uint32_t, Output *>> outputOrder;
     OutputConfiguration cfg;
     // default position goes from left to right
     QPoint pos(0, 0);
-    for (const auto &output : qAsConst(outputs)) {
+    for (const auto &output : std::as_const(outputs)) {
         if (output->isPlaceholder() || output->isNonDesktop()) {
             continue;
         }
@@ -682,10 +692,24 @@ void Workspace::updateOutputConfiguration()
         const QJsonObject outputInfo = outputsInfo[output];
         qCDebug(KWIN_CORE) << "Reading output configuration for " << output;
         if (!outputInfo.isEmpty()) {
-            if (outputInfo["primary"].toBool()) {
-                primaryOutput = output;
-            }
             props->enabled = outputInfo["enabled"].toBool(true);
+            if (outputInfo["primary"].toBool()) {
+                outputOrder.push_back(std::make_pair(1, output));
+                if (!props->enabled) {
+                    qCWarning(KWIN_CORE) << "KScreen config would disable the primary output!";
+                    setFallbackOutputOrder();
+                    return;
+                }
+            } else if (int prio = outputInfo["priority"].toInt(); prio > 0) {
+                outputOrder.push_back(std::make_pair(prio, output));
+                if (!props->enabled) {
+                    qCWarning(KWIN_CORE) << "KScreen config would disable an output with priority!";
+                    setFallbackOutputOrder();
+                    return;
+                }
+            } else {
+                outputOrder.push_back(std::make_pair(0, output));
+            }
             const QJsonObject pos = outputInfo["pos"].toObject();
             props->pos = QPoint(pos["x"].toInt(), pos["y"].toInt());
             if (const QJsonValue scale = outputInfo["scale"]; !scale.isUndefined()) {
@@ -705,7 +729,8 @@ void Workspace::updateOutputConfiguration()
         } else {
             props->enabled = true;
             props->pos = pos;
-            props->transform = Output::Transform::Normal;
+            props->transform = output->panelOrientation();
+            outputOrder.push_back(std::make_pair(0, output));
         }
         pos.setX(pos.x() + output->geometry().width());
     }
@@ -714,17 +739,33 @@ void Workspace::updateOutputConfiguration()
     });
     if (allDisabled) {
         qCWarning(KWIN_CORE) << "KScreen config would disable all outputs!";
+        setFallbackOutputOrder();
         return;
     }
-    if (!cfg.changeSet(primaryOutput)->enabled) {
-        qCWarning(KWIN_CORE) << "KScreen config would disable the primary output!";
-        return;
-    }
-    if (!kwinApp()->platform()->applyOutputChanges(cfg)) {
+    std::erase_if(outputOrder, [&cfg](const auto &pair) {
+        return !cfg.constChangeSet(pair.second)->enabled;
+    });
+    std::sort(outputOrder.begin(), outputOrder.end(), [](const auto &left, const auto &right) {
+        if (left.first == right.first) {
+            // sort alphabetically as a fallback
+            return left.second->name() < right.second->name();
+        } else if (left.first == 0) {
+            return false;
+        } else {
+            return left.first < right.first;
+        }
+    });
+    if (!kwinApp()->outputBackend()->applyOutputChanges(cfg)) {
         qCWarning(KWIN_CORE) << "Applying KScreen config failed!";
+        setFallbackOutputOrder();
         return;
     }
-    setPrimaryOutput(primaryOutput);
+    QVector<Output *> order;
+    order.reserve(outputOrder.size());
+    std::transform(outputOrder.begin(), outputOrder.end(), std::back_inserter(order), [](const auto &pair) {
+        return pair.second;
+    });
+    setOutputOrder(order);
 }
 
 void Workspace::setupWindowConnections(Window *window)
@@ -742,7 +783,7 @@ void Workspace::constrain(Window *below, Window *above)
 
     QList<Constraint *> parents;
     QList<Constraint *> children;
-    for (Constraint *constraint : qAsConst(m_constraints)) {
+    for (Constraint *constraint : std::as_const(m_constraints)) {
         if (constraint->below == below && constraint->above == above) {
             return;
         }
@@ -760,11 +801,11 @@ void Workspace::constrain(Window *below, Window *above)
     constraint->children = children;
     m_constraints << constraint;
 
-    for (Constraint *parent : qAsConst(parents)) {
+    for (Constraint *parent : std::as_const(parents)) {
         parent->children << constraint;
     }
 
-    for (Constraint *child : qAsConst(children)) {
+    for (Constraint *child : std::as_const(children)) {
         child->parents << constraint;
     }
 
@@ -829,7 +870,7 @@ void Workspace::replaceInStack(Window *original, Deleted *deleted)
         stacking_order.append(deleted);
     }
 
-    for (Constraint *constraint : qAsConst(m_constraints)) {
+    for (Constraint *constraint : std::as_const(m_constraints)) {
         if (constraint->below == original) {
             constraint->below = deleted;
         } else if (constraint->above == original) {
@@ -851,11 +892,11 @@ void Workspace::removeFromStack(Window *window)
             continue;
         }
         if (isBelow) {
-            for (Constraint *child : qAsConst(constraint->children)) {
+            for (Constraint *child : std::as_const(constraint->children)) {
                 child->parents.removeOne(constraint);
             }
         } else {
-            for (Constraint *parent : qAsConst(constraint->parents)) {
+            for (Constraint *parent : std::as_const(constraint->parents)) {
                 parent->children.removeOne(constraint);
             }
         }
@@ -1189,7 +1230,7 @@ void Workspace::slotReconfigure()
     updateToolWindows(true);
 
     m_rulebook->load();
-    for (Window *window : qAsConst(m_allClients)) {
+    for (Window *window : std::as_const(m_allClients)) {
         if (window->supportsWindowRules()) {
             window->evaluateWindowRules();
             m_rulebook->discardUsed(window, false);
@@ -1408,8 +1449,6 @@ void Workspace::updateCurrentActivity(const QString &new_activity)
     }
 
     Q_EMIT currentActivityChanged();
-#else
-    Q_UNUSED(new_activity)
 #endif
 }
 
@@ -1435,7 +1474,60 @@ Output *Workspace::outputAt(const QPointF &pos) const
     return bestOutput;
 }
 
-void Workspace::slotPlatformOutputsQueried()
+Output *Workspace::findOutput(Output *reference, Direction direction, bool wrapAround) const
+{
+    QList<Output *> relevantOutputs;
+    std::copy_if(m_outputs.begin(), m_outputs.end(), std::back_inserter(relevantOutputs), [reference, direction](Output *output) {
+        switch (direction) {
+        case DirectionEast:
+        case DirectionWest:
+            // filter for outputs on same horizontal line
+            return output->geometry().top() <= reference->geometry().bottom() && output->geometry().bottom() >= reference->geometry().top();
+        case DirectionSouth:
+        case DirectionNorth:
+            // filter for outputs on same vertical line
+            return output->geometry().left() <= reference->geometry().right() && output->geometry().right() >= reference->geometry().left();
+        default:
+            // take all outputs
+            return true;
+        }
+    });
+
+    std::sort(relevantOutputs.begin(), relevantOutputs.end(), [direction](const Output *o1, const Output *o2) {
+        switch (direction) {
+        case DirectionEast:
+        case DirectionWest:
+            // order outputs from left to right
+            return o1->geometry().center().x() < o2->geometry().center().x();
+        case DirectionSouth:
+        case DirectionNorth:
+            // order outputs from top to bottom
+            return o1->geometry().center().y() < o2->geometry().center().y();
+        default:
+            // order outputs from top to bottom, then left to right
+            return (o1->geometry().center().y() < o2->geometry().center().y() || (o1->geometry().center().y() == o2->geometry().center().y() && o1->geometry().center().x() < o2->geometry().center().x()));
+        }
+    });
+
+    const int index = relevantOutputs.indexOf(reference);
+    Q_ASSERT(index != -1);
+    switch (direction) {
+    case DirectionEast:
+    case DirectionSouth:
+    case DirectionNext:
+        // go forward in the list
+        return relevantOutputs[wrapAround ? (index + 1) % relevantOutputs.count() : std::min(index + 1, (int)relevantOutputs.count() - 1)];
+    case DirectionWest:
+    case DirectionNorth:
+    case DirectionPrev:
+        // go backward in the list
+        return relevantOutputs[wrapAround ? (index + relevantOutputs.count() - 1) % relevantOutputs.count() : std::max(index - 1, 0)];
+    default:
+        Q_UNREACHABLE();
+    }
+}
+
+void Workspace::slotOutputBackendOutputsQueried()
 {
     if (waylandServer()) {
         updateOutputConfiguration();
@@ -1443,9 +1535,9 @@ void Workspace::slotPlatformOutputsQueried()
     updateOutputs();
 }
 
-void Workspace::updateOutputs()
+void Workspace::updateOutputs(const QVector<Output *> &outputOrder)
 {
-    const auto availableOutputs = kwinApp()->platform()->outputs();
+    const auto availableOutputs = kwinApp()->outputBackend()->outputs();
     const auto oldOutputs = m_outputs;
 
     m_outputs.clear();
@@ -1474,11 +1566,24 @@ void Workspace::updateOutputs()
     if (!m_activeOutput || !m_outputs.contains(m_activeOutput)) {
         setActiveOutput(m_outputs[0]);
     }
-    if (!m_primaryOutput || !m_outputs.contains(m_primaryOutput)) {
-        setPrimaryOutput(m_outputs[0]);
+    if (!m_outputs.contains(m_activeCursorOutput)) {
+        m_activeCursorOutput = nullptr;
     }
 
-    desktopResized();
+    if (!outputOrder.empty()) {
+        setOutputOrder(outputOrder);
+    } else {
+        // ensure all enabled but no disabled outputs are in the output order
+        for (Output *output : std::as_const(m_outputs)) {
+            if (output->isEnabled() && !m_outputOrder.contains(output)) {
+                m_outputOrder.push_back(output);
+            }
+        }
+        m_outputOrder.erase(std::remove_if(m_outputOrder.begin(), m_outputOrder.end(), [](Output *output) {
+                                return !output->isEnabled();
+                            }),
+                            m_outputOrder.end());
+    }
 
     const QSet<Output *> oldOutputsSet(oldOutputs.constBegin(), oldOutputs.constEnd());
     const QSet<Output *> outputsSet(m_outputs.constBegin(), m_outputs.constEnd());
@@ -1486,11 +1591,15 @@ void Workspace::updateOutputs()
     const auto added = outputsSet - oldOutputsSet;
     for (Output *output : added) {
         output->ref();
+        m_tileManagers[output] = std::make_unique<TileManager>(output);
         Q_EMIT outputAdded(output);
     }
 
+    desktopResized();
+
     const auto removed = oldOutputsSet - outputsSet;
     for (Output *output : removed) {
+        m_tileManagers.erase(output);
         Q_EMIT outputRemoved(output);
         output->unref();
     }
@@ -1514,7 +1623,7 @@ void Workspace::slotDesktopRemoved(VirtualDesktop *desktop)
         if ((*it)->desktops().count() > 1) {
             (*it)->leaveDesktop(desktop);
         } else {
-            sendWindowToDesktop(*it, qMin(desktop->x11DesktopNumber(), VirtualDesktopManager::self()->count()), true);
+            sendWindowToDesktop(*it, std::min(desktop->x11DesktopNumber(), VirtualDesktopManager::self()->count()), true);
         }
     }
 
@@ -1749,8 +1858,6 @@ QString Workspace::supportInformation() const
     support.append(HAVE_X11_XCB ? yes : no);
     support.append(QStringLiteral("HAVE_EPOXY_GLX: "));
     support.append(HAVE_EPOXY_GLX ? yes : no);
-    support.append(QStringLiteral("HAVE_WAYLAND_EGL: "));
-    support.append(HAVE_WAYLAND_EGL ? yes : no);
     support.append(QStringLiteral("\n"));
 
     if (auto c = kwinApp()->x11Connection()) {
@@ -1774,9 +1881,9 @@ QString Workspace::supportInformation() const
         support.append(m_decorationBridge->supportInformation());
         support.append(QStringLiteral("\n"));
     }
-    support.append(QStringLiteral("Platform\n"));
-    support.append(QStringLiteral("==========\n"));
-    support.append(kwinApp()->platform()->supportInformation());
+    support.append(QStringLiteral("Output backend\n"));
+    support.append(QStringLiteral("==============\n"));
+    support.append(kwinApp()->outputBackend()->supportInformation());
     support.append(QStringLiteral("\n"));
 
     const Cursor *cursor = Cursors::self()->mouse();
@@ -1824,7 +1931,7 @@ QString Workspace::supportInformation() const
     } else {
         support.append(QStringLiteral(" no\n"));
     }
-    const QVector<Output *> outputs = kwinApp()->platform()->outputs();
+    const QVector<Output *> outputs = kwinApp()->outputBackend()->outputs();
     support.append(QStringLiteral("Number of Screens: %1\n\n").arg(outputs.count()));
     for (int i = 0; i < outputs.count(); ++i) {
         const auto output = outputs[i];
@@ -1979,14 +2086,14 @@ QString Workspace::supportInformation() const
         support.append(QLatin1String("---------------\n"));
         QStringList loadedPlugins = kwinApp()->pluginManager()->loadedPlugins();
         loadedPlugins.sort();
-        for (const QString &plugin : qAsConst(loadedPlugins)) {
+        for (const QString &plugin : std::as_const(loadedPlugins)) {
             support.append(plugin + QLatin1Char('\n'));
         }
         support.append(QLatin1String("\nAvailable Plugins:\n"));
         support.append(QLatin1String("------------------\n"));
         QStringList availablePlugins = kwinApp()->pluginManager()->availablePlugins();
         availablePlugins.sort();
-        for (const QString &plugin : qAsConst(availablePlugins)) {
+        for (const QString &plugin : std::as_const(availablePlugins)) {
             support.append(plugin + QLatin1Char('\n'));
         }
     } else {
@@ -2222,7 +2329,7 @@ void Workspace::updateMinimizedOfTransients(Window *window)
         }
         if (window->isModal()) { // if a modal dialog is minimized, minimize its mainwindow too
             const auto windows = window->mainWindows();
-            for (Window *main : qAsConst(windows)) {
+            for (Window *main : std::as_const(windows)) {
                 main->minimize();
             }
         }
@@ -2236,7 +2343,7 @@ void Workspace::updateMinimizedOfTransients(Window *window)
         }
         if (window->isModal()) {
             const auto windows = window->mainWindows();
-            for (Window *main : qAsConst(windows)) {
+            for (Window *main : std::as_const(windows)) {
                 main->unminimize();
             }
         }
@@ -2382,10 +2489,10 @@ QRectF Workspace::adjustClientArea(Window *window, const QRectF &area) const
     // Handle struts at xinerama edges that are inside the virtual screen.
     // They're given in virtual screen coordinates, make them affect only
     // their xinerama screen.
-    strutLeft.setLeft(qMax(strutLeft.left(), screenArea.left()));
-    strutRight.setRight(qMin(strutRight.right(), screenArea.right()));
-    strutTop.setTop(qMax(strutTop.top(), screenArea.top()));
-    strutBottom.setBottom(qMin(strutBottom.bottom(), screenArea.bottom()));
+    strutLeft.setLeft(std::max(strutLeft.left(), screenArea.left()));
+    strutRight.setRight(std::min(strutRight.right(), screenArea.right()));
+    strutTop.setTop(std::max(strutTop.top(), screenArea.top()));
+    strutBottom.setBottom(std::min(strutBottom.bottom(), screenArea.bottom()));
 
     if (strutLeft.intersects(area)) {
         adjustedArea.setLeft(strutLeft.right());
@@ -2428,7 +2535,7 @@ void Workspace::updateClientArea()
         }
     }
 
-    for (Window *window : qAsConst(m_allClients)) {
+    for (Window *window : std::as_const(m_allClients)) {
         if (!window->hasStrut()) {
             continue;
         }
@@ -2450,8 +2557,13 @@ void Workspace::updateClientArea()
         }
         StrutRects strutRegion = window->strutRects();
         const QRect clientsScreenRect = window->output()->geometry();
-        for (auto strut = strutRegion.begin(); strut != strutRegion.end(); strut++) {
-            *strut = StrutRect((*strut).intersected(clientsScreenRect), (*strut).area());
+        for (int i = strutRegion.size() - 1; i >= 0; --i) {
+            const StrutRect clipped = StrutRect(strutRegion[i].intersected(clientsScreenRect), strutRegion[i].area());
+            if (clipped.isEmpty()) {
+                strutRegion.removeAt(i);
+            } else {
+                strutRegion[i] = clipped;
+            }
         }
 
         // Ignore offscreen xinerama struts. These interfere with the larger monitors on the setup
@@ -2546,7 +2658,6 @@ QRectF Workspace::clientArea(clientAreaOption opt, const Window *window, const O
     } else {
         desktop = window->desktops().constLast();
     }
-
     return clientArea(opt, output, desktop);
 }
 
@@ -2560,20 +2671,21 @@ QRect Workspace::geometry() const
     return m_geometry;
 }
 
-static QRegion strutsToRegion(StrutAreas areas, const StrutRects &strut)
+StrutRects Workspace::restrictedMoveArea(const VirtualDesktop *desktop, StrutAreas areas) const
 {
-    QRegion region;
+    const StrutRects strut = m_restrictedAreas.value(desktop);
+    if (areas == StrutAreaAll) {
+        return strut;
+    }
+
+    StrutRects ret;
+    ret.reserve(strut.size());
     for (const StrutRect &rect : strut) {
-        if (areas & rect.area()) {
-            region += rect;
+        if (rect.area() & areas) {
+            ret.append(rect);
         }
     }
-    return region;
-}
-
-QRegion Workspace::restrictedMoveArea(const VirtualDesktop *desktop, StrutAreas areas) const
-{
-    return strutsToRegion(areas, m_restrictedAreas[desktop]);
+    return ret;
 }
 
 bool Workspace::inUpdateClientArea() const
@@ -2581,9 +2693,21 @@ bool Workspace::inUpdateClientArea() const
     return m_inUpdateClientArea;
 }
 
-QRegion Workspace::previousRestrictedMoveArea(const VirtualDesktop *desktop, StrutAreas areas) const
+StrutRects Workspace::previousRestrictedMoveArea(const VirtualDesktop *desktop, StrutAreas areas) const
 {
-    return strutsToRegion(areas, m_oldRestrictedAreas[desktop]);
+    const StrutRects strut = m_oldRestrictedAreas.value(desktop);
+    if (areas == StrutAreaAll) {
+        return strut;
+    }
+
+    StrutRects ret;
+    ret.reserve(strut.size());
+    for (const StrutRect &rect : strut) {
+        if (rect.area() & areas) {
+            ret.append(rect);
+        }
+    }
+    return ret;
 }
 
 QHash<const Output *, QRect> Workspace::previousScreenSizes() const
@@ -2635,23 +2759,27 @@ Output *Workspace::xineramaIndexToOutput(int index) const
     return nullptr;
 }
 
-Output *Workspace::primaryOutput() const
+void Workspace::setOutputOrder(const QVector<Output *> &order)
 {
-    return m_primaryOutput;
+    if (m_outputOrder != order) {
+        m_outputOrder = order;
+        Q_EMIT outputOrderChanged();
+    }
 }
 
-void Workspace::setPrimaryOutput(Output *output)
+QVector<Output *> Workspace::outputOrder() const
 {
-    if (m_primaryOutput != output) {
-        m_primaryOutput = output;
-        Q_EMIT primaryOutputChanged();
-    }
+    return m_outputOrder;
 }
 
 Output *Workspace::activeOutput() const
 {
     if (options->activeMouseScreen()) {
-        return outputAt(Cursors::self()->mouse()->pos());
+        if (m_activeCursorOutput) {
+            return m_activeCursorOutput;
+        } else {
+            return outputAt(Cursors::self()->mouse()->pos());
+        }
     }
 
     if (m_activeWindow && !m_activeWindow->isOnOutput(m_activeOutput)) {
@@ -2669,6 +2797,16 @@ void Workspace::setActiveOutput(Output *output)
 void Workspace::setActiveOutput(const QPointF &pos)
 {
     setActiveOutput(outputAt(pos));
+}
+
+void Workspace::setActiveCursorOutput(Output *output)
+{
+    m_activeCursorOutput = output;
+}
+
+void Workspace::setActiveCursorOutput(const QPointF &pos)
+{
+    setActiveCursorOutput(outputAt(pos));
 }
 
 /**
@@ -2690,11 +2828,11 @@ QPointF Workspace::adjustWindowPosition(Window *window, QPointF pos, bool unrest
         QRectF geo = window->frameGeometry();
         if (window->maximizeMode() & MaximizeHorizontal && (geo.x() == maxRect.left() || geo.right() == maxRect.right())) {
             guideMaximized |= MaximizeHorizontal;
-            borderSnapZone.setWidth(qMax(borderSnapZone.width() + 2, maxRect.width() / 16));
+            borderSnapZone.setWidth(std::max(borderSnapZone.width() + 2, maxRect.width() / 16));
         }
         if (window->maximizeMode() & MaximizeVertical && (geo.y() == maxRect.top() || geo.bottom() == maxRect.bottom())) {
             guideMaximized |= MaximizeVertical;
-            borderSnapZone.setHeight(qMax(borderSnapZone.height() + 2, maxRect.height() / 16));
+            borderSnapZone.setHeight(std::max(borderSnapZone.height() + 2, maxRect.height() / 16));
         }
     }
 
@@ -2727,20 +2865,20 @@ QPointF Workspace::adjustWindowPosition(Window *window, QPointF pos, bool unrest
         const int borderXSnapZone = borderSnapZone.width() * snapAdjust; // snap trigger
         const int borderYSnapZone = borderSnapZone.height() * snapAdjust;
         if (borderXSnapZone > 0 || borderYSnapZone > 0) {
-            if ((sOWO ? (cx < xmin) : true) && (qAbs(xmin - cx) < borderXSnapZone)) {
+            if ((sOWO ? (cx < xmin) : true) && (std::abs(xmin - cx) < borderXSnapZone)) {
                 deltaX = xmin - cx;
                 nx = xmin;
             }
-            if ((sOWO ? (rx > xmax) : true) && (qAbs(rx - xmax) < borderXSnapZone) && (qAbs(xmax - rx) < deltaX)) {
+            if ((sOWO ? (rx > xmax) : true) && (std::abs(rx - xmax) < borderXSnapZone) && (std::abs(xmax - rx) < deltaX)) {
                 deltaX = rx - xmax;
                 nx = xmax - cw;
             }
 
-            if ((sOWO ? (cy < ymin) : true) && (qAbs(ymin - cy) < borderYSnapZone)) {
+            if ((sOWO ? (cy < ymin) : true) && (std::abs(ymin - cy) < borderYSnapZone)) {
                 deltaY = ymin - cy;
                 ny = ymin;
             }
-            if ((sOWO ? (ry > ymax) : true) && (qAbs(ry - ymax) < borderYSnapZone) && (qAbs(ymax - ry) < deltaY)) {
+            if ((sOWO ? (ry > ymax) : true) && (std::abs(ry - ymax) < borderYSnapZone) && (std::abs(ymax - ry) < deltaY)) {
                 deltaY = ry - ymax;
                 ny = ymax - ch;
             }
@@ -2753,7 +2891,7 @@ QPointF Workspace::adjustWindowPosition(Window *window, QPointF pos, bool unrest
                 if ((*l) == window) {
                     continue;
                 }
-                if ((*l)->isMinimized() || (*l)->isShade()) {
+                if ((*l)->isMinimized()) {
                     continue;
                 }
                 if (!(*l)->isShown()) {
@@ -2775,46 +2913,46 @@ QPointF Workspace::adjustWindowPosition(Window *window, QPointF pos, bool unrest
                 lry = ly + (*l)->height();
 
                 if (!(guideMaximized & MaximizeHorizontal) && (((cy <= lry) && (cy >= ly)) || ((ry >= ly) && (ry <= lry)) || ((cy <= ly) && (ry >= lry)))) {
-                    if ((sOWO ? (cx < lrx) : true) && (qAbs(lrx - cx) < windowSnapZone) && (qAbs(lrx - cx) < deltaX)) {
-                        deltaX = qAbs(lrx - cx);
+                    if ((sOWO ? (cx < lrx) : true) && (std::abs(lrx - cx) < windowSnapZone) && (std::abs(lrx - cx) < deltaX)) {
+                        deltaX = std::abs(lrx - cx);
                         nx = lrx;
                     }
-                    if ((sOWO ? (rx > lx) : true) && (qAbs(rx - lx) < windowSnapZone) && (qAbs(rx - lx) < deltaX)) {
-                        deltaX = qAbs(rx - lx);
+                    if ((sOWO ? (rx > lx) : true) && (std::abs(rx - lx) < windowSnapZone) && (std::abs(rx - lx) < deltaX)) {
+                        deltaX = std::abs(rx - lx);
                         nx = lx - cw;
                     }
                 }
 
                 if (!(guideMaximized & MaximizeVertical) && (((cx <= lrx) && (cx >= lx)) || ((rx >= lx) && (rx <= lrx)) || ((cx <= lx) && (rx >= lrx)))) {
-                    if ((sOWO ? (cy < lry) : true) && (qAbs(lry - cy) < windowSnapZone) && (qAbs(lry - cy) < deltaY)) {
-                        deltaY = qAbs(lry - cy);
+                    if ((sOWO ? (cy < lry) : true) && (std::abs(lry - cy) < windowSnapZone) && (std::abs(lry - cy) < deltaY)) {
+                        deltaY = std::abs(lry - cy);
                         ny = lry;
                     }
-                    // if ( (qAbs( ry-ly ) < snap) && (qAbs( ry - ly ) < deltaY ))
-                    if ((sOWO ? (ry > ly) : true) && (qAbs(ry - ly) < windowSnapZone) && (qAbs(ry - ly) < deltaY)) {
-                        deltaY = qAbs(ry - ly);
+                    // if ( (std::abs( ry-ly ) < snap) && (std::abs( ry - ly ) < deltaY ))
+                    if ((sOWO ? (ry > ly) : true) && (std::abs(ry - ly) < windowSnapZone) && (std::abs(ry - ly) < deltaY)) {
+                        deltaY = std::abs(ry - ly);
                         ny = ly - ch;
                     }
                 }
 
                 // Corner snapping
                 if (!(guideMaximized & MaximizeVertical) && (nx == lrx || nx + cw == lx)) {
-                    if ((sOWO ? (ry > lry) : true) && (qAbs(lry - ry) < windowSnapZone) && (qAbs(lry - ry) < deltaY)) {
-                        deltaY = qAbs(lry - ry);
+                    if ((sOWO ? (ry > lry) : true) && (std::abs(lry - ry) < windowSnapZone) && (std::abs(lry - ry) < deltaY)) {
+                        deltaY = std::abs(lry - ry);
                         ny = lry - ch;
                     }
-                    if ((sOWO ? (cy < ly) : true) && (qAbs(cy - ly) < windowSnapZone) && (qAbs(cy - ly) < deltaY)) {
-                        deltaY = qAbs(cy - ly);
+                    if ((sOWO ? (cy < ly) : true) && (std::abs(cy - ly) < windowSnapZone) && (std::abs(cy - ly) < deltaY)) {
+                        deltaY = std::abs(cy - ly);
                         ny = ly;
                     }
                 }
                 if (!(guideMaximized & MaximizeHorizontal) && (ny == lry || ny + ch == ly)) {
-                    if ((sOWO ? (rx > lrx) : true) && (qAbs(lrx - rx) < windowSnapZone) && (qAbs(lrx - rx) < deltaX)) {
-                        deltaX = qAbs(lrx - rx);
+                    if ((sOWO ? (rx > lrx) : true) && (std::abs(lrx - rx) < windowSnapZone) && (std::abs(lrx - rx) < deltaX)) {
+                        deltaX = std::abs(lrx - rx);
                         nx = lrx - cw;
                     }
-                    if ((sOWO ? (cx < lx) : true) && (qAbs(cx - lx) < windowSnapZone) && (qAbs(cx - lx) < deltaX)) {
-                        deltaX = qAbs(cx - lx);
+                    if ((sOWO ? (cx < lx) : true) && (std::abs(cx - lx) < windowSnapZone) && (std::abs(cx - lx) < deltaX)) {
+                        deltaX = std::abs(cx - lx);
                         nx = lx;
                     }
                 }
@@ -2824,8 +2962,8 @@ QPointF Workspace::adjustWindowPosition(Window *window, QPointF pos, bool unrest
         // center snap
         const int centerSnapZone = options->centerSnapZone() * snapAdjust;
         if (centerSnapZone > 0) {
-            int diffX = qAbs((xmin + xmax) / 2 - (cx + cw / 2));
-            int diffY = qAbs((ymin + ymax) / 2 - (cy + ch / 2));
+            int diffX = std::abs((xmin + xmax) / 2 - (cx + cw / 2));
+            int diffY = std::abs((ymin + ymax) / 2 - (cy + ch / 2));
             if (diffX < centerSnapZone && diffY < centerSnapZone && diffX < deltaX && diffY < deltaY) {
                 // Snap to center of screen
                 nx = (xmin + xmax) / 2 - cw / 2;
@@ -2879,28 +3017,28 @@ QRectF Workspace::adjustWindowSize(Window *window, QRectF moveResizeGeom, Gravit
             deltaX = int(snap);
             deltaY = int(snap);
 
-#define SNAP_BORDER_TOP                                                    \
-    if ((sOWO ? (newcy < ymin) : true) && (qAbs(ymin - newcy) < deltaY)) { \
-        deltaY = qAbs(ymin - newcy);                                       \
-        newcy = ymin;                                                      \
+#define SNAP_BORDER_TOP                                                        \
+    if ((sOWO ? (newcy < ymin) : true) && (std::abs(ymin - newcy) < deltaY)) { \
+        deltaY = std::abs(ymin - newcy);                                       \
+        newcy = ymin;                                                          \
     }
 
-#define SNAP_BORDER_BOTTOM                                                 \
-    if ((sOWO ? (newry > ymax) : true) && (qAbs(ymax - newry) < deltaY)) { \
-        deltaY = qAbs(ymax - newcy);                                       \
-        newry = ymax;                                                      \
+#define SNAP_BORDER_BOTTOM                                                     \
+    if ((sOWO ? (newry > ymax) : true) && (std::abs(ymax - newry) < deltaY)) { \
+        deltaY = std::abs(ymax - newcy);                                       \
+        newry = ymax;                                                          \
     }
 
-#define SNAP_BORDER_LEFT                                                   \
-    if ((sOWO ? (newcx < xmin) : true) && (qAbs(xmin - newcx) < deltaX)) { \
-        deltaX = qAbs(xmin - newcx);                                       \
-        newcx = xmin;                                                      \
+#define SNAP_BORDER_LEFT                                                       \
+    if ((sOWO ? (newcx < xmin) : true) && (std::abs(xmin - newcx) < deltaX)) { \
+        deltaX = std::abs(xmin - newcx);                                       \
+        newcx = xmin;                                                          \
     }
 
-#define SNAP_BORDER_RIGHT                                                  \
-    if ((sOWO ? (newrx > xmax) : true) && (qAbs(xmax - newrx) < deltaX)) { \
-        deltaX = qAbs(xmax - newrx);                                       \
-        newrx = xmax;                                                      \
+#define SNAP_BORDER_RIGHT                                                      \
+    if ((sOWO ? (newrx > xmax) : true) && (std::abs(xmax - newrx) < deltaX)) { \
+        deltaX = std::abs(xmax - newrx);                                       \
+        newrx = xmax;                                                          \
     }
             switch (gravity) {
             case Gravity::BottomRight:
@@ -2954,68 +3092,68 @@ QRectF Workspace::adjustWindowSize(Window *window, QRectF moveResizeGeom, Gravit
 
 #define WITHIN_WIDTH (((cx <= lrx) && (cx >= lx)) || ((rx >= lx) && (rx <= lrx)) || ((cx <= lx) && (rx >= lrx)))
 
-#define SNAP_WINDOW_TOP                    \
-    if ((sOWO ? (newcy < lry) : true)      \
-        && WITHIN_WIDTH                    \
-        && (qAbs(lry - newcy) < deltaY)) { \
-        deltaY = qAbs(lry - newcy);        \
-        newcy = lry;                       \
+#define SNAP_WINDOW_TOP                        \
+    if ((sOWO ? (newcy < lry) : true)          \
+        && WITHIN_WIDTH                        \
+        && (std::abs(lry - newcy) < deltaY)) { \
+        deltaY = std::abs(lry - newcy);        \
+        newcy = lry;                           \
     }
 
-#define SNAP_WINDOW_BOTTOM                \
-    if ((sOWO ? (newry > ly) : true)      \
-        && WITHIN_WIDTH                   \
-        && (qAbs(ly - newry) < deltaY)) { \
-        deltaY = qAbs(ly - newry);        \
-        newry = ly;                       \
+#define SNAP_WINDOW_BOTTOM                    \
+    if ((sOWO ? (newry > ly) : true)          \
+        && WITHIN_WIDTH                       \
+        && (std::abs(ly - newry) < deltaY)) { \
+        deltaY = std::abs(ly - newry);        \
+        newry = ly;                           \
     }
 
-#define SNAP_WINDOW_LEFT                   \
-    if ((sOWO ? (newcx < lrx) : true)      \
-        && WITHIN_HEIGHT                   \
-        && (qAbs(lrx - newcx) < deltaX)) { \
-        deltaX = qAbs(lrx - newcx);        \
-        newcx = lrx;                       \
+#define SNAP_WINDOW_LEFT                       \
+    if ((sOWO ? (newcx < lrx) : true)          \
+        && WITHIN_HEIGHT                       \
+        && (std::abs(lrx - newcx) < deltaX)) { \
+        deltaX = std::abs(lrx - newcx);        \
+        newcx = lrx;                           \
     }
 
-#define SNAP_WINDOW_RIGHT                 \
-    if ((sOWO ? (newrx > lx) : true)      \
-        && WITHIN_HEIGHT                  \
-        && (qAbs(lx - newrx) < deltaX)) { \
-        deltaX = qAbs(lx - newrx);        \
-        newrx = lx;                       \
+#define SNAP_WINDOW_RIGHT                     \
+    if ((sOWO ? (newrx > lx) : true)          \
+        && WITHIN_HEIGHT                      \
+        && (std::abs(lx - newrx) < deltaX)) { \
+        deltaX = std::abs(lx - newrx);        \
+        newrx = lx;                           \
     }
 
-#define SNAP_WINDOW_C_TOP                \
-    if ((sOWO ? (newcy < ly) : true)     \
-        && (newcx == lrx || newrx == lx) \
-        && qAbs(ly - newcy) < deltaY) {  \
-        deltaY = qAbs(ly - newcy);       \
-        newcy = ly;                      \
+#define SNAP_WINDOW_C_TOP                   \
+    if ((sOWO ? (newcy < ly) : true)        \
+        && (newcx == lrx || newrx == lx)    \
+        && std::abs(ly - newcy) < deltaY) { \
+        deltaY = std::abs(ly - newcy);      \
+        newcy = ly;                         \
     }
 
-#define SNAP_WINDOW_C_BOTTOM             \
-    if ((sOWO ? (newry > lry) : true)    \
-        && (newcx == lrx || newrx == lx) \
-        && qAbs(lry - newry) < deltaY) { \
-        deltaY = qAbs(lry - newry);      \
-        newry = lry;                     \
+#define SNAP_WINDOW_C_BOTTOM                 \
+    if ((sOWO ? (newry > lry) : true)        \
+        && (newcx == lrx || newrx == lx)     \
+        && std::abs(lry - newry) < deltaY) { \
+        deltaY = std::abs(lry - newry);      \
+        newry = lry;                         \
     }
 
-#define SNAP_WINDOW_C_LEFT               \
-    if ((sOWO ? (newcx < lx) : true)     \
-        && (newcy == lry || newry == ly) \
-        && qAbs(lx - newcx) < deltaX) {  \
-        deltaX = qAbs(lx - newcx);       \
-        newcx = lx;                      \
+#define SNAP_WINDOW_C_LEFT                  \
+    if ((sOWO ? (newcx < lx) : true)        \
+        && (newcy == lry || newry == ly)    \
+        && std::abs(lx - newcx) < deltaX) { \
+        deltaX = std::abs(lx - newcx);      \
+        newcx = lx;                         \
     }
 
-#define SNAP_WINDOW_C_RIGHT              \
-    if ((sOWO ? (newrx > lrx) : true)    \
-        && (newcy == lry || newry == ly) \
-        && qAbs(lrx - newrx) < deltaX) { \
-        deltaX = qAbs(lrx - newrx);      \
-        newrx = lrx;                     \
+#define SNAP_WINDOW_C_RIGHT                  \
+    if ((sOWO ? (newrx > lrx) : true)        \
+        && (newcy == lry || newry == ly)     \
+        && std::abs(lrx - newrx) < deltaX) { \
+        deltaX = std::abs(lrx - newrx);      \
+        newrx = lrx;                         \
     }
 
                     switch (gravity) {
@@ -3149,9 +3287,9 @@ ScreenEdges *Workspace::screenEdges() const
     return m_screenEdges.get();
 }
 
-Screens *Workspace::screens() const
+TileManager *Workspace::tileManager(Output *output)
 {
-    return m_screens.get();
+    return m_tileManagers.at(output).get();
 }
 
 #if KWIN_BUILD_TABBOX

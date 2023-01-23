@@ -5,19 +5,16 @@
 */
 
 #include "cursordelegate_qpainter.h"
+#include "composite.h"
 #include "core/renderlayer.h"
 #include "core/rendertarget.h"
 #include "cursor.h"
+#include "scene/cursorscene.h"
 
 #include <QPainter>
 
 namespace KWin
 {
-
-CursorDelegateQPainter::CursorDelegateQPainter(QObject *parent)
-    : RenderLayerDelegate(parent)
-{
-}
 
 void CursorDelegateQPainter::paint(RenderTarget *renderTarget, const QRegion &region)
 {
@@ -30,10 +27,23 @@ void CursorDelegateQPainter::paint(RenderTarget *renderTarget, const QRegion &re
         return;
     }
 
-    const Cursor *cursor = Cursors::self()->currentCursor();
+    const QSize bufferSize = Cursors::self()->currentCursor()->rect().size() * renderTarget->devicePixelRatio();
+    if (m_buffer.size() != bufferSize) {
+        m_buffer = QImage(bufferSize, QImage::Format_ARGB32_Premultiplied);
+    }
+
+    RenderTarget offscreenRenderTarget(&m_buffer);
+    offscreenRenderTarget.setDevicePixelRatio(renderTarget->devicePixelRatio());
+
+    RenderLayer renderLayer(layer()->loop());
+    renderLayer.setDelegate(std::make_unique<SceneDelegate>(Compositor::self()->cursorScene()));
+    renderLayer.delegate()->prePaint();
+    renderLayer.delegate()->paint(&offscreenRenderTarget, infiniteRegion());
+    renderLayer.delegate()->postPaint();
+
     QPainter painter(buffer);
     painter.setClipRegion(region);
-    painter.drawImage(layer()->mapToGlobal(layer()->rect()), cursor->image());
+    painter.drawImage(layer()->mapToGlobal(layer()->rect()), m_buffer);
 }
 
 } // namespace KWin

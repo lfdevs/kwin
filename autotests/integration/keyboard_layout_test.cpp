@@ -8,13 +8,14 @@
 */
 #include "kwin_wayland_test.h"
 
-#include "core/platform.h"
+#include "core/outputbackend.h"
 #include "keyboard_input.h"
 #include "keyboard_layout.h"
 #include "virtualdesktops.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
+#include "xkb.h"
 
 #include <KConfigGroup>
 #include <KGlobalAccel>
@@ -30,7 +31,6 @@
 #include <linux/input.h>
 
 using namespace KWin;
-using namespace KWayland::Client;
 
 static const QString s_socketName = QStringLiteral("wayland_test_kwin_keyboard_laout-0");
 
@@ -132,8 +132,8 @@ void KeyboardLayoutTest::initTestCase()
 {
     qRegisterMetaType<KWin::Window *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
+    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
 
     kwinApp()->setConfig(KSharedConfig::openConfig(QString(), KConfig::SimpleConfig));
     kwinApp()->setKxkbConfig(KSharedConfig::openConfig(QString(), KConfig::SimpleConfig));
@@ -412,7 +412,6 @@ void KeyboardLayoutTest::testWindowPolicy()
     QCOMPARE(xkb->layoutName(), QStringLiteral("English (US)"));
 
     // create a window
-    using namespace KWayland::Client;
     std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
     std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get()));
     auto c1 = Test::renderAndWaitForShown(surface.get(), QSize(100, 100), Qt::blue);
@@ -459,7 +458,6 @@ void KeyboardLayoutTest::testApplicationPolicy()
     QCOMPARE(xkb->layoutName(), QStringLiteral("English (US)"));
 
     // create a window
-    using namespace KWayland::Client;
     std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
     std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get()));
     shellSurface->set_app_id(QStringLiteral("org.kde.foo"));

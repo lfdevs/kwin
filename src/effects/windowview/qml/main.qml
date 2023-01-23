@@ -90,11 +90,12 @@ Item {
         }
     }
 
-    PlasmaExtras.PlaceholderMessage {
+    Loader {
         anchors.centerIn: parent
         width: parent.width - (PlasmaCore.Units.gridUnit * 8)
 
-        visible: heap.activeEmpty
+        active: heap.activeEmpty
+
         // Otherwise it's always 100% opaque even while the blurry desktop background's
         // opacity is changing, which looks weird and is different from what Overview does.
         opacity: container.organized ? 1 : 0
@@ -102,8 +103,10 @@ Item {
             OpacityAnimator { duration: container.effect.animationDuration; easing.type: Easing.OutCubic }
         }
 
-        iconName: "edit-none"
-        text: effect.searchText.length > 0 ? i18nd("kwin_effects", "No Matches") : i18nd("kwin_effects", "No Windows")
+        sourceComponent: PlasmaExtras.PlaceholderMessage {
+            iconName: "edit-none"
+            text: effect.searchText.length > 0 ? i18nd("kwin_effects", "No Matches") : i18nd("kwin_effects", "No Windows")
+        }
     }
 
     ColumnLayout {
@@ -115,6 +118,9 @@ Item {
             Layout.topMargin: PlasmaCore.Units.gridUnit
             Layout.preferredWidth: Math.min(parent.width, 20 * PlasmaCore.Units.gridUnit)
             focus: false
+
+            // Don't confuse users into thinking it's a full search
+            placeholderText: i18n("Filter windows…")
 
             // Otherwise it's always 100% opaque even while the blurry desktop background's
             // opacity is changing, which looks weird and is different from what Overview does.
@@ -209,7 +215,9 @@ Item {
         }
     }
 
-    Repeater {
+    Instantiator {
+        asynchronous: true
+
         model: KWinComponents.ClientFilterModel {
             desktop: KWinComponents.Workspace.currentVirtualDesktop
             screenName: targetScreen.name
@@ -229,6 +237,10 @@ Item {
             Behavior on opacity {
                 NumberAnimation { duration: container.effect.animationDuration; easing.type: Easing.OutCubic }
             }
+        }
+
+        onObjectAdded: (index, object) => {
+            object.parent = container
         }
     }
 

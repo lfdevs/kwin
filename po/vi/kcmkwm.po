@@ -2,13 +2,13 @@
 # Copyright © 2007 KDE i18n Project for Vietnamese.
 #
 # Clytie Siddall <clytie@riverland.net.au>, 2006-2007.
-# Phu Hung Nguyen <phu.nguyen@kdemail.net>, 2020, 2021, 2022.
+# Phu Hung Nguyen <phu.nguyen@kdemail.net>, 2020, 2021, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-02 00:47+0000\n"
-"PO-Revision-Date: 2022-09-02 17:40+0200\n"
+"POT-Creation-Date: 2022-12-03 00:48+0000\n"
+"PO-Revision-Date: 2023-01-08 17:48+0100\n"
 "Last-Translator: Phu Hung Nguyen <phu.nguyen@kdemail.net>\n"
 "Language-Team: Vietnamese <kde-l10n-vi@kde.org>\n"
 "Language: vi\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 22.04.1\n"
+"X-Generator: Lokalize 22.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -500,13 +500,10 @@ msgid ""
 "whole screen. It might be useful to selectively affect placement of some "
 "windows using the window-specific settings.</li><li style=\" margin-top:0px; "
 "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\"><span style=\" font-style:italic;\">Cascade</span> will "
-"cascade the windows</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"text-indent:0px;\"><span style=\" font-style:italic;\">Random</span> will "
+"use a random position</li><li style=\" margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-style:italic;\">Random</span> will use a random "
-"position</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-style:italic;\">Centered</span> will place the window "
+"\"><span style=\" font-style:italic;\">Centered</span> will place the window "
 "centered</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\" font-style:italic;\">Zero-cornered</span> will place the window in "
@@ -528,19 +525,17 @@ msgstr ""
 "muốn tác động một cách chọn lọc lên sự xếp chỗ của một số cửa sổ bằng các "
 "thiết lập theo cửa sổ.</li><li style=\"margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\"font-style:italic;\">Xếp tầng</span> sẽ xếp tầng các cửa "
-"sổ</li><li style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; "
-"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-"
-"style:italic;\">Ngẫu nhiên</span> sẽ dùng một vị trí ngẫu nhiên</li><li "
+"\"><span style=\"font-style:italic;\">Ngẫu nhiên</span> sẽ dùng một vị trí "
+"ngẫu nhiên</li><li style=\"margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\"font-style:italic;\">Ở giữa</span> sẽ đặt cửa sổ vào giữa</li><li "
 "style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-style:"
-"italic;\">Ở giữa</span> sẽ đặt cửa sổ vào giữa</li><li style=\"margin-"
-"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\"><span style=\"font-style:italic;\">Ở góc trái "
-"trên</span> sẽ đặt cửa sổ vào góc trái trên</li><li style=\"margin-top:0px; "
-"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\"><span style=\"font-style:italic;\">Dưới chuột</span> sẽ "
-"đặt cửa sổ vào dưới con trỏ</li></ul></body></html>"
+"italic;\">Ở góc trái trên</span> sẽ đặt cửa sổ vào góc trái trên</li><li "
+"style=\"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-style:"
+"italic;\">Dưới chuột</span> sẽ đặt cửa sổ vào dưới con trỏ</li></ul></body></"
+"html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:80
@@ -557,35 +552,29 @@ msgstr "Tối đa hoá"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:90
 #, kde-format
-msgid "Cascaded"
-msgstr "Xếp tầng"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:95
-#, kde-format
 msgid "Random"
 msgstr "Ngẫu nhiên"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:100
+#: advanced.ui:95
 #, kde-format
 msgid "Centered"
 msgstr "Ở giữa"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:105
+#: advanced.ui:100
 #, kde-format
 msgid "In Top-Left Corner"
 msgstr "Ở góc trái trên"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:110
+#: advanced.ui:105
 #, kde-format
 msgid "Under mouse"
 msgstr "Dưới chuột"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:118
+#: advanced.ui:113
 #, kde-format
 msgid ""
 "When turned on, apps which are able to remember the positions of their "
@@ -597,7 +586,7 @@ msgstr ""
 "trên."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:121
+#: advanced.ui:116
 #, kde-format
 msgid ""
 "Allow apps to remember the positions of their own windows, if they support it"
@@ -606,13 +595,13 @@ msgstr ""
 "đó"
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
-#: advanced.ui:128
+#: advanced.ui:123
 #, kde-format
 msgid "&Special windows:"
 msgstr "Cửa sổ đặc &biệt:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:138
+#: advanced.ui:133
 #, kde-format
 msgid ""
 "When turned on, utility windows (tool windows, torn-off menus,...) of "
@@ -626,25 +615,25 @@ msgstr ""
 "dấu cửa sổ bằng kiểu cửa sổ thích hợp."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:141
+#: advanced.ui:136
 #, kde-format
 msgid "Hide utility windows for inactive applications"
 msgstr "Ẩn cửa sổ tiện ích cho các ứng dụng bất hoạt"
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyLabel)
-#: advanced.ui:148
+#: advanced.ui:143
 #, kde-format
 msgid "Virtual Desktop behavior:"
 msgstr "Ứng xử của bàn làm việc ảo:"
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyDescriptionLabel)
-#: advanced.ui:158
+#: advanced.ui:153
 #, kde-format
 msgid "When activating a window on a different Virtual Desktop:"
 msgstr "Khi kích hoạt một cửa sổ ở một bàn làm việc ảo khác:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:165
+#: advanced.ui:160
 #, kde-format
 msgid ""
 "<html><head/><body><p>This setting controls what happens when an open window "
@@ -663,13 +652,13 @@ msgstr ""
 "khiến cửa sổ đó nhảy đến bàn làm việc ảo đang hoạt động.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:169
+#: advanced.ui:164
 #, kde-format
 msgid "Switch to that Virtual Desktop"
 msgstr "Chuyển sang bàn làm việc ảo đó"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:174
+#: advanced.ui:169
 #, kde-format
 msgid "Bring window to current Virtual Desktop"
 msgstr "Đưa cửa sổ đến bàn làm việc ảo hiện tại"
@@ -1404,3 +1393,21 @@ msgstr ""
 "thuẫn với chính sách kích hoạt này và sẽ không hoạt động. Rất nhiều khả năng "
 "là bạn muốn dùng <em>Nhắm đi theo chuột (ưu tiên chuột)</em> chứ không phải "
 "cái này!"
+
+#~ msgid "Cascaded"
+#~ msgstr "Xếp tầng"
+
+#~ msgid "Window &geometry:"
+#~ msgstr "&Hình dạng của cửa sổ:"
+
+#~ msgid ""
+#~ "Enable this option if you want a window's geometry to be displayed while "
+#~ "it is being moved or resized. The window position relative to the top-"
+#~ "left corner of the screen is displayed together with its size."
+#~ msgstr ""
+#~ "Bật lựa chọn này nếu bạn muốn hình dạng của một cửa sổ được hiển thị khi "
+#~ "nó được di chuyển hoặc đổi cỡ. Vị trí tương đối của cửa sổ so với góc "
+#~ "trái trên của màn hình sẽ được hiển thị cùng với kích thước cửa sổ."
+
+#~ msgid "Display when moving or resizing"
+#~ msgstr "Hiển thị khi di chuyển hoặc đổi cỡ"

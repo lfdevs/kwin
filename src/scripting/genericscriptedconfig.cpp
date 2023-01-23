@@ -14,7 +14,6 @@
 
 #include <KAboutData>
 #define TRANSLATION_DOMAIN "kwin_scripting"
-#include <KDesktopFile>
 #include <KLocalizedString>
 #include <KLocalizedTranslator>
 #include <kconfigloader.h>
@@ -30,10 +29,6 @@ namespace KWin
 
 QObject *GenericScriptedConfigFactory::create(const char *iface, QWidget *parentWidget, QObject *parent, const QVariantList &args, const QString &keyword)
 {
-    Q_UNUSED(iface)
-    Q_UNUSED(parent)
-    Q_UNUSED(keyword)
-
     // the plugin id is in the args when created by desktop effects kcm or EffectsModel in general
     QString pluginId = args.isEmpty() ? QString() : args.first().toString();
 
@@ -68,14 +63,45 @@ void GenericScriptedConfig::createUi()
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
 
-    const QString kconfigXTFile = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
-                                                         QLatin1String(KWIN_NAME) + QLatin1Char('/') + typeName() + QLatin1Char('/') + m_packageName + QLatin1String("/contents/config/main.xml"));
-    const QString uiPath = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
-                                                  QLatin1String(KWIN_NAME) + QLatin1Char('/') + typeName() + QLatin1Char('/') + m_packageName + QLatin1String("/contents/ui/config.ui"));
-    if (kconfigXTFile.isEmpty() || uiPath.isEmpty()) {
-        layout->addWidget(new QLabel(i18nc("Error message", "Plugin does not provide configuration file in expected location")));
+    const QString packageRoot = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
+                                                       QLatin1String("kwin/") + typeName() + QLatin1Char('/') + m_packageName,
+                                                       QStandardPaths::LocateDirectory);
+    if (packageRoot.isEmpty()) {
+        layout->addWidget(new QLabel(i18nc("Error message", "Could not locate package metadata")));
         return;
     }
+
+    KPluginMetaData metaData(packageRoot + QLatin1String("/metadata.json"));
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    if (!metaData.isValid()) {
+        metaData = KPluginMetaData::fromDesktopFile(packageRoot + QLatin1String("/metadata.desktop"));
+        if (metaData.isValid()) {
+            qWarning("metadata.desktop format is obsolete. Please convert %s to JSON metadata", qPrintable(metaData.fileName()));
+        }
+    }
+#endif
+    if (!metaData.isValid()) {
+        layout->addWidget(new QLabel(i18nc("Required file does not exist", "%1 does not contain a valid metadata.json file", qPrintable(packageRoot))));
+        return;
+    }
+
+    const QString kconfigXTFile = packageRoot + QLatin1String("/contents/config/main.xml");
+    if (!QFileInfo::exists(kconfigXTFile)) {
+        layout->addWidget(new QLabel(i18nc("Required file does not exist", "%1 does not exist", qPrintable(kconfigXTFile))));
+        return;
+    }
+
+    const QString uiPath = packageRoot + QLatin1String("/contents/ui/config.ui");
+    if (!QFileInfo::exists(uiPath)) {
+        layout->addWidget(new QLabel(i18nc("Required file does not exist", "%1 does not exist", qPrintable(uiPath))));
+        return;
+    }
+
+    const QString localePath = packageRoot + QLatin1String("/contents/locale");
+    if (QFileInfo::exists(localePath)) {
+        KLocalizedString::addDomainLocaleDir(metaData.value("X-KWin-Config-TranslationDomain").toUtf8(), localePath);
+    }
+
     QFile xmlFile(kconfigXTFile);
     KConfigGroup cg = configGroup();
     KConfigLoader *configLoader = new KConfigLoader(cg, &xmlFile, this);
@@ -83,13 +109,7 @@ void GenericScriptedConfig::createUi()
     QUiLoader *loader = new QUiLoader(this);
     loader->setLanguageChangeEnabled(true);
     QFile uiFile(uiPath);
-    // try getting a translation domain
-    const QString metaDataPath =
-        QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral(KWIN_NAME "/%1/%2/metadata.desktop").arg(typeName(), m_packageName));
-    if (!metaDataPath.isNull()) {
-        KDesktopFile metaData(metaDataPath);
-        m_translator->setTranslationDomain(metaData.desktopGroup().readEntry("X-KWin-Config-TranslationDomain", QString()));
-    }
+    m_translator->setTranslationDomain(metaData.value("X-KWin-Config-TranslationDomain"));
 
     uiFile.open(QFile::ReadOnly);
     QWidget *customConfigForm = loader->load(&uiFile, this);

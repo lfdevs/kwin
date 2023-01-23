@@ -237,3 +237,43 @@ msgid ""
 msgstr ""
 "Du kan udløse en handling ved at stryge fra kanten af skærmen mod skærmens "
 "midte"
+
+#~ msgid "Show Desktop"
+#~ msgstr "Vis skrivebord"
+
+#~ msgid "%1 - Cube"
+#~ msgstr "%1 - Terning"
+
+#~ msgid "%1 - Cylinder"
+#~ msgstr "%1 - Cylinder"
+
+#~ msgid "%1 - Sphere"
+#~ msgstr "%1 - Kugle"
+
+#~ msgid "Active Screen Corners and Edges"
+#~ msgstr "Aktive skærmhjørner og -kanter"
+
+#~ msgid "Window Management"
+#~ msgstr "Vindueshåndtering"
+
+#~ msgid "Maximize windows by dragging them to the top edge of the screen"
+#~ msgstr "Maksimér vinduer ved at trække dem til skærmens topkant"
+
+#~ msgid "Quarter tiling triggered in the outer"
+#~ msgstr "Kvart fliseudlægning udløst i ydre"
+
+#~ msgid "Other Settings"
+#~ msgstr "Andre indstillinger"
+
+#~ msgctxt "Open krunner"
+#~ msgid "Run Command"
+#~ msgstr "Kør kommando"
+
+#~ msgid "Show Dashboard"
+#~ msgstr "Vis instrumentbræt"
+
+#~ msgid "Prevent Screen Locking"
+#~ msgstr "Forhindr låsning af skærmen"
+
+#~ msgid "Trigger &cooldown:"
+#~ msgstr "Udløs &nedkøling:"

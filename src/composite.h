@@ -21,12 +21,13 @@ namespace KWin
 
 class Output;
 class CompositorSelectionOwner;
+class CursorScene;
 class CursorView;
 class RenderBackend;
 class RenderLayer;
 class RenderLoop;
 class RenderTarget;
-class Scene;
+class WorkspaceScene;
 class Window;
 class X11Window;
 class X11SyncManager;
@@ -69,9 +70,13 @@ public:
      */
     bool isActive();
 
-    Scene *scene() const
+    WorkspaceScene *scene() const
     {
         return m_scene.get();
+    }
+    CursorScene *cursorScene() const
+    {
+        return m_cursorScene.get();
     }
     RenderBackend *backend() const
     {
@@ -91,6 +96,48 @@ public:
     // for delayed supportproperty management of effects
     void keepSupportProperty(xcb_atom_t atom);
     void removeSupportProperty(xcb_atom_t atom);
+
+    /**
+     * Whether Compositing is possible in the Platform.
+     * Returning @c false in this method makes only sense if requiresCompositing returns @c false.
+     *
+     * The default implementation returns @c true.
+     * @see requiresCompositing
+     */
+    virtual bool compositingPossible() const;
+    /**
+     * Returns a user facing text explaining why compositing is not possible in case
+     * compositingPossible returns @c false.
+     *
+     * The default implementation returns an empty string.
+     * @see compositingPossible
+     */
+    virtual QString compositingNotPossibleReason() const;
+    /**
+     * Whether OpenGL compositing is broken.
+     * The Platform can implement this method if it is able to detect whether OpenGL compositing
+     * broke (e.g. triggered a crash in a previous run).
+     *
+     * Default implementation returns @c false.
+     * @see createOpenGLSafePoint
+     */
+    virtual bool openGLCompositingIsBroken() const;
+    enum class OpenGLSafePoint {
+        PreInit,
+        PostInit,
+        PreFrame,
+        PostFrame,
+        PostLastGuardedFrame
+    };
+    /**
+     * This method is invoked before and after creating the OpenGL rendering Scene.
+     * An implementing Platform can use it to detect crashes triggered by the OpenGL implementation.
+     * This can be used for openGLCompositingIsBroken.
+     *
+     * The default implementation does nothing.
+     * @see openGLCompositingIsBroken.
+     */
+    virtual void createOpenGLSafePoint(OpenGLSafePoint safePoint);
 
 Q_SIGNALS:
     void compositingToggled(bool active);
@@ -153,9 +200,11 @@ private:
     QTimer m_releaseSelectionTimer;
     QList<xcb_atom_t> m_unusedSupportProperties;
     QTimer m_unusedSupportPropertyTimer;
-    std::unique_ptr<Scene> m_scene;
+    std::unique_ptr<WorkspaceScene> m_scene;
+    std::unique_ptr<CursorScene> m_cursorScene;
     std::unique_ptr<RenderBackend> m_backend;
     QHash<RenderLoop *, RenderLayer *> m_superlayers;
+    CompositingType m_selectedCompositor = NoCompositing;
 };
 
 class KWIN_EXPORT WaylandCompositor final : public Compositor
@@ -227,8 +276,11 @@ public:
 
     void toggleCompositing() override;
     void reinitialize() override;
-
     void configChanged() override;
+    bool compositingPossible() const override;
+    QString compositingNotPossibleReason() const override;
+    bool openGLCompositingIsBroken() const override;
+    void createOpenGLSafePoint(OpenGLSafePoint safePoint) override;
 
     /**
      * Checks whether @p w is the Scene's overlay window.
@@ -251,6 +303,9 @@ protected:
 
 private:
     explicit X11Compositor(QObject *parent);
+
+    std::unique_ptr<QThread> m_openGLFreezeProtectionThread;
+    std::unique_ptr<QTimer> m_openGLFreezeProtection;
     std::unique_ptr<X11SyncManager> m_syncManager;
     /**
      * Whether the Compositor is currently suspended, 8 bits encoding the reason

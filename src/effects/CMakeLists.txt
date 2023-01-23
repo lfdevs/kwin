@@ -32,8 +32,9 @@ endfunction()
 
 macro(KWIN4_ADD_EFFECT_MODULE name)
     kcoreaddons_add_plugin(${name} STATIC SOURCES ${ARGN} INSTALL_NAMESPACE "kwin/effects/plugins")
+    set_property(TARGET ${name} PROPERTY POSITION_INDEPENDENT_CODE ON)
     kwin_strip_builtin_effect_metadata(${name} metadata.json)
-    install(FILES metadata.json DESTINATION ${KDE_INSTALL_DATADIR}/${KWIN_NAME}/builtin-effects/${name}/)
+    install(FILES metadata.json DESTINATION ${KDE_INSTALL_DATADIR}/kwin/builtin-effects/${name}/)
 endmacro()
 
 # Install the KWin/Effect service type
@@ -44,7 +45,7 @@ function(install_scripted_effect name)
     kpackage_install_package(${name}/package kwin4_effect_${name} effects kwin)
 
     # necessary so tests are found without installing
-    file(COPY ${name}/package/contents ${name}/package/metadata.desktop DESTINATION ${CMAKE_BINARY_DIR}/bin/kwin/effects/kwin4_effect_${name})
+    file(COPY ${name}/package/contents ${name}/package/metadata.json DESTINATION ${CMAKE_BINARY_DIR}/bin/kwin/effects/kwin4_effect_${name})
 endfunction()
 install_scripted_effect(dialogparent)
 install_scripted_effect(dimscreen)
@@ -85,6 +86,7 @@ add_subdirectory(slide)
 add_subdirectory(slideback)
 add_subdirectory(slidingpopups)
 add_subdirectory(thumbnailaside)
+add_subdirectory(tileseditor)
 add_subdirectory(touchpoints)
 add_subdirectory(windowview)
 add_subdirectory(zoom)

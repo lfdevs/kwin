@@ -83,6 +83,8 @@ public:
     };
     Q_ENUM(Capability)
 
+    bool hasCapability(Capability capability) const;
+
     /**
      * Sets the surface the events will be sent to.
      *
@@ -119,8 +121,7 @@ private:
                                    quint32 hsl,
                                    quint32 hih,
                                    quint32 hil,
-                                   const QVector<Capability> &capability,
-                                   QObject *parent);
+                                   const QVector<Capability> &capability);
     std::unique_ptr<TabletToolV2InterfacePrivate> d;
 };
 
@@ -150,7 +151,7 @@ public:
 
     TabletPadRingV2Interface *ring(uint at) const;
     TabletPadStripV2Interface *strip(uint at) const;
-    void sendButton(quint32 time, quint32 button, bool pressed);
+    void sendButton(std::chrono::microseconds time, quint32 button, bool pressed);
 
     void setCurrentSurface(SurfaceInterface *surface, TabletV2Interface *tablet);
     SurfaceInterface *currentSurface() const;
@@ -274,7 +275,7 @@ public:
                                        quint32 currentMode,
                                        TabletV2Interface *tablet);
     TabletToolV2Interface *
-    addTool(TabletToolV2Interface::Type type, quint64 hardwareSerial, quint64 hardwareId, const QVector<TabletToolV2Interface::Capability> &capabilities);
+    addTool(TabletToolV2Interface::Type type, quint64 hardwareSerial, quint64 hardwareId, const QVector<TabletToolV2Interface::Capability> &capabilities, const QString &deviceSysName);
 
     TabletToolV2Interface *toolByHardwareId(quint64 hardwareId) const;
     TabletToolV2Interface *toolByHardwareSerial(quint64 hardwareSerial, TabletToolV2Interface::Type type) const;

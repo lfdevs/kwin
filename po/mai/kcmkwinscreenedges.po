@@ -235,3 +235,30 @@ msgid ""
 "You can trigger an action by swiping from the screen edge towards the center "
 "of the screen."
 msgstr ""
+
+#~ msgid "Show Desktop"
+#~ msgstr "डेस्कटॉप देखाबू"
+
+#, fuzzy
+#~| msgid "Cube"
+#~ msgid "%1 - Cube"
+#~ msgstr "घन"
+
+#, fuzzy
+#~| msgid "Cylinder"
+#~ msgid "%1 - Cylinder"
+#~ msgstr "बेलन"
+
+#, fuzzy
+#~| msgid "Sphere"
+#~ msgid "%1 - Sphere"
+#~ msgstr "गोला"
+
+#~ msgid "Window Management"
+#~ msgstr "विंडो प्रबंधन"
+
+#~ msgid "Other Settings"
+#~ msgstr "आन जमावट"
+
+#~ msgid "Show Dashboard"
+#~ msgstr "डैश बोर्ड नुकाबू"

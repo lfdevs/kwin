@@ -8,6 +8,7 @@ endif()
 # CMake has a known bug where target_source() doesn't work as expected with files generated
 # in a directory other than the one where the target is defined. It should be fixed in 3.20.
 add_library(WaylandProtocols_xml OBJECT)
+set_property(TARGET WaylandProtocols_xml PROPERTY POSITION_INDEPENDENT_CODE ON)
 target_link_libraries(WaylandProtocols_xml Qt::Core Wayland::Server)
 target_link_libraries(kwin WaylandProtocols_xml)
 
@@ -18,10 +19,6 @@ ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
     PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-output-device-v2.xml
     BASENAME kde-output-device-v2
-)
-ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-primary-output-v1.xml
-    BASENAME kde-primary-output-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
     PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-output-management-v2.xml
@@ -179,6 +176,35 @@ ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
     PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-lockscreen-overlay-v1.xml
     BASENAME kde-lockscreen-overlay-v1
 )
+ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PROTOCOL ${WaylandProtocols_DATADIR}/staging/ext-idle-notify/ext-idle-notify-v1.xml
+    BASENAME ext-idle-notify-v1
+)
+ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PROTOCOL ${WaylandProtocols_DATADIR}/staging/tearing-control/tearing-control-v1.xml
+    BASENAME tearing-control-v1
+)
+ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PROTOCOL ${WaylandProtocols_DATADIR}/unstable/xwayland-keyboard-grab/xwayland-keyboard-grab-unstable-v1.xml
+    BASENAME xwayland-keyboard-grab-unstable-v1
+)
+ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PROTOCOL ${WaylandProtocols_DATADIR}/staging/content-type/content-type-v1.xml
+    BASENAME content-type-v1
+)
+ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PROTOCOL ${WaylandProtocols_DATADIR}/staging/xwayland-shell/xwayland-shell-v1.xml
+    BASENAME xwayland-shell-v1
+)
+ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-output-order-v1.xml
+    BASENAME kde-output-order-v1
+)
+
+ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PROTOCOL ${WaylandProtocols_DATADIR}/staging/fractional-scale/fractional-scale-v1.xml
+    BASENAME fractional-scale-v1
+)
 
 target_sources(kwin PRIVATE
     abstract_data_source.cpp
@@ -189,6 +215,7 @@ target_sources(kwin PRIVATE
     clientbufferintegration.cpp
     clientconnection.cpp
     compositor_interface.cpp
+    contenttype_v1_interface.cpp
     contrast_interface.cpp
     datacontroldevice_v1_interface.cpp
     datacontroldevicemanager_v1_interface.cpp
@@ -201,11 +228,13 @@ target_sources(kwin PRIVATE
     display.cpp
     dpms_interface.cpp
     drmclientbuffer.cpp
-    drmleasedevice_v1_interface.cpp
+    drmlease_v1_interface.cpp
     fakeinput_interface.cpp
+    fractionalscale_v1_interface.cpp
     filtered_display.cpp
     idle_interface.cpp
     idleinhibit_v1_interface.cpp
+    idlenotify_v1_interface.cpp
     inputmethod_v1_interface.cpp
     keyboard_interface.cpp
     keyboard_shortcuts_inhibit_v1_interface.cpp
@@ -214,6 +243,7 @@ target_sources(kwin PRIVATE
     linuxdmabufv1clientbuffer.cpp
     lockscreen_overlay_v1_interface.cpp
     output_interface.cpp
+    output_order_v1_interface.cpp
     outputdevice_v2_interface.cpp
     outputmanagement_v2_interface.cpp
     plasmashell_interface.cpp
@@ -222,7 +252,6 @@ target_sources(kwin PRIVATE
     pointer_interface.cpp
     pointerconstraints_v1_interface.cpp
     pointergestures_v1_interface.cpp
-    primaryoutput_v1_interface.cpp
     primaryselectiondevice_v1_interface.cpp
     primaryselectiondevicemanager_v1_interface.cpp
     primaryselectionoffer_v1_interface.cpp
@@ -240,7 +269,9 @@ target_sources(kwin PRIVATE
     surface_interface.cpp
     surfacerole.cpp
     tablet_v2_interface.cpp
+    tearingcontrol_v1_interface.cpp
     textinput.cpp
+    textinput_v1_interface.cpp
     textinput_v2_interface.cpp
     textinput_v3_interface.cpp
     touch_interface.cpp
@@ -250,6 +281,8 @@ target_sources(kwin PRIVATE
     xdgforeign_v2_interface.cpp
     xdgoutput_v1_interface.cpp
     xdgshell_interface.cpp
+    xwaylandkeyboardgrab_v1_interface.cpp
+    xwaylandshell_v1_interface.cpp
 )
 
 if(CMAKE_SYSTEM_NAME MATCHES "Linux")

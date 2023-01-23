@@ -6,8 +6,7 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-#ifndef KWIN_EGL_ON_X_BACKEND_H
-#define KWIN_EGL_ON_X_BACKEND_H
+#pragma once
 #include "abstract_egl_backend.h"
 
 #include <xcb/xcb.h>
@@ -28,14 +27,12 @@ class KWIN_EXPORT EglOnXBackend : public AbstractEglBackend
     Q_OBJECT
 
 public:
-    EglOnXBackend(Display *display);
-    explicit EglOnXBackend(xcb_connection_t *connection, Display *display, xcb_window_t rootWindow, xcb_window_t renderingWindow);
-    ~EglOnXBackend() override;
-    OverlayWindow *overlayWindow() const override;
+    explicit EglOnXBackend(xcb_connection_t *connection, Display *display, xcb_window_t rootWindow);
+
     void init() override;
 
 protected:
-    virtual bool createSurfaces();
+    virtual bool createSurfaces() = 0;
     EGLSurface createSurface(xcb_window_t window);
     void setHavePlatformBase(bool have)
     {
@@ -54,18 +51,11 @@ protected:
 private:
     bool initBufferConfigs();
     bool initRenderingContext();
-    /**
-     * @brief The OverlayWindow used by this Backend.
-     */
-    std::unique_ptr<OverlayWindow> m_overlayWindow;
     int surfaceHasSubPost;
     xcb_connection_t *m_connection;
     Display *m_x11Display;
     xcb_window_t m_rootWindow;
-    xcb_window_t m_renderingWindow = XCB_WINDOW_NONE;
     bool m_havePlatformBase = false;
 };
 
 } // namespace
-
-#endif //  KWIN_EGL_ON_X_BACKEND_H

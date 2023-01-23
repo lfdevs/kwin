@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-20 02:18+0000\n"
+"POT-Creation-Date: 2022-09-20 00:47+0000\n"
 "PO-Revision-Date: 2022-03-11 19:14+0700\n"
 "Last-Translator: Wantoyek <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -73,3 +73,18 @@ msgstr "Instal dari File..."
 #, kde-format
 msgid "Get New Scripts..."
 msgstr "Dapatkan Skrip Baru"
+
+#~ msgid "KWin Scripts"
+#~ msgstr "KWin Scripts"
+
+#~ msgid "Configure KWin scripts"
+#~ msgstr "Konfigurasikan skrip KWin"
+
+#~ msgid "Tamás Krutki"
+#~ msgstr "Tamás Krutki"
+
+#~ msgid "KWin script configuration"
+#~ msgstr "Konfigurasi skrip KWin"
+
+#~ msgid "Import KWin script..."
+#~ msgstr "Impor skrip KWin..."

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-08-19 00:47+0000\n"
+"POT-Creation-Date: 2022-12-11 00:48+0000\n"
 "PO-Revision-Date: 2007-11-01 20:28+0545\n"
 "Last-Translator: Shyam Krishna Bal <shyamkrishna_bal@yahoo.com>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -65,12 +65,12 @@ msgstr ""
 msgid "Copy of %1"
 msgstr ""
 
-#: kcmrules.cpp:422
+#: kcmrules.cpp:423
 #, kde-format
 msgid "Application settings for %1"
 msgstr "%1 का लागि अनुप्रयोग सेटिङ"
 
-#: kcmrules.cpp:442 rulesmodel.cpp:215
+#: kcmrules.cpp:445 rulesmodel.cpp:215
 #, kde-format
 msgid "Window settings for %1"
 msgstr "%1 का लागि सञ्झ्याल सेटिङ"
@@ -352,43 +352,38 @@ msgid_plural "After %1 seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: package/contents/ui/RulesEditor.qml:147
-#, kde-format
-msgid "Error"
-msgstr ""
-
-#: package/contents/ui/RulesEditor.qml:162
+#: package/contents/ui/RulesEditor.qml:175
 #, kde-format
 msgid "Add property to the rule"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:260
+#: package/contents/ui/RulesEditor.qml:273
 #: package/contents/ui/ValueEditor.qml:54
 #, kde-format
 msgid "Yes"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:260
+#: package/contents/ui/RulesEditor.qml:273
 #: package/contents/ui/ValueEditor.qml:60
 #, fuzzy, kde-format
 #| msgid "None"
 msgid "No"
 msgstr "कुनै पनि होइन"
 
-#: package/contents/ui/RulesEditor.qml:262
+#: package/contents/ui/RulesEditor.qml:275
 #: package/contents/ui/ValueEditor.qml:171
 #: package/contents/ui/ValueEditor.qml:178
 #, kde-format
 msgid "%1 %"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:264
+#: package/contents/ui/RulesEditor.qml:277
 #, kde-format
 msgctxt "Coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:266
+#: package/contents/ui/RulesEditor.qml:279
 #, kde-format
 msgctxt "Size (width, height)"
 msgid "(%1, %2)"
@@ -781,165 +776,474 @@ msgstr ""
 msgid "Block compositing"
 msgstr ""
 
-#: rulesmodel.cpp:727
+#: rulesmodel.cpp:703
+#, fuzzy, kde-format
+#| msgid "Window &class (application type):"
+msgid "Window class not available"
+msgstr "सञ्झ्याल वर्ग (अनुप्रयोग प्रकार्य):"
+
+#: rulesmodel.cpp:704
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"This application is not providing a class for the window, so KWin cannot use "
+"it to match and apply any rules. If you still want to apply some rules to "
+"it, try to match other properties like the window title instead.<nl/><nl/"
+">Please consider reporting this bug to the application's developers."
+msgstr ""
+
+#: rulesmodel.cpp:738
 #, fuzzy, kde-format
 #| msgid "Window &types:"
 msgid "All Window Types"
 msgstr "सञ्झ्याल प्रकार:"
 
-#: rulesmodel.cpp:728
+#: rulesmodel.cpp:739
 #, kde-format
 msgid "Normal Window"
 msgstr "सामान्य सञ्झ्याल"
 
-#: rulesmodel.cpp:729
+#: rulesmodel.cpp:740
 #, kde-format
 msgid "Dialog Window"
 msgstr "संवाद सञ्झ्याल"
 
-#: rulesmodel.cpp:730
+#: rulesmodel.cpp:741
 #, kde-format
 msgid "Utility Window"
 msgstr "युटिलिटी सञ्झ्याल"
 
-#: rulesmodel.cpp:731
+#: rulesmodel.cpp:742
 #, kde-format
 msgid "Dock (panel)"
 msgstr "डक (प्यानल)"
 
-#: rulesmodel.cpp:732
+#: rulesmodel.cpp:743
 #, kde-format
 msgid "Toolbar"
 msgstr "उपकरणपट्टी"
 
-#: rulesmodel.cpp:733
+#: rulesmodel.cpp:744
 #, kde-format
 msgid "Torn-Off Menu"
 msgstr "Torn-Off मेनु"
 
-#: rulesmodel.cpp:734
+#: rulesmodel.cpp:745
 #, kde-format
 msgid "Splash Screen"
 msgstr "स्प्लास पर्दा"
 
-#: rulesmodel.cpp:735
+#: rulesmodel.cpp:746
 #, kde-format
 msgid "Desktop"
 msgstr "डेस्कटप"
 
 #. i18n("Unmanaged Window")},  deprecated
-#: rulesmodel.cpp:737
+#: rulesmodel.cpp:748
 #, kde-format
 msgid "Standalone Menubar"
 msgstr "स्ट्यान्डअलोन मेनुपट्टी"
 
-#: rulesmodel.cpp:738
+#: rulesmodel.cpp:749
 #, kde-format
 msgid "On Screen Display"
 msgstr ""
 
-#: rulesmodel.cpp:748
+#: rulesmodel.cpp:759
 #, kde-format
 msgid "All Desktops"
 msgstr "सबै डेस्कटप"
 
-#: rulesmodel.cpp:750
+#: rulesmodel.cpp:761
 #, kde-format
 msgctxt "@info:tooltip in the virtual desktop list"
 msgid "Make the window available on all desktops"
 msgstr ""
 
-#: rulesmodel.cpp:769
+#: rulesmodel.cpp:780
 #, kde-format
 msgid "All Activities"
 msgstr ""
 
-#: rulesmodel.cpp:771
+#: rulesmodel.cpp:782
 #, kde-format
 msgctxt "@info:tooltip in the activity list"
 msgid "Make the window available on all activities"
 msgstr ""
 
-#: rulesmodel.cpp:792
+#: rulesmodel.cpp:803
 #, kde-format
 msgid "Default"
 msgstr "पूर्वनिर्धारित"
 
-#: rulesmodel.cpp:793
+#: rulesmodel.cpp:804
 #, kde-format
 msgid "No Placement"
 msgstr "स्थापना छैन"
 
-#: rulesmodel.cpp:794
+#: rulesmodel.cpp:805
 #, kde-format
 msgid "Minimal Overlapping"
 msgstr ""
 
-#: rulesmodel.cpp:795
+#: rulesmodel.cpp:806
 #, fuzzy, kde-format
 #| msgid "Maximizing"
 msgid "Maximized"
 msgstr "ठूलो पारिदैँछ"
 
-#: rulesmodel.cpp:796
-#, fuzzy, kde-format
-#| msgid "Cascade"
-msgid "Cascaded"
-msgstr "क्यासकेड"
-
-#: rulesmodel.cpp:797
+#: rulesmodel.cpp:807
 #, kde-format
 msgid "Centered"
 msgstr "केन्द्रित"
 
-#: rulesmodel.cpp:798
+#: rulesmodel.cpp:808
 #, kde-format
 msgid "Random"
 msgstr "अनियमित"
 
-#: rulesmodel.cpp:799
+#: rulesmodel.cpp:809
 #, fuzzy, kde-format
 #| msgid "Top-Left Corner"
 msgid "In Top-Left Corner"
 msgstr "माथिल्लो बायाँ कुना"
 
-#: rulesmodel.cpp:800
+#: rulesmodel.cpp:810
 #, kde-format
 msgid "Under Mouse"
 msgstr "माउस तल"
 
-#: rulesmodel.cpp:801
+#: rulesmodel.cpp:811
 #, kde-format
 msgid "On Main Window"
 msgstr "मुख्य सञ्झ्याल"
 
-#: rulesmodel.cpp:808
+#: rulesmodel.cpp:818
 #, fuzzy, kde-format
 #| msgid "None"
 msgid "None"
 msgstr "कुनै पनि होइन"
 
-#: rulesmodel.cpp:809
+#: rulesmodel.cpp:819
 #, kde-format
 msgid "Low"
 msgstr "न्यून"
 
-#: rulesmodel.cpp:810
+#: rulesmodel.cpp:820
 #, kde-format
 msgid "Normal"
 msgstr "सामान्य"
 
-#: rulesmodel.cpp:811
+#: rulesmodel.cpp:821
 #, kde-format
 msgid "High"
 msgstr "उच्च"
 
-#: rulesmodel.cpp:812
+#: rulesmodel.cpp:822
 #, kde-format
 msgid "Extreme"
 msgstr "अत्याधिक"
 
-#: rulesmodel.cpp:855
+#: rulesmodel.cpp:865
+#, fuzzy, kde-format
+#| msgid "On Main Window"
+msgid "Unmanaged window"
+msgstr "मुख्य सञ्झ्याल"
+
+#: rulesmodel.cpp:866
 #, kde-format
 msgid "Could not detect window properties. The window is not managed by KWin."
 msgstr ""
+
+#, fuzzy
+#~| msgid "Cascade"
+#~ msgid "Cascaded"
+#~ msgstr "क्यासकेड"
+
+#, fuzzy
+#~| msgid "Keep &above"
+#~ msgid "Keep above"
+#~ msgstr "माथि राख्नुहोस्"
+
+#, fuzzy
+#~| msgid "Keep &below"
+#~ msgid "Keep below"
+#~ msgstr "तल राख्नुहोस्"
+
+#~ msgid "KWin"
+#~ msgstr "केडीई विन"
+
+#~ msgid "KWin helper utility"
+#~ msgstr "केडीई विन मद्दत युटिलिटी"
+
+#, fuzzy
+#~| msgid "Detect Window Properties"
+#~ msgid "Select properties"
+#~ msgstr "सञ्झ्याल विशेषता पत्ता लगाउनुहोस्"
+
+#~ msgid "Override Type"
+#~ msgstr "अधिरोहण प्रकार"
+
+#~ msgid "Unknown - will be treated as Normal Window"
+#~ msgstr "अज्ञातलाई सामान्य सञ्झ्यालको रुपमा व्यवहार गरिनेछ"
+
+#~ msgid "Information About Selected Window"
+#~ msgstr "चयन गरेको सञ्झ्यालका बारेमा सूचना"
+
+#~ msgid "Class:"
+#~ msgstr "वर्ग:"
+
+#~ msgid "Role:"
+#~ msgstr "भूमिका:"
+
+#~ msgid "Type:"
+#~ msgstr "प्रकार:"
+
+#~ msgid "Title:"
+#~ msgstr "शीर्षक:"
+
+#~ msgid "Machine:"
+#~ msgstr "मेसिन:"
+
+#, fuzzy
+#~| msgid ""
+#~| "A single shortcut can be easily assigned or cleared using the two "
+#~| "buttons. Only shortcuts with modifiers can be used.<p>\n"
+#~| "It is possible to have several possible shortcuts, and the first "
+#~| "available shortcut will be used. The shortcuts are specified using space-"
+#~| "separated shortcut sets. One set is specified as <i>base</i>+(<i>list</"
+#~| "i>), where base are modifiers and list is a list of keys.<br>\n"
+#~| "For example \"<b>Shift+Alt+(123) Shift+Ctrl+(ABC)</b>\" will first try "
+#~| "<b>Shift+Alt+1</b>, then others with <b>Shift+Ctrl+C</b> as the last one."
+#~ msgid ""
+#~ "A single shortcut can be easily assigned or cleared using the two "
+#~ "buttons. Only shortcuts with modifiers can be used.<p>\n"
+#~ "It is possible to have several possible shortcuts, and the first "
+#~ "available shortcut will be used. The shortcuts are specified using "
+#~ "shortcut sets separated by \" - \". One set is specified as <i>base</i>"
+#~ "+(<i>list</i>), where base are modifiers and list is a list of keys.<br>\n"
+#~ "For example \"<b>Shift+Alt+(123) Shift+Ctrl+(ABC)</b>\" will first try "
+#~ "<b>Shift+Alt+1</b>, then others with <b>Shift+Ctrl+C</b> as the last one."
+#~ msgstr ""
+#~ "एउटा सर्टकट दुइ बटन प्रयोग गरेर सजिलै मानाङ्कन गर्न वा खाली गर्न सकिन्छ । सर्टकट "
+#~ "परिमार्जकसँग मात्र प्रयोग गर्न सकिन्छ ।<p>\n"
+#~ "धेरै सम्भावित सर्टकट हुने, र पहिला उपलब्ध हुने सर्टकट प्रयोग गरिने सम्भवना हुन्छ । खाली "
+#~ "स्थान विभाजक सर्टकट सेट प्रयोग गरेर सर्टकट निर्दिष्ट गरिन्छ । एउटा सेट <i>base</i>"
+#~ "+(<i>list</i>) का रुपमा सेट गरिन्छ, जहाँ परिमार्जक आधार हुन् र सूची कुञ्जीको सूची हो "
+#~ "।<br>\n"
+#~ "उदाहरणका लागि \"<b>Shift+Alt+(123) Shift+Ctrl+(ABC)</b>\" पहिलो प्रयास हुने "
+#~ "छ<b>Shift+Alt+1</b>, त्यसपछी अन्य <b>Shift+Ctrl+C</b> पछिल्लो एकका रुपमा हुने "
+#~ "छन् ।"
+
+#~ msgid "&Single Shortcut"
+#~ msgstr "एकल सर्टकट"
+
+#~ msgid "C&lear"
+#~ msgstr "खाली गर्नुहोस्"
+
+#~ msgid "Window-Specific Settings Configuration Module"
+#~ msgstr "सञ्झ्याल निर्दिष्ट सेटिङ कन्फिगरेसन मोड्युल"
+
+#~ msgid "(c) 2004 KWin and KControl Authors"
+#~ msgstr "(सी) २००४ केडीई विन र केडीई नियन्त्रण लेखक"
+
+#~ msgid "Lubos Lunak"
+#~ msgstr "लुबोस लुनाक"
+
+#~ msgid "Remember settings separately for every window"
+#~ msgstr "प्रत्येक सञ्झ्यालका लागि सेटिङ फरक तरिकाले सम्झनुहोस्"
+
+#~ msgid "Show internal settings for remembering"
+#~ msgstr "सम्झनका लागि आन्तरिक सेटिङ देखाउनुहोस्"
+
+#~ msgid "Internal setting for remembering"
+#~ msgstr "सम्झनका लागि आन्तरिक सेटिङ"
+
+#~ msgid "&Modify..."
+#~ msgstr "परिमार्जन ..."
+
+#~ msgid "Move &Up"
+#~ msgstr "माथि सार्नुहोस्"
+
+#~ msgid "Move &Down"
+#~ msgstr "तल सार्नुहोस्"
+
+#~ msgid ""
+#~ "Enable this checkbox to alter this window property for the specified "
+#~ "window(s)."
+#~ msgstr ""
+#~ "निर्दिष्ट गरिएका सञ्झ्यालका लागि यो सञ्झ्याल विशेषता परिवर्तन गर्न यो जाँच बाकस "
+#~ "सक्षम पार्नुहोस् ।"
+
+#, fuzzy
+#~| msgid ""
+#~| "Specify how the window property should be affected:<ul><li><em>Do Not "
+#~| "Affect:</em> The window property will not be affected and therefore the "
+#~| "default handling for it will be used. Specifying this will block more "
+#~| "generic window settings from taking effect.</li><li><em>Apply Initially:"
+#~| "</em> The window property will be only set to the given value after the "
+#~| "window is created. No further changes will be affected.</"
+#~| "li><li><em>Remember:</em> The value of the window property will be "
+#~| "remembered and every time time the window is created, the last "
+#~| "remembered value will be applied.</li><li><em>Force:</em> The window "
+#~| "property will be always forced to the given value.</li><li><em>Apply Now:"
+#~| "</em> The window property will be set to the given value immediately and "
+#~| "will not be affected later (this action will be deleted afterwards).</"
+#~| "li><li><em>Force temporarily:</em> The window property will be forced to "
+#~| "the given value until it is hidden (this action will be deleted after "
+#~| "the window is hidden).</li></ul>"
+#~ msgid ""
+#~ "Specify how the window property should be affected:<ul><li><em>Do Not "
+#~ "Affect:</em> The window property will not be affected and therefore the "
+#~ "default handling for it will be used. Specifying this will block more "
+#~ "generic window settings from taking effect.</li><li><em>Apply Initially:</"
+#~ "em> The window property will be only set to the given value after the "
+#~ "window is created. No further changes will be affected.</"
+#~ "li><li><em>Remember:</em> The value of the window property will be "
+#~ "remembered and every time the window is created, the last remembered "
+#~ "value will be applied.</li><li><em>Force:</em> The window property will "
+#~ "be always forced to the given value.</li><li><em>Apply Now:</em> The "
+#~ "window property will be set to the given value immediately and will not "
+#~ "be affected later (this action will be deleted afterwards).</"
+#~ "li><li><em>Force temporarily:</em> The window property will be forced to "
+#~ "the given value until it is hidden (this action will be deleted after the "
+#~ "window is hidden).</li></ul>"
+#~ msgstr ""
+#~ "कसरी सञ्झ्याल विशेषता प्रभावित हुन्छ निर्दिष्ट गर्नुहोस्:<ul><li><em>कुने प्रभाव परेन:</"
+#~ "em> सञ्झ्याल विशेषता प्रभावित हुने छैन र त्यसैले यसको पूर्वनिर्धारित ह्यान्डल गर्ने प्रयोग "
+#~ "गरिने छ । यसलाई निर्दिष्ट गर्दा प्रभावले जेनेरिक बढी भएको सञ्झ्याल सेटिङ बन्द गर्नेछ ।</"
+#~ "li><li><em>सुरुआतमा लागू गर्नुहोस्:</em> सञ्झ्याल विशेषता सञ्झ्याल सिर्जना गरिएपछि "
+#~ "मात्र दिएको मानमा सेट गरिनेछ । अगाडिका परिवर्तनले प्रभाव पार्ने छैन ।</"
+#~ "li><li><em>सम्झनुहोस्:</em> सञ्झ्याल गुणको मान सम्झिने छ र हरेक समय समयमा सञ्झ्याल "
+#~ "सिर्जना गरिने छ, अन्त्यमा सम्झिएको मान लागू गरिने छ ।</li><li><em>बल:</em> "
+#~ "सञ्झ्याल गुणले सधैँ दिएको मानमा बल गर्नेछ ।</li><li><em>अहिले लागू गर्नुहोस्:</em> "
+#~ "सञ्झ्याल विशेषता दिएको मानमा तत्काल सेट गरिने छ र पछि प्रभावित हुने छैन । (यो कार्य "
+#~ "पछि मेटिने छ) ।</li><li><em>केही समय बल गर्नुहोस् :</em> सञ्झ्याल गुणले यो नलुके सम्म "
+#~ "दिएको मानमा बल गर्नेछ (यो कार्य सञ्झ्याल लुकाएपछि मेटिने छ) ।</li></ul>"
+
+#~ msgid ""
+#~ "Specify how the window property should be affected:<ul><li><em>Do Not "
+#~ "Affect:</em> The window property will not be affected and therefore the "
+#~ "default handling for it will be used. Specifying this will block more "
+#~ "generic window settings from taking effect.</li><li><em>Force:</em> The "
+#~ "window property will be always forced to the given value.</"
+#~ "li><li><em>Force temporarily:</em> The window property will be forced to "
+#~ "the given value until it is hidden (this action will be deleted after the "
+#~ "window is hidden).</li></ul>"
+#~ msgstr ""
+#~ "कसरी सञ्झ्याल विशेषता प्रभावित हुनेछ निर्दिष्ट गर्नुहोस्:<ul><li><em>प्रभाव पार्दैन:</"
+#~ "em> सझ्याल विशेषता प्रभावित नहुने हुनाले यसका लागि पूर्वनिर्धारित ह्यान्डलिङ प्रयोग "
+#~ "गरिने छ । यसलाई निर्दिष्ट गर्दा प्रभावले जेनेरिक बढी भएको सञ्झ्याल सेटिङ बन्द गर्नेछ ।</"
+#~ "li><li><em>बल:</em> सञ्झ्याल गुणले दिएको मानमा सधैँ बल गर्नेछ ।</li><li><em>केही "
+#~ "समय बल गर्नुहोस्:</em> सञ्झ्याल गुणले यो नलुके सम्म दिएको मानमा बल गर्नेछ (यो कार्य "
+#~ "सञ्झ्याल लुकाएपछि मेटिने छ) ।</li></ul>"
+
+#~ msgid "Unnamed entry"
+#~ msgstr "नाम नदिइएको प्रविष्टि"
+
+#~ msgid ""
+#~ "This configuration dialog allows altering settings only for the selected "
+#~ "window or application. Find the setting you want to affect, enable the "
+#~ "setting using the checkbox, select in what way the setting should be "
+#~ "affected and to which value."
+#~ msgstr ""
+#~ "यो कन्फिगरेसन संवादले चयन गरिएका सञ्झ्याल र अनुप्रयोगका लागि परिवर्तन सेटिङ मात्र "
+#~ "अनुमति दिन्छ । तपाईँले प्रभाव पार्न चाहेको सेटिङ फेला पार्नुहोस्, जाँच बाकस प्रयोग गरेर "
+#~ "सेटिङ सक्षम पार्नुहोस् अनि कुन तरिकाले र कुन मानमा सेटिङ प्रभावकारी हुन्छ चयन गर्नुहोस् ।"
+
+#~ msgid "Consult the documentation for more details."
+#~ msgstr "बढी विवरणका लागि मिसिलिकरण परामर्श लिनुहोस्"
+
+#~ msgid "Edit Shortcut"
+#~ msgstr "सर्टकट सम्पादन गर्नुहोस्"
+
+#~ msgid "0123456789-+,xX:"
+#~ msgstr "०१२३४५६७८९-+,xX:"
+
+#~ msgid "&Desktop"
+#~ msgstr "डेस्कटप"
+
+#~ msgid "Smart"
+#~ msgstr "छरितो"
+
+#~ msgid "kcmkwinrules"
+#~ msgstr "kcmkwinrules"
+
+#~ msgid "Opaque"
+#~ msgstr "अपारदर्शी"
+
+#~ msgid "Transparent"
+#~ msgstr "पारदर्शी"
+
+#~ msgid "&Moving/resizing"
+#~ msgstr "सार्ने/रिसाइज गर्ने"
+
+#, fuzzy
+#~| msgid "Title:"
+#~ msgid "Tiled"
+#~ msgstr "शीर्षक:"
+
+#~ msgid ""
+#~ "For selecting all windows belonging to a specific application, selecting "
+#~ "only window class should usually work."
+#~ msgstr ""
+#~ "निर्दिष्ट अनुप्रयोगमा स्वामित्व हुने सबै सञ्झ्याल चयन गर्नका लागि, सञ्झ्याल वर्ग चयनले "
+#~ "मात्र सधैँ कार्य गर्छ ।"
+
+#~ msgid "Use window &class (whole application)"
+#~ msgstr "सञ्झ्याल वर्ग प्रयोग गर्नुहोस् (पूरा अनुप्रयोग)"
+
+#~ msgid ""
+#~ "For selecting a specific window in an application, both window class and "
+#~ "window role should be selected. Window class will determine the "
+#~ "application, and window role the specific window in the application; many "
+#~ "applications do not provide useful window roles though."
+#~ msgstr ""
+#~ "अनुप्रयोगमा निर्दिष्ट सञ्झ्याल चयन गर्नका लागि, सञ्झ्याल वर्ग र सञ्झ्याल भूमिका दुवै चयन "
+#~ "गरिएको हुनुपर्छ । अनुप्रयोगमा सञ्झ्याल वर्गले अनुप्रयोग र सञ्झ्याल निर्दिष्ट सञ्झ्याल "
+#~ "भूमिका निर्धारण गर्नेछ; यसबाट धेरै अनुप्रयोगले उपयोगी सञ्झ्याल भूमिका प्रदान गर्ने छैन ।"
+
+#~ msgid "Use window class and window &role (specific window)"
+#~ msgstr "सञ्झ्याल वर्ग र सञ्झ्याल भूमिका प्रयोग गर्नुहोस् (निर्दिष्ट सञ्झ्याल)"
+
+#~ msgid ""
+#~ "With some (non-KDE) applications whole window class can be sufficient for "
+#~ "selecting a specific window in an application, as they set whole window "
+#~ "class to contain both application and window role."
+#~ msgstr ""
+#~ "अनुप्रयोग र सञ्झ्याल भूमिका दुबै समावेश गर्न पूरा सञ्झ्याल वर्ग सेट भए अनुरुप, अनुप्रयोगमा "
+#~ "निर्दिष्ट सञ्झ्याल चयन गर्नका लागि केही (non-KDE) अनुप्रयोगमा पूरा सञ्झ्याल वर्ग "
+#~ "प्रयाप्त हुन सक्छ ।"
+
+#~ msgid "Use &whole window class (specific window)"
+#~ msgstr "पूरा सञ्झ्याल वर्ग प्रयोग गर्नुहोस् (निर्दिष्ट सञ्झ्याल)"
+
+#~ msgid "Match also window &title"
+#~ msgstr "सञ्झ्याल शीर्षक पनि मिलाउनुहोस्"
+
+#~ msgid "Extra role:"
+#~ msgstr "अतिरिक्त भूमिका:"
+
+#~ msgid "Window &Extra"
+#~ msgstr "अतिरिक्त सञ्झ्याल"
+
+#~ msgid "&Geometry"
+#~ msgstr "रेखागणित"
+
+#~ msgid "&Preferences"
+#~ msgstr "प्राथमिकता"
+
+#~ msgid "&No border"
+#~ msgstr "किनारा छैन"
+
+#~ msgid "0123456789"
+#~ msgstr "०१२३४५६७८९"
+
+#~ msgid "W&orkarounds"
+#~ msgstr "कार्यक्षेत्र"
+
+#~ msgid "Strictly obey geometry"
+#~ msgstr "रेखागणित पालना गर्नुहोस्"
+
+#~ msgid "&Detect"
+#~ msgstr "पत्ता लगाउनुहोस्"

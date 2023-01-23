@@ -47,8 +47,6 @@ PrimarySelectionDeviceV1InterfacePrivate::PrimarySelectionDeviceV1InterfacePriva
 
 void PrimarySelectionDeviceV1InterfacePrivate::zwp_primary_selection_device_v1_set_selection(Resource *resource, wl_resource *source, uint32_t serial)
 {
-    Q_UNUSED(resource)
-    Q_UNUSED(serial)
     PrimarySelectionSourceV1Interface *dataSource = nullptr;
 
     if (source) {
@@ -95,7 +93,6 @@ PrimarySelectionOfferV1Interface *PrimarySelectionDeviceV1InterfacePrivate::crea
 void PrimarySelectionDeviceV1InterfacePrivate::zwp_primary_selection_device_v1_destroy_resource(
     QtWaylandServer::zwp_primary_selection_device_v1::Resource *resource)
 {
-    Q_UNUSED(resource)
     delete q;
 }
 
@@ -121,20 +118,8 @@ PrimarySelectionSourceV1Interface *PrimarySelectionDeviceV1Interface::selection(
 
 void PrimarySelectionDeviceV1Interface::sendSelection(AbstractDataSource *other)
 {
-    if (!other) {
-        sendClearSelection();
-        return;
-    }
     PrimarySelectionOfferV1Interface *offer = d->createDataOffer(other);
-    if (!offer) {
-        return;
-    }
-    d->send_selection(offer->resource());
-}
-
-void PrimarySelectionDeviceV1Interface::sendClearSelection()
-{
-    d->send_selection(nullptr);
+    d->send_selection(offer ? offer->resource() : nullptr);
 }
 
 wl_client *PrimarySelectionDeviceV1Interface::client() const

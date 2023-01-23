@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-02 00:47+0000\n"
+"POT-Creation-Date: 2022-12-03 00:48+0000\n"
 "PO-Revision-Date: 2009-01-07 16:17+0530\n"
 "Last-Translator: Runa Bhattacharjee <runab@redhat.com>\n"
 "Language-Team: Bengali INDIA <fedora-trans-bn_IN@redhat.com>\n"
@@ -496,13 +496,10 @@ msgid ""
 "whole screen. It might be useful to selectively affect placement of some "
 "windows using the window-specific settings.</li><li style=\" margin-top:0px; "
 "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\"><span style=\" font-style:italic;\">Cascade</span> will "
-"cascade the windows</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"text-indent:0px;\"><span style=\" font-style:italic;\">Random</span> will "
+"use a random position</li><li style=\" margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-style:italic;\">Random</span> will use a random "
-"position</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-style:italic;\">Centered</span> will place the window "
+"\"><span style=\" font-style:italic;\">Centered</span> will place the window "
 "centered</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\" font-style:italic;\">Zero-cornered</span> will place the window in "
@@ -529,35 +526,29 @@ msgstr "বড় করুন"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:90
 #, kde-format
-msgid "Cascaded"
-msgstr ""
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:95
-#, kde-format
 msgid "Random"
 msgstr "যথেচ্ছ"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:100
+#: advanced.ui:95
 #, kde-format
 msgid "Centered"
 msgstr "কেন্দ্রস্থিত"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:105
+#: advanced.ui:100
 #, kde-format
 msgid "In Top-Left Corner"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:110
+#: advanced.ui:105
 #, kde-format
 msgid "Under mouse"
 msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:118
+#: advanced.ui:113
 #, kde-format
 msgid ""
 "When turned on, apps which are able to remember the positions of their "
@@ -566,21 +557,21 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:121
+#: advanced.ui:116
 #, kde-format
 msgid ""
 "Allow apps to remember the positions of their own windows, if they support it"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
-#: advanced.ui:128
+#: advanced.ui:123
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "&Special windows:"
 msgstr "উইন্ডো"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:138
+#: advanced.ui:133
 #, kde-format
 msgid ""
 "When turned on, utility windows (tool windows, torn-off menus,...) of "
@@ -590,25 +581,25 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:141
+#: advanced.ui:136
 #, kde-format
 msgid "Hide utility windows for inactive applications"
 msgstr "নিষ্ক্রিয় অ্যাপ্লিকেশনের ক্ষেত্রে সহায়ক উইন্ডো বন্ধ করা হবে"
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyLabel)
-#: advanced.ui:148
+#: advanced.ui:143
 #, kde-format
 msgid "Virtual Desktop behavior:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyDescriptionLabel)
-#: advanced.ui:158
+#: advanced.ui:153
 #, kde-format
 msgid "When activating a window on a different Virtual Desktop:"
 msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:165
+#: advanced.ui:160
 #, kde-format
 msgid ""
 "<html><head/><body><p>This setting controls what happens when an open window "
@@ -621,13 +612,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:169
+#: advanced.ui:164
 #, kde-format
 msgid "Switch to that Virtual Desktop"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:174
+#: advanced.ui:169
 #, kde-format
 msgid "Bring window to current Virtual Desktop"
 msgstr ""
@@ -1298,3 +1289,212 @@ msgid ""
 "activation policy and will not work. You very likely want to use <em>Focus "
 "follows mouse (mouse precedence)</em> instead!"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Display window &geometry when moving or resizing"
+#~ msgid "Display when moving or resizing"
+#~ msgstr ""
+#~ "উইন্ডো স্থানান্তর অথবা উইন্ডোর মাপ পরিবর্তনের সময় উইন্ডোর জ্যামিতি প্রদর্শন করা "
+#~ "হবে (&g)"
+
+#~ msgid "Maximize (vertical only)"
+#~ msgstr "বড় করুন (শুধুমাত্র উলম্ব দিশায়)"
+
+#~ msgid "Maximize (horizontal only)"
+#~ msgstr "বড় করুন (শুধুমাত্র অনুভূমিক দিশায়)"
+
+#, fuzzy
+#~| msgid "Maximize"
+#~ msgid "Maximizing"
+#~ msgstr "বড় করুন"
+
+#, fuzzy
+#~| msgctxt "@title:group"
+#~| msgid "Window Switching"
+#~ msgid "Window tabbing:"
+#~ msgstr "উইন্ডো পরিবর্তন"
+
+#, fuzzy
+#~| msgctxt "@title:group"
+#~| msgid "Window Switching"
+#~ msgid "Start window tab drag"
+#~ msgstr "উইন্ডো পরিবর্তন"
+
+#, fuzzy
+#~| msgid "Right button:"
+#~ msgid "Ri&ght button:"
+#~ msgstr "ডানদিকের বাটন:"
+
+#, fuzzy
+#~| msgid "Left button:"
+#~ msgid "&Left button:"
+#~ msgstr "বাঁদিকের বাটন:"
+
+#, fuzzy
+#~| msgid "Right button:"
+#~ msgid "&Right button:"
+#~ msgstr "ডানদিকের বাটন:"
+
+#, fuzzy
+#~| msgid "Middle button:"
+#~ msgid "M&iddle button:"
+#~ msgstr "মাঝের বাটন:"
+
+#, fuzzy
+#~| msgid "Left button:"
+#~ msgid "Left &button"
+#~ msgstr "বাঁদিকের বাটন:"
+
+#~ msgid "Shading"
+#~ msgstr "ছায়াবৃত"
+
+#~ msgid "Dela&y:"
+#~ msgstr "বিলম্ব: (&y)"
+
+#, fuzzy
+#~| msgid "&Policy:"
+#~ msgid "Policy"
+#~ msgstr "নীতি: (&P)"
+
+#~ msgid "&Moving"
+#~ msgstr "স্থানান্তরণ (&M)"
+
+#~ msgid "Handle mouse wheel events"
+#~ msgstr "মাউস উইলের ইভেন্ট ব্যবস্থাপনা"
+
+#, fuzzy
+#~| msgid ""
+#~| "Behavior on <em>right</em> click into the titlebar or frame of an "
+#~| "<em>active</em> window."
+#~ msgid ""
+#~ "In this column you can customize mouse clicks into the titlebar or the "
+#~ "frame of an active window."
+#~ msgstr ""
+#~ "<em>সক্রিয়</em> উইন্ডোর শিরোনামের বার অথবা ফ্রেমের মধ্যে <em>ডানদিকের</em> "
+#~ "বাটন ক্লিক করার ফলে হওয়া আচরণ।"
+
+#, fuzzy
+#~| msgid ""
+#~| "Behavior on <em>right</em> click into the titlebar or frame of an "
+#~| "<em>inactive</em> window."
+#~ msgid ""
+#~ "In this column you can customize mouse clicks into the titlebar or the "
+#~ "frame of an inactive window."
+#~ msgstr ""
+#~ "<em>নিষ্ক্রিয়</em> উইন্ডোর শিরোনামের বার অথবা ফ্রেমের মধ্যে <em>ডানদিকের</em> "
+#~ "বাটন ক্লিক করার ফলে হওয়া আচরণ।"
+
+#~ msgid "Left button:"
+#~ msgstr "বাঁদিকের বাটন:"
+
+#~ msgid "Middle button:"
+#~ msgstr "মাঝের বাটন:"
+
+#~ msgid ""
+#~ "Behavior on <em>middle</em> click into the titlebar or frame of an "
+#~ "<em>active</em> window."
+#~ msgstr ""
+#~ "<em>সক্রিয়</em> উইন্ডোর শিরোনামের বার অথবা ফ্রেমের মধ্যে <em>মাঝের</em> বাটন "
+#~ "ক্লিক করার ফলে হওয়া আচরণ।"
+
+#~ msgid "Right button:"
+#~ msgstr "ডানদিকের বাটন:"
+
+#~ msgid ""
+#~ "Behavior on <em>right</em> click into the titlebar or frame of an "
+#~ "<em>active</em> window."
+#~ msgstr ""
+#~ "<em>সক্রিয়</em> উইন্ডোর শিরোনামের বার অথবা ফ্রেমের মধ্যে <em>ডানদিকের</em> "
+#~ "বাটন ক্লিক করার ফলে হওয়া আচরণ।"
+
+#, fuzzy
+#~| msgid "Titlebar && Frame"
+#~ msgid "Titlebar & Frame"
+#~ msgstr "শিরোনামের বার ও ফ্রেম"
+
+#, fuzzy
+#~| msgid "&Titlebar Actions"
+#~ msgid "Titlebar"
+#~ msgstr "শিরোনামের বার সংক্রান্ত কর্ম (&T)"
+
+#~ msgid "Windows"
+#~ msgstr "উইন্ডো"
+
+#~ msgid "kcmkwinoptions"
+#~ msgstr "kcmkwinoptions"
+
+#, fuzzy
+#~| msgid "Display content in &resizing windows"
+#~ msgid "Display borders on &maximized windows"
+#~ msgstr "মাপ পরিবর্তনের জন্য চিহ্নিত উইন্ডোর মধ্যে উপস্থিত তথ্য প্রদর্শন করা হবে (&r)"
+
+#, fuzzy
+#~| msgid "Minimize"
+#~ msgctxt "@item:inlistbox behavior on double click"
+#~ msgid "Minimize"
+#~ msgstr "আড়াল করুন"
+
+#~ msgid ""
+#~ "Behavior on <em>middle</em> click into the titlebar or frame of an "
+#~ "<em>inactive</em> window."
+#~ msgstr ""
+#~ "<em>নিষ্ক্রিয়</em> উইন্ডোর শিরোনামের বার অথবা ফ্রেমের মধ্যে <em>মাঝের</em> "
+#~ "বাটন ক্লিক করার ফলে হওয়া আচরণ।"
+
+#, fuzzy
+#~| msgid "none"
+#~ msgctxt "no border snap zone"
+#~ msgid "none"
+#~ msgstr "শূণ্য"
+
+#, fuzzy
+#~| msgid "none"
+#~ msgctxt "no window snap zone"
+#~ msgid "none"
+#~ msgstr "শূণ্য"
+
+#, fuzzy
+#~| msgid "none"
+#~ msgctxt "no center snap zone"
+#~ msgid "none"
+#~ msgstr "শূণ্য"
+
+#, fuzzy
+#~| msgid "Nothing"
+#~ msgctxt "Floating layout, windows aren't tiled at all"
+#~ msgid "Floating"
+#~ msgstr "কিছু না"
+
+#~ msgid "Di&splay content in moving windows"
+#~ msgstr "স্থানান্তরের জন্য চিহ্নিত উইন্ডোর মধ্যে উপস্থিত তথ্য প্রদর্শন করা হবে (&s)"
+
+#~ msgid "Display content in &resizing windows"
+#~ msgstr "মাপ পরিবর্তনের জন্য চিহ্নিত উইন্ডোর মধ্যে উপস্থিত তথ্য প্রদর্শন করা হবে (&r)"
+
+#~ msgid "Allow moving and resizing o&f maximized windows"
+#~ msgstr "সর্বোচ্চ মাপে নির্ধারিত উইন্ডোর স্থানান্তরণ ও মাপ পরিবর্তন করা যাবে (&f)"
+
+#~ msgid "Show window list while switching windows"
+#~ msgstr "উইন্ডো পরিবর্তনের সময় উইন্ডো তালিকা প্রদর্শন করা হবে"
+
+#~ msgid "&Traverse windows on all desktops"
+#~ msgstr "সকল ডেস্কটপের উপর অবস্থিত উইন্ডো পার করা হবে (&T)"
+
+#~ msgid "Popup desktop name on desktop &switch"
+#~ msgstr "ডেস্কটপ পরিবর্তনের সময় ডেস্কটপের নাম পপ-আপ করে প্রদর্শন করা হবে (&s)"
+
+#~ msgctxt "Focus Stealing Prevention Level"
+#~ msgid "Normal"
+#~ msgstr "স্বাভাবিক"
+
+#~ msgid "Active Desktop Borders"
+#~ msgstr "সক্রিয় ডেস্কটপের প্রান্ত"
+
+#~ msgid "D&isabled"
+#~ msgstr "নিষ্ক্রিয় (&i)"
+
+#~ msgid "A&lways enabled"
+#~ msgstr "সর্বদা সক্রিয় (&l)"
+
+#~ msgid "Desktop &switch delay:"
+#~ msgstr "ডেস্কটপ পরিবর্তে বিলম্ব: (&s)"

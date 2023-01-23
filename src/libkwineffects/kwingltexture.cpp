@@ -293,13 +293,11 @@ GLTexturePrivate::GLTexturePrivate()
     , m_mipLevels(1)
     , m_unnormalizeActive(0)
     , m_normalizeActive(0)
-    , m_vbo(nullptr)
 {
 }
 
 GLTexturePrivate::~GLTexturePrivate()
 {
-    delete m_vbo;
     if (m_texture != 0 && !m_foreign) {
         glDeleteTextures(1, &m_texture);
     }
@@ -508,31 +506,33 @@ void GLTexture::unbind()
     glBindTexture(d->m_target, 0);
 }
 
-void GLTexture::render(const QRect &rect)
+void GLTexture::render(const QRect &rect, qreal scale)
 {
-    render(infiniteRegion(), rect, false);
+    render(infiniteRegion(), rect, scale, false);
 }
 
-void GLTexture::render(const QRegion &region, const QRect &rect, bool hardwareClipping)
+void GLTexture::render(const QRegion &region, const QRect &rect, qreal scale, bool hardwareClipping)
 {
     Q_D(GLTexture);
     if (rect.isEmpty()) {
         return; // nothing to paint and m_vbo is likely nullptr and d->m_cachedSize empty as well, #337090
     }
-    if (rect.size() != d->m_cachedSize) {
-        d->m_cachedSize = rect.size();
-        QRect r(rect);
+
+    QRect destinationRect = scaledRect(rect, scale).toRect();
+    if (destinationRect.size() != d->m_cachedSize) {
+        d->m_cachedSize = destinationRect.size();
+        QRect r(destinationRect);
         r.moveTo(0, 0);
         if (!d->m_vbo) {
-            d->m_vbo = new GLVertexBuffer(KWin::GLVertexBuffer::Static);
+            d->m_vbo = std::make_unique<GLVertexBuffer>(KWin::GLVertexBuffer::Static);
         }
 
         const float verts[4 * 2] = {
             // NOTICE: r.x/y could be replaced by "0", but that would make it unreadable...
             static_cast<float>(r.x()), static_cast<float>(r.y()),
-            static_cast<float>(r.x()), static_cast<float>(r.y() + rect.height()),
-            static_cast<float>(r.x() + rect.width()), static_cast<float>(r.y()),
-            static_cast<float>(r.x() + rect.width()), static_cast<float>(r.y() + rect.height())};
+            static_cast<float>(r.x()), static_cast<float>(r.y() + destinationRect.height()),
+            static_cast<float>(r.x() + destinationRect.width()), static_cast<float>(r.y()),
+            static_cast<float>(r.x() + destinationRect.width()), static_cast<float>(r.y() + destinationRect.height())};
 
         const float texWidth = (target() == GL_TEXTURE_RECTANGLE_ARB) ? width() : 1.0f;
         const float texHeight = (target() == GL_TEXTURE_RECTANGLE_ARB) ? height() : 1.0f;
@@ -595,19 +595,17 @@ void GLTexture::clear()
         }
     } else {
         if (const int size = width() * height()) {
-            uint32_t *buffer = new uint32_t[size];
-            memset(buffer, 0, size * sizeof(uint32_t));
+            std::vector<uint32_t> buffer(size, 0);
             bind();
             if (!GLPlatform::instance()->isGLES()) {
                 glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width(), height(),
-                                GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, buffer);
+                                GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, buffer.data());
             } else {
                 const GLenum format = d->s_supportsARGB32 ? GL_BGRA_EXT : GL_RGBA;
                 glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width(), height(),
-                                format, GL_UNSIGNED_BYTE, buffer);
+                                format, GL_UNSIGNED_BYTE, buffer.data());
             }
             unbind();
-            delete[] buffer;
         }
     }
 }
@@ -734,8 +732,21 @@ bool GLTexture::supportsFormatRG()
 
 QImage GLTexture::toImage() const
 {
+    if (target() != GL_TEXTURE_2D) {
+        return QImage();
+    }
     QImage ret(size(), QImage::Format_RGBA8888_Premultiplied);
-    glGetTextureImage(texture(), 0, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8_REV, ret.sizeInBytes(), ret.bits());
+
+    GLint currentTextureBinding;
+    glGetIntegerv(GL_TEXTURE_BINDING_2D, &currentTextureBinding);
+
+    if (GLuint(currentTextureBinding) != texture()) {
+        glBindTexture(GL_TEXTURE_2D, texture());
+    }
+    glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8_REV, ret.bits());
+    if (GLuint(currentTextureBinding) != texture()) {
+        glBindTexture(GL_TEXTURE_2D, currentTextureBinding);
+    }
     return ret;
 }
 

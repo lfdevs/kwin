@@ -8,8 +8,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#ifndef KWIN_SCRIPTING_WORKSPACE_WRAPPER_H
-#define KWIN_SCRIPTING_WORKSPACE_WRAPPER_H
+#pragma once
 
 #include <QObject>
 #include <QQmlListProperty>
@@ -21,6 +20,7 @@
 namespace KWin
 {
 // forward declarations
+class TileManager;
 class Window;
 class Output;
 class VirtualDesktop;
@@ -77,6 +77,10 @@ class WorkspaceWrapper : public QObject
      * @see virtualScreenSize
      */
     Q_PROPERTY(QRect virtualScreenGeometry READ virtualScreenGeometry NOTIFY virtualScreenGeometryChanged)
+    /**
+     * The current position of the cursor.
+     */
+    Q_PROPERTY(QPoint cursorPos READ cursorPos NOTIFY cursorPosChanged)
 
 private:
     Q_DISABLE_COPY(WorkspaceWrapper)
@@ -160,13 +164,17 @@ Q_SIGNALS:
      * @since 5.0
      */
     void virtualScreenGeometryChanged();
-
     /**
      * This signal is emitted when the current virtual desktop changes.
      *
      * @since 5.23
      */
     void currentVirtualDesktopChanged();
+    /**
+     * This signal is emitted when the cursor position changes.
+     * @see cursorPos()
+     */
+    void cursorPosChanged();
 
 public:
     //------------------------------------------------------------------
@@ -231,11 +239,15 @@ public:
     QStringList activityList() const;
     QSize virtualScreenSize() const;
     QRect virtualScreenGeometry() const;
+    QPoint cursorPos() const;
 
     VirtualDesktop *currentVirtualDesktop() const;
     void setCurrentVirtualDesktop(VirtualDesktop *desktop);
 
     Q_INVOKABLE int screenAt(const QPointF &pos) const;
+
+    Q_INVOKABLE KWin::TileManager *tilingForScreen(const QString &screenName) const;
+    Q_INVOKABLE KWin::TileManager *tilingForScreen(int screen) const;
 
     /**
      * Returns the geometry a Client can use with the specified option.
@@ -303,7 +315,18 @@ public Q_SLOTS:
     void slotSwitchDesktopDown();
 
     void slotSwitchToNextScreen();
+    void slotSwitchToPrevScreen();
+    void slotSwitchToRightScreen();
+    void slotSwitchToLeftScreen();
+    void slotSwitchToAboveScreen();
+    void slotSwitchToBelowScreen();
     void slotWindowToNextScreen();
+    void slotWindowToPrevScreen();
+    void slotWindowToRightScreen();
+    void slotWindowToLeftScreen();
+    void slotWindowToAboveScreen();
+    void slotWindowToBelowScreen();
+
     void slotToggleShowDesktop();
 
     void slotWindowMaximize();
@@ -456,5 +479,3 @@ public:
 };
 
 }
-
-#endif

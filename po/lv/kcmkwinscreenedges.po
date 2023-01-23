@@ -242,3 +242,43 @@ msgid ""
 "of the screen."
 msgstr ""
 "Darbību iedarbina stumjot peles kursoru pret ekrāna malu darbības virzienā."
+
+#~ msgid "Show Desktop"
+#~ msgstr "Parādīt darbvirsmu"
+
+#, fuzzy
+#~| msgid "Cube"
+#~ msgid "%1 - Cube"
+#~ msgstr "Kubs"
+
+#, fuzzy
+#~| msgid "Cylinder"
+#~ msgid "%1 - Cylinder"
+#~ msgstr "Cilindrs"
+
+#, fuzzy
+#~| msgid "Sphere"
+#~ msgid "%1 - Sphere"
+#~ msgstr "Sfēra"
+
+#, fuzzy
+#~| msgid "Active Screen Edge Actions"
+#~ msgid "Active Screen Corners and Edges"
+#~ msgstr "Aktīvās ekrāna malas darbības"
+
+#~ msgid "Window Management"
+#~ msgstr "Logu vadība"
+
+#, fuzzy
+#~| msgid "Maximize windows by dragging them to the top of the screen"
+#~ msgid "Maximize windows by dragging them to the top edge of the screen"
+#~ msgstr "Maksimizēt logus, tos uzvelkot uz ekrāna augšmalas"
+
+#~ msgid "Other Settings"
+#~ msgstr "Citi iestatījumi"
+
+#~ msgid "Show Dashboard"
+#~ msgstr "Parādīt dashboard"
+
+#~ msgid "Prevent Screen Locking"
+#~ msgstr "Neļaut bloķēt ekrānu"

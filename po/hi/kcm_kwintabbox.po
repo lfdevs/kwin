@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwintabbox\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-15 00:48+0000\n"
+"POT-Creation-Date: 2023-01-13 00:58+0000\n"
 "PO-Revision-Date: 2010-01-31 20:41+0530\n"
 "Last-Translator: Rajesh Ranjan <rajesh672@gmail.com>\n"
 "Language-Team: Hindi <indlinux>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 "\n"
 
-#: kwintabboxconfigform.cpp:77
+#: kwintabboxconfigform.cpp:80
 #, kde-format
 msgid "KWin"
 msgstr ""
@@ -244,3 +244,121 @@ msgstr ""
 #| msgid "Show Selected Item"
 msgid "Show selected window"
 msgstr "चयनित मद दिखाएँ"
+
+#~ msgid "Walk Through Windows"
+#~ msgstr "विंडोज़ के आरपार चलें"
+
+#~ msgid "Walk Through Windows (Reverse)"
+#~ msgstr "विंडोज़ के आरपार चलें (उलटे)"
+
+#, fuzzy
+#~| msgid "Walk Through Windows"
+#~ msgid "Walk Through Windows of Current Application"
+#~ msgstr "विंडोज़ के आरपार चलें"
+
+#, fuzzy
+#~| msgid "Walk Through Windows (Reverse)"
+#~ msgid "Walk Through Windows of Current Application (Reverse)"
+#~ msgstr "विंडोज़ के आरपार चलें (उलटे)"
+
+#, fuzzy
+#~| msgid "Walk Through Windows (Reverse)"
+#~ msgid "Walk Through Windows of Current Application Alternative (Reverse)"
+#~ msgstr "विंडोज़ के आरपार चलें (उलटे)"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "राजेश रंजन"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "rajesh672@gmail.com"
+
+#, fuzzy
+#~| msgid "All Desktops Grouped by Applications"
+#~ msgid "All windows from all applications"
+#~ msgstr "सभी डेस्कटॉप अनुप्रयोग द्वारा समूहीकृत"
+
+#~ msgid "Effect:"
+#~ msgstr "प्रभाव:"
+
+#, fuzzy
+#~| msgid "Informative"
+#~ msgctxt "Name for a window switcher layout showing icon, name and desktop"
+#~ msgid "Informative"
+#~ msgstr "जानकारीपद"
+
+#, fuzzy
+#~| msgid "Compact"
+#~ msgctxt "Name for a window switcher layout showing only icon and name"
+#~ msgid "Compact"
+#~ msgstr "सघन"
+
+#, fuzzy
+#~| msgid "Text Only"
+#~ msgctxt "Name for a window switcher layout showing only the name"
+#~ msgid "Text"
+#~ msgstr "सिर्फ पाठ"
+
+#, fuzzy
+#~| msgid "Large Icons"
+#~ msgctxt "Name for a window switcher layout showing large icons"
+#~ msgid "Large Icons"
+#~ msgstr "बडे प्रतीक"
+
+#, fuzzy
+#~| msgid "Small Icons"
+#~ msgctxt "Name for a window switcher layout showing small icons"
+#~ msgid "Small Icons"
+#~ msgstr "छोटे प्रतीक"
+
+#~ msgid "No Effect"
+#~ msgstr "कोई प्रभाव नहीं"
+
+#~ msgid "Item Layout"
+#~ msgstr "मद खाका"
+
+#~ msgid "Item layout:"
+#~ msgstr "मद खाका:"
+
+#~ msgid "Layout:"
+#~ msgstr "खाका:"
+
+#~ msgid "Vertical"
+#~ msgstr "खड़ा"
+
+#~ msgid "Horizontal"
+#~ msgstr "क्षैतिज"
+
+#~ msgid "Tabular"
+#~ msgstr "टेबुलर"
+
+#~ msgid "Width:"
+#~ msgstr "चौडाईः"
+
+#~ msgid " %"
+#~ msgstr " %"
+
+#~ msgid "Height:"
+#~ msgstr "ऊँचाईः"
+
+#~ msgid "Selected item view:"
+#~ msgstr "चयनित मद दृश्य"
+
+#~ msgid "Top"
+#~ msgstr "ऊपर"
+
+#~ msgid "Bottom"
+#~ msgstr "नीचे"
+
+#~ msgid "Left"
+#~ msgstr "बायाँ"
+
+#~ msgid "Right"
+#~ msgstr "दायाँ"
+
+#~ msgid "Selected item layout:"
+#~ msgstr "चयनित मद खाका:"
+
+#~ msgid "General"
+#~ msgstr "सामान्य"

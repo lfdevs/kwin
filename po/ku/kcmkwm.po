@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-02 00:47+0000\n"
+"POT-Creation-Date: 2022-12-03 00:48+0000\n"
 "PO-Revision-Date: 2008-12-28 12:38+0200\n"
 "Last-Translator: Omer Ensari <oensari@gmail.com>\n"
 "Language-Team: Kurdish <ku@li.org>\n"
@@ -533,13 +533,10 @@ msgid ""
 "whole screen. It might be useful to selectively affect placement of some "
 "windows using the window-specific settings.</li><li style=\" margin-top:0px; "
 "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\"><span style=\" font-style:italic;\">Cascade</span> will "
-"cascade the windows</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"text-indent:0px;\"><span style=\" font-style:italic;\">Random</span> will "
+"use a random position</li><li style=\" margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-style:italic;\">Random</span> will use a random "
-"position</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-style:italic;\">Centered</span> will place the window "
+"\"><span style=\" font-style:italic;\">Centered</span> will place the window "
 "centered</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\" font-style:italic;\">Zero-cornered</span> will place the window in "
@@ -566,36 +563,30 @@ msgstr "Mezintirîn"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:90
 #, kde-format
-msgid "Cascaded"
-msgstr ""
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:95
-#, kde-format
 msgid "Random"
 msgstr "Rasthatî"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:100
+#: advanced.ui:95
 #, kde-format
 msgid "Centered"
 msgstr "Navend bûyî"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:105
+#: advanced.ui:100
 #, kde-format
 msgid "In Top-Left Corner"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:110
+#: advanced.ui:105
 #, fuzzy, kde-format
 #| msgid "Focus Under Mouse"
 msgid "Under mouse"
 msgstr "Nîvend di Bin Mişkê de"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:118
+#: advanced.ui:113
 #, kde-format
 msgid ""
 "When turned on, apps which are able to remember the positions of their "
@@ -604,21 +595,21 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:121
+#: advanced.ui:116
 #, kde-format
 msgid ""
 "Allow apps to remember the positions of their own windows, if they support it"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
-#: advanced.ui:128
+#: advanced.ui:123
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "&Special windows:"
 msgstr "Pace"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:138
+#: advanced.ui:133
 #, kde-format
 msgid ""
 "When turned on, utility windows (tool windows, torn-off menus,...) of "
@@ -628,25 +619,25 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:141
+#: advanced.ui:136
 #, kde-format
 msgid "Hide utility windows for inactive applications"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyLabel)
-#: advanced.ui:148
+#: advanced.ui:143
 #, kde-format
 msgid "Virtual Desktop behavior:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyDescriptionLabel)
-#: advanced.ui:158
+#: advanced.ui:153
 #, kde-format
 msgid "When activating a window on a different Virtual Desktop:"
 msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:165
+#: advanced.ui:160
 #, kde-format
 msgid ""
 "<html><head/><body><p>This setting controls what happens when an open window "
@@ -659,13 +650,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:169
+#: advanced.ui:164
 #, kde-format
 msgid "Switch to that Virtual Desktop"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:174
+#: advanced.ui:169
 #, kde-format
 msgid "Bring window to current Virtual Desktop"
 msgstr ""
@@ -1351,3 +1342,220 @@ msgid ""
 "activation policy and will not work. You very likely want to use <em>Focus "
 "follows mouse (mouse precedence)</em> instead!"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Only &when moving windows"
+#~ msgid "Display when moving or resizing"
+#~ msgstr "Tenê &wextê di guhastina pace yan de"
+
+#~ msgid "Maximize (vertical only)"
+#~ msgstr "Mezintirîn (tenê tîkane)"
+
+#~ msgid "Maximize (horizontal only)"
+#~ msgstr "Mezintirîn (tenê berwarî)"
+
+#~ msgid "Smart"
+#~ msgstr "Zîrek"
+
+#~ msgid "Maximizing"
+#~ msgstr "Tê mezintir kirin"
+
+#, fuzzy
+#~| msgctxt "@title:group"
+#~| msgid "Window Switching"
+#~ msgid "Window tabbing:"
+#~ msgstr "Derbasbûna Pace yê"
+
+#, fuzzy
+#~| msgctxt "@title:group"
+#~| msgid "Window Switching"
+#~ msgid "Start window tab drag"
+#~ msgstr "Derbasbûna Pace yê"
+
+#, fuzzy
+#~| msgid "Right button:"
+#~ msgid "Ri&ght button:"
+#~ msgstr "Bişkojka rast:"
+
+#, fuzzy
+#~| msgid "Left button:"
+#~ msgid "&Left button:"
+#~ msgstr "Bişkojka çep:"
+
+#, fuzzy
+#~| msgid "Right button:"
+#~ msgid "&Right button:"
+#~ msgstr "Bişkojka rast:"
+
+#, fuzzy
+#~| msgid "Middle button:"
+#~ msgid "M&iddle button:"
+#~ msgstr "Bişkojka navîn:"
+
+#, fuzzy
+#~| msgid "Left button:"
+#~ msgid "Left &button"
+#~ msgstr "Bişkojka çep:"
+
+#~ msgid "Shading"
+#~ msgstr "Sîdar kirin"
+
+#~ msgid "Dela&y:"
+#~ msgstr "Deren&g mayîn:"
+
+#~ msgid "&Enable hover"
+#~ msgstr "Jixwe vebûnê &çalak bike"
+
+#, fuzzy
+#~| msgid "&Policy:"
+#~ msgid "Policy"
+#~ msgstr "&Rêgez:"
+
+#~ msgid "&Moving"
+#~ msgstr "Tê guhe&stin"
+
+#, fuzzy
+#~| msgid "Titlebar wheel event:"
+#~ msgid "Wheel event:"
+#~ msgstr "Bûyera giloveroka mişkê di ser darika sernavê de:"
+
+#~ msgid "Handle mouse wheel events"
+#~ msgstr "Bûyerên giloveroka mişkê bi rê ve bibe"
+
+#~ msgid ""
+#~ "In this column you can customize mouse clicks into the titlebar or the "
+#~ "frame of an active window."
+#~ msgstr ""
+#~ "Di vê rêzikê de hûn dikarin tevgera tikandinên mişkê taybet bikin yê di "
+#~ "nav darika sernavê de an jî di dorbend de."
+
+#~ msgid ""
+#~ "In this column you can customize mouse clicks into the titlebar or the "
+#~ "frame of an inactive window."
+#~ msgstr ""
+#~ "Di vê stûnê de hûn dikarin tevgera nîvçe-tikandina mişkê taybet bikin yê "
+#~ "di nav darika sernavê de an jî di dorbend de."
+
+#~ msgid "Left button:"
+#~ msgstr "Bişkojka çep:"
+
+#~ msgid "Middle button:"
+#~ msgstr "Bişkojka navîn:"
+
+#~ msgid ""
+#~ "Behavior on <em>middle</em> click into the titlebar or frame of an "
+#~ "<em>active</em> window."
+#~ msgstr ""
+#~ "Tevger di <em>nîvçe</em> tikandinê de yê ser darika sernavê an jî "
+#~ "dorbenda pace ya <em>çalak</em> de."
+
+#~ msgid "Right button:"
+#~ msgstr "Bişkojka rast:"
+
+#~ msgid ""
+#~ "Behavior on <em>right</em> click into the titlebar or frame of an "
+#~ "<em>active</em> window."
+#~ msgstr ""
+#~ "Tevger di <em>rast</em> tikandinê de yê ser darika sernavê an jî dorbenda "
+#~ "pace ya <em>çalak</em> de."
+
+#, fuzzy
+#~| msgid "Titlebar && Frame"
+#~ msgid "Titlebar & Frame"
+#~ msgstr "Darika sernavê && dorbend"
+
+#, fuzzy
+#~| msgid "&Titlebar Actions"
+#~ msgid "Titlebar"
+#~ msgstr "Çalakiyên &Darika Sernavê"
+
+#~ msgid "Windows"
+#~ msgstr "Pace"
+
+#~ msgid "kcmkwinoptions"
+#~ msgstr "kcmkwinoptions"
+
+#~ msgid "&Raise, with the following delay:"
+#~ msgstr "&Bilind Bike, bi vê dereng mayînê re:"
+
+#, fuzzy
+#~| msgid "Minimize"
+#~ msgctxt "@item:inlistbox behavior on double click"
+#~ msgid "Minimize"
+#~ msgstr "Biçûktirîn"
+
+#~ msgid ""
+#~ "Behavior on <em>right</em> click into the titlebar or frame of an "
+#~ "<em>inactive</em> window."
+#~ msgstr ""
+#~ "Tevger di <em>rast</em> tikandinê de yê ser darika sernavê an jî dorbenda "
+#~ "pace ya <em>neçalak</em> de."
+
+#~ msgid ""
+#~ "Behavior on <em>middle</em> click into the titlebar or frame of an "
+#~ "<em>inactive</em> window."
+#~ msgstr ""
+#~ "Tevger di <em>nîvçe</em> tikandinê de yê ser darika sernavê an jî "
+#~ "dorbenda pace ya <em>neçalak</em> de."
+
+#~ msgid ""
+#~ "Here you can customize behavior when clicking on the maximize button."
+#~ msgstr ""
+#~ "Li vir hûn dikarin tevgera wextê tikandina di ser bişkojka mezintirîn "
+#~ "bike taybet bikin."
+
+#, fuzzy
+#~| msgid "none"
+#~ msgctxt "no border snap zone"
+#~ msgid "none"
+#~ msgstr "ne yek jî"
+
+#, fuzzy
+#~| msgid "none"
+#~ msgctxt "no window snap zone"
+#~ msgid "none"
+#~ msgstr "ne yek jî"
+
+#, fuzzy
+#~| msgid "none"
+#~ msgctxt "no center snap zone"
+#~ msgid "none"
+#~ msgstr "ne yek jî"
+
+#, fuzzy
+#~| msgid "Nothing"
+#~ msgctxt "Floating layout, windows aren't tiled at all"
+#~ msgid "Floating"
+#~ msgstr "Qet"
+
+#~ msgid "Show window list while switching windows"
+#~ msgstr "Lîsteya pace nîşan bide di demê derbasbûna pace yan de"
+
+#~ msgid "&Traverse windows on all desktops"
+#~ msgstr "Hemû pace yên di sermasê de &bigere"
+
+#~ msgid ""
+#~ "Leave this option disabled if you want to limit walking through windows "
+#~ "to the current desktop."
+#~ msgstr ""
+#~ "Vê bijare yê neçalak bihêlin heke hûn dixwazin gerana ji navbera pace yan "
+#~ "heta sermase ya heyî vesînor bikin."
+
+#~ msgctxt "Focus Stealing Prevention Level"
+#~ msgid "Normal"
+#~ msgstr "Asayî"
+
+#~ msgid "Active Desktop Borders"
+#~ msgstr "Sînorên Sermasê Çalak Bike"
+
+#~ msgid "D&isabled"
+#~ msgstr "N&eçalak kirî"
+
+#~ msgid "A&lways enabled"
+#~ msgstr "H&erdem çalak e"
+
+#~ msgid "Focus"
+#~ msgstr "Nîvend"
+
+#~ msgid "Navigation"
+#~ msgstr "Navîgasiyon"

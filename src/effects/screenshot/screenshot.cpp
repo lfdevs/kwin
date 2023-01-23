@@ -134,7 +134,7 @@ QFuture<QImage> ScreenShotEffect::scheduleScreenShot(const QRect &area, ScreenSh
 
     qreal devicePixelRatio = 1.0;
     if (flags & ScreenShotNativeResolution) {
-        for (const EffectScreen *screen : qAsConst(data.screens)) {
+        for (const EffectScreen *screen : std::as_const(data.screens)) {
             if (screen->devicePixelRatio() > devicePixelRatio) {
                 devicePixelRatio = screen->devicePixelRatio();
             }
@@ -246,6 +246,7 @@ void ScreenShotEffect::takeScreenShot(ScreenShotWindowData *screenshot)
     if (validTarget) {
         d.setXTranslation(-geometry.x());
         d.setYTranslation(-geometry.y());
+        d.setRenderTargetScale(devicePixelRatio);
 
         // render window into offscreen texture
         int mask = PAINT_WINDOW_TRANSFORMED | PAINT_WINDOW_TRANSLUCENT;
@@ -257,7 +258,7 @@ void ScreenShotEffect::takeScreenShot(ScreenShotWindowData *screenshot)
             glClearColor(0.0, 0.0, 0.0, 1.0);
 
             QMatrix4x4 projection;
-            projection.ortho(QRect(0, 0, geometry.width(), geometry.height()));
+            projection.ortho(QRect(0, 0, geometry.width() * devicePixelRatio, geometry.height() * devicePixelRatio));
             d.setProjectionMatrix(projection);
 
             effects->drawWindow(window, mask, infiniteRegion(), d);
@@ -358,7 +359,7 @@ QImage ScreenShotEffect::blitScreenshot(const QRect &geometry, qreal devicePixel
             image = QImage(nativeSize.width(), nativeSize.height(), QImage::Format_ARGB32);
             GLTexture texture(GL_RGBA8, nativeSize.width(), nativeSize.height());
             GLFramebuffer target(&texture);
-            target.blitFromFramebuffer(effects->mapToRenderTarget(geometry));
+            target.blitFromFramebuffer(effects->mapToRenderTarget(QRectF(geometry)).toRect());
             // copy content from framebuffer into image
             texture.bind();
             glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE,

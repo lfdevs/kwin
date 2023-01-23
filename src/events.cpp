@@ -31,6 +31,7 @@
 #include "useractions.h"
 #include "utils/xcbutils.h"
 #include "wayland/surface_interface.h"
+#include "wayland/xwaylandshell_v1_interface.h"
 #include "wayland_server.h"
 
 #include <KDecoration2/Decoration>
@@ -148,10 +149,6 @@ static xcb_window_t findEventWindow(xcb_generic_event_t *event)
 bool Workspace::workspaceEvent(xcb_generic_event_t *e)
 {
     const uint8_t eventType = e->response_type & ~0x80;
-    if (effects && static_cast<EffectsHandlerImpl *>(effects)->hasKeyboardGrab()
-        && (eventType == XCB_KEY_PRESS || eventType == XCB_KEY_RELEASE)) {
-        return false; // let Qt process it, it'll be intercepted again in eventFilter()
-    }
 
     const xcb_window_t eventWindow = findEventWindow(e);
     if (eventWindow != XCB_WINDOW_NONE) {
@@ -183,7 +180,7 @@ bool Workspace::workspaceEvent(xcb_generic_event_t *e)
         const auto *event = reinterpret_cast<xcb_create_notify_event_t *>(e);
         if (event->parent == kwinApp()->x11RootWindow() && !QWidget::find(event->window) && !event->override_redirect) {
             // see comments for allowWindowActivation()
-            updateXTime();
+            kwinApp()->updateXTime();
             const xcb_timestamp_t t = xTime();
             xcb_change_property(kwinApp()->x11Connection(), XCB_PROP_MODE_REPLACE, event->window, atoms->kde_net_wm_user_creation_time, XCB_ATOM_CARDINAL, 32, 1, &t);
         }
@@ -199,7 +196,7 @@ bool Workspace::workspaceEvent(xcb_generic_event_t *e)
         return true;
     }
     case XCB_MAP_REQUEST: {
-        updateXTime();
+        kwinApp()->updateXTime();
 
         const auto *event = reinterpret_cast<xcb_map_request_event_t *>(e);
         if (X11Window *window = findClient(Predicate::WindowMatch, event->window)) {
@@ -285,7 +282,7 @@ bool Workspace::workspaceEvent(xcb_generic_event_t *e)
         if (event->event == kwinApp()->x11RootWindow()
             && (event->detail == XCB_NOTIFY_DETAIL_NONE || event->detail == XCB_NOTIFY_DETAIL_POINTER_ROOT || event->detail == XCB_NOTIFY_DETAIL_INFERIOR)) {
             Xcb::CurrentInput currentInput;
-            updateXTime(); // focusToNull() uses xTime(), which is old now (FocusIn has no timestamp)
+            kwinApp()->updateXTime(); // focusToNull() uses xTime(), which is old now (FocusIn has no timestamp)
             // it seems we can "loose" focus reversions when the closing window hold a grab
             // => catch the typical pattern (though we don't want the focus on the root anyway) #348935
             const bool lostFocusPointerToRoot = currentInput->focus == kwinApp()->x11RootWindow() && event->detail == XCB_NOTIFY_DETAIL_INFERIOR;
@@ -307,19 +304,6 @@ bool Workspace::workspaceEvent(xcb_generic_event_t *e)
         return true; // always eat these, they would tell Qt that KWin is the active app
     default:
         break;
-    }
-    return false;
-}
-
-// Used only to filter events that need to be processed by Qt first
-// (e.g. keyboard input to be composed), otherwise events are
-// handle by the XEvent filter above
-bool Workspace::workspaceEvent(QEvent *e)
-{
-    if ((e->type() == QEvent::KeyPress || e->type() == QEvent::KeyRelease || e->type() == QEvent::ShortcutOverride)
-        && effects && static_cast<EffectsHandlerImpl *>(effects)->hasKeyboardGrab()) {
-        static_cast<EffectsHandlerImpl *>(effects)->grabbedKeyboardEvent(static_cast<QKeyEvent *>(e));
-        return true;
     }
     return false;
 }
@@ -390,7 +374,7 @@ bool X11Window::windowEvent(xcb_generic_event_t *e)
             getWmOpaqueRegion();
         }
         if (dirtyProperties2 & NET::WM2DesktopFileName) {
-            setDesktopFileName(QByteArray(info->desktopFileName()));
+            setDesktopFileName(QString::fromUtf8(info->desktopFileName()));
         }
         if (dirtyProperties2 & NET::WM2GTKFrameExtents) {
             setClientFrameExtents(info->gtkFrameExtents());
@@ -714,10 +698,8 @@ void X11Window::enterNotifyEvent(xcb_enter_notify_event_t *e)
         return; // care only about entering the whole frame
     }
 
-#define MOUSE_DRIVEN_FOCUS (!options->focusPolicyIsReasonable() || (options->focusPolicy() == Options::FocusFollowsMouse && options->isNextFocusPrefersMouse()))
-    if (e->mode == XCB_NOTIFY_MODE_NORMAL || (e->mode == XCB_NOTIFY_MODE_UNGRAB && MOUSE_DRIVEN_FOCUS)) {
-#undef MOUSE_DRIVEN_FOCUS
-
+    const bool mouseDrivenFocus = !options->focusPolicyIsReasonable() || (options->focusPolicy() == Options::FocusFollowsMouse && options->isNextFocusPrefersMouse());
+    if (e->mode == XCB_NOTIFY_MODE_NORMAL || (e->mode == XCB_NOTIFY_MODE_UNGRAB && mouseDrivenFocus)) {
         pointerEnterEvent(QPoint(e->root_x, e->root_y));
         return;
     }
@@ -1268,7 +1250,7 @@ bool Unmanaged::windowEvent(xcb_generic_event_t *e)
         // To not run into these errors we try to wait for the destroy notify. For this we
         // generate a round trip to the X server and wait a very short time span before
         // handling the release.
-        updateXTime();
+        kwinApp()->updateXTime();
         // using 1 msec to not just move it at the end of the event loop but add an very short
         // timespan to cover cases like unmap() followed by destroy(). The only other way to
         // ensure that the window is not destroyed when we do the release handling is to grab
@@ -1350,7 +1332,14 @@ void Window::propertyNotifyEvent(xcb_property_notify_event_t *e)
 
 void Window::clientMessageEvent(xcb_client_message_event_t *e)
 {
-    if (e->type == atoms->wl_surface_id) {
+    if (e->type == atoms->wl_surface_serial) {
+        m_surfaceSerial = (uint64_t(e->data.data32[1]) << 32) | e->data.data32[0];
+        if (auto w = waylandServer()) {
+            if (KWaylandServer::XwaylandSurfaceV1Interface *xwaylandSurface = w->xwaylandShell()->findSurface(m_surfaceSerial)) {
+                setSurface(xwaylandSurface->surface());
+            }
+        }
+    } else if (e->type == atoms->wl_surface_id) {
         m_pendingSurfaceId = e->data.data32[0];
         if (auto w = waylandServer()) {
             if (auto s = KWaylandServer::SurfaceInterface::get(m_pendingSurfaceId, w->xWaylandConnection())) {

@@ -9,8 +9,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#ifndef KWIN_ATOMS_H
-#define KWIN_ATOMS_H
+#pragma once
 
 #include "utils/xcbutils.h"
 
@@ -67,6 +66,7 @@ public:
     Xcb::Atom netscape_url;
     Xcb::Atom moz_url;
     Xcb::Atom wl_surface_id;
+    Xcb::Atom wl_surface_serial;
     Xcb::Atom kde_net_wm_appmenu_service_name;
     Xcb::Atom kde_net_wm_appmenu_object_path;
     Xcb::Atom clipboard;
@@ -93,5 +93,3 @@ private:
 extern KWIN_EXPORT Atoms *atoms;
 
 } // namespace
-
-#endif

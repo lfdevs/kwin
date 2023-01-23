@@ -6,8 +6,7 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-#ifndef KWIN_GLX_BACKEND_H
-#define KWIN_GLX_BACKEND_H
+#pragma once
 #include "core/outputlayer.h"
 #include "openglbackend.h"
 #include "openglsurfacetexture_x11.h"
@@ -29,7 +28,7 @@ namespace KWin
 
 class GlxPixmapTexturePrivate;
 class VsyncMonitor;
-class X11StandalonePlatform;
+class X11StandaloneBackend;
 class GlxBackend;
 
 // GLX_MESA_swap_interval
@@ -79,7 +78,7 @@ class GlxBackend : public OpenGLBackend
     Q_OBJECT
 
 public:
-    GlxBackend(Display *display, X11StandalonePlatform *backend);
+    GlxBackend(Display *display, X11StandaloneBackend *backend);
     ~GlxBackend() override;
     std::unique_ptr<SurfaceTexture> createSurfaceTextureX11(SurfacePixmapX11 *pixmap) override;
     OutputLayerBeginFrameInfo beginFrame();
@@ -131,7 +130,7 @@ private:
     bool m_haveEXTSwapControl = false;
     bool m_haveSGISwapControl = false;
     Display *m_x11Display;
-    X11StandalonePlatform *m_backend;
+    X11StandaloneBackend *m_backend;
     std::unique_ptr<VsyncMonitor> m_vsyncMonitor;
     std::unique_ptr<GlxLayer> m_layer;
     friend class GlxPixmapTexturePrivate;
@@ -175,4 +174,3 @@ public:
 };
 
 } // namespace
-#endif // KWIN_GLX_BACKEND_H

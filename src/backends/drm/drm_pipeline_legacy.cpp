@@ -8,11 +8,11 @@
  */
 
 #include "drm_buffer.h"
+#include "drm_connector.h"
+#include "drm_crtc.h"
 #include "drm_gpu.h"
 #include "drm_layer.h"
 #include "drm_logging.h"
-#include "drm_object_connector.h"
-#include "drm_object_crtc.h"
 #include "drm_pipeline.h"
 
 #include <errno.h>
@@ -30,7 +30,11 @@ DrmPipeline::Error DrmPipeline::presentLegacy()
         }
     }
     const auto buffer = m_pending.layer->currentBuffer();
-    if (drmModePageFlip(gpu()->fd(), m_pending.crtc->id(), buffer->framebufferId(), DRM_MODE_PAGE_FLIP_EVENT, gpu()) != 0) {
+    uint32_t flags = DRM_MODE_PAGE_FLIP_EVENT;
+    if (m_pending.syncMode == RenderLoopPrivate::SyncMode::Async || m_pending.syncMode == RenderLoopPrivate::SyncMode::AdaptiveAsync) {
+        flags |= DRM_MODE_PAGE_FLIP_ASYNC;
+    }
+    if (drmModePageFlip(gpu()->fd(), m_pending.crtc->id(), buffer->framebufferId(), flags, gpu()) != 0) {
         qCWarning(KWIN_DRM) << "Page flip failed:" << strerror(errno);
         return errnoToError();
     }
@@ -93,7 +97,7 @@ DrmPipeline::Error DrmPipeline::applyPendingChangesLegacy()
     }
     if (activePending()) {
         auto vrr = m_pending.crtc->getProp(DrmCrtc::PropertyIndex::VrrEnabled);
-        if (vrr && !vrr->setPropertyLegacy(m_pending.syncMode == RenderLoopPrivate::SyncMode::Adaptive)) {
+        if (vrr && !vrr->setPropertyLegacy(m_pending.syncMode == RenderLoopPrivate::SyncMode::Adaptive || m_pending.syncMode == RenderLoopPrivate::SyncMode::AdaptiveAsync)) {
             qCWarning(KWIN_DRM) << "Setting vrr failed!" << strerror(errno);
             return errnoToError();
         }
@@ -117,6 +121,9 @@ DrmPipeline::Error DrmPipeline::applyPendingChangesLegacy()
         if (m_pending.gamma && drmModeCrtcSetGamma(gpu()->fd(), m_pending.crtc->id(), m_pending.gamma->lut().size(), m_pending.gamma->lut().red(), m_pending.gamma->lut().green(), m_pending.gamma->lut().blue()) != 0) {
             qCWarning(KWIN_DRM) << "Setting gamma failed!" << strerror(errno);
             return errnoToError();
+        }
+        if (const auto contentType = m_connector->getProp(DrmConnector::PropertyIndex::ContentType)) {
+            contentType->setEnumLegacy(m_pending.contentType);
         }
         setCursorLegacy();
         moveCursorLegacy();

@@ -8,8 +8,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#ifndef KWIN_GLTEXTURE_H
-#define KWIN_GLTEXTURE_H
+#pragma once
 
 #include <kwinglutils_export.h>
 
@@ -102,8 +101,8 @@ public:
     virtual void discard();
     void bind();
     void unbind();
-    void render(const QRect &rect);
-    void render(const QRegion &region, const QRect &rect, bool hardwareClipping = false);
+    void render(const QRect &rect, qreal scale);
+    void render(const QRegion &region, const QRect &rect, qreal scale, bool hardwareClipping = false);
 
     GLuint texture() const;
     GLenum target() const;
@@ -157,5 +156,3 @@ private:
 } // namespace
 
 /** @} */
-
-#endif

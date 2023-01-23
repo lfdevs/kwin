@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-20 02:18+0000\n"
+"POT-Creation-Date: 2022-09-20 00:47+0000\n"
 "PO-Revision-Date: 2020-09-29 21:06+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian\n"
@@ -75,3 +75,25 @@ msgstr "Instalează din fișier..."
 #, kde-format
 msgid "Get New Scripts..."
 msgstr "Obține scripturi noi..."
+
+#~ msgid "KWin Scripts"
+#~ msgstr "Scripturi KWin"
+
+#~ msgid "Configure KWin scripts"
+#~ msgstr "Configurează scripturi KWin"
+
+#~ msgid "Tamás Krutki"
+#~ msgstr "Tamás Krutki"
+
+#~ msgid "KWin script configuration"
+#~ msgstr "Configurare script KWin"
+
+#~ msgid "Import KWin script..."
+#~ msgstr "Importă script KWin..."
+
+#~ msgid ""
+#~ "Cannot import selected script: maybe a script already exists with the "
+#~ "same name or there is a permission problem."
+#~ msgstr ""
+#~ "Nu s-a putut importa scriptul selectat: este posibil să existe deja un "
+#~ "script cu același nume sau este o problemă de acces."

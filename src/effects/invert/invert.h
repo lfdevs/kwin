@@ -8,10 +8,9 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#ifndef KWIN_INVERT_H
-#define KWIN_INVERT_H
+#pragma once
 
-#include <kwineffects.h>
+#include <kwinoffscreeneffect.h>
 
 namespace KWin
 {
@@ -21,17 +20,15 @@ class GLShader;
 /**
  * Inverts desktop's colors
  */
-class InvertEffect : public Effect
+class InvertEffect : public OffscreenEffect
 {
     Q_OBJECT
 public:
     InvertEffect();
     ~InvertEffect() override;
 
-    void drawWindow(EffectWindow *w, int mask, const QRegion &region, WindowPaintData &data) override;
     bool isActive() const override;
     bool provides(Feature) override;
-
     int requestedEffectChainPosition() const override;
 
     static bool supported();
@@ -39,12 +36,18 @@ public:
 public Q_SLOTS:
     void toggleScreenInversion();
     void toggleWindow();
+
+    void slotWindowAdded(KWin::EffectWindow *w);
     void slotWindowClosed(KWin::EffectWindow *w);
 
 protected:
     bool loadData();
 
 private:
+    bool isInvertable(EffectWindow *window) const;
+    void invert(EffectWindow *window);
+    void uninvert(EffectWindow *window);
+
     bool m_inited;
     bool m_valid;
     std::unique_ptr<GLShader> m_shader;
@@ -58,5 +61,3 @@ inline int InvertEffect::requestedEffectChainPosition() const
 }
 
 } // namespace
-
-#endif

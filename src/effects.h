@@ -8,13 +8,12 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#ifndef KWIN_EFFECTSIMPL_H
-#define KWIN_EFFECTSIMPL_H
+#pragma once
 
 #include "kwineffects.h"
 
 #include "kwinoffscreenquickview.h"
-#include "scene.h"
+#include "scene/workspacescene.h"
 
 #include <QFont>
 #include <QHash>
@@ -53,7 +52,7 @@ class KWIN_EXPORT EffectsHandlerImpl : public EffectsHandler
     Q_PROPERTY(QStringList loadedEffects READ loadedEffects)
     Q_PROPERTY(QStringList listOfEffects READ listOfEffects)
 public:
-    EffectsHandlerImpl(Compositor *compositor, Scene *scene);
+    EffectsHandlerImpl(Compositor *compositor, WorkspaceScene *scene);
     ~EffectsHandlerImpl() override;
     void prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseconds presentTime) override;
     void paintScreen(int mask, const QRegion &region, ScreenPaintData &data) override;
@@ -101,7 +100,6 @@ public:
     void startMouseInterception(Effect *effect, Qt::CursorShape shape) override;
     void stopMouseInterception(Effect *effect) override;
     bool isMouseInterception() const;
-    void registerGlobalShortcut(const QKeySequence &shortcut, QAction *action) override;
     void registerPointerShortcut(Qt::KeyboardModifiers modifiers, Qt::MouseButton pointerButtons, QAction *action) override;
     void registerAxisShortcut(Qt::KeyboardModifiers modifiers, PointerAxisDirection axis, QAction *action) override;
     void registerRealtimeTouchpadSwipeShortcut(SwipeDirection dir, uint fingerCount, QAction *onUp, std::function<void(qreal)> progressCallback) override;
@@ -216,20 +214,20 @@ public:
     KSharedConfigPtr config() const override;
     KSharedConfigPtr inputConfig() const override;
 
-    Scene *scene() const
+    WorkspaceScene *scene() const
     {
         return m_scene;
     }
 
-    bool touchDown(qint32 id, const QPointF &pos, quint32 time);
-    bool touchMotion(qint32 id, const QPointF &pos, quint32 time);
-    bool touchUp(qint32 id, quint32 time);
+    bool touchDown(qint32 id, const QPointF &pos, std::chrono::microseconds time);
+    bool touchMotion(qint32 id, const QPointF &pos, std::chrono::microseconds time);
+    bool touchUp(qint32 id, std::chrono::microseconds time);
 
     bool tabletToolEvent(KWin::TabletEvent *event);
-    bool tabletToolButtonEvent(uint button, bool pressed, const KWin::TabletToolId &tabletToolId, uint time);
-    bool tabletPadButtonEvent(uint button, bool pressed, const KWin::TabletPadId &tabletPadId, uint time);
-    bool tabletPadStripEvent(int number, int position, bool isFinger, const KWin::TabletPadId &tabletPadId, uint time);
-    bool tabletPadRingEvent(int number, int position, bool isFinger, const KWin::TabletPadId &tabletPadId, uint time);
+    bool tabletToolButtonEvent(uint button, bool pressed, const KWin::TabletToolId &tabletToolId, std::chrono::microseconds time);
+    bool tabletPadButtonEvent(uint button, bool pressed, const KWin::TabletPadId &tabletPadId, std::chrono::microseconds time);
+    bool tabletPadStripEvent(int number, int position, bool isFinger, const KWin::TabletPadId &tabletPadId, std::chrono::microseconds time);
+    bool tabletPadRingEvent(int number, int position, bool isFinger, const KWin::TabletPadId &tabletPadId, std::chrono::microseconds time);
 
     void highlightWindows(const QVector<EffectWindow *> &windows);
 
@@ -289,7 +287,7 @@ protected Q_SLOTS:
     void slotClientModalityChanged();
     void slotGeometryShapeChanged(KWin::Window *window, const QRectF &old);
     void slotFrameGeometryChanged(Window *window, const QRectF &oldGeometry);
-    void slotWindowDamaged(KWin::Window *window, const QRegion &r);
+    void slotWindowDamaged(KWin::Window *window);
     void slotOutputAdded(Output *output);
     void slotOutputRemoved(Output *output);
 
@@ -344,7 +342,7 @@ private:
     PropertyEffectMap m_propertiesForEffects;
     QHash<QByteArray, qulonglong> m_managedProperties;
     Compositor *m_compositor;
-    Scene *m_scene;
+    WorkspaceScene *m_scene;
     QList<Effect *> m_grabbedMouseEffects;
     EffectLoader *m_effectLoader;
     int m_trackingCursorChanges;
@@ -396,7 +394,6 @@ public:
     bool isDeleted() const override;
     bool isMinimized() const override;
     double opacity() const override;
-    bool hasAlpha() const override;
 
     QStringList activities() const override;
     int desktop() const override;
@@ -680,5 +677,3 @@ inline Window *EffectWindowImpl::window()
 }
 
 } // namespace
-
-#endif

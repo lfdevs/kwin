@@ -36,7 +36,6 @@ DesktopGridEffect::DesktopGridEffect()
     KGlobalAccel::self()->setDefaultShortcut(m_toggleAction, QList<QKeySequence>() << (Qt::META | Qt::Key_F8));
     KGlobalAccel::self()->setShortcut(m_toggleAction, QList<QKeySequence>() << (Qt::META | Qt::Key_F8));
     m_toggleShortcut = KGlobalAccel::self()->shortcut(m_toggleAction);
-    effects->registerGlobalShortcut(Qt::META | Qt::Key_F8, m_toggleAction);
     connect(m_toggleAction, &QAction::triggered, this, [this]() {
         if (isRunning()) {
             deactivate(animationDuration());
@@ -100,11 +99,11 @@ void DesktopGridEffect::reconfigure(ReconfigureFlags)
     setLayout(DesktopGridConfig::layoutMode());
     setAnimationDuration(animationTime(300));
 
-    for (const ElectricBorder &border : qAsConst(m_borderActivate)) {
+    for (const ElectricBorder &border : std::as_const(m_borderActivate)) {
         effects->unreserveElectricBorder(border, this);
     }
 
-    for (const ElectricBorder &border : qAsConst(m_touchBorderActivate)) {
+    for (const ElectricBorder &border : std::as_const(m_touchBorderActivate)) {
         effects->unregisterTouchBorder(border, m_toggleAction);
     }
 
@@ -121,8 +120,6 @@ void DesktopGridEffect::reconfigure(ReconfigureFlags)
     for (const int &border : touchActivateBorders) {
         m_touchBorderActivate.append(ElectricBorder(border));
         effects->registerRealtimeTouchBorder(ElectricBorder(border), m_realtimeToggleAction, [this](ElectricBorder border, const QPointF &deltaProgress, const EffectScreen *screen) {
-            Q_UNUSED(screen)
-
             if (m_status == Status::Active) {
                 return;
             }
@@ -130,10 +127,10 @@ void DesktopGridEffect::reconfigure(ReconfigureFlags)
             const int columns = gridColumns();
             if (border == ElectricTop || border == ElectricBottom) {
                 const int maxDelta = (screen->geometry().height() / rows) * (rows - (effects->currentDesktop() % rows));
-                partialActivate(std::min(1.0, qAbs(deltaProgress.y()) / maxDelta));
+                partialActivate(std::min(1.0, std::abs(deltaProgress.y()) / maxDelta));
             } else {
                 const int maxDelta = (screen->geometry().width() / columns) * (columns - (effects->currentDesktop() % columns));
-                partialActivate(std::min(1.0, qAbs(deltaProgress.x()) / maxDelta));
+                partialActivate(std::min(1.0, std::abs(deltaProgress.x()) / maxDelta));
             }
         });
     }
@@ -222,7 +219,7 @@ int DesktopGridEffect::gridRows() const
     case DesktopLayoutMode::LayoutAutomatic:
         return ceil(sqrt(effects->numberOfDesktops()));
     case DesktopLayoutMode::LayoutCustom:
-        return qBound(1, customLayoutRows(), effects->numberOfDesktops());
+        return std::clamp(customLayoutRows(), 1, effects->numberOfDesktops());
     case DesktopLayoutMode::LayoutPager:
     default:
         return effects->desktopGridSize().height();
@@ -235,7 +232,7 @@ int DesktopGridEffect::gridColumns() const
     case DesktopLayoutMode::LayoutAutomatic:
         return ceil(sqrt(effects->numberOfDesktops()));
     case DesktopLayoutMode::LayoutCustom:
-        return qMax(1.0, ceil(qreal(effects->numberOfDesktops()) / customLayoutRows()));
+        return std::max(1.0, ceil(qreal(effects->numberOfDesktops()) / customLayoutRows()));
     case DesktopLayoutMode::LayoutPager:
     default:
         return effects->desktopGridSize().width();
@@ -345,9 +342,11 @@ void DesktopGridEffect::cancelPartialActivate()
 
 void DesktopGridEffect::deactivate(int timeout)
 {
-    const auto screenViews = views();
-    for (QuickSceneView *view : screenViews) {
-        QMetaObject::invokeMethod(view->rootItem(), "stop");
+    const auto screens = effects->screens();
+    for (const auto screen : screens) {
+        if (QuickSceneView *view = viewForScreen(screen)) {
+            QMetaObject::invokeMethod(view->rootItem(), "stop");
+        }
     }
     m_shutdownTimer->start(timeout);
 

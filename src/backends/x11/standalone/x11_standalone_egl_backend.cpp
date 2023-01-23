@@ -6,17 +6,18 @@
 */
 
 #include "x11_standalone_egl_backend.h"
+#include "core/outputbackend.h"
 #include "core/overlaywindow.h"
-#include "core/platform.h"
 #include "core/renderloop_p.h"
 #include "kwinglplatform.h"
 #include "options.h"
-#include "scene.h"
+#include "scene/surfaceitem_x11.h"
+#include "scene/workspacescene.h"
 #include "softwarevsyncmonitor.h"
-#include "surfaceitem_x11.h"
 #include "workspace.h"
+#include "x11_standalone_backend.h"
 #include "x11_standalone_logging.h"
-#include "x11_standalone_platform.h"
+#include "x11_standalone_overlaywindow.h"
 
 #include <QOpenGLContext>
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -42,9 +43,10 @@ bool EglLayer::endFrame(const QRegion &renderedRegion, const QRegion &damagedReg
     return true;
 }
 
-EglBackend::EglBackend(Display *display, X11StandalonePlatform *backend)
-    : EglOnXBackend(display)
+EglBackend::EglBackend(Display *display, X11StandaloneBackend *backend)
+    : EglOnXBackend(kwinApp()->x11Connection(), display, kwinApp()->x11RootWindow())
     , m_backend(backend)
+    , m_overlayWindow(std::make_unique<OverlayWindowX11>())
     , m_layer(std::make_unique<EglLayer>(this))
 {
     // There is no any way to determine when a buffer swap completes with EGL. Fallback
@@ -66,6 +68,15 @@ EglBackend::~EglBackend()
     // render loop. We need to ensure that the render loop is back to its initial state
     // if the render backend is about to be destroyed.
     RenderLoopPrivate::get(m_backend->renderLoop())->invalidate();
+
+    if (isFailed() && m_overlayWindow) {
+        m_overlayWindow->destroy();
+    }
+    cleanup();
+
+    if (m_overlayWindow && m_overlayWindow->window()) {
+        m_overlayWindow->destroy();
+    }
 }
 
 std::unique_ptr<SurfaceTexture> EglBackend::createSurfaceTextureX11(SurfacePixmapX11 *texture)
@@ -108,9 +119,30 @@ void EglBackend::init()
 
     m_fbo = std::make_unique<GLFramebuffer>(0, workspace()->geometry().size());
 
-    kwinApp()->platform()->setSceneEglDisplay(shareDisplay);
-    kwinApp()->platform()->setSceneEglGlobalShareContext(shareContext);
+    kwinApp()->outputBackend()->setSceneEglDisplay(shareDisplay);
+    kwinApp()->outputBackend()->setSceneEglGlobalShareContext(shareContext);
     EglOnXBackend::init();
+}
+
+bool EglBackend::createSurfaces()
+{
+    if (!m_overlayWindow) {
+        return false;
+    }
+
+    if (!m_overlayWindow->create()) {
+        qCCritical(KWIN_X11STANDALONE) << "Could not get overlay window";
+        return false;
+    } else {
+        m_overlayWindow->setup(XCB_WINDOW_NONE);
+    }
+
+    EGLSurface surface = createSurface(m_overlayWindow->window());
+    if (surface == EGL_NO_SURFACE) {
+        return false;
+    }
+    setSurface(surface);
+    return true;
 }
 
 void EglBackend::screenGeometryChanged()
@@ -133,8 +165,6 @@ OutputLayerBeginFrameInfo EglBackend::beginFrame()
 
     eglWaitNative(EGL_CORE_NATIVE_ENGINE);
 
-    // Push the default framebuffer to the render target stack.
-    GLFramebuffer::pushFramebuffer(m_fbo.get());
     return OutputLayerBeginFrameInfo{
         .renderTarget = RenderTarget(m_fbo.get()),
         .repaint = repaint,
@@ -152,7 +182,6 @@ void EglBackend::endFrame(const QRegion &renderedRegion, const QRegion &damagedR
 
 void EglBackend::present(Output *output)
 {
-    Q_UNUSED(output)
     // Start the software vsync monitor. There is no any reliable way to determine when
     // eglSwapBuffers() or eglSwapBuffersWithDamageEXT() completes.
     m_vsyncMonitor->arm();
@@ -167,9 +196,6 @@ void EglBackend::present(Output *output)
             effectiveRenderedRegion = displayRect;
         }
     }
-
-    // Pop the default render target from the render target stack.
-    GLFramebuffer::popFramebuffer();
 
     presentSurface(surface(), effectiveRenderedRegion, workspace()->geometry());
 
@@ -196,9 +222,13 @@ void EglBackend::presentSurface(EGLSurface surface, const QRegion &damage, const
     }
 }
 
+OverlayWindow *EglBackend::overlayWindow() const
+{
+    return m_overlayWindow.get();
+}
+
 OutputLayer *EglBackend::primaryLayer(Output *output)
 {
-    Q_UNUSED(output)
     return m_layer.get();
 }
 
@@ -226,7 +256,6 @@ bool EglSurfaceTextureX11::create()
 
 void EglSurfaceTextureX11::update(const QRegion &region)
 {
-    Q_UNUSED(region)
     // mipmaps need to be updated
     m_texture->setDirty();
 }
@@ -277,7 +306,7 @@ bool EglPixmapTexturePrivate::create(SurfacePixmapX11 *pixmap)
                                 attribs);
 
     if (EGL_NO_IMAGE_KHR == m_image) {
-        qCDebug(KWIN_CORE) << "failed to create egl image";
+        qCDebug(KWIN_X11STANDALONE) << "failed to create egl image";
         q->unbind();
         return false;
     }

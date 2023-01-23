@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-26 02:35+0000\n"
+"POT-Creation-Date: 2022-10-26 00:47+0000\n"
 "PO-Revision-Date: 2007-06-24 11:06+0330\n"
 "Last-Translator: Nazanin Kazemi <kazemi@itland.ir>\n"
 "Language-Team: Persian <kde-i18n-fa@kde.org>\n"
@@ -291,3 +291,207 @@ msgstr "بسیار بسیار بزرگ"
 #| msgid "Oversized"
 msgid "Oversized"
 msgstr "بیش از اندازه"
+
+#~ msgid "Menu"
+#~ msgstr "گزینگان"
+
+#, fuzzy
+#~| msgid "Keep Below Others"
+#~ msgid "Keep below"
+#~ msgstr "نگه‌ داشتن زیر پنجره‌های دیگر"
+
+#, fuzzy
+#~| msgid "Keep Above Others"
+#~ msgid "Keep above"
+#~ msgstr "نگه ‌داشتن روی پنجره‌های دیگر"
+
+#, fuzzy
+#~| msgid "&Window Decoration"
+#~ msgid "Download New Window Decorations"
+#~ msgstr "تزئین &پنجره‌"
+
+#, fuzzy
+#~| msgid "B&order size:"
+#~ msgid "Border si&ze:"
+#~ msgstr "اندازه &لبه:‌"
+
+#, fuzzy
+#~| msgid "&Window Decoration"
+#~ msgid "Configure %1..."
+#~ msgstr "تزئین &پنجره‌"
+
+#, fuzzy
+#~| msgid "Normal"
+#~ msgid "Form"
+#~ msgstr "عادی"
+
+#, fuzzy
+#~| msgid "Buttons"
+#~ msgid "Button size:"
+#~ msgstr "دکمه‌ها"
+
+#, fuzzy
+#~| msgid "Tiny"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Tiny"
+#~ msgstr "ریز"
+
+#, fuzzy
+#~| msgid "Normal"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Normal"
+#~ msgstr "عادی"
+
+#, fuzzy
+#~| msgid "Large"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Large"
+#~ msgstr "بزرگ"
+
+#, fuzzy
+#~| msgid "Very Large"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Very Large"
+#~ msgstr "خیلی بزرگ‌"
+
+#, fuzzy
+#~| msgid "Huge"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Huge"
+#~ msgstr "بسیار بزرگ"
+
+#, fuzzy
+#~| msgid "Very Huge"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Very Huge"
+#~ msgstr "بسیار بسیار بزرگ"
+
+#, fuzzy
+#~| msgid "Oversized"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Oversized"
+#~ msgstr "بیش از اندازه"
+
+#~ msgid "KDE"
+#~ msgstr "KDE"
+
+#~ msgid "%1 (unavailable)"
+#~ msgstr "%1 )غیرقابل دسترس("
+
+#~ msgid ""
+#~ "To add or remove titlebar buttons, simply <i>drag</i> items between the "
+#~ "available item list and the titlebar preview. Similarly, drag items "
+#~ "within the titlebar preview to re-position them."
+#~ msgstr ""
+#~ "برای حذف یا افزودن دکمه‌های میله عنوان، فقره‌ها را بین فهرست فقره موجود و "
+#~ "پیش‌نمایش میله ابزار <i>بکشید</i>. همچنین، برای تغییر موقعیت فقره‌ها، آنها "
+#~ "را در پیش‌نمایش میله عنوان بکشید."
+
+#~ msgid "Resize"
+#~ msgstr "تغییر اندازه"
+
+#~ msgid "Help"
+#~ msgstr "کمک"
+
+#~ msgid "--- spacer ---"
+#~ msgstr "--- فاصله‌گذار ---"
+
+#~ msgid ""
+#~ "Enabling this checkbox will show window button tooltips. If this checkbox "
+#~ "is off, no window button tooltips will be shown."
+#~ msgstr ""
+#~ "با فعال‌سازی این جعبه بررسی، نکته ابزارهای دکمه پنجره نمایش داده می‌شوند. "
+#~ "اگر این جعبه بررسی خاموش باشد، نکته ابزارهای دکمه پنجره نمایش داده "
+#~ "نمی‌شوند."
+
+#, fuzzy
+#~| msgid ""
+#~| "The appropriate settings can be found in the \"Buttons\" Tab; please "
+#~| "note that this option is not available on all styles yet."
+#~ msgid "Please note that this option is not available on all styles yet."
+#~ msgstr ""
+#~ "تنظیمات مناسب را می‌توان در تب »دکمه‌ها« یافت؛ لطفاً توجه کنید که این گزینه "
+#~ "هنوز در همه سبکها موجود نیست."
+
+#~ msgid "Use custom titlebar button &positions"
+#~ msgstr "استفاده از &موقعیتهای دکمه میله عنوان سفارشی‌"
+
+#~ msgid "B&order size:"
+#~ msgstr "اندازه &لبه:‌"
+
+#~ msgid "Use this combobox to change the border size of the decoration."
+#~ msgstr "برای تغییر اندازه لبه تزئين، از این جعبه ترکیب استفاده کنید."
+
+#~ msgid "Decoration Options"
+#~ msgstr "گزینه‌های تزئین"
+
+#~ msgid ""
+#~ "Select the window decoration. This is the look and feel of both the "
+#~ "window borders and the window handle."
+#~ msgstr "برگزیدن تزئین پنجره. ظاهر و حس دو لبه پنجره و گرداندن پنجره."
+
+#~ msgid "Window Decoration Control Module"
+#~ msgstr "پیمانه کنترل تزئین پنجره"
+
+#~ msgid "(c) 2001 Karol Szwed"
+#~ msgstr "(ح) ۲۰۰۱ Karol Szwed"
+
+#~ msgid "Karol Szwed"
+#~ msgstr "Karol Szwed"
+
+#, fuzzy
+#~| msgid ""
+#~| "<h1>Window Manager Decoration</h1><p>This module allows you to choose "
+#~| "the window border decorations, as well as titlebar button positions and "
+#~| "custom decoration options.</p>To choose a theme for your window "
+#~| "decoration click on its name and apply your choice by clicking the "
+#~| "\"Apply\" button below. If you do not want to apply your choice you can "
+#~| "click the \"Reset\" button to discard your changes.<p>You can configure "
+#~| "each theme in the \"Configure [...]\" tab. There are different options "
+#~| "specific for each theme.</p><p>In \"General Options (if available)\" you "
+#~| "can activate the \"Buttons\" tab by checking the \"Use custom titlebar "
+#~| "button positions\" box. In the \"Buttons\" tab you can change the "
+#~| "positions of the buttons to your liking.</p>"
+#~ msgid ""
+#~ "<h1>Window Manager Decoration</h1><p>This module allows you to choose the "
+#~ "window border decorations, as well as titlebar button positions and "
+#~ "custom decoration options.</p>To choose a theme for your window "
+#~ "decoration click on its name and apply your choice by clicking the \"Apply"
+#~ "\" button below. If you do not want to apply your choice you can click "
+#~ "the \"Reset\" button to discard your changes.<p>You can configure each "
+#~ "theme. There are different options specific for each theme.</p><p>On the "
+#~ "\"Buttons\" tab check the \"Use custom titlebar button positions\" box "
+#~ "and you can change the positions of the buttons to your liking.</p>"
+#~ msgstr ""
+#~ "<h1>تزئین مدیر پنجره</h1><p>این پیمانه به شما اجازه می‌دهد که تزئینات لبه "
+#~ "پنجره و همچنین موقعیتهای دکمه میله عنوان و گزینه‌های تزئین سفارشی را "
+#~ "انتخاب کنید.</p>جهت انتخاب یک چهره برای تزئین پنجره خود، روی نام آن فشار "
+#~ "داده و برای اعمال انتخاب خود، دکمه »اعمال« ذیل را فشار دهید. اگر "
+#~ "نمی‌خواهید که انتخابتان را اعمال کنید، می‌توانید دکمه »بازنشانی« را فشار "
+#~ "دهید تا تغییرات شما دور ریخته شود.<p>می‌توانید هر چهره را در تب "
+#~ "»پیکربندی ]...[« پیکربندی کنید. برای هر چهره، گزینه‌های متفاوت و مشخصی "
+#~ "وجود دارد.</p><p>در »گزینه‌های عمومی )در صورت وجود( « می‌توانید تب »دکمه‌ها« "
+#~ "را با علامت زدن جعبه »استفاده از موقعیتهای دکمه میله عنوان سفارشی«، فعال "
+#~ "سازید. در تب »دکمه‌ها«، می‌توانید موقعیتهای دکمه‌ها را به سلیقه خود تغییر "
+#~ "دهید.</p>"
+
+#~ msgid "Active Window"
+#~ msgstr "پنجره فعال"
+
+#~ msgid "Inactive Window"
+#~ msgstr "پنجره غیرفعال"
+
+#~ msgid "kcmkwindecoration"
+#~ msgstr "kcmkwindecoration"
+
+#~ msgid ""
+#~ "No preview available.\n"
+#~ "Most probably there\n"
+#~ "was a problem loading the plugin."
+#~ msgstr ""
+#~ "پیش‌نمایش موجود نیست.\n"
+#~ "به احتمال زیاد،\n"
+#~ "در بارگذاری وصله مسئله‌ای وجود داشته است."
+
+#~ msgid "&Buttons"
+#~ msgstr "&دکمه‌ها‌"

@@ -8,7 +8,7 @@
 */
 #include "kwin_wayland_test.h"
 
-#include "core/platform.h"
+#include "core/outputbackend.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
@@ -17,7 +17,6 @@
 #include <KWayland/Client/surface.h>
 
 using namespace KWin;
-using namespace KWayland::Client;
 
 static const QString s_socketName = QStringLiteral("wayland_test_kwin_showing_desktop-0");
 
@@ -37,8 +36,8 @@ void ShowingDesktopTest::initTestCase()
 {
     qRegisterMetaType<KWin::Window *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
+    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
@@ -82,9 +81,9 @@ void ShowingDesktopTest::testRestoreFocusWithDesktopWindow()
     QVERIFY(desktopSurface != nullptr);
     std::unique_ptr<Test::XdgToplevel> desktopShellSurface(Test::createXdgToplevelSurface(desktopSurface.get()));
     QVERIFY(desktopSurface != nullptr);
-    std::unique_ptr<PlasmaShellSurface> plasmaSurface(Test::waylandPlasmaShell()->createSurface(desktopSurface.get()));
+    std::unique_ptr<KWayland::Client::PlasmaShellSurface> plasmaSurface(Test::waylandPlasmaShell()->createSurface(desktopSurface.get()));
     QVERIFY(plasmaSurface != nullptr);
-    plasmaSurface->setRole(PlasmaShellSurface::Role::Desktop);
+    plasmaSurface->setRole(KWayland::Client::PlasmaShellSurface::Role::Desktop);
 
     auto desktop = Test::renderAndWaitForShown(desktopSurface.get(), QSize(100, 50), Qt::blue);
     QVERIFY(desktop);

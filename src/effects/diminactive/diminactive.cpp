@@ -58,8 +58,6 @@ DimInactiveEffect::~DimInactiveEffect()
 
 void DimInactiveEffect::reconfigure(ReconfigureFlags flags)
 {
-    Q_UNUSED(flags)
-
     DimInactiveConfig::self()->read();
 
     // TODO: Use normalized strength param.
@@ -371,6 +369,9 @@ void DimInactiveEffect::windowDeleted(EffectWindow *w)
     // gets destroyed immediately. So, we have to remove active transitions
     // for that window here, otherwise we'll crash in postPaintScreen.
     m_transitions.remove(w);
+    if (m_activeWindow == w) {
+        m_activeWindow = nullptr;
+    }
 }
 
 void DimInactiveEffect::activeFullScreenEffectChanged()

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-26 02:35+0000\n"
+"POT-Creation-Date: 2022-10-26 00:47+0000\n"
 "PO-Revision-Date: 2004-07-08 22:51+0200\n"
 "Last-Translator: Thierry Vignaud <tvignaud.com>\n"
 "Language-Team: Brezhoneg <Suav.Icb.fr>\n"
@@ -286,3 +286,126 @@ msgstr "Ramz-tre"
 #, fuzzy, kde-format
 msgid "Oversized"
 msgstr "Adventañ"
+
+#~ msgid "Menu"
+#~ msgstr "Meuziad"
+
+#, fuzzy
+#~| msgid "Keep Below Others"
+#~ msgid "Keep below"
+#~ msgstr "Mirout a-is an holl re"
+
+#, fuzzy
+#~| msgid "Keep Above Others"
+#~ msgid "Keep above"
+#~ msgstr "Mirout a-us an holl re"
+
+#, fuzzy
+#~| msgid "&Window Decoration"
+#~ msgid "Download New Window Decorations"
+#~ msgstr "Kinkladur ar &prenester"
+
+#, fuzzy
+#~| msgid "B&order size:"
+#~ msgid "Border si&ze:"
+#~ msgstr "Ment ar vevennig :"
+
+#, fuzzy
+#~| msgid "&Window Decoration"
+#~ msgid "Configure %1..."
+#~ msgstr "Kinkladur ar &prenester"
+
+#, fuzzy
+#~| msgid "Normal"
+#~ msgid "Form"
+#~ msgstr "Boas"
+
+#, fuzzy
+#~| msgid "Buttons"
+#~ msgid "Button size:"
+#~ msgstr "Nozelioù"
+
+#, fuzzy
+#~| msgid "Tiny"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Tiny"
+#~ msgstr "Munut"
+
+#, fuzzy
+#~| msgid "Normal"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Normal"
+#~ msgstr "Boas"
+
+#, fuzzy
+#~| msgid "Large"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Large"
+#~ msgstr "Bras"
+
+#, fuzzy
+#~| msgid "Very Large"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Very Large"
+#~ msgstr "Braz braz"
+
+#, fuzzy
+#~| msgid "Huge"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Huge"
+#~ msgstr "Ramz"
+
+#, fuzzy
+#~| msgid "Very Huge"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Very Huge"
+#~ msgstr "Ramz-tre"
+
+#, fuzzy
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Oversized"
+#~ msgstr "Adventañ"
+
+#~ msgid "KDE"
+#~ msgstr "KDE"
+
+#~ msgid "%1 (unavailable)"
+#~ msgstr "%1 (n'eo ket da gaout)"
+
+#~ msgid "Resize"
+#~ msgstr "Adventañ"
+
+#~ msgid "Help"
+#~ msgstr "Skoazell"
+
+#~ msgid "B&order size:"
+#~ msgstr "Ment ar vevennig :"
+
+#~ msgid "Decoration Options"
+#~ msgstr "Dibarzhoù ar ginkladur"
+
+#~ msgid "Window Decoration Control Module"
+#~ msgstr "Mollade ren kinkladur ar prenester"
+
+#~ msgid "(c) 2001 Karol Szwed"
+#~ msgstr "(c) 2001 Karol Szwed"
+
+#, fuzzy
+#~| msgid "(c) 2001 Karol Szwed"
+#~ msgid "Karol Szwed"
+#~ msgstr "(c) 2001 Karol Szwed"
+
+#~ msgid "Active Window"
+#~ msgstr "Prenestr bev"
+
+#~ msgid "Inactive Window"
+#~ msgstr "Prenestr marv"
+
+#~ msgid "kcmkwindecoration"
+#~ msgstr "kcmkwindecoration"
+
+#~ msgid "&Buttons"
+#~ msgstr "&Nozelioù"
+
+#~ msgid "KDE 2"
+#~ msgstr "KDE 2"

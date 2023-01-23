@@ -8,8 +8,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#ifndef MAIN_H
-#define MAIN_H
+#pragma once
 
 #include <config-kwin.h>
 #include <kwinglobals.h>
@@ -27,7 +26,7 @@ class QCommandLineParser;
 namespace KWin
 {
 
-class Platform;
+class OutputBackend;
 class Session;
 class X11EventFilter;
 class PluginManager;
@@ -36,6 +35,13 @@ class ColorManager;
 class ScreenLockerWatcher;
 class TabletModeManager;
 class XwaylandInterface;
+class Edge;
+class ScreenEdges;
+class Outline;
+class OutlineVisual;
+class Compositor;
+class WorkspaceScene;
+class Window;
 
 class XcbEventFilter : public QAbstractNativeEventFilter
 {
@@ -144,6 +150,10 @@ public:
             m_x11Time = timestamp;
         }
     }
+    /**
+     * Queries the current X11 time stamp of the X server.
+     */
+    void updateXTime();
     void updateX11Time(xcb_generic_event_t *event);
 
     static void setCrashCount(int count);
@@ -210,17 +220,25 @@ public:
     QProcessEnvironment processStartupEnvironment() const;
     void setProcessStartupEnvironment(const QProcessEnvironment &environment);
 
-    Platform *platform() const
+    OutputBackend *outputBackend() const
     {
-        return m_platform.get();
+        return m_outputBackend.get();
     }
-    void setPlatform(std::unique_ptr<Platform> &&platform);
+    void setOutputBackend(std::unique_ptr<OutputBackend> &&backend);
 
     Session *session() const
     {
         return m_session.get();
     }
     void setSession(std::unique_ptr<Session> &&session);
+    void setFollowLocale1(bool follow)
+    {
+        m_followLocale1 = follow;
+    }
+    bool followLocale1() const
+    {
+        return m_followLocale1;
+    }
 
     bool isTerminating() const
     {
@@ -233,6 +251,11 @@ public:
     void createAtoms();
     void destroyAtoms();
 
+    virtual std::unique_ptr<Edge> createScreenEdge(ScreenEdges *parent);
+    virtual void createPlatformCursor(QObject *parent = nullptr);
+    virtual std::unique_ptr<OutlineVisual> createOutline(Outline *outline);
+    virtual void createEffectsHandler(Compositor *compositor, WorkspaceScene *scene);
+
     static void setupMalloc();
     static void setupLocalizedString();
 
@@ -243,6 +266,51 @@ public:
 #if KWIN_BUILD_SCREENLOCKER
     ScreenLockerWatcher *screenLockerWatcher() const;
 #endif
+
+    /**
+     * Starts an interactive window selection process.
+     *
+     * Once the user selected a window the @p callback is invoked with the selected Window as
+     * argument. In case the user cancels the interactive window selection or selecting a window is currently
+     * not possible (e.g. screen locked) the @p callback is invoked with a @c nullptr argument.
+     *
+     * During the interactive window selection the cursor is turned into a crosshair cursor unless
+     * @p cursorName is provided. The argument @p cursorName is a QByteArray instead of Qt::CursorShape
+     * to support the "pirate" cursor for kill window which is not wrapped by Qt::CursorShape.
+     *
+     * The default implementation forwards to InputRedirection.
+     *
+     * @param callback The function to invoke once the interactive window selection ends
+     * @param cursorName The optional name of the cursor shape to use, default is crosshair
+     */
+    virtual void startInteractiveWindowSelection(std::function<void(KWin::Window *)> callback, const QByteArray &cursorName = QByteArray());
+
+    /**
+     * Starts an interactive position selection process.
+     *
+     * Once the user selected a position on the screen the @p callback is invoked with
+     * the selected point as argument. In case the user cancels the interactive position selection
+     * or selecting a position is currently not possible (e.g. screen locked) the @p callback
+     * is invoked with a point at @c -1 as x and y argument.
+     *
+     * During the interactive window selection the cursor is turned into a crosshair cursor.
+     *
+     * The default implementation forwards to InputRedirection.
+     *
+     * @param callback The function to invoke once the interactive position selection ends
+     */
+    virtual void startInteractivePositionSelection(std::function<void(const QPoint &)> callback);
+
+    /**
+     * Returns a PlatformCursorImage. By default this is created by softwareCursor and
+     * softwareCursorHotspot. An implementing subclass can use this to provide a better
+     * suited PlatformCursorImage.
+     *
+     * @see softwareCursor
+     * @see softwareCursorHotspot
+     * @since 5.9
+     */
+    virtual PlatformCursorImage cursorImage() const;
 
 Q_SIGNALS:
     void x11ConnectionChanged();
@@ -285,6 +353,7 @@ private:
     QList<QPointer<X11EventFilterContainer>> m_eventFilters;
     QList<QPointer<X11EventFilterContainer>> m_genericEventFilters;
     std::unique_ptr<XcbEventFilter> m_eventFilter;
+    bool m_followLocale1 = false;
     bool m_configLock;
     KSharedConfigPtr m_config;
     KSharedConfigPtr m_kxkbConfig;
@@ -296,7 +365,7 @@ private:
     bool m_useKActivities = true;
 #endif
     std::unique_ptr<Session> m_session;
-    std::unique_ptr<Platform> m_platform;
+    std::unique_ptr<OutputBackend> m_outputBackend;
     bool m_terminating = false;
     qreal m_xwaylandScale = 1;
     QProcessEnvironment m_processEnvironment;
@@ -311,9 +380,9 @@ private:
 
 inline static Application *kwinApp()
 {
+    Q_ASSERT(qobject_cast<Application *>(QCoreApplication::instance()));
+
     return static_cast<Application *>(QCoreApplication::instance());
 }
 
 } // namespace
-
-#endif

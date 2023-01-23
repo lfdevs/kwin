@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-01 02:26+0000\n"
-"PO-Revision-Date: 2022-09-18 11:32+0200\n"
+"POT-Creation-Date: 2023-01-18 00:58+0000\n"
+"PO-Revision-Date: 2022-09-24 16:09+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -60,6 +60,7 @@ msgstr ""
 #: mousemark/mousemark_config.cpp:50 overview/kcm/overvieweffectkcm.cpp:35
 #: showpaint/showpaint_config.cpp:33
 #: thumbnailaside/thumbnailaside_config.cpp:54
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:31
 #: trackmouse/trackmouse_config.cpp:52
 #: windowview/kcm/windowvieweffectkcm.cpp:36 zoom/zoom_config.cpp:58
 #, kde-format
@@ -197,14 +198,20 @@ msgstr "Närmast"
 msgid "Natural"
 msgstr "Naturligt"
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
+#: desktopgrid/desktopgrid_config.ui:147
+#, kde-format
+msgid "None"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: desktopgrid/desktopgrid_config.ui:150
+#: desktopgrid/desktopgrid_config.ui:155
 #, kde-format
 msgid "Windows layout:"
 msgstr "Fönsterlayout:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: desktopgrid/desktopgrid_config.ui:166
+#: desktopgrid/desktopgrid_config.ui:171
 #, kde-format
 msgid "Activation"
 msgstr "Aktivering"
@@ -307,10 +314,16 @@ msgstr "Animering av fönsterstängning"
 msgid "Toggle Invert Effect"
 msgstr "Sätt på eller stäng av inverteringseffekt"
 
-#: invert/invert.cpp:50 invert/invert_config.cpp:44
+#: invert/invert.cpp:49 invert/invert_config.cpp:44
 #, kde-format
 msgid "Toggle Invert Effect on Window"
 msgstr "Sätt på eller stäng av inverteringseffekt för fönster"
+
+#: invert/invert.cpp:56
+#, fuzzy, kde-format
+#| msgid "Invert cursor keys"
+msgid "Invert Screen Colors"
+msgstr "Invertera markörtangenter"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FadeToBlack)
 #: login/package/contents/ui/config.ui:17
@@ -367,30 +380,30 @@ msgstr "&Höjd:"
 msgid "Toggle Mouse Click Effect"
 msgstr "Växla musklick-effekt"
 
-#: mouseclick/mouseclick.cpp:42
+#: mouseclick/mouseclick.cpp:41
 #, kde-format
 msgctxt "Left mouse button"
 msgid "Left"
 msgstr "Vänster"
 
-#: mouseclick/mouseclick.cpp:43
+#: mouseclick/mouseclick.cpp:42
 #, kde-format
 msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr "Mitten"
 
-#: mouseclick/mouseclick.cpp:44
+#: mouseclick/mouseclick.cpp:43
 #, kde-format
 msgctxt "Right mouse button"
 msgid "Right"
 msgstr "Höger"
 
-#: mouseclick/mouseclick.h:61
+#: mouseclick/mouseclick.h:60
 #, kde-format
 msgid "↓"
 msgstr "↓"
 
-#: mouseclick/mouseclick.h:62
+#: mouseclick/mouseclick.h:61
 #, kde-format
 msgid "↑"
 msgstr "↑"
@@ -486,12 +499,12 @@ msgstr "Teckensnitt:"
 msgid "Show Text:"
 msgstr "Visa text:"
 
-#: mousemark/mousemark.cpp:36
+#: mousemark/mousemark.cpp:39
 #, kde-format
 msgid "Clear All Mouse Marks"
 msgstr "Rensa alla musmarkeringar"
 
-#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:59
+#: mousemark/mousemark.cpp:45 mousemark/mousemark_config.cpp:59
 #, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr "Rensa senaste musmarkering"
@@ -558,12 +571,12 @@ msgstr "Gör bakgrund suddig:"
 msgid "Ignore minimized windows:"
 msgstr "Ignorera minimerade fönster:"
 
-#: overview/qml/DesktopBar.qml:186
+#: overview/qml/DesktopBar.qml:187
 #, kde-format
 msgid "Delete Virtual Desktop"
 msgstr "Ta bort virtuellt skrivbord"
 
-#: overview/qml/DesktopBar.qml:282
+#: overview/qml/DesktopBar.qml:283
 #, kde-format
 msgid "Add Virtual Desktop"
 msgstr "Lägg till virtuellt skrivbord"
@@ -573,12 +586,12 @@ msgstr "Lägg till virtuellt skrivbord"
 msgid "No matching windows"
 msgstr "Inga matchande fönster"
 
-#: private/qml/WindowHeapDelegate.qml:152
+#: private/qml/WindowHeapDelegate.qml:151
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "Dra ner för att stänga"
 
-#: private/qml/WindowHeapDelegate.qml:462
+#: private/qml/WindowHeapDelegate.qml:461
 #, kde-format
 msgctxt "@info:tooltip as in: 'close this window'"
 msgid "Close window"
@@ -596,20 +609,20 @@ msgstr "Skalning vid fönsteröppning:"
 msgid "Window close scale:"
 msgstr "Skalning vid fönsterstängning:"
 
-#: screenshot/screenshotdbusinterface1.cpp:480
+#: screenshot/screenshotdbusinterface1.cpp:478
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr "Skärmbild"
 
-#: screenshot/screenshotdbusinterface1.cpp:481
+#: screenshot/screenshotdbusinterface1.cpp:479
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr "Skärmbild sparad i %1"
 
-#: screenshot/screenshotdbusinterface1.cpp:797
-#: screenshot/screenshotdbusinterface2.cpp:472
+#: screenshot/screenshotdbusinterface1.cpp:800
+#: screenshot/screenshotdbusinterface2.cpp:477
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
@@ -618,8 +631,8 @@ msgstr ""
 "Välj fönster att ta skärmbild för med vänsterklick eller returtangenten.\n"
 "Escape eller högerklick för att avbryta."
 
-#: screenshot/screenshotdbusinterface1.cpp:800
-#: screenshot/screenshotdbusinterface2.cpp:490
+#: screenshot/screenshotdbusinterface1.cpp:803
+#: screenshot/screenshotdbusinterface2.cpp:495
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -632,7 +645,7 @@ msgstr ""
 #, kde-format
 msgctxt "@label"
 msgid "Paint Duration"
-msgstr "Målningsvaraktighet"
+msgstr "Målningslängd"
 
 #: showfps/qml/main.qml:162
 #, kde-format
@@ -644,13 +657,13 @@ msgstr "Målningsmängd"
 #, kde-format
 msgctxt "@label"
 msgid "Current FPS"
-msgstr "Nuvarande antal bilder per sekund"
+msgstr "Aktuellt antal bildrutor/s"
 
 #: showfps/qml/main.qml:184
 #, kde-format
 msgctxt "@label"
 msgid "Maximum FPS"
-msgstr "Maximalt antal bilder per sekund"
+msgstr "Maximalt antal bildrutor/s"
 
 #: showfps/qml/main.qml:192
 #, kde-format
@@ -681,14 +694,8 @@ msgstr "Horisontellt:"
 msgid "Vertical:"
 msgstr "Vertikalt:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideDocks)
-#: slide/slide_config.ui:72
-#, kde-format
-msgid "Slide docks"
-msgstr "Skjut dockningspaneler"
-
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideBackground)
-#: slide/slide_config.ui:79
+#: slide/slide_config.ui:72
 #, kde-format
 msgid "Slide desktop background"
 msgstr "Skjut skrivbordsbakgrund"
@@ -730,6 +737,50 @@ msgstr "O&genomskinlighet:"
 #, no-c-format, kde-format
 msgid " %"
 msgstr " %"
+
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:37
+#: tileseditor/tileseditoreffect.cpp:29
+#, kde-format
+msgid "Toggle Tiles Editor"
+msgstr ""
+
+#: tileseditor/qml/main.qml:147
+#, kde-format
+msgid "Padding:"
+msgstr ""
+
+#: tileseditor/qml/main.qml:157
+#, kde-format
+msgid "Load Layout..."
+msgstr ""
+
+#: tileseditor/qml/main.qml:271
+#, fuzzy, kde-format
+#| msgid "Closest"
+msgid "Close"
+msgstr "Närmast"
+
+#: tileseditor/qml/TileDelegate.qml:171
+#, fuzzy, kde-format
+#| msgid "Horizontal:"
+msgid "Split Horizontally"
+msgstr "Horisontellt:"
+
+#: tileseditor/qml/TileDelegate.qml:178
+#, fuzzy, kde-format
+#| msgid "Vertical:"
+msgid "Split Vertically"
+msgstr "Vertikalt:"
+
+#: tileseditor/qml/TileDelegate.qml:186 tileseditor/qml/TileDelegate.qml:215
+#, kde-format
+msgid "Add Floating Tile"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:195
+#, kde-format
+msgid "Delete"
+msgstr ""
 
 #: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:57
 #, kde-format
@@ -865,17 +916,17 @@ msgstr "Avrivna menyer:"
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Ändra befintliga fönster (nuvarande skrivbord)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:55
+#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:54
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Ändra befintliga fönster (alla skrivbord)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:65
+#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:63
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Ändra befintliga fönster (fönsterklass)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:75
+#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:72
 #, kde-format
 msgid "Toggle Present Windows (Window class on current desktop)"
 msgstr "Ändra förinställda fönster (fönsterklass på nuvarande skrivbord)"
@@ -886,15 +937,21 @@ msgstr "Ändra förinställda fönster (fönsterklass på nuvarande skrivbord)"
 msgid "Ignore &minimized windows"
 msgstr "Ignorera &minimerade fönster"
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, kde-format
 msgid "No Matches"
 msgstr "Inga träffar"
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, kde-format
 msgid "No Windows"
 msgstr "Inga fönster"
+
+#: windowview/qml/main.qml:123
+#, fuzzy, kde-format
+#| msgid "Fullscreen windows"
+msgid "Filter windows…"
+msgstr "Fullskärmsfönster"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20
@@ -956,32 +1013,32 @@ msgstr "Mindre"
 msgid "More"
 msgstr "Mer"
 
-#: zoom/zoom.cpp:68
+#: zoom/zoom.cpp:65
 #, kde-format
 msgid "Move Zoomed Area to Left"
 msgstr "Flytta zoomat område åt vänster"
 
-#: zoom/zoom.cpp:76
+#: zoom/zoom.cpp:72
 #, kde-format
 msgid "Move Zoomed Area to Right"
 msgstr "Flytta zoomat område åt höger"
 
-#: zoom/zoom.cpp:84
+#: zoom/zoom.cpp:79
 #, kde-format
 msgid "Move Zoomed Area Upwards"
 msgstr "Flytta zoomat område uppåt"
 
-#: zoom/zoom.cpp:92
+#: zoom/zoom.cpp:86
 #, kde-format
 msgid "Move Zoomed Area Downwards"
 msgstr "Flytta zoomat område neråt"
 
-#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:108
+#: zoom/zoom.cpp:94 zoom/zoom_config.cpp:108
 #, kde-format
 msgid "Move Mouse to Focus"
 msgstr "Flytta mus för fokus"
 
-#: zoom/zoom.cpp:109 zoom/zoom_config.cpp:115
+#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:115
 #, kde-format
 msgid "Move Mouse to Center"
 msgstr "Flytta mus för att centrera"
@@ -1117,3 +1174,959 @@ msgstr "Inaktiverad"
 #, kde-format
 msgid "Mouse Tracking:"
 msgstr "Musföljning:"
+
+#~ msgid "Slide docks"
+#~ msgstr "Skjut dockningspaneler"
+
+#~ msgid "Search..."
+#~ msgstr "Sök..."
+
+#~ msgid "&Radius:"
+#~ msgstr "&Radie:"
+
+#~ msgid "Text position:"
+#~ msgstr "Textposition:"
+
+#~ msgid "Inside Graph"
+#~ msgstr "Inne i diagram"
+
+#~ msgid "Nowhere"
+#~ msgstr "Ingenstans"
+
+#~ msgid "Top Left"
+#~ msgstr "Överst till vänster"
+
+#~ msgid "Top Right"
+#~ msgstr "Överst till höger"
+
+#~ msgid "Bottom Left"
+#~ msgstr "Underst till vänster"
+
+#~ msgid "Bottom Right"
+#~ msgstr "Underst till höger"
+
+#~ msgid "Text font:"
+#~ msgstr "Teckensnitt för text:"
+
+#~ msgid "Text color:"
+#~ msgstr "Textfärg:"
+
+#~ msgid "Text alpha:"
+#~ msgstr "Textalfa:"
+
+#~ msgid "Show graph:"
+#~ msgstr "Visa diagram:"
+
+#~ msgid "Show on active screen"
+#~ msgstr "Visa på aktiv skärm"
+
+#~ msgid "Show Message:"
+#~ msgstr "Visa meddelande:"
+
+#~ msgid "Show \"not a benchmark\" message"
+#~ msgstr "Visa meddelandet \"inte en prestandamätning\""
+
+#~ msgid "Colorize Text:"
+#~ msgstr "Färglägg text:"
+
+#~ msgid "Color text by value (green > yellow > red)"
+#~ msgstr "Färglägg text med värde (grön > gul > röd)"
+
+#~ msgid "Zoom &duration:"
+#~ msgstr "Tidslängd för &zoom:"
+
+#~ msgctxt "Duration of zoom"
+#~ msgid "Default"
+#~ msgstr "Förval"
+
+#~ msgid "Border wid&th:"
+#~ msgstr "Kan&tbredd:"
+
+#~ msgid "Click behavior:"
+#~ msgstr "Klickbeteende:"
+
+#~ msgid ""
+#~ "If the Present Windows effect is enabled, it will be automatically "
+#~ "triggered."
+#~ msgstr "Om effekten Befintliga fönster är aktiverad, utförs den automatiskt"
+
+#~ msgid "Switch desktop and activate window"
+#~ msgstr "Byt skrivbord och aktivera fönster"
+
+#~ msgid "Switch desktop only"
+#~ msgstr "Byt bara skrivbord"
+
+#~ msgid "Natural Layout Settings"
+#~ msgstr "Naturliga layoutinställningar"
+
+#~ msgid "Fill &gaps"
+#~ msgstr "Fyll i &gap"
+
+#~ msgid "Faster"
+#~ msgstr "Snabbare"
+
+#~ msgid "Nicer"
+#~ msgstr "Snyggare"
+
+#~ msgid "Left button:"
+#~ msgstr "Vänsterknapp:"
+
+#~ msgid "No action"
+#~ msgstr "Ingen åtgärd"
+
+#~ msgid "Activate window"
+#~ msgstr "Aktivera fönster"
+
+#~ msgid "End effect"
+#~ msgstr "Sluteffekt"
+
+#~ msgid "Bring window to current desktop"
+#~ msgstr "Hämta fönster till nuvarande skrivbord"
+
+#~ msgid "Send window to all desktops"
+#~ msgstr "Skicka fönster till alla skrivbord"
+
+#~ msgid "(Un-)Minimize window"
+#~ msgstr "Minimera eller återställ fönster"
+
+#~ msgid "Middle button:"
+#~ msgstr "Mittenknapp:"
+
+#~ msgid "Right button:"
+#~ msgstr "Högerknapp:"
+
+#~ msgctxt "@title:group actions when clicking on desktop"
+#~ msgid "Desktop"
+#~ msgstr "Skrivbord"
+
+#~ msgid "Show desktop"
+#~ msgstr "Visa skrivbord"
+
+#~ msgid "Display window &titles"
+#~ msgstr "Visa fönster&rubriker"
+
+#~ msgid "Display window &icons"
+#~ msgstr "Visa fönster&ikoner"
+
+#~ msgid "Show &panels"
+#~ msgstr "Visa &paneler"
+
+#~ msgid "Regular Grid"
+#~ msgstr "Regelbundet rutnät"
+
+#~ msgid "Flexible Grid"
+#~ msgstr "Flexibelt rutnät"
+
+#~ msgid "Provide buttons to close the windows"
+#~ msgstr "Tillhandahåll knappar för att stänga fönstren"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Stefan Asserhäll"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "stefan.asserhall@bredband.net"
+
+#~ msgid "Scale window"
+#~ msgstr "Skala fönster"
+
+#~ msgid "Show outline"
+#~ msgstr "Visa kontur"
+
+#~ msgid "Toggle window geometry display (effect only)"
+#~ msgstr "Växla visning av fönstergeometri (bara effekten)"
+
+#~ msgid "Toggle KWin composited geometry display"
+#~ msgstr "Växla visning av sammansatt geometri i Kwin"
+
+#~ msgid "Display for moving windows"
+#~ msgstr "Visning vid förflyttning av fönster"
+
+#~ msgid "Display for resizing windows"
+#~ msgstr "Visning vid storleksändring av fönster"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Blur"
+#~ msgstr "Suddighet"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Blurs the background behind semi-transparent windows"
+#~ msgstr "Gör bakgrunden bakom halvgenomskinliga fönster suddig"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Color Picker"
+#~ msgstr "Färghämtare"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Supports picking a color"
+#~ msgstr "Stöder att hämta en färg"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Background contrast"
+#~ msgstr "Bakgrundskontrast"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Improve contrast and readability behind semi-transparent windows"
+#~ msgstr "Förbättra kontrast och läsbarhet bakom halvgenomskinliga fönster"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Grid"
+#~ msgstr "Skrivbordsrutnät"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Zoom out so all desktops are displayed side-by-side in a grid"
+#~ msgstr "Zooma ut så att alla skrivbord visas sida vid sida i ett rutnät"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Dim Inactive"
+#~ msgstr "Dämpa inaktiva"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Darken inactive windows"
+#~ msgstr "Gör inaktiva fönster mörkare"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Fall Apart"
+#~ msgstr "Fall sönder"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Closed windows fall into pieces"
+#~ msgstr "Stängda fönster faller i bitar"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Glide"
+#~ msgstr "Glid"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Glide windows as they appear or disappear"
+#~ msgstr "Glid fönster när de visas eller försvinner"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Highlight Window"
+#~ msgstr "Markera fönster"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlight the appropriate window when hovering over taskbar entries"
+#~ msgstr ""
+#~ "Markera motsvarande fönster när pekaren hålls över poster i "
+#~ "aktivitetsfältet"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Invert"
+#~ msgstr "Invertera"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Inverts the color of the desktop and windows"
+#~ msgstr "Invertera skrivbordets och fönstrens färg"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Kscreen"
+#~ msgstr "Kskärm"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper Effect for KScreen"
+#~ msgstr "Hjälpeffekt för Kskärm"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Looking Glass"
+#~ msgstr "Förstoringsglas"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "A screen magnifier that looks like a fisheye lens"
+#~ msgstr "Ett skärmförstoringsglas som ser ut som en fiskögonlins"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Magic Lamp"
+#~ msgstr "Magisk lanterna"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Simulate a magic lamp when minimizing windows"
+#~ msgstr "Simulera en magisk lanterna vid minimering av fönster"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Magnifier"
+#~ msgstr "Förstoringsglas"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Magnify the section of the screen that is near the mouse cursor"
+#~ msgstr "Förstorar den del av skärmen som är nära muspekaren"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Click Animation"
+#~ msgstr "Animering av musklick"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Creates an animation whenever a mouse button is clicked. This is useful "
+#~ "for screenrecordings/presentations"
+#~ msgstr ""
+#~ "Skapar en animering så fort en musknapp klickas. Det är användbart för "
+#~ "skärminspelningar och presentationer"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Mark"
+#~ msgstr "Markera med musen"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Allows you to draw lines on the desktop"
+#~ msgstr "Låter dig rita linjer på skrivbordet"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Overview"
+#~ msgstr "Översikt"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Allows you to overview virtual desktops and windows"
+#~ msgstr "Ger dig en översikt av virtuella skrivbord och fönster"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Present Windows"
+#~ msgstr "Befintliga fönster"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Zoom out until all opened windows can be displayed side-by-side"
+#~ msgstr "Zooma ut till alla öppnade fönster kan visas sida vid sida"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Resize Window"
+#~ msgstr "Ändra fönsterstorlek"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Resizes windows with a fast texture scale instead of updating contents"
+#~ msgstr ""
+#~ "Ändrar storlek på fönster med en snabb strukturskalning istället för att "
+#~ "uppdatera innehållet."
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Screen Edge"
+#~ msgstr "Skärmkant"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlights a screen edge when approaching"
+#~ msgstr "Markerar en skärmkant när man närmar sig den"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Screenshot"
+#~ msgstr "Skärmbild"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper effect for screenshot tools"
+#~ msgstr "Hjälpeffekt för skärmbildsverktyg"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Transform"
+#~ msgstr "Transformera"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Animates display transformations"
+#~ msgstr "Animerar skärmtransformeringar"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Sheet"
+#~ msgstr "Blad"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Make modal dialogs smoothly fly in and out when they are shown or hidden"
+#~ msgstr ""
+#~ "Gör att dialogrutor mjukt flyger in eller ut när de visas eller döljs"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show FPS"
+#~ msgstr "Visa ramar/s"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display KWin's performance in the corner of the screen"
+#~ msgstr "Visa prestanda för Kwin i hörnet av skärmen"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show Paint"
+#~ msgstr "Visa uppritning"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlight areas of the desktop that have been recently updated"
+#~ msgstr "Markera områden på skärmen som nyligen har uppdaterats"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Slide"
+#~ msgstr "Skjut"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Slide desktops when switching virtual desktops"
+#~ msgstr "Låt skrivbord skjutas vid byte av virtuella skrivbord"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Slide Back"
+#~ msgstr "Skjut tillbaka"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Slide back windows when another window is raised"
+#~ msgstr "Låt fönster skjutas tillbaka när ett annat fönster höjs"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Sliding popups"
+#~ msgstr "Glidande rutor"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Sliding animation for Plasma popups"
+#~ msgstr "Glidande animering av Plasmarutor"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Snap Helper"
+#~ msgstr "Bindningshjälp"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Help you locate the center of the screen when moving a window"
+#~ msgstr "Hjälper dig lokalisera bildskärmens mitt när ett fönster flyttas"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Startup Feedback"
+#~ msgstr "Gensvar vid programstart"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper effect for startup feedback"
+#~ msgstr "Hjälpeffekt för gensvar vid programstart"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Thumbnail Aside"
+#~ msgstr "Miniatyrbild vid sidan om"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display window thumbnails on the edge of the screen"
+#~ msgstr "Visa miniatyrbilder av fönster vid skärmkanten"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Touch Points"
+#~ msgstr "Beröringspunkter"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Visualize touch points"
+#~ msgstr "Åskådliggör beröringspunkter"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Track Mouse"
+#~ msgstr "Följ musen"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display a mouse cursor locating effect when activated"
+#~ msgstr "Visa en lokaliseringseffekt för muspekaren om aktiverad"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Window Geometry"
+#~ msgstr "Fönstergeometri"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display window geometries on move/resize"
+#~ msgstr "Visa fönstergeometri vid förflyttning och storleksändring"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Wobbly Windows"
+#~ msgstr "Ostadiga fönster"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Deform windows while they are moving"
+#~ msgstr "Förvräng fönster medan de flyttas"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Zoom"
+#~ msgstr "Zoom"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Magnify the entire desktop"
+#~ msgstr "Förstora hela skrivbordet"
+
+#~ msgid "Kompose"
+#~ msgstr "Sammansatt"
+
+#~ msgctxt "Special entry in alt+tab list for minimizing all windows"
+#~ msgid "Show Desktop"
+#~ msgstr "Visa skrivbord"
+
+#~ msgid "Zoom"
+#~ msgstr "Zoom"
+
+#~ msgid "Define how far away the windows should appear"
+#~ msgstr "Definiera hur långt bort fönstren ska visas"
+
+#~ msgid "Near"
+#~ msgstr "Nära"
+
+#~ msgid "Far"
+#~ msgstr "Avlägset"
+
+#~ msgid "Animation"
+#~ msgstr "Animering"
+
+#~ msgid "Animate switch"
+#~ msgstr "Animera växling"
+
+#~ msgid "Animation on tab box open"
+#~ msgstr "Animering vid öppning av flikruta"
+
+#~ msgid "Animation on tab box close"
+#~ msgstr "Animering vid stängning av flikruta"
+
+#~ msgid "Reflections"
+#~ msgstr "Reflektioner"
+
+#~ msgid "Rear color"
+#~ msgstr "Bakre färg"
+
+#~ msgid "Front color"
+#~ msgstr "Främre färg"
+
+#~ msgid "Desktop Cube"
+#~ msgstr "Skrivbordskub"
+
+#~ msgid "Desktop Cylinder"
+#~ msgstr "Skrivbordscylinder"
+
+#~ msgid "Desktop Sphere"
+#~ msgstr "Skrivbordsklot"
+
+#~ msgctxt "@title:tab Basic Settings"
+#~ msgid "Basic"
+#~ msgstr "Grundläggande"
+
+#~ msgctxt "@title:tab Advanced Settings"
+#~ msgid "Advanced"
+#~ msgstr "Avancerat"
+
+#~ msgid "Tab 1"
+#~ msgstr "Flik 1"
+
+#~ msgid "Background color:"
+#~ msgstr "Bakgrundsfärg:"
+
+#~ msgid "Wallpaper:"
+#~ msgstr "Skrivbordsunderlägg:"
+
+#~ msgid "Display desktop name"
+#~ msgstr "Visa skrivbordsnamn"
+
+#~ msgid "Reflection"
+#~ msgstr "Reflektion"
+
+#~ msgid "Rotation duration:"
+#~ msgstr "Tidslängd för rotation:"
+
+#~ msgid "Windows hover above cube"
+#~ msgstr "Fönster svävar över kuben"
+
+#~ msgid "Opacity"
+#~ msgstr "Ogenomskinlighet"
+
+#~ msgid "Do not change opacity of windows"
+#~ msgstr "Ändra inte genomskinlighet för fönster"
+
+#~ msgid "Tab 2"
+#~ msgstr "Flik 2"
+
+#~ msgid "Caps"
+#~ msgstr "Lock"
+
+#~ msgid "Cap color:"
+#~ msgstr "Lockfärg:"
+
+#~ msgid "Display image on caps"
+#~ msgstr "Visa bild på lock"
+
+#~ msgid "Define how far away the object should appear"
+#~ msgstr "Definiera hur långt bort objektet ska synas"
+
+#~ msgid "Additional Options"
+#~ msgstr "Ytterligare alternativ"
+
+#~ msgid ""
+#~ "If enabled the effect will be deactivated after rotating the cube with "
+#~ "the mouse,\n"
+#~ "otherwise it will remain active"
+#~ msgstr ""
+#~ "Om aktiverad, inaktiveras effekten efter att ha roterat kuben med musen,\n"
+#~ "annars förblir den aktiv"
+
+#~ msgid "Close after mouse dragging"
+#~ msgstr "Stäng efter musdragning"
+
+#~ msgid "Use this effect for walking through the desktops"
+#~ msgstr "Använd effekten för genomgång av skrivborden"
+
+#~ msgid "Invert mouse"
+#~ msgstr "Invertera mus"
+
+#~ msgid "Sphere Cap Deformation"
+#~ msgstr "Lockförvrängning för klot"
+
+#~ msgid "Sphere"
+#~ msgstr "Klot"
+
+#~ msgid "Plane"
+#~ msgstr "Plan"
+
+#~ msgid "Do not animate windows on all desktops"
+#~ msgstr "Animera inte fönster på alla skrivbord"
+
+#~ msgid "Do not animate panels"
+#~ msgstr "Animera inte paneler"
+
+#~ msgid "Use pager layout for animation"
+#~ msgstr "Använd skrivbordsvisningslayout för animering"
+
+#~ msgid "Start animation when moving windows towards screen edges"
+#~ msgstr "Starta animering när fönster flyttas mot skärmkanter"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Cover Switch"
+#~ msgstr "Omslagsbyte"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display a Cover Flow effect for the alt+tab window switcher"
+#~ msgstr "Visar en flytande omslagseffekt vid fönsterbyte med Alt+Tabulator"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube"
+#~ msgstr "Skrivbordskub"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display each virtual desktop on a side of a cube"
+#~ msgstr "Visar varje virtuellt skrivbord på sidan av en kub"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube Animation"
+#~ msgstr "Animering med skrivbordskub"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Animate desktop switching with a cube"
+#~ msgstr "Animera skrivbordsbyte med en kub"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Flip Switch"
+#~ msgstr "Blädderbyte"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Flip through windows that are in a stack for the alt+tab window switcher"
+#~ msgstr ""
+#~ "Bläddra igenom fönster som ligger i en hög vid fönsterbyte med Alt"
+#~ "+Tabulator"
+
+#~ msgid "Toggle Flip Switch (Current desktop)"
+#~ msgstr "Ändra vändningsbyte (nuvarande skrivbord)"
+
+#~ msgid "Toggle Flip Switch (All desktops)"
+#~ msgstr "Ändra vändningsbyte (alla skrivbord)"
+
+#~ msgid "Flip animation duration:"
+#~ msgstr "Tidslängd för vändningsanimering:"
+
+#~ msgctxt "Duration of flip animation"
+#~ msgid "Default"
+#~ msgstr "Förval"
+
+#~ msgid "Angle:"
+#~ msgstr "Vinkel:"
+
+#~ msgid " °"
+#~ msgstr " °"
+
+#~ msgid "Horizontal position of front:"
+#~ msgstr "Horisontell position för framsida:"
+
+#~ msgid "Vertical position of front:"
+#~ msgstr "Vertikal position för framsida:"
+
+#~ msgid ""
+#~ "Filter:\n"
+#~ "%1"
+#~ msgstr ""
+#~ "Filter:\n"
+#~ "%1"
+
+#~ msgid "Use Present Windows effect to layout the windows"
+#~ msgstr "Använd befintliga fönstereffekter för att placera ut fönstren"
+
+#~ msgid "When the focus changes, move the zoom area to the focused location."
+#~ msgstr "När fokus ändras, flytta zoomområdet till den fokuserade platsen."
+
+#~ msgid "Follow Focus"
+#~ msgstr "Följ fokus"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Dim Screen for Administrator Mode"
+#~ msgstr "Dämpa skärmen vid administratörsläge"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Darkens the entire screen when requesting root privileges"
+#~ msgstr "Gör hela skärmen mörkare när administratörsrättigheter begärs"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Scale"
+#~ msgstr "Skala"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Make windows smoothly scale in and out when they are shown or hidden"
+#~ msgstr "Gör att fönster mjukt skalas in eller ut när de visas eller döljs"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Minimize Animation"
+#~ msgstr "Animering av minimering"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Animate the minimizing of windows"
+#~ msgstr "Animera minimering av fönster"
+
+#~ msgid "Trigger on"
+#~ msgstr "Utlös för"
+
+#~ msgid "Shortcut"
+#~ msgstr "Genväg"
+
+#~ msgid "Apply effect to &panels"
+#~ msgstr "Verkställ effekt för &paneler"
+
+#~ msgid "Apply effect to the desk&top"
+#~ msgstr "Verkställ effekt för &skrivbordet"
+
+#~ msgid "Apply effect to &keep-above windows"
+#~ msgstr "Verkställ effekt för fönster &ovanför andra"
+
+#~ msgid "Apply effect to &groups"
+#~ msgstr "Verkställ effekt för &grupper"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Windows Glide Effect as they are open and closed"
+#~ msgstr "Glideffekt för fönster när de öppnas och stängs"
+
+#~ msgid "Glide Effect:"
+#~ msgstr "Glideffekt:"
+
+#~ msgid "In"
+#~ msgstr "In"
+
+#~ msgid "Out"
+#~ msgstr "Ut"
+
+#~ msgid "Glide Angle:"
+#~ msgstr "Glidvinkel:"
+
+#~ msgid "-90"
+#~ msgstr "-90"
+
+#~ msgid "90"
+#~ msgstr "90"
+
+#~ msgctxt "Duration of the slide animation"
+#~ msgid "Default"
+#~ msgstr "Förval"
+
+#~ msgid "Strength of the effect:"
+#~ msgstr "Effektens styrka:"
+
+#~ msgid "Use simple fullscreen blur"
+#~ msgstr "Använd enkel fullskärmssuddighet"
+
+#~ msgid "Save intermediate rendering results."
+#~ msgstr "Spara mellanresultat vid uppritning."
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Logout"
+#~ msgstr "Logga ut"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Desaturate the desktop when displaying the logout dialog"
+#~ msgstr "Försvaga färger på skrivbordet när utloggningsdialogrutan visas"
+
+#~ msgid "Brightness of the background:"
+#~ msgstr "Bakgrundens ljusstyrka"
+
+#~ msgctxt "Less brightness"
+#~ msgid "Darker"
+#~ msgstr "Mörkare"
+
+#~ msgctxt "More brightness"
+#~ msgid "Lighter"
+#~ msgstr "Ljusare"
+
+#~ msgid "Saturation of the background:"
+#~ msgstr "Bakgrundens färgmättnad:"
+
+#~ msgctxt "No saturation"
+#~ msgid "Gray"
+#~ msgstr "Grå"
+
+#~ msgid "Duration of the fade:"
+#~ msgstr "Borttoningens längd:"
+
+#~ msgid "ms"
+#~ msgstr "ms"
+
+#~ msgid "The blur effect must be enabled before it can be used."
+#~ msgstr "Suddighetseffekten måste aktiveras innan den kan användas."
+
+#~ msgid "Apply blur effect to background"
+#~ msgstr "Verkställ suddighetseffekt för bakgrund"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Dashboard"
+#~ msgstr "Instrumentpanel"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Desaturate the desktop when displaying the Plasma dashboard"
+#~ msgstr "Försvaga skrivbordet när Plasmas instrumentpanel visas"
+
+#~ msgid "Decorations:"
+#~ msgstr "Dekorationer:"
+
+#~ msgid "Background window &opacity:"
+#~ msgstr "Bakgrundsfönstrets &ogenomskinlighet:"
+
+#~ msgid "&Elevate selected window"
+#~ msgstr "&Höj markerat fönster"
+
+#~ msgid "&Animate walk through windows"
+#~ msgstr "&Animera genomgång av fönster"
+
+#~ msgid "Use additional thumbnail bar"
+#~ msgstr "Använd ytterligare miniatyrbildsrad"
+
+#~ msgid ""
+#~ "Only show thumbnail bar if there are at least specified number of windows"
+#~ msgstr ""
+#~ "Visa bara miniatyrbildsraden om det finns minst angivet antal fönster"
+
+#~ msgid "Dynamic mode"
+#~ msgstr "Dynamiskt läge"
+
+#~ msgid "Number of windows:"
+#~ msgstr "Antal fönster:"
+
+#~ msgid " row"
+#~ msgid_plural " rows"
+#~ msgstr[0] " rad"
+#~ msgstr[1] " rader"
+
+#~ msgctxt "Duration of fading"
+#~ msgid "Default"
+#~ msgstr "Förval"
+
+#~ msgid "Toggle Video Recording"
+#~ msgstr "Sätt på eller stäng av videoinspelning"
+
+#~ msgid "Path to save video:"
+#~ msgstr "Sökväg där video ska sparas:"
+
+#~ msgid "Slide when switching tabs"
+#~ msgstr "Glid vid byte av flikar"
+
+#~ msgctxt ""
+#~ "Window geometry display, %1 and %2 are the new size, %3 and %4 are pixel "
+#~ "increments - avoid reformatting or suffixes like 'px'"
+#~ msgid ""
+#~ "Width: %1 (%3)\n"
+#~ "Height: %2 (%4)"
+#~ msgstr ""
+#~ "Bredd: %1 (%3)\n"
+#~ "Höjd: %2 (%4)"
+
+#~ msgctxt ""
+#~ "Window geometry display, %1 and %2 are the cartesian x and y coordinates "
+#~ "- avoid reformatting or suffixes like 'px'"
+#~ msgid ""
+#~ "X: %1\n"
+#~ "Y: %2"
+#~ msgstr ""
+#~ "X: %1\n"
+#~ "Y: %2"
+
+#~ msgctxt ""
+#~ "Window geometry display, %1 and %2 are the cartesian x and y coordinates, "
+#~ "%3 and %4 are the resp. increments - avoid reformatting or suffixes like "
+#~ "'px'"
+#~ msgid ""
+#~ "X: %1 (%3)\n"
+#~ "Y: %2 (%4)"
+#~ msgstr ""
+#~ "X: %1 (%3)\n"
+#~ "Y: %2 (%4)"
+
+#~ msgid "Snow"
+#~ msgstr "Snö"
+
+#~ msgid "Toggle Snow on Desktop"
+#~ msgstr "Sätt på eller stäng av snö på skrivbordet"
+
+#~ msgid " pixel/frame"
+#~ msgid_plural " pixels/frame"
+#~ msgstr[0] " bildpunkt/bild"
+#~ msgstr[1] " bildpunkter/bild"
+
+#~ msgctxt "@action Enables/Disables an effect that makes windows more sharp"
+#~ msgid "Toggle Sharpen Effect"
+#~ msgstr "Sätt på eller stäng av skärpeeffekt"
+
+#~ msgid "&Number of snowflakes:"
+#~ msgstr "A&ntal snöflingor:"
+
+#~ msgid "M&inimum size of snowflake:"
+#~ msgstr "M&inimal storlek för snöflingor:"
+
+#~ msgid "M&aximum size of snowflake:"
+#~ msgstr "M&aximal storlek för snöflingor:"
+
+#~ msgid "Maximum &vertical speed:"
+#~ msgstr "Maximal &vertikal hastighet:"
+
+#~ msgid "Maximum &horizontal speed:"
+#~ msgstr "Maximal &horisontell hastighet:"
+
+#~ msgid "Snow &behind windows"
+#~ msgstr "Snö &bakom fönster"
+
+#~ msgid "&X offset:"
+#~ msgstr "&X-justering:"
+
+#~ msgid "&Y offset:"
+#~ msgstr "&Y-justering:"
+
+#~ msgid "%"
+#~ msgstr " %"
+
+#~ msgid "&Fuzziness:"
+#~ msgstr "Su&ddighet:"
+
+#~ msgid "&Size:"
+#~ msgstr "&Storlek:"
+
+#~ msgid "&Active windows have stronger shadows"
+#~ msgstr "&Aktiva fönster har mer markerade skuggor"
+
+#~ msgid "Form"
+#~ msgstr "Formulär"
+
+#, fuzzy
+#~| msgid "Background"
+#~ msgid "Background brightness"
+#~ msgstr "Bakgrund"
+
+#, fuzzy
+#~| msgid "Background"
+#~ msgid "Background saturation"
+#~ msgstr "Bakgrund"
+
+#, fuzzy
+#~| msgid "End effect"
+#~ msgid "Effects"
+#~ msgstr "Sluteffekt"
+
+#~ msgid "Hold Ctrl+Meta keys to see where the mouse cursor is."
+#~ msgstr ""
+#~ "Håll nere Ctrl+Meta tangenterna för att se var muspekaren befinner sig."
+
+#~ msgid "Rearrange &duration:"
+#~ msgstr "Tidslängd för omor&dning:"
+
+#~ msgctxt "Duration of rearrangement"
+#~ msgid "Default"
+#~ msgstr "Förval"

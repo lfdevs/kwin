@@ -72,16 +72,13 @@ void AuroraeThemePrivate::initButtonFrame(AuroraeButtonType type)
  ************************************************/
 AuroraeTheme::AuroraeTheme(QObject *parent)
     : QObject(parent)
-    , d(new AuroraeThemePrivate)
+    , d(std::make_unique<AuroraeThemePrivate>())
 {
     connect(this, &AuroraeTheme::themeChanged, this, &AuroraeTheme::borderSizesChanged);
     connect(this, &AuroraeTheme::buttonSizesChanged, this, &AuroraeTheme::borderSizesChanged);
 }
 
-AuroraeTheme::~AuroraeTheme()
-{
-    delete d;
-}
+AuroraeTheme::~AuroraeTheme() = default;
 
 bool AuroraeTheme::isValid() const
 {
@@ -170,8 +167,8 @@ const QString &AuroraeTheme::themeName() const
 
 void AuroraeTheme::borders(int &left, int &top, int &right, int &bottom, bool maximized) const
 {
-    const qreal titleHeight = qMax((qreal)d->themeConfig.titleHeight(),
-                                   d->themeConfig.buttonHeight() * buttonSizeFactor() + d->themeConfig.buttonMarginTop());
+    const qreal titleHeight = std::max((qreal)d->themeConfig.titleHeight(),
+                                       d->themeConfig.buttonHeight() * buttonSizeFactor() + d->themeConfig.buttonMarginTop());
     if (maximized) {
         const qreal title = titleHeight + d->themeConfig.titleEdgeTopMaximized() + d->themeConfig.titleEdgeBottomMaximized();
         switch ((DecorationPosition)d->themeConfig.decorationPosition()) {
@@ -233,9 +230,9 @@ void AuroraeTheme::borders(int &left, int &top, int &right, int &bottom, bool ma
             maxMargin = 0;
         }
 
-        left = qBound(minMargin, d->themeConfig.borderLeft(), maxMargin);
-        right = qBound(minMargin, d->themeConfig.borderRight(), maxMargin);
-        bottom = qBound(minMargin, d->themeConfig.borderBottom(), maxMargin);
+        left = std::clamp(d->themeConfig.borderLeft(), minMargin, maxMargin);
+        right = std::clamp(d->themeConfig.borderRight(), minMargin, maxMargin);
+        bottom = std::clamp(d->themeConfig.borderBottom(), minMargin, maxMargin);
 
         if (d->borderSize == KDecoration2::BorderSize::None) {
             left = 0;

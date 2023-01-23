@@ -86,7 +86,7 @@ QAction *GlobalShortcut::action() const
 
 void GlobalShortcut::invoke() const
 {
-    QMetaObject::invokeMethod(m_action, "trigger", Qt::QueuedConnection);
+    QMetaObject::invokeMethod(m_action, &QAction::trigger, Qt::QueuedConnection);
 }
 
 const Shortcut &GlobalShortcut::shortcut() const
@@ -143,7 +143,7 @@ void GlobalShortcutsManager::objectDeleted(QObject *object)
 
 bool GlobalShortcutsManager::addIfNotExists(GlobalShortcut sc, DeviceType device)
 {
-    for (const auto &cs : qAsConst(m_shortcuts)) {
+    for (const auto &cs : std::as_const(m_shortcuts)) {
         if (sc.shortcut() == cs.shortcut()) {
             return false;
         }

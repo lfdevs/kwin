@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-26 02:35+0000\n"
+"POT-Creation-Date: 2022-10-26 00:47+0000\n"
 "PO-Revision-Date: 2021-06-10 11:34+0400\n"
 "Last-Translator: Kheyyam Gojayev <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -291,3 +291,27 @@ msgstr "Çox nəhəng"
 #, kde-format
 msgid "Oversized"
 msgstr "Ən geniş"
+
+#~ msgctxt "popup tip"
+#~ msgid ""
+#~ "Close by double clicking: Keep the window's Menu button pressed until it "
+#~ "appears."
+#~ msgstr ""
+#~ "İki dəfə vurmaqla bağlamaq: Görünənə qədər pəncərənin Menyu düyməsini "
+#~ "basılı saxlamaq."
+
+#~ msgid "Menu"
+#~ msgstr "Menyu"
+
+#~ msgid "Keep below"
+#~ msgstr "Altında tutmaq"
+
+#~ msgid "Keep above"
+#~ msgstr "Üstündə tutmaq"
+
+#~ msgid "Download New Window Decorations"
+#~ msgstr "Yeni Pəncərə dekorasiyalarını Yükləmək"
+
+#~ msgctxt "checkbox label"
+#~ msgid "Use theme's default window border size"
+#~ msgstr "Mövzunun standart pəncərə sərhəddi ölçüsünü istifadə etmək"

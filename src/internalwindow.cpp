@@ -10,8 +10,8 @@
 #include "internalwindow.h"
 #include "decorations/decorationbridge.h"
 #include "deleted.h"
-#include "surfaceitem.h"
-#include "windowitem.h"
+#include "scene/surfaceitem.h"
+#include "scene/windowitem.h"
 #include "workspace.h"
 
 #include <KDecoration2/Decoration>
@@ -67,9 +67,9 @@ InternalWindow::~InternalWindow()
 {
 }
 
-WindowItem *InternalWindow::createItem()
+std::unique_ptr<WindowItem> InternalWindow::createItem(Scene *scene)
 {
-    return new WindowItemInternal(this);
+    return std::make_unique<WindowItemInternal>(this, scene);
 }
 
 bool InternalWindow::isClient() const
@@ -120,11 +120,7 @@ bool InternalWindow::eventFilter(QObject *watched, QEvent *event)
             // Some dialog e.g. Plasma::Dialog may update shadow in the middle of rendering.
             // The opengl context changed by updateShadow may break the QML Window rendering
             // and cause crash.
-            QMetaObject::invokeMethod(
-                this, [this]() {
-                    updateShadow();
-                },
-                Qt::QueuedConnection);
+            QMetaObject::invokeMethod(this, &InternalWindow::updateShadow, Qt::QueuedConnection);
         }
         if (pe->propertyName() == "kwin_windowType") {
             m_windowType = m_handle->property("kwin_windowType").value<NET::WindowType>();
@@ -164,8 +160,6 @@ QSizeF InternalWindow::maxSize() const
 
 NET::WindowType InternalWindow::windowType(bool direct, int supported_types) const
 {
-    Q_UNUSED(direct)
-    Q_UNUSED(supported_types)
     return m_windowType;
 }
 
@@ -182,9 +176,9 @@ bool InternalWindow::isPopupWindow() const
     return m_internalWindowFlags.testFlag(Qt::Popup);
 }
 
-QByteArray InternalWindow::windowRole() const
+QString InternalWindow::windowRole() const
 {
-    return QByteArray();
+    return QString();
 }
 
 void InternalWindow::closeWindow()
@@ -299,7 +293,6 @@ void InternalWindow::moveResizeInternal(const QRectF &rect, MoveResizeMode mode)
 
 Window *InternalWindow::findModal(bool allow_itself)
 {
-    Q_UNUSED(allow_itself)
     return nullptr;
 }
 
@@ -439,7 +432,6 @@ bool InternalWindow::acceptsFocus() const
 
 bool InternalWindow::belongsToSameApplication(const Window *other, SameApplicationChecks checks) const
 {
-    Q_UNUSED(checks)
     const InternalWindow *otherInternal = qobject_cast<const InternalWindow *>(other);
     if (!otherInternal) {
         return false;

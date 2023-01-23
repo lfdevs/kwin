@@ -6,11 +6,10 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-
-#ifndef DRM_GPU_H
-#define DRM_GPU_H
+#pragma once
 
 #include "drm_pipeline.h"
+#include "utils/filedescriptor.h"
 
 #include <QPointer>
 #include <QSize>
@@ -22,12 +21,6 @@
 #include <sys/types.h>
 
 struct gbm_device;
-
-namespace KWaylandServer
-{
-class DrmLeaseDeviceV1Interface;
-class DrmLeaseV1Interface;
-}
 
 namespace KWin
 {
@@ -42,6 +35,26 @@ class EglGbmBackend;
 class DrmAbstractOutput;
 class DrmRenderBackend;
 class DrmVirtualOutput;
+
+class DrmLease : public QObject
+{
+    Q_OBJECT
+public:
+    DrmLease(DrmGpu *gpu, FileDescriptor &&fd, uint32_t lesseeId, const QVector<DrmOutput *> &outputs);
+    ~DrmLease();
+
+    FileDescriptor &fd();
+    uint32_t lesseeId() const;
+
+Q_SIGNALS:
+    void revokeRequested();
+
+private:
+    DrmGpu *const m_gpu;
+    FileDescriptor m_fd;
+    const uint32_t m_lesseeId;
+    const QVector<DrmOutput *> m_outputs;
+};
 
 class DrmGpu : public QObject
 {
@@ -59,6 +72,7 @@ public:
 
     bool atomicModeSetting() const;
     bool addFB2ModifiersSupported() const;
+    bool asyncPageflipSupported() const;
     bool isNVidia() const;
     gbm_device *gbmDevice() const;
     EGLDisplay eglDisplay() const;
@@ -89,6 +103,9 @@ public:
     void releaseBuffers();
     void recreateSurfaces();
 
+    FileDescriptor createNonMasterFd() const;
+    std::unique_ptr<DrmLease> leaseOutputs(const QVector<DrmOutput *> &outputs);
+
 Q_SIGNALS:
     void outputAdded(DrmAbstractOutput *output);
     void outputRemoved(DrmAbstractOutput *output);
@@ -104,9 +121,6 @@ private:
     DrmPipeline::Error testPipelines();
     QVector<DrmObject *> unusedObjects() const;
 
-    void handleLeaseRequest(KWaylandServer::DrmLeaseV1Interface *leaseRequest);
-    void handleLeaseRevoked(KWaylandServer::DrmLeaseV1Interface *lease);
-
     static void pageFlipHandler(int fd, unsigned int sequence, unsigned int sec, unsigned int usec, unsigned int crtc_id, void *user_data);
 
     const int m_fd;
@@ -116,6 +130,7 @@ private:
     bool m_addFB2ModifiersSupported = false;
     bool m_isNVidia;
     bool m_isVirtualMachine;
+    bool m_asyncPageflipSupported;
     bool m_isRemoved = false;
     clockid_t m_presentationClock;
     gbm_device *m_gbmDevice;
@@ -130,12 +145,9 @@ private:
 
     QVector<DrmOutput *> m_drmOutputs;
     QVector<DrmVirtualOutput *> m_virtualOutputs;
-    KWaylandServer::DrmLeaseDeviceV1Interface *m_leaseDevice = nullptr;
 
-    QSocketNotifier *m_socketNotifier = nullptr;
+    std::unique_ptr<QSocketNotifier> m_socketNotifier;
     QSize m_cursorSize;
 };
 
 }
-
-#endif // DRM_GPU_H

@@ -32,7 +32,7 @@ bool DrmObject::initProps()
         return false;
     }
     if (KWIN_DRM().isDebugEnabled()) {
-        auto debug = QMessageLogger(QT_MESSAGELOG_FILE, QT_MESSAGELOG_LINE, QT_MESSAGELOG_FUNC, KWIN_DRM().categoryName()).debug().nospace();
+        auto debug = QMessageLogger(QT_MESSAGELOG_FILE, QT_MESSAGELOG_LINE, QT_MESSAGELOG_FUNC, KWIN_DRM().categoryName()).debug().nospace().noquote();
         switch (m_objectType) {
         case DRM_MODE_OBJECT_CONNECTOR:
             debug << "Connector ";
@@ -53,16 +53,7 @@ bool DrmObject::initProps()
             }
             const auto &prop = m_props[i];
             if (prop) {
-                debug << prop->name() << "=";
-                if (m_propertyDefinitions[i].enumNames.isEmpty()) {
-                    debug << prop->current();
-                } else {
-                    if (prop->hasEnum(prop->current())) {
-                        debug << prop->enumNames().at(prop->enumForValue<uint32_t>(prop->current()));
-                    } else {
-                        debug << "invalid value: " << prop->current();
-                    }
-                }
+                debug << prop->name() << "=" << prop->valueString(prop->current());
             } else {
                 debug << m_propertyDefinitions[i].name << " not found";
             }
@@ -73,7 +64,7 @@ bool DrmObject::initProps()
 
 bool DrmObject::atomicPopulate(drmModeAtomicReq *req) const
 {
-    for (const auto &property : qAsConst(m_props)) {
+    for (const auto &property : std::as_const(m_props)) {
         if (property && !property->isImmutable() && !property->isLegacy() && property->needsCommit()) {
             if (drmModeAtomicAddProperty(req, m_id, property->propId(), property->pending()) <= 0) {
                 qCWarning(KWIN_DRM) << "Adding property" << property->name() << "->" << property->pending()
@@ -87,7 +78,7 @@ bool DrmObject::atomicPopulate(drmModeAtomicReq *req) const
 
 void DrmObject::commit()
 {
-    for (const auto &prop : qAsConst(m_props)) {
+    for (const auto &prop : std::as_const(m_props)) {
         if (prop) {
             prop->commit();
         }
@@ -96,7 +87,7 @@ void DrmObject::commit()
 
 void DrmObject::commitPending()
 {
-    for (const auto &prop : qAsConst(m_props)) {
+    for (const auto &prop : std::as_const(m_props)) {
         if (prop) {
             prop->commitPending();
         }
@@ -105,7 +96,7 @@ void DrmObject::commitPending()
 
 void DrmObject::rollbackPending()
 {
-    for (const auto &prop : qAsConst(m_props)) {
+    for (const auto &prop : std::as_const(m_props)) {
         if (prop) {
             prop->rollbackPending();
         }
@@ -114,7 +105,7 @@ void DrmObject::rollbackPending()
 
 bool DrmObject::needsCommit() const
 {
-    for (const auto &prop : qAsConst(m_props)) {
+    for (const auto &prop : std::as_const(m_props)) {
         if (prop && prop->needsCommit()) {
             return true;
         }

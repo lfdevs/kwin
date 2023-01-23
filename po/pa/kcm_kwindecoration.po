@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-26 02:35+0000\n"
+"POT-Creation-Date: 2022-10-26 00:47+0000\n"
 "PO-Revision-Date: 2013-01-05 08:28+0530\n"
 "Last-Translator: A S Alam <aalam@users.sf.net>\n"
 "Language-Team: Punjabi/Panjabi <punjabi-users@lists.sf.net>\n"
@@ -301,3 +301,162 @@ msgstr "ਬਹੁਤ ਵਿਰਾਟ"
 #| msgid "Oversized"
 msgid "Oversized"
 msgstr "ਵੱਧ-ਆਕਾਰ"
+
+#, fuzzy
+#~| msgid "Close windows by double clicking the menu button"
+#~ msgctxt "popup tip"
+#~ msgid ""
+#~ "Close by double clicking: Keep the window's Menu button pressed until it "
+#~ "appears."
+#~ msgstr "ਮੇਨੂ ਬਟਨ ਨੂੰ ਦੋ ਵਾਰ ਦਬਾ ਕੇ ਵਿੰਡੋਜ਼ ਬੰਦ ਕਰੋ"
+
+#~ msgid "Menu"
+#~ msgstr "ਮੇਨੂ"
+
+#, fuzzy
+#~| msgid "Keep Below Others"
+#~ msgid "Keep below"
+#~ msgstr "ਹੋਰਾਂ ਦੇ ਹੇਠਾਂ ਰੱਖੋ"
+
+#, fuzzy
+#~| msgid "Keep Above Others"
+#~ msgid "Keep above"
+#~ msgstr "ਹੋਰਾਂ ਦੇ ਉੱਤੇ ਰੱਖੋ"
+
+#, fuzzy
+#~| msgid "Get New Decorations..."
+#~ msgid "Download New Window Decorations"
+#~ msgstr "ਨਵੀਂ ਸਜਾਵਟ ਲਵੋ..."
+
+#, fuzzy
+#~| msgid "Search"
+#~ msgid "Search..."
+#~ msgstr "ਖੋਜ"
+
+#, fuzzy
+#~| msgid "Close windows by double clicking the menu button"
+#~ msgid "Close windows by double clicking &the menu button"
+#~ msgstr "ਮੇਨੂ ਬਟਨ ਨੂੰ ਦੋ ਵਾਰ ਦਬਾ ਕੇ ਵਿੰਡੋਜ਼ ਬੰਦ ਕਰੋ"
+
+#, fuzzy
+#~| msgid "Border size:"
+#~ msgid "Border si&ze:"
+#~ msgstr "ਬਾਰਡਰ ਸਾਈਜ਼:"
+
+#, fuzzy
+#~| msgid "Configure Buttons..."
+#~ msgid "Configure %1..."
+#~ msgstr "ਬਟਨ ਸੰਰਚਨਾ..."
+
+#, fuzzy
+#~| msgid "Normal"
+#~ msgid "Form"
+#~ msgstr "ਸਧਾਰਨ"
+
+#~ msgid "Button size:"
+#~ msgstr "ਬਟਨ ਸਾਈਜ਼:"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Tiny"
+#~ msgstr "ਨਿੱਕਾ"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Normal"
+#~ msgstr "ਸਧਾਰਨ"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Large"
+#~ msgstr "ਵੱਡਾ"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Very Large"
+#~ msgstr "ਬਹੁਤ ਵੱਡਾ"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Huge"
+#~ msgstr "ਵਿਰਾਟ"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Very Huge"
+#~ msgstr "ਬਹੁਤ ਵਿਰਾਟ"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Oversized"
+#~ msgstr "ਵੱਧ-ਆਕਾਰ"
+
+#~ msgid "KDE"
+#~ msgstr "KDE"
+
+#~ msgid "%1 (unavailable)"
+#~ msgstr "%1 (ਨਾ-ਉਪਲੱਬਧ)"
+
+#~ msgid "Resize"
+#~ msgstr "ਮੁੜ-ਆਕਾਰ"
+
+#~ msgid "Help"
+#~ msgstr "ਮੱਦਦ"
+
+#~ msgctxt "Button showing window actions menu"
+#~ msgid "Window Menu"
+#~ msgstr "ਵਿੰਡੋ ਮੇਨੂ"
+
+#~ msgid "--- spacer ---"
+#~ msgstr "--- ਵੱਖਰੇਵਾਂ ---"
+
+#~ msgid "Please note that this option is not available on all styles yet."
+#~ msgstr "ਯਾਦ ਰੱਖੋ ਕਿ ਇਹ ਚੋਣ ਸਭ ਸਟਾਇਲ ਲਈ ਹਾਲੇ ਉਪਲੱਬਧ ਨਹੀਂ ਹੈ।"
+
+#~ msgid "Use custom titlebar button &positions"
+#~ msgstr "ਕਸਟਮ ਟਾਇਟਲਬਾਰ ਬਟਨ ਸਥਿਤੀ ਵਰਤੋਂ(&p)"
+
+#~ msgid "B&order size:"
+#~ msgstr "ਬਾਰਡਰ ਸਾਈਜ਼(&o):"
+
+#~ msgid "Use this combobox to change the border size of the decoration."
+#~ msgstr "ਸਜਾਵਟੀ ਬਾਰਡਰ ਦਾ ਸਾਈਜ਼ ਬਦਲਣ ਲਈ ਇਹ ਕੰਬੋਬਾਕਸ ਵਰਤੋਂ।"
+
+#~ msgid "Decoration Options"
+#~ msgstr "ਸਜਾਵਟੀ ਚੋਣ"
+
+#~ msgid "Configure Decoration..."
+#~ msgstr "ਸਜਾਵਟ ਸੰਰਚਨਾ..."
+
+#~ msgid "Window Decoration Control Module"
+#~ msgstr "ਵਿੰਡੋ ਸ਼ਿੰਗਾਰ ਕੰਟਰੋਲ ਮੋਡੀਊਲ"
+
+#~ msgid "(c) 2001 Karol Szwed"
+#~ msgstr "(c) 2001 Karol Szwed"
+
+#~ msgid "Karol Szwed"
+#~ msgstr "Karol Szwed"
+
+#~ msgid "Oxygen"
+#~ msgstr "ਆਕਸੀਜਨ"
+
+#~ msgid "Active Window"
+#~ msgstr "ਐਕਟਿਵ ਵਿੰਡੋ"
+
+#~ msgid "Inactive Window"
+#~ msgstr "ਗ਼ੈਰ-ਐਕਟਿਵ ਵਿੰਡੋ"
+
+#~ msgid "kcmkwindecoration"
+#~ msgstr "kcmkwindecoration"
+
+#~ msgctxt "Caption to decoration preview, %1 author name"
+#~ msgid "by %1"
+#~ msgstr "%1 ਵਲੋਂ"
+
+#~ msgid ""
+#~ "No preview available.\n"
+#~ "Most probably there\n"
+#~ "was a problem loading the plugin."
+#~ msgstr ""
+#~ "ਕੋਈ ਝਲਕ ਨਹੀਂ।\n"
+#~ "ਸੰਭਵ ਤੌਰ ਉੱਤੇ ਪਲੱਗਇਨ\n"
+#~ "ਨੂੰ ਲੋਡ ਕਰਨ ਦੌਰਾਨ ਸਮੱਸਿਆ ਹੈ।"
+
+#~ msgid "&Buttons"
+#~ msgstr "ਬਟਨ(&B)"
+
+#~ msgid "Ozone"
+#~ msgstr "ਓਜ਼ੋਨ"

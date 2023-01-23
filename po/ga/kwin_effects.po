@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase/kwin_effects.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-01 02:26+0000\n"
+"POT-Creation-Date: 2023-01-18 00:58+0000\n"
 "PO-Revision-Date: 2007-11-14 08:24-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -57,6 +57,7 @@ msgstr ""
 #: mousemark/mousemark_config.cpp:50 overview/kcm/overvieweffectkcm.cpp:35
 #: showpaint/showpaint_config.cpp:33
 #: thumbnailaside/thumbnailaside_config.cpp:54
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:31
 #: trackmouse/trackmouse_config.cpp:52
 #: windowview/kcm/windowvieweffectkcm.cpp:36 zoom/zoom_config.cpp:58
 #, kde-format
@@ -196,15 +197,21 @@ msgstr ""
 msgid "Natural"
 msgstr "Nádúrtha"
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
+#: desktopgrid/desktopgrid_config.ui:147
+#, kde-format
+msgid "None"
+msgstr "Neamhní"
+
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: desktopgrid/desktopgrid_config.ui:150
+#: desktopgrid/desktopgrid_config.ui:155
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "Windows layout:"
 msgstr "Fuinneoga"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: desktopgrid/desktopgrid_config.ui:166
+#: desktopgrid/desktopgrid_config.ui:171
 #, kde-format
 msgid "Activation"
 msgstr "Gníomhachtú"
@@ -320,10 +327,16 @@ msgstr "Beochan"
 msgid "Toggle Invert Effect"
 msgstr "Scoránaigh an Mhaisíocht Inbhéartaithe"
 
-#: invert/invert.cpp:50 invert/invert_config.cpp:44
+#: invert/invert.cpp:49 invert/invert_config.cpp:44
 #, kde-format
 msgid "Toggle Invert Effect on Window"
 msgstr "Scoránaigh an Mhaisíocht Inbhéartaithe ar Fhuinneog"
+
+#: invert/invert.cpp:56
+#, fuzzy, kde-format
+#| msgid "Invert cursor keys"
+msgid "Invert Screen Colors"
+msgstr "Inbhéartaigh eochracha cúrsóra"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FadeToBlack)
 #: login/package/contents/ui/config.ui:17
@@ -381,33 +394,33 @@ msgstr "&Airde:"
 msgid "Toggle Mouse Click Effect"
 msgstr "Scoránaigh an Mhaisíocht"
 
-#: mouseclick/mouseclick.cpp:42
+#: mouseclick/mouseclick.cpp:41
 #, fuzzy, kde-format
 #| msgid "Left"
 msgctxt "Left mouse button"
 msgid "Left"
 msgstr "Ar Chlé"
 
-#: mouseclick/mouseclick.cpp:43
+#: mouseclick/mouseclick.cpp:42
 #, fuzzy, kde-format
 #| msgid "Middle"
 msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr "Sa Lár"
 
-#: mouseclick/mouseclick.cpp:44
+#: mouseclick/mouseclick.cpp:43
 #, fuzzy, kde-format
 #| msgid "Right"
 msgctxt "Right mouse button"
 msgid "Right"
 msgstr "Ar Dheis"
 
-#: mouseclick/mouseclick.h:61
+#: mouseclick/mouseclick.h:60
 #, kde-format
 msgid "↓"
 msgstr ""
 
-#: mouseclick/mouseclick.h:62
+#: mouseclick/mouseclick.h:61
 #, kde-format
 msgid "↑"
 msgstr ""
@@ -505,12 +518,12 @@ msgstr "Cló:"
 msgid "Show Text:"
 msgstr "Taispeáin an Téacs:"
 
-#: mousemark/mousemark.cpp:36
+#: mousemark/mousemark.cpp:39
 #, kde-format
 msgid "Clear All Mouse Marks"
 msgstr "Glan Gach Marc Luiche"
 
-#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:59
+#: mousemark/mousemark.cpp:45 mousemark/mousemark_config.cpp:59
 #, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr "Glan an Marc Luiche Is Déanaí"
@@ -585,12 +598,12 @@ msgstr "Cúlra"
 msgid "Ignore minimized windows:"
 msgstr "Déan nea&mhshuim d'fhuinneoga íoslaghdaithe"
 
-#: overview/qml/DesktopBar.qml:186
+#: overview/qml/DesktopBar.qml:187
 #, kde-format
 msgid "Delete Virtual Desktop"
 msgstr ""
 
-#: overview/qml/DesktopBar.qml:282
+#: overview/qml/DesktopBar.qml:283
 #, fuzzy, kde-format
 #| msgctxt "@title:group actions when clicking on desktop"
 #| msgid "Desktop"
@@ -603,12 +616,12 @@ msgstr "Deasc"
 msgid "No matching windows"
 msgstr "Fuinneoga ag bogadh:"
 
-#: private/qml/WindowHeapDelegate.qml:152
+#: private/qml/WindowHeapDelegate.qml:151
 #, kde-format
 msgid "Drag Down To Close"
 msgstr ""
 
-#: private/qml/WindowHeapDelegate.qml:462
+#: private/qml/WindowHeapDelegate.qml:461
 #, fuzzy, kde-format
 #| msgid "Scale window"
 msgctxt "@info:tooltip as in: 'close this window'"
@@ -629,28 +642,28 @@ msgstr "Beochan"
 msgid "Window close scale:"
 msgstr "Beochan"
 
-#: screenshot/screenshotdbusinterface1.cpp:480
+#: screenshot/screenshotdbusinterface1.cpp:478
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr ""
 
-#: screenshot/screenshotdbusinterface1.cpp:481
+#: screenshot/screenshotdbusinterface1.cpp:479
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr ""
 
-#: screenshot/screenshotdbusinterface1.cpp:797
-#: screenshot/screenshotdbusinterface2.cpp:472
+#: screenshot/screenshotdbusinterface1.cpp:800
+#: screenshot/screenshotdbusinterface2.cpp:477
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
 
-#: screenshot/screenshotdbusinterface1.cpp:800
-#: screenshot/screenshotdbusinterface2.cpp:490
+#: screenshot/screenshotdbusinterface1.cpp:803
+#: screenshot/screenshotdbusinterface2.cpp:495
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -715,14 +728,8 @@ msgstr "Cothrománach"
 msgid "Vertical:"
 msgstr "Ingearach"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideDocks)
-#: slide/slide_config.ui:72
-#, kde-format
-msgid "Slide docks"
-msgstr ""
-
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideBackground)
-#: slide/slide_config.ui:79
+#: slide/slide_config.ui:72
 #, kde-format
 msgid "Slide desktop background"
 msgstr ""
@@ -764,6 +771,49 @@ msgstr "&Teimhneacht:"
 #, no-c-format, kde-format
 msgid " %"
 msgstr " %"
+
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:37
+#: tileseditor/tileseditoreffect.cpp:29
+#, kde-format
+msgid "Toggle Tiles Editor"
+msgstr ""
+
+#: tileseditor/qml/main.qml:147
+#, kde-format
+msgid "Padding:"
+msgstr ""
+
+#: tileseditor/qml/main.qml:157
+#, kde-format
+msgid "Load Layout..."
+msgstr ""
+
+#: tileseditor/qml/main.qml:271
+#, kde-format
+msgid "Close"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:171
+#, fuzzy, kde-format
+#| msgid "Horizontal"
+msgid "Split Horizontally"
+msgstr "Cothrománach"
+
+#: tileseditor/qml/TileDelegate.qml:178
+#, fuzzy, kde-format
+#| msgid "Vertical"
+msgid "Split Vertically"
+msgstr "Ingearach"
+
+#: tileseditor/qml/TileDelegate.qml:186 tileseditor/qml/TileDelegate.qml:215
+#, kde-format
+msgid "Add Floating Tile"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:195
+#, kde-format
+msgid "Delete"
+msgstr ""
 
 #: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:57
 #, kde-format
@@ -899,17 +949,17 @@ msgstr "Roghchlár stróicthe:"
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Scoránaigh na Fuinneoga atá ann (Deasc reatha)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:55
+#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:54
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Scoránaigh na Fuinneoga atá ann (Gach deasc)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:65
+#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:63
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Scoránaigh na Fuinneoga atá ann (Aicme fhuinneoige)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:75
+#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:72
 #, fuzzy, kde-format
 #| msgid "Toggle Present Windows (Current desktop)"
 msgid "Toggle Present Windows (Window class on current desktop)"
@@ -921,15 +971,21 @@ msgstr "Scoránaigh na Fuinneoga atá ann (Deasc reatha)"
 msgid "Ignore &minimized windows"
 msgstr "Déan nea&mhshuim d'fhuinneoga íoslaghdaithe"
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, kde-format
 msgid "No Matches"
 msgstr ""
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "No Windows"
+msgstr "Fuinneoga"
+
+#: windowview/qml/main.qml:123
+#, fuzzy, kde-format
+#| msgid "Windows"
+msgid "Filter windows…"
 msgstr "Fuinneoga"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
@@ -992,32 +1048,32 @@ msgstr "Níos Lú"
 msgid "More"
 msgstr "Tuilleadh"
 
-#: zoom/zoom.cpp:68
+#: zoom/zoom.cpp:65
 #, kde-format
 msgid "Move Zoomed Area to Left"
 msgstr ""
 
-#: zoom/zoom.cpp:76
+#: zoom/zoom.cpp:72
 #, kde-format
 msgid "Move Zoomed Area to Right"
 msgstr ""
 
-#: zoom/zoom.cpp:84
+#: zoom/zoom.cpp:79
 #, kde-format
 msgid "Move Zoomed Area Upwards"
 msgstr ""
 
-#: zoom/zoom.cpp:92
+#: zoom/zoom.cpp:86
 #, kde-format
 msgid "Move Zoomed Area Downwards"
 msgstr ""
 
-#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:108
+#: zoom/zoom.cpp:94 zoom/zoom_config.cpp:108
 #, kde-format
 msgid "Move Mouse to Focus"
 msgstr ""
 
-#: zoom/zoom.cpp:109 zoom/zoom_config.cpp:115
+#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:115
 #, kde-format
 msgid "Move Mouse to Center"
 msgstr ""
@@ -1149,220 +1205,596 @@ msgstr "Díchumasaithe"
 msgid "Mouse Tracking:"
 msgstr ""
 
+#~ msgid "&Radius:"
+#~ msgstr "&Ga:"
 
+#~ msgid "Text position:"
+#~ msgstr "Ionad an téacs:"
 
+#~ msgid "Inside Graph"
+#~ msgstr "Sa Ghraf"
 
+#~ msgid "Nowhere"
+#~ msgstr "Níl áit ar bith"
 
+#~ msgid "Top Left"
+#~ msgstr "Barr ar Chlé"
 
+#~ msgid "Top Right"
+#~ msgstr "Barr ar Dheis"
 
+#~ msgid "Bottom Left"
+#~ msgstr "Bun ar Chlé"
 
+#~ msgid "Bottom Right"
+#~ msgstr "Bun ar Dheis"
 
+#~ msgid "Text font:"
+#~ msgstr "Cló an téacs:"
 
+#~ msgid "Text color:"
+#~ msgstr "Dath an téacs:"
 
+#~ msgid "Text alpha:"
+#~ msgstr "Alfa an téacs:"
 
+#, fuzzy
+#~| msgid "Show caps"
+#~ msgid "Show graph:"
+#~ msgstr "Taispeáin caipíní"
 
+#, fuzzy
+#~| msgid "Show Text:"
+#~ msgid "Show Message:"
+#~ msgstr "Taispeáin an Téacs:"
 
+#~ msgid "Zoom &duration:"
+#~ msgstr "Aga na &súmála:"
 
+#~ msgctxt "Duration of zoom"
+#~ msgid "Default"
+#~ msgstr "Réamhshocrú"
 
+#, fuzzy
+#~| msgid "&Border width:"
+#~ msgid "Border wid&th:"
+#~ msgstr "Leithead na h&imlíne:"
 
+#, fuzzy
+#~| msgid "Show desktop"
+#~ msgid "Switch desktop only"
+#~ msgstr "Taispeáin an deasc"
 
+#~ msgid "Natural Layout Settings"
+#~ msgstr "Socruithe Nádúrtha Leagain Amach"
 
+#~ msgid "Fill &gaps"
+#~ msgstr "Líon &bearnaí"
 
+#~ msgid "Faster"
+#~ msgstr "Níos Tapúla"
 
+#~ msgid "Nicer"
+#~ msgstr "Níos Deise"
 
+#~ msgid "Left button:"
+#~ msgstr "Cnaipe clé:"
 
+#~ msgid "No action"
+#~ msgstr "Gan ghníomh"
+
+#~ msgid "Activate window"
+#~ msgstr "Gníomhachtaigh fuinneog"
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#~ msgid "Middle button:"
+#~ msgstr "Cnaipe sa lár:"
+
+#~ msgid "Right button:"
+#~ msgstr "Cnaipe deas:"
+
+#~ msgctxt "@title:group actions when clicking on desktop"
+#~ msgid "Desktop"
+#~ msgstr "Deasc"
+
+#~ msgid "Show desktop"
+#~ msgstr "Taispeáin an deasc"
+
+#~ msgid "Display window &titles"
+#~ msgstr "Taispeáin &teidil na bhfuinneog"
+
+#~ msgid "Display window &icons"
+#~ msgstr "Ta&ispeáin deilbhíní fuinneoige"
+
+#~ msgid "Show &panels"
+#~ msgstr "Taispeáin &painéil"
+
+#~ msgid "Regular Grid"
+#~ msgstr "Gnáthghreille"
+
+#~ msgid "Flexible Grid"
+#~ msgstr "Greille Solúbtha"
+
+#~ msgid "Scale window"
+#~ msgstr "Scálaigh an fhuinneog"
+
+#, fuzzy
+#~| msgctxt "High saturation"
+#~| msgid "Colored"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Color Picker"
+#~ msgstr "Daite"
+
+#, fuzzy
+#~| msgid "Background color:"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Background contrast"
+#~ msgstr "Dath an chúlra:"
+
+#, fuzzy
+#~| msgid "Show Desktop Grid"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Grid"
+#~ msgstr "Taispeáin Greille na Deisce"
+
+#, fuzzy
+#~| msgid "Inactive windows:"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Darken inactive windows"
+#~ msgstr "Fuinneoga neamhghníomhacha:"
+
+#, fuzzy
+#~| msgid "Invert mouse"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Invert"
+#~ msgstr "Inbhéartaigh an luch"
+
+#, fuzzy
+#~| msgid "Animation"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Click Animation"
+#~ msgstr "Beochan"
+
+#, fuzzy
+#~| msgid "Clear Mouse Marks"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Mark"
+#~ msgstr "Glan Marcanna Luiche"
+
+#, fuzzy
+#~| msgid "Windows"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Present Windows"
+#~ msgstr "Fuinneoga"
+
+#, fuzzy
+#~| msgid "Close window"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Resize Window"
+#~ msgstr "Dún fuinneog"
+
+#, fuzzy
+#~| msgid "Transparent"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Transform"
+#~ msgstr "Trédhearcach"
+
+#, fuzzy
+#~| msgid "Show &panels"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show Paint"
+#~ msgstr "Taispeáin &painéil"
+
+#, fuzzy
+#~| msgid "Thumbnail Bar"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Thumbnail Aside"
+#~ msgstr "Barra Mionsamhla"
+
+#, fuzzy
+#~| msgid "Track mouse"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Track Mouse"
+#~ msgstr "Lorg an luch"
+
+#, fuzzy
+#~| msgid "Display window &icons"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display window geometries on move/resize"
+#~ msgstr "Ta&ispeáin deilbhíní fuinneoige"
+
+#, fuzzy
+#~| msgid "Windows"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Wobbly Windows"
+#~ msgstr "Fuinneoga"
+
+#, fuzzy
+#~| msgid "Use for window &switching"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Deform windows while they are moving"
+#~ msgstr "Ú&sáid le haghaidh mhalairt na fuinneoige"
+
+#, fuzzy
+#~| msgid "Zoom"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Zoom"
+#~ msgstr "Súmáil"
+
+#~ msgctxt "Special entry in alt+tab list for minimizing all windows"
+#~ msgid "Show Desktop"
+#~ msgstr "Taispeáin an Deasc"
+
+#~ msgid "Zoom"
+#~ msgstr "Súmáil"
+
+#~ msgid "Define how far away the windows should appear"
+#~ msgstr "Roghnaigh cá fhad a bhreathnaíonn na fuinneoga"
+
+#~ msgid "Near"
+#~ msgstr "Cóngarach"
+
+#~ msgid "Far"
+#~ msgstr "I gCéin"
+
+#~ msgid "Animation"
+#~ msgstr "Beochan"
+
+#~ msgid "Animate switch"
+#~ msgstr "Beoigh an mhalairt"
 
 # I think the tab box is what opens with Alt+Tab?
+#~ msgid "Animation on tab box open"
+#~ msgstr "Beochan nuair a osclaíonn an bosca táib"
+
+#~ msgid "Animation on tab box close"
+#~ msgstr "Beochan nuair a dhúnann an bosca táib"
+
+#~ msgid "Reflections"
+#~ msgstr "Frithscáileanna"
+
+#~ msgid "Desktop Cube"
+#~ msgstr "Ciúb Deisce"
+
+#~ msgid "Desktop Cylinder"
+#~ msgstr "Sorcóir Deisce"
+
+#~ msgid "Desktop Sphere"
+#~ msgstr "Sféar Deisce"
+
+#~ msgctxt "@title:tab Basic Settings"
+#~ msgid "Basic"
+#~ msgstr "Bunsocruithe"
+
+#~ msgctxt "@title:tab Advanced Settings"
+#~ msgid "Advanced"
+#~ msgstr "Ardsocruithe"
+
+#~ msgid "Tab 1"
+#~ msgstr "Cluaisín 1"
+
+#~ msgid "Background color:"
+#~ msgstr "Dath an chúlra:"
+
+#~ msgid "Wallpaper:"
+#~ msgstr "Cúlbhrat:"
+
+#~ msgid "Display desktop name"
+#~ msgstr "Taispeáin ainm na deisce"
+
+#~ msgid "Reflection"
+#~ msgstr "Frithchaitheamh"
+
+#~ msgid "Rotation duration:"
+#~ msgstr "Aga an rothlaithe:"
+
+#~ msgid "Windows hover above cube"
+#~ msgstr "Ainlíonn fuinneoga os cionn an chiúib"
+
+#~ msgid "Opacity"
+#~ msgstr "Teimhneacht"
+
+#~ msgid "Do not change opacity of windows"
+#~ msgstr "Ná hathraigh teimhneacht na bhfuinneog"
+
+#~ msgid "Tab 2"
+#~ msgstr "Cluaisín 2"
+
+#~ msgid "Caps"
+#~ msgstr "Caipíní"
+
+#~ msgid "Cap color:"
+#~ msgstr "Dath an chaipín:"
+
+#~ msgid "Display image on caps"
+#~ msgstr "Taispeáin íomhá ar chaipíní"
+
+#~ msgid "Define how far away the object should appear"
+#~ msgstr "Roghnaigh cá fhad a bhreathnaíonn an réad"
+
+#~ msgid "Additional Options"
+#~ msgstr "Roghanna Breise"
+
+#~ msgid ""
+#~ "If enabled the effect will be deactivated after rotating the cube with "
+#~ "the mouse,\n"
+#~ "otherwise it will remain active"
+#~ msgstr ""
+#~ "Leis an rogha seo, díchumasófar an mhaisíocht tar éis rothlú an chiúib "
+#~ "leis an luch"
+
+#~ msgid "Close after mouse dragging"
+#~ msgstr "Dún tar éis tarraingt na luiche"
+
+#~ msgid "Use this effect for walking through the desktops"
+#~ msgstr "Úsáid an mhaisíocht chun siúl trí na deasca"
+
+#~ msgid "Invert mouse"
+#~ msgstr "Inbhéartaigh an luch"
+
+#~ msgid "Sphere Cap Deformation"
+#~ msgstr "Dífhoirmiú Caipín Sféir"
+
+#~ msgid "Sphere"
+#~ msgstr "Sféar"
+
+#~ msgid "Plane"
+#~ msgstr "Plána"
+
+#~ msgid "Do not animate windows on all desktops"
+#~ msgstr "Ná beoigh fuinneoga ar gach deasc"
+
+#~ msgid "Do not animate panels"
+#~ msgstr "Ná beoigh painéil"
+
+#, fuzzy
+#~| msgid "Desktop Cube"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube"
+#~ msgstr "Ciúb Deisce"
+
+#, fuzzy
+#~| msgid "Desktop Cube"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube Animation"
+#~ msgstr "Ciúb Deisce"
+
+#~ msgid "Flip animation duration:"
+#~ msgstr "Aga na beochana smeacha:"
+
+#~ msgctxt "Duration of flip animation"
+#~ msgid "Default"
+#~ msgstr "Réamhshocrú"
+
+#~ msgid "Angle:"
+#~ msgstr "Uillinn:"
+
+#~ msgid " °"
+#~ msgstr " °"
+
+#~ msgid ""
+#~ "Filter:\n"
+#~ "%1"
+#~ msgstr ""
+#~ "Scagaire:\n"
+#~ "%1"
+
+#, fuzzy
+#~| msgid "Scale"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Scale"
+#~ msgstr "Scála"
+
+#, fuzzy
+#~| msgid "Animation"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Minimize Animation"
+#~ msgstr "Beochan"
+
+#, fuzzy
+#~| msgid "Ignore &minimized windows"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Animate the minimizing of windows"
+#~ msgstr "Déan nea&mhshuim d'fhuinneoga íoslaghdaithe"
+
+#~ msgid "Shortcut"
+#~ msgstr "Aicearra"
+
+#~ msgid "Apply effect to &panels"
+#~ msgstr "Cuir an mhaisíocht i bhfeidhm ar &phainéil"
+
+#~ msgid "Apply effect to the desk&top"
+#~ msgstr "Cuir an mhaisíoch&t i bhfeidhm ar an Deasc"
+
+#~ msgid "Apply effect to &groups"
+#~ msgstr "Cuir an mhaisíocht i bhfeidhm ar &ghrúpaí"
+
+#~ msgid "In"
+#~ msgstr "Isteach"
+
+#~ msgid "Out"
+#~ msgstr "Amach"
+
+#~ msgid "-90"
+#~ msgstr "-90"
+
+#~ msgid "90"
+#~ msgstr "90"
+
+#, fuzzy
+#~| msgctxt "Duration of rotation"
+#~| msgid "Default"
+#~ msgctxt "Duration of the slide animation"
+#~ msgid "Default"
+#~ msgstr "Réamhshocrú"
+
+#~ msgctxt "Less brightness"
+#~ msgid "Darker"
+#~ msgstr "Níos Dorcha"
+
+#~ msgctxt "More brightness"
+#~ msgid "Lighter"
+#~ msgstr "Níor Sorcha"
+
+#~ msgctxt "No saturation"
+#~ msgid "Gray"
+#~ msgstr "Liath"
+
+#~ msgid "ms"
+#~ msgstr "ms"
+
+#~ msgid "Decorations:"
+#~ msgstr "Maisíochtaí:"
+
+#~ msgid "Background window &opacity:"
+#~ msgstr "Teimhneacht na fuinne&oige sa chúlra:"
+
+#~ msgid "&Elevate selected window"
+#~ msgstr "&Ardaigh an fhuinneog roghnaithe"
+
+#~ msgid "&Animate walk through windows"
+#~ msgstr "Beoigh &céimniú trí na fuinneoga"
+
+#~ msgid "Use additional thumbnail bar"
+#~ msgstr "Úsáid barra mionsamhla breise"
+
+#~ msgid ""
+#~ "Only show thumbnail bar if there are at least specified number of windows"
+#~ msgstr ""
+#~ "Ná taispeáin an barra mionsamhla mura bhfuil an líon sonraithe fuinneog "
+#~ "ann ar a laghad"
+
+#~ msgid "Dynamic mode"
+#~ msgstr "Mód dinimiciúil"
+
+#~ msgid "Number of windows:"
+#~ msgstr "Líon na bhfuinneog:"
+
+#~ msgid " row"
+#~ msgid_plural " rows"
+#~ msgstr[0] " ró"
+#~ msgstr[1] " ró"
+#~ msgstr[2] " ró"
+#~ msgstr[3] " ró"
+#~ msgstr[4] " ró"
+
+#~ msgctxt "Duration of fading"
+#~ msgid "Default"
+#~ msgstr "Réamhshocrú"
+
+#~ msgid "Toggle Video Recording"
+#~ msgstr "Scoránaigh Taifeadadh Físe"
+
+#~ msgid "Path to save video:"
+#~ msgstr "Conair shábháil an fhíseáin:"
+
+#~ msgid "Snow"
+#~ msgstr "Sneachta"
+
+#~ msgid "Toggle Snow on Desktop"
+#~ msgstr "Scoránaigh Sneachta ar an Deasc"
+
+#~ msgid " pixel/frame"
+#~ msgid_plural " pixels/frame"
+#~ msgstr[0] " phicteilín/fráma"
+#~ msgstr[1] " phicteilín/fráma"
+#~ msgstr[2] " phicteilín/fráma"
+#~ msgstr[3] " bpicteilín/fráma"
+#~ msgstr[4] " picteilín/fráma"
+
+#~ msgctxt "@action Enables/Disables an effect that makes windows more sharp"
+#~ msgid "Toggle Sharpen Effect"
+#~ msgstr "Scoránaigh an Mhaisíocht Géaraithe"
+
+#~ msgid "&Number of snowflakes:"
+#~ msgstr "&Líon na gcáithníní sneachta:"
+
+#~ msgid "M&inimum size of snowflake:"
+#~ msgstr "Í&osmhéid na gcáithníní sneachta:"
+
+#~ msgid "M&aximum size of snowflake:"
+#~ msgstr "&Uasmhéid na gcáithníní sneachta:"
+
+#~ msgid "Maximum &vertical speed:"
+#~ msgstr "&Uasluas ingearach:"
+
+#~ msgid "Maximum &horizontal speed:"
+#~ msgstr "Uasluas cot&hrománach:"
+
+#~ msgid "Snow &behind windows"
+#~ msgstr "Sneachta ar &chúl fuinneog"
+
+#~ msgid "&X offset:"
+#~ msgstr "Fritháireamh &X:"
+
+#~ msgid "&Y offset:"
+#~ msgstr "Fritháireamh &Y:"
+
+#~ msgid "%"
+#~ msgstr "%"
+
+#~ msgid "&Fuzziness:"
+#~ msgstr "&Doiléire:"
+
+#~ msgid "&Size:"
+#~ msgstr "&Méid:"
+
+#~ msgid "&Active windows have stronger shadows"
+#~ msgstr "Scáth níos láidre &ag na fuinneoga reatha"
+
+#~ msgid "Form"
+#~ msgstr "Foirm"
+
+#~ msgid "Hold Ctrl+Meta keys to see where the mouse cursor is."
+#~ msgstr "Coinnigh Ctrl+Meta síos chun cúrsóir na luiche a aimsiú."
+
+#~ msgid "Rearrange &duration:"
+#~ msgstr "&Aga atheagraithe:"
+
+#~ msgctxt "Duration of rearrangement"
+#~ msgid "Default"
+#~ msgstr "Réamhshocrú"
+
+#~ msgid "Animate &flip"
+#~ msgstr "Beoigh &smeach"
+
+#~ msgid "Custom..."
+#~ msgstr "Saincheaptha..."
+
+#~ msgid "Default Shadow"
+#~ msgstr "Scáth Réamhshocraithe"
+
+#~ msgid "Decoration Shadows"
+#~ msgstr "Scáthanna Maisíochta"
+
+#~ msgid "&Decorated windows"
+#~ msgstr "&Fuinneoga maisithe"
+
+#~ msgid "Force default shadows for:"
+#~ msgstr "Fórsáil scáthanna réamhshocraithe le haghaidh:"
+
+#~ msgid "&Undecorated normal windows"
+#~ msgstr "Gnáthfhuinneoga &gan mhaisíocht"
+
+#~ msgid ""
+#~ "If enabled span the cube across all screens on a multiscreen setup, "
+#~ "otherwise\n"
+#~ "the cube will only be displayed on a single screen"
+#~ msgstr ""
+#~ "Leis an rogha seo, trasnóidh an ciúb gach scáileán má tá córas "
+#~ "ilscáileáin agat,\n"
+#~ "agus taispeánfar an ciúb ar scáileán amháin mura bhfuil"
+
+#~ msgid "Span cube on all screens in multi screen setup"
+#~ msgstr "Trasnóidh an ciúb gach scáileán ar chóras ilscáileáin"
+
+#~ msgid "Shadow size (relative to window):"
+#~ msgstr "Méid an scátha (coibhneasta don fhuinneog):"
+
+#~ msgid "Cube &opacity:"
+#~ msgstr "&Teimhneacht an chiúib:"
+
+#~ msgid "Activate when cursor is at a specific edge or corner of the screen:"
+#~ msgstr "Gníomhachtaigh nuair atá an cúrsóir ag ciumhais nó cúinne ar leith:"
+
+#~ msgid "Toggle Expose Effect (incl. other desktops)"
+#~ msgstr "Scoránaigh an Mhaisíocht Nochta (deasca eile san áireamh)"

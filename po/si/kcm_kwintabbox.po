@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-15 00:48+0000\n"
+"POT-Creation-Date: 2023-01-13 00:58+0000\n"
 "PO-Revision-Date: 2011-07-26 23:05+0530\n"
 "Last-Translator: Danishka Navin <danishka@gmail.com>\n"
 "Language-Team: Sinhala <info@hanthana.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "X-Generator: Lokalize 1.1\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: kwintabboxconfigform.cpp:77
+#: kwintabboxconfigform.cpp:80
 #, kde-format
 msgid "KWin"
 msgstr ""
@@ -248,3 +248,173 @@ msgstr ""
 #| msgid "Show outline of selected window"
 msgid "Show selected window"
 msgstr "තෝරාගත් කවුළුවේ මායිම පෙන්වන්න"
+
+#, fuzzy
+#~| msgid "Show outline of selected window"
+#~ msgid "Outline selected window"
+#~ msgstr "තෝරාගත් කවුළුවේ මායිම පෙන්වන්න"
+
+#~ msgid ""
+#~ "These settings are used by the \"Walk Through Windows Alternative\" "
+#~ "actions."
+#~ msgstr "මෙම සැකසුම් \"කවුළු විකල්ප අතරින් ඇවිද යාම\" මගින් භාවිත වේ."
+
+#~ msgid "Walk Through Windows"
+#~ msgstr "කවුළු අතරින් ඇවිද යාම"
+
+#~ msgid "Walk Through Windows (Reverse)"
+#~ msgstr "කවුළු අතරින් ඇවිද යාම (ආපසු)"
+
+#~ msgid "Walk Through Windows Alternative"
+#~ msgstr "කවුළු විකල්ප අතරින් ඇවිද යාම"
+
+#~ msgid "Walk Through Windows Alternative (Reverse)"
+#~ msgstr "කවුළු විකල්ප අතරින් ඇවිද යාම (ආපසු)"
+
+#, fuzzy
+#~| msgid "Walk Through Windows Alternative"
+#~ msgid "Walk Through Windows of Current Application"
+#~ msgstr "කවුළු විකල්ප අතරින් ඇවිද යාම"
+
+#, fuzzy
+#~| msgid "Walk Through Windows Alternative (Reverse)"
+#~ msgid "Walk Through Windows of Current Application (Reverse)"
+#~ msgstr "කවුළු විකල්ප අතරින් ඇවිද යාම (ආපසු)"
+
+#, fuzzy
+#~| msgid "Walk Through Windows Alternative"
+#~ msgid "Walk Through Windows of Current Application Alternative"
+#~ msgstr "කවුළු විකල්ප අතරින් ඇවිද යාම"
+
+#, fuzzy
+#~| msgid "Walk Through Windows Alternative (Reverse)"
+#~ msgid "Walk Through Windows of Current Application Alternative (Reverse)"
+#~ msgstr "කවුළු විකල්ප අතරින් ඇවිද යාම (ආපසු)"
+
+#~ msgid "Configure Layout"
+#~ msgstr "සැකැස්ම සකසන්න"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Danishka Navin"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "danishka@gmail.com"
+
+#~ msgid "These settings are used by the \"Walk Through Windows\" actions."
+#~ msgstr "මෙම සැකසුම් \"කවුළු අතරින් ඇවිදයාම\" ක්‍රියාවන් මගින් භාවිත කෙරේ."
+
+#, fuzzy
+#~| msgid "All Desktops Grouped by Applications"
+#~ msgid "All windows from all applications"
+#~ msgstr "යෙදුම් ලෙස කාණ්ඩ කල සියළු වැඩතල"
+
+#, fuzzy
+#~| msgid "Adds an entry to minimize all windows."
+#~ msgid "Exclude minimized windows"
+#~ msgstr "සියළු කවුළු කුඩා කිරීම සඳහා ඇතුළත් කිරීමක් එක් කරයි."
+
+#, fuzzy
+#~| msgid "Adds an entry to minimize all windows."
+#~ msgid "Show desktop to minimize all windows"
+#~ msgstr "සියළු කවුළු කුඩා කිරීම සඳහා ඇතුළත් කිරීමක් එක් කරයි."
+
+#~ msgid "Highlight selected window"
+#~ msgstr "තෝරාගත් කවුළුව උපුටන්න"
+
+#~ msgid "Effect:"
+#~ msgstr "සැරසිලි:"
+
+#~ msgid "Display list while switching"
+#~ msgstr "මාරුවීමේදී ලැයිස්තුව පෙන්වන්න"
+
+#, fuzzy
+#~| msgid "Informative"
+#~ msgctxt "Name for a window switcher layout showing icon, name and desktop"
+#~ msgid "Informative"
+#~ msgstr "විස්තරාත්මක"
+
+#, fuzzy
+#~| msgid "Compact"
+#~ msgctxt "Name for a window switcher layout showing only icon and name"
+#~ msgid "Compact"
+#~ msgstr "සංයුක්ත"
+
+#, fuzzy
+#~| msgid "Text Only"
+#~ msgctxt "Name for a window switcher layout showing only the name"
+#~ msgid "Text"
+#~ msgstr "පෙළ පමණයි"
+
+#, fuzzy
+#~| msgid "Large Icons"
+#~ msgctxt "Name for a window switcher layout showing large icons"
+#~ msgid "Large Icons"
+#~ msgstr "විශාල අයිකන"
+
+#, fuzzy
+#~| msgid "Small Icons"
+#~ msgctxt "Name for a window switcher layout showing small icons"
+#~ msgid "Small Icons"
+#~ msgstr "කුඩා අයිකන"
+
+#~ msgid "No Effect"
+#~ msgstr "සැරසිලු නොමැත"
+
+#~ msgid "Configure Layout..."
+#~ msgstr "සැකැස්ම සකසන්න..."
+
+#~ msgid "Item Layout"
+#~ msgstr "අයිතම සැකැස්ම"
+
+#~ msgid "Item layout:"
+#~ msgstr "අයිතම සැකැස්ම:"
+
+#~ msgid "Layout:"
+#~ msgstr "සැකැස්ම:"
+
+#~ msgid "Vertical"
+#~ msgstr "සිරස්"
+
+#~ msgid "Horizontal"
+#~ msgstr "තිරස්"
+
+#~ msgid "Tabular"
+#~ msgstr "වගු "
+
+#~ msgid "Width:"
+#~ msgstr "පළල:"
+
+#~ msgid "Minimum width, as a percentage of screen width."
+#~ msgstr "අවම පළල, තිරයේ පළලේ ප්‍රතිශතයක් ලෙස"
+
+#~ msgid " %"
+#~ msgstr " %"
+
+#~ msgid "Height:"
+#~ msgstr "උස:"
+
+#~ msgid "Minimum height, as a percentage of screen height."
+#~ msgstr "අවම උස, තිරයේ උසින් ප්‍රතිශතයක් ලෙස."
+
+#~ msgid "Show Selected Item"
+#~ msgstr "තෝරාගත් අයිතම පෙන්වන්න"
+
+#~ msgid "Selected item view:"
+#~ msgstr "තෝරාගත් අයිතම දසුන:"
+
+#~ msgid "Top"
+#~ msgstr "ඉහළ"
+
+#~ msgid "Bottom"
+#~ msgstr "පහළ"
+
+#~ msgid "Left"
+#~ msgstr "වම"
+
+#~ msgid "Right"
+#~ msgstr "දකුණ"
+
+#~ msgid "Selected item layout:"
+#~ msgstr "තෝරාගත් අයිතම සැකැස්ම:"

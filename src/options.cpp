@@ -12,7 +12,7 @@
 
 #include "config-kwin.h"
 
-#include "core/platform.h"
+#include "core/outputbackend.h"
 #include "utils/common.h"
 
 #ifndef KCMRULES
@@ -20,6 +20,7 @@
 #include <QProcess>
 
 #include "settings.h"
+#include "workspace.h"
 #include <QOpenGLContext>
 #include <kwinglplatform.h>
 
@@ -55,6 +56,7 @@ Options::Options(QObject *parent)
     , m_hideUtilityWindowsForInactive(false)
     , m_xwaylandCrashPolicy(Options::defaultXwaylandCrashPolicy())
     , m_xwaylandMaxCrashCount(Options::defaultXwaylandMaxCrashCount())
+    , m_xwaylandEavesdrops(Options::defaultXwaylandEavesdrops())
     , m_latencyPolicy(Options::defaultLatencyPolicy())
     , m_renderTimeEstimator(Options::defaultRenderTimeEstimator())
     , m_compositingMode(Options::defaultCompositingMode())
@@ -97,6 +99,8 @@ Options::Options(QObject *parent)
     connect(m_configWatcher.data(), &KConfigWatcher::configChanged, this, [this](const KConfigGroup &group, const QByteArrayList &names) {
         if (group.name() == QLatin1String("KDE") && names.contains(QByteArrayLiteral("AnimationDurationFactor"))) {
             Q_EMIT animationSpeedChanged();
+        } else if (group.name() == QLatin1String("Xwayland")) {
+            workspace()->reconfigure();
         }
     });
 }
@@ -144,6 +148,15 @@ void Options::setXwaylandMaxCrashCount(int maxCrashCount)
     }
     m_xwaylandMaxCrashCount = maxCrashCount;
     Q_EMIT xwaylandMaxCrashCountChanged();
+}
+
+void Options::setXwaylandEavesdrops(XwaylandEavesdropsMode mode)
+{
+    if (m_xwaylandEavesdrops == mode) {
+        return;
+    }
+    m_xwaylandEavesdrops = mode;
+    Q_EMIT xwaylandEavesdropsChanged();
 }
 
 void Options::setClickRaise(bool clickRaise)
@@ -306,7 +319,7 @@ void Options::setFocusStealingPreventionLevel(int focusStealingPreventionLevel)
     if (m_focusStealingPreventionLevel == focusStealingPreventionLevel) {
         return;
     }
-    m_focusStealingPreventionLevel = qMax(0, qMin(4, focusStealingPreventionLevel));
+    m_focusStealingPreventionLevel = std::max(0, std::min(4, focusStealingPreventionLevel));
     Q_EMIT focusStealingPreventionLevelChanged();
 }
 
@@ -653,6 +666,19 @@ void Options::setRenderTimeEstimator(RenderTimeEstimator estimator)
     Q_EMIT renderTimeEstimatorChanged();
 }
 
+bool Options::allowTearing() const
+{
+    return m_allowTearing;
+}
+
+void Options::setAllowTearing(bool allow)
+{
+    if (allow != m_allowTearing) {
+        m_allowTearing = allow;
+        Q_EMIT allowTearingChanged();
+    }
+}
+
 void Options::setGlPlatformInterface(OpenGLPlatformInterface interface)
 {
     // check environment variable
@@ -772,6 +798,7 @@ void Options::syncFromKcfgc()
     setActivationDesktopPolicy(m_settings->activationDesktopPolicy());
     setXwaylandCrashPolicy(m_settings->xwaylandCrashPolicy());
     setXwaylandMaxCrashCount(m_settings->xwaylandMaxCrashCount());
+    setXwaylandEavesdrops(XwaylandEavesdropsMode(m_settings->xwaylandEavesdrops()));
     setPlacement(m_settings->placement());
     setAutoRaise(m_settings->autoRaise());
     setAutoRaiseInterval(m_settings->autoRaiseInterval());
@@ -793,6 +820,7 @@ void Options::syncFromKcfgc()
     setMoveMinimizedWindowsToEndOfTabBoxFocusChain(m_settings->moveMinimizedWindowsToEndOfTabBoxFocusChain());
     setLatencyPolicy(m_settings->latencyPolicy());
     setRenderTimeEstimator(m_settings->renderTimeEstimator());
+    setAllowTearing(m_settings->allowTearing());
 }
 
 bool Options::loadCompositingConfig(bool force)
@@ -835,7 +863,7 @@ bool Options::loadCompositingConfig(bool force)
     }
     setCompositingMode(compositingMode);
 
-    const bool platformSupportsNoCompositing = kwinApp()->platform()->supportedCompositors().contains(NoCompositing);
+    const bool platformSupportsNoCompositing = kwinApp()->outputBackend()->supportedCompositors().contains(NoCompositing);
     if (m_compositingMode == NoCompositing && platformSupportsNoCompositing) {
         setUseCompositing(false);
         return false; // do not even detect compositing preferences if explicitly disabled
@@ -861,7 +889,7 @@ void Options::reloadCompositingSettings(bool force)
     // Compositing settings
     KConfigGroup config(m_settings->config(), "Compositing");
 
-    setGlSmoothScale(qBound(-1, config.readEntry("GLTextureFilter", Options::defaultGlSmoothScale()), 2));
+    setGlSmoothScale(std::clamp(config.readEntry("GLTextureFilter", Options::defaultGlSmoothScale()), -1, 2));
     setGlStrictBindingFollowsDriver(!config.hasKey("GLStrictBinding"));
     if (!isGlStrictBindingFollowsDriver()) {
         setGlStrictBinding(config.readEntry("GLStrictBinding", Options::defaultGlStrictBinding()));
@@ -1086,7 +1114,7 @@ QStringList Options::modifierOnlyDBusShortcut(Qt::KeyboardModifier mod) const
 
 bool Options::isUseCompositing() const
 {
-    return m_useCompositing || kwinApp()->platform()->requiresCompositing();
+    return m_useCompositing;
 }
 
 } // namespace

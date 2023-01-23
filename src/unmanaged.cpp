@@ -11,10 +11,10 @@
 
 #include "deleted.h"
 #include "effects.h"
-#include "surfaceitem_x11.h"
+#include "scene/surfaceitem_x11.h"
+#include "scene/windowitem.h"
 #include "utils/common.h"
 #include "wayland/surface_interface.h"
-#include "windowitem.h"
 #include "workspace.h"
 
 #include <QDebug>
@@ -71,9 +71,9 @@ Unmanaged::~Unmanaged()
 {
 }
 
-WindowItem *Unmanaged::createItem()
+std::unique_ptr<WindowItem> Unmanaged::createItem(Scene *scene)
 {
-    return new WindowItemX11(this);
+    return std::make_unique<WindowItemX11>(this, scene);
 }
 
 void Unmanaged::associate()
@@ -90,14 +90,6 @@ void Unmanaged::associate()
 void Unmanaged::initialize()
 {
     setReadyForPainting();
-
-    // With unmanaged windows there is a race condition between the client painting the window
-    // and us setting up damage tracking.  If the client wins we won't get a damage event even
-    // though the window has been painted.  To avoid this we mark the whole window as damaged
-    // and schedule a repaint immediately after creating the damage object.
-    if (auto item = surfaceItem()) {
-        item->addDamage(item->rect().toAlignedRect());
-    }
 }
 
 bool Unmanaged::track(xcb_window_t w)
@@ -202,7 +194,6 @@ NET::WindowType Unmanaged::windowType(bool direct, int supportedTypes) const
 {
     // for unmanaged windows the direct does not make any difference
     // as there are no rules to check and no hacks to apply
-    Q_UNUSED(direct)
     if (supportedTypes == 0) {
         supportedTypes = SUPPORTED_UNMANAGED_WINDOW_TYPES_MASK;
     }

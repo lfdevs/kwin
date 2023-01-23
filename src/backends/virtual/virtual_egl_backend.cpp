@@ -48,7 +48,6 @@ std::optional<OutputLayerBeginFrameInfo> VirtualEglLayer::beginFrame()
         m_fbo = std::make_unique<GLFramebuffer>(m_texture.get());
     }
 
-    GLFramebuffer::pushFramebuffer(m_fbo.get());
     return OutputLayerBeginFrameInfo{
         .renderTarget = RenderTarget(m_fbo.get()),
         .repaint = infiniteRegion(),
@@ -57,9 +56,7 @@ std::optional<OutputLayerBeginFrameInfo> VirtualEglLayer::beginFrame()
 
 bool VirtualEglLayer::endFrame(const QRegion &renderedRegion, const QRegion &damagedRegion)
 {
-    Q_UNUSED(renderedRegion)
-    Q_UNUSED(damagedRegion)
-    GLFramebuffer::popFramebuffer();
+    glFlush(); // flush pending rendering commands.
     return true;
 }
 
@@ -202,14 +199,7 @@ OutputLayer *VirtualEglBackend::primaryLayer(Output *output)
 
 void VirtualEglBackend::present(Output *output)
 {
-    glFlush();
-
     static_cast<VirtualOutput *>(output)->vsyncMonitor()->arm();
-
-    if (m_backend->saveFrames()) {
-        const std::unique_ptr<VirtualEglLayer> &layer = m_outputs[output];
-        layer->texture()->toImage().save(QStringLiteral("%1/%2.png").arg(m_backend->saveFrames()).arg(QString::number(m_frameCounter++)));
-    }
 }
 
 } // namespace

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-20 02:18+0000\n"
+"POT-Creation-Date: 2022-09-20 00:47+0000\n"
 "PO-Revision-Date: 2021-11-19 13:06+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -75,3 +75,40 @@ msgstr "Telepítés fájlból…"
 #, kde-format
 msgid "Get New Scripts..."
 msgstr "Új szkriptek letöltése…"
+
+#~ msgid "KWin Scripts"
+#~ msgstr "KWin szkriptek"
+
+#~ msgid "Configure KWin scripts"
+#~ msgstr "A KWin szkriptek beállítása"
+
+#~ msgid "Tamás Krutki"
+#~ msgstr "Krutki Tamás"
+
+#~ msgid "KWin script configuration"
+#~ msgstr "KWin szkriptbeállítás"
+
+#~ msgid "Import KWin script..."
+#~ msgstr "KWin szkript importálása…"
+
+#~ msgid ""
+#~ "Cannot import selected script: maybe a script already exists with the "
+#~ "same name or there is a permission problem."
+#~ msgstr ""
+#~ "Nem lehet importálni a kijelölt szkriptet: talán már létezik ilyen nevű "
+#~ "szkript, vagy jogosultsági problémák vannak."
+
+#~ msgid "The selected script was exported successfully."
+#~ msgstr "A kijelölt szkript sikeresen exportálva."
+
+#~ msgid "An error occurred, the selected script could not be exported."
+#~ msgstr "Hiba történt, a kijelölt szkript nem exportálható."
+
+#~ msgid "Do you really want to delete the selected script?"
+#~ msgstr "Biztosan törölni szeretné a kijelölt szkriptet?"
+
+#~ msgid "Remove KWin script"
+#~ msgstr "A KWin szkript eltávolítása"
+
+#~ msgid "Remove selected KWin script"
+#~ msgstr "A kijelölt KWin szkript eltávolítása"

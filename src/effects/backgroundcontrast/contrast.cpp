@@ -19,6 +19,7 @@
 #include <QMatrix4x4>
 #include <QTimer>
 #include <QWindow>
+#include <cmath> // for ceil()
 
 namespace KWin
 {
@@ -97,6 +98,7 @@ void ContrastEffect::slotScreenGeometryChanged()
 void ContrastEffect::updateContrastRegion(EffectWindow *w)
 {
     QRegion region;
+    QMatrix4x4 matrix;
     float colorTransform[16];
     bool valid = false;
 
@@ -119,8 +121,7 @@ void ContrastEffect::updateContrastRegion(EffectWindow *w)
                 colorTransform[j] = floatCardinals[i + j];
             }
 
-            QMatrix4x4 colorMatrix(colorTransform);
-            m_colorMatrices[w] = colorMatrix;
+            matrix = QMatrix4x4(colorTransform);
         }
 
         valid = !value.isNull();
@@ -130,7 +131,7 @@ void ContrastEffect::updateContrastRegion(EffectWindow *w)
 
     if (surf && surf->contrast()) {
         region = surf->contrast()->region();
-        m_colorMatrices[w] = colorMatrix(surf->contrast()->contrast(), surf->contrast()->intensity(), surf->contrast()->saturation());
+        matrix = colorMatrix(surf->contrast()->contrast(), surf->contrast()->intensity(), surf->contrast()->saturation());
         valid = true;
     }
 
@@ -151,19 +152,18 @@ void ContrastEffect::updateContrastRegion(EffectWindow *w)
             if (!ok) {
                 saturation = 1.0;
             }
-            m_colorMatrices[w] = colorMatrix(contrast, intensity, saturation);
+            matrix = colorMatrix(contrast, intensity, saturation);
             valid = true;
         }
     }
 
-    // If the specified region is empty, enable the contrast effect for the whole window.
-    if (region.isEmpty() && valid) {
-        // Set the data to a dummy value.
-        // This is needed to be able to distinguish between the value not
-        // being set, and being set to an empty region.
-        w->setData(WindowBackgroundContrastRole, 1);
+    if (valid) {
+        m_windowData[w] = {
+            .colorMatrix = matrix,
+            .contrastRegion = region,
+        };
     } else {
-        w->setData(WindowBackgroundContrastRole, region);
+        m_windowData.remove(w);
     }
 }
 
@@ -205,8 +205,8 @@ void ContrastEffect::slotWindowDeleted(EffectWindow *w)
     if (m_contrastChangedConnections.contains(w)) {
         disconnect(m_contrastChangedConnections[w]);
         m_contrastChangedConnections.remove(w);
-        m_colorMatrices.remove(w);
     }
+    m_windowData.remove(w);
 }
 
 void ContrastEffect::slotPropertyNotify(EffectWindow *w, long atom)
@@ -291,10 +291,8 @@ bool ContrastEffect::supported()
 QRegion ContrastEffect::contrastRegion(const EffectWindow *w) const
 {
     QRegion region;
-
-    const QVariant value = w->data(WindowBackgroundContrastRole);
-    if (value.isValid()) {
-        const QRegion appRegion = qvariant_cast<QRegion>(value);
+    if (const auto it = m_windowData.find(w); it != m_windowData.end()) {
+        const QRegion &appRegion = it->contrastRegion;
         if (!appRegion.isEmpty()) {
             region |= appRegion.translated(w->contentsRect().topLeft().toPoint()) & w->decorationInnerRect().toRect();
         } else {
@@ -307,13 +305,15 @@ QRegion ContrastEffect::contrastRegion(const EffectWindow *w) const
     return region;
 }
 
-void ContrastEffect::uploadRegion(QVector2D *&map, const QRegion &region)
+void ContrastEffect::uploadRegion(QVector2D *&map, const QRegion &region, qreal scale)
 {
+    Q_ASSERT(map);
     for (const QRect &r : region) {
-        const QVector2D topLeft(r.x(), r.y());
-        const QVector2D topRight(r.x() + r.width(), r.y());
-        const QVector2D bottomLeft(r.x(), r.y() + r.height());
-        const QVector2D bottomRight(r.x() + r.width(), r.y() + r.height());
+        const auto deviceRect = scaledRect(r, scale);
+        const QVector2D topLeft(deviceRect.x(), deviceRect.y());
+        const QVector2D topRight(deviceRect.x() + deviceRect.width(), deviceRect.y());
+        const QVector2D bottomLeft(deviceRect.x(), deviceRect.y() + deviceRect.height());
+        const QVector2D bottomRight(deviceRect.x() + deviceRect.width(), deviceRect.y() + deviceRect.height());
 
         // First triangle
         *(map++) = topRight;
@@ -327,15 +327,18 @@ void ContrastEffect::uploadRegion(QVector2D *&map, const QRegion &region)
     }
 }
 
-void ContrastEffect::uploadGeometry(GLVertexBuffer *vbo, const QRegion &region)
+bool ContrastEffect::uploadGeometry(GLVertexBuffer *vbo, const QRegion &region, qreal scale)
 {
     const int vertexCount = region.rectCount() * 6;
     if (!vertexCount) {
-        return;
+        return false;
     }
 
     QVector2D *map = (QVector2D *)vbo->map(vertexCount * sizeof(QVector2D));
-    uploadRegion(map, region);
+    if (!map) {
+        return false;
+    }
+    uploadRegion(map, region, scale);
     vbo->unmap();
 
     const GLVertexAttrib layout[] = {
@@ -343,6 +346,7 @@ void ContrastEffect::uploadGeometry(GLVertexBuffer *vbo, const QRegion &region)
         {VA_TexCoord, 2, GL_FLOAT, 0}};
 
     vbo->setAttribLayout(layout, 2, sizeof(QVector2D));
+    return true;
 }
 
 bool ContrastEffect::shouldContrast(const EffectWindow *w, int mask, const WindowPaintData &data) const
@@ -366,10 +370,6 @@ bool ContrastEffect::shouldContrast(const EffectWindow *w, int mask, const Windo
         return false;
     }
 
-    if (!w->hasAlpha()) {
-        return false;
-    }
-
     return true;
 }
 
@@ -388,8 +388,8 @@ void ContrastEffect::drawWindow(EffectWindow *w, int mask, const QRegion &region
             for (QRect r : shape) {
                 r.moveTo(pt.x() + (r.x() - pt.x()) * data.xScale() + data.xTranslation(),
                          pt.y() + (r.y() - pt.y()) * data.yScale() + data.yTranslation());
-                r.setWidth(r.width() * data.xScale());
-                r.setHeight(r.height() * data.yScale());
+                r.setWidth(std::ceil(r.width() * data.xScale()));
+                r.setHeight(std::ceil(r.height() * data.yScale()));
                 scaledShape |= r;
             }
             shape = scaledShape & region;
@@ -401,7 +401,7 @@ void ContrastEffect::drawWindow(EffectWindow *w, int mask, const QRegion &region
         }
 
         if (!shape.isEmpty()) {
-            doContrast(w, shape, screen, data.opacity(), data.screenProjectionMatrix());
+            doContrast(w, shape, screen, data.opacity(), data.projectionMatrix());
         }
     }
 
@@ -411,31 +411,32 @@ void ContrastEffect::drawWindow(EffectWindow *w, int mask, const QRegion &region
 
 void ContrastEffect::doContrast(EffectWindow *w, const QRegion &shape, const QRect &screen, const float opacity, const QMatrix4x4 &screenProjection)
 {
-    const QRegion actualShape = shape & screen;
-    const QRect r = actualShape.boundingRect();
-
     const qreal scale = effects->renderTargetScale();
+    const QRegion actualShape = shape & screen;
+    const QRectF r = scaledRect(actualShape.boundingRect(), scale);
 
     // Upload geometry for the horizontal and vertical passes
     GLVertexBuffer *vbo = GLVertexBuffer::streamingBuffer();
     vbo->reset();
-    uploadGeometry(vbo, actualShape);
+    if (!uploadGeometry(vbo, actualShape, scale)) {
+        return;
+    }
     vbo->bindArrays();
 
     // Create a scratch texture and copy the area in the back buffer that we're
     // going to blur into it
-    GLTexture scratch(GL_RGBA8, r.width() * scale, r.height() * scale);
+    GLTexture scratch(GL_RGBA8, r.width(), r.height());
     scratch.setFilter(GL_LINEAR);
     scratch.setWrapMode(GL_CLAMP_TO_EDGE);
     scratch.bind();
 
-    const QRect sg = effects->renderTargetRect();
-    glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, (r.x() - sg.x()) * scale, (sg.height() - (r.y() - sg.y() + r.height())) * scale,
+    const QRectF sg = scaledRect(effects->renderTargetRect(), scale);
+    glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, (r.x() - sg.x()), (sg.height() - (r.y() - sg.y() + r.height())),
                         scratch.width(), scratch.height());
 
     // Draw the texture on the offscreen framebuffer object, while blurring it horizontally
 
-    m_shader->setColorMatrix(m_colorMatrices.value(w));
+    m_shader->setColorMatrix(m_windowData.value(w).colorMatrix);
     m_shader->bind();
 
     m_shader->setOpacity(opacity);

@@ -5,6 +5,7 @@
 */
 
 #pragma once
+#include <QObject>
 #include <memory>
 
 #include "core/renderlayerdelegate.h"
@@ -12,21 +13,21 @@
 namespace KWin
 {
 
+class GLFramebuffer;
 class GLTexture;
 
-class CursorDelegateOpenGL final : public RenderLayerDelegate
+class CursorDelegateOpenGL final : public QObject, public RenderLayerDelegate
 {
     Q_OBJECT
 
 public:
-    explicit CursorDelegateOpenGL(QObject *parent = nullptr);
     ~CursorDelegateOpenGL() override;
 
     void paint(RenderTarget *renderTarget, const QRegion &region) override;
 
 private:
-    std::unique_ptr<GLTexture> m_cursorTexture;
-    bool m_cursorTextureDirty = false;
+    std::unique_ptr<GLTexture> m_texture;
+    std::unique_ptr<GLFramebuffer> m_framebuffer;
 };
 
 } // namespace KWin

@@ -6,8 +6,7 @@
 
 */
 
-#ifndef AURORAETHEME_H
-#define AURORAETHEME_H
+#pragma once
 
 // #include "libaurorae_export.h"
 
@@ -210,9 +209,7 @@ private:
      */
     void padding(int &left, int &top, int &right, int &bottom) const;
 
-    AuroraeThemePrivate *const d;
+    const std::unique_ptr<AuroraeThemePrivate> d;
 };
 
 } // namespace
-
-#endif // AURORAETHEME_H

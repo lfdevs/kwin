@@ -6,13 +6,12 @@
 */
 #include "popup_input_filter.h"
 #include "deleted.h"
+#include "input_event.h"
 #include "internalwindow.h"
 #include "wayland/seat_interface.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
-
-#include <QMouseEvent>
 
 namespace KWin
 {
@@ -41,9 +40,9 @@ void PopupInputFilter::handleWindowRemoved(Window *window)
 {
     m_popupWindows.removeOne(window);
 }
-bool PopupInputFilter::pointerEvent(QMouseEvent *event, quint32 nativeButton)
+
+bool PopupInputFilter::pointerEvent(MouseEvent *event, quint32 nativeButton)
 {
-    Q_UNUSED(nativeButton)
     if (m_popupWindows.isEmpty()) {
         return false;
     }
@@ -57,8 +56,7 @@ bool PopupInputFilter::pointerEvent(QMouseEvent *event, quint32 nativeButton)
         }
         if (pointerFocus && pointerFocus->isDecorated()) {
             // test whether it is on the decoration
-            const QRectF clientRect = QRectF(pointerFocus->clientPos(), pointerFocus->clientSize()).translated(pointerFocus->pos());
-            if (!clientRect.contains(event->globalPos())) {
+            if (!pointerFocus->clientGeometry().contains(event->globalPos())) {
                 cancelPopups();
                 return true;
             }
@@ -67,7 +65,7 @@ bool PopupInputFilter::pointerEvent(QMouseEvent *event, quint32 nativeButton)
     return false;
 }
 
-bool PopupInputFilter::keyEvent(QKeyEvent *event)
+bool PopupInputFilter::keyEvent(KeyEvent *event)
 {
     if (m_popupWindows.isEmpty()) {
         return false;
@@ -89,10 +87,8 @@ bool PopupInputFilter::keyEvent(QKeyEvent *event)
     return true;
 }
 
-bool PopupInputFilter::touchDown(qint32 id, const QPointF &pos, quint32 time)
+bool PopupInputFilter::touchDown(qint32 id, const QPointF &pos, std::chrono::microseconds time)
 {
-    Q_UNUSED(id)
-    Q_UNUSED(time)
     if (m_popupWindows.isEmpty()) {
         return false;
     }
@@ -105,8 +101,7 @@ bool PopupInputFilter::touchDown(qint32 id, const QPointF &pos, quint32 time)
     }
     if (pointerFocus && pointerFocus->isDecorated()) {
         // test whether it is on the decoration
-        const QRectF clientRect = QRectF(pointerFocus->clientPos(), pointerFocus->clientSize()).translated(pointerFocus->pos());
-        if (!clientRect.contains(pos)) {
+        if (!pointerFocus->clientGeometry().contains(pos)) {
             cancelPopups();
             return true;
         }

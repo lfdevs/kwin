@@ -239,3 +239,40 @@ msgid ""
 "You can trigger an action by swiping from the screen edge towards the center "
 "of the screen."
 msgstr "ಒಂದು ಕ್ರಿಯೆಯನ್ನು ಪ್ರಚೋದಿಸಲು ಮೌಸ್ ಸೂಚಕವನ್ನು ಕ್ರಿಯೆಯ ದಿಕ್ಕಿನ ತೆರೆಯ ಬದಿಗೊತ್ತಿ."
+
+#~ msgid "Show Desktop"
+#~ msgstr "ಗಣಕತೆರೆಯನ್ನು ತೋರಿಸು"
+
+#, fuzzy
+#~| msgid "Cube"
+#~ msgid "%1 - Cube"
+#~ msgstr "ಘನಾಕೃತಿ"
+
+#, fuzzy
+#~| msgid "Cylinder"
+#~ msgid "%1 - Cylinder"
+#~ msgstr "ಸ್ತಂಭಾಕೃತಿ"
+
+#, fuzzy
+#~| msgid "Sphere"
+#~ msgid "%1 - Sphere"
+#~ msgstr "ಗೋಳ"
+
+#, fuzzy
+#~| msgid "Active Screen Edge Actions"
+#~ msgid "Active Screen Corners and Edges"
+#~ msgstr "ಸಕ್ರಿಯ ತೆರೆ ಅಂಚುಗಳನ್ನು ಕ್ರಿಯೆಗಳು"
+
+#~ msgid "Window Management"
+#~ msgstr "ಕಿಟಕಿ ನಿರ್ವಹಣೆ"
+
+#, fuzzy
+#~| msgid "Maximize windows by dragging them to the top of the screen"
+#~ msgid "Maximize windows by dragging them to the top edge of the screen"
+#~ msgstr "ಕಿಟಕಿಗಳನ್ನು ತೆರೆಯ ಮೇಲ್ಗಡೆಗೆ ಎಳೆದೊಯ್ದಾಗ ಅವನ್ನು ಹಿಗ್ಗಿಸು"
+
+#~ msgid "Other Settings"
+#~ msgstr "ಇತರೆ ಸಿದ್ಧತೆಗಳು"
+
+#~ msgid "Show Dashboard"
+#~ msgstr "ಡ್ಯಾಶ್‌ ಬೋರ್ಡನ್ನು ತೋರಿಸು"

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-08-19 00:47+0000\n"
+"POT-Creation-Date: 2022-12-11 00:48+0000\n"
 "PO-Revision-Date: 2019-10-19 22:04+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
@@ -68,12 +68,12 @@ msgstr ""
 msgid "Copy of %1"
 msgstr ""
 
-#: kcmrules.cpp:422
+#: kcmrules.cpp:423
 #, kde-format
 msgid "Application settings for %1"
 msgstr "Configuración da aplicación para %1"
 
-#: kcmrules.cpp:442 rulesmodel.cpp:215
+#: kcmrules.cpp:445 rulesmodel.cpp:215
 #, kde-format
 msgid "Window settings for %1"
 msgstr "Configuración da xanela %1"
@@ -356,42 +356,37 @@ msgid_plural "After %1 seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: package/contents/ui/RulesEditor.qml:147
-#, kde-format
-msgid "Error"
-msgstr ""
-
-#: package/contents/ui/RulesEditor.qml:162
+#: package/contents/ui/RulesEditor.qml:175
 #, kde-format
 msgid "Add property to the rule"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:260
+#: package/contents/ui/RulesEditor.qml:273
 #: package/contents/ui/ValueEditor.qml:54
 #, kde-format
 msgid "Yes"
 msgstr "Si"
 
-#: package/contents/ui/RulesEditor.qml:260
+#: package/contents/ui/RulesEditor.qml:273
 #: package/contents/ui/ValueEditor.qml:60
 #, kde-format
 msgid "No"
 msgstr "Non"
 
-#: package/contents/ui/RulesEditor.qml:262
+#: package/contents/ui/RulesEditor.qml:275
 #: package/contents/ui/ValueEditor.qml:171
 #: package/contents/ui/ValueEditor.qml:178
 #, kde-format
 msgid "%1 %"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:264
+#: package/contents/ui/RulesEditor.qml:277
 #, kde-format
 msgctxt "Coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:266
+#: package/contents/ui/RulesEditor.qml:279
 #, kde-format
 msgctxt "Size (width, height)"
 msgid "(%1, %2)"
@@ -816,163 +811,440 @@ msgstr "Nome do ficheiro de escritorio"
 msgid "Block compositing"
 msgstr "Bloquear a composición"
 
-#: rulesmodel.cpp:727
+#: rulesmodel.cpp:703
+#, fuzzy, kde-format
+#| msgid "Window &class (application):"
+msgid "Window class not available"
+msgstr "C&lase da xanela (aplicación):"
+
+#: rulesmodel.cpp:704
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"This application is not providing a class for the window, so KWin cannot use "
+"it to match and apply any rules. If you still want to apply some rules to "
+"it, try to match other properties like the window title instead.<nl/><nl/"
+">Please consider reporting this bug to the application's developers."
+msgstr ""
+
+#: rulesmodel.cpp:738
 #, fuzzy, kde-format
 #| msgid "Window &types:"
 msgid "All Window Types"
 msgstr "&Tipos de xanela:"
 
-#: rulesmodel.cpp:728
+#: rulesmodel.cpp:739
 #, kde-format
 msgid "Normal Window"
 msgstr "Xanela normal"
 
-#: rulesmodel.cpp:729
+#: rulesmodel.cpp:740
 #, kde-format
 msgid "Dialog Window"
 msgstr "Xanela de diálogo"
 
-#: rulesmodel.cpp:730
+#: rulesmodel.cpp:741
 #, kde-format
 msgid "Utility Window"
 msgstr "Xanela de utilidade"
 
-#: rulesmodel.cpp:731
+#: rulesmodel.cpp:742
 #, kde-format
 msgid "Dock (panel)"
 msgstr "Acople (panel)"
 
-#: rulesmodel.cpp:732
+#: rulesmodel.cpp:743
 #, kde-format
 msgid "Toolbar"
 msgstr "Barra de ferramentas"
 
-#: rulesmodel.cpp:733
+#: rulesmodel.cpp:744
 #, kde-format
 msgid "Torn-Off Menu"
 msgstr "Menú separado"
 
-#: rulesmodel.cpp:734
+#: rulesmodel.cpp:745
 #, kde-format
 msgid "Splash Screen"
 msgstr "Pantalla de benvida"
 
-#: rulesmodel.cpp:735
+#: rulesmodel.cpp:746
 #, kde-format
 msgid "Desktop"
 msgstr "Escritorio"
 
 #. i18n("Unmanaged Window")},  deprecated
-#: rulesmodel.cpp:737
+#: rulesmodel.cpp:748
 #, kde-format
 msgid "Standalone Menubar"
 msgstr "Barra de menú illada"
 
-#: rulesmodel.cpp:738
+#: rulesmodel.cpp:749
 #, kde-format
 msgid "On Screen Display"
 msgstr ""
 
-#: rulesmodel.cpp:748
+#: rulesmodel.cpp:759
 #, kde-format
 msgid "All Desktops"
 msgstr "Todos os escritorios"
 
-#: rulesmodel.cpp:750
+#: rulesmodel.cpp:761
 #, kde-format
 msgctxt "@info:tooltip in the virtual desktop list"
 msgid "Make the window available on all desktops"
 msgstr ""
 
-#: rulesmodel.cpp:769
+#: rulesmodel.cpp:780
 #, kde-format
 msgid "All Activities"
 msgstr "Todas as actividades"
 
-#: rulesmodel.cpp:771
+#: rulesmodel.cpp:782
 #, kde-format
 msgctxt "@info:tooltip in the activity list"
 msgid "Make the window available on all activities"
 msgstr ""
 
-#: rulesmodel.cpp:792
+#: rulesmodel.cpp:803
 #, kde-format
 msgid "Default"
 msgstr "Predeterminado"
 
-#: rulesmodel.cpp:793
+#: rulesmodel.cpp:804
 #, kde-format
 msgid "No Placement"
 msgstr "Sen colocación"
 
-#: rulesmodel.cpp:794
+#: rulesmodel.cpp:805
 #, kde-format
 msgid "Minimal Overlapping"
 msgstr "Sobreposición mínima"
 
-#: rulesmodel.cpp:795
+#: rulesmodel.cpp:806
 #, kde-format
 msgid "Maximized"
 msgstr "Maximizada"
 
-#: rulesmodel.cpp:796
-#, kde-format
-msgid "Cascaded"
-msgstr "En fervenza"
-
-#: rulesmodel.cpp:797
+#: rulesmodel.cpp:807
 #, kde-format
 msgid "Centered"
 msgstr "Centrada"
 
-#: rulesmodel.cpp:798
+#: rulesmodel.cpp:808
 #, kde-format
 msgid "Random"
 msgstr "Aleatoria"
 
-#: rulesmodel.cpp:799
+#: rulesmodel.cpp:809
 #, kde-format
 msgid "In Top-Left Corner"
 msgstr "Na esquina superior esquerda"
 
-#: rulesmodel.cpp:800
+#: rulesmodel.cpp:810
 #, kde-format
 msgid "Under Mouse"
 msgstr "Debaixo do rato"
 
-#: rulesmodel.cpp:801
+#: rulesmodel.cpp:811
 #, kde-format
 msgid "On Main Window"
 msgstr "Sobre a xanela principal"
 
-#: rulesmodel.cpp:808
+#: rulesmodel.cpp:818
 #, fuzzy, kde-format
 #| msgctxt "no focus stealing prevention"
 #| msgid "None"
 msgid "None"
 msgstr "Ningunha"
 
-#: rulesmodel.cpp:809
+#: rulesmodel.cpp:819
 #, kde-format
 msgid "Low"
 msgstr "Baixa"
 
-#: rulesmodel.cpp:810
+#: rulesmodel.cpp:820
 #, kde-format
 msgid "Normal"
 msgstr "Normal"
 
-#: rulesmodel.cpp:811
+#: rulesmodel.cpp:821
 #, kde-format
 msgid "High"
 msgstr "Alta"
 
-#: rulesmodel.cpp:812
+#: rulesmodel.cpp:822
 #, kde-format
 msgid "Extreme"
 msgstr "Extrema"
 
-#: rulesmodel.cpp:855
+#: rulesmodel.cpp:865
+#, fuzzy, kde-format
+#| msgid "Unmanaged Window"
+msgid "Unmanaged window"
+msgstr "Xanela non manexada"
+
+#: rulesmodel.cpp:866
 #, kde-format
 msgid "Could not detect window properties. The window is not managed by KWin."
 msgstr ""
+
+#~ msgid "Cascaded"
+#~ msgstr "En fervenza"
+
+#, fuzzy
+#~| msgid "Keep &above"
+#~ msgid "Keep above"
+#~ msgstr "Manter en &riba"
+
+#, fuzzy
+#~| msgid "Keep &below"
+#~ msgid "Keep below"
+#~ msgstr "Manter en &baixo"
+
+#~ msgid "KWin"
+#~ msgstr "KWin"
+
+#~ msgid "KWin helper utility"
+#~ msgstr "Utilidade de axuda de KWin"
+
+#, fuzzy
+#~| msgid "Activit&y"
+#~ msgid "Activity"
+#~ msgstr "&Actividade"
+
+#, fuzzy
+#~| msgid "&Detect Window Properties"
+#~ msgid "Select properties"
+#~ msgstr "&Detectar as propiedades da xanela"
+
+#~ msgid "Override Type"
+#~ msgstr "Sobrescribir o tipo"
+
+#~ msgid "Unknown - will be treated as Normal Window"
+#~ msgstr "Descoñecida, tratarase como unha xanela normal"
+
+#~ msgid "Information About Selected Window"
+#~ msgstr "Información sobre a xanela escollida"
+
+#~ msgid "Class:"
+#~ msgstr "Clase:"
+
+#~ msgid "Role:"
+#~ msgstr "Rol:"
+
+#~ msgid "Type:"
+#~ msgstr "Tipo:"
+
+#~ msgid "Title:"
+#~ msgstr "Título:"
+
+#~ msgid "Machine:"
+#~ msgstr "Máquina:"
+
+#~ msgid "Match by primary class name and"
+#~ msgstr "Concordar segundo o nome da clase primaria e"
+
+#~ msgid "Secondary class name  (resulting in term in brackets)"
+#~ msgstr "Nome da clase secundaria (queda o termo entre corchetes)"
+
+#~ msgid "Window role (can be used to select windows by function)"
+#~ msgstr ""
+#~ "Rol da xanela (pode usarse para escoller xanelas segundo a súa función)"
+
+#~ msgid "Window type (eg. all dialogs, but not the main windows)"
+#~ msgstr ""
+#~ "Tipo de xanela (p.ex. todos os diálogos pero non as xanelas principais)"
+
+#~ msgid ""
+#~ "Window title (very specific, can fail due to content changes or "
+#~ "translation)"
+#~ msgstr ""
+#~ "Título da xanela (moi específico pero pode fallar debido a cambios no "
+#~ "contido ou á tradución)"
+
+#~ msgid ""
+#~ "A single shortcut can be easily assigned or cleared using the two "
+#~ "buttons. Only shortcuts with modifiers can be used.<p>\n"
+#~ "It is possible to have several possible shortcuts, and the first "
+#~ "available shortcut will be used. The shortcuts are specified using "
+#~ "shortcut sets separated by \" - \". One set is specified as <i>base</i>"
+#~ "+(<i>list</i>), where base are modifiers and list is a list of keys.<br>\n"
+#~ "For example \"<b>Shift+Alt+(123) Shift+Ctrl+(ABC)</b>\" will first try "
+#~ "<b>Shift+Alt+1</b>, then others with <b>Shift+Ctrl+C</b> as the last one."
+#~ msgstr ""
+#~ "Pódese asignar ou limpar de forma sinxela un único atallo usando os dous "
+#~ "botóns. Só se poden usar atallos con modificadores.<p>\n"
+#~ "É posíbel ter varios atallos, e usarase o primeiro dispoñíbel. Os atallos "
+#~ "indícanse usando conxuntos de atallos separados por « - ». Un conxunto "
+#~ "especifícase como <i>base</i>+(<i>lista</i>), onde a base son "
+#~ "modificadores e a lista é unha lista de teclas.<br>\n"
+#~ "Por exemplo, «<b>Maiús+Alt+(123) Maiús+Ctrl+(ABC)</b>» probará primeiro "
+#~ "<b>Maiús+Alt+1</b> e sucesivamente ata o último, <b>Maiús+Ctrl+C</b>."
+
+#~ msgid "&Single Shortcut"
+#~ msgstr "&Atallo único"
+
+#~ msgid "C&lear"
+#~ msgstr "&Limpar"
+
+#~ msgid "Window-Specific Settings Configuration Module"
+#~ msgstr "Módulo de configuración específica da xanela"
+
+#~ msgid "(c) 2004 KWin and KControl Authors"
+#~ msgstr "© 2004 Os autores de Kwin e KControl"
+
+#~ msgid "Lubos Lunak"
+#~ msgstr "Lubos Lunak"
+
+#~ msgid "Remember settings separately for every window"
+#~ msgstr "Lembrar a configuración individualmente para cada xanela"
+
+#~ msgid "Show internal settings for remembering"
+#~ msgstr "Mostrar as preferencias internas para lembrar"
+
+#~ msgid "Internal setting for remembering"
+#~ msgstr "Preferencia interna para lembrar"
+
+#~ msgid "&Modify..."
+#~ msgstr "&Modificar…"
+
+#~ msgid "Move &Up"
+#~ msgstr "&Subir"
+
+#~ msgid "Move &Down"
+#~ msgstr "Ba&ixar"
+
+#~ msgid ""
+#~ "Enable this checkbox to alter this window property for the specified "
+#~ "window(s)."
+#~ msgstr ""
+#~ "Active esta caixa para marcar para alterar esta propiedade da xanela para "
+#~ "as xanelas indicadas."
+
+#~ msgid ""
+#~ "Specify how the window property should be affected:<ul><li><em>Do Not "
+#~ "Affect:</em> The window property will not be affected and therefore the "
+#~ "default handling for it will be used. Specifying this will block more "
+#~ "generic window settings from taking effect.</li><li><em>Apply Initially:</"
+#~ "em> The window property will be only set to the given value after the "
+#~ "window is created. No further changes will be affected.</"
+#~ "li><li><em>Remember:</em> The value of the window property will be "
+#~ "remembered and every time the window is created, the last remembered "
+#~ "value will be applied.</li><li><em>Force:</em> The window property will "
+#~ "be always forced to the given value.</li><li><em>Apply Now:</em> The "
+#~ "window property will be set to the given value immediately and will not "
+#~ "be affected later (this action will be deleted afterwards).</"
+#~ "li><li><em>Force temporarily:</em> The window property will be forced to "
+#~ "the given value until it is hidden (this action will be deleted after the "
+#~ "window is hidden).</li></ul>"
+#~ msgstr ""
+#~ "Especifica como debería afectar a propiedade da xanela:<ul><li><em>Non "
+#~ "lle afecta:</em> A propiedade da xanela non se verá afectada e polo tanto "
+#~ "utilizarase o modo predeterminado de manexo. Se especifica isto as "
+#~ "preferencias máis xenéricas da xanela bloquearanse.</li> <li><em>Aplicar "
+#~ "inicialmente:</em> A propiedade da xanela só cambiará ao valor dado "
+#~ "despois de crearse. Non se aplicará ningún cambio posterior.</"
+#~ "li><li><em>Lembrar:</em> Recordarase o valor da propiedade da xanela e "
+#~ "cada vez que a xanela se cree aplicarase o último valor utilizado.</"
+#~ "li><li><em>Forzar:</em> A propiedade da xanela forzarase para que tome o "
+#~ "valor fixado.</li> <li><em>Aplicar agora:</em> A propiedade da xanela "
+#~ "fixarase co valor dado con efecto inmediato e non se cambiará "
+#~ "posteriormente (esta acción eliminarase despois).</li><li><em>Forzar "
+#~ "temporalmente:</em> A propiedade da xanela fixarase co valor dado ata que "
+#~ "se agoche (esta acción eliminarase cando a xanela se agoche).</li> </ul>"
+
+#~ msgid ""
+#~ "Specify how the window property should be affected:<ul><li><em>Do Not "
+#~ "Affect:</em> The window property will not be affected and therefore the "
+#~ "default handling for it will be used. Specifying this will block more "
+#~ "generic window settings from taking effect.</li><li><em>Force:</em> The "
+#~ "window property will be always forced to the given value.</"
+#~ "li><li><em>Force temporarily:</em> The window property will be forced to "
+#~ "the given value until it is hidden (this action will be deleted after the "
+#~ "window is hidden).</li></ul>"
+#~ msgstr ""
+#~ "Especificar como debería afectar a propiedade da xanela:<ul><li><em>Non "
+#~ "lle afecta:</em> A propiedade da xanela non se verá afectada e polo tanto "
+#~ "utilizarase o modo predeterminado de manexo. Se especifica isto as "
+#~ "preferencias máis xenéricas da xanela bloquearanse.</li><li><em>Forzar:</"
+#~ "em> A propiedade da xanela fixarase co valor dado.</li> <li><em>Forzar "
+#~ "temporalmente:</em> A propiedade da xanela fixarase co valor dado ata que "
+#~ "se agoche (esta acción eliminarase cando a xanela se agoche).</li> </ul>"
+
+#~ msgid "Unnamed entry"
+#~ msgstr "Entrada sen nome"
+
+#~ msgid ""
+#~ "This configuration dialog allows altering settings only for the selected "
+#~ "window or application. Find the setting you want to affect, enable the "
+#~ "setting using the checkbox, select in what way the setting should be "
+#~ "affected and to which value."
+#~ msgstr ""
+#~ "Este diálogo de configuración permítelle alterar a configuración só para "
+#~ "a xanela ou aplicación escollida. Atope o parámetro que queira alterar, "
+#~ "active a opción usando a caixa para marcar, escolla de que xeito afectará "
+#~ "á opción e con que valor."
+
+#~ msgid "Consult the documentation for more details."
+#~ msgstr "Consulte a documentación para máis detalles."
+
+#~ msgid "Edit Shortcut"
+#~ msgstr "Editar o atallo"
+
+#~ msgid "s delay"
+#~ msgstr "s de retardo"
+
+#~ msgid "x,y"
+#~ msgstr "x,y"
+
+#~ msgid "0123456789-+,xX:"
+#~ msgstr "0123456789-+,xX:"
+
+#~ msgid "width,height"
+#~ msgstr "anchura,altura"
+
+#~ msgid "&Desktop"
+#~ msgstr "&Escritorio"
+
+#~ msgid "Edit..."
+#~ msgstr "Editar…"
+
+#~ msgid "Autog&roup in foreground"
+#~ msgstr "Agrupar automaticamente coa do &primeiro plano"
+
+#~ msgid "Autogroup by I&D"
+#~ msgstr "Agrupar automaticamente segundo o I&D"
+
+#~ msgid "Autogroup with &identical"
+#~ msgstr "Agrupar automaticamente coas &idénticas"
+
+#~ msgid "%"
+#~ msgstr "%"
+
+#~ msgid "org.kde.kwin"
+#~ msgstr "org.kde.kwin"
+
+#~ msgid "Smart"
+#~ msgstr "Intelixente"
+
+#~ msgid "kcmkwinrules"
+#~ msgstr "kcmkwinrules"
+
+#~ msgid "Opaque"
+#~ msgstr "Opaco"
+
+#~ msgid "Transparent"
+#~ msgstr "Transparente"
+
+#~ msgid "&Moving/resizing"
+#~ msgstr "&Movemento/Mudanza de tamaño"
+
+#~ msgid "T&iling"
+#~ msgstr "&Teselar"
+
+#~ msgid "Tiled"
+#~ msgstr "Mosaico"
+
+#~ msgid "Floating"
+#~ msgstr "Flutuante"

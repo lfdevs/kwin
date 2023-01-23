@@ -4,20 +4,20 @@
 # Richard Fric <Richard.Fric@kdemail.net>, 2006, 2009.
 # Michal Sulek <misurel@gmail.com>, 2009, 2010, 2011.
 # Roman Paholík <wizzardsk@gmail.com>, 2012, 2013, 2015, 2019.
-# Matej Mrenica <matejm98mthw@gmail.com>, 2019, 2020, 2021, 2022.
+# Matej Mrenica <matejm98mthw@gmail.com>, 2019, 2020, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-02 00:47+0000\n"
-"PO-Revision-Date: 2022-09-18 20:21+0200\n"
+"POT-Creation-Date: 2022-12-03 00:48+0000\n"
+"PO-Revision-Date: 2021-05-15 17:10+0200\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.08.1\n"
+"X-Generator: Lokalize 21.04.1\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #, kde-format
@@ -484,7 +484,35 @@ msgstr "Umiestnenie okien:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_Placement)
 #: advanced.ui:76
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p>The placement policy determines where a new window "
+#| "will appear on the desktop.</p><ul style=\"margin-top: 0px; margin-"
+#| "bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
+#| "\"><li style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; "
+#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+#| "font-style:italic;\">Smart</span> will try to achieve a minimum overlap "
+#| "of windows</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+#| "style=\" font-style:italic;\">Maximizing</span> will try to maximize "
+#| "every window to fill the whole screen. It might be useful to selectively "
+#| "affect placement of some windows using the window-specific settings.</"
+#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+#| "font-style:italic;\">Cascade</span> will cascade the windows</li><li "
+#| "style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+#| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+#| "style:italic;\">Random</span> will use a random position</li><li style=\" "
+#| "margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+#| "block-indent:0; text-indent:0px;\"><span style=\" font-style:italic;"
+#| "\">Centered</span> will place the window centered</li><li style=\" margin-"
+#| "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+#| "indent:0; text-indent:0px;\"><span style=\" font-style:italic;\">Zero-"
+#| "cornered</span> will place the window in the top-left corner</li><li "
+#| "style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+#| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+#| "style:italic;\">Under mouse</span> will place the window under the "
+#| "pointer</li></ul></body></html>"
 msgid ""
 "<html><head/><body><p>The placement policy determines where a new window "
 "will appear on the desktop.</p><ul style=\"margin-top: 0px; margin-bottom: "
@@ -498,13 +526,10 @@ msgid ""
 "whole screen. It might be useful to selectively affect placement of some "
 "windows using the window-specific settings.</li><li style=\" margin-top:0px; "
 "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\"><span style=\" font-style:italic;\">Cascade</span> will "
-"cascade the windows</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"text-indent:0px;\"><span style=\" font-style:italic;\">Random</span> will "
+"use a random position</li><li style=\" margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-style:italic;\">Random</span> will use a random "
-"position</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-style:italic;\">Centered</span> will place the window "
+"\"><span style=\" font-style:italic;\">Centered</span> will place the window "
 "centered</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\" font-style:italic;\">Zero-cornered</span> will place the window in "
@@ -554,35 +579,29 @@ msgstr "Maximalizované"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:90
 #, kde-format
-msgid "Cascaded"
-msgstr "V Kaskáde"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:95
-#, kde-format
 msgid "Random"
 msgstr "Náhodné"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:100
+#: advanced.ui:95
 #, kde-format
 msgid "Centered"
 msgstr "V strede"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:105
+#: advanced.ui:100
 #, kde-format
 msgid "In Top-Left Corner"
 msgstr "V ľavom hornom rohu"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:110
+#: advanced.ui:105
 #, kde-format
 msgid "Under mouse"
 msgstr "Pod myšou"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:118
+#: advanced.ui:113
 #, kde-format
 msgid ""
 "When turned on, apps which are able to remember the positions of their "
@@ -594,20 +613,20 @@ msgstr ""
 "vyššie."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:121
+#: advanced.ui:116
 #, kde-format
 msgid ""
 "Allow apps to remember the positions of their own windows, if they support it"
 msgstr "Povoliť aplikáciam pamätať si pozície svojich okien, ak to podporujú"
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
-#: advanced.ui:128
+#: advanced.ui:123
 #, kde-format
 msgid "&Special windows:"
 msgstr "Špeciálne okná:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:138
+#: advanced.ui:133
 #, kde-format
 msgid ""
 "When turned on, utility windows (tool windows, torn-off menus,...) of "
@@ -621,25 +640,25 @@ msgstr ""
 "fungovala."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:141
+#: advanced.ui:136
 #, kde-format
 msgid "Hide utility windows for inactive applications"
 msgstr "Skrývať okná nástrojov neaktívnych aplikácií"
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyLabel)
-#: advanced.ui:148
+#: advanced.ui:143
 #, kde-format
 msgid "Virtual Desktop behavior:"
-msgstr "Správanie virtuálnych pracovných plôch"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyDescriptionLabel)
-#: advanced.ui:158
+#: advanced.ui:153
 #, kde-format
 msgid "When activating a window on a different Virtual Desktop:"
-msgstr "Pri aktivácii okna na inej virtuálnej ploche:"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:165
+#: advanced.ui:160
 #, kde-format
 msgid ""
 "<html><head/><body><p>This setting controls what happens when an open window "
@@ -650,25 +669,18 @@ msgid ""
 "Virtual Desktop</span> will cause the window to jump to the active Virtual "
 "Desktop. </p></body></html>"
 msgstr ""
-"<html><head/><body><p>Toto nastavenie riadi, čo sa stane, keď sa aktivuje "
-"otvorené okno umiestnené na inej virtuálnej ploche, ako je aktuálna plocha. "
-"</p><p><span style=\" font-style:italic;\">Prepnutie na túto virtuálnu "
-"plochu</span> spôsobí prepnutie na virtuálnu plochu, na ktorej sa okno práve "
-"nachádza. </p><p><span style=\" font-style:italic;\">Preniesť okno na "
-"aktuálnu Virtuálnu plochu </span> spôsobí, že okno prejde na aktívnu "
-"Virtuálnu plochu. </p></body></html>"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
+#: advanced.ui:164
+#, kde-format
+msgid "Switch to that Virtual Desktop"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
 #: advanced.ui:169
 #, kde-format
-msgid "Switch to that Virtual Desktop"
-msgstr "Prepnutie na túto virtuálnu pracovnú plochu"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:174
-#, kde-format
 msgid "Bring window to current Virtual Desktop"
-msgstr "Prenesenie okna na aktuálnu virtuálnu plochu"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, windowFocusPolicyLabel)
 #: focus.ui:22
@@ -1388,3 +1400,220 @@ msgstr ""
 "strong><em>Ochrana pred kradnutím zamerania</em> a <em>tabbox (\"Alt+Tab\")</"
 "em> odporujú politike a nebudú fungovať. Veľmi pravdepodobne budete chcieť "
 "použiť <em>Zameranie sleduje myš (prednosť myši)</em> namiesto tohto!"
+
+#~ msgid "Cascaded"
+#~ msgstr "V Kaskáde"
+
+#~ msgid "Window &geometry:"
+#~ msgstr "Geometria okna:"
+
+#~ msgid ""
+#~ "Enable this option if you want a window's geometry to be displayed while "
+#~ "it is being moved or resized. The window position relative to the top-"
+#~ "left corner of the screen is displayed together with its size."
+#~ msgstr ""
+#~ "Zapnite túto voľbu, ak chcete zobrazovať geometriu okna, keď ho presúvate "
+#~ "alebo meníte jeho veľkosť. Pozícia okna je relatívna k hornému ľavému "
+#~ "rohu obrazovky a je zobrazovaná spolu s jeho veľkosťou."
+
+#~ msgid "Display when moving or resizing"
+#~ msgstr "Zobrazovať pri presúvaní alebo zmene veľkosti"
+
+#~ msgid "Maximize (vertical only)"
+#~ msgstr "Maximalizovať (len vertikálne)"
+
+#~ msgid "Maximize (horizontal only)"
+#~ msgstr "Maximalizovať (len horizontálne)"
+
+#~ msgid "Smart"
+#~ msgstr "Inteligentné"
+
+#~ msgid "Maximizing"
+#~ msgstr "Maximalizované"
+
+#~ msgid "Zero-cornered"
+#~ msgstr "V ľavom hornom rohu"
+
+#~ msgid "Switch to window tab to the left/right"
+#~ msgstr "Prepnúť na kartu s oknom doľava/doprava"
+
+#~ msgid "Window tabbing:"
+#~ msgstr "Zoskupovanie okien do kariet:"
+
+#~ msgid ""
+#~ "When turned on immediately switch to any new window tabs that were "
+#~ "automatically added to the current group."
+#~ msgstr ""
+#~ "Ak je zapnuté, systém sa okamžite prepne na novú kartu okna, ktorá bola "
+#~ "automaticky pridaná do aktuálnej skupiny."
+
+#, fuzzy
+#~| msgid "Switch to automatically grouped windows immediately"
+#~ msgid "&Switch to automatically grouped windows immediately"
+#~ msgstr "Okamžite prepínať na automaticky zoskupené okná"
+
+#~ msgid "When turned on hide all tabs that are not active from the taskbar."
+#~ msgstr ""
+#~ "Ak je zapnuté, všetky karty z panelu úloh, ktoré nie sú aktívne, budú "
+#~ "skryté."
+
+#, fuzzy
+#~| msgid "Hide inactive window tabs from the taskbar"
+#~ msgid "&Hide inactive window tabs from the taskbar"
+#~ msgstr "Skryť neaktívne karty okna z panelu úloh"
+
+#~ msgid ""
+#~ "When turned on attempt to automatically detect when a newly opened window "
+#~ "is related to an existing one and place them in the same window group."
+#~ msgstr ""
+#~ "Ak je zapnuté, systém sa pokúsi automaticky zistiť, či je novo otvorené "
+#~ "okno podobné s existujúcim a umiestniť ho do rovnakej skupiny okien."
+
+#~ msgid "&Group similar windows automatically"
+#~ msgstr "Automaticky zoskupovať podobné okná"
+
+#, fuzzy
+#~| msgid "Start Window Tab Drag"
+#~ msgid "Start window tab drag"
+#~ msgstr "Spustiť ťahanie okna na kartu"
+
+#~ msgid "Ri&ght button:"
+#~ msgstr "Pravé tlačidlo:"
+
+#~ msgid "&Wheel"
+#~ msgstr "Koliesko"
+
+#~ msgid "&Left button:"
+#~ msgstr "Ľ&avé tlačidlo:"
+
+#~ msgid "&Right button:"
+#~ msgstr "Pravé tlačidlo:"
+
+#~ msgid "M&iddle button:"
+#~ msgstr "Stredné tlačidlo:"
+
+#~ msgid "Left &button"
+#~ msgstr "Ľavé tlačidlo"
+
+#~ msgid "Automatically group similar windows"
+#~ msgstr "Automaticky zoskupovať podobné okná"
+
+#~ msgid ""
+#~ "The placement policy determines where a new window will appear on the "
+#~ "desktop.<br><ul>\n"
+#~ "<li><em>Smart</em> will try to achieve a minimum overlap of windows</li>\n"
+#~ "<li><em>Maximizing</em> will try to maximize every window to fill the "
+#~ "whole screen. It might be useful to selectively affect placement of some "
+#~ "windows using the window-specific settings.</li>\n"
+#~ "<li><em>Cascade</em> will cascade the windows</li>\n"
+#~ "<li><em>Random</em> will use a random position</li>\n"
+#~ "<li><em>Centered</em> will place the window centered</li>\n"
+#~ "<li><em>Zero-Cornered</em> will place the window in the top-left corner</"
+#~ "li>\n"
+#~ "<li><em>Under Mouse</em> will place the window under the pointer</li>\n"
+#~ "</ul>"
+#~ msgstr ""
+#~ "Politika umiestnenia určuje, kde sa nové okno objaví na obrazovke."
+#~ "<br><ul>\n"
+#~ "<li><em>Inteligentné</em> bude sa snažiť dosiahnuť minimálne prekrývanie "
+#~ "okien</li>\n"
+#~ "<li><em>Maximalizujúce</em> bude sa snažiť maximalizovať každé okno na "
+#~ "vyplnenie celej obrazovky. Môže to byť užitočné na selektívne ovplyvnenie "
+#~ "umiestnenia niektorých okien pomocou špecifických nastavení okna.</li>\n"
+#~ "<li><em>Kaskádové</em> bude kaskádovať okná</li>\n"
+#~ "<li><em>Náhodné</em> použije náhodné umiestnenie</li>\n"
+#~ "<li><em>Vycentrované</em> umiestni okno vycentrované</li>\n"
+#~ "<li><em>Nulový okraj</em> umiestni okno vo ľavého horného rohu</li>\n"
+#~ "<li><em>Pod myšou</em> umiestni okno pod ukazovateľom</li>\n"
+#~ "</ul>"
+
+#~ msgid "Shading"
+#~ msgstr "Zabalenie"
+
+#~ msgid "Dela&y:"
+#~ msgstr "Ča&kanie:"
+
+#~ msgid "&Enable hover"
+#~ msgstr "Povoliť automatické &rozbaľovanie"
+
+#~ msgid "Activating windows"
+#~ msgstr "Aktivovanie okien"
+
+#~ msgid "Policy"
+#~ msgstr "Politika"
+
+#~ msgid "Click"
+#~ msgstr "Kliknutie"
+
+#~ msgid "Hover"
+#~ msgstr "Prechod myšou"
+
+#~ msgid "&Moving"
+#~ msgstr "&Presun"
+
+#~ msgid "Wheel event:"
+#~ msgstr "Udalosť kolieska:"
+
+#~ msgid "Handle mouse wheel events"
+#~ msgstr "Obslúžiť udalosti kolieska myši"
+
+#~ msgid ""
+#~ "In this column you can customize mouse clicks into the titlebar or the "
+#~ "frame of an active window."
+#~ msgstr ""
+#~ "V tomto stĺpci môžete nastaviť správanie pri kliknutí na titulok alebo "
+#~ "rám aktívneho okna."
+
+#~ msgid ""
+#~ "In this column you can customize mouse clicks into the titlebar or the "
+#~ "frame of an inactive window."
+#~ msgstr ""
+#~ "V tomto stĺpci môžete nastaviť správanie pri kliknutí na titulok alebo "
+#~ "rám neaktívneho okna."
+
+#~ msgid "Left button:"
+#~ msgstr "Ľavé tlačidlo:"
+
+#~ msgid "Middle button:"
+#~ msgstr "Stredné tlačidlo:"
+
+#~ msgid ""
+#~ "Behavior on <em>middle</em> click into the titlebar or frame of an "
+#~ "<em>active</em> window."
+#~ msgstr ""
+#~ "V tomto stĺpci môžete nastaviť správanie pri kliknutí <em>stredným "
+#~ "tlačidlom</em> myši na titulok alebo rám <em>aktívneho</em> okna."
+
+#~ msgid "Right button:"
+#~ msgstr "Pravé tlačidlo:"
+
+#~ msgid ""
+#~ "Behavior on <em>right</em> click into the titlebar or frame of an "
+#~ "<em>active</em> window."
+#~ msgstr ""
+#~ "V tomto stĺpci môžete nastaviť správanie pri kliknutí <em>pravým "
+#~ "tlačidlom</em> myši na titulok alebo rám <em>aktívneho</em> okna."
+
+#~ msgid "Titlebar & Frame"
+#~ msgstr "Titulok & rám"
+
+#~ msgid "Titlebar"
+#~ msgstr "Titulkový pruh"
+
+#~ msgid "no center snap zone"
+#~ msgstr "žiadna stredná prichytávacia zóna"
+
+#~ msgid "no window snap zone"
+#~ msgstr "žiadna prichytávacia zóna okna"
+
+#~ msgid "no border snap zone"
+#~ msgstr "žiadna prichytávacia zóna okraja"
+
+#~ msgid "Windows"
+#~ msgstr "Okná"
+
+#~ msgid "Snap Zones"
+#~ msgstr "Zóny priťahovania"
+
+#~ msgid "kcmkwinoptions"
+#~ msgstr "kcmkwinoptions"

@@ -1,9 +1,11 @@
 cmake_minimum_required(VERSION 3.16)
 
-set(PROJECT_VERSION "5.26.5") # Handled by release scripts
+set(PROJECT_VERSION "5.26.90") # Handled by release scripts
 project(KWin VERSION ${PROJECT_VERSION})
 
 set(CMAKE_C_STANDARD 99)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(QT_MIN_VERSION "5.15.2")
 set(KF5_MIN_VERSION "5.98.0")
@@ -11,12 +13,18 @@ set(KDE_COMPILERSETTINGS_LEVEL "5.82")
 
 find_package(ECM ${KF5_MIN_VERSION} REQUIRED NO_MODULE)
 
+# where to look first for cmake modules, before ${CMAKE_ROOT}/Modules/ is checked
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules ${ECM_MODULE_PATH})
+
+include(CMakeDependentOption)
+include(CMakePackageConfigHelpers)
 include(FeatureSummary)
 include(WriteBasicConfigVersionFile)
 include(GenerateExportHeader)
-
-# where to look first for cmake modules, before ${CMAKE_ROOT}/Modules/ is checked
-set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules ${ECM_MODULE_PATH})
+include(CheckCXXCompilerFlag)
+include(CheckIncludeFile)
+include(CheckIncludeFiles)
+include(CheckSymbolExists)
 
 include(KDEInstallDirs)
 include(KDECMakeSettings)
@@ -24,6 +32,7 @@ include(KDECompilerSettings NO_POLICY_SCOPE)
 include(KDEClangFormat)
 include(KDEGitCommitHooks)
 
+include(ECMFindQmlModule)
 include(ECMInstallIcons)
 include(ECMOptionalAddSubdirectory)
 include(ECMConfiguredInstall)
@@ -42,6 +51,9 @@ if (QT_MAJOR_VERSION EQUAL "5")
     find_package(Qt5XkbCommonSupport REQUIRED)
 else()
     find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS WaylandClient ShaderTools)
+    if (Qt6WaylandClient_VERSION VERSION_LESS "6.4.1") # TODO Plasma 6: Drop once minimum Qt version is 6.4.1+
+        include(Qt6WaylandClientMacrosKde)
+    endif()
 endif()
 
 find_package(Qt${QT_MAJOR_VERSION}Test ${QT_MIN_VERSION} CONFIG QUIET)
@@ -53,25 +65,6 @@ add_feature_info("Qt${QT_MAJOR_VERSION}Test" Qt${QT_MAJOR_VERSION}Test_FOUND "Re
 if (NOT Qt${QT_MAJOR_VERSION}Test_FOUND)
     set(BUILD_TESTING OFF CACHE BOOL "Build the testing tree.")
 endif()
-
-add_definitions(
-    -DQT_DISABLE_DEPRECATED_BEFORE=0
-
-    -DQT_NO_KEYWORDS
-
-    -DQT_USE_QSTRINGBUILDER
-    -DQT_NO_URL_CAST_FROM_STRING
-    -DQT_NO_CAST_TO_ASCII
-    -DQT_NO_FOREACH
-)
-
-# Prevent EGL headers from including platform headers, in particular Xlib.h.
-add_definitions(-DMESA_EGL_NO_X11_HEADERS)
-add_definitions(-DEGL_NO_X11)
-add_definitions(-DEGL_NO_PLATFORM_SPECIFIC_TYPES)
-
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # required frameworks by Core
 find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
@@ -140,7 +133,11 @@ set_package_properties(KF5Kirigami2 PROPERTIES
     TYPE RUNTIME
 )
 
-find_package(KDecoration2 ${PROJECT_VERSION} CONFIG REQUIRED)
+find_package(KDecoration2 ${PROJECT_VERSION} CONFIG)
+set_package_properties(KDecoration2 PROPERTIES
+    TYPE REQUIRED
+    PURPOSE "Required for server side decoration support"
+)
 
 find_package(Breeze 5.9.0 CONFIG)
 set_package_properties(Breeze PROPERTIES
@@ -193,22 +190,13 @@ int main() {
     mmap(nullptr, size, PROT_WRITE, MAP_SHARED, fd, 0);
 }" HAVE_MEMFD)
 
-find_package(Wayland 1.2 OPTIONAL_COMPONENTS Egl)
+find_package(Wayland 1.21)
 set_package_properties(Wayland PROPERTIES
     TYPE REQUIRED
     PURPOSE "Required for building KWin with Wayland support"
 )
-add_feature_info("Wayland::EGL" Wayland_Egl_FOUND "Enable building of Wayland backend.")
-set(HAVE_WAYLAND_EGL FALSE)
-if (Wayland_Egl_FOUND)
-    set(HAVE_WAYLAND_EGL TRUE)
-endif()
 
-find_package(Wayland 1.20 REQUIRED COMPONENTS
-    Server
-)
-
-find_package(WaylandProtocols 1.25)
+find_package(WaylandProtocols 1.31)
 set_package_properties(WaylandProtocols PROPERTIES
     TYPE REQUIRED
     PURPOSE "Collection of Wayland protocols that add functionality not available in the Wayland core protocol"
@@ -235,6 +223,14 @@ set_package_properties(XKB PROPERTIES
     TYPE REQUIRED
     PURPOSE "Required for building KWin with Wayland support"
 )
+if (XKB_VERSION VERSION_GREATER_EQUAL 1.5.0)
+    set(HAVE_XKBCOMMON_NO_SECURE_GETENV 1)
+else()
+    set(HAVE_XKBCOMMON_NO_SECURE_GETENV 0)
+endif()
+
+pkg_check_modules(XKBX11 IMPORTED_TARGET xkbcommon-x11 REQUIRED)
+add_feature_info(XKBX11 XKBX11_FOUND "Required for handling keyboard events in X11 backend")
 
 find_package(Libinput 1.19)
 set_package_properties(Libinput PROPERTIES TYPE REQUIRED PURPOSE "Required for input handling on Wayland.")
@@ -247,7 +243,7 @@ set_package_properties(UDev PROPERTIES
     PURPOSE "Required for input handling on Wayland."
 )
 
-find_package(Libdrm 2.4.108)
+find_package(Libdrm 2.4.112)
 set_package_properties(Libdrm PROPERTIES TYPE REQUIRED PURPOSE "Required for drm output on Wayland.")
 
 find_package(gbm)
@@ -292,6 +288,7 @@ find_package(XCB 1.10 REQUIRED COMPONENTS
     ICCCM
     IMAGE
     KEYSYMS
+    PRESENT
     RANDR
     RENDER
     SHAPE
@@ -299,6 +296,7 @@ find_package(XCB 1.10 REQUIRED COMPONENTS
     SYNC
     XCB
     XFIXES
+    XKB
     XINERAMA
 )
 set_package_properties(XCB PROPERTIES TYPE REQUIRED)
@@ -323,14 +321,14 @@ if (QT_MAJOR_VERSION EQUAL "5")
     find_package(Qt5EventDispatcherSupport REQUIRED)
 endif()
 
-find_package(Freetype REQUIRED)
+find_package(Freetype)
 set_package_properties(Freetype PROPERTIES
     DESCRIPTION "A font rendering engine"
     URL "https://www.freetype.org"
     TYPE REQUIRED
     PURPOSE "Needed for KWin's QPA plugin."
 )
-find_package(Fontconfig REQUIRED)
+find_package(Fontconfig)
 set_package_properties(Fontconfig PROPERTIES
     TYPE REQUIRED
     PURPOSE "Needed for KWin's QPA plugin."
@@ -368,7 +366,6 @@ set_package_properties(QAccessibilityClient PROPERTIES
 )
 set(HAVE_ACCESSIBILITY ${QAccessibilityClient_FOUND})
 
-include(ECMFindQmlModule)
 ecm_find_qmlmodule(QtQuick 2.3)
 ecm_find_qmlmodule(QtQuick.Controls 2.15)
 ecm_find_qmlmodule(QtQuick.Layouts 1.3)
@@ -379,8 +376,6 @@ ecm_find_qmlmodule(org.kde.plasma.core 2.0)
 ecm_find_qmlmodule(org.kde.plasma.components 2.0)
 
 ########### configure tests ###############
-include(CMakeDependentOption)
-
 option(KWIN_BUILD_DECORATIONS "Enable building of KWin decorations." ON)
 option(KWIN_BUILD_KCMS "Enable building of KWin configuration modules." ON)
 option(KWIN_BUILD_NOTIFICATIONS "Enable building of KWin with knotifications support" ON)
@@ -389,21 +384,10 @@ option(KWIN_BUILD_TABBOX "Enable building of KWin Tabbox functionality" ON)
 cmake_dependent_option(KWIN_BUILD_ACTIVITIES "Enable building of KWin with kactivities support" ON "KF5Activities_FOUND" OFF)
 cmake_dependent_option(KWIN_BUILD_RUNNERS "Enable building of KWin with krunner support" ON "KF5Runner_FOUND" OFF)
 
-# Binary name of KWin
-set(KWIN_NAME "kwin")
-set(KWIN_INTERNAL_NAME_X11 "kwin_x11")
-set(KWIN_INTERNAL_NAME_WAYLAND "kwin_wayland")
-
-include_directories(${XKB_INCLUDE_DIR})
-
 set(HAVE_EPOXY_GLX ${epoxy_HAS_GLX})
 
 # for kwin internal things
 set(HAVE_X11_XCB ${X11_XCB_FOUND})
-
-include(CheckIncludeFile)
-include(CheckIncludeFiles)
-include(CheckSymbolExists)
 
 check_symbol_exists(SCHED_RESET_ON_FORK "sched.h" HAVE_SCHED_RESET_ON_FORK)
 add_feature_info("SCHED_RESET_ON_FORK"
@@ -419,7 +403,7 @@ if (KWIN_BUILD_NOTIFICATIONS)
 endif()
 
 if (KWIN_BUILD_SCREENLOCKER)
-    find_package(KScreenLocker CONFIG REQUIRED)
+    find_package(KScreenLocker CONFIG)
     set_package_properties(KScreenLocker PROPERTIES
         TYPE REQUIRED
         PURPOSE "For screenlocker integration in kwin_wayland"
@@ -439,23 +423,29 @@ include_directories(BEFORE
     ${CMAKE_CURRENT_SOURCE_DIR}/src/colors
 )
 
+check_cxx_compiler_flag(-Wno-unused-parameter COMPILER_UNUSED_PARAMETER_SUPPORTED)
+if (COMPILER_UNUSED_PARAMETER_SUPPORTED)
+    add_compile_options(-Wno-unused-parameter)
+endif()
+
+add_definitions(
+    -DQT_DISABLE_DEPRECATED_BEFORE=0
+    -DQT_NO_KEYWORDS
+    -DQT_USE_QSTRINGBUILDER
+    -DQT_NO_URL_CAST_FROM_STRING
+    -DQT_NO_CAST_TO_ASCII
+    -DQT_NO_FOREACH
+
+    # Prevent EGL headers from including platform headers, in particular Xlib.h.
+    -DMESA_EGL_NO_X11_HEADERS
+    -DEGL_NO_X11
+    -DEGL_NO_PLATFORM_SPECIFIC_TYPES
+)
+
 if (KF5DocTools_FOUND)
     add_subdirectory(doc)
     kdoctools_install(po)
 endif()
-
-include(ECMSetupQtPluginMacroNames)
-ecm_setup_qtplugin_macro_names(
-    JSON_ARG2
-        "KWIN_EFFECT_FACTORY"
-    JSON_ARG3
-        "KWIN_EFFECT_FACTORY_ENABLED"
-        "KWIN_EFFECT_FACTORY_SUPPORTED"
-    JSON_ARG4
-        "KWIN_EFFECT_FACTORY_SUPPORTED_ENABLED"
-    CONFIG_CODE_VARIABLE
-        PACKAGE_SETUP_AUTOMOC_VARIABLES
-)
 
 add_subdirectory(data)
 add_subdirectory(kconf_update)
@@ -475,7 +465,6 @@ kde_configure_git_pre_commit_hook(CHECKS CLANG_FORMAT)
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
-include(CMakePackageConfigHelpers)
 set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KWinDBusInterface")
 configure_package_config_file(KWinDBusInterfaceConfig.cmake.in
     "${CMAKE_CURRENT_BINARY_DIR}/KWinDBusInterfaceConfig.cmake"

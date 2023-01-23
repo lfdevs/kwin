@@ -10,7 +10,7 @@
 #include "kwin_wayland_test.h"
 
 #include "core/output.h"
-#include "core/platform.h"
+#include "core/outputbackend.h"
 #include "scripting/scripting.h"
 #include "wayland_server.h"
 #include "window.h"
@@ -46,9 +46,8 @@ void MinimizeAllScriptTest::initTestCase()
     qRegisterMetaType<Window *>();
 
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
+    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
@@ -101,8 +100,6 @@ void MinimizeAllScriptTest::testMinimizeUnminimize()
 {
     // This test verifies that all windows are minimized when Meta+Shift+D
     // is pressed, and unminimized when the shortcut is pressed once again.
-
-    using namespace KWayland::Client;
 
     // Create a couple of test windows.
     std::unique_ptr<KWayland::Client::Surface> surface1(Test::createSurface());

@@ -6,8 +6,7 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-#ifndef KWIN_LIBINPUT_DEVICE_H
-#define KWIN_LIBINPUT_DEVICE_H
+#pragma once
 
 #include "core/inputdevice.h"
 
@@ -53,6 +52,7 @@ class KWIN_EXPORT Device : public InputDevice
     Q_PROPERTY(quint32 vendor READ vendor CONSTANT)
     Q_PROPERTY(bool supportsDisableEvents READ supportsDisableEvents CONSTANT)
     Q_PROPERTY(bool enabled READ isEnabled WRITE setEnabled NOTIFY enabledChanged)
+    Q_PROPERTY(bool enabledByDefault READ isEnabledByDefault CONSTANT)
     //
     // advanced
     Q_PROPERTY(int supportedButtons READ supportedButtons CONSTANT)
@@ -191,7 +191,7 @@ public:
     {
         return m_sysName;
     }
-    QString outputName() const
+    QString outputName() const override
     {
         return m_outputName;
     }
@@ -586,7 +586,7 @@ public:
     /**
      * Used to deserialize monitor data from KConfig when initializing a device
      */
-    void setOutputName(const QString &uuid);
+    void setOutputName(const QString &uuid) override;
     QString defaultOutputName() const
     {
         return {};
@@ -746,5 +746,3 @@ private:
 }
 
 Q_DECLARE_METATYPE(KWin::LibInput::Device *)
-
-#endif

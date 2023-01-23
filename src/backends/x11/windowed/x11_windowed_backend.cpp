@@ -17,7 +17,6 @@
 #include "x11_windowed_logging.h"
 #include "x11_windowed_output.h"
 #include "x11_windowed_qpainter_backend.h"
-#include <cursor.h>
 #include <pointer_input.h>
 // KDE
 #include <KLocalizedString>
@@ -26,11 +25,12 @@
 #include <QSocketNotifier>
 // xcb
 #include <xcb/xcb_keysyms.h>
+#include <xcb/present.h>
+#include <xcb/shm.h>
 // X11
 #include <X11/Xlib-xcb.h>
 #include <fixx11h.h>
 #if HAVE_X11_XINPUT
-#include "../common/ge_event_mem_mover.h"
 #include <X11/extensions/XI2proto.h>
 #include <X11/extensions/XInput2.h>
 #endif
@@ -79,7 +79,6 @@ bool X11WindowedInputDevice::isEnabled() const
 
 void X11WindowedInputDevice::setEnabled(bool enabled)
 {
-    Q_UNUSED(enabled)
 }
 
 LEDs X11WindowedInputDevice::leds() const
@@ -89,7 +88,6 @@ LEDs X11WindowedInputDevice::leds() const
 
 void X11WindowedInputDevice::setLeds(LEDs leds)
 {
-    Q_UNUSED(leds)
 }
 
 bool X11WindowedInputDevice::isKeyboard() const
@@ -155,9 +153,9 @@ void X11WindowedInputBackend::initialize()
     }
 }
 
-X11WindowedBackend::X11WindowedBackend()
+X11WindowedBackend::X11WindowedBackend(const X11WindowedBackendOptions &options)
+    : m_options(options)
 {
-    setSupportsPointerWarping(true);
 }
 
 X11WindowedBackend::~X11WindowedBackend()
@@ -173,56 +171,86 @@ X11WindowedBackend::~X11WindowedBackend()
         if (m_keySymbols) {
             xcb_key_symbols_free(m_keySymbols);
         }
-        if (m_cursor) {
-            xcb_free_cursor(m_connection, m_cursor);
-        }
         xcb_disconnect(m_connection);
     }
 }
 
 bool X11WindowedBackend::initialize()
 {
-    int screen = 0;
-    xcb_connection_t *c = nullptr;
-    Display *xDisplay = XOpenDisplay(deviceIdentifier().constData());
-    if (xDisplay) {
-        c = XGetXCBConnection(xDisplay);
-        XSetEventQueueOwner(xDisplay, XCBOwnsEventQueue);
-        screen = XDefaultScreen(xDisplay);
-    }
-    if (c && !xcb_connection_has_error(c)) {
-        m_connection = c;
-        m_screenNumber = screen;
-        m_display = xDisplay;
-        for (xcb_screen_iterator_t it = xcb_setup_roots_iterator(xcb_get_setup(m_connection));
-             it.rem;
-             --screen, xcb_screen_next(&it)) {
-            if (screen == m_screenNumber) {
-                m_screen = it.data;
-            }
-        }
-        initXInput();
-        XRenderUtils::init(m_connection, m_screen->root);
-        createOutputs();
-        connect(kwinApp(), &Application::workspaceCreated, this, &X11WindowedBackend::startEventReading);
-        connect(Cursors::self(), &Cursors::currentCursorChanged, this, [this]() {
-            KWin::Cursor *c = KWin::Cursors::self()->currentCursor();
-            createCursor(c->image(), c->hotspot());
-        });
-        setReady(true);
-        m_pointerDevice = std::make_unique<X11WindowedInputDevice>();
-        m_pointerDevice->setPointer(true);
-        m_keyboardDevice = std::make_unique<X11WindowedInputDevice>();
-        m_keyboardDevice->setKeyboard(true);
-        if (m_hasXInput) {
-            m_touchDevice = std::make_unique<X11WindowedInputDevice>();
-            m_touchDevice->setTouch(true);
-        }
-        Q_EMIT outputsQueried();
-        return true;
-    } else {
+    m_display = XOpenDisplay(m_options.display.toLatin1().constData());
+    if (!m_display) {
         return false;
     }
+
+    m_connection = XGetXCBConnection(m_display);
+    m_screenNumber = XDefaultScreen(m_display);
+    XSetEventQueueOwner(m_display, XCBOwnsEventQueue);
+
+    int screen = m_screenNumber;
+    for (xcb_screen_iterator_t it = xcb_setup_roots_iterator(xcb_get_setup(m_connection));
+            it.rem;
+            --screen, xcb_screen_next(&it)) {
+        if (screen == m_screenNumber) {
+            m_screen = it.data;
+        }
+    }
+
+    const xcb_query_extension_reply_t *presentExtension = xcb_get_extension_data(m_connection, &xcb_present_id);
+    if (presentExtension && presentExtension->present) {
+        m_presentOpcode = presentExtension->major_opcode;
+        xcb_present_query_version_cookie_t cookie = xcb_present_query_version(m_connection, 1, 2);
+        xcb_present_query_version_reply_t *reply = xcb_present_query_version_reply(m_connection, cookie, nullptr);
+        if (!reply) {
+            qCWarning(KWIN_X11WINDOWED) << "Requested Present extension version is unsupported";
+            return false;
+        }
+        m_presentMajorVersion = reply->major_version;
+        m_presentMinorVersion = reply->minor_version;
+        free(reply);
+    } else {
+        qCWarning(KWIN_X11WINDOWED) << "Present X11 extension is unavailable";
+        return false;
+    }
+
+    const xcb_query_extension_reply_t *shmExtension = xcb_get_extension_data(m_connection, &xcb_shm_id);
+    if (shmExtension && shmExtension->present) {
+        xcb_shm_query_version_cookie_t cookie = xcb_shm_query_version(m_connection);
+        xcb_shm_query_version_reply_t *reply = xcb_shm_query_version_reply(m_connection, cookie, nullptr);
+        if (!reply) {
+            qCWarning(KWIN_X11WINDOWED) << "Requested SHM extension version is unsupported";
+        } else {
+            m_hasShm = true;
+            free(reply);
+        }
+    }
+
+    initXInput();
+    XRenderUtils::init(m_connection, m_screen->root);
+    createOutputs();
+
+    m_pointerDevice = std::make_unique<X11WindowedInputDevice>();
+    m_pointerDevice->setPointer(true);
+    m_keyboardDevice = std::make_unique<X11WindowedInputDevice>();
+    m_keyboardDevice->setKeyboard(true);
+    if (m_hasXInput) {
+        m_touchDevice = std::make_unique<X11WindowedInputDevice>();
+        m_touchDevice->setTouch(true);
+    }
+
+    m_eventNotifier = std::make_unique<QSocketNotifier>(xcb_get_file_descriptor(m_connection), QSocketNotifier::Read);
+    auto processXcbEvents = [this] {
+        while (auto event = xcb_poll_for_event(m_connection)) {
+            handleEvent(event);
+            free(event);
+        }
+        xcb_flush(m_connection);
+    };
+    connect(m_eventNotifier.get(), &QSocketNotifier::activated, this, processXcbEvents);
+    connect(QCoreApplication::eventDispatcher(), &QAbstractEventDispatcher::aboutToBlock, this, processXcbEvents);
+    connect(QCoreApplication::eventDispatcher(), &QAbstractEventDispatcher::awake, this, processXcbEvents);
+
+    Q_EMIT outputsQueried();
+    return true;
 }
 
 void X11WindowedBackend::initXInput()
@@ -272,12 +300,10 @@ void X11WindowedBackend::createOutputs()
 
     // we need to multiply the initial window size with the scale in order to
     // create an output window of this size in the end
-    const int pixelWidth = initialWindowSize().width() * initialOutputScale() + 0.5;
-    const int pixelHeight = initialWindowSize().height() * initialOutputScale() + 0.5;
-
-    for (int i = 0; i < initialOutputCount(); ++i) {
+    const QSize pixelSize = m_options.outputSize * m_options.outputScale;
+    for (int i = 0; i < m_options.outputCount; ++i) {
         auto *output = new X11WindowedOutput(this);
-        output->init(QSize(pixelWidth, pixelHeight));
+        output->init(pixelSize, m_options.outputScale);
 
         m_protocols = protocolsAtom;
         m_deleteWindowProtocol = deleteWindowAtom;
@@ -298,21 +324,6 @@ void X11WindowedBackend::createOutputs()
     updateWindowTitle();
 
     xcb_flush(m_connection);
-}
-
-void X11WindowedBackend::startEventReading()
-{
-    m_eventNotifier = std::make_unique<QSocketNotifier>(xcb_get_file_descriptor(m_connection), QSocketNotifier::Read);
-    auto processXcbEvents = [this] {
-        while (auto event = xcb_poll_for_event(m_connection)) {
-            handleEvent(event);
-            free(event);
-        }
-        xcb_flush(m_connection);
-    };
-    connect(m_eventNotifier.get(), &QSocketNotifier::activated, this, processXcbEvents);
-    connect(QCoreApplication::eventDispatcher(), &QAbstractEventDispatcher::aboutToBlock, this, processXcbEvents);
-    connect(QCoreApplication::eventDispatcher(), &QAbstractEventDispatcher::awake, this, processXcbEvents);
 }
 
 #if HAVE_X11_XINPUT
@@ -338,7 +349,7 @@ void X11WindowedBackend::handleEvent(xcb_generic_event_t *e)
             break;
         }
         const QPointF position = output->mapFromGlobal(QPointF(event->root_x, event->root_y));
-        Q_EMIT m_pointerDevice->pointerMotionAbsolute(position, event->time, m_pointerDevice.get());
+        Q_EMIT m_pointerDevice->pointerMotionAbsolute(position, std::chrono::milliseconds(event->time), m_pointerDevice.get());
     } break;
     case XCB_KEY_PRESS:
     case XCB_KEY_RELEASE: {
@@ -353,12 +364,12 @@ void X11WindowedBackend::handleEvent(xcb_generic_event_t *e)
             }
             Q_EMIT m_keyboardDevice->keyChanged(event->detail - 8,
                                                 InputRedirection::KeyboardKeyPressed,
-                                                event->time,
+                                                std::chrono::milliseconds(event->time),
                                                 m_keyboardDevice.get());
         } else {
             Q_EMIT m_keyboardDevice->keyChanged(event->detail - 8,
                                                 InputRedirection::KeyboardKeyReleased,
-                                                event->time,
+                                                std::chrono::milliseconds(event->time),
                                                 m_keyboardDevice.get());
         }
     } break;
@@ -372,7 +383,7 @@ void X11WindowedBackend::handleEvent(xcb_generic_event_t *e)
             break;
         }
         const QPointF position = output->mapFromGlobal(QPointF(event->root_x, event->root_y));
-        Q_EMIT m_pointerDevice->pointerMotionAbsolute(position, event->time, m_pointerDevice.get());
+        Q_EMIT m_pointerDevice->pointerMotionAbsolute(position, std::chrono::milliseconds(event->time), m_pointerDevice.get());
     } break;
     case XCB_CLIENT_MESSAGE:
         handleClientMessage(reinterpret_cast<xcb_client_message_event_t *>(e));
@@ -385,43 +396,15 @@ void X11WindowedBackend::handleEvent(xcb_generic_event_t *e)
             xcb_refresh_keyboard_mapping(m_keySymbols, reinterpret_cast<xcb_mapping_notify_event_t *>(e));
         }
         break;
-#if HAVE_X11_XINPUT
     case XCB_GE_GENERIC: {
-        GeEventMemMover ge(e);
-        auto te = reinterpret_cast<xXIDeviceEvent *>(e);
-        const X11WindowedOutput *output = findOutput(te->event);
-        if (!output) {
-            break;
-        }
-
-        const QPointF position = output->mapFromGlobal(QPointF(fixed1616ToReal(te->root_x), fixed1616ToReal(te->root_y)));
-
-        switch (ge->event_type) {
-
-        case XI_TouchBegin: {
-            Q_EMIT m_touchDevice->touchDown(te->detail, position, te->time, m_touchDevice.get());
-            Q_EMIT m_touchDevice->touchFrame(m_touchDevice.get());
-            break;
-        }
-        case XI_TouchUpdate: {
-            Q_EMIT m_touchDevice->touchMotion(te->detail, position, te->time, m_touchDevice.get());
-            Q_EMIT m_touchDevice->touchFrame(m_touchDevice.get());
-            break;
-        }
-        case XI_TouchEnd: {
-            Q_EMIT m_touchDevice->touchUp(te->detail, te->time, m_touchDevice.get());
-            Q_EMIT m_touchDevice->touchFrame(m_touchDevice.get());
-            break;
-        }
-        case XI_TouchOwnership: {
-            auto te = reinterpret_cast<xXITouchOwnershipEvent *>(e);
-            XIAllowTouchEvents(m_display, te->deviceid, te->sourceid, te->touchid, XIAcceptTouch);
-            break;
-        }
+        xcb_ge_generic_event_t *ev = reinterpret_cast<xcb_ge_generic_event_t *>(e);
+        if (ev->extension == m_presentOpcode) {
+            handlePresentEvent(ev);
+        } else if (ev->extension == m_xiOpcode) {
+            handleXinputEvent(ev);
         }
         break;
     }
-#endif
     default:
         break;
     }
@@ -435,17 +418,18 @@ void X11WindowedBackend::grabKeyboard(xcb_timestamp_t time)
         xcb_ungrab_pointer(m_connection, time);
         m_keyboardGrabbed = false;
     } else {
-        const auto c = xcb_grab_keyboard_unchecked(m_connection, false, window(), time,
+        const X11WindowedOutput *output = static_cast<X11WindowedOutput *>(m_outputs[0]);
+        const auto c = xcb_grab_keyboard_unchecked(m_connection, false, output->window(), time,
                                                    XCB_GRAB_MODE_ASYNC, XCB_GRAB_MODE_ASYNC);
         UniqueCPtr<xcb_grab_keyboard_reply_t> grab(xcb_grab_keyboard_reply(m_connection, c, nullptr));
         if (!grab) {
             return;
         }
         if (grab->status == XCB_GRAB_STATUS_SUCCESS) {
-            const auto c = xcb_grab_pointer_unchecked(m_connection, false, window(),
+            const auto c = xcb_grab_pointer_unchecked(m_connection, false, output->window(),
                                                       XCB_EVENT_MASK_BUTTON_PRESS | XCB_EVENT_MASK_BUTTON_RELEASE | XCB_EVENT_MASK_POINTER_MOTION | XCB_EVENT_MASK_ENTER_WINDOW | XCB_EVENT_MASK_LEAVE_WINDOW,
                                                       XCB_GRAB_MODE_ASYNC, XCB_GRAB_MODE_ASYNC,
-                                                      window(), XCB_CURSOR_NONE, time);
+                                                      output->window(), XCB_CURSOR_NONE, time);
             UniqueCPtr<xcb_grab_pointer_reply_t> grab(xcb_grab_pointer_reply(m_connection, c, nullptr));
             if (!grab || grab->status != XCB_GRAB_STATUS_SUCCESS) {
                 xcb_ungrab_keyboard(m_connection, time);
@@ -511,7 +495,7 @@ void X11WindowedBackend::handleButtonPress(xcb_button_press_event_t *event)
         if (!pressed) {
             return;
         }
-        const int delta = (event->detail == XCB_BUTTON_INDEX_4 || event->detail == 6) ? -1 : 1;
+        const int delta = (event->detail == XCB_BUTTON_INDEX_4 || event->detail == 6) ? -120 : 120;
         static const qreal s_defaultAxisStepDistance = 10.0;
         InputRedirection::PointerAxis axis;
         if (event->detail > 5) {
@@ -523,7 +507,7 @@ void X11WindowedBackend::handleButtonPress(xcb_button_press_event_t *event)
                                                    delta * s_defaultAxisStepDistance,
                                                    delta,
                                                    InputRedirection::PointerAxisSourceUnknown,
-                                                   event->time,
+                                                   std::chrono::milliseconds(event->time),
                                                    m_pointerDevice.get());
         return;
     }
@@ -544,12 +528,12 @@ void X11WindowedBackend::handleButtonPress(xcb_button_press_event_t *event)
     }
 
     const QPointF position = output->mapFromGlobal(QPointF(event->root_x, event->root_y));
-    Q_EMIT m_pointerDevice->pointerMotionAbsolute(position, event->time, m_pointerDevice.get());
+    Q_EMIT m_pointerDevice->pointerMotionAbsolute(position, std::chrono::milliseconds(event->time), m_pointerDevice.get());
 
     if (pressed) {
-        Q_EMIT m_pointerDevice->pointerButtonChanged(button, InputRedirection::PointerButtonPressed, event->time, m_pointerDevice.get());
+        Q_EMIT m_pointerDevice->pointerButtonChanged(button, InputRedirection::PointerButtonPressed, std::chrono::milliseconds(event->time), m_pointerDevice.get());
     } else {
-        Q_EMIT m_pointerDevice->pointerButtonChanged(button, InputRedirection::PointerButtonReleased, event->time, m_pointerDevice.get());
+        Q_EMIT m_pointerDevice->pointerButtonChanged(button, InputRedirection::PointerButtonReleased, std::chrono::milliseconds(event->time), m_pointerDevice.get());
     }
 }
 
@@ -575,49 +559,55 @@ void X11WindowedBackend::updateSize(xcb_configure_notify_event_t *event)
     if (s != output->pixelSize()) {
         output->resize(s);
     }
-    Q_EMIT sizeChanged();
 }
 
-void X11WindowedBackend::createCursor(const QImage &srcImage, const QPoint &hotspot)
+void X11WindowedBackend::handleXinputEvent(xcb_ge_generic_event_t *ge)
 {
-    xcb_pixmap_t pix = XCB_PIXMAP_NONE;
-    xcb_gcontext_t gc = XCB_NONE;
-    xcb_cursor_t cid = XCB_CURSOR_NONE;
-
-    if (!srcImage.isNull()) {
-        pix = xcb_generate_id(m_connection);
-        gc = xcb_generate_id(m_connection);
-        cid = xcb_generate_id(m_connection);
-
-        // right now on X we only have one scale between all screens, and we know we will have at least one screen
-        const qreal outputScale = 1;
-        const QSize targetSize = srcImage.size() * outputScale / srcImage.devicePixelRatio();
-        const QImage img = srcImage.scaled(targetSize, Qt::KeepAspectRatio);
-
-        xcb_create_pixmap(m_connection, 32, pix, m_screen->root, img.width(), img.height());
-        xcb_create_gc(m_connection, gc, pix, 0, nullptr);
-
-        xcb_put_image(m_connection, XCB_IMAGE_FORMAT_Z_PIXMAP, pix, gc, img.width(), img.height(), 0, 0, 0, 32, img.sizeInBytes(), img.constBits());
-
-        XRenderPicture pic(pix, 32);
-        xcb_render_create_cursor(m_connection, cid, pic, qRound(hotspot.x() * outputScale), qRound(hotspot.y() * outputScale));
+#if HAVE_X11_XINPUT
+    auto te = reinterpret_cast<xXIDeviceEvent *>(ge);
+    const X11WindowedOutput *output = findOutput(te->event);
+    if (!output) {
+        return;
     }
 
-    for (auto it = m_outputs.constBegin(); it != m_outputs.constEnd(); ++it) {
-        xcb_change_window_attributes(m_connection, (*it)->window(), XCB_CW_CURSOR, &cid);
-    }
+    const QPointF position = output->mapFromGlobal(QPointF(fixed1616ToReal(te->root_x), fixed1616ToReal(te->root_y)));
 
-    if (pix) {
-        xcb_free_pixmap(m_connection, pix);
+    switch (ge->event_type) {
+    case XI_TouchBegin: {
+        Q_EMIT m_touchDevice->touchDown(te->detail, position, std::chrono::milliseconds(te->time), m_touchDevice.get());
+        Q_EMIT m_touchDevice->touchFrame(m_touchDevice.get());
+        break;
     }
-    if (gc) {
-        xcb_free_gc(m_connection, gc);
+    case XI_TouchUpdate: {
+        Q_EMIT m_touchDevice->touchMotion(te->detail, position, std::chrono::milliseconds(te->time), m_touchDevice.get());
+        Q_EMIT m_touchDevice->touchFrame(m_touchDevice.get());
+        break;
     }
-    if (m_cursor) {
-        xcb_free_cursor(m_connection, m_cursor);
+    case XI_TouchEnd: {
+        Q_EMIT m_touchDevice->touchUp(te->detail, std::chrono::milliseconds(te->time), m_touchDevice.get());
+        Q_EMIT m_touchDevice->touchFrame(m_touchDevice.get());
+        break;
     }
-    m_cursor = cid;
-    xcb_flush(m_connection);
+    case XI_TouchOwnership: {
+        auto te = reinterpret_cast<xXITouchOwnershipEvent *>(ge);
+        XIAllowTouchEvents(m_display, te->deviceid, te->sourceid, te->touchid, XIAcceptTouch);
+        break;
+    }
+    }
+#endif
+}
+
+void X11WindowedBackend::handlePresentEvent(xcb_ge_generic_event_t *ge)
+{
+    switch (ge->event_type) {
+    case XCB_PRESENT_EVENT_COMPLETE_NOTIFY: {
+        xcb_present_complete_notify_event_t *completeNotify = reinterpret_cast<xcb_present_complete_notify_event_t *>(ge);
+        if (X11WindowedOutput *output = findOutput(completeNotify->window)) {
+            output->handlePresentCompleteNotify(completeNotify);
+        }
+        break;
+    }
+    }
 }
 
 xcb_window_t X11WindowedBackend::rootWindow() const
@@ -658,24 +648,38 @@ std::unique_ptr<InputBackend> X11WindowedBackend::createInputBackend()
     return std::make_unique<X11WindowedInputBackend>(this);
 }
 
-void X11WindowedBackend::warpPointer(const QPointF &globalPos)
+xcb_connection_t *X11WindowedBackend::connection() const
 {
-    const xcb_window_t w = m_outputs.at(0)->window();
-    xcb_warp_pointer(m_connection, w, w, 0, 0, 0, 0, globalPos.x(), globalPos.y());
-    xcb_flush(m_connection);
+    return m_connection;
 }
 
-xcb_window_t X11WindowedBackend::windowForScreen(Output *output) const
+xcb_screen_t *X11WindowedBackend::screen() const
 {
-    if (!output) {
-        return XCB_WINDOW_NONE;
+    return m_screen;
+}
+
+int X11WindowedBackend::screenNumer() const
+{
+    return m_screenNumber;
+}
+
+Display *X11WindowedBackend::display() const
+{
+    return m_display;
+}
+
+bool X11WindowedBackend::hasXInput() const
+{
+    return m_hasXInput;
+}
+
+QVector<CompositingType> X11WindowedBackend::supportedCompositors() const
+{
+    QVector<CompositingType> ret{OpenGLCompositing};
+    if (m_hasShm) {
+        ret.append(QPainterCompositing);
     }
-    return static_cast<X11WindowedOutput *>(output)->window();
-}
-
-xcb_window_t X11WindowedBackend::window() const
-{
-    return m_outputs.first()->window();
+    return ret;
 }
 
 Outputs X11WindowedBackend::outputs() const

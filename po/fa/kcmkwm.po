@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-02 00:47+0000\n"
+"POT-Creation-Date: 2022-12-03 00:48+0000\n"
 "PO-Revision-Date: 2007-09-06 12:44+0330\n"
 "Last-Translator: Nazanin Kazemi <kazemi@itland.ir>\n"
 "Language-Team: Persian <kde-i18n-fa@kde.org>\n"
@@ -517,7 +517,25 @@ msgstr "&جادهی:‌"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_Placement)
 #: advanced.ui:76
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<p>This option specifies how much KWin will try to prevent unwanted focus "
+#| "stealing caused by unexpected activation of new windows. (Note: This "
+#| "feature does not work with the Focus Under Mouse or Focus Strictly Under "
+#| "Mouse focus policies.)<ul><li><em>None:</em> Prevention is turned off and "
+#| "new windows always become activated.</li><li><em>Low:</em> Prevention is "
+#| "enabled; when some window does not have support for the underlying "
+#| "mechanism and KWin cannot reliably decide whether to activate the window "
+#| "or not, it will be activated. This setting may have both worse and better "
+#| "results than normal level, depending on the applications.</"
+#| "li><li><em>Normal:</em> Prevention is enabled.</li><li><em>High:</em> New "
+#| "windows get activated only if no window is currently active or if they "
+#| "belong to the currently active application. This setting is probably not "
+#| "really usable when not using mouse focus policy.</li><li><em>Extreme:</"
+#| "em> All windows must be explicitly activated by the user.</li></ul></"
+#| "p><p>Windows that are prevented from stealing focus are marked as "
+#| "demanding attention, which by default means their taskbar entry will be "
+#| "highlighted. This can be changed in the Notifications control module.</p>"
 msgid ""
 "<html><head/><body><p>The placement policy determines where a new window "
 "will appear on the desktop.</p><ul style=\"margin-top: 0px; margin-bottom: "
@@ -531,13 +549,10 @@ msgid ""
 "whole screen. It might be useful to selectively affect placement of some "
 "windows using the window-specific settings.</li><li style=\" margin-top:0px; "
 "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\"><span style=\" font-style:italic;\">Cascade</span> will "
-"cascade the windows</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"text-indent:0px;\"><span style=\" font-style:italic;\">Random</span> will "
+"use a random position</li><li style=\" margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-style:italic;\">Random</span> will use a random "
-"position</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-style:italic;\">Centered</span> will place the window "
+"\"><span style=\" font-style:italic;\">Centered</span> will place the window "
 "centered</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\" font-style:italic;\">Zero-cornered</span> will place the window in "
@@ -546,6 +561,22 @@ msgid ""
 "\"><span style=\" font-style:italic;\">Under mouse</span> will place the "
 "window under the pointer</li></ul></body></html>"
 msgstr ""
+"<p>این گزینه مشخص می‌کند که KWin چقدر تلاش می‌کند که از حرکت آهسته و ناخواسته "
+"کانون که ناشی از فعال شدن غیرمنتظره پنجره‌های جدید است، جلوگیری کند. )نکته: "
+"این ویژگی با سیاستهای کانون زیر موشی یا کانون دقیقاً زیر موشی کار "
+"نمی‌کند.)<ul><li><em>هیچ‌کدام:</em> جلوگیری خاموش است و پنجره‌های جدید همیشه "
+"فعال می‌باشند. </li><li><em>کم:</em> زمانی که یک پنجره برای زیربنایی کردن "
+"سازوکار پشتیبانی ندارد و KWin  نمی‌تواند به طور موثقی تصمیم بگیرد که آیا "
+"پنجره را فعال کند یا خیر، جلوگیری فعال شده است. این تنظیم نسبت به سطح عادی "
+"هم بهتر است و هم بدتر، زیرا به کاربردها بستگی دارد.</li><li><em>عادی:</em> "
+"جلوگیری فعال شده است.</li><li><em>زیاد:</em> پنجره‌های جدید فقط در صورتی فعال "
+"می‌شوند که در حال حاضر هیچ پنجره‌ای فعال نباشد، یا اگر به کاربرد فعال جاری "
+"وابسته باشند؛ ممکن است هنگامی که از سیاست کانون موشی استفاده نمی‌شود، این "
+"تنظیم قابل استفاده نباشد.</li><li><em>بی‌نهایت:</em> همه پنجره‌ها باید به طور "
+"آشکار توسط کاربر فعال شده باشند.</li></ul></p><p>پنجره‌هایی که از حرکت آهسته "
+"کانون آنها جلوگیری شده است، بیشتر مورد توجه قرار می‌گیرند، بدین معنا که مدخل "
+"میله تکلیف آنها مشخص می‌شود. این را می‌توان به پیمانه کنترل اخطارها تغییر داد."
+"</p>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:80
@@ -563,38 +594,31 @@ msgstr "بیشینه‌سازی"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:90
-#, fuzzy, kde-format
-#| msgid "Cascade"
-msgid "Cascaded"
-msgstr "آبشاری"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:95
 #, kde-format
 msgid "Random"
 msgstr "تصادفی"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:100
+#: advanced.ui:95
 #, kde-format
 msgid "Centered"
 msgstr "مرکزی"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:105
+#: advanced.ui:100
 #, kde-format
 msgid "In Top-Left Corner"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:110
+#: advanced.ui:105
 #, fuzzy, kde-format
 #| msgid "Focus Under Mouse"
 msgid "Under mouse"
 msgstr "کانون زیر موشی"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:118
+#: advanced.ui:113
 #, kde-format
 msgid ""
 "When turned on, apps which are able to remember the positions of their "
@@ -603,21 +627,21 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:121
+#: advanced.ui:116
 #, kde-format
 msgid ""
 "Allow apps to remember the positions of their own windows, if they support it"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
-#: advanced.ui:128
+#: advanced.ui:123
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "&Special windows:"
 msgstr "پنجره‌ها"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:138
+#: advanced.ui:133
 #, kde-format
 msgid ""
 "When turned on, utility windows (tool windows, torn-off menus,...) of "
@@ -631,25 +655,25 @@ msgstr ""
 "نشان‌دار کنند، تا کار کند."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:141
+#: advanced.ui:136
 #, kde-format
 msgid "Hide utility windows for inactive applications"
 msgstr "مخفی کردن پنجره‌های سودمند برای کاربردهای غیرفعال"
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyLabel)
-#: advanced.ui:148
+#: advanced.ui:143
 #, kde-format
 msgid "Virtual Desktop behavior:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyDescriptionLabel)
-#: advanced.ui:158
+#: advanced.ui:153
 #, kde-format
 msgid "When activating a window on a different Virtual Desktop:"
 msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:165
+#: advanced.ui:160
 #, kde-format
 msgid ""
 "<html><head/><body><p>This setting controls what happens when an open window "
@@ -662,13 +686,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:169
+#: advanced.ui:164
 #, kde-format
 msgid "Switch to that Virtual Desktop"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:174
+#: advanced.ui:169
 #, kde-format
 msgid "Bring window to current Virtual Desktop"
 msgstr ""
@@ -1433,3 +1457,547 @@ msgid ""
 "activation policy and will not work. You very likely want to use <em>Focus "
 "follows mouse (mouse precedence)</em> instead!"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Cascade"
+#~ msgid "Cascaded"
+#~ msgstr "آبشاری"
+
+#~ msgid ""
+#~ "Enable this option if you want a window's geometry to be displayed while "
+#~ "it is being moved or resized. The window position relative to the top-"
+#~ "left corner of the screen is displayed together with its size."
+#~ msgstr ""
+#~ "اگر می‌خواهید هنگامی که پنجره را حرکت می‌دهید یا اندازه آن را تغییر می‌دهید، "
+#~ "هندسه پنجره نمایش داده شود، این گزینه را فعال کنید. موقعیت پنجره مربوط به "
+#~ "گوشه  چپ بالای پرده، با هم و به اندازه آن نمایش داده می‌شود."
+
+#, fuzzy
+#~| msgid "Display window &geometry when moving or resizing"
+#~ msgid "Display when moving or resizing"
+#~ msgstr "نمایش &هندسه پنجره هنگام حرکت یا تغییر اندازه‌"
+
+#~ msgid "Maximize (vertical only)"
+#~ msgstr "بیشینه‌سازی )فقط عمودی("
+
+#~ msgid "Maximize (horizontal only)"
+#~ msgstr "بیشینه‌سازی )فقط افقی("
+
+#~ msgid "Smart"
+#~ msgstr "هوشمند"
+
+#~ msgid "Maximizing"
+#~ msgstr "بیشینه‌سازی"
+
+#, fuzzy
+#~| msgid "Zero-Cornered"
+#~ msgid "Zero-cornered"
+#~ msgstr "بدون گوشه"
+
+#, fuzzy
+#~| msgid "Window Actio&ns"
+#~ msgid "Window tabbing:"
+#~ msgstr "&کنشهای پنجره‌"
+
+#, fuzzy
+#~| msgid "Window Actio&ns"
+#~ msgid "Start window tab drag"
+#~ msgstr "&کنشهای پنجره‌"
+
+#, fuzzy
+#~| msgid "Right button:"
+#~ msgid "Ri&ght button:"
+#~ msgstr "دکمه راست:"
+
+#, fuzzy
+#~| msgid "Left button:"
+#~ msgid "&Left button:"
+#~ msgstr "دکمه چپ:"
+
+#, fuzzy
+#~| msgid "Right button:"
+#~ msgid "&Right button:"
+#~ msgstr "دکمه راست:"
+
+#, fuzzy
+#~| msgid "Middle button:"
+#~ msgid "M&iddle button:"
+#~ msgstr "دکمه وسط:"
+
+#, fuzzy
+#~| msgid "Left button:"
+#~ msgid "Left &button"
+#~ msgstr "دکمه چپ:"
+
+#, fuzzy
+#~| msgid ""
+#~| "The placement policy determines where a new window will appear on the "
+#~| "desktop. <ul> <li><em>Smart</em> will try to achieve a minimum overlap "
+#~| "of windows</li> <li><em>Maximizing</em> will try to maximize every "
+#~| "window to fill the whole screen. It might be useful to selectively "
+#~| "affect placement of some windows using the window-specific settings.</"
+#~| "li> <li><em>Cascade</em> will cascade the windows</li> <li><em>Random</"
+#~| "em> will use a random position</li> <li><em>Centered</em> will place the "
+#~| "window centered</li> <li><em>Zero-Cornered</em> will place the window in "
+#~| "the top-left corner</li></ul>"
+#~ msgid ""
+#~ "The placement policy determines where a new window will appear on the "
+#~ "desktop.<br><ul>\n"
+#~ "<li><em>Smart</em> will try to achieve a minimum overlap of windows</li>\n"
+#~ "<li><em>Maximizing</em> will try to maximize every window to fill the "
+#~ "whole screen. It might be useful to selectively affect placement of some "
+#~ "windows using the window-specific settings.</li>\n"
+#~ "<li><em>Cascade</em> will cascade the windows</li>\n"
+#~ "<li><em>Random</em> will use a random position</li>\n"
+#~ "<li><em>Centered</em> will place the window centered</li>\n"
+#~ "<li><em>Zero-Cornered</em> will place the window in the top-left corner</"
+#~ "li>\n"
+#~ "<li><em>Under Mouse</em> will place the window under the pointer</li>\n"
+#~ "</ul>"
+#~ msgstr ""
+#~ "سیاست تعیین سطح تعیین می‌کند که پنجره جدید کجای رومیزی ظاهر می‌شود. <ul> "
+#~ "<li><em>هوشمند</em> تلاش می‌کند که به کمینه هم‌پوشانی پنجره‌ها دست یابد </"
+#~ "li> <li><em>بیشینه‌سازی</em> سعی می‌کند هر پنجره‌ای را تا حد پوشاندن کل "
+#~ "پرده، بزرگ کند. ممکن است برای تعیین سطح مؤثر برخی پنجره‌ها، با استفاده از "
+#~ "تنظیمات مشخص پنجره، مفید باشد.</li> <li><em>آبشاری</em> پنجره‌ها را آبشاری "
+#~ "می‌کند.</li> <li><em>تصادفی</em>از یک موقعیت تصادفی استفاده می‌کند.</li> "
+#~ "<li><em>مرکزی</em> پنجره را در مرکز می‌گذارد.</li> <li><em>بدون گوشه</em> "
+#~ "پنجره را در گوشه چپ بالا می‌گذارد.</li></ul>"
+
+#~ msgid "Shading"
+#~ msgstr "سایه زدن"
+
+#~ msgid "Dela&y:"
+#~ msgstr "&تأخیر:‌"
+
+#~ msgid "&Enable hover"
+#~ msgstr "&فعال‌سازی پلکیدن‌"
+
+#, fuzzy
+#~| msgid "&Policy:"
+#~ msgid "Policy"
+#~ msgstr "&سیاست:‌"
+
+#~ msgid "&Moving"
+#~ msgstr "&حرکت‌"
+
+#, fuzzy
+#~| msgid "Titlebar wheel event:"
+#~ msgid "Wheel event:"
+#~ msgstr "رویداد چرخ میله عنوان:"
+
+#~ msgid "Handle mouse wheel events"
+#~ msgstr "گرداندن رویدادهای چرخ موشی"
+
+#~ msgid ""
+#~ "In this column you can customize mouse clicks into the titlebar or the "
+#~ "frame of an active window."
+#~ msgstr ""
+#~ "در این ستون می‌توانید فشارهای موشی را در میله عنوان یا قابک یک پنجره فعال، "
+#~ "سفارشی کنید."
+
+#~ msgid ""
+#~ "In this column you can customize mouse clicks into the titlebar or the "
+#~ "frame of an inactive window."
+#~ msgstr ""
+#~ "در این ستون می‌توانید فشارهای موشی بر میله عنوان یا قابک یک پنجره غیرفعال "
+#~ "را سفارشی کنید."
+
+#~ msgid "Left button:"
+#~ msgstr "دکمه چپ:"
+
+#~ msgid "Middle button:"
+#~ msgstr "دکمه وسط:"
+
+#~ msgid ""
+#~ "Behavior on <em>middle</em> click into the titlebar or frame of an "
+#~ "<em>active</em> window."
+#~ msgstr ""
+#~ "رفتار ناشی از فشار <em>وسط</em> بر میله عنوان یا قابک یک پنجره <em>فعال</"
+#~ "em>."
+
+#~ msgid "Right button:"
+#~ msgstr "دکمه راست:"
+
+#~ msgid ""
+#~ "Behavior on <em>right</em> click into the titlebar or frame of an "
+#~ "<em>active</em> window."
+#~ msgstr ""
+#~ "رفتار ناشی از فشار <em>راست</em> بر میله عنوان یا قابک یک پنجره <em>فعال</"
+#~ "em>."
+
+#, fuzzy
+#~| msgid "Titlebar && Frame"
+#~ msgid "Titlebar & Frame"
+#~ msgstr "میله عنوان و قابک"
+
+#, fuzzy
+#~| msgid "&Titlebar Actions"
+#~ msgid "Titlebar"
+#~ msgstr "کنشهای &میله عنوان‌"
+
+#, fuzzy
+#~| msgid "&Border snap zone:"
+#~ msgid "no center snap zone"
+#~ msgstr "ناحیه پرش &لبه:‌"
+
+#, fuzzy
+#~| msgid "&Window snap zone:"
+#~ msgid "no window snap zone"
+#~ msgstr "ناحیه پرش &پنجره:‌"
+
+#, fuzzy
+#~| msgid "&Border snap zone:"
+#~ msgid "no border snap zone"
+#~ msgstr "ناحیه پرش &لبه:‌"
+
+#~ msgid "Windows"
+#~ msgstr "پنجره‌ها"
+
+#~ msgid "Snap Zones"
+#~ msgstr "نواحی پرش"
+
+#~ msgid "kcmkwinoptions"
+#~ msgstr "kcmkwinoptions"
+
+#, fuzzy
+#~| msgid ""
+#~| "The focus policy is used to determine the active window, i.e. the window "
+#~| "you can work in. <ul> <li><em>Click to focus:</em> A window becomes "
+#~| "active when you click into it. This is the behavior you might know from "
+#~| "other operating systems.</li> <li><em>Focus follows mouse:</em> Moving "
+#~| "the mouse pointer actively on to a normal window activates it. New "
+#~| "windows will receive the focus, without you having to point the mouse at "
+#~| "them explicitly. Very practical if you are using the mouse a lot.</li> "
+#~| "<li><em>Focus under mouse:</em> The window that happens to be under the "
+#~| "mouse pointer is active. If the mouse points nowhere, the last window "
+#~| "that was under the mouse has focus. New windows will not automatically "
+#~| "receive the focus.</li> <li><em>Focus strictly under mouse:</em> Only "
+#~| "the window under the mouse pointer is active. If the mouse points "
+#~| "nowhere, nothing has focus.</li> </ul>Note that 'Focus under mouse' and "
+#~| "'Focus strictly under mouse' prevent certain features such as the Alt"
+#~| "+Tab walk through windows dialog in the KDE mode from working properly."
+#~ msgid ""
+#~ "The focus policy is used to determine the active window, i.e. the window "
+#~ "you can work in. <ul>\n"
+#~ "<li><em>Click to focus:</em> A window becomes active when you click into "
+#~ "it. This is the behavior you might know from other operating systems.</"
+#~ "li> <li><em>Focus follows mouse:</em> Moving the mouse pointer actively "
+#~ "on to a normal window activates it. New windows will receive the focus, "
+#~ "without you having to point the mouse at them explicitly. Very practical "
+#~ "if you are using the mouse a lot.</li>\n"
+#~ "<li><em>Focus under mouse:</em> The window that happens to be under the "
+#~ "mouse pointer is active. If the mouse points nowhere, the last window "
+#~ "that was under the mouse has focus. New windows will not automatically "
+#~ "receive the focus.</li>\n"
+#~ "<li><em>Focus strictly under mouse:</em> Only the window under the mouse "
+#~ "pointer is active. If the mouse points nowhere, nothing has focus.</li>\n"
+#~ "</ul>\n"
+#~ "Note that 'Focus under mouse' and 'Focus strictly under mouse' prevent "
+#~ "certain features such as the Alt+Tab walk through windows dialog in the "
+#~ "KDE mode from working properly."
+#~ msgstr ""
+#~ "سیاست کانون برای تعیین پنجره فعال، یعنی پنجره‌ای که می‌توانید در آن کار "
+#~ "کنید، استفاده می‌شود. <ul> <li><em>فشار جهت تمرکز:</em> پنجره هنگامی که "
+#~ "روی آن فشار می‌دهید، فعال می‌شود. این رفتاری است که ممکن است از سیستمهای "
+#~ "عامل دیگر بشناسید.</li> <li><em>کانون پس از موشی می‌آید:</em> حرکت فعال "
+#~ "اشاره‌گر موشی روی یک پنجره عادی آن را فعال می‌کند. پنجره‌های جدید، بدون این "
+#~ "که لازم باشد به طور آشکار با موشی به آنها اشاره کنید، کانون را دریافت "
+#~ "می‌کنند. اگر از موشی زیاد استفاده می‌کنید، بسیار منطقی است.</li> "
+#~ "<li><em>کانون زیر موشی:</em> پنجره‌ای که به طور اتفاقی زیر اشاره‌گر موشی "
+#~ "می‌باشد، فعال است. اگر موشی به هیچ جایی اشاره نکند، آخرین پنجره‌ای که زیر "
+#~ "موشی بود، کانون دارد. پنجره‌های جدید، کانون را به طور خودکار دریافت "
+#~ "نمی‌کنند.</li> <li><em>کانون، دقیقاً زیر موشی:</em> فقط پنجره‌ای که زیر "
+#~ "اشاره‌گر موشی است، فعال می‌باشد. اگر موشی به جایی اشاره نکند، هیچ چیز کانون "
+#~ "ندارد.</li> </ul>به یاد داشته باشید که »کانون زیر موشی« و »کانون، دقیقاً "
+#~ "زیر موشی« از ویژگیهای مشخصی همچون دگرساز+جهش، گردش در میان پنجره‌ها در "
+#~ "حالت KDE، از کار کامل جلوگیری می‌کنند."
+
+#~ msgid ""
+#~ "When enabled, this feature activates the border of maximized windows and "
+#~ "allows you to move or resize them, just like for normal windows"
+#~ msgstr ""
+#~ "در صورت فعال بودن، این ویژگی لبه پنجره‌های بیشینه‌شده را فعال می‌کند، و به "
+#~ "شما اجازه می‌دهد که آنها را درست مانند پنجره‌های عادی حرکت دهید یا "
+#~ "اندازه‌شان را تغییر دهید"
+
+#, fuzzy
+#~| msgid "Display content in &resizing windows"
+#~ msgid "Display borders on &maximized windows"
+#~ msgstr "نمایش محتوا در &تغییر اندازه پنجره‌ها‌"
+
+#, fuzzy
+#~| msgid "Minimize"
+#~ msgctxt "@item:inlistbox behavior on double click"
+#~ msgid "Minimize"
+#~ msgstr "کمینه‌سازی"
+
+#~ msgid ""
+#~ "Here you can customize mouse click behavior when clicking on the titlebar "
+#~ "or the frame of a window."
+#~ msgstr ""
+#~ "در اینجا می‌توانید رفتار فشار موشی را، هنگام فشار دادن میله عنوان یا قابک "
+#~ "یک پنجره، سفارشی کنید."
+
+#~ msgid ""
+#~ "Behavior on <em>right</em> click into the titlebar or frame of an "
+#~ "<em>inactive</em> window."
+#~ msgstr ""
+#~ "رفتار ناشی از فشار <em>راست</em> بر میله عنوان یا قابک یک پنجره "
+#~ "<em>غیرفعال</em>."
+
+#~ msgid ""
+#~ "Behavior on <em>middle</em> click into the titlebar or frame of an "
+#~ "<em>inactive</em> window."
+#~ msgstr ""
+#~ "رفتار ناشی از فشار <em>وسط</em> بر میله عنوان یا قابک یک پنجره "
+#~ "<em>غیرفعال</em>.."
+
+#~ msgid ""
+#~ "Here you can customize behavior when clicking on the maximize button."
+#~ msgstr ""
+#~ "در اینجا می‌توانید رفتار را، هنگام فشار روی دکمه بیشینه‌سازی، سفارشی کنید."
+
+#~ msgid ""
+#~ "Here you can customize mouse click behavior when clicking on an inactive "
+#~ "inner window ('inner' means: not titlebar, not frame)."
+#~ msgstr ""
+#~ "در اینجا می‌توانید رفتار ناشی از فشار موشی را، هنگام فشار روی یک پنجره "
+#~ "درونی غیرفعال )»درونی« یعنی: نه میله عنوان، و نه قابک(، سفارشی کنید."
+
+#~ msgid ""
+#~ "Here you can customize KDE's behavior when clicking somewhere into a "
+#~ "window while pressing a modifier key."
+#~ msgstr ""
+#~ "در اینجا می‌توانید رفتار  KDE را، هنگام فشار مکانی در پنجره همراه با فشار "
+#~ "یک کلید تغییردهنده، سفارشی کنید."
+
+#, fuzzy
+#~| msgid "none"
+#~ msgctxt "no border snap zone"
+#~ msgid "none"
+#~ msgstr "هیچ‌کدام"
+
+#, fuzzy
+#~| msgid "none"
+#~ msgctxt "no window snap zone"
+#~ msgid "none"
+#~ msgstr "هیچ‌کدام"
+
+#, fuzzy
+#~| msgid "none"
+#~ msgctxt "no center snap zone"
+#~ msgid "none"
+#~ msgstr "هیچ‌کدام"
+
+#, fuzzy
+#~| msgid "Nothing"
+#~ msgctxt "Floating layout, windows aren't tiled at all"
+#~ msgid "Floating"
+#~ msgstr "هیچ چیز"
+
+#~ msgid ""
+#~ "When this option is enabled, there will be a delay after which the window "
+#~ "the mouse pointer is over will become active (receive focus)."
+#~ msgstr ""
+#~ "در صورت فعال‌سازی این گزینه، تأخیری به وجود می‌آید که پس از آن، پنجره‌ای که "
+#~ "موشی روی آن قرار دارد فعال می‌شود )کانون را دریافت می‌کند(."
+
+#~ msgid "Di&splay content in moving windows"
+#~ msgstr "&نمایش محتوا در پنجره‌های در حال حرکت‌"
+
+#~ msgid ""
+#~ "Enable this option if you want a window's content to be fully shown while "
+#~ "moving it, instead of just showing a window 'skeleton'. The result may "
+#~ "not be satisfying on slow machines without graphic acceleration."
+#~ msgstr ""
+#~ "اگر می‌خواهید زمانی که پنجره را حرکت می‌دهید به جای این که فقط )اسکلت( آن "
+#~ "نمایش داده شود، محتوای پنجره به طور کامل نشان داده شود، این گزینه را فعال "
+#~ "کنید. در مورد ماشینهای کند بدون شتاب‌دهی نگاره‌ای، ممکن است نتیجه راضی‌کننده "
+#~ "نباشد."
+
+#~ msgid "Display content in &resizing windows"
+#~ msgstr "نمایش محتوا در &تغییر اندازه پنجره‌ها‌"
+
+#~ msgid ""
+#~ "Enable this option if you want a window's content to be shown while "
+#~ "resizing it, instead of just showing a window 'skeleton'. The result may "
+#~ "not be satisfying on slow machines."
+#~ msgstr ""
+#~ "اگر می‌خواهید زمانی که اندازه پنجره را تغییر می‌دهید، به جای این که "
+#~ "فقط )اسکلت( آن نمایش داده شود محتوای پنجره نشان داده شود، این گزینه را "
+#~ "فعال کنید. ممکن است نتیجه در ماشینهای کند راضی‌کننده نباشد."
+
+#~ msgid "Allow moving and resizing o&f maximized windows"
+#~ msgstr "اجازه برای حرکت و تغییر انداز&ه پنجره‌های بیشینه‌شده‌"
+
+#~ msgid "Show window list while switching windows"
+#~ msgstr "نمایش فهرست پنجره هنگام سودهی پنجره‌ها"
+
+#~ msgid ""
+#~ "Hold down the Alt key and press the Tab key repeatedly to walk through "
+#~ "the windows on the current desktop (the Alt+Tab combination can be "
+#~ "reconfigured).\n"
+#~ "\n"
+#~ "If this checkbox is checked a popup widget is shown, displaying the icons "
+#~ "of all windows to walk through and the title of the currently selected "
+#~ "one.\n"
+#~ "\n"
+#~ "Otherwise, the focus is passed to a new window each time Tab is pressed, "
+#~ "with no popup widget.  In addition, the previously activated window will "
+#~ "be sent to the back in this mode."
+#~ msgstr ""
+#~ "کلید دگرساز را پایین نگه دارید و کلید جهش را چندین بار فشار دهید، تا بین "
+#~ "پنجره‌های رومیزی جاری عبور کنید )ادغام دگرساز+جهش را می‌توان مجدداً پیکربندی "
+#~ "کرد(. \n"
+#~ "\n"
+#~ "در صورت علامت زدن جعبه بررسی، عنصر بالاپری نمایش داده می‌شود که نشان‌دهنده "
+#~ "شمایل همه پنجره‌ها جهت عبور و عنوان پنجره برگزیده جاری می‌باشد.\n"
+#~ "\n"
+#~ "در غیر این صورت، هر بار که کلید جهش فشار داده می‌شود، کانون بدون عنصر "
+#~ "بالاپر به پنجره‌ای جدید گذر داده می‌شود. به علاوه، در این حالت پنجره "
+#~ "فعال‌شده قبلی به عقب فرستاده می‌شود."
+
+#~ msgid "&Traverse windows on all desktops"
+#~ msgstr "&پیمودن پنجره‌ها روی همه رومیزیها‌"
+
+#~ msgid ""
+#~ "Leave this option disabled if you want to limit walking through windows "
+#~ "to the current desktop."
+#~ msgstr ""
+#~ "اگر می‌خواهید عبور از پنجره‌ها به رومیزی جاری را محدود کنید، این گزینه را "
+#~ "غیرفعال نگه دارید."
+
+#~ msgid "Desktop navi&gation wraps around"
+#~ msgstr "سطربندی &ناوش رومیزی در اطراف‌"
+
+#~ msgid ""
+#~ "Enable this option if you want keyboard or active desktop border "
+#~ "navigation beyond the edge of a desktop to take you to the opposite edge "
+#~ "of the new desktop."
+#~ msgstr ""
+#~ "اگر می‌خواهید صفحه کلید یا ناوش لبه رومیزی فعال در آن سوی لبه یک رومیزی، "
+#~ "شما را به لبه مقابل رومیزی جدید ببرد، این گزینه را فعال کنید."
+
+#~ msgid "Popup desktop name on desktop &switch"
+#~ msgstr "نام رومیزی بالاپر هنگام &سودهی رومیزی‌"
+
+#~ msgid ""
+#~ "Enable this option if you wish to see the current desktop name popup "
+#~ "whenever the current desktop is changed."
+#~ msgstr ""
+#~ "اگر می‌خواهید هر گاه رومیزی جاری تغییر می‌کند، نام رومیزی را به صورت بالاپر "
+#~ "ببینید، این گزینه را فعال کنید."
+
+#~ msgctxt "Focus Stealing Prevention Level"
+#~ msgid "Normal"
+#~ msgstr "عادی"
+
+#~ msgid "Active Desktop Borders"
+#~ msgstr "فعال کردن لبه‌های رومیزی"
+
+#~ msgid ""
+#~ "If this option is enabled, moving the mouse to a screen border will "
+#~ "change your desktop. This is e.g. useful if you want to drag windows from "
+#~ "one desktop to the other."
+#~ msgstr ""
+#~ "در صورت فعال نمودن این گزینه، حرکت موشی به لبه پرده رومیزی شما را تغییر "
+#~ "می‌دهد. مثلاً اگر بخواهید پنجره‌ها را از یک رومیزی به رومیزی دیگر بکشید، این "
+#~ "گزینه مفید می‌باشد."
+
+#~ msgid "D&isabled"
+#~ msgstr "&غیرفعال‌"
+
+#~ msgid "Only &when moving windows"
+#~ msgstr "فقط &هنگام حرکت پنجره‌ها‌"
+
+#~ msgid "A&lways enabled"
+#~ msgstr "&همیشه فعال‌"
+
+#~ msgid ""
+#~ "Here you can set a delay for switching desktops using the active borders "
+#~ "feature. Desktops will be switched after the mouse has been pushed "
+#~ "against a screen border for the specified number of milliseconds."
+#~ msgstr ""
+#~ "در اینجا می‌توانید با استفاده از ویژگی لبه‌های فعال، برای سودهی رومیزیها یک "
+#~ "تأخیر تنظیم کنید. پس از این که در تعداد میلی‌ثانیه مشخص‌شده، موشی در مقابل "
+#~ "لبه پرده کشیده می‌شود، رومیزیها سودهی می‌گردند."
+
+#~ msgid "Desktop &switch delay:"
+#~ msgstr "تأخیر &سودهی رومیزی:‌"
+
+#~ msgid ""
+#~ "Here you can customize KDE's behavior when middle clicking into a window "
+#~ "while pressing the modifier key."
+#~ msgstr ""
+#~ "در اینجا می‌توانید رفتار  KDE را، هنگام فشار وسط در یک پنجره همراه با فشار "
+#~ "کلید تغییردهنده، سفارشی کنید."
+
+#~ msgid ""
+#~ "Here you can customize mouse click behavior when double clicking on the "
+#~ "titlebar of a window."
+#~ msgstr ""
+#~ " در اینجا می‌توانید با دو بار فشار دادن میله عنوان یک پنجره، رفتار فشار "
+#~ "موشی را سفارشی کنید."
+
+#~ msgid "Modifier key + left button:"
+#~ msgstr "کلید تغییردهنده + دکمه چپ:"
+
+#~ msgid "Modifier key + right button:"
+#~ msgstr "کلید تغییردهنده + دکمه راست:"
+
+#~ msgid "Modifier key + middle button:"
+#~ msgstr "کلید تغییردهنده + دکمه وسط:"
+
+#~ msgid "Focus"
+#~ msgstr "کانون"
+
+#~ msgid "Auto &raise"
+#~ msgstr "&بالا آمدن به طور خودکار‌"
+
+#~ msgid "Navigation"
+#~ msgstr "ناوش"
+
+#~ msgid "Active &mouse screen"
+#~ msgstr "پرده &موشی فعال‌"
+
+#~ msgid " msec"
+#~ msgstr " میلی‌ثانیه"
+
+#~ msgid ""
+#~ "When this option is enabled, active Xinerama screen (where for example "
+#~ "new windows appear) is the screen with the mouse pointer. When disabled, "
+#~ "the active Xinerama screen is the screen with the focused window. This "
+#~ "option is by default disabled for Click to focus and enabled for other "
+#~ "focus policies."
+#~ msgstr ""
+#~ "وقتی این گزینه فعال شود، پرده Xinerama فعال )برای مثال جایی که پنجره‌های "
+#~ "جدید ظاهر می‌شوند( پرده‌ای با اشاره‌گر موشی است. وقتی غیرفعال است، پرده "
+#~ "Xinerama فعال پرده‌ای با پنجره متمرکز است. این گزینه به طور پیش‌فرض برای "
+#~ "فشار کانون غیرفعال و برای سیاستهای دیگر کانون فعال است."
+
+#~ msgid "Anima&te"
+#~ msgstr "&پویانمایی‌"
+
+#~ msgid ""
+#~ "Animate the action of reducing the window to its titlebar (shading) as "
+#~ "well as the expansion of a shaded window"
+#~ msgstr ""
+#~ " هم کنش کاهش پنجره به میله عنوان آن)سایه زدن( و هم بسط یک پنجره سایه "
+#~ "زده‌شده را پویانمایی کنید"
+
+#~ msgid "Animate minimi&ze and restore"
+#~ msgstr "پویانمایی &کمینه‌سازی و بازگردانی‌"
+
+#~ msgid "Slow"
+#~ msgstr "کند"
+
+#~ msgid "Fast"
+#~ msgstr "سریع"
+
+#~ msgid ""
+#~ "Here you can set the speed of the animation shown when windows are "
+#~ "minimized and restored. "
+#~ msgstr ""
+#~ "در اینجا می‌توانید سرعت پویانمایی نمایش داده‌شده را هنگام کمینه‌سازی و "
+#~ "بازگرداندن پنجره‌ها تنظیم کنید."

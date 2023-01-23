@@ -235,3 +235,38 @@ msgid ""
 msgstr ""
 "ഒരു നടപടി തുടങ്ങിവെക്കാന്‍ മൌസ് ചൂണ്ടിയെ സ്ക്രീനിന്റെ വക്ക് ലക്ഷ്യമാക്കി നടപടിയുടെ ദിശയില്‍ "
 "നീക്കുക "
+
+#~ msgid "Show Desktop"
+#~ msgstr "പണിയിടം കാണിയ്ക്കുക"
+
+#, fuzzy
+#~ msgid "%1 - Cube"
+#~ msgstr "സമചതുരക്കട്ട"
+
+#, fuzzy
+#~ msgid "%1 - Cylinder"
+#~ msgstr "സിലിണ്ടര്‍"
+
+#, fuzzy
+#~ msgid "%1 - Sphere"
+#~ msgstr "ഗോളം"
+
+#, fuzzy
+#~ msgid "Active Screen Corners and Edges"
+#~ msgstr "സ്ക്രീനിന്റെ സജീവമായ വക്കിലെ നടപടികള്‍"
+
+#~ msgid "Window Management"
+#~ msgstr "ജാലകപാലനം"
+
+#, fuzzy
+#~ msgid "Maximize windows by dragging them to the top edge of the screen"
+#~ msgstr "സ്ക്രീനിന്റെ മുകളില്‍ വലിച്ചിട്ട് ജാലകങ്ങള്‍ വലുതാക്കുക"
+
+#~ msgid "Other Settings"
+#~ msgstr "മറ്റു് സജ്ജീകരണങ്ങള്‍"
+
+#~ msgid "Show Dashboard"
+#~ msgstr "ഡാഷ്ബോര്‍ഡ് കാണിയ്ക്കുക"
+
+#~ msgid "Trigger &cooldown:"
+#~ msgstr "തൊടുക്കലും ശാന്തമാക്കലും:"

@@ -4,6 +4,7 @@ add_subdirectory(libkwineffects)
 add_subdirectory(integration)
 add_subdirectory(libinput)
 add_subdirectory(tabbox)
+add_subdirectory(drm)
 
 ########################################################
 # Test WindowPaintData
@@ -197,7 +198,7 @@ if (HAVE_EPOXY_GLX)
     set(testOpenGLContextAttributeBuilder_SRCS ${testOpenGLContextAttributeBuilder_SRCS} ../src/backends/x11/standalone/x11_standalone_glx_context_attribute_builder.cpp)
 endif()
 add_executable(testOpenGLContextAttributeBuilder ${testOpenGLContextAttributeBuilder_SRCS})
-target_link_libraries(testOpenGLContextAttributeBuilder Qt::Test)
+target_link_libraries(testOpenGLContextAttributeBuilder epoxy::epoxy Qt::Test)
 add_test(NAME kwin-testOpenGLContextAttributeBuilder COMMAND testOpenGLContextAttributeBuilder)
 ecm_mark_as_test(testOpenGLContextAttributeBuilder)
 
@@ -205,6 +206,7 @@ set(testXkb_SRCS
     ../src/xkb.cpp
     test_xkb.cpp
 )
+qt_add_dbus_interface(testXkb_SRCS ${CMAKE_SOURCE_DIR}/src/org.freedesktop.DBus.Properties.xml dbusproperties_interface)
 add_executable(testXkb ${testXkb_SRCS})
 target_link_libraries(testXkb
     kwin

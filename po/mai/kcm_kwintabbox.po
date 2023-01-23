@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwintabbox\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-15 00:48+0000\n"
+"POT-Creation-Date: 2023-01-13 00:58+0000\n"
 "PO-Revision-Date: 2010-01-05 10:43+0530\n"
 "Last-Translator: Sangeeta Kumari <sangeeta09@gmail.com>\n"
 "Language-Team: Maithili <www.bhasharghar.in>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "\n"
 "\n"
 
-#: kwintabboxconfigform.cpp:77
+#: kwintabboxconfigform.cpp:80
 #, kde-format
 msgid "KWin"
 msgstr ""
@@ -239,3 +239,89 @@ msgstr ""
 #, kde-format
 msgid "Show selected window"
 msgstr ""
+
+#~ msgid "Walk Through Windows"
+#~ msgstr "विंडोज केर आरपार चलू"
+
+#~ msgid "Walk Through Windows (Reverse)"
+#~ msgstr "विंडोज केर आरपार चलू (उनटू)"
+
+#, fuzzy
+#~| msgid "Walk Through Windows"
+#~ msgid "Walk Through Windows of Current Application"
+#~ msgstr "विंडोज केर आरपार चलू"
+
+#, fuzzy
+#~| msgid "Walk Through Windows (Reverse)"
+#~ msgid "Walk Through Windows of Current Application (Reverse)"
+#~ msgstr "विंडोज केर आरपार चलू (उनटू)"
+
+#, fuzzy
+#~| msgid "Walk Through Windows (Reverse)"
+#~ msgid "Walk Through Windows of Current Application Alternative (Reverse)"
+#~ msgstr "विंडोज केर आरपार चलू (उनटू)"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "संगीता कुमारी"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "sangeeta09@gmail.com"
+
+#, fuzzy
+#~| msgid "Text Only"
+#~ msgctxt "Name for a window switcher layout showing only the name"
+#~ msgid "Text"
+#~ msgstr "सिर्फ पाठ"
+
+#, fuzzy
+#~| msgid "Small Icons"
+#~ msgctxt "Name for a window switcher layout showing large icons"
+#~ msgid "Large Icons"
+#~ msgstr "छोट प्रतीक"
+
+#, fuzzy
+#~| msgid "Small Icons"
+#~ msgctxt "Name for a window switcher layout showing small icons"
+#~ msgid "Small Icons"
+#~ msgstr "छोट प्रतीक"
+
+#~ msgid "No Effect"
+#~ msgstr "कोनो प्रभाव नहि"
+
+#~ msgid "Layout:"
+#~ msgstr "लेआउट:"
+
+#~ msgid "Vertical"
+#~ msgstr "लम्बवत"
+
+#~ msgid "Horizontal"
+#~ msgstr "क्षैतिज"
+
+#~ msgid "Tabular"
+#~ msgstr "सारणी जहिना"
+
+#~ msgid "Width:"
+#~ msgstr "चओड़ाइ:"
+
+#~ msgid " %"
+#~ msgstr " %"
+
+#~ msgid "Height:"
+#~ msgstr "उँचाइ:"
+
+#~ msgid "Top"
+#~ msgstr "उप्पर"
+
+#~ msgid "Bottom"
+#~ msgstr "नीच्चाँ"
+
+#~ msgid "Left"
+#~ msgstr "बामाँ"
+
+#~ msgid "Right"
+#~ msgstr "दहिन्ना"
+
+#~ msgid "General"
+#~ msgstr "सामान्य"

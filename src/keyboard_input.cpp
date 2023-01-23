@@ -16,13 +16,13 @@
 #include "keyboard_layout.h"
 #include "keyboard_repeat.h"
 #include "modifier_only_shortcuts.h"
-#include "utils/common.h"
 #include "wayland/datadevice_interface.h"
 #include "wayland/keyboard_interface.h"
 #include "wayland/seat_interface.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
+#include "xkb.h"
 // screenlocker
 #if KWIN_BUILD_SCREENLOCKER
 #include <KScreenLocker/KsldApp>
@@ -40,7 +40,7 @@ namespace KWin
 KeyboardInputRedirection::KeyboardInputRedirection(InputRedirection *parent)
     : QObject(parent)
     , m_input(parent)
-    , m_xkb(new Xkb(parent))
+    , m_xkb(new Xkb(kwinApp()->followLocale1()))
 {
     connect(m_xkb.get(), &Xkb::ledsChanged, this, &KeyboardInputRedirection::ledsChanged);
     if (waylandServer()) {
@@ -49,6 +49,21 @@ KeyboardInputRedirection::KeyboardInputRedirection(InputRedirection *parent)
 }
 
 KeyboardInputRedirection::~KeyboardInputRedirection() = default;
+
+Xkb *KeyboardInputRedirection::xkb() const
+{
+    return m_xkb.get();
+}
+
+Qt::KeyboardModifiers KeyboardInputRedirection::modifiers() const
+{
+    return m_xkb->modifiers();
+}
+
+Qt::KeyboardModifiers KeyboardInputRedirection::modifiersRelevantForGlobalShortcuts() const
+{
+    return m_xkb->modifiersRelevantForGlobalShortcuts();
+}
 
 class KeyStateChangedSpy : public InputEventSpy
 {
@@ -84,11 +99,7 @@ public:
         if (event->isAutoRepeat()) {
             return;
         }
-        updateModifiers(event->modifiers());
-    }
-
-    void updateModifiers(Qt::KeyboardModifiers mods)
-    {
+        const Qt::KeyboardModifiers mods = event->modifiers();
         if (mods == m_modifiers) {
             return;
         }
@@ -213,7 +224,7 @@ void KeyboardInputRedirection::update()
     }
 }
 
-void KeyboardInputRedirection::processKey(uint32_t key, InputRedirection::KeyboardKeyState state, uint32_t time, InputDevice *device)
+void KeyboardInputRedirection::processKey(uint32_t key, InputRedirection::KeyboardKeyState state, std::chrono::microseconds time, InputDevice *device)
 {
     QEvent::Type type;
     bool autoRepeat = false;
@@ -264,28 +275,6 @@ void KeyboardInputRedirection::processKey(uint32_t key, InputRedirection::Keyboa
     if (event.modifiersRelevantForGlobalShortcuts() == Qt::KeyboardModifier::NoModifier && type != QEvent::KeyRelease) {
         m_keyboardLayout->checkLayoutChange(previousLayout);
     }
-}
-
-void KeyboardInputRedirection::processModifiers(uint32_t modsDepressed, uint32_t modsLatched, uint32_t modsLocked, uint32_t group)
-{
-    if (!m_inited) {
-        return;
-    }
-    const quint32 previousLayout = m_xkb->currentLayout();
-    // TODO: send to proper Client and also send when active Client changes
-    m_xkb->updateModifiers(modsDepressed, modsLatched, modsLocked, group);
-    m_modifiersChangedSpy->updateModifiers(modifiers());
-    m_keyboardLayout->checkLayoutChange(previousLayout);
-}
-
-void KeyboardInputRedirection::processKeymapChange(int fd, uint32_t size)
-{
-    if (!m_inited) {
-        return;
-    }
-    // TODO: should we pass the keymap to our Clients? Or only to the currently active one and update
-    m_xkb->installKeymap(fd, size);
-    m_keyboardLayout->resetLayout();
 }
 
 }

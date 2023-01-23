@@ -92,3 +92,14 @@ msgstr "Exclure les effets internes"
 #, kde-format
 msgid "Get New Desktop Effects..."
 msgstr "Obtenir de nouveaux effets de bureau..."
+
+#~ msgid "Download New Desktop Effects"
+#~ msgstr "Télécharger de nouveaux effets de bureau"
+
+#~ msgid "Exclude Desktop Effects not supported by the Compositor"
+#~ msgstr ""
+#~ "Exclure les effets de bureau qui ne sont pas pris en charge par le "
+#~ "compositeur"
+
+#~ msgid "Search..."
+#~ msgstr "Chercher…"

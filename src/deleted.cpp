@@ -47,12 +47,9 @@ Deleted::~Deleted()
     if (workspace()) {
         workspace()->removeDeleted(this);
     }
-    deleteEffectWindow();
-    deleteItem();
-    deleteShadow();
 }
 
-WindowItem *Deleted::createItem()
+std::unique_ptr<WindowItem> Deleted::createItem(Scene *scene)
 {
     Q_UNREACHABLE();
 }
@@ -99,7 +96,7 @@ void Deleted::copyToDeleted(Window *window)
     m_minimized = window->isMinimized();
     m_modal = window->isModal();
     m_mainWindows = window->mainWindows();
-    for (Window *w : qAsConst(m_mainWindows)) {
+    for (Window *w : std::as_const(m_mainWindows)) {
         connect(w, &Window::windowClosed, this, &Deleted::mainWindowClosed);
     }
     m_fullscreen = window->isFullScreen();
@@ -107,8 +104,8 @@ void Deleted::copyToDeleted(Window *window)
     m_keepBelow = window->keepBelow();
     m_caption = window->caption();
 
-    for (auto vd : qAsConst(m_desktops)) {
-        connect(vd, &QObject::destroyed, this, [=] {
+    for (auto vd : std::as_const(m_desktops)) {
+        connect(vd, &QObject::destroyed, this, [=, this] {
             m_desktops.removeOne(vd);
         });
     }
@@ -170,8 +167,6 @@ bool Deleted::isDeleted() const
 
 NET::WindowType Deleted::windowType(bool direct, int supportedTypes) const
 {
-    Q_UNUSED(direct)
-    Q_UNUSED(supportedTypes)
     return m_type;
 }
 
@@ -185,7 +180,7 @@ xcb_window_t Deleted::frameId() const
     return m_frame;
 }
 
-QByteArray Deleted::windowRole() const
+QString Deleted::windowRole() const
 {
     return m_windowRole;
 }

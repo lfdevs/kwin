@@ -91,3 +91,6 @@ msgstr "Udelad interne effekter"
 #, kde-format
 msgid "Get New Desktop Effects..."
 msgstr "Hent nye skrivebordseffekter..."
+
+#~ msgid "Download New Desktop Effects"
+#~ msgstr "Download nye skriveeffekter"

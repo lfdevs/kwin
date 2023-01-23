@@ -6,8 +6,7 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-#ifndef KWIN_ABSTRACT_OUTPUT_H
-#define KWIN_ABSTRACT_OUTPUT_H
+#pragma once
 
 #include <kwin_export.h>
 
@@ -24,10 +23,18 @@
 namespace KWin
 {
 
+class CursorSource;
 class EffectScreenImpl;
 class RenderLoop;
 class OutputConfiguration;
 class ColorTransformation;
+
+enum class ContentType {
+    None = 0,
+    Photo = 1,
+    Video = 2,
+    Game = 3,
+};
 
 class KWIN_EXPORT OutputMode
 {
@@ -101,6 +108,16 @@ public:
      * Maps the specified @a rect from the global coordinate system to the output-local coords.
      */
     QRect mapFromGlobal(const QRect &rect) const;
+
+    /**
+     * Maps the specified @a rect from the global coordinate system to the output-local coords.
+     */
+    QRectF mapFromGlobal(const QRectF &rect) const;
+
+    /**
+     * Maps a @a rect in this output coordinates to the global coordinate system.
+     */
+    QRectF mapToGlobal(const QRectF &rect) const;
 
     /**
      * Returns a short identifiable name of this output.
@@ -212,8 +229,6 @@ public:
     Q_ENUM(Transform)
     Transform transform() const;
 
-    virtual bool usesSoftwareCursor() const;
-
     void applyChanges(const OutputConfiguration &config);
 
     SubPixel subPixel() const;
@@ -236,10 +251,17 @@ public:
     RenderLoop::VrrPolicy vrrPolicy() const;
     RgbRange rgbRange() const;
 
+    ContentType contentType() const;
+    void setContentType(ContentType contentType);
+
     bool isPlaceholder() const;
     bool isNonDesktop() const;
+    Transform panelOrientation() const;
 
     virtual void setColorTransformation(const std::shared_ptr<ColorTransformation> &transformation);
+
+    virtual bool setCursor(CursorSource *source);
+    virtual bool moveCursor(const QPoint &position);
 
 Q_SIGNALS:
     /**
@@ -307,6 +329,7 @@ protected:
         QByteArray edid;
         SubPixel subPixel = SubPixel::Unknown;
         Capabilities capabilities;
+        Transform panelOrientation = Transform::Normal;
         bool internal = false;
         bool placeholder = false;
         bool nonDesktop = false;
@@ -337,6 +360,7 @@ protected:
     QUuid m_uuid;
     int m_directScanoutCount = 0;
     int m_refCount = 1;
+    ContentType m_contentType = ContentType::None;
     friend class EffectScreenImpl; // to access m_effectScreen
 };
 
@@ -350,5 +374,3 @@ KWIN_EXPORT QDebug operator<<(QDebug debug, const Output *output);
 } // namespace KWin
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(KWin::Output::Capabilities)
-
-#endif

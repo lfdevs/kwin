@@ -54,9 +54,8 @@ Qt::GlobalColor TouchPointsEffect::colorForId(quint32 id)
     return s_colors[s_colorIndex];
 }
 
-bool TouchPointsEffect::touchDown(qint32 id, const QPointF &pos, quint32 time)
+bool TouchPointsEffect::touchDown(qint32 id, const QPointF &pos, std::chrono::microseconds time)
 {
-    Q_UNUSED(time)
     TouchPoint point;
     point.pos = pos;
     point.press = true;
@@ -67,9 +66,8 @@ bool TouchPointsEffect::touchDown(qint32 id, const QPointF &pos, quint32 time)
     return false;
 }
 
-bool TouchPointsEffect::touchMotion(qint32 id, const QPointF &pos, quint32 time)
+bool TouchPointsEffect::touchMotion(qint32 id, const QPointF &pos, std::chrono::microseconds time)
 {
-    Q_UNUSED(time)
     TouchPoint point;
     point.pos = pos;
     point.press = true;
@@ -80,9 +78,8 @@ bool TouchPointsEffect::touchMotion(qint32 id, const QPointF &pos, quint32 time)
     return false;
 }
 
-bool TouchPointsEffect::touchUp(qint32 id, quint32 time)
+bool TouchPointsEffect::touchUp(qint32 id, std::chrono::microseconds time)
 {
-    Q_UNUSED(time)
     auto it = m_latestPositions.constFind(id);
     if (it != m_latestPositions.constEnd()) {
         TouchPoint point;
@@ -206,6 +203,7 @@ void TouchPointsEffect::drawCircleGl(const QColor &color, float cx, float cy, fl
     static const float theta = 2 * 3.1415926 / float(num_segments);
     static const float c = cosf(theta); // precalculate the sine and cosine
     static const float s = sinf(theta);
+    const auto scale = effects->renderTargetScale();
     float t;
 
     float x = r; // we start at angle = 0
@@ -219,7 +217,7 @@ void TouchPointsEffect::drawCircleGl(const QColor &color, float cx, float cy, fl
     verts.reserve(num_segments * 2);
 
     for (int ii = 0; ii < num_segments; ++ii) {
-        verts << x + cx << y + cy; // output vertex
+        verts << (x + cx) * scale << (y + cy) * scale; // output vertex
         // apply the rotation matrix
         t = x;
         x = c * x - s * y;

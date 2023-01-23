@@ -88,3 +88,12 @@ msgstr "Vylúčiť interné efekty"
 #, kde-format
 msgid "Get New Desktop Effects..."
 msgstr "Získať nové efekty plochy..."
+
+#~ msgid "Download New Desktop Effects"
+#~ msgstr "Stiahnuť nové efekty plochy"
+
+#~ msgid "Exclude Desktop Effects not supported by the Compositor"
+#~ msgstr "Vylúčiť efekty plochy nepodporované kompozítorom"
+
+#~ msgid "Search..."
+#~ msgstr "Hľadať..."

@@ -14,14 +14,14 @@
 #include "core/outputconfiguration.h"
 #include "core/renderloop.h"
 #include "core/session.h"
+#include "drm_connector.h"
+#include "drm_crtc.h"
 #include "drm_egl_backend.h"
 #include "drm_gpu.h"
 #include "drm_logging.h"
-#include "drm_object_connector.h"
-#include "drm_object_crtc.h"
-#include "drm_object_plane.h"
 #include "drm_output.h"
 #include "drm_pipeline.h"
+#include "drm_plane.h"
 #include "drm_qpainter_backend.h"
 #include "drm_render_backend.h"
 #include "drm_virtual_output.h"
@@ -33,6 +33,7 @@
 // Qt
 #include <QCoreApplication>
 #include <QSocketNotifier>
+#include <QStringBuilder>
 // system
 #include <algorithm>
 #include <cerrno>
@@ -69,15 +70,13 @@ static QStringList splitPathList(const QString &input, const QChar delimiter)
 }
 
 DrmBackend::DrmBackend(Session *session, QObject *parent)
-    : Platform(parent)
+    : OutputBackend(parent)
     , m_udev(std::make_unique<Udev>())
     , m_udevMonitor(m_udev->monitor())
     , m_session(session)
     , m_explicitGpus(splitPathList(qEnvironmentVariable("KWIN_DRM_DEVICES"), ':'))
     , m_dpmsFilter()
 {
-    setSupportsPointerWarping(true);
-    setSupportsGammaControl(true);
 }
 
 DrmBackend::~DrmBackend() = default;
@@ -151,7 +150,7 @@ void DrmBackend::reactivate()
     }
     m_active = true;
 
-    for (const auto &output : qAsConst(m_outputs)) {
+    for (const auto &output : std::as_const(m_outputs)) {
         output->renderLoop()->uninhibit();
         output->renderLoop()->scheduleRepaint();
     }
@@ -168,7 +167,7 @@ void DrmBackend::deactivate()
         return;
     }
 
-    for (const auto &output : qAsConst(m_outputs)) {
+    for (const auto &output : std::as_const(m_outputs)) {
         output->renderLoop()->inhibit();
     }
 
@@ -214,12 +213,11 @@ bool DrmBackend::initialize()
         m_udevMonitor->filterSubsystemDevType("drm");
         const int fd = m_udevMonitor->fd();
         if (fd != -1) {
-            QSocketNotifier *notifier = new QSocketNotifier(fd, QSocketNotifier::Read, this);
-            connect(notifier, &QSocketNotifier::activated, this, &DrmBackend::handleUdevEvent);
+            m_socketNotifier = std::make_unique<QSocketNotifier>(fd, QSocketNotifier::Read);
+            connect(m_socketNotifier.get(), &QSocketNotifier::activated, this, &DrmBackend::handleUdevEvent);
             m_udevMonitor->enable();
         }
     }
-    setReady(true);
     return true;
 }
 
@@ -242,7 +240,6 @@ void DrmBackend::handleUdevEvent()
         }
 
         if (device->action() == QStringLiteral("add")) {
-            qCDebug(KWIN_DRM) << "New gpu found:" << device->devNode();
             if (addGpu(device->devNode())) {
                 updateOutputs();
             }
@@ -295,11 +292,13 @@ DrmGpu *DrmBackend::addGpu(const QString &fileName)
         return nullptr;
     }
 
+    qCDebug(KWIN_DRM, "adding GPU %s", qPrintable(fileName));
     m_gpus.push_back(std::make_unique<DrmGpu>(this, fileName, fd, buf.st_rdev));
     auto gpu = m_gpus.back().get();
     m_active = true;
     connect(gpu, &DrmGpu::outputAdded, this, &DrmBackend::addOutput);
     connect(gpu, &DrmGpu::outputRemoved, this, &DrmBackend::removeOutput);
+    Q_EMIT gpuAdded(gpu);
     return gpu;
 }
 
@@ -333,7 +332,9 @@ void DrmBackend::updateOutputs()
         DrmGpu *gpu = it->get();
         if (gpu->isRemoved() || (gpu != primaryGpu() && gpu->drmOutputs().isEmpty())) {
             qCDebug(KWIN_DRM) << "Removing GPU" << (*it)->devNode();
+            const std::unique_ptr<DrmGpu> keepAlive = std::move(*it);
             it = m_gpus.erase(it);
+            Q_EMIT gpuRemoved(keepAlive.get());
         } else {
             it++;
         }
@@ -360,7 +361,7 @@ void DrmBackend::sceneInitialized()
     if (m_outputs.isEmpty()) {
         updateOutputs();
     } else {
-        for (const auto &gpu : qAsConst(m_gpus)) {
+        for (const auto &gpu : std::as_const(m_gpus)) {
             gpu->recreateSurfaces();
         }
     }
@@ -368,9 +369,6 @@ void DrmBackend::sceneInitialized()
 
 QVector<CompositingType> DrmBackend::supportedCompositors() const
 {
-    if (selectedCompositor() != NoCompositing) {
-        return {selectedCompositor()};
-    }
     return QVector<CompositingType>{OpenGLCompositing, QPainterCompositing};
 }
 
@@ -469,7 +467,7 @@ bool DrmBackend::applyOutputChanges(const OutputConfiguration &config)
 {
     QVector<DrmOutput *> toBeEnabled;
     QVector<DrmOutput *> toBeDisabled;
-    for (const auto &gpu : qAsConst(m_gpus)) {
+    for (const auto &gpu : std::as_const(m_gpus)) {
         const auto &outputs = gpu->drmOutputs();
         for (const auto &output : outputs) {
             if (output->isNonDesktop()) {
@@ -483,10 +481,10 @@ bool DrmBackend::applyOutputChanges(const OutputConfiguration &config)
             }
         }
         if (gpu->testPendingConfiguration() != DrmPipeline::Error::None) {
-            for (const auto &output : qAsConst(toBeEnabled)) {
+            for (const auto &output : std::as_const(toBeEnabled)) {
                 output->revertQueuedChanges();
             }
-            for (const auto &output : qAsConst(toBeDisabled)) {
+            for (const auto &output : std::as_const(toBeDisabled)) {
                 output->revertQueuedChanges();
             }
             return false;
@@ -494,14 +492,14 @@ bool DrmBackend::applyOutputChanges(const OutputConfiguration &config)
     }
     // first, apply changes to drm outputs.
     // This may remove the placeholder output and thus change m_outputs!
-    for (const auto &output : qAsConst(toBeEnabled)) {
+    for (const auto &output : std::as_const(toBeEnabled)) {
         output->applyQueuedChanges(config);
     }
-    for (const auto &output : qAsConst(toBeDisabled)) {
+    for (const auto &output : std::as_const(toBeDisabled)) {
         output->applyQueuedChanges(config);
     }
     // only then apply changes to the virtual outputs
-    for (const auto &gpu : qAsConst(m_gpus)) {
+    for (const auto &gpu : std::as_const(m_gpus)) {
         const auto &outputs = gpu->virtualOutputs();
         for (const auto &output : outputs) {
             output->applyChanges(config);
@@ -522,8 +520,13 @@ DrmRenderBackend *DrmBackend::renderBackend() const
 
 void DrmBackend::releaseBuffers()
 {
-    for (const auto &gpu : qAsConst(m_gpus)) {
+    for (const auto &gpu : std::as_const(m_gpus)) {
         gpu->releaseBuffers();
     }
+}
+
+const std::vector<std::unique_ptr<DrmGpu>> &DrmBackend::gpus() const
+{
+    return m_gpus;
 }
 }

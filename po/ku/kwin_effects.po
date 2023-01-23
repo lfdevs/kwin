@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-01 02:26+0000\n"
+"POT-Creation-Date: 2023-01-18 00:58+0000\n"
 "PO-Revision-Date: 2009-01-06 02:36+0200\n"
 "Last-Translator: Omer Ensari <oensari@gmail.com>\n"
 "Language-Team: Kurdish <ubuntu-l10n-kur@lists.ubuntu.com>\n"
@@ -58,6 +58,7 @@ msgstr ""
 #: mousemark/mousemark_config.cpp:50 overview/kcm/overvieweffectkcm.cpp:35
 #: showpaint/showpaint_config.cpp:33
 #: thumbnailaside/thumbnailaside_config.cpp:54
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:31
 #: trackmouse/trackmouse_config.cpp:52
 #: windowview/kcm/windowvieweffectkcm.cpp:36 zoom/zoom_config.cpp:58
 #, kde-format
@@ -197,14 +198,20 @@ msgstr ""
 msgid "Natural"
 msgstr ""
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
+#: desktopgrid/desktopgrid_config.ui:147
+#, kde-format
+msgid "None"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: desktopgrid/desktopgrid_config.ui:150
+#: desktopgrid/desktopgrid_config.ui:155
 #, kde-format
 msgid "Windows layout:"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: desktopgrid/desktopgrid_config.ui:166
+#: desktopgrid/desktopgrid_config.ui:171
 #, kde-format
 msgid "Activation"
 msgstr "Çalak kirin"
@@ -315,9 +322,14 @@ msgstr "Çalak kirin"
 msgid "Toggle Invert Effect"
 msgstr ""
 
-#: invert/invert.cpp:50 invert/invert_config.cpp:44
+#: invert/invert.cpp:49 invert/invert_config.cpp:44
 #, kde-format
 msgid "Toggle Invert Effect on Window"
+msgstr ""
+
+#: invert/invert.cpp:56
+#, kde-format
+msgid "Invert Screen Colors"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FadeToBlack)
@@ -376,32 +388,32 @@ msgstr "&Bilindahî:"
 msgid "Toggle Mouse Click Effect"
 msgstr ""
 
-#: mouseclick/mouseclick.cpp:42
+#: mouseclick/mouseclick.cpp:41
 #, fuzzy, kde-format
 #| msgid "Left"
 msgctxt "Left mouse button"
 msgid "Left"
 msgstr "Çep"
 
-#: mouseclick/mouseclick.cpp:43
+#: mouseclick/mouseclick.cpp:42
 #, kde-format
 msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr ""
 
-#: mouseclick/mouseclick.cpp:44
+#: mouseclick/mouseclick.cpp:43
 #, fuzzy, kde-format
 #| msgid "Right"
 msgctxt "Right mouse button"
 msgid "Right"
 msgstr "Rast"
 
-#: mouseclick/mouseclick.h:61
+#: mouseclick/mouseclick.h:60
 #, kde-format
 msgid "↓"
 msgstr ""
 
-#: mouseclick/mouseclick.h:62
+#: mouseclick/mouseclick.h:61
 #, kde-format
 msgid "↑"
 msgstr ""
@@ -501,12 +513,12 @@ msgstr ""
 msgid "Show Text:"
 msgstr "Sermase ya Mîkap"
 
-#: mousemark/mousemark.cpp:36
+#: mousemark/mousemark.cpp:39
 #, kde-format
 msgid "Clear All Mouse Marks"
 msgstr ""
 
-#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:59
+#: mousemark/mousemark.cpp:45 mousemark/mousemark_config.cpp:59
 #, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr ""
@@ -575,12 +587,12 @@ msgstr "Rûerd"
 msgid "Ignore minimized windows:"
 msgstr "Çalak kirin"
 
-#: overview/qml/DesktopBar.qml:186
+#: overview/qml/DesktopBar.qml:187
 #, kde-format
 msgid "Delete Virtual Desktop"
 msgstr ""
 
-#: overview/qml/DesktopBar.qml:282
+#: overview/qml/DesktopBar.qml:283
 #, fuzzy, kde-format
 #| msgid "Desktop Cube"
 msgid "Add Virtual Desktop"
@@ -592,12 +604,12 @@ msgstr "Sermase ya Mîkap"
 msgid "No matching windows"
 msgstr "Hejmara pace yan:"
 
-#: private/qml/WindowHeapDelegate.qml:152
+#: private/qml/WindowHeapDelegate.qml:151
 #, kde-format
 msgid "Drag Down To Close"
 msgstr ""
 
-#: private/qml/WindowHeapDelegate.qml:462
+#: private/qml/WindowHeapDelegate.qml:461
 #, fuzzy, kde-format
 #| msgid "Activation"
 msgctxt "@info:tooltip as in: 'close this window'"
@@ -618,28 +630,28 @@ msgstr "Çalak kirin"
 msgid "Window close scale:"
 msgstr "Çalak kirin"
 
-#: screenshot/screenshotdbusinterface1.cpp:480
+#: screenshot/screenshotdbusinterface1.cpp:478
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr ""
 
-#: screenshot/screenshotdbusinterface1.cpp:481
+#: screenshot/screenshotdbusinterface1.cpp:479
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr ""
 
-#: screenshot/screenshotdbusinterface1.cpp:797
-#: screenshot/screenshotdbusinterface2.cpp:472
+#: screenshot/screenshotdbusinterface1.cpp:800
+#: screenshot/screenshotdbusinterface2.cpp:477
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
 
-#: screenshot/screenshotdbusinterface1.cpp:800
-#: screenshot/screenshotdbusinterface2.cpp:490
+#: screenshot/screenshotdbusinterface1.cpp:803
+#: screenshot/screenshotdbusinterface2.cpp:495
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -700,14 +712,8 @@ msgstr ""
 msgid "Vertical:"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideDocks)
-#: slide/slide_config.ui:72
-#, kde-format
-msgid "Slide docks"
-msgstr ""
-
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideBackground)
-#: slide/slide_config.ui:79
+#: slide/slide_config.ui:72
 #, kde-format
 msgid "Slide desktop background"
 msgstr ""
@@ -750,6 +756,47 @@ msgstr "&Zelalî:"
 #, no-c-format, kde-format
 msgid " %"
 msgstr " %"
+
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:37
+#: tileseditor/tileseditoreffect.cpp:29
+#, kde-format
+msgid "Toggle Tiles Editor"
+msgstr ""
+
+#: tileseditor/qml/main.qml:147
+#, kde-format
+msgid "Padding:"
+msgstr ""
+
+#: tileseditor/qml/main.qml:157
+#, kde-format
+msgid "Load Layout..."
+msgstr ""
+
+#: tileseditor/qml/main.qml:271
+#, kde-format
+msgid "Close"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:171
+#, kde-format
+msgid "Split Horizontally"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:178
+#, kde-format
+msgid "Split Vertically"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:186 tileseditor/qml/TileDelegate.qml:215
+#, kde-format
+msgid "Add Floating Tile"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:195
+#, kde-format
+msgid "Delete"
+msgstr ""
 
 #: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:57
 #, kde-format
@@ -886,17 +933,17 @@ msgstr ""
 msgid "Toggle Present Windows (Current desktop)"
 msgstr ""
 
-#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:55
+#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:54
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr ""
 
-#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:65
+#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:63
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr ""
 
-#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:75
+#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:72
 #, kde-format
 msgid "Toggle Present Windows (Window class on current desktop)"
 msgstr ""
@@ -907,16 +954,22 @@ msgstr ""
 msgid "Ignore &minimized windows"
 msgstr ""
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, kde-format
 msgid "No Matches"
 msgstr ""
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, fuzzy, kde-format
 #| msgid "Number of windows:"
 msgid "No Windows"
 msgstr "Hejmara pace yan:"
+
+#: windowview/qml/main.qml:123
+#, fuzzy, kde-format
+#| msgid "Activation"
+msgid "Filter windows…"
+msgstr "Çalak kirin"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20
@@ -978,32 +1031,32 @@ msgstr "Kêmtir"
 msgid "More"
 msgstr "Zêdetir"
 
-#: zoom/zoom.cpp:68
+#: zoom/zoom.cpp:65
 #, kde-format
 msgid "Move Zoomed Area to Left"
 msgstr ""
 
-#: zoom/zoom.cpp:76
+#: zoom/zoom.cpp:72
 #, kde-format
 msgid "Move Zoomed Area to Right"
 msgstr ""
 
-#: zoom/zoom.cpp:84
+#: zoom/zoom.cpp:79
 #, kde-format
 msgid "Move Zoomed Area Upwards"
 msgstr ""
 
-#: zoom/zoom.cpp:92
+#: zoom/zoom.cpp:86
 #, kde-format
 msgid "Move Zoomed Area Downwards"
 msgstr ""
 
-#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:108
+#: zoom/zoom.cpp:94 zoom/zoom_config.cpp:108
 #, kde-format
 msgid "Move Mouse to Focus"
 msgstr ""
 
-#: zoom/zoom.cpp:109 zoom/zoom_config.cpp:115
+#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:115
 #, kde-format
 msgid "Move Mouse to Center"
 msgstr ""
@@ -1138,3 +1191,251 @@ msgstr "Neçalak"
 #, kde-format
 msgid "Mouse Tracking:"
 msgstr ""
+
+#~ msgid "Text position:"
+#~ msgstr "Cihê nivîsê:"
+
+#~ msgid "Top Left"
+#~ msgstr "Çepê Jor"
+
+#~ msgid "Top Right"
+#~ msgstr "Rastê Jor"
+
+#~ msgid "Bottom Left"
+#~ msgstr "Çepê Jêr"
+
+#~ msgid "Bottom Right"
+#~ msgstr "Rastê Jêr"
+
+#~ msgid "Text color:"
+#~ msgstr "Rengê nivîsê:"
+
+#, fuzzy
+#~| msgid "Desktop Cube"
+#~ msgid "Show Message:"
+#~ msgstr "Sermase ya Mîkap"
+
+#~ msgctxt "Duration of zoom"
+#~ msgid "Default"
+#~ msgstr "Standard"
+
+#~ msgid "Faster"
+#~ msgstr "Leztir"
+
+#, fuzzy
+#~| msgid "Activation"
+#~ msgid "Activate window"
+#~ msgstr "Çalak kirin"
+
+#, fuzzy
+#~| msgid "Desktop Cube"
+#~ msgctxt "@title:group actions when clicking on desktop"
+#~ msgid "Desktop"
+#~ msgstr "Sermase ya Mîkap"
+
+#, fuzzy
+#~| msgid "Activation"
+#~ msgid "Scale window"
+#~ msgstr "Çalak kirin"
+
+#, fuzzy
+#~| msgid "&Color:"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Color Picker"
+#~ msgstr "&Reng:"
+
+#, fuzzy
+#~| msgid "Background color:"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Background contrast"
+#~ msgstr "Rengê rûerdê:"
+
+#, fuzzy
+#~| msgid "Desktop Cube"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Grid"
+#~ msgstr "Sermase ya Mîkap"
+
+#, fuzzy
+#~| msgid "Activation"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Click Animation"
+#~ msgstr "Çalak kirin"
+
+#, fuzzy
+#~| msgid "Transparent"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Transform"
+#~ msgstr "Zelalî"
+
+#, fuzzy
+#~| msgid "Desktop Cube"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show Paint"
+#~ msgstr "Sermase ya Mîkap"
+
+#, fuzzy
+#~| msgid "Zoom"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Zoom"
+#~ msgstr "Mezin kirin"
+
+#, fuzzy
+#~| msgid "Desktop Cube"
+#~ msgctxt "Special entry in alt+tab list for minimizing all windows"
+#~ msgid "Show Desktop"
+#~ msgstr "Sermase ya Mîkap"
+
+#~ msgid "Zoom"
+#~ msgstr "Mezin kirin"
+
+#, fuzzy
+#~| msgid "Activation"
+#~ msgid "Animation"
+#~ msgstr "Çalak kirin"
+
+#, fuzzy
+#~| msgid "Text color:"
+#~ msgid "Rear color"
+#~ msgstr "Rengê nivîsê:"
+
+#, fuzzy
+#~| msgid "Background color:"
+#~ msgid "Front color"
+#~ msgstr "Rengê rûerdê:"
+
+#~ msgid "Desktop Cube"
+#~ msgstr "Sermase ya Mîkap"
+
+#, fuzzy
+#~| msgid "Desktop Cube"
+#~ msgid "Desktop Cylinder"
+#~ msgstr "Sermase ya Mîkap"
+
+#, fuzzy
+#~| msgid "Desktop Cube"
+#~ msgid "Desktop Sphere"
+#~ msgstr "Sermase ya Mîkap"
+
+#~ msgctxt "@title:tab Basic Settings"
+#~ msgid "Basic"
+#~ msgstr "Bingehîn"
+
+#~ msgctxt "@title:tab Advanced Settings"
+#~ msgid "Advanced"
+#~ msgstr "Pêşketî"
+
+#~ msgid "Tab 1"
+#~ msgstr "Hilpekîna 1"
+
+#~ msgid "Background color:"
+#~ msgstr "Rengê rûerdê:"
+
+#~ msgid "Wallpaper:"
+#~ msgstr "Wêneyê Rûerdê:"
+
+#~ msgid "Opacity"
+#~ msgstr "Zebloqî"
+
+#~ msgid "Tab 2"
+#~ msgstr "Hilpekîna 2"
+
+#~ msgid "Additional Options"
+#~ msgstr "Zêdetir Bijare"
+
+#~ msgid "Sphere"
+#~ msgstr "Gilor"
+
+#, fuzzy
+#~| msgid "Desktop Cube"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube"
+#~ msgstr "Sermase ya Mîkap"
+
+#, fuzzy
+#~| msgid "Desktop Cube"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube Animation"
+#~ msgstr "Sermase ya Mîkap"
+
+#~ msgctxt "Duration of flip animation"
+#~ msgid "Default"
+#~ msgstr "Standard"
+
+#~ msgid ""
+#~ "Filter:\n"
+#~ "%1"
+#~ msgstr ""
+#~ "Parzûn:\n"
+#~ "%1"
+
+#, fuzzy
+#~| msgid "Activation"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Minimize Animation"
+#~ msgstr "Çalak kirin"
+
+#, fuzzy
+#~| msgctxt "Duration of rotation"
+#~| msgid "Default"
+#~ msgctxt "Duration of the slide animation"
+#~ msgid "Default"
+#~ msgstr "Wekî heyî"
+
+#, fuzzy
+#~| msgid "Right"
+#~ msgctxt "More brightness"
+#~ msgid "Lighter"
+#~ msgstr "Rast"
+
+#, fuzzy
+#~| msgid "msec"
+#~ msgid "ms"
+#~ msgstr "mçir"
+
+#~ msgid "Dynamic mode"
+#~ msgstr "Moda zînde"
+
+#, fuzzy
+#~| msgid " rows"
+#~ msgid " row"
+#~ msgid_plural " rows"
+#~ msgstr[0] " rêzik"
+#~ msgstr[1] " rêzik"
+
+#~ msgctxt "Duration of fading"
+#~ msgid "Default"
+#~ msgstr "Standard"
+
+#~ msgid "Snow"
+#~ msgstr "Berf"
+
+#, fuzzy
+#~| msgid " pixels"
+#~ msgid " pixel/frame"
+#~ msgid_plural " pixels/frame"
+#~ msgstr[0] " pîksel"
+#~ msgstr[1] " pîksel"
+
+#~ msgid "%"
+#~ msgstr "%"
+
+#~ msgid "&Size:"
+#~ msgstr "&Mezinahî:"
+
+#, fuzzy
+#~| msgid "Background"
+#~ msgid "Background brightness"
+#~ msgstr "Rûerd"
+
+#, fuzzy
+#~| msgid "Background"
+#~ msgid "Background saturation"
+#~ msgstr "Rûerd"
+
+#~ msgctxt "Duration of rearrangement"
+#~ msgid "Default"
+#~ msgstr "Standard"
+
+#~ msgid "Custom..."
+#~ msgstr "Taybet..."

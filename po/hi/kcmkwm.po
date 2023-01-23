@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-02 00:47+0000\n"
+"POT-Creation-Date: 2022-12-03 00:48+0000\n"
 "PO-Revision-Date: 2021-08-21 16:25+0530\n"
 "Last-Translator: Raghavendra Kamath <raghu@raghukamath.com>\n"
 "Language-Team: kde-hindi\n"
@@ -532,13 +532,10 @@ msgid ""
 "whole screen. It might be useful to selectively affect placement of some "
 "windows using the window-specific settings.</li><li style=\" margin-top:0px; "
 "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\"><span style=\" font-style:italic;\">Cascade</span> will "
-"cascade the windows</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"text-indent:0px;\"><span style=\" font-style:italic;\">Random</span> will "
+"use a random position</li><li style=\" margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-style:italic;\">Random</span> will use a random "
-"position</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-style:italic;\">Centered</span> will place the window "
+"\"><span style=\" font-style:italic;\">Centered</span> will place the window "
 "centered</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\" font-style:italic;\">Zero-cornered</span> will place the window in "
@@ -564,38 +561,31 @@ msgstr "अधिकतम"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:90
-#, fuzzy, kde-format
-#| msgid "Cascade"
-msgid "Cascaded"
-msgstr "एक के बाद एक"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:95
 #, kde-format
 msgid "Random"
 msgstr "बेतरतीब"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:100
+#: advanced.ui:95
 #, kde-format
 msgid "Centered"
 msgstr "केंद्रित"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:105
+#: advanced.ui:100
 #, kde-format
 msgid "In Top-Left Corner"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:110
+#: advanced.ui:105
 #, fuzzy, kde-format
 #| msgid "Focus Under Mouse"
 msgid "Under mouse"
 msgstr "फ़ोकस माउस के पीछे"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:118
+#: advanced.ui:113
 #, kde-format
 msgid ""
 "When turned on, apps which are able to remember the positions of their "
@@ -604,21 +594,21 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:121
+#: advanced.ui:116
 #, kde-format
 msgid ""
 "Allow apps to remember the positions of their own windows, if they support it"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
-#: advanced.ui:128
+#: advanced.ui:123
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "&Special windows:"
 msgstr "विंडोज़"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:138
+#: advanced.ui:133
 #, kde-format
 msgid ""
 "When turned on, utility windows (tool windows, torn-off menus,...) of "
@@ -628,25 +618,25 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:141
+#: advanced.ui:136
 #, kde-format
 msgid "Hide utility windows for inactive applications"
 msgstr "अक्रिय अनुप्रयोगों के लिए यूटिलिटि विंडो छुपाएँ."
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyLabel)
-#: advanced.ui:148
+#: advanced.ui:143
 #, kde-format
 msgid "Virtual Desktop behavior:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyDescriptionLabel)
-#: advanced.ui:158
+#: advanced.ui:153
 #, kde-format
 msgid "When activating a window on a different Virtual Desktop:"
 msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:165
+#: advanced.ui:160
 #, kde-format
 msgid ""
 "<html><head/><body><p>This setting controls what happens when an open window "
@@ -659,13 +649,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:169
+#: advanced.ui:164
 #, kde-format
 msgid "Switch to that Virtual Desktop"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:174
+#: advanced.ui:169
 #, kde-format
 msgid "Bring window to current Virtual Desktop"
 msgstr ""
@@ -1362,3 +1352,364 @@ msgid ""
 "activation policy and will not work. You very likely want to use <em>Focus "
 "follows mouse (mouse precedence)</em> instead!"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Cascade"
+#~ msgid "Cascaded"
+#~ msgstr "एक के बाद एक"
+
+#, fuzzy
+#~| msgid "Display window &geometry when moving or resizing"
+#~ msgid "Display when moving or resizing"
+#~ msgstr "खिसकाने या नए आकार दिए जाने पर विंडो ज्यामिती दिखाएँ (&g)"
+
+#~ msgid "Maximize (vertical only)"
+#~ msgstr "अधिकतम (केवल खड़ा)"
+
+#~ msgid "Maximize (horizontal only)"
+#~ msgstr "अधिकतम (केवल आड़ा)"
+
+#~ msgid "Smart"
+#~ msgstr "स्मार्ट"
+
+#~ msgid "Maximizing"
+#~ msgstr "अधिकतम किया जा रहा है"
+
+#, fuzzy
+#~| msgid "Zero-Cornered"
+#~ msgid "Zero-cornered"
+#~ msgstr "ज़ीरो-कॉर्नर्ड"
+
+#, fuzzy
+#~| msgid "Window Actio&ns"
+#~ msgid "Window tabbing:"
+#~ msgstr "विंडो क्रियाएँ (&n)"
+
+#, fuzzy
+#~| msgid "Window Actio&ns"
+#~ msgid "Start window tab drag"
+#~ msgstr "विंडो क्रियाएँ (&n)"
+
+#, fuzzy
+#~| msgid "Right button:"
+#~ msgid "Ri&ght button:"
+#~ msgstr "दायाँ बटनः"
+
+#, fuzzy
+#~| msgid "Left button:"
+#~ msgid "&Left button:"
+#~ msgstr "बायाँ बटनः"
+
+#, fuzzy
+#~| msgid "Right button:"
+#~ msgid "&Right button:"
+#~ msgstr "दायाँ बटनः"
+
+#, fuzzy
+#~| msgid "Middle button:"
+#~ msgid "M&iddle button:"
+#~ msgstr "मध्य बटनः"
+
+#, fuzzy
+#~| msgid "Left button:"
+#~ msgid "Left &button"
+#~ msgstr "बायाँ बटनः"
+
+#~ msgid "Shading"
+#~ msgstr "शेडिंग"
+
+#~ msgid "Dela&y:"
+#~ msgstr "देरी: (&y)"
+
+#~ msgid "&Enable hover"
+#~ msgstr "हॉवर सक्षम करें (&E)"
+
+#, fuzzy
+#~| msgid "&Policy:"
+#~ msgid "Policy"
+#~ msgstr "पॉलिसी: (&P)"
+
+#~ msgid "&Moving"
+#~ msgstr "खिसकाते हुए (&M)"
+
+#, fuzzy
+#~| msgid "Titlebar wheel event:"
+#~ msgid "Wheel event:"
+#~ msgstr "शीर्षक पट्टी व्हील इवेंट:"
+
+#~ msgid "Handle mouse wheel events"
+#~ msgstr "माउस व्हील घटनाएँ हैंडल करना"
+
+#~ msgid ""
+#~ "In this column you can customize mouse clicks into the titlebar or the "
+#~ "frame of an active window."
+#~ msgstr ""
+#~ "इस स्तम्भ में आप माउस क्लिक्स को मनपसंद बना सकते हैं जब शीर्षक पट्टी या सक्रिय विंडो में "
+#~ "क्लिक करते हैं."
+
+#~ msgid ""
+#~ "In this column you can customize mouse clicks into the titlebar or the "
+#~ "frame of an inactive window."
+#~ msgstr ""
+#~ "इस स्तम्भ में आप माउस क्लिक्स को मनपसंद बना सकते हैं जब शीर्षक पट्टी या निष्क्रिय विंडो "
+#~ "में क्लिक करते हैं."
+
+#~ msgid "Left button:"
+#~ msgstr "बायाँ बटनः"
+
+#~ msgid "Middle button:"
+#~ msgstr "मध्य बटनः"
+
+#~ msgid ""
+#~ "Behavior on <em>middle</em> click into the titlebar or frame of an "
+#~ "<em>active</em> window."
+#~ msgstr ""
+#~ "बर्ताव जब <em>मध्य</em> क्लिक हो शीर्षक पट्टी या फ़रमा में किसी <em>सक्रिय</em> "
+#~ "विंडो के."
+
+#~ msgid "Right button:"
+#~ msgstr "दायाँ बटनः"
+
+#~ msgid ""
+#~ "Behavior on <em>right</em> click into the titlebar or frame of an "
+#~ "<em>active</em> window."
+#~ msgstr ""
+#~ "बर्ताव जब <em>दायाँ</em> क्लिक हो शीर्षक पट्टी या फ़रमा में किसी <em>सक्रिय</em> "
+#~ "विंडो के."
+
+#, fuzzy
+#~| msgid "Titlebar && Frame"
+#~ msgid "Titlebar & Frame"
+#~ msgstr "शीर्षक पट्टी व फ्रेम"
+
+#, fuzzy
+#~| msgid "&Titlebar Actions"
+#~ msgid "Titlebar"
+#~ msgstr "शीर्षकपट्टी क्रियाएँ (&T)"
+
+#, fuzzy
+#~| msgid "&Border snap zone:"
+#~ msgid "no center snap zone"
+#~ msgstr "बार्डर स्नैप ज़ोनः (&B)"
+
+#, fuzzy
+#~| msgid "&Window snap zone:"
+#~ msgid "no window snap zone"
+#~ msgstr "विंडो स्नैप ज़ोनः (&W)"
+
+#, fuzzy
+#~| msgid "&Border snap zone:"
+#~ msgid "no border snap zone"
+#~ msgstr "बार्डर स्नैप ज़ोनः (&B)"
+
+#~ msgid "Windows"
+#~ msgstr "विंडोज़"
+
+#~ msgid "Snap Zones"
+#~ msgstr "स्नेप जोन्स"
+
+#~ msgid "kcmkwinoptions"
+#~ msgstr "केसीएम-के-विन-ऑप्शन्स"
+
+#~ msgid ""
+#~ "When enabled, this feature activates the border of maximized windows and "
+#~ "allows you to move or resize them, just like for normal windows"
+#~ msgstr ""
+#~ "जब सक्षम किया जाता है तो यह फ़ीचर अधिकतम किए विंडो किनारे को सक्रिय कर देता है "
+#~ "तथा आपको उसे नया आकार देने या खिसकाने देता है जैसे कि आम विंडो में होता है."
+
+#, fuzzy
+#~| msgid "Display content in &resizing windows"
+#~ msgid "Display borders on &maximized windows"
+#~ msgstr "नया आकार दी जाती विंडो की वस्तुएँ दिखाएँ (&r)"
+
+#, fuzzy
+#~| msgid "Minimize"
+#~ msgctxt "@item:inlistbox behavior on double click"
+#~ msgid "Minimize"
+#~ msgstr "न्यूनतम "
+
+#~ msgid ""
+#~ "Here you can customize mouse click behavior when clicking on the titlebar "
+#~ "or the frame of a window."
+#~ msgstr ""
+#~ "यहाँ आप उस माउस क्लिक बर्ताव को मनपसंद बना सकते हैं जब शीर्षक पट्टी या विंडो फ़रमा में "
+#~ "क्लिक करते हैं."
+
+#~ msgid ""
+#~ "Behavior on <em>right</em> click into the titlebar or frame of an "
+#~ "<em>inactive</em> window."
+#~ msgstr ""
+#~ "बर्ताव जब <em>दायाँ</em> क्लिक हो शीर्षक पट्टी या फ़रमा में किसी <em>निष्क्रिय</em> "
+#~ "विंडो के."
+
+#~ msgid ""
+#~ "Behavior on <em>middle</em> click into the titlebar or frame of an "
+#~ "<em>inactive</em> window."
+#~ msgstr ""
+#~ "बर्ताव जब <em>मध्य</em> क्लिक हो शीर्षक पट्टी या फ़रमा में किसी <em>निष्क्रिय</em> "
+#~ "विंडो के."
+
+#~ msgid ""
+#~ "Here you can customize behavior when clicking on the maximize button."
+#~ msgstr "यहाँ आप मध्य माउस क्लिक के बर्ताव को मनपसंद बना सकते हैं."
+
+#~ msgid ""
+#~ "Here you can customize mouse click behavior when clicking on an inactive "
+#~ "inner window ('inner' means: not titlebar, not frame)."
+#~ msgstr ""
+#~ "यहाँ आप माउस क्लिक बर्ताव को मनपसंद बना सकते हैं जब निष्क्रिय आंतरिक विंडो में क्लिक "
+#~ "करते हैं. (आंतरिक का अर्थः न तो शीर्षक पट्टी न ही फ्रेम)"
+
+#~ msgid ""
+#~ "Here you can customize KDE's behavior when clicking somewhere into a "
+#~ "window while pressing a modifier key."
+#~ msgstr ""
+#~ "यहाँ आप केडीई के बर्ताव को मनपसंद बना सकते हैं जब मॉडिफॉयर कुंजी को दबा कर विंडो पर "
+#~ "कहीं क्लिक किया जाता है."
+
+#, fuzzy
+#~| msgid "none"
+#~ msgctxt "no border snap zone"
+#~ msgid "none"
+#~ msgstr "कुछ नहीं"
+
+#, fuzzy
+#~| msgid "none"
+#~ msgctxt "no window snap zone"
+#~ msgid "none"
+#~ msgstr "कुछ नहीं"
+
+#, fuzzy
+#~| msgid "none"
+#~ msgctxt "no center snap zone"
+#~ msgid "none"
+#~ msgstr "कुछ नहीं"
+
+#, fuzzy
+#~| msgid "Nothing"
+#~ msgctxt "Floating layout, windows aren't tiled at all"
+#~ msgid "Floating"
+#~ msgstr "कुछ नहीं "
+
+#~ msgid ""
+#~ "When this option is enabled, there will be a delay after which the window "
+#~ "the mouse pointer is over will become active (receive focus)."
+#~ msgstr ""
+#~ "यह वह अंतराल है जिसके बाद वह विंडो, जिसके ऊपर माउस सूचक रखा जाता है, वह स्वचलित "
+#~ "रूप से सक्रिय होता है (फ़ोकस पाता है)."
+
+#~ msgid "Di&splay content in moving windows"
+#~ msgstr "खिसकाई जाती विंडो की वस्तुएँ दिखाएँ (&s)"
+
+#~ msgid "Display content in &resizing windows"
+#~ msgstr "नया आकार दी जाती विंडो की वस्तुएँ दिखाएँ (&r)"
+
+#~ msgid "Allow moving and resizing o&f maximized windows"
+#~ msgstr "विंडो को खिसकाना तथा नया आकार देने की अनुमति (&f)"
+
+#~ msgid "Show window list while switching windows"
+#~ msgstr "विंडोज़ में स्विच करने पर विंडो सूची दिखाएँ"
+
+#~ msgid "&Traverse windows on all desktops"
+#~ msgstr "सभी डेस्कटॉप पर विंडो ट्रावर्स करें (&T)"
+
+#~ msgid ""
+#~ "Leave this option disabled if you want to limit walking through windows "
+#~ "to the current desktop."
+#~ msgstr ""
+#~ "इस विकल्प को अक्षम ही रहने दें यदि आप चाहते हैं कि मौज़ूदा डेस्कटॉप के विंडोज़ में आर पार "
+#~ "जाने की सीमा हो."
+
+#~ msgid "Desktop navi&gation wraps around"
+#~ msgstr "डेस्कटॉप नेविगेशन रैप्स अराउंड (&g)"
+
+#~ msgid "Popup desktop name on desktop &switch"
+#~ msgstr "डेस्कटॉप स्विच पर पॉपअप डेस्कटॉप नाम (&s)"
+
+#~ msgid ""
+#~ "Enable this option if you wish to see the current desktop name popup "
+#~ "whenever the current desktop is changed."
+#~ msgstr ""
+#~ "इस विकल्प को सक्षम करें यदि आप चाहते हैं कि मौज़ूदा डेस्कटॉप का नाम पॉपअप हो दिखे जब "
+#~ "मौज़ूदा डेस्कटॉप बदला जाए."
+
+#~ msgctxt "Focus Stealing Prevention Level"
+#~ msgid "Normal"
+#~ msgstr "सामान्य"
+
+#~ msgid "Active Desktop Borders"
+#~ msgstr "सक्रिय डेस्कटॉप किनारे"
+
+#~ msgid "D&isabled"
+#~ msgstr "अक्षम (&i)"
+
+#~ msgid "Only &when moving windows"
+#~ msgstr "सिर्फ तभी जब विंडो खिसकाया जाए (&w)"
+
+#~ msgid "A&lways enabled"
+#~ msgstr "हमेशा सक्षम: (&l)"
+
+#~ msgid "Desktop &switch delay:"
+#~ msgstr "डेस्कटॉप स्विच देरीः (&s)"
+
+#~ msgid ""
+#~ "Here you can customize KDE's behavior when middle clicking into a window "
+#~ "while pressing the modifier key."
+#~ msgstr ""
+#~ "यहाँ आप केडीई के बर्ताव को मनपसंद बना सकते हैं जब मॉडिफॉयर कुंजी को दबा कर विंडो में "
+#~ "मध्य क्लिक किया जाता है."
+
+#~ msgid ""
+#~ "Here you can customize mouse click behavior when double clicking on the "
+#~ "titlebar of a window."
+#~ msgstr ""
+#~ "यहाँ आप माउस क्लिक के बर्ताव को मनपसंद बना सकते हैं जब विंडो के शीर्षक पट्टी पर डबल "
+#~ "क्लिक किया जाए."
+
+#~ msgid "Modifier key + left button:"
+#~ msgstr "परिवर्धक कुंजी + बायाँ बटनः"
+
+#~ msgid "Modifier key + right button:"
+#~ msgstr "परिवर्धक कुंजी + दायाँ बटनः"
+
+#~ msgid "Modifier key + middle button:"
+#~ msgstr "परिवर्धक कुंजी + मध्य बटनः"
+
+#~ msgid "Focus"
+#~ msgstr "फ़ोकस"
+
+#~ msgid "Auto &raise"
+#~ msgstr "स्वचलित ऊपर उठाएँ (&r)"
+
+#~ msgid "Navigation"
+#~ msgstr "नेविगेशन"
+
+#~ msgid "Active &mouse screen"
+#~ msgstr "सक्रिय माउस स्क्रीन (&m)"
+
+#~ msgid "Anima&te"
+#~ msgstr "एनिमेट (&t)"
+
+#~ msgid ""
+#~ "Animate the action of reducing the window to its titlebar (shading) as "
+#~ "well as the expansion of a shaded window"
+#~ msgstr ""
+#~ "विंडो को उसके शीर्षक पट्टी (शेडिंग) पर समेटने तथा साथ ही शेडेड विंडो के फैलाव को एनिमेट "
+#~ "करें"
+
+#~ msgid "Animate minimi&ze and restore"
+#~ msgstr "न्यूनतम तथा बहाल किए जाने को एनिमेट करें (&z)"
+
+#~ msgid "Slow"
+#~ msgstr "धीमा"
+
+#~ msgid "Fast"
+#~ msgstr "तेज"
+
+#~ msgid ""
+#~ "Here you can set the speed of the animation shown when windows are "
+#~ "minimized and restored. "
+#~ msgstr ""
+#~ "जब विंडो न्यूनतम हो या बहाल हो तो होने वाले एनिमेशन की गति को यहाँ आप नियत कर "
+#~ "सकते हैं"

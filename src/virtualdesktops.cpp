@@ -234,16 +234,39 @@ void VirtualDesktopManager::setRootInfo(NETRootInfo *info)
         m_rootInfo->setDesktopLayout(NET::OrientationHorizontal, columns, m_rows, NET::DesktopLayoutCornerTopLeft);
         updateRootInfo();
         m_rootInfo->setCurrentDesktop(currentDesktop()->x11DesktopNumber());
-        for (auto *vd : qAsConst(m_desktops)) {
+        for (auto *vd : std::as_const(m_desktops)) {
             m_rootInfo->setDesktopName(vd->x11DesktopNumber(), vd->name().toUtf8().data());
         }
     }
 }
 
-uint VirtualDesktopManager::above(uint id, bool wrap) const
+VirtualDesktop *VirtualDesktopManager::inDirection(VirtualDesktop *desktop, Direction direction, bool wrap)
 {
-    auto vd = above(desktopForX11Id(id), wrap);
-    return vd ? vd->x11DesktopNumber() : 0;
+    switch (direction) {
+    case Direction::Up:
+        return above(desktop, wrap);
+    case Direction::Down:
+        return below(desktop, wrap);
+    case Direction::Right:
+        return toRight(desktop, wrap);
+    case Direction::Left:
+        return toLeft(desktop, wrap);
+    case Direction::Next:
+        return next(desktop, wrap);
+    case Direction::Previous:
+        return previous(desktop, wrap);
+    }
+    Q_UNREACHABLE();
+}
+
+uint VirtualDesktopManager::inDirection(uint desktop, Direction direction, bool wrap)
+{
+    return inDirection(desktopForX11Id(desktop), direction, wrap)->x11DesktopNumber();
+}
+
+void VirtualDesktopManager::moveTo(Direction direction, bool wrap)
+{
+    setCurrent(inDirection(nullptr, direction, wrap));
 }
 
 VirtualDesktop *VirtualDesktopManager::above(VirtualDesktop *desktop, bool wrap) const
@@ -270,12 +293,6 @@ VirtualDesktop *VirtualDesktopManager::above(VirtualDesktop *desktop, bool wrap)
     return nullptr;
 }
 
-uint VirtualDesktopManager::toRight(uint id, bool wrap) const
-{
-    auto vd = toRight(desktopForX11Id(id), wrap);
-    return vd ? vd->x11DesktopNumber() : 0;
-}
-
 VirtualDesktop *VirtualDesktopManager::toRight(VirtualDesktop *desktop, bool wrap) const
 {
     Q_ASSERT(m_current);
@@ -298,12 +315,6 @@ VirtualDesktop *VirtualDesktopManager::toRight(VirtualDesktop *desktop, bool wra
         }
     }
     return nullptr;
-}
-
-uint VirtualDesktopManager::below(uint id, bool wrap) const
-{
-    auto vd = below(desktopForX11Id(id), wrap);
-    return vd ? vd->x11DesktopNumber() : 0;
 }
 
 VirtualDesktop *VirtualDesktopManager::below(VirtualDesktop *desktop, bool wrap) const
@@ -329,12 +340,6 @@ VirtualDesktop *VirtualDesktopManager::below(VirtualDesktop *desktop, bool wrap)
         }
     }
     return nullptr;
-}
-
-uint VirtualDesktopManager::toLeft(uint id, bool wrap) const
-{
-    auto vd = toLeft(desktopForX11Id(id), wrap);
-    return vd ? vd->x11DesktopNumber() : 0;
 }
 
 VirtualDesktop *VirtualDesktopManager::toLeft(VirtualDesktop *desktop, bool wrap) const
@@ -430,7 +435,7 @@ VirtualDesktop *VirtualDesktopManager::createVirtualDesktop(uint position, const
         return nullptr;
     }
 
-    position = qBound(0u, position, static_cast<uint>(m_desktops.count()));
+    position = std::clamp(position, 0u, static_cast<uint>(m_desktops.count()));
 
     QString desktopName = name;
     if (desktopName.isEmpty()) {
@@ -496,7 +501,7 @@ void VirtualDesktopManager::removeVirtualDesktop(VirtualDesktop *desktop)
         }
     }
 
-    const uint newCurrent = qMin(oldCurrent, (uint)m_desktops.count());
+    const uint newCurrent = std::min(oldCurrent, (uint)m_desktops.count());
     m_current = m_desktops.at(newCurrent - 1);
     if (oldCurrent != newCurrent) {
         Q_EMIT currentChanged(oldCurrent, newCurrent);
@@ -545,7 +550,7 @@ bool VirtualDesktopManager::setCurrent(VirtualDesktop *newDesktop)
 
 void VirtualDesktopManager::setCount(uint count)
 {
-    count = qBound<uint>(1, count, VirtualDesktopManager::maximum());
+    count = std::clamp<uint>(count, 1, VirtualDesktopManager::maximum());
     if (count == uint(m_desktops.count())) {
         // nothing to change
         return;
@@ -558,7 +563,7 @@ void VirtualDesktopManager::setCount(uint count)
         m_desktops.resize(count);
         if (m_current) {
             uint oldCurrent = current();
-            uint newCurrent = qMin(oldCurrent, count);
+            uint newCurrent = std::min(oldCurrent, count);
             m_current = m_desktops.at(newCurrent - 1);
             if (oldCurrent != newCurrent) {
                 Q_EMIT currentChanged(oldCurrent, newCurrent);
@@ -595,7 +600,7 @@ void VirtualDesktopManager::setCount(uint count)
     if (!s_loadingDesktopSettings) {
         save();
     }
-    for (auto vd : qAsConst(newDesktops)) {
+    for (auto vd : std::as_const(newDesktops)) {
         Q_EMIT desktopCreated(vd);
     }
     Q_EMIT countChanged(oldCount, m_desktops.count());
@@ -646,13 +651,13 @@ void VirtualDesktopManager::updateRootInfo()
 
 void VirtualDesktopManager::updateLayout()
 {
-    m_rows = qMin(m_rows, count());
+    m_rows = std::min(m_rows, count());
     int columns = count() / m_rows;
     Qt::Orientation orientation = Qt::Horizontal;
     if (m_rootInfo) {
         // TODO: Is there a sane way to avoid overriding the existing grid?
         columns = m_rootInfo->desktopLayoutColumnsRows().width();
-        m_rows = qMax(1, m_rootInfo->desktopLayoutColumnsRows().height());
+        m_rows = std::max(1, m_rootInfo->desktopLayoutColumnsRows().height());
         orientation = m_rootInfo->desktopLayoutOrientation() == NET::OrientationHorizontal ? Qt::Horizontal : Qt::Vertical;
     }
 
@@ -704,7 +709,7 @@ void VirtualDesktopManager::load()
     }
 
     int rows = group.readEntry<int>("Rows", 2);
-    m_rows = qBound(1, rows, n);
+    m_rows = std::clamp(rows, 1, n);
 
     s_loadingDesktopSettings = false;
 }
@@ -725,7 +730,7 @@ void VirtualDesktopManager::save()
     }
 
     group.writeEntry("Number", count());
-    for (VirtualDesktop *desktop : qAsConst(m_desktops)) {
+    for (VirtualDesktop *desktop : std::as_const(m_desktops)) {
         const uint position = desktop->x11DesktopNumber();
 
         QString s = desktop->name();
@@ -761,7 +766,8 @@ QString VirtualDesktopManager::defaultName(int desktop) const
 
 void VirtualDesktopManager::setNETDesktopLayout(Qt::Orientation orientation, uint width, uint height, int startingCorner)
 {
-    Q_UNUSED(startingCorner); // Not really worth implementing right now.
+    // startingCorner is not really worth implementing right now.
+
     const uint count = m_desktops.count();
 
     // Calculate valid grid size
@@ -779,7 +785,7 @@ void VirtualDesktopManager::setNETDesktopLayout(Qt::Orientation orientation, uin
         }
     }
 
-    m_rows = qMax(1u, height);
+    m_rows = std::max(1u, height);
 
     m_grid.update(QSize(width, height), orientation, m_desktops);
     // TODO: why is there no call to m_rootInfo->setDesktopLayout?
@@ -791,8 +797,8 @@ void VirtualDesktopManager::initShortcuts()
 {
     initSwitchToShortcuts();
 
-    Q_UNUSED(addAction(QStringLiteral("Switch to Next Desktop"), i18n("Switch to Next Desktop"), &VirtualDesktopManager::slotNext))
-    Q_UNUSED(addAction(QStringLiteral("Switch to Previous Desktop"), i18n("Switch to Previous Desktop"), &VirtualDesktopManager::slotPrevious))
+    addAction(QStringLiteral("Switch to Next Desktop"), i18n("Switch to Next Desktop"), &VirtualDesktopManager::slotNext);
+    addAction(QStringLiteral("Switch to Previous Desktop"), i18n("Switch to Previous Desktop"), &VirtualDesktopManager::slotPrevious);
 
     // shortcuts
     QAction *slotRightAction = addAction(QStringLiteral("Switch One Desktop to the Right"), i18n("Switch One Desktop to the Right"), &VirtualDesktopManager::slotRight);
@@ -904,23 +910,23 @@ void VirtualDesktopManager::initSwitchToShortcuts()
 QAction *VirtualDesktopManager::addAction(const QString &name, const KLocalizedString &label, uint value, const QKeySequence &key, void (VirtualDesktopManager::*slot)())
 {
     QAction *a = new QAction(this);
-    a->setProperty("componentName", QStringLiteral(KWIN_NAME));
+    a->setProperty("componentName", QStringLiteral("kwin"));
     a->setObjectName(name.arg(value));
     a->setText(label.subs(value).toString());
     a->setData(value);
     KGlobalAccel::setGlobalShortcut(a, key);
-    input()->registerShortcut(key, a, this, slot);
+    connect(a, &QAction::triggered, this, slot);
     return a;
 }
 
 QAction *VirtualDesktopManager::addAction(const QString &name, const QString &label, void (VirtualDesktopManager::*slot)())
 {
     QAction *a = new QAction(this);
-    a->setProperty("componentName", QStringLiteral(KWIN_NAME));
+    a->setProperty("componentName", QStringLiteral("kwin"));
     a->setObjectName(name);
     a->setText(label);
     KGlobalAccel::setGlobalShortcut(a, QKeySequence());
-    input()->registerShortcut(QKeySequence(), a, this, slot);
+    connect(a, &QAction::triggered, this, slot);
     return a;
 }
 
@@ -949,32 +955,32 @@ void VirtualDesktopManager::setNavigationWrappingAround(bool enabled)
 
 void VirtualDesktopManager::slotDown()
 {
-    moveTo<DesktopBelow>(isNavigationWrappingAround());
+    moveTo(Direction::Down, isNavigationWrappingAround());
 }
 
 void VirtualDesktopManager::slotLeft()
 {
-    moveTo<DesktopLeft>(isNavigationWrappingAround());
+    moveTo(Direction::Left, isNavigationWrappingAround());
 }
 
 void VirtualDesktopManager::slotPrevious()
 {
-    moveTo<DesktopPrevious>(isNavigationWrappingAround());
+    moveTo(Direction::Previous, isNavigationWrappingAround());
 }
 
 void VirtualDesktopManager::slotNext()
 {
-    moveTo<DesktopNext>(isNavigationWrappingAround());
+    moveTo(Direction::Next, isNavigationWrappingAround());
 }
 
 void VirtualDesktopManager::slotRight()
 {
-    moveTo<DesktopRight>(isNavigationWrappingAround());
+    moveTo(Direction::Right, isNavigationWrappingAround());
 }
 
 void VirtualDesktopManager::slotUp()
 {
-    moveTo<DesktopAbove>(isNavigationWrappingAround());
+    moveTo(Direction::Up, isNavigationWrappingAround());
 }
 
 } // KWin

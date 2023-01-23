@@ -241,3 +241,47 @@ msgid ""
 "of the screen."
 msgstr ""
 "Puoi innescare un'azione scorrendo dal bordo verso il centro dello schermo."
+
+#~ msgid "Show Desktop"
+#~ msgstr "Mostra desktop"
+
+#~ msgid "Desktop Grid"
+#~ msgstr "Griglia dei desktop"
+
+#~ msgid "Toggle Overview"
+#~ msgstr "Attiva/disattiva la panoramica"
+
+#~ msgid "%1 - Cube"
+#~ msgstr "%1 - Cubo"
+
+#~ msgid "%1 - Cylinder"
+#~ msgstr "%1 - Cilindro"
+
+#~ msgid "%1 - Sphere"
+#~ msgstr "%1 - Sfera"
+
+#~ msgid "Active Screen Corners and Edges"
+#~ msgstr "Angoli e bordi dello schermo attivi"
+
+#~ msgid "Window Management"
+#~ msgstr "Gestione finestra"
+
+#~ msgid "Maximize windows by dragging them to the top edge of the screen"
+#~ msgstr ""
+#~ "Massimizza le finestre trascinandole al bordo superiore dello schermo"
+
+#~ msgid "Quarter tiling triggered in the outer"
+#~ msgstr "Affiancatura a quattro attivata nel"
+
+#~ msgid "Other Settings"
+#~ msgstr "Altre impostazioni"
+
+#~ msgctxt "Open krunner"
+#~ msgid "Run Command"
+#~ msgstr "Esegui comando"
+
+#~ msgid "Show Dashboard"
+#~ msgstr "Mostra il quadro degli strumenti"
+
+#~ msgid "Prevent Screen Locking"
+#~ msgstr "Impedisci blocco dello schermo"

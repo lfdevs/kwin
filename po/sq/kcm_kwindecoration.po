@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase-workspace\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-26 02:35+0000\n"
+"POT-Creation-Date: 2022-10-26 00:47+0000\n"
 "PO-Revision-Date: 2009-08-08 18:07+0000\n"
 "Last-Translator: Vilson Gjeci <vilsongjeci@gmail.com>\n"
 "Language-Team: Albanian <sq@li.org>\n"
@@ -282,3 +282,40 @@ msgstr ""
 #| msgid "Resize"
 msgid "Oversized"
 msgstr "Ripërmaso"
+
+#~ msgid "Menu"
+#~ msgstr "Menu"
+
+#, fuzzy
+#~| msgid "Keep Below Others"
+#~ msgid "Keep below"
+#~ msgstr "Mbaje Nën Të Tjerët"
+
+#, fuzzy
+#~| msgid "Keep Above Others"
+#~ msgid "Keep above"
+#~ msgstr "Mbaje Mbi Të Tjerët"
+
+#~ msgid "KDE"
+#~ msgstr "KDE"
+
+#~ msgid "Help"
+#~ msgstr "Ndihmë"
+
+#~ msgid "--- spacer ---"
+#~ msgstr "--- spacer ---"
+
+#~ msgid "Decoration Options"
+#~ msgstr "Opsionet e Dekorimit"
+
+#~ msgid "(c) 2001 Karol Szwed"
+#~ msgstr "(c) 2001 Karol Szwed"
+
+#~ msgid "Karol Szwed"
+#~ msgstr "Karol Szwed"
+
+#~ msgid "Active Window"
+#~ msgstr "Dritarja Aktive"
+
+#~ msgid "Inactive Window"
+#~ msgstr "Dritarja Jo Aktive"

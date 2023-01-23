@@ -144,14 +144,19 @@ std::chrono::milliseconds Output::dimAnimationTime()
     return std::chrono::milliseconds(KSharedConfig::openConfig()->group("Effect-Kscreen").readEntry("Duration", 250));
 }
 
-bool Output::usesSoftwareCursor() const
-{
-    return true;
-}
-
 QRect Output::mapFromGlobal(const QRect &rect) const
 {
     return rect.translated(-geometry().topLeft());
+}
+
+QRectF Output::mapFromGlobal(const QRectF &rect) const
+{
+    return rect.translated(-geometry().topLeft());
+}
+
+QRectF Output::mapToGlobal(const QRectF &rect) const
+{
+    return rect.translated(geometry().topLeft());
 }
 
 Output::Capabilities Output::capabilities() const
@@ -309,7 +314,6 @@ QSize Output::orientateSize(const QSize &size) const
 
 void Output::setDpmsMode(DpmsMode mode)
 {
-    Q_UNUSED(mode)
 }
 
 Output::DpmsMode Output::dpmsMode() const
@@ -395,7 +399,31 @@ Output::RgbRange Output::rgbRange() const
 
 void Output::setColorTransformation(const std::shared_ptr<ColorTransformation> &transformation)
 {
-    Q_UNUSED(transformation);
+}
+
+ContentType Output::contentType() const
+{
+    return m_contentType;
+}
+
+void Output::setContentType(ContentType contentType)
+{
+    m_contentType = contentType;
+}
+
+Output::Transform Output::panelOrientation() const
+{
+    return m_information.panelOrientation;
+}
+
+bool Output::setCursor(CursorSource *source)
+{
+    return false;
+}
+
+bool Output::moveCursor(const QPoint &position)
+{
+    return false;
 }
 
 } // namespace KWin

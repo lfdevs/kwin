@@ -16,14 +16,30 @@
 #include <QString>
 
 #include <xcb/xcb.h>
+#include <xcb/present.h>
 
 class NETWinInfo;
 
 namespace KWin
 {
 
-class SoftwareVsyncMonitor;
 class X11WindowedBackend;
+class X11WindowedOutput;
+class X11WindowedEglBackend;
+class X11WindowedQPainterBackend;
+
+class X11WindowedCursor
+{
+public:
+    explicit X11WindowedCursor(X11WindowedOutput *output);
+    ~X11WindowedCursor();
+
+    void update(const QImage &image, const QPoint &hotspot);
+
+private:
+    X11WindowedOutput *m_output;
+    xcb_cursor_t m_handle = XCB_CURSOR_NONE;
+};
 
 /**
  * Wayland outputs in a nested X11 setup
@@ -36,21 +52,17 @@ public:
     ~X11WindowedOutput() override;
 
     RenderLoop *renderLoop() const override;
-    SoftwareVsyncMonitor *vsyncMonitor() const;
 
-    void init(const QSize &pixelSize);
+    void init(const QSize &pixelSize, qreal scale);
     void resize(const QSize &pixelSize);
 
-    xcb_window_t window() const
-    {
-        return m_window;
-    }
+    X11WindowedBackend *backend() const;
+    X11WindowedCursor *cursor() const;
+    xcb_window_t window() const;
+    int depth() const;
 
     QPoint internalPosition() const;
-    QPoint hostPosition() const
-    {
-        return m_hostPosition;
-    }
+    QPoint hostPosition() const;
     void setHostPosition(const QPoint &pos);
 
     void setWindowTitle(const QString &title);
@@ -60,7 +72,8 @@ public:
      */
     QPointF mapFromGlobal(const QPointF &pos) const;
 
-    bool usesSoftwareCursor() const override;
+    bool setCursor(CursorSource *source) override;
+    bool moveCursor(const QPoint &position) override;
 
     QRegion exposedArea() const;
     void addExposedArea(const QRect &rect);
@@ -68,14 +81,18 @@ public:
 
     void updateEnabled(bool enabled);
 
+    void handlePresentCompleteNotify(xcb_present_complete_notify_event_t *event);
+
 private:
     void initXInputForWindow();
-    void vblank(std::chrono::nanoseconds timestamp);
+    void renderCursorOpengl(X11WindowedEglBackend *backend, CursorSource *source);
+    void renderCursorQPainter(X11WindowedQPainterBackend *backend, CursorSource *source);
 
     xcb_window_t m_window = XCB_WINDOW_NONE;
+    xcb_present_event_t m_presentEvent = XCB_NONE;
     std::unique_ptr<NETWinInfo> m_winInfo;
     std::unique_ptr<RenderLoop> m_renderLoop;
-    std::unique_ptr<SoftwareVsyncMonitor> m_vsyncMonitor;
+    std::unique_ptr<X11WindowedCursor> m_cursor;
     QPoint m_hostPosition;
     QRegion m_exposedArea;
 

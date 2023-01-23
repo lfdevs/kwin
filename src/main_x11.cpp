@@ -12,9 +12,11 @@
 
 #include <config-kwin.h>
 
-#include "backends/x11/standalone/x11_standalone_platform.h"
-#include "core/platform.h"
+#include "backends/x11/standalone/x11_standalone_backend.h"
+#include "core/outputbackend.h"
 #include "core/session.h"
+#include "outline.h"
+#include "screenedge.h"
 #include "sm.h"
 #include "tabletmodemanager.h"
 #include "utils/xcbutils.h"
@@ -22,10 +24,12 @@
 
 #include <KConfigGroup>
 #include <KCrash>
+#include <KGlobalAccel>
 #include <KLocalizedString>
 #include <KSelectionOwner>
 #include <KSignalHandler>
 
+#include <QAction>
 #include <QComboBox>
 #include <QCommandLineParser>
 #include <QDialog>
@@ -72,7 +76,7 @@ public:
         addWM(QStringLiteral("metacity"));
         addWM(QStringLiteral("openbox"));
         addWM(QStringLiteral("fvwm2"));
-        addWM(QStringLiteral(KWIN_INTERNAL_NAME_X11));
+        addWM(QStringLiteral("kwin_x11"));
 
         QVBoxLayout *mainLayout = new QVBoxLayout(this);
         mainLayout->addWidget(mainWidget);
@@ -194,6 +198,45 @@ void ApplicationX11::setReplace(bool replace)
     m_replace = replace;
 }
 
+std::unique_ptr<Edge> ApplicationX11::createScreenEdge(ScreenEdges *parent)
+{
+    return static_cast<X11StandaloneBackend *>(outputBackend())->createScreenEdge(parent);
+}
+
+void ApplicationX11::createPlatformCursor(QObject *parent)
+{
+    static_cast<X11StandaloneBackend *>(outputBackend())->createPlatformCursor(parent);
+}
+
+std::unique_ptr<OutlineVisual> ApplicationX11::createOutline(Outline *outline)
+{
+    // first try composited Outline
+    if (auto outlineVisual = Application::createOutline(outline)) {
+        return outlineVisual;
+    }
+    return static_cast<X11StandaloneBackend *>(outputBackend())->createOutline(outline);
+}
+
+void ApplicationX11::createEffectsHandler(Compositor *compositor, WorkspaceScene *scene)
+{
+    static_cast<X11StandaloneBackend *>(outputBackend())->createEffectsHandler(compositor, scene);
+}
+
+void ApplicationX11::startInteractiveWindowSelection(std::function<void(KWin::Window *)> callback, const QByteArray &cursorName)
+{
+    static_cast<X11StandaloneBackend *>(outputBackend())->startInteractiveWindowSelection(callback, cursorName);
+}
+
+void ApplicationX11::startInteractivePositionSelection(std::function<void(const QPoint &)> callback)
+{
+    static_cast<X11StandaloneBackend *>(outputBackend())->startInteractivePositionSelection(callback);
+}
+
+PlatformCursorImage ApplicationX11::cursorImage() const
+{
+    return static_cast<X11StandaloneBackend *>(outputBackend())->cursorImage();
+}
+
 void ApplicationX11::lostSelection()
 {
     sendPostedEvents();
@@ -222,7 +265,7 @@ void ApplicationX11::performStartup()
         // first load options - done internally by a different thread
         createOptions();
 
-        if (!platform()->initialize()) {
+        if (!outputBackend()->initialize()) {
             std::exit(1);
         }
 
@@ -239,6 +282,17 @@ void ApplicationX11::performStartup()
                 ::exit(1);
             }
         }
+
+        // Update the timestamp if a global shortcut is pressed or released. Needed
+        // to ensure that kwin can grab the keyboard.
+        connect(KGlobalAccel::self(), &KGlobalAccel::globalShortcutActiveChanged, this, [this](QAction *triggeredAction) {
+            QVariant timestamp = triggeredAction->property("org.kde.kglobalaccel.activationTimestamp");
+            bool ok = false;
+            const quint32 t = timestamp.toULongLong(&ok);
+            if (ok) {
+                kwinApp()->setX11Time(t);
+            }
+        });
 
         createInput();
         createWorkspace();
@@ -259,14 +313,6 @@ void ApplicationX11::performStartup()
     createTabletModeManager();
 }
 
-bool ApplicationX11::notify(QObject *o, QEvent *e)
-{
-    if (e->spontaneous() && Workspace::self()->workspaceEvent(e)) {
-        return true;
-    }
-    return QApplication::notify(o, e);
-}
-
 void ApplicationX11::setupCrashHandler()
 {
     KCrash::setEmergencySaveFunction(ApplicationX11::crashHandler);
@@ -278,7 +324,7 @@ void ApplicationX11::crashChecking()
     if (crashes >= 4) {
         // Something has gone seriously wrong
         AlternativeWMDialog dialog;
-        QString cmd = QStringLiteral(KWIN_INTERNAL_NAME_X11);
+        QString cmd = QStringLiteral("kwin_x11");
         if (dialog.exec() == QDialog::Accepted) {
             cmd = dialog.selectedWM();
         } else {
@@ -293,12 +339,6 @@ void ApplicationX11::crashChecking()
         sprintf(buf, "%s &", cmd.toLatin1().data());
         system(buf);
         ::exit(1);
-    }
-    if (crashes >= 2) {
-        // Disable compositing if we have had too many crashes
-        qCDebug(KWIN_CORE) << "Too many crashes recently, disabling compositing";
-        KConfigGroup compgroup(KSharedConfig::openConfig(), "Compositing");
-        compgroup.writeEntry("Enabled", false);
     }
     // Reset crashes count if we stay up for more that 15 seconds
     QTimer::singleShot(15 * 1000, this, &Application::resetCrashesCount);
@@ -401,7 +441,7 @@ int main(int argc, char *argv[])
     }
 
     a.setSession(KWin::Session::create(KWin::Session::Type::Noop));
-    a.setPlatform(std::make_unique<KWin::X11StandalonePlatform>());
+    a.setOutputBackend(std::make_unique<KWin::X11StandaloneBackend>());
     a.start();
 
     return a.exec();

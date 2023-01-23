@@ -6,8 +6,7 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-#ifndef KWIN_KEYBOARD_LAYOUT_SWITCHING_H
-#define KWIN_KEYBOARD_LAYOUT_SWITCHING_H
+#pragma once
 
 #include <KConfigGroup>
 #include <QHash>
@@ -71,7 +70,6 @@ protected:
     }
     void layoutChanged(uint index) override
     {
-        Q_UNUSED(index)
     }
 
 private:
@@ -138,10 +136,8 @@ protected:
 private:
     void windowActivated(Window *window);
     QHash<Window *, quint32> m_layouts;
-    QHash<QByteArray, quint32> m_layoutsRestored;
+    QHash<QString, quint32> m_layoutsRestored;
 };
 
 }
 }
-
-#endif

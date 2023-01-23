@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-01 02:26+0000\n"
-"PO-Revision-Date: 2022-08-18 22:22+0200\n"
+"POT-Creation-Date: 2023-01-18 00:58+0000\n"
+"PO-Revision-Date: 2022-12-04 17:15+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@neuf.fr>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
 "Language: fr\n"
@@ -69,6 +69,7 @@ msgstr ""
 #: mousemark/mousemark_config.cpp:50 overview/kcm/overvieweffectkcm.cpp:35
 #: showpaint/showpaint_config.cpp:33
 #: thumbnailaside/thumbnailaside_config.cpp:54
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:31
 #: trackmouse/trackmouse_config.cpp:52
 #: windowview/kcm/windowvieweffectkcm.cpp:36 zoom/zoom_config.cpp:58
 #, kde-format
@@ -207,14 +208,20 @@ msgstr "Le plus proche"
 msgid "Natural"
 msgstr "Naturel"
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
+#: desktopgrid/desktopgrid_config.ui:147
+#, kde-format
+msgid "None"
+msgstr "Aucun"
+
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: desktopgrid/desktopgrid_config.ui:150
+#: desktopgrid/desktopgrid_config.ui:155
 #, kde-format
 msgid "Windows layout:"
 msgstr "Disposition de fenêtres :"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: desktopgrid/desktopgrid_config.ui:166
+#: desktopgrid/desktopgrid_config.ui:171
 #, kde-format
 msgid "Activation"
 msgstr "Activation"
@@ -317,10 +324,15 @@ msgstr "Animation à la fermeture d'une fenêtre"
 msgid "Toggle Invert Effect"
 msgstr "Activer / désactiver l'effet d'inversion"
 
-#: invert/invert.cpp:50 invert/invert_config.cpp:44
+#: invert/invert.cpp:49 invert/invert_config.cpp:44
 #, kde-format
 msgid "Toggle Invert Effect on Window"
 msgstr "Activer / désactiver l'effet d'inversion sur une fenêtre"
+
+#: invert/invert.cpp:56
+#, kde-format
+msgid "Invert Screen Colors"
+msgstr "Inverser les couleurs de l'écran"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FadeToBlack)
 #: login/package/contents/ui/config.ui:17
@@ -378,30 +390,30 @@ msgstr "&Hauteur :"
 msgid "Toggle Mouse Click Effect"
 msgstr "Activer/désactiver l'effet de clic de la souris"
 
-#: mouseclick/mouseclick.cpp:42
+#: mouseclick/mouseclick.cpp:41
 #, kde-format
 msgctxt "Left mouse button"
 msgid "Left"
 msgstr "Gauche"
 
-#: mouseclick/mouseclick.cpp:43
+#: mouseclick/mouseclick.cpp:42
 #, kde-format
 msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr "Milieu"
 
-#: mouseclick/mouseclick.cpp:44
+#: mouseclick/mouseclick.cpp:43
 #, kde-format
 msgctxt "Right mouse button"
 msgid "Right"
 msgstr "Droit"
 
-#: mouseclick/mouseclick.h:61
+#: mouseclick/mouseclick.h:60
 #, kde-format
 msgid "↓"
 msgstr "↓"
 
-#: mouseclick/mouseclick.h:62
+#: mouseclick/mouseclick.h:61
 #, kde-format
 msgid "↑"
 msgstr "↑"
@@ -497,12 +509,12 @@ msgstr "Police de caractères :"
 msgid "Show Text:"
 msgstr "Afficher le texte :"
 
-#: mousemark/mousemark.cpp:36
+#: mousemark/mousemark.cpp:39
 #, kde-format
 msgid "Clear All Mouse Marks"
 msgstr "Effacer toutes les traces de souris"
 
-#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:59
+#: mousemark/mousemark.cpp:45 mousemark/mousemark_config.cpp:59
 #, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr "Effacer la dernière trace de souris"
@@ -570,12 +582,12 @@ msgstr "Flouter l'arrière-plan :"
 msgid "Ignore minimized windows:"
 msgstr "Ignorer les fenêtres minimisées :"
 
-#: overview/qml/DesktopBar.qml:186
+#: overview/qml/DesktopBar.qml:187
 #, kde-format
 msgid "Delete Virtual Desktop"
 msgstr "Supprimer un bureau virtuel"
 
-#: overview/qml/DesktopBar.qml:282
+#: overview/qml/DesktopBar.qml:283
 #, kde-format
 msgid "Add Virtual Desktop"
 msgstr "Ajouter un bureau virtuel"
@@ -585,12 +597,12 @@ msgstr "Ajouter un bureau virtuel"
 msgid "No matching windows"
 msgstr "Aucune fenêtre correspondante"
 
-#: private/qml/WindowHeapDelegate.qml:152
+#: private/qml/WindowHeapDelegate.qml:151
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "Glisser vers le bas pour fermer"
 
-#: private/qml/WindowHeapDelegate.qml:462
+#: private/qml/WindowHeapDelegate.qml:461
 #, kde-format
 msgctxt "@info:tooltip as in: 'close this window'"
 msgid "Close window"
@@ -608,20 +620,20 @@ msgstr "Échelle à l'ouverture de la fenêtre :"
 msgid "Window close scale:"
 msgstr "Échelle à la fermeture de la fenêtre :"
 
-#: screenshot/screenshotdbusinterface1.cpp:480
+#: screenshot/screenshotdbusinterface1.cpp:478
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr "Capture d'écran"
 
-#: screenshot/screenshotdbusinterface1.cpp:481
+#: screenshot/screenshotdbusinterface1.cpp:479
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr "Capture d'écran enregistrée dans %1"
 
-#: screenshot/screenshotdbusinterface1.cpp:797
-#: screenshot/screenshotdbusinterface2.cpp:472
+#: screenshot/screenshotdbusinterface1.cpp:800
+#: screenshot/screenshotdbusinterface2.cpp:477
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
@@ -630,8 +642,8 @@ msgstr ""
 "Sélectionnez la fenêtre capturer par clic gauche ou entrée.\n"
 "Échap ou clic droit pour annuler."
 
-#: screenshot/screenshotdbusinterface1.cpp:800
-#: screenshot/screenshotdbusinterface2.cpp:490
+#: screenshot/screenshotdbusinterface1.cpp:803
+#: screenshot/screenshotdbusinterface2.cpp:495
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -693,14 +705,8 @@ msgstr "Horizontal :"
 msgid "Vertical:"
 msgstr "Vertical :"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideDocks)
-#: slide/slide_config.ui:72
-#, kde-format
-msgid "Slide docks"
-msgstr "Faire glisser les panneaux"
-
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideBackground)
-#: slide/slide_config.ui:79
+#: slide/slide_config.ui:72
 #, kde-format
 msgid "Slide desktop background"
 msgstr "Faire glisser l'arrière-plan du bureau"
@@ -742,6 +748,47 @@ msgstr "&Opacité :"
 #, no-c-format, kde-format
 msgid " %"
 msgstr " %"
+
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:37
+#: tileseditor/tileseditoreffect.cpp:29
+#, kde-format
+msgid "Toggle Tiles Editor"
+msgstr "Basculer ou sortir de l'éditeur de recouvrement"
+
+#: tileseditor/qml/main.qml:147
+#, kde-format
+msgid "Padding:"
+msgstr "Remplissage :"
+
+#: tileseditor/qml/main.qml:157
+#, kde-format
+msgid "Load Layout..."
+msgstr "Charger une disposition..."
+
+#: tileseditor/qml/main.qml:271
+#, kde-format
+msgid "Close"
+msgstr "Proche"
+
+#: tileseditor/qml/TileDelegate.qml:171
+#, kde-format
+msgid "Split Horizontally"
+msgstr "Scinder horizontalement"
+
+#: tileseditor/qml/TileDelegate.qml:178
+#, kde-format
+msgid "Split Vertically"
+msgstr "Scinder verticalement"
+
+#: tileseditor/qml/TileDelegate.qml:186 tileseditor/qml/TileDelegate.qml:215
+#, kde-format
+msgid "Add Floating Tile"
+msgstr "Ajouter un recouvrement flottant"
+
+#: tileseditor/qml/TileDelegate.qml:195
+#, kde-format
+msgid "Delete"
+msgstr "Supprimer"
 
 #: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:57
 #, kde-format
@@ -877,17 +924,17 @@ msgstr "Menus d'extinction :"
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Activer / désactiver la présentation des fenêtres (bureau courant)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:55
+#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:54
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Activer / désactiver la présentation des fenêtres (tous les bureaux)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:65
+#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:63
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Activer / désactiver la présentation des fenêtres (Classe de fenêtre)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:75
+#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:72
 #, kde-format
 msgid "Toggle Present Windows (Window class on current desktop)"
 msgstr ""
@@ -900,15 +947,20 @@ msgstr ""
 msgid "Ignore &minimized windows"
 msgstr "Ignorer les fenêtres &minimisées"
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, kde-format
 msgid "No Matches"
 msgstr "Aucune correspondance"
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, kde-format
 msgid "No Windows"
 msgstr "Aucune fenêtre"
+
+#: windowview/qml/main.qml:123
+#, kde-format
+msgid "Filter windows…"
+msgstr "Filtrer les fenêtres..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20
@@ -970,32 +1022,32 @@ msgstr "Moins"
 msgid "More"
 msgstr "Plus"
 
-#: zoom/zoom.cpp:68
+#: zoom/zoom.cpp:65
 #, kde-format
 msgid "Move Zoomed Area to Left"
 msgstr "Déplacer la zone de zoom vers la gauche"
 
-#: zoom/zoom.cpp:76
+#: zoom/zoom.cpp:72
 #, kde-format
 msgid "Move Zoomed Area to Right"
 msgstr "Déplacer la zone de zoom vers la droite"
 
-#: zoom/zoom.cpp:84
+#: zoom/zoom.cpp:79
 #, kde-format
 msgid "Move Zoomed Area Upwards"
 msgstr "Déplacer la zone de zoom vers le haut"
 
-#: zoom/zoom.cpp:92
+#: zoom/zoom.cpp:86
 #, kde-format
 msgid "Move Zoomed Area Downwards"
 msgstr "Déplacer la zone de zoom vers le bas"
 
-#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:108
+#: zoom/zoom.cpp:94 zoom/zoom_config.cpp:108
 #, kde-format
 msgid "Move Mouse to Focus"
 msgstr "Déplacer la souris pour donner le focus"
 
-#: zoom/zoom.cpp:109 zoom/zoom_config.cpp:115
+#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:115
 #, kde-format
 msgid "Move Mouse to Center"
 msgstr "Déplacer la souris au centre"
@@ -1134,233 +1186,1051 @@ msgstr "Désactivé"
 msgid "Mouse Tracking:"
 msgstr "Suivi de la souris :"
 
+#~ msgid "Slide docks"
+#~ msgstr "Faire glisser les panneaux"
 
+#~ msgid "Search..."
+#~ msgstr "Rechercher..."
 
+#~ msgid "&Radius:"
+#~ msgstr "&Rayon :"
 
+#~ msgid "Text position:"
+#~ msgstr "Position du texte :"
 
+#~ msgid "Inside Graph"
+#~ msgstr "Dans un graphique"
 
+#~ msgid "Nowhere"
+#~ msgstr "Nul part"
 
+#~ msgid "Top Left"
+#~ msgstr "En haut, à gauche"
 
+#~ msgid "Top Right"
+#~ msgstr "En haut, à droite"
 
+#~ msgid "Bottom Left"
+#~ msgstr "En bas, à gauche"
 
+#~ msgid "Bottom Right"
+#~ msgstr "En bas, à droite"
 
+#~ msgid "Text font:"
+#~ msgstr "Police du texte :"
 
+#~ msgid "Text color:"
+#~ msgstr "Couleur du texte :"
 
+#~ msgid "Text alpha:"
+#~ msgstr "Canal alpha du texte :"
 
+#~ msgid "Show graph:"
+#~ msgstr "Afficher un graphe :"
 
+#~ msgid "Show on active screen"
+#~ msgstr "Afficher sur l'écran actif"
 
+#~ msgid "Show Message:"
+#~ msgstr "Afficher un message :"
 
+#~ msgid "Show \"not a benchmark\" message"
+#~ msgstr "Afficher le message « N'est pas une référence »"
 
+#~ msgid "Colorize Text:"
+#~ msgstr "Colorer le texte :"
 
+#~ msgid "Color text by value (green > yellow > red)"
+#~ msgstr "Colorer le texte avec une valeur (vert > jaune > rouge)"
 
+#~ msgid "Zoom &duration:"
+#~ msgstr "&Durée du zoom :"
 
+#~ msgctxt "Duration of zoom"
+#~ msgid "Default"
+#~ msgstr "Par défaut"
 
+#~ msgid "Border wid&th:"
+#~ msgstr "Largeur du &bord :"
 
+#~ msgid "Click behavior:"
+#~ msgstr "Comportement des clics :"
 
+#~ msgid ""
+#~ "If the Present Windows effect is enabled, it will be automatically "
+#~ "triggered."
+#~ msgstr ""
+#~ "Si l'effet « Présenter les fenêtres » est activé, il sera déclenché "
+#~ "automatiquement."
 
+#~ msgid "Switch desktop and activate window"
+#~ msgstr "Basculer de bureau et activer la fenêtre"
 
+#~ msgid "Switch desktop only"
+#~ msgstr "Basculer uniquement le bureau"
 
+#~ msgid "Natural Layout Settings"
+#~ msgstr "Paramètres de la disposition naturelle"
 
+#~ msgid "Fill &gaps"
+#~ msgstr "Remplir les es&paces"
 
+#~ msgid "Faster"
+#~ msgstr "Plus rapide"
 
+#~ msgid "Nicer"
+#~ msgstr "Plus joli"
 
+#~ msgid "Left button:"
+#~ msgstr "Bouton gauche :"
 
+#~ msgid "No action"
+#~ msgstr "Aucune action"
 
+#~ msgid "Activate window"
+#~ msgstr "Activer une fenêtre"
 
+#~ msgid "End effect"
+#~ msgstr "Arrêter un effet"
 
+#~ msgid "Bring window to current desktop"
+#~ msgstr "Amener une fenêtre sur le bureau courant"
 
+#~ msgid "Send window to all desktops"
+#~ msgstr "Envoyer une fenêtre sur tous les bureaux"
 
+#~ msgid "(Un-)Minimize window"
+#~ msgstr "Minimiser / Rétablir une fenêtre"
 
+#~ msgid "Middle button:"
+#~ msgstr "Bouton du milieu :"
 
+#~ msgid "Right button:"
+#~ msgstr "Bouton droit :"
 
+#~ msgctxt "@title:group actions when clicking on desktop"
+#~ msgid "Desktop"
+#~ msgstr "Bureau"
 
+#~ msgid "Show desktop"
+#~ msgstr "Afficher un bureau"
 
+#~ msgid "Display window &titles"
+#~ msgstr "Afficher les &titres de fenêtre"
 
+#~ msgid "Display window &icons"
+#~ msgstr "Afficher les &icônes de fenêtre"
 
+#~ msgid "Show &panels"
+#~ msgstr "Afficher les panneaux"
 
+#~ msgid "Regular Grid"
+#~ msgstr "Grille normale"
 
+#~ msgid "Flexible Grid"
+#~ msgstr "Grille flexible"
 
+#~ msgid "Provide buttons to close the windows"
+#~ msgstr "Fournir des boutons pour fermer les fenêtres"
 
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Sébastien Renard, Vincent Pinon, Simon Depiets, Xavier Besnard"
 
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr ""
+#~ "renard@kde.org, vpinon@kde.org, sdepiets@gmail.com, xavier.besnard@neuf.fr"
 
+#~ msgid "Scale window"
+#~ msgstr "Mettre une fenêtre à l'échelle"
 
+#~ msgid "Show outline"
+#~ msgstr "Afficher une trame"
 
+#~ msgid "Toggle window geometry display (effect only)"
+#~ msgstr ""
+#~ "Activer / désactiver l'affichage géométrique (uniquement les effets)"
 
+#~ msgid "Toggle KWin composited geometry display"
+#~ msgstr "Activer / désactiver l'affichage géométrique composite de KWin"
 
+#~ msgid "Display for moving windows"
+#~ msgstr "Afficher pour les fenêtres en mouvement"
 
+#~ msgid "Display for resizing windows"
+#~ msgstr "Afficher pour les fenêtres re-dimensionnées"
 
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Blur"
+#~ msgstr "Flou"
 
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Blurs the background behind semi-transparent windows"
+#~ msgstr "Rend flou l'arrière-plan sous les fenêtres semi-transparentes"
 
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Color Picker"
+#~ msgstr "Sélecteur de couleur"
 
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Supports picking a color"
+#~ msgstr "Permet de sélectionner une couleur"
 
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Background contrast"
+#~ msgstr "Contraste de l'arrière-plan"
 
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Improve contrast and readability behind semi-transparent windows"
+#~ msgstr ""
+#~ "Améliore le contraste et la lisibilité derrière les fenêtres semi "
+#~ "transparentes"
 
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Grid"
+#~ msgstr "Bureau en grille"
 
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Zoom out so all desktops are displayed side-by-side in a grid"
+#~ msgstr ""
+#~ "Faire un zoom arrière de manière à afficher tous les bureaux côte à côte "
+#~ "dans une grille"
 
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Dim Inactive"
+#~ msgstr "Estompe les inactifs"
 
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Darken inactive windows"
+#~ msgstr "Assombrit les fenêtres inactives"
 
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Fall Apart"
+#~ msgstr "Tomber en ruine"
 
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Closed windows fall into pieces"
+#~ msgstr "Les fenêtres fermées tombent en morceaux"
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Glide"
+#~ msgstr "Glisser"
 
 # unreviewed-context
 # unreviewed-context
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Glide windows as they appear or disappear"
+#~ msgstr ""
+#~ "Faire glisser les fenêtres lorsqu'elles apparaissent ou disparaissent"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Highlight Window"
+#~ msgstr "Mise en évidence de la fenêtre"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlight the appropriate window when hovering over taskbar entries"
+#~ msgstr ""
+#~ "Met en évidence la fenêtre appropriée lorsque le curseur survole son "
+#~ "icône dans le gestionnaire des tâches"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Invert"
+#~ msgstr "Inverser"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Inverts the color of the desktop and windows"
+#~ msgstr "Inverse la couleur du bureau et des fenêtres"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Kscreen"
+#~ msgstr "KScreen"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper Effect for KScreen"
+#~ msgstr "Effet d'assistance pour KScreen"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Looking Glass"
+#~ msgstr "Loupe"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "A screen magnifier that looks like a fisheye lens"
+#~ msgstr "Un agrandisseur d'affichage ressemblant à une lentille grand angle"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Magic Lamp"
+#~ msgstr "Lampe Magique"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Simulate a magic lamp when minimizing windows"
+#~ msgstr "Simule une lampe magique lors de la réduction des fenêtres"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Magnifier"
+#~ msgstr "Magnifier"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Magnify the section of the screen that is near the mouse cursor"
+#~ msgstr "Agrandit la partie de l'écran proche du pointeur de la souris"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Click Animation"
+#~ msgstr "Animation du clic de la souris"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Creates an animation whenever a mouse button is clicked. This is useful "
+#~ "for screenrecordings/presentations"
+#~ msgstr ""
+#~ "Crée une animation associé à un clic sur un bouton de la souris. Ceci est "
+#~ "utile pour les enregistrement d'écran ou les présentations"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Mark"
+#~ msgstr "Tracé à la souris"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Allows you to draw lines on the desktop"
+#~ msgstr "Permet de dessiner des lignes sur votre bureau"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Overview"
+#~ msgstr "Aperçu"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Allows you to overview virtual desktops and windows"
+#~ msgstr "Vous permet d'avoir un aperçu des bureaux virtuels et des fenêtres"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Present Windows"
+#~ msgstr "Présentation des fenêtres"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Zoom out until all opened windows can be displayed side-by-side"
+#~ msgstr ""
+#~ "Faire un zoom arrière jusqu'à ce que toutes les fenêtres puissent être "
+#~ "affichées côte à côte"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Resize Window"
+#~ msgstr "Redimensionner une fenêtre"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Resizes windows with a fast texture scale instead of updating contents"
+#~ msgstr ""
+#~ "Redimensionne les fenêtres à l'aide d'une échelle texturée rapide au lieu "
+#~ "de mettre à jour les contenus"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Screen Edge"
+#~ msgstr "Bord de l'écran"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlights a screen edge when approaching"
+#~ msgstr "Mettre en valeur le bord de l'écran à l'approche"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Screenshot"
+#~ msgstr "Capture d'écran"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper effect for screenshot tools"
+#~ msgstr "Effet d'assistance pour les outils de capture d'écran"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Transform"
+#~ msgstr "Transformer"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Animates display transformations"
+#~ msgstr "Anime les transformations d'affichage"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Sheet"
+#~ msgstr "Feuille"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Make modal dialogs smoothly fly in and out when they are shown or hidden"
+#~ msgstr ""
+#~ "Fait voler progressivement en avant ou en arrière les fenêtres "
+#~ "lorsqu'elles sont affichées ou cachées"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show FPS"
+#~ msgstr "Afficher le nombre de trames par seconde"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display KWin's performance in the corner of the screen"
+#~ msgstr "Affiche les performances de KWin dans le coin de l'écran"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show Paint"
+#~ msgstr "Affiche les zones peintes"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlight areas of the desktop that have been recently updated"
+#~ msgstr "Met en valeur les zones de l'écran ayant été récemment mises à jour"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Slide"
+#~ msgstr "Glissage"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Slide desktops when switching virtual desktops"
+#~ msgstr "Faire glisser les bureaux en changeant de bureau virtuel"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Slide Back"
+#~ msgstr "Glisser vers l'arrière"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Slide back windows when another window is raised"
+#~ msgstr ""
+#~ "Faire glisser les fenêtres vers l'arrière lors de l'apparition d'une "
+#~ "autre fenêtre"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Sliding popups"
+#~ msgstr "Annotations glissantes"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Sliding animation for Plasma popups"
+#~ msgstr "Animation de glissement pour les annotations de Plasma"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Snap Helper"
+#~ msgstr "Aide au positionnement"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Help you locate the center of the screen when moving a window"
+#~ msgstr ""
+#~ "Vous aide à localiser le centre de l'écran lors du déplacement d'une "
+#~ "fenêtre"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Startup Feedback"
+#~ msgstr "Témoin de démarrage"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper effect for startup feedback"
+#~ msgstr "Effet d'assistance du témoin de démarrage "
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Thumbnail Aside"
+#~ msgstr "Vignette sur le côté"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display window thumbnails on the edge of the screen"
+#~ msgstr "Affiche les vignettes de fenêtres sur le bord de l'écran"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Touch Points"
+#~ msgstr "Points de contact"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Visualize touch points"
+#~ msgstr "Afficher les points de contact"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Track Mouse"
+#~ msgstr "Suivre la souris"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display a mouse cursor locating effect when activated"
+#~ msgstr ""
+#~ "Affiche un effet indiquant la position du pointeur de la souris quand "
+#~ "activé"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Window Geometry"
+#~ msgstr "Géométrie de la fenêtre"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display window geometries on move/resize"
+#~ msgstr ""
+#~ "Affiche la géométrie de la fenêtre pendant son déplacement ou son "
+#~ "redimensionnement"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Wobbly Windows"
+#~ msgstr "Fenêtres en gélatine"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Deform windows while they are moving"
+#~ msgstr "Déforme les fenêtres pendant leur déplacement"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Zoom"
+#~ msgstr "Zoom"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Magnify the entire desktop"
+#~ msgstr "Agrandit la totalité du bureau"
+
+#~ msgid "Kompose"
+#~ msgstr "Kompose"
+
+#~ msgctxt "Special entry in alt+tab list for minimizing all windows"
+#~ msgid "Show Desktop"
+#~ msgstr "Afficher un bureau"
+
+#~ msgid "Zoom"
+#~ msgstr "Zoom"
+
+#~ msgid "Define how far away the windows should appear"
+#~ msgstr "Définir combien les fenêtres doivent paraître lointaines"
+
+#~ msgid "Near"
+#~ msgstr "Près"
+
+#~ msgid "Far"
+#~ msgstr "Loin"
+
+#~ msgid "Animation"
+#~ msgstr "Animation"
+
+#~ msgid "Animate switch"
+#~ msgstr "Animer un changement"
+
+#~ msgid "Animation on tab box open"
+#~ msgstr "Animation à l'ouverture d'une boîte d'onglets"
+
+#~ msgid "Animation on tab box close"
+#~ msgstr "Animation à la fermeture d'une boîte d'onglets"
+
+#~ msgid "Reflections"
+#~ msgstr "Réflexions"
+
+#~ msgid "Rear color"
+#~ msgstr "Couleur de fond"
+
+#~ msgid "Front color"
+#~ msgstr "Couleur de premier plan"
+
+#~ msgid "Desktop Cube"
+#~ msgstr "Cube de bureaux"
+
+#~ msgid "Desktop Cylinder"
+#~ msgstr "Cylindre de bureaux"
+
+#~ msgid "Desktop Sphere"
+#~ msgstr "Sphère de bureaux"
+
+#~ msgctxt "@title:tab Basic Settings"
+#~ msgid "Basic"
+#~ msgstr "Basiques"
+
+#~ msgctxt "@title:tab Advanced Settings"
+#~ msgid "Advanced"
+#~ msgstr "Avancés"
+
+#~ msgid "Tab 1"
+#~ msgstr "Onglet 1"
+
+#~ msgid "Background color:"
+#~ msgstr "Couleur d'arrière-plan :"
+
+#~ msgid "Wallpaper:"
+#~ msgstr "Papier peint :"
+
+#~ msgid "Display desktop name"
+#~ msgstr "Affiche le nom du bureau"
+
+#~ msgid "Reflection"
+#~ msgstr "Réflexion"
+
+#~ msgid "Rotation duration:"
+#~ msgstr "Durée de rotation :"
+
+#~ msgid "Windows hover above cube"
+#~ msgstr "Les fenêtres survolent le cube"
+
+#~ msgid "Opacity"
+#~ msgstr "Opacité"
+
+#~ msgid "Do not change opacity of windows"
+#~ msgstr "Ne pas modifier la transparence des fenêtres"
+
+#~ msgid "Tab 2"
+#~ msgstr "Onglet 2"
+
+#~ msgid "Caps"
+#~ msgstr "Dômes"
+
+#~ msgid "Cap color:"
+#~ msgstr "Couleur de dôme :"
+
+#~ msgid "Display image on caps"
+#~ msgstr "Afficher une image sur les dômes"
+
+#~ msgid "Define how far away the object should appear"
+#~ msgstr "Définir combien l'objet doit paraître lointain"
+
+#~ msgid "Additional Options"
+#~ msgstr "Options supplémentaires"
+
+#~ msgid ""
+#~ "If enabled the effect will be deactivated after rotating the cube with "
+#~ "the mouse,\n"
+#~ "otherwise it will remain active"
+#~ msgstr ""
+#~ "Si cette option est sélectionnée, cet effet sera désactivé après une "
+#~ "rotation du cube avec la souris,\n"
+#~ "sinon il restera actif."
+
+#~ msgid "Close after mouse dragging"
+#~ msgstr "Fermer après un déplacement avec la souris"
+
+#~ msgid "Use this effect for walking through the desktops"
+#~ msgstr "Utiliser cet effet pour naviguer à travers les bureaux"
+
+#~ msgid "Invert mouse"
+#~ msgstr "Inverser la souris"
+
+#~ msgid "Sphere Cap Deformation"
+#~ msgstr "Déformation du dôme de la sphère"
+
+#~ msgid "Sphere"
+#~ msgstr "Sphère"
+
+#~ msgid "Plane"
+#~ msgstr "Plan"
+
+#~ msgid "Do not animate windows on all desktops"
+#~ msgstr "Ne pas animer les fenêtres sur tous les bureaux"
+
+#~ msgid "Do not animate panels"
+#~ msgstr "Ne pas animer les panneaux"
+
+#~ msgid "Use pager layout for animation"
+#~ msgstr "Utiliser un rendu de bippeur pour les animations"
+
+#~ msgid "Start animation when moving windows towards screen edges"
+#~ msgstr ""
+#~ "Lancer une animation lors du déplacement des fenêtres le long des bords "
+#~ "de l'écran"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Cover Switch"
+#~ msgstr "Défilement circulaire"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display a Cover Flow effect for the alt+tab window switcher"
+#~ msgstr ""
+#~ "Affiche un effet de défilement circulaire dans le changeur de fenêtres en "
+#~ "utilisant la combinaison « Alt » + « Tab »"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube"
+#~ msgstr "Cube de bureaux"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display each virtual desktop on a side of a cube"
+#~ msgstr "Affiche chaque bureau virtuel sur la face d'un cube"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube Animation"
+#~ msgstr "Animation du bureau en cube"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Animate desktop switching with a cube"
+#~ msgstr "Anime les changements de bureaux grâce à un cube"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Flip Switch"
+#~ msgstr "Empilement en perspective"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Flip through windows that are in a stack for the alt+tab window switcher"
+#~ msgstr ""
+#~ "Naviguer parmi les fenêtres empilées par le sélecteur de fenêtres avec "
+#~ "« Alt » + « Tab »"
+
+#~ msgid "Toggle Flip Switch (Current desktop)"
+#~ msgstr ""
+#~ "Activer / désactiver la rotation au changement de bureaux (bureau actuel)"
+
+#~ msgid "Toggle Flip Switch (All desktops)"
+#~ msgstr ""
+#~ "Activer / désactiver la rotation au changement de bureaux (tous les "
+#~ "bureaux)"
+
+#~ msgid "Flip animation duration:"
+#~ msgstr "Durée de l'animation de rotation :"
+
+#~ msgctxt "Duration of flip animation"
+#~ msgid "Default"
+#~ msgstr "Par défaut"
+
+#~ msgid "Angle:"
+#~ msgstr "Angle :"
+
+#~ msgid " °"
+#~ msgstr " °"
+
+#~ msgid "Horizontal position of front:"
+#~ msgstr "Position horizontale du devant :"
+
+#~ msgid "Vertical position of front:"
+#~ msgstr "Position verticale du devant :"
+
+#~ msgid ""
+#~ "Filter:\n"
+#~ "%1"
+#~ msgstr ""
+#~ "Filtre :\n"
+#~ "%1"
+
+#~ msgid "Use Present Windows effect to layout the windows"
+#~ msgstr ""
+#~ "Utiliser l'effet de présentation de fenêtres pour organiser les fenêtres"
+
+#~ msgid "When the focus changes, move the zoom area to the focused location."
+#~ msgstr ""
+#~ "Lorsque le focus change, déplacer la zone de zoom vers l'endroit du focus."
+
+#~ msgid "Follow Focus"
+#~ msgstr "Suivre le focus"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Dim Screen for Administrator Mode"
+#~ msgstr "Assombrir l'écran pour le mode administrateur"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Darkens the entire screen when requesting root privileges"
+#~ msgstr ""
+#~ "Noircit la totalité du bureau quand les privilèges administrateurs sont "
+#~ "nécessaires"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Scale"
+#~ msgstr "Échelle"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Make windows smoothly scale in and out when they are shown or hidden"
+#~ msgstr ""
+#~ "Estompe ou fait apparaître les fenêtres en augmentant ou en réduisant "
+#~ "leur échelle lorsqu'elles sont affichées ou cachées"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Minimize Animation"
+#~ msgstr "Animation de la réduction"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Animate the minimizing of windows"
+#~ msgstr "Anime la réduction des fenêtres"
+
+#~ msgid "Trigger on"
+#~ msgstr "Déclencher sur"
+
+#~ msgid "Shortcut"
+#~ msgstr "Raccourci"
+
+#~ msgid "Apply effect to &panels"
+#~ msgstr "Appliquer l'effet aux &panneaux"
+
+#~ msgid "Apply effect to the desk&top"
+#~ msgstr "Appliquer l'effe&t au bureau"
+
+#~ msgid "Apply effect to &keep-above windows"
+#~ msgstr "Appliquer l'effet aux fenêtres conservées sur le dessus"
+
+#~ msgid "Apply effect to &groups"
+#~ msgstr "Appliquer l'effet aux &groupes"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Windows Glide Effect as they are open and closed"
+#~ msgstr ""
+#~ "Effet de glissement de fenêtres comme lorsqu'elles sont ouvertes ou "
+#~ "fermées"
+
+#~ msgid "Glide Effect:"
+#~ msgstr "Effet de glissement :"
+
+#~ msgid "In"
+#~ msgstr "Dedans"
+
+#~ msgid "Out"
+#~ msgstr "Dehors"
+
+#~ msgid "Glide Angle:"
+#~ msgstr "Angle de glissement :"
+
+#~ msgid "-90"
+#~ msgstr "- 90"
+
+#~ msgid "90"
+#~ msgstr "90"
+
+#~ msgctxt "Duration of the slide animation"
+#~ msgid "Default"
+#~ msgstr "Par défaut"
+
+#~ msgid "Strength of the effect:"
+#~ msgstr "Force de l'effet :"
+
+#~ msgid "Save intermediate rendering results."
+#~ msgstr "Enregistrer les résultats de rendu intermédiaire."
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Logout"
+#~ msgstr "Déconnexion"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Desaturate the desktop when displaying the logout dialog"
+#~ msgstr ""
+#~ "Dé-sature le bureau lors de l'affichage de la fenêtre de déconnexion"
+
+#~ msgid "Brightness of the background:"
+#~ msgstr "Luminosité de l'arrière-plan :"
+
+#~ msgctxt "Less brightness"
+#~ msgid "Darker"
+#~ msgstr "Plus sombre"
+
+#~ msgctxt "More brightness"
+#~ msgid "Lighter"
+#~ msgstr "Plus lumineux"
+
+#~ msgid "Saturation of the background:"
+#~ msgstr "Saturation de l'arrière-plan :"
+
+#~ msgctxt "No saturation"
+#~ msgid "Gray"
+#~ msgstr "Gris"
+
+#~ msgid "Duration of the fade:"
+#~ msgstr "Durée du fondu :"
+
+#~ msgid "ms"
+#~ msgstr "ms"
+
+#~ msgid "The blur effect must be enabled before it can be used."
+#~ msgstr "L'effet de flou doit être activé avant de pouvoir être utilisé."
+
+#~ msgid "Apply blur effect to background"
+#~ msgstr "Appliquer l'effet de flou à l'arrière-plan"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Dashboard"
+#~ msgstr "Tableau de bord"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Desaturate the desktop when displaying the Plasma dashboard"
+#~ msgstr ""
+#~ "Dé-sature le bureau lors de l'affichage du panneau de contrôle de Plasma"
+
+#~ msgid "Decorations:"
+#~ msgstr "Décorations :"
+
+#~ msgid "Background window &opacity:"
+#~ msgstr "Transparence des fenêtres d'arrière-plan :"
+
+#~ msgid "&Elevate selected window"
+#~ msgstr "Él&ever la fenêtre sélectionnée"
+
+#~ msgid "&Animate walk through windows"
+#~ msgstr "Marche &animée à travers les fenêtres"
+
+#~ msgid "Use additional thumbnail bar"
+#~ msgstr "Utiliser la barre des miniatures supplémentaire"
+
+#~ msgid ""
+#~ "Only show thumbnail bar if there are at least specified number of windows"
+#~ msgstr ""
+#~ "N'afficher la barre des miniatures que s'il y a au moins un nombre "
+#~ "spécifié de fenêtres"
+
+#~ msgid "Dynamic mode"
+#~ msgstr "Mode dynamique"
+
+#~ msgid "Number of windows:"
+#~ msgstr "Nombre de fenêtres :"
+
+#~ msgid " row"
+#~ msgid_plural " rows"
+#~ msgstr[0] " ligne"
+#~ msgstr[1] " lignes"
+
+#~ msgctxt "Duration of fading"
+#~ msgid "Default"
+#~ msgstr "Par défaut"
+
+#~ msgid "Toggle Video Recording"
+#~ msgstr "Activer/désactiver l'enregistrement vidéo"
+
+#~ msgid "Path to save video:"
+#~ msgstr "Emplacement d'enregistrement d'une vidéo :"
+
+#~ msgid "Slide when switching tabs"
+#~ msgstr "Glisser au changement d'onglet"
+
+#~ msgctxt ""
+#~ "Window geometry display, %1 and %2 are the new size, %3 and %4 are pixel "
+#~ "increments - avoid reformatting or suffixes like 'px'"
+#~ msgid ""
+#~ "Width: %1 (%3)\n"
+#~ "Height: %2 (%4)"
+#~ msgstr ""
+#~ "Largeur : %1 (%3)\n"
+#~ "Hauteur : %2 (%4)"
+
+#~ msgctxt ""
+#~ "Window geometry display, %1 and %2 are the cartesian x and y coordinates "
+#~ "- avoid reformatting or suffixes like 'px'"
+#~ msgid ""
+#~ "X: %1\n"
+#~ "Y: %2"
+#~ msgstr ""
+#~ "X : %1\n"
+#~ "Y : %2"
+
+#~ msgctxt ""
+#~ "Window geometry display, %1 and %2 are the cartesian x and y coordinates, "
+#~ "%3 and %4 are the resp. increments - avoid reformatting or suffixes like "
+#~ "'px'"
+#~ msgid ""
+#~ "X: %1 (%3)\n"
+#~ "Y: %2 (%4)"
+#~ msgstr ""
+#~ "X : %1 (%3)\n"
+#~ "Y : %2 (%4)"
+
+#~ msgid "Snow"
+#~ msgstr "Neige"
+
+#~ msgid "Toggle Snow on Desktop"
+#~ msgstr "Activer/désactiver la neige sur le bureau"
+
+#~ msgid " pixel/frame"
+#~ msgid_plural " pixels/frame"
+#~ msgstr[0] " pixel / image"
+#~ msgstr[1] " pixels / image"
+
+#~ msgctxt "@action Enables/Disables an effect that makes windows more sharp"
+#~ msgid "Toggle Sharpen Effect"
+#~ msgstr "Activer / désactiver l'effet d'accentuation"
+
+#~ msgid "&Number of snowflakes:"
+#~ msgstr "&Nombre de flocons de neige :"
+
+#~ msgid "M&inimum size of snowflake:"
+#~ msgstr "Taille &minimum pour un flocon de neige :"
+
+#~ msgid "M&aximum size of snowflake:"
+#~ msgstr "Taille m&aximum pour un flocon de neige :"
+
+#~ msgid "Maximum &vertical speed:"
+#~ msgstr "Vitesse maximale &verticale :"
+
+#~ msgid "Maximum &horizontal speed:"
+#~ msgstr "Vitesse maximale &horizontale :"
+
+#~ msgid "Snow &behind windows"
+#~ msgstr "Neige &derrière les fenêtres"
+
+#~ msgid "&X offset:"
+#~ msgstr "Décalage sur &X :"
+
+#~ msgid "&Y offset:"
+#~ msgstr "Décalage sur &Y :"
+
+#~ msgid "%"
+#~ msgstr " %"
+
+#~ msgid "&Fuzziness:"
+#~ msgstr "Degré de &flou :"
+
+#~ msgid "&Size:"
+#~ msgstr "Taille :"
+
+#~ msgid "&Active windows have stronger shadows"
+#~ msgstr "Les fenêtres actives ont des ombres plus prononcées"
+
+#, fuzzy
+#~| msgid "Background"
+#~ msgid "Background brightness"
+#~ msgstr "Arrière-plan"
+
+#, fuzzy
+#~| msgid "Background"
+#~ msgid "Background saturation"
+#~ msgstr "Arrière-plan"
+
+#, fuzzy
+#~| msgid "End effect"
+#~ msgid "Effects"
+#~ msgstr "Mettre fin à l'effet"
+
+#~ msgid "Hold Ctrl+Meta keys to see where the mouse cursor is."
+#~ msgstr ""
+#~ "Maintenez les touches Ctrl+Meta enfoncées pour voir où se trouve le "
+#~ "pointeur de la souris."
+
+#~ msgid "Rearrange &duration:"
+#~ msgstr "Réorganiser la &durée :"
+
+#~ msgctxt "Duration of rearrangement"
+#~ msgid "Default"
+#~ msgstr "Par défaut"
+
+#~ msgid "Animate &flip"
+#~ msgstr "Animer la &rotation"
+
+#~ msgid "Custom..."
+#~ msgstr "Personnnalisé..."
+
+#~ msgid "Default Shadow"
+#~ msgstr "Ombre par défaut"
+
+#~ msgid "Decoration Shadows"
+#~ msgstr "Ombres de décoration"
+
+#~ msgid "&Decorated windows"
+#~ msgstr "Fenêtres &décorées"
+
+#~ msgid "Force default shadows for:"
+#~ msgstr "Forcer les ombres par défaut pour :"
+
+#~ msgid "&Undecorated normal windows"
+#~ msgstr "Fenêtres normales non-décorées"
+
+#~ msgid ""
+#~ "If enabled span the cube across all screens on a multiscreen setup, "
+#~ "otherwise\n"
+#~ "the cube will only be displayed on a single screen"
+#~ msgstr ""
+#~ "Si activé, étendre le cube sur tous les écran dans une configuration "
+#~ "multiécran,\n"
+#~ "sinon le cube ne sera affiché que sur un seul écran."
+
+#~ msgid "Span cube on all screens in multi screen setup"
+#~ msgstr ""
+#~ "Étendre le cube sur tous les écrans dans une configuration multiécran"
+
+#~ msgid ""
+#~ "If enabled the effect will be deactivated after rotating the cylinder "
+#~ "with the mouse,\n"
+#~ "otherwise it will remain active."
+#~ msgstr ""
+#~ "S'il est activé, cet effet sera désactivé après une rotation du cylindre "
+#~ "avec la souris,\n"
+#~ "sinon il restera actif."
+
+#~ msgid ""
+#~ "If enabled the effect will be deactivated after rotating the sphere with "
+#~ "the mouse,\n"
+#~ "otherwise it will remain active"
+#~ msgstr ""
+#~ "Si activé, cet effet sera désactivé après une rotation de la sphère avec "
+#~ "la souris,\n"
+#~ "sinon il restera actif."
+
+#, fuzzy
+#~| msgid "Display the cube when switching desktops"
+#~ msgid "Fix panels while switching desktops"
+#~ msgstr "Afficher le cube lors du changement de bureau"

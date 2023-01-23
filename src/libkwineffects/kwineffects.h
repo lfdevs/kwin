@@ -10,8 +10,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#ifndef KWINEFFECTS_H
-#define KWINEFFECTS_H
+#pragma once
 
 #include <kwinconfig.h>
 #include <kwineffects_export.h>
@@ -40,6 +39,8 @@
 #include <climits>
 #include <cmath>
 #include <functional>
+#include <optional>
+#include <span>
 
 class KConfigGroup;
 class QFont;
@@ -79,7 +80,6 @@ class OffscreenQuickView;
 class EffectScreen;
 class Effect;
 class WindowQuad;
-class GLShader;
 class WindowQuadList;
 class WindowPrePaintData;
 class WindowPaintData;
@@ -159,7 +159,7 @@ typedef QList<KWin::EffectWindow *> EffectWindowList;
 
 #define KWIN_EFFECT_API_MAKE_VERSION(major, minor) ((major) << 8 | (minor))
 #define KWIN_EFFECT_API_VERSION_MAJOR 0
-#define KWIN_EFFECT_API_VERSION_MINOR 235
+#define KWIN_EFFECT_API_VERSION_MINOR 236
 #define KWIN_EFFECT_API_VERSION KWIN_EFFECT_API_MAKE_VERSION( \
     KWIN_EFFECT_API_VERSION_MAJOR, KWIN_EFFECT_API_VERSION_MINOR)
 
@@ -175,9 +175,7 @@ enum DataRole {
     WindowMinimizedGrabRole,
     WindowUnminimizedGrabRole,
     WindowForceBlurRole, ///< For fullscreen effects to enforce blurring of windows,
-    WindowBlurBehindRole, ///< For single windows to blur behind
     WindowForceBackgroundContrastRole, ///< For fullscreen effects to enforce the background contrast,
-    WindowBackgroundContrastRole, ///< For single windows to enable Background contrast
 };
 
 /**
@@ -189,6 +187,22 @@ enum EffectFrameStyle {
     EffectFrameUnstyled, ///< Displays a basic box around the contents.
     EffectFrameStyled ///< Displays a Plasma-styled frame around the contents.
 };
+
+/**
+ * Scale a rect by a scalar.
+ */
+KWINEFFECTS_EXPORT inline QRectF scaledRect(const QRectF &rect, qreal scale)
+{
+    return QRectF{rect.x() * scale, rect.y() * scale, rect.width() * scale, rect.height() * scale};
+}
+
+/**
+ * Round a vector to nearest integer.
+ */
+KWINEFFECTS_EXPORT inline QVector2D roundVector(const QVector2D &input)
+{
+    return QVector2D(std::round(input.x()), std::round(input.y()));
+}
 
 /**
  * Convert a QPointF to a QPoint by flooring instead of rounding.
@@ -522,7 +536,7 @@ public:
      * @see touchUp
      * @since 5.8
      */
-    virtual bool touchDown(qint32 id, const QPointF &pos, quint32 time);
+    virtual bool touchDown(qint32 id, const QPointF &pos, std::chrono::microseconds time);
     /**
      * A touch point moved.
      *
@@ -542,7 +556,7 @@ public:
      * @see touchUp
      * @since 5.8
      */
-    virtual bool touchMotion(qint32 id, const QPointF &pos, quint32 time);
+    virtual bool touchMotion(qint32 id, const QPointF &pos, std::chrono::microseconds time);
     /**
      * A touch point was released.
      *
@@ -561,7 +575,7 @@ public:
      * @see touchMotion
      * @since 5.8
      */
-    virtual bool touchUp(qint32 id, quint32 time);
+    virtual bool touchUp(qint32 id, std::chrono::microseconds time);
 
     /**
      * There has been an event from a drawing tablet tool
@@ -874,13 +888,6 @@ public:
      */
     virtual void stopMouseInterception(Effect *effect) = 0;
 
-    /**
-     * @brief Registers a global shortcut with the provided @p action.
-     *
-     * @param shortcut The global shortcut which should trigger the action
-     * @param action The action which gets triggered when the shortcut matches
-     */
-    virtual void registerGlobalShortcut(const QKeySequence &shortcut, QAction *action) = 0;
     /**
      * @brief Registers a global pointer shortcut with the provided @p action.
      *
@@ -1432,7 +1439,7 @@ public:
      * Maps the given @a rect from the global screen cordinates to the render
      * target local coordinate system.
      */
-    QRect mapToRenderTarget(const QRect &rect) const;
+    QRectF mapToRenderTarget(const QRectF &rect) const;
     /**
      * Maps the given @a region from the global screen coordinates to the render
      * target local coordinate system.
@@ -1694,7 +1701,7 @@ Q_SIGNALS:
      * @param r Always empty.
      * @since 4.7
      */
-    void windowDamaged(KWin::EffectWindow *w, const QRegion &r);
+    void windowDamaged(KWin::EffectWindow *w);
     /**
      * Signal emitted when a tabbox is added.
      * An effect who wants to replace the tabbox with itself should use refTabBox.
@@ -2064,7 +2071,6 @@ class EffectWindowVisibleRef;
 class KWINEFFECTS_EXPORT EffectWindow : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(bool alpha READ hasAlpha CONSTANT)
     Q_PROPERTY(QRectF geometry READ geometry)
     Q_PROPERTY(QRectF expandedGeometry READ expandedGeometry)
     Q_PROPERTY(qreal height READ height)
@@ -2360,7 +2366,7 @@ public:
         PAINT_DISABLED_BY_ACTIVITY = 1 << 5
     };
 
-    explicit EffectWindow(QObject *parent = nullptr);
+    explicit EffectWindow();
     ~EffectWindow() override;
 
     Q_SCRIPTABLE virtual void addRepaint(const QRect &r) = 0;
@@ -2376,7 +2382,6 @@ public:
 
     virtual bool isMinimized() const = 0;
     virtual double opacity() const = 0;
-    virtual bool hasAlpha() const = 0;
 
     bool isOnCurrentActivity() const;
     Q_SCRIPTABLE bool isOnActivity(const QString &id) const;
@@ -2928,6 +2933,7 @@ public:
     double right() const;
     double top() const;
     double bottom() const;
+    QRectF bounds() const;
 
 private:
     friend class WindowQuadList;
@@ -2942,8 +2948,121 @@ public:
     WindowQuadList splitAtY(double y) const;
     WindowQuadList makeGrid(int maxquadsize) const;
     WindowQuadList makeRegularGrid(int xSubdivisions, int ySubdivisions) const;
-    void makeInterleavedArrays(unsigned int type, GLVertex2D *vertices, const QMatrix4x4 &matrix) const;
-    void makeArrays(float **vertices, float **texcoords, const QSizeF &size, bool yInverted) const;
+};
+
+/**
+ * A helper class for render geometry in device coordinates.
+ *
+ * This mostly represents a vector of vertices, with some convenience methods
+ * for easily converting from WindowQuad and related classes to lists of
+ * GLVertex2D. This class assumes rendering happens as unindexed triangles.
+ */
+class KWINEFFECTS_EXPORT RenderGeometry : public QVector<GLVertex2D>
+{
+public:
+    /**
+     * In what way should vertices snap to integer device coordinates?
+     *
+     * Vertices are converted to device coordinates before being sent to the
+     * rendering system. Depending on scaling factors, this may lead to device
+     * coordinates with fractional parts. For some cases, this may not be ideal
+     * as fractional coordinates need to be interpolated and can lead to
+     * "blurry" rendering. To avoid that, we can snap the vertices to integer
+     * device coordinates when they are added.
+     */
+    enum class VertexSnappingMode {
+        None, //< No rounding, device coordinates containing fractional parts
+              //  are passed directly to the rendering system.
+        Round, //< Perform a simple rounding, device coordinates will not have
+               //  any fractional parts.
+    };
+
+    /**
+     * The vertex snapping mode to use for this geometry.
+     *
+     * By default, this is VertexSnappingMode::Round.
+     */
+    inline VertexSnappingMode vertexSnappingMode() const
+    {
+        return m_vertexSnappingMode;
+    }
+    /**
+     * Set the vertex snapping mode to use for this geometry.
+     *
+     * Note that this doesn't change vertices retroactively, so you should set
+     * this before adding any vertices, or clear and rebuild the geometry after
+     * setting it.
+     *
+     * @param mode The new rounding mode.
+     */
+    void setVertexSnappingMode(VertexSnappingMode mode)
+    {
+        m_vertexSnappingMode = mode;
+    }
+    /**
+     * Copy geometry data into another buffer.
+     *
+     * This is primarily intended for copying into a vertex buffer for rendering.
+     *
+     * @param destination The destination buffer. This needs to be at least large
+     *                    enough to contain all elements.
+     */
+    void copy(std::span<GLVertex2D> destination);
+    /**
+     * Append a WindowVertex as a geometry vertex.
+     *
+     * WindowVertex is assumed to be in logical coordinates. It will be converted
+     * to device coordinates using the specified device scale and then rounded
+     * so it fits correctly on the device pixel grid.
+     *
+     * @param windowVertex The WindowVertex instance to append.
+     * @param deviceScale The scaling factor to use to go from logical to device
+     *                    coordinates.
+     */
+    void appendWindowVertex(const WindowVertex &windowVertex, qreal deviceScale);
+    /**
+     * Append a WindowQuad as two triangles.
+     *
+     * This will append the corners of the specified WindowQuad in the right
+     * order so they make two triangles that can be rendered by OpenGL. The
+     * corners are converted to device coordinates and rounded, just like
+     * `appendWindowVertex()` does.
+     *
+     * @param quad The WindowQuad instance to append.
+     * @param deviceScale The scaling factor to use to go from logical to device
+     *                    coordinates.
+     */
+    void appendWindowQuad(const WindowQuad &quad, qreal deviceScale);
+    /**
+     * Append a sub-quad of a WindowQuad as two triangles.
+     *
+     * This will append the sub-quad specified by `intersection` as two
+     * triangles. The quad is expected to be in logical coordinates, while the
+     * intersection is expected to be in device coordinates. The texture
+     * coordinates of the resulting vertices are based upon those of the quad,
+     * using bilinear interpolation for interpolating how much of the original
+     * texture coordinates to use.
+     *
+     * @param quad The WindowQuad instance to use a sub-quad of.
+     * @param subquad The sub-quad to append.
+     * @param deviceScale The scaling factor used to convert from logical to
+     *                    device coordinates.
+     */
+    void appendSubQuad(const WindowQuad &quad, const QRectF &subquad, qreal deviceScale);
+    /**
+     * Modify this geometry's texture coordinates based on a matrix.
+     *
+     * This is primarily intended to convert from non-normalised to normalised
+     * texture coordinates.
+     *
+     * @param textureMatrix The texture matrix to use for modifying the
+     *                      texture coordinates. Note that only the 2D scale and
+     *                      translation are used.
+     */
+    void postProcessTextureCoordinates(const QMatrix4x4 &textureMatrix);
+
+private:
+    VertexSnappingMode m_vertexSnappingMode = VertexSnappingMode::Round;
 };
 
 class KWINEFFECTS_EXPORT WindowPrePaintData
@@ -3125,22 +3244,25 @@ public:
 
     /**
      * Returns the corresponding transform matrix.
+     *
+     * The transform matrix is converted to device coordinates using the
+     * supplied deviceScale.
      */
-    QMatrix4x4 toMatrix() const;
+    QMatrix4x4 toMatrix(qreal deviceScale) const;
 
 protected:
     PaintData();
     PaintData(const PaintData &other);
 
 private:
-    PaintDataPrivate *const d;
+    const std::unique_ptr<PaintDataPrivate> d;
 };
 
 class KWINEFFECTS_EXPORT WindowPaintData : public PaintData
 {
 public:
     WindowPaintData();
-    explicit WindowPaintData(const QMatrix4x4 &screenProjectionMatrix);
+    explicit WindowPaintData(const QMatrix4x4 &projectionMatrix);
     WindowPaintData(const WindowPaintData &other);
     ~WindowPaintData() override;
     /**
@@ -3298,20 +3420,16 @@ public:
     QMatrix4x4 &rprojectionMatrix();
 
     /**
-     * Returns The projection matrix as used by the current screen painting pass
-     * including screen transformations.
+     * An override for the scale the window should be rendered at.
      *
-     * @since 5.6
+     * When set, this value will be used instead of the window's output scale
+     * when rendering.
      */
-    QMatrix4x4 screenProjectionMatrix() const;
-
-    /**
-     * Shader to be used for rendering, if any.
-     */
-    GLShader *shader;
+    std::optional<qreal> renderTargetScale() const;
+    void setRenderTargetScale(qreal scale);
 
 private:
-    WindowPaintDataPrivate *const d;
+    const std::unique_ptr<WindowPaintDataPrivate> d;
 };
 
 class KWINEFFECTS_EXPORT ScreenPaintData
@@ -3734,7 +3852,7 @@ public:
     virtual qreal crossFadeProgress() const = 0;
 
 private:
-    EffectFramePrivate *const d;
+    const std::unique_ptr<EffectFramePrivate> d;
 };
 
 /**
@@ -4059,22 +4177,27 @@ inline const WindowVertex &WindowQuad::operator[](int index) const
 
 inline double WindowQuad::left() const
 {
-    return qMin(verts[0].px, qMin(verts[1].px, qMin(verts[2].px, verts[3].px)));
+    return std::min(verts[0].px, std::min(verts[1].px, std::min(verts[2].px, verts[3].px)));
 }
 
 inline double WindowQuad::right() const
 {
-    return qMax(verts[0].px, qMax(verts[1].px, qMax(verts[2].px, verts[3].px)));
+    return std::max(verts[0].px, std::max(verts[1].px, std::max(verts[2].px, verts[3].px)));
 }
 
 inline double WindowQuad::top() const
 {
-    return qMin(verts[0].py, qMin(verts[1].py, qMin(verts[2].py, verts[3].py)));
+    return std::min(verts[0].py, std::min(verts[1].py, std::min(verts[2].py, verts[3].py)));
 }
 
 inline double WindowQuad::bottom() const
 {
-    return qMax(verts[0].py, qMax(verts[1].py, qMax(verts[2].py, verts[3].py)));
+    return std::max(verts[0].py, std::max(verts[1].py, std::max(verts[2].py, verts[3].py)));
+}
+
+inline QRectF WindowQuad::bounds() const
+{
+    return QRectF(QPointF(left(), top()), QPointF(right(), bottom()));
 }
 
 /***************************************************************
@@ -4116,7 +4239,7 @@ void Motion<T>::calculate(const int msec)
     }
 
     // Poor man's time independent calculation
-    int steps = qMax(1, msec / 5);
+    int steps = std::max(1, msec / 5);
     for (int i = 0; i < steps; i++) {
         T diff = m_target - m_value;
         T strength = diff * m_strength;
@@ -4168,5 +4291,3 @@ Q_DECLARE_METATYPE(KWin::TimeLine)
 Q_DECLARE_METATYPE(KWin::TimeLine::Direction)
 
 /** @} */
-
-#endif // KWINEFFECTS_H

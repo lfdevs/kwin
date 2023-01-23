@@ -8,7 +8,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "window.h"
-#include "core/platform.h"
+#include "core/outputbackend.h"
 #include "eglhelpers.h"
 
 #include "internalwindow.h"
@@ -26,7 +26,7 @@ static quint32 s_windowId = 0;
 
 Window::Window(QWindow *window)
     : QPlatformWindow(window)
-    , m_eglDisplay(kwinApp()->platform()->sceneEglDisplay())
+    , m_eglDisplay(kwinApp()->outputBackend()->sceneEglDisplay())
     , m_windowId(++s_windowId)
     , m_scale(kwinApp()->devicePixelRatio())
 {
@@ -60,29 +60,22 @@ void Window::requestActivateWindow()
 
 void Window::setGeometry(const QRect &rect)
 {
-    const QRect &oldRect = geometry();
+    const QRect oldGeometry = geometry();
     QPlatformWindow::setGeometry(rect);
-    if (rect.x() != oldRect.x()) {
-        Q_EMIT window()->xChanged(rect.x());
-    }
-    if (rect.y() != oldRect.y()) {
-        Q_EMIT window()->yChanged(rect.y());
-    }
-    if (rect.width() != oldRect.width()) {
-        Q_EMIT window()->widthChanged(rect.width());
-    }
-    if (rect.height() != oldRect.height()) {
-        Q_EMIT window()->heightChanged(rect.height());
-    }
 
-    const QSize nativeSize = rect.size() * m_scale;
-
-    if (m_contentFBO) {
-        if (m_contentFBO->size() != nativeSize) {
-            m_resized = true;
+    if (window()->isVisible() && rect.isValid()) {
+        const QSize nativeSize = rect.size() * m_scale;
+        if (m_contentFBO) {
+            if (m_contentFBO->size() != nativeSize) {
+                m_resized = true;
+            }
         }
+        QWindowSystemInterface::handleGeometryChange(window(), geometry());
     }
-    QWindowSystemInterface::handleGeometryChange(window(), geometry());
+
+    if (isExposed() && oldGeometry.size() != rect.size()) {
+        QWindowSystemInterface::handleExposeEvent(window(), QRect(QPoint(), rect.size()));
+    }
 }
 
 WId Window::winId() const

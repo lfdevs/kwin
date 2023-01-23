@@ -3,13 +3,13 @@
 # Vít Pelčák <vit@pelcak.org>, 2010, 2011, 2012, 2013, 2014, 2015, 2019.
 # Lukáš Tinkl <ltinkl@redhat.com>, 2010.
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2013.
-# Vit Pelcak <vpelcak@suse.cz>, 2021.
+# Vit Pelcak <vit@pelcak.org>, 2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-26 02:35+0000\n"
+"POT-Creation-Date: 2022-10-26 00:47+0000\n"
 "PO-Revision-Date: 2021-08-13 10:15+0200\n"
 "Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-20 02:18+0000\n"
+"POT-Creation-Date: 2022-09-20 00:47+0000\n"
 "PO-Revision-Date: 2022-09-20 10:27+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -75,3 +75,25 @@ msgstr "Dosyadan Kur..."
 #, kde-format
 msgid "Get New Scripts..."
 msgstr "Yeni Betikler Al..."
+
+#~ msgid "KWin Scripts"
+#~ msgstr "KWin Betikleri"
+
+#~ msgid "Configure KWin scripts"
+#~ msgstr "KWin betiklerini yapılandır"
+
+#~ msgid "Tamás Krutki"
+#~ msgstr "Tamás Krutki"
+
+#~ msgid "KWin script configuration"
+#~ msgstr "KWin betik yapılandırması"
+
+#~ msgid "Import KWin script..."
+#~ msgstr "İçeriye KWin betiği aktar..."
+
+#~ msgid ""
+#~ "Cannot import selected script: maybe a script already exists with the "
+#~ "same name or there is a permission problem."
+#~ msgstr ""
+#~ "Seçilen betik içeriye aktarılamadı: Aynı ismi taşıyan bir betik zaten "
+#~ "vardır ya da bir izin sorunu oluşmuştur."

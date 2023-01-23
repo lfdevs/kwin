@@ -9,7 +9,7 @@
 #include "kwin_wayland_test.h"
 
 #include "core/output.h"
-#include "core/platform.h"
+#include "core/outputbackend.h"
 #include "cursor.h"
 #include "deleted.h"
 #include "wayland/seat_interface.h"
@@ -42,9 +42,8 @@ void XWaylandInputTest::initTestCase()
     qRegisterMetaType<KWin::Window *>();
     qRegisterMetaType<KWin::Deleted *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
+    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
@@ -174,12 +173,12 @@ void XWaylandInputTest::testPointerEnterLeaveSsd()
     Cursors::self()->mouse()->setPos(window->frameGeometry().center());
     QCOMPARE(waylandServer()->seat()->focusedPointerSurface(), window->surface());
     QVERIFY(enteredSpy.wait());
-    QCOMPARE(enteredSpy.last().first(), window->frameGeometry().center() - window->clientPos());
+    QCOMPARE(enteredSpy.last().first().toPoint(), (window->frameGeometry().center() - QPointF(window->frameMargins().left(), window->frameMargins().top())).toPoint());
 
     // move out of window
-    Cursors::self()->mouse()->setPos(window->frameGeometry().bottomRight() + QPoint(10, 10));
+    Cursors::self()->mouse()->setPos(window->frameGeometry().bottomRight() + QPointF(10, 10));
     QVERIFY(leftSpy.wait());
-    QCOMPARE(leftSpy.last().first(), window->frameGeometry().center() - window->clientPos());
+    QCOMPARE(leftSpy.last().first().toPoint(), (window->frameGeometry().center() - QPointF(window->frameMargins().left(), window->frameMargins().top())).toPoint());
 
     // destroy window again
     QSignalSpy windowClosedSpy(window, &X11Window::windowClosed);
@@ -246,8 +245,8 @@ void XWaylandInputTest::testPointerEventLeaveCsd()
     QVERIFY(window);
     QVERIFY(!window->isDecorated());
     QVERIFY(window->isClientSideDecorated());
-    QCOMPARE(window->bufferGeometry(), QRect(0, 0, 120, 225));
-    QCOMPARE(window->frameGeometry(), QRect(10, 5, 100, 200));
+    QCOMPARE(window->bufferGeometry(), QRectF(0, 0, 120, 225));
+    QCOMPARE(window->frameGeometry(), QRectF(10, 5, 100, 200));
 
     QMetaObject::invokeMethod(window, "setReadyForPainting");
     QVERIFY(window->readyForPainting());
@@ -259,13 +258,13 @@ void XWaylandInputTest::testPointerEventLeaveCsd()
     Cursors::self()->mouse()->setPos(window->frameGeometry().center());
     QCOMPARE(waylandServer()->seat()->focusedPointerSurface(), window->surface());
     QVERIFY(enteredSpy.wait());
-    QCOMPARE(enteredSpy.last().first(), QPointF(60, 105));
+    QCOMPARE(enteredSpy.last().first().toPoint(), QPoint(60, 105));
 
     // Move out of the window, should trigger a leave.
     QVERIFY(leftSpy.isEmpty());
     Cursors::self()->mouse()->setPos(window->frameGeometry().bottomRight() + QPoint(100, 100));
     QVERIFY(leftSpy.wait());
-    QCOMPARE(leftSpy.last().first(), QPointF(60, 105));
+    QCOMPARE(leftSpy.last().first().toPoint(), QPoint(60, 105));
 
     // Destroy the window.
     QSignalSpy windowClosedSpy(window, &X11Window::windowClosed);

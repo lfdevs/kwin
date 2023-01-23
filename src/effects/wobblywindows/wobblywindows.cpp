@@ -127,6 +127,8 @@ WobblyWindowsEffect::WobblyWindowsEffect()
     connect(effects, &EffectsHandler::windowStepUserMovedResized, this, &WobblyWindowsEffect::slotWindowStepUserMovedResized);
     connect(effects, &EffectsHandler::windowFinishUserMovedResized, this, &WobblyWindowsEffect::slotWindowFinishUserMovedResized);
     connect(effects, &EffectsHandler::windowMaximizedStateChanged, this, &WobblyWindowsEffect::slotWindowMaximizeStateChanged);
+
+    setVertexSnappingMode(RenderGeometry::VertexSnappingMode::None);
 }
 
 WobblyWindowsEffect::~WobblyWindowsEffect()
@@ -283,10 +285,10 @@ void WobblyWindowsEffect::apply(EffectWindow *w, int mask, WindowPaintData &data
                 Pair newPos = computeBezierPoint(wwi, uv);
                 v.move(newPos.x - tx, newPos.y - ty);
             }
-            left = qMin(left, quads[i].left());
-            top = qMin(top, quads[i].top());
-            right = qMax(right, quads[i].right());
-            bottom = qMax(bottom, quads[i].bottom());
+            left = std::min(left, quads[i].left());
+            top = std::min(top, quads[i].top());
+            right = std::max(right, quads[i].right());
+            bottom = std::max(bottom, quads[i].bottom());
         }
         QRectF dirtyRect(
             left * data.xScale() + w->x() + data.xTranslation(),
@@ -322,7 +324,6 @@ void WobblyWindowsEffect::slotWindowStartUserMovedResized(EffectWindow *w)
 
 void WobblyWindowsEffect::slotWindowStepUserMovedResized(EffectWindow *w, const QRectF &geometry)
 {
-    Q_UNUSED(geometry)
     if (windows.contains(w)) {
         WindowWobblyInfos &wwi = windows[w];
         const QRectF rect = w->frameGeometry();
@@ -364,8 +365,6 @@ void WobblyWindowsEffect::slotWindowFinishUserMovedResized(EffectWindow *w)
 
 void WobblyWindowsEffect::slotWindowMaximizeStateChanged(EffectWindow *w, bool horizontal, bool vertical)
 {
-    Q_UNUSED(horizontal)
-    Q_UNUSED(vertical)
     if (w->isUserMove() || w->isSpecialWindow()) {
         return;
     }

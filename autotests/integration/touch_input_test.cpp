@@ -9,7 +9,7 @@
 #include "kwin_wayland_test.h"
 
 #include "core/output.h"
-#include "core/platform.h"
+#include "core/outputbackend.h"
 #include "cursor.h"
 #include "touch_input.h"
 #include "wayland_server.h"
@@ -21,6 +21,8 @@
 #include <KWayland/Client/seat.h>
 #include <KWayland/Client/surface.h>
 #include <KWayland/Client/touch.h>
+
+#include <QAction>
 
 namespace KWin
 {
@@ -52,9 +54,8 @@ void TouchInputTest::initTestCase()
 {
     qRegisterMetaType<KWin::Window *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
+    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
@@ -66,7 +67,6 @@ void TouchInputTest::initTestCase()
 
 void TouchInputTest::init()
 {
-    using namespace KWayland::Client;
     QVERIFY(Test::setupWaylandConnection(Test::AdditionalWaylandInterface::Seat | Test::AdditionalWaylandInterface::XdgDecorationV1));
     QVERIFY(Test::waitForWaylandTouch());
     m_touch = Test::waylandSeat()->createTouch(Test::waylandSeat());
@@ -86,7 +86,6 @@ void TouchInputTest::cleanup()
 
 std::pair<Window *, std::unique_ptr<KWayland::Client::Surface>> TouchInputTest::showWindow(bool decorated)
 {
-    using namespace KWayland::Client;
 #define VERIFY(statement)                                                 \
     if (!QTest::qVerify((statement), #statement, "", __FILE__, __LINE__)) \
         return {nullptr, nullptr};
@@ -152,20 +151,19 @@ void TouchInputTest::testMultipleTouchPoints_data()
 
 void TouchInputTest::testMultipleTouchPoints()
 {
-    using namespace KWayland::Client;
     QFETCH(bool, decorated);
     auto [window, surface] = showWindow(decorated);
     QCOMPARE(window->isDecorated(), decorated);
     window->move(QPoint(100, 100));
     QVERIFY(window);
-    QSignalSpy sequenceStartedSpy(m_touch, &Touch::sequenceStarted);
-    QSignalSpy pointAddedSpy(m_touch, &Touch::pointAdded);
-    QSignalSpy pointMovedSpy(m_touch, &Touch::pointMoved);
-    QSignalSpy pointRemovedSpy(m_touch, &Touch::pointRemoved);
-    QSignalSpy endedSpy(m_touch, &Touch::sequenceEnded);
+    QSignalSpy sequenceStartedSpy(m_touch, &KWayland::Client::Touch::sequenceStarted);
+    QSignalSpy pointAddedSpy(m_touch, &KWayland::Client::Touch::pointAdded);
+    QSignalSpy pointMovedSpy(m_touch, &KWayland::Client::Touch::pointMoved);
+    QSignalSpy pointRemovedSpy(m_touch, &KWayland::Client::Touch::pointRemoved);
+    QSignalSpy endedSpy(m_touch, &KWayland::Client::Touch::sequenceEnded);
 
     quint32 timestamp = 1;
-    Test::touchDown(1, QPointF(125, 125) + window->clientPos(), timestamp++);
+    Test::touchDown(1, window->mapFromLocal(QPointF(25, 25)), timestamp++);
     QVERIFY(sequenceStartedSpy.wait());
     QCOMPARE(sequenceStartedSpy.count(), 1);
     QCOMPARE(m_touch->sequence().count(), 1);
@@ -175,7 +173,7 @@ void TouchInputTest::testMultipleTouchPoints()
     QCOMPARE(pointMovedSpy.count(), 0);
 
     // a point outside the window
-    Test::touchDown(2, QPointF(0, 0) + window->clientPos(), timestamp++);
+    Test::touchDown(2, window->mapFromLocal(QPointF(-100, -100)), timestamp++);
     QVERIFY(pointAddedSpy.wait());
     QCOMPARE(pointAddedSpy.count(), 1);
     QCOMPARE(m_touch->sequence().count(), 2);
@@ -184,7 +182,7 @@ void TouchInputTest::testMultipleTouchPoints()
     QCOMPARE(pointMovedSpy.count(), 0);
 
     // let's move that one
-    Test::touchMotion(2, QPointF(100, 100) + window->clientPos(), timestamp++);
+    Test::touchMotion(2, window->mapFromLocal(QPointF(0, 0)), timestamp++);
     QVERIFY(pointMovedSpy.wait());
     QCOMPARE(pointMovedSpy.count(), 1);
     QCOMPARE(m_touch->sequence().count(), 2);
@@ -209,13 +207,12 @@ void TouchInputTest::testMultipleTouchPoints()
 
 void TouchInputTest::testCancel()
 {
-    using namespace KWayland::Client;
     auto [window, surface] = showWindow();
     window->move(QPoint(100, 100));
     QVERIFY(window);
-    QSignalSpy sequenceStartedSpy(m_touch, &Touch::sequenceStarted);
-    QSignalSpy cancelSpy(m_touch, &Touch::sequenceCanceled);
-    QSignalSpy pointRemovedSpy(m_touch, &Touch::pointRemoved);
+    QSignalSpy sequenceStartedSpy(m_touch, &KWayland::Client::Touch::sequenceStarted);
+    QSignalSpy cancelSpy(m_touch, &KWayland::Client::Touch::sequenceCanceled);
+    QSignalSpy pointRemovedSpy(m_touch, &KWayland::Client::Touch::pointRemoved);
 
     quint32 timestamp = 1;
     Test::touchDown(1, QPointF(125, 125), timestamp++);
@@ -231,7 +228,7 @@ void TouchInputTest::testCancel()
 void TouchInputTest::testTouchMouseAction()
 {
     // this test verifies that a touch down on an inactive window will activate it
-    using namespace KWayland::Client;
+
     // create two windows
     auto [c1, surface] = showWindow();
     QVERIFY(c1);
@@ -242,7 +239,7 @@ void TouchInputTest::testTouchMouseAction()
     QVERIFY(c2->isActive());
 
     // also create a sequence started spy as the touch event should be passed through
-    QSignalSpy sequenceStartedSpy(m_touch, &Touch::sequenceStarted);
+    QSignalSpy sequenceStartedSpy(m_touch, &KWayland::Client::Touch::sequenceStarted);
 
     quint32 timestamp = 1;
     Test::touchDown(1, c1->frameGeometry().center(), timestamp++);
@@ -361,7 +358,6 @@ void TouchInputTest::testGestureDetection()
 {
     bool callbackTriggered = false;
     const auto callback = [&callbackTriggered](float progress) {
-        Q_UNUSED(progress);
         callbackTriggered = true;
         qWarning() << "progress callback!" << progress;
     };

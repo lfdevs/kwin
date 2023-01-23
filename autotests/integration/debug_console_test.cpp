@@ -9,7 +9,7 @@
 #include "kwin_wayland_test.h"
 
 #include "core/output.h"
-#include "core/platform.h"
+#include "core/outputbackend.h"
 #include "debug_console.h"
 #include "internalwindow.h"
 #include "utils/xcbutils.h"
@@ -50,9 +50,8 @@ void DebugConsoleTest::initTestCase()
     qRegisterMetaType<KWin::Window *>();
     qRegisterMetaType<KWin::InternalWindow *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
+    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
@@ -302,7 +301,6 @@ void DebugConsoleTest::testWaylandClient()
     QVERIFY(Test::setupWaylandConnection());
 
     // create the Surface and ShellSurface
-    using namespace KWayland::Client;
     std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
     QVERIFY(surface->isValid());
     std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get()));
@@ -361,7 +359,7 @@ void DebugConsoleTest::testWaylandClient()
     // now close the window again, it should be removed from the model
     QSignalSpy rowsRemovedSpy(&model, &QAbstractItemModel::rowsRemoved);
 
-    surface->attachBuffer(Buffer::Ptr());
+    surface->attachBuffer(KWayland::Client::Buffer::Ptr());
     surface->commit(KWayland::Client::Surface::CommitFlag::None);
     QVERIFY(rowsRemovedSpy.wait());
 
@@ -398,7 +396,6 @@ Q_SIGNALS:
 protected:
     void paintEvent(QPaintEvent *event) override
     {
-        Q_UNUSED(event)
         QPainter p(this);
         p.fillRect(0, 0, width(), height(), Qt::red);
     }

@@ -8,7 +8,7 @@
 */
 #include "kwin_wayland_test.h"
 
-#include "core/platform.h"
+#include "core/outputbackend.h"
 #include "cursor.h"
 #include "input.h"
 #include "internalwindow.h"
@@ -19,17 +19,19 @@
 #include "wayland_server.h"
 #include "workspace.h"
 #include "x11window.h"
+#include "xkb.h"
 
 #include <KWayland/Client/surface.h>
 
 #include <KGlobalAccel>
-#include <linux/input.h>
 
+#include <QAction>
+
+#include <linux/input.h>
 #include <netwm.h>
 #include <xcb/xcb_icccm.h>
 
 using namespace KWin;
-using namespace KWayland::Client;
 
 static const QString s_socketName = QStringLiteral("wayland_test_kwin_globalshortcuts-0");
 
@@ -58,8 +60,8 @@ void GlobalShortcutsTest::initTestCase()
     qRegisterMetaType<KWin::Window *>();
     qRegisterMetaType<KWin::InternalWindow *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
+    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
 
     kwinApp()->setConfig(KSharedConfig::openConfig(QString(), KConfig::SimpleConfig));
     qputenv("KWIN_XKB_DEFAULT_KEYMAP", "1");
@@ -94,34 +96,29 @@ void GlobalShortcutsTest::testNonLatinLayout_data()
     QTest::addColumn<int>("key");
     QTest::addColumn<Qt::Key>("qtKey");
 
-    for (const auto &modifier :
-         QVector<QPair<int, Qt::Modifier>>{
-             {KEY_LEFTCTRL, Qt::CTRL},
-             {KEY_LEFTALT, Qt::ALT},
-             {KEY_LEFTSHIFT, Qt::SHIFT},
-             {KEY_LEFTMETA, Qt::META},
-         }) {
-        for (const auto &key :
-             QVector<QPair<int, Qt::Key>> {
-                 // Tab is example of a key usually the same on different layouts, check it first
-                 {KEY_TAB, Qt::Key_Tab},
+    // KEY_W is "ц" in the RU layout and "w" in the US layout
+    // KEY_GRAVE is "ё" in the RU layout and "`" in the US layout
+    // TAB_KEY is the same both in the US and RU layout
 
-                     // Then check a key with a Latin letter.
-                     // The symbol will probably be differ on non-Latin layout.
-                     // On Russian layout, "w" key has a cyrillic letter "ц"
-                     {KEY_W, Qt::Key_W},
-
-#if QT_VERSION_MAJOR > 5 // since Qt 5 LTS is frozen
-                     // More common case with any Latin1 symbol keys, including punctuation, should work also.
-                     // "`" key has a "ё" letter on Russian layout
-                     // FIXME: QTBUG-90611
-                     {KEY_GRAVE, Qt::Key_QuoteLeft},
+    QTest::newRow("Left Ctrl + Tab") << KEY_LEFTCTRL << Qt::CTRL << KEY_TAB << Qt::Key_Tab;
+    QTest::newRow("Left Ctrl + W") << KEY_LEFTCTRL << Qt::CTRL << KEY_W << Qt::Key_W;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    QTest::newRow("Left Ctrl + `") << KEY_LEFTCTRL << Qt::CTRL << KEY_GRAVE << Qt::Key_QuoteLeft;
 #endif
-             }) {
-            QTest::newRow(QKeySequence(modifier.second + key.second).toString().toLatin1().constData())
-                << modifier.first << modifier.second << key.first << key.second;
-        }
-    }
+
+    QTest::newRow("Left Alt + Tab") << KEY_LEFTALT << Qt::ALT << KEY_TAB << Qt::Key_Tab;
+    QTest::newRow("Left Alt + W") << KEY_LEFTALT << Qt::ALT << KEY_W << Qt::Key_W;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    QTest::newRow("Left Alt + `") << KEY_LEFTALT << Qt::ALT << KEY_GRAVE << Qt::Key_QuoteLeft;
+#endif
+
+    QTest::newRow("Left Shift + Tab") << KEY_LEFTSHIFT << Qt::SHIFT << KEY_TAB << Qt::Key_Tab;
+
+    QTest::newRow("Left Meta + Tab") << KEY_LEFTMETA << Qt::META << KEY_TAB << Qt::Key_Tab;
+    QTest::newRow("Left Meta + W") << KEY_LEFTMETA << Qt::META << KEY_W << Qt::Key_W;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    QTest::newRow("Left Meta + `") << KEY_LEFTMETA << Qt::META << KEY_GRAVE << Qt::Key_QuoteLeft;
+#endif
 }
 
 void GlobalShortcutsTest::testNonLatinLayout()
@@ -139,14 +136,13 @@ void GlobalShortcutsTest::testNonLatinLayout()
     const QKeySequence seq(qtModifier + qtKey);
 
     std::unique_ptr<QAction> action(new QAction(nullptr));
-    action->setProperty("componentName", QStringLiteral(KWIN_NAME));
+    action->setProperty("componentName", QStringLiteral("kwin"));
     action->setObjectName("globalshortcuts-test-non-latin-layout");
 
     QSignalSpy triggeredSpy(action.get(), &QAction::triggered);
 
     KGlobalAccel::self()->stealShortcutSystemwide(seq);
     KGlobalAccel::self()->setShortcut(action.get(), {seq}, KGlobalAccel::NoAutoloading);
-    input()->registerShortcut(seq, action.get());
 
     quint32 timestamp = 0;
     Test::keyboardKeyPressed(modifierKey, timestamp++);
@@ -164,11 +160,10 @@ void GlobalShortcutsTest::testConsumedShift()
     // this test verifies that a shortcut with a consumed shift modifier triggers
     // create the action
     std::unique_ptr<QAction> action(new QAction(nullptr));
-    action->setProperty("componentName", QStringLiteral(KWIN_NAME));
+    action->setProperty("componentName", QStringLiteral("kwin"));
     action->setObjectName(QStringLiteral("globalshortcuts-test-consumed-shift"));
     QSignalSpy triggeredSpy(action.get(), &QAction::triggered);
     KGlobalAccel::self()->setShortcut(action.get(), QList<QKeySequence>{Qt::Key_Percent}, KGlobalAccel::NoAutoloading);
-    input()->registerShortcut(Qt::Key_Percent, action.get());
 
     // press shift+5
     quint32 timestamp = 0;
@@ -188,11 +183,10 @@ void GlobalShortcutsTest::testRepeatedTrigger()
     // in addition pressing another key should stop triggering the shortcut
 
     std::unique_ptr<QAction> action(new QAction(nullptr));
-    action->setProperty("componentName", QStringLiteral(KWIN_NAME));
+    action->setProperty("componentName", QStringLiteral("kwin"));
     action->setObjectName(QStringLiteral("globalshortcuts-test-consumed-shift"));
     QSignalSpy triggeredSpy(action.get(), &QAction::triggered);
     KGlobalAccel::self()->setShortcut(action.get(), QList<QKeySequence>{Qt::Key_Percent}, KGlobalAccel::NoAutoloading);
-    input()->registerShortcut(Qt::Key_Percent, action.get());
 
     // we need to configure the key repeat first. It is only enabled on libinput
     waylandServer()->seat()->keyboard()->setRepeatInfo(25, 300);
@@ -248,11 +242,10 @@ void GlobalShortcutsTest::testMetaShiftW()
 {
     // BUG 370341
     std::unique_ptr<QAction> action(new QAction(nullptr));
-    action->setProperty("componentName", QStringLiteral(KWIN_NAME));
+    action->setProperty("componentName", QStringLiteral("kwin"));
     action->setObjectName(QStringLiteral("globalshortcuts-test-meta-shift-w"));
     QSignalSpy triggeredSpy(action.get(), &QAction::triggered);
     KGlobalAccel::self()->setShortcut(action.get(), QList<QKeySequence>{Qt::META | Qt::SHIFT | Qt::Key_W}, KGlobalAccel::NoAutoloading);
-    input()->registerShortcut(Qt::META | Qt::SHIFT | Qt::Key_W, action.get());
 
     // press meta+shift+w
     quint32 timestamp = 0;
@@ -273,11 +266,10 @@ void GlobalShortcutsTest::testComponseKey()
 {
     // BUG 390110
     std::unique_ptr<QAction> action(new QAction(nullptr));
-    action->setProperty("componentName", QStringLiteral(KWIN_NAME));
+    action->setProperty("componentName", QStringLiteral("kwin"));
     action->setObjectName(QStringLiteral("globalshortcuts-accent"));
     QSignalSpy triggeredSpy(action.get(), &QAction::triggered);
     KGlobalAccel::self()->setShortcut(action.get(), QList<QKeySequence>{Qt::NoModifier}, KGlobalAccel::NoAutoloading);
-    input()->registerShortcut(Qt::NoModifier, action.get());
 
     // press & release `
     quint32 timestamp = 0;
@@ -420,10 +412,12 @@ void GlobalShortcutsTest::testSetupWindowShortcut()
     auto sequenceEdit = workspace()->shortcutDialog()->findChild<QKeySequenceEdit *>();
     QVERIFY(sequenceEdit);
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     // the QKeySequenceEdit field does not get focus, we need to pass it focus manually
     QEXPECT_FAIL("", "Edit does not have focus", Continue);
     QVERIFY(sequenceEdit->hasFocus());
     sequenceEdit->setFocus();
+#endif
     QTRY_VERIFY(sequenceEdit->hasFocus());
 
     quint32 timestamp = 0;

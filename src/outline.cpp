@@ -11,7 +11,6 @@
 #include "outline.h"
 // KWin
 #include "composite.h"
-#include "core/platform.h"
 #include "main.h"
 #include "scripting/scripting.h"
 #include "utils/common.h"
@@ -105,7 +104,7 @@ void Outline::createHelper()
     if (m_visual) {
         return;
     }
-    m_visual = kwinApp()->platform()->createOutline(this);
+    m_visual = kwinApp()->createOutline(this);
 }
 
 void Outline::compositingChanged()
@@ -169,7 +168,7 @@ void CompositedOutlineVisual::show()
     if (!m_qmlComponent) {
         m_qmlComponent = std::make_unique<QQmlComponent>(Scripting::self()->qmlEngine());
         const QString fileName = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
-                                                        kwinApp()->config()->group(QStringLiteral("Outline")).readEntry("QmlPath", QStringLiteral(KWIN_NAME "/outline/plasma/outline.qml")));
+                                                        kwinApp()->config()->group(QStringLiteral("Outline")).readEntry("QmlPath", QStringLiteral("kwin/outline/plasma/outline.qml")));
         if (fileName.isEmpty()) {
             qCDebug(KWIN_CORE) << "Could not locate outline.qml";
             return;

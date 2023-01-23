@@ -10,7 +10,7 @@
 
 #include "kwin_wayland_test.h"
 
-#include "core/platform.h"
+#include "core/outputbackend.h"
 #include "cursor.h"
 #include "effectloader.h"
 #include "main.h"
@@ -21,6 +21,8 @@
 
 #include <KConfigGroup>
 #include <KWayland/Client/surface.h>
+
+#include <QAction>
 
 Q_DECLARE_METATYPE(KWin::ElectricBorder)
 
@@ -68,8 +70,8 @@ void ScreenEdgesTest::initTestCase()
     qRegisterMetaType<KWin::ElectricBorder>("ElectricBorder");
 
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
+    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024)));
 
     // Disable effects, in particular present windows, which reserves a screen edge.
     auto config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
@@ -129,9 +131,9 @@ void ScreenEdgesTest::testTouchCallback()
     s->reconfigure();
 
     // none of our actions should be reserved
-    const QList<Edge *> edges = s->findChildren<Edge *>(QString(), Qt::FindDirectChildrenOnly);
+    const auto &edges = s->edges();
     QCOMPARE(edges.size(), 8);
-    for (auto edge : edges) {
+    for (auto &edge : edges) {
         QCOMPARE(edge->isReserved(), false);
         QCOMPARE(edge->activatesForPointer(), false);
         QCOMPARE(edge->activatesForTouchGesture(), false);
@@ -144,7 +146,7 @@ void ScreenEdgesTest::testTouchCallback()
     // reserve on edge
     QFETCH(KWin::ElectricBorder, border);
     s->reserveTouch(border, &action);
-    for (auto edge : edges) {
+    for (auto &edge : edges) {
         QCOMPARE(edge->isReserved(), edge->border() == border);
         QCOMPARE(edge->activatesForPointer(), false);
         QCOMPARE(edge->activatesForTouchGesture(), edge->border() == border);
@@ -169,7 +171,7 @@ void ScreenEdgesTest::testTouchCallback()
 
     // unreserve again
     s->unreserveTouch(border, &action);
-    for (auto edge : edges) {
+    for (auto &edge : edges) {
         QCOMPARE(edge->isReserved(), false);
         QCOMPARE(edge->activatesForPointer(), false);
         QCOMPARE(edge->activatesForTouchGesture(), false);
@@ -178,7 +180,7 @@ void ScreenEdgesTest::testTouchCallback()
     // reserve another action
     std::unique_ptr<QAction> action2(new QAction);
     s->reserveTouch(border, action2.get());
-    for (auto edge : edges) {
+    for (auto &edge : edges) {
         QCOMPARE(edge->isReserved(), edge->border() == border);
         QCOMPARE(edge->activatesForPointer(), false);
         QCOMPARE(edge->activatesForTouchGesture(), edge->border() == border);
@@ -186,7 +188,7 @@ void ScreenEdgesTest::testTouchCallback()
 
     // and unreserve by destroying
     action2.reset();
-    for (auto edge : edges) {
+    for (auto &edge : edges) {
         QCOMPARE(edge->isReserved(), false);
         QCOMPARE(edge->activatesForPointer(), false);
         QCOMPARE(edge->activatesForTouchGesture(), false);

@@ -1,7 +1,7 @@
 # translation of kcmkwindecoration.po to
 # Translation of kcmkwindecoration.po to Slovenian
 # SLOVENIAN TRANSLATION OF K DESKTOP ENVIRONMENT.
-# $Id: kcm_kwindecoration.po 1636728 2022-10-26 03:04:54Z scripty $
+# $Id: kcm_kwindecoration.po 1636722 2022-10-26 01:37:32Z scripty $
 # $Source$
 #
 # Copyright (C) 2001, 2003, 2004, 2005, 2007 Free Software Foundation, Inc.
@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-26 02:35+0000\n"
+"POT-Creation-Date: 2022-10-26 00:47+0000\n"
 "PO-Revision-Date: 2021-07-10 07:11+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -303,3 +303,206 @@ msgstr "Velikanska"
 #, kde-format
 msgid "Oversized"
 msgstr "Prevelika"
+
+#~ msgctxt "popup tip"
+#~ msgid ""
+#~ "Close by double clicking: Keep the window's Menu button pressed until it "
+#~ "appears."
+#~ msgstr ""
+#~ "Zaprite z dvoklikom:  Da odprete meni, držite gumb, dokler se meni ne "
+#~ "pojavi."
+
+#~ msgid "Menu"
+#~ msgstr "Meni"
+
+#~ msgid "Keep below"
+#~ msgstr "Ohrani pod vsemi"
+
+#~ msgid "Keep above"
+#~ msgstr "Ohrani nad vsemi"
+
+#~ msgid "Download New Window Decorations"
+#~ msgstr "Prenesi nove okenske okraske"
+
+#~ msgctxt "checkbox label"
+#~ msgid "Use theme's default window border size"
+#~ msgstr "Uporabljaj privzeto debelino obroba okna teme"
+
+#, fuzzy
+#~| msgid "Search"
+#~ msgid "Search..."
+#~ msgstr "Poišči"
+
+#~ msgid "Close windows by double clicking &the menu button"
+#~ msgstr "&Zapri okna z dvojnim klikom na menijski gumb"
+
+#~ msgid "Border si&ze:"
+#~ msgstr "Velikos&t obrobe:"
+
+#~ msgid "Buttons"
+#~ msgstr "Gumbi"
+
+#, fuzzy
+#~| msgid "Configure Buttons..."
+#~ msgid "Configure %1..."
+#~ msgstr "Nastavi gumbe ..."
+
+#~ msgid "Drag to re-position buttons"
+#~ msgstr "Povlecite za spremembo položaja gumbov"
+
+#~ msgid "Form"
+#~ msgstr "Oblika"
+
+#~ msgid "Button size:"
+#~ msgstr "Velikost gumbov:"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Tiny"
+#~ msgstr "Majhna"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Normal"
+#~ msgstr "Običajna"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Large"
+#~ msgstr "Velika"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Very Large"
+#~ msgstr "Zelo velika"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Huge"
+#~ msgstr "Ogromna"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Very Huge"
+#~ msgstr "Velikanska"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Oversized"
+#~ msgstr "Prevelika"
+
+#~ msgid "KDE"
+#~ msgstr "KDE"
+
+#~ msgid "%1 (unavailable)"
+#~ msgstr "%1 (ni na voljo)"
+
+#~ msgid ""
+#~ "To add or remove titlebar buttons, simply <i>drag</i> items between the "
+#~ "available item list and the titlebar preview. Similarly, drag items "
+#~ "within the titlebar preview to re-position them."
+#~ msgstr ""
+#~ "Da bi gumbe naslovne vrstice dodali ali odstranili, predmete preprosto "
+#~ "<i>povlecite</i> med seznamom predmetov, ki so na voljo in predogledom "
+#~ "naslovne vrstice. Predmete lahko podobno povlečete znotraj predogleda "
+#~ "naslovne vrstice, da bi spremenili njihov položaj."
+
+#~ msgid "Resize"
+#~ msgstr "Spremeni velikost"
+
+#~ msgid "Help"
+#~ msgstr "Pomoč"
+
+#~ msgctxt "Button showing window actions menu"
+#~ msgid "Window Menu"
+#~ msgstr "Meni okna"
+
+#~ msgid "--- spacer ---"
+#~ msgstr "--- praznina ---"
+
+#~ msgid ""
+#~ "Enabling this checkbox will show window button tooltips. If this checkbox "
+#~ "is off, no window button tooltips will be shown."
+#~ msgstr ""
+#~ "Če boste izbrali to možnost, se bodo prikazovali orodni namigi za gumbe "
+#~ "oken. Če to ni izbrano, orodni namigi ne bodo prikazani."
+
+#~ msgid "Please note that this option is not available on all styles yet."
+#~ msgstr "Ta možnost še ni na voljo za vse sloge."
+
+#~ msgid "Use custom titlebar button &positions"
+#~ msgstr "Uporabi prilagojene &položaje gumbov naslovne vrstice"
+
+#~ msgid "B&order size:"
+#~ msgstr "Velik&ost obrobe:"
+
+#~ msgid "Use this combobox to change the border size of the decoration."
+#~ msgstr "Uporabite to možnost, da spremenite velikost obrobe okraska."
+
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "No Side Border"
+#~ msgstr "Brez stranske obrobe"
+
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "No Border"
+#~ msgstr "Brez obrobe"
+
+#~ msgid "Decoration Options"
+#~ msgstr "Možnosti okraska"
+
+#~ msgid ""
+#~ "Select the window decoration. This is the look and feel of both the "
+#~ "window borders and the window handle."
+#~ msgstr ""
+#~ "Izberite okraske oken. To je izgled in občutek tako obrob oken kot tudi "
+#~ "ročice okna."
+
+#~ msgid "Configure Decoration..."
+#~ msgstr "Nastavi okraske ..."
+
+#~ msgid "Window Decoration Control Module"
+#~ msgstr "Nadzorni modul okraskov oken"
+
+#~ msgid "(c) 2001 Karol Szwed"
+#~ msgstr "(c) 2001 Karol Szwed"
+
+#~ msgid "Karol Szwed"
+#~ msgstr "Karol Szwed"
+
+#~ msgid ""
+#~ "<h1>Installation error</h1>The resource<h2>kwin/kcm_kwindecoration/main."
+#~ "qml</h2>could not be located in any application data path.<h2>Please "
+#~ "contact your distribution</h2>The application will now abort"
+#~ msgstr ""
+#~ "<h1>Napaka namestitve</h1>Vira <h2>kwin/kcm_kwindecoration/main.qml</h2> "
+#~ "ni bilo mogoče najti v poteh programov.<h2>Stopite v stik z upravitelji "
+#~ "vaše distribucije</h2>Program bo sedaj prekinjen"
+
+#~ msgid "Installation Error"
+#~ msgstr "Napaka namestitve"
+
+#~ msgid "Oxygen"
+#~ msgstr "Kisik"
+
+#~ msgid ""
+#~ "<h1>Window Manager Decoration</h1><p>This module allows you to choose the "
+#~ "window border decorations, as well as titlebar button positions and "
+#~ "custom decoration options.</p>To choose a theme for your window "
+#~ "decoration click on its name and apply your choice by clicking the \"Apply"
+#~ "\" button below. If you do not want to apply your choice you can click "
+#~ "the \"Reset\" button to discard your changes.<p>You can configure each "
+#~ "theme. There are different options specific for each theme.</p><p>On the "
+#~ "\"Buttons\" tab check the \"Use custom titlebar button positions\" box "
+#~ "and you can change the positions of the buttons to your liking.</p>"
+#~ msgstr ""
+#~ "<h1>Okraski upravljalnika oken</h1> <p>Ta modul vam omogoča izbrati "
+#~ "okraske okenskih obrob, kot tudi položaje gumbov v naslovni vrstici in "
+#~ "dodatne možnosti okraskov.</p> Da bi izbrali temo za okrasek okna, "
+#~ "kliknite na njeno ime in uveljavite vašo izbiro s spodnjim gumbom "
+#~ "»Uveljavi«. Če ne želite uveljaviti vaše izbire, kliknite na gumb "
+#~ "»Ponastavi«, da bi zavrgli spremembe. <p>Vsako temo lahko nastavite. Za "
+#~ "vsako temo so različne nastavljive možnosti.</p> <p>Na zavihku »Gumbi« "
+#~ "omogočite »Uporabi prilagojene položaje gumbov naslovne vrstice« in potem "
+#~ "boste lahko po želji spremenili položaje gumbov.</p>"
+
+#~ msgid "Active Window"
+#~ msgstr "Dejavno okno"
+
+#~ msgid "Inactive Window"
+#~ msgstr "Nedejavno okno"
+
+#~ msgid "kcmkwindecoration"
+#~ msgstr "kcmkwindecoration"

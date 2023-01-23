@@ -211,7 +211,12 @@ void DecoratedClientImpl::showApplicationMenu(int actionId)
 
 void DecoratedClientImpl::requestToggleMaximization(Qt::MouseButtons buttons)
 {
-    QMetaObject::invokeMethod(this, "delayedRequestToggleMaximization", Qt::QueuedConnection, Q_ARG(Options::WindowOperation, options->operationMaxButtonClick(buttons)));
+    auto operation = options->operationMaxButtonClick(buttons);
+    QMetaObject::invokeMethod(
+        this, [this, operation] {
+            delayedRequestToggleMaximization(operation);
+        },
+        Qt::QueuedConnection);
 }
 
 void DecoratedClientImpl::delayedRequestToggleMaximization(Options::WindowOperation operation)
@@ -284,6 +289,11 @@ bool DecoratedClientImpl::hasApplicationMenu() const
 bool DecoratedClientImpl::isApplicationMenuActive() const
 {
     return m_window->applicationMenuActive();
+}
+
+QString DecoratedClientImpl::windowClass() const
+{
+    return m_window->resourceName() + QLatin1Char(' ') + m_window->resourceClass();
 }
 
 }

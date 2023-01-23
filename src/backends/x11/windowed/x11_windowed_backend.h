@@ -10,7 +10,7 @@
 
 #include "core/inputbackend.h"
 #include "core/inputdevice.h"
-#include "core/platform.h"
+#include "core/outputbackend.h"
 
 #include <kwin_export.h>
 
@@ -81,75 +81,56 @@ private:
     X11WindowedBackend *m_backend;
 };
 
-class KWIN_EXPORT X11WindowedBackend : public Platform
+struct X11WindowedBackendOptions
+{
+    QString display;
+    int outputCount = 1;
+    qreal outputScale = 1;
+    QSize outputSize = QSize(1024, 768);
+};
+
+class KWIN_EXPORT X11WindowedBackend : public OutputBackend
 {
     Q_OBJECT
 
 public:
-    explicit X11WindowedBackend();
+    explicit X11WindowedBackend(const X11WindowedBackendOptions &options);
     ~X11WindowedBackend() override;
-    bool initialize() override;
 
-    xcb_connection_t *connection() const
-    {
-        return m_connection;
-    }
-    xcb_screen_t *screen() const
-    {
-        return m_screen;
-    }
-    int screenNumer() const
-    {
-        return m_screenNumber;
-    }
-    xcb_window_t window() const;
-    xcb_window_t windowForScreen(Output *output) const;
-    Display *display() const
-    {
-        return m_display;
-    }
+    Display *display() const;
+    xcb_connection_t *connection() const;
+    xcb_screen_t *screen() const;
+    int screenNumer() const;
     xcb_window_t rootWindow() const;
-    bool hasXInput() const
-    {
-        return m_hasXInput;
-    }
 
+    bool hasXInput() const;
+
+    bool initialize() override;
     std::unique_ptr<OpenGLBackend> createOpenGLBackend() override;
     std::unique_ptr<QPainterBackend> createQPainterBackend() override;
     std::unique_ptr<InputBackend> createInputBackend() override;
-    void warpPointer(const QPointF &globalPos) override;
-
-    QVector<CompositingType> supportedCompositors() const override
-    {
-        if (selectedCompositor() != NoCompositing) {
-            return {selectedCompositor()};
-        }
-        return QVector<CompositingType>{OpenGLCompositing, QPainterCompositing};
-    }
+    QVector<CompositingType> supportedCompositors() const override;
+    Outputs outputs() const override;
 
     X11WindowedInputDevice *pointerDevice() const;
     X11WindowedInputDevice *keyboardDevice() const;
     X11WindowedInputDevice *touchDevice() const;
 
-    Outputs outputs() const override;
-
-Q_SIGNALS:
-    void sizeChanged();
-
 private:
     void createOutputs();
-    void startEventReading();
     void grabKeyboard(xcb_timestamp_t time);
     void updateWindowTitle();
     void handleEvent(xcb_generic_event_t *event);
     void handleClientMessage(xcb_client_message_event_t *event);
     void handleButtonPress(xcb_button_press_event_t *event);
     void handleExpose(xcb_expose_event_t *event);
+    void handleXinputEvent(xcb_ge_generic_event_t *event);
+    void handlePresentEvent(xcb_ge_generic_event_t *event);
     void updateSize(xcb_configure_notify_event_t *event);
-    void createCursor(const QImage &img, const QPoint &hotspot);
     void initXInput();
     X11WindowedOutput *findOutput(xcb_window_t window) const;
 
+    X11WindowedBackendOptions m_options;
     xcb_connection_t *m_connection = nullptr;
     xcb_screen_t *m_screen = nullptr;
     xcb_key_symbols_t *m_keySymbols = nullptr;
@@ -161,7 +142,6 @@ private:
 
     xcb_atom_t m_protocols = XCB_ATOM_NONE;
     xcb_atom_t m_deleteWindowProtocol = XCB_ATOM_NONE;
-    xcb_cursor_t m_cursor = XCB_CURSOR_NONE;
     Display *m_display = nullptr;
     bool m_keyboardGrabbed = false;
     std::unique_ptr<QSocketNotifier> m_eventNotifier;
@@ -170,6 +150,12 @@ private:
     int m_xiOpcode = 0;
     int m_majorVersion = 0;
     int m_minorVersion = 0;
+
+    int m_presentOpcode = 0;
+    int m_presentMajorVersion = 0;
+    int m_presentMinorVersion = 0;
+
+    bool m_hasShm = false;
 
     QVector<X11WindowedOutput *> m_outputs;
 };

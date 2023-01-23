@@ -8,7 +8,7 @@
 */
 #include "kwin_wayland_test.h"
 
-#include "core/platform.h"
+#include "core/outputbackend.h"
 #include "cursor.h"
 #include "input.h"
 #include "keyboard_input.h"
@@ -19,12 +19,12 @@
 #include <KConfigGroup>
 #include <KGlobalAccel>
 
+#include <QAction>
 #include <QDBusConnection>
 
 #include <linux/input.h>
 
 using namespace KWin;
-using namespace KWayland::Client;
 
 static const QString s_socketName = QStringLiteral("wayland_test_kwin_no_global_shortcuts-0");
 static const QString s_serviceName = QStringLiteral("org.kde.KWin.Test.ModifierOnlyShortcut");
@@ -90,8 +90,8 @@ void NoGlobalShortcutsTest::initTestCase()
 {
     qRegisterMetaType<KWin::ElectricBorder>("ElectricBorder");
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName, KWin::WaylandServer::InitializationFlag::NoGlobalShortcuts));
+    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
 
     kwinApp()->setConfig(KSharedConfig::openConfig(QString(), KConfig::SimpleConfig));
     qputenv("KWIN_XKB_DEFAULT_KEYMAP", "1");
@@ -170,11 +170,10 @@ void NoGlobalShortcutsTest::testTrigger()
 void NoGlobalShortcutsTest::testKGlobalAccel()
 {
     std::unique_ptr<QAction> action(new QAction(nullptr));
-    action->setProperty("componentName", QStringLiteral(KWIN_NAME));
+    action->setProperty("componentName", QStringLiteral("kwin"));
     action->setObjectName(QStringLiteral("globalshortcuts-test-meta-shift-w"));
     QSignalSpy triggeredSpy(action.get(), &QAction::triggered);
     KGlobalAccel::self()->setShortcut(action.get(), QList<QKeySequence>{Qt::META | Qt::SHIFT | Qt::Key_W}, KGlobalAccel::NoAutoloading);
-    input()->registerShortcut(Qt::META | Qt::SHIFT | Qt::Key_W, action.get());
 
     // press meta+shift+w
     quint32 timestamp = 0;
@@ -189,7 +188,7 @@ void NoGlobalShortcutsTest::testKGlobalAccel()
     Test::keyboardKeyReleased(KEY_LEFTSHIFT, timestamp++);
     Test::keyboardKeyReleased(KEY_LEFTMETA, timestamp++);
 
-    QVERIFY(!triggeredSpy.wait());
+    QVERIFY(!triggeredSpy.wait(100));
     QCOMPARE(triggeredSpy.count(), 0);
 }
 

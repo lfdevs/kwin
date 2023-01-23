@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-01 02:26+0000\n"
+"POT-Creation-Date: 2023-01-18 00:58+0000\n"
 "PO-Revision-Date: 2022-08-19 17:11+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -57,6 +57,7 @@ msgstr ""
 #: mousemark/mousemark_config.cpp:50 overview/kcm/overvieweffectkcm.cpp:35
 #: showpaint/showpaint_config.cpp:33
 #: thumbnailaside/thumbnailaside_config.cpp:54
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:31
 #: trackmouse/trackmouse_config.cpp:52
 #: windowview/kcm/windowvieweffectkcm.cpp:36 zoom/zoom_config.cpp:58
 #, kde-format
@@ -194,14 +195,20 @@ msgstr "Ən yaxın"
 msgid "Natural"
 msgstr "Təbii"
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
+#: desktopgrid/desktopgrid_config.ui:147
+#, kde-format
+msgid "None"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: desktopgrid/desktopgrid_config.ui:150
+#: desktopgrid/desktopgrid_config.ui:155
 #, kde-format
 msgid "Windows layout:"
 msgstr "Pəncərə maketi:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: desktopgrid/desktopgrid_config.ui:166
+#: desktopgrid/desktopgrid_config.ui:171
 #, kde-format
 msgid "Activation"
 msgstr "Aktivləşdirmək"
@@ -304,10 +311,16 @@ msgstr "Pəncərənin bağlanma animasiyası"
 msgid "Toggle Invert Effect"
 msgstr "Naqativ effekt açarı"
 
-#: invert/invert.cpp:50 invert/invert_config.cpp:44
+#: invert/invert.cpp:49 invert/invert_config.cpp:44
 #, kde-format
 msgid "Toggle Invert Effect on Window"
 msgstr "Pəncərədəki neqativ effekt açarı"
+
+#: invert/invert.cpp:56
+#, fuzzy, kde-format
+#| msgid "Invert cursor keys"
+msgid "Invert Screen Colors"
+msgstr "Siçan düymələrinin tərsi"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FadeToBlack)
 #: login/package/contents/ui/config.ui:17
@@ -364,30 +377,30 @@ msgstr "&Hündürlük:"
 msgid "Toggle Mouse Click Effect"
 msgstr "Siçan kliki effektinin açarı"
 
-#: mouseclick/mouseclick.cpp:42
+#: mouseclick/mouseclick.cpp:41
 #, kde-format
 msgctxt "Left mouse button"
 msgid "Left"
 msgstr "Sol"
 
-#: mouseclick/mouseclick.cpp:43
+#: mouseclick/mouseclick.cpp:42
 #, kde-format
 msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr "Orta"
 
-#: mouseclick/mouseclick.cpp:44
+#: mouseclick/mouseclick.cpp:43
 #, kde-format
 msgctxt "Right mouse button"
 msgid "Right"
 msgstr "Sağ"
 
-#: mouseclick/mouseclick.h:61
+#: mouseclick/mouseclick.h:60
 #, kde-format
 msgid "↓"
 msgstr "↓"
 
-#: mouseclick/mouseclick.h:62
+#: mouseclick/mouseclick.h:61
 #, kde-format
 msgid "↑"
 msgstr "↑"
@@ -483,12 +496,12 @@ msgstr "Şrift:"
 msgid "Show Text:"
 msgstr "Mətni Göstər:"
 
-#: mousemark/mousemark.cpp:36
+#: mousemark/mousemark.cpp:39
 #, kde-format
 msgid "Clear All Mouse Marks"
 msgstr "Siçanın bütün nişanlarını silmək"
 
-#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:59
+#: mousemark/mousemark.cpp:45 mousemark/mousemark_config.cpp:59
 #, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr "Siçanın sonuncu nişanını silmək"
@@ -554,12 +567,12 @@ msgstr "Fon bulanıqlığı:"
 msgid "Ignore minimized windows:"
 msgstr "Yığılmış pəncərələri yox saymaq:"
 
-#: overview/qml/DesktopBar.qml:186
+#: overview/qml/DesktopBar.qml:187
 #, kde-format
 msgid "Delete Virtual Desktop"
 msgstr "Virtual iş masasını silin"
 
-#: overview/qml/DesktopBar.qml:282
+#: overview/qml/DesktopBar.qml:283
 #, kde-format
 msgid "Add Virtual Desktop"
 msgstr "Virtual iş masası əlavə edin"
@@ -569,12 +582,12 @@ msgstr "Virtual iş masası əlavə edin"
 msgid "No matching windows"
 msgstr "Uyğun pəncərələr yoxdur"
 
-#: private/qml/WindowHeapDelegate.qml:152
+#: private/qml/WindowHeapDelegate.qml:151
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "Bağlamaq üçün aşağı çəkin"
 
-#: private/qml/WindowHeapDelegate.qml:462
+#: private/qml/WindowHeapDelegate.qml:461
 #, kde-format
 msgctxt "@info:tooltip as in: 'close this window'"
 msgid "Close window"
@@ -592,20 +605,20 @@ msgstr "Açılan pəncərənin ilkin miqyası:"
 msgid "Window close scale:"
 msgstr "Bağlanan pəncərənin son miqyası:"
 
-#: screenshot/screenshotdbusinterface1.cpp:480
+#: screenshot/screenshotdbusinterface1.cpp:478
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr "Ekranın şəkli"
 
-#: screenshot/screenshotdbusinterface1.cpp:481
+#: screenshot/screenshotdbusinterface1.cpp:479
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr "Ekran şəkli %1-də saxlanıldı"
 
-#: screenshot/screenshotdbusinterface1.cpp:797
-#: screenshot/screenshotdbusinterface2.cpp:472
+#: screenshot/screenshotdbusinterface1.cpp:800
+#: screenshot/screenshotdbusinterface2.cpp:477
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
@@ -614,8 +627,8 @@ msgstr ""
 "Sol klik və ya enter düyməsi ilə şəkili çəkiləcək pəncərəni seçmək.\n"
 "Bundan imtina etmək üçün Escape və ya sağ klik."
 
-#: screenshot/screenshotdbusinterface1.cpp:800
-#: screenshot/screenshotdbusinterface2.cpp:490
+#: screenshot/screenshotdbusinterface1.cpp:803
+#: screenshot/screenshotdbusinterface2.cpp:495
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -677,14 +690,8 @@ msgstr "Üfüqi:"
 msgid "Vertical:"
 msgstr "Şaquli:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideDocks)
-#: slide/slide_config.ui:72
-#, kde-format
-msgid "Slide docks"
-msgstr "Panelləri sürüşdürmək"
-
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideBackground)
-#: slide/slide_config.ui:79
+#: slide/slide_config.ui:72
 #, kde-format
 msgid "Slide desktop background"
 msgstr "İş Masaları fonlarını sürüşdürmək"
@@ -726,6 +733,50 @@ msgstr "&Qeyri-şəffaflıq:"
 #, no-c-format, kde-format
 msgid " %"
 msgstr " %"
+
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:37
+#: tileseditor/tileseditoreffect.cpp:29
+#, kde-format
+msgid "Toggle Tiles Editor"
+msgstr ""
+
+#: tileseditor/qml/main.qml:147
+#, kde-format
+msgid "Padding:"
+msgstr ""
+
+#: tileseditor/qml/main.qml:157
+#, kde-format
+msgid "Load Layout..."
+msgstr ""
+
+#: tileseditor/qml/main.qml:271
+#, fuzzy, kde-format
+#| msgid "Closest"
+msgid "Close"
+msgstr "Ən yaxın"
+
+#: tileseditor/qml/TileDelegate.qml:171
+#, fuzzy, kde-format
+#| msgid "Horizontal:"
+msgid "Split Horizontally"
+msgstr "Üfüqi:"
+
+#: tileseditor/qml/TileDelegate.qml:178
+#, fuzzy, kde-format
+#| msgid "Vertical:"
+msgid "Split Vertically"
+msgstr "Şaquli:"
+
+#: tileseditor/qml/TileDelegate.qml:186 tileseditor/qml/TileDelegate.qml:215
+#, kde-format
+msgid "Add Floating Tile"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:195
+#, kde-format
+msgid "Delete"
+msgstr ""
 
 #: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:57
 #, kde-format
@@ -861,17 +912,17 @@ msgstr "Qopan menyular:"
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Cari İş masasının bütün pəncərələrini göstərmək"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:55
+#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:54
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Bütün İş Masalarının bütün pəncərələrini göstərmək"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:65
+#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:63
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Tək sinifə aid pəncərəni göstərmək"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:75
+#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:72
 #, kde-format
 msgid "Toggle Present Windows (Window class on current desktop)"
 msgstr ""
@@ -884,15 +935,21 @@ msgstr ""
 msgid "Ignore &minimized windows"
 msgstr "Yığılmış pəncərələri yox saymaq"
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, kde-format
 msgid "No Matches"
 msgstr "Oxşarları yoxdur"
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, kde-format
 msgid "No Windows"
 msgstr "Pəncərələr yoxdur"
+
+#: windowview/qml/main.qml:123
+#, fuzzy, kde-format
+#| msgid "Fullscreen windows"
+msgid "Filter windows…"
+msgstr "Tam ekran açılan pəncərələr"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20
@@ -954,32 +1011,32 @@ msgstr "Zəif"
 msgid "More"
 msgstr "Çox"
 
-#: zoom/zoom.cpp:68
+#: zoom/zoom.cpp:65
 #, kde-format
 msgid "Move Zoomed Area to Left"
 msgstr "Böyümüş sahəni sola hərəkət etdirmək"
 
-#: zoom/zoom.cpp:76
+#: zoom/zoom.cpp:72
 #, kde-format
 msgid "Move Zoomed Area to Right"
 msgstr "Böyümüş sahəni sağa hərəkət etdirmək"
 
-#: zoom/zoom.cpp:84
+#: zoom/zoom.cpp:79
 #, kde-format
 msgid "Move Zoomed Area Upwards"
 msgstr "Böyümüş sahəni yuxarı hərəkət etdirmək"
 
-#: zoom/zoom.cpp:92
+#: zoom/zoom.cpp:86
 #, kde-format
 msgid "Move Zoomed Area Downwards"
 msgstr "Böyümüş sahəni aşağı hərəkət etdirmək"
 
-#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:108
+#: zoom/zoom.cpp:94 zoom/zoom_config.cpp:108
 #, kde-format
 msgid "Move Mouse to Focus"
 msgstr "Kursoru daxiletmə fokusuna köçürmək"
 
-#: zoom/zoom.cpp:109 zoom/zoom_config.cpp:115
+#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:115
 #, kde-format
 msgid "Move Mouse to Center"
 msgstr "Kursoru mərkəzə köçürmək"
@@ -1114,3 +1171,680 @@ msgstr "Söndürülüb"
 #, kde-format
 msgid "Mouse Tracking:"
 msgstr "Siçanın izlənməsi:"
+
+#~ msgid "Slide docks"
+#~ msgstr "Panelləri sürüşdürmək"
+
+#~ msgid "Search..."
+#~ msgstr "Axtarış..."
+
+#~ msgid "&Radius:"
+#~ msgstr "&Radius:"
+
+#~ msgid "Text position:"
+#~ msgstr "Mətn Yeri:"
+
+#~ msgid "Inside Graph"
+#~ msgstr "Qrafikanın tərkibində"
+
+#~ msgid "Nowhere"
+#~ msgstr "Heç bir yerdə"
+
+#~ msgid "Top Left"
+#~ msgstr "Yuxarı solda"
+
+#~ msgid "Top Right"
+#~ msgstr "Yuxarı sağda"
+
+#~ msgid "Bottom Left"
+#~ msgstr "Aşağı solda"
+
+#~ msgid "Bottom Right"
+#~ msgstr "Aşağı sağda"
+
+#~ msgid "Text font:"
+#~ msgstr "Mətnin şrifti:"
+
+#~ msgid "Text color:"
+#~ msgstr "Mətnin rəngi:"
+
+#~ msgid "Text alpha:"
+#~ msgstr "Mətnin yarımşəffaflığı:"
+
+#~ msgid "Show graph:"
+#~ msgstr "Qrafiki göstərmək:"
+
+#~ msgid "Show on active screen"
+#~ msgstr "Aktiv ekranda göstərmək"
+
+#~ msgid "Show Message:"
+#~ msgstr "İsmarıcı göstərmək:"
+
+#~ msgid "Show \"not a benchmark\" message"
+#~ msgstr "\"Bir müqayisə deyil\" ismarıcını göstərmək"
+
+#~ msgid "Colorize Text:"
+#~ msgstr "Mətnin rənglənməsi:"
+
+#~ msgid "Color text by value (green > yellow > red)"
+#~ msgstr "Mətni dəyərinə görə rəngləmək (yaşıl > sarı > qırmızı)"
+
+#~ msgid "Zoom &duration:"
+#~ msgstr "Miqyaslama mü&ddəti:"
+
+#~ msgctxt "Duration of zoom"
+#~ msgid "Default"
+#~ msgstr "Standart"
+
+#~ msgid "Border wid&th:"
+#~ msgstr "Çərçivənin e&ni:"
+
+#~ msgid "Click behavior:"
+#~ msgstr "Klik davranışı:"
+
+#~ msgid ""
+#~ "If the Present Windows effect is enabled, it will be automatically "
+#~ "triggered."
+#~ msgstr ""
+#~ "Əgər Hazırkı Pəncərə effekti aktiv olunarsa, o avtomatik işə düşəcəkdir."
+
+#~ msgid "Switch desktop and activate window"
+#~ msgstr "İş Masası və pəncərəni aktivləşdirmək arası keçid"
+
+#~ msgid "Switch desktop only"
+#~ msgstr "İş Masasını göstərmək"
+
+#~ msgid "Natural Layout Settings"
+#~ msgstr "Təbii düzülüş ayarları"
+
+#~ msgid "Fill &gaps"
+#~ msgstr "Boşluqları &doldurmaq"
+
+#~ msgid "Faster"
+#~ msgstr "Tez"
+
+#~ msgid "Nicer"
+#~ msgstr "Gözəl"
+
+#~ msgid "Left button:"
+#~ msgstr "Sol düymə:"
+
+#~ msgid "No action"
+#~ msgstr "Fəaliyyət yoxdur"
+
+#~ msgid "Activate window"
+#~ msgstr "Pəncərəni aktivləşdirmək"
+
+#~ msgid "End effect"
+#~ msgstr "Effektləri dayandırmaq"
+
+#~ msgid "Bring window to current desktop"
+#~ msgstr "Pəncərəni cari İş Masasına köçürmək"
+
+#~ msgid "Send window to all desktops"
+#~ msgstr "Pəncərəni bütün İş Masalarına göndərmək"
+
+#~ msgid "(Un-)Minimize window"
+#~ msgstr "Pəncərəni yığmaq/açmaq"
+
+#~ msgid "Middle button:"
+#~ msgstr "Orta düymə:"
+
+#~ msgid "Right button:"
+#~ msgstr "Sağ düymə:"
+
+#~ msgctxt "@title:group actions when clicking on desktop"
+#~ msgid "Desktop"
+#~ msgstr "İş Masası"
+
+#~ msgid "Show desktop"
+#~ msgstr "İş Masasını Göstərmək"
+
+#~ msgid "Display window &titles"
+#~ msgstr "Pəncərə başlıqlarını gös&tərmək"
+
+#~ msgid "Display window &icons"
+#~ msgstr "Pəncərən&in ikonlarını göstərmək"
+
+#~ msgid "Show &panels"
+#~ msgstr "&Panelləri göstərmək"
+
+#~ msgid "Regular Grid"
+#~ msgstr "Düzənli Şəbəkə"
+
+#~ msgid "Flexible Grid"
+#~ msgstr "Düzənsiz Şəbəkə"
+
+#~ msgid "Provide buttons to close the windows"
+#~ msgstr "Pəncərənin \"bağlamaq\" düyməsini göstərmək"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Xəyyam Qocayev"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "xxmn77@gmail.com"
+
+#~ msgid "Scale window"
+#~ msgstr "Pəncərənin miqyası"
+
+#~ msgid "Show outline"
+#~ msgstr "Konturu göstərmək"
+
+#~ msgid "Toggle window geometry display (effect only)"
+#~ msgstr ""
+#~ "Pəncərənin həndəsi gəstəricilərini göstərmək/gizlətmək (yalnız effekt)"
+
+#~ msgid "Toggle KWin composited geometry display"
+#~ msgstr "Pəncərənin həndəsi gəstəricilərini göstərmək/gizlətmək"
+
+#~ msgid "Display for moving windows"
+#~ msgstr "Pəncərələrin yerini dəyişərkən göstərmək"
+
+#~ msgid "Display for resizing windows"
+#~ msgstr "Pəncərənin ölçüsünü dəyişərkən göstərmək"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Blur"
+#~ msgstr "Yayğınlıq"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Blurs the background behind semi-transparent windows"
+#~ msgstr "Yarımşəffaf pəncərələrin altındakı fonu yayğınlaşdırmaq"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Color Picker"
+#~ msgstr "Rəng seçimi"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Supports picking a color"
+#~ msgstr "İstifadəçiyə ekranda rəngi seçməyə imkan verir"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Background contrast"
+#~ msgstr "Fon kontrastı"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Improve contrast and readability behind semi-transparent windows"
+#~ msgstr "Yarımşəffaf pəncərənin altındakı fonun kontrastını yaxşılaşdırır"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Grid"
+#~ msgstr "Bütün İş Masaları"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Zoom out so all desktops are displayed side-by-side in a grid"
+#~ msgstr "Bütün İş Masaların bir ekranda yan yana göstərmək"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Dim Inactive"
+#~ msgstr "Qeyri-aktiv pəncərələrin tutqunlaşması"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Darken inactive windows"
+#~ msgstr "Qeyri-aktiv pəncərələri tutqunlaşdırır"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Fall Apart"
+#~ msgstr "Dağılmaq"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Closed windows fall into pieces"
+#~ msgstr "Pəncərəni hissələrə parçalayaraq bağlayır"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Glide"
+#~ msgstr "Süzülmə"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Glide windows as they appear or disappear"
+#~ msgstr "Pəncərələrin süzülərək açılması və ya bağlanması"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Highlight Window"
+#~ msgstr "Pəncərəni işıqlandırmaq"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlight the appropriate window when hovering over taskbar entries"
+#~ msgstr ""
+#~ "Tapşıqıq paneli üzərində hərəkət edərkən müvadiq pəncərənin işıqlanması"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Invert"
+#~ msgstr "Neqativ"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Inverts the color of the desktop and windows"
+#~ msgstr "İş Masası və pəncərənin neqativi"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Kscreen"
+#~ msgstr "Kscreen"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper Effect for KScreen"
+#~ msgstr "KScreen üşün köməkçi effekti"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Looking Glass"
+#~ msgstr "Linza"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "A screen magnifier that looks like a fisheye lens"
+#~ msgstr "Ekrandakı sahəni linza effekti ilə göstərir"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Magic Lamp"
+#~ msgstr "Sehirli Lampa"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Simulate a magic lamp when minimizing windows"
+#~ msgstr "Pəncərələri sehirli lampa effekti ilə yığır"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Magnifier"
+#~ msgstr "Lupa"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Magnify the section of the screen that is near the mouse cursor"
+#~ msgstr "Kursorun altındakı ekran hissəsini böyüdücü şüşədə göstərir"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Click Animation"
+#~ msgstr "Siçan klikinin animasiyası"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Creates an animation whenever a mouse button is clicked. This is useful "
+#~ "for screenrecordings/presentations"
+#~ msgstr ""
+#~ "Hər siçan düyməsini vurduqda animaisya yaradır. Bu adətən ekrandan video "
+#~ "yazdıqda və ya təqdimat üçün istifadə olunur."
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Mark"
+#~ msgstr "Siçanla rəsm"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Allows you to draw lines on the desktop"
+#~ msgstr "Siçan kursoru ilə ekranda şəkil çəkməyə imkan verir"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Overview"
+#~ msgstr "Ümumi baxış"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Allows you to overview virtual desktops and windows"
+#~ msgstr "Pəncərələrə və iş masalarına ümumi baxışa imkan yaradır"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Present Windows"
+#~ msgstr "Bütün Pəncərələr"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Zoom out until all opened windows can be displayed side-by-side"
+#~ msgstr "Bütün açıq pəncərələrin miniatürünü yan-yana göstərir"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Resize Window"
+#~ msgstr "Pəncərə ölçüsünün dəyişilməsi"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Resizes windows with a fast texture scale instead of updating contents"
+#~ msgstr ""
+#~ "Pəncərənin ölçüsünü tərkiblərini yeniləmək əvəzinə teksturasını "
+#~ "miqyaslamaqla dəyişir"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Screen Edge"
+#~ msgstr "Ekranın kənarları"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlights a screen edge when approaching"
+#~ msgstr "Ekranın kənarlarına yaxınlaşdıqda onları vurğulayaraq seçir"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Screenshot"
+#~ msgstr "Ekranın şəkli"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper effect for screenshot tools"
+#~ msgstr "Ekranın şəklini çəkən vasitə üçün köməkçi effekt"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Transform"
+#~ msgstr "Çevirmək"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Animates display transformations"
+#~ msgstr "Ekranın dəyişməsi animasiyası"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Sheet"
+#~ msgstr "Vərəq"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Make modal dialogs smoothly fly in and out when they are shown or hidden"
+#~ msgstr "Modal pəncərələr rəvan şəkildə uçuşla göstərilir və ya gizlədilir"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show FPS"
+#~ msgstr "Saniyədəki kadrlar"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display KWin's performance in the corner of the screen"
+#~ msgstr ""
+#~ "Ekranın küncündə qrafikanın effektlərin saniyədəki kadrlarının sayını "
+#~ "göstərir"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show Paint"
+#~ msgstr "Yenilənən sahə"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlight areas of the desktop that have been recently updated"
+#~ msgstr "İş Masasının yenilənən sahəsini işıqlandırır"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Slide"
+#~ msgstr "Sürüşdürmə"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Slide desktops when switching virtual desktops"
+#~ msgstr "Virtual İş Masalarını dəyişərkən iş masalarını sürüşdürür"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Slide Back"
+#~ msgstr "Arxasına sürüşdürmək"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Slide back windows when another window is raised"
+#~ msgstr "Yeni pəncərə qaldırıldığında digər pəncərə arxaya sürüşür"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Sliding popups"
+#~ msgstr "Sürüşən pəncə animasiyası"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Sliding animation for Plasma popups"
+#~ msgstr "Sürüşən pəncərələrin animasiyalı peyda olması"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Snap Helper"
+#~ msgstr "Yerləşdirmə köməkçisi"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Help you locate the center of the screen when moving a window"
+#~ msgstr ""
+#~ "Pəncərələrin yeri dəyişdirilən zaman sizə ekranın mərkəzini təyin etməyə "
+#~ "imkan verir"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Startup Feedback"
+#~ msgstr "İstifadəçi rəyinin başlanğıcı"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper effect for startup feedback"
+#~ msgstr "İstifadəçi rəyinin başlanğıcı üçün yardımçı effekt"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Thumbnail Aside"
+#~ msgstr "Yandakı miniatür pəncərəsi"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display window thumbnails on the edge of the screen"
+#~ msgstr "Ekranın kənarında miniatür pəncərəsini göstərir"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Touch Points"
+#~ msgstr "Toxunma nöqtələri"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Visualize touch points"
+#~ msgstr "Ekranda toxunan nöqtələri canlandırır"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Track Mouse"
+#~ msgstr "Kursorun izi"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display a mouse cursor locating effect when activated"
+#~ msgstr "Ekranda kursorun yerini göstərir"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Window Geometry"
+#~ msgstr "Pəncərənin həndəsi yeri"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display window geometries on move/resize"
+#~ msgstr ""
+#~ "Pəncərənin yeri və ya ölçüsü dəyişdirildiyində ekranda onun mövqeyinin və "
+#~ "ölçüsünün həndəsi göstəriciləri."
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Wobbly Windows"
+#~ msgstr "Titrək pəncərələr"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Deform windows while they are moving"
+#~ msgstr "Hərəkət etdirildiyində pəncərələr dartılır/yığılır"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Zoom"
+#~ msgstr "Miqyas"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Magnify the entire desktop"
+#~ msgstr "İş Masasının miqyasının dəyişdirilməsi"
+
+#~ msgid "Kompose"
+#~ msgstr "Yaratmaq"
+
+#~ msgctxt "Special entry in alt+tab list for minimizing all windows"
+#~ msgid "Show Desktop"
+#~ msgstr "İş Masasını Göstərmək"
+
+#~ msgid "Zoom"
+#~ msgstr "Miqyas"
+
+#~ msgid "Define how far away the windows should appear"
+#~ msgstr "Pəncərənin nə qədər uzaqda görünməsini təyin etmək"
+
+#~ msgid "Near"
+#~ msgstr "Yaxında"
+
+#~ msgid "Far"
+#~ msgstr "Uzaqda"
+
+#~ msgid "Animation"
+#~ msgstr "Animasiya"
+
+#~ msgid "Animate switch"
+#~ msgstr "Animasiyalı dəyişim"
+
+#~ msgid "Animation on tab box open"
+#~ msgstr "Pəncərə dəyişdiricinin animasiyalı açılması"
+
+#~ msgid "Animation on tab box close"
+#~ msgstr "Pəncərə dəyişdiricinin animasiyalı bağlanması"
+
+#~ msgid "Reflections"
+#~ msgstr "Əks təsir"
+
+#~ msgid "Rear color"
+#~ msgstr "Arxadakı rəng"
+
+#~ msgid "Front color"
+#~ msgstr "Öndəki rəng"
+
+#~ msgid "Desktop Cube"
+#~ msgstr "İş Masası kubu"
+
+#~ msgid "Desktop Cylinder"
+#~ msgstr "İş Masası silindiri"
+
+#~ msgid "Desktop Sphere"
+#~ msgstr "İş Masası kürəsi"
+
+#~ msgctxt "@title:tab Basic Settings"
+#~ msgid "Basic"
+#~ msgstr "Əsas"
+
+#~ msgctxt "@title:tab Advanced Settings"
+#~ msgid "Advanced"
+#~ msgstr "Əlavə"
+
+#~ msgid "Tab 1"
+#~ msgstr "Vərəq 1"
+
+#~ msgid "Background color:"
+#~ msgstr "Fon Rəngi:"
+
+#~ msgid "Wallpaper:"
+#~ msgstr "Divar Kağızı:"
+
+#~ msgid "Display desktop name"
+#~ msgstr "İş Masasının adını göstərmək"
+
+#~ msgid "Reflection"
+#~ msgstr "Əks olunma"
+
+#~ msgid "Rotation duration:"
+#~ msgstr "Fırlanma müddəti:"
+
+#~ msgid "Windows hover above cube"
+#~ msgstr "Pəncərəni kubun üzərinə qaldırmaq"
+
+#~ msgid "Opacity"
+#~ msgstr "Qeyri-şəffaflıq"
+
+#~ msgid "Do not change opacity of windows"
+#~ msgstr "Pəncərələrin qeyri-şəffaflığını dəyişməmək"
+
+#~ msgid "Tab 2"
+#~ msgstr "Vərəq 2"
+
+#~ msgid "Caps"
+#~ msgstr "Yuxarı və Aşağı sərhəd"
+
+#~ msgid "Cap color:"
+#~ msgstr "Sərhəddin rəngi:"
+
+#~ msgid "Display image on caps"
+#~ msgstr "Sərhədlərdə şəkili göstərmək"
+
+#~ msgid "Define how far away the object should appear"
+#~ msgstr "Elementin nə qədər uzaqda görünməsini təyin etmək"
+
+#~ msgid "Additional Options"
+#~ msgstr "Əlavə Seçimlər"
+
+#~ msgid ""
+#~ "If enabled the effect will be deactivated after rotating the cube with "
+#~ "the mouse,\n"
+#~ "otherwise it will remain active"
+#~ msgstr "Bu seçim aktiv olarsa,kubu siçanla fırlatdıqda effekt söndürüləcək."
+
+#~ msgid "Close after mouse dragging"
+#~ msgstr "Siçanla fırlatdıqda bağlamaq"
+
+#~ msgid "Use this effect for walking through the desktops"
+#~ msgstr "İş Masalarına keçid zamanı bu effekti istifadə etmək"
+
+#~ msgid "Invert mouse"
+#~ msgstr "Siçanın tərsi"
+
+#~ msgid "Sphere Cap Deformation"
+#~ msgstr "Kürənin deformasiyası"
+
+#~ msgid "Sphere"
+#~ msgstr "Kürə"
+
+#~ msgid "Plane"
+#~ msgstr "Müstəvi"
+
+#~ msgid "Do not animate windows on all desktops"
+#~ msgstr "Pəncərə animasiyalarını bütün İş Masalarında söndürmək"
+
+#~ msgid "Do not animate panels"
+#~ msgstr "Panellərin animasiyalarını söndürmək"
+
+#~ msgid "Use pager layout for animation"
+#~ msgstr "Animasiya üçün səhifələyici sxemini istifadə etmək"
+
+#~ msgid "Start animation when moving windows towards screen edges"
+#~ msgstr ""
+#~ "Pəncərələri ekran kənarlarına doğru hərəkət etdirdikdə animasiyanı "
+#~ "başlatmaq"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Cover Switch"
+#~ msgstr "Karusel"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display a Cover Flow effect for the alt+tab window switcher"
+#~ msgstr "Alt+Tab ilə pəncərələrə keçidi karusel effekti ilə göstərir"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube"
+#~ msgstr "İş Masası kubu"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display each virtual desktop on a side of a cube"
+#~ msgstr "Kubun hər kənarında bir İş Masasını göstərmək"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube Animation"
+#~ msgstr "Animasiyalı İş Masası kubu"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Animate desktop switching with a cube"
+#~ msgstr "İş Masalarına keçidi kub fırlanması ilə göstərmək"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Flip Switch"
+#~ msgstr "Səhifələmək"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Flip through windows that are in a stack for the alt+tab window switcher"
+#~ msgstr "Alt+Tab ilə pəncərələrə keçidi kitab səhifələmək kimi göstərir"
+
+#~ msgid "Toggle Flip Switch (Current desktop)"
+#~ msgstr "Səhifələmə açarı (Cari İş Masası üç.)"
+
+#~ msgid "Toggle Flip Switch (All desktops)"
+#~ msgstr "Səhifələmə açarı (Bütün İş Masaları üç.)"
+
+#~ msgid "Flip animation duration:"
+#~ msgstr "Səhifələmə animasiyasının müddəti:"
+
+#~ msgctxt "Duration of flip animation"
+#~ msgid "Default"
+#~ msgstr "Standart"
+
+#~ msgid "Angle:"
+#~ msgstr "Bucaq:"
+
+#~ msgid " °"
+#~ msgstr " °"
+
+#~ msgid "Horizontal position of front:"
+#~ msgstr "Pəncərəni üfüqi movqeyi:"
+
+#~ msgid "Vertical position of front:"
+#~ msgstr "Pəncərəni şaquli movqeyi:"
+
+#~ msgid ""
+#~ "Filter:\n"
+#~ "%1"
+#~ msgstr ""
+#~ "Süzgəc:\n"
+#~ "%1"
+
+#~ msgid "Use Present Windows effect to layout the windows"
+#~ msgstr ""
+#~ "Pəncərələri yerləşdirmək üçün mövcud pəncərələr effektini istifadə etmək"

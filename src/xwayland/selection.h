@@ -6,8 +6,7 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-#ifndef KWIN_XWL_SELECTION
-#define KWIN_XWL_SELECTION
+#pragma once
 
 #include <QObject>
 #include <QVector>
@@ -79,7 +78,6 @@ protected:
 
     virtual bool handleClientMessage(xcb_client_message_event_t *event)
     {
-        Q_UNUSED(event);
         return false;
     }
     // sets the current provider of the selection
@@ -135,5 +133,3 @@ private:
 
 } // namespace Xwl
 } // namespace KWin
-
-#endif

@@ -12,48 +12,68 @@ namespace KWin
 {
 
 MouseEvent::MouseEvent(QEvent::Type type, const QPointF &pos, Qt::MouseButton button,
-                       Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers,
-                       quint32 timestamp, const QPointF &delta, const QPointF &deltaNonAccelerated,
-                       quint64 timestampMicroseconds, InputDevice *device)
+                       Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers, std::chrono::microseconds timestamp,
+                       const QPointF &delta, const QPointF &deltaNonAccelerated, InputDevice *device)
     : QMouseEvent(type, pos, pos, button, buttons, modifiers)
     , m_delta(delta)
     , m_deltaUnccelerated(deltaNonAccelerated)
-    , m_timestampMicroseconds(timestampMicroseconds)
+    , m_timestamp(timestamp)
     , m_device(device)
 {
-    setTimestamp(timestamp);
+    setTimestamp(std::chrono::duration_cast<std::chrono::milliseconds>(timestamp).count());
 }
 
-WheelEvent::WheelEvent(const QPointF &pos, qreal delta, qint32 discreteDelta, Qt::Orientation orientation,
+WheelEvent::WheelEvent(const QPointF &pos, qreal delta, qint32 deltaV120, Qt::Orientation orientation,
                        Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers, InputRedirection::PointerAxisSource source,
-                       quint32 timestamp, InputDevice *device)
+                       std::chrono::microseconds timestamp, InputDevice *device)
     : QWheelEvent(pos, pos, QPoint(), (orientation == Qt::Horizontal) ? QPoint(delta, 0) : QPoint(0, delta), buttons, modifiers, Qt::NoScrollPhase, false)
     , m_device(device)
     , m_orientation(orientation)
     , m_delta(delta)
-    , m_discreteDelta(discreteDelta)
+    , m_deltaV120(deltaV120)
     , m_source(source)
+    , m_timestamp(timestamp)
 {
-    setTimestamp(timestamp);
+    setTimestamp(std::chrono::duration_cast<std::chrono::milliseconds>(timestamp).count());
+}
+
+std::chrono::microseconds WheelEvent::timestamp() const
+{
+    return m_timestamp;
 }
 
 KeyEvent::KeyEvent(QEvent::Type type, Qt::Key key, Qt::KeyboardModifiers modifiers, quint32 code, quint32 keysym,
-                   const QString &text, bool autorepeat, quint32 timestamp, InputDevice *device)
+                   const QString &text, bool autorepeat, std::chrono::microseconds timestamp, InputDevice *device)
     : QKeyEvent(type, key, modifiers, code, keysym, 0, text, autorepeat)
     , m_device(device)
+    , m_timestamp(timestamp)
 {
-    setTimestamp(timestamp);
+    setTimestamp(std::chrono::duration_cast<std::chrono::milliseconds>(timestamp).count());
 }
 
-SwitchEvent::SwitchEvent(State state, quint32 timestamp, quint64 timestampMicroseconds, InputDevice *device)
-    : QInputEvent(QEvent::User)
+std::chrono::microseconds KeyEvent::timestamp() const
+{
+    return m_timestamp;
+}
+
+SwitchEvent::SwitchEvent(State state, std::chrono::microseconds timestamp, InputDevice *device)
+    : QEvent(QEvent::User)
     , m_state(state)
-    , m_timestampMicroseconds(timestampMicroseconds)
+    , m_timestamp(timestamp)
     , m_device(device)
 {
-    setTimestamp(timestamp);
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+TabletEvent::TabletEvent(Type t, const QPointingDevice *dev, const QPointF &pos, const QPointF &globalPos,
+                         qreal pressure, float xTilt, float yTilt,
+                         float tangentialPressure, qreal rotation, float z,
+                         Qt::KeyboardModifiers keyState, Qt::MouseButton button, Qt::MouseButtons buttons, const TabletToolId &tabletId)
+    : QTabletEvent(t, dev, pos, globalPos, pressure, xTilt, yTilt, tangentialPressure, rotation, z, keyState, button, buttons)
+    , m_id(tabletId)
+{
+}
+#else
 TabletEvent::TabletEvent(Type t, const QPointF &pos, const QPointF &globalPos,
                          int device, int pointerType, qreal pressure, int xTilt, int yTilt,
                          qreal tangentialPressure, qreal rotation, int z,
@@ -63,5 +83,6 @@ TabletEvent::TabletEvent(Type t, const QPointF &pos, const QPointF &globalPos,
     , m_id(tabletId)
 {
 }
+#endif
 
 }

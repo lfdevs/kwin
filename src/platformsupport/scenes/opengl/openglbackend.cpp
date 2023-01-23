@@ -11,7 +11,6 @@
 #include <kwineffects.h>
 #include <kwinglutils_funcs.h>
 
-#include "surfaceitem.h"
 #include "utils/common.h"
 #include "workspace.h"
 
@@ -59,26 +58,7 @@ void OpenGLBackend::copyPixels(const QRegion &region, const QSize &screenSize)
 
 std::shared_ptr<KWin::GLTexture> OpenGLBackend::textureForOutput(Output *output) const
 {
-    Q_UNUSED(output)
     return {};
-}
-
-std::unique_ptr<SurfaceTexture> OpenGLBackend::createSurfaceTextureInternal(SurfacePixmapInternal *pixmap)
-{
-    Q_UNUSED(pixmap)
-    return nullptr;
-}
-
-std::unique_ptr<SurfaceTexture> OpenGLBackend::createSurfaceTextureX11(SurfacePixmapX11 *pixmap)
-{
-    Q_UNUSED(pixmap)
-    return nullptr;
-}
-
-std::unique_ptr<SurfaceTexture> OpenGLBackend::createSurfaceTextureWayland(SurfacePixmapWayland *pixmap)
-{
-    Q_UNUSED(pixmap)
-    return nullptr;
 }
 
 bool OpenGLBackend::checkGraphicsReset()
@@ -90,13 +70,13 @@ bool OpenGLBackend::checkGraphicsReset()
 
     switch (status) {
     case GL_GUILTY_CONTEXT_RESET:
-        qCDebug(KWIN_OPENGL) << "A graphics reset attributable to the current GL context occurred.";
+        qCWarning(KWIN_OPENGL) << "A graphics reset attributable to the current GL context occurred.";
         break;
     case GL_INNOCENT_CONTEXT_RESET:
-        qCDebug(KWIN_OPENGL) << "A graphics reset not attributable to the current GL context occurred.";
+        qCWarning(KWIN_OPENGL) << "A graphics reset not attributable to the current GL context occurred.";
         break;
     case GL_UNKNOWN_CONTEXT_RESET:
-        qCDebug(KWIN_OPENGL) << "A graphics reset of an unknown cause occurred.";
+        qCWarning(KWIN_OPENGL) << "A graphics reset of an unknown cause occurred.";
         break;
     default:
         break;
@@ -105,9 +85,12 @@ bool OpenGLBackend::checkGraphicsReset()
     QElapsedTimer timer;
     timer.start();
 
-    // Wait until the reset is completed or max 10 seconds
-    while (timer.elapsed() < 10000 && KWin::glGetGraphicsResetStatus() != GL_NO_ERROR) {
+    // Wait until the reset is completed or max one second
+    while (timer.elapsed() < 1000 && KWin::glGetGraphicsResetStatus() != GL_NO_ERROR) {
         usleep(50);
+    }
+    if (timer.elapsed() >= 1000) {
+        qCWarning(KWIN_OPENGL) << "Waiting for glGetGraphicsResetStatus to return GL_NO_ERROR timed out!";
     }
 
     return true;

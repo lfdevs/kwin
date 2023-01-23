@@ -8,7 +8,9 @@
 #include "clientbuffer.h"
 #include "clientconnection.h"
 #include "compositor_interface.h"
+#include "contenttype_v1_interface.h"
 #include "display.h"
+#include "fractionalscale_v1_interface_p.h"
 #include "idleinhibit_v1_interface_p.h"
 #include "linuxdmabufv1clientbuffer.h"
 #include "pointerconstraints_v1_interface_p.h"
@@ -71,6 +73,8 @@ void SurfaceInterfacePrivate::addChild(SubSurfaceInterface *child)
     cached.above.append(child);
     current.above.append(child);
     child->surface()->setOutputs(outputs);
+    child->surface()->setPreferredScale(preferredScale);
+
     Q_EMIT q->childSubSurfaceAdded(child);
     Q_EMIT q->childSubSurfacesChanged();
 }
@@ -294,7 +298,6 @@ void SurfaceInterfacePrivate::surface_frame(Resource *resource, uint32_t callbac
 
 void SurfaceInterfacePrivate::surface_set_opaque_region(Resource *resource, struct ::wl_resource *region)
 {
-    Q_UNUSED(resource)
     RegionInterface *r = RegionInterface::get(region);
     pending.opaque = r ? r->region() : QRegion();
     pending.opaqueIsSet = true;
@@ -302,7 +305,6 @@ void SurfaceInterfacePrivate::surface_set_opaque_region(Resource *resource, stru
 
 void SurfaceInterfacePrivate::surface_set_input_region(Resource *resource, struct ::wl_resource *region)
 {
-    Q_UNUSED(resource)
     RegionInterface *r = RegionInterface::get(region);
     pending.input = r ? r->region() : infiniteRegion();
     pending.inputIsSet = true;
@@ -310,7 +312,6 @@ void SurfaceInterfacePrivate::surface_set_input_region(Resource *resource, struc
 
 void SurfaceInterfacePrivate::surface_commit(Resource *resource)
 {
-    Q_UNUSED(resource)
     if (subSurface) {
         commitSubSurface();
     } else {
@@ -340,13 +341,11 @@ void SurfaceInterfacePrivate::surface_set_buffer_scale(Resource *resource, int32
 
 void SurfaceInterfacePrivate::surface_damage_buffer(Resource *resource, int32_t x, int32_t y, int32_t width, int32_t height)
 {
-    Q_UNUSED(resource)
     pending.bufferDamage |= QRect(x, y, width, height);
 }
 
 void SurfaceInterfacePrivate::surface_offset(Resource *resource, int32_t x, int32_t y)
 {
-    Q_UNUSED(resource)
     pending.offset = QPoint(x, y);
 }
 
@@ -400,10 +399,10 @@ void SurfaceInterface::frameRendered(quint32 msec)
         wl_resource_destroy(resource);
     }
 
-    for (SubSurfaceInterface *subsurface : qAsConst(d->current.below)) {
+    for (SubSurfaceInterface *subsurface : std::as_const(d->current.below)) {
         subsurface->surface()->frameRendered(msec);
     }
-    for (SubSurfaceInterface *subsurface : qAsConst(d->current.above)) {
+    for (SubSurfaceInterface *subsurface : std::as_const(d->current.above)) {
         subsurface->surface()->frameRendered(msec);
     }
 }
@@ -535,6 +534,14 @@ void SurfaceState::mergeInto(SurfaceState *target)
     if (bufferTransformIsSet) {
         target->bufferTransform = bufferTransform;
         target->bufferTransformIsSet = true;
+    }
+    if (contentTypeIsSet) {
+        target->contentType = contentType;
+        target->contentTypeIsSet = true;
+    }
+    if (tearingIsSet) {
+        target->presentationHint = presentationHint;
+        target->tearingIsSet = true;
     }
 
     *this = SurfaceState{};
@@ -686,11 +693,11 @@ void SurfaceInterfacePrivate::applyState(SurfaceState *next)
         Q_EMIT q->childSubSurfacesChanged();
     }
     // The position of a sub-surface is applied when its parent is committed.
-    for (SubSurfaceInterface *subsurface : qAsConst(current.below)) {
+    for (SubSurfaceInterface *subsurface : std::as_const(current.below)) {
         auto subsurfacePrivate = SubSurfaceInterfacePrivate::get(subsurface);
         subsurfacePrivate->parentCommit();
     }
-    for (SubSurfaceInterface *subsurface : qAsConst(current.above)) {
+    for (SubSurfaceInterface *subsurface : std::as_const(current.above)) {
         auto subsurfacePrivate = SubSurfaceInterfacePrivate::get(subsurface);
         subsurfacePrivate->parentCommit();
     }
@@ -752,11 +759,11 @@ void SurfaceInterfacePrivate::updateEffectiveMapped()
         Q_EMIT q->unmapped();
     }
 
-    for (SubSurfaceInterface *subsurface : qAsConst(current.below)) {
+    for (SubSurfaceInterface *subsurface : std::as_const(current.below)) {
         auto surfacePrivate = SurfaceInterfacePrivate::get(subsurface->surface());
         surfacePrivate->updateEffectiveMapped();
     }
-    for (SubSurfaceInterface *subsurface : qAsConst(current.above)) {
+    for (SubSurfaceInterface *subsurface : std::as_const(current.above)) {
         auto surfacePrivate = SurfaceInterfacePrivate::get(subsurface->surface());
         surfacePrivate->updateEffectiveMapped();
     }
@@ -851,11 +858,11 @@ QRectF SurfaceInterface::boundingRect() const
 {
     QRectF rect(QPoint(0, 0), size());
 
-    for (const SubSurfaceInterface *subSurface : qAsConst(d->current.below)) {
+    for (const SubSurfaceInterface *subSurface : std::as_const(d->current.below)) {
         const SurfaceInterface *childSurface = subSurface->surface();
         rect |= childSurface->boundingRect().translated(subSurface->position());
     }
-    for (const SubSurfaceInterface *subSurface : qAsConst(d->current.above)) {
+    for (const SubSurfaceInterface *subSurface : std::as_const(d->current.above)) {
         const SurfaceInterface *childSurface = subSurface->surface();
         rect |= childSurface->boundingRect().translated(subSurface->position());
     }
@@ -936,10 +943,10 @@ void SurfaceInterface::setOutputs(const QVector<OutputInterface *> &outputs)
     }
 
     d->outputs = outputs;
-    for (auto child : qAsConst(d->current.below)) {
+    for (auto child : std::as_const(d->current.below)) {
         child->surface()->setOutputs(outputs);
     }
-    for (auto child : qAsConst(d->current.above)) {
+    for (auto child : std::as_const(d->current.above)) {
         child->surface()->setOutputs(outputs);
     }
 }
@@ -1025,6 +1032,11 @@ LinuxDmaBufV1Feedback *SurfaceInterface::dmabufFeedbackV1() const
     return d->dmabufFeedbackV1.get();
 }
 
+KWin::ContentType SurfaceInterface::contentType() const
+{
+    return d->current.contentType;
+}
+
 QPointF SurfaceInterface::mapToBuffer(const QPointF &point) const
 {
     return d->surfaceToBufferMatrix.map(point);
@@ -1090,6 +1102,29 @@ QPoint SurfaceInterface::toSurfaceLocal(const QPoint &point) const
 QPointF SurfaceInterface::toSurfaceLocal(const QPointF &point) const
 {
     return QPointF(point.x() * d->scaleOverride, point.y() * d->scaleOverride);
+}
+
+PresentationHint SurfaceInterface::presentationHint() const
+{
+    return d->current.presentationHint;
+}
+
+void SurfaceInterface::setPreferredScale(qreal scale)
+{
+    if (scale == d->preferredScale) {
+        return;
+    }
+    d->preferredScale = scale;
+
+    if (d->fractionalScaleExtension) {
+        d->fractionalScaleExtension->setPreferredScale(scale);
+    }
+    for (auto child : qAsConst(d->current.below)) {
+        child->surface()->setPreferredScale(scale);
+    }
+    for (auto child : qAsConst(d->current.above)) {
+        child->surface()->setPreferredScale(scale);
+    }
 }
 
 } // namespace KWaylandServer

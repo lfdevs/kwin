@@ -97,7 +97,7 @@ void SessionManager::storeSession(const QString &sessionName, SMSavePhase phase)
             continue;
         }
         QByteArray sessionId = c->sessionId();
-        QByteArray wmCommand = c->wmCommand();
+        QString wmCommand = c->wmCommand();
         if (sessionId.isEmpty()) {
             // remember also applications that are not XSMP capable
             // and use the obsolete WM_COMMAND / WM_SAVE_YOURSELF
@@ -136,10 +136,10 @@ void SessionManager::storeClient(KConfigGroup &cg, int num, X11Window *c)
     c->setSessionActivityOverride(false); // make sure we get the real values
     QString n = QString::number(num);
     cg.writeEntry(QLatin1String("sessionId") + n, c->sessionId().constData());
-    cg.writeEntry(QLatin1String("windowRole") + n, c->windowRole().constData());
-    cg.writeEntry(QLatin1String("wmCommand") + n, c->wmCommand().constData());
-    cg.writeEntry(QLatin1String("resourceName") + n, c->resourceName().constData());
-    cg.writeEntry(QLatin1String("resourceClass") + n, c->resourceClass().constData());
+    cg.writeEntry(QLatin1String("windowRole") + n, c->windowRole());
+    cg.writeEntry(QLatin1String("wmCommand") + n, c->wmCommand());
+    cg.writeEntry(QLatin1String("resourceName") + n, c->resourceName());
+    cg.writeEntry(QLatin1String("resourceClass") + n, c->resourceClass());
     cg.writeEntry(QLatin1String("geometry") + n, QRectF(c->calculateGravitation(true), c->clientSize()).toRect()); // FRAME
     cg.writeEntry(QLatin1String("restore") + n, c->geometryRestore());
     cg.writeEntry(QLatin1String("fsrestore") + n, c->fullscreenGeometryRestore());
@@ -181,7 +181,7 @@ void SessionManager::storeSubSession(const QString &name, QSet<QByteArray> sessi
             continue;
         }
         QByteArray sessionId = c->sessionId();
-        QByteArray wmCommand = c->wmCommand();
+        QString wmCommand = c->wmCommand();
         if (sessionId.isEmpty()) {
             // remember also applications that are not XSMP capable
             // and use the obsolete WM_COMMAND / WM_SAVE_YOURSELF
@@ -228,10 +228,10 @@ void SessionManager::addSessionInfo(KConfigGroup &cg)
         SessionInfo *info = new SessionInfo;
         session.append(info);
         info->sessionId = cg.readEntry(QLatin1String("sessionId") + n, QString()).toLatin1();
-        info->windowRole = cg.readEntry(QLatin1String("windowRole") + n, QString()).toLatin1();
+        info->windowRole = cg.readEntry(QLatin1String("windowRole") + n, QString());
         info->wmCommand = cg.readEntry(QLatin1String("wmCommand") + n, QString()).toLatin1();
-        info->resourceName = cg.readEntry(QLatin1String("resourceName") + n, QString()).toLatin1();
-        info->resourceClass = cg.readEntry(QLatin1String("resourceClass") + n, QString()).toLower().toLatin1();
+        info->resourceName = cg.readEntry(QLatin1String("resourceName") + n, QString());
+        info->resourceClass = cg.readEntry(QLatin1String("resourceClass") + n, QString()).toLower();
         info->geometry = cg.readEntry(QLatin1String("geometry") + n, QRect());
         info->restore = cg.readEntry(QLatin1String("restore") + n, QRect());
         info->fsrestore = cg.readEntry(QLatin1String("fsrestore") + n, QRect());
@@ -284,15 +284,15 @@ SessionInfo *SessionManager::takeSessionInfo(X11Window *c)
 {
     SessionInfo *realInfo = nullptr;
     QByteArray sessionId = c->sessionId();
-    QByteArray windowRole = c->windowRole();
-    QByteArray wmCommand = c->wmCommand();
-    QByteArray resourceName = c->resourceName();
-    QByteArray resourceClass = c->resourceClass();
+    QString windowRole = c->windowRole();
+    QString wmCommand = c->wmCommand();
+    QString resourceName = c->resourceName();
+    QString resourceClass = c->resourceClass();
 
     // First search ``session''
     if (!sessionId.isEmpty()) {
         // look for a real session managed client (algorithm suggested by ICCCM)
-        for (SessionInfo *info : qAsConst(session)) {
+        for (SessionInfo *info : std::as_const(session)) {
             if (realInfo) {
                 break;
             }
@@ -314,7 +314,7 @@ SessionInfo *SessionManager::takeSessionInfo(X11Window *c)
         }
     } else {
         // look for a sessioninfo with matching features.
-        for (SessionInfo *info : qAsConst(session)) {
+        for (SessionInfo *info : std::as_const(session)) {
             if (realInfo) {
                 break;
             }

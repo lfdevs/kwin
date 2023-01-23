@@ -67,7 +67,6 @@ void SlideEffect::reconfigure(ReconfigureFlags)
 
     m_hGap = SlideConfig::horizontalGap();
     m_vGap = SlideConfig::verticalGap();
-    m_slideDocks = SlideConfig::slideDocks();
     m_slideBackground = SlideConfig::slideBackground();
 }
 
@@ -138,24 +137,6 @@ void SlideEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono::millisec
 void SlideEffect::paintScreen(int mask, const QRegion &region, ScreenPaintData &data)
 {
     m_paintCtx.wrap = effects->optionRollOverDesktops();
-
-    // When we enter a virtual desktop that has a window in fullscreen mode,
-    // stacking order is fine. When we leave a virtual desktop that has
-    // a window in fullscreen mode, stacking order is no longer valid
-    // because panels are raised above the fullscreen window. Construct
-    // a list of fullscreen windows, so we can decide later whether
-    // docks should be visible on different virtual desktops.
-    if (m_slideDocks) {
-        const auto windows = effects->stackingOrder();
-        m_paintCtx.fullscreenWindows.clear();
-        for (EffectWindow *w : windows) {
-            if (!w->isFullScreen()) {
-                continue;
-            }
-            m_paintCtx.fullscreenWindows << w;
-        }
-    }
-
     effects->paintScreen(mask, region, data);
 }
 
@@ -174,9 +155,6 @@ QPoint SlideEffect::getDrawCoords(QPointF pos, EffectScreen *screen)
 bool SlideEffect::isTranslated(const EffectWindow *w) const
 {
     if (w->isOnAllDesktops()) {
-        if (w->isDock() || w->isAppletPopup()) {
-            return m_slideDocks;
-        }
         if (w->isDesktop()) {
             return m_slideBackground;
         }
@@ -198,33 +176,11 @@ bool SlideEffect::willBePainted(const EffectWindow *w) const
     if (w == m_movingWindow) {
         return true;
     }
-    for (const int &id : qAsConst(m_paintCtx.visibleDesktops)) {
+    for (const int &id : std::as_const(m_paintCtx.visibleDesktops)) {
         if (w->isOnDesktop(id)) {
             return true;
         }
     }
-    return false;
-}
-
-/**
- * Decide whether given window @p w should be painted on the given desktop.
- * @returns @c true if given window @p w should be painted, otherwise @c false
- */
-bool SlideEffect::isPainted(int desktopId, const EffectWindow *w) const
-{
-    if (w->isDock() || w->isAppletPopup()) {
-        for (const EffectWindow *fw : qAsConst(m_paintCtx.fullscreenWindows)) {
-            if (fw->isOnDesktop(desktopId)
-                && fw->screen() == w->screen()) {
-                return false;
-            }
-        }
-        return true;
-    }
-    if (w->isOnDesktop(desktopId)) {
-        return true;
-    }
-
     return false;
 }
 
@@ -261,8 +217,8 @@ void SlideEffect::paintWindow(EffectWindow *w, int mask, QRegion region, WindowP
 
     const auto screens = effects->screens();
 
-    for (int desktop : qAsConst(m_paintCtx.visibleDesktops)) {
-        if (!isPainted(desktop, w)) {
+    for (int desktop : std::as_const(m_paintCtx.visibleDesktops)) {
+        if (!w->isOnDesktop(desktop)) {
             continue;
         }
         QPointF desktopTranslation = QPointF(effects->desktopGridCoords(desktop)) - drawPosition;
@@ -323,7 +279,7 @@ bool SlideEffect::shouldElevate(const EffectWindow *w) const
     // Static docks(i.e. this effect doesn't slide docks) should be elevated
     // so they can properly animate themselves when an user enters or leaves
     // a virtual desktop with a window in fullscreen mode.
-    return w->isDock() && !m_slideDocks;
+    return w->isDock();
 }
 
 /*
@@ -333,8 +289,6 @@ bool SlideEffect::shouldElevate(const EffectWindow *w) const
  */
 void SlideEffect::startAnimation(int old, int current, EffectWindow *movingWindow)
 {
-    Q_UNUSED(old)
-
     if (m_state == State::Inactive) {
         prepareSwitching();
     }
@@ -388,13 +342,12 @@ void SlideEffect::finishedSwitching()
         w->setData(WindowForceBlurRole, QVariant());
     }
 
-    for (EffectWindow *w : qAsConst(m_elevatedWindows)) {
+    for (EffectWindow *w : std::as_const(m_elevatedWindows)) {
         effects->setElevatedWindow(w, false);
     }
     m_elevatedWindows.clear();
 
     m_windowData.clear();
-    m_paintCtx.fullscreenWindows.clear();
     m_movingWindow = nullptr;
     m_state = State::Inactive;
     m_lastPresentTime = std::chrono::milliseconds::zero();
@@ -493,7 +446,6 @@ void SlideEffect::windowDeleted(EffectWindow *w)
     }
     m_elevatedWindows.removeAll(w);
     m_windowData.remove(w);
-    m_paintCtx.fullscreenWindows.removeAll(w);
 }
 
 /*

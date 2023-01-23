@@ -105,7 +105,7 @@ void Helper::unref()
 }
 
 static const QString s_defaultTheme = QStringLiteral("kwin4_decoration_qml_plastik");
-static const QString s_qmlPackageFolder = QStringLiteral(KWIN_NAME "/decorations/");
+static const QString s_qmlPackageFolder = QStringLiteral("kwin/decorations/");
 /*
  * KDecoration2::BorderSize doesn't map to the indices used for the Aurorae SVG Button Sizes.
  * BorderSize defines None and NoSideBorder as index 0 and 1. These do not make sense for Button
@@ -256,8 +256,9 @@ Decoration::Decoration(QObject *parent, const QVariantList &args)
 
 Decoration::~Decoration()
 {
-    delete m_qmlContext;
-    delete m_view;
+    m_item.reset();
+    m_qmlContext.reset();
+    m_view.reset();
     Helper::instance().unref();
 }
 
@@ -268,7 +269,7 @@ void Decoration::init()
     auto s = settings();
     connect(s.data(), &KDecoration2::DecorationSettings::reconfigured, this, &Decoration::configChanged);
 
-    m_qmlContext = new QQmlContext(Helper::instance().rootContext(), this);
+    m_qmlContext = std::make_unique<QQmlContext>(Helper::instance().rootContext());
     m_qmlContext->setContextProperty(QStringLiteral("decoration"), this);
     auto component = Helper::instance().component(m_themeName);
     if (!component) {
@@ -295,7 +296,7 @@ void Decoration::init()
         //         m_theme->setTabDragMimeType(tabDragMimeType());
         m_qmlContext->setContextProperty(QStringLiteral("auroraeTheme"), theme);
     }
-    m_item = qobject_cast<QQuickItem *>(component->create(m_qmlContext));
+    m_item.reset(qobject_cast<QQuickItem *>(component->create(m_qmlContext.get())));
     if (!m_item) {
         if (component->isError()) {
             const auto errors = component->errors();
@@ -306,27 +307,25 @@ void Decoration::init()
         return;
     }
 
-    m_item->setParent(m_qmlContext);
-
     QVariant visualParent = property("visualParent");
     if (visualParent.isValid()) {
         m_item->setParentItem(visualParent.value<QQuickItem *>());
         visualParent.value<QQuickItem *>()->setProperty("drawBackground", false);
     } else {
-        m_view = new KWin::OffscreenQuickView(this, KWin::OffscreenQuickView::ExportMode::Image);
+        m_view = std::make_unique<KWin::OffscreenQuickView>(this, KWin::OffscreenQuickView::ExportMode::Image);
         m_item->setParentItem(m_view->contentItem());
         auto updateSize = [this]() {
             m_item->setSize(m_view->contentItem()->size());
         };
         updateSize();
-        connect(m_view->contentItem(), &QQuickItem::widthChanged, m_item, updateSize);
-        connect(m_view->contentItem(), &QQuickItem::heightChanged, m_item, updateSize);
-        connect(m_view, &KWin::OffscreenQuickView::repaintNeeded, this, &Decoration::updateBuffer);
+        connect(m_view->contentItem(), &QQuickItem::widthChanged, m_item.get(), updateSize);
+        connect(m_view->contentItem(), &QQuickItem::heightChanged, m_item.get(), updateSize);
+        connect(m_view.get(), &KWin::OffscreenQuickView::repaintNeeded, this, &Decoration::updateBuffer);
     }
 
     m_supportsMask = m_item->property("supportsMask").toBool();
 
-    setupBorders(m_item);
+    setupBorders(m_item.get());
 
     // TODO: Is there a more efficient way to react to border changes?
     auto trackBorders = [this](KWin::Borders *borders) {
@@ -409,7 +408,6 @@ void Decoration::updateBorders()
 
 void Decoration::paint(QPainter *painter, const QRect &repaintRegion)
 {
-    Q_UNUSED(repaintRegion)
     if (!m_view) {
         return;
     }
@@ -557,16 +555,16 @@ void Decoration::updateExtendedBorders()
 
     if (settings()->borderSize() == KDecoration2::BorderSize::None) {
         if (!clientPointer()->isMaximizedHorizontally()) {
-            extLeft = qMax(m_extendedBorders->left(), extSize);
-            extRight = qMax(m_extendedBorders->right(), extSize);
+            extLeft = std::max(m_extendedBorders->left(), extSize);
+            extRight = std::max(m_extendedBorders->right(), extSize);
         }
         if (!clientPointer()->isMaximizedVertically()) {
-            extBottom = qMax(m_extendedBorders->bottom(), extSize);
+            extBottom = std::max(m_extendedBorders->bottom(), extSize);
         }
 
     } else if (settings()->borderSize() == KDecoration2::BorderSize::NoSides && !clientPointer()->isMaximizedHorizontally()) {
-        extLeft = qMax(m_extendedBorders->left(), extSize);
-        extRight = qMax(m_extendedBorders->right(), extSize);
+        extLeft = std::max(m_extendedBorders->left(), extSize);
+        extRight = std::max(m_extendedBorders->right(), extSize);
     }
 
     setResizeOnlyBorders(QMargins(extLeft, 0, extRight, extBottom));
@@ -618,6 +616,11 @@ void Decoration::updateBuffer()
 KDecoration2::DecoratedClient *Decoration::clientPointer() const
 {
     return client().toStrongRef().data();
+}
+
+QQuickItem *Decoration::item() const
+{
+    return m_item.get();
 }
 
 ThemeProvider::ThemeProvider(QObject *parent, const KPluginMetaData &data, const QVariantList &args)
@@ -683,18 +686,15 @@ void ThemeProvider::findAllSvgThemes()
     }
 }
 
-static const QString s_configUiPath = QStringLiteral("kwin/decorations/%1/contents/ui/config.ui");
-static const QString s_configXmlPath = QStringLiteral("kwin/decorations/%1/contents/config/main.xml");
-
 bool ThemeProvider::hasConfiguration(const QString &theme)
 {
     if (theme.startsWith(QLatin1String("__aurorae__svg__"))) {
         return true;
     }
     const QString ui = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
-                                              s_configUiPath.arg(theme));
+                                              QStringLiteral("kwin/decorations/%1/contents/ui/config.ui").arg(theme));
     const QString xml = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
-                                               s_configXmlPath.arg(theme));
+                                               QStringLiteral("kwin/decorations/%1/contents/config/main.xml").arg(theme));
     return !(ui.isEmpty() || xml.isEmpty());
 }
 
@@ -749,21 +749,39 @@ void ConfigurationModule::initSvg()
 
 void ConfigurationModule::initQml()
 {
-    const QString ui = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
-                                              s_configUiPath.arg(m_theme));
-    const QString xml = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
-                                               s_configXmlPath.arg(m_theme));
-    if (ui.isEmpty() || xml.isEmpty()) {
+    const QString packageRoot = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
+                                                       QLatin1String("kwin/decorations/") + m_theme,
+                                                       QStandardPaths::LocateDirectory);
+    if (packageRoot.isEmpty()) {
         return;
     }
+
+    KPluginMetaData metaData(packageRoot + QLatin1String("/metadata.json"));
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    if (!metaData.isValid()) {
+        metaData = KPluginMetaData::fromDesktopFile(packageRoot + QLatin1String("/metadata.desktop"));
+        if (metaData.isValid()) {
+            qWarning("metadata.desktop format is obsolete. Please convert %s to JSON metadata", qPrintable(metaData.fileName()));
+        }
+    }
+#endif
+    if (!metaData.isValid()) {
+        return;
+    }
+
+    const QString xml = packageRoot + QLatin1String("/contents/config/main.xml");
+    const QString ui = packageRoot + QLatin1String("/contents/ui/config.ui");
+    if (!QFileInfo::exists(xml) || !QFileInfo::exists(ui)) {
+        return;
+    }
+
     KLocalizedTranslator *translator = new KLocalizedTranslator(this);
     QCoreApplication::instance()->installTranslator(translator);
-    const KDesktopFile metaData(QStandardPaths::locate(QStandardPaths::GenericDataLocation,
-                                                       QStringLiteral("kwin/decorations/%1/metadata.desktop").arg(m_theme)));
-    const QString translationDomain = metaData.desktopGroup().readEntry("X-KWin-Config-TranslationDomain", QString());
+    const QString translationDomain = metaData.value("X-KWin-Config-TranslationDomain");
     if (!translationDomain.isEmpty()) {
         translator->setTranslationDomain(translationDomain);
     }
+
     // load the KConfigSkeleton
     QFile configFile(xml);
     KSharedConfigPtr auroraeConfig = KSharedConfig::openConfig("auroraerc");

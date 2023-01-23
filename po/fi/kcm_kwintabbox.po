@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwintabbox\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-15 00:48+0000\n"
+"POT-Creation-Date: 2023-01-13 00:58+0000\n"
 "PO-Revision-Date: 2022-07-18 22:12+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -24,7 +24,7 @@ msgstr ""
 "X-POT-Import-Date: 2012-12-01 22:22:19+0000\n"
 "X-Generator: Lokalize 20.12.0\n"
 
-#: kwintabboxconfigform.cpp:77
+#: kwintabboxconfigform.cpp:80
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
@@ -242,3 +242,179 @@ msgstr ""
 #, kde-format
 msgid "Show selected window"
 msgstr "Näytä valittu ikkuna"
+
+#~ msgid "Tabbox layout preview"
+#~ msgstr "Tehtävänvalitsimen asettelun esikatselu"
+
+#~ msgid "Outline selected window"
+#~ msgstr "Korosta valitun ikkunan reunaviivat"
+
+#~ msgid ""
+#~ "These settings are used by the \"Walk Through Windows Alternative\" "
+#~ "actions."
+#~ msgstr ""
+#~ "Selaa ikkunoita (vaihtoehtoinen) -toiminnot käyttävät näitä asetuksia."
+
+#~ msgid "Walk Through Windows"
+#~ msgstr "Selaa ikkunoita"
+
+#~ msgid "Walk Through Windows (Reverse)"
+#~ msgstr "Selaa ikkunoita (käänteisesti)"
+
+#~ msgid "Walk Through Windows Alternative"
+#~ msgstr "Selaa ikkunoita (vaihtoehtoinen)"
+
+#~ msgid "Walk Through Windows Alternative (Reverse)"
+#~ msgstr "Selaa ikkunoita (käänteisesti, vaihtoehtoinen)"
+
+#, fuzzy
+#~| msgid "Walk Through Windows Alternative"
+#~ msgid "Walk Through Windows of Current Application"
+#~ msgstr "Selaa ikkunoita (vaihtoehtoinen)"
+
+#, fuzzy
+#~| msgid "Walk Through Windows Alternative (Reverse)"
+#~ msgid "Walk Through Windows of Current Application (Reverse)"
+#~ msgstr "Selaa ikkunoita (käänteisesti, vaihtoehtoinen)"
+
+#, fuzzy
+#~| msgid "Walk Through Windows Alternative"
+#~ msgid "Walk Through Windows of Current Application Alternative"
+#~ msgstr "Selaa ikkunoita (vaihtoehtoinen)"
+
+#, fuzzy
+#~| msgid "Walk Through Windows Alternative (Reverse)"
+#~ msgid "Walk Through Windows of Current Application Alternative (Reverse)"
+#~ msgstr "Selaa ikkunoita (käänteisesti, vaihtoehtoinen)"
+
+#~ msgctxt ""
+#~ "ComboBox item for window switcher based on layouts instead of a desktop "
+#~ "effect"
+#~ msgid "Layout based switcher"
+#~ msgstr "Asetteluun perustuva vaihtaja"
+
+#~ msgid "Configure Layout"
+#~ msgstr "Asettelun asetukset"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Jorma Karvonen, Tommi Nieminen, Lasse Liehu"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr ""
+#~ "karvonen.jorma@gmail.com, translator@legisign.org, lasse.liehu@gmail.com"
+
+#~ msgid "These settings are used by the \"Walk Through Windows\" actions."
+#~ msgstr "Selaa ikkunoita -toiminnot käyttävät näitä asetuksia."
+
+#, fuzzy
+#~| msgid "All Desktops Grouped by Applications"
+#~ msgid "All windows from all applications"
+#~ msgstr "Kaikki työpöydät ryhmiteltynä sovelluksittain"
+
+#, fuzzy
+#~| msgid "Adds an entry to minimize all windows."
+#~ msgid "Exclude minimized windows"
+#~ msgstr "Lisää kaikki ikkunat pienentävän kohdan."
+
+#, fuzzy
+#~| msgid "Adds an entry to minimize all windows."
+#~ msgid "Show desktop to minimize all windows"
+#~ msgstr "Lisää kaikki ikkunat pienentävän kohdan."
+
+#~ msgid "Highlight selected window"
+#~ msgstr "Korosta valittu ikkuna"
+
+#~ msgid "Effect:"
+#~ msgstr "Tehoste:"
+
+#~ msgid "Display list while switching"
+#~ msgstr "Näytä luettelo vaihdon aikana"
+
+#~ msgctxt "Name for a window switcher layout showing live window thumbnails"
+#~ msgid "Thumbnails"
+#~ msgstr "Pikkukuvat"
+
+#~ msgctxt "Name for a window switcher layout showing icon, name and desktop"
+#~ msgid "Informative"
+#~ msgstr "Yksityiskohtainen"
+
+#~ msgctxt "Name for a window switcher layout showing only icon and name"
+#~ msgid "Compact"
+#~ msgstr "Pienikokoinen"
+
+#~ msgctxt "Name for a window switcher layout showing only the name"
+#~ msgid "Text"
+#~ msgstr "Teksti"
+
+#~ msgctxt "Name for a window switcher layout showing large icons"
+#~ msgid "Large Icons"
+#~ msgstr "Suuret kuvakkeet"
+
+#~ msgctxt "Name for a window switcher layout showing small icons"
+#~ msgid "Small Icons"
+#~ msgstr "Pienet kuvakkeet"
+
+#~ msgid "No Effect"
+#~ msgstr "Ei tehostetta"
+
+#~ msgid "Configure Layout..."
+#~ msgstr "Asettelun asetukset..."
+
+#~ msgid "Item Layout"
+#~ msgstr "Näyttöelementin ulkoasu"
+
+#~ msgid "Item layout:"
+#~ msgstr "Näyttöelementin ulkoasu:"
+
+#~ msgid "Layout:"
+#~ msgstr "Asettelu:"
+
+#~ msgid "Vertical"
+#~ msgstr "Pystysuora"
+
+#~ msgid "Horizontal"
+#~ msgstr "Vaakasuora"
+
+#~ msgid "Tabular"
+#~ msgstr "Välilehdellinen"
+
+#~ msgid "Width:"
+#~ msgstr "Leveys:"
+
+#~ msgid "Minimum width, as a percentage of screen width."
+#~ msgstr "Vähimmäisleveys osuutena näytön leveydestä."
+
+#~ msgid " %"
+#~ msgstr " %"
+
+#~ msgid "Height:"
+#~ msgstr "Korkeus:"
+
+#~ msgid "Minimum height, as a percentage of screen height."
+#~ msgstr "Vähimmäiskorkeus osuutena näytön korkeudesta."
+
+#~ msgid "Show Selected Item"
+#~ msgstr "Näytä valittu näyttöelementti"
+
+#~ msgid "Selected item view:"
+#~ msgstr "Valitun näyttöelementin näkymä:"
+
+#~ msgid "Top"
+#~ msgstr "Ylinnä"
+
+#~ msgid "Bottom"
+#~ msgstr "Alinna"
+
+#~ msgid "Left"
+#~ msgstr "Vasen"
+
+#~ msgid "Right"
+#~ msgstr "Oikea"
+
+#~ msgid "Selected item layout:"
+#~ msgstr "Valitun näyttöelementin ulkoasu:"
+
+#~ msgid "General"
+#~ msgstr "Yleistä"

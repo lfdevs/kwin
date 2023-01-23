@@ -92,3 +92,6 @@ msgstr "Izvzemi notranje učinke"
 #, kde-format
 msgid "Get New Desktop Effects..."
 msgstr "Pridobi nove namizne učinke..."
+
+#~ msgid "Download New Desktop Effects"
+#~ msgstr "Prenesi nove učinke namizja"

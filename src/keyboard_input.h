@@ -6,11 +6,9 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-#ifndef KWIN_KEYBOARD_INPUT_H
-#define KWIN_KEYBOARD_INPUT_H
+#pragma once
 
 #include "input.h"
-#include "xkb.h"
 
 #include <QObject>
 #include <QPointF>
@@ -37,6 +35,7 @@ class InputDevice;
 class InputRedirection;
 class KeyboardLayout;
 class ModifiersChangedSpy;
+class Xkb;
 
 class KWIN_EXPORT KeyboardInputRedirection : public QObject
 {
@@ -53,28 +52,11 @@ public:
     /**
      * @internal
      */
-    void processKey(uint32_t key, InputRedirection::KeyboardKeyState state, uint32_t time, InputDevice *device = nullptr);
-    /**
-     * @internal
-     */
-    void processModifiers(uint32_t modsDepressed, uint32_t modsLatched, uint32_t modsLocked, uint32_t group);
-    /**
-     * @internal
-     */
-    void processKeymapChange(int fd, uint32_t size);
+    void processKey(uint32_t key, InputRedirection::KeyboardKeyState state, std::chrono::microseconds time, InputDevice *device = nullptr);
 
-    Xkb *xkb() const
-    {
-        return m_xkb.get();
-    }
-    Qt::KeyboardModifiers modifiers() const
-    {
-        return m_xkb->modifiers();
-    }
-    Qt::KeyboardModifiers modifiersRelevantForGlobalShortcuts() const
-    {
-        return m_xkb->modifiersRelevantForGlobalShortcuts();
-    }
+    Xkb *xkb() const;
+    Qt::KeyboardModifiers modifiers() const;
+    Qt::KeyboardModifiers modifiersRelevantForGlobalShortcuts() const;
 
 Q_SIGNALS:
     void ledsChanged(KWin::LEDs);
@@ -82,12 +64,10 @@ Q_SIGNALS:
 private:
     InputRedirection *m_input;
     bool m_inited = false;
-    std::unique_ptr<Xkb> m_xkb;
+    const std::unique_ptr<Xkb> m_xkb;
     QMetaObject::Connection m_activeWindowSurfaceChangedConnection;
     ModifiersChangedSpy *m_modifiersChangedSpy = nullptr;
     KeyboardLayout *m_keyboardLayout = nullptr;
 };
 
 }
-
-#endif

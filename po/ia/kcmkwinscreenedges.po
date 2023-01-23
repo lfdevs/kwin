@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-07-15 00:48+0000\n"
-"PO-Revision-Date: 2022-10-06 12:08+0200\n"
+"PO-Revision-Date: 2022-11-28 16:19+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -35,7 +35,7 @@ msgstr "Nulle action"
 #: main.cpp:131 touch.cpp:125
 #, kde-format
 msgid "Peek at Desktop"
-msgstr "reguarda a Scriptorio"
+msgstr "Reguarda a Scriptorio"
 
 #: main.cpp:132 touch.cpp:126
 #, kde-format
@@ -239,3 +239,46 @@ msgid ""
 msgstr ""
 "Pro discatenar un action per tirar (swipe) ex le bordo del schermo al centro "
 "del schermo."
+
+#~ msgid "Show Desktop"
+#~ msgstr "Monstra Scriptorio"
+
+#~ msgid "Desktop Grid"
+#~ msgstr "Grillia de scriptorio"
+
+#~ msgid "Toggle Overview"
+#~ msgstr "Commuta Vista de insimul"
+
+#~ msgid "%1 - Cube"
+#~ msgstr "%1 - Cubo"
+
+#~ msgid "%1 - Cylinder"
+#~ msgstr "%1 - Cylindro"
+
+#~ msgid "%1 - Sphere"
+#~ msgstr "%1 - Sphere"
+
+#, fuzzy
+#~| msgid "Active Screen Edge Actions"
+#~ msgid "Active Screen Corners and Edges"
+#~ msgstr "Activa actiones de bordo de schermo"
+
+#~ msgid "Window Management"
+#~ msgstr "Gestion de Fenestra"
+
+#, fuzzy
+#~| msgid "Maximize windows by dragging them to the top of the screen"
+#~ msgid "Maximize windows by dragging them to the top edge of the screen"
+#~ msgstr "Maximisa fenestras per traher los al culmine del schermo"
+
+#~ msgid "Quarter tiling triggered in the outer"
+#~ msgstr "Quarter tiling triggered in the outer"
+
+#~ msgid "Other Settings"
+#~ msgstr "Altere preferentias"
+
+#~ msgid "Show Dashboard"
+#~ msgstr "Monstra Pannello de Instrumentos:"
+
+#~ msgid "Prevent Screen Locking"
+#~ msgstr "Preveni bloco de schermo"

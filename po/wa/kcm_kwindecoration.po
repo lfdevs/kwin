@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-26 02:35+0000\n"
+"POT-Creation-Date: 2022-10-26 00:47+0000\n"
 "PO-Revision-Date: 2011-07-17 15:45+0200\n"
 "Last-Translator: Jean Cayron <jean.cayron@base.be>\n"
 "Language-Team: Walloon <linux@walon.org>\n"
@@ -300,3 +300,191 @@ msgstr "Vormint foû grande"
 #| msgid "Oversized"
 msgid "Oversized"
 msgstr "Foû mzeure"
+
+#, fuzzy
+#~| msgid "&Close windows by double clicking the menu button"
+#~ msgctxt "popup tip"
+#~ msgid ""
+#~ "Close by double clicking: Keep the window's Menu button pressed until it "
+#~ "appears."
+#~ msgstr "&Clôre les purneas avou on dobe-clitch sol boto d' menu"
+
+#~ msgid "Menu"
+#~ msgstr "Menu"
+
+#, fuzzy
+#~| msgid "Keep Below Others"
+#~ msgid "Keep below"
+#~ msgstr "Mete pa dzo les ôtes"
+
+#, fuzzy
+#~| msgid "Keep Above Others"
+#~ msgid "Keep above"
+#~ msgstr "Mete pa dzeu les ôtes"
+
+#, fuzzy
+#~| msgid "Get New Decorations..."
+#~ msgid "Download New Window Decorations"
+#~ msgstr "Cweri des noveas gåyotaedjes..."
+
+#, fuzzy
+#~| msgid "Search"
+#~ msgid "Search..."
+#~ msgstr "Trover"
+
+#, fuzzy
+#~| msgid "&Close windows by double clicking the menu button"
+#~ msgid "Close windows by double clicking &the menu button"
+#~ msgstr "&Clôre les purneas avou on dobe-clitch sol boto d' menu"
+
+#, fuzzy
+#~| msgid "Border size:"
+#~ msgid "Border si&ze:"
+#~ msgstr "Grandeu del boirdeure :"
+
+#, fuzzy
+#~| msgid "Configure Buttons..."
+#~ msgid "Configure %1..."
+#~ msgstr "Apontyî botons..."
+
+#, fuzzy
+#~| msgid "Normal"
+#~ msgid "Form"
+#~ msgstr "Normåle"
+
+#~ msgid "Button size:"
+#~ msgstr "Grandeu do boton :"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Tiny"
+#~ msgstr "Tot ptit"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Normal"
+#~ msgstr "Normå"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Large"
+#~ msgstr "Grand"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Very Large"
+#~ msgstr "Foirt grand"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Huge"
+#~ msgstr "Foû grand"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Very Huge"
+#~ msgstr "Vormint foû grand"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Oversized"
+#~ msgstr "Foû mzeure"
+
+#~ msgid "KDE"
+#~ msgstr "KDE"
+
+#~ msgid "%1 (unavailable)"
+#~ msgstr "%1 (nén disponibe)"
+
+#~ msgid ""
+#~ "To add or remove titlebar buttons, simply <i>drag</i> items between the "
+#~ "available item list and the titlebar preview. Similarly, drag items "
+#~ "within the titlebar preview to re-position them."
+#~ msgstr ""
+#~ "Po radjouter ou rsaetchî des botons, i vs sufixh di <i>saetchî</i> les "
+#~ "cayets etur li djivêye des cayets k' i gn a eyet l' prévoeyaedje del bår "
+#~ "di tite. Del minme manire, bodjîz les cayets å dvins do prévoeyaedje del "
+#~ "bår di tite po les mete al plaece ki vos vloz."
+
+#~ msgid "Resize"
+#~ msgstr "Candjî d' grandeu"
+
+#~ msgid "Help"
+#~ msgstr "Aidance"
+
+#~ msgid "--- spacer ---"
+#~ msgstr "--- separateu ---"
+
+#~ msgid ""
+#~ "Enabling this checkbox will show window button tooltips. If this checkbox "
+#~ "is off, no window button tooltips will be shown."
+#~ msgstr ""
+#~ "Clitchî cisse boesse ci mosterrè des racsegnes po les botons des purneas "
+#~ "cwand vos passez dzeu avou l' sori. Si l' boesse est disclitcheye, nole "
+#~ "racsegne po les botons des purneas n' serè håynêye."
+
+#~ msgid "Please note that this option is not available on all styles yet."
+#~ msgstr "Sepoz k' cisse tchuze la n' est nén co disponibe po tos les stîles."
+
+#~ msgid "Use custom titlebar button &positions"
+#~ msgstr "Eplaeçmints da &vosse po les botons del bår di tite"
+
+#~ msgid "B&order size:"
+#~ msgstr "Grandeu del b&oirdeure :"
+
+#~ msgid "Use this combobox to change the border size of the decoration."
+#~ msgstr ""
+#~ "Si siervi di cisse djivêye di dressêye disrôlante po candjî l' grandeu "
+#~ "del boirdeure do gåyotaedje."
+
+#~ msgid "Decoration Options"
+#~ msgstr "Tchuzes do gåyotaedje"
+
+#~ msgid ""
+#~ "Select the window decoration. This is the look and feel of both the "
+#~ "window borders and the window handle."
+#~ msgstr ""
+#~ "Tchoezi l' gåyotaedje des purneas. Çouci est l' rivnance di, ambedeus, "
+#~ "les boirdeures des purneas eyet tot l' apougnaedje do purnea."
+
+#~ msgid "Configure Decoration..."
+#~ msgstr "Apontyî gåyotaedjes..."
+
+#~ msgid "Window Decoration Control Module"
+#~ msgstr "Module di controle do gåyotaedje des purneas"
+
+#~ msgid "(c) 2001 Karol Szwed"
+#~ msgstr "© 2001 Karol Szwed"
+
+#~ msgid "Karol Szwed"
+#~ msgstr "Karol Szwed"
+
+#~ msgid "Oxygen"
+#~ msgstr "Ocsidjinne"
+
+#~ msgid "Active Window"
+#~ msgstr "Purnea en alaedje"
+
+#~ msgid "Inactive Window"
+#~ msgstr "Purnea essocté"
+
+#~ msgid "kcmkwindecoration"
+#~ msgstr "Gåyotaedjes des purneas"
+
+#~ msgctxt "Caption to decoration preview, %1 author name"
+#~ msgid "by %1"
+#~ msgstr "pa %1"
+
+#~ msgid ""
+#~ "No preview available.\n"
+#~ "Most probably there\n"
+#~ "was a problem loading the plugin."
+#~ msgstr ""
+#~ "Pont d' prévoeyaedje di disponibe.\n"
+#~ "Motoit ki gn a yeu ene rujhe\n"
+#~ "e tcherdjant l' tchôke-divins."
+
+#~ msgid "&Buttons"
+#~ msgstr "&Botons"
+
+#~ msgid "Ozone"
+#~ msgstr "Ozone"
+
+#~ msgid "&Use shadowed text"
+#~ msgstr "Eployî tecse a &ombion"
+
+#~ msgid "%1 preview"
+#~ msgstr "prévoeyaedje di %s"

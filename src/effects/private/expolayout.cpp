@@ -82,11 +82,6 @@ void ExpoCell::setNaturalX(int x)
         m_naturalX = x;
         update();
         Q_EMIT naturalXChanged();
-
-        if (!m_x.has_value()) {
-            m_x = x;
-            Q_EMIT xChanged();
-        }
     }
 }
 
@@ -101,11 +96,6 @@ void ExpoCell::setNaturalY(int y)
         m_naturalY = y;
         update();
         Q_EMIT naturalYChanged();
-
-        if (!m_y.has_value()) {
-            m_y = y;
-            Q_EMIT yChanged();
-        }
     }
 }
 
@@ -120,11 +110,6 @@ void ExpoCell::setNaturalWidth(int width)
         m_naturalWidth = width;
         update();
         Q_EMIT naturalWidthChanged();
-
-        if (!m_width.has_value()) {
-            m_width = width;
-            Q_EMIT widthChanged();
-        }
     }
 }
 
@@ -139,11 +124,6 @@ void ExpoCell::setNaturalHeight(int height)
         m_naturalHeight = height;
         update();
         Q_EMIT naturalHeightChanged();
-
-        if (!m_height.has_value()) {
-            m_height = height;
-            Q_EMIT heightChanged();
-        }
     }
 }
 
@@ -311,6 +291,9 @@ void ExpoLayout::updatePolish()
             break;
         case LayoutNatural:
             calculateWindowTransformationsNatural();
+            break;
+        case LayoutNone:
+            resetTransformations();
             break;
         }
     }
@@ -500,7 +483,7 @@ void ExpoLayout::calculateWindowTransformationsNatural()
     QHash<ExpoCell *, QRect> targets;
     QHash<ExpoCell *, int> directions;
 
-    for (ExpoCell *cell : qAsConst(m_cells)) {
+    for (ExpoCell *cell : std::as_const(m_cells)) {
         const QRect cellRect(cell->naturalX(), cell->naturalY(), cell->naturalWidth(), cell->naturalHeight());
         targets[cell] = cellRect;
         // Reuse the unused "slot" as a preferred direction attribute. This is used when the window
@@ -519,9 +502,9 @@ void ExpoLayout::calculateWindowTransformationsNatural()
     bool overlap;
     do {
         overlap = false;
-        for (ExpoCell *cell : qAsConst(m_cells)) {
+        for (ExpoCell *cell : std::as_const(m_cells)) {
             QRect *target_w = &targets[cell];
-            for (ExpoCell *e : qAsConst(m_cells)) {
+            for (ExpoCell *e : std::as_const(m_cells)) {
                 if (cell == e) {
                     continue;
                 }
@@ -628,7 +611,7 @@ void ExpoLayout::calculateWindowTransformationsNatural()
         bool moved;
         do {
             moved = false;
-            for (ExpoCell *cell : qAsConst(m_cells)) {
+            for (ExpoCell *cell : std::as_const(m_cells)) {
                 QRect oldRect;
                 QRect *target = &targets[cell];
                 // This may cause some slight distortion if the windows are enlarged a large amount
@@ -699,7 +682,7 @@ void ExpoLayout::calculateWindowTransformationsNatural()
         // The expanding code above can actually enlarge windows over 1.0/2.0 scale, we don't like this
         // We can't add this to the loop above as it would cause a never-ending loop so we have to make
         // do with the less-than-optimal space usage with using this method.
-        for (ExpoCell *cell : qAsConst(m_cells)) {
+        for (ExpoCell *cell : std::as_const(m_cells)) {
             QRect *target = &targets[cell];
             qreal scale = target->width() / qreal(cell->naturalWidth());
             if (scale > 2.0 || (scale > 1.0 && (cell->naturalWidth() > 300 || cell->naturalHeight() > 300))) {
@@ -712,12 +695,22 @@ void ExpoLayout::calculateWindowTransformationsNatural()
         }
     }
 
-    for (ExpoCell *cell : qAsConst(m_cells)) {
+    for (ExpoCell *cell : std::as_const(m_cells)) {
         const QRect rect = centered(cell, targets.value(cell).marginsRemoved(cell->margins()));
 
         cell->setX(rect.x());
         cell->setY(rect.y());
         cell->setWidth(rect.width());
         cell->setHeight(rect.height());
+    }
+}
+
+void ExpoLayout::resetTransformations()
+{
+    for (ExpoCell *cell : std::as_const(m_cells)) {
+        cell->setX(cell->naturalX());
+        cell->setY(cell->naturalY());
+        cell->setWidth(cell->naturalWidth());
+        cell->setHeight(cell->naturalHeight());
     }
 }

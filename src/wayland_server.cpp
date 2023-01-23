@@ -10,35 +10,41 @@
 
 #include <config-kwin.h>
 
+#include "backends/drm/drm_backend.h"
 #include "composite.h"
 #include "core/output.h"
-#include "core/platform.h"
+#include "core/outputbackend.h"
 #include "idle_inhibition.h"
 #include "inputpanelv1integration.h"
 #include "keyboard_input.h"
 #include "layershellv1integration.h"
 #include "main.h"
-#include "scene.h"
+#include "scene/workspacescene.h"
 #include "unmanaged.h"
 #include "utils/serviceutils.h"
 #include "virtualdesktops.h"
 #include "wayland/appmenu_interface.h"
 #include "wayland/blur_interface.h"
 #include "wayland/compositor_interface.h"
+#include "wayland/contenttype_v1_interface.h"
 #include "wayland/datacontroldevicemanager_v1_interface.h"
 #include "wayland/datadevicemanager_interface.h"
 #include "wayland/datasource_interface.h"
 #include "wayland/display.h"
 #include "wayland/dpms_interface.h"
+#include "wayland/drmlease_v1_interface.h"
 #include "wayland/filtered_display.h"
+#include "wayland/fractionalscale_v1_interface.h"
 #include "wayland/idle_interface.h"
 #include "wayland/idleinhibit_v1_interface.h"
+#include "wayland/idlenotify_v1_interface.h"
 #include "wayland/inputmethod_v1_interface.h"
 #include "wayland/keyboard_shortcuts_inhibit_v1_interface.h"
 #include "wayland/keystate_interface.h"
 #include "wayland/linuxdmabufv1clientbuffer.h"
 #include "wayland/lockscreen_overlay_v1_interface.h"
 #include "wayland/output_interface.h"
+#include "wayland/output_order_v1_interface.h"
 #include "wayland/outputdevice_v2_interface.h"
 #include "wayland/outputmanagement_v2_interface.h"
 #include "wayland/plasmashell_interface.h"
@@ -46,7 +52,6 @@
 #include "wayland/plasmawindowmanagement_interface.h"
 #include "wayland/pointerconstraints_v1_interface.h"
 #include "wayland/pointergestures_v1_interface.h"
-#include "wayland/primaryoutput_v1_interface.h"
 #include "wayland/primaryselectiondevicemanager_v1_interface.h"
 #include "wayland/relativepointer_v1_interface.h"
 #include "wayland/seat_interface.h"
@@ -55,13 +60,15 @@
 #include "wayland/shadow_interface.h"
 #include "wayland/subcompositor_interface.h"
 #include "wayland/tablet_v2_interface.h"
+#include "wayland/tearingcontrol_v1_interface.h"
 #include "wayland/viewporter_interface.h"
 #include "wayland/xdgactivation_v1_interface.h"
 #include "wayland/xdgdecoration_v1_interface.h"
 #include "wayland/xdgforeign_v2_interface.h"
 #include "wayland/xdgoutput_v1_interface.h"
 #include "wayland/xdgshell_interface.h"
-#include "waylandoutput.h"
+#include "wayland/xwaylandkeyboardgrab_v1_interface.h"
+#include "wayland/xwaylandshell_v1_interface.h"
 #include "workspace.h"
 #include "x11window.h"
 #include "xdgactivationv1.h"
@@ -141,6 +148,10 @@ public:
     };
 
     const QSet<QByteArray> inputmethodInterfaces = {"zwp_input_panel_v1", "zwp_input_method_v1"};
+    const QSet<QByteArray> xwaylandInterfaces = {
+        QByteArrayLiteral("zwp_xwayland_keyboard_grab_manager_v1"),
+        QByteArrayLiteral("xwayland_shell_v1"),
+    };
 
     QSet<QString> m_reported;
 
@@ -154,6 +165,10 @@ public:
             return false;
         }
 
+        if (client != waylandServer()->xWaylandConnection() && xwaylandInterfaces.contains(interfaceName)) {
+            return false;
+        }
+
         if (!interfacesBlackList.contains(interfaceName)) {
             return true;
         }
@@ -163,7 +178,8 @@ public:
             return false;
         }
 
-        {
+        static bool permissionCheckDisabled = qEnvironmentVariableIntValue("KWIN_WAYLAND_NO_PERMISSION_CHECKS") == 1;
+        if (!permissionCheckDisabled) {
             auto requestedInterfaces = client->property("requestedInterfaces");
             if (requestedInterfaces.isNull()) {
                 requestedInterfaces = fetchRequestedInterfaces(client);
@@ -290,14 +306,17 @@ void WaylandServer::handleOutputRemoved(Output *output)
 void WaylandServer::handleOutputEnabled(Output *output)
 {
     if (!output->isPlaceholder() && !output->isNonDesktop()) {
-        m_waylandOutputs.insert(output, new WaylandOutput(output));
+        auto waylandOutput = new KWaylandServer::OutputInterface(waylandServer()->display(), output);
+        m_xdgOutputManagerV1->offer(waylandOutput);
+
+        m_waylandOutputs.insert(output, waylandOutput);
     }
 }
 
 void WaylandServer::handleOutputDisabled(Output *output)
 {
-    if (!output->isPlaceholder() && !output->isNonDesktop()) {
-        delete m_waylandOutputs.take(output);
+    if (auto waylandOutput = m_waylandOutputs.take(output)) {
+        waylandOutput->remove();
     }
 }
 
@@ -349,6 +368,25 @@ bool WaylandServer::init(InitializationFlags flags)
         // The surface will be bound later when a WL_SURFACE_ID message is received.
     });
 
+    m_xwaylandShell = new KWaylandServer::XwaylandShellV1Interface(m_display, m_display);
+    connect(m_xwaylandShell, &KWaylandServer::XwaylandShellV1Interface::surfaceAssociated, this, [](KWaylandServer::XwaylandSurfaceV1Interface *surface) {
+        X11Window *window = workspace()->findClient([&surface](const X11Window *window) {
+            return window->surfaceSerial() == surface->serial();
+        });
+        if (window) {
+            window->setSurface(surface->surface());
+            return;
+        }
+
+        Unmanaged *unmanaged = workspace()->findUnmanaged([&surface](const Unmanaged *window) {
+            return window->surfaceSerial() == surface->serial();
+        });
+        if (unmanaged) {
+            unmanaged->setSurface(surface->surface());
+            return;
+        }
+    });
+
     m_tabletManagerV2 = new TabletManagerV2Interface(m_display, m_display);
     m_keyboardShortcutsInhibitManager = new KeyboardShortcutsInhibitManagerV1Interface(m_display, m_display);
 
@@ -372,6 +410,7 @@ bool WaylandServer::init(InitializationFlags flags)
     });
 
     new ViewporterInterface(m_display, m_display);
+    new FractionalScaleManagerV1Interface(m_display, m_display);
     m_display->createShm();
     m_seat = new SeatInterface(m_display, m_display);
     new PointerGesturesV1Interface(m_display, m_display);
@@ -389,6 +428,7 @@ bool WaylandServer::init(InitializationFlags flags)
     auto idleInhibition = new IdleInhibition(m_idle);
     connect(this, &WaylandServer::windowAdded, idleInhibition, &IdleInhibition::registerClient);
     new IdleInhibitManagerV1Interface(m_display, m_display);
+    new IdleNotifyV1Interface(m_display, m_display);
     m_plasmaShell = new PlasmaShellInterface(m_display, m_display);
     connect(m_plasmaShell, &PlasmaShellInterface::surfaceCreated, this, [this](PlasmaShellSurfaceInterface *surface) {
         if (XdgSurfaceWindow *window = findXdgSurfaceWindow(surface->surface())) {
@@ -448,12 +488,12 @@ bool WaylandServer::init(InitializationFlags flags)
     });
 
     m_outputManagement = new OutputManagementV2Interface(m_display, m_display);
-    m_primary = new PrimaryOutputV1Interface(m_display, m_display);
 
     m_xdgOutputManagerV1 = new XdgOutputManagerV1Interface(m_display, m_display);
     new SubCompositorInterface(m_display, m_display);
     m_XdgForeign = new XdgForeignV2Interface(m_display, m_display);
     m_inputMethod = new InputMethodV1Interface(m_display, m_display);
+    m_xWaylandKeyboardGrabManager = new XWaylandKeyboardGrabManagerV1Interface(m_display, m_display);
 
     auto activation = new KWaylandServer::XdgActivationV1Interface(m_display, this);
     auto init = [this, activation] {
@@ -473,6 +513,9 @@ bool WaylandServer::init(InitializationFlags flags)
         }
         w->setLockScreenOverlay(true);
     });
+
+    m_contentTypeManager = new KWaylandServer::ContentTypeManagerV1Interface(m_display, m_display);
+    m_tearingControlInterface = new KWaylandServer::TearingControlManagerV1Interface(m_display, m_display);
 
     return true;
 }
@@ -526,20 +569,12 @@ void WaylandServer::initWorkspace()
         });
     }
 
-    if (auto primaryOutput = workspace()->primaryOutput()) {
-        m_primary->setPrimaryOutput(primaryOutput->name());
-    }
-    connect(workspace(), &Workspace::primaryOutputChanged, this, [this]() {
-        const Output *primaryOutput = workspace()->primaryOutput();
-        m_primary->setPrimaryOutput(primaryOutput ? primaryOutput->name() : QString());
-    });
-
-    const auto availableOutputs = kwinApp()->platform()->outputs();
+    const auto availableOutputs = kwinApp()->outputBackend()->outputs();
     for (Output *output : availableOutputs) {
         handleOutputAdded(output);
     }
-    connect(kwinApp()->platform(), &Platform::outputAdded, this, &WaylandServer::handleOutputAdded);
-    connect(kwinApp()->platform(), &Platform::outputRemoved, this, &WaylandServer::handleOutputRemoved);
+    connect(kwinApp()->outputBackend(), &OutputBackend::outputAdded, this, &WaylandServer::handleOutputAdded);
+    connect(kwinApp()->outputBackend(), &OutputBackend::outputRemoved, this, &WaylandServer::handleOutputRemoved);
 
     const auto outputs = workspace()->outputs();
     for (Output *output : outputs) {
@@ -551,6 +586,17 @@ void WaylandServer::initWorkspace()
     if (hasScreenLockerIntegration()) {
         initScreenLocker();
     }
+
+    if (auto backend = qobject_cast<DrmBackend *>(kwinApp()->outputBackend())) {
+        m_leaseManager = new KWaylandServer::DrmLeaseManagerV1(backend, m_display, m_display);
+    }
+
+    m_outputOrder = new KWaylandServer::OutputOrderV1Interface(m_display, m_display);
+    m_outputOrder->setOutputOrder(workspace()->outputOrder());
+    connect(workspace(), &Workspace::outputOrderChanged, m_outputOrder, [this]() {
+        m_outputOrder->setOutputOrder(workspace()->outputOrder());
+    });
+
     Q_EMIT initialized();
 }
 
@@ -747,7 +793,12 @@ bool WaylandServer::isKeyboardShortcutsInhibited() const
     auto surface = seat()->focusedKeyboardSurface();
     if (surface) {
         auto inhibitor = keyboardShortcutsInhibitManager()->findInhibitor(surface, seat());
-        return inhibitor && inhibitor->isActive();
+        if (inhibitor && inhibitor->isActive()) {
+            return true;
+        }
+        if (m_xWaylandKeyboardGrabManager->hasGrab(surface, seat())) {
+            return true;
+        }
     }
     return false;
 }

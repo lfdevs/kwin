@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-01 02:26+0000\n"
+"POT-Creation-Date: 2023-01-18 00:58+0000\n"
 "PO-Revision-Date: 2019-05-07 13:43+0100\n"
 "Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
@@ -58,6 +58,7 @@ msgstr ""
 #: mousemark/mousemark_config.cpp:50 overview/kcm/overvieweffectkcm.cpp:35
 #: showpaint/showpaint_config.cpp:33
 #: thumbnailaside/thumbnailaside_config.cpp:54
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:31
 #: trackmouse/trackmouse_config.cpp:52
 #: windowview/kcm/windowvieweffectkcm.cpp:36 zoom/zoom_config.cpp:58
 #, kde-format
@@ -196,15 +197,21 @@ msgstr ""
 msgid "Natural"
 msgstr "Naturlig"
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
+#: desktopgrid/desktopgrid_config.ui:147
+#, kde-format
+msgid "None"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: desktopgrid/desktopgrid_config.ui:150
+#: desktopgrid/desktopgrid_config.ui:155
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "Windows layout:"
 msgstr "Vinduer"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: desktopgrid/desktopgrid_config.ui:166
+#: desktopgrid/desktopgrid_config.ui:171
 #, kde-format
 msgid "Activation"
 msgstr "Aktivering"
@@ -313,10 +320,16 @@ msgstr "Animation af museklik"
 msgid "Toggle Invert Effect"
 msgstr "Slå intvertér-effekt til/fra"
 
-#: invert/invert.cpp:50 invert/invert_config.cpp:44
+#: invert/invert.cpp:49 invert/invert_config.cpp:44
 #, kde-format
 msgid "Toggle Invert Effect on Window"
 msgstr "Slå intvertér-effekt til/fra på vindue"
+
+#: invert/invert.cpp:56
+#, fuzzy, kde-format
+#| msgid "Invert cursor keys"
+msgid "Invert Screen Colors"
+msgstr "Invertér markørtaster"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FadeToBlack)
 #: login/package/contents/ui/config.ui:17
@@ -373,30 +386,30 @@ msgstr "&Højde:"
 msgid "Toggle Mouse Click Effect"
 msgstr "Slå museklik-effekt til/fra"
 
-#: mouseclick/mouseclick.cpp:42
+#: mouseclick/mouseclick.cpp:41
 #, kde-format
 msgctxt "Left mouse button"
 msgid "Left"
 msgstr "Venstre"
 
-#: mouseclick/mouseclick.cpp:43
+#: mouseclick/mouseclick.cpp:42
 #, kde-format
 msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr "Midterknap"
 
-#: mouseclick/mouseclick.cpp:44
+#: mouseclick/mouseclick.cpp:43
 #, kde-format
 msgctxt "Right mouse button"
 msgid "Right"
 msgstr "Højre"
 
-#: mouseclick/mouseclick.h:61
+#: mouseclick/mouseclick.h:60
 #, kde-format
 msgid "↓"
 msgstr ""
 
-#: mouseclick/mouseclick.h:62
+#: mouseclick/mouseclick.h:61
 #, kde-format
 msgid "↑"
 msgstr ""
@@ -494,12 +507,12 @@ msgstr "Skrifttype:"
 msgid "Show Text:"
 msgstr "Vis tekst:"
 
-#: mousemark/mousemark.cpp:36
+#: mousemark/mousemark.cpp:39
 #, kde-format
 msgid "Clear All Mouse Marks"
 msgstr "Ryd alle musemærker"
 
-#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:59
+#: mousemark/mousemark.cpp:45 mousemark/mousemark_config.cpp:59
 #, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr "Ryd seneste musemærke"
@@ -570,12 +583,12 @@ msgstr "Baggrund"
 msgid "Ignore minimized windows:"
 msgstr "Ignorér &minimerede vinduer"
 
-#: overview/qml/DesktopBar.qml:186
+#: overview/qml/DesktopBar.qml:187
 #, kde-format
 msgid "Delete Virtual Desktop"
 msgstr ""
 
-#: overview/qml/DesktopBar.qml:282
+#: overview/qml/DesktopBar.qml:283
 #, fuzzy, kde-format
 #| msgid "Desktop"
 msgid "Add Virtual Desktop"
@@ -587,12 +600,12 @@ msgstr "Skrivebord"
 msgid "No matching windows"
 msgstr "Vinduer under flytning:"
 
-#: private/qml/WindowHeapDelegate.qml:152
+#: private/qml/WindowHeapDelegate.qml:151
 #, kde-format
 msgid "Drag Down To Close"
 msgstr ""
 
-#: private/qml/WindowHeapDelegate.qml:462
+#: private/qml/WindowHeapDelegate.qml:461
 #, fuzzy, kde-format
 #| msgid "Scale window"
 msgctxt "@info:tooltip as in: 'close this window'"
@@ -615,20 +628,20 @@ msgstr "Minimér-animation"
 msgid "Window close scale:"
 msgstr "Animation af museklik"
 
-#: screenshot/screenshotdbusinterface1.cpp:480
+#: screenshot/screenshotdbusinterface1.cpp:478
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr "Skærmbillede"
 
-#: screenshot/screenshotdbusinterface1.cpp:481
+#: screenshot/screenshotdbusinterface1.cpp:479
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr "Skærmbillede gemt til %1"
 
-#: screenshot/screenshotdbusinterface1.cpp:797
-#: screenshot/screenshotdbusinterface2.cpp:472
+#: screenshot/screenshotdbusinterface1.cpp:800
+#: screenshot/screenshotdbusinterface2.cpp:477
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
@@ -637,8 +650,8 @@ msgstr ""
 "Vælg vindue for skærmbilledet med venstreklik eller Retur.\n"
 "Tryk på Esc-tasten eller højreklik for at annullere."
 
-#: screenshot/screenshotdbusinterface1.cpp:800
-#: screenshot/screenshotdbusinterface2.cpp:490
+#: screenshot/screenshotdbusinterface1.cpp:803
+#: screenshot/screenshotdbusinterface2.cpp:495
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -706,14 +719,8 @@ msgstr "Vandret:"
 msgid "Vertical:"
 msgstr "Lodret:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideDocks)
-#: slide/slide_config.ui:72
-#, kde-format
-msgid "Slide docks"
-msgstr "Glid dokke"
-
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideBackground)
-#: slide/slide_config.ui:79
+#: slide/slide_config.ui:72
 #, fuzzy, kde-format
 #| msgid "Slide when grouping"
 msgid "Slide desktop background"
@@ -756,6 +763,49 @@ msgstr "&Ugennemsigtighed:"
 #, no-c-format, kde-format
 msgid " %"
 msgstr " %"
+
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:37
+#: tileseditor/tileseditoreffect.cpp:29
+#, kde-format
+msgid "Toggle Tiles Editor"
+msgstr ""
+
+#: tileseditor/qml/main.qml:147
+#, kde-format
+msgid "Padding:"
+msgstr ""
+
+#: tileseditor/qml/main.qml:157
+#, kde-format
+msgid "Load Layout..."
+msgstr ""
+
+#: tileseditor/qml/main.qml:271
+#, kde-format
+msgid "Close"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:171
+#, fuzzy, kde-format
+#| msgid "Horizontal:"
+msgid "Split Horizontally"
+msgstr "Vandret:"
+
+#: tileseditor/qml/TileDelegate.qml:178
+#, fuzzy, kde-format
+#| msgid "Vertical:"
+msgid "Split Vertically"
+msgstr "Lodret:"
+
+#: tileseditor/qml/TileDelegate.qml:186 tileseditor/qml/TileDelegate.qml:215
+#, kde-format
+msgid "Add Floating Tile"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:195
+#, kde-format
+msgid "Delete"
+msgstr ""
 
 #: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:57
 #, kde-format
@@ -891,17 +941,17 @@ msgstr "Løsrevne menuer:"
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Slå prænsentér vinduer til/fra (aktuelt skrivebord)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:55
+#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:54
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Slå præsentér vinduer til/fra (alle skriveborde) "
 
-#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:65
+#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:63
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Slå præsentér vinduer til/fra (vinduesklasse) "
 
-#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:75
+#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:72
 #, fuzzy, kde-format
 #| msgid "Toggle Present Windows (Current desktop)"
 msgid "Toggle Present Windows (Window class on current desktop)"
@@ -913,16 +963,22 @@ msgstr "Slå prænsentér vinduer til/fra (aktuelt skrivebord)"
 msgid "Ignore &minimized windows"
 msgstr "Ignorér &minimerede vinduer"
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, kde-format
 msgid "No Matches"
 msgstr ""
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "No Windows"
 msgstr "Vinduer"
+
+#: windowview/qml/main.qml:123
+#, fuzzy, kde-format
+#| msgid "Fullscreen windows"
+msgid "Filter windows…"
+msgstr "Fuldskærmvinduer"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20
@@ -984,32 +1040,32 @@ msgstr "Mindre"
 msgid "More"
 msgstr "Mere"
 
-#: zoom/zoom.cpp:68
+#: zoom/zoom.cpp:65
 #, kde-format
 msgid "Move Zoomed Area to Left"
 msgstr "Flyt zoomet område til venstre"
 
-#: zoom/zoom.cpp:76
+#: zoom/zoom.cpp:72
 #, kde-format
 msgid "Move Zoomed Area to Right"
 msgstr "Flyt zoomet område til højre"
 
-#: zoom/zoom.cpp:84
+#: zoom/zoom.cpp:79
 #, kde-format
 msgid "Move Zoomed Area Upwards"
 msgstr "Flyt zoomet område opad"
 
-#: zoom/zoom.cpp:92
+#: zoom/zoom.cpp:86
 #, kde-format
 msgid "Move Zoomed Area Downwards"
 msgstr "Flyt zoomet område nedad"
 
-#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:108
+#: zoom/zoom.cpp:94 zoom/zoom_config.cpp:108
 #, kde-format
 msgid "Move Mouse to Focus"
 msgstr "Bevæg mus for at fokusere"
 
-#: zoom/zoom.cpp:109 zoom/zoom_config.cpp:115
+#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:115
 #, kde-format
 msgid "Move Mouse to Center"
 msgstr "Bevæg mus for at centrere"
@@ -1151,3 +1207,951 @@ msgstr "Deaktiveret"
 #, kde-format
 msgid "Mouse Tracking:"
 msgstr "Musefølgning:"
+
+#~ msgid "Slide docks"
+#~ msgstr "Glid dokke"
+
+#~ msgid "&Radius:"
+#~ msgstr "&Radius:"
+
+#~ msgid "Text position:"
+#~ msgstr "Tekstposition:"
+
+#~ msgid "Inside Graph"
+#~ msgstr "Invendig graf"
+
+#~ msgid "Nowhere"
+#~ msgstr "Ingen steder"
+
+#~ msgid "Top Left"
+#~ msgstr "Øverst til venstre"
+
+#~ msgid "Top Right"
+#~ msgstr "Øverst til højre"
+
+#~ msgid "Bottom Left"
+#~ msgstr "Nederst til venstre"
+
+#~ msgid "Bottom Right"
+#~ msgstr "Nederst til højre"
+
+#~ msgid "Text font:"
+#~ msgstr "Skrifttype for tekst:"
+
+#~ msgid "Text color:"
+#~ msgstr "Tekstfarve:"
+
+#~ msgid "Text alpha:"
+#~ msgstr "Tekstalfa:"
+
+#, fuzzy
+#~| msgid "Show caps"
+#~ msgid "Show graph:"
+#~ msgstr "Vis dæksler"
+
+#, fuzzy
+#~| msgid "Show Text:"
+#~ msgid "Show Message:"
+#~ msgstr "Vis tekst:"
+
+#~ msgid "Zoom &duration:"
+#~ msgstr "&Varighed af zoom:"
+
+#~ msgctxt "Duration of zoom"
+#~ msgid "Default"
+#~ msgstr "Standard"
+
+#~ msgid "Border wid&th:"
+#~ msgstr "Kan&tbredde:"
+
+#, fuzzy
+#~| msgid "Show desktop"
+#~ msgid "Switch desktop only"
+#~ msgstr "Vis skrivebord"
+
+#~ msgid "Natural Layout Settings"
+#~ msgstr "Indstilling af naturligt layout"
+
+#~ msgid "Fill &gaps"
+#~ msgstr "Udfyld &huller"
+
+#~ msgid "Faster"
+#~ msgstr "Hurtigere"
+
+#~ msgid "Nicer"
+#~ msgstr "Pænere"
+
+#~ msgid "Left button:"
+#~ msgstr "Venstre knap:"
+
+#~ msgid "No action"
+#~ msgstr "Ingen handling"
+
+#~ msgid "Activate window"
+#~ msgstr "Aktivér vindue"
+
+#~ msgid "End effect"
+#~ msgstr "Sluteffekt"
+
+#~ msgid "Bring window to current desktop"
+#~ msgstr "Bring vindue til aktuelt skrivebord"
+
+#~ msgid "Send window to all desktops"
+#~ msgstr "Send vindue til alle skriveborde"
+
+#~ msgid "(Un-)Minimize window"
+#~ msgstr "(Af-)minimér vindue"
+
+#~ msgid "Middle button:"
+#~ msgstr "Midterknap:"
+
+#~ msgid "Right button:"
+#~ msgstr "Højre knap:"
+
+#~ msgctxt "@title:group actions when clicking on desktop"
+#~ msgid "Desktop"
+#~ msgstr "Skrivebord"
+
+#~ msgid "Show desktop"
+#~ msgstr "Vis skrivebord"
+
+#~ msgid "Display window &titles"
+#~ msgstr "Vis vindues&titler"
+
+#~ msgid "Display window &icons"
+#~ msgstr "Vis vindues&ikoner"
+
+#~ msgid "Show &panels"
+#~ msgstr "Vis &paneler"
+
+#~ msgid "Regular Grid"
+#~ msgstr "Almindeligt gitter"
+
+#~ msgid "Flexible Grid"
+#~ msgstr "Fleksibelt gitter"
+
+#~ msgid "Provide buttons to close the windows"
+#~ msgstr "Vis knapper til at lukke vinduerne"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Martin Schlander"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "mschlander@opensuse.org"
+
+#~ msgid "Scale window"
+#~ msgstr "Skalér vindue"
+
+#~ msgid "Show outline"
+#~ msgstr "Vis omrids"
+
+#~ msgid "Toggle window geometry display (effect only)"
+#~ msgstr "Slå visning af vinduesgeometri til/fra (kun effekt)"
+
+#~ msgid "Toggle KWin composited geometry display"
+#~ msgstr "Slå visning af KWin composited geometri til/fra"
+
+#~ msgid "Display for moving windows"
+#~ msgstr "Vis til flytning af vinduer"
+
+#~ msgid "Display for resizing windows"
+#~ msgstr "Vis til ændring af størrelse på vinduer"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Blur"
+#~ msgstr "Slør"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Blurs the background behind semi-transparent windows"
+#~ msgstr "Slører baggrunden bag halvgennemsigtige vinduer"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Color Picker"
+#~ msgstr "Farvevælger"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Supports picking a color"
+#~ msgstr "Understøtter at vælge en farve"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Background contrast"
+#~ msgstr "Baggrundskontrast"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Improve contrast and readability behind semi-transparent windows"
+#~ msgstr "Forøg kontrast og læsbarhed bag halvgennemsigtige vinduer"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Grid"
+#~ msgstr "Skrivebordsgitter"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Zoom out so all desktops are displayed side-by-side in a grid"
+#~ msgstr "Zoom ud så alle skriveborde vises side om side i et gitter"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Dim Inactive"
+#~ msgstr "Dæmp inaktive"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Darken inactive windows"
+#~ msgstr "Gør inaktive vinduer mørke"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Fall Apart"
+#~ msgstr "Gå i stykker"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Closed windows fall into pieces"
+#~ msgstr "Lukkede vinduer falder i små stykker"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Glide"
+#~ msgstr "Svæve"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Highlight Window"
+#~ msgstr "Fremhæv vindue"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlight the appropriate window when hovering over taskbar entries"
+#~ msgstr ""
+#~ "Fremhæv det relevante vindue når musen peger på opgavelinje-indgange"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Invert"
+#~ msgstr "Invertér"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Inverts the color of the desktop and windows"
+#~ msgstr "Inverterer farven på skrivebordet og vinduer"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Kscreen"
+#~ msgstr "KScreen"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper Effect for KScreen"
+#~ msgstr "Hjælpeeffekt til KScreen"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Looking Glass"
+#~ msgstr "Kikkert"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "A screen magnifier that looks like a fisheye lens"
+#~ msgstr "Skærmforstørrelsesglas som ligner en fiskeøje-linse"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Magic Lamp"
+#~ msgstr "Magisk lampe"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Simulate a magic lamp when minimizing windows"
+#~ msgstr "Simulér en magisk lampe når vinduer minimeres"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Magnifier"
+#~ msgstr "Forstørrelsesglas"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Magnify the section of the screen that is near the mouse cursor"
+#~ msgstr "Forstørrer den del af skærmen som er omkring musemarkøren"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Click Animation"
+#~ msgstr "Animation af museklik"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Creates an animation whenever a mouse button is clicked. This is useful "
+#~ "for screenrecordings/presentations"
+#~ msgstr ""
+#~ "Opretter en animation når der klikkes på en museknap. Dette er nyttigt "
+#~ "til skærmoptagelser/præsentationer"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Mark"
+#~ msgstr "Musemærker"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Allows you to draw lines on the desktop"
+#~ msgstr "Lader dig tegne streger på skrivebordet"
+
+#, fuzzy
+#~| msgctxt "Comment describing the KWin Effect"
+#~| msgid "Allows you to draw lines on the desktop"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Allows you to overview virtual desktops and windows"
+#~ msgstr "Lader dig tegne streger på skrivebordet"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Present Windows"
+#~ msgstr "Præsentér vinduer"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Zoom out until all opened windows can be displayed side-by-side"
+#~ msgstr "Zoom ud indtil alle åbne vinduer kan vises side om side"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Resize Window"
+#~ msgstr "Ændr størrelse på vindue"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Resizes windows with a fast texture scale instead of updating contents"
+#~ msgstr ""
+#~ "Ændrer størrelse på vinduer med en hurtig teksturskalering i stedet for "
+#~ "at opdatere indholdet"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Screen Edge"
+#~ msgstr "Skærmkant"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlights a screen edge when approaching"
+#~ msgstr "Fremhæver en skærmkant når den nærmer sig"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Screenshot"
+#~ msgstr "Skærmbillede"
+
+#, fuzzy
+#~| msgctxt "Comment describing the KWin Effect"
+#~| msgid "Helper effect for KSnapshot"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper effect for screenshot tools"
+#~ msgstr "Hjælpeeffekt til KSnapshot"
+
+#, fuzzy
+#~| msgid "Transparent"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Transform"
+#~ msgstr "Gennemsigtig"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Sheet"
+#~ msgstr "Ark"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Make modal dialogs smoothly fly in and out when they are shown or hidden"
+#~ msgstr ""
+#~ "Få modaldialoger til glat at flyve ind og ud når de vises eller skjules"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show FPS"
+#~ msgstr "Vis FPS"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display KWin's performance in the corner of the screen"
+#~ msgstr "Vis KWins ydelse i hjørnet af skærmen"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show Paint"
+#~ msgstr "Vis tegning"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlight areas of the desktop that have been recently updated"
+#~ msgstr "Fremhæv områder af skrivebordet som er blevet opdateret for nyligt"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Slide"
+#~ msgstr "Glid"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Slide desktops when switching virtual desktops"
+#~ msgstr "Glid skriveborde henover skærmen ved skift af virtuelt skrivebord"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Slide Back"
+#~ msgstr "Glid tilbage"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Slide back windows when another window is raised"
+#~ msgstr "Glid vinduer tilbage når et andet vinduet hæves"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Sliding popups"
+#~ msgstr "Glidende pop-op'er"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Sliding animation for Plasma popups"
+#~ msgstr "Glidende animation til Plasma-pop-op'er"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Snap Helper"
+#~ msgstr "Hægtehjælper"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Help you locate the center of the screen when moving a window"
+#~ msgstr "Hjælper dig med at finde midten af skærmen ved flytning af vinduer"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Startup Feedback"
+#~ msgstr "Opstartsfeedback"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper effect for startup feedback"
+#~ msgstr "Hjælpeeffekt til opstartsfeedback"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Thumbnail Aside"
+#~ msgstr "Væk med miniature"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display window thumbnails on the edge of the screen"
+#~ msgstr "Vis miniaturer af vinduer ved kanten af skærmen"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Touch Points"
+#~ msgstr "Berøringspunkter:"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Visualize touch points"
+#~ msgstr "Visualiser berøringspunkter"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Track Mouse"
+#~ msgstr "Sporing af musen"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display a mouse cursor locating effect when activated"
+#~ msgstr "Vis en effekt til lokalisering af musemarkøren, når den aktiveres"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Window Geometry"
+#~ msgstr "Vinduets geometri"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display window geometries on move/resize"
+#~ msgstr "Vis vinduesgeometrier ved flytning og ændring af størrelse"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Wobbly Windows"
+#~ msgstr "Blævrende vinduer"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Deform windows while they are moving"
+#~ msgstr "Deformér vinduer mens de flyttes"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Zoom"
+#~ msgstr "Zoom"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Magnify the entire desktop"
+#~ msgstr "Forstør hele skrivebordet"
+
+#~ msgctxt "Special entry in alt+tab list for minimizing all windows"
+#~ msgid "Show Desktop"
+#~ msgstr "Vis skrivebord"
+
+#~ msgid "Zoom"
+#~ msgstr "Zoom"
+
+#~ msgid "Define how far away the windows should appear"
+#~ msgstr "Definér hvor langt borte vinduerne skal synes"
+
+#~ msgid "Near"
+#~ msgstr "Nær"
+
+#~ msgid "Far"
+#~ msgstr "Fjern"
+
+#~ msgid "Animation"
+#~ msgstr "Animation"
+
+#~ msgid "Animate switch"
+#~ msgstr "Animér skift"
+
+#~ msgid "Animation on tab box open"
+#~ msgstr "Animation ved åbning af tab-boks"
+
+#~ msgid "Animation on tab box close"
+#~ msgstr "Animation ved lukning af tab-boks"
+
+#~ msgid "Reflections"
+#~ msgstr "Reflektioner"
+
+#~ msgid "Rear color"
+#~ msgstr "Farve på bagende"
+
+#~ msgid "Front color"
+#~ msgstr "Farve på front"
+
+#~ msgid "Desktop Cube"
+#~ msgstr "Skrivebordsterning"
+
+#~ msgid "Desktop Cylinder"
+#~ msgstr "Skrivebordscylinder"
+
+#~ msgid "Desktop Sphere"
+#~ msgstr "Skrivebordskugle"
+
+#~ msgctxt "@title:tab Basic Settings"
+#~ msgid "Basic"
+#~ msgstr "Grundlæggende"
+
+#~ msgctxt "@title:tab Advanced Settings"
+#~ msgid "Advanced"
+#~ msgstr "Avanceret"
+
+#~ msgid "Tab 1"
+#~ msgstr "Faneblad 1"
+
+#~ msgid "Background color:"
+#~ msgstr "Baggrundsfarve:"
+
+#~ msgid "Wallpaper:"
+#~ msgstr "Baggrundsbillede:"
+
+#~ msgid "Display desktop name"
+#~ msgstr "Vis skrivebordsnavn"
+
+#~ msgid "Reflection"
+#~ msgstr "Reflektion"
+
+#~ msgid "Rotation duration:"
+#~ msgstr "Rotationsvarighed:"
+
+#~ msgid "Windows hover above cube"
+#~ msgstr "Vinduer svæver over terningen"
+
+#~ msgid "Opacity"
+#~ msgstr "Ugennemsigtighed"
+
+#~ msgid "Do not change opacity of windows"
+#~ msgstr "Ændr ikke vinduers ugennemsigtighed"
+
+#~ msgid "Tab 2"
+#~ msgstr "Faneblad 2"
+
+#~ msgid "Caps"
+#~ msgstr "Dæksler"
+
+#~ msgid "Cap color:"
+#~ msgstr "Dækselfarve:"
+
+#~ msgid "Display image on caps"
+#~ msgstr "Vis billede på dæksler"
+
+#~ msgid "Define how far away the object should appear"
+#~ msgstr "Definér hvor langt væk objektet skal forekomme"
+
+#~ msgid "Additional Options"
+#~ msgstr "Yderligere indstillinger"
+
+#~ msgid ""
+#~ "If enabled the effect will be deactivated after rotating the cube with "
+#~ "the mouse,\n"
+#~ "otherwise it will remain active"
+#~ msgstr ""
+#~ "Hvis aktiveret vil effekten blive deaktiveret efter rotering af terningen "
+#~ "med musen,\n"
+#~ "ellers vil den forblive aktiv"
+
+#~ msgid "Close after mouse dragging"
+#~ msgstr "Luk efter træk med musen"
+
+#~ msgid "Use this effect for walking through the desktops"
+#~ msgstr "Brug denne effekt til gennemgang af skriveborde"
+
+#~ msgid "Invert mouse"
+#~ msgstr "Invertér mus"
+
+#~ msgid "Sphere Cap Deformation"
+#~ msgstr "Deformering af kugledæksel"
+
+#~ msgid "Sphere"
+#~ msgstr "Kugle"
+
+#~ msgid "Plane"
+#~ msgstr "Plan"
+
+#~ msgid "Do not animate windows on all desktops"
+#~ msgstr "Animér ikke vinduer på alle skriveborde"
+
+#~ msgid "Do not animate panels"
+#~ msgstr "Animér ikke paneler"
+
+#~ msgid "Use pager layout for animation"
+#~ msgstr "Brug layoutet af skrivebordsvælgeren til animering"
+
+#~ msgid "Start animation when moving windows towards screen edges"
+#~ msgstr "Start animation når vinduer flyttes imod skærmkanter"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Cover Switch"
+#~ msgstr "Cover-skifter"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display a Cover Flow effect for the alt+tab window switcher"
+#~ msgstr "Vis en cover flow-effekt som alt+tab vinduesskifter"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube"
+#~ msgstr "Skrivebordsterning"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display each virtual desktop on a side of a cube"
+#~ msgstr "Vis hvert virtuelle skrivebord på en side af en terning"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube Animation"
+#~ msgstr "Animeret skrivebordsterning"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Animate desktop switching with a cube"
+#~ msgstr "Animér skift af skrivebord med en terning"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Flip Switch"
+#~ msgstr "Vippeskifter"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Flip through windows that are in a stack for the alt+tab window switcher"
+#~ msgstr "Vip gennem vinduer i en stak som alt+tab vinduesskifter"
+
+#~ msgid "Toggle Flip Switch (Current desktop)"
+#~ msgstr "Slå vippeskifter til/fra (aktuelt skrivebord)"
+
+#~ msgid "Toggle Flip Switch (All desktops)"
+#~ msgstr "Slå vippeskifter til/fra (alle skriveborde)"
+
+#~ msgid "Flip animation duration:"
+#~ msgstr "Varighed af vippeanimation:"
+
+#~ msgctxt "Duration of flip animation"
+#~ msgid "Default"
+#~ msgstr "Standard"
+
+#~ msgid "Angle:"
+#~ msgstr "Vinkel:"
+
+#~ msgid " °"
+#~ msgstr " °"
+
+#~ msgid "Horizontal position of front:"
+#~ msgstr "Frontens vandrette position:"
+
+#~ msgid "Vertical position of front:"
+#~ msgstr "Frontens lodrette position:"
+
+#~ msgid ""
+#~ "Filter:\n"
+#~ "%1"
+#~ msgstr ""
+#~ "Filter:\n"
+#~ "%1"
+
+#~ msgid "Use Present Windows effect to layout the windows"
+#~ msgstr "Brug præsentér vinduer-effekten til layout af vinduerne"
+
+#~ msgid "When the focus changes, move the zoom area to the focused location."
+#~ msgstr "Bevæg zoom-området til placeringen i fokus når fokus skifter."
+
+#~ msgid "Follow Focus"
+#~ msgstr "Følg fokus"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Dim Screen for Administrator Mode"
+#~ msgstr "Dæmp skærmen til administratortilstand"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Darkens the entire screen when requesting root privileges"
+#~ msgstr "Gør hele skærmen mørkere når der bedes om root-privilegier"
+
+#, fuzzy
+#~| msgid "Scale"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Scale"
+#~ msgstr "Skala"
+
+#, fuzzy
+#~| msgctxt "Comment describing the KWin Effect"
+#~| msgid ""
+#~| "Make modal dialogs smoothly fly in and out when they are shown or hidden"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Make windows smoothly scale in and out when they are shown or hidden"
+#~ msgstr ""
+#~ "Få modaldialoger til glat at flyve ind og ud når de vises eller skjules"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Minimize Animation"
+#~ msgstr "Minimér-animation"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Animate the minimizing of windows"
+#~ msgstr "Animér minimering af vinduer"
+
+#~ msgid "Trigger on"
+#~ msgstr "Udløs ved"
+
+#~ msgid "Shortcut"
+#~ msgstr "Genvej"
+
+#~ msgid "Apply effect to &panels"
+#~ msgstr "Anvend effekt på &paneler"
+
+#~ msgid "Apply effect to the desk&top"
+#~ msgstr "Anvend effekten på desk&toppen"
+
+#~ msgid "Apply effect to &keep-above windows"
+#~ msgstr "Anvend effekt på \"&hold over\"-vinduer"
+
+#~ msgid "Apply effect to &groups"
+#~ msgstr "Anvend effekt på &grupper"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Windows Glide Effect as they are open and closed"
+#~ msgstr "Svæveeffekt til vinduer når de åbnes og lukkes"
+
+#~ msgid "Glide Effect:"
+#~ msgstr "Svæveeffekt:"
+
+#~ msgid "In"
+#~ msgstr "Ind"
+
+#~ msgid "Out"
+#~ msgstr "Ud"
+
+#~ msgid "Glide Angle:"
+#~ msgstr "Svævevinkel:"
+
+#~ msgid "-90"
+#~ msgstr "-90"
+
+#~ msgid "90"
+#~ msgstr "90"
+
+#~ msgctxt "Duration of the slide animation"
+#~ msgid "Default"
+#~ msgstr "Standard"
+
+#~ msgid "Strength of the effect:"
+#~ msgstr "Effektens styrke:"
+
+#~ msgid "Save intermediate rendering results."
+#~ msgstr "Gem middelmådige renderingsresultater."
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Logout"
+#~ msgstr "Log ud"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Desaturate the desktop when displaying the logout dialog"
+#~ msgstr "Afmæt farverne på skrivebordet når log ud-dialogen vises"
+
+#~ msgid "Brightness of the background:"
+#~ msgstr "Baggrunds lysstyrke:"
+
+#~ msgctxt "Less brightness"
+#~ msgid "Darker"
+#~ msgstr "Mørkere"
+
+#~ msgctxt "More brightness"
+#~ msgid "Lighter"
+#~ msgstr "Lysere"
+
+#~ msgid "Saturation of the background:"
+#~ msgstr "Baggrundens farvemætning:"
+
+#~ msgctxt "No saturation"
+#~ msgid "Gray"
+#~ msgstr "Grå"
+
+#~ msgid "Duration of the fade:"
+#~ msgstr "Varighed af udtoning:"
+
+#~ msgid "ms"
+#~ msgstr "ms"
+
+#~ msgid "The blur effect must be enabled before it can be used."
+#~ msgstr "Slør-effekten skal være aktiveret for at den kan bruges."
+
+#~ msgid "Apply blur effect to background"
+#~ msgstr "Anvend slør-effekt på baggrund"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Dashboard"
+#~ msgstr "Instrumentbræt"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Desaturate the desktop when displaying the Plasma dashboard"
+#~ msgstr "Afmæt farverne på skrivebordet når Plasma instrumentbrættet vises"
+
+#~ msgid "Decorations:"
+#~ msgstr "Dekorationer:"
+
+#~ msgid "Background window &opacity:"
+#~ msgstr "&Ugennemsigtighed af baggrundsvindue:"
+
+#~ msgid "&Elevate selected window"
+#~ msgstr "&Hæv valgt vindue"
+
+#~ msgid "&Animate walk through windows"
+#~ msgstr "&Animér gennemgang af vinduer"
+
+#~ msgid "Use additional thumbnail bar"
+#~ msgstr "Brug yderligere miniaturelinje"
+
+#~ msgid ""
+#~ "Only show thumbnail bar if there are at least specified number of windows"
+#~ msgstr ""
+#~ "Vis kun miniaturelinje hvis der er mindst det angivne antal af vinduer"
+
+#~ msgid "Dynamic mode"
+#~ msgstr "Dynamisk tilstand"
+
+#~ msgid "Number of windows:"
+#~ msgstr "Antal vinduer:"
+
+#~ msgid " row"
+#~ msgid_plural " rows"
+#~ msgstr[0] " række"
+#~ msgstr[1] " rækker"
+
+#~ msgctxt "Duration of fading"
+#~ msgid "Default"
+#~ msgstr "Standard"
+
+#~ msgid "Toggle Video Recording"
+#~ msgstr "Slå videooptagelse til/fra"
+
+#~ msgid "Path to save video:"
+#~ msgstr "Sti hvortil video skal gemmes:"
+
+#~ msgid "Slide when switching tabs"
+#~ msgstr "Glid ved skift af faneblade"
+
+#~ msgctxt ""
+#~ "Window geometry display, %1 and %2 are the new size, %3 and %4 are pixel "
+#~ "increments - avoid reformatting or suffixes like 'px'"
+#~ msgid ""
+#~ "Width: %1 (%3)\n"
+#~ "Height: %2 (%4)"
+#~ msgstr ""
+#~ "Bredde: %1 (%3)\n"
+#~ "Højde: %2 (%4)"
+
+#~ msgctxt ""
+#~ "Window geometry display, %1 and %2 are the cartesian x and y coordinates "
+#~ "- avoid reformatting or suffixes like 'px'"
+#~ msgid ""
+#~ "X: %1\n"
+#~ "Y: %2"
+#~ msgstr ""
+#~ "X: %1\n"
+#~ "Y: %2"
+
+#~ msgctxt ""
+#~ "Window geometry display, %1 and %2 are the cartesian x and y coordinates, "
+#~ "%3 and %4 are the resp. increments - avoid reformatting or suffixes like "
+#~ "'px'"
+#~ msgid ""
+#~ "X: %1 (%3)\n"
+#~ "Y: %2 (%4)"
+#~ msgstr ""
+#~ "X: %1 (%3)\n"
+#~ "Y: %2 (%4)"
+
+#~ msgid "Snow"
+#~ msgstr "Sne"
+
+#~ msgid "Toggle Snow on Desktop"
+#~ msgstr "Slå sne på skrivebordet til/fra"
+
+#~ msgid " pixel/frame"
+#~ msgid_plural " pixels/frame"
+#~ msgstr[0] " pixel/billede"
+#~ msgstr[1] " pixels/billede"
+
+#~ msgctxt "@action Enables/Disables an effect that makes windows more sharp"
+#~ msgid "Toggle Sharpen Effect"
+#~ msgstr "Slå skarpheds-effekt til/fra"
+
+#~ msgid "&Number of snowflakes:"
+#~ msgstr "&Antal snefnug:"
+
+#~ msgid "M&inimum size of snowflake:"
+#~ msgstr "M&inimal størrelse på snefnug:"
+
+#~ msgid "M&aximum size of snowflake:"
+#~ msgstr "Maksimal størrelse på snefnug:"
+
+#~ msgid "Maximum &vertical speed:"
+#~ msgstr "Maksimal &vertikal hastighed:"
+
+#~ msgid "Maximum &horizontal speed:"
+#~ msgstr "Maksimal &horisontal hastighed:"
+
+#~ msgid "Snow &behind windows"
+#~ msgstr "Sne &bag vinduer"
+
+#~ msgid "&X offset:"
+#~ msgstr "&X-forskydning:"
+
+#~ msgid "&Y offset:"
+#~ msgstr "&Y-forskydning:"
+
+#~ msgid "%"
+#~ msgstr "%"
+
+#~ msgid "&Fuzziness:"
+#~ msgstr "&Slørethed:"
+
+#~ msgid "&Size:"
+#~ msgstr "&Størrelse:"
+
+#~ msgid "&Active windows have stronger shadows"
+#~ msgstr "&Aktive vinduer har kraftigere skygge"
+
+#, fuzzy
+#~| msgid "Background"
+#~ msgid "Background brightness"
+#~ msgstr "Baggrund"
+
+#, fuzzy
+#~| msgid "Background"
+#~ msgid "Background saturation"
+#~ msgstr "Baggrund"
+
+#, fuzzy
+#~| msgid "End effect"
+#~ msgid "Effects"
+#~ msgstr "Sluteffekt"
+
+#~ msgid "Hold Ctrl+Meta keys to see where the mouse cursor is."
+#~ msgstr "Hold Ctrl+Meta-tasterne for at se hvor markøren er."
+
+#~ msgid "Rearrange &duration:"
+#~ msgstr "Justér varighe&d:"
+
+#~ msgctxt "Duration of rearrangement"
+#~ msgid "Default"
+#~ msgstr "Standard"
+
+#~ msgid "Animate &flip"
+#~ msgstr "Animér &vip"
+
+#~ msgid "Custom..."
+#~ msgstr "Brugertilpasset..."
+
+#~ msgid "Default Shadow"
+#~ msgstr "Standardskygge"
+
+#~ msgid "Decoration Shadows"
+#~ msgstr "Dekorationsskygger"
+
+#~ msgid "&Decorated windows"
+#~ msgstr "&Dekorerede vinduer"
+
+#~ msgid "Force default shadows for:"
+#~ msgstr "Gennemtving standardskygger for:"
+
+#~ msgid "&Undecorated normal windows"
+#~ msgstr "&Udekorerede almindelige vinduer"

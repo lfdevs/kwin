@@ -27,6 +27,7 @@
 #include <QObject>
 #include <QPointer>
 #include <QRectF>
+#include <QTimer>
 #include <QUuid>
 
 class QMouseEvent;
@@ -50,6 +51,8 @@ class Output;
 class ClientMachine;
 class Deleted;
 class EffectWindowImpl;
+class Tile;
+class Scene;
 class Shadow;
 class SurfaceItem;
 class VirtualDesktop;
@@ -78,9 +81,6 @@ class DecorationPalette;
 class KWIN_EXPORT Window : public QObject
 {
     Q_OBJECT
-
-    Q_PROPERTY(bool alpha READ hasAlpha NOTIFY hasAlphaChanged)
-    Q_PROPERTY(qulonglong frameId READ frameId)
 
     /**
      * This property holds rectangle that the pixmap or buffer of this Window
@@ -119,7 +119,6 @@ class KWIN_EXPORT Window : public QObject
      */
     Q_PROPERTY(qreal height READ height NOTIFY frameGeometryChanged)
 
-    Q_PROPERTY(QRectF visibleRect READ visibleGeometry)
     Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity NOTIFY opacityChanged)
 
     /**
@@ -132,14 +131,10 @@ class KWIN_EXPORT Window : public QObject
      */
     Q_PROPERTY(KWin::Output *output READ output NOTIFY screenChanged)
 
-    Q_PROPERTY(qulonglong windowId READ window CONSTANT)
-
     Q_PROPERTY(QRectF rect READ rect)
-    Q_PROPERTY(QPointF clientPos READ clientPos)
-    Q_PROPERTY(QSizeF clientSize READ clientSize)
-    Q_PROPERTY(QByteArray resourceName READ resourceName NOTIFY windowClassChanged)
-    Q_PROPERTY(QByteArray resourceClass READ resourceClass NOTIFY windowClassChanged)
-    Q_PROPERTY(QByteArray windowRole READ windowRole NOTIFY windowRoleChanged)
+    Q_PROPERTY(QString resourceName READ resourceName NOTIFY windowClassChanged)
+    Q_PROPERTY(QString resourceClass READ resourceClass NOTIFY windowClassChanged)
+    Q_PROPERTY(QString windowRole READ windowRole NOTIFY windowRoleChanged)
 
     /**
      * Returns whether the window is a desktop background window (the one with wallpaper).
@@ -271,12 +266,6 @@ class KWIN_EXPORT Window : public QObject
      * window being captured.
      */
     Q_PROPERTY(bool skipsCloseAnimation READ skipsCloseAnimation WRITE setSkipCloseAnimation NOTIFY skipCloseAnimationChanged)
-
-    /**
-     * Interface to the Wayland Surface.
-     * Relevant only in Wayland, in X11 it will be nullptr
-     */
-    Q_PROPERTY(KWaylandServer::SurfaceInterface *surface READ surface)
 
     /**
      * Whether the window is a popup.
@@ -558,7 +547,7 @@ class KWIN_EXPORT Window : public QObject
      * The application's desktop file name can also be the full path to the desktop file
      * (e.g. "/opt/kde/share/org.kde.foo.desktop") in case it's not in a standard location.
      */
-    Q_PROPERTY(QByteArray desktopFileName READ desktopFileName NOTIFY desktopFileNameChanged)
+    Q_PROPERTY(QString desktopFileName READ desktopFileName NOTIFY desktopFileNameChanged)
 
     /**
      * Whether an application menu is available for this Window
@@ -592,6 +581,11 @@ class KWIN_EXPORT Window : public QObject
      * Whether this window is hidden. It's usually the case with auto-hide panels.
      */
     Q_PROPERTY(bool hidden READ isHiddenInternal NOTIFY hiddenChanged)
+
+    /**
+     * The Tile this window is associated to, if any
+     */
+    Q_PROPERTY(KWin::Tile *tile READ tile WRITE setTile NOTIFY tileChanged)
 
 public:
     ~Window() override;
@@ -716,12 +710,12 @@ public:
 
     void setLockScreenOverlay(bool allowed);
 
-    virtual QByteArray windowRole() const;
+    virtual QString windowRole() const;
     QByteArray sessionId() const;
-    QByteArray resourceName() const;
-    QByteArray resourceClass() const;
-    QByteArray wmCommand();
-    QByteArray wmClientMachine(bool use_localhost) const;
+    QString resourceName() const;
+    QString resourceClass() const;
+    QString wmCommand();
+    QString wmClientMachine(bool use_localhost) const;
     const ClientMachine *clientMachine() const;
     virtual bool isLocalhost() const;
     xcb_window_t wmClientLeader() const;
@@ -773,11 +767,12 @@ public:
      * @see hasAlpha
      */
     const QRegion &opaqueRegion() const;
-    QRegion shapeRegion() const;
+    QVector<QRectF> shapeRegion() const;
 
     bool skipsCloseAnimation() const;
     void setSkipCloseAnimation(bool set);
 
+    quint64 surfaceSerial() const;
     quint32 pendingSurfaceId() const;
     KWaylandServer::SurfaceInterface *surface() const;
     void setSurface(KWaylandServer::SurfaceInterface *surface);
@@ -1028,7 +1023,7 @@ public:
     QRectF geometryRestore() const;
     virtual MaximizeMode maximizeMode() const;
     virtual MaximizeMode requestedMaximizeMode() const;
-    void maximize(MaximizeMode);
+    virtual void maximize(MaximizeMode mode);
     /**
      * Sets the maximization according to @p vertically and @p horizontally.
      */
@@ -1143,6 +1138,8 @@ public:
     }
     virtual Layer layer() const;
     void updateLayer();
+
+    Tile *tile() const;
 
     void move(const QPointF &point);
     void resize(const QSizeF &size);
@@ -1324,7 +1321,7 @@ public:
      */
     virtual void showOnScreenEdge();
 
-    QByteArray desktopFileName() const
+    QString desktopFileName() const
     {
         return m_desktopFileName;
     }
@@ -1431,6 +1428,11 @@ public:
 
     uint32_t interactiveMoveResizeCount() const;
 
+    void setTile(Tile *tile);
+
+    void refOffscreenRendering();
+    void unrefOffscreenRendering();
+
 public Q_SLOTS:
     virtual void closeWindow() = 0;
 
@@ -1441,7 +1443,7 @@ Q_SIGNALS:
     void stackingOrderChanged();
     void shadeChanged();
     void opacityChanged(KWin::Window *window, qreal oldOpacity);
-    void damaged(KWin::Window *window, const QRegion &damage);
+    void damaged(KWin::Window *window);
     void inputTransformationChanged();
     /**
      * This signal is emitted when the Window's frame geometry changes.
@@ -1514,6 +1516,11 @@ Q_SIGNALS:
      */
     void visibleGeometryChanged();
 
+    /**
+     * This signal is emitted when associated tile has changed, including from and to none
+     */
+    void tileChanged(KWin::Tile *tile);
+
     void fullScreenChanged();
     void skipTaskbarChanged();
     void skipPagerChanged();
@@ -1577,18 +1584,15 @@ protected:
     void getWmOpaqueRegion();
     void discardShapeRegion();
 
-    virtual WindowItem *createItem() = 0;
-    void deleteItem();
+    virtual std::unique_ptr<WindowItem> createItem(Scene *scene) = 0;
 
     void getResourceClass();
-    void setResourceClass(const QByteArray &name, const QByteArray &className = QByteArray());
+    void setResourceClass(const QString &name, const QString &className = QString());
     Xcb::Property fetchSkipCloseAnimation() const;
     void readSkipCloseAnimation(Xcb::Property &prop);
     void getSkipCloseAnimation();
     void copyToDeleted(Window *c);
     void disownDataPassedToDeleted();
-    void deleteShadow();
-    void deleteEffectWindow();
     void setDepth(int depth);
 
     Output *m_output = nullptr;
@@ -1721,7 +1725,6 @@ protected:
     int borderRight() const;
     int borderTop() const;
     int borderBottom() const;
-    virtual void changeMaximize(bool horizontal, bool vertical, bool adjust);
     void setGeometryRestore(const QRectF &rect);
 
     void blockGeometryUpdates(bool block);
@@ -1871,7 +1874,7 @@ protected:
     void invalidateDecorationDoubleClickTimer();
     void updateDecorationInputShape();
 
-    void setDesktopFileName(QByteArray name);
+    void setDesktopFileName(const QString &name);
     QString iconFromDesktopFile() const;
 
     void updateApplicationMenuServiceName(const QString &serviceName);
@@ -1914,22 +1917,25 @@ private Q_SLOTS:
     void shadeUnhover();
 
 private:
+    void maybeSendFrameCallback();
+
     // when adding new data members, check also copyToDeleted()
     QUuid m_internalId;
     Xcb::Window m_client;
     bool is_shape;
-    EffectWindowImpl *m_effectWindow;
-    WindowItem *m_windowItem = nullptr;
-    Shadow *m_shadow = nullptr;
-    QByteArray resource_name;
-    QByteArray resource_class;
+    std::unique_ptr<EffectWindowImpl> m_effectWindow;
+    std::unique_ptr<WindowItem> m_windowItem;
+    std::unique_ptr<Shadow> m_shadow;
+    QString resource_name;
+    QString resource_class;
     ClientMachine *m_clientMachine;
     xcb_window_t m_wmClientLeader;
     QRegion opaque_region;
-    mutable QRegion m_shapeRegion;
+    mutable QVector<QRectF> m_shapeRegion;
     mutable bool m_shapeRegionIsValid = false;
     bool m_skipCloseAnimation;
     quint32 m_pendingSurfaceId = 0;
+    quint64 m_surfaceSerial = 0;
     QPointer<KWaylandServer::SurfaceInterface> m_surface;
     // when adding new data members, check also copyToDeleted()
     qreal m_opacity = 1.0;
@@ -1974,6 +1980,7 @@ private:
     QList<Window *> m_transients;
     bool m_modal = false;
     Layer m_layer = UnknownLayer;
+    QPointer<Tile> m_tile;
 
     // electric border/quick tiling
     QuickTileMode m_electricMode = QuickTileFlag::None;
@@ -2015,7 +2022,7 @@ private:
         QElapsedTimer doubleClickTimer;
         QRegion inputRegion;
     } m_decoration;
-    QByteArray m_desktopFileName;
+    QString m_desktopFileName;
 
     bool m_applicationMenuActive = false;
     QString m_applicationMenuServiceName;
@@ -2028,6 +2035,8 @@ private:
     WindowRules m_rules;
     quint32 m_lastUsageSerial = 0;
     bool m_lockScreenOverlay = false;
+    uint32_t m_offscreenRenderCount = 0;
+    QTimer m_offscreenFramecallbackTimer;
 };
 
 /**
@@ -2253,17 +2262,17 @@ inline const QRegion &Window::opaqueRegion() const
 
 inline EffectWindowImpl *Window::effectWindow()
 {
-    return m_effectWindow;
+    return m_effectWindow.get();
 }
 
 inline const EffectWindowImpl *Window::effectWindow() const
 {
-    return m_effectWindow;
+    return m_effectWindow.get();
 }
 
 inline WindowItem *Window::windowItem() const
 {
-    return m_windowItem;
+    return m_windowItem.get();
 }
 
 inline bool Window::isOnAllDesktops() const
@@ -2281,12 +2290,12 @@ inline bool Window::isOnActivity(const QString &activity) const
     return activities().isEmpty() || activities().contains(activity);
 }
 
-inline QByteArray Window::resourceName() const
+inline QString Window::resourceName() const
 {
     return resource_name; // it is always lowercase
 }
 
-inline QByteArray Window::resourceClass() const
+inline QString Window::resourceClass() const
 {
     return resource_class; // it is always lowercase
 }
@@ -2294,6 +2303,11 @@ inline QByteArray Window::resourceClass() const
 inline const ClientMachine *Window::clientMachine() const
 {
     return m_clientMachine;
+}
+
+inline quint64 Window::surfaceSerial() const
+{
+    return m_surfaceSerial;
 }
 
 inline quint32 Window::pendingSurfaceId() const
@@ -2368,6 +2382,17 @@ inline void Window::setPendingMoveResizeMode(MoveResizeMode mode)
 }
 
 KWIN_EXPORT QDebug operator<<(QDebug debug, const Window *window);
+
+class KWIN_EXPORT WindowOffscreenRenderRef
+{
+public:
+    WindowOffscreenRenderRef(Window *window);
+    WindowOffscreenRenderRef() = default;
+    ~WindowOffscreenRenderRef();
+
+private:
+    QPointer<Window> m_window;
+};
 
 } // namespace KWin
 

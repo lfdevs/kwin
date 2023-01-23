@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-08-07 00:48+0000\n"
+"POT-Creation-Date: 2022-11-16 00:48+0000\n"
 "PO-Revision-Date: 2008-08-05 22:26+0200\n"
 "Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan (lengadocian) <ubuntu-l10n-oci@lists.ubuntu.com>\n"
@@ -130,3 +130,165 @@ msgstr ""
 #, kde-format
 msgid "Animate buttons"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Center"
+#~ msgid "General"
+#~ msgstr "Centre"
+
+#, fuzzy
+#~| msgid "Large"
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "Large"
+#~ msgstr "Grand"
+
+#, fuzzy
+#~| msgid "Large"
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "Very Large"
+#~ msgstr "Grand"
+
+#, fuzzy
+#~| msgid "Large"
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "Huge"
+#~ msgstr "Grand"
+
+#, fuzzy
+#~| msgid "Small"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Small"
+#~ msgstr "Pichon"
+
+#, fuzzy
+#~| msgid "Minimize Window"
+#~ msgid "Outline active window title"
+#~ msgstr "Redusir la fenèstra"
+
+#, fuzzy
+#~| msgid "Minimize Window"
+#~ msgid "Active Window Glow"
+#~ msgstr "Redusir la fenèstra"
+
+#, fuzzy
+#~| msgid "Minimize Window"
+#~ msgid "Use window title"
+#~ msgstr "Redusir la fenèstra"
+
+#, fuzzy
+#~| msgid "Minimize Window"
+#~ msgid "Outline active window title:"
+#~ msgstr "Redusir la fenèstra"
+
+#, fuzzy
+#~| msgid "Minimize Window"
+#~ msgid "Hide window title bar"
+#~ msgstr "Redusir la fenèstra"
+
+#, fuzzy
+#~| msgid "Restore"
+#~ msgid "Remove"
+#~ msgstr "Restablir"
+
+#, fuzzy
+#~| msgid "Minimize Window"
+#~ msgid "Inactive Windows"
+#~ msgstr "Redusir la fenèstra"
+
+#, fuzzy
+#~| msgid "Minimize Window"
+#~ msgid "Active Windows"
+#~ msgstr "Redusir la fenèstra"
+
+#~ msgid "Help"
+#~ msgstr "Ajuda"
+
+#~ msgid "Minimize"
+#~ msgstr "Minimizar"
+
+#~ msgid "Maximize"
+#~ msgstr "Maximizar"
+
+#~ msgid "Close"
+#~ msgstr "Tampar"
+
+#~ msgid "On All Desktops"
+#~ msgstr "Sus totes los burèus"
+
+#~ msgid "Menu"
+#~ msgstr "Menut"
+
+#~ msgid "Resize"
+#~ msgstr "Redimensionar"
+
+#~ msgid "Restore"
+#~ msgstr "Restablir"
+
+#~ msgctxt "Help button label, one character"
+#~ msgid "?"
+#~ msgstr "?"
+
+#~ msgid "Do Nothing"
+#~ msgstr "Far res"
+
+#~ msgid "Minimize Window"
+#~ msgstr "Redusir la fenèstra"
+
+#~ msgid "Close Window"
+#~ msgstr "Tampar la fenèstra"
+
+#~ msgid "Large"
+#~ msgstr "Grand"
+
+#~ msgid "Small"
+#~ msgstr "Pichon"
+
+#, fuzzy
+#~| msgid "On All Desktops"
+#~ msgid "All Desktops"
+#~ msgstr "Sus totes los burèus"
+
+#, fuzzy
+#~| msgid "Close"
+#~ msgid "Close Item"
+#~ msgstr "Tampar"
+
+#, fuzzy
+#~| msgid "Left"
+#~ msgid "&Left"
+#~ msgstr "Esquèrra"
+
+#, fuzzy
+#~| msgid "Center"
+#~ msgid "&Center"
+#~ msgstr "Centre"
+
+#, fuzzy
+#~| msgid "Right"
+#~ msgid "&Right"
+#~ msgstr "Drecha"
+
+#, fuzzy
+#~| msgid "Maximize"
+#~ msgid "Maximum"
+#~ msgstr "Maximizar"
+
+#~ msgid "KDE 2"
+#~ msgstr "KDE 2"
+
+#~ msgid "Redmond"
+#~ msgstr "Redmond"
+
+#~ msgid "Medium"
+#~ msgstr "Mejan"
+
+#~ msgid "Web"
+#~ msgstr "Web"
+
+#~ msgid "Keramik"
+#~ msgstr "Keramik"
+
+#, fuzzy
+#~| msgid "Minimize Window"
+#~ msgid "Glow active window"
+#~ msgstr "Redusir la fenèstra"

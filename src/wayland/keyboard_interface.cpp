@@ -169,6 +169,15 @@ QVector<quint32> KeyboardInterfacePrivate::pressedKeys() const
     return keys;
 }
 
+void KeyboardInterface::sendKey(quint32 key, KeyboardKeyState state, ClientConnection *client)
+{
+    const QList<KeyboardInterfacePrivate::Resource *> keyboards = d->keyboardsForClient(client);
+    const quint32 serial = d->seat->display()->nextSerial();
+    for (KeyboardInterfacePrivate::Resource *keyboardResource : keyboards) {
+        d->send_key(keyboardResource->handle, serial, d->seat->timestamp().count(), key, quint32(state));
+    }
+}
+
 void KeyboardInterface::sendKey(quint32 key, KeyboardKeyState state)
 {
     if (!d->updateKey(key, state)) {
@@ -179,30 +188,29 @@ void KeyboardInterface::sendKey(quint32 key, KeyboardKeyState state)
         return;
     }
 
-    const QList<KeyboardInterfacePrivate::Resource *> keyboards = d->keyboardsForClient(d->focusedSurface->client());
-    const quint32 serial = d->seat->display()->nextSerial();
-    for (KeyboardInterfacePrivate::Resource *keyboardResource : keyboards) {
-        d->send_key(keyboardResource->handle, serial, d->seat->timestamp(), key, quint32(state));
-    }
+    sendKey(key, state, d->focusedSurface->client());
 }
 
 void KeyboardInterface::sendModifiers(quint32 depressed, quint32 latched, quint32 locked, quint32 group)
 {
     bool changed = false;
-#define UPDATE(value)                  \
-    if (d->modifiers.value != value) { \
-        d->modifiers.value = value;    \
-        changed = true;                \
+    if (d->modifiers.depressed != depressed) {
+        d->modifiers.depressed = depressed;
+        changed = true;
     }
-    UPDATE(depressed)
-    UPDATE(latched)
-    UPDATE(locked)
-    UPDATE(group)
-    if (!changed) {
-        return;
+    if (d->modifiers.latched != latched) {
+        d->modifiers.latched = latched;
+        changed = true;
     }
-
-    if (!d->focusedSurface) {
+    if (d->modifiers.locked != locked) {
+        d->modifiers.locked = locked;
+        changed = true;
+    }
+    if (d->modifiers.group != group) {
+        d->modifiers.group = group;
+        changed = true;
+    }
+    if (!changed || !d->focusedSurface) {
         return;
     }
 
@@ -212,9 +220,9 @@ void KeyboardInterface::sendModifiers(quint32 depressed, quint32 latched, quint3
 
 void KeyboardInterface::setRepeatInfo(qint32 charactersPerSecond, qint32 delay)
 {
-    d->keyRepeat.charactersPerSecond = qMax(charactersPerSecond, 0);
-    d->keyRepeat.delay = qMax(delay, 0);
-    const QList<KeyboardInterfacePrivate::Resource *> keyboards = d->resourceMap().values();
+    d->keyRepeat.charactersPerSecond = std::max(charactersPerSecond, 0);
+    d->keyRepeat.delay = std::max(delay, 0);
+    const auto keyboards = d->resourceMap();
     for (KeyboardInterfacePrivate::Resource *keyboardResource : keyboards) {
         if (keyboardResource->version() >= WL_KEYBOARD_REPEAT_INFO_SINCE_VERSION) {
             d->send_repeat_info(keyboardResource->handle, d->keyRepeat.charactersPerSecond, d->keyRepeat.delay);

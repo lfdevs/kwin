@@ -7,8 +7,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#ifndef KWIN_TABLET_INPUT_H
-#define KWIN_TABLET_INPUT_H
+#pragma once
 #include "input.h"
 
 #include <QHash>
@@ -44,12 +43,12 @@ public:
     void tabletToolEvent(KWin::InputRedirection::TabletEventType type, const QPointF &pos,
                          qreal pressure, int xTilt, int yTilt, qreal rotation, bool tipDown,
                          bool tipNear, const TabletToolId &tabletToolId,
-                         quint32 time);
-    void tabletToolButtonEvent(uint button, bool isPressed, const TabletToolId &tabletToolId, uint time);
+                         std::chrono::microseconds time);
+    void tabletToolButtonEvent(uint button, bool isPressed, const TabletToolId &tabletToolId, std::chrono::microseconds time);
 
-    void tabletPadButtonEvent(uint button, bool isPressed, const TabletPadId &tabletPadId, uint time);
-    void tabletPadStripEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId, uint time);
-    void tabletPadRingEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId, uint time);
+    void tabletPadButtonEvent(uint button, bool isPressed, const TabletPadId &tabletPadId, std::chrono::microseconds time);
+    void tabletPadStripEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId, std::chrono::microseconds time);
+    void tabletPadRingEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId, std::chrono::microseconds time);
 
     bool positionValid() const override
     {
@@ -76,5 +75,3 @@ private:
 };
 
 }
-
-#endif

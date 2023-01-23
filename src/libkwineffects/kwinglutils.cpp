@@ -86,9 +86,6 @@ static void initDebugOutput()
                        GLenum severity, GLsizei length,
                        const GLchar *message,
                        const GLvoid *userParam) {
-        Q_UNUSED(source)
-        Q_UNUSED(severity)
-        Q_UNUSED(userParam)
         while (length && std::isspace(message[length - 1])) {
             --length;
         }
@@ -303,7 +300,6 @@ bool GLShader::link()
 
 const QByteArray GLShader::prepareSource(GLenum shaderType, const QByteArray &source) const
 {
-    Q_UNUSED(shaderType)
     // Prepare the source code
     QByteArray ba;
     if (GLPlatform::instance()->isGLES() && GLPlatform::instance()->glslVersion() < kVersionNumber(3, 0)) {
@@ -624,20 +620,19 @@ QMatrix4x4 GLShader::getUniformMatrix4x4(const char *name)
 //****************************************
 // ShaderManager
 //****************************************
-ShaderManager *ShaderManager::s_shaderManager = nullptr;
+std::unique_ptr<ShaderManager> ShaderManager::s_shaderManager;
 
 ShaderManager *ShaderManager::instance()
 {
     if (!s_shaderManager) {
-        s_shaderManager = new ShaderManager();
+        s_shaderManager.reset(new ShaderManager());
     }
-    return s_shaderManager;
+    return s_shaderManager.get();
 }
 
 void ShaderManager::cleanup()
 {
-    delete s_shaderManager;
-    s_shaderManager = nullptr;
+    s_shaderManager.reset();
 }
 
 ShaderManager::ShaderManager()
@@ -1634,7 +1629,7 @@ public:
     GLenum usage;
     int stride;
     int vertexCount;
-    static GLVertexBuffer *streamingBuffer;
+    static std::unique_ptr<GLVertexBuffer> streamingBuffer;
     static bool haveBufferStorage;
     static bool haveSyncFences;
     static bool hasMapBufferRange;
@@ -1654,15 +1649,15 @@ public:
     FrameSizesArray<4> frameSizes;
     VertexAttrib attrib[VertexAttributeCount];
     Bitfield enabledArrays;
-    static IndexBuffer *s_indexBuffer;
+    static std::unique_ptr<IndexBuffer> s_indexBuffer;
 };
 
 bool GLVertexBufferPrivate::hasMapBufferRange = false;
 bool GLVertexBufferPrivate::supportsIndexedQuads = false;
-GLVertexBuffer *GLVertexBufferPrivate::streamingBuffer = nullptr;
+std::unique_ptr<GLVertexBuffer> GLVertexBufferPrivate::streamingBuffer;
 bool GLVertexBufferPrivate::haveBufferStorage = false;
 bool GLVertexBufferPrivate::haveSyncFences = false;
-IndexBuffer *GLVertexBufferPrivate::s_indexBuffer = nullptr;
+std::unique_ptr<IndexBuffer> GLVertexBufferPrivate::s_indexBuffer;
 
 void GLVertexBufferPrivate::interleaveArrays(float *dst, int dim,
                                              const float *vertices, const float *texcoords,
@@ -1746,8 +1741,8 @@ void GLVertexBufferPrivate::reallocatePersistentBuffer(size_t size)
     }
 
     // Round the size up to 64 kb
-    size_t minSize = qMax<size_t>(frameSizes.average() * 3, 128 * 1024);
-    bufferSize = qMax(size, minSize);
+    size_t minSize = std::max<size_t>(frameSizes.average() * 3, 128 * 1024);
+    bufferSize = std::max(size, minSize);
 
     const GLbitfield storage = GL_DYNAMIC_STORAGE_BIT;
     const GLbitfield access = GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT;
@@ -1809,11 +1804,11 @@ GLvoid *GLVertexBufferPrivate::getIdleRange(size_t size)
         }
 
         // Emit a fence now
-        BufferFence fence;
-        fence.sync = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
-        Q_ASSERT(fence.sync);
-        fence.nextEnd = bufferSize;
-        fences.emplace_back(fence);
+        if (auto sync = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0)) {
+            fences.push_back(BufferFence{
+                .sync = sync,
+                .nextEnd = intptr_t(bufferSize)});
+        }
     }
 
     if (unlikely(nextOffset + intptr_t(size) > bufferEnd)) {
@@ -1829,7 +1824,7 @@ void GLVertexBufferPrivate::reallocateBuffer(size_t size)
 {
     // Round the size up to 4 Kb for streaming/dynamic buffers.
     const size_t minSize = 32768; // Minimum size for streaming buffers
-    const size_t alloc = usage != GL_STATIC_DRAW ? qMax(size, minSize) : size;
+    const size_t alloc = usage != GL_STATIC_DRAW ? std::max(size, minSize) : size;
 
     glBufferData(GL_ARRAY_BUFFER, alloc, nullptr, usage);
 
@@ -1859,15 +1854,22 @@ GLvoid *GLVertexBufferPrivate::mapNextFreeRange(size_t size)
 // GLVertexBuffer
 //*********************************
 
+const GLVertexAttrib GLVertexBuffer::GLVertex2DLayout[2] = {
+    {VA_Position, 2, GL_FLOAT, offsetof(GLVertex2D, position)},
+    {VA_TexCoord, 2, GL_FLOAT, offsetof(GLVertex2D, texcoord)},
+};
+
+const GLVertexAttrib GLVertexBuffer::GLVertex3DLayout[2] = {
+    {VA_Position, 3, GL_FLOAT, offsetof(GLVertex3D, position)},
+    {VA_TexCoord, 2, GL_FLOAT, offsetof(GLVertex3D, texcoord)},
+};
+
 GLVertexBuffer::GLVertexBuffer(UsageHint hint)
-    : d(new GLVertexBufferPrivate(hint))
+    : d(std::make_unique<GLVertexBufferPrivate>(hint))
 {
 }
 
-GLVertexBuffer::~GLVertexBuffer()
-{
-    delete d;
-}
+GLVertexBuffer::~GLVertexBuffer() = default;
 
 void GLVertexBuffer::setData(const void *data, size_t size)
 {
@@ -2018,14 +2020,12 @@ void GLVertexBuffer::draw(GLenum primitiveMode, int first, int count)
 void GLVertexBuffer::draw(const QRegion &region, GLenum primitiveMode, int first, int count, bool hardwareClipping)
 {
     if (primitiveMode == GL_QUADS) {
-        IndexBuffer *&indexBuffer = GLVertexBufferPrivate::s_indexBuffer;
-
-        if (!indexBuffer) {
-            indexBuffer = new IndexBuffer;
+        if (!GLVertexBufferPrivate::s_indexBuffer) {
+            GLVertexBufferPrivate::s_indexBuffer = std::make_unique<IndexBuffer>();
         }
 
-        indexBuffer->bind();
-        indexBuffer->accommodate(count / 4);
+        GLVertexBufferPrivate::s_indexBuffer->bind();
+        GLVertexBufferPrivate::s_indexBuffer->accommodate(count / 4);
 
         count = count * 6 / 4;
 
@@ -2104,12 +2104,11 @@ void GLVertexBuffer::endOfFrame()
             d->nextOffset = 0;
             d->map = nullptr;
         } else {
-            BufferFence fence;
-            fence.sync = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
-            Q_ASSERT(fence.sync);
-            fence.nextEnd = d->nextOffset + d->bufferSize;
-
-            d->fences.emplace_back(fence);
+            if (auto sync = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0)) {
+                d->fences.push_back(BufferFence{
+                    .sync = sync,
+                    .nextEnd = intptr_t(d->nextOffset + d->bufferSize)});
+            }
         }
     }
 }
@@ -2151,8 +2150,8 @@ void GLVertexBuffer::initStatic()
         GLVertexBufferPrivate::haveBufferStorage = hasGLVersion(4, 4) || hasGLExtension("GL_ARB_buffer_storage");
         GLVertexBufferPrivate::haveSyncFences = hasGLVersion(3, 2) || hasGLExtension("GL_ARB_sync");
     }
-    GLVertexBufferPrivate::s_indexBuffer = nullptr;
-    GLVertexBufferPrivate::streamingBuffer = new GLVertexBuffer(GLVertexBuffer::Stream);
+    GLVertexBufferPrivate::s_indexBuffer.reset();
+    GLVertexBufferPrivate::streamingBuffer = std::make_unique<GLVertexBuffer>(GLVertexBuffer::Stream);
 
     if (GLVertexBufferPrivate::haveBufferStorage && GLVertexBufferPrivate::haveSyncFences) {
         if (qgetenv("KWIN_PERSISTENT_VBO") != QByteArrayLiteral("0")) {
@@ -2163,17 +2162,15 @@ void GLVertexBuffer::initStatic()
 
 void GLVertexBuffer::cleanup()
 {
-    delete GLVertexBufferPrivate::s_indexBuffer;
-    GLVertexBufferPrivate::s_indexBuffer = nullptr;
+    GLVertexBufferPrivate::s_indexBuffer.reset();
     GLVertexBufferPrivate::hasMapBufferRange = false;
     GLVertexBufferPrivate::supportsIndexedQuads = false;
-    delete GLVertexBufferPrivate::streamingBuffer;
-    GLVertexBufferPrivate::streamingBuffer = nullptr;
+    GLVertexBufferPrivate::streamingBuffer.reset();
 }
 
 GLVertexBuffer *GLVertexBuffer::streamingBuffer()
 {
-    return GLVertexBufferPrivate::streamingBuffer;
+    return GLVertexBufferPrivate::streamingBuffer.get();
 }
 
 } // namespace

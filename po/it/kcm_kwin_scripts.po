@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm-kwin-scripts\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-20 02:18+0000\n"
+"POT-Creation-Date: 2022-09-20 00:47+0000\n"
 "PO-Revision-Date: 2022-09-21 10:37+0200\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -74,3 +74,25 @@ msgstr "Installa da file..."
 #, kde-format
 msgid "Get New Scripts..."
 msgstr "Ottieni nuovi script..."
+
+#~ msgid "KWin Scripts"
+#~ msgstr "Script kwin"
+
+#~ msgid "Configure KWin scripts"
+#~ msgstr "Configura script kwin"
+
+#~ msgid "Tamás Krutki"
+#~ msgstr "Tamás Krutki"
+
+#~ msgid "KWin script configuration"
+#~ msgstr "Configurazione script kwin"
+
+#~ msgid "Import KWin script..."
+#~ msgstr "Importa script kwin..."
+
+#~ msgid ""
+#~ "Cannot import selected script: maybe a script already exists with the "
+#~ "same name or there is a permission problem."
+#~ msgstr ""
+#~ "Impossibile importare lo script selezionato: forse esiste già uno script "
+#~ "con lo stesso nome oppure c'è un problema di permessi."

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-26 02:35+0000\n"
+"POT-Creation-Date: 2022-10-26 00:47+0000\n"
 "PO-Revision-Date: 2009-01-13 17:22+0530\n"
 "Last-Translator: Runa Bhattacharjee <runab@redhat.com>\n"
 "Language-Team: Bengali INDIA <fedora-trans-bn_IN@redhat.com>\n"
@@ -290,3 +290,109 @@ msgstr "অতি বৃহৎ"
 #| msgid "Oversized"
 msgid "Oversized"
 msgstr "অত্যাধিক বৃহৎ"
+
+#~ msgid "Menu"
+#~ msgstr "মেনু"
+
+#, fuzzy
+#~| msgid "Keep Below Others"
+#~ msgid "Keep below"
+#~ msgstr "অন্যান্যগুলির নীচে স্থাপন করা হবে"
+
+#, fuzzy
+#~| msgid "Keep Above Others"
+#~ msgid "Keep above"
+#~ msgstr "অন্যান্যগুলির উপরে স্থাপন করা হবে"
+
+#, fuzzy
+#~| msgid "B&order size:"
+#~ msgid "Border si&ze:"
+#~ msgstr "প্রান্তরেখার মাপ: (&o)"
+
+#, fuzzy
+#~| msgid "Normal"
+#~ msgid "Form"
+#~ msgstr "স্বাভাবিক"
+
+#, fuzzy
+#~| msgid "Buttons"
+#~ msgid "Button size:"
+#~ msgstr "বাটন"
+
+#, fuzzy
+#~| msgid "Tiny"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Tiny"
+#~ msgstr "ক্ষুদ্র"
+
+#, fuzzy
+#~| msgid "Normal"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Normal"
+#~ msgstr "স্বাভাবিক"
+
+#, fuzzy
+#~| msgid "Large"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Large"
+#~ msgstr "বড়"
+
+#, fuzzy
+#~| msgid "Very Large"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Very Large"
+#~ msgstr "অত্যাধিক বড়"
+
+#, fuzzy
+#~| msgid "Huge"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Huge"
+#~ msgstr "বৃহৎ"
+
+#, fuzzy
+#~| msgid "Very Huge"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Very Huge"
+#~ msgstr "অতি বৃহৎ"
+
+#, fuzzy
+#~| msgid "Oversized"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Oversized"
+#~ msgstr "অত্যাধিক বৃহৎ"
+
+#~ msgid "KDE"
+#~ msgstr "KDE"
+
+#~ msgid "%1 (unavailable)"
+#~ msgstr "%1 (উপলব্ধ নয়)"
+
+#~ msgid "Resize"
+#~ msgstr "মাপ পরিবর্তন"
+
+#~ msgid "Help"
+#~ msgstr "সাহায্য"
+
+#~ msgid "--- spacer ---"
+#~ msgstr "--- spacer ---"
+
+#~ msgid "B&order size:"
+#~ msgstr "প্রান্তরেখার মাপ: (&o)"
+
+#~ msgid "(c) 2001 Karol Szwed"
+#~ msgstr "(c) ২০০১ ক্যারল সজওয়েড"
+
+#~ msgid "Karol Szwed"
+#~ msgstr "ক্যারল সজওয়েড"
+
+#~ msgid "Active Window"
+#~ msgstr "সক্রিয়ক উইন্ডো"
+
+#~ msgid "Inactive Window"
+#~ msgstr "নিষ্ক্রিয় উইন্ডো"
+
+#~ msgid "&Buttons"
+#~ msgstr "বাটন (&B)"
+
+#~ msgid "Ozone"
+#~ msgstr "Ozone"

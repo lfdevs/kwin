@@ -11,7 +11,7 @@
 #include <core/output.h>
 #include <kwingltexture.h>
 #include <kwinglutils.h>
-#include <scene.h>
+#include <scene/workspacescene.h>
 #include <workspace.h>
 
 #include <QPainter>
@@ -50,19 +50,16 @@ void RegionScreenCastSource::updateOutput(Output *output)
         }
 
         GLFramebuffer::pushFramebuffer(m_target.get());
-        const QRect geometry({0, 0}, m_target->size());
 
         ShaderBinder shaderBinder(ShaderTrait::MapTexture);
         QMatrix4x4 projectionMatrix;
         projectionMatrix.ortho(m_region);
-
-        const QPoint pos = outputGeometry.topLeft();
-        projectionMatrix.translate(pos.x(), pos.y());
+        projectionMatrix.translate(outputGeometry.left() / m_scale, (m_region.bottom() - outputGeometry.bottom()) / m_scale);
 
         shaderBinder.shader()->setUniform(GLShader::ModelViewProjectionMatrix, projectionMatrix);
 
         outputTexture->bind();
-        outputTexture->render(output->geometry());
+        outputTexture->render(output->geometry(), 1 / m_scale);
         outputTexture->unbind();
         GLFramebuffer::popFramebuffer();
     }
@@ -95,7 +92,7 @@ void RegionScreenCastSource::render(GLFramebuffer *target)
     shader->setUniform(GLShader::ModelViewProjectionMatrix, projectionMatrix);
 
     m_renderedTexture->bind();
-    m_renderedTexture->render(r);
+    m_renderedTexture->render(r, m_scale);
     m_renderedTexture->unbind();
 
     ShaderManager::instance()->popShader();

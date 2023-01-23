@@ -9,7 +9,7 @@
 #include "kwin_wayland_test.h"
 
 #include "core/output.h"
-#include "core/platform.h"
+#include "core/outputbackend.h"
 #include "cursor.h"
 #include "deleted.h"
 #include "effects.h"
@@ -27,8 +27,6 @@
 #include <KWindowSystem>
 
 #include <linux/input.h>
-
-using namespace KWayland::Client;
 
 Q_DECLARE_METATYPE(NET::WindowType);
 
@@ -120,7 +118,6 @@ HelperWindow::~HelperWindow() = default;
 
 void HelperWindow::paintEvent(QPaintEvent *event)
 {
-    Q_UNUSED(event)
     QPainter p(this);
     p.fillRect(0, 0, width(), height(), Qt::red);
 }
@@ -158,19 +155,16 @@ void HelperWindow::mouseReleaseEvent(QMouseEvent *event)
 
 void HelperWindow::wheelEvent(QWheelEvent *event)
 {
-    Q_UNUSED(event)
     Q_EMIT wheel();
 }
 
 void HelperWindow::keyPressEvent(QKeyEvent *event)
 {
-    Q_UNUSED(event)
     Q_EMIT keyPressed();
 }
 
 void HelperWindow::keyReleaseEvent(QKeyEvent *event)
 {
-    Q_UNUSED(event)
     Q_EMIT keyReleased();
 }
 
@@ -180,9 +174,8 @@ void InternalWindowTest::initTestCase()
     qRegisterMetaType<KWin::Deleted *>();
     qRegisterMetaType<KWin::InternalWindow *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
+    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
     kwinApp()->setConfig(KSharedConfig::openConfig(QString(), KConfig::SimpleConfig));
 
     kwinApp()->start();
@@ -356,11 +349,11 @@ void InternalWindowTest::testKeyboardTriggersLeave()
 {
     // this test verifies that a leave event is sent to a window when an internal window
     // gets a key event
-    std::unique_ptr<Keyboard> keyboard(Test::waylandSeat()->createKeyboard());
+    std::unique_ptr<KWayland::Client::Keyboard> keyboard(Test::waylandSeat()->createKeyboard());
     QVERIFY(keyboard != nullptr);
     QVERIFY(keyboard->isValid());
-    QSignalSpy enteredSpy(keyboard.get(), &Keyboard::entered);
-    QSignalSpy leftSpy(keyboard.get(), &Keyboard::left);
+    QSignalSpy enteredSpy(keyboard.get(), &KWayland::Client::Keyboard::entered);
+    QSignalSpy leftSpy(keyboard.get(), &KWayland::Client::Keyboard::left);
     std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
     std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get()));
 
@@ -643,10 +636,9 @@ void InternalWindowTest::testPopup()
 
 void InternalWindowTest::testScale()
 {
-    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection,
-                              Q_ARG(int, 2),
+    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection,
                               Q_ARG(QVector<QRect>, QVector<QRect>({QRect(0, 0, 1280, 1024), QRect(1280 / 2, 0, 1280, 1024)})),
-                              Q_ARG(QVector<int>, QVector<int>({2, 2})));
+                              Q_ARG(QVector<qreal>, QVector<qreal>({2, 2})));
 
     QSignalSpy windowAddedSpy(workspace(), &Workspace::internalWindowAdded);
     HelperWindow win;

@@ -15,20 +15,21 @@
 #include "x11_standalone_glx_backend.h"
 #include "../common/kwinxrenderutils.h"
 #include "softwarevsyncmonitor.h"
+#include "x11_standalone_backend.h"
 #include "x11_standalone_glx_context_attribute_builder.h"
 #include "x11_standalone_glxconvenience.h"
 #include "x11_standalone_logging.h"
 #include "x11_standalone_omlsynccontrolvsyncmonitor.h"
-#include "x11_standalone_platform.h"
+#include "x11_standalone_overlaywindow.h"
 #include "x11_standalone_sgivideosyncvsyncmonitor.h"
 // kwin
 #include "composite.h"
+#include "core/outputbackend.h"
 #include "core/overlaywindow.h"
-#include "core/platform.h"
 #include "core/renderloop_p.h"
 #include "options.h"
-#include "scene.h"
-#include "surfaceitem_x11.h"
+#include "scene/surfaceitem_x11.h"
+#include "scene/workspacescene.h"
 #include "utils/xcbutils.h"
 #include "workspace.h"
 // kwin libs
@@ -97,7 +98,7 @@ bool SwapEventFilter::event(xcb_generic_event_t *event)
     // it's CLOCK_MONOTONIC, so no special conversions are needed.
     const std::chrono::microseconds timestamp((uint64_t(swapEvent->ust_hi) << 32) | swapEvent->ust_lo);
 
-    const auto platform = static_cast<X11StandalonePlatform *>(kwinApp()->platform());
+    const auto platform = static_cast<X11StandaloneBackend *>(kwinApp()->outputBackend());
     RenderLoopPrivate::get(platform->renderLoop())->notifyFrameCompleted(timestamp);
 
     return true;
@@ -119,9 +120,9 @@ bool GlxLayer::endFrame(const QRegion &renderedRegion, const QRegion &damagedReg
     return true;
 }
 
-GlxBackend::GlxBackend(Display *display, X11StandalonePlatform *backend)
+GlxBackend::GlxBackend(Display *display, X11StandaloneBackend *backend)
     : OpenGLBackend()
-    , m_overlayWindow(kwinApp()->platform()->createOverlayWindow())
+    , m_overlayWindow(std::make_unique<OverlayWindowX11>())
     , window(None)
     , fbconfig(nullptr)
     , glxWindow(None)
@@ -782,7 +783,6 @@ OutputLayerBeginFrameInfo GlxBackend::beginFrame()
     QRegion repaint;
     makeCurrent();
 
-    GLFramebuffer::pushFramebuffer(m_fbo.get());
     if (supportsBufferAge()) {
         repaint = m_damageJournal.accumulate(m_bufferAge, infiniteRegion());
     }
@@ -806,8 +806,6 @@ void GlxBackend::endFrame(const QRegion &renderedRegion, const QRegion &damagedR
 
 void GlxBackend::present(Output *output)
 {
-    Q_UNUSED(output)
-
     // If the GLX_INTEL_swap_event extension is not used for getting presentation feedback,
     // assume that the frame will be presented at the next vblank event, this is racy.
     if (m_vsyncMonitor) {
@@ -823,8 +821,6 @@ void GlxBackend::present(Output *output)
         glReadBuffer(GL_BACK);
         effectiveRenderedRegion = displayRect;
     }
-
-    GLFramebuffer::popFramebuffer();
 
     present(effectiveRenderedRegion);
 
@@ -861,7 +857,6 @@ OverlayWindow *GlxBackend::overlayWindow() const
 
 OutputLayer *GlxBackend::primaryLayer(Output *output)
 {
-    Q_UNUSED(output)
     return m_layer.get();
 }
 
@@ -883,7 +878,6 @@ bool GlxSurfaceTextureX11::create()
 
 void GlxSurfaceTextureX11::update(const QRegion &region)
 {
-    Q_UNUSED(region)
     // mipmaps need to be updated
     m_texture->setDirty();
 }

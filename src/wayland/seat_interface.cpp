@@ -25,6 +25,7 @@
 #include "relativepointer_v1_interface_p.h"
 #include "seat_interface_p.h"
 #include "surface_interface.h"
+#include "textinput_v1_interface_p.h"
 #include "textinput_v2_interface_p.h"
 #include "textinput_v3_interface_p.h"
 #include "touch_interface_p.h"
@@ -37,7 +38,7 @@
 
 namespace KWaylandServer
 {
-static const int s_version = 7;
+static const int s_version = 8;
 
 SeatInterfacePrivate *SeatInterfacePrivate::get(SeatInterface *seat)
 {
@@ -49,6 +50,7 @@ SeatInterfacePrivate::SeatInterfacePrivate(SeatInterface *q, Display *display)
     , q(q)
     , display(display)
 {
+    textInputV1 = new TextInputV1Interface(q);
     textInputV2 = new TextInputV2Interface(q);
     textInputV3 = new TextInputV3Interface(q);
 }
@@ -165,9 +167,6 @@ void SeatInterfacePrivate::registerDataDevice(DataDeviceInterface *dataDevice)
     QObject::connect(dataDevice, &DataDeviceInterface::selectionChanged, q, [this, dataDevice] {
         updateSelection(dataDevice);
     });
-    QObject::connect(dataDevice, &DataDeviceInterface::selectionCleared, q, [this, dataDevice] {
-        updateSelection(dataDevice);
-    });
     QObject::connect(dataDevice,
                      &DataDeviceInterface::dragStarted,
                      q,
@@ -223,11 +222,6 @@ void SeatInterfacePrivate::registerDataControlDevice(DataControlDeviceV1Interfac
         q->setSelection(dataDevice->selection());
     });
 
-    QObject::connect(dataDevice, &DataControlDeviceV1Interface::selectionCleared, q, [this, dataDevice] {
-        Q_UNUSED(dataDevice);
-        q->setSelection(nullptr);
-    });
-
     QObject::connect(dataDevice, &DataControlDeviceV1Interface::primarySelectionChanged, q, [this, dataDevice] {
         // Special klipper workaround to avoid a race
         // If the mimetype x-kde-onlyReplaceEmpty is set, and we've had another update in the meantime, do nothing
@@ -259,9 +253,6 @@ void SeatInterfacePrivate::registerPrimarySelectionDevice(PrimarySelectionDevice
     };
     QObject::connect(primarySelectionDevice, &QObject::destroyed, q, dataDeviceCleanup);
     QObject::connect(primarySelectionDevice, &PrimarySelectionDeviceV1Interface::selectionChanged, q, [this, primarySelectionDevice] {
-        updatePrimarySelection(primarySelectionDevice);
-    });
-    QObject::connect(primarySelectionDevice, &PrimarySelectionDeviceV1Interface::selectionCleared, q, [this, primarySelectionDevice] {
         updatePrimarySelection(primarySelectionDevice);
     });
     // is the new DataDevice for the current keyoard focus?
@@ -487,18 +478,19 @@ void SeatInterface::notifyPointerMotion(const QPointF &pos)
     d->pointer->sendMotion(localPosition);
 }
 
-quint32 SeatInterface::timestamp() const
+std::chrono::milliseconds SeatInterface::timestamp() const
 {
     return d->timestamp;
 }
 
-void SeatInterface::setTimestamp(quint32 time)
+void SeatInterface::setTimestamp(std::chrono::microseconds time)
 {
-    if (d->timestamp == time) {
+    const auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(time);
+    if (d->timestamp == milliseconds) {
         return;
     }
-    d->timestamp = time;
-    Q_EMIT timestampChanged(time);
+    d->timestamp = milliseconds;
+    Q_EMIT timestampChanged();
 }
 
 void SeatInterface::setDragTarget(AbstractDropHandler *dropTarget,
@@ -690,7 +682,7 @@ bool SeatInterface::isPointerButtonPressed(quint32 button) const
     return it.value() == SeatInterfacePrivate::Pointer::State::Pressed;
 }
 
-void SeatInterface::notifyPointerAxis(Qt::Orientation orientation, qreal delta, qint32 discreteDelta, PointerAxisSource source)
+void SeatInterface::notifyPointerAxis(Qt::Orientation orientation, qreal delta, qint32 deltaV120, PointerAxisSource source)
 {
     if (!d->pointer) {
         return;
@@ -699,7 +691,7 @@ void SeatInterface::notifyPointerAxis(Qt::Orientation orientation, qreal delta, 
         // ignore
         return;
     }
-    d->pointer->sendAxis(orientation, delta, discreteDelta, source);
+    d->pointer->sendAxis(orientation, delta, deltaV120, source);
 }
 
 void SeatInterface::notifyPointerButton(Qt::MouseButton button, PointerButtonState state)
@@ -764,7 +756,7 @@ quint32 SeatInterface::pointerButtonSerial(quint32 button) const
     return it.value();
 }
 
-void SeatInterface::relativePointerMotion(const QPointF &delta, const QPointF &deltaNonAccelerated, quint64 microseconds)
+void SeatInterface::relativePointerMotion(const QPointF &delta, const QPointF &deltaNonAccelerated, std::chrono::microseconds time)
 {
     if (!d->pointer) {
         return;
@@ -772,7 +764,7 @@ void SeatInterface::relativePointerMotion(const QPointF &delta, const QPointF &d
 
     auto relativePointer = RelativePointerV1Interface::get(pointer());
     if (relativePointer) {
-        relativePointer->sendRelativeMotion(delta, deltaNonAccelerated, microseconds);
+        relativePointer->sendRelativeMotion(delta, deltaNonAccelerated, time);
     }
 }
 
@@ -919,6 +911,7 @@ void SeatInterface::setFocusedKeyboardSurface(SurfaceInterface *surface)
         return;
     }
 
+    Q_EMIT focusedKeyboardSurfaceAboutToChange(surface);
     const quint32 serial = d->display->nextSerial();
 
     if (d->globalKeyboard.focus.surface) {
@@ -938,11 +931,7 @@ void SeatInterface::setFocusedKeyboardSurface(SurfaceInterface *surface)
         const QVector<DataDeviceInterface *> dataDevices = d->dataDevicesForSurface(surface);
         d->globalKeyboard.focus.selections = dataDevices;
         for (auto dataDevice : dataDevices) {
-            if (d->currentSelection) {
-                dataDevice->sendSelection(d->currentSelection);
-            } else {
-                dataDevice->sendClearSelection();
-            }
+            dataDevice->sendSelection(d->currentSelection);
         }
         // primary selection
         QVector<PrimarySelectionDeviceV1Interface *> primarySelectionDevices;
@@ -954,11 +943,7 @@ void SeatInterface::setFocusedKeyboardSurface(SurfaceInterface *surface)
 
         d->globalKeyboard.focus.primarySelections = primarySelectionDevices;
         for (auto primaryDataDevice : primarySelectionDevices) {
-            if (d->currentPrimarySelection) {
-                primaryDataDevice->sendSelection(d->currentPrimarySelection);
-            } else {
-                primaryDataDevice->sendClearSelection();
-            }
+            primaryDataDevice->sendSelection(d->currentPrimarySelection);
         }
     }
 
@@ -1238,6 +1223,7 @@ void SeatInterface::setFocusedTextInputSurface(SurfaceInterface *surface)
 
     if (d->focusedTextInputSurface) {
         disconnect(d->focusedSurfaceDestroyConnection);
+        d->textInputV1->d->sendLeave(d->focusedTextInputSurface);
         d->textInputV2->d->sendLeave(serial, d->focusedTextInputSurface);
         d->textInputV3->d->sendLeave(d->focusedTextInputSurface);
     }
@@ -1247,6 +1233,7 @@ void SeatInterface::setFocusedTextInputSurface(SurfaceInterface *surface)
         d->focusedSurfaceDestroyConnection = connect(surface, &SurfaceInterface::aboutToBeDestroyed, this, [this] {
             setFocusedTextInputSurface(nullptr);
         });
+        d->textInputV1->d->sendEnter(surface);
         d->textInputV2->d->sendEnter(surface, serial);
         d->textInputV3->d->sendEnter(surface);
     }
@@ -1257,6 +1244,11 @@ void SeatInterface::setFocusedTextInputSurface(SurfaceInterface *surface)
 SurfaceInterface *SeatInterface::focusedTextInputSurface() const
 {
     return d->focusedTextInputSurface;
+}
+
+TextInputV1Interface *SeatInterface::textInputV1() const
+{
+    return d->textInputV1;
 }
 
 TextInputV2Interface *SeatInterface::textInputV2() const
@@ -1293,20 +1285,12 @@ void SeatInterface::setSelection(AbstractDataSource *selection)
 
     d->currentSelection = selection;
 
-    for (auto focussedSelection : qAsConst(d->globalKeyboard.focus.selections)) {
-        if (selection) {
-            focussedSelection->sendSelection(selection);
-        } else {
-            focussedSelection->sendClearSelection();
-        }
+    for (auto focussedSelection : std::as_const(d->globalKeyboard.focus.selections)) {
+        focussedSelection->sendSelection(selection);
     }
 
-    for (auto control : qAsConst(d->dataControlDevices)) {
-        if (selection) {
-            control->sendSelection(selection);
-        } else {
-            control->sendClearSelection();
-        }
+    for (auto control : std::as_const(d->dataControlDevices)) {
+        control->sendSelection(selection);
     }
 
     Q_EMIT selectionChanged(selection);
@@ -1336,19 +1320,11 @@ void SeatInterface::setPrimarySelection(AbstractDataSource *selection)
 
     d->currentPrimarySelection = selection;
 
-    for (auto focussedSelection : qAsConst(d->globalKeyboard.focus.primarySelections)) {
-        if (selection) {
-            focussedSelection->sendSelection(selection);
-        } else {
-            focussedSelection->sendClearSelection();
-        }
+    for (auto focussedSelection : std::as_const(d->globalKeyboard.focus.primarySelections)) {
+        focussedSelection->sendSelection(selection);
     }
-    for (auto control : qAsConst(d->dataControlDevices)) {
-        if (selection) {
-            control->sendPrimarySelection(selection);
-        } else {
-            control->sendClearPrimarySelection();
-        }
+    for (auto control : std::as_const(d->dataControlDevices)) {
+        control->sendPrimarySelection(selection);
     }
 
     Q_EMIT primarySelectionChanged(selection);

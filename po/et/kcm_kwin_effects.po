@@ -91,3 +91,6 @@ msgstr "Sisemiste efektide välistamine"
 #, kde-format
 msgid "Get New Desktop Effects..."
 msgstr "Hangi uusi töölauaefekte ..."
+
+#~ msgid "Download New Desktop Effects"
+#~ msgstr "Uute töölauaefektide allalaadimine"

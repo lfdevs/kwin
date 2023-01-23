@@ -244,7 +244,7 @@ QObject *TabBoxHandlerPrivate::createSwitcherItem(bool desktopMode)
             .arg(config.layoutName(),
                  desktopMode ? QStringLiteral("desktopswitcher/DesktopSwitcher.qml") : QStringLiteral("windowswitcher/WindowSwitcher.qml")));
     if (file.isNull()) {
-        const QString folderName = QLatin1String(KWIN_NAME) + (desktopMode ? QLatin1String("/desktoptabbox/") : QLatin1String("/tabbox/"));
+        const QString folderName = desktopMode ? QLatin1String("kwin/desktoptabbox/") : QLatin1String("kwin/tabbox/");
         auto findSwitcher = [this, desktopMode, folderName] {
             const QString type = desktopMode ? QStringLiteral("KWin/DesktopSwitcher") : QStringLiteral("KWin/WindowSwitcher");
             auto offers = KPackage::PackageLoader::self()->findPackages(type, folderName,
@@ -396,9 +396,6 @@ void TabBoxHandler::show()
         d->show();
     }
     if (d->isHighlightWindows()) {
-        if (kwinApp()->x11Connection()) {
-            Xcb::sync();
-        }
         // TODO this should be
         // QMetaObject::invokeMethod(this, "initHighlightWindows", Qt::QueuedConnection);
         // but we somehow need to cross > 1 event cycle (likely because of queued invocation in the effects)
@@ -644,7 +641,7 @@ bool TabBoxHandler::eventFilter(QObject *watched, QEvent *e)
     if (e->type() == QEvent::Wheel && watched == d->window()) {
         QWheelEvent *event = static_cast<QWheelEvent *>(e);
         // On x11 the delta for vertical scrolling might also be on X for whatever reason
-        const int delta = qAbs(event->angleDelta().x()) > qAbs(event->angleDelta().y()) ? event->angleDelta().x() : event->angleDelta().y();
+        const int delta = std::abs(event->angleDelta().x()) > std::abs(event->angleDelta().y()) ? event->angleDelta().x() : event->angleDelta().y();
         d->wheelAngleDelta += delta;
         while (d->wheelAngleDelta <= -120) {
             d->wheelAngleDelta += 120;

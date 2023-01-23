@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwintabbox\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-15 00:48+0000\n"
+"POT-Creation-Date: 2023-01-13 00:58+0000\n"
 "PO-Revision-Date: 2010-06-17 13:22+0530\n"
 "Last-Translator: Sweta Kothari <swkothar@redhat.com>\n"
 "Language-Team: Gujarati\n"
@@ -18,7 +18,7 @@ msgstr ""
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
-#: kwintabboxconfigform.cpp:77
+#: kwintabboxconfigform.cpp:80
 #, kde-format
 msgid "KWin"
 msgstr ""
@@ -241,3 +241,102 @@ msgstr ""
 #| msgid "Highlight selected window"
 msgid "Show selected window"
 msgstr "પસંદ થયેલ વિન્ડોને પ્રકાશિત કરો"
+
+#, fuzzy
+#~| msgid "Highlight selected window"
+#~ msgid "Outline selected window"
+#~ msgstr "પસંદ થયેલ વિન્ડોને પ્રકાશિત કરો"
+
+#~ msgid "Configure Layout"
+#~ msgstr "લેઆઉટને રૂપરેખાંકિત કરો"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "શ્ર્વેતા કોઠારી"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "swkothar@redhat.com"
+
+#, fuzzy
+#~| msgid "All Desktops Grouped by Applications"
+#~ msgid "All windows from all applications"
+#~ msgstr "કાર્યક્મો દ્દારા જૂથ થયેલ બધા ડેસ્કટોપ"
+
+#~ msgid "Effect:"
+#~ msgstr "અસર:"
+
+#, fuzzy
+#~| msgid "Informative"
+#~ msgctxt "Name for a window switcher layout showing icon, name and desktop"
+#~ msgid "Informative"
+#~ msgstr "માહિતીપૂર્ણ"
+
+#, fuzzy
+#~| msgid "Compact"
+#~ msgctxt "Name for a window switcher layout showing only icon and name"
+#~ msgid "Compact"
+#~ msgstr "સાંકડુ"
+
+#, fuzzy
+#~| msgid "Text Only"
+#~ msgctxt "Name for a window switcher layout showing only the name"
+#~ msgid "Text"
+#~ msgstr "ફક્ત લખાણ"
+
+#, fuzzy
+#~| msgid "Large Icons"
+#~ msgctxt "Name for a window switcher layout showing large icons"
+#~ msgid "Large Icons"
+#~ msgstr "મોટા ચિહ્નો"
+
+#, fuzzy
+#~| msgid "Small Icons"
+#~ msgctxt "Name for a window switcher layout showing small icons"
+#~ msgid "Small Icons"
+#~ msgstr "નાના ચિહ્નો"
+
+#~ msgid "No Effect"
+#~ msgstr "અસર નથી"
+
+#~ msgid "Configure Layout..."
+#~ msgstr "લેઆઉટ ને રૂપરેખાંકિત કરો..."
+
+#~ msgid "Layout:"
+#~ msgstr "લેઆઉટ:"
+
+#~ msgid "Vertical"
+#~ msgstr "ઊભુ"
+
+#~ msgid "Horizontal"
+#~ msgstr "આડુ"
+
+#~ msgid "Width:"
+#~ msgstr "પહોળાઇ:"
+
+#~ msgid " %"
+#~ msgstr " %"
+
+#~ msgid "Height:"
+#~ msgstr "ઊંચાઇ:"
+
+#~ msgid "Show Selected Item"
+#~ msgstr "પસંદ થયેલ વસ્તુને બતાવો"
+
+#~ msgid "Top"
+#~ msgstr "ટોચ"
+
+#~ msgid "Bottom"
+#~ msgstr "તળિયુ"
+
+#~ msgid "Left"
+#~ msgstr "ડાબુ"
+
+#~ msgid "Right"
+#~ msgstr "જમણુ"
+
+#~ msgid "Selected item layout:"
+#~ msgstr "પસંદ થયેલ વસ્તુ લેઆઉટ:"
+
+#~ msgid "General"
+#~ msgstr "સામાન્ય"

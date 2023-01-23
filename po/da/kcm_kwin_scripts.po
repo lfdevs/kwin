@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-20 02:18+0000\n"
+"POT-Creation-Date: 2022-09-20 00:47+0000\n"
 "PO-Revision-Date: 2019-05-07 13:11+0100\n"
 "Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
@@ -73,3 +73,25 @@ msgstr "Installér fra fil..."
 #, kde-format
 msgid "Get New Scripts..."
 msgstr "Hent nyt scripts..."
+
+#~ msgid "KWin Scripts"
+#~ msgstr "KWin-scripts"
+
+#~ msgid "Configure KWin scripts"
+#~ msgstr "Indstil KWin-scripts"
+
+#~ msgid "Tamás Krutki"
+#~ msgstr "Tamás Krutki"
+
+#~ msgid "KWin script configuration"
+#~ msgstr "Konfiguration af KWin-script"
+
+#~ msgid "Import KWin script..."
+#~ msgstr "Importér KWin-script..."
+
+#~ msgid ""
+#~ "Cannot import selected script: maybe a script already exists with the "
+#~ "same name or there is a permission problem."
+#~ msgstr ""
+#~ "Kan ikke importere det valgte script: Måske findes der allerede et script "
+#~ "med samme navn eller der er et rettighedsproblem."

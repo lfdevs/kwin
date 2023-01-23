@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-01 02:26+0000\n"
+"POT-Creation-Date: 2023-01-18 00:58+0000\n"
 "PO-Revision-Date: 2016-08-23 23:15+0300\n"
 "Last-Translator: Ingmārs Dīriņš <melhiors14@gmail.com>\n"
 "Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
@@ -62,6 +62,7 @@ msgstr ""
 #: mousemark/mousemark_config.cpp:50 overview/kcm/overvieweffectkcm.cpp:35
 #: showpaint/showpaint_config.cpp:33
 #: thumbnailaside/thumbnailaside_config.cpp:54
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:31
 #: trackmouse/trackmouse_config.cpp:52
 #: windowview/kcm/windowvieweffectkcm.cpp:36 zoom/zoom_config.cpp:58
 #, kde-format
@@ -200,15 +201,21 @@ msgstr ""
 msgid "Natural"
 msgstr "Dabīgs"
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
+#: desktopgrid/desktopgrid_config.ui:147
+#, kde-format
+msgid "None"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: desktopgrid/desktopgrid_config.ui:150
+#: desktopgrid/desktopgrid_config.ui:155
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "Windows layout:"
 msgstr "Logi"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: desktopgrid/desktopgrid_config.ui:166
+#: desktopgrid/desktopgrid_config.ui:171
 #, kde-format
 msgid "Activation"
 msgstr "Aktivizācija"
@@ -327,10 +334,16 @@ msgstr "Peles klikšķa animācija"
 msgid "Toggle Invert Effect"
 msgstr "Pārslēgt invertēšanas efektu"
 
-#: invert/invert.cpp:50 invert/invert_config.cpp:44
+#: invert/invert.cpp:49 invert/invert_config.cpp:44
 #, kde-format
 msgid "Toggle Invert Effect on Window"
 msgstr "Pārslēgt loga invertēšanas efektu"
+
+#: invert/invert.cpp:56
+#, fuzzy, kde-format
+#| msgid "Invert cursor keys"
+msgid "Invert Screen Colors"
+msgstr "Invertēt kursora taustiņus"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FadeToBlack)
 #: login/package/contents/ui/config.ui:17
@@ -387,30 +400,30 @@ msgstr "&Augstums:"
 msgid "Toggle Mouse Click Effect"
 msgstr "Pārslēgt peles klikšķa efektu"
 
-#: mouseclick/mouseclick.cpp:42
+#: mouseclick/mouseclick.cpp:41
 #, kde-format
 msgctxt "Left mouse button"
 msgid "Left"
 msgstr "Kreisā"
 
-#: mouseclick/mouseclick.cpp:43
+#: mouseclick/mouseclick.cpp:42
 #, kde-format
 msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr "Vidus"
 
-#: mouseclick/mouseclick.cpp:44
+#: mouseclick/mouseclick.cpp:43
 #, kde-format
 msgctxt "Right mouse button"
 msgid "Right"
 msgstr "Labā"
 
-#: mouseclick/mouseclick.h:61
+#: mouseclick/mouseclick.h:60
 #, kde-format
 msgid "↓"
 msgstr ""
 
-#: mouseclick/mouseclick.h:62
+#: mouseclick/mouseclick.h:61
 #, kde-format
 msgid "↑"
 msgstr ""
@@ -508,12 +521,12 @@ msgstr "Fonts:"
 msgid "Show Text:"
 msgstr "Parādīt tekstu:"
 
-#: mousemark/mousemark.cpp:36
+#: mousemark/mousemark.cpp:39
 #, kde-format
 msgid "Clear All Mouse Marks"
 msgstr "Notīrīt visas peles pēdas"
 
-#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:59
+#: mousemark/mousemark.cpp:45 mousemark/mousemark_config.cpp:59
 #, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr "Notīrīt pēdējās peles pēdas"
@@ -585,12 +598,12 @@ msgstr "Fons"
 msgid "Ignore minimized windows:"
 msgstr "Ignorēt &minimizētus logus"
 
-#: overview/qml/DesktopBar.qml:186
+#: overview/qml/DesktopBar.qml:187
 #, kde-format
 msgid "Delete Virtual Desktop"
 msgstr ""
 
-#: overview/qml/DesktopBar.qml:282
+#: overview/qml/DesktopBar.qml:283
 #, fuzzy, kde-format
 #| msgctxt "@title:group actions when clicking on desktop"
 #| msgid "Desktop"
@@ -603,12 +616,12 @@ msgstr "Darbvirsma"
 msgid "No matching windows"
 msgstr "Pārvietojot logus:"
 
-#: private/qml/WindowHeapDelegate.qml:152
+#: private/qml/WindowHeapDelegate.qml:151
 #, kde-format
 msgid "Drag Down To Close"
 msgstr ""
 
-#: private/qml/WindowHeapDelegate.qml:462
+#: private/qml/WindowHeapDelegate.qml:461
 #, fuzzy, kde-format
 #| msgid "Scale window"
 msgctxt "@info:tooltip as in: 'close this window'"
@@ -631,7 +644,7 @@ msgstr "Minimizēt animāciju"
 msgid "Window close scale:"
 msgstr "Peles klikšķa animācija"
 
-#: screenshot/screenshotdbusinterface1.cpp:480
+#: screenshot/screenshotdbusinterface1.cpp:478
 #, fuzzy, kde-format
 #| msgctxt "Name of a KWin Effect"
 #| msgid "Screenshot"
@@ -639,7 +652,7 @@ msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr "Ekrānattēls"
 
-#: screenshot/screenshotdbusinterface1.cpp:481
+#: screenshot/screenshotdbusinterface1.cpp:479
 #, fuzzy, kde-format
 #| msgctxt "Name of a KWin Effect"
 #| msgid "Screenshot"
@@ -647,16 +660,16 @@ msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr "Ekrānattēls"
 
-#: screenshot/screenshotdbusinterface1.cpp:797
-#: screenshot/screenshotdbusinterface2.cpp:472
+#: screenshot/screenshotdbusinterface1.cpp:800
+#: screenshot/screenshotdbusinterface2.cpp:477
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
 
-#: screenshot/screenshotdbusinterface1.cpp:800
-#: screenshot/screenshotdbusinterface2.cpp:490
+#: screenshot/screenshotdbusinterface1.cpp:803
+#: screenshot/screenshotdbusinterface2.cpp:495
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -726,16 +739,8 @@ msgstr "Horizontāli"
 msgid "Vertical:"
 msgstr "Vertikāli"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideDocks)
-#: slide/slide_config.ui:72
-#, fuzzy, kde-format
-#| msgctxt "Name of a KWin Effect"
-#| msgid "Slide Back"
-msgid "Slide docks"
-msgstr "Slīdēt atpakaļ"
-
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideBackground)
-#: slide/slide_config.ui:79
+#: slide/slide_config.ui:72
 #, fuzzy, kde-format
 #| msgid "Slide when grouping"
 msgid "Slide desktop background"
@@ -778,6 +783,49 @@ msgstr "&Necaurspīdīgums:"
 #, no-c-format, kde-format
 msgid " %"
 msgstr " %"
+
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:37
+#: tileseditor/tileseditoreffect.cpp:29
+#, kde-format
+msgid "Toggle Tiles Editor"
+msgstr ""
+
+#: tileseditor/qml/main.qml:147
+#, kde-format
+msgid "Padding:"
+msgstr ""
+
+#: tileseditor/qml/main.qml:157
+#, kde-format
+msgid "Load Layout..."
+msgstr ""
+
+#: tileseditor/qml/main.qml:271
+#, kde-format
+msgid "Close"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:171
+#, fuzzy, kde-format
+#| msgid "Horizontal"
+msgid "Split Horizontally"
+msgstr "Horizontāli"
+
+#: tileseditor/qml/TileDelegate.qml:178
+#, fuzzy, kde-format
+#| msgid "Vertical"
+msgid "Split Vertically"
+msgstr "Vertikāli"
+
+#: tileseditor/qml/TileDelegate.qml:186 tileseditor/qml/TileDelegate.qml:215
+#, kde-format
+msgid "Add Floating Tile"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:195
+#, kde-format
+msgid "Delete"
+msgstr ""
 
 #: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:57
 #, kde-format
@@ -914,17 +962,17 @@ msgstr "Atdalītas izvēlnes:"
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Pārslēgt 'Parādīt logus' (Aktīvā darbvirsma)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:55
+#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:54
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Pārslēgt 'Parādīt logus' (Visas darbvirsmas)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:65
+#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:63
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Pārslēgt 'Parādīt logus' (Loga klase)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:75
+#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:72
 #, fuzzy, kde-format
 #| msgid "Toggle Present Windows (Current desktop)"
 msgid "Toggle Present Windows (Window class on current desktop)"
@@ -936,16 +984,22 @@ msgstr "Pārslēgt 'Parādīt logus' (Aktīvā darbvirsma)"
 msgid "Ignore &minimized windows"
 msgstr "Ignorēt &minimizētus logus"
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, kde-format
 msgid "No Matches"
 msgstr ""
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "No Windows"
 msgstr "Logi"
+
+#: windowview/qml/main.qml:123
+#, fuzzy, kde-format
+#| msgid "Scale window"
+msgid "Filter windows…"
+msgstr "Mērogot logu"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20
@@ -1007,32 +1061,32 @@ msgstr "Mazāk"
 msgid "More"
 msgstr "Vairāk"
 
-#: zoom/zoom.cpp:68
+#: zoom/zoom.cpp:65
 #, kde-format
 msgid "Move Zoomed Area to Left"
 msgstr "Pārvietot pietuvināto apgabalu pa kreisi"
 
-#: zoom/zoom.cpp:76
+#: zoom/zoom.cpp:72
 #, kde-format
 msgid "Move Zoomed Area to Right"
 msgstr "Pārvietot pietuvināto apgabalu pa labi"
 
-#: zoom/zoom.cpp:84
+#: zoom/zoom.cpp:79
 #, kde-format
 msgid "Move Zoomed Area Upwards"
 msgstr "Pārvietot pietuvināto apgabalu augšup"
 
-#: zoom/zoom.cpp:92
+#: zoom/zoom.cpp:86
 #, kde-format
 msgid "Move Zoomed Area Downwards"
 msgstr "Pārvietot pietuvināto apgabalu lejup"
 
-#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:108
+#: zoom/zoom.cpp:94 zoom/zoom_config.cpp:108
 #, kde-format
 msgid "Move Mouse to Focus"
 msgstr "Pārvietot peli uz fokusu"
 
-#: zoom/zoom.cpp:109 zoom/zoom_config.cpp:115
+#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:115
 #, kde-format
 msgid "Move Mouse to Center"
 msgstr "Pārvietot peli uz centru"
@@ -1164,3 +1218,766 @@ msgstr "Izslēgts"
 #, kde-format
 msgid "Mouse Tracking:"
 msgstr "Peles izsekošana:"
+
+#, fuzzy
+#~| msgctxt "Name of a KWin Effect"
+#~| msgid "Slide Back"
+#~ msgid "Slide docks"
+#~ msgstr "Slīdēt atpakaļ"
+
+#~ msgid "&Radius:"
+#~ msgstr "&Rādiuss:"
+
+#~ msgid "Text position:"
+#~ msgstr "Teksta novietojums:"
+
+#~ msgid "Inside Graph"
+#~ msgstr "Iekšā zīmējumā"
+
+#~ msgid "Nowhere"
+#~ msgstr "Nekur"
+
+#~ msgid "Top Left"
+#~ msgstr "Augšējais kreisais"
+
+#~ msgid "Top Right"
+#~ msgstr "Augšējais labais"
+
+#~ msgid "Bottom Left"
+#~ msgstr "Apakšējais kreisais"
+
+#~ msgid "Bottom Right"
+#~ msgstr "Apakšējais labais"
+
+#~ msgid "Text font:"
+#~ msgstr "Teksta fonts:"
+
+#~ msgid "Text color:"
+#~ msgstr "Teksta krāsa:"
+
+#~ msgid "Text alpha:"
+#~ msgstr "Teksta caurspīdīgums:"
+
+#, fuzzy
+#~| msgid "Show caps"
+#~ msgid "Show graph:"
+#~ msgstr "Rādīt galus"
+
+#, fuzzy
+#~| msgid "Show Text:"
+#~ msgid "Show Message:"
+#~ msgstr "Parādīt tekstu:"
+
+#~ msgid "Zoom &duration:"
+#~ msgstr "Tālummaiņas &ilgums:"
+
+#~ msgctxt "Duration of zoom"
+#~ msgid "Default"
+#~ msgstr "Noklusētais"
+
+#~ msgid "Border wid&th:"
+#~ msgstr "Robežas pla&tums:"
+
+#, fuzzy
+#~| msgid "Show desktop"
+#~ msgid "Switch desktop only"
+#~ msgstr "Parādīt darbvirsmu"
+
+#~ msgid "Natural Layout Settings"
+#~ msgstr "Dabīgā izkārtojuma iestatījumi"
+
+#~ msgid "Fill &gaps"
+#~ msgstr "Aizpildīt sprau&gas"
+
+#~ msgid "Faster"
+#~ msgstr "Ātrāk"
+
+#~ msgid "Nicer"
+#~ msgstr "Smukāk"
+
+#~ msgid "Left button:"
+#~ msgstr "Kreisā poga:"
+
+#~ msgid "No action"
+#~ msgstr "Nav darbības"
+
+#~ msgid "Activate window"
+#~ msgstr "Aktivizēt logu"
+
+#~ msgid "End effect"
+#~ msgstr "Apturēt efektu"
+
+#~ msgid "Bring window to current desktop"
+#~ msgstr "Pārcelt logu uz aktīvo darbvirsmu"
+
+#~ msgid "Send window to all desktops"
+#~ msgstr "Rādīt logu uz visām darbvirsmām"
+
+#~ msgid "(Un-)Minimize window"
+#~ msgstr "(At)Minimizēt logu"
+
+#~ msgid "Middle button:"
+#~ msgstr "Vidējā poga:"
+
+#~ msgid "Right button:"
+#~ msgstr "Labā poga:"
+
+#~ msgctxt "@title:group actions when clicking on desktop"
+#~ msgid "Desktop"
+#~ msgstr "Darbvirsma"
+
+#~ msgid "Show desktop"
+#~ msgstr "Parādīt darbvirsmu"
+
+#~ msgid "Display window &titles"
+#~ msgstr "Rādīt logu &nosaukumus"
+
+#~ msgid "Display window &icons"
+#~ msgstr "Rādīt logu &ikonas"
+
+#~ msgid "Show &panels"
+#~ msgstr "Rādīt &paneļus"
+
+#~ msgid "Regular Grid"
+#~ msgstr "Regulārs režģis"
+
+#~ msgid "Flexible Grid"
+#~ msgstr "Elastīgs režģis"
+
+#~ msgid "Provide buttons to close the windows"
+#~ msgstr "Piedāvāt pogas, lai aizvērtu logus"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Ingmārs Dīriņš, Māris Nartišs"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "melhiors14@gmail.com,maris.kde@gmail.com"
+
+#~ msgid "Scale window"
+#~ msgstr "Mērogot logu"
+
+#~ msgid "Show outline"
+#~ msgstr "Parādīt kontūru"
+
+#~ msgid "Display for moving windows"
+#~ msgstr "Rādīt logiem, kas tiek pārvietoti"
+
+#~ msgid "Display for resizing windows"
+#~ msgstr "Rādīt logiem, kuriem maina izmēru"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Blur"
+#~ msgstr "Aizmiglošana"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Blurs the background behind semi-transparent windows"
+#~ msgstr "Aizmiglo fonu aiz puscaurspīdīgiem logiem"
+
+#, fuzzy
+#~| msgid "&Color:"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Color Picker"
+#~ msgstr "&Krāsa:"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Background contrast"
+#~ msgstr "Fona kontrasts"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Improve contrast and readability behind semi-transparent windows"
+#~ msgstr "Uzlabo kontrastu un lasāmību puscaurspīdīgiem logiem"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Grid"
+#~ msgstr "Darbvirsmas režģis"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Zoom out so all desktops are displayed side-by-side in a grid"
+#~ msgstr ""
+#~ "Attālina tik tālu, ka visas darbvismas ir redzamas viena otrai blakus"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Dim Inactive"
+#~ msgstr "Tumšināt neaktīvos"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Darken inactive windows"
+#~ msgstr "Aptumšot neaktīvus logus"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Fall Apart"
+#~ msgstr "Sabrukt"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Closed windows fall into pieces"
+#~ msgstr "Aizverot logu, tas izšķīst pa gabaliem"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Glide"
+#~ msgstr "Slīdēšana"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Highlight Window"
+#~ msgstr "Izgaismot logu"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Invert"
+#~ msgstr "Invertēt"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Inverts the color of the desktop and windows"
+#~ msgstr "Inversē darbvismas un logu krāsas"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Kscreen"
+#~ msgstr "Kscreen"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper Effect for KScreen"
+#~ msgstr "KScreen palīgefekts"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Looking Glass"
+#~ msgstr "Palielināmais stikls"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "A screen magnifier that looks like a fisheye lens"
+#~ msgstr "Ekrāna palielināmais stikls ar zivsacs lēcas efektu"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Magic Lamp"
+#~ msgstr "Burvju lampa"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Simulate a magic lamp when minimizing windows"
+#~ msgstr "Logu minimizēšana ar burvju lampas efektu"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Magnifier"
+#~ msgstr "Lupa"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Magnify the section of the screen that is near the mouse cursor"
+#~ msgstr "Palielina ekrāna daļu, kas atrodas blakus peles kursoram"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Click Animation"
+#~ msgstr "Peles klikšķa animācija"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Mark"
+#~ msgstr "Peles marķieris"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Allows you to draw lines on the desktop"
+#~ msgstr "Atļauj zīmēt līnijas uz darbvirsmas"
+
+#, fuzzy
+#~| msgctxt "Comment describing the KWin Effect"
+#~| msgid "Allows you to draw lines on the desktop"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Allows you to overview virtual desktops and windows"
+#~ msgstr "Atļauj zīmēt līnijas uz darbvirsmas"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Zoom out until all opened windows can be displayed side-by-side"
+#~ msgstr "Attālina līdz visi logi var tikt parādīti viens otram blakus"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Resize Window"
+#~ msgstr "Mainīt loga izmēru"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Screen Edge"
+#~ msgstr "Ekrāna mala"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlights a screen edge when approaching"
+#~ msgstr "Izgaismo ekrāna malu tiklīdz ko tai tuvojas"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Screenshot"
+#~ msgstr "Ekrānattēls"
+
+#, fuzzy
+#~| msgctxt "Comment describing the KWin Effect"
+#~| msgid "Helper effect for KSnapshot"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper effect for screenshot tools"
+#~ msgstr "KSnapshot palīgefekts"
+
+#, fuzzy
+#~| msgid "Transparent"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Transform"
+#~ msgstr "Caurspīdīgs"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Sheet"
+#~ msgstr "Loksne"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show FPS"
+#~ msgstr "Rādīt FPS"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display KWin's performance in the corner of the screen"
+#~ msgstr "Stūrī rāda KWin veiktspējas rādītājus"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show Paint"
+#~ msgstr "Rādīt krāsvielu"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlight areas of the desktop that have been recently updated"
+#~ msgstr "Izgaismo nesen atjauninātos darbvirsmas apgabalus"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Slide"
+#~ msgstr "Slīdēt"
+
+#, fuzzy
+#~| msgid "Slide when switching tabs"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Slide desktops when switching virtual desktops"
+#~ msgstr "Slīdēt pārslēdzot cilnes"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Slide Back"
+#~ msgstr "Slīdēt atpakaļ"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Snap Helper"
+#~ msgstr "Pielipšanas palīgs"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Help you locate the center of the screen when moving a window"
+#~ msgstr "Palīdz atrast ekrāna centru, kad tiek pārvietots logs"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Startup Feedback"
+#~ msgstr "Palaišanas atbilde"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper effect for startup feedback"
+#~ msgstr "Programmu startešanas paziņojuma palīgefekts"
+
+#, fuzzy
+#~| msgid "Mouse Pointer:"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Touch Points"
+#~ msgstr "Peles rādītājs:"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Track Mouse"
+#~ msgstr "Izsekot pelei"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Window Geometry"
+#~ msgstr "Loga ģeometrija"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display window geometries on move/resize"
+#~ msgstr "Pārvietojot vai mainot izmēru rādīt logu ģeometriju"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Wobbly Windows"
+#~ msgstr "Ļumīgi logi"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Deform windows while they are moving"
+#~ msgstr "Deformē logus to pārvietošanas laikā"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Zoom"
+#~ msgstr "Tālummaiņa"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Magnify the entire desktop"
+#~ msgstr "Palielina visu darbvirsmu"
+
+#~ msgctxt "Special entry in alt+tab list for minimizing all windows"
+#~ msgid "Show Desktop"
+#~ msgstr "Parādīt darbvirsmu"
+
+#~ msgid "Zoom"
+#~ msgstr "Attālums"
+
+#~ msgid "Define how far away the windows should appear"
+#~ msgstr "Definē cik tālu logiem jāparādās"
+
+#~ msgid "Near"
+#~ msgstr "Tuvu"
+
+#~ msgid "Far"
+#~ msgstr "Tālu"
+
+#~ msgid "Animation"
+#~ msgstr "Animācija"
+
+#~ msgid "Animate switch"
+#~ msgstr "Animēt pārslēgšanu"
+
+#~ msgid "Animation on tab box open"
+#~ msgstr "Animēt cilnes kastes atvēršanu"
+
+#~ msgid "Animation on tab box close"
+#~ msgstr "Animēt cilnes kastes aizvēršanu"
+
+#~ msgid "Reflections"
+#~ msgstr "Atspīdumi"
+
+#~ msgid "Rear color"
+#~ msgstr "Aizmugures krāsa"
+
+#~ msgid "Front color"
+#~ msgstr "Priekšplāna krāsa"
+
+#~ msgid "Desktop Cube"
+#~ msgstr "Darbvirsmas kubs"
+
+#~ msgid "Desktop Cylinder"
+#~ msgstr "Darbvirsmas cilindrs"
+
+#~ msgid "Desktop Sphere"
+#~ msgstr "Darbvirsmas sfēra"
+
+#~ msgctxt "@title:tab Basic Settings"
+#~ msgid "Basic"
+#~ msgstr "Pamata"
+
+#~ msgctxt "@title:tab Advanced Settings"
+#~ msgid "Advanced"
+#~ msgstr "Paplašināti"
+
+#~ msgid "Tab 1"
+#~ msgstr "1. cilne"
+
+#~ msgid "Background color:"
+#~ msgstr "Fona krāsa:"
+
+#~ msgid "Wallpaper:"
+#~ msgstr "Ekrāntapete:"
+
+#~ msgid "Display desktop name"
+#~ msgstr "Rādīt darbvismas nosaukumu"
+
+#~ msgid "Reflection"
+#~ msgstr "Atspīdumi"
+
+#~ msgid "Rotation duration:"
+#~ msgstr "Rotēšanas ilgums:"
+
+#~ msgid "Windows hover above cube"
+#~ msgstr "Logi paceļas virs kuba"
+
+#~ msgid "Opacity"
+#~ msgstr "Necaurspīdīgums"
+
+#~ msgid "Do not change opacity of windows"
+#~ msgstr "Nemainīt logu caurspīdīgumu"
+
+#~ msgid "Tab 2"
+#~ msgstr "2. cilne"
+
+#~ msgid "Caps"
+#~ msgstr "Gali"
+
+#~ msgid "Cap color:"
+#~ msgstr "Galu krāsa:"
+
+#~ msgid "Display image on caps"
+#~ msgstr "Rādīt attēlu uz galiem"
+
+#~ msgid "Define how far away the object should appear"
+#~ msgstr "Definē cik tālu objektiem jāparādās"
+
+#~ msgid "Additional Options"
+#~ msgstr "Papildus iespējas"
+
+#~ msgid ""
+#~ "If enabled the effect will be deactivated after rotating the cube with "
+#~ "the mouse,\n"
+#~ "otherwise it will remain active"
+#~ msgstr ""
+#~ "Ja ieslēgts, efekts tiks apturēts pēc kuba pagriešanas ar peli,\n"
+#~ "citādi, tas paliks aktīvs"
+
+#~ msgid "Close after mouse dragging"
+#~ msgstr "Aizvērt pēc viklšanas ar peli"
+
+#~ msgid "Use this effect for walking through the desktops"
+#~ msgstr "Lietojiet šo efektu, lai pārvietotos starp darbvirsmām"
+
+#~ msgid "Invert mouse"
+#~ msgstr "Invetrēt peli"
+
+#~ msgid "Sphere Cap Deformation"
+#~ msgstr "Sfēras galu deformācija"
+
+#~ msgid "Sphere"
+#~ msgstr "Sfēra"
+
+#~ msgid "Plane"
+#~ msgstr "Plakne"
+
+#~ msgid "Do not animate windows on all desktops"
+#~ msgstr "Neanimēt logus uz visām darbvirsmām"
+
+#~ msgid "Do not animate panels"
+#~ msgstr "Neanimēt paneļus"
+
+#~ msgid "Use pager layout for animation"
+#~ msgstr "Animācijai lietot lapotāja izvietojumu"
+
+#~ msgid "Start animation when moving windows towards screen edges"
+#~ msgstr "Uzsākt animāciju tiklīdz ko logs tiek tuvināts ekrāna malai"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Cover Switch"
+#~ msgstr "Vāciņa pārslēgšana"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube"
+#~ msgstr "Darbvirsmas kubs"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display each virtual desktop on a side of a cube"
+#~ msgstr "Rāda katru virtuālo darbvirsmu uz kuba sāna"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube Animation"
+#~ msgstr "Darbvirsmas kuba animācija"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Animate desktop switching with a cube"
+#~ msgstr "Animē darbvirsmu pārslēgšanu ar kuba efektu"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Flip Switch"
+#~ msgstr "Lapošanas pārslēdzējs"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Flip through windows that are in a stack for the alt+tab window switcher"
+#~ msgstr "Lapo cauri kaudzē sakrautiem logiem ar alt+tab"
+
+#~ msgid "Toggle Flip Switch (Current desktop)"
+#~ msgstr "Pārslēgt flip pārslēdzēju (Aktīvā darbvirsma)"
+
+#~ msgid "Toggle Flip Switch (All desktops)"
+#~ msgstr "Pārslēgt flip pārslēdzēju (Visas darbvirsmas)"
+
+#~ msgid "Flip animation duration:"
+#~ msgstr "Flip animācijas ilgums:"
+
+#~ msgctxt "Duration of flip animation"
+#~ msgid "Default"
+#~ msgstr "Noklusētais"
+
+#~ msgid "Angle:"
+#~ msgstr "Leņķis:"
+
+#~ msgid " °"
+#~ msgstr " °"
+
+#~ msgid "Horizontal position of front:"
+#~ msgstr "Horizontālas priekšpuses novietojums:"
+
+#~ msgid "Vertical position of front:"
+#~ msgstr "Vertikālais priekšpuses novietojums:"
+
+#~ msgid ""
+#~ "Filter:\n"
+#~ "%1"
+#~ msgstr ""
+#~ "Filtrs:\n"
+#~ "%1"
+
+#~ msgid "Use Present Windows effect to layout the windows"
+#~ msgstr "Lietot Parādīt logus efektu logu izkārtošanai"
+
+#~ msgid "Follow Focus"
+#~ msgstr "Sekot fokusam"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Dim Screen for Administrator Mode"
+#~ msgstr "Tumšināt ekrānu administratora režīmam"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Darkens the entire screen when requesting root privileges"
+#~ msgstr "Tumšina visu ekrānu, kad tiek prasītas root tiesības"
+
+#, fuzzy
+#~| msgid "Scale"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Scale"
+#~ msgstr "Mērogot"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Minimize Animation"
+#~ msgstr "Minimizēt animāciju"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Animate the minimizing of windows"
+#~ msgstr "Animēt logu minimizēšanu"
+
+#~ msgid "Trigger on"
+#~ msgstr "Trigeris pie"
+
+#~ msgid "Shortcut"
+#~ msgstr "Saīsne"
+
+#~ msgid "Apply effect to &panels"
+#~ msgstr "Pielietot efektu &paneļiem"
+
+#~ msgid "Apply effect to the desk&top"
+#~ msgstr "Pielietot efektu darb&virsmai"
+
+#~ msgid "Apply effect to &groups"
+#~ msgstr "Pielietot efektu &grupām"
+
+#~ msgid "Glide Effect:"
+#~ msgstr "Slīdēšanas efekts:"
+
+#~ msgid "In"
+#~ msgstr "Iekšā"
+
+#~ msgid "Out"
+#~ msgstr "Ārā"
+
+#~ msgid "Glide Angle:"
+#~ msgstr "Slīdēšanas leņķis:"
+
+#~ msgid "-90"
+#~ msgstr "-90"
+
+#~ msgid "90"
+#~ msgstr "90"
+
+#, fuzzy
+#~| msgctxt "Duration of rotation"
+#~| msgid "Default"
+#~ msgctxt "Duration of the slide animation"
+#~ msgid "Default"
+#~ msgstr "Noklusētais"
+
+#~ msgid "Strength of the effect:"
+#~ msgstr "Efekta stiprums:"
+
+#~ msgid "Save intermediate rendering results."
+#~ msgstr "Saglabāt starprenderējuma rezultātus."
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Logout"
+#~ msgstr "Izrakstīties"
+
+#, fuzzy
+#~| msgid "Right"
+#~ msgctxt "More brightness"
+#~ msgid "Lighter"
+#~ msgstr "Labā"
+
+#, fuzzy
+#~| msgid "Apply effect to &groups"
+#~ msgid "Apply blur effect to background"
+#~ msgstr "Pielietot efektu &grupām"
+
+#~ msgid "Decorations:"
+#~ msgstr "Dekorācijas:"
+
+#~ msgid "Background window &opacity:"
+#~ msgstr "Fona logu &necaurspīdīgums:"
+
+#~ msgid "&Elevate selected window"
+#~ msgstr "Pac&elt aktīvo logu"
+
+#~ msgid "&Animate walk through windows"
+#~ msgstr "&Animēt pārslēgšanos starp logiem"
+
+#~ msgid "Use additional thumbnail bar"
+#~ msgstr "Rādīt papildu sīktēlu joslu"
+
+#~ msgid ""
+#~ "Only show thumbnail bar if there are at least specified number of windows"
+#~ msgstr "Rādīt sīktēlu joslu tikai, ja ir vairāk nekā norādīts logu"
+
+#~ msgid "Dynamic mode"
+#~ msgstr "Dinamiskais režīms"
+
+#~ msgid "Number of windows:"
+#~ msgstr "Logu skaits:"
+
+#~ msgid " row"
+#~ msgid_plural " rows"
+#~ msgstr[0] " rind"
+#~ msgstr[1] " rindas"
+#~ msgstr[2] " rindas"
+
+#~ msgctxt "Duration of fading"
+#~ msgid "Default"
+#~ msgstr "Noklusētais"
+
+#~ msgid "Toggle Video Recording"
+#~ msgstr "Pārslēgt video ierakstīšanu"
+
+#~ msgid "Path to save video:"
+#~ msgstr "Video saglabāšanas ceļš:"
+
+#~ msgid "Snow"
+#~ msgstr "Sniegs"
+
+#~ msgid "Toggle Snow on Desktop"
+#~ msgstr "Pārslēgt sniegu uz darbvirsmas"
+
+#~ msgid " pixel/frame"
+#~ msgid_plural " pixels/frame"
+#~ msgstr[0] " pikselis/kadrā"
+#~ msgstr[1] " pikseļi/kadrā"
+#~ msgstr[2] " pikseļi/kadrā"
+
+#~ msgctxt "@action Enables/Disables an effect that makes windows more sharp"
+#~ msgid "Toggle Sharpen Effect"
+#~ msgstr "Pārslēgt asināšanas efektu"
+
+#~ msgid "&Number of snowflakes:"
+#~ msgstr "&Sniegpārslu skaits:"
+
+#~ msgid "M&inimum size of snowflake:"
+#~ msgstr "M&inimālais sniegpārslas izmērs:"
+
+#~ msgid "M&aximum size of snowflake:"
+#~ msgstr "M&aksimālais sniegpārslas izmērs:"
+
+#~ msgid "Maximum &vertical speed:"
+#~ msgstr "Maksimālais &vertikālais ātrums:"
+
+#~ msgid "Maximum &horizontal speed:"
+#~ msgstr "Maksimālais &horizontālais ātrums:"
+
+#~ msgid "Snow &behind windows"
+#~ msgstr "Rādīt &aiz logiem"
+
+#~ msgid "&X offset:"
+#~ msgstr "&X nobīde:"
+
+#~ msgid "&Y offset:"
+#~ msgstr "&Y nobīde:"
+
+#~ msgid "%"
+#~ msgstr " %"
+
+#~ msgid "&Fuzziness:"
+#~ msgstr "&Izplūdums:"
+
+#~ msgid "&Size:"
+#~ msgstr "I&zmērs:"
+
+#~ msgid "&Active windows have stronger shadows"
+#~ msgstr "&Aktīvajiem logiem ir izteiktākas ēnas"
+
+#~ msgid "Hold Ctrl+Meta keys to see where the mouse cursor is."
+#~ msgstr ""
+#~ "Turiet nospiestu Ctrl+Meta taustiņus lai redzētu, kur atrodas kursors."

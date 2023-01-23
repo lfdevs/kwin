@@ -9,8 +9,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#ifndef KWIN_OPTIONS_H
-#define KWIN_OPTIONS_H
+#pragma once
 
 #include "main.h"
 
@@ -31,6 +30,13 @@ enum HiddenPreviews {
     HiddenPreviewsShown,
     // All windows are kept mapped regardless of their state.
     HiddenPreviewsAlways
+};
+
+enum XwaylandEavesdropsMode {
+    None,
+    Modifiers,
+    Combinations,
+    All
 };
 
 /**
@@ -73,7 +79,6 @@ enum PlacementPolicy {
     PlacementUnknown, // special, means the function should use its default
     PlacementRandom,
     PlacementSmart,
-    PlacementCascade,
     PlacementCentered,
     PlacementZeroCornered,
     PlacementUnderMouse, // special
@@ -215,6 +220,7 @@ class KWIN_EXPORT Options : public QObject
     Q_PROPERTY(bool windowsBlockCompositing READ windowsBlockCompositing WRITE setWindowsBlockCompositing NOTIFY windowsBlockCompositingChanged)
     Q_PROPERTY(LatencyPolicy latencyPolicy READ latencyPolicy WRITE setLatencyPolicy NOTIFY latencyPolicyChanged)
     Q_PROPERTY(RenderTimeEstimator renderTimeEstimator READ renderTimeEstimator WRITE setRenderTimeEstimator NOTIFY renderTimeEstimatorChanged)
+    Q_PROPERTY(bool allowTearing READ allowTearing WRITE setAllowTearing NOTIFY allowTearingChanged)
 public:
     explicit Options(QObject *parent = nullptr);
     ~Options() override;
@@ -274,6 +280,10 @@ public:
     int xwaylandMaxCrashCount() const
     {
         return m_xwaylandMaxCrashCount;
+    }
+    XwaylandEavesdropsMode xwaylandEavesdrops() const
+    {
+        return m_xwaylandEavesdrops;
     }
 
     /**
@@ -705,11 +715,13 @@ public:
     QStringList modifierOnlyDBusShortcut(Qt::KeyboardModifier mod) const;
     LatencyPolicy latencyPolicy() const;
     RenderTimeEstimator renderTimeEstimator() const;
+    bool allowTearing() const;
 
     // setters
     void setFocusPolicy(FocusPolicy focusPolicy);
     void setXwaylandCrashPolicy(XwaylandCrashPolicy crashPolicy);
     void setXwaylandMaxCrashCount(int maxCrashCount);
+    void setXwaylandEavesdrops(XwaylandEavesdropsMode mode);
     void setNextFocusPrefersMouse(bool nextFocusPrefersMouse);
     void setClickRaise(bool clickRaise);
     void setAutoRaise(bool autoRaise);
@@ -764,6 +776,7 @@ public:
     void setMoveMinimizedWindowsToEndOfTabBoxFocusChain(bool set);
     void setLatencyPolicy(LatencyPolicy policy);
     void setRenderTimeEstimator(RenderTimeEstimator estimator);
+    void setAllowTearing(bool allow);
 
     // default values
     static WindowOperation defaultOperationTitlebarDblClick()
@@ -886,9 +899,13 @@ public:
     {
         return 3;
     }
+    static XwaylandEavesdropsMode defaultXwaylandEavesdrops()
+    {
+        return None;
+    }
     static LatencyPolicy defaultLatencyPolicy()
     {
-        return LatencyMedium;
+        return LatencyExtremelyHigh;
     }
     static RenderTimeEstimator defaultRenderTimeEstimator()
     {
@@ -915,6 +932,7 @@ Q_SIGNALS:
     void focusPolicyIsResonableChanged();
     void xwaylandCrashPolicyChanged();
     void xwaylandMaxCrashCountChanged();
+    void xwaylandEavesdropsChanged();
     void nextFocusPrefersMouseChanged();
     void clickRaiseChanged();
     void autoRaiseChanged();
@@ -970,6 +988,7 @@ Q_SIGNALS:
     void latencyPolicyChanged();
     void configChanged();
     void renderTimeEstimatorChanged();
+    void allowTearingChanged();
 
 private:
     void setElectricBorders(int borders);
@@ -999,6 +1018,7 @@ private:
     bool m_hideUtilityWindowsForInactive;
     XwaylandCrashPolicy m_xwaylandCrashPolicy;
     int m_xwaylandMaxCrashCount;
+    XwaylandEavesdropsMode m_xwaylandEavesdrops;
     LatencyPolicy m_latencyPolicy;
     RenderTimeEstimator m_renderTimeEstimator;
 
@@ -1043,6 +1063,8 @@ private:
     bool borderless_maximized_windows;
     bool condensed_title;
 
+    bool m_allowTearing = true;
+
     QHash<Qt::KeyboardModifier, QStringList> m_modifierOnlyShortcuts;
 
     MouseCommand wheelToMouseCommand(MouseWheelCommand com, int delta) const;
@@ -1054,5 +1076,3 @@ extern KWIN_EXPORT Options *options;
 
 Q_DECLARE_METATYPE(KWin::Options::WindowOperation)
 Q_DECLARE_METATYPE(KWin::OpenGLPlatformInterface)
-
-#endif

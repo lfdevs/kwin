@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-26 02:35+0000\n"
+"POT-Creation-Date: 2022-10-26 00:47+0000\n"
 "PO-Revision-Date: 2022-03-08 21:24+0800\n"
 "Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.slat.org>\n"
@@ -288,3 +288,25 @@ msgstr "非常巨大"
 #, kde-format
 msgid "Oversized"
 msgstr "超出大小"
+
+#~ msgctxt "popup tip"
+#~ msgid ""
+#~ "Close by double clicking: Keep the window's Menu button pressed until it "
+#~ "appears."
+#~ msgstr "點兩下關閉：請長按視窗選單按鈕，直到選單出現。"
+
+#~ msgid "Menu"
+#~ msgstr "選單"
+
+#~ msgid "Keep below"
+#~ msgstr "保持在下"
+
+#~ msgid "Keep above"
+#~ msgstr "保持在上"
+
+#~ msgid "Download New Window Decorations"
+#~ msgstr "下載新的桌面裝飾"
+
+#~ msgctxt "checkbox label"
+#~ msgid "Use theme's default window border size"
+#~ msgstr "使用主題的預設視窗外框大小"

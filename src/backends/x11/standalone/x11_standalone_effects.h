@@ -7,8 +7,7 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-#ifndef KWIN_EFFECTS_X11_H
-#define KWIN_EFFECTS_X11_H
+#pragma once
 
 #include "effects.h"
 #include "utils/xcbutils.h"
@@ -18,12 +17,13 @@
 namespace KWin
 {
 class EffectsMouseInterceptionX11Filter;
+class EffectsKeyboardInterceptionX11Filter;
 
 class EffectsHandlerImplX11 : public EffectsHandlerImpl
 {
     Q_OBJECT
 public:
-    explicit EffectsHandlerImplX11(Compositor *compositor, Scene *scene);
+    explicit EffectsHandlerImplX11(Compositor *compositor, WorkspaceScene *scene);
     ~EffectsHandlerImplX11() override;
 
     void defineCursor(Qt::CursorShape shape) override;
@@ -40,8 +40,7 @@ protected:
 private:
     Xcb::Window m_mouseInterceptionWindow;
     std::unique_ptr<EffectsMouseInterceptionX11Filter> m_x11MouseInterception;
+    std::unique_ptr<EffectsKeyboardInterceptionX11Filter> m_x11KeyboardInterception;
 };
 
 }
-
-#endif

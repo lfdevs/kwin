@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-02 00:47+0000\n"
+"POT-Creation-Date: 2022-12-03 00:48+0000\n"
 "PO-Revision-Date: 2013-06-21 05:42+0600\n"
 "Last-Translator: Sairan Kikkarin <sairan@computer.org>\n"
 "Language-Team: Kazakh <kde-i18n-doc@kde.org>\n"
@@ -518,7 +518,31 @@ msgstr "Жаңа терезенің &орналасуы:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_Placement)
 #: advanced.ui:76
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<p>This option specifies how much KWin will try to prevent unwanted focus "
+#| "stealing caused by unexpected activation of new windows. (Note: This "
+#| "feature does not work with the Focus Under Mouse or Focus Strictly Under "
+#| "Mouse focus policies.)\n"
+#| "<ul>\n"
+#| "<li><em>None:</em> Prevention is turned off and new windows always become "
+#| "activated.</li>\n"
+#| "<li><em>Low:</em> Prevention is enabled; when some window does not have "
+#| "support for the underlying mechanism and KWin cannot reliably decide "
+#| "whether to activate the window or not, it will be activated. This setting "
+#| "may have both worse and better results than the medium level, depending "
+#| "on the applications.</li>\n"
+#| "<li><em>Medium:</em> Prevention is enabled.</li>\n"
+#| "<li><em>High:</em> New windows get activated only if no window is "
+#| "currently active or if they belong to the currently active application. "
+#| "This setting is probably not really usable when not using mouse focus "
+#| "policy.</li>\n"
+#| "<li><em>Extreme:</em> All windows must be explicitly activated by the "
+#| "user.</li>\n"
+#| "</ul></p>\n"
+#| "<p>Windows that are prevented from stealing focus are marked as demanding "
+#| "attention, which by default means their taskbar entry will be "
+#| "highlighted. This can be changed in the Notifications control module.</p>"
 msgid ""
 "<html><head/><body><p>The placement policy determines where a new window "
 "will appear on the desktop.</p><ul style=\"margin-top: 0px; margin-bottom: "
@@ -532,13 +556,10 @@ msgid ""
 "whole screen. It might be useful to selectively affect placement of some "
 "windows using the window-specific settings.</li><li style=\" margin-top:0px; "
 "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\"><span style=\" font-style:italic;\">Cascade</span> will "
-"cascade the windows</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"text-indent:0px;\"><span style=\" font-style:italic;\">Random</span> will "
+"use a random position</li><li style=\" margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-style:italic;\">Random</span> will use a random "
-"position</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-style:italic;\">Centered</span> will place the window "
+"\"><span style=\" font-style:italic;\">Centered</span> will place the window "
 "centered</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\" font-style:italic;\">Zero-cornered</span> will place the window in "
@@ -547,6 +568,27 @@ msgid ""
 "\"><span style=\" font-style:italic;\">Under mouse</span> will place the "
 "window under the pointer</li></ul></body></html>"
 msgstr ""
+"<p>Бұл параметр Kwin қалаусыз назардың, күтпеген жаңа терезелерге ауысуын "
+"болдырмауға қалай тырысатынын баптайды. (Ескерту: бұл 'Назар тышқан "
+"меңзегенде' және 'Назар міндетті түрде тышқан меңзегенде' режімдерде жұмыс "
+"істемейді)\n"
+"<ul>\n"
+"<li><em>Жоқ:</em> Болдырмауы жоқ. Жаңа терезелерге назар бірден аударылады.</"
+"li>\n"
+"<li><em>Төмен:</em> Болдырмау қосылған, бірақ кейбір терезелерде бұған "
+"сайкес тетігін қолдауы болмауы мүмкін, сонымен Kwin назар аудару-аудармауын "
+"анық шешімге келе алмайды да, назарды аудара салады. Бұл параметр, істегі "
+"қолданбаларға қарай, не дұрыс не бұрыс болуы мүмкін.</li>\n"
+"<li><em>Орташа:</em> Болдырмау қосылған.</li> <li><em>Жоғары:</em> Егер "
+"назардағы терезелер болмаса, немесе жаңа терезе белсенді қолданбаға жататын "
+"болса ғана жаңа терезеге назар беріледі. Бұл назар тышқанға байланысты "
+"режімінің біреуін қолданбаса, шын пайдасы жоқ.</li>\n"
+"<li><em>Өте жоғары:</em>Назарды барлық терезелерге пайдаланушының арнайы "
+"амалымен ауыстыру керек.</li>\n"
+"</ul></p>\n"
+"<p>Ауысуы болдырмай назардан тыс қалған терезелер, назар талап ететін терезе "
+"деп белгіленеді, яғни, әдетте, оның тапсырмалар панеліндегі белгісі "
+"жарқылдайды. Бұны құлақтандыруды басқару модулінде өзгертуге болады.</p>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:80
@@ -564,38 +606,31 @@ msgstr "Кең жаю"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:90
-#, fuzzy, kde-format
-#| msgid "Cascade"
-msgid "Cascaded"
-msgstr "Тізбектеп"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:95
 #, kde-format
 msgid "Random"
 msgstr "Кездейсоқ"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:100
+#: advanced.ui:95
 #, kde-format
 msgid "Centered"
 msgstr "Ортада"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:105
+#: advanced.ui:100
 #, kde-format
 msgid "In Top-Left Corner"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:110
+#: advanced.ui:105
 #, fuzzy, kde-format
 #| msgid "Under Mouse"
 msgid "Under mouse"
 msgstr "Тышқан меңзегенде"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:118
+#: advanced.ui:113
 #, kde-format
 msgid ""
 "When turned on, apps which are able to remember the positions of their "
@@ -604,21 +639,21 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:121
+#: advanced.ui:116
 #, kde-format
 msgid ""
 "Allow apps to remember the positions of their own windows, if they support it"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
-#: advanced.ui:128
+#: advanced.ui:123
 #, fuzzy, kde-format
 #| msgid "Special Windows"
 msgid "&Special windows:"
 msgstr "Арнаулы терезелер"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:138
+#: advanced.ui:133
 #, kde-format
 msgid ""
 "When turned on, utility windows (tool windows, torn-off menus,...) of "
@@ -632,25 +667,25 @@ msgstr ""
 "өзінің терезелерін арнаулы түрде белгілеуі керек."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:141
+#: advanced.ui:136
 #, kde-format
 msgid "Hide utility windows for inactive applications"
 msgstr "Назардан тыс қолданбалардың көмекші терезелері жасырылсын"
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyLabel)
-#: advanced.ui:148
+#: advanced.ui:143
 #, kde-format
 msgid "Virtual Desktop behavior:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyDescriptionLabel)
-#: advanced.ui:158
+#: advanced.ui:153
 #, kde-format
 msgid "When activating a window on a different Virtual Desktop:"
 msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:165
+#: advanced.ui:160
 #, kde-format
 msgid ""
 "<html><head/><body><p>This setting controls what happens when an open window "
@@ -663,13 +698,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:169
+#: advanced.ui:164
 #, kde-format
 msgid "Switch to that Virtual Desktop"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:174
+#: advanced.ui:169
 #, kde-format
 msgid "Bring window to current Virtual Desktop"
 msgstr ""
@@ -1522,3 +1557,541 @@ msgstr ""
 "b><br>\n"
 "дегендер бұнымен қайшы, сондықтан <b>істемейді</b>.<br><br>\n"
 "Мүмкін, бұдан гөрі <i>Тышқанға еру - Тышқан басымды</i><br> артық дейсіз!"
+
+#, fuzzy
+#~| msgid "Cascade"
+#~ msgid "Cascaded"
+#~ msgstr "Тізбектеп"
+
+#~ msgid ""
+#~ "Enable this option if you want a window's geometry to be displayed while "
+#~ "it is being moved or resized. The window position relative to the top-"
+#~ "left corner of the screen is displayed together with its size."
+#~ msgstr ""
+#~ "Жылжытқанда не өлшемін өзгерткенде терезенің геометриясы көрсетілсін "
+#~ "десеңіз бұны рұқсат етіңіз. Өлшемімен бірге, экранның сол жақ жоғарғы "
+#~ "бұрышынан өлшенген, терезенің орналасуы көрсетіледі."
+
+#, fuzzy
+#~| msgid "Display window &geometry when moving or resizing"
+#~ msgid "Display when moving or resizing"
+#~ msgstr "Өзгерткенде терезенің &геометриясы көрсетілсін"
+
+#~ msgid "Maximize (vertical only)"
+#~ msgstr "Кең жаю (тігінен ғана)"
+
+#~ msgid "Maximize (horizontal only)"
+#~ msgstr "Кең жаю (көлденеңінен ғана)"
+
+#~ msgid "Smart"
+#~ msgstr "Ыңғайлы"
+
+#~ msgid "Maximizing"
+#~ msgstr "Кең жайып"
+
+#, fuzzy
+#~| msgid "Zero-Cornered"
+#~ msgid "Zero-cornered"
+#~ msgstr "Бұрышта"
+
+#, fuzzy
+#~| msgid "Switch to Window Tab to the Left/Right"
+#~ msgid "Switch to window tab to the left/right"
+#~ msgstr "Терезенің Сол/Оң жақ қойындысына ауысу"
+
+#, fuzzy
+#~| msgid "Window Tabbing"
+#~ msgid "Window tabbing:"
+#~ msgstr "Терезенің ауысуы"
+
+#~ msgid ""
+#~ "When turned on immediately switch to any new window tabs that were "
+#~ "automatically added to the current group."
+#~ msgstr ""
+#~ "Қосылса, назардағы топқа автоматты түрде кіргізілген жаңа терезе "
+#~ "қойындысына бірден ауысады."
+
+#, fuzzy
+#~| msgid "Switch to automatically grouped windows immediately"
+#~ msgid "&Switch to automatically grouped windows immediately"
+#~ msgstr "Бірден автоматты топтастырылған терезелерге ауысу"
+
+#~ msgid "When turned on hide all tabs that are not active from the taskbar."
+#~ msgstr ""
+#~ "Қосылса, барлық назардан тыс қойындыларын тапсырмалар панелінен кетіреді."
+
+#, fuzzy
+#~| msgid "Hide inactive window tabs from the taskbar"
+#~ msgid "&Hide inactive window tabs from the taskbar"
+#~ msgstr "Назардан тыс терезе қойындыларын тапсырмалар панелінен кетіру"
+
+#~ msgid ""
+#~ "When turned on attempt to automatically detect when a newly opened window "
+#~ "is related to an existing one and place them in the same window group."
+#~ msgstr ""
+#~ "Қосылса, жаңа ашылған терезе бар терезеге ұқсастығын байқап, оны сол "
+#~ "терезесімен, автоматты түрде, бір топқа жатқызады."
+
+#, fuzzy
+#~| msgid "Start Window Tab Drag"
+#~ msgid "Start window tab drag"
+#~ msgstr "Терезе қойындысының сүйреуін бастау"
+
+#~ msgid "Ri&ght button:"
+#~ msgstr "&Оң жақ батырмасы:"
+
+#~ msgid "&Wheel"
+#~ msgstr "&Тегіршік"
+
+#~ msgid "&Left button:"
+#~ msgstr "Со&л жақ батырмасы:"
+
+#~ msgid "&Right button:"
+#~ msgstr "&Оң жақ батырмасы:"
+
+#~ msgid "M&iddle button:"
+#~ msgstr "О&ртаңғы батырмасы:"
+
+#~ msgid "Left &button"
+#~ msgstr "Сол жақ &батырмасы"
+
+#~ msgid "Automatically group similar windows"
+#~ msgstr "Ұқсас терезелерді автоматты түрде топтастырады"
+
+#, fuzzy
+#~| msgid ""
+#~| "The placement policy determines where a new window will appear on the "
+#~| "desktop.\n"
+#~| "<ul>\n"
+#~| "<li><em>Smart</em> will try to achieve a minimum overlap of windows</"
+#~| "li>\n"
+#~| "<li><em>Maximizing</em> will try to maximize every window to fill the "
+#~| "whole screen. It might be useful to selectively affect placement of some "
+#~| "windows using the window-specific settings.</li>\n"
+#~| "<li><em>Cascade</em> will cascade the windows</li>\n"
+#~| "<li><em>Random</em> will use a random position</li>\n"
+#~| "<li><em>Centered</em> will place the window centered</li>\n"
+#~| "<li><em>Zero-Cornered</em> will place the window in the top-left corner</"
+#~| "li>\n"
+#~| "<li><em>Under Mouse</em> will place the window under the pointer</li>\n"
+#~| "</ul>"
+#~ msgid ""
+#~ "The placement policy determines where a new window will appear on the "
+#~ "desktop.<br><ul>\n"
+#~ "<li><em>Smart</em> will try to achieve a minimum overlap of windows</li>\n"
+#~ "<li><em>Maximizing</em> will try to maximize every window to fill the "
+#~ "whole screen. It might be useful to selectively affect placement of some "
+#~ "windows using the window-specific settings.</li>\n"
+#~ "<li><em>Cascade</em> will cascade the windows</li>\n"
+#~ "<li><em>Random</em> will use a random position</li>\n"
+#~ "<li><em>Centered</em> will place the window centered</li>\n"
+#~ "<li><em>Zero-Cornered</em> will place the window in the top-left corner</"
+#~ "li>\n"
+#~ "<li><em>Under Mouse</em> will place the window under the pointer</li>\n"
+#~ "</ul>"
+#~ msgstr ""
+#~ "Жаңа терезе үстелінің қай жерінде пайда болатының реттейтін ережесі.\n"
+#~ "<ul>\n"
+#~ "<li><em>Ыңғайлы</em> - жаңа терезе басқа терезелермен барынша қабаттаспай "
+#~ "орналасады.</li>\n"
+#~ "<li><em>Кең жайып</em> - терезелер экранға барынша кең жайылады.</li>\n"
+#~ "<li><em>Тізбектеп</em> - терезелер тізбектеліп орналасады.</li>\n"
+#~ "<li><em>Кездейсоқ</em> - терезенің орналасуы кездейсоқ түрде таңдалады.</"
+#~ "li>\n"
+#~ "<li><em>Ортада</em> - терезе экран ортасында орналасады.</li>\n"
+#~ "<li><em>Бұрышта</em> - терезе экранның сол жақ жоғарғы бұрышында "
+#~ "орналасады.</li>\n"
+#~ "<li><em>Тышқан меңзегенде</em> - тышқан меңзеген жерде орналасады</li>\n"
+#~ "</ul>"
+
+#~ msgid "Shading"
+#~ msgstr "Айдарына түю"
+
+#~ msgid "Dela&y:"
+#~ msgstr "Кідір&у:"
+
+#~ msgid "&Enable hover"
+#~ msgstr "&Меңзеп жаю"
+
+#~ msgid "Activating windows"
+#~ msgstr "Терезелерді белсендету"
+
+#~ msgid "Policy"
+#~ msgstr "Саясаты"
+
+#~ msgid "Click"
+#~ msgstr "Түрту"
+
+#~ msgid "Hover"
+#~ msgstr "Мензеу"
+
+#~ msgid "&Moving"
+#~ msgstr "&Жылжыту"
+
+#~ msgid "Wheel event:"
+#~ msgstr "Тегершігінің әрекеті:"
+
+#~ msgid "Handle mouse wheel events"
+#~ msgstr "Тышқанның тегершігінің әрекетін баптау"
+
+#~ msgid ""
+#~ "In this column you can customize mouse clicks into the titlebar or the "
+#~ "frame of an active window."
+#~ msgstr ""
+#~ "Осы бағанда Сіз назардағы терезенің айдарын не қоршауын меңзеп, тышқанды "
+#~ "шерткенде болатын әрекеттерді баптай аласыз."
+
+#~ msgid ""
+#~ "In this column you can customize mouse clicks into the titlebar or the "
+#~ "frame of an inactive window."
+#~ msgstr ""
+#~ "Осы бағанда Сіз назардан тыс терезенің айдарын не қоршауын меңзеп, "
+#~ "тышқанды шерткенде болатын әрекеттерді баптай аласыз."
+
+#~ msgid "Left button:"
+#~ msgstr "Сол жақ батырмасы:"
+
+#~ msgid "Middle button:"
+#~ msgstr "Ортаңғы батырмасы:"
+
+#~ msgid ""
+#~ "Behavior on <em>middle</em> click into the titlebar or frame of an "
+#~ "<em>active</em> window."
+#~ msgstr ""
+#~ "<em>Белсенді </em>терезенің айдары не қоршауын меңзеп, тышқанның "
+#~ "<em>ортаңғы</em> батырмасын шерткенде болатын әрекеттер."
+
+#~ msgid "Right button:"
+#~ msgstr "Оң жақ батырмасы:"
+
+#~ msgid ""
+#~ "Behavior on <em>right</em> click into the titlebar or frame of an "
+#~ "<em>active</em> window."
+#~ msgstr ""
+#~ "<em>Назардағы</em> терезенің айдары не қоршауын меңзеп, тышқанның <em>оң</"
+#~ "em> жақ батырмасын шерткенде болатын әрекеттер."
+
+#~ msgid "Titlebar & Frame"
+#~ msgstr "Айдары мен қоршауы"
+
+#~ msgid "Titlebar"
+#~ msgstr "Айдар жолағы"
+
+#~ msgid "no center snap zone"
+#~ msgstr "ортасы жабысу төңірегі жоқ"
+
+#~ msgid "no window snap zone"
+#~ msgstr "терезенің жабысу төңірегі жоқ"
+
+#~ msgid "no border snap zone"
+#~ msgstr "шегі жабысу төңірегі жоқ"
+
+#~ msgid "Windows"
+#~ msgstr "Терезелер"
+
+#~ msgid "Snap Zones"
+#~ msgstr "Жабысу төңірегі"
+
+#~ msgid "kcmkwinoptions"
+#~ msgstr "kcmkwinoptions"
+
+#~ msgid ""
+#~ "The focus policy is used to determine the active window, i.e. the window "
+#~ "you can work in. <ul>\n"
+#~ "<li><em>Click to focus:</em> A window becomes active when you click into "
+#~ "it. This is the behavior you might know from other operating systems.</"
+#~ "li> <li><em>Focus follows mouse:</em> Moving the mouse pointer actively "
+#~ "on to a normal window activates it. New windows will receive the focus, "
+#~ "without you having to point the mouse at them explicitly. Very practical "
+#~ "if you are using the mouse a lot.</li>\n"
+#~ "<li><em>Focus under mouse:</em> The window that happens to be under the "
+#~ "mouse pointer is active. If the mouse points nowhere, the last window "
+#~ "that was under the mouse has focus. New windows will not automatically "
+#~ "receive the focus.</li>\n"
+#~ "<li><em>Focus strictly under mouse:</em> Only the window under the mouse "
+#~ "pointer is active. If the mouse points nowhere, nothing has focus.</li>\n"
+#~ "</ul>\n"
+#~ "Note that 'Focus under mouse' and 'Focus strictly under mouse' prevent "
+#~ "certain features such as the Alt+Tab walk through windows dialog in the "
+#~ "KDE mode from working properly."
+#~ msgstr ""
+#~ "Назар аудару саясаты - белсенді, яғни жұмыс істейтін, терезені анықтайтын "
+#~ "ережесі.<ul>\n"
+#~ "<li><em>Түртуге еру:</em> Терезеге назарды аудару үшін оны тышқанмен "
+#~ "түрту керек. Бұл Сізге өзге операциялық жүйелерден де мәлім болуы мүмкін."
+#~ "</li>\n"
+#~ "<li><em>Назар тышқанға ереді:</em> Тышқанның меңзері терезеде кимылдаса - "
+#~ "оған назар аударады. Тышқанмен жұмыс істегенде өте ұтымды.</li>\n"
+#~ "<li><em>Назар тышқан меңзегенде:</em> Өзге сөзбен айтқанда тышқан тыс "
+#~ "жерді меңзегенде соңғы меңзеген терезеге назары түседі.</li>\n"
+#~ "<li><em>Назар міндетті түрде тышқан меңзегенде:</em> Егер тышқан еш "
+#~ "терезеге меңземесе - ешқандай терезеге назар түспейді. </li>\n"
+#~ "</ul>\n"
+#~ "Есіңізде болсын: 'Назар тышқан меңзегенде', 'Назар міндетті түрде тышқан "
+#~ "меңзегенде' ережелері кейбір, Alt+Tab көмегімен диалогтағы тетіктерді "
+#~ "аралап шығу секілді, KDE мүмкіншіліктерге кедергі болады."
+
+#~ msgid "&Raise, with the following delay:"
+#~ msgstr "&Келесі кідіріспен алға шығару:"
+
+#~ msgid "&When the active window disappears, pass focus to window under mouse"
+#~ msgstr "Белсенді &терезе ғайып болғанда, назар меңзер астындағына ауыссын"
+
+#~ msgid ""
+#~ "When enabled, this feature activates the border of maximized windows and "
+#~ "allows you to move or resize them, just like for normal windows"
+#~ msgstr ""
+#~ "Рұқсат етілсе, барынша кең жайылған терезелердің өлшемдерін, кәдімгі "
+#~ "терезелерді сияқты, шегінен ілектіріп, өзгертуге және жылжытуға болады"
+
+#~ msgid "Display borders on &maximized windows"
+#~ msgstr "К&ең жайылған терезелерінің жиегі көрсетілсін"
+
+#~ msgctxt "@item:inlistbox behavior on double click"
+#~ msgid "Minimize"
+#~ msgstr "Түю"
+
+#~ msgctxt "@item:inlistbox behavior on double click"
+#~ msgid "Close"
+#~ msgstr "Жабу"
+
+#~ msgid ""
+#~ "Here you can customize mouse click behavior when clicking on the titlebar "
+#~ "or the frame of a window."
+#~ msgstr ""
+#~ "Мұнда Сіз терезенің айдарын не қоршауын меңзеп, тышқанды шерткенде "
+#~ "болатын әрекеттерді баптай аласыз."
+
+#~ msgid ""
+#~ "Behavior on <em>right</em> click into the titlebar or frame of an "
+#~ "<em>inactive</em> window."
+#~ msgstr ""
+#~ "<em>Назардағы емес</em>терезенің айдары не қоршауын меңзеп, тышқанның "
+#~ "<em>оң</em> жақ батырмасын шерткенде болатын әрекеттер."
+
+#~ msgid ""
+#~ "Behavior on <em>middle</em> click into the titlebar or frame of an "
+#~ "<em>inactive</em> window."
+#~ msgstr ""
+#~ "<em>Назардан тыс</em> терезенің айдарын не қоршауын меңзеп, тышқанның "
+#~ "<em>ортаңғы</em> батырмасын шерткенде болатын әрекеттер."
+
+#~ msgid ""
+#~ "Here you can customize behavior when clicking on the maximize button."
+#~ msgstr ""
+#~ "Мұнда кең жаю батырмасын шерткенде болатын әрекетерін баптай аласыз."
+
+#~ msgid ""
+#~ "Here you can customize mouse click behavior when clicking on an inactive "
+#~ "inner window ('inner' means: not titlebar, not frame)."
+#~ msgstr ""
+#~ "Мұнда назардан тыс терезенің ішінде шерткенде болатын әрекетерін баптай "
+#~ "аласыз (ішкі дегені айдарда да, қоршауда да емес)."
+
+#~ msgid ""
+#~ "Here you can customize KDE's behavior when clicking somewhere into a "
+#~ "window while pressing a modifier key."
+#~ msgstr ""
+#~ "Осында Сіз терезенің бір жерінде, түрлендіру пернесінің бірін басып тұрып "
+#~ "тышқанның батырмасын шерткенде болатын әрекетерін баптай аласыз."
+
+#~ msgctxt "no border snap zone"
+#~ msgid "none"
+#~ msgstr "жоқ"
+
+#~ msgctxt "no window snap zone"
+#~ msgid "none"
+#~ msgstr "жоқ"
+
+#~ msgctxt "no center snap zone"
+#~ msgid "none"
+#~ msgstr "жоқ"
+
+#~ msgid "Tiling"
+#~ msgstr "Қатарлау"
+
+#~ msgid "Enable Tiling"
+#~ msgstr "Қатарлауды рұқсат ету"
+
+#~ msgid ""
+#~ "A tiling window manager lays out all the windows in a non-overlapping "
+#~ "manner. This way all windows are always visible."
+#~ msgstr ""
+#~ "Қатарлау тәртібі - терзелерді қабаттастырмай, бір-біріне қатар "
+#~ "орналастырып, бөлшектеп болсада бәрін де көрінетін қылады."
+
+#~ msgid "Default Tiling &Layout"
+#~ msgstr "Ә&детті қатарлау әдісі"
+
+#~ msgctxt "Spiral tiling layout"
+#~ msgid "Spiral"
+#~ msgstr "Спираль"
+
+#~ msgctxt "Two-column horizontal tiling layout"
+#~ msgid "Columns"
+#~ msgstr "Бағандар"
+
+#~ msgctxt "Floating layout, windows aren't tiled at all"
+#~ msgid "Floating"
+#~ msgstr "Қалқымалы"
+
+#~ msgid "Floating &Windows Raising"
+#~ msgstr "Қалқымалы &терезелерді алға шығару"
+
+#~ msgctxt "Window Raising Policy"
+#~ msgid "Raise/Lower current window only"
+#~ msgstr "Назардағы терезені ғана алға шығару/артқа тығу"
+
+#~ msgctxt "Window Raising Policy"
+#~ msgid "Floating windows are always on top"
+#~ msgstr "Қалқымалы терезелері әрқашанда жоғарда"
+
+#~ msgid ""
+#~ "The window raising policy determines how floating windows are stacked "
+#~ "<ul> <li><em>Raise/Lower all</em> will raise all floating windows when a "
+#~ "floating window is activated.</li> <li><em>Raise/Lower current</em> will "
+#~ "raise only the current window.</li> <li><em>Floating windows on top</em> "
+#~ "will always keep floating windows on top, even when a tiled window is "
+#~ "activated.</ul>"
+#~ msgstr ""
+#~ "Алға шығару ережесі қалқыма терезелерінің қабаттасу ретін анықтайды <ul> "
+#~ "<li><em>Барлығын алға шығару/артқа тығу</em> деген бір қалқыма терезеге "
+#~ "назар ауысса, барлығын алға шығарады.</li> <li><em>Назардағыны алға "
+#~ "шығару/артқа тығу</em> деген назардағыны ғана алға шығарады</li> "
+#~ "<li><em>Қалқымалылар жоғарда</em> деген, назары қатарлаған терезеде болса "
+#~ "да, қалқымалы терезелерін алға шығарып ұстайды.</ul>"
+
+#~ msgid ""
+#~ "When this option is enabled, there will be a delay after which the window "
+#~ "the mouse pointer is over will become active (receive focus)."
+#~ msgstr ""
+#~ "Бұл параметр рұқсат етілсе, тышқан терезеге сәл кідірген соң ғана оған "
+#~ "назар ауысады."
+
+#~ msgid "Di&splay content in moving windows"
+#~ msgstr "Жылжытқанда терезе мазмұны көр&сетілсін"
+
+#~ msgid ""
+#~ "Enable this option if you want a window's content to be fully shown while "
+#~ "moving it, instead of just showing a window 'skeleton'. The result may "
+#~ "not be satisfying on slow machines without graphic acceleration."
+#~ msgstr ""
+#~ "Жылжытқанда терезе мазмұны көрсетілсін десеңіз бұны рұқсат етіңіз, "
+#~ "әйтпесе тек терезенің қоршауының жылжыуы ғана көрсетіледі. "
+#~ "Компьютеріңізде графикалық үдеткіші болмаса көрсеткенің нәтижесі нашар "
+#~ "болуы мүмкін."
+
+#~ msgid "Display content in &resizing windows"
+#~ msgstr "Өлшемін өзге&рткенде терезе мазмұны көрсетілсін"
+
+#~ msgid ""
+#~ "Enable this option if you want a window's content to be shown while "
+#~ "resizing it, instead of just showing a window 'skeleton'. The result may "
+#~ "not be satisfying on slow machines."
+#~ msgstr ""
+#~ "Өлшемін өзгерткенде терезе мазмұны көрсетілсін десеңіз, бұны рұқсат "
+#~ "етіңіз, әйтпесе тек терезенің қоршауының жылжыуы ғана көрсетіледі. Баяу "
+#~ "компьютерлерде көрсеткеннің нәтижесі нашар болуы мүмкін."
+
+#~ msgid "Allow moving and resizing o&f maximized windows"
+#~ msgstr "Кең жайылған терезелер&ді өзгертуге рұқсат берілсін"
+
+#~ msgid "Show window list while switching windows"
+#~ msgstr "Басқа терезеге ауысқанда терезелер тізімі көрсетілсін"
+
+#~ msgid ""
+#~ "Hold down the Alt key and press the Tab key repeatedly to walk through "
+#~ "the windows on the current desktop (the Alt+Tab combination can be "
+#~ "reconfigured).\n"
+#~ "\n"
+#~ "If this checkbox is checked a popup widget is shown, displaying the icons "
+#~ "of all windows to walk through and the title of the currently selected "
+#~ "one.\n"
+#~ "\n"
+#~ "Otherwise, the focus is passed to a new window each time Tab is pressed, "
+#~ "with no popup widget.  In addition, the previously activated window will "
+#~ "be sent to the back in this mode."
+#~ msgstr ""
+#~ "Alt пернесін басып тұрып Tab пернесін басып ағымдағы жұмыс үстелінің "
+#~ "терезелерін араларуға болады (Alt+Tab тіркесімін басқаша баптап қоюға "
+#~ "болады).\n"
+#~ "\n"
+#~ "Бұл құсбелгі қойылса, бүкіл аралауға дайын терезелер және қазір назардағы "
+#~ "терезе көрсетілген тізім шығады.\n"
+#~ "\n"
+#~ "Құсбелгі қойылмаса, Tab пернені басқанда, назар жаңа терезеге ауысып,"
+#~ "алдыңғы терезе артқа кетеді. Бұнда ешбір тізім шықпайды."
+
+#~ msgid "&Traverse windows on all desktops"
+#~ msgstr "&Барлық үстелдердің терезелері бойынша"
+
+#~ msgid ""
+#~ "Leave this option disabled if you want to limit walking through windows "
+#~ "to the current desktop."
+#~ msgstr ""
+#~ "Егер тек көрсетілген үстелдегі терезелерді аралайтын болсаңыз, бұл "
+#~ "параметрды таңдамаңыз."
+
+#~ msgid "Desktop navi&gation wraps around"
+#~ msgstr "Жұмыс үстелін ша&рлауы тұйық"
+
+#~ msgid ""
+#~ "Enable this option if you want keyboard or active desktop border "
+#~ "navigation beyond the edge of a desktop to take you to the opposite edge "
+#~ "of the new desktop."
+#~ msgstr ""
+#~ "Бұл параметрді таңдасаңыз, жұмыс үстелінің шекарасынан аттағанда, көрші "
+#~ "үстелінің қарама-қарсы жақтан шыға келесіз."
+
+#~ msgid "Popup desktop name on desktop &switch"
+#~ msgstr "Үстел &ауысқанда үстелінің атын шығару"
+
+#~ msgid ""
+#~ "Enable this option if you wish to see the current desktop name popup "
+#~ "whenever the current desktop is changed."
+#~ msgstr ""
+#~ "Бұнымен жұмыс үстелінің атауы жазылған қалқымалы терезені көрсетілетінін "
+#~ "рұқсат ете аласыз."
+
+#~ msgctxt "Focus Stealing Prevention Level"
+#~ msgid "Normal"
+#~ msgstr "Қалыпты"
+
+#~ msgid "Active Desktop Borders"
+#~ msgstr "Үстелінің шекарасының белсенділігі"
+
+#~ msgid ""
+#~ "If this option is enabled, moving the mouse to a screen border will "
+#~ "change your desktop. This is e.g. useful if you want to drag windows from "
+#~ "one desktop to the other."
+#~ msgstr ""
+#~ "Тышқанның шекарадан өтуі көрші үстеліне ауыстырады. Бұл терезенің бір "
+#~ "үстелден екіншісіне жылжытқанда өте ыңғайлы."
+
+#~ msgid "D&isabled"
+#~ msgstr "Рұқсат етіл&меген"
+
+#~ msgid "Only &when moving windows"
+#~ msgstr "Тек қана терезені &жылжытқанда"
+
+#~ msgid "A&lways enabled"
+#~ msgstr "Әрқ&ашанда рұқсат етілген"
+
+#~ msgid ""
+#~ "Here you can set a delay for switching desktops using the active borders "
+#~ "feature. Desktops will be switched after the mouse has been pushed "
+#~ "against a screen border for the specified number of milliseconds."
+#~ msgstr ""
+#~ "Мұнда Сіз, белсенді шекара қолданатын, үстелінің ауысу кідірісін келтіре "
+#~ "аласыз. Тышқан экран шекарасынан өтіп кеткен соң, келтірілген милисекунд "
+#~ "кідірістен кейін үстел ауысады."
+
+#~ msgid "Desktop &switch delay:"
+#~ msgstr "Үстелінің а&уысу кідірісі:"
+
+#~ msgid ""
+#~ "Here you can customize KDE's behavior when middle clicking into a window "
+#~ "while pressing the modifier key."
+#~ msgstr ""
+#~ "Осында Сіз терезенің бір жерінде, түрлендіру пернесін басып тұрып "
+#~ "тышқанның ортаңғы батырмасын шерткенде болатын әрекеттерін баптай аласыз."

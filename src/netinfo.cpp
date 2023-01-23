@@ -100,7 +100,8 @@ RootInfo *RootInfo::create()
         | NET::WM2KDEShadow
         | NET::WM2OpaqueRegion
         | NET::WM2GTKFrameExtents
-        | NET::WM2GTKShowWindowMenu;
+        | NET::WM2GTKShowWindowMenu
+        | NET::WM2Opacity;
 #if KWIN_BUILD_ACTIVITIES
     properties2 |= NET::WM2Activities;
 #endif
@@ -202,7 +203,7 @@ void RootInfo::moveResize(xcb_window_t w, int x_root, int y_root, unsigned long 
 {
     X11Window *c = Workspace::self()->findClient(Predicate::WindowMatch, w);
     if (c) {
-        updateXTime(); // otherwise grabbing may have old timestamp - this message should include timestamp
+        kwinApp()->updateXTime(); // otherwise grabbing may have old timestamp - this message should include timestamp
         c->NETMoveResize(Xcb::fromXNative(x_root), Xcb::fromXNative(y_root), (Direction)direction);
     }
 }
@@ -217,7 +218,6 @@ void RootInfo::moveResizeWindow(xcb_window_t w, int flags, int x, int y, int wid
 
 void RootInfo::showWindowMenu(xcb_window_t w, int device_id, int x_root, int y_root)
 {
-    Q_UNUSED(device_id);
     if (X11Window *c = Workspace::self()->findClient(Predicate::WindowMatch, w)) {
         c->GTKShowWindowMenu(Xcb::fromXNative(x_root), Xcb::fromXNative(y_root));
     }

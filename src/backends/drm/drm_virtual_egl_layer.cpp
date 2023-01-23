@@ -20,7 +20,7 @@
 #include "drm_virtual_output.h"
 #include "egl_dmabuf.h"
 #include "kwineglutils_p.h"
-#include "surfaceitem_wayland.h"
+#include "scene/surfaceitem_wayland.h"
 #include "wayland/linuxdmabufv1clientbuffer.h"
 #include "wayland/surface_interface.h"
 
@@ -69,7 +69,6 @@ std::optional<OutputLayerBeginFrameInfo> VirtualEglGbmLayer::beginFrame()
     if (!m_gbmSurface->makeContextCurrent()) {
         return std::nullopt;
     }
-    GLFramebuffer::pushFramebuffer(m_gbmSurface->fbo());
     return OutputLayerBeginFrameInfo{
         .renderTarget = RenderTarget(m_gbmSurface->fbo()),
         .repaint = m_gbmSurface->repaintRegion(),
@@ -78,8 +77,6 @@ std::optional<OutputLayerBeginFrameInfo> VirtualEglGbmLayer::beginFrame()
 
 bool VirtualEglGbmLayer::endFrame(const QRegion &renderedRegion, const QRegion &damagedRegion)
 {
-    Q_UNUSED(renderedRegion);
-    GLFramebuffer::popFramebuffer();
     const auto buffer = m_gbmSurface->swapBuffers(damagedRegion);
     if (buffer) {
         m_currentBuffer = buffer;
@@ -165,6 +162,8 @@ bool VirtualEglGbmLayer::scanout(SurfaceItem *surfaceItem)
     // damage tracking for screen casting
     m_currentDamage = m_scanoutSurface == item->surface() ? surfaceItem->damage() : infiniteRegion();
     surfaceItem->resetDamage();
+    // ensure the pixmap is updated when direct scanout ends
+    surfaceItem->destroyPixmap();
     m_scanoutSurface = item->surface();
     m_currentBuffer = scanoutBuffer;
     return true;

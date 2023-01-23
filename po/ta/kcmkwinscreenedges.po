@@ -232,3 +232,9 @@ msgid ""
 "You can trigger an action by swiping from the screen edge towards the center "
 "of the screen."
 msgstr "திரையின் ஓரத்திலிருந்து நடுப்பகுதிக்கு விரலை இழுத்து செயல்களை நீங்கள் தூண்டலாம்."
+
+#~ msgid "Show Desktop"
+#~ msgstr "பணிமேடையை காட்டு"
+
+#~ msgid "Toggle Overview"
+#~ msgstr "மேலோட்டத்தை காட்டு/மறை"

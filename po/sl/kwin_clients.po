@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-08-07 00:48+0000\n"
+"POT-Creation-Date: 2022-11-16 00:48+0000\n"
 "PO-Revision-Date: 2017-02-12 18:18+0100\n"
 "Last-Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -130,3 +130,389 @@ msgstr ""
 #, kde-format
 msgid "Animate buttons"
 msgstr "Animiraj gumbe"
+
+#~ msgid ""
+#~ "Check this option if you want the titlebar text to have a 3D look with a "
+#~ "shadow behind it."
+#~ msgstr ""
+#~ "Izberite to možnost, če želite, da ima besedilo v nazivni vrstici 3D "
+#~ "izgled, prikazanega s senco pod besedilom"
+
+#~ msgid "Use shadowed &text"
+#~ msgstr "Uporabi senčeno &besedilo"
+
+#~ msgid "Button mouseover transition"
+#~ msgstr "Prehod miške čez gumbe"
+
+#~ msgid "Configure window buttons' mouseover highlight animation"
+#~ msgstr "Nastavite animacijo prehoda miške čez gumbe okna"
+
+#~ msgid "Title transitions"
+#~ msgstr "Prehod naslova"
+
+#~ msgid "Configure fading transitions when window title is changed"
+#~ msgstr "Nastavite postopen prehod pri spremembi naslova okna"
+
+#~ msgid "Window active state change transitions"
+#~ msgstr "Prehod pri spremembi dejavnosti okna"
+
+#~ msgid ""
+#~ "Configure fading between window shadow and glow when window's active "
+#~ "state is changed"
+#~ msgstr ""
+#~ "Nastavite postopen prehod med senco in žarenjem, ko se spremeni stanje "
+#~ "dejavnosti okna"
+
+#~ msgid "Window grouping animations"
+#~ msgstr "Animacije združevanja oken"
+
+#~ msgid ""
+#~ "Configure window titlebar animations when windows are grouped/ungrouped"
+#~ msgstr ""
+#~ "Nastavite animacije naslovne vrstice kadar so okna združena/razdružena"
+
+#~ msgid "Hide Advanced Configuration Options"
+#~ msgstr "Skrij napredne nastavitve"
+
+#~ msgid "Show Advanced Configuration Options"
+#~ msgstr "Pokaži napredne nastavitve"
+
+#~ msgid "Animations"
+#~ msgstr "Animacije"
+
+#~ msgid "Question - Oxygen Settings"
+#~ msgstr "Vprašanje - nastavitve Kisika"
+
+#~ msgid "Remove selected exception?"
+#~ msgstr "Odstranim izbrano izjemo?"
+
+#~ msgid "Warning - Oxygen Settings"
+#~ msgstr "Opozorilo - nastavitve Kisika"
+
+#~ msgid "Regular Expression syntax is incorrect"
+#~ msgstr "Skladnja logičnega izraza ni pravilna"
+
+#~ msgid "Exception Type"
+#~ msgstr "Vrsta izjeme"
+
+#~ msgid "Regular Expression"
+#~ msgstr "Logični izraz"
+
+#~ msgid "Window Title"
+#~ msgstr "Naslov okna"
+
+#~ msgid "Window Class Name"
+#~ msgstr "Ime razreda okna"
+
+#~ msgid "Enable/disable this exception"
+#~ msgstr "Omogoči/onemogoči to izjemo"
+
+#~ msgid "General"
+#~ msgstr "Splošno"
+
+#~ msgid "Border si&ze:"
+#~ msgstr "Velikos&t obrobe:"
+
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "No Border"
+#~ msgstr "Brez obrobe"
+
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "No Side Borders"
+#~ msgstr "Brez stranskih obrob"
+
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "Normal"
+#~ msgstr "Običajna"
+
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "Large"
+#~ msgstr "Velika"
+
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "Very Large"
+#~ msgstr "Zelo velika"
+
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "Huge"
+#~ msgstr "Ogromna"
+
+#~ msgid "Tit&le alignment:"
+#~ msgstr "Poravnava nas&lova:"
+
+#~ msgid "Center (Full Width)"
+#~ msgstr "Na sredino (celotna širina)"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Small"
+#~ msgstr "Majhna"
+
+#~ msgid "Enable animations"
+#~ msgstr "Omogoči animacije"
+
+#~ msgid "Fine Tuning"
+#~ msgstr "Podrobno nastavljanje"
+
+#~ msgid "Close windows by double clicking the menu button"
+#~ msgstr "Zapri okna z dvojnim klikom na menijski gumb"
+
+#~ msgid "Never Draw Separator"
+#~ msgstr "Nikoli ne izriši ločilnika"
+
+#~ msgid "Draw Separator When Window is Active"
+#~ msgstr "Izriši ločilnik, ko je okno dejavno"
+
+#~ msgid "Always Draw Separator"
+#~ msgstr "Vedno izriši ločilnik"
+
+#~ msgid "Separator disp&lay:"
+#~ msgstr "Prikaz &ločilnika:"
+
+#~ msgid "Outline active window title"
+#~ msgstr "Obris naslova dejavnega okna"
+
+#~ msgid "Use narrow space between decoration buttons"
+#~ msgstr "Med gumbi v okrasku uporabi majhen razmik"
+
+#~ msgid "Add handle to resize windows with no border"
+#~ msgstr "Dodaj ročico za spreminjanje velikosti oken brez obrobe"
+
+#~ msgid "Display window borders for maximized windows"
+#~ msgstr "Prikaži obrobo oken za razpeta okna"
+
+#~ msgid "Shadows"
+#~ msgstr "Sence"
+
+#~ msgid "Window Drop-Down Shadow"
+#~ msgstr "Senca okna"
+
+#~ msgid "Active Window Glow"
+#~ msgstr "Žarenje dejavnega okna"
+
+#~ msgid "Window-Specific Overrides"
+#~ msgstr "Nastavitve glede na določeno okno"
+
+#~ msgid "Dialog"
+#~ msgstr "Pogovorno okno"
+
+#~ msgid "Information about Selected Window"
+#~ msgstr "Podatki o izbranem oknu"
+
+#~ msgid "Class: "
+#~ msgstr "Razred: "
+
+#~ msgid "Title: "
+#~ msgstr "Naslov: "
+
+#~ msgid "Window Property Selection"
+#~ msgstr "Izbor lastnosti okna"
+
+#~ msgid "Use window class (whole application)"
+#~ msgstr "Uporabi okenski razred (cel program)"
+
+#~ msgid "Use window title"
+#~ msgstr "Uporabi naslov okna"
+
+#~ msgid "Window Identification"
+#~ msgstr "Identifikacija oken"
+
+#~ msgid "Matching window property: "
+#~ msgstr "Ujemajoča lastnost okna: "
+
+#~ msgid "Regular expression to match: "
+#~ msgstr "Ujemanje z logičnim izrazom: "
+
+#~ msgid "Detect Window Properties"
+#~ msgstr "Zaznaj lastnosti okna"
+
+#~ msgid "Decoration Options"
+#~ msgstr "Možnosti okraska"
+
+#~ msgctxt "outline window title"
+#~ msgid "Disabled"
+#~ msgstr "Onemogočen"
+
+#~ msgctxt "outline window title"
+#~ msgid "Enabled"
+#~ msgstr "Omogočen"
+
+#~ msgid "Border size:"
+#~ msgstr "Velikost obrobe:"
+
+#~ msgid "Outline active window title:"
+#~ msgstr "Obris naslova dejavnega okna:"
+
+#~ msgid "Separator display:"
+#~ msgstr "Prikaz ločilnika:"
+
+#~ msgid "Hide window title bar"
+#~ msgstr "Skrij naslovno vrstico okna"
+
+#~ msgctxt "Add handle to resize windows with no border"
+#~ msgid "Disabled"
+#~ msgstr "Onemogočeno"
+
+#~ msgctxt "Add handle to resize windows with no border"
+#~ msgid "Enabled"
+#~ msgstr "Omogočeno"
+
+#~ msgid "Move Up"
+#~ msgstr "Premakni gor"
+
+#~ msgid "Move Down"
+#~ msgstr "Premakni dol"
+
+#~ msgid "Add"
+#~ msgstr "Dodaj"
+
+#~ msgid "Remove"
+#~ msgstr "Odstrani"
+
+#~ msgid "Edit"
+#~ msgstr "Uredi"
+
+#~ msgid "Oxygen Shadow Demo"
+#~ msgstr "Predstavitev senc Kisik"
+
+#~ msgid "Draw window background"
+#~ msgstr "Izriši ozadje okna"
+
+#~ msgid "Inactive Windows"
+#~ msgstr "Nedejavna okna"
+
+#~ msgid "Active Windows"
+#~ msgstr "Dejavna okna"
+
+#~ msgid "Oxygen"
+#~ msgstr "Kisik"
+
+#~ msgid "Window Actions Menu"
+#~ msgstr "Meni z dejanji za okno"
+
+#~ msgid "Application Menu"
+#~ msgstr "Meni programa"
+
+#~ msgid "Help"
+#~ msgstr "Pomoč"
+
+#~ msgid "Minimize"
+#~ msgstr "Skrči"
+
+#~ msgid "Maximize"
+#~ msgstr "Razpni"
+
+#~ msgid "Close"
+#~ msgstr "Zapri"
+
+#~ msgid "Keep Above Others"
+#~ msgstr "Ohrani nad drugimi"
+
+#~ msgid "Keep Below Others"
+#~ msgstr "Ohrani pod drugimi"
+
+#~ msgid "On All Desktops"
+#~ msgstr "Na vsa namizja"
+
+#~ msgid "Shade Button"
+#~ msgstr "Gumb za zvitje"
+
+#~ msgid "Menu"
+#~ msgstr "Meni"
+
+#~ msgid "Not on all desktops"
+#~ msgstr "Ne na vseh namizjih"
+
+#~ msgid "On all desktops"
+#~ msgstr "Na vseh namizjih"
+
+#~ msgid "Unshade"
+#~ msgstr "Razvij"
+
+#~ msgid "Shade"
+#~ msgstr "Zvij"
+
+#~ msgid "Resize"
+#~ msgstr "Spremeni velikost"
+
+#~ msgid "<b><center>B II preview</center></b>"
+#~ msgstr "<b><center>Predogled B II</center></b>"
+
+#~ msgid "Restore"
+#~ msgstr "Obnovi"
+
+#~ msgctxt "Help button label, one character"
+#~ msgid "?"
+#~ msgstr "?"
+
+#~ msgid "Draw window frames using &titlebar colors"
+#~ msgstr "Izriši okvirje oken z barvami &naslovne vrstice"
+
+#~ msgid ""
+#~ "When selected, the window borders are drawn using the titlebar colors; "
+#~ "otherwise, they are drawn using normal border colors."
+#~ msgstr ""
+#~ "Ko je to izbrano, bodo obrobe oken narisane z barvami naslovne vrstice. V "
+#~ "nasprotnem primeru bodo narisane v običajnih barvah obrob."
+
+#~ msgid "Draw &resize handle"
+#~ msgstr "Nariši &ročico za spreminjanje velikosti"
+
+#~ msgid ""
+#~ "When selected, decorations are drawn with a \"grab handle\" in the bottom "
+#~ "right corner of the windows; otherwise, no grab handle is drawn."
+#~ msgstr ""
+#~ "Ko je to izbrano, bodo okraski risani z »ročico za zgrabiti« v spodnjem "
+#~ "desnem kotu oken. V nasprotnem primeru ročica ne bo izrisana."
+
+#~ msgid "Auto-move titlebar"
+#~ msgstr "Samodejno premakni naslovno vrstico"
+
+#~ msgid ""
+#~ "When selected, titlebars are automatically relocated to visible "
+#~ "positions; otherwise, they are only moved manually using shift+drag."
+#~ msgstr ""
+#~ "Ko je to izbrano, so naslovne vrstice samodejno premaknjene na vidna "
+#~ "mesta. V nasprotnem se jih premakne ročno z uporabo dvigalka+vlečenje."
+
+#~ msgid "Actions Settings"
+#~ msgstr "Nastavitve dejanj"
+
+#~ msgid "Double click on menu button:"
+#~ msgstr "Dvojni klik na menijski gumb:"
+
+#~ msgid "Do Nothing"
+#~ msgstr "Ne naredi nič"
+
+#~ msgid "Minimize Window"
+#~ msgstr "Skrči okno"
+
+#~ msgid "Shade Window"
+#~ msgstr "Zvij okno"
+
+#~ msgid "Close Window"
+#~ msgstr "Zapri okno"
+
+#~ msgid ""
+#~ "An action can be associated to a double click of the menu button. Leave "
+#~ "it to none if in doubt."
+#~ msgstr ""
+#~ "Z dvojnim klikom gumba za meni lahko povežete dejanje. Pustite na miru, "
+#~ "če ste v dvomih."
+
+#~ msgid "Laptop"
+#~ msgstr "Prenosnik"
+
+#~ msgid "Bac&kground style: "
+#~ msgstr "S&log ozadja: "
+
+#~ msgid "Solid Color"
+#~ msgstr "Polna barva"
+
+#~ msgid "Radial Gradient"
+#~ msgstr "Krožni preliv"
+
+#~ msgid "Follow Style Hint"
+#~ msgstr "Namig za sledenje slogu"
+
+#~ msgid "Background style:"
+#~ msgstr "Slog ozadja:"

@@ -8,17 +8,18 @@
 
 #include "core/renderlayerdelegate.h"
 
+#include <QImage>
+
 namespace KWin
 {
 
 class CursorDelegateQPainter final : public RenderLayerDelegate
 {
-    Q_OBJECT
-
 public:
-    explicit CursorDelegateQPainter(QObject *parent = nullptr);
-
     void paint(RenderTarget *renderTarget, const QRegion &region) override;
+
+private:
+    QImage m_buffer;
 };
 
 } // namespace KWin

@@ -118,7 +118,6 @@
                 <choice name="PlacementUnknown" value="Unknown"/>
                 <choice name="PlacementRandom" value="Random"/>
                 <choice name="PlacementSmart" value="Smart"/>
-                <choice name="PlacementCascade" value="Cascade"/>
                 <choice name="PlacementCentered" value="Centered"/>
                 <choice name="PlacementZeroCornered" value="ZeroCornered"/>
                 <choice name="PlacementUnderMouse" value="UnderMouse"/>
@@ -269,7 +268,7 @@
                 <choice name="LatencyHigh" value="High"/>
                 <choice name="LatencyExtremelyHigh" value="ExtremelyHigh"/>
             </choices>
-            <default>LatencyMedium</default>
+            <default>LatencyExtremelyHigh</default>
         </entry>
         <entry name="RenderTimeEstimator" type="Enum">
             <choices name="KWin::RenderTimeEstimator">
@@ -278,6 +277,9 @@
                 <choice name="RenderTimeEstimatorAverage" value="Average"/>
             </choices>
             <default>RenderTimeEstimatorMaximum</default>
+        </entry>
+        <entry name="AllowTearing" type="Bool">
+            <default>true</default>
         </entry>
     </group>
     <group name="TabBox">
@@ -349,6 +351,16 @@
         </entry>
         <entry name="XwaylandMaxCrashCount" type="UInt">
             <default>3</default>
+        </entry>
+
+        <entry name="XwaylandEavesdrops" type="Enum">
+            <choices>
+                <choice name="None"/>
+                <choice name="Modifiers"/>
+                <choice name="Combinations"/>
+                <choice name="All"/>
+            </choices>
+            <default>None</default>
         </entry>
     </group>
 </kcfg>

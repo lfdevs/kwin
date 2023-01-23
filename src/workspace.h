@@ -6,12 +6,12 @@
     SPDX-FileCopyrightText: 2003 Lubos Lunak <l.lunak@kde.org>
     SPDX-FileCopyrightText: 2009 Lucas Murray <lmurray@undefinedfire.com>
     SPDX-FileCopyrightText: 2019 Vlad Zahorodnii <vlad.zahorodnii@kde.org>
+    SPDX-FileCopyrightText: 2022 Natalie Clarius <natalie_clarius@yahoo.de>
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#ifndef KWIN_WORKSPACE_H
-#define KWIN_WORKSPACE_H
+#pragma once
 
 // kwin
 #include "options.h"
@@ -71,7 +71,6 @@ enum class Predicate;
 class Outline;
 class RuleBook;
 class ScreenEdges;
-class Screens;
 #if KWIN_BUILD_ACTIVITIES
 class Activities;
 #endif
@@ -79,6 +78,7 @@ class PlaceholderInputEventFilter;
 class PlaceholderOutput;
 class Placement;
 class OutputConfiguration;
+class TileManager;
 
 class KWIN_EXPORT Workspace : public QObject
 {
@@ -93,7 +93,6 @@ public:
     }
 
     bool workspaceEvent(xcb_generic_event_t *);
-    bool workspaceEvent(QEvent *);
 
     bool hasWindow(const Window *);
 
@@ -171,18 +170,20 @@ public:
      * Returns the geometry of this Workspace, i.e. the bounding rectangle of all outputs.
      */
     QRect geometry() const;
-    QRegion restrictedMoveArea(const VirtualDesktop *desktop, StrutAreas areas = StrutAreaAll) const;
+    StrutRects restrictedMoveArea(const VirtualDesktop *desktop, StrutAreas areas = StrutAreaAll) const;
 
     bool initializing() const;
 
     Output *xineramaIndexToOutput(int index) const;
 
-    Output *primaryOutput() const;
-    void setPrimaryOutput(Output *output);
+    void setOutputOrder(const QVector<Output *> &order);
+    QVector<Output *> outputOrder() const;
 
     Output *activeOutput() const;
     void setActiveOutput(Output *output);
     void setActiveOutput(const QPointF &pos);
+    void setActiveCursorOutput(Output *output);
+    void setActiveCursorOutput(const QPointF &pos);
 
     /**
      * Returns the active window, i.e. the window that has the focus (or None
@@ -284,6 +285,11 @@ public:
 
     SessionManager *sessionManager() const;
 
+    /**
+     * @returns the TileManager associated to a given output
+     */
+    TileManager *tileManager(Output *output);
+
 public:
     QPoint cascadeOffset(const Window *c) const;
 
@@ -298,7 +304,7 @@ public:
     // True when performing Workspace::updateClientArea().
     // The calls below are valid only in that case.
     bool inUpdateClientArea() const;
-    QRegion previousRestrictedMoveArea(const VirtualDesktop *desktop, StrutAreas areas = StrutAreaAll) const;
+    StrutRects previousRestrictedMoveArea(const VirtualDesktop *desktop, StrutAreas areas = StrutAreaAll) const;
     QHash<const Output *, QRect> previousScreenSizes() const;
     int oldDisplayWidth() const;
     int oldDisplayHeight() const;
@@ -350,8 +356,15 @@ public:
     // D-Bus interface
     QString supportInformation() const;
 
-    Output *nextOutput(Output *reference) const;
-    Output *previousOutput(Output *reference) const;
+    enum Direction {
+        DirectionNorth,
+        DirectionEast,
+        DirectionSouth,
+        DirectionWest,
+        DirectionPrev,
+        DirectionNext
+    };
+    Output *findOutput(Output *reference, Direction direction, bool wrapAround = false) const;
     void switchToOutput(Output *output);
 
     QList<Output *> outputs() const;
@@ -419,13 +432,6 @@ public:
     }
 
     void quickTileWindow(QuickTileMode mode);
-
-    enum Direction {
-        DirectionNorth,
-        DirectionEast,
-        DirectionSouth,
-        DirectionWest
-    };
     void switchWindow(Direction direction);
 
     ShortcutDialog *shortcutDialog() const
@@ -457,7 +463,6 @@ public:
     Placement *placement() const;
     RuleBook *rulebook() const;
     ScreenEdges *screenEdges() const;
-    Screens *screens() const;
 #if KWIN_BUILD_TABBOX
     TabBox::TabBox *tabbox() const;
 #endif
@@ -469,7 +474,7 @@ public:
      * Apply the requested output configuration. Note that you must use this function
      * instead of Platform::applyOutputChanges().
      */
-    bool applyOutputConfiguration(const OutputConfiguration &config);
+    bool applyOutputConfiguration(const OutputConfiguration &config, const QVector<Output *> &outputOrder = {});
 
 public Q_SLOTS:
     void performWindowOperation(KWin::Window *window, Options::WindowOperation op);
@@ -480,10 +485,19 @@ public Q_SLOTS:
     // void slotWindowToListPosition( int );
     void slotSwitchToScreen(Output *output);
     void slotWindowToScreen(Output *output);
-    void slotSwitchToNextScreen();
-    void slotWindowToNextScreen();
+    void slotSwitchToLeftScreen();
+    void slotSwitchToRightScreen();
+    void slotSwitchToAboveScreen();
+    void slotSwitchToBelowScreen();
     void slotSwitchToPrevScreen();
+    void slotSwitchToNextScreen();
+    void slotWindowToLeftScreen();
+    void slotWindowToRightScreen();
+    void slotWindowToAboveScreen();
+    void slotWindowToBelowScreen();
+    void slotWindowToNextScreen();
     void slotWindowToPrevScreen();
+
     void slotToggleShowDesktop();
 
     void slotWindowMaximize();
@@ -550,7 +564,7 @@ private Q_SLOTS:
     void slotCurrentDesktopChangingCancelled();
     void slotDesktopAdded(VirtualDesktop *desktop);
     void slotDesktopRemoved(VirtualDesktop *desktop);
-    void slotPlatformOutputsQueried();
+    void slotOutputBackendOutputsQueried();
 
 Q_SIGNALS:
     /**
@@ -577,7 +591,7 @@ Q_SIGNALS:
     void deletedRemoved(KWin::Deleted *);
     void configChanged();
     void showingDesktopChanged(bool showing, bool animated);
-    void primaryOutputChanged();
+    void outputOrderChanged();
     void outputAdded(KWin::Output *);
     void outputRemoved(KWin::Output *);
     void outputsChanged();
@@ -642,7 +656,7 @@ private:
     QString getPlacementTrackerHash();
 
     void updateOutputConfiguration();
-    void updateOutputs();
+    void updateOutputs(const QVector<Output *> &outputOrder = {});
 
     struct Constraint
     {
@@ -666,8 +680,9 @@ private:
 
     QList<Output *> m_outputs;
     Output *m_activeOutput = nullptr;
-    Output *m_primaryOutput = nullptr;
+    Output *m_activeCursorOutput = nullptr;
     QString m_outputsHash;
+    QVector<Output *> m_outputOrder;
 
     Window *m_activeWindow;
     Window *m_lastActiveWindow;
@@ -750,7 +765,6 @@ private:
     std::unique_ptr<Placement> m_placement;
     std::unique_ptr<RuleBook> m_rulebook;
     std::unique_ptr<ScreenEdges> m_screenEdges;
-    std::unique_ptr<Screens> m_screens;
 #if KWIN_BUILD_TABBOX
     std::unique_ptr<TabBox::TabBox> m_tabbox;
 #endif
@@ -761,6 +775,7 @@ private:
 
     PlaceholderOutput *m_placeholderOutput = nullptr;
     std::unique_ptr<PlaceholderInputEventFilter> m_placeholderFilter;
+    std::map<Output *, std::unique_ptr<TileManager>> m_tileManagers;
 
 private:
     friend bool performTransiencyCheck();
@@ -889,5 +904,3 @@ inline Workspace *workspace()
 
 } // namespace
 Q_DECLARE_OPERATORS_FOR_FLAGS(KWin::Workspace::ActivityFlags)
-
-#endif

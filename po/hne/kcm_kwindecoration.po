@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-26 02:35+0000\n"
+"POT-Creation-Date: 2022-10-26 00:47+0000\n"
 "PO-Revision-Date: 2009-02-10 11:56+0530\n"
 "Last-Translator: Ravishankar Shrivastava <raviratlami@aol.in>\n"
 "Language-Team: Hindi <kde-i18n-doc@lists.kde.org>\n"
@@ -292,3 +292,173 @@ msgstr "बहुत बड़े"
 #| msgid "Oversized"
 msgid "Oversized"
 msgstr "बड़ेआकार"
+
+#~ msgid "Menu"
+#~ msgstr "मेन्यू"
+
+#, fuzzy
+#~| msgid "Keep Below Others"
+#~ msgid "Keep below"
+#~ msgstr "सब के नीचे रखव"
+
+#, fuzzy
+#~| msgid "Keep Above Others"
+#~ msgid "Keep above"
+#~ msgstr "सब के ऊपर रखव"
+
+#, fuzzy
+#~| msgid "&Window Decoration"
+#~ msgid "Download New Window Decorations"
+#~ msgstr "विंडो सजावट (&W)"
+
+#, fuzzy
+#~| msgid "B&order size:"
+#~ msgid "Border si&ze:"
+#~ msgstr "किनारा आकार: (&o)"
+
+#, fuzzy
+#~| msgid "&Window Decoration"
+#~ msgid "Configure %1..."
+#~ msgstr "विंडो सजावट (&W)"
+
+#, fuzzy
+#~| msgid "Normal"
+#~ msgid "Form"
+#~ msgstr "सामान्य"
+
+#, fuzzy
+#~| msgid "Buttons"
+#~ msgid "Button size:"
+#~ msgstr "बटन"
+
+#, fuzzy
+#~| msgid "Tiny"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Tiny"
+#~ msgstr "छोटकुन"
+
+#, fuzzy
+#~| msgid "Normal"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Normal"
+#~ msgstr "सामान्य"
+
+#, fuzzy
+#~| msgid "Large"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Large"
+#~ msgstr "बड़े"
+
+#, fuzzy
+#~| msgid "Very Large"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Very Large"
+#~ msgstr "बहुत बड़े"
+
+#, fuzzy
+#~| msgid "Huge"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Huge"
+#~ msgstr "बहुत बहुत बड़े"
+
+#, fuzzy
+#~| msgid "Very Huge"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Very Huge"
+#~ msgstr "बहुत बड़े"
+
+#, fuzzy
+#~| msgid "Oversized"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Oversized"
+#~ msgstr "बड़ेआकार"
+
+#~ msgid "KDE"
+#~ msgstr "केडीई"
+
+#~ msgid "%1 (unavailable)"
+#~ msgstr "%1 (उपलब्ध नइ)"
+
+#~ msgid ""
+#~ "To add or remove titlebar buttons, simply <i>drag</i> items between the "
+#~ "available item list and the titlebar preview. Similarly, drag items "
+#~ "within the titlebar preview to re-position them."
+#~ msgstr ""
+#~ "सीर्सक पट्टी के बटन जोड़े या हटाय बर चीज मन ल मिलत चीज-सूची अउ सीर्सक पट्टी प्रिव्यू "
+#~ "के बीच <i>खींचव</i>. अइसनेच सीर्सक पट्टी प्रिव्यू के अंदर के स्थिति बदले बर ओ मन ल "
+#~ "खींचव."
+
+#~ msgid "Resize"
+#~ msgstr "आकार बदलव"
+
+#~ msgid "Help"
+#~ msgstr "मदद"
+
+#~ msgid "--- spacer ---"
+#~ msgstr "---स्पेसर---"
+
+#~ msgid ""
+#~ "Enabling this checkbox will show window button tooltips. If this checkbox "
+#~ "is off, no window button tooltips will be shown."
+#~ msgstr ""
+#~ "ये चेकबाक्स ल सक्छम करे मं विंडो बटन औजार-नुस्खे देखाय जाथे. यदि ए चेकबाक्स बन्द हे तो "
+#~ "कोनो विंडो बटन औजार-नुस्खे नइ देखाय जाही."
+
+#, fuzzy
+#~| msgid ""
+#~| "The appropriate settings can be found in the \"Buttons\" Tab; please "
+#~| "note that this option is not available on all styles yet."
+#~ msgid "Please note that this option is not available on all styles yet."
+#~ msgstr ""
+#~ "\"बटन्स\" टैब मं उपयुक्त सेटिंग मिल सकथे. किरपा करके, टीप लेव कि ए विकल्प सब्बो सैली में "
+#~ "नइ मिलत हे."
+
+#~ msgid "Use custom titlebar button &positions"
+#~ msgstr "मनमाफिक सीर्सक पट्टी बटन स्थिति उपयोग करव (&p)"
+
+#~ msgid "B&order size:"
+#~ msgstr "किनारा आकार: (&o)"
+
+#~ msgid "Use this combobox to change the border size of the decoration."
+#~ msgstr "सजावट के किनारा आकार ल बदले बर एखर काम्बो-डब्बा के उपयोग करव."
+
+#~ msgid "Decoration Options"
+#~ msgstr "सजावट विकल्प"
+
+#~ msgid ""
+#~ "Select the window decoration. This is the look and feel of both the "
+#~ "window borders and the window handle."
+#~ msgstr "विंडो सजावट चुनव. ए विंडो किनारा अउ विंडो हेंडल के रूप अउ आकार होथे ."
+
+#~ msgid "Window Decoration Control Module"
+#~ msgstr "विंडो सजावट नियंत्रन माड्यूल"
+
+#~ msgid "(c) 2001 Karol Szwed"
+#~ msgstr "(c) 2001 केरोल स्जवेड"
+
+#~ msgid "Karol Szwed"
+#~ msgstr "केरोल स्जवेड"
+
+#~ msgid "Active Window"
+#~ msgstr "सक्रिय विंडो"
+
+#~ msgid "Inactive Window"
+#~ msgstr "निस्क्रिय विंडो"
+
+#~ msgid "kcmkwindecoration"
+#~ msgstr "केसीएमविनडेकोरेसन"
+
+#~ msgid ""
+#~ "No preview available.\n"
+#~ "Most probably there\n"
+#~ "was a problem loading the plugin."
+#~ msgstr ""
+#~ "कोई प्रिव्यू नइ मिलत.\n"
+#~ "हो सकथे कि उंहा\n"
+#~ "प्लगइन ल लोड करे मं समस्या आय हे."
+
+#~ msgid "&Buttons"
+#~ msgstr "बटन (&B)"
+
+#~ msgid "Ozone"
+#~ msgstr "ओजोन"

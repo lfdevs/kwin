@@ -10,7 +10,7 @@
 
 #include "composite.h"
 #include "core/output.h"
-#include "core/platform.h"
+#include "core/outputbackend.h"
 #include "core/renderbackend.h"
 #include "cursor.h"
 #include "wayland_server.h"
@@ -43,9 +43,8 @@ void DontCrashAuroraeDestroyDecoTest::initTestCase()
     qputenv("XDG_DATA_DIRS", QCoreApplication::applicationDirPath().toUtf8());
     qRegisterMetaType<KWin::Window *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
+    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
 
     KSharedConfig::Ptr config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
     config->group("org.kde.kdecoration2").writeEntry("library", "org.kde.kwin.aurorae");
@@ -105,7 +104,7 @@ void DontCrashAuroraeDestroyDecoTest::testBorderlessMaximizedWindows()
     // verify that the deco is Aurorae
     QCOMPARE(qstrcmp(window->decoration()->metaObject()->className(), "Aurorae::Decoration"), 0);
     // find the maximize button
-    QQuickItem *item = window->decoration()->findChild<QQuickItem *>("maximizeButton");
+    QQuickItem *item = window->decoration()->property("item").value<QQuickItem *>()->findChild<QQuickItem *>("maximizeButton");
     QVERIFY(item);
     const QPointF scenePoint = item->mapToScene(QPoint(0, 0));
 

@@ -10,7 +10,7 @@
 #include "kwin_wayland_test.h"
 
 #include "composite.h"
-#include "core/platform.h"
+#include "core/outputbackend.h"
 #include "core/renderbackend.h"
 #include "deleted.h"
 #include "effectloader.h"
@@ -47,8 +47,8 @@ void ToplevelOpenCloseAnimationTest::initTestCase()
     qRegisterMetaType<KWin::Window *>();
     qRegisterMetaType<KWin::Deleted *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
+    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
 
     auto config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
     KConfigGroup plugins(config, QStringLiteral("Plugins"));
@@ -111,7 +111,6 @@ void ToplevelOpenCloseAnimationTest::testAnimateToplevels()
     QVERIFY(!effect->isActive());
 
     // Create the test window.
-    using namespace KWayland::Client;
     std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
     QVERIFY(surface != nullptr);
     std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get()));
@@ -154,7 +153,6 @@ void ToplevelOpenCloseAnimationTest::testDontAnimatePopups()
     QVERIFY(effectsImpl);
 
     // Create the main window.
-    using namespace KWayland::Client;
     std::unique_ptr<KWayland::Client::Surface> mainWindowSurface(Test::createSurface());
     QVERIFY(mainWindowSurface != nullptr);
     std::unique_ptr<Test::XdgToplevel> mainWindowShellSurface(Test::createXdgToplevelSurface(mainWindowSurface.get()));

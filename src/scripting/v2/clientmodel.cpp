@@ -482,7 +482,7 @@ void ForkLevel::activityAdded(const QString &activityId)
         return;
     }
     // verify that our children do not contain this activity
-    for (AbstractLevel *child : qAsConst(m_children)) {
+    for (AbstractLevel *child : std::as_const(m_children)) {
         if (child->activity() == activityId) {
             return;
         }
@@ -497,8 +497,6 @@ void ForkLevel::activityAdded(const QString &activityId)
     childLevel->init();
     addChild(childLevel);
     Q_EMIT endInsert();
-#else
-    Q_UNUSED(activityId)
 #endif
 }
 
@@ -516,8 +514,6 @@ void ForkLevel::activityRemoved(const QString &activityId)
             break;
         }
     }
-#else
-    Q_UNUSED(activityId)
 #endif
 }
 
@@ -696,7 +692,6 @@ QVariant ClientModel::data(const QModelIndex &index, int role) const
 
 int ClientModel::columnCount(const QModelIndex &parent) const
 {
-    Q_UNUSED(parent)
     return 1;
 }
 
@@ -895,16 +890,13 @@ bool ClientFilterModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourc
     if (client->caption().contains(m_filter, Qt::CaseInsensitive)) {
         return true;
     }
-    const QString windowRole(QString::fromUtf8(client->windowRole()));
-    if (windowRole.contains(m_filter, Qt::CaseInsensitive)) {
+    if (client->windowRole().contains(m_filter, Qt::CaseInsensitive)) {
         return true;
     }
-    const QString resourceName(QString::fromUtf8(client->resourceName()));
-    if (resourceName.contains(m_filter, Qt::CaseInsensitive)) {
+    if (client->resourceName().contains(m_filter, Qt::CaseInsensitive)) {
         return true;
     }
-    const QString resourceClass(QString::fromUtf8(client->resourceClass()));
-    if (resourceClass.contains(m_filter, Qt::CaseInsensitive)) {
+    if (client->resourceClass().contains(m_filter, Qt::CaseInsensitive)) {
         return true;
     }
     return false;

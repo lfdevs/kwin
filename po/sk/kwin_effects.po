@@ -8,15 +8,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-01 02:26+0000\n"
-"PO-Revision-Date: 2022-09-18 20:17+0200\n"
+"POT-Creation-Date: 2023-01-18 00:58+0000\n"
+"PO-Revision-Date: 2022-05-16 18:28+0200\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.08.1\n"
+"X-Generator: Lokalize 22.04.1\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #. i18n: ectx: property (text), widget (QLabel, labelConstantBlurDescription)
@@ -59,6 +59,7 @@ msgstr ""
 #: mousemark/mousemark_config.cpp:50 overview/kcm/overvieweffectkcm.cpp:35
 #: showpaint/showpaint_config.cpp:33
 #: thumbnailaside/thumbnailaside_config.cpp:54
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:31
 #: trackmouse/trackmouse_config.cpp:52
 #: windowview/kcm/windowvieweffectkcm.cpp:36 zoom/zoom_config.cpp:58
 #, kde-format
@@ -196,14 +197,20 @@ msgstr "Najbližšie"
 msgid "Natural"
 msgstr "Prirodzený"
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
+#: desktopgrid/desktopgrid_config.ui:147
+#, kde-format
+msgid "None"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: desktopgrid/desktopgrid_config.ui:150
+#: desktopgrid/desktopgrid_config.ui:155
 #, kde-format
 msgid "Windows layout:"
 msgstr "Rozloženie okien:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: desktopgrid/desktopgrid_config.ui:166
+#: desktopgrid/desktopgrid_config.ui:171
 #, kde-format
 msgid "Activation"
 msgstr "Aktivácia"
@@ -306,10 +313,16 @@ msgstr "Animácia zatvorenia okna"
 msgid "Toggle Invert Effect"
 msgstr "Zapnúť efekt inverzie"
 
-#: invert/invert.cpp:50 invert/invert_config.cpp:44
+#: invert/invert.cpp:49 invert/invert_config.cpp:44
 #, kde-format
 msgid "Toggle Invert Effect on Window"
 msgstr "Zapnúť efekt inverzie na okno"
+
+#: invert/invert.cpp:56
+#, fuzzy, kde-format
+#| msgid "Invert cursor keys"
+msgid "Invert Screen Colors"
+msgstr "Invertovať kurzorové klávesy"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FadeToBlack)
 #: login/package/contents/ui/config.ui:17
@@ -366,30 +379,30 @@ msgstr "&Výška:"
 msgid "Toggle Mouse Click Effect"
 msgstr "Prepnúť efekt kliknutia myši"
 
-#: mouseclick/mouseclick.cpp:42
+#: mouseclick/mouseclick.cpp:41
 #, kde-format
 msgctxt "Left mouse button"
 msgid "Left"
 msgstr "Vľavo"
 
-#: mouseclick/mouseclick.cpp:43
+#: mouseclick/mouseclick.cpp:42
 #, kde-format
 msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr "Stred"
 
-#: mouseclick/mouseclick.cpp:44
+#: mouseclick/mouseclick.cpp:43
 #, kde-format
 msgctxt "Right mouse button"
 msgid "Right"
 msgstr "Vpravo"
 
-#: mouseclick/mouseclick.h:61
+#: mouseclick/mouseclick.h:60
 #, kde-format
 msgid "↓"
 msgstr "↓"
 
-#: mouseclick/mouseclick.h:62
+#: mouseclick/mouseclick.h:61
 #, kde-format
 msgid "↑"
 msgstr "↑"
@@ -485,12 +498,12 @@ msgstr "Písmo:"
 msgid "Show Text:"
 msgstr "Ukázať text:"
 
-#: mousemark/mousemark.cpp:36
+#: mousemark/mousemark.cpp:39
 #, kde-format
 msgid "Clear All Mouse Marks"
 msgstr "Vyčistiť všetky stopy myši"
 
-#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:59
+#: mousemark/mousemark.cpp:45 mousemark/mousemark_config.cpp:59
 #, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr "Vyčistiť poslednú stopu myši"
@@ -531,7 +544,7 @@ msgstr "Kreslite môžete myšou držaním kláves Shift+Meta a pohybom myšou."
 #, kde-format
 msgctxt "@label"
 msgid "Unknown"
-msgstr "Neznáme"
+msgstr ""
 
 #: overview/kcm/overvieweffectkcm.cpp:41 overview/overvieweffect.cpp:31
 #, kde-format
@@ -557,28 +570,32 @@ msgstr "Rozmazať pozadie:"
 msgid "Ignore minimized windows:"
 msgstr "Ignorovať minimalizované okná:"
 
-#: overview/qml/DesktopBar.qml:186
-#, kde-format
+#: overview/qml/DesktopBar.qml:187
+#, fuzzy, kde-format
+#| msgid "Delete virtual desktop"
 msgid "Delete Virtual Desktop"
 msgstr "Vymazať virtuálnu plochu"
 
-#: overview/qml/DesktopBar.qml:282
-#, kde-format
+#: overview/qml/DesktopBar.qml:283
+#, fuzzy, kde-format
+#| msgid "Add Desktop"
 msgid "Add Virtual Desktop"
-msgstr "Pridať virtuálnu plochu"
+msgstr "Pridať na pracovnú plochu"
 
 #: overview/qml/ScreenView.qml:226
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Moving windows:"
 msgid "No matching windows"
-msgstr "Žiadne zhodné okná"
+msgstr "Pri presune okien:"
 
-#: private/qml/WindowHeapDelegate.qml:152
+#: private/qml/WindowHeapDelegate.qml:151
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "Ťahaním nadol zatvoríte"
 
-#: private/qml/WindowHeapDelegate.qml:462
-#, kde-format
+#: private/qml/WindowHeapDelegate.qml:461
+#, fuzzy, kde-format
+#| msgid "Close window"
 msgctxt "@info:tooltip as in: 'close this window'"
 msgid "Close window"
 msgstr "Zatvoriť okno"
@@ -595,20 +612,20 @@ msgstr "Mierka okna pri otvorení:"
 msgid "Window close scale:"
 msgstr "Mierka okna pri zatvorení:"
 
-#: screenshot/screenshotdbusinterface1.cpp:480
+#: screenshot/screenshotdbusinterface1.cpp:478
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr "Snímka obrazovky"
 
-#: screenshot/screenshotdbusinterface1.cpp:481
+#: screenshot/screenshotdbusinterface1.cpp:479
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr "Snímka obrazovky uložená do %1"
 
-#: screenshot/screenshotdbusinterface1.cpp:797
-#: screenshot/screenshotdbusinterface2.cpp:472
+#: screenshot/screenshotdbusinterface1.cpp:800
+#: screenshot/screenshotdbusinterface2.cpp:477
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
@@ -617,8 +634,8 @@ msgstr ""
 "Vyberte okno na snímku obrazovky ľavým klikom alebo enterom.\n"
 "Escape alebo pravý klik na zrušenie."
 
-#: screenshot/screenshotdbusinterface1.cpp:800
-#: screenshot/screenshotdbusinterface2.cpp:490
+#: screenshot/screenshotdbusinterface1.cpp:803
+#: screenshot/screenshotdbusinterface2.cpp:495
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -628,31 +645,35 @@ msgstr ""
 "Escape alebo pravý klik na zrušenie."
 
 #: showfps/qml/main.qml:110
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Ring Duration:"
 msgctxt "@label"
 msgid "Paint Duration"
-msgstr "Trvanie kreslenia"
+msgstr "Trvanie prstenca:"
 
 #: showfps/qml/main.qml:162
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Ring Count:"
 msgctxt "@label"
 msgid "Paint Amount"
-msgstr "Množstvo kreslenia"
+msgstr "Počet prstencov:"
 
 #: showfps/qml/main.qml:175
 #, kde-format
 msgctxt "@label"
 msgid "Current FPS"
-msgstr "Aktuálne FPS"
+msgstr ""
 
 #: showfps/qml/main.qml:184
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Maximum &width:"
 msgctxt "@label"
 msgid "Maximum FPS"
-msgstr "Maximálne FPS"
+msgstr "Ma&ximálna šírka:"
 
 #: showfps/qml/main.qml:192
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "This effect is not a benchmark"
 msgctxt "@label"
 msgid "This effect is not a benchmark"
 msgstr "Tento efekt nie je benchmark"
@@ -680,14 +701,8 @@ msgstr "Horizontálne:"
 msgid "Vertical:"
 msgstr "Vertikálne:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideDocks)
-#: slide/slide_config.ui:72
-#, kde-format
-msgid "Slide docks"
-msgstr "Zasunúť doky"
-
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideBackground)
-#: slide/slide_config.ui:79
+#: slide/slide_config.ui:72
 #, kde-format
 msgid "Slide desktop background"
 msgstr "Posúvať pozadie plochy"
@@ -729,6 +744,50 @@ msgstr "&Nepriehľadnosť:"
 #, no-c-format, kde-format
 msgid " %"
 msgstr " %"
+
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:37
+#: tileseditor/tileseditoreffect.cpp:29
+#, kde-format
+msgid "Toggle Tiles Editor"
+msgstr ""
+
+#: tileseditor/qml/main.qml:147
+#, kde-format
+msgid "Padding:"
+msgstr ""
+
+#: tileseditor/qml/main.qml:157
+#, kde-format
+msgid "Load Layout..."
+msgstr ""
+
+#: tileseditor/qml/main.qml:271
+#, fuzzy, kde-format
+#| msgid "Closest"
+msgid "Close"
+msgstr "Najbližšie"
+
+#: tileseditor/qml/TileDelegate.qml:171
+#, fuzzy, kde-format
+#| msgid "Horizontal:"
+msgid "Split Horizontally"
+msgstr "Horizontálne:"
+
+#: tileseditor/qml/TileDelegate.qml:178
+#, fuzzy, kde-format
+#| msgid "Vertical:"
+msgid "Split Vertically"
+msgstr "Vertikálne:"
+
+#: tileseditor/qml/TileDelegate.qml:186 tileseditor/qml/TileDelegate.qml:215
+#, kde-format
+msgid "Add Floating Tile"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:195
+#, kde-format
+msgid "Delete"
+msgstr ""
 
 #: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:57
 #, kde-format
@@ -864,21 +923,21 @@ msgstr "Odtrhnuté ponuky:"
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Zapnúť efekt súčasné okná (aktuálna plocha)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:55
+#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:54
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Zapnúť efekt súčasné okná (všetky plochy)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:65
+#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:63
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Zapnúť efekt súčasné okná (trieda okna)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:75
-#, kde-format
+#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:72
+#, fuzzy, kde-format
+#| msgid "Toggle Present Windows (Current desktop)"
 msgid "Toggle Present Windows (Window class on current desktop)"
-msgstr ""
-"Prepínanie prítomných okien (trieda okien na aktuálnej pracovnej ploche)"
+msgstr "Zapnúť efekt súčasné okná (aktuálna plocha)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_IgnoreMinimized)
 #: windowview/kcm/windowvieweffectkcm.ui:56
@@ -886,15 +945,21 @@ msgstr ""
 msgid "Ignore &minimized windows"
 msgstr "Ignorovať &minimalizované okná"
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, kde-format
 msgid "No Matches"
 msgstr "Žiadne zhody"
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, kde-format
 msgid "No Windows"
 msgstr "Žiadne okná"
+
+#: windowview/qml/main.qml:123
+#, fuzzy, kde-format
+#| msgid "Fullscreen windows"
+msgid "Filter windows…"
+msgstr "Okná na celú obrazovku"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20
@@ -956,32 +1021,32 @@ msgstr "Menej"
 msgid "More"
 msgstr "Viac"
 
-#: zoom/zoom.cpp:68
+#: zoom/zoom.cpp:65
 #, kde-format
 msgid "Move Zoomed Area to Left"
 msgstr "Presunúť priblíženú oblasť vľavo"
 
-#: zoom/zoom.cpp:76
+#: zoom/zoom.cpp:72
 #, kde-format
 msgid "Move Zoomed Area to Right"
 msgstr "Presunúť priblíženú oblasť vpravo"
 
-#: zoom/zoom.cpp:84
+#: zoom/zoom.cpp:79
 #, kde-format
 msgid "Move Zoomed Area Upwards"
 msgstr "Presunúť priblíženú oblasť hore"
 
-#: zoom/zoom.cpp:92
+#: zoom/zoom.cpp:86
 #, kde-format
 msgid "Move Zoomed Area Downwards"
 msgstr "Presunúť priblíženú oblasť dolu"
 
-#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:108
+#: zoom/zoom.cpp:94 zoom/zoom_config.cpp:108
 #, kde-format
 msgid "Move Mouse to Focus"
 msgstr "Posunúť myš na zameranie"
 
-#: zoom/zoom.cpp:109 zoom/zoom_config.cpp:115
+#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:115
 #, kde-format
 msgid "Move Mouse to Center"
 msgstr "Posunúť myš na stred"
@@ -1119,3 +1184,809 @@ msgstr "Zakázané"
 #, kde-format
 msgid "Mouse Tracking:"
 msgstr "Sledovanie myši:"
+
+#~ msgid "Slide docks"
+#~ msgstr "Zasunúť doky"
+
+#~ msgid "Search..."
+#~ msgstr "Hľadať..."
+
+#~ msgid "&Radius:"
+#~ msgstr "&Polomer:"
+
+#~ msgid "Text position:"
+#~ msgstr "Pozícia textu:"
+
+#~ msgid "Inside Graph"
+#~ msgstr "Vnútri grafu"
+
+#~ msgid "Nowhere"
+#~ msgstr "Nikde"
+
+#~ msgid "Top Left"
+#~ msgstr "Vľavo hore"
+
+#~ msgid "Top Right"
+#~ msgstr "Vpravo hore"
+
+#~ msgid "Bottom Left"
+#~ msgstr "Vľavo dole"
+
+#~ msgid "Bottom Right"
+#~ msgstr "Vpravo dole"
+
+#~ msgid "Text font:"
+#~ msgstr "Písmo textu:"
+
+#~ msgid "Text color:"
+#~ msgstr "Farba textu:"
+
+#~ msgid "Text alpha:"
+#~ msgstr "Alfa textu:"
+
+#~ msgid "Show graph:"
+#~ msgstr "Zobraziť graf:"
+
+#~ msgid "Show on active screen"
+#~ msgstr "Zobraziť na aktívnej obrazovke"
+
+#~ msgid "Show Message:"
+#~ msgstr "Zobraziť správu:"
+
+#~ msgid "Show \"not a benchmark\" message"
+#~ msgstr "Zobraziť správu \"Toto nie je benchmark\""
+
+#~ msgid "Colorize Text:"
+#~ msgstr "Zafarbiť text:"
+
+#~ msgid "Color text by value (green > yellow > red)"
+#~ msgstr "Zafarbenie textu podľa hodnoty (zelená > žltá > červená)"
+
+#~ msgid "Zoom &duration:"
+#~ msgstr "Trvanie &priblíženia:"
+
+#~ msgctxt "Duration of zoom"
+#~ msgid "Default"
+#~ msgstr "Štandardné"
+
+#~ msgid "Border wid&th:"
+#~ msgstr "Šírka okraja:"
+
+#~ msgid "Click behavior:"
+#~ msgstr "Správanie kliknutia:"
+
+#~ msgid ""
+#~ "If the Present Windows effect is enabled, it will be automatically "
+#~ "triggered."
+#~ msgstr "Ak je povolený efekt Súčasné okná, automaticky sa spustí."
+
+#~ msgid "Switch desktop and activate window"
+#~ msgstr "Prepnúť plochu a aktivovať okno"
+
+#~ msgid "Switch desktop only"
+#~ msgstr "Iba prepnúť plochu"
+
+#~ msgid "Natural Layout Settings"
+#~ msgstr "Nastavenie prirodzeného rozloženia"
+
+#~ msgid "Fill &gaps"
+#~ msgstr "&Vyplniť medzery"
+
+#~ msgid "Faster"
+#~ msgstr "Rýchlejšie"
+
+#~ msgid "Nicer"
+#~ msgstr "Krajšie"
+
+#~ msgid "Left button:"
+#~ msgstr "Ľavé tlačidlo:"
+
+#~ msgid "No action"
+#~ msgstr "Žiadna akcia"
+
+#~ msgid "Activate window"
+#~ msgstr "Aktivovať okno"
+
+#~ msgid "End effect"
+#~ msgstr "Ukončiť efekt"
+
+#~ msgid "Bring window to current desktop"
+#~ msgstr "Presunúť okno na aktuálnu plochu"
+
+#~ msgid "Send window to all desktops"
+#~ msgstr "Poslať okno na všetky plochy"
+
+#~ msgid "(Un-)Minimize window"
+#~ msgstr "Minimalizovať/obnoviť okno"
+
+#~ msgid "Middle button:"
+#~ msgstr "Stredné tlačidlo:"
+
+#~ msgid "Right button:"
+#~ msgstr "Pravé tlačidlo:"
+
+#~ msgctxt "@title:group actions when clicking on desktop"
+#~ msgid "Desktop"
+#~ msgstr "Plocha"
+
+#~ msgid "Show desktop"
+#~ msgstr "Zobraziť plochu"
+
+#~ msgid "Display window &titles"
+#~ msgstr "Zo&brazovať názvy okien"
+
+#~ msgid "Display window &icons"
+#~ msgstr "Zobrazovať &ikony okien"
+
+#~ msgid "Show &panels"
+#~ msgstr "Zobrazovať &panely"
+
+#~ msgid "Regular Grid"
+#~ msgstr "Pravidelná mriežka"
+
+#~ msgid "Flexible Grid"
+#~ msgstr "Flexibilná mriežka"
+
+#~ msgid "Provide buttons to close the windows"
+#~ msgstr "Zobrazovať tlačidlá pre zatvorenie okien"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Roman Paholík"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "wizzardsk@gmail.com"
+
+#~ msgid "Scale window"
+#~ msgstr "Zmeniť veľkosť okna"
+
+#~ msgid "Show outline"
+#~ msgstr "Zobraziť obrys"
+
+#~ msgid "Toggle window geometry display (effect only)"
+#~ msgstr "Zapnúť zobrazenie geometrie okna (iba efekt)"
+
+#~ msgid "Toggle KWin composited geometry display"
+#~ msgstr "Zapnúť zobrazenie geometrie cez kompozitný KWin"
+
+#~ msgid "Display for moving windows"
+#~ msgstr "Zobrazovať pri presúvaní okien"
+
+#~ msgid "Display for resizing windows"
+#~ msgstr "Zobrazovať pri zmene veľkosti okien"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Blur"
+#~ msgstr "Rozmazať"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Blurs the background behind semi-transparent windows"
+#~ msgstr "Rozmaže pozadie za polopriehľadnými oknami"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Color Picker"
+#~ msgstr "Výber farby"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Supports picking a color"
+#~ msgstr "Podporuje výber farby"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Background contrast"
+#~ msgstr "Kontrast pozadia"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Improve contrast and readability behind semi-transparent windows"
+#~ msgstr "Zlepšiť kontrast a čitateľnosť za polopriehľadnými oknami"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Grid"
+#~ msgstr "Plochy v mriežke"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Zoom out so all desktops are displayed side-by-side in a grid"
+#~ msgstr "Oddiali všetky plochy a zobrazí ich vedľa seba v mriežke"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Dim Inactive"
+#~ msgstr "Stmaviť neaktívne"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Darken inactive windows"
+#~ msgstr "Stmaví neaktívne okná"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Fall Apart"
+#~ msgstr "Rozpadnúť"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Closed windows fall into pieces"
+#~ msgstr "Zatvorené okná sa rozpadnú na časti"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Glide"
+#~ msgstr "Kĺzať"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Glide windows as they appear or disappear"
+#~ msgstr "Kĺzať okná ako sa objavujú alebo miznú"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Highlight Window"
+#~ msgstr "Zvýrazniť okno"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlight the appropriate window when hovering over taskbar entries"
+#~ msgstr ""
+#~ "Zvýrazní príslušné okno pri prechode kurzorom nad položkami v paneli úloh"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Invert"
+#~ msgstr "Invertovať"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Inverts the color of the desktop and windows"
+#~ msgstr "Invertuje farbu plochy a okien"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Kscreen"
+#~ msgstr "Kscreen"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper Effect for KScreen"
+#~ msgstr "Pomocný efekt pre KScreen"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Looking Glass"
+#~ msgstr "Šošovka"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "A screen magnifier that looks like a fisheye lens"
+#~ msgstr "Lupa obrazovky s efektom rybieho oka"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Magic Lamp"
+#~ msgstr "Magická lampa"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Simulate a magic lamp when minimizing windows"
+#~ msgstr "Simuluje efekt magickej lampy pri minimalizovaní okien"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Magnifier"
+#~ msgstr "Lupa"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Magnify the section of the screen that is near the mouse cursor"
+#~ msgstr "Zväčší časť obrazovky, ktorá je okolo kurzora myši"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Click Animation"
+#~ msgstr "Animácia kliknutia myšou"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Creates an animation whenever a mouse button is clicked. This is useful "
+#~ "for screenrecordings/presentations"
+#~ msgstr ""
+#~ "Vytvorí animáciu vždy, keď sa klikne tlačidlom myši. Toto je užitočné pre "
+#~ "prezentácie a záznamy obrazoviek"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Mark"
+#~ msgstr "Stopa myši"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Allows you to draw lines on the desktop"
+#~ msgstr "Umožňuje myšou kresliť čiary na ploche"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Overview"
+#~ msgstr "Prehľad"
+
+#, fuzzy
+#~| msgctxt "Comment describing the KWin Effect"
+#~| msgid "Allows you to overview virtual desktops and windows (WIP)"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Allows you to overview virtual desktops and windows"
+#~ msgstr "Umožňuje prehľad virtuálnych plôch a okien (WIP)"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Present Windows"
+#~ msgstr "Súčasné okná"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Zoom out until all opened windows can be displayed side-by-side"
+#~ msgstr "Oddiali všetky otvorené okná a zobrazí ich vedľa seba"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Resize Window"
+#~ msgstr "Zmeniť veľkosť okna"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Resizes windows with a fast texture scale instead of updating contents"
+#~ msgstr ""
+#~ "Zmení veľkosť okien s využitím rýchleho škálovania textúry namiesto "
+#~ "aktualizácie obsahu"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Screen Edge"
+#~ msgstr "Hrana obrazovky"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlights a screen edge when approaching"
+#~ msgstr "Zvýrazní okraj obrazovky pri priblížení"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Screenshot"
+#~ msgstr "Snímka obrazovky"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper effect for screenshot tools"
+#~ msgstr "Pomocný efekt pre nástroje snímky obrazovky"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Transform"
+#~ msgstr "Transformovať"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Animates display transformations"
+#~ msgstr "Animuje zobrazenie transformácií"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Sheet"
+#~ msgstr "List"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Make modal dialogs smoothly fly in and out when they are shown or hidden"
+#~ msgstr ""
+#~ "Modálne dialógy sa plynule objavia/zmiznú pri ich zobrazení alebo skrytí"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show FPS"
+#~ msgstr "Zobraziť FPS"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display KWin's performance in the corner of the screen"
+#~ msgstr "Zobrazí výkon KWin v rohu obrazovky"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show Paint"
+#~ msgstr "Zobraziť kresbu"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlight areas of the desktop that have been recently updated"
+#~ msgstr "Zvýrazní oblasti plochy, ktoré boli práve aktualizované"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Slide"
+#~ msgstr "Snímka"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Slide desktops when switching virtual desktops"
+#~ msgstr "Kľzať plochy pri prepínaní virtuálnych plôch"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Slide Back"
+#~ msgstr "Zasunúť"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Slide back windows when another window is raised"
+#~ msgstr "Zasunie okná pri zdvihnutí iného okna"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Sliding popups"
+#~ msgstr "Vysúvať vyskakovacie okná"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Sliding animation for Plasma popups"
+#~ msgstr "Animácia vysúvania pre vyskakovacie okná plasmy"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Snap Helper"
+#~ msgstr "Pomocník prichytenia"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Help you locate the center of the screen when moving a window"
+#~ msgstr "Pomôže nájsť stred obrazovky pri presúvaní okna"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Startup Feedback"
+#~ msgstr "Odozva pri spustení"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper effect for startup feedback"
+#~ msgstr "Pomocný efekt pre odozvu pri spustení"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Thumbnail Aside"
+#~ msgstr "Bočný náhľad"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display window thumbnails on the edge of the screen"
+#~ msgstr "Zobrazí náhľady okien na okraji obrazovky"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Touch Points"
+#~ msgstr "Dotykové body"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Visualize touch points"
+#~ msgstr "Vizualizovať dotykové body"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Track Mouse"
+#~ msgstr "Sledovať myš"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display a mouse cursor locating effect when activated"
+#~ msgstr "Zobrazí pri aktivácii efekt zvýrazňujúci pozíciu kurzoru myši"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Window Geometry"
+#~ msgstr "Geometria okna"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display window geometries on move/resize"
+#~ msgstr "Zobrazí geometriu okna pri jeho presune/zmene veľkosti"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Wobbly Windows"
+#~ msgstr "Zvlnené okná"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Deform windows while they are moving"
+#~ msgstr "Deformuje okná pri ich presúvaní"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Zoom"
+#~ msgstr "Priblíženie"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Magnify the entire desktop"
+#~ msgstr "Zväčší celú plochu"
+
+#~ msgid "Kompose"
+#~ msgstr "Kompose"
+
+#~ msgctxt "Special entry in alt+tab list for minimizing all windows"
+#~ msgid "Show Desktop"
+#~ msgstr "Zobraziť plochu"
+
+#~ msgid "Zoom"
+#~ msgstr "Priblíženie"
+
+#~ msgid "Define how far away the windows should appear"
+#~ msgstr "Definuje v akej vzdialenosti sa majú zobraziť okná"
+
+#~ msgid "Near"
+#~ msgstr "Blízko"
+
+#~ msgid "Far"
+#~ msgstr "Ďaleko"
+
+#~ msgid "Animation"
+#~ msgstr "Animácia"
+
+#~ msgid "Animate switch"
+#~ msgstr "Animovať prepnutie"
+
+#~ msgid "Animation on tab box open"
+#~ msgstr "Animácia pri otvorení"
+
+#~ msgid "Animation on tab box close"
+#~ msgstr "Animácia pri zatvorení"
+
+#~ msgid "Reflections"
+#~ msgstr "Odrazy"
+
+#~ msgid "Rear color"
+#~ msgstr "Farba pozadia:"
+
+#~ msgid "Front color"
+#~ msgstr "Farba popredia:"
+
+#~ msgid "Desktop Cube"
+#~ msgstr "Plochy na kocke"
+
+#~ msgid "Desktop Cylinder"
+#~ msgstr "Plochy na valci"
+
+#~ msgid "Desktop Sphere"
+#~ msgstr "Plochy na guli"
+
+#~ msgctxt "@title:tab Basic Settings"
+#~ msgid "Basic"
+#~ msgstr "Základné"
+
+#~ msgctxt "@title:tab Advanced Settings"
+#~ msgid "Advanced"
+#~ msgstr "Pokročilé"
+
+#~ msgid "Tab 1"
+#~ msgstr "Karta 1"
+
+#~ msgid "Background color:"
+#~ msgstr "Farba pozadia:"
+
+#~ msgid "Wallpaper:"
+#~ msgstr "Tapeta:"
+
+#~ msgid "Display desktop name"
+#~ msgstr "Zobrazovať názov plochy"
+
+#~ msgid "Reflection"
+#~ msgstr "Odraz"
+
+#~ msgid "Rotation duration:"
+#~ msgstr "Trvanie rotácie:"
+
+#~ msgid "Windows hover above cube"
+#~ msgstr "Okná sa vznášajú nad kockou"
+
+#~ msgid "Opacity"
+#~ msgstr "Nepriehľadnosť"
+
+#~ msgid "Do not change opacity of windows"
+#~ msgstr "Nemeniť nepriehľadnosť okien"
+
+#~ msgid "Tab 2"
+#~ msgstr "Karta 2"
+
+#~ msgid "Caps"
+#~ msgstr "Vrchy"
+
+#~ msgid "Cap color:"
+#~ msgstr "Farba vrchu:"
+
+#~ msgid "Display image on caps"
+#~ msgstr "Zobrazovať obrázok na vrchoch"
+
+#~ msgid "Define how far away the object should appear"
+#~ msgstr "Definuje v akej vzdialenosti sa má zobraziť objekt"
+
+#~ msgid "Additional Options"
+#~ msgstr "Ďalšie možnosti"
+
+#~ msgid ""
+#~ "If enabled the effect will be deactivated after rotating the cube with "
+#~ "the mouse,\n"
+#~ "otherwise it will remain active"
+#~ msgstr ""
+#~ "Ak je povolené, efekt sa deaktivuje po otočení kocky myšou,\n"
+#~ "inak zostane aktívny"
+
+#~ msgid "Close after mouse dragging"
+#~ msgstr "Zavrieť po ťahaní myšou"
+
+#~ msgid "Use this effect for walking through the desktops"
+#~ msgstr "Používať tento efekt pre prepínanie medzi plochami"
+
+#~ msgid "Invert mouse"
+#~ msgstr "Invertovať myš"
+
+#~ msgid "Sphere Cap Deformation"
+#~ msgstr "Deformácia vrchu gule"
+
+#~ msgid "Sphere"
+#~ msgstr "Guľa"
+
+#~ msgid "Plane"
+#~ msgstr "Rovina"
+
+#~ msgid "Do not animate windows on all desktops"
+#~ msgstr "Neanimovať okná na všetkých plochách"
+
+#~ msgid "Do not animate panels"
+#~ msgstr "Neanimovať panely"
+
+#~ msgid "Use pager layout for animation"
+#~ msgstr "Používať rozloženie prepínača plôch pre animáciu"
+
+#~ msgid "Start animation when moving windows towards screen edges"
+#~ msgstr "Spustiť animáciu pri presúvaní okien k okrajom obrazovky"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Cover Switch"
+#~ msgstr "Prepínať s gáleriou"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display a Cover Flow effect for the alt+tab window switcher"
+#~ msgstr "Zobrazí galériu okien pri prepínaní pomocou Alt+Tab"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube"
+#~ msgstr "Plochy na kocke"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display each virtual desktop on a side of a cube"
+#~ msgstr "Zobrazí každú virtuálnu plochu na strane kocky"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube Animation"
+#~ msgstr "Animácia plochy na kocke"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Animate desktop switching with a cube"
+#~ msgstr "Animuje prepínanie plôch pomocou kocky"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Flip Switch"
+#~ msgstr "Prepínať v kartotéke"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Flip through windows that are in a stack for the alt+tab window switcher"
+#~ msgstr "Zobrazí okná za sebou ako v kartotéke pri prepínaní pomocou Alt+Tab"
+
+#~ msgid "Toggle Flip Switch (Current desktop)"
+#~ msgstr "Zapnúť efekt prepínanie v kartotéke (aktuálna plocha)"
+
+#~ msgid "Toggle Flip Switch (All desktops)"
+#~ msgstr "Zapnúť efekt prepínanie v kartotéke (všetky plochy)"
+
+#~ msgid "Flip animation duration:"
+#~ msgstr "Trvanie animácie prevrátenia:"
+
+#~ msgctxt "Duration of flip animation"
+#~ msgid "Default"
+#~ msgstr "Štandardné"
+
+#~ msgid "Angle:"
+#~ msgstr "Uhol:"
+
+#~ msgid " °"
+#~ msgstr " °"
+
+#~ msgid "Horizontal position of front:"
+#~ msgstr "Horizontálna pozícia prednej strany:"
+
+#~ msgid "Vertical position of front:"
+#~ msgstr "Vertikálna pozícia prednej strany:"
+
+#~ msgid ""
+#~ "Filter:\n"
+#~ "%1"
+#~ msgstr ""
+#~ "Filter:\n"
+#~ "%1"
+
+#~ msgid "Use Present Windows effect to layout the windows"
+#~ msgstr "Používať efekt súčasné okná k rozmiestneniu okien"
+
+#~ msgid "When the focus changes, move the zoom area to the focused location."
+#~ msgstr ""
+#~ "Pri zmene zamerania presunie oblasť priblíženia na zamerané umiestnenie."
+
+#~ msgid "Follow Focus"
+#~ msgstr "Nasledovať zameranie"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Dim Screen for Administrator Mode"
+#~ msgstr "Stmaviť obrazovku v administrátorskom režime"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Darkens the entire screen when requesting root privileges"
+#~ msgstr "Stmaví celú obrazovku, keď sú vyžadované rootovské oprávnenia"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Scale"
+#~ msgstr "Škálovať"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Make windows smoothly scale in and out when they are shown or hidden"
+#~ msgstr ""
+#~ "Modálne dialógy sa plynule objavia/zmiznú pri ich zobrazení alebo skrytí"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Minimize Animation"
+#~ msgstr "Animácia minimalizovania"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Animate the minimizing of windows"
+#~ msgstr "Animuje minimalizovanie okien"
+
+#~ msgid "Trigger on"
+#~ msgstr "Spúšťač zapnutý"
+
+#~ msgid "Shortcut"
+#~ msgstr "Skratka"
+
+#~ msgid "Apply effect to &panels"
+#~ msgstr "Používať efekt na &panely"
+
+#~ msgid "Apply effect to the desk&top"
+#~ msgstr "Používať efekt na p&lochu"
+
+#~ msgid "Apply effect to &keep-above windows"
+#~ msgstr "Používať efekt na okná &držané nad ostatnými"
+
+#~ msgid "Apply effect to &groups"
+#~ msgstr "Používať efekt na s&kupiny"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Windows Glide Effect as they are open and closed"
+#~ msgstr "Efekt kĺzania okien pri otvorení alebo zatvorení"
+
+#~ msgid "Glide Effect:"
+#~ msgstr "Efekt kĺzania:"
+
+#~ msgid "In"
+#~ msgstr "Dovnútra"
+
+#~ msgid "Out"
+#~ msgstr "Von"
+
+#~ msgid "Glide Angle:"
+#~ msgstr "Uhol kĺzania:"
+
+#~ msgid "-90"
+#~ msgstr "-90"
+
+#~ msgid "90"
+#~ msgstr "90"
+
+#, fuzzy
+#~| msgctxt "Duration of rotation"
+#~| msgid "Default"
+#~ msgctxt "Duration of the slide animation"
+#~ msgid "Default"
+#~ msgstr "Štandardné"
+
+#~ msgid "Strength of the effect:"
+#~ msgstr "Sila efektu:"
+
+#~ msgid "Save intermediate rendering results."
+#~ msgstr "Uložiť prechodné výsledky vykresľovania."
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Logout"
+#~ msgstr "Odhlásenie"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Desaturate the desktop when displaying the logout dialog"
+#~ msgstr "Odfarbí plochu pri zobrazení dialógu pre odhlásenie"
+
+#~ msgid "Brightness of the background:"
+#~ msgstr "Jas pozadia:"
+
+#~ msgctxt "Less brightness"
+#~ msgid "Darker"
+#~ msgstr "Tmavší"
+
+#~ msgctxt "More brightness"
+#~ msgid "Lighter"
+#~ msgstr "Svetlejší"
+
+#~ msgid "Saturation of the background:"
+#~ msgstr "Sýtosť pozadia:"
+
+#~ msgctxt "No saturation"
+#~ msgid "Gray"
+#~ msgstr "Šedá"
+
+#~ msgid "Duration of the fade:"
+#~ msgstr "Trvanie slabnutia:"
+
+#~ msgid "ms"
+#~ msgstr "ms"
+
+#~ msgid "The blur effect must be enabled before it can be used."
+#~ msgstr "Efekt rozostrenia treba povoliť pred jeho použitím."
+
+#~ msgid "Apply blur effect to background"
+#~ msgstr "Používať efekt rozostrenia na pozadie"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Dashboard"
+#~ msgstr "Nástenka"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Desaturate the desktop when displaying the Plasma dashboard"
+#~ msgstr "Odfarbí plochu pri zobrazení nástenky Plasmy"
+
+#~ msgid "Decorations:"
+#~ msgstr "Dekorácie:"

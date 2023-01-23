@@ -7,8 +7,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#ifndef KWIN_SHOWPAINT_H
-#define KWIN_SHOWPAINT_H
+#pragma once
 
 #include <kwineffects.h>
 
@@ -31,7 +30,7 @@ private Q_SLOTS:
     void toggle();
 
 private:
-    void paintGL(const QMatrix4x4 &projection);
+    void paintGL(const QMatrix4x4 &projection, qreal scale);
     void paintQPainter();
 
     bool m_active = false;
@@ -40,5 +39,3 @@ private:
 };
 
 } // namespace KWin
-
-#endif

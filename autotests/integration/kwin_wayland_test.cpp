@@ -10,7 +10,7 @@
 
 #include "backends/virtual/virtual_backend.h"
 #include "composite.h"
-#include "core/platform.h"
+#include "core/outputbackend.h"
 #include "core/session.h"
 #include "effects.h"
 #include "inputmethod.h"
@@ -71,7 +71,7 @@ WaylandTestApplication::WaylandTestApplication(OperationMode mode, int &argc, ch
     addLibraryPath(ownPath);
 
     setSession(Session::create(Session::Type::Noop));
-    setPlatform(std::make_unique<VirtualBackend>());
+    setOutputBackend(std::make_unique<VirtualBackend>());
     WaylandServer::create(this);
     setProcessStartupEnvironment(QProcessEnvironment::systemEnvironment());
 }
@@ -131,7 +131,7 @@ void WaylandTestApplication::performStartup()
 
     // first load options - done internally by a different thread
     createOptions();
-    if (!platform()->initialize()) {
+    if (!outputBackend()->initialize()) {
         std::exit(1);
     }
 
@@ -195,5 +195,25 @@ Test::VirtualInputDevice *WaylandTestApplication::virtualTouch() const
 XwaylandInterface *WaylandTestApplication::xwayland() const
 {
     return m_xwayland.get();
+}
+
+Test::FractionalScaleManagerV1::~FractionalScaleManagerV1()
+{
+    destroy();
+}
+
+Test::FractionalScaleV1::~FractionalScaleV1()
+{
+    destroy();
+}
+
+int Test::FractionalScaleV1::preferredScale()
+{
+    return m_preferredScale;
+}
+
+void Test::FractionalScaleV1::wp_fractional_scale_v1_preferred_scale(uint32_t scale)
+{
+    m_preferredScale = scale;
 }
 }

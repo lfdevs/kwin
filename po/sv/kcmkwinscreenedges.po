@@ -236,3 +236,46 @@ msgid ""
 "You can trigger an action by swiping from the screen edge towards the center "
 "of the screen."
 msgstr "Du kan utföra en åtgärd genom att svepa från skärmens kant mot mitten."
+
+#~ msgid "Show Desktop"
+#~ msgstr "Visa skrivbord"
+
+#~ msgid "Desktop Grid"
+#~ msgstr "Skrivbordsrutnät"
+
+#~ msgid "Toggle Overview"
+#~ msgstr "Ändra översikt"
+
+#~ msgid "%1 - Cube"
+#~ msgstr "%1 - Kub"
+
+#~ msgid "%1 - Cylinder"
+#~ msgstr "%1 - Cylinder"
+
+#~ msgid "%1 - Sphere"
+#~ msgstr "%1 - Klot"
+
+#~ msgid "Active Screen Corners and Edges"
+#~ msgstr "Aktiva skärmhörn och kanter"
+
+#~ msgid "Window Management"
+#~ msgstr "Fönsterhantering"
+
+#~ msgid "Maximize windows by dragging them to the top edge of the screen"
+#~ msgstr "Maximera fönster genom att dra dem till skärmens överkant"
+
+#~ msgid "Quarter tiling triggered in the outer"
+#~ msgstr "Fjärdedels sida-vid-sida utlöst i de yttre"
+
+#~ msgid "Other Settings"
+#~ msgstr "Andra inställningar"
+
+#~ msgctxt "Open krunner"
+#~ msgid "Run Command"
+#~ msgstr "Kör kommando"
+
+#~ msgid "Show Dashboard"
+#~ msgstr "Visa instrumentpanel"
+
+#~ msgid "Prevent Screen Locking"
+#~ msgstr "Förhindra låsning av skärmen"

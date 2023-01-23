@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-01 02:26+0000\n"
+"POT-Creation-Date: 2023-01-18 00:58+0000\n"
 "PO-Revision-Date: 2014-06-27 01:00+0200\n"
 "Last-Translator: Sönke Dibbern <s_dibbern@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-doc@kde.org>\n"
@@ -59,6 +59,7 @@ msgstr ""
 #: mousemark/mousemark_config.cpp:50 overview/kcm/overvieweffectkcm.cpp:35
 #: showpaint/showpaint_config.cpp:33
 #: thumbnailaside/thumbnailaside_config.cpp:54
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:31
 #: trackmouse/trackmouse_config.cpp:52
 #: windowview/kcm/windowvieweffectkcm.cpp:36 zoom/zoom_config.cpp:58
 #, kde-format
@@ -198,15 +199,21 @@ msgstr ""
 msgid "Natural"
 msgstr "Normaal"
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
+#: desktopgrid/desktopgrid_config.ui:147
+#, kde-format
+msgid "None"
+msgstr "Keen"
+
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: desktopgrid/desktopgrid_config.ui:150
+#: desktopgrid/desktopgrid_config.ui:155
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "Windows layout:"
 msgstr "Finstern"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: desktopgrid/desktopgrid_config.ui:166
+#: desktopgrid/desktopgrid_config.ui:171
 #, kde-format
 msgid "Activation"
 msgstr "Anmaken"
@@ -326,10 +333,16 @@ msgstr "Muusklick-Animeren"
 msgid "Toggle Invert Effect"
 msgstr "Ümdreihen an-/utmaken"
 
-#: invert/invert.cpp:50 invert/invert_config.cpp:44
+#: invert/invert.cpp:49 invert/invert_config.cpp:44
 #, kde-format
 msgid "Toggle Invert Effect on Window"
 msgstr "Ümdreihen för Finster an- oder utmaken"
+
+#: invert/invert.cpp:56
+#, fuzzy, kde-format
+#| msgid "Invert cursor keys"
+msgid "Invert Screen Colors"
+msgstr "Blinker-Tasten ümdreihen"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FadeToBlack)
 #: login/package/contents/ui/config.ui:17
@@ -386,33 +399,33 @@ msgstr "&Hööchde:"
 msgid "Toggle Mouse Click Effect"
 msgstr "Muusklickeffekt an-/utmaken"
 
-#: mouseclick/mouseclick.cpp:42
+#: mouseclick/mouseclick.cpp:41
 #, fuzzy, kde-format
 #| msgid "Left"
 msgctxt "Left mouse button"
 msgid "Left"
 msgstr "Links"
 
-#: mouseclick/mouseclick.cpp:43
+#: mouseclick/mouseclick.cpp:42
 #, fuzzy, kde-format
 #| msgid "Middle"
 msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr "Merrn"
 
-#: mouseclick/mouseclick.cpp:44
+#: mouseclick/mouseclick.cpp:43
 #, fuzzy, kde-format
 #| msgid "Right"
 msgctxt "Right mouse button"
 msgid "Right"
 msgstr "Rechts"
 
-#: mouseclick/mouseclick.h:61
+#: mouseclick/mouseclick.h:60
 #, kde-format
 msgid "↓"
 msgstr ""
 
-#: mouseclick/mouseclick.h:62
+#: mouseclick/mouseclick.h:61
 #, kde-format
 msgid "↑"
 msgstr ""
@@ -510,12 +523,12 @@ msgstr "Schriftoort:"
 msgid "Show Text:"
 msgstr "Text wiesen:"
 
-#: mousemark/mousemark.cpp:36
+#: mousemark/mousemark.cpp:39
 #, kde-format
 msgid "Clear All Mouse Marks"
 msgstr "All Muusmarken wegmaken"
 
-#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:59
+#: mousemark/mousemark.cpp:45 mousemark/mousemark_config.cpp:59
 #, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr "Lest Muusmarken wegmaken"
@@ -586,12 +599,12 @@ msgstr "Achtergrund"
 msgid "Ignore minimized windows:"
 msgstr "&Minimeert Finstern övergahn"
 
-#: overview/qml/DesktopBar.qml:186
+#: overview/qml/DesktopBar.qml:187
 #, kde-format
 msgid "Delete Virtual Desktop"
 msgstr ""
 
-#: overview/qml/DesktopBar.qml:282
+#: overview/qml/DesktopBar.qml:283
 #, fuzzy, kde-format
 #| msgctxt "@title:group actions when clicking on desktop"
 #| msgid "Desktop"
@@ -604,12 +617,12 @@ msgstr "Schriefdisch"
 msgid "No matching windows"
 msgstr "Verschaven Finstern:"
 
-#: private/qml/WindowHeapDelegate.qml:152
+#: private/qml/WindowHeapDelegate.qml:151
 #, kde-format
 msgid "Drag Down To Close"
 msgstr ""
 
-#: private/qml/WindowHeapDelegate.qml:462
+#: private/qml/WindowHeapDelegate.qml:461
 #, fuzzy, kde-format
 #| msgid "Scale window"
 msgctxt "@info:tooltip as in: 'close this window'"
@@ -632,7 +645,7 @@ msgstr "Minimeer-Animeren"
 msgid "Window close scale:"
 msgstr "Muusklick-Animeren"
 
-#: screenshot/screenshotdbusinterface1.cpp:480
+#: screenshot/screenshotdbusinterface1.cpp:478
 #, fuzzy, kde-format
 #| msgctxt "Name of a KWin Effect"
 #| msgid "Screenshot"
@@ -640,7 +653,7 @@ msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr "Schirmfoto"
 
-#: screenshot/screenshotdbusinterface1.cpp:481
+#: screenshot/screenshotdbusinterface1.cpp:479
 #, fuzzy, kde-format
 #| msgctxt "Name of a KWin Effect"
 #| msgid "Screenshot"
@@ -648,16 +661,16 @@ msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr "Schirmfoto"
 
-#: screenshot/screenshotdbusinterface1.cpp:797
-#: screenshot/screenshotdbusinterface2.cpp:472
+#: screenshot/screenshotdbusinterface1.cpp:800
+#: screenshot/screenshotdbusinterface2.cpp:477
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
 
-#: screenshot/screenshotdbusinterface1.cpp:800
-#: screenshot/screenshotdbusinterface2.cpp:490
+#: screenshot/screenshotdbusinterface1.cpp:803
+#: screenshot/screenshotdbusinterface2.cpp:495
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -727,16 +740,8 @@ msgstr "Kimmrecht"
 msgid "Vertical:"
 msgstr "Pielrecht"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideDocks)
-#: slide/slide_config.ui:72
-#, fuzzy, kde-format
-#| msgctxt "Name of a KWin Effect"
-#| msgid "Slide Back"
-msgid "Slide docks"
-msgstr "Achterrut glitschen"
-
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideBackground)
-#: slide/slide_config.ui:79
+#: slide/slide_config.ui:72
 #, fuzzy, kde-format
 #| msgid "Slide when grouping"
 msgid "Slide desktop background"
@@ -779,6 +784,49 @@ msgstr "&Deckstärk:"
 #, no-c-format, kde-format
 msgid " %"
 msgstr " %"
+
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:37
+#: tileseditor/tileseditoreffect.cpp:29
+#, kde-format
+msgid "Toggle Tiles Editor"
+msgstr ""
+
+#: tileseditor/qml/main.qml:147
+#, kde-format
+msgid "Padding:"
+msgstr ""
+
+#: tileseditor/qml/main.qml:157
+#, kde-format
+msgid "Load Layout..."
+msgstr ""
+
+#: tileseditor/qml/main.qml:271
+#, kde-format
+msgid "Close"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:171
+#, fuzzy, kde-format
+#| msgid "Horizontal"
+msgid "Split Horizontally"
+msgstr "Kimmrecht"
+
+#: tileseditor/qml/TileDelegate.qml:178
+#, fuzzy, kde-format
+#| msgid "Vertical"
+msgid "Split Vertically"
+msgstr "Pielrecht"
+
+#: tileseditor/qml/TileDelegate.qml:186 tileseditor/qml/TileDelegate.qml:215
+#, kde-format
+msgid "Add Floating Tile"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:195
+#, kde-format
+msgid "Delete"
+msgstr ""
 
 #: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:57
 #, kde-format
@@ -915,17 +963,17 @@ msgstr "Aflööst Menüs:"
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "»Vörhannen Finstern« an- oder utmaken (aktuell Schriefdisch)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:55
+#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:54
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "»Vörhannen Finstern« an- oder utmaken (all Schriefdischen)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:65
+#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:63
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "»Vörhannen Finstern« an-/utmaken (Finsterklass)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:75
+#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:72
 #, fuzzy, kde-format
 #| msgid "Toggle Present Windows (Current desktop)"
 msgid "Toggle Present Windows (Window class on current desktop)"
@@ -937,16 +985,23 @@ msgstr "»Vörhannen Finstern« an- oder utmaken (aktuell Schriefdisch)"
 msgid "Ignore &minimized windows"
 msgstr "&Minimeert Finstern övergahn"
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, kde-format
 msgid "No Matches"
 msgstr ""
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "No Windows"
 msgstr "Finstern"
+
+#: windowview/qml/main.qml:123
+#, fuzzy, kde-format
+#| msgctxt "Name of a KWin Effect"
+#| msgid "Present Windows"
+msgid "Filter windows…"
+msgstr "Finstern wiesen"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20
@@ -1008,32 +1063,32 @@ msgstr "Minn"
 msgid "More"
 msgstr "Mehr"
 
-#: zoom/zoom.cpp:68
+#: zoom/zoom.cpp:65
 #, kde-format
 msgid "Move Zoomed Area to Left"
 msgstr "Grötter maakt Rebeet na links verschuven"
 
-#: zoom/zoom.cpp:76
+#: zoom/zoom.cpp:72
 #, kde-format
 msgid "Move Zoomed Area to Right"
 msgstr "Grötter maakt Rebeet na rechts verschuven"
 
-#: zoom/zoom.cpp:84
+#: zoom/zoom.cpp:79
 #, kde-format
 msgid "Move Zoomed Area Upwards"
 msgstr "Grötter maakt Rebeet na baven verschuven"
 
-#: zoom/zoom.cpp:92
+#: zoom/zoom.cpp:86
 #, kde-format
 msgid "Move Zoomed Area Downwards"
 msgstr "Grötter maakt Rebeet na nerrn verschuven"
 
-#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:108
+#: zoom/zoom.cpp:94 zoom/zoom_config.cpp:108
 #, kde-format
 msgid "Move Mouse to Focus"
 msgstr "Verschuuv de Muus för't Aktievmaken"
 
-#: zoom/zoom.cpp:109 zoom/zoom_config.cpp:115
+#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:115
 #, kde-format
 msgid "Move Mouse to Center"
 msgstr "Verschuuv de Muus för't Inmiddeln"
@@ -1175,3 +1230,1078 @@ msgstr "Utmaakt"
 #, kde-format
 msgid "Mouse Tracking:"
 msgstr "Muustrecken:"
+
+#, fuzzy
+#~| msgctxt "Name of a KWin Effect"
+#~| msgid "Slide Back"
+#~ msgid "Slide docks"
+#~ msgstr "Achterrut glitschen"
+
+#~ msgid "&Radius:"
+#~ msgstr "&Halfmaat:"
+
+#~ msgid "Text position:"
+#~ msgstr "Textpositschoon:"
+
+#~ msgid "Inside Graph"
+#~ msgstr "Binnen dat Diagramm"
+
+#~ msgid "Nowhere"
+#~ msgstr "Narms"
+
+#~ msgid "Top Left"
+#~ msgstr "Baven links"
+
+#~ msgid "Top Right"
+#~ msgstr "Baven rechts"
+
+#~ msgid "Bottom Left"
+#~ msgstr "Nerrn links"
+
+#~ msgid "Bottom Right"
+#~ msgstr "Nerrn rechts"
+
+#~ msgid "Text font:"
+#~ msgstr "Schriftoort:"
+
+#~ msgid "Text color:"
+#~ msgstr "Textklöör:"
+
+#~ msgid "Text alpha:"
+#~ msgstr "Text-Överblennen:"
+
+#, fuzzy
+#~| msgid "Show caps"
+#~ msgid "Show graph:"
+#~ msgstr "Sieden wiesen"
+
+#, fuzzy
+#~| msgid "Show Text:"
+#~ msgid "Show Message:"
+#~ msgstr "Text wiesen:"
+
+#~ msgid "Zoom &duration:"
+#~ msgstr "Kiek&duer:"
+
+#~ msgctxt "Duration of zoom"
+#~ msgid "Default"
+#~ msgstr "Standard"
+
+#, fuzzy
+#~| msgid "&Border width:"
+#~ msgid "Border wid&th:"
+#~ msgstr "&Randbreed:"
+
+#, fuzzy
+#~| msgid "Save screenshot of active window"
+#~ msgid "Switch desktop and activate window"
+#~ msgstr "Schirmfoto vun dat aktive Finster sekern"
+
+#, fuzzy
+#~| msgid "Show desktop"
+#~ msgid "Switch desktop only"
+#~ msgstr "Schriefdisch wiesen"
+
+#~ msgid "Natural Layout Settings"
+#~ msgstr "Normaal Anorn-Instellen"
+
+#~ msgid "Fill &gaps"
+#~ msgstr "&Lücken vullmaken"
+
+#~ msgid "Faster"
+#~ msgstr "Gauer"
+
+#~ msgid "Nicer"
+#~ msgstr "Smucker"
+
+#~ msgid "Left button:"
+#~ msgstr "Knoop links:"
+
+#~ msgid "No action"
+#~ msgstr "Keen Akschoon"
+
+#~ msgid "Activate window"
+#~ msgstr "Finster aktiev maken"
+
+#~ msgid "End effect"
+#~ msgstr "Effekt ophollen"
+
+#~ msgid "Bring window to current desktop"
+#~ msgstr "Finster op aktuellen Schriefdisch halen"
+
+#~ msgid "Send window to all desktops"
+#~ msgstr "Finster op all Schriefdischen wiesen"
+
+#~ msgid "(Un-)Minimize window"
+#~ msgstr "Finster minimeren an/ut"
+
+#~ msgid "Middle button:"
+#~ msgstr "Middelknoop:"
+
+#~ msgid "Right button:"
+#~ msgstr "Knoop rechts:"
+
+#~ msgctxt "@title:group actions when clicking on desktop"
+#~ msgid "Desktop"
+#~ msgstr "Schriefdisch"
+
+#~ msgid "Show desktop"
+#~ msgstr "Schriefdisch wiesen"
+
+#~ msgid "Display window &titles"
+#~ msgstr "Finster&titeln wiesen"
+
+#~ msgid "Display window &icons"
+#~ msgstr "Finster&lüttbiller wiesen"
+
+#~ msgid "Show &panels"
+#~ msgstr "&Panelen wiesen"
+
+#~ msgid "Regular Grid"
+#~ msgstr "Gadder"
+
+#~ msgid "Flexible Grid"
+#~ msgstr "Topassen Gadder"
+
+#~ msgid "Provide buttons to close the windows"
+#~ msgstr "Praatstellen vun Knööp för't Tomaken vun Finstern"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Sönke Dibbern"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "s_dibbern@web.de"
+
+#~ msgid "Scale window"
+#~ msgstr "Finstergrött topassen"
+
+#~ msgid "Show outline"
+#~ msgstr "Ümreet wiesen"
+
+#~ msgid "Toggle window geometry display (effect only)"
+#~ msgstr "Finsterafmeten wiesen oder versteken (bloots en Effekt)"
+
+#~ msgid "Toggle KWin composited geometry display"
+#~ msgstr "Vun KWin tosamensett Finsterafmeten wiesen oder versteken"
+
+#~ msgid "Display for moving windows"
+#~ msgstr "Bi't Verschuven vun Finstern wiesen"
+
+#~ msgid "Display for resizing windows"
+#~ msgstr "Bi't Ännern vun de Finstergrött wiesen"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Blur"
+#~ msgstr "Verwischen"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Blurs the background behind semi-transparent windows"
+#~ msgstr "Verwischt den Achtergrund achter halfdörsichtig Finstern"
+
+#, fuzzy
+#~| msgctxt "High saturation"
+#~| msgid "Colored"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Color Picker"
+#~ msgstr "Klöör"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Background contrast"
+#~ msgstr "Achtergrundkontrast"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Improve contrast and readability behind semi-transparent windows"
+#~ msgstr "Kontrast un Leesborkeit achter halfdörsichtig Finstern verbetern"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Grid"
+#~ msgstr "Schriefdisch-Gadder"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Zoom out so all desktops are displayed side-by-side in a grid"
+#~ msgstr ""
+#~ "Ansicht grötter maken, so dat all Schriefdischen blangenanner in en "
+#~ "Gadder wiest warrt"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Dim Inactive"
+#~ msgstr "Nich aktive bedüüstern"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Darken inactive windows"
+#~ msgstr "Nich aktive Finstern düüsterer maken"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Fall Apart"
+#~ msgstr "Tobreken"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Closed windows fall into pieces"
+#~ msgstr "Tomaakt Finstern breekt uteneen"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Glide"
+#~ msgstr "Glieden"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Highlight Window"
+#~ msgstr "Finster rutheven"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlight the appropriate window when hovering over taskbar entries"
+#~ msgstr "Bi't Wiesen op Programmbalken-Indrääg de tohören Finstern rutheven"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Invert"
+#~ msgstr "Ümdreihen"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Inverts the color of the desktop and windows"
+#~ msgstr "Dreiht de Klören vun Schriefdisch un Finstern üm"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Kscreen"
+#~ msgstr "KScreen"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper Effect for KScreen"
+#~ msgstr "Hülpeffekt för KScreen"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Looking Glass"
+#~ msgstr "Kiekglas"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "A screen magnifier that looks like a fisheye lens"
+#~ msgstr "En Schirm-Kiekglas, dat as en Fischoog-Lins utsüht"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Magic Lamp"
+#~ msgstr "Töverlamp"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Simulate a magic lamp when minimizing windows"
+#~ msgstr "Simuleert bi't Minimeren vun Finstern en Wunnerlamp"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Magnifier"
+#~ msgstr "Kiekglas"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Magnify the section of the screen that is near the mouse cursor"
+#~ msgstr "Den Deel vun den Schirm rund den Muuswieser grötter maken"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Click Animation"
+#~ msgstr "Muusklick-Animeren"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Creates an animation whenever a mouse button is clicked. This is useful "
+#~ "for screenrecordings/presentations"
+#~ msgstr ""
+#~ "Animeert dat Klicken mit de Muus. Is goot för Schirmopnahmen un "
+#~ "Presentatschonen."
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Mark"
+#~ msgstr "Muus-Mark"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Allows you to draw lines on the desktop"
+#~ msgstr "Dor kannst Du Streken mit op den Schriefdisch malen"
+
+#, fuzzy
+#~| msgctxt "Comment describing the KWin Effect"
+#~| msgid "Allows you to draw lines on the desktop"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Allows you to overview virtual desktops and windows"
+#~ msgstr "Dor kannst Du Streken mit op den Schriefdisch malen"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Present Windows"
+#~ msgstr "Finstern wiesen"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Zoom out until all opened windows can be displayed side-by-side"
+#~ msgstr ""
+#~ "Ansicht so grötter maken, dat sik all Finstern blangenanner wiesen laat"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Resize Window"
+#~ msgstr "Finstergrött ännern"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Resizes windows with a fast texture scale instead of updating contents"
+#~ msgstr ""
+#~ "Bi't Ännern vun de Finstergrött warrt en gau Textuurskaleren bruukt, un "
+#~ "nich de Inholt opfrischt"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Screen Edge"
+#~ msgstr "Schirmkant"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlights a screen edge when approaching"
+#~ msgstr "Markeert en Schirmkant, wenn een ehr neger kummt"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Screenshot"
+#~ msgstr "Schirmfoto"
+
+#, fuzzy
+#~| msgctxt "Comment describing the KWin Effect"
+#~| msgid "Helper effect for KSnapshot"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper effect for screenshot tools"
+#~ msgstr "Hülpeffekt för KSnapshot"
+
+#, fuzzy
+#~| msgid "Transparent"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Transform"
+#~ msgstr "Dörsichtig"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Sheet"
+#~ msgstr "Blööd"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Make modal dialogs smoothly fly in and out when they are shown or hidden"
+#~ msgstr ""
+#~ "Modaaldialogen bi't Wiesen oder Versteken week rin- oder rutflegen laten"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show FPS"
+#~ msgstr "Bps wiesen"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display KWin's performance in the corner of the screen"
+#~ msgstr "KWin sien Leisten in't Schirmhuuk wiesen"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show Paint"
+#~ msgstr "Klöör wiesen"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlight areas of the desktop that have been recently updated"
+#~ msgstr "Jüst opfrischt Schirmrebeden rutheven"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Slide"
+#~ msgstr "Glitschen"
+
+#, fuzzy
+#~| msgctxt "Comment describing the KWin Effect"
+#~| msgid "Slide windows across the screen when switching virtual desktops"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Slide desktops when switching virtual desktops"
+#~ msgstr ""
+#~ "Bi't Wesseln vun den Schriefdisch Finstern över den Schirm glieden laten"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Slide Back"
+#~ msgstr "Achterrut glitschen"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Slide back windows when another window is raised"
+#~ msgstr "Finstern achterut glieden laten, wenn en anner na vörn kummt"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Sliding popups"
+#~ msgstr "Glitschen Opdukers"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Sliding animation for Plasma popups"
+#~ msgstr "Plasma sien Opdukfinstern gliedt över den Schriefdisch"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Snap Helper"
+#~ msgstr "Snapphülp"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Help you locate the center of the screen when moving a window"
+#~ msgstr "Bi't Verschuven vun Finstern den Schirm sien Merrn finnen"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Startup Feedback"
+#~ msgstr "Startmellen"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper effect for startup feedback"
+#~ msgstr "Hülpeffekt för de Startmellen"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Thumbnail Aside"
+#~ msgstr "Vöransicht kantsiets"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display window thumbnails on the edge of the screen"
+#~ msgstr "Finster-Vöransichten an de Schirmkant wiesen"
+
+#, fuzzy
+#~| msgid "Mouse Pointer:"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Touch Points"
+#~ msgstr "Muuswieser:"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Track Mouse"
+#~ msgstr "Muusspoor"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display a mouse cursor locating effect when activated"
+#~ msgstr "Wenn anmaakt, de Steed vun den Muuswieser rutheven"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Window Geometry"
+#~ msgstr "Finsterafmeten"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display window geometries on move/resize"
+#~ msgstr ""
+#~ "Finsterafmeten bi't Verschuven oder Ännern vun de Finstergrött wiesen"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Wobbly Windows"
+#~ msgstr "Wabbelig Finstern"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Deform windows while they are moving"
+#~ msgstr "Finstern bi't Verschuven weihen laten"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Zoom"
+#~ msgstr "Ansichtgrött"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Magnify the entire desktop"
+#~ msgstr "Den helen Schriefdisch grötter wiesen"
+
+#~ msgctxt "Special entry in alt+tab list for minimizing all windows"
+#~ msgid "Show Desktop"
+#~ msgstr "Schriefdisch wiesen"
+
+#~ msgid "Zoom"
+#~ msgstr "Ansichtgrött"
+
+#~ msgid "Define how far away the windows should appear"
+#~ msgstr "Fastleggen, wo wiet weg de Finstern utsehn schöölt"
+
+#~ msgid "Near"
+#~ msgstr "Neeg"
+
+#~ msgid "Far"
+#~ msgstr "Wiet"
+
+#~ msgid "Animation"
+#~ msgstr "Animeren"
+
+#~ msgid "Animate switch"
+#~ msgstr "Ümschalten animeren"
+
+#~ msgid "Animation on tab box open"
+#~ msgstr "Animeren bi't Opmaken vun Paneelreeg"
+
+#~ msgid "Animation on tab box close"
+#~ msgstr "Animeren bi't Tomaken vun Paneelreeg"
+
+#~ msgid "Reflections"
+#~ msgstr "Reflekteren"
+
+#~ msgid "Rear color"
+#~ msgstr "Klöör achtern:"
+
+#~ msgid "Front color"
+#~ msgstr "Klöör vörn:"
+
+#~ msgid "Desktop Cube"
+#~ msgstr "Wörpel-Schriefdisch"
+
+#~ msgid "Desktop Cylinder"
+#~ msgstr "Zylinner-Schriefdisch"
+
+#~ msgid "Desktop Sphere"
+#~ msgstr "Schriefdischkugel"
+
+#~ msgctxt "@title:tab Basic Settings"
+#~ msgid "Basic"
+#~ msgstr "Eenfach"
+
+#~ msgctxt "@title:tab Advanced Settings"
+#~ msgid "Advanced"
+#~ msgstr "Verwiedert"
+
+#~ msgid "Tab 1"
+#~ msgstr "Paneel 1"
+
+#~ msgid "Background color:"
+#~ msgstr "Achtergrundklöör:"
+
+#~ msgid "Wallpaper:"
+#~ msgstr "Achtergrundbild:"
+
+#~ msgid "Display desktop name"
+#~ msgstr "Schriefdischnaam wiesen"
+
+#~ msgid "Reflection"
+#~ msgstr "Spegeln"
+
+#~ msgid "Rotation duration:"
+#~ msgstr "Dreihduer:"
+
+#~ msgid "Windows hover above cube"
+#~ msgstr "Finstern sweevt över Wörpel"
+
+#~ msgid "Opacity"
+#~ msgstr "Deckstärk"
+
+#~ msgid "Do not change opacity of windows"
+#~ msgstr "De Finstern ehr Decken nich ännern"
+
+#~ msgid "Tab 2"
+#~ msgstr "Paneel 2"
+
+#~ msgid "Caps"
+#~ msgstr "Sieden"
+
+#~ msgid "Cap color:"
+#~ msgstr "Siedenklöör:"
+
+#~ msgid "Display image on caps"
+#~ msgstr "Bild op Wörpelsieden wiesen"
+
+#~ msgid "Define how far away the object should appear"
+#~ msgstr "Fastleggen, wo wiet weg dat Objekt utsehn schall"
+
+#~ msgid "Additional Options"
+#~ msgstr "Anner Optschonen"
+
+#~ msgid ""
+#~ "If enabled the effect will be deactivated after rotating the cube with "
+#~ "the mouse,\n"
+#~ "otherwise it will remain active"
+#~ msgstr ""
+#~ "Is dit anmaakt, warrt de Wörpel na't Dreihen mit de Muus utmaakt.\n"
+#~ "Anners blifft he so stahn."
+
+#~ msgid "Close after mouse dragging"
+#~ msgstr "Na't Trecken mit de Muus tomaken"
+
+#~ msgid "Use this effect for walking through the desktops"
+#~ msgstr "Bruuk dissen Effekt för't Lopen dör de Schriefdischen"
+
+#~ msgid "Invert mouse"
+#~ msgstr "Muus ümdreihen"
+
+#~ msgid "Sphere Cap Deformation"
+#~ msgstr "Kugelklott-Verformen"
+
+#~ msgid "Sphere"
+#~ msgstr "Kugel"
+
+#~ msgid "Plane"
+#~ msgstr "Flaag"
+
+#~ msgid "Do not animate windows on all desktops"
+#~ msgstr "Finstern op all Schriefdischen nich animeren"
+
+#~ msgid "Do not animate panels"
+#~ msgstr "Paneels nich animeren"
+
+#~ msgid "Use pager layout for animation"
+#~ msgstr "Schriefdisch-Översicht för Animeren bruken"
+
+#~ msgid "Start animation when moving windows towards screen edges"
+#~ msgstr "Bi't Verschuven vun Finstern na Schirmkanten Animeren starten"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Cover Switch"
+#~ msgstr "Flaatwesseln"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display a Cover Flow effect for the alt+tab window switcher"
+#~ msgstr "En Fleeteffekt bi't Wesseln vun Finstern mit Alt+Tabtast wiesen"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube"
+#~ msgstr "Schriefdischwörpel"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display each virtual desktop on a side of a cube"
+#~ msgstr "Elkeen Schriefdisch op en Wörpelsiet wiesen"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube Animation"
+#~ msgstr "Schriefdischwörpel animeren"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Animate desktop switching with a cube"
+#~ msgstr "Schriefdischwesseln mit en Wörpel animeren"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Flip Switch"
+#~ msgstr "Dreihwesseln"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Flip through windows that are in a stack for the alt+tab window switcher"
+#~ msgstr ""
+#~ "Dör de Finstern gahn, de för't Wesseln mit Alt+Tabtast opstapelt sünd"
+
+#~ msgid "Toggle Flip Switch (Current desktop)"
+#~ msgstr "Dreihwesseln an- oder utmaken (aktuell Schriefdisch)"
+
+#~ msgid "Toggle Flip Switch (All desktops)"
+#~ msgstr "Dreihwesslen an- oder utmaken (all Schriefdischen)"
+
+#~ msgid "Flip animation duration:"
+#~ msgstr "Animeerduer bi't Dreihen:"
+
+#~ msgctxt "Duration of flip animation"
+#~ msgid "Default"
+#~ msgstr "Standard"
+
+#~ msgid "Angle:"
+#~ msgstr "Winkel:"
+
+#~ msgid " °"
+#~ msgstr " °"
+
+#~ msgid "Horizontal position of front:"
+#~ msgstr "Kimmrecht Steed vun de Vörkant:"
+
+#~ msgid "Vertical position of front:"
+#~ msgstr "Pielrecht Steed vun de Vörkant:"
+
+#~ msgid ""
+#~ "Filter:\n"
+#~ "%1"
+#~ msgstr ""
+#~ "Filter:\n"
+#~ "%1"
+
+#~ msgid "Use Present Windows effect to layout the windows"
+#~ msgstr "Effekt »Vörhannen Finstern« för't Anornen vun de Finstern bruken"
+
+#~ msgid "When the focus changes, move the zoom area to the focused location."
+#~ msgstr "Fokusännern treckt dat Ansicht-Rebeet mit."
+
+#~ msgid "Follow Focus"
+#~ msgstr "Den Fokus nagahn"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Dim Screen for Administrator Mode"
+#~ msgstr "In Systeemplegerbedrief Schirm bedüüstern"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Darkens the entire screen when requesting root privileges"
+#~ msgstr ""
+#~ "Maakt den helen Schirm düüsterer, wenn na Systeempleger-Verlöven fraagt "
+#~ "warrt"
+
+#, fuzzy
+#~| msgid "Scale"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Scale"
+#~ msgstr "Topassen"
+
+#, fuzzy
+#~| msgctxt "Comment describing the KWin Effect"
+#~| msgid ""
+#~| "Make modal dialogs smoothly fly in and out when they are shown or hidden"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Make windows smoothly scale in and out when they are shown or hidden"
+#~ msgstr ""
+#~ "Modaaldialogen bi't Wiesen oder Versteken week rin- oder rutflegen laten"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Minimize Animation"
+#~ msgstr "Minimeer-Animeren"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Animate the minimizing of windows"
+#~ msgstr "Dat Minimeren vun Finstern animeren"
+
+#~ msgid "Trigger on"
+#~ msgstr "Utlösen bi"
+
+#~ msgid "Shortcut"
+#~ msgstr "Tastkombinatschoon"
+
+#~ msgid "Apply effect to &panels"
+#~ msgstr "Effekt för &Paneels bruken"
+
+#~ msgid "Apply effect to the desk&top"
+#~ msgstr "Effekt för Schrief&disch bruken"
+
+#~ msgid "Apply effect to &keep-above windows"
+#~ msgstr "Effekt för &vörn-hollen Finstern bruken"
+
+#~ msgid "Apply effect to &groups"
+#~ msgstr "Effekt för &Koppeln bruken"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Windows Glide Effect as they are open and closed"
+#~ msgstr "Finstern bi't Op- oder Tomaken glieden laten"
+
+#~ msgid "Glide Effect:"
+#~ msgstr "Glieden:"
+
+#~ msgid "In"
+#~ msgstr "Rin"
+
+#~ msgid "Out"
+#~ msgstr "Rut"
+
+#~ msgid "Glide Angle:"
+#~ msgstr "Glieden-Winkel:"
+
+#~ msgid "-90"
+#~ msgstr "-90"
+
+#~ msgid "90"
+#~ msgstr "-90"
+
+#, fuzzy
+#~| msgctxt "Duration of rotation"
+#~| msgid "Default"
+#~ msgctxt "Duration of the slide animation"
+#~ msgid "Default"
+#~ msgstr "Standard"
+
+#~ msgid "Strength of the effect:"
+#~ msgstr "Effektknööv"
+
+#~ msgid "Save intermediate rendering results."
+#~ msgstr "Dorstell-Twischenresultaten sekern"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Logout"
+#~ msgstr "Afmellen"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Desaturate the desktop when displaying the logout dialog"
+#~ msgstr ""
+#~ "De Sattheit vun de Schriefdischklören bi't Wiesen vun den Afmelldialoog "
+#~ "daalsetten"
+
+#~ msgid "Brightness of the background:"
+#~ msgstr "Helligkeit vun den Achtergrund:"
+
+#~ msgctxt "Less brightness"
+#~ msgid "Darker"
+#~ msgstr "Düüsterer"
+
+#~ msgctxt "More brightness"
+#~ msgid "Lighter"
+#~ msgstr "Heller"
+
+#~ msgid "Saturation of the background:"
+#~ msgstr "Sattheit vun den Achtergrund:"
+
+#~ msgctxt "No saturation"
+#~ msgid "Gray"
+#~ msgstr "Gries"
+
+#~ msgid "Duration of the fade:"
+#~ msgstr "De Duer vun't Utblennen:"
+
+#~ msgid "ms"
+#~ msgstr "ms"
+
+#~ msgid "The blur effect must be enabled before it can be used."
+#~ msgstr "De Verwischen-Effekt mutt anmaakt wesen, dormit de sik bruken lett."
+
+#~ msgid "Apply blur effect to background"
+#~ msgstr "Verwischen-Effekt för Achtergrund bruken"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Dashboard"
+#~ msgstr "Klockpaneel"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Desaturate the desktop when displaying the Plasma dashboard"
+#~ msgstr ""
+#~ "De Sattheit vun de Schriefdischklören bi't Wiesen vun't Plasma-"
+#~ "Klockpaneel daalsetten"
+
+#~ msgid "Decorations:"
+#~ msgstr "Dekoratschoon:"
+
+#~ msgid "Background window &opacity:"
+#~ msgstr "&Deckstärk för Achtergrundfinster:"
+
+#~ msgid "&Elevate selected window"
+#~ msgstr "Utsöcht Finster &anbören"
+
+#~ msgid "&Animate walk through windows"
+#~ msgstr "Dat Lopen dör de Finstern &animeren"
+
+#~ msgid "Use additional thumbnail bar"
+#~ msgstr "Bito Vöransichtbalken bruken"
+
+#~ msgid ""
+#~ "Only show thumbnail bar if there are at least specified number of windows"
+#~ msgstr ""
+#~ "Vöransichtbalken bloots bruken, wenn dat tominnst de angeven Tall vun "
+#~ "Finstern gifft"
+
+#~ msgid "Dynamic mode"
+#~ msgstr "Dünaamsch Bedrief"
+
+#~ msgid "Number of windows:"
+#~ msgstr "Tall vun Finstern:"
+
+#~ msgid " row"
+#~ msgid_plural " rows"
+#~ msgstr[0] " Reeg"
+#~ msgstr[1] " Regen"
+
+#~ msgctxt "Duration of fading"
+#~ msgid "Default"
+#~ msgstr "Standard"
+
+#~ msgid "Toggle Video Recording"
+#~ msgstr "Videoopnehmen an-/utmaken"
+
+#~ msgid "Path to save video:"
+#~ msgstr "Video sekern as:"
+
+#~ msgid "Slide when switching tabs"
+#~ msgstr "Bi't Wesseln vun Paneels glieden"
+
+#~ msgctxt ""
+#~ "Window geometry display, %1 and %2 are the new size, %3 and %4 are pixel "
+#~ "increments - avoid reformatting or suffixes like 'px'"
+#~ msgid ""
+#~ "Width: %1 (%3)\n"
+#~ "Height: %2 (%4)"
+#~ msgstr ""
+#~ "Breed: %1 (%3)\n"
+#~ "Hööchde: %2 (%4)"
+
+#~ msgctxt ""
+#~ "Window geometry display, %1 and %2 are the cartesian x and y coordinates "
+#~ "- avoid reformatting or suffixes like 'px'"
+#~ msgid ""
+#~ "X: %1\n"
+#~ "Y: %2"
+#~ msgstr ""
+#~ "X: %1\n"
+#~ "Y: %2"
+
+#~ msgctxt ""
+#~ "Window geometry display, %1 and %2 are the cartesian x and y coordinates, "
+#~ "%3 and %4 are the resp. increments - avoid reformatting or suffixes like "
+#~ "'px'"
+#~ msgid ""
+#~ "X: %1 (%3)\n"
+#~ "Y: %2 (%4)"
+#~ msgstr ""
+#~ "X: %1 (%3)\n"
+#~ "Y: %2 (%4)"
+
+#~ msgid "Snow"
+#~ msgstr "Snee"
+
+#~ msgid "Toggle Snow on Desktop"
+#~ msgstr "Sneen op den Schriefdisch an-/utmaken"
+
+#~ msgid " pixel/frame"
+#~ msgid_plural " pixels/frame"
+#~ msgstr[0] " Pixel/Bild"
+#~ msgstr[1] " Pixels/Bild"
+
+#~ msgctxt "@action Enables/Disables an effect that makes windows more sharp"
+#~ msgid "Toggle Sharpen Effect"
+#~ msgstr "Scharpmaken an-/utmaken"
+
+#~ msgid "&Number of snowflakes:"
+#~ msgstr "&Tall vun Sneeflocken:"
+
+#~ msgid "M&inimum size of snowflake:"
+#~ msgstr "&Lüttst Sneeflocken-Grött:"
+
+#~ msgid "M&aximum size of snowflake:"
+#~ msgstr "&Hööchst Sneeflocken-Grött:"
+
+#~ msgid "Maximum &vertical speed:"
+#~ msgstr "Gröttst &pielrecht Gauigkeit:"
+
+#~ msgid "Maximum &horizontal speed:"
+#~ msgstr "Hööchst &kimmrecht Gauigkeit:"
+
+#~ msgid "Snow &behind windows"
+#~ msgstr "Snee &achter Finstern"
+
+#~ msgid "&X offset:"
+#~ msgstr "&X-Verschuven:"
+
+#~ msgid "&Y offset:"
+#~ msgstr "&Y-Verschuven:"
+
+#~ msgid "%"
+#~ msgstr "%"
+
+#~ msgid "&Fuzziness:"
+#~ msgstr "&Verwischen:"
+
+#~ msgid "&Size:"
+#~ msgstr "&Grött:"
+
+#~ msgid "&Active windows have stronger shadows"
+#~ msgstr "Stärker Schaddens för &anmaakt Finstern"
+
+#, fuzzy
+#~| msgid "Background"
+#~ msgid "Background brightness"
+#~ msgstr "Achtergrund"
+
+#, fuzzy
+#~| msgid "Background"
+#~ msgid "Background saturation"
+#~ msgstr "Achtergrund"
+
+#, fuzzy
+#~| msgid "End effect"
+#~ msgid "Effects"
+#~ msgstr "Effekt ophollen"
+
+#~ msgid "Hold Ctrl+Meta keys to see where the mouse cursor is."
+#~ msgstr ""
+#~ "Holl Strg+de Meta-Tasten daal, wenn Du weten wullt, woneem de Muuswieser "
+#~ "is"
+
+#~ msgid "Rearrange &duration:"
+#~ msgstr "Nieganorn-&Duer:"
+
+#~ msgctxt "Duration of rearrangement"
+#~ msgid "Default"
+#~ msgstr "Standard"
+
+#~ msgid "Animate &flip"
+#~ msgstr "&Dreihen animeren"
+
+#~ msgid "Custom..."
+#~ msgstr "Topasst..."
+
+#~ msgid "Default Shadow"
+#~ msgstr "Standardschadden"
+
+#~ msgid "Decoration Shadows"
+#~ msgstr "Dekoratschoonschaddens"
+
+#~ msgid "&Decorated windows"
+#~ msgstr "&Dekoreert Finstern"
+
+#~ msgid "Force default shadows for:"
+#~ msgstr "Standardschaddens verdwingen för:"
+
+#~ msgid "&Undecorated normal windows"
+#~ msgstr "Nich dekoreert, &normaal Finstern"
+
+#~ msgid ""
+#~ "If enabled span the cube across all screens on a multiscreen setup, "
+#~ "otherwise\n"
+#~ "the cube will only be displayed on a single screen"
+#~ msgstr ""
+#~ "Hest Du mehr as een Schirm un is dit anmaakt, warrt de Wörpel op all "
+#~ "Schirmen wiest,\n"
+#~ "sünst bloots op een enkel Schirm."
+
+#~ msgid "Span cube on all screens in multi screen setup"
+#~ msgstr "Wörpel bi mehr Schirmen över all Schirmen wiesen"
+
+#~ msgid ""
+#~ "If enabled the effect will be deactivated after rotating the cylinder "
+#~ "with the mouse,\n"
+#~ "otherwise it will remain active."
+#~ msgstr ""
+#~ "Is dit anmaakt, warrt de Zylinner na't Dreihen mit de Muus utmaakt.\n"
+#~ "Anners blifft he so stahn."
+
+#~ msgid ""
+#~ "If enabled the effect will be deactivated after rotating the sphere with "
+#~ "the mouse,\n"
+#~ "otherwise it will remain active"
+#~ msgstr ""
+#~ "Is dit anmaakt, warrt de Kugel na't Dreihen mit de Muus utmaakt.\n"
+#~ "Anners blifft se so stahn."
+
+#~ msgid "Fix panels while switching desktops"
+#~ msgstr "Paneels bi't Wesseln vun den Schriefdisch fastsetten"
+
+#~ msgid "Shadow opacity:"
+#~ msgstr "Schadden-Deckstärk:"
+
+#~ msgid "Shadow size (relative to window):"
+#~ msgstr "Schadden-Grött (meten an't Finster):"
+
+#~ msgid "Shadow color:"
+#~ msgstr "Schadden-Klöör:"
+
+#~ msgid "Active screen &edge:"
+#~ msgstr "Anmaakt Schirm&kant:"
+
+#~ msgid "Active screen &edge (All desktops):"
+#~ msgstr "Anmaakt Schirm&kant (all Schriefdischen):"
+
+#~ msgid "Active screen &edge (Current desktop):"
+#~ msgstr "Anmaakt Schirm&kant (aktuell Schriefdisch):"
+
+#~ msgid "Show cube when desktop changed"
+#~ msgstr "Bi't Wesseln vun den Schriefdisch den Wörpel wiesen"
+
+#~ msgid "Advanced opacity settings for menus:"
+#~ msgstr "Verwiedert Deckstärkinstellen för Menüs:"
+
+#~ msgid "Set individual opacity for different menu types"
+#~ msgstr "Egen Deckstärken för enkel Menütypen fastleggen"
+
+#~ msgid "&Velocity filter:"
+#~ msgstr "&Gauigkeit-Filter:"
+
+#~ msgid "Four Ring Linear Mean"
+#~ msgstr "Veerkrinken-Lineaardörsnitt"
+
+#~ msgid "Height Ring Linear Mean"
+#~ msgstr "Hööchdenkrink-Lineaardörsnitt"
+
+#~ msgid "Mean With Mean"
+#~ msgstr "Dörsnittendörsnitt"
+
+#~ msgid "Mean With Median"
+#~ msgstr "Zentraalweertdörsnitt"
+
+#~ msgid "Acceleration &filter:"
+#~ msgstr "Beslünigen-&Filter:"
+
+#~ msgid "Custom grid &layout"
+#~ msgstr "Gadder &topassen"
+
+#~ msgid "Select Wallpaper Image File"
+#~ msgstr "Achtergrundbild-Datei utsöken"
+
+#~ msgid "Cube &opacity:"
+#~ msgstr "Wörpel-&Deckstärk:"
+
+#~ msgid "Fully opaque"
+#~ msgstr "Heel decken"
+
+#~ msgid "Cube &Caps"
+#~ msgstr "Wörpel&sieden"
+
+#~ msgid "Activate when cursor is at a specific edge or corner of the screen:"
+#~ msgstr ""
+#~ "Anmaken, wenn de Wieser bi en fastleggt Kant oder Huuk vun den Schirm is:"
+
+#~ msgid "Toggle Expose Effect (incl. other desktops)"
+#~ msgstr "Belichteneffekt an-/utmaken (ok anner Schriefdischen)"
+
+#~ msgid "WobblyWindowsEffectConfigForm"
+#~ msgstr "WabbeligFinsternEffektInstellKiekwark"

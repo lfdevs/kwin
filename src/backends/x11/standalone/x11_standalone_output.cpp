@@ -8,12 +8,12 @@
 */
 #include "x11_standalone_output.h"
 #include "core/colorlut.h"
-#include "x11_standalone_platform.h"
+#include "x11_standalone_backend.h"
 
 namespace KWin
 {
 
-X11Output::X11Output(X11StandalonePlatform *backend, QObject *parent)
+X11Output::X11Output(X11StandaloneBackend *backend, QObject *parent)
     : Output(parent)
     , m_backend(backend)
 {
@@ -56,11 +56,6 @@ void X11Output::setCrtc(xcb_randr_crtc_t crtc)
 void X11Output::setGammaRampSize(int size)
 {
     m_gammaRampSize = size;
-}
-
-bool X11Output::usesSoftwareCursor() const
-{
-    return false;
 }
 
 void X11Output::updateEnabled(bool enabled)

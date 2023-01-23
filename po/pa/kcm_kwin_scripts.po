@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-20 02:18+0000\n"
+"POT-Creation-Date: 2022-09-20 00:47+0000\n"
 "PO-Revision-Date: 2012-06-24 17:36+0530\n"
 "Last-Translator: A S Alam <aalam@users.sf.net>\n"
 "Language-Team: Punjabi/Panjabi <punjabi-users@lists.sf.net>\n"
@@ -73,3 +73,18 @@ msgstr ""
 #| msgid "Get New Script..."
 msgid "Get New Scripts..."
 msgstr "ਨਵੀਂ ਸਕ੍ਰਿਪਟ ਲਵੋ..."
+
+#~ msgid "KWin Scripts"
+#~ msgstr "KWin ਸਕ੍ਰਿਪਟ"
+
+#~ msgid "Configure KWin scripts"
+#~ msgstr "KWin ਸਕ੍ਰਿਪਟ ਸੰਰਚਨਾ"
+
+#~ msgid "Tamás Krutki"
+#~ msgstr "Tamás Krutki"
+
+#~ msgid "KWin script configuration"
+#~ msgstr "KWin ਸਕ੍ਰਿਪਟ ਸੰਰਚਨਾ"
+
+#~ msgid "Import KWin script..."
+#~ msgstr "KWin ਸਕ੍ਰਿਪਟ ਇੰਪੋਰਟ ਕਰੋ..."

@@ -8,8 +8,7 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-#ifndef KWIN_POINTER_INPUT_H
-#define KWIN_POINTER_INPUT_H
+#pragma once
 
 #include "cursor.h"
 #include "input.h"
@@ -34,6 +33,9 @@ class CursorImage;
 class InputDevice;
 class InputRedirection;
 class CursorShape;
+class ImageCursorSource;
+class ShapeCursorSource;
+class SurfaceCursorSource;
 
 namespace Decoration
 {
@@ -84,66 +86,66 @@ public:
     /**
      * @internal
      */
-    void processMotionAbsolute(const QPointF &pos, uint32_t time, InputDevice *device = nullptr);
+    void processMotionAbsolute(const QPointF &pos, std::chrono::microseconds time, InputDevice *device = nullptr);
     /**
      * @internal
      */
-    void processMotion(const QPointF &delta, const QPointF &deltaNonAccelerated, uint32_t time, quint64 timeUsec, InputDevice *device);
+    void processMotion(const QPointF &delta, const QPointF &deltaNonAccelerated, std::chrono::microseconds time, InputDevice *device);
     /**
      * @internal
      */
-    void processButton(uint32_t button, InputRedirection::PointerButtonState state, uint32_t time, InputDevice *device = nullptr);
+    void processButton(uint32_t button, InputRedirection::PointerButtonState state, std::chrono::microseconds time, InputDevice *device = nullptr);
     /**
      * @internal
      */
-    void processAxis(InputRedirection::PointerAxis axis, qreal delta, qint32 discreteDelta, InputRedirection::PointerAxisSource source, uint32_t time, InputDevice *device = nullptr);
+    void processAxis(InputRedirection::PointerAxis axis, qreal delta, qint32 deltaV120, InputRedirection::PointerAxisSource source, std::chrono::microseconds time, InputDevice *device = nullptr);
     /**
      * @internal
      */
-    void processSwipeGestureBegin(int fingerCount, quint32 time, KWin::InputDevice *device = nullptr);
+    void processSwipeGestureBegin(int fingerCount, std::chrono::microseconds time, KWin::InputDevice *device = nullptr);
     /**
      * @internal
      */
-    void processSwipeGestureUpdate(const QPointF &delta, quint32 time, KWin::InputDevice *device = nullptr);
+    void processSwipeGestureUpdate(const QPointF &delta, std::chrono::microseconds time, KWin::InputDevice *device = nullptr);
     /**
      * @internal
      */
-    void processSwipeGestureEnd(quint32 time, KWin::InputDevice *device = nullptr);
+    void processSwipeGestureEnd(std::chrono::microseconds time, KWin::InputDevice *device = nullptr);
     /**
      * @internal
      */
-    void processSwipeGestureCancelled(quint32 time, KWin::InputDevice *device = nullptr);
+    void processSwipeGestureCancelled(std::chrono::microseconds time, KWin::InputDevice *device = nullptr);
     /**
      * @internal
      */
-    void processPinchGestureBegin(int fingerCount, quint32 time, KWin::InputDevice *device = nullptr);
+    void processPinchGestureBegin(int fingerCount, std::chrono::microseconds time, KWin::InputDevice *device = nullptr);
     /**
      * @internal
      */
-    void processPinchGestureUpdate(qreal scale, qreal angleDelta, const QPointF &delta, quint32 time, KWin::InputDevice *device = nullptr);
+    void processPinchGestureUpdate(qreal scale, qreal angleDelta, const QPointF &delta, std::chrono::microseconds time, KWin::InputDevice *device = nullptr);
     /**
      * @internal
      */
-    void processPinchGestureEnd(quint32 time, KWin::InputDevice *device = nullptr);
+    void processPinchGestureEnd(std::chrono::microseconds time, KWin::InputDevice *device = nullptr);
     /**
      * @internal
      */
-    void processPinchGestureCancelled(quint32 time, KWin::InputDevice *device = nullptr);
+    void processPinchGestureCancelled(std::chrono::microseconds time, KWin::InputDevice *device = nullptr);
     /**
      * @internal
      */
-    void processHoldGestureBegin(int fingerCount, quint32 time, KWin::InputDevice *device = nullptr);
+    void processHoldGestureBegin(int fingerCount, std::chrono::microseconds time, KWin::InputDevice *device = nullptr);
     /**
      * @internal
      */
-    void processHoldGestureEnd(quint32 time, KWin::InputDevice *device = nullptr);
+    void processHoldGestureEnd(std::chrono::microseconds time, KWin::InputDevice *device = nullptr);
     /**
      * @internal
      */
-    void processHoldGestureCancelled(quint32 time, KWin::InputDevice *device = nullptr);
+    void processHoldGestureCancelled(std::chrono::microseconds time, KWin::InputDevice *device = nullptr);
 
 private:
-    void processMotionInternal(const QPointF &pos, const QPointF &delta, const QPointF &deltaNonAccelerated, uint32_t time, quint64 timeUsec, InputDevice *device);
+    void processMotionInternal(const QPointF &pos, const QPointF &delta, const QPointF &deltaNonAccelerated, std::chrono::microseconds time, InputDevice *device);
     void cleanupDecoration(Decoration::DecoratedClientImpl *old, Decoration::DecoratedClientImpl *now) override;
 
     void focusUpdate(Window *focusOld, Window *focusNow) override;
@@ -182,22 +184,17 @@ class WaylandCursorImage : public QObject
 public:
     explicit WaylandCursorImage(QObject *parent = nullptr);
 
-    struct Image
-    {
-        QImage image;
-        QPoint hotspot;
-    };
+    KXcursorTheme theme() const;
 
-    void loadThemeCursor(const CursorShape &shape, Image *cursorImage);
-    void loadThemeCursor(const QByteArray &name, Image *cursorImage);
+    void loadThemeCursor(const CursorShape &shape, ImageCursorSource *source);
+    void loadThemeCursor(const QByteArray &name, ImageCursorSource *source);
 
 Q_SIGNALS:
     void themeChanged();
 
 private:
-    bool loadThemeCursor_helper(const QByteArray &name, Image *cursorImage);
-    bool ensureCursorTheme();
-    void invalidateCursorTheme();
+    bool loadThemeCursor_helper(const QByteArray &name, ImageCursorSource *source);
+    void updateCursorTheme();
 
     KXcursorTheme m_cursorTheme;
 };
@@ -214,8 +211,9 @@ public:
     void setWindowSelectionCursor(const QByteArray &shape);
     void removeWindowSelectionCursor();
 
-    QImage image() const;
-    QPoint hotSpot() const;
+    KXcursorTheme theme() const;
+    CursorSource *source() const;
+    void setSource(CursorSource *source);
     void markAsRendered(std::chrono::milliseconds timestamp);
 
 Q_SIGNALS:
@@ -227,46 +225,28 @@ private:
     void updateDecoration();
     void updateDecorationCursor();
     void updateMoveResize();
-    void updateDrag();
-    void updateDragCursor();
 
     void handlePointerChanged();
     void handleFocusedSurfaceChanged();
 
-    void loadThemeCursor(CursorShape shape, WaylandCursorImage::Image *image);
-    void loadThemeCursor(const QByteArray &shape, WaylandCursorImage::Image *image);
-
-    enum class CursorSource {
-        LockScreen,
-        EffectsOverride,
-        MoveResize,
-        PointerSurface,
-        Decoration,
-        DragAndDrop,
-        Fallback,
-        WindowSelector
-    };
-    void setSource(CursorSource source);
-
     PointerInputRedirection *m_pointer;
-    CursorSource m_currentSource = CursorSource::Fallback;
+    CursorSource *m_currentSource = nullptr;
     WaylandCursorImage m_waylandImage;
 
-    WaylandCursorImage::Image m_effectsCursor;
-    WaylandCursorImage::Image m_decorationCursor;
-    QMetaObject::Connection m_decorationConnection;
-    WaylandCursorImage::Image m_fallbackCursor;
-    WaylandCursorImage::Image m_moveResizeCursor;
-    WaylandCursorImage::Image m_windowSelectionCursor;
+    std::unique_ptr<ShapeCursorSource> m_effectsCursor;
+    std::unique_ptr<ShapeCursorSource> m_fallbackCursor;
+    std::unique_ptr<ShapeCursorSource> m_moveResizeCursor;
+    std::unique_ptr<ShapeCursorSource> m_windowSelectionCursor;
+
     struct
     {
-        WaylandCursorImage::Image cursor;
+        std::unique_ptr<ShapeCursorSource> cursor;
         QMetaObject::Connection connection;
-    } m_drag;
+    } m_decoration;
     struct
     {
         QMetaObject::Connection connection;
-        WaylandCursorImage::Image cursor;
+        std::unique_ptr<SurfaceCursorSource> cursor;
     } m_serverCursor;
 };
 
@@ -284,8 +264,7 @@ public:
 
 protected:
     void doSetPos() override;
-    void doStartCursorTracking() override;
-    void doStopCursorTracking() override;
+
 private Q_SLOTS:
     void slotPosChanged(const QPointF &pos);
     void slotPointerButtonChanged();
@@ -296,5 +275,3 @@ private:
 };
 
 }
-
-#endif

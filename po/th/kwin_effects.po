@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-01 02:26+0000\n"
+"POT-Creation-Date: 2023-01-18 00:58+0000\n"
 "PO-Revision-Date: 2010-12-17 21:12+0700\n"
 "Last-Translator: Thanomsub Noppaburana <donga.nb@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -60,6 +60,7 @@ msgstr ""
 #: mousemark/mousemark_config.cpp:50 overview/kcm/overvieweffectkcm.cpp:35
 #: showpaint/showpaint_config.cpp:33
 #: thumbnailaside/thumbnailaside_config.cpp:54
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:31
 #: trackmouse/trackmouse_config.cpp:52
 #: windowview/kcm/windowvieweffectkcm.cpp:36 zoom/zoom_config.cpp:58
 #, kde-format
@@ -199,15 +200,21 @@ msgstr ""
 msgid "Natural"
 msgstr "เป็นธรรมชาติ"
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
+#: desktopgrid/desktopgrid_config.ui:147
+#, kde-format
+msgid "None"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: desktopgrid/desktopgrid_config.ui:150
+#: desktopgrid/desktopgrid_config.ui:155
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "Windows layout:"
 msgstr "หน้าต่างต่าง ๆ"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: desktopgrid/desktopgrid_config.ui:166
+#: desktopgrid/desktopgrid_config.ui:171
 #, kde-format
 msgid "Activation"
 msgstr "การกระตุ้นการทำงาน"
@@ -325,10 +332,16 @@ msgstr "การเคลื่อนไหว"
 msgid "Toggle Invert Effect"
 msgstr "เปิด/ปิดลูกเล่นกลับค่าสี"
 
-#: invert/invert.cpp:50 invert/invert_config.cpp:44
+#: invert/invert.cpp:49 invert/invert_config.cpp:44
 #, kde-format
 msgid "Toggle Invert Effect on Window"
 msgstr "เปิด/ปิดลูกเล่นกลับค่าสีบนหน้าต่าง"
+
+#: invert/invert.cpp:56
+#, fuzzy, kde-format
+#| msgid "Invert cursor keys"
+msgid "Invert Screen Colors"
+msgstr "กลับค่าสีของตัวชี้ของเมาส์"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FadeToBlack)
 #: login/package/contents/ui/config.ui:17
@@ -388,33 +401,33 @@ msgstr "&ความสูง:"
 msgid "Toggle Mouse Click Effect"
 msgstr "เปิด/ปิดลูกเล่นกลับค่าสี"
 
-#: mouseclick/mouseclick.cpp:42
+#: mouseclick/mouseclick.cpp:41
 #, fuzzy, kde-format
 #| msgid "Left"
 msgctxt "Left mouse button"
 msgid "Left"
 msgstr "ซ้าย"
 
-#: mouseclick/mouseclick.cpp:43
+#: mouseclick/mouseclick.cpp:42
 #, fuzzy, kde-format
 #| msgid "Middle button:"
 msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr "ปุ่มกลาง:"
 
-#: mouseclick/mouseclick.cpp:44
+#: mouseclick/mouseclick.cpp:43
 #, fuzzy, kde-format
 #| msgid "Right"
 msgctxt "Right mouse button"
 msgid "Right"
 msgstr "ขวา"
 
-#: mouseclick/mouseclick.h:61
+#: mouseclick/mouseclick.h:60
 #, kde-format
 msgid "↓"
 msgstr ""
 
-#: mouseclick/mouseclick.h:62
+#: mouseclick/mouseclick.h:61
 #, kde-format
 msgid "↑"
 msgstr ""
@@ -520,12 +533,12 @@ msgstr ""
 msgid "Show Text:"
 msgstr "แสดงพื้นที่ทำงาน"
 
-#: mousemark/mousemark.cpp:36
+#: mousemark/mousemark.cpp:39
 #, kde-format
 msgid "Clear All Mouse Marks"
 msgstr "ล้างจุดมาร์กสีทั้งหมดของเมาส์"
 
-#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:59
+#: mousemark/mousemark.cpp:45 mousemark/mousemark_config.cpp:59
 #, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr "ล้างจุดมาร์กสีล่าสุดของเมาส์"
@@ -595,12 +608,12 @@ msgstr "พื้นหลัง"
 msgid "Ignore minimized windows:"
 msgstr "ละเว้นหน้าต่างต่าง ๆ ที่ถูก&ย่อหายอยู่"
 
-#: overview/qml/DesktopBar.qml:186
+#: overview/qml/DesktopBar.qml:187
 #, kde-format
 msgid "Delete Virtual Desktop"
 msgstr ""
 
-#: overview/qml/DesktopBar.qml:282
+#: overview/qml/DesktopBar.qml:283
 #, fuzzy, kde-format
 #| msgctxt "@title:group actions when clicking on desktop"
 #| msgid "Desktop"
@@ -613,12 +626,12 @@ msgstr "พื้นที่ทำงาน"
 msgid "No matching windows"
 msgstr "การย้ายหน้าต่างต่าง ๆ :"
 
-#: private/qml/WindowHeapDelegate.qml:152
+#: private/qml/WindowHeapDelegate.qml:151
 #, kde-format
 msgid "Drag Down To Close"
 msgstr ""
 
-#: private/qml/WindowHeapDelegate.qml:462
+#: private/qml/WindowHeapDelegate.qml:461
 #, fuzzy, kde-format
 #| msgid "Scale window"
 msgctxt "@info:tooltip as in: 'close this window'"
@@ -639,28 +652,28 @@ msgstr "การเคลื่อนไหว"
 msgid "Window close scale:"
 msgstr "การเคลื่อนไหว"
 
-#: screenshot/screenshotdbusinterface1.cpp:480
+#: screenshot/screenshotdbusinterface1.cpp:478
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr ""
 
-#: screenshot/screenshotdbusinterface1.cpp:481
+#: screenshot/screenshotdbusinterface1.cpp:479
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr ""
 
-#: screenshot/screenshotdbusinterface1.cpp:797
-#: screenshot/screenshotdbusinterface2.cpp:472
+#: screenshot/screenshotdbusinterface1.cpp:800
+#: screenshot/screenshotdbusinterface2.cpp:477
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
 
-#: screenshot/screenshotdbusinterface1.cpp:800
-#: screenshot/screenshotdbusinterface2.cpp:490
+#: screenshot/screenshotdbusinterface1.cpp:803
+#: screenshot/screenshotdbusinterface2.cpp:495
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -725,14 +738,8 @@ msgstr "แนวนอน"
 msgid "Vertical:"
 msgstr "แนวตั้ง"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideDocks)
-#: slide/slide_config.ui:72
-#, kde-format
-msgid "Slide docks"
-msgstr ""
-
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideBackground)
-#: slide/slide_config.ui:79
+#: slide/slide_config.ui:72
 #, fuzzy, kde-format
 #| msgid "Slide when grouping"
 msgid "Slide desktop background"
@@ -777,6 +784,49 @@ msgstr "ความ&ทึบแสง:"
 #, no-c-format, kde-format
 msgid " %"
 msgstr " %"
+
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:37
+#: tileseditor/tileseditoreffect.cpp:29
+#, kde-format
+msgid "Toggle Tiles Editor"
+msgstr ""
+
+#: tileseditor/qml/main.qml:147
+#, kde-format
+msgid "Padding:"
+msgstr ""
+
+#: tileseditor/qml/main.qml:157
+#, kde-format
+msgid "Load Layout..."
+msgstr ""
+
+#: tileseditor/qml/main.qml:271
+#, kde-format
+msgid "Close"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:171
+#, fuzzy, kde-format
+#| msgid "Horizontal"
+msgid "Split Horizontally"
+msgstr "แนวนอน"
+
+#: tileseditor/qml/TileDelegate.qml:178
+#, fuzzy, kde-format
+#| msgid "Vertical"
+msgid "Split Vertically"
+msgstr "แนวตั้ง"
+
+#: tileseditor/qml/TileDelegate.qml:186 tileseditor/qml/TileDelegate.qml:215
+#, kde-format
+msgid "Add Floating Tile"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:195
+#, kde-format
+msgid "Delete"
+msgstr ""
 
 #: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:57
 #, kde-format
@@ -913,17 +963,17 @@ msgstr "เมนูแบบหยดลง:"
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "เปิด/ปิดลูกเล่นกับหน้าต่างต่าง ๆ ในปัจจุบัน (บนพื้นที่ทำงานปัจจุบัน)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:55
+#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:54
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "เปิด/ปิดลูกเล่นกับหน้าต่างต่าง ๆ ในปัจจุบัน (บนพื้นที่ทำงานทั้งหมด)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:65
+#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:63
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "เปิด/ปิดลูกเล่นกับหน้าต่างต่าง ๆ ในปัจจุบัน (คลาสของหน้าต่าง)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:75
+#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:72
 #, fuzzy, kde-format
 #| msgid "Toggle Present Windows (Current desktop)"
 msgid "Toggle Present Windows (Window class on current desktop)"
@@ -935,15 +985,21 @@ msgstr "เปิด/ปิดลูกเล่นกับหน้าต่�
 msgid "Ignore &minimized windows"
 msgstr "ละเว้นหน้าต่างต่าง ๆ ที่ถูก&ย่อหายอยู่"
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, kde-format
 msgid "No Matches"
 msgstr ""
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "No Windows"
+msgstr "หน้าต่างต่าง ๆ"
+
+#: windowview/qml/main.qml:123
+#, fuzzy, kde-format
+#| msgid "Windows"
+msgid "Filter windows…"
 msgstr "หน้าต่างต่าง ๆ"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
@@ -1006,32 +1062,32 @@ msgstr "น้อย"
 msgid "More"
 msgstr "มาก"
 
-#: zoom/zoom.cpp:68
+#: zoom/zoom.cpp:65
 #, kde-format
 msgid "Move Zoomed Area to Left"
 msgstr ""
 
-#: zoom/zoom.cpp:76
+#: zoom/zoom.cpp:72
 #, kde-format
 msgid "Move Zoomed Area to Right"
 msgstr ""
 
-#: zoom/zoom.cpp:84
+#: zoom/zoom.cpp:79
 #, kde-format
 msgid "Move Zoomed Area Upwards"
 msgstr ""
 
-#: zoom/zoom.cpp:92
+#: zoom/zoom.cpp:86
 #, kde-format
 msgid "Move Zoomed Area Downwards"
 msgstr ""
 
-#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:108
+#: zoom/zoom.cpp:94 zoom/zoom_config.cpp:108
 #, kde-format
 msgid "Move Mouse to Focus"
 msgstr "ย้ายเมาส์เพื่อทำการโฟกัส"
 
-#: zoom/zoom.cpp:109 zoom/zoom_config.cpp:115
+#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:115
 #, kde-format
 msgid "Move Mouse to Center"
 msgstr "ย้ายเมาส์ไปตรงกลาง"
@@ -1163,3 +1219,749 @@ msgstr "ถูกปิดการใช้งาน"
 #, kde-format
 msgid "Mouse Tracking:"
 msgstr "ติดตามตำแหน่งเมาส์:"
+
+#~ msgid "&Radius:"
+#~ msgstr "&รัศมี:"
+
+#~ msgid "Text position:"
+#~ msgstr "ตำแหน่งข้อความ:"
+
+#~ msgid "Inside Graph"
+#~ msgstr "ข้างในกราฟ"
+
+#~ msgid "Nowhere"
+#~ msgstr "ไม่อยู่ที่ใดเลย"
+
+#~ msgid "Top Left"
+#~ msgstr "บนซ้าย"
+
+#~ msgid "Top Right"
+#~ msgstr "บนขวา"
+
+#~ msgid "Bottom Left"
+#~ msgstr "ล่างซ้าย"
+
+#~ msgid "Bottom Right"
+#~ msgstr "ล่างขวา"
+
+#~ msgid "Text font:"
+#~ msgstr "แบบอักษรของข้อความ:"
+
+#~ msgid "Text color:"
+#~ msgstr "สีของข้อความ:"
+
+#~ msgid "Text alpha:"
+#~ msgstr "ความทึบแสงของข้อความ:"
+
+#, fuzzy
+#~| msgid "Show caps"
+#~ msgid "Show graph:"
+#~ msgstr "แสดงฝาด้านบน/ด้านล่าง"
+
+#, fuzzy
+#~| msgid "Show desktop"
+#~ msgid "Show Message:"
+#~ msgstr "แสดงพื้นที่ทำงาน"
+
+#~ msgid "Zoom &duration:"
+#~ msgstr "&ช่วงเวลาการดูย่อ/ดูขยาย:"
+
+#~ msgctxt "Duration of zoom"
+#~ msgid "Default"
+#~ msgstr "ค่าปริยาย"
+
+#, fuzzy
+#~| msgid "&Border width:"
+#~ msgid "Border wid&th:"
+#~ msgstr "ความ&กว้างกรอบ:"
+
+#, fuzzy
+#~| msgid "Show desktop"
+#~ msgid "Switch desktop only"
+#~ msgstr "แสดงพื้นที่ทำงาน"
+
+#~ msgid "Natural Layout Settings"
+#~ msgstr "ตั้งค่าการจัดวางเป็นธรรมชาติ"
+
+#~ msgid "Fill &gaps"
+#~ msgstr "วาด&ฝากล่องด้านบน/ด้านล่าง"
+
+#~ msgid "Faster"
+#~ msgstr "เร็วกว่า"
+
+#~ msgid "Nicer"
+#~ msgstr "ดูดีกว่า"
+
+#~ msgid "Left button:"
+#~ msgstr "ปุ่มซ้าย:"
+
+#~ msgid "No action"
+#~ msgstr "ไม่มีการกระทำ"
+
+#~ msgid "Activate window"
+#~ msgstr "เรียกใช้งานหน้าต่าง"
+
+#~ msgid "End effect"
+#~ msgstr "ลูกเล่นตอนจบ"
+
+#~ msgid "Bring window to current desktop"
+#~ msgstr "นำหน้าต่างมายังพื้นที่ทำงานปัจจุบัน"
+
+#~ msgid "Send window to all desktops"
+#~ msgstr "ส่งหน้าต่างไปยังพื้นที่ทำงานทั้งหมด"
+
+#~ msgid "(Un-)Minimize window"
+#~ msgstr "(ยกเลิก)ย่อหน้าต่างเล็กสุด"
+
+#~ msgid "Middle button:"
+#~ msgstr "ปุ่มกลาง:"
+
+#~ msgid "Right button:"
+#~ msgstr "ปุ่มขวา:"
+
+#~ msgctxt "@title:group actions when clicking on desktop"
+#~ msgid "Desktop"
+#~ msgstr "พื้นที่ทำงาน"
+
+#~ msgid "Show desktop"
+#~ msgstr "แสดงพื้นที่ทำงาน"
+
+#~ msgid "Display window &titles"
+#~ msgstr "แสดงหัวเ&รื่องของหน้าต่าง"
+
+#~ msgid "Display window &icons"
+#~ msgstr "แสดงไ&อคอนของหน้าต่าง"
+
+#~ msgid "Show &panels"
+#~ msgstr "แสดงแถบ&พาเนลต่าง ๆ"
+
+#~ msgid "Regular Grid"
+#~ msgstr "ตารางกริดปกติ"
+
+#~ msgid "Flexible Grid"
+#~ msgstr "ตารางกริดยืดหยุ่น"
+
+#~ msgid "Scale window"
+#~ msgstr "ปรับขนาดหน้าต่าง"
+
+#~ msgid "Show outline"
+#~ msgstr "แสดงเส้นรอบ"
+
+#~ msgid "Toggle window geometry display (effect only)"
+#~ msgstr "เปิด/ปิดการแสดงค่ามิติขนาดหน้าต่าง (ใช้กับลูกเล่นเท่านั้น)"
+
+#~ msgid "Toggle KWin composited geometry display"
+#~ msgstr "เปิด/ปิดการแสดงมิติขนาดคอมโพสิตของ KWin"
+
+#~ msgid "Display for moving windows"
+#~ msgstr "การแสดงเมื่อมีการย้ายหน้าต่าง"
+
+#~ msgid "Display for resizing windows"
+#~ msgstr "การแสดงเมื่อมีการปรับขนาดหน้าต่าง"
+
+#, fuzzy
+#~| msgctxt "High saturation"
+#~| msgid "Colored"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Color Picker"
+#~ msgstr "สีสัน"
+
+#, fuzzy
+#~| msgid "Background color:"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Background contrast"
+#~ msgstr "สีพื้นหลัง:"
+
+#, fuzzy
+#~| msgid "Show Desktop Grid"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Grid"
+#~ msgstr "แสดงแนวตารางของพื้นที่ทำงาน"
+
+#, fuzzy
+#~| msgid "Inactive windows:"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Darken inactive windows"
+#~ msgstr "หน้าต่างต่าง ๆ ที่ไม่ได้ทำงานอยู่:"
+
+#, fuzzy
+#~| msgid "Send window to all desktops"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Closed windows fall into pieces"
+#~ msgstr "ส่งหน้าต่างไปยังพื้นที่ทำงานทั้งหมด"
+
+#, fuzzy
+#~| msgid "Invert mouse"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Invert"
+#~ msgstr "กลับค่าสีเมาส์"
+
+#, fuzzy
+#~| msgid "Modifier keys"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Magnifier"
+#~ msgstr "ปุ่มพิมพ์ที่ใช้ร่วม"
+
+#, fuzzy
+#~| msgid "Animation"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Click Animation"
+#~ msgstr "การเคลื่อนไหว"
+
+#, fuzzy
+#~| msgid "Clear Mouse Marks"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Mark"
+#~ msgstr "ล้างจุดมาร์กสีของเมาส์"
+
+#, fuzzy
+#~| msgid "Windows"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Present Windows"
+#~ msgstr "หน้าต่างต่าง ๆ"
+
+#, fuzzy
+#~| msgid "Close window"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Resize Window"
+#~ msgstr "ปิดหน้าต่าง"
+
+#, fuzzy
+#~| msgid "Transparent"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Transform"
+#~ msgstr "ความโปร่งแสง"
+
+#, fuzzy
+#~| msgid "Show &panels"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show Paint"
+#~ msgstr "แสดงแถบ&พาเนลต่าง ๆ"
+
+#, fuzzy
+#~| msgid "Slide when switching tabs"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Slide desktops when switching virtual desktops"
+#~ msgstr "เลื่อนเมื่อมีการสลับแท็บต่าง ๆ"
+
+#, fuzzy
+#~| msgid "Thumbnail Bar"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Thumbnail Aside"
+#~ msgstr "แถบภาพตัวอย่าง"
+
+#, fuzzy
+#~| msgid "Mouse Pointer:"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Touch Points"
+#~ msgstr "ตัวชี้ของเมาส์:"
+
+#, fuzzy
+#~| msgid "Track mouse"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Track Mouse"
+#~ msgstr "ติดตามเมาส์"
+
+#, fuzzy
+#~| msgid "Display window &icons"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display window geometries on move/resize"
+#~ msgstr "แสดงไ&อคอนของหน้าต่าง"
+
+#, fuzzy
+#~| msgid "Windows"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Wobbly Windows"
+#~ msgstr "หน้าต่างต่าง ๆ"
+
+#, fuzzy
+#~| msgid "Use for window &switching"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Deform windows while they are moving"
+#~ msgstr "ใช้กับการ&สลับหน้าต่าง"
+
+#, fuzzy
+#~| msgid "Zoom"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Zoom"
+#~ msgstr "ดูย่อ/ดูขยาย"
+
+#, fuzzy
+#~| msgid "Show desktop"
+#~ msgctxt "Special entry in alt+tab list for minimizing all windows"
+#~ msgid "Show Desktop"
+#~ msgstr "แสดงพื้นที่ทำงาน"
+
+#~ msgid "Zoom"
+#~ msgstr "ดูย่อ/ดูขยาย"
+
+#~ msgid "Define how far away the windows should appear"
+#~ msgstr "กำหนดระยะห่างจากหน้าต่างที่จะให้ปรากฎ"
+
+#~ msgid "Near"
+#~ msgstr "ใกล้"
+
+#~ msgid "Far"
+#~ msgstr "ไกล"
+
+#~ msgid "Animation"
+#~ msgstr "การเคลื่อนไหว"
+
+#~ msgid "Animate switch"
+#~ msgstr "การสลับแบบเคลื่อนไหว"
+
+#~ msgid "Animation on tab box open"
+#~ msgstr "ให้มีการเคลื่อนไหวเมื่อเปิดกล่องแท็บ"
+
+#~ msgid "Animation on tab box close"
+#~ msgstr "ให้มีการเคลื่อนไหวเมื่อปิดกล่องแท็บ"
+
+#~ msgid "Reflections"
+#~ msgstr "เงาสะท้อน"
+
+#~ msgid "Rear color"
+#~ msgstr "สีด้านหลัง"
+
+#~ msgid "Front color"
+#~ msgstr "สีด้านหน้า"
+
+#~ msgid "Desktop Cube"
+#~ msgstr "พื้นที่ทำงานทรงลูกบาศก์"
+
+#~ msgid "Desktop Cylinder"
+#~ msgstr "พื้นที่ทำงานทรงกระบอก"
+
+#~ msgid "Desktop Sphere"
+#~ msgstr "พื้นที่ทำงานแบบห้วงบรรยากาศ"
+
+#~ msgctxt "@title:tab Basic Settings"
+#~ msgid "Basic"
+#~ msgstr "พื้นฐาน"
+
+#~ msgctxt "@title:tab Advanced Settings"
+#~ msgid "Advanced"
+#~ msgstr "ขั้นสูง"
+
+#~ msgid "Tab 1"
+#~ msgstr "แท็บ 1"
+
+#~ msgid "Background color:"
+#~ msgstr "สีพื้นหลัง:"
+
+#~ msgid "Wallpaper:"
+#~ msgstr "ภาพพื้นหลัง:"
+
+#~ msgid "Display desktop name"
+#~ msgstr "แสดงชื่อพื้นที่ทำงาน"
+
+#~ msgid "Reflection"
+#~ msgstr "เงาสะท้อน"
+
+#~ msgid "Rotation duration:"
+#~ msgstr "เวลาทำการหมุน:"
+
+#~ msgid "Windows hover above cube"
+#~ msgstr "หน้าต่างต่าง ๆ ลอยอยู่เหนือกล่องลูกบาศก์"
+
+#~ msgid "Opacity"
+#~ msgstr "ความทึบแสง"
+
+#~ msgid "Do not change opacity of windows"
+#~ msgstr "ไม่ต้องเปลี่ยนแปลงความทึบแสงของหน้าต่างต่าง ๆ"
+
+#~ msgid "Tab 2"
+#~ msgstr "แท็บ 2"
+
+#~ msgid "Caps"
+#~ msgstr "ฝาด้านบน/ด้านล่าง"
+
+#~ msgid "Cap color:"
+#~ msgstr "สีของด้านฝาด้านบน/ด้านล่าง:"
+
+#~ msgid "Display image on caps"
+#~ msgstr "แสดงภาพบนฝาด้านบน/ด้านล่าง"
+
+#~ msgid "Define how far away the object should appear"
+#~ msgstr "กำหนดระยะห่างจากวัตถุที่จะปรากฏ"
+
+#~ msgid "Additional Options"
+#~ msgstr "ตัวเลือกต่าง ๆ เพิ่มเติม"
+
+#~ msgid ""
+#~ "If enabled the effect will be deactivated after rotating the cube with "
+#~ "the mouse,\n"
+#~ "otherwise it will remain active"
+#~ msgstr ""
+#~ "หากเปิดใช้ จะทำให้ลูกเล่นหยุดการทำลูกเล่น หลังจากทำการหมุน\n"
+#~ "กล่องลูกบาศก์ด้วยเมาส์เสร็จแล้ว หากยังไม่เสร็จก็จะยังคงการทำงานต่อไป"
+
+#~ msgid "Close after mouse dragging"
+#~ msgstr "ปิดหลังจากการลากเมาส์แล้ว"
+
+#~ msgid "Use this effect for walking through the desktops"
+#~ msgstr "ใช้ลูกเล่นนี้กับการทำการสลับพื้นที่ทำงาน"
+
+#~ msgid "Invert mouse"
+#~ msgstr "กลับค่าสีเมาส์"
+
+#~ msgid "Sphere Cap Deformation"
+#~ msgstr "การปรับรูปร่างฝาด้านบน/ด้านล่าง"
+
+#~ msgid "Sphere"
+#~ msgstr "แบบห้วงบรรยากาศ"
+
+#~ msgid "Plane"
+#~ msgstr "แบบระนาบ"
+
+#~ msgid "Do not animate windows on all desktops"
+#~ msgstr "ไม่ต้องใช้การเคลื่อนไหวหน้าต่างต่าง ๆ บนพื้นที่ทำงานทั้งหมด"
+
+#~ msgid "Do not animate panels"
+#~ msgstr "ไม่ต้องใช้การเคลื่อนไหวกับแถบพาเนลต่าง ๆ"
+
+#~ msgid "Use pager layout for animation"
+#~ msgstr "ใช้การจัดวางรูปแบบเพจเจอร์สำหรับการเคลื่อนไหว"
+
+#~ msgid "Start animation when moving windows towards screen edges"
+#~ msgstr "เริ่มการเคลื่อนไหวเมื่อย้ายหน้าต่างต่าง ๆ ไปยังขอบจอ"
+
+#, fuzzy
+#~| msgid "Desktop Cube"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube"
+#~ msgstr "พื้นที่ทำงานทรงลูกบาศก์"
+
+#, fuzzy
+#~| msgid "Desktop Cube"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube Animation"
+#~ msgstr "พื้นที่ทำงานทรงลูกบาศก์"
+
+#~ msgid "Toggle Flip Switch (Current desktop)"
+#~ msgstr "เปิด/ปิดลูกเล่นพลิกซ้อนเป็นชั้น (บนพื้นที่ทำงานปัจจุบัน)"
+
+#~ msgid "Toggle Flip Switch (All desktops)"
+#~ msgstr "เปิด/ปิดลูกเล่นพลิกซ้อนเป็นชั้น (บนพื้นที่ทำงานทั้งหมด)"
+
+#~ msgid "Flip animation duration:"
+#~ msgstr "ช่วงเวลาเคลื่อนไหวของการพลิกซ้อน:"
+
+#~ msgctxt "Duration of flip animation"
+#~ msgid "Default"
+#~ msgstr "ค่าปริยาย"
+
+#~ msgid "Angle:"
+#~ msgstr "มุม:"
+
+#~ msgid " °"
+#~ msgstr " °"
+
+#~ msgid "Horizontal position of front:"
+#~ msgstr "ตำแหน่งแนวนอนของด้านหน้า:"
+
+#~ msgid "Vertical position of front:"
+#~ msgstr "ตำแหน่งแนวตั้งของด้านหน้า:"
+
+#~ msgid ""
+#~ "Filter:\n"
+#~ "%1"
+#~ msgstr ""
+#~ "กรอง:\n"
+#~ "%1"
+
+#~ msgid "Use Present Windows effect to layout the windows"
+#~ msgstr "ใช้ลูกเล่นหน้าต่างต่าง ๆ ในปัจจุบันเพื่อจัดวางหน้าต่าง"
+
+#~ msgid "Follow Focus"
+#~ msgstr "ติดตามการได้รับโฟกัส"
+
+#, fuzzy
+#~| msgid "Scale"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Scale"
+#~ msgstr "ปรับขนาด"
+
+#, fuzzy
+#~| msgid "Animation"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Minimize Animation"
+#~ msgstr "การเคลื่อนไหว"
+
+#, fuzzy
+#~| msgid "Ignore &minimized windows"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Animate the minimizing of windows"
+#~ msgstr "ละเว้นหน้าต่างต่าง ๆ ที่ถูก&ย่อหายอยู่"
+
+#~ msgid "Shortcut"
+#~ msgstr "ปุ่มพิมพ์ลัด"
+
+#~ msgid "Apply effect to &panels"
+#~ msgstr "ปรับใช้ลูกเล่นกับพาเน&ลต่าง ๆ ด้วย"
+
+#~ msgid "Apply effect to the desk&top"
+#~ msgstr "ปรับใช้ลูกเล่นกับพื้&นที่ทำงานด้วย"
+
+#~ msgid "Apply effect to &keep-above windows"
+#~ msgstr "ปรับใช้ลูกเล่นกับหน้าต่างต่าง ๆ ที่ถูก&คงให้อยู่เหนือหน้าต่างอื่น"
+
+#~ msgid "Apply effect to &groups"
+#~ msgstr "ปรับใช้ลูกเล่นกับ&กลุ่มต่าง ๆ ด้วย"
+
+#~ msgid "Glide Effect:"
+#~ msgstr "ลูกเล่นการร่อน:"
+
+#~ msgid "In"
+#~ msgstr "ร่อนเข้า"
+
+#~ msgid "Out"
+#~ msgstr "ร่อนออก"
+
+#~ msgid "Glide Angle:"
+#~ msgstr "มุมของการร่อน:"
+
+#~ msgid "-90"
+#~ msgstr "-90"
+
+#~ msgid "90"
+#~ msgstr "90"
+
+#, fuzzy
+#~| msgctxt "Duration of rotation"
+#~| msgid "Default"
+#~ msgctxt "Duration of the slide animation"
+#~ msgid "Default"
+#~ msgstr "ค่าปริยาย"
+
+#~ msgid "Strength of the effect:"
+#~ msgstr "ความแรงของลูกเล่น:"
+
+#~ msgid "Brightness of the background:"
+#~ msgstr "ความสว่างของพื้นหลัง:"
+
+#~ msgctxt "Less brightness"
+#~ msgid "Darker"
+#~ msgstr "มืดลงกว่าเดิม"
+
+#~ msgctxt "More brightness"
+#~ msgid "Lighter"
+#~ msgstr "สว่างขึ้นกว่าเดิม"
+
+#~ msgid "Saturation of the background:"
+#~ msgstr "ความอิ่มตัวของสีของพื้นหลัง:"
+
+#~ msgctxt "No saturation"
+#~ msgid "Gray"
+#~ msgstr "ระดับสีเทา"
+
+#~ msgid "Duration of the fade:"
+#~ msgstr "ช่วงเวลาชองการจางหาย:"
+
+#~ msgid "ms"
+#~ msgstr " มิลลิวินาที"
+
+#~ msgid "The blur effect must be enabled before it can be used."
+#~ msgstr "ลูกเล่นปรับให้ไม่ชัดจะต้องถูกเปิดใช้งานก่อนจึงจะสามารถใช้งานมันได้"
+
+#~ msgid "Apply blur effect to background"
+#~ msgstr "ปรับใชั้ลูกเล่นปรับให้ไม่ชัดเจนกับพื้นหลัง"
+
+#~ msgid "Decorations:"
+#~ msgstr "การตกแต่งต่าง ๆ :"
+
+#~ msgid "Background window &opacity:"
+#~ msgstr "ความ&ทึบของพื้นหลังของหน้าต่าง:"
+
+#~ msgid "&Elevate selected window"
+#~ msgstr "&ยกระดับหน้าต่างที่เลือกไว้"
+
+#~ msgid "&Animate walk through windows"
+#~ msgstr "สลับผ่านไปยังหน้าต่างต่าง ๆ แบบเ&คลื่อนไหว"
+
+#~ msgid "Use additional thumbnail bar"
+#~ msgstr "ใช้แถบภาพตัวอย่างเพิ่มเติม"
+
+#~ msgid ""
+#~ "Only show thumbnail bar if there are at least specified number of windows"
+#~ msgstr "แสดงแถบภาพตัวอย่างเฉพาะเมื่อมีจำนวนของหน้าต่างอย่างน้อยตามค่าที่ระบุ"
+
+#~ msgid "Dynamic mode"
+#~ msgstr "โหมดไม่ตายตัว"
+
+#~ msgid "Number of windows:"
+#~ msgstr "จำนวนของหน้าต่าง:"
+
+#~ msgid " row"
+#~ msgid_plural " rows"
+#~ msgstr[0] " แถว"
+
+#~ msgctxt "Duration of fading"
+#~ msgid "Default"
+#~ msgstr "ค่าปริยาย"
+
+#~ msgid "Toggle Video Recording"
+#~ msgstr "เปิด/ปิดการอัดวิดีโอ"
+
+#~ msgid "Path to save video:"
+#~ msgstr "ตำแหน่งที่จะใช้บันทึกวิดีโอ:"
+
+#~ msgctxt ""
+#~ "Window geometry display, %1 and %2 are the new size, %3 and %4 are pixel "
+#~ "increments - avoid reformatting or suffixes like 'px'"
+#~ msgid ""
+#~ "Width: %1 (%3)\n"
+#~ "Height: %2 (%4)"
+#~ msgstr ""
+#~ "ความกว้าง: %1 (%3)\n"
+#~ "ความสูง: %2 (%4)"
+
+#~ msgctxt ""
+#~ "Window geometry display, %1 and %2 are the cartesian x and y coordinates "
+#~ "- avoid reformatting or suffixes like 'px'"
+#~ msgid ""
+#~ "X: %1\n"
+#~ "Y: %2"
+#~ msgstr ""
+#~ "ค่า X: %1\n"
+#~ "ค่า Y: %2"
+
+#~ msgctxt ""
+#~ "Window geometry display, %1 and %2 are the cartesian x and y coordinates, "
+#~ "%3 and %4 are the resp. increments - avoid reformatting or suffixes like "
+#~ "'px'"
+#~ msgid ""
+#~ "X: %1 (%3)\n"
+#~ "Y: %2 (%4)"
+#~ msgstr ""
+#~ "ค่า X: %1 (%3)\n"
+#~ "ค่า Y: %2 (%4)"
+
+#~ msgid "Snow"
+#~ msgstr "หิมะโปรยปราย"
+
+#~ msgid "Toggle Snow on Desktop"
+#~ msgstr "เปิด/ปิดการแสดงหิมะโปรยปรายบนพื้นที่ทำงาน"
+
+#~ msgid " pixel/frame"
+#~ msgid_plural " pixels/frame"
+#~ msgstr[0] " พิกเซล/เฟรม"
+
+#~ msgctxt "@action Enables/Disables an effect that makes windows more sharp"
+#~ msgid "Toggle Sharpen Effect"
+#~ msgstr "เปิด/ปิดลูกเล่นเพิ่มความคม"
+
+#~ msgid "&Number of snowflakes:"
+#~ msgstr "&จำนวนของเกล็ดหิมะ:"
+
+#~ msgid "M&inimum size of snowflake:"
+#~ msgstr "ขนาดเ&ล็กสุดของเกล็ดหิมะ:"
+
+#~ msgid "M&aximum size of snowflake:"
+#~ msgstr "ขนาดใ&หญ่สุดของเกล็ดหิมะ:"
+
+#~ msgid "Maximum &vertical speed:"
+#~ msgstr "ความเร็วสูงสุดทางแนว&ตั้ง:"
+
+#~ msgid "Maximum &horizontal speed:"
+#~ msgstr "ความเร็วสูงสุดทางแนว&นอน:"
+
+#~ msgid "Snow &behind windows"
+#~ msgstr "แสดงหิมะอยู่เ&บื้องหลังหน้าต่างต่าง ๆ"
+
+#~ msgid "&X offset:"
+#~ msgstr "พิกัดเลื่อนแนวแกน &X:"
+
+#~ msgid "&Y offset:"
+#~ msgstr "พิกัดเลื่อนแนวแกน &Y:"
+
+#~ msgid "%"
+#~ msgstr "%"
+
+#~ msgid "&Fuzziness:"
+#~ msgstr "ระดับการไ&ล่เงา:"
+
+#~ msgid "&Size:"
+#~ msgstr "&ขนาดของเงา:"
+
+#~ msgid "&Active windows have stronger shadows"
+#~ msgstr "ให้หน้าต่างที่ทำ&งานอยู่มีเงาที่เข้มมากกว่า"
+
+#, fuzzy
+#~| msgid "Background"
+#~ msgid "Background brightness"
+#~ msgstr "พื้นหลัง"
+
+#, fuzzy
+#~| msgid "Background"
+#~ msgid "Background saturation"
+#~ msgstr "พื้นหลัง"
+
+#, fuzzy
+#~| msgid "End effect"
+#~ msgid "Effects"
+#~ msgstr "ลูกเล่นตอนจบ"
+
+#~ msgid "Hold Ctrl+Meta keys to see where the mouse cursor is."
+#~ msgstr "กดปุ่มพิมพ์ Ctrl+Meta ค้างไว้ เพื่อดูว่าตัวชี้เมาส์อยู่ที่ใด"
+
+#~ msgid "Rearrange &duration:"
+#~ msgstr "ช่วงเวลาทำการ&จัดเรียงใหม่:"
+
+#~ msgctxt "Duration of rearrangement"
+#~ msgid "Default"
+#~ msgstr "ค่าปริยาย"
+
+#~ msgid "Animate &flip"
+#~ msgstr "การ&พลิกแบบเคลื่อนไหว"
+
+#~ msgid "Custom..."
+#~ msgstr "กำหนดเอง..."
+
+#~ msgid "Default Shadow"
+#~ msgstr "เงาปริยาย"
+
+#~ msgid "Decoration Shadows"
+#~ msgstr "การตกแต่งเงาต่าง ๆ"
+
+#~ msgid "&Decorated windows"
+#~ msgstr "หน้าต่างต่าง ๆ ที่ถูก&ตกแต่ง"
+
+#~ msgid "Force default shadows for:"
+#~ msgstr "บังคับใช้เงาปริยายกับ:"
+
+#~ msgid "&Undecorated normal windows"
+#~ msgstr "หน้าต่างปกติที่&ยังไม่ถูกตกแต่ง"
+
+#~ msgid ""
+#~ "If enabled span the cube across all screens on a multiscreen setup, "
+#~ "otherwise\n"
+#~ "the cube will only be displayed on a single screen"
+#~ msgstr ""
+#~ "หากเปิดใช้ จะทำให้มีการยืดและเรียงพื้นที่ทำงานทั้งหมด ด้วยการยืดฝาข้าง\n"
+#~ "ของกล่องลูกบาศก์ที่เป็นพื้นที่ทำงานต่าง ๆ และหากไม่เปิดใช้งานตัวเลือก\n"
+#~ "ก็จะเป็นการแสดงกล่องลูกบาศก์อยู่บนจอภาพเช่นเดิม"
+
+#~ msgid "Span cube on all screens in multi screen setup"
+#~ msgstr "ยืดกล่องลูกบาศก์ของหน้าจอทั้งหมดที่มีอยู่จากการตั้งค่าการใช้งานหลายพื้นที่ทำงาน"
+
+#~ msgid ""
+#~ "If enabled the effect will be deactivated after rotating the cylinder "
+#~ "with the mouse,\n"
+#~ "otherwise it will remain active."
+#~ msgstr ""
+#~ "หากเปิดใช้ จะทำให้ลูกเล่นหยุดการทำลูกเล่น หลังจาก\n"
+#~ "ทำการหมุนทรงกระบอกด้วยเมาส์เสร็จแล้ว หากยังไม่เสร็จ\n"
+#~ "ก็จะยังคงการทำงานต่อไป"
+
+#~ msgid ""
+#~ "If enabled the effect will be deactivated after rotating the sphere with "
+#~ "the mouse,\n"
+#~ "otherwise it will remain active"
+#~ msgstr ""
+#~ "หากเปิดใช้ จะทำให้ลูกเล่นหยุดการทำลูกเล่น หลังจากทำการหมุน\n"
+#~ "ห้วงบรรยากาศด้วยเมาส์เสร็จแล้ว หากยังไม่เสร็จก็จะยังคงการทำงานต่อไป"
+
+#, fuzzy
+#~| msgid "Display the cube when switching desktops"
+#~ msgid "Fix panels while switching desktops"
+#~ msgstr "แสดงกล่องลูกบาศก์เมื่อทำการสลับพื้นที่ทำงาน"

@@ -29,7 +29,6 @@ ThumbnailAsideEffect::ThumbnailAsideEffect()
     a->setText(i18n("Toggle Thumbnail for Current Window"));
     KGlobalAccel::self()->setDefaultShortcut(a, QList<QKeySequence>() << (Qt::META | Qt::CTRL | Qt::Key_T));
     KGlobalAccel::self()->setShortcut(a, QList<QKeySequence>() << (Qt::META | Qt::CTRL | Qt::Key_T));
-    effects->registerGlobalShortcut(Qt::META | Qt::CTRL | Qt::Key_T, a);
     connect(a, &QAction::triggered, this, &ThumbnailAsideEffect::toggleCurrentThumbnail);
 
     connect(effects, &EffectsHandler::windowClosed, this, &ThumbnailAsideEffect::slotWindowClosed);
@@ -55,7 +54,7 @@ void ThumbnailAsideEffect::paintScreen(int mask, const QRegion &region, ScreenPa
     effects->paintScreen(mask, region, data);
 
     const QMatrix4x4 projectionMatrix = data.projectionMatrix();
-    for (const Data &d : qAsConst(windows)) {
+    for (const Data &d : std::as_const(windows)) {
         if (painted.intersects(d.rect)) {
             WindowPaintData data(projectionMatrix);
             data.multiplyOpacity(opacity);
@@ -72,9 +71,9 @@ void ThumbnailAsideEffect::paintWindow(EffectWindow *w, int mask, QRegion region
     painted |= region;
 }
 
-void ThumbnailAsideEffect::slotWindowDamaged(EffectWindow *w, const QRegion &)
+void ThumbnailAsideEffect::slotWindowDamaged(EffectWindow *w)
 {
-    for (const Data &d : qAsConst(windows)) {
+    for (const Data &d : std::as_const(windows)) {
         if (d.window == w) {
             effects->addRepaint(d.rect);
         }
@@ -83,7 +82,7 @@ void ThumbnailAsideEffect::slotWindowDamaged(EffectWindow *w, const QRegion &)
 
 void ThumbnailAsideEffect::slotWindowFrameGeometryChanged(EffectWindow *w, const QRectF &old)
 {
-    for (const Data &d : qAsConst(windows)) {
+    for (const Data &d : std::as_const(windows)) {
         if (d.window == w) {
             if (w->size() == old.size()) {
                 effects->addRepaint(d.rect);
@@ -150,9 +149,9 @@ void ThumbnailAsideEffect::arrange()
     int height = 0;
     QVector<int> pos(windows.size());
     qreal mwidth = 0;
-    for (const Data &d : qAsConst(windows)) {
+    for (const Data &d : std::as_const(windows)) {
         height += d.window->height();
-        mwidth = qMax(mwidth, d.window->width());
+        mwidth = std::max(mwidth, d.window->width());
         pos[d.index] = d.window->height();
     }
     EffectScreen *effectiveScreen = effects->findScreen(screen);
@@ -161,7 +160,7 @@ void ThumbnailAsideEffect::arrange()
     }
     QRectF area = effects->clientArea(MaximizeArea, effectiveScreen, effects->currentDesktop());
     double scale = area.height() / double(height);
-    scale = qMin(scale, maxwidth / double(mwidth)); // don't be wider than maxwidth pixels
+    scale = std::min(scale, maxwidth / double(mwidth)); // don't be wider than maxwidth pixels
     int add = 0;
     for (int i = 0;
          i < windows.size();
@@ -182,7 +181,7 @@ void ThumbnailAsideEffect::arrange()
 
 void ThumbnailAsideEffect::repaintAll()
 {
-    for (const Data &d : qAsConst(windows)) {
+    for (const Data &d : std::as_const(windows)) {
         effects->addRepaint(d.rect);
     }
 }

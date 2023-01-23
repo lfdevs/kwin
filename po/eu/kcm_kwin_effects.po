@@ -94,3 +94,12 @@ msgstr "Kanporatu barneko efektuak"
 #, kde-format
 msgid "Get New Desktop Effects..."
 msgstr "Jaitsi mahaigaineko efektu berriak..."
+
+#~ msgid "Download New Desktop Effects"
+#~ msgstr "Jaitsi mahaigaineko efektu berriak"
+
+#~ msgid "Exclude Desktop Effects not supported by the Compositor"
+#~ msgstr "Kanporatu konposatzaileak onartzen ez dituen mahaigaineko efektuak"
+
+#~ msgid "Search..."
+#~ msgstr "Bilatu..."

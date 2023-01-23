@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwintabbox\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-15 00:48+0000\n"
+"POT-Creation-Date: 2023-01-13 00:58+0000\n"
 "PO-Revision-Date: 2022-09-27 18:12+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Lokalize 21.12.3\n"
 
-#: kwintabboxconfigform.cpp:77
+#: kwintabboxconfigform.cpp:80
 #, kde-format
 msgid "KWin"
 msgstr "KWin"
@@ -239,3 +239,177 @@ msgstr ""
 #, kde-format
 msgid "Show selected window"
 msgstr "Tampilkan jendela terpilih"
+
+#, fuzzy
+#~| msgid "Show outline of selected window"
+#~ msgid "Outline selected window"
+#~ msgstr "Tampilan kerangka dari jendela terpilih"
+
+#~ msgid ""
+#~ "These settings are used by the \"Walk Through Windows Alternative\" "
+#~ "actions."
+#~ msgstr ""
+#~ "Pengaturan ini digunakan oleh aksi \"Berjalan Antar Alternatif Jendela\"."
+
+#~ msgid "Walk Through Windows"
+#~ msgstr "Berjalan Antar Jendela"
+
+#~ msgid "Walk Through Windows (Reverse)"
+#~ msgstr "Berjalan Antar Jendela (Kebalikan)"
+
+#~ msgid "Walk Through Windows Alternative"
+#~ msgstr "Berjalan Antar Alternatif Jendela"
+
+#~ msgid "Walk Through Windows Alternative (Reverse)"
+#~ msgstr "Berjalan Antar Alternatif Jendela (Kebalikan)"
+
+#, fuzzy
+#~| msgid "Walk Through Windows Alternative"
+#~ msgid "Walk Through Windows of Current Application"
+#~ msgstr "Berjalan Antar Alternatif Jendela"
+
+#, fuzzy
+#~| msgid "Walk Through Windows Alternative (Reverse)"
+#~ msgid "Walk Through Windows of Current Application (Reverse)"
+#~ msgstr "Berjalan Antar Alternatif Jendela (Kebalikan)"
+
+#, fuzzy
+#~| msgid "Walk Through Windows Alternative"
+#~ msgid "Walk Through Windows of Current Application Alternative"
+#~ msgstr "Berjalan Antar Alternatif Jendela"
+
+#, fuzzy
+#~| msgid "Walk Through Windows Alternative (Reverse)"
+#~ msgid "Walk Through Windows of Current Application Alternative (Reverse)"
+#~ msgstr "Berjalan Antar Alternatif Jendela (Kebalikan)"
+
+#~ msgid "Configure Layout"
+#~ msgstr "Atur Tata Letak"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Andhika Padmawan"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "andhika.padmawan@gmail.com"
+
+#~ msgid "These settings are used by the \"Walk Through Windows\" actions."
+#~ msgstr "Pengaturan ini digunakan oleh aksi \"Berjalan Antar Jendela\"."
+
+#, fuzzy
+#~| msgid "All Desktops Grouped by Applications"
+#~ msgid "All windows from all applications"
+#~ msgstr "Semua Desktop Dikelompokkan Berdasarkan Aplikasi"
+
+#, fuzzy
+#~| msgid "Adds an entry to minimize all windows."
+#~ msgid "Exclude minimized windows"
+#~ msgstr "Tambah entri untuk meminimalkan semua jendela."
+
+#, fuzzy
+#~| msgid "Adds an entry to minimize all windows."
+#~ msgid "Show desktop to minimize all windows"
+#~ msgstr "Tambah entri untuk meminimalkan semua jendela."
+
+#~ msgid "Highlight selected window"
+#~ msgstr "Sorot jendela terpilih"
+
+#~ msgid "Effect:"
+#~ msgstr "Efek:"
+
+#~ msgid "Display list while switching"
+#~ msgstr "Tampilkan senarai ketika mengganti"
+
+#, fuzzy
+#~| msgid "Informative"
+#~ msgctxt "Name for a window switcher layout showing icon, name and desktop"
+#~ msgid "Informative"
+#~ msgstr "Informatif"
+
+#, fuzzy
+#~| msgid "Compact"
+#~ msgctxt "Name for a window switcher layout showing only icon and name"
+#~ msgid "Compact"
+#~ msgstr "Kompak"
+
+#, fuzzy
+#~| msgid "Text Only"
+#~ msgctxt "Name for a window switcher layout showing only the name"
+#~ msgid "Text"
+#~ msgstr "Hanya Teks"
+
+#, fuzzy
+#~| msgid "Large Icons"
+#~ msgctxt "Name for a window switcher layout showing large icons"
+#~ msgid "Large Icons"
+#~ msgstr "Ikon Besar"
+
+#, fuzzy
+#~| msgid "Small Icons"
+#~ msgctxt "Name for a window switcher layout showing small icons"
+#~ msgid "Small Icons"
+#~ msgstr "Ikon Kecil"
+
+#~ msgid "No Effect"
+#~ msgstr "Tanpa Efek"
+
+#~ msgid "Configure Layout..."
+#~ msgstr "Atur Tata Letak..."
+
+#~ msgid "Item Layout"
+#~ msgstr "Item Tata Letak"
+
+#~ msgid "Item layout:"
+#~ msgstr "Item tata letak:"
+
+#~ msgid "Layout:"
+#~ msgstr "Tata Letak:"
+
+#~ msgid "Vertical"
+#~ msgstr "Vertikal"
+
+#~ msgid "Horizontal"
+#~ msgstr "Horizontal"
+
+#~ msgid "Tabular"
+#~ msgstr "Tabular"
+
+#~ msgid "Width:"
+#~ msgstr "Lebar"
+
+#~ msgid "Minimum width, as a percentage of screen width."
+#~ msgstr "Lebar minimum, sebagai persentasi dari lebar layar."
+
+#~ msgid " %"
+#~ msgstr " %"
+
+#~ msgid "Height:"
+#~ msgstr "Tinggi:"
+
+#~ msgid "Minimum height, as a percentage of screen height."
+#~ msgstr "Tinggi minimum, sebagai persentasi dari tinggi layar."
+
+#~ msgid "Show Selected Item"
+#~ msgstr "Tampilkan Item Terpilih"
+
+#~ msgid "Selected item view:"
+#~ msgstr "Tampilan item terpilih:"
+
+#~ msgid "Top"
+#~ msgstr "Atas"
+
+#~ msgid "Bottom"
+#~ msgstr "Bawah"
+
+#~ msgid "Left"
+#~ msgstr "Kiri"
+
+#~ msgid "Right"
+#~ msgstr "Kanan"
+
+#~ msgid "Selected item layout:"
+#~ msgstr "Tata letak item terpilih:"
+
+#~ msgid "General"
+#~ msgstr "Umum"

@@ -10,7 +10,7 @@
 #include "kwin_wayland_test.h"
 
 #include "core/output.h"
-#include "core/platform.h"
+#include "core/outputbackend.h"
 #include "cursor.h"
 #include "wayland_server.h"
 #include "window.h"
@@ -49,9 +49,8 @@ void ActivationTest::initTestCase()
     qRegisterMetaType<Window *>();
 
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
+    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
@@ -79,8 +78,6 @@ void ActivationTest::cleanup()
 void ActivationTest::testSwitchToWindowToLeft()
 {
     // This test verifies that "Switch to Window to the Left" shortcut works.
-
-    using namespace KWayland::Client;
 
     // Prepare the test environment.
     stackScreensHorizontally();
@@ -148,8 +145,6 @@ void ActivationTest::testSwitchToWindowToRight()
 {
     // This test verifies that "Switch to Window to the Right" shortcut works.
 
-    using namespace KWayland::Client;
-
     // Prepare the test environment.
     stackScreensHorizontally();
 
@@ -215,8 +210,6 @@ void ActivationTest::testSwitchToWindowToRight()
 void ActivationTest::testSwitchToWindowAbove()
 {
     // This test verifies that "Switch to Window Above" shortcut works.
-
-    using namespace KWayland::Client;
 
     // Prepare the test environment.
     stackScreensVertically();
@@ -284,8 +277,6 @@ void ActivationTest::testSwitchToWindowBelow()
 {
     // This test verifies that "Switch to Window Bottom" shortcut works.
 
-    using namespace KWayland::Client;
-
     // Prepare the test environment.
     stackScreensVertically();
 
@@ -352,8 +343,6 @@ void ActivationTest::testSwitchToWindowMaximized()
 {
     // This test verifies that we switch to the top-most maximized window, i.e.
     // the one that user sees at the moment. See bug 411356.
-
-    using namespace KWayland::Client;
 
     // Prepare the test environment.
     stackScreensHorizontally();
@@ -437,8 +426,6 @@ void ActivationTest::testSwitchToWindowFullScreen()
 {
     // This test verifies that we switch to the top-most fullscreen window, i.e.
     // the one that user sees at the moment. See bug 411356.
-
-    using namespace KWayland::Client;
 
     // Prepare the test environment.
     stackScreensVertically();
@@ -528,17 +515,10 @@ void ActivationTest::stackScreensHorizontally()
         QRect(1280, 0, 1280, 1024),
     };
 
-    const QVector<int> screenScales{
-        1,
-        1,
-    };
-
-    QMetaObject::invokeMethod(kwinApp()->platform(),
+    QMetaObject::invokeMethod(kwinApp()->outputBackend(),
                               "setVirtualOutputs",
                               Qt::DirectConnection,
-                              Q_ARG(int, screenGeometries.count()),
-                              Q_ARG(QVector<QRect>, screenGeometries),
-                              Q_ARG(QVector<int>, screenScales));
+                              Q_ARG(QVector<QRect>, screenGeometries));
 }
 
 void ActivationTest::stackScreensVertically()
@@ -551,17 +531,10 @@ void ActivationTest::stackScreensVertically()
         QRect(0, 1024, 1280, 1024),
     };
 
-    const QVector<int> screenScales{
-        1,
-        1,
-    };
-
-    QMetaObject::invokeMethod(kwinApp()->platform(),
+    QMetaObject::invokeMethod(kwinApp()->outputBackend(),
                               "setVirtualOutputs",
                               Qt::DirectConnection,
-                              Q_ARG(int, screenGeometries.count()),
-                              Q_ARG(QVector<QRect>, screenGeometries),
-                              Q_ARG(QVector<int>, screenScales));
+                              Q_ARG(QVector<QRect>, screenGeometries));
 }
 
 }

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm-kwin-scripts\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-20 02:18+0000\n"
+"POT-Creation-Date: 2022-09-20 00:47+0000\n"
 "PO-Revision-Date: 2012-06-14 13:51+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer\n"
@@ -76,3 +76,24 @@ msgstr ""
 #| msgid "Get New Script..."
 msgid "Get New Scripts..."
 msgstr "យក​ស្គ្រីប​ថ្មី..."
+
+#~ msgid "KWin Scripts"
+#~ msgstr "ស្គ្រិប KWin"
+
+#~ msgid "Configure KWin scripts"
+#~ msgstr "កំណត់​រចនាសម្ព័ន្ធ​ស្គ្រីប KWin"
+
+#~ msgid "Tamás Krutki"
+#~ msgstr "Tamás Krutki"
+
+#~ msgid "KWin script configuration"
+#~ msgstr "ការ​កំណត់​រចនាសម្ព័ន្ធ​ស្គ្រីប KWin"
+
+#~ msgid "Import KWin script..."
+#~ msgstr "នាំចូល​ស្គ្រីប KWin​..."
+
+#~ msgid ""
+#~ "Cannot import selected script: maybe a script already exists with the "
+#~ "same name or there is a permission problem."
+#~ msgstr ""
+#~ "មិន​អាច​នាំចូល​ស្គ្រីប​ដែលបាន​ជ្រើស​បាន​ទេ ៖ ប្រហែល​ជា​ស្គ្រីប​មាន​ឈ្មោះ​ដូចគ្នា​រួច​ហើយ ឬ​សិទ្ធិ​មាន​បញ្ហា ។"

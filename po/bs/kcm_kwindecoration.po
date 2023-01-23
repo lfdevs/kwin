@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-26 02:35+0000\n"
+"POT-Creation-Date: 2022-10-26 00:47+0000\n"
 "PO-Revision-Date: 2015-02-03 11:42+0100\n"
 "Last-Translator: Samir Ribic <sribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <kde-i18n-doc@kde.org>\n"
@@ -301,3 +301,181 @@ msgstr "Vrlo ogromne"
 #| msgid "Oversized"
 msgid "Oversized"
 msgstr "Neizmjerne"
+
+#, fuzzy
+#~| msgid ""
+#~| "Close by double clicking:\n"
+#~| " To open the menu, keep the button pressed until it appears."
+#~ msgctxt "popup tip"
+#~ msgid ""
+#~ "Close by double clicking: Keep the window's Menu button pressed until it "
+#~ "appears."
+#~ msgstr ""
+#~ "Zatvorite na dvostruki klok:\n"
+#~ " Da otvorite meni, držite dugme pritisnutim dok se ne pojavi."
+
+#, fuzzy
+#~ msgid "Keep below"
+#~ msgstr "Drži ispod ostalih"
+
+#, fuzzy
+#~ msgid "Keep above"
+#~ msgstr "Drži iznad ostalih"
+
+#, fuzzy
+#~| msgid "Get New Decorations..."
+#~ msgid "Download New Window Decorations"
+#~ msgstr "Dobavi nove dekoracije..."
+
+#, fuzzy
+#~| msgid "Search"
+#~ msgid "Search..."
+#~ msgstr "Traži"
+
+#, fuzzy
+#~ msgid "Border si&ze:"
+#~ msgstr "Veličina ivica:"
+
+#, fuzzy
+#~| msgid "Configure Buttons..."
+#~ msgid "Configure %1..."
+#~ msgstr "Podesi dugmad..."
+
+#~ msgid "Button size:"
+#~ msgstr "Veličina dugmadi:"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Tiny"
+#~ msgstr "Sićušna"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Normal"
+#~ msgstr "Normalna"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Large"
+#~ msgstr "Velika"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Very Large"
+#~ msgstr "Vrlo velika"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Huge"
+#~ msgstr "Ogromna"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Very Huge"
+#~ msgstr "Vrlo ogromna"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Oversized"
+#~ msgstr "Neizmjerna"
+
+#~ msgid "KDE"
+#~ msgstr "KDE"
+
+#~ msgid "%1 (unavailable)"
+#~ msgstr "%1 (nedostupno)"
+
+#~ msgid ""
+#~ "To add or remove titlebar buttons, simply <i>drag</i> items between the "
+#~ "available item list and the titlebar preview. Similarly, drag items "
+#~ "within the titlebar preview to re-position them."
+#~ msgstr ""
+#~ "Za dodavanje ili uklanjanje dugmadi naslovne trake, jednostavno ih "
+#~ "<i>prevlačite</i> između spiska raspoloživih i pregleda naslovne trake. "
+#~ "Slično, prevlačite dugmad u okviru pregleda da biste im promijenili "
+#~ "mijesto."
+
+#~ msgid "Resize"
+#~ msgstr "Promijeni veličinu"
+
+#~ msgid "Help"
+#~ msgstr "Pomoć"
+
+#~ msgctxt "Button showing window actions menu"
+#~ msgid "Window Menu"
+#~ msgstr "Meni prozora"
+
+#~ msgid "--- spacer ---"
+#~ msgstr "--- razmaknica ---"
+
+#~ msgid ""
+#~ "Enabling this checkbox will show window button tooltips. If this checkbox "
+#~ "is off, no window button tooltips will be shown."
+#~ msgstr ""
+#~ "Kada je ova kućica popunjena, prikazuju se oblačići za prozorsku dugmad. "
+#~ "U suprotnom se ne prikazuju."
+
+#~ msgid "Please note that this option is not available on all styles yet."
+#~ msgstr "Ova opcija još uvijek nije dostupna za sve stilove."
+
+#~ msgid "Use custom titlebar button &positions"
+#~ msgstr "Poseban &raspored dugmadi u naslovu"
+
+#~ msgid "Use this combobox to change the border size of the decoration."
+#~ msgstr "Koristite ovo da promijenite veličinu ivica dekoracije."
+
+#~ msgid "Decoration Options"
+#~ msgstr "Dekorativne opcije"
+
+#~ msgid ""
+#~ "Select the window decoration. This is the look and feel of both the "
+#~ "window borders and the window handle."
+#~ msgstr ""
+#~ "Izaberite dekoraciju prozora. Ona određuje izgled i osjećaj kako ivica "
+#~ "prozora tako i njegovih ručki."
+
+#~ msgid "Configure Decoration..."
+#~ msgstr "Podesi dekoraciju..."
+
+#~ msgid "Window Decoration Control Module"
+#~ msgstr "Kontrolni modul dekoracije prozor"
+
+#~ msgid "(c) 2001 Karol Szwed"
+#~ msgstr "© 2001, Karol Sved"
+
+#~ msgid "Karol Szwed"
+#~ msgstr "Karol Sved"
+
+#~ msgid ""
+#~ "<h1>Installation error</h1>The resource<h2>kwin/kcm_kwindecoration/main."
+#~ "qml</h2>could not be located in any application data path.<h2>Please "
+#~ "contact your distribution</h2>The application will now abort"
+#~ msgstr ""
+#~ "<h1>Greška instalacije</h1>Resurs<h2>kwin/kcm_kwindecoration/main.qml</"
+#~ "h2>se ne može locirati u svakoj stazi aplikacijskih podataka.<h2>Molim "
+#~ "kontaktirajte distribuciju</h2>Aplikacija će sada prekinuti"
+
+#~ msgid "Installation Error"
+#~ msgstr "Greška u instalaciji"
+
+#~ msgid "Oxygen"
+#~ msgstr "Kiseonik"
+
+#~ msgid ""
+#~ "<h1>Window Manager Decoration</h1><p>This module allows you to choose the "
+#~ "window border decorations, as well as titlebar button positions and "
+#~ "custom decoration options.</p>To choose a theme for your window "
+#~ "decoration click on its name and apply your choice by clicking the \"Apply"
+#~ "\" button below. If you do not want to apply your choice you can click "
+#~ "the \"Reset\" button to discard your changes.<p>You can configure each "
+#~ "theme. There are different options specific for each theme.</p><p>On the "
+#~ "\"Buttons\" tab check the \"Use custom titlebar button positions\" box "
+#~ "and you can change the positions of the buttons to your liking.</p>"
+#~ msgstr ""
+#~ "<h1>Dekoracije menadžera prozora</h1><p>U ovom modulu možete odrediti "
+#~ "dekoraciju za ivice prozora, položaje dugmadi u naslovu i opcije posebne "
+#~ "za izabranu dekoraciju.</p>Dekoraciju prozora birate klikom na njeno ime "
+#~ "i primjenom izbora dugmetom \"Primijeni\" ispod. Kada ne želite da "
+#~ "primijenite izmjene, kliknite na dugme \"Resetuj\" da biste ih odbacili."
+#~ "<p>Svaku temu možete podesiti. Dostupne opcije se mijenjaju od teme do "
+#~ "teme.</p><p>Ako pod jezičkom \"Dugmad\" popunite kućicu \"Poseban "
+#~ "raspored dugmadi u naslovu\", možete razmjestiti dugmad po volji.</p>"
+
+#~ msgid "Active Window"
+#~ msgstr "Aktivan prozor"
+
+#~ msgid "Inactive Window"
+#~ msgstr "Neaktivan prozor"

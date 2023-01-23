@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-15 00:48+0000\n"
+"POT-Creation-Date: 2023-01-13 00:58+0000\n"
 "PO-Revision-Date: 2013-03-06 10:11+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 "X-Generator: Lokalize 1.5\n"
 
-#: kwintabboxconfigform.cpp:77
+#: kwintabboxconfigform.cpp:80
 #, kde-format
 msgid "KWin"
 msgstr ""
@@ -236,3 +236,9 @@ msgstr ""
 #, kde-format
 msgid "Show selected window"
 msgstr "निवडलेली चौकट दर्शवा"
+
+#~ msgid "Tabbox layout preview"
+#~ msgstr "टॅबबॉक्स रचना पूर्वावलोकन"
+
+#~ msgid "Outline selected window"
+#~ msgstr "निवडलेल्या चौकटीची रूपरेषा"

@@ -90,3 +90,12 @@ msgstr "Wyklucz wewnętrzne efekty"
 #, kde-format
 msgid "Get New Desktop Effects..."
 msgstr "Pobierz efekty pulpitu..."
+
+#~ msgid "Download New Desktop Effects"
+#~ msgstr "Pobieranie efektów pulpitu"
+
+#~ msgid "Exclude Desktop Effects not supported by the Compositor"
+#~ msgstr "Wyklucz efekty pulpitu nieobsługiwane przez kompozytora"
+
+#~ msgid "Search..."
+#~ msgstr "Szukaj..."

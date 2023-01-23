@@ -11,7 +11,7 @@
 #include "kwin_wayland_test.h"
 
 #include "atoms.h"
-#include "core/platform.h"
+#include "core/outputbackend.h"
 #include "deleted.h"
 #include "rules.h"
 #include "virtualdesktops.h"
@@ -32,7 +32,6 @@
 #include <xcb/xcb_icccm.h>
 
 using namespace KWin;
-using namespace KWayland::Client;
 
 static const QString s_socketName = QStringLiteral("wayland_test_kwin_dbus_interface-0");
 
@@ -59,8 +58,8 @@ void TestDbusInterface::initTestCase()
     qRegisterMetaType<KWin::Window *>();
 
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
-    kwinApp()->platform()->setInitialWindowSize(QSize(1280, 1024));
     QVERIFY(waylandServer()->init(s_socketName));
+    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
@@ -149,6 +148,7 @@ void TestDbusInterface::testGetWindowInfoXdgShellClient()
     QVERIFY(reply.isValid());
     QVERIFY(!reply.isError());
     auto windowData = reply.value();
+    windowData.remove(QStringLiteral("uuid"));
     QCOMPARE(windowData, expectedData);
 
     auto verifyProperty = [window](const QString &name) {
@@ -294,6 +294,7 @@ void TestDbusInterface::testGetWindowInfoX11Client()
     // not testing clientmachine as that is system dependent due to that also not testing localhost
     windowData.remove(QStringLiteral("clientMachine"));
     windowData.remove(QStringLiteral("localhost"));
+    windowData.remove(QStringLiteral("uuid"));
     QCOMPARE(windowData, expectedData);
 
     auto verifyProperty = [window](const QString &name) {

@@ -8,17 +8,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-08-19 00:47+0000\n"
-"PO-Revision-Date: 2022-04-28 12:40+0400\n"
+"POT-Creation-Date: 2022-12-11 00:48+0000\n"
+"PO-Revision-Date: 2022-12-22 12:17+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
-"Language-Team: Arabic <kde-l10n-ar@kde.org>\n"
+"Language-Team: ar\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
-"X-Generator: Lokalize 21.07.70\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -64,12 +64,12 @@ msgstr ""
 msgid "Copy of %1"
 msgstr "نسخة عن %1"
 
-#: kcmrules.cpp:422
+#: kcmrules.cpp:423
 #, kde-format
 msgid "Application settings for %1"
 msgstr "إعدادات التطبيق لـِ %1"
 
-#: kcmrules.cpp:442 rulesmodel.cpp:215
+#: kcmrules.cpp:445 rulesmodel.cpp:215
 #, kde-format
 msgid "Window settings for %1"
 msgstr "إعدادات النافذة لـِ %1"
@@ -364,42 +364,37 @@ msgstr[3] "بعد %1 ثواني"
 msgstr[4] "بعد %1 ثانية"
 msgstr[5] "بعد %1 ثانية"
 
-#: package/contents/ui/RulesEditor.qml:147
-#, kde-format
-msgid "Error"
-msgstr "خطأ"
-
-#: package/contents/ui/RulesEditor.qml:162
+#: package/contents/ui/RulesEditor.qml:175
 #, kde-format
 msgid "Add property to the rule"
 msgstr "أضف خاصية للقاعدة"
 
-#: package/contents/ui/RulesEditor.qml:260
+#: package/contents/ui/RulesEditor.qml:273
 #: package/contents/ui/ValueEditor.qml:54
 #, kde-format
 msgid "Yes"
 msgstr "نعم"
 
-#: package/contents/ui/RulesEditor.qml:260
+#: package/contents/ui/RulesEditor.qml:273
 #: package/contents/ui/ValueEditor.qml:60
 #, kde-format
 msgid "No"
 msgstr "لا"
 
-#: package/contents/ui/RulesEditor.qml:262
+#: package/contents/ui/RulesEditor.qml:275
 #: package/contents/ui/ValueEditor.qml:171
 #: package/contents/ui/ValueEditor.qml:178
 #, kde-format
 msgid "%1 %"
 msgstr "%1 ٪"
 
-#: package/contents/ui/RulesEditor.qml:264
+#: package/contents/ui/RulesEditor.qml:277
 #, kde-format
 msgctxt "Coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr "(%1، %2)"
 
-#: package/contents/ui/RulesEditor.qml:266
+#: package/contents/ui/RulesEditor.qml:279
 #, kde-format
 msgctxt "Size (width, height)"
 msgid "(%1, %2)"
@@ -788,160 +783,374 @@ msgstr "اسم ملف سطح المكتب"
 msgid "Block compositing"
 msgstr "التركيب الكتلي"
 
-#: rulesmodel.cpp:727
+#: rulesmodel.cpp:703
+#, kde-format
+msgid "Window class not available"
+msgstr "صنف النافذة غير متوفر"
+
+#: rulesmodel.cpp:704
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"This application is not providing a class for the window, so KWin cannot use "
+"it to match and apply any rules. If you still want to apply some rules to "
+"it, try to match other properties like the window title instead.<nl/><nl/"
+">Please consider reporting this bug to the application's developers."
+msgstr ""
+"لا يوفر هذا التطبيق صنف للنافذة، لذلك لا يمكن لـكوين استخدامه لمطابقة أي "
+"قواعد وتطبيقها. إذا كنت لا تزال ترغب في تطبيق بعض القواعد عليها، فحاول "
+"مطابقة الخصائص الأخرى مثل عنوان النافذة بدلاً من ذلك. <nl/> <nl/> يرجى "
+"التفكير في الإبلاغ عن هذا الخطأ لمطوري التطبيق."
+
+#: rulesmodel.cpp:738
 #, kde-format
 msgid "All Window Types"
 msgstr "جميع أنواع النافذة"
 
-#: rulesmodel.cpp:728
+#: rulesmodel.cpp:739
 #, kde-format
 msgid "Normal Window"
 msgstr "نافذة عادية"
 
-#: rulesmodel.cpp:729
+#: rulesmodel.cpp:740
 #, kde-format
 msgid "Dialog Window"
 msgstr "نافذة الحوار"
 
-#: rulesmodel.cpp:730
+#: rulesmodel.cpp:741
 #, kde-format
 msgid "Utility Window"
 msgstr "أداة النافذة"
 
-#: rulesmodel.cpp:731
+#: rulesmodel.cpp:742
 #, kde-format
 msgid "Dock (panel)"
 msgstr "إرساء (اللوحة)"
 
-#: rulesmodel.cpp:732
+#: rulesmodel.cpp:743
 #, kde-format
 msgid "Toolbar"
 msgstr "شريط الأدوات"
 
-#: rulesmodel.cpp:733
+#: rulesmodel.cpp:744
 #, kde-format
 msgid "Torn-Off Menu"
 msgstr "قائمة ممزقة"
 
-#: rulesmodel.cpp:734
+#: rulesmodel.cpp:745
 #, kde-format
 msgid "Splash Screen"
 msgstr "شاشة البداية"
 
-#: rulesmodel.cpp:735
+#: rulesmodel.cpp:746
 #, kde-format
 msgid "Desktop"
 msgstr "سطح المكتب"
 
 #. i18n("Unmanaged Window")},  deprecated
-#: rulesmodel.cpp:737
+#: rulesmodel.cpp:748
 #, kde-format
 msgid "Standalone Menubar"
 msgstr "شريط أدوات مستقل"
 
-#: rulesmodel.cpp:738
+#: rulesmodel.cpp:749
 #, kde-format
 msgid "On Screen Display"
 msgstr "على شاشة العرض"
 
-#: rulesmodel.cpp:748
+#: rulesmodel.cpp:759
 #, kde-format
 msgid "All Desktops"
 msgstr "كلّ أسطح المكتب"
 
-#: rulesmodel.cpp:750
+#: rulesmodel.cpp:761
 #, kde-format
 msgctxt "@info:tooltip in the virtual desktop list"
 msgid "Make the window available on all desktops"
 msgstr "اجعل النافذة متوفرة على كلّ أسطح المكتب"
 
-#: rulesmodel.cpp:769
+#: rulesmodel.cpp:780
 #, kde-format
 msgid "All Activities"
 msgstr "كلّ الأنشطة"
 
-#: rulesmodel.cpp:771
+#: rulesmodel.cpp:782
 #, kde-format
 msgctxt "@info:tooltip in the activity list"
 msgid "Make the window available on all activities"
 msgstr "اجعل النافذة متوفرة على كلّ الأنشطة"
 
-#: rulesmodel.cpp:792
+#: rulesmodel.cpp:803
 #, kde-format
 msgid "Default"
 msgstr "افتراضي"
 
-#: rulesmodel.cpp:793
+#: rulesmodel.cpp:804
 #, kde-format
 msgid "No Placement"
 msgstr "موضع غير محدد"
 
-#: rulesmodel.cpp:794
+#: rulesmodel.cpp:805
 #, kde-format
 msgid "Minimal Overlapping"
 msgstr "الحد الأدنى من التراكب"
 
-#: rulesmodel.cpp:795
+#: rulesmodel.cpp:806
 #, kde-format
 msgid "Maximized"
 msgstr "مكبرة"
 
-#: rulesmodel.cpp:796
-#, kde-format
-msgid "Cascaded"
-msgstr "متتالي"
-
-#: rulesmodel.cpp:797
+#: rulesmodel.cpp:807
 #, kde-format
 msgid "Centered"
 msgstr "موسّطة"
 
-#: rulesmodel.cpp:798
+#: rulesmodel.cpp:808
 #, kde-format
 msgid "Random"
 msgstr "عشوائي"
 
-#: rulesmodel.cpp:799
+#: rulesmodel.cpp:809
 #, kde-format
 msgid "In Top-Left Corner"
 msgstr "في زاوِيَة أعلى اليسار"
 
-#: rulesmodel.cpp:800
+#: rulesmodel.cpp:810
 #, kde-format
 msgid "Under Mouse"
 msgstr "تحت الفأرة"
 
-#: rulesmodel.cpp:801
+#: rulesmodel.cpp:811
 #, kde-format
 msgid "On Main Window"
 msgstr "على النافذة الرئيسية"
 
-#: rulesmodel.cpp:808
+#: rulesmodel.cpp:818
 #, kde-format
 msgid "None"
 msgstr "بلا"
 
-#: rulesmodel.cpp:809
+#: rulesmodel.cpp:819
 #, kde-format
 msgid "Low"
 msgstr "منخفض"
 
-#: rulesmodel.cpp:810
+#: rulesmodel.cpp:820
 #, kde-format
 msgid "Normal"
 msgstr "عادي"
 
-#: rulesmodel.cpp:811
+#: rulesmodel.cpp:821
 #, kde-format
 msgid "High"
 msgstr "عالي"
 
-#: rulesmodel.cpp:812
+#: rulesmodel.cpp:822
 #, kde-format
 msgid "Extreme"
 msgstr "القصوى"
 
-#: rulesmodel.cpp:855
+#: rulesmodel.cpp:865
+#, kde-format
+msgid "Unmanaged window"
+msgstr "نافذة غير مدارة"
+
+#: rulesmodel.cpp:866
 #, kde-format
 msgid "Could not detect window properties. The window is not managed by KWin."
 msgstr "لا يمكن اكتشاف خواص النافذة. لا تدار النافذة بواسطة كوين."
+
+#~ msgid "Error"
+#~ msgstr "خطأ"
+
+#~ msgid "Cascaded"
+#~ msgstr "متتالي"
+
+#, fuzzy
+#~| msgid "Keep &above"
+#~ msgid "Keep above"
+#~ msgstr "أبقهِ أ&على"
+
+#, fuzzy
+#~| msgid "Keep &below"
+#~ msgid "Keep below"
+#~ msgstr "أبقهِ أ&سفل"
+
+#~ msgid "KWin"
+#~ msgstr "كِون"
+
+#~ msgid "KWin helper utility"
+#~ msgstr "أداة مساعدة كِون"
+
+#, fuzzy
+#~| msgid "&Detect Window Properties"
+#~ msgid "Select properties"
+#~ msgstr "ا&كشف خصائص النافذة"
+
+#~ msgid "Override Type"
+#~ msgstr "نوع التجاوز"
+
+#~ msgid "Unknown - will be treated as Normal Window"
+#~ msgstr "مجهول - سوف تعامل كنافذة عادية"
+
+#~ msgid "Information About Selected Window"
+#~ msgstr "معلومات حول النافذة المنتقاة"
+
+#~ msgid "Class:"
+#~ msgstr "الصنف:"
+
+#~ msgid "Role:"
+#~ msgstr "الدور:"
+
+#~ msgid "Type:"
+#~ msgstr "النوع:"
+
+#~ msgid "Title:"
+#~ msgstr "العنوان:"
+
+#~ msgid "Machine:"
+#~ msgstr "الآلة:"
+
+#~ msgid "&Single Shortcut"
+#~ msgstr "ا&ختصار فردي"
+
+#~ msgid "C&lear"
+#~ msgstr "ا&مح"
+
+#~ msgid "Window-Specific Settings Configuration Module"
+#~ msgstr "نافذة-وحدة تشكيل الإعدادات الخاصة"
+
+#~ msgid "(c) 2004 KWin and KControl Authors"
+#~ msgstr "(c) 2004 KWin and KControl Authors"
+
+#~ msgid "Lubos Lunak"
+#~ msgstr "Lubos Lunak"
+
+#~ msgid "Remember settings separately for every window"
+#~ msgstr "تذكر الإعدادات المنفردة لكلّ نافذة"
+
+#~ msgid "Show internal settings for remembering"
+#~ msgstr "أظهر الإعدادات الداخلية للتذكير"
+
+#~ msgid "Internal setting for remembering"
+#~ msgstr "الإعدادات الداخلية للتذكير"
+
+#~ msgid "&Modify..."
+#~ msgstr "&عدّل..."
+
+#~ msgid "Move &Up"
+#~ msgstr "حرّك للأ&على"
+
+#~ msgid "Move &Down"
+#~ msgstr "حرّك للأ&سفل"
+
+#~ msgid ""
+#~ "Enable this checkbox to alter this window property for the specified "
+#~ "window(s)."
+#~ msgstr "مكّن خانة التأشير هذه لتغيير هذه الخاصية بالنسبة للنافذة المحدّدة."
+
+#~ msgid "Unnamed entry"
+#~ msgstr "مدخلة غير مسماة"
+
+#~ msgid ""
+#~ "This configuration dialog allows altering settings only for the selected "
+#~ "window or application. Find the setting you want to affect, enable the "
+#~ "setting using the checkbox, select in what way the setting should be "
+#~ "affected and to which value."
+#~ msgstr ""
+#~ "يسمح لك حوار الضبط هذا بتغير إعدادات النافذة أو التطبيق المنتقى فقط . "
+#~ "اعثر على التأثير الذي تريده ، وفعل الإعداد باستخدام مربع التأكيد ، وانتق "
+#~ "أي طريقة تريد أن يتأثر بها الإعداد و بأي قيمة."
+
+#~ msgid "Consult the documentation for more details."
+#~ msgstr "للمزيد من التفاصيل راجع التوثيق."
+
+#~ msgid "Edit Shortcut"
+#~ msgstr "حرّر الاختصار"
+
+#~ msgid "0123456789-+,xX:"
+#~ msgstr "0123456789-+,xX:"
+
+#~ msgid "&Desktop"
+#~ msgstr "&سطح المكتب"
+
+#~ msgid "Smart"
+#~ msgstr "ذكي"
+
+#~ msgid "kcmkwinrules"
+#~ msgstr "kcmkwinrules"
+
+#~ msgid "Opaque"
+#~ msgstr "معتم"
+
+#~ msgid "Transparent"
+#~ msgstr "شفاف"
+
+#~ msgid "&Moving/resizing"
+#~ msgstr "ح&رّك/أعد تحجيم"
+
+#, fuzzy
+#~| msgid "Title:"
+#~ msgid "Tiled"
+#~ msgstr "العنوان:"
+
+#~ msgid ""
+#~ "For selecting all windows belonging to a specific application, selecting "
+#~ "only window class should usually work."
+#~ msgstr ""
+#~ "لاختيار كلّ النوافذ المرتبطة بتطبيق محدّد ، اختر فقط صنف النافذة الذي يفترض "
+#~ "أن يعمل."
+
+#~ msgid "Use window &class (whole application)"
+#~ msgstr "استخدم ص&نف النافذة (تطبيق كامل)"
+
+#~ msgid ""
+#~ "For selecting a specific window in an application, both window class and "
+#~ "window role should be selected. Window class will determine the "
+#~ "application, and window role the specific window in the application; many "
+#~ "applications do not provide useful window roles though."
+#~ msgstr ""
+#~ "لاختيار نافذة محدّدة من تطبيق، يجب اختيار كل من صنف النافذة ودورها. صنف "
+#~ "النافذة سيحدّد التطبيق, ودور النافذة  نافذةَ التطبيق؛ لكن الكثير من "
+#~ "التطبيقات لا يوفر أدوارا مفيدة."
+
+#~ msgid "Use window class and window &role (specific window)"
+#~ msgstr " استخدم ص&نف النافذة ودور النافذة (نافذة محدّدة)"
+
+#~ msgid ""
+#~ "With some (non-KDE) applications whole window class can be sufficient for "
+#~ "selecting a specific window in an application, as they set whole window "
+#~ "class to contain both application and window role."
+#~ msgstr ""
+#~ "مع بعض التطبيقات (ليس ضمن كدي) ، يكفي صنف النافذة لاختيار نافذة محددة في "
+#~ "التطبيق ؛ حيث أنهم يضعون كامل صنف النافذة ليحوي التطبيق و دور النافذة."
+
+#~ msgid "Use &whole window class (specific window)"
+#~ msgstr "استخدم ص&نف النافذة الكامل (نافذة محدّدة)"
+
+#~ msgid "Match also window &title"
+#~ msgstr "طابق أيضاً ع&نوان النافذة"
+
+#~ msgid "Extra role:"
+#~ msgstr "دور إضافي:"
+
+#~ msgid "Window &Extra"
+#~ msgstr "نافذة إ&ضافية"
+
+#~ msgid "&Geometry"
+#~ msgstr "ال&هندسة"
+
+#~ msgid "&Preferences"
+#~ msgstr "ال&تفضيلات"
+
+#~ msgid "&No border"
+#~ msgstr "&بدون حدود"
+
+#~ msgid "0123456789"
+#~ msgstr "0123456789"
+
+#~ msgid "W&orkarounds"
+#~ msgstr "ت&حايلات"
+
+#~ msgid "Strictly obey geometry"
+#~ msgstr "التزم بصرامة للأبعاد"

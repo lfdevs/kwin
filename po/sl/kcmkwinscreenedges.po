@@ -242,3 +242,12 @@ msgid ""
 "of the screen."
 msgstr ""
 "Dejanje lahko sprožite tako, da povlečete z roba proti sredini zaslona."
+
+#~ msgid "Show Desktop"
+#~ msgstr "Pokaži namizje"
+
+#~ msgid "Desktop Grid"
+#~ msgstr "Namizna mreža"
+
+#~ msgid "Toggle Overview"
+#~ msgstr "Preklopi pregled"

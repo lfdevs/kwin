@@ -7,13 +7,12 @@
 */
 
 #include "waylandwindow.h"
-#include "screens.h"
+#include "scene/windowitem.h"
 #include "wayland/clientbuffer.h"
 #include "wayland/clientconnection.h"
 #include "wayland/display.h"
 #include "wayland/surface_interface.h"
 #include "wayland_server.h"
-#include "windowitem.h"
 #include "workspace.h"
 
 #include <QFileInfo>
@@ -46,7 +45,7 @@ WaylandWindow::WaylandWindow(SurfaceInterface *surface)
             this, &WaylandWindow::updateClientOutputs);
     connect(this, &WaylandWindow::desktopFileNameChanged,
             this, &WaylandWindow::updateIcon);
-    connect(workspace()->screens(), &Screens::changed, this, &WaylandWindow::updateClientOutputs);
+    connect(workspace(), &Workspace::outputsChanged, this, &WaylandWindow::updateClientOutputs);
     connect(surface->client(), &ClientConnection::aboutToBeDestroyed,
             this, &WaylandWindow::destroyWindow);
 
@@ -54,9 +53,9 @@ WaylandWindow::WaylandWindow(SurfaceInterface *surface)
     updateIcon();
 }
 
-WindowItem *WaylandWindow::createItem()
+std::unique_ptr<WindowItem> WaylandWindow::createItem(Scene *scene)
 {
-    return new WindowItemWayland(this);
+    return std::make_unique<WindowItemWayland>(this, scene);
 }
 
 QString WaylandWindow::captionNormal() const
@@ -91,7 +90,6 @@ bool WaylandWindow::isLocalhost() const
 
 Window *WaylandWindow::findModal(bool allow_itself)
 {
-    Q_UNUSED(allow_itself)
     return nullptr;
 }
 
@@ -127,9 +125,9 @@ void WaylandWindow::killWindow()
     QTimer::singleShot(5000, c, &ClientConnection::destroy);
 }
 
-QByteArray WaylandWindow::windowRole() const
+QString WaylandWindow::windowRole() const
 {
-    return QByteArray();
+    return QString();
 }
 
 bool WaylandWindow::belongsToSameApplication(const Window *other, SameApplicationChecks checks) const
@@ -161,6 +159,9 @@ bool WaylandWindow::belongsToDesktop() const
 void WaylandWindow::updateClientOutputs()
 {
     surface()->setOutputs(waylandServer()->display()->outputsIntersecting(frameGeometry().toAlignedRect()));
+    if (output()) {
+        surface()->setPreferredScale(output()->scale());
+    }
 }
 
 void WaylandWindow::updateIcon()

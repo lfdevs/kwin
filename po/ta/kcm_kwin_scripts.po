@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-20 02:18+0000\n"
+"POT-Creation-Date: 2022-09-20 00:47+0000\n"
 "PO-Revision-Date: 2022-09-20 19:53+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -73,3 +73,12 @@ msgstr "கோப்பிலிருந்து நிறுவு..."
 #, kde-format
 msgid "Get New Scripts..."
 msgstr "புதிய சிறுநிரல்களை பெறு…"
+
+#~ msgid "KWin Scripts"
+#~ msgstr "கேவின் சிறுநிரல்கள்"
+
+#~ msgid "Configure KWin scripts"
+#~ msgstr "கேவின் சிறுநிரல்களை அமையுங்கள்"
+
+#~ msgid "KWin script configuration"
+#~ msgstr "கேவின் சிறுநிரல் அமைப்பு"

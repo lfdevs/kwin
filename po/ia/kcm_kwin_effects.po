@@ -91,3 +91,6 @@ msgstr "Exclude effectos interne"
 #, kde-format
 msgid "Get New Desktop Effects..."
 msgstr "Obtene nove effectos de scriptorio..."
+
+#~ msgid "Download New Desktop Effects"
+#~ msgstr "Discarga nove effectos de scriptorio"

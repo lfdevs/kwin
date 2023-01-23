@@ -8,11 +8,9 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-#ifndef KWIN_INPUT_H
-#define KWIN_INPUT_H
+#pragma once
 #include <config-kwin.h>
 
-#include <QAction>
 #include <QObject>
 #include <QPoint>
 #include <QPointer>
@@ -25,6 +23,7 @@
 #include <functional>
 
 class KGlobalAccelInterface;
+class QAction;
 class QKeySequence;
 class QMouseEvent;
 class QKeyEvent;
@@ -46,6 +45,9 @@ class SwitchEvent;
 class TabletEvent;
 class TabletToolId;
 class TabletPadId;
+class MouseEvent;
+class WheelEvent;
+class KeyEvent;
 
 namespace Decoration
 {
@@ -123,17 +125,6 @@ public:
     Qt::KeyboardModifiers keyboardModifiers() const;
     Qt::KeyboardModifiers modifiersRelevantForGlobalShortcuts() const;
 
-    void registerShortcut(const QKeySequence &shortcut, QAction *action);
-    /**
-     * @overload
-     *
-     * Like registerShortcut, but also connects QAction::triggered to the @p slot on @p receiver.
-     * It's recommended to use this method as it ensures that the X11 timestamp is updated prior
-     * to the @p slot being invoked. If not using this overload it's required to ensure that
-     * registerShortcut is called before connecting to QAction's triggered signal.
-     */
-    template<typename T, typename Slot>
-    void registerShortcut(const QKeySequence &shortcut, QAction *action, T *receiver, Slot slot);
     void registerPointerShortcut(Qt::KeyboardModifiers modifiers, Qt::MouseButton pointerButtons, QAction *action);
     void registerAxisShortcut(Qt::KeyboardModifiers modifiers, PointerAxisDirection axis, QAction *action);
     void registerTouchpadSwipeShortcut(SwipeDirection direction, uint fingerCount, QAction *action);
@@ -395,48 +386,48 @@ public:
      * @param nativeButton The native key code of the button, for move events 0
      * @return @c true to stop further event processing, @c false to pass to next filter
      */
-    virtual bool pointerEvent(QMouseEvent *event, quint32 nativeButton);
+    virtual bool pointerEvent(MouseEvent *event, quint32 nativeButton);
     /**
      * Event filter for pointer axis events.
      *
      * @param event The event information about the axis event
      * @return @c true to stop further event processing, @c false to pass to next filter
      */
-    virtual bool wheelEvent(QWheelEvent *event);
+    virtual bool wheelEvent(WheelEvent *event);
     /**
      * Event filter for keyboard events.
      *
      * @param event The event information about the key event
      * @return @c true to stop further event processing, @c false to pass to next filter.
      */
-    virtual bool keyEvent(QKeyEvent *event);
-    virtual bool touchDown(qint32 id, const QPointF &pos, quint32 time);
-    virtual bool touchMotion(qint32 id, const QPointF &pos, quint32 time);
-    virtual bool touchUp(qint32 id, quint32 time);
+    virtual bool keyEvent(KeyEvent *event);
+    virtual bool touchDown(qint32 id, const QPointF &pos, std::chrono::microseconds time);
+    virtual bool touchMotion(qint32 id, const QPointF &pos, std::chrono::microseconds time);
+    virtual bool touchUp(qint32 id, std::chrono::microseconds time);
     virtual bool touchCancel();
     virtual bool touchFrame();
 
-    virtual bool pinchGestureBegin(int fingerCount, quint32 time);
-    virtual bool pinchGestureUpdate(qreal scale, qreal angleDelta, const QPointF &delta, quint32 time);
-    virtual bool pinchGestureEnd(quint32 time);
-    virtual bool pinchGestureCancelled(quint32 time);
+    virtual bool pinchGestureBegin(int fingerCount, std::chrono::microseconds time);
+    virtual bool pinchGestureUpdate(qreal scale, qreal angleDelta, const QPointF &delta, std::chrono::microseconds time);
+    virtual bool pinchGestureEnd(std::chrono::microseconds time);
+    virtual bool pinchGestureCancelled(std::chrono::microseconds time);
 
-    virtual bool swipeGestureBegin(int fingerCount, quint32 time);
-    virtual bool swipeGestureUpdate(const QPointF &delta, quint32 time);
-    virtual bool swipeGestureEnd(quint32 time);
-    virtual bool swipeGestureCancelled(quint32 time);
+    virtual bool swipeGestureBegin(int fingerCount, std::chrono::microseconds time);
+    virtual bool swipeGestureUpdate(const QPointF &delta, std::chrono::microseconds time);
+    virtual bool swipeGestureEnd(std::chrono::microseconds time);
+    virtual bool swipeGestureCancelled(std::chrono::microseconds time);
 
-    virtual bool holdGestureBegin(int fingerCount, quint32 time);
-    virtual bool holdGestureEnd(quint32 time);
-    virtual bool holdGestureCancelled(quint32 time);
+    virtual bool holdGestureBegin(int fingerCount, std::chrono::microseconds time);
+    virtual bool holdGestureEnd(std::chrono::microseconds time);
+    virtual bool holdGestureCancelled(std::chrono::microseconds time);
 
     virtual bool switchEvent(SwitchEvent *event);
 
     virtual bool tabletToolEvent(TabletEvent *event);
-    virtual bool tabletToolButtonEvent(uint button, bool pressed, const TabletToolId &tabletToolId, uint time);
-    virtual bool tabletPadButtonEvent(uint button, bool pressed, const TabletPadId &tabletPadId, uint time);
-    virtual bool tabletPadStripEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId, uint time);
-    virtual bool tabletPadRingEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId, uint time);
+    virtual bool tabletToolButtonEvent(uint button, bool pressed, const TabletToolId &tabletToolId, std::chrono::microseconds time);
+    virtual bool tabletPadButtonEvent(uint button, bool pressed, const TabletPadId &tabletPadId, std::chrono::microseconds time);
+    virtual bool tabletPadStripEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId, std::chrono::microseconds time);
+    virtual bool tabletPadRingEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId, std::chrono::microseconds time);
 
 protected:
     void passToWaylandServer(QKeyEvent *event);
@@ -543,18 +534,9 @@ inline QList<InputDevice *> InputRedirection::devices() const
     return m_inputDevices;
 }
 
-template<typename T, typename Slot>
-inline void InputRedirection::registerShortcut(const QKeySequence &shortcut, QAction *action, T *receiver, Slot slot)
-{
-    registerShortcut(shortcut, action);
-    connect(action, &QAction::triggered, receiver, slot);
-}
-
 } // namespace KWin
 
 Q_DECLARE_METATYPE(KWin::InputRedirection::KeyboardKeyState)
 Q_DECLARE_METATYPE(KWin::InputRedirection::PointerButtonState)
 Q_DECLARE_METATYPE(KWin::InputRedirection::PointerAxis)
 Q_DECLARE_METATYPE(KWin::InputRedirection::PointerAxisSource)
-
-#endif // KWIN_INPUT_H

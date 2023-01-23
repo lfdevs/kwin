@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-02 00:47+0000\n"
+"POT-Creation-Date: 2022-12-03 00:48+0000\n"
 "PO-Revision-Date: 2020-05-16 20:17+0300\n"
 "Last-Translator: Moo\n"
 "Language-Team: lt <kde-i18n-lt@kde.org>\n"
@@ -487,7 +487,35 @@ msgstr "Langų iš&dėstymas:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_Placement)
 #: advanced.ui:76
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p>The placement policy determines where a new window "
+#| "will appear on the desktop.</p><ul style=\"margin-top: 0px; margin-"
+#| "bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
+#| "\"><li style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; "
+#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+#| "font-style:italic;\">Smart</span> will try to achieve a minimum overlap "
+#| "of windows</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+#| "style=\" font-style:italic;\">Maximizing</span> will try to maximize "
+#| "every window to fill the whole screen. It might be useful to selectively "
+#| "affect placement of some windows using the window-specific settings.</"
+#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+#| "font-style:italic;\">Cascade</span> will cascade the windows</li><li "
+#| "style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+#| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+#| "style:italic;\">Random</span> will use a random position</li><li style=\" "
+#| "margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+#| "block-indent:0; text-indent:0px;\"><span style=\" font-style:italic;"
+#| "\">Centered</span> will place the window centered</li><li style=\" margin-"
+#| "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+#| "indent:0; text-indent:0px;\"><span style=\" font-style:italic;\">Zero-"
+#| "cornered</span> will place the window in the top-left corner</li><li "
+#| "style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+#| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+#| "style:italic;\">Under mouse</span> will place the window under the "
+#| "pointer</li></ul></body></html>"
 msgid ""
 "<html><head/><body><p>The placement policy determines where a new window "
 "will appear on the desktop.</p><ul style=\"margin-top: 0px; margin-bottom: "
@@ -501,13 +529,10 @@ msgid ""
 "whole screen. It might be useful to selectively affect placement of some "
 "windows using the window-specific settings.</li><li style=\" margin-top:0px; "
 "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\"><span style=\" font-style:italic;\">Cascade</span> will "
-"cascade the windows</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"text-indent:0px;\"><span style=\" font-style:italic;\">Random</span> will "
+"use a random position</li><li style=\" margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-style:italic;\">Random</span> will use a random "
-"position</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-style:italic;\">Centered</span> will place the window "
+"\"><span style=\" font-style:italic;\">Centered</span> will place the window "
 "centered</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\" font-style:italic;\">Zero-cornered</span> will place the window in "
@@ -558,35 +583,29 @@ msgstr "Išskleisti"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:90
 #, kde-format
-msgid "Cascaded"
-msgstr "Pakopomis"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:95
-#, kde-format
 msgid "Random"
 msgstr "Atsitiktinai"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:100
+#: advanced.ui:95
 #, kde-format
 msgid "Centered"
 msgstr "Centre"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:105
+#: advanced.ui:100
 #, kde-format
 msgid "In Top-Left Corner"
 msgstr "Viršutiniame kairiajame kampe"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:110
+#: advanced.ui:105
 #, kde-format
 msgid "Under mouse"
 msgstr "Po pele"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:118
+#: advanced.ui:113
 #, kde-format
 msgid ""
 "When turned on, apps which are able to remember the positions of their "
@@ -595,20 +614,20 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:121
+#: advanced.ui:116
 #, kde-format
 msgid ""
 "Allow apps to remember the positions of their own windows, if they support it"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
-#: advanced.ui:128
+#: advanced.ui:123
 #, kde-format
 msgid "&Special windows:"
 msgstr "&Specialūs langai:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:138
+#: advanced.ui:133
 #, kde-format
 msgid ""
 "When turned on, utility windows (tool windows, torn-off menus,...) of "
@@ -622,25 +641,25 @@ msgstr ""
 "turi pažymėti langus atitinkamu lango tipu."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:141
+#: advanced.ui:136
 #, kde-format
 msgid "Hide utility windows for inactive applications"
 msgstr "Slėpti pasyvių programų paslaugų langus"
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyLabel)
-#: advanced.ui:148
+#: advanced.ui:143
 #, kde-format
 msgid "Virtual Desktop behavior:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyDescriptionLabel)
-#: advanced.ui:158
+#: advanced.ui:153
 #, kde-format
 msgid "When activating a window on a different Virtual Desktop:"
 msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:165
+#: advanced.ui:160
 #, kde-format
 msgid ""
 "<html><head/><body><p>This setting controls what happens when an open window "
@@ -653,13 +672,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:169
+#: advanced.ui:164
 #, kde-format
 msgid "Switch to that Virtual Desktop"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:174
+#: advanced.ui:169
 #, kde-format
 msgid "Bring window to current Virtual Desktop"
 msgstr ""
@@ -1413,3 +1432,226 @@ msgstr ""
 "<em>langų perjungiklis (\"Alt+Tab\")</em> prieštarauja aktyvavimo politikai "
 "ir todėl jie neveiks. Vietoj to, greičiausiai, norėtumėte naudoti "
 "<em>Fokusavimas seka paskui pelę (pelės pirmenybė)</em>!"
+
+#~ msgid "Cascaded"
+#~ msgstr "Pakopomis"
+
+#~ msgid "Window &geometry:"
+#~ msgstr "Lango &geometrija:"
+
+#~ msgid ""
+#~ "Enable this option if you want a window's geometry to be displayed while "
+#~ "it is being moved or resized. The window position relative to the top-"
+#~ "left corner of the screen is displayed together with its size."
+#~ msgstr ""
+#~ "Įjunkite šią parinktį, jei norite, kad lango geometrija būtų rodoma, kai "
+#~ "langas yra perkeliamas, ar yra keičiamas jo dydis. Kartu su lango dydžiu, "
+#~ "ekrane yra rodoma santykinė jo pozicija viršutinio kairiojo kampo "
+#~ "atžvilgiu."
+
+#~ msgid "Display when moving or resizing"
+#~ msgstr "Rodyti, perkeliant ar keičiant dydį"
+
+#~ msgid "Maximize (vertical only)"
+#~ msgstr "Išskleisti (tik vertikaliai)"
+
+#~ msgid "Maximize (horizontal only)"
+#~ msgstr "Išskleisti (tik horizontaliai)"
+
+#~ msgid "Smart"
+#~ msgstr "Išradingai"
+
+#~ msgid "Maximizing"
+#~ msgstr "Išdidinama"
+
+#, fuzzy
+#~| msgid "Zero-Cornered"
+#~ msgid "Zero-cornered"
+#~ msgstr "Zero-Cornered"
+
+#, fuzzy
+#~| msgid "Switch to Window Tab to the Left/Right"
+#~ msgid "Switch to window tab to the left/right"
+#~ msgstr "Pereiti į lango kortelę dešiniau/kairiau"
+
+#, fuzzy
+#~| msgid "Window Tabbing"
+#~ msgid "Window tabbing:"
+#~ msgstr "Langų kortelės"
+
+#~ msgid ""
+#~ "When turned on immediately switch to any new window tabs that were "
+#~ "automatically added to the current group."
+#~ msgstr ""
+#~ "Įjungus iškart perjungti į bet kurią naują lango korteles kurios buvo "
+#~ "automatiškai pridėtos prie konkrečios grupės."
+
+#, fuzzy
+#~| msgid "Switch to automatically grouped windows immediately"
+#~ msgid "&Switch to automatically grouped windows immediately"
+#~ msgstr "Iškart perjungti į automatiškai sugrupuotus langus"
+
+#~ msgid "When turned on hide all tabs that are not active from the taskbar."
+#~ msgstr "Įjungus slepia visas neaktyvias korteles užduočių juostoje."
+
+#, fuzzy
+#~| msgid "Hide inactive window tabs from the taskbar"
+#~ msgid "&Hide inactive window tabs from the taskbar"
+#~ msgstr "Slėpti neaktyvias langų korteles užduočių juostoje"
+
+#~ msgid ""
+#~ "When turned on attempt to automatically detect when a newly opened window "
+#~ "is related to an existing one and place them in the same window group."
+#~ msgstr ""
+#~ "Įjungus bando automatiškai aptikti, ar naujai atvertas langas yra susijęs "
+#~ "su veikiančiuoju ir sudėti juos į tą pačią langų grupę."
+
+#, fuzzy
+#~| msgid "Start Window Tab Drag"
+#~ msgid "Start window tab drag"
+#~ msgstr "Pradėti lango kortelės pertempimą"
+
+#~ msgid "Ri&ght button:"
+#~ msgstr "Dešinysis klavišas:"
+
+#~ msgid "&Wheel"
+#~ msgstr "&Pelės ratukas"
+
+#~ msgid "&Left button:"
+#~ msgstr "&Kairysis klavišas:"
+
+#~ msgid "&Right button:"
+#~ msgstr "&Dešinysis klavišas:"
+
+#~ msgid "M&iddle button:"
+#~ msgstr "V&idurinis klavišas:"
+
+#~ msgid "Left &button"
+#~ msgstr "&Kairysis klavišas"
+
+#~ msgid "Automatically group similar windows"
+#~ msgstr "Automatiškai rodyti panašius langus"
+
+#, fuzzy
+#~| msgid ""
+#~| "The placement policy determines where a new window will appear on the "
+#~| "desktop. <ul> <li><em>Smart</em> will try to achieve a minimum overlap "
+#~| "of windows</li> <li><em>Maximizing</em> will try to maximize every "
+#~| "window to fill the whole screen. It might be useful to selectively "
+#~| "affect placement of some windows using the window-specific settings.</"
+#~| "li> <li><em>Cascade</em> will cascade the windows</li> <li><em>Random</"
+#~| "em> will use a random position</li> <li><em>Centered</em> will place the "
+#~| "window centered</li> <li><em>Zero-Cornered</em> will place the window in "
+#~| "the top-left corner</li></ul>"
+#~ msgid ""
+#~ "The placement policy determines where a new window will appear on the "
+#~ "desktop.<br><ul>\n"
+#~ "<li><em>Smart</em> will try to achieve a minimum overlap of windows</li>\n"
+#~ "<li><em>Maximizing</em> will try to maximize every window to fill the "
+#~ "whole screen. It might be useful to selectively affect placement of some "
+#~ "windows using the window-specific settings.</li>\n"
+#~ "<li><em>Cascade</em> will cascade the windows</li>\n"
+#~ "<li><em>Random</em> will use a random position</li>\n"
+#~ "<li><em>Centered</em> will place the window centered</li>\n"
+#~ "<li><em>Zero-Cornered</em> will place the window in the top-left corner</"
+#~ "li>\n"
+#~ "<li><em>Under Mouse</em> will place the window under the pointer</li>\n"
+#~ "</ul>"
+#~ msgstr ""
+#~ "Dėliojimo taisyklė nurodo, kur, kurioje darbalaukio vietoje, pasirodys "
+#~ "naujas langas. <ul><li><em>Išradingai</em> stengiasi, kad langai kuo "
+#~ "mažiau užklotų vienas kitą;</li><li><em>Laiptuotai</em> sudėlios langus "
+#~ "laiptais;</li> <li><em>Išdidintai</em> bandys išdidinti kiekvieną langą, "
+#~ "kad šis užimtų visą ekraną. Ši taisyklė gali būti naudinga siekiant "
+#~ "pakeisti atskirų langų pasirodymą naudojant nuo lango priklausančias "
+#~ "nuostatas;</li> <li><em>Atsitiktinai</em> naudoja atsitiktinę vietą;</li> "
+#~ "<li><em>Centruotai</em> išdėlios langus centruotai;</li> <li><em>Nulinio "
+#~ "kampo</em> padės langą viršutiniame kairiajame kampe.</li></ul>"
+
+#~ msgid "Shading"
+#~ msgstr "Užtemdymas"
+
+#~ msgid "Dela&y:"
+#~ msgstr "Del&sa:"
+
+#~ msgid "&Enable hover"
+#~ msgstr "&Įjungti virpėjimą"
+
+#~ msgid "Activating windows"
+#~ msgstr "Langų aktyvavimas"
+
+#~ msgid "Policy"
+#~ msgstr "Taisyklė"
+
+#~ msgid "Click"
+#~ msgstr "Spustelėti"
+
+#~ msgid "Hover"
+#~ msgstr "Užvesti kursorių"
+
+#~ msgid "&Moving"
+#~ msgstr "Perkėli&mas"
+
+#~ msgid "Wheel event:"
+#~ msgstr "Ratuko įvykis:"
+
+#~ msgid "Handle mouse wheel events"
+#~ msgstr "Tvarkyti pelės ratuko įvykius"
+
+#~ msgid ""
+#~ "In this column you can customize mouse clicks into the titlebar or the "
+#~ "frame of an active window."
+#~ msgstr ""
+#~ "Šiame stulpelyje Jūs galite pakeisti pelės paspaudimo ant aktyvaus lango "
+#~ "antraštės juostos ar rėmelio poveikį."
+
+#~ msgid ""
+#~ "In this column you can customize mouse clicks into the titlebar or the "
+#~ "frame of an inactive window."
+#~ msgstr ""
+#~ "Šiame stulpelyje Jūs galite pakeisti pelės paspaudimo ant neaktyvaus "
+#~ "lango antraštės juostos ar rėmelio poveikį."
+
+#~ msgid "Left button:"
+#~ msgstr "Kairysis klavišas:"
+
+#~ msgid "Middle button:"
+#~ msgstr "Vidurinis klavišas:"
+
+#~ msgid ""
+#~ "Behavior on <em>middle</em> click into the titlebar or frame of an "
+#~ "<em>active</em> window."
+#~ msgstr ""
+#~ "Elgesys po <em>viduriniojo</em> pelės spragtelėjimo ant <em>aktyvaus</em> "
+#~ "lango antraštės juostos ar rėmelio."
+
+#~ msgid "Right button:"
+#~ msgstr "Dešinysis klavišas:"
+
+#~ msgid ""
+#~ "Behavior on <em>right</em> click into the titlebar or frame of an "
+#~ "<em>active</em> window."
+#~ msgstr ""
+#~ "Elgesys po <em>dešiniojo</em> pelės spragtelėjimo ant <em>aktyvaus</em> "
+#~ "lango antraštės juostos ar rėmelio."
+
+#~ msgid "Titlebar & Frame"
+#~ msgstr "Antraštės juosta ir rėmelis"
+
+#~ msgid "Titlebar"
+#~ msgstr "Antraštės juosta"
+
+#~ msgid "no center snap zone"
+#~ msgstr "ne centrinės pritraukimo zonos"
+
+#~ msgid "no window snap zone"
+#~ msgstr "be lango pritraukimo zonos"
+
+#~ msgid "no border snap zone"
+#~ msgstr "be rėmo pritraukimo zonos"
+
+#~ msgid "Windows"
+#~ msgstr "Langai"
+
+#~ msgid "Snap Zones"
+#~ msgstr "Traukos zonos"

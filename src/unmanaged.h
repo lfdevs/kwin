@@ -7,8 +7,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#ifndef KWIN_UNMANAGED_H
-#define KWIN_UNMANAGED_H
+#pragma once
 
 #include <netwm.h>
 
@@ -60,7 +59,7 @@ public:
     { /* nothing to do */
         return geometry;
     }
-    WindowItem *createItem() override;
+    std::unique_ptr<WindowItem> createItem(Scene *scene) override;
 
 public Q_SLOTS:
     void release(ReleaseReason releaseReason = ReleaseReason::Release);
@@ -79,5 +78,3 @@ private:
 };
 
 } // namespace
-
-#endif

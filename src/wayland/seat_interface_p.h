@@ -24,6 +24,7 @@ class AbstractDataSource;
 class DataDeviceInterface;
 class DataSourceInterface;
 class DataControlDeviceV1Interface;
+class TextInputV1Interface;
 class TextInputV2Interface;
 class TextInputV3Interface;
 class PrimarySelectionDeviceV1Interface;
@@ -47,7 +48,7 @@ public:
     SeatInterface *q;
     QPointer<Display> display;
     QString name;
-    quint32 timestamp = 0;
+    std::chrono::milliseconds timestamp = std::chrono::milliseconds::zero();
     quint32 accumulatedCapabilities = 0;
     quint32 capabilities = 0;
     std::unique_ptr<KeyboardInterface> keyboard;
@@ -57,6 +58,7 @@ public:
     QVector<PrimarySelectionDeviceV1Interface *> primarySelectionDevices;
     QVector<DataControlDeviceV1Interface *> dataControlDevices;
 
+    QPointer<TextInputV1Interface> textInputV1;
     // TextInput v2
     QPointer<TextInputV2Interface> textInputV2;
     QPointer<TextInputV3Interface> textInputV3;

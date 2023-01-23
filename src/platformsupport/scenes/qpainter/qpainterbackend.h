@@ -6,8 +6,7 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-#ifndef KWIN_SCENE_QPAINTER_BACKEND_H
-#define KWIN_SCENE_QPAINTER_BACKEND_H
+#pragma once
 
 #include "core/renderbackend.h"
 
@@ -21,9 +20,6 @@ class QString;
 namespace KWin
 {
 
-class SurfacePixmapInternal;
-class SurfacePixmapWayland;
-class SurfaceTexture;
 class Output;
 
 class KWIN_EXPORT QPainterBackend : public RenderBackend
@@ -35,8 +31,8 @@ public:
 
     CompositingType compositingType() const override final;
 
-    std::unique_ptr<SurfaceTexture> createSurfaceTextureInternal(SurfacePixmapInternal *pixmap);
-    std::unique_ptr<SurfaceTexture> createSurfaceTextureWayland(SurfacePixmapWayland *pixmap);
+    std::unique_ptr<SurfaceTexture> createSurfaceTextureInternal(SurfacePixmapInternal *pixmap) override;
+    std::unique_ptr<SurfaceTexture> createSurfaceTextureWayland(SurfacePixmapWayland *pixmap) override;
 
     /**
      * @brief Whether the creation of the Backend failed.
@@ -68,5 +64,3 @@ private:
 };
 
 } // KWin
-
-#endif

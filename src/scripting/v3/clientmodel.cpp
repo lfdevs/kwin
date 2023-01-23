@@ -6,7 +6,7 @@
 
 #include "clientmodel.h"
 #include "core/output.h"
-#include "core/platform.h"
+#include "core/outputbackend.h"
 #include "virtualdesktops.h"
 #include "window.h"
 #include "workspace.h"
@@ -21,7 +21,7 @@ ClientModel::ClientModel(QObject *parent)
     connect(workspace(), &Workspace::windowRemoved, this, &ClientModel::handleClientRemoved);
 
     m_clients = workspace()->allClientList();
-    for (Window *client : qAsConst(m_clients)) {
+    for (Window *client : std::as_const(m_clients)) {
         setupClientConnections(client);
     }
 }
@@ -186,7 +186,7 @@ QString ClientFilterModel::screenName() const
 
 void ClientFilterModel::setScreenName(const QString &screen)
 {
-    Output *output = kwinApp()->platform()->findOutput(screen);
+    Output *output = kwinApp()->outputBackend()->findOutput(screen);
     if (m_output != output) {
         m_output = output;
         Q_EMIT screenNameChanged();
@@ -290,16 +290,13 @@ bool ClientFilterModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourc
         if (client->caption().contains(m_filter, Qt::CaseInsensitive)) {
             return true;
         }
-        const QString windowRole(QString::fromUtf8(client->windowRole()));
-        if (windowRole.contains(m_filter, Qt::CaseInsensitive)) {
+        if (client->windowRole().contains(m_filter, Qt::CaseInsensitive)) {
             return true;
         }
-        const QString resourceName(QString::fromUtf8(client->resourceName()));
-        if (resourceName.contains(m_filter, Qt::CaseInsensitive)) {
+        if (client->resourceName().contains(m_filter, Qt::CaseInsensitive)) {
             return true;
         }
-        const QString resourceClass(QString::fromUtf8(client->resourceClass()));
-        if (resourceClass.contains(m_filter, Qt::CaseInsensitive)) {
+        if (client->resourceClass().contains(m_filter, Qt::CaseInsensitive)) {
             return true;
         }
         return false;

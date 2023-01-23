@@ -231,3 +231,30 @@ msgid ""
 "You can trigger an action by swiping from the screen edge towards the center "
 "of the screen."
 msgstr ""
+
+#~ msgid "Show Desktop"
+#~ msgstr "ئۈستەلئۈستىنى كۆرسەت"
+
+#, fuzzy
+#~| msgid "Cube"
+#~ msgid "%1 - Cube"
+#~ msgstr "Cube"
+
+#, fuzzy
+#~| msgid "Cylinder"
+#~ msgid "%1 - Cylinder"
+#~ msgstr "سىلىندىر"
+
+#, fuzzy
+#~| msgid "Sphere"
+#~ msgid "%1 - Sphere"
+#~ msgstr "شار"
+
+#~ msgid "Window Management"
+#~ msgstr "كۆزنەك باشقۇرۇش"
+
+#~ msgid "Other Settings"
+#~ msgstr "باشقا تەڭشەك"
+
+#~ msgid "Show Dashboard"
+#~ msgstr "تىزگىن تاختىنى كۆرسەت"

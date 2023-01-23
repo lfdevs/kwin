@@ -246,3 +246,49 @@ msgid ""
 msgstr ""
 "Для выполнения действия проведите по экрану от соответствующего края к "
 "центру экрана."
+
+#~ msgid "Show Desktop"
+#~ msgstr "Показать рабочий стол"
+
+#~ msgid "Desktop Grid"
+#~ msgstr "Все рабочие столы"
+
+#~ msgid "Toggle Overview"
+#~ msgstr "Режим обзора"
+
+#~ msgid "%1 - Cube"
+#~ msgstr "%1 — Куб"
+
+#~ msgid "%1 - Cylinder"
+#~ msgstr "%1 — Цилиндр"
+
+#~ msgid "%1 - Sphere"
+#~ msgstr "%1 — Сфера"
+
+#~ msgid "Active Screen Corners and Edges"
+#~ msgstr "Действия для краёв экрана"
+
+#~ msgid "Window Management"
+#~ msgstr "Управление окнами"
+
+#~ msgid "Maximize windows by dragging them to the top edge of the screen"
+#~ msgstr "Растягивать окно при перемещении его к верхнему краю экрана"
+
+#~ msgid "Quarter tiling triggered in the outer"
+#~ msgstr "Укладывать в четверть в крайних"
+
+#~ msgid "Other Settings"
+#~ msgstr "Задержки"
+
+#~ msgctxt "Open krunner"
+#~ msgid "Run Command"
+#~ msgstr "Выполнить команду"
+
+#~ msgid "Show Dashboard"
+#~ msgstr "Показать приборную доску Plasma"
+
+#~ msgid "Prevent Screen Locking"
+#~ msgstr "Запретить блокирование экрана"
+
+#~ msgid "Trigger &cooldown:"
+#~ msgstr "&Время заморозки после активации:"

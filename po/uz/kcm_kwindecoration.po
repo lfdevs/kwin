@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-26 02:35+0000\n"
+"POT-Creation-Date: 2022-10-26 00:47+0000\n"
 "PO-Revision-Date: 2005-10-20 21:45+0200\n"
 "Last-Translator: Mashrab Kuvatov <kmashrab@uni-bremen.de>\n"
 "Language-Team: Uzbek <floss-uz-l10n@googlegroups.com>\n"
@@ -290,3 +290,139 @@ msgstr "Bahaybat"
 #| msgid "Oversized"
 msgid "Oversized"
 msgstr "Juda bahaybat"
+
+#~ msgid "Menu"
+#~ msgstr "Menyu"
+
+#, fuzzy
+#~| msgid "Keep Below Others"
+#~ msgid "Keep below"
+#~ msgstr "Eng pastda"
+
+#, fuzzy
+#~| msgid "Keep Above Others"
+#~ msgid "Keep above"
+#~ msgstr "Eng yuqorida"
+
+#, fuzzy
+#~| msgid "&Window Decoration"
+#~ msgid "Download New Window Decorations"
+#~ msgstr "&Oynaning bezaki"
+
+#, fuzzy
+#~| msgid "B&order size:"
+#~ msgid "Border si&ze:"
+#~ msgstr "Che&garaning oʻlchami:"
+
+#, fuzzy
+#~| msgid "&Window Decoration"
+#~ msgid "Configure %1..."
+#~ msgstr "&Oynaning bezaki"
+
+#, fuzzy
+#~| msgid "Normal"
+#~ msgid "Form"
+#~ msgstr "Oddiy"
+
+#, fuzzy
+#~| msgid "Buttons"
+#~ msgid "Button size:"
+#~ msgstr "Tugmalar"
+
+#, fuzzy
+#~| msgid "Tiny"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Tiny"
+#~ msgstr "Juda kichik"
+
+#, fuzzy
+#~| msgid "Normal"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Normal"
+#~ msgstr "Oddiy"
+
+#, fuzzy
+#~| msgid "Large"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Large"
+#~ msgstr "Katta"
+
+#, fuzzy
+#~| msgid "Very Large"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Very Large"
+#~ msgstr "Juda katta"
+
+#, fuzzy
+#~| msgid "Huge"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Huge"
+#~ msgstr "Juda-juda katta"
+
+#, fuzzy
+#~| msgid "Very Huge"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Very Huge"
+#~ msgstr "Bahaybat"
+
+#, fuzzy
+#~| msgid "Oversized"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Oversized"
+#~ msgstr "Juda bahaybat"
+
+#~ msgid "KDE"
+#~ msgstr "KDE"
+
+#~ msgid "%1 (unavailable)"
+#~ msgstr "%1 (yoʻq)"
+
+#~ msgid "Resize"
+#~ msgstr "Oʻlchamini oʻzgartirish"
+
+#~ msgid "--- spacer ---"
+#~ msgstr "-- boʻsh joy --"
+
+#~ msgid "Use custom titlebar button &positions"
+#~ msgstr "Sarlavha tugmalarining &joyini koʻrsatish"
+
+#~ msgid "B&order size:"
+#~ msgstr "Che&garaning oʻlchami:"
+
+#~ msgid "Decoration Options"
+#~ msgstr "Bezakning parametrlari"
+
+#~ msgid "Window Decoration Control Module"
+#~ msgstr "Oynaning bezaki uchun boshqaruv moduli"
+
+#~ msgid "(c) 2001 Karol Szwed"
+#~ msgstr "(c) 2001 Karol Ssved (Karol Szwed)"
+
+#, fuzzy
+#~| msgid "(c) 2001 Karol Szwed"
+#~ msgid "Karol Szwed"
+#~ msgstr "(c) 2001 Karol Ssved (Karol Szwed)"
+
+#~ msgid "Active Window"
+#~ msgstr "Aktiv oyna"
+
+#~ msgid "Inactive Window"
+#~ msgstr "Aktiv boʻlmagan oyna"
+
+#~ msgid "kcmkwindecoration"
+#~ msgstr "kcmkwindecoration"
+
+#~ msgid ""
+#~ "No preview available.\n"
+#~ "Most probably there\n"
+#~ "was a problem loading the plugin."
+#~ msgstr ""
+#~ "Koʻrib chiqib boʻlmaydi.\n"
+#~ "Ehtimol, plaginni\n"
+#~ "yuklashda xato roʻy berdi."
+
+#~ msgid "&Buttons"
+#~ msgstr "Tu&gmalar"
+
+#~ msgid "KDE 2"
+#~ msgstr "KDE 2"

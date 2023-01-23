@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-01 02:26+0000\n"
+"POT-Creation-Date: 2023-01-18 00:58+0000\n"
 "PO-Revision-Date: 2019-12-12 22:14+0000\n"
 "Last-Translator: Vivek KJ Pazhedath <vivekkj2004@gmail.com>\n"
 "Language-Team: SMC <smc.org.in>\n"
@@ -55,6 +55,7 @@ msgstr ""
 #: mousemark/mousemark_config.cpp:50 overview/kcm/overvieweffectkcm.cpp:35
 #: showpaint/showpaint_config.cpp:33
 #: thumbnailaside/thumbnailaside_config.cpp:54
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:31
 #: trackmouse/trackmouse_config.cpp:52
 #: windowview/kcm/windowvieweffectkcm.cpp:36 zoom/zoom_config.cpp:58
 #, kde-format
@@ -193,14 +194,20 @@ msgstr ""
 msgid "Natural"
 msgstr "സാധാരണ"
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
+#: desktopgrid/desktopgrid_config.ui:147
+#, kde-format
+msgid "None"
+msgstr "ഉന്നുമല്ല"
+
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: desktopgrid/desktopgrid_config.ui:150
+#: desktopgrid/desktopgrid_config.ui:155
 #, kde-format
 msgid "Windows layout:"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: desktopgrid/desktopgrid_config.ui:166
+#: desktopgrid/desktopgrid_config.ui:171
 #, kde-format
 msgid "Activation"
 msgstr "പ്രാവര്‍ത്തികമാക്കല്‍"
@@ -303,10 +310,15 @@ msgstr "പ്രാവര്‍ത്തികമാക്കല്‍"
 msgid "Toggle Invert Effect"
 msgstr "മറിക്കല്‍ പ്രഭാവം ടോഗിള്‍ ചെയ്യുക"
 
-#: invert/invert.cpp:50 invert/invert_config.cpp:44
+#: invert/invert.cpp:49 invert/invert_config.cpp:44
 #, kde-format
 msgid "Toggle Invert Effect on Window"
 msgstr "ജാലകത്തില്‍ മറിക്കല്‍ പ്രഭാവം ടോഗിള്‍ ചെയ്യുക"
+
+#: invert/invert.cpp:56
+#, kde-format
+msgid "Invert Screen Colors"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FadeToBlack)
 #: login/package/contents/ui/config.ui:17
@@ -363,30 +375,30 @@ msgstr "&പൊക്കം:"
 msgid "Toggle Mouse Click Effect"
 msgstr "മറിക്കല്‍ പ്രഭാവം ടോഗിള്‍ ചെയ്യുക"
 
-#: mouseclick/mouseclick.cpp:42
+#: mouseclick/mouseclick.cpp:41
 #, fuzzy, kde-format
 msgctxt "Left mouse button"
 msgid "Left"
 msgstr "ഇടത്"
 
-#: mouseclick/mouseclick.cpp:43
+#: mouseclick/mouseclick.cpp:42
 #, kde-format
 msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr ""
 
-#: mouseclick/mouseclick.cpp:44
+#: mouseclick/mouseclick.cpp:43
 #, fuzzy, kde-format
 msgctxt "Right mouse button"
 msgid "Right"
 msgstr "വലതു്"
 
-#: mouseclick/mouseclick.h:61
+#: mouseclick/mouseclick.h:60
 #, kde-format
 msgid "↓"
 msgstr ""
 
-#: mouseclick/mouseclick.h:62
+#: mouseclick/mouseclick.h:61
 #, kde-format
 msgid "↑"
 msgstr ""
@@ -482,12 +494,12 @@ msgstr ""
 msgid "Show Text:"
 msgstr "പണിയിട വിതരണ ശ്രംഖല (ഗ്രിഡ്) കാണിക്കുക"
 
-#: mousemark/mousemark.cpp:36
+#: mousemark/mousemark.cpp:39
 #, kde-format
 msgid "Clear All Mouse Marks"
 msgstr "എല്ലാ മൌസ് പാടുകളും മായ്ചു കളയുക"
 
-#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:59
+#: mousemark/mousemark.cpp:45 mousemark/mousemark_config.cpp:59
 #, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr "അവസാനത്തെ മൌസ് പാടുകള്‍ മായിച്ചു കളയുക"
@@ -556,12 +568,12 @@ msgstr "പശ്ചാത്തലം"
 msgid "Ignore minimized windows:"
 msgstr "&മിനിമൈസ് ചെയ്തിരിക്കുന്ന ജാലകങ്ങള്‍ അവഗണിക്കുക"
 
-#: overview/qml/DesktopBar.qml:186
+#: overview/qml/DesktopBar.qml:187
 #, kde-format
 msgid "Delete Virtual Desktop"
 msgstr ""
 
-#: overview/qml/DesktopBar.qml:282
+#: overview/qml/DesktopBar.qml:283
 #, fuzzy, kde-format
 msgid "Add Virtual Desktop"
 msgstr "പണിയിട ക്യൂബ്"
@@ -572,12 +584,12 @@ msgstr "പണിയിട ക്യൂബ്"
 msgid "No matching windows"
 msgstr "നീങ്ങുന്ന ജാലകങ്ങള്‍:"
 
-#: private/qml/WindowHeapDelegate.qml:152
+#: private/qml/WindowHeapDelegate.qml:151
 #, kde-format
 msgid "Drag Down To Close"
 msgstr ""
 
-#: private/qml/WindowHeapDelegate.qml:462
+#: private/qml/WindowHeapDelegate.qml:461
 #, fuzzy, kde-format
 msgctxt "@info:tooltip as in: 'close this window'"
 msgid "Close window"
@@ -595,28 +607,28 @@ msgstr "പ്രാവര്‍ത്തികമാക്കല്‍"
 msgid "Window close scale:"
 msgstr "പ്രാവര്‍ത്തികമാക്കല്‍"
 
-#: screenshot/screenshotdbusinterface1.cpp:480
+#: screenshot/screenshotdbusinterface1.cpp:478
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr ""
 
-#: screenshot/screenshotdbusinterface1.cpp:481
+#: screenshot/screenshotdbusinterface1.cpp:479
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr ""
 
-#: screenshot/screenshotdbusinterface1.cpp:797
-#: screenshot/screenshotdbusinterface2.cpp:472
+#: screenshot/screenshotdbusinterface1.cpp:800
+#: screenshot/screenshotdbusinterface2.cpp:477
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
 
-#: screenshot/screenshotdbusinterface1.cpp:800
-#: screenshot/screenshotdbusinterface2.cpp:490
+#: screenshot/screenshotdbusinterface1.cpp:803
+#: screenshot/screenshotdbusinterface2.cpp:495
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -677,14 +689,8 @@ msgstr ""
 msgid "Vertical:"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideDocks)
-#: slide/slide_config.ui:72
-#, kde-format
-msgid "Slide docks"
-msgstr ""
-
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideBackground)
-#: slide/slide_config.ui:79
+#: slide/slide_config.ui:72
 #, fuzzy, kde-format
 msgid "Slide desktop background"
 msgstr "അനക്കുമ്പോള്‍ &കുലുക്കുക"
@@ -726,6 +732,47 @@ msgstr "&അതാര്യത:"
 #, no-c-format, kde-format
 msgid " %"
 msgstr " %"
+
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:37
+#: tileseditor/tileseditoreffect.cpp:29
+#, kde-format
+msgid "Toggle Tiles Editor"
+msgstr ""
+
+#: tileseditor/qml/main.qml:147
+#, kde-format
+msgid "Padding:"
+msgstr ""
+
+#: tileseditor/qml/main.qml:157
+#, kde-format
+msgid "Load Layout..."
+msgstr ""
+
+#: tileseditor/qml/main.qml:271
+#, kde-format
+msgid "Close"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:171
+#, kde-format
+msgid "Split Horizontally"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:178
+#, kde-format
+msgid "Split Vertically"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:186 tileseditor/qml/TileDelegate.qml:215
+#, kde-format
+msgid "Add Floating Tile"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:195
+#, kde-format
+msgid "Delete"
+msgstr ""
 
 #: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:57
 #, kde-format
@@ -861,17 +908,17 @@ msgstr "കീറി-പോയിരിക്കുന്ന വിഭവസൂ�
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "നിലവിലുള്ള ജാലകങ്ങള്‍ ടോഗിള്‍ ചെയ്യുക (നിലവിലുള്ള പണിയിടത്തിനായി)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:55
+#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:54
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "നിലവിലുള്ള ജാലകങ്ങള്‍ ടോഗിള്‍ ചെയ്യുക (എല്ലാ പണിയിടങ്ങള്‍ക്കുമായി)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:65
+#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:63
 #, fuzzy, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "നിലവിലുള്ള ജാലകങ്ങള്‍ ടോഗിള്‍ ചെയ്യുക (എല്ലാ പണിയിടങ്ങള്‍ക്കുമായി)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:75
+#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:72
 #, fuzzy, kde-format
 #| msgid "Toggle Present Windows (Current desktop)"
 msgid "Toggle Present Windows (Window class on current desktop)"
@@ -883,15 +930,20 @@ msgstr "നിലവിലുള്ള ജാലകങ്ങള്‍ ടോഗ�
 msgid "Ignore &minimized windows"
 msgstr "&മിനിമൈസ് ചെയ്തിരിക്കുന്ന ജാലകങ്ങള്‍ അവഗണിക്കുക"
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, kde-format
 msgid "No Matches"
 msgstr ""
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, fuzzy, kde-format
 msgid "No Windows"
 msgstr "&കുലുക്കം"
+
+#: windowview/qml/main.qml:123
+#, fuzzy, kde-format
+msgid "Filter windows…"
+msgstr "&അലങ്കരിച്ച ജാലകങ്ങള്‍"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20
@@ -953,32 +1005,32 @@ msgstr "കുറവു്"
 msgid "More"
 msgstr "കൂടുതല്‍"
 
-#: zoom/zoom.cpp:68
+#: zoom/zoom.cpp:65
 #, kde-format
 msgid "Move Zoomed Area to Left"
 msgstr ""
 
-#: zoom/zoom.cpp:76
+#: zoom/zoom.cpp:72
 #, kde-format
 msgid "Move Zoomed Area to Right"
 msgstr ""
 
-#: zoom/zoom.cpp:84
+#: zoom/zoom.cpp:79
 #, kde-format
 msgid "Move Zoomed Area Upwards"
 msgstr ""
 
-#: zoom/zoom.cpp:92
+#: zoom/zoom.cpp:86
 #, kde-format
 msgid "Move Zoomed Area Downwards"
 msgstr ""
 
-#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:108
+#: zoom/zoom.cpp:94 zoom/zoom_config.cpp:108
 #, kde-format
 msgid "Move Mouse to Focus"
 msgstr ""
 
-#: zoom/zoom.cpp:109 zoom/zoom_config.cpp:115
+#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:115
 #, kde-format
 msgid "Move Mouse to Center"
 msgstr ""
@@ -1109,3 +1161,585 @@ msgstr "പ്രവര്‍ത്തനരഹിതമാക്കിയിര
 #, kde-format
 msgid "Mouse Tracking:"
 msgstr ""
+
+#~ msgid "&Radius:"
+#~ msgstr "&റേഡിയസ് (വ്യാസാര്‍ദ്ധം):"
+
+#~ msgid "Text position:"
+#~ msgstr "പദാവലിയുടെ സ്ഥാനം:"
+
+#~ msgid "Inside Graph"
+#~ msgstr "അകത്തുള്ള ഗ്രാഫ്"
+
+#~ msgid "Nowhere"
+#~ msgstr "എവിടെയുമില്ല"
+
+#~ msgid "Top Left"
+#~ msgstr "മുകള്‍ ഇടത്തു"
+
+#~ msgid "Top Right"
+#~ msgstr "മുകള്‍ വലതു"
+
+#~ msgid "Bottom Left"
+#~ msgstr "താഴെ ഇടത്തു"
+
+#~ msgid "Bottom Right"
+#~ msgstr "താഴെ വലതു"
+
+#~ msgid "Text font:"
+#~ msgstr "പദാവലിയുടെ അക്ഷരസഞ്ചയം:"
+
+#~ msgid "Text color:"
+#~ msgstr "പദാവലിയുടെ നിറം:"
+
+#~ msgid "Text alpha:"
+#~ msgstr "പദാവലിയുടെ ആല്‍ഫ:"
+
+#, fuzzy
+#~| msgid "Show caps"
+#~ msgid "Show graph:"
+#~ msgstr "ക്യാപ്സ് (വലിയ അക്ഷരങ്ങള്‍) കാണിക്കുക"
+
+#, fuzzy
+#~ msgid "Show Message:"
+#~ msgstr "പണിയിട വിതരണ ശ്രംഖല (ഗ്രിഡ്) കാണിക്കുക"
+
+#~ msgid "Zoom &duration:"
+#~ msgstr "സൂം ചെയ്യേണ്ട (വലിപ്പം കൂട്ടേണ്ട) ദൈര്‍ഘ്യം"
+
+#, fuzzy
+#~ msgctxt "Duration of zoom"
+#~ msgid "Default"
+#~ msgstr "സഹജമായ"
+
+#, fuzzy
+#~ msgid "Border wid&th:"
+#~ msgstr "&പരിധി വീതി:"
+
+#, fuzzy
+#~ msgid "Switch desktop only"
+#~ msgstr "പണിയിട വിതരണ ശ്രംഖല (ഗ്രിഡ്) കാണിക്കുക"
+
+#~ msgid "Natural Layout Settings"
+#~ msgstr "സാധാരണ വിന്യാസ സജ്ജീകരണങ്ങള്‍"
+
+#~ msgid "Fill &gaps"
+#~ msgstr "&വിടവുകള്‍ നിറക്കുക"
+
+#~ msgid "Faster"
+#~ msgstr "കൂടുതല്‍ വേഗത്തില്‍"
+
+#~ msgid "Nicer"
+#~ msgstr "കൂടുതല്‍ നന്നായി"
+
+#, fuzzy
+#~ msgid "Activate window"
+#~ msgstr "സജീവമല്ലാത്ത ജാലകങ്ങള്‍:"
+
+#, fuzzy
+#~ msgid "Bring window to current desktop"
+#~ msgstr "നിലവിലുള്ള ജാലകങ്ങള്‍ ടോഗിള്‍ ചെയ്യുക (നിലവിലുള്ള പണിയിടത്തിനായി)"
+
+#, fuzzy
+#~ msgid "Send window to all desktops"
+#~ msgstr "നിലവിലുള്ള ജാലകങ്ങള്‍ ടോഗിള്‍ ചെയ്യുക (എല്ലാ പണിയിടങ്ങള്‍ക്കുമായി)"
+
+#, fuzzy
+#~ msgid "(Un-)Minimize window"
+#~ msgstr "&മിനിമൈസ് ചെയ്തിരിക്കുന്ന ജാലകങ്ങള്‍ അവഗണിക്കുക"
+
+#, fuzzy
+#~ msgctxt "@title:group actions when clicking on desktop"
+#~ msgid "Desktop"
+#~ msgstr "പണിയിട ക്യൂബ്"
+
+#, fuzzy
+#~ msgid "Show desktop"
+#~ msgstr "പണിയിട വിതരണ ശ്രംഖല (ഗ്രിഡ്) കാണിക്കുക"
+
+#~ msgid "Display window &titles"
+#~ msgstr "ജാലക &തലകെട്ടുകള്‍ കാണിക്കുക"
+
+#~ msgid "Display window &icons"
+#~ msgstr "ജാലക &ചിഹ്നങ്ങള്‍ കാണിക്കുക"
+
+#, fuzzy
+#~ msgid "Show &panels"
+#~ msgstr "ക്യാപ്സ് (വലിയ അക്ഷരങ്ങള്‍) കാണിക്കുക"
+
+#~ msgid "Regular Grid"
+#~ msgstr "സാധാരണ വലയം (ഗ്രിഡ്)"
+
+#~ msgid "Flexible Grid"
+#~ msgstr "മാറ്റാവുന്ന വലയം (ഗ്രിഡ്)"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr ""
+#~ "shijualexonline@gmail.com,snalledam@dataone.in,vivekkj2004@gmail.com"
+
+#, fuzzy
+#~ msgid "Scale window"
+#~ msgstr "&മറ്റുള്ള എല്ലാ ജാലകങ്ങളും"
+
+#, fuzzy
+#~ msgid "Display for moving windows"
+#~ msgstr "ജാലക &ചിഹ്നങ്ങള്‍ കാണിക്കുക"
+
+#, fuzzy
+#~ msgid "Display for resizing windows"
+#~ msgstr "ജാലക &ചിഹ്നങ്ങള്‍ കാണിക്കുക"
+
+#, fuzzy
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Color Picker"
+#~ msgstr "&നിറം:"
+
+#, fuzzy
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Background contrast"
+#~ msgstr "പശ്ചാത്തല നിറം:"
+
+#, fuzzy
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Grid"
+#~ msgstr "പണിയിട വിതരണ ശ്രംഖല (ഗ്രിഡ്) കാണിക്കുക"
+
+#, fuzzy
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Darken inactive windows"
+#~ msgstr "സജീവമല്ലാത്ത ജാലകങ്ങള്‍:"
+
+#, fuzzy
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Closed windows fall into pieces"
+#~ msgstr "നിലവിലുള്ള ജാലകങ്ങള്‍ ടോഗിള്‍ ചെയ്യുക (എല്ലാ പണിയിടങ്ങള്‍ക്കുമായി)"
+
+#, fuzzy
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Click Animation"
+#~ msgstr "പ്രാവര്‍ത്തികമാക്കല്‍"
+
+#, fuzzy
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Mark"
+#~ msgstr "മൌസ് പാടുകള്‍ മായിച്ചു കളയുക"
+
+#, fuzzy
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Resize Window"
+#~ msgstr "&മറ്റുള്ള എല്ലാ ജാലകങ്ങളും"
+
+#, fuzzy
+#~| msgid "Transparent"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Transform"
+#~ msgstr "സുതാര്യം"
+
+#, fuzzy
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show Paint"
+#~ msgstr "ക്യാപ്സ് (വലിയ അക്ഷരങ്ങള്‍) കാണിക്കുക"
+
+#, fuzzy
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Slide desktops when switching virtual desktops"
+#~ msgstr "പണിയിടങ്ങള്‍ മാറുമ്പോള്‍ ക്യൂബ് കാണിക്കുക"
+
+#, fuzzy
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Thumbnail Aside"
+#~ msgstr "നഖചിത്രം പട്ട"
+
+#, fuzzy
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display window geometries on move/resize"
+#~ msgstr "ജാലക &ചിഹ്നങ്ങള്‍ കാണിക്കുക"
+
+#, fuzzy
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Deform windows while they are moving"
+#~ msgstr "ജാലകം &മാറാന്‍ ഉപയോഗിക്കുക"
+
+#, fuzzy
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Zoom"
+#~ msgstr "വലുതാക്കുക"
+
+#, fuzzy
+#~ msgctxt "Special entry in alt+tab list for minimizing all windows"
+#~ msgid "Show Desktop"
+#~ msgstr "പണിയിട വിതരണ ശ്രംഖല (ഗ്രിഡ്) കാണിക്കുക"
+
+#~ msgid "Zoom"
+#~ msgstr "വലുതാക്കുക"
+
+#~ msgid "Define how far away the windows should appear"
+#~ msgstr "വസ്തു എത്ര ദൂരത്തില്‍ തോന്നണം എന്ന് വ്യക്തമാക്കുക"
+
+#~ msgid "Near"
+#~ msgstr "അടുത്തു്"
+
+#~ msgid "Far"
+#~ msgstr "ദൂരെ"
+
+#, fuzzy
+#~ msgid "Animation"
+#~ msgstr "പ്രാവര്‍ത്തികമാക്കല്‍"
+
+#~ msgid "Animate switch"
+#~ msgstr "&സ്വിച്ച് ആനിമേറ്റ് ചെയ്യുക (ജീവിപ്പിക്കുക)"
+
+#~ msgid "Animation on tab box open"
+#~ msgstr "കിളിവാതില്‍ ചതുരം &തുറക്കുമ്പോള്‍ ആനിമേഷന്‍ (സജീവമാക്കല്‍)"
+
+#~ msgid "Animation on tab box close"
+#~ msgstr "കിളിവാതില്‍ ചതുരം &അടയ്ക്കുമ്പോള്‍ ആനിമേഷന്‍ (സജീവമാക്കല്‍)"
+
+#~ msgid "Reflections"
+#~ msgstr "&പ്രതിബിംബങ്ങള്‍"
+
+#, fuzzy
+#~ msgid "Rear color"
+#~ msgstr "ക്യാപ്  നിറം:"
+
+#, fuzzy
+#~ msgid "Front color"
+#~ msgstr "പശ്ചാത്തല നിറം:"
+
+#~ msgid "Desktop Cube"
+#~ msgstr "പണിയിട ക്യൂബ്"
+
+#, fuzzy
+#~ msgid "Desktop Cylinder"
+#~ msgstr "പണിയിട ക്യൂബ്"
+
+#, fuzzy
+#~ msgid "Desktop Sphere"
+#~ msgstr "പണിയിട ക്യൂബ്"
+
+#~ msgctxt "@title:tab Basic Settings"
+#~ msgid "Basic"
+#~ msgstr "അടിസ്ഥാനപരം"
+
+#~ msgctxt "@title:tab Advanced Settings"
+#~ msgid "Advanced"
+#~ msgstr "സങ്കീര്‍ണമായ"
+
+#~ msgid "Tab 1"
+#~ msgstr "കിളിവാതില്‍ 1"
+
+#~ msgid "Background color:"
+#~ msgstr "പശ്ചാത്തല നിറം:"
+
+#~ msgid "Wallpaper:"
+#~ msgstr "പശ്ചാത്തല ചിത്രം:"
+
+#~ msgid "Display desktop name"
+#~ msgstr "പണിയിട പേരു്‌ കാണിക്കുക"
+
+#~ msgid "Reflection"
+#~ msgstr "പ്രതിബിംബം"
+
+#~ msgid "Rotation duration:"
+#~ msgstr "കറക്കേണ്ട സമയം:"
+
+#~ msgid "Opacity"
+#~ msgstr "അതാര്യത"
+
+#~ msgid "Tab 2"
+#~ msgstr "കിളിവാതില്‍ 2"
+
+#~ msgid "Caps"
+#~ msgstr "ക്യാപ്സ് (വലിയ അക്ഷരങ്ങള്‍)"
+
+#~ msgid "Cap color:"
+#~ msgstr "ക്യാപ്  നിറം:"
+
+#~ msgid "Display image on caps"
+#~ msgstr "ക്യാപ്സ് അമര്‍ത്തുമ്പോള്‍ ചിത്രം കാണിക്കുക"
+
+#~ msgid "Define how far away the object should appear"
+#~ msgstr "വസ്തു എത്ര ദൂരത്തില്‍ തോന്നണം എന്ന് വ്യക്തമാക്കുക"
+
+#~ msgid "Additional Options"
+#~ msgstr "കൂടുതല്‍ ഐച്ഛികങ്ങള്‍"
+
+#~ msgid ""
+#~ "If enabled the effect will be deactivated after rotating the cube with "
+#~ "the mouse,\n"
+#~ "otherwise it will remain active"
+#~ msgstr ""
+#~ "പ്രാവര്‍ത്തികമാക്കിയാല്‍, ക്യൂബ് മൗസ് ഉപയോഗിച്ച് കറക്കിയതിനു ശേഷം പ്രഭാവം നിര്‍"
+#~ "ജ്ജീവമാക്കപെടും,\n"
+#~ "അല്ലെങ്കില്‍ അതു സജീവമായിരിക്കും"
+
+#~ msgid "Close after mouse dragging"
+#~ msgstr "മൌസ് വലിച്ചു നീക്കിയതിനു ശേഷം അടയ്ക്കുക"
+
+#~ msgid "Use this effect for walking through the desktops"
+#~ msgstr "പണിയിടങ്ങളില്‍ കൂടി നടന്ന് നോക്കുവാന്‍ ഈ പ്രഭാവം ഉപയോഗിക്കുക"
+
+#, fuzzy
+#~ msgid "Sphere Cap Deformation"
+#~ msgstr "തൊപ്പി (കാപ്) മാറ്റങ്ങള്‍ "
+
+#~ msgid "Sphere"
+#~ msgstr "ഗോളം"
+
+#~ msgid "Plane"
+#~ msgstr "നിലം"
+
+#, fuzzy
+#~ msgid "Do not animate windows on all desktops"
+#~ msgstr "നിലവിലുള്ള ജാലകങ്ങള്‍ ടോഗിള്‍ ചെയ്യുക (എല്ലാ പണിയിടങ്ങള്‍ക്കുമായി)"
+
+#, fuzzy
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube"
+#~ msgstr "പണിയിട ക്യൂബ്"
+
+#, fuzzy
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube Animation"
+#~ msgstr "പണിയിട ക്യൂബ്"
+
+#, fuzzy
+#~ msgid "Toggle Flip Switch (Current desktop)"
+#~ msgstr "നിലവിലുള്ള ജാലകങ്ങള്‍ ടോഗിള്‍ ചെയ്യുക (നിലവിലുള്ള പണിയിടത്തിനായി)"
+
+#, fuzzy
+#~ msgid "Toggle Flip Switch (All desktops)"
+#~ msgstr "നിലവിലുള്ള ജാലകങ്ങള്‍ ടോഗിള്‍ ചെയ്യുക (എല്ലാ പണിയിടങ്ങള്‍ക്കുമായി)"
+
+#, fuzzy
+#~ msgid "Flip animation duration:"
+#~ msgstr "ഫ്ലി&പ്പ് അനിമേഷന്‍ (ജീവിപ്പിക്കേണ്ട) സമയം:"
+
+#, fuzzy
+#~ msgctxt "Duration of flip animation"
+#~ msgid "Default"
+#~ msgstr "സഹജമായ"
+
+#~ msgid ""
+#~ "Filter:\n"
+#~ "%1"
+#~ msgstr ""
+#~ "അരിപ്പ:\n"
+#~ "%1"
+
+#, fuzzy
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Minimize Animation"
+#~ msgstr "പ്രാവര്‍ത്തികമാക്കല്‍"
+
+#, fuzzy
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Animate the minimizing of windows"
+#~ msgstr "&മിനിമൈസ് ചെയ്തിരിക്കുന്ന ജാലകങ്ങള്‍ അവഗണിക്കുക"
+
+#~ msgid "Apply effect to &panels"
+#~ msgstr "&പാളികളുടെ മുകളില്‍ പ്രഭാവം പ്രാവര്‍ത്തികമാക്കുക"
+
+#~ msgid "Apply effect to the desk&top"
+#~ msgstr "&പണിയിടത്തില്‍ പ്രഭാവം പ്രാവര്‍ത്തികമാക്കുക "
+
+#, fuzzy
+#~ msgid "Apply effect to &keep-above windows"
+#~ msgstr "&പാളികളുടെ മുകളില്‍ പ്രഭാവം പ്രാവര്‍ത്തികമാക്കുക"
+
+#~ msgid "Apply effect to &groups"
+#~ msgstr "&കൂട്ടങ്ങള്‍ക്ക് പ്രഭാവം പ്രാവര്‍ത്തികമാക്കുക "
+
+#, fuzzy
+#~ msgctxt "Duration of the slide animation"
+#~ msgid "Default"
+#~ msgstr "സഹജമായ"
+
+#, fuzzy
+#~ msgctxt "More brightness"
+#~ msgid "Lighter"
+#~ msgstr "വലതു്"
+
+#, fuzzy
+#~ msgid "ms"
+#~ msgstr "മില്ലി-സെക്കന്റ് (msec)"
+
+#, fuzzy
+#~ msgid "Apply blur effect to background"
+#~ msgstr "&കൂട്ടങ്ങള്‍ക്ക് പ്രഭാവം പ്രാവര്‍ത്തികമാക്കുക "
+
+#~ msgid "Decorations:"
+#~ msgstr "അലങ്കാരങ്ങള്‍:"
+
+#~ msgid "Background window &opacity:"
+#~ msgstr "പശ്ചാത്തല ജാലകവും &അതാര്യതയും:"
+
+#~ msgid "&Elevate selected window"
+#~ msgstr "തിരഞ്ഞെടുത്ത ജാലകം &മുകളിലേക്ക് നീക്കുക"
+
+#~ msgid "&Animate walk through windows"
+#~ msgstr "വാക്ക്-ത്രൂ ജാലകങ്ങള്‍ &ജീവിപ്പിക്കുക (ആനിമേറ്റ് ചെയ്യുക)"
+
+#~ msgid "Use additional thumbnail bar"
+#~ msgstr "വിസ്തരിച്ച നഖചിത്രപട്ട ഉപയോഗിക്കുക"
+
+#~ msgid ""
+#~ "Only show thumbnail bar if there are at least specified number of windows"
+#~ msgstr "വ്യക്തമാക്കിയ അത്രയും ജാലകങ്ങള്‍ ഉണ്ടെങ്കില്‍ മാത്രം നഖച്ചിത്രപട്ട കാണിക്കുക"
+
+#~ msgid "Dynamic mode"
+#~ msgstr "ഡൈനാമിക് ദശ"
+
+#~ msgid "Number of windows:"
+#~ msgstr "&ജാലകങ്ങളുടെ എണ്ണം:"
+
+#, fuzzy
+#~ msgid " row"
+#~ msgid_plural " rows"
+#~ msgstr[0] " വരികള്‍"
+#~ msgstr[1] " വരികള്‍"
+
+#, fuzzy
+#~ msgctxt "Duration of fading"
+#~ msgid "Default"
+#~ msgstr "സഹജമായ"
+
+#~ msgid "Toggle Video Recording"
+#~ msgstr "വീഡിയോ റിക്കോര്‍ഡിങ്ങ് ടോഗിള്‍ ചെയ്യുക"
+
+#~ msgid "Path to save video:"
+#~ msgstr "വീഡിയോ സൂക്ഷിക്കേണ്ട പാത:"
+
+#~ msgid "Snow"
+#~ msgstr "മഞ്ഞു്"
+
+#~ msgid "Toggle Snow on Desktop"
+#~ msgstr "പണിയിടത്തില്‍ മഞ്ഞു് ടോഗിള്‍ ചെയ്യുക"
+
+#, fuzzy
+#~ msgid " pixel/frame"
+#~ msgid_plural " pixels/frame"
+#~ msgstr[0] " പിക്സെല്‍/ഫ്രേം"
+#~ msgstr[1] " പിക്സെല്‍/ഫ്രേം"
+
+#~ msgctxt "@action Enables/Disables an effect that makes windows more sharp"
+#~ msgid "Toggle Sharpen Effect"
+#~ msgstr "മൂര്‍ച്ച കൂട്ടല്‍ പ്രഭാവം ടോഗിള്‍ ചെയ്യുക"
+
+#~ msgid "&Number of snowflakes:"
+#~ msgstr "&മഞ്ഞുതുള്ളികളുടെ എണ്ണം:"
+
+#~ msgid "M&inimum size of snowflake:"
+#~ msgstr "മഞ്ഞുതുള്ളിയുടെ ഏറ്റവും &കൂറഞ്ഞ വലിപ്പം:"
+
+#~ msgid "M&aximum size of snowflake:"
+#~ msgstr "മഞ്ഞുതുള്ളിയുടെ ഏറ്റവും &കൂടുതല്‍ വലിപ്പം:"
+
+#~ msgid "Maximum &vertical speed:"
+#~ msgstr "ഏറ്റവും കൂടാവുന്ന &ലംബത്തിലുള്ള വേഗത:"
+
+#~ msgid "Maximum &horizontal speed:"
+#~ msgstr "ഏറ്റവും കൂടുതല്‍ &തിരശ്ചീനമായ വേഗത:"
+
+#~ msgid "Snow &behind windows"
+#~ msgstr "&പിറകിലുള്ള ജാലകങ്ങള്‍ കാണിയ്ക്കുക"
+
+#~ msgid "&X offset:"
+#~ msgstr "&എക്സ് ഓഫ്സെറ്റ്:"
+
+#~ msgid "&Y offset:"
+#~ msgstr "&വൈ ഓഫ്സെറ്റ്:"
+
+#~ msgid "%"
+#~ msgstr "%"
+
+#~ msgid "&Fuzziness:"
+#~ msgstr "&ഫസ്സിനെസ്സ്:"
+
+#~ msgid "&Size:"
+#~ msgstr "&വലിപ്പം:"
+
+#, fuzzy
+#~ msgid "&Active windows have stronger shadows"
+#~ msgstr "&സജീവമായ ജാലകത്തിനു് ഏറെ ശക്തമായ നിഴല്‍"
+
+#, fuzzy
+#~ msgid "Background brightness"
+#~ msgstr "പശ്ചാത്തലം"
+
+#, fuzzy
+#~ msgid "Background saturation"
+#~ msgstr "പശ്ചാത്തലം"
+
+#~ msgid "Hold Ctrl+Meta keys to see where the mouse cursor is."
+#~ msgstr "മൌസ് കര്‍സര്‍ എവിടെയെന്നു കാണാന്‍ Ctrl+Meta കീകള്‍ അമര്‍ത്തി പിടിക്കുക."
+
+#~ msgid "Rearrange &duration:"
+#~ msgstr "വീണ്ടും ഒരുക്കുന്നതിന്റെ &ദൈര്‍ഘ്യം:"
+
+#, fuzzy
+#~ msgctxt "Duration of rearrangement"
+#~ msgid "Default"
+#~ msgstr "സഹജമായ"
+
+#~ msgid "Animate &flip"
+#~ msgstr "&ഫ്ലിപ്പ് ആനിമേറ്റ് ചെയ്യുക (സജീവമാക്കുക) "
+
+#~ msgid "Custom..."
+#~ msgstr "ഇഷ്ടപ്പെട്ടത് ..."
+
+#~ msgid "Default Shadow"
+#~ msgstr "സ്വാഭാവികമായ നിഴല്‍"
+
+#~ msgid "Decoration Shadows"
+#~ msgstr "അലങ്കാര നിഴലുകള്‍"
+
+#~ msgid "Force default shadows for:"
+#~ msgstr "സ്വാഭാവികമായ നിഴലുകള്‍ ഇവക്കു് നിര്‍ബന്ധിതമാക്കുക:"
+
+#~ msgid "&Undecorated normal windows"
+#~ msgstr "&അലങ്കരിക്കാത്ത സാധാരണ ജാലകങ്ങള്‍"
+
+#~ msgid ""
+#~ "If enabled span the cube across all screens on a multiscreen setup, "
+#~ "otherwise\n"
+#~ "the cube will only be displayed on a single screen"
+#~ msgstr ""
+#~ "പ്രാവര്‍ത്തികമാക്കിയാല്‍ ക്യൂബ് എല്ലാ സ്ക്രീനുകളിലൂടെ ഉണ്ടാകും, ഒരു മള്‍ടി-സ്ക്രീന്‍ സെറ്റപ്പില്‍, "
+#~ "അല്ലെങ്കില്‍ \n"
+#~ "ക്യൂബ് ഒറ്റ സ്ക്രീനില്‍ മാത്രമായി കാണിക്കും"
+
+#~ msgid "Span cube on all screens in multi screen setup"
+#~ msgstr "ഒരു മള്‍ടി-സ്ക്രീന്‍ സെറ്റപ്പില്‍ ക്യൂബ് എല്ലാ സ്ക്രീനുകളിലൂടെയും സ്പാന്‍ ചെയ്യുക"
+
+#~ msgid ""
+#~ "If enabled the effect will be deactivated after rotating the cylinder "
+#~ "with the mouse,\n"
+#~ "otherwise it will remain active."
+#~ msgstr ""
+#~ "പ്രാവര്‍ത്തികമാക്കിയാല്‍, സിലിണ്ടര്‍ മൗസ് ഉപയോഗിച്ച് കറക്കിയതിനു ശേഷം പ്രഭാവം നിര്‍"
+#~ "ജ്ജീവമാക്കപെടും,\n"
+#~ "അല്ലെങ്കില്‍ അതു സജീവമായിരിക്കും"
+
+#~ msgid ""
+#~ "If enabled the effect will be deactivated after rotating the sphere with "
+#~ "the mouse,\n"
+#~ "otherwise it will remain active"
+#~ msgstr ""
+#~ "പ്രാവര്‍ത്തികമാക്കിയാല്‍, ഗോളം മൗസ് ഉപയോഗിച്ച് കറക്കിയതിനു ശേഷം പ്രഭാവം നിര്‍"
+#~ "ജ്ജീവമാക്കപെടും,\n"
+#~ "അല്ലെങ്കില്‍ അതു സജീവമായിരിക്കും"
+
+#, fuzzy
+#~ msgid "Fix panels while switching desktops"
+#~ msgstr "പണിയിടങ്ങള്‍ മാറുമ്പോള്‍ ക്യൂബ് കാണിക്കുക"
+
+#~ msgid "Shadow opacity:"
+#~ msgstr "നിഴല്‍ അതാര്യത (ഒപേസിറ്റി)"
+
+#~ msgid "Shadow size (relative to window):"
+#~ msgstr "നിഴല്‍ വലുപ്പം (ജാലകത്തിനോടു താരതമ്യപ്പെടുത്തുംബോള്‍)"
+
+#~ msgid "Shadow color:"
+#~ msgstr "നിഴല്‍ നിറം"

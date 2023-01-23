@@ -15,9 +15,9 @@
 #include "kwineffects.h"
 #include "kwingltexture.h"
 #include "kwinglutils.h"
-#include "scene.h"
-#include "window.h"
-#include "windowitem.h"
+#include "scene/itemrenderer.h"
+#include "scene/windowitem.h"
+#include "scene/workspacescene.h"
 
 namespace KWin
 {
@@ -25,6 +25,7 @@ namespace KWin
 WindowScreenCastSource::WindowScreenCastSource(Window *window, QObject *parent)
     : ScreenCastSource(parent)
     , m_window(window)
+    , m_offscreenRef(window)
 {
     connect(m_window, &Window::windowClosed, this, &ScreenCastSource::closed);
 }
@@ -57,11 +58,12 @@ void WindowScreenCastSource::render(GLFramebuffer *target)
 
     WindowPaintData data;
     data.setProjectionMatrix(projectionMatrix);
+    data.setRenderTargetScale(1.0);
 
     GLFramebuffer::pushFramebuffer(target);
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glClear(GL_COLOR_BUFFER_BIT);
-    Compositor::self()->scene()->render(m_window->windowItem(), Scene::PAINT_WINDOW_TRANSFORMED, infiniteRegion(), data);
+    Compositor::self()->scene()->renderer()->renderItem(m_window->windowItem(), Scene::PAINT_WINDOW_TRANSFORMED, infiniteRegion(), data);
     GLFramebuffer::popFramebuffer();
 }
 

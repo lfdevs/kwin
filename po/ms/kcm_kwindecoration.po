@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-26 02:35+0000\n"
+"POT-Creation-Date: 2022-10-26 00:47+0000\n"
 "PO-Revision-Date: 2010-08-08 23:05+0800\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@gmail.com>\n"
 "Language-Team: Malay <kedidiemas@yahoogroups.com>\n"
@@ -298,3 +298,212 @@ msgstr "Sangat Teramat Besar"
 #| msgid "Oversized"
 msgid "Oversized"
 msgstr "Lebihsaiz"
+
+#~ msgid "Menu"
+#~ msgstr "Menu"
+
+#, fuzzy
+#~| msgid "Keep Below Others"
+#~ msgid "Keep below"
+#~ msgstr "Kekalkan Bawah Yang Lain"
+
+#, fuzzy
+#~| msgid "Keep Above Others"
+#~ msgid "Keep above"
+#~ msgstr "Kekalkan Atas Yang Lain"
+
+#, fuzzy
+#~| msgid "&Window Decoration"
+#~ msgid "Download New Window Decorations"
+#~ msgstr "Hiasan &Tetingkap"
+
+#, fuzzy
+#~ msgid "Search..."
+#~ msgstr "Cari"
+
+#, fuzzy
+#~| msgid "B&order size:"
+#~ msgid "Border si&ze:"
+#~ msgstr "&Saiz sempadan:"
+
+#, fuzzy
+#~| msgid "&Window Decoration"
+#~ msgid "Configure %1..."
+#~ msgstr "Hiasan &Tetingkap"
+
+#, fuzzy
+#~| msgid "Buttons"
+#~ msgid "Button size:"
+#~ msgstr "Butang"
+
+#, fuzzy
+#~| msgid "Tiny"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Tiny"
+#~ msgstr "Sangat Kecil"
+
+#, fuzzy
+#~| msgid "Normal"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Normal"
+#~ msgstr "Normal"
+
+#, fuzzy
+#~| msgid "Large"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Large"
+#~ msgstr "Besar"
+
+#, fuzzy
+#~| msgid "Very Large"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Very Large"
+#~ msgstr "Sangat Besar"
+
+#, fuzzy
+#~| msgid "Huge"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Huge"
+#~ msgstr "Teramat Besar"
+
+#, fuzzy
+#~| msgid "Very Huge"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Very Huge"
+#~ msgstr "Sangat Teramat Besar"
+
+#, fuzzy
+#~| msgid "Oversized"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Oversized"
+#~ msgstr "Lebihsaiz"
+
+#~ msgid "KDE"
+#~ msgstr "KDE"
+
+#~ msgid "%1 (unavailable)"
+#~ msgstr "%1 (tidak didapati)"
+
+#~ msgid ""
+#~ "To add or remove titlebar buttons, simply <i>drag</i> items between the "
+#~ "available item list and the titlebar preview. Similarly, drag items "
+#~ "within the titlebar preview to re-position them."
+#~ msgstr ""
+#~ "Untuk tambah atau buang butang papan tajuk, hanya <i>tarik</i> item di "
+#~ "antara senarai item yang ada dan prebiu papan tajuk. Sama juga untuk "
+#~ "posisi-semula, tarik item di dalam prebiu papan tajuk."
+
+#~ msgid "Resize"
+#~ msgstr "Ulangsaiz"
+
+#~ msgid "Help"
+#~ msgstr "Bantuan"
+
+#~ msgid "--- spacer ---"
+#~ msgstr "--- ruangan ---"
+
+#~ msgid ""
+#~ "Enabling this checkbox will show window button tooltips. If this checkbox "
+#~ "is off, no window button tooltips will be shown."
+#~ msgstr ""
+#~ "Dengan menghidupkan kekotak tanda ini petua alatan butang tetingkap akan "
+#~ "dipaparkan. "
+
+#, fuzzy
+#~| msgid ""
+#~| "The appropriate settings can be found in the \"Buttons\" Tab; please "
+#~| "note that this option is not available on all styles yet."
+#~ msgid "Please note that this option is not available on all styles yet."
+#~ msgstr ""
+#~ "Seting yang sesuai boleh ditemui dalam Tab \"Butang\"; ambil perhatian "
+#~ "bahawa opsyen ini belum boleh didapatkan dalam semua gaya."
+
+#~ msgid "Use custom titlebar button &positions"
+#~ msgstr "Guna posisi butang &papan tajuk sendiri"
+
+#~ msgid "B&order size:"
+#~ msgstr "&Saiz sempadan:"
+
+#~ msgid "Use this combobox to change the border size of the decoration."
+#~ msgstr "Guna kekotak combo ini untuk menukar saiz sempadan hiasan."
+
+#~ msgid "Decoration Options"
+#~ msgstr "Pilihan Hiasan"
+
+#~ msgid ""
+#~ "Select the window decoration. This is the look and feel of both the "
+#~ "window borders and the window handle."
+#~ msgstr ""
+#~ "Pilih hiasan tetingkap. Ini ialah skema 'lihat dan rasa' untuk sempadan "
+#~ "tetingkap dan pengendali tetingkap."
+
+#~ msgid "Window Decoration Control Module"
+#~ msgstr "Modul Kawalan Dekorasi Tetingkap"
+
+#~ msgid "(c) 2001 Karol Szwed"
+#~ msgstr "(c) 2001 Karol Szwed"
+
+#~ msgid "Karol Szwed"
+#~ msgstr "Karol Szwed"
+
+#, fuzzy
+#~ msgid "Oxygen"
+#~ msgstr "Oxygen"
+
+#, fuzzy
+#~| msgid ""
+#~| "<h1>Window Manager Decoration</h1><p>This module allows you to choose "
+#~| "the window border decorations, as well as titlebar button positions and "
+#~| "custom decoration options.</p>To choose a theme for your window "
+#~| "decoration click on its name and apply your choice by clicking the "
+#~| "\"Apply\" button below. If you do not want to apply your choice you can "
+#~| "click the \"Reset\" button to discard your changes.<p>You can configure "
+#~| "each theme in the \"Configure [...]\" tab. There are different options "
+#~| "specific for each theme.</p><p>In \"General Options (if available)\" you "
+#~| "can activate the \"Buttons\" tab by checking the \"Use custom titlebar "
+#~| "button positions\" box. In the \"Buttons\" tab you can change the "
+#~| "positions of the buttons to your liking.</p>"
+#~ msgid ""
+#~ "<h1>Window Manager Decoration</h1><p>This module allows you to choose the "
+#~ "window border decorations, as well as titlebar button positions and "
+#~ "custom decoration options.</p>To choose a theme for your window "
+#~ "decoration click on its name and apply your choice by clicking the \"Apply"
+#~ "\" button below. If you do not want to apply your choice you can click "
+#~ "the \"Reset\" button to discard your changes.<p>You can configure each "
+#~ "theme. There are different options specific for each theme.</p><p>On the "
+#~ "\"Buttons\" tab check the \"Use custom titlebar button positions\" box "
+#~ "and you can change the positions of the buttons to your liking.</p>"
+#~ msgstr ""
+#~ "<h1>Hiasan Pengurus Tetingkap</h1><p>Modul ini membolehkan anda memilih "
+#~ "hiasan sempadan tetingkap, serta kedudukan butang bar tajuk dan pilihan "
+#~ "hiasan tersendiri.</p>Untuk memilih tema untuk hiasan tetingkap anda, "
+#~ "klik pada namanya dan laksanakan pilihan anda dengan mengklik butang "
+#~ "\"Laksana\" di bawah. Jika anda tidak mahu melaksanakan pilihan anda, "
+#~ "anda boleh klik butang \"Set semula\" untuk membuang perubahan anda."
+#~ "<p>Anda boleh menetapkan setiap tema. Terdapat pilihan berlainan khusus "
+#~ "untuk setiap tema</p><p>Pada tab \"Butang\" tanda kotak \"Guna posisi "
+#~ "butang bar tajuk tersendiri\" dan anda boleh ubah posisi butang ikut "
+#~ "kegemaran anda.</p>"
+
+#~ msgid "Active Window"
+#~ msgstr "Tetingkap Aktif"
+
+#~ msgid "Inactive Window"
+#~ msgstr "Tetingkap Tak Aktif"
+
+#~ msgid "kcmkwindecoration"
+#~ msgstr "kcmkwindecoration"
+
+#, fuzzy
+#~ msgctxt "Caption to decoration preview, %1 author name"
+#~ msgid "by %1"
+#~ msgstr "oleh %1"
+
+#~ msgid ""
+#~ "No preview available.\n"
+#~ "Most probably there\n"
+#~ "was a problem loading the plugin."
+#~ msgstr ""
+#~ "Tiada pralihat didapati.\n"
+#~ "Kemungkinan besar terdapat\n"
+#~ "masalah ketika memuatkan plugin."

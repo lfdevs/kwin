@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-02 00:47+0000\n"
-"PO-Revision-Date: 2022-12-03 09:02+0100\n"
+"POT-Creation-Date: 2022-12-03 00:48+0000\n"
+"PO-Revision-Date: 2022-12-27 07:39+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -32,7 +32,7 @@ msgstr "Temuri.doghonadze@gmail.com"
 #: actions.ui:17
 #, kde-format
 msgid "Inactive Inner Window Actions"
-msgstr ""
+msgstr "არააქტიური შიდა ფანჯრის ქმედებები"
 
 #. i18n: ectx: property (text), widget (QLabel, label_1)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
@@ -55,7 +55,7 @@ msgstr ""
 #: actions.ui:43 actions.ui:83 actions.ui:123
 #, kde-format
 msgid "Activate, raise and pass click"
-msgstr ""
+msgstr "გაააქტიურეთ, ამოწიეთ და დააწკაპუნეთ"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindow1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindow2)
@@ -156,7 +156,7 @@ msgstr "გაააქტიურეთ, აწიეთ და ჩამო�
 #: actions.ui:184
 #, kde-format
 msgid "Inner Window, Titlebar and Frame Actions"
-msgstr ""
+msgstr "შიდა ფანჯრის, სათაურის ზოლისა და ჩარჩოს ქმედებები"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: actions.ui:195
@@ -405,7 +405,7 @@ msgstr "ზემოდან დატოვება/ფანჯრის ქ
 #: actions.ui:495 mouse.ui:122
 #, kde-format
 msgid "Move to previous/next desktop"
-msgstr ""
+msgstr "წინა/შემდეგ სამუშაო მაგიდაზე გადატანა"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandTitlebarWheel)
@@ -418,7 +418,7 @@ msgstr "გაუმჭვირვალობის შეცვლა"
 #: advanced.ui:20
 #, kde-format
 msgid "Window &unshading:"
-msgstr ""
+msgstr "ფანჯრის &განჩრდილვა:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShadeHover)
 #: advanced.ui:32
@@ -455,7 +455,7 @@ msgstr " მწმ"
 #: advanced.ui:66
 #, kde-format
 msgid "Window &placement:"
-msgstr ""
+msgstr "ფანჯრის &მდებარეობა:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_Placement)
 #: advanced.ui:76
@@ -473,13 +473,10 @@ msgid ""
 "whole screen. It might be useful to selectively affect placement of some "
 "windows using the window-specific settings.</li><li style=\" margin-top:0px; "
 "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\"><span style=\" font-style:italic;\">Cascade</span> will "
-"cascade the windows</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"text-indent:0px;\"><span style=\" font-style:italic;\">Random</span> will "
+"use a random position</li><li style=\" margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-style:italic;\">Random</span> will use a random "
-"position</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-style:italic;\">Centered</span> will place the window "
+"\"><span style=\" font-style:italic;\">Centered</span> will place the window "
 "centered</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\" font-style:italic;\">Zero-cornered</span> will place the window in "
@@ -504,35 +501,29 @@ msgstr "გაშლილი"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:90
 #, kde-format
-msgid "Cascaded"
-msgstr ""
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:95
-#, kde-format
 msgid "Random"
 msgstr "შემთხვევითი"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:100
+#: advanced.ui:95
 #, kde-format
 msgid "Centered"
 msgstr "შუაზე გასწორებული"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:105
+#: advanced.ui:100
 #, kde-format
 msgid "In Top-Left Corner"
 msgstr "ზედა მარცხენა კუთხეში"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:110
+#: advanced.ui:105
 #, kde-format
 msgid "Under mouse"
 msgstr "თაგუნას ქვეშ"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:118
+#: advanced.ui:113
 #, kde-format
 msgid ""
 "When turned on, apps which are able to remember the positions of their "
@@ -541,20 +532,20 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:121
+#: advanced.ui:116
 #, kde-format
 msgid ""
 "Allow apps to remember the positions of their own windows, if they support it"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
-#: advanced.ui:128
+#: advanced.ui:123
 #, kde-format
 msgid "&Special windows:"
 msgstr "&სპეციალური ფუნქციები:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:138
+#: advanced.ui:133
 #, kde-format
 msgid ""
 "When turned on, utility windows (tool windows, torn-off menus,...) of "
@@ -564,25 +555,25 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:141
+#: advanced.ui:136
 #, kde-format
 msgid "Hide utility windows for inactive applications"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyLabel)
-#: advanced.ui:148
+#: advanced.ui:143
 #, kde-format
 msgid "Virtual Desktop behavior:"
 msgstr "ვირტუალური სამუშაო მაგიდის ქცევა:"
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyDescriptionLabel)
-#: advanced.ui:158
+#: advanced.ui:153
 #, kde-format
 msgid "When activating a window on a different Virtual Desktop:"
 msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:165
+#: advanced.ui:160
 #, kde-format
 msgid ""
 "<html><head/><body><p>This setting controls what happens when an open window "
@@ -595,13 +586,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:169
+#: advanced.ui:164
 #, kde-format
 msgid "Switch to that Virtual Desktop"
 msgstr "იმ ვირტუალურ სამუშაო მაგიდაზე გადართვა"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:174
+#: advanced.ui:169
 #, kde-format
 msgid "Bring window to current Virtual Desktop"
 msgstr ""
@@ -1061,7 +1052,7 @@ msgstr ""
 #: mouse.ui:558
 #, kde-format
 msgid "Show actions menu"
-msgstr ""
+msgstr "ქმედებების მენიუს ჩვენება"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandInactiveTitlebar1)
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandInactiveTitlebar2)
@@ -1170,7 +1161,7 @@ msgstr ""
 #: moving.ui:113
 #, kde-format
 msgid "&Snap windows:"
-msgstr ""
+msgstr "ფანჯრების &მიმაგრება:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SnapOnlyWhenOverlapping)
 #: moving.ui:123
@@ -1185,7 +1176,7 @@ msgstr ""
 #: moving.ui:126
 #, kde-format
 msgid "Only when overlapping"
-msgstr ""
+msgstr "მხოლოდ გადაფარვისას"
 
 #: windows.cpp:97
 #, kde-format

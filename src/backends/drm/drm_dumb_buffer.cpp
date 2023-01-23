@@ -27,7 +27,7 @@ DrmDumbBuffer::DrmDumbBuffer(DrmGpu *gpu, const QSize &size, uint32_t format, ui
 
 DrmDumbBuffer::~DrmDumbBuffer()
 {
-    delete m_image;
+    m_image.reset();
     if (m_memory) {
         munmap(m_memory, m_bufferSize);
     }
@@ -44,18 +44,22 @@ bool DrmDumbBuffer::map(QImage::Format format)
     if (drmIoctl(m_gpu->fd(), DRM_IOCTL_MODE_MAP_DUMB, &mapArgs) != 0) {
         return false;
     }
+#ifdef KWIN_UNIT_TEST
+    m_memory = reinterpret_cast<void *>(mapArgs.offset);
+#else
     void *address = mmap(nullptr, m_bufferSize, PROT_WRITE, MAP_SHARED, m_gpu->fd(), mapArgs.offset);
     if (address == MAP_FAILED) {
         return false;
     }
     m_memory = address;
-    m_image = new QImage((uchar *)m_memory, m_size.width(), m_size.height(), m_strides[0], format);
+#endif
+    m_image = std::make_unique<QImage>((uchar *)m_memory, m_size.width(), m_size.height(), m_strides[0], format);
     return !m_image->isNull();
 }
 
 QImage *DrmDumbBuffer::image() const
 {
-    return m_image;
+    return m_image.get();
 }
 
 void *DrmDumbBuffer::data() const

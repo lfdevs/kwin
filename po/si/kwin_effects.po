@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-01 02:26+0000\n"
+"POT-Creation-Date: 2023-01-18 00:58+0000\n"
 "PO-Revision-Date: 2009-12-22 01:06+0530\n"
 "Last-Translator: Danishka Navin <danishka@gmail.com>\n"
 "Language-Team: Sinhala <danishka@gmail.com>\n"
@@ -59,6 +59,7 @@ msgstr ""
 #: mousemark/mousemark_config.cpp:50 overview/kcm/overvieweffectkcm.cpp:35
 #: showpaint/showpaint_config.cpp:33
 #: thumbnailaside/thumbnailaside_config.cpp:54
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:31
 #: trackmouse/trackmouse_config.cpp:52
 #: windowview/kcm/windowvieweffectkcm.cpp:36 zoom/zoom_config.cpp:58
 #, kde-format
@@ -199,15 +200,21 @@ msgstr ""
 msgid "Natural"
 msgstr "ස්වභාවික"
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
+#: desktopgrid/desktopgrid_config.ui:147
+#, kde-format
+msgid "None"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: desktopgrid/desktopgrid_config.ui:150
+#: desktopgrid/desktopgrid_config.ui:155
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "Windows layout:"
 msgstr "කවුළු"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: desktopgrid/desktopgrid_config.ui:166
+#: desktopgrid/desktopgrid_config.ui:171
 #, kde-format
 msgid "Activation"
 msgstr "සක්‍රීය කිරීම"
@@ -324,10 +331,16 @@ msgstr "සජීවීකරණය"
 msgid "Toggle Invert Effect"
 msgstr "යටිකුරු සැරසිලි අතර මාරුවන්න"
 
-#: invert/invert.cpp:50 invert/invert_config.cpp:44
+#: invert/invert.cpp:49 invert/invert_config.cpp:44
 #, kde-format
 msgid "Toggle Invert Effect on Window"
 msgstr "කවුළුව මත යටිකුරය සැරසිලි සඳහා මාරුවන්න"
+
+#: invert/invert.cpp:56
+#, fuzzy, kde-format
+#| msgid "Invert cursor keys"
+msgid "Invert Screen Colors"
+msgstr "කර්සර යතුරු යටිකුරු කිරීම"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FadeToBlack)
 #: login/package/contents/ui/config.ui:17
@@ -387,33 +400,33 @@ msgstr "උස (&H)"
 msgid "Toggle Mouse Click Effect"
 msgstr "යටිකුරු සැරසිලි අතර මාරුවන්න"
 
-#: mouseclick/mouseclick.cpp:42
+#: mouseclick/mouseclick.cpp:41
 #, fuzzy, kde-format
 #| msgid "Left"
 msgctxt "Left mouse button"
 msgid "Left"
 msgstr "වම"
 
-#: mouseclick/mouseclick.cpp:43
+#: mouseclick/mouseclick.cpp:42
 #, fuzzy, kde-format
 #| msgid "Middle button:"
 msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr "මැද බොත්තම:"
 
-#: mouseclick/mouseclick.cpp:44
+#: mouseclick/mouseclick.cpp:43
 #, fuzzy, kde-format
 #| msgid "Right"
 msgctxt "Right mouse button"
 msgid "Right"
 msgstr "දකුණ"
 
-#: mouseclick/mouseclick.h:61
+#: mouseclick/mouseclick.h:60
 #, kde-format
 msgid "↓"
 msgstr ""
 
-#: mouseclick/mouseclick.h:62
+#: mouseclick/mouseclick.h:61
 #, kde-format
 msgid "↑"
 msgstr ""
@@ -519,12 +532,12 @@ msgstr ""
 msgid "Show Text:"
 msgstr "වැඩතලය පෙන්වන්න"
 
-#: mousemark/mousemark.cpp:36
+#: mousemark/mousemark.cpp:39
 #, kde-format
 msgid "Clear All Mouse Marks"
 msgstr "සියලු මවුස ලකුණු මකන්න"
 
-#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:59
+#: mousemark/mousemark.cpp:45 mousemark/mousemark_config.cpp:59
 #, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr "අවසන් මවුස ලකුණ මකන්න"
@@ -595,12 +608,12 @@ msgstr "පසුබිම"
 msgid "Ignore minimized windows:"
 msgstr "හැකිලූ කවුළු මඟහරින්න  (&m)"
 
-#: overview/qml/DesktopBar.qml:186
+#: overview/qml/DesktopBar.qml:187
 #, kde-format
 msgid "Delete Virtual Desktop"
 msgstr ""
 
-#: overview/qml/DesktopBar.qml:282
+#: overview/qml/DesktopBar.qml:283
 #, fuzzy, kde-format
 #| msgid "Desktop"
 msgid "Add Virtual Desktop"
@@ -612,12 +625,12 @@ msgstr "වැඩතලය"
 msgid "No matching windows"
 msgstr "ගමන්කරන කවුළු:"
 
-#: private/qml/WindowHeapDelegate.qml:152
+#: private/qml/WindowHeapDelegate.qml:151
 #, kde-format
 msgid "Drag Down To Close"
 msgstr ""
 
-#: private/qml/WindowHeapDelegate.qml:462
+#: private/qml/WindowHeapDelegate.qml:461
 #, fuzzy, kde-format
 #| msgid "Close window"
 msgctxt "@info:tooltip as in: 'close this window'"
@@ -638,28 +651,28 @@ msgstr "සජීවීකරණය"
 msgid "Window close scale:"
 msgstr "සජීවීකරණය"
 
-#: screenshot/screenshotdbusinterface1.cpp:480
+#: screenshot/screenshotdbusinterface1.cpp:478
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr ""
 
-#: screenshot/screenshotdbusinterface1.cpp:481
+#: screenshot/screenshotdbusinterface1.cpp:479
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr ""
 
-#: screenshot/screenshotdbusinterface1.cpp:797
-#: screenshot/screenshotdbusinterface2.cpp:472
+#: screenshot/screenshotdbusinterface1.cpp:800
+#: screenshot/screenshotdbusinterface2.cpp:477
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
 
-#: screenshot/screenshotdbusinterface1.cpp:800
-#: screenshot/screenshotdbusinterface2.cpp:490
+#: screenshot/screenshotdbusinterface1.cpp:803
+#: screenshot/screenshotdbusinterface2.cpp:495
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -724,14 +737,8 @@ msgstr "තිරස්"
 msgid "Vertical:"
 msgstr "සිරස්"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideDocks)
-#: slide/slide_config.ui:72
-#, kde-format
-msgid "Slide docks"
-msgstr ""
-
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideBackground)
-#: slide/slide_config.ui:79
+#: slide/slide_config.ui:72
 #, fuzzy, kde-format
 #| msgid "Slide when grouping"
 msgid "Slide desktop background"
@@ -776,6 +783,49 @@ msgstr "පාරාන්ධතාව(&O):"
 #, no-c-format, kde-format
 msgid " %"
 msgstr " %"
+
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:37
+#: tileseditor/tileseditoreffect.cpp:29
+#, kde-format
+msgid "Toggle Tiles Editor"
+msgstr ""
+
+#: tileseditor/qml/main.qml:147
+#, kde-format
+msgid "Padding:"
+msgstr ""
+
+#: tileseditor/qml/main.qml:157
+#, kde-format
+msgid "Load Layout..."
+msgstr ""
+
+#: tileseditor/qml/main.qml:271
+#, kde-format
+msgid "Close"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:171
+#, fuzzy, kde-format
+#| msgid "Horizontal"
+msgid "Split Horizontally"
+msgstr "තිරස්"
+
+#: tileseditor/qml/TileDelegate.qml:178
+#, fuzzy, kde-format
+#| msgid "Vertical"
+msgid "Split Vertically"
+msgstr "සිරස්"
+
+#: tileseditor/qml/TileDelegate.qml:186 tileseditor/qml/TileDelegate.qml:215
+#, kde-format
+msgid "Add Floating Tile"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:195
+#, kde-format
+msgid "Delete"
+msgstr ""
 
 #: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:57
 #, fuzzy, kde-format
@@ -913,17 +963,17 @@ msgstr "මෙනු වසන්න:"
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "පවතින කවුළු අතර මාරුවන්න (වත්මන් වැඩතලය)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:55
+#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:54
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "පවතින කවුළු අතර මාරුවන්න (සියලු වැඩතල)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:65
+#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:63
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "පවතින කවුළු අතර මාරුවන්න (කවුලු කාණ්ඩය)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:75
+#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:72
 #, fuzzy, kde-format
 #| msgid "Toggle Present Windows (Current desktop)"
 msgid "Toggle Present Windows (Window class on current desktop)"
@@ -935,15 +985,21 @@ msgstr "පවතින කවුළු අතර මාරුවන්න (ව�
 msgid "Ignore &minimized windows"
 msgstr "හැකිලූ කවුළු මඟහරින්න  (&m)"
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, kde-format
 msgid "No Matches"
 msgstr ""
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "No Windows"
+msgstr "කවුළු"
+
+#: windowview/qml/main.qml:123
+#, fuzzy, kde-format
+#| msgid "Windows"
+msgid "Filter windows…"
 msgstr "කවුළු"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
@@ -1006,32 +1062,32 @@ msgstr "අඩු"
 msgid "More"
 msgstr "තවත්"
 
-#: zoom/zoom.cpp:68
+#: zoom/zoom.cpp:65
 #, kde-format
 msgid "Move Zoomed Area to Left"
 msgstr ""
 
-#: zoom/zoom.cpp:76
+#: zoom/zoom.cpp:72
 #, kde-format
 msgid "Move Zoomed Area to Right"
 msgstr ""
 
-#: zoom/zoom.cpp:84
+#: zoom/zoom.cpp:79
 #, kde-format
 msgid "Move Zoomed Area Upwards"
 msgstr ""
 
-#: zoom/zoom.cpp:92
+#: zoom/zoom.cpp:86
 #, kde-format
 msgid "Move Zoomed Area Downwards"
 msgstr ""
 
-#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:108
+#: zoom/zoom.cpp:94 zoom/zoom_config.cpp:108
 #, kde-format
 msgid "Move Mouse to Focus"
 msgstr ""
 
-#: zoom/zoom.cpp:109 zoom/zoom_config.cpp:115
+#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:115
 #, kde-format
 msgid "Move Mouse to Center"
 msgstr ""
@@ -1168,3 +1224,612 @@ msgstr "අක්‍රීය කල"
 #, kde-format
 msgid "Mouse Tracking:"
 msgstr ""
+
+#~ msgid "&Radius:"
+#~ msgstr "අරය(&R):"
+
+#~ msgid "Text position:"
+#~ msgstr "පෙළ ස්ථානය:"
+
+#~ msgid "Inside Graph"
+#~ msgstr "ප්‍රස්ථාරය ඇතුළත"
+
+#~ msgid "Nowhere"
+#~ msgstr "කිසිතැනක නොවේ"
+
+#~ msgid "Top Left"
+#~ msgstr "ඉහළ වම"
+
+#~ msgid "Top Right"
+#~ msgstr "ඉහළ දකුණ"
+
+#~ msgid "Bottom Left"
+#~ msgstr "පහළ වම"
+
+#~ msgid "Bottom Right"
+#~ msgstr "පහළ දකුණ"
+
+#~ msgid "Text font:"
+#~ msgstr "පෙළ අකුරු:"
+
+#~ msgid "Text color:"
+#~ msgstr "පෙළ වර්‍ණය:"
+
+#~ msgid "Text alpha:"
+#~ msgstr "පෙළ ඇල්ෆා:"
+
+#, fuzzy
+#~| msgid "Show caps"
+#~ msgid "Show graph:"
+#~ msgstr "වැස්ම පෙන්වන්න"
+
+#, fuzzy
+#~| msgid "Show desktop"
+#~ msgid "Show Message:"
+#~ msgstr "වැඩතලය පෙන්වන්න"
+
+#~ msgid "Zoom &duration:"
+#~ msgstr "විශාලන කාලසීමාව (&d):"
+
+#~ msgctxt "Duration of zoom"
+#~ msgid "Default"
+#~ msgstr "පෙරනිමි"
+
+#, fuzzy
+#~| msgid "&Border width:"
+#~ msgid "Border wid&th:"
+#~ msgstr "දාර පළල (&B):"
+
+#, fuzzy
+#~| msgid "Show desktop"
+#~ msgid "Switch desktop only"
+#~ msgstr "වැඩතලය පෙන්වන්න"
+
+#~ msgid "Natural Layout Settings"
+#~ msgstr "සාමාන්‍ය ආකෘති සැකසුම්"
+
+#~ msgid "Fill &gaps"
+#~ msgstr "හිඩැස් පුරවන්න (&g)"
+
+#~ msgid "Faster"
+#~ msgstr "වේගවත්"
+
+#~ msgid "Nicer"
+#~ msgstr "වඩා හොඳ"
+
+#~ msgid "Left button:"
+#~ msgstr "වම් බොත්තම:"
+
+#~ msgid "No action"
+#~ msgstr "ක්‍රියාවක් නොමැත"
+
+#~ msgid "Activate window"
+#~ msgstr "සක්‍රිය කවුළුව"
+
+#~ msgid "End effect"
+#~ msgstr "අවසන් රටාව"
+
+#~ msgid "Bring window to current desktop"
+#~ msgstr "කවුළුව වත්මන් වැඩතලය වෙත ගෙනඑන්න"
+
+#~ msgid "Send window to all desktops"
+#~ msgstr "කවුළුව සියලු වැඩතල වෙත යවන්න"
+
+#~ msgid "(Un-)Minimize window"
+#~ msgstr "කවුළුව (නො)හකුලන්න"
+
+#~ msgid "Middle button:"
+#~ msgstr "මැද බොත්තම:"
+
+#~ msgid "Right button:"
+#~ msgstr "දකුණු බොත්තම:"
+
+#, fuzzy
+#~| msgid "Desktop"
+#~ msgctxt "@title:group actions when clicking on desktop"
+#~ msgid "Desktop"
+#~ msgstr "වැඩතලය"
+
+#~ msgid "Show desktop"
+#~ msgstr "වැඩතලය පෙන්වන්න"
+
+#~ msgid "Display window &titles"
+#~ msgstr "කවුළු මාතෘකා පෙන්වන්න (&t)"
+
+#~ msgid "Display window &icons"
+#~ msgstr "කවුළු අයිකන පෙන්වන්න (&i)"
+
+#~ msgid "Show &panels"
+#~ msgstr "පැනල පෙන්වන්න (&p)"
+
+#~ msgid "Regular Grid"
+#~ msgstr "සාමාන්‍ය ජාලය"
+
+#~ msgid "Flexible Grid"
+#~ msgstr "නම්‍යශීලී ජාලය"
+
+#, fuzzy
+#~| msgid "Close window"
+#~ msgid "Scale window"
+#~ msgstr "කවුළුව වසාදමන්න"
+
+#, fuzzy
+#~| msgid "Display window &icons"
+#~ msgid "Display for moving windows"
+#~ msgstr "කවුළු අයිකන පෙන්වන්න (&i)"
+
+#, fuzzy
+#~| msgid "Display window &icons"
+#~ msgid "Display for resizing windows"
+#~ msgstr "කවුළු අයිකන පෙන්වන්න (&i)"
+
+#, fuzzy
+#~| msgid "&Color:"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Color Picker"
+#~ msgstr "වර්‍ණය (&C):"
+
+#, fuzzy
+#~| msgid "Background color:"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Background contrast"
+#~ msgstr "පසුබිම් වර්‍ණය:"
+
+#, fuzzy
+#~| msgid "Show Desktop Grid"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Grid"
+#~ msgstr "වැඩතල ජාලය පෙන්වන්න"
+
+#, fuzzy
+#~| msgid "Inactive windows:"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Darken inactive windows"
+#~ msgstr "අක්‍රීය කවුළු:"
+
+#, fuzzy
+#~| msgid "Send window to all desktops"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Closed windows fall into pieces"
+#~ msgstr "කවුළුව සියලු වැඩතල වෙත යවන්න"
+
+#, fuzzy
+#~| msgid "Invert mouse"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Invert"
+#~ msgstr "මවුසය යටිකුරු කිරීම"
+
+#, fuzzy
+#~| msgid "Animation"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Click Animation"
+#~ msgstr "සජීවීකරණය"
+
+#, fuzzy
+#~| msgid "Clear Mouse Marks"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Mark"
+#~ msgstr "මවුස සටහන් මකන්න"
+
+#, fuzzy
+#~| msgid "Windows"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Present Windows"
+#~ msgstr "කවුළු"
+
+#, fuzzy
+#~| msgid "Close window"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Resize Window"
+#~ msgstr "කවුළුව වසාදමන්න"
+
+#, fuzzy
+#~| msgid "Transparent"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Transform"
+#~ msgstr "පාරදෘශ්‍ය "
+
+#, fuzzy
+#~| msgid "Show &panels"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show Paint"
+#~ msgstr "පැනල පෙන්වන්න (&p)"
+
+#, fuzzy
+#~| msgid "slide when switching tabs"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Slide desktops when switching virtual desktops"
+#~ msgstr "ටැබ අතර මාරුවීමේදී රූටායෑම"
+
+#, fuzzy
+#~| msgid "Thumbnail Bar"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Thumbnail Aside"
+#~ msgstr "කුඩාරූප තීරුව"
+
+#, fuzzy
+#~| msgid "Invert mouse"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Track Mouse"
+#~ msgstr "මවුසය යටිකුරු කිරීම"
+
+#, fuzzy
+#~| msgid "Display window &icons"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display window geometries on move/resize"
+#~ msgstr "කවුළු අයිකන පෙන්වන්න (&i)"
+
+#, fuzzy
+#~| msgid "Windows"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Wobbly Windows"
+#~ msgstr "කවුළු"
+
+#, fuzzy
+#~| msgid "Use for window &switching"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Deform windows while they are moving"
+#~ msgstr "කවුළු මාරුවීම සඳහා භාවිත කරන්න (&s)"
+
+#, fuzzy
+#~| msgid "Zoom"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Zoom"
+#~ msgstr "විශාලනය"
+
+#, fuzzy
+#~| msgid "Show desktop"
+#~ msgctxt "Special entry in alt+tab list for minimizing all windows"
+#~ msgid "Show Desktop"
+#~ msgstr "වැඩතලය පෙන්වන්න"
+
+#~ msgid "Zoom"
+#~ msgstr "විශාලනය"
+
+#~ msgid "Define how far away the windows should appear"
+#~ msgstr "කවුළු දැක්විය යුත්තේ කොපමණ දුරකින් දැයි සඳහන් කරන්න"
+
+#~ msgid "Near"
+#~ msgstr "ලඟ"
+
+#~ msgid "Far"
+#~ msgstr "දුර"
+
+#~ msgid "Animation"
+#~ msgstr "සජීවීකරණය"
+
+#~ msgid "Animate switch"
+#~ msgstr "මාරුව සජීවීකරණය කරන්න"
+
+#~ msgid "Animation on tab box open"
+#~ msgstr "ටැබ කොටුව විවෘත කිරීමේදී සජීවීකරණය"
+
+#~ msgid "Animation on tab box close"
+#~ msgstr "ටැබ් කොටුව වසාදැමීමේදී සජීවීකරණය"
+
+#~ msgid "Reflections"
+#~ msgstr "පිළිබිඹු"
+
+#~ msgid "Rear color"
+#~ msgstr "පසු වර්‍ණය"
+
+#~ msgid "Front color"
+#~ msgstr "පෙර වර්‍ණය"
+
+#~ msgid "Desktop Cube"
+#~ msgstr "වැඩතල ඝනකය"
+
+#~ msgid "Desktop Cylinder"
+#~ msgstr "වැඩතල සිලින්ඩරය"
+
+#~ msgid "Desktop Sphere"
+#~ msgstr "වැඩතල ගෝලය"
+
+#~ msgctxt "@title:tab Basic Settings"
+#~ msgid "Basic"
+#~ msgstr "මූලික"
+
+#~ msgctxt "@title:tab Advanced Settings"
+#~ msgid "Advanced"
+#~ msgstr "උසස්"
+
+#~ msgid "Tab 1"
+#~ msgstr "ටැබ් 1"
+
+#~ msgid "Background color:"
+#~ msgstr "පසුබිම් වර්‍ණය:"
+
+#~ msgid "Wallpaper:"
+#~ msgstr "තිරසැරසිල්ල:"
+
+#~ msgid "Display desktop name"
+#~ msgstr "වැඩතල නම පෙන්වන්න"
+
+#~ msgid "Reflection"
+#~ msgstr "පිළිබිඹුව"
+
+#~ msgid "Rotation duration:"
+#~ msgstr "භ්‍රමණ කාලසීමාව:"
+
+#~ msgid "Windows hover above cube"
+#~ msgstr "ඝණකයට ඉහළින් කවුළු ගෙනයන්න"
+
+#~ msgid "Opacity"
+#~ msgstr "පාරාන්ධතාව"
+
+#~ msgid "Do not change opacity of windows"
+#~ msgstr "කවුළු වල පාරාන්ධතාව වෙනස් නොකරන්න"
+
+#~ msgid "Tab 2"
+#~ msgstr "ටැබ 2"
+
+#~ msgid "Caps"
+#~ msgstr "වැස්ම"
+
+#~ msgid "Cap color:"
+#~ msgstr "වැස්මේ වර්‍ණය:"
+
+#~ msgid "Display image on caps"
+#~ msgstr "වැස්ම මත පින්තූර පෙන්වන්න"
+
+#~ msgid "Define how far away the object should appear"
+#~ msgstr "වස්තුව දැක්විය යුත්තේ කොපමණ දුරකින් දැයි සඳහන් කරන්න"
+
+#~ msgid "Additional Options"
+#~ msgstr "අමතර අභිප්‍රේත"
+
+#~ msgid ""
+#~ "If enabled the effect will be deactivated after rotating the cube with "
+#~ "the mouse,\n"
+#~ "otherwise it will remain active"
+#~ msgstr ""
+#~ "සක්‍රීය කර ඇත්නම් මවුසය සමඟ ඝණකය භ්‍රමණය කිරීමෙන් පසු අක්‍රීය වනු ඇත,\n"
+#~ "එසේ නොමැතිනම් එය සක්‍රීයව පැවතේ"
+
+#~ msgid "Close after mouse dragging"
+#~ msgstr "මවුස ඇදීමෙන් පසුව වසාදමන්න"
+
+#~ msgid "Use this effect for walking through the desktops"
+#~ msgstr "වැඩතල අතර ගමන් කිරීමට මෙම සැරසිල්ල යොදාගන්න"
+
+#~ msgid "Invert mouse"
+#~ msgstr "මවුසය යටිකුරු කිරීම"
+
+#~ msgid "Sphere Cap Deformation"
+#~ msgstr "ගෝල වැස්ම විරූප වීම"
+
+#~ msgid "Sphere"
+#~ msgstr "ගෝලය"
+
+#~ msgid "Plane"
+#~ msgstr "පැහැදිලි"
+
+#~ msgid "Do not animate windows on all desktops"
+#~ msgstr "සියලු වැඩතල මත කවුළු සජීවීකරණය නොකරන්න"
+
+#~ msgid "Do not animate panels"
+#~ msgstr "පැනල සජීවීකරණය නොකරන්න"
+
+#~ msgid "Use pager layout for animation"
+#~ msgstr "සජීවීකරණය සඳහා පේජර රටාව භාවිත කරන්න"
+
+#, fuzzy
+#~| msgid "Desktop Cube"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube"
+#~ msgstr "වැඩතල ඝනකය"
+
+#, fuzzy
+#~| msgid "Desktop Cube"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube Animation"
+#~ msgstr "වැඩතල ඝනකය"
+
+#, fuzzy
+#~ msgid "Toggle Flip Switch (Current desktop)"
+#~ msgstr "උඩගැසීම් මාරූ අතර මාරුවන්න (වත්මන් වැඩතලය)"
+
+#, fuzzy
+#~ msgid "Toggle Flip Switch (All desktops)"
+#~ msgstr "උඩගැසීම් මාරූ අතර මාරුවන්න (සියලු වැඩතල)"
+
+#, fuzzy
+#~ msgid "Flip animation duration:"
+#~ msgstr "උඩගැසීමේ සජීවීකරණ කාලසීමාව:"
+
+#~ msgctxt "Duration of flip animation"
+#~ msgid "Default"
+#~ msgstr "පෙරනිමි"
+
+#~ msgid "Angle:"
+#~ msgstr "කෝණය:"
+
+#~ msgid " °"
+#~ msgstr " °"
+
+#~ msgid "Horizontal position of front:"
+#~ msgstr "ඉදිරියේ තිරස් ස්ථානය:"
+
+#~ msgid "Vertical position of front:"
+#~ msgstr "ඉදිරියේ සිරස් ස්ථානය:"
+
+#~ msgid ""
+#~ "Filter:\n"
+#~ "%1"
+#~ msgstr ""
+#~ "පෙරහණ:\n"
+#~ "%1"
+
+#~ msgid "Use Present Windows effect to layout the windows"
+#~ msgstr "කවුළු ආකෘති සඳහා වත්මන් කවුළු සැරසිලි යොදාගන්න"
+
+#, fuzzy
+#~| msgid "Animation"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Minimize Animation"
+#~ msgstr "සජීවීකරණය"
+
+#, fuzzy
+#~| msgid "Ignore &minimized windows"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Animate the minimizing of windows"
+#~ msgstr "හැකිලූ කවුළු මඟහරින්න  (&m)"
+
+#~ msgid "Apply effect to &panels"
+#~ msgstr "පැනල සඳහා සැරසිලි ඇතුළත් කරන්න (&p)"
+
+#~ msgid "Apply effect to the desk&top"
+#~ msgstr "වැඩතලය වෙත සැරසිල්ල ඇතුලත් කරන්න (&t)"
+
+#, fuzzy
+#~| msgid "Apply effect to &panels"
+#~ msgid "Apply effect to &keep-above windows"
+#~ msgstr "පැනල සඳහා සැරසිලි ඇතුළත් කරන්න (&p)"
+
+#~ msgid "Apply effect to &groups"
+#~ msgstr "කණ්ඩායම් සඳහා සැරසිලි ඇතුළත් කරන්න (&g)"
+
+#, fuzzy
+#~| msgid "End effect"
+#~ msgid "Glide Effect:"
+#~ msgstr "අවසන් රටාව"
+
+#, fuzzy
+#~| msgid "Angle:"
+#~ msgid "Glide Angle:"
+#~ msgstr "කෝණය:"
+
+#, fuzzy
+#~| msgctxt "Duration of rotation"
+#~| msgid "Default"
+#~ msgctxt "Duration of the slide animation"
+#~ msgid "Default"
+#~ msgstr "පෙරනිමි"
+
+#, fuzzy
+#~| msgid "Right"
+#~ msgctxt "More brightness"
+#~ msgid "Lighter"
+#~ msgstr "දකුණ"
+
+#, fuzzy
+#~| msgid "Apply effect to &groups"
+#~ msgid "Apply blur effect to background"
+#~ msgstr "කණ්ඩායම් සඳහා සැරසිලි ඇතුළත් කරන්න (&g)"
+
+#~ msgid "Decorations:"
+#~ msgstr "සැරසිලි:"
+
+#~ msgid "Background window &opacity:"
+#~ msgstr "පසුබිම් කවුළු පාරාන්ධතාව (&o):"
+
+#~ msgid "&Elevate selected window"
+#~ msgstr "තෝරාගත් කවුළුව ඔසවන්න (&E)"
+
+#~ msgid "&Animate walk through windows"
+#~ msgstr "කවුළු තුලින් ගමන්කිරීම සජීකරණය කරන්න (&A)"
+
+#~ msgid "Use additional thumbnail bar"
+#~ msgstr "අමතර කුඩාරූප තීරුව භාවිත කරන්න"
+
+#~ msgid ""
+#~ "Only show thumbnail bar if there are at least specified number of windows"
+#~ msgstr "අවම වශයෙන් නිවේශිත කවුළු ගණනක් පවතීනම් පමණක් කුඩාරූප තීරුව පෙන්වන්න"
+
+#~ msgid "Dynamic mode"
+#~ msgstr "ගතික ප්‍රකාරය"
+
+#~ msgid "Number of windows:"
+#~ msgstr "කවුළු ගණන:"
+
+#~ msgid " row"
+#~ msgid_plural " rows"
+#~ msgstr[0] "පේළිය"
+#~ msgstr[1] "පේළි"
+
+#~ msgctxt "Duration of fading"
+#~ msgid "Default"
+#~ msgstr "පෙරනිමි"
+
+#~ msgid "Toggle Video Recording"
+#~ msgstr "දෘශ්‍ය වීඩියෝවට මාරුවෙන්න"
+
+#~ msgid "Path to save video:"
+#~ msgstr "වීඩියෝව සුරකීමට මාර්‍ගය:"
+
+#~ msgid "Snow"
+#~ msgstr "හිම"
+
+#~ msgid "Toggle Snow on Desktop"
+#~ msgstr "වැඩතලය මත හිම වෙත මාරුවන්න"
+
+#~ msgid " pixel/frame"
+#~ msgid_plural " pixels/frame"
+#~ msgstr[0] "පික්සෙල/රාමුව"
+#~ msgstr[1] "පික්සෙලයන්/රාමුව"
+
+#~ msgctxt "@action Enables/Disables an effect that makes windows more sharp"
+#~ msgid "Toggle Sharpen Effect"
+#~ msgstr "තියුණු සැරසිල්ලට මාරුවන්න"
+
+#~ msgid "&Number of snowflakes:"
+#~ msgstr "හිම පියළි ගණන (&N):"
+
+#~ msgid "M&inimum size of snowflake:"
+#~ msgstr "හිම පියළි වල අවම ප්‍රමාණය (&i):"
+
+#~ msgid "M&aximum size of snowflake:"
+#~ msgstr "හිම පියළි වල උපරිම ප්‍රමාණය (&a):"
+
+#~ msgid "Maximum &vertical speed:"
+#~ msgstr "උපරිම සිරස් වේගය (&h):"
+
+#~ msgid "Maximum &horizontal speed:"
+#~ msgstr "උපරිම තිරස් වේගය (&h)"
+
+#~ msgid "Snow &behind windows"
+#~ msgstr "කවුළු පසුපස හිම (&b)"
+
+#~ msgid "&X offset:"
+#~ msgstr "&X බෑවුම:"
+
+#~ msgid "&Y offset:"
+#~ msgstr "&Y බෑවුම:"
+
+#~ msgid "%"
+#~ msgstr "%"
+
+#, fuzzy
+#~ msgid "&Fuzziness:"
+#~ msgstr "ෆසීතාව (&F):"
+
+#~ msgid "&Size:"
+#~ msgstr "ප්‍රමාණය (&S):"
+
+#~ msgid "&Active windows have stronger shadows"
+#~ msgstr "සක්‍රීය කවුළු සතුව ශක්තිමත් සෙවණැලි පවතී (&A)"
+
+#, fuzzy
+#~| msgid "Background"
+#~ msgid "Background brightness"
+#~ msgstr "පසුබිම"
+
+#, fuzzy
+#~| msgid "Background"
+#~ msgid "Background saturation"
+#~ msgstr "පසුබිම"
+
+#, fuzzy
+#~| msgid "End effect"
+#~ msgid "Effects"
+#~ msgstr "අවසන් රටාව"
+
+#~ msgid "Hold Ctrl+Meta keys to see where the mouse cursor is."
+#~ msgstr "මවුස කර්සරය ඇත්තේ කොහිදැයි සෙවීමට Ctrl+මෙටා යතුර අල්ලා සිටින්න"
+
+#~ msgid "Rearrange &duration:"
+#~ msgstr "කාලසීමාව නැවත සකසන්න (&d):"
+
+#~ msgctxt "Duration of rearrangement"
+#~ msgid "Default"
+#~ msgstr "පෙරනිමි"

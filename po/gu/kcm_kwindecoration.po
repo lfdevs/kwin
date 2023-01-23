@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-26 02:35+0000\n"
+"POT-Creation-Date: 2022-10-26 00:47+0000\n"
 "PO-Revision-Date: 2010-12-23 16:29+0530\n"
 "Last-Translator: Sweta Kothari <swkothar@redhat.com>\n"
 "Language-Team: Gujarati\n"
@@ -298,3 +298,192 @@ msgstr "ઘણું વિશાળ"
 #| msgid "Oversized"
 msgid "Oversized"
 msgstr "વધારે માપનું"
+
+#~ msgid "Menu"
+#~ msgstr "મેનુ"
+
+#, fuzzy
+#~| msgid "Keep Below Others"
+#~ msgid "Keep below"
+#~ msgstr "નીચે બીજાઓને રાખો"
+
+#, fuzzy
+#~| msgid "Keep Above Others"
+#~ msgid "Keep above"
+#~ msgstr "ઉપર બીજાઓને રાખો"
+
+#, fuzzy
+#~| msgid "Get New Decorations..."
+#~ msgid "Download New Window Decorations"
+#~ msgstr "નવી સજાવટને મેળવો..."
+
+#, fuzzy
+#~| msgid "Search"
+#~ msgid "Search..."
+#~ msgstr "શોધો"
+
+#, fuzzy
+#~| msgid "Border size:"
+#~ msgid "Border si&ze:"
+#~ msgstr "સીમારેખાનું માપ:"
+
+#, fuzzy
+#~| msgid "Configure Buttons..."
+#~ msgid "Configure %1..."
+#~ msgstr "બટનોને રૂપરેખાંકિત કરો..."
+
+#~ msgid "Button size:"
+#~ msgstr "બટન માપ:"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Tiny"
+#~ msgstr "બહુ નાનું"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Normal"
+#~ msgstr "સામાન્ય"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Large"
+#~ msgstr "વિશાળ"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Very Large"
+#~ msgstr "ઘણું વિશાળ"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Huge"
+#~ msgstr "વિશાળ"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Very Huge"
+#~ msgstr "ઘણું વિશાળ"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Oversized"
+#~ msgstr "વધારે માપનું"
+
+#~ msgid "KDE"
+#~ msgstr "KDE"
+
+#~ msgid "%1 (unavailable)"
+#~ msgstr "%1 (બિનઉપલ્બધ)"
+
+#~ msgid ""
+#~ "To add or remove titlebar buttons, simply <i>drag</i> items between the "
+#~ "available item list and the titlebar preview. Similarly, drag items "
+#~ "within the titlebar preview to re-position them."
+#~ msgstr ""
+#~ "શિર્ષકપટ્ટીનાં બટનો ને દૂર કરવા અથવા ઉમેરવા માટે, ઉપલબ્ધ વસ્તુ યાદી અને શિર્ષકપટ્ટી "
+#~ "પૂર્વદર્શન વચ્ચે વસ્તુઓ ને સહેલાઇથી <i>ખેંચો</i>. એજ પ્રકારે, તેઓને ફરીથી સ્થાનિત કરવા "
+#~ "માટે શિર્ષકપટ્ટી પૂર્વદર્શન માં વસ્તુઓને ખેંચો."
+
+#~ msgid "Resize"
+#~ msgstr "ફરીથી માપ લો"
+
+#~ msgid "Help"
+#~ msgstr "મદદ"
+
+#~ msgid "--- spacer ---"
+#~ msgstr "--- સ્પેસર ---"
+
+#~ msgid ""
+#~ "Enabling this checkbox will show window button tooltips. If this checkbox "
+#~ "is off, no window button tooltips will be shown."
+#~ msgstr ""
+#~ "સક્રિય કરવા દરમ્યાન આ ચેકબોક્સ એ વિન્ડો બટનની ટુલટીપો ને બતાવશે. જો આ ચેકબોક્સ એ બંધ "
+#~ "હોય તો, વિન્ડો બટન ટુલટીપો ને બતાવેલ હશે નહિં."
+
+#~ msgid "Please note that this option is not available on all styles yet."
+#~ msgstr "મહેરબાની કરીને નોંધો કે આ વિકલ્પ હજુ બધી શૈલીઓ પર ઉપલબ્ધ નથી."
+
+#~ msgid "Use custom titlebar button &positions"
+#~ msgstr "વૈવિધ્ય શિર્ષકપટ્ટી નાં બટન સ્થાનો ને વાપરો (&p)"
+
+#~ msgid "B&order size:"
+#~ msgstr "સીમારેખાનું માપ (&o):"
+
+#~ msgid "Use this combobox to change the border size of the decoration."
+#~ msgstr "સજાવટની સીમારેખા માપ ને બદલવા માટે આ કોમ્બોબોક્સ ને વાપરો."
+
+#~ msgid "Decoration Options"
+#~ msgstr "સજાવટ વિકલ્પો"
+
+#~ msgid ""
+#~ "Select the window decoration. This is the look and feel of both the "
+#~ "window borders and the window handle."
+#~ msgstr ""
+#~ "વિન્ડો સજાવટ ને પસંદ કરો. આ વિન્ડો સીમાઓ અને વિન્ડો સંભાળવા એ બંને નું જોવાનું અને "
+#~ "અનુભવવાનું છે."
+
+#~ msgid "Configure Decoration..."
+#~ msgstr "સજાવટને રૂપરેખાંકિત કરો..."
+
+#~ msgid "Window Decoration Control Module"
+#~ msgstr "વિન્ડો સજાવટ નિયંત્રણ મોડ્યુલ"
+
+#~ msgid "(c) 2001 Karol Szwed"
+#~ msgstr "(c) 2001 Karol Szwed"
+
+#~ msgid "Karol Szwed"
+#~ msgstr "Karol Szwed"
+
+#~ msgid "Oxygen"
+#~ msgstr "ઑક્સિજન"
+
+#, fuzzy
+#~| msgid ""
+#~| "<h1>Window Manager Decoration</h1><p>This module allows you to choose "
+#~| "the window border decorations, as well as titlebar button positions and "
+#~| "custom decoration options.</p>To choose a theme for your window "
+#~| "decoration click on its name and apply your choice by clicking the "
+#~| "\"Apply\" button below. If you do not want to apply your choice you can "
+#~| "click the \"Reset\" button to discard your changes.<p>You can configure "
+#~| "each theme in the \"Configure [...]\" tab. There are different options "
+#~| "specific for each theme.</p><p>In \"General Options (if available)\" you "
+#~| "can activate the \"Buttons\" tab by checking the \"Use custom titlebar "
+#~| "button positions\" box. In the \"Buttons\" tab you can change the "
+#~| "positions of the buttons to your liking.</p>"
+#~ msgid ""
+#~ "<h1>Window Manager Decoration</h1><p>This module allows you to choose the "
+#~ "window border decorations, as well as titlebar button positions and "
+#~ "custom decoration options.</p>To choose a theme for your window "
+#~ "decoration click on its name and apply your choice by clicking the \"Apply"
+#~ "\" button below. If you do not want to apply your choice you can click "
+#~ "the \"Reset\" button to discard your changes.<p>You can configure each "
+#~ "theme. There are different options specific for each theme.</p><p>On the "
+#~ "\"Buttons\" tab check the \"Use custom titlebar button positions\" box "
+#~ "and you can change the positions of the buttons to your liking.</p>"
+#~ msgstr ""
+#~ "<h1>વિન્ડો વ્યવસ્થાપક સજાવટ</h1><p> આ મોડ્યુલ એ વિન્ડોની સીમારેખા સજાવટોને પસંદ "
+#~ "કરવા માટે પરવાનગી આપે છે, ની સાથે સાથે શિર્ષકપટ્ટી બટન સ્થાનો અને વૈવિધ્ય સજાવટ "
+#~ "વિકલ્પો.</p> તમારા વિન્ડો સજાવટ માટે થીમ ને પસંદ કરવા માટે તેનાં નામ પર ક્લિક કરો "
+#~ "અને નીચે \"લાગુ કરો\" બટન પર ક્લિક કરવા દરમ્યાન તમારી પસંદગી ને લાગુ કરો. જો તમો "
+#~ "તમારી પસંદગીને લાગુ કરવાનું ઇચ્છતા ના હોય તો તમે તમારા બદલાવો ને કાઢવા માટે \"પુન:"
+#~ "સુયોજિત\" બટન પર ક્લિક કરી શકો છો.<p>તમે \"Configure [...]\" ટેબમાં દરેક થીમ ને "
+#~ "રૂપરેખાંકિત કરી શકો છો. ત્યાં દરેક થીમ માટે વિવિધ ચોક્કસ વિકલ્પો છે. </p><p> "
+#~ "\"સામાન્ય વિકલ્પો (જો ઉપલ્બધ હોય તો)\" તમે \"વૈવિધ્ય શિર્ષકપટ્ટી બટન સ્થાનો ને વાપરો"
+#~ "\" બોક્સ ચકાસવા દરમ્યાન \"બટનો\" ટેબને સક્રિય કરી શકો છો. \"બટનો\" ટેબમાં તમને "
+#~ "ગમતી હોય તેવી બટનો નાં સ્થાનો તમે બદલી શકો છો.</p>"
+
+#~ msgid "Active Window"
+#~ msgstr "વિન્ડો ને સક્રિય કરો"
+
+#~ msgid "Inactive Window"
+#~ msgstr "વિન્ડોને નિષ્ક્રિય કરો"
+
+#~ msgid "kcmkwindecoration"
+#~ msgstr "kcmkwindecoration"
+
+#~ msgctxt "Caption to decoration preview, %1 author name"
+#~ msgid "by %1"
+#~ msgstr "%1 દ્દારા"
+
+#~ msgid ""
+#~ "No preview available.\n"
+#~ "Most probably there\n"
+#~ "was a problem loading the plugin."
+#~ msgstr ""
+#~ "પૂર્વદર્શન ઉપલ્બધ નથી.\n"
+#~ "મોટેભાગે કદાચ ત્યાં પ્લગઇન\n"
+#~ " ને લોડ કરવામાં સમસ્યા હતી."

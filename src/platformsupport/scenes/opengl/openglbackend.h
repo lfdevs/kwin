@@ -7,8 +7,7 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-#ifndef KWIN_SCENE_OPENGL_BACKEND_H
-#define KWIN_SCENE_OPENGL_BACKEND_H
+#pragma once
 
 #include "core/renderbackend.h"
 
@@ -19,11 +18,6 @@ namespace KWin
 {
 class Output;
 class OpenGLBackend;
-class SurfaceItem;
-class SurfacePixmapInternal;
-class SurfacePixmapX11;
-class SurfacePixmapWayland;
-class SurfaceTexture;
 class GLTexture;
 
 /**
@@ -51,10 +45,6 @@ public:
     virtual void init() = 0;
     CompositingType compositingType() const override final;
     bool checkGraphicsReset() override final;
-
-    virtual std::unique_ptr<SurfaceTexture> createSurfaceTextureInternal(SurfacePixmapInternal *pixmap);
-    virtual std::unique_ptr<SurfaceTexture> createSurfaceTextureX11(SurfacePixmapX11 *pixmap);
-    virtual std::unique_ptr<SurfaceTexture> createSurfaceTextureWayland(SurfacePixmapWayland *pixmap);
 
     virtual bool makeCurrent() = 0;
     virtual void doneCurrent() = 0;
@@ -208,5 +198,3 @@ private:
 };
 
 }
-
-#endif

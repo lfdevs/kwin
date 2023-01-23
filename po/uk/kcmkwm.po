@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-02 00:47+0000\n"
-"PO-Revision-Date: 2022-09-02 09:41+0300\n"
-"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
+"POT-Creation-Date: 2022-12-03 00:48+0000\n"
+"PO-Revision-Date: 2022-12-03 15:15+0200\n"
+"Last-Translator: Fracture dept <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
@@ -504,13 +504,10 @@ msgid ""
 "whole screen. It might be useful to selectively affect placement of some "
 "windows using the window-specific settings.</li><li style=\" margin-top:0px; "
 "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\"><span style=\" font-style:italic;\">Cascade</span> will "
-"cascade the windows</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"text-indent:0px;\"><span style=\" font-style:italic;\">Random</span> will "
+"use a random position</li><li style=\" margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-style:italic;\">Random</span> will use a random "
-"position</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-style:italic;\">Centered</span> will place the window "
+"\"><span style=\" font-style:italic;\">Centered</span> will place the window "
 "centered</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\" font-style:italic;\">Zero-cornered</span> will place the window in "
@@ -532,17 +529,14 @@ msgstr ""
 "впливу на деякі вікна за допомогою специфічних для вікон параметрів.</li><li "
 "style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-style:"
-"italic;\">Уступами</span> — розташувати вікна уступами.</li><li style=\" "
-"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
-"block-indent:0; text-indent:0px;\"><span style=\" font-style:italic;"
-"\">Довільно</span> — розташувати вікно випадковим чином.</li><li style=\" "
-"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"italic;\">Довільно</span> — розташувати вікно випадковим чином.</li><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-style:"
+"italic;\">У центрі</span> — розташувати вікно у центрі екрана.</li><li style="
+"\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
 "block-indent:0; text-indent:0px;\"><span style=\" font-style:italic;\">У "
-"центрі</span> — розташувати вікно у центрі екрана.</li><li style=\" margin-"
-"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\"><span style=\" font-style:italic;\">У нульовому "
-"куті</span> — розташувати вікно у верхньому лівому куті екрана.</li><li "
-"style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"нульовому куті</span> — розташувати вікно у верхньому лівому куті екрана.</"
+"li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-style:"
 "italic;\">Під вказівником</span> — розташувати вікно під вказівником миші.</"
 "li></ul></body></html>"
@@ -562,35 +556,29 @@ msgstr "Максимізовано"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:90
 #, kde-format
-msgid "Cascaded"
-msgstr "Уступами"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:95
-#, kde-format
 msgid "Random"
 msgstr "Довільно"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:100
+#: advanced.ui:95
 #, kde-format
 msgid "Centered"
 msgstr "У центрі"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:105
+#: advanced.ui:100
 #, kde-format
 msgid "In Top-Left Corner"
 msgstr "У лівому верхньому куті"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:110
+#: advanced.ui:105
 #, kde-format
 msgid "Under mouse"
 msgstr "Під вказівником"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:118
+#: advanced.ui:113
 #, kde-format
 msgid ""
 "When turned on, apps which are able to remember the positions of their "
@@ -602,7 +590,7 @@ msgstr ""
 "розташовування вікон, який було визначено вище."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:121
+#: advanced.ui:116
 #, kde-format
 msgid ""
 "Allow apps to remember the positions of their own windows, if they support it"
@@ -611,13 +599,13 @@ msgstr ""
 "передбачено підтримку цього"
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
-#: advanced.ui:128
+#: advanced.ui:123
 #, kde-format
 msgid "&Special windows:"
 msgstr "С&пеціальні вікна:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:138
+#: advanced.ui:133
 #, kde-format
 msgid ""
 "When turned on, utility windows (tool windows, torn-off menus,...) of "
@@ -632,25 +620,25 @@ msgstr ""
 "тип."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:141
+#: advanced.ui:136
 #, kde-format
 msgid "Hide utility windows for inactive applications"
 msgstr "Ховати допоміжні вікна для неактивних програм"
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyLabel)
-#: advanced.ui:148
+#: advanced.ui:143
 #, kde-format
 msgid "Virtual Desktop behavior:"
 msgstr "Робота з віртуальними стільницями:"
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyDescriptionLabel)
-#: advanced.ui:158
+#: advanced.ui:153
 #, kde-format
 msgid "When activating a window on a different Virtual Desktop:"
 msgstr "При активації вікна на іншій віртуальній стільниці:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:165
+#: advanced.ui:160
 #, kde-format
 msgid ""
 "<html><head/><body><p>This setting controls what happens when an open window "
@@ -670,13 +658,13 @@ msgstr ""
 "вікно на активну віртуальну стільницю. </p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:169
+#: advanced.ui:164
 #, kde-format
 msgid "Switch to that Virtual Desktop"
 msgstr "Перемкнутися на цю віртуальну стільницю"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:174
+#: advanced.ui:169
 #, kde-format
 msgid "Bring window to current Virtual Desktop"
 msgstr "Перенести вікно на поточну віртуальну стільницю"
@@ -1416,3 +1404,215 @@ msgstr ""
 "<em>перемикання вікон («Alt+Tab»)</em> суперечить цьому правилу і не "
 "працюватиме. Варто використовувати <em>Фокус під мишкою — пріоритет мишки</"
 "em>!"
+
+#~ msgid "Cascaded"
+#~ msgstr "Уступами"
+
+#~ msgid "Window &geometry:"
+#~ msgstr "&Геометрія вікна:"
+
+#~ msgid ""
+#~ "Enable this option if you want a window's geometry to be displayed while "
+#~ "it is being moved or resized. The window position relative to the top-"
+#~ "left corner of the screen is displayed together with its size."
+#~ msgstr ""
+#~ "Позначте цей пункт, щоб при пересуванні вікна або зміні його розміру, "
+#~ "його геометрію було відображено. Позиція вікна відносно до лівого "
+#~ "верхнього кута екрана буде відображено разом з його розміром."
+
+#~ msgid "Display when moving or resizing"
+#~ msgstr "Показувати при пересування або зміні розміру"
+
+#~ msgid "Maximize (vertical only)"
+#~ msgstr "Максимізувати (тільки по вертикалі)"
+
+#~ msgid "Maximize (horizontal only)"
+#~ msgstr "Максимізувати (тільки по горизонталі)"
+
+#~ msgid "Smart"
+#~ msgstr "Кмітливо"
+
+#~ msgid "Maximizing"
+#~ msgstr "Максимізовано"
+
+#~ msgid "Zero-cornered"
+#~ msgstr "У нульовому куті"
+
+#~ msgid "Switch to window tab to the left/right"
+#~ msgstr "Перемкнути на вкладку групи ліворуч/праворуч"
+
+#~ msgid "Window tabbing:"
+#~ msgstr "Компонування вікон:"
+
+#~ msgid ""
+#~ "When turned on immediately switch to any new window tabs that were "
+#~ "automatically added to the current group."
+#~ msgstr ""
+#~ "Якщо буде позначено цей пункт, система негайно перемикатиме перегляд до "
+#~ "будь-якого нового вікна, яке було додано до поточної групи автоматично."
+
+#~ msgid "&Switch to automatically grouped windows immediately"
+#~ msgstr "П&еремикатися на автоматично згруповані вікна негайно"
+
+#~ msgid "When turned on hide all tabs that are not active from the taskbar."
+#~ msgstr ""
+#~ "Якщо буде позначено цей пункт, система не показуватиме на панелі задач "
+#~ "всі неактивні вкладки."
+
+#~ msgid "&Hide inactive window tabs from the taskbar"
+#~ msgstr "&Ховати на панелі задач вкладки неактивних вікон"
+
+#~ msgid ""
+#~ "When turned on attempt to automatically detect when a newly opened window "
+#~ "is related to an existing one and place them in the same window group."
+#~ msgstr ""
+#~ "Якщо буде позначено цей пункт, середовище спробує автоматично визначити, "
+#~ "чи належить нове вікно до вже існуючого типу і розташує тотожні вікна у "
+#~ "одній групі вікон."
+
+#~ msgid "&Group similar windows automatically"
+#~ msgstr "Автоматично &групувати подібні вікна"
+
+#~ msgid "Start window tab drag"
+#~ msgstr "Почати перетягування вкладки вікна"
+
+#~ msgid "Ri&ght button:"
+#~ msgstr "&Права кнопка:"
+
+#~ msgid "&Wheel"
+#~ msgstr "&Коліщатко"
+
+#~ msgid "&Left button:"
+#~ msgstr "&Ліва кнопка:"
+
+#~ msgid "&Right button:"
+#~ msgstr "&Права кнопка:"
+
+#~ msgid "M&iddle button:"
+#~ msgstr "С&ередня кнопка:"
+
+#~ msgid "Left &button"
+#~ msgstr "&Ліва кнопка"
+
+#~ msgid "Automatically group similar windows"
+#~ msgstr "Автоматично групувати подібні вікна"
+
+#~ msgid ""
+#~ "The placement policy determines where a new window will appear on the "
+#~ "desktop.<br><ul>\n"
+#~ "<li><em>Smart</em> will try to achieve a minimum overlap of windows</li>\n"
+#~ "<li><em>Maximizing</em> will try to maximize every window to fill the "
+#~ "whole screen. It might be useful to selectively affect placement of some "
+#~ "windows using the window-specific settings.</li>\n"
+#~ "<li><em>Cascade</em> will cascade the windows</li>\n"
+#~ "<li><em>Random</em> will use a random position</li>\n"
+#~ "<li><em>Centered</em> will place the window centered</li>\n"
+#~ "<li><em>Zero-Cornered</em> will place the window in the top-left corner</"
+#~ "li>\n"
+#~ "<li><em>Under Mouse</em> will place the window under the pointer</li>\n"
+#~ "</ul>"
+#~ msgstr ""
+#~ "Правило розташування визначає, де нове вікно з'явиться на стільниці."
+#~ "<br><ul>\n"
+#~ "<li><em>Кмітливо</em> — стільниця спробує досягнути найменшого накладання "
+#~ "вікон</li>\n"
+#~ "<li><em>Максимізовано</em> — буде виконано спробу максимізувати кожне "
+#~ "вікно так, щоб воно займало весь екран. При таких налаштуваннях буде "
+#~ "корисним встановити власні параметри розташування для окремих типів вікон."
+#~ "</li>\n"
+#~ "<li><em>Уступами</em> — стільниця розкладає вікна уступами</li>\n"
+#~ "<li><em>Довільно</em> — з випадковим розташуванням</li>\n"
+#~ "<li><em>По центру</em> — розміщення вікна по центру</li>\n"
+#~ "<li><em>У куті</em> — розміщення вікна у лівому верхньому куті екрана</"
+#~ "li>\n"
+#~ "<li><em>Під вказівником</em> — розміщення вікна під вказівником миші</"
+#~ "li>\n"
+#~ "</ul>"
+
+#~ msgid "Shading"
+#~ msgstr "Згортання"
+
+#~ msgid "Dela&y:"
+#~ msgstr "&Затримка:"
+
+#~ msgid "&Enable hover"
+#~ msgstr "Ввімкнути ро&згортання під мишкою"
+
+#~ msgid "Activating windows"
+#~ msgstr "Активація вікон"
+
+#~ msgid "Policy"
+#~ msgstr "Правила"
+
+#~ msgid "Click"
+#~ msgstr "Клацання"
+
+#~ msgid "Hover"
+#~ msgstr "Наведення"
+
+#~ msgid "&Moving"
+#~ msgstr "&Пересування"
+
+#~ msgid "Wheel event:"
+#~ msgstr "Подія коліщатка:"
+
+#~ msgid "Handle mouse wheel events"
+#~ msgstr "Обробка прокручування коліщатка"
+
+#~ msgid ""
+#~ "In this column you can customize mouse clicks into the titlebar or the "
+#~ "frame of an active window."
+#~ msgstr ""
+#~ "Тут ви можете налаштувати поведінку при клацанні мишки на смужці "
+#~ "заголовка активного вікна."
+
+#~ msgid ""
+#~ "In this column you can customize mouse clicks into the titlebar or the "
+#~ "frame of an inactive window."
+#~ msgstr ""
+#~ "Тут ви можете налаштувати поведінку при клацанні мишки на рамці "
+#~ "неактивного вікна."
+
+#~ msgid "Left button:"
+#~ msgstr "Ліва кнопка:"
+
+#~ msgid "Middle button:"
+#~ msgstr "Середня кнопка:"
+
+#~ msgid ""
+#~ "Behavior on <em>middle</em> click into the titlebar or frame of an "
+#~ "<em>active</em> window."
+#~ msgstr ""
+#~ "Поведінка при клацанні <em>середньої</em> кнопки на смужці заголовка "
+#~ "<em>активного</em> вікна."
+
+#~ msgid "Right button:"
+#~ msgstr "Права кнопка:"
+
+#~ msgid ""
+#~ "Behavior on <em>right</em> click into the titlebar or frame of an "
+#~ "<em>active</em> window."
+#~ msgstr ""
+#~ "Поведінка при клацанні <em>правої</em> кнопки на смужці заголовка "
+#~ "<em>активного</em> вікна."
+
+#~ msgid "Titlebar & Frame"
+#~ msgstr "Заголовок і рамка"
+
+#~ msgid "Titlebar"
+#~ msgstr "Заголовок"
+
+#~ msgid "no center snap zone"
+#~ msgstr "без зони захоплення центру"
+
+#~ msgid "no window snap zone"
+#~ msgstr "без зони захоплення вікон"
+
+#~ msgid "no border snap zone"
+#~ msgstr "без зони захоплення межі"
+
+#~ msgid "Windows"
+#~ msgstr "Вікна"
+
+#~ msgid "Snap Zones"
+#~ msgstr "Зони захоплення"

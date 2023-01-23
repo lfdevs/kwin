@@ -14,18 +14,16 @@
 #include "core/renderloop_p.h"
 #include "core/session.h"
 #include "drm_backend.h"
+#include "drm_connector.h"
+#include "drm_crtc.h"
 #include "drm_egl_backend.h"
 #include "drm_layer.h"
 #include "drm_logging.h"
-#include "drm_object_connector.h"
-#include "drm_object_crtc.h"
-#include "drm_object_plane.h"
 #include "drm_output.h"
 #include "drm_pipeline.h"
+#include "drm_plane.h"
 #include "drm_virtual_output.h"
 #include "gbm_dmabuf.h"
-#include "wayland/drmleasedevice_v1_interface.h"
-#include "wayland_server.h"
 // system
 #include <algorithm>
 #include <errno.h>
@@ -81,34 +79,15 @@ DrmGpu::DrmGpu(DrmBackend *backend, const QString &devNode, int fd, dev_t device
         || strstr(version->name, "vmwgfx") || strstr(version->name, "vboxvideo");
     m_gbmDevice = gbm_create_device(m_fd);
 
-    m_socketNotifier = new QSocketNotifier(fd, QSocketNotifier::Read, this);
-    connect(m_socketNotifier, &QSocketNotifier::activated, this, &DrmGpu::dispatchEvents);
+    m_socketNotifier = std::make_unique<QSocketNotifier>(fd, QSocketNotifier::Read);
+    connect(m_socketNotifier.get(), &QSocketNotifier::activated, this, &DrmGpu::dispatchEvents);
 
     initDrmResources();
 
-    m_leaseDevice = new KWaylandServer::DrmLeaseDeviceV1Interface(waylandServer()->display(), [this] {
-        char *path = drmGetDeviceNameFromFd2(m_fd);
-        FileDescriptor fd{open(path, O_RDWR | O_CLOEXEC)};
-        if (!fd.isValid()) {
-            qCWarning(KWIN_DRM) << "Could not open DRM fd for leasing!" << strerror(errno);
-        } else {
-            if (drmIsMaster(fd.get())) {
-                if (drmDropMaster(fd.get()) != 0) {
-                    qCWarning(KWIN_DRM) << "Could not create a non-master DRM fd for leasing!" << strerror(errno);
-                    return FileDescriptor{};
-                }
-            }
-        }
-        return fd;
-    });
-    connect(m_leaseDevice, &KWaylandServer::DrmLeaseDeviceV1Interface::leaseRequested, this, &DrmGpu::handleLeaseRequest);
-    connect(m_leaseDevice, &KWaylandServer::DrmLeaseDeviceV1Interface::leaseRevoked, this, &DrmGpu::handleLeaseRevoked);
-    connect(m_platform, &DrmBackend::activeChanged, m_leaseDevice, [this]() {
-        if (!m_platform->isActive()) {
-            // when we gain drm master we want to update outputs first and only then notify the lease device
-            m_leaseDevice->setDrmMaster(false);
-        }
-    });
+    if (m_atomicModeSetting == false) {
+        // only supported with legacy
+        m_asyncPageflipSupported = drmGetCap(fd, DRM_CAP_ASYNC_PAGE_FLIP, &capability) == 0 && capability == 1;
+    }
 }
 
 DrmGpu::~DrmGpu()
@@ -120,12 +99,28 @@ DrmGpu::~DrmGpu()
     m_crtcs.clear();
     m_connectors.clear();
     m_planes.clear();
-    delete m_socketNotifier;
-    delete m_leaseDevice;
+    m_socketNotifier.reset();
     if (m_gbmDevice) {
         gbm_device_destroy(m_gbmDevice);
     }
     m_platform->session()->closeRestricted(m_fd);
+}
+
+FileDescriptor DrmGpu::createNonMasterFd() const
+{
+    char *path = drmGetDeviceNameFromFd2(m_fd);
+    FileDescriptor fd{open(path, O_RDWR | O_CLOEXEC)};
+    if (!fd.isValid()) {
+        qCWarning(KWIN_DRM) << "Could not open DRM fd for leasing!" << strerror(errno);
+    } else {
+        if (drmIsMaster(fd.get())) {
+            if (drmDropMaster(fd.get()) != 0) {
+                qCWarning(KWIN_DRM) << "Could not create a non-master DRM fd for leasing!" << strerror(errno);
+                return FileDescriptor{};
+            }
+        }
+    }
+    return fd;
 }
 
 clockid_t DrmGpu::presentationClock() const
@@ -234,7 +229,7 @@ bool DrmGpu::updateOutputs()
     // In principle these things are supposed to be detected through the wayland protocol.
     // In practice SteamVR doesn't always behave correctly
     DrmUniquePtr<drmModeLesseeListRes> lessees{drmModeListLessees(m_fd)};
-    for (const auto &output : qAsConst(m_drmOutputs)) {
+    for (const auto &output : std::as_const(m_drmOutputs)) {
         if (output->lease()) {
             bool leaseActive = false;
             for (uint i = 0; i < lessees->count; i++) {
@@ -244,7 +239,7 @@ bool DrmGpu::updateOutputs()
                 }
             }
             if (!leaseActive) {
-                output->lease()->revoke();
+                Q_EMIT output->lease()->revokeRequested();
             }
         }
     }
@@ -283,7 +278,7 @@ bool DrmGpu::updateOutputs()
             qCDebug(KWIN_DRM, "New %soutput on GPU %s: %s", conn->isNonDesktop() ? "non-desktop " : "", qPrintable(m_devNode), qPrintable(conn->modelName()));
             const auto pipeline = conn->pipeline();
             m_pipelines << pipeline;
-            auto output = new DrmOutput(*it, m_leaseDevice);
+            auto output = new DrmOutput(*it);
             m_drmOutputs << output;
             addedOutputs << output;
             Q_EMIT outputAdded(output);
@@ -300,16 +295,16 @@ bool DrmGpu::updateOutputs()
     }
 
     // update crtc properties
-    for (const auto &crtc : qAsConst(m_crtcs)) {
+    for (const auto &crtc : std::as_const(m_crtcs)) {
         crtc->updateProperties();
     }
     // update plane properties
-    for (const auto &plane : qAsConst(m_planes)) {
+    for (const auto &plane : std::as_const(m_planes)) {
         plane->updateProperties();
     }
     DrmPipeline::Error err = testPendingConfiguration();
     if (err == DrmPipeline::Error::None) {
-        for (const auto &pipeline : qAsConst(m_pipelines)) {
+        for (const auto &pipeline : std::as_const(m_pipelines)) {
             pipeline->applyPendingChanges();
             if (pipeline->output() && !pipeline->crtc()) {
                 pipeline->setEnable(false);
@@ -317,10 +312,10 @@ bool DrmGpu::updateOutputs()
             }
         }
     } else if (err == DrmPipeline::Error::NoPermission) {
-        for (const auto &pipeline : qAsConst(m_pipelines)) {
+        for (const auto &pipeline : std::as_const(m_pipelines)) {
             pipeline->revertPendingChanges();
         }
-        for (const auto &output : qAsConst(addedOutputs)) {
+        for (const auto &output : std::as_const(addedOutputs)) {
             removeOutput(output);
             const auto it = std::find_if(m_connectors.begin(), m_connectors.end(), [output](const auto &conn) {
                 return conn.get() == output->connector();
@@ -332,19 +327,15 @@ bool DrmGpu::updateOutputs()
         QTimer::singleShot(50, m_platform, &DrmBackend::updateOutputs);
     } else {
         qCWarning(KWIN_DRM, "Failed to find a working setup for new outputs!");
-        for (const auto &pipeline : qAsConst(m_pipelines)) {
+        for (const auto &pipeline : std::as_const(m_pipelines)) {
             pipeline->revertPendingChanges();
         }
-        for (const auto &output : qAsConst(addedOutputs)) {
+        for (const auto &output : std::as_const(addedOutputs)) {
             output->updateEnabled(false);
             output->pipeline()->setEnable(false);
             output->pipeline()->applyPendingChanges();
         }
     }
-    m_leaseDevice->setDrmMaster(true);
-    // after (potential) lease offer changes, a done event needs to be sent
-    // to signal clients to handle the changes
-    m_leaseDevice->done();
     return true;
 }
 
@@ -370,7 +361,7 @@ DrmPipeline::Error DrmGpu::checkCrtcAssignment(QVector<DrmConnector *> connector
             return DrmPipeline::Error::None;
         }
         // remaining connectors can't be powered
-        for (const auto &conn : qAsConst(connectors)) {
+        for (const auto &conn : std::as_const(connectors)) {
             qCWarning(KWIN_DRM) << "disabling connector" << conn->modelName() << "without a crtc";
             conn->pipeline()->setCrtc(nullptr);
         }
@@ -403,7 +394,7 @@ DrmPipeline::Error DrmGpu::checkCrtcAssignment(QVector<DrmConnector *> connector
             } while (pipeline->pruneModifier());
         }
     }
-    for (const auto &crtc : qAsConst(crtcs)) {
+    for (const auto &crtc : std::as_const(crtcs)) {
         if (connector->isCrtcSupported(crtc) && crtc != currentCrtc) {
             auto crtcsLeft = crtcs;
             crtcsLeft.removeOne(crtc);
@@ -452,7 +443,7 @@ DrmPipeline::Error DrmGpu::testPendingConfiguration()
     } else {
         // try again without hw rotation
         bool hwRotationUsed = false;
-        for (const auto &pipeline : qAsConst(m_pipelines)) {
+        for (const auto &pipeline : std::as_const(m_pipelines)) {
             hwRotationUsed |= (pipeline->bufferOrientation() != DrmPlane::Transformations(DrmPlane::Transformation::Rotate0));
             pipeline->setBufferOrientation(DrmPlane::Transformation::Rotate0);
         }
@@ -473,11 +464,11 @@ DrmPipeline::Error DrmGpu::testPipelines()
     if (!inactivePipelines.isEmpty() && test == DrmPipeline::Error::None) {
         // ensure that pipelines that are set as enabled but currently inactive
         // still work when they need to be set active again
-        for (const auto pipeline : qAsConst(inactivePipelines)) {
+        for (const auto pipeline : std::as_const(inactivePipelines)) {
             pipeline->setActive(true);
         }
         test = DrmPipeline::commitPipelines(m_pipelines, DrmPipeline::CommitMode::TestAllowModeset, unusedObjects());
-        for (const auto pipeline : qAsConst(inactivePipelines)) {
+        for (const auto pipeline : std::as_const(inactivePipelines)) {
             pipeline->setActive(false);
         }
     }
@@ -549,9 +540,6 @@ static std::chrono::nanoseconds convertTimestamp(clockid_t sourceClock, clockid_
 
 void DrmGpu::pageFlipHandler(int fd, unsigned int sequence, unsigned int sec, unsigned int usec, unsigned int crtc_id, void *user_data)
 {
-    Q_UNUSED(fd)
-    Q_UNUSED(sequence)
-
     DrmGpu *gpu = static_cast<DrmGpu *>(user_data);
 
     // The static_cast<> here are for a 32-bit environment where
@@ -621,22 +609,12 @@ void DrmGpu::removeVirtualOutput(DrmVirtualOutput *output)
     }
 }
 
-void DrmGpu::handleLeaseRequest(KWaylandServer::DrmLeaseV1Interface *leaseRequest)
+std::unique_ptr<DrmLease> DrmGpu::leaseOutputs(const QVector<DrmOutput *> &outputs)
 {
     QVector<uint32_t> objects;
-    QVector<DrmOutput *> outputs;
-
-    const auto connectors = leaseRequest->connectors();
-    for (KWaylandServer::DrmLeaseConnectorV1Interface *connector : connectors) {
-        if (DrmOutput *output = findOutput(connector->id())) {
-            if (output->lease()) {
-                continue; // already leased
-            }
-            if (!output->addLeaseObjects(objects)) {
-                leaseRequest->deny();
-                return;
-            }
-            outputs << output;
+    for (DrmOutput *output : outputs) {
+        if (output->lease() || !output->addLeaseObjects(objects)) {
+            return nullptr;
         }
     }
 
@@ -645,32 +623,17 @@ void DrmGpu::handleLeaseRequest(KWaylandServer::DrmLeaseV1Interface *leaseReques
     if (!fd.isValid()) {
         qCWarning(KWIN_DRM) << "Could not create DRM lease!" << strerror(errno);
         qCWarning(KWIN_DRM, "Tried to lease the following %d resources:", objects.count());
-        for (const auto &res : qAsConst(objects)) {
+        for (const auto &res : std::as_const(objects)) {
             qCWarning(KWIN_DRM) << res;
         }
-        leaseRequest->deny();
+        return nullptr;
     } else {
         qCDebug(KWIN_DRM, "Created lease for %d resources:", objects.count());
-        for (const auto &res : qAsConst(objects)) {
+        for (const auto &res : std::as_const(objects)) {
             qCDebug(KWIN_DRM) << res;
         }
-        leaseRequest->grant(std::move(fd), lesseeId);
-        for (const auto &output : qAsConst(outputs)) {
-            output->leased(leaseRequest);
-        }
+        return std::make_unique<DrmLease>(this, std::move(fd), lesseeId, outputs);
     }
-}
-
-void DrmGpu::handleLeaseRevoked(KWaylandServer::DrmLeaseV1Interface *lease)
-{
-    const auto connectors = lease->connectors();
-    for (KWaylandServer::DrmLeaseConnectorV1Interface *connector : connectors) {
-        if (DrmOutput *output = findOutput(connector->id())) {
-            output->leaseEnded();
-        }
-    }
-    qCDebug(KWIN_DRM, "Revoking lease with leaseID %d", lease->lesseeId());
-    drmModeRevokeLease(m_fd, lease->lesseeId());
 }
 
 QVector<DrmVirtualOutput *> DrmGpu::virtualOutputs() const
@@ -723,6 +686,11 @@ bool DrmGpu::addFB2ModifiersSupported() const
     return m_addFB2ModifiersSupported;
 }
 
+bool DrmGpu::asyncPageflipSupported() const
+{
+    return m_asyncPageflipSupported;
+}
+
 bool DrmGpu::isNVidia() const
 {
     return m_isNVidia;
@@ -748,7 +716,7 @@ bool DrmGpu::needsModeset() const
 bool DrmGpu::maybeModeset()
 {
     auto pipelines = m_pipelines;
-    for (const auto &output : qAsConst(m_drmOutputs)) {
+    for (const auto &output : std::as_const(m_drmOutputs)) {
         if (output->lease()) {
             pipelines.removeOne(output->pipeline());
         }
@@ -763,7 +731,7 @@ bool DrmGpu::maybeModeset()
     // make sure there's no pending pageflips
     waitIdle();
     const DrmPipeline::Error err = DrmPipeline::commitPipelines(pipelines, DrmPipeline::CommitMode::CommitModeset, unusedObjects());
-    for (DrmPipeline *pipeline : qAsConst(pipelines)) {
+    for (DrmPipeline *pipeline : std::as_const(pipelines)) {
         if (pipeline->modesetPresentPending()) {
             pipeline->resetModesetPresentPending();
             if (err != DrmPipeline::Error::None) {
@@ -805,33 +773,59 @@ QSize DrmGpu::cursorSize() const
 
 void DrmGpu::releaseBuffers()
 {
-    for (const auto &plane : qAsConst(m_planes)) {
+    for (const auto &plane : std::as_const(m_planes)) {
         plane->releaseBuffers();
     }
-    for (const auto &crtc : qAsConst(m_crtcs)) {
+    for (const auto &crtc : std::as_const(m_crtcs)) {
         crtc->releaseBuffers();
     }
-    for (const auto &pipeline : qAsConst(m_pipelines)) {
+    for (const auto &pipeline : std::as_const(m_pipelines)) {
         pipeline->primaryLayer()->releaseBuffers();
         pipeline->cursorLayer()->releaseBuffers();
     }
-    for (const auto &output : qAsConst(m_virtualOutputs)) {
-        output->outputLayer()->releaseBuffers();
+    for (const auto &output : std::as_const(m_virtualOutputs)) {
+        output->primaryLayer()->releaseBuffers();
     }
 }
 
 void DrmGpu::recreateSurfaces()
 {
-    for (const auto &pipeline : qAsConst(m_pipelines)) {
+    for (const auto &pipeline : std::as_const(m_pipelines)) {
         pipeline->setLayers(m_platform->renderBackend()->createPrimaryLayer(pipeline), m_platform->renderBackend()->createCursorLayer(pipeline));
         pipeline->applyPendingChanges();
     }
-    for (const auto &output : qAsConst(m_virtualOutputs)) {
+    for (const auto &output : std::as_const(m_virtualOutputs)) {
         output->recreateSurface();
-    }
-    for (const auto &output : qAsConst(m_drmOutputs)) {
-        output->updateCursor();
     }
 }
 
+DrmLease::DrmLease(DrmGpu *gpu, FileDescriptor &&fd, uint32_t lesseeId, const QVector<DrmOutput *> &outputs)
+    : m_gpu(gpu)
+    , m_fd(std::move(fd))
+    , m_lesseeId(lesseeId)
+    , m_outputs(outputs)
+{
+    for (const auto output : m_outputs) {
+        output->leased(this);
+    }
+}
+
+DrmLease::~DrmLease()
+{
+    qCDebug(KWIN_DRM, "Revoking lease with leaseID %d", m_lesseeId);
+    drmModeRevokeLease(m_gpu->fd(), m_lesseeId);
+    for (const auto &output : m_outputs) {
+        output->leaseEnded();
+    }
+}
+
+FileDescriptor &DrmLease::fd()
+{
+    return m_fd;
+}
+
+uint32_t DrmLease::lesseeId() const
+{
+    return m_lesseeId;
+}
 }

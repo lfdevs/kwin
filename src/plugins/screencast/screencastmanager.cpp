@@ -9,13 +9,13 @@
 #include "screencastmanager.h"
 #include "composite.h"
 #include "core/output.h"
-#include "core/platform.h"
+#include "core/outputbackend.h"
 #include "deleted.h"
 #include "effects.h"
 #include "kwingltexture.h"
 #include "outputscreencastsource.h"
 #include "regionscreencastsource.h"
-#include "scene.h"
+#include "scene/workspacescene.h"
 #include "screencaststream.h"
 #include "wayland/display.h"
 #include "wayland/output_interface.h"
@@ -70,34 +70,33 @@ public:
 private:
     void startFeeding()
     {
-        connect(Compositor::self()->scene(), &Scene::frameRendered, this, &WindowStream::bufferToStream);
+        connect(Compositor::self()->scene(), &WorkspaceScene::frameRendered, this, &WindowStream::bufferToStream);
 
-        connect(m_window, &Window::damaged, this, &WindowStream::includeDamage);
-        m_damagedRegion = m_window->visibleGeometry().toAlignedRect();
+        connect(m_window, &Window::damaged, this, &WindowStream::markDirty);
+        markDirty();
         m_window->output()->renderLoop()->scheduleRepaint();
     }
 
     void stopFeeding()
     {
-        disconnect(Compositor::self()->scene(), &Scene::frameRendered, this, &WindowStream::bufferToStream);
+        disconnect(Compositor::self()->scene(), &WorkspaceScene::frameRendered, this, &WindowStream::bufferToStream);
     }
 
-    void includeDamage(Window *window, const QRegion &damage)
+    void markDirty()
     {
-        Q_ASSERT(m_window == window);
-        m_damagedRegion |= damage;
+        m_dirty = true;
     }
 
     void bufferToStream()
     {
-        if (!m_damagedRegion.isEmpty()) {
-            recordFrame(m_damagedRegion);
-            m_damagedRegion = {};
+        if (m_dirty) {
+            recordFrame(QRegion(0, 0, m_window->width(), m_window->height()));
+            m_dirty = false;
         }
     }
 
-    QRegion m_damagedRegion;
     Window *m_window;
+    bool m_dirty = false;
 };
 
 void ScreencastManager::streamWindow(KWaylandServer::ScreencastStreamV1Interface *waylandStream,
@@ -127,10 +126,10 @@ void ScreencastManager::streamVirtualOutput(KWaylandServer::ScreencastStreamV1In
                                             double scale,
                                             KWaylandServer::ScreencastV1Interface::CursorMode mode)
 {
-    auto output = kwinApp()->platform()->createVirtualOutput(name, size, scale);
+    auto output = kwinApp()->outputBackend()->createVirtualOutput(name, size, scale);
     streamOutput(stream, output, mode);
     connect(stream, &KWaylandServer::ScreencastStreamV1Interface::finished, output, [output] {
-        kwinApp()->platform()->removeVirtualOutput(output);
+        kwinApp()->outputBackend()->removeVirtualOutput(output);
     });
 }
 

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.2\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-01 02:26+0000\n"
+"POT-Creation-Date: 2023-01-18 00:58+0000\n"
 "PO-Revision-Date: 2021-11-19 13:44+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -62,6 +62,7 @@ msgstr ""
 #: mousemark/mousemark_config.cpp:50 overview/kcm/overvieweffectkcm.cpp:35
 #: showpaint/showpaint_config.cpp:33
 #: thumbnailaside/thumbnailaside_config.cpp:54
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:31
 #: trackmouse/trackmouse_config.cpp:52
 #: windowview/kcm/windowvieweffectkcm.cpp:36 zoom/zoom_config.cpp:58
 #, kde-format
@@ -200,15 +201,21 @@ msgstr "Legközelebbi"
 msgid "Natural"
 msgstr "Természetes"
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
+#: desktopgrid/desktopgrid_config.ui:147
+#, kde-format
+msgid "None"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: desktopgrid/desktopgrid_config.ui:150
+#: desktopgrid/desktopgrid_config.ui:155
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "Windows layout:"
 msgstr "Ablakok"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: desktopgrid/desktopgrid_config.ui:166
+#: desktopgrid/desktopgrid_config.ui:171
 #, kde-format
 msgid "Activation"
 msgstr "Aktiválás"
@@ -311,10 +318,16 @@ msgstr "Ablakbezárási animáció"
 msgid "Toggle Invert Effect"
 msgstr "Invertálás ki-be"
 
-#: invert/invert.cpp:50 invert/invert_config.cpp:44
+#: invert/invert.cpp:49 invert/invert_config.cpp:44
 #, kde-format
 msgid "Toggle Invert Effect on Window"
 msgstr "Invertálás az ablakon ki-be"
+
+#: invert/invert.cpp:56
+#, fuzzy, kde-format
+#| msgid "Invert cursor keys"
+msgid "Invert Screen Colors"
+msgstr "Kurzor billentyűk invertálása"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FadeToBlack)
 #: login/package/contents/ui/config.ui:17
@@ -371,30 +384,30 @@ msgstr "Ma&gasság:"
 msgid "Toggle Mouse Click Effect"
 msgstr "Egérkattintás hatás ki-be"
 
-#: mouseclick/mouseclick.cpp:42
+#: mouseclick/mouseclick.cpp:41
 #, kde-format
 msgctxt "Left mouse button"
 msgid "Left"
 msgstr "Bal"
 
-#: mouseclick/mouseclick.cpp:43
+#: mouseclick/mouseclick.cpp:42
 #, kde-format
 msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr "Középső"
 
-#: mouseclick/mouseclick.cpp:44
+#: mouseclick/mouseclick.cpp:43
 #, kde-format
 msgctxt "Right mouse button"
 msgid "Right"
 msgstr "Jobb"
 
-#: mouseclick/mouseclick.h:61
+#: mouseclick/mouseclick.h:60
 #, kde-format
 msgid "↓"
 msgstr "↓"
 
-#: mouseclick/mouseclick.h:62
+#: mouseclick/mouseclick.h:61
 #, kde-format
 msgid "↑"
 msgstr "↑"
@@ -490,12 +503,12 @@ msgstr "Betűtípus:"
 msgid "Show Text:"
 msgstr "Szöveg megjelenítése:"
 
-#: mousemark/mousemark.cpp:36
+#: mousemark/mousemark.cpp:39
 #, kde-format
 msgid "Clear All Mouse Marks"
 msgstr "Egérnyom nélkül"
 
-#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:59
+#: mousemark/mousemark.cpp:45 mousemark/mousemark_config.cpp:59
 #, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr "Egérnyom nélkül"
@@ -562,12 +575,12 @@ msgstr "Háttér elmosása:"
 msgid "Ignore minimized windows:"
 msgstr "A minimalizált ablakok ki&hagyása"
 
-#: overview/qml/DesktopBar.qml:186
+#: overview/qml/DesktopBar.qml:187
 #, kde-format
 msgid "Delete Virtual Desktop"
 msgstr ""
 
-#: overview/qml/DesktopBar.qml:282
+#: overview/qml/DesktopBar.qml:283
 #, fuzzy, kde-format
 #| msgid "Desktop"
 msgid "Add Virtual Desktop"
@@ -579,12 +592,12 @@ msgstr "Asztal"
 msgid "No matching windows"
 msgstr "Elmozgatott ablakok:"
 
-#: private/qml/WindowHeapDelegate.qml:152
+#: private/qml/WindowHeapDelegate.qml:151
 #, kde-format
 msgid "Drag Down To Close"
 msgstr ""
 
-#: private/qml/WindowHeapDelegate.qml:462
+#: private/qml/WindowHeapDelegate.qml:461
 #, fuzzy, kde-format
 #| msgid "Close window"
 msgctxt "@info:tooltip as in: 'close this window'"
@@ -603,20 +616,20 @@ msgstr "Méretezés megnyitáskor:"
 msgid "Window close scale:"
 msgstr "Méretezés bezáráskor:"
 
-#: screenshot/screenshotdbusinterface1.cpp:480
+#: screenshot/screenshotdbusinterface1.cpp:478
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr "Képernyőkép"
 
-#: screenshot/screenshotdbusinterface1.cpp:481
+#: screenshot/screenshotdbusinterface1.cpp:479
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr "Képernyőkép mentve ide: %1"
 
-#: screenshot/screenshotdbusinterface1.cpp:797
-#: screenshot/screenshotdbusinterface2.cpp:472
+#: screenshot/screenshotdbusinterface1.cpp:800
+#: screenshot/screenshotdbusinterface2.cpp:477
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
@@ -625,8 +638,8 @@ msgstr ""
 "Válasszon ablakot képernyőkép készítéséhez bal egérgombbal vagy enterrel.\n"
 "Megszakításhoz nyomja meg az Escape-et vagy a jobb egérgombot."
 
-#: screenshot/screenshotdbusinterface1.cpp:800
-#: screenshot/screenshotdbusinterface2.cpp:490
+#: screenshot/screenshotdbusinterface1.cpp:803
+#: screenshot/screenshotdbusinterface2.cpp:495
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -692,14 +705,8 @@ msgstr "Vízszintesen:"
 msgid "Vertical:"
 msgstr "Függőlegesen:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideDocks)
-#: slide/slide_config.ui:72
-#, kde-format
-msgid "Slide docks"
-msgstr "Dokkok csúsztatása"
-
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideBackground)
-#: slide/slide_config.ui:79
+#: slide/slide_config.ui:72
 #, kde-format
 msgid "Slide desktop background"
 msgstr "Asztalháttér csúsztatása"
@@ -741,6 +748,50 @@ msgstr "Átlátszatlansá&g:"
 #, no-c-format, kde-format
 msgid " %"
 msgstr " %"
+
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:37
+#: tileseditor/tileseditoreffect.cpp:29
+#, kde-format
+msgid "Toggle Tiles Editor"
+msgstr ""
+
+#: tileseditor/qml/main.qml:147
+#, kde-format
+msgid "Padding:"
+msgstr ""
+
+#: tileseditor/qml/main.qml:157
+#, kde-format
+msgid "Load Layout..."
+msgstr ""
+
+#: tileseditor/qml/main.qml:271
+#, fuzzy, kde-format
+#| msgid "Closest"
+msgid "Close"
+msgstr "Legközelebbi"
+
+#: tileseditor/qml/TileDelegate.qml:171
+#, fuzzy, kde-format
+#| msgid "Horizontal:"
+msgid "Split Horizontally"
+msgstr "Vízszintesen:"
+
+#: tileseditor/qml/TileDelegate.qml:178
+#, fuzzy, kde-format
+#| msgid "Vertical:"
+msgid "Split Vertically"
+msgstr "Függőlegesen:"
+
+#: tileseditor/qml/TileDelegate.qml:186 tileseditor/qml/TileDelegate.qml:215
+#, kde-format
+msgid "Add Floating Tile"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:195
+#, kde-format
+msgid "Delete"
+msgstr ""
 
 #: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:57
 #, kde-format
@@ -876,17 +927,17 @@ msgstr "Letéphető menük:"
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "A jelenlegi ablakok átváltása (ezen az asztalon)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:55
+#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:54
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "A jelenlegi ablakok átváltása (az összes asztalon)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:65
+#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:63
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "A jelenlegi ablakok átváltása (ablak osztály)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:75
+#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:72
 #, fuzzy, kde-format
 #| msgid "Toggle Present Windows (Current desktop)"
 msgid "Toggle Present Windows (Window class on current desktop)"
@@ -898,16 +949,22 @@ msgstr "A jelenlegi ablakok átváltása (ezen az asztalon)"
 msgid "Ignore &minimized windows"
 msgstr "A minimalizált ablakok ki&hagyása"
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, kde-format
 msgid "No Matches"
 msgstr ""
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "No Windows"
 msgstr "Ablakok"
+
+#: windowview/qml/main.qml:123
+#, fuzzy, kde-format
+#| msgid "Fullscreen windows"
+msgid "Filter windows…"
+msgstr "Teljes képernyős ablakok"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20
@@ -969,32 +1026,32 @@ msgstr "Kisebb"
 msgid "More"
 msgstr "Nagyobb"
 
-#: zoom/zoom.cpp:68
+#: zoom/zoom.cpp:65
 #, kde-format
 msgid "Move Zoomed Area to Left"
 msgstr "Nagyított terület mozgatása balra"
 
-#: zoom/zoom.cpp:76
+#: zoom/zoom.cpp:72
 #, kde-format
 msgid "Move Zoomed Area to Right"
 msgstr "Nagyított terület mozgatása jobbra"
 
-#: zoom/zoom.cpp:84
+#: zoom/zoom.cpp:79
 #, kde-format
 msgid "Move Zoomed Area Upwards"
 msgstr "Nagyított terület mozgatása felfelé"
 
-#: zoom/zoom.cpp:92
+#: zoom/zoom.cpp:86
 #, kde-format
 msgid "Move Zoomed Area Downwards"
 msgstr "Nagyított terület mozgatása lefelé"
 
-#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:108
+#: zoom/zoom.cpp:94 zoom/zoom_config.cpp:108
 #, kde-format
 msgid "Move Mouse to Focus"
 msgstr "Egér mozgatása a fókuszhoz"
 
-#: zoom/zoom.cpp:109 zoom/zoom_config.cpp:115
+#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:115
 #, kde-format
 msgid "Move Mouse to Center"
 msgstr "Egér mozgatása középre"
@@ -1132,3 +1189,971 @@ msgstr "Letiltva"
 #, kde-format
 msgid "Mouse Tracking:"
 msgstr "Egérkövetés:"
+
+#~ msgid "Slide docks"
+#~ msgstr "Dokkok csúsztatása"
+
+#~ msgid "&Radius:"
+#~ msgstr "S&ugár:"
+
+#~ msgid "Text position:"
+#~ msgstr "Szövegpozíció:"
+
+#~ msgid "Inside Graph"
+#~ msgstr "A grafikonon belül"
+
+#~ msgid "Nowhere"
+#~ msgstr "Sehol"
+
+#~ msgid "Top Left"
+#~ msgstr "Bal oldal, felül"
+
+#~ msgid "Top Right"
+#~ msgstr "Jobb oldal, felül"
+
+#~ msgid "Bottom Left"
+#~ msgstr "Bal oldal, alul"
+
+#~ msgid "Bottom Right"
+#~ msgstr "Jobb oldal, alul"
+
+#~ msgid "Text font:"
+#~ msgstr "Betűtípus:"
+
+#~ msgid "Text color:"
+#~ msgstr "Betűszín:"
+
+#~ msgid "Text alpha:"
+#~ msgstr "Szöveg alfa-csatorna:"
+
+#, fuzzy
+#~| msgid "Show caps"
+#~ msgid "Show graph:"
+#~ msgstr "Lezárók mutatása"
+
+#, fuzzy
+#~| msgid "Show Text:"
+#~ msgid "Show Message:"
+#~ msgstr "Szöveg megjelenítése:"
+
+#~ msgid "Zoom &duration:"
+#~ msgstr "Nagyítási &idő:"
+
+#~ msgctxt "Duration of zoom"
+#~ msgid "Default"
+#~ msgstr "Alapértelmezés"
+
+#~ msgid "Border wid&th:"
+#~ msgstr "Szegély&vastagság:"
+
+#~ msgid "Click behavior:"
+#~ msgstr "Kattintás működése:"
+
+#~ msgid ""
+#~ "If the Present Windows effect is enabled, it will be automatically "
+#~ "triggered."
+#~ msgstr ""
+#~ "Ha az Ablakáttekintő effektus be van kapcsolva, automatikusan aktiválódik"
+
+#~ msgid "Switch desktop and activate window"
+#~ msgstr "Asztalváltás és ablak aktiválása"
+
+#~ msgid "Switch desktop only"
+#~ msgstr "Csak asztalváltás"
+
+#~ msgid "Natural Layout Settings"
+#~ msgstr "A természetes elrendezés beállításai"
+
+#~ msgid "Fill &gaps"
+#~ msgstr "Résk&itöltés"
+
+#~ msgid "Faster"
+#~ msgstr "Gyorsabb"
+
+#~ msgid "Nicer"
+#~ msgstr "Szebb"
+
+#~ msgid "Left button:"
+#~ msgstr "Bal gomb:"
+
+#~ msgid "No action"
+#~ msgstr "Nincsen művelet"
+
+#~ msgid "Activate window"
+#~ msgstr "Ablakok aktiválása:"
+
+#~ msgid "End effect"
+#~ msgstr "Véghatás"
+
+#~ msgid "Bring window to current desktop"
+#~ msgstr "Az ablak jelenlegi asztalra hozása"
+
+#~ msgid "Send window to all desktops"
+#~ msgstr "Az ablak elküldése az összes asztalnak"
+
+#~ msgid "(Un-)Minimize window"
+#~ msgstr "Ablak (de)minimalizálása"
+
+#~ msgid "Middle button:"
+#~ msgstr "Középső gomb:"
+
+#~ msgid "Right button:"
+#~ msgstr "Jobb gomb:"
+
+#~ msgctxt "@title:group actions when clicking on desktop"
+#~ msgid "Desktop"
+#~ msgstr "Asztal"
+
+#~ msgid "Show desktop"
+#~ msgstr "Asztal megjelenítése"
+
+#~ msgid "Display window &titles"
+#~ msgstr "Ablak&címsor"
+
+#~ msgid "Display window &icons"
+#~ msgstr "Ablak&ikonok"
+
+#~ msgid "Show &panels"
+#~ msgstr "&Panelek megjelenítése"
+
+#~ msgid "Regular Grid"
+#~ msgstr "Rács"
+
+#~ msgid "Flexible Grid"
+#~ msgstr "Rugalmas rács"
+
+#~ msgid "Provide buttons to close the windows"
+#~ msgstr "Gombok megjelenítése az ablakok bezárásához"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Kiszel Kristóf,Úr Balázs"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "ulysses@fsf.hu,urbalazs@gmail.com"
+
+#~ msgid "Scale window"
+#~ msgstr "Ablak nagyítása"
+
+#~ msgid "Show outline"
+#~ msgstr "Körvonal megjelenítése"
+
+#~ msgid "Toggle window geometry display (effect only)"
+#~ msgstr "Ablakgeometria megjelenítésének bekapcsolása (csak effektusok)"
+
+#~ msgid "Toggle KWin composited geometry display"
+#~ msgstr "KWin kompozitált geometria megjelenítésének bekapcsolása"
+
+#~ msgid "Display for moving windows"
+#~ msgstr "Megjelenítés ablakok mozgatásakor"
+
+#~ msgid "Display for resizing windows"
+#~ msgstr "Megjelenés ablakok átméretezésekor"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Blur"
+#~ msgstr "Elmosódás"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Blurs the background behind semi-transparent windows"
+#~ msgstr "Elmosódottá teszi a félig áttetsző ablakok hátterét"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Color Picker"
+#~ msgstr "Színválasztó"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Background contrast"
+#~ msgstr "Háttér kontraszt"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Improve contrast and readability behind semi-transparent windows"
+#~ msgstr ""
+#~ "Megnöveli a kontrasztot és az olvashatóságot a félig áttetsző ablakok "
+#~ "mögött"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Grid"
+#~ msgstr "Asztalrács"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Zoom out so all desktops are displayed side-by-side in a grid"
+#~ msgstr ""
+#~ "Kinagyítja az asztalt oly módon, hogy a virtuális asztalok rácsban "
+#~ "elrendezve jelennek meg"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Dim Inactive"
+#~ msgstr "Inaktív ablakok kiszürkítése"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Darken inactive windows"
+#~ msgstr "Elsötétíti az inaktív ablakokat"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Fall Apart"
+#~ msgstr "Szétbontás"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Closed windows fall into pieces"
+#~ msgstr "A bezárt ablakok darabokra hullanak"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Glide"
+#~ msgstr "Siklás"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Highlight Window"
+#~ msgstr "Ablakkiemelés"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlight the appropriate window when hovering over taskbar entries"
+#~ msgstr ""
+#~ "Ha az egérmutató egy ablakbejegyzés fölé kerül a feladatsávon, a "
+#~ "megfelelő ablak kiemelést kap"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Invert"
+#~ msgstr "Invertálás"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Inverts the color of the desktop and windows"
+#~ msgstr "Invertálja az asztal és az ablakok színét"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Kscreen"
+#~ msgstr "Kscreen"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper Effect for KScreen"
+#~ msgstr "Segédeffektus a KScreenhez"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Looking Glass"
+#~ msgstr "Nagyító"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "A screen magnifier that looks like a fisheye lens"
+#~ msgstr "Halszem-optikájú nagyító"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Magic Lamp"
+#~ msgstr "Varázslámpa"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Simulate a magic lamp when minimizing windows"
+#~ msgstr ""
+#~ "Az ablakok minimalizálása varázslámpás animáció kíséretében történik"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Magnifier"
+#~ msgstr "Nagyító"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Magnify the section of the screen that is near the mouse cursor"
+#~ msgstr "Felnagyítja az egérmutató alatti területet"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Click Animation"
+#~ msgstr "Egérkattintás animáció"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Creates an animation whenever a mouse button is clicked. This is useful "
+#~ "for screenrecordings/presentations"
+#~ msgstr ""
+#~ "Animációt hoz létre, amikor az egérgombbal kattintanak. Ez hasznos a "
+#~ "képernyő felvételekor vagy bemutatónál"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Mark"
+#~ msgstr "Egérnyom"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Allows you to draw lines on the desktop"
+#~ msgstr "Vonalakat lehet húzni az asztalon"
+
+#, fuzzy
+#~| msgctxt "Comment describing the KWin Effect"
+#~| msgid "Allows you to draw lines on the desktop"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Allows you to overview virtual desktops and windows"
+#~ msgstr "Vonalakat lehet húzni az asztalon"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Present Windows"
+#~ msgstr "Ablakáttekintő"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Zoom out until all opened windows can be displayed side-by-side"
+#~ msgstr ""
+#~ "Kinagyítja a nézetet, hogy az összes megnyitott ablak áttekinthető legyen"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Resize Window"
+#~ msgstr "Ablak átméretezése"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Resizes windows with a fast texture scale instead of updating contents"
+#~ msgstr ""
+#~ "Gyors textúraskálázással méretezi át az ablakokat a tartalom frissítése "
+#~ "helyett"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Screen Edge"
+#~ msgstr "Képernyőszél"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlights a screen edge when approaching"
+#~ msgstr "Kiemeli a képernyő szélét megközelítéskor"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Screenshot"
+#~ msgstr "Felvétel"
+
+#, fuzzy
+#~| msgctxt "Comment describing the KWin Effect"
+#~| msgid "Helper effect for KSnapshot"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper effect for screenshot tools"
+#~ msgstr "Segédeffektus a KScreenhez"
+
+#, fuzzy
+#~| msgid "Transparent"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Transform"
+#~ msgstr "Átlátszó"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Sheet"
+#~ msgstr "Munkalap"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Make modal dialogs smoothly fly in and out when they are shown or hidden"
+#~ msgstr ""
+#~ "Az ablakok folyamatosan áttűnő módon lesznek elrejtve és megjelenítve"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show FPS"
+#~ msgstr "Képkockaszámláló"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display KWin's performance in the corner of the screen"
+#~ msgstr "A KWin teljesítményének kijelzése a képernyő sarkában"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show Paint"
+#~ msgstr "Megmutatja a kirajzolt területeket"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlight areas of the desktop that have been recently updated"
+#~ msgstr "Kiemeli az asztalon az éppen felfrissített területet"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Slide"
+#~ msgstr "Dia"
+
+#, fuzzy
+#~| msgctxt "Comment describing the KWin Effect"
+#~| msgid "Slide windows across the screen when switching virtual desktops"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Slide desktops when switching virtual desktops"
+#~ msgstr ""
+#~ "Más virtuális asztalra történő átváltáskor az ablakok \"elcsúsznak\""
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Slide Back"
+#~ msgstr "Visszacsúszó ablakok"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Slide back windows when another window is raised"
+#~ msgstr "Ablakok visszacsúsztatása másik ablak előtérbe hozásakor"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Sliding popups"
+#~ msgstr "Csúszó felugró ablakok"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Sliding animation for Plasma popups"
+#~ msgstr "Csúszó animáció a felugró Plasma ablakokhoz"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Snap Helper"
+#~ msgstr "Középpontkereső"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Help you locate the center of the screen when moving a window"
+#~ msgstr "Segít megtalálni az asztal közepét ablak áthelyezésekor"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Startup Feedback"
+#~ msgstr "Alkalmazásindítási effektus"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper effect for startup feedback"
+#~ msgstr "Segédeffektus alkalmazásindításhoz"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Thumbnail Aside"
+#~ msgstr "Ablakbetekintő oldalt"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display window thumbnails on the edge of the screen"
+#~ msgstr "A képernyő szélénél megjelennek az ablakok kicsinyített képei"
+
+#, fuzzy
+#~| msgid "Mouse Pointer:"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Touch Points"
+#~ msgstr "Egérmutató:"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Track Mouse"
+#~ msgstr "Egérkövetés"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display a mouse cursor locating effect when activated"
+#~ msgstr "Aktiválás esetén kijelzi az egérmutató pozícióját"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Window Geometry"
+#~ msgstr "Ablakgeometria megjelenítésének bekapcsolása (csak effektusok"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display window geometries on move/resize"
+#~ msgstr "Megjeleníti az ablakméretet mozgatás és átméretezés közben"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Wobbly Windows"
+#~ msgstr "Tekergő ablakok"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Deform windows while they are moving"
+#~ msgstr "Mozgatás közben deformálódnak az ablakok"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Zoom"
+#~ msgstr "Nagyítás"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Magnify the entire desktop"
+#~ msgstr "Kinagyítja az egész asztalt"
+
+#~ msgctxt "Special entry in alt+tab list for minimizing all windows"
+#~ msgid "Show Desktop"
+#~ msgstr "Asztal megjelenítése"
+
+#~ msgid "Zoom"
+#~ msgstr "Nagyítás"
+
+#~ msgid "Define how far away the windows should appear"
+#~ msgstr "Milyen távol tűnjenek el teljesen az ablakok?"
+
+#~ msgid "Near"
+#~ msgstr "Közel"
+
+#~ msgid "Far"
+#~ msgstr "Távol"
+
+#~ msgid "Animation"
+#~ msgstr "Animáció"
+
+#~ msgid "Animate switch"
+#~ msgstr "Animáció váltáskor"
+
+#~ msgid "Animation on tab box open"
+#~ msgstr "Animáció laptartó megnyitásakor"
+
+#~ msgid "Animation on tab box close"
+#~ msgstr "Animáció laptartó bezárásakor"
+
+#~ msgid "Reflections"
+#~ msgstr "Tükröződések"
+
+#~ msgid "Rear color"
+#~ msgstr "Valódi szín"
+
+#~ msgid "Front color"
+#~ msgstr "Előtérszín:"
+
+#~ msgid "Desktop Cube"
+#~ msgstr "Asztalkocka"
+
+#~ msgid "Desktop Cylinder"
+#~ msgstr "Asztali cilinder"
+
+#~ msgid "Desktop Sphere"
+#~ msgstr "Asztalkocka"
+
+#~ msgctxt "@title:tab Basic Settings"
+#~ msgid "Basic"
+#~ msgstr "Alap"
+
+#~ msgctxt "@title:tab Advanced Settings"
+#~ msgid "Advanced"
+#~ msgstr "Speciális"
+
+#~ msgid "Tab 1"
+#~ msgstr "1. lap"
+
+#~ msgid "Background color:"
+#~ msgstr "Háttérszín:"
+
+#~ msgid "Wallpaper:"
+#~ msgstr "Háttérkép:"
+
+#~ msgid "Display desktop name"
+#~ msgstr "Legyen kiírva az asztal neve"
+
+#~ msgid "Reflection"
+#~ msgstr "Tükröződés"
+
+#~ msgid "Rotation duration:"
+#~ msgstr "Forgási idő:"
+
+#~ msgid "Windows hover above cube"
+#~ msgstr "Ablakok lebegtetése a kocka felett"
+
+#~ msgid "Opacity"
+#~ msgstr "Átlátszatlanság"
+
+#~ msgid "Do not change opacity of windows"
+#~ msgstr "Ne változtassa meg az ablakok átlátszatlanságát"
+
+#~ msgid "Tab 2"
+#~ msgstr "2. lap"
+
+#~ msgid "Caps"
+#~ msgstr "Lezárók"
+
+#~ msgid "Cap color:"
+#~ msgstr "Lezárószín:"
+
+#~ msgid "Display image on caps"
+#~ msgstr "Kép mutatása a lezárókon"
+
+#~ msgid "Define how far away the object should appear"
+#~ msgstr "Milyen távol jelenjen meg az objektum?"
+
+#~ msgid "Additional Options"
+#~ msgstr "További beállítások"
+
+#~ msgid ""
+#~ "If enabled the effect will be deactivated after rotating the cube with "
+#~ "the mouse,\n"
+#~ "otherwise it will remain active"
+#~ msgstr ""
+#~ "Ha be van jelölve, az effektus elforgatás után megszűnik, máskülönben\n"
+#~ "aktív marad"
+
+#~ msgid "Close after mouse dragging"
+#~ msgstr "Bezárás egeres elhúzás után"
+
+#~ msgid "Use this effect for walking through the desktops"
+#~ msgstr "Az effektus legyen aktív az asztalok végigjárásakor"
+
+#~ msgid "Invert mouse"
+#~ msgstr "Egér invertálása"
+
+#~ msgid "Sphere Cap Deformation"
+#~ msgstr "Deformáció a lefogóknál"
+
+#~ msgid "Sphere"
+#~ msgstr "Gömb"
+
+#~ msgid "Plane"
+#~ msgstr "Sík"
+
+#~ msgid "Do not animate windows on all desktops"
+#~ msgstr "Ne animálja az ablakokat az összes asztalon"
+
+#~ msgid "Do not animate panels"
+#~ msgstr "Ne animálja a paneleket"
+
+#~ msgid "Use pager layout for animation"
+#~ msgstr "Lapozó elrendezés használata az animáció számára"
+
+#~ msgid "Start animation when moving windows towards screen edges"
+#~ msgstr "Animáció elkezdése az ablakok képernyő szélére mozgatásakor"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Cover Switch"
+#~ msgstr "Fedett váltódoboz"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display a Cover Flow effect for the alt+tab window switcher"
+#~ msgstr ""
+#~ "Az Alt+Tab-os ablakváltóban megmutatja az ablakok kicsinyített képét"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube"
+#~ msgstr "Asztalkocka"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display each virtual desktop on a side of a cube"
+#~ msgstr "A virtuális asztalok egy kocka lapjain jelennek meg"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube Animation"
+#~ msgstr "Asztalváltó kocka"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Animate desktop switching with a cube"
+#~ msgstr "Asztalváltás kocka alakzattal"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Flip Switch"
+#~ msgstr "Billenős váltódoboz"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Flip through windows that are in a stack for the alt+tab window switcher"
+#~ msgstr "Halomban megjelenített ablakokkal dolgozó Alt+Tab-os ablakváltó"
+
+#~ msgid "Toggle Flip Switch (Current desktop)"
+#~ msgstr "A jelenlegi ablakok átváltása (ezen az asztalon)"
+
+#~ msgid "Toggle Flip Switch (All desktops)"
+#~ msgstr "A jelenlegi ablakok átváltása (az összes asztalon)"
+
+#~ msgid "Flip animation duration:"
+#~ msgstr "Átbillenési animáció időtartam:"
+
+#~ msgctxt "Duration of flip animation"
+#~ msgid "Default"
+#~ msgstr "Alapértelmezés"
+
+#~ msgid "Angle:"
+#~ msgstr "Szög:"
+
+#~ msgid " °"
+#~ msgstr " °"
+
+#~ msgid "Horizontal position of front:"
+#~ msgstr "Az előtér vízszintes pozíciója:"
+
+#~ msgid "Vertical position of front:"
+#~ msgstr "Az előtér függőleges pozíciója:"
+
+#~ msgid ""
+#~ "Filter:\n"
+#~ "%1"
+#~ msgstr ""
+#~ "Szűrő:\n"
+#~ "%1"
+
+#~ msgid "Use Present Windows effect to layout the windows"
+#~ msgstr "A jelenlegi ablakok hatás használata az ablakok elrendezéséhez"
+
+#~ msgid "When the focus changes, move the zoom area to the focused location."
+#~ msgstr ""
+#~ "Ha a fókusz megváltozik, helyezze át a nagyítási területet a fókuszált "
+#~ "helyre."
+
+#~ msgid "Follow Focus"
+#~ msgstr "Fókuszkövetés"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Dim Screen for Administrator Mode"
+#~ msgstr "Halványított képernyő rendszergazdai módban"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Darkens the entire screen when requesting root privileges"
+#~ msgstr "Elsötétíti a képernyőt rendszergazdai jogosultság kérésekor"
+
+#, fuzzy
+#~| msgid "Scale"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Scale"
+#~ msgstr "Méretezés"
+
+#, fuzzy
+#~| msgctxt "Comment describing the KWin Effect"
+#~| msgid ""
+#~| "Make modal dialogs smoothly fly in and out when they are shown or hidden"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Make windows smoothly scale in and out when they are shown or hidden"
+#~ msgstr ""
+#~ "Az ablakok folyamatosan áttűnő módon lesznek elrejtve és megjelenítve"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Minimize Animation"
+#~ msgstr "Animáció minimalizáláskor"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Animate the minimizing of windows"
+#~ msgstr "Az ablakok minimalizálása animáció kíséretében történik"
+
+#~ msgid "Trigger on"
+#~ msgstr "Aktiváló"
+
+#~ msgid "Shortcut"
+#~ msgstr "Gyorsbillentyű"
+
+#~ msgid "Apply effect to &panels"
+#~ msgstr "Alkalmazás a &panelekre"
+
+#~ msgid "Apply effect to the desk&top"
+#~ msgstr "Alkalmazás az &asztalra"
+
+#~ msgid "Apply effect to &keep-above windows"
+#~ msgstr "Effektus alkalmazása a felül tartott abla&kokra"
+
+#~ msgid "Apply effect to &groups"
+#~ msgstr "Alkalmazás a &csoportokra"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Windows Glide Effect as they are open and closed"
+#~ msgstr "Az ablakok be- illetve kisiklanak megnyitáskor és bezáráskor"
+
+#~ msgid "Glide Effect:"
+#~ msgstr "Siklás effektus:"
+
+#~ msgid "In"
+#~ msgstr "Be"
+
+#~ msgid "Out"
+#~ msgstr "Ki"
+
+#~ msgid "Glide Angle:"
+#~ msgstr "Siklási szög:"
+
+#~ msgid "-90"
+#~ msgstr "-90"
+
+#~ msgid "90"
+#~ msgstr "90"
+
+#, fuzzy
+#~| msgctxt "Duration of rotation"
+#~| msgid "Default"
+#~ msgctxt "Duration of the slide animation"
+#~ msgid "Default"
+#~ msgstr "Alapértelmezés"
+
+#~ msgid "Strength of the effect:"
+#~ msgstr "A hatás ereje:"
+
+#~ msgid "Save intermediate rendering results."
+#~ msgstr "Köztes renderelési eredmények mentése."
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Logout"
+#~ msgstr "Kijelentkezés"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Desaturate the desktop when displaying the logout dialog"
+#~ msgstr ""
+#~ "Csökkentett színek az asztalon a kijelentkezési ablak megjelenítésekor"
+
+#~ msgid "Brightness of the background:"
+#~ msgstr "A háttér fényereje:"
+
+#~ msgctxt "Less brightness"
+#~ msgid "Darker"
+#~ msgstr "Sötétebb"
+
+#~ msgctxt "More brightness"
+#~ msgid "Lighter"
+#~ msgstr "Világosabb"
+
+#~ msgid "Saturation of the background:"
+#~ msgstr "A háttér színtelítettsége:"
+
+#~ msgctxt "No saturation"
+#~ msgid "Gray"
+#~ msgstr "Szürke"
+
+#~ msgid "Duration of the fade:"
+#~ msgstr "Az elhalványulás időtartama:"
+
+#~ msgid "ms"
+#~ msgstr "ms"
+
+#~ msgid "The blur effect must be enabled before it can be used."
+#~ msgstr "Az elmosódás effektust be kell kapcsolni, mielőtt használná."
+
+#~ msgid "Apply blur effect to background"
+#~ msgstr "Elmosódás effektus alkalmazása a háttérre"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Dashboard"
+#~ msgstr "Áttekintő nézet"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Desaturate the desktop when displaying the Plasma dashboard"
+#~ msgstr ""
+#~ "Csökkentett színek az asztalon a Plasmaáttekintő-nézet megjelenítésekor"
+
+#~ msgid "Decorations:"
+#~ msgstr "Keret:"
+
+#~ msgid "Background window &opacity:"
+#~ msgstr "A háttérben levő ablakok át&látszatlansága:"
+
+#~ msgid "&Elevate selected window"
+#~ msgstr "A kijelölt ablak &előre hozása"
+
+#~ msgid "&Animate walk through windows"
+#~ msgstr "&Animált végigjárás az ablakokon"
+
+#~ msgid "Use additional thumbnail bar"
+#~ msgstr "További sáv használata"
+
+#~ msgid ""
+#~ "Only show thumbnail bar if there are at least specified number of windows"
+#~ msgstr ""
+#~ "Csak akkor jelenjen meg a sáv, ha a nyitott ablakok száma eléri a "
+#~ "megadott értéket"
+
+#~ msgid "Dynamic mode"
+#~ msgstr "Dinamikus mód"
+
+#~ msgid "Number of windows:"
+#~ msgstr "Ablakszám:"
+
+#~ msgid " row"
+#~ msgid_plural " rows"
+#~ msgstr[0] " sor"
+#~ msgstr[1] " sor"
+
+#~ msgctxt "Duration of fading"
+#~ msgid "Default"
+#~ msgstr "Alapértelmezés"
+
+#~ msgid "Toggle Video Recording"
+#~ msgstr "Videofelvétel"
+
+#~ msgid "Path to save video:"
+#~ msgstr "Videomentési könyvtár:"
+
+#~ msgid "Slide when switching tabs"
+#~ msgstr "Csúsztatás lapok váltásakor"
+
+#~ msgid "Snow"
+#~ msgstr "Havazás"
+
+#~ msgid "Toggle Snow on Desktop"
+#~ msgstr "Havazási effektus az asztalon"
+
+#~ msgid " pixel/frame"
+#~ msgid_plural " pixels/frame"
+#~ msgstr[0] "képpont/képkocka"
+#~ msgstr[1] "képpont/képkocka"
+
+#~ msgctxt "@action Enables/Disables an effect that makes windows more sharp"
+#~ msgid "Toggle Sharpen Effect"
+#~ msgstr "Élesítés ki-be"
+
+#~ msgid "&Number of snowflakes:"
+#~ msgstr "A &hópelyhek száma:"
+
+#~ msgid "M&inimum size of snowflake:"
+#~ msgstr "Minimális hó&pehelyméret:"
+
+#~ msgid "M&aximum size of snowflake:"
+#~ msgstr "Ma&ximális hópehelyméret:"
+
+#~ msgid "Maximum &vertical speed:"
+#~ msgstr "Maximális &függőleges sebesség:"
+
+#~ msgid "Maximum &horizontal speed:"
+#~ msgstr "Maximális &vízszintes sebesség:"
+
+#~ msgid "Snow &behind windows"
+#~ msgstr "Hóesés az ablakok mö&gött"
+
+#~ msgid "&X offset:"
+#~ msgstr "&X távolság:"
+
+#~ msgid "&Y offset:"
+#~ msgstr "&Y távolság:"
+
+#~ msgid "%"
+#~ msgstr "%"
+
+#~ msgid "&Fuzziness:"
+#~ msgstr "Árnyékke&verés:"
+
+#~ msgid "&Size:"
+#~ msgstr "Mé&ret:"
+
+#~ msgid "&Active windows have stronger shadows"
+#~ msgstr "Az &aktív ablak árnyéka serősebb legyen"
+
+#, fuzzy
+#~| msgid "Background"
+#~ msgid "Background brightness"
+#~ msgstr "Háttér"
+
+#, fuzzy
+#~| msgid "Background"
+#~ msgid "Background saturation"
+#~ msgstr "Háttér"
+
+#, fuzzy
+#~| msgid "End effect"
+#~ msgid "Effects"
+#~ msgstr "Véghatás"
+
+#~ msgid "Hold Ctrl+Meta keys to see where the mouse cursor is."
+#~ msgstr "Az egérmutató előhívása a Ctrl+Meta kombinációval"
+
+#~ msgid "Rearrange &duration:"
+#~ msgstr "Újrarende&zési idő:"
+
+#~ msgctxt "Duration of rearrangement"
+#~ msgid "Default"
+#~ msgstr "Alapértelmezés"
+
+#~ msgid "Animate &flip"
+#~ msgstr "Animált átbi&llentés"
+
+#~ msgid "Custom..."
+#~ msgstr "Egyedi..."
+
+#~ msgid ""
+#~ "If enabled span the cube across all screens on a multiscreen setup, "
+#~ "otherwise\n"
+#~ "the cube will only be displayed on a single screen"
+#~ msgstr ""
+#~ "Ha be van jelölve, a kocka mindegyik fizikai képernyőn látszani fog, "
+#~ "máskülönben\n"
+#~ "csak egy képernyőn"
+
+#~ msgid "Span cube on all screens in multi screen setup"
+#~ msgstr "Mindegyik fizikai képernyőn"
+
+#~ msgid ""
+#~ "If enabled the effect will be deactivated after rotating the cylinder "
+#~ "with the mouse,\n"
+#~ "otherwise it will remain active."
+#~ msgstr ""
+#~ "Ha be van jelölve, az effektus forgatás után megszűnik, máskülönben\n"
+#~ "aktív marad."
+
+#~ msgid "Default Shadow"
+#~ msgstr "Alapértelmezett árnyék"
+
+#~ msgid "Decoration Shadows"
+#~ msgstr "Keretárnyék"
+
+#~ msgid "&Decorated windows"
+#~ msgstr "&Keretek"
+
+#~ msgid "Force default shadows for:"
+#~ msgstr "Árnyék alapértelmezésben ezeknél:"
+
+#~ msgid "&Undecorated normal windows"
+#~ msgstr "Keret nélküli n&ormál ablakok"
+
+#~ msgid ""
+#~ "If enabled the effect will be deactivated after rotating the sphere with "
+#~ "the mouse,\n"
+#~ "otherwise it will remain active"
+#~ msgstr ""
+#~ "Ha be van jelölve, elforgatás után az effektus megszűnik, máskülönben\n"
+#~ "aktív marad"

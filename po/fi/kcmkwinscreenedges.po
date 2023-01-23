@@ -243,3 +243,48 @@ msgid ""
 "of the screen."
 msgstr ""
 "Voit käynnistää toiminnon pyyhkäisemällä näytön laidalta sen keskustaan."
+
+#~ msgid "Show Desktop"
+#~ msgstr "Näytä työpöytä"
+
+#~ msgid "Desktop Grid"
+#~ msgstr "Työpöytäruudukko"
+
+#~ msgid "Toggle Overview"
+#~ msgstr "Näytä tai piilota yleiskuva"
+
+#~ msgid "%1 - Cube"
+#~ msgstr "%1 – Kuutio"
+
+#~ msgid "%1 - Cylinder"
+#~ msgstr "%1 – Sylinteri"
+
+#~ msgid "%1 - Sphere"
+#~ msgstr "%1 – Lieriö"
+
+#~ msgid "Active Screen Corners and Edges"
+#~ msgstr "Aktiiviset näytön kulmat ja reunat"
+
+#~ msgid "Window Management"
+#~ msgstr "Ikkunanhallinta"
+
+#~ msgid "Maximize windows by dragging them to the top edge of the screen"
+#~ msgstr "Suurenna ikkunat vetämällä ne näytön ylälaitaan"
+
+#~ msgid "Quarter tiling triggered in the outer"
+#~ msgstr ""
+#~ "Ikkunat kiinnittyvät näytön neljäsosiksi, kun ne vedetään näytön laitaan "
+#~ "korkeintaan"
+
+#~ msgid "Other Settings"
+#~ msgstr "Muut asetukset"
+
+#~ msgctxt "Open krunner"
+#~ msgid "Run Command"
+#~ msgstr "Suorita komento"
+
+#~ msgid "Show Dashboard"
+#~ msgstr "Näytä kojelauta"
+
+#~ msgid "Prevent Screen Locking"
+#~ msgstr "Estä näytön lukittuminen"

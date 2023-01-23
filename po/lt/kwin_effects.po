@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-01 02:26+0000\n"
+"POT-Creation-Date: 2023-01-18 00:58+0000\n"
 "PO-Revision-Date: 2020-02-22 13:11+0200\n"
 "Last-Translator: Moo\n"
 "Language-Team: lt <kde-i18n-lt@kde.org>\n"
@@ -65,6 +65,7 @@ msgstr ""
 #: mousemark/mousemark_config.cpp:50 overview/kcm/overvieweffectkcm.cpp:35
 #: showpaint/showpaint_config.cpp:33
 #: thumbnailaside/thumbnailaside_config.cpp:54
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:31
 #: trackmouse/trackmouse_config.cpp:52
 #: windowview/kcm/windowvieweffectkcm.cpp:36 zoom/zoom_config.cpp:58
 #, kde-format
@@ -203,15 +204,21 @@ msgstr ""
 msgid "Natural"
 msgstr "Natūrali"
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
+#: desktopgrid/desktopgrid_config.ui:147
+#, kde-format
+msgid "None"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: desktopgrid/desktopgrid_config.ui:150
+#: desktopgrid/desktopgrid_config.ui:155
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "Windows layout:"
 msgstr "Langai"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: desktopgrid/desktopgrid_config.ui:166
+#: desktopgrid/desktopgrid_config.ui:171
 #, kde-format
 msgid "Activation"
 msgstr "Aktyvavimas"
@@ -314,10 +321,16 @@ msgstr "Lango užvėrimo animacija"
 msgid "Toggle Invert Effect"
 msgstr "Perjungti invertavimo efektą"
 
-#: invert/invert.cpp:50 invert/invert_config.cpp:44
+#: invert/invert.cpp:49 invert/invert_config.cpp:44
 #, kde-format
 msgid "Toggle Invert Effect on Window"
 msgstr "Perjungti invertavimo efektą langui"
+
+#: invert/invert.cpp:56
+#, fuzzy, kde-format
+#| msgid "Invert cursor keys"
+msgid "Invert Screen Colors"
+msgstr "Invertuoti žymeklio klavišus"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FadeToBlack)
 #: login/package/contents/ui/config.ui:17
@@ -374,30 +387,30 @@ msgstr "&Aukštis:"
 msgid "Toggle Mouse Click Effect"
 msgstr "Perjungti pelės spustelėjimo efektą"
 
-#: mouseclick/mouseclick.cpp:42
+#: mouseclick/mouseclick.cpp:41
 #, kde-format
 msgctxt "Left mouse button"
 msgid "Left"
 msgstr "Kairysis"
 
-#: mouseclick/mouseclick.cpp:43
+#: mouseclick/mouseclick.cpp:42
 #, kde-format
 msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr "Vidurinysis"
 
-#: mouseclick/mouseclick.cpp:44
+#: mouseclick/mouseclick.cpp:43
 #, kde-format
 msgctxt "Right mouse button"
 msgid "Right"
 msgstr "Dešinysis"
 
-#: mouseclick/mouseclick.h:61
+#: mouseclick/mouseclick.h:60
 #, kde-format
 msgid "↓"
 msgstr "↓"
 
-#: mouseclick/mouseclick.h:62
+#: mouseclick/mouseclick.h:61
 #, kde-format
 msgid "↑"
 msgstr "↑"
@@ -496,12 +509,12 @@ msgstr "Šriftas:"
 msgid "Show Text:"
 msgstr "Rodyti tekstą:"
 
-#: mousemark/mousemark.cpp:36
+#: mousemark/mousemark.cpp:39
 #, kde-format
 msgid "Clear All Mouse Marks"
 msgstr "Išvalyti visus žymėjimus pele"
 
-#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:59
+#: mousemark/mousemark.cpp:45 mousemark/mousemark_config.cpp:59
 #, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr "Išvalyti paskutinį žymėjimą pele"
@@ -575,12 +588,12 @@ msgstr "Fonas"
 msgid "Ignore minimized windows:"
 msgstr "Nepaisyti sus&kleistų langų"
 
-#: overview/qml/DesktopBar.qml:186
+#: overview/qml/DesktopBar.qml:187
 #, kde-format
 msgid "Delete Virtual Desktop"
 msgstr ""
 
-#: overview/qml/DesktopBar.qml:282
+#: overview/qml/DesktopBar.qml:283
 #, fuzzy, kde-format
 #| msgid "Desktop"
 msgid "Add Virtual Desktop"
@@ -592,12 +605,12 @@ msgstr "Darbalaukis"
 msgid "No matching windows"
 msgstr "Perkeliami langai:"
 
-#: private/qml/WindowHeapDelegate.qml:152
+#: private/qml/WindowHeapDelegate.qml:151
 #, kde-format
 msgid "Drag Down To Close"
 msgstr ""
 
-#: private/qml/WindowHeapDelegate.qml:462
+#: private/qml/WindowHeapDelegate.qml:461
 #, fuzzy, kde-format
 #| msgid "Close window"
 msgctxt "@info:tooltip as in: 'close this window'"
@@ -616,20 +629,20 @@ msgstr "Lango atvėrimo mastelis:"
 msgid "Window close scale:"
 msgstr "Lango užvėrimo mastelis:"
 
-#: screenshot/screenshotdbusinterface1.cpp:480
+#: screenshot/screenshotdbusinterface1.cpp:478
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr "Ekrano kopija"
 
-#: screenshot/screenshotdbusinterface1.cpp:481
+#: screenshot/screenshotdbusinterface1.cpp:479
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr "Ekrano kopija įrašyta į %1"
 
-#: screenshot/screenshotdbusinterface1.cpp:797
-#: screenshot/screenshotdbusinterface2.cpp:472
+#: screenshot/screenshotdbusinterface1.cpp:800
+#: screenshot/screenshotdbusinterface2.cpp:477
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
@@ -640,8 +653,8 @@ msgstr ""
 "Norėdami atsisakyti, naudokite Grįžimo klavišą arba dešiniojo\n"
 "pelės mygtuko spustelėjimą."
 
-#: screenshot/screenshotdbusinterface1.cpp:800
-#: screenshot/screenshotdbusinterface2.cpp:490
+#: screenshot/screenshotdbusinterface1.cpp:803
+#: screenshot/screenshotdbusinterface2.cpp:495
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -709,14 +722,8 @@ msgstr "Horizontalus:"
 msgid "Vertical:"
 msgstr "Vertikalus:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideDocks)
-#: slide/slide_config.ui:72
-#, kde-format
-msgid "Slide docks"
-msgstr "Praslinkti dokus"
-
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideBackground)
-#: slide/slide_config.ui:79
+#: slide/slide_config.ui:72
 #, kde-format
 msgid "Slide desktop background"
 msgstr "Praslinkti darbalaukio foną"
@@ -758,6 +765,49 @@ msgstr "Nepermat&omumas:"
 #, no-c-format, kde-format
 msgid " %"
 msgstr " %"
+
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:37
+#: tileseditor/tileseditoreffect.cpp:29
+#, kde-format
+msgid "Toggle Tiles Editor"
+msgstr ""
+
+#: tileseditor/qml/main.qml:147
+#, kde-format
+msgid "Padding:"
+msgstr ""
+
+#: tileseditor/qml/main.qml:157
+#, kde-format
+msgid "Load Layout..."
+msgstr ""
+
+#: tileseditor/qml/main.qml:271
+#, kde-format
+msgid "Close"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:171
+#, fuzzy, kde-format
+#| msgid "Horizontal:"
+msgid "Split Horizontally"
+msgstr "Horizontalus:"
+
+#: tileseditor/qml/TileDelegate.qml:178
+#, fuzzy, kde-format
+#| msgid "Vertical:"
+msgid "Split Vertically"
+msgstr "Vertikalus:"
+
+#: tileseditor/qml/TileDelegate.qml:186 tileseditor/qml/TileDelegate.qml:215
+#, kde-format
+msgid "Add Floating Tile"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:195
+#, kde-format
+msgid "Delete"
+msgstr ""
 
 #: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:57
 #, kde-format
@@ -893,17 +943,17 @@ msgstr "Atskiri meniu:"
 msgid "Toggle Present Windows (Current desktop)"
 msgstr "Perjungti langų pateikimą (Dabartinis darbalaukis)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:55
+#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:54
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr "Perjungti langų pateikimą (Visi darbalaukiai)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:65
+#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:63
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr "Perjungti langų pateikimą (Lango klasė)"
 
-#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:75
+#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:72
 #, fuzzy, kde-format
 #| msgid "Toggle Present Windows (Current desktop)"
 msgid "Toggle Present Windows (Window class on current desktop)"
@@ -915,16 +965,22 @@ msgstr "Perjungti langų pateikimą (Dabartinis darbalaukis)"
 msgid "Ignore &minimized windows"
 msgstr "Nepaisyti sus&kleistų langų"
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, kde-format
 msgid "No Matches"
 msgstr ""
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "No Windows"
 msgstr "Langai"
+
+#: windowview/qml/main.qml:123
+#, fuzzy, kde-format
+#| msgid "Fullscreen windows"
+msgid "Filter windows…"
+msgstr "Viso ekrano langai"
 
 # #-#-#-#-#  konsole.po (konsole)  #-#-#-#-# (pofilter) compendiumconflicts: checks for Gettext compendium conflicts (#-#-#-#-#)
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
@@ -987,32 +1043,32 @@ msgstr "Mažiau"
 msgid "More"
 msgstr "Daugiau"
 
-#: zoom/zoom.cpp:68
+#: zoom/zoom.cpp:65
 #, kde-format
 msgid "Move Zoomed Area to Left"
 msgstr "Perkelti didintą sritį į kairę"
 
-#: zoom/zoom.cpp:76
+#: zoom/zoom.cpp:72
 #, kde-format
 msgid "Move Zoomed Area to Right"
 msgstr "Perkelti didintą sritį į dešinę"
 
-#: zoom/zoom.cpp:84
+#: zoom/zoom.cpp:79
 #, kde-format
 msgid "Move Zoomed Area Upwards"
 msgstr "Perkelti didintą sritį į viršų"
 
-#: zoom/zoom.cpp:92
+#: zoom/zoom.cpp:86
 #, kde-format
 msgid "Move Zoomed Area Downwards"
 msgstr "Perkelti didintą sritį į apačią"
 
-#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:108
+#: zoom/zoom.cpp:94 zoom/zoom_config.cpp:108
 #, kde-format
 msgid "Move Mouse to Focus"
 msgstr "Perkelti pelę į fokusavimą"
 
-#: zoom/zoom.cpp:109 zoom/zoom_config.cpp:115
+#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:115
 #, kde-format
 msgid "Move Mouse to Center"
 msgstr "Perkelti pelę į centrą"
@@ -1154,3 +1210,789 @@ msgstr "Išjungtas"
 #, kde-format
 msgid "Mouse Tracking:"
 msgstr "Pelės sekimas:"
+
+#~ msgid "Slide docks"
+#~ msgstr "Praslinkti dokus"
+
+#~ msgid "&Radius:"
+#~ msgstr "&Spindulys:"
+
+#~ msgid "Text position:"
+#~ msgstr "Teksto vieta:"
+
+#~ msgid "Inside Graph"
+#~ msgstr "Grafiko vidus"
+
+#~ msgid "Nowhere"
+#~ msgstr "Niekur"
+
+#~ msgid "Top Left"
+#~ msgstr "Viršutinė kairė"
+
+#~ msgid "Top Right"
+#~ msgstr "Viršutinė dešinė"
+
+#~ msgid "Bottom Left"
+#~ msgstr "Apatinė kairė"
+
+#~ msgid "Bottom Right"
+#~ msgstr "Apatinė dešinė"
+
+#~ msgid "Text font:"
+#~ msgstr "Teksto šriftas:"
+
+#~ msgid "Text color:"
+#~ msgstr "Teksto spalva:"
+
+#~ msgid "Text alpha:"
+#~ msgstr "Teksto alfa:"
+
+#, fuzzy
+#~| msgid "Show caps"
+#~ msgid "Show graph:"
+#~ msgstr "Rodyti dangtelius"
+
+#, fuzzy
+#~| msgid "Show Text:"
+#~ msgid "Show Message:"
+#~ msgstr "Rodyti tekstą:"
+
+#~ msgid "Zoom &duration:"
+#~ msgstr "Didinimo &trukmė:"
+
+#~ msgctxt "Duration of zoom"
+#~ msgid "Default"
+#~ msgstr "Numatytoji"
+
+#~ msgid "Border wid&th:"
+#~ msgstr "&Rėmelio plotis:"
+
+#, fuzzy
+#~| msgid "Show desktop"
+#~ msgid "Switch desktop only"
+#~ msgstr "Rodyti darbalaukį"
+
+#~ msgid "Natural Layout Settings"
+#~ msgstr "Natūralaus išdėstymo nuostatos"
+
+#~ msgid "Fill &gaps"
+#~ msgstr "Užpildyti &tarpus"
+
+#~ msgid "Faster"
+#~ msgstr "Greičiau"
+
+#~ msgid "Nicer"
+#~ msgstr "Gražiau"
+
+#~ msgid "Left button:"
+#~ msgstr "Kairysis mygtukas:"
+
+#~ msgid "No action"
+#~ msgstr "Jokio veiksmo"
+
+#~ msgid "Activate window"
+#~ msgstr "Aktyvuoti langą"
+
+#~ msgid "End effect"
+#~ msgstr "Užbaigti efektą"
+
+#~ msgid "Bring window to current desktop"
+#~ msgstr "Perkelti langą į dabartinį darbalaukį"
+
+#~ msgid "Send window to all desktops"
+#~ msgstr "Siųsti langą į visus darbalaukius"
+
+#~ msgid "(Un-)Minimize window"
+#~ msgstr "Atkurti langą iš suskleidimo"
+
+#~ msgid "Middle button:"
+#~ msgstr "Vidurinysis mygtukas:"
+
+#~ msgid "Right button:"
+#~ msgstr "Dešinysis mygtukas:"
+
+#~ msgctxt "@title:group actions when clicking on desktop"
+#~ msgid "Desktop"
+#~ msgstr "Darbalaukis"
+
+#~ msgid "Show desktop"
+#~ msgstr "Rodyti darbalaukį"
+
+#~ msgid "Display window &titles"
+#~ msgstr "Rodyti langų &antraštes"
+
+#~ msgid "Display window &icons"
+#~ msgstr "Rodyti langų &piktogramas"
+
+#~ msgid "Show &panels"
+#~ msgstr "Rodyti sky&delius"
+
+#~ msgid "Regular Grid"
+#~ msgstr "Paprastas tinklelis"
+
+#~ msgid "Flexible Grid"
+#~ msgstr "Lankstus tinklelis"
+
+#~ msgid "Provide buttons to close the windows"
+#~ msgstr "Pateikti mygtukus, skirtus užverti langą"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Liudas Ališauskas, Moo"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "liudas@akmc.lt, <>"
+
+#~ msgid "Scale window"
+#~ msgstr "Lango mastelio keitimas"
+
+#~ msgid "Show outline"
+#~ msgstr "Rodyti kontūrą"
+
+#~ msgid "Toggle window geometry display (effect only)"
+#~ msgstr "Perjungti lango geometrijos rodinį (tik efektas)"
+
+#~ msgid "Toggle KWin composited geometry display"
+#~ msgstr "Perjungti KWin komponuotos geometrijos rodinį"
+
+#~ msgid "Display for moving windows"
+#~ msgstr "Rodyti perkeliant langus"
+
+#~ msgid "Display for resizing windows"
+#~ msgstr "Rodyti keičiant langų dydį"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Blur"
+#~ msgstr "Suliejimas"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Blurs the background behind semi-transparent windows"
+#~ msgstr "Sulieja pusiau permatomų langų foną"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Color Picker"
+#~ msgstr "Spalvos parinkiklis"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Supports picking a color"
+#~ msgstr "Palaiko spalvos parinkimą"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Background contrast"
+#~ msgstr "Fono kontrastas"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Improve contrast and readability behind semi-transparent windows"
+#~ msgstr "Pagerinti kontrastą ir skaitomumą už pusiau permatomų langų"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Grid"
+#~ msgstr "Darbalaukio tinklelis"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Zoom out so all desktops are displayed side-by-side in a grid"
+#~ msgstr ""
+#~ "Sumažina mastelį, kad visi darbalaukiai būtų rodomi tinklelyje vienas "
+#~ "šalia kito"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Dim Inactive"
+#~ msgstr "Pasyviųjų pritemdymas"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Darken inactive windows"
+#~ msgstr "Užtemdo pasyvius langus"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Fall Apart"
+#~ msgstr "Subyrėjimas"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Closed windows fall into pieces"
+#~ msgstr "Užverti langai subyra į gabalėlius"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Glide"
+#~ msgstr "Sklandymas"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Glide windows as they appear or disappear"
+#~ msgstr "Atsirasdami ar išnykdami, langai sklandys"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Highlight Window"
+#~ msgstr "Lango paryškinimas"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlight the appropriate window when hovering over taskbar entries"
+#~ msgstr ""
+#~ "Užvedus pelę virš užduočių juostos įrašų, paryškinti atitinkamą langą"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Invert"
+#~ msgstr "Invertavimas"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Inverts the color of the desktop and windows"
+#~ msgstr "Invertuoja darbalaukio ir langų spalvas"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Kscreen"
+#~ msgstr "Kscreen"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper Effect for KScreen"
+#~ msgstr "Pagalbinis Kscreen efektas"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Looking Glass"
+#~ msgstr "Didinamasis stiklas"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "A screen magnifier that looks like a fisheye lens"
+#~ msgstr "Ekrano didintuvas, panašus į didinamąjį lęšį"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Magic Lamp"
+#~ msgstr "Magiška lempa"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Simulate a magic lamp when minimizing windows"
+#~ msgstr "Suskleidžiant langus, simuliuoja magišką lempą"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Magnifier"
+#~ msgstr "Didintuvas"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Magnify the section of the screen that is near the mouse cursor"
+#~ msgstr "Padidina šalia pelės žymeklio esančią ekrano sekciją"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Click Animation"
+#~ msgstr "Pelės spustelėjimo animacija"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Creates an animation whenever a mouse button is clicked. This is useful "
+#~ "for screenrecordings/presentations"
+#~ msgstr ""
+#~ "Kas kartą spustelėjus pelės mygtuką, sukuria animaciją. Tai naudinga "
+#~ "įrašant ekrano vaizdą ar pristatymams."
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Mark"
+#~ msgstr "Žymėjimas pele"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Allows you to draw lines on the desktop"
+#~ msgstr "Leidžia jums piešti linijas darbalaukyje"
+
+#, fuzzy
+#~| msgctxt "Comment describing the KWin Effect"
+#~| msgid "Allows you to draw lines on the desktop"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Allows you to overview virtual desktops and windows"
+#~ msgstr "Leidžia jums piešti linijas darbalaukyje"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Present Windows"
+#~ msgstr "Langų pateikimas"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Zoom out until all opened windows can be displayed side-by-side"
+#~ msgstr "Sumažina mastelį, kad visi langai būtų rodomi vienas šalia kito"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Resize Window"
+#~ msgstr "Keisti lango dydį"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Resizes windows with a fast texture scale instead of updating contents"
+#~ msgstr ""
+#~ "Keičia langų dydį naudojant greitą tekstūros mastelio keitimą, o ne "
+#~ "pilnai atnaujinant turinį"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Screen Edge"
+#~ msgstr "Ekrano kraštas"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlights a screen edge when approaching"
+#~ msgstr "Paryškina ekrano kraštą, kai prie jo priartėjama"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Screenshot"
+#~ msgstr "Ekrano kopija"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper effect for screenshot tools"
+#~ msgstr "Pagalbinis ekrano kopijos įrankių efektas"
+
+#, fuzzy
+#~| msgid "Transparent"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Transform"
+#~ msgstr "Permatomas"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Sheet"
+#~ msgstr "Lapas"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Make modal dialogs smoothly fly in and out when they are shown or hidden"
+#~ msgstr ""
+#~ "Padaryti, kad modaliniai dialogai, juos parodant ar paslepiant glotniai "
+#~ "atslinktų ir išslinktų"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show FPS"
+#~ msgstr "Rodyti kadr./sek."
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display KWin's performance in the corner of the screen"
+#~ msgstr "Rodo ekrano kampe KWin našumą"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show Paint"
+#~ msgstr "Piešimo rodymas"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Highlight areas of the desktop that have been recently updated"
+#~ msgstr "Paryškina paskiausiai atnaujintas darbalaukio sritis"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Slide"
+#~ msgstr "Slydimas"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Slide desktops when switching virtual desktops"
+#~ msgstr "Praslinkti darbalaukius perjungiant tarp virtualių darbalaukių"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Slide Back"
+#~ msgstr "Slydimas atgal"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Slide back windows when another window is raised"
+#~ msgstr "Slinkti langus atgal, kai į pirmą planą yra iškeliamas kitas langas"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Sliding popups"
+#~ msgstr "Slystantys iškylantieji langai"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Sliding animation for Plasma popups"
+#~ msgstr "Plasma iškylančiųjų langų slydimo animacija"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Snap Helper"
+#~ msgstr "Pritraukimo pagelbiklis"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Help you locate the center of the screen when moving a window"
+#~ msgstr "Perkeliant langą padeda nustatyti ekrano centrą"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Startup Feedback"
+#~ msgstr "Paleidimo grįžtamasis ryšys"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Helper effect for startup feedback"
+#~ msgstr "Paleidimo grįžtamojo ryšio pagalbinis efektas"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Thumbnail Aside"
+#~ msgstr "Miniatiūra šone"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display window thumbnails on the edge of the screen"
+#~ msgstr "Rodyti langų miniatiūras ekrano krašte"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Touch Points"
+#~ msgstr "Prilietimo taškai"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Visualize touch points"
+#~ msgstr "Vaizdžiai atvaizduoti prilietimo taškus"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Track Mouse"
+#~ msgstr "Pelės sekimas"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display a mouse cursor locating effect when activated"
+#~ msgstr "Aktyvavus, rodo pelės rodyklės vietos nustatymo efektą"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Window Geometry"
+#~ msgstr "Lango geometrija"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display window geometries on move/resize"
+#~ msgstr "Rodyti lango geometriją, jį perkeliant ar keičiant jo dydį"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Wobbly Windows"
+#~ msgstr "Svirduliuojantys langai"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Deform windows while they are moving"
+#~ msgstr "Deformuoja langus, juos perkeliant"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Zoom"
+#~ msgstr "Didinimas"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Magnify the entire desktop"
+#~ msgstr "Didinti visą darbalaukį"
+
+#~ msgctxt "Special entry in alt+tab list for minimizing all windows"
+#~ msgid "Show Desktop"
+#~ msgstr "Rodyti darbalaukį"
+
+#~ msgid "Zoom"
+#~ msgstr "Mastelis"
+
+#~ msgid "Define how far away the windows should appear"
+#~ msgstr "Apibrėžkite kaip toli turėtų būti rodomi langai"
+
+#~ msgid "Near"
+#~ msgstr "Arti"
+
+#~ msgid "Far"
+#~ msgstr "Toli"
+
+#~ msgid "Animation"
+#~ msgstr "Animacija"
+
+#~ msgid "Animate switch"
+#~ msgstr "Animuoti perjungimą"
+
+#~ msgid "Animation on tab box open"
+#~ msgstr "Animacija atveriant kortelių langelį"
+
+#~ msgid "Animation on tab box close"
+#~ msgstr "Animacija užveriant kortelių langelį"
+
+#~ msgid "Reflections"
+#~ msgstr "Atspindžiai"
+
+#~ msgid "Rear color"
+#~ msgstr "Galinė spalva"
+
+#~ msgid "Front color"
+#~ msgstr "Priekinė spalva"
+
+#~ msgid "Desktop Cube"
+#~ msgstr "Darbalaukio kubas"
+
+#~ msgid "Desktop Cylinder"
+#~ msgstr "Darbalaukio cilindras"
+
+#~ msgid "Desktop Sphere"
+#~ msgstr "Darbalaukio rutulys"
+
+#~ msgctxt "@title:tab Basic Settings"
+#~ msgid "Basic"
+#~ msgstr "Pagrindinės"
+
+#~ msgctxt "@title:tab Advanced Settings"
+#~ msgid "Advanced"
+#~ msgstr "Išplėstinės"
+
+#~ msgid "Tab 1"
+#~ msgstr "1 kortelė"
+
+#~ msgid "Background color:"
+#~ msgstr "Fono spalva:"
+
+#~ msgid "Wallpaper:"
+#~ msgstr "Darbalaukio fonas:"
+
+#~ msgid "Display desktop name"
+#~ msgstr "Rodyti darbalaukio pavadinimą"
+
+#~ msgid "Reflection"
+#~ msgstr "Atspindys"
+
+#~ msgid "Rotation duration:"
+#~ msgstr "Pasukimo trukmė:"
+
+#~ msgid "Windows hover above cube"
+#~ msgstr "Langai sklando virš kubo"
+
+#~ msgid "Opacity"
+#~ msgstr "Nepermatomumas"
+
+#~ msgid "Do not change opacity of windows"
+#~ msgstr "Nekeisti langų nepermatomumo"
+
+#~ msgid "Tab 2"
+#~ msgstr "2 kortelė"
+
+#~ msgid "Caps"
+#~ msgstr "Dangteliai"
+
+#~ msgid "Cap color:"
+#~ msgstr "Dangtelio spalva:"
+
+#~ msgid "Display image on caps"
+#~ msgstr "Rodyti paveikslą ant dangtelių"
+
+#~ msgid "Define how far away the object should appear"
+#~ msgstr "Apibrėžkite kaip toli bus rodomi objektai"
+
+#~ msgid "Additional Options"
+#~ msgstr "Papildomos parinktys"
+
+#~ msgid ""
+#~ "If enabled the effect will be deactivated after rotating the cube with "
+#~ "the mouse,\n"
+#~ "otherwise it will remain active"
+#~ msgstr ""
+#~ "Jei įjungta, efektas bus pasyvintas pasukus kubą pele,\n"
+#~ "priešingu atveju, kubas išliks aktyvus"
+
+#~ msgid "Close after mouse dragging"
+#~ msgstr "Užverti patempus pele"
+
+#~ msgid "Use this effect for walking through the desktops"
+#~ msgstr "Naudoti šį efektą keičiant darbalaukius"
+
+#~ msgid "Invert mouse"
+#~ msgstr "Invertuoti pelę"
+
+#~ msgid "Sphere Cap Deformation"
+#~ msgstr "Rutulio dangtelio deformacija"
+
+#~ msgid "Sphere"
+#~ msgstr "Rutulio formos"
+
+#~ msgid "Plane"
+#~ msgstr "Plokščias"
+
+#~ msgid "Do not animate windows on all desktops"
+#~ msgstr "Neanimuoti langų visuose darbalaukiuose"
+
+#~ msgid "Do not animate panels"
+#~ msgstr "Neanimuoti skydelių"
+
+#~ msgid "Use pager layout for animation"
+#~ msgstr "Animacijai naudoti perjungiklio išdėstymą"
+
+#~ msgid "Start animation when moving windows towards screen edges"
+#~ msgstr "Pradėti animaciją perkeliant langus į ekrano kraštus"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Cover Switch"
+#~ msgstr "Viršelių perjungiklis"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display a Cover Flow effect for the alt+tab window switcher"
+#~ msgstr "Naudojant Alt+Tab langų perjungiklį, rodo viršelių srauto efektą"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube"
+#~ msgstr "Darbalaukio kubas"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Display each virtual desktop on a side of a cube"
+#~ msgstr "Rodo kiekvieną virtualų darbalaukį ant kubo pusių"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube Animation"
+#~ msgstr "Darbalaukio kubo animacija"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Animate desktop switching with a cube"
+#~ msgstr "Animuoti darbalaukių perjungimą kubu"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Flip Switch"
+#~ msgstr "Kartotekos pavidalo langų perjungiklis"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid ""
+#~ "Flip through windows that are in a stack for the alt+tab window switcher"
+#~ msgstr "Slenka per langus, kurie yra Alt+Tab langų perjungiklio dėkle"
+
+#~ msgid "Toggle Flip Switch (Current desktop)"
+#~ msgstr "Įjungti langų perjungiklį (Dabartinis darbalaukis)"
+
+#~ msgid "Toggle Flip Switch (All desktops)"
+#~ msgstr "Įjungti langų perjungiklį (Visi darbalaukiai)"
+
+#~ msgid "Flip animation duration:"
+#~ msgstr "Apvertimo animacijos trukmė:"
+
+#~ msgctxt "Duration of flip animation"
+#~ msgid "Default"
+#~ msgstr "Numatytoji"
+
+#~ msgid "Angle:"
+#~ msgstr "Kampas:"
+
+#~ msgid " °"
+#~ msgstr " °"
+
+#~ msgid "Horizontal position of front:"
+#~ msgstr "Horizontali priekio pozicija:"
+
+#~ msgid "Vertical position of front:"
+#~ msgstr "Vertikali priekio pozicija:"
+
+#~ msgid ""
+#~ "Filter:\n"
+#~ "%1"
+#~ msgstr ""
+#~ "Filtras:\n"
+#~ "%1"
+
+#~ msgid "Use Present Windows effect to layout the windows"
+#~ msgstr "Naudoti langų pateikimo efektą, siekiant išdėstyti langus"
+
+#~ msgid "When the focus changes, move the zoom area to the focused location."
+#~ msgstr ""
+#~ "Kai fokusavimas pasikeičia, perkelti didinimo sritį į fokusuojamą vietą."
+
+#~ msgid "Follow Focus"
+#~ msgstr "Sekti paskui fokusavimą"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Dim Screen for Administrator Mode"
+#~ msgstr "Užtemdomas ekraną administratoriaus veiksenai"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Darkens the entire screen when requesting root privileges"
+#~ msgstr "Pritemdo visą ekraną prašant administratoriaus privilegijų"
+
+#, fuzzy
+#~| msgid "Scale"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Scale"
+#~ msgstr "Mastelis"
+
+#, fuzzy
+#~| msgctxt "Comment describing the KWin Effect"
+#~| msgid ""
+#~| "Make modal dialogs smoothly fly in and out when they are shown or hidden"
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Make windows smoothly scale in and out when they are shown or hidden"
+#~ msgstr ""
+#~ "Dialogai pamažu išnyksta/atsiranda jei juos prašoma parodyti arba jie "
+#~ "slepiami"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Minimize Animation"
+#~ msgstr "Sumažinimo animacija"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Animate the minimizing of windows"
+#~ msgstr "Animuoja langų sumažinimą"
+
+#~ msgid "Trigger on"
+#~ msgstr "Vykdyti kai"
+
+#~ msgid "Shortcut"
+#~ msgstr "Klavišų derinys"
+
+#~ msgid "Apply effect to &panels"
+#~ msgstr "Pritaikyti efektus &juostoms"
+
+#~ msgid "Apply effect to the desk&top"
+#~ msgstr "Pritaikyti efektus &darbalaukiui"
+
+#~ msgid "Apply effect to &keep-above windows"
+#~ msgstr "Pritaikyti efektus &virš kitų laikomiems langams"
+
+#~ msgid "Apply effect to &groups"
+#~ msgstr "Pritaikyti efektus &grupėms"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Windows Glide Effect as they are open and closed"
+#~ msgstr "Langų sklendimo efektas juos atidarant ir uždarant"
+
+#~ msgid "Glide Effect:"
+#~ msgstr "Sklendimo efektas:"
+
+#~ msgid "In"
+#~ msgstr "Į"
+
+#~ msgid "Out"
+#~ msgstr "Iš"
+
+#~ msgid "Glide Angle:"
+#~ msgstr "Sklendimo kampas:"
+
+#~ msgid "-90"
+#~ msgstr "-90"
+
+#~ msgid "90"
+#~ msgstr "90"
+
+#, fuzzy
+#~| msgctxt "Duration of rotation"
+#~| msgid "Default"
+#~ msgctxt "Duration of the slide animation"
+#~ msgid "Default"
+#~ msgstr "Numatytoji"
+
+#~ msgid "Strength of the effect:"
+#~ msgstr "Efekto stiprumas:"
+
+#~ msgid "Save intermediate rendering results."
+#~ msgstr "Išsaugoti tarpinius apdorojimo rezultatus."
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Logout"
+#~ msgstr "Atsijungti"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Desaturate the desktop when displaying the logout dialog"
+#~ msgstr ""
+#~ "Panaikina darbalaukio spalvų sodrumą kai rodomas išsiregistravimo dialogas"
+
+#~ msgid "Brightness of the background:"
+#~ msgstr "Fono ryškumas:"
+
+#~ msgctxt "Less brightness"
+#~ msgid "Darker"
+#~ msgstr "Tamsesnis"
+
+#~ msgctxt "More brightness"
+#~ msgid "Lighter"
+#~ msgstr "Šviesesnis"
+
+#~ msgid "Saturation of the background:"
+#~ msgstr "Fono sodrumas:"
+
+#~ msgctxt "No saturation"
+#~ msgid "Gray"
+#~ msgstr "Pilkas"
+
+#~ msgid "Duration of the fade:"
+#~ msgstr "Nustelbimo trukmė:"
+
+#~ msgid "ms"
+#~ msgstr "ms"
+
+#~ msgid "The blur effect must be enabled before it can be used."
+#~ msgstr "Prieš naudojant išblukinimo efektą jis turi būti įjungtas."
+
+#~ msgid "Apply blur effect to background"
+#~ msgstr "Pritaikyti išblukinimo efektą fonui"
+
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Dashboard"
+#~ msgstr "Prietaisų skydelis"
+
+#~ msgctxt "Comment describing the KWin Effect"
+#~ msgid "Desaturate the desktop when displaying the Plasma dashboard"
+#~ msgstr ""
+#~ "Panaikina darbalaukio spalvų sodrumą kai rodomas plasma valdymo skydelis"

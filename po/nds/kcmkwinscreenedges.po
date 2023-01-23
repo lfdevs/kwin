@@ -243,3 +243,46 @@ msgid ""
 msgstr ""
 "Fohr mit de Muus gegen de Schirmkant in de Akschoon ehr Richt, wenn Du en "
 "Akschoon utlösen wullt"
+
+#~ msgid "Show Desktop"
+#~ msgstr "Schriefdisch wiesen"
+
+#~ msgid "%1 - Cube"
+#~ msgstr "%1 - Wörpel"
+
+#~ msgid "%1 - Cylinder"
+#~ msgstr "%1 - Zylinner"
+
+#~ msgid "%1 - Sphere"
+#~ msgstr "%1 - Kugel"
+
+#, fuzzy
+#~| msgid "Active Screen Edge Actions"
+#~ msgid "Active Screen Corners and Edges"
+#~ msgstr "Schirmkant-Akschonen"
+
+#~ msgid "Window Management"
+#~ msgstr "Finsterpleeg"
+
+#, fuzzy
+#~| msgid "Maximize windows by dragging them to the top of the screen"
+#~ msgid "Maximize windows by dragging them to the top edge of the screen"
+#~ msgstr "Finstern dör Trecken na baven maximeren"
+
+#~ msgid "Quarter tiling triggered in the outer"
+#~ msgstr "Viddelkacheln in de butenliggen"
+
+#~ msgid "Other Settings"
+#~ msgstr "Anner Instellen"
+
+#~ msgid "Show Dashboard"
+#~ msgstr "Klockpaneel wiesen"
+
+#~ msgid "Prevent Screen Locking"
+#~ msgstr "Schirmafsluten verhöden"
+
+#~ msgid "Trigger &cooldown:"
+#~ msgstr "Utlöös-&Sparrtiet:"
+
+#~ msgid "Action Groups"
+#~ msgstr "Akschoonkoppeln"

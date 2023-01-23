@@ -11,8 +11,10 @@
 namespace KWin
 {
 
+class GLShader;
 class OffscreenEffectPrivate;
 class CrossFadeEffectPrivate;
+class ShaderEffectPrivate;
 
 /**
  * The OffscreenEffect class is the base class for effects that paint deformed windows.
@@ -56,6 +58,18 @@ protected:
      */
     virtual void apply(EffectWindow *window, int mask, WindowPaintData &data, WindowQuadList &quads);
 
+    /**
+     * Allows to specify a @p shader to draw the redirected texture for @p window.
+     * Can only be called once the window is redirected.
+     **/
+    void setShader(EffectWindow *window, GLShader *shader);
+
+    /**
+     * Set what mode to use to snap the vertices of this effect.
+     *
+     * @see RenderGeometry::VertexSnappingMode
+     */
+    void setVertexSnappingMode(RenderGeometry::VertexSnappingMode mode);
 
 private Q_SLOTS:
     void handleWindowDamaged(EffectWindow *window);

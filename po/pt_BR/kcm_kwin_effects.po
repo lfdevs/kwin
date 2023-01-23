@@ -93,3 +93,6 @@ msgstr "Excluir os efeitos internos"
 #, kde-format
 msgid "Get New Desktop Effects..."
 msgstr "Baixar novos efeitos da área de trabalho..."
+
+#~ msgid "Download New Desktop Effects"
+#~ msgstr "Baixar novos efeitos da área de trabalho"

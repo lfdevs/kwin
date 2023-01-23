@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-26 02:35+0000\n"
+"POT-Creation-Date: 2022-10-26 00:47+0000\n"
 "PO-Revision-Date: 2017-05-16 06:53-0400\n"
 "Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: Hebrew <kde-i18n-doc@kde.org>\n"
@@ -312,3 +312,37 @@ msgstr "ענק מאוד"
 #| msgid "Oversized"
 msgid "Oversized"
 msgstr "גדול מדי"
+
+#, fuzzy
+#~| msgid ""
+#~| "Close by double clicking:\n"
+#~| " To open the menu, keep the button pressed until it appears."
+#~ msgctxt "popup tip"
+#~ msgid ""
+#~ "Close by double clicking: Keep the window's Menu button pressed until it "
+#~ "appears."
+#~ msgstr ""
+#~ "סגור באמצעות לחיצה כפולה:\n"
+#~ "לפתיחת התפריט, שמור על הכפתור לחוץ על שהתפריט מופיע"
+
+#~ msgid "Menu"
+#~ msgstr "תפריט"
+
+#~ msgid "Keep below"
+#~ msgstr "שמור תמיד מתחת לאחרים"
+
+#~ msgid "Keep above"
+#~ msgstr "שמור מעל אחרים"
+
+#, fuzzy
+#~| msgid "Get New Decorations..."
+#~ msgid "Download New Window Decorations"
+#~ msgstr "קבל קישוטים חדשים..."
+
+#, fuzzy
+#~| msgid "Search"
+#~ msgid "Search..."
+#~ msgstr "חפש"
+
+#~ msgid "Buttons"
+#~ msgstr "כפתורים"

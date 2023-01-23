@@ -16,7 +16,7 @@
 #include "drm_output.h"
 #include "drm_pipeline.h"
 #include "egl_dmabuf.h"
-#include "surfaceitem_wayland.h"
+#include "scene/surfaceitem_wayland.h"
 #include "wayland/linuxdmabufv1clientbuffer.h"
 #include "wayland/surface_interface.h"
 
@@ -51,14 +51,11 @@ void EglGbmLayer::aboutToStartPainting(const QRegion &damagedRegion)
 
 bool EglGbmLayer::endFrame(const QRegion &renderedRegion, const QRegion &damagedRegion)
 {
-    Q_UNUSED(renderedRegion)
-    const auto ret = m_surface.endRendering(m_pipeline->renderOrientation(), damagedRegion);
-    if (ret.has_value()) {
-        std::tie(m_currentBuffer, m_currentDamage) = ret.value();
-        return m_currentBuffer != nullptr;
-    } else {
-        return false;
+    const bool ret = m_surface.endRendering(m_pipeline->renderOrientation(), damagedRegion);
+    if (ret) {
+        m_currentDamage = damagedRegion;
     }
+    return ret;
 }
 
 QRegion EglGbmLayer::currentDamage() const
@@ -68,15 +65,7 @@ QRegion EglGbmLayer::currentDamage() const
 
 bool EglGbmLayer::checkTestBuffer()
 {
-    if (!m_currentBuffer || !m_surface.doesSurfaceFit(m_pipeline->bufferSize(), m_pipeline->formats())) {
-        const auto buffer = m_surface.renderTestBuffer(m_pipeline->bufferSize(), m_pipeline->formats());
-        if (!buffer) {
-            return false;
-        } else {
-            m_currentBuffer = buffer;
-        }
-    }
-    return true;
+    return m_surface.renderTestBuffer(m_pipeline->bufferSize(), m_pipeline->formats()) != nullptr;
 }
 
 std::shared_ptr<GLTexture> EglGbmLayer::texture() const
@@ -134,7 +123,7 @@ bool EglGbmLayer::scanout(SurfaceItem *surfaceItem)
         return false;
     }
     const auto buffer = qobject_cast<KWaylandServer::LinuxDmaBufV1ClientBuffer *>(surface->buffer());
-    if (!buffer || buffer->size() != m_pipeline->bufferSize()) {
+    if (!buffer) {
         return false;
     }
 
@@ -158,9 +147,10 @@ bool EglGbmLayer::scanout(SurfaceItem *surfaceItem)
     m_scanoutBuffer = DrmFramebuffer::createFramebuffer(gbmBuffer);
     if (m_scanoutBuffer && m_pipeline->testScanout()) {
         m_dmabufFeedback.scanoutSuccessful(surface);
-        m_currentBuffer = m_scanoutBuffer;
         m_currentDamage = surfaceItem->damage();
         surfaceItem->resetDamage();
+        // ensure the pixmap is updated when direct scanout ends
+        surfaceItem->destroyPixmap();
         return true;
     } else {
         m_dmabufFeedback.scanoutFailed(surface, formats);
@@ -171,7 +161,7 @@ bool EglGbmLayer::scanout(SurfaceItem *surfaceItem)
 
 std::shared_ptr<DrmFramebuffer> EglGbmLayer::currentBuffer() const
 {
-    return m_scanoutBuffer ? m_scanoutBuffer : m_currentBuffer;
+    return m_scanoutBuffer ? m_scanoutBuffer : m_surface.currentBuffer();
 }
 
 bool EglGbmLayer::hasDirectScanoutBuffer() const
@@ -181,7 +171,6 @@ bool EglGbmLayer::hasDirectScanoutBuffer() const
 
 void EglGbmLayer::releaseBuffers()
 {
-    m_currentBuffer.reset();
     m_scanoutBuffer.reset();
     m_surface.destroyResources();
 }

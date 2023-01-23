@@ -32,7 +32,6 @@ OverviewEffect::OverviewEffect()
     KGlobalAccel::self()->setDefaultShortcut(m_toggleAction, {defaultToggleShortcut});
     KGlobalAccel::self()->setShortcut(m_toggleAction, {defaultToggleShortcut});
     m_toggleShortcut = KGlobalAccel::self()->shortcut(m_toggleAction);
-    effects->registerGlobalShortcut({defaultToggleShortcut}, m_toggleAction);
 
     m_realtimeToggleAction = new QAction(this);
     connect(m_realtimeToggleAction, &QAction::triggered, this, [this]() {
@@ -96,11 +95,11 @@ void OverviewEffect::reconfigure(ReconfigureFlags)
     setAnimationDuration(animationTime(300));
     setBlurBackground(OverviewConfig::blurBackground());
 
-    for (const ElectricBorder &border : qAsConst(m_borderActivate)) {
+    for (const ElectricBorder &border : std::as_const(m_borderActivate)) {
         effects->unreserveElectricBorder(border, this);
     }
 
-    for (const ElectricBorder &border : qAsConst(m_touchBorderActivate)) {
+    for (const ElectricBorder &border : std::as_const(m_touchBorderActivate)) {
         effects->unregisterTouchBorder(border, m_toggleAction);
     }
 
@@ -117,15 +116,14 @@ void OverviewEffect::reconfigure(ReconfigureFlags)
     for (const int &border : touchActivateBorders) {
         m_touchBorderActivate.append(ElectricBorder(border));
         effects->registerRealtimeTouchBorder(ElectricBorder(border), m_realtimeToggleAction, [this](ElectricBorder border, const QPointF &deltaProgress, const EffectScreen *screen) {
-            Q_UNUSED(screen)
             if (m_status == Status::Active) {
                 return;
             }
             const int maxDelta = 500; // Arbitrary logical pixels value seems to behave better than scaledScreenSize
             if (border == ElectricTop || border == ElectricBottom) {
-                partialActivate(std::min(1.0, qAbs(deltaProgress.y()) / maxDelta));
+                partialActivate(std::min(1.0, std::abs(deltaProgress.y()) / maxDelta));
             } else {
-                partialActivate(std::min(1.0, qAbs(deltaProgress.x()) / maxDelta));
+                partialActivate(std::min(1.0, std::abs(deltaProgress.x()) / maxDelta));
             }
         });
     }
@@ -263,9 +261,11 @@ void OverviewEffect::cancelPartialActivate()
 
 void OverviewEffect::deactivate()
 {
-    const auto screenViews = views();
-    for (QuickSceneView *view : screenViews) {
-        QMetaObject::invokeMethod(view->rootItem(), "stop");
+    const auto screens = effects->screens();
+    for (const auto screen : screens) {
+        if (QuickSceneView *view = viewForScreen(screen)) {
+            QMetaObject::invokeMethod(view->rootItem(), "stop");
+        }
     }
     m_shutdownTimer->start(animationDuration());
 

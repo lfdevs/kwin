@@ -239,3 +239,43 @@ msgid ""
 "You can trigger an action by swiping from the screen edge towards the center "
 "of the screen."
 msgstr "Galite sukelti veiksmą, perbraukdami iš ekrano krašto į ekrano centrą."
+
+#~ msgid "Show Desktop"
+#~ msgstr "Rodyti darbalaukį"
+
+#~ msgid "Toggle Overview"
+#~ msgstr "Perjungti apžvalgą"
+
+#~ msgid "%1 - Cube"
+#~ msgstr "%1 - Kubas"
+
+#~ msgid "%1 - Cylinder"
+#~ msgstr "%1 - Cilindras"
+
+#~ msgid "%1 - Sphere"
+#~ msgstr "%1 - Sfera"
+
+#~ msgid "Active Screen Corners and Edges"
+#~ msgstr "Aktyvūs ekrano kampai ir kraštai"
+
+#~ msgid "Window Management"
+#~ msgstr "Langų tvarkymas"
+
+#~ msgid "Maximize windows by dragging them to the top edge of the screen"
+#~ msgstr "Išskleisti langus velkant juos į viršutinį ekrano kraštą"
+
+#~ msgid "Quarter tiling triggered in the outer"
+#~ msgstr "Ketvirtinis išklojimas sukeliamas pasiekus"
+
+#~ msgid "Other Settings"
+#~ msgstr "Kitos nuostatos"
+
+#~ msgctxt "Open krunner"
+#~ msgid "Run Command"
+#~ msgstr "Vykdyti komandą"
+
+#~ msgid "Show Dashboard"
+#~ msgstr "Rodyti prietaisų skydelį"
+
+#~ msgid "Prevent Screen Locking"
+#~ msgstr "Apsaugoti nuo ekrano užrakinimo"

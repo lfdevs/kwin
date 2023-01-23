@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-08-19 00:47+0000\n"
+"POT-Creation-Date: 2022-12-11 00:48+0000\n"
 "PO-Revision-Date: 2010-07-11 13:40+0100\n"
 "Last-Translator: Berend Ytsma <berendy@gmail.com>\n"
 "Language-Team: Frysk <kde-i18n-fry@kde.org>\n"
@@ -64,12 +64,12 @@ msgstr ""
 msgid "Copy of %1"
 msgstr ""
 
-#: kcmrules.cpp:422
+#: kcmrules.cpp:423
 #, kde-format
 msgid "Application settings for %1"
 msgstr "Aplikaasje ynstellings foar %1"
 
-#: kcmrules.cpp:442 rulesmodel.cpp:215
+#: kcmrules.cpp:445 rulesmodel.cpp:215
 #, kde-format
 msgid "Window settings for %1"
 msgstr "Finsterynstellings foar %1"
@@ -353,23 +353,18 @@ msgid_plural "After %1 seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: package/contents/ui/RulesEditor.qml:147
-#, kde-format
-msgid "Error"
-msgstr ""
-
-#: package/contents/ui/RulesEditor.qml:162
+#: package/contents/ui/RulesEditor.qml:175
 #, kde-format
 msgid "Add property to the rule"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:260
+#: package/contents/ui/RulesEditor.qml:273
 #: package/contents/ui/ValueEditor.qml:54
 #, kde-format
 msgid "Yes"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:260
+#: package/contents/ui/RulesEditor.qml:273
 #: package/contents/ui/ValueEditor.qml:60
 #, fuzzy, kde-format
 #| msgctxt "no focus stealing prevention"
@@ -377,20 +372,20 @@ msgstr ""
 msgid "No"
 msgstr "Gjint"
 
-#: package/contents/ui/RulesEditor.qml:262
+#: package/contents/ui/RulesEditor.qml:275
 #: package/contents/ui/ValueEditor.qml:171
 #: package/contents/ui/ValueEditor.qml:178
 #, kde-format
 msgid "%1 %"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:264
+#: package/contents/ui/RulesEditor.qml:277
 #, kde-format
 msgctxt "Coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:266
+#: package/contents/ui/RulesEditor.qml:279
 #, kde-format
 msgctxt "Size (width, height)"
 msgid "(%1, %2)"
@@ -784,166 +779,491 @@ msgstr ""
 msgid "Block compositing"
 msgstr ""
 
-#: rulesmodel.cpp:727
+#: rulesmodel.cpp:703
+#, fuzzy, kde-format
+#| msgid "Window &class (application type):"
+msgid "Window class not available"
+msgstr "Finster&klasse (applikaasjetype):"
+
+#: rulesmodel.cpp:704
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"This application is not providing a class for the window, so KWin cannot use "
+"it to match and apply any rules. If you still want to apply some rules to "
+"it, try to match other properties like the window title instead.<nl/><nl/"
+">Please consider reporting this bug to the application's developers."
+msgstr ""
+
+#: rulesmodel.cpp:738
 #, fuzzy, kde-format
 #| msgid "Window &types:"
 msgid "All Window Types"
 msgstr "Fins&tertypes:"
 
-#: rulesmodel.cpp:728
+#: rulesmodel.cpp:739
 #, kde-format
 msgid "Normal Window"
 msgstr "Gewoan finster"
 
-#: rulesmodel.cpp:729
+#: rulesmodel.cpp:740
 #, kde-format
 msgid "Dialog Window"
 msgstr "Dialoochfinster"
 
-#: rulesmodel.cpp:730
+#: rulesmodel.cpp:741
 #, kde-format
 msgid "Utility Window"
 msgstr "Helpmiddelsfinster"
 
-#: rulesmodel.cpp:731
+#: rulesmodel.cpp:742
 #, kde-format
 msgid "Dock (panel)"
 msgstr "Fêstsette (paniel)"
 
-#: rulesmodel.cpp:732
+#: rulesmodel.cpp:743
 #, kde-format
 msgid "Toolbar"
 msgstr "Arkbalke"
 
-#: rulesmodel.cpp:733
+#: rulesmodel.cpp:744
 #, kde-format
 msgid "Torn-Off Menu"
 msgstr "Driuwend menu"
 
-#: rulesmodel.cpp:734
+#: rulesmodel.cpp:745
 #, kde-format
 msgid "Splash Screen"
 msgstr "Opstartskerm"
 
-#: rulesmodel.cpp:735
+#: rulesmodel.cpp:746
 #, kde-format
 msgid "Desktop"
 msgstr "Buroblêd"
 
 #. i18n("Unmanaged Window")},  deprecated
-#: rulesmodel.cpp:737
+#: rulesmodel.cpp:748
 #, kde-format
 msgid "Standalone Menubar"
 msgstr "Losse menubalke"
 
-#: rulesmodel.cpp:738
+#: rulesmodel.cpp:749
 #, kde-format
 msgid "On Screen Display"
 msgstr ""
 
-#: rulesmodel.cpp:748
+#: rulesmodel.cpp:759
 #, kde-format
 msgid "All Desktops"
 msgstr "Alle buroblêden"
 
-#: rulesmodel.cpp:750
+#: rulesmodel.cpp:761
 #, kde-format
 msgctxt "@info:tooltip in the virtual desktop list"
 msgid "Make the window available on all desktops"
 msgstr ""
 
-#: rulesmodel.cpp:769
+#: rulesmodel.cpp:780
 #, kde-format
 msgid "All Activities"
 msgstr ""
 
-#: rulesmodel.cpp:771
+#: rulesmodel.cpp:782
 #, kde-format
 msgctxt "@info:tooltip in the activity list"
 msgid "Make the window available on all activities"
 msgstr ""
 
-#: rulesmodel.cpp:792
+#: rulesmodel.cpp:803
 #, kde-format
 msgid "Default"
 msgstr "Standert"
 
-#: rulesmodel.cpp:793
+#: rulesmodel.cpp:804
 #, kde-format
 msgid "No Placement"
 msgstr "Gjin pleatsing"
 
-#: rulesmodel.cpp:794
+#: rulesmodel.cpp:805
 #, kde-format
 msgid "Minimal Overlapping"
 msgstr ""
 
-#: rulesmodel.cpp:795
+#: rulesmodel.cpp:806
 #, fuzzy, kde-format
 #| msgid "Maximizing"
 msgid "Maximized"
 msgstr "Maksimum grutte"
 
-#: rulesmodel.cpp:796
-#, fuzzy, kde-format
-#| msgid "Cascade"
-msgid "Cascaded"
-msgstr "Trepfoarm"
-
-#: rulesmodel.cpp:797
+#: rulesmodel.cpp:807
 #, kde-format
 msgid "Centered"
 msgstr "Sintraal sette"
 
-#: rulesmodel.cpp:798
+#: rulesmodel.cpp:808
 #, kde-format
 msgid "Random"
 msgstr "Samar wat"
 
-#: rulesmodel.cpp:799
+#: rulesmodel.cpp:809
 #, fuzzy, kde-format
 #| msgid "Top-Left Corner"
 msgid "In Top-Left Corner"
 msgstr "Boppe-Lofter hoeke"
 
-#: rulesmodel.cpp:800
+#: rulesmodel.cpp:810
 #, kde-format
 msgid "Under Mouse"
 msgstr "Under mûs"
 
-#: rulesmodel.cpp:801
+#: rulesmodel.cpp:811
 #, kde-format
 msgid "On Main Window"
 msgstr "Oan haadfinster"
 
-#: rulesmodel.cpp:808
+#: rulesmodel.cpp:818
 #, fuzzy, kde-format
 #| msgctxt "no focus stealing prevention"
 #| msgid "None"
 msgid "None"
 msgstr "Gjint"
 
-#: rulesmodel.cpp:809
+#: rulesmodel.cpp:819
 #, kde-format
 msgid "Low"
 msgstr "Leech"
 
-#: rulesmodel.cpp:810
+#: rulesmodel.cpp:820
 #, kde-format
 msgid "Normal"
 msgstr "Gewoan"
 
-#: rulesmodel.cpp:811
+#: rulesmodel.cpp:821
 #, kde-format
 msgid "High"
 msgstr "Heech"
 
-#: rulesmodel.cpp:812
+#: rulesmodel.cpp:822
 #, kde-format
 msgid "Extreme"
 msgstr "Ekstreem"
 
-#: rulesmodel.cpp:855
+#: rulesmodel.cpp:865
+#, fuzzy, kde-format
+#| msgid "On Main Window"
+msgid "Unmanaged window"
+msgstr "Oan haadfinster"
+
+#: rulesmodel.cpp:866
 #, kde-format
 msgid "Could not detect window properties. The window is not managed by KWin."
 msgstr ""
+
+#, fuzzy
+#~| msgid "Cascade"
+#~ msgid "Cascaded"
+#~ msgstr "Trepfoarm"
+
+#, fuzzy
+#~| msgid "Keep &above"
+#~ msgid "Keep above"
+#~ msgstr "Boppe h&âlde"
+
+#, fuzzy
+#~| msgid "Keep &below"
+#~ msgid "Keep below"
+#~ msgstr "Under hâl&de"
+
+#~ msgid "KWin"
+#~ msgstr "KWin"
+
+#~ msgid "KWin helper utility"
+#~ msgstr "KWin-helperapplikaasje"
+
+#, fuzzy
+#~| msgid "&Detect Window Properties"
+#~ msgid "Select properties"
+#~ msgstr "Finstereigenskippen ûnt&dekke"
+
+#~ msgid "Override Type"
+#~ msgstr "Oerwâldzje type"
+
+#~ msgid "Unknown - will be treated as Normal Window"
+#~ msgstr "Unbekend - wurdt sjoen as gewoan finster"
+
+#~ msgid "Information About Selected Window"
+#~ msgstr "Ynformaasje oer it selektearre finster"
+
+#~ msgid "Class:"
+#~ msgstr "Klasse:"
+
+#~ msgid "Role:"
+#~ msgstr "Funksje:"
+
+#~ msgid "Type:"
+#~ msgstr "Type:"
+
+#~ msgid "Title:"
+#~ msgstr "Titel:"
+
+#~ msgid "Machine:"
+#~ msgstr "Masine:"
+
+#, fuzzy
+#~| msgid ""
+#~| "A single shortcut can be easily assigned or cleared using the two "
+#~| "buttons. Only shortcuts with modifiers can be used.<p>\n"
+#~| "It is possible to have several possible shortcuts, and the first "
+#~| "available shortcut will be used. The shortcuts are specified using space-"
+#~| "separated shortcut sets. One set is specified as <i>base</i>+(<i>list</"
+#~| "i>), where base are modifiers and list is a list of keys.<br>\n"
+#~| "For example \"<b>Shift+Alt+(123) Shift+Ctrl+(ABC)</b>\" will first try "
+#~| "<b>Shift+Alt+1</b>, then others with <b>Shift+Ctrl+C</b> as the last one."
+#~ msgid ""
+#~ "A single shortcut can be easily assigned or cleared using the two "
+#~ "buttons. Only shortcuts with modifiers can be used.<p>\n"
+#~ "It is possible to have several possible shortcuts, and the first "
+#~ "available shortcut will be used. The shortcuts are specified using "
+#~ "shortcut sets separated by \" - \". One set is specified as <i>base</i>"
+#~ "+(<i>list</i>), where base are modifiers and list is a list of keys.<br>\n"
+#~ "For example \"<b>Shift+Alt+(123) Shift+Ctrl+(ABC)</b>\" will first try "
+#~ "<b>Shift+Alt+1</b>, then others with <b>Shift+Ctrl+C</b> as the last one."
+#~ msgstr ""
+#~ "In inkelfâldige toetsekombinaasje kin mei help fan twa knoppen op "
+#~ "ienfâldige wize tawiisd of ûngedien makke wurde. Allinnich "
+#~ "toetsekombinaasjes mei modifikaasjetoetsen kinne brûkt wurde.<p>\n"
+#~ "It is mooglik om meardere mooglike toetsekombinaasjes te ha, en de earste "
+#~ "beskikbere sil dan brûkt wurde. De toetsekombinaasjes wurde ynfierd mei "
+#~ "help fan troch spaasjes skieden kombinaasjesets. In set wurdt opjûn as "
+#~ "<i>basis</i>+(<i>list</i>), wêrby basis de modifikaasjetoets is en list "
+#~ "de list met toetsen.<br>\n"
+#~ "Bygelyks \"<b>Shift+Alt+(123) Shift+Ctrl+(ABC)</b>\" sil earst <b>Shift"
+#~ "+Alt+1</b> probearje en dêrnei de oaren, mei <b>Shift+Ctrl+C</b> as de "
+#~ "lêste."
+
+#~ msgid "&Single Shortcut"
+#~ msgstr "Inkelfâldige toet&sekombinaasje"
+
+#~ msgid "C&lear"
+#~ msgstr "&Begjinwearde"
+
+#~ msgid "Window-Specific Settings Configuration Module"
+#~ msgstr "Finster-spesifike ynstellings Konfiguraasjemodule"
+
+#~ msgid "(c) 2004 KWin and KControl Authors"
+#~ msgstr "(c) 2004 KWin en KControl skriuwers"
+
+#~ msgid "Lubos Lunak"
+#~ msgstr "Lubos Lunak"
+
+#~ msgid "Remember settings separately for every window"
+#~ msgstr "Unthâld ynstellings apart foar elts finster"
+
+#~ msgid "Show internal settings for remembering"
+#~ msgstr "Ynterne ynstellings foar ûnthalden sjen litte"
+
+#~ msgid "Internal setting for remembering"
+#~ msgstr "Ynterne ynstelling foar ûnthalde"
+
+#~ msgid "&Modify..."
+#~ msgstr "&Wizigje..."
+
+#~ msgid "Move &Up"
+#~ msgstr "Omheech &ferpleatse"
+
+#~ msgid "Move &Down"
+#~ msgstr "Omleech fe&rpleatse"
+
+#~ msgid ""
+#~ "Enable this checkbox to alter this window property for the specified "
+#~ "window(s)."
+#~ msgstr ""
+#~ "It seleksjefinster ynskeakelje om dit finstereigenskip te feroarjen foar "
+#~ "de oantsjutte finster(s)."
+
+#, fuzzy
+#~| msgid ""
+#~| "Specify how the window property should be affected:<ul><li><em>Do Not "
+#~| "Affect:</em> The window property will not be affected and therefore the "
+#~| "default handling for it will be used. Specifying this will block more "
+#~| "generic window settings from taking effect.</li><li><em>Apply Initially:"
+#~| "</em> The window property will be only set to the given value after the "
+#~| "window is created. No further changes will be affected.</"
+#~| "li><li><em>Remember:</em> The value of the window property will be "
+#~| "remembered and every time time the window is created, the last "
+#~| "remembered value will be applied.</li><li><em>Force:</em> The window "
+#~| "property will be always forced to the given value.</li><li><em>Apply Now:"
+#~| "</em> The window property will be set to the given value immediately and "
+#~| "will not be affected later (this action will be deleted afterwards).</"
+#~| "li><li><em>Force temporarily:</em> The window property will be forced to "
+#~| "the given value until it is hidden (this action will be deleted after "
+#~| "the window is hidden).</li></ul>"
+#~ msgid ""
+#~ "Specify how the window property should be affected:<ul><li><em>Do Not "
+#~ "Affect:</em> The window property will not be affected and therefore the "
+#~ "default handling for it will be used. Specifying this will block more "
+#~ "generic window settings from taking effect.</li><li><em>Apply Initially:</"
+#~ "em> The window property will be only set to the given value after the "
+#~ "window is created. No further changes will be affected.</"
+#~ "li><li><em>Remember:</em> The value of the window property will be "
+#~ "remembered and every time the window is created, the last remembered "
+#~ "value will be applied.</li><li><em>Force:</em> The window property will "
+#~ "be always forced to the given value.</li><li><em>Apply Now:</em> The "
+#~ "window property will be set to the given value immediately and will not "
+#~ "be affected later (this action will be deleted afterwards).</"
+#~ "li><li><em>Force temporarily:</em> The window property will be forced to "
+#~ "the given value until it is hidden (this action will be deleted after the "
+#~ "window is hidden).</li></ul>"
+#~ msgstr ""
+#~ "Oantsjutte hoe de finstereigenskip beynfloede moat wurde:<ul><li><em>Net "
+#~ "beynfloede:</em> De finstereigenskip wurdt net beynfloede en it "
+#~ "standertgedrach sil brûkt wurde. Dit foarkomt dat mear algemiene "
+#~ "finsterynstellings effekt ha. </li> <li><em>as earste tapasse:</em> De "
+#~ "finstereigenskip wurdt allinne op de oantsjutte wearde set neidat it "
+#~ "finster oanmakke is. Der sille fierder gjin wizigings barre.</li> "
+#~ "<li><em>Unthâlde:</em> De wearde fan de finstereigenskip wurdt ûnthâlden "
+#~ "en eltse kear as it finster oanmakke wurdt sil de lêst ûnthâlden wearde "
+#~ "tapast wurde.</li> <li><em>Forsearje:</em> De finstereigenskip sil altyd "
+#~ "op de oantsjutte wearde set wurde.</li></ul>"
+
+#~ msgid ""
+#~ "Specify how the window property should be affected:<ul><li><em>Do Not "
+#~ "Affect:</em> The window property will not be affected and therefore the "
+#~ "default handling for it will be used. Specifying this will block more "
+#~ "generic window settings from taking effect.</li><li><em>Force:</em> The "
+#~ "window property will be always forced to the given value.</"
+#~ "li><li><em>Force temporarily:</em> The window property will be forced to "
+#~ "the given value until it is hidden (this action will be deleted after the "
+#~ "window is hidden).</li></ul>"
+#~ msgstr ""
+#~ "Oantsjutte hoe it finstereigenskip beynfloede moat wurde<ul><li><em>Net "
+#~ "Beynfloedzje</em> De finstereigenskip sil net beynfloede wurde en derom "
+#~ "sil de algemiene hanneling brûkt wurde. As jo dit oantsjutte sil der mear "
+#~ "algemiene finstersynstellings ward wurde</li><li><em>Forsearje</em>  De "
+#~ "finstereigenskip sil altyd op de oantsjutte wearde set wurde.</li></ul>"
+
+#~ msgid "Unnamed entry"
+#~ msgstr "Nammelease ynfier"
+
+#~ msgid ""
+#~ "This configuration dialog allows altering settings only for the selected "
+#~ "window or application. Find the setting you want to affect, enable the "
+#~ "setting using the checkbox, select in what way the setting should be "
+#~ "affected and to which value."
+#~ msgstr ""
+#~ "Dit konfiguraasjedialooch stiet allinne it feroarjen fan ynstellings foar "
+#~ "it selektearre finster of programma ta. Sykje de ynstellings dy jo "
+#~ "wizigje wolle, aktivearje de ynstellings mei help fan it karfakje en "
+#~ "bepaal op hokker manier de ynstellings effekt ha moat en mei hokker "
+#~ "wearde."
+
+#~ msgid "Consult the documentation for more details."
+#~ msgstr "Gean te riede yn de dokumintaasje foar mear details."
+
+#~ msgid "Edit Shortcut"
+#~ msgstr "Fluchtoets bewurkje"
+
+#~ msgid "0123456789-+,xX:"
+#~ msgstr "0123456789-+,xX:"
+
+#~ msgid "&Desktop"
+#~ msgstr "Buroblê&d"
+
+#~ msgid "Autog&roup in foreground"
+#~ msgstr "Autog&roep op 'e foargrûn"
+
+#~ msgid "Autogroup by I&D"
+#~ msgstr "Autogroep troch I&D"
+
+#~ msgid "Autogroup with &identical"
+#~ msgstr "Autogroep mei &likense"
+
+#~ msgid "Smart"
+#~ msgstr "Tûk"
+
+#~ msgid "kcmkwinrules"
+#~ msgstr "kcmkwinrules"
+
+#~ msgid "Opaque"
+#~ msgstr "Net trochsichtig"
+
+#~ msgid "Transparent"
+#~ msgstr "Trochsichtig"
+
+#~ msgid "&Moving/resizing"
+#~ msgstr "Ferpleatse/&Grutte Feroarje"
+
+#~ msgid "T&iling"
+#~ msgstr "Tege&lje"
+
+#~ msgid "Tiled"
+#~ msgstr "Tegele"
+
+#~ msgid "Floating"
+#~ msgstr "Sweve"
+
+#~ msgid ""
+#~ "For selecting all windows belonging to a specific application, selecting "
+#~ "only window class should usually work."
+#~ msgstr ""
+#~ "Om alle finsters te selektearjen fan in spesifike applikaasje, is it "
+#~ "selektearjen fan finsterklasse meastal genôch."
+
+#~ msgid "Use window &class (whole application)"
+#~ msgstr "Finster&klasse brûke (hiele applikaasje)"
+
+#~ msgid ""
+#~ "For selecting a specific window in an application, both window class and "
+#~ "window role should be selected. Window class will determine the "
+#~ "application, and window role the specific window in the application; many "
+#~ "applications do not provide useful window roles though."
+#~ msgstr ""
+#~ "Om in spesifyk finster te selektearjen yn in applikaasje, moatte "
+#~ "finsterklasse en finsterfunksje selektearre wêze. Finsterklasse sil de "
+#~ "applikaasje bepale, en finsterfunksje de spesifike finster yn de "
+#~ "applikaasje; In protte applikaasjes jouwe gjin brûkbere finsterfunksjes."
+
+#~ msgid "Use window class and window &role (specific window)"
+#~ msgstr "Finsterklasse en finster&rol brûke (spesifyk finster)"
+
+#~ msgid ""
+#~ "With some (non-KDE) applications whole window class can be sufficient for "
+#~ "selecting a specific window in an application, as they set whole window "
+#~ "class to contain both application and window role."
+#~ msgstr ""
+#~ "Mei sommige (gjin-KDE) applikaasjes is totale finsterklasse genôch om in "
+#~ "spesifike finster te selektearjen yn in applikaasje, omdat se de totale "
+#~ "finsterklasse ynstelle om de applikaasje en finsterfunksje te befetsjen"
+
+#~ msgid "Use &whole window class (specific window)"
+#~ msgstr "Hiele &finsterklasse brûke (spesifyk finster)"
+
+#~ msgid "Match also window &title"
+#~ msgstr "Ek oerienkomme mei finster&titel"
+
+#~ msgid "Extra role:"
+#~ msgstr "Ekstra funksje:"
+
+#~ msgid "Window &Extra"
+#~ msgstr "Finst&er ekstra"
+
+#~ msgid "&Geometry"
+#~ msgstr "&Geometry"
+
+#~ msgid "&Preferences"
+#~ msgstr "&Foarkar"
+
+#~ msgid "&No border"
+#~ msgstr "Gji&n râne"
+
+#~ msgid "0123456789"
+#~ msgstr "0123456789"
+
+#~ msgid "W&orkarounds"
+#~ msgstr "&Omwurkingen"
+
+#~ msgid "Strictly obey geometry"
+#~ msgstr "Geometry strikt folgje"
+
+#~ msgid "&Detect"
+#~ msgstr "&Untdekke"

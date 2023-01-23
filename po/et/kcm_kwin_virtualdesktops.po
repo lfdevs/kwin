@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-07-12 00:47+0000\n"
+"POT-Creation-Date: 2022-12-15 00:49+0000\n"
 "PO-Revision-Date: 2019-11-01 15:52+0200\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -28,17 +28,26 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "qiilaq69@gmail.com"
 
-#: desktopsmodel.cpp:467
+#: desktopsmodel.cpp:191
+#, fuzzy, kde-format
+#| msgid "Desktop %1"
+msgctxt "A numbered name for virtual desktops"
+msgid "Desktop %1"
+msgid_plural "Desktop %1"
+msgstr[0] "Töölaud %1"
+msgstr[1] "Töölaud %1"
+
+#: desktopsmodel.cpp:479
 #, kde-format
 msgid "There was an error connecting to the compositor."
 msgstr "Komposiitoriga ühendumisel tekkis tõrge."
 
-#: desktopsmodel.cpp:666
+#: desktopsmodel.cpp:678
 #, kde-format
 msgid "There was an error saving the settings to the compositor."
 msgstr "Seadistuste salvestamisel komposiitorisse tekkis tõrge."
 
-#: desktopsmodel.cpp:669
+#: desktopsmodel.cpp:681
 #, kde-format
 msgid "There was an error requesting information from the compositor."
 msgstr "Teabe hankimisel komposiitorist tekkis tõrge."
@@ -90,11 +99,6 @@ msgctxt "@action:button"
 msgid "Add"
 msgstr "Lisa"
 
-#: package/contents/ui/main.qml:169
-#, kde-format
-msgid "New Desktop"
-msgstr "Uus töölaud"
-
 #: package/contents/ui/main.qml:184
 #, kde-format
 msgid "1 Row"
@@ -136,3 +140,133 @@ msgstr "Töölaua paigutuse indikaatorite näitamine"
 #, kde-format
 msgid "Virtual Desktops"
 msgstr "Virtuaalsed töölauad"
+
+#~ msgid "New Desktop"
+#~ msgstr "Uus töölaud"
+
+#~ msgid "Desktop %1:"
+#~ msgstr "Töölaud %1:"
+
+#~ msgid "Here you can enter the name for desktop %1"
+#~ msgstr "Siin saab anda töölauale %1 nime"
+
+#~ msgid ""
+#~ "<h1>Multiple Desktops</h1>In this module, you can configure how many "
+#~ "virtual desktops you want and how these should be labeled."
+#~ msgstr ""
+#~ "<h1>Töölaudade arv ja nimed</h1>Selles moodulis saad valida, mitut "
+#~ "virtuaalset töölauda sa kasutada soovid ning kuidas neid nimetatakse."
+
+#~ msgid "Switch to Next Desktop"
+#~ msgstr "Lülitumine järgmisele töölauale"
+
+#~ msgid "Switch to Previous Desktop"
+#~ msgstr "Lülitumine eelmisele töölauale"
+
+#~ msgid "Switch One Desktop to the Right"
+#~ msgstr "Lülitumine üks töölaud paremale"
+
+#~ msgid "Switch One Desktop to the Left"
+#~ msgstr "Lülitumine üks töölaud vasakule"
+
+#~ msgid "Switch One Desktop Up"
+#~ msgstr "Lülitumine üks töölaud üles"
+
+#~ msgid "Switch One Desktop Down"
+#~ msgstr "Lülitumine üks töölaud alla"
+
+#~ msgid "Walk Through Desktops"
+#~ msgstr "Töölaudade läbijalutamine"
+
+#~ msgid "Walk Through Desktops (Reverse)"
+#~ msgstr "Töölaudade läbijalutamine (tagurpidi)"
+
+#~ msgid "Walk Through Desktop List"
+#~ msgstr "Töölaudade nimekirja läbijalutamine"
+
+#~ msgid "Walk Through Desktop List (Reverse)"
+#~ msgstr "Töölaudade nimekirja läbijalutamine (tagurpidi)"
+
+#~ msgid "Desktop Switching"
+#~ msgstr "Töölaudade lülitamine"
+
+#~ msgid "Switch to Desktop %1"
+#~ msgstr "Lülitumine töölauale %1"
+
+#~ msgid "No Animation"
+#~ msgstr "Animatsioon puudub"
+
+#~ msgid "No suitable Shortcut for Desktop %1 found"
+#~ msgstr "Töölauale %1 sobivat kiirklahvi ei leitud"
+
+#~ msgid "Assigned global Shortcut \"%1\" to Desktop %2"
+#~ msgstr "Töölauale %2 omistati globaalne kiirklahv \"%1\""
+
+#~ msgid "Shortcut conflict: Could not set Shortcut %1 for Desktop %2"
+#~ msgstr "Kiirklahvi konflikt: töölauale %2 ei saa määrata kiirklahvi %1"
+
+#~ msgid "KWin development team"
+#~ msgstr "KWini arendusmeeskond"
+
+#~ msgid "Layout"
+#~ msgstr "Paigutus"
+
+#~ msgid ""
+#~ "Here you can set how many virtual desktops you want on your KDE desktop."
+#~ msgstr ""
+#~ "Siin saad valida, mitut virtuaalset töölauda sa soovid KDE töölaual "
+#~ "kasutada."
+
+#~ msgid "&Number of desktops:"
+#~ msgstr "&Töölaudade arv: "
+
+#~ msgid "N&umber of rows:"
+#~ msgstr "&Ridade arv:"
+
+#~ msgid "Desktop Names"
+#~ msgstr "Töölaudade nimed"
+
+#~ msgid "Switching"
+#~ msgstr "Lülitumine"
+
+#~ msgid ""
+#~ "Enable this option if you want keyboard or active desktop border "
+#~ "navigation beyond the edge of a desktop to take you to the opposite edge "
+#~ "of the new desktop."
+#~ msgstr ""
+#~ "Lülita see sisse, kui soovid, et klaviatuuri või magnetiliste piirete "
+#~ "vahendusel üle töölaua ääre liikudes jõuaksid uue töölaua vastaskülge."
+
+#~ msgid "Desktop Effect Animation"
+#~ msgstr "Töölaua efektide animatsioon"
+
+#~ msgid "Animation:"
+#~ msgstr "Animatsioon:"
+
+#~ msgid "Desktop Switch On-Screen Display"
+#~ msgstr "Töölaua lülitamise ekraaniesitus"
+
+#~ msgid "Duration:"
+#~ msgstr "Kestus:"
+
+#~ msgid " msec"
+#~ msgstr " msek."
+
+#~ msgid ""
+#~ "Enabling this option will show a small preview of the desktop layout "
+#~ "indicating the selected desktop."
+#~ msgstr ""
+#~ "Selle sisselülitamisel näeb töölaua paigutuse väikest eelvaatlust, kus on "
+#~ "näha valitud töölaud."
+
+#~ msgid "Shortcuts"
+#~ msgstr "Kiirklahvid"
+
+#~ msgid "Show shortcuts for all possible desktops"
+#~ msgstr "Kõigi võimalike töölaudade kiirklahvide näitamine"
+
+#~ msgid "Different widgets for each desktop"
+#~ msgstr "Erinevad vidinad igal töölaual"
+
+#~ msgid "Mouse wheel over desktop background switches desktop"
+#~ msgstr "Hiirerattaga saab kerida uuele töölauale"

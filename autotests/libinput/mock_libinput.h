@@ -16,6 +16,7 @@
 #include <QVector>
 
 #include <array>
+#include <chrono>
 
 struct libinput_device
 {
@@ -109,7 +110,7 @@ struct libinput_event
     }
     libinput_device *device = nullptr;
     libinput_event_type type = LIBINPUT_EVENT_NONE;
-    quint32 time = 0;
+    std::chrono::microseconds time = std::chrono::microseconds::zero();
 };
 
 struct libinput_event_keyboard : libinput_event
@@ -128,11 +129,10 @@ struct libinput_event_pointer : libinput_event
     quint32 button = 0;
     bool verticalAxis = false;
     bool horizontalAxis = false;
-    qreal horizontalAxisValue = 0.0;
-    qreal verticalAxisValue = 0.0;
-    qreal horizontalDiscreteAxisValue = 0.0;
-    qreal verticalDiscreteAxisValue = 0.0;
-    libinput_pointer_axis_source axisSource = {};
+    qreal horizontalScrollValue = 0.0;
+    qreal verticalScrollValue = 0.0;
+    qreal horizontalScrollValueV120 = 0.0;
+    qreal verticalScrollValueV120 = 0.0;
     QPointF delta;
     QPointF absolutePos;
 };
@@ -159,7 +159,6 @@ struct libinput_event_switch : libinput_event
         On
     };
     State state = State::Off;
-    quint64 timeMicroseconds = 0;
 };
 
 struct libinput

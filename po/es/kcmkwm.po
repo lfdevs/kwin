@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-02 00:47+0000\n"
-"PO-Revision-Date: 2022-09-04 12:33+0200\n"
+"POT-Creation-Date: 2022-12-03 00:48+0000\n"
+"PO-Revision-Date: 2022-12-03 12:06+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -29,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "First-Translator: Boris Wesslowski <Boris@Wesslowski.com>\n"
-"X-Generator: Lokalize 22.08.0\n"
+"X-Generator: Lokalize 22.11.90\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -514,13 +514,10 @@ msgid ""
 "whole screen. It might be useful to selectively affect placement of some "
 "windows using the window-specific settings.</li><li style=\" margin-top:0px; "
 "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\"><span style=\" font-style:italic;\">Cascade</span> will "
-"cascade the windows</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"text-indent:0px;\"><span style=\" font-style:italic;\">Random</span> will "
+"use a random position</li><li style=\" margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-style:italic;\">Random</span> will use a random "
-"position</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-style:italic;\">Centered</span> will place the window "
+"\"><span style=\" font-style:italic;\">Centered</span> will place the window "
 "centered</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\" font-style:italic;\">Zero-cornered</span> will place the window in "
@@ -541,9 +538,6 @@ msgstr ""
 "de maximizar cada ventana para que ocupe toda la pantalla. Puede ser útil "
 "decidir selectivamente la ubicación de algunas ventanas usando las "
 "preferencias específicas de la ventana.</li><li style=\" margin-top:0px; "
-"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\"><span style=\" font-style:italic;\">En cascada</span> "
-"mostrará las ventanas en forma de cascada.</li><li style=\" margin-top:0px; "
 "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
 "text-indent:0px;\"><span style=\" font-style:italic;\">Al azar</span> usará "
 "una posición aleatoria.</li><li style=\" margin-top:0px; margin-bottom:0px; "
@@ -572,35 +566,29 @@ msgstr "Maximizada"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:90
 #, kde-format
-msgid "Cascaded"
-msgstr "En cascada"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:95
-#, kde-format
 msgid "Random"
 msgstr "Al azar"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:100
+#: advanced.ui:95
 #, kde-format
 msgid "Centered"
 msgstr "Centrada"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:105
+#: advanced.ui:100
 #, kde-format
 msgid "In Top-Left Corner"
 msgstr "En la esquina superior izquierda"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:110
+#: advanced.ui:105
 #, kde-format
 msgid "Under mouse"
 msgstr "Bajo el ratón"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:118
+#: advanced.ui:113
 #, kde-format
 msgid ""
 "When turned on, apps which are able to remember the positions of their "
@@ -612,7 +600,7 @@ msgstr ""
 "de ventanas definido más arriba."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:121
+#: advanced.ui:116
 #, kde-format
 msgid ""
 "Allow apps to remember the positions of their own windows, if they support it"
@@ -621,13 +609,13 @@ msgstr ""
 "lo permiten"
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
-#: advanced.ui:128
+#: advanced.ui:123
 #, kde-format
 msgid "&Special windows:"
 msgstr "Ventanas e&speciales:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:138
+#: advanced.ui:133
 #, kde-format
 msgid ""
 "When turned on, utility windows (tool windows, torn-off menus,...) of "
@@ -642,25 +630,25 @@ msgstr ""
 "funcione."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:141
+#: advanced.ui:136
 #, kde-format
 msgid "Hide utility windows for inactive applications"
 msgstr "Ocultar la ventana de utilidades para aplicaciones inactivas"
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyLabel)
-#: advanced.ui:148
+#: advanced.ui:143
 #, kde-format
 msgid "Virtual Desktop behavior:"
 msgstr "Comportamiento del escritorio virtual:"
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyDescriptionLabel)
-#: advanced.ui:158
+#: advanced.ui:153
 #, kde-format
 msgid "When activating a window on a different Virtual Desktop:"
 msgstr "Al activar una ventana en un escritorio virtual distinto:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:165
+#: advanced.ui:160
 #, kde-format
 msgid ""
 "<html><head/><body><p>This setting controls what happens when an open window "
@@ -680,13 +668,13 @@ msgstr ""
 "actual.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:169
+#: advanced.ui:164
 #, kde-format
 msgid "Switch to that Virtual Desktop"
 msgstr "Cambiar a ese escritorio virtual"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:174
+#: advanced.ui:169
 #, kde-format
 msgid "Bring window to current Virtual Desktop"
 msgstr "Traer la ventana al escritorio virtual actual"
@@ -1433,3 +1421,219 @@ msgstr ""
 "robo del foco</em> y la <em>acción de alternar entre ventanas («Alt+Tab»)</"
 "em> contradicen esta política y no funcionarán. Es muy probable que prefiera "
 "usar <em>El foco sigue al ratón (el ratón tiene prioridad)</em> en su lugar."
+
+#~ msgid "Cascaded"
+#~ msgstr "En cascada"
+
+#~ msgid "Window &geometry:"
+#~ msgstr "&Geometría de la ventana:"
+
+#~ msgid ""
+#~ "Enable this option if you want a window's geometry to be displayed while "
+#~ "it is being moved or resized. The window position relative to the top-"
+#~ "left corner of the screen is displayed together with its size."
+#~ msgstr ""
+#~ "Active esta opción si quiere que se muestre la geometría de la ventana "
+#~ "mientras se mueve o se modifica su tamaño. Se muestran la posición "
+#~ "relativa a la esquina superior izquierda y su tamaño."
+
+#~ msgid "Display when moving or resizing"
+#~ msgstr "Mostrar al mover o al cambiar de tamaño"
+
+#~ msgid "Maximize (vertical only)"
+#~ msgstr "Maximizar (solo verticalmente)"
+
+#~ msgid "Maximize (horizontal only)"
+#~ msgstr "Maximizar (solo horizontalmente)"
+
+#~ msgid "Smart"
+#~ msgstr "Inteligente"
+
+#~ msgid "Maximizing"
+#~ msgstr "Maximizando"
+
+#~ msgid "Zero-cornered"
+#~ msgstr "Esquina cero"
+
+#~ msgid "Switch to window tab to the left/right"
+#~ msgstr "Cambiar a la ventana en la pestaña de la izquierda/derecha"
+
+#~ msgid "Window tabbing:"
+#~ msgstr "Ventanas en pestañas:"
+
+#~ msgid ""
+#~ "When turned on immediately switch to any new window tabs that were "
+#~ "automatically added to the current group."
+#~ msgstr ""
+#~ "Si se activa, se cambiará inmediatamente a cualesquiera nuevas ventanas "
+#~ "en pestañas que se hubieran añadido automáticamente al grupo actual."
+
+#, fuzzy
+#~| msgid "Switch to automatically grouped windows immediately"
+#~ msgid "&Switch to automatically grouped windows immediately"
+#~ msgstr "Cambiar inmediatamente a las ventanas agrupadas automáticamente"
+
+#~ msgid "When turned on hide all tabs that are not active from the taskbar."
+#~ msgstr ""
+#~ "Si se activa, se ocultarán de la barra de tareas todas las pestañas que "
+#~ "no estén activas."
+
+#, fuzzy
+#~| msgid "Hide inactive window tabs from the taskbar"
+#~ msgid "&Hide inactive window tabs from the taskbar"
+#~ msgstr "Ocultar de la barra de tareas las ventanas en pestañas inactivas"
+
+#~ msgid ""
+#~ "When turned on attempt to automatically detect when a newly opened window "
+#~ "is related to an existing one and place them in the same window group."
+#~ msgstr ""
+#~ "Si se activa, cuando se abra una nueva ventana se intentará detectar "
+#~ "automáticamente si está relacionada con otra ya existente y las colocará "
+#~ "en el mismo grupo de ventanas."
+
+#, fuzzy
+#~| msgid "Start Window Tab Drag"
+#~ msgid "Start window tab drag"
+#~ msgstr "Iniciar arrastre de ventana en pestaña"
+
+#~ msgid "Ri&ght button:"
+#~ msgstr "Botón &derecho:"
+
+#~ msgid "&Wheel"
+#~ msgstr "&Rueda"
+
+#~ msgid "&Left button:"
+#~ msgstr "Botón i&zquierdo:"
+
+#~ msgid "&Right button:"
+#~ msgstr "Botón &derecho:"
+
+#~ msgid "M&iddle button:"
+#~ msgstr "Bo&tón central:"
+
+#~ msgid "Left &button"
+#~ msgstr "&Botón izquierdo:"
+
+#~ msgid "Automatically group similar windows"
+#~ msgstr "Agrupar automáticamente las ventanas similares"
+
+#~ msgid ""
+#~ "The placement policy determines where a new window will appear on the "
+#~ "desktop.<br><ul>\n"
+#~ "<li><em>Smart</em> will try to achieve a minimum overlap of windows</li>\n"
+#~ "<li><em>Maximizing</em> will try to maximize every window to fill the "
+#~ "whole screen. It might be useful to selectively affect placement of some "
+#~ "windows using the window-specific settings.</li>\n"
+#~ "<li><em>Cascade</em> will cascade the windows</li>\n"
+#~ "<li><em>Random</em> will use a random position</li>\n"
+#~ "<li><em>Centered</em> will place the window centered</li>\n"
+#~ "<li><em>Zero-Cornered</em> will place the window in the top-left corner</"
+#~ "li>\n"
+#~ "<li><em>Under Mouse</em> will place the window under the pointer</li>\n"
+#~ "</ul>"
+#~ msgstr ""
+#~ "La política de ubicación determina en qué sitio del escritorio debe "
+#~ "aparecer una ventana nueva.<br><ul>\n"
+#~ "<li><em>Inteligente</em> tratará que las ventanas se superpongan lo menos "
+#~ "posible.</li>\n"
+#~ "<li><em>Maximizando</em> intentará maximizar cada ventana para llenar "
+#~ "toda la pantalla. Puede resultarle útil para que afecte selectivamente la "
+#~ "ubicación de algunas ventanas utilizando sus opciones específicas.</li>\n"
+#~ "<li><em>Cascada</em> situará las ventanas en forma de cascada.</li>\n"
+#~ "<li><em>Aleatorio</em> usará una posición aleatoria.</li>\n"
+#~ "<li><em>Centrado</em> pondrá la ventana centrada.</li>\n"
+#~ "<li><em>Esquina cero</em> pondrá la ventana en la esquina superior "
+#~ "izquierda.</li>\n"
+#~ "<li><em>Bajo el ratón</em> pondrá la ventana bajo el puntero.</li>\n"
+#~ "</ul>"
+
+#~ msgid "Shading"
+#~ msgstr "Recogida"
+
+#~ msgid "Dela&y:"
+#~ msgstr "Retar&do:"
+
+#~ msgid "&Enable hover"
+#~ msgstr "&Extender al pasar por encima"
+
+#~ msgid "Activating windows"
+#~ msgstr "Activación de ventanas"
+
+#~ msgid "Policy"
+#~ msgstr "Política"
+
+#~ msgid "Click"
+#~ msgstr "Clic"
+
+#~ msgid "Hover"
+#~ msgstr "Pasar por encima"
+
+#~ msgid "&Moving"
+#~ msgstr "&Movimiento"
+
+#~ msgid "Wheel event:"
+#~ msgstr "Evento de la rueda:"
+
+#~ msgid "Handle mouse wheel events"
+#~ msgstr "Manejar eventos de la rueda del ratón"
+
+#~ msgid ""
+#~ "In this column you can customize mouse clicks into the titlebar or the "
+#~ "frame of an active window."
+#~ msgstr ""
+#~ "En esta columna se pueden personalizar las pulsaciones del ratón en la "
+#~ "barra de título o en el marco de la ventana activa."
+
+#~ msgid ""
+#~ "In this column you can customize mouse clicks into the titlebar or the "
+#~ "frame of an inactive window."
+#~ msgstr ""
+#~ "En esta columna se pueden personalizar las pulsaciones del ratón en la "
+#~ "barra de título o en el marco de la ventana inactiva."
+
+#~ msgid "Left button:"
+#~ msgstr "Botón izquierdo:"
+
+#~ msgid "Middle button:"
+#~ msgstr "Botón central:"
+
+#~ msgid ""
+#~ "Behavior on <em>middle</em> click into the titlebar or frame of an "
+#~ "<em>active</em> window."
+#~ msgstr ""
+#~ "Comportamiento al pulsar con el botón <em>central</em> en el borde o "
+#~ "título de una ventana <em>activa</em>."
+
+#~ msgid "Right button:"
+#~ msgstr "Botón derecho:"
+
+#~ msgid ""
+#~ "Behavior on <em>right</em> click into the titlebar or frame of an "
+#~ "<em>active</em> window."
+#~ msgstr ""
+#~ "Comportamiento al pulsar con el botón <em>derecho</em> en el borde o "
+#~ "título de una ventana <em>activa</em>."
+
+#~ msgid "Titlebar & Frame"
+#~ msgstr "Barra de título y marco"
+
+#~ msgid "Titlebar"
+#~ msgstr "Barra de título"
+
+#~ msgid "no center snap zone"
+#~ msgstr "sin zona de adhesión en el centro"
+
+#~ msgid "no window snap zone"
+#~ msgstr "sin zona de adhesión de ventanas"
+
+#~ msgid "no border snap zone"
+#~ msgstr "sin zona de adhesión en los bordes"
+
+#~ msgid "Windows"
+#~ msgstr "Ventanas"
+
+#~ msgid "Snap Zones"
+#~ msgstr "Zonas de adhesión"
+
+#~ msgid "kcmkwinoptions"
+#~ msgstr "kcmkwinoptions"

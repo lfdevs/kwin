@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-20 02:18+0000\n"
+"POT-Creation-Date: 2022-09-20 00:47+0000\n"
 "PO-Revision-Date: 2018-11-01 09:59+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <kde-i18n-doc@kde.org>\n"
@@ -73,3 +73,44 @@ msgstr "Instalar desde un ficheiro…"
 #, kde-format
 msgid "Get New Scripts..."
 msgstr "Obter novos scripts…"
+
+#~ msgid "KWin Scripts"
+#~ msgstr "Scripts de KWin"
+
+#~ msgid "Configure KWin scripts"
+#~ msgstr "Configura os scripts de KWin"
+
+#~ msgid "Tamás Krutki"
+#~ msgstr "Tamás Krutki"
+
+#~ msgid "KWin script configuration"
+#~ msgstr "Configuración do script de KWin"
+
+#~ msgid "Import KWin script..."
+#~ msgstr "Importar un script de KWin…"
+
+#~ msgid ""
+#~ "Cannot import selected script: maybe a script already exists with the "
+#~ "same name or there is a permission problem."
+#~ msgstr ""
+#~ "Non é posíbel importar o script escollido, poida que xa exista un script "
+#~ "con ese mesmo nome ou que haxa un problema cos permisos."
+
+#, fuzzy
+#~| msgid "The selected script was exported successfully!"
+#~ msgid "The selected script was exported successfully."
+#~ msgstr "O script escollido exportouse con éxito!"
+
+#, fuzzy
+#~| msgid "An error occurred, the selected script could not be exported!"
+#~ msgid "An error occurred, the selected script could not be exported."
+#~ msgstr "Produciuse un erro, non foi posíbel exportar o script escollido!"
+
+#~ msgid "Do you really want to delete the selected script?"
+#~ msgstr "Desexa realmente eliminar o script escollido?"
+
+#~ msgid "Remove KWin script"
+#~ msgstr "Eliminar o script de KWin"
+
+#~ msgid "Remove selected KWin script"
+#~ msgstr "Eliminar o script escollido"

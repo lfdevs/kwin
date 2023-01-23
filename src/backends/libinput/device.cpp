@@ -11,7 +11,7 @@
 #include <config-kwin.h>
 
 #include "core/output.h"
-#include "core/platform.h"
+#include "core/outputbackend.h"
 #include "libinput_logging.h"
 #include "main.h"
 #include "mousebuttons.h"
@@ -412,7 +412,7 @@ void Device::setPointerAcceleration(qreal acceleration)
     if (!m_supportsPointerAcceleration) {
         return;
     }
-    acceleration = qBound(-1.0, acceleration, 1.0);
+    acceleration = std::clamp(acceleration, -1.0, 1.0);
     if (libinput_device_config_accel_set_speed(m_device, acceleration) == LIBINPUT_CONFIG_STATUS_SUCCESS) {
         if (m_pointerAcceleration != acceleration) {
             m_pointerAcceleration = acceleration;
@@ -633,10 +633,7 @@ void Device::setOutputName(const QString &name)
     }
 
     setOutput(nullptr);
-    if (name.isEmpty()) {
-        return;
-    }
-    auto outputs = kwinApp()->platform()->outputs();
+    auto outputs = kwinApp()->outputBackend()->outputs();
     for (int i = 0; i < outputs.count(); ++i) {
         if (!outputs[i]->isEnabled()) {
             continue;
@@ -650,8 +647,6 @@ void Device::setOutputName(const QString &name)
     m_outputName = name;
     writeEntry(ConfigKey::OutputName, name);
     Q_EMIT outputNameChanged();
-#else
-    Q_UNUSED(name)
 #endif
 }
 

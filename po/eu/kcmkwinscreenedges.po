@@ -267,29 +267,29 @@ msgstr ""
 "Ekintza bat eragin dezakezu hatzarekin pantailaren ertzetik pantailaren "
 "erdirantz kolpe arin bat emanez."
 
+#~ msgid "Show Desktop"
+#~ msgstr "Erakutsi mahaigaina"
 
+#~ msgid "Toggle Overview"
+#~ msgstr "Txandakatu ikuspegi orokorra"
 
+#~ msgid "%1 - Cube"
+#~ msgstr "%1 - Kuboa"
 
+#~ msgid "%1 - Cylinder"
+#~ msgstr "%1 - Zilindroa"
 
+#~ msgid "%1 - Sphere"
+#~ msgstr "%1 - Esfera"
 
+#~ msgid "Active Screen Corners and Edges"
+#~ msgstr "Pantailaren izkin eta ertz aktiboak"
 
+#~ msgid "Window Management"
+#~ msgstr "Leiho-kudeaketa"
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#~ msgid "Maximize windows by dragging them to the top edge of the screen"
+#~ msgstr "Maximizatu leihoak haiek pantailaren goiko ertzera arrastatuz"
 
 # xalba 2018-07-14 lr:
 #
@@ -302,3 +302,18 @@ msgstr ""
 # 1. Laurdeneko lauza eragin pantailaren kanpoko
 # 2. %
 # 3. -(e)an
+#~ msgid "Quarter tiling triggered in the outer"
+#~ msgstr "Laurdeneko lauza eragin pantailaren kanpoko"
+
+#~ msgid "Other Settings"
+#~ msgstr "Beste ezarpen batzuk"
+
+#~ msgctxt "Open krunner"
+#~ msgid "Run Command"
+#~ msgstr "Exekutatu komandoa"
+
+#~ msgid "Show Dashboard"
+#~ msgstr "Erakutsi aginte-mahaia"
+
+#~ msgid "Prevent Screen Locking"
+#~ msgstr "Galarazi pantaila giltzatzea"

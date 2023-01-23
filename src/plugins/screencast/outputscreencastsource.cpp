@@ -12,7 +12,7 @@
 #include "core/renderloop.h"
 #include "kwingltexture.h"
 #include "kwinglutils.h"
-#include "scene.h"
+#include "scene/workspacescene.h"
 
 namespace KWin
 {
@@ -53,12 +53,12 @@ void OutputScreenCastSource::render(GLFramebuffer *target)
 
     ShaderBinder shaderBinder(ShaderTrait::MapTexture);
     QMatrix4x4 projectionMatrix;
-    projectionMatrix.ortho(geometry);
+    projectionMatrix.ortho(scaledRect(geometry, m_output->scale()));
     shaderBinder.shader()->setUniform(GLShader::ModelViewProjectionMatrix, projectionMatrix);
 
     GLFramebuffer::pushFramebuffer(target);
     outputTexture->bind();
-    outputTexture->render(geometry);
+    outputTexture->render(geometry, m_output->scale());
     outputTexture->unbind();
     GLFramebuffer::popFramebuffer();
 }

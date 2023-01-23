@@ -15,7 +15,7 @@
 #include "backends/wayland/wayland_backend.h"
 #include "backends/x11/windowed/x11_windowed_backend.h"
 #include "composite.h"
-#include "core/platform.h"
+#include "core/outputbackend.h"
 #include "core/session.h"
 #include "effects.h"
 #include "inputmethod.h"
@@ -139,7 +139,7 @@ void ApplicationWayland::performStartup()
     // first load options - done internally by a different thread
     createOptions();
 
-    if (!platform()->initialize()) {
+    if (!outputBackend()->initialize()) {
         std::exit(1);
     }
 
@@ -149,7 +149,7 @@ void ApplicationWayland::performStartup()
 
     WaylandCompositor::create();
 
-    connect(Compositor::self(), &Compositor::sceneCreated, platform(), &Platform::sceneInitialized);
+    connect(Compositor::self(), &Compositor::sceneCreated, outputBackend(), &OutputBackend::sceneInitialized);
     connect(Compositor::self(), &Compositor::sceneCreated, this, &ApplicationWayland::continueStartupWithScene);
 }
 
@@ -246,7 +246,7 @@ void ApplicationWayland::startSession()
     }
     // start the applications passed to us as command line arguments
     if (!m_applicationsToStart.isEmpty()) {
-        for (const QString &application : qAsConst(m_applicationsToStart)) {
+        for (const QString &application : std::as_const(m_applicationsToStart)) {
             QStringList arguments = KShell::splitArgs(application);
             if (arguments.isEmpty()) {
                 qWarning("Failed to launch application: %s is an invalid command",
@@ -361,6 +361,7 @@ int main(int argc, char *argv[])
                                      i18n("Exits this instance so it can be restarted by kwin_wayland_wrapper."));
 
     QCommandLineOption drmOption(QStringLiteral("drm"), i18n("Render through drm node."));
+    QCommandLineOption locale1Option(QStringLiteral("locale1"), i18n("Extract locale information from locale1 rather than the user's configuration"));
 
     QCommandLineParser parser;
     a.setupCommandLine(&parser);
@@ -379,6 +380,7 @@ int main(int argc, char *argv[])
     parser.addOption(scaleOption);
     parser.addOption(outputCountOption);
     parser.addOption(drmOption);
+    parser.addOption(locale1Option);
 
     QCommandLineOption inputMethodOption(QStringLiteral("inputmethod"),
                                          i18n("Input method that KWin starts."),
@@ -444,7 +446,6 @@ int main(int argc, char *argv[])
     BackendType backendType;
     QString pluginName;
     QSize initialWindowSize;
-    QByteArray deviceIdentifier;
     int outputCount = 1;
     qreal outputScale = 1;
 
@@ -453,10 +454,8 @@ int main(int argc, char *argv[])
         backendType = BackendType::Kms;
     } else if (parser.isSet(x11DisplayOption)) {
         backendType = BackendType::X11;
-        deviceIdentifier = parser.value(x11DisplayOption).toUtf8();
     } else if (parser.isSet(waylandDisplayOption)) {
         backendType = BackendType::Wayland;
-        deviceIdentifier = parser.value(waylandDisplayOption).toUtf8();
     } else if (parser.isSet(virtualFbOption)) {
         backendType = BackendType::Virtual;
     } else {
@@ -470,6 +469,10 @@ int main(int argc, char *argv[])
             qWarning("No backend specified, automatically choosing drm");
             backendType = BackendType::Kms;
         }
+    }
+
+    if (parser.isSet(locale1Option)) {
+        a.setFollowLocale1(true);
     }
 
     bool ok = false;
@@ -494,7 +497,7 @@ int main(int argc, char *argv[])
 
     const int count = parser.value(outputCountOption).toInt(&ok);
     if (ok) {
-        outputCount = qMax(1, count);
+        outputCount = std::max(1, count);
     }
 
     // TODO: create backend without having the server running
@@ -544,30 +547,46 @@ int main(int argc, char *argv[])
             std::cerr << "FATAl ERROR: could not acquire a session" << std::endl;
             return 1;
         }
-        a.setPlatform(std::make_unique<KWin::DrmBackend>(a.session()));
+        a.setOutputBackend(std::make_unique<KWin::DrmBackend>(a.session()));
         break;
-    case BackendType::Virtual:
+    case BackendType::Virtual: {
+        auto outputBackend = std::make_unique<KWin::VirtualBackend>();
+        for (int i = 0; i < outputCount; ++i) {
+            outputBackend->addOutput(initialWindowSize, outputScale);
+        }
         a.setSession(KWin::Session::create(KWin::Session::Type::Noop));
-        a.setPlatform(std::make_unique<KWin::VirtualBackend>());
-        break;
-    case BackendType::X11:
-        a.setSession(KWin::Session::create(KWin::Session::Type::Noop));
-        a.setPlatform(std::make_unique<KWin::X11WindowedBackend>());
-        break;
-    case BackendType::Wayland:
-        a.setSession(KWin::Session::create(KWin::Session::Type::Noop));
-        a.setPlatform(std::make_unique<KWin::Wayland::WaylandBackend>());
+        a.setOutputBackend(std::move(outputBackend));
         break;
     }
-
-    if (!deviceIdentifier.isEmpty()) {
-        a.platform()->setDeviceIdentifier(deviceIdentifier);
+    case BackendType::X11: {
+        QString display = parser.value(x11DisplayOption);
+        if (display.isEmpty()) {
+            display = qgetenv("DISPLAY");
+        }
+        a.setSession(KWin::Session::create(KWin::Session::Type::Noop));
+        a.setOutputBackend(std::make_unique<KWin::X11WindowedBackend>(KWin::X11WindowedBackendOptions{
+            .display = display,
+            .outputCount = outputCount,
+            .outputScale = outputScale,
+            .outputSize = initialWindowSize,
+        }));
+        break;
     }
-    if (initialWindowSize.isValid()) {
-        a.platform()->setInitialWindowSize(initialWindowSize);
+    case BackendType::Wayland: {
+        QString socketName = parser.value(waylandDisplayOption);
+        if (socketName.isEmpty()) {
+            socketName = qgetenv("WAYLAND_DISPLAY");
+        }
+        a.setSession(KWin::Session::create(KWin::Session::Type::Noop));
+        a.setOutputBackend(std::make_unique<KWin::Wayland::WaylandBackend>(KWin::Wayland::WaylandBackendOptions{
+            .socketName = socketName,
+            .outputCount = outputCount,
+            .outputScale = outputScale,
+            .outputSize = initialWindowSize,
+        }));
+        break;
     }
-    a.platform()->setInitialOutputScale(outputScale);
-    a.platform()->setInitialOutputCount(outputCount);
+    }
 
     QObject::connect(&a, &KWin::Application::workspaceCreated, server, &KWin::WaylandServer::initWorkspace);
     if (!server->socketName().isEmpty()) {

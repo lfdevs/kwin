@@ -15,7 +15,7 @@
 #include "nightcolorsettings.h"
 #include "suncalc.h"
 
-#include <core/platform.h>
+#include <core/outputbackend.h>
 #include <core/session.h>
 #include <input.h>
 #include <main.h>
@@ -55,10 +55,9 @@ NightColorManager::NightColorManager()
 
     // Display a message when Night Color is (un)inhibited.
     connect(this, &NightColorManager::inhibitedChanged, this, [this] {
-        // TODO: Maybe use different icons?
         const QString iconName = isInhibited()
-            ? QStringLiteral("preferences-desktop-display-nightcolor-off")
-            : QStringLiteral("preferences-desktop-display-nightcolor-on");
+            ? QStringLiteral("redshift-status-off")
+            : QStringLiteral("redshift-status-on");
 
         const QString text = isInhibited()
             ? i18nc("Night Color was disabled", "Night Color Off")
@@ -80,24 +79,21 @@ NightColorManager::NightColorManager()
     // we may always read in the current config
     readConfig();
 
-    if (!isAvailable()) {
-        return;
-    }
-
     // legacy shortcut with localized key (to avoid breaking existing config)
+    // TODO Plasma 6: Remove it.
     if (i18n("Toggle Night Color") != QStringLiteral("Toggle Night Color")) {
         QAction toggleActionLegacy;
-        toggleActionLegacy.setProperty("componentName", QStringLiteral(KWIN_NAME));
+        toggleActionLegacy.setProperty("componentName", QStringLiteral("kwin"));
         toggleActionLegacy.setObjectName(i18n("Toggle Night Color"));
         KGlobalAccel::self()->removeAllShortcuts(&toggleActionLegacy);
     }
 
     QAction *toggleAction = new QAction(this);
-    toggleAction->setProperty("componentName", QStringLiteral(KWIN_NAME));
+    toggleAction->setProperty("componentName", QStringLiteral("kwin"));
     toggleAction->setObjectName(QStringLiteral("Toggle Night Color"));
     toggleAction->setText(i18n("Toggle Night Color"));
     KGlobalAccel::setGlobalShortcut(toggleAction, QList<QKeySequence>());
-    input()->registerShortcut(QKeySequence(), toggleAction, this, &NightColorManager::toggle);
+    connect(toggleAction, &QAction::triggered, this, &NightColorManager::toggle);
 
     connect(kwinApp()->colorManager(), &ColorManager::deviceAdded, this, &NightColorManager::hardReset);
 
@@ -150,7 +146,7 @@ void NightColorManager::hardReset()
     updateTransitionTimings(true);
     updateTargetTemperature();
 
-    if (isAvailable() && isEnabled() && !isInhibited()) {
+    if (isEnabled() && !isInhibited()) {
         setRunning(true);
         commitGammaRamps(currentTargetTemp());
     }
@@ -203,11 +199,6 @@ bool NightColorManager::isEnabled() const
 bool NightColorManager::isRunning() const
 {
     return m_running;
-}
-
-bool NightColorManager::isAvailable() const
-{
-    return kwinApp()->platform()->supportsGammaControl();
 }
 
 int NightColorManager::currentTemperature() const
@@ -266,8 +257,8 @@ void NightColorManager::readConfig()
         break;
     }
 
-    m_dayTargetTemp = qBound(MIN_TEMPERATURE, s->dayTemperature(), DEFAULT_DAY_TEMPERATURE);
-    m_nightTargetTemp = qBound(MIN_TEMPERATURE, s->nightTemperature(), DEFAULT_DAY_TEMPERATURE);
+    m_dayTargetTemp = std::clamp(s->dayTemperature(), MIN_TEMPERATURE, DEFAULT_DAY_TEMPERATURE);
+    m_nightTargetTemp = std::clamp(s->nightTemperature(), MIN_TEMPERATURE, DEFAULT_DAY_TEMPERATURE);
 
     double lat, lng;
     auto correctReadin = [&lat, &lng]() {
@@ -295,7 +286,7 @@ void NightColorManager::readConfig()
     QTime evB = QTime::fromString(s->eveningBeginFixed(), "hhmm");
 
     int diffME = evB > mrB ? mrB.msecsTo(evB) : evB.msecsTo(mrB);
-    int diffMin = qMin(diffME, MSC_DAY - diffME);
+    int diffMin = std::min(diffME, MSC_DAY - diffME);
 
     int trTime = s->transitionTime() * 1000 * 60;
     if (trTime < 0 || diffMin <= trTime) {
@@ -306,43 +297,35 @@ void NightColorManager::readConfig()
     }
     m_morning = mrB;
     m_evening = evB;
-    m_trTime = qMax(trTime / 1000 / 60, 1);
+    m_trTime = std::max(trTime / 1000 / 60, 1);
 }
 
 void NightColorManager::resetAllTimers()
 {
     cancelAllTimers();
-    if (isAvailable()) {
-        setRunning(isEnabled() && !isInhibited());
-        // we do this also for active being false in order to reset the temperature back to the day value
-        updateTransitionTimings(false);
-        updateTargetTemperature();
-        resetQuickAdjustTimer(currentTargetTemp());
-    } else {
-        setRunning(false);
-    }
+    setRunning(isEnabled() && !isInhibited());
+    // we do this also for active being false in order to reset the temperature back to the day value
+    updateTransitionTimings(false);
+    updateTargetTemperature();
+    resetQuickAdjustTimer(currentTargetTemp());
 }
 
 void NightColorManager::cancelAllTimers()
 {
-    delete m_slowUpdateStartTimer;
-    delete m_slowUpdateTimer;
-    delete m_quickAdjustTimer;
-
-    m_slowUpdateStartTimer = nullptr;
-    m_slowUpdateTimer = nullptr;
-    m_quickAdjustTimer = nullptr;
+    m_slowUpdateStartTimer.reset();
+    m_slowUpdateTimer.reset();
+    m_quickAdjustTimer.reset();
 }
 
 void NightColorManager::resetQuickAdjustTimer(int targetTemp)
 {
-    int tempDiff = qAbs(targetTemp - m_currentTemp);
+    int tempDiff = std::abs(targetTemp - m_currentTemp);
     // allow tolerance of one TEMPERATURE_STEP to compensate if a slow update is coincidental
     if (tempDiff > TEMPERATURE_STEP) {
         cancelAllTimers();
-        m_quickAdjustTimer = new QTimer(this);
+        m_quickAdjustTimer = std::make_unique<QTimer>();
         m_quickAdjustTimer->setSingleShot(false);
-        connect(m_quickAdjustTimer, &QTimer::timeout, this, [this, targetTemp]() {
+        connect(m_quickAdjustTimer.get(), &QTimer::timeout, this, [this, targetTemp]() {
             quickAdjust(targetTemp);
         });
 
@@ -365,24 +348,22 @@ void NightColorManager::quickAdjust(int targetTemp)
     int nextTemp;
 
     if (m_currentTemp < targetTemp) {
-        nextTemp = qMin(m_currentTemp + TEMPERATURE_STEP, targetTemp);
+        nextTemp = std::min(m_currentTemp + TEMPERATURE_STEP, targetTemp);
     } else {
-        nextTemp = qMax(m_currentTemp - TEMPERATURE_STEP, targetTemp);
+        nextTemp = std::max(m_currentTemp - TEMPERATURE_STEP, targetTemp);
     }
     commitGammaRamps(nextTemp);
 
     if (nextTemp == targetTemp) {
         // stop timer, we reached the target temp
-        delete m_quickAdjustTimer;
-        m_quickAdjustTimer = nullptr;
+        m_quickAdjustTimer.reset();
         resetSlowUpdateStartTimer();
     }
 }
 
 void NightColorManager::resetSlowUpdateStartTimer()
 {
-    delete m_slowUpdateStartTimer;
-    m_slowUpdateStartTimer = nullptr;
+    m_slowUpdateStartTimer.reset();
 
     if (!m_running || m_quickAdjustTimer) {
         // only reenable the slow update start timer when quick adjust is not active anymore
@@ -396,9 +377,9 @@ void NightColorManager::resetSlowUpdateStartTimer()
     }
 
     // set up the next slow update
-    m_slowUpdateStartTimer = new QTimer(this);
+    m_slowUpdateStartTimer = std::make_unique<QTimer>();
     m_slowUpdateStartTimer->setSingleShot(true);
-    connect(m_slowUpdateStartTimer, &QTimer::timeout, this, &NightColorManager::resetSlowUpdateStartTimer);
+    connect(m_slowUpdateStartTimer.get(), &QTimer::timeout, this, &NightColorManager::resetSlowUpdateStartTimer);
 
     updateTransitionTimings(false);
     updateTargetTemperature();
@@ -416,8 +397,7 @@ void NightColorManager::resetSlowUpdateStartTimer()
 
 void NightColorManager::resetSlowUpdateTimer()
 {
-    delete m_slowUpdateTimer;
-    m_slowUpdateTimer = nullptr;
+    m_slowUpdateTimer.reset();
 
     const QDateTime now = QDateTime::currentDateTime();
     const bool isDay = daylight();
@@ -431,20 +411,20 @@ void NightColorManager::resetSlowUpdateTimer()
 
     if (m_prev.first <= now && now <= m_prev.second) {
         int availTime = now.msecsTo(m_prev.second);
-        m_slowUpdateTimer = new QTimer(this);
+        m_slowUpdateTimer = std::make_unique<QTimer>();
         m_slowUpdateTimer->setSingleShot(false);
         if (isDay) {
-            connect(m_slowUpdateTimer, &QTimer::timeout, this, [this]() {
+            connect(m_slowUpdateTimer.get(), &QTimer::timeout, this, [this]() {
                 slowUpdate(m_dayTargetTemp);
             });
         } else {
-            connect(m_slowUpdateTimer, &QTimer::timeout, this, [this]() {
+            connect(m_slowUpdateTimer.get(), &QTimer::timeout, this, [this]() {
                 slowUpdate(m_nightTargetTemp);
             });
         }
 
         // calculate interval such as temperature is changed by TEMPERATURE_STEP K per timer timeout
-        int interval = availTime * TEMPERATURE_STEP / qAbs(targetTemp - m_currentTemp);
+        int interval = availTime * TEMPERATURE_STEP / std::abs(targetTemp - m_currentTemp);
         if (interval == 0) {
             interval = 1;
         }
@@ -459,15 +439,14 @@ void NightColorManager::slowUpdate(int targetTemp)
     }
     int nextTemp;
     if (m_currentTemp < targetTemp) {
-        nextTemp = qMin(m_currentTemp + TEMPERATURE_STEP, targetTemp);
+        nextTemp = std::min(m_currentTemp + TEMPERATURE_STEP, targetTemp);
     } else {
-        nextTemp = qMax(m_currentTemp - TEMPERATURE_STEP, targetTemp);
+        nextTemp = std::max(m_currentTemp - TEMPERATURE_STEP, targetTemp);
     }
     commitGammaRamps(nextTemp);
     if (nextTemp == targetTemp) {
         // stop timer, we reached the target temp
-        delete m_slowUpdateTimer;
-        m_slowUpdateTimer = nullptr;
+        m_slowUpdateTimer.reset();
     }
 }
 
@@ -475,12 +454,11 @@ void NightColorManager::preview(uint previewTemp)
 {
     resetQuickAdjustTimer((int)previewTemp);
     if (m_previewTimer) {
-        delete m_previewTimer;
-        m_previewTimer = nullptr;
+        m_previewTimer.reset();
     }
-    m_previewTimer = new QTimer(this);
+    m_previewTimer = std::make_unique<QTimer>();
     m_previewTimer->setSingleShot(true);
-    connect(m_previewTimer, &QTimer::timeout, this, &NightColorManager::stopPreview);
+    connect(m_previewTimer.get(), &QTimer::timeout, this, &NightColorManager::stopPreview);
     m_previewTimer->start(15000);
 
     QDBusMessage message = QDBusMessage::createMethodCall(
@@ -489,7 +467,7 @@ void NightColorManager::preview(uint previewTemp)
         QStringLiteral("org.kde.osdService"),
         QStringLiteral("showText"));
     message.setArguments(
-        {QStringLiteral("preferences-desktop-display-nightcolor-on"),
+        {QStringLiteral("redshift-status-on"),
          i18n("Color Temperature Preview")});
     QDBusConnection::sessionBus().asyncCall(message);
 }
@@ -688,7 +666,7 @@ void NightColorManager::autoLocationUpdate(double latitude, double longitude)
     }
 
     // we tolerate small deviations with minimal impact on sun timings
-    if (qAbs(m_latAuto - latitude) < 2 && qAbs(m_lngAuto - longitude) < 1) {
+    if (std::abs(m_latAuto - latitude) < 2 && std::abs(m_lngAuto - longitude) < 1) {
         return;
     }
     cancelAllTimers();

@@ -42,7 +42,7 @@ void AppMenuManagerInterfacePrivate::org_kde_kwin_appmenu_manager_create(Resourc
     auto appmenu = new AppMenuInterface(s, appmenu_resource);
 
     appmenus.append(appmenu);
-    QObject::connect(appmenu, &QObject::destroyed, q, [=]() {
+    QObject::connect(appmenu, &QObject::destroyed, q, [=, this]() {
         appmenus.removeOne(appmenu);
     });
     Q_EMIT q->appMenuCreated(appmenu);
@@ -78,13 +78,11 @@ AppMenuInterfacePrivate::AppMenuInterfacePrivate(AppMenuInterface *_q, SurfaceIn
 
 void AppMenuInterfacePrivate::org_kde_kwin_appmenu_destroy_resource(QtWaylandServer::org_kde_kwin_appmenu::Resource *resource)
 {
-    Q_UNUSED(resource)
     delete q;
 }
 
 void AppMenuInterfacePrivate::org_kde_kwin_appmenu_set_address(Resource *resource, const QString &service_name, const QString &object_path)
 {
-    Q_UNUSED(resource)
     if (address.serviceName == service_name && address.objectPath == object_path) {
         return;
     }

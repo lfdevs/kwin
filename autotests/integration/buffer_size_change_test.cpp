@@ -9,7 +9,7 @@
 #include "generic_scene_opengl_test.h"
 
 #include "composite.h"
-#include "scene.h"
+#include "scene/workspacescene.h"
 #include "wayland_server.h"
 #include "window.h"
 
@@ -44,8 +44,6 @@ void BufferSizeChangeTest::testShmBufferSizeChange()
 {
     // This test verifies that an SHM buffer size change is handled correctly
 
-    using namespace KWayland::Client;
-
     std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
     QVERIFY(surface != nullptr);
 
@@ -57,7 +55,7 @@ void BufferSizeChangeTest::testShmBufferSizeChange()
     QVERIFY(window);
 
     // add a first repaint
-    QSignalSpy frameRenderedSpy(Compositor::self()->scene(), &Scene::frameRendered);
+    QSignalSpy frameRenderedSpy(Compositor::self()->scene(), &WorkspaceScene::frameRendered);
     Compositor::self()->scene()->addRepaintFull();
     QVERIFY(frameRenderedSpy.wait());
 
@@ -72,8 +70,6 @@ void BufferSizeChangeTest::testShmBufferSizeChange()
 
 void BufferSizeChangeTest::testShmBufferSizeChangeOnSubSurface()
 {
-    using namespace KWayland::Client;
-
     // setup parent surface
     std::unique_ptr<KWayland::Client::Surface> parentSurface(Test::createSurface());
     QVERIFY(parentSurface != nullptr);
@@ -83,7 +79,7 @@ void BufferSizeChangeTest::testShmBufferSizeChangeOnSubSurface()
     // setup sub surface
     std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
     QVERIFY(surface != nullptr);
-    std::unique_ptr<SubSurface> subSurface(Test::createSubSurface(surface.get(), parentSurface.get()));
+    std::unique_ptr<KWayland::Client::SubSurface> subSurface(Test::createSubSurface(surface.get(), parentSurface.get()));
     QVERIFY(subSurface != nullptr);
 
     // set buffer sizes
@@ -92,7 +88,7 @@ void BufferSizeChangeTest::testShmBufferSizeChangeOnSubSurface()
     QVERIFY(parent);
 
     // add a first repaint
-    QSignalSpy frameRenderedSpy(Compositor::self()->scene(), &Scene::frameRendered);
+    QSignalSpy frameRenderedSpy(Compositor::self()->scene(), &WorkspaceScene::frameRendered);
     Compositor::self()->scene()->addRepaintFull();
     QVERIFY(frameRenderedSpy.wait());
 

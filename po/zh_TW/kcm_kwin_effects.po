@@ -91,3 +91,6 @@ msgstr "排除內部桌面特效"
 #, kde-format
 msgid "Get New Desktop Effects..."
 msgstr "取得新桌面特效…"
+
+#~ msgid "Download New Desktop Effects"
+#~ msgstr "下載新的桌面特效"

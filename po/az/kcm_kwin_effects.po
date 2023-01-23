@@ -91,3 +91,6 @@ msgstr "Daxili effektləri gizlətmək"
 #, kde-format
 msgid "Get New Desktop Effects..."
 msgstr "Yeni İş masası Effektləri Almaq..."
+
+#~ msgid "Download New Desktop Effects"
+#~ msgstr "Yeni İş Masası Effektlərini Yükləmək"

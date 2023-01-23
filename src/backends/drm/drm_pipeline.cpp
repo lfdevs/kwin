@@ -12,18 +12,17 @@
 #include <errno.h>
 
 #include "core/session.h"
-#include "cursor.h"
 #include "drm_backend.h"
 #include "drm_buffer.h"
 #include "drm_buffer_gbm.h"
+#include "drm_connector.h"
+#include "drm_crtc.h"
 #include "drm_egl_backend.h"
 #include "drm_gpu.h"
 #include "drm_layer.h"
 #include "drm_logging.h"
-#include "drm_object_connector.h"
-#include "drm_object_crtc.h"
-#include "drm_object_plane.h"
 #include "drm_output.h"
+#include "drm_plane.h"
 
 #include <drm_fourcc.h>
 #include <gbm.h>
@@ -55,6 +54,10 @@ bool DrmPipeline::testScanout()
     if (gpu()->atomicModeSetting()) {
         return commitPipelines({this}, CommitMode::Test) == Error::None;
     } else {
+        if (m_pending.layer->currentBuffer()->buffer()->size() != m_pending.mode->size()) {
+            // scaling isn't supported with the legacy API
+            return false;
+        }
         // no other way to test than to do it.
         // As we only have a maximum of one test per scanout cycle, this is fine
         return presentLegacy() == Error::None;
@@ -110,6 +113,7 @@ DrmPipeline::Error DrmPipeline::commitPipelinesAtomic(const QVector<DrmPipeline 
         return Error::OutofMemory;
     }
     for (const auto &pipeline : pipelines) {
+        pipeline->checkHardwareRotation();
         if (pipeline->activePending()) {
             if (!pipeline->m_pending.layer->checkTestBuffer()) {
                 qCWarning(KWIN_DRM) << "Checking test buffer failed for" << mode;
@@ -203,18 +207,45 @@ DrmPipeline::Error DrmPipeline::commitPipelinesAtomic(const QVector<DrmPipeline 
     }
 }
 
+static QSize orientateSize(const QSize &size, DrmPlane::Transformations transforms)
+{
+    if (transforms & (DrmPlane::Transformation::Rotate90 | DrmPlane::Transformation::Rotate270)) {
+        return size.transposed();
+    } else {
+        return size;
+    }
+}
+
+static QRect centerBuffer(const QSize &bufferSize, const QSize &modeSize)
+{
+    const double widthScale = bufferSize.width() / double(modeSize.width());
+    const double heightScale = bufferSize.height() / double(modeSize.height());
+    if (widthScale > heightScale) {
+        const QSize size = bufferSize / widthScale;
+        const uint32_t yOffset = (modeSize.height() - size.height()) / 2;
+        return QRect(QPoint(0, yOffset), size);
+    } else {
+        const QSize size = bufferSize / heightScale;
+        const uint32_t xOffset = (modeSize.width() - size.width()) / 2;
+        return QRect(QPoint(xOffset, 0), size);
+    }
+}
+
 void DrmPipeline::prepareAtomicPresentation()
 {
-    m_pending.crtc->setPending(DrmCrtc::PropertyIndex::VrrEnabled, m_pending.syncMode == RenderLoopPrivate::SyncMode::Adaptive);
+    if (const auto contentType = m_connector->getProp(DrmConnector::PropertyIndex::ContentType)) {
+        contentType->setEnum(m_pending.contentType);
+    }
+
+    m_pending.crtc->setPending(DrmCrtc::PropertyIndex::VrrEnabled, m_pending.syncMode == RenderLoopPrivate::SyncMode::Adaptive || m_pending.syncMode == RenderLoopPrivate::SyncMode::AdaptiveAsync);
     m_pending.crtc->setPending(DrmCrtc::PropertyIndex::Gamma_LUT, m_pending.gamma ? m_pending.gamma->blobId() : 0);
-    const auto modeSize = m_pending.mode->size();
     const auto fb = m_pending.layer->currentBuffer().get();
-    m_pending.crtc->primaryPlane()->set(QPoint(0, 0), fb->buffer()->size(), QPoint(0, 0), modeSize);
+    m_pending.crtc->primaryPlane()->set(QPoint(0, 0), fb->buffer()->size(), centerBuffer(orientateSize(fb->buffer()->size(), m_pending.bufferOrientation), m_pending.mode->size()));
     m_pending.crtc->primaryPlane()->setBuffer(fb);
 
     if (m_pending.crtc->cursorPlane()) {
         const auto layer = cursorLayer();
-        m_pending.crtc->cursorPlane()->set(QPoint(0, 0), gpu()->cursorSize(), layer->position(), gpu()->cursorSize());
+        m_pending.crtc->cursorPlane()->set(QPoint(0, 0), gpu()->cursorSize(), QRect(layer->position(), gpu()->cursorSize()));
         m_pending.crtc->cursorPlane()->setBuffer(layer->isVisible() ? layer->currentBuffer().get() : nullptr);
         m_pending.crtc->cursorPlane()->setPending(DrmPlane::PropertyIndex::CrtcId, layer->isVisible() ? m_pending.crtc->id() : 0);
     }
@@ -256,14 +287,21 @@ void DrmPipeline::prepareAtomicModeset()
         }
         bpc->setPending(std::min(bpc->maxValue(), preferred));
     }
+    if (const auto hdr = m_connector->getProp(DrmConnector::PropertyIndex::HdrMetadata)) {
+        hdr->setPending(0);
+    }
 
     m_pending.crtc->setPending(DrmCrtc::PropertyIndex::Active, 1);
     m_pending.crtc->setPending(DrmCrtc::PropertyIndex::ModeId, m_pending.mode->blobId());
 
     m_pending.crtc->primaryPlane()->setPending(DrmPlane::PropertyIndex::CrtcId, m_pending.crtc->id());
-    m_pending.crtc->primaryPlane()->setTransformation(m_pending.bufferOrientation);
+    if (const auto rotation = m_pending.crtc->primaryPlane()->getProp(DrmPlane::PropertyIndex::Rotation)) {
+        rotation->setEnum(m_pending.bufferOrientation);
+    }
     if (m_pending.crtc->cursorPlane()) {
-        m_pending.crtc->cursorPlane()->setTransformation(DrmPlane::Transformation::Rotate0);
+        if (const auto rotation = m_pending.crtc->cursorPlane()->getProp(DrmPlane::PropertyIndex::Rotation)) {
+            rotation->setEnum(DrmPlane::Transformation::Rotate0);
+        }
     }
 }
 
@@ -284,6 +322,18 @@ bool DrmPipeline::populateAtomicValues(drmModeAtomicReq *req)
         }
     }
     return true;
+}
+
+void DrmPipeline::checkHardwareRotation()
+{
+    if (m_pending.crtc && m_pending.crtc->primaryPlane()) {
+        const bool supported = (m_pending.bufferOrientation & m_pending.crtc->primaryPlane()->supportedTransformations());
+        if (!supported) {
+            m_pending.bufferOrientation = DrmPlane::Transformation::Rotate0;
+        }
+    } else {
+        m_pending.bufferOrientation = DrmPlane::Transformation::Rotate0;
+    }
 }
 
 uint32_t DrmPipeline::calculateUnderscan()
@@ -480,11 +530,12 @@ bool DrmPipeline::pruneModifier()
         return false;
     }
     auto &modifiers = m_pending.formats[m_pending.layer->currentBuffer()->buffer()->format()];
-    if (modifiers.count() <= 1) {
+    if (modifiers.empty()) {
         return false;
+    } else {
+        modifiers.clear();
+        return true;
     }
-    modifiers.removeOne(m_pending.layer->currentBuffer()->buffer()->modifier());
-    return true;
 }
 
 bool DrmPipeline::needsModeset() const
@@ -644,6 +695,11 @@ Output::RgbRange DrmPipeline::rgbRange() const
     return m_pending.rgbRange;
 }
 
+DrmConnector::DrmContentType DrmPipeline::contentType() const
+{
+    return m_pending.contentType;
+}
+
 void DrmPipeline::setCrtc(DrmCrtc *crtc)
 {
     if (crtc && m_pending.crtc && crtc->gammaRampSize() != m_pending.crtc->gammaRampSize() && m_pending.colorTransformation) {
@@ -707,5 +763,10 @@ void DrmPipeline::setColorTransformation(const std::shared_ptr<ColorTransformati
 {
     m_pending.colorTransformation = transformation;
     m_pending.gamma = std::make_shared<DrmGammaRamp>(m_pending.crtc, transformation);
+}
+
+void DrmPipeline::setContentType(DrmConnector::DrmContentType type)
+{
+    m_pending.contentType = type;
 }
 }

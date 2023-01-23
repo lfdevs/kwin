@@ -6,8 +6,7 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-#ifndef KWIN_LIBINPUT_CONNECTION_H
-#define KWIN_LIBINPUT_CONNECTION_H
+#pragma once
 
 #include <kwinglobals.h>
 
@@ -66,7 +65,6 @@ Q_SIGNALS:
     void eventsRead();
 
 private Q_SLOTS:
-    void doSetup();
     void slotKGlobalSettingsNotifyChange(int type, int arg);
 
 private:
@@ -74,7 +72,8 @@ private:
     void handleEvent();
     void applyDeviceConfig(Device *device);
     void applyScreenToDevice(Device *device);
-    QSocketNotifier *m_notifier;
+    void doSetup();
+    std::unique_ptr<QSocketNotifier> m_notifier;
     QRecursiveMutex m_mutex;
     std::deque<std::unique_ptr<Event>> m_eventQueue;
     QVector<Device *> m_devices;
@@ -86,5 +85,3 @@ private:
 
 }
 }
-
-#endif

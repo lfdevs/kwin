@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-07-15 00:48+0000\n"
-"PO-Revision-Date: 2022-09-18 20:15+0200\n"
+"PO-Revision-Date: 2022-05-28 15:46+0200\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.08.1\n"
+"X-Generator: Lokalize 22.04.1\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #, kde-format
@@ -36,7 +36,7 @@ msgstr "Žiadna akcia"
 #: main.cpp:131 touch.cpp:125
 #, kde-format
 msgid "Peek at Desktop"
-msgstr "Nazrieť na pracovnú plochu"
+msgstr ""
 
 #: main.cpp:132 touch.cpp:126
 #, kde-format
@@ -124,9 +124,10 @@ msgstr "Okná presunuté na ľavý alebo pravý okraj"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:101
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Behavior"
 msgid "Behavior:"
-msgstr "Správanie:"
+msgstr "Správanie"
 
 #. i18n: ectx: property (text), widget (QCheckBox, remainActiveOnFullscreen)
 #: main.ui:108
@@ -234,3 +235,46 @@ msgid ""
 "You can trigger an action by swiping from the screen edge towards the center "
 "of the screen."
 msgstr "Na spustenie akcie posuňte kurzor myši z okraja obrazovky v do stredu."
+
+#~ msgid "Show Desktop"
+#~ msgstr "Zobraziť plochu"
+
+#~ msgid "Desktop Grid"
+#~ msgstr "Mriežka pracovných plôch"
+
+#~ msgid "Toggle Overview"
+#~ msgstr "Prepnúť prehľad"
+
+#~ msgid "%1 - Cube"
+#~ msgstr "%1 - Kocka"
+
+#~ msgid "%1 - Cylinder"
+#~ msgstr "%1 - Valec"
+
+#~ msgid "%1 - Sphere"
+#~ msgstr "%1 - Guľa"
+
+#~ msgid "Active Screen Corners and Edges"
+#~ msgstr "Akcie aktívneho okraja obrazovky"
+
+#~ msgid "Window Management"
+#~ msgstr "Správa okien"
+
+#~ msgid "Maximize windows by dragging them to the top edge of the screen"
+#~ msgstr "Maximalizovať okná ich presunutím k hornému okraju obrazovky"
+
+#~ msgid "Quarter tiling triggered in the outer"
+#~ msgstr "Štvrtinové obklady vyvolané na vonkajšom"
+
+#~ msgid "Other Settings"
+#~ msgstr "Ostatné nastavenia"
+
+#~ msgctxt "Open krunner"
+#~ msgid "Run Command"
+#~ msgstr "Spustiť príkaz"
+
+#~ msgid "Show Dashboard"
+#~ msgstr "Zobraziť nástenku"
+
+#~ msgid "Prevent Screen Locking"
+#~ msgstr "Zabrániť uzamknutiu obrazovky"

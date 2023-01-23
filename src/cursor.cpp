@@ -11,10 +11,11 @@
 // kwin
 #include "composite.h"
 #include "core/output.h"
+#include "cursorsource.h"
 #include "input.h"
 #include "keyboard_input.h"
 #include "main.h"
-#include "scene.h"
+#include "scene/workspacescene.h"
 #include "utils/common.h"
 #include "utils/xcbutils.h"
 // KDE
@@ -160,7 +161,6 @@ void Cursor::updateTheme(const QString &name, int size)
 void Cursor::slotKGlobalSettingsNotifyChange(int type, int arg)
 {
     // #endif
-    Q_UNUSED(arg)
     if (type == 5 /*CursorChanged*/) {
         InputConfig::self()->inputConfig()->reparseConfiguration();
         loadThemeFromKConfig();
@@ -175,10 +175,23 @@ bool Cursor::isOnOutput(Output *output) const
     if (Cursors::self()->isCursorHidden()) {
         return false;
     }
-    if (!geometry().intersects(output->geometry())) {
-        return false;
+    return geometry().intersects(output->geometry());
+}
+
+QImage Cursor::image() const
+{
+    if (Q_UNLIKELY(!m_source)) {
+        return QImage();
     }
-    return !image().isNull();
+    return m_source->image();
+}
+
+QPoint Cursor::hotspot() const
+{
+    if (Q_UNLIKELY(!m_source)) {
+        return QPoint();
+    }
+    return m_source->hotspot();
 }
 
 QRect Cursor::geometry() const
@@ -188,7 +201,11 @@ QRect Cursor::geometry() const
 
 QRect Cursor::rect() const
 {
-    return QRect(QPoint(0, 0), image().size() / image().devicePixelRatio());
+    if (Q_UNLIKELY(!m_source)) {
+        return QRect();
+    } else {
+        return QRect(QPoint(0, 0), m_source->size());
+    }
 }
 
 QPoint Cursor::pos()
@@ -215,13 +232,6 @@ void Cursor::setPos(const QPoint &pos)
 void Cursor::setPos(int x, int y)
 {
     setPos(QPoint(x, y));
-}
-
-void Cursor::updateCursor(const QImage &image, const QPoint &hotspot)
-{
-    m_image = image;
-    m_hotspot = hotspot;
-    Q_EMIT cursorChanged();
 }
 
 void Cursor::markAsRendered(std::chrono::milliseconds timestamp)
@@ -688,6 +698,24 @@ QByteArray CursorShape::name() const
     default:
         return QByteArray();
     }
+}
+
+CursorSource *Cursor::source() const
+{
+    return m_source;
+}
+
+void Cursor::setSource(CursorSource *source)
+{
+    if (m_source == source) {
+        return;
+    }
+    if (m_source) {
+        disconnect(m_source, &CursorSource::changed, this, &Cursor::cursorChanged);
+    }
+    m_source = source;
+    connect(m_source, &CursorSource::changed, this, &Cursor::cursorChanged);
+    Q_EMIT cursorChanged();
 }
 
 InputConfig *InputConfig::s_self = nullptr;

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-02 00:47+0000\n"
+"POT-Creation-Date: 2022-12-03 00:48+0000\n"
 "PO-Revision-Date: 2019-12-12 22:45+0000\n"
 "Last-Translator: Vivek KJ Pazhedath <vivekkj2004@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -502,13 +502,10 @@ msgid ""
 "whole screen. It might be useful to selectively affect placement of some "
 "windows using the window-specific settings.</li><li style=\" margin-top:0px; "
 "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\"><span style=\" font-style:italic;\">Cascade</span> will "
-"cascade the windows</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"text-indent:0px;\"><span style=\" font-style:italic;\">Random</span> will "
+"use a random position</li><li style=\" margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-style:italic;\">Random</span> will use a random "
-"position</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-style:italic;\">Centered</span> will place the window "
+"\"><span style=\" font-style:italic;\">Centered</span> will place the window "
 "centered</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\" font-style:italic;\">Zero-cornered</span> will place the window in "
@@ -534,35 +531,29 @@ msgstr "വലുതാക്കുക"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:90
 #, kde-format
-msgid "Cascaded"
-msgstr ""
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:95
-#, kde-format
 msgid "Random"
 msgstr "ഏതെങ്കിലുമൊന്നു്"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:100
+#: advanced.ui:95
 #, kde-format
 msgid "Centered"
 msgstr "നടുവില്‍"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:105
+#: advanced.ui:100
 #, kde-format
 msgid "In Top-Left Corner"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:110
+#: advanced.ui:105
 #, fuzzy, kde-format
 msgid "Under mouse"
 msgstr "കേന്ദ്രീകരണം മൌസിന്റെ താഴെ"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:118
+#: advanced.ui:113
 #, kde-format
 msgid ""
 "When turned on, apps which are able to remember the positions of their "
@@ -571,20 +562,20 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:121
+#: advanced.ui:116
 #, kde-format
 msgid ""
 "Allow apps to remember the positions of their own windows, if they support it"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
-#: advanced.ui:128
+#: advanced.ui:123
 #, fuzzy, kde-format
 msgid "&Special windows:"
 msgstr "ജാലകങ്ങള്‍"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:138
+#: advanced.ui:133
 #, kde-format
 msgid ""
 "When turned on, utility windows (tool windows, torn-off menus,...) of "
@@ -594,25 +585,25 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:141
+#: advanced.ui:136
 #, kde-format
 msgid "Hide utility windows for inactive applications"
 msgstr "നിര്‍ജ്ജീവ പ്രയോഗങ്ങളുടെ ഉപയുക്തജാലകങ്ങള്‍ മറയ്ക്കുക"
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyLabel)
-#: advanced.ui:148
+#: advanced.ui:143
 #, kde-format
 msgid "Virtual Desktop behavior:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyDescriptionLabel)
-#: advanced.ui:158
+#: advanced.ui:153
 #, kde-format
 msgid "When activating a window on a different Virtual Desktop:"
 msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:165
+#: advanced.ui:160
 #, kde-format
 msgid ""
 "<html><head/><body><p>This setting controls what happens when an open window "
@@ -625,13 +616,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:169
+#: advanced.ui:164
 #, kde-format
 msgid "Switch to that Virtual Desktop"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:174
+#: advanced.ui:169
 #, kde-format
 msgid "Bring window to current Virtual Desktop"
 msgstr ""
@@ -1297,3 +1288,268 @@ msgid ""
 "activation policy and will not work. You very likely want to use <em>Focus "
 "follows mouse (mouse precedence)</em> instead!"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Display window &geometry when moving or resizing"
+#~ msgid "Display when moving or resizing"
+#~ msgstr "നീക്കുമ്പോഴും വലിപ്പം മാറ്റുമ്പോഴും ജാലക &ജ്യാമിതി കാണിയ്ക്കുക"
+
+#~ msgid "Maximize (vertical only)"
+#~ msgstr "വലുതാക്കുക (വെര്‍ട്ടിക്കല്‍ മാത്രം)"
+
+#~ msgid "Maximize (horizontal only)"
+#~ msgstr "വലുതാക്കുക (ഹൊറിസോണ്ടല്‍ മാത്രം)"
+
+#~ msgid "Smart"
+#~ msgstr "മിടുക്കുള്ള"
+
+#~ msgid "Maximizing"
+#~ msgstr "വലുതാക്കുന്നത്"
+
+#, fuzzy
+#~ msgid "Window tabbing:"
+#~ msgstr "ജാലകത്തിലുള്ള പ്ര&വ‍ത്തികള്‍"
+
+#, fuzzy
+#~ msgid "Start window tab drag"
+#~ msgstr "ജാലകത്തിലുള്ള പ്ര&വ‍ത്തികള്‍"
+
+#, fuzzy
+#~ msgid "Ri&ght button:"
+#~ msgstr "വലത്തുള്ള ബട്ടണ്‍:"
+
+#, fuzzy
+#~ msgid "&Left button:"
+#~ msgstr "ഇടത്തുള്ള ബട്ടണ്‍: "
+
+#, fuzzy
+#~ msgid "&Right button:"
+#~ msgstr "വലത്തുള്ള ബട്ടണ്‍:"
+
+#, fuzzy
+#~ msgid "M&iddle button:"
+#~ msgstr "മധ്യത്തിലുള്ള ബട്ടണ്‍: "
+
+#, fuzzy
+#~ msgid "Left &button"
+#~ msgstr "ഇടത്തുള്ള ബട്ടണ്‍: "
+
+#, fuzzy
+#~ msgid "Shading"
+#~ msgstr "മറയ്ക്കുക"
+
+#~ msgid "Dela&y:"
+#~ msgstr "താമ&സം:"
+
+#~ msgid "&Enable hover"
+#~ msgstr "ഹോവര്‍ പ്രാവര്‍ത്തികമാക്കുക"
+
+#, fuzzy
+#~ msgid "Policy"
+#~ msgstr "&പോളിസി:"
+
+#~ msgid "&Moving"
+#~ msgstr "&നീങ്ങുന്നു"
+
+#, fuzzy
+#~ msgid "Wheel event:"
+#~ msgstr "തലപ്പട്ട ചക്രം സംഭവം:"
+
+#~ msgid "Handle mouse wheel events"
+#~ msgstr "മൌസ് ചക്രം സംഭവങ്ങളെ കൈകാര്യം ചെയ്യുക"
+
+#~ msgid ""
+#~ "In this column you can customize mouse clicks into the titlebar or the "
+#~ "frame of an active window."
+#~ msgstr ""
+#~ "ഒരു സജീവ ജാലകത്തിന്റെ തലപ്പട്ടയിലോ ഫ്രെയിമിലോ മൌസ് ക്ലിക്ക് ചെയ്യുന്നതിനെ ഈ വരിയില്‍ "
+#~ "നിങ്ങള്‍ക്ക് ഇഷ്ടമുള്ളരീതിയിലാക്കാം."
+
+#~ msgid ""
+#~ "In this column you can customize mouse clicks into the titlebar or the "
+#~ "frame of an inactive window."
+#~ msgstr ""
+#~ "ഒരു നിര്‍ജ്ജീവ ജാലകത്തിന്റെ തലപ്പട്ടയിലോ ഫ്രെയിമിലോ മൌസ് ക്ലിക്ക് ചെയ്യുന്നതിനെ ഈ വരിയില്‍ "
+#~ "നിങ്ങള്‍ക്ക് ഇഷ്ടമുള്ളരീതിയിലാക്കാം."
+
+#~ msgid "Left button:"
+#~ msgstr "ഇടത്തുള്ള ബട്ടണ്‍: "
+
+#~ msgid "Middle button:"
+#~ msgstr "മധ്യത്തിലുള്ള ബട്ടണ്‍: "
+
+#~ msgid ""
+#~ "Behavior on <em>middle</em> click into the titlebar or frame of an "
+#~ "<em>active</em> window."
+#~ msgstr ""
+#~ "ഒരു <em>സജീവ</em> ജാലകത്തിന്റെ തലപ്പട്ടയിലോ ഫ്രെയിമിലോ <em>മധ്യ</em> ക്ലിക്ക് "
+#~ "ചെയ്യുമ്പോളുണ്ടാവുന്ന സ്വഭാവം."
+
+#~ msgid "Right button:"
+#~ msgstr "വലത്തുള്ള ബട്ടണ്‍:"
+
+#~ msgid ""
+#~ "Behavior on <em>right</em> click into the titlebar or frame of an "
+#~ "<em>active</em> window."
+#~ msgstr ""
+#~ "ഒരു <em>സജീവ</em> ജാലകത്തിന്റെ തലപ്പട്ടയിലോ ഫ്രെയിമിലോ <em>വലത്</em> ക്ലിക്ക് "
+#~ "ചെയ്യുമ്പോളുണ്ടാവുന്ന സ്വഭാവം."
+
+#, fuzzy
+#~ msgid "Titlebar & Frame"
+#~ msgstr "ശീര്‍ഷകപ്പട്ടയും ഫ്രെയിമും"
+
+#, fuzzy
+#~ msgid "Titlebar"
+#~ msgstr "&തലപ്പട്ടയിലുള്ള പ്രവൃത്തികള്‍"
+
+#~ msgid "Windows"
+#~ msgstr "ജാലകങ്ങള്‍"
+
+#~ msgid "kcmkwinoptions"
+#~ msgstr "kcmkwinoptions"
+
+#, fuzzy
+#~ msgid "Display borders on &maximized windows"
+#~ msgstr "&വലിപ്പം മാറ്റിക്കൊണ്ടിരിക്കുന്ന ജാലകങ്ങളിലുള്ളവ കാണിയ്ക്കുക"
+
+#, fuzzy
+#~ msgctxt "@item:inlistbox behavior on double click"
+#~ msgid "Minimize"
+#~ msgstr "ചെറുതാക്കുക"
+
+#~ msgid ""
+#~ "Here you can customize mouse click behavior when clicking on the titlebar "
+#~ "or the frame of a window."
+#~ msgstr ""
+#~ "ഒരു ജാലകത്തിന്റെ തലപ്പട്ടയിലോ ഫ്രെയിമിലോ ക്ലിക്ക് ചെയ്യുമ്പോളുണ്ടാവുന്ന മൌസ് ക്ലിക്ക് സ്വഭാവം "
+#~ "ഇവിടെ നിങ്ങള്‍ക്ക് ഇഷ്ടമുള്ളരീതിയിലാക്കാം."
+
+#~ msgid ""
+#~ "Behavior on <em>right</em> click into the titlebar or frame of an "
+#~ "<em>inactive</em> window."
+#~ msgstr ""
+#~ "ഒരു <em>നിര്‍ജ്ജീവ</em> ജാലകത്തിന്റെ തലപ്പട്ടയിലോ ഫ്രെയിമിലോ <em>വലത്</em> ക്ലിക്ക് "
+#~ "ചെയ്യുമ്പോളുണ്ടാവുന്ന സ്വഭാവം."
+
+#~ msgid ""
+#~ "Behavior on <em>middle</em> click into the titlebar or frame of an "
+#~ "<em>inactive</em> window."
+#~ msgstr ""
+#~ "ഒരു <em>നിര്‍ജ്ജീവ</em> ജാലകത്തിന്റെ തലപ്പട്ടയിലോ ഫ്രെയിമിലോ <em>മധ്യ</em> ക്ലിക്ക് "
+#~ "ചെയ്യുമ്പോളുണ്ടാവുന്ന സ്വഭാവം."
+
+#~ msgid ""
+#~ "Here you can customize behavior when clicking on the maximize button."
+#~ msgstr ""
+#~ "വലുതാക്കുവാനുള്ള ബട്ടണില്‍ ക്ലിക്ക് ചെയ്യുമ്പോളുണ്ടാവുന്ന സ്വഭാവം ഇവിടെ നിങ്ങള്‍ക്ക് "
+#~ "ഇഷ്ടമുള്ളരീതിയിലാക്കാം."
+
+#~ msgid ""
+#~ "Here you can customize mouse click behavior when clicking on an inactive "
+#~ "inner window ('inner' means: not titlebar, not frame)."
+#~ msgstr ""
+#~ "ഒരു നിര്‍ജ്ജീവ ഉള്‍ജാലകത്തില്‍ ക്ലിക്ക് ചെയ്യുമ്പോളുണ്ടാവുന്ന മൌസ് ക്ലിക്ക് സ്വഭാവം ഇവിടെ നിങ്ങള്‍ക്ക് "
+#~ "ഇഷ്ടമുള്ളരീതിയിലാക്കാം ('ഉള്ളില്‍' എന്നാല്‍: തലപ്പട്ടയിലോ ഫ്രെയിമിലോ അല്ല)."
+
+#~ msgid ""
+#~ "Here you can customize KDE's behavior when clicking somewhere into a "
+#~ "window while pressing a modifier key."
+#~ msgstr ""
+#~ "മോഡിഫയര്‍ കീ അമര്‍ത്തിക്കൊണ്ട് ഒരു ജാലകത്തില്‍ എവിടെയെങ്കിലും ക്ലിക്ക് ചെയ്താലുണ്ടാവുന്ന "
+#~ "കെഡിഇയുടെ സ്വഭാവം ഇവിടെ നിങ്ങള്‍ക്ക് ഇഷ്ടമുള്ളരീതിയിലാക്കാം."
+
+#, fuzzy
+#~ msgctxt "no border snap zone"
+#~ msgid "none"
+#~ msgstr "ഒന്നുമില്ല"
+
+#, fuzzy
+#~ msgctxt "no window snap zone"
+#~ msgid "none"
+#~ msgstr "ഒന്നുമില്ല"
+
+#, fuzzy
+#~ msgctxt "no center snap zone"
+#~ msgid "none"
+#~ msgstr "ഒന്നുമില്ല"
+
+#, fuzzy
+#~ msgctxt "Floating layout, windows aren't tiled at all"
+#~ msgid "Floating"
+#~ msgstr "ഒന്നുമില്ല"
+
+#~ msgid "Di&splay content in moving windows"
+#~ msgstr "നീക്കിക്കൊണ്ടിരിക്കുന്ന ജാലകങ്ങളിലുള്ളവ &കാണിയ്ക്കുക"
+
+#~ msgid ""
+#~ "Enable this option if you want a window's content to be fully shown while "
+#~ "moving it, instead of just showing a window 'skeleton'. The result may "
+#~ "not be satisfying on slow machines without graphic acceleration."
+#~ msgstr ""
+#~ "നീക്കിക്കൊണ്ടിരിക്കുമ്പോള്‍ ഒരു ജാലകത്തിന്റെ ചട്ടക്കൂടിനുപകരം അതിലുള്ള സാധനങ്ങള്‍ മുഴുവനായി "
+#~ "കാണിയ്ക്കാന്‍ ഈ ഐച്ഛികം പ്രാവര്‍ത്തികമാക്കുക. വേഗം കുറഞ്ഞ മെഷീനുകളില്‍ ഗ്രാഫിക് ത്വരണമില്ലാതെ "
+#~ "ഇതു ഫലവത്തായില്ലെന്നുവരാം."
+
+#~ msgid "Display content in &resizing windows"
+#~ msgstr "&വലിപ്പം മാറ്റിക്കൊണ്ടിരിക്കുന്ന ജാലകങ്ങളിലുള്ളവ കാണിയ്ക്കുക"
+
+#~ msgid ""
+#~ "Enable this option if you want a window's content to be shown while "
+#~ "resizing it, instead of just showing a window 'skeleton'. The result may "
+#~ "not be satisfying on slow machines."
+#~ msgstr ""
+#~ "വലിപ്പം മാറ്റിക്കൊണ്ടിരിക്കുമ്പോള്‍ ഒരു ജാലകത്തിന്റെ ചട്ടക്കൂടിനുപകരം അതിലുള്ള സാധനങ്ങള്‍ "
+#~ "കാണിയ്ക്കാന്‍ ഈ ഐച്ഛികം പ്രാവര്‍ത്തികമാക്കുക. വേഗം കുറഞ്ഞ മെഷീനുകളില്‍ ഇതു "
+#~ "ഫലവത്തായില്ലെന്നുവരാം."
+
+#~ msgid "Allow moving and resizing o&f maximized windows"
+#~ msgstr "വലുതാക്കിയ ജാലകങ്ങളെ നീക്കാനും വലിപ്പം മാറ്റാനും അനുവദിക്കുക"
+
+#~ msgid "Show window list while switching windows"
+#~ msgstr "ജാലകങ്ങള്‍ മാറ്റുന്നതിനിടെ ജാലകപ്പട്ടിക കാണിക്കുക"
+
+#~ msgctxt "Focus Stealing Prevention Level"
+#~ msgid "Normal"
+#~ msgstr "സാധാരണ"
+
+#~ msgid "Active Desktop Borders"
+#~ msgstr "സജീവമായ പണിയിട അതിരുകള്‍"
+
+#~ msgid "A&lways enabled"
+#~ msgstr "എ&പ്പോഴും സുസജ്ജം"
+
+#~ msgid ""
+#~ "Here you can customize KDE's behavior when middle clicking into a window "
+#~ "while pressing the modifier key."
+#~ msgstr ""
+#~ "മോഡിഫയര്‍ കീ അമര്‍ത്തിക്കൊണ്ട് ഒരു ജാലകത്തില്‍ മദ്ധ്യ ക്ലിക്ക് ചെയ്താലുണ്ടാവുന്ന കെഡിഇയുടെ "
+#~ "സ്വഭാവം ഇവിടെ നിങ്ങള്‍ക്ക് ഇഷ്ടമുള്ളരീതിയിലാക്കാം."
+
+#~ msgid ""
+#~ "Here you can customize mouse click behavior when double clicking on the "
+#~ "titlebar of a window."
+#~ msgstr ""
+#~ "ഒരു ജാലകത്തിന്റെ തലപ്പട്ടയില്‍ ഇരട്ടക്ലിക്ക് ചെയ്യുമ്പോളുണ്ടാവുന്ന മൌസ് ക്ലിക്ക് സ്വഭാവം ഇവിടെ "
+#~ "നിങ്ങള്‍ക്ക് ഇഷ്ടമുള്ളരീതിയിലാക്കാം."
+
+#~ msgid "Modifier key + left button:"
+#~ msgstr "മോഡിഫയര്‍ കീ + ഇടത്തുള്ള ബട്ടണ്‍:"
+
+#~ msgid "Modifier key + right button:"
+#~ msgstr "മോഡിഫയര്‍ കീ + വലത്തുള്ള ബട്ടണ്‍:"
+
+#~ msgid "Modifier key + middle button:"
+#~ msgstr "മോഡിഫയര്‍ കീ + മധ്യത്തിലുള്ള ബട്ടണ്‍:"
+
+#~ msgid "Focus"
+#~ msgstr "കേന്ദ്രീകരിക്കുക"
+
+#~ msgid "Auto &raise"
+#~ msgstr "തനിയെ &ഉയര്‍ത്തുക"
+
+#~ msgid "Navigation"
+#~ msgstr "നാവിഗേഷന്‍"
+
+#~ msgid "Active &mouse screen"
+#~ msgstr "സജീവമായ മൌസ് സ്ക്രീന്‍"

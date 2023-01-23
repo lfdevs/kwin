@@ -19,7 +19,7 @@ namespace KWin
 
 class EglPixmapTexturePrivate;
 class SoftwareVsyncMonitor;
-class X11StandalonePlatform;
+class X11StandaloneBackend;
 class EglBackend;
 
 class EglLayer : public OutputLayer
@@ -39,7 +39,7 @@ class EglBackend : public EglOnXBackend
     Q_OBJECT
 
 public:
-    EglBackend(Display *display, X11StandalonePlatform *platform);
+    EglBackend(Display *display, X11StandaloneBackend *platform);
     ~EglBackend() override;
 
     void init() override;
@@ -48,15 +48,20 @@ public:
     OutputLayerBeginFrameInfo beginFrame();
     void endFrame(const QRegion &renderedRegion, const QRegion &damagedRegion);
     void present(Output *output) override;
+    OverlayWindow *overlayWindow() const override;
     OutputLayer *primaryLayer(Output *output) override;
+
+protected:
+    bool createSurfaces() override;
 
 private:
     void screenGeometryChanged();
     void presentSurface(EGLSurface surface, const QRegion &damage, const QRect &screenGeometry);
     void vblank(std::chrono::nanoseconds timestamp);
 
-    X11StandalonePlatform *m_backend;
+    X11StandaloneBackend *m_backend;
     std::unique_ptr<SoftwareVsyncMonitor> m_vsyncMonitor;
+    std::unique_ptr<OverlayWindow> m_overlayWindow;
     DamageJournal m_damageJournal;
     std::unique_ptr<GLFramebuffer> m_fbo;
     int m_bufferAge = 0;

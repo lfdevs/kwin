@@ -49,26 +49,22 @@ ZoomEffect::ZoomEffect()
     a = KStandardAction::zoomIn(this, SLOT(zoomIn()), this);
     KGlobalAccel::self()->setDefaultShortcut(a, QList<QKeySequence>() << (Qt::META | Qt::Key_Plus));
     KGlobalAccel::self()->setShortcut(a, QList<QKeySequence>() << (Qt::META | Qt::Key_Plus) << (Qt::META | Qt::Key_Equal));
-    effects->registerGlobalShortcut(Qt::META | Qt::Key_Equal, a);
     effects->registerAxisShortcut(Qt::ControlModifier | Qt::MetaModifier, PointerAxisDown, a);
 
     a = KStandardAction::zoomOut(this, SLOT(zoomOut()), this);
     KGlobalAccel::self()->setDefaultShortcut(a, QList<QKeySequence>() << (Qt::META | Qt::Key_Minus));
     KGlobalAccel::self()->setShortcut(a, QList<QKeySequence>() << (Qt::META | Qt::Key_Minus));
-    effects->registerGlobalShortcut(Qt::META | Qt::Key_Minus, a);
     effects->registerAxisShortcut(Qt::ControlModifier | Qt::MetaModifier, PointerAxisUp, a);
 
     a = KStandardAction::actualSize(this, SLOT(actualSize()), this);
     KGlobalAccel::self()->setDefaultShortcut(a, QList<QKeySequence>() << (Qt::META | Qt::Key_0));
     KGlobalAccel::self()->setShortcut(a, QList<QKeySequence>() << (Qt::META | Qt::Key_0));
-    effects->registerGlobalShortcut(Qt::META | Qt::Key_0, a);
 
     a = new QAction(this);
     a->setObjectName(QStringLiteral("MoveZoomLeft"));
     a->setText(i18n("Move Zoomed Area to Left"));
     KGlobalAccel::self()->setDefaultShortcut(a, QList<QKeySequence>());
     KGlobalAccel::self()->setShortcut(a, QList<QKeySequence>());
-    effects->registerGlobalShortcut(QKeySequence(), a);
     connect(a, &QAction::triggered, this, &ZoomEffect::moveZoomLeft);
 
     a = new QAction(this);
@@ -76,7 +72,6 @@ ZoomEffect::ZoomEffect()
     a->setText(i18n("Move Zoomed Area to Right"));
     KGlobalAccel::self()->setDefaultShortcut(a, QList<QKeySequence>());
     KGlobalAccel::self()->setShortcut(a, QList<QKeySequence>());
-    effects->registerGlobalShortcut(QKeySequence(), a);
     connect(a, &QAction::triggered, this, &ZoomEffect::moveZoomRight);
 
     a = new QAction(this);
@@ -84,7 +79,6 @@ ZoomEffect::ZoomEffect()
     a->setText(i18n("Move Zoomed Area Upwards"));
     KGlobalAccel::self()->setDefaultShortcut(a, QList<QKeySequence>());
     KGlobalAccel::self()->setShortcut(a, QList<QKeySequence>());
-    effects->registerGlobalShortcut(QKeySequence(), a);
     connect(a, &QAction::triggered, this, &ZoomEffect::moveZoomUp);
 
     a = new QAction(this);
@@ -92,7 +86,6 @@ ZoomEffect::ZoomEffect()
     a->setText(i18n("Move Zoomed Area Downwards"));
     KGlobalAccel::self()->setDefaultShortcut(a, QList<QKeySequence>());
     KGlobalAccel::self()->setShortcut(a, QList<QKeySequence>());
-    effects->registerGlobalShortcut(QKeySequence(), a);
     connect(a, &QAction::triggered, this, &ZoomEffect::moveZoomDown);
 
     // TODO: these two actions don't belong into the effect. They need to be moved into KWin core
@@ -101,7 +94,6 @@ ZoomEffect::ZoomEffect()
     a->setText(i18n("Move Mouse to Focus"));
     KGlobalAccel::self()->setDefaultShortcut(a, QList<QKeySequence>() << (Qt::META | Qt::Key_F5));
     KGlobalAccel::self()->setShortcut(a, QList<QKeySequence>() << (Qt::META | Qt::Key_F5));
-    effects->registerGlobalShortcut(Qt::META | Qt::Key_F5, a);
     connect(a, &QAction::triggered, this, &ZoomEffect::moveMouseToFocus);
 
     a = new QAction(this);
@@ -109,7 +101,6 @@ ZoomEffect::ZoomEffect()
     a->setText(i18n("Move Mouse to Center"));
     KGlobalAccel::self()->setDefaultShortcut(a, QList<QKeySequence>() << (Qt::META | Qt::Key_F6));
     KGlobalAccel::self()->setShortcut(a, QList<QKeySequence>() << (Qt::META | Qt::Key_F6));
-    effects->registerGlobalShortcut(Qt::META | Qt::Key_F6, a);
     connect(a, &QAction::triggered, this, &ZoomEffect::moveMouseToCenter);
 
     timeline.setDuration(350);
@@ -208,7 +199,7 @@ void ZoomEffect::reconfigure(ReconfigureFlags)
 {
     ZoomConfig::self()->read();
     // On zoom-in and zoom-out change the zoom by the defined zoom-factor.
-    zoomFactor = qMax(0.1, ZoomConfig::zoomFactor());
+    zoomFactor = std::max(0.1, ZoomConfig::zoomFactor());
     // Visibility of the mouse-pointer.
     mousePointer = MousePointerType(ZoomConfig::mousePointer());
     // Track moving of the mouse.
@@ -220,9 +211,9 @@ void ZoomEffect::reconfigure(ReconfigureFlags)
     m_accessibilityIntegration->setTextCaretTrackingEnabled(ZoomConfig::enableTextCaretTracking());
 #endif
     // The time in milliseconds to wait before a focus-event takes away a mouse-move.
-    focusDelay = qMax(uint(0), ZoomConfig::focusDelay());
+    focusDelay = std::max(uint(0), ZoomConfig::focusDelay());
     // The factor the zoom-area will be moved on touching an edge on push-mode or using the navigation KAction's.
-    moveFactor = qMax(0.1, ZoomConfig::moveFactor());
+    moveFactor = std::max(0.1, ZoomConfig::moveFactor());
     if (source_zoom < 0) {
         // Load the saved zoom value.
         source_zoom = 1.0;
@@ -244,11 +235,11 @@ void ZoomEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseco
         }
         lastPresentTime = presentTime;
 
-        const float zoomDist = qAbs(target_zoom - source_zoom);
+        const float zoomDist = std::abs(target_zoom - source_zoom);
         if (target_zoom > zoom) {
-            zoom = qMin(zoom + ((zoomDist * time) / animationTime(150 * zoomFactor)), target_zoom);
+            zoom = std::min(zoom + ((zoomDist * time) / animationTime(150 * zoomFactor)), target_zoom);
         } else {
-            zoom = qMax(zoom - ((zoomDist * time) / animationTime(150 * zoomFactor)), target_zoom);
+            zoom = std::max(zoom - ((zoomDist * time) / animationTime(150 * zoomFactor)), target_zoom);
         }
     }
 
@@ -277,25 +268,25 @@ ZoomEffect::OffscreenData *ZoomEffect::ensureOffscreenData(EffectScreen *screen)
     }
     if (!data.vbo || data.viewport != rect) {
         data.vbo.reset(new GLVertexBuffer(GLVertexBuffer::Static));
-        data.viewport = rect;
+        data.viewport = scaledRect(rect, devicePixelRatio).toRect();
 
         QVector<float> verts;
         QVector<float> texcoords;
 
         // The v-coordinate is flipped because projection matrix is "flipped."
         texcoords << 1.0 << 1.0;
-        verts << rect.x() + rect.width() << rect.y();
+        verts << (rect.x() + rect.width()) * devicePixelRatio << rect.y() * devicePixelRatio;
         texcoords << 0.0 << 1.0;
-        verts << rect.x() << rect.y();
+        verts << rect.x() * devicePixelRatio << rect.y() * devicePixelRatio;
         texcoords << 0.0 << 0.0;
-        verts << rect.x() << rect.y() + rect.height();
+        verts << rect.x() * devicePixelRatio << (rect.y() + rect.height()) * devicePixelRatio;
 
         texcoords << 1.0 << 0.0;
-        verts << rect.x() + rect.width() << rect.y() + rect.height();
+        verts << (rect.x() + rect.width()) * devicePixelRatio << (rect.y() + rect.height()) * devicePixelRatio;
         texcoords << 1.0 << 1.0;
-        verts << rect.x() + rect.width() << rect.y();
+        verts << (rect.x() + rect.width()) * devicePixelRatio << rect.y() * devicePixelRatio;
         texcoords << 0.0 << 0.0;
-        verts << rect.x() << rect.y() + rect.height();
+        verts << rect.x() * devicePixelRatio << (rect.y() + rect.height()) * devicePixelRatio;
 
         data.vbo->setData(6, 2, verts.constData(), texcoords.constData());
     }
@@ -313,6 +304,7 @@ void ZoomEffect::paintScreen(int mask, const QRegion &region, ScreenPaintData &d
     GLFramebuffer::popFramebuffer();
 
     const QSize screenSize = effects->virtualScreenSize();
+    const auto scale = effects->renderTargetScale();
 
     // mouse-tracking allows navigation of the zoom-area using the mouse.
     qreal xTranslation = 0;
@@ -327,8 +319,8 @@ void ZoomEffect::paintScreen(int mask, const QRegion &region, ScreenPaintData &d
         prevPoint = cursorPoint;
         // fall through
     case MouseTrackingDisabled:
-        xTranslation = qMin(0, qMax(int(screenSize.width() - screenSize.width() * zoom), int(screenSize.width() / 2 - prevPoint.x() * zoom)));
-        yTranslation = qMin(0, qMax(int(screenSize.height() - screenSize.height() * zoom), int(screenSize.height() / 2 - prevPoint.y() * zoom)));
+        xTranslation = std::min(0, std::max(int(screenSize.width() - screenSize.width() * zoom), int(screenSize.width() / 2 - prevPoint.x() * zoom)));
+        yTranslation = std::min(0, std::max(int(screenSize.height() - screenSize.height() * zoom), int(screenSize.height() / 2 - prevPoint.y() * zoom)));
         break;
     case MouseTrackingPush: {
         // touching an edge of the screen moves the zoom-area in that direction.
@@ -347,10 +339,10 @@ void ZoomEffect::paintScreen(int mask, const QRegion &region, ScreenPaintData &d
             yMove = (y + threshold - screenSize.height()) / zoom;
         }
         if (xMove) {
-            prevPoint.setX(qMax(0, qMin(screenSize.width(), prevPoint.x() + xMove)));
+            prevPoint.setX(std::max(0, std::min(screenSize.width(), prevPoint.x() + xMove)));
         }
         if (yMove) {
-            prevPoint.setY(qMax(0, qMin(screenSize.height(), prevPoint.y() + yMove)));
+            prevPoint.setY(std::max(0, std::min(screenSize.height(), prevPoint.y() + yMove)));
         }
         xTranslation = -int(prevPoint.x() * (zoom - 1.0));
         yTranslation = -int(prevPoint.y() * (zoom - 1.0));
@@ -379,7 +371,7 @@ void ZoomEffect::paintScreen(int mask, const QRegion &region, ScreenPaintData &d
     glClear(GL_COLOR_BUFFER_BIT);
 
     QMatrix4x4 matrix;
-    matrix.translate(xTranslation, yTranslation);
+    matrix.translate(xTranslation * scale, yTranslation * scale);
     matrix.scale(zoom, zoom);
 
     auto shader = ShaderManager::instance()->pushShader(ShaderTrait::MapTexture);
@@ -412,9 +404,9 @@ void ZoomEffect::paintScreen(int mask, const QRegion &region, ScreenPaintData &d
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
             auto s = ShaderManager::instance()->pushShader(ShaderTrait::MapTexture);
             QMatrix4x4 mvp = data.projectionMatrix();
-            mvp.translate(rect.x(), rect.y());
+            mvp.translate(rect.x() * scale, rect.y() * scale);
             s->setUniform(GLShader::ModelViewProjectionMatrix, mvp);
-            cursorTexture->render(rect);
+            cursorTexture->render(rect, scale);
             ShaderManager::instance()->popShader();
             cursorTexture->unbind();
             glDisable(GL_BLEND);
@@ -486,8 +478,8 @@ void ZoomEffect::actualSize()
 void ZoomEffect::timelineFrameChanged(int /* frame */)
 {
     const QSize screenSize = effects->virtualScreenSize();
-    prevPoint.setX(qMax(0, qMin(screenSize.width(), prevPoint.x() + xMove)));
-    prevPoint.setY(qMax(0, qMin(screenSize.height(), prevPoint.y() + yMove)));
+    prevPoint.setX(std::max(0, std::min(screenSize.width(), prevPoint.x() + xMove)));
+    prevPoint.setY(std::max(0, std::min(screenSize.height(), prevPoint.y() + yMove)));
     cursorPoint = prevPoint;
     effects->addRepaintFull();
 }
@@ -500,17 +492,17 @@ void ZoomEffect::moveZoom(int x, int y)
 
     const QSize screenSize = effects->virtualScreenSize();
     if (x < 0) {
-        xMove = -qMax(1.0, screenSize.width() / zoom / moveFactor);
+        xMove = -std::max(1.0, screenSize.width() / zoom / moveFactor);
     } else if (x > 0) {
-        xMove = qMax(1.0, screenSize.width() / zoom / moveFactor);
+        xMove = std::max(1.0, screenSize.width() / zoom / moveFactor);
     } else {
         xMove = 0;
     }
 
     if (y < 0) {
-        yMove = -qMax(1.0, screenSize.height() / zoom / moveFactor);
+        yMove = -std::max(1.0, screenSize.height() / zoom / moveFactor);
     } else if (y > 0) {
-        yMove = qMax(1.0, screenSize.height() / zoom / moveFactor);
+        yMove = std::max(1.0, screenSize.height() / zoom / moveFactor);
     } else {
         yMove = 0;
     }

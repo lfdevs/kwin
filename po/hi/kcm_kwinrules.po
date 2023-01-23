@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-08-19 00:47+0000\n"
+"POT-Creation-Date: 2022-12-11 00:48+0000\n"
 "PO-Revision-Date: 2007-10-22 15:31+0530\n"
 "Last-Translator: Ravishankar Shrivastava <raviratlami@yahoo.com>\n"
 "Language-Team: Hindi <indlinux-hindi@lists.sourceforge.net>\n"
@@ -59,12 +59,12 @@ msgstr ""
 msgid "Copy of %1"
 msgstr ""
 
-#: kcmrules.cpp:422
+#: kcmrules.cpp:423
 #, kde-format
 msgid "Application settings for %1"
 msgstr "%1 के लिए अनुप्रयोग विन्यास"
 
-#: kcmrules.cpp:442 rulesmodel.cpp:215
+#: kcmrules.cpp:445 rulesmodel.cpp:215
 #, kde-format
 msgid "Window settings for %1"
 msgstr "%1 के लिए विंडो विन्यास"
@@ -346,43 +346,38 @@ msgid_plural "After %1 seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: package/contents/ui/RulesEditor.qml:147
-#, kde-format
-msgid "Error"
-msgstr ""
-
-#: package/contents/ui/RulesEditor.qml:162
+#: package/contents/ui/RulesEditor.qml:175
 #, kde-format
 msgid "Add property to the rule"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:260
+#: package/contents/ui/RulesEditor.qml:273
 #: package/contents/ui/ValueEditor.qml:54
 #, kde-format
 msgid "Yes"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:260
+#: package/contents/ui/RulesEditor.qml:273
 #: package/contents/ui/ValueEditor.qml:60
 #, fuzzy, kde-format
 #| msgid "None"
 msgid "No"
 msgstr "कुछ नहीं"
 
-#: package/contents/ui/RulesEditor.qml:262
+#: package/contents/ui/RulesEditor.qml:275
 #: package/contents/ui/ValueEditor.qml:171
 #: package/contents/ui/ValueEditor.qml:178
 #, kde-format
 msgid "%1 %"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:264
+#: package/contents/ui/RulesEditor.qml:277
 #, kde-format
 msgctxt "Coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr ""
 
-#: package/contents/ui/RulesEditor.qml:266
+#: package/contents/ui/RulesEditor.qml:279
 #, kde-format
 msgctxt "Size (width, height)"
 msgid "(%1, %2)"
@@ -771,165 +766,350 @@ msgstr ""
 msgid "Block compositing"
 msgstr ""
 
-#: rulesmodel.cpp:727
+#: rulesmodel.cpp:703
+#, fuzzy, kde-format
+#| msgid "Window &class (application type):"
+msgid "Window class not available"
+msgstr "विंडो वर्ग (&c) (अनुप्रयोग प्रकार):"
+
+#: rulesmodel.cpp:704
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"This application is not providing a class for the window, so KWin cannot use "
+"it to match and apply any rules. If you still want to apply some rules to "
+"it, try to match other properties like the window title instead.<nl/><nl/"
+">Please consider reporting this bug to the application's developers."
+msgstr ""
+
+#: rulesmodel.cpp:738
 #, fuzzy, kde-format
 #| msgid "Window &types:"
 msgid "All Window Types"
 msgstr "विंडो प्रकार (&t):"
 
-#: rulesmodel.cpp:728
+#: rulesmodel.cpp:739
 #, kde-format
 msgid "Normal Window"
 msgstr "सामान्य विंडो"
 
-#: rulesmodel.cpp:729
+#: rulesmodel.cpp:740
 #, kde-format
 msgid "Dialog Window"
 msgstr "संवाद विंडो"
 
-#: rulesmodel.cpp:730
+#: rulesmodel.cpp:741
 #, kde-format
 msgid "Utility Window"
 msgstr "यूटिलिटी विंडो"
 
-#: rulesmodel.cpp:731
+#: rulesmodel.cpp:742
 #, kde-format
 msgid "Dock (panel)"
 msgstr "डाक करें (फलक)"
 
-#: rulesmodel.cpp:732
+#: rulesmodel.cpp:743
 #, kde-format
 msgid "Toolbar"
 msgstr "औज़ार पट्टी"
 
-#: rulesmodel.cpp:733
+#: rulesmodel.cpp:744
 #, kde-format
 msgid "Torn-Off Menu"
 msgstr "टॉर्न-ऑफ मेन्यू"
 
-#: rulesmodel.cpp:734
+#: rulesmodel.cpp:745
 #, kde-format
 msgid "Splash Screen"
 msgstr "स्प्लैश स्क्रीन"
 
-#: rulesmodel.cpp:735
+#: rulesmodel.cpp:746
 #, kde-format
 msgid "Desktop"
 msgstr "डेस्कटॉप"
 
 #. i18n("Unmanaged Window")},  deprecated
-#: rulesmodel.cpp:737
+#: rulesmodel.cpp:748
 #, kde-format
 msgid "Standalone Menubar"
 msgstr "अलग-थलग मेनू-पट्टी"
 
-#: rulesmodel.cpp:738
+#: rulesmodel.cpp:749
 #, kde-format
 msgid "On Screen Display"
 msgstr ""
 
-#: rulesmodel.cpp:748
+#: rulesmodel.cpp:759
 #, kde-format
 msgid "All Desktops"
 msgstr "सभी डेस्कटॉप"
 
-#: rulesmodel.cpp:750
+#: rulesmodel.cpp:761
 #, kde-format
 msgctxt "@info:tooltip in the virtual desktop list"
 msgid "Make the window available on all desktops"
 msgstr ""
 
-#: rulesmodel.cpp:769
+#: rulesmodel.cpp:780
 #, kde-format
 msgid "All Activities"
 msgstr ""
 
-#: rulesmodel.cpp:771
+#: rulesmodel.cpp:782
 #, kde-format
 msgctxt "@info:tooltip in the activity list"
 msgid "Make the window available on all activities"
 msgstr ""
 
-#: rulesmodel.cpp:792
+#: rulesmodel.cpp:803
 #, kde-format
 msgid "Default"
 msgstr "डिफ़ॉल्ट"
 
-#: rulesmodel.cpp:793
+#: rulesmodel.cpp:804
 #, kde-format
 msgid "No Placement"
 msgstr "कोई स्थल नहीं"
 
-#: rulesmodel.cpp:794
+#: rulesmodel.cpp:805
 #, kde-format
 msgid "Minimal Overlapping"
 msgstr ""
 
-#: rulesmodel.cpp:795
+#: rulesmodel.cpp:806
 #, fuzzy, kde-format
 #| msgid "Maximizing"
 msgid "Maximized"
 msgstr "अधिकतम किया जा रहा है"
 
-#: rulesmodel.cpp:796
-#, fuzzy, kde-format
-#| msgid "Cascade"
-msgid "Cascaded"
-msgstr "एक के बाद एक"
-
-#: rulesmodel.cpp:797
+#: rulesmodel.cpp:807
 #, kde-format
 msgid "Centered"
 msgstr "केंद्रित"
 
-#: rulesmodel.cpp:798
+#: rulesmodel.cpp:808
 #, kde-format
 msgid "Random"
 msgstr "बेतरतीब"
 
-#: rulesmodel.cpp:799
+#: rulesmodel.cpp:809
 #, fuzzy, kde-format
 #| msgid "Top-Left Corner"
 msgid "In Top-Left Corner"
 msgstr "ऊपरी बायाँ कोना"
 
-#: rulesmodel.cpp:800
+#: rulesmodel.cpp:810
 #, kde-format
 msgid "Under Mouse"
 msgstr "माउस के नीचे"
 
-#: rulesmodel.cpp:801
+#: rulesmodel.cpp:811
 #, kde-format
 msgid "On Main Window"
 msgstr "मुख्य विंडो पर"
 
-#: rulesmodel.cpp:808
+#: rulesmodel.cpp:818
 #, fuzzy, kde-format
 #| msgid "None"
 msgid "None"
 msgstr "कुछ नहीं"
 
-#: rulesmodel.cpp:809
+#: rulesmodel.cpp:819
 #, kde-format
 msgid "Low"
 msgstr "निम्न"
 
-#: rulesmodel.cpp:810
+#: rulesmodel.cpp:820
 #, kde-format
 msgid "Normal"
 msgstr "सामान्य"
 
-#: rulesmodel.cpp:811
+#: rulesmodel.cpp:821
 #, kde-format
 msgid "High"
 msgstr "उच्च"
 
-#: rulesmodel.cpp:812
+#: rulesmodel.cpp:822
 #, kde-format
 msgid "Extreme"
 msgstr "चरम"
 
-#: rulesmodel.cpp:855
+#: rulesmodel.cpp:865
+#, fuzzy, kde-format
+#| msgid "On Main Window"
+msgid "Unmanaged window"
+msgstr "मुख्य विंडो पर"
+
+#: rulesmodel.cpp:866
 #, kde-format
 msgid "Could not detect window properties. The window is not managed by KWin."
 msgstr ""
+
+#, fuzzy
+#~| msgid "Cascade"
+#~ msgid "Cascaded"
+#~ msgstr "एक के बाद एक"
+
+#, fuzzy
+#~| msgid "Keep &above"
+#~ msgid "Keep above"
+#~ msgstr "ऊपर रखें (&A)"
+
+#, fuzzy
+#~| msgid "Keep &below"
+#~ msgid "Keep below"
+#~ msgstr "नीचे रखें (&B)"
+
+#~ msgid "KWin"
+#~ msgstr "के-विन"
+
+#~ msgid "KWin helper utility"
+#~ msgstr "के-विन मदद यूटिलिटी"
+
+#, fuzzy
+#~| msgid "Detect Window Properties"
+#~ msgid "Select properties"
+#~ msgstr "विंडो गुणों का पता लगाएँ"
+
+#~ msgid "Override Type"
+#~ msgstr "ओवरराइड टाइप"
+
+#~ msgid "Unknown - will be treated as Normal Window"
+#~ msgstr "अज्ञात - सामान्य विंडो के रूप में माना जाएगा"
+
+#~ msgid "Information About Selected Window"
+#~ msgstr "चयनित विंडो के बारे में जानकारी"
+
+#~ msgid "Class:"
+#~ msgstr "वर्गः"
+
+#~ msgid "Role:"
+#~ msgstr "भूमिकाः"
+
+#~ msgid "Type:"
+#~ msgstr "क़िस्मः"
+
+#~ msgid "Title:"
+#~ msgstr "शीर्षक:"
+
+#~ msgid "Machine:"
+#~ msgstr "मशीनः"
+
+#~ msgid "&Single Shortcut"
+#~ msgstr "एकल शॉर्टकट... (&S)"
+
+#~ msgid "C&lear"
+#~ msgstr "साफ करें (&l)"
+
+#~ msgid "Window-Specific Settings Configuration Module"
+#~ msgstr "विंडो-विशिष्ट विन्यास कॉन्फ़िगरेशन मॉड्यूल"
+
+#~ msgid "(c) 2004 KWin and KControl Authors"
+#~ msgstr "(c) 2004 के-विन तथा के-कन्ट्रोल लेखक"
+
+#~ msgid "Lubos Lunak"
+#~ msgstr "लुबॉस लुनाक"
+
+#~ msgid "Remember settings separately for every window"
+#~ msgstr "प्रत्येक विंडो के लिए विन्यासों को अलग-अलग याद रखें"
+
+#~ msgid "Show internal settings for remembering"
+#~ msgstr "याद रखने के लिए आंतरिक विन्यासों को दिखाएँ"
+
+#~ msgid "Internal setting for remembering"
+#~ msgstr "याद रखने के लिए आंतरिक विन्यास"
+
+#~ msgid "&Modify..."
+#~ msgstr "सुधारें... (&M)"
+
+#~ msgid "Move &Up"
+#~ msgstr "ऊपर जाएं (&U)"
+
+#~ msgid "Move &Down"
+#~ msgstr "नीचे जाएं (&D)"
+
+#~ msgid ""
+#~ "Enable this checkbox to alter this window property for the specified "
+#~ "window(s)."
+#~ msgstr "उल्लेखित विंडो के विंडो-गुणों को बदलने के लिए इस चेक-बक्से को सक्षम करें."
+
+#~ msgid "Unnamed entry"
+#~ msgstr "अनाम प्रविष्टि"
+
+#~ msgid "Consult the documentation for more details."
+#~ msgstr "अतिरिक्त विवरणों के लिए दस्तावेजों को देखें"
+
+#~ msgid "Edit Shortcut"
+#~ msgstr "शॉर्टकट संपादित करें"
+
+#~ msgid "0123456789-+,xX:"
+#~ msgstr "0123456789-+,xX:"
+
+#~ msgid "&Desktop"
+#~ msgstr "डेस्कटॉप (&D)"
+
+#~ msgid "Smart"
+#~ msgstr "स्मार्ट"
+
+#~ msgid "kcmkwinrules"
+#~ msgstr "केसीएम-केविन-रूल्स"
+
+#~ msgid "Opaque"
+#~ msgstr "अपारदर्शी"
+
+#~ msgid "Transparent"
+#~ msgstr "पारदर्शी"
+
+#~ msgid "&Moving/resizing"
+#~ msgstr "खिसकाना / नया आकार देना (&M)"
+
+#, fuzzy
+#~| msgid "Title:"
+#~ msgid "Tiled"
+#~ msgstr "शीर्षक:"
+
+#~ msgid ""
+#~ "For selecting all windows belonging to a specific application, selecting "
+#~ "only window class should usually work."
+#~ msgstr ""
+#~ "किसी विशिष्ट अनुप्रयोग के सभी विंडोज़ को चयन करने के लिए आमतौर पर विंडो वर्ग को चुन "
+#~ "लेने पर भी काम हो जाता है."
+
+#~ msgid "Use window &class (whole application)"
+#~ msgstr "विंडो वर्ग उपयोग करें (&c) (सम्पूर्ण अनुप्रयोग)"
+
+#~ msgid "Use window class and window &role (specific window)"
+#~ msgstr "विंडो वर्ग एवं विंडो भूमिका उपयोग करें (&r) (विशिष्ट विंडो)"
+
+#~ msgid "Use &whole window class (specific window)"
+#~ msgstr "सम्पूर्ण विंडो वर्ग उपयोग करें (विशिष्ट विंडो)"
+
+#~ msgid "Match also window &title"
+#~ msgstr "विंडो शीर्षक को भी मिलान करें (&t)"
+
+#~ msgid "Extra role:"
+#~ msgstr "अतिरिक्त भूमिका:"
+
+#~ msgid "Window &Extra"
+#~ msgstr "अतिरिक्त विंडो (&E)"
+
+#~ msgid "&Geometry"
+#~ msgstr "ज्यामिति (&G)"
+
+#~ msgid "&Preferences"
+#~ msgstr "वरीयताएँ (&P)"
+
+#~ msgid "&No border"
+#~ msgstr "कोई किनारा नहीं (&N)"
+
+#~ msgid "0123456789"
+#~ msgstr "0123456789"
+
+#~ msgid "W&orkarounds"
+#~ msgstr "कार्य-विकल्प (&o)"
+
+#~ msgid "Strictly obey geometry"
+#~ msgstr "ज्यामिती का कड़ाई से पालन करें"
+
+#~ msgid "&Detect"
+#~ msgstr "पता लगाएँ (&D)"

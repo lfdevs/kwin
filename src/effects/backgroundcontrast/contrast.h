@@ -5,8 +5,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#ifndef CONTRAST_H
-#define CONTRAST_H
+#pragma once
 
 #include <kwineffects.h>
 #include <kwinglplatform.h>
@@ -43,7 +42,7 @@ public:
 
     int requestedEffectChainPosition() const override
     {
-        return 76;
+        return 21;
     }
 
     bool eventFilter(QObject *watched, QEvent *event) override;
@@ -61,14 +60,19 @@ private:
     bool shouldContrast(const EffectWindow *w, int mask, const WindowPaintData &data) const;
     void updateContrastRegion(EffectWindow *w);
     void doContrast(EffectWindow *w, const QRegion &shape, const QRect &screen, const float opacity, const QMatrix4x4 &screenProjection);
-    void uploadRegion(QVector2D *&map, const QRegion &region);
-    void uploadGeometry(GLVertexBuffer *vbo, const QRegion &region);
+    void uploadRegion(QVector2D *&map, const QRegion &region, qreal scale);
+    Q_REQUIRED_RESULT bool uploadGeometry(GLVertexBuffer *vbo, const QRegion &region, qreal scale);
 
 private:
     std::unique_ptr<ContrastShader> m_shader;
     long m_net_wm_contrast_region = 0;
-    QHash<const EffectWindow *, QMatrix4x4> m_colorMatrices;
     QHash<const EffectWindow *, QMetaObject::Connection> m_contrastChangedConnections; // used only in Wayland to keep track of effect changed
+    struct Data
+    {
+        QMatrix4x4 colorMatrix;
+        QRegion contrastRegion;
+    };
+    QHash<const EffectWindow *, Data> m_windowData;
     static KWaylandServer::ContrastManagerInterface *s_contrastManager;
     static QTimer *s_contrastManagerRemoveTimer;
 };
@@ -82,5 +86,3 @@ inline bool ContrastEffect::provides(Effect::Feature feature)
 }
 
 } // namespace KWin
-
-#endif

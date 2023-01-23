@@ -10,11 +10,12 @@
 #include "composite.h"
 #include "core/renderbackend.h"
 #include "effects.h"
-#include "scene.h"
+#include "scene/itemrenderer.h"
+#include "scene/windowitem.h"
+#include "scene/workspacescene.h"
 #include "scripting_logging.h"
 #include "virtualdesktops.h"
 #include "window.h"
-#include "windowitem.h"
 #include "workspace.h"
 
 #include <kwingltexture.h>
@@ -164,9 +165,15 @@ void WindowThumbnailItem::updateFrameRenderingConnection()
         return;
     }
 
-    if (Compositor::self()->backend()->compositingType() == OpenGLCompositing) {
-        m_frameRenderingConnection = connect(Compositor::self()->scene(), &Scene::preFrameRender, this, &WindowThumbnailItem::updateOffscreenTexture);
+    if (useGlThumbnails()) {
+        m_frameRenderingConnection = connect(Compositor::self()->scene(), &WorkspaceScene::preFrameRender, this, &WindowThumbnailItem::updateOffscreenTexture);
     }
+}
+
+bool WindowThumbnailItem::useGlThumbnails()
+{
+    static bool qtQuickIsSoftware = QStringList({QStringLiteral("software"), QStringLiteral("softwarecontext")}).contains(QQuickWindow::sceneGraphBackend());
+    return Compositor::self()->backend()->compositingType() == OpenGLCompositing && !qtQuickIsSoftware;
 }
 
 QSize WindowThumbnailItem::sourceSize() const
@@ -188,12 +195,12 @@ void WindowThumbnailItem::destroyOffscreenTexture()
     if (!Compositor::compositing()) {
         return;
     }
-    if (Compositor::self()->backend()->compositingType() != OpenGLCompositing) {
+    if (!useGlThumbnails()) {
         return;
     }
 
     if (m_offscreenTexture) {
-        Scene *scene = Compositor::self()->scene();
+        WorkspaceScene *scene = Compositor::self()->scene();
         scene->makeOpenGLContextCurrent();
         m_offscreenTarget.reset();
         m_offscreenTexture.reset();
@@ -256,7 +263,6 @@ qreal WindowThumbnailItem::saturation() const
 
 void WindowThumbnailItem::setSaturation(qreal saturation)
 {
-    Q_UNUSED(saturation)
     qCWarning(KWIN_SCRIPTING) << "ThumbnailItem.saturation is removed. Use a shader effect to change saturation";
 }
 
@@ -267,7 +273,6 @@ qreal WindowThumbnailItem::brightness() const
 
 void WindowThumbnailItem::setBrightness(qreal brightness)
 {
-    Q_UNUSED(brightness)
     qCWarning(KWIN_SCRIPTING) << "ThumbnailItem.brightness is removed. Use a shader effect to change brightness";
 }
 
@@ -278,7 +283,6 @@ QQuickItem *WindowThumbnailItem::clipTo() const
 
 void WindowThumbnailItem::setClipTo(QQuickItem *clip)
 {
-    Q_UNUSED(clip)
     qCWarning(KWIN_SCRIPTING) << "ThumbnailItem.clipTo is removed and it has no replacements";
 }
 
@@ -427,9 +431,11 @@ void WindowThumbnailItem::updateOffscreenTexture()
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glClear(GL_COLOR_BUFFER_BIT);
 
+    auto scale = Compositor::self()->scene()->renderer()->renderTargetScale();
+
     QMatrix4x4 projectionMatrix;
-    projectionMatrix.ortho(geometry.x(), geometry.x() + geometry.width(),
-                           geometry.y(), geometry.y() + geometry.height(), -1, 1);
+    projectionMatrix.ortho(geometry.x() * scale, (geometry.x() + geometry.width()) * scale,
+                           geometry.y() * scale, (geometry.y() + geometry.height()) * scale, -1, 1);
 
     WindowPaintData data;
     data.setProjectionMatrix(projectionMatrix);
@@ -438,7 +444,7 @@ void WindowThumbnailItem::updateOffscreenTexture()
     // shared across contexts. Unfortunately, this also introduces a latency of 1
     // frame, which is not ideal, but it is acceptable for things such as thumbnails.
     const int mask = Scene::PAINT_WINDOW_TRANSFORMED;
-    Compositor::self()->scene()->render(m_client->windowItem(), mask, infiniteRegion(), data);
+    Compositor::self()->scene()->renderer()->renderItem(m_client->windowItem(), mask, infiniteRegion(), data);
     GLFramebuffer::popFramebuffer();
 
     // The fence is needed to avoid the case where qtquick renderer starts using

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: desktop_kdebase\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-01 02:26+0000\n"
+"POT-Creation-Date: 2023-01-18 00:58+0000\n"
 "PO-Revision-Date: 2008-11-06 22:08+0100\n"
 "Last-Translator: Eduard Werner <edi.werner@gmx.de>\n"
 "Language-Team: en_US <kde-i18n-doc@lists.kde.org>\n"
@@ -55,6 +55,7 @@ msgstr ""
 #: mousemark/mousemark_config.cpp:50 overview/kcm/overvieweffectkcm.cpp:35
 #: showpaint/showpaint_config.cpp:33
 #: thumbnailaside/thumbnailaside_config.cpp:54
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:31
 #: trackmouse/trackmouse_config.cpp:52
 #: windowview/kcm/windowvieweffectkcm.cpp:36 zoom/zoom_config.cpp:58
 #, kde-format
@@ -202,14 +203,20 @@ msgstr ""
 msgid "Natural"
 msgstr ""
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
+#: desktopgrid/desktopgrid_config.ui:147
+#, kde-format
+msgid "None"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: desktopgrid/desktopgrid_config.ui:150
+#: desktopgrid/desktopgrid_config.ui:155
 #, kde-format
 msgid "Windows layout:"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: desktopgrid/desktopgrid_config.ui:166
+#: desktopgrid/desktopgrid_config.ui:171
 #, kde-format
 msgid "Activation"
 msgstr ""
@@ -317,10 +324,15 @@ msgstr "Sobotu"
 msgid "Toggle Invert Effect"
 msgstr ""
 
-#: invert/invert.cpp:50 invert/invert_config.cpp:44
+#: invert/invert.cpp:49 invert/invert_config.cpp:44
 #, kde-format
 msgid "Toggle Invert Effect on Window"
 msgstr ""
+
+#: invert/invert.cpp:56
+#, fuzzy, kde-format
+msgid "Invert Screen Colors"
+msgstr "Swójstwa %2"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FadeToBlack)
 #: login/package/contents/ui/config.ui:17
@@ -379,7 +391,7 @@ msgstr ""
 msgid "Toggle Mouse Click Effect"
 msgstr ""
 
-#: mouseclick/mouseclick.cpp:42
+#: mouseclick/mouseclick.cpp:41
 #, fuzzy, kde-format
 #| msgctxt "keyboard-key-name"
 #| msgid "Left"
@@ -387,13 +399,13 @@ msgctxt "Left mouse button"
 msgid "Left"
 msgstr "Nalěwo"
 
-#: mouseclick/mouseclick.cpp:43
+#: mouseclick/mouseclick.cpp:42
 #, kde-format
 msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr ""
 
-#: mouseclick/mouseclick.cpp:44
+#: mouseclick/mouseclick.cpp:43
 #, fuzzy, kde-format
 #| msgctxt "keyboard-key-name"
 #| msgid "Right"
@@ -401,12 +413,12 @@ msgctxt "Right mouse button"
 msgid "Right"
 msgstr "Naprawo"
 
-#: mouseclick/mouseclick.h:61
+#: mouseclick/mouseclick.h:60
 #, kde-format
 msgid "↓"
 msgstr ""
 
-#: mouseclick/mouseclick.h:62
+#: mouseclick/mouseclick.h:61
 #, kde-format
 msgid "↑"
 msgstr ""
@@ -503,12 +515,12 @@ msgstr ""
 msgid "Show Text:"
 msgstr "Name=Dźěłowy powjerch"
 
-#: mousemark/mousemark.cpp:36
+#: mousemark/mousemark.cpp:39
 #, kde-format
 msgid "Clear All Mouse Marks"
 msgstr ""
 
-#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:59
+#: mousemark/mousemark.cpp:45 mousemark/mousemark_config.cpp:59
 #, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr ""
@@ -577,12 +589,12 @@ msgstr "Wo słowo dozady"
 msgid "Ignore minimized windows:"
 msgstr "Name=Zakładne wokno"
 
-#: overview/qml/DesktopBar.qml:186
+#: overview/qml/DesktopBar.qml:187
 #, kde-format
 msgid "Delete Virtual Desktop"
 msgstr ""
 
-#: overview/qml/DesktopBar.qml:282
+#: overview/qml/DesktopBar.qml:283
 #, fuzzy, kde-format
 msgid "Add Virtual Desktop"
 msgstr "Name=Dźěłowy powjerch"
@@ -593,12 +605,12 @@ msgstr "Name=Dźěłowy powjerch"
 msgid "No matching windows"
 msgstr "Wokno začinić?"
 
-#: private/qml/WindowHeapDelegate.qml:152
+#: private/qml/WindowHeapDelegate.qml:151
 #, kde-format
 msgid "Drag Down To Close"
 msgstr ""
 
-#: private/qml/WindowHeapDelegate.qml:462
+#: private/qml/WindowHeapDelegate.qml:461
 #, fuzzy, kde-format
 #| msgid "Close window?"
 msgctxt "@info:tooltip as in: 'close this window'"
@@ -619,28 +631,28 @@ msgstr "Sobotu"
 msgid "Window close scale:"
 msgstr "Sobotu"
 
-#: screenshot/screenshotdbusinterface1.cpp:480
+#: screenshot/screenshotdbusinterface1.cpp:478
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr ""
 
-#: screenshot/screenshotdbusinterface1.cpp:481
+#: screenshot/screenshotdbusinterface1.cpp:479
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr ""
 
-#: screenshot/screenshotdbusinterface1.cpp:797
-#: screenshot/screenshotdbusinterface2.cpp:472
+#: screenshot/screenshotdbusinterface1.cpp:800
+#: screenshot/screenshotdbusinterface2.cpp:477
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
 
-#: screenshot/screenshotdbusinterface1.cpp:800
-#: screenshot/screenshotdbusinterface2.cpp:490
+#: screenshot/screenshotdbusinterface1.cpp:803
+#: screenshot/screenshotdbusinterface2.cpp:495
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -702,14 +714,8 @@ msgstr ""
 msgid "Vertical:"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideDocks)
-#: slide/slide_config.ui:72
-#, kde-format
-msgid "Slide docks"
-msgstr ""
-
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideBackground)
-#: slide/slide_config.ui:79
+#: slide/slide_config.ui:72
 #, kde-format
 msgid "Slide desktop background"
 msgstr ""
@@ -750,6 +756,47 @@ msgstr ""
 #: thumbnailaside/thumbnailaside_config.ui:87
 #, no-c-format, kde-format
 msgid " %"
+msgstr ""
+
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:37
+#: tileseditor/tileseditoreffect.cpp:29
+#, kde-format
+msgid "Toggle Tiles Editor"
+msgstr ""
+
+#: tileseditor/qml/main.qml:147
+#, kde-format
+msgid "Padding:"
+msgstr ""
+
+#: tileseditor/qml/main.qml:157
+#, kde-format
+msgid "Load Layout..."
+msgstr ""
+
+#: tileseditor/qml/main.qml:271
+#, kde-format
+msgid "Close"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:171
+#, kde-format
+msgid "Split Horizontally"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:178
+#, kde-format
+msgid "Split Vertically"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:186 tileseditor/qml/TileDelegate.qml:215
+#, kde-format
+msgid "Add Floating Tile"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:195
+#, kde-format
+msgid "Delete"
 msgstr ""
 
 #: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:57
@@ -888,17 +935,17 @@ msgstr ""
 msgid "Toggle Present Windows (Current desktop)"
 msgstr ""
 
-#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:55
+#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:54
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr ""
 
-#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:65
+#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:63
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr ""
 
-#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:75
+#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:72
 #, kde-format
 msgid "Toggle Present Windows (Window class on current desktop)"
 msgstr ""
@@ -909,15 +956,21 @@ msgstr ""
 msgid "Ignore &minimized windows"
 msgstr ""
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, kde-format
 msgid "No Matches"
 msgstr ""
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, fuzzy, kde-format
 #| msgid "Close window?"
 msgid "No Windows"
+msgstr "Wokno začinić?"
+
+#: windowview/qml/main.qml:123
+#, fuzzy, kde-format
+#| msgid "Close window?"
+msgid "Filter windows…"
 msgstr "Wokno začinić?"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
@@ -980,32 +1033,32 @@ msgstr ""
 msgid "More"
 msgstr ""
 
-#: zoom/zoom.cpp:68
+#: zoom/zoom.cpp:65
 #, kde-format
 msgid "Move Zoomed Area to Left"
 msgstr ""
 
-#: zoom/zoom.cpp:76
+#: zoom/zoom.cpp:72
 #, kde-format
 msgid "Move Zoomed Area to Right"
 msgstr ""
 
-#: zoom/zoom.cpp:84
+#: zoom/zoom.cpp:79
 #, kde-format
 msgid "Move Zoomed Area Upwards"
 msgstr ""
 
-#: zoom/zoom.cpp:92
+#: zoom/zoom.cpp:86
 #, kde-format
 msgid "Move Zoomed Area Downwards"
 msgstr ""
 
-#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:108
+#: zoom/zoom.cpp:94 zoom/zoom_config.cpp:108
 #, kde-format
 msgid "Move Mouse to Focus"
 msgstr ""
 
-#: zoom/zoom.cpp:109 zoom/zoom_config.cpp:115
+#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:115
 #, kde-format
 msgid "Move Mouse to Center"
 msgstr ""
@@ -1138,3 +1191,214 @@ msgstr ""
 #, kde-format
 msgid "Mouse Tracking:"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Show Message:"
+#~ msgstr "Name=Dźěłowy powjerch"
+
+#, fuzzy
+#~| msgid "Default"
+#~ msgctxt "Duration of zoom"
+#~ msgid "Default"
+#~ msgstr "Standard"
+
+#, fuzzy
+#~ msgid "Activate window"
+#~ msgstr "Name=Zakładne wokno"
+
+#, fuzzy
+#~ msgctxt "@title:group actions when clicking on desktop"
+#~ msgid "Desktop"
+#~ msgstr "Name=Dźěłowy powjerch"
+
+#, fuzzy
+#~| msgid "Show help"
+#~ msgid "Show &panels"
+#~ msgstr "Pokaž pomoc"
+
+#, fuzzy
+#~| msgctxt "@item font"
+#~| msgid "Regular"
+#~ msgid "Regular Grid"
+#~ msgstr "normalne"
+
+#, fuzzy
+#~| msgid "Close window?"
+#~ msgid "Scale window"
+#~ msgstr "Wokno začinić?"
+
+#, fuzzy
+#~| msgid "Backward Word"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Background contrast"
+#~ msgstr "Wo słowo dozady"
+
+#, fuzzy
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Grid"
+#~ msgstr "Name=Dźěłowy powjerch"
+
+#, fuzzy
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Invert"
+#~ msgstr "Swójstwa %2"
+
+#, fuzzy
+#~| msgid "Saturday"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Click Animation"
+#~ msgstr "Sobotu"
+
+#, fuzzy
+#~| msgid "Close window?"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Resize Window"
+#~ msgstr "Wokno začinić?"
+
+#, fuzzy
+#~| msgid "Show help"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show Paint"
+#~ msgstr "Pokaž pomoc"
+
+#, fuzzy
+#~| msgctxt "Comment"
+#~| msgid "Thumbnail Handler"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Thumbnail Aside"
+#~ msgstr "Thumbnail Handler"
+
+#, fuzzy
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Track Mouse"
+#~ msgstr "Swójstwa %2"
+
+#, fuzzy
+#~ msgctxt "Special entry in alt+tab list for minimizing all windows"
+#~ msgid "Show Desktop"
+#~ msgstr "Name=Dźěłowy powjerch"
+
+#, fuzzy
+#~| msgid "Saturday"
+#~ msgid "Animation"
+#~ msgstr "Sobotu"
+
+#, fuzzy
+#~| msgid "Actions"
+#~ msgid "Reflections"
+#~ msgstr "Akcije"
+
+#, fuzzy
+#~| msgctxt "@label stroke color"
+#~| msgid "Color"
+#~ msgid "Rear color"
+#~ msgstr "Barba"
+
+#, fuzzy
+#~| msgid "Backward Word"
+#~ msgid "Front color"
+#~ msgstr "Wo słowo dozady"
+
+#, fuzzy
+#~ msgid "Desktop Cylinder"
+#~ msgstr "Name=Dźěłowy powjerch"
+
+#, fuzzy
+#~ msgid "Desktop Sphere"
+#~ msgstr "Name=Dźěłowy powjerch"
+
+#, fuzzy
+#~| msgctxt "@label stroke color"
+#~| msgid "Color"
+#~ msgid "Cap color:"
+#~ msgstr "Barba"
+
+#, fuzzy
+#~| msgid "Additional Information: %1"
+#~ msgid "Additional Options"
+#~ msgstr "Dalša informacija: %1"
+
+#, fuzzy
+#~ msgid "Invert mouse"
+#~ msgstr "Swójstwa %2"
+
+#, fuzzy
+#~| msgctxt "Comment"
+#~| msgid "PCI information"
+#~ msgid "Sphere Cap Deformation"
+#~ msgstr "Informacija wo PCI"
+
+#, fuzzy
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube"
+#~ msgstr "Name=Dźěłowy powjerch"
+
+#, fuzzy
+#~| msgid "Saturday"
+#~ msgid "Flip animation duration:"
+#~ msgstr "Sobotu"
+
+#, fuzzy
+#~| msgid "Default"
+#~ msgctxt "Duration of flip animation"
+#~ msgid "Default"
+#~ msgstr "Standard"
+
+#, fuzzy
+#~| msgid "Saturday"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Minimize Animation"
+#~ msgstr "Sobotu"
+
+#, fuzzy
+#~| msgid "Default"
+#~ msgctxt "Duration of the slide animation"
+#~ msgid "Default"
+#~ msgstr "Standard"
+
+#, fuzzy
+#~| msgctxt "@item Text character set"
+#~| msgid "Unicode"
+#~ msgid "Dynamic mode"
+#~ msgstr "Unicode"
+
+#, fuzzy
+#~| msgid "Default"
+#~ msgctxt "Duration of fading"
+#~ msgid "Default"
+#~ msgstr "Standard"
+
+#~ msgid "%"
+#~ msgstr "%"
+
+#, fuzzy
+#~| msgid "Size:"
+#~ msgid "&Size:"
+#~ msgstr "Wulkosć:"
+
+#, fuzzy
+#~| msgid "Backward Word"
+#~ msgid "Background brightness"
+#~ msgstr "Wo słowo dozady"
+
+#, fuzzy
+#~| msgid "Backward Word"
+#~ msgid "Background saturation"
+#~ msgstr "Wo słowo dozady"
+
+#, fuzzy
+#~| msgid "Default"
+#~ msgctxt "Duration of rearrangement"
+#~ msgid "Default"
+#~ msgstr "Standard"
+
+#, fuzzy
+#~| msgid "&Defaults"
+#~ msgid "Default Shadow"
+#~ msgstr "&Standardy"
+
+#, fuzzy
+#~| msgctxt "Name"
+#~| msgid "Technorati Tags"
+#~ msgid "Decoration Shadows"
+#~ msgstr "Technorati Tags"

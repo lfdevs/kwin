@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-15 00:48+0000\n"
+"POT-Creation-Date: 2023-01-13 00:58+0000\n"
 "PO-Revision-Date: 2010-03-27 23:18+0700\n"
 "Last-Translator: Thanomsub Noppaburana <donga.nb@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "X-Generator: Lokalize 1.0\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: kwintabboxconfigform.cpp:77
+#: kwintabboxconfigform.cpp:80
 #, kde-format
 msgid "KWin"
 msgstr ""
@@ -249,3 +249,176 @@ msgstr ""
 #| msgid "Show outline of selected window"
 msgid "Show selected window"
 msgstr "แสดงเส้นโดยรอบของหน้าต่างที่ถูกเลือก"
+
+#, fuzzy
+#~| msgid "Show outline of selected window"
+#~ msgid "Outline selected window"
+#~ msgstr "แสดงเส้นโดยรอบของหน้าต่างที่ถูกเลือก"
+
+#~ msgid ""
+#~ "These settings are used by the \"Walk Through Windows Alternative\" "
+#~ "actions."
+#~ msgstr "การตั้งค่าต่าง ๆ เหล่านี้ จะถูกใช้โดยการกระทำ \"ทางเลือกอื่นของการวนสลับหน้าต่าง\""
+
+#~ msgid "Walk Through Windows"
+#~ msgstr "วนสลับหน้าต่าง"
+
+#~ msgid "Walk Through Windows (Reverse)"
+#~ msgstr "วนสลับหน้าต่าง (ย้อนกลับ)"
+
+#~ msgid "Walk Through Windows Alternative"
+#~ msgstr "ทางเลือกอื่นของการวนสลับหน้าต่าง (ย้อนกลับ)"
+
+#~ msgid "Walk Through Windows Alternative (Reverse)"
+#~ msgstr "ทางเลือกอื่นของการวนสลับหน้าต่าง (ย้อนกลับ)"
+
+#, fuzzy
+#~| msgid "Walk Through Windows Alternative"
+#~ msgid "Walk Through Windows of Current Application"
+#~ msgstr "ทางเลือกอื่นของการวนสลับหน้าต่าง (ย้อนกลับ)"
+
+#, fuzzy
+#~| msgid "Walk Through Windows Alternative (Reverse)"
+#~ msgid "Walk Through Windows of Current Application (Reverse)"
+#~ msgstr "ทางเลือกอื่นของการวนสลับหน้าต่าง (ย้อนกลับ)"
+
+#, fuzzy
+#~| msgid "Walk Through Windows Alternative"
+#~ msgid "Walk Through Windows of Current Application Alternative"
+#~ msgstr "ทางเลือกอื่นของการวนสลับหน้าต่าง (ย้อนกลับ)"
+
+#, fuzzy
+#~| msgid "Walk Through Windows Alternative (Reverse)"
+#~ msgid "Walk Through Windows of Current Application Alternative (Reverse)"
+#~ msgstr "ทางเลือกอื่นของการวนสลับหน้าต่าง (ย้อนกลับ)"
+
+#~ msgid "Configure Layout"
+#~ msgstr "ปรับแต่งการจัดวาง"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "ถนอมทรัพย์ นพบูรณ์"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "donga.nb@gmail.com"
+
+#~ msgid "These settings are used by the \"Walk Through Windows\" actions."
+#~ msgstr "การตั้งค่าต่าง ๆ เหล่านี้ จะถูกใช้โดยการกระทำ \"วนสลับหน้าต่าง\""
+
+#, fuzzy
+#~| msgid "All Desktops Grouped by Applications"
+#~ msgid "All windows from all applications"
+#~ msgstr "หน้าต่างที่อยู่บนพื้นที่ทำงานทั้งหมด โดยจัดกลุ่มตามโปรแกรม"
+
+#, fuzzy
+#~| msgid "Adds an entry to minimize all windows."
+#~ msgid "Exclude minimized windows"
+#~ msgstr "เพิ่มรายการเพื่อย่อหน้าต่างทั้งหมด"
+
+#, fuzzy
+#~| msgid "Adds an entry to minimize all windows."
+#~ msgid "Show desktop to minimize all windows"
+#~ msgstr "เพิ่มรายการเพื่อย่อหน้าต่างทั้งหมด"
+
+#~ msgid "Highlight selected window"
+#~ msgstr "เน้นหน้าต่างที่เลือกไว้"
+
+#~ msgid "Effect:"
+#~ msgstr "ลูกเล่น:"
+
+#~ msgid "Display list while switching"
+#~ msgstr "แสดงรายการในระหว่างการสลับ"
+
+#, fuzzy
+#~| msgid "Informative"
+#~ msgctxt "Name for a window switcher layout showing icon, name and desktop"
+#~ msgid "Informative"
+#~ msgstr "แสดงรายละเอียด"
+
+#, fuzzy
+#~| msgid "Compact"
+#~ msgctxt "Name for a window switcher layout showing only icon and name"
+#~ msgid "Compact"
+#~ msgstr "รูปแบบกะทัดรัด"
+
+#, fuzzy
+#~| msgid "Text Only"
+#~ msgctxt "Name for a window switcher layout showing only the name"
+#~ msgid "Text"
+#~ msgstr "แสดงข้อความเท่านั้น"
+
+#, fuzzy
+#~| msgid "Large Icons"
+#~ msgctxt "Name for a window switcher layout showing large icons"
+#~ msgid "Large Icons"
+#~ msgstr "แสดงไอคอนขนาดใหญ่"
+
+#, fuzzy
+#~| msgid "Small Icons"
+#~ msgctxt "Name for a window switcher layout showing small icons"
+#~ msgid "Small Icons"
+#~ msgstr "แสดงไอคอนขนาดเล็ก"
+
+#~ msgid "No Effect"
+#~ msgstr "ไม่มีลูกเล่น"
+
+#~ msgid "Configure Layout..."
+#~ msgstr "ปรับแต่งการจัดวาง..."
+
+#~ msgid "Item Layout"
+#~ msgstr "การจัดวางรายการ"
+
+#~ msgid "Item layout:"
+#~ msgstr "รูปแบบการจัดวางรายการ:"
+
+#~ msgid "Layout:"
+#~ msgstr "รูปแบบการจัดวาง:"
+
+#~ msgid "Vertical"
+#~ msgstr "แนวตั้ง"
+
+#~ msgid "Horizontal"
+#~ msgstr "แนวนอน"
+
+#~ msgid "Tabular"
+#~ msgstr "แบบแท็บ"
+
+#~ msgid "Width:"
+#~ msgstr "ความกว้าง:"
+
+#~ msgid "Minimum width, as a percentage of screen width."
+#~ msgstr "ความกว้างน้อยสุด หน่วยเป็นร้อยละของความกว้างหน้าจอ"
+
+#~ msgid " %"
+#~ msgstr " %"
+
+#~ msgid "Height:"
+#~ msgstr "ความสูง:"
+
+#~ msgid "Minimum height, as a percentage of screen height."
+#~ msgstr "ความสูงน้อยสุด หน่วยเป็นร้อยละของความสูงหน้าจอ"
+
+#~ msgid "Show Selected Item"
+#~ msgstr "แสดงรายละเอียดของรายการที่ถูกเลือก"
+
+#~ msgid "Selected item view:"
+#~ msgstr "รายละเอียดของรายการที่ถูกเลือก:"
+
+#~ msgid "Top"
+#~ msgstr "อยู่ด้านบน"
+
+#~ msgid "Bottom"
+#~ msgstr "อยู่ด้านล่าง"
+
+#~ msgid "Left"
+#~ msgstr "อยู่ด้านซ้าย"
+
+#~ msgid "Right"
+#~ msgstr "อยู่ด้านขวา"
+
+#~ msgid "Selected item layout:"
+#~ msgstr "รูปแบบแสดงข้อมูลรายการที่ถูกเลือก:"
+
+#~ msgid "General"
+#~ msgstr "ค่าทั่วไป"

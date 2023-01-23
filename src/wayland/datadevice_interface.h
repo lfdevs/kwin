@@ -51,6 +51,9 @@ public:
      */
     SurfaceInterface *surface() const;
 
+Q_SIGNALS:
+    void changed();
+
 private:
     explicit DragAndDropIcon(SurfaceInterface *surface);
     friend class DataDeviceInterfacePrivate;
@@ -79,7 +82,6 @@ public:
     DataSourceInterface *selection() const;
 
     void sendSelection(KWaylandServer::AbstractDataSource *other);
-    void sendClearSelection();
     /**
      * The event is sent when a drag-and-drop operation is ended because the implicit grab is removed.
      */
@@ -96,7 +98,6 @@ public:
      * @param serial The serial to be used for enter/leave
      */
     void updateDragTarget(SurfaceInterface *surface, quint32 serial) override;
-    void updateProxy(SurfaceInterface *remote);
 
     wl_client *client();
 
@@ -104,7 +105,6 @@ Q_SIGNALS:
     void aboutToBeDestroyed();
     void dragStarted(AbstractDataSource *source, SurfaceInterface *originSurface, quint32 serial, DragAndDropIcon *dragIcon);
     void selectionChanged(KWaylandServer::DataSourceInterface *);
-    void selectionCleared();
 
 private:
     friend class DataDeviceManagerInterfacePrivate;

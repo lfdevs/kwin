@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-26 02:35+0000\n"
+"POT-Creation-Date: 2022-10-26 00:47+0000\n"
 "PO-Revision-Date: 2022-09-27 18:04+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -294,3 +294,210 @@ msgstr "Sangat Bongsor"
 #, kde-format
 msgid "Oversized"
 msgstr "Sangat Bongsor Sekali"
+
+#~ msgctxt "popup tip"
+#~ msgid ""
+#~ "Close by double clicking: Keep the window's Menu button pressed until it "
+#~ "appears."
+#~ msgstr ""
+#~ "Tutup dengan mengeklik ganda: Jaga tombol Menu window tertekan sampai ia "
+#~ "muncul."
+
+#~ msgid "Menu"
+#~ msgstr "Menu"
+
+#~ msgid "Keep below"
+#~ msgstr "Tetap di bawah"
+
+#~ msgid "Keep above"
+#~ msgstr "Tetap di atas"
+
+#~ msgid "Download New Window Decorations"
+#~ msgstr "Unduh Dekorasi Window Baru"
+
+#~ msgctxt "checkbox label"
+#~ msgid "Use theme's default window border size"
+#~ msgstr "Gunakan tema baku ukuran bingkai window"
+
+#~ msgid "Search..."
+#~ msgstr "Cari..."
+
+#~ msgid "Close windows by double clicking &the menu button"
+#~ msgstr "Tutup window dengan klik ganda &tombol menu"
+
+#~ msgid "Border si&ze:"
+#~ msgstr "Uk&uran batas:"
+
+#~ msgid "Buttons"
+#~ msgstr "Tombol"
+
+#~ msgid "Configure %1..."
+#~ msgstr "Konfigurasi %1..."
+
+#~ msgid "Button size:"
+#~ msgstr "Ukuran tombol:"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Tiny"
+#~ msgstr "Kecil"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Normal"
+#~ msgstr "Normal"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Large"
+#~ msgstr "Besar"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Very Large"
+#~ msgstr "Sangat Besar"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Huge"
+#~ msgstr "Sangat Besar"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Very Huge"
+#~ msgstr "Sangat Besar"
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Oversized"
+#~ msgstr "Terlalu Besar"
+
+#~ msgid "KDE"
+#~ msgstr "KDE"
+
+#~ msgid "%1 (unavailable)"
+#~ msgstr "%1 (tak tersedia)"
+
+#~ msgid ""
+#~ "To add or remove titlebar buttons, simply <i>drag</i> items between the "
+#~ "available item list and the titlebar preview. Similarly, drag items "
+#~ "within the titlebar preview to re-position them."
+#~ msgstr ""
+#~ "Untuk menambah atau menghapus tombol batang judul, cukup <i>tarik</i> "
+#~ "item di antara senarai item yang tersedia dengan pratilik batang judul. "
+#~ "Sebaliknya, tarik item di dalam pratilik batang judul untuk mengubah "
+#~ "posisinya."
+
+#~ msgid "Resize"
+#~ msgstr "Ubah Ukuran"
+
+#~ msgid "Help"
+#~ msgstr "Bantuan"
+
+#~ msgctxt "Button showing window actions menu"
+#~ msgid "Window Menu"
+#~ msgstr "Menu Jendela"
+
+#~ msgid "--- spacer ---"
+#~ msgstr "--- pemisah ---"
+
+#~ msgid ""
+#~ "Enabling this checkbox will show window button tooltips. If this checkbox "
+#~ "is off, no window button tooltips will be shown."
+#~ msgstr ""
+#~ "Mengaktifkan kotak cek ini akan menampilkan tip alat tombol jendela. Jika "
+#~ "kotak cek ini tidak dicentang, tak ada tip alat tombol jendela yang akan "
+#~ "ditampilkan"
+
+#~ msgid "Please note that this option is not available on all styles yet."
+#~ msgstr "Perlu dicatat bahwa opsi ini belum tersedia untuk semua gaya."
+
+#~ msgid "Use custom titlebar button &positions"
+#~ msgstr "Gunakan &posisi tombol batang alat suai"
+
+#~ msgid "B&order size:"
+#~ msgstr "Uk&uran batas:"
+
+#~ msgid "Use this combobox to change the border size of the decoration."
+#~ msgstr "Gunakan kotak kombo untuk mengubah ukuran batas dekorasi."
+
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "No Side Border"
+#~ msgstr "Tak Ada Batas Sisi"
+
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "No Border"
+#~ msgstr "Tak Ada Batas"
+
+#~ msgid "Decoration Options"
+#~ msgstr "Opsi Dekorasi"
+
+#~ msgid ""
+#~ "Select the window decoration. This is the look and feel of both the "
+#~ "window borders and the window handle."
+#~ msgstr ""
+#~ "Pilih dekorasi jendela. Ini adalah tampilan dan rasa dari batas jendela "
+#~ "dan penanganan jendela."
+
+#~ msgid "Configure Decoration..."
+#~ msgstr "Atur Dekorasi..."
+
+#~ msgid "Window Decoration Control Module"
+#~ msgstr "Modul Kontrol Dekorasi Jendela"
+
+#~ msgid "(c) 2001 Karol Szwed"
+#~ msgstr "(c) 2001 Karol Szwed"
+
+#~ msgid "Karol Szwed"
+#~ msgstr "Karol Szwed"
+
+#~ msgid ""
+#~ "<h1>Installation error</h1>The resource<h2>kwin/kcm_kwindecoration/main."
+#~ "qml</h2>could not be located in any application data path.<h2>Please "
+#~ "contact your distribution</h2>The application will now abort"
+#~ msgstr ""
+#~ "<h1>Galat instalasi</h1>Sumber daya<h2>kwin/kcm_kwindecoration/main.qml</"
+#~ "h2>tak dapat ditemukan di alamat data aplikasi.<h2>Silakan kontak "
+#~ "distribusi anda</h2>Aplikasi akan dibatalkan sekarang"
+
+#~ msgid "Installation Error"
+#~ msgstr "Galat Instalasi"
+
+#~ msgid "Oxygen"
+#~ msgstr "Oksigen"
+
+#~ msgid ""
+#~ "<h1>Window Manager Decoration</h1><p>This module allows you to choose the "
+#~ "window border decorations, as well as titlebar button positions and "
+#~ "custom decoration options.</p>To choose a theme for your window "
+#~ "decoration click on its name and apply your choice by clicking the \"Apply"
+#~ "\" button below. If you do not want to apply your choice you can click "
+#~ "the \"Reset\" button to discard your changes.<p>You can configure each "
+#~ "theme. There are different options specific for each theme.</p><p>On the "
+#~ "\"Buttons\" tab check the \"Use custom titlebar button positions\" box "
+#~ "and you can change the positions of the buttons to your liking.</p>"
+#~ msgstr ""
+#~ "<h1>Dekorasi Manajer Jendela</h1><p>Modul ini memungkinkan anda untuk "
+#~ "memilih dekorasi batas jendela, dan juga posisi tombol batang judul dan "
+#~ "opsi dekorasi suai.</p>Untuk memilih tema dekorasi jendela anda klik pada "
+#~ "namanya dan terapkan pilihan anda dengan klik tombol \"Terapkan\" di "
+#~ "bawah. Jika anda tidak ingin menerapkan pilihan anda, anda dapat klik "
+#~ "pada tombol \"Atur Ulang\" untuk mengabaikan pengubahan anda.<p>Anda "
+#~ "dapat mengatur tiap tema. Ada beragam opsi spesifik untuk tiap tema.</"
+#~ "p><p>Di tab \"Tombol\" centang kotak \"Gunakan posisi tombol batang judul "
+#~ "suai\" dan anda dapat mengubah posisi tombol sesuai keinginan anda.</p>"
+
+#~ msgid "Active Window"
+#~ msgstr "Jendela Aktif"
+
+#~ msgid "Inactive Window"
+#~ msgstr "Jendela Tidak Aktif"
+
+#~ msgid "kcmkwindecoration"
+#~ msgstr "kcmkwindecoration"
+
+#~ msgctxt "Caption to decoration preview, %1 author name"
+#~ msgid "by %1"
+#~ msgstr "oleh %1"
+
+#~ msgid ""
+#~ "No preview available.\n"
+#~ "Most probably there\n"
+#~ "was a problem loading the plugin."
+#~ msgstr ""
+#~ "Tak ada pratilik tersedia.\n"
+#~ "Kemungkinan besar terjadi\n"
+#~ "galat ketika memuat plugin."

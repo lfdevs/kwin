@@ -6,8 +6,7 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-#ifndef KWIN_VIRTUAL_KEYBOARD_H
-#define KWIN_VIRTUAL_KEYBOARD_H
+#pragma once
 
 #include "wayland/textinput_v2_interface.h"
 
@@ -88,9 +87,13 @@ private Q_SLOTS:
     void handleFocusedSurfaceChanged();
     void surroundingTextChanged();
     void contentTypeChanged();
+    void textInputInterfaceV1EnabledChanged();
     void textInputInterfaceV2EnabledChanged();
     void textInputInterfaceV3EnabledChanged();
     void stateCommitted(uint32_t serial);
+    void textInputInterfaceV1StateUpdated(quint32 serial);
+    void textInputInterfaceV1Reset();
+    void invokeAction(quint32 button, quint32 index);
     void textInputInterfaceV2StateUpdated(quint32 serial, KWaylandServer::TextInputV2Interface::UpdateReason reason);
     void textInputInterfaceV3EnableRequested();
 
@@ -144,5 +147,3 @@ private:
 };
 
 }
-
-#endif

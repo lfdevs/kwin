@@ -240,3 +240,36 @@ msgid ""
 "of the screen."
 msgstr ""
 "Você pode acionar uma ação ao deslizar o dedo da borda para o centro da tela."
+
+#~ msgid "Show Desktop"
+#~ msgstr "Exibir a área de trabalho"
+
+#~ msgid "Desktop Grid"
+#~ msgstr "Grade de áreas de trabalho"
+
+#~ msgid "Toggle Overview"
+#~ msgstr "Alternar visão geral"
+
+#~ msgid "%1 - Cube"
+#~ msgstr "%1 - Cubo"
+
+#~ msgid "%1 - Cylinder"
+#~ msgstr "%1 - Cilindro"
+
+#~ msgid "%1 - Sphere"
+#~ msgstr "%1 - Esfera"
+
+#~ msgid "Active Screen Corners and Edges"
+#~ msgstr "Cantos e bordas da tela ativa"
+
+#~ msgid "Window Management"
+#~ msgstr "Gerenciamento de janelas"
+
+#~ msgid "Maximize windows by dragging them to the top edge of the screen"
+#~ msgstr "Maximizar as janelas arrastando-as para a borda superior da tela"
+
+#~ msgid "Quarter tiling triggered in the outer"
+#~ msgstr "Lado a lado em quartos para fora"
+
+#~ msgid "Other Settings"
+#~ msgstr "Outras configurações"

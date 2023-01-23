@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase-workspace\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-01 02:26+0000\n"
+"POT-Creation-Date: 2023-01-18 00:58+0000\n"
 "PO-Revision-Date: 2010-08-19 12:19+0000\n"
 "Last-Translator: Vilson Gjeci <vilsongjeci@gmail.com>\n"
 "Language-Team: Albanian <sq@li.org>\n"
@@ -57,6 +57,7 @@ msgstr ""
 #: mousemark/mousemark_config.cpp:50 overview/kcm/overvieweffectkcm.cpp:35
 #: showpaint/showpaint_config.cpp:33
 #: thumbnailaside/thumbnailaside_config.cpp:54
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:31
 #: trackmouse/trackmouse_config.cpp:52
 #: windowview/kcm/windowvieweffectkcm.cpp:36 zoom/zoom_config.cpp:58
 #, kde-format
@@ -195,15 +196,21 @@ msgstr ""
 msgid "Natural"
 msgstr "Natyror"
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
+#: desktopgrid/desktopgrid_config.ui:147
+#, kde-format
+msgid "None"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: desktopgrid/desktopgrid_config.ui:150
+#: desktopgrid/desktopgrid_config.ui:155
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "Windows layout:"
 msgstr "Dritaret"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: desktopgrid/desktopgrid_config.ui:166
+#: desktopgrid/desktopgrid_config.ui:171
 #, kde-format
 msgid "Activation"
 msgstr "Aktivizimi"
@@ -319,9 +326,14 @@ msgstr "Animacioni"
 msgid "Toggle Invert Effect"
 msgstr ""
 
-#: invert/invert.cpp:50 invert/invert_config.cpp:44
+#: invert/invert.cpp:49 invert/invert_config.cpp:44
 #, kde-format
 msgid "Toggle Invert Effect on Window"
+msgstr ""
+
+#: invert/invert.cpp:56
+#, kde-format
+msgid "Invert Screen Colors"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FadeToBlack)
@@ -381,32 +393,32 @@ msgstr "&Lartësi:"
 msgid "Toggle Mouse Click Effect"
 msgstr ""
 
-#: mouseclick/mouseclick.cpp:42
+#: mouseclick/mouseclick.cpp:41
 #, fuzzy, kde-format
 #| msgid "Left"
 msgctxt "Left mouse button"
 msgid "Left"
 msgstr "Majtas"
 
-#: mouseclick/mouseclick.cpp:43
+#: mouseclick/mouseclick.cpp:42
 #, kde-format
 msgctxt "Middle mouse button"
 msgid "Middle"
 msgstr ""
 
-#: mouseclick/mouseclick.cpp:44
+#: mouseclick/mouseclick.cpp:43
 #, fuzzy, kde-format
 #| msgid "Right"
 msgctxt "Right mouse button"
 msgid "Right"
 msgstr "Djathtas"
 
-#: mouseclick/mouseclick.h:61
+#: mouseclick/mouseclick.h:60
 #, kde-format
 msgid "↓"
 msgstr ""
 
-#: mouseclick/mouseclick.h:62
+#: mouseclick/mouseclick.h:61
 #, kde-format
 msgid "↑"
 msgstr ""
@@ -509,12 +521,12 @@ msgstr ""
 msgid "Show Text:"
 msgstr "Shfaq desktopin"
 
-#: mousemark/mousemark.cpp:36
+#: mousemark/mousemark.cpp:39
 #, kde-format
 msgid "Clear All Mouse Marks"
 msgstr "Pastro të Gjitha Gjurmët e Miut"
 
-#: mousemark/mousemark.cpp:43 mousemark/mousemark_config.cpp:59
+#: mousemark/mousemark.cpp:45 mousemark/mousemark_config.cpp:59
 #, kde-format
 msgid "Clear Last Mouse Mark"
 msgstr ""
@@ -584,12 +596,12 @@ msgstr "Sfondi"
 msgid "Ignore minimized windows:"
 msgstr "Aktivizo dritaren"
 
-#: overview/qml/DesktopBar.qml:186
+#: overview/qml/DesktopBar.qml:187
 #, kde-format
 msgid "Delete Virtual Desktop"
 msgstr ""
 
-#: overview/qml/DesktopBar.qml:282
+#: overview/qml/DesktopBar.qml:283
 #, fuzzy, kde-format
 #| msgctxt "@title:group actions when clicking on desktop"
 #| msgid "Desktop"
@@ -602,12 +614,12 @@ msgstr "Desktopi"
 msgid "No matching windows"
 msgstr "Dritaret"
 
-#: private/qml/WindowHeapDelegate.qml:152
+#: private/qml/WindowHeapDelegate.qml:151
 #, kde-format
 msgid "Drag Down To Close"
 msgstr ""
 
-#: private/qml/WindowHeapDelegate.qml:462
+#: private/qml/WindowHeapDelegate.qml:461
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgctxt "@info:tooltip as in: 'close this window'"
@@ -628,28 +640,28 @@ msgstr "Animacioni"
 msgid "Window close scale:"
 msgstr "Animacioni"
 
-#: screenshot/screenshotdbusinterface1.cpp:480
+#: screenshot/screenshotdbusinterface1.cpp:478
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
 msgstr ""
 
-#: screenshot/screenshotdbusinterface1.cpp:481
+#: screenshot/screenshotdbusinterface1.cpp:479
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
 msgstr ""
 
-#: screenshot/screenshotdbusinterface1.cpp:797
-#: screenshot/screenshotdbusinterface2.cpp:472
+#: screenshot/screenshotdbusinterface1.cpp:800
+#: screenshot/screenshotdbusinterface2.cpp:477
 #, kde-format
 msgid ""
 "Select window to screen shot with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
 
-#: screenshot/screenshotdbusinterface1.cpp:800
-#: screenshot/screenshotdbusinterface2.cpp:490
+#: screenshot/screenshotdbusinterface1.cpp:803
+#: screenshot/screenshotdbusinterface2.cpp:495
 #, kde-format
 msgid ""
 "Create screen shot with left click or enter.\n"
@@ -713,14 +725,8 @@ msgstr "Horizontale"
 msgid "Vertical:"
 msgstr "Vertikale"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideDocks)
-#: slide/slide_config.ui:72
-#, kde-format
-msgid "Slide docks"
-msgstr ""
-
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideBackground)
-#: slide/slide_config.ui:79
+#: slide/slide_config.ui:72
 #, kde-format
 msgid "Slide desktop background"
 msgstr ""
@@ -764,6 +770,49 @@ msgstr ""
 #, no-c-format, kde-format
 msgid " %"
 msgstr " %"
+
+#: tileseditor/kcm/tileseditoreffectkcm.cpp:37
+#: tileseditor/tileseditoreffect.cpp:29
+#, kde-format
+msgid "Toggle Tiles Editor"
+msgstr ""
+
+#: tileseditor/qml/main.qml:147
+#, kde-format
+msgid "Padding:"
+msgstr ""
+
+#: tileseditor/qml/main.qml:157
+#, kde-format
+msgid "Load Layout..."
+msgstr ""
+
+#: tileseditor/qml/main.qml:271
+#, kde-format
+msgid "Close"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:171
+#, fuzzy, kde-format
+#| msgid "Horizontal"
+msgid "Split Horizontally"
+msgstr "Horizontale"
+
+#: tileseditor/qml/TileDelegate.qml:178
+#, fuzzy, kde-format
+#| msgid "Vertical"
+msgid "Split Vertically"
+msgstr "Vertikale"
+
+#: tileseditor/qml/TileDelegate.qml:186 tileseditor/qml/TileDelegate.qml:215
+#, kde-format
+msgid "Add Floating Tile"
+msgstr ""
+
+#: tileseditor/qml/TileDelegate.qml:195
+#, kde-format
+msgid "Delete"
+msgstr ""
 
 #: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:57
 #, kde-format
@@ -899,17 +948,17 @@ msgstr ""
 msgid "Toggle Present Windows (Current desktop)"
 msgstr ""
 
-#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:55
+#: windowview/kcm/windowvieweffectkcm.cpp:49 windowview/windowvieweffect.cpp:54
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
 msgstr ""
 
-#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:65
+#: windowview/kcm/windowvieweffectkcm.cpp:56 windowview/windowvieweffect.cpp:63
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
 msgstr ""
 
-#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:75
+#: windowview/kcm/windowvieweffectkcm.cpp:62 windowview/windowvieweffect.cpp:72
 #, kde-format
 msgid "Toggle Present Windows (Window class on current desktop)"
 msgstr ""
@@ -920,15 +969,21 @@ msgstr ""
 msgid "Ignore &minimized windows"
 msgstr ""
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, kde-format
 msgid "No Matches"
 msgstr ""
 
-#: windowview/qml/main.qml:106
+#: windowview/qml/main.qml:108
 #, fuzzy, kde-format
 #| msgid "Windows"
 msgid "No Windows"
+msgstr "Dritaret"
+
+#: windowview/qml/main.qml:123
+#, fuzzy, kde-format
+#| msgid "Windows"
+msgid "Filter windows…"
 msgstr "Dritaret"
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
@@ -991,32 +1046,32 @@ msgstr "Më i vogël"
 msgid "More"
 msgstr "Me tepër"
 
-#: zoom/zoom.cpp:68
+#: zoom/zoom.cpp:65
 #, kde-format
 msgid "Move Zoomed Area to Left"
 msgstr ""
 
-#: zoom/zoom.cpp:76
+#: zoom/zoom.cpp:72
 #, kde-format
 msgid "Move Zoomed Area to Right"
 msgstr ""
 
-#: zoom/zoom.cpp:84
+#: zoom/zoom.cpp:79
 #, kde-format
 msgid "Move Zoomed Area Upwards"
 msgstr ""
 
-#: zoom/zoom.cpp:92
+#: zoom/zoom.cpp:86
 #, kde-format
 msgid "Move Zoomed Area Downwards"
 msgstr ""
 
-#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:108
+#: zoom/zoom.cpp:94 zoom/zoom_config.cpp:108
 #, kde-format
 msgid "Move Mouse to Focus"
 msgstr ""
 
-#: zoom/zoom.cpp:109 zoom/zoom_config.cpp:115
+#: zoom/zoom.cpp:101 zoom/zoom_config.cpp:115
 #, kde-format
 msgid "Move Mouse to Center"
 msgstr ""
@@ -1147,3 +1202,277 @@ msgstr "Çaktivizuar"
 #, kde-format
 msgid "Mouse Tracking:"
 msgstr ""
+
+#~ msgid "&Radius:"
+#~ msgstr "&Rrezja:"
+
+#~ msgid "Nowhere"
+#~ msgstr "Askund"
+
+#~ msgid "Top Left"
+#~ msgstr "Lart Mjatas"
+
+#~ msgid "Top Right"
+#~ msgstr "Sipër në të djathtë"
+
+#~ msgid "Bottom Left"
+#~ msgstr "Poshtë Majtas"
+
+#~ msgid "Bottom Right"
+#~ msgstr "Poshtë Djathtas"
+
+#~ msgid "Text font:"
+#~ msgstr "Gërma e tekstit:"
+
+#~ msgid "Text color:"
+#~ msgstr "Ngjyra e tekstit:"
+
+#~ msgid "Text alpha:"
+#~ msgstr "Text alpha:"
+
+#, fuzzy
+#~| msgid "Show caps"
+#~ msgid "Show graph:"
+#~ msgstr "Shfaq gërmat e mëdha"
+
+#, fuzzy
+#~| msgid "Show desktop"
+#~ msgid "Show Message:"
+#~ msgstr "Shfaq desktopin"
+
+#~ msgctxt "Duration of zoom"
+#~ msgid "Default"
+#~ msgstr "I Parazgjedhur"
+
+#, fuzzy
+#~| msgid "Show desktop"
+#~ msgid "Switch desktop only"
+#~ msgstr "Shfaq desktopin"
+
+#~ msgid "Faster"
+#~ msgstr "Më Shpejt"
+
+#~ msgid "Nicer"
+#~ msgstr "Më i Këndshëm"
+
+#~ msgid "No action"
+#~ msgstr "Asnjë veprim"
+
+#~ msgid "Activate window"
+#~ msgstr "Aktivizo dritaren"
+
+#~ msgid "End effect"
+#~ msgstr "Përfundo efektin"
+
+#~ msgctxt "@title:group actions when clicking on desktop"
+#~ msgid "Desktop"
+#~ msgstr "Desktopi"
+
+#~ msgid "Show desktop"
+#~ msgstr "Shfaq desktopin"
+
+#~ msgid "Regular Grid"
+#~ msgstr "Rrjetë e Rregullt"
+
+#, fuzzy
+#~| msgid "Background color:"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Background contrast"
+#~ msgstr "Ngjyra e sfondit:"
+
+#, fuzzy
+#~| msgid "Show Desktop Grid"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Grid"
+#~ msgstr "Shfaq Rrjetën e Desktopit"
+
+#, fuzzy
+#~| msgid "Animation"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Click Animation"
+#~ msgstr "Animacioni"
+
+#, fuzzy
+#~| msgid "Clear All Mouse Marks"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Mouse Mark"
+#~ msgstr "Pastro të Gjitha Gjurmët e Miut"
+
+#, fuzzy
+#~| msgid "Windows"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Present Windows"
+#~ msgstr "Dritaret"
+
+#, fuzzy
+#~| msgid "Close window"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Resize Window"
+#~ msgstr "Mbyll dritaren"
+
+#, fuzzy
+#~| msgid "Transparent"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Transform"
+#~ msgstr "E tejdukshme"
+
+#, fuzzy
+#~| msgid "Show caps"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Show Paint"
+#~ msgstr "Shfaq gërmat e mëdha"
+
+#, fuzzy
+#~| msgid "Windows"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Wobbly Windows"
+#~ msgstr "Dritaret"
+
+#, fuzzy
+#~| msgid "Zoom"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Zoom"
+#~ msgstr "Zmadho"
+
+#, fuzzy
+#~| msgid "Show desktop"
+#~ msgctxt "Special entry in alt+tab list for minimizing all windows"
+#~ msgid "Show Desktop"
+#~ msgstr "Shfaq desktopin"
+
+#~ msgid "Zoom"
+#~ msgstr "Zmadho"
+
+#~ msgid "Near"
+#~ msgstr "Afër"
+
+#~ msgid "Far"
+#~ msgstr "Larg"
+
+#~ msgid "Animation"
+#~ msgstr "Animacioni"
+
+#~ msgid "Reflections"
+#~ msgstr "Pasqyrimet"
+
+#~ msgid "Desktop Cube"
+#~ msgstr "Kub Desktopi"
+
+#~ msgctxt "@title:tab Basic Settings"
+#~ msgid "Basic"
+#~ msgstr "Bazë"
+
+#~ msgctxt "@title:tab Advanced Settings"
+#~ msgid "Advanced"
+#~ msgstr "Të Avancuara"
+
+#~ msgid "Tab 1"
+#~ msgstr "Tab 1"
+
+#~ msgid "Background color:"
+#~ msgstr "Ngjyra e sfondit:"
+
+#~ msgid "Wallpaper:"
+#~ msgstr "Figura e Sfondit:"
+
+#~ msgid "Reflection"
+#~ msgstr "Pasqyrimi"
+
+#~ msgid "Rotation duration:"
+#~ msgstr "Kohëzgjatja e rrotullimit:"
+
+#~ msgid "Opacity"
+#~ msgstr "Transparenca"
+
+#~ msgid "Tab 2"
+#~ msgstr "Tab 2"
+
+#~ msgid "Caps"
+#~ msgstr "Kapitale"
+
+#~ msgid "Cap color:"
+#~ msgstr "Ngjyra e gërmave të mëdha"
+
+#~ msgid "Additional Options"
+#~ msgstr "Opsione Shtesë"
+
+#~ msgid "Sphere"
+#~ msgstr "Sfera"
+
+#~ msgid "Plane"
+#~ msgstr "Plani"
+
+#, fuzzy
+#~| msgid "Desktop Cube"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube"
+#~ msgstr "Kub Desktopi"
+
+#, fuzzy
+#~| msgid "Desktop Cube"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Desktop Cube Animation"
+#~ msgstr "Kub Desktopi"
+
+#~ msgctxt "Duration of flip animation"
+#~ msgid "Default"
+#~ msgstr "I Parazgjedhur"
+
+#~ msgid "Angle:"
+#~ msgstr "Këndi:"
+
+#~ msgid " °"
+#~ msgstr " °"
+
+#~ msgid ""
+#~ "Filter:\n"
+#~ "%1"
+#~ msgstr ""
+#~ "Filtri:\n"
+#~ "%1"
+
+#, fuzzy
+#~| msgid "Animation"
+#~ msgctxt "Name of a KWin Effect"
+#~ msgid "Minimize Animation"
+#~ msgstr "Animacioni"
+
+#~ msgid "Shortcut"
+#~ msgstr "Shkurtore"
+
+#~ msgid "In"
+#~ msgstr "Brenda"
+
+#~ msgid "Out"
+#~ msgstr "Jashtë"
+
+#~ msgid "-90"
+#~ msgstr "-90"
+
+#~ msgid "90"
+#~ msgstr "90"
+
+#, fuzzy
+#~| msgctxt "Duration of rotation"
+#~| msgid "Default"
+#~ msgctxt "Duration of the slide animation"
+#~ msgid "Default"
+#~ msgstr "I Parazgjedhur"
+
+#~ msgid " row"
+#~ msgid_plural " rows"
+#~ msgstr[0] " rresht"
+#~ msgstr[1] " rreshta"
+
+#~ msgctxt "Duration of fading"
+#~ msgid "Default"
+#~ msgstr "I Parazgjedhur"
+
+#~ msgid "Snow"
+#~ msgstr "Borë"
+
+#~ msgid "%"
+#~ msgstr "%"
+
+#~ msgid "&Size:"
+#~ msgstr "&Përmasa:"

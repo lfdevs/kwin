@@ -7,7 +7,7 @@ libpkgs_gen_strict_local_shlibs = $(libpkgs_all_packages) kwin-common
 include /usr/share/pkg-kde-tools/qt-kde-team/2/library-packages.mk
 
 %:
-	dh $@ --with kf5,pkgkde_symbolshelper,python3 --buildsystem kf5 --without build_stamp
+	dh $@
 
 override_dh_python3:
 	dh_python3 usr/share/kconf_update/

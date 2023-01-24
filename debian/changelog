@@ -6,6 +6,12 @@ kwin (4:5.26.90-2) UNRELEASED; urgency=medium
     time to determine which runtime option to use; this avoids the usage of
     e.g. the deprecated "-listen" option.
   * Remove inactive Uploaders.
+  * Modernize building:
+    - add the dh-sequence-kf5 build dependency to use the kf5 addon
+      automatically
+    - drop all the manually specified addons and buildsystem for dh
+    - add the dh-sequence-python3 build dependency to use the python3 addon
+      automatically, replacing the dh-python build dependency
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Tue, 24 Jan 2023 22:04:07 +0100
 

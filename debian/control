@@ -3,9 +3,7 @@ Section: kde
 Priority: optional
 Maintainer: Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>
 Uploaders: Aurélien COUDERC <coucouf@debian.org>,
-           Norbert Preining <norbert@preining.info>,
            Patrick Franz <deltaone@debian.org>,
-           Scarlett Moore <sgmoore@kde.org>,
 Build-Depends: breeze-dev (>= 4:5.26.70~),
                cmake (>= 3.16~),
                debhelper-compat (= 13),

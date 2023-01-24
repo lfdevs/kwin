@@ -5,6 +5,7 @@ kwin (4:5.26.90-2) UNRELEASED; urgency=medium
     2:22.1.7-1: this version ships a pkg-config file, which is used at build
     time to determine which runtime option to use; this avoids the usage of
     e.g. the deprecated "-listen" option.
+  * Remove inactive Uploaders.
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Tue, 24 Jan 2023 22:04:07 +0100
 

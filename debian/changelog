@@ -15,6 +15,7 @@ kwin (4:5.27.0-1) UNRELEASED; urgency=medium
 
   [ Aurélien COUDERC ]
   * New upstream release (5.27.0).
+  * Update build-deps and deps with the info from cmake.
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Tue, 24 Jan 2023 22:04:07 +0100
 

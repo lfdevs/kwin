@@ -744,7 +744,7 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
     const QSizeF constrainedClientSize = constrainClientSize(geom.size());
     resize(rules()->checkSize(clientSizeToFrameSize(constrainedClientSize), !isMapped));
 
-    QPointF forced_pos = rules()->checkPosition(invalidPoint, !isMapped);
+    QPointF forced_pos = rules()->checkPositionSafe(invalidPoint, !isMapped);
     if (forced_pos != invalidPoint) {
         move(forced_pos);
         placementDone = true;
@@ -4188,7 +4188,7 @@ void X11Window::moveResizeInternal(const QRectF &rect, MoveResizeMode mode)
     // Such code is wrong and should be changed to handle the case when the window is shaded,
     // for example using X11Window::clientSize()
 
-    QRectF frameGeometry = rect;
+    QRectF frameGeometry = Xcb::fromXNative(Xcb::toXNative(rect));
 
     if (shade_geometry_change) {
         ; // nothing
@@ -4337,7 +4337,7 @@ void X11Window::maximize(MaximizeMode mode)
         return;
     }
 
-    GeometryUpdatesBlocker blocker(this);
+    blockGeometryUpdates(true);
 
     // maximing one way and unmaximizing the other way shouldn't happen,
     // so restore first and then maximize the other way
@@ -4550,6 +4550,7 @@ void X11Window::maximize(MaximizeMode mode)
         break;
     }
 
+    blockGeometryUpdates(false);
     updateAllowedActions();
     updateWindowRules(Rules::MaximizeVert | Rules::MaximizeHoriz | Rules::Position | Rules::Size);
     Q_EMIT quickTileModeChanged();
@@ -4612,11 +4613,7 @@ void X11Window::setFullScreen(bool set, bool user)
         }
     } else {
         Q_ASSERT(!fullscreenGeometryRestore().isNull());
-        Output *currentOutput = moveResizeOutput();
         moveResize(QRectF(fullscreenGeometryRestore().topLeft(), constrainFrameSize(fullscreenGeometryRestore().size())));
-        if (currentOutput != moveResizeOutput()) {
-            workspace()->sendWindowToOutput(this, currentOutput);
-        }
     }
 
     updateWindowRules(Rules::Fullscreen | Rules::Position | Rules::Size);

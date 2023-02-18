@@ -19,6 +19,7 @@
 #include "kwinglutils.h"
 #include "kwinscreencast_logging.h"
 #include "main.h"
+#include "openglbackend.h"
 #include "pipewirecore.h"
 #include "scene/workspacescene.h"
 #include "screencastsource.h"
@@ -353,9 +354,6 @@ bool ScreenCastStream::createStream()
 
     if (m_cursor.mode == KWaylandServer::ScreencastV1Interface::Embedded) {
         connect(Cursors::self(), &Cursors::positionChanged, this, [this] {
-            if (auto scene = Compositor::self()->scene()) {
-                scene->makeOpenGLContextCurrent();
-            }
             recordFrame({});
         });
     } else if (m_cursor.mode == KWaylandServer::ScreencastV1Interface::Metadata) {
@@ -426,6 +424,7 @@ void ScreenCastStream::recordFrame(const QRegion &_damagedRegion)
     }
 
     spa_data->chunk->offset = 0;
+    static_cast<OpenGLBackend *>(Compositor::self()->backend())->makeCurrent();
     if (data || spa_data[0].type == SPA_DATA_MemFd) {
         const bool hasAlpha = m_source->hasAlphaChannel();
         const int bpp = data && !hasAlpha ? 3 : 4;

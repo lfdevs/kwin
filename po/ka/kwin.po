@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-19 00:59+0000\n"
-"PO-Revision-Date: 2023-01-11 09:57+0100\n"
+"POT-Creation-Date: 2023-02-03 03:02+0000\n"
+"PO-Revision-Date: 2023-02-08 08:23+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -1142,6 +1142,9 @@ msgid ""
 "para><para><warning>Terminating the application will close all of its child "
 "windows. Any unsaved data will be lost.</warning></para>"
 msgstr ""
+"<para>გნებავთ, მოკლათ ეს აპლიკაცია?</para><para><warning>აპლიკაციის დახურვა "
+"მისი ფანჯრების დახურვასაც გამოიწვევს და ნებისმიერი შეუნახავი რამ "
+"დაგეკარგებათ.</warning></para>"
 
 #: helpers/killer/killer.cpp:94
 #, kde-format
@@ -1153,22 +1156,22 @@ msgstr "&შეჩერდება აპლიკაცია %1"
 msgid "Wait Longer"
 msgstr "Wait Longer"
 
-#: input.cpp:2008
+#: input.cpp:2009
 #, kde-format
 msgid "Move the tablet to the next output"
 msgstr "ტაბლეტის შემდეგ გამოტანაზე გადატანა"
 
-#: input.cpp:2087
+#: input.cpp:2088
 #, kde-format
 msgid "Tablet moved to %1"
 msgstr "ტაბლეტი გადატანილია %1-ზე"
 
-#: input.cpp:2087
+#: input.cpp:2088
 #, kde-format
 msgid "Tablets switched outputs"
 msgstr "ტაბლეტებმა გამოტანები გადართეს"
 
-#: input.cpp:3064
+#: input.cpp:3065
 #, kde-format
 msgid "Touchpad"
 msgstr "თაჩპედი"
@@ -1301,6 +1304,7 @@ msgstr "ფანჯრის რეჟიმის გადიდება. �
 msgid ""
 "The number of windows to open as outputs in windowed mode. Default value is 1"
 msgstr ""
+"ფანჯრულ რეჟიმში გამოტანილი ფანჯრების რაოდენობა. ნაგულისხმები მნიშვნელობაა 1"
 
 #: main_wayland.cpp:345
 #, kde-format
@@ -1308,6 +1312,8 @@ msgid ""
 "Wayland socket to use for incoming connections. This can be combined with --"
 "socket to name the socket"
 msgstr ""
+"Wayland-ის სოკეტი შემომავალი მიერთებებისთვის. შეგიძლიათ მიუთითოთ --socket-"
+"თან ერთად, რათა მისი სახელი მიუთითოთ"
 
 #: main_wayland.cpp:349
 #, kde-format
@@ -1315,11 +1321,13 @@ msgid ""
 "XWayland socket to use for Xwayland's incoming connections. This can be set "
 "multiple times"
 msgstr ""
+"XWayland-ის სოკეტი XWayland-ის შემომავალი შეერთებებისთვის. მრავალჯერ "
+"მითითება შესაძლებელია"
 
 #: main_wayland.cpp:353
 #, kde-format
 msgid "Name of the xwayland display that has been pre-set up"
-msgstr ""
+msgstr "XWayland-ის ეკრანის სახელი, რომელიც წინასწარ გაეშვა"
 
 #: main_wayland.cpp:357
 #, kde-format
@@ -1329,7 +1337,7 @@ msgstr "Xauthority ფაილის სახელი "
 #: main_wayland.cpp:361
 #, kde-format
 msgid "Exits this instance so it can be restarted by kwin_wayland_wrapper."
-msgstr ""
+msgstr "გავა ამ ასლიდან, რათა ის kwin_wayland_wrapper-მა თავიდან გაუშვას."
 
 #: main_wayland.cpp:363
 #, kde-format
@@ -1340,7 +1348,7 @@ msgstr "DRM კვანძით რენდერი."
 #, kde-format
 msgid ""
 "Extract locale information from locale1 rather than the user's configuration"
-msgstr ""
+msgstr "ენის ინფორმაციის მომხმარებლის კონფიგურაციის მაგიერ locale1-დან აღება"
 
 #: main_wayland.cpp:386
 #, kde-format
@@ -1370,12 +1378,13 @@ msgstr "KActivities-ის ინტეგრაციის გამორთ�
 #: main_wayland.cpp:411
 #, kde-format
 msgid "Exit after the session application, which is started by KWin, closed."
-msgstr ""
+msgstr "გასვლა KWin-ის მიერ დაყენებული სესიის აპლიკაციის დასრულების შემდეგ."
 
 #: main_wayland.cpp:416
 #, kde-format
 msgid "Applications to start once Wayland and Xwayland server are started"
 msgstr ""
+"აპლიკაციები, რომლებიც Wayland-ის და Xwayland-ის გაშვებასთან ერთად ეშვებიან"
 
 #: main_x11.cpp:67
 #, kde-format
@@ -1384,6 +1393,9 @@ msgid ""
 "It seems to have crashed several times in a row.\n"
 "You can select another window manager to run:"
 msgstr ""
+"KWin- არასტაბილურია.\n"
+"როგორც ჩანს ზედიზედ რამდენჯერმე გაფშიკა ფეხები.\n"
+"შეგიძლიათ ფანჯრების სხვა მმართველი გამოიყენოთ:"
 
 #: main_x11.cpp:259
 #, kde-format
@@ -1391,16 +1403,19 @@ msgid ""
 "kwin: unable to claim manager selection, another wm running? (try using --"
 "replace)\n"
 msgstr ""
+"kwin: მმართველის არჩევნის შეცდომა. არის სხვა ფმ გაშვებული? (სცადეთ --replace "
+"გამოიყენოთ)\n"
 
 #: main_x11.cpp:280
 #, kde-format
 msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr ""
+"kwin: გაშვებულია სხვა ფანჯრების მმართველი (სცადეთ გამოიყენოთ --replace)\n"
 
 #: main_x11.cpp:411
 #, kde-format
 msgid "Replace already-running ICCCM2.0-compliant window manager"
-msgstr ""
+msgstr "უკვე გაშვებული ICCCM2.0-თან თავსებადი ფანჯრების მმართველის ჩნაცვლება"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:49
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:51
@@ -2179,6 +2194,8 @@ msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
 "Contact your distribution about this."
 msgstr ""
+"ფანჯრების გადამრთველის დაყენება გაფუჭებულია. რესურსები ვერ ვიპოვე.\n"
+"დაუკავშირდით დისტრიბუტორს."
 
 #: useractions.cpp:161
 #, kde-format
@@ -2188,6 +2205,10 @@ msgid ""
 "the mouse: use the window operations menu instead, activated using the %1 "
 "keyboard shortcut."
 msgstr ""
+"აირჩიეთ, რომ ფანჯრები მისი საზღვრის გარეშე იყოს ნაჩვენები.\n"
+"საზღვრის გარეშე საზღვარს თაგუნას გამოყენებით ვეღარ ჩართავთ. ამის მაგიერ "
+"გამოიყენეთ ფანჯრის ოპერაციების მენიუ, რომელიც კლავიატურის მალსახმობით (%1) "
+"აქტიურდება."
 
 #: useractions.cpp:168
 #, kde-format
@@ -2197,6 +2218,10 @@ msgid ""
 "mode off you will not be able to disable it again using the mouse: use the "
 "window operations menu instead, activated using the %1 keyboard shortcut."
 msgstr ""
+"აირჩიეთ, რომ ფანჯარა სრულ ეკრანზე გამოჩნდეს.\n"
+"თუ აპლიკაციას თვითონ არ გააჩნია შესაძლებლობა, სრულეკრანიანი რეჟიმი გამორთოს, "
+"თქვენ მას თაგუნას გამოყენებით ვერ გამორთავთ. სჯობს გამოიყენოთ ფანჯრის "
+"ოპერაციების მენიუ, რომელიც კლავიატურის მალსახმობით %1 შეგიძლიათ გამოიძახოთ."
 
 #: useractions.cpp:238
 #, kde-format
@@ -2706,6 +2731,9 @@ msgid ""
 "as active one.\n"
 "Therefore it is not possible to switch to a screen explicitly."
 msgstr ""
+"ფანჯრების მმართველს მითითებული აქვს, რომ ეკრანი, რომელზეც თაგუნა იმყოფება, "
+"აქტიურად ჩათვალოს.\n"
+"ამიტომ ეკრანის პირდაპირ გადართვას ვერ შეძლებთ."
 
 #: virtualdesktops.cpp:693 virtualdesktops.cpp:764
 #, kde-format
@@ -2747,7 +2775,7 @@ msgstr "ერთი სამუშაო მაგიდის დაბლა
 msgid "Switch to Desktop %1"
 msgstr "%1-ე სამუშაო მაგიდაზე გადართვა"
 
-#: window.cpp:3449
+#: window.cpp:3470
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
@@ -2767,6 +2795,15 @@ msgid ""
 "paste bin service\n"
 "like https://paste.kde.org instead of pasting into support threads.\n"
 msgstr ""
+"KWin-ის მხარდაჭერის ინფორმაცია:\n"
+"ეს ინფორმაცია გამოიყენება პრობლემის შესახებ მიწერისას, მაგალითად, https://"
+"forum.kde.org -ზე.\n"
+"ის მოგაწოდებთ ინფორმაციას ამჟამად გაშვებულ ასლზე, რომელი პარამეტრები "
+"გამოიყენება,\n"
+"რომელი OpenGL-ის დრაივერია ჩატვირთული, რომელი ეფექტებით და ა.შ.\n"
+"დააკოპირეთ ინფორმაცია, რომელიც ამ ტექსტის ქვეშაა, სადმე დასაკოპირებელ "
+"სერვისში, როგორიცაა, მაგალითად,\n"
+"https://paste.kde.org . სრულად ტექსტს ფორუმზე ნუ დააკოპირებთ.\n"
 
 #~ msgid "&No Border"
 #~ msgstr "&საზღვრის გარეშე"

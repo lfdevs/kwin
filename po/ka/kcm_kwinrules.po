@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-11 00:48+0000\n"
-"PO-Revision-Date: 2022-12-12 07:15+0100\n"
+"PO-Revision-Date: 2023-02-08 08:23+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -81,7 +81,7 @@ msgstr "KWin id ფანჯრის სპეციალური პარ�
 #: main.cpp:33
 #, kde-format
 msgid "Whether the settings should affect all windows of the application."
-msgstr ""
+msgstr "გადატარდება თუ არა ეფექტები აპლიკაციის ყველა ფანჯარაზე."
 
 #: main.cpp:40
 #, kde-format
@@ -178,7 +178,7 @@ msgstr "ძალა"
 #: optionsmodel.cpp:222
 #, kde-format
 msgid "The window property will be always forced to the given value."
-msgstr ""
+msgstr "ფანჯრის თვისება ყოველთვის მითითებულ მნიშვნელობაზე იქნება დაყენებული."
 
 #: optionsmodel.cpp:224
 #, kde-format
@@ -205,13 +205,15 @@ msgstr "KWin -ის წესები (*.kwinrule)"
 #: package/contents/ui/main.qml:59
 #, kde-format
 msgid "No rules for specific windows are currently set"
-msgstr ""
+msgstr "ამჟამად მითითებული ფანჯრების წესები მითითებული არაა"
 
 #: package/contents/ui/main.qml:60
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Click the <interface>Add New...</interface> button below to add some"
 msgstr ""
+"დასამატებლად დააწკაპუნეთ <interface>ახლის დამატების...</interface> ღილაკს "
+"ქვემოთ"
 
 #: package/contents/ui/main.qml:68
 #, kde-format
@@ -717,7 +719,7 @@ msgstr "სამუშაო მაგიდის ფაილის სახ
 #: rulesmodel.cpp:651
 #, kde-format
 msgid "Block compositing"
-msgstr ""
+msgstr "კომპოზიტირების დაბლოკვა"
 
 #: rulesmodel.cpp:703
 #, kde-format
@@ -767,7 +769,7 @@ msgstr "ხელსაწყოთა ზოლი"
 #: rulesmodel.cpp:744
 #, kde-format
 msgid "Torn-Off Menu"
-msgstr ""
+msgstr "მოგლეჯილი მენიუ"
 
 #: rulesmodel.cpp:745
 #, kde-format
@@ -820,12 +822,12 @@ msgstr "ნაგულისხმები"
 #: rulesmodel.cpp:804
 #, kde-format
 msgid "No Placement"
-msgstr ""
+msgstr "განლაგების გარეშე"
 
 #: rulesmodel.cpp:805
 #, kde-format
 msgid "Minimal Overlapping"
-msgstr ""
+msgstr "მინიმალური გადაფარვა"
 
 #: rulesmodel.cpp:806
 #, kde-format
@@ -845,7 +847,7 @@ msgstr "შემთხვევითი"
 #: rulesmodel.cpp:809
 #, kde-format
 msgid "In Top-Left Corner"
-msgstr ""
+msgstr "ზედა მარცხენა კუთხეში"
 
 #: rulesmodel.cpp:810
 #, kde-format
@@ -891,6 +893,7 @@ msgstr "უმართავი ფანჯარა"
 #, kde-format
 msgid "Could not detect window properties. The window is not managed by KWin."
 msgstr ""
+"ფანჯრის თვისებების აღმოჩენის შეცდომა. ფანჯარა KWin-ის მიერ არ იმართება."
 
 #~ msgid "Error"
 #~ msgstr "შეცდომა"

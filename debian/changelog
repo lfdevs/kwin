@@ -1,4 +1,4 @@
-kwin (4:5.27.0-1) UNRELEASED; urgency=medium
+kwin (4:5.27.0-1) unstable; urgency=medium
 
   [ Pino Toscano ]
   * Add the xwayland build dependency, setting its required version to
@@ -17,7 +17,7 @@ kwin (4:5.27.0-1) UNRELEASED; urgency=medium
   * New upstream release (5.27.0).
   * Update build-deps and deps with the info from cmake.
 
- -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Tue, 24 Jan 2023 22:04:07 +0100
+ -- Aurélien COUDERC <coucouf@debian.org>  Sat, 18 Feb 2023 17:08:46 +0100
 
 kwin (4:5.26.90-1) unstable; urgency=medium
 

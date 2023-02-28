@@ -26,6 +26,9 @@ Tile::Tile(TileManager *tiling, Tile *parent)
     , m_parentTile(parent)
     , m_tiling(tiling)
 {
+    if (m_parentTile) {
+        m_padding = m_parentTile->padding();
+    }
     connect(Workspace::self(), &Workspace::configChanged, this, &Tile::windowGeometryChanged);
 }
 
@@ -370,6 +373,14 @@ QList<Tile *> Tile::descendants() const
 Tile *Tile::parentTile() const
 {
     return m_parentTile;
+}
+
+void Tile::visitDescendants(std::function<void(const Tile *child)> callback) const
+{
+    callback(this);
+    for (const Tile *child : m_children) {
+        child->visitDescendants(callback);
+    }
 }
 
 TileManager *Tile::manager() const

@@ -1,3 +1,13 @@
+kwin (4:5.27.2-1) unstable; urgency=medium
+
+  [ Aurélien COUDERC ]
+  * New upstream release (5.27.1).
+  * Update build-deps and deps with the info from cmake.
+  * New upstream release (5.27.2).
+  * Update build-deps and deps with the info from cmake.
+
+ -- Aurélien COUDERC <coucouf@debian.org>  Tue, 28 Feb 2023 15:01:10 +0100
+
 kwin (4:5.27.0-1) unstable; urgency=medium
 
   [ Pino Toscano ]

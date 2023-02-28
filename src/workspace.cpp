@@ -857,17 +857,11 @@ void Workspace::replaceInStack(Window *original, Deleted *deleted)
     const int unconstraintedIndex = unconstrained_stacking_order.indexOf(original);
     if (unconstraintedIndex != -1) {
         unconstrained_stacking_order.replace(unconstraintedIndex, deleted);
-    } else {
-        // This can be the case only if an override-redirect window is unmapped.
-        unconstrained_stacking_order.append(deleted);
     }
 
     const int index = stacking_order.indexOf(original);
     if (index != -1) {
         stacking_order.replace(index, deleted);
-    } else {
-        // This can be the case only if an override-redirect window is unmapped.
-        stacking_order.append(deleted);
     }
 
     for (Constraint *constraint : std::as_const(m_constraints)) {
@@ -1595,12 +1589,51 @@ void Workspace::updateOutputs(const QVector<Output *> &outputOrder)
         Q_EMIT outputAdded(output);
     }
 
-    desktopResized();
-
     const auto removed = oldOutputsSet - outputsSet;
     for (Output *output : removed) {
-        m_tileManagers.erase(output);
         Q_EMIT outputRemoved(output);
+        auto tileManager = std::move(m_tileManagers[output]);
+        m_tileManagers.erase(output);
+
+        // Evacuate windows from the defunct custom tile tree.
+        tileManager->rootTile()->visitDescendants([](const Tile *child) {
+            const QList<Window *> windows = child->windows();
+            for (Window *window : windows) {
+                window->setTile(nullptr);
+            }
+        });
+
+        // Migrate windows from the defunct quick tile to a quick tile tree on another output.
+        static constexpr QuickTileMode quickTileModes[] = {
+            QuickTileFlag::Left,
+            QuickTileFlag::Right,
+            QuickTileFlag::Top,
+            QuickTileFlag::Bottom,
+            QuickTileFlag::Top | QuickTileFlag::Left,
+            QuickTileFlag::Top | QuickTileFlag::Right,
+            QuickTileFlag::Bottom | QuickTileFlag::Left,
+            QuickTileFlag::Bottom | QuickTileFlag::Right,
+        };
+
+        for (const QuickTileMode &quickTileMode : quickTileModes) {
+            Tile *quickTile = tileManager->quickTile(quickTileMode);
+            const QList<Window *> windows = quickTile->windows();
+            if (windows.isEmpty()) {
+                continue;
+            }
+
+            Output *bestOutput = outputAt(output->geometry().center());
+            Tile *bestTile = m_tileManagers[bestOutput]->quickTile(quickTileMode);
+
+            for (Window *window : windows) {
+                window->setTile(bestTile);
+            }
+        }
+    }
+
+    desktopResized();
+
+    for (Output *output : removed) {
         output->unref();
     }
 

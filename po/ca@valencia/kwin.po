@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-03 03:02+0000\n"
-"PO-Revision-Date: 2023-01-10 10:38+0100\n"
+"POT-Creation-Date: 2023-02-28 03:03+0000\n"
+"PO-Revision-Date: 2023-02-07 10:12+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -2189,11 +2189,12 @@ msgstr "Recorre les finestres de l'aplicació actual (a la inversa)"
 
 #: tabbox/tabbox.cpp:527
 msgid "Walk Through Windows of Current Application Alternative"
-msgstr "Recorre les finestres de l'aplicació actual alternativa"
+msgstr "Recorre les finestres de l'aplicació actual en alternativa"
 
 #: tabbox/tabbox.cpp:528
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
-msgstr "Recorre les finestres de l'aplicació actual alternativa (a la inversa)"
+msgstr ""
+"Recorre les finestres de l'aplicació actual en alternativa (a la inversa)"
 
 #: tabbox/tabbox.cpp:529
 msgid "Walk Through Desktops"
@@ -2806,7 +2807,7 @@ msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(No respon)"
 
-#: workspace.cpp:1813
+#: workspace.cpp:1846
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

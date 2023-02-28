@@ -745,15 +745,8 @@ void PointerInputRedirection::updatePosition(const QPointF &pos)
         return;
     }
     // verify that at least one screen contains the pointer position
-    QPointF p = pos;
-    if (!screenContainsPos(p)) {
-        const QRectF unitedScreensGeometry = workspace()->geometry();
-        p = confineToBoundingBox(p, unitedScreensGeometry);
-        if (!screenContainsPos(p)) {
-            const Output *currentOutput = workspace()->outputAt(m_pos);
-            p = confineToBoundingBox(p, currentOutput->geometry());
-        }
-    }
+    const Output *currentOutput = workspace()->outputAt(pos);
+    QPointF p = confineToBoundingBox(pos, currentOutput->geometry());
     p = applyPointerConfinement(p);
     if (p == m_pos) {
         // didn't change due to confinement
@@ -891,8 +884,6 @@ CursorImage::CursorImage(PointerInputRedirection *parent)
     m_decoration.cursor = std::make_unique<ShapeCursorSource>();
     m_serverCursor.cursor = std::make_unique<SurfaceCursorSource>();
 
-    connect(waylandServer()->seat(), &KWaylandServer::SeatInterface::hasPointerChanged,
-            this, &CursorImage::handlePointerChanged);
 #if KWIN_BUILD_SCREENLOCKER
     if (waylandServer()->hasScreenLockerIntegration()) {
         connect(ScreenLocker::KSldApp::self(), &ScreenLocker::KSldApp::lockStateChanged, this, &CursorImage::reevaluteSource);
@@ -924,7 +915,11 @@ CursorImage::CursorImage(PointerInputRedirection *parent)
         m_decoration.cursor->setTheme(m_waylandImage.theme());
     });
 
-    handlePointerChanged();
+    KWaylandServer::PointerInterface *pointer = waylandServer()->seat()->pointer();
+
+    connect(pointer, &KWaylandServer::PointerInterface::focusedSurfaceChanged,
+            this, &CursorImage::handleFocusedSurfaceChanged);
+
     reevaluteSource();
 }
 
@@ -948,16 +943,6 @@ void CursorImage::markAsRendered(std::chrono::milliseconds timestamp)
         return;
     }
     cursorSurface->frameRendered(timestamp.count());
-}
-
-void CursorImage::handlePointerChanged()
-{
-    KWaylandServer::PointerInterface *pointer = waylandServer()->seat()->pointer();
-
-    if (pointer) {
-        connect(pointer, &KWaylandServer::PointerInterface::focusedSurfaceChanged,
-                this, &CursorImage::handleFocusedSurfaceChanged);
-    }
 }
 
 void CursorImage::handleFocusedSurfaceChanged()

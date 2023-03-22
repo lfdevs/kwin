@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-28 03:03+0000\n"
+"POT-Creation-Date: 2023-03-08 03:00+0000\n"
 "PO-Revision-Date: 2023-01-14 16:45+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -1168,7 +1168,7 @@ msgstr "انتقل اللوحي إلى %1"
 msgid "Tablets switched outputs"
 msgstr "بدلت اللوحيات المخرجات"
 
-#: input.cpp:3065
+#: input.cpp:3066
 #, kde-format
 msgid "Touchpad"
 msgstr "لوحة اللمس"
@@ -1195,12 +1195,12 @@ msgstr "كوين"
 #: main.cpp:181 main.cpp:204
 #, kde-format
 msgid "KDE window manager"
-msgstr "مدير كدي للنّوافذ"
+msgstr "مدير كِيدِي للنّوافذ"
 
 #: main.cpp:183
 #, kde-format
 msgid "(c) 1999-2019, The KDE Developers"
-msgstr "© 1999-2019 لمطوري «كدي»"
+msgstr "© 1999-2019 لمطوري «كِيدِي»"
 
 #: main.cpp:185
 #, kde-format
@@ -2770,7 +2770,7 @@ msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(لا يستجيب)"
 
-#: workspace.cpp:1846
+#: workspace.cpp:1643
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

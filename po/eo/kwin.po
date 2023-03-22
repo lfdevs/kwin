@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-28 03:03+0000\n"
+"POT-Creation-Date: 2023-03-08 03:00+0000\n"
 "PO-Revision-Date: 2008-02-27 21:37+0100\n"
 "Last-Translator: Pierre-Marie Pédrot <pedrotpmx@wanadoo.fr>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
@@ -1190,7 +1190,7 @@ msgstr ""
 msgid "Tablets switched outputs"
 msgstr ""
 
-#: input.cpp:3065
+#: input.cpp:3066
 #, kde-format
 msgid "Touchpad"
 msgstr ""
@@ -2890,7 +2890,7 @@ msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr ""
 
-#: workspace.cpp:1846
+#: workspace.cpp:1643
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

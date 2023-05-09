@@ -87,6 +87,7 @@ void ScreenCastStream::onStreamStateChanged(void *data, pw_stream_state old, pw_
     ScreenCastStream *pw = static_cast<ScreenCastStream *>(data);
     qCDebug(KWIN_SCREENCAST) << "state changed" << pw_stream_state_as_string(old) << " -> " << pw_stream_state_as_string(state) << error_message;
 
+    pw->m_streaming = false;
     switch (state) {
     case PW_STREAM_STATE_ERROR:
         qCWarning(KWIN_SCREENCAST) << "Stream error: " << error_message;
@@ -98,7 +99,11 @@ void ScreenCastStream::onStreamStateChanged(void *data, pw_stream_state old, pw_
         }
         break;
     case PW_STREAM_STATE_STREAMING:
+        pw->m_streaming = true;
         Q_EMIT pw->startStreaming();
+        if (pw->m_pendingBuffer) {
+            pw->tryEnqueue(pw->m_pendingBuffer);
+        }
         break;
     case PW_STREAM_STATE_CONNECTING:
         break;
@@ -119,7 +124,7 @@ void ScreenCastStream::newStreamParams()
     qCDebug(KWIN_SCREENCAST) << "announcing stream params. with dmabuf:" << m_dmabufParams.has_value();
     uint8_t paramsBuffer[1024];
     spa_pod_builder pod_builder = SPA_POD_BUILDER_INIT(paramsBuffer, sizeof(paramsBuffer));
-    const int buffertypes = m_dmabufParams ? (1 << SPA_DATA_DmaBuf) : (1 << SPA_DATA_MemFd);
+    const int buffertypes = m_dmabufParams ? (1 << SPA_DATA_DmaBuf) | (1 << SPA_DATA_MemFd) : (1 << SPA_DATA_MemFd);
     const int bpp = videoFormat.format == SPA_VIDEO_FORMAT_RGB || videoFormat.format == SPA_VIDEO_FORMAT_BGR ? 3 : 4;
     const int stride = SPA_ROUND_UP_N(m_resolution.width() * bpp, 4);
 
@@ -286,6 +291,7 @@ void ScreenCastStream::onStreamRenegotiateFormat(void *data, uint64_t)
 {
     ScreenCastStream *stream = static_cast<ScreenCastStream *>(data);
 
+    stream->m_streaming = false; // pause streaming as we wait for the renegotiation
     char buffer[2048];
     auto params = stream->buildFormats(stream->m_dmabufParams.has_value(), buffer);
     pw_stream_update_params(stream->pwStream, params.data(), params.count());
@@ -296,13 +302,20 @@ ScreenCastStream::ScreenCastStream(ScreenCastSource *source, QObject *parent)
     , m_source(source)
     , m_resolution(source->textureSize())
 {
-    connect(source, &ScreenCastSource::closed, this, &ScreenCastStream::stopStreaming);
+    connect(source, &ScreenCastSource::closed, this, [this] {
+        m_streaming = false;
+        Q_EMIT stopStreaming();
+    });
 
     pwStreamEvents.version = PW_VERSION_STREAM_EVENTS;
     pwStreamEvents.add_buffer = &ScreenCastStream::onStreamAddBuffer;
     pwStreamEvents.remove_buffer = &ScreenCastStream::onStreamRemoveBuffer;
     pwStreamEvents.state_changed = &ScreenCastStream::onStreamStateChanged;
     pwStreamEvents.param_changed = &ScreenCastStream::onStreamParamChanged;
+
+    connect(&m_pendingFrame, &QTimer::timeout, this, [this] {
+        recordFrame(m_pendingDamages);
+    });
 }
 
 ScreenCastStream::~ScreenCastStream()
@@ -399,6 +412,24 @@ void ScreenCastStream::recordFrame(const QRegion &_damagedRegion)
     QRegion damagedRegion = _damagedRegion;
     Q_ASSERT(!m_stopped);
 
+    if (!m_streaming) {
+        m_pendingDamages |= damagedRegion;
+        return;
+    }
+
+    if (videoFormat.max_framerate.num != 0 && !m_lastSent.isNull()) {
+        auto frameInterval = (1000. * videoFormat.max_framerate.denom / videoFormat.max_framerate.num);
+        auto lastSentAgo = m_lastSent.msecsTo(QDateTime::currentDateTimeUtc());
+        if (lastSentAgo < frameInterval) {
+            m_pendingDamages |= damagedRegion;
+            if (!m_pendingFrame.isActive()) {
+                m_pendingFrame.start(frameInterval - lastSentAgo);
+            }
+            return;
+        }
+    }
+
+    m_pendingDamages = {};
     if (m_pendingBuffer) {
         qCWarning(KWIN_SCREENCAST) << "Dropping a screencast frame because the compositor is slow";
         return;
@@ -444,6 +475,7 @@ void ScreenCastStream::recordFrame(const QRegion &_damagedRegion)
     }
 
     spa_data->chunk->offset = 0;
+    spa_data->chunk->flags = SPA_CHUNK_FLAG_NONE;
     static_cast<OpenGLBackend *>(Compositor::self()->backend())->makeCurrent();
     if (data || spa_data[0].type == SPA_DATA_MemFd) {
         const bool hasAlpha = m_source->hasAlphaChannel();
@@ -539,12 +571,7 @@ void ScreenCastStream::addHeader(spa_buffer *spaBuffer)
         spaHeader->flags = 0;
         spaHeader->dts_offset = 0;
         spaHeader->seq = m_sequential++;
-
-        const auto timestamp = m_source->clock();
-        if (!m_start) {
-            m_start = timestamp;
-        }
-        spaHeader->pts = (timestamp - m_start.value()).count();
+        spaHeader->pts = m_source->clock().count();
     }
 }
 
@@ -578,6 +605,9 @@ void ScreenCastStream::addDamage(spa_buffer *spaBuffer, const QRegion &damagedRe
 void ScreenCastStream::recordCursor()
 {
     Q_ASSERT(!m_stopped);
+    if (!m_streaming) {
+        return;
+    }
 
     if (m_pendingBuffer) {
         qCWarning(KWIN_SCREENCAST) << "Dropping a screencast cursor update because the compositor is slow";
@@ -603,6 +633,9 @@ void ScreenCastStream::recordCursor()
     }
 
     struct spa_buffer *spa_buffer = m_pendingBuffer->buffer;
+
+    // in pipewire terms, corrupted means "do not look at the frame contents" and here they're empty.
+    spa_buffer->datas[0].chunk->flags = SPA_CHUNK_FLAG_CORRUPTED;
     spa_buffer->datas[0].chunk->size = 0;
 
     sendCursorData(Cursors::self()->currentCursor(),
@@ -646,7 +679,14 @@ void ScreenCastStream::enqueue()
     m_pendingFence.reset();
     m_pendingNotifier.reset();
 
+    if (!m_streaming) {
+        return;
+    }
     pw_stream_queue_buffer(pwStream, m_pendingBuffer);
+
+    if (m_pendingBuffer->buffer->datas[0].chunk->flags != SPA_CHUNK_FLAG_CORRUPTED) {
+        m_lastSent = QDateTime::currentDateTimeUtc();
+    }
 
     m_pendingBuffer = nullptr;
 }
@@ -655,21 +695,21 @@ QVector<const spa_pod *> ScreenCastStream::buildFormats(bool fixate, char buffer
 {
     const auto format = m_source->hasAlphaChannel() ? SPA_VIDEO_FORMAT_BGRA : SPA_VIDEO_FORMAT_BGR;
     spa_pod_builder podBuilder = SPA_POD_BUILDER_INIT(buffer, 2048);
+    spa_fraction defFramerate = SPA_FRACTION(0, 1);
     spa_fraction minFramerate = SPA_FRACTION(1, 1);
-    spa_fraction maxFramerate = SPA_FRACTION(25, 1);
-    spa_fraction defaultFramerate = SPA_FRACTION(0, 1);
+    spa_fraction maxFramerate = SPA_FRACTION(m_source->refreshRate() / 1000, 1);
 
     spa_rectangle resolution = SPA_RECTANGLE(uint32_t(m_resolution.width()), uint32_t(m_resolution.height()));
 
     QVector<const spa_pod *> params;
     params.reserve(fixate + m_hasDmaBuf + 1);
     if (fixate) {
-        params.append(buildFormat(&podBuilder, SPA_VIDEO_FORMAT_BGRA, &resolution, &defaultFramerate, &minFramerate, &maxFramerate, {m_dmabufParams->modifier}, SPA_POD_PROP_FLAG_MANDATORY));
+        params.append(buildFormat(&podBuilder, SPA_VIDEO_FORMAT_BGRA, &resolution, &defFramerate, &minFramerate, &maxFramerate, {m_dmabufParams->modifier}, SPA_POD_PROP_FLAG_MANDATORY));
     }
     if (m_hasDmaBuf) {
-        params.append(buildFormat(&podBuilder, SPA_VIDEO_FORMAT_BGRA, &resolution, &defaultFramerate, &minFramerate, &maxFramerate, m_modifiers, SPA_POD_PROP_FLAG_MANDATORY | SPA_POD_PROP_FLAG_DONT_FIXATE));
+        params.append(buildFormat(&podBuilder, SPA_VIDEO_FORMAT_BGRA, &resolution, &defFramerate, &minFramerate, &maxFramerate, m_modifiers, SPA_POD_PROP_FLAG_MANDATORY | SPA_POD_PROP_FLAG_DONT_FIXATE));
     }
-    params.append(buildFormat(&podBuilder, format, &resolution, &defaultFramerate, &minFramerate, &maxFramerate, {}, SPA_POD_PROP_FLAG_MANDATORY | SPA_POD_PROP_FLAG_DONT_FIXATE));
+    params.append(buildFormat(&podBuilder, format, &resolution, &defFramerate, &minFramerate, &maxFramerate, {}, SPA_POD_PROP_FLAG_MANDATORY | SPA_POD_PROP_FLAG_DONT_FIXATE));
     return params;
 }
 
@@ -689,6 +729,7 @@ spa_pod *ScreenCastStream::buildFormat(struct spa_pod_builder *b, enum spa_video
                             SPA_POD_Fraction(minFramerate),
                             SPA_POD_Fraction(maxFramerate)),
                         0);
+
     if (format == SPA_VIDEO_FORMAT_BGRA) {
         /* announce equivalent format without alpha */
         spa_pod_builder_add(b, SPA_FORMAT_VIDEO_format, SPA_POD_CHOICE_ENUM_Id(3, format, format, SPA_VIDEO_FORMAT_BGRx), 0);

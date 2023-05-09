@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-set(PROJECT_VERSION "5.27.3") # Handled by release scripts
+set(PROJECT_VERSION "5.27.5") # Handled by release scripts
 project(KWin VERSION ${PROJECT_VERSION})
 
 set(CMAKE_C_STANDARD 99)
@@ -248,12 +248,12 @@ set_package_properties(Libdrm PROPERTIES TYPE REQUIRED PURPOSE "Required for drm
 
 find_package(gbm)
 set_package_properties(gbm PROPERTIES TYPE REQUIRED PURPOSE "Required for egl output of drm backend.")
-if (${gbm_VERSION} GREATER_EQUAL 21.1)
+if (gbm_VERSION VERSION_GREATER_EQUAL 21.1)
     set(HAVE_GBM_BO_GET_FD_FOR_PLANE 1)
 else()
     set(HAVE_GBM_BO_GET_FD_FOR_PLANE 0)
 endif()
-if (${gbm_VERSION} GREATER_EQUAL 21.3)
+if (gbm_VERSION VERSION_GREATER_EQUAL 21.3)
     set(HAVE_GBM_BO_CREATE_WITH_MODIFIERS2 1)
 else()
     set(HAVE_GBM_BO_CREATE_WITH_MODIFIERS2 0)

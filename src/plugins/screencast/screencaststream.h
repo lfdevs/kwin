@@ -14,10 +14,12 @@
 #include "kwinglobals.h"
 #include "wayland/screencast_v1_interface.h"
 
+#include <QDateTime>
 #include <QHash>
 #include <QObject>
 #include <QSize>
 #include <QSocketNotifier>
+#include <QTimer>
 #include <chrono>
 #include <memory>
 #include <optional>
@@ -101,6 +103,7 @@ private:
 
     QSize m_resolution;
     bool m_stopped = false;
+    bool m_streaming = false;
 
     spa_video_info_raw videoFormat;
     QString m_error;
@@ -125,10 +128,13 @@ private:
     pw_buffer *m_pendingBuffer = nullptr;
     std::unique_ptr<QSocketNotifier> m_pendingNotifier;
     std::unique_ptr<EGLNativeFence> m_pendingFence;
-    std::optional<std::chrono::nanoseconds> m_start;
     quint64 m_sequential = 0;
     bool m_hasDmaBuf = false;
     bool m_waitForNewBuffers = false;
+
+    QDateTime m_lastSent;
+    QRegion m_pendingDamages;
+    QTimer m_pendingFrame;
 };
 
 } // namespace KWin

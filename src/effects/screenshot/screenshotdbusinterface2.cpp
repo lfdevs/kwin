@@ -18,6 +18,7 @@
 #include <QtConcurrent>
 
 #include <errno.h>
+#include <fcntl.h>
 #include <poll.h>
 #include <string.h>
 #include <unistd.h>
@@ -120,6 +121,8 @@ public:
     bool isCompleted() const;
     void marshal(ScreenShotSinkPipe2 *sink);
 
+    virtual QVariantMap attributes() const;
+
 Q_SIGNALS:
     void cancelled();
     void completed();
@@ -135,6 +138,11 @@ class ScreenShotSourceScreen2 : public ScreenShotSource2
 
 public:
     ScreenShotSourceScreen2(ScreenShotEffect *effect, EffectScreen *screen, ScreenShotFlags flags);
+
+    QVariantMap attributes() const override;
+
+private:
+    EffectScreen *m_screen;
 };
 
 class ScreenShotSourceArea2 : public ScreenShotSource2
@@ -151,6 +159,11 @@ class ScreenShotSourceWindow2 : public ScreenShotSource2
 
 public:
     ScreenShotSourceWindow2(ScreenShotEffect *effect, EffectWindow *window, ScreenShotFlags flags);
+
+    QVariantMap attributes() const override;
+
+private:
+    EffectWindow *m_window;
 };
 
 class ScreenShotSinkPipe2 : public QObject
@@ -162,7 +175,7 @@ public:
     ~ScreenShotSinkPipe2();
 
     void cancel();
-    void flush(const QImage &image);
+    void flush(const QImage &image, const QVariantMap &attributes);
 
 private:
     QDBusMessage m_replyMessage;
@@ -188,16 +201,29 @@ bool ScreenShotSource2::isCompleted() const
     return m_future.isFinished();
 }
 
+QVariantMap ScreenShotSource2::attributes() const
+{
+    return QVariantMap();
+}
+
 void ScreenShotSource2::marshal(ScreenShotSinkPipe2 *sink)
 {
-    sink->flush(m_future.result());
+    sink->flush(m_future.result(), attributes());
 }
 
 ScreenShotSourceScreen2::ScreenShotSourceScreen2(ScreenShotEffect *effect,
                                                  EffectScreen *screen,
                                                  ScreenShotFlags flags)
     : ScreenShotSource2(effect->scheduleScreenShot(screen, flags))
+    , m_screen(screen)
 {
+}
+
+QVariantMap ScreenShotSourceScreen2::attributes() const
+{
+    return QVariantMap{
+        {QStringLiteral("screen"), m_screen->name()},
+    };
 }
 
 ScreenShotSourceArea2::ScreenShotSourceArea2(ScreenShotEffect *effect,
@@ -211,7 +237,15 @@ ScreenShotSourceWindow2::ScreenShotSourceWindow2(ScreenShotEffect *effect,
                                                  EffectWindow *window,
                                                  ScreenShotFlags flags)
     : ScreenShotSource2(effect->scheduleScreenShot(window, flags))
+    , m_window(window)
 {
+}
+
+QVariantMap ScreenShotSourceWindow2::attributes() const
+{
+    return QVariantMap{
+        {QStringLiteral("windowId"), m_window->internalId().toString()},
+    };
 }
 
 ScreenShotSinkPipe2::ScreenShotSinkPipe2(int fileDescriptor, QDBusMessage replyMessage)
@@ -233,19 +267,20 @@ void ScreenShotSinkPipe2::cancel()
                                                                        s_errorCancelledMessage));
 }
 
-void ScreenShotSinkPipe2::flush(const QImage &image)
+void ScreenShotSinkPipe2::flush(const QImage &image, const QVariantMap &attributes)
 {
     if (m_fileDescriptor == -1) {
         return;
     }
 
     // Note that the type of the data stored in the vardict matters. Be careful.
-    QVariantMap results;
+    QVariantMap results = attributes;
     results.insert(QStringLiteral("type"), QStringLiteral("raw"));
     results.insert(QStringLiteral("format"), quint32(image.format()));
     results.insert(QStringLiteral("width"), quint32(image.width()));
     results.insert(QStringLiteral("height"), quint32(image.height()));
     results.insert(QStringLiteral("stride"), quint32(image.bytesPerLine()));
+    results.insert(QStringLiteral("scale"), double(image.devicePixelRatio()));
     QDBusConnection::sessionBus().send(m_replyMessage.createReply(results));
 
     QtConcurrent::run([](int fileDescriptor, const QImage &image) {
@@ -277,7 +312,7 @@ ScreenShotDBusInterface2::~ScreenShotDBusInterface2()
 
 int ScreenShotDBusInterface2::version() const
 {
-    return 2;
+    return 4;
 }
 
 bool ScreenShotDBusInterface2::checkPermissions() const
@@ -319,7 +354,7 @@ QVariantMap ScreenShotDBusInterface2::CaptureActiveWindow(const QVariantMap &opt
         return QVariantMap();
     }
 
-    const int fileDescriptor = dup(pipe.fileDescriptor());
+    const int fileDescriptor = fcntl(pipe.fileDescriptor(), F_DUPFD_CLOEXEC, 0);
     if (fileDescriptor == -1) {
         sendErrorReply(s_errorFileDescriptor, s_errorFileDescriptorMessage);
         return QVariantMap();
@@ -355,7 +390,7 @@ QVariantMap ScreenShotDBusInterface2::CaptureWindow(const QString &handle,
         return QVariantMap();
     }
 
-    const int fileDescriptor = dup(pipe.fileDescriptor());
+    const int fileDescriptor = fcntl(pipe.fileDescriptor(), F_DUPFD_CLOEXEC, 0);
     if (fileDescriptor == -1) {
         sendErrorReply(s_errorFileDescriptor, s_errorFileDescriptorMessage);
         return QVariantMap();
@@ -382,7 +417,7 @@ QVariantMap ScreenShotDBusInterface2::CaptureArea(int x, int y, int width, int h
         return QVariantMap();
     }
 
-    const int fileDescriptor = dup(pipe.fileDescriptor());
+    const int fileDescriptor = fcntl(pipe.fileDescriptor(), F_DUPFD_CLOEXEC, 0);
     if (fileDescriptor == -1) {
         sendErrorReply(s_errorFileDescriptor, s_errorFileDescriptorMessage);
         return QVariantMap();
@@ -409,7 +444,7 @@ QVariantMap ScreenShotDBusInterface2::CaptureScreen(const QString &name,
         return QVariantMap();
     }
 
-    const int fileDescriptor = dup(pipe.fileDescriptor());
+    const int fileDescriptor = fcntl(pipe.fileDescriptor(), F_DUPFD_CLOEXEC, 0);
     if (fileDescriptor == -1) {
         sendErrorReply(s_errorFileDescriptor, s_errorFileDescriptorMessage);
         return QVariantMap();
@@ -435,7 +470,7 @@ QVariantMap ScreenShotDBusInterface2::CaptureActiveScreen(const QVariantMap &opt
         return QVariantMap();
     }
 
-    const int fileDescriptor = dup(pipe.fileDescriptor());
+    const int fileDescriptor = fcntl(pipe.fileDescriptor(), F_DUPFD_CLOEXEC, 0);
     if (fileDescriptor == -1) {
         sendErrorReply(s_errorFileDescriptor, s_errorFileDescriptorMessage);
         return QVariantMap();
@@ -452,7 +487,7 @@ QVariantMap ScreenShotDBusInterface2::CaptureInteractive(uint kind,
                                                          const QVariantMap &options,
                                                          QDBusUnixFileDescriptor pipe)
 {
-    const int fileDescriptor = dup(pipe.fileDescriptor());
+    const int fileDescriptor = fcntl(pipe.fileDescriptor(), F_DUPFD_CLOEXEC, 0);
     if (fileDescriptor == -1) {
         sendErrorReply(s_errorFileDescriptor, s_errorFileDescriptorMessage);
         return QVariantMap();
@@ -496,6 +531,25 @@ QVariantMap ScreenShotDBusInterface2::CaptureInteractive(uint kind,
                                           "Escape or right click to cancel."),
                                      QStringLiteral("spectacle"));
     }
+
+    setDelayedReply(true);
+    return QVariantMap();
+}
+
+QVariantMap ScreenShotDBusInterface2::CaptureWorkspace(const QVariantMap &options, QDBusUnixFileDescriptor pipe)
+{
+    if (!checkPermissions()) {
+        return QVariantMap();
+    }
+
+    const int fileDescriptor = fcntl(pipe.fileDescriptor(), F_DUPFD_CLOEXEC, 0);
+    if (fileDescriptor == -1) {
+        sendErrorReply(s_errorFileDescriptor, s_errorFileDescriptorMessage);
+        return QVariantMap();
+    }
+
+    takeScreenShot(effects->virtualScreenGeometry(), screenShotFlagsFromOptions(options),
+                   new ScreenShotSinkPipe2(fileDescriptor, message()));
 
     setDelayedReply(true);
     return QVariantMap();

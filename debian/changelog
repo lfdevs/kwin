@@ -1,11 +1,18 @@
-kwin (4:5.27.2-2) unstable; urgency=medium
+kwin (4:5.27.5-1) experimental; urgency=medium
 
-  * Team upload.
+  [ Patrick Franz ]
+  * New upstream release (5.27.5).
+  * Update build-deps and deps with the info from cmake.
 
-  [ Marco Mattiolo ]
-  * Backport patch to fix kwin for Lima (Pinephone) (Closes: #1033212)
+ -- Patrick Franz <deltaone@debian.org>  Tue, 09 May 2023 23:28:31 +0200
 
- -- Sandro Knauß <hefee@debian.org>  Fri, 05 May 2023 14:22:35 +0200
+kwin (4:5.27.3-1) experimental; urgency=medium
+
+  [ Patrick Franz ]
+  * New upstream release (5.27.3).
+  * Update build-deps and deps with the info from cmake.
+
+ -- Patrick Franz <deltaone@debian.org>  Wed, 22 Mar 2023 23:19:03 +0100
 
 kwin (4:5.27.2-1) unstable; urgency=medium
 

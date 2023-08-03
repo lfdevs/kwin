@@ -1,10 +1,10 @@
-kwin (4:5.27.7-1) UNRELEASED; urgency=medium
+kwin (4:5.27.7-1) unstable; urgency=medium
 
   [ Patrick Franz ]
   * New upstream release (5.27.7).
   * Update build-deps and deps with the info from cmake.
 
- -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Thu, 03 Aug 2023 17:58:50 +0200
+ -- Patrick Franz <deltaone@debian.org>  Thu, 03 Aug 2023 18:55:01 +0200
 
 kwin (4:5.27.5-3) unstable; urgency=medium
 

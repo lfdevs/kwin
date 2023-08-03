@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-29 02:54+0000\n"
-"PO-Revision-Date: 2023-03-17 17:54+0200\n"
+"POT-Creation-Date: 2023-06-22 02:43+0000\n"
+"PO-Revision-Date: 2023-07-24 21:32+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -1177,23 +1177,23 @@ msgid "Wait Longer"
 msgstr "Odota pidempään"
 
 # *** TARKISTA: Onko ”tablet” tabletti vai esim. piirtopöytä tms.? Onko ”output” ulostulo?
-#: input.cpp:2010
+#: input.cpp:2014
 #, kde-format
 msgid "Move the tablet to the next output"
 msgstr "Siirrä tabletti seuraavaan ulostuloon"
 
-#: input.cpp:2089
+#: input.cpp:2093
 #, kde-format
 msgid "Tablet moved to %1"
 msgstr "Tabletti siirretty ulostuloon %1"
 
-#: input.cpp:2089
+#: input.cpp:2093
 #, kde-format
 msgid "Tablets switched outputs"
 msgstr "Tabletit vaihtoivat ulostuloja"
 
 # ?!?!
-#: input.cpp:3094
+#: input.cpp:3098
 #, kde-format
 msgid "Touchpad"
 msgstr "Kosketuslevy"
@@ -2621,7 +2621,7 @@ msgstr "Lisää aktiivisen ikkunan peittävyyttä 5 %"
 #: useractions.cpp:1063
 #, kde-format
 msgid "Decrease Opacity of Active Window by 5%"
-msgstr "Vähennä aktiivisen ikkunoan peittävyyttä 5 %"
+msgstr "Vähennä aktiivisen ikkunan peittävyyttä 5 %"
 
 #: useractions.cpp:1066
 #, kde-format
@@ -2812,7 +2812,7 @@ msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(Ei vastaa)"
 
-#: workspace.cpp:1642
+#: workspace.cpp:1644
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

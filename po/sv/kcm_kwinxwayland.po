@@ -1,46 +1,42 @@
-# German translations for kwin package.
-# Copyright (C) 2022 This file is copyright:
+# Copyright (C) YEAR This file is copyright:
 # This file is distributed under the same license as the kwin package.
-# Jannick Kuhr <opensource@kuhr.org>, 2023.
-# Frederik Schwarzer <schwarzer@kde.org>, 2023.
 #
-# Automatically generated, 2022.
+# Stefan Asserhäll <stefan.asserhall@bredband.net>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-17 00:51+0000\n"
-"PO-Revision-Date: 2023-06-25 17:14+0200\n"
-"Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
-"Language-Team: German <kde-i18n-de@kde.org>\n"
-"Language: de\n"
+"PO-Revision-Date: 2023-07-26 11:34+0200\n"
+"Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
+"Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 22.12.3\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 20.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Deutsches KDE-Übersetzerteam"
+msgstr "Stefan Asserhäll"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "kde-i18n-de@kde.org"
+msgstr "stefan.asserhall@bredband.net"
 
 #: kcmkwinxwayland.cpp:30
 #, kde-format
 msgid "Legacy X11 App Support"
-msgstr "Unterstützung für klassische X11-Anwendungen"
+msgstr "Stöd för äldre X11-program"
 
 #: kcmkwinxwayland.cpp:32
 #, kde-format
 msgid "Allow legacy X11 apps to read keystrokes typed in other apps"
 msgstr ""
-"Klassischen X11-Anwendungen Zugriff auf Tastendrücke in anderen Anwendungen "
-"gewähren"
+"Tillåt äldre X11-program att läsa tangentnedtryckningar från andra program"
 
 #: package/contents/ui/main.qml:19
 #, kde-format
@@ -48,6 +44,8 @@ msgid ""
 "This module lets configure which keyboard events are forwarded to X11 apps "
 "regardless of their focus."
 msgstr ""
+"Modulen gör det möjligt att ställa in vilka tangentbordshändelser skickas "
+"vidare till X11-program oberoende av deras fokus."
 
 #: package/contents/ui/main.qml:49
 #, kde-format
@@ -57,41 +55,38 @@ msgid ""
 "disabled by default for security reasons. If you need to use such apps, you "
 "can choose your preferred balance of security and functionality here."
 msgstr ""
-"Klassische X11-Anwendungen benötigen Zugriff auf Tastendrücke, die in "
-"anderen Anwendungen getippt werden. um Funktionen zu aktivieren, die über "
-"globale Kurzbefehle ausgelöst werden. Daher ist es standardmäßig aus "
-"Sicherheitsgründen ausgeschaltet. Wenn Sie solche Anwendungen verwenden, "
-"können Sie hier Ihren eigenen Kompromiss aus Sicherheit und Funktionalität "
-"wählen."
+"Äldre X11-program kräver möjlighet att läsa tangentnedtryckningar skrivna i "
+"andra program för funktioner som aktiveras med globala snabbtangenter. Det "
+"är normalt inaktiverat av säkerhetsskäl. Om du måste använda sådana program, "
+"kan du välja föredragen balans mellan säkerhet och funktionalitet här."
 
 #: package/contents/ui/main.qml:66
 #, kde-format
 msgid "Allow legacy X11 apps to read keystrokes typed in all apps:"
 msgstr ""
-"Klassischen X11-Anwendungen Zugriff auf Tastendrücke in allen Anwendungen "
-"gewähren:"
+"Tillåt äldre X11-program att läsa tangentnedtryckningar från alla program:"
 
 #: package/contents/ui/main.qml:67
 #, kde-format
 msgid "Never"
-msgstr "Niemals"
+msgstr "Aldrig"
 
 #: package/contents/ui/main.qml:70
 #, kde-format
 msgid "Only Meta, Control, Alt, and Shift keys"
-msgstr "Nur die Tasten Meta, Strg, Alt und Umschalt"
+msgstr "Bara Meta-, Ctrl-, Alt-, och Skift-tangenter"
 
 #: package/contents/ui/main.qml:73
 #, kde-format
 msgid "All keys, but only while Meta, Ctrl, Alt, or Shift keys are pressed"
 msgstr ""
-"Alle Tasten, aber nur wenn eine der Tasten Meta, Strg, Alt oder Umschalt "
-"gedrückt ist"
+"Alla tangenter, men bara medan Meta-, Ctrl-, Alt-, och Skift-tangenter är "
+"nedtryckta"
 
 #: package/contents/ui/main.qml:77
 #, kde-format
 msgid "Always"
-msgstr "Immer"
+msgstr "Alltid"
 
 #: package/contents/ui/main.qml:84
 #, kde-format
@@ -100,7 +95,7 @@ msgid ""
 "session by permitting malicious software to steal passwords and spy on the "
 "text that you type. Make sure you understand and accept this risk."
 msgstr ""
-"Bitte beachten Sie, dass diese Einstellung die Systemsicherheit auf die "
-"Stufe von einer X11-Sitzung schwächt und es bösartiger Software erlaubt, "
-"Passwörter zu stehlen und Text den Sie tippen abzuhören. Seien Sie sich der "
-"Risiken bewusst."
+"Observera att användning av inställningen reducerar systemets säkerhet till "
+"X11-sessionens genom att tillåta skadlig programvara att stjäla lösenord och "
+"spionera på text som du skriver in. Se till att du förstår och accepterar "
+"denna risk."

@@ -1,3 +1,7 @@
+kwin (4:5.27.5-4) UNRELEASED; urgency=medium
+
+ -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Thu, 03 Aug 2023 17:58:50 +0200
+
 kwin (4:5.27.5-3) unstable; urgency=medium
 
   * Restore mistakenly dropped 4:5.27.2-2 changelog entry.

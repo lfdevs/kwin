@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-set(PROJECT_VERSION "5.27.8") # Handled by release scripts
+set(PROJECT_VERSION "5.27.9") # Handled by release scripts
 project(KWin VERSION ${PROJECT_VERSION})
 
 set(CMAKE_C_STANDARD 99)
@@ -42,6 +42,7 @@ find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
     Concurrent
     Core
     DBus
+    Network
     Quick
     UiTools
     Widgets
@@ -89,7 +90,6 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     NewStuff
     Service
     XmlGui
-    ItemViews
 )
 
 find_package(Threads)
@@ -365,6 +365,8 @@ set_package_properties(QAccessibilityClient PROPERTIES
     PURPOSE "Required to enable accessibility features"
 )
 set(HAVE_ACCESSIBILITY ${QAccessibilityClient_FOUND})
+
+find_package(Qt5LinuxAccessibilitySupport REQUIRED)
 
 ecm_find_qmlmodule(QtQuick 2.3)
 ecm_find_qmlmodule(QtQuick.Controls 2.15)

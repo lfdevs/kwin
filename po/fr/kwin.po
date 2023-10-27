@@ -17,14 +17,14 @@
 # Vincent Pinon <vpinon@kde.org>, 2016, 2017.
 # Yoann Laissus <yoann.laissus@gmail.com>, 2017, 2018.
 # Simon Depiets <sdepiets@gmail.com>, 2018, 2019, 2020.
-# Xavier Besnard <xavier.besnard@neuf.fr>, 2020, 2021, 2022.
+# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023 Xavier Besnard <xavier.besnard@neuf.fr>
 # Xavier BESNARD <xavier.besnard@neuf.fr>, 2022, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-22 02:43+0000\n"
+"POT-Creation-Date: 2023-10-20 02:27+0000\n"
 "PO-Revision-Date: 2023-06-27 09:14+0200\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: fr\n"
@@ -33,9 +33,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.04.2\n"
-"X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
+"X-Environment: kde\n"
+"X-Generator: Lokalize 23.08.1\n"
 "X-Text-Markup: kde4\n"
 
 #, kde-format
@@ -2807,22 +2807,22 @@ msgstr "Passer au bureau précédent"
 msgid "Switch One Desktop to the Right"
 msgstr "Passer au bureau de droite"
 
-#: virtualdesktops.cpp:806
+#: virtualdesktops.cpp:805
 #, kde-format
 msgid "Switch One Desktop to the Left"
 msgstr "Passer au bureau de gauche"
 
-#: virtualdesktops.cpp:808
+#: virtualdesktops.cpp:806
 #, kde-format
 msgid "Switch One Desktop Up"
 msgstr "Passer au bureau du dessus"
 
-#: virtualdesktops.cpp:810
+#: virtualdesktops.cpp:807
 #, kde-format
 msgid "Switch One Desktop Down"
 msgstr "Passer au bureau du dessous"
 
-#: virtualdesktops.cpp:899
+#: virtualdesktops.cpp:895
 #, kde-format
 msgid "Switch to Desktop %1"
 msgstr "Passer au bureau %1"

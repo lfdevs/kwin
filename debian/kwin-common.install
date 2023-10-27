@@ -11,5 +11,5 @@ usr/lib/*/qt5/plugins/plasma/kcms/systemsettings/kcm_kwin*.so
 usr/lib/*/qt5/plugins/plasma/kcms/systemsettings/kcm_virtualkeyboard.so
 usr/lib/*/qt5/plugins/plasma/kcms/systemsettings_qwidgets/kcm_kwin*.so
 usr/lib/*/qt5/plugins/plasma/kcms/systemsettings_qwidgets/kwin*.so
-usr/lib/*/qt5/qml/org/kde/kwin/
 usr/lib/*/qt5/qml/org/kde/kwin.2/
+usr/lib/*/qt5/qml/org/kde/kwin/

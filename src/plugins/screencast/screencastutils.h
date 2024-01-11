@@ -8,6 +8,7 @@
 
 #include "kwinglplatform.h"
 #include "kwingltexture.h"
+#include "kwinglutils.h"
 #include <spa/buffer/buffer.h>
 #include <spa/param/video/raw.h>
 
@@ -59,8 +60,13 @@ static void grabTexture(GLTexture *texture, spa_data *spa, spa_video_format form
     }
 
     texture->bind();
-    if (GLPlatform::instance()->isGLES()) {
+    // BUG: The nvidia driver fails to glGetTexImage
+    // Drop driver() == DriverNVidia some time after that's fixed
+    if (GLPlatform::instance()->isGLES() || GLPlatform::instance()->driver() == Driver_NVidia) {
+        GLFramebuffer fbo(texture);
+        GLFramebuffer::pushFramebuffer(&fbo);
         glReadPixels(0, 0, size.width(), size.height(), closestGLType(format), GL_UNSIGNED_BYTE, spa->data);
+        GLFramebuffer::popFramebuffer();
     } else if (GLPlatform::instance()->glVersion() >= kVersionNumber(4, 5)) {
         glGetTextureImage(texture->texture(), 0, closestGLType(format), GL_UNSIGNED_BYTE, spa->chunk->size, spa->data);
     } else {

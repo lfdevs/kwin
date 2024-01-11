@@ -6,7 +6,6 @@ Dependencies:
   'require':
     'frameworks/breeze-icons': '@stable'
     'frameworks/extra-cmake-modules': '@stable'
-    'frameworks/kactivities': '@stable'
     'frameworks/kcmutils': '@stable'
     'frameworks/kconfig': '@stable'
     'frameworks/kconfigwidgets': '@stable'
@@ -23,16 +22,17 @@ Dependencies:
     'frameworks/kpackage': '@stable'
     'frameworks/krunner': '@stable'
     'frameworks/kservice': '@stable'
-    'frameworks/kwayland': '@stable'
     'frameworks/kwidgetsaddons': '@stable'
     'frameworks/kwindowsystem': '@stable'
     'frameworks/kxmlgui': '@stable'
-    'frameworks/plasma-framework': '@stable'
     'libraries/libqaccessibilityclient': '@latest'
     'libraries/plasma-wayland-protocols': '@latest'
+    'plasma/libplasma': 'kf5'
+    'plasma/kwayland': 'kf5'
     'plasma/breeze': '@same'
     'plasma/kdecoration': '@same'
     'plasma/kscreenlocker': '@same'
+    'plasma/plasma-activities': '@stable' # Different branch scheme as former Framework
 
 Options:
   ctest-arguments: '--repeat until-pass:5'

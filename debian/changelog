@@ -1,5 +1,8 @@
 kwin (4:5.27.10-2) UNRELEASED; urgency=medium
 
+  [ Patrick Franz ]
+  * Bump Standards-Version to 4.7.0 (No changes needed).
+
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Sun, 19 May 2024 10:55:09 +0200
 
 kwin (4:5.27.10-1) unstable; urgency=medium

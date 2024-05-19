@@ -2,6 +2,7 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
+# SPDX-FileCopyrightText: 2018, 2019, 2020, 2021, 2022, 2023 Alexander Yavorsky <kekcuha@gmail.com>
 # Leonid Kanter <leon@asplinux.ru>, 2008.
 # Nick Shaforostoff <shafff@ukr.net>, 2008, 2009.
 # Nick Shaforostoff <shaforostoff@kde.ru>, 2009, 2011.
@@ -10,14 +11,14 @@
 # Yuri Efremov <yur.arh@gmail.com>, 2013.
 # Julia Dronova <juliette.tux@gmail.com>, 2013.
 # Alexander Lakhin <exclusion@gmail.com>, 2013.
-# Alexander Yavorsky <kekcuha@gmail.com>, 2018, 2019, 2020, 2021, 2022, 2023.
 # Olesya Gerasimenko <translation-team@basealt.ru>, 2022.
+# Alexander Yavorsky <kekcuha@gmail.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-26 02:49+0000\n"
-"PO-Revision-Date: 2023-02-21 13:54+0300\n"
+"PO-Revision-Date: 2024-02-20 17:07+0300\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -218,7 +219,7 @@ msgstr "Естественный"
 #: desktopgrid/desktopgrid_config.ui:147
 #, kde-format
 msgid "None"
-msgstr ""
+msgstr "Отсутствует"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: desktopgrid/desktopgrid_config.ui:155
@@ -337,10 +338,9 @@ msgid "Toggle Invert Effect on Window"
 msgstr "Включить или выключить режим инверсии окна"
 
 #: invert/invert.cpp:56
-#, fuzzy, kde-format
-#| msgid "Invert cursor keys"
+#, kde-format
 msgid "Invert Screen Colors"
-msgstr "Инвертировать нажатия клавиш"
+msgstr "Инвертировать цвета экрана"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FadeToBlack)
 #: login/package/contents/ui/config.ui:17
@@ -435,19 +435,19 @@ msgstr "Основные параметры"
 #: mouseclick/mouseclick_config.ui:37
 #, kde-format
 msgid "Left Mouse Button Color:"
-msgstr "Цвет щелчка левой кнопки:"
+msgstr "Цвет щелчка левой кнопкой:"
 
 #. i18n: ectx: property (text), widget (QLabel, button2_label)
 #: mouseclick/mouseclick_config.ui:50
 #, kde-format
 msgid "Middle Mouse Button Color:"
-msgstr "Цвет щелчка средней кнопки:"
+msgstr "Цвет щелчка средней кнопкой:"
 
 #. i18n: ectx: property (text), widget (QLabel, button3_label)
 #: mouseclick/mouseclick_config.ui:70
 #, kde-format
 msgid "Right Mouse Button Color:"
-msgstr "Цвет щелчка правой кнопки:"
+msgstr "Цвет щелчка правой кнопкой:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, advanced_tab)
 #: mouseclick/mouseclick_config.ui:91

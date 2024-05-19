@@ -1021,6 +1021,7 @@ public:
     virtual void setFullScreen(bool set, bool user = true);
 
     QRectF geometryRestore() const;
+    void setGeometryRestore(const QRectF &rect);
     virtual MaximizeMode maximizeMode() const;
     virtual MaximizeMode requestedMaximizeMode() const;
     virtual void maximize(MaximizeMode mode);
@@ -1410,6 +1411,7 @@ public:
     }
 
     QRectF fullscreenGeometryRestore() const;
+    void setFullscreenGeometryRestore(const QRectF &geom);
 
     /**
      * Helper function to compute the icon out of an application id defined by @p fileName
@@ -1566,6 +1568,8 @@ Q_SIGNALS:
     void decorationChanged();
     void hiddenChanged();
     void lockScreenOverlayChanged();
+    void maximizeGeometryRestoreChanged();
+    void fullscreenGeometryRestoreChanged();
 
 protected:
     void setWindowHandles(xcb_window_t client);
@@ -1725,7 +1729,6 @@ protected:
     int borderRight() const;
     int borderTop() const;
     int borderBottom() const;
-    void setGeometryRestore(const QRectF &rect);
 
     void blockGeometryUpdates(bool block);
     void blockGeometryUpdates();
@@ -1902,8 +1905,6 @@ protected:
     void setKeyboardGeometryRestore(const QRectF &geom);
 
     QRectF m_virtualKeyboardGeometry;
-
-    void setFullscreenGeometryRestore(const QRectF &geom);
 
     void cleanTabBox();
 

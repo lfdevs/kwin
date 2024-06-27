@@ -2,6 +2,7 @@ kwin (4:6.1.0-1) UNRELEASED; urgency=medium
 
   [ Patrick Franz ]
   * New upstream release (6.1.0).
+  * Remove redundant patches.
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Thu, 27 Jun 2024 22:12:11 +0200
 

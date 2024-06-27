@@ -4,6 +4,8 @@ kwin (4:6.1.0-1) UNRELEASED; urgency=medium
   * New upstream release (6.1.0).
   * Remove redundant patches.
   * Update build-deps and deps with the info from cmake.
+  * Update list of installed files, dependencies and new binary package
+    libkwin6.
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Thu, 27 Jun 2024 22:12:11 +0200
 

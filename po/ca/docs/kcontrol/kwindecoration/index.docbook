@@ -66,21 +66,15 @@
 </para>
 
 <para
->Escolliu un estil de decoració de finestra des de la llista de vista prèvia, utilitzant el camp de cerca a la part superior de la pantalla o baixeu un nou estil utilitzant el botó <guibutton
+>Escolliu un estil de decoració de finestra des de la llista de vista prèvia, o baixeu un estil nou utilitzant el botó <guibutton
 >Obtén decoracions noves de finestra...</guibutton
 >.</para>
 
 <para
->La decoració predeterminada de les finestres s'anomena <quote
->Brisa</quote
->.</para>
+>La decoració predeterminada de les finestres s'anomena «Brisa».</para>
 
 <para
->Cada estil té un aspecte diferent i un <quote
->comportament</quote
-> diferent. Alguns tenen vores de <quote
->redimensionament</quote
-> (de vegades invisibles) per tot el seu voltant, que en facilita la redimensió però que en dificulta el moviment. Alguns no tenen vores en certs costats.</para>
+>Cada estil té un aspecte diferent i un «comportament» diferent. Alguns tenen vores de «redimensionament» (de vegades invisibles) per tot el seu voltant, que en facilita la redimensió però que en dificulta el moviment. Alguns no tenen vores en certs costats.</para>
 
 <para
 >Us encoratgem a què experimenteu amb els diferents estils fins que en trobeu un que s'ajusti al vostre patró de treball.</para>
@@ -90,12 +84,10 @@
 ><imageobject
 > <imagedata fileref="configure.png" format="PNG"/></imageobject
 ></inlinemediaobject
-> per obrir el diàleg de configuració per a cada decoració.</para>
+> per a obrir el diàleg de configuració per a cada decoració.</para>
 
 <para
->Les opcions en aquest diàleg de configuració s'apliquen a totes les finestres. Algunes decoracions de finestra (&pex;, <quote
->Brisa</quote
->) proporcionen una pestanya <guilabel
+>Les opcions en aquest diàleg de configuració s'apliquen a totes les finestres. Algunes decoracions de finestra (&pex;, «Brisa») proporcionen una pestanya <guilabel
 >Substitucions específiques de la finestra</guilabel
 >. En aquesta pestanya podreu canviar la mida de la vora i la visibilitat de la barra de títol per a finestres en particular.</para>
 
@@ -109,6 +101,13 @@
 >Per motius d'accessibilitat, algunes decoracions accepten vores molt grans. Si estès disponible, aquí també podreu triar una <guilabel
 >Mida de la vora de la finestra:</guilabel
 >. Aquestes vores llargues són fàcils de veure per a usuaris amb visibilitat reduïda, i fàcils de capturar per a gent amb mobilitat reduïda o dificultats en emprar el ratolí.</para>
+</tip>
+
+<tip>
+<para
+>Si teniu interès a crear la vostra pròpia decoració de finestra, podeu aprendre'n més <ulink url="https://develop.kde.org/docs/extend/plasma/aurorae/"
+>en aquesta guia d'aprenentatge</ulink
+>.</para>
 </tip>
 
 </sect2>
@@ -141,7 +140,7 @@
 >Botons de la barra de títol</title>
 
 <para
->Aquesta pestanya permet personalitzar la ubicació del botó a la barra de títol. Podeu arrossegar els botons, &pex;, el <guilabel
+>Aquesta pàgina permet personalitzar la ubicació del botó a la barra de títol. Podeu arrossegar els botons, &pex;, el <guilabel
 >Menú d'aplicacions</guilabel
 > dins la barra de títol, eliminar-los o arrossegar-los al voltant fins que us resultin més confortables d'emprar. </para>
 

@@ -15,8 +15,6 @@
 #include "dbusutils_p.h"
 #include "plugin.h"
 
-#include <KRunner/QueryMatch>
-
 #include <QDBusArgument>
 #include <QDBusContext>
 #include <QDBusMessage>
@@ -34,9 +32,11 @@ class WindowsRunner : public Plugin, protected QDBusContext
     Q_CLASSINFO("D-Bus Interface", "org.kde.KWin.WindowsRunner")
 public:
     explicit WindowsRunner();
-    ~WindowsRunner() override;
 
-    RemoteActions Actions();
+    RemoteActions Actions()
+    {
+        return {};
+    }
     RemoteMatches Match(const QString &searchTerm);
     void Run(const QString &id, const QString &actionId);
 
@@ -52,11 +52,11 @@ private:
         KeepAboveAction,
         KeepBelowAction,
         // Desktop related actions
-        ActivateDesktopAction
+        ActivateDesktopAction,
     };
 
     RemoteMatch desktopMatch(const VirtualDesktop *desktop, const WindowsRunnerAction action = ActivateDesktopAction, qreal relevance = 1.0) const;
-    RemoteMatch windowsMatch(const Window *window, const WindowsRunnerAction action = ActivateAction, qreal relevance = 1.0, Plasma::QueryMatch::Type type = Plasma::QueryMatch::ExactMatch) const;
+    RemoteMatch windowsMatch(const Window *window, const WindowsRunnerAction action = ActivateAction, qreal relevance = 1.0, qreal categoryRelevance = HighestCategoryRelevance) const;
     bool actionSupported(const Window *window, const WindowsRunnerAction action) const;
 };
 }

@@ -5,19 +5,29 @@
 */
 
 #include "scene/shadowitem.h"
-#include "deleted.h"
+#include "compositor.h"
+#include "scene/workspacescene.h"
 #include "shadow.h"
+#include "window.h"
 
 namespace KWin
 {
 
-ShadowItem::ShadowItem(Shadow *shadow, Window *window, Scene *scene, Item *parent)
-    : Item(scene, parent)
+ShadowTextureProvider::ShadowTextureProvider(Shadow *shadow)
+    : m_shadow(shadow)
+{
+}
+
+ShadowTextureProvider::~ShadowTextureProvider()
+{
+}
+
+ShadowItem::ShadowItem(Shadow *shadow, Window *window, Item *parent)
+    : Item(parent)
     , m_window(window)
     , m_shadow(shadow)
+    , m_textureProvider(Compositor::self()->scene()->createShadowTextureProvider(shadow))
 {
-    connect(window, &Window::windowClosed, this, &ShadowItem::handleWindowClosed);
-
     connect(shadow, &Shadow::offsetChanged, this, &ShadowItem::updateGeometry);
     connect(shadow, &Shadow::rectChanged, this, &ShadowItem::updateGeometry);
     connect(shadow, &Shadow::textureChanged, this, &ShadowItem::handleTextureChanged);
@@ -35,6 +45,11 @@ Shadow *ShadowItem::shadow() const
     return m_shadow;
 }
 
+ShadowTextureProvider *ShadowItem::textureProvider() const
+{
+    return m_textureProvider.get();
+}
+
 void ShadowItem::updateGeometry()
 {
     const QRectF rect = m_shadow->rect() + m_shadow->offset();
@@ -48,11 +63,7 @@ void ShadowItem::handleTextureChanged()
 {
     scheduleRepaint(rect());
     discardQuads();
-}
-
-void ShadowItem::handleWindowClosed(Window *original, Deleted *deleted)
-{
-    m_window = deleted;
+    m_textureDirty = true;
 }
 
 static inline void distributeHorizontally(QRectF &leftRect, QRectF &rightRect)
@@ -287,4 +298,14 @@ WindowQuadList ShadowItem::buildQuads() const
     return quads;
 }
 
+void ShadowItem::preprocess()
+{
+    if (m_textureDirty) {
+        m_textureDirty = false;
+        m_textureProvider->update();
+    }
+}
+
 } // namespace KWin
+
+#include "moc_shadowitem.cpp"

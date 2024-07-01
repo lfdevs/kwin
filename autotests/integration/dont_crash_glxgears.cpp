@@ -8,14 +8,14 @@
 */
 #include "kwin_wayland_test.h"
 
-#include "core/outputbackend.h"
-#include "deleted.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
 #include "x11window.h"
 
 #include <KDecoration2/Decoration>
+
+#include <QSignalSpy>
 
 namespace KWin
 {
@@ -32,10 +32,13 @@ private Q_SLOTS:
 
 void DontCrashGlxgearsTest::initTestCase()
 {
-    qRegisterMetaType<KWin::Deleted *>();
+    qRegisterMetaType<KWin::Window *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
+    Test::setOutputConfig({
+        QRect(0, 0, 1280, 1024),
+        QRect(1280, 0, 1280, 1024),
+    });
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
 }
@@ -54,10 +57,10 @@ void DontCrashGlxgearsTest::testGlxgears()
 
     QVERIFY(windowAddedSpy.wait());
     QCOMPARE(windowAddedSpy.count(), 1);
-    QCOMPARE(workspace()->clientList().count(), 1);
-    X11Window *glxgearsWindow = workspace()->clientList().first();
+    QCOMPARE(workspace()->windows().count(), 1);
+    Window *glxgearsWindow = workspace()->windows().first();
     QVERIFY(glxgearsWindow->isDecorated());
-    QSignalSpy closedSpy(glxgearsWindow, &X11Window::windowClosed);
+    QSignalSpy closedSpy(glxgearsWindow, &X11Window::closed);
     KDecoration2::Decoration *decoration = glxgearsWindow->decoration();
     QVERIFY(decoration);
 

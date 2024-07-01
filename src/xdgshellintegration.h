@@ -8,14 +8,14 @@
 
 #include "waylandshellintegration.h"
 
-namespace KWaylandServer
-{
-class XdgToplevelInterface;
-class XdgPopupInterface;
-}
+#include <chrono>
 
 namespace KWin
 {
+
+class XdgShellInterface;
+class XdgToplevelInterface;
+class XdgPopupInterface;
 
 class XdgShellIntegration : public WaylandShellIntegration
 {
@@ -24,10 +24,15 @@ class XdgShellIntegration : public WaylandShellIntegration
 public:
     explicit XdgShellIntegration(QObject *parent = nullptr);
 
+    std::chrono::milliseconds pingTimeout() const;
+    void setPingTimeout(std::chrono::milliseconds pingTimeout);
+
 private:
-    void registerXdgToplevel(KWaylandServer::XdgToplevelInterface *toplevel);
-    void registerXdgPopup(KWaylandServer::XdgPopupInterface *popup);
-    void createXdgToplevelWindow(KWaylandServer::XdgToplevelInterface *surface);
+    void registerXdgToplevel(XdgToplevelInterface *toplevel);
+    void registerXdgPopup(XdgPopupInterface *popup);
+    void createXdgToplevelWindow(XdgToplevelInterface *surface);
+
+    XdgShellInterface *m_shell;
 };
 
 } // namespace KWin

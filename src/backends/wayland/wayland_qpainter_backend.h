@@ -10,70 +10,50 @@
 #pragma once
 
 #include "core/outputlayer.h"
-#include "qpainterbackend.h"
+#include "platformsupport/scenes/qpainter/qpainterbackend.h"
 #include "utils/damagejournal.h"
-
-#include <KWayland/Client/buffer.h>
 
 #include <QImage>
 #include <QObject>
-#include <QWeakPointer>
-
-namespace KWayland
-{
-namespace Client
-{
-class ShmPool;
-class Buffer;
-}
-}
+#include <chrono>
 
 namespace KWin
 {
 class Output;
+class GraphicsBufferAllocator;
+class QPainterSwapchainSlot;
+class QPainterSwapchain;
+
 namespace Wayland
 {
 class WaylandBackend;
+class WaylandDisplay;
 class WaylandOutput;
 class WaylandQPainterBackend;
-
-class WaylandQPainterBufferSlot
-{
-public:
-    WaylandQPainterBufferSlot(QSharedPointer<KWayland::Client::Buffer> buffer);
-    ~WaylandQPainterBufferSlot();
-
-    QSharedPointer<KWayland::Client::Buffer> buffer;
-    QImage image;
-    int age = 0;
-};
 
 class WaylandQPainterPrimaryLayer : public OutputLayer
 {
 public:
-    WaylandQPainterPrimaryLayer(WaylandOutput *output);
+    WaylandQPainterPrimaryLayer(WaylandOutput *output, WaylandQPainterBackend *backend);
     ~WaylandQPainterPrimaryLayer() override;
 
-    std::optional<OutputLayerBeginFrameInfo> beginFrame() override;
-    bool endFrame(const QRegion &renderedRegion, const QRegion &damagedRegion) override;
+    std::optional<OutputLayerBeginFrameInfo> doBeginFrame() override;
+    bool doEndFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame) override;
+    DrmDevice *scanoutDevice() const override;
+    QHash<uint32_t, QList<uint64_t>> supportedDrmFormats() const override;
 
-    void remapBuffer();
-
-    WaylandQPainterBufferSlot *back() const;
-
-    WaylandQPainterBufferSlot *acquire();
     void present();
 
     QRegion accumulateDamage(int bufferAge) const;
 
 private:
     WaylandOutput *m_waylandOutput;
-    KWayland::Client::ShmPool *m_pool;
+    WaylandQPainterBackend *m_backend;
     DamageJournal m_damageJournal;
 
-    std::vector<std::unique_ptr<WaylandQPainterBufferSlot>> m_slots;
-    WaylandQPainterBufferSlot *m_back = nullptr;
-    QSize m_swapchainSize;
+    std::unique_ptr<QPainterSwapchain> m_swapchain;
+    std::shared_ptr<QPainterSwapchainSlot> m_back;
+    std::unique_ptr<CpuRenderTimeQuery> m_renderTime;
 
     friend class WaylandQPainterBackend;
 };
@@ -83,27 +63,19 @@ class WaylandQPainterCursorLayer : public OutputLayer
     Q_OBJECT
 
 public:
-    explicit WaylandQPainterCursorLayer(WaylandOutput *output);
+    WaylandQPainterCursorLayer(WaylandOutput *output, WaylandQPainterBackend *backend);
     ~WaylandQPainterCursorLayer() override;
 
-    qreal scale() const;
-    void setScale(qreal scale);
-
-    QPoint hotspot() const;
-    void setHotspot(const QPoint &hotspot);
-
-    QSize size() const;
-    void setSize(const QSize &size);
-
-    std::optional<OutputLayerBeginFrameInfo> beginFrame() override;
-    bool endFrame(const QRegion &renderedRegion, const QRegion &damagedRegion) override;
+    std::optional<OutputLayerBeginFrameInfo> doBeginFrame() override;
+    bool doEndFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame) override;
+    DrmDevice *scanoutDevice() const override;
+    QHash<uint32_t, QList<uint64_t>> supportedDrmFormats() const override;
 
 private:
-    WaylandOutput *m_output;
-    QImage m_backingStore;
-    QPoint m_hotspot;
-    QSize m_size;
-    qreal m_scale = 1.0;
+    WaylandQPainterBackend *m_backend;
+    std::unique_ptr<QPainterSwapchain> m_swapchain;
+    std::shared_ptr<QPainterSwapchainSlot> m_back;
+    std::unique_ptr<CpuRenderTimeQuery> m_renderTime;
 };
 
 class WaylandQPainterBackend : public QPainterBackend
@@ -113,9 +85,11 @@ public:
     explicit WaylandQPainterBackend(WaylandBackend *b);
     ~WaylandQPainterBackend() override;
 
-    void present(Output *output) override;
+    GraphicsBufferAllocator *graphicsBufferAllocator() const;
+
+    void present(Output *output, const std::shared_ptr<OutputFrame> &frame) override;
     OutputLayer *primaryLayer(Output *output) override;
-    WaylandQPainterCursorLayer *cursorLayer(Output *output);
+    OutputLayer *cursorLayer(Output *output) override;
 
 private:
     void createOutput(Output *waylandOutput);
@@ -127,6 +101,7 @@ private:
     };
 
     WaylandBackend *m_backend;
+    std::unique_ptr<GraphicsBufferAllocator> m_allocator;
     std::map<Output *, Layers> m_outputs;
 };
 

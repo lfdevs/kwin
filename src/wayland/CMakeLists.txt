@@ -1,16 +1,11 @@
 add_subdirectory(tools)
 
-if (BUILD_TESTING)
-    add_subdirectory(autotests)
-    add_subdirectory(tests)
-endif()
-
 # CMake has a known bug where target_source() doesn't work as expected with files generated
 # in a directory other than the one where the target is defined. It should be fixed in 3.20.
 add_library(WaylandProtocols_xml OBJECT)
 set_property(TARGET WaylandProtocols_xml PROPERTY POSITION_INDEPENDENT_CODE ON)
 target_link_libraries(WaylandProtocols_xml Qt::Core Wayland::Server)
-target_link_libraries(kwin WaylandProtocols_xml)
+target_link_libraries(kwin PRIVATE WaylandProtocols_xml)
 
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
     PROTOCOL ${Wayland_DATADIR}/wayland.xml
@@ -200,95 +195,233 @@ ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
     PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-output-order-v1.xml
     BASENAME kde-output-order-v1
 )
-
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
     PROTOCOL ${WaylandProtocols_DATADIR}/staging/fractional-scale/fractional-scale-v1.xml
     BASENAME fractional-scale-v1
+)
+ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PROTOCOL ${PROJECT_SOURCE_DIR}/src/wayland/protocols/wayland-drm.xml
+    BASENAME drm
+)
+ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-screen-edge-v1.xml
+    BASENAME kde-screen-edge-v1
+)
+ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PROTOCOL ${WaylandProtocols_DATADIR}/staging/cursor-shape/cursor-shape-v1.xml
+    BASENAME cursor-shape-v1
+)
+ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PROTOCOL ${WaylandProtocols_DATADIR}/staging/xdg-toplevel-drag/xdg-toplevel-drag-v1.xml
+    BASENAME xdg-toplevel-drag-v1
+)
+ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PROTOCOL ${PROJECT_SOURCE_DIR}/src/wayland/protocols/frog-color-management-v1.xml
+    BASENAME frog-color-management-v1
+)
+ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PROTOCOL ${WaylandProtocols_DATADIR}/stable/presentation-time/presentation-time.xml
+    BASENAME presentation-time
+)
+ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PROTOCOL ${WaylandProtocols_DATADIR}/staging/security-context/security-context-v1.xml
+    BASENAME security-context-v1
+)
+ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PROTOCOL ${PROJECT_SOURCE_DIR}/src/wayland/protocols/xx-color-management-v2.xml
+    BASENAME xx-color-management-v2
+)
+if (WaylandProtocols_VERSION VERSION_LESS 1.36)
+    ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+        PROTOCOL ${WaylandProtocols_DATADIR}/staging/xdg-dialog/xdg-dialog-v1.xml
+        BASENAME dialog-v1
+    )
+    target_compile_definitions(kwin PRIVATE
+        -DHAVE_XDG_DIALOG_V1_HEADER=0
+    )
+else()
+    ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+        PROTOCOL ${WaylandProtocols_DATADIR}/staging/xdg-dialog/xdg-dialog-v1.xml
+        BASENAME xdg-dialog-v1
+    )
+    target_compile_definitions(kwin PRIVATE
+        -DHAVE_XDG_DIALOG_V1_HEADER=1
+    )
+endif()
+ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PROTOCOL ${WaylandProtocols_DATADIR}/staging/linux-drm-syncobj/linux-drm-syncobj-v1.xml
+    BASENAME linux-drm-syncobj-v1
 )
 
 target_sources(kwin PRIVATE
     abstract_data_source.cpp
     abstract_drop_handler.cpp
-    appmenu_interface.cpp
-    blur_interface.cpp
-    clientbuffer.cpp
-    clientbufferintegration.cpp
+    appmenu.cpp
+    blur.cpp
     clientconnection.cpp
-    compositor_interface.cpp
-    contenttype_v1_interface.cpp
-    contrast_interface.cpp
-    datacontroldevice_v1_interface.cpp
-    datacontroldevicemanager_v1_interface.cpp
-    datacontroloffer_v1_interface.cpp
-    datacontrolsource_v1_interface.cpp
-    datadevice_interface.cpp
-    datadevicemanager_interface.cpp
-    dataoffer_interface.cpp
-    datasource_interface.cpp
+    compositor.cpp
+    contenttype_v1.cpp
+    contrast.cpp
+    cursorshape_v1.cpp
+    datacontroldevice_v1.cpp
+    datacontroldevicemanager_v1.cpp
+    datacontroloffer_v1.cpp
+    datacontrolsource_v1.cpp
+    datadevice.cpp
+    datadevicemanager.cpp
+    dataoffer.cpp
+    datasource.cpp
     display.cpp
-    dpms_interface.cpp
+    dpms.cpp
     drmclientbuffer.cpp
-    drmlease_v1_interface.cpp
-    fakeinput_interface.cpp
-    fractionalscale_v1_interface.cpp
+    drmlease_v1.cpp
     filtered_display.cpp
-    idle_interface.cpp
-    idleinhibit_v1_interface.cpp
-    idlenotify_v1_interface.cpp
-    inputmethod_v1_interface.cpp
-    keyboard_interface.cpp
-    keyboard_shortcuts_inhibit_v1_interface.cpp
-    keystate_interface.cpp
-    layershell_v1_interface.cpp
+    fractionalscale_v1.cpp
+    frog_colormanagement_v1.cpp
+    idle.cpp
+    idleinhibit_v1.cpp
+    idlenotify_v1.cpp
+    inputmethod_v1.cpp
+    keyboard.cpp
+    keyboard_shortcuts_inhibit_v1.cpp
+    keystate.cpp
+    layershell_v1.cpp
+    linux_drm_syncobj_v1.cpp
     linuxdmabufv1clientbuffer.cpp
-    lockscreen_overlay_v1_interface.cpp
-    output_interface.cpp
-    output_order_v1_interface.cpp
-    outputdevice_v2_interface.cpp
-    outputmanagement_v2_interface.cpp
-    plasmashell_interface.cpp
-    plasmavirtualdesktop_interface.cpp
-    plasmawindowmanagement_interface.cpp
-    pointer_interface.cpp
-    pointerconstraints_v1_interface.cpp
-    pointergestures_v1_interface.cpp
-    primaryselectiondevice_v1_interface.cpp
-    primaryselectiondevicemanager_v1_interface.cpp
-    primaryselectionoffer_v1_interface.cpp
-    primaryselectionsource_v1_interface.cpp
-    region_interface.cpp
-    relativepointer_v1_interface.cpp
-    screencast_v1_interface.cpp
-    seat_interface.cpp
-    server_decoration_interface.cpp
-    server_decoration_palette_interface.cpp
-    shadow_interface.cpp
+    lockscreen_overlay_v1.cpp
+    output.cpp
+    output_order_v1.cpp
+    outputdevice_v2.cpp
+    outputmanagement_v2.cpp
+    plasmashell.cpp
+    plasmavirtualdesktop.cpp
+    plasmawindowmanagement.cpp
+    pointer.cpp
+    pointerconstraints_v1.cpp
+    pointergestures_v1.cpp
+    presentationtime.cpp
+    primaryselectiondevice_v1.cpp
+    primaryselectiondevicemanager_v1.cpp
+    primaryselectionoffer_v1.cpp
+    primaryselectionsource_v1.cpp
+    region.cpp
+    relativepointer_v1.cpp
+    screencast_v1.cpp
+    screenedge_v1.cpp
+    seat.cpp
+    securitycontext_v1.cpp
+    server_decoration.cpp
+    server_decoration_palette.cpp
+    shadow.cpp
     shmclientbuffer.cpp
-    slide_interface.cpp
-    subcompositor_interface.cpp
-    surface_interface.cpp
-    surfacerole.cpp
-    tablet_v2_interface.cpp
-    tearingcontrol_v1_interface.cpp
+    slide.cpp
+    subcompositor.cpp
+    surface.cpp
+    tablet_v2.cpp
+    tearingcontrol_v1.cpp
     textinput.cpp
-    textinput_v1_interface.cpp
-    textinput_v2_interface.cpp
-    textinput_v3_interface.cpp
-    touch_interface.cpp
-    viewporter_interface.cpp
-    xdgactivation_v1_interface.cpp
-    xdgdecoration_v1_interface.cpp
-    xdgforeign_v2_interface.cpp
-    xdgoutput_v1_interface.cpp
-    xdgshell_interface.cpp
-    xwaylandkeyboardgrab_v1_interface.cpp
-    xwaylandshell_v1_interface.cpp
+    textinput_v1.cpp
+    textinput_v2.cpp
+    textinput_v3.cpp
+    touch.cpp
+    transaction.cpp
+    viewporter.cpp
+    xdgactivation_v1.cpp
+    xdgdecoration_v1.cpp
+    xdgdialog_v1.cpp
+    xdgforeign_v2.cpp
+    xdgoutput_v1.cpp
+    xdgshell.cpp
+    xdgtopleveldrag_v1.cpp
+    xwaylandkeyboardgrab_v1.cpp
+    xwaylandshell_v1.cpp
+    xx_colormanagement_v2.cpp
 )
 
-if(CMAKE_SYSTEM_NAME MATCHES "Linux")
-    target_sources(kwin PRIVATE utils/executable_path_proc.cpp)
-elseif(CMAKE_SYSTEM_NAME MATCHES "FreeBSD")
-    target_sources(kwin PRIVATE utils/executable_path_sysctl.cpp)
-else()
-    message(FATAL_ERROR "Unsupported platform ${CMAKE_SYSTEM_NAME}")
-endif()
+install(FILES
+    appmenu.h
+    blur.h
+    clientconnection.h
+    compositor.h
+    contenttype_v1.h
+    contrast.h
+    cursorshape_v1.h
+    datacontroldevice_v1.h
+    datacontroldevicemanager_v1.h
+    datacontroloffer_v1.h
+    datacontrolsource_v1.h
+    datadevice.h
+    datadevicemanager.h
+    dataoffer.h
+    datasource.h
+    display.h
+    dpms.h
+    drmlease_v1.h
+    fractionalscale_v1.h
+    frog_colormanagement_v1.h
+    idle.h
+    idleinhibit_v1.h
+    idlenotify_v1.h
+    inputmethod_v1.h
+    keyboard.h
+    keyboard_shortcuts_inhibit_v1.h
+    keystate.h
+    layershell_v1.h
+    linux_drm_syncobj_v1.h
+    lockscreen_overlay_v1.h
+    output.h
+    output_order_v1.h
+    outputdevice_v2.h
+    outputmanagement_v2.h
+    plasmashell.h
+    plasmavirtualdesktop.h
+    plasmawindowmanagement.h
+    pointer.h
+    pointerconstraints_v1.h
+    pointergestures_v1.h
+    presentationtime.h
+    primaryselectiondevice_v1.h
+    primaryselectiondevicemanager_v1.h
+    primaryselectionoffer_v1.h
+    primaryselectionsource_v1.h
+    quirks.h
+    relativepointer_v1.h
+    screencast_v1.h
+    screenedge_v1.h
+    seat.h
+    securitycontext_v1.h
+    server_decoration.h
+    server_decoration_palette.h
+    shadow.h
+    slide.h
+    subcompositor.h
+    surface.h
+    tablet_v2.h
+    tearingcontrol_v1.h
+    textinput_v1.h
+    textinput_v2.h
+    textinput_v3.h
+    touch.h
+    viewporter.h
+    xdgactivation_v1.h
+    xdgdecoration_v1.h
+    xdgdialog_v1.h
+    xdgforeign_v2.h
+    xdgoutput_v1.h
+    xdgshell.h
+    xwaylandkeyboardgrab_v1.h
+    xwaylandshell_v1.h
+    xx_colormanagement_v2.h
+
+    ${CMAKE_CURRENT_BINARY_DIR}/qwayland-server-content-type-v1.h
+    ${CMAKE_CURRENT_BINARY_DIR}/qwayland-server-frog-color-management-v1.h
+    ${CMAKE_CURRENT_BINARY_DIR}/qwayland-server-linux-drm-syncobj-v1.h
+    ${CMAKE_CURRENT_BINARY_DIR}/qwayland-server-presentation-time.h
+    ${CMAKE_CURRENT_BINARY_DIR}/qwayland-server-xx-color-management-v2.h
+    ${CMAKE_CURRENT_BINARY_DIR}/wayland-content-type-v1-server-protocol.h
+    ${CMAKE_CURRENT_BINARY_DIR}/wayland-frog-color-management-v1-server-protocol.h
+    ${CMAKE_CURRENT_BINARY_DIR}/wayland-linux-drm-syncobj-v1-server-protocol.h
+    ${CMAKE_CURRENT_BINARY_DIR}/wayland-presentation-time-server-protocol.h
+    ${CMAKE_CURRENT_BINARY_DIR}/wayland-xx-color-management-v2-server-protocol.h
+
+    DESTINATION ${KDE_INSTALL_INCLUDEDIR}/kwin/wayland COMPONENT Devel)

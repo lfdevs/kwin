@@ -11,30 +11,96 @@
 #include <kwin_export.h>
 
 #include "renderloop.h"
+#include "utils/edid.h"
 
 #include <QDebug>
-#include <QMatrix3x3>
+#include <QList>
 #include <QMatrix4x4>
 #include <QObject>
 #include <QRect>
 #include <QSize>
 #include <QUuid>
-#include <QVector>
 
 namespace KWin
 {
 
-class CursorSource;
-class EffectScreenImpl;
 class RenderLoop;
 class OutputConfiguration;
 class ColorTransformation;
+class IccProfile;
+class OutputChangeSet;
 
-enum class ContentType {
-    None = 0,
-    Photo = 1,
-    Video = 2,
-    Game = 3,
+/**
+ * The OutputTransform type is used to describe the transform applied to the output content.
+ */
+class KWIN_EXPORT OutputTransform
+{
+public:
+    enum Kind {
+        Normal = 0, // no rotation
+        Rotate90 = 1, // rotate 90 degrees counterclockwise
+        Rotate180 = 2, // rotate 180 degrees counterclockwise
+        Rotate270 = 3, // rotate 270 degrees counterclockwise
+        FlipX = 4, // mirror horizontally
+        FlipX90 = 5, // mirror horizontally, then rotate 90 degrees counterclockwise
+        FlipX180 = 6, // mirror horizontally, then rotate 180 degrees counterclockwise
+        FlipX270 = 7, // mirror horizontally, then rotate 270 degrees counterclockwise
+        FlipY = FlipX180, // mirror vertically
+        FlipY90 = FlipX270, // mirror vertically, then rotate 90 degrees counterclockwise
+        FlipY180 = FlipX, // mirror vertically, then rotate 180 degrees counterclockwise
+        FlipY270 = FlipX90, // mirror vertically, then rotate 270 degrees counterclockwise
+    };
+
+    OutputTransform() = default;
+    OutputTransform(Kind kind)
+        : m_kind(kind)
+    {
+    }
+
+    bool operator<=>(const OutputTransform &other) const = default;
+
+    /**
+     * Returns the transform kind.
+     */
+    Kind kind() const;
+
+    /**
+     * Returns the inverse transform. The inverse transform can be used for mapping between
+     * surface and buffer coordinate systems.
+     */
+    OutputTransform inverted() const;
+
+    /**
+     * Applies the output transform to the given @a size.
+     */
+    QSizeF map(const QSizeF &size) const;
+    QSize map(const QSize &size) const;
+
+    /**
+     * Applies the output transform to the given @a rect within a buffer with dimensions @a bounds.
+     */
+    QRectF map(const QRectF &rect, const QSizeF &bounds) const;
+    QRect map(const QRect &rect, const QSize &bounds) const;
+
+    /**
+     * Applies the output transform to the given @a point.
+     */
+    QPointF map(const QPointF &point, const QSizeF &bounds) const;
+    QPoint map(const QPoint &point, const QSize &bounds) const;
+
+    /**
+     * Returns an output transform that is equivalent to applying this transform and @a other
+     * transform sequentially.
+     */
+    OutputTransform combine(OutputTransform other) const;
+
+    /**
+     * Returns the matrix corresponding to this output transform.
+     */
+    QMatrix4x4 toMatrix() const;
+
+private:
+    Kind m_kind = Kind::Normal;
 };
 
 class KWIN_EXPORT OutputMode
@@ -42,6 +108,7 @@ class KWIN_EXPORT OutputMode
 public:
     enum class Flag : uint {
         Preferred = 0x1,
+        Generated = 0x2,
     };
     Q_DECLARE_FLAGS(Flags, Flag)
 
@@ -64,6 +131,12 @@ private:
 class KWIN_EXPORT Output : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QRect geometry READ geometry NOTIFY geometryChanged)
+    Q_PROPERTY(qreal devicePixelRatio READ scale NOTIFY scaleChanged)
+    Q_PROPERTY(QString name READ name CONSTANT)
+    Q_PROPERTY(QString manufacturer READ manufacturer CONSTANT)
+    Q_PROPERTY(QString model READ model CONSTANT)
+    Q_PROPERTY(QString serialNumber READ serialNumber CONSTANT)
 
 public:
     enum class DpmsMode {
@@ -75,10 +148,15 @@ public:
     Q_ENUM(DpmsMode)
 
     enum class Capability : uint {
-        Dpms = 0x1,
-        Overscan = 0x2,
-        Vrr = 0x4,
-        RgbRange = 0x8,
+        Dpms = 1,
+        Overscan = 1 << 1,
+        Vrr = 1 << 2,
+        RgbRange = 1 << 3,
+        HighDynamicRange = 1 << 4,
+        WideColorGamut = 1 << 5,
+        AutoRotation = 1 << 6,
+        IccProfile = 1 << 7,
+        Tearing = 1 << 8,
     };
     Q_DECLARE_FLAGS(Capabilities, Capability)
 
@@ -98,6 +176,18 @@ public:
         Limited = 2,
     };
     Q_ENUM(RgbRange)
+
+    enum class AutoRotationPolicy {
+        Never = 0,
+        InTabletMode,
+        Always
+    };
+    Q_ENUM(AutoRotationPolicy);
+    enum class ColorProfileSource {
+        sRGB = 0,
+        ICC,
+        EDID,
+    };
 
     explicit Output(QObject *parent = nullptr);
     ~Output() override;
@@ -120,6 +210,9 @@ public:
      */
     QRectF mapToGlobal(const QRectF &rect) const;
 
+    Q_INVOKABLE QPointF mapToGlobal(const QPointF &pos) const;
+    Q_INVOKABLE QPointF mapFromGlobal(const QPointF &pos) const;
+
     /**
      * Returns a short identifiable name of this output.
      */
@@ -127,8 +220,6 @@ public:
 
     /**
      * Returns the identifying uuid of this output.
-     *
-     * Default implementation returns an empty byte array.
      */
     QUuid uuid() const;
 
@@ -145,7 +236,7 @@ public:
     /**
      * Returns geometry of this output in device independent pixels, without rounding
      */
-    QRectF fractionalGeometry() const;
+    QRectF geometryF() const;
 
     /**
      * Equivalent to `QRect(QPoint(0, 0), geometry().size())`
@@ -153,9 +244,14 @@ public:
     QRect rect() const;
 
     /**
+     * Equivalent to `QRectF(QPointF(0, 0), geometryF().size())`
+     */
+    QRectF rectF() const;
+
+    /**
      * Returns the approximate vertical refresh rate of this output, in mHz.
      */
-    int refreshRate() const;
+    uint32_t refreshRate() const;
 
     /**
      * Returns whether this output is connected through an internal connector,
@@ -165,15 +261,11 @@ public:
 
     /**
      * Returns the ratio between physical pixels and logical pixels.
-     *
-     * Default implementation returns 1.
      */
     qreal scale() const;
 
     /**
      * Returns the non-rotated physical size of this output, in millimeters.
-     *
-     * Default implementation returns an invalid QSize.
      */
     QSize physicalSize() const;
 
@@ -199,13 +291,9 @@ public:
     /**
      * Returns the RenderLoop for this output. If the platform does not support per screen
      * rendering, all outputs will share the same render loop.
+     * FIXME: remove this and decouple RenderLoop from Output
      */
     virtual RenderLoop *renderLoop() const = 0;
-
-    void inhibitDirectScanout();
-    void uninhibitDirectScanout();
-
-    bool directScanoutInhibited() const;
 
     /**
      * @returns the configured time for an output to dim
@@ -217,18 +305,12 @@ public:
      */
     static std::chrono::milliseconds dimAnimationTime();
 
-    enum class Transform {
-        Normal,
-        Rotated90,
-        Rotated180,
-        Rotated270,
-        Flipped,
-        Flipped90,
-        Flipped180,
-        Flipped270
-    };
-    Q_ENUM(Transform)
-    Transform transform() const;
+    OutputTransform transform() const;
+    /**
+     * The transform that the user has configured, and which doesn't get changed
+     * by automatic rotation
+     */
+    OutputTransform manualTransform() const;
     QSize orientateSize(const QSize &size) const;
 
     void applyChanges(const OutputConfiguration &config);
@@ -236,35 +318,51 @@ public:
     SubPixel subPixel() const;
     QString description() const;
     Capabilities capabilities() const;
-    QByteArray edid() const;
+    const Edid &edid() const;
     QList<std::shared_ptr<OutputMode>> modes() const;
     std::shared_ptr<OutputMode> currentMode() const;
+    QSize desiredModeSize() const;
+    uint32_t desiredModeRefreshRate() const;
     DpmsMode dpmsMode() const;
     virtual void setDpmsMode(DpmsMode mode);
 
     uint32_t overscan() const;
 
-    /**
-     * Returns a matrix that can translate into the display's coordinates system
-     */
-    static QMatrix4x4 logicalToNativeMatrix(const QRect &rect, qreal scale, Transform transform);
-
-    void setVrrPolicy(RenderLoop::VrrPolicy policy);
-    RenderLoop::VrrPolicy vrrPolicy() const;
+    VrrPolicy vrrPolicy() const;
     RgbRange rgbRange() const;
-
-    ContentType contentType() const;
-    void setContentType(ContentType contentType);
 
     bool isPlaceholder() const;
     bool isNonDesktop() const;
-    Transform panelOrientation() const;
+    OutputTransform panelOrientation() const;
+    bool wideColorGamut() const;
+    bool highDynamicRange() const;
+    uint32_t sdrBrightness() const;
+    AutoRotationPolicy autoRotationPolicy() const;
+    std::shared_ptr<IccProfile> iccProfile() const;
+    QString iccProfilePath() const;
+    /**
+     * @returns the mst path of this output. Is empty if invalid
+     */
+    QByteArray mstPath() const;
 
     virtual bool setGammaRamp(const std::shared_ptr<ColorTransformation> &transformation);
-    virtual bool setCTM(const QMatrix3x3 &ctm);
+    virtual bool setChannelFactors(const QVector3D &rgb);
 
-    virtual bool setCursor(CursorSource *source);
-    virtual bool moveCursor(const QPoint &position);
+    virtual bool updateCursorLayer();
+
+    std::optional<double> maxPeakBrightness() const;
+    std::optional<double> maxAverageBrightness() const;
+    double minBrightness() const;
+    std::optional<double> maxPeakBrightnessOverride() const;
+    std::optional<double> maxAverageBrightnessOverride() const;
+    std::optional<double> minBrightnessOverride() const;
+
+    double sdrGamutWideness() const;
+    ColorProfileSource colorProfileSource() const;
+
+    double brightness() const;
+
+    const ColorDescription &colorDescription() const;
 
 Q_SIGNALS:
     /**
@@ -299,7 +397,7 @@ Q_SIGNALS:
      *
      * Only to be used for effects
      */
-    void aboutToChange();
+    void aboutToChange(OutputChangeSet *changeSet);
 
     /**
      * Notifies that the output changed based on a user interaction.
@@ -319,6 +417,17 @@ Q_SIGNALS:
     void overscanChanged();
     void vrrPolicyChanged();
     void rgbRangeChanged();
+    void wideColorGamutChanged();
+    void sdrBrightnessChanged();
+    void highDynamicRangeChanged();
+    void autoRotationPolicyChanged();
+    void iccProfileChanged();
+    void iccProfilePathChanged();
+    void brightnessMetadataChanged();
+    void sdrGamutWidenessChanged();
+    void colorDescriptionChanged();
+    void colorProfileSourceChanged();
+    void brightnessChanged();
 
 protected:
     struct Information
@@ -329,45 +438,67 @@ protected:
         QString serialNumber;
         QString eisaId;
         QSize physicalSize;
-        QByteArray edid;
+        Edid edid;
         SubPixel subPixel = SubPixel::Unknown;
         Capabilities capabilities;
-        Transform panelOrientation = Transform::Normal;
+        OutputTransform panelOrientation = OutputTransform::Normal;
         bool internal = false;
         bool placeholder = false;
         bool nonDesktop = false;
+        QByteArray mstPath;
+        std::optional<double> maxPeakBrightness;
+        std::optional<double> maxAverageBrightness;
+        double minBrightness = 0;
     };
 
     struct State
     {
         QPoint position;
         qreal scale = 1;
-        Transform transform = Transform::Normal;
+        OutputTransform transform = OutputTransform::Normal;
+        OutputTransform manualTransform = OutputTransform::Normal;
         QList<std::shared_ptr<OutputMode>> modes;
         std::shared_ptr<OutputMode> currentMode;
+        QSize desiredModeSize;
+        uint32_t desiredModeRefreshRate = 0;
         DpmsMode dpmsMode = DpmsMode::On;
         SubPixel subPixel = SubPixel::Unknown;
         bool enabled = false;
         uint32_t overscan = 0;
         RgbRange rgbRange = RgbRange::Automatic;
+        bool wideColorGamut = false;
+        bool highDynamicRange = false;
+        uint32_t sdrBrightness = 200;
+        AutoRotationPolicy autoRotatePolicy = AutoRotationPolicy::InTabletMode;
+        QString iccProfilePath;
+        std::shared_ptr<IccProfile> iccProfile;
+        ColorProfileSource colorProfileSource = ColorProfileSource::sRGB;
+        ColorDescription colorDescription = ColorDescription::sRGB;
+        std::optional<double> maxPeakBrightnessOverride;
+        std::optional<double> maxAverageBrightnessOverride;
+        std::optional<double> minBrightnessOverride;
+        double sdrGamutWideness = 0;
+        VrrPolicy vrrPolicy = VrrPolicy::Automatic;
+        double brightness = 1.0;
     };
 
     void setInformation(const Information &information);
     void setState(const State &state);
 
-    EffectScreenImpl *m_effectScreen = nullptr;
     State m_state;
     Information m_information;
     QUuid m_uuid;
-    int m_directScanoutCount = 0;
     int m_refCount = 1;
-    ContentType m_contentType = ContentType::None;
-    friend class EffectScreenImpl; // to access m_effectScreen
 };
 
 inline QRect Output::rect() const
 {
     return QRect(QPoint(0, 0), geometry().size());
+}
+
+inline QRectF Output::rectF() const
+{
+    return QRectF(QPointF(0, 0), geometryF().size());
 }
 
 KWIN_EXPORT QDebug operator<<(QDebug debug, const Output *output);

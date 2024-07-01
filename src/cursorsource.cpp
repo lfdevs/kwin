@@ -6,9 +6,7 @@
 
 #include "cursorsource.h"
 #include "cursor.h"
-#include "wayland/clientconnection.h"
-#include "wayland/shmclientbuffer.h"
-#include "wayland/surface_interface.h"
+#include "wayland/surface.h"
 
 namespace KWin
 {
@@ -18,32 +16,19 @@ CursorSource::CursorSource(QObject *parent)
 {
 }
 
-QImage CursorSource::image() const
+bool CursorSource::isBlank() const
 {
-    return m_image;
+    return m_size.isEmpty();
 }
 
-QSize CursorSource::size() const
+QSizeF CursorSource::size() const
 {
     return m_size;
 }
 
-QPoint CursorSource::hotspot() const
+QPointF CursorSource::hotspot() const
 {
     return m_hotspot;
-}
-
-ImageCursorSource::ImageCursorSource(QObject *parent)
-    : CursorSource(parent)
-{
-}
-
-void ImageCursorSource::update(const QImage &image, const QPoint &hotspot)
-{
-    m_image = image;
-    m_size = image.size() / image.devicePixelRatio();
-    m_hotspot = hotspot;
-    Q_EMIT changed();
 }
 
 ShapeCursorSource::ShapeCursorSource(QObject *parent)
@@ -51,6 +36,11 @@ ShapeCursorSource::ShapeCursorSource(QObject *parent)
 {
     m_delayTimer.setSingleShot(true);
     connect(&m_delayTimer, &QTimer::timeout, this, &ShapeCursorSource::selectNextSprite);
+}
+
+QImage ShapeCursorSource::image() const
+{
+    return m_image;
 }
 
 QByteArray ShapeCursorSource::shape() const
@@ -91,7 +81,7 @@ void ShapeCursorSource::refresh()
 
     m_sprites = m_theme.shape(m_shape);
     if (m_sprites.isEmpty()) {
-        const auto alternativeNames = Cursor::cursorAlternativeNames(m_shape);
+        const auto alternativeNames = CursorShape::alternatives(m_shape);
         for (const QByteArray &alternativeName : alternativeNames) {
             m_sprites = m_theme.shape(alternativeName);
             if (!m_sprites.isEmpty()) {
@@ -118,7 +108,7 @@ void ShapeCursorSource::selectSprite(int index)
     const KXcursorSprite &sprite = m_sprites[index];
     m_currentSprite = index;
     m_image = sprite.data();
-    m_size = m_image.size() / m_image.devicePixelRatio();
+    m_size = QSizeF(m_image.size()) / m_image.devicePixelRatio();
     m_hotspot = sprite.hotspot();
     if (sprite.delay().count() && m_sprites.size() > 1) {
         m_delayTimer.start(sprite.delay());
@@ -131,35 +121,60 @@ SurfaceCursorSource::SurfaceCursorSource(QObject *parent)
 {
 }
 
-KWaylandServer::SurfaceInterface *SurfaceCursorSource::surface() const
+SurfaceInterface *SurfaceCursorSource::surface() const
 {
     return m_surface;
 }
 
-void SurfaceCursorSource::update(KWaylandServer::SurfaceInterface *surface, const QPoint &hotspot)
+void SurfaceCursorSource::refresh()
 {
-    if (!surface) {
-        m_image = QImage();
-        m_size = QSize(0, 0);
-        m_hotspot = QPoint();
-        m_surface = nullptr;
-    } else {
-        // TODO Plasma 6: once Xwayland cursor scaling can be done correctly, remove this
-        // scaling is intentionally applied "wrong" here to make the cursor stay a consistent size even with un-scaled Xwayland:
-        // - the device pixel ratio of the image is not multiplied by scaleOverride
-        // - the surface size is scaled up with scaleOverride, to un-do the scaling done elsewhere
-        auto buffer = qobject_cast<KWaylandServer::ShmClientBuffer *>(surface->buffer());
-        if (buffer) {
-            m_image = buffer->data().copy();
-            m_image.setDevicePixelRatio(surface->bufferScale());
-        } else {
-            m_image = QImage();
-        }
-        m_size = (surface->size() * surface->client()->scaleOverride()).toSize();
-        m_hotspot = hotspot;
-        m_surface = surface;
-    }
+    m_size = m_surface->size();
+    m_hotspot -= m_surface->offset();
     Q_EMIT changed();
 }
 
+void SurfaceCursorSource::reset()
+{
+    m_size = QSizeF(0, 0);
+    m_hotspot = QPointF(0, 0);
+    m_surface = nullptr;
+    Q_EMIT changed();
+}
+
+void SurfaceCursorSource::update(SurfaceInterface *surface, const QPointF &hotspot)
+{
+    bool dirty = false;
+
+    if (m_hotspot != hotspot) {
+        dirty = true;
+        m_hotspot = hotspot;
+    }
+
+    if (m_surface != surface) {
+        dirty = true;
+
+        if (m_surface) {
+            disconnect(m_surface, &SurfaceInterface::committed, this, &SurfaceCursorSource::refresh);
+            disconnect(m_surface, &SurfaceInterface::destroyed, this, &SurfaceCursorSource::reset);
+        }
+
+        m_surface = surface;
+
+        if (m_surface) {
+            m_size = surface->size();
+
+            connect(m_surface, &SurfaceInterface::committed, this, &SurfaceCursorSource::refresh);
+            connect(m_surface, &SurfaceInterface::destroyed, this, &SurfaceCursorSource::reset);
+        } else {
+            m_size = QSizeF(0, 0);
+        }
+    }
+
+    if (dirty) {
+        Q_EMIT changed();
+    }
+}
+
 } // namespace KWin
+
+#include "moc_cursorsource.cpp"

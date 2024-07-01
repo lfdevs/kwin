@@ -14,15 +14,39 @@
 
 #include <qpa/qplatformopenglcontext.h>
 
+#include <unordered_map>
+
 namespace KWin
 {
+
+class GLFramebuffer;
+class GLTexture;
+class GraphicsBuffer;
+class EglDisplay;
+class EglContext;
+
 namespace QPA
 {
 
-class EGLPlatformContext : public QPlatformOpenGLContext
+class Window;
+
+class EGLRenderTarget
 {
 public:
-    EGLPlatformContext(QOpenGLContext *context, EGLDisplay display);
+    EGLRenderTarget(GraphicsBuffer *buffer, std::unique_ptr<GLFramebuffer> fbo, std::shared_ptr<GLTexture> texture);
+    ~EGLRenderTarget();
+
+    GraphicsBuffer *buffer;
+    std::unique_ptr<GLFramebuffer> fbo;
+    std::shared_ptr<GLTexture> texture;
+};
+
+class EGLPlatformContext : public QObject, public QPlatformOpenGLContext
+{
+    Q_OBJECT
+
+public:
+    EGLPlatformContext(QOpenGLContext *context, EglDisplay *display);
     ~EGLPlatformContext() override;
 
     bool makeCurrent(QPlatformSurface *surface) override;
@@ -34,17 +58,17 @@ public:
     QFunctionPointer getProcAddress(const char *procName) override;
     void swapBuffers(QPlatformSurface *surface) override;
 
-    EGLDisplay eglDisplay() const;
-    EGLContext eglContext() const;
-
 private:
-    void create(const QSurfaceFormat &format, EGLContext shareContext);
+    void create(const QSurfaceFormat &format, ::EGLContext shareContext);
     void updateFormatFromContext();
 
-    EGLDisplay m_eglDisplay;
-    EGLConfig m_config = EGL_NO_CONFIG_KHR;
-    EGLContext m_context = EGL_NO_CONTEXT;
+    EglDisplay *const m_eglDisplay;
     QSurfaceFormat m_format;
+    EGLConfig m_config = EGL_NO_CONFIG_KHR;
+    std::shared_ptr<EglContext> m_eglContext;
+    std::unordered_map<GraphicsBuffer *, std::shared_ptr<EGLRenderTarget>> m_renderTargets;
+    std::vector<std::shared_ptr<EGLRenderTarget>> m_zombieRenderTargets;
+    std::shared_ptr<EGLRenderTarget> m_current;
 };
 
 } // namespace QPA

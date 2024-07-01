@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "kwinglobals.h"
+#include "effect/globals.h"
 
 #include <QElapsedTimer>
 #include <QQueue>
@@ -23,35 +23,14 @@ class KWIN_EXPORT RenderJournal
 public:
     RenderJournal();
 
-    /**
-     * This function must be called before starting rendering a new frame.
-     */
-    void beginFrame();
+    void add(std::chrono::nanoseconds renderTime, std::chrono::nanoseconds presentationTimestamp);
 
-    /**
-     * This function must be called after finishing rendering a frame.
-     */
-    void endFrame();
-
-    /**
-     * Returns the maximum estimated amount of time that it takes to render a single frame.
-     */
-    std::chrono::nanoseconds maximum() const;
-
-    /**
-     * Returns the minimum estimated amount of time that it takes to render a single frame.
-     */
-    std::chrono::nanoseconds minimum() const;
-
-    /**
-     * Returns the average estimated amount of time that it takes to render a single frame.
-     */
-    std::chrono::nanoseconds average() const;
+    std::chrono::nanoseconds result() const;
 
 private:
-    QElapsedTimer m_timer;
-    QQueue<std::chrono::nanoseconds> m_log;
-    int m_size = 15;
+    std::chrono::nanoseconds m_result{0};
+    std::chrono::nanoseconds m_variance{0};
+    std::optional<std::chrono::nanoseconds> m_lastAdd;
 };
 
 } // namespace KWin

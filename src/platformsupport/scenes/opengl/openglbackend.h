@@ -19,6 +19,8 @@ namespace KWin
 class Output;
 class OpenGLBackend;
 class GLTexture;
+class OpenGlContext;
+class EglDisplay;
 
 /**
  * @brief The OpenGLBackend creates and holds the OpenGL context and is responsible for Texture from Pixmap.
@@ -48,6 +50,7 @@ public:
 
     virtual bool makeCurrent() = 0;
     virtual void doneCurrent() = 0;
+    virtual OpenGlContext *openglContext() const = 0;
 
     /**
      * @brief Whether the creation of the Backend failed.
@@ -61,31 +64,10 @@ public:
     {
         return m_failed;
     }
-    /**
-     * @brief Whether the backend uses direct rendering.
-     *
-     * Some OpenGLScene modes require direct rendering. E.g. the OpenGL 2 should not be used
-     * if direct rendering is not supported by the Scene.
-     *
-     * @return bool @c true if the GL context is direct, @c false if indirect
-     */
-    bool isDirectRendering() const
-    {
-        return m_directRendering;
-    }
 
     bool supportsBufferAge() const
     {
         return m_haveBufferAge;
-    }
-
-    bool supportsPartialUpdate() const
-    {
-        return m_havePartialUpdate;
-    }
-    bool supportsSwapBuffersWithDamage() const
-    {
-        return m_haveSwapBuffersWithDamage;
     }
 
     bool supportsNativeFence() const
@@ -116,7 +98,9 @@ public:
      */
     void copyPixels(const QRegion &region, const QSize &screenSize);
 
-    virtual std::shared_ptr<GLTexture> textureForOutput(Output *output) const;
+    virtual std::pair<std::shared_ptr<GLTexture>, ColorDescription> textureForOutput(Output *output) const;
+
+    virtual EglDisplay *eglDisplayObject() const;
 
 protected:
     /**
@@ -128,33 +112,10 @@ protected:
      * @param reason The reason why the initialization failed.
      */
     void setFailed(const QString &reason);
-    /**
-     * @brief Sets whether the OpenGL context is direct.
-     *
-     * Should be called by the concrete subclass once it is determined whether the OpenGL context is
-     * direct or indirect.
-     * If the subclass does not call this method, the backend defaults to @c false.
-     *
-     * @param direct @c true if the OpenGL context is direct, @c false if indirect
-     */
-    void setIsDirectRendering(bool direct)
-    {
-        m_directRendering = direct;
-    }
 
     void setSupportsBufferAge(bool value)
     {
         m_haveBufferAge = value;
-    }
-
-    void setSupportsPartialUpdate(bool value)
-    {
-        m_havePartialUpdate = value;
-    }
-
-    void setSupportsSwapBuffersWithDamage(bool value)
-    {
-        m_haveSwapBuffersWithDamage = value;
     }
 
     void setSupportsNativeFence(bool value)
@@ -174,18 +135,9 @@ protected:
 
 private:
     /**
-     * @brief Whether direct rendering is used, defaults to @c false.
-     */
-    bool m_directRendering;
-    /**
      * @brief Whether the backend supports GLX_EXT_buffer_age / EGL_EXT_buffer_age.
      */
     bool m_haveBufferAge;
-    /**
-     * @brief Whether the backend supports EGL_KHR_partial_update
-     */
-    bool m_havePartialUpdate = false;
-    bool m_haveSwapBuffersWithDamage = false;
     /**
      * @brief Whether the backend supports EGL_ANDROID_native_fence_sync.
      */

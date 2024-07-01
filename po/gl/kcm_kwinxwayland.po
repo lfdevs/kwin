@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-17 00:51+0000\n"
-"PO-Revision-Date: 2023-04-30 10:50+0200\n"
+"POT-Creation-Date: 2024-03-09 00:39+0000\n"
+"PO-Revision-Date: 2024-03-09 09:57+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -17,80 +17,60 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Lokalize 23.08.5\n"
 
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Adrian Chaves (Gallaecio)"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "adrian@chaves.io"
-
-#: kcmkwinxwayland.cpp:30
-#, kde-format
-msgid "Legacy X11 App Support"
-msgstr "Compatibilidade con aplicacións antigas de X11"
-
-#: kcmkwinxwayland.cpp:32
-#, kde-format
-msgid "Allow legacy X11 apps to read keystrokes typed in other apps"
-msgstr ""
-"Permitir ás aplicacións antigas de X11 ler pulsacións de tecla de outras "
-"aplicacións"
-
-#: package/contents/ui/main.qml:19
+#: ui/main.qml:32
 #, kde-format
 msgid ""
-"This module lets configure which keyboard events are forwarded to X11 apps "
-"regardless of their focus."
+"Some legacy X11 apps require the ability to read keystrokes typed in other "
+"apps for certain features, such as handling global keyboard shortcuts. This "
+"is allowed by default. However other features may require the ability to "
+"read all keys, and this is disabled by default for security reasons. If you "
+"need to use such apps, you can choose your preferred balance of security and "
+"functionality here."
 msgstr ""
-"Este módulo permite configurar que eventos de teclado se envían a "
-"aplicacións de X11 sen importar o seu foco."
+"Algunhas aplicacións antigas de X11 necesitan podes ler pulsacións de tecla "
+"doutras aplicacións para algunhas funcionalidades, como xestionar atallos de "
+"teclado globais. Isto permítese de maneira predeterminada. Pero outras "
+"funcionalidades poden requirir poder ler todas as teclas, e iso desactívase "
+"de maneira predeterminada por motivos de seguridade. Se necesita usar unha "
+"aplicación nesa situación, pode escoller aquí o equilibrio que quere entre "
+"seguridade e funcionalidade."
 
-#: package/contents/ui/main.qml:49
-#, kde-format
-msgid ""
-"Legacy X11 apps require the ability to read keystrokes typed in other apps "
-"for features that are activated using global keyboard shortcuts. This is "
-"disabled by default for security reasons. If you need to use such apps, you "
-"can choose your preferred balance of security and functionality here."
-msgstr ""
-"As aplicacións antigas de X11 necesitan podes ler pulsacións de tecla "
-"doutras aplicacións para funcionalidades que se activan mediante atallos de "
-"teclado globais. Isto desactívase de maneira predeterminada por motivos de "
-"seguridade. Se necesita usar unha aplicación nesa situación, pode escoller "
-"aquí o equilibrio que quere entre seguridade e funcionalidade."
-
-#: package/contents/ui/main.qml:66
+#: ui/main.qml:48
 #, kde-format
 msgid "Allow legacy X11 apps to read keystrokes typed in all apps:"
 msgstr ""
 "Permitir ás aplicacións antigas de X11 ler pulsacións de tecla de calquera "
 "aplicación:"
 
-#: package/contents/ui/main.qml:67
+#: ui/main.qml:49
 #, kde-format
 msgid "Never"
 msgstr "Nunca"
 
-#: package/contents/ui/main.qml:70
+#: ui/main.qml:55
 #, kde-format
-msgid "Only Meta, Control, Alt, and Shift keys"
+msgid "Only Meta, Control, Alt and Shift keys"
 msgstr "Só as teclas Meta, Control, Alt e Maiús"
 
-#: package/contents/ui/main.qml:73
+#: ui/main.qml:61
 #, kde-format
-msgid "All keys, but only while Meta, Ctrl, Alt, or Shift keys are pressed"
+msgid ""
+"As above, plus any key typed while the Control, Alt, or Meta keys are pressed"
 msgstr ""
-"Todas as teclas, pero só mentres se premen as teclas Meta, Ctrl, Alt ou Maiús"
+"Como enriba, máis calquera tecla premida mentres se preme as teclas Control, "
+"Alt ou Meta."
 
-#: package/contents/ui/main.qml:77
+#: ui/main.qml:68
 #, kde-format
 msgid "Always"
 msgstr "Sempre"
 
-#: package/contents/ui/main.qml:84
+#: ui/main.qml:78
+#, kde-format
+msgid "Additionally include mouse buttons"
+msgstr "Incluír a maiores botóns de rato."
+
+#: ui/main.qml:89
 #, kde-format
 msgid ""
 "Note that using this setting will reduce system security to that of the X11 "
@@ -100,3 +80,11 @@ msgstr ""
 "Teña en conta que usar esta opción reducirá a seguridade do sistema á dunha "
 "sesión de X11 ao permitir que software malicioso roube contrasinais e espíe "
 "todo o que escriba. Asegúrese de que entende e acepta este risco."
+
+#~ msgid "Only non-character keys"
+#~ msgstr "Só teclas que non son letras"
+
+#~ msgid "All keys, but only while Meta, Ctrl, Alt, or Shift keys are pressed"
+#~ msgstr ""
+#~ "Todas as teclas, pero só mentres se premen as teclas Meta, Ctrl, Alt ou "
+#~ "Maiús"

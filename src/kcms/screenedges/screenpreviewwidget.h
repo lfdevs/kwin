@@ -7,6 +7,11 @@
 
 #include <QWidget>
 
+namespace KSvg
+{
+class ImageSet;
+}
+
 class ScreenPreviewWidgetPrivate;
 
 class ScreenPreviewWidget : public QWidget
@@ -27,14 +32,11 @@ public:
     qreal minimumContentWidth() const;
 
     QRect previewRect() const;
+    KSvg::ImageSet *svgImageSet() const;
 
 protected:
     void resizeEvent(QResizeEvent *event) override;
     void paintEvent(QPaintEvent *event) override;
-    void dropEvent(QDropEvent *event) override;
-
-Q_SIGNALS:
-    void imageDropped(const QString &);
 
 private:
     void updateRect(const QRectF &rect);

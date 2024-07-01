@@ -12,6 +12,9 @@
 #include "decorationpalette.h"
 #include "window.h"
 #include "workspace.h"
+#if KWIN_BUILD_X11
+#include "x11window.h"
+#endif
 
 #include <KDecoration2/DecoratedClient>
 #include <KDecoration2/Decoration>
@@ -31,7 +34,7 @@ DecoratedClientImpl::DecoratedClientImpl(Window *window, KDecoration2::Decorated
     , m_window(window)
     , m_clientSize(window->clientSize().toSize())
 {
-    window->setDecoratedClient(QPointer<DecoratedClientImpl>(this));
+    window->setDecoratedClient(this);
     connect(window, &Window::activeChanged, this, [decoratedClient, window]() {
         Q_EMIT decoratedClient->activeChanged(window->isActive());
     });
@@ -49,7 +52,7 @@ DecoratedClientImpl::DecoratedClientImpl(Window *window, KDecoration2::Decorated
         }
         Q_EMIT decoratedClient->sizeChanged(m_clientSize);
     });
-    connect(window, &Window::desktopChanged, this, [decoratedClient, window]() {
+    connect(window, &Window::desktopsChanged, this, [decoratedClient, window]() {
         Q_EMIT decoratedClient->onAllDesktopsChanged(window->isOnAllDesktops());
     });
     connect(window, &Window::captionChanged, this, [decoratedClient, window]() {
@@ -79,7 +82,7 @@ DecoratedClientImpl::DecoratedClientImpl(Window *window, KDecoration2::Decorated
         int fallAsleepDelay = QApplication::style()->styleHint(QStyle::SH_ToolTip_FallAsleepDelay);
         this->m_toolTipFallAsleep.setRemainingTime(fallAsleepDelay);
 
-        QToolTip::showText(Cursors::self()->mouse()->pos(), this->m_toolTipText);
+        QToolTip::showText(Cursors::self()->mouse()->pos().toPoint(), this->m_toolTipText);
         m_toolTipShowing = true;
     });
 }
@@ -114,7 +117,6 @@ DELEGATE(bool, isMoveable, isMovable)
 DELEGATE(bool, isResizeable, isResizable)
 DELEGATE2(bool, isShadeable)
 DELEGATE2(bool, providesContextHelp)
-DELEGATE2(int, desktop)
 DELEGATE2(bool, isOnAllDesktops)
 DELEGATE2(QPalette, palette)
 DELEGATE2(QIcon, icon)
@@ -131,14 +133,35 @@ DELEGATE2(QIcon, icon)
 DELEGATE(bool, isKeepAbove, keepAbove)
 DELEGATE(bool, isKeepBelow, keepBelow)
 DELEGATE(bool, isShaded, isShade)
-DELEGATE(WId, windowId, window)
-DELEGATE(WId, decorationId, frameId)
 
 #undef DELEGATE
+
+WId DecoratedClientImpl::windowId() const
+{
+#if KWIN_BUILD_X11
+    if (X11Window *x11Window = qobject_cast<X11Window *>(m_window)) {
+        return x11Window->window();
+    }
+#endif
+    return 0;
+}
+
+WId DecoratedClientImpl::decorationId() const
+{
+#if KWIN_BUILD_X11
+    if (X11Window *x11Window = qobject_cast<X11Window *>(m_window)) {
+        return x11Window->frameId();
+    }
+#endif
+    return 0;
+}
 
 #define DELEGATE(name, op)                                                \
     void DecoratedClientImpl::name()                                      \
     {                                                                     \
+        if (m_window->isDeleted()) {                                      \
+            return;                                                       \
+        }                                                                 \
         Workspace::self()->performWindowOperation(m_window, Options::op); \
     }
 
@@ -152,16 +175,26 @@ DELEGATE(requestToggleKeepBelow, KeepBelowOp)
 #define DELEGATE(name, clientName)   \
     void DecoratedClientImpl::name() \
     {                                \
+        if (m_window->isDeleted()) { \
+            return;                  \
+        }                            \
         m_window->clientName();      \
     }
 
 DELEGATE(requestContextHelp, showContextHelp)
-DELEGATE(requestMinimize, minimize)
 
 #undef DELEGATE
 
+void DecoratedClientImpl::requestMinimize()
+{
+    m_window->setMinimized(true);
+}
+
 void DecoratedClientImpl::requestClose()
 {
+    if (m_window->isDeleted()) {
+        return;
+    }
     QMetaObject::invokeMethod(m_window, &Window::closeWindow, Qt::QueuedConnection);
 }
 
@@ -177,6 +210,9 @@ QColor DecoratedClientImpl::color(KDecoration2::ColorGroup group, KDecoration2::
 
 void DecoratedClientImpl::requestShowToolTip(const QString &text)
 {
+    if (m_window->isDeleted()) {
+        return;
+    }
     if (!workspace()->decorationBridge()->showToolTips()) {
         return;
     }
@@ -196,21 +232,33 @@ void DecoratedClientImpl::requestHideToolTip()
 
 void DecoratedClientImpl::requestShowWindowMenu(const QRect &rect)
 {
+    if (m_window->isDeleted()) {
+        return;
+    }
     Workspace::self()->showWindowMenu(QRectF(m_window->pos() + rect.topLeft(), m_window->pos() + rect.bottomRight()).toRect(), m_window);
 }
 
 void DecoratedClientImpl::requestShowApplicationMenu(const QRect &rect, int actionId)
 {
+    if (m_window->isDeleted()) {
+        return;
+    }
     Workspace::self()->showApplicationMenu(rect, m_window, actionId);
 }
 
 void DecoratedClientImpl::showApplicationMenu(int actionId)
 {
+    if (m_window->isDeleted()) {
+        return;
+    }
     decoration()->showApplicationMenu(actionId);
 }
 
 void DecoratedClientImpl::requestToggleMaximization(Qt::MouseButtons buttons)
 {
+    if (m_window->isDeleted()) {
+        return;
+    }
     auto operation = options->operationMaxButtonClick(buttons);
     QMetaObject::invokeMethod(
         this, [this, operation] {
@@ -221,6 +269,9 @@ void DecoratedClientImpl::requestToggleMaximization(Qt::MouseButtons buttons)
 
 void DecoratedClientImpl::delayedRequestToggleMaximization(Options::WindowOperation operation)
 {
+    if (m_window->isDeleted()) {
+        return;
+    }
     Workspace::self()->performWindowOperation(m_window, operation);
 }
 
@@ -298,3 +349,5 @@ QString DecoratedClientImpl::windowClass() const
 
 }
 }
+
+#include "moc_decoratedclient.cpp"

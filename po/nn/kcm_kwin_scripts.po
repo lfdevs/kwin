@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-20 00:47+0000\n"
-"PO-Revision-Date: 2022-09-22 21:56+0200\n"
+"POT-Creation-Date: 2024-01-14 00:38+0000\n"
+"PO-Revision-Date: 2023-07-15 14:40+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
 "Language: nn\n"
@@ -19,27 +19,17 @@ msgstr ""
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
 
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Karl Ove Hufthammer"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "karl@huftis.org"
-
-#: module.cpp:57
+#: module.cpp:49
 #, kde-format
 msgid "Import KWin Script"
 msgstr "Importer KWin-skript"
 
-#: module.cpp:58
+#: module.cpp:50
 #, kde-format
 msgid "*.kwinscript|KWin scripts (*.kwinscript)"
 msgstr "*.kwinscript|KWin-skript (*.kwinscript)"
 
-#: module.cpp:96
+#: module.cpp:61
 #, kde-format
 msgctxt "Placeholder is error message returned from the install service"
 msgid ""
@@ -49,29 +39,30 @@ msgstr ""
 "Klarte ikkje importera det valde skriptet.\n"
 "%1"
 
-#: module.cpp:108
+#: module.cpp:65
 #, kde-format
 msgctxt "Placeholder is name of the script that was imported"
 msgid "The script \"%1\" was successfully imported."
 msgstr "Skriptet «%1» er no importert."
 
-#: module.cpp:148
+#: module.cpp:124
 #, kde-format
 msgid "Error when uninstalling KWin Script: %1"
 msgstr "Feil ved avinstallering av KWin-skript: %1"
 
-#: package/contents/ui/main.qml:47
+#: ui/main.qml:23
 #, kde-format
-msgctxt "@info:tooltip"
-msgid "Delete..."
-msgstr "Slett …"
-
-#: package/contents/ui/main.qml:60
-#, kde-format
-msgid "Install from File..."
+msgid "Install from File…"
 msgstr "Installer frå fil …"
 
-#: package/contents/ui/main.qml:64
+#: ui/main.qml:27
 #, kde-format
-msgid "Get New Scripts..."
-msgstr "Hent nye skript …"
+msgctxt "@action:button get new KWin scripts"
+msgid "Get New…"
+msgstr "Hent nye …"
+
+#: ui/main.qml:65
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Delete…"
+msgstr "Slett …"

@@ -7,22 +7,15 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "drm_virtual_egl_layer.h"
-#include "drm_abstract_output.h"
-#include "drm_backend.h"
-#include "drm_dumb_swapchain.h"
 #include "drm_egl_backend.h"
-#include "drm_gbm_surface.h"
 #include "drm_gpu.h"
 #include "drm_logging.h"
-#include "drm_output.h"
-#include "drm_pipeline.h"
-#include "drm_shadow_buffer.h"
 #include "drm_virtual_output.h"
-#include "egl_dmabuf.h"
-#include "kwineglutils_p.h"
+#include "opengl/eglnativefence.h"
+#include "opengl/eglswapchain.h"
+#include "opengl/glrendertimequery.h"
 #include "scene/surfaceitem_wayland.h"
-#include "wayland/linuxdmabufv1clientbuffer.h"
-#include "wayland/surface_interface.h"
+#include "wayland/surface.h"
 
 #include <QRegion>
 #include <drm_fourcc.h>
@@ -34,112 +27,113 @@ namespace KWin
 {
 
 VirtualEglGbmLayer::VirtualEglGbmLayer(EglGbmBackend *eglBackend, DrmVirtualOutput *output)
-    : m_output(output)
+    : DrmOutputLayer(output)
     , m_eglBackend(eglBackend)
 {
 }
 
-void VirtualEglGbmLayer::aboutToStartPainting(const QRegion &damagedRegion)
-{
-    if (m_gbmSurface && m_gbmSurface->bufferAge() > 0 && !damagedRegion.isEmpty() && m_eglBackend->supportsPartialUpdate()) {
-        const QRegion region = damagedRegion & m_output->geometry();
+VirtualEglGbmLayer::~VirtualEglGbmLayer() = default;
 
-        QVector<EGLint> rects = m_output->regionToRects(region);
-        const bool correct = eglSetDamageRegionKHR(m_eglBackend->eglDisplay(), m_gbmSurface->eglSurface(), rects.data(), rects.count() / 4);
-        if (!correct) {
-            qCWarning(KWIN_DRM) << "eglSetDamageRegionKHR failed:" << getEglErrorString();
-        }
-    }
-}
-
-std::optional<OutputLayerBeginFrameInfo> VirtualEglGbmLayer::beginFrame()
+std::optional<OutputLayerBeginFrameInfo> VirtualEglGbmLayer::doBeginFrame()
 {
     // gbm surface
-    if (doesGbmSurfaceFit(m_gbmSurface.get())) {
-        m_oldGbmSurface.reset();
+    if (doesGbmSwapchainFit(m_gbmSwapchain.get())) {
+        m_oldGbmSwapchain.reset();
+        m_oldDamageJournal.clear();
     } else {
-        if (doesGbmSurfaceFit(m_oldGbmSurface.get())) {
-            m_gbmSurface = m_oldGbmSurface;
+        if (doesGbmSwapchainFit(m_oldGbmSwapchain.get())) {
+            m_gbmSwapchain = m_oldGbmSwapchain;
+            m_damageJournal = m_oldDamageJournal;
         } else {
-            if (!createGbmSurface()) {
+            if (const auto swapchain = createGbmSwapchain()) {
+                m_oldGbmSwapchain = m_gbmSwapchain;
+                m_oldDamageJournal = m_damageJournal;
+                m_gbmSwapchain = swapchain;
+                m_damageJournal = DamageJournal();
+            } else {
                 return std::nullopt;
             }
         }
     }
-    if (!m_gbmSurface->makeContextCurrent()) {
+
+    if (!m_eglBackend->openglContext()->makeCurrent()) {
         return std::nullopt;
     }
+
+    auto slot = m_gbmSwapchain->acquire();
+    if (!slot) {
+        return std::nullopt;
+    }
+
+    m_currentSlot = slot;
+
+    m_query = std::make_unique<GLRenderTimeQuery>(m_eglBackend->openglContextRef());
+    m_query->begin();
+
+    const QRegion repair = m_damageJournal.accumulate(slot->age(), infiniteRegion());
     return OutputLayerBeginFrameInfo{
-        .renderTarget = RenderTarget(m_gbmSurface->fbo()),
-        .repaint = m_gbmSurface->repaintRegion(),
+        .renderTarget = RenderTarget(slot->framebuffer()),
+        .repaint = repair,
     };
 }
 
-bool VirtualEglGbmLayer::endFrame(const QRegion &renderedRegion, const QRegion &damagedRegion)
+bool VirtualEglGbmLayer::doEndFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame)
 {
-    const auto buffer = m_gbmSurface->swapBuffers(damagedRegion);
-    if (buffer) {
-        m_currentBuffer = buffer;
-        m_currentDamage = damagedRegion;
-    }
-    return buffer != nullptr;
+    m_query->end();
+    frame->addRenderTimeQuery(std::move(m_query));
+    glFlush();
+    m_damageJournal.add(damagedRegion);
+
+    EGLNativeFence releaseFence{m_eglBackend->eglDisplayObject()};
+    m_gbmSwapchain->release(m_currentSlot, releaseFence.takeFileDescriptor());
+    return true;
 }
 
-QRegion VirtualEglGbmLayer::currentDamage() const
-{
-    return m_currentDamage;
-}
-
-bool VirtualEglGbmLayer::createGbmSurface()
+std::shared_ptr<EglSwapchain> VirtualEglGbmLayer::createGbmSwapchain() const
 {
     static bool modifiersEnvSet = false;
     static const bool modifiersEnv = qEnvironmentVariableIntValue("KWIN_DRM_USE_MODIFIERS", &modifiersEnvSet) != 0;
     const bool allowModifiers = !modifiersEnvSet || modifiersEnv;
 
-    const auto tranches = m_eglBackend->dmabuf()->tranches();
+    const auto tranches = m_eglBackend->tranches();
     for (const auto &tranche : tranches) {
         for (auto it = tranche.formatTable.constBegin(); it != tranche.formatTable.constEnd(); it++) {
-            const auto size = m_output->pixelSize();
-            const auto config = m_eglBackend->config(it.key());
+            const auto size = m_output->modeSize();
             const auto format = it.key();
             const auto modifiers = it.value();
 
             if (allowModifiers && !modifiers.isEmpty()) {
-                const auto ret = GbmSurface::createSurface(m_eglBackend, size, format, modifiers, config);
-                if (const auto surface = std::get_if<std::shared_ptr<GbmSurface>>(&ret)) {
-                    m_oldGbmSurface = m_gbmSurface;
-                    m_gbmSurface = *surface;
-                    return true;
-                } else if (std::get<GbmSurface::Error>(ret) != GbmSurface::Error::ModifiersUnsupported) {
-                    continue;
+                if (auto swapchain = EglSwapchain::create(m_eglBackend->gpu()->drmDevice()->allocator(), m_eglBackend->openglContext(), size, format, modifiers)) {
+                    return swapchain;
                 }
             }
-            const auto ret = GbmSurface::createSurface(m_eglBackend, size, format, GBM_BO_USE_RENDERING, config);
-            if (const auto surface = std::get_if<std::shared_ptr<GbmSurface>>(&ret)) {
-                m_oldGbmSurface = m_gbmSurface;
-                m_gbmSurface = *surface;
-                return true;
+
+            static const QList<uint64_t> implicitModifier{DRM_FORMAT_MOD_INVALID};
+            if (auto swapchain = EglSwapchain::create(m_eglBackend->gpu()->drmDevice()->allocator(), m_eglBackend->openglContext(), size, format, implicitModifier)) {
+                return swapchain;
             }
         }
     }
-    return false;
+    qCWarning(KWIN_DRM) << "couldn't create a gbm swapchain for a virtual output!";
+    return nullptr;
 }
 
-bool VirtualEglGbmLayer::doesGbmSurfaceFit(GbmSurface *surf) const
+bool VirtualEglGbmLayer::doesGbmSwapchainFit(EglSwapchain *swapchain) const
 {
-    return surf && surf->size() == m_output->pixelSize();
+    return swapchain && swapchain->size() == m_output->modeSize();
 }
 
 std::shared_ptr<GLTexture> VirtualEglGbmLayer::texture() const
 {
-    if (!m_currentBuffer) {
-        qCWarning(KWIN_DRM) << "Failed to record frame: No gbm buffer!";
-        return nullptr;
+    if (m_scanoutBuffer) {
+        return m_eglBackend->importDmaBufAsTexture(*m_scanoutBuffer->dmabufAttributes());
+    } else if (m_currentSlot) {
+        return m_currentSlot->texture();
     }
-    return m_eglBackend->importBufferObjectAsTexture(m_currentBuffer->bo());
+    return nullptr;
 }
 
-bool VirtualEglGbmLayer::scanout(SurfaceItem *surfaceItem)
+bool VirtualEglGbmLayer::doAttemptScanout(GraphicsBuffer *buffer, const ColorDescription &color, const std::shared_ptr<OutputFrame> &frame)
 {
     static bool valid;
     static const bool directScanoutDisabled = qEnvironmentVariableIntValue("KWIN_DRM_NO_DIRECT_SCANOUT", &valid) == 1 && valid;
@@ -147,32 +141,38 @@ bool VirtualEglGbmLayer::scanout(SurfaceItem *surfaceItem)
         return false;
     }
 
-    SurfaceItemWayland *item = qobject_cast<SurfaceItemWayland *>(surfaceItem);
-    if (!item || !item->surface()) {
+    if (sourceRect() != targetRect() || targetRect().topLeft() != QPointF(0, 0) || targetRect().size() != m_output->modeSize() || targetRect().size() != buffer->size() || offloadTransform() != OutputTransform::Kind::Normal) {
         return false;
     }
-    const auto buffer = qobject_cast<KWaylandServer::LinuxDmaBufV1ClientBuffer *>(item->surface()->buffer());
-    if (!buffer || buffer->size() != m_output->pixelSize()) {
-        return false;
-    }
-    const auto scanoutBuffer = GbmBuffer::importBuffer(m_output->gpu(), buffer);
-    if (!scanoutBuffer) {
-        return false;
-    }
-    // damage tracking for screen casting
-    m_currentDamage = m_scanoutSurface == item->surface() ? surfaceItem->damage() : infiniteRegion();
-    surfaceItem->resetDamage();
-    // ensure the pixmap is updated when direct scanout ends
-    surfaceItem->destroyPixmap();
-    m_scanoutSurface = item->surface();
-    m_currentBuffer = scanoutBuffer;
+    m_scanoutBuffer = buffer;
+    m_scanoutColor = color;
     return true;
 }
 
 void VirtualEglGbmLayer::releaseBuffers()
 {
-    m_currentBuffer.reset();
-    m_gbmSurface.reset();
-    m_oldGbmSurface.reset();
+    m_eglBackend->openglContext()->makeCurrent();
+    m_gbmSwapchain.reset();
+    m_oldGbmSwapchain.reset();
+    m_currentSlot.reset();
+    if (m_scanoutBuffer) {
+        m_scanoutBuffer->unref();
+        m_scanoutBuffer = nullptr;
+    }
+}
+
+DrmDevice *VirtualEglGbmLayer::scanoutDevice() const
+{
+    return m_eglBackend->drmDevice();
+}
+
+QHash<uint32_t, QList<uint64_t>> VirtualEglGbmLayer::supportedDrmFormats() const
+{
+    return m_eglBackend->supportedFormats();
+}
+
+const ColorDescription &VirtualEglGbmLayer::colorDescription() const
+{
+    return m_scanoutBuffer ? m_scanoutColor : ColorDescription::sRGB;
 }
 }

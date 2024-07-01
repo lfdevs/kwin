@@ -1,89 +1,88 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
-# Zayed Al-Saidi <zayed.alsaidi@gmail.com>, 2009, 2021, 2022.
+# SPDX-FileCopyrightText: 2009, 2021, 2022, 2024 Zayed Al-Saidi <zayed.alsaidi@gmail.com>
 # Safa Alfulaij <safa1996alfulaij@gmail.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-07-15 00:48+0000\n"
-"PO-Revision-Date: 2022-08-08 21:54+0400\n"
+"POT-Creation-Date: 2024-03-09 00:39+0000\n"
+"PO-Revision-Date: 2024-03-31 09:51+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
-"Language-Team: Arabic <kde-l10n-ar@kde.org>\n"
+"Language-Team: ar\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
-"X-Generator: Lokalize 21.07.70\n"
 
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "صفا الفليج"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "safa1996alfulaij@gmail.com"
-
-#: main.cpp:130 touch.cpp:124
+#: main.cpp:151 touch.cpp:118
 #, kde-format
 msgid "No Action"
 msgstr "لا إجراء"
 
-#: main.cpp:131 touch.cpp:125
+#: main.cpp:152 touch.cpp:119
 #, kde-format
 msgid "Peek at Desktop"
 msgstr "نظرة على سطح المكتب"
 
-#: main.cpp:132 touch.cpp:126
+#: main.cpp:153 touch.cpp:120
 #, kde-format
 msgid "Lock Screen"
 msgstr "اقفل الشّاشة"
 
-#: main.cpp:133 touch.cpp:127
+#: main.cpp:154 touch.cpp:121
 #, kde-format
 msgid "Show KRunner"
 msgstr "أظهر مشغل.ك"
 
-#: main.cpp:134 touch.cpp:128
+#: main.cpp:155 touch.cpp:122
 #, kde-format
 msgid "Activity Manager"
 msgstr "مدير الأنشطة"
 
-#: main.cpp:135 touch.cpp:129
+#: main.cpp:156 touch.cpp:123
 #, kde-format
 msgid "Application Launcher"
 msgstr "مُطلق التّطبيقات"
 
-#: main.cpp:139 touch.cpp:133
+#: main.cpp:160 touch.cpp:127
 #, kde-format
 msgid "Present Windows"
 msgstr "النوافذ الحاضرة"
 
-#: main.cpp:140 touch.cpp:134
+#: main.cpp:161 touch.cpp:128
 #, kde-format
 msgid "%1 - All Desktops"
 msgstr "%1 - كلّ أسطح المكتب"
 
-#: main.cpp:141 touch.cpp:135
+#: main.cpp:162 touch.cpp:129
 #, kde-format
 msgid "%1 - Current Desktop"
 msgstr "%1 - سطح المكتب الحاليّ"
 
-#: main.cpp:142 touch.cpp:136
+#: main.cpp:163 touch.cpp:130
 #, kde-format
 msgid "%1 - Current Application"
 msgstr "%1 - التّطبيق الحاليّ"
 
-#: main.cpp:144 touch.cpp:138
+#: main.cpp:165 touch.cpp:132
+#, kde-format
+msgid "Overview"
+msgstr "نظرة عامة"
+
+#: main.cpp:166 touch.cpp:133
+#, kde-format
+msgid "Grid"
+msgstr "الشبكة"
+
+#: main.cpp:168 touch.cpp:135
 #, kde-format
 msgid "Toggle window switching"
 msgstr "بدّل تنقل النوافذ"
 
-#: main.cpp:145 touch.cpp:139
+#: main.cpp:169 touch.cpp:136
 #, kde-format
 msgid "Toggle alternative window switching"
 msgstr "بدّل تنقل النوافذ البديل"
@@ -225,6 +224,74 @@ msgstr "كمّ الوقت اللازم حتّى تحفيز الإجراء الت
 msgid "&Reactivation delay:"
 msgstr "مهلة إ&عادة التّنشيط:"
 
+#. i18n: ectx: property (text), widget (QLabel, CornerBarrierLabel)
+#: main.ui:270
+#, kde-format
+msgid "&Corner barrier:"
+msgstr "&حاجز الزاوية:"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_CornerBarrier)
+#: main.ui:280
+#, kde-format
+msgid ""
+"Here you can enable or disable the virtual corner barrier between screens. "
+"The barrier prevents the cursor from moving to another screen when it is "
+"already touching a screen corner. This makes it easier to trigger user "
+"interface elements like maximized windows' close buttons when using multiple "
+"screens."
+msgstr ""
+"هنا يمكنك تمكين أو تعطيل حاجز الزاوية الافتراضي بين الشاشات.يمنع الحاجز "
+"المؤشر من الانتقال إلى شاشة أخرى عندما يلمس أحد أركان الشاشة بالفعل. وهذا "
+"يجعل من السهل تشغيل عناصر واجهة المستخدم مثل أزرار إغلاق النوافذ المكبرة عند "
+"استخدام شاشات متعددة."
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_CornerBarrier)
+#: main.ui:283
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Prevents cursors from crossing at screen corners."
+msgstr "يمنع المؤشرات من العبور في زوايا الشاشة."
+
+#. i18n: ectx: property (text), widget (QLabel, EdgeBarrierLabel)
+#: main.ui:290
+#, kde-format
+msgid "&Edge barrier:"
+msgstr "حاجز الحا&فة:"
+
+#. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_EdgeBarrier)
+#: main.ui:300
+#, kde-format
+msgid ""
+"Here you can set size of the edge barrier between different screens. The "
+"barrier adds additional distance you have to move your pointer before it "
+"crosses the edge onto the other screen. This makes it easier to access user "
+"interface elements like Plasma Panels that are located on an edge between "
+"screens."
+msgstr ""
+"هنا يمكنك ضبط حجم حاجز الحافة بين الشاشات المختلفة. يضيف الحاجز مسافة إضافية "
+"يجب عليك تحريك المؤشر قبل أن يعبر الحافة على الشاشة الأخرى. هذا يجعل من "
+"السهل الوصول إلى عناصر واجهة المستخدم مثل لوحات البلازما الموجودة على الحافة "
+"بين الشاشات."
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_EdgeBarrier)
+#: main.ui:303
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Additional distance cursor needs to travel to cross screen edges."
+msgstr "المسافة الإضافية يحتاج المؤشر إلى قطعها لعبور حواف الشاشة."
+
+#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_EdgeBarrier)
+#: main.ui:306
+#, kde-format
+msgid "None"
+msgstr "لا شيء"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_EdgeBarrier)
+#: main.ui:309
+#, kde-format
+msgid " px"
+msgstr " بكسل"
+
 #. i18n: ectx: property (text), widget (QLabel, label_1)
 #: touch.ui:17
 #, kde-format
@@ -233,14 +300,19 @@ msgid ""
 "of the screen."
 msgstr "يمكنك تشغيل إجراء عن طريق التمرير من حافة الشاشة باتجاه منتصف الشاشة."
 
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "صفا الفليج"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "safa1996alfulaij@gmail.com"
+
 #~ msgid "Show Desktop"
 #~ msgstr "أظهر سطح المكتب"
 
 #~ msgid "Desktop Grid"
 #~ msgstr "شبكة سطح المكتب"
-
-#~ msgid "Toggle Overview"
-#~ msgstr "بدل النظرة العامة"
 
 #~ msgid "%1 - Cube"
 #~ msgstr "%1 - معكّب"

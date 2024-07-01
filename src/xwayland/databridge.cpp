@@ -15,14 +15,12 @@
 
 #include "atoms.h"
 #include "wayland/clientconnection.h"
-#include "wayland/datadevice_interface.h"
-#include "wayland/datadevicemanager_interface.h"
-#include "wayland/seat_interface.h"
+#include "wayland/datadevice.h"
+#include "wayland/datadevicemanager.h"
+#include "wayland/seat.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
-
-using namespace KWaylandServer;
 
 namespace KWin
 {
@@ -42,11 +40,7 @@ void DataBridge::init()
     kwinApp()->installNativeEventFilter(this);
 }
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-bool DataBridge::nativeEventFilter(const QByteArray &eventType, void *message, long int *)
-#else
 bool DataBridge::nativeEventFilter(const QByteArray &eventType, void *message, qintptr *)
-#endif
 {
     if (eventType == "xcb_generic_event_t") {
         xcb_generic_event_t *event = static_cast<xcb_generic_event_t *>(message);
@@ -55,10 +49,12 @@ bool DataBridge::nativeEventFilter(const QByteArray &eventType, void *message, q
     return false;
 }
 
-DragEventReply DataBridge::dragMoveFilter(Window *target, const QPoint &pos)
+DragEventReply DataBridge::dragMoveFilter(Window *target)
 {
-    return m_dnd->dragMoveFilter(target, pos);
+    return m_dnd->dragMoveFilter(target);
 }
 
 } // namespace Xwl
 } // namespace KWin
+
+#include "moc_databridge.cpp"

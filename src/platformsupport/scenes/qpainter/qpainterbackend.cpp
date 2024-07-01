@@ -6,8 +6,7 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-#include "qpainterbackend.h"
-#include "qpaintersurfacetexture_internal.h"
+#include "platformsupport/scenes/qpainter/qpainterbackend.h"
 #include "qpaintersurfacetexture_wayland.h"
 #include "utils/common.h"
 
@@ -30,12 +29,7 @@ CompositingType QPainterBackend::compositingType() const
     return QPainterCompositing;
 }
 
-std::unique_ptr<SurfaceTexture> QPainterBackend::createSurfaceTextureInternal(SurfacePixmapInternal *pixmap)
-{
-    return std::make_unique<QPainterSurfaceTextureInternal>(this, pixmap);
-}
-
-std::unique_ptr<SurfaceTexture> QPainterBackend::createSurfaceTextureWayland(SurfacePixmapWayland *pixmap)
+std::unique_ptr<SurfaceTexture> QPainterBackend::createSurfaceTextureWayland(SurfacePixmap *pixmap)
 {
     return std::make_unique<QPainterSurfaceTextureWayland>(this, pixmap);
 }
@@ -47,3 +41,5 @@ void QPainterBackend::setFailed(const QString &reason)
 }
 
 }
+
+#include "moc_qpainterbackend.cpp"

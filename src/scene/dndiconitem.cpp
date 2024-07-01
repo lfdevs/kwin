@@ -6,22 +6,22 @@
 
 #include "scene/dndiconitem.h"
 #include "scene/surfaceitem_wayland.h"
-#include "wayland/datadevice_interface.h"
-#include "wayland/surface_interface.h"
+#include "wayland/datadevice.h"
+#include "wayland/surface.h"
 
 namespace KWin
 {
 
-DragAndDropIconItem::DragAndDropIconItem(KWaylandServer::DragAndDropIcon *icon, Scene *scene, Item *parent)
-    : Item(scene, parent)
+DragAndDropIconItem::DragAndDropIconItem(DragAndDropIcon *icon, Item *parent)
+    : Item(parent)
 {
-    m_surfaceItem = std::make_unique<SurfaceItemWayland>(icon->surface(), scene, this);
+    m_surfaceItem = std::make_unique<SurfaceItemWayland>(icon->surface(), this);
     m_surfaceItem->setPosition(icon->position());
 
-    connect(icon, &KWaylandServer::DragAndDropIcon::destroyed, this, [this]() {
+    connect(icon, &DragAndDropIcon::destroyed, this, [this]() {
         m_surfaceItem.reset();
     });
-    connect(icon, &KWaylandServer::DragAndDropIcon::changed, this, [this, icon]() {
+    connect(icon, &DragAndDropIcon::changed, this, [this, icon]() {
         m_surfaceItem->setPosition(icon->position());
     });
 }
@@ -30,11 +30,20 @@ DragAndDropIconItem::~DragAndDropIconItem()
 {
 }
 
-void DragAndDropIconItem::frameRendered(quint32 timestamp)
+SurfaceInterface *DragAndDropIconItem::surface() const
 {
-    if (m_surfaceItem) {
-        m_surfaceItem->surface()->frameRendered(timestamp);
+    return m_surfaceItem ? m_surfaceItem->surface() : nullptr;
+}
+
+void DragAndDropIconItem::setOutput(Output *output)
+{
+    if (m_surfaceItem && output) {
+        m_output = output;
+        m_surfaceItem->surface()->setPreferredBufferScale(output->scale());
+        m_surfaceItem->surface()->setPreferredColorDescription(output->colorDescription());
     }
 }
 
 } // namespace KWin
+
+#include "moc_dndiconitem.cpp"

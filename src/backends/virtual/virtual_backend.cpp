@@ -8,28 +8,81 @@
 */
 #include "virtual_backend.h"
 
+#include "core/drmdevice.h"
 #include "virtual_egl_backend.h"
 #include "virtual_output.h"
 #include "virtual_qpainter_backend.h"
 
+#include <fcntl.h>
+#include <gbm.h>
+#include <xf86drm.h>
+
 namespace KWin
 {
 
+static std::unique_ptr<DrmDevice> findRenderDevice()
+{
+    const int deviceCount = drmGetDevices2(0, nullptr, 0);
+    if (deviceCount <= 0) {
+        return nullptr;
+    }
+
+    QList<drmDevice *> devices(deviceCount);
+    if (drmGetDevices2(0, devices.data(), devices.size()) < 0) {
+        return nullptr;
+    }
+    auto deviceCleanup = qScopeGuard([&devices]() {
+        drmFreeDevices(devices.data(), devices.size());
+    });
+
+    for (drmDevice *device : std::as_const(devices)) {
+        // If it's a vgem device, prefer the primary node because gbm will attempt to allocate
+        // dumb buffers and they can be allocated only on the primary node.
+        int nodeType = DRM_NODE_RENDER;
+        if (device->bustype == DRM_BUS_PLATFORM) {
+            if (strcmp(device->businfo.platform->fullname, "vgem") == 0) {
+                nodeType = DRM_NODE_PRIMARY;
+            }
+        }
+
+        if (device->available_nodes & (1 << nodeType)) {
+            if (auto ret = DrmDevice::open(device->nodes[nodeType])) {
+                return ret;
+            }
+        }
+    }
+
+    return nullptr;
+}
+
 VirtualBackend::VirtualBackend(QObject *parent)
     : OutputBackend(parent)
+    , m_drmDevice(findRenderDevice())
 {
 }
 
 VirtualBackend::~VirtualBackend()
 {
-    if (sceneEglDisplay() != EGL_NO_DISPLAY) {
-        eglTerminate(sceneEglDisplay());
-    }
 }
 
 bool VirtualBackend::initialize()
 {
     return true;
+}
+
+QList<CompositingType> VirtualBackend::supportedCompositors() const
+{
+    QList<CompositingType> compositingTypes;
+    if (m_drmDevice) {
+        compositingTypes.append(OpenGLCompositing);
+    }
+    compositingTypes.append(QPainterCompositing);
+    return compositingTypes;
+}
+
+DrmDevice *VirtualBackend::drmDevice() const
+{
+    return m_drmDevice.get();
 }
 
 std::unique_ptr<QPainterBackend> VirtualBackend::createQPainterBackend()
@@ -47,31 +100,29 @@ Outputs VirtualBackend::outputs() const
     return m_outputs;
 }
 
-VirtualOutput *VirtualBackend::createOutput(const QPoint &position, const QSize &size, qreal scale)
+VirtualOutput *VirtualBackend::createOutput(const OutputInfo &info)
 {
-    VirtualOutput *output = new VirtualOutput(this);
-    output->init(position, size, scale);
+    VirtualOutput *output = new VirtualOutput(this, info.internal);
+    output->init(info.geometry.topLeft(), info.geometry.size() * info.scale, info.scale);
     m_outputs.append(output);
     Q_EMIT outputAdded(output);
     output->updateEnabled(true);
     return output;
 }
 
-Output *VirtualBackend::addOutput(const QSize &size, qreal scale)
+Output *VirtualBackend::addOutput(const OutputInfo &info)
 {
-    VirtualOutput *output = createOutput(QPoint(), size * scale, scale);
+    VirtualOutput *output = createOutput(info);
     Q_EMIT outputsQueried();
     return output;
 }
 
-void VirtualBackend::setVirtualOutputs(const QVector<QRect> &geometries, QVector<qreal> scales)
+void VirtualBackend::setVirtualOutputs(const QList<OutputInfo> &infos)
 {
-    Q_ASSERT(scales.size() == 0 || scales.size() == geometries.size());
+    const QList<VirtualOutput *> removed = m_outputs;
 
-    const QVector<VirtualOutput *> removed = m_outputs;
-
-    for (int i = 0; i < geometries.size(); i++) {
-        createOutput(geometries[i].topLeft(), geometries[i].size(), scales.value(i, 1.0));
+    for (const auto &info : infos) {
+        createOutput(info);
     }
 
     for (VirtualOutput *output : removed) {
@@ -84,4 +135,16 @@ void VirtualBackend::setVirtualOutputs(const QVector<QRect> &geometries, QVector
     Q_EMIT outputsQueried();
 }
 
+void VirtualBackend::setEglDisplay(std::unique_ptr<EglDisplay> &&display)
+{
+    m_display = std::move(display);
+}
+
+EglDisplay *VirtualBackend::sceneEglDisplayObject() const
+{
+    return m_display.get();
+}
+
 } // namespace KWin
+
+#include "moc_virtual_backend.cpp"

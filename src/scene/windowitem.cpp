@@ -5,24 +5,28 @@
 */
 
 #include "scene/windowitem.h"
-#include "deleted.h"
+#include "effect/effecthandler.h"
 #include "internalwindow.h"
 #include "scene/decorationitem.h"
 #include "scene/shadowitem.h"
 #include "scene/surfaceitem_internal.h"
 #include "scene/surfaceitem_wayland.h"
 #include "scene/surfaceitem_x11.h"
+#include "virtualdesktops.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
+#if KWIN_BUILD_X11
+#include "x11window.h"
+#endif
 
 #include <KDecoration2/Decoration>
 
 namespace KWin
 {
 
-WindowItem::WindowItem(Window *window, Scene *scene, Item *parent)
-    : Item(scene, parent)
+WindowItem::WindowItem(Window *window, Item *parent)
+    : Item(parent)
     , m_window(window)
 {
     connect(window, &Window::decorationChanged, this, &WindowItem::updateDecorationItem);
@@ -37,11 +41,16 @@ WindowItem::WindowItem(Window *window, Scene *scene, Item *parent)
     if (waylandServer()) {
         connect(waylandServer(), &WaylandServer::lockStateChanged, this, &WindowItem::updateVisibility);
     }
+    if (!window->readyForPainting()) {
+        connect(window, &Window::readyForPaintingChanged, this, &WindowItem::updateVisibility);
+    }
     connect(window, &Window::lockScreenOverlayChanged, this, &WindowItem::updateVisibility);
     connect(window, &Window::minimizedChanged, this, &WindowItem::updateVisibility);
     connect(window, &Window::hiddenChanged, this, &WindowItem::updateVisibility);
+    connect(window, &Window::hiddenByShowDesktopChanged, this, &WindowItem::updateVisibility);
     connect(window, &Window::activitiesChanged, this, &WindowItem::updateVisibility);
-    connect(window, &Window::desktopChanged, this, &WindowItem::updateVisibility);
+    connect(window, &Window::desktopsChanged, this, &WindowItem::updateVisibility);
+    connect(window, &Window::offscreenRenderingChanged, this, &WindowItem::updateVisibility);
     connect(workspace(), &Workspace::currentActivityChanged, this, &WindowItem::updateVisibility);
     connect(workspace(), &Workspace::currentDesktopChanged, this, &WindowItem::updateVisibility);
     updateVisibility();
@@ -49,7 +58,12 @@ WindowItem::WindowItem(Window *window, Scene *scene, Item *parent)
     connect(window, &Window::opacityChanged, this, &WindowItem::updateOpacity);
     updateOpacity();
 
-    connect(window, &Window::windowClosed, this, &WindowItem::handleWindowClosed);
+    connect(window, &Window::stackingOrderChanged, this, &WindowItem::updateStackingOrder);
+    updateStackingOrder();
+
+    connect(window, &Window::closed, this, &WindowItem::freeze);
+
+    m_effectWindow = std::make_unique<EffectWindow>(this);
 }
 
 WindowItem::~WindowItem()
@@ -76,13 +90,15 @@ Window *WindowItem::window() const
     return m_window;
 }
 
+EffectWindow *WindowItem::effectWindow() const
+{
+    return m_effectWindow.get();
+}
+
 void WindowItem::refVisible(int reason)
 {
     if (reason & PAINT_DISABLED_BY_HIDDEN) {
         m_forceVisibleByHiddenCount++;
-    }
-    if (reason & PAINT_DISABLED_BY_DELETE) {
-        m_forceVisibleByDeleteCount++;
     }
     if (reason & PAINT_DISABLED_BY_DESKTOP) {
         m_forceVisibleByDesktopCount++;
@@ -102,10 +118,6 @@ void WindowItem::unrefVisible(int reason)
         Q_ASSERT(m_forceVisibleByHiddenCount > 0);
         m_forceVisibleByHiddenCount--;
     }
-    if (reason & PAINT_DISABLED_BY_DELETE) {
-        Q_ASSERT(m_forceVisibleByDeleteCount > 0);
-        m_forceVisibleByDeleteCount--;
-    }
     if (reason & PAINT_DISABLED_BY_DESKTOP) {
         Q_ASSERT(m_forceVisibleByDesktopCount > 0);
         m_forceVisibleByDesktopCount--;
@@ -121,9 +133,22 @@ void WindowItem::unrefVisible(int reason)
     updateVisibility();
 }
 
-void WindowItem::handleWindowClosed(Window *original, Deleted *deleted)
+void WindowItem::elevate()
 {
-    m_window = deleted;
+    // Not ideal, but it's also highly unlikely that there are more than 1000 windows. The
+    // elevation constantly increases so it's possible to force specific stacking order. It
+    // can potentially overflow, but it's unlikely to happen because windows are elevated
+    // rarely.
+    static int elevation = 1000;
+
+    m_elevation = elevation++;
+    updateStackingOrder();
+}
+
+void WindowItem::deelevate()
+{
+    m_elevation.reset();
+    updateStackingOrder();
 }
 
 bool WindowItem::computeVisibility() const
@@ -133,11 +158,6 @@ bool WindowItem::computeVisibility() const
     }
     if (waylandServer() && waylandServer()->isScreenLocked()) {
         return m_window->isLockScreen() || m_window->isInputMethod() || m_window->isLockScreenOverlay();
-    }
-    if (m_window->isDeleted()) {
-        if (m_forceVisibleByDeleteCount == 0) {
-            return false;
-        }
     }
     if (!m_window->isOnCurrentDesktop()) {
         if (m_forceVisibleByDesktopCount == 0) {
@@ -154,7 +174,7 @@ bool WindowItem::computeVisibility() const
             return false;
         }
     }
-    if (m_window->isHiddenInternal()) {
+    if (m_window->isHidden() || m_window->isHiddenByShowDesktop()) {
         if (m_forceVisibleByHiddenCount == 0) {
             return false;
         }
@@ -164,7 +184,12 @@ bool WindowItem::computeVisibility() const
 
 void WindowItem::updateVisibility()
 {
-    setVisible(computeVisibility());
+    const bool visible = computeVisibility();
+    setVisible(visible);
+
+    if (m_window->readyForPainting()) {
+        m_window->setSuspended(!visible && !m_window->isOffscreenRendering());
+    }
 }
 
 void WindowItem::updatePosition()
@@ -183,15 +208,15 @@ void WindowItem::addSurfaceItemDamageConnects(Item *item)
     }
 }
 
-void WindowItem::updateSurfaceItem(SurfaceItem *surfaceItem)
+void WindowItem::updateSurfaceItem(std::unique_ptr<SurfaceItem> &&surfaceItem)
 {
-    m_surfaceItem.reset(surfaceItem);
+    m_surfaceItem = std::move(surfaceItem);
 
     if (m_surfaceItem) {
         connect(m_window, &Window::shadeChanged, this, &WindowItem::updateSurfaceVisibility);
         connect(m_window, &Window::bufferGeometryChanged, this, &WindowItem::updateSurfacePosition);
         connect(m_window, &Window::frameGeometryChanged, this, &WindowItem::updateSurfacePosition);
-        addSurfaceItemDamageConnects(surfaceItem);
+        addSurfaceItemDamageConnects(m_surfaceItem.get());
 
         updateSurfacePosition();
         updateSurfaceVisibility();
@@ -220,7 +245,7 @@ void WindowItem::updateShadowItem()
     Shadow *shadow = m_window->shadow();
     if (shadow) {
         if (!m_shadowItem || m_shadowItem->shadow() != shadow) {
-            m_shadowItem.reset(new ShadowItem(shadow, m_window, scene(), this));
+            m_shadowItem = std::make_unique<ShadowItem>(shadow, m_window, this);
         }
         if (m_decorationItem) {
             m_shadowItem->stackBefore(m_decorationItem.get());
@@ -235,11 +260,11 @@ void WindowItem::updateShadowItem()
 
 void WindowItem::updateDecorationItem()
 {
-    if (m_window->isDeleted() || m_window->isZombie()) {
+    if (m_window->isDeleted()) {
         return;
     }
     if (m_window->decoration()) {
-        m_decorationItem.reset(new DecorationItem(m_window->decoration(), m_window, scene(), this));
+        m_decorationItem = std::make_unique<DecorationItem>(m_window->decoration(), m_window, this);
         if (m_shadowItem) {
             m_decorationItem->stackAfter(m_shadowItem.get());
         } else if (m_surfaceItem) {
@@ -257,13 +282,30 @@ void WindowItem::updateOpacity()
     setOpacity(m_window->opacity());
 }
 
+void WindowItem::updateStackingOrder()
+{
+    if (m_elevation.has_value()) {
+        setZ(m_elevation.value());
+    } else {
+        setZ(m_window->stackingOrder());
+    }
+}
+
 void WindowItem::markDamaged()
 {
     Q_EMIT m_window->damaged(m_window);
 }
 
-WindowItemX11::WindowItemX11(Window *window, Scene *scene, Item *parent)
-    : WindowItem(window, scene, parent)
+void WindowItem::freeze()
+{
+    if (m_surfaceItem) {
+        m_surfaceItem->freeze();
+    }
+}
+
+#if KWIN_BUILD_X11
+WindowItemX11::WindowItemX11(X11Window *window, Item *parent)
+    : WindowItem(window, parent)
 {
     initialize();
 
@@ -275,30 +317,33 @@ void WindowItemX11::initialize()
 {
     switch (kwinApp()->operationMode()) {
     case Application::OperationModeX11:
-        updateSurfaceItem(new SurfaceItemX11(window(), scene(), this));
+        updateSurfaceItem(std::make_unique<SurfaceItemX11>(static_cast<X11Window *>(window()), this));
         break;
     case Application::OperationModeXwayland:
         if (!window()->surface()) {
             updateSurfaceItem(nullptr);
         } else {
-            updateSurfaceItem(new SurfaceItemXwayland(window(), scene(), this));
+            updateSurfaceItem(std::make_unique<SurfaceItemXwayland>(static_cast<X11Window *>(window()), this));
         }
         break;
     case Application::OperationModeWaylandOnly:
         Q_UNREACHABLE();
     }
 }
+#endif
 
-WindowItemWayland::WindowItemWayland(Window *window, Scene *scene, Item *parent)
-    : WindowItem(window, scene, parent)
+WindowItemWayland::WindowItemWayland(Window *window, Item *parent)
+    : WindowItem(window, parent)
 {
-    updateSurfaceItem(new SurfaceItemWayland(window->surface(), scene, this));
+    updateSurfaceItem(std::make_unique<SurfaceItemWayland>(window->surface(), this));
 }
 
-WindowItemInternal::WindowItemInternal(InternalWindow *window, Scene *scene, Item *parent)
-    : WindowItem(window, scene, parent)
+WindowItemInternal::WindowItemInternal(InternalWindow *window, Item *parent)
+    : WindowItem(window, parent)
 {
-    updateSurfaceItem(new SurfaceItemInternal(window, scene, this));
+    updateSurfaceItem(std::make_unique<SurfaceItemInternal>(window, this));
 }
 
 } // namespace KWin
+
+#include "moc_windowitem.cpp"

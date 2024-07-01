@@ -2,91 +2,91 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Lukáš Tinkl <lukas@kde.org>, 2010, 2012, 2013.
 # Vít Pelčák <vit@pelcak.org>, 2014, 2016, 2017, 2018, 2019.
-# Vit Pelcak <vit@pelcak.org>, 2021, 2023.
+# SPDX-FileCopyrightText: 2021, 2023, 2024 Vit Pelcak <vit@pelcak.org>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-07-15 00:48+0000\n"
-"PO-Revision-Date: 2023-01-04 15:26+0100\n"
-"Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
+"POT-Creation-Date: 2024-03-09 00:39+0000\n"
+"PO-Revision-Date: 2024-04-30 15:27+0200\n"
+"Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 22.12.0\n"
+"X-Generator: Lokalize 24.02.2\n"
 "X-Language: cs_CZ\n"
 "X-Source-Language: en_US\n"
 
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Vít Pelčák"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "vit@pelcak.org"
-
-#: main.cpp:130 touch.cpp:124
+#: main.cpp:151 touch.cpp:118
 #, kde-format
 msgid "No Action"
 msgstr "Žádná činnost"
 
-#: main.cpp:131 touch.cpp:125
+#: main.cpp:152 touch.cpp:119
 #, kde-format
 msgid "Peek at Desktop"
 msgstr "Nakouknout na pracovní plochu"
 
-#: main.cpp:132 touch.cpp:126
+#: main.cpp:153 touch.cpp:120
 #, kde-format
 msgid "Lock Screen"
 msgstr "Zamknout obrazovku"
 
-#: main.cpp:133 touch.cpp:127
+#: main.cpp:154 touch.cpp:121
 #, kde-format
 msgid "Show KRunner"
 msgstr "Zobrazit KRunner"
 
-#: main.cpp:134 touch.cpp:128
+#: main.cpp:155 touch.cpp:122
 #, kde-format
 msgid "Activity Manager"
 msgstr "Správce aktivit"
 
-#: main.cpp:135 touch.cpp:129
+#: main.cpp:156 touch.cpp:123
 #, kde-format
 msgid "Application Launcher"
 msgstr "Spouštěč aplikací"
 
-#: main.cpp:139 touch.cpp:133
+#: main.cpp:160 touch.cpp:127
 #, kde-format
 msgid "Present Windows"
 msgstr "Prezentace oken"
 
-#: main.cpp:140 touch.cpp:134
+#: main.cpp:161 touch.cpp:128
 #, kde-format
 msgid "%1 - All Desktops"
 msgstr "%1 - Všechny plochy"
 
-#: main.cpp:141 touch.cpp:135
+#: main.cpp:162 touch.cpp:129
 #, kde-format
 msgid "%1 - Current Desktop"
 msgstr "%1 - Aktuální plocha"
 
-#: main.cpp:142 touch.cpp:136
+#: main.cpp:163 touch.cpp:130
 #, kde-format
 msgid "%1 - Current Application"
 msgstr "%1 - Aktuální aplikace"
 
-#: main.cpp:144 touch.cpp:138
+#: main.cpp:165 touch.cpp:132
+#, kde-format
+msgid "Overview"
+msgstr "Přehled"
+
+#: main.cpp:166 touch.cpp:133
+#, kde-format
+msgid "Grid"
+msgstr "Mřížka"
+
+#: main.cpp:168 touch.cpp:135
 #, kde-format
 msgid "Toggle window switching"
 msgstr "Zapnout přepínání oken"
 
-#: main.cpp:145 touch.cpp:139
+#: main.cpp:169 touch.cpp:136
 #, kde-format
 msgid "Toggle alternative window switching"
 msgstr "Zapnout alternativní přepínání oken"
@@ -231,6 +231,67 @@ msgstr ""
 #, kde-format
 msgid "&Reactivation delay:"
 msgstr "Prodleva &reaktivace:"
+
+#. i18n: ectx: property (text), widget (QLabel, CornerBarrierLabel)
+#: main.ui:270
+#, kde-format
+msgid "&Corner barrier:"
+msgstr "Ro&hová bariéra:"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_CornerBarrier)
+#: main.ui:280
+#, kde-format
+msgid ""
+"Here you can enable or disable the virtual corner barrier between screens. "
+"The barrier prevents the cursor from moving to another screen when it is "
+"already touching a screen corner. This makes it easier to trigger user "
+"interface elements like maximized windows' close buttons when using multiple "
+"screens."
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_CornerBarrier)
+#: main.ui:283
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Prevents cursors from crossing at screen corners."
+msgstr "Brání ukazateli překročit roh obrazovky."
+
+#. i18n: ectx: property (text), widget (QLabel, EdgeBarrierLabel)
+#: main.ui:290
+#, kde-format
+msgid "&Edge barrier:"
+msgstr ""
+
+#. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_EdgeBarrier)
+#: main.ui:300
+#, kde-format
+msgid ""
+"Here you can set size of the edge barrier between different screens. The "
+"barrier adds additional distance you have to move your pointer before it "
+"crosses the edge onto the other screen. This makes it easier to access user "
+"interface elements like Plasma Panels that are located on an edge between "
+"screens."
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_EdgeBarrier)
+#: main.ui:303
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Additional distance cursor needs to travel to cross screen edges."
+msgstr ""
+
+# žádné parametry funkce v inspektoru funkcí
+#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_EdgeBarrier)
+#: main.ui:306
+#, kde-format
+msgid "None"
+msgstr "Nic"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_EdgeBarrier)
+#: main.ui:309
+#, kde-format
+msgid " px"
+msgstr " px"
 
 #. i18n: ectx: property (text), widget (QLabel, label_1)
 #: touch.ui:17

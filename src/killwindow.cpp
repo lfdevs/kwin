@@ -11,7 +11,6 @@
 #include "killwindow.h"
 #include "main.h"
 #include "osd.h"
-#include "unmanaged.h"
 #include "window.h"
 
 #include <KLocalizedString>
@@ -32,15 +31,10 @@ void KillWindow::start()
     OSD::show(i18n("Select window to force close with left click or enter.\nEscape or right click to cancel."),
               QStringLiteral("window-close"));
     kwinApp()->startInteractiveWindowSelection(
-        [](KWin::Window *t) {
+        [](KWin::Window *window) {
             OSD::hide();
-            if (!t) {
-                return;
-            }
-            if (Window *c = static_cast<Window *>(t->isClient() ? t : nullptr)) {
-                c->killWindow();
-            } else if (Unmanaged *u = qobject_cast<Unmanaged *>(t)) {
-                xcb_kill_client(kwinApp()->x11Connection(), u->window());
+            if (window) {
+                window->killWindow();
             }
         },
         QByteArrayLiteral("pirate"));

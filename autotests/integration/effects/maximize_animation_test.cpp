@@ -9,10 +9,9 @@
 
 #include "kwin_wayland_test.h"
 
-#include "composite.h"
-#include "core/outputbackend.h"
-#include "effectloader.h"
-#include "effects.h"
+#include "compositor.h"
+#include "effect/effecthandler.h"
+#include "effect/effectloader.h"
 #include "scene/workspacescene.h"
 #include "wayland_server.h"
 #include "window.h"
@@ -38,12 +37,19 @@ private Q_SLOTS:
 
 void MaximizeAnimationTest::initTestCase()
 {
+    if (!Test::renderNodeAvailable()) {
+        QSKIP("no render node available");
+        return;
+    }
     qputenv("XDG_DATA_DIRS", QCoreApplication::applicationDirPath().toUtf8());
 
     qRegisterMetaType<KWin::Window *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
+    Test::setOutputConfig({
+        QRect(0, 0, 1280, 1024),
+        QRect(1280, 0, 1280, 1024),
+    });
 
     auto config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
     KConfigGroup plugins(config, QStringLiteral("Plugins"));
@@ -68,10 +74,9 @@ void MaximizeAnimationTest::init()
 
 void MaximizeAnimationTest::cleanup()
 {
-    auto effectsImpl = qobject_cast<EffectsHandlerImpl *>(effects);
-    QVERIFY(effectsImpl);
-    effectsImpl->unloadAllEffects();
-    QVERIFY(effectsImpl->loadedEffects().isEmpty());
+    QVERIFY(effects);
+    effects->unloadAllEffects();
+    QVERIFY(effects->loadedEffects().isEmpty());
 
     Test::destroyWaylandConnection();
 }
@@ -116,19 +121,18 @@ void MaximizeAnimationTest::testMaximizeRestore()
     QVERIFY(!states.testFlag(Test::XdgToplevel::State::Maximized));
 
     // Load effect that will be tested.
-    const QString effectName = QStringLiteral("kwin4_effect_maximize");
-    auto effectsImpl = qobject_cast<EffectsHandlerImpl *>(effects);
-    QVERIFY(effectsImpl);
-    QVERIFY(effectsImpl->loadEffect(effectName));
-    QCOMPARE(effectsImpl->loadedEffects().count(), 1);
-    QCOMPARE(effectsImpl->loadedEffects().first(), effectName);
-    Effect *effect = effectsImpl->findEffect(effectName);
+    const QString effectName = QStringLiteral("maximize");
+    QVERIFY(effects);
+    QVERIFY(effects->loadEffect(effectName));
+    QCOMPARE(effects->loadedEffects().count(), 1);
+    QCOMPARE(effects->loadedEffects().first(), effectName);
+    Effect *effect = effects->findEffect(effectName);
     QVERIFY(effect);
     QVERIFY(!effect->isActive());
 
     // Maximize the window.
     QSignalSpy frameGeometryChangedSpy(window, &Window::frameGeometryChanged);
-    QSignalSpy maximizeChangedSpy(window, qOverload<Window *, bool, bool>(&Window::clientMaximizedStateChanged));
+    QSignalSpy maximizeChangedSpy(window, &Window::maximizedChanged);
 
     workspace()->slotWindowMaximize();
     QVERIFY(surfaceConfigureRequestedSpy.wait());
@@ -173,7 +177,7 @@ void MaximizeAnimationTest::testMaximizeRestore()
 
     // Destroy the test window.
     surface.reset();
-    QVERIFY(Test::waitForWindowDestroyed(window));
+    QVERIFY(Test::waitForWindowClosed(window));
 }
 
 WAYLANDTEST_MAIN(MaximizeAnimationTest)

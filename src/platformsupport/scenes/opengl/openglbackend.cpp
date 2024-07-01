@@ -7,12 +7,10 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-#include "openglbackend.h"
-#include <kwineffects.h>
-#include <kwinglutils_funcs.h>
+#include "platformsupport/scenes/opengl/openglbackend.h"
+#include "opengl/openglcontext.h"
 
 #include "utils/common.h"
-#include "workspace.h"
 
 #include <QElapsedTimer>
 
@@ -22,8 +20,7 @@ namespace KWin
 {
 
 OpenGLBackend::OpenGLBackend()
-    : m_directRendering(false)
-    , m_haveBufferAge(false)
+    : m_haveBufferAge(false)
     , m_failed(false)
 {
 }
@@ -56,14 +53,15 @@ void OpenGLBackend::copyPixels(const QRegion &region, const QSize &screenSize)
     }
 }
 
-std::shared_ptr<KWin::GLTexture> OpenGLBackend::textureForOutput(Output *output) const
+std::pair<std::shared_ptr<KWin::GLTexture>, ColorDescription> OpenGLBackend::textureForOutput(Output *output) const
 {
-    return {};
+    return {nullptr, ColorDescription::sRGB};
 }
 
 bool OpenGLBackend::checkGraphicsReset()
 {
-    const GLenum status = KWin::glGetGraphicsResetStatus();
+    const auto context = openglContext();
+    const GLenum status = context->checkGraphicsResetStatus();
     if (Q_LIKELY(status == GL_NO_ERROR)) {
         return false;
     }
@@ -86,14 +84,20 @@ bool OpenGLBackend::checkGraphicsReset()
     timer.start();
 
     // Wait until the reset is completed or max one second
-    while (timer.elapsed() < 1000 && KWin::glGetGraphicsResetStatus() != GL_NO_ERROR) {
+    while (timer.elapsed() < 10000 && context->checkGraphicsResetStatus() != GL_NO_ERROR) {
         usleep(50);
     }
-    if (timer.elapsed() >= 1000) {
+    if (timer.elapsed() >= 10000) {
         qCWarning(KWIN_OPENGL) << "Waiting for glGetGraphicsResetStatus to return GL_NO_ERROR timed out!";
     }
 
     return true;
 }
 
+EglDisplay *OpenGLBackend::eglDisplayObject() const
+{
+    return nullptr;
 }
+}
+
+#include "moc_openglbackend.cpp"

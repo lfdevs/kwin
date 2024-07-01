@@ -14,7 +14,7 @@ namespace KWin
 {
 
 KWinIdleTimePoller::KWinIdleTimePoller(QObject *parent)
-    : AbstractSystemPoller(parent)
+    : KAbstractIdleTimePoller(parent)
 {
 }
 
@@ -87,3 +87,5 @@ void KWinIdleTimePoller::simulateUserActivity()
 }
 
 } // namespace KWin
+
+#include "moc_poller.cpp"

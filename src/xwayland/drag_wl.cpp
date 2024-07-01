@@ -16,10 +16,10 @@
 #include "xwldrophandler.h"
 
 #include "atoms.h"
-#include "wayland/datadevice_interface.h"
-#include "wayland/datasource_interface.h"
-#include "wayland/seat_interface.h"
-#include "wayland/surface_interface.h"
+#include "wayland/datadevice.h"
+#include "wayland/datasource.h"
+#include "wayland/seat.h"
+#include "wayland/surface.h"
 #include "wayland_server.h"
 #include "workspace.h"
 #include "x11window.h"
@@ -27,8 +27,8 @@
 #include <QMouseEvent>
 #include <QTimer>
 
-using DnDAction = KWaylandServer::DataDeviceManagerInterface::DnDAction;
-using DnDActions = KWaylandServer::DataDeviceManagerInterface::DnDActions;
+using DnDAction = KWin::DataDeviceManagerInterface::DnDAction;
+using DnDActions = KWin::DataDeviceManagerInterface::DnDActions;
 
 namespace KWin
 {
@@ -40,7 +40,7 @@ WlToXDrag::WlToXDrag(Dnd *dnd)
 {
 }
 
-DragEventReply WlToXDrag::moveFilter(Window *target, const QPoint &pos)
+DragEventReply WlToXDrag::moveFilter(Window *target)
 {
     return DragEventReply::Wayland;
 }
@@ -50,7 +50,7 @@ bool WlToXDrag::handleClientMessage(xcb_client_message_event_t *event)
     return m_dnd->dropHandler()->handleClientMessage(event);
 }
 
-Xvisit::Xvisit(Window *target, KWaylandServer::AbstractDataSource *dataSource, Dnd *dnd, QObject *parent)
+Xvisit::Xvisit(X11Window *target, AbstractDataSource *dataSource, Dnd *dnd, QObject *parent)
     : QObject(parent)
     , m_dnd(dnd)
     , m_target(target)
@@ -158,8 +158,8 @@ bool Xvisit::handleFinished(xcb_client_message_event_t *event)
 
 void Xvisit::sendPosition(const QPointF &globalPos)
 {
-    const int16_t x = globalPos.x();
-    const int16_t y = globalPos.y();
+    const int16_t x = Xcb::toXNative(globalPos.x());
+    const int16_t y = Xcb::toXNative(globalPos.y());
 
     if (m_pos.pending) {
         m_pos.cache = QPoint(x, y);
@@ -197,7 +197,7 @@ void Xvisit::leave()
 void Xvisit::receiveOffer()
 {
     retrieveSupportedActions();
-    connect(m_dataSource, &KWaylandServer::AbstractDataSource::supportedDragAndDropActionsChanged,
+    connect(m_dataSource, &AbstractDataSource::supportedDragAndDropActionsChanged,
             this, &Xvisit::retrieveSupportedActions);
     enter();
 }
@@ -211,7 +211,7 @@ void Xvisit::enter()
 
     // proxy future pointer position changes
     m_motionConnection = connect(waylandServer()->seat(),
-                                 &KWaylandServer::SeatInterface::pointerPosChanged,
+                                 &SeatInterface::pointerPosChanged,
                                  this, &Xvisit::sendPosition);
 }
 
@@ -252,7 +252,7 @@ void Xvisit::sendEnter()
         // need to first transfer all available mime types
         data.data32[1] |= 1;
 
-        QVector<xcb_atom_t> targets;
+        QList<xcb_atom_t> targets;
         targets.resize(mimesCount);
 
         size_t cnt = 0;
@@ -379,3 +379,5 @@ void Xvisit::stopConnections()
 
 } // namespace Xwl
 } // namespace KWin
+
+#include "moc_drag_wl.cpp"

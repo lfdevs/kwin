@@ -13,8 +13,10 @@
 #include <QDebug>
 #include <QMimeData>
 
-#include <Plasma/FrameSvg>
-#include <kurlmimedata.h>
+#include <KSvg/FrameSvg>
+#include <KSvg/ImageSet>
+
+#include <memory>
 
 class ScreenPreviewWidgetPrivate
 {
@@ -37,7 +39,7 @@ public:
 
     void updateScreenGraphics()
     {
-        int bottomElements = screenGraphics->elementSize("base").height() + screenGraphics->marginSize(Plasma::Types::BottomMargin);
+        int bottomElements = screenGraphics->elementSize("base").height() + screenGraphics->marginSize(KSvg::FrameSvg::BottomMargin);
         QRect bounds(QPoint(0, 0), QSize(q->width(), q->height() - bottomElements));
 
         QSizeF monitorSize(1.0, 1.0 / ratio);
@@ -47,7 +49,7 @@ public:
             return;
         }
 
-        const auto minFrameWidth = minimumContentWidth + screenGraphics->marginSize(Plasma::Types::LeftMargin) + screenGraphics->marginSize(Plasma::Types::RightMargin);
+        const auto minFrameWidth = minimumContentWidth + screenGraphics->marginSize(KSvg::FrameSvg::LeftMargin) + screenGraphics->marginSize(KSvg::FrameSvg::RightMargin);
         if (monitorSize.width() < minFrameWidth) {
             monitorSize.setWidth(minFrameWidth);
         }
@@ -62,7 +64,8 @@ public:
     }
 
     ScreenPreviewWidget *q;
-    Plasma::FrameSvg *screenGraphics;
+    std::unique_ptr<KSvg::ImageSet> svgImageSet;
+    KSvg::FrameSvg *screenGraphics;
     QPixmap preview;
     QRect monitorRect;
     qreal ratio;
@@ -74,7 +77,10 @@ ScreenPreviewWidget::ScreenPreviewWidget(QWidget *parent)
     : QWidget(parent)
     , d(std::make_unique<ScreenPreviewWidgetPrivate>(this))
 {
-    d->screenGraphics = new Plasma::FrameSvg(this);
+    d->svgImageSet = std::make_unique<KSvg::ImageSet>();
+    d->svgImageSet->setBasePath("plasma/desktoptheme");
+    d->screenGraphics = new KSvg::FrameSvg(this);
+    d->screenGraphics->setImageSet(d->svgImageSet.get());
     d->screenGraphics->setImagePath("widgets/monitor");
     d->updateScreenGraphics();
 }
@@ -120,6 +126,11 @@ QRect ScreenPreviewWidget::previewRect() const
     return d->previewRect;
 }
 
+KSvg::ImageSet *ScreenPreviewWidget::svgImageSet() const
+{
+    return d->svgImageSet.get();
+}
+
 void ScreenPreviewWidget::resizeEvent(QResizeEvent *e)
 {
     d->updateScreenGraphics();
@@ -134,7 +145,7 @@ void ScreenPreviewWidget::paintEvent(QPaintEvent *event)
     QPainter painter(this);
     QPoint standPosition(d->monitorRect.center().x() - d->screenGraphics->elementSize("base").width() / 2, d->previewRect.bottom());
 
-    d->screenGraphics->paint(&painter, QRect(standPosition, d->screenGraphics->elementSize("base")), "base");
+    d->screenGraphics->paint(&painter, QRect(standPosition, d->screenGraphics->elementSize("base").toSize()), "base");
     d->screenGraphics->paintFrame(&painter, d->monitorRect.topLeft());
 
     painter.save();
@@ -145,21 +156,6 @@ void ScreenPreviewWidget::paintEvent(QPaintEvent *event)
     painter.restore();
 
     d->screenGraphics->paint(&painter, d->previewRect, "glass");
-}
-
-void ScreenPreviewWidget::dropEvent(QDropEvent *e)
-{
-    if (!e->mimeData()->hasUrls()) {
-        return;
-    }
-
-    QList<QUrl> uris(KUrlMimeData::urlsFromMimeData(e->mimeData()));
-    if (!uris.isEmpty()) {
-        // TODO: Download remote file
-        if (uris.first().isLocalFile()) {
-            Q_EMIT imageDropped(uris.first().path());
-        }
-    }
 }
 
 #include "moc_screenpreviewwidget.cpp"

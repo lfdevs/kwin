@@ -8,14 +8,15 @@
 */
 #include "x11_standalone_backend.h"
 
+#include "config-kwin.h"
+
 #include "atoms.h"
 #include "core/session.h"
 #include "x11_standalone_cursor.h"
 #include "x11_standalone_edge.h"
 #include "x11_standalone_placeholderoutput.h"
 #include "x11_standalone_windowselector.h"
-#include <kwinconfig.h>
-#if HAVE_EPOXY_GLX
+#if HAVE_GLX
 #include "x11_standalone_glx_backend.h"
 #endif
 #if HAVE_X11_XINPUT
@@ -23,6 +24,7 @@
 #endif
 #include "core/renderloop.h"
 #include "keyboard_input.h"
+#include "opengl/egldisplay.h"
 #include "options.h"
 #include "utils/c_ptr.h"
 #include "utils/edid.h"
@@ -45,11 +47,7 @@
 
 #include <QOpenGLContext>
 #include <QThread>
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <private/qtx11extras_p.h>
-#else
-#include <QX11Info>
-#endif
 
 #include <span>
 
@@ -101,7 +99,7 @@ X11StandaloneBackend::X11StandaloneBackend(QObject *parent)
     : OutputBackend(parent)
     , m_updateOutputsTimer(std::make_unique<QTimer>())
     , m_x11Display(QX11Info::display())
-    , m_renderLoop(std::make_unique<RenderLoop>())
+    , m_renderLoop(std::make_unique<RenderLoop>(nullptr))
 {
 #if HAVE_X11_XINPUT
     if (!qEnvironmentVariableIsSet("KWIN_NO_XI2")) {
@@ -123,10 +121,23 @@ X11StandaloneBackend::X11StandaloneBackend(QObject *parent)
 
 X11StandaloneBackend::~X11StandaloneBackend()
 {
-    if (sceneEglDisplay() != EGL_NO_DISPLAY) {
-        eglTerminate(sceneEglDisplay());
-    }
+    m_eglDisplay.reset();
     XRenderUtils::cleanup();
+}
+
+::Display *X11StandaloneBackend::display() const
+{
+    return m_x11Display;
+}
+
+xcb_connection_t *X11StandaloneBackend::connection() const
+{
+    return kwinApp()->x11Connection();
+}
+
+xcb_window_t X11StandaloneBackend::rootWindow() const
+{
+    return kwinApp()->x11RootWindow();
 }
 
 bool X11StandaloneBackend::initialize()
@@ -147,7 +158,7 @@ bool X11StandaloneBackend::initialize()
 std::unique_ptr<OpenGLBackend> X11StandaloneBackend::createOpenGLBackend()
 {
     switch (options->glPlatformInterface()) {
-#if HAVE_EPOXY_GLX
+#if HAVE_GLX
     case GlxPlatformInterface:
         if (hasGlx()) {
             return std::make_unique<GlxBackend>(m_x11Display, this);
@@ -173,19 +184,20 @@ std::unique_ptr<Edge> X11StandaloneBackend::createScreenEdge(ScreenEdges *edges)
     return std::make_unique<WindowBasedEdge>(edges);
 }
 
-void X11StandaloneBackend::createPlatformCursor(QObject *parent)
+std::unique_ptr<Cursor> X11StandaloneBackend::createPlatformCursor()
 {
 #if HAVE_X11_XINPUT
-    auto c = new X11Cursor(parent, m_xinputIntegration != nullptr);
+    auto c = std::make_unique<X11Cursor>(m_xinputIntegration != nullptr);
     if (m_xinputIntegration) {
-        m_xinputIntegration->setCursor(c);
+        m_xinputIntegration->setCursor(c.get());
         // we know we have xkb already
         auto xkb = input()->keyboard()->xkb();
         xkb->setConfig(kwinApp()->kxkbConfig());
         xkb->reconfigure();
     }
+    return c;
 #else
-    new X11Cursor(parent, false);
+    return std::make_unique<X11Cursor>(false);
 #endif
 }
 
@@ -228,7 +240,7 @@ void X11StandaloneBackend::startInteractiveWindowSelection(std::function<void(KW
     m_windowSelector->start(callback, cursorName);
 }
 
-void X11StandaloneBackend::startInteractivePositionSelection(std::function<void(const QPoint &)> callback)
+void X11StandaloneBackend::startInteractivePositionSelection(std::function<void(const QPointF &)> callback)
 {
     if (!m_windowSelector) {
         m_windowSelector = std::make_unique<WindowSelector>();
@@ -243,13 +255,13 @@ std::unique_ptr<OutlineVisual> X11StandaloneBackend::createOutline(Outline *outl
 
 void X11StandaloneBackend::createEffectsHandler(Compositor *compositor, WorkspaceScene *scene)
 {
-    new EffectsHandlerImplX11(compositor, scene);
+    new EffectsHandlerX11(compositor, scene);
 }
 
-QVector<CompositingType> X11StandaloneBackend::supportedCompositors() const
+QList<CompositingType> X11StandaloneBackend::supportedCompositors() const
 {
-    QVector<CompositingType> compositors;
-#if HAVE_EPOXY_GLX
+    QList<CompositingType> compositors;
+#if HAVE_GLX
     compositors << OpenGLCompositing;
 #endif
     compositors << NoCompositing;
@@ -276,9 +288,9 @@ void X11StandaloneBackend::updateOutputs()
 template<typename T>
 void X11StandaloneBackend::doUpdateOutputs()
 {
-    QVector<Output *> changed;
-    QVector<Output *> added;
-    QVector<Output *> removed = m_outputs;
+    QList<Output *> changed;
+    QList<Output *> added;
+    QList<Output *> removed = m_outputs;
 
     if (Xcb::Extensions::self()->isRandrAvailable()) {
         T resources(rootWindow());
@@ -366,7 +378,7 @@ void X11StandaloneBackend::doUpdateOutputs()
                             information.manufacturer = edid.manufacturerString();
                             information.model = edid.monitorName();
                             information.serialNumber = edid.serialNumber();
-                            information.edid = data;
+                            information.edid = edid;
                         }
                     }
 
@@ -471,7 +483,7 @@ static int currentRefreshRate()
         return refreshRate;
     }
 
-    const QVector<Output *> outputs = kwinApp()->outputBackend()->outputs();
+    const QList<Output *> outputs = kwinApp()->outputBackend()->outputs();
     if (outputs.isEmpty()) {
         return 60000;
     }
@@ -500,4 +512,15 @@ void X11StandaloneBackend::updateRefreshRate()
     m_renderLoop->setRefreshRate(refreshRate);
 }
 
+void X11StandaloneBackend::setEglDisplay(std::unique_ptr<EglDisplay> &&display)
+{
+    m_eglDisplay = std::move(display);
 }
+
+EglDisplay *X11StandaloneBackend::sceneEglDisplayObject() const
+{
+    return m_eglDisplay.get();
+}
+}
+
+#include "moc_x11_standalone_backend.cpp"

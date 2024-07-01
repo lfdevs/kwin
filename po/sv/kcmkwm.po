@@ -6,35 +6,23 @@
 # Anders Widell <awl@hem.passagen.se>, 1998-2000.
 # Per Lindström <pelinsr@algonet.se>, 2000.
 # Mattias Newzella <newzella@linux.nu>, 2000, 2001, 2002,2003, 2004.
-# Stefan Asserhäll <stefan.asserhall@bredband.net>, 2002.
-# Stefan Asserhäll <stefan.asserhall@bredband.net>, 2004, 2005, 2006, 2007, 2008, 2009, 2010.
-# Stefan Asserhall <stefan.asserhall@bredband.net>, 2010, 2011, 2012, 2013, 2015, 2019, 2020, 2021, 2022, 2023.
+# SPDX-FileCopyrightText: 2002, 2024 Stefan Asserhäll <stefan.asserhall@gmail.com>
+# Stefan Asserhäll <stefan.asserhall@gmail.com>, 2004, 2005, 2006, 2007, 2008, 2009, 2010.
+# Stefan Asserhall <stefan.asserhall@gmail.com>, 2010, 2011, 2012, 2013, 2015, 2019, 2020, 2021, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-03 00:48+0000\n"
-"PO-Revision-Date: 2023-07-26 12:48+0200\n"
+"POT-Creation-Date: 2024-02-06 00:39+0000\n"
+"PO-Revision-Date: 2024-06-09 10:04+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 20.08.1\n"
+"X-Generator: Lokalize 23.08.5\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Magnus Reftel,Anders Widell,Per Lindström,Mattias Newzella"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr ""
-"d96reftl@dtek.chalmers.se,awl@hem.passagen.se,pelinsr@algonet.se,"
-"newzella@linux.nu"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
 #: actions.ui:17
@@ -334,6 +322,7 @@ msgstr "Öka ogenomskinlighet"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TitlebarDoubleClickCommand)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandTitlebarWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar1)
@@ -342,8 +331,8 @@ msgstr "Öka ogenomskinlighet"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
-#: actions.ui:310 actions.ui:380 actions.ui:450 actions.ui:505 mouse.ui:80
-#: mouse.ui:132 mouse.ui:271 mouse.ui:333 mouse.ui:386 mouse.ui:448
+#: actions.ui:310 actions.ui:380 actions.ui:450 actions.ui:505 advanced.ui:174
+#: mouse.ui:80 mouse.ui:132 mouse.ui:271 mouse.ui:333 mouse.ui:386 mouse.ui:448
 #: mouse.ui:501 mouse.ui:563
 #, kde-format
 msgid "Do nothing"
@@ -898,26 +887,8 @@ msgstr ""
 msgid "Multiscreen behavior:"
 msgstr "Beteende vid flera skärmar:"
 
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ActiveMouseScreen)
-#: focus.ui:203
-#, kde-format
-msgid ""
-"When this option is enabled, the active screen (where new windows appear, "
-"for example) is the screen containing the mouse pointer. When disabled, the "
-"active screen is the screen containing the focused window."
-msgstr ""
-"När alternativet är aktiverat är den aktiva skärmen (där till exempel nya "
-"fönster visas) den skärm där muspekaren befinner sig. När det är inaktiverat "
-"är den aktiva skärmen den skärm där det fokuserade fönstret finns."
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ActiveMouseScreen)
-#: focus.ui:206
-#, kde-format
-msgid "Active screen follows &mouse"
-msgstr "Aktiv skärm följer &musen"
-
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SeparateScreenFocus)
-#: focus.ui:213
+#: focus.ui:203
 #, kde-format
 msgid ""
 "When this option is enabled, focus operations are limited only to the active "
@@ -927,121 +898,48 @@ msgstr ""
 "skärmen."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SeparateScreenFocus)
-#: focus.ui:216
+#: focus.ui:206
 #, kde-format
 msgid "&Separate screen focus"
 msgstr "&Separat skärmfokus"
 
 #. i18n: ectx: property (text), widget (QLabel, windowFocusPolicyDescriptionLabel)
-#: focus.ui:229
+#: focus.ui:219
 #, kde-format
 msgid "Window activation policy description"
 msgstr "Beskrivning av fönsteraktiveringsprincip"
 
-#: main.cpp:73
+#: main.cpp:79
 #, kde-format
 msgid "&Focus"
 msgstr "&Fokus"
 
-#: main.cpp:79
+#: main.cpp:84
 #, kde-format
 msgid "Titlebar A&ctions"
 msgstr "Namnliståt&gärder"
 
-#: main.cpp:85
+#: main.cpp:89
 #, kde-format
 msgid "W&indow Actions"
 msgstr "Fönst&eråtgärder"
 
-#: main.cpp:91
+#: main.cpp:94
 #, kde-format
 msgid "Mo&vement"
 msgstr "Förfl&yttning"
 
-#: main.cpp:97
+#: main.cpp:99
 #, kde-format
 msgid "Adva&nced"
 msgstr "Ava&ncerat"
 
-#: main.cpp:101
-#, kde-format
-msgid "Window Behavior Configuration Module"
-msgstr "Inställningsmodul fönsterbeteende"
-
-#: main.cpp:103
-#, kde-format
-msgid "(c) 1997 - 2002 KWin and KControl Authors"
-msgstr "© 1997-2002 Kwin- och Kcontrol-utvecklarna"
-
-#: main.cpp:105
-#, kde-format
-msgid "Matthias Ettrich"
-msgstr "Matthias Ettrich"
-
-#: main.cpp:106
-#, kde-format
-msgid "Waldo Bastian"
-msgstr "Waldo Bastian"
-
-#: main.cpp:107
-#, kde-format
-msgid "Cristian Tibirna"
-msgstr "Cristian Tibirna"
-
-#: main.cpp:108
-#, kde-format
-msgid "Matthias Kalle Dalheimer"
-msgstr "Matthias Kalle Dalheimer"
-
-#: main.cpp:109
-#, kde-format
-msgid "Daniel Molkentin"
-msgstr "Daniel Molkentin"
-
-#: main.cpp:110
-#, kde-format
-msgid "Wynn Wilkes"
-msgstr "Wynn Wilkes"
-
-#: main.cpp:111
-#, kde-format
-msgid "Pat Dowler"
-msgstr "Pat Dowler"
-
-#: main.cpp:112
-#, kde-format
-msgid "Bernd Wuebben"
-msgstr "Bernd Wuebben"
-
-#: main.cpp:113
-#, kde-format
-msgid "Matthias Hoelzer-Kluepfel"
-msgstr "Matthias Hoelzer-Kluepfel"
-
-#: main.cpp:161
-#, kde-format
-msgid ""
-"<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
-"when being moved, resized or clicked on. You can also specify a focus policy "
-"as well as a placement policy for new windows.</p> <p>Please note that this "
-"configuration will not take effect if you do not use KWin as your window "
-"manager. If you do use a different window manager, please refer to its "
-"documentation for how to customize window behavior.</p>"
-msgstr ""
-"<p><h1>Fönsterbeteende</h1> Här kan du anpassa sättet som fönster beter sig "
-"när de flyttas, när deras storlek ändras, eller vid ett klick. Du kan också "
-"ange en fokusprincip samt en placeringsprincip för nya fönster.</"
-"p><p>Observera att den här inställningen inte har någon effekt om du inte "
-"använder Kwin som fönsterhanterare. Om du använder en annan "
-"fönsterhanterare, se dess dokumentation om hur du kan anpassa "
-"fönsterbeteendet.</p>"
-
-#: main.cpp:202
+#: main.cpp:178
 #, kde-format
 msgid "&Titlebar Actions"
 msgstr "Åtgärder för &namnlisten"
 
-#: main.cpp:208
+#: main.cpp:188
 #, kde-format
 msgid "Window Actio&ns"
 msgstr "Åt&gärder för fönster"
@@ -1313,7 +1211,7 @@ msgstr ""
 msgid "Only when overlapping"
 msgstr "Endast vid överlappning"
 
-#: windows.cpp:97
+#: windows.cpp:92
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
@@ -1322,7 +1220,7 @@ msgstr ""
 "<em>Klicka för fokus:</em>Ett fönster blir aktivt när du klickar på det. "
 "Beteendet är vanligt i andra operativsystem och troligtvis vad du vill ha."
 
-#: windows.cpp:101
+#: windows.cpp:95
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1337,7 +1235,7 @@ msgstr ""
 "kandidaten som föredras. Ovanlig, men möjlig, variant av <em>Klicka för "
 "fokus</em>."
 
-#: windows.cpp:106
+#: windows.cpp:98
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1350,7 +1248,7 @@ msgstr ""
 "<em>Förhindrande från att stjäla fokus</em> sker som vanligt. Tänk på detta "
 "som <em>Klicka för fokus</em> utan att verkligen behöva klicka."
 
-#: windows.cpp:110
+#: windows.cpp:101
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1363,7 +1261,7 @@ msgstr ""
 "stängdes) är fönstret under musen kandidaten som föredras. Välj detta om du "
 "vill ha fokus bestämt av vad musen hålls över."
 
-#: windows.cpp:115
+#: windows.cpp:104
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1378,7 +1276,7 @@ msgstr ""
 "principen och fungerar inte. Det är mycket troligt att du hellre vill "
 "använda <em>Fokus följer musen (musföreträde)</em>."
 
-#: windows.cpp:119
+#: windows.cpp:107
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "
@@ -1394,6 +1292,78 @@ msgstr ""
 "stjäla fokus</em> och <em>tabulatorrutan (\"Alt+Tabulator\")</em> står i "
 "konflikt med den här principen och fungerar inte. Det är mycket troligt att "
 "du hellre vill använda <em>Fokus följer musen (musföreträde)</em>."
+
+#~ msgid ""
+#~ "When this option is enabled, the active screen (where new windows appear, "
+#~ "for example) is the screen containing the mouse pointer. When disabled, "
+#~ "the active screen is the screen containing the focused window."
+#~ msgstr ""
+#~ "När alternativet är aktiverat är den aktiva skärmen (där till exempel nya "
+#~ "fönster visas) den skärm där muspekaren befinner sig. När det är "
+#~ "inaktiverat är den aktiva skärmen den skärm där det fokuserade fönstret "
+#~ "finns."
+
+#~ msgid "Active screen follows &mouse"
+#~ msgstr "Aktiv skärm följer &musen"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Magnus Reftel,Anders Widell,Per Lindström,Mattias Newzella"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr ""
+#~ "d96reftl@dtek.chalmers.se,awl@hem.passagen.se,pelinsr@algonet.se,"
+#~ "newzella@linux.nu"
+
+#~ msgid "Window Behavior Configuration Module"
+#~ msgstr "Inställningsmodul fönsterbeteende"
+
+#~ msgid "(c) 1997 - 2002 KWin and KControl Authors"
+#~ msgstr "© 1997-2002 Kwin- och Kcontrol-utvecklarna"
+
+#~ msgid "Matthias Ettrich"
+#~ msgstr "Matthias Ettrich"
+
+#~ msgid "Waldo Bastian"
+#~ msgstr "Waldo Bastian"
+
+#~ msgid "Cristian Tibirna"
+#~ msgstr "Cristian Tibirna"
+
+#~ msgid "Matthias Kalle Dalheimer"
+#~ msgstr "Matthias Kalle Dalheimer"
+
+#~ msgid "Daniel Molkentin"
+#~ msgstr "Daniel Molkentin"
+
+#~ msgid "Wynn Wilkes"
+#~ msgstr "Wynn Wilkes"
+
+#~ msgid "Pat Dowler"
+#~ msgstr "Pat Dowler"
+
+#~ msgid "Bernd Wuebben"
+#~ msgstr "Bernd Wuebben"
+
+#~ msgid "Matthias Hoelzer-Kluepfel"
+#~ msgstr "Matthias Hoelzer-Kluepfel"
+
+#~ msgid ""
+#~ "<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
+#~ "when being moved, resized or clicked on. You can also specify a focus "
+#~ "policy as well as a placement policy for new windows.</p> <p>Please note "
+#~ "that this configuration will not take effect if you do not use KWin as "
+#~ "your window manager. If you do use a different window manager, please "
+#~ "refer to its documentation for how to customize window behavior.</p>"
+#~ msgstr ""
+#~ "<p><h1>Fönsterbeteende</h1> Här kan du anpassa sättet som fönster beter "
+#~ "sig när de flyttas, när deras storlek ändras, eller vid ett klick. Du kan "
+#~ "också ange en fokusprincip samt en placeringsprincip för nya fönster.</"
+#~ "p><p>Observera att den här inställningen inte har någon effekt om du inte "
+#~ "använder Kwin som fönsterhanterare. Om du använder en annan "
+#~ "fönsterhanterare, se dess dokumentation om hur du kan anpassa "
+#~ "fönsterbeteendet.</p>"
 
 #~ msgid "Cascaded"
 #~ msgstr "Kaskad"

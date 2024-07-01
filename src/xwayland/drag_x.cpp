@@ -17,10 +17,10 @@
 #include "xwayland.h"
 
 #include "atoms.h"
-#include "wayland/datadevice_interface.h"
-#include "wayland/datasource_interface.h"
-#include "wayland/seat_interface.h"
-#include "wayland/surface_interface.h"
+#include "wayland/datadevice.h"
+#include "wayland/datasource.h"
+#include "wayland/seat.h"
+#include "wayland/surface.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
@@ -33,8 +33,8 @@ namespace KWin
 namespace Xwl
 {
 
-using DnDAction = KWaylandServer::DataDeviceManagerInterface::DnDAction;
-using DnDActions = KWaylandServer::DataDeviceManagerInterface::DnDActions;
+using DnDAction = KWin::DataDeviceManagerInterface::DnDAction;
+using DnDActions = KWin::DataDeviceManagerInterface::DnDActions;
 
 static QStringList atomToMimeTypes(xcb_atom_t atom)
 {
@@ -76,7 +76,7 @@ XToWlDrag::XToWlDrag(X11Source *source, Dnd *dnd)
     connect(source, &X11Source::transferReady, this, [this](xcb_atom_t target, qint32 fd) {
         m_dataRequests << QPair<xcb_timestamp_t, bool>(m_source->timestamp(), false);
     });
-    connect(&m_selectionSource, &XwlDataSource::dropped, this, [this] {
+    connect(source->dataSource(), &XwlDataSource::dropped, this, [this] {
         m_performed = true;
         if (m_visit) {
             connect(m_visit, &WlVisit::finish, this, [this](WlVisit *visit) {
@@ -97,28 +97,23 @@ XToWlDrag::XToWlDrag(X11Source *source, Dnd *dnd)
         // Dave do we need this async finish check anymore?
         checkForFinished();
     });
-    connect(&m_selectionSource, &XwlDataSource::finished, this, [this] {
+    connect(source->dataSource(), &XwlDataSource::finished, this, [this] {
         checkForFinished();
     });
-    connect(&m_selectionSource, &XwlDataSource::cancelled, this, [this] {
+    connect(source->dataSource(), &XwlDataSource::cancelled, this, [this] {
         if (m_visit && !m_visit->leave()) {
             connect(m_visit, &WlVisit::finish, this, &XToWlDrag::checkForFinished);
         }
         checkForFinished();
     });
-    connect(&m_selectionSource, &XwlDataSource::dataRequested, source, &X11Source::startTransfer);
-
-    auto *seat = waylandServer()->seat();
-    int serial = waylandServer()->seat()->pointerButtonSerial(Qt::LeftButton);
-    // we know we are the focussed surface as dnd checks
-    seat->startDrag(&m_selectionSource, seat->focusedPointerSurface(), serial);
+    connect(source->dataSource(), &XwlDataSource::dataRequested, source, &X11Source::startTransfer);
 }
 
 XToWlDrag::~XToWlDrag()
 {
 }
 
-DragEventReply XToWlDrag::moveFilter(Window *target, const QPoint &pos)
+DragEventReply XToWlDrag::moveFilter(Window *target)
 {
     auto *seat = waylandServer()->seat();
 
@@ -172,12 +167,12 @@ bool XToWlDrag::handleClientMessage(xcb_client_message_event_t *event)
 
 void XToWlDrag::setDragAndDropAction(DnDAction action)
 {
-    m_selectionSource.setSupportedDndActions(action);
+    m_source->dataSource()->setSupportedDndActions(action);
 }
 
 DnDAction XToWlDrag::selectedDragAndDropAction()
 {
-    return m_selectionSource.selectedDndAction();
+    return m_source->dataSource()->selectedDndAction();
 }
 
 void XToWlDrag::setOffers(const Mimes &offers)
@@ -202,7 +197,7 @@ void XToWlDrag::setOffers(const Mimes &offers)
     for (const auto &mimePair : offers) {
         mimeTypes.append(mimePair.first);
     }
-    m_selectionSource.setMimeTypes(mimeTypes);
+    m_source->dataSource()->setMimeTypes(mimeTypes);
     setDragTarget();
 }
 
@@ -235,7 +230,7 @@ bool XToWlDrag::checkForFinished()
     if (!m_visit->finished()) {
         return false;
     }
-    if (m_dataRequests.size() == 0 && m_selectionSource.isAccepted()) {
+    if (m_dataRequests.size() == 0 && m_source->dataSource()->isAccepted()) {
         // need to wait for first data request
         return false;
     }
@@ -512,3 +507,5 @@ void WlVisit::unmapProxyWindow()
 
 } // namespace Xwl
 } // namespace KWin
+
+#include "moc_drag_x.cpp"

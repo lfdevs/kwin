@@ -6,33 +6,32 @@
 
 #include "layershellv1window.h"
 #include "core/output.h"
-#include "deleted.h"
 #include "layershellv1integration.h"
-#include "wayland/layershell_v1_interface.h"
-#include "wayland/output_interface.h"
-#include "wayland/surface_interface.h"
+#include "screenedge.h"
+#include "wayland/layershell_v1.h"
+#include "wayland/output.h"
+#include "wayland/screenedge_v1.h"
+#include "wayland/surface.h"
 #include "wayland_server.h"
 #include "workspace.h"
-
-using namespace KWaylandServer;
 
 namespace KWin
 {
 
-static NET::WindowType scopeToType(const QString &scope)
+static WindowType scopeToType(const QString &scope)
 {
-    static const QHash<QString, NET::WindowType> scopeToType{
-        {QStringLiteral("desktop"), NET::Desktop},
-        {QStringLiteral("dock"), NET::Dock},
-        {QStringLiteral("crititical-notification"), NET::CriticalNotification},
-        {QStringLiteral("notification"), NET::Notification},
-        {QStringLiteral("tooltip"), NET::Tooltip},
-        {QStringLiteral("on-screen-display"), NET::OnScreenDisplay},
-        {QStringLiteral("dialog"), NET::Dialog},
-        {QStringLiteral("splash"), NET::Splash},
-        {QStringLiteral("utility"), NET::Utility},
+    static const QHash<QString, WindowType> scopeToType{
+        {QStringLiteral("desktop"), WindowType::Desktop},
+        {QStringLiteral("dock"), WindowType::Dock},
+        {QStringLiteral("crititical-notification"), WindowType::CriticalNotification},
+        {QStringLiteral("notification"), WindowType::Notification},
+        {QStringLiteral("tooltip"), WindowType::Tooltip},
+        {QStringLiteral("on-screen-display"), WindowType::OnScreenDisplay},
+        {QStringLiteral("dialog"), WindowType::Dialog},
+        {QStringLiteral("splash"), WindowType::Splash},
+        {QStringLiteral("utility"), WindowType::Utility},
     };
-    return scopeToType.value(scope.toLower(), NET::Normal);
+    return scopeToType.value(scope.toLower(), WindowType::Normal);
 }
 
 LayerShellV1Window::LayerShellV1Window(LayerSurfaceV1Interface *shellSurface,
@@ -44,6 +43,8 @@ LayerShellV1Window::LayerShellV1Window(LayerSurfaceV1Interface *shellSurface,
     , m_shellSurface(shellSurface)
     , m_windowType(scopeToType(shellSurface->scope()))
 {
+    setOutput(output);
+    setMoveResizeOutput(output);
     setSkipSwitcher(!isDesktop());
     setSkipPager(true);
     setSkipTaskbar(true);
@@ -53,12 +54,8 @@ LayerShellV1Window::LayerShellV1Window(LayerSurfaceV1Interface *shellSurface,
     connect(shellSurface->surface(), &SurfaceInterface::aboutToBeDestroyed,
             this, &LayerShellV1Window::destroyWindow);
 
-    connect(output, &Output::geometryChanged,
-            this, &LayerShellV1Window::scheduleRearrange);
     connect(output, &Output::enabledChanged,
             this, &LayerShellV1Window::handleOutputEnabledChanged);
-    connect(output, &Output::destroyed,
-            this, &LayerShellV1Window::handleOutputDestroyed);
 
     connect(shellSurface->surface(), &SurfaceInterface::sizeChanged,
             this, &LayerShellV1Window::handleSizeChanged);
@@ -93,10 +90,10 @@ Output *LayerShellV1Window::desiredOutput() const
 
 void LayerShellV1Window::scheduleRearrange()
 {
-    m_integration->scheduleRearrange();
+    workspace()->scheduleRearrange();
 }
 
-NET::WindowType LayerShellV1Window::windowType(bool, int) const
+WindowType LayerShellV1Window::windowType() const
 {
     return m_windowType;
 }
@@ -128,7 +125,9 @@ bool LayerShellV1Window::isResizable() const
 
 bool LayerShellV1Window::takeFocus()
 {
-    setActive(true);
+    if (acceptsFocus()) {
+        setActive(true);
+    }
     return true;
 }
 
@@ -137,29 +136,48 @@ bool LayerShellV1Window::wantsInput() const
     return acceptsFocus() && readyForPainting();
 }
 
+bool LayerShellV1Window::dockWantsInput() const
+{
+    return wantsInput();
+}
+
 StrutRect LayerShellV1Window::strutRect(StrutArea area) const
 {
     switch (area) {
     case StrutAreaLeft:
         if (m_shellSurface->exclusiveEdge() == Qt::LeftEdge) {
-            return StrutRect(x(), y(), m_shellSurface->exclusiveZone(), height(), StrutAreaLeft);
+            return StrutRect(m_moveResizeGeometry.x(),
+                             m_moveResizeGeometry.y(),
+                             m_shellSurface->exclusiveZone(),
+                             m_moveResizeGeometry.height(),
+                             StrutAreaLeft);
         }
         return StrutRect();
     case StrutAreaRight:
         if (m_shellSurface->exclusiveEdge() == Qt::RightEdge) {
-            return StrutRect(x() + width() - m_shellSurface->exclusiveZone(), y(),
-                             m_shellSurface->exclusiveZone(), height(), StrutAreaRight);
+            return StrutRect(m_moveResizeGeometry.x() + m_moveResizeGeometry.width() - m_shellSurface->exclusiveZone(),
+                             m_moveResizeGeometry.y(),
+                             m_shellSurface->exclusiveZone(),
+                             m_moveResizeGeometry.height(),
+                             StrutAreaRight);
         }
         return StrutRect();
     case StrutAreaTop:
         if (m_shellSurface->exclusiveEdge() == Qt::TopEdge) {
-            return StrutRect(x(), y(), width(), m_shellSurface->exclusiveZone(), StrutAreaTop);
+            return StrutRect(m_moveResizeGeometry.x(),
+                             m_moveResizeGeometry.y(),
+                             m_moveResizeGeometry.width(),
+                             m_shellSurface->exclusiveZone(),
+                             StrutAreaTop);
         }
         return StrutRect();
     case StrutAreaBottom:
         if (m_shellSurface->exclusiveEdge() == Qt::BottomEdge) {
-            return StrutRect(x(), y() + height() - m_shellSurface->exclusiveZone(),
-                             width(), m_shellSurface->exclusiveZone(), StrutAreaBottom);
+            return StrutRect(m_moveResizeGeometry.x(),
+                             m_moveResizeGeometry.y() + m_moveResizeGeometry.height() - m_shellSurface->exclusiveZone(),
+                             m_moveResizeGeometry.width(),
+                             m_shellSurface->exclusiveZone(),
+                             StrutAreaBottom);
         }
         return StrutRect();
     default:
@@ -174,16 +192,21 @@ bool LayerShellV1Window::hasStrut() const
 
 void LayerShellV1Window::destroyWindow()
 {
-    markAsZombie();
+    if (m_screenEdge) {
+        m_screenEdge->disconnect(this);
+    }
+    m_shellSurface->disconnect(this);
+    m_shellSurface->surface()->disconnect(this);
+    m_desiredOutput->disconnect(this);
+
+    markAsDeleted();
     cleanTabBox();
-    Deleted *deleted = Deleted::create(this);
-    Q_EMIT windowClosed(this, deleted);
+    Q_EMIT closed();
     StackingUpdatesBlocker blocker(workspace());
     cleanGrouping();
     waylandServer()->removeWindow(this);
-    deleted->unrefWindow();
     scheduleRearrange();
-    delete this;
+    unref();
 }
 
 void LayerShellV1Window::closeWindow()
@@ -193,9 +216,6 @@ void LayerShellV1Window::closeWindow()
 
 Layer LayerShellV1Window::belongsToLayer() const
 {
-    if (!isNormalWindow()) {
-        return WaylandWindow::belongsToLayer();
-    }
     switch (m_shellSurface->layer()) {
     case LayerSurfaceV1Interface::BackgroundLayer:
         return DesktopLayer;
@@ -204,7 +224,7 @@ Layer LayerShellV1Window::belongsToLayer() const
     case LayerSurfaceV1Interface::TopLayer:
         return AboveLayer;
     case LayerSurfaceV1Interface::OverlayLayer:
-        return UnmanagedLayer;
+        return OverlayLayer;
     default:
         Q_UNREACHABLE();
     }
@@ -217,11 +237,6 @@ bool LayerShellV1Window::acceptsFocus() const
 
 void LayerShellV1Window::moveResizeInternal(const QRectF &rect, MoveResizeMode mode)
 {
-    if (areGeometryUpdatesBlocked()) {
-        setPendingMoveResizeMode(mode);
-        return;
-    }
-
     const QSizeF requestedClientSize = frameSizeToClientSize(rect.size());
     if (requestedClientSize != clientSize()) {
         m_shellSurface->sendConfigure(rect.size().toSize());
@@ -236,10 +251,33 @@ void LayerShellV1Window::moveResizeInternal(const QRectF &rect, MoveResizeMode m
     updateGeometry(updateRect);
 }
 
+void LayerShellV1Window::doSetPreferredBufferScale()
+{
+    if (isDeleted()) {
+        return;
+    }
+    surface()->setPreferredBufferScale(preferredBufferScale());
+}
+
+void LayerShellV1Window::doSetPreferredBufferTransform()
+{
+    if (isDeleted()) {
+        return;
+    }
+    surface()->setPreferredBufferTransform(preferredBufferTransform());
+}
+
+void LayerShellV1Window::doSetPreferredColorDescription()
+{
+    if (isDeleted()) {
+        return;
+    }
+    surface()->setPreferredColorDescription(preferredColorDescription());
+}
+
 void LayerShellV1Window::handleSizeChanged()
 {
     updateGeometry(QRectF(pos(), clientSizeToFrameSize(surface()->size())));
-    scheduleRearrange();
 }
 
 void LayerShellV1Window::handleUnmapped()
@@ -250,8 +288,7 @@ void LayerShellV1Window::handleUnmapped()
 void LayerShellV1Window::handleCommitted()
 {
     if (surface()->buffer()) {
-        updateDepth();
-        setReadyForPainting();
+        markAsMapped();
     }
 }
 
@@ -278,12 +315,6 @@ void LayerShellV1Window::handleOutputEnabledChanged()
     }
 }
 
-void LayerShellV1Window::handleOutputDestroyed()
-{
-    closeWindow();
-    destroyWindow();
-}
-
 void LayerShellV1Window::setVirtualKeyboardGeometry(const QRectF &geo)
 {
     if (m_virtualKeyboardGeometry == geo) {
@@ -294,4 +325,58 @@ void LayerShellV1Window::setVirtualKeyboardGeometry(const QRectF &geo)
     scheduleRearrange();
 }
 
+void LayerShellV1Window::showOnScreenEdge()
+{
+    // ShowOnScreenEdge can be called by an Edge, and setHidden could destroy the Edge
+    // Use the singleshot to avoid use-after-free
+    QTimer::singleShot(0, this, &LayerShellV1Window::deactivateScreenEdge);
+}
+
+void LayerShellV1Window::installAutoHideScreenEdgeV1(AutoHideScreenEdgeV1Interface *edge)
+{
+    m_screenEdge = edge;
+
+    connect(edge, &AutoHideScreenEdgeV1Interface::destroyed,
+            this, &LayerShellV1Window::deactivateScreenEdge);
+    connect(edge, &AutoHideScreenEdgeV1Interface::activateRequested,
+            this, &LayerShellV1Window::activateScreenEdge);
+    connect(edge, &AutoHideScreenEdgeV1Interface::deactivateRequested,
+            this, &LayerShellV1Window::deactivateScreenEdge);
+
+    connect(this, &LayerShellV1Window::frameGeometryChanged, edge, [this]() {
+        if (m_screenEdgeActive) {
+            reserveScreenEdge();
+        }
+    });
+}
+
+void LayerShellV1Window::reserveScreenEdge()
+{
+    if (workspace()->screenEdges()->reserve(this, m_screenEdge->border())) {
+        setHidden(true);
+    } else {
+        setHidden(false);
+    }
+}
+
+void LayerShellV1Window::unreserveScreenEdge()
+{
+    setHidden(false);
+    workspace()->screenEdges()->reserve(this, ElectricNone);
+}
+
+void LayerShellV1Window::activateScreenEdge()
+{
+    m_screenEdgeActive = true;
+    reserveScreenEdge();
+}
+
+void LayerShellV1Window::deactivateScreenEdge()
+{
+    m_screenEdgeActive = false;
+    unreserveScreenEdge();
+}
+
 } // namespace KWin
+
+#include "moc_layershellv1window.cpp"

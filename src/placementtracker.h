@@ -11,10 +11,10 @@
 #include "utils/common.h"
 
 #include <QHash>
+#include <QList>
 #include <QRect>
 #include <QString>
 #include <QUuid>
-#include <QVector>
 
 namespace KWin
 {
@@ -52,14 +52,14 @@ private:
 
     void saveGeometry(Window *window);
     void saveInteractionCounter(Window *window);
-    void saveMaximize(KWin::Window *window, MaximizeMode mode);
-    void saveQuickTile();
-    void saveFullscreen();
+    void saveMaximize(Window *window);
+    void saveQuickTile(Window *window);
+    void saveFullscreen(Window *window);
     void saveMaximizeGeometryRestore(Window *window);
     void saveFullscreenGeometryRestore(Window *window);
     WindowData dataForWindow(Window *window) const;
 
-    QVector<Window *> m_savedWindows;
+    QList<Window *> m_savedWindows;
     QHash<QString, QHash<Window *, WindowData>> m_data;
     QHash<Window *, WindowData> m_lastRestoreData;
     QString m_currentKey;

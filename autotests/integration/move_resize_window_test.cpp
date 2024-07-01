@@ -11,11 +11,9 @@
 
 #include "atoms.h"
 #include "core/output.h"
-#include "core/outputbackend.h"
 #include "cursor.h"
-#include "deleted.h"
-#include "effects.h"
 #include "placement.h"
+#include "pointer_input.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
@@ -23,7 +21,6 @@
 
 #include <KWayland/Client/compositor.h>
 #include <KWayland/Client/connection_thread.h>
-#include <KWayland/Client/plasmashell.h>
 #include <KWayland/Client/pointer.h>
 #include <KWayland/Client/seat.h>
 #include <KWayland/Client/surface.h>
@@ -57,13 +54,6 @@ private Q_SLOTS:
     void testPointerMoveEnd_data();
     void testPointerMoveEnd();
     void testClientSideMove();
-    void testPlasmaShellSurfaceMovable_data();
-    void testPlasmaShellSurfaceMovable();
-    void testNetMove();
-    void testAdjustClientGeometryOfAutohidingX11Panel_data();
-    void testAdjustClientGeometryOfAutohidingX11Panel();
-    void testAdjustClientGeometryOfAutohidingWaylandPanel_data();
-    void testAdjustClientGeometryOfAutohidingWaylandPanel();
     void testResizeForVirtualKeyboard_data();
     void testResizeForVirtualKeyboard();
     void testResizeForVirtualKeyboardWithMaximize();
@@ -81,11 +71,10 @@ private:
 void MoveResizeWindowTest::initTestCase()
 {
     qRegisterMetaType<KWin::Window *>();
-    qRegisterMetaType<KWin::Deleted *>();
     qRegisterMetaType<KWin::MaximizeMode>("MaximizeMode");
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024)));
+    Test::setOutputConfig({QRect(0, 0, 1280, 1024)});
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
     const auto outputs = workspace()->outputs();
@@ -95,7 +84,7 @@ void MoveResizeWindowTest::initTestCase()
 
 void MoveResizeWindowTest::init()
 {
-    QVERIFY(Test::setupWaylandConnection(Test::AdditionalWaylandInterface::PlasmaShell | Test::AdditionalWaylandInterface::Seat));
+    QVERIFY(Test::setupWaylandConnection(Test::AdditionalWaylandInterface::LayerShellV1 | Test::AdditionalWaylandInterface::Seat));
     QVERIFY(Test::waitForWaylandPointer());
     m_connection = Test::waylandConnection();
     m_compositor = Test::waylandCompositor();
@@ -121,61 +110,51 @@ void MoveResizeWindowTest::testMove()
     QVERIFY(window);
     QCOMPARE(workspace()->activeWindow(), window);
     QCOMPARE(window->frameGeometry(), QRect(0, 0, 100, 50));
-    QSignalSpy startMoveResizedSpy(window, &Window::clientStartUserMovedResized);
+    QSignalSpy interactiveMoveResizeStartedSpy(window, &Window::interactiveMoveResizeStarted);
     QSignalSpy moveResizedChangedSpy(window, &Window::moveResizedChanged);
-    QSignalSpy clientStepUserMovedResizedSpy(window, &Window::clientStepUserMovedResized);
-    QSignalSpy clientFinishUserMovedResizedSpy(window, &Window::clientFinishUserMovedResized);
-
-    // effects signal handlers
-    QSignalSpy windowStartUserMovedResizedSpy(effects, &EffectsHandler::windowStartUserMovedResized);
-    QSignalSpy windowStepUserMovedResizedSpy(effects, &EffectsHandler::windowStepUserMovedResized);
-    QSignalSpy windowFinishUserMovedResizedSpy(effects, &EffectsHandler::windowFinishUserMovedResized);
+    QSignalSpy interactiveMoveResizeSteppedSpy(window, &Window::interactiveMoveResizeStepped);
+    QSignalSpy interactiveMoveResizeFinishedSpy(window, &Window::interactiveMoveResizeFinished);
 
     // begin move
     QVERIFY(workspace()->moveResizeWindow() == nullptr);
     QCOMPARE(window->isInteractiveMove(), false);
     workspace()->slotWindowMove();
     QCOMPARE(workspace()->moveResizeWindow(), window);
-    QCOMPARE(startMoveResizedSpy.count(), 1);
+    QCOMPARE(interactiveMoveResizeStartedSpy.count(), 1);
     QCOMPARE(moveResizedChangedSpy.count(), 1);
-    QCOMPARE(windowStartUserMovedResizedSpy.count(), 1);
     QCOMPARE(window->isInteractiveMove(), true);
     QCOMPARE(window->geometryRestore(), QRect());
 
     // send some key events, not going through input redirection
-    const QPoint cursorPos = Cursors::self()->mouse()->pos();
+    const QPointF cursorPos = Cursors::self()->mouse()->pos();
     window->keyPressEvent(Qt::Key_Right);
     window->updateInteractiveMoveResize(Cursors::self()->mouse()->pos());
     QCOMPARE(Cursors::self()->mouse()->pos(), cursorPos + QPoint(8, 0));
     QEXPECT_FAIL("", "First event is ignored", Continue);
-    QCOMPARE(clientStepUserMovedResizedSpy.count(), 1);
-    clientStepUserMovedResizedSpy.clear();
-    windowStepUserMovedResizedSpy.clear();
+    QCOMPARE(interactiveMoveResizeSteppedSpy.count(), 1);
+    interactiveMoveResizeSteppedSpy.clear();
 
     window->keyPressEvent(Qt::Key_Right);
     window->updateInteractiveMoveResize(Cursors::self()->mouse()->pos());
     QCOMPARE(Cursors::self()->mouse()->pos(), cursorPos + QPoint(16, 0));
-    QCOMPARE(clientStepUserMovedResizedSpy.count(), 1);
-    QCOMPARE(windowStepUserMovedResizedSpy.count(), 1);
+    QCOMPARE(interactiveMoveResizeSteppedSpy.count(), 1);
 
     window->keyPressEvent(Qt::Key_Down | Qt::ALT);
     window->updateInteractiveMoveResize(Cursors::self()->mouse()->pos());
-    QCOMPARE(clientStepUserMovedResizedSpy.count(), 2);
-    QCOMPARE(windowStepUserMovedResizedSpy.count(), 2);
+    QCOMPARE(interactiveMoveResizeSteppedSpy.count(), 2);
     QCOMPARE(window->frameGeometry(), QRect(16, 32, 100, 50));
     QCOMPARE(Cursors::self()->mouse()->pos(), cursorPos + QPoint(16, 32));
 
     // let's end
-    QCOMPARE(clientFinishUserMovedResizedSpy.count(), 0);
+    QCOMPARE(interactiveMoveResizeFinishedSpy.count(), 0);
     window->keyPressEvent(Qt::Key_Enter);
-    QCOMPARE(clientFinishUserMovedResizedSpy.count(), 1);
+    QCOMPARE(interactiveMoveResizeFinishedSpy.count(), 1);
     QCOMPARE(moveResizedChangedSpy.count(), 2);
-    QCOMPARE(windowFinishUserMovedResizedSpy.count(), 1);
     QCOMPARE(window->frameGeometry(), QRect(16, 32, 100, 50));
     QCOMPARE(window->isInteractiveMove(), false);
     QVERIFY(workspace()->moveResizeWindow() == nullptr);
     surface.reset();
-    QVERIFY(Test::waitForWindowDestroyed(window));
+    QVERIFY(Test::waitForWindowClosed(window));
 }
 
 void MoveResizeWindowTest::testResize()
@@ -216,10 +195,10 @@ void MoveResizeWindowTest::testResize()
     QCOMPARE(workspace()->activeWindow(), window);
     QCOMPARE(window->frameGeometry(), QRect(0, 0, 100, 50));
     QSignalSpy frameGeometryChangedSpy(window, &Window::frameGeometryChanged);
-    QSignalSpy startMoveResizedSpy(window, &Window::clientStartUserMovedResized);
+    QSignalSpy interactiveMoveResizeStartedSpy(window, &Window::interactiveMoveResizeStarted);
     QSignalSpy moveResizedChangedSpy(window, &Window::moveResizedChanged);
-    QSignalSpy clientStepUserMovedResizedSpy(window, &Window::clientStepUserMovedResized);
-    QSignalSpy clientFinishUserMovedResizedSpy(window, &Window::clientFinishUserMovedResized);
+    QSignalSpy interactiveMoveResizeSteppedSpy(window, &Window::interactiveMoveResizeStepped);
+    QSignalSpy interactiveMoveResizeFinishedSpy(window, &Window::interactiveMoveResizeFinished);
 
     // begin resize
     QCOMPARE(workspace()->moveResizeWindow(), nullptr);
@@ -227,7 +206,7 @@ void MoveResizeWindowTest::testResize()
     QCOMPARE(window->isInteractiveResize(), false);
     workspace()->slotWindowResize();
     QCOMPARE(workspace()->moveResizeWindow(), window);
-    QCOMPARE(startMoveResizedSpy.count(), 1);
+    QCOMPARE(interactiveMoveResizeStartedSpy.count(), 1);
     QCOMPARE(moveResizedChangedSpy.count(), 1);
     QCOMPARE(window->isInteractiveResize(), true);
     QCOMPARE(window->geometryRestore(), QRect());
@@ -239,7 +218,7 @@ void MoveResizeWindowTest::testResize()
     QVERIFY(states.testFlag(Test::XdgToplevel::State::Resizing));
 
     // Trigger a change.
-    const QPoint cursorPos = Cursors::self()->mouse()->pos();
+    const QPointF cursorPos = Cursors::self()->mouse()->pos();
     window->keyPressEvent(Qt::Key_Right);
     window->updateInteractiveMoveResize(Cursors::self()->mouse()->pos());
     QCOMPARE(Cursors::self()->mouse()->pos(), cursorPos + QPoint(8, 0));
@@ -252,14 +231,14 @@ void MoveResizeWindowTest::testResize()
     QVERIFY(states.testFlag(Test::XdgToplevel::State::Activated));
     QVERIFY(states.testFlag(Test::XdgToplevel::State::Resizing));
     QCOMPARE(toplevelConfigureRequestedSpy.last().at(0).toSize(), QSize(108, 50));
-    QCOMPARE(clientStepUserMovedResizedSpy.count(), 1);
+    QCOMPARE(interactiveMoveResizeSteppedSpy.count(), 1);
 
     // Now render new size.
     shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy.last().at(0).value<quint32>());
     Test::render(surface.get(), QSize(108, 50), Qt::blue);
     QVERIFY(frameGeometryChangedSpy.wait());
     QCOMPARE(window->frameGeometry(), QRect(0, 0, 108, 50));
-    QCOMPARE(clientStepUserMovedResizedSpy.count(), 1);
+    QCOMPARE(interactiveMoveResizeSteppedSpy.count(), 1);
 
     // Go down.
     window->keyPressEvent(Qt::Key_Down);
@@ -280,12 +259,12 @@ void MoveResizeWindowTest::testResize()
     Test::render(surface.get(), QSize(108, 58), Qt::blue);
     QVERIFY(frameGeometryChangedSpy.wait());
     QCOMPARE(window->frameGeometry(), QRect(0, 0, 108, 58));
-    QCOMPARE(clientStepUserMovedResizedSpy.count(), 2);
+    QCOMPARE(interactiveMoveResizeSteppedSpy.count(), 2);
 
     // Let's finalize the resize operation.
-    QCOMPARE(clientFinishUserMovedResizedSpy.count(), 0);
+    QCOMPARE(interactiveMoveResizeFinishedSpy.count(), 0);
     window->keyPressEvent(Qt::Key_Enter);
-    QCOMPARE(clientFinishUserMovedResizedSpy.count(), 1);
+    QCOMPARE(interactiveMoveResizeFinishedSpy.count(), 1);
     QCOMPARE(moveResizedChangedSpy.count(), 2);
     QCOMPARE(window->isInteractiveResize(), false);
     QCOMPARE(workspace()->moveResizeWindow(), nullptr);
@@ -298,7 +277,7 @@ void MoveResizeWindowTest::testResize()
 
     // Destroy the client.
     shellSurface.reset();
-    QVERIFY(Test::waitForWindowDestroyed(window));
+    QVERIFY(Test::waitForWindowClosed(window));
 }
 
 void MoveResizeWindowTest::testPackTo_data()
@@ -334,7 +313,7 @@ void MoveResizeWindowTest::testPackTo()
     QMetaObject::invokeMethod(workspace(), methodCall.toLocal8Bit().constData());
     QTEST(window->frameGeometry(), "expectedGeometry");
     surface.reset();
-    QVERIFY(Test::waitForWindowDestroyed(window));
+    QVERIFY(Test::waitForWindowClosed(window));
 }
 
 void MoveResizeWindowTest::testPackAgainstClient_data()
@@ -506,11 +485,11 @@ void MoveResizeWindowTest::testPointerMoveEnd()
     Test::pointerButtonReleased(additionalButton, timestamp++);
     QVERIFY(!window->isInteractiveMove());
     surface.reset();
-    QVERIFY(Test::waitForWindowDestroyed(window));
+    QVERIFY(Test::waitForWindowClosed(window));
 }
 void MoveResizeWindowTest::testClientSideMove()
 {
-    Cursors::self()->mouse()->setPos(640, 512);
+    input()->pointer()->warp(QPointF(640, 512));
     std::unique_ptr<KWayland::Client::Pointer> pointer(Test::waylandSeat()->createPointer());
     QSignalSpy pointerEnteredSpy(pointer.get(), &KWayland::Client::Pointer::entered);
     QSignalSpy pointerLeftSpy(pointer.get(), &KWayland::Client::Pointer::left);
@@ -523,21 +502,21 @@ void MoveResizeWindowTest::testClientSideMove()
 
     // move pointer into center of geometry
     const QRectF startGeometry = window->frameGeometry();
-    Cursors::self()->mouse()->setPos(startGeometry.center());
+    input()->pointer()->warp(startGeometry.center());
     QVERIFY(pointerEnteredSpy.wait());
     QCOMPARE(pointerEnteredSpy.first().last().toPoint(), QPoint(50, 25));
     // simulate press
     quint32 timestamp = 1;
     Test::pointerButtonPressed(BTN_LEFT, timestamp++);
     QVERIFY(buttonSpy.wait());
-    QSignalSpy moveStartSpy(window, &Window::clientStartUserMovedResized);
+    QSignalSpy interactiveMoveResizeStartedSpy(window, &Window::interactiveMoveResizeStarted);
     shellSurface->move(*Test::waylandSeat(), buttonSpy.first().first().value<quint32>());
-    QVERIFY(moveStartSpy.wait());
+    QVERIFY(interactiveMoveResizeStartedSpy.wait());
     QCOMPARE(window->isInteractiveMove(), true);
     QVERIFY(pointerLeftSpy.wait());
 
     // move a bit
-    QSignalSpy clientMoveStepSpy(window, &Window::clientStepUserMovedResized);
+    QSignalSpy clientMoveStepSpy(window, &Window::interactiveMoveResizeStepped);
     const QPointF startPoint = startGeometry.center();
     const int dragDistance = QApplication::startDragDistance();
     // Why?
@@ -550,281 +529,6 @@ void MoveResizeWindowTest::testClientSideMove()
     QCOMPARE(window->isInteractiveMove(), false);
     QCOMPARE(window->frameGeometry(), startGeometry.translated(QPoint(dragDistance, dragDistance) + QPoint(6, 6)));
     QCOMPARE(pointerEnteredSpy.last().last().toPoint(), QPoint(50, 25));
-}
-
-void MoveResizeWindowTest::testPlasmaShellSurfaceMovable_data()
-{
-    QTest::addColumn<KWayland::Client::PlasmaShellSurface::Role>("role");
-    QTest::addColumn<bool>("movable");
-    QTest::addColumn<bool>("movableAcrossScreens");
-    QTest::addColumn<bool>("resizable");
-
-    QTest::newRow("normal") << KWayland::Client::PlasmaShellSurface::Role::Normal << true << true << true;
-    QTest::newRow("desktop") << KWayland::Client::PlasmaShellSurface::Role::Desktop << false << false << false;
-    QTest::newRow("panel") << KWayland::Client::PlasmaShellSurface::Role::Panel << false << false << false;
-    QTest::newRow("osd") << KWayland::Client::PlasmaShellSurface::Role::OnScreenDisplay << false << false << false;
-}
-
-void MoveResizeWindowTest::testPlasmaShellSurfaceMovable()
-{
-    // this test verifies that certain window types from PlasmaShellSurface are not moveable or resizable
-    std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
-    QVERIFY(surface != nullptr);
-
-    std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get()));
-    QVERIFY(shellSurface != nullptr);
-    // and a PlasmaShellSurface
-    std::unique_ptr<KWayland::Client::PlasmaShellSurface> plasmaSurface(Test::waylandPlasmaShell()->createSurface(surface.get()));
-    QVERIFY(plasmaSurface != nullptr);
-    QFETCH(KWayland::Client::PlasmaShellSurface::Role, role);
-    plasmaSurface->setRole(role);
-    // let's render
-    auto window = Test::renderAndWaitForShown(surface.get(), QSize(100, 50), Qt::blue);
-
-    QVERIFY(window);
-    QTEST(window->isMovable(), "movable");
-    QTEST(window->isMovableAcrossScreens(), "movableAcrossScreens");
-    QTEST(window->isResizable(), "resizable");
-    surface.reset();
-    QVERIFY(Test::waitForWindowDestroyed(window));
-}
-
-struct XcbConnectionDeleter
-{
-    void operator()(xcb_connection_t *pointer)
-    {
-        xcb_disconnect(pointer);
-    }
-};
-
-void MoveResizeWindowTest::testNetMove()
-{
-    // this test verifies that a move request for an X11 window through NET API works
-    // create an xcb window
-    std::unique_ptr<xcb_connection_t, XcbConnectionDeleter> c(xcb_connect(nullptr, nullptr));
-    QVERIFY(!xcb_connection_has_error(c.get()));
-
-    xcb_window_t windowId = xcb_generate_id(c.get());
-    xcb_create_window(c.get(), XCB_COPY_FROM_PARENT, windowId, rootWindow(),
-                      0, 0, 100, 100,
-                      0, XCB_WINDOW_CLASS_INPUT_OUTPUT, XCB_COPY_FROM_PARENT, 0, nullptr);
-    xcb_size_hints_t hints;
-    memset(&hints, 0, sizeof(hints));
-    xcb_icccm_size_hints_set_position(&hints, 1, 0, 0);
-    xcb_icccm_size_hints_set_size(&hints, 1, 100, 100);
-    xcb_icccm_set_wm_normal_hints(c.get(), windowId, &hints);
-    // let's set a no-border
-    NETWinInfo winInfo(c.get(), windowId, rootWindow(), NET::WMWindowType, NET::Properties2());
-    winInfo.setWindowType(NET::Override);
-    xcb_map_window(c.get(), windowId);
-    xcb_flush(c.get());
-
-    QSignalSpy windowCreatedSpy(workspace(), &Workspace::windowAdded);
-    QVERIFY(windowCreatedSpy.wait());
-    X11Window *window = windowCreatedSpy.first().first().value<X11Window *>();
-    QVERIFY(window);
-    QCOMPARE(window->window(), windowId);
-    const QRectF origGeo = window->frameGeometry();
-
-    // let's move the cursor outside the window
-    Cursors::self()->mouse()->setPos(workspace()->activeOutput()->geometry().center());
-    QVERIFY(!origGeo.contains(Cursors::self()->mouse()->pos()));
-
-    QSignalSpy moveStartSpy(window, &X11Window::clientStartUserMovedResized);
-    QSignalSpy moveEndSpy(window, &X11Window::clientFinishUserMovedResized);
-    QSignalSpy moveStepSpy(window, &X11Window::clientStepUserMovedResized);
-    QVERIFY(!workspace()->moveResizeWindow());
-
-    // use NETRootInfo to trigger a move request
-    NETRootInfo root(c.get(), NET::Properties());
-    root.moveResizeRequest(windowId, origGeo.center().x(), origGeo.center().y(), NET::Move);
-    xcb_flush(c.get());
-
-    QVERIFY(moveStartSpy.wait());
-    QCOMPARE(workspace()->moveResizeWindow(), window);
-    QVERIFY(window->isInteractiveMove());
-    QCOMPARE(window->geometryRestore(), origGeo);
-    QCOMPARE(Cursors::self()->mouse()->pos(), origGeo.center());
-
-    // let's move a step
-    Cursors::self()->mouse()->setPos(Cursors::self()->mouse()->pos() + QPoint(10, 10));
-    QCOMPARE(moveStepSpy.count(), 1);
-    QCOMPARE(moveStepSpy.first().last(), origGeo.translated(10, 10));
-
-    // let's cancel the move resize again through the net API
-    root.moveResizeRequest(windowId, window->frameGeometry().center().x(), window->frameGeometry().center().y(), NET::MoveResizeCancel);
-    xcb_flush(c.get());
-    QVERIFY(moveEndSpy.wait());
-
-    // and destroy the window again
-    xcb_unmap_window(c.get(), windowId);
-    xcb_destroy_window(c.get(), windowId);
-    xcb_flush(c.get());
-    c.reset();
-
-    QSignalSpy windowClosedSpy(window, &X11Window::windowClosed);
-    QVERIFY(windowClosedSpy.wait());
-}
-
-void MoveResizeWindowTest::testAdjustClientGeometryOfAutohidingX11Panel_data()
-{
-    QTest::addColumn<QRect>("panelGeometry");
-    QTest::addColumn<QPoint>("targetPoint");
-    QTest::addColumn<QPoint>("expectedAdjustedPoint");
-    QTest::addColumn<quint32>("hideLocation");
-
-    QTest::newRow("top") << QRect(0, 0, 100, 20) << QPoint(50, 25) << QPoint(50, 20) << 0u;
-    QTest::newRow("bottom") << QRect(0, 1024 - 20, 100, 20) << QPoint(50, 1024 - 25 - 50) << QPoint(50, 1024 - 20 - 50) << 2u;
-    QTest::newRow("left") << QRect(0, 0, 20, 100) << QPoint(25, 50) << QPoint(20, 50) << 3u;
-    QTest::newRow("right") << QRect(1280 - 20, 0, 20, 100) << QPoint(1280 - 25 - 100, 50) << QPoint(1280 - 20 - 100, 50) << 1u;
-}
-
-void MoveResizeWindowTest::testAdjustClientGeometryOfAutohidingX11Panel()
-{
-    // this test verifies that auto hiding panels are ignored when adjusting client geometry
-    // see BUG 365892
-
-    // first create our panel
-    std::unique_ptr<xcb_connection_t, XcbConnectionDeleter> c(xcb_connect(nullptr, nullptr));
-    QVERIFY(!xcb_connection_has_error(c.get()));
-
-    xcb_window_t windowId = xcb_generate_id(c.get());
-    QFETCH(QRect, panelGeometry);
-    xcb_create_window(c.get(), XCB_COPY_FROM_PARENT, windowId, rootWindow(),
-                      panelGeometry.x(), panelGeometry.y(), panelGeometry.width(), panelGeometry.height(),
-                      0, XCB_WINDOW_CLASS_INPUT_OUTPUT, XCB_COPY_FROM_PARENT, 0, nullptr);
-    xcb_size_hints_t hints;
-    memset(&hints, 0, sizeof(hints));
-    xcb_icccm_size_hints_set_position(&hints, 1, panelGeometry.x(), panelGeometry.y());
-    xcb_icccm_size_hints_set_size(&hints, 1, panelGeometry.width(), panelGeometry.height());
-    xcb_icccm_set_wm_normal_hints(c.get(), windowId, &hints);
-    NETWinInfo winInfo(c.get(), windowId, rootWindow(), NET::WMWindowType, NET::Properties2());
-    winInfo.setWindowType(NET::Dock);
-    xcb_map_window(c.get(), windowId);
-    xcb_flush(c.get());
-
-    QSignalSpy windowCreatedSpy(workspace(), &Workspace::windowAdded);
-    QVERIFY(windowCreatedSpy.wait());
-    X11Window *panel = windowCreatedSpy.first().first().value<X11Window *>();
-    QVERIFY(panel);
-    QCOMPARE(panel->window(), windowId);
-    QCOMPARE(panel->frameGeometry(), panelGeometry);
-    QVERIFY(panel->isDock());
-
-    // let's create a window
-    std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
-    QVERIFY(surface != nullptr);
-
-    std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get()));
-    QVERIFY(shellSurface != nullptr);
-    auto testWindow = Test::renderAndWaitForShown(surface.get(), QSize(100, 50), Qt::blue);
-
-    QVERIFY(testWindow);
-    QVERIFY(testWindow->isMovable());
-    // panel is not yet hidden, we should snap against it
-    QFETCH(QPoint, targetPoint);
-    QTEST(Workspace::self()->adjustWindowPosition(testWindow, targetPoint, false).toPoint(), "expectedAdjustedPoint");
-
-    // now let's hide the panel
-    QSignalSpy panelHiddenSpy(panel, &Window::windowHidden);
-    QFETCH(quint32, hideLocation);
-    xcb_change_property(c.get(), XCB_PROP_MODE_REPLACE, windowId, atoms->kde_screen_edge_show, XCB_ATOM_CARDINAL, 32, 1, &hideLocation);
-    xcb_flush(c.get());
-    QVERIFY(panelHiddenSpy.wait());
-
-    // now try to snap again
-    QCOMPARE(Workspace::self()->adjustWindowPosition(testWindow, targetPoint, false), targetPoint);
-
-    // and destroy the panel again
-    xcb_unmap_window(c.get(), windowId);
-    xcb_destroy_window(c.get(), windowId);
-    xcb_flush(c.get());
-    c.reset();
-
-    QSignalSpy panelClosedSpy(panel, &X11Window::windowClosed);
-    QVERIFY(panelClosedSpy.wait());
-
-    // snap once more
-    QCOMPARE(Workspace::self()->adjustWindowPosition(testWindow, targetPoint, false), targetPoint);
-
-    // and close
-    QSignalSpy windowClosedSpy(testWindow, &Window::windowClosed);
-    shellSurface.reset();
-    surface.reset();
-    QVERIFY(windowClosedSpy.wait());
-}
-
-void MoveResizeWindowTest::testAdjustClientGeometryOfAutohidingWaylandPanel_data()
-{
-    QTest::addColumn<QRect>("panelGeometry");
-    QTest::addColumn<QPoint>("targetPoint");
-    QTest::addColumn<QPoint>("expectedAdjustedPoint");
-
-    QTest::newRow("top") << QRect(0, 0, 100, 20) << QPoint(50, 25) << QPoint(50, 20);
-    QTest::newRow("bottom") << QRect(0, 1024 - 20, 100, 20) << QPoint(50, 1024 - 25 - 50) << QPoint(50, 1024 - 20 - 50);
-    QTest::newRow("left") << QRect(0, 0, 20, 100) << QPoint(25, 50) << QPoint(20, 50);
-    QTest::newRow("right") << QRect(1280 - 20, 0, 20, 100) << QPoint(1280 - 25 - 100, 50) << QPoint(1280 - 20 - 100, 50);
-}
-
-void MoveResizeWindowTest::testAdjustClientGeometryOfAutohidingWaylandPanel()
-{
-    // this test verifies that auto hiding panels are ignored when adjusting client geometry
-    // see BUG 365892
-
-    // first create our panel
-    std::unique_ptr<KWayland::Client::Surface> panelSurface(Test::createSurface());
-    QVERIFY(panelSurface != nullptr);
-    std::unique_ptr<Test::XdgToplevel> panelShellSurface(Test::createXdgToplevelSurface(panelSurface.get()));
-    QVERIFY(panelShellSurface != nullptr);
-    std::unique_ptr<KWayland::Client::PlasmaShellSurface> plasmaSurface(Test::waylandPlasmaShell()->createSurface(panelSurface.get()));
-    QVERIFY(plasmaSurface != nullptr);
-    plasmaSurface->setRole(KWayland::Client::PlasmaShellSurface::Role::Panel);
-    plasmaSurface->setPanelBehavior(KWayland::Client::PlasmaShellSurface::PanelBehavior::AutoHide);
-    QFETCH(QRect, panelGeometry);
-    plasmaSurface->setPosition(panelGeometry.topLeft());
-    // let's render
-    auto panel = Test::renderAndWaitForShown(panelSurface.get(), panelGeometry.size(), Qt::blue);
-    QVERIFY(panel);
-    QCOMPARE(panel->frameGeometry(), panelGeometry);
-    QVERIFY(panel->isDock());
-
-    // let's create a window
-    std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
-    QVERIFY(surface != nullptr);
-
-    std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get()));
-    QVERIFY(shellSurface != nullptr);
-    auto testWindow = Test::renderAndWaitForShown(surface.get(), QSize(100, 50), Qt::blue);
-
-    QVERIFY(testWindow);
-    QVERIFY(testWindow->isMovable());
-    // panel is not yet hidden, we should snap against it
-    QFETCH(QPoint, targetPoint);
-    QTEST(Workspace::self()->adjustWindowPosition(testWindow, targetPoint, false).toPoint(), "expectedAdjustedPoint");
-
-    // now let's hide the panel
-    QSignalSpy panelHiddenSpy(panel, &Window::windowHidden);
-    plasmaSurface->requestHideAutoHidingPanel();
-    QVERIFY(panelHiddenSpy.wait());
-
-    // now try to snap again
-    QCOMPARE(Workspace::self()->adjustWindowPosition(testWindow, targetPoint, false), targetPoint);
-
-    // and destroy the panel again
-    QSignalSpy panelClosedSpy(panel, &Window::windowClosed);
-    plasmaSurface.reset();
-    panelShellSurface.reset();
-    panelSurface.reset();
-    QVERIFY(panelClosedSpy.wait());
-
-    // snap once more
-    QCOMPARE(Workspace::self()->adjustWindowPosition(testWindow, targetPoint, false), targetPoint);
-
-    // and close
-    QSignalSpy windowClosedSpy(testWindow, &Window::windowClosed);
-    shellSurface.reset();
-    surface.reset();
-    QVERIFY(windowClosedSpy.wait());
 }
 
 void MoveResizeWindowTest::testResizeForVirtualKeyboard_data()
@@ -991,7 +695,7 @@ void MoveResizeWindowTest::testResizeForVirtualKeyboardWithFullScreen()
     QVERIFY(frameGeometryChangedSpy.wait());
     QCOMPARE(window->frameGeometry(), QRect(100, 0, 500, 100));
 
-    window->setFullScreen(true, true);
+    window->setFullScreen(true);
     QVERIFY(surfaceConfigureRequestedSpy.wait());
     shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy.last()[0].toInt());
     Test::render(surface.get(), toplevelConfigureRequestedSpy.last().first().toSize(), Qt::blue);
@@ -1022,14 +726,14 @@ void MoveResizeWindowTest::testDestroyMoveClient()
     QVERIFY(window);
 
     // Start moving the client.
-    QSignalSpy clientStartMoveResizedSpy(window, &Window::clientStartUserMovedResized);
-    QSignalSpy clientFinishUserMovedResizedSpy(window, &Window::clientFinishUserMovedResized);
+    QSignalSpy interactiveMoveResizeStartedSpy(window, &Window::interactiveMoveResizeStarted);
+    QSignalSpy interactiveMoveResizeFinishedSpy(window, &Window::interactiveMoveResizeFinished);
 
     QCOMPARE(workspace()->moveResizeWindow(), nullptr);
     QCOMPARE(window->isInteractiveMove(), false);
     QCOMPARE(window->isInteractiveResize(), false);
     workspace()->slotWindowMove();
-    QCOMPARE(clientStartMoveResizedSpy.count(), 1);
+    QCOMPARE(interactiveMoveResizeStartedSpy.count(), 1);
     QCOMPARE(workspace()->moveResizeWindow(), window);
     QCOMPARE(window->isInteractiveMove(), true);
     QCOMPARE(window->isInteractiveResize(), false);
@@ -1037,8 +741,8 @@ void MoveResizeWindowTest::testDestroyMoveClient()
     // Let's pretend that the client crashed.
     shellSurface.reset();
     surface.reset();
-    QVERIFY(Test::waitForWindowDestroyed(window));
-    QCOMPARE(clientFinishUserMovedResizedSpy.count(), 1);
+    QVERIFY(Test::waitForWindowClosed(window));
+    QCOMPARE(interactiveMoveResizeFinishedSpy.count(), 1);
     QCOMPARE(workspace()->moveResizeWindow(), nullptr);
 }
 
@@ -1056,14 +760,14 @@ void MoveResizeWindowTest::testDestroyResizeClient()
     QVERIFY(window);
 
     // Start resizing the client.
-    QSignalSpy clientStartMoveResizedSpy(window, &Window::clientStartUserMovedResized);
-    QSignalSpy clientFinishUserMovedResizedSpy(window, &Window::clientFinishUserMovedResized);
+    QSignalSpy interactiveMoveResizeStartedSpy(window, &Window::interactiveMoveResizeStarted);
+    QSignalSpy interactiveMoveResizeFinishedSpy(window, &Window::interactiveMoveResizeFinished);
 
     QCOMPARE(workspace()->moveResizeWindow(), nullptr);
     QCOMPARE(window->isInteractiveMove(), false);
     QCOMPARE(window->isInteractiveResize(), false);
     workspace()->slotWindowResize();
-    QCOMPARE(clientStartMoveResizedSpy.count(), 1);
+    QCOMPARE(interactiveMoveResizeStartedSpy.count(), 1);
     QCOMPARE(workspace()->moveResizeWindow(), window);
     QCOMPARE(window->isInteractiveMove(), false);
     QCOMPARE(window->isInteractiveResize(), true);
@@ -1071,8 +775,8 @@ void MoveResizeWindowTest::testDestroyResizeClient()
     // Let's pretend that the client crashed.
     shellSurface.reset();
     surface.reset();
-    QVERIFY(Test::waitForWindowDestroyed(window));
-    QCOMPARE(clientFinishUserMovedResizedSpy.count(), 1);
+    QVERIFY(Test::waitForWindowClosed(window));
+    QCOMPARE(interactiveMoveResizeFinishedSpy.count(), 1);
     QCOMPARE(workspace()->moveResizeWindow(), nullptr);
 }
 
@@ -1102,6 +806,12 @@ void MoveResizeWindowTest::testCancelInteractiveMoveResize()
     QVERIFY(shellSurface != nullptr);
     Window *window = Test::renderAndWaitForShown(surface.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window);
+    QSignalSpy frameGeomtryChangedSpy(window, &Window::frameGeometryChanged);
+    QSignalSpy quickTileChangedSpy(window, &Window::quickTileModeChanged);
+    QSignalSpy toplevelConfigureRequestedSpy(shellSurface.get(), &Test::XdgToplevel::configureRequested);
+    QSignalSpy surfaceConfigureRequestedSpy(shellSurface->xdgSurface(), &Test::XdgSurface::configureRequested);
+
+    QVERIFY(surfaceConfigureRequestedSpy.wait());
 
     // tile / maximize window
     QFETCH(QuickTileMode, quickTileMode);
@@ -1111,36 +821,45 @@ void MoveResizeWindowTest::testCancelInteractiveMoveResize()
     } else {
         window->setQuickTileMode(quickTileMode, true);
     }
-    QCOMPARE(window->quickTileMode(), quickTileMode);
+    QCOMPARE(window->requestedQuickTileMode(), quickTileMode);
     QCOMPARE(window->requestedMaximizeMode(), maximizeMode);
 
-    QSignalSpy toplevelConfigureRequestedSpy(shellSurface.get(), &Test::XdgToplevel::configureRequested);
-    QSignalSpy surfaceConfigureRequestedSpy(shellSurface->xdgSurface(), &Test::XdgSurface::configureRequested);
     QVERIFY(surfaceConfigureRequestedSpy.wait());
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy.last().at(0).value<quint32>());
     Test::render(surface.get(), toplevelConfigureRequestedSpy.last().first().toSize(), Qt::blue);
-
+    QVERIFY(frameGeomtryChangedSpy.wait());
+    QCOMPARE(window->quickTileMode(), quickTileMode);
     const QRectF geometry = window->moveResizeGeometry();
     const QRectF geometryRestore = window->geometryRestore();
 
     // Start resizing the client.
-    QSignalSpy clientStartMoveResizedSpy(window, &Window::clientStartUserMovedResized);
-    QSignalSpy clientFinishUserMovedResizedSpy(window, &Window::clientFinishUserMovedResized);
-
+    QSignalSpy interactiveMoveResizeStartedSpy(window, &Window::interactiveMoveResizeStarted);
+    QSignalSpy interactiveMoveResizeFinishedSpy(window, &Window::interactiveMoveResizeFinished);
     QCOMPARE(workspace()->moveResizeWindow(), nullptr);
     QCOMPARE(window->isInteractiveMove(), false);
     QCOMPARE(window->isInteractiveResize(), false);
     workspace()->slotWindowResize();
-    QCOMPARE(clientStartMoveResizedSpy.count(), 1);
+    QCOMPARE(interactiveMoveResizeStartedSpy.count(), 1);
     QCOMPARE(workspace()->moveResizeWindow(), window);
     QCOMPARE(window->isInteractiveMove(), false);
     QCOMPARE(window->isInteractiveResize(), true);
 
-    Test::pointerMotionRelative(QPoint(1, 1), 1);
+    Test::pointerMotionRelative(QPoint(-10, -10), 1);
+
+    QVERIFY(surfaceConfigureRequestedSpy.wait());
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy.last().at(0).value<quint32>());
+    Test::render(surface.get(), toplevelConfigureRequestedSpy.last().first().toSize(), Qt::blue);
+    QVERIFY(frameGeomtryChangedSpy.wait());
     QCOMPARE(window->quickTileMode(), QuickTileMode());
     QCOMPARE(window->requestedMaximizeMode(), MaximizeMode::MaximizeRestore);
 
     // cancel moveresize, all state from before should be restored
     window->keyPressEvent(Qt::Key::Key_Escape);
+
+    QVERIFY(surfaceConfigureRequestedSpy.wait());
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy.last().at(0).value<quint32>());
+    Test::render(surface.get(), toplevelConfigureRequestedSpy.last().first().toSize(), Qt::blue);
+    QVERIFY(frameGeomtryChangedSpy.wait());
     QCOMPARE(window->moveResizeGeometry(), geometry);
     QCOMPARE(window->quickTileMode(), quickTileMode);
     QCOMPARE(window->requestedMaximizeMode(), maximizeMode);

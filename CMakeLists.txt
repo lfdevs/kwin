@@ -1,17 +1,17 @@
 cmake_minimum_required(VERSION 3.16)
 
-set(PROJECT_VERSION "5.27.11") # Handled by release scripts
+set(PROJECT_VERSION "6.1.0") # Handled by release scripts
 project(KWin VERSION ${PROJECT_VERSION})
 
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(QT_MIN_VERSION "5.15.2")
-set(KF5_MIN_VERSION "5.102.0")
+set(QT_MIN_VERSION "6.6.0")
+set(KF6_MIN_VERSION "6.2.0")
 set(KDE_COMPILERSETTINGS_LEVEL "5.82")
 
-find_package(ECM ${KF5_MIN_VERSION} REQUIRED NO_MODULE)
+find_package(ECM ${KF6_MIN_VERSION} REQUIRED NO_MODULE)
 
 # where to look first for cmake modules, before ${CMAKE_ROOT}/Modules/ is checked
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules ${ECM_MODULE_PATH})
@@ -37,60 +37,73 @@ include(ECMInstallIcons)
 include(ECMOptionalAddSubdirectory)
 include(ECMConfiguredInstall)
 include(ECMQtDeclareLoggingCategory)
+include(ECMSetupQtPluginMacroNames)
+include(ECMSetupVersion)
+include(ECMQmlModule)
+include(ECMGenerateQmlTypes)
 
-find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
+option(KWIN_BUILD_DECORATIONS "Enable building of KWin decorations." ON)
+option(KWIN_BUILD_KCMS "Enable building of KWin configuration modules." ON)
+option(KWIN_BUILD_NOTIFICATIONS "Enable building of KWin with knotifications support" ON)
+option(KWIN_BUILD_SCREENLOCKER "Enable building of KWin lockscreen functionality" ON)
+option(KWIN_BUILD_TABBOX "Enable building of KWin Tabbox functionality" ON)
+option(KWIN_BUILD_X11 "Enable building kwin_x11 and Xwayland support" ON)
+
+find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
     Concurrent
     Core
+    Core5Compat
     DBus
-    Network
     Quick
     UiTools
+    WaylandClient
     Widgets
+    Sensors
 )
-if (QT_MAJOR_VERSION EQUAL "5")
-    find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS X11Extras)
-    find_package(Qt5XkbCommonSupport REQUIRED)
-else()
-    find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS WaylandClient ShaderTools)
-    if (Qt6WaylandClient_VERSION VERSION_LESS "6.4.1") # TODO Plasma 6: Drop once minimum Qt version is 6.4.1+
-        include(Qt6WaylandClientMacrosKde)
-    endif()
-endif()
 
-find_package(Qt${QT_MAJOR_VERSION}Test ${QT_MIN_VERSION} CONFIG QUIET)
-set_package_properties(Qt${QT_MAJOR_VERSION}Test PROPERTIES
+find_package(Qt6Test ${QT_MIN_VERSION} CONFIG QUIET)
+set_package_properties(Qt6Test PROPERTIES
     PURPOSE "Required for tests"
     TYPE OPTIONAL
 )
-add_feature_info("Qt${QT_MAJOR_VERSION}Test" Qt${QT_MAJOR_VERSION}Test_FOUND "Required for building tests")
-if (NOT Qt${QT_MAJOR_VERSION}Test_FOUND)
+add_feature_info("Qt6Test" Qt6Test_FOUND "Required for building tests")
+if (NOT Qt6Test_FOUND)
     set(BUILD_TESTING OFF CACHE BOOL "Build the testing tree.")
 endif()
 
+if (BUILD_TESTING)
+    find_package(KPipeWire)
+endif()
+
 # required frameworks by Core
-find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
+find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
     Auth
+    ColorScheme
     Config
     ConfigWidgets
     CoreAddons
     Crash
     DBusAddons
     GlobalAccel
+    GuiAddons
     I18n
     IdleTime
     Package
-    Plasma
+    Service
+    Svg
     WidgetsAddons
     WindowSystem
 )
 # required frameworks by config modules
-find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
-    Declarative
-    KCMUtils
-    NewStuff
-    Service
-    XmlGui
-)
+if(KWIN_BUILD_KCMS)
+    find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
+        Declarative
+        KCMUtils
+        NewStuff
+        Service
+        XmlGui
+    )
+endif()
 
 find_package(Threads)
 set_package_properties(Threads PROPERTIES
@@ -98,38 +111,37 @@ set_package_properties(Threads PROPERTIES
     TYPE REQUIRED
 )
 
-find_package(KF5Wayland ${KF5_MIN_VERSION} CONFIG)
-set_package_properties(KF5Wayland PROPERTIES
+find_package(KWayland ${PROJECT_VERSION} CONFIG)
+set_package_properties(KWayland PROPERTIES
     PURPOSE "Required to build wayland platform plugin and tests"
     TYPE REQUIRED
 )
 
 # optional frameworks
-find_package(KF5Activities ${KF5_MIN_VERSION} CONFIG)
-set_package_properties(KF5Activities PROPERTIES
+find_package(PlasmaActivities ${PROJECT_VERSION} CONFIG)
+set_package_properties(PlasmaActivities PROPERTIES
     PURPOSE "Enable building of KWin with kactivities support"
     TYPE OPTIONAL
 )
-add_feature_info("KF5Activities" KF5Activities_FOUND "Enable building of KWin with kactivities support")
+add_feature_info("PlasmaActivities" PlasmaActivities_FOUND "Enable building of KWin with kactivities support")
 
-find_package(KF5DocTools ${KF5_MIN_VERSION} CONFIG)
-set_package_properties(KF5DocTools PROPERTIES
+find_package(KF6DocTools ${KF6_MIN_VERSION} CONFIG)
+set_package_properties(KF6DocTools PROPERTIES
     PURPOSE "Enable building documentation"
     TYPE OPTIONAL
 )
-add_feature_info("KF5DocTools" KF5DocTools_FOUND "Enable building documentation")
+add_feature_info("KF6DocTools" KF6DocTools_FOUND "Enable building documentation")
 
-find_package(KF5Runner ${KF5_MIN_VERSION} CONFIG)
-set_package_properties(KF5Runner PROPERTIES
-    PURPOSE "Enable building of KWin with krunner support"
-    TYPE OPTIONAL
-    )
-add_feature_info("KF5Runner" KF5Runner_FOUND "Enable building of KWin with krunner support")
-
-find_package(KF5Kirigami2 ${KF5_MIN_VERSION} CONFIG)
-set_package_properties(KF5Kirigami2 PROPERTIES
+find_package(KF6Kirigami ${KF6_MIN_VERSION} CONFIG)
+set_package_properties(KF6Kirigami PROPERTIES
     DESCRIPTION "A QtQuick based components set"
-    PURPOSE "Required at runtime for Virtual desktop KCM"
+    PURPOSE "Required at runtime for several QML effects"
+    TYPE RUNTIME
+)
+find_package(Plasma ${PROJECT_VERSION} CONFIG)
+set_package_properties(Plasma PROPERTIES
+    DESCRIPTION "A QtQuick based components set"
+    PURPOSE "Required at runtime for several QML effects"
     TYPE RUNTIME
 )
 
@@ -190,33 +202,25 @@ int main() {
     mmap(nullptr, size, PROT_WRITE, MAP_SHARED, fd, 0);
 }" HAVE_MEMFD)
 
-find_package(Wayland 1.21)
+find_package(Wayland 1.22)
 set_package_properties(Wayland PROPERTIES
     TYPE REQUIRED
     PURPOSE "Required for building KWin with Wayland support"
 )
 
-find_package(WaylandProtocols 1.31)
+find_package(WaylandProtocols 1.34)
 set_package_properties(WaylandProtocols PROPERTIES
     TYPE REQUIRED
     PURPOSE "Collection of Wayland protocols that add functionality not available in the Wayland core protocol"
     URL "https://gitlab.freedesktop.org/wayland/wayland-protocols/"
 )
 
-find_package(PlasmaWaylandProtocols 1.9.0 CONFIG)
+find_package(PlasmaWaylandProtocols 1.13.0 CONFIG)
 set_package_properties(PlasmaWaylandProtocols PROPERTIES
     TYPE REQUIRED
     PURPOSE "Collection of Plasma-specific Wayland protocols"
     URL "https://invent.kde.org/libraries/plasma-wayland-protocols/"
 )
-
-if (QT_MAJOR_VERSION EQUAL "5")
-    find_package(QtWaylandScanner)
-    set_package_properties(QtWaylandScanner PROPERTIES
-        TYPE REQUIRED
-        PURPOSE "Required for building KWin with Wayland support"
-    )
-endif()
 
 find_package(XKB 0.7.0)
 set_package_properties(XKB PROPERTIES
@@ -229,11 +233,66 @@ else()
     set(HAVE_XKBCOMMON_NO_SECURE_GETENV 0)
 endif()
 
-pkg_check_modules(XKBX11 IMPORTED_TARGET xkbcommon-x11 REQUIRED)
-add_feature_info(XKBX11 XKBX11_FOUND "Required for handling keyboard events in X11 backend")
+if (KWIN_BUILD_X11)
+    pkg_check_modules(XKBX11 IMPORTED_TARGET xkbcommon-x11 REQUIRED)
+    add_feature_info(XKBX11 XKBX11_FOUND "Required for handling keyboard events in X11 backend")
+
+    # All the required XCB components
+    find_package(XCB 1.10 REQUIRED COMPONENTS
+        COMPOSITE
+        CURSOR
+        DAMAGE
+        DRI3
+        GLX
+        ICCCM
+        IMAGE
+        KEYSYMS
+        PRESENT
+        RANDR
+        RENDER
+        SHAPE
+        SHM
+        SYNC
+        XCB
+        XFIXES
+        XKB
+        XINERAMA
+        XINPUT
+    )
+    set_package_properties(XCB PROPERTIES TYPE REQUIRED)
+
+    find_package(X11_XCB)
+    set_package_properties(X11_XCB PROPERTIES
+        PURPOSE "Required for building X11 windowed backend of kwin_wayland"
+        TYPE OPTIONAL
+    )
+
+    find_package(Xwayland)
+    set_package_properties(Xwayland PROPERTIES
+        URL "https://x.org"
+        DESCRIPTION "Xwayland X server"
+        TYPE RUNTIME
+        PURPOSE "Needed for running kwin_wayland"
+    )
+    set(HAVE_XWAYLAND_LISTENFD ${Xwayland_HAVE_LISTENFD})
+    set(HAVE_XWAYLAND_ENABLE_EI_PORTAL ${Xwayland_HAVE_ENABLE_EI_PORTAL})
+
+    set(HAVE_GLX ${epoxy_HAS_GLX})
+    get_target_property(QT_DISABLED_FEATURES Qt6::Gui QT_DISABLED_PUBLIC_FEATURES)
+    if("xcb_glx_plugin" IN_LIST QT_DISABLED_FEATURES)
+        message(STATUS "Disable GLX because Qt6::Gui was built without xcb_glx_plugin")
+        set(HAVE_GLX false)
+    endif()
+
+    # for kwin internal things
+    set(HAVE_X11_XCB ${X11_XCB_FOUND})
+endif()
 
 find_package(Libinput 1.19)
 set_package_properties(Libinput PROPERTIES TYPE REQUIRED PURPOSE "Required for input handling on Wayland.")
+
+find_package(Libeis-1.0)
+set_package_properties(Libeis PROPERTIES TYPE OPTIONAL PURPOSE "Required for emulated input handling.")
 
 find_package(UDev)
 set_package_properties(UDev PROPERTIES
@@ -243,7 +302,7 @@ set_package_properties(UDev PROPERTIES
     PURPOSE "Required for input handling on Wayland."
 )
 
-find_package(Libdrm 2.4.112)
+find_package(Libdrm 2.4.116)
 set_package_properties(Libdrm PROPERTIES TYPE REQUIRED PURPOSE "Required for drm output on Wayland.")
 
 find_package(gbm)
@@ -279,48 +338,6 @@ set_package_properties(lcms2 PROPERTIES
     PURPOSE "Required for the color management system"
 )
 
-# All the required XCB components
-find_package(XCB 1.10 REQUIRED COMPONENTS
-    COMPOSITE
-    CURSOR
-    DAMAGE
-    GLX
-    ICCCM
-    IMAGE
-    KEYSYMS
-    PRESENT
-    RANDR
-    RENDER
-    SHAPE
-    SHM
-    SYNC
-    XCB
-    XFIXES
-    XKB
-    XINERAMA
-)
-set_package_properties(XCB PROPERTIES TYPE REQUIRED)
-
-# and the optional XCB dependencies
-if (XCB_ICCCM_VERSION VERSION_LESS "0.4")
-    set(XCB_ICCCM_FOUND FALSE)
-endif()
-add_feature_info("XCB-ICCCM" XCB_ICCCM_FOUND "Required for building test applications for KWin")
-
-find_package(X11_XCB)
-set_package_properties(X11_XCB PROPERTIES
-    PURPOSE "Required for building X11 windowed backend of kwin_wayland"
-    TYPE OPTIONAL
-)
-
-# dependencies for QPA plugin
-if (QT_MAJOR_VERSION EQUAL "5")
-    find_package(Qt5FontDatabaseSupport REQUIRED)
-    find_package(Qt5ThemeSupport REQUIRED)
-    find_package(Qt5ServiceSupport REQUIRED)
-    find_package(Qt5EventDispatcherSupport REQUIRED)
-endif()
-
 find_package(Freetype)
 set_package_properties(Freetype PROPERTIES
     DESCRIPTION "A font rendering engine"
@@ -333,15 +350,6 @@ set_package_properties(Fontconfig PROPERTIES
     TYPE REQUIRED
     PURPOSE "Needed for KWin's QPA plugin."
 )
-
-find_package(Xwayland)
-set_package_properties(Xwayland PROPERTIES
-    URL "https://x.org"
-    DESCRIPTION "Xwayland X server"
-    TYPE RUNTIME
-    PURPOSE "Needed for running kwin_wayland"
-)
-set(HAVE_XWAYLAND_LISTENFD ${Xwayland_HAVE_LISTENFD})
 
 find_package(Libcap)
 set_package_properties(Libcap PROPERTIES
@@ -357,16 +365,27 @@ set_package_properties(hwdata PROPERTIES
     URL "https://github.com/vcrhonek/hwdata"
 )
 
-find_package(QAccessibilityClient CONFIG)
-set_package_properties(QAccessibilityClient PROPERTIES
-    URL "https://www.kde.org"
+find_package(QAccessibilityClient6 CONFIG)
+set_package_properties(QAccessibilityClient6 PROPERTIES
+    URL "https://commits.kde.org/libqaccessibilityclient"
     DESCRIPTION "KDE client-side accessibility library"
     TYPE OPTIONAL
     PURPOSE "Required to enable accessibility features"
 )
-set(HAVE_ACCESSIBILITY ${QAccessibilityClient_FOUND})
+set(HAVE_ACCESSIBILITY ${QAccessibilityClient6_FOUND})
 
-find_package(Qt5LinuxAccessibilitySupport REQUIRED)
+pkg_check_modules(libsystemd IMPORTED_TARGET libsystemd)
+add_feature_info(libsystemd libsystemd_FOUND "Required for setting up the service watchdog")
+
+option(KWIN_BUILD_GLOBALSHORTCUTS "Enable building of KWin with global shortcuts support" ON)
+if(KWIN_BUILD_GLOBALSHORTCUTS)
+    find_package(KGlobalAccelD REQUIRED)
+endif()
+pkg_check_modules(libdisplayinfo IMPORTED_TARGET display-info)
+if (NOT libdisplayinfo_FOUND)
+    pkg_check_modules(libdisplayinfo REQUIRED IMPORTED_TARGET libdisplay-info)
+endif()
+add_feature_info(libdisplayinfo libdisplayinfo_FOUND "EDID and DisplayID library: https://gitlab.freedesktop.org/emersion/libdisplay-info")
 
 ecm_find_qmlmodule(QtQuick 2.3)
 ecm_find_qmlmodule(QtQuick.Controls 2.15)
@@ -378,18 +397,9 @@ ecm_find_qmlmodule(org.kde.plasma.core 2.0)
 ecm_find_qmlmodule(org.kde.plasma.components 2.0)
 
 ########### configure tests ###############
-option(KWIN_BUILD_DECORATIONS "Enable building of KWin decorations." ON)
-option(KWIN_BUILD_KCMS "Enable building of KWin configuration modules." ON)
-option(KWIN_BUILD_NOTIFICATIONS "Enable building of KWin with knotifications support" ON)
-option(KWIN_BUILD_SCREENLOCKER "Enable building of KWin lockscreen functionality" ON)
-option(KWIN_BUILD_TABBOX "Enable building of KWin Tabbox functionality" ON)
-cmake_dependent_option(KWIN_BUILD_ACTIVITIES "Enable building of KWin with kactivities support" ON "KF5Activities_FOUND" OFF)
-cmake_dependent_option(KWIN_BUILD_RUNNERS "Enable building of KWin with krunner support" ON "KF5Runner_FOUND" OFF)
-
-set(HAVE_EPOXY_GLX ${epoxy_HAS_GLX})
-
-# for kwin internal things
-set(HAVE_X11_XCB ${X11_XCB_FOUND})
+cmake_dependent_option(KWIN_BUILD_ACTIVITIES "Enable building of KWin with kactivities support" ON "PlasmaActivities_FOUND" OFF)
+option(KWIN_BUILD_RUNNERS "Enable building of KWin with krunner support" ON)
+cmake_dependent_option(KWIN_BUILD_EIS "Enable building KWin with libeis support" ON "Libeis-1.0_FOUND" OFF)
 
 check_symbol_exists(SCHED_RESET_ON_FORK "sched.h" HAVE_SCHED_RESET_ON_FORK)
 add_feature_info("SCHED_RESET_ON_FORK"
@@ -401,7 +411,7 @@ pkg_check_modules(PipeWire IMPORTED_TARGET libpipewire-0.3>=0.3.29)
 add_feature_info(PipeWire PipeWire_FOUND "Required for Wayland screencasting")
 
 if (KWIN_BUILD_NOTIFICATIONS)
-    find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS Notifications)
+    find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS Notifications)
 endif()
 
 if (KWIN_BUILD_SCREENLOCKER)
@@ -415,14 +425,9 @@ endif()
 ########### global ###############
 
 include_directories(BEFORE
-    ${CMAKE_CURRENT_BINARY_DIR}/src/libkwineffects
     ${CMAKE_CURRENT_BINARY_DIR}/src/wayland
     ${CMAKE_CURRENT_BINARY_DIR}/src
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/libkwineffects
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/effects
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/tabbox
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/platformsupport
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/colors
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
 check_cxx_compiler_flag(-Wno-unused-parameter COMPILER_UNUSED_PARAMETER_SUPPORTED)
@@ -444,7 +449,19 @@ add_definitions(
     -DEGL_NO_PLATFORM_SPECIFIC_TYPES
 )
 
-if (KF5DocTools_FOUND)
+ecm_setup_qtplugin_macro_names(
+    JSON_ARG2
+        "KWIN_EFFECT_FACTORY"
+    JSON_ARG3
+        "KWIN_EFFECT_FACTORY_ENABLED"
+        "KWIN_EFFECT_FACTORY_SUPPORTED"
+    JSON_ARG4
+        "KWIN_EFFECT_FACTORY_SUPPORTED_ENABLED"
+    CONFIG_CODE_VARIABLE
+        PACKAGE_SETUP_KWINEFFECTS_AUTOMOC_VARIABLES
+)
+
+if (KF6DocTools_FOUND)
     add_subdirectory(doc)
     kdoctools_install(po)
 endif()
@@ -454,8 +471,6 @@ add_subdirectory(kconf_update)
 add_subdirectory(src)
 
 if (BUILD_TESTING)
-    find_package(Wayland REQUIRED COMPONENTS Client)
-
     add_subdirectory(autotests)
     add_subdirectory(tests)
 endif()

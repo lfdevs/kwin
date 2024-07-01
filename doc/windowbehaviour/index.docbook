@@ -285,15 +285,6 @@ This controls the behavior of window focus with multiple screens. Note that thes
 <variablelist>
 
 <varlistentry>
-<term><guilabel>Active screen follows mouse</guilabel></term>
-<listitem>
-<para>
-When this option is enabled, the active screen (where new windows appear, for example) is the screen containing the mouse pointer. When disabled, the active screen is the screen containing the focused window.
-</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
 <term><guilabel>Separate screen focus</guilabel></term>
 <listitem>
 <para>
@@ -1186,6 +1177,18 @@ Will cause the window to jump to the active Virtual Desktop.
 </para>
 <para>
 Choose this option if you would like windows to always open on the current Virtual Desktop, and the active Virtual Desktop to only switch when navigating there manually.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guilabel>Do nothing</guilabel></term>
+<listitem>
+<para>
+The window stays on the desktop it currently is and the current desktop doesn't change.
+</para>
+<para>
+Choose this option if you would like to keep the windows and desktops as they are.
 </para>
 </listitem>
 </varlistentry>

@@ -8,23 +8,19 @@
 */
 #pragma once
 
+#include "config-kwin.h"
+
 #include "input.h"
 #include "input_event_spy.h"
-#include <config-kwin.h>
 #include <kwin_export.h>
 
 #include <QAbstractItemModel>
+#include <QList>
 #include <QStyledItemDelegate>
-#include <QVector>
 #include <functional>
 #include <memory>
 
 class QTextEdit;
-
-namespace KWaylandServer
-{
-class AbstractDataSource;
-}
 
 namespace Ui
 {
@@ -34,10 +30,10 @@ class DebugConsole;
 namespace KWin
 {
 
+class AbstractDataSource;
 class Window;
 class X11Window;
 class InternalWindow;
-class Unmanaged;
 class DebugConsoleFilter;
 class WaylandWindow;
 
@@ -60,28 +56,28 @@ private Q_SLOTS:
 
 private:
     template<class T>
-    QModelIndex indexForWindow(int row, int column, const QVector<T *> &windows, int id) const;
+    QModelIndex indexForWindow(int row, int column, const QList<T *> &windows, int id) const;
     template<class T>
     QModelIndex indexForProperty(int row, int column, const QModelIndex &parent, T *(DebugConsoleModel::*filter)(const QModelIndex &) const) const;
     template<class T>
     int propertyCount(const QModelIndex &parent, T *(DebugConsoleModel::*filter)(const QModelIndex &) const) const;
     QVariant propertyData(QObject *object, const QModelIndex &index, int role) const;
     template<class T>
-    QVariant windowData(const QModelIndex &index, int role, const QVector<T *> windows, const std::function<QString(T *)> &toString) const;
+    QVariant windowData(const QModelIndex &index, int role, const QList<T *> windows, const std::function<QString(T *)> &toString) const;
     template<class T>
-    void add(int parentRow, QVector<T *> &windows, T *window);
+    void add(int parentRow, QList<T *> &windows, T *window);
     template<class T>
-    void remove(int parentRow, QVector<T *> &windows, T *window);
+    void remove(int parentRow, QList<T *> &windows, T *window);
     WaylandWindow *waylandWindow(const QModelIndex &index) const;
     InternalWindow *internalWindow(const QModelIndex &index) const;
     X11Window *x11Window(const QModelIndex &index) const;
-    Unmanaged *unmanaged(const QModelIndex &index) const;
+    X11Window *unmanaged(const QModelIndex &index) const;
     int topLevelRowCount() const;
 
-    QVector<WaylandWindow *> m_waylandWindows;
-    QVector<InternalWindow *> m_internalWindows;
-    QVector<X11Window *> m_x11Windows;
-    QVector<Unmanaged *> m_unmanageds;
+    QList<WaylandWindow *> m_waylandWindows;
+    QList<InternalWindow *> m_internalWindows;
+    QList<X11Window *> m_x11Windows;
+    QList<X11Window *> m_unmanageds;
 };
 
 class DebugConsoleDelegate : public QStyledItemDelegate
@@ -197,10 +193,10 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
-    void setSource(KWaylandServer::AbstractDataSource *source);
+    void setSource(AbstractDataSource *source);
 
 private:
-    KWaylandServer::AbstractDataSource *m_source = nullptr;
-    QVector<QByteArray> m_data;
+    AbstractDataSource *m_source = nullptr;
+    QList<QByteArray> m_data;
 };
 }

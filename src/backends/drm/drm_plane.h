@@ -9,6 +9,7 @@
 */
 #pragma once
 
+#include "core/output.h"
 #include "drm_object.h"
 
 #include <QMap>
@@ -29,32 +30,24 @@ class DrmPlane : public DrmObject
 public:
     DrmPlane(DrmGpu *gpu, uint32_t planeId);
 
-    enum class PropertyIndex : uint32_t {
-        Type = 0,
-        SrcX,
-        SrcY,
-        SrcW,
-        SrcH,
-        CrtcX,
-        CrtcY,
-        CrtcW,
-        CrtcH,
-        FbId,
-        CrtcId,
-        Rotation,
-        In_Formats,
-        Count
-    };
-    Q_ENUM(PropertyIndex)
+    bool updateProperties() override;
+    void disable(DrmAtomicCommit *commit) override;
 
-    enum class TypeIndex : uint32_t {
+    bool isCrtcSupported(int pipeIndex) const;
+    QHash<uint32_t, QList<uint64_t>> formats() const;
+    bool supportsTransformation(OutputTransform transform) const;
+
+    std::shared_ptr<DrmFramebuffer> currentBuffer() const;
+    void setCurrentBuffer(const std::shared_ptr<DrmFramebuffer> &b);
+    void releaseCurrentBuffer();
+
+    void set(DrmAtomicCommit *commit, const QRect &src, const QRect &dst);
+
+    enum class TypeIndex : uint64_t {
         Overlay = 0,
-        Primary,
-        Cursor,
-        Count
+        Primary = 1,
+        Cursor = 2
     };
-    Q_ENUM(TypeIndex)
-
     enum class Transformation : uint32_t {
         Rotate0 = 1 << 0,
         Rotate90 = 1 << 1,
@@ -65,35 +58,48 @@ public:
     };
     Q_ENUM(Transformation)
     Q_DECLARE_FLAGS(Transformations, Transformation)
+    static Transformations outputTransformToPlaneTransform(OutputTransform transform);
+    enum class PixelBlendMode : uint64_t {
+        None,
+        PreMultiplied,
+        Coverage
+    };
+    enum class ColorEncoding : uint64_t {
+        BT601_YCbCr,
+        BT709_YCbCr,
+        BT2020_YCbCr
+    };
+    enum class ColorRange : uint64_t {
+        Limited_YCbCr,
+        Full_YCbCr
+    };
 
-    bool init() override;
-    void disable() override;
-    TypeIndex type() const;
-
-    bool isCrtcSupported(int pipeIndex) const;
-    QMap<uint32_t, QVector<uint64_t>> formats() const;
-
-    std::shared_ptr<DrmFramebuffer> current() const;
-    std::shared_ptr<DrmFramebuffer> next() const;
-    void setCurrent(const std::shared_ptr<DrmFramebuffer> &b);
-    void setNext(const std::shared_ptr<DrmFramebuffer> &b);
-    void flipBuffer();
-
-    void setBuffer(DrmFramebuffer *buffer);
-    void set(const QPoint &srcPos, const QSize &srcSize, const QRect &dst);
-
-    Transformations transformation();
-    Transformations supportedTransformations() const;
-
-    void releaseBuffers();
+    DrmEnumProperty<TypeIndex> type;
+    DrmProperty srcX;
+    DrmProperty srcY;
+    DrmProperty srcW;
+    DrmProperty srcH;
+    DrmProperty crtcX;
+    DrmProperty crtcY;
+    DrmProperty crtcW;
+    DrmProperty crtcH;
+    DrmProperty fbId;
+    DrmProperty crtcId;
+    DrmEnumProperty<Transformations> rotation;
+    DrmProperty inFormats;
+    DrmProperty alpha;
+    DrmEnumProperty<PixelBlendMode> pixelBlendMode;
+    DrmEnumProperty<ColorEncoding> colorEncoding;
+    DrmEnumProperty<ColorRange> colorRange;
+    DrmProperty vmHotspotX;
+    DrmProperty vmHotspotY;
+    DrmProperty inFenceFd;
 
 private:
     std::shared_ptr<DrmFramebuffer> m_current;
-    std::shared_ptr<DrmFramebuffer> m_next;
 
-    QMap<uint32_t, QVector<uint64_t>> m_supportedFormats;
+    QHash<uint32_t, QList<uint64_t>> m_supportedFormats;
     uint32_t m_possibleCrtcs;
-    Transformations m_supportedTransformations = Transformation::Rotate0;
 };
 
 }

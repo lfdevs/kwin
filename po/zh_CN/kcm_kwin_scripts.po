@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-20 00:47+0000\n"
-"PO-Revision-Date: 2024-02-29 13:00\n"
+"POT-Creation-Date: 2024-01-14 00:38+0000\n"
+"PO-Revision-Date: 2024-04-22 15:58\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -14,30 +14,20 @@ msgstr ""
 "X-Crowdin-Project: kdeorg\n"
 "X-Crowdin-Project-ID: 269464\n"
 "X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /kf5-stable/messages/kwin/kcm_kwin_scripts.pot\n"
-"X-Crowdin-File-ID: 40960\n"
+"X-Crowdin-File: /kf6-stable/messages/kwin/kcm_kwin_scripts.pot\n"
+"X-Crowdin-File-ID: 52900\n"
 
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "KDE 中国, EasternLi, Guo Yunhe, Tyson Tan"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "kde-china@kde.org, EasternLi@kde.org, i@guoyunhe.me, tds00@qq.com"
-
-#: module.cpp:57
+#: module.cpp:49
 #, kde-format
 msgid "Import KWin Script"
 msgstr "导入 KWin 脚本"
 
-#: module.cpp:58
+#: module.cpp:50
 #, kde-format
 msgid "*.kwinscript|KWin scripts (*.kwinscript)"
 msgstr "*.kwinscript|KWin 脚本 (*.kwinscript)"
 
-#: module.cpp:96
+#: module.cpp:61
 #, kde-format
 msgctxt "Placeholder is error message returned from the install service"
 msgid ""
@@ -47,29 +37,30 @@ msgstr ""
 "无法导入选定的脚本。\n"
 "%1"
 
-#: module.cpp:108
+#: module.cpp:65
 #, kde-format
 msgctxt "Placeholder is name of the script that was imported"
 msgid "The script \"%1\" was successfully imported."
 msgstr "脚本“%1”已成功导入。"
 
-#: module.cpp:148
+#: module.cpp:124
 #, kde-format
 msgid "Error when uninstalling KWin Script: %1"
 msgstr "卸载 KWin 脚本时出错：%1"
 
-#: package/contents/ui/main.qml:47
+#: ui/main.qml:23
+#, kde-format
+msgid "Install from File…"
+msgstr "从文件安装…"
+
+#: ui/main.qml:27
+#, kde-format
+msgctxt "@action:button get new KWin scripts"
+msgid "Get New…"
+msgstr "获取新脚本…"
+
+#: ui/main.qml:65
 #, kde-format
 msgctxt "@info:tooltip"
-msgid "Delete..."
-msgstr "删除..."
-
-#: package/contents/ui/main.qml:60
-#, kde-format
-msgid "Install from File..."
-msgstr "从文件安装..."
-
-#: package/contents/ui/main.qml:64
-#, kde-format
-msgid "Get New Scripts..."
-msgstr "获取新脚本..."
+msgid "Delete…"
+msgstr "删除…"

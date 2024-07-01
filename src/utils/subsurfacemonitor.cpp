@@ -9,10 +9,8 @@
 
 #include "subsurfacemonitor.h"
 
-#include "wayland/subcompositor_interface.h"
-#include "wayland/surface_interface.h"
-
-using namespace KWaylandServer;
+#include "wayland/subcompositor.h"
+#include "wayland/surface.h"
 
 namespace KWin
 {
@@ -35,8 +33,6 @@ void SubSurfaceMonitor::registerSubSurface(SubSurfaceInterface *subSurface)
             this, &SubSurfaceMonitor::subSurfaceMapped);
     connect(surface, &SurfaceInterface::unmapped,
             this, &SubSurfaceMonitor::subSurfaceUnmapped);
-    connect(surface, &SurfaceInterface::surfaceToBufferMatrixChanged,
-            this, &SubSurfaceMonitor::subSurfaceSurfaceToBufferMatrixChanged);
     connect(surface, &SurfaceInterface::bufferSizeChanged,
             this, &SubSurfaceMonitor::subSurfaceBufferSizeChanged);
     connect(surface, &SurfaceInterface::committed,
@@ -87,3 +83,5 @@ void SubSurfaceMonitor::unregisterSurface(SurfaceInterface *surface)
 }
 
 } // namespace KWin
+
+#include "moc_subsurfacemonitor.cpp"

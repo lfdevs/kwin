@@ -8,14 +8,13 @@
 */
 #include "kwin_wayland_test.h"
 
-#include "core/outputbackend.h"
-#include "cursor.h"
 #include "input.h"
 #include "internalwindow.h"
 #include "keyboard_input.h"
+#include "pointer_input.h"
 #include "useractions.h"
-#include "wayland/keyboard_interface.h"
-#include "wayland/seat_interface.h"
+#include "wayland/keyboard.h"
+#include "wayland/seat.h"
 #include "wayland_server.h"
 #include "workspace.h"
 #include "x11window.h"
@@ -50,6 +49,7 @@ private Q_SLOTS:
     void testUserActionsMenu();
     void testMetaShiftW();
     void testComponseKey();
+    void testKeypad();
     void testX11WindowShortcut();
     void testWaylandWindowShortcut();
     void testSetupWindowShortcut();
@@ -61,7 +61,10 @@ void GlobalShortcutsTest::initTestCase()
     qRegisterMetaType<KWin::InternalWindow *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
+    Test::setOutputConfig({
+        QRect(0, 0, 1280, 1024),
+        QRect(1280, 0, 1280, 1024),
+    });
 
     kwinApp()->setConfig(KSharedConfig::openConfig(QString(), KConfig::SimpleConfig));
     qputenv("KWIN_XKB_DEFAULT_KEYMAP", "1");
@@ -76,7 +79,7 @@ void GlobalShortcutsTest::init()
 {
     QVERIFY(Test::setupWaylandConnection());
     workspace()->setActiveOutput(QPoint(640, 512));
-    KWin::Cursors::self()->mouse()->setPos(QPoint(640, 512));
+    KWin::input()->pointer()->warp(QPoint(640, 512));
 
     auto xkb = input()->keyboard()->xkb();
     xkb->switchToLayout(0);
@@ -102,23 +105,17 @@ void GlobalShortcutsTest::testNonLatinLayout_data()
 
     QTest::newRow("Left Ctrl + Tab") << KEY_LEFTCTRL << Qt::CTRL << KEY_TAB << Qt::Key_Tab;
     QTest::newRow("Left Ctrl + W") << KEY_LEFTCTRL << Qt::CTRL << KEY_W << Qt::Key_W;
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     QTest::newRow("Left Ctrl + `") << KEY_LEFTCTRL << Qt::CTRL << KEY_GRAVE << Qt::Key_QuoteLeft;
-#endif
 
     QTest::newRow("Left Alt + Tab") << KEY_LEFTALT << Qt::ALT << KEY_TAB << Qt::Key_Tab;
     QTest::newRow("Left Alt + W") << KEY_LEFTALT << Qt::ALT << KEY_W << Qt::Key_W;
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     QTest::newRow("Left Alt + `") << KEY_LEFTALT << Qt::ALT << KEY_GRAVE << Qt::Key_QuoteLeft;
-#endif
 
     QTest::newRow("Left Shift + Tab") << KEY_LEFTSHIFT << Qt::SHIFT << KEY_TAB << Qt::Key_Tab;
 
     QTest::newRow("Left Meta + Tab") << KEY_LEFTMETA << Qt::META << KEY_TAB << Qt::Key_Tab;
     QTest::newRow("Left Meta + W") << KEY_LEFTMETA << Qt::META << KEY_W << Qt::Key_W;
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     QTest::newRow("Left Meta + `") << KEY_LEFTMETA << Qt::META << KEY_GRAVE << Qt::Key_QuoteLeft;
-#endif
 }
 
 void GlobalShortcutsTest::testNonLatinLayout()
@@ -279,21 +276,48 @@ void GlobalShortcutsTest::testComponseKey()
     QTRY_COMPARE(triggeredSpy.count(), 0);
 }
 
-struct XcbConnectionDeleter
+void GlobalShortcutsTest::testKeypad()
 {
-    void operator()(xcb_connection_t *pointer)
-    {
-        xcb_disconnect(pointer);
-    }
-};
+    auto zeroAction = std::make_unique<QAction>();
+    zeroAction->setProperty("componentName", QStringLiteral("kwin"));
+    zeroAction->setObjectName(QStringLiteral("globalshortcuts-test-keypad-0"));
+    QSignalSpy zeroActionTriggeredSpy(zeroAction.get(), &QAction::triggered);
+    KGlobalAccel::self()->setShortcut(zeroAction.get(), QList<QKeySequence>{Qt::MetaModifier | Qt::KeypadModifier | Qt::Key_0}, KGlobalAccel::NoAutoloading);
+
+    auto insertAction = std::make_unique<QAction>();
+    insertAction->setProperty("componentName", QStringLiteral("kwin"));
+    insertAction->setObjectName(QStringLiteral("globalshortcuts-test-keypad-ins"));
+    QSignalSpy insertActionTriggeredSpy(insertAction.get(), &QAction::triggered);
+    KGlobalAccel::self()->setShortcut(insertAction.get(), QList<QKeySequence>{Qt::MetaModifier | Qt::KeypadModifier | Qt::Key_Insert}, KGlobalAccel::NoAutoloading);
+
+    // Turn on numlock
+    quint32 timestamp = 0;
+    Test::keyboardKeyPressed(KEY_NUMLOCK, timestamp++);
+    Test::keyboardKeyReleased(KEY_NUMLOCK, timestamp++);
+
+    Test::keyboardKeyPressed(KEY_LEFTMETA, timestamp++);
+    Test::keyboardKeyPressed(KEY_KP0, timestamp++);
+    Test::keyboardKeyReleased(KEY_KP0, timestamp++);
+    Test::keyboardKeyReleased(KEY_LEFTMETA, timestamp++);
+    QTRY_COMPARE(zeroActionTriggeredSpy.count(), 1);
+    QCOMPARE(insertActionTriggeredSpy.count(), 0);
+
+    // Turn off numlock
+    Test::keyboardKeyPressed(KEY_NUMLOCK, timestamp++);
+    Test::keyboardKeyReleased(KEY_NUMLOCK, timestamp++);
+
+    Test::keyboardKeyPressed(KEY_LEFTMETA, timestamp++);
+    Test::keyboardKeyPressed(KEY_KP0, timestamp++);
+    Test::keyboardKeyReleased(KEY_KP0, timestamp++);
+    Test::keyboardKeyReleased(KEY_LEFTMETA, timestamp++);
+    QTRY_COMPARE(insertActionTriggeredSpy.count(), 1);
+    QCOMPARE(zeroActionTriggeredSpy.count(), 1);
+}
 
 void GlobalShortcutsTest::testX11WindowShortcut()
 {
-#ifdef NO_XWAYLAND
-    QSKIP("x11 test, unnecessary without xwayland");
-#endif
     // create an X11 window
-    std::unique_ptr<xcb_connection_t, XcbConnectionDeleter> c(xcb_connect(nullptr, nullptr));
+    Test::XcbConnectionPtr c = Test::createX11Connection();
     QVERIFY(!xcb_connection_has_error(c.get()));
     xcb_window_t windowId = xcb_generate_id(c.get());
     const QRect windowGeometry = QRect(0, 0, 10, 20);
@@ -348,7 +372,7 @@ void GlobalShortcutsTest::testX11WindowShortcut()
     Test::keyboardKeyReleased(KEY_LEFTMETA, timestamp++);
 
     // destroy window again
-    QSignalSpy windowClosedSpy(window, &X11Window::windowClosed);
+    QSignalSpy windowClosedSpy(window, &X11Window::closed);
     xcb_unmap_window(c.get(), windowId);
     xcb_destroy_window(c.get(), windowId);
     xcb_flush(c.get());
@@ -387,7 +411,7 @@ void GlobalShortcutsTest::testWaylandWindowShortcut()
 
     shellSurface.reset();
     surface.reset();
-    QVERIFY(Test::waitForWindowDestroyed(window));
+    QVERIFY(Test::waitForWindowClosed(window));
     QTRY_VERIFY_WITH_TIMEOUT(workspace()->shortcutAvailable(seq), 500); // we need the try since KGlobalAccelPrivate::unregister is async
 }
 
@@ -403,7 +427,7 @@ void GlobalShortcutsTest::testSetupWindowShortcut()
     QVERIFY(window->isActive());
     QCOMPARE(window->shortcut(), QKeySequence());
 
-    QSignalSpy shortcutDialogAddedSpy(workspace(), &Workspace::internalWindowAdded);
+    QSignalSpy shortcutDialogAddedSpy(workspace(), &Workspace::windowAdded);
     workspace()->slotSetupWindowShortcut();
     QTRY_COMPARE(shortcutDialogAddedSpy.count(), 1);
     auto dialog = shortcutDialogAddedSpy.first().first().value<InternalWindow *>();
@@ -411,13 +435,6 @@ void GlobalShortcutsTest::testSetupWindowShortcut()
     QVERIFY(dialog->isInternal());
     auto sequenceEdit = workspace()->shortcutDialog()->findChild<QKeySequenceEdit *>();
     QVERIFY(sequenceEdit);
-
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    // the QKeySequenceEdit field does not get focus, we need to pass it focus manually
-    QEXPECT_FAIL("", "Edit does not have focus", Continue);
-    QVERIFY(sequenceEdit->hasFocus());
-    sequenceEdit->setFocus();
-#endif
     QTRY_VERIFY(sequenceEdit->hasFocus());
 
     quint32 timestamp = 0;

@@ -8,15 +8,13 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "wayland_backend.h"
-
+#include "core/drmdevice.h"
+#include "input.h"
 #include "wayland_display.h"
 #include "wayland_egl_backend.h"
 #include "wayland_logging.h"
 #include "wayland_output.h"
 #include "wayland_qpainter_backend.h"
-
-#include "dpmsinputeventfilter.h"
-#include "input.h"
 
 #include <KWayland/Client/keyboard.h>
 #include <KWayland/Client/pointer.h>
@@ -35,7 +33,7 @@
 #include <unistd.h>
 #include <wayland-client-core.h>
 
-#include "../drm/gbm_dmabuf.h"
+#include "wayland-linux-dmabuf-unstable-v1-client-protocol.h"
 
 namespace KWin
 {
@@ -53,6 +51,12 @@ WaylandInputDevice::WaylandInputDevice(KWayland::Client::Keyboard *keyboard, Way
     : m_seat(seat)
     , m_keyboard(keyboard)
 {
+    connect(keyboard, &Keyboard::left, this, [this](quint32 time) {
+        for (quint32 key : std::as_const(m_pressedKeys)) {
+            Q_EMIT keyChanged(key, InputRedirection::KeyboardKeyReleased, std::chrono::milliseconds(time), this);
+        }
+        m_pressedKeys.clear();
+    });
     connect(keyboard, &Keyboard::keyChanged, this, [this](quint32 key, Keyboard::KeyState nativeState, quint32 time) {
         InputRedirection::KeyboardKeyState state;
         switch (nativeState) {
@@ -61,8 +65,10 @@ WaylandInputDevice::WaylandInputDevice(KWayland::Client::Keyboard *keyboard, Way
                 m_seat->backend()->togglePointerLock();
             }
             state = InputRedirection::KeyboardKeyPressed;
+            m_pressedKeys.insert(key);
             break;
         case Keyboard::KeyState::Released:
+            m_pressedKeys.remove(key);
             state = InputRedirection::KeyboardKeyReleased;
             break;
         default:
@@ -125,6 +131,10 @@ WaylandInputDevice::WaylandInputDevice(KWayland::Client::Pointer *pointer, Wayla
             Q_UNREACHABLE();
         }
         Q_EMIT pointerAxisChanged(axis, delta, 0, InputRedirection::PointerAxisSourceUnknown, std::chrono::milliseconds(time), this);
+    });
+
+    connect(pointer, &Pointer::frame, this, [this]() {
+        Q_EMIT pointerFrame(this);
     });
 
     KWayland::Client::PointerGestures *pointerGestures = m_seat->backend()->display()->pointerGestures();
@@ -225,11 +235,6 @@ void WaylandInputDevice::setLeds(LEDs leds)
 }
 
 bool WaylandInputDevice::isKeyboard() const
-{
-    return m_keyboard != nullptr;
-}
-
-bool WaylandInputDevice::isAlphaNumericKeyboard() const
 {
     return m_keyboard != nullptr;
 }
@@ -410,30 +415,17 @@ WaylandBackend::WaylandBackend(const WaylandBackendOptions &options, QObject *pa
     : OutputBackend(parent)
     , m_options(options)
 {
-    char const *drm_render_node = "/dev/dri/renderD128";
-    m_drmFileDescriptor = FileDescriptor(open(drm_render_node, O_RDWR | O_CLOEXEC));
-    if (!m_drmFileDescriptor.isValid()) {
-        qCWarning(KWIN_WAYLAND_BACKEND) << "Failed to open drm render node" << drm_render_node;
-        m_gbmDevice = nullptr;
-        return;
-    }
-    m_gbmDevice = gbm_create_device(m_drmFileDescriptor.get());
 }
 
 WaylandBackend::~WaylandBackend()
 {
-    if (sceneEglDisplay() != EGL_NO_DISPLAY) {
-        eglTerminate(sceneEglDisplay());
-    }
-
+    m_eglDisplay.reset();
     destroyOutputs();
+
+    m_buffers.clear();
 
     m_seat.reset();
     m_display.reset();
-
-    if (m_gbmDevice) {
-        gbm_device_destroy(m_gbmDevice);
-    }
     qCDebug(KWIN_WAYLAND_BACKEND) << "Destroyed Wayland display";
 }
 
@@ -442,6 +434,13 @@ bool WaylandBackend::initialize()
     m_display = std::make_unique<WaylandDisplay>();
     if (!m_display->initialize(m_options.socketName)) {
         return false;
+    }
+
+    if (WaylandLinuxDmabufV1 *dmabuf = m_display->linuxDmabuf()) {
+        m_drmDevice = DrmDevice::open(dmabuf->mainDevice());
+        if (!m_drmDevice) {
+            qCWarning(KWIN_WAYLAND_BACKEND) << "Failed to open drm render node" << dmabuf->mainDevice();
+        }
     }
 
     createOutputs();
@@ -553,10 +552,10 @@ void WaylandBackend::togglePointerLock()
     m_pointerLockRequested = !m_pointerLockRequested;
 }
 
-QVector<CompositingType> WaylandBackend::supportedCompositors() const
+QList<CompositingType> WaylandBackend::supportedCompositors() const
 {
-    QVector<CompositingType> ret;
-    if (m_display->linuxDmabuf() && m_gbmDevice) {
+    QList<CompositingType> ret;
+    if (m_display->linuxDmabuf() && m_drmDevice) {
         ret.append(OpenGLCompositing);
     }
     ret.append(QPainterCompositing);
@@ -566,21 +565,6 @@ QVector<CompositingType> WaylandBackend::supportedCompositors() const
 Outputs WaylandBackend::outputs() const
 {
     return m_outputs;
-}
-
-void WaylandBackend::createDpmsFilter()
-{
-    if (m_dpmsFilter) {
-        // already another output is off
-        return;
-    }
-    m_dpmsFilter = std::make_unique<DpmsInputEventFilter>();
-    input()->prependInputEventFilter(m_dpmsFilter.get());
-}
-
-void WaylandBackend::clearDpmsFilter()
-{
-    m_dpmsFilter.reset();
 }
 
 Output *WaylandBackend::createVirtualOutput(const QString &name, const QSize &size, double scale)
@@ -598,32 +582,137 @@ void WaylandBackend::removeVirtualOutput(Output *output)
     }
 }
 
-std::optional<DmaBufParams> WaylandBackend::testCreateDmaBuf(const QSize &size, quint32 format, const QVector<uint64_t> &modifiers)
+static wl_buffer *importDmaBufBuffer(WaylandDisplay *display, const DmaBufAttributes *attributes)
 {
-    gbm_bo *bo = createGbmBo(m_gbmDevice, size, format, modifiers);
-    if (!bo) {
-        return {};
+    zwp_linux_buffer_params_v1 *params = zwp_linux_dmabuf_v1_create_params(display->linuxDmabuf()->handle());
+    for (int i = 0; i < attributes->planeCount; ++i) {
+        zwp_linux_buffer_params_v1_add(params,
+                                       attributes->fd[i].get(),
+                                       i,
+                                       attributes->offset[i],
+                                       attributes->pitch[i],
+                                       attributes->modifier >> 32,
+                                       attributes->modifier & 0xffffffff);
     }
 
-    auto ret = dmaBufParamsForBo(bo);
-    gbm_bo_destroy(bo);
-    return ret;
+    wl_buffer *buffer = zwp_linux_buffer_params_v1_create_immed(params, attributes->width, attributes->height, attributes->format, 0);
+    zwp_linux_buffer_params_v1_destroy(params);
+
+    return buffer;
 }
 
-std::shared_ptr<DmaBufTexture> WaylandBackend::createDmaBufTexture(const QSize &size, quint32 format, uint64_t modifier)
+static wl_buffer *importShmBuffer(WaylandDisplay *display, const ShmAttributes *attributes)
 {
-    gbm_bo *bo = createGbmBo(m_gbmDevice, size, format, {modifier});
-    if (!bo) {
-        return {};
+    wl_shm_format format;
+    switch (attributes->format) {
+    case DRM_FORMAT_ARGB8888:
+        format = WL_SHM_FORMAT_ARGB8888;
+        break;
+    case DRM_FORMAT_XRGB8888:
+        format = WL_SHM_FORMAT_XRGB8888;
+        break;
+    default:
+        format = static_cast<wl_shm_format>(attributes->format);
+        break;
     }
 
-    // The bo will be kept around until the last fd is closed.
-    DmaBufAttributes attributes = dmaBufAttributesForBo(bo);
-    gbm_bo_destroy(bo);
-    m_eglBackend->makeCurrent();
-    return std::make_shared<DmaBufTexture>(m_eglBackend->importDmaBufAsTexture(attributes), std::move(attributes));
+    wl_shm_pool *pool = wl_shm_create_pool(display->shm(), attributes->fd.get(), attributes->size.height() * attributes->stride);
+    wl_buffer *buffer = wl_shm_pool_create_buffer(pool,
+                                                  attributes->offset,
+                                                  attributes->size.width(),
+                                                  attributes->size.height(),
+                                                  attributes->stride,
+                                                  format);
+    wl_shm_pool_destroy(pool);
+
+    return buffer;
 }
 
+wl_buffer *WaylandBackend::importBuffer(GraphicsBuffer *graphicsBuffer)
+{
+    auto &buffer = m_buffers[graphicsBuffer];
+    if (!buffer) {
+        wl_buffer *handle = nullptr;
+        if (const DmaBufAttributes *attributes = graphicsBuffer->dmabufAttributes()) {
+            handle = importDmaBufBuffer(m_display.get(), attributes);
+        } else if (const ShmAttributes *attributes = graphicsBuffer->shmAttributes()) {
+            handle = importShmBuffer(m_display.get(), attributes);
+        } else {
+            qCWarning(KWIN_WAYLAND_BACKEND) << graphicsBuffer << "has unknown type";
+            return nullptr;
+        }
+
+        buffer = std::make_unique<WaylandBuffer>(handle, graphicsBuffer);
+        connect(buffer.get(), &WaylandBuffer::defunct, this, [this, graphicsBuffer]() {
+            m_buffers.erase(graphicsBuffer);
+        });
+
+        static const wl_buffer_listener listener = {
+            .release = [](void *userData, wl_buffer *buffer) {
+                WaylandBuffer *slot = static_cast<WaylandBuffer *>(userData);
+                slot->unlock();
+            },
+        };
+        wl_buffer_add_listener(handle, &listener, buffer.get());
+    }
+
+    buffer->lock();
+    return buffer->handle();
+}
+
+void WaylandBackend::setEglDisplay(std::unique_ptr<EglDisplay> &&display)
+{
+    m_eglDisplay = std::move(display);
+}
+
+EglDisplay *WaylandBackend::sceneEglDisplayObject() const
+{
+    return m_eglDisplay.get();
+}
+
+DrmDevice *WaylandBackend::drmDevice() const
+{
+    return m_drmDevice.get();
+}
+
+WaylandBuffer::WaylandBuffer(wl_buffer *handle, GraphicsBuffer *graphicsBuffer)
+    : m_graphicsBuffer(graphicsBuffer)
+    , m_handle(handle)
+{
+    connect(graphicsBuffer, &GraphicsBuffer::destroyed, this, &WaylandBuffer::defunct);
+}
+
+WaylandBuffer::~WaylandBuffer()
+{
+    m_graphicsBuffer->disconnect(this);
+    if (m_locked) {
+        m_graphicsBuffer->unref();
+    }
+    wl_buffer_destroy(m_handle);
+}
+
+wl_buffer *WaylandBuffer::handle() const
+{
+    return m_handle;
+}
+
+void WaylandBuffer::lock()
+{
+    if (!m_locked) {
+        m_locked = true;
+        m_graphicsBuffer->ref();
+    }
+}
+
+void WaylandBuffer::unlock()
+{
+    if (m_locked) {
+        m_locked = false;
+        m_graphicsBuffer->unref();
+    }
+}
 }
 
 } // KWin
+
+#include "moc_wayland_backend.cpp"

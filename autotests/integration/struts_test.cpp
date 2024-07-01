@@ -9,18 +9,14 @@
 #include "kwin_wayland_test.h"
 
 #include "core/output.h"
-#include "core/outputbackend.h"
-#include "cursor.h"
-#include "deleted.h"
+#include "pointer_input.h"
 #include "screenedge.h"
 #include "virtualdesktops.h"
 #include "wayland_server.h"
 #include "workspace.h"
 #include "x11window.h"
-#include <kwineffects.h>
 
 #include <KWayland/Client/compositor.h>
-#include <KWayland/Client/plasmashell.h>
 #include <KWayland/Client/surface.h>
 
 #include <KDecoration2/Decoration>
@@ -42,10 +38,6 @@ private Q_SLOTS:
     void initTestCase();
     void init();
     void cleanup();
-    void testWaylandStruts_data();
-    void testWaylandStruts();
-    void testMoveWaylandPanel();
-    void testWaylandMobilePanel();
     void testX11Struts_data();
     void testX11Struts();
     void test363804();
@@ -54,20 +46,21 @@ private Q_SLOTS:
 
 private:
     KWayland::Client::Compositor *m_compositor = nullptr;
-    KWayland::Client::PlasmaShell *m_plasmaShell = nullptr;
 };
 
 void StrutsTest::initTestCase()
 {
     qRegisterMetaType<KWin::Window *>();
-    qRegisterMetaType<KWin::Deleted *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
+    Test::setOutputConfig({
+        QRect(0, 0, 1280, 1024),
+        QRect(1280, 0, 1280, 1024),
+    });
 
     // set custom config which disables the Outline
     KSharedConfig::Ptr config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
-    KConfigGroup group = config->group("Outline");
+    KConfigGroup group = config->group(QStringLiteral("Outline"));
     group.writeEntry(QStringLiteral("QmlPath"), QString("/does/not/exist.qml"));
     group.sync();
 
@@ -84,252 +77,17 @@ void StrutsTest::initTestCase()
 
 void StrutsTest::init()
 {
-    QVERIFY(Test::setupWaylandConnection(Test::AdditionalWaylandInterface::PlasmaShell));
+    QVERIFY(Test::setupWaylandConnection());
     m_compositor = Test::waylandCompositor();
-    m_plasmaShell = Test::waylandPlasmaShell();
 
     workspace()->setActiveOutput(QPoint(640, 512));
-    Cursors::self()->mouse()->setPos(QPoint(640, 512));
+    input()->pointer()->warp(QPoint(640, 512));
     QVERIFY(waylandServer()->windows().isEmpty());
 }
 
 void StrutsTest::cleanup()
 {
     Test::destroyWaylandConnection();
-}
-
-void StrutsTest::testWaylandStruts_data()
-{
-    QTest::addColumn<QVector<QRect>>("windowGeometries");
-    QTest::addColumn<QRectF>("screen0Maximized");
-    QTest::addColumn<QRectF>("screen1Maximized");
-    QTest::addColumn<QRectF>("workArea");
-    QTest::addColumn<StrutRects>("restrictedMoveArea");
-
-    QTest::newRow("bottom/0") << QVector<QRect>{QRect(0, 992, 1280, 32)} << QRectF(0, 0, 1280, 992) << QRectF(1280, 0, 1280, 1024) << QRectF(0, 0, 2560, 992) << StrutRects{StrutRect(0, 992, 1280, 32)};
-    QTest::newRow("bottom/1") << QVector<QRect>{QRect(1280, 992, 1280, 32)} << QRectF(0, 0, 1280, 1024) << QRectF(1280, 0, 1280, 992) << QRectF(0, 0, 2560, 992) << StrutRects{StrutRect(1280, 992, 1280, 32)};
-    QTest::newRow("top/0") << QVector<QRect>{QRect(0, 0, 1280, 32)} << QRectF(0, 32, 1280, 992) << QRectF(1280, 0, 1280, 1024) << QRectF(0, 32, 2560, 992) << StrutRects{StrutRect(0, 0, 1280, 32)};
-    QTest::newRow("top/1") << QVector<QRect>{QRect(1280, 0, 1280, 32)} << QRectF(0, 0, 1280, 1024) << QRectF(1280, 32, 1280, 992) << QRectF(0, 32, 2560, 992) << StrutRects{StrutRect(1280, 0, 1280, 32)};
-    QTest::newRow("left/0") << QVector<QRect>{QRect(0, 0, 32, 1024)} << QRectF(32, 0, 1248, 1024) << QRectF(1280, 0, 1280, 1024) << QRectF(32, 0, 2528, 1024) << StrutRects{StrutRect(0, 0, 32, 1024)};
-    QTest::newRow("left/1") << QVector<QRect>{QRect(1280, 0, 32, 1024)} << QRectF(0, 0, 1280, 1024) << QRectF(1312, 0, 1248, 1024) << QRectF(0, 0, 2560, 1024) << StrutRects{StrutRect(1280, 0, 32, 1024)};
-    QTest::newRow("right/0") << QVector<QRect>{QRect(1248, 0, 32, 1024)} << QRectF(0, 0, 1248, 1024) << QRectF(1280, 0, 1280, 1024) << QRectF(0, 0, 2560, 1024) << StrutRects{StrutRect(1248, 0, 32, 1024)};
-    QTest::newRow("right/1") << QVector<QRect>{QRect(2528, 0, 32, 1024)} << QRectF(0, 0, 1280, 1024) << QRectF(1280, 0, 1248, 1024) << QRectF(0, 0, 2528, 1024) << StrutRects{StrutRect(2528, 0, 32, 1024)};
-
-    // same with partial panels not covering the whole area
-    QTest::newRow("part bottom/0") << QVector<QRect>{QRect(100, 992, 1080, 32)} << QRectF(0, 0, 1280, 992) << QRectF(1280, 0, 1280, 1024) << QRectF(0, 0, 2560, 992) << StrutRects{StrutRect(100, 992, 1080, 32)};
-    QTest::newRow("part bottom/1") << QVector<QRect>{QRect(1380, 992, 1080, 32)} << QRectF(0, 0, 1280, 1024) << QRectF(1280, 0, 1280, 992) << QRectF(0, 0, 2560, 992) << StrutRects{StrutRect(1380, 992, 1080, 32)};
-    QTest::newRow("part top/0") << QVector<QRect>{QRect(100, 0, 1080, 32)} << QRectF(0, 32, 1280, 992) << QRectF(1280, 0, 1280, 1024) << QRectF(0, 32, 2560, 992) << StrutRects{StrutRect(100, 0, 1080, 32)};
-    QTest::newRow("part top/1") << QVector<QRect>{QRect(1380, 0, 1080, 32)} << QRectF(0, 0, 1280, 1024) << QRectF(1280, 32, 1280, 992) << QRectF(0, 32, 2560, 992) << StrutRects{StrutRect(1380, 0, 1080, 32)};
-    QTest::newRow("part left/0") << QVector<QRect>{QRect(0, 100, 32, 824)} << QRectF(32, 0, 1248, 1024) << QRectF(1280, 0, 1280, 1024) << QRectF(32, 0, 2528, 1024) << StrutRects{StrutRect(0, 100, 32, 824)};
-    QTest::newRow("part left/1") << QVector<QRect>{QRect(1280, 100, 32, 824)} << QRectF(0, 0, 1280, 1024) << QRectF(1312, 0, 1248, 1024) << QRectF(0, 0, 2560, 1024) << StrutRects{StrutRect(1280, 100, 32, 824)};
-    QTest::newRow("part right/0") << QVector<QRect>{QRect(1248, 100, 32, 824)} << QRectF(0, 0, 1248, 1024) << QRectF(1280, 0, 1280, 1024) << QRectF(0, 0, 2560, 1024) << StrutRects{StrutRect(1248, 100, 32, 824)};
-    QTest::newRow("part right/1") << QVector<QRect>{QRect(2528, 100, 32, 824)} << QRectF(0, 0, 1280, 1024) << QRectF(1280, 0, 1248, 1024) << QRectF(0, 0, 2528, 1024) << StrutRects{StrutRect(2528, 100, 32, 824)};
-
-    // multiple panels
-    QTest::newRow("two bottom panels") << QVector<QRect>{QRect(100, 992, 1080, 32), QRect(1380, 984, 1080, 40)} << QRectF(0, 0, 1280, 992) << QRectF(1280, 0, 1280, 984) << QRectF(0, 0, 2560, 984) << StrutRects{StrutRect(100, 992, 1080, 32), StrutRect(1380, 984, 1080, 40)};
-    QTest::newRow("two left panels") << QVector<QRect>{QRect(0, 10, 32, 390), QRect(0, 450, 40, 100)} << QRectF(40, 0, 1240, 1024) << QRectF(1280, 0, 1280, 1024) << QRectF(40, 0, 2520, 1024) << StrutRects{StrutRect(0, 10, 32, 390), StrutRect(0, 450, 40, 100)};
-}
-
-void StrutsTest::testWaylandStruts()
-{
-    // this test verifies that struts on Wayland panels are handled correctly
-
-    VirtualDesktop *desktop = VirtualDesktopManager::self()->currentDesktop();
-    const QList<Output *> outputs = workspace()->outputs();
-
-    // no, struts yet
-    QVERIFY(waylandServer()->windows().isEmpty());
-    // first screen
-    QCOMPARE(workspace()->clientArea(PlacementArea, outputs[0], desktop), QRect(0, 0, 1280, 1024));
-    QCOMPARE(workspace()->clientArea(MovementArea, outputs[0], desktop), QRect(0, 0, 1280, 1024));
-    QCOMPARE(workspace()->clientArea(MaximizeArea, outputs[0], desktop), QRect(0, 0, 1280, 1024));
-    QCOMPARE(workspace()->clientArea(MaximizeFullArea, outputs[0], desktop), QRect(0, 0, 1280, 1024));
-    QCOMPARE(workspace()->clientArea(FullScreenArea, outputs[0], desktop), QRect(0, 0, 1280, 1024));
-    QCOMPARE(workspace()->clientArea(ScreenArea, outputs[0], desktop), QRect(0, 0, 1280, 1024));
-    // second screen
-    QCOMPARE(workspace()->clientArea(PlacementArea, outputs[1], desktop), QRect(1280, 0, 1280, 1024));
-    QCOMPARE(workspace()->clientArea(MovementArea, outputs[1], desktop), QRect(1280, 0, 1280, 1024));
-    QCOMPARE(workspace()->clientArea(MaximizeArea, outputs[1], desktop), QRect(1280, 0, 1280, 1024));
-    QCOMPARE(workspace()->clientArea(MaximizeFullArea, outputs[1], desktop), QRect(1280, 0, 1280, 1024));
-    QCOMPARE(workspace()->clientArea(FullScreenArea, outputs[1], desktop), QRect(1280, 0, 1280, 1024));
-    QCOMPARE(workspace()->clientArea(ScreenArea, outputs[1], desktop), QRect(1280, 0, 1280, 1024));
-    // combined
-    QCOMPARE(workspace()->clientArea(WorkArea, outputs[0], desktop), QRect(0, 0, 2560, 1024));
-    QCOMPARE(workspace()->clientArea(FullArea, outputs[0], desktop), QRect(0, 0, 2560, 1024));
-    QCOMPARE(workspace()->restrictedMoveArea(desktop), StrutRects());
-
-    QFETCH(QVector<QRect>, windowGeometries);
-    // create the panels
-    std::map<Window *, std::unique_ptr<KWayland::Client::Surface>> windows;
-    for (auto it = windowGeometries.constBegin(), end = windowGeometries.constEnd(); it != end; it++) {
-        const QRect windowGeometry = *it;
-        std::unique_ptr<KWayland::Client::Surface> surface = Test::createSurface();
-        Test::XdgToplevel *shellSurface = Test::createXdgToplevelSurface(surface.get(), Test::CreationSetup::CreateOnly, surface.get());
-        KWayland::Client::PlasmaShellSurface *plasmaSurface = m_plasmaShell->createSurface(surface.get(), surface.get());
-        plasmaSurface->setPosition(windowGeometry.topLeft());
-        plasmaSurface->setRole(KWayland::Client::PlasmaShellSurface::Role::Panel);
-
-        QSignalSpy configureRequestedSpy(shellSurface->xdgSurface(), &Test::XdgSurface::configureRequested);
-        surface->commit(KWayland::Client::Surface::CommitFlag::None);
-        QVERIFY(configureRequestedSpy.wait());
-
-        // map the window
-        shellSurface->xdgSurface()->ack_configure(configureRequestedSpy.last().first().toUInt());
-        auto window = Test::renderAndWaitForShown(surface.get(), windowGeometry.size(), Qt::red, QImage::Format_RGB32);
-
-        QVERIFY(window);
-        QVERIFY(!window->isActive());
-        QCOMPARE(window->frameGeometry(), windowGeometry);
-        QVERIFY(window->isDock());
-        QVERIFY(window->hasStrut());
-        windows[window] = std::move(surface);
-    }
-
-    // some props are independent of struts - those first
-    // screen 0
-    QCOMPARE(workspace()->clientArea(MovementArea, outputs[0], desktop), QRect(0, 0, 1280, 1024));
-    QCOMPARE(workspace()->clientArea(MaximizeFullArea, outputs[0], desktop), QRect(0, 0, 1280, 1024));
-    QCOMPARE(workspace()->clientArea(FullScreenArea, outputs[0], desktop), QRect(0, 0, 1280, 1024));
-    QCOMPARE(workspace()->clientArea(ScreenArea, outputs[0], desktop), QRect(0, 0, 1280, 1024));
-    // screen 1
-    QCOMPARE(workspace()->clientArea(MovementArea, outputs[1], desktop), QRect(1280, 0, 1280, 1024));
-    QCOMPARE(workspace()->clientArea(MaximizeFullArea, outputs[1], desktop), QRect(1280, 0, 1280, 1024));
-    QCOMPARE(workspace()->clientArea(FullScreenArea, outputs[1], desktop), QRect(1280, 0, 1280, 1024));
-    QCOMPARE(workspace()->clientArea(ScreenArea, outputs[1], desktop), QRect(1280, 0, 1280, 1024));
-    // combined
-    QCOMPARE(workspace()->clientArea(FullArea, outputs[0], desktop), QRect(0, 0, 2560, 1024));
-
-    // now verify the actual updated client areas
-    QTEST(workspace()->clientArea(PlacementArea, outputs[0], desktop), "screen0Maximized");
-    QTEST(workspace()->clientArea(MaximizeArea, outputs[0], desktop), "screen0Maximized");
-    QTEST(workspace()->clientArea(PlacementArea, outputs[1], desktop), "screen1Maximized");
-    QTEST(workspace()->clientArea(MaximizeArea, outputs[1], desktop), "screen1Maximized");
-    QTEST(workspace()->clientArea(WorkArea, outputs[0], desktop), "workArea");
-    QTEST(workspace()->restrictedMoveArea(desktop), "restrictedMoveArea");
-
-    // delete all surfaces
-    for (auto it = windows.begin(); it != windows.end();) {
-        auto &[window, surface] = *it;
-        QSignalSpy destroyedSpy(window, &QObject::destroyed);
-        it = windows.erase(it);
-        QVERIFY(destroyedSpy.wait());
-    }
-    QCOMPARE(workspace()->restrictedMoveArea(desktop), StrutRects());
-}
-
-void StrutsTest::testMoveWaylandPanel()
-{
-    VirtualDesktop *desktop = VirtualDesktopManager::self()->currentDesktop();
-    const QList<Output *> outputs = workspace()->outputs();
-
-    // this test verifies that repositioning a Wayland panel updates the client area
-    const QRect windowGeometry(0, 1000, 1280, 24);
-    std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
-    std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get(), Test::CreationSetup::CreateOnly));
-    std::unique_ptr<KWayland::Client::PlasmaShellSurface> plasmaSurface(m_plasmaShell->createSurface(surface.get()));
-    plasmaSurface->setPosition(windowGeometry.topLeft());
-    plasmaSurface->setRole(KWayland::Client::PlasmaShellSurface::Role::Panel);
-
-    QSignalSpy configureRequestedSpy(shellSurface->xdgSurface(), &Test::XdgSurface::configureRequested);
-    surface->commit(KWayland::Client::Surface::CommitFlag::None);
-    QVERIFY(configureRequestedSpy.wait());
-
-    // map the window
-    shellSurface->xdgSurface()->ack_configure(configureRequestedSpy.last().first().toUInt());
-    auto window = Test::renderAndWaitForShown(surface.get(), windowGeometry.size(), Qt::red, QImage::Format_RGB32);
-    QVERIFY(window);
-    QVERIFY(!window->isActive());
-    QCOMPARE(window->frameGeometry(), windowGeometry);
-    QVERIFY(window->isDock());
-    QVERIFY(window->hasStrut());
-    QCOMPARE(workspace()->clientArea(PlacementArea, outputs[0], desktop), QRect(0, 0, 1280, 1000));
-    QCOMPARE(workspace()->clientArea(MaximizeArea, outputs[0], desktop), QRect(0, 0, 1280, 1000));
-    QCOMPARE(workspace()->clientArea(PlacementArea, outputs[1], desktop), QRect(1280, 0, 1280, 1024));
-    QCOMPARE(workspace()->clientArea(MaximizeArea, outputs[1], desktop), QRect(1280, 0, 1280, 1024));
-    QCOMPARE(workspace()->clientArea(WorkArea, outputs[0], desktop), QRect(0, 0, 2560, 1000));
-
-    QSignalSpy frameGeometryChangedSpy(window, &Window::frameGeometryChanged);
-    plasmaSurface->setPosition(QPoint(1280, 1000));
-    QVERIFY(frameGeometryChangedSpy.wait());
-    QCOMPARE(window->frameGeometry(), QRect(1280, 1000, 1280, 24));
-    QCOMPARE(workspace()->clientArea(PlacementArea, outputs[0], desktop), QRect(0, 0, 1280, 1024));
-    QCOMPARE(workspace()->clientArea(MaximizeArea, outputs[0], desktop), QRect(0, 0, 1280, 1024));
-    QCOMPARE(workspace()->clientArea(PlacementArea, outputs[1], desktop), QRect(1280, 0, 1280, 1000));
-    QCOMPARE(workspace()->clientArea(MaximizeArea, outputs[1], desktop), QRect(1280, 0, 1280, 1000));
-    QCOMPARE(workspace()->clientArea(WorkArea, outputs[0], desktop), QRect(0, 0, 2560, 1000));
-}
-
-void StrutsTest::testWaylandMobilePanel()
-{
-    VirtualDesktop *desktop = VirtualDesktopManager::self()->currentDesktop();
-    const QList<Output *> outputs = workspace()->outputs();
-
-    // First enable maxmizing policy
-    KConfigGroup group = kwinApp()->config()->group("Windows");
-    group.writeEntry("Placement", "Maximizing");
-    group.sync();
-    workspace()->slotReconfigure();
-
-    // create first top panel
-    const QRect windowGeometry(0, 0, 1280, 60);
-    std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
-    std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get(), Test::CreationSetup::CreateOnly));
-    std::unique_ptr<KWayland::Client::PlasmaShellSurface> plasmaSurface(m_plasmaShell->createSurface(surface.get()));
-    plasmaSurface->setPosition(windowGeometry.topLeft());
-    plasmaSurface->setRole(KWayland::Client::PlasmaShellSurface::Role::Panel);
-
-    QSignalSpy configureRequestedSpy(shellSurface->xdgSurface(), &Test::XdgSurface::configureRequested);
-    surface->commit(KWayland::Client::Surface::CommitFlag::None);
-    QVERIFY(configureRequestedSpy.wait());
-
-    // map the window
-    shellSurface->xdgSurface()->ack_configure(configureRequestedSpy.last().first().toUInt());
-    auto window = Test::renderAndWaitForShown(surface.get(), windowGeometry.size(), Qt::red, QImage::Format_RGB32);
-    QVERIFY(window);
-    QVERIFY(!window->isActive());
-    QCOMPARE(window->frameGeometry(), windowGeometry);
-    QVERIFY(window->isDock());
-    QVERIFY(window->hasStrut());
-
-    QCOMPARE(workspace()->clientArea(PlacementArea, outputs[0], desktop), QRect(0, 60, 1280, 964));
-    QCOMPARE(workspace()->clientArea(MaximizeArea, outputs[0], desktop), QRect(0, 60, 1280, 964));
-    QCOMPARE(workspace()->clientArea(PlacementArea, outputs[1], desktop), QRect(1280, 0, 1280, 1024));
-    QCOMPARE(workspace()->clientArea(MaximizeArea, outputs[1], desktop), QRect(1280, 0, 1280, 1024));
-    QCOMPARE(workspace()->clientArea(WorkArea, outputs[0], desktop), QRect(0, 60, 2560, 964));
-
-    // create another bottom panel
-    const QRect windowGeometry2(0, 874, 1280, 150);
-    std::unique_ptr<KWayland::Client::Surface> surface2(Test::createSurface());
-    std::unique_ptr<Test::XdgToplevel> shellSurface2(Test::createXdgToplevelSurface(surface2.get(), Test::CreationSetup::CreateOnly));
-    std::unique_ptr<KWayland::Client::PlasmaShellSurface> plasmaSurface2(m_plasmaShell->createSurface(surface2.get()));
-    plasmaSurface2->setPosition(windowGeometry2.topLeft());
-    plasmaSurface2->setRole(KWayland::Client::PlasmaShellSurface::Role::Panel);
-
-    QSignalSpy configureRequestedSpy2(shellSurface2->xdgSurface(), &Test::XdgSurface::configureRequested);
-    surface2->commit(KWayland::Client::Surface::CommitFlag::None);
-    QVERIFY(configureRequestedSpy2.wait());
-
-    // map the window
-    shellSurface2->xdgSurface()->ack_configure(configureRequestedSpy2.last().first().toUInt());
-    auto c1 = Test::renderAndWaitForShown(surface2.get(), windowGeometry2.size(), Qt::blue, QImage::Format_RGB32);
-
-    QVERIFY(c1);
-    QVERIFY(!c1->isActive());
-    QCOMPARE(c1->frameGeometry(), windowGeometry2);
-    QVERIFY(c1->isDock());
-    QVERIFY(c1->hasStrut());
-
-    QCOMPARE(workspace()->clientArea(PlacementArea, outputs[0], desktop), QRect(0, 60, 1280, 814));
-    QCOMPARE(workspace()->clientArea(MaximizeArea, outputs[0], desktop), QRect(0, 60, 1280, 814));
-    QCOMPARE(workspace()->clientArea(PlacementArea, outputs[1], desktop), QRect(1280, 0, 1280, 1024));
-    QCOMPARE(workspace()->clientArea(MaximizeArea, outputs[1], desktop), QRect(1280, 0, 1280, 1024));
-    QCOMPARE(workspace()->clientArea(WorkArea, outputs[0], desktop), QRect(0, 60, 2560, 814));
-
-    // Destroy test windows.
-    shellSurface.reset();
-    QVERIFY(Test::waitForWindowDestroyed(window));
-    shellSurface2.reset();
-    QVERIFY(Test::waitForWindowDestroyed(c1));
 }
 
 void StrutsTest::testX11Struts_data()
@@ -526,14 +284,6 @@ void StrutsTest::testX11Struts_data()
                                                << StrutRects();
 }
 
-struct XcbConnectionDeleter
-{
-    void operator()(xcb_connection_t *pointer)
-    {
-        xcb_disconnect(pointer);
-    }
-};
-
 void StrutsTest::testX11Struts()
 {
     // this test verifies that struts are applied correctly for X11 windows
@@ -562,7 +312,7 @@ void StrutsTest::testX11Struts()
     QCOMPARE(workspace()->restrictedMoveArea(desktop), StrutRects());
 
     // create an xcb window
-    std::unique_ptr<xcb_connection_t, XcbConnectionDeleter> c(xcb_connect(nullptr, nullptr));
+    Test::XcbConnectionPtr c = Test::createX11Connection();
     QVERIFY(!xcb_connection_has_error(c.get()));
 
     xcb_window_t windowId = xcb_generate_id(c.get());
@@ -617,7 +367,7 @@ void StrutsTest::testX11Struts()
     QVERIFY(window);
     QCOMPARE(window->window(), windowId);
     QVERIFY(!window->isDecorated());
-    QCOMPARE(window->windowType(), NET::Dock);
+    QCOMPARE(window->windowType(), WindowType::Dock);
     QCOMPARE(window->frameGeometry(), windowGeometry);
 
     // this should have affected the client area
@@ -649,7 +399,7 @@ void StrutsTest::testX11Struts()
     xcb_flush(c.get());
     c.reset();
 
-    QSignalSpy windowClosedSpy(window, &X11Window::windowClosed);
+    QSignalSpy windowClosedSpy(window, &X11Window::closed);
     QVERIFY(windowClosedSpy.wait());
 
     // now struts should be removed again
@@ -676,10 +426,8 @@ void StrutsTest::test363804()
 {
     // this test verifies the condition described in BUG 363804
     // two screens in a vertical setup, aligned to right border with panel on the bottom screen
-    const QVector<QRect> geometries{QRect(0, 0, 1920, 1080), QRect(554, 1080, 1366, 768)};
-    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs",
-                              Qt::DirectConnection,
-                              Q_ARG(QVector<QRect>, geometries));
+    const QList<QRect> geometries{QRect(0, 0, 1920, 1080), QRect(554, 1080, 1366, 768)};
+    Test::setOutputConfig(geometries);
     QCOMPARE(workspace()->geometry(), QRect(0, 0, 1920, 1848));
 
     VirtualDesktop *desktop = VirtualDesktopManager::self()->currentDesktop();
@@ -689,7 +437,7 @@ void StrutsTest::test363804()
     QCOMPARE(outputs[1]->geometry(), geometries[1]);
 
     // create an xcb window
-    std::unique_ptr<xcb_connection_t, XcbConnectionDeleter> c(xcb_connect(nullptr, nullptr));
+    Test::XcbConnectionPtr c = Test::createX11Connection();
     QVERIFY(!xcb_connection_has_error(c.get()));
 
     xcb_window_t windowId = xcb_generate_id(c.get());
@@ -731,7 +479,7 @@ void StrutsTest::test363804()
     QVERIFY(window);
     QCOMPARE(window->window(), windowId);
     QVERIFY(!window->isDecorated());
-    QCOMPARE(window->windowType(), NET::Dock);
+    QCOMPARE(window->windowType(), WindowType::Dock);
     QCOMPARE(window->frameGeometry(), windowGeometry);
 
     // now verify the actual updated client areas
@@ -747,7 +495,7 @@ void StrutsTest::test363804()
     xcb_flush(c.get());
     c.reset();
 
-    QSignalSpy windowClosedSpy(window, &X11Window::windowClosed);
+    QSignalSpy windowClosedSpy(window, &X11Window::closed);
     QVERIFY(windowClosedSpy.wait());
 }
 
@@ -755,12 +503,8 @@ void StrutsTest::testLeftScreenSmallerBottomAligned()
 {
     // this test verifies a two screen setup with the left screen smaller than the right and bottom aligned
     // the panel is on the top of the left screen, thus not at 0/0
-    // what this test in addition tests is whether a window larger than the left screen is not placed into
-    // the dead area
-    const QVector<QRect> geometries{QRect(0, 282, 1366, 768), QRect(1366, 0, 1680, 1050)};
-    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs",
-                              Qt::DirectConnection,
-                              Q_ARG(QVector<QRect>, geometries));
+    const QList<QRect> geometries{QRect(0, 282, 1366, 768), QRect(1366, 0, 1680, 1050)};
+    Test::setOutputConfig(geometries);
     QCOMPARE(workspace()->geometry(), QRect(0, 0, 3046, 1050));
 
     const QList<Output *> outputs = workspace()->outputs();
@@ -771,7 +515,7 @@ void StrutsTest::testLeftScreenSmallerBottomAligned()
     VirtualDesktop *desktop = VirtualDesktopManager::self()->currentDesktop();
 
     // create the panel
-    std::unique_ptr<xcb_connection_t, XcbConnectionDeleter> c(xcb_connect(nullptr, nullptr));
+    Test::XcbConnectionPtr c = Test::createX11Connection();
     QVERIFY(!xcb_connection_has_error(c.get()));
 
     xcb_window_t windowId = xcb_generate_id(c.get());
@@ -813,7 +557,7 @@ void StrutsTest::testLeftScreenSmallerBottomAligned()
     QVERIFY(window);
     QCOMPARE(window->window(), windowId);
     QVERIFY(!window->isDecorated());
-    QCOMPARE(window->windowType(), NET::Dock);
+    QCOMPARE(window->windowType(), WindowType::Dock);
     QCOMPARE(window->frameGeometry(), windowGeometry);
 
     // now verify the actual updated client areas
@@ -823,43 +567,13 @@ void StrutsTest::testLeftScreenSmallerBottomAligned()
     QCOMPARE(workspace()->clientArea(MaximizeArea, outputs[1], desktop), geometries.at(1));
     QCOMPARE(workspace()->clientArea(WorkArea, outputs[0], desktop), QRect(0, 0, 3046, 1050));
 
-    // now create a window which is larger than screen 0
-
-    xcb_window_t w2 = xcb_generate_id(c.get());
-    const QRect windowGeometry2(0, 26, 1280, 774);
-    xcb_create_window(c.get(), XCB_COPY_FROM_PARENT, w2, rootWindow(),
-                      windowGeometry2.x(),
-                      windowGeometry2.y(),
-                      windowGeometry2.width(),
-                      windowGeometry2.height(),
-                      0, XCB_WINDOW_CLASS_INPUT_OUTPUT, XCB_COPY_FROM_PARENT, 0, nullptr);
-    xcb_size_hints_t hints2;
-    memset(&hints2, 0, sizeof(hints2));
-    xcb_icccm_size_hints_set_min_size(&hints2, 868, 431);
-    xcb_icccm_set_wm_normal_hints(c.get(), w2, &hints2);
-    xcb_map_window(c.get(), w2);
-    xcb_flush(c.get());
-    QVERIFY(windowCreatedSpy.wait());
-    X11Window *window2 = windowCreatedSpy.last().first().value<X11Window *>();
-    QVERIFY(window2);
-    QVERIFY(window2 != window);
-    QVERIFY(window2->isDecorated());
-    QCOMPARE(window2->frameGeometry(), QRect(0, 306, 1366, 744));
-    QCOMPARE(window2->maximizeMode(), KWin::MaximizeFull);
-    // destroy window again
-    QSignalSpy normalWindowClosedSpy(window2, &X11Window::windowClosed);
-    xcb_unmap_window(c.get(), w2);
-    xcb_destroy_window(c.get(), w2);
-    xcb_flush(c.get());
-    QVERIFY(normalWindowClosedSpy.wait());
-
     // and destroy the window again
     xcb_unmap_window(c.get(), windowId);
     xcb_destroy_window(c.get(), windowId);
     xcb_flush(c.get());
     c.reset();
 
-    QSignalSpy windowClosedSpy(window, &X11Window::windowClosed);
+    QSignalSpy windowClosedSpy(window, &X11Window::closed);
     QVERIFY(windowClosedSpy.wait());
 }
 
@@ -870,10 +584,8 @@ void StrutsTest::testWindowMoveWithPanelBetweenScreens()
     // to the other even if there is a panel in between.
 
     // left screen must be smaller than right screen
-    const QVector<QRect> geometries{QRect(0, 282, 1366, 768), QRect(1366, 0, 1680, 1050)};
-    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs",
-                              Qt::DirectConnection,
-                              Q_ARG(QVector<QRect>, geometries));
+    const QList<QRect> geometries{QRect(0, 282, 1366, 768), QRect(1366, 0, 1680, 1050)};
+    Test::setOutputConfig(geometries);
     QCOMPARE(workspace()->geometry(), QRect(0, 0, 3046, 1050));
 
     const QList<Output *> outputs = workspace()->outputs();
@@ -884,7 +596,7 @@ void StrutsTest::testWindowMoveWithPanelBetweenScreens()
     VirtualDesktop *desktop = VirtualDesktopManager::self()->currentDesktop();
 
     // create the panel on the right screen, left edge
-    std::unique_ptr<xcb_connection_t, XcbConnectionDeleter> c(xcb_connect(nullptr, nullptr));
+    Test::XcbConnectionPtr c = Test::createX11Connection();
     QVERIFY(!xcb_connection_has_error(c.get()));
 
     xcb_window_t windowId = xcb_generate_id(c.get());
@@ -926,7 +638,7 @@ void StrutsTest::testWindowMoveWithPanelBetweenScreens()
     QVERIFY(window);
     QCOMPARE(window->window(), windowId);
     QVERIFY(!window->isDecorated());
-    QCOMPARE(window->windowType(), NET::Dock);
+    QCOMPARE(window->windowType(), WindowType::Dock);
     QCOMPARE(window->frameGeometry(), windowGeometry);
 
     // now verify the actual updated client areas
@@ -963,7 +675,7 @@ void StrutsTest::testWindowMoveWithPanelBetweenScreens()
     QCOMPARE(window2->pos(), QPoint(1500, 400));
 
     const QRectF origGeo = window2->frameGeometry();
-    Cursors::self()->mouse()->setPos(origGeo.center());
+    input()->pointer()->warp(origGeo.center());
     workspace()->performWindowOperation(window2, Options::MoveOp);
     QTRY_COMPARE(workspace()->moveResizeWindow(), window2);
     QVERIFY(window2->isInteractiveMove());

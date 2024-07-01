@@ -9,10 +9,13 @@
 */
 
 #include "scriptedeffect.h"
+#include "opengl/glshader.h"
+#include "opengl/glshadermanager.h"
 #include "scripting_logging.h"
-#include "scriptingutils.h"
 #include "workspace_wrapper.h"
 
+#include "core/output.h"
+#include "effect/effecthandler.h"
 #include "input.h"
 #include "screenedge.h"
 #include "workspace.h"
@@ -21,13 +24,12 @@
 #include <KGlobalAccel>
 #include <KPluginMetaData>
 #include <kconfigloader.h>
-#include <kwinglutils.h>
 // Qt
 #include <QAction>
 #include <QFile>
+#include <QList>
 #include <QQmlEngine>
 #include <QStandardPaths>
-#include <QVector>
 
 #include <optional>
 
@@ -156,15 +158,10 @@ static KWin::FPx2 fpx2FromScriptValue(const QJSValue &value)
 ScriptedEffect *ScriptedEffect::create(const KPluginMetaData &effect)
 {
     const QString name = effect.pluginId();
-    const QString scriptName = effect.value(QStringLiteral("X-Plasma-MainScript"));
-    if (scriptName.isEmpty()) {
-        qCDebug(KWIN_SCRIPTING) << "X-Plasma-MainScript not set";
-        return nullptr;
-    }
     const QString scriptFile = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
-                                                      QLatin1String("kwin/effects/") + name + QLatin1String("/contents/") + scriptName);
-    if (scriptFile.isNull()) {
-        qCDebug(KWIN_SCRIPTING) << "Could not locate the effect script";
+                                                      QLatin1String("kwin/effects/") + name + QLatin1String("/contents/code/main.js"));
+    if (scriptFile.isEmpty()) {
+        qCDebug(KWIN_SCRIPTING) << "Could not locate effect script" << name;
         return nullptr;
     }
 
@@ -214,7 +211,7 @@ ScriptedEffect::~ScriptedEffect() = default;
 bool ScriptedEffect::init(const QString &effectName, const QString &pathToScript)
 {
     qRegisterMetaType<QJSValueList>();
-    qRegisterMetaType<EffectWindowList>();
+    qRegisterMetaType<QList<KWin::EffectWindow *>>();
 
     QFile scriptFile(pathToScript);
     if (!scriptFile.open(QIODevice::ReadOnly)) {
@@ -244,13 +241,6 @@ bool ScriptedEffect::init(const QString &effectName, const QString &pathToScript
     QJSValue selfObject = m_engine->newQObject(this);
     QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
     globalObject.setProperty(QStringLiteral("effect"), selfObject);
-
-    // desktopChanged is overloaded, which is problematic. Old code exposed the signal also
-    // with parameters. QJSEngine does not so we have to fake it.
-    effectsObject.setProperty(QStringLiteral("desktopChanged(int,int)"),
-                              effectsObject.property(QStringLiteral("desktopChangedLegacy")));
-    effectsObject.setProperty(QStringLiteral("desktopChanged(int,int,KWin::EffectWindow*)"),
-                              effectsObject.property(QStringLiteral("desktopChanged")));
 
     globalObject.setProperty(QStringLiteral("Effect"),
                              m_engine->newQMetaObject(&ScriptedEffect::staticMetaObject));
@@ -348,7 +338,7 @@ QJSValue ScriptedEffect::animate_helper(const QJSValue &object, AnimationType an
         return QJSValue();
     }
 
-    QVector<AnimationSettings> settings{animationSettingsFromObject(object)}; // global
+    QList<AnimationSettings> settings{animationSettingsFromObject(object)}; // global
 
     QJSValue animations = object.property(QStringLiteral("animations")); // array
     if (!animations.isUndefined()) {
@@ -693,7 +683,7 @@ int ScriptedEffect::displayHeight() const
 
 int ScriptedEffect::animationTime(int defaultTime) const
 {
-    return Effect::animationTime(defaultTime);
+    return Effect::animationTime(std::chrono::milliseconds(defaultTime));
 }
 
 bool ScriptedEffect::registerScreenEdge(int edge, const QJSValue &callback)
@@ -732,7 +722,7 @@ bool ScriptedEffect::registerRealtimeScreenEdge(int edge, const QJSValue &callba
                 }
             }
         });
-        effects->registerRealtimeTouchBorder(static_cast<KWin::ElectricBorder>(edge), triggerAction, [this](ElectricBorder border, const QPointF &deltaProgress, EffectScreen *screen) {
+        effects->registerRealtimeTouchBorder(static_cast<KWin::ElectricBorder>(edge), triggerAction, [this](ElectricBorder border, const QPointF &deltaProgress, Output *screen) {
             auto it = realtimeScreenEdgeCallbacks().constFind(border);
             if (it != realtimeScreenEdgeCallbacks().constEnd()) {
                 for (const QJSValue &callback : it.value()) {
@@ -837,8 +827,7 @@ void ScriptedEffect::setUniform(uint shaderId, const QString &name, const QJSVal
         m_engine->throwError(QStringLiteral("Failed to make OpenGL context current"));
         return;
     }
-    auto setColorUniform = [this, shader, name] (const QColor &color)
-    {
+    auto setColorUniform = [this, shader, name](const QColor &color) {
         if (!color.isValid()) {
             return;
         }
@@ -879,3 +868,5 @@ void ScriptedEffect::setUniform(uint shaderId, const QString &name, const QJSVal
 }
 
 } // namespace
+
+#include "moc_scriptedeffect.cpp"

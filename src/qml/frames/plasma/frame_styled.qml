@@ -5,10 +5,11 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-import QtQuick 2.15
-import QtQuick.Layouts 1.15
+import QtQuick
+import QtQuick.Layouts
 
-import org.kde.plasma.core 2.0 as PlasmaCore
+import org.kde.kirigami 2.20 as Kirigami
+import org.kde.ksvg 1.0 as KSvg
 import org.kde.plasma.components 3.0 as PlasmaComponents
 
 Item {
@@ -19,7 +20,7 @@ Item {
     implicitWidth: layout.implicitWidth + layout.anchors.leftMargin + layout.anchors.rightMargin
     implicitHeight: layout.implicitHeight + layout.anchors.topMargin + layout.anchors.bottomMargin
 
-    PlasmaCore.FrameSvgItem {
+    KSvg.FrameSvgItem {
         id: frameSvg
         imagePath: "widgets/background"
         opacity: root.effectFrame.frameOpacity
@@ -35,9 +36,9 @@ Item {
             topMargin: frameSvg.fixedMargins.top
             bottomMargin: frameSvg.fixedMargins.bottom
         }
-        spacing: PlasmaCore.Units.smallSpacing
+        spacing: Kirigami.Units.smallSpacing
 
-        PlasmaCore.IconItem {
+        Kirigami.Icon {
             id: icon
             Layout.preferredWidth: root.effectFrame.iconSize.width
             Layout.preferredHeight: root.effectFrame.iconSize.height

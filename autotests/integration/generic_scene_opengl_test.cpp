@@ -7,16 +7,16 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "generic_scene_opengl_test.h"
-#include "composite.h"
-#include "core/outputbackend.h"
+#include "compositor.h"
 #include "core/renderbackend.h"
 #include "cursor.h"
-#include "effectloader.h"
+#include "effect/effectloader.h"
 #include "scene/workspacescene.h"
 #include "wayland_server.h"
 #include "window.h"
 
 #include <KConfigGroup>
+#include <QSignalSpy>
 
 using namespace KWin;
 static const QString s_socketName = QStringLiteral("wayland_test_kwin_scene_opengl-0");
@@ -38,10 +38,17 @@ void GenericSceneOpenGLTest::cleanup()
 
 void GenericSceneOpenGLTest::initTestCase()
 {
+    if (!Test::renderNodeAvailable()) {
+        QSKIP("no render node available");
+        return;
+    }
     qRegisterMetaType<KWin::Window *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
+    Test::setOutputConfig({
+        QRect(0, 0, 1280, 1024),
+        QRect(1280, 0, 1280, 1024),
+    });
 
     // disable all effects - we don't want to have it interact with the rendering
     auto config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
@@ -82,3 +89,5 @@ void GenericSceneOpenGLTest::testRestart()
     // TODO: introduce frameRendered signal in SceneOpenGL
     QTest::qWait(100);
 }
+
+#include "moc_generic_scene_opengl_test.cpp"

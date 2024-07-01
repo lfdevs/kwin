@@ -6,8 +6,7 @@
 
 #pragma once
 
-#include "kwinglobals.h"
-#include "options.h"
+#include "effect/globals.h"
 
 #include <QObject>
 
@@ -15,7 +14,10 @@ namespace KWin
 {
 
 class RenderLoopPrivate;
+class SurfaceItem;
 class Item;
+class Output;
+class RenderLayer;
 
 /**
  * The RenderLoop class represents the compositing scheduler on a particular output.
@@ -30,7 +32,7 @@ class KWIN_EXPORT RenderLoop : public QObject
     Q_OBJECT
 
 public:
-    explicit RenderLoop();
+    explicit RenderLoop(Output *output);
     ~RenderLoop() override;
 
     /**
@@ -48,16 +50,16 @@ public:
     void uninhibit();
 
     /**
+     * This function must be called before the Compositor sumbits the next
+     * frame.
+     */
+    void prepareNewFrame();
+
+    /**
      * This function must be called before the Compositor starts rendering the next
      * frame.
      */
-    void beginFrame();
-
-    /**
-     * This function must be called after the Compositor has finished rendering the
-     * next frame.
-     */
-    void endFrame();
+    void beginPaint();
 
     /**
      * Returns the refresh rate at which the output is being updated, in millihertz.
@@ -69,10 +71,12 @@ public:
      */
     void setRefreshRate(int refreshRate);
 
+    void setPresentationSafetyMargin(std::chrono::nanoseconds safetyMargin);
+
     /**
      * Schedules a compositing cycle at the next available moment.
      */
-    void scheduleRepaint(Item *item = nullptr);
+    void scheduleRepaint(Item *item = nullptr, RenderLayer *layer = nullptr);
 
     /**
      * Returns the timestamp of the last frame that has been presented on the screen.
@@ -87,44 +91,9 @@ public:
      */
     std::chrono::nanoseconds nextPresentationTimestamp() const;
 
-    /**
-     * Sets the surface that currently gets scanned out,
-     * so that this RenderLoop can adjust its timing behavior to that surface
-     */
-    void setFullscreenSurface(Item *surface);
+    void setPresentationMode(PresentationMode mode);
 
-    enum class VrrPolicy : uint32_t {
-        Never = 0,
-        Always = 1,
-        Automatic = 2,
-    };
-    Q_ENUM(VrrPolicy)
-
-    /**
-     * the current policy regarding the use of variable refresh rate
-     */
-    VrrPolicy vrrPolicy() const;
-
-    /**
-     * Set the policy regarding the use of variable refresh rate with RenderLoop
-     */
-    void setVrrPolicy(VrrPolicy vrrPolicy);
-
-    /**
-     * Returns the latency policy for this render loop.
-     */
-    LatencyPolicy latencyPolicy() const;
-
-    /**
-     * Sets the latecy policy of this render loop to @a policy. By default,
-     * the latency policy of this render loop matches options->latencyPolicy().
-     */
-    void setLatencyPolicy(LatencyPolicy policy);
-
-    /**
-     * Resets the latency policy to the default value.
-     */
-    void resetLatencyPolicy();
+    void setMaxPendingFrameCount(uint32_t maxCount);
 
 Q_SIGNALS:
     /**
@@ -135,7 +104,7 @@ Q_SIGNALS:
      * This signal is emitted when a frame has been actually presented on the screen.
      * @a timestamp indicates the time when it took place.
      */
-    void framePresented(RenderLoop *loop, std::chrono::nanoseconds timestamp);
+    void framePresented(RenderLoop *loop, std::chrono::nanoseconds timestamp, PresentationMode mode);
 
     /**
      * This signal is emitted when the render loop wants a new frame to be composited.

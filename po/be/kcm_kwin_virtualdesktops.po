@@ -2,10 +2,10 @@
 # Darafei Praliaskouski <komzpa@gmail.com>, 2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: 86ff119b1606fcaa910d6b44fc14b611\n"
+"Project-Id-Version: fc57ad16a28d02dea100ceb1c60de14e\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-15 00:49+0000\n"
-"PO-Revision-Date: 2022-12-25 17:08\n"
+"POT-Creation-Date: 2024-05-12 00:40+0000\n"
+"PO-Revision-Date: 2024-02-11 18:54\n"
 "Last-Translator: Darafei Praliaskouski <komzpa@gmail.com>\n"
 "Language-Team: Belarusian\n"
 "Language: be\n"
@@ -16,11 +16,12 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || n%10>=5 && n%10<=9 || n"
 "%100>=11 && n%100<=14 ? 2 : 3);\n"
-"X-Crowdin-Project: 86ff119b1606fcaa910d6b44fc14b611\n"
-"X-Crowdin-Project-ID: 127\n"
+"X-Crowdin-Project: fc57ad16a28d02dea100ceb1c60de14e\n"
+"X-Crowdin-Project-ID: 136\n"
 "X-Crowdin-Language: be\n"
-"X-Crowdin-File: /main/be/kwin/kcm_kwin_virtualdesktops.po\n"
-"X-Crowdin-File-ID: 8353\n"
+"X-Crowdin-File: /[antikruk.KDE] main/KDE6/be/messages/kwin/"
+"kcm_kwin_virtualdesktops.po\n"
+"X-Crowdin-File-ID: 10420\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -57,34 +58,38 @@ msgstr "Не ўдалося захаваць налады сродку камп�
 msgid "There was an error requesting information from the compositor."
 msgstr "Не ўдалося атрымаць звесткі пра сродак кампазітынгу."
 
-#: package/contents/ui/main.qml:17
+#: ui/main.qml:26
 #, kde-format
-msgid ""
-"This module lets you configure the navigation, number and layout of virtual "
-"desktops."
+msgctxt "@text:label Number of rows, label associated to a number input field"
+msgid "Rows:"
 msgstr ""
-"Гэты модуль дазваляе вам наладжваць навігацыю, колькасць і макет "
-"кампанавання віртуальных працоўных сталоў."
 
-#: package/contents/ui/main.qml:91
+#: ui/main.qml:54
+#, fuzzy, kde-format
+#| msgid "New Desktop"
+msgctxt "@action:button"
+msgid "Add Desktop"
+msgstr "Новы працоўны стол"
+
+#: ui/main.qml:118
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Rename"
 msgstr "Змяніць назву"
 
-#: package/contents/ui/main.qml:102
+#: ui/main.qml:130
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Confirm new name"
 msgstr "Пацвердзіце новую назву"
 
-#: package/contents/ui/main.qml:110
+#: ui/main.qml:139
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Remove"
 msgstr "Выдаліць"
 
-#: package/contents/ui/main.qml:137
+#: ui/main.qml:172
 #, kde-format
 msgid ""
 "Virtual desktops have been changed outside this settings application. Saving "
@@ -93,63 +98,61 @@ msgstr ""
 "Віртуальныя працоўныя сталы былі змененыя па-за межамі гэтай праграмы. Калі "
 "захаваць, то змены перазапішуцца."
 
-#: package/contents/ui/main.qml:153
+#: ui/main.qml:188
 #, kde-format
 msgid "Row %1"
 msgstr "Радок %1"
 
-#: package/contents/ui/main.qml:166
-#, kde-format
-msgctxt "@action:button"
-msgid "Add"
-msgstr "Дадаць"
-
-#: package/contents/ui/main.qml:184
-#, kde-format
-msgid "1 Row"
-msgid_plural "%1 Rows"
-msgstr[0] "%1 радок"
-msgstr[1] "%1 радкі"
-msgstr[2] "%1 радкоў"
-msgstr[3] "%1 радкі"
-
-#: package/contents/ui/main.qml:200
+#: ui/main.qml:202
 #, kde-format
 msgid "Options:"
 msgstr "Параметры:"
 
-#: package/contents/ui/main.qml:202
+#: ui/main.qml:204
 #, kde-format
 msgid "Navigation wraps around"
 msgstr "Навігацыя па коле"
 
-#: package/contents/ui/main.qml:220
+#: ui/main.qml:222
 #, kde-format
 msgid "Show animation when switching:"
 msgstr "Паказ анімацыі пры пераключэнні:"
 
-#: package/contents/ui/main.qml:271
+#: ui/main.qml:273
 #, kde-format
 msgid "Show on-screen display when switching:"
 msgstr "Паказ індыкацыі пры пераключэнні:"
 
-#: package/contents/ui/main.qml:290
+#: ui/main.qml:292
 #, kde-format
 msgid "%1 ms"
 msgstr "%1 мс"
 
-#: package/contents/ui/main.qml:314
+#: ui/main.qml:316
 #, kde-format
 msgid "Show desktop layout indicators"
 msgstr "Паказваць індыкатары макета працоўных сталоў"
 
-#: virtualdesktops.cpp:33
-#, kde-format
-msgid "Virtual Desktops"
-msgstr "Віртуальныя працоўныя сталы"
+#~ msgid "1 Row"
+#~ msgid_plural "%1 Rows"
+#~ msgstr[0] "%1 радок"
+#~ msgstr[1] "%1 радкі"
+#~ msgstr[2] "%1 радкоў"
+#~ msgstr[3] "%1 радкі"
 
-#~ msgid "New Desktop"
-#~ msgstr "Новы працоўны стол"
+#~ msgctxt "@action:button"
+#~ msgid "Add"
+#~ msgstr "Дадаць"
+
+#~ msgid ""
+#~ "This module lets you configure the navigation, number and layout of "
+#~ "virtual desktops."
+#~ msgstr ""
+#~ "Гэты модуль дазваляе вам наладжваць навігацыю, колькасць і макет "
+#~ "кампанавання віртуальных працоўных сталоў."
+
+#~ msgid "Virtual Desktops"
+#~ msgstr "Віртуальныя працоўныя сталы"
 
 #~ msgid "Desktop %1:"
 #~ msgstr "Працоўны стол %1:"

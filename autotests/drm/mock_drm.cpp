@@ -14,6 +14,8 @@ extern "C" {
 }
 #include <math.h>
 
+#include <memory>
+
 #include <QMap>
 #include <QDebug>
 
@@ -26,8 +28,9 @@ static MockGpu *getGpu(int fd)
     return s_gpus[fd];
 }
 
-MockGpu::MockGpu(int fd, int numCrtcs, int gammaSize)
+MockGpu::MockGpu(int fd, const QString &devNode, int numCrtcs, int gammaSize)
     : fd(fd)
+    , devNode(devNode)
 {
     s_gpus.insert(fd, this);
     for (int i = 0; i < numCrtcs; i++) {
@@ -132,7 +135,7 @@ uint32_t MockObject::getPropId(const QString &propName) const
 
 //
 
-MockProperty::MockProperty(MockObject *obj, QString name, uint64_t initialValue, uint32_t flags, QVector<QByteArray> enums)
+MockProperty::MockProperty(MockObject *obj, QString name, uint64_t initialValue, uint32_t flags, QList<QByteArray> enums)
     : obj(obj)
     , id(obj->gpu->idCounter++)
     , flags(flags)
@@ -231,8 +234,8 @@ MockPlane::MockPlane(MockGpu *gpu, PlaneType type, int crtcIndex)
     , possibleCrtcs(1 << crtcIndex)
     , type(type)
 {
-    props << MockProperty(this, QStringLiteral("type"), static_cast<uint64_t>(type), DRM_MODE_PROP_IMMUTABLE | DRM_MODE_PROP_ENUM | DRM_MODE_PROP_BITMASK,
-                            {QByteArrayLiteral("Primary"), QByteArrayLiteral("Overlay"), QByteArrayLiteral("Cursor")});
+    props << MockProperty(this, QStringLiteral("type"), static_cast<uint64_t>(type), DRM_MODE_PROP_IMMUTABLE | DRM_MODE_PROP_ENUM,
+                          {QByteArrayLiteral("Primary"), QByteArrayLiteral("Overlay"), QByteArrayLiteral("Cursor")});
     addProp("FB_ID", 0, DRM_MODE_PROP_ATOMIC);
     addProp("CRTC_ID", 0, DRM_MODE_PROP_ATOMIC);
     addProp("CRTC_X", 0, DRM_MODE_PROP_ATOMIC);
@@ -270,24 +273,16 @@ MockFb::~MockFb()
     gpu->fbs.removeOne(this);
 }
 
-//
-
-MockDumbBuffer::MockDumbBuffer(MockGpu *gpu, uint32_t width, uint32_t height, uint32_t bpp)
-    : handle(gpu->idCounter++)
-    , pitch(width * ceil(bpp / 8.0))
-    , data(height * pitch)
-    , gpu(gpu)
-{
-}
-
 // drm functions
 
-#define GPU(fd, error) auto gpu = getGpu(fd);\
-if (!gpu) {\
-    qWarning("invalid fd %d", fd);\
-    errno = EINVAL;\
-    return error;\
-}
+#define GPU(fd, error)                 \
+    auto gpu = getGpu(fd);             \
+    if (!gpu) {                        \
+        qWarning("invalid fd %d", fd); \
+        errno = EINVAL;                \
+        return error;                  \
+    }                                  \
+    std::scoped_lock lock(gpu->m_mutex);
 
 drmVersionPtr drmGetVersion(int fd)
 {
@@ -337,35 +332,37 @@ int drmHandleEvent(int fd, drmEventContextPtr evctx)
 
 int drmIoctl(int fd, unsigned long request, void *arg)
 {
-    GPU(fd, -EINVAL);
-    if (request == DRM_IOCTL_MODE_CREATE_DUMB) {
-        auto args = static_cast<drm_mode_create_dumb*>(arg);
-        auto dumb = std::make_shared<MockDumbBuffer>(gpu, args->width, args->height, args->bpp);
-        args->handle = dumb->handle;
-        args->pitch = dumb->pitch;
-        args->size = dumb->data.size();
-        gpu->dumbBuffers << dumb;
+    if (request == DRM_IOCTL_PRIME_FD_TO_HANDLE) {
+        GPU(fd, -EINVAL);
+        auto args = static_cast<drm_prime_handle *>(arg);
+        args->handle = 42; // just pass a dummy value so the request doesn't fail
         return 0;
-    } else if (request == DRM_IOCTL_MODE_DESTROY_DUMB) {
-        auto args = static_cast<drm_mode_destroy_dumb*>(arg);
-        auto it = std::find_if(gpu->dumbBuffers.begin(), gpu->dumbBuffers.end(), [args](const auto &buf){return buf->handle == args->handle;});
-        if (it == gpu->dumbBuffers.end()) {
-            qWarning("buffer %u not found!", args->handle);
-            return -(errno = EINVAL);
-        } else {
-            gpu->dumbBuffers.erase(it);
-            return 0;
+    } else if (request == DRM_IOCTL_PRIME_HANDLE_TO_FD) {
+        return -(errno = ENOTSUP);
+    } else if (request == DRM_IOCTL_GEM_CLOSE) {
+        GPU(fd, -EINVAL);
+        return 0;
+    } else if (request == DRM_IOCTL_MODE_ATOMIC) {
+        const auto args = static_cast<drm_mode_atomic *>(arg);
+        auto req = drmModeAtomicAlloc();
+        const uint32_t *const objects = reinterpret_cast<const uint32_t *>(args->objs_ptr);
+        const uint32_t *const propsCounts = reinterpret_cast<const uint32_t *>(args->count_props_ptr);
+        const uint32_t *const props = reinterpret_cast<const uint32_t *>(args->props_ptr);
+        const uint64_t *const values = reinterpret_cast<const uint64_t *>(args->prop_values_ptr);
+        uint32_t propIndex = 0;
+        for (uint32_t objIndex = 0; objIndex < args->count_objs; objIndex++) {
+            const uint32_t objectId = objects[objIndex];
+            const uint32_t count = propsCounts[objIndex];
+            for (uint32_t i = 0; i < count; i++) {
+                drmModeAtomicAddProperty(req, objectId, props[propIndex + i], values[propIndex + i]);
+            }
+            propIndex += count;
         }
-    } else if (request == DRM_IOCTL_MODE_MAP_DUMB) {
-        auto args = static_cast<drm_mode_map_dumb*>(arg);
-        auto it = std::find_if(gpu->dumbBuffers.begin(), gpu->dumbBuffers.end(), [args](const auto &buf){return buf->handle == args->handle;});
-        if (it == gpu->dumbBuffers.end()) {
-            qWarning("buffer %u not found!", args->handle);
-            return -(errno = EINVAL);
-        } else {
-            args->offset = reinterpret_cast<uintptr_t>((*it)->data.data());
-            return 0;
-        }
+        int ret = drmModeAtomicCommit(fd, req, args->flags, reinterpret_cast<void *>(args->user_data));
+        drmModeAtomicFree(req);
+        return ret;
+    } else if (request == DRM_IOCTL_MODE_RMFB) {
+        drmModeRmFB(fd, *static_cast<const uint32_t *>(arg));
     }
     return -(errno = ENOTSUP);
 }
@@ -529,7 +526,7 @@ int drmModeSetCrtc(int fd, uint32_t crtcId, uint32_t bufferId,
     req->legacyEmulation = true;
     drmModeAtomicAddProperty(req, crtcId, crtc->getPropId(QStringLiteral("MODE_ID")), modeBlob);
     drmModeAtomicAddProperty(req, crtcId, crtc->getPropId(QStringLiteral("ACTIVE")), modeBlob && count);
-    QVector<uint32_t> conns;
+    QList<uint32_t> conns;
     for (int i = 0; i < count; i++) {
         conns << connectors[i];
     }
@@ -566,16 +563,6 @@ int drmModeSetCursor(int fd, uint32_t crtcId, uint32_t bo_handle, uint32_t width
 {
     GPU(fd, -EINVAL);
     if (auto crtc = gpu->findCrtc(crtcId)) {
-        if (bo_handle != 0) {
-            auto it = std::find_if(gpu->dumbBuffers.constBegin(), gpu->dumbBuffers.constEnd(), [bo_handle](const auto &bo){return bo->handle == bo_handle;});
-            if (it == gpu->dumbBuffers.constEnd()) {
-                qWarning("invalid bo_handle %u passed to drmModeSetCursor", bo_handle);
-                return -(errno = EINVAL);
-            }
-            crtc->cursorBo = (*it).get();
-        } else {
-            crtc->cursorBo = nullptr;
-        }
         crtc->cursorRect.setSize(QSize(width, height));
         return 0;
     } else {
@@ -624,6 +611,14 @@ drmModeEncoderPtr drmModeGetEncoder(int fd, uint32_t encoder_id)
     }
 }
 
+// Instance ID of (some) specific connector type, incremented
+// for each new connector (of any type) being created.
+// There are no particular guarantees on the _stability_ of
+// connector type "instance IDs" issued by the kernel,
+// so simply giving each (new) connector a fresh ID is
+// acceptable.
+static std::atomic<int> autoIncrementedConnectorId{};
+
 drmModeConnectorPtr drmModeGetConnector(int fd, uint32_t connectorId)
 {
     GPU(fd, nullptr);
@@ -631,7 +626,10 @@ drmModeConnectorPtr drmModeGetConnector(int fd, uint32_t connectorId)
         drmModeConnectorPtr c = new drmModeConnector{};
         c->connector_id = conn->id;
         c->connection = conn->connection;
+
         c->connector_type = conn->type;
+        c->connector_type_id = autoIncrementedConnectorId++;
+
         c->encoder_id = conn->encoder ? conn->encoder->id : 0;
         c->count_encoders = conn->encoder ? 1 : 0;
         c->encoders = c->count_encoders ? new uint32_t[1] : nullptr;
@@ -646,8 +644,6 @@ drmModeConnectorPtr drmModeGetConnector(int fd, uint32_t connectorId)
         c->mmHeight = 900;
         c->mmWidth = 1600;
         c->subpixel = DRM_MODE_SUBPIXEL_HORIZONTAL_RGB;
-
-        c->connector_type_id = DRM_MODE_CONNECTOR_DisplayPort;// ?
 
         // these are not used nor will they be
         c->count_props = -1;
@@ -860,7 +856,7 @@ drmModeObjectPropertiesPtr drmModeObjectGetProperties(int fd, uint32_t object_id
             errno = EINVAL;
             return nullptr;
         }
-        QVector<MockProperty> props;
+        QList<MockProperty> props;
         bool deviceAtomic = gpu->clientCaps.contains(DRM_CLIENT_CAP_ATOMIC) && gpu->clientCaps[DRM_CLIENT_CAP_ATOMIC];
         for (const auto &prop : std::as_const(obj->props)) {
             if (deviceAtomic || !(prop.flags & DRM_MODE_PROP_ATOMIC)) {
@@ -916,7 +912,7 @@ int drmModeObjectSetProperty(int fd, uint32_t object_id, uint32_t object_type, u
     }
 }
 
-static QVector<drmModeAtomicReqPtr> s_atomicReqs;
+static QList<drmModeAtomicReqPtr> s_atomicReqs;
 
 drmModeAtomicReqPtr drmModeAtomicAlloc(void)
 {
@@ -980,20 +976,20 @@ int drmModeAtomicCommit(int fd, drmModeAtomicReqPtr req, uint32_t flags, void *u
         return -(errno = EINVAL);
     }
 
-    QVector<MockConnector> connCopies;
+    QList<MockConnector> connCopies;
     for (const auto &conn : std::as_const(gpu->connectors)) {
         connCopies << *conn;
     }
-    QVector<MockCrtc> crtcCopies;
+    QList<MockCrtc> crtcCopies;
     for (const auto &crtc : std::as_const(gpu->crtcs)) {
         crtcCopies << *crtc;
     }
-    QVector<MockPlane> planeCopies;
+    QList<MockPlane> planeCopies;
     for (const auto &plane : std::as_const(gpu->planes)) {
         planeCopies << *plane;
     }
 
-    QVector<MockObject*> objects;
+    QList<MockObject *> objects;
     for (int i = 0; i < connCopies.count(); i++) {
         objects << &connCopies[i];
     }
@@ -1039,10 +1035,10 @@ int drmModeAtomicCommit(int fd, drmModeAtomicReqPtr req, uint32_t flags, void *u
     // check if the desired changes are allowed
     struct Pipeline {
         MockCrtc *crtc;
-        QVector<MockConnector*> conns;
+        QList<MockConnector *> conns;
         MockPlane *primaryPlane = nullptr;
     };
-    QVector<Pipeline> pipelines;
+    QList<Pipeline> pipelines;
     for (int i = 0; i < crtcCopies.count(); i++) {
         if (crtcCopies[i].getProp(QStringLiteral("ACTIVE"))) {
             auto blob = gpu->getBlob(crtcCopies[i].getProp(QStringLiteral("MODE_ID")));

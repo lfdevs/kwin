@@ -10,8 +10,7 @@
 #include "kwin_wayland_test.h"
 
 #include "core/output.h"
-#include "core/outputbackend.h"
-#include "wayland/seat_interface.h"
+#include "wayland/seat.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
@@ -19,6 +18,7 @@
 
 #include <QProcess>
 #include <QProcessEnvironment>
+#include <QSignalSpy>
 
 using namespace KWin;
 
@@ -53,7 +53,10 @@ void XwaylandSelectionsTest::initTestCase()
     //    QSignalSpy clipboardSyncDevicedCreated{waylandServer(), &WaylandServer::xclipboardSyncDataDeviceCreated};
     //    QVERIFY(clipboardSyncDevicedCreated.isValid());
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
+    Test::setOutputConfig({
+        QRect(0, 0, 1280, 1024),
+        QRect(1280, 0, 1280, 1024),
+    });
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
@@ -85,7 +88,7 @@ void XwaylandSelectionsTest::testSync()
     QVERIFY(!paste.isEmpty());
 
     QSignalSpy windowAddedSpy(workspace(), &Workspace::windowAdded);
-    QSignalSpy clipboardChangedSpy(waylandServer()->seat(), &KWaylandServer::SeatInterface::selectionChanged);
+    QSignalSpy clipboardChangedSpy(waylandServer()->seat(), &SeatInterface::selectionChanged);
 
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
 

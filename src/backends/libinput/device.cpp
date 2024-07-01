@@ -8,7 +8,7 @@
 */
 #include "device.h"
 
-#include <config-kwin.h>
+#include "config-kwin.h"
 
 #include "core/output.h"
 #include "core/outputbackend.h"
@@ -99,6 +99,7 @@ enum class ConfigKey {
     Calibration,
     OutputName,
     OutputArea,
+    MapToWorkspace
 };
 
 struct ConfigDataBase
@@ -177,7 +178,7 @@ struct ConfigData<CalibrationMatrix> : public ConfigDataBase
         if (values.hasKey(key.constData())) {
             auto list = values.readEntry(key.constData(), QList<float>());
             if (list.size() == 16) {
-                device->setCalibrationMatrix(QMatrix4x4{list.toVector().constData()});
+                device->setCalibrationMatrix(QMatrix4x4{list.constData()});
                 return;
             }
         }
@@ -206,6 +207,7 @@ static const QMap<ConfigKey, std::shared_ptr<ConfigDataBase>> s_configData{
     {ConfigKey::Calibration, std::make_shared<ConfigData<CalibrationMatrix>>()},
     {ConfigKey::OutputName, std::make_shared<ConfigData<QString>>(QByteArrayLiteral("OutputName"), &Device::setOutputName, &Device::defaultOutputName)},
     {ConfigKey::OutputArea, std::make_shared<ConfigData<QRectF>>(QByteArrayLiteral("OutputArea"), &Device::setOutputArea, &Device::defaultOutputArea)},
+    {ConfigKey::MapToWorkspace, std::make_shared<ConfigData<bool>>(QByteArrayLiteral("MapToWorkspace"), &Device::setMapToWorkspace, &Device::defaultMapToWorkspace)},
 };
 
 namespace
@@ -285,9 +287,9 @@ Device::Device(libinput_device *device, QObject *parent)
     , m_tapFingerCount(libinput_device_config_tap_get_finger_count(m_device))
     , m_defaultTapButtonMap(libinput_device_config_tap_get_default_button_map(m_device))
     , m_tapButtonMap(libinput_device_config_tap_get_button_map(m_device))
-    , m_tapToClickEnabledByDefault(libinput_device_config_tap_get_default_enabled(m_device) == LIBINPUT_CONFIG_TAP_ENABLED)
+    , m_tapToClickEnabledByDefault(true)
     , m_tapToClick(libinput_device_config_tap_get_enabled(m_device))
-    , m_tapAndDragEnabledByDefault(libinput_device_config_tap_get_default_drag_enabled(m_device))
+    , m_tapAndDragEnabledByDefault(true)
     , m_tapAndDrag(libinput_device_config_tap_get_drag_enabled(m_device))
     , m_tapDragLockEnabledByDefault(libinput_device_config_tap_get_default_drag_lock_enabled(m_device))
     , m_tapDragLock(libinput_device_config_tap_get_drag_lock_enabled(m_device))
@@ -711,5 +713,16 @@ void Device::setOutputArea(const QRectF &outputArea)
         Q_EMIT outputAreaChanged();
     }
 }
+
+void Device::setMapToWorkspace(bool mapToWorkspace)
+{
+    if (m_mapToWorkspace != mapToWorkspace) {
+        m_mapToWorkspace = mapToWorkspace;
+        writeEntry(ConfigKey::MapToWorkspace, m_mapToWorkspace);
+        Q_EMIT mapToWorkspaceChanged();
+    }
 }
 }
+}
+
+#include "moc_device.cpp"

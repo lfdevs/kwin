@@ -11,33 +11,19 @@
 #include <QList>
 #include <QObject>
 
-#include "clientconnection.h"
-
 struct wl_client;
 struct wl_display;
+struct wl_resource;
 
-namespace KWaylandServer
+namespace KWin
 {
-/**
- * @short KWayland Server.
- *
- * This namespace groups all classes related to the Server module.
- *
- * The main entry point into the KWaylandServer API is the Display class.
- * It allows to create a Wayland server and create various global objects on it.
- *
- * KWaylandServer is an API to easily create a head-less Wayland server with a
- * Qt style API.
- *
- * @see Display
- */
 
-class ClientBuffer;
 class ClientConnection;
 class DisplayPrivate;
 class OutputInterface;
 class OutputDeviceV2Interface;
 class SeatInterface;
+class GraphicsBuffer;
 
 /**
  * @brief Class holding the Wayland server display loop.
@@ -111,10 +97,11 @@ public:
     /**
      * @returns All SeatInterface currently managed on the Display.
      */
-    QVector<SeatInterface *> seats() const;
+    QList<SeatInterface *> seats() const;
     QList<OutputDeviceV2Interface *> outputDevices() const;
     QList<OutputInterface *> outputs() const;
-    QVector<OutputInterface *> outputsIntersecting(const QRect &rect) const;
+    QList<OutputInterface *> outputsIntersecting(const QRect &rect) const;
+    OutputInterface *largestIntersectingOutput(const QRect &rect) const;
 
     /**
      * Gets the ClientConnection for the given @p client.
@@ -123,28 +110,11 @@ public:
      * @return The ClientConnection for the given native client
      */
     ClientConnection *getConnection(wl_client *client);
-    QVector<ClientConnection *> connections() const;
 
     /**
-     * Set the EGL @p display for this Wayland display.
-     * The EGLDisplay can only be set once and must be alive as long as the Wayland display
-     * is alive. The user should have set up the binding between the EGLDisplay and the
-     * Wayland display prior to calling this method.
-     *
-     * @see eglDisplay
+     * Returns the graphics buffer for the given @a resource, or @c null if there's no buffer.
      */
-    void setEglDisplay(void *display);
-    /**
-     * @returns the EGLDisplay used for this Wayland display or EGL_NO_DISPLAY if not set.
-     * @see setEglDisplay
-     */
-    void *eglDisplay() const;
-
-    /**
-     * Returns the client buffer with the specified @a resource. Returns @c null if there's
-     * no such a buffer.
-     */
-    ClientBuffer *clientBufferForResource(wl_resource *resource) const;
+    static GraphicsBuffer *bufferForResource(wl_resource *resource);
 
 private Q_SLOTS:
     void flush();
@@ -152,8 +122,8 @@ private Q_SLOTS:
 Q_SIGNALS:
     void socketNamesChanged();
     void runningChanged(bool);
-    void clientConnected(KWaylandServer::ClientConnection *);
-    void clientDisconnected(KWaylandServer::ClientConnection *);
+    void clientConnected(KWin::ClientConnection *);
+    void clientDisconnected(KWin::ClientConnection *);
 
 private:
     friend class DisplayPrivate;

@@ -10,9 +10,9 @@
 #pragma once
 
 // cmake stuff
-#include <config-kwin.h>
+#include "config-kwin.h"
 // kwin
-#include <kwinglobals.h>
+#include "effect/globals.h"
 // Qt
 #include <QFileInfo>
 #include <QLoggingCategory>
@@ -43,11 +43,20 @@ static QStringList fetchProcessServiceField(const QString &executablePath, const
         return {};
     }
 
-    const auto fieldValues = servicesFound.first()->property(fieldName).toStringList();
+    const auto fieldValues = servicesFound.first()->property<QStringList>(fieldName);
     if (KWIN_UTILS().isDebugEnabled()) {
         qCDebug(KWIN_UTILS) << "Interfaces found for" << executablePath << fieldName << ":" << fieldValues;
     }
     return fieldValues;
+}
+
+static inline QStringList fetchRequestedInterfacesForDesktopId(const QString &desktopId)
+{
+    const auto service = KService::serviceByDesktopName(desktopId);
+    if (!service) {
+        return {};
+    }
+    return service->property<QStringList>(s_waylandInterfaceName);
 }
 
 static inline QStringList fetchRequestedInterfaces(const QString &executablePath)

@@ -100,9 +100,6 @@
         <entry name="SeparateScreenFocus" type="Bool">
             <default>false</default>
         </entry>
-        <entry name="ActiveMouseScreen" type="Bool">
-            <default>true</default>
-        </entry>
         <entry name="RollOverDesktops" type="Bool">
             <default>false</default>
         </entry>
@@ -136,6 +133,7 @@
             <choices name="KWin::Options::ActivationDesktopPolicy">
                 <choice name="SwitchToOtherDesktop"/>
                 <choice name="BringToCurrentDesktop"/>
+                <choice name="DoNothing"/>
             </choices>
             <default>KWin::Options::ActivationDesktopPolicy::SwitchToOtherDesktop</default>
         </entry>
@@ -173,7 +171,7 @@
             <default>0</default>
         </entry>
         <entry name="ElectricBorderDelay" type="Int">
-            <default>150</default>
+            <default>75</default>
         </entry>
         <entry name="ElectricBorderCooldown" type="Int">
             <default>350</default>
@@ -223,6 +221,16 @@
             <default>false</default>
         </entry>
     </group>
+    <group name="EdgeBarrier">
+        <entry name="CornerBarrier" type="Bool">
+            <default>true</default>
+        </entry>
+        <entry name="EdgeBarrier" type="Int">
+            <default>100</default>
+            <min>0</min>
+            <max>1000</max>
+        </entry>
+    </group>
     <group name="ScreenEdges">
         <entry name="RemainActiveOnFullscreen" type="Bool">
             <default>false</default>
@@ -259,24 +267,6 @@
         </entry>
         <entry name="WindowsBlockCompositing" type="Bool">
             <default>true</default>
-        </entry>
-        <entry name="LatencyPolicy" type="Enum">
-            <choices name="KWin::LatencyPolicy">
-                <choice name="LatencyExtremelyLow" value="ExtremelyLow"/>
-                <choice name="LatencyLow" value="Low"/>
-                <choice name="LatencyMedium" value="Medium"/>
-                <choice name="LatencyHigh" value="High"/>
-                <choice name="LatencyExtremelyHigh" value="ExtremelyHigh"/>
-            </choices>
-            <default>LatencyExtremelyHigh</default>
-        </entry>
-        <entry name="RenderTimeEstimator" type="Enum">
-            <choices name="KWin::RenderTimeEstimator">
-                <choice name="RenderTimeEstimatorMinimum" value="Minimum"/>
-                <choice name="RenderTimeEstimatorMaximum" value="Maximum"/>
-                <choice name="RenderTimeEstimatorAverage" value="Average"/>
-            </choices>
-            <default>RenderTimeEstimatorMaximum</default>
         </entry>
         <entry name="AllowTearing" type="Bool">
             <default>true</default>
@@ -317,10 +307,7 @@
             <default>true</default>
         </entry>
         <entry name="LayoutName" type="String">
-            <default>thumbnails</default>
-        </entry>
-        <entry name="MoveMinimizedWindowsToEndOfTabBoxFocusChain" type="Bool">
-            <default>false</default>
+            <default>thumbnail_grid</default>
         </entry>
     </group>
     <group name="KDE">
@@ -358,6 +345,9 @@
                 <choice name="All"/>
             </choices>
             <default>None</default>
+        </entry>
+        <entry name="XwaylandEavesdropsMouse" type="Bool">
+            <default>false</default>
         </entry>
     </group>
 </kcfg>

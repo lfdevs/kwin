@@ -15,9 +15,9 @@
 #include "selection_source.h"
 
 #include "atoms.h"
-#include "wayland/compositor_interface.h"
-#include "wayland/datasource_interface.h"
-#include "wayland/seat_interface.h"
+#include "wayland/compositor.h"
+#include "wayland/datasource.h"
+#include "wayland/seat.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
@@ -73,8 +73,8 @@ Dnd::Dnd(xcb_atom_t atom, QObject *parent)
                         32, 1, &s_version);
     xcb_flush(xcbConn);
 
-    connect(waylandServer()->seat(), &KWaylandServer::SeatInterface::dragStarted, this, &Dnd::startDrag);
-    connect(waylandServer()->seat(), &KWaylandServer::SeatInterface::dragEnded, this, &Dnd::endDrag);
+    connect(waylandServer()->seat(), &SeatInterface::dragStarted, this, &Dnd::startDrag);
+    connect(waylandServer()->seat(), &SeatInterface::dragEnded, this, &Dnd::endDrag);
 }
 
 void Dnd::doHandleXfixesNotify(xcb_xfixes_selection_notify_event_t *event)
@@ -106,11 +106,14 @@ void Dnd::doHandleXfixesNotify(xcb_xfixes_selection_notify_event_t *event)
         return;
     }
     createX11Source(event);
-    X11Source *source = x11Source();
-    if (!source) {
-        return;
+    if (X11Source *source = x11Source()) {
+        SeatInterface *seat = waylandServer()->seat();
+        seat->startDrag(source->dataSource(), seat->focusedPointerSurface(), seat->pointerButtonSerial(Qt::LeftButton));
     }
-    m_currentDrag = new XToWlDrag(source, this);
+}
+
+void Dnd::x11OfferLost()
+{
 }
 
 void Dnd::x11OffersChanged(const QStringList &added, const QStringList &removed)
@@ -130,33 +133,32 @@ bool Dnd::handleClientMessage(xcb_client_message_event_t *event)
     return false;
 }
 
-DragEventReply Dnd::dragMoveFilter(Window *target, const QPoint &pos)
+DragEventReply Dnd::dragMoveFilter(Window *target)
 {
     Q_ASSERT(m_currentDrag);
-    return m_currentDrag->moveFilter(target, pos);
+    return m_currentDrag->moveFilter(target);
 }
 
 void Dnd::startDrag()
 {
-    auto dragSource = waylandServer()->seat()->dragSource();
-    if (qobject_cast<XwlDataSource *>(dragSource)) {
-        return;
-    }
-
     // There can only ever be one Wl native drag at the same time.
     Q_ASSERT(!m_currentDrag);
 
-    // New Wl to X drag, init drag and Wl source.
-    m_currentDrag = new WlToXDrag(this);
-    auto source = new WlSource(this);
-    source->setDataSourceIface(dragSource);
-     connect(dragSource, &KWaylandServer::AbstractDataSource::aboutToBeDestroyed, this, [this, source] {
-        if (source == wlSource()) {
-            setWlSource(nullptr);
-        }
-    });
-    setWlSource(source);
-    ownSelection(true);
+    auto dragSource = waylandServer()->seat()->dragSource();
+    if (qobject_cast<XwlDataSource *>(dragSource)) {
+        m_currentDrag = new XToWlDrag(x11Source(), this);
+    } else {
+        m_currentDrag = new WlToXDrag(this);
+        auto source = new WlSource(this);
+        source->setDataSourceIface(dragSource);
+        connect(dragSource, &AbstractDataSource::aboutToBeDestroyed, this, [this, source] {
+            if (source == wlSource()) {
+                setWlSource(nullptr);
+            }
+        });
+        setWlSource(source);
+        ownSelection(true);
+    }
 }
 
 void Dnd::endDrag()
@@ -175,8 +177,8 @@ void Dnd::clearOldDrag(Drag *drag)
     delete drag;
 }
 
-using DnDAction = KWaylandServer::DataDeviceManagerInterface::DnDAction;
-using DnDActions = KWaylandServer::DataDeviceManagerInterface::DnDActions;
+using DnDAction = DataDeviceManagerInterface::DnDAction;
+using DnDActions = DataDeviceManagerInterface::DnDActions;
 
 DnDAction Dnd::atomToClientAction(xcb_atom_t atom)
 {
@@ -208,3 +210,5 @@ xcb_atom_t Dnd::clientActionToAtom(DnDAction action)
 
 } // namespace Xwl
 } // namespace KWin
+
+#include "moc_dnd.cpp"

@@ -7,7 +7,9 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #pragma once
+#include "core/graphicsbuffer.h"
 #include "drm_layer.h"
+#include "utils/damagejournal.h"
 
 #include <QMap>
 #include <QPointer>
@@ -15,45 +17,46 @@
 #include <epoxy/egl.h>
 #include <optional>
 
-namespace KWaylandServer
-{
-class SurfaceInterface;
-}
-
 namespace KWin
 {
 
-class GbmSurface;
+class EglSwapchain;
+class EglSwapchainSlot;
 class GLTexture;
 class EglGbmBackend;
-class GbmBuffer;
 class DrmVirtualOutput;
+class GLRenderTimeQuery;
+class SurfaceInterface;
 
 class VirtualEglGbmLayer : public DrmOutputLayer
 {
 public:
     VirtualEglGbmLayer(EglGbmBackend *eglBackend, DrmVirtualOutput *output);
+    ~VirtualEglGbmLayer() override;
 
-    void aboutToStartPainting(const QRegion &damagedRegion) override;
-    std::optional<OutputLayerBeginFrameInfo> beginFrame() override;
-    bool endFrame(const QRegion &renderedRegion, const QRegion &damagedRegion) override;
-    bool scanout(SurfaceItem *surfaceItem) override;
+    std::optional<OutputLayerBeginFrameInfo> doBeginFrame() override;
+    bool doEndFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame) override;
 
-    QRegion currentDamage() const override;
     std::shared_ptr<GLTexture> texture() const override;
     void releaseBuffers() override;
+    DrmDevice *scanoutDevice() const override;
+    QHash<uint32_t, QList<uint64_t>> supportedDrmFormats() const override;
+    const ColorDescription &colorDescription() const;
 
 private:
-    bool createGbmSurface();
-    bool doesGbmSurfaceFit(GbmSurface *surf) const;
+    bool doAttemptScanout(GraphicsBuffer *buffer, const ColorDescription &color, const std::shared_ptr<OutputFrame> &frame) override;
+    std::shared_ptr<EglSwapchain> createGbmSwapchain() const;
+    bool doesGbmSwapchainFit(EglSwapchain *swapchain) const;
 
-    QPointer<KWaylandServer::SurfaceInterface> m_scanoutSurface;
-    std::shared_ptr<GbmBuffer> m_currentBuffer;
-    QRegion m_currentDamage;
-    std::shared_ptr<GbmSurface> m_gbmSurface;
-    std::shared_ptr<GbmSurface> m_oldGbmSurface;
+    GraphicsBufferRef m_scanoutBuffer;
+    ColorDescription m_scanoutColor = ColorDescription::sRGB;
+    DamageJournal m_damageJournal;
+    DamageJournal m_oldDamageJournal;
+    std::shared_ptr<EglSwapchain> m_gbmSwapchain;
+    std::shared_ptr<EglSwapchain> m_oldGbmSwapchain;
+    std::shared_ptr<EglSwapchainSlot> m_currentSlot;
+    std::unique_ptr<GLRenderTimeQuery> m_query;
 
-    DrmVirtualOutput *const m_output;
     EglGbmBackend *const m_eglBackend;
 };
 

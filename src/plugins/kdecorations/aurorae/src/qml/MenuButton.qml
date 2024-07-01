@@ -3,17 +3,16 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-import QtQuick 2.0
-import org.kde.kwin.decoration 0.1
-import org.kde.plasma.core 2.0 as PlasmaCore
+import QtQuick
+import org.kde.kwin.decoration
+import org.kde.kirigami 2.20 as Kirigami
 
 DecorationButton {
     property bool closeOnDoubleClick: decorationSettings.closeOnDoubleClickOnMenu
     id: menuButton
     buttonType: DecorationOptions.DecorationButtonMenu
-    PlasmaCore.IconItem {
+    Kirigami.Icon {
         anchors.fill: parent
-        usesPlasmaTheme: false
         source: decoration.client.icon
     }
     DecorationOptions {

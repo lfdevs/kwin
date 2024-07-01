@@ -3,9 +3,9 @@
 
     SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
-import QtQuick 2.10
-import QtQuick.Controls 2.0
-import QtQuick.Layouts 1.1
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
 ColumnLayout {
 /* for margins */
@@ -167,8 +167,8 @@ ColumnLayout {
             enabled: root.waylandNative && !fullWindowChck.checked
 
             function rect() {
-                var globalPt = mapToGlobal(x, y);
-                return Qt.rect(globalPt.x, globalPt.y, width, height);
+                const scenePosition = mapToItem(null, x, y);
+                return Qt.rect(scenePosition.x, scenePosition.y, width, height);
             }
 
             border.color: enabled ? "black" : "lightgrey"

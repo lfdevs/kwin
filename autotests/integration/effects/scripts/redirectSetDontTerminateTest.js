@@ -8,12 +8,15 @@ effects.windowAdded.connect(function (window) {
         to: 1.0,
         keepAlive: false
     });
-});
 
-effects.windowMinimized.connect(function (window) {
-    if (redirect(window.animation, Effect.Backward, Effect.DontTerminate)) {
-        sendTestResponse('ok');
-    } else {
-        sendTestResponse('fail');
-    }
+    window.minimizedChanged.connect(() => {
+        if (!window.minimized) {
+            return;
+        }
+        if (redirect(window.animation, Effect.Backward, Effect.DontTerminate)) {
+            sendTestResponse('ok');
+        } else {
+            sendTestResponse('fail');
+        }
+    });
 });

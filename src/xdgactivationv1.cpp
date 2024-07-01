@@ -8,19 +8,18 @@
 */
 
 #include "xdgactivationv1.h"
-#include "effects.h"
+#include "effect/effecthandler.h"
 #include "utils/common.h"
+#include "wayland/clientconnection.h"
 #include "wayland/display.h"
-#include "wayland/plasmawindowmanagement_interface.h"
-#include "wayland/surface_interface.h"
-#include "wayland/xdgactivation_v1_interface.h"
+#include "wayland/plasmawindowmanagement.h"
+#include "wayland/surface.h"
+#include "wayland/xdgactivation_v1.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
 #include <KApplicationTrader>
 #include <KDesktopFile>
-
-using namespace KWaylandServer;
 
 namespace KWin
 {
@@ -42,7 +41,7 @@ static const QString windowDesktopFileName(Window *window)
     // Fallback to StartupWMClass for legacy apps
     const auto resourceName = window->resourceName();
     const auto service = KApplicationTrader::query([&resourceName](const KService::Ptr &service) {
-        return service->property("StartupWMClass").toString().compare(resourceName, Qt::CaseInsensitive) == 0;
+        return service->property<QString>("StartupWMClass").compare(resourceName, Qt::CaseInsensitive) == 0;
     });
 
     if (!service.isEmpty()) {
@@ -104,11 +103,11 @@ QString XdgActivationV1Integration::requestToken(bool isPrivileged, SurfaceInter
         }
         icon = QIcon::fromTheme(df.readIcon(), icon);
     }
-    std::unique_ptr<KWaylandServer::PlasmaWindowActivationInterface> activation;
+    std::unique_ptr<PlasmaWindowActivationInterface> activation;
     if (showNotify) {
         activation = waylandServer()->plasmaActivationFeedback()->createActivation(appId);
     }
-    m_currentActivationToken.reset(new ActivationToken{newToken, isPrivileged, surface, serial, seat, appId, showNotify, std::move(activation)});
+    m_currentActivationToken = std::make_unique<ActivationToken>(ActivationToken{newToken, isPrivileged, surface, serial, seat, appId, showNotify, std::move(activation)});
     if (showNotify) {
         Q_EMIT effects->startupAdded(m_currentActivationToken->token, icon);
     }
@@ -152,3 +151,5 @@ void XdgActivationV1Integration::clear()
 }
 
 }
+
+#include "moc_xdgactivationv1.cpp"

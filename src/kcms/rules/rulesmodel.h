@@ -16,7 +16,7 @@
 #include <QSortFilterProxyModel>
 
 #if KWIN_BUILD_ACTIVITIES
-#include <KActivities/Consumer>
+#include <PlasmaActivities/Consumer>
 #endif
 
 namespace KWin
@@ -91,6 +91,7 @@ private:
 
     bool wmclassWarning() const;
     bool geometryWarning() const;
+    bool opacityWarning() const;
 
     static const QHash<QString, QString> x11PropertyHash();
     void updateVirtualDesktops();
@@ -101,6 +102,7 @@ private:
     QList<OptionsModel::Data> placementModelData() const;
     QList<OptionsModel::Data> focusModelData() const;
     QList<OptionsModel::Data> colorSchemesModelData() const;
+    QList<OptionsModel::Data> layerModelData() const;
 
 private Q_SLOTS:
     void selectX11Window();

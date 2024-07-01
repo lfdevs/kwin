@@ -9,17 +9,20 @@
 #include "kwin_wayland_test.h"
 
 #include "backends/virtual/virtual_backend.h"
-#include "composite.h"
-#include "core/outputbackend.h"
+#include "compositor_wayland.h"
 #include "core/session.h"
-#include "effects.h"
+#include "effect/effecthandler.h"
 #include "inputmethod.h"
 #include "placement.h"
 #include "pluginmanager.h"
-#include "utils/xcbutils.h"
 #include "wayland_server.h"
 #include "workspace.h"
+
+#if KWIN_BUILD_X11
+#include "utils/xcbutils.h"
 #include "xwayland/xwayland.h"
+#include "xwayland/xwaylandlauncher.h"
+#endif
 
 #include <KPluginMetaData>
 
@@ -35,7 +38,9 @@
 #include <unistd.h>
 
 Q_IMPORT_PLUGIN(KWinIntegrationPlugin)
+#if KWIN_BUILD_GLOBALSHORTCUTS
 Q_IMPORT_PLUGIN(KGlobalAccelImpl)
+#endif
 Q_IMPORT_PLUGIN(KWindowSystemKWinPlugin)
 Q_IMPORT_PLUGIN(KWinIdleTimePoller)
 
@@ -46,8 +51,18 @@ WaylandTestApplication::WaylandTestApplication(OperationMode mode, int &argc, ch
     : Application(mode, argc, argv)
 {
     QStandardPaths::setTestModeEnabled(true);
-    // TODO: add a test move to kglobalaccel instead?
-    QFile{QStandardPaths::locate(QStandardPaths::ConfigLocation, QStringLiteral("kglobalshortcutsrc"))}.remove();
+
+    const QStringList configs{
+        QStringLiteral("kaccessrc"),
+        QStringLiteral("kglobalshortcutsrc"),
+        QStringLiteral("kcminputrc"),
+    };
+    for (const QString &config : configs) {
+        if (const QString &fileName = QStandardPaths::locate(QStandardPaths::ConfigLocation, config); !fileName.isEmpty()) {
+            QFile::remove(fileName);
+        }
+    }
+
     QIcon::setThemeName(QStringLiteral("breeze"));
 #if KWIN_BUILD_ACTIVITIES
     setUseKActivities(false);
@@ -60,10 +75,18 @@ WaylandTestApplication::WaylandTestApplication(OperationMode mode, int &argc, ch
     qunsetenv("XKB_DEFAULT_VARIANT");
     qunsetenv("XKB_DEFAULT_OPTIONS");
 
+    auto breezerc = KSharedConfig::openConfig(QStringLiteral("breezerc"));
+    breezerc->group(QStringLiteral("Common")).writeEntry(QStringLiteral("OutlineIntensity"), QStringLiteral("OutlineOff"));
+    breezerc->sync();
+
     auto config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
-    KConfigGroup windowsGroup = config->group("Windows");
+    KConfigGroup windowsGroup = config->group(QStringLiteral("Windows"));
     windowsGroup.writeEntry("Placement", Placement::policyToString(PlacementSmart));
     windowsGroup.sync();
+    KConfigGroup edgeBarrierGroup = config->group(QStringLiteral("EdgeBarrier"));
+    edgeBarrierGroup.writeEntry("EdgeBarrier", 0);
+    edgeBarrierGroup.writeEntry("CornerBarrier", false);
+    edgeBarrierGroup.sync();
     setConfig(config);
 
     const auto ownPath = libraryPaths().last();
@@ -72,7 +95,7 @@ WaylandTestApplication::WaylandTestApplication(OperationMode mode, int &argc, ch
 
     setSession(Session::create(Session::Type::Noop));
     setOutputBackend(std::make_unique<VirtualBackend>());
-    WaylandServer::create(this);
+    m_waylandServer.reset(WaylandServer::create());
     setProcessStartupEnvironment(QProcessEnvironment::systemEnvironment());
 }
 
@@ -82,28 +105,31 @@ WaylandTestApplication::~WaylandTestApplication()
     // need to unload all effects prior to destroying X connection as they might do X calls
     // also before destroy Workspace, as effects might call into Workspace
     if (effects) {
-        static_cast<EffectsHandlerImpl *>(effects)->unloadAllEffects();
+        effects->unloadAllEffects();
     }
+#if KWIN_BUILD_X11
     m_xwayland.reset();
+#endif
     destroyVirtualInputDevices();
     destroyColorManager();
     destroyWorkspace();
     destroyInputMethod();
     destroyCompositor();
     destroyInput();
+    m_waylandServer.reset();
 }
 
 void WaylandTestApplication::createVirtualInputDevices()
 {
-    m_virtualKeyboard.reset(new Test::VirtualInputDevice());
+    m_virtualKeyboard = std::make_unique<Test::VirtualInputDevice>();
     m_virtualKeyboard->setName(QStringLiteral("Virtual Keyboard 1"));
     m_virtualKeyboard->setKeyboard(true);
 
-    m_virtualPointer.reset(new Test::VirtualInputDevice());
+    m_virtualPointer = std::make_unique<Test::VirtualInputDevice>();
     m_virtualPointer->setName(QStringLiteral("Virtual Pointer 1"));
     m_virtualPointer->setPointer(true);
 
-    m_virtualTouch.reset(new Test::VirtualInputDevice());
+    m_virtualTouch = std::make_unique<Test::VirtualInputDevice>();
     m_virtualTouch->setName(QStringLiteral("Virtual Touch 1"));
     m_virtualTouch->setTouch(true);
 
@@ -114,9 +140,15 @@ void WaylandTestApplication::createVirtualInputDevices()
 
 void WaylandTestApplication::destroyVirtualInputDevices()
 {
-    input()->removeInputDevice(m_virtualPointer.get());
-    input()->removeInputDevice(m_virtualTouch.get());
-    input()->removeInputDevice(m_virtualKeyboard.get());
+    if (m_virtualPointer) {
+        input()->removeInputDevice(m_virtualPointer.get());
+    }
+    if (m_virtualTouch) {
+        input()->removeInputDevice(m_virtualTouch.get());
+    }
+    if (m_virtualKeyboard) {
+        input()->removeInputDevice(m_virtualKeyboard.get());
+    }
 }
 
 void WaylandTestApplication::performStartup()
@@ -138,27 +170,19 @@ void WaylandTestApplication::performStartup()
     // try creating the Wayland Backend
     createInput();
     createVirtualInputDevices();
+    createTabletModeManager();
 
     WaylandCompositor::create();
-    connect(Compositor::self(), &Compositor::sceneCreated, this, &WaylandTestApplication::continueStartupWithScene);
-}
+    createWorkspace();
+    createColorManager();
+    createPlugins();
 
-void WaylandTestApplication::finalizeStartup()
-{
-    if (m_xwayland) {
-        disconnect(m_xwayland.get(), &Xwl::Xwayland::errorOccurred, this, &WaylandTestApplication::finalizeStartup);
-        disconnect(m_xwayland.get(), &Xwl::Xwayland::started, this, &WaylandTestApplication::finalizeStartup);
-    }
-    notifyStarted();
+    connect(Compositor::self(), &Compositor::sceneCreated, this, &WaylandTestApplication::continueStartupWithScene);
 }
 
 void WaylandTestApplication::continueStartupWithScene()
 {
     disconnect(Compositor::self(), &Compositor::sceneCreated, this, &WaylandTestApplication::continueStartupWithScene);
-
-    createWorkspace();
-    createColorManager();
-    createPlugins();
 
     waylandServer()->initWorkspace();
 
@@ -166,15 +190,14 @@ void WaylandTestApplication::continueStartupWithScene()
         qFatal("Failed to initialize the Wayland server, exiting now");
     }
 
-    if (operationMode() == OperationModeWaylandOnly) {
-        finalizeStartup();
-        return;
+#if KWIN_BUILD_X11
+    if (operationMode() == OperationModeXwayland) {
+        m_xwayland = std::make_unique<Xwl::Xwayland>(this);
+        m_xwayland->init();
     }
+#endif
 
-    m_xwayland = std::make_unique<Xwl::Xwayland>(this);
-    connect(m_xwayland.get(), &Xwl::Xwayland::errorOccurred, this, &WaylandTestApplication::finalizeStartup);
-    connect(m_xwayland.get(), &Xwl::Xwayland::started, this, &WaylandTestApplication::finalizeStartup);
-    m_xwayland->start();
+    notifyStarted();
 }
 
 Test::VirtualInputDevice *WaylandTestApplication::virtualPointer() const
@@ -192,10 +215,12 @@ Test::VirtualInputDevice *WaylandTestApplication::virtualTouch() const
     return m_virtualTouch.get();
 }
 
+#if KWIN_BUILD_X11
 XwaylandInterface *WaylandTestApplication::xwayland() const
 {
     return m_xwayland.get();
 }
+#endif
 
 Test::FractionalScaleManagerV1::~FractionalScaleManagerV1()
 {
@@ -214,6 +239,36 @@ int Test::FractionalScaleV1::preferredScale()
 
 void Test::FractionalScaleV1::wp_fractional_scale_v1_preferred_scale(uint32_t scale)
 {
+    if (m_preferredScale == scale) {
+        return;
+    }
     m_preferredScale = scale;
+    Q_EMIT preferredScaleChanged();
+}
+
+void Test::setOutputConfig(const QList<QRect> &geometries)
+{
+    QList<VirtualBackend::OutputInfo> converted;
+    std::transform(geometries.begin(), geometries.end(), std::back_inserter(converted), [](const auto &geometry) {
+        return VirtualBackend::OutputInfo{
+            .geometry = geometry,
+        };
+    });
+    static_cast<VirtualBackend *>(kwinApp()->outputBackend())->setVirtualOutputs(converted);
+}
+
+void Test::setOutputConfig(const QList<OutputInfo> &infos)
+{
+    QList<VirtualBackend::OutputInfo> converted;
+    std::transform(infos.begin(), infos.end(), std::back_inserter(converted), [](const auto &info) {
+        return VirtualBackend::OutputInfo{
+            .geometry = info.geometry,
+            .scale = info.scale,
+            .internal = info.internal,
+        };
+    });
+    static_cast<VirtualBackend *>(kwinApp()->outputBackend())->setVirtualOutputs(converted);
 }
 }
+
+#include "moc_kwin_wayland_test.cpp"

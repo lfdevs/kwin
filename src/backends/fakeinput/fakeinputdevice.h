@@ -8,11 +8,6 @@
 
 #include "core/inputdevice.h"
 
-namespace KWaylandServer
-{
-class FakeInputDevice;
-}
-
 namespace KWin
 {
 
@@ -21,7 +16,7 @@ class KWIN_EXPORT FakeInputDevice : public InputDevice
     Q_OBJECT
 
 public:
-    explicit FakeInputDevice(KWaylandServer::FakeInputDevice *device, QObject *parent = nullptr);
+    explicit FakeInputDevice(QObject *parent = nullptr);
 
     QString sysName() const override;
     QString name() const override;
@@ -33,7 +28,6 @@ public:
     void setLeds(LEDs leds) override;
 
     bool isKeyboard() const override;
-    bool isAlphaNumericKeyboard() const override;
     bool isPointer() const override;
     bool isTouchpad() const override;
     bool isTouch() const override;
@@ -42,8 +36,12 @@ public:
     bool isTabletModeSwitch() const override;
     bool isLidSwitch() const override;
 
+    void setAuthenticated(bool authenticated);
+    bool isAuthenticated() const;
+
 private:
     QString m_name;
+    bool m_authenticated = false;
 };
 
 } // namespace KWin

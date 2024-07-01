@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include <config-kwin.h>
+#include "config-kwin.h"
 
 #include "core/outputbackend.h"
 #include <kwin_export.h>
@@ -33,6 +33,7 @@ class Edge;
 class ScreenEdges;
 class Outline;
 class OutlineVisual;
+class Cursor;
 class Compositor;
 class WorkspaceScene;
 class Window;
@@ -46,17 +47,21 @@ public:
     ~X11StandaloneBackend() override;
     bool initialize() override;
 
+    ::Display *display() const;
+    xcb_connection_t *connection() const;
+    xcb_window_t rootWindow() const;
+
     std::unique_ptr<OpenGLBackend> createOpenGLBackend() override;
-    QVector<CompositingType> supportedCompositors() const override;
+    QList<CompositingType> supportedCompositors() const override;
 
     void initOutputs();
     void scheduleUpdateOutputs();
     void updateOutputs();
 
     std::unique_ptr<Edge> createScreenEdge(ScreenEdges *parent);
-    void createPlatformCursor(QObject *parent = nullptr);
+    std::unique_ptr<Cursor> createPlatformCursor();
     void startInteractiveWindowSelection(std::function<void(KWin::Window *)> callback, const QByteArray &cursorName = QByteArray());
-    void startInteractivePositionSelection(std::function<void(const QPoint &)> callback);
+    void startInteractivePositionSelection(std::function<void(const QPointF &)> callback);
     PlatformCursorImage cursorImage() const;
     std::unique_ptr<OutlineVisual> createOutline(Outline *outline);
     void createEffectsHandler(Compositor *compositor, WorkspaceScene *scene);
@@ -64,6 +69,9 @@ public:
     X11Keyboard *keyboard() const;
     RenderLoop *renderLoop() const;
     Outputs outputs() const override;
+
+    void setEglDisplay(std::unique_ptr<EglDisplay> &&display);
+    EglDisplay *sceneEglDisplayObject() const override;
 
 private:
     /**
@@ -87,13 +95,14 @@ private:
     std::unique_ptr<XInputIntegration> m_xinputIntegration;
 #endif
     std::unique_ptr<QTimer> m_updateOutputsTimer;
-    Display *m_x11Display;
+    ::Display *m_x11Display;
     std::unique_ptr<WindowSelector> m_windowSelector;
     std::unique_ptr<X11EventFilter> m_screenEdgesFilter;
     std::unique_ptr<X11EventFilter> m_randrEventFilter;
     std::unique_ptr<X11Keyboard> m_keyboard;
     std::unique_ptr<RenderLoop> m_renderLoop;
-    QVector<Output *> m_outputs;
+    QList<Output *> m_outputs;
+    std::unique_ptr<EglDisplay> m_eglDisplay;
 };
 
 }

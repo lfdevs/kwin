@@ -14,8 +14,7 @@
 #include "virtualdesktopmanageradaptor.h"
 
 // kwin
-#include "atoms.h"
-#include "composite.h"
+#include "compositor.h"
 #include "core/output.h"
 #include "core/renderbackend.h"
 #include "debug_console.h"
@@ -23,7 +22,6 @@
 #include "main.h"
 #include "placement.h"
 #include "pluginmanager.h"
-#include "unmanaged.h"
 #include "virtualdesktops.h"
 #include "window.h"
 #include "workspace.h"
@@ -32,6 +30,7 @@
 #endif
 
 // Qt
+#include <QDBusConnection>
 #include <QOpenGLContext>
 
 namespace KWin
@@ -160,7 +159,7 @@ QVariantMap clientToVariantMap(const Window *c)
             {QStringLiteral("caption"), c->captionNormal()},
             {QStringLiteral("clientMachine"), c->wmClientMachine(true)},
             {QStringLiteral("localhost"), c->isLocalhost()},
-            {QStringLiteral("type"), c->windowType()},
+            {QStringLiteral("type"), int(c->windowType())},
             {QStringLiteral("x"), c->x()},
             {QStringLiteral("y"), c->y()},
             {QStringLiteral("width"), c->width()},
@@ -181,6 +180,7 @@ QVariantMap clientToVariantMap(const Window *c)
 #if KWIN_BUILD_ACTIVITIES
             {QStringLiteral("activities"), c->activities()},
 #endif
+            {QStringLiteral("layer"), c->layer()},
     };
 }
 }
@@ -210,12 +210,9 @@ QVariantMap DBusInterface::queryWindowInfo()
 
 QVariantMap DBusInterface::getWindowInfo(const QString &uuid)
 {
-    const auto id = QUuid::fromString(uuid);
-    const auto client = workspace()->findAbstractClient([&id](const Window *c) {
-        return c->internalId() == id;
-    });
-    if (client) {
-        return clientToVariantMap(client);
+    const auto window = workspace()->findWindow(QUuid::fromString(uuid));
+    if (window) {
+        return clientToVariantMap(window);
     } else {
         return {};
     }
@@ -317,20 +314,6 @@ bool CompositorDBusInterface::platformRequiresCompositing() const
     return kwinApp()->operationMode() != Application::OperationModeX11; // TODO: Remove this property?
 }
 
-void CompositorDBusInterface::resume()
-{
-    if (kwinApp()->operationMode() == Application::OperationModeX11) {
-        static_cast<X11Compositor *>(m_compositor)->resume(X11Compositor::ScriptSuspend);
-    }
-}
-
-void CompositorDBusInterface::suspend()
-{
-    if (kwinApp()->operationMode() == Application::OperationModeX11) {
-        static_cast<X11Compositor *>(m_compositor)->suspend(X11Compositor::ScriptSuspend);
-    }
-}
-
 void CompositorDBusInterface::reinitialize()
 {
     m_compositor->reinitialize();
@@ -340,7 +323,7 @@ QStringList CompositorDBusInterface::supportedOpenGLPlatformInterfaces() const
 {
     QStringList interfaces;
     bool supportsGlx = false;
-#if HAVE_EPOXY_GLX
+#if HAVE_GLX
     supportsGlx = (kwinApp()->operationMode() == Application::OperationModeX11);
 #endif
     if (QOpenGLContext::openGLModuleType() == QOpenGLContext::LibGLES) {
@@ -365,7 +348,7 @@ VirtualDesktopManagerDBusInterface::VirtualDesktopManagerDBusInterface(VirtualDe
                                                  QStringLiteral("org.kde.KWin.VirtualDesktopManager"),
                                                  this);
 
-    connect(m_manager, &VirtualDesktopManager::currentChanged, this, [this](uint previousDesktop, uint newDesktop) {
+    connect(m_manager, &VirtualDesktopManager::currentChanged, this, [this]() {
         Q_EMIT currentChanged(m_manager->currentDesktop()->id());
     });
 
@@ -380,7 +363,7 @@ VirtualDesktopManagerDBusInterface::VirtualDesktopManagerDBusInterface(VirtualDe
 
     connect(m_manager, &VirtualDesktopManager::rowsChanged, this, &VirtualDesktopManagerDBusInterface::rowsChanged);
 
-    const QVector<VirtualDesktop *> allDesks = m_manager->desktops();
+    const QList<VirtualDesktop *> allDesks = m_manager->desktops();
     for (auto *vd : allDesks) {
         connect(vd, &VirtualDesktop::x11DesktopNumberChanged, this, [this, vd]() {
             DBusDesktopDataStruct data{.position = vd->x11DesktopNumber() - 1, .id = vd->id(), .name = vd->name()};
@@ -393,7 +376,7 @@ VirtualDesktopManagerDBusInterface::VirtualDesktopManagerDBusInterface(VirtualDe
             Q_EMIT desktopsChanged(desktops());
         });
     }
-    connect(m_manager, &VirtualDesktopManager::desktopCreated, this, [this](VirtualDesktop *vd) {
+    connect(m_manager, &VirtualDesktopManager::desktopAdded, this, [this](VirtualDesktop *vd) {
         connect(vd, &VirtualDesktop::x11DesktopNumberChanged, this, [this, vd]() {
             DBusDesktopDataStruct data{.position = vd->x11DesktopNumber() - 1, .id = vd->id(), .name = vd->name()};
             Q_EMIT desktopDataChanged(vd->id(), data);
@@ -536,3 +519,5 @@ void PluginManagerDBusInterface::UnloadPlugin(const QString &name)
 }
 
 } // namespace
+
+#include "moc_dbusinterface.cpp"

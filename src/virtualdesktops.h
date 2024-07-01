@@ -8,8 +8,8 @@
 */
 #pragma once
 // KWin
+#include "effect/globals.h"
 #include <kwin_export.h>
-#include <kwinglobals.h>
 // Qt includes
 #include <QAction>
 #include <QObject>
@@ -24,15 +24,12 @@
 class KLocalizedString;
 class NETRootInfo;
 class QAction;
-class Options;
-
-namespace KWaylandServer
-{
-class PlasmaVirtualDesktopManagementInterface;
-}
 
 namespace KWin
 {
+
+class Options;
+class PlasmaVirtualDesktopManagementInterface;
 
 class KWIN_EXPORT VirtualDesktop : public QObject
 {
@@ -89,7 +86,7 @@ class VirtualDesktopGrid
 public:
     VirtualDesktopGrid();
     ~VirtualDesktopGrid();
-    void update(const QSize &size, Qt::Orientation orientation, const QVector<VirtualDesktop *> &desktops);
+    void update(const QSize &size, const QList<VirtualDesktop *> &desktops);
     /**
      * @returns The coords of desktop @a id in grid units.
      */
@@ -109,7 +106,7 @@ public:
 
 private:
     QSize m_size;
-    QVector<QVector<VirtualDesktop *>> m_grid;
+    QList<QList<VirtualDesktop *>> m_grid;
 };
 
 /**
@@ -155,7 +152,7 @@ public:
     /**
      * @internal, for Wayland case
      */
-    void setVirtualDesktopManagement(KWaylandServer::PlasmaVirtualDesktopManagementInterface *management);
+    void setVirtualDesktopManagement(PlasmaVirtualDesktopManagementInterface *management);
     /**
      * @internal
      */
@@ -252,7 +249,7 @@ public:
     /**
      * @returns all currently managed VirtualDesktops
      */
-    QVector<VirtualDesktop *> desktops() const
+    QList<VirtualDesktop *> desktops() const
     {
         return m_desktops;
     }
@@ -372,7 +369,7 @@ Q_SIGNALS:
      * A new desktop has been created
      * @param desktop the new just crated desktop
      */
-    void desktopCreated(KWin::VirtualDesktop *desktop);
+    void desktopAdded(KWin::VirtualDesktop *desktop);
 
     /**
      * A desktop has been removed and is about to be deleted
@@ -387,7 +384,7 @@ Q_SIGNALS:
      * @param previousDesktop The virtual desktop changed from
      * @param newDesktop The virtual desktop changed to
      */
-    void currentChanged(uint previousDesktop, uint newDesktop);
+    void currentChanged(KWin::VirtualDesktop *previousDesktop, KWin::VirtualDesktop *newDesktop);
 
     /**
      * Signal emmitted for realtime desktop switching animations.
@@ -396,7 +393,7 @@ Q_SIGNALS:
      * Offset x and y are negative if switching Left and Down.
      * Example: x = 0.6 means 60% of the way to the desktop to the right.
      */
-    void currentChanging(uint currentDesktop, QPointF offset);
+    void currentChanging(KWin::VirtualDesktop *currentDesktop, QPointF offset);
     void currentChangingCancelled();
 
     /**
@@ -450,10 +447,6 @@ private Q_SLOTS:
 
 private:
     /**
-     * Generate a desktop layout from EWMH _NET_DESKTOP_LAYOUT property parameters.
-     */
-    void setNETDesktopLayout(Qt::Orientation orientation, uint width, uint height, int startingCorner);
-    /**
      * @returns A default name for the given @p desktop
      */
     QString defaultName(int desktop) const;
@@ -482,14 +475,16 @@ private:
      */
     QAction *addAction(const QString &name, const QString &label, const QKeySequence &key, void (VirtualDesktopManager::*slot)());
 
-    QVector<VirtualDesktop *> m_desktops;
+    QList<VirtualDesktop *> m_desktops;
     QPointer<VirtualDesktop> m_current;
     quint32 m_rows = 2;
     bool m_navigationWrapsAround;
     VirtualDesktopGrid m_grid;
     // TODO: QPointer
+#if KWIN_BUILD_X11
     NETRootInfo *m_rootInfo;
-    KWaylandServer::PlasmaVirtualDesktopManagementInterface *m_virtualDesktopManagement = nullptr;
+#endif
+    PlasmaVirtualDesktopManagementInterface *m_virtualDesktopManagement = nullptr;
     KSharedConfig::Ptr m_config;
 
     std::unique_ptr<QAction> m_swipeGestureReleasedY;

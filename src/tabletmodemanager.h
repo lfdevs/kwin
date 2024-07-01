@@ -7,11 +7,12 @@
 
 #pragma once
 
+#include "config-kwin.h"
+
+#include "effect/globals.h"
 #include <KConfigWatcher>
 #include <QObject>
-#include <config-kwin.h>
 #include <kwin_export.h>
-#include <kwinglobals.h>
 
 namespace KWin
 {
@@ -52,7 +53,6 @@ private:
     void refreshSettings();
 
     KConfigWatcher::Ptr m_settingsWatcher;
-    bool m_tabletModeAvailable = false;
     bool m_isTabletMode = false;
     bool m_detecting = false;
     ConfiguredMode m_configuredMode = ConfiguredMode::Auto;

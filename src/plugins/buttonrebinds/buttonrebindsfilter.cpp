@@ -13,13 +13,15 @@
 #include "keyboard_input.h"
 #include "xkb.h"
 
-#include <KKeyServer>
-
 #include <QMetaEnum>
 
 #include <linux/input-event-codes.h>
 
+#include <array>
 #include <optional>
+#include <utility>
+
+#include <private/qxkbcommon_p.h>
 
 // Tells us that we are already in a binding event
 class RebindScope
@@ -73,11 +75,6 @@ void InputDevice::setEnabled(bool enabled)
 }
 
 bool InputDevice::isEnabled() const
-{
-    return true;
-}
-
-bool InputDevice::isAlphaNumericKeyboard() const
 {
     return true;
 }
@@ -147,7 +144,7 @@ void ButtonRebindsFilter::loadConfig(const KConfigGroup &group)
 
     bool foundActions = false;
     const auto mouseButtonEnum = QMetaEnum::fromType<Qt::MouseButtons>();
-    const auto mouseGroup = group.group("Mouse");
+    const auto mouseGroup = group.group(QStringLiteral("Mouse"));
     static constexpr auto maximumQtExtraButton = 24;
     for (int i = 1; i <= maximumQtExtraButton; ++i) {
         const QByteArray buttonName = QByteArray("ExtraButton") + QByteArray::number(i);
@@ -159,7 +156,7 @@ void ButtonRebindsFilter::loadConfig(const KConfigGroup &group)
         }
     }
 
-    const auto tabletsGroup = group.group("Tablet");
+    const auto tabletsGroup = group.group(QStringLiteral("Tablet"));
     const auto tablets = tabletsGroup.groupList();
     for (const auto &tabletName : tablets) {
         const auto tabletGroup = tabletsGroup.group(tabletName);
@@ -175,7 +172,7 @@ void ButtonRebindsFilter::loadConfig(const KConfigGroup &group)
         }
     }
 
-    const auto tabletToolsGroup = group.group("TabletTool");
+    const auto tabletToolsGroup = group.group(QStringLiteral("TabletTool"));
     const auto tabletTools = tabletToolsGroup.groupList();
     for (const auto &tabletToolName : tabletTools) {
         const auto toolGroup = tabletToolsGroup.group(tabletToolName);
@@ -275,30 +272,66 @@ bool ButtonRebindsFilter::send(TriggerType type, const Trigger &trigger, bool pr
     return false;
 }
 
+static constexpr std::array<std::pair<int, int>, 4> s_modifierKeyTable = {
+    std::pair(Qt::Key_Control, KEY_LEFTCTRL),
+    std::pair(Qt::Key_Alt, KEY_LEFTALT),
+    std::pair(Qt::Key_Shift, KEY_LEFTSHIFT),
+    std::pair(Qt::Key_Meta, KEY_LEFTMETA),
+};
+
 bool ButtonRebindsFilter::sendKeySequence(const QKeySequence &keys, bool pressed, std::chrono::microseconds time)
 {
     if (keys.isEmpty()) {
         return false;
     }
+
     const auto &key = keys[0];
-
-    int sym = -1;
-    if (!KKeyServer::keyQtToSymX(keys[0], &sym)) {
-        qCWarning(KWIN_BUTTONREBINDS) << "Could not convert" << keys << "to keysym";
-        return false;
-    }
-    // KKeyServer returns upper case syms, lower it to not confuse modifiers handling
-    auto keyCode = KWin::input()->keyboard()->xkb()->keycodeFromKeysym(sym);
-    if (!keyCode) {
-        qCWarning(KWIN_BUTTONREBINDS) << "Could not convert" << keys << "sym: " << sym << "to keycode";
-        return false;
-    }
-
-    RebindScope scope;
     auto sendKey = [this, pressed, time](xkb_keycode_t key) {
         auto state = pressed ? KWin::InputRedirection::KeyboardKeyPressed : KWin::InputRedirection::KeyboardKeyReleased;
         Q_EMIT m_inputDevice.keyChanged(key, state, time, &m_inputDevice);
     };
+
+    // handle modifier-only keys
+    for (const auto &[keySymQt, keySymLinux] : s_modifierKeyTable) {
+        if (key == keySymQt) {
+            RebindScope scope;
+            sendKey(keySymLinux);
+            return true;
+        }
+    }
+
+    QList<xkb_keysym_t> syms = KWin::Xkb::keysymsFromQtKey(keys[0]);
+
+    // Use keysyms from the keypad if and only if KeypadModifier is set
+    syms.erase(std::remove_if(syms.begin(), syms.end(), [keys](int sym) {
+        bool onKeyPad = sym >= XKB_KEY_KP_Space && sym <= XKB_KEY_KP_Equal;
+        if (keys[0] & Qt::KeypadModifier) {
+            return !onKeyPad;
+        } else {
+            return onKeyPad;
+        }
+    }),
+               syms.end());
+
+    if (syms.empty()) {
+        qCWarning(KWIN_BUTTONREBINDS) << "Could not convert" << keys << "to keysym";
+        return false;
+    }
+    // KKeyServer returns upper case syms, lower it to not confuse modifiers handling
+    std::optional<int> keyCode;
+    for (int sym : syms) {
+        auto code = KWin::input()->keyboard()->xkb()->keycodeFromKeysym(sym);
+        if (code) {
+            keyCode = code;
+            break;
+        }
+    }
+    if (!keyCode) {
+        qCWarning(KWIN_BUTTONREBINDS) << "Could not convert" << keys << "syms: " << syms << "to keycode";
+        return false;
+    }
+
+    RebindScope scope;
 
     if (key & Qt::ShiftModifier) {
         sendKey(KEY_LEFTSHIFT);
@@ -333,3 +366,5 @@ bool ButtonRebindsFilter::sendTabletToolButton(quint32 button, bool pressed, std
     Q_EMIT m_inputDevice.tabletToolButtonEvent(button, pressed, *m_tabletTool, time);
     return true;
 }
+
+#include "moc_buttonrebindsfilter.cpp"

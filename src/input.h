@@ -9,12 +9,12 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #pragma once
-#include <config-kwin.h>
+#include "config-kwin.h"
 
+#include "effect/globals.h"
 #include <QObject>
 #include <QPoint>
 #include <QPointer>
-#include <kwinglobals.h>
 
 #include <KConfigWatcher>
 #include <KSharedConfig>
@@ -127,12 +127,10 @@ public:
 
     void registerPointerShortcut(Qt::KeyboardModifiers modifiers, Qt::MouseButton pointerButtons, QAction *action);
     void registerAxisShortcut(Qt::KeyboardModifiers modifiers, PointerAxisDirection axis, QAction *action);
-    void registerTouchpadSwipeShortcut(SwipeDirection direction, uint fingerCount, QAction *action);
-    void registerRealtimeTouchpadSwipeShortcut(SwipeDirection direction, uint fingerCount, QAction *onUp, std::function<void(qreal)> progressCallback);
-    void registerTouchpadPinchShortcut(PinchDirection direction, uint fingerCount, QAction *action);
-    void registerRealtimeTouchpadPinchShortcut(PinchDirection direction, uint fingerCount, QAction *onUp, std::function<void(qreal)> progressCallback);
-    void registerTouchscreenSwipeShortcut(SwipeDirection direction, uint fingerCount, QAction *action, std::function<void(qreal)> progressCallback);
-    void forceRegisterTouchscreenSwipeShortcut(SwipeDirection direction, uint fingerCount, QAction *action, std::function<void(qreal)> progressCallback);
+    void registerTouchpadSwipeShortcut(SwipeDirection direction, uint32_t fingerCount, QAction *onUp, std::function<void(qreal)> progressCallback = {});
+    void registerTouchpadPinchShortcut(PinchDirection direction, uint32_t fingerCount, QAction *onUp, std::function<void(qreal)> progressCallback = {});
+    void registerTouchscreenSwipeShortcut(SwipeDirection direction, uint32_t fingerCount, QAction *action, std::function<void(qreal)> progressCallback = {});
+    void forceRegisterTouchscreenSwipeShortcut(SwipeDirection direction, uint32_t fingerCount, QAction *action, std::function<void(qreal)> progressCallback = {});
     void registerGlobalAccel(KGlobalAccelInterface *interface);
 
     bool supportsPointerWarping() const;
@@ -168,17 +166,18 @@ public:
     void removeIdleInhibitor(Window *inhibitor);
 
     Window *findToplevel(const QPointF &pos);
+#if KWIN_BUILD_GLOBALSHORTCUTS
     GlobalShortcutsManager *shortcuts() const
     {
         return m_shortcuts;
     }
+#endif
 
     /**
      * Sends an event through all InputFilters.
      * The method @p function is invoked on each input filter. Processing is stopped if
      * a filter returns @c true for @p function.
      *
-     * The UnaryPredicate is defined like the UnaryPredicate of std::any_of.
      * The signature of the function should be equivalent to the following:
      * @code
      * bool function(const InputEventFilter *spy);
@@ -190,7 +189,11 @@ public:
     template<class UnaryPredicate>
     void processFilters(UnaryPredicate function)
     {
-        std::any_of(m_filters.constBegin(), m_filters.constEnd(), function);
+        for (const auto filter : std::as_const(m_filters)) {
+            if (function(filter)) {
+                return;
+            }
+        }
     }
 
     /**
@@ -250,6 +253,10 @@ public:
     void enableTouchpads();
     void disableTouchpads();
 
+    void addInputDevice(InputDevice *device);
+    void removeInputDevice(InputDevice *device);
+    void addInputBackend(std::unique_ptr<InputBackend> &&inputBackend);
+
 Q_SIGNALS:
     void deviceAdded(InputDevice *device);
     void deviceRemoved(InputDevice *device);
@@ -297,10 +304,6 @@ Q_SIGNALS:
     void hasTouchChanged(bool set);
     void hasTabletModeSwitchChanged(bool set);
 
-public Q_SLOTS:
-    void addInputDevice(InputDevice *device);
-    void removeInputDevice(InputDevice *device);
-
 private Q_SLOTS:
     void handleInputConfigChanged(const KConfigGroup &group);
     void updateScreens();
@@ -313,29 +316,49 @@ private:
     void installInputEventFilter(InputEventFilter *filter);
     void updateLeds(LEDs leds);
     void updateAvailableInputDevices();
-    void addInputBackend(std::unique_ptr<InputBackend> &&inputBackend);
     KeyboardInputRedirection *m_keyboard;
     PointerInputRedirection *m_pointer;
     TabletInputRedirection *m_tablet;
     TouchInputRedirection *m_touch;
     QObject *m_lastInputDevice = nullptr;
 
+#if KWIN_BUILD_GLOBALSHORTCUTS
     GlobalShortcutsManager *m_shortcuts;
+#endif
 
     std::vector<std::unique_ptr<InputBackend>> m_inputBackends;
     QList<InputDevice *> m_inputDevices;
 
     QList<IdleDetector *> m_idleDetectors;
     QList<Window *> m_idleInhibitors;
-    WindowSelectorFilter *m_windowSelector = nullptr;
+    std::unique_ptr<WindowSelectorFilter> m_windowSelector;
 
-    QVector<InputEventFilter *> m_filters;
-    QVector<InputEventSpy *> m_spies;
+    QList<InputEventFilter *> m_filters;
+    QList<InputEventSpy *> m_spies;
     KConfigWatcher::Ptr m_inputConfigWatcher;
+
+    std::unique_ptr<InputEventFilter> m_virtualTerminalFilter;
+    std::unique_ptr<InputEventFilter> m_dragAndDropFilter;
+    std::unique_ptr<InputEventFilter> m_lockscreenFilter;
+    std::unique_ptr<InputEventFilter> m_screenEdgeFilter;
+    std::unique_ptr<InputEventFilter> m_tabboxFilter;
+    std::unique_ptr<InputEventFilter> m_globalShortcutFilter;
+    std::unique_ptr<InputEventFilter> m_effectsFilter;
+    std::unique_ptr<InputEventFilter> m_interactiveMoveResizeFilter;
+    std::unique_ptr<InputEventFilter> m_popupFilter;
+    std::unique_ptr<InputEventFilter> m_decorationFilter;
+    std::unique_ptr<InputEventFilter> m_windowActionFilter;
+    std::unique_ptr<InputEventFilter> m_internalWindowFilter;
+    std::unique_ptr<InputEventFilter> m_inputKeyboardFilter;
+    std::unique_ptr<InputEventFilter> m_forwardFilter;
+    std::unique_ptr<InputEventFilter> m_tabletFilter;
+
+    std::unique_ptr<InputEventSpy> m_hideCursorSpy;
+    std::unique_ptr<InputEventSpy> m_userActivitySpy;
+    std::unique_ptr<InputEventSpy> m_windowInteractedSpy;
 
     LEDs m_leds;
     bool m_hasKeyboard = false;
-    bool m_hasAlphaNumericKeyboard = false;
     bool m_hasPointer = false;
     bool m_hasTouch = false;
     bool m_hasTabletModeSwitch = false;
@@ -386,6 +409,7 @@ public:
      * @return @c true to stop further event processing, @c false to pass to next filter
      */
     virtual bool pointerEvent(MouseEvent *event, quint32 nativeButton);
+    virtual bool pointerFrame();
     /**
      * Event filter for pointer axis events.
      *

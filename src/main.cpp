@@ -9,51 +9,53 @@
 */
 #include "main.h"
 
-#include <config-kwin.h>
+#include "config-kwin.h"
 
+#if KWIN_BUILD_X11
 #include "atoms.h"
-#include "colormanager.h"
-#include "composite.h"
+#endif
+#include "colors/colormanager.h"
+#include "compositor.h"
 #include "core/outputbackend.h"
+#include "core/rendertarget.h"
 #include "core/session.h"
 #include "cursor.h"
-#include "effects.h"
+#include "cursorsource.h"
+#include "effect/effecthandler.h"
 #include "input.h"
 #include "inputmethod.h"
+#include "opengl/gltexture.h"
+#include "opengl/glutils.h"
 #include "options.h"
 #include "outline.h"
 #include "pluginmanager.h"
 #include "pointer_input.h"
+#include "scene/cursorscene.h"
 #include "screenedge.h"
 #include "sm.h"
 #include "tabletmodemanager.h"
-#include "utils/xcbutils.h"
-#include "wayland/surface_interface.h"
+#include "wayland/surface.h"
 #include "workspace.h"
+
+#if KWIN_BUILD_X11
+#include "utils/xcbutils.h"
 #include "x11eventfilter.h"
+#endif
 
 #if KWIN_BUILD_SCREENLOCKER
 #include "screenlockerwatcher.h"
 #endif
 
-#include <kwineffects.h>
+#include "effect/effecthandler.h"
 
 // KDE
 #include <KAboutData>
 #include <KLocalizedString>
 // Qt
 #include <QCommandLineParser>
-#include <QLibraryInfo>
 #include <QQuickWindow>
-#include <QStandardPaths>
-#include <QTranslator>
-#include <qplatformdefs.h>
-
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <private/qtx11extras_p.h>
-#else
-#include <QX11Info>
-#endif
+#include <qplatformdefs.h>
 
 #include <cerrno>
 
@@ -62,10 +64,12 @@
 #endif
 #include <unistd.h>
 
+#if KWIN_BUILD_X11
 // xcb
 #include <xcb/damage.h>
 #ifndef XCB_GE_GENERIC
 #define XCB_GE_GENERIC 35
+#endif
 #endif
 
 Q_DECLARE_METATYPE(KSharedConfigPtr)
@@ -74,12 +78,16 @@ namespace KWin
 {
 
 Options *options;
+#if KWIN_BUILD_X11
 Atoms *atoms;
+#endif
 int Application::crashes = 0;
 
 Application::Application(Application::OperationMode mode, int &argc, char **argv)
     : QApplication(argc, argv)
+#if KWIN_BUILD_X11
     , m_eventFilter(new XcbEventFilter())
+#endif
     , m_configLock(false)
     , m_config(KSharedConfig::openConfig(QStringLiteral("kwinrc")))
     , m_kxkbConfig()
@@ -87,7 +95,7 @@ Application::Application(Application::OperationMode mode, int &argc, char **argv
 {
     qRegisterMetaType<Options::WindowOperation>("Options::WindowOperation");
     qRegisterMetaType<KWin::EffectWindow *>();
-    qRegisterMetaType<KWaylandServer::SurfaceInterface *>("KWaylandServer::SurfaceInterface *");
+    qRegisterMetaType<KWin::SurfaceInterface *>("KWin::SurfaceInterface *");
     qRegisterMetaType<KSharedConfigPtr>();
     qRegisterMetaType<std::chrono::nanoseconds>();
 }
@@ -121,6 +129,7 @@ void Application::start()
     setProperty("org.kde.KActivities.core.disableAutostart", true);
 
     setQuitOnLastWindowClosed(false);
+    setQuitLockEnabled(false);
 
     if (!m_config->isImmutable() && m_configLock) {
         // TODO: This shouldn't be necessary
@@ -129,6 +138,9 @@ void Application::start()
     }
     if (!m_kxkbConfig) {
         m_kxkbConfig = KSharedConfig::openConfig(QStringLiteral("kxkbrc"), KConfig::NoGlobals);
+    }
+    if (!m_inputConfig) {
+        m_inputConfig = KSharedConfig::openConfig(QStringLiteral("kcminputrc"), KConfig::NoGlobals);
     }
 
     performStartup();
@@ -149,8 +161,10 @@ void Application::notifyStarted()
 
 void Application::destroyAtoms()
 {
+#if KWIN_BUILD_X11
     delete atoms;
     atoms = nullptr;
+#endif
 }
 
 void Application::destroyPlatform()
@@ -177,7 +191,7 @@ void Application::createAboutData()
 {
     KAboutData aboutData(QStringLiteral("kwin"), // The program name used internally
                          i18n("KWin"), // A displayable program name string
-                         QStringLiteral(KWIN_VERSION_STRING), // The program version string
+                         KWIN_VERSION_STRING, // The program version string
                          i18n("KDE window manager"), // Short description of what the app does
                          KAboutLicense::GPL, // The license this code is released under
                          i18n("(c) 1999-2019, The KDE Developers")); // Copyright Statement
@@ -190,6 +204,7 @@ void Application::createAboutData()
     aboutData.addAuthor(i18n("David Edmundson"), QStringLiteral("Maintainer"), QStringLiteral("davidedmundson@kde.org"));
     aboutData.addAuthor(i18n("Roman Gilg"), QStringLiteral("Maintainer"), QStringLiteral("subdiff@gmail.com"));
     aboutData.addAuthor(i18n("Vlad Zahorodnii"), QStringLiteral("Maintainer"), QStringLiteral("vlad.zahorodnii@kde.org"));
+    aboutData.addAuthor(i18n("Xaver Hugl"), QStringLiteral("Maintainer"), QStringLiteral("xaver.hugl@gmail.com"));
     KAboutData::setApplicationData(aboutData);
 }
 
@@ -215,14 +230,6 @@ void Application::processCommandLine(QCommandLineParser *parser)
     Application::setCrashCount(parser->value(s_crashesOption).toInt());
 }
 
-void Application::setupTranslator()
-{
-    QTranslator *qtTranslator = new QTranslator(qApp);
-    qtTranslator->load("qt_" + QLocale::system().name(),
-                       QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-    installTranslator(qtTranslator);
-}
-
 void Application::setupMalloc()
 {
 #ifdef M_TRIM_THRESHOLD
@@ -239,7 +246,7 @@ void Application::setupMalloc()
 
 void Application::setupLocalizedString()
 {
-    KLocalizedString::setApplicationDomain("kwin");
+    KLocalizedString::setApplicationDomain(QByteArrayLiteral("kwin"));
 }
 
 void Application::createWorkspace()
@@ -263,12 +270,14 @@ void Application::createInput()
 #endif
     auto input = InputRedirection::create(this);
     input->init();
-    createPlatformCursor(this);
+    m_platformCursor = createPlatformCursor();
 }
 
 void Application::createAtoms()
 {
+#if KWIN_BUILD_X11
     atoms = new Atoms;
+#endif
 }
 
 void Application::createOptions()
@@ -296,6 +305,12 @@ void Application::createTabletModeManager()
     m_tabletModeManager = std::make_unique<TabletModeManager>();
 }
 
+TabletModeManager *Application::tabletModeManager() const
+{
+    return m_tabletModeManager.get();
+}
+
+#if KWIN_BUILD_X11
 void Application::installNativeX11EventFilter()
 {
     installNativeEventFilter(m_eventFilter.get());
@@ -305,6 +320,7 @@ void Application::removeNativeX11EventFilter()
 {
     removeNativeEventFilter(m_eventFilter.get());
 }
+#endif
 
 void Application::destroyInput()
 {
@@ -341,9 +357,9 @@ std::unique_ptr<Edge> Application::createScreenEdge(ScreenEdges *edges)
     return std::make_unique<Edge>(edges);
 }
 
-void Application::createPlatformCursor(QObject *parent)
+std::unique_ptr<Cursor> Application::createPlatformCursor()
 {
-    new InputRedirectionCursor(parent);
+    return std::make_unique<InputRedirectionCursor>();
 }
 
 std::unique_ptr<OutlineVisual> Application::createOutline(Outline *outline)
@@ -356,9 +372,10 @@ std::unique_ptr<OutlineVisual> Application::createOutline(Outline *outline)
 
 void Application::createEffectsHandler(Compositor *compositor, WorkspaceScene *scene)
 {
-    new EffectsHandlerImpl(compositor, scene);
+    new EffectsHandler(compositor, scene);
 }
 
+#if KWIN_BUILD_X11
 void Application::registerEventFilter(X11EventFilter *filter)
 {
     if (filter->isGenericEvent()) {
@@ -379,15 +396,41 @@ static X11EventFilterContainer *takeEventFilter(X11EventFilter *eventFilter,
     }
     return nullptr;
 }
+#endif
 
 void Application::setXwaylandScale(qreal scale)
 {
+    Q_ASSERT(scale != 0);
     if (scale != m_xwaylandScale) {
         m_xwaylandScale = scale;
+        applyXwaylandScale();
         Q_EMIT xwaylandScaleChanged();
     }
 }
 
+void Application::applyXwaylandScale()
+{
+    const bool xwaylandClientsScale = KConfig(QStringLiteral("kdeglobals"))
+                                          .group(QStringLiteral("KScreen"))
+                                          .readEntry("XwaylandClientsScale", true);
+
+    KConfigGroup xwaylandGroup = kwinApp()->config()->group(QStringLiteral("Xwayland"));
+    if (xwaylandClientsScale) {
+        xwaylandGroup.writeEntry("Scale", m_xwaylandScale, KConfig::Notify);
+    } else {
+        xwaylandGroup.deleteEntry("Scale", KConfig::Notify);
+    }
+    xwaylandGroup.sync();
+
+#if KWIN_BUILD_X11
+    if (x11Connection()) {
+        // rerun the fonts kcm init that does the appropriate xrdb call with the new settings
+        QProcess::startDetached("kcminit", {"kcm_fonts_init", "kcm_style_init"});
+    }
+#endif
+}
+
+#if KWIN_BUILD_X11
 void Application::unregisterEventFilter(X11EventFilter *filter)
 {
     X11EventFilterContainer *container = nullptr;
@@ -401,25 +444,25 @@ void Application::unregisterEventFilter(X11EventFilter *filter)
 
 bool Application::dispatchEvent(xcb_generic_event_t *event)
 {
-    static const QVector<QByteArray> s_xcbEerrors({QByteArrayLiteral("Success"),
-                                                   QByteArrayLiteral("BadRequest"),
-                                                   QByteArrayLiteral("BadValue"),
-                                                   QByteArrayLiteral("BadWindow"),
-                                                   QByteArrayLiteral("BadPixmap"),
-                                                   QByteArrayLiteral("BadAtom"),
-                                                   QByteArrayLiteral("BadCursor"),
-                                                   QByteArrayLiteral("BadFont"),
-                                                   QByteArrayLiteral("BadMatch"),
-                                                   QByteArrayLiteral("BadDrawable"),
-                                                   QByteArrayLiteral("BadAccess"),
-                                                   QByteArrayLiteral("BadAlloc"),
-                                                   QByteArrayLiteral("BadColor"),
-                                                   QByteArrayLiteral("BadGC"),
-                                                   QByteArrayLiteral("BadIDChoice"),
-                                                   QByteArrayLiteral("BadName"),
-                                                   QByteArrayLiteral("BadLength"),
-                                                   QByteArrayLiteral("BadImplementation"),
-                                                   QByteArrayLiteral("Unknown")});
+    static const QList<QByteArray> s_xcbEerrors({QByteArrayLiteral("Success"),
+                                                 QByteArrayLiteral("BadRequest"),
+                                                 QByteArrayLiteral("BadValue"),
+                                                 QByteArrayLiteral("BadWindow"),
+                                                 QByteArrayLiteral("BadPixmap"),
+                                                 QByteArrayLiteral("BadAtom"),
+                                                 QByteArrayLiteral("BadCursor"),
+                                                 QByteArrayLiteral("BadFont"),
+                                                 QByteArrayLiteral("BadMatch"),
+                                                 QByteArrayLiteral("BadDrawable"),
+                                                 QByteArrayLiteral("BadAccess"),
+                                                 QByteArrayLiteral("BadAlloc"),
+                                                 QByteArrayLiteral("BadColor"),
+                                                 QByteArrayLiteral("BadGC"),
+                                                 QByteArrayLiteral("BadIDChoice"),
+                                                 QByteArrayLiteral("BadName"),
+                                                 QByteArrayLiteral("BadLength"),
+                                                 QByteArrayLiteral("BadImplementation"),
+                                                 QByteArrayLiteral("Unknown")});
 
     kwinApp()->updateX11Time(event);
 
@@ -427,7 +470,7 @@ bool Application::dispatchEvent(xcb_generic_event_t *event)
     if (!x11EventType) {
         // let's check whether it's an error from one of the extensions KWin uses
         xcb_generic_error_t *error = reinterpret_cast<xcb_generic_error_t *>(event);
-        const QVector<Xcb::ExtensionData> extensions = Xcb::Extensions::self()->extensions();
+        const QList<Xcb::ExtensionData> extensions = Xcb::Extensions::self()->extensions();
         for (const auto &extension : extensions) {
             if (error->major_code == extension.majorOpcode) {
                 QByteArray errorName;
@@ -596,17 +639,15 @@ void Application::updateX11Time(xcb_generic_event_t *event)
     setX11Time(time);
 }
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-bool XcbEventFilter::nativeEventFilter(const QByteArray &eventType, void *message, long int *result)
-#else
 bool XcbEventFilter::nativeEventFilter(const QByteArray &eventType, void *message, qintptr *result)
-#endif
 {
     if (eventType == "xcb_generic_event_t") {
         return kwinApp()->dispatchEvent(static_cast<xcb_generic_event_t *>(message));
     }
     return false;
 }
+
+#endif
 
 QProcessEnvironment Application::processStartupEnvironment() const
 {
@@ -657,10 +698,77 @@ ScreenLockerWatcher *Application::screenLockerWatcher() const
 }
 #endif
 
+static PlatformCursorImage grabCursorOpenGL()
+{
+    CursorScene *scene = Compositor::self()->cursorScene();
+    if (!scene) {
+        return PlatformCursorImage();
+    }
+
+    Cursor *cursor = Cursors::self()->currentCursor();
+    Output *output = workspace()->outputAt(cursor->pos());
+
+    const auto texture = GLTexture::allocate(GL_RGBA8, (cursor->geometry().size() * output->scale()).toSize());
+    if (!texture) {
+        return PlatformCursorImage{};
+    }
+    texture->setContentTransform(OutputTransform::FlipY);
+    GLFramebuffer framebuffer(texture.get());
+    RenderTarget renderTarget(&framebuffer);
+
+    SceneDelegate delegate(scene, output);
+    scene->prePaint(&delegate);
+    scene->paint(renderTarget, infiniteRegion());
+    scene->postPaint();
+
+    QImage image = texture->toImage();
+    image.setDevicePixelRatio(output->scale());
+
+    return PlatformCursorImage(image, cursor->hotspot());
+}
+
+static PlatformCursorImage grabCursorSoftware()
+{
+    CursorScene *scene = Compositor::self()->cursorScene();
+    if (!scene) {
+        return PlatformCursorImage();
+    }
+
+    Cursor *cursor = Cursors::self()->currentCursor();
+    Output *output = workspace()->outputAt(cursor->pos());
+
+    QImage image((cursor->geometry().size() * output->scale()).toSize(), QImage::Format_ARGB32_Premultiplied);
+    RenderTarget renderTarget(&image);
+
+    SceneDelegate delegate(scene, output);
+    scene->prePaint(&delegate);
+    scene->paint(renderTarget, infiniteRegion());
+    scene->postPaint();
+
+    image.setDevicePixelRatio(output->scale());
+    return PlatformCursorImage(image, cursor->hotspot());
+}
+
 PlatformCursorImage Application::cursorImage() const
 {
     Cursor *cursor = Cursors::self()->currentCursor();
-    return PlatformCursorImage(cursor->image(), cursor->hotspot());
+    if (cursor->geometry().isEmpty()) {
+        return PlatformCursorImage();
+    }
+
+    if (auto shapeSource = qobject_cast<ShapeCursorSource *>(cursor->source())) {
+        return PlatformCursorImage(shapeSource->image(), shapeSource->hotspot());
+    }
+
+    // The cursor content is provided by a client, grab the contents of the cursor scene.
+    switch (effects->compositingType()) {
+    case OpenGLCompositing:
+        return grabCursorOpenGL();
+    case QPainterCompositing:
+        return grabCursorSoftware();
+    default:
+        Q_UNREACHABLE();
+    }
 }
 
 void Application::startInteractiveWindowSelection(std::function<void(KWin::Window *)> callback, const QByteArray &cursorName)
@@ -672,13 +780,15 @@ void Application::startInteractiveWindowSelection(std::function<void(KWin::Windo
     input()->startInteractiveWindowSelection(callback, cursorName);
 }
 
-void Application::startInteractivePositionSelection(std::function<void(const QPoint &)> callback)
+void Application::startInteractivePositionSelection(std::function<void(const QPointF &)> callback)
 {
     if (!input()) {
-        callback(QPoint(-1, -1));
+        callback(QPointF(-1, -1));
         return;
     }
     input()->startInteractivePositionSelection(callback);
 }
 
 } // namespace
+
+#include "moc_main.cpp"

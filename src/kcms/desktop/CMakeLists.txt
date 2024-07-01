@@ -13,21 +13,17 @@ set(kcm_kwin_virtualdesktops_PART_SRCS
 
 kconfig_add_kcfg_files(kcm_kwin_virtualdesktops_PART_SRCS virtualdesktopssettings.kcfgc GENERATE_MOC)
 
-kcoreaddons_add_plugin(kcm_kwin_virtualdesktops SOURCES ${kcm_kwin_virtualdesktops_PART_SRCS} INSTALL_NAMESPACE "plasma/kcms/systemsettings")
-kcmutils_generate_desktop_file(kcm_kwin_virtualdesktops)
+kcmutils_add_qml_kcm(kcm_kwin_virtualdesktops SOURCES ${kcm_kwin_virtualdesktops_PART_SRCS})
 
-target_link_libraries(kcm_kwin_virtualdesktops
+target_link_libraries(kcm_kwin_virtualdesktops PRIVATE
     Qt::DBus
 
-    KF5::I18n
-    KF5::KCMUtils
-    KF5::QuickAddons
-    KF5::XmlGui
+    KF6::I18n
+    KF6::KCMUtils
+    KF6::KCMUtilsQuick
+    KF6::XmlGui
 
     kcmkwincommon
 )
 
-########### install files ###############
-
 install(FILES virtualdesktopssettings.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
-kpackage_install_package(package kcm_kwin_virtualdesktops kcms)

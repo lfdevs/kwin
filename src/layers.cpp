@@ -64,22 +64,22 @@
 
 */
 
-#include "composite.h"
-#include "deleted.h"
-#include "effects.h"
+#include "compositor.h"
+#include "effect/effecthandler.h"
 #include "focuschain.h"
-#include "group.h"
 #include "internalwindow.h"
-#include "netinfo.h"
 #include "rules.h"
 #include "screenedge.h"
-#include "tabbox.h"
-#include "unmanaged.h"
+#include "tabbox/tabbox.h"
 #include "utils/common.h"
 #include "virtualdesktops.h"
 #include "wayland_server.h"
 #include "workspace.h"
+#if KWIN_BUILD_X11
+#include "group.h"
+#include "netinfo.h"
 #include "x11window.h"
+#endif
 
 #include <array>
 
@@ -105,7 +105,9 @@ void Workspace::updateStackingOrder(bool propagate_new_windows)
     force_restacking = false;
     stacking_order = new_stacking_order;
     if (changed || propagate_new_windows) {
+#if KWIN_BUILD_X11
         propagateWindows(propagate_new_windows);
+#endif
 
         for (int i = 0; i < stacking_order.size(); ++i) {
             stacking_order[i]->setStackingOrder(i);
@@ -119,6 +121,7 @@ void Workspace::updateStackingOrder(bool propagate_new_windows)
     }
 }
 
+#if KWIN_BUILD_X11
 /**
  * Some fullscreen effects have to raise the screenedge on top of an input window, thus all windows
  * this function puts them back where they belong for regular use and is some cheap variant of
@@ -131,7 +134,7 @@ void Workspace::stackScreenEdgesUnderOverrideRedirect()
     if (!rootInfo()) {
         return;
     }
-    Xcb::restackWindows(QVector<xcb_window_t>() << rootInfo()->supportWindow() << workspace()->screenEdges()->windows());
+    Xcb::restackWindows(QList<xcb_window_t>() << rootInfo()->supportWindow() << workspace()->screenEdges()->windows());
 }
 
 /**
@@ -145,7 +148,7 @@ void Workspace::propagateWindows(bool propagate_new_windows)
     }
     // restack the windows according to the stacking order
     // supportWindow > electric borders > windows > hidden windows
-    QVector<xcb_window_t> newWindowStack;
+    QList<xcb_window_t> newWindowStack;
 
     // Stack all windows under the support window. The support window is
     // not used for anything (besides the NETWM property), and it's not shown,
@@ -162,7 +165,7 @@ void Workspace::propagateWindows(bool propagate_new_windows)
 
     for (int i = stacking_order.size() - 1; i >= 0; --i) {
         X11Window *window = qobject_cast<X11Window *>(stacking_order.at(i));
-        if (!window || window->hiddenPreview()) {
+        if (!window || window->isDeleted() || window->isUnmanaged() || window->hiddenPreview()) {
             continue;
         }
 
@@ -179,7 +182,7 @@ void Workspace::propagateWindows(bool propagate_new_windows)
     // these windows that should be unmapped to interfere with other windows
     for (int i = stacking_order.size() - 1; i >= 0; --i) {
         X11Window *window = qobject_cast<X11Window *>(stacking_order.at(i));
-        if (!window || !window->hiddenPreview()) {
+        if (!window || window->isDeleted() || window->isUnmanaged() || !window->hiddenPreview()) {
             continue;
         }
         newWindowStack << window->frameId();
@@ -189,14 +192,17 @@ void Workspace::propagateWindows(bool propagate_new_windows)
     Q_ASSERT(newWindowStack.at(0) == rootInfo()->supportWindow());
     Xcb::restackWindows(newWindowStack);
 
-    QVector<xcb_window_t> cl;
+    QList<xcb_window_t> cl;
     if (propagate_new_windows) {
-        cl.reserve(manual_overlays.size() + m_x11Clients.size());
+        cl.reserve(manual_overlays.size() + m_windows.size());
         for (const auto win : std::as_const(manual_overlays)) {
             cl.push_back(win);
         }
-        for (auto it = m_x11Clients.constBegin(); it != m_x11Clients.constEnd(); ++it) {
-            cl.push_back((*it)->window());
+        for (Window *window : std::as_const(m_windows)) {
+            X11Window *x11Window = qobject_cast<X11Window *>(window);
+            if (x11Window && !x11Window->isUnmanaged()) {
+                cl.push_back(x11Window->window());
+            }
         }
         rootInfo()->setClientList(cl.constData(), cl.size());
     }
@@ -204,7 +210,7 @@ void Workspace::propagateWindows(bool propagate_new_windows)
     cl.clear();
     for (auto it = stacking_order.constBegin(); it != stacking_order.constEnd(); ++it) {
         X11Window *window = qobject_cast<X11Window *>(*it);
-        if (window) {
+        if (window && !window->isUnmanaged()) {
             cl.push_back(window->window());
         }
     }
@@ -213,6 +219,7 @@ void Workspace::propagateWindows(bool propagate_new_windows)
     }
     rootInfo()->setClientListStacking(cl.constData(), cl.size());
 }
+#endif
 
 /**
  * Returns topmost visible window. Windows on the dock, the desktop
@@ -231,7 +238,7 @@ Window *Workspace::topWindowOnDesktop(VirtualDesktop *desktop, Output *output, b
     }
     for (int i = list.size() - 1; i >= 0; --i) {
         auto window = list.at(i);
-        if (!window->isClient()) {
+        if (!window->isClient() || window->isDeleted()) {
             continue;
         }
         if (window->isOnDesktop(desktop) && window->isShown() && window->isOnCurrentActivity() && !window->isShade()) {
@@ -255,12 +262,18 @@ Window *Workspace::findDesktop(bool topmost, VirtualDesktop *desktop) const
     if (topmost) {
         for (int i = stacking_order.size() - 1; i >= 0; i--) {
             auto window = stacking_order.at(i);
+            if (window->isDeleted()) {
+                continue;
+            }
             if (window->isClient() && window->isOnDesktop(desktop) && window->isDesktop() && window->isShown()) {
                 return window;
             }
         }
     } else { // bottom-most
         for (Window *window : std::as_const(stacking_order)) {
+            if (window->isDeleted()) {
+                continue;
+            }
             if (window->isClient() && window->isOnDesktop(desktop) && window->isDesktop() && window->isShown()) {
                 return window;
             }
@@ -271,7 +284,7 @@ Window *Workspace::findDesktop(bool topmost, VirtualDesktop *desktop) const
 
 void Workspace::raiseOrLowerWindow(Window *window)
 {
-    if (!window || !window->isOnCurrentDesktop()) {
+    if (!window->isOnCurrentDesktop()) {
         return;
     }
 
@@ -288,9 +301,6 @@ void Workspace::raiseOrLowerWindow(Window *window)
 
 void Workspace::lowerWindow(Window *window, bool nogroup)
 {
-    if (!window) {
-        return;
-    }
     if (window->isDeleted()) {
         qCWarning(KWIN_CORE) << "Workspace::lowerWindow: closed window" << window << "cannot be restacked";
         return;
@@ -302,6 +312,8 @@ void Workspace::lowerWindow(Window *window, bool nogroup)
 
     unconstrained_stacking_order.removeAll(window);
     unconstrained_stacking_order.prepend(window);
+    // TODO How X11-specific is this implementation?
+#if KWIN_BUILD_X11
     if (!nogroup && window->isTransient()) {
         // lower also all windows in the group, in their reversed stacking order
         QList<X11Window *> wins;
@@ -314,13 +326,11 @@ void Workspace::lowerWindow(Window *window, bool nogroup)
             }
         }
     }
+#endif
 }
 
 void Workspace::lowerWindowWithinApplication(Window *window)
 {
-    if (!window) {
-        return;
-    }
     if (window->isDeleted()) {
         qCWarning(KWIN_CORE) << "Workspace::lowerWindowWithinApplication: closed window" << window << "cannot be restacked";
         return;
@@ -335,7 +345,7 @@ void Workspace::lowerWindowWithinApplication(Window *window)
     // first try to put it below the bottom-most window of the application
     for (auto it = unconstrained_stacking_order.begin(); it != unconstrained_stacking_order.end(); ++it) {
         auto other = *it;
-        if (!other->isClient()) {
+        if (!other->isClient() || other->isDeleted()) {
             continue;
         }
         if (Window::belongToSameApplication(other, window)) {
@@ -352,9 +362,6 @@ void Workspace::lowerWindowWithinApplication(Window *window)
 
 void Workspace::raiseWindow(Window *window, bool nogroup)
 {
-    if (!window) {
-        return;
-    }
     if (window->isDeleted()) {
         qCWarning(KWIN_CORE) << "Workspace::raiseWindow: closed window" << window << "cannot be restacked";
         return;
@@ -368,7 +375,7 @@ void Workspace::raiseWindow(Window *window, bool nogroup)
         QList<Window *> transients;
         Window *transient_parent = window;
         while ((transient_parent = transient_parent->transientFor())) {
-            transients << transient_parent;
+            transients.prepend(transient_parent);
         }
         for (const auto &transient_parent : std::as_const(transients)) {
             raiseWindow(transient_parent, true);
@@ -381,9 +388,6 @@ void Workspace::raiseWindow(Window *window, bool nogroup)
 
 void Workspace::raiseWindowWithinApplication(Window *window)
 {
-    if (!window) {
-        return;
-    }
     if (window->isDeleted()) {
         qCWarning(KWIN_CORE) << "Workspace::raiseWindowWithinApplication: closed window" << window << "cannot be restacked";
         return;
@@ -397,7 +401,7 @@ void Workspace::raiseWindowWithinApplication(Window *window)
     // first try to put it above the top-most window of the application
     for (int i = unconstrained_stacking_order.size() - 1; i > -1; --i) {
         auto other = unconstrained_stacking_order.at(i);
-        if (!other->isClient()) {
+        if (!other->isClient() || other->isDeleted()) {
             continue;
         }
         if (other == window) { // don't lower it just because it asked to be raised
@@ -421,6 +425,7 @@ void Workspace::raiseWindowRequest(Window *window, NET::RequestSource src, xcb_t
     }
 }
 
+#if KWIN_BUILD_X11
 void Workspace::lowerWindowRequest(X11Window *window, NET::RequestSource src, xcb_timestamp_t /*timestamp*/)
 {
     // If the window has support for all this focus stealing prevention stuff,
@@ -433,6 +438,7 @@ void Workspace::lowerWindowRequest(X11Window *window, NET::RequestSource src, xc
         lowerWindowWithinApplication(window);
     }
 }
+#endif
 
 void Workspace::lowerWindowRequest(Window *window)
 {
@@ -475,6 +481,7 @@ void Workspace::restackWindowUnderActive(Window *window)
     restack(window, m_activeWindow);
 }
 
+#if KWIN_BUILD_X11
 void Workspace::restoreSessionStackingOrder(X11Window *window)
 {
     if (window->sessionStackingOrder() < 0) {
@@ -484,7 +491,7 @@ void Workspace::restoreSessionStackingOrder(X11Window *window)
     unconstrained_stacking_order.removeAll(window);
     for (auto it = unconstrained_stacking_order.begin(); it != unconstrained_stacking_order.end(); ++it) {
         X11Window *current = qobject_cast<X11Window *>(*it);
-        if (!current) {
+        if (!current || current->isDeleted() || current->isUnmanaged()) {
             continue;
         }
         if (current->sessionStackingOrder() > window->sessionStackingOrder()) {
@@ -520,14 +527,16 @@ static Layer layerForWindow(const X11Window *window)
 
     return layer;
 }
+#endif
 
 static Layer computeLayer(const Window *window)
 {
+#if KWIN_BUILD_X11
     if (auto x11Window = qobject_cast<const X11Window *>(window)) {
         return layerForWindow(x11Window);
-    } else {
-        return window->layer();
     }
+#endif
+    return window->layer();
 }
 
 /**
@@ -609,7 +618,7 @@ void Workspace::blockStackingUpdates(bool block)
         if (--m_blockStackingUpdates == 0) {
             updateStackingOrder(m_blockedPropagatingNewWindows);
             if (effects) {
-                static_cast<EffectsHandlerImpl *>(effects)->checkInputWindowStacking();
+                effects->checkInputWindowStacking();
             }
         }
 }
@@ -640,11 +649,13 @@ QList<T *> ensureStackingOrderInList(const QList<Window *> &stackingOrder, const
 }
 }
 
+#if KWIN_BUILD_X11
 // Ensure list is in stacking order
 QList<X11Window *> Workspace::ensureStackingOrder(const QList<X11Window *> &list) const
 {
     return ensureStackingOrderInList(stacking_order, list);
 }
+#endif
 
 QList<Window *> Workspace::ensureStackingOrder(const QList<Window *> &list) const
 {
@@ -656,6 +667,7 @@ QList<Window *> Workspace::unconstrainedStackingOrder() const
     return unconstrained_stacking_order;
 }
 
+#if KWIN_BUILD_X11
 void Workspace::updateXStackingOrder()
 {
     // we use our stacking order for managed windows, but X's for override-redirect windows
@@ -663,117 +675,20 @@ void Workspace::updateXStackingOrder()
     xcb_window_t *windows = tree.children();
 
     const auto count = tree.data()->children_len;
-    int remainingCount = m_unmanaged.count();
+    bool changed = false;
     for (unsigned int i = 0; i < count; ++i) {
         auto window = findUnmanaged(windows[i]);
         if (window) {
             unconstrained_stacking_order.removeAll(window);
             unconstrained_stacking_order.append(window);
-            remainingCount--;
-        }
-        if (remainingCount == 0) {
-            break;
+            changed = true;
         }
     }
 
-    if (!m_unmanaged.isEmpty()) {
+    if (changed) {
         updateStackingOrder();
     }
 }
-
-//*******************************
-// Client
-//*******************************
-
-void X11Window::restackWindow(xcb_window_t above, int detail, NET::RequestSource src, xcb_timestamp_t timestamp, bool send_event)
-{
-    X11Window *other = nullptr;
-    if (detail == XCB_STACK_MODE_OPPOSITE) {
-        other = workspace()->findClient(Predicate::WindowMatch, above);
-        if (!other) {
-            workspace()->raiseOrLowerWindow(this);
-            return;
-        }
-        auto it = workspace()->stackingOrder().constBegin(),
-             end = workspace()->stackingOrder().constEnd();
-        while (it != end) {
-            if (*it == this) {
-                detail = XCB_STACK_MODE_ABOVE;
-                break;
-            } else if (*it == other) {
-                detail = XCB_STACK_MODE_BELOW;
-                break;
-            }
-            ++it;
-        }
-    } else if (detail == XCB_STACK_MODE_TOP_IF) {
-        other = workspace()->findClient(Predicate::WindowMatch, above);
-        if (other && other->frameGeometry().intersects(frameGeometry())) {
-            workspace()->raiseWindowRequest(this, src, timestamp);
-        }
-        return;
-    } else if (detail == XCB_STACK_MODE_BOTTOM_IF) {
-        other = workspace()->findClient(Predicate::WindowMatch, above);
-        if (other && other->frameGeometry().intersects(frameGeometry())) {
-            workspace()->lowerWindowRequest(this, src, timestamp);
-        }
-        return;
-    }
-
-    if (!other) {
-        other = workspace()->findClient(Predicate::WindowMatch, above);
-    }
-
-    if (other && detail == XCB_STACK_MODE_ABOVE) {
-        auto it = workspace()->stackingOrder().constEnd(),
-             begin = workspace()->stackingOrder().constBegin();
-        while (--it != begin) {
-
-            if (*it == other) { // the other one is top on stack
-                it = begin; // invalidate
-                src = NET::FromTool; // force
-                break;
-            }
-            X11Window *window = qobject_cast<X11Window *>(*it);
-
-            if (!window || !((*it)->isNormalWindow() && window->isShown() && (*it)->isOnCurrentDesktop() && (*it)->isOnCurrentActivity() && (*it)->isOnOutput(output()))) {
-                continue; // irrelevant windows
-            }
-
-            if (*(it - 1) == other) {
-                break; // "it" is the one above the target one, stack below "it"
-            }
-        }
-
-        if (it != begin && (*(it - 1) == other)) {
-            other = qobject_cast<X11Window *>(*it);
-        } else {
-            other = nullptr;
-        }
-    }
-
-    if (other) {
-        workspace()->restack(this, other);
-    } else if (detail == XCB_STACK_MODE_BELOW) {
-        workspace()->lowerWindowRequest(this, src, timestamp);
-    } else if (detail == XCB_STACK_MODE_ABOVE) {
-        workspace()->raiseWindowRequest(this, src, timestamp);
-    }
-
-    if (send_event) {
-        sendSyntheticConfigureNotify();
-    }
-}
-
-bool X11Window::belongsToDesktop() const
-{
-    const auto members = group()->members();
-    for (const X11Window *window : members) {
-        if (window->isDesktop()) {
-            return true;
-        }
-    }
-    return false;
-}
+#endif
 
 } // namespace

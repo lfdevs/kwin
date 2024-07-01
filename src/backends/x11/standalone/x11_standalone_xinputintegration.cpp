@@ -18,11 +18,11 @@
 
 #include "../common/ge_event_mem_mover.h"
 
+#include "effect/globals.h"
+#include "effect/xcb.h"
 #include "input.h"
-#include "modifier_only_shortcuts.h"
 #include "workspace.h"
 #include "x11eventfilter.h"
-#include <kwinglobals.h>
 
 #include <X11/extensions/XI2proto.h>
 #include <X11/extensions/XInput2.h>
@@ -41,7 +41,7 @@ class XInputEventFilter : public X11EventFilter
 {
 public:
     XInputEventFilter(int xi_opcode)
-        : X11EventFilter(XCB_GE_GENERIC, xi_opcode, QVector<int>{XI_RawMotion, XI_RawButtonPress, XI_RawButtonRelease, XI_RawKeyPress, XI_RawKeyRelease, XI_TouchBegin, XI_TouchUpdate, XI_TouchOwnership, XI_TouchEnd})
+        : X11EventFilter(XCB_GE_GENERIC, xi_opcode, QList<int>{XI_RawMotion, XI_RawButtonPress, XI_RawButtonRelease, XI_RawKeyPress, XI_RawKeyRelease, XI_TouchBegin, XI_TouchUpdate, XI_TouchOwnership, XI_TouchEnd})
     {
     }
     ~XInputEventFilter() override = default;
@@ -80,11 +80,7 @@ public:
                 break;
                 // TODO: further buttons, horizontal scrolling?
             }
-        }
-            if (m_x11Cursor) {
-                m_x11Cursor->schedulePoll();
-            }
-            break;
+        } break;
         case XI_RawButtonRelease: {
             auto e = reinterpret_cast<xXIRawEvent *>(event);
             switch (e->detail) {
@@ -107,11 +103,12 @@ public:
                 break;
                 // TODO: further buttons, horizontal scrolling?
             }
-        }
+        } break;
+        case XI_RawMotion: {
             if (m_x11Cursor) {
-                m_x11Cursor->schedulePoll();
+                m_x11Cursor->notifyCursorPosChanged();
             }
-            break;
+        } break;
         case XI_TouchBegin: {
             auto e = reinterpret_cast<xXIDeviceEvent *>(event);
             m_lastTouchPositions.insert(e->detail, QPointF(fixed1616ToReal(e->event_x), fixed1616ToReal(e->event_y)));
@@ -150,9 +147,6 @@ public:
             break;
         }
         default:
-            if (m_x11Cursor) {
-                m_x11Cursor->schedulePoll();
-            }
             break;
         }
         return false;
@@ -162,19 +156,19 @@ public:
     {
         m_x11Cursor = cursor;
     }
-    void setDisplay(Display *display)
+    void setDisplay(::Display *display)
     {
         m_x11Display = display;
     }
 
 private:
-    Display *display() const
+    ::Display *display() const
     {
         return m_x11Display;
     }
 
     QPointer<X11Cursor> m_x11Cursor;
-    Display *m_x11Display = nullptr;
+    ::Display *m_x11Display = nullptr;
     uint32_t m_trackingTouchId = 0;
     QHash<uint32_t, QPointF> m_lastTouchPositions;
 };
@@ -203,7 +197,7 @@ public:
     }
 };
 
-XInputIntegration::XInputIntegration(Display *display, QObject *parent)
+XInputIntegration::XInputIntegration(::Display *display, QObject *parent)
     : QObject(parent)
     , m_x11Display(display)
 {
@@ -213,7 +207,7 @@ XInputIntegration::~XInputIntegration() = default;
 
 void XInputIntegration::init()
 {
-    Display *dpy = display();
+    ::Display *dpy = display();
     int xi_opcode, event, error;
     // init XInput extension
     if (!XQueryExtension(dpy, "XInputExtension", &xi_opcode, &event, &error)) {
@@ -279,9 +273,8 @@ void XInputIntegration::startListening()
     m_xiEventFilter->setDisplay(display());
     m_keyPressFilter = std::make_unique<XKeyPressReleaseEventFilter>(XCB_KEY_PRESS);
     m_keyReleaseFilter = std::make_unique<XKeyPressReleaseEventFilter>(XCB_KEY_RELEASE);
-
-    // install the input event spies also relevant for X11 platform
-    input()->installInputEventSpy(new ModifierOnlyShortcuts);
 }
 
 }
+
+#include "moc_x11_standalone_xinputintegration.cpp"

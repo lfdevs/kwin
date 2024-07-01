@@ -7,22 +7,14 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #pragma once
-#include "abstract_egl_backend.h"
+#include "drm_plane.h"
 #include "drm_render_backend.h"
-
-#include <kwinglutils.h>
+#include "opengl/glutils.h"
+#include "platformsupport/scenes/opengl/abstract_egl_backend.h"
 
 #include <QHash>
 #include <QPointer>
 #include <optional>
-
-struct gbm_surface;
-struct gbm_bo;
-
-namespace KWaylandServer
-{
-class SurfaceInterface;
-}
 
 namespace KWin
 {
@@ -30,26 +22,15 @@ namespace KWin
 struct DmaBufAttributes;
 class Output;
 class DrmAbstractOutput;
-class DrmBuffer;
-class DrmGbmBuffer;
 class DrmOutput;
-class GbmSurface;
-class GbmBuffer;
 class DumbSwapchain;
-class ShadowBuffer;
 class DrmBackend;
 class DrmGpu;
 class EglGbmLayer;
 class DrmOutputLayer;
 class DrmPipeline;
-
-struct GbmFormat
-{
-    uint32_t drmFormat = 0;
-    uint32_t bpp;
-    EGLint alphaSize = -1;
-};
-bool operator==(const GbmFormat &lhs, const GbmFormat &rhs);
+class EglContext;
+class EglDisplay;
 
 /**
  * @brief OpenGL Backend using Egl on a GBM surface.
@@ -61,36 +42,32 @@ public:
     EglGbmBackend(DrmBackend *drmBackend);
     ~EglGbmBackend() override;
 
-    std::unique_ptr<SurfaceTexture> createSurfaceTextureInternal(SurfacePixmapInternal *pixmap) override;
-    std::unique_ptr<SurfaceTexture> createSurfaceTextureWayland(SurfacePixmapWayland *pixmap) override;
+    std::unique_ptr<SurfaceTexture> createSurfaceTextureWayland(SurfacePixmap *pixmap) override;
 
-    void present(Output *output) override;
+    DrmDevice *drmDevice() const override;
+
+    void present(Output *output, const std::shared_ptr<OutputFrame> &frame) override;
     OutputLayer *primaryLayer(Output *output) override;
+    OutputLayer *cursorLayer(Output *output) override;
 
     void init() override;
-    bool prefer10bpc() const override;
-    std::shared_ptr<DrmPipelineLayer> createPrimaryLayer(DrmPipeline *pipeline) override;
-    std::shared_ptr<DrmOverlayLayer> createCursorLayer(DrmPipeline *pipeline) override;
+    std::shared_ptr<DrmPipelineLayer> createDrmPlaneLayer(DrmPipeline *pipeline, DrmPlane::TypeIndex type) override;
     std::shared_ptr<DrmOutputLayer> createLayer(DrmVirtualOutput *output) override;
 
-    std::shared_ptr<GLTexture> textureForOutput(Output *requestedOutput) const override;
+    std::pair<std::shared_ptr<KWin::GLTexture>, ColorDescription> textureForOutput(Output *requestedOutput) const override;
 
-    std::shared_ptr<DrmBuffer> testBuffer(DrmAbstractOutput *output);
-    EGLConfig config(uint32_t format) const;
-    std::optional<GbmFormat> gbmFormatForDrmFormat(uint32_t format) const;
     DrmGpu *gpu() const;
 
-    EGLImageKHR importBufferObjectAsImage(gbm_bo *bo);
-    std::shared_ptr<GLTexture> importBufferObjectAsTexture(gbm_bo *bo);
+    EglDisplay *displayForGpu(DrmGpu *gpu);
+    std::shared_ptr<EglContext> contextForGpu(DrmGpu *gpu);
 
 private:
     bool initializeEgl();
-    bool initBufferConfigs();
     bool initRenderingContext();
+    EglDisplay *createEglDisplay(DrmGpu *gpu) const;
 
     DrmBackend *m_backend;
-    QHash<uint32_t, GbmFormat> m_formats;
-    QHash<uint32_t, EGLConfig> m_configs;
+    std::map<EglDisplay *, std::weak_ptr<EglContext>> m_contexts;
 
     friend class EglGbmTexture;
 };

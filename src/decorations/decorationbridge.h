@@ -8,15 +8,11 @@
 */
 #pragma once
 
-#include <kwinglobals.h>
-
+#include "kwin_export.h"
 #include <KDecoration2/Private/DecorationBridge>
-
 #include <QObject>
-#include <QSharedPointer>
 
 class KPluginFactory;
-
 namespace KDecoration2
 {
 class DecorationSettings;
@@ -56,7 +52,7 @@ public:
 
     void reconfigure();
 
-    const QSharedPointer<KDecoration2::DecorationSettings> &settings() const
+    const std::shared_ptr<KDecoration2::DecorationSettings> &settings() const
     {
         return m_settings;
     }
@@ -79,7 +75,7 @@ private:
     QString m_plugin;
     QString m_defaultTheme;
     QString m_theme;
-    QSharedPointer<KDecoration2::DecorationSettings> m_settings;
+    std::shared_ptr<KDecoration2::DecorationSettings> m_settings;
     bool m_noPlugin;
 };
 } // Decoration

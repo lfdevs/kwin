@@ -8,7 +8,7 @@
 */
 #include "switcheritem.h"
 // KWin
-#include "composite.h"
+#include "compositor.h"
 #include "core/output.h"
 #include "tabboxhandler.h"
 #include "workspace.h"
@@ -104,6 +104,20 @@ void SwitcherItem::setNoModifierGrab(bool set)
     Q_EMIT noModifierGrabChanged();
 }
 
+bool SwitcherItem::automaticallyHide() const
+{
+    return m_automaticallyHide;
+}
+
+void SwitcherItem::setAutomaticallyHide(bool value)
+{
+    if (m_automaticallyHide == value) {
+        return;
+    }
+    m_automaticallyHide = value;
+    Q_EMIT automaticallyHideChanged();
+}
+
 bool SwitcherItem::compositing()
 {
     return Compositor::compositing();
@@ -111,3 +125,5 @@ bool SwitcherItem::compositing()
 
 }
 }
+
+#include "moc_switcheritem.cpp"

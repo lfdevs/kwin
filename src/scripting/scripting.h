@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include <kwinglobals.h>
+#include "effect/globals.h"
 
 #include <QHash>
 #include <QJSEngine>
@@ -298,8 +298,6 @@ public:
 
 public Q_SLOTS:
     QVariant readConfig(const QString &key, QVariant defaultValue = QVariant());
-    void registerWindow(QQuickWindow *window);
-    bool registerShortcut(const QString &name, const QString &text, const QKeySequence &keys, QJSValue function);
 
 private:
     DeclarativeScript *m_script;

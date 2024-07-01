@@ -6,15 +6,13 @@
 */
 #include "kcm.h"
 
-#include <config-kwin.h>
+#include "config-kwin.h"
 
 #include "declarative-plugin/buttonsmodel.h"
 #include "decorationmodel.h"
 
-#include <KAboutData>
 #include <KConfigGroup>
 #include <KLocalizedString>
-#include <KNSCore/Engine>
 #include <KPluginFactory>
 
 #include <QDBusConnection>
@@ -26,6 +24,7 @@
 
 #include "kwindecorationdata.h"
 #include "kwindecorationsettings.h"
+#include "utils.h"
 
 K_PLUGIN_FACTORY_WITH_JSON(KCMKWinDecorationFactory, "kcm_kwindecoration.json", registerPlugin<KCMKWinDecoration>(); registerPlugin<KWinDecorationData>();)
 
@@ -36,8 +35,8 @@ namespace
 const KDecoration2::BorderSize s_defaultRecommendedBorderSize = KDecoration2::BorderSize::Normal;
 }
 
-KCMKWinDecoration::KCMKWinDecoration(QObject *parent, const QVariantList &arguments)
-    : KQuickAddons::ManagedConfigModule(parent, arguments)
+KCMKWinDecoration::KCMKWinDecoration(QObject *parent, const KPluginMetaData &metaData)
+    : KQuickManagedConfigModule(parent, metaData)
     , m_themesModel(new KDecoration2::Configuration::DecorationsModel(this))
     , m_proxyThemesModel(new QSortFilterProxyModel(this))
     , m_leftButtonsModel(new KDecoration2::Preview::ButtonsModel(DecorationButtonsList(), this))
@@ -45,15 +44,6 @@ KCMKWinDecoration::KCMKWinDecoration(QObject *parent, const QVariantList &argume
     , m_availableButtonsModel(new KDecoration2::Preview::ButtonsModel(this))
     , m_data(new KWinDecorationData(this))
 {
-    auto about = new KAboutData(QStringLiteral("kcm_kwindecoration"),
-                                i18n("Window Decorations"),
-                                QStringLiteral("1.0"),
-                                QString(),
-                                KAboutLicense::GPL);
-    about->addAuthor(i18n("Valerio Pilo"),
-                     i18n("Author"),
-                     QStringLiteral("vpilo@coldshock.net"));
-    setAboutData(about);
     setButtons(Apply | Default | Help);
     qmlRegisterAnonymousType<QAbstractListModel>("org.kde.kwin.KWinDecoration", 1);
     qmlRegisterAnonymousType<QSortFilterProxyModel>("org.kde.kwin.KWinDecoration", 1);
@@ -62,6 +52,10 @@ KCMKWinDecoration::KCMKWinDecoration(QObject *parent, const QVariantList &argume
     m_proxyThemesModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
     m_proxyThemesModel->setSortCaseSensitivity(Qt::CaseInsensitive);
     m_proxyThemesModel->sort(0);
+
+    connect(m_proxyThemesModel, &QSortFilterProxyModel::rowsInserted, this, &KCMKWinDecoration::themeChanged);
+    connect(m_proxyThemesModel, &QSortFilterProxyModel::rowsRemoved, this, &KCMKWinDecoration::themeChanged);
+    connect(m_proxyThemesModel, &QSortFilterProxyModel::modelReset, this, &KCMKWinDecoration::themeChanged);
 
     connect(m_data->settings(), &KWinDecorationSettings::themeChanged, this, &KCMKWinDecoration::themeChanged);
     connect(m_data->settings(), &KWinDecorationSettings::borderSizeChanged, this, &KCMKWinDecoration::borderSizeChanged);
@@ -108,7 +102,7 @@ void KCMKWinDecoration::reloadKWinSettings()
 
 void KCMKWinDecoration::load()
 {
-    ManagedConfigModule::load();
+    KQuickManagedConfigModule::load();
 
     m_leftButtonsModel->replace(Utils::buttonsFromString(settings()->buttonsOnLeft()));
     m_rightButtonsModel->replace(Utils::buttonsFromString(settings()->buttonsOnRight()));
@@ -126,7 +120,7 @@ void KCMKWinDecoration::save()
         settings()->setBorderSize(settings()->defaultBorderSizeValue());
     }
 
-    ManagedConfigModule::save();
+    KQuickManagedConfigModule::save();
 
     // Send a signal to all kwin instances
     QDBusMessage message = QDBusMessage::createSignal(QStringLiteral("/KWin"),
@@ -137,7 +131,7 @@ void KCMKWinDecoration::save()
 
 void KCMKWinDecoration::defaults()
 {
-    ManagedConfigModule::defaults();
+    KQuickManagedConfigModule::defaults();
 
     setBorderSize(recommendedBorderSize());
 

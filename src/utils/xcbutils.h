@@ -8,13 +8,21 @@
 */
 #pragma once
 
+#include "config-kwin.h"
+
+#if !KWIN_BUILD_X11
+#error Do not include on non-X11 builds
+#endif
+
+#include "effect/globals.h"
+#include "effect/xcb.h"
 #include "main.h"
 #include "utils/c_ptr.h"
-#include <kwinglobals.h>
+#include "utils/version.h"
 
+#include <QList>
 #include <QRect>
 #include <QRegion>
-#include <QVector>
 
 #include <xcb/composite.h>
 #include <xcb/randr.h>
@@ -38,6 +46,13 @@ qreal KWIN_EXPORT fromXNative(int value);
 QRectF KWIN_EXPORT fromXNative(const QRect &value);
 QSizeF KWIN_EXPORT fromXNative(const QSize &value);
 
+/**
+ * Rounds a given value using the scale as a base
+ *
+ * Equivalent to fromXNative(toXNative(value))
+ */
+qreal KWIN_EXPORT nativeRound(qreal value);
+
 /** Floors a given value to using the scale as a base
  *  Use when flooring to ints from Xwayland
  *  i.e floor(a/scale) * scale
@@ -48,7 +63,7 @@ QRectF KWIN_EXPORT nativeFloor(const QRectF &value);
 static void defineCursor(xcb_window_t window, xcb_cursor_t cursor);
 static void setInputFocus(xcb_window_t window, uint8_t revertTo = XCB_INPUT_FOCUS_POINTER_ROOT, xcb_timestamp_t time = xTime());
 static void moveWindow(xcb_window_t window, const QPoint &pos);
-static void moveWindow(xcb_window_t window, uint32_t x, uint32_t y);
+static void moveWindow(xcb_window_t window, int32_t x, int32_t y);
 static void lowerWindow(xcb_window_t window);
 static void selectInput(xcb_window_t window, uint32_t events);
 
@@ -1460,8 +1475,8 @@ public:
     int majorOpcode;
     bool present;
     QByteArray name;
-    QVector<QByteArray> opCodes;
-    QVector<QByteArray> errorCodes;
+    QList<QByteArray> opCodes;
+    QList<QByteArray> errorCodes;
 };
 
 class KWIN_EXPORT Extensions
@@ -1505,7 +1520,7 @@ public:
         return m_sync.present;
     }
     int syncAlarmNotifyEvent() const;
-    QVector<ExtensionData> extensions() const;
+    QList<ExtensionData> extensions() const;
     bool hasGlx() const
     {
         return m_glx.present;
@@ -1645,7 +1660,7 @@ public:
     void changeProperty(xcb_atom_t property, xcb_atom_t type, uint8_t format, uint32_t length,
                         const void *data, uint8_t mode = XCB_PROP_MODE_REPLACE);
     void deleteProperty(xcb_atom_t property);
-    void setBorderWidth(uint32_t width);
+    void setBorderWidth(int32_t width);
     void grabButton(uint8_t pointerMode, uint8_t keyboardmode,
                     uint16_t modifiers = XCB_MOD_MASK_ANY,
                     uint8_t button = XCB_BUTTON_INDEX_ANY,
@@ -1840,7 +1855,7 @@ inline void Window::deleteProperty(xcb_atom_t property)
     xcb_delete_property(connection(), m_window, property);
 }
 
-inline void Window::setBorderWidth(uint32_t width)
+inline void Window::setBorderWidth(int32_t width)
 {
     if (!isValid()) {
         return;
@@ -1919,7 +1934,7 @@ static inline void moveWindow(xcb_window_t window, const QPoint &pos)
     moveWindow(window, pos.x(), pos.y());
 }
 
-static inline void moveWindow(xcb_window_t window, uint32_t x, uint32_t y)
+static inline void moveWindow(xcb_window_t window, int32_t x, int32_t y)
 {
     const uint16_t mask = XCB_CONFIG_WINDOW_X | XCB_CONFIG_WINDOW_Y;
     const uint32_t values[] = {Xcb::toXNative(x), Xcb::toXNative(y)};
@@ -1942,7 +1957,7 @@ static inline WindowId createInputWindow(const QRect &geometry, uint32_t mask, c
     return window;
 }
 
-static inline void restackWindows(const QVector<xcb_window_t> &windows)
+static inline void restackWindows(const QList<xcb_window_t> &windows)
 {
     if (windows.count() < 2) {
         // only one window, nothing to do
@@ -1957,7 +1972,7 @@ static inline void restackWindows(const QVector<xcb_window_t> &windows)
     }
 }
 
-static inline void restackWindowsWithRaise(const QVector<xcb_window_t> &windows)
+static inline void restackWindowsWithRaise(const QList<xcb_window_t> &windows)
 {
     if (windows.isEmpty()) {
         return;
@@ -1988,9 +2003,9 @@ static inline xcb_rectangle_t fromQt(const QRect &rect)
     return rectangle;
 }
 
-static inline QVector<xcb_rectangle_t> regionToRects(const QRegion &region)
+static inline QList<xcb_rectangle_t> regionToRects(const QRegion &region)
 {
-    QVector<xcb_rectangle_t> rects;
+    QList<xcb_rectangle_t> rects;
     rects.reserve(region.rectCount());
     for (const QRect &rect : region) {
         rects.append(Xcb::fromQt(rect));
@@ -2076,6 +2091,19 @@ inline int Shm::shmId() const
 inline uint8_t Shm::pixmapFormat() const
 {
     return m_pixmapFormat;
+}
+
+inline static Version xServerVersion()
+{
+    if (xcb_connection_t *c = connection()) {
+        auto setup = xcb_get_setup(c);
+        const QByteArray vendorName(xcb_setup_vendor(setup), xcb_setup_vendor_length(setup));
+        if (vendorName.contains("X.Org")) {
+            const int release = setup->release_number;
+            return Version(release / 10000000, (release / 100000) % 100, (release / 1000) % 100);
+        }
+    }
+    return Version(0, 0, 0);
 }
 
 } // namespace X11

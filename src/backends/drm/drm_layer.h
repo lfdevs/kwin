@@ -8,6 +8,7 @@
 */
 #pragma once
 #include "core/outputlayer.h"
+#include "drm_plane.h"
 
 #include <QRegion>
 #include <memory>
@@ -24,39 +25,23 @@ class DrmPipeline;
 class DrmOutputLayer : public OutputLayer
 {
 public:
+    explicit DrmOutputLayer(Output *output);
     virtual ~DrmOutputLayer();
 
     virtual std::shared_ptr<GLTexture> texture() const;
-    virtual QRegion currentDamage() const;
     virtual void releaseBuffers() = 0;
 };
 
 class DrmPipelineLayer : public DrmOutputLayer
 {
 public:
-    DrmPipelineLayer(DrmPipeline *pipeline);
+    explicit DrmPipelineLayer(DrmPipeline *pipeline, DrmPlane::TypeIndex type);
 
     virtual bool checkTestBuffer() = 0;
     virtual std::shared_ptr<DrmFramebuffer> currentBuffer() const = 0;
-    virtual bool hasDirectScanoutBuffer() const;
 
 protected:
     DrmPipeline *const m_pipeline;
-};
-
-class DrmOverlayLayer : public DrmPipelineLayer
-{
-public:
-    DrmOverlayLayer(DrmPipeline *pipeline);
-
-    void setPosition(const QPoint &pos);
-    void setVisible(bool visible);
-
-    QPoint position() const;
-    bool isVisible() const;
-
-protected:
-    QPoint m_position;
-    bool m_visible = false;
+    const DrmPlane::TypeIndex m_type;
 };
 }

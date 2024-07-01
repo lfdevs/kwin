@@ -1,13 +1,13 @@
 # Copyright (C) YEAR This file is copyright:
 # This file is distributed under the same license as the kwin package.
 #
-# Kishore G <kishore96@gmail.com>, 2021.
+# Kishore G <kishore96@gmail.com>, 2021, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-03-26 00:45+0000\n"
-"PO-Revision-Date: 2021-09-26 18:49+0530\n"
+"POT-Creation-Date: 2023-12-07 01:42+0000\n"
+"PO-Revision-Date: 2023-06-11 18:55+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -15,29 +15,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 21.08.1\n"
+"X-Generator: Lokalize 23.04.2\n"
 
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr ""
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr ""
-
-#: kcm.cpp:35
-#, kde-format
-msgid "Desktop Effects"
-msgstr "பணிமேடை அசைவூட்டங்கள்"
-
-#: kcm.cpp:39
-#, kde-format
-msgid "Vlad Zahorodnii"
-msgstr "விலாட் ஜாஹொரிடுனி"
-
-#: package/contents/ui/Effect.qml:92
+#: ui/Effect.qml:97
 #, kde-format
 msgid ""
 "Author: %1\n"
@@ -46,24 +26,25 @@ msgstr ""
 "இயற்றியவர்: %1\n"
 "உரிமம்: %2"
 
-#: package/contents/ui/Effect.qml:121
+#: ui/Effect.qml:125
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Show/Hide Video"
 msgstr "ஒளிக்காட்சியை காட்டு/மறை"
 
-#: package/contents/ui/Effect.qml:128
+#: ui/Effect.qml:136
 #, kde-format
 msgctxt "@info:tooltip"
-msgid "Configure..."
+msgid "Configure…"
 msgstr "அமை…"
 
-#: package/contents/ui/main.qml:20
+#: ui/main.qml:25
 #, kde-format
-msgid "This module lets you configure desktop effects."
-msgstr "பணிமேடை அசைவூட்டங்களை அமைக்க இந்த கூறு உதவும்."
+msgctxt "@action:button get new KWin effects"
+msgid "Get New…"
+msgstr "புதியவற்றை பெறு…"
 
-#: package/contents/ui/main.qml:27
+#: ui/main.qml:44
 #, kde-format
 msgid ""
 "Hint: To find out or configure how to activate an effect, look at the "
@@ -72,22 +53,29 @@ msgstr ""
 "குறிப்பு: ஒரு அசைவூட்டத்தை எவ்வாறு பயன்படுத்த வேண்டுமென கண்டுபிடிக்க, அதன் அமைப்புகளை "
 "பாருங்கள்."
 
-#: package/contents/ui/main.qml:47
+#: ui/main.qml:66
 #, kde-format
 msgid "Configure Filter"
 msgstr "வடிகட்டியை அமை"
 
-#: package/contents/ui/main.qml:59
+#: ui/main.qml:78
 #, kde-format
 msgid "Exclude unsupported effects"
 msgstr "ஆதரிக்கப்படாத அசைவூட்டங்களை காட்டாதே"
 
-#: package/contents/ui/main.qml:67
+#: ui/main.qml:86
 #, kde-format
 msgid "Exclude internal effects"
 msgstr "உள்ளக அசைவூட்டங்களை காட்டாதே"
 
-#: package/contents/ui/main.qml:125
-#, kde-format
-msgid "Get New Desktop Effects..."
-msgstr "புதிய அசைவூட்டங்களை பெறு…"
+#~ msgid "Get New Desktop Effects..."
+#~ msgstr "புதிய அசைவூட்டங்களை பெறு…"
+
+#~ msgid "This module lets you configure desktop effects."
+#~ msgstr "பணிமேடை அசைவூட்டங்களை அமைக்க இந்த கூறு உதவும்."
+
+#~ msgid "Desktop Effects"
+#~ msgstr "பணிமேடை அசைவூட்டங்கள்"
+
+#~ msgid "Vlad Zahorodnii"
+#~ msgstr "விலாட் ஜாஹொரிடுனி"

@@ -38,11 +38,21 @@ void PlacementTracker::add(Window *window)
     if (window->isUnmanaged() || window->isAppletPopup() || window->isSpecialWindow()) {
         return;
     }
-    connect(window, &Window::frameGeometryChanged, this, &PlacementTracker::saveGeometry);
-    connect(window, qOverload<Window *, MaximizeMode>(&Window::clientMaximizedStateChanged), this, &PlacementTracker::saveMaximize);
-    connect(window, &Window::quickTileModeChanged, this, &PlacementTracker::saveQuickTile);
-    connect(window, &Window::fullScreenChanged, this, &PlacementTracker::saveFullscreen);
-    connect(window, &Window::clientFinishUserMovedResized, this, &PlacementTracker::saveInteractionCounter);
+    connect(window, &Window::frameGeometryChanged, this, [this, window]() {
+        saveGeometry(window);
+    });
+    connect(window, &Window::maximizedChanged, this, [this, window]() {
+        saveMaximize(window);
+    });
+    connect(window, &Window::quickTileModeChanged, this, [this, window]() {
+        saveQuickTile(window);
+    });
+    connect(window, &Window::fullScreenChanged, this, [this, window]() {
+        saveFullscreen(window);
+    });
+    connect(window, &Window::interactiveMoveResizeFinished, this, [this, window]() {
+        saveInteractionCounter(window);
+    });
     connect(window, &Window::maximizeGeometryRestoreChanged, this, [this, window]() {
         saveMaximizeGeometryRestore(window);
     });
@@ -57,11 +67,7 @@ void PlacementTracker::add(Window *window)
 void PlacementTracker::remove(Window *window)
 {
     if (m_savedWindows.contains(window)) {
-        disconnect(window, &Window::frameGeometryChanged, this, &PlacementTracker::saveGeometry);
-        disconnect(window, qOverload<Window *, MaximizeMode>(&Window::clientMaximizedStateChanged), this, &PlacementTracker::saveMaximize);
-        disconnect(window, &Window::quickTileModeChanged, this, &PlacementTracker::saveQuickTile);
-        disconnect(window, &Window::fullScreenChanged, this, &PlacementTracker::saveFullscreen);
-        disconnect(window, &Window::clientFinishUserMovedResized, this, &PlacementTracker::saveInteractionCounter);
+        disconnect(window, nullptr, this, nullptr);
         for (auto &dataMap : m_data) {
             dataMap.remove(window);
         }
@@ -87,7 +93,7 @@ void PlacementTracker::restore(const QString &key)
             // don't touch windows where the user intentionally changed their state
             bool restore = window->interactiveMoveResizeCount() == newData.interactiveMoveResizeCount
                 && window->requestedMaximizeMode() == newData.maximize
-                && window->quickTileMode() == newData.quickTile
+                && window->requestedQuickTileMode() == newData.quickTile
                 && window->isFullScreen() == newData.fullscreen;
             if (!restore) {
                 // the logic above can have false negatives if PlacementTracker changed the window state
@@ -95,7 +101,7 @@ void PlacementTracker::restore(const QString &key)
                 if (const auto it = m_lastRestoreData.find(window); it != m_lastRestoreData.end()) {
                     restore = window->interactiveMoveResizeCount() == it->interactiveMoveResizeCount
                         && window->requestedMaximizeMode() == it->maximize
-                        && window->quickTileMode() == it->quickTile
+                        && window->requestedQuickTileMode() == it->quickTile
                         && window->isFullScreen() == it->fullscreen
                         && window->moveResizeOutput()->uuid() == it->outputUuid;
                 }
@@ -109,19 +115,18 @@ void PlacementTracker::restore(const QString &key)
                 }
             }
             if (restore) {
-                window->setQuickTileMode(newData.quickTile, true);
+                // to work around setQuickTileMode having unexpected side effects, make sure the window isn't tiled before
+                // setting the desired quick tile mode
+                // TODO fix this more properly
+                window->setQuickTileMode(QuickTileFlag::None, true);
+                if (newData.quickTile != QuickTileFlag::Custom) {
+                    window->setQuickTileMode(newData.quickTile, true);
+                }
                 window->setMaximize(newData.maximize & MaximizeMode::MaximizeVertical, newData.maximize & MaximizeMode::MaximizeHorizontal);
                 window->setFullScreen(newData.fullscreen);
-                if (newData.quickTile || newData.maximize || newData.fullscreen) {
-                    // send the window to the correct output
-                    const auto outputIt = std::find_if(outputs.begin(), outputs.end(), [&newData](const auto output) {
-                        return output->uuid() == newData.outputUuid;
-                    });
-                    if (outputIt != outputs.end()) {
-                        window->sendToOutput(*outputIt);
-                    }
-                } else {
-                    window->moveResize(newData.geometry);
+                window->moveResize(newData.geometry);
+                if (newData.quickTile == QuickTileFlag::Custom) {
+                    window->setQuickTileMode(QuickTileFlag::Custom, true);
                 }
                 window->setGeometryRestore(newData.geometryRestore);
                 window->setFullscreenGeometryRestore(newData.fullscreenGeometryRestore);
@@ -156,28 +161,24 @@ void PlacementTracker::saveInteractionCounter(Window *window)
     }
 }
 
-void PlacementTracker::saveMaximize(Window *window, MaximizeMode mode)
+void PlacementTracker::saveMaximize(Window *window)
 {
     if (m_inhibitCount == 0) {
         auto &data = m_data[m_currentKey][window];
-        data.maximize = mode;
+        data.maximize = window->maximizeMode();
     }
 }
 
-void PlacementTracker::saveQuickTile()
+void PlacementTracker::saveQuickTile(Window *window)
 {
-    Window *window = qobject_cast<Window *>(QObject::sender());
-    Q_ASSERT(window);
     if (m_inhibitCount == 0) {
         auto &data = m_data[m_currentKey][window];
         data.quickTile = window->quickTileMode();
     }
 }
 
-void PlacementTracker::saveFullscreen()
+void PlacementTracker::saveFullscreen(Window *window)
 {
-    Window *window = qobject_cast<Window *>(QObject::sender());
-    Q_ASSERT(window);
     if (m_inhibitCount == 0) {
         auto &data = m_data[m_currentKey][window];
         data.fullscreen = window->isFullScreen();
@@ -211,3 +212,5 @@ void PlacementTracker::uninhibit()
     m_inhibitCount--;
 }
 }
+
+#include "moc_placementtracker.cpp"

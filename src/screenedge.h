@@ -18,15 +18,17 @@
 
 #pragma once
 // KWin
-#include "kwinglobals.h"
+#include "effect/globals.h"
 // KDE includes
 #include <KSharedConfig>
 // Qt
 #include <QDateTime>
+#include <QList>
 #include <QObject>
 #include <QRect>
-#include <QVector>
+
 #include <memory>
+#include <xcb/xcb.h>
 
 class QAction;
 class QMouseEvent;
@@ -112,7 +114,7 @@ public Q_SLOTS:
     void setBorder(ElectricBorder border);
     void setAction(ElectricBorderAction action);
     void setGeometry(const QRect &geometry);
-    void updateApproaching(const QPoint &point);
+    void updateApproaching(const QPointF &point);
     void checkBlocking();
 Q_SIGNALS:
     void approaching(ElectricBorder border, qreal factor, const QRect &geometry);
@@ -148,7 +150,7 @@ private:
     void switchDesktop(const QPoint &cursorPos);
     void pushCursorBack(const QPoint &cursorPos);
     void reserveTouchCallBack(const TouchCallback &callback);
-    QVector<TouchCallback> touchCallBacks() const
+    QList<TouchCallback> touchCallBacks() const
     {
         return m_touchCallbacks;
     }
@@ -170,7 +172,7 @@ private:
     Window *m_client;
     Output *m_output;
     std::unique_ptr<SwipeGesture> m_gesture;
-    QVector<TouchCallback> m_touchCallbacks;
+    QList<TouchCallback> m_touchCallbacks;
     friend class ScreenEdges;
 };
 
@@ -252,6 +254,10 @@ public:
      */
     void check(const QPoint &pos, const QDateTime &now, bool forceNoPushBack = false);
     /**
+     * Check, if @p pos is in the approach geometry of any edge.
+     */
+    bool inApproachGeometry(const QPoint &pos) const;
+    /**
      * The (dpi dependent) length, reserved for the active corners of each edge - 1/3"
      */
     int cornerOffset() const;
@@ -292,14 +298,11 @@ public:
      * Once the Edge for the client triggers, the client gets shown again and the Edge unreserved.
      * The idea is that the Edge can only get activated if the client is currently hidden.
      *
-     * To make sure that the client can always be shown again the implementation also starts to
-     * track geometry changes and shows the Client again. The same for screen geometry changes.
-     *
      * The Edge gets automatically destroyed if the client gets released.
      * @param client The Client for which an Edge should be reserved
      * @param border The border which the client wants to use, only proper borders are supported (no corners)
      */
-    void reserve(KWin::Window *client, ElectricBorder border);
+    bool reserve(KWin::Window *client, ElectricBorder border);
 
     /**
      * Mark the specified screen edge as reserved for touch gestures. This method is provided for
@@ -332,11 +335,13 @@ public:
     void ensureOnTop();
     bool isEntered(QMouseEvent *event);
 
+#if KWIN_BUILD_X11
     /**
-     * Returns a QVector of all existing screen edge windows
-     * @return all existing screen edge windows in a QVector
+     * Returns a QList of all existing screen edge windows
+     * @return all existing screen edge windows in a QList
      */
-    QVector<xcb_window_t> windows() const;
+    QList<xcb_window_t> windows() const;
+#endif
 
     bool isDesktopSwitching() const;
     bool isDesktopSwitchingMovingClients() const;
@@ -365,8 +370,10 @@ public:
         return m_gestureRecognizer;
     }
 
+#if KWIN_BUILD_X11
     bool handleDndNotify(xcb_window_t window, const QPoint &point);
     bool handleEnterNotifiy(xcb_window_t window, const QPoint &point, const QDateTime &timestamp);
+#endif
     bool remainActiveOnFullscreen() const;
     const std::vector<std::unique_ptr<Edge>> &edges() const;
 
@@ -410,7 +417,7 @@ private:
     void setRemainActiveOnFullscreen(bool remainActive);
     ElectricBorderAction actionForEdge(Edge *edge) const;
     ElectricBorderAction actionForTouchEdge(Edge *edge) const;
-    void createEdgeForClient(Window *client, ElectricBorder border);
+    bool createEdgeForClient(Window *client, ElectricBorder border);
     void deleteEdgeForClient(Window *client);
     bool m_desktopSwitching;
     bool m_desktopSwitchingMovingClients;

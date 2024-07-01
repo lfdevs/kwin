@@ -10,13 +10,18 @@
 
 #pragma once
 
+#include <config-kwin.h>
+#if !KWIN_BUILD_X11
+#error Do not include on non-X11 builds
+#endif
+
 #include "utils/common.h"
 #include <netwm.h>
 
 namespace KWin
 {
 
-class EffectWindowGroupImpl;
+class EffectWindowGroup;
 class X11Window;
 
 class Group
@@ -37,7 +42,7 @@ public:
     xcb_timestamp_t userTime() const;
     void ref();
     void deref();
-    EffectWindowGroupImpl *effectGroup();
+    EffectWindowGroup *effectGroup();
 
 private:
     void startupIdChanged();
@@ -47,7 +52,7 @@ private:
     std::unique_ptr<NETWinInfo> leader_info;
     xcb_timestamp_t user_time;
     int refcount;
-    std::unique_ptr<EffectWindowGroupImpl> effect_group;
+    std::unique_ptr<EffectWindowGroup> effect_group;
 };
 
 inline xcb_window_t Group::leader() const
@@ -75,7 +80,7 @@ inline xcb_timestamp_t Group::userTime() const
     return user_time;
 }
 
-inline EffectWindowGroupImpl *Group::effectGroup()
+inline EffectWindowGroup *Group::effectGroup()
 {
     return effect_group.get();
 }

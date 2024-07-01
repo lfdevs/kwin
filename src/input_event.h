@@ -23,7 +23,7 @@ class MouseEvent : public QMouseEvent
 public:
     explicit MouseEvent(QEvent::Type type, const QPointF &pos, Qt::MouseButton button, Qt::MouseButtons buttons,
                         Qt::KeyboardModifiers modifiers, std::chrono::microseconds timestamp,
-                        const QPointF &delta, const QPointF &deltaNonAccelerated, InputDevice *device);
+                        const QPointF &delta, const QPointF &deltaNonAccelerated, InputDevice *device, bool warp);
 
     QPointF delta() const
     {
@@ -65,6 +65,11 @@ public:
         m_nativeButton = button;
     }
 
+    bool isWarp() const
+    {
+        return m_warp;
+    }
+
 private:
     QPointF m_delta;
     QPointF m_deltaUnccelerated;
@@ -72,6 +77,7 @@ private:
     InputDevice *m_device;
     Qt::KeyboardModifiers m_modifiersRelevantForShortcuts = Qt::KeyboardModifiers();
     quint32 m_nativeButton = 0;
+    bool m_warp = false;
 };
 
 // TODO: Don't derive from QWheelEvent, this event is quite domain specific.
@@ -129,7 +135,7 @@ private:
     const std::chrono::microseconds m_timestamp;
 };
 
-class KeyEvent : public QKeyEvent
+class KWIN_EXPORT KeyEvent : public QKeyEvent
 {
 public:
     explicit KeyEvent(QEvent::Type type, Qt::Key key, Qt::KeyboardModifiers modifiers, quint32 code, quint32 keysym,
@@ -193,7 +199,7 @@ class TabletToolId
 public:
     QString deviceSysName;
     InputRedirection::TabletToolType m_toolType;
-    QVector<InputRedirection::Capability> m_capabilities;
+    QList<InputRedirection::Capability> m_capabilities;
     quint64 m_serialId;
     quint64 m_uniqueId;
     void *m_deviceGroupData;
@@ -210,18 +216,10 @@ public:
 class TabletEvent : public QTabletEvent
 {
 public:
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     TabletEvent(Type t, const QPointingDevice *dev, const QPointF &pos, const QPointF &globalPos,
                 qreal pressure, float xTilt, float yTilt,
                 float tangentialPressure, qreal rotation, float z,
                 Qt::KeyboardModifiers keyState, Qt::MouseButton button, Qt::MouseButtons buttons, const TabletToolId &tabletId);
-#else
-    TabletEvent(Type t, const QPointF &pos, const QPointF &globalPos,
-                int device, int pointerType, qreal pressure, int xTilt, int yTilt,
-                qreal tangentialPressure, qreal rotation, int z,
-                Qt::KeyboardModifiers keyState, qint64 uniqueID,
-                Qt::MouseButton button, Qt::MouseButtons buttons, const TabletToolId &tabletId);
-#endif
 
     const TabletToolId &tabletId() const
     {

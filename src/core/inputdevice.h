@@ -35,7 +35,6 @@ public:
     virtual void setLeds(LEDs leds) = 0;
 
     virtual bool isKeyboard() const = 0;
-    virtual bool isAlphaNumericKeyboard() const = 0;
     virtual bool isPointer() const = 0;
     virtual bool isTouchpad() const = 0;
     virtual bool isTouch() const = 0;
@@ -47,6 +46,8 @@ public:
     virtual QString outputName() const;
     virtual void setOutputName(const QString &outputName);
 
+    virtual bool isNaturalScroll() const;
+
 Q_SIGNALS:
     void keyChanged(quint32 key, InputRedirection::KeyboardKeyState, std::chrono::microseconds time, InputDevice *device);
     void pointerButtonChanged(quint32 button, InputRedirection::PointerButtonState state, std::chrono::microseconds time, InputDevice *device);
@@ -54,6 +55,7 @@ Q_SIGNALS:
     void pointerMotion(const QPointF &delta, const QPointF &deltaNonAccelerated, std::chrono::microseconds time, InputDevice *device);
     void pointerAxisChanged(InputRedirection::PointerAxis axis, qreal delta, qint32 deltaV120,
                             InputRedirection::PointerAxisSource source, std::chrono::microseconds time, InputDevice *device);
+    void pointerFrame(InputDevice *device);
     void touchFrame(InputDevice *device);
     void touchCanceled(InputDevice *device);
     void touchDown(qint32 id, const QPointF &absolutePos, std::chrono::microseconds time, InputDevice *device);

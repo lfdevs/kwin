@@ -1,31 +1,25 @@
-install(FILES kwin.upd
-        DESTINATION ${KDE_INSTALL_KCONFUPDATEDIR})
-install(PROGRAMS kwin-5.16-auto-bordersize.sh
-        DESTINATION ${KDE_INSTALL_KCONFUPDATEDIR})
-install(PROGRAMS kwin-5.18-move-animspeed.py
-        DESTINATION ${KDE_INSTALL_KCONFUPDATEDIR})
-install(PROGRAMS kwin-5.21-desktop-grid-click-behavior.py
-        DESTINATION ${KDE_INSTALL_KCONFUPDATEDIR})
-install(PROGRAMS kwin-5.21-no-swap-encourage.py
-        DESTINATION ${KDE_INSTALL_KCONFUPDATEDIR})
-install(PROGRAMS kwin-5.23-disable-translucency-effect.sh
-        DESTINATION ${KDE_INSTALL_KCONFUPDATEDIR})
-install(PROGRAMS kwin-5.23-remove-flip-switch.py
-        DESTINATION ${KDE_INSTALL_KCONFUPDATEDIR})
-install(PROGRAMS kwin-5.23-remove-cover-switch.py
-        DESTINATION ${KDE_INSTALL_KCONFUPDATEDIR})
-install(PROGRAMS kwin-5.23-remove-cubeslide.py
-        DESTINATION ${KDE_INSTALL_KCONFUPDATEDIR})
-install(PROGRAMS kwin-5.23-remove-xrender-backend.py
-        DESTINATION ${KDE_INSTALL_KCONFUPDATEDIR})
-install(PROGRAMS kwin-5.27-replace-cascaded-zerocornered.sh
-         DESTINATION ${KDE_INSTALL_KCONFUPDATEDIR})
+# SPDX-FileCopyrightText: 2023 Niccolò Venerandi <niccolo.venerandi@kde.org>
+# SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
-install(FILES kwinrules.upd
-        DESTINATION ${KDE_INSTALL_KCONFUPDATEDIR})
-install(PROGRAMS kwinrules-5.19-placement.pl
-        DESTINATION ${KDE_INSTALL_KCONFUPDATEDIR})
-install(PROGRAMS kwinrules-5.23-virtual-desktop-ids.py
-        DESTINATION ${KDE_INSTALL_KCONFUPDATEDIR})
-install(PROGRAMS kwin-5.25-effect-pluginid-config-group.py
+add_executable(kwin-6.0-delete-desktop-switching-shortcuts)
+target_sources(kwin-6.0-delete-desktop-switching-shortcuts PRIVATE kwin-6.0-delete-desktop-switching-shortcuts.cpp)
+target_link_libraries(kwin-6.0-delete-desktop-switching-shortcuts PRIVATE KF6::GlobalAccel)
+install(TARGETS kwin-6.0-delete-desktop-switching-shortcuts DESTINATION ${KDE_INSTALL_LIBDIR}/kconf_update_bin/)
+
+add_executable(kwin-6.0-reset-active-mouse-screen)
+target_sources(kwin-6.0-reset-active-mouse-screen PRIVATE kwin-6.0-reset-active-mouse-screen.cpp)
+target_link_libraries(kwin-6.0-reset-active-mouse-screen PRIVATE KF6::ConfigCore)
+install(TARGETS kwin-6.0-reset-active-mouse-screen DESTINATION ${KDE_INSTALL_LIBDIR}/kconf_update_bin/)
+
+add_executable(kwin-6.0-remove-breeze-tabbox-default)
+target_sources(kwin-6.0-remove-breeze-tabbox-default PRIVATE kwin-6.0-remove-breeze-tabbox-default.cpp)
+target_link_libraries(kwin-6.0-remove-breeze-tabbox-default PRIVATE KF6::ConfigCore)
+install(TARGETS kwin-6.0-remove-breeze-tabbox-default DESTINATION ${KDE_INSTALL_LIBDIR}/kconf_update_bin/)
+
+add_executable(kwin-6.1-remove-gridview-expose-shortcuts)
+target_sources(kwin-6.1-remove-gridview-expose-shortcuts PRIVATE kwin-6.1-remove-gridview-expose-shortcuts.cpp)
+target_link_libraries(kwin-6.1-remove-gridview-expose-shortcuts PRIVATE KF6::GlobalAccel)
+install(TARGETS kwin-6.1-remove-gridview-expose-shortcuts DESTINATION ${KDE_INSTALL_LIBDIR}/kconf_update_bin/)
+
+install(FILES kwin.upd
         DESTINATION ${KDE_INSTALL_KCONFUPDATEDIR})

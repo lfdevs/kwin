@@ -9,44 +9,37 @@
 */
 #include "window.h"
 
-#include "core/output.h"
-#include "tiles/tilemanager.h"
-#include "utils/common.h"
-
 #if KWIN_BUILD_ACTIVITIES
 #include "activities.h"
 #endif
 #include "appmenu.h"
-#include "atoms.h"
 #include "client_machine.h"
-#include "composite.h"
+#include "compositor.h"
+#include "core/output.h"
 #include "decorations/decoratedclient.h"
-#include "decorations/decorationbridge.h"
 #include "decorations/decorationpalette.h"
-#include "effects.h"
 #include "focuschain.h"
 #include "input.h"
 #include "outline.h"
 #include "placement.h"
-#if KWIN_BUILD_TABBOX
-#include "tabbox.h"
-#endif
-#include "scene/shadowitem.h"
-#include "scene/surfaceitem_x11.h"
 #include "scene/windowitem.h"
+#include "scene/workspacescene.h"
 #include "screenedge.h"
 #include "shadow.h"
+#if KWIN_BUILD_TABBOX
+#include "tabbox/tabbox.h"
+#endif
+#include "tiles/tilemanager.h"
 #include "useractions.h"
 #include "virtualdesktops.h"
-#include "wayland/output_interface.h"
-#include "wayland/plasmawindowmanagement_interface.h"
-#include "wayland/surface_interface.h"
+#include "wayland/output.h"
+#include "wayland/plasmawindowmanagement.h"
+#include "wayland/surface.h"
 #include "wayland_server.h"
 #include "workspace.h"
 
 #include <KDecoration2/DecoratedClient>
 #include <KDecoration2/Decoration>
-
 #include <KDesktopFile>
 
 #include <QDebug>
@@ -66,42 +59,24 @@ QHash<QString, std::weak_ptr<Decoration::DecorationPalette>> Window::s_palettes;
 std::shared_ptr<Decoration::DecorationPalette> Window::s_defaultPalette;
 
 Window::Window()
-    : m_output(workspace()->activeOutput())
-    , m_visual(XCB_NONE)
-    , bit_depth(24)
-    , info(nullptr)
-    , ready_for_painting(false)
+    : ready_for_painting(false)
     , m_internalId(QUuid::createUuid())
-    , m_client()
-    , is_shape(false)
     , m_clientMachine(new ClientMachine(this))
-    , m_wmClientLeader(XCB_WINDOW_NONE)
     , m_skipCloseAnimation(false)
-#if KWIN_BUILD_TABBOX
-    , m_tabBoxClient(QSharedPointer<TabBox::TabBoxClientImpl>::create(this))
-#endif
     , m_colorScheme(QStringLiteral("kdeglobals"))
-    , m_moveResizeOutput(workspace()->activeOutput())
 {
     connect(this, &Window::bufferGeometryChanged, this, &Window::inputTransformationChanged);
 
-    // Only for compatibility reasons, drop in the next major release.
-    connect(this, &Window::frameGeometryChanged, this, &Window::geometryChanged);
-    connect(this, &Window::geometryShapeChanged, this, &Window::discardShapeRegion);
-
-    connect(this, &Window::clientStartUserMovedResized, this, &Window::moveResizedChanged);
-    connect(this, &Window::clientFinishUserMovedResized, this, &Window::moveResizedChanged);
-
-    connect(this, &Window::windowShown, this, &Window::hiddenChanged);
-    connect(this, &Window::windowHidden, this, &Window::hiddenChanged);
+    connect(this, &Window::interactiveMoveResizeStarted, this, &Window::moveResizedChanged);
+    connect(this, &Window::interactiveMoveResizeFinished, this, &Window::moveResizedChanged);
 
     connect(this, &Window::paletteChanged, this, &Window::triggerDecorationRepaint);
 
     // If the user manually moved the window, don't restore it after the keyboard closes
-    connect(this, &Window::clientFinishUserMovedResized, this, [this]() {
+    connect(this, &Window::interactiveMoveResizeFinished, this, [this]() {
         m_keyboardGeometryRestore = QRectF();
     });
-    connect(this, qOverload<Window *, bool, bool>(&Window::clientMaximizedStateChanged), this, [this]() {
+    connect(this, &Window::maximizedChanged, this, [this]() {
         m_keyboardGeometryRestore = QRectF();
     });
     connect(this, &Window::fullScreenChanged, this, [this]() {
@@ -109,9 +84,8 @@ Window::Window()
     });
 
     // replace on-screen-display on size changes
-    connect(this, &Window::frameGeometryChanged, this, [this](Window *c, const QRectF &old) {
+    connect(this, &Window::frameGeometryChanged, this, [this](const QRectF &old) {
         if (isOnScreenDisplay() && !frameGeometry().isEmpty() && old.size() != frameGeometry().size() && isPlaceable()) {
-            GeometryUpdatesBlocker blocker(this);
             workspace()->placement()->place(this, workspace()->clientArea(PlacementArea, this, workspace()->activeOutput()));
         }
     });
@@ -124,12 +98,24 @@ Window::Window()
 
 Window::~Window()
 {
-    if (m_tile) {
-        m_tile->removeWindow(this);
+    Q_ASSERT(!m_tile);
+}
+
+void Window::ref()
+{
+    ++m_refCount;
+}
+
+void Window::unref()
+{
+    --m_refCount;
+    if (m_refCount) {
+        return;
     }
-    Q_ASSERT(m_blockGeometryUpdates == 0);
-    Q_ASSERT(m_decoration.decoration == nullptr);
-    delete info;
+    if (m_deleted) {
+        workspace()->removeDeleted(this);
+    }
+    delete this;
 }
 
 QDebug operator<<(QDebug debug, const Window *window)
@@ -138,10 +124,7 @@ QDebug operator<<(QDebug debug, const Window *window)
     debug.nospace();
     if (window) {
         debug << window->metaObject()->className() << '(' << static_cast<const void *>(window);
-        if (window->window()) {
-            debug << ", windowId=0x" << Qt::hex << window->window() << Qt::dec;
-        }
-        if (const KWaylandServer::SurfaceInterface *surface = window->surface()) {
+        if (const SurfaceInterface *surface = window->surface()) {
             debug << ", surface=" << surface;
         }
         if (window->isClient()) {
@@ -164,114 +147,12 @@ QDebug operator<<(QDebug debug, const Window *window)
     return debug;
 }
 
-void Window::detectShape(xcb_window_t id)
-{
-    const bool wasShape = is_shape;
-    is_shape = Xcb::Extensions::self()->hasShape(id);
-    if (wasShape != is_shape) {
-        Q_EMIT shapedChanged();
-    }
-}
-
-// used only by Deleted::copy()
-void Window::copyToDeleted(Window *c)
-{
-    m_internalId = c->internalId();
-    m_bufferGeometry = c->m_bufferGeometry;
-    m_frameGeometry = c->m_frameGeometry;
-    m_clientGeometry = c->m_clientGeometry;
-    m_visual = c->m_visual;
-    bit_depth = c->bit_depth;
-    info = c->info;
-    m_client.reset(c->m_client, false);
-    ready_for_painting = c->ready_for_painting;
-    is_shape = c->is_shape;
-    m_effectWindow = std::move(c->m_effectWindow);
-    if (m_effectWindow != nullptr) {
-        m_effectWindow->setWindow(this);
-    }
-    m_windowItem = std::move(c->m_windowItem);
-    m_shadow = std::move(c->m_shadow);
-    if (m_shadow) {
-        m_shadow->setWindow(this);
-    }
-    resource_name = c->resourceName();
-    resource_class = c->resourceClass();
-    m_clientMachine = c->m_clientMachine;
-    m_clientMachine->setParent(this);
-    m_wmClientLeader = c->wmClientLeader();
-    opaque_region = c->opaqueRegion();
-    m_output = c->m_output;
-    m_skipCloseAnimation = c->m_skipCloseAnimation;
-    m_internalFBO = c->m_internalFBO;
-    m_internalImage = c->m_internalImage;
-    m_opacity = c->m_opacity;
-    m_shapeRegionIsValid = c->m_shapeRegionIsValid;
-    m_shapeRegion = c->m_shapeRegion;
-    m_stackingOrder = c->m_stackingOrder;
-}
-
-// before being deleted, remove references to everything that's now
-// owner by Deleted
-void Window::disownDataPassedToDeleted()
-{
-    info = nullptr;
-}
-
 QRectF Window::visibleGeometry() const
 {
     if (const WindowItem *item = windowItem()) {
-        return item->mapToGlobal(item->boundingRect());
+        return item->mapToScene(item->boundingRect());
     }
     return QRectF();
-}
-
-Xcb::Property Window::fetchWmClientLeader() const
-{
-    return Xcb::Property(false, window(), atoms->wm_client_leader, XCB_ATOM_WINDOW, 0, 10000);
-}
-
-void Window::readWmClientLeader(Xcb::Property &prop)
-{
-    m_wmClientLeader = prop.value<xcb_window_t>(window());
-}
-
-void Window::getWmClientLeader()
-{
-    auto prop = fetchWmClientLeader();
-    readWmClientLeader(prop);
-}
-
-/**
- * Returns sessionId for this window,
- * taken either from its window or from the leader window.
- */
-QByteArray Window::sessionId() const
-{
-    QByteArray result = Xcb::StringProperty(window(), atoms->sm_client_id);
-    if (result.isEmpty() && m_wmClientLeader && m_wmClientLeader != window()) {
-        result = Xcb::StringProperty(m_wmClientLeader, atoms->sm_client_id);
-    }
-    return result;
-}
-
-/**
- * Returns command property for this window,
- * taken either from its window or from the leader window.
- */
-QString Window::wmCommand()
-{
-    QByteArray result = Xcb::StringProperty(window(), XCB_ATOM_WM_COMMAND);
-    if (result.isEmpty() && m_wmClientLeader && m_wmClientLeader != window()) {
-        result = Xcb::StringProperty(m_wmClientLeader, XCB_ATOM_WM_COMMAND);
-    }
-    result.replace(0, ' ');
-    return result;
-}
-
-void Window::getWmClientMachine()
-{
-    m_clientMachine->resolve(window(), wmClientLeader());
 }
 
 /**
@@ -291,36 +172,11 @@ QString Window::wmClientMachine(bool use_localhost) const
     return m_clientMachine->hostName();
 }
 
-/**
- * Returns client leader window for this client.
- * Returns the client window itself if no leader window is defined.
- */
-xcb_window_t Window::wmClientLeader() const
-{
-    if (m_wmClientLeader != XCB_WINDOW_NONE) {
-        return m_wmClientLeader;
-    }
-    return window();
-}
-
-void Window::getResourceClass()
-{
-    if (!info) {
-        return;
-    }
-    setResourceClass(QString::fromLatin1(info->windowClassName()).toLower(), QString::fromLatin1(info->windowClassClass()).toLower());
-}
-
 void Window::setResourceClass(const QString &name, const QString &className)
 {
     resource_name = name;
     resource_class = className;
     Q_EMIT windowClassChanged();
-}
-
-bool Window::resourceMatch(const Window *c1, const Window *c2)
-{
-    return c1->resourceClass() == c2->resourceClass();
 }
 
 qreal Window::opacity() const
@@ -346,11 +202,7 @@ bool Window::setupCompositing()
         return false;
     }
 
-    m_effectWindow = std::make_unique<EffectWindowImpl>(this);
-    updateShadow();
-
-    m_windowItem = createItem(scene);
-    m_effectWindow->setWindowItem(m_windowItem.get());
+    m_windowItem = createItem(scene->containerItem());
 
     connect(windowItem(), &WindowItem::positionChanged, this, &Window::visibleGeometryChanged);
     connect(windowItem(), &WindowItem::boundingRectChanged, this, &Window::visibleGeometryChanged);
@@ -358,51 +210,17 @@ bool Window::setupCompositing()
     return true;
 }
 
-void Window::finishCompositing(ReleaseReason releaseReason)
+void Window::finishCompositing()
 {
-    // If the X11 window has been destroyed, avoid calling XDamageDestroy.
-    if (releaseReason != ReleaseReason::Destroyed) {
-        if (SurfaceItemX11 *item = qobject_cast<SurfaceItemX11 *>(surfaceItem())) {
-            item->destroyDamage();
-        }
-    }
-    m_shadow.reset();
-    m_effectWindow.reset();
     m_windowItem.reset();
-}
-
-void Window::addWorkspaceRepaint(int x, int y, int w, int h)
-{
-    addWorkspaceRepaint(QRectF(x, y, w, h));
-}
-
-void Window::addWorkspaceRepaint(const QRectF &r2)
-{
-    if (Compositor::compositing()) {
-        Compositor::self()->scene()->addRepaint(r2.toAlignedRect());
-    }
-}
-
-void Window::addWorkspaceRepaint(const QRegion &region)
-{
-    if (Compositor::compositing()) {
-        Compositor::self()->scene()->addRepaint(region);
-    }
 }
 
 void Window::setReadyForPainting()
 {
     if (!ready_for_painting) {
         ready_for_painting = true;
-        if (Compositor::compositing()) {
-            Q_EMIT windowShown(this);
-        }
+        Q_EMIT readyForPaintingChanged();
     }
-}
-
-int Window::screen() const
-{
-    return workspace()->outputs().indexOf(m_output);
 }
 
 Output *Window::output() const
@@ -414,7 +232,7 @@ void Window::setOutput(Output *output)
 {
     if (m_output != output) {
         m_output = output;
-        Q_EMIT screenChanged();
+        Q_EMIT outputChanged();
     }
 }
 
@@ -435,9 +253,6 @@ Shadow *Window::shadow() const
 
 void Window::updateShadow()
 {
-    if (!Compositor::compositing()) {
-        return;
-    }
     if (m_shadow) {
         if (!m_shadow->updateShadow()) {
             m_shadow.reset();
@@ -449,6 +264,16 @@ void Window::updateShadow()
             Q_EMIT shadowChanged();
         }
     }
+}
+
+EffectWindow *Window::effectWindow()
+{
+    return m_windowItem ? m_windowItem->effectWindow() : nullptr;
+}
+
+const EffectWindow *Window::effectWindow() const
+{
+    return m_windowItem ? m_windowItem->effectWindow() : nullptr;
 }
 
 SurfaceItem *Window::surfaceItem() const
@@ -464,59 +289,6 @@ bool Window::wantsShadowToBeRendered() const
     return !isFullScreen() && maximizeMode() != MaximizeFull;
 }
 
-void Window::getWmOpaqueRegion()
-{
-    if (!info) {
-        return;
-    }
-
-    const auto rects = info->opaqueRegion();
-    QRegion new_opaque_region;
-    for (const auto &r : rects) {
-        new_opaque_region |= Xcb::fromXNative(QRect(r.pos.x, r.pos.y, r.size.width, r.size.height)).toRect();
-    }
-    opaque_region = new_opaque_region;
-}
-
-QVector<QRectF> Window::shapeRegion() const
-{
-    if (m_shapeRegionIsValid) {
-        return m_shapeRegion;
-    }
-
-    const QRectF bufferGeometry = this->bufferGeometry();
-
-    if (shape()) {
-        auto cookie = xcb_shape_get_rectangles_unchecked(kwinApp()->x11Connection(), frameId(), XCB_SHAPE_SK_BOUNDING);
-        UniqueCPtr<xcb_shape_get_rectangles_reply_t> reply(xcb_shape_get_rectangles_reply(kwinApp()->x11Connection(), cookie, nullptr));
-        if (reply) {
-            m_shapeRegion.clear();
-            const xcb_rectangle_t *rects = xcb_shape_get_rectangles_rectangles(reply.get());
-            const int rectCount = xcb_shape_get_rectangles_rectangles_length(reply.get());
-            for (int i = 0; i < rectCount; ++i) {
-                QRectF region = Xcb::fromXNative(QRect(rects[i].x, rects[i].y, rects[i].width, rects[i].height)).toAlignedRect();
-                // make sure the shape is sane (X is async, maybe even XShape is broken)
-                region = region.intersected(QRectF(QPointF(0, 0), bufferGeometry.size()));
-
-                m_shapeRegion += region;
-            }
-        } else {
-            m_shapeRegion.clear();
-        }
-    } else {
-        m_shapeRegion = {QRectF(0, 0, bufferGeometry.width(), bufferGeometry.height())};
-    }
-
-    m_shapeRegionIsValid = true;
-    return m_shapeRegion;
-}
-
-void Window::discardShapeRegion()
-{
-    m_shapeRegionIsValid = false;
-    m_shapeRegion.clear();
-}
-
 bool Window::isClient() const
 {
     return false;
@@ -527,59 +299,20 @@ bool Window::isUnmanaged() const
     return false;
 }
 
-bool Window::isDeleted() const
-{
-    return false;
-}
-
-bool Window::isOnCurrentActivity() const
-{
-#if KWIN_BUILD_ACTIVITIES
-    if (!Workspace::self()->activities()) {
-        return true;
-    }
-    return isOnActivity(Workspace::self()->activities()->current());
-#else
-    return true;
-#endif
-}
-
 void Window::elevate(bool elevate)
 {
-    if (!effectWindow()) {
-        return;
+    if (m_windowItem) {
+        if (elevate) {
+            m_windowItem->elevate();
+        } else {
+            m_windowItem->deelevate();
+        }
     }
-    effectWindow()->elevate(elevate);
-    addWorkspaceRepaint(visibleGeometry());
 }
 
 pid_t Window::pid() const
 {
-    if (!info) {
-        return -1;
-    }
-    return info->pid();
-}
-
-xcb_window_t Window::frameId() const
-{
-    return m_client;
-}
-
-Xcb::Property Window::fetchSkipCloseAnimation() const
-{
-    return Xcb::Property(false, window(), atoms->kde_skip_close_animation, XCB_ATOM_CARDINAL, 0, 1);
-}
-
-void Window::readSkipCloseAnimation(Xcb::Property &property)
-{
-    setSkipCloseAnimation(property.toBool());
-}
-
-void Window::getSkipCloseAnimation()
-{
-    Xcb::Property property = fetchSkipCloseAnimation();
-    readSkipCloseAnimation(property);
+    return -1;
 }
 
 bool Window::skipsCloseAnimation() const
@@ -596,18 +329,17 @@ void Window::setSkipCloseAnimation(bool set)
     Q_EMIT skipCloseAnimationChanged();
 }
 
-KWaylandServer::SurfaceInterface *Window::surface() const
+SurfaceInterface *Window::surface() const
 {
     return m_surface;
 }
 
-void Window::setSurface(KWaylandServer::SurfaceInterface *surface)
+void Window::setSurface(SurfaceInterface *surface)
 {
     if (m_surface == surface) {
         return;
     }
     m_surface = surface;
-    m_pendingSurfaceId = 0;
     Q_EMIT surfaceChanged();
 }
 
@@ -626,38 +358,13 @@ void Window::setStackingOrder(int order)
 
 QString Window::windowRole() const
 {
-    if (!info) {
-        return {};
-    }
-    return QString::fromLatin1(info->windowRole());
-}
-
-void Window::setDepth(int depth)
-{
-    if (bit_depth == depth) {
-        return;
-    }
-    const bool oldAlpha = hasAlpha();
-    bit_depth = depth;
-    if (oldAlpha != hasAlpha()) {
-        Q_EMIT hasAlphaChanged();
-    }
-}
-
-QRegion Window::inputShape() const
-{
-    if (m_surface) {
-        return m_surface->input();
-    } else {
-        // TODO: maybe also for X11?
-        return QRegion();
-    }
+    return QString();
 }
 
 QMatrix4x4 Window::inputTransformation() const
 {
     QMatrix4x4 m;
-    m.translate(-x(), -y());
+    m.translate(-m_bufferGeometry.x(), -m_bufferGeometry.y());
     return m;
 }
 
@@ -671,8 +378,7 @@ bool Window::hitTest(const QPointF &point) const
     if (m_surface && m_surface->isMapped()) {
         return m_surface->inputSurfaceAt(mapToLocal(point));
     }
-    const QPointF relativePoint = point - inputGeometry().topLeft();
-    return relativePoint.x() >= 0 && relativePoint.y() >= 0 && relativePoint.x() < inputGeometry().width() && relativePoint.y() < inputGeometry().height();
+    return exclusiveContains(m_bufferGeometry, point);
 }
 
 QPointF Window::mapToFrame(const QPointF &point) const
@@ -690,14 +396,6 @@ QPointF Window::mapFromLocal(const QPointF &point) const
     return point + bufferGeometry().topLeft();
 }
 
-QRectF Window::inputGeometry() const
-{
-    if (isDecorated()) {
-        return frameGeometry() + decoration()->resizeOnlyBorders();
-    }
-    return frameGeometry();
-}
-
 bool Window::isLocalhost() const
 {
     if (!m_clientMachine) {
@@ -711,21 +409,6 @@ QMargins Window::frameMargins() const
     return QMargins(borderLeft(), borderTop(), borderRight(), borderBottom());
 }
 
-bool Window::isOnDesktop(VirtualDesktop *desktop) const
-{
-    return isOnAllDesktops() || desktops().contains(desktop);
-}
-
-bool Window::isOnDesktop(int d) const
-{
-    return isOnDesktop(VirtualDesktopManager::self()->desktopForX11Id(d));
-}
-
-bool Window::isOnCurrentDesktop() const
-{
-    return isOnDesktop(VirtualDesktopManager::self()->currentDesktop());
-}
-
 void Window::updateMouseGrab()
 {
 }
@@ -733,11 +416,6 @@ void Window::updateMouseGrab()
 bool Window::belongToSameApplication(const Window *c1, const Window *c2, SameApplicationChecks checks)
 {
     return c1->belongsToSameApplication(c2, checks);
-}
-
-bool Window::isTransient() const
-{
-    return false;
 }
 
 xcb_timestamp_t Window::userTime() const
@@ -810,7 +488,7 @@ void Window::setIcon(const QIcon &icon)
 
 void Window::setActive(bool act)
 {
-    if (isZombie()) {
+    if (isDeleted()) {
         return;
     }
     if (m_active == act) {
@@ -849,72 +527,66 @@ void Window::doSetActive()
 {
 }
 
-bool Window::isZombie() const
+bool Window::isDeleted() const
 {
-    return m_zombie;
+    return m_deleted;
 }
 
-void Window::markAsZombie()
+void Window::markAsDeleted()
 {
-    Q_ASSERT(!m_zombie);
-    m_zombie = true;
+    Q_ASSERT(!m_deleted);
+    m_deleted = true;
+    workspace()->addDeleted(this);
 }
 
 Layer Window::layer() const
 {
     if (m_layer == UnknownLayer) {
-        const_cast<Window *>(this)->m_layer = belongsToLayer();
+        const_cast<Window *>(this)->m_layer = rules()->checkLayer(belongsToLayer());
     }
     return m_layer;
 }
 
 void Window::updateLayer()
 {
-    if (layer() == belongsToLayer()) {
+    if (isDeleted()) {
+        return;
+    }
+    if (layer() == rules()->checkLayer(belongsToLayer())) {
         return;
     }
     StackingUpdatesBlocker blocker(workspace());
-    invalidateLayer(); // invalidate, will be updated when doing restacking
+    m_layer = UnknownLayer; // invalidate, will be updated when doing restacking
     for (auto it = transients().constBegin(), end = transients().constEnd(); it != end; ++it) {
         (*it)->updateLayer();
     }
 }
 
-void Window::invalidateLayer()
-{
-    m_layer = UnknownLayer;
-}
-
 Layer Window::belongsToLayer() const
 {
-    // NOTICE while showingDesktop, desktops move to the AboveLayer
-    // (interchangeable w/ eg. yakuake etc. which will at first remain visible)
-    // and the docks move into the NotificationLayer (which is between Above- and
-    // ActiveLayer, so that active fullscreen windows will still cover everything)
-    // Since the desktop is also activated, nothing should be in the ActiveLayer, though
+    if (isOutline()) {
+        return NormalLayer;
+    }
     if (isUnmanaged() || isInternal()) {
-        return UnmanagedLayer;
+        return OverlayLayer;
     }
     if (isLockScreen() && !waylandServer()) {
-        return UnmanagedLayer;
+        return OverlayLayer;
     }
     if (isInputMethod()) {
-        return UnmanagedLayer;
+        return OverlayLayer;
     }
     if (isLockScreenOverlay() && waylandServer() && waylandServer()->isScreenLocked()) {
-        return UnmanagedLayer;
+        return OverlayLayer;
     }
     if (isDesktop()) {
-        return workspace()->showingDesktop() ? AboveLayer : DesktopLayer;
+        return DesktopLayer;
     }
     if (isSplash()) { // no damn annoying splashscreens
         return NormalLayer; // getting in the way of everything else
     }
     if (isDock() || isAppletPopup()) {
-        if (workspace()->showingDesktop()) {
-            return NotificationLayer;
-        }
-        return layerForDock();
+        return AboveLayer;
     }
     if (isPopupWindow()) {
         return PopupLayer;
@@ -927,9 +599,6 @@ Layer Window::belongsToLayer() const
     }
     if (isCriticalNotification()) {
         return CriticalNotificationLayer;
-    }
-    if (workspace()->showingDesktop() && belongsToDesktop()) {
-        return AboveLayer;
     }
     if (keepBelow()) {
         return BelowLayer;
@@ -947,20 +616,6 @@ Layer Window::belongsToLayer() const
 bool Window::belongsToDesktop() const
 {
     return false;
-}
-
-Layer Window::layerForDock() const
-{
-    // slight hack for the 'allow window to cover panel' Kicker setting
-    // don't move keepbelow docks below normal window, but only to the same
-    // layer, so that both may be raised to cover the other
-    if (keepBelow()) {
-        return NormalLayer;
-    }
-    if (keepAbove()) { // slight hack for the autohiding panels
-        return AboveLayer;
-    }
-    return DockLayer;
 }
 
 void Window::setKeepAbove(bool b)
@@ -1061,34 +716,17 @@ void Window::doSetDemandsAttention()
 {
 }
 
-void Window::setDesktop(int desktop)
-{
-    const int numberOfDesktops = VirtualDesktopManager::self()->count();
-    if (desktop != NET::OnAllDesktops) { // Do range check
-        desktop = std::max(1, std::min(numberOfDesktops, desktop));
-    }
-
-    QVector<VirtualDesktop *> desktops;
-    if (desktop != NET::OnAllDesktops) {
-        desktops << VirtualDesktopManager::self()->desktopForX11Id(desktop);
-    }
-    setDesktops(desktops);
-}
-
-void Window::setDesktops(QVector<VirtualDesktop *> desktops)
+void Window::setDesktops(QList<VirtualDesktop *> desktops)
 {
     // on x11 we can have only one desktop at a time
     if (kwinApp()->operationMode() == Application::OperationModeX11 && desktops.size() > 1) {
-        desktops = QVector<VirtualDesktop *>({desktops.last()});
+        desktops = QList<VirtualDesktop *>({desktops.last()});
     }
 
     desktops = rules()->checkDesktops(desktops);
     if (desktops == m_desktops) {
         return;
     }
-
-    int was_desk = Window::desktop();
-    const bool wasOnCurrentDesktop = isOnCurrentDesktop() && was_desk >= 0;
 
     m_desktops = desktops;
 
@@ -1109,14 +747,6 @@ void Window::setDesktops(QVector<VirtualDesktop *> desktops)
                 windowManagementInterface()->removePlasmaVirtualDesktop(desktopId);
             }
         }
-    }
-    if (info) {
-        info->setDesktop(desktop());
-    }
-
-    if ((was_desk == NET::OnAllDesktops) != (desktop() == NET::OnAllDesktops)) {
-        // onAllDesktops changed
-        workspace()->updateOnAllDesktopsOfTransients(this);
     }
 
     auto transients_stacking_order = workspace()->ensureStackingOrder(transients());
@@ -1139,18 +769,10 @@ void Window::setDesktops(QVector<VirtualDesktop *> desktops)
     Workspace::self()->focusChain()->update(this, FocusChain::MakeFirst);
     updateWindowRules(Rules::Desktops);
 
-    Q_EMIT desktopChanged();
-    if (wasOnCurrentDesktop != isOnCurrentDesktop()) {
-        Q_EMIT desktopPresenceChanged(this, was_desk);
-    }
-    Q_EMIT x11DesktopIdsChanged();
+    Q_EMIT desktopsChanged();
 }
 
 void Window::doSetDesktop()
-{
-}
-
-void Window::doSetOnActivities(const QStringList &activityList)
 {
 }
 
@@ -1166,7 +788,7 @@ void Window::enterDesktop(VirtualDesktop *virtualDesktop)
 
 void Window::leaveDesktop(VirtualDesktop *virtualDesktop)
 {
-    QVector<VirtualDesktop *> currentDesktops;
+    QList<VirtualDesktop *> currentDesktops;
     if (m_desktops.isEmpty()) {
         currentDesktops = VirtualDesktopManager::self()->desktops();
     } else {
@@ -1193,27 +815,9 @@ void Window::setOnAllDesktops(bool b)
     }
 }
 
-int Window::desktop() const
-{
-    return m_desktops.isEmpty() ? (int)NET::OnAllDesktops : m_desktops.last()->x11DesktopNumber();
-}
-
-QVector<VirtualDesktop *> Window::desktops() const
+QList<VirtualDesktop *> Window::desktops() const
 {
     return m_desktops;
-}
-
-QVector<uint> Window::x11DesktopIds() const
-{
-    const auto desks = desktops();
-    QVector<uint> x11Ids;
-    x11Ids.reserve(desks.count());
-    std::transform(desks.constBegin(), desks.constEnd(),
-                   std::back_inserter(x11Ids),
-                   [](const VirtualDesktop *vd) {
-                       return vd->x11DesktopNumber();
-                   });
-    return x11Ids;
 }
 
 QStringList Window::desktopIds() const
@@ -1227,7 +831,17 @@ QStringList Window::desktopIds() const
                        return vd->id();
                    });
     return ids;
-};
+}
+
+bool Window::isOnDesktop(VirtualDesktop *desktop) const
+{
+    return isOnAllDesktops() || desktops().contains(desktop);
+}
+
+bool Window::isOnCurrentDesktop() const
+{
+    return isOnDesktop(VirtualDesktopManager::self()->currentDesktop());
+}
 
 ShadeMode Window::shadeMode() const
 {
@@ -1272,7 +886,6 @@ void Window::setShade(ShadeMode mode)
     }
 
     Q_ASSERT(isDecorated());
-    GeometryUpdatesBlocker blocker(this);
 
     doSetShade(previousShadeMode);
     updateWindowRules(Rules::Shade);
@@ -1362,44 +975,19 @@ bool Window::titlebarPositionUnderMouse() const
 
 void Window::setMinimized(bool set)
 {
-    set ? minimize() : unminimize();
-}
-
-void Window::minimize(bool avoid_animation)
-{
-    if (!isMinimizable() || isMinimized()) {
+    const bool effectiveSet = rules()->checkMinimize(set);
+    if (m_minimized == effectiveSet) {
         return;
     }
 
-    m_minimized = true;
+    if (effectiveSet && !isMinimizable()) {
+        return;
+    }
+
+    m_minimized = effectiveSet;
     doMinimize();
 
     updateWindowRules(Rules::Minimize);
-
-    if (options->moveMinimizedWindowsToEndOfTabBoxFocusChain()) {
-        Workspace::self()->focusChain()->update(this, FocusChain::MakeFirstMinimized);
-    }
-
-    // TODO: merge signal with s_minimized
-    Q_EMIT clientMinimized(this, !avoid_animation);
-    Q_EMIT minimizedChanged();
-}
-
-void Window::unminimize(bool avoid_animation)
-{
-    if (!isMinimized()) {
-        return;
-    }
-
-    if (rules()->checkMinimize(false)) {
-        return;
-    }
-
-    m_minimized = false;
-    doMinimize();
-
-    updateWindowRules(Rules::Minimize);
-    Q_EMIT clientUnminimized(this, !avoid_animation);
     Q_EMIT minimizedChanged();
 }
 
@@ -1530,11 +1118,6 @@ QRectF Window::keepInArea(QRectF geometry, QRectF area, bool partial)
     return geometry;
 }
 
-void Window::keepInArea(QRectF area, bool partial)
-{
-    moveResize(keepInArea(moveResizeGeometry(), area, partial));
-}
-
 /**
  * Returns the maximum client size, not the maximum frame size.
  */
@@ -1551,23 +1134,6 @@ QSizeF Window::minSize() const
     return rules()->checkMinSize(QSize(0, 0));
 }
 
-void Window::blockGeometryUpdates(bool block)
-{
-    if (block) {
-        if (m_blockGeometryUpdates == 0) {
-            m_pendingMoveResizeMode = MoveResizeMode::None;
-        }
-        ++m_blockGeometryUpdates;
-    } else {
-        if (--m_blockGeometryUpdates == 0) {
-            if (m_pendingMoveResizeMode != MoveResizeMode::None) {
-                moveResizeInternal(moveResizeGeometry(), m_pendingMoveResizeMode);
-                m_pendingMoveResizeMode = MoveResizeMode::None;
-            }
-        }
-    }
-}
-
 void Window::maximize(MaximizeMode mode)
 {
     qCWarning(KWIN_CORE, "%s doesn't support setting maximized state", metaObject()->className());
@@ -1582,12 +1148,16 @@ void Window::setMaximize(bool vertically, bool horizontally)
     if (horizontally) {
         mode = MaximizeMode(mode | MaximizeHorizontal);
     }
-    setTile(nullptr);
+
     maximize(mode);
 }
 
 bool Window::startInteractiveMoveResize()
 {
+    if (isDeleted()) {
+        return false;
+    }
+
     Q_ASSERT(!isInteractiveMoveResize());
     Q_ASSERT(QWidget::keyboardGrabber() == nullptr);
     Q_ASSERT(QWidget::mouseGrabber() == nullptr);
@@ -1596,6 +1166,10 @@ bool Window::startInteractiveMoveResize()
         return false; // popups have grab
     }
     if (isRequestedFullScreen() && (workspace()->outputs().count() < 2 || !isMovableAcrossScreens())) {
+        return false;
+    }
+    if ((interactiveMoveResizeGravity() == Gravity::None && !isMovableAcrossScreens())
+        || (interactiveMoveResizeGravity() != Gravity::None && (isShade() || !isResizable()))) {
         return false;
     }
     if (!doStartInteractiveMoveResize()) {
@@ -1650,13 +1224,13 @@ bool Window::startInteractiveMoveResize()
         }
     }
 
-    if (m_tile && !m_tile->supportsResizeGravity(interactiveMoveResizeGravity())) {
+    if (isInteractiveResize() && m_tile && !m_tile->supportsResizeGravity(interactiveMoveResizeGravity())) {
         setQuickTileMode(QuickTileFlag::None);
     }
 
     updateElectricGeometryRestore();
     checkUnrestrictedInteractiveMoveResize();
-    Q_EMIT clientStartUserMovedResized(this);
+    Q_EMIT interactiveMoveResizeStarted();
     if (workspace()->screenEdges()->isDesktopSwitchingMovingClients()) {
         workspace()->screenEdges()->reserveDesktopSwitching(true, Qt::Vertical | Qt::Horizontal);
     }
@@ -1666,7 +1240,6 @@ bool Window::startInteractiveMoveResize()
 void Window::finishInteractiveMoveResize(bool cancel)
 {
     const bool wasMove = isInteractiveMove();
-    GeometryUpdatesBlocker blocker(this);
     leaveInteractiveMoveResize();
 
     doFinishInteractiveMoveResize();
@@ -1697,7 +1270,7 @@ void Window::finishInteractiveMoveResize(bool cancel)
     workspace()->outline()->hide();
 
     m_interactiveMoveResize.counter++;
-    Q_EMIT clientFinishUserMovedResized(this);
+    Q_EMIT interactiveMoveResizeFinished();
 }
 
 // This function checks if it actually makes sense to perform a restricted move/resize.
@@ -1759,6 +1332,9 @@ void Window::checkUnrestrictedInteractiveMoveResize()
 // activated only after moving by several pixels, but that looks bad.
 void Window::startDelayedInteractiveMoveResize()
 {
+    if (isDeleted()) {
+        return;
+    }
     Q_ASSERT(!m_interactiveMoveResize.delayedTimer);
     m_interactiveMoveResize.delayedTimer = new QTimer(this);
     m_interactiveMoveResize.delayedTimer->setSingleShot(true);
@@ -1779,386 +1355,379 @@ void Window::stopDelayedInteractiveMoveResize()
     m_interactiveMoveResize.delayedTimer = nullptr;
 }
 
-void Window::updateInteractiveMoveResize(const QPointF &currentGlobalCursor)
+void Window::updateInteractiveMoveResize(const QPointF &global)
 {
-    handleInteractiveMoveResize(pos(), currentGlobalCursor);
-}
-
-void Window::handleInteractiveMoveResize(const QPointF &local, const QPointF &global)
-{
-    const QRectF oldGeo = moveResizeGeometry();
-    handleInteractiveMoveResize(local.x(), local.y(), global.x(), global.y());
-    if (!isRequestedFullScreen() && isInteractiveMove()) {
-        if (quickTileMode() != QuickTileMode(QuickTileFlag::None) && oldGeo != moveResizeGeometry()) {
-            GeometryUpdatesBlocker blocker(this);
-            setQuickTileMode(QuickTileFlag::None);
-            const QRectF &geom_restore = geometryRestore();
-            setInteractiveMoveOffset(QPointF(double(interactiveMoveOffset().x()) / double(oldGeo.width()) * double(geom_restore.width()),
-                                             double(interactiveMoveOffset().y()) / double(oldGeo.height()) * double(geom_restore.height())));
-            if (rules()->checkMaximize(MaximizeRestore) == MaximizeRestore) {
-                setMoveResizeGeometry(geom_restore);
-            }
-            handleInteractiveMoveResize(local.x(), local.y(), global.x(), global.y()); // fix position
-        }
-
-        if (input()->keyboardModifiers() & Qt::ShiftModifier) {
-            resetQuickTilingMaximizationZones();
-            const auto &r = quickTileGeometry(QuickTileFlag::Custom, global);
-            if (r.isEmpty()) {
-                workspace()->outline()->hide();
-            } else {
-                if (!workspace()->outline()->isActive() || workspace()->outline()->geometry() != r.toRect()) {
-                    workspace()->outline()->show(r.toRect(), moveResizeGeometry().toRect());
-                }
-            }
-        } else {
-            if (quickTileMode() == QuickTileMode(QuickTileFlag::None) && isResizable()) {
-                checkQuickTilingMaximizationZones(global.x(), global.y());
-            }
-            if (!m_electricMaximizing) {
-                // Only if we are in an electric maximizing gesture we should keep the outline,
-                // otherwise we must make sure it's hidden
-                workspace()->outline()->hide();
-            }
-        }
-    }
-}
-
-void Window::handleInteractiveMoveResize(int x, int y, int x_root, int y_root)
-{
-    if (isWaitingForInteractiveMoveResizeSync()) {
-        return; // we're still waiting for the client or the timeout
-    }
-
-    const Gravity gravity = interactiveMoveResizeGravity();
-    if ((gravity == Gravity::None && !isMovableAcrossScreens())
-        || (gravity != Gravity::None && (isShade() || !isResizable()))) {
-        return;
-    }
-
-    if (!isInteractiveMoveResize()) {
-        QPointF p(QPointF(x /* - padding_left*/, y /* - padding_top*/) - interactiveMoveOffset());
-        if (p.manhattanLength() >= QApplication::startDragDistance()) {
-            if (!startInteractiveMoveResize()) {
-                setInteractiveMoveResizePointerButtonDown(false);
-                updateCursor();
-                return;
-            }
-            updateCursor();
-        } else {
-            return;
-        }
-    }
+    setInteractiveMoveResizeAnchor(global);
 
     // ShadeHover or ShadeActive, ShadeNormal was already avoided above
+    const Gravity gravity = interactiveMoveResizeGravity();
     if (gravity != Gravity::None && shadeMode() != ShadeNone) {
         setShade(ShadeNone);
     }
 
-    QPointF globalPos(x_root, y_root);
-    // these two points limit the geometry rectangle, i.e. if bottomleft resizing is done,
-    // the bottomleft corner should be at is at (topleft.x(), bottomright().y())
-    QPointF topleft = globalPos - interactiveMoveOffset();
-    QPointF bottomright = globalPos + invertedInteractiveMoveOffset();
     const QRectF currentMoveResizeGeom = moveResizeGeometry();
-    QRectF nextMoveResizeGeom = moveResizeGeometry();
-
-    // TODO move whole group when moving its leader or when the leader is not mapped?
-
-    auto titleBarRect = [this](const QRectF &rect, bool &transposed, int &requiredPixels) -> QRectF {
-        QRectF titleRect = rect;
-        titleRect.moveTopLeft(QPointF(0, 0));
-        switch (titlebarPosition()) {
-        default:
-        case Qt::TopEdge:
-            titleRect.setHeight(borderTop());
-            break;
-        case Qt::LeftEdge:
-            titleRect.setWidth(borderLeft());
-            transposed = true;
-            break;
-        case Qt::BottomEdge:
-            titleRect.setTop(titleRect.bottom() - borderBottom());
-            break;
-        case Qt::RightEdge:
-            titleRect.setLeft(titleRect.right() - borderRight());
-            transposed = true;
-            break;
-        }
-        // When doing a restricted move we must always keep 100px of the titlebar
-        // visible to allow the user to be able to move it again.
-        requiredPixels = std::min(100 * (transposed ? titleRect.width() : titleRect.height()),
-                                  rect.width() * rect.height());
-        return titleRect;
-    };
+    QRectF nextMoveResizeGeom = currentMoveResizeGeom;
 
     if (isInteractiveResize()) {
+        if (isWaitingForInteractiveResizeSync()) {
+            return; // we're still waiting for the client or the timeout
+        }
+
         if (m_tile && m_tile->supportsResizeGravity(gravity)) {
-            m_tile->resizeFromGravity(gravity, x_root, y_root);
+            m_tile->resizeFromGravity(gravity, global.x(), global.y());
             return;
         }
 
-        QRectF orig = initialInteractiveMoveResizeGeometry();
-        SizeMode sizeMode = SizeModeAny;
-        auto calculateMoveResizeGeom = [&topleft, &bottomright, &orig, &nextMoveResizeGeom, &sizeMode, &gravity]() {
-            switch (gravity) {
-            case Gravity::TopLeft:
-                nextMoveResizeGeom = QRectF(topleft, orig.bottomRight());
-                break;
-            case Gravity::BottomRight:
-                nextMoveResizeGeom = QRectF(orig.topLeft(), bottomright);
-                break;
-            case Gravity::BottomLeft:
-                nextMoveResizeGeom = QRectF(QPointF(topleft.x(), orig.y()), QPointF(orig.right(), bottomright.y()));
-                break;
-            case Gravity::TopRight:
-                nextMoveResizeGeom = QRectF(QPointF(orig.x(), topleft.y()), QPointF(bottomright.x(), orig.bottom()));
-                break;
-            case Gravity::Top:
-                nextMoveResizeGeom = QRectF(QPointF(orig.left(), topleft.y()), orig.bottomRight());
-                sizeMode = SizeModeFixedH; // try not to affect height
-                break;
-            case Gravity::Bottom:
-                nextMoveResizeGeom = QRectF(orig.topLeft(), QPointF(orig.right(), bottomright.y()));
-                sizeMode = SizeModeFixedH;
-                break;
-            case Gravity::Left:
-                nextMoveResizeGeom = QRectF(QPointF(topleft.x(), orig.top()), orig.bottomRight());
-                sizeMode = SizeModeFixedW;
-                break;
-            case Gravity::Right:
-                nextMoveResizeGeom = QRectF(orig.topLeft(), QPointF(bottomright.x(), orig.bottom()));
-                sizeMode = SizeModeFixedW;
-                break;
-            case Gravity::None:
-                Q_UNREACHABLE();
-                break;
-            }
-        };
-
-        // first resize (without checking constrains), then snap, then check bounds, then check constrains
-        calculateMoveResizeGeom();
-        // adjust new size to snap to other windows/borders
-        nextMoveResizeGeom = workspace()->adjustWindowSize(this, nextMoveResizeGeom, gravity);
-
-        if (!isUnrestrictedInteractiveMoveResize()) {
-            // Make sure the titlebar isn't behind a restricted area. We don't need to restrict
-            // the other directions. If not visible enough, move the window to the closest valid
-            // point. We bruteforce this by slowly moving the window back to its previous position
-            const StrutRects strut = workspace()->restrictedMoveArea(VirtualDesktopManager::self()->currentDesktop());
-            QRegion availableArea(workspace()->clientArea(FullArea, this, workspace()->activeOutput()).toRect());
-            for (const QRect &rect : strut) {
-                availableArea -= rect;
-            }
-            bool transposed = false;
-            int requiredPixels;
-            QRectF bTitleRect = titleBarRect(nextMoveResizeGeom, transposed, requiredPixels);
-            int lastVisiblePixels = -1;
-            QRectF lastTry = nextMoveResizeGeom;
-            bool titleFailed = false;
-            for (;;) {
-                const QRect titleRect = bTitleRect.translated(nextMoveResizeGeom.topLeft()).toRect();
-                int visiblePixels = 0;
-                int realVisiblePixels = 0;
-                for (const QRect &rect : availableArea) {
-                    const QRect r = rect & titleRect;
-                    realVisiblePixels += r.width() * r.height();
-                    if ((transposed && r.width() == titleRect.width()) || // Only the full size regions...
-                        (!transposed && r.height() == titleRect.height())) { // ...prevents long slim areas
-                        visiblePixels += r.width() * r.height();
-                    }
-                }
-
-                if (visiblePixels >= requiredPixels) {
-                    break; // We have reached a valid position
-                }
-
-                if (realVisiblePixels <= lastVisiblePixels) {
-                    if (titleFailed && realVisiblePixels < lastVisiblePixels) {
-                        break; // we won't become better
-                    } else {
-                        if (!titleFailed) {
-                            nextMoveResizeGeom = lastTry;
-                        }
-                        titleFailed = true;
-                    }
-                }
-                lastVisiblePixels = realVisiblePixels;
-                QRectF currentTry = nextMoveResizeGeom;
-                lastTry = currentTry;
-
-                // Not visible enough, move the window to the closest valid point. We bruteforce
-                // this by slowly moving the window back to its previous position.
-                // The geometry changes at up to two edges, the one with the title (if) shall take
-                // precedence. The opposing edge has no impact on visiblePixels and only one of
-                // the adjacent can alter at a time, ie. it's enough to ignore adjacent edges
-                // if the title edge altered
-                bool leftChanged = !qFuzzyCompare(currentMoveResizeGeom.left(), currentTry.left());
-                bool rightChanged = !qFuzzyCompare(currentMoveResizeGeom.right(), currentTry.right());
-                bool topChanged = !qFuzzyCompare(currentMoveResizeGeom.top(), currentTry.top());
-                bool btmChanged = !qFuzzyCompare(currentMoveResizeGeom.bottom(), currentTry.bottom());
-                auto fixChangedState = [titleFailed](bool &major, bool &counter, bool &ad1, bool &ad2) {
-                    counter = false;
-                    if (titleFailed) {
-                        major = false;
-                    }
-                    if (major) {
-                        ad1 = ad2 = false;
-                    }
-                };
-                switch (titlebarPosition()) {
-                default:
-                case Qt::TopEdge:
-                    fixChangedState(topChanged, btmChanged, leftChanged, rightChanged);
-                    break;
-                case Qt::LeftEdge:
-                    fixChangedState(leftChanged, rightChanged, topChanged, btmChanged);
-                    break;
-                case Qt::BottomEdge:
-                    fixChangedState(btmChanged, topChanged, leftChanged, rightChanged);
-                    break;
-                case Qt::RightEdge:
-                    fixChangedState(rightChanged, leftChanged, topChanged, btmChanged);
-                    break;
-                }
-                if (topChanged) {
-                    currentTry.setTop(currentTry.y() + qBound(-1.0, currentMoveResizeGeom.y() - currentTry.y(), 1.0));
-                } else if (leftChanged) {
-                    currentTry.setLeft(currentTry.x() + qBound(-1.0, currentMoveResizeGeom.x() - currentTry.x(), 1.0));
-                } else if (btmChanged) {
-                    currentTry.setBottom(currentTry.bottom() + qBound(-1.0, currentMoveResizeGeom.bottom() - currentTry.bottom(), 1.0));
-                } else if (rightChanged) {
-                    currentTry.setRight(currentTry.right() + qBound(-1.0, currentMoveResizeGeom.right() - currentTry.right(), 1.0));
-                } else {
-                    break; // no position changed - that's certainly not good
-                }
-                nextMoveResizeGeom = currentTry;
-            }
-        }
-
-        // Always obey size hints, even when in "unrestricted" mode
-        QSizeF size = constrainFrameSize(nextMoveResizeGeom.size(), sizeMode);
-        // the new topleft and bottomright corners (after checking size constrains), if they'll be needed
-        topleft = QPointF(nextMoveResizeGeom.right() - size.width(), nextMoveResizeGeom.bottom() - size.height());
-        bottomright = QPointF(nextMoveResizeGeom.left() + size.width(), nextMoveResizeGeom.top() + size.height());
-        orig = nextMoveResizeGeom;
-
-        // if aspect ratios are specified, both dimensions may change.
-        // Therefore grow to the right/bottom if needed.
-        // TODO it should probably obey gravity rather than always using right/bottom ?
-        if (sizeMode == SizeModeFixedH) {
-            orig.setRight(bottomright.x());
-        } else if (sizeMode == SizeModeFixedW) {
-            orig.setBottom(bottomright.y());
-        }
-
-        calculateMoveResizeGeom();
-    } else if (isInteractiveMove()) {
-        Q_ASSERT(gravity == Gravity::None);
-        if (!isMovable()) { // isMovableAcrossScreens() must have been true to get here
-            // Special moving of maximized windows on Xinerama screens
-            Output *output = workspace()->outputAt(globalPos);
-            if (isRequestedFullScreen()) {
-                nextMoveResizeGeom = workspace()->clientArea(FullScreenArea, this, output);
-            } else {
-                nextMoveResizeGeom = workspace()->clientArea(MaximizeArea, this, output);
-                const QSizeF adjSize = constrainFrameSize(nextMoveResizeGeom.size(), SizeModeMax);
-                if (adjSize != nextMoveResizeGeom.size()) {
-                    QRectF r(nextMoveResizeGeom);
-                    nextMoveResizeGeom.setSize(adjSize);
-                    nextMoveResizeGeom.moveCenter(r.center());
-                }
-            }
-        } else {
-            // first move, then snap, then check bounds
-            QRectF geometry = nextMoveResizeGeom;
-            geometry.moveTopLeft(topleft);
-            geometry.moveTopLeft(workspace()->adjustWindowPosition(this, geometry.topLeft(),
-                                                                   isUnrestrictedInteractiveMoveResize()));
-            nextMoveResizeGeom = geometry;
-
-            if (!isUnrestrictedInteractiveMoveResize()) {
-                const StrutRects strut = workspace()->restrictedMoveArea(VirtualDesktopManager::self()->currentDesktop());
-                QRegion availableArea(workspace()->clientArea(FullArea, this, workspace()->activeOutput()).toRect());
-                for (const QRect &rect : strut) {
-                    availableArea -= rect; // Strut areas
-                }
-                bool transposed = false;
-                int requiredPixels;
-                QRectF bTitleRect = titleBarRect(nextMoveResizeGeom, transposed, requiredPixels);
-                for (;;) {
-                    QRectF currentTry = nextMoveResizeGeom;
-                    const QRectF titleRect(bTitleRect.translated(currentTry.topLeft()));
-                    int visiblePixels = 0;
-                    for (const QRect &rect : availableArea) {
-                        const QRect r = rect & titleRect.toRect();
-                        if ((transposed && r.width() == titleRect.width()) || // Only the full size regions...
-                            (!transposed && r.height() == titleRect.height())) { // ...prevents long slim areas
-                            visiblePixels += r.width() * r.height();
-                        }
-                    }
-                    if (visiblePixels >= requiredPixels) {
-                        break; // We have reached a valid position
-                    }
-
-                    // (esp.) if there're more screens with different struts (panels) it the titlebar
-                    // will be movable outside the movearea (covering one of the panels) until it
-                    // crosses the panel "too much" (not enough visiblePixels) and then stucks because
-                    // it's usually only pushed by 1px to either direction
-                    // so we first check whether we intersect suc strut and move the window below it
-                    // immediately (it's still possible to hit the visiblePixels >= titlebarArea break
-                    // by moving the window slightly downwards, but it won't stuck)
-                    // see bug #274466
-                    // and bug #301805 for why we can't just match the titlearea against the screen
-                    if (workspace()->outputs().count() > 1) { // optimization
-                        // TODO: could be useful on partial screen struts (half-width panels etc.)
-                        int newTitleTop = -1;
-                        for (const QRect &region : strut) {
-                            QRectF r = region;
-                            if (r.top() == 0 && r.width() > r.height() && // "top panel"
-                                r.intersects(currentTry) && currentTry.top() < r.bottom()) {
-                                newTitleTop = r.bottom();
-                                break;
-                            }
-                        }
-                        if (newTitleTop > -1) {
-                            currentTry.moveTop(newTitleTop); // invalid position, possibly on screen change
-                            nextMoveResizeGeom = currentTry;
-                            break;
-                        }
-                    }
-
-                    int dx = sign(currentMoveResizeGeom.x() - currentTry.x()),
-                        dy = sign(currentMoveResizeGeom.y() - currentTry.y());
-                    if (visiblePixels && dx) { // means there's no full width cap -> favor horizontally
-                        dy = 0;
-                    } else if (dy) {
-                        dx = 0;
-                    }
-
-                    // Move it back
-                    currentTry.translate(dx, dy);
-                    nextMoveResizeGeom = currentTry;
-
-                    if (nextMoveResizeGeom == currentMoveResizeGeom) {
-                        break; // Prevent lockup
-                    }
-                }
-            }
-        }
-    } else {
-        Q_UNREACHABLE();
-    }
-
-    if (nextMoveResizeGeom != currentMoveResizeGeom) {
-        if (isInteractiveMove()) {
-            move(nextMoveResizeGeom.topLeft());
-        } else {
+        nextMoveResizeGeom = nextInteractiveResizeGeometry(global);
+        if (nextMoveResizeGeom != currentMoveResizeGeom) {
             doInteractiveResizeSync(nextMoveResizeGeom);
+            Q_EMIT interactiveMoveResizeStepped(nextMoveResizeGeom);
+        }
+    } else if (isInteractiveMove()) {
+        if (isRequestedFullScreen()) {
+            nextMoveResizeGeom = workspace()->clientArea(FullScreenArea, this, global);
+        } else {
+            nextMoveResizeGeom = nextInteractiveMoveGeometry(global);
         }
 
-        Q_EMIT clientStepUserMovedResized(this, nextMoveResizeGeom);
+        if (nextMoveResizeGeom != currentMoveResizeGeom) {
+            if (!isRequestedFullScreen()) {
+                if (maximizeMode() != MaximizeRestore) {
+                    if (maximizeMode() & MaximizeHorizontal) {
+                        if (nextMoveResizeGeom.x() != currentMoveResizeGeom.x() || nextMoveResizeGeom.width() != currentMoveResizeGeom.width()) {
+                            maximize(MaximizeRestore);
+                            return;
+                        }
+                    }
+                    if (maximizeMode() & MaximizeVertical) {
+                        if (nextMoveResizeGeom.y() != currentMoveResizeGeom.y() || nextMoveResizeGeom.height() != currentMoveResizeGeom.height()) {
+                            maximize(MaximizeRestore);
+                            return;
+                        }
+                    }
+                } else if (quickTileMode() != QuickTileMode(QuickTileFlag::None)) {
+                    setQuickTileMode(QuickTileFlag::None);
+                    return;
+                }
+            }
+
+            move(nextMoveResizeGeom.topLeft());
+            Q_EMIT interactiveMoveResizeStepped(nextMoveResizeGeom);
+        }
+
+        if (!isRequestedFullScreen()) {
+            if (input()->keyboardModifiers() & Qt::ShiftModifier) {
+                resetQuickTilingMaximizationZones();
+                const auto &r = quickTileGeometry(QuickTileFlag::Custom, global);
+                if (r.isEmpty()) {
+                    workspace()->outline()->hide();
+                } else {
+                    if (!workspace()->outline()->isActive() || workspace()->outline()->geometry() != r.toRect()) {
+                        workspace()->outline()->show(r.toRect(), moveResizeGeometry().toRect());
+                    }
+                }
+            } else {
+                if (quickTileMode() == QuickTileMode(QuickTileFlag::None) && isResizable()) {
+                    checkQuickTilingMaximizationZones(global.x(), global.y());
+                }
+                if (!m_electricMaximizing) {
+                    // Only if we are in an electric maximizing gesture we should keep the outline,
+                    // otherwise we must make sure it's hidden
+                    workspace()->outline()->hide();
+                }
+            }
+        }
     }
+}
+
+QRectF Window::titleBarRect(const QRectF &rect, bool &transposed) const
+{
+    QRectF titleRect = rect;
+    titleRect.moveTopLeft(QPointF(0, 0));
+    switch (titlebarPosition()) {
+    default:
+    case Qt::TopEdge:
+        titleRect.setHeight(borderTop());
+        break;
+    case Qt::LeftEdge:
+        titleRect.setWidth(borderLeft());
+        transposed = true;
+        break;
+    case Qt::BottomEdge:
+        titleRect.setTop(titleRect.bottom() - borderBottom());
+        break;
+    case Qt::RightEdge:
+        titleRect.setLeft(titleRect.right() - borderRight());
+        transposed = true;
+        break;
+    }
+    return titleRect;
+}
+
+QRectF Window::nextInteractiveResizeGeometry(const QPointF &global) const
+{
+    const QRectF currentMoveResizeGeom = moveResizeGeometry();
+    QRectF nextMoveResizeGeom = moveResizeGeometry();
+
+    const Gravity gravity = interactiveMoveResizeGravity();
+    if (gravity == Gravity::None || isShade() || !isResizable()) {
+        return nextMoveResizeGeom;
+    }
+
+    // these two points limit the geometry rectangle, i.e. if bottomleft resizing is done,
+    // the bottomleft corner should be at is at (topleft.x(), bottomright().y())
+    QRectF orig = initialInteractiveMoveResizeGeometry();
+    QPointF topleft = global - QPointF(interactiveMoveOffset().x() * orig.width(), interactiveMoveOffset().y() * orig.height());
+    QPointF bottomright = global + QPointF((1.0 - interactiveMoveOffset().x()) * orig.width(), (1.0 - interactiveMoveOffset().y()) * orig.height());
+
+    // TODO move whole group when moving its leader or when the leader is not mapped?
+
+    SizeMode sizeMode = SizeModeAny;
+    auto calculateMoveResizeGeom = [&topleft, &bottomright, &orig, &nextMoveResizeGeom, &sizeMode, &gravity]() {
+        switch (gravity) {
+        case Gravity::TopLeft:
+            nextMoveResizeGeom = QRectF(topleft, orig.bottomRight());
+            break;
+        case Gravity::BottomRight:
+            nextMoveResizeGeom = QRectF(orig.topLeft(), bottomright);
+            break;
+        case Gravity::BottomLeft:
+            nextMoveResizeGeom = QRectF(QPointF(topleft.x(), orig.y()), QPointF(orig.right(), bottomright.y()));
+            break;
+        case Gravity::TopRight:
+            nextMoveResizeGeom = QRectF(QPointF(orig.x(), topleft.y()), QPointF(bottomright.x(), orig.bottom()));
+            break;
+        case Gravity::Top:
+            nextMoveResizeGeom = QRectF(QPointF(orig.left(), topleft.y()), orig.bottomRight());
+            sizeMode = SizeModeFixedH; // try not to affect height
+            break;
+        case Gravity::Bottom:
+            nextMoveResizeGeom = QRectF(orig.topLeft(), QPointF(orig.right(), bottomright.y()));
+            sizeMode = SizeModeFixedH;
+            break;
+        case Gravity::Left:
+            nextMoveResizeGeom = QRectF(QPointF(topleft.x(), orig.top()), orig.bottomRight());
+            sizeMode = SizeModeFixedW;
+            break;
+        case Gravity::Right:
+            nextMoveResizeGeom = QRectF(orig.topLeft(), QPointF(bottomright.x(), orig.bottom()));
+            sizeMode = SizeModeFixedW;
+            break;
+        case Gravity::None:
+            Q_UNREACHABLE();
+            break;
+        }
+    };
+
+    // first resize (without checking constrains), then snap, then check bounds, then check constrains
+    calculateMoveResizeGeom();
+    // adjust new size to snap to other windows/borders
+    nextMoveResizeGeom = workspace()->adjustWindowSize(this, nextMoveResizeGeom, gravity);
+
+    if (!isUnrestrictedInteractiveMoveResize()) {
+        // Make sure the titlebar isn't behind a restricted area. We don't need to restrict
+        // the other directions. If not visible enough, move the window to the closest valid
+        // point. We bruteforce this by slowly moving the window back to its previous position
+        const StrutRects strut = workspace()->restrictedMoveArea(VirtualDesktopManager::self()->currentDesktop());
+        QRegion availableArea(workspace()->clientArea(FullArea, this, workspace()->activeOutput()).toRect());
+        for (const QRect &rect : strut) {
+            availableArea -= rect;
+        }
+        bool transposed = false;
+        QRectF bTitleRect = titleBarRect(nextMoveResizeGeom, transposed);
+        int lastVisiblePixels = -1;
+        QRectF lastTry = nextMoveResizeGeom;
+        bool titleFailed = false;
+        for (;;) {
+            const QRect titleRect = bTitleRect.translated(nextMoveResizeGeom.topLeft()).toRect();
+            const int requiredPixels = std::min(100 * (transposed ? titleRect.width() : titleRect.height()), titleRect.width() * titleRect.height());
+
+            int visiblePixels = 0;
+            int realVisiblePixels = 0;
+            for (const QRect &rect : availableArea) {
+                const QRect r = rect & titleRect;
+                realVisiblePixels += r.width() * r.height();
+                if ((transposed && r.width() == titleRect.width()) || // Only the full size regions...
+                    (!transposed && r.height() == titleRect.height())) { // ...prevents long slim areas
+                    visiblePixels += r.width() * r.height();
+                }
+            }
+
+            if (visiblePixels >= requiredPixels) {
+                break; // We have reached a valid position
+            }
+
+            if (realVisiblePixels <= lastVisiblePixels) {
+                if (titleFailed && realVisiblePixels < lastVisiblePixels) {
+                    break; // we won't become better
+                } else {
+                    if (!titleFailed) {
+                        nextMoveResizeGeom = lastTry;
+                    }
+                    titleFailed = true;
+                }
+            }
+            lastVisiblePixels = realVisiblePixels;
+            QRectF currentTry = nextMoveResizeGeom;
+            lastTry = currentTry;
+
+            // Not visible enough, move the window to the closest valid point. We bruteforce
+            // this by slowly moving the window back to its previous position.
+            // The geometry changes at up to two edges, the one with the title (if) shall take
+            // precedence. The opposing edge has no impact on visiblePixels and only one of
+            // the adjacent can alter at a time, ie. it's enough to ignore adjacent edges
+            // if the title edge altered
+            bool leftChanged = !qFuzzyCompare(currentMoveResizeGeom.left(), currentTry.left());
+            bool rightChanged = !qFuzzyCompare(currentMoveResizeGeom.right(), currentTry.right());
+            bool topChanged = !qFuzzyCompare(currentMoveResizeGeom.top(), currentTry.top());
+            bool btmChanged = !qFuzzyCompare(currentMoveResizeGeom.bottom(), currentTry.bottom());
+            auto fixChangedState = [titleFailed](bool &major, bool &counter, bool &ad1, bool &ad2) {
+                counter = false;
+                if (titleFailed) {
+                    major = false;
+                }
+                if (major) {
+                    ad1 = ad2 = false;
+                }
+            };
+            switch (titlebarPosition()) {
+            default:
+            case Qt::TopEdge:
+                fixChangedState(topChanged, btmChanged, leftChanged, rightChanged);
+                break;
+            case Qt::LeftEdge:
+                fixChangedState(leftChanged, rightChanged, topChanged, btmChanged);
+                break;
+            case Qt::BottomEdge:
+                fixChangedState(btmChanged, topChanged, leftChanged, rightChanged);
+                break;
+            case Qt::RightEdge:
+                fixChangedState(rightChanged, leftChanged, topChanged, btmChanged);
+                break;
+            }
+            if (topChanged) {
+                currentTry.setTop(currentTry.y() + qBound(-1.0, currentMoveResizeGeom.y() - currentTry.y(), 1.0));
+            } else if (leftChanged) {
+                currentTry.setLeft(currentTry.x() + qBound(-1.0, currentMoveResizeGeom.x() - currentTry.x(), 1.0));
+            } else if (btmChanged) {
+                currentTry.setBottom(currentTry.bottom() + qBound(-1.0, currentMoveResizeGeom.bottom() - currentTry.bottom(), 1.0));
+            } else if (rightChanged) {
+                currentTry.setRight(currentTry.right() + qBound(-1.0, currentMoveResizeGeom.right() - currentTry.right(), 1.0));
+            } else {
+                break; // no position changed - that's certainly not good
+            }
+            nextMoveResizeGeom = currentTry;
+        }
+    }
+
+    // Always obey size hints, even when in "unrestricted" mode
+    QSizeF size = constrainFrameSize(nextMoveResizeGeom.size(), sizeMode);
+    // the new topleft and bottomright corners (after checking size constrains), if they'll be needed
+    topleft = QPointF(nextMoveResizeGeom.right() - size.width(), nextMoveResizeGeom.bottom() - size.height());
+    bottomright = QPointF(nextMoveResizeGeom.left() + size.width(), nextMoveResizeGeom.top() + size.height());
+    orig = nextMoveResizeGeom;
+
+    // if aspect ratios are specified, both dimensions may change.
+    // Therefore grow to the right/bottom if needed.
+    // TODO it should probably obey gravity rather than always using right/bottom ?
+    if (sizeMode == SizeModeFixedH) {
+        orig.setRight(bottomright.x());
+    } else if (sizeMode == SizeModeFixedW) {
+        orig.setBottom(bottomright.y());
+    }
+
+    calculateMoveResizeGeom();
+
+    return nextMoveResizeGeom;
+}
+
+QRectF Window::nextInteractiveMoveGeometry(const QPointF &global) const
+{
+    const QRectF currentMoveResizeGeom = frameGeometry();
+    if (!isMovable()) {
+        return currentMoveResizeGeom;
+    }
+
+    QRectF nextMoveResizeGeom = currentMoveResizeGeom;
+    nextMoveResizeGeom.moveTopLeft(QPointF(global.x() - interactiveMoveOffset().x() * currentMoveResizeGeom.width(),
+                                           global.y() - interactiveMoveOffset().y() * currentMoveResizeGeom.height()));
+    nextMoveResizeGeom.moveTopLeft(workspace()->adjustWindowPosition(this, nextMoveResizeGeom.topLeft(), isUnrestrictedInteractiveMoveResize()));
+
+    if (!isUnrestrictedInteractiveMoveResize()) {
+        const StrutRects strut = workspace()->restrictedMoveArea(VirtualDesktopManager::self()->currentDesktop());
+        QRegion availableArea(workspace()->clientArea(FullArea, this, workspace()->activeOutput()).toRect());
+        for (const QRect &rect : strut) {
+            availableArea -= rect; // Strut areas
+        }
+        bool transposed = false;
+        QRectF bTitleRect = titleBarRect(nextMoveResizeGeom, transposed);
+        for (;;) {
+            QRectF currentTry = nextMoveResizeGeom;
+            const QRect titleRect = bTitleRect.translated(currentTry.topLeft()).toRect();
+            const int requiredPixels = std::min(100 * (transposed ? titleRect.width() : titleRect.height()), titleRect.width() * titleRect.height());
+
+            int visiblePixels = 0;
+            for (const QRect &rect : availableArea) {
+                const QRect r = rect & titleRect;
+                if ((transposed && r.width() == titleRect.width()) || // Only the full size regions...
+                    (!transposed && r.height() == titleRect.height())) { // ...prevents long slim areas
+                    visiblePixels += r.width() * r.height();
+                }
+            }
+            if (visiblePixels >= requiredPixels) {
+                break; // We have reached a valid position
+            }
+
+            // (esp.) if there're more screens with different struts (panels) it the titlebar
+            // will be movable outside the movearea (covering one of the panels) until it
+            // crosses the panel "too much" (not enough visiblePixels) and then stucks because
+            // it's usually only pushed by 1px to either direction
+            // so we first check whether we intersect suc strut and move the window below it
+            // immediately (it's still possible to hit the visiblePixels >= titlebarArea break
+            // by moving the window slightly downwards, but it won't stuck)
+            // see bug #274466
+            // and bug #301805 for why we can't just match the titlearea against the screen
+            if (workspace()->outputs().count() > 1) { // optimization
+                // TODO: could be useful on partial screen struts (half-width panels etc.)
+                int newTitleTop = -1;
+                for (const QRect &region : strut) {
+                    QRectF r = region;
+                    if (r.top() == 0 && r.width() > r.height() && // "top panel"
+                        r.intersects(currentTry) && currentTry.top() < r.bottom()) {
+                        newTitleTop = r.bottom();
+                        break;
+                    }
+                }
+                if (newTitleTop > -1) {
+                    currentTry.moveTop(newTitleTop); // invalid position, possibly on screen change
+                    nextMoveResizeGeom = currentTry;
+                    break;
+                }
+            }
+
+            int dx = sign(currentMoveResizeGeom.x() - currentTry.x()),
+                dy = sign(currentMoveResizeGeom.y() - currentTry.y());
+            if (visiblePixels && dx) { // means there's no full width cap -> favor horizontally
+                dy = 0;
+            } else if (dy) {
+                dx = 0;
+            }
+
+            // Move it back
+            currentTry.translate(dx, dy);
+            nextMoveResizeGeom = currentTry;
+
+            // sinces nextMoveResizeGeom is fractional, at best it is within 1 unit of currentMoveResizeGeom
+            if (std::abs(currentMoveResizeGeom.left() - nextMoveResizeGeom.left()) < 1.0
+                && std::abs(currentMoveResizeGeom.right() - nextMoveResizeGeom.right()) < 1.0
+                && std::abs(currentMoveResizeGeom.top() - nextMoveResizeGeom.top()) < 1.0
+                && std::abs(currentMoveResizeGeom.bottom() - nextMoveResizeGeom.bottom()) < 1.0) {
+                break; // Prevent lockup
+            }
+        }
+    }
+
+    return nextMoveResizeGeom;
 }
 
 StrutRect Window::strutRect(StrutArea area) const
@@ -2198,7 +1767,6 @@ void Window::setupWindowManagementInterface()
     if (!waylandServer() || !waylandServer()->windowManagement()) {
         return;
     }
-    using namespace KWaylandServer;
     auto w = waylandServer()->windowManagement()->createWindow(this, internalId());
     w->setTitle(caption());
     w->setActive(isActive());
@@ -2250,8 +1818,8 @@ void Window::setupWindowManagementInterface()
     connect(this, &Window::minimizedChanged, w, [w, this] {
         w->setMinimized(isMinimized());
     });
-    connect(this, static_cast<void (Window::*)(Window *, MaximizeMode)>(&Window::clientMaximizedStateChanged), w, [w](KWin::Window *c, MaximizeMode mode) {
-        w->setMaximized(mode == KWin::MaximizeFull);
+    connect(this, &Window::maximizedChanged, w, [w, this]() {
+        w->setMaximized(maximizeMode() == MaximizeFull);
     });
     connect(this, &Window::demandsAttentionChanged, w, [w, this] {
         w->setDemandsAttention(isDemandingAttention());
@@ -2285,14 +1853,10 @@ void Window::setupWindowManagementInterface()
         performMouseCommand(Options::MouseResize, Cursors::self()->mouse()->pos());
     });
     connect(w, &PlasmaWindowInterface::fullscreenRequested, this, [this](bool set) {
-        setFullScreen(set, false);
+        setFullScreen(set);
     });
     connect(w, &PlasmaWindowInterface::minimizedRequested, this, [this](bool set) {
-        if (set) {
-            minimize();
-        } else {
-            unminimize();
-        }
+        setMinimized(set);
     });
     connect(w, &PlasmaWindowInterface::maximizedRequested, this, [this](bool set) {
         maximize(set ? MaximizeFull : MaximizeRestore);
@@ -2370,11 +1934,17 @@ void Window::setupWindowManagementInterface()
     connect(w, &PlasmaWindowInterface::leavePlasmaActivityRequested, this, [this](const QString &activityId) {
         setOnActivity(activityId, false);
     });
-    connect(w, &PlasmaWindowInterface::sendToOutput, this, [this](KWaylandServer::OutputInterface *output) {
+    connect(w, &PlasmaWindowInterface::sendToOutput, this, [this](OutputInterface *output) {
         sendToOutput(output->handle());
     });
 
     m_windowManagementInterface = w;
+}
+
+void Window::destroyWindowManagementInterface()
+{
+    delete m_windowManagementInterface;
+    m_windowManagementInterface = nullptr;
 }
 
 Options::MouseCommand Window::getMouseCommand(Qt::MouseButton button, bool *handled) const
@@ -2494,7 +2064,7 @@ bool Window::performMouseCommand(Options::MouseCommand cmd, const QPointF &globa
         maximize(MaximizeRestore);
         break;
     case Options::MouseMinimize:
-        minimize();
+        setMinimized(true);
         break;
     case Options::MouseAbove: {
         StackingUpdatesBlocker blocker(workspace());
@@ -2542,6 +2112,7 @@ bool Window::performMouseCommand(Options::MouseCommand cmd, const QPointF &globa
     case Options::MouseMove:
     case Options::MouseUnrestrictedMove: {
         if (!isMovableAcrossScreens()) {
+            replay = true;
             break;
         }
         if (isInteractiveMoveResize()) {
@@ -2549,8 +2120,8 @@ bool Window::performMouseCommand(Options::MouseCommand cmd, const QPointF &globa
         }
         setInteractiveMoveResizeGravity(Gravity::None);
         setInteractiveMoveResizePointerButtonDown(true);
-        setInteractiveMoveOffset(QPointF(globalPos.x() - x(), globalPos.y() - y())); // map from global
-        setInvertedInteractiveMoveOffset(rect().bottomRight() - interactiveMoveOffset());
+        setInteractiveMoveResizeAnchor(globalPos);
+        setInteractiveMoveOffset(QPointF(qreal(globalPos.x() - x()) / width(), qreal(globalPos.y() - y()) / height())); // map from global
         setUnrestrictedInteractiveMoveResize((cmd == Options::MouseActivateRaiseAndUnrestrictedMove
                                               || cmd == Options::MouseUnrestrictedMove));
         if (!startInteractiveMoveResize()) {
@@ -2568,8 +2139,9 @@ bool Window::performMouseCommand(Options::MouseCommand cmd, const QPointF &globa
             finishInteractiveMoveResize(false);
         }
         setInteractiveMoveResizePointerButtonDown(true);
+        setInteractiveMoveResizeAnchor(globalPos);
         const QPointF moveOffset = QPointF(globalPos.x() - x(), globalPos.y() - y()); // map from global
-        setInteractiveMoveOffset(moveOffset);
+        setInteractiveMoveOffset(QPointF(moveOffset.x() / width(), moveOffset.y() / height()));
         int x = moveOffset.x(), y = moveOffset.y();
         bool left = x < width() / 3;
         bool right = x >= 2 * width() / 3;
@@ -2584,7 +2156,6 @@ bool Window::performMouseCommand(Options::MouseCommand cmd, const QPointF &globa
             gravity = (x < width() / 2) ? Gravity::Left : Gravity::Right;
         }
         setInteractiveMoveResizeGravity(gravity);
-        setInvertedInteractiveMoveOffset(rect().bottomRight() - moveOffset);
         setUnrestrictedInteractiveMoveResize((cmd == Options::MouseUnrestrictedResize));
         if (!startInteractiveMoveResize()) {
             setInteractiveMoveResizePointerButtonDown(false);
@@ -2640,7 +2211,7 @@ bool Window::hasTransientPlacementHint() const
     return false;
 }
 
-QRectF Window::transientPlacement(const QRectF &bounds) const
+QRectF Window::transientPlacement() const
 {
     Q_UNREACHABLE();
     return QRectF();
@@ -2675,6 +2246,7 @@ void Window::setModal(bool m)
         return;
     }
     m_modal = m;
+    doSetModal();
     Q_EMIT modalChanged();
     // Changing modality for a mapped window is weird (?)
     // _NET_WM_STATE_MODAL should possibly rather be _NET_WM_WINDOW_TYPE_MODAL_DIALOG
@@ -2683,6 +2255,27 @@ void Window::setModal(bool m)
 bool Window::isModal() const
 {
     return m_modal;
+}
+
+Window *Window::findModal() const
+{
+    for (Window *transient : m_transients) {
+        if (transient->isDeleted()) {
+            continue;
+        }
+        if (transient->isModal()) {
+            return transient;
+        }
+        if (Window *modal = transient->findModal()) {
+            return modal;
+        }
+    }
+    return nullptr;
+}
+
+bool Window::isTransient() const
+{
+    return false;
 }
 
 // check whether a transient should be actually kept above its mainwindow
@@ -2768,6 +2361,9 @@ int Window::borderTop() const
 
 void Window::updateCursor()
 {
+    if (isDeleted()) {
+        return;
+    }
     Gravity gravity = interactiveMoveResizeGravity();
     if (!isResizable() || isShade()) {
         gravity = Gravity::None;
@@ -2800,7 +2396,7 @@ void Window::updateCursor()
         break;
     default:
         if (isInteractiveMoveResize()) {
-            c = Qt::SizeAllCursor;
+            c = Qt::ClosedHandCursor;
         } else {
             c = Qt::ArrowCursor;
         }
@@ -2822,7 +2418,6 @@ void Window::leaveInteractiveMoveResize()
     }
     if (isElectricBorderMaximizing()) {
         workspace()->outline()->hide();
-        elevate(false);
     }
 }
 
@@ -2835,7 +2430,7 @@ void Window::doFinishInteractiveMoveResize()
 {
 }
 
-bool Window::isWaitingForInteractiveMoveResizeSync() const
+bool Window::isWaitingForInteractiveResizeSync() const
 {
     return false;
 }
@@ -2931,7 +2526,7 @@ void Window::keyPressEvent(uint key_code)
     key_code = key_code & ~Qt::KeyboardModifierMask;
     int delta = is_control ? 1 : is_alt ? 32
                                         : 8;
-    QPointF pos = Cursors::self()->mouse()->pos();
+    QPointF pos = interactiveMoveResizeAnchor();
     switch (key_code) {
     case Qt::Key_Left:
         pos.rx() -= delta;
@@ -3022,21 +2617,26 @@ void Window::setDecoration(std::shared_ptr<KDecoration2::Decoration> decoration)
     }
     if (decoration) {
         QMetaObject::invokeMethod(decoration.get(), QOverload<>::of(&KDecoration2::Decoration::update), Qt::QueuedConnection);
-        connect(decoration.get(), &KDecoration2::Decoration::shadowChanged, this, &Window::updateShadow);
-        connect(decoration.get(), &KDecoration2::Decoration::bordersChanged,
-                this, &Window::updateDecorationInputShape);
-        connect(decoration.get(), &KDecoration2::Decoration::resizeOnlyBordersChanged,
-                this, &Window::updateDecorationInputShape);
-        connect(decoration.get(), &KDecoration2::Decoration::bordersChanged, this, [this]() {
-            GeometryUpdatesBlocker blocker(this);
-            const QRectF oldGeometry = moveResizeGeometry();
-            if (!isShade()) {
-                checkWorkspacePosition(oldGeometry);
+        connect(decoration.get(), &KDecoration2::Decoration::shadowChanged, this, [this]() {
+            if (!isDeleted()) {
+                updateShadow();
             }
-            Q_EMIT geometryShapeChanged(this, oldGeometry);
         });
-        connect(decoratedClient()->decoratedClient(), &KDecoration2::DecoratedClient::sizeChanged,
-                this, &Window::updateDecorationInputShape);
+        connect(decoration.get(), &KDecoration2::Decoration::bordersChanged, this, [this]() {
+            if (!isDeleted()) {
+                updateDecorationInputShape();
+            }
+        });
+        connect(decoration.get(), &KDecoration2::Decoration::resizeOnlyBordersChanged, this, [this]() {
+            if (!isDeleted()) {
+                updateDecorationInputShape();
+            }
+        });
+        connect(decoratedClient()->decoratedClient(), &KDecoration2::DecoratedClient::sizeChanged, this, [this]() {
+            if (!isDeleted()) {
+                updateDecorationInputShape();
+            }
+        });
     }
     m_decoration.decoration = decoration;
     updateDecorationInputShape();
@@ -3094,9 +2694,21 @@ void Window::layoutDecorationRects(QRectF &left, QRectF &top, QRectF &right, QRe
 void Window::processDecorationMove(const QPointF &localPos, const QPointF &globalPos)
 {
     if (isInteractiveMoveResizePointerButtonDown()) {
-        handleInteractiveMoveResize(localPos.x(), localPos.y(), globalPos.x(), globalPos.y());
+        if (!isInteractiveMoveResize()) {
+            const QPointF offset(interactiveMoveOffset().x() * width(), interactiveMoveOffset().y() * height());
+            const QPointF delta(localPos - offset);
+            if (delta.manhattanLength() >= QApplication::startDragDistance()) {
+                if (startInteractiveMoveResize()) {
+                    updateInteractiveMoveResize(globalPos);
+                } else {
+                    setInteractiveMoveResizePointerButtonDown(false);
+                }
+                updateCursor();
+            }
+        }
         return;
     }
+
     // TODO: handle modifiers
     Gravity newGravity = mouseGravity();
     if (newGravity != interactiveMoveResizeGravity()) {
@@ -3105,7 +2717,7 @@ void Window::processDecorationMove(const QPointF &localPos, const QPointF &globa
     }
 }
 
-bool Window::processDecorationButtonPress(QMouseEvent *event, bool ignoreMenu)
+bool Window::processDecorationButtonPress(const QPointF &localPos, const QPointF &globalPos, Qt::MouseButton button, bool ignoreMenu)
 {
     Options::MouseCommand com = Options::MouseNothing;
     bool active = isActive();
@@ -3114,14 +2726,37 @@ bool Window::processDecorationButtonPress(QMouseEvent *event, bool ignoreMenu)
     }
 
     // check whether it is a double click
-    if (event->button() == Qt::LeftButton && titlebarPositionUnderMouse()) {
+    if (button == Qt::LeftButton) {
         if (m_decoration.doubleClickTimer.isValid()) {
             const qint64 interval = m_decoration.doubleClickTimer.elapsed();
             m_decoration.doubleClickTimer.invalidate();
             if (interval > QGuiApplication::styleHints()->mouseDoubleClickInterval()) {
                 m_decoration.doubleClickTimer.start(); // expired -> new first click and pot. init
             } else {
-                Workspace::self()->performWindowOperation(this, options->operationTitlebarDblClick());
+                Options::WindowOperation operation;
+                switch (decoration()->sectionUnderMouse()) {
+                case Qt::TitleBarArea:
+                    operation = options->operationTitlebarDblClick();
+                    break;
+                case Qt::LeftSection:
+                case Qt::RightSection:
+                    operation = Options::HMaximizeOp;
+                    break;
+                case Qt::TopSection:
+                case Qt::BottomSection:
+                    operation = Options::VMaximizeOp;
+                    break;
+                case Qt::TopLeftSection:
+                case Qt::TopRightSection:
+                case Qt::BottomLeftSection:
+                case Qt::BottomRightSection:
+                    operation = Options::MaximizeOp;
+                    break;
+                default:
+                    operation = Options::NoOp;
+                    break;
+                }
+                workspace()->performWindowOperation(this, operation);
                 dontInteractiveMoveResize();
                 return false;
             }
@@ -3130,21 +2765,21 @@ bool Window::processDecorationButtonPress(QMouseEvent *event, bool ignoreMenu)
         }
     }
 
-    if (event->button() == Qt::LeftButton) {
+    if (button == Qt::LeftButton) {
         com = active ? options->commandActiveTitlebar1() : options->commandInactiveTitlebar1();
-    } else if (event->button() == Qt::MiddleButton) {
+    } else if (button == Qt::MiddleButton) {
         com = active ? options->commandActiveTitlebar2() : options->commandInactiveTitlebar2();
-    } else if (event->button() == Qt::RightButton) {
+    } else if (button == Qt::RightButton) {
         com = active ? options->commandActiveTitlebar3() : options->commandInactiveTitlebar3();
     }
-    if (event->button() == Qt::LeftButton
+    if (button == Qt::LeftButton
         && com != Options::MouseOperationsMenu // actions where it's not possible to get the matching
         && com != Options::MouseMinimize) // mouse release event
     {
         setInteractiveMoveResizeGravity(mouseGravity());
         setInteractiveMoveResizePointerButtonDown(true);
-        setInteractiveMoveOffset(event->pos());
-        setInvertedInteractiveMoveOffset(rect().bottomRight() - interactiveMoveOffset());
+        setInteractiveMoveResizeAnchor(globalPos);
+        setInteractiveMoveOffset(QPointF(qreal(localPos.x()) / width(), qreal(localPos.y()) / height()));
         setUnrestrictedInteractiveMoveResize(false);
         startDelayedInteractiveMoveResize();
         updateCursor();
@@ -3152,21 +2787,15 @@ bool Window::processDecorationButtonPress(QMouseEvent *event, bool ignoreMenu)
     // In the new API the decoration may process the menu action to display an inactive tab's menu.
     // If the event is unhandled then the core will create one for the active window in the group.
     if (!ignoreMenu || com != Options::MouseOperationsMenu) {
-        performMouseCommand(com, event->globalPos());
+        performMouseCommand(com, globalPos);
     }
     return !( // Return events that should be passed to the decoration in the new API
         com == Options::MouseRaise || com == Options::MouseOperationsMenu || com == Options::MouseActivateAndRaise || com == Options::MouseActivate || com == Options::MouseActivateRaiseAndPassClick || com == Options::MouseActivateAndPassClick || com == Options::MouseNothing);
 }
 
-void Window::processDecorationButtonRelease(QMouseEvent *event)
+void Window::processDecorationButtonRelease(Qt::MouseButton button)
 {
-    if (isDecorated()) {
-        if (event->isAccepted() || !titlebarPositionUnderMouse()) {
-            invalidateDecorationDoubleClickTimer(); // click was for the deco and shall not init a doubleclick
-        }
-    }
-
-    if (event->buttons() == Qt::NoButton) {
+    if (button == Qt::LeftButton) {
         setInteractiveMoveResizePointerButtonDown(false);
         stopDelayedInteractiveMoveResize();
         if (isInteractiveMoveResize()) {
@@ -3196,12 +2825,12 @@ void Window::showContextHelp()
 {
 }
 
-QPointer<Decoration::DecoratedClientImpl> Window::decoratedClient() const
+Decoration::DecoratedClientImpl *Window::decoratedClient() const
 {
     return m_decoration.client;
 }
 
-void Window::setDecoratedClient(QPointer<Decoration::DecoratedClientImpl> client)
+void Window::setDecoratedClient(Decoration::DecoratedClientImpl *client)
 {
     m_decoration.client = client;
 }
@@ -3267,6 +2896,14 @@ QRectF Window::iconGeometry() const
         }
     }
     if (!candidatePanel) {
+        // Check all mainwindows of this window.
+        const auto windows = mainWindows();
+        for (Window *mainWindow : windows) {
+            const auto geom = mainWindow->iconGeometry();
+            if (geom.isValid()) {
+                return geom;
+            }
+        }
         return QRectF();
     }
     return candidateGeom.translated(candidatePanel->pos());
@@ -3454,14 +3091,6 @@ QString Window::shortcutCaptionSuffix() const
     return QLatin1String(" {") + shortcut().toString() + QLatin1Char('}');
 }
 
-Window *Window::findWindowWithSameCaption() const
-{
-    auto fetchNameInternalPredicate = [this](const Window *cl) {
-        return (!cl->isSpecialWindow() || cl->isToolbar()) && cl != this && cl->captionNormal() == captionNormal() && cl->captionSuffix() == captionSuffix();
-    };
-    return workspace()->findAbstractClient(fetchNameInternalPredicate);
-}
-
 QString Window::caption() const
 {
     QString cap = captionNormal() + captionSuffix();
@@ -3472,22 +3101,6 @@ QString Window::caption() const
     return cap;
 }
 
-void Window::removeRule(Rules *rule)
-{
-    m_rules.remove(rule);
-}
-
-void Window::discardTemporaryRules()
-{
-    m_rules.discardTemporary();
-}
-
-void Window::evaluateWindowRules()
-{
-    setupWindowRules(true);
-    applyWindowRules();
-}
-
 /**
  * Returns the list of activities the window window is on.
  * if it's on all activities, the list will be empty.
@@ -3496,6 +3109,18 @@ void Window::evaluateWindowRules()
 QStringList Window::activities() const
 {
     return m_activityList;
+}
+
+bool Window::isOnCurrentActivity() const
+{
+#if KWIN_BUILD_ACTIVITIES
+    if (!Workspace::self()->activities()) {
+        return true;
+    }
+    return isOnActivity(Workspace::self()->activities()->current());
+#else
+    return true;
+#endif
 }
 
 /**
@@ -3572,6 +3197,10 @@ void Window::setOnActivities(const QStringList &newActivitiesList)
 #endif
 }
 
+void Window::doSetOnActivities(const QStringList &activityList)
+{
+}
+
 /**
  * if @p all is true, sets on all activities.
  * if it's false, sets it to only be on the current activity
@@ -3599,7 +3228,7 @@ void Window::updateActivities(bool includeTransients)
         m_blockedActivityUpdatesRequireTransients |= includeTransients;
         return;
     }
-    Q_EMIT activitiesChanged(this);
+    Q_EMIT activitiesChanged();
     m_blockedActivityUpdatesRequireTransients = false; // reset
     Workspace::self()->focusChain()->update(this, FocusChain::MakeFirst);
     updateWindowRules(Rules::Activity);
@@ -3618,11 +3247,6 @@ void Window::blockActivityUpdates(bool b)
     }
 }
 
-void Window::checkNoBorder()
-{
-    setNoBorder(false);
-}
-
 bool Window::groupTransient() const
 {
     return false;
@@ -3636,11 +3260,6 @@ const Group *Window::group() const
 Group *Window::group()
 {
     return nullptr;
-}
-
-bool Window::supportsWindowRules() const
-{
-    return false;
 }
 
 QPointF Window::framePosToClientPos(const QPointF &point) const
@@ -3689,7 +3308,7 @@ QRectF Window::moveResizeGeometry() const
 void Window::setMoveResizeGeometry(const QRectF &geo)
 {
     m_moveResizeGeometry = geo;
-    m_moveResizeOutput = workspace()->outputAt(geo.center());
+    setMoveResizeOutput(workspace()->outputAt(geo.center()));
 }
 
 Output *Window::moveResizeOutput() const
@@ -3699,7 +3318,26 @@ Output *Window::moveResizeOutput() const
 
 void Window::setMoveResizeOutput(Output *output)
 {
+    if (m_moveResizeOutput == output) {
+        return;
+    }
+
+    if (m_moveResizeOutput) {
+        disconnect(m_moveResizeOutput, &Output::scaleChanged, this, &Window::updatePreferredBufferScale);
+        disconnect(m_moveResizeOutput, &Output::transformChanged, this, &Window::updatePreferredBufferTransform);
+        disconnect(m_moveResizeOutput, &Output::colorDescriptionChanged, this, &Window::updatePreferredColorDescription);
+    }
+
     m_moveResizeOutput = output;
+    if (output) {
+        connect(output, &Output::scaleChanged, this, &Window::updatePreferredBufferScale);
+        connect(output, &Output::transformChanged, this, &Window::updatePreferredBufferTransform);
+        connect(output, &Output::colorDescriptionChanged, this, &Window::updatePreferredColorDescription);
+    }
+
+    updatePreferredBufferScale();
+    updatePreferredBufferTransform();
+    updatePreferredColorDescription();
 }
 
 void Window::move(const QPointF &point)
@@ -3742,11 +3380,10 @@ void Window::setElectricBorderMaximizing(bool maximizing)
 {
     m_electricMaximizing = maximizing;
     if (maximizing) {
-        workspace()->outline()->show(quickTileGeometry(electricBorderMode(), Cursors::self()->mouse()->pos()).toRect(), moveResizeGeometry().toRect());
+        workspace()->outline()->show(quickTileGeometry(electricBorderMode(), interactiveMoveResizeAnchor()).toRect(), moveResizeGeometry().toRect());
     } else {
         workspace()->outline()->hide();
     }
-    elevate(maximizing);
 }
 
 QRectF Window::quickTileGeometry(QuickTileMode mode, const QPointF &pos) const
@@ -3777,10 +3414,19 @@ QRectF Window::quickTileGeometry(QuickTileMode mode, const QPointF &pos) const
     return workspace()->clientArea(MaximizeArea, this, pos);
 }
 
+void Window::updateQuickTileMode(QuickTileMode newMode)
+{
+    if (m_requestedQuickTileMode == newMode) {
+        return;
+    }
+    m_requestedQuickTileMode = newMode;
+    doSetQuickTileMode();
+}
+
 void Window::updateElectricGeometryRestore()
 {
     m_electricGeometryRestore = geometryRestore();
-    if (quickTileMode() == QuickTileMode(QuickTileFlag::None)) {
+    if (m_interactiveMoveResize.initialQuickTileMode == QuickTileMode(QuickTileFlag::None)) {
         if (!(requestedMaximizeMode() & MaximizeHorizontal)) {
             m_electricGeometryRestore.setX(x());
             m_electricGeometryRestore.setWidth(width());
@@ -3818,22 +3464,20 @@ void Window::setQuickTileMode(QuickTileMode mode, bool keyboard)
 
     workspace()->updateFocusMousePosition(Cursors::self()->mouse()->pos()); // may cause leave event
 
-    GeometryUpdatesBlocker blocker(this);
-
-    setTile(nullptr);
+    const QuickTileMode oldMode = requestedQuickTileMode();
+    QPointF whichScreen = keyboard ? moveResizeGeometry().center() : Cursors::self()->mouse()->pos();
 
     if (mode == QuickTileMode(QuickTileFlag::Maximize)) {
         if (requestedMaximizeMode() == MaximizeFull) {
-            m_quickTileMode = int(QuickTileFlag::None);
+            m_requestedQuickTileMode = QuickTileFlag::None;
             setMaximize(false, false);
         } else {
             QRectF effectiveGeometryRestore = quickTileGeometryRestore();
-            m_quickTileMode = int(QuickTileFlag::Maximize);
+            m_requestedQuickTileMode = QuickTileFlag::Maximize;
             setMaximize(true, true);
             setGeometryRestore(effectiveGeometryRestore);
         }
         doSetQuickTileMode();
-        Q_EMIT quickTileModeChanged();
         return;
     }
 
@@ -3847,31 +3491,26 @@ void Window::setQuickTileMode(QuickTileMode mode, bool keyboard)
 
     // restore from maximized so that it is possible to tile maximized windows with one hit or by dragging
     if (requestedMaximizeMode() != MaximizeRestore) {
-
         if (mode != QuickTileMode(QuickTileFlag::None)) {
-            m_quickTileMode = int(QuickTileFlag::None); // Temporary, so the maximize code doesn't get all confused
-
+            m_requestedQuickTileMode = QuickTileFlag::None;
             setMaximize(false, false);
-
             moveResize(quickTileGeometry(mode, keyboard ? moveResizeGeometry().center() : Cursors::self()->mouse()->pos()));
             // Store the mode change
-            m_quickTileMode = mode;
+            m_requestedQuickTileMode = mode;
         } else {
-            m_quickTileMode = mode;
+            m_requestedQuickTileMode = mode;
             setMaximize(false, false);
         }
 
         doSetQuickTileMode();
-        Q_EMIT quickTileModeChanged();
 
         return;
     }
 
-    QPointF whichScreen = keyboard ? moveResizeGeometry().center() : Cursors::self()->mouse()->pos();
     if (mode != QuickTileMode(QuickTileFlag::None)) {
         // If trying to tile to the side that the window is already tiled to move the window to the next
         // screen near the tile if it exists and swap the tile side, otherwise toggle the mode (set QuickTileFlag::None)
-        if (quickTileMode() == mode) {
+        if (oldMode == mode) {
             Output *currentOutput = moveResizeOutput();
             Output *nextOutput = currentOutput;
             Output *candidateOutput = currentOutput;
@@ -3905,58 +3544,89 @@ void Window::setQuickTileMode(QuickTileMode mode, bool keyboard)
                     mode = (~mode & QuickTileFlag::Vertical) | (mode & QuickTileFlag::Horizontal);
                 }
             }
-        } else if (quickTileMode() == QuickTileMode(QuickTileFlag::None)) {
+        } else if (oldMode == QuickTileMode(QuickTileFlag::None)) {
             // Not coming out of an existing tile, not shifting monitors, we're setting a brand new tile.
             // Store geometry first, so we can go out of this tile later.
             setGeometryRestore(quickTileGeometryRestore());
         }
-
-        m_quickTileMode = mode;
+        m_requestedQuickTileMode = mode;
     }
 
     if (mode == QuickTileMode(QuickTileFlag::None)) {
-        setTile(nullptr);
-        m_quickTileMode = int(QuickTileFlag::None);
-        // Untiling, so just restore geometry, and we're done.
-        if (geometryRestore().isValid()) { // invalid if we started maximized and wait for placement
-            moveResize(geometryRestore());
-        }
-        checkWorkspacePosition(); // Just in case it's a different screen
-    } else if (mode == QuickTileMode(QuickTileFlag::Custom)) {
-        Tile *tile = nullptr;
-        if (keyboard) {
-            tile = workspace()->tileManager(output())->bestTileForPosition(moveResizeGeometry().center());
-        } else {
-            Output *output = workspace()->outputAt(Cursors::self()->mouse()->pos());
-            tile = workspace()->tileManager(output)->bestTileForPosition(Cursors::self()->mouse()->pos());
-        }
-        setTile(tile);
-    } else {
-        // Use whichScreen to move to next screen when retiling to the same edge as the old behavior
-        Output *output = workspace()->outputAt(whichScreen);
-        Tile *tile = workspace()->tileManager(output)->quickTile(mode);
-        setTile(tile);
-    }
+        m_requestedQuickTileMode = QuickTileFlag::None;
 
+        QRectF geometry = moveResizeGeometry();
+        if (geometryRestore().isValid()) {
+            geometry = geometryRestore();
+        }
+        if (isInteractiveMove()) {
+            const QPointF anchor = interactiveMoveResizeAnchor();
+            const QPointF offset = interactiveMoveOffset();
+            geometry.moveTopLeft(QPointF(anchor.x() - geometry.width() * offset.x(),
+                                         anchor.y() - geometry.height() * offset.y()));
+        }
+        moveResize(geometry);
+        // Custom tiles need to be untiled immediately
+        if (oldMode == QuickTileFlag::Custom) {
+            setTile(nullptr);
+            return;
+        }
+    } else if (mode == QuickTileMode(QuickTileFlag::Custom)) {
+        // Custom tileMode is the only one that gets immediately assigned without a roundtrip
+        m_requestedQuickTileMode = mode;
+        setTile(workspace()->tileManager(workspace()->outputAt(whichScreen))->bestTileForPosition(whichScreen));
+        // Don't go into setTileMode as custom tiles don't go trough configure events
+        return;
+    } else {
+        Tile *newTile = workspace()->tileManager(workspace()->outputAt(whichScreen))->quickTile(m_requestedQuickTileMode);
+        if (newTile) {
+            moveResize(newTile->absoluteGeometry());
+        } else if (tile()) {
+            moveResize(quickTileGeometryRestore());
+        }
+    }
     doSetQuickTileMode();
-    Q_EMIT quickTileModeChanged();
+}
+
+QuickTileMode Window::quickTileMode() const
+{
+    if (m_tile) {
+        return m_tile->quickTileMode();
+    } else {
+        return QuickTileFlag::None;
+    }
+}
+
+QuickTileMode Window::requestedQuickTileMode() const
+{
+    return m_requestedQuickTileMode;
 }
 
 void Window::setTile(Tile *tile)
 {
     if (m_tile == tile) {
         return;
-    } else if (m_tile) {
-        m_tile->removeWindow(this);
     }
+
+    Tile *oldTile = m_tile;
+    QuickTileMode oldTileMode = quickTileMode();
 
     m_tile = tile;
 
     if (m_tile) {
+        Q_ASSERT(!isDeleted());
         m_tile->addWindow(this);
     }
 
+    if (oldTile) {
+        oldTile->removeWindow(this);
+    }
+
     Q_EMIT tileChanged(tile);
+
+    if (oldTileMode != quickTileMode()) {
+        Q_EMIT quickTileModeChanged();
+    }
 }
 
 Tile *Window::tile() const
@@ -3965,6 +3635,14 @@ Tile *Window::tile() const
 }
 
 void Window::doSetQuickTileMode()
+{
+}
+
+void Window::doSetHidden()
+{
+}
+
+void Window::doSetHiddenByShowDesktop()
 {
 }
 
@@ -4001,7 +3679,7 @@ QRectF Window::ensureSpecialStateGeometry(const QRectF &geometry)
             ret.setY(maximizeArea.y());
             ret.setHeight(maximizeArea.height());
         }
-        return ret;
+        return keepInArea(ret, maximizeArea, false);
     } else if (quickTileMode() != QuickTileMode(QuickTileFlag::None)) {
         return quickTileGeometry(quickTileMode(), geometry.center());
     } else {
@@ -4015,7 +3693,7 @@ void Window::sendToOutput(Output *newOutput)
     if (isActive()) {
         workspace()->setActiveOutput(newOutput);
         // might impact the layer of a fullscreen window
-        const auto windows = workspace()->allClientList();
+        const auto windows = workspace()->windows();
         for (Window *other : windows) {
             if (other->isFullScreen() && other->output() == newOutput) {
                 other->updateLayer();
@@ -4030,8 +3708,11 @@ void Window::sendToOutput(Output *newOutput)
     const QRectF oldScreenArea = workspace()->clientArea(MaximizeArea, this, moveResizeOutput());
     const QRectF screenArea = workspace()->clientArea(MaximizeArea, this, newOutput);
 
-    if (m_quickTileMode == QuickTileMode(QuickTileFlag::Custom)) {
+    if (requestedQuickTileMode() == QuickTileMode(QuickTileFlag::Custom)) {
         setTile(nullptr);
+    } else {
+        Tile *newTile = workspace()->tileManager(newOutput)->quickTile(requestedQuickTileMode());
+        setTile(newTile);
     }
 
     QRectF newGeom = moveToArea(oldGeom, oldScreenArea, screenArea);
@@ -4050,6 +3731,10 @@ void Window::sendToOutput(Output *newOutput)
 
 void Window::checkWorkspacePosition(QRectF oldGeometry, const VirtualDesktop *oldDesktop)
 {
+    if (isDeleted()) {
+        qCWarning(KWIN_CORE) << "Window::checkWorkspacePosition: called for a closed window. Consider this a bug";
+        return;
+    }
     if (isDock() || isDesktop() || !isPlaceable()) {
         return;
     }
@@ -4070,7 +3755,7 @@ void Window::checkWorkspacePosition(QRectF oldGeometry, const VirtualDesktop *ol
     // edge will move when a new strut is placed on the edge.
     QRect oldScreenArea;
     QRect screenArea;
-    if (workspace()->inUpdateClientArea()) {
+    if (workspace()->inRearrange()) {
         // check if the window is on an about to be destroyed output
         Output *newOutput = moveResizeOutput();
         if (!workspace()->outputs().contains(newOutput)) {
@@ -4111,7 +3796,7 @@ void Window::checkWorkspacePosition(QRectF oldGeometry, const VirtualDesktop *ol
     // the bottom struts bounded by the window's left and right sides).
 
     // These 4 compute old bounds ...
-    auto moveAreaFunc = workspace()->inUpdateClientArea() ? &Workspace::previousRestrictedMoveArea : //... the restricted areas changed
+    auto moveAreaFunc = workspace()->inRearrange() ? &Workspace::previousRestrictedMoveArea : //... the restricted areas changed
         &Workspace::restrictedMoveArea; //... when e.g. active desktop or screen changes
 
     for (const QRect &r : (workspace()->*moveAreaFunc)(oldDesktop, StrutAreaTop)) {
@@ -4332,26 +4017,20 @@ bool Window::isRequestedFullScreen() const
 }
 
 /**
- * Returns whether requests initiated by the user to enter or leave full screen mode are honored.
- *
- * Default implementation returns @c false.
- */
-bool Window::userCanSetFullScreen() const
-{
-    return false;
-}
-
-/**
  * Asks the Window to enter or leave full screen mode.
  *
  * Default implementation does nothing.
  *
  * @param set @c true if the Window has to be shown in full screen mode, otherwise @c false
- * @param user @c true if the request is initiated by the user, otherwise @c false
  */
-void Window::setFullScreen(bool set, bool user)
+void Window::setFullScreen(bool set)
 {
     qCWarning(KWIN_CORE, "%s doesn't support setting fullscreen state", metaObject()->className());
+}
+
+bool Window::wantsAdaptiveSync() const
+{
+    return rules()->checkAdaptiveSync(isFullScreen());
 }
 
 /**
@@ -4434,6 +4113,11 @@ void Window::setNoBorder(bool set)
     qCWarning(KWIN_CORE, "%s doesn't support setting decorations", metaObject()->className());
 }
 
+void Window::checkNoBorder()
+{
+    setNoBorder(false);
+}
+
 void Window::showOnScreenEdge()
 {
     qCWarning(KWIN_CORE, "%s doesn't support screen edge activation", metaObject()->className());
@@ -4454,10 +4138,26 @@ void Window::cleanTabBox()
 #endif
 }
 
-void Window::setupWindowRules(bool ignore_temporary)
+bool Window::supportsWindowRules() const
 {
-    disconnect(this, &Window::captionChanged, this, &Window::evaluateWindowRules);
-    m_rules = workspace()->rulebook()->find(this, ignore_temporary);
+    return false;
+}
+
+void Window::removeRule(Rules *rule)
+{
+    m_rules.remove(rule);
+}
+
+void Window::evaluateWindowRules()
+{
+    setupWindowRules();
+    applyWindowRules();
+}
+
+void Window::setupWindowRules()
+{
+    disconnect(this, &Window::captionNormalChanged, this, &Window::evaluateWindowRules);
+    m_rules = workspace()->rulebook()->find(this);
     // check only after getting the rules, because there may be a rule forcing window type
 }
 
@@ -4471,6 +4171,7 @@ void Window::updateWindowRules(Rules::Types selection)
 
 void Window::finishWindowRules()
 {
+    disconnect(this, &Window::captionNormalChanged, this, &Window::evaluateWindowRules);
     updateWindowRules(Rules::All);
     m_rules = WindowRules();
 }
@@ -4479,6 +4180,7 @@ void Window::finishWindowRules()
 // Used e.g. after the rules have been modified using the kcm.
 void Window::applyWindowRules()
 {
+    Q_ASSERT(!isDeleted());
     // apply force rules
     // Placement - does need explicit update, just like some others below
     // Geometry : setGeometry() doesn't check rules
@@ -4495,21 +4197,17 @@ void Window::applyWindowRules()
     setOnActivities(activities());
     // Type
     maximize(requestedMaximizeMode());
-    // Minimize : functions don't check, and there are two functions
-    if (client_rules->checkMinimize(isMinimized())) {
-        minimize();
-    } else {
-        unminimize();
-    }
+    setMinimized(isMinimized());
     setShade(shadeMode());
     setOriginalSkipTaskbar(skipTaskbar());
     setSkipPager(skipPager());
     setSkipSwitcher(skipSwitcher());
     setKeepAbove(keepAbove());
     setKeepBelow(keepBelow());
-    setFullScreen(isRequestedFullScreen(), true);
+    setFullScreen(isRequestedFullScreen());
     setNoBorder(noBorder());
     updateColorScheme();
+    updateLayer();
     // FSP
     // AcceptFocus :
     if (workspace()->mostRecentlyActivatedWindow() == this
@@ -4564,10 +4262,11 @@ bool Window::isLockScreenOverlay() const
 
 void Window::refOffscreenRendering()
 {
-    if (m_offscreenRenderCount == 0) {
-        m_offscreenFramecallbackTimer.start(1'000'000 / output()->refreshRate());
-    }
     m_offscreenRenderCount++;
+    if (m_offscreenRenderCount == 1) {
+        m_offscreenFramecallbackTimer.start(1'000'000 / output()->refreshRate());
+        Q_EMIT offscreenRenderingChanged();
+    }
 }
 
 void Window::unrefOffscreenRendering()
@@ -4576,29 +4275,156 @@ void Window::unrefOffscreenRendering()
     m_offscreenRenderCount--;
     if (m_offscreenRenderCount == 0) {
         m_offscreenFramecallbackTimer.stop();
+        Q_EMIT offscreenRenderingChanged();
     }
+}
+
+bool Window::isOffscreenRendering() const
+{
+    return m_offscreenRenderCount > 0;
 }
 
 void Window::maybeSendFrameCallback()
 {
     if (m_surface && !m_windowItem->isVisible()) {
-        m_surface->frameRendered(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count());
+        const auto timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+        m_surface->traverseTree([this, &timestamp](SurfaceInterface *surface) {
+            surface->frameRendered(timestamp);
+            const auto feedback = surface->takePresentationFeedback(nullptr);
+            if (feedback) {
+                feedback->presented(std::chrono::nanoseconds(1'000'000'000'000 / output()->refreshRate()), std::chrono::steady_clock::now().time_since_epoch(), PresentationMode::VSync);
+            }
+        });
         // update refresh rate, it might have changed
         m_offscreenFramecallbackTimer.start(1'000'000 / output()->refreshRate());
     }
 }
 
-WindowOffscreenRenderRef::WindowOffscreenRenderRef(Window *window)
-    : m_window(window)
+bool Window::isShown() const
 {
-    window->refOffscreenRendering();
+    return !isDeleted() && !isHidden() && !isHiddenByShowDesktop() && !isMinimized();
 }
 
-WindowOffscreenRenderRef::~WindowOffscreenRenderRef()
+bool Window::isHidden() const
 {
-    if (m_window) {
-        m_window->unrefOffscreenRendering();
+    return m_hidden;
+}
+
+void Window::setHidden(bool hidden)
+{
+    if (m_hidden == hidden) {
+        return;
     }
+    m_hidden = hidden;
+    doSetHidden();
+    if (hidden) {
+        workspace()->activateNextWindow(this);
+    }
+    Q_EMIT hiddenChanged();
+}
+
+bool Window::isHiddenByShowDesktop() const
+{
+    return m_hiddenByShowDesktop;
+}
+
+void Window::setHiddenByShowDesktop(bool hidden)
+{
+    if (m_hiddenByShowDesktop != hidden) {
+        m_hiddenByShowDesktop = hidden;
+        doSetHiddenByShowDesktop();
+        Q_EMIT hiddenByShowDesktopChanged();
+    }
+}
+
+bool Window::isSuspended() const
+{
+    return m_suspended;
+}
+
+void Window::setSuspended(bool suspended)
+{
+    if (isDeleted()) {
+        return;
+    }
+    if (m_suspended != suspended) {
+        m_suspended = suspended;
+        doSetSuspended();
+    }
+}
+
+void Window::doSetSuspended()
+{
+}
+
+void Window::doSetModal()
+{
+}
+
+qreal Window::preferredBufferScale() const
+{
+    return m_preferredBufferScale;
+}
+
+void Window::setPreferredBufferScale(qreal scale)
+{
+    if (m_preferredBufferScale != scale) {
+        m_preferredBufferScale = scale;
+        doSetPreferredBufferScale();
+    }
+}
+
+void Window::doSetPreferredBufferScale()
+{
+}
+
+void Window::updatePreferredBufferScale()
+{
+    setPreferredBufferScale(m_moveResizeOutput->scale());
+}
+
+OutputTransform Window::preferredBufferTransform() const
+{
+    return m_preferredBufferTransform;
+}
+
+void Window::setPreferredBufferTransform(OutputTransform transform)
+{
+    if (m_preferredBufferTransform != transform) {
+        m_preferredBufferTransform = transform;
+        doSetPreferredBufferTransform();
+    }
+}
+
+void Window::doSetPreferredBufferTransform()
+{
+}
+
+void Window::updatePreferredBufferTransform()
+{
+    setPreferredBufferTransform(m_moveResizeOutput->transform());
+}
+
+const ColorDescription &Window::preferredColorDescription() const
+{
+    return m_preferredColorDescription;
+}
+
+void Window::setPreferredColorDescription(const ColorDescription &description)
+{
+    if (m_preferredColorDescription != description) {
+        m_preferredColorDescription = description;
+        doSetPreferredColorDescription();
+    }
+}
+
+void Window::doSetPreferredColorDescription()
+{
+}
+
+void Window::updatePreferredColorDescription()
+{
+    setPreferredColorDescription(m_moveResizeOutput->colorDescription());
 }
 
 } // namespace KWin

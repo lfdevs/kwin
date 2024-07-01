@@ -14,45 +14,35 @@
 # tahmar1900 <tahmar1900@gmail.com>, 2008.
 # elkana bardugo <ttv200@gmail.com>, 2016.
 # Elkana Bardugo <ttv200@gmail.com>, 2017. #zanata
+# SPDX-FileCopyrightText: 2024 Yaron Shahrabani <sh.yaron@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-03 00:48+0000\n"
-"PO-Revision-Date: 2017-05-23 08:15-0400\n"
-"Last-Translator: Elkana Bardugo <ttv200@gmail.com>\n"
-"Language-Team: Hebrew <kde-i18n-doc@kde.org>\n"
+"POT-Creation-Date: 2024-02-06 00:39+0000\n"
+"PO-Revision-Date: 2024-04-08 18:45+0300\n"
+"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
+"Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Zanata 3.9.6\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "צוות התרגום של KDE ישראל"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "kde-l10n-he@kde.org"
+"Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
+"n % 10 == 0) ? 2 : 3));\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
 #: actions.ui:17
-#, fuzzy, kde-format
-#| msgid "Inactive Inner Window"
+#, kde-format
 msgid "Inactive Inner Window Actions"
-msgstr "חלון פנימי לא פעיל"
+msgstr "פעולות פנים חלון לא פעיל"
 
 #. i18n: ectx: property (text), widget (QLabel, label_1)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: actions.ui:26 mouse.ui:177
-#, fuzzy, kde-format
-#| msgid "&Double-click:"
+#, kde-format
 msgid "&Left click:"
-msgstr "לחיצה &כפולה:"
+msgstr "לחיצה &שמאלית:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandWindow1)
 #: actions.ui:39
@@ -61,26 +51,24 @@ msgid ""
 "In this row you can customize left click behavior when clicking into an "
 "inactive inner window ('inner' means: not titlebar, not frame)."
 msgstr ""
-"בשורה זו באפשרותך להתאים אישית את אופן התפקוד של הלחיצה השמאלית בעת לחיצה על "
-"חלון פנימי לא פעיל (\"פנימי\" פירושו כל מה שלא שורת הכותרת ולא המסגרת)."
+"בשורה זו אפשר להתאים אישית את התנהגות הלחיצה השמאלית על פנים חלון לא פעיל "
+"(‚פנים’ מתייחס לכל מה שאינו שורת הכותרת ולא המסגרת)."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindow1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindow2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindow3)
 #: actions.ui:43 actions.ui:83 actions.ui:123
-#, fuzzy, kde-format
-#| msgid "Activate, Raise & Pass Click"
+#, kde-format
 msgid "Activate, raise and pass click"
-msgstr "הפעל, הבא לחזית והעבר לחיצה"
+msgstr "הפעלה, קידום והעברת לחיצה"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindow1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindow2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindow3)
 #: actions.ui:48 actions.ui:88 actions.ui:128
-#, fuzzy, kde-format
-#| msgid "Activate & Pass Click"
+#, kde-format
 msgid "Activate and pass click"
-msgstr "הפעל והעבר לחיצה"
+msgstr "הפעלה והעבר לחיצה"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindow1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindow2)
@@ -92,7 +80,7 @@ msgstr "הפעל והעבר לחיצה"
 #: mouse.ui:523
 #, kde-format
 msgid "Activate"
-msgstr "הפעל"
+msgstr "הפעלה"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindow1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindow2)
@@ -102,18 +90,16 @@ msgstr "הפעל"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
 #: actions.ui:58 actions.ui:98 actions.ui:138 mouse.ui:283 mouse.ui:398
 #: mouse.ui:513
-#, fuzzy, kde-format
-#| msgid "Activate & Raise"
+#, kde-format
 msgid "Activate and raise"
-msgstr "הפעל והבא לחזית"
+msgstr "הפעלה וקידום"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: actions.ui:66 mouse.ui:200
-#, fuzzy, kde-format
-#| msgid "&Double-click:"
+#, kde-format
 msgid "&Middle click:"
-msgstr "לחיצה &כפולה:"
+msgstr "לחיצה &אמצעית:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandWindow2)
 #: actions.ui:79
@@ -122,15 +108,15 @@ msgid ""
 "In this row you can customize middle click behavior when clicking into an "
 "inactive inner window ('inner' means: not titlebar, not frame)."
 msgstr ""
-"בשורה זו באפשרותך להתאים אישית את אופן התפקוד הלחיצה האמצעית בעת לחיצה על "
-"חלון פנימי לא פעיל (\"פנימי\" פירושו כל מה שאינו שורת הכותרת או המסגרת)."
+"בשורה זו אפשר להתאים אישית את התנהגות הלחיצה האמצעית על פנים חלון לא פעיל "
+"(‚פנים’ פירושו כל מה שאינו שורת הכותרת או המסגרת)."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: actions.ui:106 mouse.ui:213
 #, kde-format
 msgid "&Right click:"
-msgstr ""
+msgstr "לחיצה ימ&נית:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandWindow3)
 #: actions.ui:119
@@ -139,16 +125,15 @@ msgid ""
 "In this row you can customize right click behavior when clicking into an "
 "inactive inner window ('inner' means: not titlebar, not frame)."
 msgstr ""
-"בשורה זו באפשרותך להתאים אישית את אופן התפקוד של הלחיצה הימנית בעת לחיצה על "
-"חלון פנימי לא פעיל (\"פנימי\" פירושו כל מה שלא שורת הכותרת ולא המסגרת)."
+"בשורה זו אפשר להתאים אישית את התנהגות הלחיצה הימנית על פנים חלון לא פעיל "
+"(‚פנים’ פירושו כל מה שאינו שורת הכותרת או המסגרת)."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: actions.ui:146 mouse.ui:88
-#, fuzzy, kde-format
-#| msgid "M&ouse wheel:"
+#, kde-format
 msgid "Mouse &wheel:"
-msgstr "גלגלת ה&עכבר:"
+msgstr "&גלגלת העכבר:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandWindowWheel)
 #: actions.ui:159
@@ -157,42 +142,38 @@ msgid ""
 "In this row you can customize behavior when scrolling into an inactive inner "
 "window ('inner' means: not titlebar, not frame)."
 msgstr ""
-"בשורה זו באפשרותך להתאים אישית את אופן התפקוד של הלחיצה השמאלית בעת לחיצה על "
-"חלון פנימי לא פעיל (\"פנימי\" פירושו כל מה שלא שורת הכותרת ולא המסגרת)."
+"בשורה זו אפשר להתאים אישית את התנהגות הגלילה על פנים חלון לא פעיל (‚פנים’ "
+"פירושו כל מה שאינו שורת הכותרת או המסגרת)."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindowWheel)
 #: actions.ui:163
 #, kde-format
 msgid "Scroll"
-msgstr "גלול"
+msgstr "גלילה"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindowWheel)
 #: actions.ui:168
-#, fuzzy, kde-format
-#| msgid "Activate & Scroll"
+#, kde-format
 msgid "Activate and scroll"
-msgstr "הפעל וגלול"
+msgstr "הפעלה וגלילה"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindowWheel)
 #: actions.ui:173
-#, fuzzy, kde-format
-#| msgid "Activate, Raise & Scroll"
+#, kde-format
 msgid "Activate, raise and scroll"
-msgstr "הפעל, הבא לחזית וגלול"
+msgstr "הפעלה, קידום וגלילה"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: actions.ui:184
-#, fuzzy, kde-format
-#| msgid "Inner Window, Titlebar & Frame"
+#, kde-format
 msgid "Inner Window, Titlebar and Frame Actions"
-msgstr "חלון פנימי, שורת הכותרת והמסגרת"
+msgstr "פעולות חלון פנימי, שורת הכותרת והמסגרת"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: actions.ui:195
-#, fuzzy, kde-format
-#| msgid "Modifier &key:"
+#, kde-format
 msgid "Mo&difier key:"
-msgstr "מקש שינוי מצב:"
+msgstr "מקש ה&חלפה:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandAllKey)
 #: actions.ui:205
@@ -201,14 +182,14 @@ msgid ""
 "Here you select whether holding the Meta key or Alt key will allow you to "
 "perform the following actions."
 msgstr ""
-"כאן באפשרותך לבחור אם החזקת המקשים Meta או Alt לחוצים תאפשר לך לבצע את "
-"הפעולות הבאות."
+"כאן אפשר לבחור אם החזקת המקשים מטא או Alt לחוצים תאפשר לך לבצע את הפעולות "
+"הבאות."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllKey)
 #: actions.ui:209
 #, kde-format
 msgid "Meta"
-msgstr "Meta (Window Key)"
+msgstr "מטא (כפתור Windows)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllKey)
 #: actions.ui:214
@@ -218,18 +199,16 @@ msgstr "Alt"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: actions.ui:236
-#, fuzzy, kde-format
-#| msgid "   + "
+#, kde-format
 msgid "  + "
-msgstr "   + "
+msgstr "  + "
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: actions.ui:248 mouse.ui:601
-#, fuzzy, kde-format
-#| msgid "&Double-click:"
+#, kde-format
 msgid "L&eft click:"
-msgstr "לחיצה &כפולה:"
+msgstr "לחיצה &שמאלית:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandAll1)
 #: actions.ui:261
@@ -238,8 +217,7 @@ msgid ""
 "In this row you can customize left click behavior when clicking into the "
 "titlebar or the frame."
 msgstr ""
-"בשורה זו באפשרותך להתאים אישית את אופן התפקוד של הלחיצה השמאלית בעת לחיצה על "
-"שורת הכותרת או המסגרת."
+"בשורה זו אפשר להתאים אישית את התנהגות הלחיצה השמאלית על כותרת או מסגרת החלון."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll2)
@@ -247,16 +225,15 @@ msgstr ""
 #: actions.ui:265 actions.ui:335 actions.ui:405
 #, kde-format
 msgid "Move"
-msgstr "הזז"
+msgstr "הזזה"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll3)
 #: actions.ui:270 actions.ui:340 actions.ui:410
-#, fuzzy, kde-format
-#| msgid "Activate, Raise & Move"
+#, kde-format
 msgid "Activate, raise and move"
-msgstr "הפעל, הבא לחזית והזז"
+msgstr "הפעלה, קידום והזזה"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll2)
@@ -269,10 +246,9 @@ msgstr "הפעל, הבא לחזית והזז"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
 #: actions.ui:275 actions.ui:345 actions.ui:415 mouse.ui:246 mouse.ui:308
 #: mouse.ui:361 mouse.ui:423 mouse.ui:476 mouse.ui:538
-#, fuzzy, kde-format
-#| msgid "Toggle Raise & Lower"
+#, kde-format
 msgid "Toggle raise and lower"
-msgstr "הבא לחזית או העבר לרקע"
+msgstr "קידום או הדחקה"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll2)
@@ -280,7 +256,7 @@ msgstr "הבא לחזית או העבר לרקע"
 #: actions.ui:280 actions.ui:350 actions.ui:420
 #, kde-format
 msgid "Resize"
-msgstr "שנה גודל"
+msgstr "שינוי גודל"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll2)
@@ -295,7 +271,7 @@ msgstr "שנה גודל"
 #: mouse.ui:351 mouse.ui:413 mouse.ui:466 mouse.ui:528
 #, kde-format
 msgid "Raise"
-msgstr "הבא לחזית"
+msgstr "קידום"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll1)
@@ -312,7 +288,7 @@ msgstr "הבא לחזית"
 #: mouse.ui:303 mouse.ui:356 mouse.ui:418 mouse.ui:471 mouse.ui:533
 #, kde-format
 msgid "Lower"
-msgstr "העבר לרקע"
+msgstr "דחיקה"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll1)
@@ -329,31 +305,30 @@ msgstr "העבר לרקע"
 #: mouse.ui:313 mouse.ui:366 mouse.ui:428 mouse.ui:481 mouse.ui:543
 #, kde-format
 msgid "Minimize"
-msgstr "הקטן"
+msgstr "הקטנה"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll3)
 #: actions.ui:300 actions.ui:370 actions.ui:440
-#, fuzzy, kde-format
-#| msgid "Decrease Opacity"
+#, kde-format
 msgid "Decrease opacity"
-msgstr "הנמכת השקיפות"
+msgstr "הנמכת אטימות"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll3)
 #: actions.ui:305 actions.ui:375 actions.ui:445
-#, fuzzy, kde-format
-#| msgid "Increase Opacity"
+#, kde-format
 msgid "Increase opacity"
-msgstr "הגברת השקיפות"
+msgstr "הגברת אטימות"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TitlebarDoubleClickCommand)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandTitlebarWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar1)
@@ -362,20 +337,18 @@ msgstr "הגברת השקיפות"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
-#: actions.ui:310 actions.ui:380 actions.ui:450 actions.ui:505 mouse.ui:80
-#: mouse.ui:132 mouse.ui:271 mouse.ui:333 mouse.ui:386 mouse.ui:448
+#: actions.ui:310 actions.ui:380 actions.ui:450 actions.ui:505 advanced.ui:174
+#: mouse.ui:80 mouse.ui:132 mouse.ui:271 mouse.ui:333 mouse.ui:386 mouse.ui:448
 #: mouse.ui:501 mouse.ui:563
-#, fuzzy, kde-format
-#| msgid "Nothing"
+#, kde-format
 msgid "Do nothing"
-msgstr "ללא"
+msgstr "לא לעשות כלום"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: actions.ui:318
-#, fuzzy, kde-format
-#| msgid "Middle b&utton:"
+#, kde-format
 msgid "Middle &click:"
-msgstr "&לחצן אמצעי:"
+msgstr "לחיצה אמ&צעית:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandAll2)
 #: actions.ui:331
@@ -383,16 +356,14 @@ msgstr "&לחצן אמצעי:"
 msgid ""
 "In this row you can customize middle click behavior when clicking into the "
 "titlebar or the frame."
-msgstr ""
-"בשורה זו באפשרותך להתאים את פעולת לחיצת הגלגלת בעת לחיצה על שורת הכותרת או "
-"המסגרת."
+msgstr "בשורה זו אפשר להתאים את פעולת הלחיצה האמצעית על שורת הכותרת או המסגרת."
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: actions.ui:388 mouse.ui:671
 #, kde-format
 msgid "Right clic&k:"
-msgstr ""
+msgstr "ל&חיצה ימנית:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandAll3)
 #: actions.ui:401
@@ -400,14 +371,11 @@ msgstr ""
 msgid ""
 "In this row you can customize right click behavior when clicking into the "
 "titlebar or the frame."
-msgstr ""
-"בשורה זו באפשרותך להתאים אישית את אופן התפקוד של הלחיצה הימנית בעת לחיצה על "
-"שורת הכותרת או המסגרת."
+msgstr "בשורה זו אפשר להתאים את פעולת הלחיצה הימנית על שורת הכותרת או המסגרת."
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: actions.ui:458
-#, fuzzy, kde-format
-#| msgid "M&ouse wheel:"
+#, kde-format
 msgid "Mo&use wheel:"
 msgstr "גלגלת ה&עכבר:"
 
@@ -418,83 +386,73 @@ msgid ""
 "Here you can customize KDE's behavior when scrolling with the mouse wheel in "
 "a window while pressing the modifier key."
 msgstr ""
-"כאן באפשרותך להתאים אישית את אופן התפקוד של KDE בעת שימוש בגלגלת העכבר בתוך "
-"כותרת החלון תוך לחיצה על מקש משנה מצב."
+"כאן אפשר להתאים את ההתנהגות של KDE בעת גלילת העכבר על חלון בזמן לחיצה על מקש "
+"החלפה."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandTitlebarWheel)
 #: actions.ui:475 mouse.ui:102
-#, fuzzy, kde-format
-#| msgid "Raise/Lower"
+#, kde-format
 msgid "Raise/lower"
-msgstr "העבר לחזית/רקע"
+msgstr "הגבהה/הנמכה"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandTitlebarWheel)
 #: actions.ui:480 mouse.ui:107
-#, fuzzy, kde-format
-#| msgid "Shade/Unshade"
+#, kde-format
 msgid "Shade/unshade"
-msgstr "הצל/בטל הצללה"
+msgstr "הצללה/הבהרה"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandTitlebarWheel)
 #: actions.ui:485 mouse.ui:112
-#, fuzzy, kde-format
-#| msgid "Maximize/Restore"
+#, kde-format
 msgid "Maximize/restore"
-msgstr "הגדל/שחזר"
+msgstr "הגדלה/שחזור"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandTitlebarWheel)
 #: actions.ui:490 mouse.ui:117
-#, fuzzy, kde-format
-#| msgid "Keep Above/Below"
+#, kde-format
 msgid "Keep above/below"
-msgstr "השאר מעל/מתחת"
+msgstr "ריחוף מעל/צלילה מתחת"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandTitlebarWheel)
 #: actions.ui:495 mouse.ui:122
-#, fuzzy, kde-format
-#| msgid "Move to Previous/Next Desktop"
+#, kde-format
 msgid "Move to previous/next desktop"
-msgstr "העבר לשולחן עבודה הבא/קודם"
+msgstr "מעבר לשולחן העבודה הקודם/הבא"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandTitlebarWheel)
 #: actions.ui:500 mouse.ui:127
-#, fuzzy, kde-format
-#| msgid "Change Opacity"
+#, kde-format
 msgid "Change opacity"
-msgstr "שנה שקיפות"
+msgstr "שינוי אטימות"
 
 #. i18n: ectx: property (text), widget (QLabel, shadeHoverLabel)
 #: advanced.ui:20
-#, fuzzy, kde-format
-#| msgid "Window Tabbing"
+#, kde-format
 msgid "Window &unshading:"
-msgstr "קיבוץ חלונות"
+msgstr "ה&בהרת חלונות:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShadeHover)
 #: advanced.ui:32
-#, fuzzy, kde-format
-#| msgid ""
-#| "If Shade Hover is enabled, a shaded window will un-shade automatically "
-#| "when the mouse pointer has been over the title bar for some time."
+#, kde-format
 msgid ""
 "<html><head/><body><p>If this option is enabled, a shaded window will "
 "unshade automatically when the mouse pointer has been over the titlebar for "
 "some time.</p></body></html>"
 msgstr ""
-"אם האפשרות ריחוף גלילה נבחרת, חלון גלול ייפתח אוטומטית כאשר מצביע העכבר "
-"יימצא מעל לשורת הכותרת למשך זמן מסוים."
+"<html><head/><body><p>אם אפשרות זו פעילה, חלון מוצלל יובהר אוטומטית כשסמן "
+"העכבר מרחף מעל שורת הכותרת שלו למשך זמן מה.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShadeHover)
 #: advanced.ui:35
 #, kde-format
 msgid "On titlebar hover after:"
-msgstr ""
+msgstr "עם ריחוף מעל שורת הכותרת לאחר:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_ShadeHoverInterval)
 #: advanced.ui:42
@@ -503,7 +461,7 @@ msgid ""
 "Sets the time in milliseconds before the window unshades when the mouse "
 "pointer goes over the shaded window."
 msgstr ""
-"ציון הזמן באלפיות שנייה לפני שהחלון הגלול נפתח כאשר מצביע העכבר נמצא מעליו."
+"הגדרת הזמן במילישניות בטרם הבהרת החלון כשסמן העכבר עובר מעל חלון מוצלל."
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_DelayFocusInterval)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_AutoRaiseInterval)
@@ -511,42 +469,17 @@ msgstr ""
 #: advanced.ui:45 focus.ui:85 focus.ui:178
 #, kde-format
 msgid " ms"
-msgstr " אלפיות שנייה"
+msgstr " מ״ש"
 
 #. i18n: ectx: property (text), widget (QLabel, windowPlacementLabel)
 #: advanced.ui:66
-#, fuzzy, kde-format
-#| msgid "&Placement:"
+#, kde-format
 msgid "Window &placement:"
-msgstr "מיק&ום:"
+msgstr "ה&צבת חלון:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_Placement)
 #: advanced.ui:76
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p>This option specifies how much KWin will try to prevent unwanted focus "
-#| "stealing caused by unexpected activation of new windows. (Note: This "
-#| "feature does not work with the Focus Under Mouse or Focus Strictly Under "
-#| "Mouse focus policies.)\n"
-#| "<ul>\n"
-#| "<li><em>None:</em> Prevention is turned off and new windows always become "
-#| "activated.</li>\n"
-#| "<li><em>Low:</em> Prevention is enabled; when some window does not have "
-#| "support for the underlying mechanism and KWin cannot reliably decide "
-#| "whether to activate the window or not, it will be activated. This setting "
-#| "may have both worse and better results than the medium level, depending "
-#| "on the applications.</li>\n"
-#| "<li><em>Medium:</em> Prevention is enabled.</li>\n"
-#| "<li><em>High:</em> New windows get activated only if no window is "
-#| "currently active or if they belong to the currently active application. "
-#| "This setting is probably not really usable when not using mouse focus "
-#| "policy.</li>\n"
-#| "<li><em>Extreme:</em> All windows must be explicitly activated by the "
-#| "user.</li>\n"
-#| "</ul></p>\n"
-#| "<p>Windows that are prevented from stealing focus are marked as demanding "
-#| "attention, which by default means their taskbar entry will be "
-#| "highlighted. This can be changed in the Notifications control module.</p>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The placement policy determines where a new window "
 "will appear on the desktop.</p><ul style=\"margin-top: 0px; margin-bottom: "
@@ -572,61 +505,61 @@ msgid ""
 "\"><span style=\" font-style:italic;\">Under mouse</span> will place the "
 "window under the pointer</li></ul></body></html>"
 msgstr ""
-"<p> אפשרות זו קובעת כמה המנהל חלונות ינסה למנוע גניבת התמקדות בלתי צפויה של "
-"חלונות. (הערה: מאפיין זה לא יעבוד עם \"התמקדות מתחת לעכבר\" ו‏כן \"התמקדות "
-"דביקה מתחת לעכבר\"). \n"
-"<ul>\n"
-"<li><em>ללא:</em> המניעה מבוטלת לגמרי וחלונות חדשים תמיד ימוקדו.</li>\n"
-"<li><em>נמוכה:</em> המניעה מופעלת, כאשר חלון לא תומך במנגנון הבסיסי ומנהל "
-"החלונות לא יכול לקבוע בוודאות האם להתמקד בחלון זה או לא, החלון ימוקד. "
-"לאפשרות זו יכולות להיות תוצאות טובות או \n"
-"רעות מאשר הרמה הבינונית, תלוי ביישום</li>\n"
-"<li><em>בינונית:</em> המניעה מופעלת.</li>\n"
-"<li><em>גבוהה:</em> חלונות חדשים ימוקדו רק אם אין חלון פעיל, או אם הם שייכים "
-"ליישום הפעיל. אפשרות זו לא באמת שימושית, כשלא משתמשים במדיניות התמקדות בעכבר."
-"</li>\n"
-"<li><em>הכי גבוהה:</em> ההתמקדות תבוצע רק על ידי המשתמש</li>\n"
-"</ul></p>\n"
-"<p>חלונות נמנעים מגניבת מיקוד מסומנים כדורשים התייחסות, אשר כברירת מחדל "
-"פירושו שהרשומה שלהם בשורת המצב תהבהב. ניתן לשנות זאת במודול הבקרת התרעות.\n"
-"</p>"
+"<html><head/><body><p>מדיניות ההצבה קובעת איפה יופיעו חלונות חדשים על שולחן "
+"העבודה.</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: "
+"0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-style:italic;\">חכמה</span> תנסה "
+"למזער את חפיפת החלונות</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\"><span style=\" font-style:italic;\">מוגדלת</span> תנסה להגדיל כל חלון כך "
+"שיכסה את כל המסך. יכול להיות שימושי כדי להשפיע באופן נקודתי על חלק מהחלונות "
+"בעזרת הגדרות נקודתיות לחלון.</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-style:italic;\">אקראית</span> תשתמש במקום "
+"אקראי</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"style:italic;\">ממורכזת</span> תציב את החלון במרכז</li><li style=\" margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\" font-style:italic;\">פינה אפס</"
+"span> תציב את החלון בפינה הימנית העליונה</li><li style=\" margin-top:0px; "
+"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-style:italic;\">מתחת לעכבר</span> "
+"תציב את החלון מתחת לעכבר</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:80
-#, fuzzy, kde-format
-#| msgid "Snap windows onl&y when overlapping"
+#, kde-format
 msgid "Minimal Overlapping"
-msgstr "הצמד חלו&נות רק אם הם נערמים"
+msgstr "חפיפה מזערית"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:85
-#, fuzzy, kde-format
-#| msgid "Maximize"
+#, kde-format
 msgid "Maximized"
-msgstr "הגדל"
+msgstr "מוגדלת"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:90
 #, kde-format
 msgid "Random"
-msgstr "אקראי"
+msgstr "אקראית"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:95
 #, kde-format
 msgid "Centered"
-msgstr "ממורכז"
+msgstr "ממורכזת"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:100
 #, kde-format
 msgid "In Top-Left Corner"
-msgstr ""
+msgstr "בפינה השמאלית העליונה"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:105
-#, fuzzy, kde-format
-#| msgid "Under Mouse"
+#, kde-format
 msgid "Under mouse"
 msgstr "מתחת לעכבר"
 
@@ -638,20 +571,21 @@ msgid ""
 "windows are allowed to do so. This will override the window placement mode "
 "defined above."
 msgstr ""
+"כשהאפשרות פעילה, יישומים שיכולים לזכור את מקום החלונות שלהם מורשים לעשות "
+"זאת. הגדרה זו דורסת את מצב הצבת החלונות שמוגדר להלן."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
 #: advanced.ui:116
 #, kde-format
 msgid ""
 "Allow apps to remember the positions of their own windows, if they support it"
-msgstr ""
+msgstr "לאפשר ליישומים לזכור את מקומות החלונות שלהם, אם הם תומכים בזה"
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
 #: advanced.ui:123
-#, fuzzy, kde-format
-#| msgid "Special Windows"
+#, kde-format
 msgid "&Special windows:"
-msgstr "חלונות מיוחדים"
+msgstr "חלונות מיוח&דים:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
 #: advanced.ui:133
@@ -662,27 +596,27 @@ msgid ""
 "application becomes active. Note that applications have to mark the windows "
 "with the proper window type for this feature to work."
 msgstr ""
-"כאשר אפשרות זו מופעלת, חלונות שירות (חלונות של כלים, תפריטים בחלון נפרד) של "
-"יישומים לא פעילים יוסתרו, ויוצגו רק כאשר היישום הופך לפעיל. שים לב שיישומים "
-"צריכים לסמן את החלונות עם סוג החלון המתאים, כדי שאפשרות זו תעבוד."
+"כאשר אפשרות זו מופעלת, חלונות שירות (חלונות של כלים, תפריטים צצים, …) של "
+"יישומים לא פעילים יוסתרו, ויוצגו רק כאשר היישום הופך לפעיל. כדאי לשים לב "
+"שיישומים צריכים לסמן את החלונות עם סוג החלון המתאים, כדי שאפשרות זו תעבוד."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
 #: advanced.ui:136
 #, kde-format
 msgid "Hide utility windows for inactive applications"
-msgstr "הסתר חלונות שירות עבור יישומים לא פעילים"
+msgstr "הסתרת חלונות שירות עבור יישומים לא פעילים"
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyLabel)
 #: advanced.ui:143
 #, kde-format
 msgid "Virtual Desktop behavior:"
-msgstr ""
+msgstr "התנהגות שולחן עבודה וירטואלי:"
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyDescriptionLabel)
 #: advanced.ui:153
 #, kde-format
 msgid "When activating a window on a different Virtual Desktop:"
-msgstr ""
+msgstr "בעת הפעלת חלון בשולחן עבודה וירטואלי אחר:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_ActivationDesktopPolicy)
 #: advanced.ui:160
@@ -696,76 +630,79 @@ msgid ""
 "Virtual Desktop</span> will cause the window to jump to the active Virtual "
 "Desktop. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>הגדרה זו שולטת מה קורה כשחלון פתוח ממוקם בשולחן עבודה "
+"וירטואלי שאינו הפעיל. </p><p><span style=\" font-style:italic;\">לעבור "
+"לשולחן העבודה הווירטואלי הזה</span> תעביר לשולחן העבודה הווירטואלי בו נמצא "
+"החלון הזה. </p><p><span style=\" font-style:italic;\">העברת החלון לשולחן "
+"העבודה הווירטואלי הנוכחי</span> תגרום לחלון לקפוץ לשולחן העבודה הווירטואלי "
+"הפעיל. </p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
 #: advanced.ui:164
 #, kde-format
 msgid "Switch to that Virtual Desktop"
-msgstr ""
+msgstr "מעבר לשולחן העבודה הווירטואלי הזה"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
 #: advanced.ui:169
 #, kde-format
 msgid "Bring window to current Virtual Desktop"
-msgstr ""
+msgstr "העברת החלון לשולחן העבודה הווירטואלי הנוכחי"
 
 #. i18n: ectx: property (text), widget (QLabel, windowFocusPolicyLabel)
 #: focus.ui:22
 #, kde-format
 msgid "Window &activation policy:"
-msgstr ""
+msgstr "מדיניות ה&פעלת חלון:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, windowFocusPolicy)
 #: focus.ui:32
 #, kde-format
 msgid "With this option you can specify how and when windows will be focused."
-msgstr ""
+msgstr "עם האפשרות הזאת אפשר לציין איך ומתי החלונות יקבלו מיקוד."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicy)
 #: focus.ui:36
 #, kde-format
 msgctxt "sassa asas"
 msgid "Click to focus"
-msgstr ""
+msgstr "לחיצה למיקוד"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicy)
 #: focus.ui:41
 #, kde-format
 msgid "Click to focus (mouse precedence)"
-msgstr ""
+msgstr "לחיצה למיקוד (עדיפות לעכבר)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicy)
 #: focus.ui:46
-#, fuzzy, kde-format
-#| msgid "Active screen follows &mouse"
+#, kde-format
 msgid "Focus follows mouse"
-msgstr "המסך הפעיל עוקב אחרי ה&עכבר"
+msgstr "מיקוד עוקב עכבר"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicy)
 #: focus.ui:51
 #, kde-format
 msgid "Focus follows mouse (mouse precedence)"
-msgstr ""
+msgstr "מיקוד עוקב עכבר (עדיפות לעכבר)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicy)
 #: focus.ui:56
-#, fuzzy, kde-format
-#| msgid "Under Mouse"
+#, kde-format
 msgid "Focus under mouse"
-msgstr "מתחת לעכבר"
+msgstr "מיקוד מתחת לעכבר"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicy)
 #: focus.ui:61
 #, kde-format
 msgid "Focus strictly under mouse"
-msgstr ""
+msgstr "מיקוד עוקב עכבר באדיקות"
 
 #. i18n: ectx: property (text), widget (QLabel, delayFocusOnLabel)
 #: focus.ui:69
-#, fuzzy, kde-format
-#| msgid "&Delay focus by"
+#, kde-format
 msgid "&Delay focus by:"
-msgstr "&השהיית התמקדות ב:"
+msgstr "ה&שהיית מיקוד ב־:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_DelayFocusInterval)
 #: focus.ui:82
@@ -773,43 +710,17 @@ msgstr "&השהיית התמקדות ב:"
 msgid ""
 "This is the delay after which the window the mouse pointer is over will "
 "automatically receive focus."
-msgstr ""
-"משך ההשהיה שלאחריה יובא לחזית באופן אוטומטי החלון שמעליו נמצא מצביע העכבר."
+msgstr "משך ההשהיה שלאחריה החלון שעליו עומד סמן העכבר יקבל מיקוד אוטומטית."
 
 #. i18n: ectx: property (text), widget (QLabel, focusStealingLabel)
 #: focus.ui:101
-#, fuzzy, kde-format
-#| msgid "Focus &stealing prevention"
+#, kde-format
 msgid "Focus &stealing prevention:"
-msgstr "מניעה &גניבת התמקדות:"
+msgstr "מניעת &גניבת מיקוד:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_FocusStealingPreventionLevel)
 #: focus.ui:114
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p>This option specifies how much KWin will try to prevent unwanted focus "
-#| "stealing caused by unexpected activation of new windows. (Note: This "
-#| "feature does not work with the Focus Under Mouse or Focus Strictly Under "
-#| "Mouse focus policies.)\n"
-#| "<ul>\n"
-#| "<li><em>None:</em> Prevention is turned off and new windows always become "
-#| "activated.</li>\n"
-#| "<li><em>Low:</em> Prevention is enabled; when some window does not have "
-#| "support for the underlying mechanism and KWin cannot reliably decide "
-#| "whether to activate the window or not, it will be activated. This setting "
-#| "may have both worse and better results than the medium level, depending "
-#| "on the applications.</li>\n"
-#| "<li><em>Medium:</em> Prevention is enabled.</li>\n"
-#| "<li><em>High:</em> New windows get activated only if no window is "
-#| "currently active or if they belong to the currently active application. "
-#| "This setting is probably not really usable when not using mouse focus "
-#| "policy.</li>\n"
-#| "<li><em>Extreme:</em> All windows must be explicitly activated by the "
-#| "user.</li>\n"
-#| "</ul></p>\n"
-#| "<p>Windows that are prevented from stealing focus are marked as demanding "
-#| "attention, which by default means their taskbar entry will be "
-#| "highlighted. This can be changed in the Notifications control module.</p>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>This option specifies how much KWin will try to "
 "prevent unwanted focus stealing caused by unexpected activation of new "
@@ -842,24 +753,33 @@ msgid ""
 "by default means their taskbar entry will be highlighted. This can be "
 "changed in the Notifications control module.</p></body></html>"
 msgstr ""
-"<p> אפשרות זו קובעת כמה המנהל חלונות ינסה למנוע גניבת התמקדות בלתי צפויה של "
-"חלונות. (הערה: מאפיין זה לא יעבוד עם \"התמקדות מתחת לעכבר\" ו‏כן \"התמקדות "
-"דביקה מתחת לעכבר\"). \n"
-"<ul>\n"
-"<li><em>ללא:</em> המניעה מבוטלת לגמרי וחלונות חדשים תמיד ימוקדו.</li>\n"
-"<li><em>נמוכה:</em> המניעה מופעלת, כאשר חלון לא תומך במנגנון הבסיסי ומנהל "
-"החלונות לא יכול לקבוע בוודאות האם להתמקד בחלון זה או לא, החלון ימוקד. "
-"לאפשרות זו יכולות להיות תוצאות טובות או \n"
-"רעות מאשר הרמה הבינונית, תלוי ביישום</li>\n"
-"<li><em>בינונית:</em> המניעה מופעלת.</li>\n"
-"<li><em>גבוהה:</em> חלונות חדשים ימוקדו רק אם אין חלון פעיל, או אם הם שייכים "
-"ליישום הפעיל. אפשרות זו לא באמת שימושית, כשלא משתמשים במדיניות התמקדות בעכבר."
-"</li>\n"
-"<li><em>הכי גבוהה:</em> ההתמקדות תבוצע רק על ידי המשתמש</li>\n"
-"</ul></p>\n"
-"<p>חלונות נמנעים מגניבת מיקוד מסומנים כדורשים התייחסות, אשר כברירת מחדל "
-"פירושו שהרשומה שלהם בשורת המצב תהבהב. ניתן לשנות זאת במודול הבקרת התרעות.\n"
-"</p>"
+"<html><head/><body><p>אפשרות זו מציינת עד כמה KWin ינסה למנוע גניבת מיקוד "
+"שנגרם על ידי הפעלה לא צפויה של חלונות חדשים. (לתשומת ליבך: היכולת הזאת לא "
+"עובדת עם מדיניויות המיקוד <span style=\" font-style:italic;\">מיקוד מתחת "
+"לעכבר</span> או <span style=\" font-style:italic;\">מיקוד מתחת לעכבר "
+"באדיקות</span>.) </p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
+"left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-"
+"top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\" font-style:italic;\">ללא:</span> "
+"המניעה כבויה וחלונות חדשים תמיד יהפכו פעילים.</li><li style=\" margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\" font-style:italic;\">נמוכה:</"
+"span> מניעה מופעלת, כאשר לחלון מסוים אין תמיכה במנגנון שמאחורי הקלעים KWin "
+"לא יכול להחליט בצורה חד־משמעית האם להפעיל את החלון או לא, הוא יופעל. להגדרה "
+"זו עשויות להיות תוצאות טובות או גרועות יותר מהרמה הממוצעת, כתלות ביישומים.</"
+"li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-style:"
+"italic;\">בינונית:</span> מניעה מופעלת.</li><li style=\" margin-top:0px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-style:italic;\">גבוהה:</span> חלונות "
+"חדשים יופעלו רק אם אף חלון לא פעיל כרגע או אם הם שייכים ליישום שפעיל כרגע. "
+"הגדרה זאת כנראה לא ממש שימושית כשלא משתמשים במדיניות מיקוד עכבר.</li><li "
+"style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-style:"
+"italic;\">קיצונית:</span> את כל החלונות המשתמש חייב להפעיל במפורש.</li></"
+"ul><p>חלונות שנמנעת מהם חטיפת מיקוד מסומנים כדורשים תשומת לב, מה שאומר "
+"כברירת מחדל שרשומת שורת המשימות שלהם תידלק. אפשר לשנות את זה דרך מודול בקרת "
+"ההתראות.</p></body></html>"
 
 #. i18n: Focus Stealing Prevention Level
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_BorderSnapZone)
@@ -901,10 +821,9 @@ msgstr "הכי גבוהה"
 
 #. i18n: ectx: property (text), widget (QLabel, raisingWindowsLabel)
 #: focus.ui:146
-#, fuzzy, kde-format
-#| msgid "Raising windows"
+#, kde-format
 msgid "Raising windows:"
-msgstr "בחירת חלונות"
+msgstr "הגבהת חלונות:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ClickRaise)
 #: focus.ui:153
@@ -914,16 +833,15 @@ msgid ""
 "when you click somewhere into the window contents. To change it for inactive "
 "windows, you need to change the settings in the Actions tab."
 msgstr ""
-"כאשר אפשרות זו נבחרת, חלונות יובאו לחזית באופן אוטומטי כאשר תלחץ במקום כלשהו "
-"בתוך תוכן החלון. כדי לשנות את זה עבור חלונות לא פעילים עליך לגשת אל ההגדרות "
-"בלשוניות הפעולות."
+"כשאפשרות זו פעילה, חלונות יקודמו לחזית אוטומטית עקב לחיצה במקום כלשהו על "
+"תוכן החלון. כדי לשנות את זה עבור חלונות לא פעילים יש לגשת להגדרות בלשונית "
+"הפעולות."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ClickRaise)
 #: focus.ui:156
-#, fuzzy, kde-format
-#| msgid "C&lick raises active window"
+#, kde-format
 msgid "&Click raises active window"
-msgstr "לחץ &כדי להביא לחזית"
+msgstr "לחיצה מקדמת את החלון ה&פעיל"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AutoRaise)
 #: focus.ui:165
@@ -932,15 +850,13 @@ msgid ""
 "When this option is enabled, a window in the background will automatically "
 "come to the front when the mouse pointer has been over it for some time."
 msgstr ""
-"אם אפשרות זו נבחרת, חלון שנמצא ברקע יובא לחזית באופן אוטומטי כאשר מצביע "
-"העכבר יימצא מעליו למשך זמן מסוים."
+"כשאפשרות זו פעילה, חלון ברקע יקודם לחזית כשסמן העכבר שהה מעליו למשך זמן מה."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoRaise)
 #: focus.ui:168
-#, fuzzy, kde-format
-#| msgid "&Raise on hover, delayed by"
+#, kde-format
 msgid "&Raise on hover, delayed by:"
-msgstr "בחר ע\"י ריחוף תוך:"
+msgstr "&קידום בריחוף, לאחר השהיה של:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_AutoRaiseInterval)
 #: focus.ui:175
@@ -953,177 +869,70 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, multiscreenBehaviorLabel)
 #: focus.ui:196
-#, fuzzy, kde-format
-#| msgid "Multiscreen behaviour"
-msgid "Multiscreen behavior:"
-msgstr "התנהגות מסכים מרובים"
-
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ActiveMouseScreen)
-#: focus.ui:203
-#, fuzzy, kde-format
-#| msgid ""
-#| "When this option is enabled, the active Xinerama screen (where new "
-#| "windows appear, for example) is the screen containing the mouse pointer. "
-#| "When disabled, the active Xinerama screen is the screen containing the "
-#| "focused window. By default this option is disabled for Click to focus and "
-#| "enabled for other focus policies."
-msgid ""
-"When this option is enabled, the active screen (where new windows appear, "
-"for example) is the screen containing the mouse pointer. When disabled, the "
-"active screen is the screen containing the focused window."
-msgstr ""
-"כאשר אפשרות זו מאופשרת, מסך Xinerama פעיל (איפה שחלונות חדשים מופיעים, "
-"לדוגמה) הוא זה המכיל את מצביע העכבר. כאשר אפשרות זו מבוטלת, מסך Xinerama "
-"הפעיל הוא זה המכיל את החלון הממוקד. בברירת מחדל, אפשרות זו מבוטלת ל\"לחץ כדי "
-"להתמקד\" ומאופשרת לשאר מדיניות המיקוד."
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ActiveMouseScreen)
-#: focus.ui:206
 #, kde-format
-msgid "Active screen follows &mouse"
-msgstr "המסך הפעיל עוקב אחרי ה&עכבר"
+msgid "Multiscreen behavior:"
+msgstr "התנהגות בריבוי מסכים:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SeparateScreenFocus)
-#: focus.ui:213
-#, fuzzy, kde-format
-#| msgid ""
-#| "When this option is enabled, focus operations are limited only to the "
-#| "active Xinerama screen"
+#: focus.ui:203
+#, kde-format
 msgid ""
 "When this option is enabled, focus operations are limited only to the active "
 "screen"
-msgstr ""
-"כאשר אפשרות זו מאופשרת, פעולת ההתקמקדות מוגבלת רק למסכי Xineramam פעילים"
+msgstr "כשאפשרות זו פעילה, פעולות מיקוד מוגבלות רק למסך הפעיל"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SeparateScreenFocus)
-#: focus.ui:216
-#, fuzzy, kde-format
-#| msgid "S&eparate screen focus"
+#: focus.ui:206
+#, kde-format
 msgid "&Separate screen focus"
-msgstr "ה&פרד את התמקדות המסך"
+msgstr "ה&פרדת מיקוד מסך"
 
 #. i18n: ectx: property (text), widget (QLabel, windowFocusPolicyDescriptionLabel)
-#: focus.ui:229
+#: focus.ui:219
 #, kde-format
 msgid "Window activation policy description"
-msgstr ""
-
-#: main.cpp:73
-#, kde-format
-msgid "&Focus"
-msgstr "הת&מקדות"
+msgstr "תיאור מדיניות הפעלת חלונות"
 
 #: main.cpp:79
-#, fuzzy, kde-format
-#| msgid "&Titlebar Actions"
+#, kde-format
+msgid "&Focus"
+msgstr "מי&קוד"
+
+#: main.cpp:84
+#, kde-format
 msgid "Titlebar A&ctions"
 msgstr "פעולות &שורת הכותרת"
 
-#: main.cpp:85
-#, fuzzy, kde-format
-#| msgid "Window Actio&ns"
+#: main.cpp:89
+#, kde-format
 msgid "W&indow Actions"
-msgstr "פעולות חלון"
+msgstr "פעולות &חלון"
 
-#: main.cpp:91
-#, fuzzy, kde-format
-#| msgid "&Placement:"
+#: main.cpp:94
+#, kde-format
 msgid "Mo&vement"
-msgstr "מיק&ום:"
+msgstr "ת&נועה"
 
-#: main.cpp:97
-#, fuzzy, kde-format
-#| msgid "Ad&vanced"
+#: main.cpp:99
+#, kde-format
 msgid "Adva&nced"
-msgstr "מתק&דם"
+msgstr "מת&קדם"
 
-#: main.cpp:101
-#, kde-format
-msgid "Window Behavior Configuration Module"
-msgstr "מודול הגדרת פעולת חלונות"
-
-#: main.cpp:103
-#, kde-format
-msgid "(c) 1997 - 2002 KWin and KControl Authors"
-msgstr "(c) 1997 - 2002 KWin and KControl Authors"
-
-#: main.cpp:105
-#, kde-format
-msgid "Matthias Ettrich"
-msgstr "Matthias Ettrich"
-
-#: main.cpp:106
-#, kde-format
-msgid "Waldo Bastian"
-msgstr "Waldo Bastian"
-
-#: main.cpp:107
-#, kde-format
-msgid "Cristian Tibirna"
-msgstr "Cristian Tibirna"
-
-#: main.cpp:108
-#, kde-format
-msgid "Matthias Kalle Dalheimer"
-msgstr "Matthias Kalle Dalheimer"
-
-#: main.cpp:109
-#, kde-format
-msgid "Daniel Molkentin"
-msgstr "Daniel Molkentin"
-
-#: main.cpp:110
-#, kde-format
-msgid "Wynn Wilkes"
-msgstr "Wynn Wilkes"
-
-#: main.cpp:111
-#, kde-format
-msgid "Pat Dowler"
-msgstr "Pat Dowler"
-
-#: main.cpp:112
-#, kde-format
-msgid "Bernd Wuebben"
-msgstr "Bernd Wuebben"
-
-#: main.cpp:113
-#, kde-format
-msgid "Matthias Hoelzer-Kluepfel"
-msgstr "Matthias Hoelzer-Kluepfel"
-
-#: main.cpp:161
-#, kde-format
-msgid ""
-"<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
-"when being moved, resized or clicked on. You can also specify a focus policy "
-"as well as a placement policy for new windows.</p> <p>Please note that this "
-"configuration will not take effect if you do not use KWin as your window "
-"manager. If you do use a different window manager, please refer to its "
-"documentation for how to customize window behavior.</p>"
-msgstr ""
-"<p><h1>פעולת חלונות</h1>כאן באפשרותך להתאים אישית את הדרך שבה יתפקדו חלונות "
-"בעת הזזה, שינוי גודל או לחיצה עליהם. באפשרותך גם לציין מדיניות התמקדות "
-"ומדיניות למיקום חלונות חדשים. </p> ‏<p>שים לב שהגדרות אלה לא יהיו בתוקף אם "
-"אינך משתמש ב־KWin בתור מנהל החלונות שלך. אם אתה משתמש במנהל חלונות אחר, פנה "
-"לתיעוד שלו בנוגע להתאמה אישית של פעולת החלונות. </p> "
-
-#: main.cpp:202
+#: main.cpp:178
 #, kde-format
 msgid "&Titlebar Actions"
 msgstr "פעולות &שורת הכותרת"
 
-#: main.cpp:208
+#: main.cpp:188
 #, kde-format
 msgid "Window Actio&ns"
 msgstr "פעולות חלון"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
 #: mouse.ui:17
-#, fuzzy, kde-format
-#| msgid "&Titlebar Actions"
+#, kde-format
 msgid "Titlebar Actions"
-msgstr "פעולות &שורת הכותרת"
+msgstr "פעולות שורת הכותרת"
 
 #. i18n: ectx: property (text), widget (QLabel, label_1)
 #: mouse.ui:26
@@ -1135,7 +944,7 @@ msgstr "לחיצה &כפולה:"
 #: mouse.ui:36
 #, kde-format
 msgid "Behavior on <em>double</em> click into the titlebar."
-msgstr "התנהגות בעת לחיצה <em>כפולה</em> על שורת הכותרת."
+msgstr "התנהגות לחיצה <em>כפולה</em> על שורת הכותרת."
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TitlebarDoubleClickCommand)
@@ -1145,7 +954,7 @@ msgstr "התנהגות בעת לחיצה <em>כפולה</em> על שורת הכ�
 #: mouse.ui:40 mouse.ui:615 mouse.ui:650 mouse.ui:685
 #, kde-format
 msgid "Maximize"
-msgstr "הגדל"
+msgstr "הגדלה"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TitlebarDoubleClickCommand)
@@ -1155,7 +964,7 @@ msgstr "הגדל"
 #: mouse.ui:45 mouse.ui:620 mouse.ui:655 mouse.ui:690
 #, kde-format
 msgid "Vertically maximize"
-msgstr ""
+msgstr "הגדלה אנכית"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TitlebarDoubleClickCommand)
@@ -1165,7 +974,7 @@ msgstr ""
 #: mouse.ui:50 mouse.ui:625 mouse.ui:660 mouse.ui:695
 #, kde-format
 msgid "Horizontally maximize"
-msgstr ""
+msgstr "הגדלה אופקית"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TitlebarDoubleClickCommand)
@@ -1179,7 +988,7 @@ msgstr ""
 #: mouse.ui:548
 #, kde-format
 msgid "Shade"
-msgstr "גלול"
+msgstr "גלילה"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TitlebarDoubleClickCommand)
@@ -1193,29 +1002,26 @@ msgstr "גלול"
 #: mouse.ui:553
 #, kde-format
 msgid "Close"
-msgstr "סגור"
+msgstr "סגירה"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TitlebarDoubleClickCommand)
 #: mouse.ui:75
-#, fuzzy, kde-format
-#| msgid "On All Desktops"
+#, kde-format
 msgid "Show on all desktops"
-msgstr "בכל השולחנות עבודה"
+msgstr "הצגה בכל שולחנות העבודה"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandTitlebarWheel)
 #: mouse.ui:98
-#, fuzzy, kde-format
-#| msgid "Behavior on <em>double</em> click into the titlebar."
+#, kde-format
 msgid "Behavior on <em>mouse wheel</em> scroll over the titlebar."
-msgstr "התנהגות בעת לחיצה <em>כפולה</em> על שורת הכותרת."
+msgstr "התנהגות בעת סיבוב <em>גלגלת העכבר</em> על שורת הכותרת."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: mouse.ui:143
-#, fuzzy, kde-format
-#| msgid "&Titlebar Actions"
+#, kde-format
 msgid "Titlebar and Frame Actions"
-msgstr "פעולות &שורת הכותרת"
+msgstr "פעולות שורת הכותרת ומסגרת"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: mouse.ui:167
@@ -1248,10 +1054,9 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
 #: mouse.ui:266 mouse.ui:328 mouse.ui:381 mouse.ui:443 mouse.ui:496
 #: mouse.ui:558
-#, fuzzy, kde-format
-#| msgid "Operations Menu"
+#, kde-format
 msgid "Show actions menu"
-msgstr "תפריט פעולות"
+msgstr "הצגת תפריט פעולות"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandInactiveTitlebar1)
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandInactiveTitlebar2)
@@ -1269,17 +1074,15 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
 #: mouse.ui:288 mouse.ui:403 mouse.ui:518
-#, fuzzy, kde-format
-#| msgid "Activate & Lower"
+#, kde-format
 msgid "Activate and lower"
-msgstr "הפעל והעבר לרקע"
+msgstr "הפעלה והדחקה"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: mouse.ui:589
-#, fuzzy, kde-format
-#| msgid "Maximize Button"
+#, kde-format
 msgid "Maximize Button Actions"
-msgstr "כפתור הגדלה"
+msgstr "פעולות כפתור הגדלה"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_8)
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_MaximizeButtonLeftClickCommand)
@@ -1297,10 +1100,9 @@ msgstr "התנהגות לחיצה <em>אמצעית</em> על כפתור ההגד
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: mouse.ui:636
-#, fuzzy, kde-format
-#| msgid "Middle b&utton:"
+#, kde-format
 msgid "Middle c&lick:"
-msgstr "&לחצן אמצעי:"
+msgstr "לחיצה אמצ&עית:"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_10)
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_MaximizeButtonRightClickCommand)
@@ -1311,39 +1113,33 @@ msgstr "התנהגות לחיצה <em>ימנית</em> על כפתור ההגדל
 
 #. i18n: ectx: property (text), widget (QLabel, borderSnapLabel)
 #: moving.ui:20
-#, fuzzy, kde-format
-#| msgid "&Border snap zone:"
+#, kde-format
 msgid "Screen &edge snap zone:"
-msgstr "אזור ההצמדה של ה&גבול:"
+msgstr "אזור ההצמדה של &קצה המסך:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_BorderSnapZone)
 #: moving.ui:30
-#, fuzzy, kde-format
-#| msgid ""
-#| "Here you can set the snap zone for screen borders, i.e. the 'strength' of "
-#| "the magnetic field which will make windows snap to the border when moved "
-#| "near it."
+#, kde-format
 msgid ""
 "Here you can set the snap zone for screen edges, i.e. the 'strength' of the "
 "magnetic field which will make windows snap to the border when moved near it."
 msgstr ""
-"כאן באפשרותך לקבוע את אזור ההצמדה של גבולות מסך, כלומר את עוצמת \"השדה המגנטי"
-"\" שיגרום לחלונות להיצמד לגבול כשהם מוזזים לידו."
+"כאן אפשר להגדיר את אזור ההצמדה של קצוות המסך, למשל: ה‚עוצמה’ של השדה המגנטי "
+"שגורם לחלונות להיצמד למסגרת כשהם מועברים לידה."
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_BorderSnapZone)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_WindowSnapZone)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_CenterSnapZone)
 #: moving.ui:36 moving.ui:68 moving.ui:100
-#, fuzzy, kde-format
-#| msgid " pixel"
+#, kde-format
 msgid " px"
-msgstr " נקודה"
+msgstr " פיקסלים"
 
 #. i18n: ectx: property (text), widget (QLabel, windowSnapLabel)
 #: moving.ui:52
 #, kde-format
 msgid "&Window snap zone:"
-msgstr "אזור ההצמדה של חלו&ן:"
+msgstr "אזור הצמדה של חלו&ן:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_WindowSnapZone)
 #: moving.ui:62
@@ -1353,8 +1149,8 @@ msgid ""
 "magnetic field which will make windows snap to each other when they are "
 "moved near another window."
 msgstr ""
-"כאן באפשרותך לקבוע את אזור ההצמדה של חלונות, כלומר את \"עוצמת\" השדה המגנטי "
-"שיגרום לחלונות להיצמד זה לזה כשהם מוזזים ליד חלון אחר."
+"כאן אפשר להגדיר את אזור ההצמדה של חלונות, כלומר את ‚עוצמת’ השדה המגנטי "
+"שיגרום לחלונות להיצמד זה לזה כשהם מועברים ליד חלון אחר."
 
 #. i18n: ectx: property (text), widget (QLabel, centerSnaplabel)
 #: moving.ui:84
@@ -1370,15 +1166,14 @@ msgid ""
 "the magnetic field which will make windows snap to the center of the screen "
 "when moved near it."
 msgstr ""
-"כאן באפשרותך לקבוע את אזור ההצמדה של גבולות מסך, כלומר את עוצמת \"השדה המגנטי"
-"\" שיגרום לחלונות להיצמד למרכז המסך כאשר הם יזיזו לידו."
+"כאן אפשר להגדיר את אזור ההצמדה של מרכז המסך, כלומר את ‚עוצמת’ השדה המגנטי "
+"שיגרום לחלונות להיצמד למרכז המסך כאשר הם מועברים לידו."
 
 #. i18n: ectx: property (text), widget (QLabel, OverlapSnapLabel)
 #: moving.ui:113
-#, fuzzy, kde-format
-#| msgid "Raising windows"
+#, kde-format
 msgid "&Snap windows:"
-msgstr "בחירת חלונות"
+msgstr "ה&צמדת חלונות:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SnapOnlyWhenOverlapping)
 #: moving.ui:123
@@ -1388,41 +1183,26 @@ msgid ""
 "them, i.e. they will not be snapped if the windows comes only near another "
 "window or border."
 msgstr ""
-"כאן באפשרותך לקבוע שחלונות יוצמדו רק אם תנסה לערום אותם, משמע, שהם לא יוצמדו "
-"אם החלונות רק מתקרבים לחלון או גבול אחר."
+"כאן אפשר להגדיר שחלונות יוצמדו רק כשמנסים לערום אותם, כלומר, הם לא יוצמדו אם "
+"החלונות רק מתקרבים לחלון או גבול אחר."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SnapOnlyWhenOverlapping)
 #: moving.ui:126
-#, fuzzy, kde-format
-#| msgid "Snap windows onl&y when overlapping"
+#, kde-format
 msgid "Only when overlapping"
-msgstr "הצמד חלו&נות רק אם הם נערמים"
+msgstr "רק כשהם חופפים"
 
-#: windows.cpp:97
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>Click To Focus</b><br>\n"
-#| "A window becomes active when you click into it.<br><br>\n"
-#| "This behaviour is common on other operating systems and<br>\n"
-#| "likely what you want."
+#: windows.cpp:92
+#, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
 "This behavior is common on other operating systems and likely what you want."
 msgstr ""
-"<b>לחץ כדי להתמקד</b><br>\n"
-"חלון נבחר כשאתה לוחץ עליו<br><br>\n"
-"התנהגות זו נפוצה לרוב מערכות ההפעלה<br>\n"
-"סביר להניח שתרצה אותה"
+"<em>לחיצה למיקוד:</em> חלון יהפוך להיות פעיל בלחיצה עליו. התנהגות זו נפוצה "
+"במערכות הפעלה אחרות וכנראה שזה מה שיהיה לך הכי מוכר."
 
-#: windows.cpp:101
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>Click To Focus - Mouse Precedence</b><br>\n"
-#| "This is mostly the same as <i>Click To Focus</i><br><br>\n"
-#| "If an active window has to be chosen by the system<br>\n"
-#| "(eg. because the currently active one was closed) <br>\n"
-#| "the window under the mouse is the preferred candidate.<br><br>\n"
-#| "Unusual, but possible variant of <i>Click To Focus</i>."
+#: windows.cpp:95
+#, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
 "focus</em>. If an active window has to be chosen by the system (eg. because "
@@ -1430,67 +1210,36 @@ msgid ""
 "preferred candidate. Unusual, but possible variant of <em>Click to focus</"
 "em>."
 msgstr ""
-"<b>לחץ כדי להתמקד - העכבר מועדף</b><br>\n"
-"זה כמעט כמו <i>לחץ כדי להתמקד</i><br><br>\n"
-"אבל אם המערכת תצטרך לבחור חלון פעיל<br>\n"
-"(מתי שהחלון הפעיל נסגר) <br>\n"
-"החלון שמתחת העכבר יועדף<br><br>\n"
-"כרגיך, אך מעט שונה מ<i>לחץ כדי להתמקד</i>."
+"<em>לחיצה למיקוד (עדיפות לעכבר):</em> מאוד דומה ל<em>לחיצה למיקוד</em>. אם "
+"חובה על המערכת לבחור בחלון פעיל (למשל: כיוון שהחלון הנוכחי נסגר) החלון שמתחת "
+"לעכבר הוא המועמד המועדף. חריג, אבל חידוד אפשרי של <em>לחיצה למיקוד</em>."
 
-#: windows.cpp:106
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>Focus Follows Mouse</b><br>\n"
-#| "Moving the mouse onto a window will activate it.<br><br>\n"
-#| "Eg. windows randomly appearing under the mouse will not gain the focus."
-#| "<br>\n"
-#| "Focus stealing prevention takes place as usual.<br><br>\n"
-#| "Think as <i>Click To Focus</i> just without having to actually click."
+#: windows.cpp:98
+#, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
 "it. Eg. windows randomly appearing under the mouse will not gain the focus. "
 "<em>Focus stealing prevention</em> takes place as usual. Think as <em>Click "
 "to focus</em> just without having to actually click."
 msgstr ""
-"<b>התמקדות עוקבת עכבר</b><br>\n"
-"הזזת העכבר מעל חלון תפעיל אותו<br><br>\n"
-"אך חלונות שיופיעו מתחת לעכבר לא יופעלו<br>\n"
-"מניעת גניבת התמקדות תפעל כרגיל<br><br>\n"
-"זה כמו <i>לחץ כדי להתמקד</i> רק בלי ממש ללחוץ."
+"<em>מיקוד עוקב עכבר:</em> העברת העכבר לתוך חלון תפעיל אותו. <em>מניעת גניבת "
+"מיקוד</em> מתרחשת כרגיל. אפשר לחשוב על זה כעל <em>לחיצה למיקוד</em> רק בלי "
+"שצריך ללחוץ בפועל."
 
-#: windows.cpp:110
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>Focus Follows Mouse - Mouse Precedence</b><br>\n"
-#| "This is mostly the same as <i>Focus Follows Mouse</i><br><br>\n"
-#| "If an active window has to be chosen by the system<br>\n"
-#| "(eg. because the currently active one was closed) <br>\n"
-#| "the window under the mouse is the preferred candidate.<br><br>\n"
-#| "Choose this, if you want a hover controlled focus."
+#: windows.cpp:101
+#, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
 "has to be chosen by the system (eg. because the currently active one was "
 "closed) the window under the mouse is the preferred candidate. Choose this, "
 "if you want a hover controlled focus."
 msgstr ""
-"<b>התמקדות עוקבת עכבר – עכבר קודם</b><br>\n"
-"זה כמעט כמו <i>התמקדות עוקבת עכבר</i><br><br>\n"
-"כאשר המערכת צריכה לבחור חלון פעיל<br>\n"
-"(כאשר החלון הפעיל הקודם נסגר)<br>\n"
-"החלון שמתחת העכבר יועדף<br><br>\n"
-"בחר בזה אם אתה רוצה שריחוף ישלוט בהתמקדות."
+"זה מאוד דומה ל<em>מיקוד עוקב עכבר</em>. אם חובה על המערכת לבחור בחלון פעיל "
+"(למשל: כיוון שהחלון הנוכחי נסגר) החלון שמתחת לעכבר הוא המועמד המועדף. כדי "
+"לעבוד עם מיקוד שנשלט בריחוף, יש לבחור בזה."
 
-#: windows.cpp:115
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>Focus Under Mouse</b><br>\n"
-#| "The focus always remains on the window under the mouse.<br><br>\n"
-#| "\n"
-#| "Notice:<br>\n"
-#| "<b>Focus stealing prevention</b> and the <b>tabbox (\"Alt+Tab\")</b><br>\n"
-#| "contradict the policy and <b>will not work</b>.<br><br>\n"
-#| "You very likely want to use<br>\n"
-#| "<i>Focus Follows Mouse - Mouse Precedence</i> instead!"
+#: windows.cpp:104
+#, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
 "mouse.<br/><strong>Warning:</strong> <em>Focus stealing prevention</em> and "
@@ -1498,29 +1247,13 @@ msgid ""
 "not work. You very likely want to use <em>Focus follows mouse (mouse "
 "precedence)</em> instead!"
 msgstr ""
-"<b>התמקדות מתחת לעכבר</b><br>\n"
-"החלון שמתחת לעכבר תמיד יהיה הממוקד.<br><br>\n"
-"\n"
-"שים לב:<br>\n"
-"<b>מניעת גניבת התמקדות</b> ו<b>צירוץ מקשים (\"Alt+Tab\")</b><br>\n"
-"אינם תואמים למדיניות <b>ואינם יעבדו</b>.<br><br>\n"
-"סביר להניח ביותר שתרצה להשתמש במדיניות<br>\n"
-"<i>התמקדות עוקבת עכבר – עכבר קודם</i> במקום!"
+"<em>מיקוד מתחת לעכבר:</em> המיקוד תמיד נשאר על החלון שמתחת לעכבר.<br/"
+"><strong>אזהרה:</strong> <em>מניעת גניבת מיקוד</em> ו<em>תיבת הטאב (‚Alt"
+"+Tab’)</em> סותרות את מדיניות ההפעלה ולא תעבודנה. סביר מאוד להניח שעדיף לך "
+"להשתמש ב<em>מיקוד עוקב עכבר (עדיפות לעכבר)</em> במקום!"
 
-#: windows.cpp:119
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>Focus Strictly Under Mouse</b><br>\n"
-#| "The focus is always on the window under the mouse - in doubt nowhere -"
-#| "<br>\n"
-#| "very much like the focus behaviour in an unmanaged legacy X11 environment."
-#| "<br><br>\n"
-#| "\n"
-#| "Notice:<br>\n"
-#| "<b>Focus stealing prevention</b> and the <b>tabbox (\"Alt+Tab\")</b><br>\n"
-#| "contradict the policy and <b>will not work</b>.<br><br>\n"
-#| "You very likely want to use<br>\n"
-#| "<i>Focus Follows Mouse - Mouse Precedence</i> instead!"
+#: windows.cpp:107
+#, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "
 "the mouse (in doubt nowhere) very much like the focus behavior in an "
@@ -1529,15 +1262,78 @@ msgid ""
 "activation policy and will not work. You very likely want to use <em>Focus "
 "follows mouse (mouse precedence)</em> instead!"
 msgstr ""
-"<b>התמקדות דביקה מתחת לעכבר</b><br>\n"
-"החלון שמתחת לעכבר תמיד יהיה הממוקד - בכל מקום -<br>\n"
-"ממש דומה להתנהגות של סביבת X11 מיושנת.<br><br>\n"
-"\n"
-"שים לב:<br>\n"
-"<b>מניעת גניבת התמקדות</b> ו<b>צירוץ מקשים (\"Alt+Tab\")</b><br>\n"
-"אינם תואמים למדיניות <b>ואינם יעבדו</b>.<br><br>\n"
-"סביר להניח ביותר שתרצה להשתמש במדיניות<br>\n"
-"<i>התמקדות עוקבת עכבר – עכבר קודם</i> במקום!"
+"<em>מיקוד עוקב עכבר באדיקות:</em> המיקוד תמיד על החלון שמתחת לעכבר (במקרה של "
+"ספק בשום מקום) מאוד דומה להתנהגות המיקוד בסביבת X11 מיושנת ובלתי מנוהלת.<br/"
+"><strong>אזהרה:</strong> <em>מניעת גניבת מיקוד</em> ו<em>תיבת טאב (‚Alt"
+"+Tab’)</em> סותרות את מדיניות ההפעלה ולא תעבודנה. סביר מאוד להניח שעדיף לך "
+"להשתמש ב<em>מיקוד עוקב עכבר (עדיפות לעכבר)</em> במקום!"
+
+#~ msgid ""
+#~ "When this option is enabled, the active screen (where new windows appear, "
+#~ "for example) is the screen containing the mouse pointer. When disabled, "
+#~ "the active screen is the screen containing the focused window."
+#~ msgstr ""
+#~ "כשאפשרות זו פעילה, המסך הפעיל (בו מופיעים חלונות חדשים למשל) הוא המסך בו "
+#~ "מופיע סמן העכבר. כשהאפשרות כבויה, החלון הפעיל הוא החלון שמכיל את החלון "
+#~ "שעליו המיקוד."
+
+#~ msgid "Active screen follows &mouse"
+#~ msgstr "המסך הפעיל עוקב אחרי ה&עכבר"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "צוות התרגום של KDE ישראל"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "kde-l10n-he@kde.org"
+
+#~ msgid "Window Behavior Configuration Module"
+#~ msgstr "מודול הגדרת פעולת חלונות"
+
+#~ msgid "(c) 1997 - 2002 KWin and KControl Authors"
+#~ msgstr "(c) 1997 - 2002 KWin and KControl Authors"
+
+#~ msgid "Matthias Ettrich"
+#~ msgstr "Matthias Ettrich"
+
+#~ msgid "Waldo Bastian"
+#~ msgstr "Waldo Bastian"
+
+#~ msgid "Cristian Tibirna"
+#~ msgstr "Cristian Tibirna"
+
+#~ msgid "Matthias Kalle Dalheimer"
+#~ msgstr "Matthias Kalle Dalheimer"
+
+#~ msgid "Daniel Molkentin"
+#~ msgstr "Daniel Molkentin"
+
+#~ msgid "Wynn Wilkes"
+#~ msgstr "Wynn Wilkes"
+
+#~ msgid "Pat Dowler"
+#~ msgstr "Pat Dowler"
+
+#~ msgid "Bernd Wuebben"
+#~ msgstr "Bernd Wuebben"
+
+#~ msgid "Matthias Hoelzer-Kluepfel"
+#~ msgstr "Matthias Hoelzer-Kluepfel"
+
+#~ msgid ""
+#~ "<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
+#~ "when being moved, resized or clicked on. You can also specify a focus "
+#~ "policy as well as a placement policy for new windows.</p> <p>Please note "
+#~ "that this configuration will not take effect if you do not use KWin as "
+#~ "your window manager. If you do use a different window manager, please "
+#~ "refer to its documentation for how to customize window behavior.</p>"
+#~ msgstr ""
+#~ "<p><h1>פעולת חלונות</h1>כאן באפשרותך להתאים אישית את הדרך שבה יתפקדו "
+#~ "חלונות בעת הזזה, שינוי גודל או לחיצה עליהם. באפשרותך גם לציין מדיניות "
+#~ "התמקדות ומדיניות למיקום חלונות חדשים. </p> ‏<p>שים לב שהגדרות אלה לא יהיו "
+#~ "בתוקף אם אינך משתמש ב־KWin בתור מנהל החלונות שלך. אם אתה משתמש במנהל "
+#~ "חלונות אחר, פנה לתיעוד שלו בנוגע להתאמה אישית של פעולת החלונות. </p> "
 
 #, fuzzy
 #~| msgid "Cascade"

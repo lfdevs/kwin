@@ -1,5 +1,4 @@
 add_library(KWinQpaPlugin OBJECT)
-set_property(TARGET KWinQpaPlugin PROPERTY POSITION_INDEPENDENT_CODE ON)
 target_sources(KWinQpaPlugin PRIVATE
     backingstore.cpp
     eglhelpers.cpp
@@ -9,6 +8,7 @@ target_sources(KWinQpaPlugin PRIVATE
     offscreensurface.cpp
     platformcursor.cpp
     screen.cpp
+    swapchain.cpp
     window.cpp
 )
 
@@ -22,18 +22,10 @@ ecm_qt_declare_logging_category(KWinQpaPlugin
 target_compile_definitions(KWinQpaPlugin PRIVATE QT_STATICPLUGIN)
 
 target_link_libraries(KWinQpaPlugin PRIVATE
+    Qt::Concurrent
     Qt::CorePrivate
     Qt::GuiPrivate
-    Freetype::Freetype # Must be after Qt5 platform support libs
+    Freetype::Freetype # Must be after Qt6 platform support libs
     Fontconfig::Fontconfig
     kwin
 )
-if (QT_MAJOR_VERSION EQUAL "5")
-    target_link_libraries(KWinQpaPlugin PRIVATE
-        Qt::FontDatabaseSupportPrivate
-        Qt::ThemeSupportPrivate
-        Qt::EventDispatcherSupportPrivate
-        Qt::ServiceSupportPrivate
-        Qt5::LinuxAccessibilitySupportPrivate
-    )
-endif()

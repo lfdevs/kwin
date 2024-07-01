@@ -9,16 +9,15 @@
 #pragma once
 
 #include "core/outputbackend.h"
+#include "utils/filedescriptor.h"
 
-#include <kwin_export.h>
-
-#include <QObject>
 #include <QRect>
 
 namespace KWin
 {
 class VirtualBackend;
 class VirtualOutput;
+class DrmDevice;
 
 class KWIN_EXPORT VirtualBackend : public OutputBackend
 {
@@ -33,24 +32,33 @@ public:
     std::unique_ptr<QPainterBackend> createQPainterBackend() override;
     std::unique_ptr<OpenGLBackend> createOpenGLBackend() override;
 
-    Output *addOutput(const QSize &size, qreal scale);
-
-    Q_INVOKABLE void setVirtualOutputs(const QVector<QRect> &geometries, QVector<qreal> scales = QVector<qreal>());
+    struct OutputInfo
+    {
+        QRect geometry;
+        double scale = 1;
+        bool internal = false;
+    };
+    Output *addOutput(const OutputInfo &info);
+    void setVirtualOutputs(const QList<OutputInfo> &infos);
 
     Outputs outputs() const override;
 
-    QVector<CompositingType> supportedCompositors() const override
-    {
-        return QVector<CompositingType>{OpenGLCompositing, QPainterCompositing};
-    }
+    QList<CompositingType> supportedCompositors() const override;
+
+    void setEglDisplay(std::unique_ptr<EglDisplay> &&display);
+    EglDisplay *sceneEglDisplayObject() const override;
+
+    DrmDevice *drmDevice() const;
 
 Q_SIGNALS:
     void virtualOutputsSet(bool countChanged);
 
 private:
-    VirtualOutput *createOutput(const QPoint &position, const QSize &size, qreal scale);
+    VirtualOutput *createOutput(const OutputInfo &info);
 
-    QVector<VirtualOutput *> m_outputs;
+    QList<VirtualOutput *> m_outputs;
+    std::unique_ptr<DrmDevice> m_drmDevice;
+    std::unique_ptr<EglDisplay> m_display;
 };
 
 } // namespace KWin

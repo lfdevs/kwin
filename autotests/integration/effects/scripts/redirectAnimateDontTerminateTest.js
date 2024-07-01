@@ -7,12 +7,15 @@ effects.windowAdded.connect(function (window) {
         from: 0.0,
         to: 1.0
     })
-});
 
-effects.windowMinimized.connect(function (window) {
-    if (redirect(window.animation, Effect.Backward, Effect.DontTerminate)) {
-        sendTestResponse('ok');
-    } else {
-        sendTestResponse('fail');
-    }
+    window.minimizedChanged.connect(() => {
+        if (!window.minimized) {
+            return;
+        }
+        if (redirect(window.animation, Effect.Backward, Effect.DontTerminate)) {
+            sendTestResponse('ok');
+        } else {
+            sendTestResponse('fail');
+        }
+    });
 });

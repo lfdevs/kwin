@@ -8,9 +8,11 @@
 */
 #include "dpmsinputeventfilter.h"
 #include "core/output.h"
+#include "core/outputbackend.h"
+#include "core/session.h"
 #include "input_event.h"
 #include "main.h"
-#include "wayland/seat_interface.h"
+#include "wayland/seat.h"
 #include "wayland_server.h"
 #include "workspace.h"
 
@@ -24,14 +26,23 @@ DpmsInputEventFilter::DpmsInputEventFilter()
     : InputEventFilter()
 {
     KSharedConfig::Ptr kwinSettings = kwinApp()->config();
-    m_enableDoubleTap = kwinSettings->group("Wayland").readEntry<bool>("DoubleTapWakeup", true);
+    m_enableDoubleTap = kwinSettings->group(QStringLiteral("Wayland")).readEntry<bool>("DoubleTapWakeup", true);
+    if (Session *session = kwinApp()->outputBackend()->session()) {
+        connect(session, &Session::awoke, this, &DpmsInputEventFilter::notify);
+    }
 }
 
-DpmsInputEventFilter::~DpmsInputEventFilter() = default;
+DpmsInputEventFilter::~DpmsInputEventFilter()
+{
+}
 
 bool DpmsInputEventFilter::pointerEvent(MouseEvent *event, quint32 nativeButton)
 {
-    notify();
+    if (!event->isWarp()) {
+        // The intention is to wake the screen on user interactions
+        // warp events aren't user interactions, so ignore them.
+        notify();
+    }
     return true;
 }
 
@@ -43,8 +54,30 @@ bool DpmsInputEventFilter::wheelEvent(WheelEvent *event)
 
 bool DpmsInputEventFilter::keyEvent(KeyEvent *event)
 {
+    static constexpr std::array s_mediaKeys = {
+        Qt::Key::Key_MediaLast,
+        Qt::Key::Key_MediaNext,
+        Qt::Key::Key_MediaPause,
+        Qt::Key::Key_MediaPlay,
+        Qt::Key::Key_MediaPrevious,
+        Qt::Key::Key_MediaRecord,
+        Qt::Key::Key_MediaStop,
+        Qt::Key::Key_MediaTogglePlayPause,
+        Qt::Key::Key_VolumeUp,
+        Qt::Key::Key_VolumeDown,
+        Qt::Key::Key_VolumeMute,
+        Qt::Key::Key_MicVolumeUp,
+        Qt::Key::Key_MicVolumeDown,
+        Qt::Key::Key_MicMute,
+    };
+    if (std::ranges::find(s_mediaKeys, event->key()) != s_mediaKeys.end()) {
+        // don't wake up the screens for media or volume keys
+        return false;
+    }
     if (event->type() == QKeyEvent::KeyPress) {
         notify();
+    } else if (event->type() == QKeyEvent::KeyRelease) {
+        return false;
     }
     return true;
 }
@@ -105,3 +138,4 @@ void DpmsInputEventFilter::notify()
 }
 
 }
+#include "moc_dpmsinputeventfilter.cpp"

@@ -10,7 +10,7 @@
 // own
 #include "outline.h"
 // KWin
-#include "composite.h"
+#include "compositor.h"
 #include "main.h"
 #include "scripting/scripting.h"
 #include "utils/common.h"
@@ -186,3 +186,5 @@ void CompositedOutlineVisual::show()
 }
 
 } // namespace
+
+#include "moc_outline.cpp"

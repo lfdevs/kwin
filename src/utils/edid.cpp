@@ -11,31 +11,24 @@
 
 #include "config-kwin.h"
 
+#include "c_ptr.h"
+#include "common.h"
+
 #include <QFile>
 #include <QStandardPaths>
+#include <cstdlib>
 
 #include <KLocalizedString>
+#include <QCryptographicHash>
+
+extern "C" {
+#include <libdisplay-info/cta.h>
+#include <libdisplay-info/edid.h>
+#include <libdisplay-info/info.h>
+}
 
 namespace KWin
 {
-
-static bool verifyHeader(const uint8_t *data)
-{
-    if (data[0] != 0x0 || data[7] != 0x0) {
-        return false;
-    }
-
-    return std::all_of(data + 1, data + 7,
-                       [](uint8_t byte) {
-                           return byte == 0xff;
-                       });
-}
-
-static QSize parsePhysicalSize(const uint8_t *data)
-{
-    // Convert physical size from centimeters to millimeters.
-    return QSize(data[0x15], data[0x16]) * 10;
-}
 
 static QByteArray parsePnpId(const uint8_t *data)
 {
@@ -82,57 +75,6 @@ static QByteArray parseEisaId(const uint8_t *data)
     return parsePnpId(data);
 }
 
-static QByteArray parseMonitorName(const uint8_t *data)
-{
-    for (int i = 72; i <= 108; i += 18) {
-        // Skip the block if it isn't used as monitor descriptor.
-        if (data[i]) {
-            continue;
-        }
-        if (data[i + 1]) {
-            continue;
-        }
-
-        // We have found the monitor name, it's stored as ASCII.
-        if (data[i + 3] == 0xfc) {
-            return QByteArray(reinterpret_cast<const char *>(&data[i + 5]), 13).trimmed();
-        }
-    }
-
-    return QByteArray();
-}
-
-static QByteArray parseSerialNumber(const uint8_t *data)
-{
-    for (int i = 72; i <= 108; i += 18) {
-        // Skip the block if it isn't used as monitor descriptor.
-        if (data[i]) {
-            continue;
-        }
-        if (data[i + 1]) {
-            continue;
-        }
-
-        // We have found the serial number, it's stored as ASCII.
-        if (data[i + 3] == 0xff) {
-            return QByteArray(reinterpret_cast<const char *>(&data[i + 5]), 13).trimmed();
-        }
-    }
-
-    // Maybe there isn't an ASCII serial number descriptor, so use this instead.
-    const uint32_t offset = 0xc;
-
-    uint32_t serialNumber = data[offset + 0];
-    serialNumber |= uint32_t(data[offset + 1]) << 8;
-    serialNumber |= uint32_t(data[offset + 2]) << 16;
-    serialNumber |= uint32_t(data[offset + 3]) << 24;
-    if (serialNumber) {
-        return QByteArray::number(serialNumber);
-    }
-
-    return QByteArray();
-}
-
 static QByteArray parseVendor(const uint8_t *data)
 {
     const auto pnpId = parsePnpId(data);
@@ -151,6 +93,34 @@ static QByteArray parseVendor(const uint8_t *data)
     return {};
 }
 
+static QSize determineScreenPhysicalSizeMm(const di_edid *edid)
+{
+    // An EDID can contain zero or more detailed timing definitions, which can
+    // contain more precise physical dimensions (in millimeters, as opposed to
+    // centimeters). Pick the first sane physical dimension from detailed timings
+    // and fall back to the basic dimensions.
+    const struct di_edid_detailed_timing_def *const *detailedTimings = di_edid_get_detailed_timing_defs(edid);
+    // detailedTimings is a null-terminated array.
+    for (int i = 0; detailedTimings[i] != nullptr; i++) {
+        const struct di_edid_detailed_timing_def *timing = detailedTimings[i];
+        // Sanity check dimensions: physical aspect ratio should roughly equal
+        // mode aspect ratio (i.e. width_in_pixels / height_in_pixels).
+        // This assumes that the display has square pixels, but this is true for
+        // basically all modern displays.
+        if (timing->horiz_image_mm > 0 && timing->vert_image_mm > 0
+            && timing->horiz_video > 0 && timing->vert_video > 0) {
+            const double physicalAspectRatio = double(timing->horiz_image_mm) / double(timing->vert_image_mm);
+            const double modeAspectRatio = double(timing->horiz_video) / double(timing->vert_video);
+
+            if (std::abs(physicalAspectRatio - modeAspectRatio) <= 0.1) {
+                return QSize(timing->horiz_image_mm, timing->vert_image_mm);
+            }
+        }
+    }
+    const di_edid_screen_size *screenSize = di_edid_get_screen_size(edid);
+    return QSize(screenSize->width_cm, screenSize->height_cm) * 10;
+}
+
 Edid::Edid()
 {
 }
@@ -162,21 +132,74 @@ Edid::Edid(const void *data, uint32_t size)
 
     const uint8_t *bytes = static_cast<const uint8_t *>(data);
 
-    if (size < 128) {
+    auto info = di_info_parse_edid(data, size);
+    if (!info) {
+        qCWarning(KWIN_CORE, "parsing edid failed");
         return;
     }
+    const di_edid *edid = di_info_get_edid(info);
+    const di_edid_vendor_product *productInfo = di_edid_get_vendor_product(edid);
 
-    if (!verifyHeader(bytes)) {
-        return;
-    }
-
-    m_physicalSize = parsePhysicalSize(bytes);
+    // basic output information
+    m_physicalSize = determineScreenPhysicalSizeMm(edid);
     m_eisaId = parseEisaId(bytes);
-    m_monitorName = parseMonitorName(bytes);
-    m_serialNumber = parseSerialNumber(bytes);
+    UniqueCPtr<char> monitorName{di_info_get_model(info)};
+    m_monitorName = QByteArray(monitorName.get());
+    UniqueCPtr<char> serial{di_info_get_serial(info)};
+    m_serialNumber = QByteArray(serial.get());
     m_vendor = parseVendor(bytes);
+    QCryptographicHash hash(QCryptographicHash::Md5);
+    hash.addData(m_raw);
+    m_hash = QString::fromLatin1(hash.result().toHex());
+
+    m_identifier = QByteArray(productInfo->manufacturer, 3) + " " + QByteArray::number(productInfo->product) + " " + QByteArray::number(productInfo->serial) + " "
+        + QByteArray::number(productInfo->manufacture_week) + " " + QByteArray::number(productInfo->manufacture_year) + " " + QByteArray::number(productInfo->model_year);
+
+    // colorimetry and HDR metadata
+    const auto chromaticity = di_edid_get_chromaticity_coords(edid);
+    if (chromaticity) {
+        m_colorimetry = Colorimetry{
+            QVector2D{chromaticity->red_x, chromaticity->red_y},
+            QVector2D{chromaticity->green_x, chromaticity->green_y},
+            QVector2D{chromaticity->blue_x, chromaticity->blue_y},
+            QVector2D{chromaticity->white_x, chromaticity->white_y},
+        };
+    } else {
+        m_colorimetry.reset();
+    }
+
+    const di_edid_cta *cta = nullptr;
+    const di_edid_ext *const *exts = di_edid_get_extensions(edid);
+    const di_cta_hdr_static_metadata_block *hdr_static_metadata = nullptr;
+    const di_cta_colorimetry_block *colorimetry = nullptr;
+    for (; *exts != nullptr; exts++) {
+        if ((cta = di_edid_ext_get_cta(*exts))) {
+            break;
+        }
+    }
+    if (cta) {
+        const di_cta_data_block *const *blocks = di_edid_cta_get_data_blocks(cta);
+        for (; *blocks != nullptr; blocks++) {
+            if (!hdr_static_metadata && (hdr_static_metadata = di_cta_data_block_get_hdr_static_metadata(*blocks))) {
+                continue;
+            }
+            if (!colorimetry && (colorimetry = di_cta_data_block_get_colorimetry(*blocks))) {
+                continue;
+            }
+        }
+        if (hdr_static_metadata) {
+            m_hdrMetadata = HDRMetadata{
+                .desiredContentMinLuminance = hdr_static_metadata->desired_content_min_luminance,
+                .desiredContentMaxLuminance = hdr_static_metadata->desired_content_max_luminance > 0 ? std::make_optional(hdr_static_metadata->desired_content_max_luminance) : std::nullopt,
+                .desiredMaxFrameAverageLuminance = hdr_static_metadata->desired_content_max_frame_avg_luminance > 0 ? std::make_optional(hdr_static_metadata->desired_content_max_frame_avg_luminance) : std::nullopt,
+                .supportsPQ = hdr_static_metadata->eotfs->pq,
+                .supportsBT2020 = colorimetry && colorimetry->bt2020_rgb,
+            };
+        }
+    }
 
     m_isValid = true;
+    di_info_destroy(info);
 }
 
 bool Edid::isValid() const
@@ -239,6 +262,46 @@ QString Edid::nameString() const
     } else {
         return i18n("unknown");
     }
+}
+
+QString Edid::hash() const
+{
+    return m_hash;
+}
+
+std::optional<Colorimetry> Edid::colorimetry() const
+{
+    return m_colorimetry;
+}
+
+double Edid::desiredMinLuminance() const
+{
+    return m_hdrMetadata ? m_hdrMetadata->desiredContentMinLuminance : 0;
+}
+
+std::optional<double> Edid::desiredMaxFrameAverageLuminance() const
+{
+    return m_hdrMetadata ? m_hdrMetadata->desiredMaxFrameAverageLuminance : std::nullopt;
+}
+
+std::optional<double> Edid::desiredMaxLuminance() const
+{
+    return m_hdrMetadata ? m_hdrMetadata->desiredContentMaxLuminance : std::nullopt;
+}
+
+bool Edid::supportsPQ() const
+{
+    return m_hdrMetadata && m_hdrMetadata->supportsPQ;
+}
+
+bool Edid::supportsBT2020() const
+{
+    return m_hdrMetadata && m_hdrMetadata->supportsBT2020;
+}
+
+QByteArray Edid::identifier() const
+{
+    return m_identifier;
 }
 
 } // namespace KWin

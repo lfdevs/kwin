@@ -10,11 +10,11 @@
 
 #pragma once
 
+#include <QList>
 #include <QObject>
 #include <QProcess>
 #include <QSocketNotifier>
 #include <QTemporaryFile>
-#include <QVector>
 #include <memory>
 
 #include <kwin_export.h>
@@ -41,7 +41,7 @@ public:
      * That external process is responsible for setting up the DISPLAY env with a valid value.
      * Ownership of the file descriptor is not transferrred.
      */
-    void setListenFDs(const QVector<int> &listenFds);
+    void setListenFDs(const QList<int> &listenFds);
 
     /**
      * Sets the display name used by XWayland (i.e ':0')
@@ -56,7 +56,9 @@ public:
      */
     void setXauthority(const QString &xauthority);
 
-    void start();
+    void enable();
+    void disable();
+    bool start();
     void stop();
 
     QString displayName() const;
@@ -91,19 +93,17 @@ private Q_SLOTS:
 private:
     void maybeDestroyReadyNotifier();
 
-    bool startInternal();
-    void stopInternal();
-    void restartInternal();
 
     QProcess *m_xwaylandProcess = nullptr;
     QSocketNotifier *m_readyNotifier = nullptr;
     QTimer *m_resetCrashCountTimer = nullptr;
     // this is only used when kwin is run without kwin_wayland_wrapper
     std::unique_ptr<XwaylandSocket> m_socket;
-    QVector<int> m_listenFds;
+    QList<int> m_listenFds;
     QString m_displayName;
     QString m_xAuthority;
 
+    bool m_enabled = false;
     int m_crashCount = 0;
     int m_xcbConnectionFd = -1;
 };

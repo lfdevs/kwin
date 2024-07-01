@@ -6,35 +6,36 @@
 
 #pragma once
 
-#include "kwin_export.h"
+#include "core/colorspace.h"
+#include "core/output.h"
 
 #include <QImage>
-
-#include <variant>
 
 namespace KWin
 {
 
 class GLFramebuffer;
+class GLTexture;
 
 class KWIN_EXPORT RenderTarget
 {
 public:
-    RenderTarget();
-    explicit RenderTarget(GLFramebuffer *fbo);
-    explicit RenderTarget(QImage *image);
+    explicit RenderTarget(GLFramebuffer *fbo, const ColorDescription &colorDescription = ColorDescription::sRGB);
+    explicit RenderTarget(QImage *image, const ColorDescription &colorDescription = ColorDescription::sRGB);
 
     QSize size() const;
+    OutputTransform transform() const;
+    const ColorDescription &colorDescription() const;
 
-    using NativeHandle = std::variant<GLFramebuffer *, QImage *>;
-    NativeHandle nativeHandle() const;
-
-    void setDevicePixelRatio(qreal ratio);
-    qreal devicePixelRatio() const;
+    QImage *image() const;
+    GLFramebuffer *framebuffer() const;
+    GLTexture *texture() const;
 
 private:
-    NativeHandle m_nativeHandle;
-    qreal m_devicePixelRatio = 1;
+    QImage *m_image = nullptr;
+    GLFramebuffer *m_framebuffer = nullptr;
+    const OutputTransform m_transform;
+    const ColorDescription m_colorDescription;
 };
 
 } // namespace KWin

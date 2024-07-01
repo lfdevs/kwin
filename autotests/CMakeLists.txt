@@ -1,17 +1,21 @@
 add_definitions(-DKWIN_UNIT_TEST)
 remove_definitions(-DQT_USE_QSTRINGBUILDER)
-add_subdirectory(libkwineffects)
+add_subdirectory(effect)
 add_subdirectory(integration)
 add_subdirectory(libinput)
-add_subdirectory(tabbox)
-add_subdirectory(drm)
+add_subdirectory(wayland)
+# drm autotests are broken on FreeBSD for yet unknown reasons
+# As the test isn't doing anything platform specific, only run it on Linux
+if(CMAKE_SYSTEM_NAME MATCHES "Linux")
+    add_subdirectory(drm)
+endif()
 
 ########################################################
 # Test WindowPaintData
 ########################################################
 set(testWindowPaintData_SRCS test_window_paint_data.cpp)
 add_executable(testWindowPaintData ${testWindowPaintData_SRCS})
-target_link_libraries(testWindowPaintData kwineffects Qt::Widgets Qt::Test )
+target_link_libraries(testWindowPaintData kwin Qt::Widgets Qt::Test )
 add_test(NAME kwin-testWindowPaintData COMMAND testWindowPaintData)
 ecm_mark_as_test(testWindowPaintData)
 
@@ -30,10 +34,10 @@ target_link_libraries(testVirtualDesktops
     Qt::Test
     Qt::Widgets
 
-    KF5::ConfigCore
-    KF5::GlobalAccel
-    KF5::I18n
-    KF5::WindowSystem
+    KF6::ConfigCore
+    KF6::GlobalAccel
+    KF6::I18n
+    KF6::WindowSystem
 )
 add_test(NAME kwin-testVirtualDesktops COMMAND testVirtualDesktops)
 ecm_mark_as_test(testVirtualDesktops)
@@ -41,102 +45,97 @@ ecm_mark_as_test(testVirtualDesktops)
 ########################################################
 # Test ClientMachine
 ########################################################
-set(testClientMachine_SRCS
-    ../src/client_machine.cpp
-    test_client_machine.cpp
-    xcb_scaling_mock.cpp
-)
-add_executable(testClientMachine ${testClientMachine_SRCS})
-set_target_properties(testClientMachine PROPERTIES COMPILE_DEFINITIONS "NO_NONE_WINDOW")
+if(KWIN_BUILD_X11)
+    set(testClientMachine_SRCS
+        ../src/client_machine.cpp
+        test_client_machine.cpp
+        xcb_scaling_mock.cpp
+    )
+    add_executable(testClientMachine ${testClientMachine_SRCS})
+    set_target_properties(testClientMachine PROPERTIES COMPILE_DEFINITIONS "NO_NONE_WINDOW")
 
-target_link_libraries(testClientMachine
-    Qt::Concurrent
-    Qt::Test
-    Qt::Widgets
-
-    KF5::ConfigCore
-    KF5::WindowSystem
-
-    XCB::XCB
-    XCB::XFIXES
-
-    ${X11_X11_LIB} # to make jenkins happy
-)
-if (QT_MAJOR_VERSION EQUAL "5")
-    target_link_libraries(testClientMachine Qt::X11Extras)
-else()
-    target_link_libraries(testClientMachine Qt::GuiPrivate)
-endif()
-add_test(NAME kwin-testClientMachine COMMAND testClientMachine)
-ecm_mark_as_test(testClientMachine)
-
-########################################################
-# Test XcbWrapper
-########################################################
-add_executable(testXcbWrapper test_xcb_wrapper.cpp xcb_scaling_mock.cpp)
-
-target_link_libraries(testXcbWrapper
-    Qt::Test
-    Qt::Widgets
-
-    KF5::ConfigCore
-    KF5::WindowSystem
-
-    XCB::XCB
-)
-if (QT_MAJOR_VERSION EQUAL "5")
-    target_link_libraries(testXcbWrapper Qt::X11Extras)
-else()
-    target_link_libraries(testXcbWrapper Qt::GuiPrivate)
-endif()
-add_test(NAME kwin-testXcbWrapper COMMAND testXcbWrapper)
-ecm_mark_as_test(testXcbWrapper)
-
-if (XCB_ICCCM_FOUND)
-    add_executable(testXcbSizeHints test_xcb_size_hints.cpp xcb_scaling_mock.cpp)
-    set_target_properties(testXcbSizeHints PROPERTIES COMPILE_DEFINITIONS "NO_NONE_WINDOW")
-    target_link_libraries(testXcbSizeHints
+    target_link_libraries(testClientMachine
+        Qt::Concurrent
+        Qt::GuiPrivate
         Qt::Test
         Qt::Widgets
 
-        KF5::ConfigCore
-        KF5::WindowSystem
+        KF6::ConfigCore
+        KF6::WindowSystem
+
+        XCB::XCB
+        XCB::XFIXES
+
+        ${X11_X11_LIB} # to make jenkins happy
+    )
+    add_test(NAME kwin-testClientMachine COMMAND testClientMachine)
+    ecm_mark_as_test(testClientMachine)
+
+    ########################################################
+    # Test XcbWrapper
+    ########################################################
+    add_executable(testXcbWrapper test_xcb_wrapper.cpp xcb_scaling_mock.cpp)
+
+    target_link_libraries(testXcbWrapper
+        Qt::GuiPrivate
+        Qt::Test
+        Qt::Widgets
+
+        KF6::ConfigCore
+        KF6::WindowSystem
+
+        XCB::XCB
+    )
+    add_test(NAME kwin-testXcbWrapper COMMAND testXcbWrapper)
+    ecm_mark_as_test(testXcbWrapper)
+
+    add_executable(testXcbSizeHints test_xcb_size_hints.cpp xcb_scaling_mock.cpp)
+    set_target_properties(testXcbSizeHints PROPERTIES COMPILE_DEFINITIONS "NO_NONE_WINDOW")
+    target_link_libraries(testXcbSizeHints
+        Qt::GuiPrivate
+        Qt::Test
+        Qt::Widgets
+
+        KF6::ConfigCore
+        KF6::WindowSystem
 
         XCB::ICCCM
         XCB::XCB
     )
-    if (QT_MAJOR_VERSION EQUAL "5")
-        target_link_libraries(testXcbSizeHints Qt::X11Extras)
-    else()
-        target_link_libraries(testXcbSizeHints Qt::GuiPrivate)
-    endif()
     add_test(NAME kwin-testXcbSizeHints COMMAND testXcbSizeHints)
     ecm_mark_as_test(testXcbSizeHints)
+
+    ########################################################
+    # Test XcbWindow
+    ########################################################
+    add_executable(testXcbWindow test_xcb_window.cpp xcb_scaling_mock.cpp)
+
+    target_link_libraries(testXcbWindow
+        Qt::GuiPrivate
+        Qt::Test
+        Qt::Widgets
+
+        KF6::ConfigCore
+        KF6::WindowSystem
+
+        XCB::XCB
+    )
+    add_test(NAME kwin-testXcbWindow COMMAND testXcbWindow)
+    ecm_mark_as_test(testXcbWindow)
+
+    ########################################################
+    # Test X11 TimestampUpdate
+    ########################################################
+    add_executable(testX11TimestampUpdate test_x11_timestamp_update.cpp)
+    target_link_libraries(testX11TimestampUpdate
+        KF6::CoreAddons
+        Qt::Test
+        Qt::GuiPrivate
+        kwin
+    )
+    add_test(NAME kwin-testX11TimestampUpdate COMMAND testX11TimestampUpdate)
+    ecm_mark_as_test(testX11TimestampUpdate)
 endif()
-
-########################################################
-# Test XcbWindow
-########################################################
-add_executable(testXcbWindow test_xcb_window.cpp xcb_scaling_mock.cpp)
-
-target_link_libraries(testXcbWindow
-    Qt::Test
-    Qt::Widgets
-
-    KF5::ConfigCore
-    KF5::WindowSystem
-
-    XCB::XCB
-)
-if (QT_MAJOR_VERSION EQUAL "5")
-    target_link_libraries(testXcbWindow Qt::X11Extras)
-else()
-    target_link_libraries(testXcbWindow Qt::GuiPrivate)
-endif()
-add_test(NAME kwin-testXcbWindow COMMAND testXcbWindow)
-ecm_mark_as_test(testXcbWindow)
-
-include_directories(${KWin_SOURCE_DIR}/src)
 
 ########################################################
 # Test OnScreenNotification
@@ -154,7 +153,7 @@ target_link_libraries(testOnScreenNotification
     Qt::Test
     Qt::Widgets # QAction include
 
-    KF5::ConfigCore
+    KF6::ConfigCore
 )
 
 add_test(NAME kwin-testOnScreenNotification COMMAND testOnScreenNotification)
@@ -171,30 +170,19 @@ add_executable(testGestures ${testGestures_SRCS})
 
 target_link_libraries(testGestures
     Qt::Test
+    Qt::Widgets
 )
 
 add_test(NAME kwin-testGestures COMMAND testGestures)
 ecm_mark_as_test(testGestures)
 
-########################################################
-# Test X11 TimestampUpdate
-########################################################
-add_executable(testX11TimestampUpdate test_x11_timestamp_update.cpp)
-target_link_libraries(testX11TimestampUpdate
-    KF5::CoreAddons
-    Qt::Test
-    kwin
-)
-add_test(NAME kwin-testX11TimestampUpdate COMMAND testX11TimestampUpdate)
-ecm_mark_as_test(testX11TimestampUpdate)
-
 set(testOpenGLContextAttributeBuilder_SRCS
-    ../src/utils/abstract_opengl_context_attribute_builder.cpp
-    ../src/utils/egl_context_attribute_builder.cpp
+    ../src/opengl/abstract_opengl_context_attribute_builder.cpp
+    ../src/opengl/egl_context_attribute_builder.cpp
     opengl_context_attribute_builder_test.cpp
 )
 
-if (HAVE_EPOXY_GLX)
+if (HAVE_GLX)
     set(testOpenGLContextAttributeBuilder_SRCS ${testOpenGLContextAttributeBuilder_SRCS} ../src/backends/x11/standalone/x11_standalone_glx_context_attribute_builder.cpp)
 endif()
 add_executable(testOpenGLContextAttributeBuilder ${testOpenGLContextAttributeBuilder_SRCS})
@@ -212,21 +200,15 @@ target_link_libraries(testXkb
     kwin
 
     Qt::Gui
+    Qt::GuiPrivate
     Qt::Test
     Qt::Widgets
 
-    KF5::ConfigCore
-    KF5::WindowSystem
-
-    kwineffects
+    KF6::ConfigCore
+    KF6::WindowSystem
 
     XKB::XKB
 )
-if (QT_MAJOR_VERSION EQUAL "5")
-    target_link_libraries(testXkb Qt5::XkbCommonSupportPrivate)
-else()
-    target_link_libraries(testXkb Qt::GuiPrivate)
-endif()
 add_test(NAME kwin-testXkb COMMAND testXkb)
 ecm_mark_as_test(testXkb)
 
@@ -251,3 +233,25 @@ target_link_libraries(testUtils
 )
 add_test(NAME kwin-testUtils COMMAND testUtils)
 ecm_mark_as_test(testUtils)
+
+########################################################
+# Test OutputTransform
+########################################################
+add_executable(testOutputTransform output_transform_test.cpp)
+target_link_libraries(testOutputTransform
+    Qt::Test
+    kwin
+)
+add_test(NAME kwin-testOutputTransform COMMAND testOutputTransform)
+ecm_mark_as_test(testOutputTransform)
+
+########################################################
+# Test Colorspace
+########################################################
+add_executable(testColorspaces test_colorspaces.cpp)
+target_link_libraries(testColorspaces
+    Qt::Test
+    kwin
+)
+add_test(NAME kwin-testColorspaces COMMAND testColorspaces)
+ecm_mark_as_test(testColorspaces)

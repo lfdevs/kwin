@@ -6,12 +6,10 @@
 
 #include "xdgshellintegration.h"
 #include "wayland/display.h"
-#include "wayland/xdgshell_interface.h"
+#include "wayland/xdgshell.h"
 #include "wayland_server.h"
 #include "workspace.h"
 #include "xdgshellwindow.h"
-
-using namespace KWaylandServer;
 
 namespace KWin
 {
@@ -30,13 +28,22 @@ namespace KWin
 
 XdgShellIntegration::XdgShellIntegration(QObject *parent)
     : WaylandShellIntegration(parent)
+    , m_shell(new XdgShellInterface(waylandServer()->display(), this))
 {
-    XdgShellInterface *shell = new XdgShellInterface(waylandServer()->display(), this);
-
-    connect(shell, &XdgShellInterface::toplevelCreated,
+    connect(m_shell, &XdgShellInterface::toplevelCreated,
             this, &XdgShellIntegration::registerXdgToplevel);
-    connect(shell, &XdgShellInterface::popupCreated,
+    connect(m_shell, &XdgShellInterface::popupCreated,
             this, &XdgShellIntegration::registerXdgPopup);
+}
+
+std::chrono::milliseconds XdgShellIntegration::pingTimeout() const
+{
+    return m_shell->pingTimeoutInterval();
+}
+
+void XdgShellIntegration::setPingTimeout(std::chrono::milliseconds pingTimeout)
+{
+    m_shell->setPingTimeoutInterval(pingTimeout);
 }
 
 void XdgShellIntegration::registerXdgToplevel(XdgToplevelInterface *toplevel)
@@ -76,3 +83,5 @@ void XdgShellIntegration::registerXdgPopup(XdgPopupInterface *popup)
 }
 
 } // namespace KWin
+
+#include "moc_xdgshellintegration.cpp"

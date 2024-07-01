@@ -9,12 +9,12 @@
 */
 #include "touch_input.h"
 
-#include <config-kwin.h>
+#include "config-kwin.h"
 
 #include "decorations/decoratedclient.h"
 #include "input_event_spy.h"
 #include "pointer_input.h"
-#include "wayland/seat_interface.h"
+#include "wayland/seat.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
@@ -43,7 +43,7 @@ void TouchInputRedirection::init()
     Q_ASSERT(!inited());
     waylandServer()->seat()->setHasTouch(input()->hasTouch());
     connect(input(), &InputRedirection::hasTouchChanged,
-            waylandServer()->seat(), &KWaylandServer::SeatInterface::setHasTouch);
+            waylandServer()->seat(), &SeatInterface::setHasTouch);
 
     setInited(true);
     InputDeviceHandler::init();
@@ -109,7 +109,7 @@ void TouchInputRedirection::focusUpdate(Window *focusOld, Window *focusNow)
 
     // TODO: invalidate pointer focus?
 
-    // FIXME: add input transformation API to KWaylandServer::SeatInterface for touch input
+    // FIXME: add input transformation API to SeatInterface for touch input
     seat->setFocusedTouchSurface(focusNow->surface(), -1 * focusNow->inputTransformation().map(focusNow->pos()) + focusNow->pos());
     m_focusGeometryConnection = connect(focusNow, &Window::frameGeometryChanged, this, [this]() {
         if (!focus()) {
@@ -138,7 +138,7 @@ void TouchInputRedirection::processDown(qint32 id, const QPointF &pos, std::chro
     m_activeTouchPoints.insert(id);
     if (m_activeTouchPoints.count() == 1) {
         update();
-        workspace()->setActiveCursorOutput(pos);
+        workspace()->setActiveOutput(pos);
     }
     input()->setLastInputHandler(this);
     input()->processSpies(std::bind(&InputEventSpy::touchDown, std::placeholders::_1, id, pos, time));
@@ -204,3 +204,5 @@ void TouchInputRedirection::frame()
 }
 
 }
+
+#include "moc_touch_input.cpp"

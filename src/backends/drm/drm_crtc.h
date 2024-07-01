@@ -18,7 +18,6 @@ namespace KWin
 
 class DrmBackend;
 class DrmFramebuffer;
-class DrmDumbBuffer;
 class GammaRamp;
 class DrmGpu;
 class DrmPlane;
@@ -28,18 +27,8 @@ class DrmCrtc : public DrmObject
 public:
     DrmCrtc(DrmGpu *gpu, uint32_t crtcId, int pipeIndex, DrmPlane *primaryPlane, DrmPlane *cursorPlane);
 
-    enum class PropertyIndex : uint32_t {
-        ModeId = 0,
-        Active,
-        VrrEnabled,
-        Gamma_LUT,
-        Gamma_LUT_Size,
-        CTM,
-        Count
-    };
-
-    bool init() override;
-    void disable() override;
+    void disable(DrmAtomicCommit *commit) override;
+    bool updateProperties() override;
 
     int pipeIndex() const;
     int gammaRampSize() const;
@@ -48,16 +37,21 @@ public:
     drmModeModeInfo queryCurrentMode();
 
     std::shared_ptr<DrmFramebuffer> current() const;
-    std::shared_ptr<DrmFramebuffer> next() const;
     void setCurrent(const std::shared_ptr<DrmFramebuffer> &buffer);
-    void setNext(const std::shared_ptr<DrmFramebuffer> &buffer);
-    void flipBuffer();
-    void releaseBuffers();
+    void releaseCurrentBuffer();
+
+    DrmProperty modeId;
+    DrmProperty active;
+    DrmProperty vrrEnabled;
+    DrmProperty gammaLut;
+    DrmProperty gammaLutSize;
+    DrmProperty ctm;
+    DrmProperty degammaLut;
+    DrmProperty degammaLutSize;
 
 private:
     DrmUniquePtr<drmModeCrtc> m_crtc;
     std::shared_ptr<DrmFramebuffer> m_currentBuffer;
-    std::shared_ptr<DrmFramebuffer> m_nextBuffer;
     int m_pipeIndex;
     DrmPlane *m_primaryPlane;
     DrmPlane *m_cursorPlane;

@@ -6,6 +6,8 @@
 
 #include "renderjournal.h"
 
+using namespace std::chrono_literals;
+
 namespace KWin
 {
 
@@ -13,44 +15,29 @@ RenderJournal::RenderJournal()
 {
 }
 
-void RenderJournal::beginFrame()
+static std::chrono::nanoseconds mix(std::chrono::nanoseconds duration1, std::chrono::nanoseconds duration2, double ratio)
 {
-    m_timer.start();
+    return std::chrono::nanoseconds(int64_t(std::round(duration1.count() * ratio + duration2.count() * (1 - ratio))));
 }
 
-void RenderJournal::endFrame()
+void RenderJournal::add(std::chrono::nanoseconds renderTime, std::chrono::nanoseconds presentationTimestamp)
 {
-    std::chrono::nanoseconds duration(m_timer.nsecsElapsed());
-    if (m_log.count() >= m_size) {
-        m_log.dequeue();
-    }
-    m_log.enqueue(duration);
+    const auto timeDifference = m_lastAdd ? presentationTimestamp - *m_lastAdd : 10s;
+    m_lastAdd = presentationTimestamp;
+
+    static constexpr std::chrono::nanoseconds varianceTimeConstant = 6s;
+    const double varianceRatio = std::clamp(timeDifference.count() / double(varianceTimeConstant.count()), 0.001, 0.1);
+    const auto renderTimeDiff = std::max(renderTime - m_result, 0ns);
+    m_variance = std::max(mix(renderTimeDiff, m_variance, varianceRatio), renderTimeDiff);
+
+    static constexpr std::chrono::nanoseconds timeConstant = 500ms;
+    const double ratio = std::clamp(timeDifference.count() / double(timeConstant.count()), 0.01, 1.0);
+    m_result = mix(renderTime, m_result, ratio);
 }
 
-std::chrono::nanoseconds RenderJournal::minimum() const
+std::chrono::nanoseconds RenderJournal::result() const
 {
-    auto it = std::min_element(m_log.constBegin(), m_log.constEnd());
-    return it != m_log.constEnd() ? (*it) : std::chrono::nanoseconds::zero();
-}
-
-std::chrono::nanoseconds RenderJournal::maximum() const
-{
-    auto it = std::max_element(m_log.constBegin(), m_log.constEnd());
-    return it != m_log.constEnd() ? (*it) : std::chrono::nanoseconds::zero();
-}
-
-std::chrono::nanoseconds RenderJournal::average() const
-{
-    if (m_log.isEmpty()) {
-        return std::chrono::nanoseconds::zero();
-    }
-
-    std::chrono::nanoseconds result = std::chrono::nanoseconds::zero();
-    for (const std::chrono::nanoseconds &entry : m_log) {
-        result += entry;
-    }
-
-    return result / m_log.count();
+    return m_result + m_variance * 2;
 }
 
 } // namespace KWin

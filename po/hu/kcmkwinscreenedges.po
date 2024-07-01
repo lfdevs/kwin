@@ -3,13 +3,13 @@
 #
 # Kristóf Kiszel <ulysses@kubuntu.org>, 2010, 2012, 2014, 2019.
 # Balázs Úr <urbalazs@gmail.com>, 2014.
-# Kristof Kiszel <ulysses@fsf.hu>, 2021.
+# SPDX-FileCopyrightText: 2021, 2024 Kristof Kiszel <ulysses@fsf.hu>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-07-15 00:48+0000\n"
-"PO-Revision-Date: 2021-11-19 12:00+0100\n"
+"POT-Creation-Date: 2024-03-09 00:39+0000\n"
+"PO-Revision-Date: 2024-05-31 15:53+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
@@ -17,74 +17,74 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 21.08.3\n"
+"X-Generator: Lokalize 24.02.2\n"
 
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Kiszel Kristóf,Úr Balázs"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "ulysses@fsf.hu,urbalazs@gmail.com"
-
-#: main.cpp:130 touch.cpp:124
+#: main.cpp:151 touch.cpp:118
 #, kde-format
 msgid "No Action"
 msgstr "Nincs művelet"
 
-#: main.cpp:131 touch.cpp:125
+#: main.cpp:152 touch.cpp:119
 #, kde-format
 msgid "Peek at Desktop"
-msgstr ""
+msgstr "Pillantás az asztalra"
 
-#: main.cpp:132 touch.cpp:126
+#: main.cpp:153 touch.cpp:120
 #, kde-format
 msgid "Lock Screen"
 msgstr "Képernyő zárolása"
 
-#: main.cpp:133 touch.cpp:127
+#: main.cpp:154 touch.cpp:121
 #, kde-format
 msgid "Show KRunner"
 msgstr "KRunner megjelenítése"
 
-#: main.cpp:134 touch.cpp:128
+#: main.cpp:155 touch.cpp:122
 #, kde-format
 msgid "Activity Manager"
 msgstr "Aktivitáskezelő"
 
-#: main.cpp:135 touch.cpp:129
+#: main.cpp:156 touch.cpp:123
 #, kde-format
 msgid "Application Launcher"
 msgstr "Alkalmazásindító"
 
-#: main.cpp:139 touch.cpp:133
+#: main.cpp:160 touch.cpp:127
 #, kde-format
 msgid "Present Windows"
 msgstr "Ablakáttekintő"
 
-#: main.cpp:140 touch.cpp:134
+#: main.cpp:161 touch.cpp:128
 #, kde-format
 msgid "%1 - All Desktops"
 msgstr "%1 - Összes asztal"
 
-#: main.cpp:141 touch.cpp:135
+#: main.cpp:162 touch.cpp:129
 #, kde-format
 msgid "%1 - Current Desktop"
 msgstr "%1 - Jelenlegi asztal"
 
-#: main.cpp:142 touch.cpp:136
+#: main.cpp:163 touch.cpp:130
 #, kde-format
 msgid "%1 - Current Application"
 msgstr "%1 - Aktuális alkalmazás"
 
-#: main.cpp:144 touch.cpp:138
+#: main.cpp:165 touch.cpp:132
+#, kde-format
+msgid "Overview"
+msgstr "Áttekintés"
+
+#: main.cpp:166 touch.cpp:133
+#, kde-format
+msgid "Grid"
+msgstr "Rács"
+
+#: main.cpp:168 touch.cpp:135
 #, kde-format
 msgid "Toggle window switching"
 msgstr "Ablakváltás ki-be kapcsolása"
 
-#: main.cpp:145 touch.cpp:139
+#: main.cpp:169 touch.cpp:136
 #, kde-format
 msgid "Toggle alternative window switching"
 msgstr "Alternatív ablakváltás ki-be kapcsolása"
@@ -127,13 +127,13 @@ msgstr "Az ablakot a bal vagy jobb oldali élhez húzták"
 #: main.ui:101
 #, kde-format
 msgid "Behavior:"
-msgstr ""
+msgstr "Működés:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, remainActiveOnFullscreen)
 #: main.ui:108
 #, kde-format
 msgid "Remain active when windows are fullscreen"
-msgstr ""
+msgstr "Maradjon aktív, ha az ablakok teljes képernyősek"
 
 #. i18n: ectx: property (text), widget (QLabel, electricBorderCornerRatioLabel)
 #: main.ui:115
@@ -170,7 +170,7 @@ msgstr "Asztalváltás az egérkurzornak a képernyő sarkához húzásával"
 #: main.ui:177
 #, kde-format
 msgid "&Switch desktop on edge:"
-msgstr "A&sztalváltás a sarkon:"
+msgstr "A&sztalváltás a széleken:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ElectricBorders)
 #: main.ui:188
@@ -226,6 +226,78 @@ msgstr "A következő művelet aktiválásához szükséges idő az előző műv
 msgid "&Reactivation delay:"
 msgstr "&Újraaktiválási késleltetés:"
 
+#. i18n: ectx: property (text), widget (QLabel, CornerBarrierLabel)
+#: main.ui:270
+#, kde-format
+msgid "&Corner barrier:"
+msgstr "&Sarokhatár:"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_CornerBarrier)
+#: main.ui:280
+#, kde-format
+msgid ""
+"Here you can enable or disable the virtual corner barrier between screens. "
+"The barrier prevents the cursor from moving to another screen when it is "
+"already touching a screen corner. This makes it easier to trigger user "
+"interface elements like maximized windows' close buttons when using multiple "
+"screens."
+msgstr ""
+"Itt engedélyezheti vagy letilthatja a képernyők közötti virtuális "
+"sarokhatárt. A határ megakadályozza, hogy a kurzor egy másik képernyőre "
+"mozogjon, amikor már megérintette a képernyő egyik sarkát. Ez megkönnyíti a "
+"felhasználói felület olyan elemeinek aktiválását több képernyők használata "
+"esetén, mint például a maximalizált ablakok bezárógombjai."
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_CornerBarrier)
+#: main.ui:283
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Prevents cursors from crossing at screen corners."
+msgstr "Megakadályozza, hogy a kurzorok áthaladjanak a képernyősarkokon."
+
+#. i18n: ectx: property (text), widget (QLabel, EdgeBarrierLabel)
+#: main.ui:290
+#, kde-format
+msgid "&Edge barrier:"
+msgstr "Szél&határ:"
+
+#. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_EdgeBarrier)
+#: main.ui:300
+#, kde-format
+msgid ""
+"Here you can set size of the edge barrier between different screens. The "
+"barrier adds additional distance you have to move your pointer before it "
+"crosses the edge onto the other screen. This makes it easier to access user "
+"interface elements like Plasma Panels that are located on an edge between "
+"screens."
+msgstr ""
+"Itt állíthatja be a különböző képernyők közötti szélhatár méretét. A határ "
+"további távolságot ad hozzá, amivel a kurzort el kell mozdítania, mielőtt az "
+"átlépi a másik képernyőre. Ez megkönnyíti a felhasználói felület elemeihez "
+"hozzáférést, például a Plasma panelekhez, amelyek a képernyők közötti "
+"széleken helyezkednek el."
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_EdgeBarrier)
+#: main.ui:303
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Additional distance cursor needs to travel to cross screen edges."
+msgstr ""
+"A kurzornak további távolságot kell megtennie, hogy átlépje a "
+"képernyőszéleket."
+
+#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_EdgeBarrier)
+#: main.ui:306
+#, kde-format
+msgid "None"
+msgstr "Nincs"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_EdgeBarrier)
+#: main.ui:309
+#, kde-format
+msgid " px"
+msgstr " képpont"
+
 #. i18n: ectx: property (text), widget (QLabel, label_1)
 #: touch.ui:17
 #, kde-format
@@ -234,14 +306,19 @@ msgid ""
 "of the screen."
 msgstr "Egy művelet kiváltásához pöccintsen a képernyő szélétől a közepe felé."
 
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Kiszel Kristóf,Úr Balázs"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "ulysses@fsf.hu,urbalazs@gmail.com"
+
 #~ msgid "Show Desktop"
 #~ msgstr "Asztal megjelenítése"
 
 #~ msgid "Desktop Grid"
 #~ msgstr "Asztalrács"
-
-#~ msgid "Toggle Overview"
-#~ msgstr "Áttekintés ki-be kapcsolása"
 
 #~ msgid "%1 - Cube"
 #~ msgstr "%1 - Kocka"

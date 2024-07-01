@@ -8,16 +8,16 @@
 */
 #pragma once
 
-#include <kwinglobals.h>
+#include "effect/globals.h"
 
 #include <KSharedConfig>
 
+#include <QList>
 #include <QObject>
 #include <QPointer>
 #include <QRecursiveMutex>
 #include <QSize>
 #include <QStringList>
-#include <QVector>
 #include <deque>
 
 class QSocketNotifier;
@@ -56,7 +56,7 @@ public:
 
     QStringList devicesSysNames() const;
 
-    static std::unique_ptr<Connection> create(Session *session);
+    static Connection *create(Session *session);
 
 Q_SIGNALS:
     void deviceAdded(KWin::LibInput::Device *);
@@ -76,7 +76,7 @@ private:
     std::unique_ptr<QSocketNotifier> m_notifier;
     QRecursiveMutex m_mutex;
     std::deque<std::unique_ptr<Event>> m_eventQueue;
-    QVector<Device *> m_devices;
+    QList<Device *> m_devices;
     KSharedConfigPtr m_config;
     std::unique_ptr<ConnectionAdaptor> m_connectionAdaptor;
     std::unique_ptr<Context> m_input;

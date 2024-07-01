@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-03-26 00:45+0000\n"
-"PO-Revision-Date: 2024-02-29 13:00\n"
+"POT-Creation-Date: 2023-12-07 01:42+0000\n"
+"PO-Revision-Date: 2024-04-22 15:58\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -14,32 +14,10 @@ msgstr ""
 "X-Crowdin-Project: kdeorg\n"
 "X-Crowdin-Project-ID: 269464\n"
 "X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /kf5-stable/messages/kwin/kcm_kwin_effects.pot\n"
-"X-Crowdin-File-ID: 10562\n"
+"X-Crowdin-File: /kf6-stable/messages/kwin/kcm_kwin_effects.pot\n"
+"X-Crowdin-File-ID: 52284\n"
 
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "KDE China, Guo Yunhe, magsom, Tyson Tan, zarchwegiant"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr ""
-"kde-china@kde.org, i@guoyunhe.me, magsom@kde.org, tds00@qq.com, "
-"zarchwegiant@kde.org"
-
-#: kcm.cpp:35
-#, kde-format
-msgid "Desktop Effects"
-msgstr "桌面特效"
-
-#: kcm.cpp:39
-#, kde-format
-msgid "Vlad Zahorodnii"
-msgstr "Vlad Zahorodnii"
-
-#: package/contents/ui/Effect.qml:92
+#: ui/Effect.qml:97
 #, kde-format
 msgid ""
 "Author: %1\n"
@@ -48,24 +26,25 @@ msgstr ""
 "开发者：%1\n"
 "许可证：%2"
 
-#: package/contents/ui/Effect.qml:121
+#: ui/Effect.qml:125
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Show/Hide Video"
 msgstr "显示/隐藏特效演示视频"
 
-#: package/contents/ui/Effect.qml:128
+#: ui/Effect.qml:136
 #, kde-format
 msgctxt "@info:tooltip"
-msgid "Configure..."
-msgstr "配置..."
+msgid "Configure…"
+msgstr "配置…"
 
-#: package/contents/ui/main.qml:20
+#: ui/main.qml:25
 #, kde-format
-msgid "This module lets you configure desktop effects."
-msgstr "您可以在此模块中配置桌面特效。"
+msgctxt "@action:button get new KWin effects"
+msgid "Get New…"
+msgstr "获取新效果…"
 
-#: package/contents/ui/main.qml:27
+#: ui/main.qml:44
 #, kde-format
 msgid ""
 "Hint: To find out or configure how to activate an effect, look at the "
@@ -73,22 +52,17 @@ msgid ""
 msgstr ""
 "提示：要了解或配置特效的工作方式，请选中一种特效并点击列表右侧的配置按钮。"
 
-#: package/contents/ui/main.qml:47
+#: ui/main.qml:66
 #, kde-format
 msgid "Configure Filter"
 msgstr "过滤条件"
 
-#: package/contents/ui/main.qml:59
+#: ui/main.qml:78
 #, kde-format
 msgid "Exclude unsupported effects"
 msgstr "排除不支持的特效"
 
-#: package/contents/ui/main.qml:67
+#: ui/main.qml:86
 #, kde-format
 msgid "Exclude internal effects"
 msgstr "排除内建特效"
-
-#: package/contents/ui/main.qml:125
-#, kde-format
-msgid "Get New Desktop Effects..."
-msgstr "获取新桌面特效..."

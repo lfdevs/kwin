@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "wayland/datadevice_interface.h"
+#include "wayland/datadevice.h"
 
 #include <xcb/xcb.h>
 
@@ -22,20 +22,20 @@ namespace Xwl
 class Xvisit;
 class Dnd;
 
-class XwlDropHandler : public KWaylandServer::AbstractDropHandler
+class XwlDropHandler : public AbstractDropHandler
 {
     Q_OBJECT
 public:
     XwlDropHandler(Dnd *dnd);
 
-    void updateDragTarget(KWaylandServer::SurfaceInterface *surface, quint32 serial) override;
+    void updateDragTarget(SurfaceInterface *surface, quint32 serial) override;
     bool handleClientMessage(xcb_client_message_event_t *event);
 
 private:
     void drop() override;
     Xvisit *m_xvisit = nullptr;
     Dnd *const m_dnd;
-    QVector<Xvisit *> m_previousVisits;
+    QList<Xvisit *> m_previousVisits;
 };
 }
 }

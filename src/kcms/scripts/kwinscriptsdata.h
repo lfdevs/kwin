@@ -6,8 +6,8 @@
 
 #pragma once
 
+#include <QList>
 #include <QObject>
-#include <QVector>
 
 #include <KCModuleData>
 #include <KPluginMetaData>
@@ -18,11 +18,11 @@ class KWinScriptsData : public KCModuleData
     Q_OBJECT
 
 public:
-    KWinScriptsData(QObject *parent = nullptr, const QVariantList &args = QVariantList());
+    KWinScriptsData(QObject *parent);
 
     bool isDefaults() const override;
 
-    QVector<KPluginMetaData> pluginMetaDataList() const;
+    QList<KPluginMetaData> pluginMetaDataList() const;
 
 private:
     KSharedConfigPtr m_kwinConfig;

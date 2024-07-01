@@ -15,7 +15,8 @@
 
 #include <QDBusConnection>
 #include <QDBusInterface>
-#include <QtTest>
+#include <QSignalSpy>
+#include <QTest>
 
 #include <linux/input.h>
 
@@ -385,9 +386,9 @@ void TestLibinputDevice::testTapEnabledByDefault()
     device.tapEnabledByDefault = enabled;
 
     Device d(&device);
-    QCOMPARE(d.tapToClickEnabledByDefault(), enabled);
-    QCOMPARE(d.property("tapToClickEnabledByDefault").toBool(), enabled);
-    QCOMPARE(dbusProperty<bool>(d.sysName(), "tapToClickEnabledByDefault"), enabled);
+    QCOMPARE(d.tapToClickEnabledByDefault(), true);
+    QCOMPARE(d.property("tapToClickEnabledByDefault").toBool(), true);
+    QCOMPARE(dbusProperty<bool>(d.sysName(), "tapToClickEnabledByDefault"), true);
 }
 
 void TestLibinputDevice::testMiddleEmulationEnabledByDefault_data()
@@ -965,10 +966,10 @@ void TestLibinputDevice::testSupportedButtons()
 
 void TestLibinputDevice::testAlphaNumericKeyboard_data()
 {
-    QTest::addColumn<QVector<quint32>>("supportedKeys");
+    QTest::addColumn<QList<quint32>>("supportedKeys");
     QTest::addColumn<bool>("isAlpha");
 
-    QVector<quint32> keys;
+    QList<quint32> keys;
 
     for (int i = KEY_1; i <= KEY_0; i++) {
         keys << i;
@@ -1005,7 +1006,7 @@ void TestLibinputDevice::testAlphaNumericKeyboard_data()
 
 void TestLibinputDevice::testAlphaNumericKeyboard()
 {
-    QFETCH(QVector<quint32>, supportedKeys);
+    QFETCH(QList<quint32>, supportedKeys);
     libinput_device device;
     device.keyboard = true;
     device.keys = supportedKeys;
@@ -1113,9 +1114,9 @@ void TestLibinputDevice::testTapAndDragEnabledByDefault()
     device.tapAndDragEnabledByDefault = enabled;
 
     Device d(&device);
-    QCOMPARE(d.tapAndDragEnabledByDefault(), enabled);
-    QCOMPARE(d.property("tapAndDragEnabledByDefault").toBool(), enabled);
-    QCOMPARE(dbusProperty<bool>(d.sysName(), "tapAndDragEnabledByDefault"), enabled);
+    QCOMPARE(d.tapAndDragEnabledByDefault(), true);
+    QCOMPARE(d.property("tapAndDragEnabledByDefault").toBool(), true);
+    QCOMPARE(dbusProperty<bool>(d.sysName(), "tapAndDragEnabledByDefault"), true);
 }
 
 void TestLibinputDevice::testTapAndDrag_data()

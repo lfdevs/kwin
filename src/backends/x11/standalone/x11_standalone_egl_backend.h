@@ -6,13 +6,18 @@
 
 #pragma once
 
-#include "../common/x11_common_egl_backend.h"
 #include "core/outputlayer.h"
-#include "openglsurfacetexture_x11.h"
+#include "options.h"
+#include "platformsupport/scenes/opengl/openglbackend.h"
+#include "platformsupport/scenes/opengl/openglsurfacetexture_x11.h"
 #include "utils/damagejournal.h"
 
-#include <kwingltexture.h>
-#include <kwingltexture_p.h>
+#include "opengl/gltexture.h"
+#include "opengl/gltexture_p.h"
+
+#include <epoxy/egl.h>
+
+typedef struct _XDisplay Display;
 
 namespace KWin
 {
@@ -21,43 +26,53 @@ class EglPixmapTexturePrivate;
 class SoftwareVsyncMonitor;
 class X11StandaloneBackend;
 class EglBackend;
+class GLRenderTimeQuery;
+class EglDisplay;
+class EglContext;
 
 class EglLayer : public OutputLayer
 {
 public:
     EglLayer(EglBackend *backend);
 
-    std::optional<OutputLayerBeginFrameInfo> beginFrame() override;
-    bool endFrame(const QRegion &renderedRegion, const QRegion &damagedRegion) override;
+    std::optional<OutputLayerBeginFrameInfo> doBeginFrame() override;
+    bool doEndFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame) override;
+    DrmDevice *scanoutDevice() const override;
+    QHash<uint32_t, QList<uint64_t>> supportedDrmFormats() const override;
 
 private:
     EglBackend *const m_backend;
 };
 
-class EglBackend : public EglOnXBackend
+class EglBackend : public OpenGLBackend
 {
     Q_OBJECT
-
 public:
-    EglBackend(Display *display, X11StandaloneBackend *platform);
+    EglBackend(::Display *display, X11StandaloneBackend *platform);
     ~EglBackend() override;
 
     void init() override;
 
     std::unique_ptr<SurfaceTexture> createSurfaceTextureX11(SurfacePixmapX11 *texture) override;
     OutputLayerBeginFrameInfo beginFrame();
-    void endFrame(const QRegion &renderedRegion, const QRegion &damagedRegion);
-    void present(Output *output) override;
+    void endFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame);
+    void present(Output *output, const std::shared_ptr<OutputFrame> &frame) override;
     OverlayWindow *overlayWindow() const override;
     OutputLayer *primaryLayer(Output *output) override;
-
-protected:
-    bool createSurfaces() override;
+    EglDisplay *eglDisplayObject() const override;
+    OpenGlContext *openglContext() const override;
+    bool makeCurrent() override;
+    void doneCurrent() override;
 
 private:
+    EGLConfig chooseBufferConfig();
+    bool initRenderingContext();
+    void initClientExtensions();
+    bool hasClientExtension(const QByteArray &name);
     void screenGeometryChanged();
-    void presentSurface(EGLSurface surface, const QRegion &damage, const QRect &screenGeometry);
+    void presentSurface(::EGLSurface surface, const QRegion &damage, const QRect &screenGeometry);
     void vblank(std::chrono::nanoseconds timestamp);
+    ::EGLSurface createSurface(xcb_window_t window);
 
     X11StandaloneBackend *m_backend;
     std::unique_ptr<SoftwareVsyncMonitor> m_vsyncMonitor;
@@ -67,33 +82,29 @@ private:
     int m_bufferAge = 0;
     QRegion m_lastRenderedRegion;
     std::unique_ptr<EglLayer> m_layer;
+    std::unique_ptr<GLRenderTimeQuery> m_query;
+    int m_havePostSubBuffer = false;
+    bool m_havePlatformBase = false;
+    Options::GlSwapStrategy m_swapStrategy = Options::AutoSwapStrategy;
+    std::shared_ptr<OutputFrame> m_frame;
+
+    QList<QByteArray> m_clientExtensions;
+    std::shared_ptr<EglContext> m_context;
+    ::EGLSurface m_surface = EGL_NO_SURFACE;
 };
 
 class EglPixmapTexture : public GLTexture
 {
 public:
     explicit EglPixmapTexture(EglBackend *backend);
+    ~EglPixmapTexture() override;
 
     bool create(SurfacePixmapX11 *texture);
 
 private:
-    Q_DECLARE_PRIVATE(EglPixmapTexture)
-};
-
-class EglPixmapTexturePrivate : public GLTexturePrivate
-{
-public:
-    EglPixmapTexturePrivate(EglPixmapTexture *texture, EglBackend *backend);
-    ~EglPixmapTexturePrivate() override;
-
-    bool create(SurfacePixmapX11 *texture);
-
-protected:
     void onDamage() override;
 
-private:
-    EglPixmapTexture *q;
-    EglBackend *m_backend;
+    EglBackend *const m_backend;
     EGLImageKHR m_image = EGL_NO_IMAGE_KHR;
 };
 

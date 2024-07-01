@@ -5,55 +5,70 @@
 */
 
 #include "scene/surfaceitem_wayland.h"
-#include "composite.h"
+#include "compositor.h"
+#include "core/drmdevice.h"
+#include "core/graphicsbuffer.h"
 #include "core/renderbackend.h"
-#include "deleted.h"
-#include "wayland/clientbuffer.h"
-#include "wayland/subcompositor_interface.h"
-#include "wayland/surface_interface.h"
+#include "wayland/linuxdmabufv1clientbuffer.h"
+#include "wayland/subcompositor.h"
+#include "wayland/surface.h"
+#include "window.h"
+
+#if KWIN_BUILD_X11
+#include "x11window.h"
+#endif
 
 namespace KWin
 {
 
-SurfaceItemWayland::SurfaceItemWayland(KWaylandServer::SurfaceInterface *surface, Scene *scene, Item *parent)
-    : SurfaceItem(scene, parent)
+SurfaceItemWayland::SurfaceItemWayland(SurfaceInterface *surface, Item *parent)
+    : SurfaceItem(parent)
     , m_surface(surface)
 {
-    connect(surface, &KWaylandServer::SurfaceInterface::surfaceToBufferMatrixChanged,
-            this, &SurfaceItemWayland::handleSurfaceToBufferMatrixChanged);
-
-    connect(surface, &KWaylandServer::SurfaceInterface::sizeChanged,
+    connect(surface, &SurfaceInterface::sizeChanged,
             this, &SurfaceItemWayland::handleSurfaceSizeChanged);
-    connect(surface, &KWaylandServer::SurfaceInterface::bufferSizeChanged,
-            this, &SurfaceItemWayland::discardPixmap);
+    connect(surface, &SurfaceInterface::bufferSizeChanged,
+            this, &SurfaceItemWayland::handleBufferSizeChanged);
+    connect(surface, &SurfaceInterface::bufferSourceBoxChanged,
+            this, &SurfaceItemWayland::handleBufferSourceBoxChanged);
+    connect(surface, &SurfaceInterface::bufferTransformChanged,
+            this, &SurfaceItemWayland::handleBufferTransformChanged);
 
-    connect(surface, &KWaylandServer::SurfaceInterface::childSubSurfacesChanged,
+    connect(surface, &SurfaceInterface::childSubSurfacesChanged,
             this, &SurfaceItemWayland::handleChildSubSurfacesChanged);
-    connect(surface, &KWaylandServer::SurfaceInterface::committed,
+    connect(surface, &SurfaceInterface::committed,
             this, &SurfaceItemWayland::handleSurfaceCommitted);
-    connect(surface, &KWaylandServer::SurfaceInterface::damaged,
+    connect(surface, &SurfaceInterface::damaged,
             this, &SurfaceItemWayland::addDamage);
-    connect(surface, &KWaylandServer::SurfaceInterface::childSubSurfaceRemoved,
+    connect(surface, &SurfaceInterface::childSubSurfaceRemoved,
             this, &SurfaceItemWayland::handleChildSubSurfaceRemoved);
+    connect(surface, &SurfaceInterface::colorDescriptionChanged,
+            this, &SurfaceItemWayland::handleColorDescriptionChanged);
+    connect(surface, &SurfaceInterface::presentationModeHintChanged,
+            this, &SurfaceItemWayland::handlePresentationModeHintChanged);
+    connect(surface, &SurfaceInterface::bufferReleasePointChanged, this, &SurfaceItemWayland::handleReleasePointChanged);
 
-    KWaylandServer::SubSurfaceInterface *subsurface = surface->subSurface();
+    SubSurfaceInterface *subsurface = surface->subSurface();
     if (subsurface) {
-        connect(surface, &KWaylandServer::SurfaceInterface::mapped,
+        connect(surface, &SurfaceInterface::mapped,
                 this, &SurfaceItemWayland::handleSubSurfaceMappedChanged);
-        connect(surface, &KWaylandServer::SurfaceInterface::unmapped,
+        connect(surface, &SurfaceInterface::unmapped,
                 this, &SurfaceItemWayland::handleSubSurfaceMappedChanged);
-        connect(subsurface, &KWaylandServer::SubSurfaceInterface::positionChanged,
+        connect(subsurface, &SubSurfaceInterface::positionChanged,
                 this, &SurfaceItemWayland::handleSubSurfacePositionChanged);
         setVisible(surface->isMapped());
         setPosition(subsurface->position());
     }
 
     handleChildSubSurfacesChanged();
-    setSize(surface->size());
-    setSurfaceToBufferMatrix(surface->surfaceToBufferMatrix());
+    setDestinationSize(surface->size());
+    setBufferTransform(surface->bufferTransform());
+    setBufferSourceBox(surface->bufferSourceBox());
+    setBufferSize(surface->bufferSize());
+    setColorDescription(surface->colorDescription());
 }
 
-QVector<QRectF> SurfaceItemWayland::shape() const
+QList<QRectF> SurfaceItemWayland::shape() const
 {
     return {rect()};
 }
@@ -66,21 +81,29 @@ QRegion SurfaceItemWayland::opaque() const
     return QRegion();
 }
 
-KWaylandServer::SurfaceInterface *SurfaceItemWayland::surface() const
+SurfaceInterface *SurfaceItemWayland::surface() const
 {
     return m_surface;
 }
 
-void SurfaceItemWayland::handleSurfaceToBufferMatrixChanged()
-{
-    setSurfaceToBufferMatrix(m_surface->surfaceToBufferMatrix());
-    discardQuads();
-    discardPixmap();
-}
-
 void SurfaceItemWayland::handleSurfaceSizeChanged()
 {
-    setSize(m_surface->size());
+    setDestinationSize(m_surface->size());
+}
+
+void SurfaceItemWayland::handleBufferSizeChanged()
+{
+    setBufferSize(m_surface->bufferSize());
+}
+
+void SurfaceItemWayland::handleBufferSourceBoxChanged()
+{
+    setBufferSourceBox(m_surface->bufferSourceBox());
+}
+
+void SurfaceItemWayland::handleBufferTransformChanged()
+{
+    setBufferTransform(m_surface->bufferTransform());
 }
 
 void SurfaceItemWayland::handleSurfaceCommitted()
@@ -90,26 +113,24 @@ void SurfaceItemWayland::handleSurfaceCommitted()
     }
 }
 
-SurfaceItemWayland *SurfaceItemWayland::getOrCreateSubSurfaceItem(KWaylandServer::SubSurfaceInterface *child)
+SurfaceItemWayland *SurfaceItemWayland::getOrCreateSubSurfaceItem(SubSurfaceInterface *child)
 {
-    SurfaceItemWayland *&item = m_subsurfaces[child];
+    auto &item = m_subsurfaces[child];
     if (!item) {
-        item = new SurfaceItemWayland(child->surface(), scene());
-        item->setParent(this);
-        item->setParentItem(this);
+        item = std::make_unique<SurfaceItemWayland>(child->surface(), this);
     }
-    return item;
+    return item.get();
 }
 
-void SurfaceItemWayland::handleChildSubSurfaceRemoved(KWaylandServer::SubSurfaceInterface *child)
+void SurfaceItemWayland::handleChildSubSurfaceRemoved(SubSurfaceInterface *child)
 {
-    delete m_subsurfaces.take(child);
+    m_subsurfaces.erase(child);
 }
 
 void SurfaceItemWayland::handleChildSubSurfacesChanged()
 {
-    const QList<KWaylandServer::SubSurfaceInterface *> below = m_surface->below();
-    const QList<KWaylandServer::SubSurfaceInterface *> above = m_surface->above();
+    const QList<SubSurfaceInterface *> below = m_surface->below();
+    const QList<SubSurfaceInterface *> above = m_surface->above();
 
     for (int i = 0; i < below.count(); ++i) {
         SurfaceItemWayland *subsurfaceItem = getOrCreateSubSurfaceItem(below[i]);
@@ -139,33 +160,63 @@ std::unique_ptr<SurfacePixmap> SurfaceItemWayland::createPixmap()
 
 ContentType SurfaceItemWayland::contentType() const
 {
-    return m_surface->contentType();
+    return m_surface ? m_surface->contentType() : ContentType::None;
+}
+
+void SurfaceItemWayland::setScanoutHint(DrmDevice *device, const QHash<uint32_t, QList<uint64_t>> &drmFormats)
+{
+    if (!m_surface || !m_surface->dmabufFeedbackV1()) {
+        return;
+    }
+    if (!device && m_scanoutFeedback.has_value()) {
+        m_surface->dmabufFeedbackV1()->setTranches({});
+        m_scanoutFeedback.reset();
+        return;
+    }
+    if (!m_scanoutFeedback || m_scanoutFeedback->device != device || m_scanoutFeedback->formats != drmFormats) {
+        m_scanoutFeedback = ScanoutFeedback{
+            .device = device,
+            .formats = drmFormats,
+        };
+        m_surface->dmabufFeedbackV1()->setScanoutTranches(device, drmFormats);
+    }
+}
+
+void SurfaceItemWayland::freeze()
+{
+    if (!m_surface) {
+        return;
+    }
+
+    m_surface->disconnect(this);
+    if (auto subsurface = m_surface->subSurface()) {
+        subsurface->disconnect(this);
+    }
+
+    for (auto &[subsurface, subsurfaceItem] : m_subsurfaces) {
+        subsurfaceItem->freeze();
+    }
+}
+
+void SurfaceItemWayland::handleColorDescriptionChanged()
+{
+    setColorDescription(m_surface->colorDescription());
+}
+
+void SurfaceItemWayland::handlePresentationModeHintChanged()
+{
+    setPresentationHint(m_surface->presentationModeHint());
+}
+
+void SurfaceItemWayland::handleReleasePointChanged()
+{
+    m_bufferReleasePoint = m_surface->bufferReleasePoint();
 }
 
 SurfacePixmapWayland::SurfacePixmapWayland(SurfaceItemWayland *item, QObject *parent)
     : SurfacePixmap(Compositor::self()->backend()->createSurfaceTextureWayland(this), parent)
     , m_item(item)
 {
-}
-
-SurfacePixmapWayland::~SurfacePixmapWayland()
-{
-    setBuffer(nullptr);
-}
-
-SurfaceItemWayland *SurfacePixmapWayland::item() const
-{
-    return m_item;
-}
-
-KWaylandServer::SurfaceInterface *SurfacePixmapWayland::surface() const
-{
-    return m_item->surface();
-}
-
-KWaylandServer::ClientBuffer *SurfacePixmapWayland::buffer() const
-{
-    return m_buffer;
 }
 
 void SurfacePixmapWayland::create()
@@ -175,7 +226,7 @@ void SurfacePixmapWayland::create()
 
 void SurfacePixmapWayland::update()
 {
-    KWaylandServer::SurfaceInterface *surface = m_item->surface();
+    SurfaceInterface *surface = m_item->surface();
     if (surface) {
         setBuffer(surface->buffer());
     }
@@ -183,48 +234,40 @@ void SurfacePixmapWayland::update()
 
 bool SurfacePixmapWayland::isValid() const
 {
-    return m_buffer;
+    return m_bufferRef;
 }
 
-void SurfacePixmapWayland::setBuffer(KWaylandServer::ClientBuffer *buffer)
-{
-    if (m_buffer == buffer) {
-        return;
-    }
-    if (m_buffer) {
-        m_buffer->unref();
-    }
-    m_buffer = buffer;
-    if (m_buffer) {
-        m_buffer->ref();
-        m_hasAlphaChannel = m_buffer->hasAlphaChannel();
-        m_size = m_buffer->size();
-    }
-}
-
-SurfaceItemXwayland::SurfaceItemXwayland(Window *window, Scene *scene, Item *parent)
-    : SurfaceItemWayland(window->surface(), scene, parent)
+#if KWIN_BUILD_X11
+SurfaceItemXwayland::SurfaceItemXwayland(X11Window *window, Item *parent)
+    : SurfaceItemWayland(window->surface(), parent)
     , m_window(window)
 {
-    connect(window, &Window::geometryShapeChanged, this, &SurfaceItemXwayland::discardQuads);
-    connect(window, &Window::windowClosed, this, &SurfaceItemXwayland::handleWindowClosed);
+    connect(window, &X11Window::shapeChanged, this, &SurfaceItemXwayland::discardQuads);
 }
 
-QVector<QRectF> SurfaceItemXwayland::shape() const
+QList<QRectF> SurfaceItemXwayland::shape() const
 {
-    const QRectF clipRect = rect() & m_window->clientGeometry().translated(-m_window->bufferGeometry().topLeft());
-    QVector<QRectF> shape = m_window->shapeRegion();
-
-    // bounded to clipRect
+    QList<QRectF> shape = m_window->shapeRegion();
     for (QRectF &shapePart : shape) {
-        shapePart = shapePart.intersected(clipRect);
+        shapePart = shapePart.intersected(rect());
     }
     return shape;
 }
 
-void SurfaceItemXwayland::handleWindowClosed(Window *original, Deleted *deleted)
+QRegion SurfaceItemXwayland::opaque() const
 {
-    m_window = deleted;
+    QRegion shapeRegion;
+    for (const QRectF &shapePart : shape()) {
+        shapeRegion += shapePart.toRect();
+    }
+    if (!m_window->hasAlpha()) {
+        return shapeRegion;
+    } else {
+        return m_window->opaqueRegion() & shapeRegion;
+    }
+    return QRegion();
 }
-
+#endif
 } // namespace KWin
+
+#include "moc_surfaceitem_wayland.cpp"

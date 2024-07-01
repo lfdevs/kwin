@@ -6,16 +6,20 @@
 
 #pragma once
 
+#include "effect/globals.h"
 #include "kwin_export.h"
 
 #include <QRegion>
+#include <chrono>
 
 namespace KWin
 {
 
 class RenderLayer;
 class RenderTarget;
+class RenderViewport;
 class SurfaceItem;
+class OutputFrame;
 
 /**
  * The RenderLayerDelegate class represents a render layer's contents.
@@ -29,18 +33,18 @@ public:
     void setLayer(RenderLayer *layer);
 
     /**
-     * Returns the repaints schduled for the next frame.
+     * This function is called by the compositor after compositing the frame.
      */
-    virtual QRegion repaints() const;
+    virtual void frame(OutputFrame *frame);
 
     /**
-     * This function is called by the compositor before starting compositing. Reimplement
+     * This function is called by the compositor before starting painting. Reimplement
      * this function to do frame initialization.
      */
-    virtual void prePaint();
+    virtual QRegion prePaint();
 
     /**
-     * This function is called by the compositor after finishing compositing. Reimplement
+     * This function is called by the compositor after finishing painting. Reimplement
      * this function to do post frame cleanup.
      */
     virtual void postPaint();
@@ -55,7 +59,7 @@ public:
      * This function is called when the compositor wants the render layer delegate
      * to repaint its contents.
      */
-    virtual void paint(RenderTarget *renderTarget, const QRegion &region) = 0;
+    virtual void paint(const RenderTarget &renderTarget, const QRegion &region) = 0;
 
 private:
     RenderLayer *m_layer = nullptr;

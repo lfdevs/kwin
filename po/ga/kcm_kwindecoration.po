@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-26 02:32+0000\n"
+"POT-Creation-Date: 2024-02-10 00:40+0000\n"
 "PO-Revision-Date: 2004-12-03 14:52-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -18,86 +18,65 @@ msgstr ""
 "Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n < 11 ? "
 "3 : 4\n"
 
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Séamus Ó Ciardhuáin,Kevin Scannell"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "seoc@iolfree.ie,kscanne@gmail.com"
-
-#: declarative-plugin/buttonsmodel.cpp:53
+#: declarative-plugin/buttonsmodel.cpp:56
 #, kde-format
 msgid "More actions for this window"
 msgstr ""
 
-#: declarative-plugin/buttonsmodel.cpp:55
+#: declarative-plugin/buttonsmodel.cpp:58
 #, fuzzy, kde-format
 #| msgctxt "Button showing application menu imported from dbusmenu"
 #| msgid "Application Menu"
 msgid "Application menu"
 msgstr "Roghchlár Feidhmchlár"
 
-#: declarative-plugin/buttonsmodel.cpp:57
+#: declarative-plugin/buttonsmodel.cpp:60
 #, fuzzy, kde-format
 #| msgid "On All Desktops"
 msgid "On all desktops"
 msgstr "Ar Gach Deasc"
 
-#: declarative-plugin/buttonsmodel.cpp:59
+#: declarative-plugin/buttonsmodel.cpp:62
 #, kde-format
 msgid "Minimize"
 msgstr "Íoslaghdaigh"
 
-#: declarative-plugin/buttonsmodel.cpp:61
+#: declarative-plugin/buttonsmodel.cpp:64
 #, kde-format
 msgid "Maximize"
 msgstr "Uasmhéadaigh"
 
-#: declarative-plugin/buttonsmodel.cpp:63
+#: declarative-plugin/buttonsmodel.cpp:66
 #, kde-format
 msgid "Close"
 msgstr "Dún"
 
-#: declarative-plugin/buttonsmodel.cpp:65
+#: declarative-plugin/buttonsmodel.cpp:68
 #, kde-format
 msgid "Context help"
 msgstr ""
 
-#: declarative-plugin/buttonsmodel.cpp:67
+#: declarative-plugin/buttonsmodel.cpp:70
 #, kde-format
 msgid "Shade"
 msgstr "Scáthaigh"
 
-#: declarative-plugin/buttonsmodel.cpp:69
+#: declarative-plugin/buttonsmodel.cpp:72
 #, kde-format
 msgid "Keep below other windows"
 msgstr ""
 
-#: declarative-plugin/buttonsmodel.cpp:71
+#: declarative-plugin/buttonsmodel.cpp:74
 #, kde-format
 msgid "Keep above other windows"
 msgstr ""
 
-#: kcm.cpp:49
-#, fuzzy, kde-format
-#| msgid "Get New Decorations..."
-msgid "Window Decorations"
-msgstr "Faigh Maisiúcháin Nua..."
-
-#: kcm.cpp:53
+#: declarative-plugin/buttonsmodel.cpp:76
 #, kde-format
-msgid "Valerio Pilo"
+msgid "Spacer"
 msgstr ""
 
-#: kcm.cpp:54
-#, kde-format
-msgid "Author"
-msgstr ""
-
-#: kcm.cpp:183
+#: kcm.cpp:177
 #, kde-format
 msgctxt "%1 is the name of a border size"
 msgid "Theme's default (%1)"
@@ -169,74 +148,68 @@ msgstr ""
 msgid "You have the following KWin window decoration themes on your system:"
 msgstr ""
 
-#: package/contents/ui/Buttons.qml:85
+#: ui/Buttons.qml:85
 #, kde-format
 msgid "Titlebar"
 msgstr ""
 
-#: package/contents/ui/Buttons.qml:245
+#: ui/Buttons.qml:245
 #, kde-format
 msgid "Drop button here to remove it"
 msgstr ""
 
-#: package/contents/ui/Buttons.qml:261
+#: ui/Buttons.qml:261
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr ""
 
-#: package/contents/ui/main.qml:18
-#, kde-format
-msgid "This module lets you configure the window decorations."
-msgstr ""
-
-#: package/contents/ui/main.qml:52
-#, kde-format
-msgctxt "tab label"
-msgid "Theme"
-msgstr ""
-
-#: package/contents/ui/main.qml:56
+#: ui/ConfigureTitlebar.qml:16
 #, fuzzy, kde-format
 #| msgid "Buttons"
-msgctxt "tab label"
 msgid "Titlebar Buttons"
 msgstr "Cnaipí"
 
-#: package/contents/ui/main.qml:92
-#, fuzzy, kde-format
-#| msgid "Border size:"
-msgctxt "Selector label"
-msgid "Window border size:"
-msgstr "Méid na himlíne:"
-
-#: package/contents/ui/main.qml:110
-#, fuzzy, kde-format
-#| msgid "Get New Decorations..."
-msgctxt "button text"
-msgid "Get New Window Decorations..."
-msgstr "Faigh Maisiúcháin Nua..."
-
-#: package/contents/ui/main.qml:139
+#: ui/ConfigureTitlebar.qml:35
 #, fuzzy, kde-format
 #| msgid "Close windows by double clicking the menu button"
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
 msgstr "Dún fuinneoga trí dhéchliceáil ar an gcnaipe roghchláir"
 
-#: package/contents/ui/main.qml:156
+#: ui/ConfigureTitlebar.qml:52
 #, kde-format
 msgctxt "popup tip"
 msgid "Click and hold on the menu button to show the menu."
 msgstr ""
 
-#: package/contents/ui/main.qml:163
+#: ui/ConfigureTitlebar.qml:59
 #, fuzzy, kde-format
 #| msgid "&Show window button tooltips"
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
 msgstr "Tai&speáin leideanna uirlisí ar chnaipí na fuinneoige"
 
-#: package/contents/ui/Themes.qml:90
+#: ui/main.qml:29
+#, fuzzy, kde-format
+#| msgid "Border size:"
+msgctxt "Selector label"
+msgid "Window border size:"
+msgstr "Méid na himlíne:"
+
+#: ui/main.qml:48
+#, fuzzy, kde-format
+#| msgid "Buttons"
+msgctxt "button text"
+msgid "Configure Titlebar Buttons…"
+msgstr "Cnaipí"
+
+#: ui/main.qml:54
+#, kde-format
+msgctxt "@action:button as in, \"Get New Window Decorations\""
+msgid "Get New…"
+msgstr ""
+
+#: ui/Themes.qml:93
 #, kde-format
 msgid "Edit %1 Theme"
 msgstr ""
@@ -244,63 +217,121 @@ msgstr ""
 #: utils.cpp:25
 #, fuzzy, kde-format
 #| msgid "Border size:"
-msgid "No Borders"
+msgid "No Window Borders"
 msgstr "Méid na himlíne:"
 
 #: utils.cpp:26
 #, fuzzy, kde-format
 #| msgid "Border size:"
-msgid "No Side Borders"
+msgid "No Side Window Borders"
 msgstr "Méid na himlíne:"
 
 #: utils.cpp:27
 #, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Tiny"
-msgid "Tiny"
-msgstr "An-bheag"
+#| msgid "Border size:"
+msgid "Tiny Window Borders"
+msgstr "Méid na himlíne:"
 
 #: utils.cpp:28
 #, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Normal"
-msgid "Normal"
-msgstr "Gnáthmhéid"
+#| msgid "Border size:"
+msgid "Normal Window Borders"
+msgstr "Méid na himlíne:"
 
 #: utils.cpp:29
 #, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Large"
-msgid "Large"
-msgstr "Mór"
+#| msgid "Border size:"
+msgid "Large Window Borders"
+msgstr "Méid na himlíne:"
 
 #: utils.cpp:30
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Very Large"
-msgid "Very Large"
-msgstr "An-Mhór"
+#, kde-format
+msgid "Very Large Window Borders"
+msgstr ""
 
 #: utils.cpp:31
 #, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Huge"
-msgid "Huge"
-msgstr "Ollmhór"
+#| msgid "Border size:"
+msgid "Huge Window Borders"
+msgstr "Méid na himlíne:"
 
 #: utils.cpp:32
 #, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Very Huge"
-msgid "Very Huge"
-msgstr "Fíor-ollmhór"
+#| msgid "Border size:"
+msgid "Very Huge Window Borders"
+msgstr "Méid na himlíne:"
 
 #: utils.cpp:33
 #, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Oversized"
-msgid "Oversized"
-msgstr "Fíor-mhórthomhais"
+#| msgid "Border size:"
+msgid "Oversized Window Borders"
+msgstr "Méid na himlíne:"
+
+#, fuzzy
+#~| msgid "Get New Decorations..."
+#~ msgctxt "button text"
+#~ msgid "Get New Window Decorations…"
+#~ msgstr "Faigh Maisiúcháin Nua..."
+
+#, fuzzy
+#~| msgid "Border size:"
+#~ msgid "No Borders"
+#~ msgstr "Méid na himlíne:"
+
+#, fuzzy
+#~| msgctxt "@item:inlistbox Border size:"
+#~| msgid "Tiny"
+#~ msgid "Tiny"
+#~ msgstr "An-bheag"
+
+#, fuzzy
+#~| msgctxt "@item:inlistbox Border size:"
+#~| msgid "Normal"
+#~ msgid "Normal"
+#~ msgstr "Gnáthmhéid"
+
+#, fuzzy
+#~| msgctxt "@item:inlistbox Border size:"
+#~| msgid "Large"
+#~ msgid "Large"
+#~ msgstr "Mór"
+
+#, fuzzy
+#~| msgctxt "@item:inlistbox Border size:"
+#~| msgid "Very Large"
+#~ msgid "Very Large"
+#~ msgstr "An-Mhór"
+
+#, fuzzy
+#~| msgctxt "@item:inlistbox Border size:"
+#~| msgid "Huge"
+#~ msgid "Huge"
+#~ msgstr "Ollmhór"
+
+#, fuzzy
+#~| msgctxt "@item:inlistbox Border size:"
+#~| msgid "Very Huge"
+#~ msgid "Very Huge"
+#~ msgstr "Fíor-ollmhór"
+
+#, fuzzy
+#~| msgctxt "@item:inlistbox Border size:"
+#~| msgid "Oversized"
+#~ msgid "Oversized"
+#~ msgstr "Fíor-mhórthomhais"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Séamus Ó Ciardhuáin,Kevin Scannell"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "seoc@iolfree.ie,kscanne@gmail.com"
+
+#, fuzzy
+#~| msgid "Get New Decorations..."
+#~ msgid "Window Decorations"
+#~ msgstr "Faigh Maisiúcháin Nua..."
 
 #, fuzzy
 #~| msgid "Close windows by double clicking the menu button"

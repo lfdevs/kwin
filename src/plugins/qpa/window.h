@@ -9,20 +9,19 @@
 */
 #pragma once
 
-#include <epoxy/egl.h>
-
 #include <QPointer>
 #include <qpa/qplatformwindow.h>
-
-class QOpenGLFramebufferObject;
 
 namespace KWin
 {
 
 class InternalWindow;
+class EglContext;
 
 namespace QPA
 {
+
+class Swapchain;
 
 class Window : public QPlatformWindow
 {
@@ -30,6 +29,7 @@ public:
     explicit Window(QWindow *window);
     ~Window() override;
 
+    void invalidateSurface() override;
     QSurfaceFormat format() const override;
     void setVisible(bool visible) override;
     void setGeometry(const QRect &rect) override;
@@ -37,24 +37,18 @@ public:
     qreal devicePixelRatio() const override;
     void requestActivateWindow() override;
 
-    void bindContentFBO();
-    const std::shared_ptr<QOpenGLFramebufferObject> &contentFBO() const;
-    std::shared_ptr<QOpenGLFramebufferObject> swapFBO();
-
     InternalWindow *internalWindow() const;
-    EGLSurface eglSurface() const;
+    Swapchain *swapchain(const std::shared_ptr<EglContext> &context, const QHash<uint32_t, QList<uint64_t>> &formats);
 
 private:
-    void createFBO();
     void map();
     void unmap();
 
     QSurfaceFormat m_format;
     QPointer<InternalWindow> m_handle;
-    std::shared_ptr<QOpenGLFramebufferObject> m_contentFBO;
-    EGLDisplay m_eglDisplay = EGL_NO_DISPLAY;
+    std::unique_ptr<Swapchain> m_swapchain;
+    std::weak_ptr<EglContext> m_eglContext;
     quint32 m_windowId;
-    bool m_resized = false;
     qreal m_scale = 1;
 };
 

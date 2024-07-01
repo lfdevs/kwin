@@ -8,48 +8,21 @@
 */
 #pragma once
 
-#include "clientbuffer.h"
-#include "clientbufferintegration.h"
-
-#include "core/dmabufattributes.h"
+#include "core/graphicsbuffer.h"
 
 #include <QHash>
 #include <QSet>
 #include <sys/types.h>
+#include <wayland-server.h>
 
-namespace KWaylandServer
+namespace KWin
 {
-class LinuxDmaBufV1ClientBufferPrivate;
+
+class Display;
 class LinuxDmaBufV1ClientBufferIntegrationPrivate;
 class LinuxDmaBufV1FeedbackPrivate;
-
-/**
- * The LinuxDmaBufV1ClientBuffer class represents a linux dma-buf client buffer.
- *
- * The LinuxDmaBufV1ClientBuffer can be used even after the underlying wl_buffer object
- * is destroyed by the client.
- */
-class KWIN_EXPORT LinuxDmaBufV1ClientBuffer : public ClientBuffer
-{
-    Q_OBJECT
-    Q_DECLARE_PRIVATE(LinuxDmaBufV1ClientBuffer)
-
-public:
-    LinuxDmaBufV1ClientBuffer(KWin::DmaBufAttributes &&attrs, quint32 flags);
-    ~LinuxDmaBufV1ClientBuffer() override;
-
-    quint32 format() const;
-    quint32 flags() const;
-    const KWin::DmaBufAttributes &attributes() const;
-
-    QSize size() const override;
-    bool hasAlphaChannel() const override;
-    Origin origin() const override;
-
-private:
-    void initialize(wl_resource *resource);
-    friend class LinuxDmaBufParamsV1;
-};
+class RenderBackend;
+class DrmDevice;
 
 class KWIN_EXPORT LinuxDmaBufV1Feedback : public QObject
 {
@@ -66,16 +39,19 @@ public:
     {
         dev_t device;
         TrancheFlags flags;
-        QHash<uint32_t, QVector<uint64_t>> formatTable;
+        QHash<uint32_t, QList<uint64_t>> formatTable;
     };
     /**
      * Sets the list of tranches for this feedback object, with lower indices
      * indicating a higher priority / a more optimal configuration.
      * The main device does not need to be included
      */
-    void setTranches(const QVector<Tranche> &tranches);
+    void setScanoutTranches(DrmDevice *device, const QHash<uint32_t, QList<uint64_t>> &formats);
+    void setTranches(const QList<Tranche> &tranches);
 
 private:
+    static QList<Tranche> createScanoutTranches(const QList<Tranche> &tranches, DrmDevice *device, const QHash<uint32_t, QList<uint64_t>> &formats);
+
     LinuxDmaBufV1Feedback(LinuxDmaBufV1ClientBufferIntegrationPrivate *integration);
     friend class LinuxDmaBufV1ClientBufferIntegrationPrivate;
     friend class LinuxDmaBufV1FeedbackPrivate;
@@ -85,7 +61,7 @@ private:
 /**
  * The LinuxDmaBufV1ClientBufferIntegration class provides support for linux dma-buf buffers.
  */
-class KWIN_EXPORT LinuxDmaBufV1ClientBufferIntegration : public ClientBufferIntegration
+class KWIN_EXPORT LinuxDmaBufV1ClientBufferIntegration : public QObject
 {
     Q_OBJECT
 
@@ -93,45 +69,14 @@ public:
     explicit LinuxDmaBufV1ClientBufferIntegration(Display *display);
     ~LinuxDmaBufV1ClientBufferIntegration() override;
 
-    /**
-     * The Iface class provides an interface from the LinuxDmabufInterface into the compositor
-     */
-    class RendererInterface
-    {
-    public:
-        virtual ~RendererInterface() = default;
+    RenderBackend *renderBackend() const;
+    void setRenderBackend(RenderBackend *renderBackend);
 
-        /**
-         * Imports a linux-dmabuf buffer into the compositor.
-         *
-         * The parent LinuxDmabufUnstableV1Interface class takes ownership of returned
-         * buffer objects.
-         *
-         * In return the returned buffer takes ownership of the file descriptor for each
-         * plane.
-         *
-         * Note that it is the responsibility of the caller to close the file descriptors
-         * when the import fails.
-         *
-         * @return The imported buffer on success, and nullptr otherwise.
-         */
-        virtual LinuxDmaBufV1ClientBuffer *importBuffer(KWin::DmaBufAttributes &&attrs, quint32 flags) = 0;
-    };
-
-    RendererInterface *rendererInterface() const;
-
-    /**
-     * Sets the compositor implementation for the dmabuf interface.
-     *
-     * The ownership is not transferred by this call.
-     */
-    void setRendererInterface(RendererInterface *rendererInterface);
-
-    void setSupportedFormatsWithModifiers(const QVector<LinuxDmaBufV1Feedback::Tranche> &tranches);
+    void setSupportedFormatsWithModifiers(const QList<LinuxDmaBufV1Feedback::Tranche> &tranches);
 
 private:
     friend class LinuxDmaBufV1ClientBufferIntegrationPrivate;
     std::unique_ptr<LinuxDmaBufV1ClientBufferIntegrationPrivate> d;
 };
 
-} // namespace KWaylandServer
+} // namespace KWin

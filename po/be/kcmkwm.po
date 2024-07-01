@@ -2,10 +2,10 @@
 # Darafei Praliaskouski <komzpa@licei2.com>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: 86ff119b1606fcaa910d6b44fc14b611\n"
+"Project-Id-Version: fc57ad16a28d02dea100ceb1c60de14e\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-03 00:48+0000\n"
-"PO-Revision-Date: 2023-01-06 10:31\n"
+"POT-Creation-Date: 2024-02-06 00:39+0000\n"
+"PO-Revision-Date: 2024-02-11 18:54\n"
 "Last-Translator: Darafei Praliaskouski <komzpa@licei2.com>\n"
 "Language-Team: Belarusian\n"
 "Language: be\n"
@@ -16,21 +16,11 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || n%10>=5 && n%10<=9 || n"
 "%100>=11 && n%100<=14 ? 2 : 3);\n"
-"X-Crowdin-Project: 86ff119b1606fcaa910d6b44fc14b611\n"
-"X-Crowdin-Project-ID: 127\n"
+"X-Crowdin-Project: fc57ad16a28d02dea100ceb1c60de14e\n"
+"X-Crowdin-Project-ID: 136\n"
 "X-Crowdin-Language: be\n"
-"X-Crowdin-File: /main/be/kwin/kcmkwm.po\n"
-"X-Crowdin-File-ID: 8361\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Дарафей Праляскоўскі, Antikruk"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "komzpa@licei2.com, nashtlumach@gmail.com"
+"X-Crowdin-File: /[antikruk.KDE] main/KDE6/be/messages/kwin/kcmkwm.po\n"
+"X-Crowdin-File-ID: 10438\n"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
 #: actions.ui:17
@@ -334,6 +324,7 @@ msgstr "Павылічыць непразрыстасць"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TitlebarDoubleClickCommand)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandTitlebarWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar1)
@@ -342,8 +333,8 @@ msgstr "Павылічыць непразрыстасць"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
-#: actions.ui:310 actions.ui:380 actions.ui:450 actions.ui:505 mouse.ui:80
-#: mouse.ui:132 mouse.ui:271 mouse.ui:333 mouse.ui:386 mouse.ui:448
+#: actions.ui:310 actions.ui:380 actions.ui:450 actions.ui:505 advanced.ui:174
+#: mouse.ui:80 mouse.ui:132 mouse.ui:271 mouse.ui:333 mouse.ui:386 mouse.ui:448
 #: mouse.ui:501 mouse.ui:563
 #, kde-format
 msgid "Do nothing"
@@ -901,26 +892,8 @@ msgstr ""
 msgid "Multiscreen behavior:"
 msgstr "Паводзіны пры некалькіх экранах:"
 
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ActiveMouseScreen)
-#: focus.ui:203
-#, kde-format
-msgid ""
-"When this option is enabled, the active screen (where new windows appear, "
-"for example) is the screen containing the mouse pointer. When disabled, the "
-"active screen is the screen containing the focused window."
-msgstr ""
-"Калі гэты параметр уключаны, актыўны экран (напрыклад, дзе з'яўляюцца новыя "
-"вокны) - экран, які змяшчае паказальнік мышы. Калі гэты параметр адключаны, "
-"актыўны экран - экран, які змяшчае акно ў фокусе."
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ActiveMouseScreen)
-#: focus.ui:206
-#, kde-format
-msgid "Active screen follows &mouse"
-msgstr "Актыўны экран пільнуецца &мышы"
-
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SeparateScreenFocus)
-#: focus.ui:213
+#: focus.ui:203
 #, kde-format
 msgid ""
 "When this option is enabled, focus operations are limited only to the active "
@@ -930,120 +903,48 @@ msgstr ""
 "актыўным экранам"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SeparateScreenFocus)
-#: focus.ui:216
+#: focus.ui:206
 #, kde-format
 msgid "&Separate screen focus"
 msgstr "&Асобнае факусаванне экранаў"
 
 #. i18n: ectx: property (text), widget (QLabel, windowFocusPolicyDescriptionLabel)
-#: focus.ui:229
+#: focus.ui:219
 #, kde-format
 msgid "Window activation policy description"
 msgstr "Апісанне палітыкі актывацыі акон"
 
-#: main.cpp:73
+#: main.cpp:79
 #, kde-format
 msgid "&Focus"
 msgstr "&Фокус"
 
-#: main.cpp:79
+#: main.cpp:84
 #, kde-format
 msgid "Titlebar A&ctions"
 msgstr "Дзеянні &панэляў загалоўкаў"
 
-#: main.cpp:85
+#: main.cpp:89
 #, kde-format
 msgid "W&indow Actions"
 msgstr "Дзеянні &акон"
 
-#: main.cpp:91
+#: main.cpp:94
 #, kde-format
 msgid "Mo&vement"
 msgstr "&Перамяшчэнне"
 
-#: main.cpp:97
+#: main.cpp:99
 #, kde-format
 msgid "Adva&nced"
 msgstr "&Дадатковыя налады"
 
-#: main.cpp:101
-#, kde-format
-msgid "Window Behavior Configuration Module"
-msgstr "Модуль наладжвання паводзін акон"
-
-#: main.cpp:103
-#, kde-format
-msgid "(c) 1997 - 2002 KWin and KControl Authors"
-msgstr "(c) 1997 - 2002 Аўтары KWin і KControl"
-
-#: main.cpp:105
-#, kde-format
-msgid "Matthias Ettrich"
-msgstr "Matthias Ettrich"
-
-#: main.cpp:106
-#, kde-format
-msgid "Waldo Bastian"
-msgstr "Waldo Bastian"
-
-#: main.cpp:107
-#, kde-format
-msgid "Cristian Tibirna"
-msgstr "Cristian Tibirna"
-
-#: main.cpp:108
-#, kde-format
-msgid "Matthias Kalle Dalheimer"
-msgstr "Matthias Kalle Dalheimer"
-
-#: main.cpp:109
-#, kde-format
-msgid "Daniel Molkentin"
-msgstr "Daniel Molkentin"
-
-#: main.cpp:110
-#, kde-format
-msgid "Wynn Wilkes"
-msgstr "Wynn Wilkes"
-
-#: main.cpp:111
-#, kde-format
-msgid "Pat Dowler"
-msgstr "Pat Dowler"
-
-#: main.cpp:112
-#, kde-format
-msgid "Bernd Wuebben"
-msgstr "Bernd Wuebben"
-
-#: main.cpp:113
-#, kde-format
-msgid "Matthias Hoelzer-Kluepfel"
-msgstr "Matthias Hoelzer-Kluepfel"
-
-#: main.cpp:161
-#, kde-format
-msgid ""
-"<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
-"when being moved, resized or clicked on. You can also specify a focus policy "
-"as well as a placement policy for new windows.</p> <p>Please note that this "
-"configuration will not take effect if you do not use KWin as your window "
-"manager. If you do use a different window manager, please refer to its "
-"documentation for how to customize window behavior.</p>"
-msgstr ""
-"<p><h1>Паводзіны акон</h1> Тут вы можаце наладзіць паводзіны акон пры "
-"перамяшчэнні, змене памеру або пстрыканні па іх. Вы таксама можаце вызначыць "
-"правілы факусавання і размяшчэння новых акон.</p> <p>Звярніце ўвагу на тое, "
-"што гэтая канфігурацыя не будзе дзейнічаць, калі вы не выкарыстоўваеце KWin "
-"як кіраўніка акон. Калі вы выкарыстоўваеце іншы кіраўнік акон, звярніцеся да "
-"яго дакументацыі, каб даведацца як наладзіць паводзіны акон.</p>"
-
-#: main.cpp:202
+#: main.cpp:178
 #, kde-format
 msgid "&Titlebar Actions"
 msgstr "Дзеянні &панэляў загалоўкаў"
 
-#: main.cpp:208
+#: main.cpp:188
 #, kde-format
 msgid "Window Actio&ns"
 msgstr "Дзеянні &акон"
@@ -1321,7 +1222,7 @@ msgstr ""
 msgid "Only when overlapping"
 msgstr "Толькі пры накладанні"
 
-#: windows.cpp:97
+#: windows.cpp:92
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
@@ -1331,7 +1232,7 @@ msgstr ""
 "пстрыкаеце па ім. Такія паводзіны часта сустракаюцца ў іншых аперацыйных "
 "сістэмах. Хутчэй за ўсё, гэта тое, што вам патрэбна."
 
-#: windows.cpp:101
+#: windows.cpp:95
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1346,7 +1247,7 @@ msgstr ""
 "акно пад мышшу - пераважны кандыдат. Незвычайны, але магчымы варыянт "
 "<em>Факусавацца пры пстрыканні</em>."
 
-#: windows.cpp:106
+#: windows.cpp:98
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1360,7 +1261,7 @@ msgstr ""
 "функцыянуе звычайным чынам. Падобна на <em>Факусавацца пры пстрыканні</em>, "
 "але няма патрэбы пстрыкаць."
 
-#: windows.cpp:110
+#: windows.cpp:101
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1373,7 +1274,7 @@ msgstr ""
 "было закрыта), акно пад мышшу - пераважны кандыдат. Абярыце гэта, калі "
 "хочаце кантраляваць факусаванне пры навядзенні."
 
-#: windows.cpp:115
+#: windows.cpp:104
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1387,7 +1288,7 @@ msgstr ""
 "<em>Alt+Tab</em> супярэчаць правілам актывацыі і не будуць працаваць. "
 "Напэўна, вам патрэбна <em>Факусавацца ўслед за мышшу (прыярытэт мышы)</em>!"
 
-#: windows.cpp:119
+#: windows.cpp:107
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "
@@ -1403,6 +1304,75 @@ msgstr ""
 "перахоплівання фокуса</em> і <em>Alt+Tab</em> супярэчаць правілам актывацыі "
 "і не будуць працаваць. Напэўна, вам патрэбна <em>Факусавацца ўслед за мышшу "
 "(прыярытэт мышы)</em>!"
+
+#~ msgid ""
+#~ "When this option is enabled, the active screen (where new windows appear, "
+#~ "for example) is the screen containing the mouse pointer. When disabled, "
+#~ "the active screen is the screen containing the focused window."
+#~ msgstr ""
+#~ "Калі гэты параметр уключаны, актыўны экран (напрыклад, дзе з'яўляюцца "
+#~ "новыя вокны) - экран, які змяшчае паказальнік мышы. Калі гэты параметр "
+#~ "адключаны, актыўны экран - экран, які змяшчае акно ў фокусе."
+
+#~ msgid "Active screen follows &mouse"
+#~ msgstr "Актыўны экран пільнуецца &мышы"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Дарафей Праляскоўскі, Antikruk"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "komzpa@licei2.com, nashtlumach@gmail.com"
+
+#~ msgid "Window Behavior Configuration Module"
+#~ msgstr "Модуль наладжвання паводзін акон"
+
+#~ msgid "(c) 1997 - 2002 KWin and KControl Authors"
+#~ msgstr "(c) 1997 - 2002 Аўтары KWin і KControl"
+
+#~ msgid "Matthias Ettrich"
+#~ msgstr "Matthias Ettrich"
+
+#~ msgid "Waldo Bastian"
+#~ msgstr "Waldo Bastian"
+
+#~ msgid "Cristian Tibirna"
+#~ msgstr "Cristian Tibirna"
+
+#~ msgid "Matthias Kalle Dalheimer"
+#~ msgstr "Matthias Kalle Dalheimer"
+
+#~ msgid "Daniel Molkentin"
+#~ msgstr "Daniel Molkentin"
+
+#~ msgid "Wynn Wilkes"
+#~ msgstr "Wynn Wilkes"
+
+#~ msgid "Pat Dowler"
+#~ msgstr "Pat Dowler"
+
+#~ msgid "Bernd Wuebben"
+#~ msgstr "Bernd Wuebben"
+
+#~ msgid "Matthias Hoelzer-Kluepfel"
+#~ msgstr "Matthias Hoelzer-Kluepfel"
+
+#~ msgid ""
+#~ "<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
+#~ "when being moved, resized or clicked on. You can also specify a focus "
+#~ "policy as well as a placement policy for new windows.</p> <p>Please note "
+#~ "that this configuration will not take effect if you do not use KWin as "
+#~ "your window manager. If you do use a different window manager, please "
+#~ "refer to its documentation for how to customize window behavior.</p>"
+#~ msgstr ""
+#~ "<p><h1>Паводзіны акон</h1> Тут вы можаце наладзіць паводзіны акон пры "
+#~ "перамяшчэнні, змене памеру або пстрыканні па іх. Вы таксама можаце "
+#~ "вызначыць правілы факусавання і размяшчэння новых акон.</p> <p>Звярніце "
+#~ "ўвагу на тое, што гэтая канфігурацыя не будзе дзейнічаць, калі вы не "
+#~ "выкарыстоўваеце KWin як кіраўніка акон. Калі вы выкарыстоўваеце іншы "
+#~ "кіраўнік акон, звярніцеся да яго дакументацыі, каб даведацца як наладзіць "
+#~ "паводзіны акон.</p>"
 
 #~| msgid "Cascade"
 #~ msgid "Cascaded"

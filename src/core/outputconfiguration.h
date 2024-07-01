@@ -18,17 +18,34 @@
 namespace KWin
 {
 
+class IccProfile;
+
 class KWIN_EXPORT OutputChangeSet
 {
 public:
-    std::weak_ptr<OutputMode> mode;
-    bool enabled;
-    QPoint pos;
-    float scale;
-    Output::Transform transform;
-    uint32_t overscan;
-    Output::RgbRange rgbRange;
-    RenderLoop::VrrPolicy vrrPolicy;
+    std::optional<std::weak_ptr<OutputMode>> mode;
+    std::optional<QSize> desiredModeSize;
+    std::optional<uint32_t> desiredModeRefreshRate;
+    std::optional<bool> enabled;
+    std::optional<QPoint> pos;
+    std::optional<double> scale;
+    std::optional<OutputTransform> transform;
+    std::optional<OutputTransform> manualTransform;
+    std::optional<uint32_t> overscan;
+    std::optional<Output::RgbRange> rgbRange;
+    std::optional<VrrPolicy> vrrPolicy;
+    std::optional<bool> highDynamicRange;
+    std::optional<uint32_t> sdrBrightness;
+    std::optional<bool> wideColorGamut;
+    std::optional<Output::AutoRotationPolicy> autoRotationPolicy;
+    std::optional<QString> iccProfilePath;
+    std::optional<std::shared_ptr<IccProfile>> iccProfile;
+    std::optional<std::optional<double>> maxPeakBrightnessOverride;
+    std::optional<std::optional<double>> maxAverageBrightnessOverride;
+    std::optional<std::optional<double>> minBrightnessOverride;
+    std::optional<double> sdrGamutWideness;
+    std::optional<Output::ColorProfileSource> colorProfileSource;
+    std::optional<double> brightness;
 };
 
 class KWIN_EXPORT OutputConfiguration

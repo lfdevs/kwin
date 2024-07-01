@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-26 02:32+0000\n"
+"POT-Creation-Date: 2024-02-10 00:40+0000\n"
 "PO-Revision-Date: 2010-07-11 13:38+0100\n"
 "Last-Translator: Berend Ytsma <berendy@gmail.com>\n"
 "Language-Team: Frysk <kde-i18n-fry@kde.org>\n"
@@ -19,84 +19,63 @@ msgstr ""
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Berend Ytsma"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "berendy@bigfoot.com"
-
-#: declarative-plugin/buttonsmodel.cpp:53
+#: declarative-plugin/buttonsmodel.cpp:56
 #, kde-format
 msgid "More actions for this window"
 msgstr ""
 
-#: declarative-plugin/buttonsmodel.cpp:55
+#: declarative-plugin/buttonsmodel.cpp:58
 #, kde-format
 msgid "Application menu"
 msgstr ""
 
-#: declarative-plugin/buttonsmodel.cpp:57
+#: declarative-plugin/buttonsmodel.cpp:60
 #, fuzzy, kde-format
 #| msgid "On All Desktops"
 msgid "On all desktops"
 msgstr "Op alle buroblêden"
 
-#: declarative-plugin/buttonsmodel.cpp:59
+#: declarative-plugin/buttonsmodel.cpp:62
 #, kde-format
 msgid "Minimize"
 msgstr "Minimalisearje"
 
-#: declarative-plugin/buttonsmodel.cpp:61
+#: declarative-plugin/buttonsmodel.cpp:64
 #, kde-format
 msgid "Maximize"
 msgstr "Maksimalisearje"
 
-#: declarative-plugin/buttonsmodel.cpp:63
+#: declarative-plugin/buttonsmodel.cpp:66
 #, kde-format
 msgid "Close"
 msgstr "Slúte"
 
-#: declarative-plugin/buttonsmodel.cpp:65
+#: declarative-plugin/buttonsmodel.cpp:68
 #, kde-format
 msgid "Context help"
 msgstr ""
 
-#: declarative-plugin/buttonsmodel.cpp:67
+#: declarative-plugin/buttonsmodel.cpp:70
 #, kde-format
 msgid "Shade"
 msgstr "Oprolje"
 
-#: declarative-plugin/buttonsmodel.cpp:69
+#: declarative-plugin/buttonsmodel.cpp:72
 #, kde-format
 msgid "Keep below other windows"
 msgstr ""
 
-#: declarative-plugin/buttonsmodel.cpp:71
+#: declarative-plugin/buttonsmodel.cpp:74
 #, kde-format
 msgid "Keep above other windows"
 msgstr ""
 
-#: kcm.cpp:49
-#, fuzzy, kde-format
-#| msgid "Get New Decorations..."
-msgid "Window Decorations"
-msgstr "Krij nije dekoraasjes..."
-
-#: kcm.cpp:53
+#: declarative-plugin/buttonsmodel.cpp:76
 #, kde-format
-msgid "Valerio Pilo"
+msgid "Spacer"
 msgstr ""
 
-#: kcm.cpp:54
-#, kde-format
-msgid "Author"
-msgstr ""
-
-#: kcm.cpp:183
+#: kcm.cpp:177
 #, kde-format
 msgctxt "%1 is the name of a border size"
 msgid "Theme's default (%1)"
@@ -168,73 +147,67 @@ msgstr ""
 msgid "You have the following KWin window decoration themes on your system:"
 msgstr ""
 
-#: package/contents/ui/Buttons.qml:85
+#: ui/Buttons.qml:85
 #, kde-format
 msgid "Titlebar"
 msgstr ""
 
-#: package/contents/ui/Buttons.qml:245
+#: ui/Buttons.qml:245
 #, kde-format
 msgid "Drop button here to remove it"
 msgstr ""
 
-#: package/contents/ui/Buttons.qml:261
+#: ui/Buttons.qml:261
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr ""
 
-#: package/contents/ui/main.qml:18
-#, kde-format
-msgid "This module lets you configure the window decorations."
-msgstr ""
-
-#: package/contents/ui/main.qml:52
-#, kde-format
-msgctxt "tab label"
-msgid "Theme"
-msgstr ""
-
-#: package/contents/ui/main.qml:56
+#: ui/ConfigureTitlebar.qml:16
 #, fuzzy, kde-format
 #| msgid "Buttons"
-msgctxt "tab label"
 msgid "Titlebar Buttons"
 msgstr "Knoppen"
 
-#: package/contents/ui/main.qml:92
-#, fuzzy, kde-format
-#| msgid "Border size:"
-msgctxt "Selector label"
-msgid "Window border size:"
-msgstr "Râne grutte:"
-
-#: package/contents/ui/main.qml:110
-#, fuzzy, kde-format
-#| msgid "Get New Decorations..."
-msgctxt "button text"
-msgid "Get New Window Decorations..."
-msgstr "Krij nije dekoraasjes..."
-
-#: package/contents/ui/main.qml:139
+#: ui/ConfigureTitlebar.qml:35
 #, kde-format
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
 msgstr ""
 
-#: package/contents/ui/main.qml:156
+#: ui/ConfigureTitlebar.qml:52
 #, kde-format
 msgctxt "popup tip"
 msgid "Click and hold on the menu button to show the menu."
 msgstr ""
 
-#: package/contents/ui/main.qml:163
+#: ui/ConfigureTitlebar.qml:59
 #, fuzzy, kde-format
 #| msgid "&Show window button tooltips"
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
 msgstr "Arktips by finsterknop &sjen litte"
 
-#: package/contents/ui/Themes.qml:90
+#: ui/main.qml:29
+#, fuzzy, kde-format
+#| msgid "Border size:"
+msgctxt "Selector label"
+msgid "Window border size:"
+msgstr "Râne grutte:"
+
+#: ui/main.qml:48
+#, fuzzy, kde-format
+#| msgid "Buttons"
+msgctxt "button text"
+msgid "Configure Titlebar Buttons…"
+msgstr "Knoppen"
+
+#: ui/main.qml:54
+#, kde-format
+msgctxt "@action:button as in, \"Get New Window Decorations\""
+msgid "Get New…"
+msgstr ""
+
+#: ui/Themes.qml:93
 #, kde-format
 msgid "Edit %1 Theme"
 msgstr ""
@@ -242,63 +215,121 @@ msgstr ""
 #: utils.cpp:25
 #, fuzzy, kde-format
 #| msgid "Border size:"
-msgid "No Borders"
+msgid "No Window Borders"
 msgstr "Râne grutte:"
 
 #: utils.cpp:26
 #, fuzzy, kde-format
 #| msgid "Border size:"
-msgid "No Side Borders"
+msgid "No Side Window Borders"
 msgstr "Râne grutte:"
 
 #: utils.cpp:27
 #, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Tiny"
-msgid "Tiny"
-msgstr "Lyts"
+#| msgid "Border size:"
+msgid "Tiny Window Borders"
+msgstr "Râne grutte:"
 
 #: utils.cpp:28
 #, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Normal"
-msgid "Normal"
-msgstr "Normaal"
+#| msgid "Border size:"
+msgid "Normal Window Borders"
+msgstr "Râne grutte:"
 
 #: utils.cpp:29
 #, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Large"
-msgid "Large"
-msgstr "Grut"
+#| msgid "Border size:"
+msgid "Large Window Borders"
+msgstr "Râne grutte:"
 
 #: utils.cpp:30
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Very Large"
-msgid "Very Large"
-msgstr "Hiel grut"
+#, kde-format
+msgid "Very Large Window Borders"
+msgstr ""
 
 #: utils.cpp:31
 #, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Huge"
-msgid "Huge"
-msgstr "Grutst"
+#| msgid "Border size:"
+msgid "Huge Window Borders"
+msgstr "Râne grutte:"
 
 #: utils.cpp:32
 #, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Very Huge"
-msgid "Very Huge"
-msgstr "Alder Grutst"
+#| msgid "Border size:"
+msgid "Very Huge Window Borders"
+msgstr "Râne grutte:"
 
 #: utils.cpp:33
 #, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Oversized"
-msgid "Oversized"
-msgstr "Te Grut"
+#| msgid "Border size:"
+msgid "Oversized Window Borders"
+msgstr "Râne grutte:"
+
+#, fuzzy
+#~| msgid "Get New Decorations..."
+#~ msgctxt "button text"
+#~ msgid "Get New Window Decorations…"
+#~ msgstr "Krij nije dekoraasjes..."
+
+#, fuzzy
+#~| msgid "Border size:"
+#~ msgid "No Borders"
+#~ msgstr "Râne grutte:"
+
+#, fuzzy
+#~| msgctxt "@item:inlistbox Border size:"
+#~| msgid "Tiny"
+#~ msgid "Tiny"
+#~ msgstr "Lyts"
+
+#, fuzzy
+#~| msgctxt "@item:inlistbox Border size:"
+#~| msgid "Normal"
+#~ msgid "Normal"
+#~ msgstr "Normaal"
+
+#, fuzzy
+#~| msgctxt "@item:inlistbox Border size:"
+#~| msgid "Large"
+#~ msgid "Large"
+#~ msgstr "Grut"
+
+#, fuzzy
+#~| msgctxt "@item:inlistbox Border size:"
+#~| msgid "Very Large"
+#~ msgid "Very Large"
+#~ msgstr "Hiel grut"
+
+#, fuzzy
+#~| msgctxt "@item:inlistbox Border size:"
+#~| msgid "Huge"
+#~ msgid "Huge"
+#~ msgstr "Grutst"
+
+#, fuzzy
+#~| msgctxt "@item:inlistbox Border size:"
+#~| msgid "Very Huge"
+#~ msgid "Very Huge"
+#~ msgstr "Alder Grutst"
+
+#, fuzzy
+#~| msgctxt "@item:inlistbox Border size:"
+#~| msgid "Oversized"
+#~ msgid "Oversized"
+#~ msgstr "Te Grut"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Berend Ytsma"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "berendy@bigfoot.com"
+
+#, fuzzy
+#~| msgid "Get New Decorations..."
+#~ msgid "Window Decorations"
+#~ msgstr "Krij nije dekoraasjes..."
 
 #~ msgid "Menu"
 #~ msgstr "Menu"

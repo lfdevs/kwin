@@ -18,17 +18,16 @@ set(X11PLATFORM_SOURCES
 )
 
 add_library(KWinX11Platform OBJECT ${X11PLATFORM_SOURCES})
-target_link_libraries(KWinX11Platform kwin KF5::Crash X11::X11 XCB::XKB PkgConfig::XKBX11)
-if (QT_MAJOR_VERSION EQUAL "5")
-    target_link_libraries(KWinX11Platform Qt::X11Extras)
-endif()
+target_link_libraries(KWinX11Platform kwin KF6::Crash KF6::I18n X11::X11 XCB::XKB PkgConfig::XKBX11 Qt::GuiPrivate Libdrm::Libdrm
+    XCB::COMPOSITE XCB::KEYSYMS XCB::RANDR)
 if (X11_Xi_FOUND)
     target_sources(KWinX11Platform PRIVATE x11_standalone_xinputintegration.cpp)
     target_link_libraries(KWinX11Platform X11::Xi)
 endif()
 
-if (HAVE_EPOXY_GLX)
+if (HAVE_GLX)
     target_sources(KWinX11Platform PRIVATE
+        glxcontext.cpp
         x11_standalone_glx_backend.cpp
         x11_standalone_glx_context_attribute_builder.cpp
         x11_standalone_glxconvenience.cpp

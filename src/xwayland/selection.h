@@ -8,8 +8,8 @@
 */
 #pragma once
 
+#include <QList>
 #include <QObject>
-#include <QVector>
 
 #include <xcb/xcb.h>
 
@@ -74,6 +74,7 @@ protected:
     void registerXfixes();
 
     virtual void doHandleXfixesNotify(xcb_xfixes_selection_notify_event_t *event) = 0;
+    virtual void x11OfferLost() = 0;
     virtual void x11OffersChanged(const QStringList &added, const QStringList &removed) = 0;
 
     virtual bool handleClientMessage(xcb_client_message_event_t *event)
@@ -122,8 +123,8 @@ private:
     X11Source *m_xSource = nullptr;
 
     // active transfers
-    QVector<TransferWltoX *> m_wlToXTransfers;
-    QVector<TransferXtoWl *> m_xToWlTransfers;
+    QList<TransferWltoX *> m_wlToXTransfers;
+    QList<TransferXtoWl *> m_xToWlTransfers;
     QTimer *m_timeoutTransfers = nullptr;
 
     bool m_disownPending = false;

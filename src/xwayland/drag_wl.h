@@ -10,22 +10,19 @@
 
 #include "drag.h"
 
-#include "wayland/datadevicemanager_interface.h"
+#include "wayland/datadevicemanager.h"
 
+#include <QList>
 #include <QPoint>
 #include <QPointer>
-#include <QVector>
 
-namespace KWaylandServer
+namespace KWin
 {
 class DataDeviceInterface;
 class DataSourceInterface;
 class SurfaceInterface;
-}
-
-namespace KWin
-{
 class Window;
+class X11Window;
 
 namespace Xwl
 {
@@ -41,7 +38,7 @@ class WlToXDrag : public Drag
 
 public:
     explicit WlToXDrag(Dnd *dnd);
-    DragEventReply moveFilter(Window *target, const QPoint &pos) override;
+    DragEventReply moveFilter(Window *target) override;
     bool handleClientMessage(xcb_client_message_event_t *event) override;
 
 private:
@@ -57,7 +54,7 @@ class Xvisit : public QObject
 public:
     // TODO: handle ask action
 
-    Xvisit(Window *target, KWaylandServer::AbstractDataSource *dataSource, Dnd *dnd, QObject *parent);
+    Xvisit(X11Window *target, AbstractDataSource *dataSource, Dnd *dnd, QObject *parent);
 
     bool handleClientMessage(xcb_client_message_event_t *event);
     bool handleStatus(xcb_client_message_event_t *event);
@@ -70,7 +67,7 @@ public:
     {
         return m_state.finished;
     }
-    Window *target() const
+    X11Window *target() const
     {
         return m_target;
     }
@@ -95,8 +92,8 @@ private:
     void stopConnections();
 
     Dnd *const m_dnd;
-    Window *m_target;
-    QPointer<KWaylandServer::AbstractDataSource> m_dataSource;
+    X11Window *m_target;
+    QPointer<AbstractDataSource> m_dataSource;
     uint32_t m_version = 0;
 
     QMetaObject::Connection m_motionConnection;
@@ -109,11 +106,11 @@ private:
     } m_pos;
 
     // supported by the Wl source
-    KWaylandServer::DataDeviceManagerInterface::DnDActions m_supportedActions = KWaylandServer::DataDeviceManagerInterface::DnDAction::None;
+    DataDeviceManagerInterface::DnDActions m_supportedActions = DataDeviceManagerInterface::DnDAction::None;
     // preferred by the X client
-    KWaylandServer::DataDeviceManagerInterface::DnDAction m_preferredAction = KWaylandServer::DataDeviceManagerInterface::DnDAction::None;
+    DataDeviceManagerInterface::DnDAction m_preferredAction = DataDeviceManagerInterface::DnDAction::None;
     // decided upon by the compositor
-    KWaylandServer::DataDeviceManagerInterface::DnDAction m_proposedAction = KWaylandServer::DataDeviceManagerInterface::DnDAction::None;
+    DataDeviceManagerInterface::DnDAction m_proposedAction = DataDeviceManagerInterface::DnDAction::None;
 
     struct
     {

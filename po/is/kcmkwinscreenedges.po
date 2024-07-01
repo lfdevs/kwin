@@ -3,94 +3,94 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Sveinn í Felli <sveinki@nett.is>, 2009, 2010.
-# Guðmundur Erlingsson <gudmundure@gmail.com>, 2022.
+# SPDX-FileCopyrightText: 2022, 2023, 2024 Guðmundur Erlingsson <gudmundure@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-07-15 00:48+0000\n"
-"PO-Revision-Date: 2022-12-16 00:47+0000\n"
-"Last-Translator: gummi <gudmundure@gmail.com>\n"
+"POT-Creation-Date: 2024-03-09 00:39+0000\n"
+"PO-Revision-Date: 2024-03-12 10:41+0000\n"
+"Last-Translator: Guðmundur Erlingsson <gudmundure@gmail.com>\n"
 "Language-Team: Icelandic <kde-i18n-doc@kde.org>\n"
 "Language: is\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.08.3\n"
+"X-Generator: Lokalize 23.08.3\n"
 "Plural-Forms: Plural-Forms: nplurals=2; plural=n != 1;\n"
 "\n"
 "\n"
 "\n"
 
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Guðmundur Erlingsson"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "gudmundure@gmail.com"
-
-#: main.cpp:130 touch.cpp:124
+#: main.cpp:151 touch.cpp:118
 #, kde-format
 msgid "No Action"
 msgstr "Engin aðgerð"
 
-#: main.cpp:131 touch.cpp:125
+#: main.cpp:152 touch.cpp:119
 #, kde-format
 msgid "Peek at Desktop"
 msgstr "Kíkja á skjáborðið"
 
-#: main.cpp:132 touch.cpp:126
+#: main.cpp:153 touch.cpp:120
 #, kde-format
 msgid "Lock Screen"
 msgstr "Læsa skjánum"
 
-#: main.cpp:133 touch.cpp:127
+#: main.cpp:154 touch.cpp:121
 #, kde-format
 msgid "Show KRunner"
-msgstr "Sýna KRunner"
+msgstr "Opna KRunner"
 
-#: main.cpp:134 touch.cpp:128
+#: main.cpp:155 touch.cpp:122
 #, kde-format
 msgid "Activity Manager"
 msgstr "Athafnastjóri"
 
-#: main.cpp:135 touch.cpp:129
+#: main.cpp:156 touch.cpp:123
 #, kde-format
 msgid "Application Launcher"
 msgstr "Forritaræsir"
 
-#: main.cpp:139 touch.cpp:133
+#: main.cpp:160 touch.cpp:127
 #, kde-format
 msgid "Present Windows"
 msgstr "Opnir gluggar"
 
-#: main.cpp:140 touch.cpp:134
+#: main.cpp:161 touch.cpp:128
 #, kde-format
 msgid "%1 - All Desktops"
 msgstr "%1 - öll skjáborð"
 
-#: main.cpp:141 touch.cpp:135
+#: main.cpp:162 touch.cpp:129
 #, kde-format
 msgid "%1 - Current Desktop"
 msgstr "%1 - núverandi skjáborð"
 
-#: main.cpp:142 touch.cpp:136
+#: main.cpp:163 touch.cpp:130
 #, kde-format
 msgid "%1 - Current Application"
-msgstr "%1 - Núverandi forrit"
+msgstr "%1 - núverandi forrit"
 
-#: main.cpp:144 touch.cpp:138
+#: main.cpp:165 touch.cpp:132
+#, kde-format
+msgid "Overview"
+msgstr "Yfirlitsskjár"
+
+#: main.cpp:166 touch.cpp:133
+#, kde-format
+msgid "Grid"
+msgstr "Grind"
+
+#: main.cpp:168 touch.cpp:135
 #, kde-format
 msgid "Toggle window switching"
-msgstr "Víxla gluggaskiptingum"
+msgstr "Opna/loka gluggaskipti"
 
-#: main.cpp:145 touch.cpp:139
+#: main.cpp:169 touch.cpp:136
 #, kde-format
 msgid "Toggle alternative window switching"
-msgstr "Víxla viðbótargluggaskiptingum"
+msgstr "Opna/loka viðbótargluggaskipti"
 
 #. i18n: ectx: property (text), widget (QLabel, infoLabel)
 #: main.ui:23
@@ -142,7 +142,7 @@ msgstr "Haldast virkt þegar gluggar fylla skjáinn"
 #: main.ui:115
 #, kde-format
 msgid "Trigger &quarter tiling in:"
-msgstr "Kveikja á &kvartreitaröðun í:"
+msgstr "Virkja &fjórðungsglugga á:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, electricBorderCornerRatioSpin)
 #: main.ui:130
@@ -154,13 +154,13 @@ msgstr "%"
 #: main.ui:133
 #, kde-format
 msgid "Outer "
-msgstr "Ytri"
+msgstr "ystu "
 
 #. i18n: ectx: property (text), widget (QLabel, label_1)
 #: main.ui:149
 #, kde-format
 msgid "of the screen"
-msgstr "skjásins"
+msgstr "af skjánum"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, desktopSwitchLabel)
 #: main.ui:174
@@ -186,7 +186,7 @@ msgstr "Óvirkt"
 #: main.ui:193
 #, kde-format
 msgid "Only When Moving Windows"
-msgstr "Aðeins á meðan gluggar eru færðir"
+msgstr "Bara þegar gluggar eru færðir"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ElectricBorders)
 #: main.ui:198
@@ -233,6 +233,75 @@ msgstr ""
 msgid "&Reactivation delay:"
 msgstr "Töf á endu&rvirkjun:"
 
+#. i18n: ectx: property (text), widget (QLabel, CornerBarrierLabel)
+#: main.ui:270
+#, kde-format
+msgid "&Corner barrier:"
+msgstr "&Hornaþröskuldur:"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_CornerBarrier)
+#: main.ui:280
+#, kde-format
+msgid ""
+"Here you can enable or disable the virtual corner barrier between screens. "
+"The barrier prevents the cursor from moving to another screen when it is "
+"already touching a screen corner. This makes it easier to trigger user "
+"interface elements like maximized windows' close buttons when using multiple "
+"screens."
+msgstr ""
+"Hér getur þú virkjað eða slökkt á þröskuldi í hornum á milli skjáa. "
+"Þröskuldurinn kemur í veg fyrir að bendillinn fari yfir á annan skjá þegar "
+"hann snertir hornið á skjánum. Þannig er auðveldara að nota eiginleika í "
+"notandaumhverfinu eins og lokunarhnappa á fullstækkuðum gluggum þegar margir "
+"skjáir eru notaðir."
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_CornerBarrier)
+#: main.ui:283
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Prevents cursors from crossing at screen corners."
+msgstr "Kemur í veg fyrir að bendillinn fari á milli skjáa á hornum."
+
+#. i18n: ectx: property (text), widget (QLabel, EdgeBarrierLabel)
+#: main.ui:290
+#, kde-format
+msgid "&Edge barrier:"
+msgstr "&Brúnaþröskuldur:"
+
+#. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_EdgeBarrier)
+#: main.ui:300
+#, kde-format
+msgid ""
+"Here you can set size of the edge barrier between different screens. The "
+"barrier adds additional distance you have to move your pointer before it "
+"crosses the edge onto the other screen. This makes it easier to access user "
+"interface elements like Plasma Panels that are located on an edge between "
+"screens."
+msgstr ""
+"Hér geturðu stillt stærð þröskuldar á milli mismunandi skjáa. Þröskuldurinn "
+"bætir við viðbótarbili sem þarf að færa músarbendilinn áður en hann fer yfir "
+"á næsta skjá. Þannig er auðveldara að nota eiginleika í notandaumhverfinu "
+"eins og Plasma skjáborðsstikur sem eru staðsettar á skjábrún á milli skjáa."
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_EdgeBarrier)
+#: main.ui:303
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Additional distance cursor needs to travel to cross screen edges."
+msgstr "Viðbótarbil sem bendillinn þarf að fara yfir til að fara á næsta skjá."
+
+#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_EdgeBarrier)
+#: main.ui:306
+#, kde-format
+msgid "None"
+msgstr "Ekkert"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_EdgeBarrier)
+#: main.ui:309
+#, kde-format
+msgid " px"
+msgstr " px"
+
 #. i18n: ectx: property (text), widget (QLabel, label_1)
 #: touch.ui:17
 #, kde-format
@@ -242,6 +311,14 @@ msgid ""
 msgstr ""
 "Þú getur virkjað aðgerð með því að strjúka frá skjábrúninni í átt að miðju "
 "skjásins."
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Guðmundur Erlingsson"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "gudmundure@gmail.com"
 
 #~ msgid "Show Desktop"
 #~ msgstr "Sýna skjáborðið"

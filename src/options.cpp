@@ -12,7 +12,6 @@
 
 #include "config-kwin.h"
 
-#include "core/outputbackend.h"
 #include "utils/common.h"
 
 #ifndef KCMRULES
@@ -22,7 +21,6 @@
 #include "settings.h"
 #include "workspace.h"
 #include <QOpenGLContext>
-#include <kwinglplatform.h>
 
 #endif // KCMRULES
 
@@ -43,13 +41,14 @@ Options::Options(QObject *parent)
     , m_shadeHover(false)
     , m_shadeHoverInterval(0)
     , m_separateScreenFocus(false)
-    , m_activeMouseScreen(false)
     , m_placement(PlacementNone)
     , m_activationDesktopPolicy(Options::defaultActivationDesktopPolicy())
     , m_borderSnapZone(0)
     , m_windowSnapZone(0)
     , m_centerSnapZone(0)
     , m_snapOnlyWhenOverlapping(false)
+    , m_edgeBarrier(0)
+    , m_cornerBarrier(0)
     , m_rollOverDesktops(false)
     , m_focusStealingPreventionLevel(0)
     , m_killPingTimeout(0)
@@ -57,8 +56,7 @@ Options::Options(QObject *parent)
     , m_xwaylandCrashPolicy(Options::defaultXwaylandCrashPolicy())
     , m_xwaylandMaxCrashCount(Options::defaultXwaylandMaxCrashCount())
     , m_xwaylandEavesdrops(Options::defaultXwaylandEavesdrops())
-    , m_latencyPolicy(Options::defaultLatencyPolicy())
-    , m_renderTimeEstimator(Options::defaultRenderTimeEstimator())
+    , m_xwaylandEavesdropsMouse(Options::defaultXwaylandEavesdropsMouse())
     , m_compositingMode(Options::defaultCompositingMode())
     , m_useCompositing(Options::defaultUseCompositing())
     , m_hiddenPreviews(Options::defaultHiddenPreviews())
@@ -68,7 +66,6 @@ Options::Options(QObject *parent)
     , m_glPreferBufferSwap(Options::defaultGlPreferBufferSwap())
     , m_glPlatformInterface(Options::defaultGlPlatformInterface())
     , m_windowsBlockCompositing(true)
-    , m_MoveMinimizedWindowsToEndOfTabBoxFocusChain(false)
     , OpTitlebarDblClick(Options::defaultOperationTitlebarDblClick())
     , CmdActiveTitlebar1(Options::defaultCommandActiveTitlebar1())
     , CmdActiveTitlebar2(Options::defaultCommandActiveTitlebar2())
@@ -93,11 +90,13 @@ Options::Options(QObject *parent)
     , condensed_title(false)
 {
     m_settings->setDefaults();
-    syncFromKcfgc();
+
+    loadConfig();
 
     m_configWatcher = KConfigWatcher::create(m_settings->sharedConfig());
     connect(m_configWatcher.data(), &KConfigWatcher::configChanged, this, [this](const KConfigGroup &group, const QByteArrayList &names) {
         if (group.name() == QLatin1String("KDE") && names.contains(QByteArrayLiteral("AnimationDurationFactor"))) {
+            m_settings->load();
             Q_EMIT animationSpeedChanged();
         } else if (group.name() == QLatin1String("Xwayland")) {
             workspace()->reconfigure();
@@ -156,6 +155,15 @@ void Options::setXwaylandEavesdrops(XwaylandEavesdropsMode mode)
         return;
     }
     m_xwaylandEavesdrops = mode;
+    Q_EMIT xwaylandEavesdropsChanged();
+}
+
+void Options::setXwaylandEavesdropsMouse(bool eavesdropsMouse)
+{
+    if (m_xwaylandEavesdropsMouse == eavesdropsMouse) {
+        return;
+    }
+    m_xwaylandEavesdropsMouse = eavesdropsMouse;
     Q_EMIT xwaylandEavesdropsChanged();
 }
 
@@ -239,15 +247,6 @@ void Options::setSeparateScreenFocus(bool separateScreenFocus)
     Q_EMIT separateScreenFocusChanged(m_separateScreenFocus);
 }
 
-void Options::setActiveMouseScreen(bool activeMouseScreen)
-{
-    if (m_activeMouseScreen == activeMouseScreen) {
-        return;
-    }
-    m_activeMouseScreen = activeMouseScreen;
-    Q_EMIT activeMouseScreenChanged();
-}
-
 void Options::setPlacement(PlacementPolicy placement)
 {
     if (m_placement == placement) {
@@ -300,6 +299,24 @@ void Options::setSnapOnlyWhenOverlapping(bool snapOnlyWhenOverlapping)
     }
     m_snapOnlyWhenOverlapping = snapOnlyWhenOverlapping;
     Q_EMIT snapOnlyWhenOverlappingChanged();
+}
+
+void Options::setEdgeBarrier(int edgeBarrier)
+{
+    if (m_edgeBarrier == edgeBarrier) {
+        return;
+    }
+    m_edgeBarrier = edgeBarrier;
+    Q_EMIT edgeBarrierChanged();
+}
+
+void Options::setCornerBarrier(bool cornerBarrier)
+{
+    if (m_cornerBarrier == cornerBarrier) {
+        return;
+    }
+    m_cornerBarrier = cornerBarrier;
+    Q_EMIT cornerBarrierChanged();
 }
 
 void Options::setRollOverDesktops(bool rollOverDesktops)
@@ -611,59 +628,13 @@ void Options::setWindowsBlockCompositing(bool value)
     Q_EMIT windowsBlockCompositingChanged();
 }
 
-void Options::setMoveMinimizedWindowsToEndOfTabBoxFocusChain(bool value)
-{
-    if (m_MoveMinimizedWindowsToEndOfTabBoxFocusChain == value) {
-        return;
-    }
-    m_MoveMinimizedWindowsToEndOfTabBoxFocusChain = value;
-}
-
 void Options::setGlPreferBufferSwap(char glPreferBufferSwap)
 {
-    if (glPreferBufferSwap == 'a') {
-        // buffer copying is very fast with the nvidia blob
-        // but due to restrictions in DRI2 *incredibly* slow for all MESA drivers
-        // see https://www.x.org/releases/X11R7.7/doc/dri2proto/dri2proto.txt, item 2.5
-        if (GLPlatform::instance()->driver() == Driver_NVidia) {
-            glPreferBufferSwap = CopyFrontBuffer;
-        } else if (GLPlatform::instance()->driver() != Driver_Unknown) { // undetected, finally resolved when context is initialized
-            glPreferBufferSwap = ExtendDamage;
-        }
-    }
     if (m_glPreferBufferSwap == (GlSwapStrategy)glPreferBufferSwap) {
         return;
     }
     m_glPreferBufferSwap = (GlSwapStrategy)glPreferBufferSwap;
     Q_EMIT glPreferBufferSwapChanged();
-}
-
-LatencyPolicy Options::latencyPolicy() const
-{
-    return m_latencyPolicy;
-}
-
-void Options::setLatencyPolicy(LatencyPolicy policy)
-{
-    if (m_latencyPolicy == policy) {
-        return;
-    }
-    m_latencyPolicy = policy;
-    Q_EMIT latencyPolicyChanged();
-}
-
-RenderTimeEstimator Options::renderTimeEstimator() const
-{
-    return m_renderTimeEstimator;
-}
-
-void Options::setRenderTimeEstimator(RenderTimeEstimator estimator)
-{
-    if (m_renderTimeEstimator == estimator) {
-        return;
-    }
-    m_renderTimeEstimator = estimator;
-    Q_EMIT renderTimeEstimatorChanged();
 }
 
 bool Options::allowTearing() const
@@ -697,7 +668,7 @@ void Options::setGlPlatformInterface(OpenGLPlatformInterface interface)
         qCDebug(KWIN_CORE) << "Forcing EGL native interface for Wayland mode";
         interface = EglPlatformInterface;
     }
-#if !HAVE_EPOXY_GLX
+#if !HAVE_GLX
     qCDebug(KWIN_CORE) << "Forcing EGL native interface as compiled without GLX support";
     interface = EglPlatformInterface;
 #endif
@@ -724,16 +695,6 @@ void Options::reparseConfiguration()
 void Options::updateSettings()
 {
     loadConfig();
-    // Read button tooltip animation effect from kdeglobals
-    // Since we want to allow users to enable window decoration tooltips
-    // and not kstyle tooltips and vise-versa, we don't read the
-    // "EffectNoTooltip" setting from kdeglobals.
-
-    //    QToolTip::setGloballyEnabled( d->show_tooltips );
-    // KDE4 this probably needs to be done manually in clients
-
-    // Driver-specific config detection
-    reloadCompositingSettings();
 
     Q_EMIT configChanged();
 }
@@ -745,14 +706,14 @@ void Options::loadConfig()
     syncFromKcfgc();
 
     // Electric borders
-    KConfigGroup config(m_settings->config(), "Windows");
+    KConfigGroup config(m_settings->config(), QStringLiteral("Windows"));
     OpTitlebarDblClick = windowOperation(config.readEntry("TitlebarDoubleClickCommand", "Maximize"), true);
     setOperationMaxButtonLeftClick(windowOperation(config.readEntry("MaximizeButtonLeftClickCommand", "Maximize"), true));
     setOperationMaxButtonMiddleClick(windowOperation(config.readEntry("MaximizeButtonMiddleClickCommand", "Maximize (vertical only)"), true));
     setOperationMaxButtonRightClick(windowOperation(config.readEntry("MaximizeButtonRightClickCommand", "Maximize (horizontal only)"), true));
 
     // Mouse bindings
-    config = KConfigGroup(m_settings->config(), "MouseBindings");
+    config = KConfigGroup(m_settings->config(), QStringLiteral("MouseBindings"));
     // TODO: add properties for missing options
     CmdTitlebarWheel = mouseWheelCommand(config.readEntry("CommandTitlebarWheel", "Nothing"));
     CmdAllModKey = (config.readEntry("CommandAllKey", "Meta") == QStringLiteral("Meta")) ? Qt::Key_Meta : Qt::Key_Alt;
@@ -771,62 +732,8 @@ void Options::loadConfig()
     setCommandAll2(mouseCommand(config.readEntry("CommandAll2", "Toggle raise and lower"), false));
     setCommandAll3(mouseCommand(config.readEntry("CommandAll3", "Resize"), false));
 
-    // Modifier Only Shortcuts
-    config = KConfigGroup(m_settings->config(), "ModifierOnlyShortcuts");
-    m_modifierOnlyShortcuts.clear();
-    if (config.hasKey("Shift")) {
-        m_modifierOnlyShortcuts.insert(Qt::ShiftModifier, config.readEntry("Shift", QStringList()));
-    }
-    if (config.hasKey("Control")) {
-        m_modifierOnlyShortcuts.insert(Qt::ControlModifier, config.readEntry("Control", QStringList()));
-    }
-    if (config.hasKey("Alt")) {
-        m_modifierOnlyShortcuts.insert(Qt::AltModifier, config.readEntry("Alt", QStringList()));
-    }
-    m_modifierOnlyShortcuts.insert(Qt::MetaModifier, config.readEntry("Meta", QStringList{QStringLiteral("org.kde.plasmashell"), QStringLiteral("/PlasmaShell"), QStringLiteral("org.kde.PlasmaShell"), QStringLiteral("activateLauncherMenu")}));
-}
-
-void Options::syncFromKcfgc()
-{
-    setCondensedTitle(m_settings->condensedTitle());
-    setFocusPolicy(m_settings->focusPolicy());
-    setNextFocusPrefersMouse(m_settings->nextFocusPrefersMouse());
-    setSeparateScreenFocus(m_settings->separateScreenFocus());
-    setActiveMouseScreen(m_settings->activeMouseScreen());
-    setRollOverDesktops(m_settings->rollOverDesktops());
-    setFocusStealingPreventionLevel(m_settings->focusStealingPreventionLevel());
-    setActivationDesktopPolicy(m_settings->activationDesktopPolicy());
-    setXwaylandCrashPolicy(m_settings->xwaylandCrashPolicy());
-    setXwaylandMaxCrashCount(m_settings->xwaylandMaxCrashCount());
-    setXwaylandEavesdrops(XwaylandEavesdropsMode(m_settings->xwaylandEavesdrops()));
-    setPlacement(m_settings->placement());
-    setAutoRaise(m_settings->autoRaise());
-    setAutoRaiseInterval(m_settings->autoRaiseInterval());
-    setDelayFocusInterval(m_settings->delayFocusInterval());
-    setShadeHover(m_settings->shadeHover());
-    setShadeHoverInterval(m_settings->shadeHoverInterval());
-    setClickRaise(m_settings->clickRaise());
-    setBorderSnapZone(m_settings->borderSnapZone());
-    setWindowSnapZone(m_settings->windowSnapZone());
-    setCenterSnapZone(m_settings->centerSnapZone());
-    setSnapOnlyWhenOverlapping(m_settings->snapOnlyWhenOverlapping());
-    setKillPingTimeout(m_settings->killPingTimeout());
-    setHideUtilityWindowsForInactive(m_settings->hideUtilityWindowsForInactive());
-    setBorderlessMaximizedWindows(m_settings->borderlessMaximizedWindows());
-    setElectricBorderMaximize(m_settings->electricBorderMaximize());
-    setElectricBorderTiling(m_settings->electricBorderTiling());
-    setElectricBorderCornerRatio(m_settings->electricBorderCornerRatio());
-    setWindowsBlockCompositing(m_settings->windowsBlockCompositing());
-    setMoveMinimizedWindowsToEndOfTabBoxFocusChain(m_settings->moveMinimizedWindowsToEndOfTabBoxFocusChain());
-    setLatencyPolicy(m_settings->latencyPolicy());
-    setRenderTimeEstimator(m_settings->renderTimeEstimator());
-    setAllowTearing(m_settings->allowTearing());
-}
-
-bool Options::loadCompositingConfig(bool force)
-{
-    KConfigGroup config(m_settings->config(), "Compositing");
-
+    // Compositing
+    config = KConfigGroup(m_settings->config(), QStringLiteral("Compositing"));
     bool useCompositing = false;
     CompositingType compositingMode = NoCompositing;
     QString compositingBackend = config.readEntry("Backend", "OpenGL");
@@ -862,32 +769,7 @@ bool Options::loadCompositingConfig(bool force)
         }
     }
     setCompositingMode(compositingMode);
-
-    const bool platformSupportsNoCompositing = kwinApp()->outputBackend()->supportedCompositors().contains(NoCompositing);
-    if (m_compositingMode == NoCompositing && platformSupportsNoCompositing) {
-        setUseCompositing(false);
-        return false; // do not even detect compositing preferences if explicitly disabled
-    }
-
-    // it's either enforced by env or by initial resume from "suspend" or we check the settings
-    setUseCompositing(useCompositing || force || config.readEntry("Enabled", Options::defaultUseCompositing() || !platformSupportsNoCompositing));
-
-    if (!m_useCompositing) {
-        return false; // not enforced or necessary and not "enabled" by settings
-    }
-    return true;
-}
-
-void Options::reloadCompositingSettings(bool force)
-{
-    if (!loadCompositingConfig(force)) {
-        return;
-    }
-    m_settings->load();
-    syncFromKcfgc();
-
-    // Compositing settings
-    KConfigGroup config(m_settings->config(), "Compositing");
+    setUseCompositing(useCompositing || config.readEntry("Enabled", Options::defaultUseCompositing()));
 
     setGlSmoothScale(std::clamp(config.readEntry("GLTextureFilter", Options::defaultGlSmoothScale()), -1, 2));
     setGlStrictBindingFollowsDriver(!config.hasKey("GLStrictBinding"));
@@ -905,17 +787,19 @@ void Options::reloadCompositingSettings(bool force)
     }
     setGlPreferBufferSwap(c);
 
-    HiddenPreviews previews = Options::defaultHiddenPreviews();
-    // 4 - off, 5 - shown, 6 - always, other are old values
-    int hps = config.readEntry("HiddenPreviews", 5);
-    if (hps == 4) {
-        previews = HiddenPreviewsNever;
-    } else if (hps == 5) {
-        previews = HiddenPreviewsShown;
-    } else if (hps == 6) {
-        previews = HiddenPreviewsAlways;
+    if (kwinApp()->operationMode() == Application::OperationModeX11) {
+        HiddenPreviews previews = Options::defaultHiddenPreviews();
+        // 4 - off, 5 - shown, 6 - always, other are old values
+        int hps = config.readEntry("HiddenPreviews", 5);
+        if (hps == 4) {
+            previews = HiddenPreviewsNever;
+        } else if (hps == 5) {
+            previews = HiddenPreviewsShown;
+        } else if (hps == 6) {
+            previews = HiddenPreviewsAlways;
+        }
+        setHiddenPreviews(previews);
     }
-    setHiddenPreviews(previews);
 
     auto interfaceToKey = [](OpenGLPlatformInterface interface) {
         switch (interface) {
@@ -936,6 +820,42 @@ void Options::reloadCompositingSettings(bool force)
         return defaultGlPlatformInterface();
     };
     setGlPlatformInterface(keyToInterface(config.readEntry("GLPlatformInterface", interfaceToKey(m_glPlatformInterface))));
+}
+
+void Options::syncFromKcfgc()
+{
+    setCondensedTitle(m_settings->condensedTitle());
+    setFocusPolicy(m_settings->focusPolicy());
+    setNextFocusPrefersMouse(m_settings->nextFocusPrefersMouse());
+    setSeparateScreenFocus(m_settings->separateScreenFocus());
+    setRollOverDesktops(m_settings->rollOverDesktops());
+    setFocusStealingPreventionLevel(m_settings->focusStealingPreventionLevel());
+    setActivationDesktopPolicy(m_settings->activationDesktopPolicy());
+    setXwaylandCrashPolicy(m_settings->xwaylandCrashPolicy());
+    setXwaylandMaxCrashCount(m_settings->xwaylandMaxCrashCount());
+    setXwaylandEavesdrops(XwaylandEavesdropsMode(m_settings->xwaylandEavesdrops()));
+    setXwaylandEavesdropsMouse(m_settings->xwaylandEavesdropsMouse());
+    setPlacement(m_settings->placement());
+    setAutoRaise(m_settings->autoRaise());
+    setAutoRaiseInterval(m_settings->autoRaiseInterval());
+    setDelayFocusInterval(m_settings->delayFocusInterval());
+    setShadeHover(m_settings->shadeHover());
+    setShadeHoverInterval(m_settings->shadeHoverInterval());
+    setClickRaise(m_settings->clickRaise());
+    setBorderSnapZone(m_settings->borderSnapZone());
+    setWindowSnapZone(m_settings->windowSnapZone());
+    setCenterSnapZone(m_settings->centerSnapZone());
+    setEdgeBarrier(m_settings->edgeBarrier());
+    setCornerBarrier(m_settings->cornerBarrier());
+    setSnapOnlyWhenOverlapping(m_settings->snapOnlyWhenOverlapping());
+    setKillPingTimeout(m_settings->killPingTimeout());
+    setHideUtilityWindowsForInactive(m_settings->hideUtilityWindowsForInactive());
+    setBorderlessMaximizedWindows(m_settings->borderlessMaximizedWindows());
+    setElectricBorderMaximize(m_settings->electricBorderMaximize());
+    setElectricBorderTiling(m_settings->electricBorderTiling());
+    setElectricBorderCornerRatio(m_settings->electricBorderCornerRatio());
+    setWindowsBlockCompositing(m_settings->windowsBlockCompositing());
+    setAllowTearing(m_settings->allowTearing());
 }
 
 // restricted should be true for operations that the user may not be able to repeat
@@ -1107,14 +1027,11 @@ Options::WindowOperation Options::operationMaxButtonClick(Qt::MouseButtons butto
                                                                                           : opMaxButtonLeftClick;
 }
 
-QStringList Options::modifierOnlyDBusShortcut(Qt::KeyboardModifier mod) const
-{
-    return m_modifierOnlyShortcuts.value(mod);
-}
-
 bool Options::isUseCompositing() const
 {
     return m_useCompositing;
 }
 
 } // namespace
+
+#include "moc_options.cpp"

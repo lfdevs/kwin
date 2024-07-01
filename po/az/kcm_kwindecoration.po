@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-26 02:32+0000\n"
+"POT-Creation-Date: 2024-02-10 00:40+0000\n"
 "PO-Revision-Date: 2021-06-10 11:34+0400\n"
 "Last-Translator: Kheyyam Gojayev <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -17,82 +17,62 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Lokalize 21.04.1\n"
 
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Xəyyam Qocayev"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "xxmn77@gmail.com"
-
-#: declarative-plugin/buttonsmodel.cpp:53
+#: declarative-plugin/buttonsmodel.cpp:56
 #, kde-format
 msgid "More actions for this window"
 msgstr "Bu pəncərə üçün daha çoc əməllər"
 
-#: declarative-plugin/buttonsmodel.cpp:55
+#: declarative-plugin/buttonsmodel.cpp:58
 #, kde-format
 msgid "Application menu"
 msgstr "Tətbiq menyusu"
 
-#: declarative-plugin/buttonsmodel.cpp:57
+#: declarative-plugin/buttonsmodel.cpp:60
 #, kde-format
 msgid "On all desktops"
 msgstr "Bütün İş Masalarında"
 
-#: declarative-plugin/buttonsmodel.cpp:59
+#: declarative-plugin/buttonsmodel.cpp:62
 #, kde-format
 msgid "Minimize"
 msgstr "Yığmaq"
 
-#: declarative-plugin/buttonsmodel.cpp:61
+#: declarative-plugin/buttonsmodel.cpp:64
 #, kde-format
 msgid "Maximize"
 msgstr "Genişləndirmək"
 
-#: declarative-plugin/buttonsmodel.cpp:63
+#: declarative-plugin/buttonsmodel.cpp:66
 #, kde-format
 msgid "Close"
 msgstr "Bağlamaq"
 
-#: declarative-plugin/buttonsmodel.cpp:65
+#: declarative-plugin/buttonsmodel.cpp:68
 #, kde-format
 msgid "Context help"
 msgstr "Kontekst arayış"
 
-#: declarative-plugin/buttonsmodel.cpp:67
+#: declarative-plugin/buttonsmodel.cpp:70
 #, kde-format
 msgid "Shade"
 msgstr "Başlığa yığmaq"
 
-#: declarative-plugin/buttonsmodel.cpp:69
+#: declarative-plugin/buttonsmodel.cpp:72
 #, kde-format
 msgid "Keep below other windows"
 msgstr "Digər pəncərələrin altında tutmaq"
 
-#: declarative-plugin/buttonsmodel.cpp:71
+#: declarative-plugin/buttonsmodel.cpp:74
 #, kde-format
 msgid "Keep above other windows"
 msgstr "Digər pəncərələrin üzərində tutmaq"
 
-#: kcm.cpp:49
+#: declarative-plugin/buttonsmodel.cpp:76
 #, kde-format
-msgid "Window Decorations"
-msgstr "Pəncərə dekorasiyası"
+msgid "Spacer"
+msgstr ""
 
-#: kcm.cpp:53
-#, kde-format
-msgid "Valerio Pilo"
-msgstr "Valerio Pilo"
-
-#: kcm.cpp:54
-#, kde-format
-msgid "Author"
-msgstr "Müəllif"
-
-#: kcm.cpp:183
+#: kcm.cpp:177
 #, kde-format
 msgctxt "%1 is the name of a border size"
 msgid "Theme's default (%1)"
@@ -180,117 +160,183 @@ msgstr ""
 msgid "You have the following KWin window decoration themes on your system:"
 msgstr "Sisteminizdə aşağıdakı pəncərə dekorasiyası mövzuları var:"
 
-#: package/contents/ui/Buttons.qml:85
+#: ui/Buttons.qml:85
 #, kde-format
 msgid "Titlebar"
 msgstr "Başlıq paneli"
 
-#: package/contents/ui/Buttons.qml:245
+#: ui/Buttons.qml:245
 #, kde-format
 msgid "Drop button here to remove it"
 msgstr "Silmək üçün düyməni buraya köçürün"
 
-#: package/contents/ui/Buttons.qml:261
+#: ui/Buttons.qml:261
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr "Düymələri bu sahə və başlıq paneli arasına daşıyın"
 
-#: package/contents/ui/main.qml:18
-#, kde-format
-msgid "This module lets you configure the window decorations."
-msgstr "Bu modul pəncərə dekorasiyasını ayarlamağa imkan verir"
-
-#: package/contents/ui/main.qml:52
-#, kde-format
-msgctxt "tab label"
-msgid "Theme"
-msgstr "Mövzu"
-
-#: package/contents/ui/main.qml:56
-#, kde-format
-msgctxt "tab label"
+#: ui/ConfigureTitlebar.qml:16
+#, fuzzy, kde-format
+#| msgctxt "tab label"
+#| msgid "Titlebar Buttons"
 msgid "Titlebar Buttons"
 msgstr "Başlıq paneli düymələri"
 
-#: package/contents/ui/main.qml:92
-#, kde-format
-msgctxt "Selector label"
-msgid "Window border size:"
-msgstr "Pəncərə çərçivəsinin ölçüsü:"
-
-#: package/contents/ui/main.qml:110
-#, kde-format
-msgctxt "button text"
-msgid "Get New Window Decorations..."
-msgstr "Yeni Pəncərə Dekorasiyaları Almaq..."
-
-#: package/contents/ui/main.qml:139
+#: ui/ConfigureTitlebar.qml:35
 #, kde-format
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
 msgstr "Menyu düyməsinə iki dəfə vuraraq pəncərəni bağlamaq"
 
-#: package/contents/ui/main.qml:156
+#: ui/ConfigureTitlebar.qml:52
 #, kde-format
 msgctxt "popup tip"
 msgid "Click and hold on the menu button to show the menu."
 msgstr "Menyunu göstərmək üçün menyu düyməsini basıb saxlayın."
 
-#: package/contents/ui/main.qml:163
+#: ui/ConfigureTitlebar.qml:59
 #, kde-format
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
 msgstr "Başlıq düyməsi köməkçi bildirişlərini göstərmək"
 
-#: package/contents/ui/Themes.qml:90
+#: ui/main.qml:29
+#, kde-format
+msgctxt "Selector label"
+msgid "Window border size:"
+msgstr "Pəncərə çərçivəsinin ölçüsü:"
+
+#: ui/main.qml:48
+#, fuzzy, kde-format
+#| msgctxt "tab label"
+#| msgid "Titlebar Buttons"
+msgctxt "button text"
+msgid "Configure Titlebar Buttons…"
+msgstr "Başlıq paneli düymələri"
+
+#: ui/main.qml:54
+#, kde-format
+msgctxt "@action:button as in, \"Get New Window Decorations\""
+msgid "Get New…"
+msgstr ""
+
+#: ui/Themes.qml:93
 #, kde-format
 msgid "Edit %1 Theme"
 msgstr "%1 mövzusuna düzəliş etmək"
 
 #: utils.cpp:25
-#, kde-format
-msgid "No Borders"
-msgstr "Kənar çərçivələrsiz"
+#, fuzzy, kde-format
+#| msgid "No Side Borders"
+msgid "No Window Borders"
+msgstr "Kənar çərçivələri yoxdur"
 
 #: utils.cpp:26
-#, kde-format
-msgid "No Side Borders"
+#, fuzzy, kde-format
+#| msgid "No Side Borders"
+msgid "No Side Window Borders"
 msgstr "Kənar çərçivələri yoxdur"
 
 #: utils.cpp:27
-#, kde-format
-msgid "Tiny"
-msgstr "İncə"
+#, fuzzy, kde-format
+#| msgctxt "Selector label"
+#| msgid "Window border size:"
+msgid "Tiny Window Borders"
+msgstr "Pəncərə çərçivəsinin ölçüsü:"
 
 #: utils.cpp:28
-#, kde-format
-msgid "Normal"
-msgstr "Normal"
+#, fuzzy, kde-format
+#| msgid "No Side Borders"
+msgid "Normal Window Borders"
+msgstr "Kənar çərçivələri yoxdur"
 
 #: utils.cpp:29
-#, kde-format
-msgid "Large"
-msgstr "Geniş"
+#, fuzzy, kde-format
+#| msgctxt "Selector label"
+#| msgid "Window border size:"
+msgid "Large Window Borders"
+msgstr "Pəncərə çərçivəsinin ölçüsü:"
 
 #: utils.cpp:30
 #, kde-format
-msgid "Very Large"
-msgstr "Çox geniş"
+msgid "Very Large Window Borders"
+msgstr ""
 
 #: utils.cpp:31
-#, kde-format
-msgid "Huge"
-msgstr "Nəhəng"
+#, fuzzy, kde-format
+#| msgctxt "Selector label"
+#| msgid "Window border size:"
+msgid "Huge Window Borders"
+msgstr "Pəncərə çərçivəsinin ölçüsü:"
 
 #: utils.cpp:32
-#, kde-format
-msgid "Very Huge"
-msgstr "Çox nəhəng"
+#, fuzzy, kde-format
+#| msgctxt "Selector label"
+#| msgid "Window border size:"
+msgid "Very Huge Window Borders"
+msgstr "Pəncərə çərçivəsinin ölçüsü:"
 
 #: utils.cpp:33
-#, kde-format
-msgid "Oversized"
-msgstr "Ən geniş"
+#, fuzzy, kde-format
+#| msgctxt "Selector label"
+#| msgid "Window border size:"
+msgid "Oversized Window Borders"
+msgstr "Pəncərə çərçivəsinin ölçüsü:"
+
+#, fuzzy
+#~| msgctxt "button text"
+#~| msgid "Get New Window Decorations..."
+#~ msgctxt "button text"
+#~ msgid "Get New Window Decorations…"
+#~ msgstr "Yeni Pəncərə Dekorasiyaları Almaq..."
+
+#~ msgid "No Borders"
+#~ msgstr "Kənar çərçivələrsiz"
+
+#~ msgid "Tiny"
+#~ msgstr "İncə"
+
+#~ msgid "Normal"
+#~ msgstr "Normal"
+
+#~ msgid "Large"
+#~ msgstr "Geniş"
+
+#~ msgid "Very Large"
+#~ msgstr "Çox geniş"
+
+#~ msgid "Huge"
+#~ msgstr "Nəhəng"
+
+#~ msgid "Very Huge"
+#~ msgstr "Çox nəhəng"
+
+#~ msgid "Oversized"
+#~ msgstr "Ən geniş"
+
+#~ msgid "This module lets you configure the window decorations."
+#~ msgstr "Bu modul pəncərə dekorasiyasını ayarlamağa imkan verir"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Xəyyam Qocayev"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "xxmn77@gmail.com"
+
+#~ msgid "Window Decorations"
+#~ msgstr "Pəncərə dekorasiyası"
+
+#~ msgid "Valerio Pilo"
+#~ msgstr "Valerio Pilo"
+
+#~ msgid "Author"
+#~ msgstr "Müəllif"
+
+#~ msgctxt "tab label"
+#~ msgid "Theme"
+#~ msgstr "Mövzu"
 
 #~ msgctxt "popup tip"
 #~ msgid ""

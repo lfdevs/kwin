@@ -8,11 +8,15 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "backingstore.h"
+#include "core/graphicsbuffer.h"
+#include "core/graphicsbufferview.h"
+#include "internalwindow.h"
+#include "logging.h"
+#include "swapchain.h"
 #include "window.h"
 
-#include "internalwindow.h"
-
 #include <QPainter>
+#include <libdrm/drm_fourcc.h>
 
 namespace KWin
 {
@@ -24,33 +28,49 @@ BackingStore::BackingStore(QWindow *window)
 {
 }
 
-BackingStore::~BackingStore() = default;
-
 QPaintDevice *BackingStore::paintDevice()
 {
-    return &m_backBuffer;
+    return m_bufferView->image();
 }
 
 void BackingStore::resize(const QSize &size, const QRegion &staticContents)
 {
-    if (m_backBuffer.size() == size) {
-        return;
-    }
-
-    const QPlatformWindow *platformWindow = static_cast<QPlatformWindow *>(window()->handle());
-    const qreal devicePixelRatio = platformWindow->devicePixelRatio();
-
-    m_backBuffer = QImage(size * devicePixelRatio, QImage::Format_ARGB32_Premultiplied);
-    m_backBuffer.setDevicePixelRatio(devicePixelRatio);
-
-    m_frontBuffer = QImage(size * devicePixelRatio, QImage::Format_ARGB32_Premultiplied);
-    m_frontBuffer.setDevicePixelRatio(devicePixelRatio);
+    QPlatformWindow *platformWindow = static_cast<QPlatformWindow *>(window()->handle());
+    platformWindow->invalidateSurface();
 }
 
 void BackingStore::beginPaint(const QRegion &region)
 {
-    if (m_backBuffer.hasAlphaChannel()) {
-        QPainter p(paintDevice());
+    Window *platformWindow = static_cast<Window *>(window()->handle());
+    Swapchain *swapchain = platformWindow->swapchain(nullptr, {{DRM_FORMAT_ARGB8888, {DRM_FORMAT_MOD_LINEAR}}});
+    if (!swapchain) {
+        qCCritical(KWIN_QPA, "Failed to ceate a swapchain for the backing store!");
+        return;
+    }
+
+    const auto oldBuffer = m_buffer;
+    m_buffer = swapchain->acquire();
+    if (!m_buffer) {
+        qCCritical(KWIN_QPA, "Failed to acquire a graphics buffer for the backing store");
+        return;
+    }
+
+    m_bufferView = std::make_unique<GraphicsBufferView>(m_buffer, GraphicsBuffer::Read | GraphicsBuffer::Write);
+    if (m_bufferView->isNull()) {
+        qCCritical(KWIN_QPA) << "Failed to map a graphics buffer for the backing store";
+        return;
+    }
+
+    if (oldBuffer && oldBuffer != m_buffer && oldBuffer->size() == m_buffer->size()) {
+        const GraphicsBufferView oldView(oldBuffer, GraphicsBuffer::Read);
+        std::memcpy(m_bufferView->image()->bits(), oldView.image()->constBits(), oldView.image()->sizeInBytes());
+    }
+
+    QImage *image = m_bufferView->image();
+    image->setDevicePixelRatio(platformWindow->devicePixelRatio());
+
+    if (image->hasAlphaChannel()) {
+        QPainter p(image);
         p.setCompositionMode(QPainter::CompositionMode_Source);
         const QColor blank = Qt::transparent;
         for (const QRect &rect : region) {
@@ -59,18 +79,9 @@ void BackingStore::beginPaint(const QRegion &region)
     }
 }
 
-static QRect scaledRect(const QRect &rect, qreal devicePixelRatio)
+void BackingStore::endPaint()
 {
-    return QRect(rect.topLeft() * devicePixelRatio, rect.size() * devicePixelRatio);
-}
-
-static void blitImage(const QImage &source, QImage &target, const QRegion &region)
-{
-    QPainter painter(&target);
-    painter.setCompositionMode(QPainter::CompositionMode_Source);
-    for (const QRect &rect : region) {
-        painter.drawImage(rect, source, scaledRect(rect, source.devicePixelRatio()));
-    }
+    m_bufferView.reset();
 }
 
 void BackingStore::flush(QWindow *window, const QRegion &region, const QPoint &offset)
@@ -81,9 +92,16 @@ void BackingStore::flush(QWindow *window, const QRegion &region, const QPoint &o
         return;
     }
 
-    blitImage(m_backBuffer, m_frontBuffer, region);
+    const qreal scale = platformWindow->devicePixelRatio();
+    QRegion bufferDamage;
+    for (const QRect &rect : region) {
+        bufferDamage += QRectF(rect.x() * scale, rect.y() * scale, rect.width() * scale, rect.height() * scale).toAlignedRect();
+    }
 
-    internalWindow->present(m_frontBuffer, region);
+    internalWindow->present(InternalWindowFrame{
+        .buffer = m_buffer,
+        .bufferDamage = bufferDamage,
+    });
 }
 
 }

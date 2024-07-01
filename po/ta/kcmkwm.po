@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-03 00:48+0000\n"
+"POT-Creation-Date: 2024-02-06 00:39+0000\n"
 "PO-Revision-Date: 2022-12-06 21:42+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -20,16 +20,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Lokalize 22.08.3\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "jayalakshmibalaji"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "prabu_anand2000@yahoo.com"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
 #: actions.ui:17
@@ -332,6 +322,7 @@ msgstr "ஒளிபுகாமையை கூட்டும்"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TitlebarDoubleClickCommand)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandTitlebarWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar1)
@@ -340,8 +331,8 @@ msgstr "ஒளிபுகாமையை கூட்டும்"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
-#: actions.ui:310 actions.ui:380 actions.ui:450 actions.ui:505 mouse.ui:80
-#: mouse.ui:132 mouse.ui:271 mouse.ui:333 mouse.ui:386 mouse.ui:448
+#: actions.ui:310 actions.ui:380 actions.ui:450 actions.ui:505 advanced.ui:174
+#: mouse.ui:80 mouse.ui:132 mouse.ui:271 mouse.ui:333 mouse.ui:386 mouse.ui:448
 #: mouse.ui:501 mouse.ui:563
 #, kde-format
 msgid "Do nothing"
@@ -896,26 +887,8 @@ msgstr ""
 msgid "Multiscreen behavior:"
 msgstr "பல்திரை நடத்தை:"
 
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ActiveMouseScreen)
-#: focus.ui:203
-#, kde-format
-msgid ""
-"When this option is enabled, the active screen (where new windows appear, "
-"for example) is the screen containing the mouse pointer. When disabled, the "
-"active screen is the screen containing the focused window."
-msgstr ""
-"இத்தேர்வு இயக்கப்பட்டிருந்தால், சுட்டிக்குறியை கொண்டுள்ள திரையே செயலிலுள்ள திரையாக "
-"கருதப்படும் (எ.கா. புதிய சாளரங்கள் அதிலேயே தோன்றும்). இத்தேர்வு முடக்கப்பட்டிருந்தால், "
-"செயலிலுள்ள சாளரத்தை கொண்டுள்ள திரையே செயலிலுள்ளதாக கருதப்படும்."
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ActiveMouseScreen)
-#: focus.ui:206
-#, kde-format
-msgid "Active screen follows &mouse"
-msgstr "சு&ட்டியுள்ள திரையை செயலுள்ளதாக்கு"
-
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SeparateScreenFocus)
-#: focus.ui:213
+#: focus.ui:203
 #, kde-format
 msgid ""
 "When this option is enabled, focus operations are limited only to the active "
@@ -923,125 +896,48 @@ msgid ""
 msgstr "இத்தேர்வு இயக்கப்பட்டிருந்தால், குவியம் எப்போதும் செயலிலுள்ள சாளரத்திலேயே இருக்கும்"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SeparateScreenFocus)
-#: focus.ui:216
+#: focus.ui:206
 #, kde-format
 msgid "&Separate screen focus"
 msgstr "&திரையை பொறுத்த குவியம்"
 
 #. i18n: ectx: property (text), widget (QLabel, windowFocusPolicyDescriptionLabel)
-#: focus.ui:229
+#: focus.ui:219
 #, kde-format
 msgid "Window activation policy description"
 msgstr ""
 
-#: main.cpp:73
+#: main.cpp:79
 #, kde-format
 msgid "&Focus"
 msgstr "&குவியம்"
 
-#: main.cpp:79
+#: main.cpp:84
 #, kde-format
 msgid "Titlebar A&ctions"
 msgstr "&தலைப்புபட்டைக்கான செயல்கள்"
 
-#: main.cpp:85
+#: main.cpp:89
 #, kde-format
 msgid "W&indow Actions"
 msgstr "&சாளர செயல்கள்"
 
-#: main.cpp:91
+#: main.cpp:94
 #, kde-format
 msgid "Mo&vement"
 msgstr "&நகர்த்தல்"
 
-#: main.cpp:97
+#: main.cpp:99
 #, kde-format
 msgid "Adva&nced"
 msgstr "&மேம்பட்டவை"
 
-#: main.cpp:101
-#, kde-format
-msgid "Window Behavior Configuration Module"
-msgstr "சாளர நடத்தைக் கட்டுப்பாட்டுக் கூறு"
-
-#: main.cpp:103
-#, kde-format
-msgid "(c) 1997 - 2002 KWin and KControl Authors"
-msgstr "(c) 1997 - 2002 KWin and KControl Authors"
-
-#: main.cpp:105
-#, kde-format
-msgid "Matthias Ettrich"
-msgstr "மத்தையாஸ் எட்ரிச்"
-
-#: main.cpp:106
-#, kde-format
-msgid "Waldo Bastian"
-msgstr "வாலடோ பாஸ்டியான்"
-
-#: main.cpp:107
-#, kde-format
-msgid "Cristian Tibirna"
-msgstr "கிரிஸ்டியன் டிபிர்னா"
-
-#: main.cpp:108
-#, kde-format
-msgid "Matthias Kalle Dalheimer"
-msgstr ""
-
-#: main.cpp:109
-#, kde-format
-msgid "Daniel Molkentin"
-msgstr ""
-
-#: main.cpp:110
-#, kde-format
-msgid "Wynn Wilkes"
-msgstr "வைன் வில்கிஸ்"
-
-#: main.cpp:111
-#, kde-format
-msgid "Pat Dowler"
-msgstr "பாட் டவுலர்"
-
-#: main.cpp:112
-#, kde-format
-msgid "Bernd Wuebben"
-msgstr ""
-
-#: main.cpp:113
-#, kde-format
-msgid "Matthias Hoelzer-Kluepfel"
-msgstr ""
-
-#: main.cpp:161
-#, fuzzy, kde-format
-#| msgid ""
-#| "<h1>Window Behavior</h1> Here you can customize the way windows behave "
-#| "when being moved, resized or clicked on. You can also specify a focus "
-#| "policy as well as a placement policy for new windows. <p>Please note that "
-#| "this configuration will not take effect if you do not use KWin as your "
-#| "window manager. If you do use a different window manager, please refer to "
-#| "its documentation for how to customize window behavior."
-msgid ""
-"<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
-"when being moved, resized or clicked on. You can also specify a focus policy "
-"as well as a placement policy for new windows.</p> <p>Please note that this "
-"configuration will not take effect if you do not use KWin as your window "
-"manager. If you do use a different window manager, please refer to its "
-"documentation for how to customize window behavior.</p>"
-msgstr ""
-"<h1>சாளரத்தின் நடத்தை</h1>இங்கு உங்கள் சாளரங்களின் நடத்தையை நீங்கள் வடிவமைக்லாம் நகரும் "
-"பொதும் அல்லது அளவை மாற்றி அமைக்கும் பொது அல்லது சொடுக்கும் பொது நிங்களும் ஆவணத்தை "
-"சரிசெய்யலாம்<p> நீங்கள் Kசாளரம் அல்லாமல் வேறு ஏதேனும் சாளரத்தை பயன்படுத்தினால் அந்த "
-"ஆவணத்தின் பழக்கங்களை தெரிந்து அதன் படி நடந்து கொள்ளவும்."
-
-#: main.cpp:202
+#: main.cpp:178
 #, kde-format
 msgid "&Titlebar Actions"
 msgstr "&தலைப்புபட்டைக்கான செயல்கள்"
 
-#: main.cpp:208
+#: main.cpp:188
 #, kde-format
 msgid "Window Actio&ns"
 msgstr "&சாளர செயல்கள்"
@@ -1324,14 +1220,14 @@ msgstr ""
 msgid "Only when overlapping"
 msgstr "ஒன்றன்மேல் இன்னொன்று இருக்கும்போது மட்டும்"
 
-#: windows.cpp:97
+#: windows.cpp:92
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
 "This behavior is common on other operating systems and likely what you want."
 msgstr ""
 
-#: windows.cpp:101
+#: windows.cpp:95
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1341,7 +1237,7 @@ msgid ""
 "em>."
 msgstr ""
 
-#: windows.cpp:106
+#: windows.cpp:98
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1350,7 +1246,7 @@ msgid ""
 "to focus</em> just without having to actually click."
 msgstr ""
 
-#: windows.cpp:110
+#: windows.cpp:101
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1359,7 +1255,7 @@ msgid ""
 "if you want a hover controlled focus."
 msgstr ""
 
-#: windows.cpp:115
+#: windows.cpp:104
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1369,7 +1265,7 @@ msgid ""
 "precedence)</em> instead!"
 msgstr ""
 
-#: windows.cpp:119
+#: windows.cpp:107
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "
@@ -1379,6 +1275,68 @@ msgid ""
 "activation policy and will not work. You very likely want to use <em>Focus "
 "follows mouse (mouse precedence)</em> instead!"
 msgstr ""
+
+#~ msgid ""
+#~ "When this option is enabled, the active screen (where new windows appear, "
+#~ "for example) is the screen containing the mouse pointer. When disabled, "
+#~ "the active screen is the screen containing the focused window."
+#~ msgstr ""
+#~ "இத்தேர்வு இயக்கப்பட்டிருந்தால், சுட்டிக்குறியை கொண்டுள்ள திரையே செயலிலுள்ள திரையாக "
+#~ "கருதப்படும் (எ.கா. புதிய சாளரங்கள் அதிலேயே தோன்றும்). இத்தேர்வு முடக்கப்பட்டிருந்தால், "
+#~ "செயலிலுள்ள சாளரத்தை கொண்டுள்ள திரையே செயலிலுள்ளதாக கருதப்படும்."
+
+#~ msgid "Active screen follows &mouse"
+#~ msgstr "சு&ட்டியுள்ள திரையை செயலுள்ளதாக்கு"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "jayalakshmibalaji"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "prabu_anand2000@yahoo.com"
+
+#~ msgid "Window Behavior Configuration Module"
+#~ msgstr "சாளர நடத்தைக் கட்டுப்பாட்டுக் கூறு"
+
+#~ msgid "(c) 1997 - 2002 KWin and KControl Authors"
+#~ msgstr "(c) 1997 - 2002 KWin and KControl Authors"
+
+#~ msgid "Matthias Ettrich"
+#~ msgstr "மத்தையாஸ் எட்ரிச்"
+
+#~ msgid "Waldo Bastian"
+#~ msgstr "வாலடோ பாஸ்டியான்"
+
+#~ msgid "Cristian Tibirna"
+#~ msgstr "கிரிஸ்டியன் டிபிர்னா"
+
+#~ msgid "Wynn Wilkes"
+#~ msgstr "வைன் வில்கிஸ்"
+
+#~ msgid "Pat Dowler"
+#~ msgstr "பாட் டவுலர்"
+
+#, fuzzy
+#~| msgid ""
+#~| "<h1>Window Behavior</h1> Here you can customize the way windows behave "
+#~| "when being moved, resized or clicked on. You can also specify a focus "
+#~| "policy as well as a placement policy for new windows. <p>Please note "
+#~| "that this configuration will not take effect if you do not use KWin as "
+#~| "your window manager. If you do use a different window manager, please "
+#~| "refer to its documentation for how to customize window behavior."
+#~ msgid ""
+#~ "<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
+#~ "when being moved, resized or clicked on. You can also specify a focus "
+#~ "policy as well as a placement policy for new windows.</p> <p>Please note "
+#~ "that this configuration will not take effect if you do not use KWin as "
+#~ "your window manager. If you do use a different window manager, please "
+#~ "refer to its documentation for how to customize window behavior.</p>"
+#~ msgstr ""
+#~ "<h1>சாளரத்தின் நடத்தை</h1>இங்கு உங்கள் சாளரங்களின் நடத்தையை நீங்கள் வடிவமைக்லாம் நகரும் "
+#~ "பொதும் அல்லது அளவை மாற்றி அமைக்கும் பொது அல்லது சொடுக்கும் பொது நிங்களும் ஆவணத்தை "
+#~ "சரிசெய்யலாம்<p> நீங்கள் Kசாளரம் அல்லாமல் வேறு ஏதேனும் சாளரத்தை பயன்படுத்தினால் அந்த "
+#~ "ஆவணத்தின் பழக்கங்களை தெரிந்து அதன் படி நடந்து கொள்ளவும்."
 
 #~ msgid "Cascaded"
 #~ msgstr "விரித்து"

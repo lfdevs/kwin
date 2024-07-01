@@ -17,7 +17,6 @@ namespace KWin
 {
 
 class Window;
-class Deleted;
 class Output;
 
 namespace Decoration
@@ -61,7 +60,6 @@ protected:
     {
         m_imageSizesDirty = false;
     }
-    QImage renderToImage(const QRect &geo);
     void renderToPainter(QPainter *painter, const QRect &rect);
 
 private:
@@ -79,17 +77,16 @@ class KWIN_EXPORT DecorationItem : public Item
     Q_OBJECT
 
 public:
-    explicit DecorationItem(KDecoration2::Decoration *decoration, Window *window, Scene *scene, Item *parent = nullptr);
+    explicit DecorationItem(KDecoration2::Decoration *decoration, Window *window, Item *parent = nullptr);
 
     DecorationRenderer *renderer() const;
     Window *window() const;
 
-    QVector<QRectF> shape() const override final;
+    QList<QRectF> shape() const override final;
     QRegion opaque() const override final;
 
 private Q_SLOTS:
-    void handleFrameGeometryChanged();
-    void handleWindowClosed(Window *original, Deleted *deleted);
+    void handleDecorationGeometryChanged();
     void handleOutputChanged();
     void handleOutputScaleChanged();
 

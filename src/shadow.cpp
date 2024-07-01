@@ -9,15 +9,16 @@
 */
 #include "shadow.h"
 // kwin
-#include "atoms.h"
-#include "composite.h"
+#include "core/graphicsbufferview.h"
 #include "internalwindow.h"
-#include "scene/workspacescene.h"
-#include "wayland/shadow_interface.h"
-#include "wayland/shmclientbuffer.h"
-#include "wayland/surface_interface.h"
+#include "wayland/shadow.h"
+#include "wayland/surface.h"
 #include "wayland_server.h"
 #include "window.h"
+#if KWIN_BUILD_X11
+#include "atoms.h"
+#include "x11window.h"
+#endif
 
 #include <KDecoration2/Decoration>
 #include <KDecoration2/DecorationShadow>
@@ -47,20 +48,27 @@ std::unique_ptr<Shadow> Shadow::createShadow(Window *window)
     if (!shadow && waylandServer()) {
         shadow = createShadowFromWayland(window);
     }
+#if KWIN_BUILD_X11
     if (!shadow && kwinApp()->x11Connection()) {
         shadow = createShadowFromX11(window);
     }
+#endif
     if (!shadow) {
         shadow = createShadowFromInternalWindow(window);
     }
     return shadow;
 }
 
+#if KWIN_BUILD_X11
 std::unique_ptr<Shadow> Shadow::createShadowFromX11(Window *window)
 {
-    auto data = Shadow::readX11ShadowProperty(window->window());
+    X11Window *x11Window = qobject_cast<X11Window *>(window);
+    if (!x11Window) {
+        return nullptr;
+    }
+    auto data = Shadow::readX11ShadowProperty(x11Window->window());
     if (!data.isEmpty()) {
-        auto shadow = Compositor::self()->scene()->createShadow(window);
+        auto shadow = std::make_unique<Shadow>(window);
         if (!shadow->init(data)) {
             return nullptr;
         }
@@ -69,13 +77,14 @@ std::unique_ptr<Shadow> Shadow::createShadowFromX11(Window *window)
         return nullptr;
     }
 }
+#endif
 
 std::unique_ptr<Shadow> Shadow::createShadowFromDecoration(Window *window)
 {
     if (!window->decoration()) {
         return nullptr;
     }
-    auto shadow = Compositor::self()->scene()->createShadow(window);
+    auto shadow = std::make_unique<Shadow>(window);
     if (!shadow->init(window->decoration())) {
         return nullptr;
     }
@@ -92,7 +101,7 @@ std::unique_ptr<Shadow> Shadow::createShadowFromWayland(Window *window)
     if (!s) {
         return nullptr;
     }
-    auto shadow = Compositor::self()->scene()->createShadow(window);
+    auto shadow = std::make_unique<Shadow>(window);
     if (!shadow->init(s)) {
         return nullptr;
     }
@@ -109,16 +118,17 @@ std::unique_ptr<Shadow> Shadow::createShadowFromInternalWindow(Window *window)
     if (!handle) {
         return nullptr;
     }
-    auto shadow = Compositor::self()->scene()->createShadow(window);
+    auto shadow = std::make_unique<Shadow>(window);
     if (!shadow->init(handle)) {
         return nullptr;
     }
     return shadow;
 }
 
-QVector<uint32_t> Shadow::readX11ShadowProperty(xcb_window_t id)
+#if KWIN_BUILD_X11
+QList<uint32_t> Shadow::readX11ShadowProperty(xcb_window_t id)
 {
-    QVector<uint32_t> ret;
+    QList<uint32_t> ret;
     if (id != XCB_WINDOW_NONE) {
         Xcb::Property property(false, id, atoms->kde_net_wm_shadow, XCB_ATOM_CARDINAL, 0, 12);
         uint32_t *shadow = property.value<uint32_t *>();
@@ -131,11 +141,13 @@ QVector<uint32_t> Shadow::readX11ShadowProperty(xcb_window_t id)
     }
     return ret;
 }
+#endif
 
-bool Shadow::init(const QVector<uint32_t> &data)
+bool Shadow::init(const QList<uint32_t> &data)
 {
-    QVector<Xcb::WindowGeometry> pixmapGeometries(ShadowElementsCount);
-    QVector<xcb_get_image_cookie_t> getImageCookies(ShadowElementsCount);
+#if KWIN_BUILD_X11
+    QList<Xcb::WindowGeometry> pixmapGeometries(ShadowElementsCount);
+    QList<xcb_get_image_cookie_t> getImageCookies(ShadowElementsCount);
     auto *c = kwinApp()->x11Connection();
     for (int i = 0; i < ShadowElementsCount; ++i) {
         pixmapGeometries[i] = Xcb::WindowGeometry(data[i]);
@@ -165,14 +177,12 @@ bool Shadow::init(const QVector<uint32_t> &data)
         m_shadowElements[i] = image.copy();
         free(reply);
     }
+#endif
     m_offset = QMargins(data[ShadowElementsCount + 3],
                         data[ShadowElementsCount],
                         data[ShadowElementsCount + 1],
                         data[ShadowElementsCount + 2]);
     Q_EMIT offsetChanged();
-    if (!prepareBackend()) {
-        return false;
-    }
     Q_EMIT textureChanged();
     return true;
 }
@@ -181,38 +191,37 @@ bool Shadow::init(KDecoration2::Decoration *decoration)
 {
     if (m_decorationShadow) {
         // disconnect previous connections
-        disconnect(m_decorationShadow.data(), &KDecoration2::DecorationShadow::innerShadowRectChanged, m_window, &Window::updateShadow);
-        disconnect(m_decorationShadow.data(), &KDecoration2::DecorationShadow::shadowChanged, m_window, &Window::updateShadow);
-        disconnect(m_decorationShadow.data(), &KDecoration2::DecorationShadow::paddingChanged, m_window, &Window::updateShadow);
+        disconnect(m_decorationShadow.get(), &KDecoration2::DecorationShadow::innerShadowRectChanged, m_window, &Window::updateShadow);
+        disconnect(m_decorationShadow.get(), &KDecoration2::DecorationShadow::shadowChanged, m_window, &Window::updateShadow);
+        disconnect(m_decorationShadow.get(), &KDecoration2::DecorationShadow::paddingChanged, m_window, &Window::updateShadow);
     }
     m_decorationShadow = decoration->shadow();
     if (!m_decorationShadow) {
         return false;
     }
     // setup connections - all just mapped to recreate
-    connect(m_decorationShadow.data(), &KDecoration2::DecorationShadow::innerShadowRectChanged, m_window, &Window::updateShadow);
-    connect(m_decorationShadow.data(), &KDecoration2::DecorationShadow::shadowChanged, m_window, &Window::updateShadow);
-    connect(m_decorationShadow.data(), &KDecoration2::DecorationShadow::paddingChanged, m_window, &Window::updateShadow);
+    connect(m_decorationShadow.get(), &KDecoration2::DecorationShadow::innerShadowRectChanged, m_window, &Window::updateShadow);
+    connect(m_decorationShadow.get(), &KDecoration2::DecorationShadow::shadowChanged, m_window, &Window::updateShadow);
+    connect(m_decorationShadow.get(), &KDecoration2::DecorationShadow::paddingChanged, m_window, &Window::updateShadow);
 
     m_offset = m_decorationShadow->padding();
     Q_EMIT offsetChanged();
-    if (!prepareBackend()) {
-        return false;
-    }
     Q_EMIT textureChanged();
     return true;
 }
 
-static QImage shadowTileForBuffer(KWaylandServer::ClientBuffer *buffer)
+static QImage shadowTileForBuffer(GraphicsBuffer *buffer)
 {
-    auto shmBuffer = qobject_cast<KWaylandServer::ShmClientBuffer *>(buffer);
-    if (shmBuffer) {
-        return shmBuffer->data().copy();
+    if (buffer) {
+        const GraphicsBufferView view(buffer);
+        if (const QImage *image = view.image()) {
+            return image->copy();
+        }
     }
     return QImage();
 }
 
-bool Shadow::init(const QPointer<KWaylandServer::ShadowInterface> &shadow)
+bool Shadow::init(const QPointer<ShadowInterface> &shadow)
 {
     if (!shadow) {
         return false;
@@ -229,9 +238,6 @@ bool Shadow::init(const QPointer<KWaylandServer::ShadowInterface> &shadow)
 
     m_offset = shadow->offset().toMargins();
     Q_EMIT offsetChanged();
-    if (!prepareBackend()) {
-        return false;
-    }
     Q_EMIT textureChanged();
     return true;
 }
@@ -263,10 +269,6 @@ bool Shadow::init(const QWindow *window)
 
     m_offset = window->property("kwin_shadow_padding").value<QMargins>();
     Q_EMIT offsetChanged();
-
-    if (!prepareBackend()) {
-        return false;
-    }
     Q_EMIT textureChanged();
     return true;
 }
@@ -304,14 +306,17 @@ bool Shadow::updateShadow()
         }
     }
 
-    auto data = Shadow::readX11ShadowProperty(m_window->window());
-    if (data.isEmpty()) {
-        return false;
+#if KWIN_BUILD_X11
+    if (X11Window *window = qobject_cast<X11Window *>(m_window)) {
+        auto data = Shadow::readX11ShadowProperty(window->window());
+        if (!data.isEmpty()) {
+            init(data);
+            return true;
+        }
     }
+#endif
 
-    init(data);
-
-    return true;
+    return false;
 }
 
 Window *Shadow::window() const
@@ -319,11 +324,6 @@ Window *Shadow::window() const
     return m_window;
 }
 
-void Shadow::setWindow(Window *window)
-{
-    m_window = window;
-    connect(m_window, &Window::frameGeometryChanged, this, &Shadow::geometryChanged);
-}
 void Shadow::geometryChanged()
 {
     if (m_cachedSize == m_window->size()) {
@@ -370,3 +370,5 @@ QSize Shadow::elementSize(Shadow::ShadowElements element) const
 }
 
 } // namespace
+
+#include "moc_shadow.cpp"

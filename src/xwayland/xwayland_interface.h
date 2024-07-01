@@ -8,20 +8,15 @@
 */
 #pragma once
 
-#include <kwinglobals.h>
+#include "effect/globals.h"
 
 #include <QObject>
-#include <QPoint>
 
 class QProcess;
 
-namespace KWaylandServer
-{
-class AbstractDropHandler;
-}
-
 namespace KWin
 {
+class AbstractDropHandler;
 class Window;
 
 namespace Xwl
@@ -39,8 +34,8 @@ enum class DragEventReply {
 class KWIN_EXPORT XwaylandInterface
 {
 public:
-    virtual Xwl::DragEventReply dragMoveFilter(Window *target, const QPoint &pos) = 0;
-    virtual KWaylandServer::AbstractDropHandler *xwlDropHandler() = 0;
+    virtual Xwl::DragEventReply dragMoveFilter(Window *target) = 0;
+    virtual AbstractDropHandler *xwlDropHandler() = 0;
 
 protected:
     explicit XwaylandInterface() = default;

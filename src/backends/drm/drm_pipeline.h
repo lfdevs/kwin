@@ -9,16 +9,18 @@
 
 #pragma once
 
+#include <QList>
 #include <QPoint>
 #include <QSize>
-#include <QVector>
 
 #include <chrono>
 #include <xf86drmMode.h>
 
 #include "core/colorlut.h"
+#include "core/colorspace.h"
 #include "core/output.h"
 #include "core/renderloop_p.h"
+#include "drm_blob.h"
 #include "drm_connector.h"
 #include "drm_plane.h"
 
@@ -31,34 +33,20 @@ class DrmCrtc;
 class GammaRamp;
 class DrmConnectorMode;
 class DrmPipelineLayer;
-class DrmOverlayLayer;
+class DrmCommitThread;
+class OutputFrame;
 
 class DrmGammaRamp
 {
 public:
     DrmGammaRamp(DrmCrtc *crtc, const std::shared_ptr<ColorTransformation> &transformation);
-    ~DrmGammaRamp();
 
     const ColorLUT &lut() const;
-    uint32_t blobId() const;
+    std::shared_ptr<DrmBlob> blob() const;
 
 private:
-    DrmGpu *m_gpu;
     const ColorLUT m_lut;
-    uint32_t m_blobId = 0;
-};
-
-class DrmCTM
-{
-public:
-    DrmCTM(DrmGpu *gpu, const QMatrix3x3 &ctm);
-    ~DrmCTM();
-
-    uint32_t blobId() const;
-
-private:
-    DrmGpu *const m_gpu;
-    uint32_t m_blobId = 0;
+    std::shared_ptr<DrmBlob> m_blob;
 };
 
 class DrmPipeline
@@ -82,144 +70,133 @@ public:
      * tests the pending commit first and commits it if the test passes
      * if the test fails, there is a guarantee for no lasting changes
      */
-    Error present();
-    bool testScanout();
-    bool maybeModeset();
+    Error present(const std::shared_ptr<OutputFrame> &frame);
+    bool testScanout(const std::shared_ptr<OutputFrame> &frame);
+    bool maybeModeset(const std::shared_ptr<OutputFrame> &frame);
+    void forceLegacyModeset();
 
     bool needsModeset() const;
     void applyPendingChanges();
     void revertPendingChanges();
 
-    bool setCursor(const QPoint &hotspot = QPoint());
-    bool moveCursor();
+    bool updateCursor();
 
     DrmConnector *connector() const;
-    DrmCrtc *currentCrtc() const;
     DrmGpu *gpu() const;
 
     void pageFlipped(std::chrono::nanoseconds timestamp);
-    bool pageflipPending() const;
+    bool pageflipsPending() const;
     bool modesetPresentPending() const;
     void resetModesetPresentPending();
-    void printDebugInfo() const;
-    /**
-     * what size buffers submitted to this pipeline should have
-     */
-    QSize bufferSize() const;
 
-    QMap<uint32_t, QVector<uint64_t>> formats() const;
-    QMap<uint32_t, QVector<uint64_t>> cursorFormats() const;
+    QHash<uint32_t, QList<uint64_t>> formats(DrmPlane::TypeIndex planeType) const;
+    bool hasCTM() const;
+    bool hasGammaRamp() const;
     bool pruneModifier();
 
     void setOutput(DrmOutput *output);
     DrmOutput *output() const;
+
+    void setLayers(const std::shared_ptr<DrmPipelineLayer> &primaryLayer, const std::shared_ptr<DrmPipelineLayer> &cursorLayer);
+    DrmPipelineLayer *primaryLayer() const;
+    DrmPipelineLayer *cursorLayer() const;
+    std::chrono::nanoseconds presentationDeadline() const;
 
     DrmCrtc *crtc() const;
     std::shared_ptr<DrmConnectorMode> mode() const;
     bool active() const;
     bool activePending() const;
     bool enabled() const;
-    DrmPipelineLayer *primaryLayer() const;
-    DrmOverlayLayer *cursorLayer() const;
-    DrmPlane::Transformations renderOrientation() const;
-    DrmPlane::Transformations bufferOrientation() const;
-    RenderLoopPrivate::SyncMode syncMode() const;
+    PresentationMode presentationMode() const;
     uint32_t overscan() const;
     Output::RgbRange rgbRange() const;
     DrmConnector::DrmContentType contentType() const;
+    const ColorDescription &colorDescription() const;
+    const std::shared_ptr<IccProfile> &iccProfile() const;
 
     void setCrtc(DrmCrtc *crtc);
     void setMode(const std::shared_ptr<DrmConnectorMode> &mode);
     void setActive(bool active);
     void setEnable(bool enable);
-    void setLayers(const std::shared_ptr<DrmPipelineLayer> &primaryLayer, const std::shared_ptr<DrmOverlayLayer> &cursorLayer);
-    void setRenderOrientation(DrmPlane::Transformations orientation);
-    void setBufferOrientation(DrmPlane::Transformations orientation);
-    void setSyncMode(RenderLoopPrivate::SyncMode mode);
+    void setPresentationMode(PresentationMode mode);
     void setOverscan(uint32_t overscan);
     void setRgbRange(Output::RgbRange range);
     void setGammaRamp(const std::shared_ptr<ColorTransformation> &transformation);
     void setCTM(const QMatrix3x3 &ctm);
     void setContentType(DrmConnector::DrmContentType type);
+    void setColorDescription(const ColorDescription &description);
+    void setIccProfile(const std::shared_ptr<IccProfile> &profile);
+
+    /**
+     * amdgpu drops cursor updates with adaptive sync: https://gitlab.freedesktop.org/drm/amd/-/issues/2186
+     */
+    bool amdgpuVrrWorkaroundActive() const;
 
     enum class CommitMode {
         Test,
         TestAllowModeset,
-        Commit,
         CommitModeset
     };
     Q_ENUM(CommitMode)
-    static Error commitPipelines(const QVector<DrmPipeline *> &pipelines, CommitMode mode, const QVector<DrmObject *> &unusedObjects = {});
+    static Error commitPipelines(const QList<DrmPipeline *> &pipelines, CommitMode mode, const QList<DrmObject *> &unusedObjects = {});
 
 private:
     bool isBufferForDirectScanout() const;
     uint32_t calculateUnderscan();
     static Error errnoToError();
-    void checkHardwareRotation();
+    std::shared_ptr<DrmBlob> createHdrMetadata(NamedTransferFunction transferFunction) const;
 
     // legacy only
-    Error presentLegacy();
+    Error presentLegacy(const std::shared_ptr<OutputFrame> &frame);
     Error legacyModeset();
+    Error setLegacyGamma();
     Error applyPendingChangesLegacy();
     bool setCursorLegacy();
-    bool moveCursorLegacy();
-    static Error commitPipelinesLegacy(const QVector<DrmPipeline *> &pipelines, CommitMode mode);
+    static Error commitPipelinesLegacy(const QList<DrmPipeline *> &pipelines, CommitMode mode, const QList<DrmObject *> &unusedObjects);
 
     // atomic modesetting only
-    bool populateAtomicValues(drmModeAtomicReq *req);
-    void atomicCommitFailed();
-    void atomicTestSuccessful();
-    void atomicCommitSuccessful();
-    void atomicModesetSuccessful();
-    void prepareAtomicModeset();
-    bool prepareAtomicPresentation();
-    void prepareAtomicDisable();
-    static Error commitPipelinesAtomic(const QVector<DrmPipeline *> &pipelines, CommitMode mode, const QVector<DrmObject *> &unusedObjects);
-
-    // logging helpers
-    enum class PrintMode {
-        OnlyChanged,
-        All,
-    };
-    static void printFlags(uint32_t flags);
+    Error prepareAtomicCommit(DrmAtomicCommit *commit, CommitMode mode, const std::shared_ptr<OutputFrame> &frame);
+    bool prepareAtomicModeset(DrmAtomicCommit *commit);
+    Error prepareAtomicPresentation(DrmAtomicCommit *commit, const std::shared_ptr<OutputFrame> &frame);
+    void prepareAtomicCursor(DrmAtomicCommit *commit);
+    void prepareAtomicDisable(DrmAtomicCommit *commit);
+    static Error commitPipelinesAtomic(const QList<DrmPipeline *> &pipelines, CommitMode mode, const std::shared_ptr<OutputFrame> &frame, const QList<DrmObject *> &unusedObjects);
 
     DrmOutput *m_output = nullptr;
     DrmConnector *m_connector = nullptr;
 
-    bool m_pageflipPending = false;
     bool m_modesetPresentPending = false;
+    bool m_didLegacyScanoutHack = false;
+    std::shared_ptr<DrmGammaRamp> m_currentLegacyGamma;
 
     struct State
     {
         DrmCrtc *crtc = nullptr;
-        QMap<uint32_t, QVector<uint64_t>> formats;
+        QHash<uint32_t, QList<uint64_t>> formats;
         bool active = true; // whether or not the pipeline should be currently used
         bool enabled = true; // whether or not the pipeline needs a crtc
         bool needsModeset = false;
+        bool needsModesetProperties = false;
         std::shared_ptr<DrmConnectorMode> mode;
         uint32_t overscan = 0;
         Output::RgbRange rgbRange = Output::RgbRange::Automatic;
-        RenderLoopPrivate::SyncMode syncMode = RenderLoopPrivate::SyncMode::Fixed;
+        PresentationMode presentationMode = PresentationMode::VSync;
         std::shared_ptr<ColorTransformation> colorTransformation;
         std::shared_ptr<DrmGammaRamp> gamma;
-        std::shared_ptr<DrmCTM> ctm;
+        std::shared_ptr<DrmBlob> ctm;
         DrmConnector::DrmContentType contentType = DrmConnector::DrmContentType::Graphics;
 
-        std::shared_ptr<DrmPipelineLayer> layer;
-        std::shared_ptr<DrmOverlayLayer> cursorLayer;
-        QPoint cursorHotspot;
-
-        // the transformation that this pipeline will apply to submitted buffers
-        DrmPlane::Transformations bufferOrientation = DrmPlane::Transformation::Rotate0;
-        // the transformation that buffers submitted to the pipeline should have
-        DrmPlane::Transformations renderOrientation = DrmPlane::Transformation::Rotate0;
+        std::shared_ptr<IccProfile> iccProfile;
+        ColorDescription colorDescription = ColorDescription::sRGB;
     };
     // the state that is to be tested next
     State m_pending;
     // the state that will be applied at the next real atomic commit
     State m_next;
-    // the state that is already committed
-    State m_current;
+
+    std::unique_ptr<DrmCommitThread> m_commitThread;
+    std::shared_ptr<DrmPipelineLayer> m_primaryLayer;
+    std::shared_ptr<DrmPipelineLayer> m_cursorLayer;
 };
 
 }

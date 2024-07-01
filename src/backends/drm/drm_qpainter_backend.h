@@ -7,12 +7,11 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #pragma once
-#include "drm_dumb_swapchain.h"
 #include "drm_render_backend.h"
-#include "qpainterbackend.h"
+#include "platformsupport/scenes/qpainter/qpainterbackend.h"
 
+#include <QList>
 #include <QObject>
-#include <QVector>
 
 namespace KWin
 {
@@ -29,11 +28,13 @@ public:
     DrmQPainterBackend(DrmBackend *backend);
     ~DrmQPainterBackend();
 
-    void present(Output *output) override;
-    OutputLayer *primaryLayer(Output *output) override;
+    DrmDevice *drmDevice() const override;
 
-    std::shared_ptr<DrmPipelineLayer> createPrimaryLayer(DrmPipeline *pipeline) override;
-    std::shared_ptr<DrmOverlayLayer> createCursorLayer(DrmPipeline *pipeline) override;
+    void present(Output *output, const std::shared_ptr<OutputFrame> &frame) override;
+    OutputLayer *primaryLayer(Output *output) override;
+    OutputLayer *cursorLayer(Output *output) override;
+
+    std::shared_ptr<DrmPipelineLayer> createDrmPlaneLayer(DrmPipeline *pipeline, DrmPlane::TypeIndex type) override;
     std::shared_ptr<DrmOutputLayer> createLayer(DrmVirtualOutput *output) override;
 
 private:

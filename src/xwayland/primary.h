@@ -13,13 +13,10 @@
 
 #include <memory>
 
-namespace KWaylandServer
-{
-class AbstractDataSource;
-}
-
 namespace KWin
 {
+class AbstractDataSource;
+
 namespace Xwl
 {
 class XwlDataSource;
@@ -38,11 +35,12 @@ public:
 
 private:
     void doHandleXfixesNotify(xcb_xfixes_selection_notify_event_t *event) override;
+    void x11OfferLost() override;
     void x11OffersChanged(const QStringList &added, const QStringList &removed) override;
     /**
      * React to Wl selection change.
      */
-    void wlPrimarySelectionChanged(KWaylandServer::AbstractDataSource *dsi);
+    void wlPrimarySelectionChanged(AbstractDataSource *dsi);
     /**
      * Check the current state of the selection and if a source needs
      * to be created or destroyed.
@@ -52,7 +50,7 @@ private:
     /**
      * Returns if dsi is managed by our data bridge
      */
-    bool ownsSelection(KWaylandServer::AbstractDataSource *dsi) const;
+    bool ownsSelection(AbstractDataSource *dsi) const;
 
     QMetaObject::Connection m_checkConnection;
 

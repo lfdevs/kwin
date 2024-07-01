@@ -8,23 +8,21 @@
 */
 #pragma once
 
+#include "core/drmdevice.h"
 #include "drm_pipeline.h"
 #include "utils/filedescriptor.h"
 
+#include <QList>
 #include <QPointer>
 #include <QSize>
 #include <QSocketNotifier>
-#include <QVector>
 #include <qobject.h>
 
 #include <epoxy/egl.h>
 #include <sys/types.h>
 
-struct gbm_device;
-
 namespace KWin
 {
-
 class DrmOutput;
 class DrmObject;
 class DrmCrtc;
@@ -35,12 +33,16 @@ class EglGbmBackend;
 class DrmAbstractOutput;
 class DrmRenderBackend;
 class DrmVirtualOutput;
+class EglDisplay;
+class GraphicsBuffer;
+class GraphicsBufferAllocator;
+class OutputFrame;
 
 class DrmLease : public QObject
 {
     Q_OBJECT
 public:
-    DrmLease(DrmGpu *gpu, FileDescriptor &&fd, uint32_t lesseeId, const QVector<DrmOutput *> &outputs);
+    DrmLease(DrmGpu *gpu, FileDescriptor &&fd, uint32_t lesseeId, const QList<DrmOutput *> &outputs);
     ~DrmLease();
 
     FileDescriptor &fd();
@@ -53,29 +55,33 @@ private:
     DrmGpu *const m_gpu;
     FileDescriptor m_fd;
     const uint32_t m_lesseeId;
-    const QVector<DrmOutput *> m_outputs;
+    const QList<DrmOutput *> m_outputs;
 };
 
 class DrmGpu : public QObject
 {
     Q_OBJECT
 public:
-    DrmGpu(DrmBackend *backend, const QString &devNode, int fd, dev_t deviceId);
+    DrmGpu(DrmBackend *backend, int fd, std::unique_ptr<DrmDevice> &&device);
     ~DrmGpu();
 
     int fd() const;
-    dev_t deviceId() const;
-    QString devNode() const;
+    DrmDevice *drmDevice() const;
 
     bool isRemoved() const;
     void setRemoved();
+    void setActive(bool active);
+    bool isActive() const;
 
     bool atomicModeSetting() const;
     bool addFB2ModifiersSupported() const;
     bool asyncPageflipSupported() const;
+    bool isI915() const;
     bool isNVidia() const;
-    gbm_device *gbmDevice() const;
-    EGLDisplay eglDisplay() const;
+    bool isAmdgpu() const;
+    bool isVmwgfx() const;
+    bool isVirtualMachine() const;
+    EglDisplay *eglDisplay() const;
     DrmBackend *platform() const;
     /**
      * Returns the clock from which presentation timestamps are sourced. The returned value
@@ -84,11 +90,11 @@ public:
     clockid_t presentationClock() const;
     QSize cursorSize() const;
 
-    QVector<DrmVirtualOutput *> virtualOutputs() const;
-    QVector<DrmOutput *> drmOutputs() const;
-    const QVector<DrmPipeline *> pipelines() const;
+    QList<DrmVirtualOutput *> virtualOutputs() const;
+    QList<DrmOutput *> drmOutputs() const;
+    const QList<DrmPipeline *> pipelines() const;
 
-    void setEglDisplay(EGLDisplay display);
+    void setEglDisplay(std::unique_ptr<EglDisplay> &&display);
 
     bool updateOutputs();
     void removeOutputs();
@@ -98,15 +104,18 @@ public:
 
     DrmPipeline::Error testPendingConfiguration();
     bool needsModeset() const;
-    bool maybeModeset();
+    bool maybeModeset(const std::shared_ptr<OutputFrame> &frame);
 
+    std::shared_ptr<DrmFramebuffer> importBuffer(GraphicsBuffer *buffer, FileDescriptor &&explicitFence);
     void releaseBuffers();
     void recreateSurfaces();
 
     FileDescriptor createNonMasterFd() const;
-    std::unique_ptr<DrmLease> leaseOutputs(const QVector<DrmOutput *> &outputs);
+    std::unique_ptr<DrmLease> leaseOutputs(const QList<DrmOutput *> &outputs);
+    void waitIdle();
 
 Q_SIGNALS:
+    void activeChanged(bool active);
     void outputAdded(DrmAbstractOutput *output);
     void outputRemoved(DrmAbstractOutput *output);
 
@@ -115,39 +124,45 @@ private:
     DrmOutput *findOutput(quint32 connector);
     void removeOutput(DrmOutput *output);
     void initDrmResources();
-    void waitIdle();
 
-    DrmPipeline::Error checkCrtcAssignment(QVector<DrmConnector *> connectors, const QVector<DrmCrtc *> &crtcs);
+    DrmPipeline::Error checkCrtcAssignment(QList<DrmConnector *> connectors, const QList<DrmCrtc *> &crtcs);
     DrmPipeline::Error testPipelines();
-    QVector<DrmObject *> unusedObjects() const;
+    QList<DrmObject *> unusedObjects() const;
 
     static void pageFlipHandler(int fd, unsigned int sequence, unsigned int sec, unsigned int usec, unsigned int crtc_id, void *user_data);
 
     const int m_fd;
-    const dev_t m_deviceId;
-    const QString m_devNode;
+    const std::unique_ptr<DrmDevice> m_drmDevice;
     bool m_atomicModeSetting;
     bool m_addFB2ModifiersSupported = false;
     bool m_isNVidia;
+    bool m_isI915;
+    bool m_isAmdgpu;
+    bool m_isVmwgfx;
     bool m_isVirtualMachine;
+    bool m_supportsCursorPlaneHotspot = false;
     bool m_asyncPageflipSupported = false;
     bool m_isRemoved = false;
+    bool m_isActive = true;
+    bool m_forceModeset = false;
     clockid_t m_presentationClock;
-    gbm_device *m_gbmDevice;
-    EGLDisplay m_eglDisplay = EGL_NO_DISPLAY;
+    std::unique_ptr<EglDisplay> m_eglDisplay;
     DrmBackend *const m_platform;
 
     std::vector<std::unique_ptr<DrmPlane>> m_planes;
     std::vector<std::unique_ptr<DrmCrtc>> m_crtcs;
     std::vector<std::shared_ptr<DrmConnector>> m_connectors;
-    QVector<DrmObject *> m_allObjects;
-    QVector<DrmPipeline *> m_pipelines;
+    QList<DrmObject *> m_allObjects;
+    QList<DrmPipeline *> m_pipelines;
 
-    QVector<DrmOutput *> m_drmOutputs;
-    QVector<DrmVirtualOutput *> m_virtualOutputs;
+    QList<DrmOutput *> m_drmOutputs;
+    QList<DrmVirtualOutput *> m_virtualOutputs;
 
     std::unique_ptr<QSocketNotifier> m_socketNotifier;
     QSize m_cursorSize;
+    std::vector<std::shared_ptr<OutputFrame>> m_pendingModesetFrames;
 };
 
 }
+
+QDebug &operator<<(QDebug &s, const KWin::DrmGpu *gpu);

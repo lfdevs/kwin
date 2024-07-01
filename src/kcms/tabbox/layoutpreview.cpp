@@ -31,11 +31,10 @@ LayoutPreview::LayoutPreview(const QString &path, bool showDesktopThumbnail, QOb
 {
     QQmlEngine *engine = new QQmlEngine(this);
     QQmlComponent *component = new QQmlComponent(engine, this);
-    qmlRegisterType<WindowThumbnailItem>("org.kde.kwin", 2, 0, "ThumbnailItem");
-    qmlRegisterType<SwitcherItem>("org.kde.kwin", 2, 0, "Switcher");
-    qmlRegisterType<WindowThumbnailItem>("org.kde.kwin", 3, 0, "WindowThumbnailItem");
+    qmlRegisterType<WindowThumbnailItem>("org.kde.kwin", 3, 0, "WindowThumbnail");
     qmlRegisterType<SwitcherItem>("org.kde.kwin", 3, 0, "TabBoxSwitcher");
-    qmlRegisterAnonymousType<QAbstractItemModel>("org.kde.kwin", 2);
+    qmlRegisterType<DesktopBackground>("org.kde.kwin", 3, 0, "DesktopBackground");
+    qmlRegisterAnonymousType<QAbstractItemModel>("org.kde.kwin", 3);
     component->loadUrl(QUrl::fromLocalFile(path));
     if (component->isError()) {
         qDebug() << component->errorString();
@@ -68,7 +67,6 @@ LayoutPreview::LayoutPreview(const QString &path, bool showDesktopThumbnail, QOb
     };
     if (QQuickWindow *w = findWindow()) {
         w->setKeyboardGrabEnabled(true);
-        w->setMouseGrabEnabled(true);
         w->installEventFilter(this);
     }
 }
@@ -91,13 +89,9 @@ bool LayoutPreview::eventFilter(QObject *object, QEvent *event)
         if (m_item && keyEvent->key() == Qt::Key_Backtab) {
             m_item->decrementIndex();
         }
-    } else if (event->type() == QEvent::MouseButtonPress) {
-        if (QWindow *w = qobject_cast<QWindow *>(object)) {
-            if (!w->geometry().contains(static_cast<QMouseEvent *>(event)->globalPos())) {
-                object->deleteLater();
-                deleteLater();
-            }
-        }
+    } else if (event->type() == QEvent::FocusOut) {
+        object->deleteLater();
+        deleteLater();
     }
     return QObject::eventFilter(object, event);
 }
@@ -165,6 +159,8 @@ QVariant ExampleClientModel::data(const QModelIndex &index, int role) const
         return item.icon;
     case WindowIdRole:
         return item.wId;
+    case CloseableRole:
+        return item.wId != WindowThumbnailItem::Desktop;
     }
     return QVariant();
 }
@@ -193,6 +189,7 @@ QHash<int, QByteArray> ExampleClientModel::roleNames() const
         {DesktopNameRole, QByteArrayLiteral("desktopName")},
         {IconRole, QByteArrayLiteral("icon")},
         {WindowIdRole, QByteArrayLiteral("windowId")},
+        {CloseableRole, QByteArrayLiteral("closeable")},
     };
 }
 
@@ -253,5 +250,29 @@ void SwitcherItem::decrementIndex()
     setCurrentIndex(index);
 }
 
+DesktopBackground::DesktopBackground(QQuickItem *parent)
+    : WindowThumbnailItem(parent)
+{
+    setWId(WindowThumbnailItem::Desktop);
+
+    connect(this, &QQuickItem::windowChanged, this, &DesktopBackground::stretchToScreen);
+    stretchToScreen();
+};
+
+void DesktopBackground::stretchToScreen()
+{
+    const QQuickWindow *w = window();
+    if (!w) {
+        return;
+    }
+    const QScreen *screen = w->screen();
+    if (!screen) {
+        return;
+    }
+    setImplicitSize(screen->size().width(), screen->size().height());
+};
+
 } // namespace KWin
 } // namespace TabBox
+
+#include "moc_layoutpreview.cpp"

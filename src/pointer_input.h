@@ -21,11 +21,6 @@
 
 class QWindow;
 
-namespace KWaylandServer
-{
-class SurfaceInterface;
-}
-
 namespace KWin
 {
 class Window;
@@ -33,9 +28,10 @@ class CursorImage;
 class InputDevice;
 class InputRedirection;
 class CursorShape;
-class ImageCursorSource;
 class ShapeCursorSource;
 class SurfaceCursorSource;
+class PointerSurfaceCursor;
+class SurfaceInterface;
 
 namespace Decoration
 {
@@ -72,7 +68,6 @@ public:
     void removeWindowSelectionCursor();
 
     void updatePointerConstraints();
-    void updateCursorOutputs();
 
     void setEnableConstraints(bool set);
 
@@ -143,9 +138,26 @@ public:
      * @internal
      */
     void processHoldGestureCancelled(std::chrono::microseconds time, KWin::InputDevice *device = nullptr);
+    /**
+     * @internal
+     */
+    void processFrame(KWin::InputDevice *device = nullptr);
 
 private:
-    void processMotionInternal(const QPointF &pos, const QPointF &delta, const QPointF &deltaNonAccelerated, std::chrono::microseconds time, InputDevice *device);
+    enum class EdgeBarrierType {
+        NormalBarrier,
+        WindowMoveBarrier,
+        // WindowResize is separate from WindowMove since there is edge snapping during resize, so a different resistance might be desirable
+        WindowResizeBarrier,
+        EdgeElementBarrier,
+        CornerBarrier,
+    };
+    void processWarp(const QPointF &pos, std::chrono::microseconds time, InputDevice *device = nullptr);
+    enum class MotionType {
+        Motion,
+        Warp
+    };
+    void processMotionInternal(const QPointF &pos, const QPointF &delta, const QPointF &deltaNonAccelerated, std::chrono::microseconds time, InputDevice *device, MotionType type);
     void cleanupDecoration(Decoration::DecoratedClientImpl *old, Decoration::DecoratedClientImpl *now) override;
 
     void focusUpdate(Window *focusOld, Window *focusNow) override;
@@ -154,13 +166,16 @@ private:
 
     void updateOnStartMoveResize();
     void updateToReset();
-    void updatePosition(const QPointF &pos);
+    void updatePosition(const QPointF &pos, std::chrono::microseconds time);
     void updateButton(uint32_t button, InputRedirection::PointerButtonState state);
+    QPointF applyEdgeBarrier(const QPointF &pos, const Output *currentOutput, std::chrono::microseconds time);
+    EdgeBarrierType edgeBarrierType(const QPointF &pos, const QRectF &lastOutputGeometry) const;
+    qreal edgeBarrier(EdgeBarrierType type) const;
     QPointF applyPointerConfinement(const QPointF &pos) const;
     void disconnectConfinedPointerRegionConnection();
     void disconnectLockedPointerAboutToBeUnboundConnection();
     void disconnectPointerConstraintsConnection();
-    void breakPointerConstraints(KWaylandServer::SurfaceInterface *surface);
+    void breakPointerConstraints(SurfaceInterface *surface);
     CursorImage *m_cursor;
     QPointF m_pos;
     QHash<uint32_t, InputRedirection::PointerButtonState> m_buttons;
@@ -172,10 +187,15 @@ private:
     QMetaObject::Connection m_lockedPointerAboutToBeUnboundConnection;
     QMetaObject::Connection m_decorationGeometryConnection;
     QMetaObject::Connection m_decorationDestroyedConnection;
+    QMetaObject::Connection m_decorationClosedConnection;
     bool m_confined = false;
     bool m_locked = false;
     bool m_enableConstraints = true;
+    bool m_lastOutputWasPlaceholder = true;
+    QPointF m_movementInEdgeBarrier;
+    std::chrono::microseconds m_lastMoveTime = std::chrono::microseconds::zero();
     friend class PositionUpdateBlocker;
+    EdgeBarrierType m_lastEdgeBarrierType = EdgeBarrierType::NormalBarrier;
 };
 
 class WaylandCursorImage : public QObject
@@ -186,14 +206,10 @@ public:
 
     KXcursorTheme theme() const;
 
-    void loadThemeCursor(const CursorShape &shape, ImageCursorSource *source);
-    void loadThemeCursor(const QByteArray &name, ImageCursorSource *source);
-
 Q_SIGNALS:
     void themeChanged();
 
 private:
-    bool loadThemeCursor_helper(const QByteArray &name, ImageCursorSource *source);
     void updateCursorTheme();
 
     KXcursorTheme m_cursorTheme;
@@ -214,6 +230,8 @@ public:
     KXcursorTheme theme() const;
     CursorSource *source() const;
     void setSource(CursorSource *source);
+
+    void updateCursorOutputs(const QPointF &pos);
     void markAsRendered(std::chrono::milliseconds timestamp);
 
 Q_SIGNALS:
@@ -221,7 +239,7 @@ Q_SIGNALS:
 
 private:
     void reevaluteSource();
-    void updateServerCursor();
+    void updateServerCursor(const std::variant<PointerSurfaceCursor *, QByteArray> &cursor);
     void updateDecoration();
     void updateDecorationCursor();
     void updateMoveResize();
@@ -245,7 +263,9 @@ private:
     struct
     {
         QMetaObject::Connection connection;
-        std::unique_ptr<SurfaceCursorSource> cursor;
+        std::unique_ptr<SurfaceCursorSource> surface;
+        std::unique_ptr<ShapeCursorSource> shape;
+        CursorSource *cursor = nullptr;
     } m_serverCursor;
 };
 
@@ -258,7 +278,7 @@ class InputRedirectionCursor : public KWin::Cursor
 {
     Q_OBJECT
 public:
-    explicit InputRedirectionCursor(QObject *parent);
+    explicit InputRedirectionCursor();
     ~InputRedirectionCursor() override;
 
 protected:

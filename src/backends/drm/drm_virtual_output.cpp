@@ -9,13 +9,12 @@
 */
 #include "drm_virtual_output.h"
 
-#include "core/renderloop_p.h"
+#include "core/renderbackend.h"
 #include "drm_backend.h"
 #include "drm_gpu.h"
 #include "drm_layer.h"
-#include "drm_logging.h"
 #include "drm_render_backend.h"
-#include "softwarevsyncmonitor.h"
+#include "utils/softwarevsyncmonitor.h"
 
 namespace KWin
 {
@@ -47,18 +46,19 @@ DrmVirtualOutput::~DrmVirtualOutput()
 {
 }
 
-bool DrmVirtualOutput::present()
+bool DrmVirtualOutput::present(const std::shared_ptr<OutputFrame> &frame)
 {
+    m_frame = frame;
     m_vsyncMonitor->arm();
-    m_pageFlipPending = true;
-    Q_EMIT outputChange(m_layer->currentDamage());
+    Q_EMIT outputChange(frame->damage());
     return true;
 }
 
 void DrmVirtualOutput::vblank(std::chrono::nanoseconds timestamp)
 {
-    if (m_pageFlipPending) {
-        DrmAbstractOutput::pageFlipped(timestamp);
+    if (m_frame) {
+        m_frame->presented(timestamp, PresentationMode::VSync);
+        m_frame.reset();
     }
 }
 
@@ -74,9 +74,16 @@ DrmOutputLayer *DrmVirtualOutput::primaryLayer() const
     return m_layer.get();
 }
 
+DrmOutputLayer *DrmVirtualOutput::cursorLayer() const
+{
+    return nullptr;
+}
+
 void DrmVirtualOutput::recreateSurface()
 {
     m_layer = m_gpu->platform()->renderBackend()->createLayer(this);
 }
 
 }
+
+#include "moc_drm_virtual_output.cpp"

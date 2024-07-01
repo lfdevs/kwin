@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-03 00:48+0000\n"
+"POT-Creation-Date: 2024-02-06 00:39+0000\n"
 "PO-Revision-Date: 2022-12-22 11:14+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -22,17 +22,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
-"X-Generator: Lokalize 21.12.3\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Mohamed SAAD محمد سعد,زايد السعيدي"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "metehyi@free.fr,zayed.alsaidi@gmail.com"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
 #: actions.ui:17
@@ -332,6 +321,7 @@ msgstr "زِد الشّفافيّة"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TitlebarDoubleClickCommand)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandTitlebarWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar1)
@@ -340,8 +330,8 @@ msgstr "زِد الشّفافيّة"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
-#: actions.ui:310 actions.ui:380 actions.ui:450 actions.ui:505 mouse.ui:80
-#: mouse.ui:132 mouse.ui:271 mouse.ui:333 mouse.ui:386 mouse.ui:448
+#: actions.ui:310 actions.ui:380 actions.ui:450 actions.ui:505 advanced.ui:174
+#: mouse.ui:80 mouse.ui:132 mouse.ui:271 mouse.ui:333 mouse.ui:386 mouse.ui:448
 #: mouse.ui:501 mouse.ui:563
 #, kde-format
 msgid "Do nothing"
@@ -887,26 +877,8 @@ msgstr ""
 msgid "Multiscreen behavior:"
 msgstr "سلوك الشاشات المتعددة:"
 
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ActiveMouseScreen)
-#: focus.ui:203
-#, kde-format
-msgid ""
-"When this option is enabled, the active screen (where new windows appear, "
-"for example) is the screen containing the mouse pointer. When disabled, the "
-"active screen is the screen containing the focused window."
-msgstr ""
-"عند تمكين هذا الخيار ، تكون الشاشة النشطة (حيث تظهر النوافذ الجديدة ، على "
-"سبيل المثال) هي الشاشة التي تحتوي على مؤشر الفأرة. عند التعطيل ، تكون الشاشة "
-"النشطة هي الشاشة التي تحتوي على النافذة المركزة."
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ActiveMouseScreen)
-#: focus.ui:206
-#, kde-format
-msgid "Active screen follows &mouse"
-msgstr "الشاشة النشطة تتبع ال&فأرة"
-
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SeparateScreenFocus)
-#: focus.ui:213
+#: focus.ui:203
 #, kde-format
 msgid ""
 "When this option is enabled, focus operations are limited only to the active "
@@ -915,119 +887,48 @@ msgstr ""
 "إذا تم تمكين هذا الخيار ، عمليات التركيز ستكون محدودة فقط في الشاشة النشطة"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SeparateScreenFocus)
-#: focus.ui:216
+#: focus.ui:206
 #, kde-format
 msgid "&Separate screen focus"
 msgstr "اف&صل تركيز الشاشة"
 
 #. i18n: ectx: property (text), widget (QLabel, windowFocusPolicyDescriptionLabel)
-#: focus.ui:229
+#: focus.ui:219
 #, kde-format
 msgid "Window activation policy description"
 msgstr "وصف سياسة تنشيط النافذة"
 
-#: main.cpp:73
+#: main.cpp:79
 #, kde-format
 msgid "&Focus"
 msgstr "التر&كيز"
 
-#: main.cpp:79
+#: main.cpp:84
 #, kde-format
 msgid "Titlebar A&ctions"
 msgstr "إجراءات &شريط العنوان"
 
-#: main.cpp:85
+#: main.cpp:89
 #, kde-format
 msgid "W&indow Actions"
 msgstr "اج&راءات النوافذ"
 
-#: main.cpp:91
+#: main.cpp:94
 #, kde-format
 msgid "Mo&vement"
 msgstr "ال&حركة"
 
-#: main.cpp:97
+#: main.cpp:99
 #, kde-format
 msgid "Adva&nced"
 msgstr "متق&دّم"
 
-#: main.cpp:101
-#, kde-format
-msgid "Window Behavior Configuration Module"
-msgstr "وحدة تشكيل سلوك النوافذ"
-
-#: main.cpp:103
-#, kde-format
-msgid "(c) 1997 - 2002 KWin and KControl Authors"
-msgstr "(c) 1997 - 2002 KWin and KControl مؤلفو"
-
-#: main.cpp:105
-#, kde-format
-msgid "Matthias Ettrich"
-msgstr "Matthias Ettrich"
-
-#: main.cpp:106
-#, kde-format
-msgid "Waldo Bastian"
-msgstr "Waldo Bastian"
-
-#: main.cpp:107
-#, kde-format
-msgid "Cristian Tibirna"
-msgstr "Cristian Tibirna"
-
-#: main.cpp:108
-#, kde-format
-msgid "Matthias Kalle Dalheimer"
-msgstr "Matthias Kalle Dalheimer"
-
-#: main.cpp:109
-#, kde-format
-msgid "Daniel Molkentin"
-msgstr "Daniel Molkentin"
-
-#: main.cpp:110
-#, kde-format
-msgid "Wynn Wilkes"
-msgstr "Wynn Wilkes"
-
-#: main.cpp:111
-#, kde-format
-msgid "Pat Dowler"
-msgstr "Pat Dowler"
-
-#: main.cpp:112
-#, kde-format
-msgid "Bernd Wuebben"
-msgstr "Bernd Wuebben"
-
-#: main.cpp:113
-#, kde-format
-msgid "Matthias Hoelzer-Kluepfel"
-msgstr "Matthias Hoelzer-Kluepfel"
-
-#: main.cpp:161
-#, kde-format
-msgid ""
-"<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
-"when being moved, resized or clicked on. You can also specify a focus policy "
-"as well as a placement policy for new windows.</p> <p>Please note that this "
-"configuration will not take effect if you do not use KWin as your window "
-"manager. If you do use a different window manager, please refer to its "
-"documentation for how to customize window behavior.</p>"
-msgstr ""
-"<p><h1>سلوك النافذة</h1>هنا يمكنك تخصيص كيف تتصرف النافذة عندما تحرك أو تحجم "
-"أو ينقر عليها ، كذلك تستطيع أن تحدد سياسة التركيز و سياسة مكان النوافذ "
-"الجديدة.</p> <p>الرجاء ملاحظة أن هذه الإعدادات لن تدخل في حيز التنفيذ إذا لم "
-"تستعمل كوِن كمدير نوافذك ، إذا كنت تستخدم مدير نوافذ مختلف فراجع وثائقه "
-"لتعريف كيف يمكن تخصيصه.</p>"
-
-#: main.cpp:202
+#: main.cpp:178
 #, kde-format
 msgid "&Titlebar Actions"
 msgstr "إج&راءات شريط العنوان"
 
-#: main.cpp:208
+#: main.cpp:188
 #, kde-format
 msgid "Window Actio&ns"
 msgstr "اج&راءات النوافذ"
@@ -1297,7 +1198,7 @@ msgstr ""
 msgid "Only when overlapping"
 msgstr "فقط عندما تكون تغطي بعضها"
 
-#: windows.cpp:97
+#: windows.cpp:92
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
@@ -1306,7 +1207,7 @@ msgstr ""
 "<em> انقر للتركيز: </em> تصبح النافذة نشطة عندما تنقر عليها.هذا السلوك شائع "
 "في أنظمة التشغيل الأخرى وعلى الأرجح ما تريده."
 
-#: windows.cpp:101
+#: windows.cpp:95
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1320,7 +1221,7 @@ msgstr ""
 "بسبب إغلاق النافذة النشطة حاليًا) ، فإن النافذة الموجودة أسفل الفأرة هي "
 "المرشح المفضل. هذا غير معتاد ولكنه  تنويع ممكن لـ <em> انقر للتركيز </em>."
 
-#: windows.cpp:106
+#: windows.cpp:98
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1333,7 +1234,7 @@ msgstr ""
 "يستمر <em> التركيز على منع السرقة </em> كالمعتاد. إنها تشبه <em> انقر "
 "للتركيز </em> دون الحاجة إلى النقر فعليًا."
 
-#: windows.cpp:110
+#: windows.cpp:101
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1346,7 +1247,7 @@ msgstr ""
 "حاليًا) ، فإن النافذة الموجودة أسفل الفأرة هي المرشح المفضل. اختر هذا ، إذا "
 "كنت تريد تركيزًا متحكمًا فيه بواسطة التحويم."
 
-#: windows.cpp:115
+#: windows.cpp:104
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1361,7 +1262,7 @@ msgstr ""
 "من المحتمل جدًا أنك تريد استخدام <em> التركيز يتبع الفأرة (أولوية الفأرة) </"
 "em> بدلاً من ذلك!"
 
-#: windows.cpp:119
+#: windows.cpp:107
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "
@@ -1377,6 +1278,73 @@ msgstr ""
 "التركيز </em> و <em> صندوق التبويب ('Alt + Tab') </em> تتعارض مع سياسة "
 "التنشيط ولن تعمل. من المحتمل جدًا أنك تريد استخدام <em> التركيز يتبع الفأرة "
 "(أولوية الفأرة) </em> بدلاً من ذلك!"
+
+#~ msgid ""
+#~ "When this option is enabled, the active screen (where new windows appear, "
+#~ "for example) is the screen containing the mouse pointer. When disabled, "
+#~ "the active screen is the screen containing the focused window."
+#~ msgstr ""
+#~ "عند تمكين هذا الخيار ، تكون الشاشة النشطة (حيث تظهر النوافذ الجديدة ، على "
+#~ "سبيل المثال) هي الشاشة التي تحتوي على مؤشر الفأرة. عند التعطيل ، تكون "
+#~ "الشاشة النشطة هي الشاشة التي تحتوي على النافذة المركزة."
+
+#~ msgid "Active screen follows &mouse"
+#~ msgstr "الشاشة النشطة تتبع ال&فأرة"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Mohamed SAAD محمد سعد,زايد السعيدي"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "metehyi@free.fr,zayed.alsaidi@gmail.com"
+
+#~ msgid "Window Behavior Configuration Module"
+#~ msgstr "وحدة تشكيل سلوك النوافذ"
+
+#~ msgid "(c) 1997 - 2002 KWin and KControl Authors"
+#~ msgstr "(c) 1997 - 2002 KWin and KControl مؤلفو"
+
+#~ msgid "Matthias Ettrich"
+#~ msgstr "Matthias Ettrich"
+
+#~ msgid "Waldo Bastian"
+#~ msgstr "Waldo Bastian"
+
+#~ msgid "Cristian Tibirna"
+#~ msgstr "Cristian Tibirna"
+
+#~ msgid "Matthias Kalle Dalheimer"
+#~ msgstr "Matthias Kalle Dalheimer"
+
+#~ msgid "Daniel Molkentin"
+#~ msgstr "Daniel Molkentin"
+
+#~ msgid "Wynn Wilkes"
+#~ msgstr "Wynn Wilkes"
+
+#~ msgid "Pat Dowler"
+#~ msgstr "Pat Dowler"
+
+#~ msgid "Bernd Wuebben"
+#~ msgstr "Bernd Wuebben"
+
+#~ msgid "Matthias Hoelzer-Kluepfel"
+#~ msgstr "Matthias Hoelzer-Kluepfel"
+
+#~ msgid ""
+#~ "<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
+#~ "when being moved, resized or clicked on. You can also specify a focus "
+#~ "policy as well as a placement policy for new windows.</p> <p>Please note "
+#~ "that this configuration will not take effect if you do not use KWin as "
+#~ "your window manager. If you do use a different window manager, please "
+#~ "refer to its documentation for how to customize window behavior.</p>"
+#~ msgstr ""
+#~ "<p><h1>سلوك النافذة</h1>هنا يمكنك تخصيص كيف تتصرف النافذة عندما تحرك أو "
+#~ "تحجم أو ينقر عليها ، كذلك تستطيع أن تحدد سياسة التركيز و سياسة مكان "
+#~ "النوافذ الجديدة.</p> <p>الرجاء ملاحظة أن هذه الإعدادات لن تدخل في حيز "
+#~ "التنفيذ إذا لم تستعمل كوِن كمدير نوافذك ، إذا كنت تستخدم مدير نوافذ مختلف "
+#~ "فراجع وثائقه لتعريف كيف يمكن تخصيصه.</p>"
 
 #~ msgid "Cascaded"
 #~ msgstr "متتالي"

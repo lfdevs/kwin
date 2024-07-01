@@ -7,7 +7,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#include <kwineffects.h>
+#include "effect/effecthandler.h"
 
 #include "virtualdesktops.h"
 
@@ -15,7 +15,7 @@
 #include <QGraphicsScale>
 #include <QVector2D>
 
-#include <QtTest>
+#include <QTest>
 
 using namespace KWin;
 

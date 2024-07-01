@@ -6,13 +6,13 @@
 
 #include "scene/imageitem.h"
 
-#include <kwingltexture.h>
+#include "opengl/gltexture.h"
 
 namespace KWin
 {
 
-ImageItem::ImageItem(Scene *scene, Item *parent)
-    : Item(scene, parent)
+ImageItem::ImageItem(Item *parent)
+    : Item(parent)
 {
 }
 
@@ -26,8 +26,8 @@ void ImageItem::setImage(const QImage &image)
     m_image = image;
 }
 
-ImageItemOpenGL::ImageItemOpenGL(Scene *scene, Item *parent)
-    : ImageItem(scene, parent)
+ImageItemOpenGL::ImageItemOpenGL(Item *parent)
+    : ImageItem(parent)
 {
 }
 
@@ -49,7 +49,12 @@ void ImageItemOpenGL::preprocess()
         m_textureKey = m_image.cacheKey();
 
         if (!m_texture || m_texture->size() != m_image.size()) {
-            m_texture = std::make_unique<GLTexture>(m_image);
+            m_texture = GLTexture::upload(m_image);
+            if (!m_texture) {
+                return;
+            }
+            m_texture->setFilter(GL_LINEAR);
+            m_texture->setWrapMode(GL_CLAMP_TO_EDGE);
         } else {
             m_texture->update(m_image);
         }
@@ -75,3 +80,5 @@ WindowQuadList ImageItemOpenGL::buildQuads() const
 }
 
 } // namespace KWin
+
+#include "moc_imageitem.cpp"

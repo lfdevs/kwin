@@ -3,9 +3,9 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-import QtQuick 2.0
-import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.kwin.decoration 0.1
+import QtQuick
+import org.kde.ksvg 1.0 as KSvg
+import org.kde.kwin.decoration
 
 DecorationButton {
     function widthForButton() {
@@ -79,7 +79,7 @@ DecorationButton {
     }
     width: widthForButton() * auroraeTheme.buttonSizeFactor
     height: auroraeTheme.buttonHeight * auroraeTheme.buttonSizeFactor
-    PlasmaCore.FrameSvg {
+    KSvg.FrameSvg {
         property bool supportsHover: hasElementPrefix("hover")
         property bool supportsPressed: hasElementPrefix("pressed")
         property bool supportsDeactivated: hasElementPrefix("deactivated")
@@ -90,7 +90,7 @@ DecorationButton {
         id: buttonSvg
         imagePath: pathForButton()
     }
-    PlasmaCore.FrameSvgItem {
+    KSvg.FrameSvgItem {
         id: buttonActive
         property bool shown: (decoration.client.active || !buttonSvg.supportsInactive) && ((!pressed && !toggled) || !buttonSvg.supportsPressed) && (!hovered || !buttonSvg.supportsHover) && (enabled || !buttonSvg.supportsDeactivated)
         anchors.fill: parent
@@ -103,7 +103,7 @@ DecorationButton {
             }
         }
     }
-    PlasmaCore.FrameSvgItem {
+    KSvg.FrameSvgItem {
         id: buttonActiveHover
         property bool shown: hovered && !pressed && !toggled && buttonSvg.supportsHover && (decoration.client.active || !buttonSvg.supportsInactiveHover)
         anchors.fill: parent
@@ -116,7 +116,7 @@ DecorationButton {
             }
         }
     }
-    PlasmaCore.FrameSvgItem {
+    KSvg.FrameSvgItem {
         id: buttonActivePressed
         property bool shown: (toggled || pressed) && buttonSvg.supportsPressed && (decoration.client.active || !buttonSvg.supportsInactivePressed)
         anchors.fill: parent
@@ -129,7 +129,7 @@ DecorationButton {
             }
         }
     }
-    PlasmaCore.FrameSvgItem {
+    KSvg.FrameSvgItem {
         id: buttonActiveDeactivated
         property bool shown: !enabled && buttonSvg.supportsDeactivated && (decoration.client.active || !buttonSvg.supportsInactiveDeactivated)
         anchors.fill: parent
@@ -142,7 +142,7 @@ DecorationButton {
             }
         }
     }
-    PlasmaCore.FrameSvgItem {
+    KSvg.FrameSvgItem {
         id: buttonInactive
         property bool shown: !decoration.client.active && buttonSvg.supportsInactive && !hovered && !pressed && !toggled && enabled
         anchors.fill: parent
@@ -155,7 +155,7 @@ DecorationButton {
             }
         }
     }
-    PlasmaCore.FrameSvgItem {
+    KSvg.FrameSvgItem {
         id: buttonInactiveHover
         property bool shown: !decoration.client.active && hovered && !pressed && !toggled && buttonSvg.supportsInactiveHover
         anchors.fill: parent
@@ -168,7 +168,7 @@ DecorationButton {
             }
         }
     }
-    PlasmaCore.FrameSvgItem {
+    KSvg.FrameSvgItem {
         id: buttonInactivePressed
         property bool shown: !decoration.client.active && (toggled || pressed) && buttonSvg.supportsInactivePressed
         anchors.fill: parent
@@ -181,7 +181,7 @@ DecorationButton {
             }
         }
     }
-    PlasmaCore.FrameSvgItem {
+    KSvg.FrameSvgItem {
         id: buttonInactiveDeactivated
         property bool shown: !decoration.client.active && !enabled && buttonSvg.supportsInactiveDeactivated
         anchors.fill: parent

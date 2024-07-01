@@ -10,21 +10,20 @@
     SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
 #pragma once
-#include "clientbuffer_p.h"
+
 #include "display.h"
-#include "display_p.h"
 #include "linuxdmabufv1clientbuffer.h"
 #include "utils/ramfile.h"
 
 #include "qwayland-server-linux-dmabuf-unstable-v1.h"
-#include "qwayland-server-wayland.h"
 
 #include <QDebug>
-#include <QVector>
+#include <QList>
+#include <QPointer>
 
 #include <drm_fourcc.h>
 
-namespace KWaylandServer
+namespace KWin
 {
 
 class LinuxDmaBufV1FormatTable;
@@ -35,11 +34,11 @@ public:
     LinuxDmaBufV1ClientBufferIntegrationPrivate(LinuxDmaBufV1ClientBufferIntegration *q, Display *display);
 
     LinuxDmaBufV1ClientBufferIntegration *q;
-    LinuxDmaBufV1ClientBufferIntegration::RendererInterface *rendererInterface = nullptr;
     std::unique_ptr<LinuxDmaBufV1Feedback> defaultFeedback;
     std::unique_ptr<LinuxDmaBufV1FormatTable> table;
     dev_t mainDevice;
-    QHash<uint32_t, QVector<uint64_t>> supportedModifiers;
+    QPointer<RenderBackend> renderBackend;
+    QHash<uint32_t, QList<uint64_t>> supportedModifiers;
 
 protected:
     void zwp_linux_dmabuf_v1_bind_resource(Resource *resource) override;
@@ -47,17 +46,6 @@ protected:
     void zwp_linux_dmabuf_v1_create_params(Resource *resource, uint32_t params_id) override;
     void zwp_linux_dmabuf_v1_get_default_feedback(Resource *resource, uint32_t id) override;
     void zwp_linux_dmabuf_v1_get_surface_feedback(Resource *resource, uint32_t id, wl_resource *surface) override;
-};
-
-class LinuxDmaBufV1ClientBufferPrivate : public ClientBufferPrivate, public QtWaylandServer::wl_buffer
-{
-public:
-    KWin::DmaBufAttributes attrs;
-    quint32 flags;
-    bool hasAlphaChannel = false;
-
-protected:
-    void buffer_destroy(Resource *resource) override;
 };
 
 class LinuxDmaBufParamsV1 : public QtWaylandServer::zwp_linux_buffer_params_v1
@@ -83,16 +71,43 @@ private:
     bool test(Resource *resource, uint32_t width, uint32_t height);
 
     LinuxDmaBufV1ClientBufferIntegration *m_integration;
-    KWin::DmaBufAttributes m_attrs;
+    DmaBufAttributes m_attrs;
     bool m_isUsed = false;
+};
+
+class LinuxDmaBufV1ClientBuffer : public GraphicsBuffer
+{
+    Q_OBJECT
+
+public:
+    LinuxDmaBufV1ClientBuffer(DmaBufAttributes &&attrs);
+
+    QSize size() const override;
+    bool hasAlphaChannel() const override;
+    const DmaBufAttributes *dmabufAttributes() const override;
+
+    static LinuxDmaBufV1ClientBuffer *get(wl_resource *resource);
+
+private:
+    void initialize(wl_resource *resource);
+
+    static void buffer_destroy_resource(wl_resource *resource);
+    static void buffer_destroy(wl_client *client, wl_resource *resource);
+    static const struct wl_buffer_interface implementation;
+
+    wl_resource *m_resource = nullptr;
+    DmaBufAttributes m_attrs;
+    bool m_hasAlphaChannel = false;
+
+    friend class LinuxDmaBufParamsV1;
 };
 
 class LinuxDmaBufV1FormatTable
 {
 public:
-    LinuxDmaBufV1FormatTable(const QHash<uint32_t, QVector<uint64_t>> &supportedModifiers);
+    LinuxDmaBufV1FormatTable(const QHash<uint32_t, QList<uint64_t>> &supportedModifiers);
 
-    KWin::RamFile file;
+    RamFile file;
     QMap<std::pair<uint32_t, uint64_t>, uint16_t> indices;
 };
 
@@ -104,7 +119,7 @@ public:
     static LinuxDmaBufV1FeedbackPrivate *get(LinuxDmaBufV1Feedback *q);
     void send(Resource *resource);
 
-    QVector<LinuxDmaBufV1Feedback::Tranche> m_tranches;
+    QList<LinuxDmaBufV1Feedback::Tranche> m_tranches;
     LinuxDmaBufV1ClientBufferIntegrationPrivate *m_bufferintegration;
 
 protected:

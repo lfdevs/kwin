@@ -11,9 +11,15 @@
 #include "activities.h"
 #endif
 
+#include <QDBusConnection>
+#include <QDBusMessage>
+#include <QDBusMetaType>
+#include <QDBusPendingCallWatcher>
+#include <QDBusPendingReply>
+#include <QFileInfo>
 #include <QIcon>
 #include <QQmlEngine>
-#include <QtDBus>
+#include <QTimer>
 
 #include <KColorSchemeManager>
 #include <KConfig>
@@ -154,7 +160,7 @@ bool RulesModel::setData(const QModelIndex &index, const QVariant &value, int ro
 
     writeToSettings(rule);
 
-    Q_EMIT dataChanged(index, index, QVector<int>{role});
+    Q_EMIT dataChanged(index, index, QList<int>{role});
     if (rule->hasFlag(RuleItem::AffectsDescription)) {
         Q_EMIT descriptionChanged();
     }
@@ -247,6 +253,10 @@ QStringList RulesModel::warningMessages() const
                          m_rules["ignoregeometry"]->name());
     }
 
+    if (opacityWarning()) {
+        messages << i18n("Readability may be impaired with extremely low opacity values. At 0%, the window becomes invisible.");
+    }
+
     return messages;
 }
 
@@ -264,6 +274,10 @@ bool RulesModel::wmclassWarning() const
 
 bool RulesModel::geometryWarning() const
 {
+    if (!KWindowSystem::isPlatformX11()) {
+        return false;
+    }
+
     const bool ignoregeometry = m_rules["ignoregeometry"]->isEnabled()
         && m_rules["ignoregeometry"]->policy() == Rules::Force
         && m_rules["ignoregeometry"]->value() == true;
@@ -280,6 +294,21 @@ bool RulesModel::geometryWarning() const
         && m_rules["placement"]->policy() == Rules::Force;
 
     return (!ignoregeometry && (initialPos || initialSize || initialPlacement));
+}
+
+bool RulesModel::opacityWarning() const
+{
+    auto opacityActive = m_rules["opacityactive"];
+    const bool lowOpacityActive = opacityActive->isEnabled()
+        && opacityActive->policy() != Rules::Unused && opacityActive->policy() != Rules::DontAffect
+        && opacityActive->value().toInt() < 25;
+
+    auto opacityInactive = m_rules["opacityinactive"];
+    const bool lowOpacityInactive = opacityInactive->isEnabled()
+        && opacityActive->policy() != Rules::Unused && opacityActive->policy() != Rules::DontAffect
+        && opacityInactive->value().toInt() < 25;
+
+    return lowOpacityActive || lowOpacityInactive;
 }
 
 RuleSettings *RulesModel::settings() const
@@ -501,15 +530,22 @@ void RulesModel::populateRuleList()
     placement->setOptionsData(placementModelData());
     placement->setFlag(RuleItem::AffectsWarning);
 
-    auto ignoregeometry = addRule(new RuleItem(QLatin1String("ignoregeometry"),
-                                               RulePolicy::SetRule, RuleItem::Boolean,
-                                               i18n("Ignore requested geometry"), i18n("Size & Position"),
-                                               QIcon::fromTheme("view-time-schedule-baselined-remove"),
-                                               i18n("Windows can ask to appear in a certain position.\n"
-                                                    "By default this overrides the placement strategy\n"
-                                                    "what might be nasty if the client abuses the feature\n"
-                                                    "to unconditionally popup in the middle of your screen.")));
-    ignoregeometry->setFlag(RuleItem::AffectsWarning);
+    if (KWindowSystem::isPlatformX11()) {
+        // On Wayland windows cannot set their own geometry
+        auto ignoregeometry = addRule(new RuleItem(QLatin1String("ignoregeometry"),
+                                                   RulePolicy::SetRule, RuleItem::Boolean,
+                                                   i18n("Ignore requested geometry"), i18n("Size & Position"),
+                                                   QIcon::fromTheme("view-time-schedule-baselined-remove"),
+                                                   xi18nc("@info:tooltip",
+                                                          "Some applications can set their own geometry, overriding the window manager preferences. "
+                                                          "Setting this property overrides their placement requests."
+                                                          "<nl/><nl/>"
+                                                          "This affects <interface>Size</interface> and <interface>Position</interface> "
+                                                          "but not <interface>Maximized</interface> or <interface>Fullscreen</interface> states."
+                                                          "<nl/><nl/>"
+                                                          "Note that the position can also be used to map to a different <interface>Screen</interface>")));
+        ignoregeometry->setFlag(RuleItem::AffectsWarning);
+    }
 
     addRule(new RuleItem(QLatin1String("minsize"),
                          RulePolicy::ForceRule, RuleItem::Size,
@@ -525,11 +561,13 @@ void RulesModel::populateRuleList()
                          RulePolicy::ForceRule, RuleItem::Boolean,
                          i18n("Obey geometry restrictions"), i18n("Size & Position"),
                          QIcon::fromTheme("transform-crop-and-resize"),
-                         i18n("Eg. terminals or video players can ask to keep a certain aspect ratio\n"
-                              "or only grow by values larger than one\n"
-                              "(eg. by the dimensions of one character).\n"
-                              "This may be pointless and the restriction prevents arbitrary dimensions\n"
-                              "like your complete screen area.")));
+                         xi18nc("@info:tooltip", "Some apps like video players or terminals can ask KWin to constrain them to "
+                                                 "certain aspect ratios or only grow by values larger than the dimensions of one "
+                                                 "character. Use this property to ignore such restrictions and allow those windows "
+                                                 "to be resized to arbitrary sizes."
+                                                 "<nl/><nl/>"
+                                                 "This can be helpful for windows that can't quite fit the full screen area when "
+                                                 "maximized.")));
 
     // Arrangement & Access
     addRule(new RuleItem(QLatin1String("above"),
@@ -546,19 +584,19 @@ void RulesModel::populateRuleList()
                          RulePolicy::SetRule, RuleItem::Boolean,
                          i18n("Skip taskbar"), i18n("Arrangement & Access"),
                          QIcon::fromTheme("kt-show-statusbar"),
-                         i18n("Window shall (not) appear in the taskbar.")));
+                         i18nc("@info:tooltip", "Controls whether or not the window appears in the Task Manager.")));
 
     addRule(new RuleItem(QLatin1String("skippager"),
                          RulePolicy::SetRule, RuleItem::Boolean,
                          i18n("Skip pager"), i18n("Arrangement & Access"),
                          QIcon::fromTheme("org.kde.plasma.pager"),
-                         i18n("Window shall (not) appear in the manager for virtual desktops")));
+                         i18nc("@info:tooltip", "Controls whether or not the window appears in the Virtual Desktop manager.")));
 
     addRule(new RuleItem(QLatin1String("skipswitcher"),
                          RulePolicy::SetRule, RuleItem::Boolean,
                          i18n("Skip switcher"), i18n("Arrangement & Access"),
                          QIcon::fromTheme("preferences-system-windows-effect-flipswitch"),
-                         i18n("Window shall (not) appear in the Alt+Tab list")));
+                         xi18nc("@info:tooltip", "Controls whether or not the window appears in the <shortcut>Alt+Tab</shortcut> window list.")));
 
     addRule(new RuleItem(QLatin1String("shortcut"),
                          RulePolicy::SetRule, RuleItem::Shortcut,
@@ -577,69 +615,94 @@ void RulesModel::populateRuleList()
                                           QIcon::fromTheme("preferences-desktop-theme")));
     decocolor->setOptionsData(colorSchemesModelData());
 
-    addRule(new RuleItem(QLatin1String("opacityactive"),
-                         RulePolicy::ForceRule, RuleItem::Percentage,
-                         i18n("Active opacity"), i18n("Appearance & Fixes"),
-                         QIcon::fromTheme("edit-opacity")));
-
-    addRule(new RuleItem(QLatin1String("opacityinactive"),
-                         RulePolicy::ForceRule, RuleItem::Percentage,
-                         i18n("Inactive opacity"), i18n("Appearance & Fixes"),
-                         QIcon::fromTheme("edit-opacity")));
+    auto opacityactive = addRule(new RuleItem(QLatin1String("opacityactive"),
+                                              RulePolicy::ForceRule, RuleItem::Percentage,
+                                              i18n("Active opacity"), i18n("Appearance & Fixes"),
+                                              QIcon::fromTheme("edit-opacity")));
+    opacityactive->setFlag(RuleItem::AffectsWarning);
+    auto opacityinactive = addRule(new RuleItem(QLatin1String("opacityinactive"),
+                                                RulePolicy::ForceRule, RuleItem::Percentage,
+                                                i18n("Inactive opacity"), i18n("Appearance & Fixes"),
+                                                QIcon::fromTheme("edit-opacity")));
+    opacityinactive->setFlag(RuleItem::AffectsWarning);
 
     auto fsplevel = addRule(new RuleItem(QLatin1String("fsplevel"),
                                          RulePolicy::ForceRule, RuleItem::Option,
                                          i18n("Focus stealing prevention"), i18n("Appearance & Fixes"),
                                          QIcon::fromTheme("preferences-system-windows-effect-glide"),
-                                         i18n("KWin tries to prevent windows from taking the focus\n"
-                                              "(\"activate\") while you're working in another window,\n"
-                                              "but this may sometimes fail or superact.\n"
-                                              "\"None\" will unconditionally allow this window to get the focus while\n"
-                                              "\"Extreme\" will completely prevent it from taking the focus.")));
+                                         xi18nc("@info:tooltip", "KWin tries to prevent windows that were opened without direct user action from raising "
+                                                                 "themselves and taking focus while you're currently interacting with another window. This "
+                                                                 "property can be used to change the level of focus stealing prevention applied to "
+                                                                 "individual windows and apps."
+                                                                 "<nl/><nl/>"
+                                                                 "Here's what will happen to a window opened without your direct action at each level of "
+                                                                 "focus stealing prevention:"
+                                                                 "<nl/>"
+                                                                 "<list>"
+                                                                 "<item><emphasis strong='true'>None:</emphasis> The window will be raised and focused.</item>"
+                                                                 "<item><emphasis strong='true'>Low:</emphasis> Focus stealing prevention will be applied, "
+                                                                 "but in the case of a situation KWin considers ambiguous, the window will be raised and "
+                                                                 "focused.</item>"
+                                                                 "<item><emphasis strong='true'>Normal:</emphasis> Focus stealing prevention will be "
+                                                                 "applied, but  in the case of a situation KWin considers ambiguous, the window will "
+                                                                 "<emphasis>not</emphasis> be raised and focused.</item>"
+                                                                 "<item><emphasis strong='true'>High:</emphasis> The window will only be raised and focused "
+                                                                 "if it belongs to the same app as the currently-focused window.</item>"
+                                                                 "<item><emphasis strong='true'>Extreme:</emphasis> The window will never be raised and "
+                                                                 "focused.</item>"
+                                                                 "</list>")));
     fsplevel->setOptionsData(focusModelData());
 
     auto fpplevel = addRule(new RuleItem(QLatin1String("fpplevel"),
                                          RulePolicy::ForceRule, RuleItem::Option,
                                          i18n("Focus protection"), i18n("Appearance & Fixes"),
                                          QIcon::fromTheme("preferences-system-windows-effect-minimize"),
-                                         i18n("This controls the focus protection of the currently active window.\n"
-                                              "None will always give the focus away,\n"
-                                              "Extreme will keep it.\n"
-                                              "Otherwise it's interleaved with the stealing prevention\n"
-                                              "assigned to the window that wants the focus.")));
+                                         xi18nc("@info:tooltip", "This property controls the focus protection level of the currently active "
+                                                                 "window. It is used to override the focus stealing prevention applied to new windows that "
+                                                                 "are opened without your direct action."
+                                                                 "<nl/><nl/>"
+                                                                 "Here's what happens to new windows that are opened without your direct action at each "
+                                                                 "level of focus protection while the window with this property applied to it has focus:"
+                                                                 "<nl/>"
+                                                                 "<list>"
+                                                                 "<item><emphasis strong='true'>None</emphasis>: Newly-opened windows always raise "
+                                                                 "themselves and take focus.</item>"
+                                                                 "<item><emphasis strong='true'>Low:</emphasis> Focus stealing prevention will be applied "
+                                                                 "to the newly-opened window, but in the case of a situation KWin considers ambiguous, the "
+                                                                 "window will be raised and focused.</item>"
+                                                                 "<item><emphasis strong='true'>Normal:</emphasis> Focus stealing prevention will be applied "
+                                                                 "to the newly-opened window, but in the case of a situation KWin considers ambiguous, the "
+                                                                 "window will <emphasis>not</emphasis> be raised and focused.</item>"
+                                                                 "<item><emphasis strong='true'>High:</emphasis> Newly-opened windows will only raise "
+                                                                 "themselves and take focus if they belongs to the same app as the currently-focused "
+                                                                 "window.</item>"
+                                                                 "<item><emphasis strong='true'>Extreme:</emphasis> Newly-opened windows never raise "
+                                                                 "themselves and take focus.</item>"
+                                                                 "</list>")));
     fpplevel->setOptionsData(focusModelData());
 
     addRule(new RuleItem(QLatin1String("acceptfocus"),
                          RulePolicy::ForceRule, RuleItem::Boolean,
                          i18n("Accept focus"), i18n("Appearance & Fixes"),
                          QIcon::fromTheme("preferences-desktop-cursors"),
-                         i18n("Windows may prevent to get the focus (activate) when being clicked.\n"
-                              "On the other hand you might wish to prevent a window\n"
-                              "from getting focused on a mouse click.")));
+                         i18n("Controls whether or not the window becomes focused when clicked.")));
 
     addRule(new RuleItem(QLatin1String("disableglobalshortcuts"),
                          RulePolicy::ForceRule, RuleItem::Boolean,
                          i18n("Ignore global shortcuts"), i18n("Appearance & Fixes"),
                          QIcon::fromTheme("input-keyboard-virtual-off"),
-                         i18n("When used, a window will receive\n"
-                              "all keyboard inputs while it is active, including Alt+Tab etc.\n"
-                              "This is especially interesting for emulators or virtual machines.\n"
-                              "\n"
-                              "Be warned:\n"
-                              "you won't be able to Alt+Tab out of the window\n"
-                              "nor use any other global shortcut (such as Alt+F2 to show KRunner)\n"
-                              "while it's active!")));
+                         xi18nc("@info:tooltip", "Use this property to prevent global keyboard shortcuts from working while "
+                                                 "the window is focused. This can be useful for apps like emulators or virtual "
+                                                 "machines that handle some of the same shortcuts themselves."
+                                                 "<nl/><nl/>"
+                                                 "Note that you won't be able to <shortcut>Alt+Tab</shortcut> out of the window "
+                                                 "or use any other global shortcuts such as <shortcut>Alt+Space</shortcut> to "
+                                                 "activate KRunner.")));
 
     addRule(new RuleItem(QLatin1String("closeable"),
                          RulePolicy::ForceRule, RuleItem::Boolean,
                          i18n("Closeable"), i18n("Appearance & Fixes"),
                          QIcon::fromTheme("dialog-close")));
-
-    auto type = addRule(new RuleItem(QLatin1String("type"),
-                                     RulePolicy::ForceRule, RuleItem::Option,
-                                     i18n("Set window type"), i18n("Appearance & Fixes"),
-                                     QIcon::fromTheme("window-duplicate")));
-    type->setOptionsData(windowTypesModelData());
 
     addRule(new RuleItem(QLatin1String("desktopfile"),
                          RulePolicy::SetRule, RuleItem::String,
@@ -650,6 +713,17 @@ void RulesModel::populateRuleList()
                          RulePolicy::ForceRule, RuleItem::Boolean,
                          i18n("Block compositing"), i18n("Appearance & Fixes"),
                          QIcon::fromTheme("composite-track-on")));
+
+    auto layer = addRule(new RuleItem(QLatin1String("layer"),
+                                      RulePolicy::ForceRule, RuleItem::Option,
+                                      i18n("Layer"), i18n("Appearance & Fixes"),
+                                      QIcon::fromTheme("view-sort")));
+    layer->setOptionsData(layerModelData());
+
+    addRule(new RuleItem(QLatin1String("adaptivesync"),
+                         RulePolicy::ForceRule, RuleItem::Boolean,
+                         i18n("Adaptive Sync"), i18n("Appearance & Fixes"),
+                         QIcon::fromTheme("monitor-symbolic")));
 }
 
 const QHash<QString, QString> RulesModel::x11PropertyHash()
@@ -669,9 +743,9 @@ const QHash<QString, QString> RulesModel::x11PropertyHash()
         {"skipTaskbar", "skiptaskbar"},
         {"skipPager", "skippager"},
         {"skipSwitcher", "skipswitcher"},
-        {"type", "type"},
         {"desktopFile", "desktopfile"},
         {"desktops", "desktops"},
+        {"layer", "layer"},
     };
     return propertyToRule;
 };
@@ -842,6 +916,23 @@ QList<OptionsModel::Data> RulesModel::colorSchemesModelData() const
     return modelData;
 }
 
+QList<OptionsModel::Data> RulesModel::layerModelData() const
+{
+    static const auto modelData = QList<OptionsModel::Data>{
+        {DesktopLayer, i18n("Desktop")},
+        {BelowLayer, i18n("Below")},
+        {NormalLayer, i18n("Normal")},
+        {AboveLayer, i18n("Above")},
+        {NotificationLayer, i18n("Notification")},
+        {ActiveLayer, i18n("Fullscreen")},
+        {PopupLayer, i18n("Popup")},
+        {CriticalNotificationLayer, i18n("Critical Notification")},
+        {OnScreenDisplayLayer, i18n("OSD")},
+        {OverlayLayer, i18n("Overlay")},
+    };
+    return modelData;
+}
+
 void RulesModel::detectWindowProperties(int miliseconds)
 {
     QTimer::singleShot(miliseconds, this, &RulesModel::selectX11Window);
@@ -898,3 +989,5 @@ void RulesModel::updateVirtualDesktops()
 }
 
 } // namespace
+
+#include "moc_rulesmodel.cpp"

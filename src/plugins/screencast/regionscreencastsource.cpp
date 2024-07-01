@@ -7,10 +7,11 @@
 #include "regionscreencastsource.h"
 #include "screencastutils.h"
 
-#include <composite.h>
+#include "opengl/gltexture.h"
+#include "opengl/glutils.h"
+#include <compositor.h>
 #include <core/output.h>
-#include <kwingltexture.h>
-#include <kwinglutils.h>
+#include <drm_fourcc.h>
 #include <scene/workspacescene.h>
 #include <workspace.h>
 
@@ -18,6 +19,27 @@
 
 namespace KWin
 {
+
+RegionScreenCastScrapper::RegionScreenCastScrapper(RegionScreenCastSource *source, Output *output)
+    : m_source(source)
+    , m_output(output)
+{
+    connect(output, &Output::enabledChanged, this, [this]() {
+        if (!m_output->isEnabled()) {
+            m_source->close();
+        }
+    });
+
+    connect(output, &Output::geometryChanged, this, [this]() {
+        m_source->close();
+    });
+
+    connect(output, &Output::outputChange, this, [this](const QRegion &damage) {
+        if (!damage.isEmpty()) {
+            m_source->update(m_output, damage);
+        }
+    });
+}
 
 RegionScreenCastSource::RegionScreenCastSource(const QRect &region, qreal scale, QObject *parent)
     : ScreenCastSource(parent)
@@ -28,42 +50,30 @@ RegionScreenCastSource::RegionScreenCastSource(const QRect &region, qreal scale,
     Q_ASSERT(m_scale > 0);
 }
 
+RegionScreenCastSource::~RegionScreenCastSource()
+{
+    pause();
+}
+
 QSize RegionScreenCastSource::textureSize() const
 {
     return m_region.size() * m_scale;
 }
 
-bool RegionScreenCastSource::hasAlphaChannel() const
+quint32 RegionScreenCastSource::drmFormat() const
 {
-    return true;
+    return DRM_FORMAT_ARGB8888;
 }
 
-void RegionScreenCastSource::updateOutput(Output *output)
+void RegionScreenCastSource::update(Output *output, const QRegion &damage)
 {
-    m_last = output->renderLoop()->lastPresentationTimestamp();
+    blit(output);
 
-    if (m_renderedTexture) {
-        const std::shared_ptr<GLTexture> outputTexture = Compositor::self()->scene()->textureForOutput(output);
-        const auto outputGeometry = output->geometry();
-        if (!outputTexture || !m_region.intersects(output->geometry())) {
-            return;
-        }
-
-        GLFramebuffer::pushFramebuffer(m_target.get());
-
-        ShaderBinder shaderBinder(ShaderTrait::MapTexture);
-        QMatrix4x4 projectionMatrix;
-        projectionMatrix.ortho(m_region);
-        projectionMatrix.translate(outputGeometry.left() / m_scale, (m_region.bottom() - outputGeometry.bottom()) / m_scale);
-        projectionMatrix.translate(0, m_region.top() / m_scale);
-
-        shaderBinder.shader()->setUniform(GLShader::ModelViewProjectionMatrix, projectionMatrix);
-
-        outputTexture->bind();
-        outputTexture->render(output->geometry(), 1 / m_scale);
-        outputTexture->unbind();
-        GLFramebuffer::popFramebuffer();
-    }
+    const QRegion effectiveDamage = damage
+                                        .translated(-m_region.topLeft())
+                                        .intersected(m_region);
+    const QRegion nativeDamage = scaleRegion(effectiveDamage, m_scale);
+    Q_EMIT frame(nativeDamage);
 }
 
 std::chrono::nanoseconds RegionScreenCastSource::clock() const
@@ -71,42 +81,76 @@ std::chrono::nanoseconds RegionScreenCastSource::clock() const
     return m_last;
 }
 
-void RegionScreenCastSource::render(GLFramebuffer *target)
+void RegionScreenCastSource::blit(Output *output)
+{
+    m_last = output->renderLoop()->lastPresentationTimestamp();
+
+    if (m_renderedTexture) {
+        const auto [outputTexture, colorDescription] = Compositor::self()->scene()->textureForOutput(output);
+        const auto outputGeometry = output->geometry();
+        if (!outputTexture) {
+            return;
+        }
+
+        GLFramebuffer::pushFramebuffer(m_target.get());
+
+        ShaderBinder shaderBinder(ShaderTrait::MapTexture | ShaderTrait::TransformColorspace);
+        QMatrix4x4 projectionMatrix;
+        projectionMatrix.scale(1, -1);
+        projectionMatrix.ortho(m_region);
+        projectionMatrix.translate(outputGeometry.left(), outputGeometry.top());
+
+        shaderBinder.shader()->setUniform(GLShader::Mat4Uniform::ModelViewProjectionMatrix, projectionMatrix);
+        shaderBinder.shader()->setColorspaceUniformsToSRGB(colorDescription);
+
+        outputTexture->render(outputGeometry.size());
+        GLFramebuffer::popFramebuffer();
+    }
+}
+
+void RegionScreenCastSource::ensureTexture()
 {
     if (!m_renderedTexture) {
-        m_renderedTexture.reset(new GLTexture(hasAlphaChannel() ? GL_RGBA8 : GL_RGB8, textureSize()));
-        m_target.reset(new GLFramebuffer(m_renderedTexture.get()));
+        m_renderedTexture = GLTexture::allocate(GL_RGBA8, textureSize());
+        if (!m_renderedTexture) {
+            return;
+        }
+        m_renderedTexture->setContentTransform(OutputTransform::FlipY);
+        m_renderedTexture->setFilter(GL_LINEAR);
+        m_renderedTexture->setWrapMode(GL_CLAMP_TO_EDGE);
+
+        m_target = std::make_unique<GLFramebuffer>(m_renderedTexture.get());
         const auto allOutputs = workspace()->outputs();
         for (auto output : allOutputs) {
             if (output->geometry().intersects(m_region)) {
-                updateOutput(output);
+                blit(output);
             }
         }
     }
+}
+
+void RegionScreenCastSource::render(GLFramebuffer *target)
+{
+    ensureTexture();
 
     GLFramebuffer::pushFramebuffer(target);
-    QRect r(QPoint(), target->size());
     auto shader = ShaderManager::instance()->pushShader(ShaderTrait::MapTexture);
 
     QMatrix4x4 projectionMatrix;
-    projectionMatrix.ortho(r);
-    shader->setUniform(GLShader::ModelViewProjectionMatrix, projectionMatrix);
+    projectionMatrix.scale(1, -1);
+    projectionMatrix.ortho(QRect(QPoint(), target->size()));
+    shader->setUniform(GLShader::Mat4Uniform::ModelViewProjectionMatrix, projectionMatrix);
 
-    m_renderedTexture->bind();
-    m_renderedTexture->render(r, m_scale);
-    m_renderedTexture->unbind();
+    m_renderedTexture->render(target->size());
 
     ShaderManager::instance()->popShader();
     GLFramebuffer::popFramebuffer();
 }
 
-void RegionScreenCastSource::render(spa_data *spa, spa_video_format format)
+void RegionScreenCastSource::render(QImage *target)
 {
-    GLTexture offscreenTexture(hasAlphaChannel() ? GL_RGBA8 : GL_RGB8, textureSize());
-    GLFramebuffer offscreenTarget(&offscreenTexture);
-
-    render(&offscreenTarget);
-    grabTexture(&offscreenTexture, spa, format);
+    ensureTexture();
+    grabTexture(m_renderedTexture.get(), target);
 }
 
 uint RegionScreenCastSource::refreshRate() const
@@ -120,4 +164,48 @@ uint RegionScreenCastSource::refreshRate() const
     }
     return ret;
 }
+
+void RegionScreenCastSource::close()
+{
+    if (!m_closed) {
+        m_closed = true;
+        Q_EMIT closed();
+    }
 }
+
+void RegionScreenCastSource::pause()
+{
+    if (!m_active) {
+        return;
+    }
+
+    m_scrappers.clear();
+    m_active = false;
+}
+
+void RegionScreenCastSource::resume()
+{
+    if (m_active) {
+        return;
+    }
+
+    const QList<Output *> outputs = workspace()->outputs();
+    for (Output *output : outputs) {
+        if (output->geometry().intersects(m_region)) {
+            m_scrappers.emplace_back(std::make_unique<RegionScreenCastScrapper>(this, output));
+        }
+    }
+
+    if (m_scrappers.empty()) {
+        close();
+        return;
+    }
+
+    Compositor::self()->scene()->addRepaint(m_region);
+
+    m_active = true;
+}
+
+} // namespace KWin
+
+#include "moc_regionscreencastsource.cpp"

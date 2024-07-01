@@ -10,13 +10,13 @@
 
 #pragma once
 
-#include "openglbackend.h"
+#include "platformsupport/scenes/opengl/openglbackend.h"
 
 #include "scene/decorationitem.h"
+#include "scene/shadowitem.h"
 #include "scene/workspacescene.h"
-#include "shadow.h"
 
-#include "kwinglutils.h"
+#include "opengl/glutils.h"
 
 namespace KWin
 {
@@ -30,11 +30,12 @@ public:
     explicit WorkspaceSceneOpenGL(OpenGLBackend *backend);
     ~WorkspaceSceneOpenGL() override;
 
-    std::unique_ptr<Shadow> createShadow(Window *window) override;
     bool makeOpenGLContextCurrent() override;
     void doneOpenGLContextCurrent() override;
     bool supportsNativeFence() const override;
-    DecorationRenderer *createDecorationRenderer(Decoration::DecoratedClientImpl *impl) override;
+    OpenGlContext *openglContext() const override;
+    std::unique_ptr<DecorationRenderer> createDecorationRenderer(Decoration::DecoratedClientImpl *impl) override;
+    std::unique_ptr<ShadowTextureProvider> createShadowTextureProvider(Shadow *shadow) override;
     bool animationsSupported() const override;
 
     OpenGLBackend *backend() const
@@ -42,7 +43,7 @@ public:
         return m_backend;
     }
 
-    std::shared_ptr<GLTexture> textureForOutput(Output *output) const override;
+    std::pair<std::shared_ptr<GLTexture>, ColorDescription> textureForOutput(Output *output) const override;
 
 private:
     OpenGLBackend *m_backend;
@@ -55,20 +56,18 @@ private:
  * This class extends Shadow by the Elements required for OpenGL rendering.
  * @author Martin Gräßlin <mgraesslin@kde.org>
  */
-class SceneOpenGLShadow
-    : public Shadow
+class OpenGLShadowTextureProvider : public ShadowTextureProvider
 {
 public:
-    explicit SceneOpenGLShadow(Window *window);
-    ~SceneOpenGLShadow() override;
+    explicit OpenGLShadowTextureProvider(Shadow *shadow);
+    ~OpenGLShadowTextureProvider() override;
 
     GLTexture *shadowTexture()
     {
         return m_texture.get();
     }
 
-protected:
-    bool prepareBackend() override;
+    void update() override;
 
 private:
     std::shared_ptr<GLTexture> m_texture;

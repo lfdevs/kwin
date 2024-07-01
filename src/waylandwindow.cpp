@@ -8,10 +8,9 @@
 
 #include "waylandwindow.h"
 #include "scene/windowitem.h"
-#include "wayland/clientbuffer.h"
 #include "wayland/clientconnection.h"
 #include "wayland/display.h"
-#include "wayland/surface_interface.h"
+#include "wayland/surface.h"
 #include "wayland_server.h"
 #include "workspace.h"
 
@@ -21,8 +20,6 @@
 
 #include <sys/types.h>
 #include <unistd.h>
-
-using namespace KWaylandServer;
 
 namespace KWin
 {
@@ -35,9 +32,9 @@ enum WaylandGeometryType {
 Q_DECLARE_FLAGS(WaylandGeometryTypes, WaylandGeometryType)
 
 WaylandWindow::WaylandWindow(SurfaceInterface *surface)
+    : m_isScreenLocker(surface->client() == waylandServer()->screenLockerClientConnection())
 {
     setSurface(surface);
-    setupCompositing();
 
     connect(surface, &SurfaceInterface::shadowChanged,
             this, &WaylandWindow::updateShadow);
@@ -46,16 +43,14 @@ WaylandWindow::WaylandWindow(SurfaceInterface *surface)
     connect(this, &WaylandWindow::desktopFileNameChanged,
             this, &WaylandWindow::updateIcon);
     connect(workspace(), &Workspace::outputsChanged, this, &WaylandWindow::updateClientOutputs);
-    connect(surface->client(), &ClientConnection::aboutToBeDestroyed,
-            this, &WaylandWindow::destroyWindow);
 
     updateResourceName();
     updateIcon();
 }
 
-std::unique_ptr<WindowItem> WaylandWindow::createItem(Scene *scene)
+std::unique_ptr<WindowItem> WaylandWindow::createItem(Item *parentItem)
 {
-    return std::make_unique<WindowItemWayland>(this, scene);
+    return std::make_unique<WindowItemWayland>(this, parentItem);
 }
 
 QString WaylandWindow::captionNormal() const
@@ -70,7 +65,7 @@ QString WaylandWindow::captionSuffix() const
 
 pid_t WaylandWindow::pid() const
 {
-    return surface()->client()->processId();
+    return surface() ? surface()->client()->processId() : -1;
 }
 
 bool WaylandWindow::isClient() const
@@ -80,17 +75,12 @@ bool WaylandWindow::isClient() const
 
 bool WaylandWindow::isLockScreen() const
 {
-    return surface()->client() == waylandServer()->screenLockerClientConnection();
+    return m_isScreenLocker;
 }
 
 bool WaylandWindow::isLocalhost() const
 {
     return true;
-}
-
-Window *WaylandWindow::findModal(bool allow_itself)
-{
-    return nullptr;
 }
 
 QRectF WaylandWindow::resizeWithChecks(const QRectF &geometry, const QSizeF &size)
@@ -158,10 +148,11 @@ bool WaylandWindow::belongsToDesktop() const
 
 void WaylandWindow::updateClientOutputs()
 {
-    surface()->setOutputs(waylandServer()->display()->outputsIntersecting(frameGeometry().toAlignedRect()));
-    if (output()) {
-        surface()->setPreferredScale(output()->scale());
+    if (isDeleted()) {
+        return;
     }
+    surface()->setOutputs(waylandServer()->display()->outputsIntersecting(frameGeometry().toAlignedRect()),
+                          waylandServer()->display()->largestIntersectingOutput(frameGeometry().toAlignedRect()));
 }
 
 void WaylandWindow::updateIcon()
@@ -186,28 +177,19 @@ void WaylandWindow::updateResourceName()
 
 void WaylandWindow::updateCaption()
 {
-    const QString oldSuffix = m_captionSuffix;
-    const auto shortcut = shortcutCaptionSuffix();
-    m_captionSuffix = shortcut;
-    if ((!isSpecialWindow() || isToolbar()) && findWindowWithSameCaption()) {
-        int i = 2;
-        do {
-            m_captionSuffix = shortcut + QLatin1String(" <") + QString::number(i) + QLatin1Char('>');
-            i++;
-        } while (findWindowWithSameCaption());
-    }
-    if (m_captionSuffix != oldSuffix) {
+    const QString suffix = shortcutCaptionSuffix();
+    if (m_captionSuffix != suffix) {
+        m_captionSuffix = suffix;
         Q_EMIT captionChanged();
     }
 }
 
 void WaylandWindow::setCaption(const QString &caption)
 {
-    const QString oldSuffix = m_captionSuffix;
-    m_captionNormal = caption.simplified();
-    updateCaption();
-    if (m_captionSuffix == oldSuffix) {
-        // Don't emit caption change twice it already got emitted by the changing suffix.
+    const QString simplified = caption.simplified();
+    if (m_captionNormal != simplified) {
+        m_captionNormal = simplified;
+        Q_EMIT captionNormalChanged();
         Q_EMIT captionChanged();
     }
 }
@@ -220,65 +202,21 @@ void WaylandWindow::doSetActive()
     }
 }
 
-void WaylandWindow::updateDepth()
-{
-    if (surface()->buffer()->hasAlphaChannel()) {
-        setDepth(32);
-    } else {
-        setDepth(24);
-    }
-}
-
 void WaylandWindow::cleanGrouping()
 {
+    // We want to break parent-child relationships, but preserve stacking
+    // order constraints at the same time for window closing animations.
+
     if (transientFor()) {
-        transientFor()->removeTransient(this);
+        transientFor()->removeTransientFromList(this);
+        setTransientFor(nullptr);
     }
-    for (auto it = transients().constBegin(); it != transients().constEnd();) {
-        if ((*it)->transientFor() == this) {
-            removeTransient(*it);
-            it = transients().constBegin(); // restart, just in case something more has changed with the list
-        } else {
-            ++it;
-        }
+
+    const auto children = transients();
+    for (Window *transient : children) {
+        removeTransientFromList(transient);
+        transient->setTransientFor(nullptr);
     }
-}
-
-bool WaylandWindow::isShown() const
-{
-    return !isZombie() && !isHidden() && !isMinimized();
-}
-
-bool WaylandWindow::isHiddenInternal() const
-{
-    return isHidden();
-}
-
-bool WaylandWindow::isHidden() const
-{
-    return m_isHidden;
-}
-
-void WaylandWindow::showClient()
-{
-    if (!isHidden()) {
-        return;
-    }
-    m_isHidden = false;
-    Q_EMIT windowShown(this);
-}
-
-void WaylandWindow::hideClient()
-{
-    if (isHidden()) {
-        return;
-    }
-    if (isInteractiveMoveResize()) {
-        leaveInteractiveMoveResize();
-    }
-    m_isHidden = true;
-    workspace()->windowHidden(this);
-    Q_EMIT windowHidden(this);
 }
 
 QRectF WaylandWindow::frameRectToBufferRect(const QRectF &rect) const
@@ -317,18 +255,27 @@ void WaylandWindow::updateGeometry(const QRectF &rect)
     updateWindowRules(Rules::Position | Rules::Size);
 
     if (changedGeometries & WaylandGeometryBuffer) {
-        Q_EMIT bufferGeometryChanged(this, oldBufferGeometry);
+        Q_EMIT bufferGeometryChanged(oldBufferGeometry);
     }
     if (changedGeometries & WaylandGeometryClient) {
-        Q_EMIT clientGeometryChanged(this, oldClientGeometry);
+        Q_EMIT clientGeometryChanged(oldClientGeometry);
     }
     if (changedGeometries & WaylandGeometryFrame) {
-        Q_EMIT frameGeometryChanged(this, oldFrameGeometry);
+        Q_EMIT frameGeometryChanged(oldFrameGeometry);
     }
     if (oldOutput != m_output) {
-        Q_EMIT screenChanged();
+        Q_EMIT outputChanged();
     }
-    Q_EMIT geometryShapeChanged(this, oldFrameGeometry);
+}
+
+void WaylandWindow::markAsMapped()
+{
+    if (Q_UNLIKELY(!ready_for_painting)) {
+        setupCompositing();
+        setReadyForPainting();
+    }
 }
 
 } // namespace KWin
+
+#include "moc_waylandwindow.cpp"

@@ -30,13 +30,10 @@ typedef uint32_t xkb_led_index_t;
 typedef uint32_t xkb_keysym_t;
 typedef uint32_t xkb_layout_index_t;
 
-namespace KWaylandServer
-{
-class SeatInterface;
-}
-
 namespace KWin
 {
+
+class SeatInterface;
 
 class KWIN_EXPORT Xkb : public QObject
 {
@@ -66,6 +63,9 @@ public:
     void switchToNextLayout();
     void switchToPreviousLayout();
     bool switchToLayout(xkb_layout_index_t layout);
+
+    void setModifierLatched(Qt::KeyboardModifier mod, bool latched);
+    void setModifierLocked(Qt::KeyboardModifier mod, bool locked);
 
     LEDs leds() const
     {
@@ -101,10 +101,17 @@ public:
      */
     void forwardModifiers();
 
-    void setSeat(KWaylandServer::SeatInterface *seat);
+    void setSeat(SeatInterface *seat);
     QByteArray keymapContents() const;
 
     std::optional<int> keycodeFromKeysym(xkb_keysym_t keysym);
+
+    /**
+     * Returns list of candidate keysyms corresponding to the given Qt key.
+     *
+     * Internally filters the results based on whether keyQt has the numlock modifier.
+     */
+    static QList<xkb_keysym_t> keysymsFromQtKey(int keyQt);
 
     void setFollowLocale1(bool follow);
 
@@ -158,7 +165,7 @@ private:
         xkb_mod_index_t locked = 0;
     } m_modifierState;
 
-    QPointer<KWaylandServer::SeatInterface> m_seat;
+    QPointer<SeatInterface> m_seat;
     const bool m_followLocale1;
 };
 

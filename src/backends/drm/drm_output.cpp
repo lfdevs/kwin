@@ -8,21 +8,19 @@
 */
 #include "drm_output.h"
 #include "drm_backend.h"
-#include "drm_buffer.h"
 #include "drm_connector.h"
 #include "drm_crtc.h"
 #include "drm_gpu.h"
 #include "drm_pipeline.h"
 
+#include "core/colortransformation.h"
+#include "core/iccprofile.h"
 #include "core/outputconfiguration.h"
+#include "core/renderbackend.h"
 #include "core/renderloop.h"
 #include "core/renderloop_p.h"
-#include "drm_dumb_buffer.h"
-#include "drm_dumb_swapchain.h"
-#include "drm_egl_backend.h"
 #include "drm_layer.h"
 #include "drm_logging.h"
-#include "kwinglutils.h"
 // Qt
 #include <QCryptographicHash>
 #include <QMatrix4x4>
@@ -34,41 +32,54 @@
 #include <libdrm/drm_mode.h>
 #include <xf86drm.h>
 
-#include "composite.h"
-#include "core/renderlayer.h"
-#include "cursorsource.h"
-#include "scene/cursorscene.h"
-
 namespace KWin
 {
+
+static const bool s_allowColorspaceIntel = qEnvironmentVariableIntValue("KWIN_DRM_ALLOW_INTEL_COLORSPACE") == 1;
+static const bool s_disableTripleBuffering = qEnvironmentVariableIntValue("KWIN_DRM_DISABLE_TRIPLE_BUFFERING") == 1;
 
 DrmOutput::DrmOutput(const std::shared_ptr<DrmConnector> &conn)
     : DrmAbstractOutput(conn->gpu())
     , m_pipeline(conn->pipeline())
     , m_connector(conn)
 {
-    RenderLoopPrivate::get(m_renderLoop.get())->canDoTearing = gpu()->asyncPageflipSupported();
     m_pipeline->setOutput(this);
     m_renderLoop->setRefreshRate(m_pipeline->mode()->refreshRate());
+    if (m_gpu->atomicModeSetting() && !s_disableTripleBuffering) {
+        m_renderLoop->setMaxPendingFrameCount(2);
+    }
 
-    Capabilities capabilities = Capability::Dpms;
+    Capabilities capabilities = Capability::Dpms | Capability::IccProfile;
     State initialState;
 
-    if (conn->hasOverscan()) {
+    if (conn->overscan.isValid() || conn->underscan.isValid()) {
         capabilities |= Capability::Overscan;
-        initialState.overscan = conn->overscan();
+        initialState.overscan = conn->overscan.isValid() ? conn->overscan.value() : conn->underscanVBorder.value();
     }
-    if (conn->vrrCapable()) {
+    if (conn->vrrCapable.isValid() && conn->vrrCapable.value()) {
         capabilities |= Capability::Vrr;
-        setVrrPolicy(RenderLoop::VrrPolicy::Automatic);
     }
-    if (conn->hasRgbRange()) {
+    if (gpu()->asyncPageflipSupported()) {
+        capabilities |= Capability::Tearing;
+    }
+    if (conn->broadcastRGB.isValid()) {
         capabilities |= Capability::RgbRange;
-        initialState.rgbRange = conn->rgbRange();
+        initialState.rgbRange = DrmConnector::broadcastRgbToRgbRange(conn->broadcastRGB.enumValue());
+    }
+    if (m_connector->hdrMetadata.isValid() && m_connector->edid()->supportsPQ()) {
+        capabilities |= Capability::HighDynamicRange;
+    }
+    if (m_connector->colorspace.isValid() && m_connector->colorspace.hasEnum(DrmConnector::Colorspace::BT2020_RGB) && m_connector->edid()->supportsBT2020()) {
+        if (!m_gpu->isI915() || s_allowColorspaceIntel) {
+            capabilities |= Capability::WideColorGamut;
+        }
+    }
+    if (conn->isInternal()) {
+        // TODO only set this if an orientation sensor is available?
+        capabilities |= Capability::AutoRotation;
     }
 
     const Edid *edid = conn->edid();
-
     setInformation(Information{
         .name = conn->connectorName(),
         .manufacturer = edid->manufacturerString(),
@@ -76,12 +87,16 @@ DrmOutput::DrmOutput(const std::shared_ptr<DrmConnector> &conn)
         .serialNumber = edid->serialNumber(),
         .eisaId = edid->eisaId(),
         .physicalSize = conn->physicalSize(),
-        .edid = edid->raw(),
+        .edid = *edid,
         .subPixel = conn->subpixel(),
         .capabilities = capabilities,
-        .panelOrientation = DrmConnector::toKWinTransform(conn->panelOrientation()),
+        .panelOrientation = conn->panelOrientation.isValid() ? DrmConnector::toKWinTransform(conn->panelOrientation.enumValue()) : OutputTransform::Normal,
         .internal = conn->isInternal(),
         .nonDesktop = conn->isNonDesktop(),
+        .mstPath = conn->mstPath(),
+        .maxPeakBrightness = edid->desiredMaxLuminance(),
+        .maxAverageBrightness = edid->desiredMaxFrameAverageLuminance(),
+        .minBrightness = edid->desiredMinLuminance(),
     });
 
     initialState.modes = getModes();
@@ -107,7 +122,7 @@ DrmOutput::~DrmOutput()
     m_pipeline->setOutput(nullptr);
 }
 
-bool DrmOutput::addLeaseObjects(QVector<uint32_t> &objectList)
+bool DrmOutput::addLeaseObjects(QList<uint32_t> &objectList)
 {
     if (!m_pipeline->crtc()) {
         qCWarning(KWIN_DRM) << "Can't lease connector: No suitable crtc available";
@@ -138,97 +153,9 @@ DrmLease *DrmOutput::lease() const
     return m_lease;
 }
 
-bool DrmOutput::setCursor(CursorSource *source)
+bool DrmOutput::updateCursorLayer()
 {
-    static bool valid;
-    static const bool forceSoftwareCursor = qEnvironmentVariableIntValue("KWIN_FORCE_SW_CURSOR", &valid) == 1 && valid;
-    // hardware cursors are broken with the NVidia proprietary driver
-    if (forceSoftwareCursor || (!valid && m_gpu->isNVidia())) {
-        m_setCursorSuccessful = false;
-        return false;
-    }
-    const auto layer = m_pipeline->cursorLayer();
-    if (!m_pipeline->crtc() || !layer) {
-        return false;
-    }
-    m_cursor.source = source;
-    if (!m_cursor.source || m_cursor.source->size().isEmpty()) {
-        if (layer->isVisible()) {
-            layer->setVisible(false);
-            m_pipeline->setCursor();
-        }
-        return true;
-    }
-    bool rendered = false;
-    const QMatrix4x4 monitorMatrix = logicalToNativeMatrix(rect(), scale(), transform());
-    const QSize cursorSize = m_cursor.source->size();
-    const QRect cursorRect = QRect(m_cursor.position, cursorSize);
-    const QRect nativeCursorRect = monitorMatrix.mapRect(cursorRect);
-    if (nativeCursorRect.width() <= m_gpu->cursorSize().width() && nativeCursorRect.height() <= m_gpu->cursorSize().height()) {
-        if (auto beginInfo = layer->beginFrame()) {
-            RenderTarget *renderTarget = &beginInfo->renderTarget;
-            renderTarget->setDevicePixelRatio(scale());
-
-            RenderLayer renderLayer(m_renderLoop.get());
-            renderLayer.setDelegate(std::make_unique<SceneDelegate>(Compositor::self()->cursorScene()));
-
-            renderLayer.delegate()->prePaint();
-            renderLayer.delegate()->paint(renderTarget, infiniteRegion());
-            renderLayer.delegate()->postPaint();
-
-            rendered = layer->endFrame(infiniteRegion(), infiniteRegion());
-        }
-    }
-    if (!rendered) {
-        if (layer->isVisible()) {
-            layer->setVisible(false);
-            m_pipeline->setCursor();
-        }
-        m_setCursorSuccessful = false;
-        return false;
-    }
-
-    const QSize layerSize = m_gpu->cursorSize() / scale();
-    const QRect layerRect = monitorMatrix.mapRect(QRect(m_cursor.position, layerSize));
-    layer->setVisible(cursorRect.intersects(rect()));
-    if (layer->isVisible()) {
-        m_setCursorSuccessful = m_pipeline->setCursor(logicalToNativeMatrix(QRect(QPoint(), layerRect.size()), scale(), transform()).map(m_cursor.source->hotspot()));
-        layer->setVisible(m_setCursorSuccessful);
-    }
-    return m_setCursorSuccessful;
-}
-
-bool DrmOutput::moveCursor(const QPoint &position)
-{
-    if (!m_setCursorSuccessful || !m_pipeline->crtc()) {
-        return false;
-    }
-    m_cursor.position = position;
-
-    const QSize cursorSize = m_cursor.source ? m_cursor.source->size() : QSize(0, 0);
-    const QRect cursorRect = QRect(m_cursor.position, cursorSize);
-
-    if (!cursorRect.intersects(rect())) {
-        const auto layer = m_pipeline->cursorLayer();
-        if (layer->isVisible()) {
-            layer->setVisible(false);
-            m_pipeline->setCursor();
-        }
-        return true;
-    }
-    const QMatrix4x4 monitorMatrix = logicalToNativeMatrix(rect(), scale(), transform());
-    const QSize layerSize = m_gpu->cursorSize() / scale();
-    const QRect layerRect = monitorMatrix.mapRect(QRect(m_cursor.position, layerSize));
-    const auto layer = m_pipeline->cursorLayer();
-    const bool wasVisible = layer->isVisible();
-    layer->setVisible(true);
-    layer->setPosition(layerRect.topLeft());
-    m_moveCursorSuccessful = m_pipeline->moveCursor();
-    layer->setVisible(m_moveCursorSuccessful);
-    if (!m_moveCursorSuccessful || !wasVisible) {
-        m_pipeline->setCursor();
-    }
-    return m_moveCursorSuccessful;
+    return m_pipeline->updateCursor();
 }
 
 QList<std::shared_ptr<OutputMode>> DrmOutput::getModes() const
@@ -250,11 +177,7 @@ void DrmOutput::setDpmsMode(DpmsMode mode)
             Q_EMIT aboutToTurnOff(std::chrono::milliseconds(m_turnOffTimer.interval()));
             m_turnOffTimer.start();
         }
-        if (isEnabled()) {
-            m_gpu->platform()->createDpmsFilter();
-        }
     } else {
-        m_gpu->platform()->checkOutputsAreOn();
         if (m_turnOffTimer.isActive() || (mode != dpmsMode() && setDrmDpmsMode(mode))) {
             Q_EMIT wakeUp();
         }
@@ -273,49 +196,49 @@ bool DrmOutput::setDrmDpmsMode(DpmsMode mode)
         updateDpmsMode(mode);
         return true;
     }
+    if (!active) {
+        gpu()->waitIdle();
+    }
     m_pipeline->setActive(active);
     if (DrmPipeline::commitPipelines({m_pipeline}, active ? DrmPipeline::CommitMode::TestAllowModeset : DrmPipeline::CommitMode::CommitModeset) == DrmPipeline::Error::None) {
         m_pipeline->applyPendingChanges();
         updateDpmsMode(mode);
         if (active) {
-            m_gpu->platform()->checkOutputsAreOn();
             m_renderLoop->uninhibit();
             m_renderLoop->scheduleRepaint();
+            doSetChannelFactors(m_channelFactors);
         } else {
             m_renderLoop->inhibit();
-            m_gpu->platform()->createDpmsFilter();
         }
         return true;
     } else {
         qCWarning(KWIN_DRM) << "Setting dpms mode failed!";
         m_pipeline->revertPendingChanges();
-        if (isEnabled() && isActive && !active) {
-            m_gpu->platform()->checkOutputsAreOn();
-        }
         return false;
     }
 }
 
-DrmPlane::Transformations outputToPlaneTransform(DrmOutput::Transform transform)
+DrmPlane::Transformations outputToPlaneTransform(OutputTransform transform)
 {
-    using OutTrans = DrmOutput::Transform;
     using PlaneTrans = DrmPlane::Transformation;
 
-    // TODO: Do we want to support reflections (flips)?
-
-    switch (transform) {
-    case OutTrans::Normal:
-    case OutTrans::Flipped:
+    switch (transform.kind()) {
+    case OutputTransform::Normal:
         return PlaneTrans::Rotate0;
-    case OutTrans::Rotated90:
-    case OutTrans::Flipped90:
+    case OutputTransform::FlipX:
+        return PlaneTrans::ReflectX | PlaneTrans::Rotate0;
+    case OutputTransform::Rotate90:
         return PlaneTrans::Rotate90;
-    case OutTrans::Rotated180:
-    case OutTrans::Flipped180:
+    case OutputTransform::FlipX90:
+        return PlaneTrans::ReflectX | PlaneTrans::Rotate90;
+    case OutputTransform::Rotate180:
         return PlaneTrans::Rotate180;
-    case OutTrans::Rotated270:
-    case OutTrans::Flipped270:
+    case OutputTransform::FlipX180:
+        return PlaneTrans::ReflectX | PlaneTrans::Rotate180;
+    case OutputTransform::Rotate270:
         return PlaneTrans::Rotate270;
+    case OutputTransform::FlipX270:
+        return PlaneTrans::ReflectX | PlaneTrans::Rotate270;
     default:
         Q_UNREACHABLE();
     }
@@ -356,36 +279,33 @@ void DrmOutput::updateDpmsMode(DpmsMode dpmsMode)
     setState(next);
 }
 
-bool DrmOutput::present()
+bool DrmOutput::present(const std::shared_ptr<OutputFrame> &frame)
 {
-    RenderLoopPrivate *renderLoopPrivate = RenderLoopPrivate::get(m_renderLoop.get());
-    const auto type = DrmConnector::kwinToDrmContentType(contentType());
-    if (m_pipeline->syncMode() != renderLoopPrivate->presentMode || type != m_pipeline->contentType()) {
-        m_pipeline->setSyncMode(renderLoopPrivate->presentMode);
-        m_pipeline->setContentType(type);
-        if (DrmPipeline::commitPipelines({m_pipeline}, DrmPipeline::CommitMode::Test) == DrmPipeline::Error::None) {
-            m_pipeline->applyPendingChanges();
-        } else {
-            m_pipeline->revertPendingChanges();
-        }
-    }
     const bool needsModeset = gpu()->needsModeset();
     bool success;
     if (needsModeset) {
-        success = m_pipeline->maybeModeset();
+        m_pipeline->setPresentationMode(PresentationMode::VSync);
+        m_pipeline->setContentType(DrmConnector::DrmContentType::Graphics);
+        success = m_pipeline->maybeModeset(frame);
     } else {
-        DrmPipeline::Error err = m_pipeline->present();
+        m_pipeline->setPresentationMode(frame->presentationMode());
+        DrmPipeline::Error err = m_pipeline->present(frame);
+        if (err != DrmPipeline::Error::None && frame->presentationMode() != PresentationMode::VSync) {
+            // retry with a more basic presentation mode
+            m_pipeline->setPresentationMode(PresentationMode::VSync);
+            err = m_pipeline->present(frame);
+        }
         success = err == DrmPipeline::Error::None;
         if (err == DrmPipeline::Error::InvalidArguments) {
             QTimer::singleShot(0, m_gpu->platform(), &DrmBackend::updateOutputs);
         }
     }
+    m_renderLoop->setPresentationMode(m_pipeline->presentationMode());
     if (success) {
-        Q_EMIT outputChange(m_pipeline->primaryLayer()->currentDamage());
+        Q_EMIT outputChange(frame->damage());
         return true;
     } else if (!needsModeset) {
         qCWarning(KWIN_DRM) << "Presentation failed!" << strerror(errno);
-        frameFailed();
     }
     return false;
 }
@@ -400,61 +320,106 @@ DrmPipeline *DrmOutput::pipeline() const
     return m_pipeline;
 }
 
-bool DrmOutput::queueChanges(const OutputConfiguration &config)
+bool DrmOutput::queueChanges(const std::shared_ptr<OutputChangeSet> &props)
 {
-    static bool valid;
-    static int envOnlySoftwareRotations = qEnvironmentVariableIntValue("KWIN_DRM_SW_ROTATIONS_ONLY", &valid) == 1 || !valid;
-
-    const auto props = config.constChangeSet(this);
-    const auto mode = props->mode.lock();
+    const auto mode = props->mode.value_or(currentMode()).lock();
     if (!mode) {
         return false;
     }
+    const bool bt2020 = props->wideColorGamut.value_or(m_state.wideColorGamut);
+    const bool hdr = props->highDynamicRange.value_or(m_state.highDynamicRange);
     m_pipeline->setMode(std::static_pointer_cast<DrmConnectorMode>(mode));
-    m_pipeline->setOverscan(props->overscan);
-    m_pipeline->setRgbRange(props->rgbRange);
-    m_pipeline->setRenderOrientation(outputToPlaneTransform(props->transform));
-    if (!envOnlySoftwareRotations && m_gpu->atomicModeSetting()) {
-        m_pipeline->setBufferOrientation(m_pipeline->renderOrientation());
+    m_pipeline->setOverscan(props->overscan.value_or(m_pipeline->overscan()));
+    m_pipeline->setRgbRange(props->rgbRange.value_or(m_pipeline->rgbRange()));
+    m_pipeline->setEnable(props->enabled.value_or(m_pipeline->enabled()));
+    m_pipeline->setColorDescription(createColorDescription(props));
+    if (bt2020 || hdr) {
+        // ICC profiles don't support HDR (yet)
+        m_pipeline->setIccProfile(nullptr);
+    } else {
+        m_pipeline->setIccProfile(props->iccProfile.value_or(m_state.iccProfile));
     }
-    m_pipeline->setEnable(props->enabled);
+    if (bt2020 || hdr || props->colorProfileSource.value_or(m_state.colorProfileSource) != ColorProfileSource::sRGB) {
+        // remove unused gamma ramp and ctm, if present
+        m_pipeline->setGammaRamp(nullptr);
+        m_pipeline->setCTM(QMatrix3x3{});
+    }
     return true;
 }
 
-void DrmOutput::applyQueuedChanges(const OutputConfiguration &config)
+ColorDescription DrmOutput::createColorDescription(const std::shared_ptr<OutputChangeSet> &props) const
+{
+    const auto colorSource = props->colorProfileSource.value_or(colorProfileSource());
+    const bool hdr = props->highDynamicRange.value_or(m_state.highDynamicRange);
+    const bool wcg = props->wideColorGamut.value_or(m_state.wideColorGamut);
+    const auto iccProfile = props->iccProfile.value_or(m_state.iccProfile);
+    if (colorSource == ColorProfileSource::ICC && !hdr && !wcg && iccProfile) {
+        const double brightness = iccProfile->brightness().value_or(200);
+        return ColorDescription(iccProfile->colorimetry(), NamedTransferFunction::gamma22, brightness, 0, brightness, brightness);
+    }
+    const bool screenSupportsHdr = m_connector->edid()->isValid() && m_connector->edid()->supportsBT2020() && m_connector->edid()->supportsPQ();
+    const bool driverSupportsHdr = m_connector->colorspace.isValid() && m_connector->hdrMetadata.isValid() && (m_connector->colorspace.hasEnum(DrmConnector::Colorspace::BT2020_RGB) || m_connector->colorspace.hasEnum(DrmConnector::Colorspace::BT2020_YCC));
+    const bool effectiveHdr = hdr && screenSupportsHdr && driverSupportsHdr;
+    const bool effectiveWcg = wcg && screenSupportsHdr && driverSupportsHdr;
+    const Colorimetry nativeColorimetry = m_information.edid.colorimetry().value_or(Colorimetry::fromName(NamedColorimetry::BT709));
+
+    const Colorimetry colorimetry = effectiveWcg ? Colorimetry::fromName(NamedColorimetry::BT2020) : (colorSource == ColorProfileSource::EDID ? nativeColorimetry : Colorimetry::fromName(NamedColorimetry::BT709));
+    const Colorimetry sdrColorimetry = effectiveWcg ? Colorimetry::fromName(NamedColorimetry::BT709).interpolateGamutTo(nativeColorimetry, props->sdrGamutWideness.value_or(m_state.sdrGamutWideness)) : Colorimetry::fromName(NamedColorimetry::BT709);
+    // TODO the EDID can contain a gamma value, use that when available and colorSource == ColorProfileSource::EDID
+    const NamedTransferFunction transferFunction = effectiveHdr ? NamedTransferFunction::PerceptualQuantizer : NamedTransferFunction::gamma22;
+    const double minBrightness = effectiveHdr ? props->minBrightnessOverride.value_or(m_state.minBrightnessOverride).value_or(m_connector->edid()->desiredMinLuminance()) : 0;
+    const double maxAverageBrightness = effectiveHdr ? props->maxAverageBrightnessOverride.value_or(m_state.maxAverageBrightnessOverride).value_or(m_connector->edid()->desiredMaxFrameAverageLuminance().value_or(m_state.sdrBrightness)) : 200;
+    const double maxPeakBrightness = effectiveHdr ? props->maxPeakBrightnessOverride.value_or(m_state.maxPeakBrightnessOverride).value_or(m_connector->edid()->desiredMaxLuminance().value_or(1000)) : 200;
+    const double sdrBrightness = effectiveHdr ? props->sdrBrightness.value_or(m_state.sdrBrightness) : maxPeakBrightness;
+    return ColorDescription(colorimetry, transferFunction, sdrBrightness, minBrightness, maxAverageBrightness, maxPeakBrightness, sdrColorimetry);
+}
+
+void DrmOutput::applyQueuedChanges(const std::shared_ptr<OutputChangeSet> &props)
 {
     if (!m_connector->isConnected()) {
         return;
     }
-    Q_EMIT aboutToChange();
+    Q_EMIT aboutToChange(props.get());
     m_pipeline->applyPendingChanges();
 
-    auto props = config.constChangeSet(this);
-
     State next = m_state;
-    next.enabled = props->enabled && m_pipeline->crtc();
-    next.position = props->pos;
-    next.scale = props->scale;
-    next.transform = props->transform;
+    next.enabled = props->enabled.value_or(m_state.enabled) && m_pipeline->crtc();
+    next.position = props->pos.value_or(m_state.position);
+    next.scale = props->scale.value_or(m_state.scale);
+    next.transform = props->transform.value_or(m_state.transform);
+    next.manualTransform = props->manualTransform.value_or(m_state.manualTransform);
     next.currentMode = m_pipeline->mode();
     next.overscan = m_pipeline->overscan();
     next.rgbRange = m_pipeline->rgbRange();
-
+    next.highDynamicRange = props->highDynamicRange.value_or(m_state.highDynamicRange);
+    next.sdrBrightness = props->sdrBrightness.value_or(m_state.sdrBrightness);
+    next.wideColorGamut = props->wideColorGamut.value_or(m_state.wideColorGamut);
+    next.autoRotatePolicy = props->autoRotationPolicy.value_or(m_state.autoRotatePolicy);
+    next.maxPeakBrightnessOverride = props->maxPeakBrightnessOverride.value_or(m_state.maxPeakBrightnessOverride);
+    next.maxAverageBrightnessOverride = props->maxAverageBrightnessOverride.value_or(m_state.maxAverageBrightnessOverride);
+    next.minBrightnessOverride = props->minBrightnessOverride.value_or(m_state.minBrightnessOverride);
+    next.sdrGamutWideness = props->sdrGamutWideness.value_or(m_state.sdrGamutWideness);
+    next.iccProfilePath = props->iccProfilePath.value_or(m_state.iccProfilePath);
+    next.iccProfile = props->iccProfile.value_or(m_state.iccProfile);
+    next.colorDescription = m_pipeline->colorDescription();
+    next.vrrPolicy = props->vrrPolicy.value_or(m_state.vrrPolicy);
+    next.colorProfileSource = props->colorProfileSource.value_or(m_state.colorProfileSource);
+    next.brightness = props->brightness.value_or(m_state.brightness);
+    next.desiredModeSize = props->desiredModeSize.value_or(m_state.desiredModeSize);
+    next.desiredModeRefreshRate = props->desiredModeRefreshRate.value_or(m_state.desiredModeRefreshRate);
     setState(next);
-    setVrrPolicy(props->vrrPolicy);
 
     if (!isEnabled() && m_pipeline->needsModeset()) {
-        m_gpu->maybeModeset();
+        m_gpu->maybeModeset(nullptr);
     }
 
     m_renderLoop->setRefreshRate(refreshRate());
     m_renderLoop->scheduleRepaint();
 
-    Q_EMIT changed();
+    // re-set the CTM and/or gamma lut, if necessary
+    doSetChannelFactors(m_channelFactors);
 
-    if (isEnabled() && dpmsMode() == DpmsMode::On) {
-        m_gpu->platform()->turnOutputsOn();
-    }
+    Q_EMIT changed();
 }
 
 void DrmOutput::revertQueuedChanges()
@@ -467,36 +432,72 @@ DrmOutputLayer *DrmOutput::primaryLayer() const
     return m_pipeline->primaryLayer();
 }
 
-bool DrmOutput::setGammaRamp(const std::shared_ptr<ColorTransformation> &transformation)
+DrmOutputLayer *DrmOutput::cursorLayer() const
 {
-    if (!m_pipeline->activePending()) {
-        return false;
-    }
-    m_pipeline->setGammaRamp(transformation);
-    m_pipeline->setCTM(QMatrix3x3());
-    if (DrmPipeline::commitPipelines({m_pipeline}, DrmPipeline::CommitMode::Test) == DrmPipeline::Error::None) {
-        m_pipeline->applyPendingChanges();
-        m_renderLoop->scheduleRepaint();
-        return true;
-    } else {
-        m_pipeline->revertPendingChanges();
-        return false;
-    }
+    return m_pipeline->cursorLayer();
 }
 
-bool DrmOutput::setCTM(const QMatrix3x3 &ctm)
+bool DrmOutput::setChannelFactors(const QVector3D &rgb)
 {
+    return m_channelFactors == rgb || doSetChannelFactors(rgb);
+}
+
+bool DrmOutput::doSetChannelFactors(const QVector3D &rgb)
+{
+    m_renderLoop->scheduleRepaint();
+    m_channelFactors = rgb;
+    if (m_state.wideColorGamut || m_state.highDynamicRange || m_state.colorProfileSource != ColorProfileSource::sRGB) {
+        // the shader "fallback" is always active
+        return true;
+    }
     if (!m_pipeline->activePending()) {
         return false;
     }
-    m_pipeline->setCTM(ctm);
-    if (DrmPipeline::commitPipelines({m_pipeline}, DrmPipeline::CommitMode::Test) == DrmPipeline::Error::None) {
-        m_pipeline->applyPendingChanges();
-        m_renderLoop->scheduleRepaint();
-        return true;
-    } else {
-        m_pipeline->revertPendingChanges();
-        return false;
+    const auto inGamma22 = ColorDescription::nitsToEncoded(rgb, NamedTransferFunction::gamma22, 1);
+    if (m_pipeline->hasCTM()) {
+        QMatrix3x3 ctm;
+        ctm(0, 0) = inGamma22.x();
+        ctm(1, 1) = inGamma22.y();
+        ctm(2, 2) = inGamma22.z();
+        m_pipeline->setCTM(ctm);
+        m_pipeline->setGammaRamp(nullptr);
+        if (DrmPipeline::commitPipelines({m_pipeline}, DrmPipeline::CommitMode::Test) == DrmPipeline::Error::None) {
+            m_pipeline->applyPendingChanges();
+            m_channelFactorsNeedShaderFallback = false;
+            return true;
+        } else {
+            m_pipeline->setCTM(QMatrix3x3());
+            m_pipeline->applyPendingChanges();
+        }
     }
+    if (m_pipeline->hasGammaRamp()) {
+        auto lut = ColorTransformation::createScalingTransform(inGamma22);
+        if (lut) {
+            m_pipeline->setGammaRamp(std::move(lut));
+            if (DrmPipeline::commitPipelines({m_pipeline}, DrmPipeline::CommitMode::Test) == DrmPipeline::Error::None) {
+                m_pipeline->applyPendingChanges();
+                m_channelFactorsNeedShaderFallback = false;
+                return true;
+            } else {
+                m_pipeline->setGammaRamp(nullptr);
+                m_pipeline->applyPendingChanges();
+            }
+        }
+    }
+    m_channelFactorsNeedShaderFallback = m_channelFactors != QVector3D{1, 1, 1};
+    return true;
+}
+
+QVector3D DrmOutput::channelFactors() const
+{
+    return m_channelFactors;
+}
+
+bool DrmOutput::needsColormanagement() const
+{
+    static bool forceColorManagement = qEnvironmentVariableIntValue("KWIN_DRM_FORCE_COLOR_MANAGEMENT") != 0;
+    return forceColorManagement || m_state.wideColorGamut || m_state.highDynamicRange || m_state.colorProfileSource != ColorProfileSource::sRGB || m_channelFactorsNeedShaderFallback;
 }
 }
+
+#include "moc_drm_output.cpp"

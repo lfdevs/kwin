@@ -8,7 +8,7 @@
 */
 #include "xkb.h"
 
-#include <QtTest>
+#include <QTest>
 #include <xkbcommon/xkbcommon-keysyms.h>
 
 using namespace KWin;
@@ -19,6 +19,8 @@ class XkbTest : public QObject
 private Q_SLOTS:
     void testToQtKey_data();
     void testToQtKey();
+    void testFromQtKey_data();
+    void testFromQtKey();
 };
 
 // from kwindowsystem/src/platforms/xcb/kkeyserver.cpp
@@ -90,8 +92,8 @@ static const TransKey g_rgQtToSymX[] = {
     {XKB_KEY_Super_L, Qt::Key_Super_L, Qt::KeyboardModifiers()},
     {XKB_KEY_Super_R, Qt::Key_Super_R, Qt::KeyboardModifiers()},
     {XKB_KEY_Menu, Qt::Key_Menu, Qt::KeyboardModifiers()},
-    {XKB_KEY_Hyper_L, Qt::Key_Hyper_L, Qt::KeyboardModifiers()},
-    {XKB_KEY_Hyper_R, Qt::Key_Hyper_R, Qt::KeyboardModifiers()},
+    {XKB_KEY_Hyper_L, Qt::Key_Meta, Qt::KeyboardModifiers()},
+    {XKB_KEY_Hyper_R, Qt::Key_Meta, Qt::KeyboardModifiers()},
     {XKB_KEY_Help, Qt::Key_Help, Qt::KeyboardModifiers()},
     {XKB_KEY_KP_Space, Qt::Key_Space, Qt::KeypadModifier},
     {XKB_KEY_KP_Tab, Qt::Key_Tab, Qt::KeypadModifier},
@@ -133,13 +135,8 @@ static const TransKey g_rgQtToSymX[] = {
     {XKB_KEY_XF86AudioNext, Qt::Key_MediaNext, Qt::KeyboardModifiers()},
     {XKB_KEY_XF86AudioRecord, Qt::Key_MediaRecord, Qt::KeyboardModifiers()},
     {XKB_KEY_XF86Mail, Qt::Key_LaunchMail, Qt::KeyboardModifiers()},
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     {XKB_KEY_XF86MyComputer, Qt::Key_LaunchMedia, Qt::KeyboardModifiers()},
     {XKB_KEY_XF86Calculater, Qt::Key_Calculator, Qt::KeyboardModifiers()},
-#else
-    {XKB_KEY_XF86MyComputer, Qt::Key_Launch0, Qt::KeyboardModifiers()},
-    {XKB_KEY_XF86Calculator, Qt::Key_Launch1, Qt::KeyboardModifiers()},
-#endif
     {XKB_KEY_XF86Memo, Qt::Key_Memo, Qt::KeyboardModifiers()},
     {XKB_KEY_XF86ToDoList, Qt::Key_ToDoList, Qt::KeyboardModifiers()},
     {XKB_KEY_XF86Calendar, Qt::Key_Calendar, Qt::KeyboardModifiers()},
@@ -241,7 +238,6 @@ static const TransKey g_rgQtToSymX[] = {
     {XKB_KEY_XF86TouchpadOn, Qt::Key_TouchpadOn, Qt::KeyboardModifiers()},
     {XKB_KEY_XF86TouchpadOff, Qt::Key_TouchpadOff, Qt::KeyboardModifiers()},
     {XKB_KEY_XF86AudioMicMute, Qt::Key_MicMute, Qt::KeyboardModifiers()},
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     {XKB_KEY_XF86Launch0, Qt::Key_Launch0, Qt::KeyboardModifiers()},
     {XKB_KEY_XF86Launch1, Qt::Key_Launch1, Qt::KeyboardModifiers()},
     {XKB_KEY_XF86Launch2, Qt::Key_Launch2, Qt::KeyboardModifiers()},
@@ -258,24 +254,8 @@ static const TransKey g_rgQtToSymX[] = {
     {XKB_KEY_XF86LaunchD, Qt::Key_LaunchD, Qt::KeyboardModifiers()},
     {XKB_KEY_XF86LaunchE, Qt::Key_LaunchE, Qt::KeyboardModifiers()},
     {XKB_KEY_XF86LaunchF, Qt::Key_LaunchF, Qt::KeyboardModifiers()},
-#else
-    {XKB_KEY_XF86Launch0, Qt::Key_Launch2, Qt::KeyboardModifiers()},
-    {XKB_KEY_XF86Launch1, Qt::Key_Launch3, Qt::KeyboardModifiers()},
-    {XKB_KEY_XF86Launch2, Qt::Key_Launch4, Qt::KeyboardModifiers()},
-    {XKB_KEY_XF86Launch3, Qt::Key_Launch5, Qt::KeyboardModifiers()},
-    {XKB_KEY_XF86Launch4, Qt::Key_Launch6, Qt::KeyboardModifiers()},
-    {XKB_KEY_XF86Launch5, Qt::Key_Launch7, Qt::KeyboardModifiers()},
-    {XKB_KEY_XF86Launch6, Qt::Key_Launch8, Qt::KeyboardModifiers()},
-    {XKB_KEY_XF86Launch7, Qt::Key_Launch9, Qt::KeyboardModifiers()},
-    {XKB_KEY_XF86Launch8, Qt::Key_LaunchA, Qt::KeyboardModifiers()},
-    {XKB_KEY_XF86Launch9, Qt::Key_LaunchB, Qt::KeyboardModifiers()},
-    {XKB_KEY_XF86LaunchA, Qt::Key_LaunchC, Qt::KeyboardModifiers()},
-    {XKB_KEY_XF86LaunchB, Qt::Key_LaunchD, Qt::KeyboardModifiers()},
-    {XKB_KEY_XF86LaunchC, Qt::Key_LaunchE, Qt::KeyboardModifiers()},
-    {XKB_KEY_XF86LaunchD, Qt::Key_LaunchF, Qt::KeyboardModifiers()},
-#endif
 
-     // Latin-1
+    // Latin-1
     {XKB_KEY_exclam, Qt::Key_Exclam, Qt::KeyboardModifiers()},
     {XKB_KEY_quotedbl, Qt::Key_QuoteDbl, Qt::KeyboardModifiers()},
     {XKB_KEY_numbersign, Qt::Key_NumberSign, Qt::KeyboardModifiers()},
@@ -479,6 +459,28 @@ static const TransKey g_rgQtToSymX[] = {
     {XKB_KEY_KP_7, Qt::Key_7, Qt::KeypadModifier},
     {XKB_KEY_KP_8, Qt::Key_8, Qt::KeypadModifier},
     {XKB_KEY_KP_9, Qt::Key_9, Qt::KeypadModifier},
+    {XKB_KEY_KP_Space, Qt::Key_Space, Qt::KeypadModifier},
+    {XKB_KEY_KP_Tab, Qt::Key_Tab, Qt::KeypadModifier},
+    {XKB_KEY_KP_Enter, Qt::Key_Enter, Qt::KeypadModifier},
+    {XKB_KEY_KP_Home, Qt::Key_Home, Qt::KeypadModifier},
+    {XKB_KEY_KP_Left, Qt::Key_Left, Qt::KeypadModifier},
+    {XKB_KEY_KP_Up, Qt::Key_Up, Qt::KeypadModifier},
+    {XKB_KEY_KP_Right, Qt::Key_Right, Qt::KeypadModifier},
+    {XKB_KEY_KP_Down, Qt::Key_Down, Qt::KeypadModifier},
+    {XKB_KEY_KP_Prior, Qt::Key_PageUp, Qt::KeypadModifier},
+    {XKB_KEY_KP_Next, Qt::Key_PageDown, Qt::KeypadModifier},
+    {XKB_KEY_KP_End, Qt::Key_End, Qt::KeypadModifier},
+    {XKB_KEY_KP_Begin, Qt::Key_Clear, Qt::KeypadModifier},
+    {XKB_KEY_KP_Insert, Qt::Key_Insert, Qt::KeypadModifier},
+    {XKB_KEY_KP_Delete, Qt::Key_Delete, Qt::KeypadModifier},
+    {XKB_KEY_KP_Equal, Qt::Key_Equal, Qt::KeypadModifier},
+    {XKB_KEY_KP_Multiply, Qt::Key_Asterisk, Qt::KeypadModifier},
+    {XKB_KEY_KP_Add, Qt::Key_Plus, Qt::KeypadModifier},
+    {XKB_KEY_KP_Separator, Qt::Key_Comma, Qt::KeypadModifier},
+    {XKB_KEY_KP_Subtract, Qt::Key_Minus, Qt::KeypadModifier},
+    {XKB_KEY_KP_Decimal, Qt::Key_Period, Qt::KeypadModifier},
+    {XKB_KEY_KP_Divide, Qt::Key_Slash, Qt::KeypadModifier},
+
 };
 
 void XkbTest::testToQtKey_data()
@@ -496,6 +498,32 @@ void XkbTest::testToQtKey()
     Xkb xkb;
     QFETCH(xkb_keysym_t, keySym);
     QTEST(xkb.toQtKey(keySym), "qt");
+}
+
+void XkbTest::testFromQtKey_data()
+{
+    QTest::addColumn<xkb_keysym_t>("keySym");
+    QTest::addColumn<int>("keyQt");
+    for (std::size_t i = 0; i < sizeof(g_rgQtToSymX) / sizeof(TransKey); i++) {
+        const QByteArray row = QByteArray::number(g_rgQtToSymX[i].keySymX, 16);
+        QTest::newRow(row.constData()) << g_rgQtToSymX[i].keySymX << (g_rgQtToSymX[i].keySymQt | g_rgQtToSymX[i].modifiers).toCombined();
+    }
+}
+
+void XkbTest::testFromQtKey()
+{
+    Xkb xkb;
+    QFETCH(xkb_keysym_t, keySym);
+    QFETCH(int, keyQt);
+    QList<xkb_keysym_t> keys = xkb.keysymsFromQtKey(keyQt);
+
+    QEXPECT_FAIL(QByteArray::number(XKB_KEY_Hyper_L, 16), "keysymsFromQtKey doesn't map hyper to meta", Continue);
+    QEXPECT_FAIL(QByteArray::number(XKB_KEY_Hyper_R, 16), "keysymsFromQtKey doesn't map hyper to meta", Continue);
+#if QT_VERSION < QT_VERSION_CHECK(6, 7, 1)
+    QEXPECT_FAIL(QByteArray::number(XKB_KEY_KP_Equal, 16), "KP_Equal is not correctly identified as keypad key in Qt 6.7.0; fixed in 6.7.1: https://codereview.qt-project.org/c/qt/qtbase/+/546889", Continue);
+#endif
+
+    QVERIFY(keys.contains(keySym));
 }
 
 QTEST_MAIN(XkbTest)

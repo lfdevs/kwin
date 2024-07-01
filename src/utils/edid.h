@@ -9,10 +9,13 @@
 
 #pragma once
 
+#include "core/colorspace.h"
 #include "kwin_export.h"
 
 #include <QByteArray>
+#include <QList>
 #include <QSize>
+#include <QVector2D>
 
 namespace KWin
 {
@@ -74,12 +77,41 @@ public:
      */
     QString nameString() const;
 
+    QString hash() const;
+
+    std::optional<Colorimetry> colorimetry() const;
+
+    double desiredMinLuminance() const;
+    std::optional<double> desiredMaxFrameAverageLuminance() const;
+    std::optional<double> desiredMaxLuminance() const;
+    bool supportsPQ() const;
+    bool supportsBT2020() const;
+
+    /**
+     * @returns a string that is intended to identify the monitor uniquely.
+     * Note that multiple monitors can have the same EDID, so this is not always actually unique
+     */
+    QByteArray identifier() const;
+
 private:
     QSize m_physicalSize;
     QByteArray m_vendor;
     QByteArray m_eisaId;
     QByteArray m_monitorName;
     QByteArray m_serialNumber;
+    QString m_hash;
+    std::optional<Colorimetry> m_colorimetry;
+    struct HDRMetadata
+    {
+        double desiredContentMinLuminance;
+        std::optional<double> desiredContentMaxLuminance;
+        std::optional<double> desiredMaxFrameAverageLuminance;
+        bool supportsPQ;
+        bool supportsBT2020;
+    };
+    std::optional<HDRMetadata> m_hdrMetadata;
+
+    QByteArray m_identifier;
 
     QByteArray m_raw;
     bool m_isValid = false;

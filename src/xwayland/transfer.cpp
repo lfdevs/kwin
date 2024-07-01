@@ -12,9 +12,9 @@
 #include "xwayland.h"
 
 #include "atoms.h"
-#include "wayland/datadevice_interface.h"
-#include "wayland/datasource_interface.h"
-#include "wayland/seat_interface.h"
+#include "wayland/datadevice.h"
+#include "wayland/datasource.h"
+#include "wayland/seat.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
@@ -479,3 +479,5 @@ void TransferXtoWl::dataSourceWrite()
 
 } // namespace Xwl
 } // namespace KWin
+
+#include "moc_transfer.cpp"

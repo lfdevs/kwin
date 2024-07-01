@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l 10n\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-20 00:47+0000\n"
-"PO-Revision-Date: 2022-12-12 21:28+0200\n"
+"POT-Creation-Date: 2024-01-14 00:38+0000\n"
+"PO-Revision-Date: 2024-02-02 23:38+0200\n"
 "Last-Translator: Moo <<>>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
 "Language: lt\n"
@@ -18,29 +18,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n%10>=2 && (n%100<10 || n"
 "%100>=20) ? 1 : n%10==0 || (n%100>10 && n%100<20) ? 2 : 3);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.0.1\n"
 
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Liudas Ališauskas, Moo"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "liudas@akmc.lt, <>"
-
-#: module.cpp:57
+#: module.cpp:49
 #, kde-format
 msgid "Import KWin Script"
 msgstr "Importuoti KWin scenarijų"
 
-#: module.cpp:58
+#: module.cpp:50
 #, kde-format
 msgid "*.kwinscript|KWin scripts (*.kwinscript)"
 msgstr "*.kwinscript|KWin scenarijai (*.kwinscript)"
 
-#: module.cpp:96
+#: module.cpp:61
 #, kde-format
 msgctxt "Placeholder is error message returned from the install service"
 msgid ""
@@ -50,32 +40,41 @@ msgstr ""
 "Nepavyksta importuoti pasirinkto scenarijaus.\n"
 "%1"
 
-#: module.cpp:108
+#: module.cpp:65
 #, kde-format
 msgctxt "Placeholder is name of the script that was imported"
 msgid "The script \"%1\" was successfully imported."
-msgstr "Scenarijus \"%1\" buvo sėkmingai importuotas."
+msgstr "Scenarijus „%1“ buvo sėkmingai importuotas."
 
-#: module.cpp:148
+#: module.cpp:124
 #, kde-format
 msgid "Error when uninstalling KWin Script: %1"
 msgstr "Klaida šalinant KWin scenarijų: %1"
 
-#: package/contents/ui/main.qml:47
+#: ui/main.qml:23
+#, kde-format
+msgid "Install from File…"
+msgstr "Įdiegti iš failo…"
+
+#: ui/main.qml:27
+#, kde-format
+msgctxt "@action:button get new KWin scripts"
+msgid "Get New…"
+msgstr "Gauti naują…"
+
+#: ui/main.qml:65
 #, kde-format
 msgctxt "@info:tooltip"
-msgid "Delete..."
-msgstr "Ištrinti..."
+msgid "Delete…"
+msgstr "Ištrinti…"
 
-#: package/contents/ui/main.qml:60
-#, kde-format
-msgid "Install from File..."
-msgstr "Įdiegti iš failo..."
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Liudas Ališauskas, Moo"
 
-#: package/contents/ui/main.qml:64
-#, kde-format
-msgid "Get New Scripts..."
-msgstr "Gauti naujų scenarijų..."
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "liudas@akmc.lt, <>"
 
 #~ msgid "KWin Scripts"
 #~ msgstr "KWin scenarijai"

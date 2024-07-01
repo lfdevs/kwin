@@ -10,6 +10,7 @@
 #include "customtile.h"
 #include "core/output.h"
 #include "tilemanager.h"
+#include "window.h"
 
 namespace KWin
 {
@@ -70,6 +71,10 @@ void CustomTile::setRelativeGeometry(const QRectF &geom)
             if (tile) {
                 QRectF tileGeom = tile->relativeGeometry();
                 tileGeom.setRight(finalGeom.left());
+                if (tileGeom.width() <= tile->minimumSize().width()) {
+                    m_geometryLock = false;
+                    return;
+                }
                 tile->setRelativeGeometry(tileGeom);
                 // The other tile gometry may be not what we set due to size constraints
                 finalGeom.setLeft(tile->relativeGeometry().right());
@@ -83,6 +88,10 @@ void CustomTile::setRelativeGeometry(const QRectF &geom)
             if (tile) {
                 auto tileGeom = tile->relativeGeometry();
                 tileGeom.setBottom(finalGeom.top());
+                if (tileGeom.height() <= tile->minimumSize().height()) {
+                    m_geometryLock = false;
+                    return;
+                }
                 tile->setRelativeGeometry(tileGeom);
                 finalGeom.setTop(tile->relativeGeometry().bottom());
             } else {
@@ -95,6 +104,10 @@ void CustomTile::setRelativeGeometry(const QRectF &geom)
             if (tile) {
                 auto tileGeom = tile->relativeGeometry();
                 tileGeom.setLeft(finalGeom.right());
+                if (tileGeom.width() <= tile->minimumSize().width()) {
+                    m_geometryLock = false;
+                    return;
+                }
                 tile->setRelativeGeometry(tileGeom);
                 finalGeom.setRight(tile->relativeGeometry().left());
             } else {
@@ -107,6 +120,10 @@ void CustomTile::setRelativeGeometry(const QRectF &geom)
             if (tile) {
                 auto tileGeom = tile->relativeGeometry();
                 tileGeom.setTop(finalGeom.bottom());
+                if (tileGeom.height() <= tile->minimumSize().height()) {
+                    m_geometryLock = false;
+                    return;
+                }
                 tile->setRelativeGeometry(tileGeom);
                 finalGeom.setBottom(tile->relativeGeometry().top());
             } else {
@@ -257,6 +274,7 @@ void CustomTile::remove()
 
     manager()->model()->beginRemoveTile(this);
     parentT->removeChild(this);
+    m_parentTile = nullptr;
     manager()->model()->endRemoveTile();
     manager()->tileRemoved(this);
 
@@ -304,7 +322,12 @@ void CustomTile::remove()
         }
     }
 
-    delete this;
+    const auto windows = std::exchange(m_windows, {});
+    for (Window *window : windows) {
+        window->setTile(m_tiling->bestTileForPosition(window->moveResizeGeometry().center()));
+    }
+
+    deleteLater(); // not using "delete this" because QQmlEngine will crash
 }
 
 CustomTile *CustomTile::nextTileAt(Qt::Edge edge) const

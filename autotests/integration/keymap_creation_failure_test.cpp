@@ -8,7 +8,6 @@
 */
 #include "kwin_wayland_test.h"
 
-#include "core/outputbackend.h"
 #include "keyboard_input.h"
 #include "keyboard_layout.h"
 #include "virtualdesktops.h"
@@ -49,11 +48,14 @@ void KeymapCreationFailureTest::initTestCase()
     qRegisterMetaType<KWin::Window *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
+    Test::setOutputConfig({
+        QRect(0, 0, 1280, 1024),
+        QRect(1280, 0, 1280, 1024),
+    });
 
     kwinApp()->setConfig(KSharedConfig::openConfig(QString(), KConfig::SimpleConfig));
     kwinApp()->setKxkbConfig(KSharedConfig::openConfig(QString(), KConfig::SimpleConfig));
-    KConfigGroup layoutGroup = kwinApp()->kxkbConfig()->group("Layout");
+    KConfigGroup layoutGroup = kwinApp()->kxkbConfig()->group(QStringLiteral("Layout"));
     layoutGroup.writeEntry("LayoutList", QStringLiteral("no"));
     layoutGroup.writeEntry("Model", "no");
     layoutGroup.writeEntry("Options", "no");

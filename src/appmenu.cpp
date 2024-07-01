@@ -9,8 +9,8 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "appmenu.h"
+#include "window.h"
 #include "workspace.h"
-#include "x11window.h"
 #include <appmenu_interface.h>
 
 #include <QDBusObjectPath>
@@ -104,10 +104,12 @@ Window *ApplicationMenu::findWindowWithApplicationMenu(const QString &serviceNam
         return nullptr;
     }
 
-    return Workspace::self()->findAbstractClient([&](const Window *window) {
+    return Workspace::self()->findWindow([&](const Window *window) {
         return window->applicationMenuServiceName() == serviceName
             && window->applicationMenuObjectPath() == menuObjectPath.path();
     });
 }
 
 } // namespace KWin
+
+#include "moc_appmenu.cpp"

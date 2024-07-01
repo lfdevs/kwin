@@ -10,7 +10,6 @@
 #include "kwin_wayland_test.h"
 
 #include "core/output.h"
-#include "core/outputbackend.h"
 #include "scripting/scripting.h"
 #include "wayland_server.h"
 #include "window.h"
@@ -47,7 +46,10 @@ void MinimizeAllScriptTest::initTestCase()
 
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
+    Test::setOutputConfig({
+        QRect(0, 0, 1280, 1024),
+        QRect(1280, 0, 1280, 1024),
+    });
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
@@ -68,10 +70,8 @@ static QString locateMainScript(const QString &pluginName)
     if (offers.isEmpty()) {
         return QString();
     }
-    const KPluginMetaData &metaData = offers.first();
-    const QString mainScriptFileName = metaData.value(QStringLiteral("X-Plasma-MainScript"));
-    const QFileInfo metaDataFileInfo(metaData.fileName());
-    return metaDataFileInfo.path() + QLatin1String("/contents/") + mainScriptFileName;
+    const QFileInfo metaDataFileInfo(offers.first().fileName());
+    return metaDataFileInfo.path() + QLatin1String("/contents/code/main.js");
 }
 
 void MinimizeAllScriptTest::init()
@@ -98,6 +98,11 @@ void MinimizeAllScriptTest::cleanup()
 
 void MinimizeAllScriptTest::testMinimizeUnminimize()
 {
+#if !KWIN_BUILD_GLOBALSHORTCUTS
+    QSKIP("Can't test shortcuts without shortcuts");
+    return;
+#endif
+
     // This test verifies that all windows are minimized when Meta+Shift+D
     // is pressed, and unminimized when the shortcut is pressed once again.
 
@@ -141,9 +146,9 @@ void MinimizeAllScriptTest::testMinimizeUnminimize()
 
     // Destroy test windows.
     shellSurface2.reset();
-    QVERIFY(Test::waitForWindowDestroyed(window2));
+    QVERIFY(Test::waitForWindowClosed(window2));
     shellSurface1.reset();
-    QVERIFY(Test::waitForWindowDestroyed(window1));
+    QVERIFY(Test::waitForWindowClosed(window1));
 }
 
 }

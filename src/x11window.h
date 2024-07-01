@@ -9,6 +9,11 @@
 */
 
 #pragma once
+#include "config-kwin.h"
+
+#if !KWIN_BUILD_X11
+#error Do not include on non-X11 builds
+#endif
 
 // kwin
 #include "scene/decorationitem.h"
@@ -21,6 +26,7 @@
 #include <QPointer>
 #include <QWindow>
 // X
+#include <NETWM>
 #include <xcb/sync.h>
 
 // TODO: Cleanup the order of things in this .h file
@@ -31,6 +37,8 @@ class KStartupInfoId;
 
 namespace KWin
 {
+
+class KillPrompt;
 
 /**
  * @brief Defines Predicates on how to search for a Client.
@@ -69,60 +77,51 @@ private:
 class KWIN_EXPORT X11Window : public Window
 {
     Q_OBJECT
-    /**
-     * By how much the window wishes to grow/shrink at least. Usually QSize(1,1).
-     * MAY BE DISOBEYED BY THE WM! It's only for information, do NOT rely on it at all.
-     * The value is evaluated each time the getter is called.
-     * Because of that no changed signal is provided.
-     */
-    Q_PROPERTY(QSizeF basicUnit READ basicUnit)
-    /**
-     * A client can block compositing. That is while the Client is alive and the state is set,
-     * Compositing is suspended and is resumed when there are no Clients blocking compositing any
-     * more.
-     *
-     * This is actually set by a window property, unfortunately not used by the target application
-     * group. For convenience it's exported as a property to the scripts.
-     *
-     * Use with care!
-     */
-    Q_PROPERTY(bool blocksCompositing READ isBlockingCompositing WRITE setBlockingCompositing NOTIFY blockingCompositingChanged)
-    /**
-     * Whether the Client uses client side window decorations.
-     * Only GTK+ are detected.
-     */
-    Q_PROPERTY(bool clientSideDecorated READ isClientSideDecorated NOTIFY clientSideDecoratedChanged)
-    Q_PROPERTY(qulonglong frameId READ frameId CONSTANT)
-    Q_PROPERTY(qulonglong windowId READ window CONSTANT)
+
 public:
     explicit X11Window();
     ~X11Window() override; ///< Use destroyWindow() or releaseWindow()
 
+    xcb_window_t frameId() const;
+    xcb_window_t window() const;
     xcb_window_t wrapperId() const;
     xcb_window_t inputId() const
     {
         return m_decoInputExtent;
     }
-    xcb_window_t frameId() const override;
 
-    QRectF inputGeometry() const override;
+    int desktopId() const;
+    QByteArray sessionId() const;
+    xcb_window_t wmClientLeader() const;
+    QString wmCommand();
 
     QPointF framePosToClientPos(const QPointF &point) const override;
     QPointF clientPosToFramePos(const QPointF &point) const override;
     QSizeF frameSizeToClientSize(const QSizeF &size) const override;
     QSizeF clientSizeToFrameSize(const QSizeF &size) const override;
     QRectF frameRectToBufferRect(const QRectF &rect) const;
+    QPointF wrapperPos() const;
     QSizeF implicitSize() const;
 
-    QMatrix4x4 inputTransformation() const override;
+    void blockGeometryUpdates(bool block);
+    void blockGeometryUpdates();
+    void unblockGeometryUpdates();
+    bool areGeometryUpdatesBlocked() const;
+
+    xcb_visualid_t visual() const;
+    int depth() const;
+    bool hasAlpha() const;
+    QRegion opaqueRegion() const;
+    QList<QRectF> shapeRegion() const;
+
+    pid_t pid() const override;
+    QString windowRole() const override;
 
     bool isTransient() const override;
     bool groupTransient() const override;
-    bool wasOriginallyGroupTransient() const;
     QList<Window *> mainWindows() const override; // Call once before loop , is not indirect
     bool hasTransient(const Window *c, bool indirect) const override;
     void checkTransient(xcb_window_t w);
-    Window *findModal(bool allow_itself = false) override;
     const Group *group() const override;
     Group *group() override;
     void checkGroup(Group *gr = nullptr, bool force = false);
@@ -143,19 +142,19 @@ public:
     } // Inside of geometry()
 
     bool windowEvent(xcb_generic_event_t *e);
-    NET::WindowType windowType(bool direct = false, int supported_types = 0) const override;
+    WindowType windowType() const override;
 
+    bool track(xcb_window_t w);
     bool manage(xcb_window_t w, bool isMapped);
+
     void releaseWindow(bool on_shutdown = false);
+    bool hasScheduledRelease() const;
+
     void destroyWindow() override;
 
     QStringList activities() const override;
     void doSetOnActivities(const QStringList &newActivitiesList) override;
     void updateActivities(bool includeTransients) override;
-
-    /// Is not minimized and not hidden. I.e. normally visible on some virtual desktop.
-    bool isShown() const override;
-    bool isHiddenInternal() const override; // For compositing
 
     bool isShadeable() const override;
     bool isMaximizable() const override;
@@ -166,9 +165,8 @@ public:
     QRectF iconGeometry() const override;
 
     bool isFullScreenable() const override;
-    void setFullScreen(bool set, bool user = true) override;
+    void setFullScreen(bool set) override;
     bool isFullScreen() const override;
-    bool userCanSetFullScreen() const override;
     int fullScreenMode() const
     {
         return m_fullscreenMode; // only for session saving
@@ -195,6 +193,7 @@ public:
 
     void invalidateDecoration() override;
 
+    void detectShape();
     void updateShape();
 
     /// resizeWithChecks() resizes according to gravity, and checks workarea position
@@ -205,22 +204,15 @@ public:
 
     bool providesContextHelp() const override;
 
-    xcb_colormap_t colormap() const;
-
     /// Updates visibility depending on being shaded, virtual desktop, etc.
     void updateVisibility();
-    /// Hides a client - Basically like minimize, but without effects, it's simply hidden
-    void hideClient() override;
-    void showClient() override;
     bool hiddenPreview() const; ///< Window is mapped in order to get a window pixmap
 
     bool setupCompositing() override;
-    void finishCompositing(ReleaseReason releaseReason = ReleaseReason::Release) override;
+    void finishCompositing() override;
     void setBlockingCompositing(bool block);
-    inline bool isBlockingCompositing()
-    {
-        return blocks_compositing;
-    }
+    void blockCompositing();
+    void unblockCompositing();
 
     QString captionNormal() const override
     {
@@ -239,7 +231,7 @@ public:
     QPointF gravityAdjustment(xcb_gravity_t gravity) const;
     const QPointF calculateGravitation(bool invert) const;
 
-    void NETMoveResize(qreal x_root, qreal y_root, NET::Direction direction);
+    void NETMoveResize(qreal x_root, qreal y_root, NET::Direction direction, xcb_button_t button);
     void NETMoveResizeWindow(int flags, qreal x, qreal y, qreal width, qreal height);
     void GTKShowWindowMenu(qreal x_root, qreal y_root);
     void restackWindow(xcb_window_t above, int detail, NET::RequestSource source, xcb_timestamp_t timestamp,
@@ -266,9 +258,6 @@ public:
 
     bool isClientSideDecorated() const;
 
-    Xcb::Property fetchFirstInTabBox() const;
-    void readFirstInTabBox(Xcb::Property &property);
-    void updateFirstInTabBox();
     Xcb::StringProperty fetchPreferredColorScheme() const;
     QString readPreferredColorScheme(Xcb::StringProperty &property) const;
     QString preferredColorScheme() const override;
@@ -276,6 +265,8 @@ public:
     // sets whether the client should be faked as being on all activities (and be shown during session save)
     void setSessionActivityOverride(bool needed);
     bool isClient() const override;
+    bool isOutline() const override;
+    bool isUnmanaged() const override;
 
     void cancelFocusOutTimer();
 
@@ -307,14 +298,16 @@ public:
     {
         return m_syncRequest;
     }
-    virtual bool wantsSyncCounter() const;
+    bool wantsSyncCounter() const;
     void handleSync();
     void handleSyncTimeout();
 
-    bool allowWindowActivation(xcb_timestamp_t time = -1U, bool focus_in = false,
-                               bool ignore_desktop = false);
+    bool allowWindowActivation(xcb_timestamp_t time = -1U, bool focus_in = false);
 
     static void cleanupX11();
+
+    quint64 surfaceSerial() const;
+    quint32 pendingSurfaceId() const;
 
 public Q_SLOTS:
     void closeWindow() override;
@@ -325,9 +318,10 @@ private:
     bool mapRequestEvent(xcb_map_request_event_t *e);
     void unmapNotifyEvent(xcb_unmap_notify_event_t *e);
     void destroyNotifyEvent(xcb_destroy_notify_event_t *e);
+    void configureNotifyEvent(xcb_configure_notify_event_t *e);
     void configureRequestEvent(xcb_configure_request_event_t *e);
-    void propertyNotifyEvent(xcb_property_notify_event_t *e) override;
-    void clientMessageEvent(xcb_client_message_event_t *e) override;
+    void propertyNotifyEvent(xcb_property_notify_event_t *e);
+    void clientMessageEvent(xcb_client_message_event_t *e);
     void enterNotifyEvent(xcb_enter_notify_event_t *e);
     void leaveNotifyEvent(xcb_leave_notify_event_t *e);
     void focusInEvent(xcb_focus_in_event_t *e);
@@ -350,60 +344,46 @@ protected:
     void doSetSkipTaskbar() override;
     void doSetSkipSwitcher() override;
     void doSetDemandsAttention() override;
+    void doSetHidden() override;
+    void doSetHiddenByShowDesktop() override;
+    void doSetModal() override;
     bool belongsToDesktop() const override;
     bool doStartInteractiveMoveResize() override;
-    bool isWaitingForInteractiveMoveResizeSync() const override;
+    bool isWaitingForInteractiveResizeSync() const override;
     void doInteractiveResizeSync(const QRectF &rect) override;
     QSizeF resizeIncrements() const override;
     bool acceptsFocus() const override;
+    void doSetQuickTileMode() override;
     void moveResizeInternal(const QRectF &rect, MoveResizeMode mode) override;
-    std::unique_ptr<WindowItem> createItem(Scene *scene) override;
+    std::unique_ptr<WindowItem> createItem(Item *parentItem) override;
 
-    // Signals for the scripting interface
-    // Signals make an excellent way for communication
-    // in between objects as compared to simple function
-    // calls
 Q_SIGNALS:
-    void clientManaging(KWin::X11Window *);
-    void clientFullScreenSet(KWin::X11Window *, bool, bool);
-
-    /**
-     * Emitted whenever the Client want to show it menu
-     */
-    void showRequest();
-    /**
-     * Emitted whenever the Client's menu is closed
-     */
-    void menuHidden();
-    /**
-     * Emitted whenever the Client's menu is available
-     */
-    void appMenuAvailable();
-    /**
-     * Emitted whenever the Client's menu is unavailable
-     */
-    void appMenuUnavailable();
-
-    /**
-     * Emitted whenever the Client's block compositing state changes.
-     */
-    void blockingCompositingChanged(KWin::X11Window *client);
-    void clientSideDecoratedChanged();
+    void shapeChanged();
 
 private:
     void exportMappingState(int s); // ICCCM 4.1.3.1, 4.1.4, NETWM 2.5.1
     bool isManaged() const; ///< Returns false if this client is not yet managed
     void updateAllowedActions(bool force = false);
     QRect fullscreenMonitorsArea(NETFullscreenMonitors topology) const;
+    void getResourceClass();
     void getWmNormalHints();
+    void getWmClientMachine();
     void getMotifHints();
     void getIcons();
+    void getWmOpaqueRegion();
+    void discardShapeRegion();
     void fetchName();
     void fetchIconicName();
     QString readName() const;
     void setCaption(const QString &s, bool force = false);
     bool hasTransientInternal(const X11Window *c, bool indirect, QList<const X11Window *> &set) const;
     void setShortcutInternal() override;
+    Xcb::Property fetchWmClientLeader() const;
+    void readWmClientLeader(Xcb::Property &p);
+    void getWmClientLeader();
+    Xcb::Property fetchSkipCloseAnimation() const;
+    void readSkipCloseAnimation(Xcb::Property &prop);
+    void getSkipCloseAnimation();
 
     void configureRequest(int value_mask, qreal rx, qreal ry, qreal rw, qreal rh, int gravity, bool from_tool);
     NETExtendedStrut strut() const;
@@ -457,12 +437,18 @@ private:
     void maybeCreateX11DecorationRenderer();
     void maybeDestroyX11DecorationRenderer();
     void updateDecoration(bool check_workspace_pos, bool force = false);
-    void createDecoration(const QRectF &oldgeom);
+    void createDecoration();
     void destroyDecoration();
+
+    QWindow *findInternalWindow() const;
+    void checkOutput();
+    void associate();
+    void handleXwaylandScaleChanged();
 
     Xcb::Window m_client;
     Xcb::Window m_wrapper;
     Xcb::Window m_frame;
+    xcb_window_t m_wmClientLeader = XCB_WINDOW_NONE;
     int m_activityUpdatesBlocked;
     bool m_blockedActivityUpdatesRequireTransients;
     Xcb::Window m_moveResizeGrabWindow;
@@ -484,20 +470,21 @@ private:
     void readTransient();
     xcb_window_t verifyTransientFor(xcb_window_t transient_for, bool set);
     void addTransient(Window *cl) override;
-    void removeTransient(Window *cl) override;
     void removeFromMainClients();
     void cleanGrouping();
     void checkGroupTransients();
     void setTransient(xcb_window_t new_transient_for_id);
+
+    NETWinInfo *info = nullptr;
     xcb_window_t m_transientForId;
     xcb_window_t m_originalTransientForId;
     X11Window *shade_below;
     Xcb::MotifHints m_motif;
-    uint hidden : 1; ///< Forcibly hidden by calling hide()
     uint noborder : 1;
     uint app_noborder : 1; ///< App requested no border via window type, shape extension, etc.
     uint ignore_focus_stealing : 1; ///< Don't apply focus stealing prevention to this client
     bool blocks_compositing;
+    bool is_shape = false;
 
     enum FullScreenMode {
         FullScreenNone,
@@ -505,11 +492,10 @@ private:
     } m_fullscreenMode;
 
     MaximizeMode max_mode;
-    xcb_colormap_t m_colormap;
     QString cap_normal, cap_iconic, cap_suffix;
     Group *in_group;
     QTimer *ping_timer;
-    qint64 m_killHelperPID;
+    std::unique_ptr<KillPrompt> m_killPrompt;
     xcb_timestamp_t m_pingTimestamp;
     xcb_timestamp_t m_userTime;
     NET::Actions allowed_actions;
@@ -517,6 +503,11 @@ private:
     SyncRequest m_syncRequest;
     static bool check_active_modal; ///< \see X11Window::checkActiveModal()
     int sm_stacking_order;
+    xcb_visualid_t m_visual = XCB_NONE;
+    int bit_depth = 24;
+    QRegion opaque_region;
+    mutable QList<QRectF> m_shapeRegion;
+    mutable bool m_shapeRegionIsValid = false;
     friend struct ResetupRulesProcedure;
 
     friend bool performTransiencyCheck();
@@ -531,21 +522,62 @@ private:
     QPointF input_offset;
 
     QTimer *m_focusOutTimer;
+    QTimer m_releaseTimer;
 
-    QMetaObject::Connection m_edgeRemoveConnection;
     QMetaObject::Connection m_edgeGeometryTrackingConnection;
 
     QMarginsF m_clientFrameExtents;
-    Output *m_lastOutput = nullptr;
     QRectF m_lastBufferGeometry;
     QRectF m_lastFrameGeometry;
     QRectF m_lastClientGeometry;
+    int m_blockGeometryUpdates = 0; // > 0 = New geometry is remembered, but not actually set
+
     std::unique_ptr<X11DecorationRenderer> m_decorationRenderer;
+
+    bool m_unmanaged = false;
+    bool m_outline = false;
+    quint32 m_pendingSurfaceId = 0;
+    quint64 m_surfaceSerial = 0;
 };
 
-inline xcb_window_t X11Window::wrapperId() const
+/**
+ * Helper for X11Window::blockGeometryUpdates() being called in pairs (true/false)
+ */
+class X11GeometryUpdatesBlocker
 {
-    return m_wrapper;
+public:
+    explicit X11GeometryUpdatesBlocker(X11Window *c)
+        : cl(c)
+    {
+        cl->blockGeometryUpdates(true);
+    }
+    ~X11GeometryUpdatesBlocker()
+    {
+        cl->blockGeometryUpdates(false);
+    }
+
+private:
+    X11Window *cl;
+};
+
+inline xcb_visualid_t X11Window::visual() const
+{
+    return m_visual;
+}
+
+inline int X11Window::depth() const
+{
+    return bit_depth;
+}
+
+inline bool X11Window::hasAlpha() const
+{
+    return depth() == 32;
+}
+
+inline QRegion X11Window::opaqueRegion() const
+{
+    return opaque_region;
 }
 
 inline bool X11Window::isClientSideDecorated() const
@@ -556,13 +588,6 @@ inline bool X11Window::isClientSideDecorated() const
 inline bool X11Window::groupTransient() const
 {
     return m_transientForId == kwinApp()->x11RootWindow();
-}
-
-// Needed because verifyTransientFor() may set transient_for_id to root window,
-// if the original value has a problem (window doesn't exist, etc.)
-inline bool X11Window::wasOriginallyGroupTransient() const
-{
-    return m_originalTransientForId == kwinApp()->x11RootWindow();
 }
 
 inline bool X11Window::isTransient() const
@@ -580,16 +605,6 @@ inline Group *X11Window::group()
     return in_group;
 }
 
-inline bool X11Window::isShown() const
-{
-    return !isMinimized() && !hidden;
-}
-
-inline bool X11Window::isHiddenInternal() const
-{
-    return hidden;
-}
-
 inline MaximizeMode X11Window::maximizeMode() const
 {
     return max_mode;
@@ -603,11 +618,6 @@ inline bool X11Window::isFullScreen() const
 inline bool X11Window::hasNETSupport() const
 {
     return info->hasNETSupport();
-}
-
-inline xcb_colormap_t X11Window::colormap() const
-{
-    return m_colormap;
 }
 
 inline int X11Window::sessionStackingOrder() const
@@ -643,6 +653,31 @@ inline xcb_window_t X11Window::moveResizeGrabWindow() const
 inline bool X11Window::hiddenPreview() const
 {
     return mapping_state == Kept;
+}
+
+inline quint64 X11Window::surfaceSerial() const
+{
+    return m_surfaceSerial;
+}
+
+inline quint32 X11Window::pendingSurfaceId() const
+{
+    return m_pendingSurfaceId;
+}
+
+inline bool X11Window::areGeometryUpdatesBlocked() const
+{
+    return m_blockGeometryUpdates != 0;
+}
+
+inline void X11Window::blockGeometryUpdates()
+{
+    m_blockGeometryUpdates++;
+}
+
+inline void X11Window::unblockGeometryUpdates()
+{
+    m_blockGeometryUpdates--;
 }
 
 } // namespace

@@ -9,14 +9,11 @@
 #include "kwin_wayland_test.h"
 
 #include "core/output.h"
-#include "core/outputbackend.h"
-#include "cursor.h"
-#include "deleted.h"
-#include "wayland/seat_interface.h"
+#include "pointer_input.h"
+#include "wayland/seat.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
-#include <kwineffects.h>
 
 #include <KWayland/Client/compositor.h>
 #include <KWayland/Client/connection_thread.h>
@@ -26,6 +23,8 @@
 #include <KWayland/Client/seat.h>
 #include <KWayland/Client/shm_pool.h>
 #include <KWayland/Client/surface.h>
+
+#include <QSignalSpy>
 
 namespace KWin
 {
@@ -48,10 +47,12 @@ private:
 void InputStackingOrderTest::initTestCase()
 {
     qRegisterMetaType<KWin::Window *>();
-    qRegisterMetaType<KWin::Deleted *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
+    Test::setOutputConfig({
+        QRect(0, 0, 1280, 1024),
+        QRect(1280, 0, 1280, 1024),
+    });
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
@@ -68,7 +69,7 @@ void InputStackingOrderTest::init()
     QVERIFY(Test::waitForWaylandPointer());
 
     workspace()->setActiveOutput(QPoint(640, 512));
-    Cursors::self()->mouse()->setPos(QPoint(640, 512));
+    input()->pointer()->warp(QPoint(640, 512));
 }
 
 void InputStackingOrderTest::cleanup()
@@ -100,7 +101,7 @@ void InputStackingOrderTest::testPointerFocusUpdatesOnStackingOrderChange()
     QSignalSpy windowAddedSpy(workspace(), &Workspace::windowAdded);
     std::unique_ptr<KWayland::Client::Surface> surface1 = Test::createSurface();
     QVERIFY(surface1);
-    Test::XdgToplevel *shellSurface1 = Test::createXdgToplevelSurface(surface1.get(), surface1.get());
+    std::unique_ptr<Test::XdgToplevel> shellSurface1 = Test::createXdgToplevelSurface(surface1.get());
     QVERIFY(shellSurface1);
     render(surface1.get());
     QVERIFY(windowAddedSpy.wait());
@@ -109,7 +110,7 @@ void InputStackingOrderTest::testPointerFocusUpdatesOnStackingOrderChange()
 
     std::unique_ptr<KWayland::Client::Surface> surface2 = Test::createSurface();
     QVERIFY(surface2);
-    Test::XdgToplevel *shellSurface2 = Test::createXdgToplevelSurface(surface2.get(), surface2.get());
+    std::unique_ptr<Test::XdgToplevel> shellSurface2 = Test::createXdgToplevelSurface(surface2.get());
     QVERIFY(shellSurface2);
     render(surface2.get());
     QVERIFY(windowAddedSpy.wait());
@@ -143,7 +144,7 @@ void InputStackingOrderTest::testPointerFocusUpdatesOnStackingOrderChange()
     QCOMPARE(waylandServer()->seat()->focusedPointerSurface(), window1->surface());
 
     // let's destroy window1, that should pass focus to window2 again
-    QSignalSpy windowClosedSpy(window1, &Window::windowClosed);
+    QSignalSpy windowClosedSpy(window1, &Window::closed);
     surface1.reset();
     QVERIFY(windowClosedSpy.wait());
     QVERIFY(enteredSpy.wait());

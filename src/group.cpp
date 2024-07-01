@@ -9,10 +9,11 @@
 */
 
 #include "group.h"
-#include "effects.h"
+#include "effect/effecthandler.h"
 #include "workspace.h"
 #include "x11window.h"
 
+#include <KStartupInfo>
 #include <KX11Extras>
 #include <QDebug>
 
@@ -35,7 +36,7 @@ Group::Group(xcb_window_t leader_P)
         leader_info = std::make_unique<NETWinInfo>(kwinApp()->x11Connection(), leader_P, kwinApp()->x11RootWindow(),
                                                    NET::Properties(), NET::WM2StartupId);
     }
-    effect_group = std::make_unique<EffectWindowGroupImpl>(this);
+    effect_group = std::make_unique<EffectWindowGroup>(this);
     workspace()->addGroup(this);
 }
 
@@ -113,6 +114,34 @@ void Group::lostLeader()
     if (_members.isEmpty()) {
         workspace()->removeGroup(this);
         delete this;
+    }
+}
+
+void Group::startupIdChanged()
+{
+    KStartupInfoId asn_id;
+    KStartupInfoData asn_data;
+    bool asn_valid = workspace()->checkStartupNotification(leader_wid, asn_id, asn_data);
+    if (!asn_valid) {
+        return;
+    }
+    if (asn_id.timestamp() != 0 && user_time != -1U
+        && NET::timestampCompare(asn_id.timestamp(), user_time) > 0) {
+        user_time = asn_id.timestamp();
+    }
+}
+
+void Group::updateUserTime(xcb_timestamp_t time)
+{
+    // copy of X11Window::updateUserTime
+    if (time == XCB_CURRENT_TIME) {
+        kwinApp()->updateXTime();
+        time = xTime();
+    }
+    if (time != -1U
+        && (user_time == XCB_CURRENT_TIME
+            || NET::timestampCompare(time, user_time) > 0)) { // time > user_time
+        user_time = time;
     }
 }
 

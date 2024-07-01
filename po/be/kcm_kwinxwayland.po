@@ -1,10 +1,10 @@
 # Zmicier <zmicerturok@gmail.com>, 2022.
 msgid ""
 msgstr ""
-"Project-Id-Version: 86ff119b1606fcaa910d6b44fc14b611\n"
+"Project-Id-Version: fc57ad16a28d02dea100ceb1c60de14e\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-17 00:51+0000\n"
-"PO-Revision-Date: 2023-01-06 10:31\n"
+"POT-Creation-Date: 2024-03-09 00:39+0000\n"
+"PO-Revision-Date: 2024-02-23 01:30\n"
 "Last-Translator: Zmicier <zmicerturok@gmail.com>\n"
 "Language-Team: Belarusian\n"
 "Language: be\n"
@@ -15,50 +15,28 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || n%10>=5 && n%10<=9 || n"
 "%100>=11 && n%100<=14 ? 2 : 3);\n"
 "X-Generator: Lokalize 22.12.0\n"
-"X-Crowdin-Project: 86ff119b1606fcaa910d6b44fc14b611\n"
-"X-Crowdin-Project-ID: 127\n"
+"X-Crowdin-Project: fc57ad16a28d02dea100ceb1c60de14e\n"
+"X-Crowdin-Project-ID: 136\n"
 "X-Crowdin-Language: be\n"
-"X-Crowdin-File: /main/be/kwin/kcm_kwinxwayland.po\n"
-"X-Crowdin-File-ID: 8930\n"
+"X-Crowdin-File: /[antikruk.KDE] main/KDE6/be/messages/kwin/kcm_kwinxwayland."
+"po\n"
+"X-Crowdin-File-ID: 10428\n"
 
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Antikruk"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "nashtlumach@gmail.com"
-
-#: kcmkwinxwayland.cpp:30
-#, kde-format
-msgid "Legacy X11 App Support"
-msgstr "Падтрымка састарэлых праграм X11"
-
-#: kcmkwinxwayland.cpp:32
-#, kde-format
-msgid "Allow legacy X11 apps to read keystrokes typed in other apps"
-msgstr ""
-"Дазволіць састарэлым праграмам X11 апрацоўваць націсканні клавіш у іншых "
-"праграмах"
-
-#: package/contents/ui/main.qml:19
-#, kde-format
+#: ui/main.qml:32
+#, fuzzy, kde-format
+#| msgid ""
+#| "Legacy X11 apps require the ability to read keystrokes typed in other "
+#| "apps for features that are activated using global keyboard shortcuts. "
+#| "This is disabled by default for security reasons. If you need to use such "
+#| "apps, you can choose your preferred balance of security and functionality "
+#| "here."
 msgid ""
-"This module lets configure which keyboard events are forwarded to X11 apps "
-"regardless of their focus."
-msgstr ""
-"Гэты модуль дазваляе наладжваць перанакіраванне падзей клавіятуры ў праграмы "
-"X11 незалежна ад таго, ці знаходзяцца яны ў фокусе."
-
-#: package/contents/ui/main.qml:49
-#, kde-format
-msgid ""
-"Legacy X11 apps require the ability to read keystrokes typed in other apps "
-"for features that are activated using global keyboard shortcuts. This is "
-"disabled by default for security reasons. If you need to use such apps, you "
-"can choose your preferred balance of security and functionality here."
+"Some legacy X11 apps require the ability to read keystrokes typed in other "
+"apps for certain features, such as handling global keyboard shortcuts. This "
+"is allowed by default. However other features may require the ability to "
+"read all keys, and this is disabled by default for security reasons. If you "
+"need to use such apps, you can choose your preferred balance of security and "
+"functionality here."
 msgstr ""
 "Для функцый, якія актывуюцца з дапамогай глабальных спалучэнняў клавіш, "
 "састарэлым праграмам X11 трэба мець магчымасць апрацоўваць націсканні клавіш "
@@ -66,34 +44,43 @@ msgstr ""
 "вам неабходна выкарыстоўваць такія праграмы, тут вы можаце дасягнуць "
 "патрэбнага балансу бяспекі і функцыянальнасці."
 
-#: package/contents/ui/main.qml:66
+#: ui/main.qml:48
 #, kde-format
 msgid "Allow legacy X11 apps to read keystrokes typed in all apps:"
 msgstr ""
 "Дазволіць састарэлым праграмам X11 апрацоўваць націсканні клавіш ва ўсіх "
 "праграмах:"
 
-#: package/contents/ui/main.qml:67
+#: ui/main.qml:49
 #, kde-format
 msgid "Never"
 msgstr "Ніколі"
 
-#: package/contents/ui/main.qml:70
-#, kde-format
-msgid "Only Meta, Control, Alt, and Shift keys"
+#: ui/main.qml:55
+#, fuzzy, kde-format
+#| msgid "Only Meta, Control, Alt, and Shift keys"
+msgid "Only Meta, Control, Alt and Shift keys"
 msgstr "Толькі Meta, Control, Alt, Shift"
 
-#: package/contents/ui/main.qml:73
+#: ui/main.qml:61
 #, kde-format
-msgid "All keys, but only while Meta, Ctrl, Alt, or Shift keys are pressed"
-msgstr "Усе клавішы, але пры націснутых Meta, Ctrl, Alt, Shift"
+msgid ""
+"As above, plus any key typed while the Control, Alt, or Meta keys are pressed"
+msgstr ""
+"Як і вышэй, плюс любая клавіша, націснутая пры націснутых клавішах Control, "
+"Alt або Meta"
 
-#: package/contents/ui/main.qml:77
+#: ui/main.qml:68
 #, kde-format
 msgid "Always"
 msgstr "Заўсёды"
 
-#: package/contents/ui/main.qml:84
+#: ui/main.qml:78
+#, kde-format
+msgid "Additionally include mouse buttons"
+msgstr ""
+
+#: ui/main.qml:89
 #, kde-format
 msgid ""
 "Note that using this setting will reduce system security to that of the X11 "
@@ -104,3 +91,29 @@ msgstr ""
 "панізіцца да ўзроўню сеанса X11, дазваляючы шкоднаснаму праграмнаму "
 "забеспячэнню красці паролі і шпіёніць за тэкстам, які вы ўводзіце. "
 "Пераканайцеся, што вы разумееце і прымаеце гэтую рызыку."
+
+#~ msgid "Only non-character keys"
+#~ msgstr "Толькі несімвальныя клавішы"
+
+#~ msgid ""
+#~ "This module lets configure which keyboard events are forwarded to X11 "
+#~ "apps regardless of their focus."
+#~ msgstr ""
+#~ "Гэты модуль дазваляе наладжваць перанакіраванне падзей клавіятуры ў "
+#~ "праграмы X11 незалежна ад таго, ці знаходзяцца яны ў фокусе."
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Antikruk"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "nashtlumach@gmail.com"
+
+#~ msgid "Legacy X11 App Support"
+#~ msgstr "Падтрымка састарэлых праграм X11"
+
+#~ msgid "Allow legacy X11 apps to read keystrokes typed in other apps"
+#~ msgstr ""
+#~ "Дазволіць састарэлым праграмам X11 апрацоўваць націсканні клавіш у іншых "
+#~ "праграмах"

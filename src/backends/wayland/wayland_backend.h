@@ -9,13 +9,14 @@
 */
 #pragma once
 
-#include <config-kwin.h>
+#include "config-kwin.h"
+
 // KWin
 #include "core/inputbackend.h"
 #include "core/inputdevice.h"
 #include "core/outputbackend.h"
+#include "effect/globals.h"
 #include "utils/filedescriptor.h"
-#include <kwinglobals.h>
 // Qt
 #include <QHash>
 #include <QImage>
@@ -23,9 +24,8 @@
 #include <QPoint>
 #include <QSize>
 
+struct wl_buffer;
 struct wl_display;
-struct gbm_device;
-struct gbm_bo;
 
 namespace KWayland
 {
@@ -44,7 +44,8 @@ class Touch;
 
 namespace KWin
 {
-class DpmsInputEventFilter;
+class GraphicsBuffer;
+class DrmDevice;
 
 namespace Wayland
 {
@@ -76,7 +77,6 @@ public:
     void setLeds(LEDs leds) override;
 
     bool isKeyboard() const override;
-    bool isAlphaNumericKeyboard() const override;
     bool isPointer() const override;
     bool isTouchpad() const override;
     bool isTouch() const override;
@@ -96,6 +96,8 @@ private:
     std::unique_ptr<KWayland::Client::Pointer> m_pointer;
     std::unique_ptr<KWayland::Client::PointerPinchGesture> m_pinchGesture;
     std::unique_ptr<KWayland::Client::PointerSwipeGesture> m_swipeGesture;
+
+    QSet<quint32> m_pressedKeys;
 };
 
 class WaylandInputBackend : public InputBackend
@@ -164,6 +166,28 @@ private:
     std::unique_ptr<WaylandInputDevice> m_touchDevice;
 };
 
+class WaylandBuffer : public QObject
+{
+    Q_OBJECT
+
+public:
+    WaylandBuffer(wl_buffer *handle, GraphicsBuffer *graphicsBuffer);
+    ~WaylandBuffer() override;
+
+    wl_buffer *handle() const;
+
+    void lock();
+    void unlock();
+
+Q_SIGNALS:
+    void defunct();
+
+private:
+    GraphicsBuffer *m_graphicsBuffer;
+    wl_buffer *m_handle;
+    bool m_locked = false;
+};
+
 struct WaylandBackendOptions
 {
     QString socketName;
@@ -203,32 +227,28 @@ public:
     bool supportsPointerLock();
     void togglePointerLock();
 
-    QVector<CompositingType> supportedCompositors() const override;
+    QList<CompositingType> supportedCompositors() const override;
 
     WaylandOutput *findOutput(KWayland::Client::Surface *nativeSurface) const;
     Outputs outputs() const override;
-    QVector<WaylandOutput *> waylandOutputs() const
+    QList<WaylandOutput *> waylandOutputs() const
     {
         return m_outputs;
     }
-    void createDpmsFilter();
-    void clearDpmsFilter();
 
     Output *createVirtualOutput(const QString &name, const QSize &size, double scale) override;
     void removeVirtualOutput(Output *output) override;
 
-    std::optional<DmaBufParams> testCreateDmaBuf(const QSize &size, quint32 format, const QVector<uint64_t> &modifiers) override;
-    std::shared_ptr<DmaBufTexture> createDmaBufTexture(const QSize &size, quint32 format, uint64_t modifier) override;
+    wl_buffer *importBuffer(GraphicsBuffer *graphicsBuffer);
 
-    gbm_device *gbmDevice() const
-    {
-        return m_gbmDevice;
-    }
+    DrmDevice *drmDevice() const;
 
     void setEglBackend(WaylandEglBackend *eglBackend)
     {
         m_eglBackend = eglBackend;
     }
+    void setEglDisplay(std::unique_ptr<EglDisplay> &&display);
+    EglDisplay *sceneEglDisplayObject() const override;
 
 Q_SIGNALS:
     void pointerLockChanged(bool locked);
@@ -242,11 +262,11 @@ private:
     std::unique_ptr<WaylandDisplay> m_display;
     std::unique_ptr<WaylandSeat> m_seat;
     WaylandEglBackend *m_eglBackend = nullptr;
-    QVector<WaylandOutput *> m_outputs;
-    std::unique_ptr<DpmsInputEventFilter> m_dpmsFilter;
+    QList<WaylandOutput *> m_outputs;
     bool m_pointerLockRequested = false;
-    FileDescriptor m_drmFileDescriptor;
-    gbm_device *m_gbmDevice;
+    std::unique_ptr<DrmDevice> m_drmDevice;
+    std::unique_ptr<EglDisplay> m_eglDisplay;
+    std::map<GraphicsBuffer *, std::unique_ptr<WaylandBuffer>> m_buffers;
 };
 
 } // namespace Wayland

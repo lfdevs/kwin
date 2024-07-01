@@ -12,12 +12,6 @@
 namespace KWin
 {
 
-SceneDelegate::SceneDelegate(Scene *scene)
-    : m_scene(scene)
-{
-    m_scene->addDelegate(this);
-}
-
 SceneDelegate::SceneDelegate(Scene *scene, Output *output)
     : m_scene(scene)
     , m_output(output)
@@ -30,19 +24,14 @@ SceneDelegate::~SceneDelegate()
     m_scene->removeDelegate(this);
 }
 
-QRegion SceneDelegate::repaints() const
-{
-    return m_scene->damage().translated(-viewport().topLeft());
-}
-
 SurfaceItem *SceneDelegate::scanoutCandidate() const
 {
     return m_scene->scanoutCandidate();
 }
 
-void SceneDelegate::prePaint()
+QRegion SceneDelegate::prePaint()
 {
-    m_scene->prePaint(this);
+    return m_scene->prePaint(this);
 }
 
 void SceneDelegate::postPaint()
@@ -50,14 +39,24 @@ void SceneDelegate::postPaint()
     m_scene->postPaint();
 }
 
-void SceneDelegate::paint(RenderTarget *renderTarget, const QRegion &region)
+void SceneDelegate::paint(const RenderTarget &renderTarget, const QRegion &region)
 {
-    m_scene->paint(renderTarget, region.translated(viewport().topLeft()));
+    m_scene->paint(renderTarget, region == infiniteRegion() ? infiniteRegion() : region.translated(viewport().topLeft()));
+}
+
+void SceneDelegate::frame(OutputFrame *frame)
+{
+    m_scene->frame(this, frame);
 }
 
 Output *SceneDelegate::output() const
 {
     return m_output;
+}
+
+qreal SceneDelegate::scale() const
+{
+    return m_output ? m_output->scale() : 1.0;
 }
 
 QRect SceneDelegate::viewport() const
@@ -140,4 +139,10 @@ SurfaceItem *Scene::scanoutCandidate() const
     return nullptr;
 }
 
+void Scene::frame(SceneDelegate *delegate, OutputFrame *frame)
+{
+}
+
 } // namespace KWin
+
+#include "moc_scene.cpp"

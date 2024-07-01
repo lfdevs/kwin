@@ -9,14 +9,9 @@
 
 #include "kwin_wayland_test.h"
 
-#include "composite.h"
-#include "core/outputbackend.h"
-#include "core/renderbackend.h"
-#include "cursor.h"
-#include "deleted.h"
-#include "effectloader.h"
-#include "effects.h"
-#include "libkwineffects/anidata_p.h"
+#include "effect/anidata_p.h"
+#include "effect/effecthandler.h"
+#include "effect/effectloader.h"
 #include "scripting/scriptedeffect.h"
 #include "virtualdesktops.h"
 #include "wayland_server.h"
@@ -109,7 +104,7 @@ bool ScriptedEffectWithDebugSpy::load(const QString &name)
         return false;
     }
 
-    // inject our newly created effect to be registered with the EffectsHandlerImpl::loaded_effects
+    // inject our newly created effect to be registered with the EffectsHandler::loaded_effects
     // this is private API so some horrible code is used to find the internal effectloader
     // and register ourselves
     auto children = effects->children();
@@ -121,17 +116,20 @@ bool ScriptedEffectWithDebugSpy::load(const QString &name)
         break;
     }
 
-    return (static_cast<EffectsHandlerImpl *>(effects)->isEffectLoaded(name));
+    return effects->isEffectLoaded(name);
 }
 
 void ScriptedEffectsTest::initTestCase()
 {
+    if (!Test::renderNodeAvailable()) {
+        QSKIP("no render node available");
+        return;
+    }
     qRegisterMetaType<KWin::Window *>();
-    qRegisterMetaType<KWin::Deleted *>();
     qRegisterMetaType<KWin::Effect *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024)));
+    Test::setOutputConfig({QRect(0, 0, 1280, 1024)});
 
     // disable all effects - we don't want to have it interact with the rendering
     auto config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
@@ -148,9 +146,6 @@ void ScriptedEffectsTest::initTestCase()
     qputenv("KWIN_EFFECTS_FORCE_ANIMATIONS", "1");
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
-    QVERIFY(Compositor::self());
-
-    QCOMPARE(Compositor::self()->backend()->compositingType(), KWin::OpenGLCompositing);
 
     KWin::VirtualDesktopManager::self()->setCount(2);
 }
@@ -164,9 +159,8 @@ void ScriptedEffectsTest::cleanup()
 {
     Test::destroyWaylandConnection();
 
-    auto effectsImpl = static_cast<EffectsHandlerImpl *>(effects);
-    effectsImpl->unloadAllEffects();
-    QVERIFY(effectsImpl->loadedEffects().isEmpty());
+    effects->unloadAllEffects();
+    QVERIFY(effects->loadedEffects().isEmpty());
 
     KWin::VirtualDesktopManager::self()->setCurrent(1);
 }
@@ -188,7 +182,7 @@ void ScriptedEffectsTest::testEffectsHandler()
     // create a window
     std::unique_ptr<KWayland::Client::Surface> surface = Test::createSurface();
     QVERIFY(surface);
-    auto *shellSurface = Test::createXdgToplevelSurface(surface.get(), surface.get());
+    std::unique_ptr<Test::XdgToplevel> shellSurface = Test::createXdgToplevelSurface(surface.get());
     QVERIFY(shellSurface);
     shellSurface->set_title("WindowA");
     auto *c = Test::renderAndWaitForShown(surface.get(), QSize(100, 50), Qt::blue);
@@ -199,10 +193,10 @@ void ScriptedEffectsTest::testEffectsHandler()
     waitFor("stackingOrder - 1 WindowA");
 
     // windowMinimsed
-    c->minimize();
+    c->setMinimized(true);
     waitFor("windowMinimized - WindowA");
 
-    c->unminimize();
+    c->setMinimized(false);
     waitFor("windowUnminimized - WindowA");
 
     surface.reset();
@@ -228,6 +222,11 @@ void ScriptedEffectsTest::testEffectsContext()
 
 void ScriptedEffectsTest::testShortcuts()
 {
+#if !KWIN_BUILD_GLOBALSHORTCUTS
+    QSKIP("Can't test shortcuts without shortcuts");
+    return;
+#endif
+
     // this tests method registerShortcut
     auto *effect = new ScriptedEffectWithDebugSpy; // cleaned up in ::clean
     QSignalSpy effectOutputSpy(effect, &ScriptedEffectWithDebugSpy::testOutput);
@@ -266,7 +265,7 @@ void ScriptedEffectsTest::testAnimations()
     // animated after window added connect
     std::unique_ptr<KWayland::Client::Surface> surface = Test::createSurface();
     QVERIFY(surface);
-    auto *shellSurface = Test::createXdgToplevelSurface(surface.get(), surface.get());
+    std::unique_ptr<Test::XdgToplevel> shellSurface = Test::createXdgToplevelSurface(surface.get());
     QVERIFY(shellSurface);
     shellSurface->set_title("Window 1");
     auto *c = Test::renderAndWaitForShown(surface.get(), QSize(100, 50), Qt::blue);
@@ -372,7 +371,7 @@ void ScriptedEffectsTest::testFullScreenEffect()
 
     std::unique_ptr<KWayland::Client::Surface> surface = Test::createSurface();
     QVERIFY(surface);
-    auto *shellSurface = Test::createXdgToplevelSurface(surface.get(), surface.get());
+    std::unique_ptr<Test::XdgToplevel> shellSurface = Test::createXdgToplevelSurface(surface.get());
     QVERIFY(shellSurface);
     shellSurface->set_title("Window 1");
     auto *c = Test::renderAndWaitForShown(surface.get(), QSize(100, 50), Qt::blue);
@@ -434,7 +433,7 @@ void ScriptedEffectsTest::testKeepAlive()
     // create a window
     std::unique_ptr<KWayland::Client::Surface> surface = Test::createSurface();
     QVERIFY(surface);
-    auto *shellSurface = Test::createXdgToplevelSurface(surface.get(), surface.get());
+    std::unique_ptr<Test::XdgToplevel> shellSurface = Test::createXdgToplevelSurface(surface.get());
     QVERIFY(shellSurface);
     auto *c = Test::renderAndWaitForShown(surface.get(), QSize(100, 50), Qt::blue);
     QVERIFY(c);
@@ -444,21 +443,24 @@ void ScriptedEffectsTest::testKeepAlive()
     QCOMPARE(effect->state().count(), 0);
 
     // trigger windowClosed signal
+    QSignalSpy deletedRemovedSpy(workspace(), &Workspace::deletedRemoved);
     surface.reset();
     QVERIFY(effectOutputSpy.count() == 1 || effectOutputSpy.wait());
 
     if (keepAlive) {
         QCOMPARE(effect->state().count(), 1);
+        QCOMPARE(deletedRemovedSpy.count(), 0);
 
         QTest::qWait(500);
         QCOMPARE(effect->state().count(), 1);
+        QCOMPARE(deletedRemovedSpy.count(), 0);
 
         QTest::qWait(500 + 100); // 100ms is extra safety margin
+        QCOMPARE(deletedRemovedSpy.count(), 1);
         QCOMPARE(effect->state().count(), 0);
     } else {
         // the test effect doesn't keep the window alive, so it should be
         // removed immediately
-        QSignalSpy deletedRemovedSpy(workspace(), &Workspace::deletedRemoved);
         QVERIFY(deletedRemovedSpy.count() == 1 || deletedRemovedSpy.wait(100)); // 100ms is less than duration of the animation
         QCOMPARE(effect->state().count(), 0);
     }
@@ -477,7 +479,7 @@ void ScriptedEffectsTest::testGrab()
     // create test window
     std::unique_ptr<KWayland::Client::Surface> surface = Test::createSurface();
     QVERIFY(surface);
-    Test::XdgToplevel *shellSurface = Test::createXdgToplevelSurface(surface.get(), surface.get());
+    std::unique_ptr<Test::XdgToplevel> shellSurface = Test::createXdgToplevelSurface(surface.get());
     QVERIFY(shellSurface);
     Window *window = Test::renderAndWaitForShown(surface.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window);
@@ -507,7 +509,7 @@ void ScriptedEffectsTest::testGrabAlreadyGrabbedWindow()
     // create test window
     std::unique_ptr<KWayland::Client::Surface> surface = Test::createSurface();
     QVERIFY(surface);
-    Test::XdgToplevel *shellSurface = Test::createXdgToplevelSurface(surface.get(), surface.get());
+    std::unique_ptr<Test::XdgToplevel> shellSurface = Test::createXdgToplevelSurface(surface.get());
     QVERIFY(shellSurface);
     Window *window = Test::renderAndWaitForShown(surface.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window);
@@ -541,7 +543,7 @@ void ScriptedEffectsTest::testGrabAlreadyGrabbedWindowForced()
     // create test window
     std::unique_ptr<KWayland::Client::Surface> surface = Test::createSurface();
     QVERIFY(surface);
-    Test::XdgToplevel *shellSurface = Test::createXdgToplevelSurface(surface.get(), surface.get());
+    std::unique_ptr<Test::XdgToplevel> shellSurface = Test::createXdgToplevelSurface(surface.get());
     QVERIFY(shellSurface);
     Window *window = Test::renderAndWaitForShown(surface.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window);
@@ -570,7 +572,7 @@ void ScriptedEffectsTest::testUngrab()
     // create test window
     std::unique_ptr<KWayland::Client::Surface> surface = Test::createSurface();
     QVERIFY(surface);
-    Test::XdgToplevel *shellSurface = Test::createXdgToplevelSurface(surface.get(), surface.get());
+    std::unique_ptr<Test::XdgToplevel> shellSurface = Test::createXdgToplevelSurface(surface.get());
     QVERIFY(shellSurface);
     Window *window = Test::renderAndWaitForShown(surface.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window);
@@ -612,7 +614,7 @@ void ScriptedEffectsTest::testRedirect()
     // create test window
     std::unique_ptr<KWayland::Client::Surface> surface = Test::createSurface();
     QVERIFY(surface);
-    Test::XdgToplevel *shellSurface = Test::createXdgToplevelSurface(surface.get(), surface.get());
+    std::unique_ptr<Test::XdgToplevel> shellSurface = Test::createXdgToplevelSurface(surface.get());
     QVERIFY(shellSurface);
     Window *window = Test::renderAndWaitForShown(surface.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window);
@@ -688,7 +690,7 @@ void ScriptedEffectsTest::testComplete()
     // create test window
     std::unique_ptr<KWayland::Client::Surface> surface = Test::createSurface();
     QVERIFY(surface);
-    Test::XdgToplevel *shellSurface = Test::createXdgToplevelSurface(surface.get(), surface.get());
+    std::unique_ptr<Test::XdgToplevel> shellSurface = Test::createXdgToplevelSurface(surface.get());
     QVERIFY(shellSurface);
     Window *window = Test::renderAndWaitForShown(surface.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window);

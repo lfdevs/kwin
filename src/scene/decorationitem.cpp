@@ -6,20 +6,16 @@
 */
 
 #include "scene/decorationitem.h"
-#include "composite.h"
+#include "compositor.h"
 #include "core/output.h"
 #include "decorations/decoratedclient.h"
-#include "deleted.h"
 #include "scene/workspacescene.h"
-#include "utils/common.h"
 #include "window.h"
 
 #include <cmath>
 
 #include <KDecoration2/DecoratedClient>
 #include <KDecoration2/Decoration>
-
-#include <QPainter>
 
 namespace KWin
 {
@@ -87,68 +83,34 @@ void DecorationRenderer::setDevicePixelRatio(qreal dpr)
     }
 }
 
-QImage DecorationRenderer::renderToImage(const QRect &geo)
-{
-    Q_ASSERT(m_client);
-
-    // Guess the pixel format of the X pixmap into which the QImage will be copied.
-    QImage::Format format;
-    const int depth = client()->window()->depth();
-    switch (depth) {
-    case 30:
-        format = QImage::Format_A2RGB30_Premultiplied;
-        break;
-    case 24:
-    case 32:
-        format = QImage::Format_ARGB32_Premultiplied;
-        break;
-    default:
-        qCCritical(KWIN_CORE) << "Unsupported client depth" << depth;
-        format = QImage::Format_ARGB32_Premultiplied;
-        break;
-    };
-
-    QImage image(geo.width() * m_devicePixelRatio, geo.height() * m_devicePixelRatio, format);
-    image.setDevicePixelRatio(m_devicePixelRatio);
-    image.fill(Qt::transparent);
-    QPainter p(&image);
-    p.setRenderHint(QPainter::Antialiasing);
-    p.setWindow(QRect(geo.topLeft(), geo.size() * effectiveDevicePixelRatio()));
-    p.setClipRect(geo);
-    renderToPainter(&p, geo);
-    return image;
-}
-
 void DecorationRenderer::renderToPainter(QPainter *painter, const QRect &rect)
 {
     client()->decoration()->paint(painter, rect);
 }
 
-DecorationItem::DecorationItem(KDecoration2::Decoration *decoration, Window *window, Scene *scene, Item *parent)
-    : Item(scene, parent)
+DecorationItem::DecorationItem(KDecoration2::Decoration *decoration, Window *window, Item *parent)
+    : Item(parent)
     , m_window(window)
+    , m_decoration(decoration)
 {
-    m_renderer.reset(Compositor::self()->scene()->createDecorationRenderer(window->decoratedClient()));
+    m_renderer = Compositor::self()->scene()->createDecorationRenderer(window->decoratedClient());
 
-    connect(window, &Window::frameGeometryChanged,
-            this, &DecorationItem::handleFrameGeometryChanged);
-    connect(window, &Window::windowClosed,
-            this, &DecorationItem::handleWindowClosed);
-    connect(window, &Window::screenChanged,
+    connect(window, &Window::outputChanged,
             this, &DecorationItem::handleOutputChanged);
 
+    connect(decoration->client(), &KDecoration2::DecoratedClient::sizeChanged,
+            this, &DecorationItem::handleDecorationGeometryChanged);
     connect(decoration, &KDecoration2::Decoration::bordersChanged,
-            this, &DecorationItem::discardQuads);
+            this, &DecorationItem::handleDecorationGeometryChanged);
 
     connect(renderer(), &DecorationRenderer::damaged,
             this, qOverload<const QRegion &>(&Item::scheduleRepaint));
 
-    // this toSize is to match that DecoratedWindow also rounds
-    setSize(window->size().toSize());
+    setSize(decoration->size());
     handleOutputChanged();
 }
 
-QVector<QRectF> DecorationItem::shape() const
+QList<QRectF> DecorationItem::shape() const
 {
     QRectF left, top, right, bottom;
     m_window->layoutDecorationRects(left, top, right, bottom);
@@ -162,7 +124,17 @@ QRegion DecorationItem::opaque() const
     }
     QRectF left, top, right, bottom;
     m_window->layoutDecorationRects(left, top, right, bottom);
-    return QRegion(left.toRect()).united(top.toRect()).united(right.toRect()).united(bottom.toRect());
+
+    // We have to map to integers which has rounding issues
+    // it's safer for a region to be considered transparent than opaque
+    // so always align inwards
+    const QMargins roundingPad = QMargins(1, 1, 1, 1);
+    QRegion roundedLeft = left.toAlignedRect().marginsRemoved(roundingPad);
+    QRegion roundedTop = top.toAlignedRect().marginsRemoved(roundingPad);
+    QRegion roundedRight = right.toAlignedRect().marginsRemoved(roundingPad);
+    QRegion roundedBottom = bottom.toAlignedRect().marginsRemoved(roundingPad);
+
+    return roundedLeft | roundedTop | roundedRight | roundedBottom;
 }
 
 void DecorationItem::preprocess()
@@ -197,18 +169,10 @@ void DecorationItem::handleOutputScaleChanged()
     }
 }
 
-void DecorationItem::handleFrameGeometryChanged()
+void DecorationItem::handleDecorationGeometryChanged()
 {
-    setSize(m_window->size().toSize());
-}
-
-void DecorationItem::handleWindowClosed(Window *original, Deleted *deleted)
-{
-    m_window = deleted;
-
-    // If the decoration is about to be destroyed, render the decoration for the last time.
-    effects->makeOpenGLContextCurrent();
-    preprocess();
+    setSize(m_decoration->size());
+    discardQuads();
 }
 
 DecorationRenderer *DecorationItem::renderer() const
@@ -236,8 +200,8 @@ WindowQuad buildQuad(const QRectF &partRect, const QPoint &textureOffset,
     if (rotated) {
         const int u0 = textureOffset.y() + p;
         const int v0 = textureOffset.x() + p;
-        const int u1 = textureOffset.y() + p + (r.width() * devicePixelRatio);
-        const int v1 = textureOffset.x() + p + (r.height() * devicePixelRatio);
+        const int u1 = textureOffset.y() + p + std::round(r.width() * devicePixelRatio);
+        const int v1 = textureOffset.x() + p + std::round(r.height() * devicePixelRatio);
 
         quad[0] = WindowVertex(x0, y0, v0, u1); // Top-left
         quad[1] = WindowVertex(x1, y0, v0, u0); // Top-right
@@ -246,8 +210,8 @@ WindowQuad buildQuad(const QRectF &partRect, const QPoint &textureOffset,
     } else {
         const int u0 = textureOffset.x() + p;
         const int v0 = textureOffset.y() + p;
-        const int u1 = textureOffset.x() + p + (r.width() * devicePixelRatio);
-        const int v1 = textureOffset.y() + p + (r.height() * devicePixelRatio);
+        const int u1 = textureOffset.x() + p + std::round(r.width() * devicePixelRatio);
+        const int v1 = textureOffset.y() + p + std::round(r.height() * devicePixelRatio);
 
         quad[0] = WindowVertex(x0, y0, u0, v0); // Top-left
         quad[1] = WindowVertex(x1, y0, u1, v0); // Top-right
@@ -269,9 +233,9 @@ WindowQuadList DecorationItem::buildQuads() const
 
     m_window->layoutDecorationRects(left, top, right, bottom);
 
-    const int topHeight = std::ceil(top.height() * devicePixelRatio);
-    const int bottomHeight = std::ceil(bottom.height() * devicePixelRatio);
-    const int leftWidth = std::ceil(left.width() * devicePixelRatio);
+    const int topHeight = std::round(top.height() * devicePixelRatio);
+    const int bottomHeight = std::round(bottom.height() * devicePixelRatio);
+    const int leftWidth = std::round(left.width() * devicePixelRatio);
 
     const QPoint topPosition(0, 0);
     const QPoint bottomPosition(0, topPosition.y() + topHeight + (2 * texturePad));
@@ -295,3 +259,5 @@ WindowQuadList DecorationItem::buildQuads() const
 }
 
 } // namespace KWin
+
+#include "moc_decorationitem.cpp"

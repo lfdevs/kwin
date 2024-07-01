@@ -7,18 +7,20 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "input_event.h"
+#include "core/inputdevice.h"
 
 namespace KWin
 {
 
 MouseEvent::MouseEvent(QEvent::Type type, const QPointF &pos, Qt::MouseButton button,
                        Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers, std::chrono::microseconds timestamp,
-                       const QPointF &delta, const QPointF &deltaNonAccelerated, InputDevice *device)
+                       const QPointF &delta, const QPointF &deltaNonAccelerated, InputDevice *device, bool warp)
     : QMouseEvent(type, pos, pos, button, buttons, modifiers)
     , m_delta(delta)
     , m_deltaUnccelerated(deltaNonAccelerated)
     , m_timestamp(timestamp)
     , m_device(device)
+    , m_warp(warp)
 {
     setTimestamp(std::chrono::duration_cast<std::chrono::milliseconds>(timestamp).count());
 }
@@ -26,7 +28,7 @@ MouseEvent::MouseEvent(QEvent::Type type, const QPointF &pos, Qt::MouseButton bu
 WheelEvent::WheelEvent(const QPointF &pos, qreal delta, qint32 deltaV120, Qt::Orientation orientation,
                        Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers, InputRedirection::PointerAxisSource source,
                        std::chrono::microseconds timestamp, InputDevice *device)
-    : QWheelEvent(pos, pos, QPoint(), (orientation == Qt::Horizontal) ? QPoint(delta, 0) : QPoint(0, delta), buttons, modifiers, Qt::NoScrollPhase, false)
+    : QWheelEvent(pos, pos, QPoint(), (orientation == Qt::Horizontal) ? QPoint(delta, 0) : QPoint(0, delta), buttons, modifiers, Qt::NoScrollPhase, device ? device->isNaturalScroll() : false)
     , m_device(device)
     , m_orientation(orientation)
     , m_delta(delta)
@@ -64,7 +66,6 @@ SwitchEvent::SwitchEvent(State state, std::chrono::microseconds timestamp, Input
 {
 }
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 TabletEvent::TabletEvent(Type t, const QPointingDevice *dev, const QPointF &pos, const QPointF &globalPos,
                          qreal pressure, float xTilt, float yTilt,
                          float tangentialPressure, qreal rotation, float z,
@@ -73,16 +74,5 @@ TabletEvent::TabletEvent(Type t, const QPointingDevice *dev, const QPointF &pos,
     , m_id(tabletId)
 {
 }
-#else
-TabletEvent::TabletEvent(Type t, const QPointF &pos, const QPointF &globalPos,
-                         int device, int pointerType, qreal pressure, int xTilt, int yTilt,
-                         qreal tangentialPressure, qreal rotation, int z,
-                         Qt::KeyboardModifiers keyState, qint64 uniqueID,
-                         Qt::MouseButton button, Qt::MouseButtons buttons, const TabletToolId &tabletId)
-    : QTabletEvent(t, pos, globalPos, device, pointerType, pressure, xTilt, yTilt, tangentialPressure, rotation, z, keyState, uniqueID, button, buttons)
-    , m_id(tabletId)
-{
-}
-#endif
 
 }

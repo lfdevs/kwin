@@ -12,102 +12,82 @@
 # Alexander Potashev <aspotashev@gmail.com>, 2010, 2011, 2014, 2015, 2016, 2018, 2019.
 # Yuri Efremov <yur.arh@gmail.com>, 2013.
 # Alexander Lakhin <exclusion@gmail.com>, 2013.
-# Alexander Yavorsky <kekcuha@gmail.com>, 2019, 2021, 2022.
+# SPDX-FileCopyrightText: 2019, 2021, 2022, 2023, 2024 Alexander Yavorsky <kekcuha@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-26 02:32+0000\n"
-"PO-Revision-Date: 2022-06-18 09:48+0300\n"
+"POT-Creation-Date: 2024-02-10 00:40+0000\n"
+"PO-Revision-Date: 2024-05-05 22:12+0300\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 21.08.3\n"
+"X-Generator: Lokalize 24.02.0\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
 
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Григорий Мохин"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "mokhin@bog.msu.ru"
-
-#: declarative-plugin/buttonsmodel.cpp:53
+#: declarative-plugin/buttonsmodel.cpp:56
 #, kde-format
 msgid "More actions for this window"
 msgstr "Дополнительные действия для этого окна"
 
-#: declarative-plugin/buttonsmodel.cpp:55
+#: declarative-plugin/buttonsmodel.cpp:58
 #, kde-format
 msgid "Application menu"
 msgstr "Меню приложения"
 
-#: declarative-plugin/buttonsmodel.cpp:57
+#: declarative-plugin/buttonsmodel.cpp:60
 #, kde-format
 msgid "On all desktops"
 msgstr "На всех рабочих столах"
 
-#: declarative-plugin/buttonsmodel.cpp:59
+#: declarative-plugin/buttonsmodel.cpp:62
 #, kde-format
 msgid "Minimize"
 msgstr "Свернуть"
 
-#: declarative-plugin/buttonsmodel.cpp:61
+#: declarative-plugin/buttonsmodel.cpp:64
 #, kde-format
 msgid "Maximize"
 msgstr "Распахнуть"
 
-#: declarative-plugin/buttonsmodel.cpp:63
+#: declarative-plugin/buttonsmodel.cpp:66
 #, kde-format
 msgid "Close"
 msgstr "Закрыть"
 
-#: declarative-plugin/buttonsmodel.cpp:65
+#: declarative-plugin/buttonsmodel.cpp:68
 #, kde-format
 msgid "Context help"
 msgstr "Контекстная справка"
 
-#: declarative-plugin/buttonsmodel.cpp:67
+#: declarative-plugin/buttonsmodel.cpp:70
 #, kde-format
 msgid "Shade"
 msgstr "Свернуть в заголовок"
 
-#: declarative-plugin/buttonsmodel.cpp:69
+#: declarative-plugin/buttonsmodel.cpp:72
 #, kde-format
 msgid "Keep below other windows"
 msgstr "Удерживать окно под остальными окнами"
 
-#: declarative-plugin/buttonsmodel.cpp:71
+#: declarative-plugin/buttonsmodel.cpp:74
 #, kde-format
 msgid "Keep above other windows"
 msgstr "Удерживать окно поверх других окон"
 
-#: kcm.cpp:49
+#: declarative-plugin/buttonsmodel.cpp:76
 #, kde-format
-msgid "Window Decorations"
-msgstr "Оформление окон"
+msgid "Spacer"
+msgstr "Разделитель"
 
-#: kcm.cpp:53
-#, kde-format
-msgid "Valerio Pilo"
-msgstr "Valerio Pilo"
-
-#: kcm.cpp:54
-#, kde-format
-msgid "Author"
-msgstr "Автор"
-
-#: kcm.cpp:183
+#: kcm.cpp:177
 #, kde-format
 msgctxt "%1 is the name of a border size"
 msgid "Theme's default (%1)"
@@ -193,117 +173,163 @@ msgstr ""
 msgid "You have the following KWin window decoration themes on your system:"
 msgstr "В системе установлены следующие оформления окон:"
 
-#: package/contents/ui/Buttons.qml:85
+#: ui/Buttons.qml:85
 #, kde-format
 msgid "Titlebar"
 msgstr "Заголовок окна"
 
-#: package/contents/ui/Buttons.qml:245
+#: ui/Buttons.qml:245
 #, kde-format
 msgid "Drop button here to remove it"
 msgstr "Переместите кнопку сюда для её удаления"
 
-#: package/contents/ui/Buttons.qml:261
+#: ui/Buttons.qml:261
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr "Перетаскивайте кнопки между этой областью и эскизом заголовка окна"
 
-#: package/contents/ui/main.qml:18
+#: ui/ConfigureTitlebar.qml:16
 #, kde-format
-msgid "This module lets you configure the window decorations."
-msgstr "Этот модуль позволяет настроить оформление окон."
-
-#: package/contents/ui/main.qml:52
-#, kde-format
-msgctxt "tab label"
-msgid "Theme"
-msgstr "Оформление"
-
-#: package/contents/ui/main.qml:56
-#, kde-format
-msgctxt "tab label"
 msgid "Titlebar Buttons"
 msgstr "Кнопки в заголовке"
 
-#: package/contents/ui/main.qml:92
-#, kde-format
-msgctxt "Selector label"
-msgid "Window border size:"
-msgstr "Размер границ окна:"
-
-#: package/contents/ui/main.qml:110
-#, kde-format
-msgctxt "button text"
-msgid "Get New Window Decorations..."
-msgstr "Загрузить оформления окон..."
-
-#: package/contents/ui/main.qml:139
+#: ui/ConfigureTitlebar.qml:35
 #, kde-format
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
 msgstr "Закрывать окна двойным щелчком по кнопке меню"
 
-#: package/contents/ui/main.qml:156
+#: ui/ConfigureTitlebar.qml:52
 #, kde-format
 msgctxt "popup tip"
 msgid "Click and hold on the menu button to show the menu."
 msgstr "Для показа меню нажмите и удерживайте кнопку мыши на кнопке меню."
 
-#: package/contents/ui/main.qml:163
+#: ui/ConfigureTitlebar.qml:59
 #, kde-format
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
 msgstr "Показывать подсказки кнопок окон"
 
-#: package/contents/ui/Themes.qml:90
+#: ui/main.qml:29
+#, kde-format
+msgctxt "Selector label"
+msgid "Window border size:"
+msgstr "Размер границ окна:"
+
+#: ui/main.qml:48
+#, kde-format
+msgctxt "button text"
+msgid "Configure Titlebar Buttons…"
+msgstr "Настроить кнопки в заголовке…"
+
+#: ui/main.qml:54
+#, kde-format
+msgctxt "@action:button as in, \"Get New Window Decorations\""
+msgid "Get New…"
+msgstr "Загрузить новые оформдения…"
+
+#: ui/Themes.qml:93
 #, kde-format
 msgid "Edit %1 Theme"
 msgstr "Редактировать оформление %1"
 
 #: utils.cpp:25
 #, kde-format
-msgid "No Borders"
-msgstr "Без рамки"
+msgid "No Window Borders"
+msgstr "Без рамок"
 
 #: utils.cpp:26
 #, kde-format
-msgid "No Side Borders"
-msgstr "Нет рамки сбоку"
+msgid "No Side Window Borders"
+msgstr "Без боковых рамок"
 
 #: utils.cpp:27
 #, kde-format
-msgid "Tiny"
-msgstr "Тонкие"
+msgid "Tiny Window Borders"
+msgstr "Тонкие рамки"
 
 #: utils.cpp:28
 #, kde-format
-msgid "Normal"
-msgstr "Обычные"
+msgid "Normal Window Borders"
+msgstr "Обычные рамки"
 
 #: utils.cpp:29
 #, kde-format
-msgid "Large"
-msgstr "Широкие"
+msgid "Large Window Borders"
+msgstr "Широкие рамки"
 
 #: utils.cpp:30
 #, kde-format
-msgid "Very Large"
-msgstr "Очень широкие"
+msgid "Very Large Window Borders"
+msgstr "Очень широкие рамки"
 
 #: utils.cpp:31
 #, kde-format
-msgid "Huge"
-msgstr "Огромные"
+msgid "Huge Window Borders"
+msgstr "Огромные рамки"
 
 #: utils.cpp:32
 #, kde-format
-msgid "Very Huge"
-msgstr "Гигантские"
+msgid "Very Huge Window Borders"
+msgstr "Гигантские рамки"
 
 #: utils.cpp:33
 #, kde-format
-msgid "Oversized"
-msgstr "Невероятно широкие"
+msgid "Oversized Window Borders"
+msgstr "Колоссальные рамки"
+
+#~ msgctxt "button text"
+#~ msgid "Get New Window Decorations…"
+#~ msgstr "Загрузить оформления окон…"
+
+#~ msgid "No Borders"
+#~ msgstr "Без рамки"
+
+#~ msgid "Tiny"
+#~ msgstr "Тонкие"
+
+#~ msgid "Normal"
+#~ msgstr "Обычные"
+
+#~ msgid "Large"
+#~ msgstr "Широкие"
+
+#~ msgid "Very Large"
+#~ msgstr "Очень широкие"
+
+#~ msgid "Huge"
+#~ msgstr "Огромные"
+
+#~ msgid "Very Huge"
+#~ msgstr "Гигантские"
+
+#~ msgid "Oversized"
+#~ msgstr "Невероятно широкие"
+
+#~ msgid "This module lets you configure the window decorations."
+#~ msgstr "Этот модуль позволяет настроить оформление окон."
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Григорий Мохин"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "mokhin@bog.msu.ru"
+
+#~ msgid "Window Decorations"
+#~ msgstr "Оформление окон"
+
+#~ msgid "Valerio Pilo"
+#~ msgstr "Valerio Pilo"
+
+#~ msgid "Author"
+#~ msgstr "Автор"
+
+#~ msgctxt "tab label"
+#~ msgid "Theme"
+#~ msgstr "Оформление"
 
 #~ msgctxt "popup tip"
 #~ msgid ""

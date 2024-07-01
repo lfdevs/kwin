@@ -9,14 +9,13 @@
 
 #include "x11_standalone_overlaywindow.h"
 
-#include "composite.h"
-#include "kwinglobals.h"
+#include "compositor.h"
+#include "core/renderloop.h"
 #include "scene/workspacescene.h"
-#include "utils/common.h"
 #include "utils/xcbutils.h"
-#include "workspace.h"
+#include "x11_standalone_backend.h"
 
-#include <QVector>
+#include <QList>
 
 #include <xcb/composite.h>
 #include <xcb/shape.h>
@@ -26,11 +25,12 @@
 
 namespace KWin
 {
-OverlayWindowX11::OverlayWindowX11()
+OverlayWindowX11::OverlayWindowX11(X11StandaloneBackend *backend)
     : OverlayWindow()
-    , X11EventFilter(QVector<int>{XCB_EXPOSE, XCB_VISIBILITY_NOTIFY})
+    , X11EventFilter(QList<int>{XCB_EXPOSE, XCB_VISIBILITY_NOTIFY})
     , m_visible(true)
     , m_shown(false)
+    , m_backend(backend)
     , m_window(XCB_WINDOW_NONE)
 {
 }
@@ -57,7 +57,6 @@ bool OverlayWindowX11::create()
     if (m_window == XCB_WINDOW_NONE) {
         return false;
     }
-    resize(workspace()->geometry().size());
     return true;
 #else
     return false;
@@ -69,9 +68,9 @@ void OverlayWindowX11::setup(xcb_window_t window)
     Q_ASSERT(m_window != XCB_WINDOW_NONE);
     Q_ASSERT(Xcb::Extensions::self()->isShapeInputAvailable());
     setNoneBackgroundPixmap(m_window);
-    m_shape = QRegion();
-    const QSize &s = workspace()->geometry().size();
-    setShape(QRect(0, 0, s.width(), s.height()));
+    if (m_size.isValid()) {
+        setShape(QRect(0, 0, m_size.width(), m_size.height()));
+    }
     if (window != XCB_WINDOW_NONE) {
         setNoneBackgroundPixmap(window);
         setupInputShape(window);
@@ -107,7 +106,7 @@ void OverlayWindowX11::hide()
     Q_ASSERT(m_window != XCB_WINDOW_NONE);
     xcb_unmap_window(connection(), m_window);
     m_shown = false;
-    const QSize &s = workspace()->geometry().size();
+    const QSize &s = m_size;
     setShape(QRect(0, 0, s.width(), s.height()));
 }
 
@@ -118,7 +117,7 @@ void OverlayWindowX11::setShape(const QRegion &reg)
     if (reg == m_shape) {
         return;
     }
-    const QVector<xcb_rectangle_t> xrects = Xcb::regionToRects(reg);
+    const QList<xcb_rectangle_t> xrects = Xcb::regionToRects(reg);
     xcb_shape_rectangles(connection(), XCB_SHAPE_SO_SET, XCB_SHAPE_SK_BOUNDING, XCB_CLIP_ORDERING_UNSORTED,
                          m_window, 0, 0, xrects.count(), xrects.data());
     setupInputShape(m_window);
@@ -127,7 +126,10 @@ void OverlayWindowX11::setShape(const QRegion &reg)
 
 void OverlayWindowX11::resize(const QSize &size)
 {
-    Q_ASSERT(m_window != XCB_WINDOW_NONE);
+    m_size = size;
+    if (m_window == XCB_WINDOW_NONE) {
+        return;
+    }
     const uint32_t geometry[2] = {
         static_cast<uint32_t>(size.width()),
         static_cast<uint32_t>(size.height())};
@@ -151,8 +153,7 @@ void OverlayWindowX11::destroy()
         return;
     }
     // reset the overlay shape
-    const QSize &s = workspace()->geometry().size();
-    xcb_rectangle_t rec = {0, 0, static_cast<uint16_t>(s.width()), static_cast<uint16_t>(s.height())};
+    xcb_rectangle_t rec = {0, 0, static_cast<uint16_t>(m_size.width()), static_cast<uint16_t>(m_size.height())};
     xcb_shape_rectangles(connection(), XCB_SHAPE_SO_SET, XCB_SHAPE_SK_BOUNDING, XCB_CLIP_ORDERING_UNSORTED, m_window, 0, 0, 1, &rec);
     xcb_shape_rectangles(connection(), XCB_SHAPE_SO_SET, XCB_SHAPE_SK_INPUT, XCB_CLIP_ORDERING_UNSORTED, m_window, 0, 0, 1, &rec);
 #ifdef KWIN_HAVE_XCOMPOSITE_OVERLAY
@@ -191,7 +192,7 @@ bool OverlayWindowX11::event(xcb_generic_event_t *event)
                     }
                 });
             }
-            compositor->scheduleRepaint();
+            m_backend->renderLoop()->scheduleRepaint();
         }
     }
     return false;

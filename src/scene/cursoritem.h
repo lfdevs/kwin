@@ -12,20 +12,21 @@ namespace KWin
 {
 
 class ImageItem;
+class SurfaceInterface;
 class SurfaceItemWayland;
 
-class CursorItem : public Item
+class KWIN_EXPORT CursorItem : public Item
 {
     Q_OBJECT
 
 public:
-    explicit CursorItem(Scene *scene, Item *parent = nullptr);
+    explicit CursorItem(Item *parent = nullptr);
     ~CursorItem() override;
 
 private:
     void refresh();
-    void setSurface(KWaylandServer::SurfaceInterface *surface);
-    void setImage(const QImage &image);
+    void setSurface(SurfaceInterface *surface, const QPointF &hotspot);
+    void setImage(const QImage &image, const QPointF &hotspot);
 
     std::unique_ptr<ImageItem> m_imageItem;
     std::unique_ptr<SurfaceItemWayland> m_surfaceItem;

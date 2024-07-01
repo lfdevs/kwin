@@ -21,18 +21,25 @@ class WindowScreenCastSource : public ScreenCastSource
 
 public:
     explicit WindowScreenCastSource(Window *window, QObject *parent = nullptr);
+    ~WindowScreenCastSource() override;
 
-    bool hasAlphaChannel() const override;
+    quint32 drmFormat() const override;
     QSize textureSize() const override;
     uint refreshRate() const override;
 
     void render(GLFramebuffer *target) override;
-    void render(spa_data *spa, spa_video_format format) override;
+    void render(QImage *target) override;
     std::chrono::nanoseconds clock() const override;
 
+    void resume() override;
+    void pause() override;
+
 private:
+    void report();
+
     QPointer<Window> m_window;
-    WindowOffscreenRenderRef m_offscreenRef;
+    QTimer m_timer;
+    bool m_active = false;
 };
 
 } // namespace KWin

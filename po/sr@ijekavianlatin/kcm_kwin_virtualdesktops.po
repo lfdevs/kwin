@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2020-03-30 03:49+0200\n"
+"POT-Creation-Date: 2024-05-12 00:40+0000\n"
 "PO-Revision-Date: 2014-05-03 22:24+0200\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -29,106 +29,107 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "caslav.ilic@gmx.net"
 
-#: desktopsmodel.cpp:466
+#: desktopsmodel.cpp:191
+#, fuzzy, kde-format
+#| msgid "Desktops"
+msgctxt "A numbered name for virtual desktops"
+msgid "Desktop %1"
+msgid_plural "Desktop %1"
+msgstr[0] "Površi"
+msgstr[1] "Površi"
+msgstr[2] "Površi"
+msgstr[3] "Površi"
+
+#: desktopsmodel.cpp:479
 #, kde-format
 msgid "There was an error connecting to the compositor."
 msgstr ""
 
-#: desktopsmodel.cpp:668
+#: desktopsmodel.cpp:678
 #, kde-format
 msgid "There was an error saving the settings to the compositor."
 msgstr ""
 
-#: desktopsmodel.cpp:671
+#: desktopsmodel.cpp:681
 #, kde-format
 msgid "There was an error requesting information from the compositor."
 msgstr ""
 
-#: package/contents/ui/main.qml:31
+#: ui/main.qml:26
 #, kde-format
-msgid ""
-"This module lets you configure the navigation, number and layout of virtual "
-"desktops."
+msgctxt "@text:label Number of rows, label associated to a number input field"
+msgid "Rows:"
 msgstr ""
 
-#: package/contents/ui/main.qml:81
+#: ui/main.qml:54
+#, fuzzy, kde-format
+#| msgid "Desktops"
+msgctxt "@action:button"
+msgid "Add Desktop"
+msgstr "Površi"
+
+#: ui/main.qml:118
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Rename"
 msgstr ""
 
-#: package/contents/ui/main.qml:91
+#: ui/main.qml:130
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Confirm new name"
+msgstr ""
+
+#: ui/main.qml:139
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Remove"
 msgstr ""
 
-#: package/contents/ui/main.qml:117
+#: ui/main.qml:172
 #, kde-format
 msgid ""
 "Virtual desktops have been changed outside this settings application. Saving "
 "now will overwrite the changes."
 msgstr ""
 
-#: package/contents/ui/main.qml:131
+#: ui/main.qml:188
 #, kde-format
 msgid "Row %1"
 msgstr ""
 
-#: package/contents/ui/main.qml:144
-#, kde-format
-msgctxt "@action:button"
-msgid "Add"
-msgstr ""
-
-#: package/contents/ui/main.qml:147
-#, fuzzy, kde-format
-#| msgid "Desktops"
-msgid "New Desktop"
-msgstr "Površi"
-
-#: package/contents/ui/main.qml:161
-#, kde-format
-msgid "1 Row"
-msgid_plural "%1 Rows"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-
-#: package/contents/ui/main.qml:173
+#: ui/main.qml:202
 #, kde-format
 msgid "Options:"
 msgstr ""
 
-#: package/contents/ui/main.qml:175
+#: ui/main.qml:204
 #, fuzzy, kde-format
 #| msgid "Desktop navigation wraps around"
 msgid "Navigation wraps around"
 msgstr "Kretanje kroz površi omotava"
 
-#: package/contents/ui/main.qml:190
+#: ui/main.qml:222
 #, kde-format
 msgid "Show animation when switching:"
 msgstr ""
 
-#: package/contents/ui/main.qml:233
+#: ui/main.qml:273
 #, kde-format
 msgid "Show on-screen display when switching:"
 msgstr ""
 
-#: package/contents/ui/main.qml:251
+#: ui/main.qml:292
 #, kde-format
 msgid "%1 ms"
 msgstr ""
 
-#: package/contents/ui/main.qml:269
+#: ui/main.qml:316
 #, kde-format
 msgid "Show desktop layout indicators"
 msgstr "Pokazatelji rasporeda površi"
 
-#: virtualdesktops.cpp:41
-#, fuzzy, kde-format
-#| msgid "Desktops"
-msgid "Virtual Desktops"
-msgstr "Površi"
+#, fuzzy
+#~| msgid "Desktops"
+#~ msgid "Virtual Desktops"
+#~ msgstr "Površi"

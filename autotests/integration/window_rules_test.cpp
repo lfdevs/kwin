@@ -10,9 +10,7 @@
 
 #include "atoms.h"
 #include "core/output.h"
-#include "core/outputbackend.h"
-#include "cursor.h"
-#include "deleted.h"
+#include "pointer_input.h"
 #include "rules.h"
 #include "wayland_server.h"
 #include "workspace.h"
@@ -33,7 +31,6 @@ private Q_SLOTS:
     void initTestCase();
     void init();
     void cleanup();
-    void testApplyInitialMaximizeVert_data();
     void testApplyInitialMaximizeVert();
     void testWindowClassChange();
 };
@@ -41,10 +38,12 @@ private Q_SLOTS:
 void WindowRuleTest::initTestCase()
 {
     qRegisterMetaType<KWin::Window *>();
-    qRegisterMetaType<KWin::Deleted *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
+    Test::setOutputConfig({
+        QRect(0, 0, 1280, 1024),
+        QRect(1280, 0, 1280, 1024),
+    });
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
@@ -58,7 +57,7 @@ void WindowRuleTest::initTestCase()
 void WindowRuleTest::init()
 {
     workspace()->setActiveOutput(QPoint(640, 512));
-    Cursors::self()->mouse()->setPos(QPoint(640, 512));
+    input()->pointer()->warp(QPoint(640, 512));
     QVERIFY(waylandServer()->windows().isEmpty());
 }
 
@@ -76,25 +75,16 @@ struct XcbConnectionDeleter
     }
 };
 
-void WindowRuleTest::testApplyInitialMaximizeVert_data()
-{
-    QTest::addColumn<QByteArray>("role");
-
-    QTest::newRow("lowercase") << QByteArrayLiteral("mainwindow");
-    QTest::newRow("CamelCase") << QByteArrayLiteral("MainWindow");
-}
-
 void WindowRuleTest::testApplyInitialMaximizeVert()
 {
     // this test creates the situation of BUG 367554: creates a window and initial apply maximize vertical
     // the window is matched by class and role
     // load the rule
-    QFile ruleFile(QFINDTESTDATA("./data/rules/maximize-vert-apply-initial"));
-    QVERIFY(ruleFile.open(QIODevice::ReadOnly | QIODevice::Text));
-    QMetaObject::invokeMethod(workspace()->rulebook(), "temporaryRulesMessage", Q_ARG(QString, QString::fromUtf8(ruleFile.readAll())));
+    workspace()->rulebook()->setConfig(KSharedConfig::openConfig(QFINDTESTDATA("./data/rules/maximize-vert-apply-initial"), KConfig::SimpleConfig));
+    workspace()->slotReconfigure();
 
     // create the test window
-    std::unique_ptr<xcb_connection_t, XcbConnectionDeleter> c(xcb_connect(nullptr, nullptr));
+    Test::XcbConnectionPtr c = Test::createX11Connection();
     QVERIFY(!xcb_connection_has_error(c.get()));
 
     xcb_window_t windowId = xcb_generate_id(c.get());
@@ -114,7 +104,7 @@ void WindowRuleTest::testApplyInitialMaximizeVert()
     xcb_icccm_set_wm_normal_hints(c.get(), windowId, &hints);
     xcb_icccm_set_wm_class(c.get(), windowId, 9, "kpat\0kpat");
 
-    QFETCH(QByteArray, role);
+    const QByteArray role = QByteArrayLiteral("mainwindow");
     xcb_change_property(c.get(), XCB_PROP_MODE_REPLACE, windowId, atoms->wm_window_role, XCB_ATOM_STRING, 8, role.length(), role.constData());
 
     NETWinInfo info(c.get(), windowId, rootWindow(), NET::WMAllProperties, NET::WM2AllProperties);
@@ -128,7 +118,6 @@ void WindowRuleTest::testApplyInitialMaximizeVert()
     QVERIFY(window);
     QVERIFY(window->isDecorated());
     QVERIFY(!window->hasStrut());
-    QVERIFY(!window->isHiddenInternal());
     QVERIFY(!window->readyForPainting());
     QMetaObject::invokeMethod(window, "setReadyForPainting");
     QVERIFY(window->readyForPainting());
@@ -136,7 +125,7 @@ void WindowRuleTest::testApplyInitialMaximizeVert()
     QCOMPARE(window->maximizeMode(), MaximizeVertical);
 
     // destroy window again
-    QSignalSpy windowClosedSpy(window, &X11Window::windowClosed);
+    QSignalSpy windowClosedSpy(window, &X11Window::closed);
     xcb_unmap_window(c.get(), windowId);
     xcb_destroy_window(c.get(), windowId);
     xcb_flush(c.get());
@@ -146,9 +135,9 @@ void WindowRuleTest::testApplyInitialMaximizeVert()
 void WindowRuleTest::testWindowClassChange()
 {
     KSharedConfig::Ptr config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
-    config->group("General").writeEntry("count", 1);
+    config->group(QStringLiteral("General")).writeEntry("count", 1);
 
-    auto group = config->group("1");
+    auto group = config->group(QStringLiteral("1"));
     group.writeEntry("above", true);
     group.writeEntry("aboverule", 2);
     group.writeEntry("wmclass", "org.kde.foo");
@@ -160,7 +149,7 @@ void WindowRuleTest::testWindowClassChange()
     workspace()->slotReconfigure();
 
     // create the test window
-    std::unique_ptr<xcb_connection_t, XcbConnectionDeleter> c(xcb_connect(nullptr, nullptr));
+    Test::XcbConnectionPtr c = Test::createX11Connection();
     QVERIFY(!xcb_connection_has_error(c.get()));
 
     xcb_window_t windowId = xcb_generate_id(c.get());
@@ -191,7 +180,6 @@ void WindowRuleTest::testWindowClassChange()
     QVERIFY(window);
     QVERIFY(window->isDecorated());
     QVERIFY(!window->hasStrut());
-    QVERIFY(!window->isHiddenInternal());
     QVERIFY(!window->readyForPainting());
     QMetaObject::invokeMethod(window, "setReadyForPainting");
     QVERIFY(window->readyForPainting());
@@ -206,7 +194,7 @@ void WindowRuleTest::testWindowClassChange()
     QCOMPARE(window->keepAbove(), true);
 
     // destroy window
-    QSignalSpy windowClosedSpy(window, &X11Window::windowClosed);
+    QSignalSpy windowClosedSpy(window, &X11Window::closed);
     xcb_unmap_window(c.get(), windowId);
     xcb_destroy_window(c.get(), windowId);
     xcb_flush(c.get());

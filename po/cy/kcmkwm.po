@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-03 00:48+0000\n"
+"POT-Creation-Date: 2024-02-06 00:39+0000\n"
 "PO-Revision-Date: 2004-07-04 13:05+0100\n"
 "Last-Translator: KD at KGyfieithu <kyfieithu@dotmon.com>\n"
 "Language-Team: Cymraeg <cy@li.org>\n"
@@ -22,16 +22,6 @@ msgstr ""
 "X-Generator: KBabel 1.2\n"
 "\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Owain Green,KGyfieithu,KD"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "owaing@oceanfree.net,kyfieithu@dotmon.com,"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
 #: actions.ui:17
@@ -347,6 +337,7 @@ msgstr "Didreiddiad"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TitlebarDoubleClickCommand)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandTitlebarWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar1)
@@ -355,8 +346,8 @@ msgstr "Didreiddiad"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
-#: actions.ui:310 actions.ui:380 actions.ui:450 actions.ui:505 mouse.ui:80
-#: mouse.ui:132 mouse.ui:271 mouse.ui:333 mouse.ui:386 mouse.ui:448
+#: actions.ui:310 actions.ui:380 actions.ui:450 actions.ui:505 advanced.ui:174
+#: mouse.ui:80 mouse.ui:132 mouse.ui:271 mouse.ui:333 mouse.ui:386 mouse.ui:448
 #: mouse.ui:501 mouse.ui:563
 #, fuzzy, kde-format
 #| msgid "Nothing"
@@ -904,23 +895,8 @@ msgstr ""
 msgid "Multiscreen behavior:"
 msgstr ""
 
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ActiveMouseScreen)
-#: focus.ui:203
-#, kde-format
-msgid ""
-"When this option is enabled, the active screen (where new windows appear, "
-"for example) is the screen containing the mouse pointer. When disabled, the "
-"active screen is the screen containing the focused window."
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ActiveMouseScreen)
-#: focus.ui:206
-#, kde-format
-msgid "Active screen follows &mouse"
-msgstr ""
-
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SeparateScreenFocus)
-#: focus.ui:213
+#: focus.ui:203
 #, kde-format
 msgid ""
 "When this option is enabled, focus operations are limited only to the active "
@@ -928,129 +904,50 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SeparateScreenFocus)
-#: focus.ui:216
+#: focus.ui:206
 #, kde-format
 msgid "&Separate screen focus"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, windowFocusPolicyDescriptionLabel)
-#: focus.ui:229
+#: focus.ui:219
 #, kde-format
 msgid "Window activation policy description"
 msgstr ""
 
-#: main.cpp:73
+#: main.cpp:79
 #, kde-format
 msgid "&Focus"
 msgstr "&Canolbwynt"
 
-#: main.cpp:79
+#: main.cpp:84
 #, fuzzy, kde-format
 msgid "Titlebar A&ctions"
 msgstr "Clic-dwbl ar y &Bar Teitl:"
 
-#: main.cpp:85
+#: main.cpp:89
 #, fuzzy, kde-format
 msgid "W&indow Actions"
 msgstr "&Gweithredoedd"
 
-#: main.cpp:91
+#: main.cpp:94
 #, fuzzy, kde-format
 #| msgid "&Placement:"
 msgid "Mo&vement"
 msgstr "&Lleoliad:"
 
-#: main.cpp:97
+#: main.cpp:99
 #, fuzzy, kde-format
 #| msgid "Ad&vanced"
 msgid "Adva&nced"
 msgstr "&Uwch"
 
-#: main.cpp:101
-#, kde-format
-msgid "Window Behavior Configuration Module"
-msgstr "Modiwl Ffurfweddu Ymddygiad Ffenestri"
-
-#: main.cpp:103
-#, kde-format
-msgid "(c) 1997 - 2002 KWin and KControl Authors"
-msgstr "(h) 1997 - 2002 Awduron KWin a KControl"
-
-#: main.cpp:105
-#, kde-format
-msgid "Matthias Ettrich"
-msgstr ""
-
-#: main.cpp:106
-#, kde-format
-msgid "Waldo Bastian"
-msgstr ""
-
-#: main.cpp:107
-#, kde-format
-msgid "Cristian Tibirna"
-msgstr ""
-
-#: main.cpp:108
-#, kde-format
-msgid "Matthias Kalle Dalheimer"
-msgstr ""
-
-#: main.cpp:109
-#, kde-format
-msgid "Daniel Molkentin"
-msgstr ""
-
-#: main.cpp:110
-#, kde-format
-msgid "Wynn Wilkes"
-msgstr ""
-
-#: main.cpp:111
-#, kde-format
-msgid "Pat Dowler"
-msgstr ""
-
-#: main.cpp:112
-#, kde-format
-msgid "Bernd Wuebben"
-msgstr ""
-
-#: main.cpp:113
-#, kde-format
-msgid "Matthias Hoelzer-Kluepfel"
-msgstr ""
-
-#: main.cpp:161
-#, fuzzy, kde-format
-#| msgid ""
-#| "<h1>Window Behavior</h1> Here you can customize the way windows behave "
-#| "when being moved, resized or clicked on. You can also specify a focus "
-#| "policy as well as a placement policy for new windows. <p>Please note that "
-#| "this configuration will not take effect if you do not use KWin as your "
-#| "window manager. If you do use a different window manager, please refer to "
-#| "its documentation for how to customize window behavior."
-msgid ""
-"<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
-"when being moved, resized or clicked on. You can also specify a focus policy "
-"as well as a placement policy for new windows.</p> <p>Please note that this "
-"configuration will not take effect if you do not use KWin as your window "
-"manager. If you do use a different window manager, please refer to its "
-"documentation for how to customize window behavior.</p>"
-msgstr ""
-"<h1>Ymddygiad Ffenestri</h1> Yma gallwch ffurfweddu'r ffordd mae ffenestri'n "
-"ymddwyn tra'u symudir, newidir eu maint, neu chlicir arnynt. Gallwch hefyd "
-"benodi polisi canolbwynt ynghŷd â pholisi lleoliad i ffenestri newydd. <p> "
-"Noder na ddaw'r ffurfweddiad yma i rym os na ddefnyddiwch KWin fel eich "
-"trefnydd ffenestri. Os ydych am ddefnyddio trefnydd ffenestri arall, gweler "
-"ei ddogfennaeth am sut i addasu ymddygiad ffenestri."
-
-#: main.cpp:202
+#: main.cpp:178
 #, fuzzy, kde-format
 msgid "&Titlebar Actions"
 msgstr "Clic-dwbl ar y &Bar Teitl:"
 
-#: main.cpp:208
+#: main.cpp:188
 #, fuzzy, kde-format
 msgid "Window Actio&ns"
 msgstr "&Gweithredoedd"
@@ -1344,14 +1241,14 @@ msgstr ""
 msgid "Only when overlapping"
 msgstr "Snapio ffenestri pan yn gorgyffwrdd yn &unig"
 
-#: windows.cpp:97
+#: windows.cpp:92
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
 "This behavior is common on other operating systems and likely what you want."
 msgstr ""
 
-#: windows.cpp:101
+#: windows.cpp:95
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1361,7 +1258,7 @@ msgid ""
 "em>."
 msgstr ""
 
-#: windows.cpp:106
+#: windows.cpp:98
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1370,7 +1267,7 @@ msgid ""
 "to focus</em> just without having to actually click."
 msgstr ""
 
-#: windows.cpp:110
+#: windows.cpp:101
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1379,7 +1276,7 @@ msgid ""
 "if you want a hover controlled focus."
 msgstr ""
 
-#: windows.cpp:115
+#: windows.cpp:104
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1389,7 +1286,7 @@ msgid ""
 "precedence)</em> instead!"
 msgstr ""
 
-#: windows.cpp:119
+#: windows.cpp:107
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "
@@ -1399,6 +1296,44 @@ msgid ""
 "activation policy and will not work. You very likely want to use <em>Focus "
 "follows mouse (mouse precedence)</em> instead!"
 msgstr ""
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Owain Green,KGyfieithu,KD"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "owaing@oceanfree.net,kyfieithu@dotmon.com,"
+
+#~ msgid "Window Behavior Configuration Module"
+#~ msgstr "Modiwl Ffurfweddu Ymddygiad Ffenestri"
+
+#~ msgid "(c) 1997 - 2002 KWin and KControl Authors"
+#~ msgstr "(h) 1997 - 2002 Awduron KWin a KControl"
+
+#, fuzzy
+#~| msgid ""
+#~| "<h1>Window Behavior</h1> Here you can customize the way windows behave "
+#~| "when being moved, resized or clicked on. You can also specify a focus "
+#~| "policy as well as a placement policy for new windows. <p>Please note "
+#~| "that this configuration will not take effect if you do not use KWin as "
+#~| "your window manager. If you do use a different window manager, please "
+#~| "refer to its documentation for how to customize window behavior."
+#~ msgid ""
+#~ "<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
+#~ "when being moved, resized or clicked on. You can also specify a focus "
+#~ "policy as well as a placement policy for new windows.</p> <p>Please note "
+#~ "that this configuration will not take effect if you do not use KWin as "
+#~ "your window manager. If you do use a different window manager, please "
+#~ "refer to its documentation for how to customize window behavior.</p>"
+#~ msgstr ""
+#~ "<h1>Ymddygiad Ffenestri</h1> Yma gallwch ffurfweddu'r ffordd mae "
+#~ "ffenestri'n ymddwyn tra'u symudir, newidir eu maint, neu chlicir arnynt. "
+#~ "Gallwch hefyd benodi polisi canolbwynt ynghŷd â pholisi lleoliad i "
+#~ "ffenestri newydd. <p> Noder na ddaw'r ffurfweddiad yma i rym os na "
+#~ "ddefnyddiwch KWin fel eich trefnydd ffenestri. Os ydych am ddefnyddio "
+#~ "trefnydd ffenestri arall, gweler ei ddogfennaeth am sut i addasu "
+#~ "ymddygiad ffenestri."
 
 #, fuzzy
 #~| msgid "Cascade"

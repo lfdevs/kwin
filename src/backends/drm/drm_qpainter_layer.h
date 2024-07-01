@@ -7,72 +7,59 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #pragma once
+#include "core/renderbackend.h"
 #include "drm_layer.h"
+#include "utils/damagejournal.h"
 
 #include <QImage>
 
 namespace KWin
 {
 
-class DumbSwapchain;
+class QPainterSwapchain;
+class QPainterSwapchainSlot;
 class DrmPipeline;
 class DrmVirtualOutput;
 class DrmQPainterBackend;
-class DrmDumbBuffer;
 class DrmFramebuffer;
 
 class DrmQPainterLayer : public DrmPipelineLayer
 {
 public:
-    DrmQPainterLayer(DrmPipeline *pipeline);
+    explicit DrmQPainterLayer(DrmPipeline *pipeline, DrmPlane::TypeIndex type);
 
-    std::optional<OutputLayerBeginFrameInfo> beginFrame() override;
-    bool endFrame(const QRegion &renderedRegion, const QRegion &damagedRegion) override;
+    std::optional<OutputLayerBeginFrameInfo> doBeginFrame() override;
+    bool doEndFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame) override;
     bool checkTestBuffer() override;
     std::shared_ptr<DrmFramebuffer> currentBuffer() const override;
-    QRegion currentDamage() const override;
     void releaseBuffers() override;
+    DrmDevice *scanoutDevice() const override;
+    QHash<uint32_t, QList<uint64_t>> supportedDrmFormats() const override;
 
 private:
     bool doesSwapchainFit() const;
 
-    std::shared_ptr<DumbSwapchain> m_swapchain;
+    std::shared_ptr<QPainterSwapchain> m_swapchain;
+    std::shared_ptr<QPainterSwapchainSlot> m_currentBuffer;
     std::shared_ptr<DrmFramebuffer> m_currentFramebuffer;
-    QRegion m_currentDamage;
-};
-
-class DrmCursorQPainterLayer : public DrmOverlayLayer
-{
-public:
-    DrmCursorQPainterLayer(DrmPipeline *pipeline);
-
-    std::optional<OutputLayerBeginFrameInfo> beginFrame() override;
-    bool endFrame(const QRegion &renderedRegion, const QRegion &damagedRegion) override;
-
-    bool checkTestBuffer() override;
-    std::shared_ptr<DrmFramebuffer> currentBuffer() const override;
-    QRegion currentDamage() const override;
-    void releaseBuffers() override;
-
-private:
-    std::shared_ptr<DumbSwapchain> m_swapchain;
-    std::shared_ptr<DrmFramebuffer> m_currentFramebuffer;
+    DamageJournal m_damageJournal;
+    std::unique_ptr<CpuRenderTimeQuery> m_renderTime;
 };
 
 class DrmVirtualQPainterLayer : public DrmOutputLayer
 {
 public:
-    DrmVirtualQPainterLayer(DrmVirtualOutput *output);
+    explicit DrmVirtualQPainterLayer(DrmVirtualOutput *output);
 
-    std::optional<OutputLayerBeginFrameInfo> beginFrame() override;
-    bool endFrame(const QRegion &renderedRegion, const QRegion &damagedRegion) override;
+    std::optional<OutputLayerBeginFrameInfo> doBeginFrame() override;
+    bool doEndFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame) override;
 
-    QRegion currentDamage() const override;
     void releaseBuffers() override;
+    DrmDevice *scanoutDevice() const override;
+    QHash<uint32_t, QList<uint64_t>> supportedDrmFormats() const override;
 
 private:
     QImage m_image;
-    QRegion m_currentDamage;
-    DrmVirtualOutput *const m_output;
+    std::unique_ptr<CpuRenderTimeQuery> m_renderTime;
 };
 }

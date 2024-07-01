@@ -4,21 +4,22 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#include "basiceglsurfacetexture_wayland.h"
-#include "egl_dmabuf.h"
-#include "kwineglext.h"
-#include "kwingltexture.h"
-#include "scene/surfaceitem_wayland.h"
+#include "platformsupport/scenes/opengl/basiceglsurfacetexture_wayland.h"
+#include "core/graphicsbufferview.h"
+#include "opengl/glshader.h"
+#include "opengl/glshadermanager.h"
+#include "opengl/gltexture.h"
+#include "platformsupport/scenes/opengl/abstract_egl_backend.h"
 #include "utils/common.h"
-#include "wayland/drmclientbuffer.h"
-#include "wayland/linuxdmabufv1clientbuffer.h"
-#include "wayland/shmclientbuffer.h"
+
+#include "abstract_egl_backend.h"
+#include <epoxy/egl.h>
+#include <utils/drm_format_helper.h>
 
 namespace KWin
 {
 
-BasicEGLSurfaceTextureWayland::BasicEGLSurfaceTextureWayland(OpenGLBackend *backend,
-                                                             SurfacePixmapWayland *pixmap)
+BasicEGLSurfaceTextureWayland::BasicEGLSurfaceTextureWayland(OpenGLBackend *backend, SurfacePixmap *pixmap)
     : OpenGLSurfaceTextureWayland(backend, pixmap)
 {
 }
@@ -35,12 +36,10 @@ AbstractEglBackend *BasicEGLSurfaceTextureWayland::backend() const
 
 bool BasicEGLSurfaceTextureWayland::create()
 {
-    if (auto buffer = qobject_cast<KWaylandServer::LinuxDmaBufV1ClientBuffer *>(m_pixmap->buffer())) {
-        return loadDmabufTexture(buffer);
-    } else if (auto buffer = qobject_cast<KWaylandServer::ShmClientBuffer *>(m_pixmap->buffer())) {
-        return loadShmTexture(buffer);
-    } else if (auto buffer = qobject_cast<KWaylandServer::DrmClientBuffer *>(m_pixmap->buffer())) {
-        return loadEglTexture(buffer);
+    if (m_pixmap->buffer()->dmabufAttributes()) {
+        return loadDmabufTexture(m_pixmap->buffer());
+    } else if (m_pixmap->buffer()->shmAttributes()) {
+        return loadShmTexture(m_pixmap->buffer());
     } else {
         return false;
     }
@@ -48,42 +47,43 @@ bool BasicEGLSurfaceTextureWayland::create()
 
 void BasicEGLSurfaceTextureWayland::destroy()
 {
-    if (m_image != EGL_NO_IMAGE_KHR) {
-        eglDestroyImageKHR(backend()->eglDisplay(), m_image);
-        m_image = EGL_NO_IMAGE_KHR;
-    }
     m_texture.reset();
     m_bufferType = BufferType::None;
 }
 
 void BasicEGLSurfaceTextureWayland::update(const QRegion &region)
 {
-    if (auto buffer = qobject_cast<KWaylandServer::LinuxDmaBufV1ClientBuffer *>(m_pixmap->buffer())) {
-        updateDmabufTexture(buffer);
-    } else if (auto buffer = qobject_cast<KWaylandServer::ShmClientBuffer *>(m_pixmap->buffer())) {
-        updateShmTexture(buffer, region);
-    } else if (auto buffer = qobject_cast<KWaylandServer::DrmClientBuffer *>(m_pixmap->buffer())) {
-        updateEglTexture(buffer);
+    if (m_pixmap->buffer()->dmabufAttributes()) {
+        updateDmabufTexture(m_pixmap->buffer());
+    } else if (m_pixmap->buffer()->shmAttributes()) {
+        updateShmTexture(m_pixmap->buffer(), region);
     }
 }
 
-bool BasicEGLSurfaceTextureWayland::loadShmTexture(KWaylandServer::ShmClientBuffer *buffer)
+bool BasicEGLSurfaceTextureWayland::loadShmTexture(GraphicsBuffer *buffer)
 {
-    const QImage &image = buffer->data();
-    if (Q_UNLIKELY(image.isNull())) {
+    const GraphicsBufferView view(buffer);
+    if (Q_UNLIKELY(!view.image())) {
         return false;
     }
 
-    m_texture.reset(new GLTexture(image));
-    m_texture->setFilter(GL_LINEAR);
-    m_texture->setWrapMode(GL_CLAMP_TO_EDGE);
-    m_texture->setYInverted(true);
+    std::shared_ptr<GLTexture> texture = GLTexture::upload(*view.image());
+    if (Q_UNLIKELY(!texture)) {
+        return false;
+    }
+
+    texture->setFilter(GL_LINEAR);
+    texture->setWrapMode(GL_CLAMP_TO_EDGE);
+    texture->setContentTransform(OutputTransform::FlipY);
+
+    m_texture = {{texture}};
+
     m_bufferType = BufferType::Shm;
 
     return true;
 }
 
-void BasicEGLSurfaceTextureWayland::updateShmTexture(KWaylandServer::ShmClientBuffer *buffer, const QRegion &region)
+void BasicEGLSurfaceTextureWayland::updateShmTexture(GraphicsBuffer *buffer, const QRegion &region)
 {
     if (Q_UNLIKELY(m_bufferType != BufferType::Shm)) {
         destroy();
@@ -91,91 +91,74 @@ void BasicEGLSurfaceTextureWayland::updateShmTexture(KWaylandServer::ShmClientBu
         return;
     }
 
-    const QImage &image = buffer->data();
-    if (Q_UNLIKELY(image.isNull())) {
+    const GraphicsBufferView view(buffer);
+    if (Q_UNLIKELY(!view.image())) {
         return;
     }
 
-    const QRegion damage = mapRegion(m_pixmap->item()->surfaceToBufferMatrix(), region);
-    for (const QRect &rect : damage) {
-        m_texture->update(image, rect.topLeft(), rect);
+    for (const QRect &rect : region) {
+        m_texture.planes[0]->update(*view.image(), rect.topLeft(), rect);
     }
 }
 
-bool BasicEGLSurfaceTextureWayland::loadEglTexture(KWaylandServer::DrmClientBuffer *buffer)
+bool BasicEGLSurfaceTextureWayland::loadDmabufTexture(GraphicsBuffer *buffer)
 {
-    const AbstractEglBackendFunctions *funcs = backend()->functions();
-    if (Q_UNLIKELY(!funcs->eglQueryWaylandBufferWL)) {
-        return false;
-    }
-    if (Q_UNLIKELY(!buffer->resource())) {
-        return false;
-    }
-
-    m_texture.reset(new GLTexture(GL_TEXTURE_2D));
-    m_texture->setSize(buffer->size());
-    m_texture->create();
-    m_texture->setWrapMode(GL_CLAMP_TO_EDGE);
-    m_texture->setFilter(GL_LINEAR);
-    m_texture->bind();
-    m_image = attach(buffer);
-    m_texture->unbind();
-    m_bufferType = BufferType::Egl;
-
-    if (EGL_NO_IMAGE_KHR == m_image) {
-        qCDebug(KWIN_OPENGL) << "failed to create egl image";
-        m_texture.reset();
-        return false;
-    }
-
-    return true;
-}
-
-void BasicEGLSurfaceTextureWayland::updateEglTexture(KWaylandServer::DrmClientBuffer *buffer)
-{
-    if (Q_UNLIKELY(m_bufferType != BufferType::Egl)) {
-        destroy();
-        create();
-        return;
-    }
-    if (Q_UNLIKELY(!buffer->resource())) {
-        return;
-    }
-
-    m_texture->bind();
-    EGLImageKHR image = attach(buffer);
-    m_texture->unbind();
-    if (image != EGL_NO_IMAGE_KHR) {
-        if (m_image != EGL_NO_IMAGE_KHR) {
-            eglDestroyImageKHR(backend()->eglDisplay(), m_image);
+    auto createTexture = [this](EGLImageKHR image, const QSize &size, bool isExternalOnly) -> std::shared_ptr<GLTexture> {
+        if (Q_UNLIKELY(image == EGL_NO_IMAGE_KHR)) {
+            qCritical(KWIN_OPENGL) << "Invalid dmabuf-based wl_buffer";
+            return nullptr;
         }
-        m_image = image;
-    }
-}
 
-bool BasicEGLSurfaceTextureWayland::loadDmabufTexture(KWaylandServer::LinuxDmaBufV1ClientBuffer *buffer)
-{
-    auto dmabuf = static_cast<EglDmabufBuffer *>(buffer);
-    if (Q_UNLIKELY(dmabuf->images().constFirst() == EGL_NO_IMAGE_KHR)) {
-        qCritical(KWIN_OPENGL) << "Invalid dmabuf-based wl_buffer";
-        return false;
-    }
+        GLint target = isExternalOnly ? GL_TEXTURE_EXTERNAL_OES : GL_TEXTURE_2D;
+        auto texture = std::make_shared<GLTexture>(target);
+        texture->setSize(size);
+        if (!texture->create()) {
+            return nullptr;
+        }
+        texture->setWrapMode(GL_CLAMP_TO_EDGE);
+        texture->setFilter(GL_LINEAR);
+        texture->bind();
+        glEGLImageTargetTexture2DOES(target, static_cast<GLeglImageOES>(image));
+        texture->unbind();
+        if (m_pixmap->bufferOrigin() == GraphicsBufferOrigin::TopLeft) {
+            texture->setContentTransform(OutputTransform::FlipY);
+        }
+        return texture;
+    };
 
-    m_texture.reset(new GLTexture(GL_TEXTURE_2D));
-    m_texture->setSize(dmabuf->size());
-    m_texture->create();
-    m_texture->setWrapMode(GL_CLAMP_TO_EDGE);
-    m_texture->setFilter(GL_NEAREST);
-    m_texture->bind();
-    glEGLImageTargetTexture2DOES(GL_TEXTURE_2D, static_cast<GLeglImageOES>(dmabuf->images().constFirst()));
-    m_texture->unbind();
-    m_texture->setYInverted(dmabuf->origin() == KWaylandServer::ClientBuffer::Origin::TopLeft);
+    const auto attribs = buffer->dmabufAttributes();
+    if (auto itConv = s_drmConversions.find(buffer->dmabufAttributes()->format); itConv != s_drmConversions.end()) {
+        QList<std::shared_ptr<GLTexture>> textures;
+        Q_ASSERT(itConv->plane.count() == uint(buffer->dmabufAttributes()->planeCount));
+
+        for (uint plane = 0; plane < itConv->plane.count(); ++plane) {
+            const auto &currentPlane = itConv->plane[plane];
+            QSize size = buffer->size();
+            size.rwidth() /= currentPlane.widthDivisor;
+            size.rheight() /= currentPlane.heightDivisor;
+
+            const bool isExternal = backend()->eglDisplayObject()->isExternalOnly(currentPlane.format, attribs->modifier);
+            auto t = createTexture(backend()->importBufferAsImage(buffer, plane, currentPlane.format, size), size, isExternal);
+            if (!t) {
+                return false;
+            }
+            textures << t;
+        }
+        m_texture = {textures};
+    } else {
+        const bool isExternal = backend()->eglDisplayObject()->isExternalOnly(attribs->format, attribs->modifier);
+        auto texture = createTexture(backend()->importBufferAsImage(buffer), buffer->size(), isExternal);
+        if (!texture) {
+            return false;
+        }
+        m_texture = {{texture}};
+    }
     m_bufferType = BufferType::DmaBuf;
 
     return true;
 }
 
-void BasicEGLSurfaceTextureWayland::updateDmabufTexture(KWaylandServer::LinuxDmaBufV1ClientBuffer *buffer)
+void BasicEGLSurfaceTextureWayland::updateDmabufTexture(GraphicsBuffer *buffer)
 {
     if (Q_UNLIKELY(m_bufferType != BufferType::DmaBuf)) {
         destroy();
@@ -183,33 +166,25 @@ void BasicEGLSurfaceTextureWayland::updateDmabufTexture(KWaylandServer::LinuxDma
         return;
     }
 
-    auto dmabuf = static_cast<EglDmabufBuffer *>(buffer);
-    m_texture->bind();
-    glEGLImageTargetTexture2DOES(GL_TEXTURE_2D, static_cast<GLeglImageOES>(dmabuf->images().constFirst()));
-    m_texture->unbind();
-    // The origin in a dmabuf-buffer is at the upper-left corner, so the meaning
-    // of Y-inverted is the inverse of OpenGL.
-    m_texture->setYInverted(dmabuf->origin() == KWaylandServer::ClientBuffer::Origin::TopLeft);
-}
+    const GLint target = GL_TEXTURE_2D;
+    if (auto itConv = s_drmConversions.find(buffer->dmabufAttributes()->format); itConv != s_drmConversions.end()) {
+        Q_ASSERT(itConv->plane.count() == uint(buffer->dmabufAttributes()->planeCount));
+        for (uint plane = 0; plane < itConv->plane.count(); ++plane) {
+            const auto &currentPlane = itConv->plane[plane];
+            QSize size = buffer->size();
+            size.rwidth() /= currentPlane.widthDivisor;
+            size.rheight() /= currentPlane.heightDivisor;
 
-EGLImageKHR BasicEGLSurfaceTextureWayland::attach(KWaylandServer::DrmClientBuffer *buffer)
-{
-    if (buffer->textureFormat() != EGL_TEXTURE_RGB && buffer->textureFormat() != EGL_TEXTURE_RGBA) {
-        qCDebug(KWIN_OPENGL) << "Unsupported texture format: " << buffer->textureFormat();
-        return EGL_NO_IMAGE_KHR;
+            m_texture.planes[plane]->bind();
+            glEGLImageTargetTexture2DOES(target, static_cast<GLeglImageOES>(backend()->importBufferAsImage(buffer, plane, currentPlane.format, size)));
+            m_texture.planes[plane]->unbind();
+        }
+    } else {
+        Q_ASSERT(m_texture.planes.count() == 1);
+        m_texture.planes[0]->bind();
+        glEGLImageTargetTexture2DOES(target, static_cast<GLeglImageOES>(backend()->importBufferAsImage(buffer)));
+        m_texture.planes[0]->unbind();
     }
-
-    const EGLint attribs[] = {
-        EGL_WAYLAND_PLANE_WL, 0,
-        EGL_NONE};
-    EGLImageKHR image = eglCreateImageKHR(backend()->eglDisplay(), EGL_NO_CONTEXT,
-                                          EGL_WAYLAND_BUFFER_WL,
-                                          static_cast<EGLClientBuffer>(buffer->resource()), attribs);
-    if (image != EGL_NO_IMAGE_KHR) {
-        glEGLImageTargetTexture2DOES(GL_TEXTURE_2D, static_cast<GLeglImageOES>(image));
-        m_texture->setYInverted(buffer->origin() == KWaylandServer::ClientBuffer::Origin::TopLeft);
-    }
-    return image;
 }
 
 } // namespace KWin

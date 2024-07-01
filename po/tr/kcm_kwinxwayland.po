@@ -1,13 +1,13 @@
-# Copyright (C) YEAR This file is copyright:
+# Copyright (C) 2024 This file is copyright:
 # This file is distributed under the same license as the kwin package.
 #
-# Emir SARI <emir_sari@icloud.com>, 2022, 2023.
+# SPDX-FileCopyrightText: 2022, 2023, 2024 Emir SARI <emir_sari@icloud.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-17 00:51+0000\n"
-"PO-Revision-Date: 2023-03-28 17:34+0300\n"
+"POT-Creation-Date: 2024-03-09 00:39+0000\n"
+"PO-Revision-Date: 2024-03-09 10:24+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -15,84 +15,62 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 24.02.0\n"
 
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Emir SARI"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "emir_sari@icloud.com"
-
-#: kcmkwinxwayland.cpp:30
-#, kde-format
-msgid "Legacy X11 App Support"
-msgstr "Eski X11 Uygulaması Desteği"
-
-#: kcmkwinxwayland.cpp:32
-#, kde-format
-msgid "Allow legacy X11 apps to read keystrokes typed in other apps"
-msgstr ""
-"Eski X11 uygulamalarının, başka uygulamalardaki düğme basımlarını okumasına "
-"izin ver"
-
-#: package/contents/ui/main.qml:19
+#: ui/main.qml:32
 #, kde-format
 msgid ""
-"This module lets configure which keyboard events are forwarded to X11 apps "
-"regardless of their focus."
+"Some legacy X11 apps require the ability to read keystrokes typed in other "
+"apps for certain features, such as handling global keyboard shortcuts. This "
+"is allowed by default. However other features may require the ability to "
+"read all keys, and this is disabled by default for security reasons. If you "
+"need to use such apps, you can choose your preferred balance of security and "
+"functionality here."
 msgstr ""
-"Bu modül, odak durumuna bakılmaksızın hangi klavye olaylarının X11 "
-"uygulamalarına iletildiğini yapılandırmanıza izin verir."
+"Bazı eski X11 uygulamaları, genel klavye kısayollarını kullanma gibi belirli "
+"özellikler için diğer uygulamalarda yazılan düğme vuruşlarını okuma "
+"becerisini gerektirir. Buna öntanımlı olarak izin verilir. Ancak diğer "
+"özellikler tüm anahtarların okunmasını gerektirebilir ve bu, güvenlik "
+"nedeniyle öntanımlı olarak devre dışıdır. Bu tür uygulamaları kullanmanız "
+"gerekiyorsa burada tercih ettiğiniz güvenlik ve işlevsellik dengesini "
+"seçebilirsiniz."
 
-#: package/contents/ui/main.qml:49
-#, kde-format
-msgid ""
-"Legacy X11 apps require the ability to read keystrokes typed in other apps "
-"for features that are activated using global keyboard shortcuts. This is "
-"disabled by default for security reasons. If you need to use such apps, you "
-"can choose your preferred balance of security and functionality here."
-msgstr ""
-"Eski X11 uygulamaları, global klavye kısayolları kullanılarak "
-"etkinleştirilen özellikler için başka uygulamalardaki klavye düğmesi "
-"basımlarını okuma yeteneğine gereksinim duyar. Bu, güvenlik nedenlerinden "
-"dolayı öntanımlı olarak devre dışıdır. Böyle uygulamalar kullanmanız "
-"gerekiyorsa işlevsellik ve güvenlik arasındaki dengeyi buradan "
-"ayarlayabilirsiniz."
-
-#: package/contents/ui/main.qml:66
+#: ui/main.qml:48
 #, kde-format
 msgid "Allow legacy X11 apps to read keystrokes typed in all apps:"
 msgstr ""
 "Eski X11 uygulamalarının tüm uygulamalardaki düğme basımlarını okumasına "
 "izin ver:"
 
-#: package/contents/ui/main.qml:67
+#: ui/main.qml:49
 #, kde-format
 msgid "Never"
 msgstr "Hiçbir zaman"
 
-#: package/contents/ui/main.qml:70
+#: ui/main.qml:55
 #, kde-format
-msgid "Only Meta, Control, Alt, and Shift keys"
+msgid "Only Meta, Control, Alt and Shift keys"
 msgstr "Yalnızca Meta, Kontrol, Seçenek ve Üst Karakter düğmeleri"
 
-#: package/contents/ui/main.qml:73
+#: ui/main.qml:61
 #, kde-format
-msgid "All keys, but only while Meta, Ctrl, Alt, or Shift keys are pressed"
+msgid ""
+"As above, plus any key typed while the Control, Alt, or Meta keys are pressed"
 msgstr ""
-"Tüm düğmeler; ancak yalnızca Meta, Kontrol, Seçenek veya Üst Karakter "
-"düğmeleri basılıyken"
+"Yukarıdaki gibi; ek olarak Kontrol, Seçenek veya Meta düğmeleri basılıyken "
+"basılan herhangi bir düğme"
 
-#: package/contents/ui/main.qml:77
+#: ui/main.qml:68
 #, kde-format
 msgid "Always"
 msgstr "Her zaman"
 
-#: package/contents/ui/main.qml:84
+#: ui/main.qml:78
+#, kde-format
+msgid "Additionally include mouse buttons"
+msgstr "Fare düğmelerini ek olarak içer"
+
+#: ui/main.qml:89
 #, kde-format
 msgid ""
 "Note that using this setting will reduce system security to that of the X11 "
@@ -103,3 +81,34 @@ msgstr ""
 "olacağını ve yazdığınız metne omzunuzdan bakmanıza izin vererek sistem "
 "güvenliğini azaltacağını not edin. Riski anladığınızdan ve bunu bilerek "
 "kabul ettiğinizden emin olun."
+
+#~ msgid "Only non-character keys"
+#~ msgstr "Yalnızca karakter olmayan düğmeler"
+
+#~ msgid "All keys, but only while Meta, Ctrl, Alt, or Shift keys are pressed"
+#~ msgstr ""
+#~ "Tüm düğmeler; ancak yalnızca Meta, Kontrol, Seçenek veya Üst Karakter "
+#~ "düğmeleri basılıyken"
+
+#~ msgid ""
+#~ "This module lets configure which keyboard events are forwarded to X11 "
+#~ "apps regardless of their focus."
+#~ msgstr ""
+#~ "Bu modül, odak durumuna bakılmaksızın hangi klavye olaylarının X11 "
+#~ "uygulamalarına iletildiğini yapılandırmanıza izin verir."
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Emir SARI"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "emir_sari@icloud.com"
+
+#~ msgid "Legacy X11 App Support"
+#~ msgstr "Eski X11 Uygulaması Desteği"
+
+#~ msgid "Allow legacy X11 apps to read keystrokes typed in other apps"
+#~ msgstr ""
+#~ "Eski X11 uygulamalarının, başka uygulamalardaki düğme basımlarını "
+#~ "okumasına izin ver"

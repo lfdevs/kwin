@@ -14,7 +14,8 @@
 // own
 #include "x11_standalone_glx_backend.h"
 #include "../common/kwinxrenderutils.h"
-#include "softwarevsyncmonitor.h"
+#include "glxcontext.h"
+#include "utils/softwarevsyncmonitor.h"
 #include "x11_standalone_backend.h"
 #include "x11_standalone_glx_context_attribute_builder.h"
 #include "x11_standalone_glxconvenience.h"
@@ -23,30 +24,23 @@
 #include "x11_standalone_overlaywindow.h"
 #include "x11_standalone_sgivideosyncvsyncmonitor.h"
 // kwin
-#include "composite.h"
+#include "compositor.h"
 #include "core/outputbackend.h"
 #include "core/overlaywindow.h"
 #include "core/renderloop_p.h"
+#include "opengl/glrendertimequery.h"
 #include "options.h"
 #include "scene/surfaceitem_x11.h"
-#include "scene/workspacescene.h"
 #include "utils/xcbutils.h"
 #include "workspace.h"
 // kwin libs
-#include <kwinglplatform.h>
-#include <kwinglutils.h>
-#include <kwinoffscreenquickview.h>
+#include "effect/offscreenquickview.h"
+#include "opengl/glplatform.h"
+#include "opengl/glutils.h"
 // Qt
 #include <QDebug>
 #include <QOpenGLContext>
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <private/qtx11extras_p.h>
-#else
-#include <QX11Info>
-#endif
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-#include <QtPlatformHeaders/QGLXNativeContext>
-#endif
 // system
 #include <unistd.h>
 
@@ -74,13 +68,15 @@ typedef struct xcb_glx_buffer_swap_complete_event_t
 } xcb_glx_buffer_swap_complete_event_t;
 #endif
 
+#include <drm_fourcc.h>
 #include <tuple>
 
 namespace KWin
 {
 
-SwapEventFilter::SwapEventFilter(xcb_drawable_t drawable, xcb_glx_drawable_t glxDrawable)
+SwapEventFilter::SwapEventFilter(GlxBackend *backend, xcb_drawable_t drawable, xcb_glx_drawable_t glxDrawable)
     : X11EventFilter(Xcb::Extensions::self()->glxEventBase() + XCB_GLX_BUFFER_SWAP_COMPLETE)
+    , m_backend(backend)
     , m_drawable(drawable)
     , m_glxDrawable(glxDrawable)
 {
@@ -97,36 +93,44 @@ bool SwapEventFilter::event(xcb_generic_event_t *event)
     // The clock for the UST timestamp is left unspecified in the spec, however, usually,
     // it's CLOCK_MONOTONIC, so no special conversions are needed.
     const std::chrono::microseconds timestamp((uint64_t(swapEvent->ust_hi) << 32) | swapEvent->ust_lo);
-
-    const auto platform = static_cast<X11StandaloneBackend *>(kwinApp()->outputBackend());
-    RenderLoopPrivate::get(platform->renderLoop())->notifyFrameCompleted(timestamp);
+    m_backend->vblank(timestamp);
 
     return true;
 }
 
 GlxLayer::GlxLayer(GlxBackend *backend)
-    : m_backend(backend)
+    : OutputLayer(nullptr)
+    , m_backend(backend)
 {
 }
 
-std::optional<OutputLayerBeginFrameInfo> GlxLayer::beginFrame()
+std::optional<OutputLayerBeginFrameInfo> GlxLayer::doBeginFrame()
 {
-    return m_backend->beginFrame();
+    return m_backend->doBeginFrame();
 }
 
-bool GlxLayer::endFrame(const QRegion &renderedRegion, const QRegion &damagedRegion)
+bool GlxLayer::doEndFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame)
 {
-    m_backend->endFrame(renderedRegion, damagedRegion);
+    m_backend->endFrame(renderedRegion, damagedRegion, frame);
     return true;
 }
 
-GlxBackend::GlxBackend(Display *display, X11StandaloneBackend *backend)
+DrmDevice *GlxLayer::scanoutDevice() const
+{
+    return nullptr;
+}
+
+QHash<uint32_t, QList<uint64_t>> GlxLayer::supportedDrmFormats() const
+{
+    return {};
+}
+
+GlxBackend::GlxBackend(::Display *display, X11StandaloneBackend *backend)
     : OpenGLBackend()
-    , m_overlayWindow(std::make_unique<OverlayWindowX11>())
+    , m_overlayWindow(std::make_unique<OverlayWindowX11>(backend))
     , window(None)
     , fbconfig(nullptr)
     , glxWindow(None)
-    , ctx(nullptr)
     , m_bufferAge(0)
     , m_x11Display(display)
     , m_backend(backend)
@@ -137,7 +141,9 @@ GlxBackend::GlxBackend(Display *display, X11StandaloneBackend *backend)
     // by Mesa when using DRI2.
     QOpenGLContext::supportsThreadedOpenGL();
 
+    Q_ASSERT(workspace());
     connect(workspace(), &Workspace::geometryChanged, this, &GlxBackend::screenGeometryChanged);
+    overlayWindow()->resize(workspace()->geometry().size());
 }
 
 GlxBackend::~GlxBackend()
@@ -148,18 +154,13 @@ GlxBackend::~GlxBackend()
     // if the render backend is about to be destroyed.
     RenderLoopPrivate::get(m_backend->renderLoop())->invalidate();
 
+    m_query.reset();
+
     if (isFailed()) {
         m_overlayWindow->destroy();
     }
-    // TODO: cleanup in error case
-    // do cleanup after initBuffer()
-    cleanupGL();
-    doneCurrent();
 
-    if (ctx) {
-        glXDestroyContext(display(), ctx);
-    }
-
+    m_context.reset();
     if (glxWindow) {
         glXDestroyWindow(display(), glxWindow);
     }
@@ -171,23 +172,6 @@ GlxBackend::~GlxBackend()
     m_overlayWindow->destroy();
 }
 
-typedef void (*glXFuncPtr)();
-
-static glXFuncPtr getProcAddress(const char *name)
-{
-    glXFuncPtr ret = nullptr;
-#if HAVE_EPOXY_GLX
-    ret = glXGetProcAddress((const GLubyte *)name);
-#endif
-#if HAVE_DL_LIBRARY
-    if (ret == nullptr) {
-        ret = (glXFuncPtr)dlsym(RTLD_DEFAULT, name);
-    }
-#endif
-    return ret;
-}
-glXSwapIntervalMESA_func glXSwapIntervalMESA;
-
 void GlxBackend::init()
 {
     // Require at least GLX 1.3
@@ -198,13 +182,6 @@ void GlxBackend::init()
 
     initExtensions();
 
-    // resolve glXSwapIntervalMESA if available
-    if (hasExtension(QByteArrayLiteral("GLX_MESA_swap_control"))) {
-        glXSwapIntervalMESA = (glXSwapIntervalMESA_func)getProcAddress("glXSwapIntervalMESA");
-    } else {
-        glXSwapIntervalMESA = nullptr;
-    }
-
     initVisualDepthHashTable();
 
     if (!initBuffer()) {
@@ -212,20 +189,24 @@ void GlxBackend::init()
         return;
     }
 
-    if (!initRenderingContext()) {
+    m_context = GlxContext::create(this, fbconfig, glxWindow);
+    if (!m_context) {
         setFailed(QStringLiteral("Could not initialize rendering context"));
         return;
     }
 
-    // Initialize OpenGL
-    GLPlatform *glPlatform = GLPlatform::instance();
-    glPlatform->detect(GlxPlatformInterface);
-    options->setGlPreferBufferSwap(options->glPreferBufferSwap()); // resolve autosetting
-    if (options->glPreferBufferSwap() == Options::AutoSwapStrategy) {
-        options->setGlPreferBufferSwap('e'); // for unknown drivers - should not happen
+    const auto glPlatform = m_context->glPlatform();
+    m_swapStrategy = options->glPreferBufferSwap();
+    if (m_swapStrategy == Options::AutoSwapStrategy) {
+        // buffer copying is very fast with the nvidia blob
+        // but due to restrictions in DRI2 *incredibly* slow for all MESA drivers
+        // see https://www.x.org/releases/X11R7.7/doc/dri2proto/dri2proto.txt, item 2.5
+        if (glPlatform->driver() == Driver_NVidia) {
+            m_swapStrategy = Options::CopyFrontBuffer;
+        } else if (glPlatform->driver() != Driver_Unknown) { // undetected, finally resolved when context is initialized
+            m_swapStrategy = Options::ExtendDamage;
+        }
     }
-    glPlatform->printResults();
-    initGL(&getProcAddress);
 
     m_fbo = std::make_unique<GLFramebuffer>(0, workspace()->geometry().size());
 
@@ -289,7 +270,7 @@ void GlxBackend::init()
     if (supportsSwapEvent && !forceSoftwareVsync) {
         // Nice, the GLX_INTEL_swap_event extension is available. We are going to receive
         // the presentation timestamp (UST) after glXSwapBuffers() via the X command stream.
-        m_swapEventFilter = std::make_unique<SwapEventFilter>(window, glxWindow);
+        m_swapEventFilter = std::make_unique<SwapEventFilter>(this, window, glxWindow);
         glXSelectEvent(display(), glxWindow, GLX_BUFFER_SWAP_COMPLETE_INTEL_MASK);
     } else {
         // If the GLX_INTEL_swap_event extension is unavailble, we are going to wait for
@@ -317,122 +298,19 @@ void GlxBackend::init()
 
         connect(m_vsyncMonitor.get(), &VsyncMonitor::vblankOccurred, this, &GlxBackend::vblank);
     }
-
-    setIsDirectRendering(bool(glXIsDirect(display(), ctx)));
-
-    qCDebug(KWIN_X11STANDALONE) << "Direct rendering:" << isDirectRendering();
 }
 
 bool GlxBackend::checkVersion()
 {
     int major, minor;
     glXQueryVersion(display(), &major, &minor);
-    return kVersionNumber(major, minor) >= kVersionNumber(1, 3);
+    return Version(major, minor) >= Version(1, 3);
 }
 
 void GlxBackend::initExtensions()
 {
     const QByteArray string = (const char *)glXQueryExtensionsString(display(), QX11Info::appScreen());
     setExtensions(string.split(' '));
-}
-
-bool GlxBackend::initRenderingContext()
-{
-    const bool direct = true;
-
-    QOpenGLContext *qtGlobalShareContext = QOpenGLContext::globalShareContext();
-    GLXContext globalShareContext = nullptr;
-    if (qtGlobalShareContext) {
-        qDebug(KWIN_X11STANDALONE) << "Global share context format:" << qtGlobalShareContext->format();
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        const QVariant nativeHandle = qtGlobalShareContext->nativeHandle();
-        if (!nativeHandle.canConvert<QGLXNativeContext>()) {
-            qCDebug(KWIN_X11STANDALONE) << "Invalid QOpenGLContext::globalShareContext()";
-            return false;
-        } else {
-            QGLXNativeContext handle = qvariant_cast<QGLXNativeContext>(nativeHandle);
-            globalShareContext = handle.context();
-        }
-#else
-        const auto nativeHandle = qtGlobalShareContext->nativeInterface<QNativeInterface::QGLXContext>();
-        if (nativeHandle) {
-            globalShareContext = nativeHandle->nativeContext();
-        } else {
-            qCDebug(KWIN_X11STANDALONE) << "Invalid QOpenGLContext::globalShareContext()";
-            return false;
-        }
-#endif
-    }
-    if (!globalShareContext) {
-        qCWarning(KWIN_X11STANDALONE) << "QOpenGLContext::globalShareContext() is required";
-        return false;
-    }
-
-    // Use glXCreateContextAttribsARB() when it's available
-    if (hasExtension(QByteArrayLiteral("GLX_ARB_create_context"))) {
-        const bool have_robustness = hasExtension(QByteArrayLiteral("GLX_ARB_create_context_robustness"));
-        const bool haveVideoMemoryPurge = hasExtension(QByteArrayLiteral("GLX_NV_robustness_video_memory_purge"));
-
-        std::vector<GlxContextAttributeBuilder> candidates;
-        // core
-        if (have_robustness) {
-            if (haveVideoMemoryPurge) {
-                GlxContextAttributeBuilder purgeMemoryCore;
-                purgeMemoryCore.setVersion(3, 1);
-                purgeMemoryCore.setRobust(true);
-                purgeMemoryCore.setResetOnVideoMemoryPurge(true);
-                candidates.emplace_back(std::move(purgeMemoryCore));
-            }
-            GlxContextAttributeBuilder robustCore;
-            robustCore.setVersion(3, 1);
-            robustCore.setRobust(true);
-            candidates.emplace_back(std::move(robustCore));
-        }
-        GlxContextAttributeBuilder core;
-        core.setVersion(3, 1);
-        candidates.emplace_back(std::move(core));
-        // legacy
-        if (have_robustness) {
-            if (haveVideoMemoryPurge) {
-                GlxContextAttributeBuilder purgeMemoryLegacy;
-                purgeMemoryLegacy.setRobust(true);
-                purgeMemoryLegacy.setResetOnVideoMemoryPurge(true);
-                candidates.emplace_back(std::move(purgeMemoryLegacy));
-            }
-            GlxContextAttributeBuilder robustLegacy;
-            robustLegacy.setRobust(true);
-            candidates.emplace_back(std::move(robustLegacy));
-        }
-        GlxContextAttributeBuilder legacy;
-        legacy.setVersion(2, 1);
-        candidates.emplace_back(std::move(legacy));
-        for (auto it = candidates.begin(); it != candidates.end(); it++) {
-            const auto attribs = it->build();
-            ctx = glXCreateContextAttribsARB(display(), fbconfig, globalShareContext, true, attribs.data());
-            if (ctx) {
-                qCDebug(KWIN_X11STANDALONE) << "Created GLX context with attributes:" << &(*it);
-                break;
-            }
-        }
-    }
-
-    if (!ctx) {
-        ctx = glXCreateNewContext(display(), fbconfig, GLX_RGBA_TYPE, globalShareContext, direct);
-    }
-
-    if (!ctx) {
-        qCDebug(KWIN_X11STANDALONE) << "Failed to create an OpenGL context.";
-        return false;
-    }
-
-    if (!glXMakeCurrent(display(), glxWindow, ctx)) {
-        qCDebug(KWIN_X11STANDALONE) << "Failed to make the OpenGL context current.";
-        glXDestroyContext(display(), ctx);
-        ctx = nullptr;
-        return false;
-    }
-
-    return true;
 }
 
 bool GlxBackend::initBuffer()
@@ -724,7 +602,7 @@ void GlxBackend::setSwapInterval(int interval)
     if (m_haveEXTSwapControl) {
         glXSwapIntervalEXT(display(), glxWindow, interval);
     } else if (m_haveMESASwapControl) {
-        glXSwapIntervalMESA(interval);
+        m_context->glXSwapIntervalMESA(interval);
     } else if (m_haveSGISwapControl) {
         glXSwapIntervalSGI(interval);
     }
@@ -765,7 +643,7 @@ void GlxBackend::screenGeometryChanged()
     doneCurrent();
 
     XMoveResizeWindow(display(), window, 0, 0, size.width(), size.height());
-    overlayWindow()->setup(window);
+    overlayWindow()->resize(size);
     Xcb::sync();
 
     // The back buffer contents are now undefined
@@ -778,7 +656,7 @@ std::unique_ptr<SurfaceTexture> GlxBackend::createSurfaceTextureX11(SurfacePixma
     return std::make_unique<GlxSurfaceTextureX11>(this, pixmap);
 }
 
-OutputLayerBeginFrameInfo GlxBackend::beginFrame()
+OutputLayerBeginFrameInfo GlxBackend::doBeginFrame()
 {
     QRegion repaint;
     makeCurrent();
@@ -789,14 +667,18 @@ OutputLayerBeginFrameInfo GlxBackend::beginFrame()
 
     glXWaitX();
 
+    m_query = std::make_unique<GLRenderTimeQuery>(m_context);
+    m_query->begin();
     return OutputLayerBeginFrameInfo{
         .renderTarget = RenderTarget(m_fbo.get()),
         .repaint = repaint,
     };
 }
 
-void GlxBackend::endFrame(const QRegion &renderedRegion, const QRegion &damagedRegion)
+void GlxBackend::endFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame)
 {
+    m_query->end();
+    frame->addRenderTimeQuery(std::move(m_query));
     // Save the damaged region to history
     if (supportsBufferAge()) {
         m_damageJournal.add(damagedRegion);
@@ -804,8 +686,9 @@ void GlxBackend::endFrame(const QRegion &renderedRegion, const QRegion &damagedR
     m_lastRenderedRegion = renderedRegion;
 }
 
-void GlxBackend::present(Output *output)
+void GlxBackend::present(Output *output, const std::shared_ptr<OutputFrame> &frame)
 {
+    m_frame = frame;
     // If the GLX_INTEL_swap_event extension is not used for getting presentation feedback,
     // assume that the frame will be presented at the next vblank event, this is racy.
     if (m_vsyncMonitor) {
@@ -815,7 +698,7 @@ void GlxBackend::present(Output *output)
     const QRect displayRect = workspace()->geometry();
 
     QRegion effectiveRenderedRegion = m_lastRenderedRegion;
-    if (!supportsBufferAge() && options->glPreferBufferSwap() == Options::CopyFrontBuffer && m_lastRenderedRegion != displayRect) {
+    if (!supportsBufferAge() && m_swapStrategy == Options::CopyFrontBuffer && m_lastRenderedRegion != displayRect) {
         glReadBuffer(GL_FRONT);
         copyPixels(QRegion(displayRect) - m_lastRenderedRegion, displayRect.size());
         glReadBuffer(GL_BACK);
@@ -831,23 +714,25 @@ void GlxBackend::present(Output *output)
 
 void GlxBackend::vblank(std::chrono::nanoseconds timestamp)
 {
-    RenderLoopPrivate *renderLoopPrivate = RenderLoopPrivate::get(m_backend->renderLoop());
-    renderLoopPrivate->notifyFrameCompleted(timestamp);
+    if (m_frame) {
+        m_frame->presented(timestamp, PresentationMode::VSync);
+        m_frame.reset();
+    }
 }
 
 bool GlxBackend::makeCurrent()
 {
-    if (QOpenGLContext *context = QOpenGLContext::currentContext()) {
-        // Workaround to tell Qt that no QOpenGLContext is current
-        context->doneCurrent();
-    }
-    const bool current = glXMakeCurrent(display(), glxWindow, ctx);
-    return current;
+    return m_context->makeCurrent();
 }
 
 void GlxBackend::doneCurrent()
 {
-    glXMakeCurrent(display(), None, nullptr);
+    m_context->doneCurrent();
+}
+
+OpenGlContext *GlxBackend::openglContext() const
+{
+    return m_context.get();
 }
 
 OverlayWindow *GlxBackend::overlayWindow() const
@@ -867,9 +752,9 @@ GlxSurfaceTextureX11::GlxSurfaceTextureX11(GlxBackend *backend, SurfacePixmapX11
 
 bool GlxSurfaceTextureX11::create()
 {
-    auto texture = std::make_unique<GlxPixmapTexture>(static_cast<GlxBackend *>(m_backend));
+    auto texture = std::make_shared<GlxPixmapTexture>(static_cast<GlxBackend *>(m_backend));
     if (texture->create(m_pixmap)) {
-        m_texture = std::move(texture);
+        m_texture = {texture};
         return true;
     } else {
         return false;
@@ -879,28 +764,17 @@ bool GlxSurfaceTextureX11::create()
 void GlxSurfaceTextureX11::update(const QRegion &region)
 {
     // mipmaps need to be updated
-    m_texture->setDirty();
+    m_texture.setDirty();
 }
 
 GlxPixmapTexture::GlxPixmapTexture(GlxBackend *backend)
-    : GLTexture(*new GlxPixmapTexturePrivate(this, backend))
-{
-}
-
-bool GlxPixmapTexture::create(SurfacePixmapX11 *texture)
-{
-    Q_D(GlxPixmapTexture);
-    return d->create(texture);
-}
-
-GlxPixmapTexturePrivate::GlxPixmapTexturePrivate(GlxPixmapTexture *texture, GlxBackend *backend)
-    : m_backend(backend)
-    , q(texture)
+    : GLTexture(GL_TEXTURE_2D)
+    , m_backend(backend)
     , m_glxPixmap(None)
 {
 }
 
-GlxPixmapTexturePrivate::~GlxPixmapTexturePrivate()
+GlxPixmapTexture::~GlxPixmapTexture()
 {
     if (m_glxPixmap != None) {
         if (!options->isGlStrictBinding()) {
@@ -911,16 +785,7 @@ GlxPixmapTexturePrivate::~GlxPixmapTexturePrivate()
     }
 }
 
-void GlxPixmapTexturePrivate::onDamage()
-{
-    if (options->isGlStrictBinding() && m_glxPixmap) {
-        glXReleaseTexImageEXT(m_backend->display(), m_glxPixmap, GLX_FRONT_LEFT_EXT);
-        glXBindTexImageEXT(m_backend->display(), m_glxPixmap, GLX_FRONT_LEFT_EXT, nullptr);
-    }
-    GLTexturePrivate::onDamage();
-}
-
-bool GlxPixmapTexturePrivate::create(SurfacePixmapX11 *texture)
+bool GlxPixmapTexture::create(SurfacePixmapX11 *texture)
 {
     if (texture->pixmap() == XCB_NONE || texture->size().isEmpty() || texture->visual() == XCB_NONE) {
         return false;
@@ -932,38 +797,49 @@ bool GlxPixmapTexturePrivate::create(SurfacePixmapX11 *texture)
     }
 
     if (info.texture_targets & GLX_TEXTURE_2D_BIT_EXT) {
-        m_target = GL_TEXTURE_2D;
-        m_scale.setWidth(1.0f / m_size.width());
-        m_scale.setHeight(1.0f / m_size.height());
+        d->m_target = GL_TEXTURE_2D;
+        d->m_scale.setWidth(1.0f / d->m_size.width());
+        d->m_scale.setHeight(1.0f / d->m_size.height());
     } else {
         Q_ASSERT(info.texture_targets & GLX_TEXTURE_RECTANGLE_BIT_EXT);
 
-        m_target = GL_TEXTURE_RECTANGLE;
-        m_scale.setWidth(1.0f);
-        m_scale.setHeight(1.0f);
+        d->m_target = GL_TEXTURE_RECTANGLE;
+        d->m_scale.setWidth(1.0f);
+        d->m_scale.setHeight(1.0f);
     }
 
     const int attrs[] = {
         GLX_TEXTURE_FORMAT_EXT, info.bind_texture_format,
         GLX_MIPMAP_TEXTURE_EXT, false,
-        GLX_TEXTURE_TARGET_EXT, m_target == GL_TEXTURE_2D ? GLX_TEXTURE_2D_EXT : GLX_TEXTURE_RECTANGLE_EXT,
+        GLX_TEXTURE_TARGET_EXT, d->m_target == GL_TEXTURE_2D ? GLX_TEXTURE_2D_EXT : GLX_TEXTURE_RECTANGLE_EXT,
         0};
 
     m_glxPixmap = glXCreatePixmap(m_backend->display(), info.fbconfig, texture->pixmap(), attrs);
-    m_size = texture->size();
-    m_yInverted = info.y_inverted ? true : false;
-    m_canUseMipmaps = false;
+    d->m_size = texture->size();
+    setContentTransform(info.y_inverted ? OutputTransform::FlipY : OutputTransform());
+    d->m_canUseMipmaps = false;
 
-    glGenTextures(1, &m_texture);
+    glGenTextures(1, &d->m_texture);
 
-    q->setDirty();
-    q->setFilter(GL_NEAREST);
+    setDirty();
+    setFilter(GL_LINEAR);
+    setWrapMode(GL_CLAMP_TO_EDGE);
 
-    glBindTexture(m_target, m_texture);
+    glBindTexture(d->m_target, d->m_texture);
     glXBindTexImageEXT(m_backend->display(), m_glxPixmap, GLX_FRONT_LEFT_EXT, nullptr);
 
-    updateMatrix();
+    d->updateMatrix();
     return true;
 }
 
+void GlxPixmapTexture::onDamage()
+{
+    if (options->isGlStrictBinding() && m_glxPixmap) {
+        glXReleaseTexImageEXT(m_backend->display(), m_glxPixmap, GLX_FRONT_LEFT_EXT);
+        glXBindTexImageEXT(m_backend->display(), m_glxPixmap, GLX_FRONT_LEFT_EXT, nullptr);
+    }
+}
+
 } // namespace
+
+#include "moc_x11_standalone_glx_backend.cpp"

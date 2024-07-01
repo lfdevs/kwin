@@ -5,10 +5,10 @@
 
 */
 #include "popup_input_filter.h"
-#include "deleted.h"
 #include "input_event.h"
 #include "internalwindow.h"
-#include "wayland/seat_interface.h"
+#include "keyboard_input.h"
+#include "wayland/seat.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
@@ -20,7 +20,6 @@ PopupInputFilter::PopupInputFilter()
     : QObject()
 {
     connect(workspace(), &Workspace::windowAdded, this, &PopupInputFilter::handleWindowAdded);
-    connect(workspace(), &Workspace::internalWindowAdded, this, &PopupInputFilter::handleWindowAdded);
 }
 
 void PopupInputFilter::handleWindowAdded(Window *window)
@@ -30,15 +29,18 @@ void PopupInputFilter::handleWindowAdded(Window *window)
     }
     if (window->hasPopupGrab()) {
         // TODO: verify that the Window is allowed as a popup
-        connect(window, &Window::windowShown, this, &PopupInputFilter::handleWindowAdded, Qt::UniqueConnection);
-        connect(window, &Window::windowClosed, this, &PopupInputFilter::handleWindowRemoved, Qt::UniqueConnection);
         m_popupWindows << window;
+        connect(window, &Window::closed, this, [this, window]() {
+            m_popupWindows.removeOne(window);
+            // Move focus to the parent popup. If that's the last popup, then move focus back to the parent
+            if (!m_popupWindows.isEmpty() && m_popupWindows.last()->surface()) {
+                auto seat = waylandServer()->seat();
+                seat->setFocusedKeyboardSurface(m_popupWindows.last()->surface());
+            } else {
+                input()->keyboard()->update();
+            }
+        });
     }
-}
-
-void PopupInputFilter::handleWindowRemoved(Window *window)
-{
-    m_popupWindows.removeOne(window);
 }
 
 bool PopupInputFilter::pointerEvent(MouseEvent *event, quint32 nativeButton)
@@ -56,7 +58,7 @@ bool PopupInputFilter::pointerEvent(MouseEvent *event, quint32 nativeButton)
         }
         if (pointerFocus && pointerFocus->isDecorated()) {
             // test whether it is on the decoration
-            if (!pointerFocus->clientGeometry().contains(event->globalPos())) {
+            if (!exclusiveContains(pointerFocus->clientGeometry(), event->globalPos())) {
                 cancelPopups();
                 return true;
             }
@@ -101,7 +103,7 @@ bool PopupInputFilter::touchDown(qint32 id, const QPointF &pos, std::chrono::mic
     }
     if (pointerFocus && pointerFocus->isDecorated()) {
         // test whether it is on the decoration
-        if (!pointerFocus->clientGeometry().contains(pos)) {
+        if (!exclusiveContains(pointerFocus->clientGeometry(), pos)) {
             cancelPopups();
             return true;
         }
@@ -118,3 +120,5 @@ void PopupInputFilter::cancelPopups()
 }
 
 }
+
+#include "moc_popup_input_filter.cpp"

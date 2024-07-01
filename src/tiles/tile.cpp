@@ -41,6 +41,10 @@ Tile::~Tile()
     if (m_parentTile) {
         m_parentTile->removeChild(this);
     }
+
+    if (m_tiling->tearingDown()) {
+        return;
+    }
     for (auto *w : std::as_const(m_windows)) {
         Tile *tile = m_tiling->bestTileForPosition(w->moveResizeGeometry().center());
         w->setTile(tile);
@@ -83,7 +87,7 @@ void Tile::setGeometryFromWindow(const QRectF &geom)
 
 void Tile::setGeometryFromAbsolute(const QRectF &geom)
 {
-    const QRectF outGeom = m_tiling->output()->fractionalGeometry();
+    const QRectF outGeom = m_tiling->output()->geometryF();
     const QRectF relGeom((geom.x() - outGeom.x()) / outGeom.width(),
                          (geom.y() - outGeom.y()) / outGeom.height(),
                          geom.width() / outGeom.width(),
@@ -120,7 +124,7 @@ QRectF Tile::relativeGeometry() const
 
 QRectF Tile::absoluteGeometry() const
 {
-    const QRectF geom = m_tiling->output()->fractionalGeometry();
+    const QRectF geom = m_tiling->output()->geometryF();
     return QRectF(std::round(geom.x() + m_relativeGeometry.x() * geom.width()),
                   std::round(geom.y() + m_relativeGeometry.y() * geom.height()),
                   std::round(m_relativeGeometry.width() * geom.width()),
@@ -129,7 +133,7 @@ QRectF Tile::absoluteGeometry() const
 
 QRectF Tile::absoluteGeometryInScreen() const
 {
-    const QRectF geom = m_tiling->output()->fractionalGeometry();
+    const QRectF geom = m_tiling->output()->geometryF();
     return QRectF(std::round(m_relativeGeometry.x() * geom.width()),
                   std::round(m_relativeGeometry.y() * geom.height()),
                   std::round(m_relativeGeometry.width() * geom.width()),
@@ -208,7 +212,7 @@ void Tile::resizeFromGravity(Gravity gravity, int x_root, int y_root)
         return;
     }
 
-    const QRectF outGeom = m_tiling->output()->fractionalGeometry();
+    const QRectF outGeom = m_tiling->output()->geometryF();
     const QPointF relativePos = QPointF((x_root - outGeom.x()) / outGeom.width(), (y_root - outGeom.y()) / outGeom.height());
     QRectF newGeom = m_relativeGeometry;
 
@@ -251,7 +255,7 @@ void Tile::resizeByPixels(qreal delta, Qt::Edge edge)
         return;
     }
 
-    const auto outGeom = m_tiling->output()->fractionalGeometry();
+    const auto outGeom = m_tiling->output()->geometryF();
     auto newGeom = m_relativeGeometry;
 
     switch (edge) {
@@ -284,7 +288,6 @@ void Tile::addWindow(Window *window)
     if (!m_windows.contains(window)) {
         window->moveResize(windowGeometry());
         m_windows.append(window);
-        window->setTile(this);
         Q_EMIT windowAdded(window);
         Q_EMIT windowsChanged();
     }
@@ -294,7 +297,6 @@ void Tile::removeWindow(Window *window)
 {
     // We already ensure there is a single copy of window in m_windows
     if (m_windows.removeOne(window)) {
-        window->setTile(nullptr);
         Q_EMIT windowRemoved(window);
         Q_EMIT windowsChanged();
     }
@@ -311,11 +313,7 @@ void Tile::insertChild(int position, Tile *item)
     const bool wasEmpty = m_children.isEmpty();
     item->setParent(this);
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    m_children.insert(std::clamp(position, 0, m_children.length()), item);
-#else
     m_children.insert(std::clamp<qsizetype>(position, 0, m_children.length()), item);
-#endif
 
     if (wasEmpty) {
         Q_EMIT isLayoutChanged(true);
@@ -398,7 +396,7 @@ TileManager *Tile::manager() const
 int Tile::row() const
 {
     if (m_parentTile) {
-        return m_parentTile->m_children.indexOf(const_cast<Tile *>(this));
+        return m_parentTile->m_children.indexOf(this);
     }
 
     return -1;

@@ -6,7 +6,6 @@
 
 #pragma once
 
-#include <KCModule>
 #include <KDecoration2/Decoration>
 #include <KDecoration2/DecorationThemeProvider>
 #include <KPluginMetaData>
@@ -32,7 +31,7 @@ namespace Aurorae
 class Decoration : public KDecoration2::Decoration
 {
     Q_OBJECT
-    Q_PROPERTY(KDecoration2::DecoratedClient *client READ clientPointer CONSTANT)
+    Q_PROPERTY(KDecoration2::DecoratedClient *client READ client CONSTANT)
     Q_PROPERTY(QQuickItem *item READ item)
 public:
     explicit Decoration(QObject *parent = nullptr, const QVariantList &args = QVariantList());
@@ -42,11 +41,10 @@ public:
 
     Q_INVOKABLE QVariant readConfig(const QString &key, const QVariant &defaultValue = QVariant());
 
-    KDecoration2::DecoratedClient *clientPointer() const;
     QQuickItem *item() const;
 
 public Q_SLOTS:
-    void init() override;
+    bool init() override;
     void installTitleItem(QQuickItem *item);
 
     void updateShadow();
@@ -80,7 +78,6 @@ private:
     KWin::Borders *m_padding;
     QString m_themeName;
 
-    std::unique_ptr<QWindow> m_dummyWindow;
     std::unique_ptr<KWin::OffscreenQuickView> m_view;
 };
 
@@ -88,7 +85,7 @@ class ThemeProvider : public KDecoration2::DecorationThemeProvider
 {
     Q_OBJECT
 public:
-    explicit ThemeProvider(QObject *parent, const KPluginMetaData &data, const QVariantList &args);
+    explicit ThemeProvider(QObject *parent, const KPluginMetaData &data);
 
     QList<KDecoration2::DecorationThemeMetaData> themes() const override
     {
@@ -103,20 +100,4 @@ private:
     QList<KDecoration2::DecorationThemeMetaData> m_themes;
     const KPluginMetaData m_data;
 };
-
-class ConfigurationModule : public KCModule
-{
-    Q_OBJECT
-public:
-    ConfigurationModule(QWidget *parent, const QVariantList &args);
-
-private:
-    void init();
-    void initSvg();
-    void initQml();
-    QString m_theme;
-    KConfigLoader *m_skeleton = nullptr;
-    int m_buttonSize;
-};
-
 }

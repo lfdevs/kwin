@@ -216,21 +216,7 @@ void FocusChain::makeFirstInChain(Window *window, Chain &chain)
 {
     Q_ASSERT(!window->isDeleted());
     chain.removeAll(window);
-    if (options->moveMinimizedWindowsToEndOfTabBoxFocusChain()) {
-        if (window->isMinimized()) { // add it before the first minimized ...
-            for (int i = chain.count() - 1; i >= 0; --i) {
-                if (chain.at(i)->isMinimized()) {
-                    chain.insert(i + 1, window);
-                    return;
-                }
-            }
-            chain.prepend(window); // ... or at end of chain
-        } else {
-            chain.append(window);
-        }
-    } else {
-        chain.append(window);
-    }
+    chain.append(window);
 }
 
 void FocusChain::makeLastInChain(Window *window, Chain &chain)
@@ -250,3 +236,5 @@ bool FocusChain::contains(Window *window, VirtualDesktop *desktop) const
 }
 
 } // namespace
+
+#include "moc_focuschain.cpp"

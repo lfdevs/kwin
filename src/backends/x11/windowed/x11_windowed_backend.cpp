@@ -10,10 +10,9 @@
 #include "x11_windowed_backend.h"
 #include "../common/kwinxrenderutils.h"
 
-#include <config-kwin.h>
+#include "config-kwin.h"
 
 #include "utils/xcbutils.h"
-#include "wayland_server.h"
 #include "x11_windowed_egl_backend.h"
 #include "x11_windowed_logging.h"
 #include "x11_windowed_output.h"
@@ -25,6 +24,7 @@
 #include <QCoreApplication>
 #include <QSocketNotifier>
 // xcb
+#include <xcb/dri3.h>
 #include <xcb/xcb_keysyms.h>
 #include <xcb/present.h>
 #include <xcb/shm.h>
@@ -38,7 +38,13 @@
 // system
 #include <X11/Xlib-xcb.h>
 #include <X11/keysym.h>
+#include <drm_fourcc.h>
+#include <fcntl.h>
+#include <gbm.h>
 #include <linux/input.h>
+#include <ranges>
+#include <unistd.h>
+#include <xf86drm.h>
 
 namespace KWin
 {
@@ -92,11 +98,6 @@ void X11WindowedInputDevice::setLeds(LEDs leds)
 }
 
 bool X11WindowedInputDevice::isKeyboard() const
-{
-    return m_keyboard;
-}
-
-bool X11WindowedInputDevice::isAlphaNumericKeyboard() const
 {
     return m_keyboard;
 }
@@ -165,10 +166,8 @@ X11WindowedBackend::~X11WindowedBackend()
     m_pointerDevice.reset();
     m_keyboardDevice.reset();
     m_touchDevice.reset();
+    m_eglDisplay.reset();
 
-    if (sceneEglDisplay() != EGL_NO_DISPLAY) {
-        eglTerminate(sceneEglDisplay());
-    }
     if (m_connection) {
         if (m_keySymbols) {
             xcb_key_symbols_free(m_keySymbols);
@@ -202,14 +201,13 @@ bool X11WindowedBackend::initialize()
     if (presentExtension && presentExtension->present) {
         m_presentOpcode = presentExtension->major_opcode;
         xcb_present_query_version_cookie_t cookie = xcb_present_query_version(m_connection, 1, 2);
-        xcb_present_query_version_reply_t *reply = xcb_present_query_version_reply(m_connection, cookie, nullptr);
+        UniqueCPtr<xcb_present_query_version_reply_t> reply(xcb_present_query_version_reply(m_connection, cookie, nullptr));
         if (!reply) {
             qCWarning(KWIN_X11WINDOWED) << "Requested Present extension version is unsupported";
             return false;
         }
         m_presentMajorVersion = reply->major_version;
         m_presentMinorVersion = reply->minor_version;
-        free(reply);
     } else {
         qCWarning(KWIN_X11WINDOWED) << "Present X11 extension is unavailable";
         return false;
@@ -218,7 +216,7 @@ bool X11WindowedBackend::initialize()
     const xcb_query_extension_reply_t *shmExtension = xcb_get_extension_data(m_connection, &xcb_shm_id);
     if (shmExtension && shmExtension->present) {
         xcb_shm_query_version_cookie_t cookie = xcb_shm_query_version(m_connection);
-        xcb_shm_query_version_reply_t *reply = xcb_shm_query_version_reply(m_connection, cookie, nullptr);
+        UniqueCPtr<xcb_shm_query_version_reply_t> reply(xcb_shm_query_version_reply(m_connection, cookie, nullptr));
         if (!reply) {
             qCWarning(KWIN_X11WINDOWED) << "Requested SHM extension version is unsupported";
         } else {
@@ -227,11 +225,25 @@ bool X11WindowedBackend::initialize()
             } else {
                 m_hasShm = true;
             }
-            free(reply);
+        }
+    }
+
+    const xcb_query_extension_reply_t *driExtension = xcb_get_extension_data(m_connection, &xcb_dri3_id);
+    if (driExtension && driExtension->present) {
+        xcb_dri3_query_version_cookie_t cookie = xcb_dri3_query_version(m_connection, 1, 2);
+        UniqueCPtr<xcb_dri3_query_version_reply_t> reply(xcb_dri3_query_version_reply(m_connection, cookie, nullptr));
+        if (reply) {
+            m_hasDri = true;
+            m_driMajorVersion = reply->major_version;
+            m_driMinorVersion = reply->minor_version;
+        } else {
+            qCWarning(KWIN_X11WINDOWED) << "Requested DRI3 extension version is unsupported";
         }
     }
 
     initXInput();
+    initDri3();
+
     XRenderUtils::init(m_connection, m_screen->root);
     createOutputs();
 
@@ -288,12 +300,50 @@ void X11WindowedBackend::initXInput()
 #endif
 }
 
+void X11WindowedBackend::initDri3()
+{
+    if (m_hasDri) {
+        xcb_dri3_open_cookie_t cookie = xcb_dri3_open(m_connection, m_screen->root, 0);
+        UniqueCPtr<xcb_dri3_open_reply_t> reply(xcb_dri3_open_reply(m_connection, cookie, nullptr));
+        if (reply && reply->nfd == 1) {
+            int fd = xcb_dri3_open_reply_fds(m_connection, reply.get())[0];
+            m_drmDevice = DrmDevice::open(QByteArray(drmGetDeviceNameFromFd2(fd)));
+            ::close(fd);
+        }
+    }
+
+    xcb_depth_iterator_t it = xcb_screen_allowed_depths_iterator(m_screen);
+    while (it.rem > 0) {
+        uint32_t format = driFormatForDepth(it.data->depth);
+        if (format) {
+            QList<uint64_t> &mods = m_driFormats[format];
+
+            if (m_driMajorVersion > 1 || m_driMinorVersion >= 2) {
+                xcb_dri3_get_supported_modifiers_cookie_t cookie = xcb_dri3_get_supported_modifiers(m_connection, m_screen->root, it.data->depth, 32);
+                UniqueCPtr<xcb_dri3_get_supported_modifiers_reply_t> reply(xcb_dri3_get_supported_modifiers_reply(m_connection, cookie, nullptr));
+                if (reply) {
+                    const uint64_t *modifiers = xcb_dri3_get_supported_modifiers_screen_modifiers(reply.get());
+                    const int modifierCount = xcb_dri3_get_supported_modifiers_screen_modifiers_length(reply.get());
+                    for (int i = 0; i < modifierCount; ++i) {
+                        mods.append(modifiers[i]);
+                    }
+                }
+            }
+
+            if (mods.isEmpty()) {
+                mods.append(DRM_FORMAT_MOD_INVALID);
+            }
+        }
+
+        xcb_depth_next(&it);
+    }
+}
+
 X11WindowedOutput *X11WindowedBackend::findOutput(xcb_window_t window) const
 {
-    auto it = std::find_if(m_outputs.constBegin(), m_outputs.constEnd(),
-                           [window](X11WindowedOutput *output) {
-                               return output->window() == window;
-                           });
+    const auto it = std::ranges::find_if(m_outputs, [window](X11WindowedOutput *output) {
+        return output->window() == window;
+    });
     if (it != m_outputs.constEnd()) {
         return *it;
     }
@@ -357,6 +407,7 @@ void X11WindowedBackend::handleEvent(xcb_generic_event_t *e)
         }
         const QPointF position = output->mapFromGlobal(QPointF(event->root_x, event->root_y));
         Q_EMIT m_pointerDevice->pointerMotionAbsolute(position, std::chrono::milliseconds(event->time), m_pointerDevice.get());
+        Q_EMIT m_pointerDevice->pointerFrame(m_pointerDevice.get());
     } break;
     case XCB_KEY_PRESS:
     case XCB_KEY_RELEASE: {
@@ -454,7 +505,7 @@ void X11WindowedBackend::grabKeyboard(xcb_timestamp_t time)
 void X11WindowedBackend::updateWindowTitle()
 {
     const QString grab = m_keyboardGrabbed ? i18n("Press right control to ungrab input") : i18n("Press right control key to grab input");
-    const QString title = QStringLiteral("%1 (%2) - %3").arg(i18n("KDE Wayland Compositor"), waylandServer()->socketName(), grab);
+    const QString title = QStringLiteral("%1 - %2").arg(i18n("KDE Wayland Compositor"), grab);
     for (auto it = m_outputs.constBegin(); it != m_outputs.constEnd(); ++it) {
         (*it)->setWindowTitle(title);
     }
@@ -462,11 +513,10 @@ void X11WindowedBackend::updateWindowTitle()
 
 void X11WindowedBackend::handleClientMessage(xcb_client_message_event_t *event)
 {
-    auto it = std::find_if(m_outputs.begin(), m_outputs.end(),
-                           [event](X11WindowedOutput *output) {
-                               return output->window() == event->window;
-                           });
-    if (it == m_outputs.end()) {
+    auto it = std::ranges::find_if(std::as_const(m_outputs), [event](X11WindowedOutput *output) {
+        return output->window() == event->window;
+    });
+    if (it == m_outputs.cend()) {
         return;
     }
     if (event->type == m_protocols && m_protocols != XCB_ATOM_NONE) {
@@ -516,6 +566,7 @@ void X11WindowedBackend::handleButtonPress(xcb_button_press_event_t *event)
                                                    InputRedirection::PointerAxisSourceUnknown,
                                                    std::chrono::milliseconds(event->time),
                                                    m_pointerDevice.get());
+        Q_EMIT m_pointerDevice->pointerFrame(m_pointerDevice.get());
         return;
     }
     uint32_t button = 0;
@@ -542,6 +593,7 @@ void X11WindowedBackend::handleButtonPress(xcb_button_press_event_t *event)
     } else {
         Q_EMIT m_pointerDevice->pointerButtonChanged(button, InputRedirection::PointerButtonReleased, std::chrono::milliseconds(event->time), m_pointerDevice.get());
     }
+    Q_EMIT m_pointerDevice->pointerFrame(m_pointerDevice.get());
 }
 
 void X11WindowedBackend::handleExpose(xcb_expose_event_t *event)
@@ -607,6 +659,13 @@ void X11WindowedBackend::handleXinputEvent(xcb_ge_generic_event_t *ge)
 void X11WindowedBackend::handlePresentEvent(xcb_ge_generic_event_t *ge)
 {
     switch (ge->event_type) {
+    case XCB_PRESENT_EVENT_IDLE_NOTIFY: {
+        xcb_present_idle_notify_event_t *idleNotify = reinterpret_cast<xcb_present_idle_notify_event_t *>(ge);
+        if (X11WindowedOutput *output = findOutput(idleNotify->window)) {
+            output->handlePresentIdleNotify(idleNotify);
+        }
+        break;
+    }
     case XCB_PRESENT_EVENT_COMPLETE_NOTIFY: {
         xcb_present_complete_notify_event_t *completeNotify = reinterpret_cast<xcb_present_complete_notify_event_t *>(ge);
         if (X11WindowedOutput *output = findOutput(completeNotify->window)) {
@@ -623,6 +682,11 @@ xcb_window_t X11WindowedBackend::rootWindow() const
         return XCB_WINDOW_NONE;
     }
     return m_screen->root;
+}
+
+DrmDevice *X11WindowedBackend::drmDevice() const
+{
+    return m_drmDevice.get();
 }
 
 X11WindowedInputDevice *X11WindowedBackend::pointerDevice() const
@@ -670,7 +734,7 @@ int X11WindowedBackend::screenNumer() const
     return m_screenNumber;
 }
 
-Display *X11WindowedBackend::display() const
+::Display *X11WindowedBackend::display() const
 {
     return m_display;
 }
@@ -680,9 +744,39 @@ bool X11WindowedBackend::hasXInput() const
     return m_hasXInput;
 }
 
-QVector<CompositingType> X11WindowedBackend::supportedCompositors() const
+QHash<uint32_t, QList<uint64_t>> X11WindowedBackend::driFormats() const
 {
-    QVector<CompositingType> ret{OpenGLCompositing};
+    return m_driFormats;
+}
+
+uint32_t X11WindowedBackend::driFormatForDepth(int depth) const
+{
+    switch (depth) {
+    case 24:
+        return DRM_FORMAT_XRGB8888;
+    case 32:
+        return DRM_FORMAT_ARGB8888;
+    default:
+        return 0;
+    }
+}
+
+int X11WindowedBackend::driMajorVersion() const
+{
+    return m_driMajorVersion;
+}
+
+int X11WindowedBackend::driMinorVersion() const
+{
+    return m_driMinorVersion;
+}
+
+QList<CompositingType> X11WindowedBackend::supportedCompositors() const
+{
+    QList<CompositingType> ret;
+    if (m_drmDevice) {
+        ret.append(OpenGLCompositing);
+    }
     if (m_hasShm) {
         ret.append(QPainterCompositing);
     }
@@ -704,4 +798,16 @@ void X11WindowedBackend::destroyOutputs()
     }
 }
 
+void X11WindowedBackend::setEglDisplay(std::unique_ptr<EglDisplay> &&display)
+{
+    m_eglDisplay = std::move(display);
+}
+
+EglDisplay *X11WindowedBackend::sceneEglDisplayObject() const
+{
+    return m_eglDisplay.get();
+}
+
 } // namespace KWin
+
+#include "moc_x11_windowed_backend.cpp"

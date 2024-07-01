@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-26 02:32+0000\n"
+"POT-Creation-Date: 2024-02-10 00:40+0000\n"
 "PO-Revision-Date: 2013-02-23 17:39+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -19,90 +19,65 @@ msgstr ""
 "X-Generator: Lokalize 1.5\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr ""
-"संदिप शेडमाके, \n"
-"चेतन खोना"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr ""
-"sandeep.shedmake@gmail.com, \n"
-"chetan@kompkin.com"
-
-#: declarative-plugin/buttonsmodel.cpp:53
+#: declarative-plugin/buttonsmodel.cpp:56
 #, kde-format
 msgid "More actions for this window"
 msgstr ""
 
-#: declarative-plugin/buttonsmodel.cpp:55
+#: declarative-plugin/buttonsmodel.cpp:58
 #, fuzzy, kde-format
 #| msgctxt "Button showing application menu imported from dbusmenu"
 #| msgid "Application Menu"
 msgid "Application menu"
 msgstr "अनुप्रयोग मेन्यू"
 
-#: declarative-plugin/buttonsmodel.cpp:57
+#: declarative-plugin/buttonsmodel.cpp:60
 #, fuzzy, kde-format
 #| msgid "On All Desktops"
 msgid "On all desktops"
 msgstr "सर्व डेस्कटॉप वर"
 
-#: declarative-plugin/buttonsmodel.cpp:59
+#: declarative-plugin/buttonsmodel.cpp:62
 #, kde-format
 msgid "Minimize"
 msgstr "लहान करा"
 
-#: declarative-plugin/buttonsmodel.cpp:61
+#: declarative-plugin/buttonsmodel.cpp:64
 #, kde-format
 msgid "Maximize"
 msgstr "मोठी करा"
 
-#: declarative-plugin/buttonsmodel.cpp:63
+#: declarative-plugin/buttonsmodel.cpp:66
 #, kde-format
 msgid "Close"
 msgstr "बंद करा"
 
-#: declarative-plugin/buttonsmodel.cpp:65
+#: declarative-plugin/buttonsmodel.cpp:68
 #, kde-format
 msgid "Context help"
 msgstr ""
 
-#: declarative-plugin/buttonsmodel.cpp:67
+#: declarative-plugin/buttonsmodel.cpp:70
 #, kde-format
 msgid "Shade"
 msgstr "सावली"
 
-#: declarative-plugin/buttonsmodel.cpp:69
+#: declarative-plugin/buttonsmodel.cpp:72
 #, kde-format
 msgid "Keep below other windows"
 msgstr ""
 
-#: declarative-plugin/buttonsmodel.cpp:71
+#: declarative-plugin/buttonsmodel.cpp:74
 #, kde-format
 msgid "Keep above other windows"
 msgstr ""
 
-#: kcm.cpp:49
-#, fuzzy, kde-format
-#| msgid "Get New Decorations..."
-msgid "Window Decorations"
-msgstr "नवीन सजावटी प्राप्त करा..."
-
-#: kcm.cpp:53
+#: declarative-plugin/buttonsmodel.cpp:76
 #, kde-format
-msgid "Valerio Pilo"
+msgid "Spacer"
 msgstr ""
 
-#: kcm.cpp:54
-#, kde-format
-msgid "Author"
-msgstr ""
-
-#: kcm.cpp:183
+#: kcm.cpp:177
 #, kde-format
 msgctxt "%1 is the name of a border size"
 msgid "Theme's default (%1)"
@@ -174,74 +149,68 @@ msgstr ""
 msgid "You have the following KWin window decoration themes on your system:"
 msgstr ""
 
-#: package/contents/ui/Buttons.qml:85
+#: ui/Buttons.qml:85
 #, kde-format
 msgid "Titlebar"
 msgstr ""
 
-#: package/contents/ui/Buttons.qml:245
+#: ui/Buttons.qml:245
 #, kde-format
 msgid "Drop button here to remove it"
 msgstr ""
 
-#: package/contents/ui/Buttons.qml:261
+#: ui/Buttons.qml:261
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr ""
 
-#: package/contents/ui/main.qml:18
-#, kde-format
-msgid "This module lets you configure the window decorations."
-msgstr ""
-
-#: package/contents/ui/main.qml:52
-#, kde-format
-msgctxt "tab label"
-msgid "Theme"
-msgstr ""
-
-#: package/contents/ui/main.qml:56
+#: ui/ConfigureTitlebar.qml:16
 #, fuzzy, kde-format
 #| msgid "Buttons"
-msgctxt "tab label"
 msgid "Titlebar Buttons"
 msgstr "बटन"
 
-#: package/contents/ui/main.qml:92
-#, fuzzy, kde-format
-#| msgid "Border size:"
-msgctxt "Selector label"
-msgid "Window border size:"
-msgstr "किनार आकार :"
-
-#: package/contents/ui/main.qml:110
-#, fuzzy, kde-format
-#| msgid "Get New Decorations..."
-msgctxt "button text"
-msgid "Get New Window Decorations..."
-msgstr "नवीन सजावटी प्राप्त करा..."
-
-#: package/contents/ui/main.qml:139
+#: ui/ConfigureTitlebar.qml:35
 #, fuzzy, kde-format
 #| msgid "Close windows by double clicking the menu button"
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
 msgstr "मेन्यू बटन वर दोनदा क्लिक करून चौकटी बंद करा"
 
-#: package/contents/ui/main.qml:156
+#: ui/ConfigureTitlebar.qml:52
 #, kde-format
 msgctxt "popup tip"
 msgid "Click and hold on the menu button to show the menu."
 msgstr ""
 
-#: package/contents/ui/main.qml:163
+#: ui/ConfigureTitlebar.qml:59
 #, fuzzy, kde-format
 #| msgid "&Show window button tooltips"
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
 msgstr "चौकट बटन टूलटिप दर्शवा (&S)"
 
-#: package/contents/ui/Themes.qml:90
+#: ui/main.qml:29
+#, fuzzy, kde-format
+#| msgid "Border size:"
+msgctxt "Selector label"
+msgid "Window border size:"
+msgstr "किनार आकार :"
+
+#: ui/main.qml:48
+#, fuzzy, kde-format
+#| msgid "Buttons"
+msgctxt "button text"
+msgid "Configure Titlebar Buttons…"
+msgstr "बटन"
+
+#: ui/main.qml:54
+#, kde-format
+msgctxt "@action:button as in, \"Get New Window Decorations\""
+msgid "Get New…"
+msgstr ""
+
+#: ui/Themes.qml:93
 #, kde-format
 msgid "Edit %1 Theme"
 msgstr ""
@@ -249,63 +218,125 @@ msgstr ""
 #: utils.cpp:25
 #, fuzzy, kde-format
 #| msgid "Border size:"
-msgid "No Borders"
+msgid "No Window Borders"
 msgstr "किनार आकार :"
 
 #: utils.cpp:26
 #, fuzzy, kde-format
 #| msgid "Border size:"
-msgid "No Side Borders"
+msgid "No Side Window Borders"
 msgstr "किनार आकार :"
 
 #: utils.cpp:27
 #, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Tiny"
-msgid "Tiny"
-msgstr "लहान"
+#| msgid "Border size:"
+msgid "Tiny Window Borders"
+msgstr "किनार आकार :"
 
 #: utils.cpp:28
 #, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Normal"
-msgid "Normal"
-msgstr "सामान्य"
+#| msgid "Border size:"
+msgid "Normal Window Borders"
+msgstr "किनार आकार :"
 
 #: utils.cpp:29
 #, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Large"
-msgid "Large"
-msgstr "मोठे"
+#| msgid "Border size:"
+msgid "Large Window Borders"
+msgstr "किनार आकार :"
 
 #: utils.cpp:30
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Very Large"
-msgid "Very Large"
-msgstr "प्रचंड मोठे"
+#, kde-format
+msgid "Very Large Window Borders"
+msgstr ""
 
 #: utils.cpp:31
 #, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Huge"
-msgid "Huge"
-msgstr "अवाढव्य"
+#| msgid "Border size:"
+msgid "Huge Window Borders"
+msgstr "किनार आकार :"
 
 #: utils.cpp:32
 #, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Very Huge"
-msgid "Very Huge"
-msgstr "प्रचंड अवाढव्य"
+#| msgid "Border size:"
+msgid "Very Huge Window Borders"
+msgstr "किनार आकार :"
 
 #: utils.cpp:33
 #, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Oversized"
-msgid "Oversized"
-msgstr "आकारापेक्षा जास्त"
+#| msgid "Border size:"
+msgid "Oversized Window Borders"
+msgstr "किनार आकार :"
+
+#, fuzzy
+#~| msgid "Get New Decorations..."
+#~ msgctxt "button text"
+#~ msgid "Get New Window Decorations…"
+#~ msgstr "नवीन सजावटी प्राप्त करा..."
+
+#, fuzzy
+#~| msgid "Border size:"
+#~ msgid "No Borders"
+#~ msgstr "किनार आकार :"
+
+#, fuzzy
+#~| msgctxt "@item:inlistbox Border size:"
+#~| msgid "Tiny"
+#~ msgid "Tiny"
+#~ msgstr "लहान"
+
+#, fuzzy
+#~| msgctxt "@item:inlistbox Border size:"
+#~| msgid "Normal"
+#~ msgid "Normal"
+#~ msgstr "सामान्य"
+
+#, fuzzy
+#~| msgctxt "@item:inlistbox Border size:"
+#~| msgid "Large"
+#~ msgid "Large"
+#~ msgstr "मोठे"
+
+#, fuzzy
+#~| msgctxt "@item:inlistbox Border size:"
+#~| msgid "Very Large"
+#~ msgid "Very Large"
+#~ msgstr "प्रचंड मोठे"
+
+#, fuzzy
+#~| msgctxt "@item:inlistbox Border size:"
+#~| msgid "Huge"
+#~ msgid "Huge"
+#~ msgstr "अवाढव्य"
+
+#, fuzzy
+#~| msgctxt "@item:inlistbox Border size:"
+#~| msgid "Very Huge"
+#~ msgid "Very Huge"
+#~ msgstr "प्रचंड अवाढव्य"
+
+#, fuzzy
+#~| msgctxt "@item:inlistbox Border size:"
+#~| msgid "Oversized"
+#~ msgid "Oversized"
+#~ msgstr "आकारापेक्षा जास्त"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr ""
+#~ "संदिप शेडमाके, \n"
+#~ "चेतन खोना"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr ""
+#~ "sandeep.shedmake@gmail.com, \n"
+#~ "chetan@kompkin.com"
+
+#, fuzzy
+#~| msgid "Get New Decorations..."
+#~ msgid "Window Decorations"
+#~ msgstr "नवीन सजावटी प्राप्त करा..."
 
 #, fuzzy
 #~| msgid "Close windows by double clicking the menu button"

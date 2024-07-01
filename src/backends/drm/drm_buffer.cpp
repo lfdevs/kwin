@@ -9,96 +9,71 @@
 */
 #include "drm_buffer.h"
 
+#include "core/graphicsbuffer.h"
 #include "drm_gpu.h"
-#include "drm_logging.h"
 
 // system
 #include <sys/mman.h>
-// c++
-#include <cerrno>
+#if defined(Q_OS_LINUX)
+#include <linux/dma-buf.h>
+#include <linux/sync_file.h>
+#endif
 // drm
 #include <drm_fourcc.h>
+#include <sys/ioctl.h>
 #include <unistd.h>
 #include <xf86drm.h>
 #include <xf86drmMode.h>
+#ifdef Q_OS_LINUX
+#include <linux/dma-buf.h>
+#endif
 
 namespace KWin
 {
 
-DrmGpuBuffer::DrmGpuBuffer(DrmGpu *gpu, QSize size, uint32_t format, uint64_t modifier, const std::array<uint32_t, 4> &handles, const std::array<uint32_t, 4> &strides, const std::array<uint32_t, 4> &offsets, uint32_t planeCount)
-    : m_gpu(gpu)
-    , m_size(size)
-    , m_format(format)
-    , m_modifier(modifier)
-    , m_handles(handles)
-    , m_strides(strides)
-    , m_offsets(offsets)
-    , m_planeCount(planeCount)
-{
-}
+static bool s_envIsSet = false;
+static bool s_disableBufferWait = qEnvironmentVariableIntValue("KWIN_DRM_DISABLE_BUFFER_READABILITY_CHECKS", &s_envIsSet) && s_envIsSet;
 
-DrmGpu *DrmGpuBuffer::gpu() const
-{
-    return m_gpu;
-}
-
-uint32_t DrmGpuBuffer::format() const
-{
-    return m_format;
-}
-
-uint64_t DrmGpuBuffer::modifier() const
-{
-    return m_modifier;
-}
-
-QSize DrmGpuBuffer::size() const
-{
-    return m_size;
-}
-
-const std::array<FileDescriptor, 4> &DrmGpuBuffer::fds()
-{
-    if (!m_fds[0].isValid()) {
-        createFds();
-    }
-    return m_fds;
-}
-
-std::array<uint32_t, 4> DrmGpuBuffer::handles() const
-{
-    return m_handles;
-}
-
-std::array<uint32_t, 4> DrmGpuBuffer::strides() const
-{
-    return m_strides;
-}
-
-std::array<uint32_t, 4> DrmGpuBuffer::offsets() const
-{
-    return m_offsets;
-}
-
-uint32_t DrmGpuBuffer::planeCount() const
-{
-    return m_planeCount;
-}
-
-void DrmGpuBuffer::createFds()
-{
-}
-
-DrmFramebuffer::DrmFramebuffer(const std::shared_ptr<DrmGpuBuffer> &buffer, uint32_t fbId)
+DrmFramebuffer::DrmFramebuffer(DrmGpu *gpu, uint32_t fbId, GraphicsBuffer *buffer, FileDescriptor &&readFence)
     : m_framebufferId(fbId)
-    , m_gpu(buffer->gpu())
-    , m_buffer(buffer)
+    , m_gpu(gpu)
+    , m_bufferRef(buffer)
 {
+    if (s_disableBufferWait || ((m_gpu->isI915() || m_gpu->isVmwgfx()) && !s_envIsSet)) {
+        // buffer readability checks cause frames to be wrongly delayed on some Intel laptops
+        // and on Virtual Machines running vmwgfx
+        // See https://gitlab.freedesktop.org/drm/intel/-/issues/9415
+        m_readable = true;
+    }
+    m_syncFd = std::move(readFence);
+#ifdef DMA_BUF_IOCTL_EXPORT_SYNC_FILE
+    if (!m_syncFd.isValid()) {
+        dma_buf_export_sync_file req{
+            .flags = DMA_BUF_SYNC_READ,
+            .fd = -1,
+        };
+        if (drmIoctl(buffer->dmabufAttributes()->fd[0].get(), DMA_BUF_IOCTL_EXPORT_SYNC_FILE, &req) == 0) {
+            m_syncFd = FileDescriptor{req.fd};
+        }
+    }
+#endif
 }
 
 DrmFramebuffer::~DrmFramebuffer()
 {
-    drmModeRmFB(m_gpu->fd(), m_framebufferId);
+    uint32_t nonConstFb = m_framebufferId;
+
+#ifdef DRM_IOCTL_MODE_CLOSEFB
+    struct drm_mode_closefb closeArgs{
+        .fb_id = m_framebufferId,
+        .pad = 0,
+    };
+    if (drmIoctl(m_gpu->fd(), DRM_IOCTL_MODE_CLOSEFB, &closeArgs) != 0) {
+        drmIoctl(m_gpu->fd(), DRM_IOCTL_MODE_RMFB, &nonConstFb);
+    }
+#else
+    drmIoctl(m_gpu->fd(), DRM_IOCTL_MODE_RMFB, &nonConstFb);
+#endif
 }
 
 uint32_t DrmFramebuffer::framebufferId() const
@@ -106,41 +81,47 @@ uint32_t DrmFramebuffer::framebufferId() const
     return m_framebufferId;
 }
 
-DrmGpuBuffer *DrmFramebuffer::buffer() const
+GraphicsBuffer *DrmFramebuffer::buffer() const
 {
-    return m_buffer.get();
+    return *m_bufferRef;
 }
 
 void DrmFramebuffer::releaseBuffer()
 {
-    m_buffer.reset();
+    m_bufferRef = nullptr;
 }
 
-std::shared_ptr<DrmFramebuffer> DrmFramebuffer::createFramebuffer(const std::shared_ptr<DrmGpuBuffer> &buffer)
+const FileDescriptor &DrmFramebuffer::syncFd() const
 {
-    const auto size = buffer->size();
-    const auto handles = buffer->handles();
-    const auto strides = buffer->strides();
-    const auto offsets = buffer->offsets();
+    return m_syncFd;
+}
 
-    uint32_t framebufferId = 0;
-    int ret;
-    if (buffer->gpu()->addFB2ModifiersSupported() && buffer->modifier() != DRM_FORMAT_MOD_INVALID) {
-        uint64_t modifier[4];
-        for (uint32_t i = 0; i < 4; i++) {
-            modifier[i] = i < buffer->planeCount() ? buffer->modifier() : 0;
-        }
-        ret = drmModeAddFB2WithModifiers(buffer->gpu()->fd(), size.width(), size.height(), buffer->format(), handles.data(), strides.data(), offsets.data(), modifier, &framebufferId, DRM_MODE_FB_MODIFIERS);
+bool DrmFramebuffer::isReadable()
+{
+    if (m_readable) {
+        return true;
+    } else if (m_syncFd.isValid()) {
+        return m_readable = m_syncFd.isReadable();
     } else {
-        ret = drmModeAddFB2(buffer->gpu()->fd(), size.width(), size.height(), buffer->format(), handles.data(), strides.data(), offsets.data(), &framebufferId, 0);
-        if (ret == EOPNOTSUPP && handles.size() == 1) {
-            ret = drmModeAddFB(buffer->gpu()->fd(), size.width(), size.height(), 24, 32, strides[0], handles[0], &framebufferId);
-        }
+        const auto &fds = m_bufferRef->dmabufAttributes()->fd;
+        m_readable = std::ranges::all_of(fds, [](const auto &fd) {
+            return !fd.isValid() || fd.isReadable();
+        });
+        return m_readable;
     }
-    if (ret == 0) {
-        return std::make_shared<DrmFramebuffer>(buffer, framebufferId);
-    } else {
-        return nullptr;
+}
+
+void DrmFramebuffer::setDeadline(std::chrono::steady_clock::time_point deadline)
+{
+#ifdef SYNC_IOC_SET_DEADLINE
+    if (!m_syncFd.isValid()) {
+        return;
     }
+    sync_set_deadline args{
+        .deadline_ns = uint64_t(deadline.time_since_epoch().count()),
+        .pad = 0,
+    };
+    drmIoctl(m_syncFd.get(), SYNC_IOC_SET_DEADLINE, &args);
+#endif
 }
 }

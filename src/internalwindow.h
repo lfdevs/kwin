@@ -9,10 +9,18 @@
 */
 #pragma once
 
+#include "core/graphicsbuffer.h"
 #include "window.h"
 
 namespace KWin
 {
+
+struct InternalWindowFrame
+{
+    GraphicsBuffer *buffer = nullptr;
+    QRegion bufferDamage;
+    GraphicsBufferOrigin bufferOrigin = GraphicsBufferOrigin::TopLeft;
+};
 
 class KWIN_EXPORT InternalWindow : public Window
 {
@@ -28,7 +36,7 @@ public:
     QString captionSuffix() const override;
     QSizeF minSize() const override;
     QSizeF maxSize() const override;
-    NET::WindowType windowType(bool direct = false, int supported_types = 0) const override;
+    WindowType windowType() const override;
     void killWindow() override;
     bool isClient() const override;
     bool isPopupWindow() const override;
@@ -45,12 +53,7 @@ public:
     bool isInternal() const override;
     bool isLockScreen() const override;
     bool isOutline() const override;
-    bool isShown() const override;
-    bool isHiddenInternal() const override;
-    void hideClient() override;
-    void showClient() override;
     QRectF resizeWithChecks(const QRectF &geometry, const QSizeF &size) override;
-    Window *findModal(bool allow_itself = false) override;
     bool takeFocus() override;
     void setNoBorder(bool set) override;
     void invalidateDecoration() override;
@@ -61,8 +64,10 @@ public:
     void pointerEnterEvent(const QPointF &globalPos) override;
     void pointerLeaveEvent() override;
 
-    void present(const std::shared_ptr<QOpenGLFramebufferObject> fbo);
-    void present(const QImage &image, const QRegion &damage);
+    GraphicsBuffer *graphicsBuffer() const;
+    GraphicsBufferOrigin graphicsBufferOrigin() const;
+
+    void present(const InternalWindowFrame &frame);
     qreal bufferScale() const;
     QWindow *handle() const;
 
@@ -72,7 +77,7 @@ protected:
     void doInteractiveResizeSync(const QRectF &rect) override;
     void updateCaption() override;
     void moveResizeInternal(const QRectF &rect, MoveResizeMode mode) override;
-    std::unique_ptr<WindowItem> createItem(Scene *scene) override;
+    std::unique_ptr<WindowItem> createItem(Item *parentItem) override;
 
 private:
     void requestGeometry(const QRectF &rect);
@@ -88,9 +93,10 @@ private:
     QWindow *m_handle = nullptr;
     QString m_captionNormal;
     QString m_captionSuffix;
-    NET::WindowType m_windowType = NET::Normal;
     Qt::WindowFlags m_internalWindowFlags = Qt::WindowFlags();
     bool m_userNoBorder = false;
+    GraphicsBufferRef m_graphicsBufferRef;
+    GraphicsBufferOrigin m_graphicsBufferOrigin;
 
     Q_DISABLE_COPY(InternalWindow)
 };

@@ -30,16 +30,13 @@
 #include <qpa/qplatformwindow.h>
 #include <qpa/qwindowsysteminterface.h>
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-#include <QtEventDispatcherSupport/private/qunixeventdispatcher_qpa_p.h>
-#include <QtFontDatabaseSupport/private/qgenericunixfontdatabase_p.h>
-#include <QtLinuxAccessibilitySupport/private/bridge_p.h>
-#include <QtThemeSupport/private/qgenericunixthemes_p.h>
-#else
 #include <QtGui/private/qgenericunixeventdispatcher_p.h>
 #include <QtGui/private/qgenericunixfontdatabase_p.h>
 #include <QtGui/private/qgenericunixthemes_p.h>
 #include <QtGui/private/qunixeventdispatcher_qpa_p.h>
+
+#if !defined(QT_NO_ACCESSIBILITY_ATSPI_BRIDGE)
+#include <QtGui/private/qspiaccessiblebridge_p.h>
 #endif
 
 namespace KWin
@@ -155,8 +152,8 @@ QPlatformOpenGLContext *Integration::createPlatformOpenGLContext(QOpenGLContext 
         qCWarning(KWIN_QPA) << "Attempting to create a QOpenGLContext before the scene is initialized";
         return nullptr;
     }
-    const EGLDisplay eglDisplay = kwinApp()->outputBackend()->sceneEglDisplay();
-    if (eglDisplay != EGL_NO_DISPLAY) {
+    const auto eglDisplay = kwinApp()->outputBackend()->sceneEglDisplayObject();
+    if (eglDisplay) {
         EGLPlatformContext *platformContext = new EGLPlatformContext(context, eglDisplay);
         return platformContext;
     }
@@ -166,7 +163,9 @@ QPlatformOpenGLContext *Integration::createPlatformOpenGLContext(QOpenGLContext 
 QPlatformAccessibility *Integration::accessibility() const
 {
     if (!m_accessibility) {
+#if !defined(QT_NO_ACCESSIBILITY_ATSPI_BRIDGE)
         m_accessibility.reset(new QSpiAccessibleBridge());
+#endif
     }
     return m_accessibility.get();
 }
@@ -224,3 +223,5 @@ QPlatformServices *Integration::services() const
 
 }
 }
+
+#include "moc_integration.cpp"

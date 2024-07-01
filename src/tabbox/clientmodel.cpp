@@ -7,16 +7,15 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-// own
 #include "clientmodel.h"
-// tabbox
 #include "tabboxconfig.h"
-// Qt
+#include "window.h"
+
+#include <KLocalizedString>
+
 #include <QIcon>
 #include <QUuid>
-// TODO: remove with Qt 5, only for HTML escaping the caption
-#include <QTextDocument>
-// other
+
 #include <cmath>
 
 namespace KWin
@@ -47,32 +46,34 @@ QVariant ClientModel::data(const QModelIndex &index, int role) const
     if (clientIndex >= m_clientList.count()) {
         return QVariant();
     }
-    QSharedPointer<TabBoxClient> client = m_clientList[clientIndex].toStrongRef();
+    Window *client = m_clientList[clientIndex];
     if (!client) {
         return QVariant();
     }
     switch (role) {
     case Qt::DisplayRole:
     case CaptionRole: {
-        QString caption = client->caption();
-        if (Qt::mightBeRichText(caption)) {
-            caption = caption.toHtmlEscaped();
+        if (client->isDesktop()) {
+            return i18nc("Special entry in alt+tab list for minimizing all windows",
+                         "Show Desktop");
         }
-        return caption;
+        return client->caption();
     }
     case ClientRole:
-        return QVariant::fromValue<void *>(client.data());
+        return QVariant::fromValue<void *>(client);
     case DesktopNameRole: {
-        return tabBox->desktopName(client.data());
+        return tabBox->desktopName(client);
     }
     case WIdRole:
         return client->internalId();
     case MinimizedRole:
         return client->isMinimized();
     case CloseableRole:
-        // clients that claim to be first are not closeable
-        return client->isCloseable() && !client->isFirstInTabBox();
+        return client->isCloseable();
     case IconRole:
+        if (client->isDesktop()) {
+            return QIcon::fromTheme(QStringLiteral("user-desktop"));
+        }
         return client->icon();
     default:
         return QVariant();
@@ -82,13 +83,9 @@ QVariant ClientModel::data(const QModelIndex &index, int role) const
 QString ClientModel::longestCaption() const
 {
     QString caption;
-    for (const QWeakPointer<TabBoxClient> &clientPointer : std::as_const(m_clientList)) {
-        QSharedPointer<TabBoxClient> client = clientPointer.toStrongRef();
-        if (!client) {
-            continue;
-        }
-        if (client->caption().size() > caption.size()) {
-            caption = client->caption();
+    for (Window *window : std::as_const(m_clientList)) {
+        if (window->caption().size() > caption.size()) {
+            caption = window->caption();
         }
     }
     return caption;
@@ -136,64 +133,51 @@ QHash<int, QByteArray> ClientModel::roleNames() const
     };
 }
 
-QModelIndex ClientModel::index(QWeakPointer<TabBoxClient> client) const
+QModelIndex ClientModel::index(Window *client) const
 {
-    if (!m_clientList.contains(client)) {
+    const int index = m_clientList.indexOf(client);
+    if (index == -1) {
         return QModelIndex();
     }
-    int index = m_clientList.indexOf(client);
     int row = index / columnCount();
     int column = index % columnCount();
     return createIndex(row, column);
 }
 
-void ClientModel::createClientList(bool partialReset)
-{
-    createClientList(tabBox->currentDesktop(), partialReset);
-}
-
-void ClientModel::createFocusChainClientList(int desktop,
-    const QSharedPointer<TabBoxClient> &start, TabBoxClientList &stickyClients)
+void ClientModel::createFocusChainClientList(Window *start)
 {
     auto c = start;
-    if (!tabBox->isInFocusChain(c.data())) {
-        QSharedPointer<TabBoxClient> firstClient = tabBox->firstClientFocusChain().toStrongRef();
+    if (!tabBox->isInFocusChain(c)) {
+        Window *firstClient = tabBox->firstClientFocusChain();
         if (firstClient) {
             c = firstClient;
         }
     }
     auto stop = c;
     do {
-        QSharedPointer<TabBoxClient> add = tabBox->clientToAddToList(c.data(), desktop);
-        if (!add.isNull()) {
+        Window *add = tabBox->clientToAddToList(c);
+        if (add) {
             m_mutableClientList += add;
-            if (add.data()->isFirstInTabBox()) {
-                stickyClients << add;
-            }
         }
-        c = tabBox->nextClientFocusChain(c.data());
+        c = tabBox->nextClientFocusChain(c);
     } while (c && c != stop);
 }
 
-void ClientModel::createStackingOrderClientList(int desktop,
-    const QSharedPointer<TabBoxClient> &start, TabBoxClientList &stickyClients)
+void ClientModel::createStackingOrderClientList(Window *start)
 {
     // TODO: needs improvement
-    const TabBoxClientList stacking = tabBox->stackingOrder();
-    auto c = stacking.first().toStrongRef();
+    const QList<Window *> stacking = tabBox->stackingOrder();
+    auto c = stacking.first();
     auto stop = c;
     int index = 0;
     while (c) {
-        QSharedPointer<TabBoxClient> add = tabBox->clientToAddToList(c.data(), desktop);
-        if (!add.isNull()) {
-            if (start == add.data()) {
+        Window *add = tabBox->clientToAddToList(c);
+        if (add) {
+            if (start == add) {
                 m_mutableClientList.removeAll(add);
                 m_mutableClientList.prepend(add);
             } else {
                 m_mutableClientList += add;
-            }
-            if (add.data()->isFirstInTabBox()) {
-                stickyClients << add;
             }
         }
         if (index >= stacking.size() - 1) {
@@ -208,27 +192,26 @@ void ClientModel::createStackingOrderClientList(int desktop,
     }
 }
 
-void ClientModel::createClientList(int desktop, bool partialReset)
+void ClientModel::createClientList(bool partialReset)
 {
-    auto start = tabBox->activeClient().toStrongRef();
+    auto start = tabBox->activeClient();
     // TODO: new clients are not added at correct position
     if (partialReset && !m_mutableClientList.isEmpty()) {
-        QSharedPointer<TabBoxClient> firstClient = m_mutableClientList.constFirst();
-        if (firstClient) {
+        Window *firstClient = m_mutableClientList.constFirst();
+        if (!firstClient->isDeleted()) {
             start = firstClient;
         }
     }
 
     m_mutableClientList.clear();
-    TabBoxClientList stickyClients;
 
     switch (tabBox->config().clientSwitchingMode()) {
     case TabBoxConfig::FocusChainSwitching: {
-        createFocusChainClientList(desktop, start, stickyClients);
+        createFocusChainClientList(start);
         break;
     }
     case TabBoxConfig::StackingOrderSwitching: {
-        createStackingOrderClientList(desktop, start, stickyClients);
+        createStackingOrderClientList(start);
         break;
     }
     }
@@ -236,18 +219,15 @@ void ClientModel::createClientList(int desktop, bool partialReset)
     if (tabBox->config().orderMinimizedMode() == TabBoxConfig::GroupByMinimized) {
         // Put all non-minimized included clients first.
         std::stable_partition(m_mutableClientList.begin(), m_mutableClientList.end(), [](const auto &client) {
-            return !client.toStrongRef()->isMinimized();
+            return !client->isMinimized();
         });
     }
 
-    for (const QWeakPointer<TabBoxClient> &c : std::as_const(stickyClients)) {
-        m_mutableClientList.removeAll(c);
-        m_mutableClientList.prepend(c);
-    }
-    if (tabBox->config().clientApplicationsMode() != TabBoxConfig::AllWindowsCurrentApplication
-        && (tabBox->config().showDesktopMode() == TabBoxConfig::ShowDesktopClient || m_mutableClientList.isEmpty())) {
-        QWeakPointer<TabBoxClient> desktopClient = tabBox->desktopClient();
-        if (!desktopClient.isNull()) {
+    if (!m_mutableClientList.isEmpty()
+        && tabBox->config().clientApplicationsMode() != TabBoxConfig::AllWindowsCurrentApplication
+        && tabBox->config().showDesktopMode() == TabBoxConfig::ShowDesktopClient) {
+        Window *desktopClient = tabBox->desktopClient();
+        if (desktopClient) {
             m_mutableClientList.append(desktopClient);
         }
     }
@@ -267,9 +247,9 @@ void ClientModel::close(int i)
     if (!ind.isValid()) {
         return;
     }
-    QSharedPointer<TabBoxClient> client = m_mutableClientList.at(i).toStrongRef();
+    Window *client = m_mutableClientList.at(i);
     if (client) {
-        client->close();
+        client->closeWindow();
     }
 }
 
@@ -285,3 +265,5 @@ void ClientModel::activate(int i)
 
 } // namespace Tabbox
 } // namespace KWin
+
+#include "moc_clientmodel.cpp"

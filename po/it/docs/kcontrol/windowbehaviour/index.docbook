@@ -381,17 +381,6 @@
 <varlistentry>
 <term
 ><guilabel
->Lo schermo attivo segue il mouse</guilabel
-></term>
-<listitem>
-<para
->Quando questa opzione è abilitata, lo schermo attivo (dove, ad esempio, appaiono le nuove finestre) è lo schermo contenente il puntatore del mouse. Quando è disabilitata, lo schermo attivo è quello contenente la finestra attiva. </para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term
-><guilabel
 >Fuoco degli schermi separati</guilabel
 ></term>
 <listitem>
@@ -1391,6 +1380,19 @@
 >Farà passare la finestra al desktop virtuale attivo. </para>
 <para
 >Scegli questa opzione se desideri che le finestre si aprano sempre sul desktop virtuale attuale e che il desktop virtuale attivo cambi solo durante la navigazione manuale. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Non fare nulla</guilabel
+></term>
+<listitem>
+<para
+>La finestra rimane sul desktop sul quale si trova e il desktop attuale non cambia. </para>
+<para
+>Scegli questa opzione se desideri mantenere le finestre e i desktop così come sono. </para>
 </listitem>
 </varlistentry>
 

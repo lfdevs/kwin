@@ -41,6 +41,8 @@ PipeWireCore::~PipeWireCore()
     if (pwMainLoop) {
         pw_loop_destroy(pwMainLoop);
     }
+
+    pw_deinit();
 }
 
 void PipeWireCore::onCoreError(void *data, uint32_t id, int seq, int res, const char *message)
@@ -48,6 +50,7 @@ void PipeWireCore::onCoreError(void *data, uint32_t id, int seq, int res, const 
     qCWarning(KWIN_SCREENCAST) << "PipeWire remote error: " << message;
     if (id == PW_ID_CORE && res == -EPIPE) {
         PipeWireCore *pw = static_cast<PipeWireCore *>(data);
+        pw->m_valid = false;
         Q_EMIT pw->pipewireFailed(QString::fromUtf8(message));
     }
 }
@@ -91,19 +94,15 @@ bool PipeWireCore::init()
     }
 
     pw_core_add_listener(pwCore, &coreListener, &pwCoreEvents, this);
+    m_valid = true;
     return true;
 }
 
-std::shared_ptr<PipeWireCore> PipeWireCore::self()
+bool PipeWireCore::isValid() const
 {
-    static std::weak_ptr<PipeWireCore> global;
-    auto ret = global.lock();
-    if (!ret) {
-        ret = std::make_shared<PipeWireCore>();
-        ret->init();
-        global = ret;
-    }
-    return ret;
+    return m_valid;
 }
 
 } // namespace KWin
+
+#include "moc_pipewirecore.cpp"

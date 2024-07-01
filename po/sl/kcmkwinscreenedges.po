@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 #
-# Jure Repinc <jlp@holodeck1.com>, 2009, 2010.
+# SPDX-FileCopyrightText: 2009, 2010, 2024 Jure Repinc <jlp@holodeck1.com>
 # Andrej Vernekar <andrej.vernekar@gmail.com>, 2012.
 # Andrej Mernik <andrejm@ubuntu.si>, 2013, 2014, 2016, 2017, 2018.
 # Matjaž Jeran <matjaz.jeran@amis.net>, 2020, 2021, 2022.
@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-07-15 00:48+0000\n"
-"PO-Revision-Date: 2022-07-16 14:04+0200\n"
-"Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
+"POT-Creation-Date: 2024-03-09 00:39+0000\n"
+"PO-Revision-Date: 2024-03-17 01:02+0100\n"
+"Last-Translator: Jure Repinc <jlp@holodeck1.com>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
@@ -22,74 +22,74 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
-"X-Generator: Lokalize 22.04.1\n"
+"X-Generator: Lokalize 24.04.70\n"
 
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Andrej Mernik,Matjaž Jeran,Martin Srebotnjak"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "andrejm@ubuntu.si,matjaz.jeran@amis.net,miles@filmsi.net"
-
-#: main.cpp:130 touch.cpp:124
+#: main.cpp:151 touch.cpp:118
 #, kde-format
 msgid "No Action"
 msgstr "Brez dejanja"
 
-#: main.cpp:131 touch.cpp:125
+#: main.cpp:152 touch.cpp:119
 #, kde-format
 msgid "Peek at Desktop"
 msgstr "Pokukaj na namizje"
 
-#: main.cpp:132 touch.cpp:126
+#: main.cpp:153 touch.cpp:120
 #, kde-format
 msgid "Lock Screen"
 msgstr "Zakleni zaslon"
 
-#: main.cpp:133 touch.cpp:127
+#: main.cpp:154 touch.cpp:121
 #, kde-format
 msgid "Show KRunner"
 msgstr "Prikaži KRunner"
 
-#: main.cpp:134 touch.cpp:128
+#: main.cpp:155 touch.cpp:122
 #, kde-format
 msgid "Activity Manager"
 msgstr "Upravljalnik dejavnosti"
 
-#: main.cpp:135 touch.cpp:129
+#: main.cpp:156 touch.cpp:123
 #, kde-format
 msgid "Application Launcher"
 msgstr "Zaganjalnik programov"
 
-#: main.cpp:139 touch.cpp:133
+#: main.cpp:160 touch.cpp:127
 #, kde-format
 msgid "Present Windows"
 msgstr "Predstavi okna"
 
-#: main.cpp:140 touch.cpp:134
+#: main.cpp:161 touch.cpp:128
 #, kde-format
 msgid "%1 - All Desktops"
-msgstr "%1 - vsa namizja"
+msgstr "%1 – vsa namizja"
 
-#: main.cpp:141 touch.cpp:135
+#: main.cpp:162 touch.cpp:129
 #, kde-format
 msgid "%1 - Current Desktop"
-msgstr "%1 - trenutno namizje"
+msgstr "%1 – trenutno namizje"
 
-#: main.cpp:142 touch.cpp:136
+#: main.cpp:163 touch.cpp:130
 #, kde-format
 msgid "%1 - Current Application"
-msgstr "%1 - trenutni program"
+msgstr "%1 – trenutni program"
 
-#: main.cpp:144 touch.cpp:138
+#: main.cpp:165 touch.cpp:132
+#, kde-format
+msgid "Overview"
+msgstr "Pregled"
+
+#: main.cpp:166 touch.cpp:133
+#, kde-format
+msgid "Grid"
+msgstr "Mreža"
+
+#: main.cpp:168 touch.cpp:135
 #, kde-format
 msgid "Toggle window switching"
 msgstr "Preklopi preklapljanje oken"
 
-#: main.cpp:145 touch.cpp:139
+#: main.cpp:169 touch.cpp:136
 #, kde-format
 msgid "Toggle alternative window switching"
 msgstr "Preklopi drugotno preklapljanje oken"
@@ -101,32 +101,32 @@ msgid ""
 "You can trigger an action by pushing the mouse cursor against the "
 "corresponding screen edge or corner."
 msgstr ""
-"Da sprožite dejanje, pritisnite miškino kazalko ob ustrezen rob ali v "
+"Da sprožite dejanje, potisnite miškino kazalko ob ustrezen rob ali v "
 "ustrezen kot zaslona."
 
 #. i18n: ectx: property (text), widget (QLabel, quickMaximizeLabel)
 #: main.ui:67
 #, kde-format
 msgid "&Maximize:"
-msgstr "Razpni:"
+msgstr "&Razpni:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ElectricBorderMaximize)
 #: main.ui:77
 #, kde-format
 msgid "Windows dragged to top edge"
-msgstr "Okna pomaknjena tik pod vrhnji rob zaslona"
+msgstr "Okna povlečena ob vrhnji rob"
 
 #. i18n: ectx: property (text), widget (QLabel, quickTileLabel)
 #: main.ui:84
 #, kde-format
 msgid "&Tile:"
-msgstr "Ploščica:"
+msgstr "&Tlakuj:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ElectricBorderTiling)
 #: main.ui:94
 #, kde-format
 msgid "Windows dragged to left or right edge"
-msgstr "Okna premaknjena ob levi ali desni rob zaslona"
+msgstr "Okna povlečena ob levi ali desni rob"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:101
@@ -138,25 +138,25 @@ msgstr "Obnašanje:"
 #: main.ui:108
 #, kde-format
 msgid "Remain active when windows are fullscreen"
-msgstr "Ostani aktiven, kadar so okna celozaslonska"
+msgstr "Ostani dejaven, kadar so okna celozaslonska"
 
 #. i18n: ectx: property (text), widget (QLabel, electricBorderCornerRatioLabel)
 #: main.ui:115
 #, kde-format
 msgid "Trigger &quarter tiling in:"
-msgstr "Sproži &četrtinsko tlakovanje v:"
+msgstr "Sproži &četrtinsko tlakovanje na:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, electricBorderCornerRatioSpin)
 #: main.ui:130
 #, no-c-format, kde-format
 msgid "%"
-msgstr "%"
+msgstr " %"
 
 #. i18n: ectx: property (prefix), widget (QSpinBox, electricBorderCornerRatioSpin)
 #: main.ui:133
 #, kde-format
 msgid "Outer "
-msgstr "Zunanji "
+msgstr "Zunanjih "
 
 #. i18n: ectx: property (text), widget (QLabel, label_1)
 #: main.ui:149
@@ -169,13 +169,13 @@ msgstr "zaslona"
 #, kde-format
 msgid ""
 "Change desktop when the mouse cursor is pushed against the edge of the screen"
-msgstr "Spremeni namizje, ko je miškina kazalka pritisnjena ob rob zaslona"
+msgstr "Spremeni namizje, ko je miškina kazalka potisnjena ob rob zaslona"
 
 #. i18n: ectx: property (text), widget (QLabel, desktopSwitchLabel)
 #: main.ui:177
 #, kde-format
 msgid "&Switch desktop on edge:"
-msgstr "Na robu preklopi namizje:"
+msgstr "&Na robu preklopi namizje:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ElectricBorders)
 #: main.ui:188
@@ -210,14 +210,14 @@ msgstr ""
 #: main.ui:209
 #, kde-format
 msgid "Activation &delay:"
-msgstr "Zakasnitev sprožitve:"
+msgstr "&Zakasnitev sprožitve:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_ElectricBorderDelay)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_ElectricBorderCooldown)
 #: main.ui:219 main.ui:254
 #, kde-format
 msgid " ms"
-msgstr " ms"
+msgstr " ms"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, triggerCooldownLabel)
 #: main.ui:238
@@ -226,13 +226,82 @@ msgid ""
 "Amount of time required after triggering an action until the next trigger "
 "can occur"
 msgstr ""
-"Čas po sprožitvi dejanja, potreben, preden se lahko sproži naslednje dejanje"
+"Čas potreben po sprožitvi dejanja, preden se lahko sproži naslednje dejanje"
 
 #. i18n: ectx: property (text), widget (QLabel, triggerCooldownLabel)
 #: main.ui:241
 #, kde-format
 msgid "&Reactivation delay:"
-msgstr "Zakasnitev ponovne sp&rožitve:"
+msgstr "Z&akasnitev ponovne sprožitve:"
+
+#. i18n: ectx: property (text), widget (QLabel, CornerBarrierLabel)
+#: main.ui:270
+#, kde-format
+msgid "&Corner barrier:"
+msgstr "&Kotna pregrada:"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_CornerBarrier)
+#: main.ui:280
+#, kde-format
+msgid ""
+"Here you can enable or disable the virtual corner barrier between screens. "
+"The barrier prevents the cursor from moving to another screen when it is "
+"already touching a screen corner. This makes it easier to trigger user "
+"interface elements like maximized windows' close buttons when using multiple "
+"screens."
+msgstr ""
+"Tukaj lahko omogočite ali onemogočite navidezno kotno pregrado med zasloni. "
+"Pregrada preprečuje, da bi se kazalec premaknil na drug zaslon, ko se že "
+"dotika kota zaslona. To olajša sprožitev elementov uporabniškega vmesnika, "
+"kot so gumbi za zapiranje razpetih oken, kadar uporabljate več zaslonov."
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_CornerBarrier)
+#: main.ui:283
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Prevents cursors from crossing at screen corners."
+msgstr "Preprečuje kazalki prehod v kotih zaslona."
+
+#. i18n: ectx: property (text), widget (QLabel, EdgeBarrierLabel)
+#: main.ui:290
+#, kde-format
+msgid "&Edge barrier:"
+msgstr "Ro&bna pregrada:"
+
+#. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_EdgeBarrier)
+#: main.ui:300
+#, kde-format
+msgid ""
+"Here you can set size of the edge barrier between different screens. The "
+"barrier adds additional distance you have to move your pointer before it "
+"crosses the edge onto the other screen. This makes it easier to access user "
+"interface elements like Plasma Panels that are located on an edge between "
+"screens."
+msgstr ""
+"Tukaj lahko nastavite velikost robne pregrade med različnimi zasloni. "
+"Pregrada doda dodatno razdaljo, za katero morate premakniti kazalko, preden "
+"prečka rob na drug zaslon. To olajša dostop do elementov uporabniškega "
+"vmesnika, kot so pulti Plasme, ki se nahajajo na robu med zasloni."
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_EdgeBarrier)
+#: main.ui:303
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Additional distance cursor needs to travel to cross screen edges."
+msgstr ""
+"Dodatna razdalja, ki jo mora prepotovati kazalka za prehod robov zaslona."
+
+#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_EdgeBarrier)
+#: main.ui:306
+#, kde-format
+msgid "None"
+msgstr "Brez"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_EdgeBarrier)
+#: main.ui:309
+#, kde-format
+msgid " px"
+msgstr " sl. pik"
 
 #. i18n: ectx: property (text), widget (QLabel, label_1)
 #: touch.ui:17
@@ -243,11 +312,16 @@ msgid ""
 msgstr ""
 "Dejanje lahko sprožite tako, da povlečete z roba proti sredini zaslona."
 
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Andrej Mernik,Matjaž Jeran,Martin Srebotnjak"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "andrejm@ubuntu.si,matjaz.jeran@amis.net,miles@filmsi.net"
+
 #~ msgid "Show Desktop"
 #~ msgstr "Pokaži namizje"
 
 #~ msgid "Desktop Grid"
 #~ msgstr "Namizna mreža"
-
-#~ msgid "Toggle Overview"
-#~ msgstr "Preklopi pregled"

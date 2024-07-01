@@ -10,17 +10,13 @@
 
 #include "selection.h"
 
-#include "wayland/datadevicemanager_interface.h"
+#include "wayland/datadevicemanager.h"
 
 #include <QPoint>
 
-namespace KWaylandServer
-{
-class SurfaceInterface;
-}
-
 namespace KWin
 {
+class SurfaceInterface;
 class Window;
 
 namespace Xwl
@@ -45,13 +41,14 @@ public:
     XwlDropHandler *dropHandler() const;
 
     void doHandleXfixesNotify(xcb_xfixes_selection_notify_event_t *event) override;
+    void x11OfferLost() override;
     void x11OffersChanged(const QStringList &added, const QStringList &removed) override;
     bool handleClientMessage(xcb_client_message_event_t *event) override;
 
-    DragEventReply dragMoveFilter(Window *target, const QPoint &pos);
+    DragEventReply dragMoveFilter(Window *target);
 
-    using DnDAction = KWaylandServer::DataDeviceManagerInterface::DnDAction;
-    using DnDActions = KWaylandServer::DataDeviceManagerInterface::DnDActions;
+    using DnDAction = DataDeviceManagerInterface::DnDAction;
+    using DnDActions = DataDeviceManagerInterface::DnDActions;
     static DnDAction atomToClientAction(xcb_atom_t atom);
     static xcb_atom_t clientActionToAtom(DnDAction action);
 
@@ -63,7 +60,7 @@ private:
 
     // active drag or null when no drag active
     Drag *m_currentDrag = nullptr;
-    QVector<Drag *> m_oldDrags;
+    QList<Drag *> m_oldDrags;
 
     XwlDropHandler *m_dropHandler;
 

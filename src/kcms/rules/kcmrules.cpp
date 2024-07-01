@@ -10,8 +10,9 @@
 
 #include <QDBusConnection>
 #include <QDBusMessage>
+#include <QDBusPendingCallWatcher>
+#include <QDBusPendingReply>
 
-#include <KAboutData>
 #include <KConfig>
 #include <KLocalizedString>
 #include <KPluginFactory>
@@ -19,27 +20,11 @@
 namespace KWin
 {
 
-KCMKWinRules::KCMKWinRules(QObject *parent, const QVariantList &arguments)
-    : KQuickAddons::ConfigModule(parent, arguments)
+KCMKWinRules::KCMKWinRules(QObject *parent, const KPluginMetaData &metaData, const QVariantList &arguments)
+    : KQuickConfigModule(parent, metaData)
     , m_ruleBookModel(new RuleBookModel(this))
     , m_rulesModel(new RulesModel(this))
 {
-    auto about = new KAboutData(QStringLiteral("kcm_kwinrules"),
-                                i18n("Window Rules"),
-                                QStringLiteral("1.0"),
-                                QString(),
-                                KAboutLicense::GPL);
-    about->addAuthor(i18n("Ismael Asensio"),
-                     i18n("Author"),
-                     QStringLiteral("isma.af@gmail.com"));
-    setAboutData(about);
-
-    setQuickHelp(i18n("<p><h1>Window-specific Settings</h1> Here you can customize window settings specifically only"
-                      " for some windows.</p>"
-                      " <p>Please note that this configuration will not take effect if you do not use"
-                      " KWin as your window manager. If you do use a different window manager, please refer to its documentation"
-                      " for how to customize window behavior.</p>"));
-
     QStringList argList;
     for (const QVariant &arg : arguments) {
         argList << arg.toString();
@@ -327,7 +312,7 @@ QModelIndex KCMKWinRules::findRuleWithProperties(const QVariantMap &info, bool w
     const QString wmclass_class = info.value("resourceClass").toString();
     const QString wmclass_name = info.value("resourceName").toString();
     const QString role = info.value("role").toString();
-    const NET::WindowType type = static_cast<NET::WindowType>(info.value("type").toInt());
+    const WindowType type = static_cast<WindowType>(info.value("type").toInt());
     const QString title = info.value("caption").toString();
     const QString machine = info.value("clientMachine").toString();
     const bool isLocalHost = info.value("localhost").toBool();
@@ -494,3 +479,5 @@ K_PLUGIN_CLASS_WITH_JSON(KCMKWinRules, "kcm_kwinrules.json");
 } // namespace
 
 #include "kcmrules.moc"
+
+#include "moc_kcmrules.cpp"

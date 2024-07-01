@@ -8,16 +8,16 @@
 */
 #include "kwin_wayland_test.h"
 
-#include "composite.h"
-#include "core/outputbackend.h"
-#include "deleted.h"
-#include "effectloader.h"
-#include "effects.h"
+#include "compositor.h"
+#include "effect/effecthandler.h"
+#include "effect/effectloader.h"
 #include "scripting/scriptedeffect.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
+#if KWIN_BUILD_X11
 #include "x11window.h"
+#endif
 
 #include <KDecoration2/Decoration>
 
@@ -25,6 +25,8 @@
 #include <KWayland/Client/connection_thread.h>
 #include <KWayland/Client/shm_pool.h>
 #include <KWayland/Client/surface.h>
+
+#include <QSignalSpy>
 
 namespace KWin
 {
@@ -43,10 +45,12 @@ private Q_SLOTS:
 
 void DontCrashCancelAnimationFromAnimationEndedTest::initTestCase()
 {
-    qRegisterMetaType<KWin::Deleted *>();
     qRegisterMetaType<KWin::Window *>();
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
+    Test::setOutputConfig({
+        QRect(0, 0, 1280, 1024),
+        QRect(1280, 0, 1280, 1024),
+    });
     kwinApp()->start();
     QVERIFY(Compositor::self());
     QSignalSpy compositorToggledSpy(Compositor::self(), &Compositor::compositingToggled);
@@ -78,12 +82,12 @@ void DontCrashCancelAnimationFromAnimationEndedTest::testScript()
         QVERIFY(QMetaObject::invokeMethod(*it, "effectLoaded", Q_ARG(KWin::Effect *, effect), Q_ARG(QString, QStringLiteral("crashy"))));
         break;
     }
-    QVERIFY(static_cast<EffectsHandlerImpl *>(effects)->isEffectLoaded(QStringLiteral("crashy")));
+    QVERIFY(effects->isEffectLoaded(QStringLiteral("crashy")));
 
     // create a window
     std::unique_ptr<KWayland::Client::Surface> surface{Test::createSurface()};
     QVERIFY(surface);
-    Test::XdgToplevel *shellSurface = Test::createXdgToplevelSurface(surface.get(), surface.get());
+    std::unique_ptr<Test::XdgToplevel> shellSurface = Test::createXdgToplevelSurface(surface.get());
     QVERIFY(shellSurface);
     // let's render
     Window *window = Test::renderAndWaitForShown(surface.get(), QSize(100, 50), Qt::blue);
@@ -94,7 +98,7 @@ void DontCrashCancelAnimationFromAnimationEndedTest::testScript()
     QTest::qWait(200);
 
     // wait for the window to be passed to Deleted
-    QSignalSpy windowDeletedSpy(window, &Window::windowClosed);
+    QSignalSpy windowDeletedSpy(window, &Window::closed);
 
     surface.reset();
 

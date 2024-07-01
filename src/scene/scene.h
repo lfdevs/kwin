@@ -22,18 +22,18 @@ class Scene;
 class KWIN_EXPORT SceneDelegate : public RenderLayerDelegate
 {
 public:
-    explicit SceneDelegate(Scene *scene);
     explicit SceneDelegate(Scene *scene, Output *output);
     ~SceneDelegate() override;
 
     Output *output() const;
+    qreal scale() const;
     QRect viewport() const;
 
-    QRegion repaints() const override;
     SurfaceItem *scanoutCandidate() const override;
-    void prePaint() override;
+    void frame(OutputFrame *frame) override;
+    QRegion prePaint() override;
     void postPaint() override;
-    void paint(RenderTarget *renderTarget, const QRegion &region) override;
+    void paint(const RenderTarget &renderTarget, const QRegion &region) override;
 
 private:
     Scene *m_scene;
@@ -82,9 +82,10 @@ public:
     void removeDelegate(SceneDelegate *delegate);
 
     virtual SurfaceItem *scanoutCandidate() const;
-    virtual void prePaint(SceneDelegate *delegate) = 0;
+    virtual QRegion prePaint(SceneDelegate *delegate) = 0;
     virtual void postPaint() = 0;
-    virtual void paint(RenderTarget *renderTarget, const QRegion &region) = 0;
+    virtual void paint(const RenderTarget &renderTarget, const QRegion &region) = 0;
+    virtual void frame(SceneDelegate *delegate, OutputFrame *frame);
 
 Q_SIGNALS:
     void delegateRemoved(SceneDelegate *delegate);

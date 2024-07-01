@@ -16,23 +16,27 @@
 namespace KWin
 {
 
+class SurfaceItem;
+
 class KWIN_EXPORT RenderLoopPrivate
 {
 public:
     static RenderLoopPrivate *get(RenderLoop *loop);
-    explicit RenderLoopPrivate(RenderLoop *q);
+    explicit RenderLoopPrivate(RenderLoop *q, Output *output);
 
     void dispatch();
     void invalidate();
 
     void delayScheduleRepaint();
-    void scheduleRepaint();
-    void maybeScheduleRepaint();
+    void scheduleNextRepaint();
+    void scheduleRepaint(std::chrono::nanoseconds lastTargetTimestamp);
 
-    void notifyFrameFailed();
-    void notifyFrameCompleted(std::chrono::nanoseconds timestamp);
+    void notifyFrameDropped();
+    void notifyFrameCompleted(std::chrono::nanoseconds timestamp, std::optional<std::chrono::nanoseconds> renderTime, PresentationMode mode = PresentationMode::VSync);
+    void notifyVblank(std::chrono::nanoseconds timestamp);
 
-    RenderLoop *q;
+    RenderLoop *const q;
+    Output *const output;
     std::chrono::nanoseconds lastPresentationTimestamp = std::chrono::nanoseconds::zero();
     std::chrono::nanoseconds nextPresentationTimestamp = std::chrono::nanoseconds::zero();
     QTimer compositeTimer;
@@ -42,20 +46,10 @@ public:
     int inhibitCount = 0;
     bool pendingReschedule = false;
     bool pendingRepaint = false;
-    RenderLoop::VrrPolicy vrrPolicy = RenderLoop::VrrPolicy::Never;
-    std::optional<LatencyPolicy> latencyPolicy;
-    Item *fullscreenItem = nullptr;
-    bool allowTearing = false;
+    std::chrono::nanoseconds safetyMargin{0};
 
-    enum class SyncMode {
-        Fixed,
-        Adaptive,
-        /* adaptive if possible, async if not */
-        AdaptiveAsync,
-        Async
-    };
-    SyncMode presentMode = SyncMode::Fixed;
-    bool canDoTearing = false;
+    PresentationMode presentationMode = PresentationMode::VSync;
+    int maxPendingFrameCount = 1;
 };
 
 } // namespace KWin

@@ -11,99 +11,78 @@
 # Rinse de Vries <rinsedevries@kde.nl>, 2004, 2005, 2007.
 # Tom Albers <tomalbers@kde.nl>, 2004.
 # Kristof Bal <kristof.bal@gmail.com>, 2008.
-# Freek de Kruijf <freekdekruijf@kde.nl>, 2009, 2010, 2012, 2013, 2014, 2015, 2018, 2019, 2020, 2021.
+# SPDX-FileCopyrightText: 2009, 2010, 2012, 2013, 2014, 2015, 2018, 2019, 2020, 2021, 2023, 2024 Freek de Kruijf <freekdekruijf@kde.nl>
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-26 02:32+0000\n"
-"PO-Revision-Date: 2021-06-10 10:25+0200\n"
+"POT-Creation-Date: 2024-02-10 00:40+0000\n"
+"PO-Revision-Date: 2024-02-10 11:09+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
-"Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
+"Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 21.04.1\n"
+"X-Generator: Lokalize 23.08.4\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr ""
-"Rinse de Vries,Peter Bosch,Wilbert Berendsen,Freek de Kruijf - t/m 2019;2021"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "rinse@kde.nl,,,freekdekruijf@kde.nl"
-
-#: declarative-plugin/buttonsmodel.cpp:53
+#: declarative-plugin/buttonsmodel.cpp:56
 #, kde-format
 msgid "More actions for this window"
 msgstr "Meer acties voor dit venster"
 
-#: declarative-plugin/buttonsmodel.cpp:55
+#: declarative-plugin/buttonsmodel.cpp:58
 #, kde-format
 msgid "Application menu"
 msgstr "Menu van toepassing"
 
-#: declarative-plugin/buttonsmodel.cpp:57
+#: declarative-plugin/buttonsmodel.cpp:60
 #, kde-format
 msgid "On all desktops"
 msgstr "Op alle bureaubladen"
 
-#: declarative-plugin/buttonsmodel.cpp:59
+#: declarative-plugin/buttonsmodel.cpp:62
 #, kde-format
 msgid "Minimize"
 msgstr "Minimaliseren"
 
-#: declarative-plugin/buttonsmodel.cpp:61
+#: declarative-plugin/buttonsmodel.cpp:64
 #, kde-format
 msgid "Maximize"
 msgstr "Maximaliseren"
 
-#: declarative-plugin/buttonsmodel.cpp:63
+#: declarative-plugin/buttonsmodel.cpp:66
 #, kde-format
 msgid "Close"
 msgstr "Sluiten"
 
-#: declarative-plugin/buttonsmodel.cpp:65
+#: declarative-plugin/buttonsmodel.cpp:68
 #, kde-format
 msgid "Context help"
 msgstr "Contexthelp"
 
-#: declarative-plugin/buttonsmodel.cpp:67
+#: declarative-plugin/buttonsmodel.cpp:70
 #, kde-format
 msgid "Shade"
 msgstr "Oprollen"
 
-#: declarative-plugin/buttonsmodel.cpp:69
+#: declarative-plugin/buttonsmodel.cpp:72
 #, kde-format
 msgid "Keep below other windows"
 msgstr "Onder andere vensters houden"
 
-#: declarative-plugin/buttonsmodel.cpp:71
+#: declarative-plugin/buttonsmodel.cpp:74
 #, kde-format
 msgid "Keep above other windows"
 msgstr "Boven andere vensters houden"
 
-#: kcm.cpp:49
+#: declarative-plugin/buttonsmodel.cpp:76
 #, kde-format
-msgid "Window Decorations"
-msgstr "Vensterdecoraties"
+msgid "Spacer"
+msgstr "Afstandhouder"
 
-#: kcm.cpp:53
-#, kde-format
-msgid "Valerio Pilo"
-msgstr "Valerio Pilo"
-
-#: kcm.cpp:54
-#, kde-format
-msgid "Author"
-msgstr "Auteur"
-
-#: kcm.cpp:183
+#: kcm.cpp:177
 #, kde-format
 msgctxt "%1 is the name of a border size"
 msgid "Theme's default (%1)"
@@ -194,117 +173,165 @@ msgstr ""
 msgid "You have the following KWin window decoration themes on your system:"
 msgstr "U hebt de volgende vensterdecoratiethema's van KWin op uw system:"
 
-#: package/contents/ui/Buttons.qml:85
+#: ui/Buttons.qml:85
 #, kde-format
 msgid "Titlebar"
 msgstr "Titelbalk"
 
-#: package/contents/ui/Buttons.qml:245
+#: ui/Buttons.qml:245
 #, kde-format
 msgid "Drop button here to remove it"
 msgstr "Knop hier laten vallen om het te verwijderen"
 
-#: package/contents/ui/Buttons.qml:261
+#: ui/Buttons.qml:261
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr "Versleep knoppen tussen hier en de titelbalk"
 
-#: package/contents/ui/main.qml:18
+#: ui/ConfigureTitlebar.qml:16
 #, kde-format
-msgid "This module lets you configure the window decorations."
-msgstr "Deze module laat u de vensterdecoraties configureren."
-
-#: package/contents/ui/main.qml:52
-#, kde-format
-msgctxt "tab label"
-msgid "Theme"
-msgstr "Thema"
-
-#: package/contents/ui/main.qml:56
-#, kde-format
-msgctxt "tab label"
 msgid "Titlebar Buttons"
 msgstr "Titelbalkknoppen"
 
-#: package/contents/ui/main.qml:92
-#, kde-format
-msgctxt "Selector label"
-msgid "Window border size:"
-msgstr "Vensterrandgrootte:"
-
-#: package/contents/ui/main.qml:110
-#, kde-format
-msgctxt "button text"
-msgid "Get New Window Decorations..."
-msgstr "Nieuwe vensterdecoraties ophalen..."
-
-#: package/contents/ui/main.qml:139
+#: ui/ConfigureTitlebar.qml:35
 #, kde-format
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
 msgstr "Vensters sluiten door te dubbelklikken op de menuknop"
 
-#: package/contents/ui/main.qml:156
+#: ui/ConfigureTitlebar.qml:52
 #, kde-format
 msgctxt "popup tip"
 msgid "Click and hold on the menu button to show the menu."
 msgstr "Klik en houd ingedrukt op de menuknop om het menu te tonen."
 
-#: package/contents/ui/main.qml:163
+#: ui/ConfigureTitlebar.qml:59
 #, kde-format
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
 msgstr "Tekstballonnen van knoppen in de titelbalk tonen"
 
-#: package/contents/ui/Themes.qml:90
+#: ui/main.qml:29
+#, kde-format
+msgctxt "Selector label"
+msgid "Window border size:"
+msgstr "Vensterrandgrootte:"
+
+#: ui/main.qml:48
+#, kde-format
+msgctxt "button text"
+msgid "Configure Titlebar Buttons…"
+msgstr "Titelbalkknoppen configureren…"
+
+#: ui/main.qml:54
+#, kde-format
+msgctxt "@action:button as in, \"Get New Window Decorations\""
+msgid "Get New…"
+msgstr "Nieuwe ophalen…"
+
+#: ui/Themes.qml:93
 #, kde-format
 msgid "Edit %1 Theme"
 msgstr "Thema %1 bewerken"
 
 #: utils.cpp:25
 #, kde-format
-msgid "No Borders"
-msgstr "Geen randen"
+msgid "No Window Borders"
+msgstr "Geen vensterranden"
 
 #: utils.cpp:26
 #, kde-format
-msgid "No Side Borders"
-msgstr "Geen zijranden"
+msgid "No Side Window Borders"
+msgstr "Geen vensterranden aan de zijkant"
 
 #: utils.cpp:27
 #, kde-format
-msgid "Tiny"
-msgstr "Heel klein"
+msgid "Tiny Window Borders"
+msgstr "Kleine vensterranden"
 
 #: utils.cpp:28
 #, kde-format
-msgid "Normal"
-msgstr "Normaal"
+msgid "Normal Window Borders"
+msgstr "Normale vensterranden"
 
 #: utils.cpp:29
 #, kde-format
-msgid "Large"
-msgstr "Groot"
+msgid "Large Window Borders"
+msgstr "Grote vensterranden"
 
 #: utils.cpp:30
 #, kde-format
-msgid "Very Large"
-msgstr "Erg groot"
+msgid "Very Large Window Borders"
+msgstr "Erg grote vensterranden"
 
 #: utils.cpp:31
 #, kde-format
-msgid "Huge"
-msgstr "Enorm"
+msgid "Huge Window Borders"
+msgstr "Enorme vensterranden"
 
 #: utils.cpp:32
 #, kde-format
-msgid "Very Huge"
-msgstr "Extra enorm"
+msgid "Very Huge Window Borders"
+msgstr "Enorm grote vensterranden"
 
 #: utils.cpp:33
 #, kde-format
-msgid "Oversized"
-msgstr "Veel te groot"
+msgid "Oversized Window Borders"
+msgstr "Bovenmatig grote vensterranden"
+
+#~ msgctxt "button text"
+#~ msgid "Get New Window Decorations…"
+#~ msgstr "Nieuwe vensterdecoraties ophalen…"
+
+#~ msgid "No Borders"
+#~ msgstr "Geen randen"
+
+#~ msgid "Tiny"
+#~ msgstr "Heel klein"
+
+#~ msgid "Normal"
+#~ msgstr "Normaal"
+
+#~ msgid "Large"
+#~ msgstr "Groot"
+
+#~ msgid "Very Large"
+#~ msgstr "Erg groot"
+
+#~ msgid "Huge"
+#~ msgstr "Enorm"
+
+#~ msgid "Very Huge"
+#~ msgstr "Extra enorm"
+
+#~ msgid "Oversized"
+#~ msgstr "Veel te groot"
+
+#~ msgid "This module lets you configure the window decorations."
+#~ msgstr "Deze module laat u de vensterdecoraties configureren."
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr ""
+#~ "Rinse de Vries,Peter Bosch,Wilbert Berendsen,Freek de Kruijf - t/m "
+#~ "2019;2021;2023"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "rinse@kde.nl,,,freekdekruijf@kde.nl"
+
+#~ msgid "Window Decorations"
+#~ msgstr "Vensterdecoraties"
+
+#~ msgid "Valerio Pilo"
+#~ msgstr "Valerio Pilo"
+
+#~ msgid "Author"
+#~ msgstr "Auteur"
+
+#~ msgctxt "tab label"
+#~ msgid "Theme"
+#~ msgstr "Thema"
 
 #~ msgctxt "popup tip"
 #~ msgid ""

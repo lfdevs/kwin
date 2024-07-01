@@ -11,6 +11,7 @@
 
 #pragma once
 
+#include "core/renderloop.h"
 #include "main.h"
 
 #include <KConfigWatcher>
@@ -34,8 +35,8 @@ enum HiddenPreviews {
 
 enum XwaylandEavesdropsMode {
     None,
-    Modifiers,
-    Combinations,
+    NonCharacterKeys,
+    AllKeysWithModifier,
     All
 };
 
@@ -45,26 +46,6 @@ enum XwaylandEavesdropsMode {
 enum XwaylandCrashPolicy {
     Stop,
     Restart,
-};
-
-/**
- * This enum type specifies the latency level configured by the user.
- */
-enum LatencyPolicy {
-    LatencyExtremelyLow,
-    LatencyLow,
-    LatencyMedium,
-    LatencyHigh,
-    LatencyExtremelyHigh,
-};
-
-/**
- * This enum type specifies the method for estimating the expected render time.
- */
-enum RenderTimeEstimator {
-    RenderTimeEstimatorMinimum,
-    RenderTimeEstimatorMaximum,
-    RenderTimeEstimatorAverage,
 };
 
 /**
@@ -92,8 +73,6 @@ class KWIN_EXPORT Options : public QObject
 {
     Q_OBJECT
     Q_ENUM(XwaylandCrashPolicy)
-    Q_ENUM(LatencyPolicy)
-    Q_ENUM(RenderTimeEstimator)
     Q_ENUM(PlacementPolicy)
     Q_PROPERTY(FocusPolicy focusPolicy READ focusPolicy WRITE setFocusPolicy NOTIFY focusPolicyChanged)
     Q_PROPERTY(XwaylandCrashPolicy xwaylandCrashPolicy READ xwaylandCrashPolicy WRITE setXwaylandCrashPolicy NOTIFY xwaylandCrashPolicyChanged)
@@ -128,7 +107,6 @@ class KWIN_EXPORT Options : public QObject
      * Whether to see Xinerama screens separately for focus (in Alt+Tab, when activating next client)
      */
     Q_PROPERTY(bool separateScreenFocus READ isSeparateScreenFocus WRITE setSeparateScreenFocus NOTIFY separateScreenFocusChanged)
-    Q_PROPERTY(bool activeMouseScreen READ activeMouseScreen WRITE setActiveMouseScreen NOTIFY activeMouseScreenChanged)
     Q_PROPERTY(PlacementPolicy placement READ placement WRITE setPlacement NOTIFY placementChanged)
     Q_PROPERTY(ActivationDesktopPolicy activationDesktopPolicy READ activationDesktopPolicy WRITE setActivationDesktopPolicy NOTIFY activationDesktopPolicyChanged)
     Q_PROPERTY(bool focusPolicyIsReasonable READ focusPolicyIsReasonable NOTIFY focusPolicyIsResonableChanged)
@@ -148,6 +126,14 @@ class KWIN_EXPORT Options : public QObject
      * Snap only when windows will overlap.
      */
     Q_PROPERTY(bool snapOnlyWhenOverlapping READ isSnapOnlyWhenOverlapping WRITE setSnapOnlyWhenOverlapping NOTIFY snapOnlyWhenOverlappingChanged)
+    /**
+     * The size of the virtual barrier at edges between screens.
+     */
+    Q_PROPERTY(int edgeBarrier READ edgeBarrier WRITE setEdgeBarrier NOTIFY edgeBarrierChanged)
+    /**
+     * Whether to enable a cursor barrier at the corners of the screen.
+     */
+    Q_PROPERTY(int cornerBarrier READ cornerBarrier WRITE setCornerBarrier NOTIFY cornerBarrierChanged)
     /**
      * Whether or not we roll over to the other edge when switching desktops past the edge.
      */
@@ -218,8 +204,6 @@ class KWIN_EXPORT Options : public QObject
     Q_PROPERTY(GlSwapStrategy glPreferBufferSwap READ glPreferBufferSwap WRITE setGlPreferBufferSwap NOTIFY glPreferBufferSwapChanged)
     Q_PROPERTY(KWin::OpenGLPlatformInterface glPlatformInterface READ glPlatformInterface WRITE setGlPlatformInterface NOTIFY glPlatformInterfaceChanged)
     Q_PROPERTY(bool windowsBlockCompositing READ windowsBlockCompositing WRITE setWindowsBlockCompositing NOTIFY windowsBlockCompositingChanged)
-    Q_PROPERTY(LatencyPolicy latencyPolicy READ latencyPolicy WRITE setLatencyPolicy NOTIFY latencyPolicyChanged)
-    Q_PROPERTY(RenderTimeEstimator renderTimeEstimator READ renderTimeEstimator WRITE setRenderTimeEstimator NOTIFY renderTimeEstimatorChanged)
     Q_PROPERTY(bool allowTearing READ allowTearing WRITE setAllowTearing NOTIFY allowTearingChanged)
 public:
     explicit Options(QObject *parent = nullptr);
@@ -285,6 +269,10 @@ public:
     {
         return m_xwaylandEavesdrops;
     }
+    bool xwaylandEavesdropsMouse() const
+    {
+        return m_xwaylandEavesdropsMouse;
+    }
 
     /**
      * Whether clicking on a window raises it in FocusFollowsMouse
@@ -343,11 +331,6 @@ public:
         return m_separateScreenFocus;
     }
 
-    bool activeMouseScreen() const
-    {
-        return m_activeMouseScreen;
-    }
-
     PlacementPolicy placement() const
     {
         return m_placement;
@@ -360,7 +343,8 @@ public:
 
     enum ActivationDesktopPolicy {
         SwitchToOtherDesktop,
-        BringToCurrentDesktop
+        BringToCurrentDesktop,
+        DoNothing,
     };
     Q_ENUM(ActivationDesktopPolicy)
 
@@ -399,6 +383,22 @@ public:
     bool isSnapOnlyWhenOverlapping() const
     {
         return m_snapOnlyWhenOverlapping;
+    }
+
+    /**
+     * The size of the virtual barrier at edges between screens.
+     */
+    int edgeBarrier() const
+    {
+        return m_edgeBarrier;
+    }
+
+    /**
+     * Whether to enable a cursor barrier at the corners of the screen.
+     */
+    int cornerBarrier() const
+    {
+        return m_cornerBarrier;
     }
 
     /**
@@ -650,7 +650,6 @@ public:
 
     //----------------------
     // Compositing settings
-    void reloadCompositingSettings(bool force = false);
     CompositingType compositingMode() const
     {
         return m_compositingMode;
@@ -707,14 +706,6 @@ public:
         return m_windowsBlockCompositing;
     }
 
-    bool moveMinimizedWindowsToEndOfTabBoxFocusChain() const
-    {
-        return m_MoveMinimizedWindowsToEndOfTabBoxFocusChain;
-    }
-
-    QStringList modifierOnlyDBusShortcut(Qt::KeyboardModifier mod) const;
-    LatencyPolicy latencyPolicy() const;
-    RenderTimeEstimator renderTimeEstimator() const;
     bool allowTearing() const;
 
     // setters
@@ -722,6 +713,7 @@ public:
     void setXwaylandCrashPolicy(XwaylandCrashPolicy crashPolicy);
     void setXwaylandMaxCrashCount(int maxCrashCount);
     void setXwaylandEavesdrops(XwaylandEavesdropsMode mode);
+    void setXwaylandEavesdropsMouse(bool eavesdropsMouse);
     void setNextFocusPrefersMouse(bool nextFocusPrefersMouse);
     void setClickRaise(bool clickRaise);
     void setAutoRaise(bool autoRaise);
@@ -730,13 +722,14 @@ public:
     void setShadeHover(bool shadeHover);
     void setShadeHoverInterval(int shadeHoverInterval);
     void setSeparateScreenFocus(bool separateScreenFocus);
-    void setActiveMouseScreen(bool activeMouseScreen);
     void setPlacement(PlacementPolicy placement);
     void setActivationDesktopPolicy(ActivationDesktopPolicy activationDesktopPolicy);
     void setBorderSnapZone(int borderSnapZone);
     void setWindowSnapZone(int windowSnapZone);
     void setCenterSnapZone(int centerSnapZone);
     void setSnapOnlyWhenOverlapping(bool snapOnlyWhenOverlapping);
+    void setEdgeBarrier(int edgeBarrier);
+    void setCornerBarrier(bool cornerBarrier);
     void setRollOverDesktops(bool rollOverDesktops);
     void setFocusStealingPreventionLevel(int focusStealingPreventionLevel);
     void setOperationTitlebarDblClick(WindowOperation operationTitlebarDblClick);
@@ -773,9 +766,6 @@ public:
     void setGlPreferBufferSwap(char glPreferBufferSwap);
     void setGlPlatformInterface(OpenGLPlatformInterface interface);
     void setWindowsBlockCompositing(bool set);
-    void setMoveMinimizedWindowsToEndOfTabBoxFocusChain(bool set);
-    void setLatencyPolicy(LatencyPolicy policy);
-    void setRenderTimeEstimator(RenderTimeEstimator estimator);
     void setAllowTearing(bool allow);
 
     // default values
@@ -901,15 +891,11 @@ public:
     }
     static XwaylandEavesdropsMode defaultXwaylandEavesdrops()
     {
-        return None;
+        return XwaylandEavesdropsMode::AllKeysWithModifier;
     }
-    static LatencyPolicy defaultLatencyPolicy()
+    static bool defaultXwaylandEavesdropsMouse()
     {
-        return LatencyExtremelyHigh;
-    }
-    static RenderTimeEstimator defaultRenderTimeEstimator()
-    {
-        return RenderTimeEstimatorMaximum;
+        return false;
     }
     static ActivationDesktopPolicy defaultActivationDesktopPolicy()
     {
@@ -919,10 +905,6 @@ public:
      * Performs loading all settings except compositing related.
      */
     void loadConfig();
-    /**
-     * Performs loading of compositing settings which do not depend on OpenGL.
-     */
-    bool loadCompositingConfig(bool force);
     void reparseConfiguration();
 
     //----------------------
@@ -933,6 +915,7 @@ Q_SIGNALS:
     void xwaylandCrashPolicyChanged();
     void xwaylandMaxCrashCountChanged();
     void xwaylandEavesdropsChanged();
+    void xwaylandEavesdropsMouseChanged();
     void nextFocusPrefersMouseChanged();
     void clickRaiseChanged();
     void autoRaiseChanged();
@@ -941,13 +924,14 @@ Q_SIGNALS:
     void shadeHoverChanged();
     void shadeHoverIntervalChanged();
     void separateScreenFocusChanged(bool);
-    void activeMouseScreenChanged();
     void placementChanged();
     void activationDesktopPolicyChanged();
     void borderSnapZoneChanged();
     void windowSnapZoneChanged();
     void centerSnapZoneChanged();
     void snapOnlyWhenOverlappingChanged();
+    void edgeBarrierChanged();
+    void cornerBarrierChanged();
     void rollOverDesktopsChanged(bool enabled);
     void focusStealingPreventionLevelChanged();
     void operationTitlebarDblClickChanged();
@@ -985,9 +969,7 @@ Q_SIGNALS:
     void glPlatformInterfaceChanged();
     void windowsBlockCompositingChanged();
     void animationSpeedChanged();
-    void latencyPolicyChanged();
     void configChanged();
-    void renderTimeEstimatorChanged();
     void allowTearingChanged();
 
 private:
@@ -1005,13 +987,14 @@ private:
     bool m_shadeHover;
     int m_shadeHoverInterval;
     bool m_separateScreenFocus;
-    bool m_activeMouseScreen;
     PlacementPolicy m_placement;
     ActivationDesktopPolicy m_activationDesktopPolicy;
     int m_borderSnapZone;
     int m_windowSnapZone;
     int m_centerSnapZone;
     bool m_snapOnlyWhenOverlapping;
+    int m_edgeBarrier;
+    bool m_cornerBarrier;
     bool m_rollOverDesktops;
     int m_focusStealingPreventionLevel;
     int m_killPingTimeout;
@@ -1019,8 +1002,7 @@ private:
     XwaylandCrashPolicy m_xwaylandCrashPolicy;
     int m_xwaylandMaxCrashCount;
     XwaylandEavesdropsMode m_xwaylandEavesdrops;
-    LatencyPolicy m_latencyPolicy;
-    RenderTimeEstimator m_renderTimeEstimator;
+    bool m_xwaylandEavesdropsMouse;
 
     CompositingType m_compositingMode;
     bool m_useCompositing;
@@ -1032,7 +1014,6 @@ private:
     GlSwapStrategy m_glPreferBufferSwap;
     OpenGLPlatformInterface m_glPlatformInterface;
     bool m_windowsBlockCompositing;
-    bool m_MoveMinimizedWindowsToEndOfTabBoxFocusChain;
 
     WindowOperation OpTitlebarDblClick;
     WindowOperation opMaxButtonRightClick = defaultOperationMaxButtonRightClick();
@@ -1064,8 +1045,6 @@ private:
     bool condensed_title;
 
     bool m_allowTearing = true;
-
-    QHash<Qt::KeyboardModifier, QStringList> m_modifierOnlyShortcuts;
 
     MouseCommand wheelToMouseCommand(MouseWheelCommand com, int delta) const;
 };

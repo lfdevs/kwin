@@ -58,7 +58,7 @@ TileManager::TileManager(Output *parent)
     , m_output(parent)
     , m_tileModel(new TileModel(this))
 {
-    m_saveTimer.reset(new QTimer(this));
+    m_saveTimer = std::make_unique<QTimer>(this);
     m_saveTimer->setSingleShot(true);
     m_saveTimer->setInterval(2000);
     connect(m_saveTimer.get(), &QTimer::timeout, this, &TileManager::saveSettings);
@@ -75,6 +75,12 @@ TileManager::TileManager(Output *parent)
 
 TileManager::~TileManager()
 {
+    m_tearingDown = true;
+}
+
+bool TileManager::tearingDown() const
+{
+    return m_tearingDown;
 }
 
 Output *TileManager::output() const
@@ -93,10 +99,10 @@ Tile *TileManager::bestTileForPosition(const QPointF &pos)
             const auto r = t->absoluteGeometry();
             // It's possible for tiles to overlap, so take the one which center is nearer to mouse pos
             qreal distance = (r.center() - pos).manhattanLength();
-            if (!r.contains(pos)) {
+            if (!exclusiveContains(r, pos)) {
                 // This gives a strong preference for tiles that contain the point
                 // still base on distance though as floating tiles can overlap
-                distance += m_output->fractionalGeometry().width();
+                distance += m_output->geometryF().width();
             }
             if (distance < minimumDistance) {
                 minimumDistance = distance;
@@ -224,9 +230,6 @@ void TileManager::readSettings()
     qreal padding = cg.readEntry("padding", 4);
     cg = KConfigGroup(&cg, m_output->uuid().toString(QUuid::WithoutBraces));
 
-    QJsonParseError error;
-    QJsonDocument doc = QJsonDocument::fromJson(cg.readEntry("tiles", QByteArray()), &error);
-
     auto createDefaultSetup = [this]() {
         Q_ASSERT(m_rootTile->childCount() == 0);
         // If empty create an horizontal 3 columns layout
@@ -237,6 +240,16 @@ void TileManager::readSettings()
         // Resize middle column, the other two will be auto resized accordingly
         m_rootTile->childTile(1)->setRelativeGeometry({0.25, 0.0, 0.5, 1.0});
     };
+
+    QJsonParseError error;
+    const auto tiles = cg.readEntry("tiles", QByteArray());
+    if (tiles.isEmpty()) {
+        qCDebug(KWIN_CORE) << "Empty tiles configuration for monitor" << m_output->uuid().toString(QUuid::WithoutBraces) << ":"
+                           << "Creating default setup";
+        createDefaultSetup();
+        return;
+    }
+    QJsonDocument doc = QJsonDocument::fromJson(tiles, &error);
 
     if (error.error != QJsonParseError::NoError) {
         qCWarning(KWIN_CORE) << "Parse error in tiles configuration for monitor" << m_output->uuid().toString(QUuid::WithoutBraces) << ":" << error.errorString() << "Creating default setup";

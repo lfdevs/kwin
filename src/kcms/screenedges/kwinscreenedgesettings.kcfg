@@ -9,7 +9,7 @@
             <default>0</default>
         </entry>
         <entry key="ElectricBorderDelay" type="Int">
-            <default>150</default>
+            <default>75</default>
         </entry>
         <entry key="ElectricBorderCooldown" type="Int">
             <default>350</default>
@@ -52,7 +52,7 @@
     </group>
     <group name="Effect-windowview">
         <entry key="BorderActivateAll" type="IntList">
-            <default>ElectricTopLeft</default>
+            <default>ElectricNone</default>
         </entry>
         <entry name="BorderActivatePresentWindows" key="BorderActivate" type="IntList">
             <default>ElectricNone</default>
@@ -61,13 +61,11 @@
             <default>ElectricNone</default>
         </entry>
     </group>
-    <group name="Effect-DesktopGrid">
-        <entry name="BorderActivateDesktopGrid" key="BorderActivate" type="IntList">
-            <default>ElectricNone</default>
-        </entry>
-    </group>
-    <group name="Effect-Overview">
+    <group name="Effect-overview">
         <entry name="BorderActivateOverview" key="BorderActivate" type="IntList">
+            <default>ElectricTopLeft</default>
+        </entry>
+        <entry name="BorderActivateGrid" key="GridBorderActivate" type="IntList">
             <default>ElectricNone</default>
         </entry>
     </group>
@@ -82,6 +80,16 @@
     <group name="ScreenEdges">
         <entry name="RemainActiveOnFullscreen" type="Bool">
             <default>false</default>
+        </entry>
+    </group>
+    <group name="EdgeBarrier">
+        <entry name="CornerBarrier" type="Bool">
+            <default>true</default>
+        </entry>
+        <entry name="EdgeBarrier" type="Int">
+            <default>100</default>
+            <min>0</min>
+            <max>1000</max>
         </entry>
     </group>
 </kcfg>

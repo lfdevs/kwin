@@ -26,7 +26,7 @@ namespace KWin
 KeyboardLayout::KeyboardLayout(Xkb *xkb, const KSharedConfigPtr &config)
     : QObject()
     , m_xkb(xkb)
-    , m_configGroup(config->group("Layout"))
+    , m_configGroup(config->group(QStringLiteral("Layout")))
 {
 }
 
@@ -49,6 +49,16 @@ void KeyboardLayout::init()
 
     connect(switchKeyboardAction, &QAction::triggered, this, &KeyboardLayout::switchToNextLayout);
 
+    QAction *switchLastUsedKeyboardAction = new QAction(this);
+    switchLastUsedKeyboardAction->setObjectName(QStringLiteral("Switch to Last-Used Keyboard Layout"));
+    switchLastUsedKeyboardAction->setProperty("componentName", QStringLiteral("KDE Keyboard Layout Switcher"));
+    switchLastUsedKeyboardAction->setProperty("componentDisplayName", i18n("Keyboard Layout Switcher"));
+    const QKeySequence sequenceLastUsed = QKeySequence(Qt::META | Qt::ALT | Qt::Key_L);
+    KGlobalAccel::self()->setDefaultShortcut(switchLastUsedKeyboardAction, QList<QKeySequence>({sequenceLastUsed}));
+    KGlobalAccel::self()->setShortcut(switchLastUsedKeyboardAction, QList<QKeySequence>({sequenceLastUsed}));
+
+    connect(switchLastUsedKeyboardAction, &QAction::triggered, this, &KeyboardLayout::switchToLastUsedLayout);
+
     QDBusConnection::sessionBus().connect(QString(),
                                           QStringLiteral("/Layouts"),
                                           QStringLiteral("org.kde.keyboard"),
@@ -57,20 +67,7 @@ void KeyboardLayout::init()
                                           SLOT(reconfigure()));
 
     reconfigure();
-}
 
-void KeyboardLayout::initDBusInterface()
-{
-    if (m_xkb->numberOfLayouts() <= 1) {
-        if (m_dbusInterface) {
-            m_dbusInterface->deleteLater();
-            m_dbusInterface = nullptr;
-        }
-        return;
-    }
-    if (m_dbusInterface) {
-        return;
-    }
     m_dbusInterface = new KeyboardLayoutDBusInterface(m_xkb, m_configGroup, this);
     connect(this, &KeyboardLayout::layoutChanged,
             m_dbusInterface, &KeyboardLayoutDBusInterface::layoutChanged);
@@ -99,6 +96,16 @@ void KeyboardLayout::switchToLayout(xkb_layout_index_t index)
     checkLayoutChange(previousLayout);
 }
 
+void KeyboardLayout::switchToLastUsedLayout()
+{
+    const quint32 count = m_xkb->numberOfLayouts();
+    if (!m_lastUsedLayout.has_value() || *m_lastUsedLayout >= count) {
+        switchToPreviousLayout();
+    } else {
+        switchToLayout(*m_lastUsedLayout);
+    }
+}
+
 void KeyboardLayout::reconfigure()
 {
     if (m_configGroup.isValid()) {
@@ -119,7 +126,6 @@ void KeyboardLayout::resetLayout()
     m_layout = m_xkb->currentLayout();
     loadShortcuts();
 
-    initDBusInterface();
     Q_EMIT layoutsReconfigured();
 }
 
@@ -154,6 +160,7 @@ void KeyboardLayout::checkLayoutChange(uint previousLayout)
     // We need OSD if current layout deviates from any of these
     const uint currentLayout = m_xkb->currentLayout();
     if (m_layout != currentLayout || previousLayout != currentLayout) {
+        m_lastUsedLayout = std::optional<uint>{previousLayout};
         m_layout = currentLayout;
         notifyLayoutChange();
         Q_EMIT layoutChanged(currentLayout);
@@ -183,9 +190,9 @@ KeyboardLayoutDBusInterface::KeyboardLayoutDBusInterface(Xkb *xkb, const KConfig
     , m_configGroup(configGroup)
     , m_keyboardLayout(parent)
 {
-    qRegisterMetaType<QVector<LayoutNames>>("QVector<LayoutNames>");
+    qRegisterMetaType<QList<LayoutNames>>("QList<LayoutNames>");
     qDBusRegisterMetaType<LayoutNames>();
-    qDBusRegisterMetaType<QVector<LayoutNames>>();
+    qDBusRegisterMetaType<QList<LayoutNames>>();
 
     QDBusConnection::sessionBus().registerObject(s_keyboardObject, this, QDBusConnection::ExportAllSlots | QDBusConnection::ExportAllSignals);
     QDBusConnection::sessionBus().registerService(s_keyboardService);
@@ -221,12 +228,12 @@ uint KeyboardLayoutDBusInterface::getLayout() const
     return m_xkb->currentLayout();
 }
 
-QVector<KeyboardLayoutDBusInterface::LayoutNames> KeyboardLayoutDBusInterface::getLayoutsList() const
+QList<KeyboardLayoutDBusInterface::LayoutNames> KeyboardLayoutDBusInterface::getLayoutsList() const
 {
     // TODO: - should be handled by layout applet itself, it has nothing to do with KWin
     const QStringList displayNames = m_configGroup.readEntry("DisplayNames", QStringList());
 
-    QVector<LayoutNames> ret;
+    QList<LayoutNames> ret;
     const int layoutsSize = m_xkb->numberOfLayouts();
     const int displayNamesSize = displayNames.size();
     for (int i = 0; i < layoutsSize; ++i) {
@@ -252,3 +259,5 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, KeyboardLayoutDBu
 }
 
 }
+
+#include "moc_keyboard_layout.cpp"

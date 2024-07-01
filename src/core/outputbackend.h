@@ -9,9 +9,9 @@
 
 #pragma once
 
+#include "effect/globals.h"
 #include <epoxy/egl.h>
 #include <kwin_export.h>
-#include <kwinglobals.h>
 
 #include <QObject>
 
@@ -22,19 +22,19 @@ namespace KWin
 {
 
 class Output;
-class DmaBufTexture;
 class InputBackend;
 class OpenGLBackend;
 class QPainterBackend;
 class OutputConfiguration;
-struct DmaBufParams;
+class EglDisplay;
+class Session;
 
-class KWIN_EXPORT Outputs : public QVector<Output *>
+class KWIN_EXPORT Outputs : public QList<Output *>
 {
 public:
     Outputs(){};
     template<typename T>
-    Outputs(const QVector<T> &other)
+    Outputs(const QList<T> &other)
     {
         resize(other.size());
         std::copy(other.constBegin(), other.constEnd(), begin());
@@ -51,15 +51,8 @@ public:
     virtual std::unique_ptr<InputBackend> createInputBackend();
     virtual std::unique_ptr<OpenGLBackend> createOpenGLBackend();
     virtual std::unique_ptr<QPainterBackend> createQPainterBackend();
-    virtual std::optional<DmaBufParams> testCreateDmaBuf(const QSize &size, quint32 format, const QVector<uint64_t> &modifiers);
-    virtual std::shared_ptr<DmaBufTexture> createDmaBufTexture(const QSize &size, quint32 format, const uint64_t modifier);
-    std::shared_ptr<DmaBufTexture> createDmaBufTexture(const DmaBufParams &attributes);
 
-    /**
-     * The EGLDisplay used by the compositing scene.
-     */
-    EGLDisplay sceneEglDisplay() const;
-    void setSceneEglDisplay(EGLDisplay display);
+    virtual EglDisplay *sceneEglDisplayObject() const = 0;
     /**
      * Returns the compositor-wide shared EGL context. This function may return EGL_NO_CONTEXT
      * if the underlying rendering backend does not use EGL.
@@ -67,19 +60,19 @@ public:
      * Note that the returned context should never be made current. Instead, create a context
      * that shares with this one and make the new context current.
      */
-    EGLContext sceneEglGlobalShareContext() const;
+    ::EGLContext sceneEglGlobalShareContext() const;
     /**
      * Sets the global share context to @a context. This function is intended to be called only
      * by rendering backends.
      */
-    void setSceneEglGlobalShareContext(EGLContext context);
+    void setSceneEglGlobalShareContext(::EGLContext context);
 
     /**
      * The CompositingTypes supported by the Platform.
      * The first item should be the most preferred one.
      * @since 5.11
      */
-    virtual QVector<CompositingType> supportedCompositors() const = 0;
+    virtual QList<CompositingType> supportedCompositors() const = 0;
 
     virtual Outputs outputs() const = 0;
     Output *findOutput(const QString &name) const;
@@ -101,6 +94,8 @@ public:
      */
     virtual bool applyOutputChanges(const OutputConfiguration &config);
 
+    virtual Session *session() const;
+
 public Q_SLOTS:
     virtual void sceneInitialized(){};
 
@@ -119,9 +114,7 @@ Q_SIGNALS:
 protected:
     explicit OutputBackend(QObject *parent = nullptr);
 
-private:
-    EGLDisplay m_eglDisplay;
-    EGLContext m_globalShareContext = EGL_NO_CONTEXT;
+    ::EGLContext m_globalShareContext = EGL_NO_CONTEXT;
 };
 
 } // namespace KWin

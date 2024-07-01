@@ -14,11 +14,11 @@
 
 #include <KConfigGroup>
 
+#include <QList>
 #include <QMatrix4x4>
 #include <QObject>
 #include <QPointer>
 #include <QSizeF>
-#include <QVector>
 
 struct libinput_device;
 
@@ -141,6 +141,8 @@ class KWIN_EXPORT Device : public InputDevice
     Q_PROPERTY(bool supportsOutputArea READ supportsOutputArea CONSTANT)
     Q_PROPERTY(QRectF defaultOutputArea READ defaultOutputArea CONSTANT)
     Q_PROPERTY(QRectF outputArea READ outputArea WRITE setOutputArea NOTIFY outputAreaChanged)
+    Q_PROPERTY(bool defaultMapToWorkspace READ defaultMapToWorkspace CONSTANT)
+    Q_PROPERTY(bool mapToWorkspace READ isMapToWorkspace WRITE setMapToWorkspace NOTIFY mapToWorkspaceChanged)
 
 public:
     explicit Device(libinput_device *device, QObject *parent = nullptr);
@@ -150,7 +152,10 @@ public:
     {
         return m_keyboard;
     }
-    bool isAlphaNumericKeyboard() const override
+    /**
+     * Note that this has a lot of false positives
+     */
+    bool isAlphaNumericKeyboard() const
     {
         return m_alphaNumericKeyboard;
     }
@@ -351,7 +356,7 @@ public:
         return m_middleEmulation;
     }
     void setMiddleEmulation(bool set);
-    bool isNaturalScroll() const
+    bool isNaturalScroll() const override
     {
         return m_naturalScroll;
     }
@@ -420,7 +425,7 @@ public:
     {
         auto list = defaultValue("CalibrationMatrix", QList<float>{});
         if (list.size() == 16) {
-            return QMatrix4x4{list.toVector().constData()};
+            return QMatrix4x4{list.constData()};
         }
 
         return m_defaultCalibrationMatrix;
@@ -628,6 +633,18 @@ public:
     QRectF outputArea() const;
     void setOutputArea(const QRectF &outputArea);
 
+    bool defaultMapToWorkspace() const
+    {
+        return defaultValue("MapToWorkspace", false);
+    }
+
+    bool isMapToWorkspace() const
+    {
+        return m_mapToWorkspace;
+    }
+
+    void setMapToWorkspace(bool mapToWorkspace);
+
     /**
      * Gets the Device for @p native. @c null if there is no Device for @p native.
      */
@@ -653,6 +670,7 @@ Q_SIGNALS:
     void scrollFactorChanged();
     void clickMethodChanged();
     void outputAreaChanged();
+    void mapToWorkspaceChanged();
 
 private:
     template<typename T>
@@ -740,6 +758,7 @@ private:
 
     LEDs m_leds;
     QRectF m_outputArea = QRectF(0, 0, 1, 1);
+    bool m_mapToWorkspace = false;
 };
 
 }

@@ -3,10 +3,10 @@
 # Darafei Praliaskouski <komzpa@gmail.com>, 2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: 86ff119b1606fcaa910d6b44fc14b611\n"
+"Project-Id-Version: fc57ad16a28d02dea100ceb1c60de14e\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-26 02:32+0000\n"
-"PO-Revision-Date: 2022-12-25 17:08\n"
+"POT-Creation-Date: 2024-02-10 00:40+0000\n"
+"PO-Revision-Date: 2024-02-22 13:34\n"
 "Last-Translator: Darafei Praliaskouski <komzpa@gmail.com>\n"
 "Language-Team: Belarusian\n"
 "Language: be\n"
@@ -17,88 +17,69 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || n%10>=5 && n%10<=9 || n"
 "%100>=11 && n%100<=14 ? 2 : 3);\n"
-"X-Crowdin-Project: 86ff119b1606fcaa910d6b44fc14b611\n"
-"X-Crowdin-Project-ID: 127\n"
+"X-Crowdin-Project: fc57ad16a28d02dea100ceb1c60de14e\n"
+"X-Crowdin-Project-ID: 136\n"
 "X-Crowdin-Language: be\n"
-"X-Crowdin-File: /main/be/kwin/kcm_kwindecoration.po\n"
-"X-Crowdin-File-ID: 8355\n"
+"X-Crowdin-File: /[antikruk.KDE] main/KDE6/be/messages/kwin/"
+"kcm_kwindecoration.po\n"
+"X-Crowdin-File-ID: 10422\n"
 
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Дарафей Праляскоўскі, Antikruk"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "symbol@akeeri.tk, nashtlumach@gmail.com"
-
-#: declarative-plugin/buttonsmodel.cpp:53
+#: declarative-plugin/buttonsmodel.cpp:56
 #, kde-format
 msgid "More actions for this window"
 msgstr "Яшчэ дзеянні для гэтага акна"
 
-#: declarative-plugin/buttonsmodel.cpp:55
+#: declarative-plugin/buttonsmodel.cpp:58
 #, kde-format
 msgid "Application menu"
-msgstr "Меню праграм"
+msgstr "Меню праграмы"
 
-#: declarative-plugin/buttonsmodel.cpp:57
+#: declarative-plugin/buttonsmodel.cpp:60
 #, kde-format
 msgid "On all desktops"
 msgstr "На ўсіх працоўных сталах"
 
-#: declarative-plugin/buttonsmodel.cpp:59
+#: declarative-plugin/buttonsmodel.cpp:62
 #, kde-format
 msgid "Minimize"
 msgstr "Згарнуць"
 
-#: declarative-plugin/buttonsmodel.cpp:61
+#: declarative-plugin/buttonsmodel.cpp:64
 #, kde-format
 msgid "Maximize"
 msgstr "Разгарнуць"
 
-#: declarative-plugin/buttonsmodel.cpp:63
+#: declarative-plugin/buttonsmodel.cpp:66
 #, kde-format
 msgid "Close"
 msgstr "Закрыць"
 
-#: declarative-plugin/buttonsmodel.cpp:65
+#: declarative-plugin/buttonsmodel.cpp:68
 #, kde-format
 msgid "Context help"
 msgstr "Кантэкстная даведка"
 
-#: declarative-plugin/buttonsmodel.cpp:67
+#: declarative-plugin/buttonsmodel.cpp:70
 #, kde-format
 msgid "Shade"
 msgstr "Згарнуць у загаловак"
 
-#: declarative-plugin/buttonsmodel.cpp:69
+#: declarative-plugin/buttonsmodel.cpp:72
 #, kde-format
 msgid "Keep below other windows"
 msgstr "Размяшчаць ніжэй астатніх акон"
 
-#: declarative-plugin/buttonsmodel.cpp:71
+#: declarative-plugin/buttonsmodel.cpp:74
 #, kde-format
 msgid "Keep above other windows"
 msgstr "Размяшчаць вышэй астатніх акон"
 
-#: kcm.cpp:49
+#: declarative-plugin/buttonsmodel.cpp:76
 #, kde-format
-msgid "Window Decorations"
-msgstr "Аздабленне акон"
+msgid "Spacer"
+msgstr "Прамежак"
 
-#: kcm.cpp:53
-#, kde-format
-msgid "Valerio Pilo"
-msgstr "Valerio Pilo"
-
-#: kcm.cpp:54
-#, kde-format
-msgid "Author"
-msgstr "Стваральнік"
-
-#: kcm.cpp:183
+#: kcm.cpp:177
 #, kde-format
 msgctxt "%1 is the name of a border size"
 msgid "Theme's default (%1)"
@@ -184,117 +165,163 @@ msgstr ""
 msgid "You have the following KWin window decoration themes on your system:"
 msgstr "У вашай сістэме ёсць наступныя тэмы аздаблення акон для KWin:"
 
-#: package/contents/ui/Buttons.qml:85
+#: ui/Buttons.qml:85
 #, kde-format
 msgid "Titlebar"
 msgstr "Панэль загалоўка"
 
-#: package/contents/ui/Buttons.qml:245
+#: ui/Buttons.qml:245
 #, kde-format
 msgid "Drop button here to remove it"
 msgstr "Перацягніце кнопку сюды, каб выдаліць"
 
-#: package/contents/ui/Buttons.qml:261
+#: ui/Buttons.qml:261
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr "Перацягвайце кнопкі паміж гэтай вобласцю і панэллю загалоўка"
 
-#: package/contents/ui/main.qml:18
+#: ui/ConfigureTitlebar.qml:16
 #, kde-format
-msgid "This module lets you configure the window decorations."
-msgstr "Гэты модуль дазваляе наладзіць аздабленне акон."
-
-#: package/contents/ui/main.qml:52
-#, kde-format
-msgctxt "tab label"
-msgid "Theme"
-msgstr "Тэма"
-
-#: package/contents/ui/main.qml:56
-#, kde-format
-msgctxt "tab label"
 msgid "Titlebar Buttons"
 msgstr "Кнопкі панэлі загалоўка"
 
-#: package/contents/ui/main.qml:92
-#, kde-format
-msgctxt "Selector label"
-msgid "Window border size:"
-msgstr "Памер рамкі акон:"
-
-#: package/contents/ui/main.qml:110
-#, kde-format
-msgctxt "button text"
-msgid "Get New Window Decorations..."
-msgstr "Атрымаць новыя аздабленні..."
-
-#: package/contents/ui/main.qml:139
+#: ui/ConfigureTitlebar.qml:35
 #, kde-format
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
 msgstr "Закрываць вокны падвойным пстрыканнем па кнопцы меню"
 
-#: package/contents/ui/main.qml:156
+#: ui/ConfigureTitlebar.qml:52
 #, kde-format
 msgctxt "popup tip"
 msgid "Click and hold on the menu button to show the menu."
 msgstr "Націсніце і ўтрымлівайце кнопку меню, каб паглядзець меню."
 
-#: package/contents/ui/main.qml:163
+#: ui/ConfigureTitlebar.qml:59
 #, kde-format
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
 msgstr "Паказваць выплыўныя падказкі для кнопак панэлі загалоўка"
 
-#: package/contents/ui/Themes.qml:90
+#: ui/main.qml:29
+#, kde-format
+msgctxt "Selector label"
+msgid "Window border size:"
+msgstr "Памер рамкі акон:"
+
+#: ui/main.qml:48
+#, kde-format
+msgctxt "button text"
+msgid "Configure Titlebar Buttons…"
+msgstr "Наладжванне кнопак панэляў загалоўкаў…"
+
+#: ui/main.qml:54
+#, kde-format
+msgctxt "@action:button as in, \"Get New Window Decorations\""
+msgid "Get New…"
+msgstr "Атрымаць новыя…"
+
+#: ui/Themes.qml:93
 #, kde-format
 msgid "Edit %1 Theme"
 msgstr "Рэдагаваць тэму \"%1\""
 
 #: utils.cpp:25
 #, kde-format
-msgid "No Borders"
-msgstr "Без рамкі"
+msgid "No Window Borders"
+msgstr "Без бакавых межаў"
 
 #: utils.cpp:26
 #, kde-format
-msgid "No Side Borders"
-msgstr "Без бакавых ліній"
+msgid "No Side Window Borders"
+msgstr "Без бакавых межаў акон"
 
 #: utils.cpp:27
 #, kde-format
-msgid "Tiny"
-msgstr "Малюсенькая"
+msgid "Tiny Window Borders"
+msgstr "Маленькія межы акон"
 
 #: utils.cpp:28
 #, kde-format
-msgid "Normal"
-msgstr "Звычайная"
+msgid "Normal Window Borders"
+msgstr "Звычайныя межы акон"
 
 #: utils.cpp:29
 #, kde-format
-msgid "Large"
-msgstr "Вялікая"
+msgid "Large Window Borders"
+msgstr "Вялікія межы акон"
 
 #: utils.cpp:30
 #, kde-format
-msgid "Very Large"
-msgstr "Вельмі вялікая"
+msgid "Very Large Window Borders"
+msgstr "Вельмі вялікія межы акон"
 
 #: utils.cpp:31
 #, kde-format
-msgid "Huge"
-msgstr "Велізарная"
+msgid "Huge Window Borders"
+msgstr "Вялізныя межы акон"
 
 #: utils.cpp:32
 #, kde-format
-msgid "Very Huge"
-msgstr "Надта вялізная"
+msgid "Very Huge Window Borders"
+msgstr "Велізарныя межы акон"
 
 #: utils.cpp:33
 #, kde-format
-msgid "Oversized"
-msgstr "Празмерная"
+msgid "Oversized Window Borders"
+msgstr "Празмерныя межы акон"
+
+#~ msgctxt "button text"
+#~ msgid "Get New Window Decorations…"
+#~ msgstr "Атрымаць новыя аздабленні…"
+
+#~ msgid "No Borders"
+#~ msgstr "Без рамкі"
+
+#~ msgid "Tiny"
+#~ msgstr "Малюсенькая"
+
+#~ msgid "Normal"
+#~ msgstr "Звычайная"
+
+#~ msgid "Large"
+#~ msgstr "Вялікая"
+
+#~ msgid "Very Large"
+#~ msgstr "Вельмі вялікая"
+
+#~ msgid "Huge"
+#~ msgstr "Велізарная"
+
+#~ msgid "Very Huge"
+#~ msgstr "Надта вялізная"
+
+#~ msgid "Oversized"
+#~ msgstr "Празмерная"
+
+#~ msgid "This module lets you configure the window decorations."
+#~ msgstr "Гэты модуль дазваляе наладзіць аздабленне акон."
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Дарафей Праляскоўскі, Antikruk"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "symbol@akeeri.tk, nashtlumach@gmail.com"
+
+#~ msgid "Window Decorations"
+#~ msgstr "Аздабленне акон"
+
+#~ msgid "Valerio Pilo"
+#~ msgstr "Valerio Pilo"
+
+#~ msgid "Author"
+#~ msgstr "Стваральнік"
+
+#~ msgctxt "tab label"
+#~ msgid "Theme"
+#~ msgstr "Тэма"
 
 #~ msgid "Menu"
 #~ msgstr "Меню"

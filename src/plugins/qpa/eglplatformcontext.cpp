@@ -13,24 +13,33 @@
 #include "eglhelpers.h"
 #include "internalwindow.h"
 #include "offscreensurface.h"
-#include "utils/egl_context_attribute_builder.h"
+#include "opengl/eglcontext.h"
+#include "opengl/egldisplay.h"
+#include "opengl/glutils.h"
+#include "swapchain.h"
 #include "window.h"
 
 #include "logging.h"
-
-#include <QOpenGLContext>
-#include <QOpenGLFramebufferObject>
-
-#include <private/qopenglcontext_p.h>
-
-#include <memory>
 
 namespace KWin
 {
 namespace QPA
 {
 
-EGLPlatformContext::EGLPlatformContext(QOpenGLContext *context, EGLDisplay display)
+EGLRenderTarget::EGLRenderTarget(GraphicsBuffer *buffer, std::unique_ptr<GLFramebuffer> fbo, std::shared_ptr<GLTexture> texture)
+    : buffer(buffer)
+    , fbo(std::move(fbo))
+    , texture(std::move(texture))
+{
+}
+
+EGLRenderTarget::~EGLRenderTarget()
+{
+    fbo.reset();
+    texture.reset();
+}
+
+EGLPlatformContext::EGLPlatformContext(QOpenGLContext *context, EglDisplay *display)
     : m_eglDisplay(display)
 {
     create(context->format(), kwinApp()->outputBackend()->sceneEglGlobalShareContext());
@@ -38,48 +47,74 @@ EGLPlatformContext::EGLPlatformContext(QOpenGLContext *context, EGLDisplay displ
 
 EGLPlatformContext::~EGLPlatformContext()
 {
-    if (m_context != EGL_NO_CONTEXT) {
-        eglDestroyContext(m_eglDisplay, m_context);
+    if (!m_eglContext) {
+        return;
     }
-}
-
-EGLDisplay EGLPlatformContext::eglDisplay() const
-{
-    return m_eglDisplay;
-}
-
-EGLContext EGLPlatformContext::eglContext() const
-{
-    return m_context;
-}
-
-static EGLSurface eglSurfaceForPlatformSurface(QPlatformSurface *surface)
-{
-    if (surface->surface()->surfaceClass() == QSurface::Window) {
-        return static_cast<Window *>(surface)->eglSurface();
-    } else {
-        return static_cast<OffscreenSurface *>(surface)->eglSurface();
+    if (!m_renderTargets.empty() || !m_zombieRenderTargets.empty()) {
+        m_eglContext->makeCurrent();
+        m_renderTargets.clear();
+        m_zombieRenderTargets.clear();
     }
 }
 
 bool EGLPlatformContext::makeCurrent(QPlatformSurface *surface)
 {
-    const EGLSurface eglSurface = eglSurfaceForPlatformSurface(surface);
-
-    const bool ok = eglMakeCurrent(eglDisplay(), eglSurface, eglSurface, eglContext());
+    if (!m_eglContext) {
+        return false;
+    }
+    const bool ok = m_eglContext->makeCurrent();
     if (!ok) {
         qCWarning(KWIN_QPA, "eglMakeCurrent failed: %x", eglGetError());
         return false;
     }
+    if (m_eglContext->checkGraphicsResetStatus() != GL_NO_ERROR) {
+        m_renderTargets.clear();
+        m_zombieRenderTargets.clear();
+        m_eglContext.reset();
+        return false;
+    }
+
+    m_zombieRenderTargets.clear();
 
     if (surface->surface()->surfaceClass() == QSurface::Window) {
-        // QOpenGLContextPrivate::setCurrentContext will be called after this
-        // method returns, but that's too late, as we need a current context in
-        // order to bind the content framebuffer object.
-        QOpenGLContextPrivate::setCurrentContext(context());
-
         Window *window = static_cast<Window *>(surface);
-        window->bindContentFBO();
+        Swapchain *swapchain = window->swapchain(m_eglContext, m_eglDisplay->nonExternalOnlySupportedDrmFormats());
+        if (!swapchain) {
+            return false;
+        }
+
+        GraphicsBuffer *buffer = swapchain->acquire();
+        if (!buffer) {
+            return false;
+        }
+
+        auto it = m_renderTargets.find(buffer);
+        if (it != m_renderTargets.end()) {
+            m_current = it->second;
+        } else {
+            std::shared_ptr<GLTexture> texture = m_eglContext->importDmaBufAsTexture(*buffer->dmabufAttributes());
+            if (!texture) {
+                return false;
+            }
+
+            std::unique_ptr<GLFramebuffer> fbo = std::make_unique<GLFramebuffer>(texture.get(), GLFramebuffer::CombinedDepthStencil);
+            if (!fbo->valid()) {
+                return false;
+            }
+
+            auto target = std::make_shared<EGLRenderTarget>(buffer, std::move(fbo), std::move(texture));
+            m_renderTargets[buffer] = target;
+            QObject::connect(buffer, &QObject::destroyed, this, [this, buffer]() {
+                if (auto it = m_renderTargets.find(buffer); it != m_renderTargets.end()) {
+                    m_zombieRenderTargets.push_back(std::move(it->second));
+                    m_renderTargets.erase(it);
+                }
+            });
+
+            m_current = target;
+        }
+
+        glBindFramebuffer(GL_FRAMEBUFFER, m_current->fbo->handle());
     }
 
     return true;
@@ -87,12 +122,14 @@ bool EGLPlatformContext::makeCurrent(QPlatformSurface *surface)
 
 void EGLPlatformContext::doneCurrent()
 {
-    eglMakeCurrent(m_eglDisplay, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
+    if (m_eglContext) {
+        m_eglContext->doneCurrent();
+    }
 }
 
 bool EGLPlatformContext::isValid() const
 {
-    return m_context != EGL_NO_CONTEXT;
+    return m_eglContext != nullptr;
 }
 
 bool EGLPlatformContext::isSharing() const
@@ -118,19 +155,24 @@ void EGLPlatformContext::swapBuffers(QPlatformSurface *surface)
         if (!internalWindow) {
             return;
         }
-        glFlush();
-        auto fbo = window->swapFBO();
-        window->bindContentFBO();
-        internalWindow->present(fbo);
+
+        glFlush(); // We need to flush pending rendering commands manually
+
+        internalWindow->present(InternalWindowFrame{
+            .buffer = m_current->buffer,
+            .bufferDamage = QRect(QPoint(0, 0), m_current->buffer->size()),
+            .bufferOrigin = GraphicsBufferOrigin::BottomLeft,
+        });
+
+        m_current.reset();
     }
 }
 
 GLuint EGLPlatformContext::defaultFramebufferObject(QPlatformSurface *surface) const
 {
-    if (Window *window = dynamic_cast<Window *>(surface)) {
-        const auto &fbo = window->contentFBO();
-        if (fbo) {
-            return fbo->handle();
+    if (surface->surface()->surfaceClass() == QSurface::Window) {
+        if (m_current) {
+            return m_current->fbo->handle();
         }
         qCDebug(KWIN_QPA) << "No default framebuffer object for internal window";
     }
@@ -138,7 +180,7 @@ GLuint EGLPlatformContext::defaultFramebufferObject(QPlatformSurface *surface) c
     return 0;
 }
 
-void EGLPlatformContext::create(const QSurfaceFormat &format, EGLContext shareContext)
+void EGLPlatformContext::create(const QSurfaceFormat &format, ::EGLContext shareContext)
 {
     if (!eglBindAPI(isOpenGLES() ? EGL_OPENGL_ES_API : EGL_OPENGL_API)) {
         qCWarning(KWIN_QPA, "eglBindAPI failed: 0x%x", eglGetError());
@@ -152,116 +194,11 @@ void EGLPlatformContext::create(const QSurfaceFormat &format, EGLContext shareCo
     }
 
     m_format = formatFromConfig(m_eglDisplay, m_config);
-
-    const QByteArray eglExtensions = eglQueryString(eglDisplay(), EGL_EXTENSIONS);
-    const QList<QByteArray> extensions = eglExtensions.split(' ');
-    const bool haveRobustness = extensions.contains(QByteArrayLiteral("EGL_EXT_create_context_robustness"));
-    const bool haveCreateContext = extensions.contains(QByteArrayLiteral("EGL_KHR_create_context"));
-    const bool haveContextPriority = extensions.contains(QByteArrayLiteral("EGL_IMG_context_priority"));
-
-    std::vector<std::unique_ptr<AbstractOpenGLContextAttributeBuilder>> candidates;
-    if (isOpenGLES()) {
-        if (haveCreateContext && haveRobustness && haveContextPriority) {
-            auto glesRobustPriority = std::make_unique<EglOpenGLESContextAttributeBuilder>();
-            glesRobustPriority->setVersion(2);
-            glesRobustPriority->setRobust(true);
-            glesRobustPriority->setHighPriority(true);
-            candidates.push_back(std::move(glesRobustPriority));
-        }
-        if (haveCreateContext && haveRobustness) {
-            auto glesRobust = std::make_unique<EglOpenGLESContextAttributeBuilder>();
-            glesRobust->setVersion(2);
-            glesRobust->setRobust(true);
-            candidates.push_back(std::move(glesRobust));
-        }
-        if (haveContextPriority) {
-            auto glesPriority = std::make_unique<EglOpenGLESContextAttributeBuilder>();
-            glesPriority->setVersion(2);
-            glesPriority->setHighPriority(true);
-            candidates.push_back(std::move(glesPriority));
-        }
-        auto gles = std::make_unique<EglOpenGLESContextAttributeBuilder>();
-        gles->setVersion(2);
-        candidates.push_back(std::move(gles));
-    } else {
-        // Try to create a 3.1 core context
-        if (m_format.majorVersion() >= 3 && haveCreateContext) {
-            if (haveRobustness && haveContextPriority) {
-                auto robustCorePriority = std::make_unique<EglContextAttributeBuilder>();
-                robustCorePriority->setVersion(m_format.majorVersion(), m_format.minorVersion());
-                robustCorePriority->setRobust(true);
-                robustCorePriority->setForwardCompatible(true);
-                if (m_format.profile() == QSurfaceFormat::CoreProfile) {
-                    robustCorePriority->setCoreProfile(true);
-                } else if (m_format.profile() == QSurfaceFormat::CompatibilityProfile) {
-                    robustCorePriority->setCompatibilityProfile(true);
-                }
-                robustCorePriority->setHighPriority(true);
-                candidates.push_back(std::move(robustCorePriority));
-            }
-            if (haveRobustness) {
-                auto robustCore = std::make_unique<EglContextAttributeBuilder>();
-                robustCore->setVersion(m_format.majorVersion(), m_format.minorVersion());
-                robustCore->setRobust(true);
-                robustCore->setForwardCompatible(true);
-                if (m_format.profile() == QSurfaceFormat::CoreProfile) {
-                    robustCore->setCoreProfile(true);
-                } else if (m_format.profile() == QSurfaceFormat::CompatibilityProfile) {
-                    robustCore->setCompatibilityProfile(true);
-                }
-                candidates.push_back(std::move(robustCore));
-            }
-            if (haveContextPriority) {
-                auto corePriority = std::make_unique<EglContextAttributeBuilder>();
-                corePriority->setVersion(m_format.majorVersion(), m_format.minorVersion());
-                corePriority->setForwardCompatible(true);
-                if (m_format.profile() == QSurfaceFormat::CoreProfile) {
-                    corePriority->setCoreProfile(true);
-                } else if (m_format.profile() == QSurfaceFormat::CompatibilityProfile) {
-                    corePriority->setCompatibilityProfile(true);
-                }
-                corePriority->setHighPriority(true);
-                candidates.push_back(std::move(corePriority));
-            }
-            auto core = std::make_unique<EglContextAttributeBuilder>();
-            core->setVersion(m_format.majorVersion(), m_format.minorVersion());
-            core->setForwardCompatible(true);
-            if (m_format.profile() == QSurfaceFormat::CoreProfile) {
-                core->setCoreProfile(true);
-            } else if (m_format.profile() == QSurfaceFormat::CompatibilityProfile) {
-                core->setCompatibilityProfile(true);
-            }
-            candidates.push_back(std::move(core));
-        }
-        if (haveRobustness && haveCreateContext && haveContextPriority) {
-            auto robustPriority = std::make_unique<EglContextAttributeBuilder>();
-            robustPriority->setRobust(true);
-            robustPriority->setHighPriority(true);
-            candidates.push_back(std::move(robustPriority));
-        }
-        if (haveRobustness && haveCreateContext) {
-            auto robust = std::make_unique<EglContextAttributeBuilder>();
-            robust->setRobust(true);
-            candidates.push_back(std::move(robust));
-        }
-        candidates.emplace_back(new EglContextAttributeBuilder);
-    }
-
-    EGLContext context = EGL_NO_CONTEXT;
-    for (auto it = candidates.begin(); it != candidates.end(); it++) {
-        const auto attribs = (*it)->build();
-        context = eglCreateContext(eglDisplay(), m_config, shareContext, attribs.data());
-        if (context != EGL_NO_CONTEXT) {
-            qCDebug(KWIN_QPA) << "Created EGL context with attributes:" << (*it).get();
-            break;
-        }
-    }
-
-    if (context == EGL_NO_CONTEXT) {
+    m_eglContext = EglContext::create(m_eglDisplay, m_config, shareContext);
+    if (!m_eglContext) {
         qCWarning(KWIN_QPA) << "Failed to create EGL context";
         return;
     }
-    m_context = context;
     updateFormatFromContext();
 }
 
@@ -269,9 +206,9 @@ void EGLPlatformContext::updateFormatFromContext()
 {
     const EGLSurface oldDrawSurface = eglGetCurrentSurface(EGL_DRAW);
     const EGLSurface oldReadSurface = eglGetCurrentSurface(EGL_READ);
-    const EGLContext oldContext = eglGetCurrentContext();
+    const ::EGLContext oldContext = eglGetCurrentContext();
 
-    eglMakeCurrent(m_eglDisplay, EGL_NO_SURFACE, EGL_NO_SURFACE, m_context);
+    m_eglContext->makeCurrent();
 
     const char *version = reinterpret_cast<const char *>(glGetString(GL_VERSION));
     int major, minor;
@@ -309,7 +246,7 @@ void EGLPlatformContext::updateFormatFromContext()
         m_format.setProfile(QSurfaceFormat::NoProfile);
     }
 
-    eglMakeCurrent(m_eglDisplay, oldDrawSurface, oldReadSurface, oldContext);
+    eglMakeCurrent(m_eglDisplay->handle(), oldDrawSurface, oldReadSurface, oldContext);
 }
 
 } // namespace QPA

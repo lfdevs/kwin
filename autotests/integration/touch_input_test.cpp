@@ -9,8 +9,7 @@
 #include "kwin_wayland_test.h"
 
 #include "core/output.h"
-#include "core/outputbackend.h"
-#include "cursor.h"
+#include "pointer_input.h"
 #include "touch_input.h"
 #include "wayland_server.h"
 #include "window.h"
@@ -23,6 +22,7 @@
 #include <KWayland/Client/touch.h>
 
 #include <QAction>
+#include <QSignalSpy>
 
 namespace KWin
 {
@@ -46,7 +46,14 @@ private Q_SLOTS:
     void testGestureDetection();
 
 private:
-    std::pair<Window *, std::unique_ptr<KWayland::Client::Surface>> showWindow(bool decorated = false);
+    struct WindowHandle
+    {
+        Window *window;
+        std::unique_ptr<KWayland::Client::Surface> surface;
+        std::unique_ptr<Test::XdgToplevel> shellSurface;
+        std::unique_ptr<Test::XdgToplevelDecorationV1> decoration;
+    };
+    WindowHandle showWindow(bool decorated = false);
     KWayland::Client::Touch *m_touch = nullptr;
 };
 
@@ -55,7 +62,10 @@ void TouchInputTest::initTestCase()
     qRegisterMetaType<KWin::Window *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
+    Test::setOutputConfig({
+        QRect(0, 0, 1280, 1024),
+        QRect(1280, 0, 1280, 1024),
+    });
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
@@ -74,7 +84,7 @@ void TouchInputTest::init()
     QVERIFY(m_touch->isValid());
 
     workspace()->setActiveOutput(QPoint(640, 512));
-    Cursors::self()->mouse()->setPos(QPoint(640, 512));
+    input()->pointer()->warp(QPoint(640, 512));
 }
 
 void TouchInputTest::cleanup()
@@ -84,21 +94,22 @@ void TouchInputTest::cleanup()
     Test::destroyWaylandConnection();
 }
 
-std::pair<Window *, std::unique_ptr<KWayland::Client::Surface>> TouchInputTest::showWindow(bool decorated)
+TouchInputTest::WindowHandle TouchInputTest::showWindow(bool decorated)
 {
 #define VERIFY(statement)                                                 \
     if (!QTest::qVerify((statement), #statement, "", __FILE__, __LINE__)) \
-        return {nullptr, nullptr};
+        return {};
 #define COMPARE(actual, expected)                                                   \
     if (!QTest::qCompare(actual, expected, #actual, #expected, __FILE__, __LINE__)) \
-        return {nullptr, nullptr};
+        return {};
 
     std::unique_ptr<KWayland::Client::Surface> surface = Test::createSurface();
     VERIFY(surface.get());
-    Test::XdgToplevel *shellSurface = Test::createXdgToplevelSurface(surface.get(), Test::CreationSetup::CreateOnly, surface.get());
-    VERIFY(shellSurface);
+    std::unique_ptr<Test::XdgToplevel> shellSurface = Test::createXdgToplevelSurface(surface.get(), Test::CreationSetup::CreateOnly);
+    VERIFY(shellSurface.get());
+    std::unique_ptr<Test::XdgToplevelDecorationV1> decoration;
     if (decorated) {
-        auto decoration = Test::createXdgToplevelDecorationV1(shellSurface, shellSurface);
+        decoration = Test::createXdgToplevelDecorationV1(shellSurface.get());
         decoration->set_mode(Test::XdgToplevelDecorationV1::mode_server_side);
     }
     QSignalSpy surfaceConfigureRequestedSpy(shellSurface->xdgSurface(), &Test::XdgSurface::configureRequested);
@@ -114,7 +125,7 @@ std::pair<Window *, std::unique_ptr<KWayland::Client::Surface>> TouchInputTest::
 #undef VERIFY
 #undef COMPARE
 
-    return {window, std::move(surface)};
+    return {window, std::move(surface), std::move(shellSurface), std::move(decoration)};
 }
 
 void TouchInputTest::testTouchHidesCursor()
@@ -152,7 +163,7 @@ void TouchInputTest::testMultipleTouchPoints_data()
 void TouchInputTest::testMultipleTouchPoints()
 {
     QFETCH(bool, decorated);
-    auto [window, surface] = showWindow(decorated);
+    auto [window, surface, shellSurface, decoration] = showWindow(decorated);
     QCOMPARE(window->isDecorated(), decorated);
     window->move(QPoint(100, 100));
     QVERIFY(window);
@@ -207,7 +218,7 @@ void TouchInputTest::testMultipleTouchPoints()
 
 void TouchInputTest::testCancel()
 {
-    auto [window, surface] = showWindow();
+    auto [window, surface, shellSurface, decoration] = showWindow();
     window->move(QPoint(100, 100));
     QVERIFY(window);
     QSignalSpy sequenceStartedSpy(m_touch, &KWayland::Client::Touch::sequenceStarted);
@@ -230,9 +241,9 @@ void TouchInputTest::testTouchMouseAction()
     // this test verifies that a touch down on an inactive window will activate it
 
     // create two windows
-    auto [c1, surface] = showWindow();
+    auto [c1, surface, shellSurface, decoration] = showWindow();
     QVERIFY(c1);
-    auto [c2, surface2] = showWindow();
+    auto [c2, surface2, shellSurface2, decoration2] = showWindow();
     QVERIFY(c2);
 
     QVERIFY(!c1->isActive());
@@ -276,7 +287,7 @@ void TouchInputTest::testUpdateFocusOnDecorationDestroy()
     QSignalSpy sequenceEndedSpy(m_touch, &KWayland::Client::Touch::sequenceEnded);
 
     // Enable the borderless maximized windows option.
-    auto group = kwinApp()->config()->group("Windows");
+    auto group = kwinApp()->config()->group(QStringLiteral("Windows"));
     group.writeEntry("BorderlessMaximizedWindows", true);
     group.sync();
     Workspace::self()->slotReconfigure();
@@ -351,11 +362,16 @@ void TouchInputTest::testUpdateFocusOnDecorationDestroy()
 
     // Destroy the window.
     shellSurface.reset();
-    QVERIFY(Test::waitForWindowDestroyed(window));
+    QVERIFY(Test::waitForWindowClosed(window));
 }
 
 void TouchInputTest::testGestureDetection()
 {
+#if !KWIN_BUILD_GLOBALSHORTCUTS
+    QSKIP("Can't test shortcuts without shortcuts");
+    return;
+#endif
+
     bool callbackTriggered = false;
     const auto callback = [&callbackTriggered](float progress) {
         callbackTriggered = true;

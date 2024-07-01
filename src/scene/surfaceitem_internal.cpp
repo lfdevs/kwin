@@ -5,39 +5,31 @@
 */
 
 #include "scene/surfaceitem_internal.h"
-#include "composite.h"
+#include "compositor.h"
 #include "core/renderbackend.h"
-#include "deleted.h"
 #include "internalwindow.h"
-
-#include <QOpenGLFramebufferObject>
 
 namespace KWin
 {
 
-SurfaceItemInternal::SurfaceItemInternal(InternalWindow *window, Scene *scene, Item *parent)
-    : SurfaceItem(scene, parent)
+SurfaceItemInternal::SurfaceItemInternal(InternalWindow *window, Item *parent)
+    : SurfaceItem(parent)
     , m_window(window)
 {
     connect(window, &Window::bufferGeometryChanged,
             this, &SurfaceItemInternal::handleBufferGeometryChanged);
-    connect(window, &Window::windowClosed,
-            this, &SurfaceItemInternal::handleWindowClosed);
 
-    setSize(window->bufferGeometry().size());
-
-    // The device pixel ratio of the internal window is static.
-    QMatrix4x4 surfaceToBufferMatrix;
-    surfaceToBufferMatrix.scale(window->bufferScale());
-    setSurfaceToBufferMatrix(surfaceToBufferMatrix);
+    setDestinationSize(window->bufferGeometry().size());
+    setBufferSourceBox(QRectF(QPointF(0, 0), window->bufferGeometry().size() * window->bufferScale()));
+    setBufferSize((window->bufferGeometry().size() * window->bufferScale()).toSize());
 }
 
-Window *SurfaceItemInternal::window() const
+InternalWindow *SurfaceItemInternal::window() const
 {
     return m_window;
 }
 
-QVector<QRectF> SurfaceItemInternal::shape() const
+QList<QRectF> SurfaceItemInternal::shape() const
 {
     return {rect()};
 }
@@ -47,33 +39,17 @@ std::unique_ptr<SurfacePixmap> SurfaceItemInternal::createPixmap()
     return std::make_unique<SurfacePixmapInternal>(this);
 }
 
-void SurfaceItemInternal::handleBufferGeometryChanged(Window *window, const QRectF &old)
+void SurfaceItemInternal::handleBufferGeometryChanged()
 {
-    if (window->bufferGeometry().size() != old.size()) {
-        discardPixmap();
-    }
-    setSize(window->bufferGeometry().size());
-}
-
-void SurfaceItemInternal::handleWindowClosed(Window *original, Deleted *deleted)
-{
-    m_window = deleted;
+    setDestinationSize(m_window->bufferGeometry().size());
+    setBufferSourceBox(QRectF(QPointF(0, 0), m_window->bufferGeometry().size() * m_window->bufferScale()));
+    setBufferSize((m_window->bufferGeometry().size() * m_window->bufferScale()).toSize());
 }
 
 SurfacePixmapInternal::SurfacePixmapInternal(SurfaceItemInternal *item, QObject *parent)
-    : SurfacePixmap(Compositor::self()->backend()->createSurfaceTextureInternal(this), parent)
+    : SurfacePixmap(Compositor::self()->backend()->createSurfaceTextureWayland(this), parent)
     , m_item(item)
 {
-}
-
-QOpenGLFramebufferObject *SurfacePixmapInternal::fbo() const
-{
-    return m_fbo.get();
-}
-
-QImage SurfacePixmapInternal::image() const
-{
-    return m_rasterBuffer;
 }
 
 void SurfacePixmapInternal::create()
@@ -83,22 +59,16 @@ void SurfacePixmapInternal::create()
 
 void SurfacePixmapInternal::update()
 {
-    const Window *window = m_item->window();
-
-    if (window->internalFramebufferObject()) {
-        m_fbo = window->internalFramebufferObject();
-        m_size = m_fbo->size();
-        m_hasAlphaChannel = true;
-    } else if (!window->internalImageObject().isNull()) {
-        m_rasterBuffer = window->internalImageObject();
-        m_size = m_rasterBuffer.size();
-        m_hasAlphaChannel = m_rasterBuffer.hasAlphaChannel();
-    }
+    const InternalWindow *window = m_item->window();
+    setBuffer(window->graphicsBuffer());
+    setBufferOrigin(window->graphicsBufferOrigin());
 }
 
 bool SurfacePixmapInternal::isValid() const
 {
-    return m_fbo != nullptr || !m_rasterBuffer.isNull();
+    return m_bufferRef;
 }
 
 } // namespace KWin
+
+#include "moc_surfaceitem_internal.cpp"

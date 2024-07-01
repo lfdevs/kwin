@@ -8,9 +8,8 @@
 */
 #include "kwin_wayland_test.h"
 
-#include "core/outputbackend.h"
-#include "cursor.h"
 #include "input.h"
+#include "pointer_input.h"
 #include "scripting/scripting.h"
 #include "useractions.h"
 #include "virtualdesktops.h"
@@ -23,6 +22,7 @@
 #include <QDBusConnection>
 #include <QDBusMessage>
 #include <QDBusPendingReply>
+#include <QTemporaryFile>
 
 using namespace KWin;
 
@@ -47,7 +47,10 @@ void KWinBindingsTest::initTestCase()
     qRegisterMetaType<KWin::Window *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
+    Test::setOutputConfig({
+        QRect(0, 0, 1280, 1024),
+        QRect(1280, 0, 1280, 1024),
+    });
 
     kwinApp()->setConfig(KSharedConfig::openConfig(QString(), KConfig::SimpleConfig));
 
@@ -59,7 +62,7 @@ void KWinBindingsTest::init()
 {
     QVERIFY(Test::setupWaylandConnection());
     workspace()->setActiveOutput(QPoint(640, 512));
-    KWin::Cursors::self()->mouse()->setPos(QPoint(640, 512));
+    KWin::input()->pointer()->warp(QPoint(640, 512));
 }
 
 void KWinBindingsTest::cleanup()
@@ -215,11 +218,12 @@ void KWinBindingsTest::testWindowToDesktop()
     std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
     std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get()));
     auto window = Test::renderAndWaitForShown(surface.get(), QSize(100, 50), Qt::blue);
-    QSignalSpy desktopChangedSpy(window, &Window::desktopChanged);
+    QSignalSpy desktopsChangedSpy(window, &Window::desktopsChanged);
     QCOMPARE(workspace()->activeWindow(), window);
 
     QFETCH(int, desktop);
     VirtualDesktopManager::self()->setCount(desktop);
+    const auto desktops = VirtualDesktopManager::self()->desktops();
 
     // now trigger the shortcut
     auto invokeShortcut = [](int desktop) {
@@ -232,16 +236,16 @@ void KWinBindingsTest::testWindowToDesktop()
         QDBusConnection::sessionBus().asyncCall(msg);
     };
     invokeShortcut(desktop);
-    QVERIFY(desktopChangedSpy.wait());
-    QCOMPARE(window->desktop(), desktop);
+    QVERIFY(desktopsChangedSpy.wait());
+    QCOMPARE(window->desktops(), QList<VirtualDesktop *>{desktops.at(desktop - 1)});
     // back to desktop 1
     invokeShortcut(1);
-    QVERIFY(desktopChangedSpy.wait());
-    QCOMPARE(window->desktop(), 1);
+    QVERIFY(desktopsChangedSpy.wait());
+    QCOMPARE(window->desktops(), QList<VirtualDesktop *>{desktops.at(0)});
     // invoke with one desktop too many
     invokeShortcut(desktop + 1);
     // that should fail
-    QVERIFY(!desktopChangedSpy.wait(100));
+    QVERIFY(!desktopsChangedSpy.wait(100));
 }
 
 WAYLANDTEST_MAIN(KWinBindingsTest)

@@ -12,14 +12,13 @@
 #include "main.h"
 #include <kwin_effects_interface.h>
 
-#include <KAboutData>
 #include <KConfigGroup>
 #include <KLocalizedString>
 #include <KPackage/Package>
 #include <KPackage/PackageLoader>
 #include <KPluginFactory>
+#include <QDBusConnection>
 #include <QVBoxLayout>
-#include <QtDBus>
 
 #include "kwinscreenedgeconfigform.h"
 #include "kwinscreenedgedata.h"
@@ -32,20 +31,22 @@ K_PLUGIN_FACTORY_WITH_JSON(KWinScreenEdgesConfigFactory, "kcm_kwinscreenedges.js
 namespace KWin
 {
 
-KWinScreenEdgesConfig::KWinScreenEdgesConfig(QWidget *parent, const QVariantList &args)
-    : KCModule(parent, args)
-    , m_form(new KWinScreenEdgesConfigForm(this))
+KWinScreenEdgesConfig::KWinScreenEdgesConfig(QObject *parent, const KPluginMetaData &data)
+    : KCModule(parent, data)
+    , m_form(new KWinScreenEdgesConfigForm(widget()))
     , m_config(KSharedConfig::openConfig("kwinrc"))
     , m_data(new KWinScreenEdgeData(this))
 {
-    QVBoxLayout *layout = new QVBoxLayout(this);
+    QVBoxLayout *layout = new QVBoxLayout(widget());
     layout->addWidget(m_form);
 
     addConfig(m_data->settings(), m_form);
 
     monitorInit();
 
-    connect(this, &KWinScreenEdgesConfig::defaultsIndicatorsVisibleChanged, m_form, &KWinScreenEdgesConfigForm::setDefaultsIndicatorsVisible);
+    connect(this, &KWinScreenEdgesConfig::defaultsIndicatorsVisibleChanged, m_form, [this]() {
+        m_form->setDefaultsIndicatorsVisible(defaultsIndicatorsVisible());
+    });
     connect(m_form, &KWinScreenEdgesConfigForm::saveNeededChanged, this, &KWinScreenEdgesConfig::unmanagedWidgetChangeState);
     connect(m_form, &KWinScreenEdgesConfigForm::defaultChanged, this, &KWinScreenEdgesConfig::unmanagedWidgetDefaultState);
 }
@@ -100,7 +101,9 @@ void KWinScreenEdgesConfig::save()
                                          QStringLiteral("/Effects"),
                                          QDBusConnection::sessionBus());
 
+    interface.reconfigureEffect(QStringLiteral("overview"));
     interface.reconfigureEffect(QStringLiteral("windowview"));
+
     for (const auto &effectId : std::as_const(m_effects)) {
         interface.reconfigureEffect(effectId);
     }
@@ -115,15 +118,33 @@ void KWinScreenEdgesConfig::defaults()
     KCModule::defaults();
 }
 
-void KWinScreenEdgesConfig::showEvent(QShowEvent *e)
-{
-    KCModule::showEvent(e);
-
-    monitorShowEvent();
-}
-
 //-----------------------------------------------------------------------------
 // Monitor
+
+static QList<KPluginMetaData> listBuiltinEffects()
+{
+    const QString rootDirectory = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
+                                                         QStringLiteral("kwin/builtin-effects"),
+                                                         QStandardPaths::LocateDirectory);
+
+    QList<KPluginMetaData> ret;
+
+    const QStringList nameFilters{QStringLiteral("*.json")};
+    QDirIterator it(rootDirectory, nameFilters, QDir::Files);
+    while (it.hasNext()) {
+        it.next();
+        if (const KPluginMetaData metaData = KPluginMetaData::fromJsonFile(it.filePath()); metaData.isValid()) {
+            ret.append(metaData);
+        }
+    }
+
+    return ret;
+}
+
+static QList<KPluginMetaData> listScriptedEffects()
+{
+    return KPackage::PackageLoader::self()->listPackages(QStringLiteral("KWin/Effect"), QStringLiteral("kwin/effects/"));
+}
 
 void KWinScreenEdgesConfig::monitorInit()
 {
@@ -141,11 +162,14 @@ void KWinScreenEdgesConfig::monitorInit()
     m_form->monitorAddItem(i18n("%1 - Current Desktop", presentWindowsName));
     m_form->monitorAddItem(i18n("%1 - Current Application", presentWindowsName));
 
+    m_form->monitorAddItem(i18n("Overview"));
+    m_form->monitorAddItem(i18n("Grid"));
+
     m_form->monitorAddItem(i18n("Toggle window switching"));
     m_form->monitorAddItem(i18n("Toggle alternative window switching"));
 
-    KConfigGroup config(m_config, "Plugins");
-    const auto effects = KPackage::PackageLoader::self()->listPackages(QStringLiteral("KWin/Effect"), QStringLiteral("kwin/builtin-effects/")) << KPackage::PackageLoader::self()->listPackages(QStringLiteral("KWin/Effect"), QStringLiteral("kwin/effects/"));
+    KConfigGroup config(m_config, QStringLiteral("Plugins"));
+    const auto effects = listBuiltinEffects() << listScriptedEffects();
 
     for (const KPluginMetaData &effect : effects) {
         if (!effect.value(QStringLiteral("X-KWin-Border-Activate"), false)) {
@@ -202,6 +226,10 @@ void KWinScreenEdgesConfig::monitorLoadSettings()
     // PresentWindows BorderActivateClass
     m_form->monitorChangeEdge(m_data->settings()->borderActivateClass(), PresentWindowsClass);
 
+    // Overview
+    m_form->monitorChangeEdge(m_data->settings()->borderActivateOverview(), Overview);
+    m_form->monitorChangeEdge(m_data->settings()->borderActivateGrid(), Grid);
+
     // TabBox
     m_form->monitorChangeEdge(m_data->settings()->borderActivateTabBox(), TabBox);
     // Alternative TabBox
@@ -244,6 +272,10 @@ void KWinScreenEdgesConfig::monitorLoadDefaultSettings()
     // PresentWindows BorderActivateClass
     m_form->monitorChangeDefaultEdge(m_data->settings()->defaultBorderActivateClassValue(), PresentWindowsClass);
 
+    // Overview
+    m_form->monitorChangeDefaultEdge(m_data->settings()->defaultBorderActivateOverviewValue(), Overview);
+    m_form->monitorChangeDefaultEdge(m_data->settings()->defaultBorderActivateGridValue(), Grid);
+
     // TabBox
     m_form->monitorChangeDefaultEdge(m_data->settings()->defaultBorderActivateTabBoxValue(), TabBox);
     // Alternative TabBox
@@ -269,6 +301,10 @@ void KWinScreenEdgesConfig::monitorSaveSettings()
     m_data->settings()->setBorderActivatePresentWindows(m_form->monitorCheckEffectHasEdge(PresentWindowsCurrent));
     m_data->settings()->setBorderActivateClass(m_form->monitorCheckEffectHasEdge(PresentWindowsClass));
 
+    // Overview
+    m_data->settings()->setBorderActivateOverview(m_form->monitorCheckEffectHasEdge(Overview));
+    m_data->settings()->setBorderActivateGrid(m_form->monitorCheckEffectHasEdge(Grid));
+
     // TabBox
     m_data->settings()->setBorderActivateTabBox(m_form->monitorCheckEffectHasEdge(TabBox));
     m_data->settings()->setBorderAlternativeActivate(m_form->monitorCheckEffectHasEdge(TabBoxAlternative));
@@ -290,15 +326,20 @@ void KWinScreenEdgesConfig::monitorSaveSettings()
 void KWinScreenEdgesConfig::monitorShowEvent()
 {
     // Check if they are enabled
-    KConfigGroup config(m_config, "Plugins");
+    KConfigGroup config(m_config, QStringLiteral("Plugins"));
 
     // Present Windows
     bool enabled = config.readEntry("windowviewEnabled", true);
     m_form->monitorItemSetEnabled(PresentWindowsCurrent, enabled);
     m_form->monitorItemSetEnabled(PresentWindowsAll, enabled);
 
+    // Overview
+    const bool overviewEnabled = config.readEntry("overviewEnabled", true);
+    m_form->monitorItemSetEnabled(Overview, overviewEnabled);
+    m_form->monitorItemSetEnabled(Grid, overviewEnabled);
+
     // tabbox, depends on reasonable focus policy.
-    KConfigGroup config2(m_config, "Windows");
+    KConfigGroup config2(m_config, QStringLiteral("Windows"));
     QString focusPolicy = config2.readEntry("FocusPolicy", QString());
     bool reasonable = focusPolicy != "FocusStrictlyUnderMouse" && focusPolicy != "FocusUnderMouse";
     m_form->monitorItemSetEnabled(TabBox, reasonable);
@@ -360,3 +401,5 @@ QString KWinScreenEdgesConfig::electricBorderActionToString(int action)
 } // namespace
 
 #include "main.moc"
+
+#include "moc_main.cpp"

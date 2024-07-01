@@ -10,8 +10,8 @@
 namespace KWin
 {
 
-DesktopEffectsData::DesktopEffectsData(QObject *parent, const QVariantList &args)
-    : KCModuleData(parent, args)
+DesktopEffectsData::DesktopEffectsData(QObject *parent)
+    : KCModuleData(parent)
     , m_model(new EffectsModel(this))
 
 {
@@ -31,3 +31,5 @@ bool DesktopEffectsData::isDefaults() const
 }
 
 }
+
+#include "moc_desktopeffectsdata.cpp"

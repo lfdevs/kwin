@@ -7,12 +7,14 @@
 #include "outputscreencastsource.h"
 #include "screencastutils.h"
 
-#include "composite.h"
+#include "compositor.h"
 #include "core/output.h"
 #include "core/renderloop.h"
-#include "kwingltexture.h"
-#include "kwinglutils.h"
+#include "opengl/gltexture.h"
+#include "opengl/glutils.h"
 #include "scene/workspacescene.h"
+
+#include <drm_fourcc.h>
 
 namespace KWin
 {
@@ -29,9 +31,14 @@ OutputScreenCastSource::OutputScreenCastSource(Output *output, QObject *parent)
     });
 }
 
-bool OutputScreenCastSource::hasAlphaChannel() const
+OutputScreenCastSource::~OutputScreenCastSource()
 {
-    return true;
+    pause();
+}
+
+quint32 OutputScreenCastSource::drmFormat() const
+{
+    return DRM_FORMAT_ARGB8888;
 }
 
 QSize OutputScreenCastSource::textureSize() const
@@ -39,32 +46,30 @@ QSize OutputScreenCastSource::textureSize() const
     return m_output->pixelSize();
 }
 
-void OutputScreenCastSource::render(spa_data *spa, spa_video_format format)
+void OutputScreenCastSource::render(QImage *target)
 {
-    const std::shared_ptr<GLTexture> outputTexture = Compositor::self()->scene()->textureForOutput(m_output);
+    const auto [outputTexture, colorDescription] = Compositor::self()->scene()->textureForOutput(m_output);
     if (outputTexture) {
-        grabTexture(outputTexture.get(), spa, format);
+        grabTexture(outputTexture.get(), target);
     }
 }
 
 void OutputScreenCastSource::render(GLFramebuffer *target)
 {
-    const std::shared_ptr<GLTexture> outputTexture = Compositor::self()->scene()->textureForOutput(m_output);
+    const auto [outputTexture, colorDescription] = Compositor::self()->scene()->textureForOutput(m_output);
     if (!outputTexture) {
         return;
     }
 
-    const QRect geometry(QPoint(), textureSize());
-
-    ShaderBinder shaderBinder(ShaderTrait::MapTexture);
+    ShaderBinder shaderBinder(ShaderTrait::MapTexture | ShaderTrait::TransformColorspace);
     QMatrix4x4 projectionMatrix;
-    projectionMatrix.ortho(scaledRect(geometry, m_output->scale()));
-    shaderBinder.shader()->setUniform(GLShader::ModelViewProjectionMatrix, projectionMatrix);
+    projectionMatrix.scale(1, -1);
+    projectionMatrix.ortho(QRect(QPoint(), textureSize()));
+    shaderBinder.shader()->setUniform(GLShader::Mat4Uniform::ModelViewProjectionMatrix, projectionMatrix);
+    shaderBinder.shader()->setColorspaceUniformsToSRGB(colorDescription);
 
     GLFramebuffer::pushFramebuffer(target);
-    outputTexture->bind();
-    outputTexture->render(geometry, m_output->scale());
-    outputTexture->unbind();
+    outputTexture->render(textureSize());
     GLFramebuffer::popFramebuffer();
 }
 
@@ -78,4 +83,38 @@ uint OutputScreenCastSource::refreshRate() const
     return m_output->refreshRate();
 }
 
+void OutputScreenCastSource::report(const QRegion &damage)
+{
+    if (!damage.isEmpty()) {
+        Q_EMIT frame(scaleRegion(damage, m_output->scale()));
+    }
+}
+
+void OutputScreenCastSource::resume()
+{
+    if (m_active) {
+        return;
+    }
+
+    connect(m_output, &Output::outputChange, this, &OutputScreenCastSource::report);
+    report(m_output->rect());
+
+    m_active = true;
+}
+
+void OutputScreenCastSource::pause()
+{
+    if (!m_active) {
+        return;
+    }
+
+    if (m_output) {
+        disconnect(m_output, &Output::outputChange, this, &OutputScreenCastSource::report);
+    }
+
+    m_active = false;
+}
+
 } // namespace KWin
+
+#include "moc_outputscreencastsource.cpp"

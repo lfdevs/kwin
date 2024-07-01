@@ -7,13 +7,14 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "selection_source.h"
+#include "datasource.h"
 #include "selection.h"
 #include "transfer.h"
 
 #include "atoms.h"
-#include "wayland/datadevice_interface.h"
-#include "wayland/datasource_interface.h"
-#include "wayland/seat_interface.h"
+#include "wayland/datadevice.h"
+#include "wayland/datasource.h"
+#include "wayland/seat.h"
 #include "wayland_server.h"
 
 #include <fcntl.h>
@@ -38,7 +39,7 @@ WlSource::WlSource(Selection *selection)
 {
 }
 
-void WlSource::setDataSourceIface(KWaylandServer::AbstractDataSource *dsi)
+void WlSource::setDataSourceIface(AbstractDataSource *dsi)
 {
     if (m_dsi == dsi) {
         return;
@@ -50,7 +51,7 @@ void WlSource::setDataSourceIface(KWaylandServer::AbstractDataSource *dsi)
     // TODO, this can probably be removed after some testing
     // all mime types should be constant after a data source is set
     m_offerConnection = connect(dsi,
-                                &KWaylandServer::DataSourceInterface::mimeTypeOffered,
+                                &DataSourceInterface::mimeTypeOffered,
                                 this, &WlSource::receiveOffer);
 
     m_dsi = dsi;
@@ -85,7 +86,7 @@ bool WlSource::handleSelectionRequest(xcb_selection_request_event_t *event)
 
 void WlSource::sendTargets(xcb_selection_request_event_t *event)
 {
-    QVector<xcb_atom_t> targets;
+    QList<xcb_atom_t> targets;
     targets.resize(m_offers.size() + 2);
     targets[0] = atoms->timestamp;
     targets[1] = atoms->targets;
@@ -161,9 +162,13 @@ bool WlSource::checkStartTransfer(xcb_selection_request_event_t *event)
 
 X11Source::X11Source(Selection *selection, xcb_xfixes_selection_notify_event_t *event)
     : SelectionSource(selection)
-    , m_owner(event->owner)
+    , m_dataSource(std::make_unique<XwlDataSource>())
 {
     setTimestamp(event->timestamp);
+}
+
+X11Source::~X11Source()
+{
 }
 
 void X11Source::getTargets()
@@ -286,3 +291,5 @@ void X11Source::startTransfer(const QString &mimeName, qint32 fd)
 
 } // namespace Xwl
 } // namespace KWin
+
+#include "moc_selection_source.cpp"

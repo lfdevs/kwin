@@ -1,20 +1,20 @@
+# SPDX-FileCopyrightText: 2021, 2022, 2024 Xavier Besnard <xavier.besnard@kde.org>
 # Maxime Corteel <mcorteel@gmail.com>, 2019.
 # Simon Depiets <sdepiets@gmail.com>, 2019.
-# Xavier Besnard <xavier.besnard@kde.org>, 2021, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-15 00:49+0000\n"
-"PO-Revision-Date: 2022-12-16 21:28+0100\n"
-"Last-Translator: Xavier Besnard <xavier.besnard@neuf.fr>\n"
-"Language-Team: French <kde-francophone@kde.org>\n"
+"POT-Creation-Date: 2024-05-12 00:40+0000\n"
+"PO-Revision-Date: 2024-05-03 12:00+0200\n"
+"Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
+"Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.12.0\n"
+"X-Generator: Lokalize 23.08.5\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
@@ -56,34 +56,37 @@ msgid "There was an error requesting information from the compositor."
 msgstr ""
 "Une erreur s'est produite lors de la demande d'information au compositeur."
 
-#: package/contents/ui/main.qml:17
+#: ui/main.qml:26
 #, kde-format
-msgid ""
-"This module lets you configure the navigation, number and layout of virtual "
-"desktops."
-msgstr ""
-"Ce module vous permet de configurer la navigation, le nombre et la "
-"disposition des bureaux virtuels."
+msgctxt "@text:label Number of rows, label associated to a number input field"
+msgid "Rows:"
+msgstr "Lignes :"
 
-#: package/contents/ui/main.qml:91
+#: ui/main.qml:54
+#, kde-format
+msgctxt "@action:button"
+msgid "Add Desktop"
+msgstr "Ajouter un bureau"
+
+#: ui/main.qml:118
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Rename"
 msgstr "Renommer"
 
-#: package/contents/ui/main.qml:102
+#: ui/main.qml:130
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Confirm new name"
 msgstr "Confirmer le nouveau nom"
 
-#: package/contents/ui/main.qml:110
+#: ui/main.qml:139
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Remove"
 msgstr "Supprimer"
 
-#: package/contents/ui/main.qml:137
+#: ui/main.qml:172
 #, kde-format
 msgid ""
 "Virtual desktops have been changed outside this settings application. Saving "
@@ -92,64 +95,59 @@ msgstr ""
 "La configuration des bureaux virtuels a été modifiée en dehors de cette "
 "application. Enregistrer maintenant écrasera les changements."
 
-#: package/contents/ui/main.qml:153
+#: ui/main.qml:188
 #, kde-format
 msgid "Row %1"
 msgstr "Ligne %1"
 
-#: package/contents/ui/main.qml:166
-#, kde-format
-msgctxt "@action:button"
-msgid "Add"
-msgstr "Ajouter"
-
-#: package/contents/ui/main.qml:184
-#, kde-format
-msgid "1 Row"
-msgid_plural "%1 Rows"
-msgstr[0] "1 ligne"
-msgstr[1] "%1 lignes"
-
-#: package/contents/ui/main.qml:200
+#: ui/main.qml:202
 #, kde-format
 msgid "Options:"
 msgstr "Options :"
 
-#: package/contents/ui/main.qml:202
+#: ui/main.qml:204
 #, kde-format
 msgid "Navigation wraps around"
 msgstr "Navigation circulaire entre les bureaux"
 
-#: package/contents/ui/main.qml:220
+#: ui/main.qml:222
 #, kde-format
 msgid "Show animation when switching:"
 msgstr "Afficher une animation au changement :"
 
-#: package/contents/ui/main.qml:271
+#: ui/main.qml:273
 #, kde-format
 msgid "Show on-screen display when switching:"
 msgstr "Affichage sur l'écran (OSD) indiquant le changement de bureau :"
 
-#: package/contents/ui/main.qml:290
+#: ui/main.qml:292
 #, kde-format
 msgid "%1 ms"
 msgstr "%1 ms"
 
-#: package/contents/ui/main.qml:314
+#: ui/main.qml:316
 #, kde-format
 msgid "Show desktop layout indicators"
 msgstr "Afficher les indicateurs de disposition des bureaux"
 
-#: virtualdesktops.cpp:33
-#, kde-format
-msgid "Virtual Desktops"
-msgstr "Bureaux virtuels"
+#~ msgid "1 Row"
+#~ msgid_plural "%1 Rows"
+#~ msgstr[0] "1 ligne"
+#~ msgstr[1] "%1 lignes"
 
-#~ msgid "New Desktop"
-#~ msgstr "Nouveau bureau"
+#~ msgctxt "@action:button"
+#~ msgid "Add"
+#~ msgstr "Ajouter"
 
-#~ msgid "Rows:"
-#~ msgstr "Lignes :"
+#~ msgid ""
+#~ "This module lets you configure the navigation, number and layout of "
+#~ "virtual desktops."
+#~ msgstr ""
+#~ "Ce module vous permet de configurer la navigation, le nombre et la "
+#~ "disposition des bureaux virtuels."
+
+#~ msgid "Virtual Desktops"
+#~ msgstr "Bureaux virtuels"
 
 #~ msgid "Configure Virtual Desktops"
 #~ msgstr "Configurer les bureaux virtuels"

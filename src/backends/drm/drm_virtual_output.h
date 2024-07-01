@@ -29,8 +29,9 @@ public:
     DrmVirtualOutput(const QString &name, DrmGpu *gpu, const QSize &size, qreal scale);
     ~DrmVirtualOutput() override;
 
-    bool present() override;
+    bool present(const std::shared_ptr<OutputFrame> &frame) override;
     DrmOutputLayer *primaryLayer() const override;
+    DrmOutputLayer *cursorLayer() const override;
     void recreateSurface();
 
 private:
@@ -38,7 +39,7 @@ private:
     void setDpmsMode(DpmsMode mode) override;
 
     std::shared_ptr<DrmOutputLayer> m_layer;
-    bool m_pageFlipPending = true;
+    std::shared_ptr<OutputFrame> m_frame;
 
     std::unique_ptr<SoftwareVsyncMonitor> m_vsyncMonitor;
 };

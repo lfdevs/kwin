@@ -7,9 +7,8 @@
 
 #pragma once
 
-#include "utils.h"
-
-#include <KQuickAddons/ManagedConfigModule>
+#include <KQuickManagedConfigModule>
+#include <QAbstractListModel>
 
 class QAbstractItemModel;
 class QSortFilterProxyModel;
@@ -32,7 +31,7 @@ class DecorationsModel;
 class KWinDecorationSettings;
 class KWinDecorationData;
 
-class KCMKWinDecoration : public KQuickAddons::ManagedConfigModule
+class KCMKWinDecoration : public KQuickManagedConfigModule
 {
     Q_OBJECT
     Q_PROPERTY(KWinDecorationSettings *settings READ settings CONSTANT)
@@ -47,7 +46,7 @@ class KCMKWinDecoration : public KQuickAddons::ManagedConfigModule
     Q_PROPERTY(QAbstractListModel *availableButtonsModel READ availableButtonsModel CONSTANT)
 
 public:
-    KCMKWinDecoration(QObject *parent, const QVariantList &arguments);
+    KCMKWinDecoration(QObject *parent, const KPluginMetaData &metaData);
 
     KWinDecorationSettings *settings() const;
     QSortFilterProxyModel *themesModel() const;

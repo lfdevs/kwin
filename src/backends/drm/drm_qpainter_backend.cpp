@@ -7,9 +7,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "drm_qpainter_backend.h"
-#include "core/renderloop_p.h"
 #include "drm_backend.h"
-#include "drm_buffer.h"
 #include "drm_gpu.h"
 #include "drm_output.h"
 #include "drm_pipeline.h"
@@ -34,9 +32,14 @@ DrmQPainterBackend::~DrmQPainterBackend()
     m_backend->setRenderBackend(nullptr);
 }
 
-void DrmQPainterBackend::present(Output *output)
+DrmDevice *DrmQPainterBackend::drmDevice() const
 {
-    static_cast<DrmAbstractOutput *>(output)->present();
+    return m_backend->primaryGpu()->drmDevice();
+}
+
+void DrmQPainterBackend::present(Output *output, const std::shared_ptr<OutputFrame> &frame)
+{
+    static_cast<DrmAbstractOutput *>(output)->present(frame);
 }
 
 OutputLayer *DrmQPainterBackend::primaryLayer(Output *output)
@@ -44,14 +47,14 @@ OutputLayer *DrmQPainterBackend::primaryLayer(Output *output)
     return static_cast<DrmAbstractOutput *>(output)->primaryLayer();
 }
 
-std::shared_ptr<DrmPipelineLayer> DrmQPainterBackend::createPrimaryLayer(DrmPipeline *pipeline)
+OutputLayer *DrmQPainterBackend::cursorLayer(Output *output)
 {
-    return std::make_shared<DrmQPainterLayer>(pipeline);
+    return static_cast<DrmAbstractOutput *>(output)->cursorLayer();
 }
 
-std::shared_ptr<DrmOverlayLayer> DrmQPainterBackend::createCursorLayer(DrmPipeline *pipeline)
+std::shared_ptr<DrmPipelineLayer> DrmQPainterBackend::createDrmPlaneLayer(DrmPipeline *pipeline, DrmPlane::TypeIndex type)
 {
-    return std::make_shared<DrmCursorQPainterLayer>(pipeline);
+    return std::make_shared<DrmQPainterLayer>(pipeline, type);
 }
 
 std::shared_ptr<DrmOutputLayer> DrmQPainterBackend::createLayer(DrmVirtualOutput *output)
@@ -60,3 +63,5 @@ std::shared_ptr<DrmOutputLayer> DrmQPainterBackend::createLayer(DrmVirtualOutput
 }
 
 }
+
+#include "moc_drm_qpainter_backend.cpp"

@@ -1,13 +1,13 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 # Safa Alfulaij <safa1996alfulaij@gmail.com>, 2015.
-# Zayed Al-Saidi <zayed.alsaidi@gmail.com>, 2021, 2022.
+# Zayed Al-Saidi <zayed.alsaidi@gmail.com>, 2021, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-20 00:47+0000\n"
-"PO-Revision-Date: 2022-09-20 20:34+0400\n"
+"POT-Creation-Date: 2024-01-14 00:38+0000\n"
+"PO-Revision-Date: 2023-06-08 12:05+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -16,29 +16,18 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
-"X-Generator: Lokalize 21.12.3\n"
 
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "صفا الفليج"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "safa1996alfulaij@gmail.com"
-
-#: module.cpp:57
+#: module.cpp:49
 #, kde-format
 msgid "Import KWin Script"
 msgstr "استورد سكرِبت نوافذك"
 
-#: module.cpp:58
+#: module.cpp:50
 #, kde-format
 msgid "*.kwinscript|KWin scripts (*.kwinscript)"
 msgstr "*.kwinscript|سكرِبتات نوافذك (*.kwinscript)"
 
-#: module.cpp:96
+#: module.cpp:61
 #, kde-format
 msgctxt "Placeholder is error message returned from the install service"
 msgid ""
@@ -48,32 +37,41 @@ msgstr ""
 "لا يمكن استيراد السكربت المحدد.\n"
 "%1"
 
-#: module.cpp:108
+#: module.cpp:65
 #, kde-format
 msgctxt "Placeholder is name of the script that was imported"
 msgid "The script \"%1\" was successfully imported."
 msgstr "استورد السّكرِبت \"%1\" بنجاح."
 
-#: module.cpp:148
+#: module.cpp:124
 #, kde-format
 msgid "Error when uninstalling KWin Script: %1"
 msgstr "خطأ عند إلغاء تثبيت سكربت كوين: %1"
 
-#: package/contents/ui/main.qml:47
+#: ui/main.qml:23
+#, kde-format
+msgid "Install from File…"
+msgstr "ثبت من ملف…"
+
+#: ui/main.qml:27
+#, kde-format
+msgctxt "@action:button get new KWin scripts"
+msgid "Get New…"
+msgstr "احصل على جديد…"
+
+#: ui/main.qml:65
 #, kde-format
 msgctxt "@info:tooltip"
-msgid "Delete..."
-msgstr "احذف..."
+msgid "Delete…"
+msgstr "احذف…"
 
-#: package/contents/ui/main.qml:60
-#, kde-format
-msgid "Install from File..."
-msgstr "ثبت من ملف..."
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "صفا الفليج"
 
-#: package/contents/ui/main.qml:64
-#, kde-format
-msgid "Get New Scripts..."
-msgstr "احصل على سكرِبت جديد..."
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "safa1996alfulaij@gmail.com"
 
 #~ msgid "KWin Scripts"
 #~ msgstr "سكرِبتات نوافذك"

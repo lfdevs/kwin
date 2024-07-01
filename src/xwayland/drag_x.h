@@ -11,11 +11,11 @@
 #include "datasource.h"
 #include "drag.h"
 
-#include "wayland/datadevicemanager_interface.h"
+#include "wayland/datadevicemanager.h"
 
+#include <QList>
 #include <QPoint>
 #include <QPointer>
-#include <QVector>
 
 namespace KWin
 {
@@ -28,7 +28,7 @@ enum class DragEventReply;
 class WlVisit;
 class Dnd;
 
-using Mimes = QVector<QPair<QString, xcb_atom_t>>;
+using Mimes = QList<QPair<QString, xcb_atom_t>>;
 
 class XToWlDrag : public Drag
 {
@@ -38,11 +38,11 @@ public:
     explicit XToWlDrag(X11Source *source, Dnd *dnd);
     ~XToWlDrag() override;
 
-    DragEventReply moveFilter(Window *target, const QPoint &pos) override;
+    DragEventReply moveFilter(Window *target) override;
     bool handleClientMessage(xcb_client_message_event_t *event) override;
 
-    void setDragAndDropAction(KWaylandServer::DataDeviceManagerInterface::DnDAction action);
-    KWaylandServer::DataDeviceManagerInterface::DnDAction selectedDragAndDropAction();
+    void setDragAndDropAction(DataDeviceManagerInterface::DnDAction action);
+    DataDeviceManagerInterface::DnDAction selectedDragAndDropAction();
 
     X11Source *x11Source() const
     {
@@ -58,16 +58,14 @@ private:
     Dnd *const m_dnd;
     Mimes m_offers;
 
-    XwlDataSource m_selectionSource;
-
     X11Source *m_source;
-    QVector<QPair<xcb_timestamp_t, bool>> m_dataRequests;
+    QList<QPair<xcb_timestamp_t, bool>> m_dataRequests;
 
     WlVisit *m_visit = nullptr;
-    QVector<WlVisit *> m_oldVisits;
+    QList<WlVisit *> m_oldVisits;
 
     bool m_performed = false;
-    KWaylandServer::DataDeviceManagerInterface::DnDAction m_lastSelectedDragAndDropAction = KWaylandServer::DataDeviceManagerInterface::DnDAction::None;
+    DataDeviceManagerInterface::DnDAction m_lastSelectedDragAndDropAction = DataDeviceManagerInterface::DnDAction::None;
 
     Q_DISABLE_COPY(XToWlDrag)
 };
@@ -134,7 +132,7 @@ private:
     uint32_t m_version = 0;
 
     xcb_atom_t m_actionAtom;
-    KWaylandServer::DataDeviceManagerInterface::DnDAction m_action = KWaylandServer::DataDeviceManagerInterface::DnDAction::None;
+    DataDeviceManagerInterface::DnDAction m_action = DataDeviceManagerInterface::DnDAction::None;
 
     bool m_mapped = false;
     bool m_entered = false;

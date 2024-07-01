@@ -1,12 +1,12 @@
 # Copyright (C) 2021 Free Software Foundation, Inc.
 #
-# Kishore G <kishore96@gmail.com>, 2021, 2022, 2023.
+# SPDX-FileCopyrightText: 2021, 2022, 2023, 2024 Kishore G <kishore96@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-26 02:32+0000\n"
-"PO-Revision-Date: 2023-02-14 21:55+0530\n"
+"POT-Creation-Date: 2024-02-10 00:40+0000\n"
+"PO-Revision-Date: 2024-02-18 17:42+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -14,84 +14,64 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.12.2\n"
+"X-Generator: Lokalize 23.08.5\n"
 
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "துரையப்பா வசீகரன், பிரபு"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "t_vasee@yahoo.com, prabu_anand2000@yahoo.com"
-
-#: declarative-plugin/buttonsmodel.cpp:53
+#: declarative-plugin/buttonsmodel.cpp:56
 #, kde-format
 msgid "More actions for this window"
 msgstr "இச்சாளரத்திற்கான கூடுதல் செயல்கள்"
 
-#: declarative-plugin/buttonsmodel.cpp:55
+#: declarative-plugin/buttonsmodel.cpp:58
 #, kde-format
 msgid "Application menu"
 msgstr "செயலி பட்டி"
 
-#: declarative-plugin/buttonsmodel.cpp:57
+#: declarative-plugin/buttonsmodel.cpp:60
 #, kde-format
 msgid "On all desktops"
 msgstr "எல்லா பணிமேடைகளிலும்"
 
-#: declarative-plugin/buttonsmodel.cpp:59
+#: declarative-plugin/buttonsmodel.cpp:62
 #, kde-format
 msgid "Minimize"
 msgstr "ஒதுக்கு"
 
-#: declarative-plugin/buttonsmodel.cpp:61
+#: declarative-plugin/buttonsmodel.cpp:64
 #, kde-format
 msgid "Maximize"
 msgstr "அதிகபட்ச பெரிதாக்கு"
 
-#: declarative-plugin/buttonsmodel.cpp:63
+#: declarative-plugin/buttonsmodel.cpp:66
 #, kde-format
 msgid "Close"
 msgstr "மூடு"
 
-#: declarative-plugin/buttonsmodel.cpp:65
+#: declarative-plugin/buttonsmodel.cpp:68
 #, kde-format
 msgid "Context help"
 msgstr "சூழலை பொறுத்த உதவி"
 
-#: declarative-plugin/buttonsmodel.cpp:67
+#: declarative-plugin/buttonsmodel.cpp:70
 #, kde-format
 msgid "Shade"
 msgstr "நிழலிடு"
 
-#: declarative-plugin/buttonsmodel.cpp:69
+#: declarative-plugin/buttonsmodel.cpp:72
 #, kde-format
 msgid "Keep below other windows"
 msgstr "மற்ற சாளரங்களுக்கு கீழே வை"
 
-#: declarative-plugin/buttonsmodel.cpp:71
+#: declarative-plugin/buttonsmodel.cpp:74
 #, kde-format
 msgid "Keep above other windows"
 msgstr "மற்ற சாளரங்களுக்கு மேலே வை"
 
-#: kcm.cpp:49
+#: declarative-plugin/buttonsmodel.cpp:76
 #, kde-format
-msgid "Window Decorations"
-msgstr "சாளர விளிம்புகள்"
+msgid "Spacer"
+msgstr "இடைவெளி"
 
-#: kcm.cpp:53
-#, kde-format
-msgid "Valerio Pilo"
-msgstr ""
-
-#: kcm.cpp:54
-#, kde-format
-msgid "Author"
-msgstr "இயற்றியவர்"
-
-#: kcm.cpp:183
+#: kcm.cpp:177
 #, kde-format
 msgctxt "%1 is the name of a border size"
 msgid "Theme's default (%1)"
@@ -118,6 +98,8 @@ msgstr ""
 msgid ""
 "Show all the themes available on the system (and which is the current theme)"
 msgstr ""
+"கணினியில் கிட்டுகின்ற அனைத்து தோற்றத்திட்டங்களை (மற்றும் இப்போது எது செயலில் உள்ளதென) "
+"காட்டும்"
 
 #: kwin-applywindowdecoration.cpp:65
 #, kde-format
@@ -132,6 +114,8 @@ msgid ""
 "You attempted to pass a file path, but this could not be resolved to a "
 "theme, and we will have to abort, due to having no theme to set"
 msgstr ""
+"கோப்புப்பாதையைக் கொடுத்தீர், ஆனால் அது ஓர் தோற்றத்திட்டம் போல் தெரியவில்லை. இதனால் இந்நிரல் "
+"வெளியேறும்."
 
 #: kwin-applywindowdecoration.cpp:77
 #, kde-format
@@ -168,121 +152,168 @@ msgstr ""
 msgid "You have the following KWin window decoration themes on your system:"
 msgstr "உங்கள் கணினியில் கீழ்காணும் விளிம்புத்திட்டங்கள் உள்ளன:"
 
-#: package/contents/ui/Buttons.qml:85
+#: ui/Buttons.qml:85
 #, kde-format
 msgid "Titlebar"
 msgstr "தலைப்புப்பட்டை"
 
-#: package/contents/ui/Buttons.qml:245
+#: ui/Buttons.qml:245
 #, kde-format
 msgid "Drop button here to remove it"
 msgstr "பட்டனை நீக்க அதனை இங்கு இழுத்து போடவும்"
 
-#: package/contents/ui/Buttons.qml:261
+#: ui/Buttons.qml:261
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr "பட்டன்களை இங்கிருந்து தலைப்புப்பட்டைக்கு இழுங்கள்"
 
-#: package/contents/ui/main.qml:18
+#: ui/ConfigureTitlebar.qml:16
 #, kde-format
-msgid "This module lets you configure the window decorations."
-msgstr "சாளர விளிம்புகளை அமைக்க இக்கூறு உதவும்."
-
-#: package/contents/ui/main.qml:52
-#, kde-format
-msgctxt "tab label"
-msgid "Theme"
-msgstr "தோற்றத்திட்டம்"
-
-#: package/contents/ui/main.qml:56
-#, kde-format
-msgctxt "tab label"
 msgid "Titlebar Buttons"
 msgstr "தலைப்புப்பட்டையிலுள்ள பட்டன்கள்"
 
-#: package/contents/ui/main.qml:92
-#, kde-format
-msgctxt "Selector label"
-msgid "Window border size:"
-msgstr "சாளர விளிம்பின் அளவு:"
-
-#: package/contents/ui/main.qml:110
-#, fuzzy, kde-format
-#| msgid "&Window Decoration"
-msgctxt "button text"
-msgid "Get New Window Decorations..."
-msgstr "&சாளரத்தின் அலங்காரம்"
-
-#: package/contents/ui/main.qml:139
+#: ui/ConfigureTitlebar.qml:35
 #, kde-format
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
 msgstr "பட்டி பட்டனில் இரட்டை க்ளிக் செய்தல் அவற்றை மூடும்"
 
-#: package/contents/ui/main.qml:156
+#: ui/ConfigureTitlebar.qml:52
 #, kde-format
 msgctxt "popup tip"
 msgid "Click and hold on the menu button to show the menu."
 msgstr "பட்டியை காட்ட பட்டி பட்டனில் க்ளிக் செய்தபடியே பிடித்திருக்கவும்."
 
-#: package/contents/ui/main.qml:163
+#: ui/ConfigureTitlebar.qml:59
 #, kde-format
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
 msgstr "தலைப்புப்பட்டையிலுள்ள பட்டன்களுக்கு கருவித்துப்புகளை காட்டு"
 
-#: package/contents/ui/Themes.qml:90
+#: ui/main.qml:29
+#, kde-format
+msgctxt "Selector label"
+msgid "Window border size:"
+msgstr "சாளர விளிம்பின் அளவு:"
+
+#: ui/main.qml:48
+#, kde-format
+msgctxt "button text"
+msgid "Configure Titlebar Buttons…"
+msgstr "தலைப்புப்பட்டையிலுள்ள பட்டன்களை அமை…"
+
+#: ui/main.qml:54
+#, kde-format
+msgctxt "@action:button as in, \"Get New Window Decorations\""
+msgid "Get New…"
+msgstr "புதியவற்றை பெறு…"
+
+#: ui/Themes.qml:93
 #, kde-format
 msgid "Edit %1 Theme"
 msgstr "%1 தோற்றத்திட்டத்தை திருத்து"
 
 #: utils.cpp:25
 #, kde-format
-msgid "No Borders"
+msgid "No Window Borders"
 msgstr "விளிம்புகள் இல்லாமல்"
 
 #: utils.cpp:26
 #, kde-format
-msgid "No Side Borders"
+msgid "No Side Window Borders"
 msgstr "கிடைமட்டத்தில் விளிம்புகள் இல்லாமல்"
 
 #: utils.cpp:27
 #, kde-format
-msgid "Tiny"
-msgstr "மிகச்சிறியவை"
+msgid "Tiny Window Borders"
+msgstr "சிறிய சாளர விளிம்புகள்"
 
 #: utils.cpp:28
 #, kde-format
-msgid "Normal"
-msgstr "சாதாரணமானவை"
+msgid "Normal Window Borders"
+msgstr "சாதாரண சாளர விளிம்புகள்"
 
 #: utils.cpp:29
 #, kde-format
-msgid "Large"
-msgstr "பெரியவை"
+msgid "Large Window Borders"
+msgstr "பெரிய சாளர விளிம்புகள்"
 
 #: utils.cpp:30
 #, kde-format
-msgid "Very Large"
-msgstr "மிகப்பெரியவை"
+msgid "Very Large Window Borders"
+msgstr "மிகப்பெரிய சாளர விளிம்புகள்"
 
 #: utils.cpp:31
-#, fuzzy, kde-format
-#| msgid "Huge"
-msgid "Huge"
-msgstr "மிகப் பெரியது"
+#, kde-format
+msgid "Huge Window Borders"
+msgstr "பிரம்மாண்டமான சாளர விளிம்புகள்"
 
 #: utils.cpp:32
-#, fuzzy, kde-format
-#| msgid "Very Huge"
-msgid "Very Huge"
-msgstr "மிகப்பெரியது"
+#, kde-format
+msgid "Very Huge Window Borders"
+msgstr "மிகபிரம்மாண்டமான சாளர விளிம்புகள்"
 
 #: utils.cpp:33
-#, fuzzy, kde-format
-#| msgid "Oversized"
-msgid "Oversized"
-msgstr "அதிகமாக அளவிடப்பட்டது"
+#, kde-format
+msgid "Oversized Window Borders"
+msgstr "அதிகபட்ச அளவிலான சாளர விளிம்புகள்"
+
+#, fuzzy
+#~| msgid "&Window Decoration"
+#~ msgctxt "button text"
+#~ msgid "Get New Window Decorations…"
+#~ msgstr "&சாளரத்தின் அலங்காரம்"
+
+#~ msgid "No Borders"
+#~ msgstr "விளிம்புகள் இல்லாமல்"
+
+#~ msgid "Tiny"
+#~ msgstr "மிகச்சிறியவை"
+
+#~ msgid "Normal"
+#~ msgstr "சாதாரணமானவை"
+
+#~ msgid "Large"
+#~ msgstr "பெரியவை"
+
+#~ msgid "Very Large"
+#~ msgstr "மிகப்பெரியவை"
+
+#, fuzzy
+#~| msgid "Huge"
+#~ msgid "Huge"
+#~ msgstr "மிகப் பெரியது"
+
+#, fuzzy
+#~| msgid "Very Huge"
+#~ msgid "Very Huge"
+#~ msgstr "மிகப்பெரியது"
+
+#, fuzzy
+#~| msgid "Oversized"
+#~ msgid "Oversized"
+#~ msgstr "அதிகமாக அளவிடப்பட்டது"
+
+#~ msgid "This module lets you configure the window decorations."
+#~ msgstr "சாளர விளிம்புகளை அமைக்க இக்கூறு உதவும்."
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "துரையப்பா வசீகரன், பிரபு"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "t_vasee@yahoo.com, prabu_anand2000@yahoo.com"
+
+#~ msgid "Window Decorations"
+#~ msgstr "சாளர விளிம்புகள்"
+
+#~ msgid "Author"
+#~ msgstr "இயற்றியவர்"
+
+#~ msgctxt "tab label"
+#~ msgid "Theme"
+#~ msgstr "தோற்றத்திட்டம்"
 
 #~ msgid "Menu"
 #~ msgstr "பட்டி"

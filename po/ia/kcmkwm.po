@@ -1,13 +1,13 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# g.sora <g.sora@tiscali.it>, 2010, 2011, 2012, 2013, 2020, 2021, 2022, 2023.
+# g.sora <g.sora@tiscali.it>, 2010, 2011, 2012, 2013, 2020, 2021, 2022, 2023, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-03 00:48+0000\n"
-"PO-Revision-Date: 2023-06-16 23:58+0200\n"
+"POT-Creation-Date: 2024-02-06 00:39+0000\n"
+"PO-Revision-Date: 2024-04-18 11:29+0200\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -15,17 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.04.2\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Giovanni Sora"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "g.sora@tiscali.it"
+"X-Generator: Lokalize 22.12.3\n"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
 #: actions.ui:17
@@ -216,7 +206,7 @@ msgid ""
 "In this row you can customize left click behavior when clicking into the "
 "titlebar or the frame."
 msgstr ""
-"In iste riga tu pote adaptar le comportamento del pression (click) sinistre "
+"In iste rango tu pote adaptar le comportamento del pression (click) sinistre "
 "quando tu pulsa sur le barra de titulo o le quadro de un fenestra."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll1)
@@ -328,6 +318,7 @@ msgstr "Augmenta opacitate"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TitlebarDoubleClickCommand)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandTitlebarWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar1)
@@ -336,8 +327,8 @@ msgstr "Augmenta opacitate"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
-#: actions.ui:310 actions.ui:380 actions.ui:450 actions.ui:505 mouse.ui:80
-#: mouse.ui:132 mouse.ui:271 mouse.ui:333 mouse.ui:386 mouse.ui:448
+#: actions.ui:310 actions.ui:380 actions.ui:450 actions.ui:505 advanced.ui:174
+#: mouse.ui:80 mouse.ui:132 mouse.ui:271 mouse.ui:333 mouse.ui:386 mouse.ui:448
 #: mouse.ui:501 mouse.ui:563
 #, kde-format
 msgid "Do nothing"
@@ -356,7 +347,7 @@ msgid ""
 "In this row you can customize middle click behavior when clicking into the "
 "titlebar or the frame."
 msgstr ""
-"In iste riga tu pote adaptar le comportamento del pression (click) central "
+"In iste rango tu pote adaptar le comportamento del pression (click) central "
 "quando tu pulsa sur le barra de titulo o le quadro de un fenestra."
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
@@ -373,7 +364,7 @@ msgid ""
 "In this row you can customize right click behavior when clicking into the "
 "titlebar or the frame."
 msgstr ""
-"In iste riga tu pote adaptar le comportamento del pression (click) dextere "
+"In iste rango tu pote adaptar le comportamento del pression (click) dextere "
 "quando tu pulsa sur le barra de titulo o le quadro de un fenestra."
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
@@ -465,8 +456,8 @@ msgid ""
 "Sets the time in milliseconds before the window unshades when the mouse "
 "pointer goes over the shaded window."
 msgstr ""
-"Il fixa le tempore in millisecundas ante que le fenestra de-umbra quando le "
-"punctator de mus va supra le fenestra umbrate."
+"Il assigna le tempore in millisecundas ante que le fenestra de-umbra quando "
+"le punctator de mus va supra le fenestra umbrate."
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_DelayFocusInterval)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_AutoRaiseInterval)
@@ -898,27 +889,8 @@ msgstr ""
 msgid "Multiscreen behavior:"
 msgstr "Comportamente de schermo multiple:"
 
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ActiveMouseScreen)
-#: focus.ui:203
-#, kde-format
-msgid ""
-"When this option is enabled, the active screen (where new windows appear, "
-"for example) is the screen containing the mouse pointer. When disabled, the "
-"active screen is the screen containing the focused window."
-msgstr ""
-"Quando iste option es habilitate, le schermo active (ubi nove fenestras "
-"appare, pro exemplo) es le schermo continente le punctator de mus. Quando il "
-"es dishabilitate, le schermo active es le  schermo continente le fenestra "
-"focalisate."
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ActiveMouseScreen)
-#: focus.ui:206
-#, kde-format
-msgid "Active screen follows &mouse"
-msgstr "Schermo active seque &mus"
-
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SeparateScreenFocus)
-#: focus.ui:213
+#: focus.ui:203
 #, kde-format
 msgid ""
 "When this option is enabled, focus operations are limited only to the active "
@@ -928,121 +900,48 @@ msgstr ""
 "le schermo active"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SeparateScreenFocus)
-#: focus.ui:216
+#: focus.ui:206
 #, kde-format
 msgid "&Separate screen focus"
 msgstr "&Separar foco de schermo"
 
 #. i18n: ectx: property (text), widget (QLabel, windowFocusPolicyDescriptionLabel)
-#: focus.ui:229
+#: focus.ui:219
 #, kde-format
 msgid "Window activation policy description"
 msgstr "Description del politica de activation de fenestra"
 
-#: main.cpp:73
+#: main.cpp:79
 #, kde-format
 msgid "&Focus"
 msgstr "&Foco"
 
-#: main.cpp:79
+#: main.cpp:84
 #, kde-format
 msgid "Titlebar A&ctions"
 msgstr "A&ctiones de barra de titulo"
 
-#: main.cpp:85
+#: main.cpp:89
 #, kde-format
 msgid "W&indow Actions"
 msgstr "Actio&nes de fenestra"
 
-#: main.cpp:91
+#: main.cpp:94
 #, kde-format
 msgid "Mo&vement"
 msgstr "Mo&vimento"
 
-#: main.cpp:97
+#: main.cpp:99
 #, kde-format
 msgid "Adva&nced"
 msgstr "Ava&ntiate"
 
-#: main.cpp:101
-#, kde-format
-msgid "Window Behavior Configuration Module"
-msgstr "Modulo de Configuration de Comportamento de Fenestra"
-
-#: main.cpp:103
-#, kde-format
-msgid "(c) 1997 - 2002 KWin and KControl Authors"
-msgstr "(c) 1997 - 2002 Autores de KWin e KControl"
-
-#: main.cpp:105
-#, kde-format
-msgid "Matthias Ettrich"
-msgstr "Matthias Ettrich"
-
-#: main.cpp:106
-#, kde-format
-msgid "Waldo Bastian"
-msgstr "Waldo Bastian"
-
-#: main.cpp:107
-#, kde-format
-msgid "Cristian Tibirna"
-msgstr "Cristian Tibirna"
-
-#: main.cpp:108
-#, kde-format
-msgid "Matthias Kalle Dalheimer"
-msgstr "Matthias Kalle Dalheimer"
-
-#: main.cpp:109
-#, kde-format
-msgid "Daniel Molkentin"
-msgstr "Daniel Molkentin"
-
-#: main.cpp:110
-#, kde-format
-msgid "Wynn Wilkes"
-msgstr "Wynn Wilkes"
-
-#: main.cpp:111
-#, kde-format
-msgid "Pat Dowler"
-msgstr "Pat Dowler"
-
-#: main.cpp:112
-#, kde-format
-msgid "Bernd Wuebben"
-msgstr "Bernd Wuebben"
-
-#: main.cpp:113
-#, kde-format
-msgid "Matthias Hoelzer-Kluepfel"
-msgstr "Matthias Hoelzer-Kluepfel"
-
-#: main.cpp:161
-#, kde-format
-msgid ""
-"<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
-"when being moved, resized or clicked on. You can also specify a focus policy "
-"as well as a placement policy for new windows.</p> <p>Please note that this "
-"configuration will not take effect if you do not use KWin as your window "
-"manager. If you do use a different window manager, please refer to its "
-"documentation for how to customize window behavior.</p>"
-msgstr ""
-"<p><h1>Comportamento de fenestra</h1> Ci tu pote adaptar le modo fenestras "
-"comporta se quando illos es movite, redimensionate o ha essite pulsate. Tu "
-"anque pote specificar un politica de foco como anque un politica de "
-"placiamento pro nove fenestras.</p> <p>Pro favor tu nota que iste "
-"configuration non essera applicate si tu non usa KWin como tu gerente de "
-"fenestra. Si tu usa un differente gerente de fenestra, pro favor tu refere a "
-"su documentation pro como adaptar le comportamento de fenestra.</p>"
-
-#: main.cpp:202
+#: main.cpp:178
 #, kde-format
 msgid "&Titlebar Actions"
 msgstr "Actiones de barra de &titulo"
 
-#: main.cpp:208
+#: main.cpp:188
 #, kde-format
 msgid "Window Actio&ns"
 msgstr "Actio&nes de fenestra"
@@ -1244,7 +1143,7 @@ msgid ""
 "Here you can set the snap zone for screen edges, i.e. the 'strength' of the "
 "magnetic field which will make windows snap to the border when moved near it."
 msgstr ""
-"Ci tu pote fixar le zona de salto pro bordos de schermo, i.e. le 'fortia' "
+"Ci tu pote assignar le zona de salto pro bordos de schermo, i.e. le 'fortia' "
 "del campo magnetic que facera saltar fenestras al bordo quando movite juxta "
 "illo. "
 
@@ -1270,9 +1169,9 @@ msgid ""
 "magnetic field which will make windows snap to each other when they are "
 "moved near another window."
 msgstr ""
-"Ci tu pote fixar le zona de salto pro fenestras, i.e. le 'fortia' del campo "
-"magnetic que facera saltar fenestras inter illos quando movite juxta un "
-"altere fenestra."
+"Ci tu pote assignar le zona de salto pro fenestras, i.e. le 'fortia' del "
+"campo magnetic que facera saltar fenestras inter illos quando movite juxta "
+"un altere fenestra."
 
 #. i18n: ectx: property (text), widget (QLabel, centerSnaplabel)
 #: moving.ui:84
@@ -1288,7 +1187,7 @@ msgid ""
 "the magnetic field which will make windows snap to the center of the screen "
 "when moved near it."
 msgstr ""
-"Ci tu pote fixar le zona de salto pro centro de schermo, i.e. le 'fortia' "
+"Ci tu pote assignar le zona de salto pro centro de schermo, i.e. le 'fortia' "
 "del campo magnetic que facera saltar fenestras al centro de schermo quando "
 "movite juxta illo."
 
@@ -1306,7 +1205,7 @@ msgid ""
 "them, i.e. they will not be snapped if the windows comes only near another "
 "window or border."
 msgstr ""
-"Ci tu pote fixar que fenestras essera solmente saltate si tu prova a "
+"Ci tu pote assignar que fenestras essera solmente saltate si tu prova a "
 "superponer los, i.e. illos non essera saltate (snapped) si le fenestras "
 "solmente essera juxta un altere fenestra o bordo."
 
@@ -1316,7 +1215,7 @@ msgstr ""
 msgid "Only when overlapping"
 msgstr "Solmente quando on es superponente"
 
-#: windows.cpp:97
+#: windows.cpp:92
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
@@ -1326,7 +1225,7 @@ msgstr ""
 "ille. Iste comportamento es commun con altere systemas operative (systemas "
 "operational) e probabilemente illo es lo que tu vole."
 
-#: windows.cpp:101
+#: windows.cpp:95
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1342,7 +1241,7 @@ msgstr ""
 "canditato preferite. Variante inusual, ma possibile de <em>Pulsa pro "
 "focalisar </em>"
 
-#: windows.cpp:106
+#: windows.cpp:98
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1357,7 +1256,7 @@ msgstr ""
 "Pensa como <em>Pulsa pro focalisar</em> solmente sin haber lo pulsate in "
 "realitate."
 
-#: windows.cpp:110
+#: windows.cpp:101
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1371,7 +1270,7 @@ msgstr ""
 "preferite. Selige isto, si tu vole un foco controllate per le flottar supra "
 "del mus."
 
-#: windows.cpp:115
+#: windows.cpp:104
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1386,7 +1285,7 @@ msgstr ""
 "em> contradice le politica e non functionara.Probabilemente tu volerea usar "
 "in su loco<em>Foco seque mus - Precedentia de mus</em>!"
 
-#: windows.cpp:119
+#: windows.cpp:107
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "
@@ -1403,6 +1302,77 @@ msgstr ""
 "de foco</em> e le <em>tabbox (\"Alt+Tab\")</em>contradice le politica e non "
 "functionara.Probabilmente tu volerea usar in su loco <em>Foco seque mus - "
 "Precedentia de mus</em>!"
+
+#~ msgid ""
+#~ "When this option is enabled, the active screen (where new windows appear, "
+#~ "for example) is the screen containing the mouse pointer. When disabled, "
+#~ "the active screen is the screen containing the focused window."
+#~ msgstr ""
+#~ "Quando iste option es habilitate, le schermo active (ubi nove fenestras "
+#~ "appare, pro exemplo) es le schermo continente le punctator de mus. Quando "
+#~ "il es dishabilitate, le schermo active es le  schermo continente le "
+#~ "fenestra focalisate."
+
+#~ msgid "Active screen follows &mouse"
+#~ msgstr "Schermo active seque &mus"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Giovanni Sora"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "g.sora@tiscali.it"
+
+#~ msgid "Window Behavior Configuration Module"
+#~ msgstr "Modulo de Configuration de Comportamento de Fenestra"
+
+#~ msgid "(c) 1997 - 2002 KWin and KControl Authors"
+#~ msgstr "(c) 1997 - 2002 Autores de KWin e KControl"
+
+#~ msgid "Matthias Ettrich"
+#~ msgstr "Matthias Ettrich"
+
+#~ msgid "Waldo Bastian"
+#~ msgstr "Waldo Bastian"
+
+#~ msgid "Cristian Tibirna"
+#~ msgstr "Cristian Tibirna"
+
+#~ msgid "Matthias Kalle Dalheimer"
+#~ msgstr "Matthias Kalle Dalheimer"
+
+#~ msgid "Daniel Molkentin"
+#~ msgstr "Daniel Molkentin"
+
+#~ msgid "Wynn Wilkes"
+#~ msgstr "Wynn Wilkes"
+
+#~ msgid "Pat Dowler"
+#~ msgstr "Pat Dowler"
+
+#~ msgid "Bernd Wuebben"
+#~ msgstr "Bernd Wuebben"
+
+#~ msgid "Matthias Hoelzer-Kluepfel"
+#~ msgstr "Matthias Hoelzer-Kluepfel"
+
+#~ msgid ""
+#~ "<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
+#~ "when being moved, resized or clicked on. You can also specify a focus "
+#~ "policy as well as a placement policy for new windows.</p> <p>Please note "
+#~ "that this configuration will not take effect if you do not use KWin as "
+#~ "your window manager. If you do use a different window manager, please "
+#~ "refer to its documentation for how to customize window behavior.</p>"
+#~ msgstr ""
+#~ "<p><h1>Comportamento de fenestra</h1> Ci tu pote adaptar le modo "
+#~ "fenestras comporta se quando illos es movite, redimensionate o ha essite "
+#~ "pulsate. Tu anque pote specificar un politica de foco como anque un "
+#~ "politica de placiamento pro nove fenestras.</p> <p>Pro favor tu nota que "
+#~ "iste configuration non essera applicate si tu non usa KWin como tu "
+#~ "gerente de fenestra. Si tu usa un differente gerente de fenestra, pro "
+#~ "favor tu refere a su documentation pro como adaptar le comportamento de "
+#~ "fenestra.</p>"
 
 #~ msgid "Cascaded"
 #~ msgstr "Cascada"

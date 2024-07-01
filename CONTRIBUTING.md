@@ -27,9 +27,9 @@ The Breeze decorations theme is not located in the KWin repository, and is in fa
 
 ### Tab Switcher
 
-The default visual appearance of the tab switcher is not located in the KWin repository, and is in fact part of [Plasma Workspace](https://invent.kde.org/plasma/plasma-workspace), located at `lookandfeel/contents/windowswitcher`.
+The default visual appearance of the tab switcher is located in `src/tabbox/switchers`.
 
-Other window switchers usually shipped by default are located in [Plasma Addons](https://invent.kde.org/plasma/kdeplasma-addons), located in the `windowswitchers` directory.
+Other window switchers usually shipped by default are located in [Plasma Addons](https://invent.kde.org/plasma/kdeplasma-addons), located in the `kwin/windowswitchers` directory.
 
 ### Window Management
 
@@ -37,8 +37,9 @@ Most window management stuff (layouting, movement, properties, communication bet
 
 ### Window Effects
 
-Window effects are located in the `effects` folder in `src`, with one folder per effect.
-Not everything here is an effect as exposed in the configuration UI, such as the colour picker in `src/effects/colorpicker`.
+Window effects are located in `src/plugins`, one effect plugin per folder.  Folder `src/plugins/private` contains the plugin (`org.kde.kwin.private.effects`) that exposes layouting properties and `WindowHeap.qml` for QML effects.  Not everything here is an effect as exposed in the configuration UI, such as the colour picker in `src/plugins/colorpicker`.
+
+Of note, the Effects QML engine is shared with the Scripting components (see `src/scripting`).
 
 ### Scripting API
 
@@ -52,7 +53,7 @@ Other scripting stuff is located in `src/scripting`.
 
 KWin's coding conventions are located [here](doc/coding-conventions.md).
 
-KWin additionally follows [KDE's Frameworks Coding Style]((https://techbase.kde.org/Policies/Frameworks_Coding_Style)).
+KWin additionally follows [KDE's Frameworks Coding Style](https://community.kde.org/Policies/Frameworks_Coding_Style).
 
 ### Commits
 
@@ -92,15 +93,16 @@ Running it from your build directory looks like this:
 ```bash
 # from the root of your build directory
 
+source prefix.sh
 cd bin
 
 # for wayland, starts nested session: with console
 
-env QT_PLUGIN_PATH=`pwd` dbus-run-session ./kwin_wayland --xwayland konsole
+env QT_PLUGIN_PATH="$(pwd)":"$QT_PLUGIN_PATH" dbus-run-session ./kwin_wayland --xwayland konsole
 
 # or for x11, replaces current kwin instance:
 
-env QT_PLUGIN_PATH=`pwd` ./kwin_x11 --replace
+env QT_PLUGIN_PATH="$(pwd)":"$QT_PLUGIN_PATH" ./kwin_x11 --replace
 
 ```
 

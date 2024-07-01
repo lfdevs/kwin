@@ -5,8 +5,6 @@
 */
 #pragma once
 
-#include "utils.h"
-
 #include <KDecoration2/DecorationThemeProvider>
 #include <QAbstractListModel>
 
@@ -25,6 +23,7 @@ public:
         ThemeNameRole,
         ConfigurationRole,
         RecommendedBorderSizeRole,
+        KcmoduleNameRole,
     };
 
 public:

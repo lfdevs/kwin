@@ -6,46 +6,39 @@
 
 #pragma once
 
-#include "clientbuffer.h"
-#include "clientbufferintegration.h"
+#include "kwin_export.h"
 
-namespace KWaylandServer
+#include <QObject>
+
+namespace KWin
 {
-class DrmClientBufferPrivate;
+
+class Display;
+class DrmClientBufferIntegrationPrivate;
 
 /**
- * The DrmClientBufferIntegration class provides support for wl_drm client buffers.
+ * The DrmClientBufferIntegration provides a stub implementation for the wl_drm
+ * protocol.
+ *
+ * It provides the minimum amount of information to Xwayland so it can run. No
+ * GraphicsBuffers are provided by the DrmClientBufferIntegration. Xwayland is
+ * expected to provide us linux dmabuf client buffers instead.
+ *
+ * Once the wl_drm protocol is no longer mandatory in Xwayland, this stub can be
+ * dropped.
  */
-class KWIN_EXPORT DrmClientBufferIntegration : public ClientBufferIntegration
+class KWIN_EXPORT DrmClientBufferIntegration : public QObject
 {
     Q_OBJECT
 
 public:
     explicit DrmClientBufferIntegration(Display *display);
+    ~DrmClientBufferIntegration() override;
 
-    ClientBuffer *createBuffer(::wl_resource *resource) override;
+    void setDevice(const QString &node);
+
+private:
+    std::unique_ptr<DrmClientBufferIntegrationPrivate> d;
 };
 
-/**
- * The DrmClientBuffer class represents a wl_drm client buffer.
- *
- * Nowadays, the wl_drm protocol is de-facto deprecated with the introduction of the
- * linux-dmabuf-v1 protocol. Note that Vulkan WSI in Mesa still prefers wl_drm, but
- * that's about to change, https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/4942/
- */
-class KWIN_EXPORT DrmClientBuffer : public ClientBuffer
-{
-    Q_OBJECT
-    Q_DECLARE_PRIVATE(DrmClientBuffer)
-
-public:
-    explicit DrmClientBuffer(wl_resource *resource, DrmClientBufferIntegration *integration);
-
-    int textureFormat() const;
-
-    QSize size() const override;
-    bool hasAlphaChannel() const override;
-    Origin origin() const override;
-};
-
-} // namespace KWaylandServer
+} // namespace KWin

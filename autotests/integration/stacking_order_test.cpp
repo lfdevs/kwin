@@ -10,8 +10,6 @@
 #include "kwin_wayland_test.h"
 
 #include "atoms.h"
-#include "core/outputbackend.h"
-#include "deleted.h"
 #include "main.h"
 #include "wayland_server.h"
 #include "window.h"
@@ -48,16 +46,20 @@ private Q_SLOTS:
 
     void testKeepAbove();
     void testKeepBelow();
+
+    void testPreserveRelativeWindowStacking();
 };
 
 void StackingOrderTest::initTestCase()
 {
     qRegisterMetaType<KWin::Window *>();
-    qRegisterMetaType<KWin::Deleted *>();
 
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
+    Test::setOutputConfig({
+        QRect(0, 0, 1280, 1024),
+        QRect(1280, 0, 1280, 1024),
+    });
 
     kwinApp()->setConfig(KSharedConfig::openConfig(QString(), KConfig::SimpleConfig));
 
@@ -82,7 +84,7 @@ void StackingOrderTest::testTransientIsAboveParent()
     // Create the parent.
     std::unique_ptr<KWayland::Client::Surface> parentSurface = Test::createSurface();
     QVERIFY(parentSurface);
-    Test::XdgToplevel *parentShellSurface = Test::createXdgToplevelSurface(parentSurface.get(), parentSurface.get());
+    std::unique_ptr<Test::XdgToplevel> parentShellSurface(Test::createXdgToplevelSurface(parentSurface.get()));
     QVERIFY(parentShellSurface);
     Window *parent = Test::renderAndWaitForShown(parentSurface.get(), QSize(256, 256), Qt::blue);
     QVERIFY(parent);
@@ -95,7 +97,7 @@ void StackingOrderTest::testTransientIsAboveParent()
     // Create the transient.
     std::unique_ptr<KWayland::Client::Surface> transientSurface = Test::createSurface();
     QVERIFY(transientSurface);
-    Test::XdgToplevel *transientShellSurface = Test::createXdgToplevelSurface(transientSurface.get(), transientSurface.get());
+    std::unique_ptr<Test::XdgToplevel> transientShellSurface(Test::createXdgToplevelSurface(transientSurface.get()));
     QVERIFY(transientShellSurface);
     transientShellSurface->set_parent(parentShellSurface->object());
     Window *transient = Test::renderAndWaitForShown(transientSurface.get(), QSize(128, 128), Qt::red);
@@ -121,7 +123,7 @@ void StackingOrderTest::testRaiseTransient()
     // Create the parent.
     std::unique_ptr<KWayland::Client::Surface> parentSurface = Test::createSurface();
     QVERIFY(parentSurface);
-    Test::XdgToplevel *parentShellSurface = Test::createXdgToplevelSurface(parentSurface.get(), parentSurface.get());
+    std::unique_ptr<Test::XdgToplevel> parentShellSurface(Test::createXdgToplevelSurface(parentSurface.get()));
     QVERIFY(parentShellSurface);
     Window *parent = Test::renderAndWaitForShown(parentSurface.get(), QSize(256, 256), Qt::blue);
     QVERIFY(parent);
@@ -134,7 +136,7 @@ void StackingOrderTest::testRaiseTransient()
     // Create the transient.
     std::unique_ptr<KWayland::Client::Surface> transientSurface = Test::createSurface();
     QVERIFY(transientSurface);
-    Test::XdgToplevel *transientShellSurface = Test::createXdgToplevelSurface(transientSurface.get(), transientSurface.get());
+    std::unique_ptr<Test::XdgToplevel> transientShellSurface(Test::createXdgToplevelSurface(transientSurface.get()));
     QVERIFY(transientShellSurface);
     transientShellSurface->set_parent(parentShellSurface->object());
     Window *transient = Test::renderAndWaitForShown(transientSurface.get(), QSize(128, 128), Qt::red);
@@ -148,7 +150,7 @@ void StackingOrderTest::testRaiseTransient()
     // Create a window that doesn't have any relationship to the parent or the transient.
     std::unique_ptr<KWayland::Client::Surface> anotherSurface = Test::createSurface();
     QVERIFY(anotherSurface);
-    Test::XdgToplevel *anotherShellSurface = Test::createXdgToplevelSurface(anotherSurface.get(), anotherSurface.get());
+    std::unique_ptr<Test::XdgToplevel> anotherShellSurface(Test::createXdgToplevelSurface(anotherSurface.get()));
     QVERIFY(anotherShellSurface);
     Window *anotherWindow = Test::renderAndWaitForShown(anotherSurface.get(), QSize(128, 128), Qt::green);
     QVERIFY(anotherWindow);
@@ -182,10 +184,10 @@ void StackingOrderTest::testRaiseTransient()
 
 struct WindowUnrefDeleter
 {
-    void operator()(Deleted *d)
+    void operator()(Window *d)
     {
         if (d != nullptr) {
-            d->unrefWindow();
+            d->unref();
         }
     }
 };
@@ -198,8 +200,7 @@ void StackingOrderTest::testDeletedTransient()
     // Create the parent.
     std::unique_ptr<KWayland::Client::Surface> parentSurface = Test::createSurface();
     QVERIFY(parentSurface);
-    Test::XdgToplevel *parentShellSurface =
-        Test::createXdgToplevelSurface(parentSurface.get(), parentSurface.get());
+    std::unique_ptr<Test::XdgToplevel> parentShellSurface(Test::createXdgToplevelSurface(parentSurface.get()));
     QVERIFY(parentShellSurface);
     Window *parent = Test::renderAndWaitForShown(parentSurface.get(), QSize(256, 256), Qt::blue);
     QVERIFY(parent);
@@ -211,7 +212,7 @@ void StackingOrderTest::testDeletedTransient()
     // Create the first transient.
     std::unique_ptr<KWayland::Client::Surface> transient1Surface = Test::createSurface();
     QVERIFY(transient1Surface);
-    Test::XdgToplevel *transient1ShellSurface = Test::createXdgToplevelSurface(transient1Surface.get(), transient1Surface.get());
+    std::unique_ptr<Test::XdgToplevel> transient1ShellSurface(Test::createXdgToplevelSurface(transient1Surface.get()));
     QVERIFY(transient1ShellSurface);
     transient1ShellSurface->set_parent(parentShellSurface->object());
     Window *transient1 = Test::renderAndWaitForShown(transient1Surface.get(), QSize(128, 128), Qt::red);
@@ -225,7 +226,7 @@ void StackingOrderTest::testDeletedTransient()
     // Create the second transient.
     std::unique_ptr<KWayland::Client::Surface> transient2Surface = Test::createSurface();
     QVERIFY(transient2Surface);
-    Test::XdgToplevel *transient2ShellSurface = Test::createXdgToplevelSurface(transient2Surface.get(), transient2Surface.get());
+    std::unique_ptr<Test::XdgToplevel> transient2ShellSurface(Test::createXdgToplevelSurface(transient2Surface.get()));
     QVERIFY(transient2ShellSurface);
     transient2ShellSurface->set_parent(transient1ShellSurface->object());
     Window *transient2 = Test::renderAndWaitForShown(transient2Surface.get(), QSize(128, 128), Qt::red);
@@ -243,23 +244,20 @@ void StackingOrderTest::testDeletedTransient()
     QTRY_VERIFY(!transient2->isActive());
 
     // Close the top-most transient.
-    connect(transient2, &Window::windowClosed, this, [](Window *original, Deleted *deleted) {
-        deleted->refWindow();
+    connect(transient2, &Window::closed, transient2, &Window::ref);
+    auto cleanup = qScopeGuard([transient2]() {
+        transient2->unref();
     });
 
-    QSignalSpy windowClosedSpy(transient2, &Window::windowClosed);
-    delete transient2ShellSurface;
+    QSignalSpy windowClosedSpy(transient2, &Window::closed);
+    transient2ShellSurface.reset();
     transient2Surface.reset();
     QVERIFY(windowClosedSpy.wait());
-
-    std::unique_ptr<Deleted, WindowUnrefDeleter> deletedTransient(
-        windowClosedSpy.first().at(1).value<Deleted *>());
-    QVERIFY(deletedTransient.get());
 
     // The deleted transient still has to be above its old parent (transient1).
     QTRY_VERIFY(parent->isActive());
     QTRY_VERIFY(!transient1->isActive());
-    QCOMPARE(workspace()->stackingOrder(), (QList<Window *>{parent, transient1, deletedTransient.get()}));
+    QCOMPARE(workspace()->stackingOrder(), (QList<Window *>{parent, transient1, transient2}));
 }
 
 static xcb_window_t createGroupWindow(xcb_connection_t *conn,
@@ -306,14 +304,6 @@ static xcb_window_t createGroupWindow(xcb_connection_t *conn,
     return wid;
 }
 
-struct XcbConnectionDeleter
-{
-    void operator()(xcb_connection_t *c)
-    {
-        xcb_disconnect(c);
-    }
-};
-
 void StackingOrderTest::testGroupTransientIsAboveWindowGroup()
 {
     // This test verifies that group transients are always above other
@@ -321,8 +311,7 @@ void StackingOrderTest::testGroupTransientIsAboveWindowGroup()
 
     const QRect geometry = QRect(0, 0, 128, 128);
 
-    std::unique_ptr<xcb_connection_t, XcbConnectionDeleter> conn(
-        xcb_connect(nullptr, nullptr));
+    Test::XcbConnectionPtr conn = Test::createX11Connection();
 
     QSignalSpy windowCreatedSpy(workspace(), &Workspace::windowAdded);
 
@@ -434,8 +423,7 @@ void StackingOrderTest::testRaiseGroupTransient()
 {
     const QRect geometry = QRect(0, 0, 128, 128);
 
-    std::unique_ptr<xcb_connection_t, XcbConnectionDeleter> conn(
-        xcb_connect(nullptr, nullptr));
+    Test::XcbConnectionPtr conn = Test::createX11Connection();
 
     QSignalSpy windowCreatedSpy(workspace(), &Workspace::windowAdded);
 
@@ -528,7 +516,7 @@ void StackingOrderTest::testRaiseGroupTransient()
     // Create a Wayland window that is not a member of the window group.
     std::unique_ptr<KWayland::Client::Surface> anotherSurface = Test::createSurface();
     QVERIFY(anotherSurface);
-    Test::XdgToplevel *anotherShellSurface = Test::createXdgToplevelSurface(anotherSurface.get(), anotherSurface.get());
+    std::unique_ptr<Test::XdgToplevel> anotherShellSurface(Test::createXdgToplevelSurface(anotherSurface.get()));
     QVERIFY(anotherShellSurface);
     Window *anotherWindow = Test::renderAndWaitForShown(anotherSurface.get(), QSize(128, 128), Qt::green);
     QVERIFY(anotherWindow);
@@ -565,8 +553,7 @@ void StackingOrderTest::testDeletedGroupTransient()
 
     const QRect geometry = QRect(0, 0, 128, 128);
 
-    std::unique_ptr<xcb_connection_t, XcbConnectionDeleter> conn(
-        xcb_connect(nullptr, nullptr));
+    Test::XcbConnectionPtr conn = Test::createX11Connection();
 
     QSignalSpy windowCreatedSpy(workspace(), &Workspace::windowAdded);
 
@@ -657,21 +644,18 @@ void StackingOrderTest::testDeletedGroupTransient()
     QCOMPARE(workspace()->stackingOrder(), (QList<Window *>{leader, member1, member2, transient}));
 
     // Unmap the transient.
-    connect(transient, &X11Window::windowClosed, this, [](Window *original, Deleted *deleted) {
-        deleted->refWindow();
+    connect(transient, &Window::closed, transient, &Window::ref);
+    auto cleanup = qScopeGuard([transient]() {
+        transient->unref();
     });
 
-    QSignalSpy windowClosedSpy(transient, &X11Window::windowClosed);
+    QSignalSpy windowClosedSpy(transient, &X11Window::closed);
     xcb_unmap_window(conn.get(), transientWid);
     xcb_flush(conn.get());
     QVERIFY(windowClosedSpy.wait());
 
-    std::unique_ptr<Deleted, WindowUnrefDeleter> deletedTransient(
-        windowClosedSpy.first().at(1).value<Deleted *>());
-    QVERIFY(deletedTransient.get());
-
     // The transient has to be above each member of the window group.
-    QCOMPARE(workspace()->stackingOrder(), (QList<Window *>{leader, member1, member2, deletedTransient.get()}));
+    QCOMPARE(workspace()->stackingOrder(), (QList<Window *>{leader, member1, member2, transient}));
 }
 
 void StackingOrderTest::testDontKeepAboveNonModalDialogGroupTransients()
@@ -680,8 +664,7 @@ void StackingOrderTest::testDontKeepAboveNonModalDialogGroupTransients()
 
     const QRect geometry = QRect(0, 0, 128, 128);
 
-    std::unique_ptr<xcb_connection_t, XcbConnectionDeleter> conn(
-        xcb_connect(nullptr, nullptr));
+    Test::XcbConnectionPtr conn = Test::createX11Connection();
 
     QSignalSpy windowCreatedSpy(workspace(), &Workspace::windowAdded);
 
@@ -775,7 +758,7 @@ void StackingOrderTest::testKeepAbove()
     // Create the first window.
     std::unique_ptr<KWayland::Client::Surface> surface1 = Test::createSurface();
     QVERIFY(surface1);
-    Test::XdgToplevel *shellSurface1 = Test::createXdgToplevelSurface(surface1.get(), surface1.get());
+    std::unique_ptr<Test::XdgToplevel> shellSurface1(Test::createXdgToplevelSurface(surface1.get()));
     QVERIFY(shellSurface1);
     Window *window1 = Test::renderAndWaitForShown(surface1.get(), QSize(128, 128), Qt::green);
     QVERIFY(window1);
@@ -787,7 +770,7 @@ void StackingOrderTest::testKeepAbove()
     // Create the second window.
     std::unique_ptr<KWayland::Client::Surface> surface2 = Test::createSurface();
     QVERIFY(surface2);
-    Test::XdgToplevel *shellSurface2 = Test::createXdgToplevelSurface(surface2.get(), surface2.get());
+    std::unique_ptr<Test::XdgToplevel> shellSurface2(Test::createXdgToplevelSurface(surface2.get()));
     QVERIFY(shellSurface2);
     Window *window2 = Test::renderAndWaitForShown(surface2.get(), QSize(128, 128), Qt::green);
     QVERIFY(window2);
@@ -819,7 +802,7 @@ void StackingOrderTest::testKeepBelow()
     // Create the first window.
     std::unique_ptr<KWayland::Client::Surface> surface1 = Test::createSurface();
     QVERIFY(surface1);
-    Test::XdgToplevel *shellSurface1 = Test::createXdgToplevelSurface(surface1.get(), surface1.get());
+    std::unique_ptr<Test::XdgToplevel> shellSurface1(Test::createXdgToplevelSurface(surface1.get()));
     QVERIFY(shellSurface1);
     Window *window1 = Test::renderAndWaitForShown(surface1.get(), QSize(128, 128), Qt::green);
     QVERIFY(window1);
@@ -831,7 +814,7 @@ void StackingOrderTest::testKeepBelow()
     // Create the second window.
     std::unique_ptr<KWayland::Client::Surface> surface2 = Test::createSurface();
     QVERIFY(surface2);
-    Test::XdgToplevel *shellSurface2 = Test::createXdgToplevelSurface(surface2.get(), surface2.get());
+    std::unique_ptr<Test::XdgToplevel> shellSurface2(Test::createXdgToplevelSurface(surface2.get()));
     QVERIFY(shellSurface2);
     Window *window2 = Test::renderAndWaitForShown(surface2.get(), QSize(128, 128), Qt::green);
     QVERIFY(window2);
@@ -849,6 +832,78 @@ void StackingOrderTest::testKeepBelow()
     QVERIFY(window2->isActive());
     QVERIFY(window2->keepBelow());
     QCOMPARE(workspace()->stackingOrder(), (QList<Window *>{window2, window1}));
+}
+
+void StackingOrderTest::testPreserveRelativeWindowStacking()
+{
+    // This test verifies that raising a window doesn't affect the order of transient windows that are constrained
+    // to be above it, see BUG: 477262
+
+    const int windowsQuantity = 5;
+
+    std::unique_ptr<KWayland::Client::Surface> surfaces[windowsQuantity];
+    std::unique_ptr<Test::XdgToplevel> shellSurfaces[windowsQuantity];
+    Window *windows[windowsQuantity];
+
+    // Create 5 windows.
+    for (int i = 0; i < windowsQuantity; i++) {
+        surfaces[i] = Test::createSurface();
+        QVERIFY(surfaces[i]);
+        shellSurfaces[i] = Test::createXdgToplevelSurface(surfaces[i].get());
+        QVERIFY(shellSurfaces[i]);
+    }
+
+    // link them into the following hierarchy:
+    //      * 0 - parent to all
+    //      * 1, 2, 3 - children of 0
+    //      * 4 - child of 3
+    shellSurfaces[1]->set_parent(shellSurfaces[0]->object());
+    shellSurfaces[2]->set_parent(shellSurfaces[0]->object());
+    shellSurfaces[3]->set_parent(shellSurfaces[0]->object());
+    shellSurfaces[4]->set_parent(shellSurfaces[3]->object());
+
+    for (int i = 0; i < windowsQuantity; i++) {
+        windows[i] = Test::renderAndWaitForShown(surfaces[i].get(), QSize(128, 128), Qt::green);
+        QVERIFY(windows[i]);
+    }
+
+    // verify initial windows order
+    QCOMPARE(workspace()->stackingOrder(), (QList<Window *>{windows[0], windows[1], windows[2], windows[3], windows[4]}));
+
+    // activate parent
+    workspace()->activateWindow(windows[0]);
+    // verify that order hasn't changed
+    QCOMPARE(workspace()->stackingOrder(), (QList<Window *>{windows[0], windows[1], windows[2], windows[3], windows[4]}));
+
+    // change stacking order
+    workspace()->activateWindow(windows[2]);
+    workspace()->activateWindow(windows[1]);
+    // verify order
+    QCOMPARE(workspace()->stackingOrder(), (QList<Window *>{windows[0], windows[3], windows[4], windows[2], windows[1]}));
+
+    // activate parent
+    workspace()->activateWindow(windows[0]);
+    // verify that order hasn't changed
+    QCOMPARE(workspace()->stackingOrder(), (QList<Window *>{windows[0], windows[3], windows[4], windows[2], windows[1]}));
+
+    // activate child 3
+    workspace()->activateWindow(windows[3]);
+    // verify that both child 3 and 4 have been raised
+    QCOMPARE(workspace()->stackingOrder(), (QList<Window *>{windows[0], windows[2], windows[1], windows[3], windows[4]}));
+
+    // activate parent
+    workspace()->activateWindow(windows[0]);
+    // verify that order hasn't changed
+    QCOMPARE(workspace()->stackingOrder(), (QList<Window *>{windows[0], windows[2], windows[1], windows[3], windows[4]}));
+
+    // yet another check - add KeepAbove attribute to parent window (see BUG: 477262)
+    windows[0]->setKeepAbove(true);
+    // verify that order hasn't changed
+    QCOMPARE(workspace()->stackingOrder(), (QList<Window *>{windows[0], windows[2], windows[1], windows[3], windows[4]}));
+    // verify that child windows can still be restacked freely
+    workspace()->activateWindow(windows[1]);
+    workspace()->activateWindow(windows[2]);
+    QCOMPARE(workspace()->stackingOrder(), (QList<Window *>{windows[0], windows[3], windows[4], windows[1], windows[2]}));
 }
 
 WAYLANDTEST_MAIN(StackingOrderTest)

@@ -9,7 +9,6 @@
 #pragma once
 #include "drm_layer.h"
 
-#include "drm_dmabuf_feedback.h"
 #include "drm_egl_layer_surface.h"
 
 #include <QMap>
@@ -22,30 +21,29 @@ namespace KWin
 {
 
 class EglGbmBackend;
-class GbmBuffer;
 
 class EglGbmLayer : public DrmPipelineLayer
 {
 public:
-    EglGbmLayer(EglGbmBackend *eglBackend, DrmPipeline *pipeline);
+    explicit EglGbmLayer(EglGbmBackend *eglBackend, DrmPipeline *pipeline, DrmPlane::TypeIndex type);
 
-    std::optional<OutputLayerBeginFrameInfo> beginFrame() override;
-    void aboutToStartPainting(const QRegion &damagedRegion) override;
-    bool endFrame(const QRegion &renderedRegion, const QRegion &damagedRegion) override;
-    bool scanout(SurfaceItem *surfaceItem) override;
+    std::optional<OutputLayerBeginFrameInfo> doBeginFrame() override;
+    bool doEndFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame) override;
     bool checkTestBuffer() override;
     std::shared_ptr<DrmFramebuffer> currentBuffer() const override;
-    bool hasDirectScanoutBuffer() const override;
-    QRegion currentDamage() const override;
     std::shared_ptr<GLTexture> texture() const override;
+    ColorDescription colorDescription() const;
     void releaseBuffers() override;
+    DrmDevice *scanoutDevice() const override;
+    QHash<uint32_t, QList<uint64_t>> supportedDrmFormats() const override;
+    std::optional<QSize> fixedSize() const override;
 
 private:
+    bool doAttemptScanout(GraphicsBuffer *buffer, const ColorDescription &color, const std::shared_ptr<OutputFrame> &frame) override;
+
     std::shared_ptr<DrmFramebuffer> m_scanoutBuffer;
-    QRegion m_currentDamage;
 
     EglGbmLayerSurface m_surface;
-    DmabufFeedback m_dmabufFeedback;
 };
 
 }

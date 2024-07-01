@@ -8,9 +8,10 @@
 */
 #include "x11_filter.h"
 
-#include "effects.h"
+#include "effect/effecthandler.h"
 #include "screenedge.h"
 #include "tabbox/tabbox.h"
+#include "utils/xcbutils.h"
 #include "workspace.h"
 
 #include <KKeyServer>
@@ -23,7 +24,7 @@ namespace TabBox
 {
 
 X11Filter::X11Filter()
-    : X11EventFilter(QVector<int>{XCB_KEY_PRESS, XCB_KEY_RELEASE, XCB_MOTION_NOTIFY, XCB_BUTTON_PRESS, XCB_BUTTON_RELEASE})
+    : X11EventFilter(QList<int>{XCB_KEY_PRESS, XCB_KEY_RELEASE, XCB_MOTION_NOTIFY, XCB_BUTTON_PRESS, XCB_BUTTON_RELEASE})
 {
 }
 
@@ -40,7 +41,7 @@ bool X11Filter::event(xcb_generic_event_t *event)
         auto e = reinterpret_cast<xcb_button_press_event_t *>(event);
         xcb_allow_events(connection(), XCB_ALLOW_ASYNC_POINTER, XCB_CURRENT_TIME);
         if (!tab->isShown() && tab->isDisplayed()) {
-            if (effects && static_cast<EffectsHandlerImpl *>(effects)->isMouseInterception()) {
+            if (effects && effects->isMouseInterception()) {
                 // pass on to effects, effects will filter out the event
                 return false;
             }

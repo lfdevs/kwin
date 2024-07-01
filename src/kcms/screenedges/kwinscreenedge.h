@@ -11,7 +11,7 @@
 
 #include <QWidget>
 
-#include "kwinglobals.h"
+#include "effect/globals.h"
 
 namespace KWin
 {

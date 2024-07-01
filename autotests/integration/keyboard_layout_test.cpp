@@ -8,7 +8,6 @@
 */
 #include "kwin_wayland_test.h"
 
-#include "core/outputbackend.h"
 #include "keyboard_input.h"
 #include "keyboard_layout.h"
 #include "virtualdesktops.h"
@@ -59,7 +58,6 @@ private Q_SLOTS:
     void testReconfigure();
     void testChangeLayoutThroughDBus();
     void testPerLayoutShortcut();
-    void testDBusServiceExport();
     void testVirtualDesktopPolicy();
     void testWindowPolicy();
     void testApplicationPolicy();
@@ -133,12 +131,16 @@ void KeyboardLayoutTest::initTestCase()
     qRegisterMetaType<KWin::Window *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
+    Test::setOutputConfig({
+        QRect(0, 0, 1280, 1024),
+        QRect(1280, 0, 1280, 1024),
+    });
 
     kwinApp()->setConfig(KSharedConfig::openConfig(QString(), KConfig::SimpleConfig));
     kwinApp()->setKxkbConfig(KSharedConfig::openConfig(QString(), KConfig::SimpleConfig));
+    kwinApp()->setInputConfig(KSharedConfig::openConfig(QString(), KConfig::SimpleConfig));
 
-    layoutGroup = kwinApp()->kxkbConfig()->group("Layout");
+    layoutGroup = kwinApp()->kxkbConfig()->group(QStringLiteral("Layout"));
     layoutGroup.deleteGroup();
 
     kwinApp()->start();
@@ -172,7 +174,7 @@ void KeyboardLayoutTest::testReconfigure()
     QCOMPARE(xkb->layoutName(0), QStringLiteral("English (US)"));
 
     // create a new keymap
-    KConfigGroup layoutGroup = kwinApp()->kxkbConfig()->group("Layout");
+    KConfigGroup layoutGroup = kwinApp()->kxkbConfig()->group(QStringLiteral("Layout"));
     layoutGroup.writeEntry("LayoutList", QStringLiteral("de,us"));
     layoutGroup.sync();
 
@@ -253,6 +255,11 @@ void KeyboardLayoutTest::testChangeLayoutThroughDBus()
 
 void KeyboardLayoutTest::testPerLayoutShortcut()
 {
+#if !KWIN_BUILD_GLOBALSHORTCUTS
+    QSKIP("Can't test shortcuts without shortcuts");
+    return;
+#endif
+
     // this test verifies that per-layout global shortcuts are working correctly.
     // first configure layouts
     layoutGroup.writeEntry("LayoutList", QStringLiteral("us,de,de(neo)"));
@@ -297,36 +304,6 @@ void KeyboardLayoutTest::testPerLayoutShortcut()
     Test::keyboardKeyReleased(KEY_1, timestamp++);
     Test::keyboardKeyReleased(KEY_LEFTALT, timestamp++);
     Test::keyboardKeyReleased(KEY_LEFTCTRL, timestamp++);
-}
-
-void KeyboardLayoutTest::testDBusServiceExport()
-{
-    // verifies that the dbus service is only exported if there are at least two layouts
-
-    // first configure layouts, with just one layout
-    layoutGroup.writeEntry("LayoutList", QStringLiteral("us"));
-    layoutGroup.sync();
-    reconfigureLayouts();
-    auto xkb = input()->keyboard()->xkb();
-    QCOMPARE(xkb->numberOfLayouts(), 1u);
-    // default layout is English
-    QCOMPARE(xkb->layoutName(), QStringLiteral("English (US)"));
-    // with one layout we should not have the dbus interface
-    QVERIFY(!QDBusConnection::sessionBus().interface()->isServiceRegistered(QStringLiteral("org.kde.keyboard")).value());
-
-    // reconfigure to two layouts
-    layoutGroup.writeEntry("LayoutList", QStringLiteral("us,de"));
-    layoutGroup.sync();
-    reconfigureLayouts();
-    QCOMPARE(xkb->numberOfLayouts(), 2u);
-    QVERIFY(QDBusConnection::sessionBus().interface()->isServiceRegistered(QStringLiteral("org.kde.keyboard")).value());
-
-    // and back to one layout
-    layoutGroup.writeEntry("LayoutList", QStringLiteral("us"));
-    layoutGroup.sync();
-    reconfigureLayouts();
-    QCOMPARE(xkb->numberOfLayouts(), 1u);
-    QVERIFY(!QDBusConnection::sessionBus().interface()->isServiceRegistered(QStringLiteral("org.kde.keyboard")).value());
 }
 
 void KeyboardLayoutTest::testVirtualDesktopPolicy()
@@ -497,7 +474,7 @@ void KeyboardLayoutTest::testApplicationPolicy()
 
     shellSurface2.reset();
     surface2.reset();
-    QVERIFY(Test::waitForWindowDestroyed(c2));
+    QVERIFY(Test::waitForWindowClosed(c2));
     QVERIFY(!layoutChangedSpy.wait(1000));
     QCOMPARE(xkb->layoutName(), QStringLiteral("German (Neo 2)"));
 
@@ -529,7 +506,7 @@ void KeyboardLayoutTest::testNumLock()
     QVERIFY(!xkb->leds().testFlag(LED::NumLock));
 
     // let's reconfigure to enable through config
-    auto group = InputConfig::self()->inputConfig()->group("Keyboard");
+    auto group = kwinApp()->inputConfig()->group(QStringLiteral("Keyboard"));
     group.writeEntry("NumLock", 0);
     group.sync();
     xkb->reconfigure();

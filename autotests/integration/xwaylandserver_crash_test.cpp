@@ -6,12 +6,10 @@
 
 #include "kwin_wayland_test.h"
 
-#include "composite.h"
+#include "compositor.h"
 #include "core/output.h"
-#include "core/outputbackend.h"
 #include "main.h"
 #include "scene/workspacescene.h"
-#include "unmanaged.h"
 #include "wayland_server.h"
 #include "workspace.h"
 #include "x11window.h"
@@ -22,14 +20,6 @@
 
 namespace KWin
 {
-
-struct XcbConnectionDeleter
-{
-    void operator()(xcb_connection_t *pointer)
-    {
-        xcb_disconnect(pointer);
-    }
-};
 
 static const QString s_socketName = QStringLiteral("wayland_test_kwin_xwayland_server_crash-0");
 
@@ -44,14 +34,16 @@ private Q_SLOTS:
 
 void XwaylandServerCrashTest::initTestCase()
 {
-    qRegisterMetaType<Unmanaged *>();
     qRegisterMetaType<X11Window *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
+    Test::setOutputConfig({
+        QRect(0, 0, 1280, 1024),
+        QRect(1280, 0, 1280, 1024),
+    });
 
     KSharedConfig::Ptr config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
-    KConfigGroup xwaylandGroup = config->group("Xwayland");
+    KConfigGroup xwaylandGroup = config->group(QStringLiteral("Xwayland"));
     xwaylandGroup.writeEntry(QStringLiteral("XwaylandCrashPolicy"), QStringLiteral("Stop"));
     xwaylandGroup.sync();
     kwinApp()->setConfig(config);
@@ -69,7 +61,7 @@ void XwaylandServerCrashTest::testCrash()
     // This test verifies that all connected X11 clients get destroyed when Xwayland crashes.
 
     // Create a normal window.
-    std::unique_ptr<xcb_connection_t, XcbConnectionDeleter> c(xcb_connect(nullptr, nullptr));
+    Test::XcbConnectionPtr c = Test::createX11Connection();
     QVERIFY(!xcb_connection_has_error(c.get()));
     const QRect windowGeometry(0, 0, 100, 200);
     xcb_window_t windowId1 = xcb_generate_id(c.get());
@@ -105,9 +97,9 @@ void XwaylandServerCrashTest::testCrash()
     xcb_map_window(c.get(), windowId2);
     xcb_flush(c.get());
 
-    QSignalSpy unmanagedAddedSpy(workspace(), &Workspace::unmanagedAdded);
+    QSignalSpy unmanagedAddedSpy(workspace(), &Workspace::windowAdded);
     QVERIFY(unmanagedAddedSpy.wait());
-    QPointer<Unmanaged> unmanaged = unmanagedAddedSpy.last().first().value<Unmanaged *>();
+    QPointer<X11Window> unmanaged = unmanagedAddedSpy.last().first().value<X11Window *>();
     QVERIFY(unmanaged);
 
     // Let's pretend that the Xwayland process has crashed.

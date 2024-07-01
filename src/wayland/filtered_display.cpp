@@ -11,7 +11,7 @@
 
 #include <QByteArray>
 
-namespace KWaylandServer
+namespace KWin
 {
 class FilteredDisplayPrivate
 {
@@ -50,3 +50,5 @@ FilteredDisplay::~FilteredDisplay()
 }
 
 }
+
+#include "moc_filtered_display.cpp"

@@ -16,23 +16,25 @@
 
 #include "atoms.h"
 #include "cursor.h"
+#include "effect/effecthandler.h"
 #include "focuschain.h"
-#include "netinfo.h"
-#include "workspace.h"
-#include "x11window.h"
-#if KWIN_BUILD_TABBOX
-#include "tabbox.h"
-#endif
-#include "effects.h"
 #include "group.h"
+#include "input.h"
+#include "netinfo.h"
 #include "rules.h"
 #include "screenedge.h"
-#include "unmanaged.h"
+#include "touch_input.h"
 #include "useractions.h"
 #include "utils/xcbutils.h"
-#include "wayland/surface_interface.h"
-#include "wayland/xwaylandshell_v1_interface.h"
+#include "wayland/surface.h"
+#include "wayland/xwaylandshell_v1.h"
 #include "wayland_server.h"
+#include "workspace.h"
+#include "x11window.h"
+
+#if KWIN_BUILD_TABBOX
+#include "tabbox/tabbox.h"
+#endif
 
 #include <KDecoration2/Decoration>
 
@@ -48,11 +50,9 @@
 
 #include <xcb/damage.h>
 #include <xcb/sync.h>
-#if XCB_ICCCM_FOUND
 #include <xcb/xcb_icccm.h>
-#endif
 
-#include "composite.h"
+#include "compositor.h"
 #include "x11eventfilter.h"
 
 #ifndef XCB_GE_GENERIC
@@ -168,7 +168,7 @@ bool Workspace::workspaceEvent(xcb_generic_event_t *e)
             if (window->windowEvent(e)) {
                 return true;
             }
-        } else if (Unmanaged *window = findUnmanaged(eventWindow)) {
+        } else if (X11Window *window = findUnmanaged(eventWindow)) {
             if (window->windowEvent(e)) {
                 return true;
             }
@@ -223,7 +223,7 @@ bool Workspace::workspaceEvent(xcb_generic_event_t *e)
     case XCB_MAP_NOTIFY: {
         const auto *event = reinterpret_cast<xcb_map_notify_event_t *>(e);
         if (event->override_redirect) {
-            Unmanaged *window = findUnmanaged(event->window);
+            X11Window *window = findUnmanaged(event->window);
             if (window == nullptr) {
                 window = createUnmanaged(event->window);
             }
@@ -232,7 +232,7 @@ bool Workspace::workspaceEvent(xcb_generic_event_t *e)
                 // since release is scheduled after map notify, this old Unmanaged will get released
                 // before KWIN has chance to remanage it again. so release it right now.
                 if (window->hasScheduledRelease()) {
-                    window->release();
+                    window->releaseWindow();
                     window = createUnmanaged(event->window);
                 }
                 if (window) {
@@ -317,6 +317,73 @@ bool Workspace::workspaceEvent(xcb_generic_event_t *e)
  */
 bool X11Window::windowEvent(xcb_generic_event_t *e)
 {
+    if (isUnmanaged()) {
+        NET::Properties dirtyProperties;
+        NET::Properties2 dirtyProperties2;
+        info->event(e, &dirtyProperties, &dirtyProperties2); // pass through the NET stuff
+        if (dirtyProperties2 & NET::WM2Opacity) {
+            if (Compositor::compositing()) {
+                setOpacity(info->opacityF());
+            }
+        }
+        if (dirtyProperties2 & NET::WM2OpaqueRegion) {
+            getWmOpaqueRegion();
+        }
+        if (dirtyProperties2.testFlag(NET::WM2WindowRole)) {
+            Q_EMIT windowRoleChanged();
+        }
+        if (dirtyProperties2.testFlag(NET::WM2WindowClass)) {
+            getResourceClass();
+        }
+        const uint8_t eventType = e->response_type & ~0x80;
+        switch (eventType) {
+        case XCB_DESTROY_NOTIFY:
+            destroyWindow();
+            break;
+        case XCB_UNMAP_NOTIFY: {
+            workspace()->updateFocusMousePosition(Cursors::self()->mouse()->pos()); // may cause leave event
+
+            // unmap notify might have been emitted due to a destroy notify
+            // but unmap notify gets emitted before the destroy notify, nevertheless at this
+            // point the window is already destroyed. This means any XCB request with the window
+            // will cause an error.
+            // To not run into these errors we try to wait for the destroy notify. For this we
+            // generate a round trip to the X server and wait a very short time span before
+            // handling the release.
+            kwinApp()->updateXTime();
+            // using 1 msec to not just move it at the end of the event loop but add an very short
+            // timespan to cover cases like unmap() followed by destroy(). The only other way to
+            // ensure that the window is not destroyed when we do the release handling is to grab
+            // the XServer which we do not want to do for an Unmanaged. The timespan of 1 msec is
+            // short enough to not cause problems in the close window animations.
+            // It's of course still possible that we miss the destroy in which case non-fatal
+            // X errors are reported to the event loop and logged by Qt.
+            m_releaseTimer.start(1);
+            break;
+        }
+        case XCB_CONFIGURE_NOTIFY:
+            configureNotifyEvent(reinterpret_cast<xcb_configure_notify_event_t *>(e));
+            break;
+        case XCB_PROPERTY_NOTIFY:
+            propertyNotifyEvent(reinterpret_cast<xcb_property_notify_event_t *>(e));
+            break;
+        case XCB_CLIENT_MESSAGE:
+            clientMessageEvent(reinterpret_cast<xcb_client_message_event_t *>(e));
+            break;
+        default: {
+            if (eventType == Xcb::Extensions::self()->shapeNotifyEvent()) {
+                detectShape();
+                Q_EMIT shapeChanged();
+            }
+            if (eventType == Xcb::Extensions::self()->damageNotifyEvent()) {
+                damageNotifyEvent();
+            }
+            break;
+        }
+        }
+        return false; // don't eat events, even our own unmanaged widgets are tracked
+    }
+
     if (findEventWindow(e) == window()) { // avoid doing stuff on frame or wrapper
         NET::Properties dirtyProperties;
         NET::Properties2 dirtyProperties2;
@@ -330,7 +397,7 @@ bool X11Window::windowEvent(xcb_generic_event_t *e)
         }
         if ((dirtyProperties & NET::WMStrut) != 0
             || (dirtyProperties2 & NET::WM2ExtendedStrut) != 0) {
-            workspace()->updateClientArea();
+            workspace()->rearrange();
         }
         if ((dirtyProperties & NET::WMIcon) != 0) {
             getIcons();
@@ -488,7 +555,7 @@ bool X11Window::windowEvent(xcb_generic_event_t *e)
     }
     default:
         if (eventType == Xcb::Extensions::self()->shapeNotifyEvent() && reinterpret_cast<xcb_shape_notify_event_t *>(e)->affected_window == window()) {
-            detectShape(window()); // workaround for #19644
+            detectShape(); // workaround for #19644
             updateShape();
         }
         if (eventType == Xcb::Extensions::self()->damageNotifyEvent() && reinterpret_cast<xcb_damage_notify_event_t *>(e)->drawable == frameId()) {
@@ -524,7 +591,7 @@ bool X11Window::mapRequestEvent(xcb_map_request_event_t *e)
     }
     // also copied in clientMessage()
     if (isMinimized()) {
-        unminimize();
+        setMinimized(false);
     }
     if (isShade()) {
         setShade(ShadeNone);
@@ -583,16 +650,52 @@ void X11Window::destroyNotifyEvent(xcb_destroy_notify_event_t *e)
  */
 void X11Window::clientMessageEvent(xcb_client_message_event_t *e)
 {
-    Window::clientMessageEvent(e);
+    if (e->type == atoms->wl_surface_serial) {
+        m_surfaceSerial = (uint64_t(e->data.data32[1]) << 32) | e->data.data32[0];
+        if (auto w = waylandServer()) {
+            if (XwaylandSurfaceV1Interface *xwaylandSurface = w->xwaylandShell()->findSurface(m_surfaceSerial)) {
+                setSurface(xwaylandSurface->surface());
+            }
+        }
+    } else if (e->type == atoms->wl_surface_id) {
+        m_pendingSurfaceId = e->data.data32[0];
+        if (auto w = waylandServer()) {
+            if (auto s = SurfaceInterface::get(m_pendingSurfaceId, w->xWaylandConnection())) {
+                setSurface(s);
+            }
+        }
+    }
+
     if (e->window != window()) {
         return; // ignore frame/wrapper
     }
     // WM_STATE
     if (e->type == atoms->wm_change_state) {
         if (e->data.data32[0] == XCB_ICCCM_WM_STATE_ICONIC) {
-            minimize();
+            setMinimized(true);
         }
         return;
+    }
+}
+
+void X11Window::configureNotifyEvent(xcb_configure_notify_event_t *e)
+{
+    if (effects) {
+        effects->checkInputWindowStacking(); // keep them on top
+    }
+    QRectF newgeom(Xcb::fromXNative(e->x), Xcb::fromXNative(e->y), Xcb::fromXNative(e->width), Xcb::fromXNative(e->height));
+    if (newgeom != m_frameGeometry) {
+        Q_EMIT frameGeometryAboutToChange();
+
+        QRectF old = m_frameGeometry;
+        m_clientGeometry = newgeom;
+        m_frameGeometry = newgeom;
+        m_bufferGeometry = newgeom;
+        checkOutput();
+        Q_EMIT bufferGeometryChanged(old);
+        Q_EMIT clientGeometryChanged(old);
+        Q_EMIT frameGeometryChanged(old);
+        Q_EMIT shapeChanged();
     }
 }
 
@@ -647,7 +750,6 @@ void X11Window::configureRequestEvent(xcb_configure_request_event_t *e)
  */
 void X11Window::propertyNotifyEvent(xcb_property_notify_event_t *e)
 {
-    Window::propertyNotifyEvent(e);
     if (e->window != window()) {
         return; // ignore frame/wrapper
     }
@@ -674,8 +776,6 @@ void X11Window::propertyNotifyEvent(xcb_property_notify_event_t *e)
             getSyncCounter();
         } else if (e->atom == atoms->activities) {
             checkActivities();
-        } else if (e->atom == atoms->kde_first_in_window_list) {
-            updateFirstInTabBox();
         } else if (e->atom == atoms->kde_color_sheme) {
             updateColorScheme();
         } else if (e->atom == atoms->kde_screen_edge_show) {
@@ -684,6 +784,12 @@ void X11Window::propertyNotifyEvent(xcb_property_notify_event_t *e)
             checkApplicationMenuServiceName();
         } else if (e->atom == atoms->kde_net_wm_appmenu_object_path) {
             checkApplicationMenuObjectPath();
+        } else if (e->atom == atoms->wm_client_leader) {
+            getWmClientLeader();
+        } else if (e->atom == atoms->kde_net_wm_shadow) {
+            updateShadow();
+        } else if (e->atom == atoms->kde_skip_close_animation) {
+            getSkipCloseAnimation();
         }
         break;
     }
@@ -718,7 +824,7 @@ void X11Window::leaveNotifyEvent(xcb_leave_notify_event_t *e)
             setInteractiveMoveResizeGravity(Gravity::None);
             updateCursor();
         }
-        bool lostMouse = !rect().contains(QPoint(e->event_x, e->event_y));
+        bool lostMouse = !exclusiveContains(rect(), QPointF(e->event_x, e->event_y));
         // 'lostMouse' wouldn't work with e.g. B2 or Keramik, which have non-rectangular decorations
         // (i.e. the LeaveNotify event comes before leaving the rect and no LeaveNotify event
         // comes after leaving the rect) - so lets check if the pointer is really outside the window
@@ -884,7 +990,7 @@ bool X11Window::buttonPressEvent(xcb_window_t w, int button, int state, int x, i
         if (isSplash()
             && button == XCB_BUTTON_INDEX_1 && !bModKeyHeld) {
             // hide splashwindow if the user clicks on it
-            hideClient();
+            setHidden(true);
             if (w == wrapperId()) {
                 xcb_allow_events(kwinApp()->x11Connection(), XCB_ALLOW_SYNC_POINTER, XCB_TIME_CURRENT_TIME); // xTime());
             }
@@ -940,10 +1046,7 @@ bool X11Window::buttonPressEvent(xcb_window_t w, int button, int state, int x, i
     if (w == inputId()) {
         x = x_root - frameGeometry().x();
         y = y_root - frameGeometry().y();
-        // New API processes core events FIRST and only passes unused ones to the decoration
-        QMouseEvent ev(QMouseEvent::MouseButtonPress, QPoint(x, y), QPoint(x_root, y_root),
-                       x11ToQtMouseButton(button), x11ToQtMouseButtons(state), Qt::KeyboardModifiers());
-        return processDecorationButtonPress(&ev, true);
+        return processDecorationButtonPress(QPoint(x, y), QPoint(x_root, y_root), x11ToQtMouseButton(button), true);
     }
     if (w == frameId() && isDecorated()) {
         if (button >= 4 && button <= 7) {
@@ -970,13 +1073,17 @@ bool X11Window::buttonPressEvent(xcb_window_t w, int button, int state, int x, i
                 }
             }
         } else {
-            QMouseEvent event(QEvent::MouseButtonPress, QPointF(x, y), QPointF(x_root, y_root),
-                              x11ToQtMouseButton(button), x11ToQtMouseButtons(state), x11ToQtKeyboardModifiers(state));
+            QMouseEvent event(QEvent::MouseButtonPress,
+                              QPointF(x, y),
+                              QPointF(x_root, y_root),
+                              x11ToQtMouseButton(button),
+                              x11ToQtMouseButtons(state) | x11ToQtMouseButton(button),
+                              x11ToQtKeyboardModifiers(state));
             event.setTimestamp(time);
             event.setAccepted(false);
             QCoreApplication::sendEvent(decoration(), &event);
             if (!event.isAccepted()) {
-                processDecorationButtonPress(&event);
+                processDecorationButtonPress(QPointF(x, y), QPointF(x_root, y_root), x11ToQtMouseButton(button));
             }
         }
         return true;
@@ -1001,9 +1108,6 @@ bool X11Window::buttonReleaseEvent(xcb_window_t w, int button, int state, int x,
                               x11ToQtKeyboardModifiers(state));
             event.setAccepted(false);
             QCoreApplication::sendEvent(decoration(), &event);
-            if (event.isAccepted() || !titlebarPositionUnderMouse()) {
-                invalidateDecorationDoubleClickTimer(); // click was for the deco and shall not init a doubleclick
-            }
         }
     }
     if (w == wrapperId()) {
@@ -1014,7 +1118,7 @@ bool X11Window::buttonReleaseEvent(xcb_window_t w, int button, int state, int x,
         return true;
     }
     if (w == frameId() && workspace()->userActionsMenu() && workspace()->userActionsMenu()->isShown()) {
-        const_cast<UserActionsMenu *>(workspace()->userActionsMenu())->grabInput();
+        workspace()->userActionsMenu()->grabInput();
     }
     x = this->x(); // translate from grab window to local coords
     y = this->y();
@@ -1071,9 +1175,23 @@ bool X11Window::motionNotifyEvent(xcb_window_t w, int state, int x, int y, int x
         y = this->y();
     }
 
-    handleInteractiveMoveResize(QPoint(x, y), QPoint(x_root, y_root));
-    if (isInteractiveMove()) {
-        workspace()->screenEdges()->check(QPoint(x_root, y_root), QDateTime::fromMSecsSinceEpoch(xTime(), Qt::UTC));
+    if (!isInteractiveMoveResize()) {
+        const QPointF offset(interactiveMoveOffset().x() * width(), interactiveMoveOffset().y() * height());
+        const QPointF delta(QPointF(x, y) - offset);
+        if (delta.manhattanLength() >= QApplication::startDragDistance()) {
+            if (startInteractiveMoveResize()) {
+                updateInteractiveMoveResize(QPointF(x_root, y_root));
+            } else {
+                setInteractiveMoveResizePointerButtonDown(false);
+            }
+            updateCursor();
+        }
+    } else {
+        updateInteractiveMoveResize(QPointF(x_root, y_root));
+
+        if (isInteractiveMove()) {
+            workspace()->screenEdges()->check(QPoint(x_root, y_root), QDateTime::fromMSecsSinceEpoch(xTime(), Qt::UTC));
+        }
     }
 
     return true;
@@ -1158,43 +1276,67 @@ void X11Window::focusOutEvent(xcb_focus_out_event_t *e)
 }
 
 // performs _NET_WM_MOVERESIZE
-void X11Window::NETMoveResize(qreal x_root, qreal y_root, NET::Direction direction)
+void X11Window::NETMoveResize(qreal x_root, qreal y_root, NET::Direction direction, xcb_button_t button)
 {
-    if (direction == NET::Move) {
-        // move cursor to the provided position to prevent the window jumping there on first movement
-        // the expectation is that the cursor is already at the provided position,
-        // thus it's more a safety measurement
-        Cursors::self()->mouse()->setPos(QPointF(x_root, y_root));
-        performMouseCommand(Options::MouseMove, QPointF(x_root, y_root));
-    } else if (isInteractiveMoveResize() && direction == NET::MoveResizeCancel) {
+    if (isInteractiveMoveResize() && direction == NET::MoveResizeCancel) {
         finishInteractiveMoveResize(true);
         setInteractiveMoveResizePointerButtonDown(false);
         updateCursor();
-    } else if (direction >= NET::TopLeft && direction <= NET::Left) {
-        static const Gravity convert[] = {
-            Gravity::TopLeft,
-            Gravity::Top,
-            Gravity::TopRight,
-            Gravity::Right,
-            Gravity::BottomRight,
-            Gravity::Bottom,
-            Gravity::BottomLeft,
-            Gravity::Left};
-        if (!isResizable() || isShade()) {
-            return;
+    } else if (direction == NET::Move || (direction >= NET::TopLeft && direction <= NET::Left)) {
+        if (waylandServer()) {
+            if (!button) {
+                if (!input()->qtButtonStates() && !input()->touch()->touchPointCount()) {
+                    return;
+                }
+            } else {
+                if (!(input()->qtButtonStates() & x11ToQtMouseButton(button)) && !input()->touch()->touchPointCount()) {
+                    return;
+                }
+            }
+        } else {
+            if (button) {
+                Xcb::Pointer pointer(window());
+                if (!pointer) {
+                    return;
+                }
+                if (!(x11ToQtMouseButtons(pointer->mask) & x11ToQtMouseButton(button))) {
+                    return;
+                }
+            }
         }
-        if (isInteractiveMoveResize()) {
-            finishInteractiveMoveResize(false);
+
+        if (direction == NET::Move) {
+            // move cursor to the provided position to prevent the window jumping there on first movement
+            // the expectation is that the cursor is already at the provided position,
+            // thus it's more a safety measurement
+            Cursors::self()->mouse()->setPos(QPointF(x_root, y_root));
+            performMouseCommand(Options::MouseMove, QPointF(x_root, y_root));
+        } else {
+            static const Gravity convert[] = {
+                Gravity::TopLeft,
+                Gravity::Top,
+                Gravity::TopRight,
+                Gravity::Right,
+                Gravity::BottomRight,
+                Gravity::Bottom,
+                Gravity::BottomLeft,
+                Gravity::Left};
+            if (!isResizable() || isShade()) {
+                return;
+            }
+            if (isInteractiveMoveResize()) {
+                finishInteractiveMoveResize(false);
+            }
+            setInteractiveMoveResizePointerButtonDown(true);
+            setInteractiveMoveResizeAnchor(QPointF(x_root, y_root));
+            setInteractiveMoveOffset(QPointF(qreal(x_root - x()) / width(), qreal(y_root - y()) / height())); // map from global
+            setUnrestrictedInteractiveMoveResize(false);
+            setInteractiveMoveResizeGravity(convert[direction]);
+            if (!startInteractiveMoveResize()) {
+                setInteractiveMoveResizePointerButtonDown(false);
+            }
+            updateCursor();
         }
-        setInteractiveMoveResizePointerButtonDown(true);
-        setInteractiveMoveOffset(QPointF(x_root - x(), y_root - y())); // map from global
-        setInvertedInteractiveMoveOffset(rect().bottomRight() - interactiveMoveOffset());
-        setUnrestrictedInteractiveMoveResize(false);
-        setInteractiveMoveResizeGravity(convert[direction]);
-        if (!startInteractiveMoveResize()) {
-            setInteractiveMoveResizePointerButtonDown(false);
-        }
-        updateCursor();
     } else if (direction == NET::KeyboardMove) {
         // ignore mouse coordinates given in the message, mouse position is used by the moving algorithm
         Cursors::self()->mouse()->setPos(frameGeometry().center());
@@ -1210,143 +1352,6 @@ void X11Window::keyPressEvent(uint key_code, xcb_timestamp_t time)
 {
     updateUserTime(time);
     Window::keyPressEvent(key_code);
-}
-
-// ****************************************
-// Unmanaged
-// ****************************************
-
-bool Unmanaged::windowEvent(xcb_generic_event_t *e)
-{
-    NET::Properties dirtyProperties;
-    NET::Properties2 dirtyProperties2;
-    info->event(e, &dirtyProperties, &dirtyProperties2); // pass through the NET stuff
-    if (dirtyProperties2 & NET::WM2Opacity) {
-        if (Compositor::compositing()) {
-            setOpacity(info->opacityF());
-        }
-    }
-    if (dirtyProperties2 & NET::WM2OpaqueRegion) {
-        getWmOpaqueRegion();
-    }
-    if (dirtyProperties2.testFlag(NET::WM2WindowRole)) {
-        Q_EMIT windowRoleChanged();
-    }
-    if (dirtyProperties2.testFlag(NET::WM2WindowClass)) {
-        getResourceClass();
-    }
-    const uint8_t eventType = e->response_type & ~0x80;
-    switch (eventType) {
-    case XCB_DESTROY_NOTIFY:
-        release(ReleaseReason::Destroyed);
-        break;
-    case XCB_UNMAP_NOTIFY: {
-        workspace()->updateFocusMousePosition(Cursors::self()->mouse()->pos()); // may cause leave event
-
-        // unmap notify might have been emitted due to a destroy notify
-        // but unmap notify gets emitted before the destroy notify, nevertheless at this
-        // point the window is already destroyed. This means any XCB request with the window
-        // will cause an error.
-        // To not run into these errors we try to wait for the destroy notify. For this we
-        // generate a round trip to the X server and wait a very short time span before
-        // handling the release.
-        kwinApp()->updateXTime();
-        // using 1 msec to not just move it at the end of the event loop but add an very short
-        // timespan to cover cases like unmap() followed by destroy(). The only other way to
-        // ensure that the window is not destroyed when we do the release handling is to grab
-        // the XServer which we do not want to do for an Unmanaged. The timespan of 1 msec is
-        // short enough to not cause problems in the close window animations.
-        // It's of course still possible that we miss the destroy in which case non-fatal
-        // X errors are reported to the event loop and logged by Qt.
-        m_scheduledRelease = true;
-        QTimer::singleShot(1, this, [this]() {
-            release();
-        });
-        break;
-    }
-    case XCB_CONFIGURE_NOTIFY:
-        configureNotifyEvent(reinterpret_cast<xcb_configure_notify_event_t *>(e));
-        break;
-    case XCB_PROPERTY_NOTIFY:
-        propertyNotifyEvent(reinterpret_cast<xcb_property_notify_event_t *>(e));
-        break;
-    case XCB_CLIENT_MESSAGE:
-        clientMessageEvent(reinterpret_cast<xcb_client_message_event_t *>(e));
-        break;
-    default: {
-        if (eventType == Xcb::Extensions::self()->shapeNotifyEvent()) {
-            detectShape(window());
-            Q_EMIT geometryShapeChanged(this, frameGeometry());
-        }
-        if (eventType == Xcb::Extensions::self()->damageNotifyEvent()) {
-            damageNotifyEvent();
-        }
-        break;
-    }
-    }
-    return false; // don't eat events, even our own unmanaged widgets are tracked
-}
-
-void Unmanaged::configureNotifyEvent(xcb_configure_notify_event_t *e)
-{
-    if (effects) {
-        static_cast<EffectsHandlerImpl *>(effects)->checkInputWindowStacking(); // keep them on top
-    }
-    QRectF newgeom(Xcb::fromXNative(e->x), Xcb::fromXNative(e->y), Xcb::fromXNative(e->width), Xcb::fromXNative(e->height));
-    if (newgeom != m_frameGeometry) {
-        Q_EMIT frameGeometryAboutToChange(this);
-
-        QRectF old = m_frameGeometry;
-        m_clientGeometry = newgeom;
-        m_frameGeometry = newgeom;
-        m_bufferGeometry = newgeom;
-        checkOutput();
-        Q_EMIT bufferGeometryChanged(this, old);
-        Q_EMIT clientGeometryChanged(this, old);
-        Q_EMIT frameGeometryChanged(this, old);
-        Q_EMIT geometryShapeChanged(this, old);
-    }
-}
-
-// ****************************************
-// Window
-// ****************************************
-
-void Window::propertyNotifyEvent(xcb_property_notify_event_t *e)
-{
-    if (e->window != window()) {
-        return; // ignore frame/wrapper
-    }
-    switch (e->atom) {
-    default:
-        if (e->atom == atoms->wm_client_leader) {
-            getWmClientLeader();
-        } else if (e->atom == atoms->kde_net_wm_shadow) {
-            updateShadow();
-        } else if (e->atom == atoms->kde_skip_close_animation) {
-            getSkipCloseAnimation();
-        }
-        break;
-    }
-}
-
-void Window::clientMessageEvent(xcb_client_message_event_t *e)
-{
-    if (e->type == atoms->wl_surface_serial) {
-        m_surfaceSerial = (uint64_t(e->data.data32[1]) << 32) | e->data.data32[0];
-        if (auto w = waylandServer()) {
-            if (KWaylandServer::XwaylandSurfaceV1Interface *xwaylandSurface = w->xwaylandShell()->findSurface(m_surfaceSerial)) {
-                setSurface(xwaylandSurface->surface());
-            }
-        }
-    } else if (e->type == atoms->wl_surface_id) {
-        m_pendingSurfaceId = e->data.data32[0];
-        if (auto w = waylandServer()) {
-            if (auto s = KWaylandServer::SurfaceInterface::get(m_pendingSurfaceId, w->xWaylandConnection())) {
-                setSurface(s);
-            }
-        }
-    }
 }
 
 } // namespace

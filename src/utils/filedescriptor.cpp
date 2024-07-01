@@ -8,6 +8,8 @@
 */
 #include "filedescriptor.h"
 
+#include <fcntl.h>
+#include <sys/poll.h>
 #include <unistd.h>
 #include <utility>
 
@@ -50,12 +52,58 @@ int FileDescriptor::get() const
     return m_fd;
 }
 
+int FileDescriptor::take()
+{
+    return std::exchange(m_fd, -1);
+}
+
+void FileDescriptor::reset()
+{
+    if (m_fd != -1) {
+        ::close(m_fd);
+        m_fd = -1;
+    }
+}
+
 FileDescriptor FileDescriptor::duplicate() const
 {
     if (m_fd != -1) {
-        return FileDescriptor{dup(m_fd)};
+        return FileDescriptor{fcntl(m_fd, F_DUPFD_CLOEXEC, 0)};
     } else {
         return {};
     }
+}
+
+bool FileDescriptor::isClosed() const
+{
+    return isClosed(m_fd);
+}
+
+bool FileDescriptor::isReadable() const
+{
+    return isReadable(m_fd);
+}
+
+bool FileDescriptor::isClosed(int fd)
+{
+    pollfd pfd = {
+        .fd = fd,
+        .events = POLLIN,
+        .revents = 0,
+    };
+    if (poll(&pfd, 1, 0) < 0) {
+        return true;
+    }
+    return pfd.revents & (POLLHUP | POLLERR);
+}
+
+bool FileDescriptor::isReadable(int fd)
+{
+    pollfd pfd = {
+        .fd = fd,
+        .events = POLLIN,
+        .revents = 0,
+    };
+    return poll(&pfd, 1, 0) && (pfd.revents & (POLLIN | POLLNVAL)) != 0;
 }
 }

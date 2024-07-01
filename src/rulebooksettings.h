@@ -22,19 +22,17 @@ class RuleBookSettings : public RuleBookSettingsBase
 {
 public:
     RuleBookSettings(KSharedConfig::Ptr config, QObject *parent = nullptr);
-    RuleBookSettings(const QString &configname, KConfig::OpenFlags, QObject *parent = nullptr);
-    RuleBookSettings(KConfig::OpenFlags, QObject *parent = nullptr);
     RuleBookSettings(QObject *parent = nullptr);
     ~RuleBookSettings();
 
-    void setRules(const QVector<Rules *> &);
-    QVector<Rules *> rules();
+    QList<Rules *> rules() const;
 
     bool usrSave() override;
     void usrRead() override;
     bool usrIsSaveNeeded() const;
 
     int ruleCount() const;
+    std::optional<int> indexForId(const QString &id) const;
     RuleSettings *ruleSettingsAt(int row) const;
     RuleSettings *insertRuleSettingsAt(int row);
     void removeRuleSettingsAt(int row);
@@ -44,7 +42,7 @@ private:
     static QString generateGroupName();
 
 private:
-    QVector<RuleSettings *> m_list;
+    QList<RuleSettings *> m_list;
     QStringList m_storedGroups;
 };
 

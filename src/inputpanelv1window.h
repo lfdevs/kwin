@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include "wayland/inputmethod_v1_interface.h"
+#include "wayland/inputmethod_v1.h"
 #include "waylandwindow.h"
 #include <QPointer>
 
@@ -21,7 +21,7 @@ class InputPanelV1Window : public WaylandWindow
 {
     Q_OBJECT
 public:
-    InputPanelV1Window(KWaylandServer::InputPanelSurfaceV1Interface *panelSurface);
+    InputPanelV1Window(InputPanelSurfaceV1Interface *panelSurface);
 
     enum class Mode {
         None,
@@ -70,8 +70,8 @@ public:
     {
         return true;
     }
-    NET::WindowType windowType(bool /*direct*/, int /*supported_types*/) const override;
-    QRectF inputGeometry() const override;
+    WindowType windowType() const override;
+    QRectF frameRectToBufferRect(const QRectF &rect) const override;
 
     Mode mode() const
     {
@@ -83,18 +83,22 @@ public:
 
 protected:
     void moveResizeInternal(const QRectF &rect, MoveResizeMode mode) override;
+    void doSetPreferredBufferScale() override;
+    void doSetPreferredBufferTransform() override;
+    void doSetPreferredColorDescription() override;
 
 private:
-    void showTopLevel(KWaylandServer::OutputInterface *output, KWaylandServer::InputPanelSurfaceV1Interface::Position position);
+    void showTopLevel(OutputInterface *output, InputPanelSurfaceV1Interface::Position position);
     void showOverlayPanel();
     void reposition();
     void handleMapped();
     void maybeShow();
 
+    QRectF m_windowGeometry;
     Mode m_mode = Mode::None;
     bool m_allowed = false;
     bool m_virtualKeyboardShouldBeShown = false;
-    const QPointer<KWaylandServer::InputPanelSurfaceV1Interface> m_panelSurface;
+    const QPointer<InputPanelSurfaceV1Interface> m_panelSurface;
 };
 
 }

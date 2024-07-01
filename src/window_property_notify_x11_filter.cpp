@@ -7,16 +7,15 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "window_property_notify_x11_filter.h"
-#include "effects.h"
-#include "unmanaged.h"
+#include "effect/effecthandler.h"
 #include "workspace.h"
 #include "x11window.h"
 
 namespace KWin
 {
 
-WindowPropertyNotifyX11Filter::WindowPropertyNotifyX11Filter(EffectsHandlerImpl *effects)
-    : X11EventFilter(QVector<int>{XCB_PROPERTY_NOTIFY})
+WindowPropertyNotifyX11Filter::WindowPropertyNotifyX11Filter(EffectsHandler *effects)
+    : X11EventFilter(QList<int>{XCB_PROPERTY_NOTIFY})
     , m_effects(effects)
 {
 }

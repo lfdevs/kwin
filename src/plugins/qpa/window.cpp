@@ -7,15 +7,21 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-#include "window.h"
-#include "core/outputbackend.h"
-#include "eglhelpers.h"
+// this needs to be on top, epoxy has an error if you include it after GL/gl.h,
+// which Qt does include
+#include "utils/drm_format_helper.h"
 
+#include "compositor.h"
+#include "core/drmdevice.h"
+#include "core/renderbackend.h"
+#include "core/shmgraphicsbufferallocator.h"
 #include "internalwindow.h"
+#include "swapchain.h"
+#include "window.h"
 
 #include <logging.h>
 
-#include <QOpenGLFramebufferObject>
+#include <libdrm/drm_fourcc.h>
 #include <qpa/qwindowsysteminterface.h>
 
 namespace KWin
@@ -26,15 +32,58 @@ static quint32 s_windowId = 0;
 
 Window::Window(QWindow *window)
     : QPlatformWindow(window)
-    , m_eglDisplay(kwinApp()->outputBackend()->sceneEglDisplay())
     , m_windowId(++s_windowId)
     , m_scale(kwinApp()->devicePixelRatio())
 {
+    Q_ASSERT(!window->property("_KWIN_WINDOW_IS_OFFSCREEN").toBool());
 }
 
 Window::~Window()
 {
     unmap();
+}
+
+Swapchain *Window::swapchain(const std::shared_ptr<EglContext> &context, const QHash<uint32_t, QList<uint64_t>> &formats)
+{
+    const QSize nativeSize = geometry().size() * devicePixelRatio();
+    const bool software = window()->surfaceType() == QSurface::RasterSurface; // RasterGLSurface is unsupported by us
+    if (!m_swapchain || m_swapchain->size() != nativeSize
+        || !formats.contains(m_swapchain->format())
+        || m_swapchain->modifiers() != formats[m_swapchain->format()]
+        || (!software && m_eglContext.lock() != context)) {
+
+        GraphicsBufferAllocator *allocator;
+        if (software) {
+            static ShmGraphicsBufferAllocator shmAllocator;
+            allocator = &shmAllocator;
+        } else {
+            allocator = Compositor::self()->backend()->drmDevice()->allocator();
+        }
+
+        for (auto it = formats.begin(); it != formats.end(); it++) {
+            if (auto info = FormatInfo::get(it.key()); info && info->bitsPerColor == 8 && info->alphaBits == 8) {
+                const auto options = GraphicsBufferOptions{
+                    .size = nativeSize,
+                    .format = it.key(),
+                    .modifiers = it.value(),
+                    .software = software,
+                };
+                auto buffer = allocator->allocate(options);
+                if (!buffer) {
+                    continue;
+                }
+                m_swapchain = std::make_unique<Swapchain>(allocator, options, buffer);
+                m_eglContext = context;
+                break;
+            }
+        }
+    }
+    return m_swapchain.get();
+}
+
+void Window::invalidateSurface()
+{
+    m_swapchain.reset();
 }
 
 void Window::setVisible(bool visible)
@@ -55,7 +104,11 @@ QSurfaceFormat Window::format() const
 
 void Window::requestActivateWindow()
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 7, 0)
     QWindowSystemInterface::handleWindowActivated(window());
+#else
+    QWindowSystemInterface::handleFocusWindowChanged(window());
+#endif
 }
 
 void Window::setGeometry(const QRect &rect)
@@ -64,12 +117,6 @@ void Window::setGeometry(const QRect &rect)
     QPlatformWindow::setGeometry(rect);
 
     if (window()->isVisible() && rect.isValid()) {
-        const QSize nativeSize = rect.size() * m_scale;
-        if (m_contentFBO) {
-            if (m_contentFBO->size() != nativeSize) {
-                m_resized = true;
-            }
-        }
         QWindowSystemInterface::handleGeometryChange(window(), geometry());
     }
 
@@ -88,43 +135,9 @@ qreal Window::devicePixelRatio() const
     return m_scale;
 }
 
-void Window::bindContentFBO()
-{
-    if (m_resized || !m_contentFBO) {
-        createFBO();
-    }
-    m_contentFBO->bind();
-}
-
-const std::shared_ptr<QOpenGLFramebufferObject> &Window::contentFBO() const
-{
-    return m_contentFBO;
-}
-
-std::shared_ptr<QOpenGLFramebufferObject> Window::swapFBO()
-{
-    std::shared_ptr<QOpenGLFramebufferObject> fbo;
-    m_contentFBO.swap(fbo);
-    return fbo;
-}
-
 InternalWindow *Window::internalWindow() const
 {
     return m_handle;
-}
-
-void Window::createFBO()
-{
-    const QRect &r = geometry();
-    if (m_contentFBO && r.size().isEmpty()) {
-        return;
-    }
-    const QSize nativeSize = r.size() * m_scale;
-    m_contentFBO.reset(new QOpenGLFramebufferObject(nativeSize.width(), nativeSize.height(), QOpenGLFramebufferObject::CombinedDepthStencil));
-    if (!m_contentFBO->isValid()) {
-        qCWarning(KWIN_QPA) << "Content FBO is not valid";
-    }
-    m_resized = false;
 }
 
 void Window::map()
@@ -145,12 +158,7 @@ void Window::unmap()
     m_handle->destroyWindow();
     m_handle = nullptr;
 
-    m_contentFBO = nullptr;
-}
-
-EGLSurface Window::eglSurface() const
-{
-    return EGL_NO_SURFACE; // EGL_KHR_surfaceless_context is required.
+    invalidateSurface();
 }
 
 }

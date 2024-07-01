@@ -8,36 +8,24 @@
 # Svanur Palsson <svanur@tern.is>, 2004.
 # Arnar Leosson <leosson@frisurf.no>, 2005.
 # Sveinn í Felli <sveinki@nett.is>, 2008, 2009, 2011.
-# gummi <gudmundure@gmail.com>, 2022.
+# SPDX-FileCopyrightText: 2022, 2023, 2024 gummi <gudmundure@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-03 00:48+0000\n"
-"PO-Revision-Date: 2022-12-21 11:40+0000\n"
-"Last-Translator: gummi <gudmundure@gmail.com>\n"
+"POT-Creation-Date: 2024-02-06 00:39+0000\n"
+"PO-Revision-Date: 2024-03-25 14:32+0000\n"
+"Last-Translator: Guðmundur Erlingsson <gudmundure@gmail.com>\n"
 "Language-Team: Icelandic <kde-i18n-doc@kde.org>\n"
 "Language: is\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.08.3\n"
+"X-Generator: Lokalize 23.08.3\n"
 "Plural-Forms: Plural-Forms: nplurals=2; plural=n != 1;\n"
 "\n"
 "\n"
 "\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr ""
-"Richard Allen, Pjetur G. Hjaltason, Svanur Pálsson,Guðmundur Erlingsson"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr ""
-"ra@ra.is, pjetur@pjetur.net, svanupalsson@hotmail.com,gudmundure@gmail.com"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
 #: actions.ui:17
@@ -151,26 +139,26 @@ msgid ""
 "In this row you can customize behavior when scrolling into an inactive inner "
 "window ('inner' means: not titlebar, not frame)."
 msgstr ""
-"Í þessari röð getur þú stillt hvað gerist þegar flett er með músarhjólinu í "
-"innanverðum óvirkum glugga (þ.e. ekki titilstiku eða ramma)."
+"Í þessari röð getur þú stillt hvað gerist þegar skrunað er með músarhjólinu "
+"í innanverðum óvirkum glugga (þ.e. ekki titilstiku eða ramma)."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindowWheel)
 #: actions.ui:163
 #, kde-format
 msgid "Scroll"
-msgstr "Fletta"
+msgstr "Skruna"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindowWheel)
 #: actions.ui:168
 #, kde-format
 msgid "Activate and scroll"
-msgstr "Virkja og fletta"
+msgstr "Virkja og skruna"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindowWheel)
 #: actions.ui:173
 #, kde-format
 msgid "Activate, raise and scroll"
-msgstr "Virkja, setja fremst og fletta"
+msgstr "Virkja, setja fremst og skruna"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: actions.ui:184
@@ -338,6 +326,7 @@ msgstr "Draga úr gagnsæi"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TitlebarDoubleClickCommand)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandTitlebarWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar1)
@@ -346,8 +335,8 @@ msgstr "Draga úr gagnsæi"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
-#: actions.ui:310 actions.ui:380 actions.ui:450 actions.ui:505 mouse.ui:80
-#: mouse.ui:132 mouse.ui:271 mouse.ui:333 mouse.ui:386 mouse.ui:448
+#: actions.ui:310 actions.ui:380 actions.ui:450 actions.ui:505 advanced.ui:174
+#: mouse.ui:80 mouse.ui:132 mouse.ui:271 mouse.ui:333 mouse.ui:386 mouse.ui:448
 #: mouse.ui:501 mouse.ui:563
 #, kde-format
 msgid "Do nothing"
@@ -399,7 +388,7 @@ msgid ""
 "Here you can customize KDE's behavior when scrolling with the mouse wheel in "
 "a window while pressing the modifier key."
 msgstr ""
-"Hér getur þú stillt hvað gerist þegar flett er með músarhjólinu í glugga á "
+"Hér getur þú stillt hvað gerist þegar skrunað er með músarhjólinu í glugga á "
 "meðan breytilykli er haldið niðri."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
@@ -484,7 +473,7 @@ msgstr ""
 #: advanced.ui:45 focus.ui:85 focus.ui:178
 #, kde-format
 msgid " ms"
-msgstr " ms"
+msgstr " msek."
 
 #. i18n: ectx: property (text), widget (QLabel, windowPlacementLabel)
 #: advanced.ui:66
@@ -494,35 +483,7 @@ msgstr "&Staðsetning glugga:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_Placement)
 #: advanced.ui:76
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The placement policy determines where a new window "
-#| "will appear on the desktop.</p><ul style=\"margin-top: 0px; margin-"
-#| "bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
-#| "\"><li style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-style:italic;\">Smart</span> will try to achieve a minimum overlap "
-#| "of windows</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-style:italic;\">Maximizing</span> will try to maximize "
-#| "every window to fill the whole screen. It might be useful to selectively "
-#| "affect placement of some windows using the window-specific settings.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-style:italic;\">Cascade</span> will cascade the windows</li><li "
-#| "style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#| "style:italic;\">Random</span> will use a random position</li><li style=\" "
-#| "margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
-#| "block-indent:0; text-indent:0px;\"><span style=\" font-style:italic;"
-#| "\">Centered</span> will place the window centered</li><li style=\" margin-"
-#| "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-style:italic;\">Zero-"
-#| "cornered</span> will place the window in the top-left corner</li><li "
-#| "style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#| "style:italic;\">Under mouse</span> will place the window under the "
-#| "pointer</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The placement policy determines where a new window "
 "will appear on the desktop.</p><ul style=\"margin-top: 0px; margin-bottom: "
@@ -558,22 +519,19 @@ msgstr ""
 "block-indent:0; text-indent:0px;\"><span style=\" font-style:italic;"
 "\">Fullstækka</span> reynir að fullstækka gluggana svo þeir nái yfir allan "
 "skjáinn. Það getur verið gagnlegt að velja staðsetningu sumra glugga með því "
-"að nota stillingar fyrir tiltekna glugga.</li><li style=\"margin-top:0px; "
+"að nota stillingar fyrir tiltekna glugga.</li><li style=\" margin-top:0px; "
 "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\"><span style=\" font-style:italic;\"> Stalla</span> raðar "
-"gluggum í stallaða röð</li><li style=\" margin-top:0px; margin-bottom:0px; "
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-style:italic;\">Slembið</span> velur tilviljanakennda "
-"staðsetningu</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"text-indent:0px;\"><span style=\" font-style:italic;\">Slembið</span> velur "
+"tilviljanakennda staðsetningu</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\"font-style:italic;\">Miðja</span> setur gluggann "
+"á mitt skjáborðið</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-style:italic;\">Miðja</span> setur gluggann á mitt skjáborðið</"
-"li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-style:"
-"italic;\">Út í horn</span> setur gluggann efst í vinstra hornið</li><li "
-"style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-style:"
-"italic;\">Undir mús</span> setur gluggann undir músarbendilinn</li></ul></"
-"body></html>"
+"style=\" font-style:italic;\">Út í horn</span> setur gluggann efst í vinstra "
+"hornið</li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"style:italic;\">Undir mús</span> setur gluggann undir músarbendilinn</li></"
+"ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:80
@@ -931,26 +889,8 @@ msgstr ""
 msgid "Multiscreen behavior:"
 msgstr "Hegðun í fjölskjáauppsetningu:"
 
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ActiveMouseScreen)
-#: focus.ui:203
-#, kde-format
-msgid ""
-"When this option is enabled, the active screen (where new windows appear, "
-"for example) is the screen containing the mouse pointer. When disabled, the "
-"active screen is the screen containing the focused window."
-msgstr ""
-"Þegar þessi valkostur er virkur er virki skjárinn (þar sem nýir gluggar "
-"birtast) sá skjár sem inniheldur músarbendilinn. Þegar þetta er óvirkt er "
-"virki skjárinn skjárinn sem inniheldur gluggann sem er með fókus."
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ActiveMouseScreen)
-#: focus.ui:206
-#, kde-format
-msgid "Active screen follows &mouse"
-msgstr "Virkur skjár fylgir &mús"
-
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SeparateScreenFocus)
-#: focus.ui:213
+#: focus.ui:203
 #, kde-format
 msgid ""
 "When this option is enabled, focus operations are limited only to the active "
@@ -959,120 +899,48 @@ msgstr ""
 "Þegar þetta er valið takmarkast fókusaðgerðir einungis við virka skjáinn"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SeparateScreenFocus)
-#: focus.ui:216
+#: focus.ui:206
 #, kde-format
 msgid "&Separate screen focus"
 msgstr "Aðs&kilja skjáfókus"
 
 #. i18n: ectx: property (text), widget (QLabel, windowFocusPolicyDescriptionLabel)
-#: focus.ui:229
+#: focus.ui:219
 #, kde-format
 msgid "Window activation policy description"
 msgstr "Lýsing á gluggavirkjunarreglu"
 
-#: main.cpp:73
+#: main.cpp:79
 #, kde-format
 msgid "&Focus"
 msgstr "&Fókus"
 
-#: main.cpp:79
+#: main.cpp:84
 #, kde-format
 msgid "Titlebar A&ctions"
 msgstr "&Titilstikuaðgerðir"
 
-#: main.cpp:85
+#: main.cpp:89
 #, kde-format
 msgid "W&indow Actions"
 msgstr "&Gluggaaðgerðir"
 
-#: main.cpp:91
+#: main.cpp:94
 #, kde-format
 msgid "Mo&vement"
-msgstr "&Hreyfing:"
+msgstr "&Tilfærsla"
 
-#: main.cpp:97
+#: main.cpp:99
 #, kde-format
 msgid "Adva&nced"
 msgstr "Í&tarlegt"
 
-#: main.cpp:101
-#, kde-format
-msgid "Window Behavior Configuration Module"
-msgstr "Grunnstillingaeining fyrir gluggahegðun"
-
-#: main.cpp:103
-#, kde-format
-msgid "(c) 1997 - 2002 KWin and KControl Authors"
-msgstr "(c) 1997 - 2002 höfundar KWin og KControl"
-
-#: main.cpp:105
-#, kde-format
-msgid "Matthias Ettrich"
-msgstr "Matthias Ettrich"
-
-#: main.cpp:106
-#, kde-format
-msgid "Waldo Bastian"
-msgstr "Waldo Bastian"
-
-#: main.cpp:107
-#, kde-format
-msgid "Cristian Tibirna"
-msgstr "Cristian Tibirna"
-
-#: main.cpp:108
-#, kde-format
-msgid "Matthias Kalle Dalheimer"
-msgstr "Matthias Kalle Dalheimer"
-
-#: main.cpp:109
-#, kde-format
-msgid "Daniel Molkentin"
-msgstr "Daniel Molkentin"
-
-#: main.cpp:110
-#, kde-format
-msgid "Wynn Wilkes"
-msgstr "Wynn Wilkes"
-
-#: main.cpp:111
-#, kde-format
-msgid "Pat Dowler"
-msgstr "Pat Dowler"
-
-#: main.cpp:112
-#, kde-format
-msgid "Bernd Wuebben"
-msgstr "Bernd Wuebben"
-
-#: main.cpp:113
-#, kde-format
-msgid "Matthias Hoelzer-Kluepfel"
-msgstr "Matthias Hoelzer-Kluepfel"
-
-#: main.cpp:161
-#, kde-format
-msgid ""
-"<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
-"when being moved, resized or clicked on. You can also specify a focus policy "
-"as well as a placement policy for new windows.</p> <p>Please note that this "
-"configuration will not take effect if you do not use KWin as your window "
-"manager. If you do use a different window manager, please refer to its "
-"documentation for how to customize window behavior.</p>"
-msgstr ""
-"<p><h1>Hegðun glugga</h1> Hér má stilla hvernig gluggar hegða sér þegar þeir "
-"eru færðir, stærð þeirra breytt eða smellt á þá. Þú getur einnig tilgreint "
-"reglur um fókus og staðsetningu fyrir nýja glugga.</p><p>Athugaðu að þessar "
-"stillingar eiga aðeins við um KWin-gluggastjórann. Ef þú notar annan "
-"gluggastjóra þarftu að kynna þér hjálparskjöl sem honum fylgja til að fá "
-"upplýsingar um stillingar.</p>"
-
-#: main.cpp:202
+#: main.cpp:178
 #, kde-format
 msgid "&Titlebar Actions"
 msgstr "&Titilstikuaðgerðir"
 
-#: main.cpp:208
+#: main.cpp:188
 #, kde-format
 msgid "Window Actio&ns"
 msgstr "&Gluggaaðgerðir"
@@ -1164,7 +1032,7 @@ msgstr "Birta á öllum skjáborðum"
 #: mouse.ui:98
 #, kde-format
 msgid "Behavior on <em>mouse wheel</em> scroll over the titlebar."
-msgstr "Hvað gerist þegar flett er með <em>músarhjóli</em> á titilstiku."
+msgstr "Hvað gerist þegar skrunað er með <em>músarhjóli</em> á titilstiku."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: mouse.ui:143
@@ -1284,7 +1152,7 @@ msgstr ""
 #: moving.ui:36 moving.ui:68 moving.ui:100
 #, kde-format
 msgid " px"
-msgstr " díll"
+msgstr " px"
 
 #. i18n: ectx: property (text), widget (QLabel, windowSnapLabel)
 #: moving.ui:52
@@ -1346,7 +1214,7 @@ msgstr ""
 msgid "Only when overlapping"
 msgstr "Aðeins þegar skarast"
 
-#: windows.cpp:97
+#: windows.cpp:92
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
@@ -1355,7 +1223,7 @@ msgstr ""
 "<em>Smella til að fá fókus:</em> Gluggi verður virkur þegar þú smellir á "
 "hann. Þessi hegðun er algeng í stýrikerfum og líklega það sem þú vilt."
 
-#: windows.cpp:101
+#: windows.cpp:95
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1370,7 +1238,7 @@ msgstr ""
 "músarbendlinum. Óvenjulegt en mögulegt tilbrigði við <em>Smella til að fá "
 "fókus</em>."
 
-#: windows.cpp:106
+#: windows.cpp:98
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1384,7 +1252,7 @@ msgstr ""
 "líta á þetta sem <em>Smella til að fá fókus</em> nema án þess að þurfa að "
 "smella."
 
-#: windows.cpp:110
+#: windows.cpp:101
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1397,7 +1265,7 @@ msgstr ""
 "undir músinni valinn. Veldu þetta ef þú vilt stjórna fókusnum með því að "
 "sveima með músinni."
 
-#: windows.cpp:115
+#: windows.cpp:104
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1411,7 +1279,7 @@ msgstr ""
 "+Tab</em> stangast á við þessa virknireglu og eru því óvirk. Þú vilt mjög "
 "líklega nota <em>Fókus fylgir mús (mús í forgangi)</em> í staðinn!"
 
-#: windows.cpp:119
+#: windows.cpp:107
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "
@@ -1427,6 +1295,76 @@ msgstr ""
 "fókusstuldi</em> og <em>Alt+Tab</em> stangast á við þessa virknireglu og eru "
 "því óvirk. Þú vilt mjög líklega nota <em>Fókus fylgir mús (mús í forgangi)</"
 "em> í staðinn!"
+
+#~ msgid ""
+#~ "When this option is enabled, the active screen (where new windows appear, "
+#~ "for example) is the screen containing the mouse pointer. When disabled, "
+#~ "the active screen is the screen containing the focused window."
+#~ msgstr ""
+#~ "Þegar þessi valkostur er virkur er virki skjárinn (þar sem nýir gluggar "
+#~ "birtast) sá skjár sem inniheldur músarbendilinn. Þegar þetta er óvirkt er "
+#~ "virki skjárinn skjárinn sem inniheldur gluggann sem er með fókus."
+
+#~ msgid "Active screen follows &mouse"
+#~ msgstr "Virkur skjár fylgir &mús"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr ""
+#~ "Richard Allen, Pjetur G. Hjaltason, Svanur Pálsson,Guðmundur Erlingsson"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr ""
+#~ "ra@ra.is, pjetur@pjetur.net, svanupalsson@hotmail.com,gudmundure@gmail.com"
+
+#~ msgid "Window Behavior Configuration Module"
+#~ msgstr "Grunnstillingaeining fyrir gluggahegðun"
+
+#~ msgid "(c) 1997 - 2002 KWin and KControl Authors"
+#~ msgstr "(c) 1997 - 2002 höfundar KWin og KControl"
+
+#~ msgid "Matthias Ettrich"
+#~ msgstr "Matthias Ettrich"
+
+#~ msgid "Waldo Bastian"
+#~ msgstr "Waldo Bastian"
+
+#~ msgid "Cristian Tibirna"
+#~ msgstr "Cristian Tibirna"
+
+#~ msgid "Matthias Kalle Dalheimer"
+#~ msgstr "Matthias Kalle Dalheimer"
+
+#~ msgid "Daniel Molkentin"
+#~ msgstr "Daniel Molkentin"
+
+#~ msgid "Wynn Wilkes"
+#~ msgstr "Wynn Wilkes"
+
+#~ msgid "Pat Dowler"
+#~ msgstr "Pat Dowler"
+
+#~ msgid "Bernd Wuebben"
+#~ msgstr "Bernd Wuebben"
+
+#~ msgid "Matthias Hoelzer-Kluepfel"
+#~ msgstr "Matthias Hoelzer-Kluepfel"
+
+#~ msgid ""
+#~ "<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
+#~ "when being moved, resized or clicked on. You can also specify a focus "
+#~ "policy as well as a placement policy for new windows.</p> <p>Please note "
+#~ "that this configuration will not take effect if you do not use KWin as "
+#~ "your window manager. If you do use a different window manager, please "
+#~ "refer to its documentation for how to customize window behavior.</p>"
+#~ msgstr ""
+#~ "<p><h1>Hegðun glugga</h1> Hér má stilla hvernig gluggar hegða sér þegar "
+#~ "þeir eru færðir, stærð þeirra breytt eða smellt á þá. Þú getur einnig "
+#~ "tilgreint reglur um fókus og staðsetningu fyrir nýja glugga.</"
+#~ "p><p>Athugaðu að þessar stillingar eiga aðeins við um KWin-"
+#~ "gluggastjórann. Ef þú notar annan gluggastjóra þarftu að kynna þér "
+#~ "hjálparskjöl sem honum fylgja til að fá upplýsingar um stillingar.</p>"
 
 #~| msgid "Cascade"
 #~ msgid "Cascaded"

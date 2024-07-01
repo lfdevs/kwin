@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the kwin package.
 #
 # Automatically generated, 2022.
-# Eloy Cuadra <ecuadra@eloihr.net>, 2022.
+# SPDX-FileCopyrightText: 2022, 2023, 2024 Eloy Cuadra <ecuadra@eloihr.net>
 msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwinxwayland\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-17 00:51+0000\n"
-"PO-Revision-Date: 2022-12-17 18:52+0100\n"
+"POT-Creation-Date: 2024-03-09 00:39+0000\n"
+"PO-Revision-Date: 2024-03-10 17:59+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -17,84 +17,63 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.12.0\n"
+"X-Generator: Lokalize 23.08.4\n"
 
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Eloy Cuadra"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "ecuadra@eloihr.net"
-
-#: kcmkwinxwayland.cpp:30
-#, kde-format
-msgid "Legacy X11 App Support"
-msgstr "Compatibilidad de aplicaciones X11 heredadas"
-
-#: kcmkwinxwayland.cpp:32
-#, kde-format
-msgid "Allow legacy X11 apps to read keystrokes typed in other apps"
-msgstr ""
-"Permitir que las aplicaciones X11 heredadas lean las pulsaciones de teclas "
-"escritas en otras aplicaciones"
-
-#: package/contents/ui/main.qml:19
+#: ui/main.qml:32
 #, kde-format
 msgid ""
-"This module lets configure which keyboard events are forwarded to X11 apps "
-"regardless of their focus."
+"Some legacy X11 apps require the ability to read keystrokes typed in other "
+"apps for certain features, such as handling global keyboard shortcuts. This "
+"is allowed by default. However other features may require the ability to "
+"read all keys, and this is disabled by default for security reasons. If you "
+"need to use such apps, you can choose your preferred balance of security and "
+"functionality here."
 msgstr ""
-"Este módulo permite configurar los eventos de teclado que se reenvían a las "
-"aplicaciones X11 independientemente de su foco."
+"Algunas aplicaciones X11 heredadas necesitan la capacidad de leer las "
+"pulsaciones de teclas realizadas en otras aplicaciones para ciertas "
+"funciones, como el manejo de atajos de teclado globales. Esto está activado "
+"de forma predeterminada. No obstante, otras funciones pueden necesitar la "
+"capacidad de leer todas las teclas, aunque esto está desactivado de forma "
+"predeterminada por motivos de seguridad. Si necesita usar este tipo de "
+"aplicaciones, aquí puede escoger el equilibrio que prefiera entre seguridad "
+"y funcionalidad."
 
-#: package/contents/ui/main.qml:49
-#, kde-format
-msgid ""
-"Legacy X11 apps require the ability to read keystrokes typed in other apps "
-"for features that are activated using global keyboard shortcuts. This is "
-"disabled by default for security reasons. If you need to use such apps, you "
-"can choose your preferred balance of security and functionality here."
-msgstr ""
-"Las aplicaciones X11 heredadas necesitan la capacidad de leer las "
-"pulsaciones de teclas escritas en otras aplicaciones para las funciones que "
-"se activan mediante atajos de teclado globales. Esto está desactivado de "
-"forma predeterminada por motivos de seguridad. Si necesita usar este tipo de "
-"aplicaciones, aquí puede escoger su equilibrio preferido de seguridad y "
-"funcionalidad."
-
-#: package/contents/ui/main.qml:66
+#: ui/main.qml:48
 #, kde-format
 msgid "Allow legacy X11 apps to read keystrokes typed in all apps:"
 msgstr ""
-"Permitir que las aplicaciones X11 heredadas lean las pulsaciones de teclas "
-"escritas en todas las aplicaciones:"
+"Permitir que las aplicaciones X11 heredadas lean pulsaciones de teclas de "
+"todas las aplicaciones:"
 
-#: package/contents/ui/main.qml:67
+#: ui/main.qml:49
 #, kde-format
 msgid "Never"
 msgstr "Nunca"
 
-#: package/contents/ui/main.qml:70
+#: ui/main.qml:55
 #, kde-format
-msgid "Only Meta, Control, Alt, and Shift keys"
+msgid "Only Meta, Control, Alt and Shift keys"
 msgstr "Solo las teclas Meta, Control, Alt y Mayúsculas"
 
-#: package/contents/ui/main.qml:73
+#: ui/main.qml:61
 #, kde-format
-msgid "All keys, but only while Meta, Ctrl, Alt, or Shift keys are pressed"
+msgid ""
+"As above, plus any key typed while the Control, Alt, or Meta keys are pressed"
 msgstr ""
-"Todas las teclas, pero solo cuando se pulsan las teclas Meta, Ctrl, Alt o "
-"Mayúsculas"
+"Como más arriba, además de cualquier tecla pulsada en combinación con las "
+"teclas Control, Alt o Meta"
 
-#: package/contents/ui/main.qml:77
+#: ui/main.qml:68
 #, kde-format
 msgid "Always"
 msgstr "Siempre"
 
-#: package/contents/ui/main.qml:84
+#: ui/main.qml:78
+#, kde-format
+msgid "Additionally include mouse buttons"
+msgstr "Incluir los botones del ratón de forma adicional"
+
+#: ui/main.qml:89
 #, kde-format
 msgid ""
 "Note that using this setting will reduce system security to that of the X11 "
@@ -105,3 +84,34 @@ msgstr ""
 "sistema a la de la sesión X11 al permitir que software malintencionado robe "
 "contraseñas y espíe el texto que escribe. Asegúrese de comprender y aceptar "
 "este riesgo."
+
+#~ msgid "Only non-character keys"
+#~ msgstr "Solo teclas que no sean caracteres"
+
+#~ msgid "All keys, but only while Meta, Ctrl, Alt, or Shift keys are pressed"
+#~ msgstr ""
+#~ "Todas las teclas, pero solo cuando se pulsan las teclas Meta, Ctrl, Alt o "
+#~ "Mayúsculas"
+
+#~ msgid ""
+#~ "This module lets configure which keyboard events are forwarded to X11 "
+#~ "apps regardless of their focus."
+#~ msgstr ""
+#~ "Este módulo permite configurar los eventos de teclado que se reenvían a "
+#~ "las aplicaciones X11 independientemente de su foco."
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Eloy Cuadra"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "ecuadra@eloihr.net"
+
+#~ msgid "Legacy X11 App Support"
+#~ msgstr "Compatibilidad de aplicaciones X11 heredadas"
+
+#~ msgid "Allow legacy X11 apps to read keystrokes typed in other apps"
+#~ msgstr ""
+#~ "Permitir que las aplicaciones X11 heredadas lean las pulsaciones de "
+#~ "teclas escritas en otras aplicaciones"

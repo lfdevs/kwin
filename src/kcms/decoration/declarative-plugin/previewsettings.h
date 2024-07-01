@@ -9,6 +9,8 @@
 #include <KDecoration2/Private/DecorationSettingsPrivate>
 #include <QAbstractListModel>
 #include <QObject>
+#include <QPointer>
+#include <QQmlEngine>
 
 namespace KDecoration2
 {
@@ -75,8 +77,8 @@ public:
         return m_borderSizes;
     }
 
-    QVector<DecorationButtonType> decorationButtonsLeft() const override;
-    QVector<DecorationButtonType> decorationButtonsRight() const override;
+    QList<DecorationButtonType> decorationButtonsLeft() const override;
+    QList<DecorationButtonType> decorationButtonsRight() const override;
 
     Q_INVOKABLE void addButtonToLeft(int row);
     Q_INVOKABLE void addButtonToRight(int row);
@@ -115,6 +117,7 @@ private:
 class Settings : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
     Q_PROPERTY(KDecoration2::Preview::PreviewBridge *bridge READ bridge WRITE setBridge NOTIFY bridgeChanged)
     Q_PROPERTY(KDecoration2::DecorationSettings *settings READ settingsPointer NOTIFY settingsChanged)
     Q_PROPERTY(int borderSizesIndex READ borderSizesIndex WRITE setBorderSizesIndex NOTIFY borderSizesIndexChanged)
@@ -125,7 +128,7 @@ public:
     PreviewBridge *bridge() const;
     void setBridge(PreviewBridge *bridge);
 
-    QSharedPointer<DecorationSettings> settings() const;
+    std::shared_ptr<DecorationSettings> settings() const;
     DecorationSettings *settingsPointer() const;
     int borderSizesIndex() const
     {
@@ -141,7 +144,7 @@ Q_SIGNALS:
 private:
     void createSettings();
     QPointer<PreviewBridge> m_bridge;
-    QSharedPointer<KDecoration2::DecorationSettings> m_settings;
+    std::shared_ptr<KDecoration2::DecorationSettings> m_settings;
     PreviewSettings *m_previewSettings = nullptr;
     int m_borderSize = 3;
 };

@@ -80,7 +80,7 @@ Q_SIGNALS:
     void deviceRemoved(QString sysName);
 };
 
-std::unique_ptr<Connection> Connection::create(Session *session)
+Connection *Connection::create(Session *session)
 {
     std::unique_ptr<Udev> udev = std::make_unique<Udev>();
     if (!udev->isValid()) {
@@ -96,7 +96,7 @@ std::unique_ptr<Connection> Connection::create(Session *session)
         qCWarning(KWIN_LIBINPUT) << "Failed to initialize context";
         return nullptr;
     }
-    return std::unique_ptr<Connection>(new Connection(std::move(context)));
+    return new Connection(std::move(context));
 }
 
 Connection::Connection(std::unique_ptr<Context> &&input)
@@ -168,25 +168,23 @@ void Connection::handleEvent()
 #ifndef KWIN_BUILD_TESTING
 QPointF devicePointToGlobalPosition(const QPointF &devicePos, const Output *output)
 {
-    using Transform = Output::Transform;
-
     QPointF pos = devicePos;
     // TODO: Do we need to handle the flipped cases differently?
-    switch (output->transform()) {
-    case Transform::Normal:
-    case Transform::Flipped:
+    switch (output->transform().kind()) {
+    case OutputTransform::Normal:
+    case OutputTransform::FlipX:
         break;
-    case Transform::Rotated90:
-    case Transform::Flipped90:
+    case OutputTransform::Rotate90:
+    case OutputTransform::FlipX90:
         pos = QPointF(output->modeSize().height() - devicePos.y(), devicePos.x());
         break;
-    case Transform::Rotated180:
-    case Transform::Flipped180:
+    case OutputTransform::Rotate180:
+    case OutputTransform::FlipX180:
         pos = QPointF(output->modeSize().width() - devicePos.x(),
                       output->modeSize().height() - devicePos.y());
         break;
-    case Transform::Rotated270:
-    case Transform::Flipped270:
+    case OutputTransform::Rotate270:
+    case OutputTransform::FlipX270:
         pos = QPointF(devicePos.y(), output->modeSize().width() - devicePos.x());
         break;
     default:
@@ -228,7 +226,7 @@ KWin::TabletToolId createTabletId(libinput_tablet_tool *tool, Device *dev)
         toolType = InputRedirection::Totem;
         break;
     }
-    QVector<InputRedirection::Capability> capabilities;
+    QList<InputRedirection::Capability> capabilities;
     if (libinput_tablet_tool_has_pressure(tool)) {
         capabilities << InputRedirection::Pressure;
     }
@@ -289,10 +287,10 @@ void Connection::processEvents()
             break;
         }
         case LIBINPUT_EVENT_DEVICE_REMOVED: {
-            auto it = std::find_if(m_devices.begin(), m_devices.end(), [&event](Device *d) {
+            auto it = std::ranges::find_if(std::as_const(m_devices), [&event](Device *d) {
                 return event->device() == d;
             });
-            if (it == m_devices.end()) {
+            if (it == m_devices.cend()) {
                 // we don't know this device
                 break;
             }
@@ -318,6 +316,7 @@ void Connection::processEvents()
                                                                   pointerEvent->time(),
                                                                   pointerEvent->device());
             }
+            Q_EMIT pointerEvent->device()->pointerFrame(pointerEvent->device());
             break;
         }
         case LIBINPUT_EVENT_POINTER_SCROLL_FINGER: {
@@ -331,6 +330,7 @@ void Connection::processEvents()
                                                                   pointerEvent->time(),
                                                                   pointerEvent->device());
             }
+            Q_EMIT pointerEvent->device()->pointerFrame(pointerEvent->device());
             break;
         }
         case LIBINPUT_EVENT_POINTER_SCROLL_CONTINUOUS: {
@@ -344,11 +344,13 @@ void Connection::processEvents()
                                                                   pointerEvent->time(),
                                                                   pointerEvent->device());
             }
+            Q_EMIT pointerEvent->device()->pointerFrame(pointerEvent->device());
             break;
         }
         case LIBINPUT_EVENT_POINTER_BUTTON: {
             PointerEvent *pe = static_cast<PointerEvent *>(event.get());
             Q_EMIT pe->device()->pointerButtonChanged(pe->button(), pe->buttonState(), pe->time(), pe->device());
+            Q_EMIT pe->device()->pointerFrame(pe->device());
             break;
         }
         case LIBINPUT_EVENT_POINTER_MOTION: {
@@ -369,12 +371,14 @@ void Connection::processEvents()
                 }
             }
             Q_EMIT pe->device()->pointerMotion(delta, deltaNonAccel, latestTime, pe->device());
+            Q_EMIT pe->device()->pointerFrame(pe->device());
             break;
         }
         case LIBINPUT_EVENT_POINTER_MOTION_ABSOLUTE: {
             PointerEvent *pe = static_cast<PointerEvent *>(event.get());
             if (workspace()) {
                 Q_EMIT pe->device()->pointerMotionAbsolute(pe->absolutePos(workspace()->geometry().size()), pe->time(), pe->device());
+                Q_EMIT pe->device()->pointerFrame(pe->device());
             }
             break;
         }
@@ -507,16 +511,16 @@ void Connection::processEvents()
 
             if (workspace()) {
 #ifndef KWIN_BUILD_TESTING
-                Output *output = tte->device()->output();
-                if (!output && workspace()->activeWindow()) {
-                    output = workspace()->activeWindow()->output();
+                QPointF globalPos;
+                if (tte->device()->isMapToWorkspace()) {
+                    globalPos = workspace()->geometry().topLeft() + tte->transformedPosition(workspace()->geometry().size());
+                } else {
+                    Output *output = tte->device()->output();
+                    if (!output) {
+                        output = workspace()->activeOutput();
+                    }
+                    globalPos = devicePointToGlobalPosition(tte->transformedPosition(output->modeSize()), output);
                 }
-                if (!output) {
-                    output = workspace()->activeOutput();
-                }
-                const QPointF globalPos =
-                    devicePointToGlobalPosition(tte->transformedPosition(output->modeSize()),
-                                                output);
 #else
                 const QPointF globalPos;
 #endif
@@ -582,7 +586,7 @@ void Connection::applyScreenToDevice(Device *device)
     }
 
     Output *deviceOutput = nullptr;
-    const QVector<Output *> outputs = kwinApp()->outputBackend()->outputs();
+    const QList<Output *> outputs = kwinApp()->outputBackend()->outputs();
 
     // let's try to find a screen for it
     if (!device->outputName().isEmpty()) {
@@ -654,22 +658,22 @@ void Connection::applyScreenToDevice(Device *device)
 
 void Connection::applyDeviceConfig(Device *device)
 {
-    KConfigGroup defaults = m_config->group("Libinput").group("Defaults");
+    KConfigGroup defaults = m_config->group(QStringLiteral("Libinput")).group(QStringLiteral("Defaults"));
     if (defaults.isValid()) {
-        if (device->isAlphaNumericKeyboard() && defaults.hasGroup("Keyboard")) {
-            defaults = defaults.group("Keyboard");
-        } else if (device->isTouchpad() && defaults.hasGroup("Touchpad")) {
+        if (device->isAlphaNumericKeyboard() && defaults.hasGroup(QStringLiteral("Keyboard"))) {
+            defaults = defaults.group(QStringLiteral("Keyboard"));
+        } else if (device->isTouchpad() && defaults.hasGroup(QStringLiteral("Touchpad"))) {
             // A Touchpad is a Pointer, so we need to check for it before Pointer.
-            defaults = defaults.group("Touchpad");
-        } else if (device->isPointer() && defaults.hasGroup("Pointer")) {
-            defaults = defaults.group("Pointer");
+            defaults = defaults.group(QStringLiteral("Touchpad"));
+        } else if (device->isPointer() && defaults.hasGroup(QStringLiteral("Pointer"))) {
+            defaults = defaults.group(QStringLiteral("Pointer"));
         }
 
         device->setDefaultConfig(defaults);
     }
 
     // pass configuration to Device
-    device->setConfig(m_config->group("Libinput").group(QString::number(device->vendor())).group(QString::number(device->product())).group(device->name()));
+    device->setConfig(m_config->group(QStringLiteral("Libinput")).group(QString::number(device->vendor())).group(QString::number(device->product())).group(device->name()));
     device->loadConfiguration();
 }
 
@@ -698,3 +702,5 @@ QStringList Connection::devicesSysNames() const
 }
 
 #include "connection.moc"
+
+#include "moc_connection.cpp"

@@ -9,8 +9,8 @@
 
 #pragma once
 
+#include <KCModule>
 #include <QWidget>
-#include <kcmodule.h>
 
 #include "ui_advanced.h"
 #include "ui_focus.h"
@@ -64,12 +64,8 @@ public:
     void save() override;
     void defaults() override;
 
-    bool isDefaults() const;
-    bool isSaveNeeded() const;
-
 protected:
     void initialize(KWinOptionsSettings *settings);
-    void showEvent(QShowEvent *ev) override;
 
 private Q_SLOTS:
     void focusPolicyChanged();
@@ -78,11 +74,11 @@ private Q_SLOTS:
 
 private:
     bool standAlone;
-    bool m_unmanagedChangeState = false;
-    bool m_unmanagedDefaultState = true;
 
     KWinFocusConfigForm *m_ui;
     KWinOptionsSettings *m_settings;
+
+    void updateFocusPolicyExplanatoryText();
 };
 
 class KMovingConfig : public KCModule
@@ -93,12 +89,8 @@ public:
 
     void save() override;
 
-    bool isDefaults() const;
-    bool isSaveNeeded() const;
-
 protected:
     void initialize(KWinOptionsSettings *settings);
-    void showEvent(QShowEvent *ev) override;
 
 private:
     KWinOptionsSettings *m_settings;
@@ -114,12 +106,8 @@ public:
 
     void save() override;
 
-    bool isDefaults() const;
-    bool isSaveNeeded() const;
-
 protected:
     void initialize(KWinOptionsSettings *settings, KWinOptionsKDEGlobalsSettings *globalSettings);
-    void showEvent(QShowEvent *ev) override;
 
 private:
     bool standAlone;

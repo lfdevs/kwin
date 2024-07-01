@@ -10,6 +10,9 @@
 // KWin
 #include "window.h"
 #include "workspace.h"
+#if KWIN_BUILD_X11
+#include "x11window.h"
+#endif
 // KDE
 #include <KConfigGroup>
 // Qt
@@ -41,8 +44,11 @@ void Activities::slotServiceStatusChanged()
     if (m_controller->serviceStatus() != KActivities::Consumer::Running) {
         return;
     }
-    const auto windows = Workspace::self()->allClientList();
+    const auto windows = Workspace::self()->windows();
     for (auto *const window : windows) {
+        if (!window->isClient()) {
+            continue;
+        }
         if (window->isDesktop()) {
             continue;
         }
@@ -67,15 +73,18 @@ void Activities::slotCurrentChanged(const QString &newActivity)
 
 void Activities::slotRemoved(const QString &activity)
 {
-    const auto windows = Workspace::self()->allClientList();
+    const auto windows = Workspace::self()->windows();
     for (auto *const window : windows) {
+        if (!window->isClient()) {
+            continue;
+        }
         if (window->isDesktop()) {
             continue;
         }
         window->setOnActivity(activity, false);
     }
     // toss out any session data for it
-    KConfigGroup cg(KSharedConfig::openConfig(), QByteArray("SubSession: ").append(activity.toUtf8()).constData());
+    KConfigGroup cg(KSharedConfig::openConfig(), QLatin1String("SubSession: ") + activity);
     cg.deleteGroup();
 }
 
@@ -113,7 +122,7 @@ void Activities::toggleWindowOnActivity(Window *window, const QString &activity,
         }
         toggleWindowOnActivity(window, activity, dont_activate);
     }
-    ws->updateClientArea();
+    ws->rearrange();
 }
 
 bool Activities::start(const QString &id)
@@ -167,12 +176,17 @@ void Activities::reallyStop(const QString &id)
 
     QSet<QByteArray> saveSessionIds;
     QSet<QByteArray> dontCloseSessionIds;
-    const auto windows = ws->allClientList();
+#if KWIN_BUILD_X11
+    const auto windows = ws->windows();
     for (auto *const window : windows) {
+        auto x11Window = qobject_cast<X11Window *>(window);
+        if (!x11Window || window->isUnmanaged()) {
+            continue;
+        }
         if (window->isDesktop()) {
             continue;
         }
-        const QByteArray sessionId = window->sessionId();
+        const QByteArray sessionId = x11Window->sessionId();
         if (sessionId.isEmpty()) {
             continue; // TODO support old wm_command apps too?
         }
@@ -196,8 +210,8 @@ void Activities::reallyStop(const QString &id)
             }
         }
     }
-
     ws->sessionManager()->storeSubSession(id, saveSessionIds);
+#endif
 
     QStringList saveAndClose;
     QStringList saveOnly;
@@ -221,3 +235,5 @@ void Activities::reallyStop(const QString &id)
 }
 
 } // namespace
+
+#include "moc_activities.cpp"

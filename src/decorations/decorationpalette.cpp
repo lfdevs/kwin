@@ -11,7 +11,6 @@
 */
 
 #include "decorationpalette.h"
-#include "decorations_logging.h"
 
 #include <KConfigGroup>
 
@@ -160,3 +159,5 @@ void DecorationPalette::update()
 
 }
 }
+
+#include "moc_decorationpalette.cpp"

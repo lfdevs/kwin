@@ -8,6 +8,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "drm_connector.h"
+#include "drm_commit.h"
 #include "drm_crtc.h"
 #include "drm_gpu.h"
 #include "drm_logging.h"
@@ -21,11 +22,6 @@
 
 namespace KWin
 {
-
-static bool checkIfEqual(const drmModeModeInfo *one, const drmModeModeInfo *two)
-{
-    return std::memcmp(one, two, sizeof(drmModeModeInfo)) == 0;
-}
 
 static QSize resolutionForMode(const drmModeModeInfo *info)
 {
@@ -49,28 +45,33 @@ static quint64 refreshRateForMode(_drmModeModeInfo *m)
     return refreshRate;
 }
 
-static OutputMode::Flags flagsForMode(const drmModeModeInfo *info)
+static OutputMode::Flags flagsForMode(const drmModeModeInfo *info, OutputMode::Flags additionalFlags)
 {
-    OutputMode::Flags flags;
+    OutputMode::Flags flags = additionalFlags;
     if (info->type & DRM_MODE_TYPE_PREFERRED) {
         flags |= OutputMode::Flag::Preferred;
     }
     return flags;
 }
 
-DrmConnectorMode::DrmConnectorMode(DrmConnector *connector, drmModeModeInfo nativeMode)
-    : OutputMode(resolutionForMode(&nativeMode), refreshRateForMode(&nativeMode), flagsForMode(&nativeMode))
+DrmConnectorMode::DrmConnectorMode(DrmConnector *connector, drmModeModeInfo nativeMode, Flags additionalFlags)
+    : OutputMode(resolutionForMode(&nativeMode), refreshRateForMode(&nativeMode), flagsForMode(&nativeMode, additionalFlags))
     , m_connector(connector)
     , m_nativeMode(nativeMode)
 {
 }
 
-DrmConnectorMode::~DrmConnectorMode()
+std::shared_ptr<DrmBlob> DrmConnectorMode::blob()
 {
-    if (m_blobId) {
-        drmModeDestroyPropertyBlob(m_connector->gpu()->fd(), m_blobId);
-        m_blobId = 0;
+    if (!m_blob) {
+        m_blob = DrmBlob::create(m_connector->gpu(), &m_nativeMode, sizeof(m_nativeMode));
     }
+    return m_blob;
+}
+
+std::chrono::nanoseconds DrmConnectorMode::vblankTime() const
+{
+    return std::chrono::nanoseconds(((m_nativeMode.vtotal - m_nativeMode.vdisplay) * m_nativeMode.htotal * 1'000'000ULL) / m_nativeMode.clock);
 }
 
 drmModeModeInfo *DrmConnectorMode::nativeMode()
@@ -78,14 +79,9 @@ drmModeModeInfo *DrmConnectorMode::nativeMode()
     return &m_nativeMode;
 }
 
-uint32_t DrmConnectorMode::blobId()
+static inline bool checkIfEqual(const drmModeModeInfo *one, const drmModeModeInfo *two)
 {
-    if (!m_blobId) {
-        if (drmModeCreatePropertyBlob(m_connector->gpu()->fd(), &m_nativeMode, sizeof(m_nativeMode), &m_blobId) != 0) {
-            qCWarning(KWIN_DRM) << "Failed to create connector mode blob:" << strerror(errno);
-        }
-    }
-    return m_blobId;
+    return std::memcmp(one, two, sizeof(drmModeModeInfo)) == 0;
 }
 
 bool DrmConnectorMode::operator==(const DrmConnectorMode &otherMode)
@@ -93,32 +89,66 @@ bool DrmConnectorMode::operator==(const DrmConnectorMode &otherMode)
     return checkIfEqual(&m_nativeMode, &otherMode.m_nativeMode);
 }
 
+bool DrmConnectorMode::operator==(const drmModeModeInfo &otherMode)
+{
+    return checkIfEqual(&m_nativeMode, &otherMode);
+}
+
 DrmConnector::DrmConnector(DrmGpu *gpu, uint32_t connectorId)
-    : DrmObject(gpu,
-                connectorId,
-                {PropertyDefinition(QByteArrayLiteral("CRTC_ID"), Requirement::Required),
-                 PropertyDefinition(QByteArrayLiteral("non-desktop"), Requirement::Optional),
-                 PropertyDefinition(QByteArrayLiteral("DPMS"), Requirement::RequiredForLegacy),
-                 PropertyDefinition(QByteArrayLiteral("EDID"), Requirement::Optional),
-                 PropertyDefinition(QByteArrayLiteral("overscan"), Requirement::Optional),
-                 PropertyDefinition(QByteArrayLiteral("vrr_capable"), Requirement::Optional),
-                 PropertyDefinition(QByteArrayLiteral("underscan"), Requirement::Optional,
-                                    {QByteArrayLiteral("off"), QByteArrayLiteral("on"), QByteArrayLiteral("auto")}),
-                 PropertyDefinition(QByteArrayLiteral("underscan vborder"), Requirement::Optional),
-                 PropertyDefinition(QByteArrayLiteral("underscan hborder"), Requirement::Optional),
-                 PropertyDefinition(QByteArrayLiteral("Broadcast RGB"), Requirement::Optional,
-                                    {QByteArrayLiteral("Automatic"), QByteArrayLiteral("Full"), QByteArrayLiteral("Limited 16:235")}),
-                 PropertyDefinition(QByteArrayLiteral("max bpc"), Requirement::Optional),
-                 PropertyDefinition(QByteArrayLiteral("link-status"), Requirement::Optional,
-                                    {QByteArrayLiteral("Good"), QByteArrayLiteral("Bad")}),
-                 PropertyDefinition(QByteArrayLiteral("content type"), Requirement::Optional,
-                                    {QByteArrayLiteral("No Data"), QByteArrayLiteral("Graphics"), QByteArrayLiteral("Photo"), QByteArrayLiteral("Cinema"), QByteArrayLiteral("Game")}),
-                 PropertyDefinition(QByteArrayLiteral("panel orientation"), Requirement::Optional, {QByteArrayLiteral("Normal"), QByteArrayLiteral("Upside Down"), QByteArrayLiteral("Left Side Up"), QByteArrayLiteral("Right Side Up")}),
-                 PropertyDefinition(QByteArrayLiteral("HDR_OUTPUT_METADATA"), Requirement::Optional),
-                 PropertyDefinition(QByteArrayLiteral("scaling mode"), Requirement::Optional, {QByteArrayLiteral("None"), QByteArrayLiteral("Full"), QByteArrayLiteral("Center"), QByteArrayLiteral("Full aspect")})},
-                DRM_MODE_OBJECT_CONNECTOR)
-    , m_pipeline(std::make_unique<DrmPipeline>(this))
+    : DrmObject(gpu, connectorId, DRM_MODE_OBJECT_CONNECTOR)
+    , crtcId(this, QByteArrayLiteral("CRTC_ID"))
+    , nonDesktop(this, QByteArrayLiteral("non-desktop"))
+    , dpms(this, QByteArrayLiteral("DPMS"))
+    , edidProp(this, QByteArrayLiteral("EDID"))
+    , overscan(this, QByteArrayLiteral("overscan"))
+    , vrrCapable(this, QByteArrayLiteral("vrr_capable"))
+    , underscan(this, QByteArrayLiteral("underscan"), {
+                                                          QByteArrayLiteral("off"),
+                                                          QByteArrayLiteral("on"),
+                                                          QByteArrayLiteral("auto"),
+                                                      })
+    , underscanVBorder(this, QByteArrayLiteral("underscan vborder"))
+    , underscanHBorder(this, QByteArrayLiteral("underscan hborder"))
+    , broadcastRGB(this, QByteArrayLiteral("Broadcast RGB"), {
+                                                                 QByteArrayLiteral("Automatic"),
+                                                                 QByteArrayLiteral("Full"),
+                                                                 QByteArrayLiteral("Limited 16:235"),
+                                                             })
+    , maxBpc(this, QByteArrayLiteral("max bpc"))
+    , linkStatus(this, QByteArrayLiteral("link-status"), {
+                                                             QByteArrayLiteral("Good"),
+                                                             QByteArrayLiteral("Bad"),
+                                                         })
+    , contentType(this, QByteArrayLiteral("content type"), {
+                                                               QByteArrayLiteral("No Data"),
+                                                               QByteArrayLiteral("Graphics"),
+                                                               QByteArrayLiteral("Photo"),
+                                                               QByteArrayLiteral("Cinema"),
+                                                               QByteArrayLiteral("Game"),
+                                                           })
+    , panelOrientation(this, QByteArrayLiteral("panel orientation"), {
+                                                                         QByteArrayLiteral("Normal"),
+                                                                         QByteArrayLiteral("Upside Down"),
+                                                                         QByteArrayLiteral("Left Side Up"),
+                                                                         QByteArrayLiteral("Right Side Up"),
+                                                                     })
+    , hdrMetadata(this, QByteArrayLiteral("HDR_OUTPUT_METADATA"))
+    , scalingMode(this, QByteArrayLiteral("scaling mode"), {
+                                                               QByteArrayLiteral("None"),
+                                                               QByteArrayLiteral("Full"),
+                                                               QByteArrayLiteral("Center"),
+                                                               QByteArrayLiteral("Full aspect"),
+                                                           })
+    , colorspace(this, QByteArrayLiteral("Colorspace"), {
+                                                            QByteArrayLiteral("Default"),
+                                                            QByteArrayLiteral("BT709_YCC"),
+                                                            QByteArrayLiteral("opRGB"),
+                                                            QByteArrayLiteral("BT2020_RGB"),
+                                                            QByteArrayLiteral("BT2020_YCC"),
+                                                        })
+    , path(this, QByteArrayLiteral("PATH"))
     , m_conn(drmModeGetConnector(gpu->fd(), connectorId))
+    , m_pipeline(m_conn ? std::make_unique<DrmPipeline>(this) : nullptr)
 {
     if (m_conn) {
         for (int i = 0; i < m_conn->count_encoders; ++i) {
@@ -132,11 +162,6 @@ DrmConnector::DrmConnector(DrmGpu *gpu, uint32_t connectorId)
     } else {
         qCWarning(KWIN_DRM) << "drmModeGetConnector failed!" << strerror(errno);
     }
-}
-
-bool DrmConnector::init()
-{
-    return m_conn && initProps();
 }
 
 bool DrmConnector::isConnected() const
@@ -173,6 +198,11 @@ QSize DrmConnector::physicalSize() const
     return m_physicalSize;
 }
 
+QByteArray DrmConnector::mstPath() const
+{
+    return m_mstPath;
+}
+
 QList<std::shared_ptr<DrmConnectorMode>> DrmConnector::modes() const
 {
     return m_modes;
@@ -180,7 +210,7 @@ QList<std::shared_ptr<DrmConnectorMode>> DrmConnector::modes() const
 
 std::shared_ptr<DrmConnectorMode> DrmConnector::findMode(const drmModeModeInfo &modeInfo) const
 {
-    const auto it = std::find_if(m_modes.constBegin(), m_modes.constEnd(), [&modeInfo](const auto &mode) {
+    const auto it = std::ranges::find_if(m_modes, [&modeInfo](const auto &mode) {
         return checkIfEqual(mode->nativeMode(), &modeInfo);
     });
     return it == m_modes.constEnd() ? nullptr : *it;
@@ -206,39 +236,6 @@ Output::SubPixel DrmConnector::subpixel() const
     }
 }
 
-bool DrmConnector::hasOverscan() const
-{
-    return getProp(PropertyIndex::Overscan) || getProp(PropertyIndex::Underscan);
-}
-
-uint32_t DrmConnector::overscan() const
-{
-    if (const auto &prop = getProp(PropertyIndex::Overscan)) {
-        return prop->pending();
-    } else if (const auto &prop = getProp(PropertyIndex::Underscan_vborder)) {
-        return prop->pending();
-    }
-    return 0;
-}
-
-bool DrmConnector::vrrCapable() const
-{
-    const auto prop = getProp(PropertyIndex::VrrCapable);
-    return prop && prop->current() == 1;
-}
-
-bool DrmConnector::hasRgbRange() const
-{
-    const auto &rgb = getProp(PropertyIndex::Broadcast_RGB);
-    return rgb && rgb->hasAllEnums();
-}
-
-Output::RgbRange DrmConnector::rgbRange() const
-{
-    const auto &rgb = getProp(PropertyIndex::Broadcast_RGB);
-    return rgb->enumForValue<Output::RgbRange>(rgb->pending());
-}
-
 bool DrmConnector::updateProperties()
 {
     if (auto connector = drmModeGetConnector(gpu()->fd(), id())) {
@@ -246,32 +243,41 @@ bool DrmConnector::updateProperties()
     } else if (!m_conn) {
         return false;
     }
-    if (!DrmObject::updateProperties()) {
-        return false;
-    }
-    if (const auto &dpms = getProp(PropertyIndex::Dpms)) {
-        dpms->setLegacy();
-    }
+    DrmPropertyList props = queryProperties();
+    crtcId.update(props);
+    nonDesktop.update(props);
+    dpms.update(props);
+    edidProp.update(props);
+    overscan.update(props);
+    vrrCapable.update(props);
+    underscan.update(props);
+    underscanVBorder.update(props);
+    underscanHBorder.update(props);
+    broadcastRGB.update(props);
+    maxBpc.update(props);
+    linkStatus.update(props);
+    contentType.update(props);
+    panelOrientation.update(props);
+    hdrMetadata.update(props);
+    scalingMode.update(props);
+    colorspace.update(props);
+    path.update(props);
 
-    auto &underscan = m_props[static_cast<uint32_t>(PropertyIndex::Underscan)];
-    auto &vborder = m_props[static_cast<uint32_t>(PropertyIndex::Underscan_vborder)];
-    auto &hborder = m_props[static_cast<uint32_t>(PropertyIndex::Underscan_hborder)];
-    if (underscan && vborder && hborder) {
-        underscan->setEnum(vborder->current() > 0 ? UnderscanOptions::On : UnderscanOptions::Off);
-    } else {
-        underscan.reset();
-        vborder.reset();
-        hborder.reset();
+    if (gpu()->atomicModeSetting() && !crtcId.isValid()) {
+        return false;
     }
 
     // parse edid
-    if (const auto edidProp = getProp(PropertyIndex::Edid); edidProp && edidProp->immutableBlob()) {
-        m_edid = Edid(edidProp->immutableBlob()->data, edidProp->immutableBlob()->length);
+    if (edidProp.immutableBlob()) {
+        m_edid = Edid(edidProp.immutableBlob()->data, edidProp.immutableBlob()->length);
         if (!m_edid.isValid()) {
             qCWarning(KWIN_DRM) << "Couldn't parse EDID for connector" << this;
         }
-    } else if (m_conn->connection == DRM_MODE_CONNECTED) {
-        qCDebug(KWIN_DRM) << "Could not find edid for connector" << this;
+    } else {
+        m_edid = Edid{};
+        if (m_conn->connection == DRM_MODE_CONNECTED) {
+            qCDebug(KWIN_DRM) << "Could not find edid for connector" << this;
+        }
     }
 
     // check the physical size
@@ -290,11 +296,11 @@ bool DrmConnector::updateProperties()
         // reload modes
         m_driverModes.clear();
         for (int i = 0; i < m_conn->count_modes; i++) {
-            m_driverModes.append(std::make_shared<DrmConnectorMode>(this, m_conn->modes[i]));
+            m_driverModes.append(std::make_shared<DrmConnectorMode>(this, m_conn->modes[i], OutputMode::Flags()));
         }
         m_modes.clear();
         m_modes.append(m_driverModes);
-        if (auto scaling = getProp(PropertyIndex::ScalingMode); scaling && scaling->hasEnum(ScalingMode::Full_Aspect)) {
+        if (scalingMode.isValid() && scalingMode.hasEnum(ScalingMode::Full_Aspect)) {
             m_modes.append(generateCommonModes());
         }
         if (m_pipeline->mode()) {
@@ -312,6 +318,23 @@ bool DrmConnector::updateProperties()
         }
     }
 
+    m_mstPath.clear();
+    if (auto blob = path.immutableBlob()) {
+        QByteArray value = QByteArray(static_cast<const char *>(blob->data), blob->length);
+        if (value.startsWith("mst:")) {
+            // for backwards compatibility reasons the string also contains the drm connector id
+            // remove that to get a more stable identifier
+            const ssize_t firstHyphen = value.indexOf('-');
+            if (firstHyphen > 0) {
+                m_mstPath = value.mid(firstHyphen);
+            } else {
+                qCWarning(KWIN_DRM) << "Unexpected format in path property:" << value;
+            }
+        } else {
+            qCWarning(KWIN_DRM) << "Unknown path type detected:" << value;
+        }
+    }
+
     return true;
 }
 
@@ -322,8 +345,7 @@ bool DrmConnector::isCrtcSupported(DrmCrtc *crtc) const
 
 bool DrmConnector::isNonDesktop() const
 {
-    const auto &prop = getProp(PropertyIndex::NonDesktop);
-    return prop && prop->current();
+    return nonDesktop.isValid() && nonDesktop.value() == 1;
 }
 
 const Edid *DrmConnector::edid() const
@@ -336,20 +358,12 @@ DrmPipeline *DrmConnector::pipeline() const
     return m_pipeline.get();
 }
 
-void DrmConnector::disable()
+void DrmConnector::disable(DrmAtomicCommit *commit)
 {
-    setPending(PropertyIndex::CrtcId, 0);
+    commit->addProperty(crtcId, 0);
 }
 
-DrmConnector::LinkStatus DrmConnector::linkStatus() const
-{
-    if (const auto &property = getProp(PropertyIndex::LinkStatus)) {
-        return property->enumForValue<LinkStatus>(property->current());
-    }
-    return LinkStatus::Good;
-}
-
-static const QVector<QSize> s_commonModes = {
+static const QList<QSize> s_commonModes = {
     /* 4:3 (1.33) */
     QSize(1600, 1200),
     QSize(1280, 1024), /* 5:4 (1.25) */
@@ -388,9 +402,10 @@ QList<std::shared_ptr<DrmConnectorMode>> DrmConnector::generateCommonModes()
             continue;
         }
         const auto generatedMode = generateMode(size, 60);
-        if (std::any_of(m_driverModes.cbegin(), m_driverModes.cend(), [generatedMode](const auto &mode) {
-                return mode->size() == generatedMode->size() && mode->refreshRate() == generatedMode->refreshRate();
-            })) {
+        const bool alreadyExists = std::ranges::any_of(m_driverModes, [generatedMode](const auto &mode) {
+            return mode->size() == generatedMode->size() && mode->refreshRate() == generatedMode->refreshRate();
+        });
+        if (alreadyExists) {
             continue;
         }
         ret << generatedMode;
@@ -421,16 +436,7 @@ std::shared_ptr<DrmConnectorMode> DrmConnector::generateMode(const QSize &size, 
     sprintf(mode.name, "%dx%d@%d", size.width(), size.height(), mode.vrefresh);
 
     free(modeInfo);
-    return std::make_shared<DrmConnectorMode>(this, mode);
-}
-
-DrmConnector::PanelOrientation DrmConnector::panelOrientation() const
-{
-    if (const auto &property = getProp(PropertyIndex::PanelOrientation)) {
-        return property->enumForValue<PanelOrientation>(property->current());
-    } else {
-        return PanelOrientation::Normal;
-    }
+    return std::make_shared<DrmConnectorMode>(this, mode, OutputMode::Flag::Generated);
 }
 
 QDebug &operator<<(QDebug &s, const KWin::DrmConnector *obj)
@@ -469,17 +475,45 @@ DrmConnector::DrmContentType DrmConnector::kwinToDrmContentType(ContentType type
     }
 }
 
-Output::Transform DrmConnector::toKWinTransform(PanelOrientation orientation)
+OutputTransform DrmConnector::toKWinTransform(PanelOrientation orientation)
 {
     switch (orientation) {
     case PanelOrientation::Normal:
-        return KWin::Output::Transform::Normal;
+        return KWin::OutputTransform::Normal;
     case PanelOrientation::RightUp:
-        return KWin::Output::Transform::Rotated270;
+        return KWin::OutputTransform::Rotate270;
     case PanelOrientation::LeftUp:
-        return KWin::Output::Transform::Rotated90;
+        return KWin::OutputTransform::Rotate90;
     case PanelOrientation::UpsideDown:
-        return KWin::Output::Transform::Rotated180;
+        return KWin::OutputTransform::Rotate180;
+    default:
+        Q_UNREACHABLE();
+    }
+}
+
+DrmConnector::BroadcastRgbOptions DrmConnector::rgbRangeToBroadcastRgb(Output::RgbRange rgbRange)
+{
+    switch (rgbRange) {
+    case Output::RgbRange::Automatic:
+        return BroadcastRgbOptions::Automatic;
+    case Output::RgbRange::Full:
+        return BroadcastRgbOptions::Full;
+    case Output::RgbRange::Limited:
+        return BroadcastRgbOptions::Limited;
+    default:
+        Q_UNREACHABLE();
+    }
+}
+
+Output::RgbRange DrmConnector::broadcastRgbToRgbRange(BroadcastRgbOptions rgbRange)
+{
+    switch (rgbRange) {
+    case BroadcastRgbOptions::Automatic:
+        return Output::RgbRange::Automatic;
+    case BroadcastRgbOptions::Full:
+        return Output::RgbRange::Full;
+    case BroadcastRgbOptions::Limited:
+        return Output::RgbRange::Limited;
     default:
         Q_UNREACHABLE();
     }

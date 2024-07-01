@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-03 00:48+0000\n"
+"POT-Creation-Date: 2024-02-06 00:39+0000\n"
 "PO-Revision-Date: 2008-12-25 15:33+0530\n"
 "Last-Translator: Shankar Prasad <svenkate@redhat.com>\n"
 "Language-Team: Kannada <en@li.org>\n"
@@ -17,16 +17,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: KBabel 1.11.4\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "ಶಂಕರ್ ಪ್ರಸಾದ್ ಎಂ ವಿ"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "prasad.mvs@gmail.com"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
 #: actions.ui:17
@@ -345,6 +335,7 @@ msgstr "ಅಪಾರದರ್ಶಕತೆಯನ್ನು ಬದಲಾಯಿಸ�
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TitlebarDoubleClickCommand)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandTitlebarWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar1)
@@ -353,8 +344,8 @@ msgstr "ಅಪಾರದರ್ಶಕತೆಯನ್ನು ಬದಲಾಯಿಸ�
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
-#: actions.ui:310 actions.ui:380 actions.ui:450 actions.ui:505 mouse.ui:80
-#: mouse.ui:132 mouse.ui:271 mouse.ui:333 mouse.ui:386 mouse.ui:448
+#: actions.ui:310 actions.ui:380 actions.ui:450 actions.ui:505 advanced.ui:174
+#: mouse.ui:80 mouse.ui:132 mouse.ui:271 mouse.ui:333 mouse.ui:386 mouse.ui:448
 #: mouse.ui:501 mouse.ui:563
 #, fuzzy, kde-format
 #| msgid "Nothing"
@@ -948,34 +939,8 @@ msgstr ""
 msgid "Multiscreen behavior:"
 msgstr ""
 
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ActiveMouseScreen)
-#: focus.ui:203
-#, fuzzy, kde-format
-#| msgid ""
-#| "When this option is enabled, the active Xinerama screen (where new "
-#| "windows appear, for example) is the screen containing the mouse pointer. "
-#| "When disabled, the active Xinerama screen is the  screen containing the "
-#| "focused window. By default this option is disabled for Click to focus and "
-#| "enabled for other focus policies."
-msgid ""
-"When this option is enabled, the active screen (where new windows appear, "
-"for example) is the screen containing the mouse pointer. When disabled, the "
-"active screen is the screen containing the focused window."
-msgstr ""
-"ಈ ಆಯ್ಕೆಯನ್ನು ಶಕ್ತಗೊಳಿಸಿದಾಗ, ಸಕ್ರಿಯ ಕ್ಷೈನರ್ಮಾ(Xinerma) ತೆರೆಯು (ಉದಾ, ಎಲ್ಲಿ ಹೊಸ "
-"ವಿಂಡೋಗಳು ಕಾಣಿಸಿಕೊಳ್ಳುತ್ತವೆಯೋ ಅಲ್ಲಿ) ಮೌಸ್‌ ಸೂಚಕವನ್ನು ಹೊಂದಿರುವ ತೆರಯಾಗಿರುತ್ತದೆ. "
-"ಅಶಕ್ತಗೊಂಡಾಗ, ಸಕ್ರಿಯ ಕ್ಷೈನರ್ಮಾ ತೆರೆಯು ಗಮನ ಇರಿಸಲ್ಪಟ್ಟ ವಿಂಡೋವನ್ನು ಹೊಂದಿರುವ ವಿಂಡೋ "
-"ಆಗಿರುತ್ತದೆ. ಪೂರ್ವನಿಯೋಜಿತವಾಗಿ ಈ ಆಯ್ಕೆಯು 'ಗಮನಿಸಲು ಕ್ಕಿಕ್ ಮಾಡು'ವುದಕ್ಕೆ "
-"ಅಶಕ್ತಗೊಂಡಿರುತ್ತದೆ ಹಾಗು ಇತರೆ ಗಮನ ನೀತಿಗಳಿಗೆ ಶಕ್ತಗೊಂಡಿರುತ್ತದೆ."
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ActiveMouseScreen)
-#: focus.ui:206
-#, kde-format
-msgid "Active screen follows &mouse"
-msgstr "ಸಕ್ರಿಯ ತೆರೆಯು ಮೌಸ್‌ ಅನ್ನು ಅನುಸರಿಸುತ್ತದೆ(&m)"
-
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SeparateScreenFocus)
-#: focus.ui:213
+#: focus.ui:203
 #, fuzzy, kde-format
 #| msgid ""
 #| "When this option is enabled, focus operations are limited only to the "
@@ -988,126 +953,53 @@ msgstr ""
 "ಮಾತ್ರ ಸೀಮಿತವಾಗಿರುತ್ತದೆ"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SeparateScreenFocus)
-#: focus.ui:216
+#: focus.ui:206
 #, fuzzy, kde-format
 #| msgid "S&eparate screen focus"
 msgid "&Separate screen focus"
 msgstr "ಪ್ರತ್ಯೇಕ ತೆರೆ ಗಮನ(&e)"
 
 #. i18n: ectx: property (text), widget (QLabel, windowFocusPolicyDescriptionLabel)
-#: focus.ui:229
+#: focus.ui:219
 #, kde-format
 msgid "Window activation policy description"
 msgstr ""
 
-#: main.cpp:73
+#: main.cpp:79
 #, kde-format
 msgid "&Focus"
 msgstr "ಗಮನ(&F)"
 
-#: main.cpp:79
+#: main.cpp:84
 #, fuzzy, kde-format
 #| msgid "&Titlebar Actions"
 msgid "Titlebar A&ctions"
 msgstr "ಉಪಕರಣಪಟ್ಟಿ ಕಾರ್ಯಗಳು (&T)"
 
-#: main.cpp:85
+#: main.cpp:89
 #, fuzzy, kde-format
 #| msgid "Window Actio&ns"
 msgid "W&indow Actions"
 msgstr "ವಿಂಡೋ ಕಾರ್ಯಗಳು (&n)"
 
-#: main.cpp:91
+#: main.cpp:94
 #, fuzzy, kde-format
 #| msgid "&Placement:"
 msgid "Mo&vement"
 msgstr "ನಿಯೋಜನೆ(&P):"
 
-#: main.cpp:97
+#: main.cpp:99
 #, fuzzy, kde-format
 #| msgid "Ad&vanced"
 msgid "Adva&nced"
 msgstr "ಸುಧಾರಿತ(&v)"
 
-#: main.cpp:101
-#, kde-format
-msgid "Window Behavior Configuration Module"
-msgstr "ವಿಂಡೋ ವರ್ತನೆ ಸಂರಚನೆ ಘಟಕ"
-
-#: main.cpp:103
-#, kde-format
-msgid "(c) 1997 - 2002 KWin and KControl Authors"
-msgstr "(c) 1997 - 2002 KWin ಹಾಗು KControl ಲೇಖಕರು"
-
-#: main.cpp:105
-#, kde-format
-msgid "Matthias Ettrich"
-msgstr "Matthias Ettrich"
-
-#: main.cpp:106
-#, kde-format
-msgid "Waldo Bastian"
-msgstr "Waldo Bastian"
-
-#: main.cpp:107
-#, kde-format
-msgid "Cristian Tibirna"
-msgstr "Cristian Tibirna"
-
-#: main.cpp:108
-#, kde-format
-msgid "Matthias Kalle Dalheimer"
-msgstr "Matthias Kalle Dalheimer"
-
-#: main.cpp:109
-#, kde-format
-msgid "Daniel Molkentin"
-msgstr "Daniel Molkentin"
-
-#: main.cpp:110
-#, kde-format
-msgid "Wynn Wilkes"
-msgstr "Wynn Wilkes"
-
-#: main.cpp:111
-#, kde-format
-msgid "Pat Dowler"
-msgstr "Pat Dowler"
-
-#: main.cpp:112
-#, kde-format
-msgid "Bernd Wuebben"
-msgstr "Bernd Wuebben"
-
-#: main.cpp:113
-#, kde-format
-msgid "Matthias Hoelzer-Kluepfel"
-msgstr "Matthias Hoelzer-Kluepfel"
-
-#: main.cpp:161
-#, kde-format
-msgid ""
-"<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
-"when being moved, resized or clicked on. You can also specify a focus policy "
-"as well as a placement policy for new windows.</p> <p>Please note that this "
-"configuration will not take effect if you do not use KWin as your window "
-"manager. If you do use a different window manager, please refer to its "
-"documentation for how to customize window behavior.</p>"
-msgstr ""
-"<p><h1>ವಿಂಡೋ ವರ್ತನೆ</h1> ವಿಂಡೋಗಳನ್ನು ಜರುಗಿಸಿದಾಗ, ಮರುಗಾತ್ರಿಸಿದಾಗ ಅಥವ ಕ್ಲಿಕ್ "
-"ಮಾಡಿದಾಗ ಅವು ಹೇಗೆ ವರ್ತಿಸಬೇಕೆಂದು ಇಲ್ಲಿ ನೀವು ಕಸ್ಟಮೈಸ್ ಮಾಡಬಹುದು. ಇದಲ್ಲದೆ ಹೊಸ "
-"ವಿಂಡೋಗಳಿಗಾಗಿ ನೀವು ಗಮನ ನೀತಿ ಹಾಗು ಸ್ಥಾಪನಾ ನೀತಿಯನ್ನೂ ಸಹ ಸೂಚಿಸಬಹುದು.</p> <p>ನೀವು "
-"KWin ಅನ್ನು ನಿಮ್ಮ ವಿಂಡೋ ಮ್ಯಾನೇಜರ್ ಆಗಿ ಬಳಸದೆ ಹೋದಲ್ಲಿ ಈ ಸಂರಚನೆಯು "
-"ಪರಿಣಾಮಕಾರಿಯಾಗುವುದಿಲ್ಲ ಎನ್ನುವುದನ್ನು ದಯವಿಟ್ಟು ನೆನಪಿಡಿ. ಎಲ್ಲಿಯಾದರು ನೀವು ಬೇರೊಂದು "
-"ವಿಂಡೋ ಮ್ಯಾನೇಜರ್ ಅನ್ನು ಬಳಸುತ್ತಿದ್ದಲ್ಲಿ, ಅದರಲ್ಲಿ ವಿಂಡೋ ವರ್ತನೆಯನ್ನು ಹೇಗೆ ಕಸ್ಟಮೈಸ್ ಮಾಡುವುದು "
-"ಎನ್ನುವುದನ್ನು ತಿಳಿಯಲು ಅದರ ದಸ್ತಾವೇಜನ್ನು ನೋಡಿ.</p>"
-
-#: main.cpp:202
+#: main.cpp:178
 #, kde-format
 msgid "&Titlebar Actions"
 msgstr "ಉಪಕರಣಪಟ್ಟಿ ಕಾರ್ಯಗಳು (&T)"
 
-#: main.cpp:208
+#: main.cpp:188
 #, kde-format
 msgid "Window Actio&ns"
 msgstr "ವಿಂಡೋ ಕಾರ್ಯಗಳು (&n)"
@@ -1402,14 +1294,14 @@ msgstr ""
 msgid "Only when overlapping"
 msgstr "ವಿಂಡೋಗಳು ಒಂದರ ಮೇಲೆ ಇನ್ನೊಂದು ಹೇರಿದಾಗ ಮಾತ್ರ ಸೆಳೆಯಲ್ಪಡುವಂತೆ ಮಾಡು(&y)"
 
-#: windows.cpp:97
+#: windows.cpp:92
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
 "This behavior is common on other operating systems and likely what you want."
 msgstr ""
 
-#: windows.cpp:101
+#: windows.cpp:95
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1419,7 +1311,7 @@ msgid ""
 "em>."
 msgstr ""
 
-#: windows.cpp:106
+#: windows.cpp:98
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1428,7 +1320,7 @@ msgid ""
 "to focus</em> just without having to actually click."
 msgstr ""
 
-#: windows.cpp:110
+#: windows.cpp:101
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1437,7 +1329,7 @@ msgid ""
 "if you want a hover controlled focus."
 msgstr ""
 
-#: windows.cpp:115
+#: windows.cpp:104
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1447,7 +1339,7 @@ msgid ""
 "precedence)</em> instead!"
 msgstr ""
 
-#: windows.cpp:119
+#: windows.cpp:107
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "
@@ -1457,6 +1349,84 @@ msgid ""
 "activation policy and will not work. You very likely want to use <em>Focus "
 "follows mouse (mouse precedence)</em> instead!"
 msgstr ""
+
+#, fuzzy
+#~| msgid ""
+#~| "When this option is enabled, the active Xinerama screen (where new "
+#~| "windows appear, for example) is the screen containing the mouse pointer. "
+#~| "When disabled, the active Xinerama screen is the  screen containing the "
+#~| "focused window. By default this option is disabled for Click to focus "
+#~| "and enabled for other focus policies."
+#~ msgid ""
+#~ "When this option is enabled, the active screen (where new windows appear, "
+#~ "for example) is the screen containing the mouse pointer. When disabled, "
+#~ "the active screen is the screen containing the focused window."
+#~ msgstr ""
+#~ "ಈ ಆಯ್ಕೆಯನ್ನು ಶಕ್ತಗೊಳಿಸಿದಾಗ, ಸಕ್ರಿಯ ಕ್ಷೈನರ್ಮಾ(Xinerma) ತೆರೆಯು (ಉದಾ, ಎಲ್ಲಿ ಹೊಸ "
+#~ "ವಿಂಡೋಗಳು ಕಾಣಿಸಿಕೊಳ್ಳುತ್ತವೆಯೋ ಅಲ್ಲಿ) ಮೌಸ್‌ ಸೂಚಕವನ್ನು ಹೊಂದಿರುವ ತೆರಯಾಗಿರುತ್ತದೆ. "
+#~ "ಅಶಕ್ತಗೊಂಡಾಗ, ಸಕ್ರಿಯ ಕ್ಷೈನರ್ಮಾ ತೆರೆಯು ಗಮನ ಇರಿಸಲ್ಪಟ್ಟ ವಿಂಡೋವನ್ನು ಹೊಂದಿರುವ ವಿಂಡೋ "
+#~ "ಆಗಿರುತ್ತದೆ. ಪೂರ್ವನಿಯೋಜಿತವಾಗಿ ಈ ಆಯ್ಕೆಯು 'ಗಮನಿಸಲು ಕ್ಕಿಕ್ ಮಾಡು'ವುದಕ್ಕೆ "
+#~ "ಅಶಕ್ತಗೊಂಡಿರುತ್ತದೆ ಹಾಗು ಇತರೆ ಗಮನ ನೀತಿಗಳಿಗೆ ಶಕ್ತಗೊಂಡಿರುತ್ತದೆ."
+
+#~ msgid "Active screen follows &mouse"
+#~ msgstr "ಸಕ್ರಿಯ ತೆರೆಯು ಮೌಸ್‌ ಅನ್ನು ಅನುಸರಿಸುತ್ತದೆ(&m)"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "ಶಂಕರ್ ಪ್ರಸಾದ್ ಎಂ ವಿ"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "prasad.mvs@gmail.com"
+
+#~ msgid "Window Behavior Configuration Module"
+#~ msgstr "ವಿಂಡೋ ವರ್ತನೆ ಸಂರಚನೆ ಘಟಕ"
+
+#~ msgid "(c) 1997 - 2002 KWin and KControl Authors"
+#~ msgstr "(c) 1997 - 2002 KWin ಹಾಗು KControl ಲೇಖಕರು"
+
+#~ msgid "Matthias Ettrich"
+#~ msgstr "Matthias Ettrich"
+
+#~ msgid "Waldo Bastian"
+#~ msgstr "Waldo Bastian"
+
+#~ msgid "Cristian Tibirna"
+#~ msgstr "Cristian Tibirna"
+
+#~ msgid "Matthias Kalle Dalheimer"
+#~ msgstr "Matthias Kalle Dalheimer"
+
+#~ msgid "Daniel Molkentin"
+#~ msgstr "Daniel Molkentin"
+
+#~ msgid "Wynn Wilkes"
+#~ msgstr "Wynn Wilkes"
+
+#~ msgid "Pat Dowler"
+#~ msgstr "Pat Dowler"
+
+#~ msgid "Bernd Wuebben"
+#~ msgstr "Bernd Wuebben"
+
+#~ msgid "Matthias Hoelzer-Kluepfel"
+#~ msgstr "Matthias Hoelzer-Kluepfel"
+
+#~ msgid ""
+#~ "<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
+#~ "when being moved, resized or clicked on. You can also specify a focus "
+#~ "policy as well as a placement policy for new windows.</p> <p>Please note "
+#~ "that this configuration will not take effect if you do not use KWin as "
+#~ "your window manager. If you do use a different window manager, please "
+#~ "refer to its documentation for how to customize window behavior.</p>"
+#~ msgstr ""
+#~ "<p><h1>ವಿಂಡೋ ವರ್ತನೆ</h1> ವಿಂಡೋಗಳನ್ನು ಜರುಗಿಸಿದಾಗ, ಮರುಗಾತ್ರಿಸಿದಾಗ ಅಥವ ಕ್ಲಿಕ್ "
+#~ "ಮಾಡಿದಾಗ ಅವು ಹೇಗೆ ವರ್ತಿಸಬೇಕೆಂದು ಇಲ್ಲಿ ನೀವು ಕಸ್ಟಮೈಸ್ ಮಾಡಬಹುದು. ಇದಲ್ಲದೆ ಹೊಸ "
+#~ "ವಿಂಡೋಗಳಿಗಾಗಿ ನೀವು ಗಮನ ನೀತಿ ಹಾಗು ಸ್ಥಾಪನಾ ನೀತಿಯನ್ನೂ ಸಹ ಸೂಚಿಸಬಹುದು.</p> "
+#~ "<p>ನೀವು KWin ಅನ್ನು ನಿಮ್ಮ ವಿಂಡೋ ಮ್ಯಾನೇಜರ್ ಆಗಿ ಬಳಸದೆ ಹೋದಲ್ಲಿ ಈ ಸಂರಚನೆಯು "
+#~ "ಪರಿಣಾಮಕಾರಿಯಾಗುವುದಿಲ್ಲ ಎನ್ನುವುದನ್ನು ದಯವಿಟ್ಟು ನೆನಪಿಡಿ. ಎಲ್ಲಿಯಾದರು ನೀವು ಬೇರೊಂದು "
+#~ "ವಿಂಡೋ ಮ್ಯಾನೇಜರ್ ಅನ್ನು ಬಳಸುತ್ತಿದ್ದಲ್ಲಿ, ಅದರಲ್ಲಿ ವಿಂಡೋ ವರ್ತನೆಯನ್ನು ಹೇಗೆ ಕಸ್ಟಮೈಸ್ "
+#~ "ಮಾಡುವುದು ಎನ್ನುವುದನ್ನು ತಿಳಿಯಲು ಅದರ ದಸ್ತಾವೇಜನ್ನು ನೋಡಿ.</p>"
 
 #, fuzzy
 #~| msgid "Cascade"

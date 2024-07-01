@@ -15,10 +15,9 @@
 #include <QApplication>
 #include <QLayout>
 
+#include <KCModule>
 #include <KPluginFactory>
 #include <KWindowSystem>
-#include <kcmodule.h>
-#include <kservice.h>
 
 #include <algorithm>
 #include <functional>
@@ -35,7 +34,7 @@ class KWinCompositingKCM : public KCModule
 {
     Q_OBJECT
 public:
-    explicit KWinCompositingKCM(QWidget *parent = nullptr, const QVariantList &args = QVariantList());
+    explicit KWinCompositingKCM(QObject *parent, const KPluginMetaData &data);
 
 public Q_SLOTS:
     void load() override;
@@ -56,24 +55,24 @@ private:
     KWinCompositingSetting *m_settings;
 };
 
-static const QVector<qreal> s_animationMultipliers = {8, 4, 2, 1, 0.5, 0.25, 0.125, 0};
+static const QList<qreal> s_animationMultipliers = {8, 4, 2, 1, 0.5, 0.25, 0.125, 0};
 
 bool KWinCompositingKCM::compositingRequired() const
 {
     return m_compositingInterface->platformRequiresCompositing();
 }
 
-KWinCompositingKCM::KWinCompositingKCM(QWidget *parent, const QVariantList &args)
-    : KCModule(parent, args)
+KWinCompositingKCM::KWinCompositingKCM(QObject *parent, const KPluginMetaData &data)
+    : KCModule(parent, data)
     , m_compositingInterface(new OrgKdeKwinCompositingInterface(QStringLiteral("org.kde.KWin"), QStringLiteral("/Compositor"), QDBusConnection::sessionBus(), this))
     , m_settings(new KWinCompositingSetting(this))
 {
-    m_form.setupUi(this);
+    m_form.setupUi(widget());
 
     // AnimationDurationFactor should be written to the same place as the lnf to avoid conflicts
     m_settings->findItem("AnimationDurationFactor")->setWriteFlags(KConfigBase::Global | KConfigBase::Notify);
 
-    addConfig(m_settings, this);
+    addConfig(m_settings, widget());
 
     m_form.glCrashedWarning->setIcon(QIcon::fromTheme(QStringLiteral("dialog-warning")));
     QAction *reenableGlAction = new QAction(i18n("Re-enable OpenGL detection"), this);
@@ -85,7 +84,6 @@ KWinCompositingKCM::KWinCompositingKCM(QWidget *parent, const QVariantList &args
     m_form.kcfg_Enabled->setVisible(!compositingRequired());
     m_form.kcfg_WindowsBlockCompositing->setVisible(!compositingRequired());
     m_form.compositingLabel->setVisible(!compositingRequired());
-    m_form.kcfg_AllowTearing->setVisible(compositingRequired());
 
     connect(this, &KWinCompositingKCM::defaultsIndicatorsVisibleChanged, this, &KWinCompositingKCM::updateUnmanagedItemStatus);
 
@@ -187,7 +185,7 @@ void KWinCompositingKCM::save()
     KCModule::save();
 
     // This clears up old entries that are now migrated to kdeglobals
-    KConfig("kwinrc", KConfig::NoGlobals).group("KDE").revertToDefault("AnimationDurationFactor");
+    KConfig("kwinrc", KConfig::NoGlobals).group(QStringLiteral("KDE")).revertToDefault("AnimationDurationFactor");
 
     // Send signal to all kwin instances
     QDBusMessage message = QDBusMessage::createSignal(QStringLiteral("/Compositor"),

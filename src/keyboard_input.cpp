@@ -8,17 +8,16 @@
 */
 #include "keyboard_input.h"
 
-#include <config-kwin.h>
+#include "config-kwin.h"
 
 #include "input_event.h"
 #include "input_event_spy.h"
 #include "inputmethod.h"
 #include "keyboard_layout.h"
 #include "keyboard_repeat.h"
-#include "modifier_only_shortcuts.h"
-#include "wayland/datadevice_interface.h"
-#include "wayland/keyboard_interface.h"
-#include "wayland/seat_interface.h"
+#include "wayland/datadevice.h"
+#include "wayland/keyboard.h"
+#include "wayland/seat.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
@@ -63,6 +62,11 @@ Qt::KeyboardModifiers KeyboardInputRedirection::modifiers() const
 Qt::KeyboardModifiers KeyboardInputRedirection::modifiersRelevantForGlobalShortcuts() const
 {
     return m_xkb->modifiersRelevantForGlobalShortcuts();
+}
+
+KeyboardLayout *KeyboardInputRedirection::keyboardLayout() const
+{
+    return m_keyboardLayout;
 }
 
 class KeyStateChangedSpy : public InputEventSpy
@@ -117,13 +121,10 @@ void KeyboardInputRedirection::init()
     Q_ASSERT(!m_inited);
     m_inited = true;
     const auto config = kwinApp()->kxkbConfig();
-    m_xkb->setNumLockConfig(InputConfig::self()->inputConfig());
+    m_xkb->setNumLockConfig(kwinApp()->inputConfig());
     m_xkb->setConfig(config);
 
-    // Workaround for QTBUG-54371: if there is no real keyboard Qt doesn't request virtual keyboard
     waylandServer()->seat()->setHasKeyboard(true);
-    // connect(m_input, &InputRedirection::hasAlphaNumericKeyboardChanged,
-    //         waylandServer()->seat(), &KWaylandServer::SeatInterface::setHasKeyboard);
 
     m_input->installInputEventSpy(new KeyStateChangedSpy(m_input));
     m_modifiersChangedSpy = new ModifiersChangedSpy(m_input);
@@ -131,10 +132,6 @@ void KeyboardInputRedirection::init()
     m_keyboardLayout = new KeyboardLayout(m_xkb.get(), config);
     m_keyboardLayout->init();
     m_input->installInputEventSpy(m_keyboardLayout);
-
-    if (waylandServer()->hasGlobalShortcutSupport()) {
-        m_input->installInputEventSpy(new ModifierOnlyShortcuts);
-    }
 
     KeyboardRepeat *keyRepeatSpy = new KeyboardRepeat(m_xkb.get());
     connect(keyRepeatSpy, &KeyboardRepeat::keyRepeat, this,
@@ -171,8 +168,8 @@ void KeyboardInputRedirection::reconfigure()
         return;
     }
     if (waylandServer()->seat()->keyboard()) {
-        const auto config = InputConfig::self()->inputConfig()->group(QStringLiteral("Keyboard"));
-        const int delay = config.readEntry("RepeatDelay", 660);
+        const auto config = kwinApp()->inputConfig()->group(QStringLiteral("Keyboard"));
+        const int delay = config.readEntry("RepeatDelay", 600);
         const int rate = std::ceil(config.readEntry("RepeatRate", 25.0));
         const QString repeatMode = config.readEntry("KeyRepeat", "repeat");
         // when the clients will repeat the character or turn repeat key events into an accent character selection, we want
@@ -247,14 +244,14 @@ void KeyboardInputRedirection::processKey(uint32_t key, InputRedirection::Keyboa
         m_xkb->updateKey(key, state);
     }
 
-    const xkb_keysym_t keySym = m_xkb->currentKeysym();
+    const xkb_keysym_t keySym = m_xkb->toKeysym(key);
     const Qt::KeyboardModifiers globalShortcutsModifiers = m_xkb->modifiersRelevantForGlobalShortcuts(key);
     KeyEvent event(type,
                    m_xkb->toQtKey(keySym, key, globalShortcutsModifiers ? Qt::ControlModifier : Qt::KeyboardModifiers()),
                    m_xkb->modifiers(),
                    key,
                    keySym,
-                   m_xkb->toString(keySym),
+                   m_xkb->toString(m_xkb->currentKeysym()),
                    autoRepeat,
                    time,
                    device);
@@ -278,3 +275,5 @@ void KeyboardInputRedirection::processKey(uint32_t key, InputRedirection::Keyboa
 }
 
 }
+
+#include "moc_keyboard_input.cpp"

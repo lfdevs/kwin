@@ -92,7 +92,6 @@ RootInfo *RootInfo::create()
         | NET::WM2RestackWindow
         | NET::WM2MoveResizeWindow
         | NET::WM2ExtendedStrut
-        | NET::WM2KDETemporaryRules
         | NET::WM2ShowingDesktop
         | NET::WM2DesktopLayout
         | NET::WM2FullPlacement
@@ -116,7 +115,7 @@ RootInfo *RootInfo::create()
         | NET::ActionChangeDesktop
         | NET::ActionClose;
 
-    s_self.reset(new RootInfo(supportWindow, "KWin", properties, types, states, properties2, actions));
+    s_self = std::make_unique<RootInfo>(supportWindow, "KWin", properties, types, states, properties2, actions);
     return s_self.get();
 }
 
@@ -164,12 +163,12 @@ void RootInfo::changeActiveWindow(xcb_window_t w, NET::RequestSource src, xcb_ti
             return; // WORKAROUND? With > 1 plasma activities, we cause this ourselves. bug #240673
         } else { // NET::FromApplication
             X11Window *c2;
-            if (c->allowWindowActivation(timestamp, false, true)) {
+            if (c->allowWindowActivation(timestamp, false)) {
                 workspace->activateWindow(c);
                 // if activation of the requestor's window would be allowed, allow activation too
             } else if (active_window != XCB_WINDOW_NONE
                        && (c2 = workspace->findClient(Predicate::WindowMatch, active_window)) != nullptr
-                       && c2->allowWindowActivation(timestampCompare(timestamp, c2->userTime() > 0 ? timestamp : c2->userTime()), false, true)) {
+                       && c2->allowWindowActivation(timestampCompare(timestamp, c2->userTime() > 0 ? timestamp : c2->userTime()), false)) {
                 workspace->activateWindow(c);
             } else {
                 c->demandAttention();
@@ -199,12 +198,12 @@ void RootInfo::closeWindow(xcb_window_t w)
     }
 }
 
-void RootInfo::moveResize(xcb_window_t w, int x_root, int y_root, unsigned long direction)
+void RootInfo::moveResize(xcb_window_t w, int x_root, int y_root, unsigned long direction, xcb_button_t button, RequestSource source)
 {
     X11Window *c = Workspace::self()->findClient(Predicate::WindowMatch, w);
     if (c) {
         kwinApp()->updateXTime(); // otherwise grabbing may have old timestamp - this message should include timestamp
-        c->NETMoveResize(Xcb::fromXNative(x_root), Xcb::fromXNative(y_root), (Direction)direction);
+        c->NETMoveResize(Xcb::fromXNative(x_root), Xcb::fromXNative(y_root), (Direction)direction, button);
     }
 }
 
@@ -237,11 +236,14 @@ void RootInfo::changeShowingDesktop(bool showing)
 
 void RootInfo::setActiveClient(Window *client)
 {
-    const xcb_window_t w = client ? client->window() : xcb_window_t{XCB_WINDOW_NONE};
-    if (m_activeWindow == w) {
+    xcb_window_t windowId = XCB_WINDOW_NONE;
+    if (auto x11Window = qobject_cast<X11Window *>(client)) {
+        windowId = x11Window->window();
+    }
+    if (m_activeWindow == windowId) {
         return;
     }
-    m_activeWindow = w;
+    m_activeWindow = windowId;
     setActiveWindow(m_activeWindow);
 }
 
@@ -256,9 +258,13 @@ WinInfo::WinInfo(X11Window *c, xcb_window_t window,
 {
 }
 
-void WinInfo::changeDesktop(int desktop)
+void WinInfo::changeDesktop(int desktopId)
 {
-    Workspace::self()->sendWindowToDesktop(m_client, desktop, true);
+    if (desktopId == NET::OnAllDesktops) {
+        Workspace::self()->sendWindowToDesktops(m_client, {}, true);
+    } else if (VirtualDesktop *desktop = VirtualDesktopManager::self()->desktopForX11Id(desktopId)) {
+        Workspace::self()->sendWindowToDesktops(m_client, {desktop}, true);
+    }
 }
 
 void WinInfo::changeFullscreenMonitors(NETFullscreenMonitors topology)
@@ -273,7 +279,7 @@ void WinInfo::changeState(NET::States state, NET::States mask)
     state &= mask; // for safety, clear all other bits
 
     if ((mask & NET::FullScreen) != 0 && (state & NET::FullScreen) == 0) {
-        m_client->setFullScreen(false, false);
+        m_client->setFullScreen(false);
     }
     if ((mask & NET::Max) == NET::Max) {
         m_client->setMaximize(state & NET::MaxVert, state & NET::MaxHoriz);
@@ -309,7 +315,7 @@ void WinInfo::changeState(NET::States state, NET::States mask)
     }
     // unsetting fullscreen first, setting it last (because e.g. maximize works only for !isFullScreen() )
     if ((mask & NET::FullScreen) != 0 && (state & NET::FullScreen) != 0) {
-        m_client->setFullScreen(true, false);
+        m_client->setFullScreen(true);
     }
 }
 

@@ -8,14 +8,10 @@
 #include "core/output.h"
 #include "layershellv1window.h"
 #include "wayland/display.h"
-#include "wayland/layershell_v1_interface.h"
-#include "wayland/output_interface.h"
+#include "wayland/layershell_v1.h"
+#include "wayland/output.h"
 #include "wayland_server.h"
 #include "workspace.h"
-
-#include <QTimer>
-
-using namespace KWaylandServer;
 
 namespace KWin
 {
@@ -27,12 +23,10 @@ LayerShellV1Integration::LayerShellV1Integration(QObject *parent)
     : WaylandShellIntegration(parent)
 {
     LayerShellV1Interface *shell = new LayerShellV1Interface(waylandServer()->display(), this);
-    connect(shell, &KWaylandServer::LayerShellV1Interface::surfaceCreated,
+    connect(shell, &LayerShellV1Interface::surfaceCreated,
             this, &LayerShellV1Integration::createWindow);
 
-    m_rearrangeTimer = new QTimer(this);
-    m_rearrangeTimer->setSingleShot(true);
-    connect(m_rearrangeTimer, &QTimer::timeout, this, &LayerShellV1Integration::rearrange);
+    connect(workspace(), &Workspace::aboutToRearrange, this, &LayerShellV1Integration::rearrange);
 }
 
 void LayerShellV1Integration::createWindow(LayerSurfaceV1Interface *shellSurface)
@@ -148,6 +142,8 @@ static void rearrangeLayer(const QList<LayerShellV1Window *> &windows, QRect *wo
             geometry.setBottom(window->virtualKeyboardGeometry().top());
         }
 
+        window->updateLayer();
+
         if (geometry.isValid()) {
             window->moveResize(geometry);
         } else {
@@ -198,21 +194,12 @@ static void rearrangeOutput(Output *output)
 
 void LayerShellV1Integration::rearrange()
 {
-    m_rearrangeTimer->stop();
-
     const QList<Output *> outputs = workspace()->outputs();
     for (Output *output : outputs) {
         rearrangeOutput(output);
     }
-
-    if (workspace()) {
-        workspace()->updateClientArea();
-    }
-}
-
-void LayerShellV1Integration::scheduleRearrange()
-{
-    m_rearrangeTimer->start();
 }
 
 } // namespace KWin
+
+#include "moc_layershellv1integration.cpp"

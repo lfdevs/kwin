@@ -11,7 +11,7 @@
 #include "datasource.h"
 #include "selection_source.h"
 
-#include "wayland/seat_interface.h"
+#include "wayland/seat.h"
 #include "wayland_server.h"
 #include "workspace.h"
 #include "x11window.h"
@@ -46,11 +46,11 @@ Clipboard::Clipboard(xcb_atom_t atom, QObject *parent)
     registerXfixes();
     xcb_flush(xcbConn);
 
-    connect(waylandServer()->seat(), &KWaylandServer::SeatInterface::selectionChanged,
+    connect(waylandServer()->seat(), &SeatInterface::selectionChanged,
             this, &Clipboard::wlSelectionChanged);
 }
 
-void Clipboard::wlSelectionChanged(KWaylandServer::AbstractDataSource *dsi)
+void Clipboard::wlSelectionChanged(AbstractDataSource *dsi)
 {
     if (m_waitingForTargets) {
         return;
@@ -68,7 +68,7 @@ void Clipboard::wlSelectionChanged(KWaylandServer::AbstractDataSource *dsi)
     checkWlSource();
 }
 
-bool Clipboard::ownsSelection(KWaylandServer::AbstractDataSource *dsi) const
+bool Clipboard::ownsSelection(AbstractDataSource *dsi) const
 {
     return dsi && dsi == m_selectionSource.get();
 }
@@ -123,14 +123,6 @@ void Clipboard::checkWlSource()
 
 void Clipboard::doHandleXfixesNotify(xcb_xfixes_selection_notify_event_t *event)
 {
-    const Window *window = workspace()->activeWindow();
-    if (!qobject_cast<const X11Window *>(window)) {
-        // clipboard is only allowed to be acquired when Xwayland has focus
-        // TODO: can we make this stronger (window id comparison)?
-        createX11Source(nullptr);
-        return;
-    }
-
     createX11Source(event);
 
     if (X11Source *source = x11Source()) {
@@ -139,6 +131,11 @@ void Clipboard::doHandleXfixesNotify(xcb_xfixes_selection_notify_event_t *event)
     } else {
         qCWarning(KWIN_XWL) << "Could not create a source from" << event << Qt::hex << (event ? event->owner : -1);
     }
+}
+
+void Clipboard::x11OfferLost()
+{
+    m_selectionSource.reset();
 }
 
 void Clipboard::x11OffersChanged(const QStringList &added, const QStringList &removed)
@@ -165,7 +162,7 @@ void Clipboard::x11OffersChanged(const QStringList &added, const QStringList &re
         std::swap(m_selectionSource, newSelection);
         waylandServer()->seat()->setSelection(m_selectionSource.get());
     } else {
-        KWaylandServer::AbstractDataSource *currentSelection = waylandServer()->seat()->selection();
+        AbstractDataSource *currentSelection = waylandServer()->seat()->selection();
         if (!ownsSelection(currentSelection)) {
             waylandServer()->seat()->setSelection(nullptr);
             m_selectionSource.reset();
@@ -175,3 +172,5 @@ void Clipboard::x11OffersChanged(const QStringList &added, const QStringList &re
 
 } // namespace Xwl
 } // namespace KWin
+
+#include "moc_clipboard.cpp"

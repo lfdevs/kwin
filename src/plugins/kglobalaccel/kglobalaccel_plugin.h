@@ -8,11 +8,11 @@
 */
 #pragma once
 
-#include <KGlobalAccel/private/kglobalaccel_interface.h>
+#include <kglobalaccel_interface.h>
 
 #include <QObject>
 
-class KGlobalAccelImpl : public KGlobalAccelInterfaceV2
+class KGlobalAccelImpl : public KGlobalAccelInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID KGlobalAccelInterface_iid FILE "kwin.json")
@@ -28,6 +28,8 @@ public:
 public Q_SLOTS:
     bool checkKeyPressed(int keyQt);
     bool checkKeyReleased(int keyQt);
+    bool checkPointerPressed(Qt::MouseButtons buttons);
+    bool checkAxisTriggered(int axis);
 
 private:
     bool m_shuttingDown = false;

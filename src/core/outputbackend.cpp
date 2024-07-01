@@ -9,19 +9,18 @@
 
 #include "outputbackend.h"
 
-#include "dmabuftexture.h"
 #include "inputbackend.h"
-#include "openglbackend.h"
+#include "opengl/egldisplay.h"
 #include "output.h"
 #include "outputconfiguration.h"
-#include "qpainterbackend.h"
+#include "platformsupport/scenes/opengl/openglbackend.h"
+#include "platformsupport/scenes/qpainter/qpainterbackend.h"
 
 namespace KWin
 {
 
 OutputBackend::OutputBackend(QObject *parent)
     : QObject(parent)
-    , m_eglDisplay(EGL_NO_DISPLAY)
 {
 }
 
@@ -44,31 +43,18 @@ std::unique_ptr<QPainterBackend> OutputBackend::createQPainterBackend()
     return nullptr;
 }
 
-std::optional<DmaBufParams> OutputBackend::testCreateDmaBuf(const QSize &size, quint32 format, const QVector<uint64_t> &modifiers)
-{
-    return {};
-}
-
-std::shared_ptr<DmaBufTexture> OutputBackend::createDmaBufTexture(const QSize &size, quint32 format, uint64_t modifier)
-{
-    return {};
-}
-
-std::shared_ptr<DmaBufTexture> OutputBackend::createDmaBufTexture(const DmaBufParams &attribs)
-{
-    return createDmaBufTexture({attribs.width, attribs.height}, attribs.format, attribs.modifier);
-}
-
 bool OutputBackend::applyOutputChanges(const OutputConfiguration &config)
 {
     const auto availableOutputs = outputs();
-    QVector<Output *> toBeEnabledOutputs;
-    QVector<Output *> toBeDisabledOutputs;
+    QList<Output *> toBeEnabledOutputs;
+    QList<Output *> toBeDisabledOutputs;
     for (const auto &output : availableOutputs) {
-        if (config.constChangeSet(output)->enabled) {
-            toBeEnabledOutputs << output;
-        } else {
-            toBeDisabledOutputs << output;
+        if (const auto changeset = config.constChangeSet(output)) {
+            if (changeset->enabled) {
+                toBeEnabledOutputs << output;
+            } else {
+                toBeDisabledOutputs << output;
+            }
         }
     }
     for (const auto &output : toBeEnabledOutputs) {
@@ -101,29 +87,26 @@ void OutputBackend::removeVirtualOutput(Output *output)
     Q_ASSERT(!output);
 }
 
-EGLDisplay KWin::OutputBackend::sceneEglDisplay() const
-{
-    return m_eglDisplay;
-}
-
-void OutputBackend::setSceneEglDisplay(EGLDisplay display)
-{
-    m_eglDisplay = display;
-}
-
 QString OutputBackend::supportInformation() const
 {
     return QStringLiteral("Name: %1\n").arg(metaObject()->className());
 }
 
-EGLContext OutputBackend::sceneEglGlobalShareContext() const
+::EGLContext OutputBackend::sceneEglGlobalShareContext() const
 {
     return m_globalShareContext;
 }
 
-void OutputBackend::setSceneEglGlobalShareContext(EGLContext context)
+void OutputBackend::setSceneEglGlobalShareContext(::EGLContext context)
 {
     m_globalShareContext = context;
 }
 
+Session *OutputBackend::session() const
+{
+    return nullptr;
+}
+
 } // namespace KWin
+
+#include "moc_outputbackend.cpp"

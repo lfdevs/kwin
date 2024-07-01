@@ -10,7 +10,7 @@
 
 #include "core/output.h"
 #include "core/outputbackend.h"
-#include "cursor.h"
+#include "pointer_input.h"
 #include "wayland_server.h"
 #include "workspace.h"
 
@@ -37,7 +37,7 @@ void ScreenChangesTest::initTestCase()
 {
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024)));
+    Test::setOutputConfig({QRect(0, 0, 1280, 1024)});
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
@@ -49,7 +49,7 @@ void ScreenChangesTest::init()
     QVERIFY(Test::setupWaylandConnection());
 
     workspace()->setActiveOutput(QPoint(640, 512));
-    KWin::Cursors::self()->mouse()->setPos(QPoint(640, 512));
+    KWin::input()->pointer()->warp(QPoint(640, 512));
 }
 
 void ScreenChangesTest::cleanup()
@@ -81,10 +81,8 @@ void ScreenChangesTest::testScreenAddRemove()
     outputAnnouncedSpy.clear();
 
     // let's announce a new output
-    const QVector<QRect> geometries{QRect(0, 0, 1280, 1024), QRect(1280, 0, 1280, 1024)};
-    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs",
-                              Qt::DirectConnection,
-                              Q_ARG(QVector<QRect>, geometries));
+    const QList<QRect> geometries{QRect(0, 0, 1280, 1024), QRect(1280, 0, 1280, 1024)};
+    Test::setOutputConfig(geometries);
     auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
     QCOMPARE(outputs[0]->geometry(), geometries[0]);
@@ -147,10 +145,8 @@ void ScreenChangesTest::testScreenAddRemove()
     QSignalSpy o1RemovedSpy(o1.get(), &KWayland::Client::Output::removed);
     QSignalSpy o2RemovedSpy(o2.get(), &KWayland::Client::Output::removed);
 
-    const QVector<QRect> geometries2{QRect(0, 0, 1280, 1024)};
-    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs",
-                              Qt::DirectConnection,
-                              Q_ARG(QVector<QRect>, geometries2));
+    const QList<QRect> geometries2{QRect(0, 0, 1280, 1024)};
+    Test::setOutputConfig(geometries2);
     outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 1);
     QCOMPARE(outputs[0]->geometry(), geometries2.at(0));

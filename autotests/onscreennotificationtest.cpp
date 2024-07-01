@@ -40,7 +40,7 @@ void OnScreenNotificationTest::show()
 {
     OnScreenNotification notification;
     auto config = KSharedConfig::openConfig(QString(), KSharedConfig::SimpleConfig);
-    KConfigGroup group = config->group("OnScreenNotification");
+    KConfigGroup group = config->group(QStringLiteral("OnScreenNotification"));
     group.writeEntry(QStringLiteral("QmlPath"), QString("/does/not/exist.qml"));
     group.sync();
     notification.setConfig(config);
@@ -120,3 +120,5 @@ void OnScreenNotificationTest::message()
     QCOMPARE(notification.message(), QStringLiteral("bar"));
     QCOMPARE(messageChangedSpy.count(), 2);
 }
+
+#include "moc_onscreennotificationtest.cpp"

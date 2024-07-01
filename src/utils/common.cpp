@@ -17,9 +17,13 @@
 #include "utils/common.h"
 #include "utils/c_ptr.h"
 
+#if KWIN_BUILD_X11
+#include "effect/xcb.h"
+#include <kkeyserver.h>
+#endif
+
 #include <QPainter>
 #include <QWidget>
-#include <kkeyserver.h>
 
 #ifndef KCMRULES
 #include <QApplication>
@@ -65,6 +69,8 @@ StrutRect &StrutRect::operator=(const StrutRect &other)
     }
     return *this;
 }
+
+#if KWIN_BUILD_X11
 
 static int server_grab_count = 0;
 
@@ -127,8 +133,6 @@ void ungrabXKeyboard()
     xcb_ungrab_keyboard(connection(), XCB_TIME_CURRENT_TIME);
 }
 
-#endif
-
 // converting between X11 mouse/keyboard state mask and Qt button/keyboard states
 
 Qt::MouseButton x11ToQtMouseButton(int button)
@@ -189,6 +193,9 @@ Qt::KeyboardModifiers x11ToQtKeyboardModifiers(int state)
     }
     return ret;
 }
+
+#endif
+#endif
 
 QPointF popupOffset(const QRectF &anchorRect, const Qt::Edges anchorEdge, const Qt::Edges gravity, const QSizeF popupSize)
 {
@@ -274,6 +281,3 @@ QRectF gravitateGeometry(const QRectF &rect, const QRectF &bounds, Gravity gravi
 }
 
 } // namespace
-
-#ifndef KCMRULES
-#endif

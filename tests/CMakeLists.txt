@@ -1,63 +1,78 @@
-if (QT_MAJOR_VERSION EQUAL "5")
-    find_package(Qt5 REQUIRED COMPONENTS WaylandClient)
-endif()
-
-if (XCB_ICCCM_FOUND)
+if(KWIN_BUILD_X11)
     set(normalhintsbasesizetest_SRCS normalhintsbasesizetest.cpp)
     add_executable(normalhintsbasesizetest ${normalhintsbasesizetest_SRCS})
-    target_link_libraries(normalhintsbasesizetest XCB::XCB XCB::ICCCM KF5::WindowSystem)
-endif()
+    target_link_libraries(normalhintsbasesizetest XCB::XCB XCB::ICCCM KF6::WindowSystem)
 
-# next target
-set(screenedgeshowtest_SRCS screenedgeshowtest.cpp)
-add_executable(screenedgeshowtest ${screenedgeshowtest_SRCS})
-target_link_libraries(screenedgeshowtest Qt::Widgets KF5::ConfigCore KF5::WindowSystem KF5::WaylandClient ${XCB_XCB_LIBRARY})
-if (QT_MAJOR_VERSION EQUAL "5")
-    target_link_libraries(screenedgeshowtest Qt::X11Extras)
-else()
-    target_link_libraries(screenedgeshowtest Qt::GuiPrivate)
-endif()
-target_include_directories(screenedgeshowtest PRIVATE ${CMAKE_SOURCE_DIR}/src)
+    # next target
+    set(screenedgeshowtest_SRCS screenedgeshowtest.cpp)
+    add_executable(screenedgeshowtest ${screenedgeshowtest_SRCS})
+    target_link_libraries(screenedgeshowtest Qt::GuiPrivate Qt::Widgets KF6::ConfigCore KF6::WindowSystem Plasma::KWaylandClient ${XCB_XCB_LIBRARY})
 
-add_executable(x11shadowreader x11shadowreader.cpp)
-target_link_libraries(x11shadowreader XCB::XCB Qt::Widgets KF5::ConfigCore KF5::WindowSystem)
-if (QT_MAJOR_VERSION EQUAL "5")
-    target_link_libraries(x11shadowreader Qt::X11Extras)
-else()
-    target_link_libraries(x11shadowreader Qt::GuiPrivate)
-endif()
-target_include_directories(x11shadowreader PRIVATE ${CMAKE_SOURCE_DIR}/src)
+    add_executable(x11shadowreader x11shadowreader.cpp)
+    target_link_libraries(x11shadowreader XCB::XCB Qt::GuiPrivate Qt::Widgets KF6::ConfigCore KF6::WindowSystem)
 
-add_executable(pointerconstraints pointerconstraintstest.cpp)
-add_definitions(-DDIR="${CMAKE_CURRENT_SOURCE_DIR}")
-target_link_libraries(pointerconstraints XCB::XCB Qt::Gui Qt::Quick KF5::WaylandClient)
+    add_executable(pointerconstraints pointerconstraintstest.cpp)
+    add_definitions(-DDIR="${CMAKE_CURRENT_SOURCE_DIR}")
+    target_link_libraries(pointerconstraints XCB::XCB Qt::Gui Qt::Quick Plasma::KWaylandClient)
+endif()
 
 add_executable(pointergestures pointergesturestest.cpp)
 add_definitions(-DDIR="${CMAKE_CURRENT_SOURCE_DIR}")
-target_link_libraries(pointergestures Qt::Gui Qt::Quick KF5::WaylandClient)
+target_link_libraries(pointergestures Qt::Gui Qt::Quick Plasma::KWaylandClient)
 
 add_executable(cursorhotspottest cursorhotspottest.cpp)
 target_link_libraries(cursorhotspottest Qt::Widgets)
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-if (QT_MAJOR_VERSION EQUAL "5")
-    add_executable(xdgactivationtest-qt5 xdgactivationtest-qt5.cpp)
-    target_link_libraries(xdgactivationtest-qt5 Qt::Widgets Qt::WaylandClient Qt::WaylandClientPrivate Wayland::Client)
-    ecm_add_qtwayland_client_protocol(xdgactivationtest-qt5
-        PROTOCOL ${WaylandProtocols_DATADIR}/staging/xdg-activation/xdg-activation-v1.xml
-        BASENAME xdg-activation-v1
-    )
+add_executable(xdgactivationtest-qt6 xdgactivationtest-qt6.cpp)
+target_link_libraries(xdgactivationtest-qt6 Qt6::Widgets)
 
-    add_executable(lockscreenoverlaytest lockscreenoverlaytest.cpp)
-    target_link_libraries(lockscreenoverlaytest Qt::Widgets Qt::WaylandClient Qt::WaylandClientPrivate Wayland::Client KF5::WindowSystem)
-    ecm_add_qtwayland_client_protocol(lockscreenoverlaytest
-        PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-lockscreen-overlay-v1.xml
-        BASENAME kde-lockscreen-overlay-v1
+set(testServer_SRCS
+    waylandservertest.cpp
+    fakeoutput.cpp
     )
+add_executable(testServer ${testServer_SRCS})
+target_link_libraries(testServer kwin Qt::CorePrivate)
+
+find_package(Qt6Widgets ${QT_MIN_VERSION} CONFIG QUIET)
+if (TARGET Qt::Widgets)
+    set(testRenderingServer_SRCS
+        renderingservertest.cpp
+        fakeoutput.cpp
+        )
+    add_executable(testRenderingServer ${testRenderingServer_SRCS})
+    target_link_libraries(testRenderingServer kwin Qt::Core Qt::Widgets)
 endif()
 
-if (TARGET Qt6::Gui)
-    add_executable(xdgactivationtest-qt6 xdgactivationtest-qt6.cpp)
-    target_link_libraries(xdgactivationtest-qt6 Qt6::Widgets)
+add_executable(copyClient copyclient.cpp)
+target_link_libraries(copyClient Plasma::KWaylandClient)
+
+add_executable(pasteClient pasteclient.cpp)
+target_link_libraries(pasteClient Qt::Core Plasma::KWaylandClient)
+
+add_executable(touchClientTest touchclienttest.cpp)
+target_link_libraries(touchClientTest Plasma::KWaylandClient)
+
+add_executable(panelTest paneltest.cpp)
+target_link_libraries(panelTest Plasma::KWaylandClient)
+
+add_executable(subsurface-test subsurfacetest.cpp)
+target_link_libraries(subsurface-test Qt::Core Qt::Gui Plasma::KWaylandClient)
+
+add_executable(shadowTest shadowtest.cpp)
+target_link_libraries(shadowTest Plasma::KWaylandClient)
+
+if (TARGET Qt::Widgets)
+    add_executable(dpmsTest dpmstest.cpp)
+    target_link_libraries(dpmsTest Plasma::KWaylandClient Qt::Widgets)
 endif()
+
+add_executable(plasmasurface-test plasmasurfacetest.cpp)
+target_link_libraries(plasmasurface-test Qt::Gui Plasma::KWaylandClient)
+
+add_executable(xdgforeign-test xdgforeigntest.cpp)
+target_link_libraries(xdgforeign-test Qt::Gui Plasma::KWaylandClient)
+
+add_executable(xdg-test xdgtest.cpp)
+target_link_libraries(xdg-test Qt::Gui Plasma::KWaylandClient)

@@ -8,7 +8,6 @@
 */
 #include "kwin_wayland_test.h"
 
-#include "core/outputbackend.h"
 #include "virtualdesktops.h"
 #include "wayland_server.h"
 #include "window.h"
@@ -41,7 +40,10 @@ void TestIdleInhibition::initTestCase()
 
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
+    Test::setOutputConfig({
+        QRect(0, 0, 1280, 1024),
+        QRect(1280, 0, 1280, 1024),
+    });
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
@@ -93,7 +95,7 @@ void TestIdleInhibition::testInhibit()
     QCOMPARE(input()->idleInhibitors(), QList<Window *>{window});
 
     shellSurface.reset();
-    QVERIFY(Test::waitForWindowDestroyed(window));
+    QVERIFY(Test::waitForWindowClosed(window));
     QCOMPARE(input()->idleInhibitors(), QList<Window *>{});
 }
 
@@ -142,7 +144,7 @@ void TestIdleInhibition::testDontInhibitWhenNotOnCurrentDesktop()
 
     // Destroy the test window.
     shellSurface.reset();
-    QVERIFY(Test::waitForWindowDestroyed(window));
+    QVERIFY(Test::waitForWindowClosed(window));
     QCOMPARE(input()->idleInhibitors(), QList<Window *>{});
 }
 
@@ -169,16 +171,16 @@ void TestIdleInhibition::testDontInhibitWhenMinimized()
     QCOMPARE(input()->idleInhibitors(), QList<Window *>{window});
 
     // Minimize the window, the idle inhibitor object should not be honored.
-    window->minimize();
+    window->setMinimized(true);
     QCOMPARE(input()->idleInhibitors(), QList<Window *>{});
 
     // Unminimize the window, the idle inhibitor object should be honored back again.
-    window->unminimize();
+    window->setMinimized(false);
     QCOMPARE(input()->idleInhibitors(), QList<Window *>{window});
 
     // Destroy the test window.
     shellSurface.reset();
-    QVERIFY(Test::waitForWindowDestroyed(window));
+    QVERIFY(Test::waitForWindowClosed(window));
     QCOMPARE(input()->idleInhibitors(), QList<Window *>{});
 }
 
@@ -218,7 +220,7 @@ void TestIdleInhibition::testDontInhibitWhenUnmapped()
     // Unmap the window.
     surface->attachBuffer(KWayland::Client::Buffer::Ptr());
     surface->commit(KWayland::Client::Surface::CommitFlag::None);
-    QVERIFY(Test::waitForWindowDestroyed(window));
+    QVERIFY(Test::waitForWindowClosed(window));
 
     // The surface is no longer visible, so the compositor doesn't have to honor the
     // idle inhibitor object.
@@ -245,7 +247,7 @@ void TestIdleInhibition::testDontInhibitWhenUnmapped()
 
     // Destroy the test window.
     shellSurface.reset();
-    QVERIFY(Test::waitForWindowDestroyed(window));
+    QVERIFY(Test::waitForWindowClosed(window));
     QCOMPARE(input()->idleInhibitors(), QList<Window *>{});
 }
 
@@ -294,7 +296,7 @@ void TestIdleInhibition::testDontInhibitWhenLeftCurrentDesktop()
 
     // Destroy the test window.
     shellSurface.reset();
-    QVERIFY(Test::waitForWindowDestroyed(window));
+    QVERIFY(Test::waitForWindowClosed(window));
     QCOMPARE(input()->idleInhibitors(), QList<Window *>{});
 }
 

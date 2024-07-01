@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include <kwinglobals.h>
+#include "effect/globals.h"
 
 #include <QFile>
 #include <QMutex>

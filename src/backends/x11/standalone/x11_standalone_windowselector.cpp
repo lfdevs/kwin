@@ -10,7 +10,6 @@
 */
 #include "x11_standalone_windowselector.h"
 #include "cursor.h"
-#include "unmanaged.h"
 #include "utils/xcbutils.h"
 #include "workspace.h"
 #include "x11window.h"
@@ -25,7 +24,7 @@ namespace KWin
 {
 
 WindowSelector::WindowSelector()
-    : X11EventFilter(QVector<int>{
+    : X11EventFilter(QList<int>{
         XCB_BUTTON_PRESS,
         XCB_BUTTON_RELEASE,
         XCB_MOTION_NOTIFY,
@@ -59,7 +58,7 @@ void WindowSelector::start(std::function<void(KWin::Window *)> callback, const Q
     m_callback = callback;
 }
 
-void WindowSelector::start(std::function<void(const QPoint &)> callback)
+void WindowSelector::start(std::function<void(const QPointF &)> callback)
 {
     if (m_active) {
         callback(QPoint(-1, -1));
@@ -216,7 +215,7 @@ void WindowSelector::release()
     ungrabXServer();
     m_active = false;
     m_callback = std::function<void(KWin::Window *)>();
-    m_pointSelectionFallback = std::function<void(const QPoint &)>();
+    m_pointSelectionFallback = std::function<void(const QPointF &)>();
 }
 
 void WindowSelector::selectWindowId(xcb_window_t window_to_select)

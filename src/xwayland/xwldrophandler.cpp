@@ -12,7 +12,7 @@
 #include "databridge.h"
 #include "dnd.h"
 #include "drag_wl.h"
-#include "wayland/seat_interface.h"
+#include "wayland/seat.h"
 #include "wayland_server.h"
 #include "workspace.h"
 #include "x11window.h"
@@ -21,7 +21,7 @@ namespace KWin::Xwl
 {
 
 XwlDropHandler::XwlDropHandler(Dnd *dnd)
-    : KWaylandServer::AbstractDropHandler(dnd)
+    : AbstractDropHandler(dnd)
     , m_dnd(dnd)
 {
 }
@@ -47,7 +47,7 @@ bool XwlDropHandler::handleClientMessage(xcb_client_message_event_t *event)
     return false;
 }
 
-void XwlDropHandler::updateDragTarget(KWaylandServer::SurfaceInterface *surface, quint32 serial)
+void XwlDropHandler::updateDragTarget(SurfaceInterface *surface, quint32 serial)
 {
     auto client = workspace()->findClient([surface](const X11Window *c) {
         return c->surface() == surface;
@@ -74,3 +74,5 @@ void XwlDropHandler::updateDragTarget(KWaylandServer::SurfaceInterface *surface,
     }
 }
 }
+
+#include "moc_xwldrophandler.cpp"

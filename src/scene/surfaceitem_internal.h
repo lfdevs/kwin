@@ -8,12 +8,9 @@
 
 #include "scene/surfaceitem.h"
 
-class QOpenGLFramebufferObject;
-
 namespace KWin
 {
 
-class Deleted;
 class InternalWindow;
 
 /**
@@ -24,21 +21,20 @@ class KWIN_EXPORT SurfaceItemInternal : public SurfaceItem
     Q_OBJECT
 
 public:
-    explicit SurfaceItemInternal(InternalWindow *window, Scene *scene, Item *parent = nullptr);
+    explicit SurfaceItemInternal(InternalWindow *window, Item *parent = nullptr);
 
-    Window *window() const;
+    InternalWindow *window() const;
 
-    QVector<QRectF> shape() const override;
+    QList<QRectF> shape() const override;
 
 private Q_SLOTS:
-    void handleBufferGeometryChanged(Window *window, const QRectF &old);
-    void handleWindowClosed(Window *original, Deleted *deleted);
+    void handleBufferGeometryChanged();
 
 protected:
     std::unique_ptr<SurfacePixmap> createPixmap() override;
 
 private:
-    Window *m_window;
+    InternalWindow *m_window;
 };
 
 class KWIN_EXPORT SurfacePixmapInternal final : public SurfacePixmap
@@ -48,17 +44,12 @@ class KWIN_EXPORT SurfacePixmapInternal final : public SurfacePixmap
 public:
     explicit SurfacePixmapInternal(SurfaceItemInternal *item, QObject *parent = nullptr);
 
-    QOpenGLFramebufferObject *fbo() const;
-    QImage image() const;
-
     void create() override;
     void update() override;
     bool isValid() const override;
 
 private:
     SurfaceItemInternal *m_item;
-    std::shared_ptr<QOpenGLFramebufferObject> m_fbo;
-    QImage m_rasterBuffer;
 };
 
 } // namespace KWin

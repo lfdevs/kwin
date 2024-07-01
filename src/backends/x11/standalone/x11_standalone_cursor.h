@@ -20,13 +20,8 @@ class KWIN_EXPORT X11Cursor : public Cursor
 {
     Q_OBJECT
 public:
-    X11Cursor(QObject *parent, bool xInputSupport = false);
+    X11Cursor(bool xInputSupport = false);
     ~X11Cursor() override;
-
-    void schedulePoll()
-    {
-        m_needsPoll = true;
-    }
 
     /**
      * @internal
@@ -34,32 +29,21 @@ public:
      * Called from X11 event handler.
      */
     void notifyCursorChanged();
+    /**
+     * @internal queries the cursor position
+     */
+    void notifyCursorPosChanged();
 
 protected:
     void doSetPos() override;
     void doGetPos() override;
-    void doStartMousePolling() override;
-    void doStopMousePolling() override;
-    void doStartCursorTracking() override;
-    void doStopCursorTracking() override;
-
-private Q_SLOTS:
-    /**
-     * Because of QTimer's and the impossibility to get events for all mouse
-     * movements (at least I haven't figured out how) the position needs
-     * to be also refetched after each return to the event loop.
-     */
-    void resetTimeStamp();
-    void mousePolled();
-    void aboutToBlock();
 
 private:
-    xcb_timestamp_t m_timeStamp;
+    void pollMouse();
+
     uint16_t m_buttonMask;
-    QTimer m_resetTimeStampTimer;
     QTimer m_mousePollingTimer;
     bool m_hasXInput;
-    bool m_needsPoll;
 
     std::unique_ptr<XFixesCursorEventFilter> m_xfixesFilter;
 

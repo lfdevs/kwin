@@ -9,12 +9,8 @@
 
 #include "kwin_wayland_test.h"
 
-#include "composite.h"
-#include "core/outputbackend.h"
-#include "core/renderbackend.h"
-#include "deleted.h"
-#include "effectloader.h"
-#include "effects.h"
+#include "effect/effecthandler.h"
+#include "effect/effectloader.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
@@ -42,13 +38,19 @@ private Q_SLOTS:
 
 void ToplevelOpenCloseAnimationTest::initTestCase()
 {
+    if (!Test::renderNodeAvailable()) {
+        QSKIP("no render node available");
+        return;
+    }
     qputenv("XDG_DATA_DIRS", QCoreApplication::applicationDirPath().toUtf8());
 
     qRegisterMetaType<KWin::Window *>();
-    qRegisterMetaType<KWin::Deleted *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
+    Test::setOutputConfig({
+        QRect(0, 0, 1280, 1024),
+        QRect(1280, 0, 1280, 1024),
+    });
 
     auto config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
     KConfigGroup plugins(config, QStringLiteral("Plugins"));
@@ -64,8 +66,6 @@ void ToplevelOpenCloseAnimationTest::initTestCase()
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
-
-    QCOMPARE(Compositor::self()->backend()->compositingType(), KWin::OpenGLCompositing);
 }
 
 void ToplevelOpenCloseAnimationTest::init()
@@ -75,10 +75,8 @@ void ToplevelOpenCloseAnimationTest::init()
 
 void ToplevelOpenCloseAnimationTest::cleanup()
 {
-    auto effectsImpl = qobject_cast<EffectsHandlerImpl *>(effects);
-    QVERIFY(effectsImpl);
-    effectsImpl->unloadAllEffects();
-    QVERIFY(effectsImpl->loadedEffects().isEmpty());
+    effects->unloadAllEffects();
+    QVERIFY(effects->loadedEffects().isEmpty());
 
     Test::destroyWaylandConnection();
 }
@@ -87,9 +85,9 @@ void ToplevelOpenCloseAnimationTest::testAnimateToplevels_data()
 {
     QTest::addColumn<QString>("effectName");
 
-    QTest::newRow("Fade") << QStringLiteral("kwin4_effect_fade");
+    QTest::newRow("Fade") << QStringLiteral("fade");
     QTest::newRow("Glide") << QStringLiteral("glide");
-    QTest::newRow("Scale") << QStringLiteral("kwin4_effect_scale");
+    QTest::newRow("Scale") << QStringLiteral("scale");
 }
 
 void ToplevelOpenCloseAnimationTest::testAnimateToplevels()
@@ -97,16 +95,12 @@ void ToplevelOpenCloseAnimationTest::testAnimateToplevels()
     // This test verifies that window open/close animation effects try to
     // animate the appearing and the disappearing of toplevel windows.
 
-    // Make sure that we have the right effects ptr.
-    auto effectsImpl = qobject_cast<EffectsHandlerImpl *>(effects);
-    QVERIFY(effectsImpl);
-
     // Load effect that will be tested.
     QFETCH(QString, effectName);
-    QVERIFY(effectsImpl->loadEffect(effectName));
-    QCOMPARE(effectsImpl->loadedEffects().count(), 1);
-    QCOMPARE(effectsImpl->loadedEffects().first(), effectName);
-    Effect *effect = effectsImpl->findEffect(effectName);
+    QVERIFY(effects->loadEffect(effectName));
+    QCOMPARE(effects->loadedEffects().count(), 1);
+    QCOMPARE(effects->loadedEffects().first(), effectName);
+    Effect *effect = effects->findEffect(effectName);
     QVERIFY(effect);
     QVERIFY(!effect->isActive());
 
@@ -124,7 +118,7 @@ void ToplevelOpenCloseAnimationTest::testAnimateToplevels()
 
     // Close the test window, the effect should start animating the disappearing
     // of the window.
-    QSignalSpy windowClosedSpy(window, &Window::windowClosed);
+    QSignalSpy windowClosedSpy(window, &Window::closed);
     shellSurface.reset();
     surface.reset();
     QVERIFY(windowClosedSpy.wait());
@@ -138,19 +132,15 @@ void ToplevelOpenCloseAnimationTest::testDontAnimatePopups_data()
 {
     QTest::addColumn<QString>("effectName");
 
-    QTest::newRow("Fade") << QStringLiteral("kwin4_effect_fade");
+    QTest::newRow("Fade") << QStringLiteral("fade");
     QTest::newRow("Glide") << QStringLiteral("glide");
-    QTest::newRow("Scale") << QStringLiteral("kwin4_effect_scale");
+    QTest::newRow("Scale") << QStringLiteral("scale");
 }
 
 void ToplevelOpenCloseAnimationTest::testDontAnimatePopups()
 {
     // This test verifies that window open/close animation effects don't try
     // to animate popups(e.g. popup menus, tooltips, etc).
-
-    // Make sure that we have the right effects ptr.
-    auto effectsImpl = qobject_cast<EffectsHandlerImpl *>(effects);
-    QVERIFY(effectsImpl);
 
     // Create the main window.
     std::unique_ptr<KWayland::Client::Surface> mainWindowSurface(Test::createSurface());
@@ -162,10 +152,10 @@ void ToplevelOpenCloseAnimationTest::testDontAnimatePopups()
 
     // Load effect that will be tested.
     QFETCH(QString, effectName);
-    QVERIFY(effectsImpl->loadEffect(effectName));
-    QCOMPARE(effectsImpl->loadedEffects().count(), 1);
-    QCOMPARE(effectsImpl->loadedEffects().first(), effectName);
-    Effect *effect = effectsImpl->findEffect(effectName);
+    QVERIFY(effects->loadEffect(effectName));
+    QCOMPARE(effects->loadedEffects().count(), 1);
+    QCOMPARE(effects->loadedEffects().first(), effectName);
+    Effect *effect = effects->findEffect(effectName);
     QVERIFY(effect);
     QVERIFY(!effect->isActive());
 
@@ -187,7 +177,7 @@ void ToplevelOpenCloseAnimationTest::testDontAnimatePopups()
     QVERIFY(!effect->isActive());
 
     // Destroy the popup, it should not be animated.
-    QSignalSpy popupClosedSpy(popup, &Window::windowClosed);
+    QSignalSpy popupClosedSpy(popup, &Window::closed);
     popupShellSurface.reset();
     popupSurface.reset();
     QVERIFY(popupClosedSpy.wait());
@@ -195,7 +185,7 @@ void ToplevelOpenCloseAnimationTest::testDontAnimatePopups()
 
     // Destroy the main window.
     mainWindowSurface.reset();
-    QVERIFY(Test::waitForWindowDestroyed(mainWindow));
+    QVERIFY(Test::waitForWindowClosed(mainWindow));
 }
 
 WAYLANDTEST_MAIN(ToplevelOpenCloseAnimationTest)

@@ -9,9 +9,10 @@
 #pragma once
 
 #include "input_event_spy.h"
+#include <QList>
 #include <QObject>
-#include <QVector>
 #include <memory>
+#include <optional>
 
 #include <KConfigGroup>
 #include <KSharedConfig>
@@ -30,7 +31,7 @@ namespace KeyboardLayoutSwitching
 class Policy;
 }
 
-class KeyboardLayout : public QObject, public InputEventSpy
+class KWIN_EXPORT KeyboardLayout : public QObject, public InputEventSpy
 {
     Q_OBJECT
 public:
@@ -43,6 +44,7 @@ public:
     void checkLayoutChange(uint previousLayout);
     void switchToNextLayout();
     void switchToPreviousLayout();
+    void switchToLastUsedLayout();
     void resetLayout();
 
 Q_SIGNALS:
@@ -53,16 +55,16 @@ private Q_SLOTS:
     void reconfigure();
 
 private:
-    void initDBusInterface();
     void notifyLayoutChange();
     void switchToLayout(xkb_layout_index_t index);
     void loadShortcuts();
     Xkb *m_xkb;
     xkb_layout_index_t m_layout = 0;
     KConfigGroup m_configGroup;
-    QVector<QAction *> m_layoutShortcuts;
+    QList<QAction *> m_layoutShortcuts;
     KeyboardLayoutDBusInterface *m_dbusInterface = nullptr;
     std::unique_ptr<KeyboardLayoutSwitching::Policy> m_policy;
+    std::optional<uint> m_lastUsedLayout;
 };
 
 class KeyboardLayoutDBusInterface : public QObject
@@ -86,7 +88,7 @@ public Q_SLOTS:
     void switchToPreviousLayout();
     bool setLayout(uint index);
     uint getLayout() const;
-    QVector<LayoutNames> getLayoutsList() const;
+    QList<LayoutNames> getLayoutsList() const;
 
 Q_SIGNALS:
     void layoutChanged(uint index);

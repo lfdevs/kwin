@@ -10,6 +10,7 @@
 
 #include <errno.h>
 
+#include "drm_commit.h"
 #include "drm_gpu.h"
 #include "drm_logging.h"
 #include "drm_pointer.h"
@@ -17,141 +18,35 @@
 namespace KWin
 {
 
-DrmObject::DrmObject(DrmGpu *gpu, uint32_t objectId, const QVector<PropertyDefinition> &&vector, uint32_t objectType)
+DrmObject::DrmObject(DrmGpu *gpu, uint32_t objectId, uint32_t objectType)
     : m_gpu(gpu)
     , m_id(objectId)
     , m_objectType(objectType)
-    , m_propertyDefinitions(vector)
 {
-    m_props.resize(m_propertyDefinitions.count());
 }
 
-bool DrmObject::initProps()
+bool DrmObject::init()
 {
-    if (!updateProperties()) {
-        return false;
-    }
-    if (KWIN_DRM().isDebugEnabled()) {
-        auto debug = QMessageLogger(QT_MESSAGELOG_FILE, QT_MESSAGELOG_LINE, QT_MESSAGELOG_FUNC, KWIN_DRM().categoryName()).debug().nospace().noquote();
-        switch (m_objectType) {
-        case DRM_MODE_OBJECT_CONNECTOR:
-            debug << "Connector ";
-            break;
-        case DRM_MODE_OBJECT_CRTC:
-            debug << "Crtc ";
-            break;
-        case DRM_MODE_OBJECT_PLANE:
-            debug << "Plane ";
-            break;
-        default:
-            Q_UNREACHABLE();
-        }
-        debug << m_id << " has properties ";
-        for (size_t i = 0; i < m_props.size(); i++) {
-            if (i > 0) {
-                debug << ", ";
-            }
-            const auto &prop = m_props[i];
-            if (prop) {
-                debug << prop->name() << "=" << prop->valueString(prop->current());
-            } else {
-                debug << m_propertyDefinitions[i].name << " not found";
-            }
-        }
-    }
-    return true;
+    return updateProperties();
 }
 
-bool DrmObject::atomicPopulate(drmModeAtomicReq *req) const
-{
-    for (const auto &property : std::as_const(m_props)) {
-        if (property && !property->isImmutable() && !property->isLegacy() && property->needsCommit()) {
-            if (drmModeAtomicAddProperty(req, m_id, property->propId(), property->pending()) <= 0) {
-                qCWarning(KWIN_DRM) << "Adding property" << property->name() << "->" << property->pending()
-                                    << "to atomic commit failed for object" << this << "with error" << strerror(errno);
-                return false;
-            }
-        }
-    }
-    return true;
-}
-
-void DrmObject::commit()
-{
-    for (const auto &prop : std::as_const(m_props)) {
-        if (prop) {
-            prop->commit();
-        }
-    }
-}
-
-void DrmObject::commitPending()
-{
-    for (const auto &prop : std::as_const(m_props)) {
-        if (prop) {
-            prop->commitPending();
-        }
-    }
-}
-
-void DrmObject::rollbackPending()
-{
-    for (const auto &prop : std::as_const(m_props)) {
-        if (prop) {
-            prop->rollbackPending();
-        }
-    }
-}
-
-bool DrmObject::needsCommit() const
-{
-    for (const auto &prop : std::as_const(m_props)) {
-        if (prop && prop->needsCommit()) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool DrmObject::updateProperties()
+DrmPropertyList DrmObject::queryProperties() const
 {
     DrmUniquePtr<drmModeObjectProperties> properties(drmModeObjectGetProperties(m_gpu->fd(), m_id, m_objectType));
     if (!properties) {
         qCWarning(KWIN_DRM) << "Failed to get properties for object" << m_id;
-        return false;
+        return {};
     }
-    for (int propIndex = 0; propIndex < m_propertyDefinitions.count(); propIndex++) {
-        const PropertyDefinition &def = m_propertyDefinitions[propIndex];
-        bool found = false;
-        for (uint32_t drmPropIndex = 0; drmPropIndex < properties->count_props; drmPropIndex++) {
-            DrmUniquePtr<drmModePropertyRes> prop(drmModeGetProperty(m_gpu->fd(), properties->props[drmPropIndex]));
-            if (!prop) {
-                qCWarning(KWIN_DRM, "Getting property %d of object %d failed!", drmPropIndex, m_id);
-                continue;
-            }
-            if (def.name == prop->name) {
-                if (m_props[propIndex]) {
-                    m_props[propIndex]->setCurrent(properties->prop_values[drmPropIndex]);
-                } else {
-                    m_props[propIndex] = std::make_unique<DrmProperty>(this, prop.get(), properties->prop_values[drmPropIndex], def.enumNames);
-                }
-                found = true;
-                break;
-            }
+    DrmPropertyList ret;
+    for (uint32_t i = 0; i < properties->count_props; i++) {
+        DrmUniquePtr<drmModePropertyRes> prop(drmModeGetProperty(m_gpu->fd(), properties->props[i]));
+        if (!prop) {
+            qCWarning(KWIN_DRM, "Getting property %d of object %d failed!", properties->props[i], m_id);
+            continue;
         }
-        if (!found) {
-            m_props[propIndex].reset();
-        }
+        ret.addProperty(std::move(prop), properties->prop_values[i]);
     }
-    for (int i = 0; i < m_propertyDefinitions.count(); i++) {
-        bool required = m_gpu->atomicModeSetting() ? m_propertyDefinitions[i].requirement == Requirement::Required
-                                                   : m_propertyDefinitions[i].requirement == Requirement::RequiredForLegacy;
-        if (!m_props[i] && required) {
-            qCWarning(KWIN_DRM, "Required property %s for object %d not found!", qPrintable(m_propertyDefinitions[i].name), m_id);
-            return false;
-        }
-    }
-    return true;
+    return ret;
 }
 
 uint32_t DrmObject::id() const
@@ -183,27 +78,22 @@ QString DrmObject::typeName() const
     }
 }
 
-void DrmObject::printProps(PrintMode mode)
+void DrmPropertyList::addProperty(DrmUniquePtr<drmModePropertyRes> &&prop, uint64_t value)
 {
-    bool any = mode == PrintMode::All || std::any_of(m_props.begin(), m_props.end(), [](const auto &prop) {
-                   return prop && !prop->isImmutable() && prop->needsCommit();
-               });
-    if (!any) {
-        return;
-    }
-    qCDebug(KWIN_DRM) << typeName() << id();
-    for (const auto &prop : m_props) {
-        if (prop) {
-            uint64_t current = prop->name().startsWith("SRC_") ? prop->current() >> 16 : prop->current();
-            if (prop->isImmutable() || !prop->needsCommit()) {
-                if (mode == PrintMode::All) {
-                    qCDebug(KWIN_DRM).nospace() << "\t" << prop->name() << ": " << current;
-                }
-            } else {
-                uint64_t pending = prop->name().startsWith("SRC_") ? prop->pending() >> 16 : prop->pending();
-                qCDebug(KWIN_DRM).nospace() << "\t" << prop->name() << ": " << current << "->" << pending;
-            }
-        }
+    m_properties.push_back(std::make_pair(std::move(prop), value));
+}
+
+std::optional<std::pair<DrmUniquePtr<drmModePropertyRes>, uint64_t>> DrmPropertyList::takeProperty(const QByteArray &name)
+{
+    const auto it = std::ranges::find_if(m_properties, [&name](const auto &pair) {
+        return pair.first->name == name;
+    });
+    if (it != m_properties.end()) {
+        auto ret = std::move(*it);
+        m_properties.erase(it);
+        return ret;
+    } else {
+        return std::nullopt;
     }
 }
 }

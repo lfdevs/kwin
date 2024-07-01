@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "vsyncmonitor.h"
+#include "utils/vsyncmonitor.h"
 
 #include <epoxy/glx.h>
 #include <fixx11h.h>
@@ -38,7 +38,7 @@ Q_SIGNALS:
     void vblankOccurred(std::chrono::nanoseconds timestamp);
 
 private:
-    Display *m_display = nullptr;
+    ::Display *m_display = nullptr;
     ::Window m_dummyWindow = 0;
     GLXContext m_localContext = 0;
     GLXDrawable m_drawable = 0;

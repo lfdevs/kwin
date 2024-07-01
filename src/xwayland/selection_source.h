@@ -8,8 +8,8 @@
 */
 #pragma once
 
+#include <QList>
 #include <QObject>
-#include <QVector>
 
 #include <xcb/xcb.h>
 
@@ -18,18 +18,16 @@ class QSocketNotifier;
 struct xcb_selection_request_event_t;
 struct xcb_xfixes_selection_notify_event_t;
 
-namespace KWaylandServer
+namespace KWin
 {
 class DataDeviceInterface;
 class DataSourceInterface;
 class AbstractDataSource;
-}
 
-namespace KWin
-{
 namespace Xwl
 {
 class Selection;
+class XwlDataSource;
 
 /**
  * Base class representing a data source.
@@ -81,7 +79,7 @@ class WlSource : public SelectionSource
 
 public:
     WlSource(Selection *selection);
-    void setDataSourceIface(KWaylandServer::AbstractDataSource *dsi);
+    void setDataSourceIface(AbstractDataSource *dsi);
 
     bool handleSelectionRequest(xcb_selection_request_event_t *event);
     void sendTargets(xcb_selection_request_event_t *event);
@@ -96,15 +94,15 @@ Q_SIGNALS:
 private:
     bool checkStartTransfer(xcb_selection_request_event_t *event);
 
-    KWaylandServer::AbstractDataSource *m_dsi = nullptr;
+    AbstractDataSource *m_dsi = nullptr;
 
-    QVector<QString> m_offers;
+    QList<QString> m_offers;
     QMetaObject::Connection m_offerConnection;
 
     Q_DISABLE_COPY(WlSource)
 };
 
-using Mimes = QVector<QPair<QString, xcb_atom_t>>;
+using Mimes = QList<QPair<QString, xcb_atom_t>>;
 
 /**
  * Representing an X data source.
@@ -115,6 +113,7 @@ class X11Source : public SelectionSource
 
 public:
     X11Source(Selection *selection, xcb_xfixes_selection_notify_event_t *event);
+    ~X11Source() override;
 
     void getTargets();
 
@@ -123,6 +122,11 @@ public:
         return m_offers;
     }
     void setOffers(const Mimes &offers);
+
+    XwlDataSource *dataSource() const
+    {
+        return m_dataSource.get();
+    }
 
     bool handleSelectionNotify(xcb_selection_notify_event_t *event);
 
@@ -139,9 +143,8 @@ Q_SIGNALS:
 private:
     void handleTargets();
 
-    xcb_window_t m_owner;
-
     Mimes m_offers;
+    std::unique_ptr<XwlDataSource> m_dataSource;
 
     Q_DISABLE_COPY(X11Source)
 };

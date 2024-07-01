@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-15 00:49+0000\n"
+"POT-Creation-Date: 2024-05-12 00:40+0000\n"
 "PO-Revision-Date: 2022-05-14 17:20+0200\n"
 "Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
@@ -53,34 +53,39 @@ msgstr ""
 msgid "There was an error requesting information from the compositor."
 msgstr "Der opstod en fejl ved anmodning om information fra kompositøren."
 
-#: package/contents/ui/main.qml:17
-#, kde-format
-msgid ""
-"This module lets you configure the navigation, number and layout of virtual "
-"desktops."
-msgstr ""
-"Dette modul lader dig indstille navigation, antal og layout af virtuelle "
-"skriveborde."
+#: ui/main.qml:26
+#, fuzzy, kde-format
+#| msgid "Rows:"
+msgctxt "@text:label Number of rows, label associated to a number input field"
+msgid "Rows:"
+msgstr "Rækker:"
 
-#: package/contents/ui/main.qml:91
+#: ui/main.qml:54
+#, fuzzy, kde-format
+#| msgid "New Desktop"
+msgctxt "@action:button"
+msgid "Add Desktop"
+msgstr "Nyt skrivebord"
+
+#: ui/main.qml:118
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Rename"
 msgstr "Omdøb"
 
-#: package/contents/ui/main.qml:102
+#: ui/main.qml:130
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Confirm new name"
 msgstr "Bekræft nyt navn"
 
-#: package/contents/ui/main.qml:110
+#: ui/main.qml:139
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Remove"
 msgstr "Fjern"
 
-#: package/contents/ui/main.qml:137
+#: ui/main.qml:172
 #, kde-format
 msgid ""
 "Virtual desktops have been changed outside this settings application. Saving "
@@ -89,64 +94,59 @@ msgstr ""
 "Virtuelle skriveborde er blevet ændret udenfor dette indstillingsprogram. "
 "Ændringerne overskrives hvis der gemmes nu."
 
-#: package/contents/ui/main.qml:153
+#: ui/main.qml:188
 #, kde-format
 msgid "Row %1"
 msgstr "Række %1"
 
-#: package/contents/ui/main.qml:166
-#, kde-format
-msgctxt "@action:button"
-msgid "Add"
-msgstr "Tilføj"
-
-#: package/contents/ui/main.qml:184
-#, kde-format
-msgid "1 Row"
-msgid_plural "%1 Rows"
-msgstr[0] "1 række "
-msgstr[1] "%1 rækker"
-
-#: package/contents/ui/main.qml:200
+#: ui/main.qml:202
 #, kde-format
 msgid "Options:"
 msgstr "Indstillinger:"
 
-#: package/contents/ui/main.qml:202
+#: ui/main.qml:204
 #, kde-format
 msgid "Navigation wraps around"
 msgstr "Navigering starter forfra når slutningen er nået"
 
-#: package/contents/ui/main.qml:220
+#: ui/main.qml:222
 #, kde-format
 msgid "Show animation when switching:"
 msgstr "Vis animation når der skiftes:"
 
-#: package/contents/ui/main.qml:271
+#: ui/main.qml:273
 #, kde-format
 msgid "Show on-screen display when switching:"
 msgstr "Vis skærmdisplay når der skiftes:"
 
-#: package/contents/ui/main.qml:290
+#: ui/main.qml:292
 #, kde-format
 msgid "%1 ms"
 msgstr "%1 ms"
 
-#: package/contents/ui/main.qml:314
+#: ui/main.qml:316
 #, kde-format
 msgid "Show desktop layout indicators"
 msgstr "Vis indikatorer af skrivebordslayout"
 
-#: virtualdesktops.cpp:33
-#, kde-format
-msgid "Virtual Desktops"
-msgstr "Virtuelle skriveborde"
+#~ msgid "1 Row"
+#~ msgid_plural "%1 Rows"
+#~ msgstr[0] "1 række "
+#~ msgstr[1] "%1 rækker"
 
-#~ msgid "New Desktop"
-#~ msgstr "Nyt skrivebord"
+#~ msgctxt "@action:button"
+#~ msgid "Add"
+#~ msgstr "Tilføj"
 
-#~ msgid "Rows:"
-#~ msgstr "Rækker:"
+#~ msgid ""
+#~ "This module lets you configure the navigation, number and layout of "
+#~ "virtual desktops."
+#~ msgstr ""
+#~ "Dette modul lader dig indstille navigation, antal og layout af virtuelle "
+#~ "skriveborde."
+
+#~ msgid "Virtual Desktops"
+#~ msgstr "Virtuelle skriveborde"
 
 #~ msgid "Configure Virtual Desktops"
 #~ msgstr "Konfigurér virtuelle skriveborde"

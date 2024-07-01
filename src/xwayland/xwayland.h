@@ -9,6 +9,12 @@
 */
 #pragma once
 
+#include "config-kwin.h"
+
+#if !KWIN_BUILD_X11
+#error Do not include on non-X11 builds
+#endif
+
 #include <memory>
 
 #include "xwayland_interface.h"
@@ -38,7 +44,7 @@ public:
     Xwayland(Application *app);
     ~Xwayland() override;
 
-    void start();
+    void init();
 
     XwaylandLauncher *xwaylandLauncher() const;
 
@@ -58,10 +64,6 @@ private Q_SLOTS:
     void handleXwaylandFinished();
     void handleXwaylandReady();
 
-    void handleSelectionLostOwnership();
-    void handleSelectionFailedToClaimOwnership();
-    void handleSelectionClaimedOwnership();
-
 private:
     friend class XrandrEventFilter;
 
@@ -79,12 +81,13 @@ private:
     bool createX11Connection();
     void destroyX11Connection();
 
-    DragEventReply dragMoveFilter(Window *target, const QPoint &pos) override;
-    KWaylandServer::AbstractDropHandler *xwlDropHandler() override;
+    DragEventReply dragMoveFilter(Window *target) override;
+    AbstractDropHandler *xwlDropHandler() override;
     QSocketNotifier *m_socketNotifier = nullptr;
 
     Application *m_app;
-    std::unique_ptr<KSelectionOwner> m_selectionOwner;
+    std::unique_ptr<KSelectionOwner> m_windowManagerSelectionOwner;
+    std::unique_ptr<KSelectionOwner> m_compositingManagerSelectionOwner;
     std::unique_ptr<DataBridge> m_dataBridge;
 
     XrandrEventFilter *m_xrandrEventsFilter = nullptr;

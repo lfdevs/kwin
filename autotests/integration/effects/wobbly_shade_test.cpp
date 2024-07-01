@@ -8,12 +8,9 @@
 */
 #include "kwin_wayland_test.h"
 
-#include "composite.h"
-#include "core/outputbackend.h"
-#include "core/renderbackend.h"
 #include "cursor.h"
-#include "effectloader.h"
-#include "effects.h"
+#include "effect/effecthandler.h"
+#include "effect/effectloader.h"
 #include "wayland_server.h"
 #include "workspace.h"
 #include "x11window.h"
@@ -44,11 +41,18 @@ private Q_SLOTS:
 
 void WobblyWindowsShadeTest::initTestCase()
 {
+    if (!Test::renderNodeAvailable()) {
+        QSKIP("no render node available");
+        return;
+    }
     qRegisterMetaType<KWin::Window *>();
     qRegisterMetaType<KWin::Effect *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
+    Test::setOutputConfig({
+        QRect(0, 0, 1280, 1024),
+        QRect(1280, 0, 1280, 1024),
+    });
 
     // disable all effects - we don't want to have it interact with the rendering
     auto config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
@@ -65,41 +69,28 @@ void WobblyWindowsShadeTest::initTestCase()
     qputenv("KWIN_EFFECTS_FORCE_ANIMATIONS", "1");
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
-    QVERIFY(Compositor::self());
-
-    QCOMPARE(Compositor::self()->backend()->compositingType(), KWin::OpenGLCompositing);
 }
 
 void WobblyWindowsShadeTest::init()
 {
-    QVERIFY(Test::setupWaylandConnection(Test::AdditionalWaylandInterface::Decoration));
+    QVERIFY(Test::setupWaylandConnection());
 }
 
 void WobblyWindowsShadeTest::cleanup()
 {
     Test::destroyWaylandConnection();
 
-    auto effectsImpl = static_cast<EffectsHandlerImpl *>(effects);
-    effectsImpl->unloadAllEffects();
-    QVERIFY(effectsImpl->loadedEffects().isEmpty());
+    effects->unloadAllEffects();
+    QVERIFY(effects->loadedEffects().isEmpty());
 }
-
-struct XcbConnectionDeleter
-{
-    void operator()(xcb_connection_t *pointer)
-    {
-        xcb_disconnect(pointer);
-    }
-};
 
 void WobblyWindowsShadeTest::testShadeMove()
 {
     // this test simulates the condition from BUG 390953
-    EffectsHandlerImpl *e = static_cast<EffectsHandlerImpl *>(effects);
-    QVERIFY(e->loadEffect(QStringLiteral("wobblywindows")));
-    QVERIFY(e->isEffectLoaded(QStringLiteral("wobblywindows")));
+    QVERIFY(effects->loadEffect(QStringLiteral("wobblywindows")));
+    QVERIFY(effects->isEffectLoaded(QStringLiteral("wobblywindows")));
 
-    std::unique_ptr<xcb_connection_t, XcbConnectionDeleter> c(xcb_connect(nullptr, nullptr));
+    Test::XcbConnectionPtr c = Test::createX11Connection();
     QVERIFY(!xcb_connection_has_error(c.get()));
     const QRect windowGeometry(0, 0, 100, 200);
     xcb_window_t windowId = xcb_generate_id(c.get());
@@ -128,14 +119,14 @@ void WobblyWindowsShadeTest::testShadeMove()
     QVERIFY(!window->isShade());
     QVERIFY(window->isActive());
 
-    QSignalSpy windowShownSpy(window, &Window::windowShown);
-    QVERIFY(windowShownSpy.wait());
+    QSignalSpy readyForPaintingChangedSpy(window, &Window::readyForPaintingChanged);
+    QVERIFY(readyForPaintingChangedSpy.wait());
 
     // now shade the window
     workspace()->slotWindowShade();
     QVERIFY(window->isShade());
 
-    QSignalSpy windowStartUserMovedResizedSpy(e, &EffectsHandler::windowStartUserMovedResized);
+    QSignalSpy interactiveMoveResizeStartedSpy(window, &Window::interactiveMoveResizeStarted);
 
     // begin move
     QVERIFY(workspace()->moveResizeWindow() == nullptr);
@@ -143,7 +134,7 @@ void WobblyWindowsShadeTest::testShadeMove()
     workspace()->slotWindowMove();
     QCOMPARE(workspace()->moveResizeWindow(), window);
     QCOMPARE(window->isInteractiveMove(), true);
-    QCOMPARE(windowStartUserMovedResizedSpy.count(), 1);
+    QCOMPARE(interactiveMoveResizeStartedSpy.count(), 1);
 
     // wait for frame rendered
     QTest::qWait(100);

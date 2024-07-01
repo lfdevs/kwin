@@ -44,7 +44,8 @@ public:
         MinimizedRole,
         DesktopNameRole,
         IconRole,
-        WindowIdRole
+        WindowIdRole,
+        CloseableRole,
     };
 
     explicit ExampleClientModel(QObject *parent = nullptr);
@@ -114,6 +115,9 @@ Q_SIGNALS:
     void screenGeometryChanged();
     void itemChanged();
 
+    void aboutToShow();
+    void aboutToHide();
+
 private:
     QAbstractItemModel *m_model;
     QObject *m_item;
@@ -145,6 +149,26 @@ inline QObject *SwitcherItem::item() const
 {
     return m_item;
 }
+
+class DesktopBackground : public WindowThumbnailItem
+{
+    Q_OBJECT
+    Q_PROPERTY(QVariant activity MEMBER m_activity)
+    Q_PROPERTY(QVariant desktop MEMBER m_desktop)
+    Q_PROPERTY(QString outputName MEMBER m_outputName)
+
+public:
+    DesktopBackground(QQuickItem *parent = nullptr);
+
+private Q_SLOTS:
+    void stretchToScreen();
+
+private:
+    // Just for mock-up purposes.
+    QVariant m_activity;
+    QVariant m_desktop;
+    QString m_outputName;
+};
 
 } // namespace TabBox
 } // namespace KWin

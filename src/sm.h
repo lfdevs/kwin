@@ -10,22 +10,24 @@
 
 #pragma once
 
+#include <QDBusContext>
 #include <QDataStream>
 #include <QRect>
 #include <QStringList>
+#include <QTimer>
 
 #include <KConfigGroup>
 
-#include <kwinglobals.h>
-#include <netwm_def.h>
+#include "effect/globals.h"
 
 namespace KWin
 {
 
 class X11Window;
 struct SessionInfo;
+class XdgToplevelWindow;
 
-class SessionManager : public QObject
+class SessionManager : public QObject, public QDBusContext
 {
     Q_OBJECT
 public:
@@ -41,9 +43,11 @@ public:
     SessionState state() const;
 
     void loadSubSessionInfo(const QString &name);
-    void storeSubSession(const QString &name, QSet<QByteArray> sessionIds);
 
+#if KWIN_BUILD_X11
+    void storeSubSession(const QString &name, QSet<QByteArray> sessionIds);
     SessionInfo *takeSessionInfo(X11Window *);
+#endif
 
 Q_SIGNALS:
     void stateChanged();
@@ -57,13 +61,16 @@ public Q_SLOTS: // DBus API
     void loadSession(const QString &name);
     void aboutToSaveSession(const QString &name);
     void finishSaveSession(const QString &name);
+    bool closeWaylandWindows();
     void quit();
 
 private:
     void setState(SessionState state);
 
     void storeSession(const QString &sessionName, SMSavePhase phase);
+#if KWIN_BUILD_X11
     void storeClient(KConfigGroup &cg, int num, X11Window *c);
+#endif
     void loadSessionInfo(const QString &sessionName);
     void addSessionInfo(KConfigGroup &cg);
 
@@ -73,6 +80,9 @@ private:
     int m_sessionDesktop;
 
     QList<SessionInfo *> session;
+    QList<XdgToplevelWindow *> m_pendingWindows;
+    QTimer m_closeTimer;
+    std::unique_ptr<QObject> m_closingWindowsGuard;
 };
 
 struct SessionInfo
@@ -99,7 +109,7 @@ struct SessionInfo
     bool skipPager;
     bool skipSwitcher;
     bool noBorder;
-    NET::WindowType windowType;
+    WindowType windowType;
     QString shortcut;
     bool active; // means 'was active in the saved session'
     int stackingOrder;

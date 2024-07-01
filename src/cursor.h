@@ -8,7 +8,7 @@
 */
 #pragma once
 // kwin
-#include <kwinglobals.h>
+#include "effect/globals.h"
 // Qt
 #include <QHash>
 #include <QObject>
@@ -71,6 +71,11 @@ public:
      */
     QByteArray name() const;
 
+    /**
+     * Returns the list of alternative shape names for a shape with the specified @a name.
+     */
+    static QList<QByteArray> alternatives(const QByteArray &name);
+
 private:
     int m_shape = Qt::ArrowCursor;
 };
@@ -97,32 +102,8 @@ class KWIN_EXPORT Cursor : public QObject
 {
     Q_OBJECT
 public:
-    Cursor(QObject *parent);
+    Cursor();
     ~Cursor() override;
-    void startMousePolling();
-    void stopMousePolling();
-    /**
-     * @brief Enables tracking changes of cursor images.
-     *
-     * After enabling cursor change tracking the signal cursorChanged will be emitted
-     * whenever a change to the cursor image is recognized.
-     *
-     * Use stopCursorTracking to no longer emit this signal. Note: the signal will be
-     * emitted until each call of this method has been matched with a call to stopCursorTracking.
-     *
-     * This tracking is not about pointer position tracking.
-     * @see stopCursorTracking
-     * @see cursorChanged
-     */
-    void startCursorTracking();
-    /**
-     * @brief Disables tracking changes of cursor images.
-     *
-     * Only call after using startCursorTracking.
-     *
-     * @see startCursorTracking
-     */
-    void stopCursorTracking();
 
     /**
      * @brief The name of the currently used Cursor theme.
@@ -137,10 +118,6 @@ public:
      */
     int themeSize() const;
     /**
-     * @return list of alternative names for the cursor with @p name
-     */
-    static QVector<QByteArray> cursorAlternativeNames(const QByteArray &name);
-    /**
      * Returns the default Xcursor theme name.
      */
     static QString defaultThemeName();
@@ -148,6 +125,10 @@ public:
      * Returns the default Xcursor theme size.
      */
     static int defaultThemeSize();
+    /**
+     * Returns the fallback Xcursor theme name.
+     */
+    static QString fallbackThemeName();
 
     /**
      * Returns the current cursor position. This method does an update of the mouse position if
@@ -156,17 +137,11 @@ public:
      * Implementing subclasses should prefer to use currentPos which is not performing a check
      * for update.
      */
-    QPoint pos();
+    QPointF pos();
     /**
      * Warps the mouse cursor to new @p pos.
-     * Values will be rounded to an integer
      */
     void setPos(const QPointF &pos);
-    /**
-     * Warps the mouse cursor to new @p pos.
-     */
-    void setPos(const QPoint &pos);
-    void setPos(int x, int y);
     xcb_cursor_t x11Cursor(CursorShape shape);
     /**
      * Notice: if available always use the CursorShape variant to avoid cache duplicates for
@@ -174,10 +149,9 @@ public:
      */
     xcb_cursor_t x11Cursor(const QByteArray &name);
 
-    QImage image() const;
-    QPoint hotspot() const;
-    QRect geometry() const;
-    QRect rect() const;
+    QPointF hotspot() const;
+    QRectF geometry() const;
+    QRectF rect() const;
 
     CursorSource *source() const;
     void setSource(CursorSource *source);
@@ -190,8 +164,8 @@ public:
     void markAsRendered(std::chrono::milliseconds timestamp);
 
 Q_SIGNALS:
-    void posChanged(const QPoint &pos);
-    void mouseChanged(const QPoint &pos, const QPoint &oldpos,
+    void posChanged(const QPointF &pos);
+    void mouseChanged(const QPointF &pos, const QPointF &oldpos,
                       Qt::MouseButtons buttons, Qt::MouseButtons oldbuttons,
                       Qt::KeyboardModifiers modifiers, Qt::KeyboardModifiers oldmodifiers);
     /**
@@ -217,38 +191,16 @@ protected:
      */
     virtual void doGetPos();
     /**
-     * Called from startMousePolling when the mouse polling gets activated. Base implementation
-     * does nothing, inheriting classes can overwrite to e.g. start a timer.
-     */
-    virtual void doStartMousePolling();
-    /**
-     * Called from stopMousePolling when the mouse polling gets deactivated. Base implementation
-     * does nothing, inheriting classes can overwrite to e.g. stop a timer.
-     */
-    virtual void doStopMousePolling();
-    /**
-     * Called from startCursorTracking when cursor image tracking gets activated. Inheriting class needs
-     * to overwrite to enable platform specific code for the tracking.
-     */
-    virtual void doStartCursorTracking();
-    /**
-     * Called from stopCursorTracking when cursor image tracking gets deactivated. Inheriting class needs
-     * to overwrite to disable platform specific code for the tracking.
-     */
-    virtual void doStopCursorTracking();
-    bool isCursorTracking() const;
-    /**
      * Provides the actual internal cursor position to inheriting classes. If an inheriting class needs
      * access to the cursor position this method should be used instead of the static @ref pos, as
      * the static method syncs with the underlying system's cursor.
      */
-    const QPoint &currentPos() const;
+    const QPointF &currentPos() const;
     /**
      * Updates the internal position to @p pos without warping the pointer as
      * setPos does.
      */
-    void updatePos(const QPoint &pos);
-    void updatePos(int x, int y);
+    void updatePos(const QPointF &pos);
 
 private Q_SLOTS:
     void loadThemeSettings();
@@ -259,9 +211,7 @@ private:
     void loadThemeFromKConfig();
     CursorSource *m_source = nullptr;
     QHash<QByteArray, xcb_cursor_t> m_cursors;
-    QPoint m_pos;
-    int m_mousePollingCounter;
-    int m_cursorTrackingCounter;
+    QPointF m_pos;
     QString m_themeName;
     int m_themeSize;
 };
@@ -303,7 +253,7 @@ public:
 Q_SIGNALS:
     void currentCursorChanged(Cursor *cursor);
     void hiddenChanged();
-    void positionChanged(Cursor *cursor, const QPoint &position);
+    void positionChanged(Cursor *cursor, const QPointF &position);
 
 private:
     void emitCurrentCursorChanged();
@@ -312,39 +262,13 @@ private:
     static Cursors *s_self;
     Cursor *m_currentCursor = nullptr;
     Cursor *m_mouse = nullptr;
-    QVector<Cursor *> m_cursors;
+    QList<Cursor *> m_cursors;
     int m_cursorHideCounter = 0;
 };
 
-class InputConfig
-{
-public:
-    KSharedConfigPtr inputConfig() const
-    {
-        return m_inputConfig;
-    }
-    void setInputConfig(KSharedConfigPtr config)
-    {
-        m_inputConfig = std::move(config);
-    }
-
-    static InputConfig *self();
-
-private:
-    InputConfig();
-
-    KSharedConfigPtr m_inputConfig;
-    static InputConfig *s_self;
-};
-
-inline const QPoint &Cursor::currentPos() const
+inline const QPointF &Cursor::currentPos() const
 {
     return m_pos;
-}
-
-inline void Cursor::updatePos(int x, int y)
-{
-    updatePos(QPoint(x, y));
 }
 
 inline const QString &Cursor::themeName() const
@@ -356,12 +280,6 @@ inline int Cursor::themeSize() const
 {
     return m_themeSize;
 }
-
-inline bool Cursor::isCursorTracking() const
-{
-    return m_cursorTrackingCounter > 0;
-}
-
 }
 
 Q_DECLARE_METATYPE(KWin::CursorShape)

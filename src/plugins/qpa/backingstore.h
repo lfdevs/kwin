@@ -9,12 +9,16 @@
 */
 #pragma once
 
-#include <epoxy/egl.h>
+#include <QPointer>
 
 #include <qpa/qplatformbackingstore.h>
 
 namespace KWin
 {
+
+class GraphicsBuffer;
+class GraphicsBufferView;
+
 namespace QPA
 {
 
@@ -22,16 +26,16 @@ class BackingStore : public QPlatformBackingStore
 {
 public:
     explicit BackingStore(QWindow *window);
-    ~BackingStore() override;
 
     QPaintDevice *paintDevice() override;
     void flush(QWindow *window, const QRegion &region, const QPoint &offset) override;
     void resize(const QSize &size, const QRegion &staticContents) override;
     void beginPaint(const QRegion &region) override;
+    void endPaint() override;
 
 private:
-    QImage m_backBuffer;
-    QImage m_frontBuffer;
+    QPointer<GraphicsBuffer> m_buffer;
+    std::unique_ptr<GraphicsBufferView> m_bufferView;
 };
 
 }

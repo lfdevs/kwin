@@ -1,54 +1,49 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Stefan Asserhäll <stefan.asserhall@bredband.net>, 2009, 2010, 2011, 2012, 2018, 2021, 2022.
+# SPDX-FileCopyrightText: 2009, 2010, 2011, 2012, 2018, 2021, 2022, 2024 Stefan Asserhäll <stefan.asserhall@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-13 00:58+0000\n"
-"PO-Revision-Date: 2022-06-15 21:50+0200\n"
+"POT-Creation-Date: 2024-02-29 00:39+0000\n"
+"PO-Revision-Date: 2024-06-09 11:56+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 20.08.1\n"
+"X-Generator: Lokalize 23.08.5\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: kwintabboxconfigform.cpp:80
-#, kde-format
-msgid "KWin"
-msgstr "Kwin"
-
-#: layoutpreview.cpp:133
+#: layoutpreview.cpp:127
 #, kde-format
 msgid "Show Desktop"
 msgstr "Visa skrivbord"
 
-#: layoutpreview.cpp:163
+#: layoutpreview.cpp:157
 #, kde-format
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
 msgstr "Skrivbord 1"
 
-#: main.cpp:58
+#: main.cpp:66
 #, kde-format
 msgid "Main"
 msgstr "Huvudmetod"
 
-#: main.cpp:59
+#: main.cpp:67
 #, kde-format
 msgid "Alternative"
 msgstr "Alternativ metod"
 
-#: main.cpp:61
+#: main.cpp:69
 #, kde-format
-msgid "Get New Task Switchers..."
+msgid "Get New Task Switchers…"
 msgstr "Hämta nya aktivitetsbytare..."
 
-#: main.cpp:75
+#: main.cpp:83
 #, kde-format
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."
@@ -64,8 +59,8 @@ msgstr "Innehåll"
 #. i18n: ectx: property (text), widget (QCheckBox, showDesktop)
 #: main.ui:41
 #, kde-format
-msgid "Include \"Show Desktop\" icon"
-msgstr "Inkludera ikonen \"Visa skrivbord\""
+msgid "Include \"Show Desktop\" entry"
+msgstr "Inkludera alternativet \"Visa skrivbord\""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, switchingModeCombo)
 #: main.ui:55
@@ -235,6 +230,49 @@ msgstr ""
 msgid "Show selected window"
 msgstr "Visa valt fönster"
 
+#: shortcutsettings.cpp:132
+#, kde-format
+msgid "Walk Through Windows"
+msgstr "Stega genom fönster"
+
+#: shortcutsettings.cpp:133
+#, kde-format
+msgid "Walk Through Windows (Reverse)"
+msgstr "Stega genom fönster (omvänd ordning)"
+
+#: shortcutsettings.cpp:134
+#, kde-format
+msgid "Walk Through Windows of Current Application"
+msgstr "Stega genom nuvarande programs fönster"
+
+#: shortcutsettings.cpp:135
+#, kde-format
+msgid "Walk Through Windows of Current Application (Reverse)"
+msgstr "Stega genom nuvarande programs fönster (omvänd ordning)"
+
+#: shortcutsettings.cpp:137
+#, kde-format
+msgid "Walk Through Windows Alternative"
+msgstr "Stega genom fönster alternativt"
+
+#: shortcutsettings.cpp:138
+#, kde-format
+msgid "Walk Through Windows Alternative (Reverse)"
+msgstr "Stega genom fönster alternativt (omvänd ordning)"
+
+#: shortcutsettings.cpp:139
+#, kde-format
+msgid "Walk Through Windows of Current Application Alternative"
+msgstr "Stega genom nuvarande programs fönster alternativt"
+
+#: shortcutsettings.cpp:140
+#, kde-format
+msgid "Walk Through Windows of Current Application Alternative (Reverse)"
+msgstr "Stega genom nuvarande programs fönster alternativt (omvänd ordning)"
+
+#~ msgid "KWin"
+#~ msgstr "Kwin"
+
 #~ msgid "Tabbox layout preview"
 #~ msgstr "Förhandsgranskning av flikrutans utläggning"
 
@@ -246,38 +284,6 @@ msgstr "Visa valt fönster"
 #~ "actions."
 #~ msgstr ""
 #~ "Inställningarna används av åtgärden \"Stega genom fönster alternativt\"."
-
-#~ msgid "Walk Through Windows"
-#~ msgstr "Stega genom fönster"
-
-#~ msgid "Walk Through Windows (Reverse)"
-#~ msgstr "Stega genom fönster (omvänd ordning)"
-
-#~ msgid "Walk Through Windows Alternative"
-#~ msgstr "Stega genom fönster alternativt"
-
-#~ msgid "Walk Through Windows Alternative (Reverse)"
-#~ msgstr "Stega genom fönster alternativt (omvänd ordning)"
-
-#, fuzzy
-#~| msgid "Walk Through Windows Alternative"
-#~ msgid "Walk Through Windows of Current Application"
-#~ msgstr "Stega genom fönster alternativt"
-
-#, fuzzy
-#~| msgid "Walk Through Windows Alternative (Reverse)"
-#~ msgid "Walk Through Windows of Current Application (Reverse)"
-#~ msgstr "Stega genom fönster alternativt (omvänd ordning)"
-
-#, fuzzy
-#~| msgid "Walk Through Windows Alternative"
-#~ msgid "Walk Through Windows of Current Application Alternative"
-#~ msgstr "Stega genom fönster alternativt"
-
-#, fuzzy
-#~| msgid "Walk Through Windows Alternative (Reverse)"
-#~ msgid "Walk Through Windows of Current Application Alternative (Reverse)"
-#~ msgstr "Stega genom fönster alternativt (omvänd ordning)"
 
 #~ msgctxt ""
 #~ "ComboBox item for window switcher based on layouts instead of a desktop "
@@ -294,7 +300,7 @@ msgstr "Visa valt fönster"
 
 #~ msgctxt "EMAIL OF TRANSLATORS"
 #~ msgid "Your emails"
-#~ msgstr "stefan.asserhall@bredband.net"
+#~ msgstr "stefan.asserhall@gmail.com"
 
 #~ msgid "These settings are used by the \"Walk Through Windows\" actions."
 #~ msgstr "Inställningarna används av åtgärden \"Stega genom fönster\"."

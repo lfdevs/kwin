@@ -9,8 +9,8 @@
 
 #pragma once
 
+#include "effect/globals.h"
 #include <kwin_export.h>
-#include <kwinglobals.h>
 #include <utils/common.h>
 
 #include <QObject>
@@ -151,7 +151,6 @@ protected:
     void insertChild(int position, Tile *item);
     void removeChild(Tile *child);
 
-private:
     QList<Tile *> m_children;
     QList<Window *> m_windows;
     Tile *m_parentTile;

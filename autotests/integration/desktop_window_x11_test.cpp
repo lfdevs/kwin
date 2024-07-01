@@ -9,15 +9,12 @@
 #include "kwin_wayland_test.h"
 
 #include "core/output.h"
-#include "core/outputbackend.h"
-#include "cursor.h"
-#include "deleted.h"
+#include "pointer_input.h"
 #include "utils/xcbutils.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
 #include "x11window.h"
-#include <kwineffects.h>
 
 #include <netwm.h>
 #include <xcb/xcb_icccm.h>
@@ -42,10 +39,12 @@ private:
 void X11DesktopWindowTest::initTestCase()
 {
     qRegisterMetaType<KWin::Window *>();
-    qRegisterMetaType<KWin::Deleted *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
+    Test::setOutputConfig({
+        QRect(0, 0, 1280, 1024),
+        QRect(1280, 0, 1280, 1024),
+    });
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
@@ -59,20 +58,12 @@ void X11DesktopWindowTest::initTestCase()
 void X11DesktopWindowTest::init()
 {
     workspace()->setActiveOutput(QPoint(640, 512));
-    Cursors::self()->mouse()->setPos(QPoint(640, 512));
+    input()->pointer()->warp(QPoint(640, 512));
 }
 
 void X11DesktopWindowTest::cleanup()
 {
 }
-
-struct XcbConnectionDeleter
-{
-    void operator()(xcb_connection_t *pointer)
-    {
-        xcb_disconnect(pointer);
-    }
-};
 
 void X11DesktopWindowTest::testDesktopWindow()
 {
@@ -80,7 +71,7 @@ void X11DesktopWindowTest::testDesktopWindow()
     // as an RGB (opaque) window in KWin
 
     // create an xcb window
-    std::unique_ptr<xcb_connection_t, XcbConnectionDeleter> c(xcb_connect(nullptr, nullptr));
+    Test::XcbConnectionPtr c = Test::createX11Connection();
     QVERIFY(!xcb_connection_has_error(c.get()));
 
     xcb_window_t windowId = xcb_generate_id(c.get());
@@ -140,7 +131,7 @@ void X11DesktopWindowTest::testDesktopWindow()
     QVERIFY(window);
     QCOMPARE(window->window(), windowId);
     QVERIFY(!window->isDecorated());
-    QCOMPARE(window->windowType(), NET::Desktop);
+    QCOMPARE(window->windowType(), WindowType::Desktop);
     QCOMPARE(window->frameGeometry(), windowGeometry);
     QVERIFY(window->isDesktop());
     QCOMPARE(window->depth(), 24);
@@ -152,7 +143,7 @@ void X11DesktopWindowTest::testDesktopWindow()
     xcb_flush(c.get());
     c.reset();
 
-    QSignalSpy windowClosedSpy(window, &X11Window::windowClosed);
+    QSignalSpy windowClosedSpy(window, &X11Window::closed);
     QVERIFY(windowClosedSpy.wait());
 }
 

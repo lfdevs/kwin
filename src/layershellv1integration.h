@@ -8,13 +8,10 @@
 
 #include "waylandshellintegration.h"
 
-namespace KWaylandServer
-{
-class LayerSurfaceV1Interface;
-}
-
 namespace KWin
 {
+
+class LayerSurfaceV1Interface;
 
 class LayerShellV1Integration : public WaylandShellIntegration
 {
@@ -24,14 +21,10 @@ public:
     explicit LayerShellV1Integration(QObject *parent = nullptr);
 
     void rearrange();
-    void scheduleRearrange();
 
-    void createWindow(KWaylandServer::LayerSurfaceV1Interface *shellSurface);
-    void recreateWindow(KWaylandServer::LayerSurfaceV1Interface *shellSurface);
-    void destroyWindow(KWaylandServer::LayerSurfaceV1Interface *shellSurface);
-
-private:
-    QTimer *m_rearrangeTimer;
+    void createWindow(LayerSurfaceV1Interface *shellSurface);
+    void recreateWindow(LayerSurfaceV1Interface *shellSurface);
+    void destroyWindow(LayerSurfaceV1Interface *shellSurface);
 };
 
 } // namespace KWin

@@ -8,9 +8,11 @@
 */
 #pragma once
 
+#include "core/drmdevice.h"
 #include "core/inputbackend.h"
 #include "core/inputdevice.h"
 #include "core/outputbackend.h"
+#include "utils/filedescriptor.h"
 
 #include <kwin_export.h>
 
@@ -52,7 +54,6 @@ public:
     void setLeds(LEDs leds) override;
 
     bool isKeyboard() const override;
-    bool isAlphaNumericKeyboard() const override;
     bool isPointer() const override;
     bool isTouchpad() const override;
     bool isTouch() const override;
@@ -97,24 +98,33 @@ public:
     explicit X11WindowedBackend(const X11WindowedBackendOptions &options);
     ~X11WindowedBackend() override;
 
-    Display *display() const;
+    ::Display *display() const;
     xcb_connection_t *connection() const;
     xcb_screen_t *screen() const;
     int screenNumer() const;
     xcb_window_t rootWindow() const;
+    DrmDevice *drmDevice() const;
 
     bool hasXInput() const;
+
+    QHash<uint32_t, QList<uint64_t>> driFormats() const;
+    uint32_t driFormatForDepth(int depth) const;
+    int driMajorVersion() const;
+    int driMinorVersion() const;
 
     bool initialize() override;
     std::unique_ptr<OpenGLBackend> createOpenGLBackend() override;
     std::unique_ptr<QPainterBackend> createQPainterBackend() override;
     std::unique_ptr<InputBackend> createInputBackend() override;
-    QVector<CompositingType> supportedCompositors() const override;
+    QList<CompositingType> supportedCompositors() const override;
     Outputs outputs() const override;
 
     X11WindowedInputDevice *pointerDevice() const;
     X11WindowedInputDevice *keyboardDevice() const;
     X11WindowedInputDevice *touchDevice() const;
+
+    void setEglDisplay(std::unique_ptr<EglDisplay> &&display);
+    EglDisplay *sceneEglDisplayObject() const override;
 
 private:
     void createOutputs();
@@ -128,6 +138,7 @@ private:
     void handlePresentEvent(xcb_ge_generic_event_t *event);
     void updateSize(xcb_configure_notify_event_t *event);
     void initXInput();
+    void initDri3();
     X11WindowedOutput *findOutput(xcb_window_t window) const;
     void destroyOutputs();
 
@@ -143,7 +154,7 @@ private:
 
     xcb_atom_t m_protocols = XCB_ATOM_NONE;
     xcb_atom_t m_deleteWindowProtocol = XCB_ATOM_NONE;
-    Display *m_display = nullptr;
+    ::Display *m_display = nullptr;
     bool m_keyboardGrabbed = false;
     std::unique_ptr<QSocketNotifier> m_eventNotifier;
 
@@ -158,7 +169,15 @@ private:
 
     bool m_hasShm = false;
 
-    QVector<X11WindowedOutput *> m_outputs;
+    bool m_hasDri = false;
+    int m_driMajorVersion = 0;
+    int m_driMinorVersion = 0;
+    QHash<uint32_t, QList<uint64_t>> m_driFormats;
+
+    std::unique_ptr<DrmDevice> m_drmDevice;
+    std::unique_ptr<EglDisplay> m_eglDisplay;
+
+    QList<X11WindowedOutput *> m_outputs;
 };
 
 } // namespace KWin

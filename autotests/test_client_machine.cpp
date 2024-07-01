@@ -12,12 +12,10 @@
 #include "utils/xcbutils.h"
 // Qt
 #include <QApplication>
-#include <QtTest>
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QLoggingCategory>
+#include <QSignalSpy>
+#include <QTest>
 #include <private/qtx11extras_p.h>
-#else
-#include <QX11Info>
-#endif
 // xcb
 #include <xcb/xcb.h>
 // system

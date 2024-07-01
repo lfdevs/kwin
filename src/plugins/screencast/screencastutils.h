@@ -6,11 +6,9 @@
 
 #pragma once
 
-#include "kwinglplatform.h"
-#include "kwingltexture.h"
-#include "kwinglutils.h"
-#include <spa/buffer/buffer.h>
-#include <spa/param/video/raw.h>
+#include "opengl/glplatform.h"
+#include "opengl/gltexture.h"
+#include "opengl/glutils.h"
 
 namespace KWin
 {
@@ -28,18 +26,12 @@ static void mirrorVertically(uchar *data, int height, int stride)
     }
 }
 
-static GLenum closestGLType(spa_video_format format)
+static GLenum closestGLType(QImage::Format format)
 {
     switch (format) {
-    case SPA_VIDEO_FORMAT_RGB:
-        return GL_RGB;
-    case SPA_VIDEO_FORMAT_BGR:
-        return GL_BGR;
-    case SPA_VIDEO_FORMAT_RGBx:
-    case SPA_VIDEO_FORMAT_RGBA:
-        return GL_RGBA;
-    case SPA_VIDEO_FORMAT_BGRA:
-    case SPA_VIDEO_FORMAT_BGRx:
+    case QImage::Format_ARGB32:
+    case QImage::Format_ARGB32_Premultiplied:
+    case QImage::Format_RGB32:
         return GL_BGRA;
     default:
         qDebug() << "unknown format" << format;
@@ -47,12 +39,12 @@ static GLenum closestGLType(spa_video_format format)
     }
 }
 
-static void grabTexture(GLTexture *texture, spa_data *spa, spa_video_format format)
+static void doGrabTexture(GLTexture *texture, QImage *target)
 {
+    const auto context = OpenGlContext::currentContext();
     const QSize size = texture->size();
-    bool isGLES = GLPlatform::instance()->isGLES();
-    bool invertNeeded = isGLES ^ texture->isYInverted();
-    const bool invertNeededAndSupported = invertNeeded && GLPlatform::instance()->supports(PackInvert);
+    const bool invertNeeded = context->isOpenGLES() ^ (texture->contentTransform() != OutputTransform::FlipY);
+    const bool invertNeededAndSupported = invertNeeded && context->supportsPackInvert();
     GLboolean prev;
     if (invertNeededAndSupported) {
         glGetBooleanv(GL_PACK_INVERT_MESA, &prev);
@@ -62,15 +54,15 @@ static void grabTexture(GLTexture *texture, spa_data *spa, spa_video_format form
     texture->bind();
     // BUG: The nvidia driver fails to glGetTexImage
     // Drop driver() == DriverNVidia some time after that's fixed
-    if (GLPlatform::instance()->isGLES() || GLPlatform::instance()->driver() == Driver_NVidia) {
+    if (context->isOpenGLES() || context->glPlatform()->driver() == Driver_NVidia) {
         GLFramebuffer fbo(texture);
         GLFramebuffer::pushFramebuffer(&fbo);
-        glReadPixels(0, 0, size.width(), size.height(), closestGLType(format), GL_UNSIGNED_BYTE, spa->data);
+        glReadPixels(0, 0, size.width(), size.height(), closestGLType(target->format()), GL_UNSIGNED_BYTE, target->bits());
         GLFramebuffer::popFramebuffer();
-    } else if (GLPlatform::instance()->glVersion() >= kVersionNumber(4, 5)) {
-        glGetTextureImage(texture->texture(), 0, closestGLType(format), GL_UNSIGNED_BYTE, spa->chunk->size, spa->data);
+    } else if (context->openglVersion() >= Version(4, 5)) {
+        glGetTextureImage(texture->texture(), 0, closestGLType(target->format()), GL_UNSIGNED_BYTE, target->sizeInBytes(), target->bits());
     } else {
-        glGetTexImage(texture->target(), 0, closestGLType(format), GL_UNSIGNED_BYTE, spa->data);
+        glGetTexImage(texture->target(), 0, closestGLType(target->format()), GL_UNSIGNED_BYTE, target->bits());
     }
 
     if (invertNeededAndSupported) {
@@ -78,8 +70,52 @@ static void grabTexture(GLTexture *texture, spa_data *spa, spa_video_format form
             glPixelStorei(GL_PACK_INVERT_MESA, prev);
         }
     } else if (invertNeeded) {
-        mirrorVertically(static_cast<uchar *>(spa->data), size.height(), spa->chunk->stride);
+        mirrorVertically(static_cast<uchar *>(target->bits()), size.height(), target->bytesPerLine());
     }
+}
+
+static void grabTexture(GLTexture *texture, QImage *target)
+{
+    const OutputTransform contentTransform = texture->contentTransform();
+    if (contentTransform == OutputTransform::Normal || contentTransform == OutputTransform::FlipY) {
+        doGrabTexture(texture, target);
+    } else {
+        const QSize size = contentTransform.map(texture->size());
+        const auto backingTexture = GLTexture::allocate(GL_RGBA8, size);
+        if (!backingTexture) {
+            return;
+        }
+        backingTexture->setContentTransform(OutputTransform::FlipY);
+
+        ShaderBinder shaderBinder(ShaderTrait::MapTexture);
+        QMatrix4x4 projectionMatrix;
+        projectionMatrix.scale(1, -1);
+        projectionMatrix.ortho(QRect(QPoint(), size));
+        shaderBinder.shader()->setUniform(GLShader::Mat4Uniform::ModelViewProjectionMatrix, projectionMatrix);
+
+        GLFramebuffer fbo(backingTexture.get());
+        GLFramebuffer::pushFramebuffer(&fbo);
+        texture->render(size);
+        GLFramebuffer::popFramebuffer();
+        doGrabTexture(backingTexture.get(), target);
+    }
+}
+
+static inline QRegion scaleRegion(const QRegion &_region, qreal scale)
+{
+    if (scale == 1.) {
+        return _region;
+    }
+
+    QRegion region;
+    for (auto it = _region.begin(), itEnd = _region.end(); it != itEnd; ++it) {
+        region += QRect(std::floor(it->x() * scale),
+                        std::floor(it->y() * scale),
+                        std::ceil(it->width() * scale),
+                        std::ceil(it->height() * scale));
+    }
+
+    return region;
 }
 
 } // namespace KWin

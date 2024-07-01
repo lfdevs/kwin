@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-15 00:49+0000\n"
-"PO-Revision-Date: 2023-03-01 06:45+0100\n"
+"POT-Creation-Date: 2024-05-12 00:40+0000\n"
+"PO-Revision-Date: 2024-04-27 06:46+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -58,34 +58,37 @@ msgstr "Pri shranjevanju nastavitev v upodobilniku je prišlo do napake."
 msgid "There was an error requesting information from the compositor."
 msgstr "Pri zahtevah informacij od upodobilnika je prišlo do napake."
 
-#: package/contents/ui/main.qml:17
+#: ui/main.qml:26
 #, kde-format
-msgid ""
-"This module lets you configure the navigation, number and layout of virtual "
-"desktops."
-msgstr ""
-"Ta modul omogoča nastavljanje navigacijo, število in obliko navideznih "
-"namizij."
+msgctxt "@text:label Number of rows, label associated to a number input field"
+msgid "Rows:"
+msgstr "Vrstic:"
 
-#: package/contents/ui/main.qml:91
+#: ui/main.qml:54
+#, kde-format
+msgctxt "@action:button"
+msgid "Add Desktop"
+msgstr "Dodaj namizje"
+
+#: ui/main.qml:118
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Rename"
 msgstr "Preimenuj"
 
-#: package/contents/ui/main.qml:102
+#: ui/main.qml:130
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Confirm new name"
 msgstr "Potrdi novo ime"
 
-#: package/contents/ui/main.qml:110
+#: ui/main.qml:139
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Remove"
 msgstr "Odstrani"
 
-#: package/contents/ui/main.qml:137
+#: ui/main.qml:172
 #, kde-format
 msgid ""
 "Virtual desktops have been changed outside this settings application. Saving "
@@ -94,63 +97,61 @@ msgstr ""
 "Navidezna namizja so bila spremenjena izven tega nastavitvenega programa. "
 "Shranjevanje bo prepisalo prejšnje spremembe."
 
-#: package/contents/ui/main.qml:153
+#: ui/main.qml:188
 #, kde-format
 msgid "Row %1"
 msgstr "Vrstica %1"
 
-#: package/contents/ui/main.qml:166
-#, kde-format
-msgctxt "@action:button"
-msgid "Add"
-msgstr "Dodaj"
-
-#: package/contents/ui/main.qml:184
-#, kde-format
-msgid "1 Row"
-msgid_plural "%1 Rows"
-msgstr[0] "%1 vrstica"
-msgstr[1] "%1 vrstici"
-msgstr[2] "%1 vrstice"
-msgstr[3] "%1 vrstic"
-
-#: package/contents/ui/main.qml:200
+#: ui/main.qml:202
 #, kde-format
 msgid "Options:"
 msgstr "Opcije:"
 
-#: package/contents/ui/main.qml:202
+#: ui/main.qml:204
 #, kde-format
 msgid "Navigation wraps around"
 msgstr "Krmarjenje med namizji se krožno nadaljuje"
 
-#: package/contents/ui/main.qml:220
+#: ui/main.qml:222
 #, kde-format
 msgid "Show animation when switching:"
 msgstr "Prikaži animacijo ob preklopu:"
 
-#: package/contents/ui/main.qml:271
+#: ui/main.qml:273
 #, kde-format
 msgid "Show on-screen display when switching:"
 msgstr "Ob preklopu prikaži zaslon na zaslonu:"
 
-#: package/contents/ui/main.qml:290
+#: ui/main.qml:292
 #, kde-format
 msgid "%1 ms"
 msgstr "%1 ms"
 
-#: package/contents/ui/main.qml:314
+#: ui/main.qml:316
 #, kde-format
 msgid "Show desktop layout indicators"
 msgstr "Prikaži prikazovalnik razporeda namizij"
 
-#: virtualdesktops.cpp:33
-#, kde-format
-msgid "Virtual Desktops"
-msgstr "Navidezna namizja"
+#~ msgid "1 Row"
+#~ msgid_plural "%1 Rows"
+#~ msgstr[0] "%1 vrstica"
+#~ msgstr[1] "%1 vrstici"
+#~ msgstr[2] "%1 vrstice"
+#~ msgstr[3] "%1 vrstic"
 
-#~ msgid "New Desktop"
-#~ msgstr "Novo namizje"
+#~ msgctxt "@action:button"
+#~ msgid "Add"
+#~ msgstr "Dodaj"
+
+#~ msgid ""
+#~ "This module lets you configure the navigation, number and layout of "
+#~ "virtual desktops."
+#~ msgstr ""
+#~ "Ta modul omogoča nastavljanje navigacijo, število in obliko navideznih "
+#~ "namizij."
+
+#~ msgid "Virtual Desktops"
+#~ msgstr "Navidezna namizja"
 
 #~ msgid "Desktop %1:"
 #~ msgstr "Namizje %1:"

@@ -8,15 +8,11 @@
 */
 #include "kwin_wayland_test.h"
 
-#include "composite.h"
 #include "core/output.h"
-#include "core/outputbackend.h"
-#include "core/renderbackend.h"
-#include "cursor.h"
+#include "pointer_input.h"
 #include "wayland_server.h"
 #include "workspace.h"
 #include "x11window.h"
-#include <kwineffects.h>
 
 #include <KDecoration2/Decoration>
 
@@ -40,14 +36,21 @@ private Q_SLOTS:
 
 void DontCrashAuroraeDestroyDecoTest::initTestCase()
 {
+    if (!Test::renderNodeAvailable()) {
+        QSKIP("no render node available");
+        return;
+    }
     qputenv("XDG_DATA_DIRS", QCoreApplication::applicationDirPath().toUtf8());
     qRegisterMetaType<KWin::Window *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
+    Test::setOutputConfig({
+        QRect(0, 0, 1280, 1024),
+        QRect(1280, 0, 1280, 1024),
+    });
 
     KSharedConfig::Ptr config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
-    config->group("org.kde.kdecoration2").writeEntry("library", "org.kde.kwin.aurorae");
+    config->group(QStringLiteral("org.kde.kdecoration2")).writeEntry("library", "org.kde.kwin.aurorae");
     config->sync();
     kwinApp()->setConfig(config);
 
@@ -60,14 +63,12 @@ void DontCrashAuroraeDestroyDecoTest::initTestCase()
     QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
     QCOMPARE(outputs[1]->geometry(), QRect(1280, 0, 1280, 1024));
     setenv("QT_QPA_PLATFORM", "wayland", true);
-
-    QCOMPARE(Compositor::self()->backend()->compositingType(), KWin::OpenGLCompositing);
 }
 
 void DontCrashAuroraeDestroyDecoTest::init()
 {
     workspace()->setActiveOutput(QPoint(640, 512));
-    Cursors::self()->mouse()->setPos(QPoint(640, 512));
+    input()->pointer()->warp(QPoint(640, 512));
 }
 
 void DontCrashAuroraeDestroyDecoTest::testBorderlessMaximizedWindows()
@@ -77,14 +78,15 @@ void DontCrashAuroraeDestroyDecoTest::testBorderlessMaximizedWindows()
     // see BUG 362772
 
     // first adjust the config
-    KConfigGroup group = kwinApp()->config()->group("Windows");
+    KConfigGroup group = kwinApp()->config()->group(QStringLiteral("Windows"));
     group.writeEntry("BorderlessMaximizedWindows", true);
     group.sync();
     workspace()->slotReconfigure();
     QCOMPARE(options->borderlessMaximizedWindows(), true);
 
     // create an xcb window
-    xcb_connection_t *c = xcb_connect(nullptr, nullptr);
+    Test::XcbConnectionPtr connection = Test::createX11Connection();
+    auto c = connection.get();
     QVERIFY(!xcb_connection_has_error(c));
 
     xcb_window_t windowId = xcb_generate_id(c);
@@ -113,7 +115,7 @@ void DontCrashAuroraeDestroyDecoTest::testBorderlessMaximizedWindows()
     QVERIFY(window->readyForPainting());
 
     // simulate click on maximize button
-    QSignalSpy maximizedStateChangedSpy(window, static_cast<void (Window::*)(KWin::Window *, MaximizeMode)>(&Window::clientMaximizedStateChanged));
+    QSignalSpy maximizedStateChangedSpy(window, &Window::maximizedChanged);
     quint32 timestamp = 1;
     Test::pointerMotion(window->frameGeometry().topLeft() + scenePoint.toPoint(), timestamp++);
     Test::pointerButtonPressed(BTN_LEFT, timestamp++);
@@ -126,9 +128,8 @@ void DontCrashAuroraeDestroyDecoTest::testBorderlessMaximizedWindows()
     xcb_unmap_window(c, windowId);
     xcb_destroy_window(c, windowId);
     xcb_flush(c);
-    xcb_disconnect(c);
 
-    QSignalSpy windowClosedSpy(window, &X11Window::windowClosed);
+    QSignalSpy windowClosedSpy(window, &X11Window::closed);
     QVERIFY(windowClosedSpy.wait());
 }
 

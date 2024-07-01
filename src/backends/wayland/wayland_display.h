@@ -13,6 +13,7 @@
 
 struct wl_display;
 struct wl_registry;
+struct wl_shm;
 struct zwp_linux_dmabuf_v1;
 
 namespace KWayland
@@ -24,7 +25,6 @@ class PointerConstraints;
 class PointerGestures;
 class RelativePointerManager;
 class Seat;
-class ShmPool;
 class XdgDecorationManager;
 class XdgShell;
 }
@@ -36,6 +36,7 @@ namespace Wayland
 {
 
 class WaylandEventThread;
+class WaylandLinuxDmabufFeedbackV1;
 
 class WaylandLinuxDmabufV1
 {
@@ -44,14 +45,15 @@ public:
     ~WaylandLinuxDmabufV1();
 
     zwp_linux_dmabuf_v1 *handle() const;
-    QHash<uint32_t, QVector<uint64_t>> formats() const;
+    QByteArray mainDevice() const;
+    QHash<uint32_t, QList<uint64_t>> formats() const;
 
 private:
     static void format(void *data, struct zwp_linux_dmabuf_v1 *zwp_linux_dmabuf_v1, uint32_t format);
     static void modifier(void *data, struct zwp_linux_dmabuf_v1 *zwp_linux_dmabuf_v1, uint32_t format, uint32_t modifier_hi, uint32_t modifier_lo);
 
     zwp_linux_dmabuf_v1 *m_dmabuf;
-    QHash<uint32_t, QVector<uint64_t>> m_formats;
+    std::unique_ptr<WaylandLinuxDmabufFeedbackV1> m_defaultFeedback;
 };
 
 class WaylandDisplay : public QObject
@@ -71,7 +73,7 @@ public:
     KWayland::Client::RelativePointerManager *relativePointerManager() const;
     KWayland::Client::Seat *seat() const;
     KWayland::Client::XdgDecorationManager *xdgDecorationManager() const;
-    KWayland::Client::ShmPool *shmPool() const;
+    wl_shm *shm() const;
     KWayland::Client::XdgShell *xdgShell() const;
     WaylandLinuxDmabufV1 *linuxDmabuf() const;
 
@@ -84,6 +86,7 @@ private:
 
     wl_display *m_display = nullptr;
     wl_registry *m_registry = nullptr;
+    wl_shm *m_shm = nullptr;
     std::unique_ptr<WaylandEventThread> m_eventThread;
     std::unique_ptr<WaylandLinuxDmabufV1> m_linuxDmabuf;
     std::unique_ptr<KWayland::Client::Compositor> m_compositor;
@@ -92,7 +95,6 @@ private:
     std::unique_ptr<KWayland::Client::RelativePointerManager> m_relativePointerManager;
     std::unique_ptr<KWayland::Client::Seat> m_seat;
     std::unique_ptr<KWayland::Client::XdgDecorationManager> m_xdgDecorationManager;
-    std::unique_ptr<KWayland::Client::ShmPool> m_shmPool;
     std::unique_ptr<KWayland::Client::XdgShell> m_xdgShell;
 };
 

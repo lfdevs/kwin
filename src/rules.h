@@ -9,16 +9,14 @@
 
 #pragma once
 
+#include <QList>
 #include <QRectF>
-#include <QVector>
-#include <netwm_def.h>
 
 #include "options.h"
 #include "utils/common.h"
 
 class QDebug;
 class KConfig;
-class KXMessages;
 
 namespace KWin
 {
@@ -27,6 +25,7 @@ class Window;
 class Output;
 class Rules;
 class RuleSettings;
+class RuleBookSettings;
 class VirtualDesktop;
 
 #ifndef KCMRULES // only for kwin core
@@ -34,10 +33,9 @@ class VirtualDesktop;
 class WindowRules
 {
 public:
-    explicit WindowRules(const QVector<Rules *> &rules);
+    explicit WindowRules(const QList<Rules *> &rules);
     WindowRules();
     void update(Window *, int selection);
-    void discardTemporary();
     bool contains(const Rules *rule) const;
     void remove(Rules *rule);
     PlacementPolicy checkPlacement(PlacementPolicy placement) const;
@@ -52,10 +50,9 @@ public:
     int checkOpacityActive(int s) const;
     int checkOpacityInactive(int s) const;
     bool checkIgnoreGeometry(bool ignore, bool init = false) const;
-    QVector<VirtualDesktop *> checkDesktops(QVector<VirtualDesktop *> desktops, bool init = false) const;
+    QList<VirtualDesktop *> checkDesktops(QList<VirtualDesktop *> desktops, bool init = false) const;
     Output *checkOutput(Output *output, bool init = false) const;
     QStringList checkActivity(QStringList activity, bool init = false) const;
-    NET::WindowType checkType(NET::WindowType type) const;
     MaximizeMode checkMaximize(MaximizeMode mode, bool init = false) const;
     bool checkMinimize(bool minimized, bool init = false) const;
     ShadeMode checkShade(ShadeMode shade, bool init = false) const;
@@ -79,11 +76,13 @@ public:
     QString checkShortcut(QString s, bool init = false) const;
     bool checkDisableGlobalShortcuts(bool disable) const;
     QString checkDesktopFile(QString desktopFile, bool init = false) const;
+    Layer checkLayer(Layer layer) const;
+    bool checkAdaptiveSync(bool adaptivesync) const;
 
 private:
     MaximizeMode checkMaximizeVert(MaximizeMode mode, bool init) const;
     MaximizeMode checkMaximizeHoriz(MaximizeMode mode, bool init) const;
-    QVector<Rules *> rules;
+    QList<Rules *> rules;
 };
 
 #endif
@@ -93,7 +92,6 @@ class Rules
 public:
     Rules();
     explicit Rules(const RuleSettings *);
-    Rules(const QString &, bool temporary);
     enum Type {
         Position = 1 << 0,
         Size = 1 << 1,
@@ -114,6 +112,7 @@ public:
         Activity = 1 << 16,
         Screen = 1 << 17,
         DesktopFile = 1 << 18,
+        Layer = 1 << 19,
         All = 0xffffffff
     };
     Q_DECLARE_FLAGS(Types, Type)
@@ -145,12 +144,12 @@ public:
     };
     void write(RuleSettings *) const;
     bool isEmpty() const;
+    QString id() const;
+
 #ifndef KCMRULES
     bool discardUsed(bool withdrawn);
     bool match(const Window *c) const;
     bool update(Window *, int selection);
-    bool isTemporary() const;
-    bool discardTemporary(bool force); // removes if temporary and forced or too old
     bool applyPlacement(PlacementPolicy &placement) const;
     bool applyGeometry(QRectF &rect, bool init) const;
     // use 'invalidPoint' with applyPosition, unlike QSize() and QRect(), QPoint() is a valid point
@@ -161,10 +160,9 @@ public:
     bool applyOpacityActive(int &s) const;
     bool applyOpacityInactive(int &s) const;
     bool applyIgnoreGeometry(bool &ignore, bool init) const;
-    bool applyDesktops(QVector<VirtualDesktop *> &desktops, bool init) const;
+    bool applyDesktops(QList<VirtualDesktop *> &desktops, bool init) const;
     bool applyScreen(int &desktop, bool init) const;
     bool applyActivity(QStringList &activity, bool init) const;
-    bool applyType(NET::WindowType &type) const;
     bool applyMaximizeVert(MaximizeMode &mode, bool init) const;
     bool applyMaximizeHoriz(MaximizeMode &mode, bool init) const;
     bool applyMinimize(bool &minimized, bool init) const;
@@ -189,10 +187,12 @@ public:
     bool applyShortcut(QString &shortcut, bool init) const;
     bool applyDisableGlobalShortcuts(bool &disable) const;
     bool applyDesktopFile(QString &desktopFile, bool init) const;
+    bool applyLayer(enum Layer &layer) const;
+    bool applyAdaptiveSync(bool &adaptivesync) const;
 
 private:
 #endif
-    bool matchType(NET::WindowType match_type) const;
+    bool matchType(WindowType match_type) const;
     bool matchWMClass(const QString &match_class, const QString &match_name) const;
     bool matchRole(const QString &match_role) const;
     bool matchTitle(const QString &match_title) const;
@@ -209,7 +209,9 @@ private:
     static bool checkSetStop(SetRule rule);
     static bool checkForceStop(ForceRule rule);
 #endif
-    int temporary_state; // e.g. for kstart
+    enum Layer layer;
+    ForceRule layerrule;
+    QString m_id;
     QString description;
     QString wmclass;
     StringMatch wmclassmatch;
@@ -220,7 +222,7 @@ private:
     StringMatch titlematch;
     QString clientmachine;
     StringMatch clientmachinematch;
-    NET::WindowTypes types; // types for matching
+    WindowTypes types; // types for matching
     PlacementPolicy placement;
     ForceRule placementrule;
     QPoint position;
@@ -243,8 +245,6 @@ private:
     SetRule screenrule;
     QStringList activity;
     SetRule activityrule;
-    NET::WindowType type; // type for setting
-    ForceRule typerule;
     bool maximizevert;
     SetRule maximizevertrule;
     bool maximizehoriz;
@@ -293,6 +293,8 @@ private:
     ForceRule disableglobalshortcutsrule;
     QString desktopfile;
     SetRule desktopfilerule;
+    bool adaptivesync;
+    ForceRule adaptivesyncrule;
     friend QDebug &operator<<(QDebug &stream, const Rules *);
 };
 
@@ -303,33 +305,24 @@ class KWIN_EXPORT RuleBook : public QObject
 public:
     explicit RuleBook();
     ~RuleBook() override;
-    WindowRules find(const Window *, bool);
+    WindowRules find(const Window *window) const;
     void discardUsed(Window *c, bool withdraw);
     void setUpdatesDisabled(bool disable);
     bool areUpdatesDisabled() const;
     void load();
     void edit(Window *c, bool whole_app);
     void requestDiskStorage();
-
-    void setConfig(const KSharedConfig::Ptr &config)
-    {
-        m_config = config;
-    }
+    void setConfig(const KSharedConfig::Ptr &config);
 
 private Q_SLOTS:
-    void temporaryRulesMessage(const QString &);
-    void cleanupTemporaryRules();
     void save();
 
 private:
     void deleteAll();
-    void initializeX11();
-    void cleanupX11();
     QTimer *m_updateTimer;
     bool m_updatesDisabled;
     QList<Rules *> m_rules;
-    std::unique_ptr<KXMessages> m_temporaryRulesMessages;
-    KSharedConfig::Ptr m_config;
+    std::unique_ptr<RuleBookSettings> m_book;
 };
 
 inline bool RuleBook::areUpdatesDisabled() const
@@ -363,7 +356,7 @@ inline bool Rules::checkForceStop(ForceRule rule)
     return rule != UnusedForceRule;
 }
 
-inline WindowRules::WindowRules(const QVector<Rules *> &r)
+inline WindowRules::WindowRules(const QList<Rules *> &r)
     : rules(r)
 {
 }
@@ -374,7 +367,7 @@ inline WindowRules::WindowRules()
 
 inline bool WindowRules::contains(const Rules *rule) const
 {
-    return rules.contains(const_cast<Rules *>(rule));
+    return rules.contains(rule);
 }
 
 inline void WindowRules::remove(Rules *rule)

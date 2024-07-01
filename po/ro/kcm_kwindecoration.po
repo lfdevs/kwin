@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-26 02:32+0000\n"
+"POT-Creation-Date: 2024-02-10 00:40+0000\n"
 "PO-Revision-Date: 2024-02-27 21:32+0000\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -21,82 +21,62 @@ msgstr ""
 "20)) ? 1 : 2;\n"
 "X-Generator: Lokalize 21.12.3\n"
 
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Sergiu Bivol"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "sergiu@cip.md"
-
-#: declarative-plugin/buttonsmodel.cpp:53
+#: declarative-plugin/buttonsmodel.cpp:56
 #, kde-format
 msgid "More actions for this window"
 msgstr "Acțiuni suplimentare pentru această fereastră"
 
-#: declarative-plugin/buttonsmodel.cpp:55
+#: declarative-plugin/buttonsmodel.cpp:58
 #, kde-format
 msgid "Application menu"
 msgstr "Meniul aplicației"
 
-#: declarative-plugin/buttonsmodel.cpp:57
+#: declarative-plugin/buttonsmodel.cpp:60
 #, kde-format
 msgid "On all desktops"
 msgstr "Pe toate birourile"
 
-#: declarative-plugin/buttonsmodel.cpp:59
+#: declarative-plugin/buttonsmodel.cpp:62
 #, kde-format
 msgid "Minimize"
 msgstr "Minimizează"
 
-#: declarative-plugin/buttonsmodel.cpp:61
+#: declarative-plugin/buttonsmodel.cpp:64
 #, kde-format
 msgid "Maximize"
 msgstr "Maximizează"
 
-#: declarative-plugin/buttonsmodel.cpp:63
+#: declarative-plugin/buttonsmodel.cpp:66
 #, kde-format
 msgid "Close"
 msgstr "Închide"
 
-#: declarative-plugin/buttonsmodel.cpp:65
+#: declarative-plugin/buttonsmodel.cpp:68
 #, kde-format
 msgid "Context help"
 msgstr "Ajutor contextual"
 
-#: declarative-plugin/buttonsmodel.cpp:67
+#: declarative-plugin/buttonsmodel.cpp:70
 #, kde-format
 msgid "Shade"
 msgstr "Strânge"
 
-#: declarative-plugin/buttonsmodel.cpp:69
+#: declarative-plugin/buttonsmodel.cpp:72
 #, kde-format
 msgid "Keep below other windows"
 msgstr "Ține sub alte ferestre"
 
-#: declarative-plugin/buttonsmodel.cpp:71
+#: declarative-plugin/buttonsmodel.cpp:74
 #, kde-format
 msgid "Keep above other windows"
 msgstr "Ține deasupra altor ferestre"
 
-#: kcm.cpp:49
+#: declarative-plugin/buttonsmodel.cpp:76
 #, kde-format
-msgid "Window Decorations"
-msgstr "Decorații fereastră"
+msgid "Spacer"
+msgstr "Spațiator"
 
-#: kcm.cpp:53
-#, kde-format
-msgid "Valerio Pilo"
-msgstr "Valerio Pilo"
-
-#: kcm.cpp:54
-#, kde-format
-msgid "Author"
-msgstr "Autor"
-
-#: kcm.cpp:183
+#: kcm.cpp:177
 #, kde-format
 msgctxt "%1 is the name of a border size"
 msgid "Theme's default (%1)"
@@ -175,117 +155,166 @@ msgid "You have the following KWin window decoration themes on your system:"
 msgstr ""
 "Aveți următoarele tematici pentru decorații de fereastră KWin în sistem:"
 
-#: package/contents/ui/Buttons.qml:85
+#: ui/Buttons.qml:85
 #, kde-format
 msgid "Titlebar"
 msgstr "Bară de titlu"
 
-#: package/contents/ui/Buttons.qml:245
+#: ui/Buttons.qml:245
 #, kde-format
 msgid "Drop button here to remove it"
 msgstr "Lăsați butonul aici pentru a-l elimina"
 
-#: package/contents/ui/Buttons.qml:261
+#: ui/Buttons.qml:261
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
 msgstr "Trageți butoane între aici și bara de titlu"
 
-#: package/contents/ui/main.qml:18
+#: ui/ConfigureTitlebar.qml:16
 #, kde-format
-msgid "This module lets you configure the window decorations."
-msgstr "Acest modul vă permite să configurați decorațiile ferestrelor."
-
-#: package/contents/ui/main.qml:52
-#, kde-format
-msgctxt "tab label"
-msgid "Theme"
-msgstr "Tematică"
-
-#: package/contents/ui/main.qml:56
-#, kde-format
-msgctxt "tab label"
 msgid "Titlebar Buttons"
 msgstr "Butoane pe bara de titlu"
 
-#: package/contents/ui/main.qml:92
-#, kde-format
-msgctxt "Selector label"
-msgid "Window border size:"
-msgstr "Dimensiunea conturului ferestrei:"
-
-#: package/contents/ui/main.qml:110
-#, kde-format
-msgctxt "button text"
-msgid "Get New Window Decorations..."
-msgstr "Obține decorații de fereastră noi…"
-
-#: package/contents/ui/main.qml:139
+#: ui/ConfigureTitlebar.qml:35
 #, kde-format
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
 msgstr "Închide ferestrele prin dublu clic pe butonul de meniu"
 
-#: package/contents/ui/main.qml:156
+#: ui/ConfigureTitlebar.qml:52
 #, kde-format
 msgctxt "popup tip"
 msgid "Click and hold on the menu button to show the menu."
 msgstr "Apăsați și țineți pe butonul meniului pentru a arăta meniul."
 
-#: package/contents/ui/main.qml:163
+#: ui/ConfigureTitlebar.qml:59
 #, kde-format
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
 msgstr "Arată indicii pentru butoanele barei de titlu"
 
-#: package/contents/ui/Themes.qml:90
+#: ui/main.qml:29
+#, kde-format
+msgctxt "Selector label"
+msgid "Window border size:"
+msgstr "Dimensiunea conturului ferestrei:"
+
+#: ui/main.qml:48
+#, kde-format
+msgctxt "button text"
+msgid "Configure Titlebar Buttons…"
+msgstr "Configurează butoane pe bara de titlu…"
+
+#: ui/main.qml:54
+#, kde-format
+msgctxt "@action:button as in, \"Get New Window Decorations\""
+msgid "Get New…"
+msgstr "Obține noi…"
+
+#: ui/Themes.qml:93
 #, kde-format
 msgid "Edit %1 Theme"
 msgstr "Modifică tematica %1"
 
 #: utils.cpp:25
 #, kde-format
-msgid "No Borders"
-msgstr "Fără contur"
+msgid "No Window Borders"
+msgstr "Fără contur ferestre"
 
 #: utils.cpp:26
 #, kde-format
-msgid "No Side Borders"
-msgstr "Fără contur lateral"
+msgid "No Side Window Borders"
+msgstr "Fără contur lateral ferestre"
 
 #: utils.cpp:27
 #, kde-format
-msgid "Tiny"
-msgstr "Minuscul"
+msgid "Tiny Window Borders"
+msgstr "Contur ferestre minuscul"
 
 #: utils.cpp:28
 #, kde-format
-msgid "Normal"
-msgstr "Normal"
+msgid "Normal Window Borders"
+msgstr "Contur ferestre normal"
 
 #: utils.cpp:29
 #, kde-format
-msgid "Large"
-msgstr "Mare"
+msgid "Large Window Borders"
+msgstr "Contur ferestre mare"
 
 #: utils.cpp:30
 #, kde-format
-msgid "Very Large"
-msgstr "Foarte mare"
+msgid "Very Large Window Borders"
+msgstr "Contur ferestre foarte mare"
 
 #: utils.cpp:31
 #, kde-format
-msgid "Huge"
-msgstr "Imens"
+msgid "Huge Window Borders"
+msgstr "Contur ferestre imens"
 
 #: utils.cpp:32
 #, kde-format
-msgid "Very Huge"
-msgstr "Foarte imens"
+msgid "Very Huge Window Borders"
+msgstr "Contur ferestre foarte imens"
 
 #: utils.cpp:33
 #, kde-format
-msgid "Oversized"
-msgstr "Supradimensionat"
+msgid "Oversized Window Borders"
+msgstr "Contur ferestre supradimensionat"
+
+#, fuzzy
+#~| msgctxt "button text"
+#~| msgid "Get New Window Decorations..."
+#~ msgctxt "button text"
+#~ msgid "Get New Window Decorations…"
+#~ msgstr "Obține decorații de fereastră noi..."
+
+#~ msgid "No Borders"
+#~ msgstr "Fără contur"
+
+#~ msgid "Tiny"
+#~ msgstr "Minuscul"
+
+#~ msgid "Normal"
+#~ msgstr "Normal"
+
+#~ msgid "Large"
+#~ msgstr "Mare"
+
+#~ msgid "Very Large"
+#~ msgstr "Foarte mare"
+
+#~ msgid "Huge"
+#~ msgstr "Imens"
+
+#~ msgid "Very Huge"
+#~ msgstr "Foarte imens"
+
+#~ msgid "Oversized"
+#~ msgstr "Supradimensionat"
+
+#~ msgid "This module lets you configure the window decorations."
+#~ msgstr "Acest modul vă permite să configurați decorațiile ferestrelor."
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Sergiu Bivol"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "sergiu@cip.md"
+
+#~ msgid "Window Decorations"
+#~ msgstr "Decorații fereastră"
+
+#~ msgid "Valerio Pilo"
+#~ msgstr "Valerio Pilo"
+
+#~ msgid "Author"
+#~ msgstr "Autor"
+
+#~ msgctxt "tab label"
+#~ msgid "Theme"
+#~ msgstr "Tematică"
 
 #~ msgctxt "popup tip"
 #~ msgid ""

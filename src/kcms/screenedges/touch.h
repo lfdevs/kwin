@@ -13,7 +13,7 @@
 #include <kcmodule.h>
 #include <ksharedconfig.h>
 
-#include "kwinglobals.h"
+#include "effect/globals.h"
 
 class QShowEvent;
 
@@ -29,16 +29,13 @@ class KWinScreenEdgesConfig : public KCModule
     Q_OBJECT
 
 public:
-    explicit KWinScreenEdgesConfig(QWidget *parent, const QVariantList &args);
+    explicit KWinScreenEdgesConfig(QObject *parent, const KPluginMetaData &data);
     ~KWinScreenEdgesConfig() override;
 
 public Q_SLOTS:
     void save() override;
     void load() override;
     void defaults() override;
-
-protected:
-    void showEvent(QShowEvent *e) override;
 
 private:
     KWinTouchScreenEdgeConfigForm *m_form;
@@ -53,6 +50,8 @@ private:
         PresentWindowsAll = ELECTRIC_ACTION_COUNT, // Start at the end of built in actions
         PresentWindowsCurrent,
         PresentWindowsClass,
+        Overview,
+        Grid,
         TabBox,
         TabBoxAlternative,
         EffectCount

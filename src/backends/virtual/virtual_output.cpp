@@ -9,16 +9,19 @@
 #include "virtual_output.h"
 #include "virtual_backend.h"
 
-#include "core/renderloop_p.h"
-#include "softwarevsyncmonitor.h"
+#include "compositor.h"
+#include "core/outputlayer.h"
+#include "core/renderbackend.h"
+#include "core/renderloop.h"
+#include "utils/softwarevsyncmonitor.h"
 
 namespace KWin
 {
 
-VirtualOutput::VirtualOutput(VirtualBackend *parent)
+VirtualOutput::VirtualOutput(VirtualBackend *parent, bool internal)
     : Output(parent)
     , m_backend(parent)
-    , m_renderLoop(std::make_unique<RenderLoop>())
+    , m_renderLoop(std::make_unique<RenderLoop>(this))
     , m_vsyncMonitor(SoftwareVsyncMonitor::create())
 {
     connect(m_vsyncMonitor.get(), &VsyncMonitor::vblankOccurred, this, &VirtualOutput::vblank);
@@ -27,6 +30,7 @@ VirtualOutput::VirtualOutput(VirtualBackend *parent)
     m_identifier = ++identifier;
     setInformation(Information{
         .name = QStringLiteral("Virtual-%1").arg(identifier),
+        .internal = internal,
     });
 }
 
@@ -39,9 +43,11 @@ RenderLoop *VirtualOutput::renderLoop() const
     return m_renderLoop.get();
 }
 
-SoftwareVsyncMonitor *VirtualOutput::vsyncMonitor() const
+void VirtualOutput::present(const std::shared_ptr<OutputFrame> &frame)
 {
-    return m_vsyncMonitor.get();
+    m_frame = frame;
+    m_vsyncMonitor->arm();
+    Q_EMIT outputChange(frame->damage());
 }
 
 void VirtualOutput::init(const QPoint &logicalPosition, const QSize &pixelSize, qreal scale)
@@ -69,8 +75,11 @@ void VirtualOutput::updateEnabled(bool enabled)
 
 void VirtualOutput::vblank(std::chrono::nanoseconds timestamp)
 {
-    RenderLoopPrivate *renderLoopPrivate = RenderLoopPrivate::get(m_renderLoop.get());
-    renderLoopPrivate->notifyFrameCompleted(timestamp);
+    if (m_frame) {
+        m_frame->presented(timestamp, PresentationMode::VSync);
+        m_frame.reset();
+    }
+}
 }
 
-}
+#include "moc_virtual_output.cpp"

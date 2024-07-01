@@ -8,12 +8,11 @@
 */
 #pragma once
 
-#include <kwinglobals.h>
-
 #include <QObject>
 #include <QStringList>
+#include <kwin_export.h>
 
-#include <kactivities/controller.h>
+#include <PlasmaActivities/Controller>
 
 namespace KActivities
 {

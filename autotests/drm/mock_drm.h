@@ -11,10 +11,11 @@
 #include <xf86drm.h>
 #include <xf86drmMode.h>
 
+#include <QList>
 #include <QMap>
 #include <QRect>
-#include <QVector>
 #include <memory>
+#include <mutex>
 #include <vector>
 
 class MockGpu;
@@ -22,12 +23,11 @@ class MockFb;
 class MockCrtc;
 class MockEncoder;
 class MockObject;
-class MockDumbBuffer;
 class MockPlane;
 
 class MockProperty {
 public:
-    MockProperty(MockObject *obj, QString name, uint64_t initialValue, uint32_t flags, QVector<QByteArray> enums = {});
+    MockProperty(MockObject *obj, QString name, uint64_t initialValue, uint32_t flags, QList<QByteArray> enums = {});
     ~MockProperty() = default;
 
     MockObject *obj;
@@ -35,7 +35,7 @@ public:
     uint32_t flags;
     QString name;
     uint64_t value;
-    QVector<QByteArray> enums;
+    QList<QByteArray> enums;
 };
 
 class MockPropertyBlob {
@@ -60,7 +60,7 @@ public:
     uint32_t getPropId(const QString &propName) const;
 
     uint32_t id;
-    QVector<MockProperty> props;
+    QList<MockProperty> props;
     MockGpu *gpu;
 };
 
@@ -75,7 +75,7 @@ public:
     drmModeConnection connection;
     uint32_t type;
     std::shared_ptr<MockEncoder> encoder;
-    QVector<drmModeModeInfo> modes;
+    QList<drmModeModeInfo> modes;
 };
 
 class MockEncoder : public MockObject {
@@ -102,12 +102,11 @@ public:
     MockFb *currentFb = nullptr;
     MockFb *nextFb = nullptr;
     QRect cursorRect;
-    MockDumbBuffer *cursorBo = nullptr;
     std::shared_ptr<MockPlane> legacyPlane;
 };
 
 enum class PlaneType {
-    Primary,
+    Primary = 0,
     Overlay,
     Cursor
 };
@@ -134,16 +133,6 @@ public:
     MockGpu *gpu;
 };
 
-class MockDumbBuffer {
-public:
-    MockDumbBuffer(MockGpu *gpu, uint32_t width, uint32_t height, uint32_t bpp);
-
-    uint32_t handle;
-    uint32_t pitch;
-    std::vector<std::byte> data;
-    MockGpu *gpu;
-};
-
 struct Prop {
     uint32_t obj;
     uint32_t prop;
@@ -152,14 +141,14 @@ struct Prop {
 
 struct _drmModeAtomicReq {
     bool legacyEmulation = false;
-    QVector<Prop> props;
+    QList<Prop> props;
 };
 
 #define MOCKDRM_DEVICE_CAP_ATOMIC 0xFF
 
 class MockGpu {
 public:
-    MockGpu(int fd, int numCrtcs, int gammaSize = 255);
+    MockGpu(int fd, const QString &devNode, int numCrtcs, int gammaSize = 255);
     ~MockGpu();
 
     MockConnector *findConnector(uint32_t id) const;
@@ -170,34 +159,35 @@ public:
     void flipPage(uint32_t crtcId);
 
     int fd;
+    QString devNode;
     QByteArray name = QByteArrayLiteral("mock");
     QMap<uint32_t, uint64_t> clientCaps;
     QMap<uint32_t, uint64_t> deviceCaps;
 
     uint32_t idCounter = 1;
-    QVector<MockObject*> objects;
+    QList<MockObject *> objects;
 
-    QVector<std::shared_ptr<MockConnector>> connectors;
-    QVector<drmModeConnectorPtr> drmConnectors;
+    QList<std::shared_ptr<MockConnector>> connectors;
+    QList<drmModeConnectorPtr> drmConnectors;
 
-    QVector<std::shared_ptr<MockEncoder>> encoders;
-    QVector<drmModeEncoderPtr> drmEncoders;
+    QList<std::shared_ptr<MockEncoder>> encoders;
+    QList<drmModeEncoderPtr> drmEncoders;
 
-    QVector<std::shared_ptr<MockCrtc>> crtcs;
-    QVector<drmModeCrtcPtr> drmCrtcs;
+    QList<std::shared_ptr<MockCrtc>> crtcs;
+    QList<drmModeCrtcPtr> drmCrtcs;
 
-    QVector<std::shared_ptr<MockPlane>> planes;
-    QVector<drmModePlanePtr> drmPlanes;
+    QList<std::shared_ptr<MockPlane>> planes;
+    QList<drmModePlanePtr> drmPlanes;
 
-    QVector<MockFb*> fbs;
-    QVector<std::shared_ptr<MockDumbBuffer>> dumbBuffers;
+    QList<MockFb *> fbs;
     std::vector<std::unique_ptr<MockPropertyBlob>> propertyBlobs;
 
-    QVector<drmModeResPtr> resPtrs;
-    QVector<drmModePropertyPtr> drmProps;
-    QVector<drmModePropertyBlobPtr> drmPropertyBlobs;
-    QVector<drmModeObjectPropertiesPtr> drmObjectProperties;
-    QVector<drmModePlaneResPtr> drmPlaneRes;
+    QList<drmModeResPtr> resPtrs;
+    QList<drmModePropertyPtr> drmProps;
+    QList<drmModePropertyBlobPtr> drmPropertyBlobs;
+    QList<drmModeObjectPropertiesPtr> drmObjectProperties;
+    QList<drmModePlaneResPtr> drmPlaneRes;
+    std::mutex m_mutex;
 };
 
 

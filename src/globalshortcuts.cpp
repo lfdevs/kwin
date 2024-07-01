@@ -9,15 +9,15 @@
 // own
 #include "globalshortcuts.h"
 // config
-#include <config-kwin.h>
+#include "config-kwin.h"
 // kwin
+#include "effect/globals.h"
 #include "gestures.h"
-#include "kwinglobals.h"
 #include "main.h"
 #include "utils/common.h"
 // KDE
-#include <KGlobalAccel/private/kglobalaccel_interface.h>
-#include <KGlobalAccel/private/kglobalacceld.h>
+#include <kglobalaccel_interface.h>
+#include <kglobalacceld.h>
 // Qt
 #include <QAction>
 // system
@@ -30,48 +30,27 @@ GlobalShortcut::GlobalShortcut(Shortcut &&sc, QAction *action)
     : m_shortcut(sc)
     , m_action(action)
 {
-    static const QMap<SwipeDirection, SwipeGesture::Direction> swipeDirs = {
-        {SwipeDirection::Up, SwipeGesture::Direction::Up},
-        {SwipeDirection::Down, SwipeGesture::Direction::Down},
-        {SwipeDirection::Left, SwipeGesture::Direction::Left},
-        {SwipeDirection::Right, SwipeGesture::Direction::Right},
-    };
-    static const QMap<PinchDirection, PinchGesture::Direction> pinchDirs = {
-        {PinchDirection::Expanding, PinchGesture::Direction::Expanding},
-        {PinchDirection::Contracting, PinchGesture::Direction::Contracting}};
-    if (auto swipeGesture = std::get_if<SwipeShortcut>(&sc)) {
-        m_swipeGesture.reset(new SwipeGesture());
-        m_swipeGesture->setDirection(swipeDirs[swipeGesture->direction]);
+    if (auto swipeGesture = std::get_if<RealtimeFeedbackSwipeShortcut>(&sc)) {
+        m_swipeGesture = std::make_unique<SwipeGesture>();
+        m_swipeGesture->setDirection(swipeGesture->direction);
+        m_swipeGesture->setMinimumDelta(QPointF(200, 200));
         m_swipeGesture->setMaximumFingerCount(swipeGesture->fingerCount);
         m_swipeGesture->setMinimumFingerCount(swipeGesture->fingerCount);
         QObject::connect(m_swipeGesture.get(), &SwipeGesture::triggered, m_action, &QAction::trigger, Qt::QueuedConnection);
-    } else if (auto rtSwipeGesture = std::get_if<RealtimeFeedbackSwipeShortcut>(&sc)) {
-        m_swipeGesture.reset(new SwipeGesture());
-        m_swipeGesture->setDirection(swipeDirs[rtSwipeGesture->direction]);
-        m_swipeGesture->setMinimumDelta(QPointF(200, 200));
-        m_swipeGesture->setMaximumFingerCount(rtSwipeGesture->fingerCount);
-        m_swipeGesture->setMinimumFingerCount(rtSwipeGesture->fingerCount);
-        QObject::connect(m_swipeGesture.get(), &SwipeGesture::triggered, m_action, &QAction::trigger, Qt::QueuedConnection);
         QObject::connect(m_swipeGesture.get(), &SwipeGesture::cancelled, m_action, &QAction::trigger, Qt::QueuedConnection);
-        QObject::connect(m_swipeGesture.get(), &SwipeGesture::progress, [cb = rtSwipeGesture->progressCallback](qreal v) {
-            cb(v);
-        });
-    } else if (auto pinchGesture = std::get_if<PinchShortcut>(&sc)) {
-        m_pinchGesture.reset(new PinchGesture());
-        m_pinchGesture->setDirection(pinchDirs[pinchGesture->direction]);
+        if (swipeGesture->progressCallback) {
+            QObject::connect(m_swipeGesture.get(), &SwipeGesture::progress, swipeGesture->progressCallback);
+        }
+    } else if (auto pinchGesture = std::get_if<RealtimeFeedbackPinchShortcut>(&sc)) {
+        m_pinchGesture = std::make_unique<PinchGesture>();
+        m_pinchGesture->setDirection(pinchGesture->direction);
         m_pinchGesture->setMaximumFingerCount(pinchGesture->fingerCount);
         m_pinchGesture->setMinimumFingerCount(pinchGesture->fingerCount);
         QObject::connect(m_pinchGesture.get(), &PinchGesture::triggered, m_action, &QAction::trigger, Qt::QueuedConnection);
-    } else if (auto rtPinchGesture = std::get_if<RealtimeFeedbackPinchShortcut>(&sc)) {
-        m_pinchGesture.reset(new PinchGesture());
-        m_pinchGesture->setDirection(pinchDirs[rtPinchGesture->direction]);
-        m_pinchGesture->setMaximumFingerCount(rtPinchGesture->fingerCount);
-        m_pinchGesture->setMinimumFingerCount(rtPinchGesture->fingerCount);
-        QObject::connect(m_pinchGesture.get(), &PinchGesture::triggered, m_action, &QAction::trigger, Qt::QueuedConnection);
         QObject::connect(m_pinchGesture.get(), &PinchGesture::cancelled, m_action, &QAction::trigger, Qt::QueuedConnection);
-        QObject::connect(m_pinchGesture.get(), &PinchGesture::progress, [cb = rtPinchGesture->scaleCallback](qreal v) {
-            cb(v);
-        });
+        if (pinchGesture->scaleCallback) {
+            QObject::connect(m_pinchGesture.get(), &PinchGesture::progress, pinchGesture->scaleCallback);
+        }
     }
 }
 
@@ -141,18 +120,12 @@ void GlobalShortcutsManager::objectDeleted(QObject *object)
     }
 }
 
-bool GlobalShortcutsManager::addIfNotExists(GlobalShortcut sc, DeviceType device)
+bool GlobalShortcutsManager::add(GlobalShortcut sc, DeviceType device)
 {
-    for (const auto &cs : std::as_const(m_shortcuts)) {
-        if (sc.shortcut() == cs.shortcut()) {
-            return false;
-        }
-    }
-
     const auto &recognizer = device == DeviceType::Touchpad ? m_touchpadGestureRecognizer : m_touchscreenGestureRecognizer;
-    if (std::holds_alternative<SwipeShortcut>(sc.shortcut()) || std::holds_alternative<RealtimeFeedbackSwipeShortcut>(sc.shortcut())) {
+    if (std::holds_alternative<RealtimeFeedbackSwipeShortcut>(sc.shortcut())) {
         recognizer->registerSwipeGesture(sc.swipeGesture());
-    } else if (std::holds_alternative<PinchShortcut>(sc.shortcut()) || std::holds_alternative<RealtimeFeedbackPinchShortcut>(sc.shortcut())) {
+    } else if (std::holds_alternative<RealtimeFeedbackPinchShortcut>(sc.shortcut())) {
         recognizer->registerPinchGesture(sc.pinchGesture());
     }
     connect(sc.action(), &QAction::destroyed, this, &GlobalShortcutsManager::objectDeleted);
@@ -162,40 +135,30 @@ bool GlobalShortcutsManager::addIfNotExists(GlobalShortcut sc, DeviceType device
 
 void GlobalShortcutsManager::registerPointerShortcut(QAction *action, Qt::KeyboardModifiers modifiers, Qt::MouseButtons pointerButtons)
 {
-    addIfNotExists(GlobalShortcut(PointerButtonShortcut{modifiers, pointerButtons}, action));
+    add(GlobalShortcut(PointerButtonShortcut{modifiers, pointerButtons}, action));
 }
 
 void GlobalShortcutsManager::registerAxisShortcut(QAction *action, Qt::KeyboardModifiers modifiers, PointerAxisDirection axis)
 {
-    addIfNotExists(GlobalShortcut(PointerAxisShortcut{modifiers, axis}, action));
+    add(GlobalShortcut(PointerAxisShortcut{modifiers, axis}, action));
 }
 
-void GlobalShortcutsManager::registerTouchpadSwipe(QAction *action, SwipeDirection direction, uint fingerCount)
+void GlobalShortcutsManager::registerTouchpadSwipe(SwipeDirection direction, uint32_t fingerCount, QAction *action, std::function<void(qreal)> progressCallback)
 {
-    addIfNotExists(GlobalShortcut(SwipeShortcut{DeviceType::Touchpad, direction, fingerCount}, action), DeviceType::Touchpad);
+    add(GlobalShortcut(RealtimeFeedbackSwipeShortcut{DeviceType::Touchpad, direction, progressCallback, fingerCount}, action), DeviceType::Touchpad);
 }
 
-void GlobalShortcutsManager::registerRealtimeTouchpadSwipe(QAction *action, std::function<void(qreal)> progressCallback, SwipeDirection direction, uint fingerCount)
+void GlobalShortcutsManager::registerTouchpadPinch(PinchDirection direction, uint32_t fingerCount, QAction *action, std::function<void(qreal)> progressCallback)
 {
-    addIfNotExists(GlobalShortcut(RealtimeFeedbackSwipeShortcut{DeviceType::Touchpad, direction, progressCallback, fingerCount}, action), DeviceType::Touchpad);
+    add(GlobalShortcut(RealtimeFeedbackPinchShortcut{direction, progressCallback, fingerCount}, action), DeviceType::Touchpad);
 }
 
-void GlobalShortcutsManager::registerTouchpadPinch(QAction *action, PinchDirection direction, uint fingerCount)
+void GlobalShortcutsManager::registerTouchscreenSwipe(SwipeDirection direction, uint32_t fingerCount, QAction *action, std::function<void(qreal)> progressCallback)
 {
-    addIfNotExists(GlobalShortcut(PinchShortcut{direction, fingerCount}, action), DeviceType::Touchpad);
+    add(GlobalShortcut(RealtimeFeedbackSwipeShortcut{DeviceType::Touchscreen, direction, progressCallback, fingerCount}, action), DeviceType::Touchscreen);
 }
 
-void GlobalShortcutsManager::registerRealtimeTouchpadPinch(QAction *onUp, std::function<void(qreal)> progressCallback, PinchDirection direction, uint fingerCount)
-{
-    addIfNotExists(GlobalShortcut(RealtimeFeedbackPinchShortcut{direction, progressCallback, fingerCount}, onUp), DeviceType::Touchpad);
-}
-
-void GlobalShortcutsManager::registerTouchscreenSwipe(QAction *action, std::function<void(qreal)> progressCallback, SwipeDirection direction, uint fingerCount)
-{
-    addIfNotExists(GlobalShortcut(RealtimeFeedbackSwipeShortcut{DeviceType::Touchscreen, direction, progressCallback, fingerCount}, action), DeviceType::Touchscreen);
-}
-
-void GlobalShortcutsManager::forceRegisterTouchscreenSwipe(QAction *action, std::function<void(qreal)> progressCallback, SwipeDirection direction, uint fingerCount)
+void GlobalShortcutsManager::forceRegisterTouchscreenSwipe(SwipeDirection direction, uint32_t fingerCount, QAction *action, std::function<void(qreal)> progressCallback)
 {
     GlobalShortcut shortcut{RealtimeFeedbackSwipeShortcut{DeviceType::Touchscreen, direction, progressCallback, fingerCount}, action};
     const auto it = std::find_if(m_shortcuts.begin(), m_shortcuts.end(), [&shortcut](const auto &s) {
@@ -212,9 +175,6 @@ void GlobalShortcutsManager::forceRegisterTouchscreenSwipe(QAction *action, std:
 bool GlobalShortcutsManager::processKey(Qt::KeyboardModifiers mods, int keyQt)
 {
     if (m_kglobalAccelInterface) {
-        if (!keyQt && !mods) {
-            return false;
-        }
         auto check = [this](Qt::KeyboardModifiers mods, int keyQt) {
             bool retVal = false;
             QMetaObject::invokeMethod(m_kglobalAccelInterface,
@@ -257,7 +217,7 @@ bool GlobalShortcutsManager::processKeyRelease(Qt::KeyboardModifiers mods, int k
 }
 
 template<typename ShortcutKind, typename... Args>
-bool match(QVector<GlobalShortcut> &shortcuts, Args... args)
+bool match(QList<GlobalShortcut> &shortcuts, Args... args)
 {
     for (auto &sc : shortcuts) {
         if (std::holds_alternative<ShortcutKind>(sc.shortcut())) {
@@ -273,11 +233,27 @@ bool match(QVector<GlobalShortcut> &shortcuts, Args... args)
 // TODO(C++20): use ranges for a nicer way of filtering by shortcut type
 bool GlobalShortcutsManager::processPointerPressed(Qt::KeyboardModifiers mods, Qt::MouseButtons pointerButtons)
 {
+    // currently only used to better support modifier only shortcuts
+    // modifier-only shortcuts are not triggered if a pointer button is pressed
+    if (m_kglobalAccelInterface) {
+        QMetaObject::invokeMethod(m_kglobalAccelInterface,
+                                  "checkPointerPressed",
+                                  Qt::DirectConnection,
+                                  Q_ARG(Qt::MouseButtons, pointerButtons));
+    }
     return match<PointerButtonShortcut>(m_shortcuts, mods, pointerButtons);
 }
 
 bool GlobalShortcutsManager::processAxis(Qt::KeyboardModifiers mods, PointerAxisDirection axis)
 {
+    // currently only used to better support modifier only shortcuts
+    // modifier-only shortcuts are not triggered if a pointer axis is used
+    if (m_kglobalAccelInterface) {
+        QMetaObject::invokeMethod(m_kglobalAccelInterface,
+                                  "checkAxisTriggered",
+                                  Qt::DirectConnection,
+                                  Q_ARG(int, axis));
+    }
     return match<PointerAxisShortcut>(m_shortcuts, mods, axis);
 }
 
@@ -339,3 +315,5 @@ void GlobalShortcutsManager::processPinchEnd()
 }
 
 } // namespace
+
+#include "moc_globalshortcuts.cpp"

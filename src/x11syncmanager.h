@@ -6,13 +6,15 @@
 
 #pragma once
 
-#include "kwinglutils.h"
+#include "opengl/glutils.h"
 
 #include <xcb/sync.h>
 #include <xcb/xcb.h>
 
 namespace KWin
 {
+
+class RenderBackend;
 
 /**
  * SyncObject represents a fence used to synchronize operations in the kwin command stream
@@ -61,7 +63,7 @@ public:
         MaxFences = 4,
     };
 
-    static X11SyncManager *create();
+    static X11SyncManager *create(RenderBackend *backend);
     ~X11SyncManager();
 
     bool endFrame();
@@ -73,7 +75,7 @@ private:
     X11SyncManager();
 
     X11SyncObject *m_currentFence = nullptr;
-    QVector<X11SyncObject *> m_fences;
+    QList<X11SyncObject *> m_fences;
     int m_next = 0;
 };
 

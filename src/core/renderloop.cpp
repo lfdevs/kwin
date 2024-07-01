@@ -5,28 +5,26 @@
 */
 
 #include "renderloop.h"
+#include "options.h"
 #include "renderloop_p.h"
 #include "scene/surfaceitem.h"
-#include "scene/surfaceitem_wayland.h"
 #include "utils/common.h"
-#include "wayland/surface_interface.h"
+#include "window.h"
+#include "workspace.h"
+
+using namespace std::chrono_literals;
 
 namespace KWin
 {
-
-template<typename T>
-T alignTimestamp(const T &timestamp, const T &alignment)
-{
-    return timestamp + ((alignment - (timestamp % alignment)) % alignment);
-}
 
 RenderLoopPrivate *RenderLoopPrivate::get(RenderLoop *loop)
 {
     return loop->d.get();
 }
 
-RenderLoopPrivate::RenderLoopPrivate(RenderLoop *q)
+RenderLoopPrivate::RenderLoopPrivate(RenderLoop *q, Output *output)
     : q(q)
+    , output(output)
 {
     compositeTimer.setSingleShot(true);
     QObject::connect(&compositeTimer, &QTimer::timeout, q, [this]() {
@@ -34,73 +32,42 @@ RenderLoopPrivate::RenderLoopPrivate(RenderLoop *q)
     });
 }
 
-void RenderLoopPrivate::scheduleRepaint()
+void RenderLoopPrivate::scheduleNextRepaint()
 {
-    if (kwinApp()->isTerminating() || (compositeTimer.isActive() && !allowTearing)) {
+    if (kwinApp()->isTerminating() || compositeTimer.isActive()) {
         return;
     }
-    if (vrrPolicy == RenderLoop::VrrPolicy::Always || (vrrPolicy == RenderLoop::VrrPolicy::Automatic && fullscreenItem != nullptr)) {
-        presentMode = allowTearing ? SyncMode::AdaptiveAsync : SyncMode::Adaptive;
-    } else {
-        presentMode = allowTearing ? SyncMode::Async : SyncMode::Fixed;
-    }
+    scheduleRepaint(nextPresentationTimestamp);
+}
+
+void RenderLoopPrivate::scheduleRepaint(std::chrono::nanoseconds lastTargetTimestamp)
+{
+    pendingReschedule = false;
     const std::chrono::nanoseconds vblankInterval(1'000'000'000'000ull / refreshRate);
     const std::chrono::nanoseconds currentTime(std::chrono::steady_clock::now().time_since_epoch());
 
-    // Estimate when the next presentation will occur. Note that this is a prediction.
-    nextPresentationTimestamp = lastPresentationTimestamp + vblankInterval;
-    if (nextPresentationTimestamp < currentTime && presentMode == SyncMode::Fixed) {
-        nextPresentationTimestamp = lastPresentationTimestamp
-            + alignTimestamp(currentTime - lastPresentationTimestamp, vblankInterval);
-    }
-
     // Estimate when it's a good time to perform the next compositing cycle.
-    const std::chrono::nanoseconds safetyMargin = std::chrono::milliseconds(3);
+    // the 1ms on top of the safety margin is required for timer and scheduler inaccuracies
+    const std::chrono::nanoseconds expectedCompositingTime = std::min(renderJournal.result() + safetyMargin + 1ms, 2 * vblankInterval);
 
-    std::chrono::nanoseconds renderTime;
-    switch (q->latencyPolicy()) {
-    case LatencyExtremelyLow:
-        renderTime = std::chrono::nanoseconds(long(vblankInterval.count() * 0.1));
-        break;
-    case LatencyLow:
-        renderTime = std::chrono::nanoseconds(long(vblankInterval.count() * 0.25));
-        break;
-    case LatencyMedium:
-        renderTime = std::chrono::nanoseconds(long(vblankInterval.count() * 0.5));
-        break;
-    case LatencyHigh:
-        renderTime = std::chrono::nanoseconds(long(vblankInterval.count() * 0.75));
-        break;
-    case LatencyExtremelyHigh:
-        renderTime = std::chrono::nanoseconds(long(vblankInterval.count() * 0.9));
-        break;
-    }
+    if (presentationMode == PresentationMode::VSync) {
+        // normal presentation: pageflips only happen at vblank
+        const uint64_t pageflipsSince = std::max<int64_t>((currentTime - lastPresentationTimestamp) / vblankInterval, 0);
+        const uint64_t pageflipsInAdvance = std::min<int64_t>(expectedCompositingTime / vblankInterval + 1, maxPendingFrameCount);
+        const uint64_t pageflipsSinceLastToTarget = std::max<int64_t>(std::round((lastTargetTimestamp - lastPresentationTimestamp).count() / double(vblankInterval.count())), 0);
 
-    switch (options->renderTimeEstimator()) {
-    case RenderTimeEstimatorMinimum:
-        renderTime = std::max(renderTime, renderJournal.minimum());
-        break;
-    case RenderTimeEstimatorMaximum:
-        renderTime = std::max(renderTime, renderJournal.maximum());
-        break;
-    case RenderTimeEstimatorAverage:
-        renderTime = std::max(renderTime, renderJournal.average());
-        break;
-    }
-
-    std::chrono::nanoseconds nextRenderTimestamp = nextPresentationTimestamp - renderTime - safetyMargin;
-
-    // If we can't render the frame before the deadline, start compositing immediately.
-    if (nextRenderTimestamp < currentTime) {
-        nextRenderTimestamp = currentTime;
-    }
-
-    if (presentMode == SyncMode::Async || presentMode == SyncMode::AdaptiveAsync) {
-        compositeTimer.start(0);
+        nextPresentationTimestamp = lastPresentationTimestamp + std::max(pageflipsSince + pageflipsInAdvance, pageflipsSinceLastToTarget + 1) * vblankInterval;
+    } else if (presentationMode == PresentationMode::Async || presentationMode == PresentationMode::AdaptiveAsync) {
+        // tearing: pageflips happen ASAP
+        nextPresentationTimestamp = currentTime;
     } else {
-        const std::chrono::nanoseconds waitInterval = nextRenderTimestamp - currentTime;
-        compositeTimer.start(std::chrono::duration_cast<std::chrono::milliseconds>(waitInterval));
+        // adaptive sync: pageflips happen after one vblank interval
+        // TODO read minimum refresh rate from the EDID and take it into account here
+        nextPresentationTimestamp = lastPresentationTimestamp + vblankInterval;
     }
+
+    const std::chrono::nanoseconds nextRenderTimestamp = nextPresentationTimestamp - expectedCompositingTime;
+    compositeTimer.start(std::max(0ms, std::chrono::duration_cast<std::chrono::milliseconds>(nextRenderTimestamp - currentTime)));
 }
 
 void RenderLoopPrivate::delayScheduleRepaint()
@@ -108,29 +75,39 @@ void RenderLoopPrivate::delayScheduleRepaint()
     pendingReschedule = true;
 }
 
-void RenderLoopPrivate::maybeScheduleRepaint()
-{
-    if (pendingReschedule) {
-        scheduleRepaint();
-        pendingReschedule = false;
-    }
-}
-
-void RenderLoopPrivate::notifyFrameFailed()
+void RenderLoopPrivate::notifyFrameDropped()
 {
     Q_ASSERT(pendingFrameCount > 0);
     pendingFrameCount--;
 
-    if (!inhibitCount) {
-        maybeScheduleRepaint();
+    if (!inhibitCount && pendingReschedule) {
+        scheduleNextRepaint();
     }
 }
 
-void RenderLoopPrivate::notifyFrameCompleted(std::chrono::nanoseconds timestamp)
+void RenderLoopPrivate::notifyFrameCompleted(std::chrono::nanoseconds timestamp, std::optional<std::chrono::nanoseconds> renderTime, PresentationMode mode)
 {
     Q_ASSERT(pendingFrameCount > 0);
     pendingFrameCount--;
 
+    notifyVblank(timestamp);
+
+    if (renderTime) {
+        renderJournal.add(*renderTime, timestamp);
+    }
+    if (compositeTimer.isActive()) {
+        // reschedule to match the new timestamp and render time
+        scheduleRepaint(lastPresentationTimestamp);
+    }
+    if (!inhibitCount && pendingReschedule) {
+        scheduleNextRepaint();
+    }
+
+    Q_EMIT q->framePresented(q, timestamp, mode);
+}
+
+void RenderLoopPrivate::notifyVblank(std::chrono::nanoseconds timestamp)
+{
     if (lastPresentationTimestamp <= timestamp) {
         lastPresentationTimestamp = timestamp;
     } else {
@@ -140,12 +117,6 @@ void RenderLoopPrivate::notifyFrameCompleted(std::chrono::nanoseconds timestamp)
                 static_cast<long long>(lastPresentationTimestamp.count()));
         lastPresentationTimestamp = std::chrono::steady_clock::now().time_since_epoch();
     }
-
-    if (!inhibitCount) {
-        maybeScheduleRepaint();
-    }
-
-    Q_EMIT q->framePresented(q, timestamp);
 }
 
 void RenderLoopPrivate::dispatch()
@@ -168,8 +139,8 @@ void RenderLoopPrivate::invalidate()
     compositeTimer.stop();
 }
 
-RenderLoop::RenderLoop()
-    : d(std::make_unique<RenderLoopPrivate>(this))
+RenderLoop::RenderLoop(Output *output)
+    : d(std::make_unique<RenderLoopPrivate>(this, output))
 {
 }
 
@@ -192,20 +163,18 @@ void RenderLoop::uninhibit()
     d->inhibitCount--;
 
     if (d->inhibitCount == 0) {
-        d->maybeScheduleRepaint();
+        d->scheduleNextRepaint();
     }
 }
 
-void RenderLoop::beginFrame()
+void RenderLoop::prepareNewFrame()
 {
-    d->pendingRepaint = false;
     d->pendingFrameCount++;
-    d->renderJournal.beginFrame();
 }
 
-void RenderLoop::endFrame()
+void RenderLoop::beginPaint()
 {
-    d->renderJournal.endFrame();
+    d->pendingRepaint = false;
 }
 
 int RenderLoop::refreshRate() const
@@ -222,31 +191,30 @@ void RenderLoop::setRefreshRate(int refreshRate)
     Q_EMIT refreshRateChanged();
 }
 
-void RenderLoop::scheduleRepaint(Item *item)
+void RenderLoop::setPresentationSafetyMargin(std::chrono::nanoseconds safetyMargin)
 {
-    if (d->pendingRepaint || (d->fullscreenItem != nullptr && item != nullptr && item != d->fullscreenItem)) {
+    d->safetyMargin = safetyMargin;
+}
+
+void RenderLoop::scheduleRepaint(Item *item, RenderLayer *layer)
+{
+    if (d->pendingRepaint) {
         return;
     }
-    if (!d->pendingFrameCount && !d->inhibitCount) {
-        d->scheduleRepaint();
+    const bool vrr = d->presentationMode == PresentationMode::AdaptiveSync || d->presentationMode == PresentationMode::AdaptiveAsync;
+    const bool tearing = d->presentationMode == PresentationMode::Async || d->presentationMode == PresentationMode::AdaptiveAsync;
+    if ((vrr || tearing) && workspace()->activeWindow() && d->output) {
+        Window *const activeWindow = workspace()->activeWindow();
+        if ((item || layer) && activeWindow->isOnOutput(d->output) && activeWindow->surfaceItem() && item != activeWindow->surfaceItem() && activeWindow->surfaceItem()->frameTimeEstimation() <= std::chrono::nanoseconds(1'000'000'000) / 30) {
+            return;
+        }
+    }
+    const int effectiveMaxPendingFrameCount = (vrr || tearing) ? 1 : d->maxPendingFrameCount;
+    if (d->pendingFrameCount < effectiveMaxPendingFrameCount && !d->inhibitCount) {
+        d->scheduleNextRepaint();
     } else {
         d->delayScheduleRepaint();
     }
-}
-
-LatencyPolicy RenderLoop::latencyPolicy() const
-{
-    return d->latencyPolicy.value_or(options->latencyPolicy());
-}
-
-void RenderLoop::setLatencyPolicy(LatencyPolicy policy)
-{
-    d->latencyPolicy = policy;
-}
-
-void RenderLoop::resetLatencyPolicy()
-{
-    d->latencyPolicy.reset();
 }
 
 std::chrono::nanoseconds RenderLoop::lastPresentationTimestamp() const
@@ -259,24 +227,16 @@ std::chrono::nanoseconds RenderLoop::nextPresentationTimestamp() const
     return d->nextPresentationTimestamp;
 }
 
-void RenderLoop::setFullscreenSurface(Item *surfaceItem)
+void RenderLoop::setPresentationMode(PresentationMode mode)
 {
-    d->fullscreenItem = surfaceItem;
-    if (SurfaceItemWayland *wayland = qobject_cast<SurfaceItemWayland *>(surfaceItem)) {
-        d->allowTearing = d->canDoTearing && options->allowTearing() && wayland->surface()->presentationHint() == KWaylandServer::PresentationHint::Async;
-    } else {
-        d->allowTearing = false;
-    }
+    d->presentationMode = mode;
 }
 
-RenderLoop::VrrPolicy RenderLoop::vrrPolicy() const
+void RenderLoop::setMaxPendingFrameCount(uint32_t maxCount)
 {
-    return d->vrrPolicy;
-}
-
-void RenderLoop::setVrrPolicy(VrrPolicy policy)
-{
-    d->vrrPolicy = policy;
+    d->maxPendingFrameCount = maxCount;
 }
 
 } // namespace KWin
+
+#include "moc_renderloop.cpp"

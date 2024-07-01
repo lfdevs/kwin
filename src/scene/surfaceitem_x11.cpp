@@ -5,24 +5,22 @@
 */
 
 #include "scene/surfaceitem_x11.h"
-#include "composite.h"
+#include "compositor_x11.h"
 #include "core/renderbackend.h"
-#include "deleted.h"
 #include "x11syncmanager.h"
+#include "x11window.h"
 
 namespace KWin
 {
 
-SurfaceItemX11::SurfaceItemX11(Window *window, Scene *scene, Item *parent)
-    : SurfaceItem(scene, parent)
+SurfaceItemX11::SurfaceItemX11(X11Window *window, Item *parent)
+    : SurfaceItem(parent)
     , m_window(window)
 {
     connect(window, &Window::bufferGeometryChanged,
             this, &SurfaceItemX11::handleBufferGeometryChanged);
-    connect(window, &Window::geometryShapeChanged,
-            this, &SurfaceItemX11::handleGeometryShapeChanged);
-    connect(window, &Window::windowClosed,
-            this, &SurfaceItemX11::handleWindowClosed);
+    connect(window, &X11Window::shapeChanged,
+            this, &SurfaceItemX11::handleShapeChanged);
 
     m_damageHandle = xcb_generate_id(kwinApp()->x11Connection());
     xcb_damage_create(kwinApp()->x11Connection(), m_damageHandle, window->frameId(),
@@ -36,22 +34,19 @@ SurfaceItemX11::SurfaceItemX11(Window *window, Scene *scene, Item *parent)
         m_isDamaged = true;
     }
 
-    setSize(window->bufferGeometry().size());
+    setDestinationSize(window->bufferGeometry().size());
+    setBufferSourceBox(QRectF(QPointF(0, 0), window->bufferGeometry().size()));
+    setBufferSize(window->bufferGeometry().size().toSize());
 }
 
 SurfaceItemX11::~SurfaceItemX11()
 {
-    // destroyDamage() will be called by the associated Window.
+    destroyDamage();
 }
 
-Window *SurfaceItemX11::window() const
+X11Window *SurfaceItemX11::window() const
 {
     return m_window;
-}
-
-void SurfaceItemX11::handleWindowClosed(Window *original, Deleted *deleted)
-{
-    m_window = deleted;
 }
 
 void SurfaceItemX11::preprocess()
@@ -113,7 +108,7 @@ void SurfaceItemX11::waitForDamage()
     if (rectCount > 1 && rectCount < 16) {
         xcb_rectangle_t *rects = xcb_xfixes_fetch_region_rectangles(reply);
 
-        QVector<QRect> qtRects;
+        QList<QRect> qtRects;
         qtRects.reserve(rectCount);
 
         for (int i = 0; i < rectCount; ++i) {
@@ -129,6 +124,13 @@ void SurfaceItemX11::waitForDamage()
     m_isDamaged = false;
 }
 
+void SurfaceItemX11::forgetDamage()
+{
+    // If the window is destroyed, we cannot destroy XDamage handle. :/
+    m_isDamaged = false;
+    m_damageHandle = XCB_NONE;
+}
+
 void SurfaceItemX11::destroyDamage()
 {
     if (m_damageHandle != XCB_NONE) {
@@ -138,36 +140,36 @@ void SurfaceItemX11::destroyDamage()
     }
 }
 
-void SurfaceItemX11::handleBufferGeometryChanged(Window *window, const QRectF &old)
+void SurfaceItemX11::handleBufferGeometryChanged()
 {
-    if (window->bufferGeometry().size() != old.size()) {
-        discardPixmap();
-    }
-    setSize(window->bufferGeometry().size());
+    setDestinationSize(m_window->bufferGeometry().size());
+    setBufferSourceBox(QRectF(QPointF(0, 0), m_window->bufferGeometry().size()));
+    setBufferSize(m_window->bufferGeometry().size().toSize());
 }
 
-void SurfaceItemX11::handleGeometryShapeChanged()
+void SurfaceItemX11::handleShapeChanged()
 {
     scheduleRepaint(boundingRect());
     discardQuads();
 }
 
-QVector<QRectF> SurfaceItemX11::shape() const
+QList<QRectF> SurfaceItemX11::shape() const
 {
     const QRectF clipRect = m_window->clientGeometry().translated(-m_window->bufferGeometry().topLeft());
-    QVector<QRectF> shape = m_window->shapeRegion();
+    QList<QRectF> shape = m_window->shapeRegion();
+    QList<QRectF> shapeRegion;
     // bounded to clipRect
     for (QRectF &shapePart : shape) {
-        shapePart = shapePart.intersected(clipRect);
+        shapeRegion += shapePart.intersected(clipRect);
     }
-    return shape;
+    return shapeRegion;
 }
 
 QRegion SurfaceItemX11::opaque() const
 {
     QRegion shapeRegion;
     for (const QRectF &shapePart : shape()) {
-        shapeRegion |= shapePart.toRect();
+        shapeRegion += shapePart.toRect();
     }
     if (!m_window->hasAlpha()) {
         return shapeRegion;
@@ -212,7 +214,7 @@ xcb_visualid_t SurfacePixmapX11::visual() const
 
 void SurfacePixmapX11::create()
 {
-    const Window *window = m_item->window();
+    const X11Window *window = m_item->window();
     if (window->isDeleted()) {
         return;
     }
@@ -256,3 +258,5 @@ void SurfacePixmapX11::create()
 }
 
 } // namespace KWin
+
+#include "moc_surfaceitem_x11.cpp"

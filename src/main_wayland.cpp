@@ -8,25 +8,28 @@
 */
 #include "main_wayland.h"
 
-#include <config-kwin.h>
+#include "config-kwin.h"
 
 #include "backends/drm/drm_backend.h"
 #include "backends/virtual/virtual_backend.h"
 #include "backends/wayland/wayland_backend.h"
 #include "backends/x11/windowed/x11_windowed_backend.h"
-#include "composite.h"
+#include "compositor_wayland.h"
 #include "core/outputbackend.h"
 #include "core/session.h"
-#include "effects.h"
+#include "effect/effecthandler.h"
 #include "inputmethod.h"
 #include "tabletmodemanager.h"
 #include "utils/realtime.h"
 #include "wayland/display.h"
-#include "wayland/seat_interface.h"
+#include "wayland/seat.h"
 #include "wayland_server.h"
 #include "workspace.h"
+
+#if KWIN_BUILD_X11
 #include "xwayland/xwayland.h"
 #include "xwayland/xwaylandlauncher.h"
+#endif
 
 // KDE
 #include <KCrash>
@@ -42,6 +45,7 @@
 #include <QFileInfo>
 #include <QProcess>
 #include <QWindow>
+#include <QtPlugin>
 #include <qplatformdefs.h>
 
 #include <sched.h>
@@ -51,12 +55,11 @@
 #include <iostream>
 
 Q_IMPORT_PLUGIN(KWinIntegrationPlugin)
+#if KWIN_BUILD_GLOBALSHORTCUTS
 Q_IMPORT_PLUGIN(KGlobalAccelImpl)
+#endif
 Q_IMPORT_PLUGIN(KWindowSystemKWinPlugin)
 Q_IMPORT_PLUGIN(KWinIdleTimePoller)
-#if PipeWire_FOUND
-Q_IMPORT_PLUGIN(ScreencastManagerFactory)
-#endif
 
 namespace KWin
 {
@@ -119,24 +122,29 @@ ApplicationWayland::~ApplicationWayland()
 
     // need to unload all effects prior to destroying X connection as they might do X calls
     if (effects) {
-        static_cast<EffectsHandlerImpl *>(effects)->unloadAllEffects();
+        effects->unloadAllEffects();
     }
+#if KWIN_BUILD_X11
     m_xwayland.reset();
+#endif
     destroyColorManager();
     destroyWorkspace();
 
     destroyInputMethod();
     destroyCompositor();
     destroyInput();
+
+    delete WaylandServer::self();
 }
 
 void ApplicationWayland::performStartup()
 {
+#if KWIN_BUILD_X11
     if (m_startXWayland) {
         setOperationMode(OperationModeXwayland);
-        setXwaylandScale(config()->group("Xwayland").readEntry("Scale", 1.0));
+        setXwaylandScale(config()->group(QStringLiteral("Xwayland")).readEntry("Scale", 1.0));
     }
-    // first load options - done internally by a different thread
+#endif
     createOptions();
 
     if (!outputBackend()->initialize()) {
@@ -148,44 +156,31 @@ void ApplicationWayland::performStartup()
     createTabletModeManager();
 
     WaylandCompositor::create();
-
-    connect(Compositor::self(), &Compositor::sceneCreated, outputBackend(), &OutputBackend::sceneInitialized);
-    connect(Compositor::self(), &Compositor::sceneCreated, this, &ApplicationWayland::continueStartupWithScene);
-}
-
-void ApplicationWayland::continueStartupWithScene()
-{
-    disconnect(Compositor::self(), &Compositor::sceneCreated, this, &ApplicationWayland::continueStartupWithScene);
-
-    // Note that we start accepting client connections after creating the Workspace.
     createWorkspace();
     createColorManager();
     createPlugins();
 
+    connect(Compositor::self(), &Compositor::sceneCreated, outputBackend(), &OutputBackend::sceneInitialized);
+    connect(Compositor::self(), &Compositor::sceneCreated, this, &ApplicationWayland::continueStartupWithScene, Qt::SingleShotConnection);
+}
+
+void ApplicationWayland::continueStartupWithScene()
+{
+    // Note that we start accepting client connections after creating the Workspace.
     if (!waylandServer()->start()) {
         qFatal("Failed to initialze the Wayland server, exiting now");
     }
 
-    if (operationMode() == OperationModeWaylandOnly) {
-        finalizeStartup();
-        return;
+#if KWIN_BUILD_X11
+    if (operationMode() == OperationModeXwayland) {
+        m_xwayland = std::make_unique<Xwl::Xwayland>(this);
+        m_xwayland->xwaylandLauncher()->setListenFDs(m_xwaylandListenFds);
+        m_xwayland->xwaylandLauncher()->setDisplayName(m_xwaylandDisplay);
+        m_xwayland->xwaylandLauncher()->setXauthority(m_xwaylandXauthority);
+        m_xwayland->init();
+        connect(m_xwayland.get(), &Xwl::Xwayland::started, this, &ApplicationWayland::applyXwaylandScale);
     }
-
-    m_xwayland = std::make_unique<Xwl::Xwayland>(this);
-    m_xwayland->xwaylandLauncher()->setListenFDs(m_xwaylandListenFds);
-    m_xwayland->xwaylandLauncher()->setDisplayName(m_xwaylandDisplay);
-    m_xwayland->xwaylandLauncher()->setXauthority(m_xwaylandXauthority);
-    connect(m_xwayland.get(), &Xwl::Xwayland::errorOccurred, this, &ApplicationWayland::finalizeStartup);
-    connect(m_xwayland.get(), &Xwl::Xwayland::started, this, &ApplicationWayland::finalizeStartup);
-    m_xwayland->start();
-}
-
-void ApplicationWayland::finalizeStartup()
-{
-    if (m_xwayland) {
-        disconnect(m_xwayland.get(), &Xwl::Xwayland::errorOccurred, this, &ApplicationWayland::finalizeStartup);
-        disconnect(m_xwayland.get(), &Xwl::Xwayland::started, this, &ApplicationWayland::finalizeStartup);
-    }
+#endif
     startSession();
     notifyStarted();
 }
@@ -195,10 +190,6 @@ void ApplicationWayland::refreshSettings(const KConfigGroup &group, const QByteA
     if (group.name() == "Wayland" && names.contains("InputMethod")) {
         KDesktopFile file(group.readPathEntry("InputMethod", QString()));
         kwinApp()->inputMethod()->setInputMethodCommand(file.desktopGroup().readEntry("Exec", QString()));
-    }
-
-    if (m_startXWayland && group.name() == "Xwayland" && names.contains("Scale")) {
-        setXwaylandScale(group.readEntry("Scale", 1.0));
     }
 }
 
@@ -211,7 +202,7 @@ void ApplicationWayland::startSession()
     if (!m_inputMethodServerToStart.isEmpty()) {
         kwinApp()->inputMethod()->setInputMethodCommand(m_inputMethodServerToStart);
     } else {
-        refreshSettings(kwinSettings->group("Wayland"), {"InputMethod"});
+        refreshSettings(kwinSettings->group(QStringLiteral("Wayland")), {"InputMethod"});
     }
 
     // start session
@@ -220,7 +211,7 @@ void ApplicationWayland::startSession()
         if (!arguments.isEmpty()) {
             QString program = arguments.takeFirst();
             QProcess *p = new QProcess(this);
-            p->setProcessChannelMode(QProcess::ForwardedErrorChannel);
+            p->setProcessChannelMode(QProcess::ForwardedChannels);
             p->setProcessEnvironment(processStartupEnvironment());
             connect(p, qOverload<int, QProcess::ExitStatus>(&QProcess::finished), this, [p](int code, QProcess::ExitStatus status) {
                 p->deleteLater();
@@ -257,7 +248,7 @@ void ApplicationWayland::startSession()
             // note: this will kill the started process when we exit
             // this is going to happen anyway as we are the wayland and X server the app connects to
             QProcess *p = new QProcess(this);
-            p->setProcessChannelMode(QProcess::ForwardedErrorChannel);
+            p->setProcessChannelMode(QProcess::ForwardedChannels);
             p->setProcessEnvironment(processStartupEnvironment());
             p->setProgram(program);
             p->setArguments(arguments);
@@ -267,10 +258,12 @@ void ApplicationWayland::startSession()
     }
 }
 
+#if KWIN_BUILD_X11
 XwaylandInterface *ApplicationWayland::xwayland() const
 {
     return m_xwayland.get();
 }
+#endif
 
 } // namespace
 
@@ -294,11 +287,13 @@ int main(int argc, char *argv[])
     // enforce our internal qpa plugin, unfortunately command line switch has precedence
     setenv("QT_QPA_PLATFORM", "wayland-org.kde.kwin.qpa", true);
 
-    qunsetenv("QT_DEVICE_PIXEL_RATIO");
-    qputenv("QSG_RENDER_LOOP", "basic");
-    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+    // The shader (currently) causes a blocking disk flush on load and save of every QQuickWindow
+    // Because it's on load, it will happen every time not just occasionally
+    // The gains are minimal, disable until it's fixed
+    QCoreApplication::setAttribute(Qt::AA_DisableShaderDiskCache);
+
     KWin::ApplicationWayland a(argc, argv);
-    a.setupTranslator();
+
     // reset QT_QPA_PLATFORM so we don't propagate it to our children (e.g. apps launched from the overview effect)
     qunsetenv("QT_QPA_PLATFORM");
 
@@ -310,14 +305,18 @@ int main(int argc, char *argv[])
 
     KWin::Application::createAboutData();
 
+#if KWIN_BUILD_X11
     QCommandLineOption xwaylandOption(QStringLiteral("xwayland"),
                                       i18n("Start a rootless Xwayland server."));
+#endif
     QCommandLineOption waylandSocketOption(QStringList{QStringLiteral("s"), QStringLiteral("socket")},
                                            i18n("Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."),
                                            QStringLiteral("socket"));
+#if KWIN_BUILD_X11
     QCommandLineOption x11DisplayOption(QStringLiteral("x11-display"),
                                         i18n("The X11 Display to use in windowed mode on platform X11."),
                                         QStringLiteral("display"));
+#endif
     QCommandLineOption waylandDisplayOption(QStringLiteral("wayland-display"),
                                             i18n("The Wayland Display to use in windowed mode on platform Wayland."),
                                             QStringLiteral("display"));
@@ -365,14 +364,18 @@ int main(int argc, char *argv[])
 
     QCommandLineParser parser;
     a.setupCommandLine(&parser);
+#if KWIN_BUILD_X11
     parser.addOption(xwaylandOption);
+#endif
     parser.addOption(waylandSocketOption);
     parser.addOption(waylandSocketFdOption);
     parser.addOption(xwaylandListenFdOption);
     parser.addOption(xwaylandDisplayOption);
     parser.addOption(xwaylandXAuthorityOption);
     parser.addOption(replaceOption);
+#if KWIN_BUILD_X11
     parser.addOption(x11DisplayOption);
+#endif
     parser.addOption(waylandDisplayOption);
     parser.addOption(virtualFbOption);
     parser.addOption(widthOption);
@@ -452,21 +455,23 @@ int main(int argc, char *argv[])
     // Decide what backend to use.
     if (parser.isSet(drmOption)) {
         backendType = BackendType::Kms;
+#if KWIN_BUILD_X11
     } else if (parser.isSet(x11DisplayOption)) {
         backendType = BackendType::X11;
+#endif
     } else if (parser.isSet(waylandDisplayOption)) {
         backendType = BackendType::Wayland;
     } else if (parser.isSet(virtualFbOption)) {
         backendType = BackendType::Virtual;
     } else {
         if (qEnvironmentVariableIsSet("WAYLAND_DISPLAY")) {
-            qWarning("No backend specified, automatically choosing Wayland because WAYLAND_DISPLAY is set");
+            qInfo("No backend specified, automatically choosing Wayland because WAYLAND_DISPLAY is set");
             backendType = BackendType::Wayland;
         } else if (qEnvironmentVariableIsSet("DISPLAY")) {
-            qWarning("No backend specified, automatically choosing X11 because DISPLAY is set");
+            qInfo("No backend specified, automatically choosing X11 because DISPLAY is set");
             backendType = BackendType::X11;
         } else {
-            qWarning("No backend specified, automatically choosing drm");
+            qInfo("No backend specified, automatically choosing drm");
             backendType = BackendType::Kms;
         }
     }
@@ -500,9 +505,60 @@ int main(int argc, char *argv[])
         outputCount = std::max(1, count);
     }
 
-    // TODO: create backend without having the server running
-    KWin::WaylandServer *server = KWin::WaylandServer::create(&a);
+    switch (backendType) {
+    case BackendType::Kms:
+        a.setSession(KWin::Session::create());
+        if (!a.session()) {
+            std::cerr << "FATAl ERROR: could not acquire a session" << std::endl;
+            return 1;
+        }
+        a.setOutputBackend(std::make_unique<KWin::DrmBackend>(a.session()));
+        break;
+    case BackendType::Virtual: {
+        auto outputBackend = std::make_unique<KWin::VirtualBackend>();
+        for (int i = 0; i < outputCount; ++i) {
+            outputBackend->addOutput(KWin::VirtualBackend::OutputInfo{
+                .geometry = QRect(QPoint(), initialWindowSize),
+                .scale = outputScale,
+            });
+        }
+        a.setSession(KWin::Session::create(KWin::Session::Type::Noop));
+        a.setOutputBackend(std::move(outputBackend));
+        break;
+    }
+#if KWIN_BUILD_X11
+    case BackendType::X11: {
+        QString display = parser.value(x11DisplayOption);
+        if (display.isEmpty()) {
+            display = qgetenv("DISPLAY");
+        }
+        a.setSession(KWin::Session::create(KWin::Session::Type::Noop));
+        a.setOutputBackend(std::make_unique<KWin::X11WindowedBackend>(KWin::X11WindowedBackendOptions{
+            .display = display,
+            .outputCount = outputCount,
+            .outputScale = outputScale,
+            .outputSize = initialWindowSize,
+        }));
+        break;
+    }
+#endif
+    case BackendType::Wayland: {
+        QString socketName = parser.value(waylandDisplayOption);
+        if (socketName.isEmpty()) {
+            socketName = qgetenv("WAYLAND_DISPLAY");
+        }
+        a.setSession(KWin::Session::create(KWin::Session::Type::Noop));
+        a.setOutputBackend(std::make_unique<KWin::Wayland::WaylandBackend>(KWin::Wayland::WaylandBackendOptions{
+            .socketName = socketName,
+            .outputCount = outputCount,
+            .outputScale = outputScale,
+            .outputSize = initialWindowSize,
+        }));
+        break;
+    }
+    }
 
+    KWin::WaylandServer *server = KWin::WaylandServer::create();
     KWin::WaylandServer::InitializationFlags flags;
 #if KWIN_BUILD_SCREENLOCKER
     if (parser.isSet(screenLockerOption)) {
@@ -533,59 +589,12 @@ int main(int argc, char *argv[])
             std::cerr << "FATAL ERROR: could not add wayland socket " << qPrintable(socketName) << std::endl;
             return 1;
         }
+        qInfo() << "Accepting client connections on sockets:" << server->display()->socketNames();
     }
 
     if (!server->init(flags)) {
         std::cerr << "FATAL ERROR: could not create Wayland server" << std::endl;
         return 1;
-    }
-
-    switch (backendType) {
-    case BackendType::Kms:
-        a.setSession(KWin::Session::create());
-        if (!a.session()) {
-            std::cerr << "FATAl ERROR: could not acquire a session" << std::endl;
-            return 1;
-        }
-        a.setOutputBackend(std::make_unique<KWin::DrmBackend>(a.session()));
-        break;
-    case BackendType::Virtual: {
-        auto outputBackend = std::make_unique<KWin::VirtualBackend>();
-        for (int i = 0; i < outputCount; ++i) {
-            outputBackend->addOutput(initialWindowSize, outputScale);
-        }
-        a.setSession(KWin::Session::create(KWin::Session::Type::Noop));
-        a.setOutputBackend(std::move(outputBackend));
-        break;
-    }
-    case BackendType::X11: {
-        QString display = parser.value(x11DisplayOption);
-        if (display.isEmpty()) {
-            display = qgetenv("DISPLAY");
-        }
-        a.setSession(KWin::Session::create(KWin::Session::Type::Noop));
-        a.setOutputBackend(std::make_unique<KWin::X11WindowedBackend>(KWin::X11WindowedBackendOptions{
-            .display = display,
-            .outputCount = outputCount,
-            .outputScale = outputScale,
-            .outputSize = initialWindowSize,
-        }));
-        break;
-    }
-    case BackendType::Wayland: {
-        QString socketName = parser.value(waylandDisplayOption);
-        if (socketName.isEmpty()) {
-            socketName = qgetenv("WAYLAND_DISPLAY");
-        }
-        a.setSession(KWin::Session::create(KWin::Session::Type::Noop));
-        a.setOutputBackend(std::make_unique<KWin::Wayland::WaylandBackend>(KWin::Wayland::WaylandBackendOptions{
-            .socketName = socketName,
-            .outputCount = outputCount,
-            .outputScale = outputScale,
-            .outputSize = initialWindowSize,
-        }));
-        break;
-    }
     }
 
     QObject::connect(&a, &KWin::Application::workspaceCreated, server, &KWin::WaylandServer::initWorkspace);
@@ -595,6 +604,7 @@ int main(int argc, char *argv[])
     }
     a.setProcessStartupEnvironment(environment);
 
+#if KWIN_BUILD_X11
     if (parser.isSet(xwaylandOption)) {
         a.setStartXwayland(true);
 
@@ -620,6 +630,7 @@ int main(int argc, char *argv[])
             }
         }
     }
+#endif
 
     a.setApplicationsToStart(parser.positionalArguments());
     a.setInputMethodServerToStart(parser.value(inputMethodOption));
@@ -627,3 +638,5 @@ int main(int argc, char *argv[])
 
     return a.exec();
 }
+
+#include "moc_main_wayland.cpp"

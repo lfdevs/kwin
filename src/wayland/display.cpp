@@ -5,19 +5,23 @@
     SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
 #include "display.h"
-#include "clientbufferintegration.h"
+#include "clientconnection.h"
 #include "display_p.h"
-#include "drmclientbuffer.h"
-#include "output_interface.h"
-#include "shmclientbuffer.h"
+#include "linuxdmabufv1clientbuffer_p.h"
+#include "output.h"
+#include "shmclientbuffer_p.h"
 #include "utils/common.h"
+
+#include <poll.h>
+#include <string.h>
+#include <sys/socket.h>
 
 #include <QAbstractEventDispatcher>
 #include <QCoreApplication>
 #include <QDebug>
 #include <QRect>
 
-namespace KWaylandServer
+namespace KWin
 {
 DisplayPrivate *DisplayPrivate::get(Display *display)
 {
@@ -162,9 +166,9 @@ QList<OutputDeviceV2Interface *> Display::outputDevices() const
     return d->outputdevicesV2;
 }
 
-QVector<OutputInterface *> Display::outputsIntersecting(const QRect &rect) const
+QList<OutputInterface *> Display::outputsIntersecting(const QRect &rect) const
 {
-    QVector<OutputInterface *> outputs;
+    QList<OutputInterface *> outputs;
     for (auto *output : std::as_const(d->outputs)) {
         if (output->handle()->geometry().intersects(rect)) {
             outputs << output;
@@ -173,13 +177,29 @@ QVector<OutputInterface *> Display::outputsIntersecting(const QRect &rect) const
     return outputs;
 }
 
-QVector<SeatInterface *> Display::seats() const
+OutputInterface *Display::largestIntersectingOutput(const QRect &rect) const
+{
+    OutputInterface *returnOutput = nullptr;
+    uint64_t biggestArea = 0;
+    for (auto *output : std::as_const(d->outputs)) {
+        const QRect intersect = output->handle()->geometry().intersected(rect);
+        const uint64_t area = intersect.width() * intersect.height();
+        if (area > biggestArea) {
+            biggestArea = area;
+            returnOutput = output;
+        }
+    }
+    return returnOutput;
+}
+
+QList<SeatInterface *> Display::seats() const
 {
     return d->seats;
 }
 
 ClientConnection *Display::getConnection(wl_client *client)
 {
+    // TODO: Use wl_client_set_user_data() when we start requiring libwayland-server that has it, and remove client lists here and in ClientConnection.
     Q_ASSERT(client);
     auto it = std::find_if(d->clients.constBegin(), d->clients.constEnd(), [client](ClientConnection *c) {
         return c->client() == client;
@@ -191,19 +211,13 @@ ClientConnection *Display::getConnection(wl_client *client)
     auto c = new ClientConnection(client, this);
     d->clients << c;
     connect(c, &ClientConnection::disconnected, this, [this](ClientConnection *c) {
-        const int index = d->clients.indexOf(c);
-        Q_ASSERT(index != -1);
-        d->clients.remove(index);
-        Q_ASSERT(d->clients.indexOf(c) == -1);
         Q_EMIT clientDisconnected(c);
+    });
+    connect(c, &ClientConnection::destroyed, this, [this, c]() {
+        d->clients.removeOne(c);
     });
     Q_EMIT clientConnected(c);
     return c;
-}
-
-QVector<ClientConnection *> Display::connections() const
-{
-    return d->clients;
 }
 
 ClientConnection *Display::createClient(int fd)
@@ -217,84 +231,67 @@ ClientConnection *Display::createClient(int fd)
     return getConnection(c);
 }
 
-void Display::setEglDisplay(void *display)
+GraphicsBuffer *Display::bufferForResource(wl_resource *resource)
 {
-    if (d->eglDisplay != EGL_NO_DISPLAY) {
-        qCWarning(KWIN_CORE) << "EGLDisplay cannot be changed";
+    if (auto buffer = LinuxDmaBufV1ClientBuffer::get(resource)) {
+        return buffer;
+    } else if (auto buffer = ShmClientBuffer::get(resource)) {
+        return buffer;
+    } else {
+        return nullptr;
+    }
+}
+
+SecurityContext::SecurityContext(Display *display, FileDescriptor &&listenFd, FileDescriptor &&closeFd, const QString &appId)
+    : QObject(display)
+    , m_display(display)
+    , m_listenFd(std::move(listenFd))
+    , m_closeFd(std::move(closeFd))
+    , m_appId(appId)
+{
+    qCDebug(KWIN_CORE) << "Adding listen fd for" << appId;
+
+    auto closeSocketWatcher = new QSocketNotifier(m_closeFd.get(), QSocketNotifier::Read, this);
+    connect(closeSocketWatcher, &QSocketNotifier::activated, this, &SecurityContext::onCloseFdActivated);
+
+    if (m_closeFd.isClosed()) {
+        deleteLater();
         return;
     }
-    d->eglDisplay = (EGLDisplay)display;
-    new DrmClientBufferIntegration(this);
+
+    auto listenFdListener = new QSocketNotifier(m_listenFd.get(), QSocketNotifier::Read, this);
+    connect(listenFdListener, &QSocketNotifier::activated, this, &SecurityContext::onListenFdActivated);
 }
 
-void *Display::eglDisplay() const
+SecurityContext::~SecurityContext()
 {
-    return d->eglDisplay;
+    qCDebug(KWIN_CORE) << "Removing listen fd for " << m_appId;
 }
 
-struct ClientBufferDestroyListener : wl_listener
+void SecurityContext::onListenFdActivated(QSocketDescriptor socketDescriptor)
 {
-    ClientBufferDestroyListener(Display *display, ClientBuffer *buffer);
-    ~ClientBufferDestroyListener();
-
-    Display *display;
-};
-
-void bufferDestroyCallback(wl_listener *listener, void *data)
-{
-    ClientBufferDestroyListener *destroyListener = static_cast<ClientBufferDestroyListener *>(listener);
-    DisplayPrivate *displayPrivate = DisplayPrivate::get(destroyListener->display);
-
-    ClientBuffer *buffer = displayPrivate->q->clientBufferForResource(static_cast<wl_resource *>(data));
-    displayPrivate->unregisterClientBuffer(buffer);
-
-    buffer->markAsDestroyed();
-}
-
-ClientBufferDestroyListener::ClientBufferDestroyListener(Display *display, ClientBuffer *buffer)
-    : display(display)
-{
-    notify = bufferDestroyCallback;
-
-    link.prev = nullptr;
-    link.next = nullptr;
-
-    wl_resource_add_destroy_listener(buffer->resource(), this);
-}
-
-ClientBufferDestroyListener::~ClientBufferDestroyListener()
-{
-    wl_list_remove(&link);
-}
-
-ClientBuffer *Display::clientBufferForResource(wl_resource *resource) const
-{
-    ClientBuffer *buffer = d->resourceToBuffer.value(resource);
-    if (buffer) {
-        return buffer;
+    const int clientFd = accept4(socketDescriptor, nullptr, nullptr, SOCK_CLOEXEC);
+    if (clientFd < 0) {
+        qCWarning(KWIN_CORE) << "Failed to accept client from security listen FD:" << strerror(errno);
+        return;
     }
 
-    for (ClientBufferIntegration *integration : std::as_const(d->bufferIntegrations)) {
-        ClientBuffer *buffer = integration->createBuffer(resource);
-        if (buffer) {
-            d->registerClientBuffer(buffer);
-            return buffer;
-        }
+    auto client = m_display->createClient(clientFd);
+    if (!client) {
+        close(clientFd);
+        return;
     }
-    return nullptr;
+
+    client->setSecurityContextAppId(m_appId);
 }
 
-void DisplayPrivate::registerClientBuffer(ClientBuffer *buffer)
+void SecurityContext::onCloseFdActivated()
 {
-    resourceToBuffer.insert(buffer->resource(), buffer);
-    bufferToListener.insert(buffer, new ClientBufferDestroyListener(q, buffer));
+    if (m_closeFd.isClosed()) {
+        deleteLater();
+    }
 }
 
-void DisplayPrivate::unregisterClientBuffer(ClientBuffer *buffer)
-{
-    Q_ASSERT_X(buffer->resource(), "unregisterClientBuffer", "buffer must have valid resource");
-    resourceToBuffer.remove(buffer->resource());
-    delete bufferToListener.take(buffer);
-}
+} // namespace KWin
 
-}
+#include "moc_display.cpp"

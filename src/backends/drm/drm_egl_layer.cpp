@@ -7,18 +7,16 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "drm_egl_layer.h"
-#include "drm_abstract_output.h"
+#include "core/iccprofile.h"
 #include "drm_backend.h"
-#include "drm_buffer_gbm.h"
+#include "drm_buffer.h"
+#include "drm_crtc.h"
 #include "drm_egl_backend.h"
 #include "drm_gpu.h"
-#include "drm_logging.h"
 #include "drm_output.h"
 #include "drm_pipeline.h"
-#include "egl_dmabuf.h"
 #include "scene/surfaceitem_wayland.h"
-#include "wayland/linuxdmabufv1clientbuffer.h"
-#include "wayland/surface_interface.h"
+#include "wayland/surface.h"
 
 #include <QRegion>
 #include <drm_fourcc.h>
@@ -29,102 +27,96 @@
 namespace KWin
 {
 
-EglGbmLayer::EglGbmLayer(EglGbmBackend *eglBackend, DrmPipeline *pipeline)
-    : DrmPipelineLayer(pipeline)
-    , m_surface(pipeline->gpu(), eglBackend)
-    , m_dmabufFeedback(pipeline->gpu(), eglBackend)
+static EglGbmLayerSurface::BufferTarget targetFor(DrmPipeline *pipeline, DrmPlane::TypeIndex planeType)
 {
-}
-
-std::optional<OutputLayerBeginFrameInfo> EglGbmLayer::beginFrame()
-{
-    m_scanoutBuffer.reset();
-    m_dmabufFeedback.renderingSurface();
-
-    return m_surface.startRendering(m_pipeline->bufferSize(), m_pipeline->renderOrientation(), m_pipeline->bufferOrientation(), m_pipeline->formats());
-}
-
-void EglGbmLayer::aboutToStartPainting(const QRegion &damagedRegion)
-{
-    m_surface.aboutToStartPainting(m_pipeline->output(), damagedRegion);
-}
-
-bool EglGbmLayer::endFrame(const QRegion &renderedRegion, const QRegion &damagedRegion)
-{
-    const bool ret = m_surface.endRendering(m_pipeline->renderOrientation(), damagedRegion);
-    if (ret) {
-        m_currentDamage = damagedRegion;
+    if (planeType != DrmPlane::TypeIndex::Cursor) {
+        return EglGbmLayerSurface::BufferTarget::Normal;
     }
-    return ret;
+    if (pipeline->gpu()->atomicModeSetting() && !pipeline->gpu()->isVirtualMachine()) {
+        return EglGbmLayerSurface::BufferTarget::Linear;
+    }
+    return EglGbmLayerSurface::BufferTarget::Dumb;
 }
 
-QRegion EglGbmLayer::currentDamage() const
+EglGbmLayer::EglGbmLayer(EglGbmBackend *eglBackend, DrmPipeline *pipeline, DrmPlane::TypeIndex type)
+    : DrmPipelineLayer(pipeline, type)
+    , m_surface(pipeline->gpu(), eglBackend, targetFor(pipeline, type), type == DrmPlane::TypeIndex::Primary ? EglGbmLayerSurface::FormatOption::PreferAlpha : EglGbmLayerSurface::FormatOption::RequireAlpha)
 {
-    return m_currentDamage;
+}
+
+std::optional<OutputLayerBeginFrameInfo> EglGbmLayer::doBeginFrame()
+{
+    if (m_type == DrmPlane::TypeIndex::Cursor && m_pipeline->amdgpuVrrWorkaroundActive()) {
+        return std::nullopt;
+    }
+    // note that this allows blending to happen in sRGB or PQ encoding with the cursor plane.
+    // That's technically incorrect, but it looks okay and is intentionally allowed
+    // as the hardware cursor is more important than an incorrectly blended cursor edge
+
+    m_scanoutBuffer.reset();
+    return m_surface.startRendering(targetRect().size(), m_pipeline->output()->transform().combine(OutputTransform::FlipY), m_pipeline->formats(m_type), m_pipeline->colorDescription(), m_pipeline->output()->channelFactors(), m_pipeline->iccProfile(), m_pipeline->output()->needsColormanagement(), m_pipeline->output()->brightness());
+}
+
+bool EglGbmLayer::doEndFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame)
+{
+    return m_surface.endRendering(damagedRegion, frame);
 }
 
 bool EglGbmLayer::checkTestBuffer()
 {
-    return m_surface.renderTestBuffer(m_pipeline->bufferSize(), m_pipeline->formats()) != nullptr;
+    return m_surface.renderTestBuffer(targetRect().size(), m_pipeline->formats(m_type)) != nullptr;
 }
 
 std::shared_ptr<GLTexture> EglGbmLayer::texture() const
 {
     if (m_scanoutBuffer) {
-        return m_surface.eglBackend()->importBufferObjectAsTexture(static_cast<GbmBuffer *>(m_scanoutBuffer->buffer())->bo());
+        const auto ret = m_surface.eglBackend()->importDmaBufAsTexture(*m_scanoutBuffer->buffer()->dmabufAttributes());
+        ret->setContentTransform(offloadTransform().combine(OutputTransform::FlipY));
+        return ret;
     } else {
         return m_surface.texture();
     }
 }
 
-bool EglGbmLayer::scanout(SurfaceItem *surfaceItem)
+ColorDescription EglGbmLayer::colorDescription() const
+{
+    return m_surface.colorDescription();
+}
+
+bool EglGbmLayer::doAttemptScanout(GraphicsBuffer *buffer, const ColorDescription &color, const std::shared_ptr<OutputFrame> &frame)
 {
     static bool valid;
     static const bool directScanoutDisabled = qEnvironmentVariableIntValue("KWIN_DRM_NO_DIRECT_SCANOUT", &valid) == 1 && valid;
     if (directScanoutDisabled) {
         return false;
     }
-
-    SurfaceItemWayland *item = qobject_cast<SurfaceItemWayland *>(surfaceItem);
-    if (!item || !item->surface()) {
+    if (m_pipeline->output()->channelFactors() != QVector3D(1, 1, 1) || m_pipeline->iccProfile()) {
+        // TODO use GAMMA_LUT, CTM and DEGAMMA_LUT to allow direct scanout with HDR
         return false;
     }
-    const auto surface = item->surface();
-    if (m_pipeline->bufferOrientation() != DrmPlane::Transformations(DrmPlane::Transformation::Rotate0) || surface->bufferTransform() != m_pipeline->output()->transform()) {
+    const auto &targetColor = m_pipeline->colorDescription();
+    if (color.colorimetry() != targetColor.colorimetry() || color.transferFunction() != targetColor.transferFunction()) {
         return false;
     }
-    const auto buffer = qobject_cast<KWaylandServer::LinuxDmaBufV1ClientBuffer *>(surface->buffer());
-    if (!buffer) {
+    // kernel documentation says that
+    // "Devices that don’t support subpixel plane coordinates can ignore the fractional part."
+    // so we need to make sure that doesn't cause a difference vs the composited result
+    if (sourceRect() != sourceRect().toRect()) {
         return false;
     }
-
-    const auto formats = m_pipeline->formats();
-    if (!formats.contains(buffer->format())) {
-        m_dmabufFeedback.scanoutFailed(surface, formats);
+    const auto plane = m_type == DrmPlane::TypeIndex::Primary ? m_pipeline->crtc()->primaryPlane() : m_pipeline->crtc()->cursorPlane();
+    if (offloadTransform() != OutputTransform::Kind::Normal && (!plane || !plane->supportsTransformation(offloadTransform()))) {
         return false;
     }
-    if (buffer->attributes().modifier == DRM_FORMAT_MOD_INVALID && m_pipeline->gpu()->platform()->gpuCount() > 1) {
-        // importing a buffer from another GPU without an explicit modifier can mess up the buffer format
+    // importing a buffer from another GPU without an explicit modifier can mess up the buffer format
+    if (buffer->dmabufAttributes()->modifier == DRM_FORMAT_MOD_INVALID && m_pipeline->gpu()->platform()->gpuCount() > 1) {
         return false;
     }
-    if (!formats[buffer->format()].contains(buffer->attributes().modifier)) {
-        return false;
-    }
-    const auto gbmBuffer = GbmBuffer::importBuffer(m_pipeline->gpu(), buffer);
-    if (!gbmBuffer) {
-        m_dmabufFeedback.scanoutFailed(surface, formats);
-        return false;
-    }
-    m_scanoutBuffer = DrmFramebuffer::createFramebuffer(gbmBuffer);
-    if (m_scanoutBuffer && m_pipeline->testScanout()) {
-        m_dmabufFeedback.scanoutSuccessful(surface);
-        m_currentDamage = surfaceItem->damage();
-        surfaceItem->resetDamage();
-        // ensure the pixmap is updated when direct scanout ends
-        surfaceItem->destroyPixmap();
+    m_scanoutBuffer = m_pipeline->gpu()->importBuffer(buffer, FileDescriptor{});
+    if (m_scanoutBuffer && m_pipeline->testScanout(frame)) {
+        m_surface.forgetDamage(); // TODO: Use absolute frame sequence numbers for indexing the DamageJournal. It's more flexible and less error-prone
         return true;
     } else {
-        m_dmabufFeedback.scanoutFailed(surface, formats);
         m_scanoutBuffer.reset();
         return false;
     }
@@ -135,14 +127,24 @@ std::shared_ptr<DrmFramebuffer> EglGbmLayer::currentBuffer() const
     return m_scanoutBuffer ? m_scanoutBuffer : m_surface.currentBuffer();
 }
 
-bool EglGbmLayer::hasDirectScanoutBuffer() const
-{
-    return m_scanoutBuffer != nullptr;
-}
-
 void EglGbmLayer::releaseBuffers()
 {
     m_scanoutBuffer.reset();
     m_surface.destroyResources();
+}
+
+DrmDevice *EglGbmLayer::scanoutDevice() const
+{
+    return m_pipeline->gpu()->drmDevice();
+}
+
+QHash<uint32_t, QList<uint64_t>> EglGbmLayer::supportedDrmFormats() const
+{
+    return m_pipeline->formats(m_type);
+}
+
+std::optional<QSize> EglGbmLayer::fixedSize() const
+{
+    return m_type == DrmPlane::TypeIndex::Cursor ? std::make_optional(m_pipeline->gpu()->cursorSize()) : std::nullopt;
 }
 }

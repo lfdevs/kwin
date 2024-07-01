@@ -10,11 +10,14 @@
 */
 #include "main_x11.h"
 
-#include <config-kwin.h>
+#include "config-kwin.h"
 
 #include "backends/x11/standalone/x11_standalone_backend.h"
+#include "compositor_x11.h"
 #include "core/outputbackend.h"
 #include "core/session.h"
+#include "cursor.h"
+#include "effect/effecthandler.h"
 #include "outline.h"
 #include "screenedge.h"
 #include "sm.h"
@@ -40,11 +43,7 @@
 #include <QSurfaceFormat>
 #include <QVBoxLayout>
 #include <qplatformdefs.h>
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <private/qtx11extras_p.h>
-#else
-#include <QX11Info>
-#endif
 #include <QtDBus>
 
 // system
@@ -140,7 +139,7 @@ private:
     {
         KSelectionOwner::getAtoms();
         if (xa_version == XCB_ATOM_NONE) {
-            const QByteArray name(QByteArrayLiteral("VERSION"));
+            constexpr QByteArrayView name{"VERSION"};
             UniqueCPtr<xcb_intern_atom_reply_t> atom(xcb_intern_atom_reply(
                 kwinApp()->x11Connection(),
                 xcb_intern_atom_unchecked(kwinApp()->x11Connection(), false, name.length(), name.constData()),
@@ -153,7 +152,7 @@ private:
 
     xcb_atom_t make_selection_atom()
     {
-        QByteArray screen(QByteArrayLiteral("WM_S0"));
+        constexpr QByteArrayView screen{"WM_S0"};
         UniqueCPtr<xcb_intern_atom_reply_t> atom(xcb_intern_atom_reply(
             kwinApp()->x11Connection(),
             xcb_intern_atom_unchecked(kwinApp()->x11Connection(), false, screen.length(), screen.constData()),
@@ -183,10 +182,14 @@ ApplicationX11::ApplicationX11(int &argc, char **argv)
 ApplicationX11::~ApplicationX11()
 {
     setTerminating();
+    // need to unload all effects before destroying Workspace, as effects might call into Workspace
+    if (effects) {
+        effects->unloadAllEffects();
+    }
     destroyPlugins();
-    destroyCompositor();
     destroyColorManager();
     destroyWorkspace();
+    destroyCompositor();
     // If there was no --replace (no new WM)
     if (owner != nullptr && owner->ownerWindow() != XCB_WINDOW_NONE) {
         Xcb::setInputFocus(XCB_INPUT_FOCUS_POINTER_ROOT);
@@ -203,9 +206,9 @@ std::unique_ptr<Edge> ApplicationX11::createScreenEdge(ScreenEdges *parent)
     return static_cast<X11StandaloneBackend *>(outputBackend())->createScreenEdge(parent);
 }
 
-void ApplicationX11::createPlatformCursor(QObject *parent)
+std::unique_ptr<Cursor> ApplicationX11::createPlatformCursor()
 {
-    static_cast<X11StandaloneBackend *>(outputBackend())->createPlatformCursor(parent);
+    return static_cast<X11StandaloneBackend *>(outputBackend())->createPlatformCursor();
 }
 
 std::unique_ptr<OutlineVisual> ApplicationX11::createOutline(Outline *outline)
@@ -227,7 +230,7 @@ void ApplicationX11::startInteractiveWindowSelection(std::function<void(KWin::Wi
     static_cast<X11StandaloneBackend *>(outputBackend())->startInteractiveWindowSelection(callback, cursorName);
 }
 
-void ApplicationX11::startInteractivePositionSelection(std::function<void(const QPoint &)> callback)
+void ApplicationX11::startInteractivePositionSelection(std::function<void(const QPointF &)> callback)
 {
     static_cast<X11StandaloneBackend *>(outputBackend())->startInteractivePositionSelection(callback);
 }
@@ -240,10 +243,14 @@ PlatformCursorImage ApplicationX11::cursorImage() const
 void ApplicationX11::lostSelection()
 {
     sendPostedEvents();
+    // need to unload all effects before destroying Workspace, as effects might call into Workspace
+    if (effects) {
+        effects->unloadAllEffects();
+    }
     destroyPlugins();
-    destroyCompositor();
     destroyColorManager();
     destroyWorkspace();
+    destroyCompositor();
     // Remove windowmanager privileges
     Xcb::selectInput(kwinApp()->x11RootWindow(), XCB_EVENT_MASK_PROPERTY_CHANGE);
     removeNativeX11EventFilter();
@@ -254,7 +261,7 @@ void ApplicationX11::performStartup()
 {
     crashChecking();
 
-    owner.reset(new KWinSelectionOwner());
+    owner = std::make_unique<KWinSelectionOwner>();
     connect(owner.get(), &KSelectionOwner::failedToClaimOwnership, [] {
         fputs(i18n("kwin: unable to claim manager selection, another wm running? (try using --replace)\n").toLocal8Bit().constData(), stderr);
         ::exit(1);
@@ -262,7 +269,6 @@ void ApplicationX11::performStartup()
     connect(owner.get(), &KSelectionOwner::lostOwnership, this, &ApplicationX11::lostSelection);
     connect(owner.get(), &KSelectionOwner::claimedOwnership, this, [this] {
         installNativeX11EventFilter();
-        // first load options - done internally by a different thread
         createOptions();
 
         if (!outputBackend()->initialize()) {
@@ -290,11 +296,12 @@ void ApplicationX11::performStartup()
             bool ok = false;
             const quint32 t = timestamp.toULongLong(&ok);
             if (ok) {
-                kwinApp()->setX11Time(t);
+                setX11Time(t);
             }
         });
 
         createInput();
+        X11Compositor::create(this);
         createWorkspace();
         createColorManager();
         createPlugins();
@@ -303,6 +310,8 @@ void ApplicationX11::performStartup()
 
         notifyKSplash();
         notifyStarted();
+
+        connect(Cursors::self()->mouse(), &Cursor::posChanged, workspace(), qOverload<const QPointF &>(&Workspace::setActiveOutput));
     });
     // we need to do an XSync here, otherwise the QPA might crash us later on
     Xcb::sync();
@@ -380,13 +389,21 @@ int main(int argc, char *argv[])
     // enforce xcb plugin, unfortunately command line switch has precedence
     setenv("QT_QPA_PLATFORM", "xcb", true);
 
-    qunsetenv("QT_DEVICE_PIXEL_RATIO");
+    // disable highdpi scaling
+    setenv("QT_ENABLE_HIGHDPI_SCALING", "0", true);
+
     qunsetenv("QT_SCALE_FACTOR");
-    QCoreApplication::setAttribute(Qt::AA_DisableHighDpiScaling);
+    qunsetenv("QT_SCREEN_SCALE_FACTORS");
+
     // KSMServer talks to us directly on DBus.
     QCoreApplication::setAttribute(Qt::AA_DisableSessionManager);
     // For sharing thumbnails between our scene graph and qtquick.
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
+
+    // The shader (currently) causes a blocking disk flush on load and save of every QQuickWindow
+    // Because it's on load, it will happen every time not just occasionally
+    // The gains are minimal, disable until it's fixed
+    QCoreApplication::setAttribute(Qt::AA_DisableShaderDiskCache);
 
     QSurfaceFormat format = QSurfaceFormat::defaultFormat();
     // shared opengl contexts must have the same reset notification policy
@@ -396,9 +413,12 @@ int main(int argc, char *argv[])
     QSurfaceFormat::setDefaultFormat(format);
 
     KWin::ApplicationX11 a(argc, argv);
-    a.setupTranslator();
+
     // reset QT_QPA_PLATFORM so we don't propagate it to our children (e.g. apps launched from the overview effect)
     qunsetenv("QT_QPA_PLATFORM");
+    qunsetenv("QT_ENABLE_HIGHDPI_SCALING");
+
+    a.setProcessStartupEnvironment(QProcessEnvironment(QProcessEnvironment::InheritFromParent));
 
     KSignalHandler::self()->watchSignal(SIGTERM);
     KSignalHandler::self()->watchSignal(SIGINT);
@@ -448,3 +468,5 @@ int main(int argc, char *argv[])
 }
 
 #include "main_x11.moc"
+
+#include "moc_main_x11.cpp"

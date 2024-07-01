@@ -12,20 +12,23 @@
 #include "kwinpluginssettings.h"
 #include "kwinswitcheffectsettings.h"
 #include "kwintabboxsettings.h"
+#include "shortcutsettings.h"
 
 namespace KWin
 {
 namespace TabBox
 {
 
-KWinTabboxData::KWinTabboxData(QObject *parent, const QVariantList &args)
-    : KCModuleData(parent, args)
+KWinTabboxData::KWinTabboxData(QObject *parent)
+    : KCModuleData(parent)
     , m_tabBoxConfig(new TabBoxSettings(QStringLiteral("TabBox"), this))
     , m_tabBoxAlternativeConfig(new TabBoxSettings(QStringLiteral("TabBoxAlternative"), this))
     , m_pluginsConfig(new PluginsSettings(this))
+    , m_shortcutConfig(new ShortcutSettings(this))
 {
     registerSkeleton(m_tabBoxConfig);
     registerSkeleton(m_tabBoxAlternativeConfig);
+    registerSkeleton(m_shortcutConfig);
 }
 
 TabBoxSettings *KWinTabboxData::tabBoxConfig() const
@@ -43,6 +46,11 @@ PluginsSettings *KWinTabboxData::pluginsConfig() const
     return m_pluginsConfig;
 }
 
+ShortcutSettings *KWinTabboxData::shortcutConfig() const
+{
+    return m_shortcutConfig;
+}
+}
 }
 
-}
+#include "moc_kwintabboxdata.cpp"

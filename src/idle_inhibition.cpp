@@ -8,16 +8,14 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "idle_inhibition.h"
-#include "deleted.h"
 #include "input.h"
-#include "wayland/surface_interface.h"
+#include "virtualdesktops.h"
+#include "wayland/surface.h"
 #include "window.h"
 #include "workspace.h"
 
 #include <algorithm>
 #include <functional>
-
-using KWaylandServer::SurfaceInterface;
 
 namespace KWin
 {
@@ -33,17 +31,19 @@ IdleInhibition::~IdleInhibition() = default;
 
 void IdleInhibition::registerClient(Window *client)
 {
+    if (!client->surface()) {
+        return;
+    }
+
     auto updateInhibit = [this, client] {
         update(client);
     };
 
     m_connections[client] = connect(client->surface(), &SurfaceInterface::inhibitsIdleChanged, this, updateInhibit);
-    connect(client, &Window::desktopChanged, this, updateInhibit);
-    connect(client, &Window::clientMinimized, this, updateInhibit);
-    connect(client, &Window::clientUnminimized, this, updateInhibit);
-    connect(client, &Window::windowHidden, this, updateInhibit);
-    connect(client, &Window::windowShown, this, updateInhibit);
-    connect(client, &Window::windowClosed, this, [this, client]() {
+    connect(client, &Window::desktopsChanged, this, updateInhibit);
+    connect(client, &Window::minimizedChanged, this, updateInhibit);
+    connect(client, &Window::hiddenChanged, this, updateInhibit);
+    connect(client, &Window::closed, this, [this, client]() {
         uninhibit(client);
         auto it = m_connections.find(client);
         if (it != m_connections.end()) {
@@ -68,7 +68,7 @@ void IdleInhibition::uninhibit(Window *client)
 
 void IdleInhibition::update(Window *client)
 {
-    if (client->isInternal()) {
+    if (client->isInternal() || client->isUnmanaged()) {
         return;
     }
 
@@ -84,14 +84,17 @@ void IdleInhibition::update(Window *client)
 
 void IdleInhibition::slotWorkspaceCreated()
 {
+    connect(workspace(), &Workspace::windowAdded, this, &IdleInhibition::registerClient);
     connect(workspace(), &Workspace::currentDesktopChanged, this, &IdleInhibition::slotDesktopChanged);
 }
 
 void IdleInhibition::slotDesktopChanged()
 {
-    workspace()->forEachAbstractClient([this](Window *c) {
+    workspace()->forEachWindow([this](Window *c) {
         update(c);
     });
 }
 
 }
+
+#include "moc_idle_inhibition.cpp"

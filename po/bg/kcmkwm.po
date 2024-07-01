@@ -3,31 +3,21 @@
 #
 # Zlatko Popov <zlatkopopov@fsa-bg.org>, 2006, 2007, 2008.
 # Yasen Pramatarov <yasen@lindeas.com>, 2009.
-# Mincho Kondarev <mkondarev@yahoo.de>, 2022.
+# SPDX-FileCopyrightText: 2022, 2024 Mincho Kondarev <mkondarev@yahoo.de>
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-03 00:48+0000\n"
-"PO-Revision-Date: 2022-12-05 00:26+0100\n"
+"POT-Creation-Date: 2024-02-06 00:39+0000\n"
+"PO-Revision-Date: 2024-05-30 16:57+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.08.3\n"
+"X-Generator: Lokalize 24.05.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Радостин Раднев"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "radnev@yahoo.com"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
 #: actions.ui:17
@@ -327,6 +317,7 @@ msgstr "Увеличаване на непрозрачността"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TitlebarDoubleClickCommand)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandTitlebarWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar1)
@@ -335,8 +326,8 @@ msgstr "Увеличаване на непрозрачността"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
-#: actions.ui:310 actions.ui:380 actions.ui:450 actions.ui:505 mouse.ui:80
-#: mouse.ui:132 mouse.ui:271 mouse.ui:333 mouse.ui:386 mouse.ui:448
+#: actions.ui:310 actions.ui:380 actions.ui:450 actions.ui:505 advanced.ui:174
+#: mouse.ui:80 mouse.ui:132 mouse.ui:271 mouse.ui:333 mouse.ui:386 mouse.ui:448
 #: mouse.ui:501 mouse.ui:563
 #, kde-format
 msgid "Do nothing"
@@ -796,7 +787,7 @@ msgstr ""
 "li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-style:"
 "italic;\">Екстремно:</span> Всички прозорците трябва да бъдат активирани "
-"изрично от потребителя. </li> </ul> <p> Прозорци, които са предотвратени от "
+"изрично от потребителя. </li></ul><p> Прозорци, които са предотвратени от "
 "отнемане на фокус, са маркирани като изискващи внимание, което по "
 "подразбиране означава, че записът им в лентата на задачите ще бъде маркиран. "
 "Това може да бъде променено в контролния модул за известия.</p></body></html>"
@@ -895,26 +886,8 @@ msgstr ""
 msgid "Multiscreen behavior:"
 msgstr "Поведение при няколко екрана:"
 
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ActiveMouseScreen)
-#: focus.ui:203
-#, kde-format
-msgid ""
-"When this option is enabled, the active screen (where new windows appear, "
-"for example) is the screen containing the mouse pointer. When disabled, the "
-"active screen is the screen containing the focused window."
-msgstr ""
-"Когато тази опция е активирана, активният екран е екранът, съдържащ "
-"показалеца на мишката (там например се появяват новите прозорци) . Когато е "
-"деактивиран, активният екран е екранът, съдържащ фокусирания прозорец."
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ActiveMouseScreen)
-#: focus.ui:206
-#, kde-format
-msgid "Active screen follows &mouse"
-msgstr "Активният екран следва &мишката"
-
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SeparateScreenFocus)
-#: focus.ui:213
+#: focus.ui:203
 #, kde-format
 msgid ""
 "When this option is enabled, focus operations are limited only to the active "
@@ -924,119 +897,48 @@ msgstr ""
 "до активния екран на Xinerama"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SeparateScreenFocus)
-#: focus.ui:216
+#: focus.ui:206
 #, kde-format
 msgid "&Separate screen focus"
 msgstr "&Отделен фокус на екрана"
 
 #. i18n: ectx: property (text), widget (QLabel, windowFocusPolicyDescriptionLabel)
-#: focus.ui:229
+#: focus.ui:219
 #, kde-format
 msgid "Window activation policy description"
 msgstr "Описание на правилата за активиране на прозореца"
 
-#: main.cpp:73
+#: main.cpp:79
 #, kde-format
 msgid "&Focus"
 msgstr "&Фокус"
 
-#: main.cpp:79
+#: main.cpp:84
 #, kde-format
 msgid "Titlebar A&ctions"
 msgstr "Действия в заглавна лента"
 
-#: main.cpp:85
+#: main.cpp:89
 #, kde-format
 msgid "W&indow Actions"
 msgstr "Действия върху про&зорци"
 
-#: main.cpp:91
+#: main.cpp:94
 #, kde-format
 msgid "Mo&vement"
 msgstr "Дви&жения"
 
-#: main.cpp:97
+#: main.cpp:99
 #, kde-format
 msgid "Adva&nced"
 msgstr "&Допълнителни"
 
-#: main.cpp:101
-#, kde-format
-msgid "Window Behavior Configuration Module"
-msgstr "Модул за настройване поведението на прозорците"
-
-#: main.cpp:103
-#, kde-format
-msgid "(c) 1997 - 2002 KWin and KControl Authors"
-msgstr "(c) 1997 - 2002 авторите на KWin и KControl"
-
-#: main.cpp:105
-#, kde-format
-msgid "Matthias Ettrich"
-msgstr "Matthias Ettrich"
-
-#: main.cpp:106
-#, kde-format
-msgid "Waldo Bastian"
-msgstr "Waldo Bastian"
-
-#: main.cpp:107
-#, kde-format
-msgid "Cristian Tibirna"
-msgstr "Cristian Tibirna"
-
-#: main.cpp:108
-#, kde-format
-msgid "Matthias Kalle Dalheimer"
-msgstr "Matthias Kalle Dalheimer"
-
-#: main.cpp:109
-#, kde-format
-msgid "Daniel Molkentin"
-msgstr "Daniel Molkentin"
-
-#: main.cpp:110
-#, kde-format
-msgid "Wynn Wilkes"
-msgstr "Wynn Wilkes"
-
-#: main.cpp:111
-#, kde-format
-msgid "Pat Dowler"
-msgstr "Pat Dowler"
-
-#: main.cpp:112
-#, kde-format
-msgid "Bernd Wuebben"
-msgstr "Bernd Wuebben"
-
-#: main.cpp:113
-#, kde-format
-msgid "Matthias Hoelzer-Kluepfel"
-msgstr "Matthias Hoelzer-Kluepfel"
-
-#: main.cpp:161
-#, kde-format
-msgid ""
-"<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
-"when being moved, resized or clicked on. You can also specify a focus policy "
-"as well as a placement policy for new windows.</p> <p>Please note that this "
-"configuration will not take effect if you do not use KWin as your window "
-"manager. If you do use a different window manager, please refer to its "
-"documentation for how to customize window behavior.</p>"
-msgstr ""
-"<p><h1>Поведение на прозорците</h1> От тук може да настроите, поведението на "
-"прозорците при преместване, промяна на размера или щракване с мишката. </"
-"p><p>Имайте предвид, че промените в този модул работят, само ако използвате "
-"мениджър на прозорци KWin. Ако използвате друг мениджър на прозорци, то за "
-"настройка се обърнете към неговата документация.</p>"
-
-#: main.cpp:202
+#: main.cpp:178
 #, kde-format
 msgid "&Titlebar Actions"
 msgstr "&Действия в заглавната лента"
 
-#: main.cpp:208
+#: main.cpp:188
 #, kde-format
 msgid "Window Actio&ns"
 msgstr "Действия на проз&орец"
@@ -1320,7 +1222,7 @@ msgstr ""
 msgid "Only when overlapping"
 msgstr "Само при припокриване"
 
-#: windows.cpp:97
+#: windows.cpp:92
 #, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
@@ -1330,7 +1232,7 @@ msgstr ""
 "върху него.Това поведение е често срещано при други операционни системи и е "
 "вероятно това, което искате."
 
-#: windows.cpp:101
+#: windows.cpp:95
 #, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
@@ -1345,7 +1247,7 @@ msgstr ""
 "е предпочитан кандидат. Необичаен, но възможен вариант на <em> Щракване за "
 "фокусиране </em>."
 
-#: windows.cpp:106
+#: windows.cpp:98
 #, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
@@ -1359,7 +1261,7 @@ msgstr ""
 "Предотвратяване на отнемане на фокус </em>. Приемете го като <em> Щракване "
 "за фокусиране</em> , но без да се налага действително да щраквате."
 
-#: windows.cpp:110
+#: windows.cpp:101
 #, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
@@ -1372,7 +1274,7 @@ msgstr ""
 "момента) прозорецът под мишката е предпочитан кандидат. Изберете това,ако "
 "искате фокус, контролиран от задържането на показалеца."
 
-#: windows.cpp:115
+#: windows.cpp:104
 #, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
@@ -1382,12 +1284,12 @@ msgid ""
 "precedence)</em> instead!"
 msgstr ""
 "<em> Фокус под мишката: </em> Фокусът винаги остава върху прозореца под "
-"мишка. <br/> <strong> Предупреждение: </strong> <em> Предотвратяване на "
+"мишка. <br/><strong> Предупреждение: </strong><em> Предотвратяване на "
 "отнемане на фокус </em> и<em> комбинацията (\"Alt + Tab\") </em> противоречи "
 "на политиката и няма да работят. Много вероятно, вместо това,  ще искате да "
 "използвате <em> Фокусът следва мишката (предимство на мишката) </em>!"
 
-#: windows.cpp:119
+#: windows.cpp:107
 #, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "
@@ -1399,7 +1301,7 @@ msgid ""
 msgstr ""
 "<em> Фокусиране стриктно под мишката: </em> Фокусът винаги е върху прозореца "
 "под мишката (при съмнение никъде) много прилича на поведението на фокуса в "
-"неуправлявана среда на X11. <br/> <strong> Предупреждение: </strong> <em> "
+"неуправлявана среда на X11. <br/><strong> Предупреждение: </strong><em> "
 "Предотвратяване на отнемане на фокус </em> и <em> комбинацията (\"Alt + Tab"
 "\") </em> противоречат на политика за активиране и няма да работят. Най-"
 "вероятно, вместо това, ще искате да използвате <em> Фокусът следва мишка "

@@ -7,27 +7,18 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "wayland_output.h"
-#include "composite.h"
+#include "compositor.h"
+#include "core/outputlayer.h"
+#include "core/renderbackend.h"
 #include "core/renderloop_p.h"
-#include "cursorsource.h"
 #include "wayland_backend.h"
 #include "wayland_display.h"
-#include "wayland_egl_backend.h"
-#include "wayland_qpainter_backend.h"
-#include "wayland_server.h"
-
-#include "kwingltexture.h"
-#include "kwinglutils.h"
 
 #include <KWayland/Client/compositor.h>
 #include <KWayland/Client/pointer.h>
 #include <KWayland/Client/pointerconstraints.h>
-#include <KWayland/Client/shm_pool.h>
 #include <KWayland/Client/surface.h>
 #include <KWayland/Client/xdgdecoration.h>
-
-#include "core/renderlayer.h"
-#include "scene/cursorscene.h"
 
 #include <KLocalizedString>
 
@@ -44,8 +35,7 @@ using namespace KWayland::Client;
 static const int s_refreshRate = 60000; // TODO: can we get refresh rate data from Wayland host?
 
 WaylandCursor::WaylandCursor(WaylandBackend *backend)
-    : m_backend(backend)
-    , m_surface(backend->display()->compositor()->createSurface())
+    : m_surface(backend->display()->compositor()->createSurface())
 {
 }
 
@@ -67,18 +57,10 @@ void WaylandCursor::setPointer(KWayland::Client::Pointer *pointer)
     }
 }
 
-void WaylandCursor::enable()
+void WaylandCursor::setEnabled(bool enable)
 {
-    if (!m_enabled) {
-        m_enabled = true;
-        sync();
-    }
-}
-
-void WaylandCursor::disable()
-{
-    if (m_enabled) {
-        m_enabled = false;
+    if (m_enabled != enable) {
+        m_enabled = enable;
         sync();
     }
 }
@@ -113,7 +95,7 @@ void WaylandCursor::sync()
 
 WaylandOutput::WaylandOutput(const QString &name, WaylandBackend *backend)
     : Output(backend)
-    , m_renderLoop(std::make_unique<RenderLoop>())
+    , m_renderLoop(std::make_unique<RenderLoop>(this))
     , m_surface(backend->display()->compositor()->createSurface())
     , m_xdgShellSurface(backend->display()->xdgShell()->createSurface(m_surface.get()))
     , m_backend(backend)
@@ -136,9 +118,15 @@ WaylandOutput::WaylandOutput(const QString &name, WaylandBackend *backend)
         updateDpmsMode(DpmsMode::Off);
     });
 
+    m_configureThrottleTimer.setSingleShot(true);
+    connect(&m_configureThrottleTimer, &QTimer::timeout, this, [this]() {
+        applyConfigure(m_pendingConfigureSize, m_pendingConfigureSerial);
+    });
+
     connect(m_surface.get(), &KWayland::Client::Surface::frameRendered, this, [this]() {
-        RenderLoopPrivate *renderLoopPrivate = RenderLoopPrivate::get(renderLoop());
-        renderLoopPrivate->notifyFrameCompleted(std::chrono::steady_clock::now().time_since_epoch());
+        Q_ASSERT(m_frame);
+        m_frame->presented(std::chrono::steady_clock::now().time_since_epoch(), PresentationMode::VSync);
+        m_frame.reset();
     });
 
     updateWindowTitle();
@@ -154,6 +142,11 @@ WaylandOutput::~WaylandOutput()
     m_xdgDecoration.reset();
     m_xdgShellSurface.reset();
     m_surface.reset();
+}
+
+void WaylandOutput::setPendingFrame(const std::shared_ptr<OutputFrame> &frame)
+{
+    m_frame = frame;
 }
 
 bool WaylandOutput::isReady() const
@@ -181,85 +174,16 @@ RenderLoop *WaylandOutput::renderLoop() const
     return m_renderLoop.get();
 }
 
-bool WaylandOutput::setCursor(CursorSource *source)
+bool WaylandOutput::updateCursorLayer()
 {
     if (m_hasPointerLock) {
+        m_cursor->setEnabled(false);
         return false;
-    }
-
-    if (WaylandEglBackend *backend = qobject_cast<WaylandEglBackend *>(Compositor::self()->backend())) {
-        renderCursorOpengl(backend, source);
-    } else if (WaylandQPainterBackend *backend = qobject_cast<WaylandQPainterBackend *>(Compositor::self()->backend())) {
-        renderCursorQPainter(backend, source);
-    }
-
-    return true;
-}
-
-bool WaylandOutput::moveCursor(const QPoint &position)
-{
-    // The cursor position is controlled by the host compositor.
-    return !m_hasPointerLock;
-}
-
-void WaylandOutput::renderCursorOpengl(WaylandEglBackend *backend, CursorSource *source)
-{
-    WaylandEglCursorLayer *cursorLayer = backend->cursorLayer(this);
-    if (source) {
-        cursorLayer->setSize(source->size());
-        cursorLayer->setScale(scale());
-        cursorLayer->setHotspot(source->hotspot());
     } else {
-        cursorLayer->setSize(QSize());
-        cursorLayer->setHotspot(QPoint());
+        m_cursor->setEnabled(Compositor::self()->backend()->cursorLayer(this)->isEnabled());
+        // the layer already takes care of updating the image
+        return true;
     }
-
-    std::optional<OutputLayerBeginFrameInfo> beginInfo = cursorLayer->beginFrame();
-    if (!beginInfo) {
-        return;
-    }
-
-    RenderTarget *renderTarget = &beginInfo->renderTarget;
-    renderTarget->setDevicePixelRatio(scale());
-
-    RenderLayer renderLayer(m_renderLoop.get());
-    renderLayer.setDelegate(std::make_unique<SceneDelegate>(Compositor::self()->cursorScene()));
-
-    renderLayer.delegate()->prePaint();
-    renderLayer.delegate()->paint(renderTarget, infiniteRegion());
-    renderLayer.delegate()->postPaint();
-
-    cursorLayer->endFrame(infiniteRegion(), infiniteRegion());
-}
-
-void WaylandOutput::renderCursorQPainter(WaylandQPainterBackend *backend, CursorSource *source)
-{
-    WaylandQPainterCursorLayer *cursorLayer = backend->cursorLayer(this);
-    if (source) {
-        cursorLayer->setSize(source->size());
-        cursorLayer->setScale(scale());
-        cursorLayer->setHotspot(source->hotspot());
-    } else {
-        cursorLayer->setSize(QSize());
-        cursorLayer->setHotspot(QPoint());
-    }
-
-    std::optional<OutputLayerBeginFrameInfo> beginInfo = cursorLayer->beginFrame();
-    if (!beginInfo) {
-        return;
-    }
-
-    RenderTarget *renderTarget = &beginInfo->renderTarget;
-    renderTarget->setDevicePixelRatio(scale());
-
-    RenderLayer renderLayer(m_renderLoop.get());
-    renderLayer.setDelegate(std::make_unique<SceneDelegate>(Compositor::self()->cursorScene()));
-
-    renderLayer.delegate()->prePaint();
-    renderLayer.delegate()->paint(renderTarget, infiniteRegion());
-    renderLayer.delegate()->postPaint();
-
-    cursorLayer->endFrame(infiniteRegion(), infiniteRegion());
 }
 
 void WaylandOutput::init(const QSize &pixelSize, qreal scale)
@@ -296,11 +220,8 @@ void WaylandOutput::setDpmsMode(DpmsMode mode)
             Q_EMIT aboutToTurnOff(std::chrono::milliseconds(m_turnOffTimer.interval()));
             m_turnOffTimer.start();
         }
-        m_backend->createDpmsFilter();
     } else {
         m_turnOffTimer.stop();
-        m_backend->clearDpmsFilter();
-
         if (mode != dpmsMode()) {
             updateDpmsMode(mode);
             Q_EMIT wakeUp();
@@ -324,12 +245,27 @@ void WaylandOutput::updateEnabled(bool enabled)
 
 void WaylandOutput::handleConfigure(const QSize &size, XdgShellSurface::States states, quint32 serial)
 {
+    if (!m_ready) {
+        m_ready = true;
+
+        applyConfigure(size, serial);
+    } else {
+        // Output resizing is a resource intensive task, so the configure events are throttled.
+        m_pendingConfigureSerial = serial;
+        m_pendingConfigureSize = size;
+
+        if (!m_configureThrottleTimer.isActive()) {
+            m_configureThrottleTimer.start(1000000 / m_state.currentMode->refreshRate());
+        }
+    }
+}
+
+void WaylandOutput::applyConfigure(const QSize &size, quint32 serial)
+{
     m_xdgShellSurface->ackConfigure(serial);
-    if (size.width() > 0 && size.height() > 0) {
+    if (!size.isEmpty()) {
         resize(size * scale());
     }
-
-    m_ready = true;
 }
 
 void WaylandOutput::updateWindowTitle()
@@ -342,7 +278,7 @@ void WaylandOutput::updateWindowTitle()
     }
 
     QString title = i18nc("Title of nested KWin Wayland with Wayland socket identifier as argument",
-                          "KDE Wayland Compositor %1 (%2)", name(), waylandServer()->socketName());
+                          "KDE Wayland Compositor %1", name());
 
     if (!isEnabled()) {
         title += i18n("- Output disabled");
@@ -362,7 +298,7 @@ void WaylandOutput::lockPointer(Pointer *pointer, bool lock)
         m_hasPointerLock = false;
         if (surfaceWasLocked) {
             updateWindowTitle();
-            m_cursor->enable();
+            updateCursorLayer();
             Q_EMIT m_backend->pointerLockChanged(false);
         }
         return;
@@ -377,17 +313,19 @@ void WaylandOutput::lockPointer(Pointer *pointer, bool lock)
     connect(m_pointerLock.get(), &LockedPointer::locked, this, [this]() {
         m_hasPointerLock = true;
         updateWindowTitle();
-        m_cursor->disable();
+        updateCursorLayer();
         Q_EMIT m_backend->pointerLockChanged(true);
     });
     connect(m_pointerLock.get(), &LockedPointer::unlocked, this, [this]() {
         m_pointerLock.reset();
         m_hasPointerLock = false;
         updateWindowTitle();
-        m_cursor->enable();
+        updateCursorLayer();
         Q_EMIT m_backend->pointerLockChanged(false);
     });
 }
 
 }
 }
+
+#include "moc_wayland_output.cpp"

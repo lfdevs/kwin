@@ -9,13 +9,11 @@
 #include "kwin_wayland_test.h"
 
 #include "core/output.h"
-#include "core/outputbackend.h"
-#include "cursor.h"
-#include "wayland/seat_interface.h"
+#include "pointer_input.h"
+#include "wayland/seat.h"
 #include "wayland_server.h"
 #include "workspace.h"
 #include "x11window.h"
-#include <kwineffects.h>
 
 #include <KWayland/Client/compositor.h>
 #include <KWayland/Client/plasmawindowmanagement.h>
@@ -59,7 +57,10 @@ void PlasmaWindowTest::initTestCase()
     qRegisterMetaType<KWin::Window *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
+    Test::setOutputConfig({
+        QRect(0, 0, 1280, 1024),
+        QRect(1280, 0, 1280, 1024),
+    });
 
     kwinApp()->start();
     QVERIFY(applicationStartedSpy.wait());
@@ -78,7 +79,7 @@ void PlasmaWindowTest::init()
     m_compositor = Test::waylandCompositor();
 
     workspace()->setActiveOutput(QPoint(640, 512));
-    Cursors::self()->mouse()->setPos(QPoint(640, 512));
+    input()->pointer()->warp(QPoint(640, 512));
 }
 
 void PlasmaWindowTest::cleanup()
@@ -92,14 +93,7 @@ void PlasmaWindowTest::testCreateDestroyX11PlasmaWindow()
     QSignalSpy plasmaWindowCreatedSpy(m_windowManagement, &KWayland::Client::PlasmaWindowManagement::windowCreated);
 
     // create an xcb window
-    struct XcbConnectionDeleter
-    {
-        void operator()(xcb_connection_t *pointer)
-        {
-            xcb_disconnect(pointer);
-        }
-    };
-    std::unique_ptr<xcb_connection_t, XcbConnectionDeleter> c(xcb_connect(nullptr, nullptr));
+    Test::XcbConnectionPtr c = Test::createX11Connection();
     QVERIFY(!xcb_connection_has_error(c.get()));
     const QRect windowGeometry(0, 0, 100, 200);
     xcb_window_t windowId = xcb_generate_id(c.get());
@@ -164,7 +158,7 @@ void PlasmaWindowTest::testCreateDestroyX11PlasmaWindow()
     xcb_unmap_window(c.get(), windowId);
     xcb_flush(c.get());
 
-    QSignalSpy windowClosedSpy(window, &X11Window::windowClosed);
+    QSignalSpy windowClosedSpy(window, &X11Window::closed);
     QVERIFY(windowClosedSpy.wait());
     xcb_destroy_window(c.get(), windowId);
     c.reset();
@@ -238,9 +232,9 @@ void PlasmaWindowTest::testPopupWindowNoPlasmaWindow()
 
     // let's destroy the windows
     popupShellSurface.reset();
-    QVERIFY(Test::waitForWindowDestroyed(popupWindow));
+    QVERIFY(Test::waitForWindowClosed(popupWindow));
     parentShellSurface.reset();
-    QVERIFY(Test::waitForWindowDestroyed(parentClient));
+    QVERIFY(Test::waitForWindowClosed(parentClient));
 }
 
 void PlasmaWindowTest::testLockScreenNoPlasmaWindow()

@@ -11,6 +11,12 @@
 
 #pragma once
 
+#include "config-kwin.h"
+
+#if !KWIN_BUILD_X11
+#error Do not include on non-X11 builds
+#endif
+
 #include "utils/xcbutils.h"
 
 namespace KWin
@@ -56,7 +62,6 @@ public:
     Xcb::Atom net_wm_sync_request_counter;
     Xcb::Atom net_wm_sync_request;
     Xcb::Atom kde_net_wm_shadow;
-    Xcb::Atom kde_first_in_window_list;
     Xcb::Atom kde_color_sheme;
     Xcb::Atom kde_skip_close_animation;
     Xcb::Atom kde_screen_edge_show;

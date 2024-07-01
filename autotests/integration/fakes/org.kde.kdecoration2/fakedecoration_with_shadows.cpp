@@ -30,7 +30,7 @@ public:
     }
 
 public Q_SLOTS:
-    void init() override
+    bool init() override
     {
         const int shadowSize = 128;
         const int offsetTop = 64;
@@ -46,12 +46,13 @@ public Q_SLOTS:
             shadowSize + offsetLeft,
             shadowSize + offsetTop);
 
-        auto decoShadow = QSharedPointer<KDecoration2::DecorationShadow>::create();
+        auto decoShadow = std::make_shared<KDecoration2::DecorationShadow>();
         decoShadow->setPadding(padding);
         decoShadow->setInnerShadowRect(QRect(shadowRect.center(), QSize(1, 1)));
         decoShadow->setShadow(shadowTexture);
 
         setShadow(decoShadow);
+        return true;
     }
 };
 

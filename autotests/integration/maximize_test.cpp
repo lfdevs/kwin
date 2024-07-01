@@ -9,22 +9,22 @@
 #include "kwin_wayland_test.h"
 
 #include "core/output.h"
-#include "core/outputbackend.h"
-#include "cursor.h"
 #include "decorations/decorationbridge.h"
 #include "decorations/settings.h"
+#include "pointer_input.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
 
 #include <KWayland/Client/compositor.h>
-#include <KWayland/Client/plasmashell.h>
 #include <KWayland/Client/shm_pool.h>
 #include <KWayland/Client/surface.h>
 
 #include <KDecoration2/DecoratedClient>
 #include <KDecoration2/Decoration>
 #include <KDecoration2/DecorationSettings>
+
+#include <QSignalSpy>
 
 using namespace KWin;
 
@@ -49,7 +49,10 @@ void TestMaximized::initTestCase()
     qRegisterMetaType<KWin::Window *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
+    Test::setOutputConfig({
+        QRect(0, 0, 1280, 1024),
+        QRect(1280, 0, 1280, 1024),
+    });
 
     kwinApp()->setConfig(KSharedConfig::openConfig(QString(), KConfig::SimpleConfig));
 
@@ -63,10 +66,10 @@ void TestMaximized::initTestCase()
 
 void TestMaximized::init()
 {
-    QVERIFY(Test::setupWaylandConnection(Test::AdditionalWaylandInterface::XdgDecorationV1 | Test::AdditionalWaylandInterface::PlasmaShell));
+    QVERIFY(Test::setupWaylandConnection(Test::AdditionalWaylandInterface::XdgDecorationV1));
 
     workspace()->setActiveOutput(QPoint(640, 512));
-    KWin::Cursors::self()->mouse()->setPos(QPoint(640, 512));
+    KWin::input()->pointer()->warp(QPoint(640, 512));
 }
 
 void TestMaximized::cleanup()
@@ -74,7 +77,7 @@ void TestMaximized::cleanup()
     Test::destroyWaylandConnection();
 
     // adjust config
-    auto group = kwinApp()->config()->group("Windows");
+    auto group = kwinApp()->config()->group(QStringLiteral("Windows"));
     group.writeEntry("BorderlessMaximizedWindows", false);
     group.sync();
     Workspace::self()->slotReconfigure();
@@ -114,7 +117,7 @@ void TestMaximized::testMaximizedPassedToDeco()
 
     // now maximize
     QSignalSpy bordersChangedSpy(decoration, &KDecoration2::Decoration::bordersChanged);
-    QSignalSpy maximizedChangedSpy(decoration->client().toStrongRef().get(), &KDecoration2::DecoratedClient::maximizedChanged);
+    QSignalSpy maximizedChangedSpy(decoration->client(), &KDecoration2::DecoratedClient::maximizedChanged);
     QSignalSpy frameGeometryChangedSpy(window, &Window::frameGeometryChanged);
 
     workspace()->slotWindowMaximize();
@@ -157,7 +160,7 @@ void TestMaximized::testMaximizedPassedToDeco()
 
     // Destroy the test window.
     shellSurface.reset();
-    QVERIFY(Test::waitForWindowDestroyed(window));
+    QVERIFY(Test::waitForWindowClosed(window));
 }
 
 void TestMaximized::testInitiallyMaximizedBorderless()
@@ -165,7 +168,7 @@ void TestMaximized::testInitiallyMaximizedBorderless()
     // This test verifies that a window created as maximized, will be maximized and without Border with BorderlessMaximizedWindows
 
     // adjust config
-    auto group = kwinApp()->config()->group("Windows");
+    auto group = kwinApp()->config()->group(QStringLiteral("Windows"));
     group.writeEntry("BorderlessMaximizedWindows", true);
     group.sync();
     Workspace::self()->slotReconfigure();
@@ -207,7 +210,7 @@ void TestMaximized::testInitiallyMaximizedBorderless()
     // Destroy the window.
     shellSurface.reset();
     surface.reset();
-    QVERIFY(Test::waitForWindowDestroyed(window));
+    QVERIFY(Test::waitForWindowClosed(window));
 }
 void TestMaximized::testBorderlessMaximizedWindow()
 {
@@ -215,7 +218,7 @@ void TestMaximized::testBorderlessMaximizedWindow()
     // decoration when the borderless maximized option is on.
 
     // Enable the borderless maximized windows option.
-    auto group = kwinApp()->config()->group("Windows");
+    auto group = kwinApp()->config()->group(QStringLiteral("Windows"));
     group.writeEntry("BorderlessMaximizedWindows", true);
     group.sync();
     Workspace::self()->slotReconfigure();
@@ -295,7 +298,7 @@ void TestMaximized::testBorderlessMaximizedWindow()
 
     // Destroy the window.
     shellSurface.reset();
-    QVERIFY(Test::waitForWindowDestroyed(window));
+    QVERIFY(Test::waitForWindowClosed(window));
 }
 
 void TestMaximized::testMaximizedGainFocusAndBeActivated()
@@ -319,9 +322,9 @@ void TestMaximized::testMaximizedGainFocusAndBeActivated()
     QCOMPARE(workspace()->stackingOrder(), (QList<Window *>{window2, window}));
 
     xdgShellSurface.reset();
-    QVERIFY(Test::waitForWindowDestroyed(window));
+    QVERIFY(Test::waitForWindowClosed(window));
     xdgShellSurface2.reset();
-    QVERIFY(Test::waitForWindowDestroyed(window2));
+    QVERIFY(Test::waitForWindowClosed(window2));
 }
 
 WAYLANDTEST_MAIN(TestMaximized)

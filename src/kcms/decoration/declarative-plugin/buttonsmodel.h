@@ -8,6 +8,8 @@
 #include <KDecoration2/DecorationButton>
 #include <QAbstractListModel>
 
+#include <QQmlEngine>
+
 namespace KDecoration2
 {
 
@@ -18,15 +20,16 @@ class PreviewBridge;
 class ButtonsModel : public QAbstractListModel
 {
     Q_OBJECT
+    QML_ELEMENT
 public:
-    explicit ButtonsModel(const QVector<DecorationButtonType> &buttons, QObject *parent = nullptr);
+    explicit ButtonsModel(const QList<DecorationButtonType> &buttons, QObject *parent = nullptr);
     explicit ButtonsModel(QObject *parent = nullptr);
     ~ButtonsModel() override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-    QVector<DecorationButtonType> buttons() const
+    QList<DecorationButtonType> buttons() const
     {
         return m_buttons;
     }
@@ -37,12 +40,12 @@ public:
     Q_INVOKABLE void down(int index);
     Q_INVOKABLE void move(int sourceIndex, int targetIndex);
 
-    void replace(const QVector<DecorationButtonType> &buttons);
+    void replace(const QList<DecorationButtonType> &buttons);
     void add(DecorationButtonType type);
     Q_INVOKABLE void add(int index, int type);
 
 private:
-    QVector<DecorationButtonType> m_buttons;
+    QList<DecorationButtonType> m_buttons;
 };
 
 }

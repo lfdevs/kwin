@@ -9,13 +9,10 @@
 
 #include "kwin_wayland_test.h"
 
-#include "composite.h"
+#include "compositor.h"
 #include "core/output.h"
-#include "core/outputbackend.h"
-#include "core/renderbackend.h"
-#include "deleted.h"
-#include "effectloader.h"
-#include "effects.h"
+#include "effect/effecthandler.h"
+#include "effect/effectloader.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
@@ -42,13 +39,19 @@ private Q_SLOTS:
 
 void DontCrashReinitializeCompositorTest::initTestCase()
 {
+    if (!Test::renderNodeAvailable()) {
+        QSKIP("no render node available");
+        return;
+    }
     qputenv("XDG_DATA_DIRS", QCoreApplication::applicationDirPath().toUtf8());
 
     qRegisterMetaType<KWin::Window *>();
-    qRegisterMetaType<KWin::Deleted *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
+    Test::setOutputConfig({
+        QRect(0, 0, 1280, 1024),
+        QRect(1280, 0, 1280, 1024),
+    });
 
     auto config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
     KConfigGroup plugins(config, QStringLiteral("Plugins"));
@@ -68,8 +71,6 @@ void DontCrashReinitializeCompositorTest::initTestCase()
     QCOMPARE(outputs.count(), 2);
     QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
     QCOMPARE(outputs[1]->geometry(), QRect(1280, 0, 1280, 1024));
-
-    QCOMPARE(Compositor::self()->backend()->compositingType(), KWin::OpenGLCompositing);
 }
 
 void DontCrashReinitializeCompositorTest::init()
@@ -80,10 +81,8 @@ void DontCrashReinitializeCompositorTest::init()
 void DontCrashReinitializeCompositorTest::cleanup()
 {
     // Unload all effects.
-    auto effectsImpl = qobject_cast<EffectsHandlerImpl *>(effects);
-    QVERIFY(effectsImpl);
-    effectsImpl->unloadAllEffects();
-    QVERIFY(effectsImpl->loadedEffects().isEmpty());
+    effects->unloadAllEffects();
+    QVERIFY(effects->loadedEffects().isEmpty());
 
     Test::destroyWaylandConnection();
 }
@@ -92,9 +91,9 @@ void DontCrashReinitializeCompositorTest::testReinitializeCompositor_data()
 {
     QTest::addColumn<QString>("effectName");
 
-    QTest::newRow("Fade") << QStringLiteral("kwin4_effect_fade");
+    QTest::newRow("Fade") << QStringLiteral("fade");
     QTest::newRow("Glide") << QStringLiteral("glide");
-    QTest::newRow("Scale") << QStringLiteral("kwin4_effect_scale");
+    QTest::newRow("Scale") << QStringLiteral("scale");
 }
 
 void DontCrashReinitializeCompositorTest::testReinitializeCompositor()
@@ -102,10 +101,6 @@ void DontCrashReinitializeCompositorTest::testReinitializeCompositor()
     // This test verifies that KWin doesn't crash when the compositor settings
     // have been changed while a scripted effect animates the disappearing of
     // a window.
-
-    // Make sure that we have the right effects ptr.
-    auto effectsImpl = qobject_cast<EffectsHandlerImpl *>(effects);
-    QVERIFY(effectsImpl);
 
     // Create the test window.
     std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
@@ -117,15 +112,15 @@ void DontCrashReinitializeCompositorTest::testReinitializeCompositor()
 
     // Make sure that only the test effect is loaded.
     QFETCH(QString, effectName);
-    QVERIFY(effectsImpl->loadEffect(effectName));
-    QCOMPARE(effectsImpl->loadedEffects().count(), 1);
-    QCOMPARE(effectsImpl->loadedEffects().first(), effectName);
-    Effect *effect = effectsImpl->findEffect(effectName);
+    QVERIFY(effects->loadEffect(effectName));
+    QCOMPARE(effects->loadedEffects().count(), 1);
+    QCOMPARE(effects->loadedEffects().first(), effectName);
+    Effect *effect = effects->findEffect(effectName);
     QVERIFY(effect);
     QVERIFY(!effect->isActive());
 
     // Close the test window.
-    QSignalSpy windowClosedSpy(window, &Window::windowClosed);
+    QSignalSpy windowClosedSpy(window, &Window::closed);
     shellSurface.reset();
     surface.reset();
     QVERIFY(windowClosedSpy.wait());

@@ -11,8 +11,8 @@
 
 class KConfig;
 
+#include <KCModule>
 #include <KLocalizedString>
-#include <kcmodule.h>
 
 #include "ui_actions.h"
 #include "ui_mouse.h"
@@ -44,13 +44,8 @@ public:
 
     void save() override;
 
-    bool isDefaults() const;
-    bool isSaveNeeded() const;
-
 protected:
     void initialize(KWinOptionsSettings *settings);
-    void showEvent(QShowEvent *ev) override;
-    void changeEvent(QEvent *ev) override;
 
 private:
     bool standAlone;
@@ -73,7 +68,6 @@ public:
 
 protected:
     void initialize(KWinOptionsSettings *settings);
-    void showEvent(QShowEvent *ev) override;
 
 private:
     bool standAlone;

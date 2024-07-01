@@ -6,12 +6,14 @@
 
 #pragma once
 
-#include "kwineffects.h"
-#include "kwinglobals.h"
+#include "core/colorspace.h"
+#include "effect/globals.h"
+#include "scene/itemgeometry.h"
 
-#include <QMatrix4x4>
+#include <QList>
 #include <QObject>
-#include <QVector>
+#include <QPointer>
+#include <QTransform>
 
 #include <optional>
 
@@ -20,6 +22,8 @@ namespace KWin
 
 class SceneDelegate;
 class Scene;
+class SyncReleasePoint;
+class DrmDevice;
 
 /**
  * The Item class is the base class for items in the scene.
@@ -29,7 +33,7 @@ class KWIN_EXPORT Item : public QObject
     Q_OBJECT
 
 public:
-    explicit Item(Scene *scene, Item *parent = nullptr);
+    explicit Item(Item *parent = nullptr);
     ~Item() override;
 
     Scene *scene() const;
@@ -55,7 +59,7 @@ public:
      */
     QRectF boundingRect() const;
 
-    virtual QVector<QRectF> shape() const;
+    virtual QList<QRectF> shape() const;
     virtual QRegion opaque() const;
 
     /**
@@ -67,26 +71,24 @@ public:
     QList<Item *> childItems() const;
     QList<Item *> sortedChildItems() const;
 
-    QPointF rootPosition() const;
-
-    QMatrix4x4 transform() const;
-    void setTransform(const QMatrix4x4 &transform);
+    QTransform transform() const;
+    void setTransform(const QTransform &transform);
 
     /**
      * Maps the given @a region from the item's coordinate system to the scene's coordinate
      * system.
      */
-    QRegion mapToGlobal(const QRegion &region) const;
+    QRegion mapToScene(const QRegion &region) const;
     /**
      * Maps the given @a rect from the item's coordinate system to the scene's coordinate
      * system.
      */
-    QRectF mapToGlobal(const QRectF &rect) const;
+    QRectF mapToScene(const QRectF &rect) const;
     /**
      * Maps the given @a rect from the scene's coordinate system to the item's coordinate
      * system.
      */
-    QRectF mapFromGlobal(const QRectF &rect) const;
+    QRectF mapFromScene(const QRectF &rect) const;
 
     /**
      * Moves this item right before the specified @a sibling in the parent's children list.
@@ -103,12 +105,15 @@ public:
 
     void scheduleRepaint(const QRectF &region);
     void scheduleRepaint(const QRegion &region);
+    void scheduleRepaint(SceneDelegate *delegate, const QRegion &region);
     void scheduleFrame();
     QRegion repaints(SceneDelegate *delegate) const;
     void resetRepaints(SceneDelegate *delegate);
 
     WindowQuadList quads() const;
     virtual void preprocess();
+    const ColorDescription &colorDescription() const;
+    PresentationModeHint presentationHint() const;
 
 Q_SIGNALS:
     void childAdded(Item *item);
@@ -130,22 +135,29 @@ Q_SIGNALS:
 protected:
     virtual WindowQuadList buildQuads() const;
     void discardQuads();
+    void setColorDescription(const ColorDescription &description);
+    void setPresentationHint(PresentationModeHint hint);
+    void setScene(Scene *scene);
 
 private:
     void addChild(Item *item);
     void removeChild(Item *item);
     void updateBoundingRect();
+    void updateItemToSceneTransform();
     void scheduleRepaintInternal(const QRegion &region);
+    void scheduleRepaintInternal(SceneDelegate *delegate, const QRegion &region);
     void markSortedChildItemsDirty();
 
     bool computeEffectiveVisibility() const;
     void updateEffectiveVisibility();
     void removeRepaints(SceneDelegate *delegate);
 
-    Scene *m_scene;
+    Scene *m_scene = nullptr;
     QPointer<Item> m_parentItem;
     QList<Item *> m_childItems;
-    QMatrix4x4 m_transform;
+    QTransform m_transform;
+    QTransform m_itemToSceneTransform;
+    QTransform m_sceneToItemTransform;
     QRectF m_boundingRect;
     QPointF m_position;
     QSizeF m_size = QSize(0, 0);
@@ -156,6 +168,8 @@ private:
     QMap<SceneDelegate *, QRegion> m_repaints;
     mutable std::optional<WindowQuadList> m_quads;
     mutable std::optional<QList<Item *>> m_sortedChildItems;
+    ColorDescription m_colorDescription = ColorDescription::sRGB;
+    PresentationModeHint m_presentationHint = PresentationModeHint::VSync;
 };
 
 } // namespace KWin

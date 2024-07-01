@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-03 00:48+0000\n"
+"POT-Creation-Date: 2024-02-06 00:39+0000\n"
 "PO-Revision-Date: 2013-10-18 20:17+0000\n"
 "Last-Translator: Samir Ribić <Unknown>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -24,16 +24,6 @@ msgstr ""
 "X-Environment: kde\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Samir Ribić"
-
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "samir.ribic@etf.unsa.ba"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
 #: actions.ui:17
@@ -350,6 +340,7 @@ msgstr "Učini manje prozirnim"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TitlebarDoubleClickCommand)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandTitlebarWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar1)
@@ -358,8 +349,8 @@ msgstr "Učini manje prozirnim"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
-#: actions.ui:310 actions.ui:380 actions.ui:450 actions.ui:505 mouse.ui:80
-#: mouse.ui:132 mouse.ui:271 mouse.ui:333 mouse.ui:386 mouse.ui:448
+#: actions.ui:310 actions.ui:380 actions.ui:450 actions.ui:505 advanced.ui:174
+#: mouse.ui:80 mouse.ui:132 mouse.ui:271 mouse.ui:333 mouse.ui:386 mouse.ui:448
 #: mouse.ui:501 mouse.ui:563
 #, fuzzy, kde-format
 #| msgid "Nothing"
@@ -964,34 +955,8 @@ msgstr ""
 msgid "Multiscreen behavior:"
 msgstr "Višeekransko ponašanje"
 
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ActiveMouseScreen)
-#: focus.ui:203
-#, fuzzy, kde-format
-#| msgid ""
-#| "When this option is enabled, the active Xinerama screen (where new "
-#| "windows appear, for example) is the screen containing the mouse pointer. "
-#| "When disabled, the active Xinerama screen is the screen containing the "
-#| "focused window. By default this option is disabled for Click to focus and "
-#| "enabled for other focus policies."
-msgid ""
-"When this option is enabled, the active screen (where new windows appear, "
-"for example) is the screen containing the mouse pointer. When disabled, the "
-"active screen is the screen containing the focused window."
-msgstr ""
-"Kada je ova opcija uključena, aktivni Xinerama ekran (gdje se novi prozori "
-"pojavljuju, na primjer) je ekran koji sarži pokazivač miša. Kada je "
-"isključeno, aktivni Xinerama ekran je ekran koji sadrži fokusirani  prozor. "
-"Podrazumijevano, ova opcija je onemogućena u Klik na fokus i omogućena za "
-"druga pravila fokusa."
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ActiveMouseScreen)
-#: focus.ui:206
-#, kde-format
-msgid "Active screen follows &mouse"
-msgstr "Aktivni ekran prati &miša"
-
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SeparateScreenFocus)
-#: focus.ui:213
+#: focus.ui:203
 #, fuzzy, kde-format
 #| msgid ""
 #| "When this option is enabled, focus operations are limited only to the "
@@ -1004,125 +969,53 @@ msgstr ""
 "Xinerama ekran"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SeparateScreenFocus)
-#: focus.ui:216
+#: focus.ui:206
 #, fuzzy, kde-format
 #| msgid "S&eparate screen focus"
 msgid "&Separate screen focus"
 msgstr "&Razdvoji ekranski fokus"
 
 #. i18n: ectx: property (text), widget (QLabel, windowFocusPolicyDescriptionLabel)
-#: focus.ui:229
+#: focus.ui:219
 #, kde-format
 msgid "Window activation policy description"
 msgstr ""
 
-#: main.cpp:73
+#: main.cpp:79
 #, kde-format
 msgid "&Focus"
 msgstr "&Fokus"
 
-#: main.cpp:79
+#: main.cpp:84
 #, fuzzy, kde-format
 #| msgid "&Titlebar Actions"
 msgid "Titlebar A&ctions"
 msgstr "Radnje &naslovne trake"
 
-#: main.cpp:85
+#: main.cpp:89
 #, fuzzy, kde-format
 #| msgid "Window Actio&ns"
 msgid "W&indow Actions"
 msgstr "Radnje &prozora"
 
-#: main.cpp:91
+#: main.cpp:94
 #, fuzzy, kde-format
 #| msgid "&Placement:"
 msgid "Mo&vement"
 msgstr "&Pozicioniranje:"
 
-#: main.cpp:97
+#: main.cpp:99
 #, fuzzy, kde-format
 #| msgid "Ad&vanced"
 msgid "Adva&nced"
 msgstr "&Napredno"
 
-#: main.cpp:101
-#, kde-format
-msgid "Window Behavior Configuration Module"
-msgstr "Modul za podešavanje ponašanja prozora"
-
-#: main.cpp:103
-#, kde-format
-msgid "(c) 1997 - 2002 KWin and KControl Authors"
-msgstr "© 1997-2002, autori KWina i K‑kontrole"
-
-#: main.cpp:105
-#, kde-format
-msgid "Matthias Ettrich"
-msgstr "Matijas Etrih"
-
-#: main.cpp:106
-#, kde-format
-msgid "Waldo Bastian"
-msgstr "Valdo Bastijan"
-
-#: main.cpp:107
-#, kde-format
-msgid "Cristian Tibirna"
-msgstr "Kristijan Tibirna"
-
-#: main.cpp:108
-#, kde-format
-msgid "Matthias Kalle Dalheimer"
-msgstr "Matijas Kale Dalhajmer"
-
-#: main.cpp:109
-#, kde-format
-msgid "Daniel Molkentin"
-msgstr "Danijel Molkentin"
-
-#: main.cpp:110
-#, kde-format
-msgid "Wynn Wilkes"
-msgstr "Vin Vilks"
-
-#: main.cpp:111
-#, kde-format
-msgid "Pat Dowler"
-msgstr "Patrik Douler"
-
-#: main.cpp:112
-#, kde-format
-msgid "Bernd Wuebben"
-msgstr "Bernd Johanes Viben"
-
-#: main.cpp:113
-#, kde-format
-msgid "Matthias Hoelzer-Kluepfel"
-msgstr "Matijas Helcer-Klipfel"
-
-#: main.cpp:161
-#, kde-format
-msgid ""
-"<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
-"when being moved, resized or clicked on. You can also specify a focus policy "
-"as well as a placement policy for new windows.</p> <p>Please note that this "
-"configuration will not take effect if you do not use KWin as your window "
-"manager. If you do use a different window manager, please refer to its "
-"documentation for how to customize window behavior.</p>"
-msgstr ""
-"<h1>Ponašanje prozora</h1><p>Ovdje možete prilagoditi ponašanje prozora u "
-"toku pomijeranja, promjene veličine ili klika na njega. Takođe možete "
-"odrediti smjernice fokusiranja kao i smiještanja novih prozora.</p><p>Ova "
-"postava je na snazi samo ako koristite KWin kao menadžer prozora. Ako "
-"koristite drugi menadžer, pogledajte njegovu dokumentaciju za prilagođavanje "
-"ponašanja prozora.</p>"
-
-#: main.cpp:202
+#: main.cpp:178
 #, kde-format
 msgid "&Titlebar Actions"
 msgstr "Radnje &naslovne trake"
 
-#: main.cpp:208
+#: main.cpp:188
 #, kde-format
 msgid "Window Actio&ns"
 msgstr "Radnje &prozora"
@@ -1411,7 +1304,7 @@ msgstr ""
 msgid "Only when overlapping"
 msgstr "Namjesti prozore samo pri &preklapanju"
 
-#: windows.cpp:97
+#: windows.cpp:92
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Click To Focus</b><br>\n"
@@ -1427,7 +1320,7 @@ msgstr ""
 "Ovo ponašanje je uobičajeno u drugim operativnim sistemima i <br>\n"
 "vjerovatno je ono što želite."
 
-#: windows.cpp:101
+#: windows.cpp:95
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Click To Focus - Mouse Precedence</b><br>\n"
@@ -1450,7 +1343,7 @@ msgstr ""
 "prozor pod mišem je preferirani kandidat.<br><br>\n"
 "Neobična, ali moguća varijanta <i>Klik na fokus</i>."
 
-#: windows.cpp:106
+#: windows.cpp:98
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Follows Mouse</b><br>\n"
@@ -1471,7 +1364,7 @@ msgstr ""
 "Sprečavanje krađe fokusa radi kao obično.<br><br>\n"
 "Gledajte na ovo kao <i>klik na fokus</i> bez potrebe za stvarnim klikom."
 
-#: windows.cpp:110
+#: windows.cpp:101
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Follows Mouse - Mouse Precedence</b><br>\n"
@@ -1493,7 +1386,7 @@ msgstr ""
 "prozor pod mišem je preferirani kandidat.<br><br>\n"
 "Odaberite ovo za fokus kontrolisan nadlijetanjem."
 
-#: windows.cpp:115
+#: windows.cpp:104
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Under Mouse</b><br>\n"
@@ -1520,7 +1413,7 @@ msgstr ""
 "Možda želite koristiti<br>\n"
 "<i>Fokus prati miša - prioritet mišem</i> umjesto toga!"
 
-#: windows.cpp:119
+#: windows.cpp:107
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Focus Strictly Under Mouse</b><br>\n"
@@ -1550,6 +1443,83 @@ msgstr ""
 "su u kontradikciji s pravilom i <b>neće raditi</b>.<br><br>\n"
 "Možda želite koristiti<br>\n"
 "<i>Fokus prati miša - prioritet mišem</i> umjesto toga!"
+
+#, fuzzy
+#~| msgid ""
+#~| "When this option is enabled, the active Xinerama screen (where new "
+#~| "windows appear, for example) is the screen containing the mouse pointer. "
+#~| "When disabled, the active Xinerama screen is the screen containing the "
+#~| "focused window. By default this option is disabled for Click to focus "
+#~| "and enabled for other focus policies."
+#~ msgid ""
+#~ "When this option is enabled, the active screen (where new windows appear, "
+#~ "for example) is the screen containing the mouse pointer. When disabled, "
+#~ "the active screen is the screen containing the focused window."
+#~ msgstr ""
+#~ "Kada je ova opcija uključena, aktivni Xinerama ekran (gdje se novi "
+#~ "prozori pojavljuju, na primjer) je ekran koji sarži pokazivač miša. Kada "
+#~ "je isključeno, aktivni Xinerama ekran je ekran koji sadrži fokusirani  "
+#~ "prozor. Podrazumijevano, ova opcija je onemogućena u Klik na fokus i "
+#~ "omogućena za druga pravila fokusa."
+
+#~ msgid "Active screen follows &mouse"
+#~ msgstr "Aktivni ekran prati &miša"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Samir Ribić"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "samir.ribic@etf.unsa.ba"
+
+#~ msgid "Window Behavior Configuration Module"
+#~ msgstr "Modul za podešavanje ponašanja prozora"
+
+#~ msgid "(c) 1997 - 2002 KWin and KControl Authors"
+#~ msgstr "© 1997-2002, autori KWina i K‑kontrole"
+
+#~ msgid "Matthias Ettrich"
+#~ msgstr "Matijas Etrih"
+
+#~ msgid "Waldo Bastian"
+#~ msgstr "Valdo Bastijan"
+
+#~ msgid "Cristian Tibirna"
+#~ msgstr "Kristijan Tibirna"
+
+#~ msgid "Matthias Kalle Dalheimer"
+#~ msgstr "Matijas Kale Dalhajmer"
+
+#~ msgid "Daniel Molkentin"
+#~ msgstr "Danijel Molkentin"
+
+#~ msgid "Wynn Wilkes"
+#~ msgstr "Vin Vilks"
+
+#~ msgid "Pat Dowler"
+#~ msgstr "Patrik Douler"
+
+#~ msgid "Bernd Wuebben"
+#~ msgstr "Bernd Johanes Viben"
+
+#~ msgid "Matthias Hoelzer-Kluepfel"
+#~ msgstr "Matijas Helcer-Klipfel"
+
+#~ msgid ""
+#~ "<p><h1>Window Behavior</h1> Here you can customize the way windows behave "
+#~ "when being moved, resized or clicked on. You can also specify a focus "
+#~ "policy as well as a placement policy for new windows.</p> <p>Please note "
+#~ "that this configuration will not take effect if you do not use KWin as "
+#~ "your window manager. If you do use a different window manager, please "
+#~ "refer to its documentation for how to customize window behavior.</p>"
+#~ msgstr ""
+#~ "<h1>Ponašanje prozora</h1><p>Ovdje možete prilagoditi ponašanje prozora u "
+#~ "toku pomijeranja, promjene veličine ili klika na njega. Takođe možete "
+#~ "odrediti smjernice fokusiranja kao i smiještanja novih prozora.</p><p>Ova "
+#~ "postava je na snazi samo ako koristite KWin kao menadžer prozora. Ako "
+#~ "koristite drugi menadžer, pogledajte njegovu dokumentaciju za "
+#~ "prilagođavanje ponašanja prozora.</p>"
 
 #, fuzzy
 #~| msgid "Cascade"

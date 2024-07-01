@@ -15,6 +15,8 @@
 #include <QSize>
 #include <QString>
 
+#include <unordered_map>
+
 #include <xcb/xcb.h>
 #include <xcb/present.h>
 
@@ -23,10 +25,37 @@ class NETWinInfo;
 namespace KWin
 {
 
+class GraphicsBuffer;
 class X11WindowedBackend;
 class X11WindowedOutput;
-class X11WindowedEglBackend;
-class X11WindowedQPainterBackend;
+class OutputFrame;
+
+struct DmaBufAttributes;
+struct ShmAttributes;
+
+class X11WindowedBuffer : public QObject
+{
+    Q_OBJECT
+
+public:
+    X11WindowedBuffer(X11WindowedOutput *output, xcb_pixmap_t pixmap, GraphicsBuffer *buffer);
+    ~X11WindowedBuffer() override;
+
+    GraphicsBuffer *buffer() const;
+    xcb_pixmap_t pixmap() const;
+
+    void lock();
+    void unlock();
+
+Q_SIGNALS:
+    void defunct();
+
+private:
+    X11WindowedOutput *m_output;
+    GraphicsBuffer *m_buffer;
+    xcb_pixmap_t m_pixmap;
+    bool m_locked = false;
+};
 
 class X11WindowedCursor
 {
@@ -34,7 +63,7 @@ public:
     explicit X11WindowedCursor(X11WindowedOutput *output);
     ~X11WindowedCursor();
 
-    void update(const QImage &image, const QPoint &hotspot);
+    void update(const QImage &image, const QPointF &hotspot);
 
 private:
     X11WindowedOutput *m_output;
@@ -61,6 +90,8 @@ public:
     xcb_window_t window() const;
     int depth() const;
 
+    xcb_pixmap_t importBuffer(GraphicsBuffer *buffer);
+
     QPoint internalPosition() const;
     QPoint hostPosition() const;
     void setHostPosition(const QPoint &pos);
@@ -72,8 +103,7 @@ public:
      */
     QPointF mapFromGlobal(const QPointF &pos) const;
 
-    bool setCursor(CursorSource *source) override;
-    bool moveCursor(const QPoint &position) override;
+    bool updateCursorLayer() override;
 
     QRegion exposedArea() const;
     void addExposedArea(const QRect &rect);
@@ -82,19 +112,24 @@ public:
     void updateEnabled(bool enabled);
 
     void handlePresentCompleteNotify(xcb_present_complete_notify_event_t *event);
+    void handlePresentIdleNotify(xcb_present_idle_notify_event_t *event);
+    void framePending(const std::shared_ptr<OutputFrame> &frame);
 
 private:
     void initXInputForWindow();
-    void renderCursorOpengl(X11WindowedEglBackend *backend, CursorSource *source);
-    void renderCursorQPainter(X11WindowedQPainterBackend *backend, CursorSource *source);
+
+    xcb_pixmap_t importDmaBufBuffer(const DmaBufAttributes *attributes);
+    xcb_pixmap_t importShmBuffer(const ShmAttributes *attributes);
 
     xcb_window_t m_window = XCB_WINDOW_NONE;
     xcb_present_event_t m_presentEvent = XCB_NONE;
     std::unique_ptr<NETWinInfo> m_winInfo;
     std::unique_ptr<RenderLoop> m_renderLoop;
     std::unique_ptr<X11WindowedCursor> m_cursor;
+    std::unordered_map<GraphicsBuffer *, std::unique_ptr<X11WindowedBuffer>> m_buffers;
     QPoint m_hostPosition;
     QRegion m_exposedArea;
+    std::shared_ptr<OutputFrame> m_frame;
 
     X11WindowedBackend *m_backend;
 };

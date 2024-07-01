@@ -21,9 +21,6 @@ WindowThumbnailItem::WindowThumbnailItem(QQuickItem *parent)
     : QQuickItem(parent)
     , m_wId(0)
     , m_image()
-    , m_clipToItem(nullptr)
-    , m_brightness(1.0)
-    , m_saturation(1.0)
     , m_sourceSize(QSize())
 {
     setFlag(ItemHasContents);
@@ -40,17 +37,12 @@ void WindowThumbnailItem::setWId(qulonglong wId)
     findImage();
 }
 
-void WindowThumbnailItem::setClipTo(QQuickItem *clip)
-{
-    qWarning() << "ThumbnailItem.clipTo is removed and it has no replacements";
-}
-
 void WindowThumbnailItem::findImage()
 {
     QString imagePath;
     switch (m_wId) {
     case Konqueror:
-        imagePath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kwin/kcm_kwintabbox/konqueror.png");
+        imagePath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kwin/kcm_kwintabbox/falkon.png");
         break;
     case Systemsettings:
         imagePath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kwin/kcm_kwintabbox/systemsettings.png");
@@ -62,7 +54,7 @@ void WindowThumbnailItem::findImage()
         imagePath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kwin/kcm_kwintabbox/dolphin.png");
         break;
     case Desktop:
-        imagePath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, "wallpapers/Next/contents/screenshot.png");
+        imagePath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, "wallpapers/Next/contents/images/1280x800.png");
         if (imagePath.isNull()) {
             imagePath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kwin/kcm_kwintabbox/desktop.png");
         }
@@ -101,29 +93,9 @@ QSGNode *WindowThumbnailItem::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeD
     return node;
 }
 
-qreal WindowThumbnailItem::brightness() const
-{
-    return m_brightness;
-}
-
-qreal WindowThumbnailItem::saturation() const
-{
-    return m_saturation;
-}
-
 QSize WindowThumbnailItem::sourceSize() const
 {
     return m_sourceSize;
-}
-
-void WindowThumbnailItem::setBrightness(qreal brightness)
-{
-    qWarning() << "ThumbnailItem.brightness is removed. Use a shader effect to change brightness";
-}
-
-void WindowThumbnailItem::setSaturation(qreal saturation)
-{
-    qWarning() << "ThumbnailItem.saturation is removed. Use a shader effect to change saturation";
 }
 
 void WindowThumbnailItem::setSourceSize(const QSize &size)
@@ -137,3 +109,5 @@ void WindowThumbnailItem::setSourceSize(const QSize &size)
 }
 
 } // namespace KWin
+
+#include "moc_thumbnailitem.cpp"

@@ -7,18 +7,17 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "x11_windowed_output.h"
+#include "config-kwin.h"
+
 #include "../common/kwinxrenderutils.h"
 #include "x11_windowed_backend.h"
-#include "x11_windowed_egl_backend.h"
-#include "x11_windowed_qpainter_backend.h"
+#include "x11_windowed_logging.h"
 
-#include <config-kwin.h>
-
-#include "composite.h"
-#include "core/renderlayer.h"
+#include "compositor.h"
+#include "core/graphicsbuffer.h"
+#include "core/outputlayer.h"
+#include "core/renderbackend.h"
 #include "core/renderloop_p.h"
-#include "cursorsource.h"
-#include "scene/cursorscene.h"
 
 #include <NETWM>
 
@@ -29,8 +28,53 @@
 #include <QIcon>
 #include <QPainter>
 
+#include <drm_fourcc.h>
+#include <xcb/dri3.h>
+#include <xcb/shm.h>
+
 namespace KWin
 {
+
+X11WindowedBuffer::X11WindowedBuffer(X11WindowedOutput *output, xcb_pixmap_t pixmap, GraphicsBuffer *graphicsBuffer)
+    : m_output(output)
+    , m_buffer(graphicsBuffer)
+    , m_pixmap(pixmap)
+{
+    connect(graphicsBuffer, &GraphicsBuffer::destroyed, this, &X11WindowedBuffer::defunct);
+}
+
+X11WindowedBuffer::~X11WindowedBuffer()
+{
+    m_buffer->disconnect(this);
+    xcb_free_pixmap(m_output->backend()->connection(), m_pixmap);
+    unlock();
+}
+
+GraphicsBuffer *X11WindowedBuffer::buffer() const
+{
+    return m_buffer;
+}
+
+xcb_pixmap_t X11WindowedBuffer::pixmap() const
+{
+    return m_pixmap;
+}
+
+void X11WindowedBuffer::lock()
+{
+    if (!m_locked) {
+        m_locked = true;
+        m_buffer->ref();
+    }
+}
+
+void X11WindowedBuffer::unlock()
+{
+    if (m_locked) {
+        m_locked = false;
+        m_buffer->unref();
+    }
+}
 
 X11WindowedCursor::X11WindowedCursor(X11WindowedOutput *output)
     : m_output(output)
@@ -45,7 +89,7 @@ X11WindowedCursor::~X11WindowedCursor()
     }
 }
 
-void X11WindowedCursor::update(const QImage &image, const QPoint &hotspot)
+void X11WindowedCursor::update(const QImage &image, const QPointF &hotspot)
 {
     X11WindowedBackend *backend = m_output->backend();
 
@@ -62,7 +106,7 @@ void X11WindowedCursor::update(const QImage &image, const QPoint &hotspot)
         // right now on X we only have one scale between all screens, and we know we will have at least one screen
         const qreal outputScale = 1;
         const QSize targetSize = image.size() * outputScale / image.devicePixelRatio();
-        const QImage img = image.scaled(targetSize, Qt::KeepAspectRatio);
+        const QImage img = image.scaled(targetSize, Qt::KeepAspectRatio).convertedTo(QImage::Format_ARGB32_Premultiplied);
 
         xcb_create_pixmap(connection, 32, pix, backend->screen()->root, img.width(), img.height());
         xcb_create_gc(connection, gc, pix, 0, nullptr);
@@ -91,7 +135,7 @@ void X11WindowedCursor::update(const QImage &image, const QPoint &hotspot)
 
 X11WindowedOutput::X11WindowedOutput(X11WindowedBackend *backend)
     : Output(backend)
-    , m_renderLoop(std::make_unique<RenderLoop>())
+    , m_renderLoop(std::make_unique<RenderLoop>(this))
     , m_backend(backend)
 {
     m_window = xcb_generate_id(m_backend->connection());
@@ -105,6 +149,8 @@ X11WindowedOutput::X11WindowedOutput(X11WindowedBackend *backend)
 
 X11WindowedOutput::~X11WindowedOutput()
 {
+    m_buffers.clear();
+
     xcb_present_select_input(m_backend->connection(), m_presentEvent, m_window, 0);
     xcb_unmap_window(m_backend->connection(), m_window);
     xcb_destroy_window(m_backend->connection(), m_window);
@@ -198,7 +244,7 @@ void X11WindowedOutput::init(const QSize &pixelSize, qreal scale)
     // select xinput 2 events
     initXInputForWindow();
 
-    const uint32_t presentEventMask = XCB_PRESENT_EVENT_MASK_COMPLETE_NOTIFY;
+    const uint32_t presentEventMask = XCB_PRESENT_EVENT_MASK_IDLE_NOTIFY | XCB_PRESENT_EVENT_MASK_COMPLETE_NOTIFY;
     m_presentEvent = xcb_generate_id(m_backend->connection());
     xcb_present_select_input(m_backend->connection(), m_presentEvent, m_window, presentEventMask);
 
@@ -262,7 +308,18 @@ void X11WindowedOutput::resize(const QSize &pixelSize)
 void X11WindowedOutput::handlePresentCompleteNotify(xcb_present_complete_notify_event_t *event)
 {
     std::chrono::microseconds timestamp(event->ust);
-    RenderLoopPrivate::get(m_renderLoop.get())->notifyFrameCompleted(timestamp);
+    m_frame->presented(timestamp, PresentationMode::VSync);
+    m_frame.reset();
+}
+
+void X11WindowedOutput::handlePresentIdleNotify(xcb_present_idle_notify_event_t *event)
+{
+    for (auto &[graphicsBuffer, x11Buffer] : m_buffers) {
+        if (x11Buffer->pixmap() == event->pixmap) {
+            x11Buffer->unlock();
+            return;
+        }
+    }
 }
 
 void X11WindowedOutput::setWindowTitle(const QString &title)
@@ -285,79 +342,16 @@ QPointF X11WindowedOutput::mapFromGlobal(const QPointF &pos) const
     return (pos - hostPosition() + internalPosition()) / scale();
 }
 
-bool X11WindowedOutput::setCursor(CursorSource *source)
+bool X11WindowedOutput::updateCursorLayer()
 {
-    if (X11WindowedEglBackend *backend = qobject_cast<X11WindowedEglBackend *>(Compositor::self()->backend())) {
-        renderCursorOpengl(backend, source);
-    } else if (X11WindowedQPainterBackend *backend = qobject_cast<X11WindowedQPainterBackend *>(Compositor::self()->backend())) {
-        renderCursorQPainter(backend, source);
-    }
-
-    return true;
-}
-
-bool X11WindowedOutput::moveCursor(const QPoint &position)
-{
-    // The cursor position is controlled by the host compositor.
-    return true;
-}
-
-void X11WindowedOutput::renderCursorOpengl(X11WindowedEglBackend *backend, CursorSource *source)
-{
-    X11WindowedEglCursorLayer *cursorLayer = backend->cursorLayer(this);
-    if (source) {
-        cursorLayer->setSize(source->size());
-        cursorLayer->setHotspot(source->hotspot());
+    const auto layer = Compositor::self()->backend()->cursorLayer(this);
+    if (layer->isEnabled()) {
+        xcb_xfixes_show_cursor(m_backend->connection(), m_window);
+        // the cursor layers update the image on their own already
     } else {
-        cursorLayer->setSize(QSize());
-        cursorLayer->setHotspot(QPoint());
+        xcb_xfixes_hide_cursor(m_backend->connection(), m_window);
     }
-
-    std::optional<OutputLayerBeginFrameInfo> beginInfo = cursorLayer->beginFrame();
-    if (!beginInfo) {
-        return;
-    }
-
-    RenderTarget *renderTarget = &beginInfo->renderTarget;
-    renderTarget->setDevicePixelRatio(scale());
-
-    RenderLayer renderLayer(m_renderLoop.get());
-    renderLayer.setDelegate(std::make_unique<SceneDelegate>(Compositor::self()->cursorScene()));
-
-    renderLayer.delegate()->prePaint();
-    renderLayer.delegate()->paint(renderTarget, infiniteRegion());
-    renderLayer.delegate()->postPaint();
-
-    cursorLayer->endFrame(infiniteRegion(), infiniteRegion());
-}
-
-void X11WindowedOutput::renderCursorQPainter(X11WindowedQPainterBackend *backend, CursorSource *source)
-{
-    X11WindowedQPainterCursorLayer *cursorLayer = backend->cursorLayer(this);
-    if (source) {
-        cursorLayer->setSize(source->size());
-        cursorLayer->setHotspot(source->hotspot());
-    } else {
-        cursorLayer->setSize(QSize());
-        cursorLayer->setHotspot(QPoint());
-    }
-
-    std::optional<OutputLayerBeginFrameInfo> beginInfo = cursorLayer->beginFrame();
-    if (!beginInfo) {
-        return;
-    }
-
-    RenderTarget *renderTarget = &beginInfo->renderTarget;
-    renderTarget->setDevicePixelRatio(scale());
-
-    RenderLayer renderLayer(m_renderLoop.get());
-    renderLayer.setDelegate(std::make_unique<SceneDelegate>(Compositor::self()->cursorScene()));
-
-    renderLayer.delegate()->prePaint();
-    renderLayer.delegate()->paint(renderTarget, infiniteRegion());
-    renderLayer.delegate()->postPaint();
-
-    cursorLayer->endFrame(infiniteRegion(), infiniteRegion());
+    return true;
 }
 
 void X11WindowedOutput::updateEnabled(bool enabled)
@@ -367,4 +361,98 @@ void X11WindowedOutput::updateEnabled(bool enabled)
     setState(next);
 }
 
+xcb_pixmap_t X11WindowedOutput::importDmaBufBuffer(const DmaBufAttributes *attributes)
+{
+    uint8_t depth;
+    uint8_t bpp;
+    switch (attributes->format) {
+    case DRM_FORMAT_ARGB8888:
+        depth = 32;
+        bpp = 32;
+        break;
+    case DRM_FORMAT_XRGB8888:
+        depth = 24;
+        bpp = 32;
+        break;
+    default:
+        qCWarning(KWIN_X11WINDOWED) << "Cannot import a buffer with unsupported format";
+        return XCB_PIXMAP_NONE;
+    }
+
+    xcb_pixmap_t pixmap = xcb_generate_id(m_backend->connection());
+    if (m_backend->driMajorVersion() >= 1 || m_backend->driMinorVersion() >= 2) {
+        // xcb_dri3_pixmap_from_buffers() takes the ownership of the file descriptors.
+        int fds[4] = {
+            attributes->fd[0].duplicate().take(),
+            attributes->fd[1].duplicate().take(),
+            attributes->fd[2].duplicate().take(),
+            attributes->fd[3].duplicate().take(),
+        };
+        xcb_dri3_pixmap_from_buffers(m_backend->connection(), pixmap, m_window, attributes->planeCount,
+                                     attributes->width, attributes->height,
+                                     attributes->pitch[0], attributes->offset[0],
+                                     attributes->pitch[1], attributes->offset[1],
+                                     attributes->pitch[2], attributes->offset[2],
+                                     attributes->pitch[3], attributes->offset[3],
+                                     depth, bpp, attributes->modifier, fds);
+    } else {
+        // xcb_dri3_pixmap_from_buffer() takes the ownership of the file descriptor.
+        xcb_dri3_pixmap_from_buffer(m_backend->connection(), pixmap, m_window,
+                                    attributes->height * attributes->pitch[0], attributes->width, attributes->height,
+                                    attributes->pitch[0], depth, bpp, attributes->fd[0].duplicate().take());
+    }
+
+    return pixmap;
+}
+
+xcb_pixmap_t X11WindowedOutput::importShmBuffer(const ShmAttributes *attributes)
+{
+    // xcb_shm_attach_fd() takes the ownership of the passed shm file descriptor.
+    FileDescriptor poolFileDescriptor = attributes->fd.duplicate();
+    if (!poolFileDescriptor.isValid()) {
+        qCWarning(KWIN_X11WINDOWED) << "Failed to duplicate shm file descriptor";
+        return XCB_PIXMAP_NONE;
+    }
+
+    xcb_shm_seg_t segment = xcb_generate_id(m_backend->connection());
+    xcb_shm_attach_fd(m_backend->connection(), segment, poolFileDescriptor.take(), 0);
+
+    xcb_pixmap_t pixmap = xcb_generate_id(m_backend->connection());
+    xcb_shm_create_pixmap(m_backend->connection(), pixmap, m_window, attributes->size.width(), attributes->size.height(), depth(), segment, 0);
+    xcb_shm_detach(m_backend->connection(), segment);
+
+    return pixmap;
+}
+
+xcb_pixmap_t X11WindowedOutput::importBuffer(GraphicsBuffer *graphicsBuffer)
+{
+    std::unique_ptr<X11WindowedBuffer> &x11Buffer = m_buffers[graphicsBuffer];
+    if (!x11Buffer) {
+        xcb_pixmap_t pixmap = XCB_PIXMAP_NONE;
+        if (const DmaBufAttributes *attributes = graphicsBuffer->dmabufAttributes()) {
+            pixmap = importDmaBufBuffer(attributes);
+        } else if (const ShmAttributes *attributes = graphicsBuffer->shmAttributes()) {
+            pixmap = importShmBuffer(attributes);
+        }
+        if (pixmap == XCB_PIXMAP_NONE) {
+            return XCB_PIXMAP_NONE;
+        }
+
+        x11Buffer = std::make_unique<X11WindowedBuffer>(this, pixmap, graphicsBuffer);
+        connect(x11Buffer.get(), &X11WindowedBuffer::defunct, this, [this, graphicsBuffer]() {
+            m_buffers.erase(graphicsBuffer);
+        });
+    }
+
+    x11Buffer->lock();
+    return x11Buffer->pixmap();
+}
+
+void X11WindowedOutput::framePending(const std::shared_ptr<OutputFrame> &frame)
+{
+    m_frame = frame;
+}
+
 } // namespace KWin
+
+#include "moc_x11_windowed_output.cpp"

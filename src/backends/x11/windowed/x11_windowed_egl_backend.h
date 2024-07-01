@@ -8,37 +8,38 @@
 */
 #pragma once
 
-#include "../common/x11_common_egl_backend.h"
 #include "core/outputlayer.h"
-#include "kwinglutils.h"
-
-#include <QMap>
+#include "opengl/glutils.h"
+#include "platformsupport/scenes/opengl/abstract_egl_backend.h"
 
 namespace KWin
 {
 
+class EglSwapchainSlot;
+class EglSwapchain;
 class X11WindowedBackend;
 class X11WindowedOutput;
 class X11WindowedEglBackend;
+class GLRenderTimeQuery;
 
 class X11WindowedEglPrimaryLayer : public OutputLayer
 {
 public:
-    X11WindowedEglPrimaryLayer(X11WindowedEglBackend *backend, X11WindowedOutput *output, EGLSurface surface);
-    ~X11WindowedEglPrimaryLayer();
+    X11WindowedEglPrimaryLayer(X11WindowedEglBackend *backend, X11WindowedOutput *output);
+    ~X11WindowedEglPrimaryLayer() override;
 
-    std::optional<OutputLayerBeginFrameInfo> beginFrame() override;
-    bool endFrame(const QRegion &renderedRegion, const QRegion &damagedRegion) override;
-    EGLSurface surface() const;
-    QRegion lastDamage() const;
+    std::optional<OutputLayerBeginFrameInfo> doBeginFrame() override;
+    bool doEndFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame) override;
+    DrmDevice *scanoutDevice() const override;
+    QHash<uint32_t, QList<uint64_t>> supportedDrmFormats() const override;
+
+    std::shared_ptr<GLTexture> texture() const;
+    void present();
 
 private:
-    void ensureFbo();
-
-    EGLSurface m_eglSurface;
-    std::unique_ptr<GLFramebuffer> m_fbo;
-    QRegion m_lastDamage;
-
+    std::shared_ptr<EglSwapchain> m_swapchain;
+    std::shared_ptr<EglSwapchainSlot> m_buffer;
+    std::unique_ptr<GLRenderTimeQuery> m_query;
     X11WindowedOutput *const m_output;
     X11WindowedEglBackend *const m_backend;
 };
@@ -51,28 +52,22 @@ public:
     X11WindowedEglCursorLayer(X11WindowedEglBackend *backend, X11WindowedOutput *output);
     ~X11WindowedEglCursorLayer() override;
 
-    QPoint hotspot() const;
-    void setHotspot(const QPoint &hotspot);
-
-    QSize size() const;
-    void setSize(const QSize &size);
-
-    std::optional<OutputLayerBeginFrameInfo> beginFrame() override;
-    bool endFrame(const QRegion &renderedRegion, const QRegion &damagedRegion) override;
+    std::optional<OutputLayerBeginFrameInfo> doBeginFrame() override;
+    bool doEndFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame) override;
+    DrmDevice *scanoutDevice() const override;
+    QHash<uint32_t, QList<uint64_t>> supportedDrmFormats() const override;
 
 private:
-    X11WindowedOutput *const m_output;
     X11WindowedEglBackend *const m_backend;
     std::unique_ptr<GLFramebuffer> m_framebuffer;
     std::unique_ptr<GLTexture> m_texture;
-    QPoint m_hotspot;
-    QSize m_size;
+    std::unique_ptr<GLRenderTimeQuery> m_query;
 };
 
 /**
  * @brief OpenGL Backend using Egl windowing system over an X overlay window.
  */
-class X11WindowedEglBackend : public EglOnXBackend
+class X11WindowedEglBackend : public AbstractEglBackend
 {
     Q_OBJECT
 
@@ -80,20 +75,20 @@ public:
     explicit X11WindowedEglBackend(X11WindowedBackend *backend);
     ~X11WindowedEglBackend() override;
 
-    std::unique_ptr<SurfaceTexture> createSurfaceTextureInternal(SurfacePixmapInternal *pixmap) override;
-    std::unique_ptr<SurfaceTexture> createSurfaceTextureWayland(SurfacePixmapWayland *pixmap) override;
+    X11WindowedBackend *backend() const;
+    DrmDevice *drmDevice() const override;
+
+    std::unique_ptr<SurfaceTexture> createSurfaceTextureWayland(SurfacePixmap *pixmap) override;
+    std::pair<std::shared_ptr<GLTexture>, ColorDescription> textureForOutput(Output *output) const override;
     void init() override;
     void endFrame(Output *output, const QRegion &renderedRegion, const QRegion &damagedRegion);
-    void present(Output *output) override;
+    void present(Output *output, const std::shared_ptr<OutputFrame> &frame) override;
     OutputLayer *primaryLayer(Output *output) override;
-    X11WindowedEglCursorLayer *cursorLayer(Output *output);
-
-protected:
-    void cleanupSurfaces() override;
-    bool createSurfaces() override;
+    OutputLayer *cursorLayer(Output *output) override;
 
 private:
-    void presentSurface(EGLSurface surface, const QRegion &damage, const QRect &screenGeometry);
+    bool initializeEgl();
+    bool initRenderingContext();
 
     struct Layers
     {

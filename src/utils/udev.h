@@ -10,7 +10,7 @@
 #include <kwin_export.h>
 #include <memory>
 
-#include <QVector>
+#include <QList>
 #include <vector>
 
 #include <sys/types.h>
@@ -38,6 +38,7 @@ public:
     QMap<QByteArray, QByteArray> properties() const;
     bool isBootVga() const;
     QString seat() const;
+    bool isHotpluggable() const;
 
     operator udev_device *() const
     {
@@ -47,7 +48,6 @@ public:
     {
         return m_device;
     }
-    typedef std::unique_ptr<UdevDevice> Ptr;
 
 private:
     udev_device *const m_device;
@@ -66,7 +66,7 @@ public:
     }
     void filterSubsystemDevType(const char *subSystem, const char *devType = nullptr);
     void enable();
-    UdevDevice::Ptr getDevice();
+    std::unique_ptr<UdevDevice> getDevice();
 
 private:
     udev_monitor *m_monitor;
@@ -82,8 +82,8 @@ public:
     {
         return m_udev != nullptr;
     }
-    std::vector<UdevDevice::Ptr> listGPUs();
-    UdevDevice::Ptr deviceFromSyspath(const char *syspath);
+    std::vector<std::unique_ptr<UdevDevice>> listGPUs();
+    std::unique_ptr<UdevDevice> deviceFromSyspath(const char *syspath);
     std::unique_ptr<UdevMonitor> monitor();
     operator udev *() const
     {

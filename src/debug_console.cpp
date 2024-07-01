@@ -7,40 +7,42 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "debug_console.h"
-#include "composite.h"
+#include "compositor.h"
+#include "core/graphicsbufferview.h"
 #include "core/inputdevice.h"
+#include "effect/effecthandler.h"
 #include "input_event.h"
 #include "internalwindow.h"
 #include "keyboard_input.h"
 #include "main.h"
+#include "opengl/glplatform.h"
+#include "opengl/glutils.h"
 #include "platformsupport/scenes/opengl/openglbackend.h"
-#include "unmanaged.h"
+#include "scene/workspacescene.h"
 #include "utils/filedescriptor.h"
 #include "utils/subsurfacemonitor.h"
 #include "wayland/abstract_data_source.h"
 #include "wayland/clientconnection.h"
-#include "wayland/datacontrolsource_v1_interface.h"
-#include "wayland/datasource_interface.h"
+#include "wayland/datacontrolsource_v1.h"
+#include "wayland/datasource.h"
 #include "wayland/display.h"
-#include "wayland/primaryselectionsource_v1_interface.h"
-#include "wayland/seat_interface.h"
-#include "wayland/shmclientbuffer.h"
-#include "wayland/subcompositor_interface.h"
-#include "wayland/surface_interface.h"
+#include "wayland/primaryselectionsource_v1.h"
+#include "wayland/seat.h"
+#include "wayland/subcompositor.h"
+#include "wayland/surface.h"
 #include "wayland_server.h"
 #include "waylandwindow.h"
 #include "workspace.h"
-#include "x11window.h"
 #include "xkb.h"
 #include <cerrno>
-#include <kwinglplatform.h>
-#include <kwinglutils.h>
+#if KWIN_BUILD_X11
+#include "x11window.h"
+#endif
 
 #include "ui_debug_console.h"
 
 // frameworks
 #include <KLocalizedString>
-#include <NETWM>
 // Qt
 #include <QFutureWatcher>
 #include <QMetaProperty>
@@ -48,6 +50,7 @@
 #include <QMouseEvent>
 #include <QScopeGuard>
 #include <QSortFilterProxyModel>
+#include <QWindow>
 #include <QtConcurrentRun>
 
 #include <wayland-server-core.h>
@@ -74,11 +77,6 @@ static QString tableRow(const QString &title, const T &argument)
     return QStringLiteral("<tr><td>%1</td><td>%2</td></tr>").arg(title).arg(argument);
 }
 
-static QString timestampRow(uint32_t timestamp)
-{
-    return tableRow(i18n("Timestamp"), timestamp);
-}
-
 static QString timestampRow(std::chrono::microseconds timestamp)
 {
     return tableRow(i18n("Timestamp"), std::chrono::duration_cast<std::chrono::milliseconds>(timestamp).count());
@@ -87,11 +85,6 @@ static QString timestampRow(std::chrono::microseconds timestamp)
 static QString timestampRowUsec(std::chrono::microseconds timestamp)
 {
     return tableRow(i18n("Timestamp (µsec)"), timestamp.count());
-}
-
-static QString timestampRowUsec(uint64_t timestamp)
-{
-    return tableRow(i18n("Timestamp (µsec)"), timestamp);
 }
 
 static QString buttonToString(Qt::MouseButton button)
@@ -576,7 +569,7 @@ void DebugConsoleFilter::tabletPadRingEvent(int number, int position, bool isFin
     m_textEdit->ensureCursorVisible();
 }
 
-static QString sourceString(const KWaylandServer::AbstractDataSource *const source)
+static QString sourceString(const AbstractDataSource *const source)
 {
     if (!source) {
         return QString();
@@ -588,11 +581,11 @@ static QString sourceString(const KWaylandServer::AbstractDataSource *const sour
 
     const QString executable = waylandServer()->display()->getConnection(source->client())->executablePath();
 
-    if (auto dataSource = qobject_cast<const KWaylandServer::DataSourceInterface *const>(source)) {
+    if (auto dataSource = qobject_cast<const DataSourceInterface *const>(source)) {
         return QStringLiteral("wl_data_source@%1 of %2").arg(wl_resource_get_id(dataSource->resource())).arg(executable);
-    } else if (qobject_cast<const KWaylandServer::PrimarySelectionSourceV1Interface *const>(source)) {
+    } else if (qobject_cast<const PrimarySelectionSourceV1Interface *const>(source)) {
         return QStringLiteral("zwp_primary_selection_source_v1 of %2").arg(executable);
-    } else if (qobject_cast<const KWaylandServer::DataControlSourceV1Interface *const>(source)) {
+    } else if (qobject_cast<const DataControlSourceV1Interface *const>(source)) {
         return QStringLiteral("data control by %1").arg(executable);
     }
     return QStringLiteral("unknown source of").arg(executable);
@@ -633,7 +626,7 @@ DebugConsole::DebugConsole()
     connect(m_ui->tabWidget, &QTabWidget::currentChanged, this, [this](int index) {
         // delay creation of input event filter until the tab is selected
         if (index == 2 && !m_inputFilter) {
-            m_inputFilter.reset(new DebugConsoleFilter(m_ui->inputTextEdit));
+            m_inputFilter = std::make_unique<DebugConsoleFilter>(m_ui->inputTextEdit);
             input()->installInputEventSpy(m_inputFilter.get());
         }
         if (index == 5) {
@@ -643,13 +636,13 @@ DebugConsole::DebugConsole()
         if (index == 6) {
             static_cast<DataSourceModel *>(m_ui->clipboardContent->model())->setSource(waylandServer()->seat()->selection());
             m_ui->clipboardSource->setText(sourceString(waylandServer()->seat()->selection()));
-            connect(waylandServer()->seat(), &KWaylandServer::SeatInterface::selectionChanged, this, [this](KWaylandServer::AbstractDataSource *source) {
+            connect(waylandServer()->seat(), &SeatInterface::selectionChanged, this, [this](AbstractDataSource *source) {
                 static_cast<DataSourceModel *>(m_ui->clipboardContent->model())->setSource(source);
                 m_ui->clipboardSource->setText(sourceString(source));
             });
             static_cast<DataSourceModel *>(m_ui->primaryContent->model())->setSource(waylandServer()->seat()->primarySelection());
             m_ui->primarySource->setText(sourceString(waylandServer()->seat()->primarySelection()));
-            connect(waylandServer()->seat(), &KWaylandServer::SeatInterface::primarySelectionChanged, this, [this](KWaylandServer::AbstractDataSource *source) {
+            connect(waylandServer()->seat(), &SeatInterface::primarySelectionChanged, this, [this](AbstractDataSource *source) {
                 static_cast<DataSourceModel *>(m_ui->primaryContent->model())->setSource(source);
                 m_ui->primarySource->setText(sourceString(source));
             });
@@ -668,7 +661,7 @@ void DebugConsole::initGLTab()
         m_ui->glInfoScrollArea->setVisible(false);
         return;
     }
-    GLPlatform *gl = GLPlatform::instance();
+    const auto gl = Compositor::self()->scene()->openglContext()->glPlatform();
     m_ui->noOpenGLLabel->setVisible(false);
     m_ui->glInfoScrollArea->setVisible(true);
     m_ui->glVendorStringLabel->setText(QString::fromLocal8Bit(gl->glVendorString()));
@@ -677,8 +670,8 @@ void DebugConsole::initGLTab()
     m_ui->glslVersionStringLabel->setText(QString::fromLocal8Bit(gl->glShadingLanguageVersionString()));
     m_ui->glDriverLabel->setText(GLPlatform::driverToString(gl->driver()));
     m_ui->glGPULabel->setText(GLPlatform::chipClassToString(gl->chipClass()));
-    m_ui->glVersionLabel->setText(GLPlatform::versionToString(gl->glVersion()));
-    m_ui->glslLabel->setText(GLPlatform::versionToString(gl->glslVersion()));
+    m_ui->glVersionLabel->setText(gl->glVersion().toString());
+    m_ui->glslLabel->setText(gl->glslVersion().toString());
 
     auto extensionsString = [](const auto &extensions) {
         QString text = QStringLiteral("<ul>");
@@ -691,7 +684,7 @@ void DebugConsole::initGLTab()
 
     const OpenGLBackend *backend = static_cast<OpenGLBackend *>(Compositor::self()->backend());
     m_ui->platformExtensionsLabel->setText(extensionsString(backend->extensions()));
-    m_ui->openGLExtensionsLabel->setText(extensionsString(openGLExtensions()));
+    m_ui->openGLExtensionsLabel->setText(extensionsString(backend->openglContext()->openglExtensions()));
 }
 
 template<typename T>
@@ -784,9 +777,16 @@ QString DebugConsoleDelegate::displayText(const QVariant &value, const QLocale &
         return QStringLiteral("%1,%2 %3x%4").arg(r.x()).arg(r.y()).arg(r.width()).arg(r.height());
     }
     default:
-        if (value.userType() == qMetaTypeId<KWaylandServer::SurfaceInterface *>()) {
-            if (auto s = value.value<KWaylandServer::SurfaceInterface *>()) {
-                return QStringLiteral("KWaylandServer::SurfaceInterface(0x%1)").arg(qulonglong(s), 0, 16);
+        if (value.userType() == qMetaTypeId<KWin::SurfaceInterface *>()) {
+            if (auto s = value.value<KWin::SurfaceInterface *>()) {
+                return QStringLiteral("KWin::SurfaceInterface(0x%1)").arg(qulonglong(s), 0, 16);
+            } else {
+                return QStringLiteral("nullptr");
+            }
+        }
+        if (value.userType() == qMetaTypeId<KWin::Window *>()) {
+            if (auto w = value.value<KWin::Window *>()) {
+                return w->caption() + QLatin1Char(' ') + QString::fromUtf8(w->metaObject()->className());
             } else {
                 return QStringLiteral("nullptr");
             }
@@ -903,7 +903,7 @@ static const quint32 s_windowBitMask = 0x0000FFFF;
 static const quint32 s_idDistance = 10000;
 
 template<class T>
-void DebugConsoleModel::add(int parentRow, QVector<T *> &windows, T *window)
+void DebugConsoleModel::add(int parentRow, QList<T *> &windows, T *window)
 {
     beginInsertRows(index(parentRow, 0, QModelIndex()), windows.count(), windows.count());
     windows.append(window);
@@ -911,7 +911,7 @@ void DebugConsoleModel::add(int parentRow, QVector<T *> &windows, T *window)
 }
 
 template<class T>
-void DebugConsoleModel::remove(int parentRow, QVector<T *> &windows, T *window)
+void DebugConsoleModel::remove(int parentRow, QList<T *> &windows, T *window)
 {
     const int remove = windows.indexOf(window);
     if (remove == -1) {
@@ -925,56 +925,58 @@ void DebugConsoleModel::remove(int parentRow, QVector<T *> &windows, T *window)
 DebugConsoleModel::DebugConsoleModel(QObject *parent)
     : QAbstractItemModel(parent)
 {
-    const auto windows = workspace()->allClientList();
+    const auto windows = workspace()->windows();
     for (auto window : windows) {
         handleWindowAdded(window);
     }
     connect(workspace(), &Workspace::windowAdded, this, &DebugConsoleModel::handleWindowAdded);
     connect(workspace(), &Workspace::windowRemoved, this, &DebugConsoleModel::handleWindowRemoved);
-
-    const auto unmangeds = workspace()->unmanagedList();
-    for (auto u : unmangeds) {
-        m_unmanageds.append(u);
-    }
-    connect(workspace(), &Workspace::unmanagedAdded, this, [this](Unmanaged *u) {
-        add(s_x11UnmanagedId - 1, m_unmanageds, u);
-    });
-    connect(workspace(), &Workspace::unmanagedRemoved, this, [this](Unmanaged *u) {
-        remove(s_x11UnmanagedId - 1, m_unmanageds, u);
-    });
-    for (InternalWindow *window : workspace()->internalWindows()) {
-        m_internalWindows.append(window);
-    }
-    connect(workspace(), &Workspace::internalWindowAdded, this, [this](InternalWindow *window) {
-        add(s_workspaceInternalId - 1, m_internalWindows, window);
-    });
-    connect(workspace(), &Workspace::internalWindowRemoved, this, [this](InternalWindow *window) {
-        remove(s_workspaceInternalId - 1, m_internalWindows, window);
-    });
 }
 
 void DebugConsoleModel::handleWindowAdded(Window *window)
 {
+#if KWIN_BUILD_X11
     if (auto x11 = qobject_cast<X11Window *>(window)) {
-        add(s_x11WindowId - 1, m_x11Windows, x11);
+        if (x11->isUnmanaged()) {
+            add(s_x11UnmanagedId - 1, m_unmanageds, x11);
+        } else {
+            add(s_x11WindowId - 1, m_x11Windows, x11);
+        }
         return;
     }
+#endif
 
     if (auto wayland = qobject_cast<WaylandWindow *>(window)) {
         add(s_waylandWindowId - 1, m_waylandWindows, wayland);
+        return;
+    }
+
+    if (auto internal = qobject_cast<InternalWindow *>(window)) {
+        add(s_workspaceInternalId - 1, m_internalWindows, internal);
         return;
     }
 }
 
 void DebugConsoleModel::handleWindowRemoved(Window *window)
 {
+#if KWIN_BUILD_X11
     if (auto x11 = qobject_cast<X11Window *>(window)) {
-        remove(s_x11WindowId - 1, m_x11Windows, x11);
+        if (x11->isUnmanaged()) {
+            remove(s_x11UnmanagedId - 1, m_unmanageds, x11);
+        } else {
+            remove(s_x11WindowId - 1, m_x11Windows, x11);
+        }
         return;
     }
+#endif
 
     if (auto wayland = qobject_cast<WaylandWindow *>(window)) {
         remove(s_waylandWindowId - 1, m_waylandWindows, wayland);
+        return;
+    }
+
+    if (auto internal = qobject_cast<InternalWindow *>(window)) {
+        remove(s_workspaceInternalId - 1, m_internalWindows, internal);
         return;
     }
 }
@@ -1025,9 +1027,17 @@ int DebugConsoleModel::rowCount(const QModelIndex &parent) const
     }
 
     if (parent.internalId() < s_idDistance * (s_x11WindowId + 1)) {
+#if KWIN_BUILD_X11
         return propertyCount(parent, &DebugConsoleModel::x11Window);
+#else
+        return 0;
+#endif
     } else if (parent.internalId() < s_idDistance * (s_x11UnmanagedId + 1)) {
+#if KWIN_BUILD_X11
         return propertyCount(parent, &DebugConsoleModel::unmanaged);
+#else
+        return 0;
+#endif
     } else if (parent.internalId() < s_idDistance * (s_waylandWindowId + 1)) {
         return propertyCount(parent, &DebugConsoleModel::waylandWindow);
     } else if (parent.internalId() < s_idDistance * (s_workspaceInternalId + 1)) {
@@ -1038,7 +1048,7 @@ int DebugConsoleModel::rowCount(const QModelIndex &parent) const
 }
 
 template<class T>
-QModelIndex DebugConsoleModel::indexForWindow(int row, int column, const QVector<T *> &windows, int id) const
+QModelIndex DebugConsoleModel::indexForWindow(int row, int column, const QList<T *> &windows, int id) const
 {
     if (column != 0) {
         return QModelIndex();
@@ -1090,9 +1100,17 @@ QModelIndex DebugConsoleModel::index(int row, int column, const QModelIndex &par
 
     // index for a property (third level)
     if (parent.internalId() < s_idDistance * (s_x11WindowId + 1)) {
+#if KWIN_BUILD_X11
         return indexForProperty(row, column, parent, &DebugConsoleModel::x11Window);
+#else
+        return {};
+#endif
     } else if (parent.internalId() < s_idDistance * (s_x11UnmanagedId + 1)) {
+#if KWIN_BUILD_X11
         return indexForProperty(row, column, parent, &DebugConsoleModel::unmanaged);
+#else
+        return {};
+#endif
     } else if (parent.internalId() < s_idDistance * (s_waylandWindowId + 1)) {
         return indexForProperty(row, column, parent, &DebugConsoleModel::waylandWindow);
     } else if (parent.internalId() < s_idDistance * (s_workspaceInternalId + 1)) {
@@ -1193,7 +1211,7 @@ QVariant DebugConsoleModel::propertyData(QObject *object, const QModelIndex &ind
 }
 
 template<class T>
-QVariant DebugConsoleModel::windowData(const QModelIndex &index, int role, const QVector<T *> windows, const std::function<QString(T *)> &toString) const
+QVariant DebugConsoleModel::windowData(const QModelIndex &index, int role, const QList<T *> windows, const std::function<QString(T *)> &toString) const
 {
     if (index.row() >= windows.count()) {
         return QVariant();
@@ -1238,10 +1256,12 @@ QVariant DebugConsoleModel::data(const QModelIndex &index, int role) const
             return propertyData(w, index, role);
         } else if (InternalWindow *w = internalWindow(index)) {
             return propertyData(w, index, role);
+#if KWIN_BUILD_X11
         } else if (X11Window *w = x11Window(index)) {
             return propertyData(w, index, role);
-        } else if (Unmanaged *u = unmanaged(index)) {
+        } else if (X11Window *u = unmanaged(index)) {
             return propertyData(u, index, role);
+#endif
         }
     } else {
         if (index.column() != 0) {
@@ -1253,10 +1273,14 @@ QVariant DebugConsoleModel::data(const QModelIndex &index, int role) const
         };
         switch (index.parent().internalId()) {
         case s_x11WindowId:
+#if KWIN_BUILD_X11
             return windowData<X11Window>(index, role, m_x11Windows, [](X11Window *c) -> QString {
                 return QStringLiteral("0x%1: %2").arg(c->window(), 0, 16).arg(c->caption());
             });
+#endif
+            break;
         case s_x11UnmanagedId: {
+#if KWIN_BUILD_X11
             if (index.row() >= m_unmanageds.count()) {
                 return QVariant();
             }
@@ -1264,6 +1288,7 @@ QVariant DebugConsoleModel::data(const QModelIndex &index, int role) const
             if (role == Qt::DisplayRole) {
                 return QStringLiteral("0x%1").arg(u->window(), 0, 16);
             }
+#endif
             break;
         }
         case s_waylandWindowId:
@@ -1279,7 +1304,7 @@ QVariant DebugConsoleModel::data(const QModelIndex &index, int role) const
 }
 
 template<class T>
-static T *windowForIndex(const QModelIndex &index, const QVector<T *> &windows, int id)
+static T *windowForIndex(const QModelIndex &index, const QList<T *> &windows, int id)
 {
     const qint32 row = (index.internalId() & s_windowBitMask) - (s_idDistance * id);
     if (row < 0 || row >= windows.count()) {
@@ -1303,7 +1328,7 @@ X11Window *DebugConsoleModel::x11Window(const QModelIndex &index) const
     return windowForIndex(index, m_x11Windows, s_x11WindowId);
 }
 
-Unmanaged *DebugConsoleModel::unmanaged(const QModelIndex &index) const
+X11Window *DebugConsoleModel::unmanaged(const QModelIndex &index) const
 {
     return windowForIndex(index, m_unmanageds, s_x11UnmanagedId);
 }
@@ -1317,7 +1342,6 @@ SurfaceTreeModel::SurfaceTreeModel(QObject *parent)
         beginResetModel();
         endResetModel();
     };
-    using namespace KWaylandServer;
 
     auto watchSubsurfaces = [this, reset](Window *c) {
         if (!c->surface()) {
@@ -1329,7 +1353,7 @@ SurfaceTreeModel::SurfaceTreeModel(QObject *parent)
         connect(c, &QObject::destroyed, monitor, &QObject::deleteLater);
     };
 
-    for (auto c : workspace()->allClientList()) {
+    for (auto c : workspace()->windows()) {
         watchSubsurfaces(c);
     }
     connect(workspace(), &Workspace::windowAdded, this, [reset, watchSubsurfaces](Window *c) {
@@ -1337,8 +1361,6 @@ SurfaceTreeModel::SurfaceTreeModel(QObject *parent)
         reset();
     });
     connect(workspace(), &Workspace::windowRemoved, this, reset);
-    connect(workspace(), &Workspace::unmanagedAdded, this, reset);
-    connect(workspace(), &Workspace::unmanagedRemoved, this, reset);
 }
 
 SurfaceTreeModel::~SurfaceTreeModel() = default;
@@ -1351,14 +1373,13 @@ int SurfaceTreeModel::columnCount(const QModelIndex &parent) const
 int SurfaceTreeModel::rowCount(const QModelIndex &parent) const
 {
     if (parent.isValid()) {
-        using namespace KWaylandServer;
         if (SurfaceInterface *surface = static_cast<SurfaceInterface *>(parent.internalPointer())) {
             return surface->below().count() + surface->above().count();
         }
         return 0;
     }
     // toplevel are all windows
-    return workspace()->allClientList().count() + workspace()->unmanagedList().count();
+    return workspace()->windows().count();
 }
 
 QModelIndex SurfaceTreeModel::index(int row, int column, const QModelIndex &parent) const
@@ -1369,7 +1390,6 @@ QModelIndex SurfaceTreeModel::index(int row, int column, const QModelIndex &pare
     }
 
     if (parent.isValid()) {
-        using namespace KWaylandServer;
         if (SurfaceInterface *surface = static_cast<SurfaceInterface *>(parent.internalPointer())) {
             int reference = 0;
             const auto &below = surface->below();
@@ -1386,24 +1406,17 @@ QModelIndex SurfaceTreeModel::index(int row, int column, const QModelIndex &pare
         return QModelIndex();
     }
     // a window
-    const auto &allClients = workspace()->allClientList();
+    const auto &allClients = workspace()->windows();
     if (row < allClients.count()) {
         // references a client
         return createIndex(row, column, allClients.at(row)->surface());
     }
-    int reference = allClients.count();
-    const auto &unmanaged = workspace()->unmanagedList();
-    if (row < reference + unmanaged.count()) {
-        return createIndex(row, column, unmanaged.at(row - reference)->surface());
-    }
-    reference += unmanaged.count();
     // not found
     return QModelIndex();
 }
 
 QModelIndex SurfaceTreeModel::parent(const QModelIndex &child) const
 {
-    using namespace KWaylandServer;
     if (SurfaceInterface *surface = static_cast<SurfaceInterface *>(child.internalPointer())) {
         const auto &subsurface = surface->subSurface();
         if (!subsurface) {
@@ -1439,21 +1452,12 @@ QModelIndex SurfaceTreeModel::parent(const QModelIndex &child) const
             return QModelIndex();
         }
         // not a subsurface, thus it's a true window
-        int row = 0;
-        const auto &allClients = workspace()->allClientList();
-        for (; row < allClients.count(); row++) {
+        const auto &allClients = workspace()->windows();
+        for (int row = 0; row < allClients.count(); row++) {
             if (allClients.at(row)->surface() == parent) {
                 return createIndex(row, 0, parent);
             }
         }
-        row = allClients.count();
-        const auto &unmanaged = workspace()->unmanagedList();
-        for (int i = 0; i < unmanaged.count(); i++) {
-            if (unmanaged.at(i)->surface() == parent) {
-                return createIndex(row + i, 0, parent);
-            }
-        }
-        row += unmanaged.count();
     }
     return QModelIndex();
 }
@@ -1463,14 +1467,17 @@ QVariant SurfaceTreeModel::data(const QModelIndex &index, int role) const
     if (!index.isValid()) {
         return QVariant();
     }
-    using namespace KWaylandServer;
     if (SurfaceInterface *surface = static_cast<SurfaceInterface *>(index.internalPointer())) {
         if (role == Qt::DisplayRole || role == Qt::ToolTipRole) {
             return QStringLiteral("%1 (%2) - %3").arg(surface->client()->executablePath()).arg(surface->client()->processId()).arg(surface->id());
         } else if (role == Qt::DecorationRole) {
-            if (auto buffer = qobject_cast<KWaylandServer::ShmClientBuffer *>(surface->buffer())) {
-                return buffer->data().scaled(QSize(64, 64), Qt::KeepAspectRatio);
+            if (surface->buffer()) {
+                const GraphicsBufferView view(surface->buffer());
+                if (const QImage *image = view.image()) {
+                    return image->scaled(QSize(64, 64), Qt::KeepAspectRatio);
+                }
             }
+            return QImage();
         }
     }
     return QVariant();
@@ -1585,7 +1592,7 @@ void InputDeviceModel::slotPropertyChanged()
         if (metaProperty.notifySignalIndex() == senderSignalIndex()) {
             const QModelIndex parent = index(m_devices.indexOf(device), 0, QModelIndex());
             const QModelIndex child = index(i, 1, parent);
-            Q_EMIT dataChanged(child, child, QVector<int>{Qt::DisplayRole});
+            Q_EMIT dataChanged(child, child, QList<int>{Qt::DisplayRole});
         }
     }
 }
@@ -1682,14 +1689,15 @@ static QByteArray readData(int fd)
     }
 }
 
-void DataSourceModel::setSource(KWaylandServer::AbstractDataSource *source)
+void DataSourceModel::setSource(AbstractDataSource *source)
 {
     beginResetModel();
     m_source = source;
     m_data.clear();
     if (source) {
-        m_data.resize(m_source->mimeTypes().size());
-        for (auto type = m_source->mimeTypes().cbegin(); type != m_source->mimeTypes().cend(); ++type) {
+        const QStringList mimeTypes = m_source->mimeTypes();
+        m_data.resize(mimeTypes.size());
+        for (auto type = mimeTypes.begin(); type != mimeTypes.end(); ++type) {
             int pipeFds[2];
             if (pipe2(pipeFds, O_CLOEXEC) != 0) {
                 continue;
@@ -1698,7 +1706,7 @@ void DataSourceModel::setSource(KWaylandServer::AbstractDataSource *source)
             QFuture<QByteArray> data = QtConcurrent::run(readData, pipeFds[0]);
             auto watcher = new QFutureWatcher<QByteArray>(this);
             watcher->setFuture(data);
-            const int index = type - m_source->mimeTypes().cbegin();
+            const int index = type - mimeTypes.begin();
             connect(watcher, &QFutureWatcher<QByteArray>::finished, this, [this, watcher, index, source = QPointer(source)] {
                 watcher->deleteLater();
                 if (source && source == m_source) {
@@ -1711,3 +1719,5 @@ void DataSourceModel::setSource(KWaylandServer::AbstractDataSource *source)
     endResetModel();
 }
 }
+
+#include "moc_debug_console.cpp"

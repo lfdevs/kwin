@@ -9,8 +9,13 @@
 */
 #pragma once
 
+#include "kwin_export.h"
+
+#include <QImage>
 #include <QObject>
-#include <kwineffects.h>
+#include <QRectF>
+
+#include <xcb/xcb.h>
 
 namespace KDecoration2
 {
@@ -18,14 +23,10 @@ class Decoration;
 class DecorationShadow;
 }
 
-namespace KWaylandServer
-{
-class ShadowInterface;
-}
-
 namespace KWin
 {
 
+class ShadowInterface;
 class Window;
 
 /**
@@ -47,6 +48,7 @@ class KWIN_EXPORT Shadow : public QObject
 {
     Q_OBJECT
 public:
+    explicit Shadow(Window *window);
     ~Shadow() override;
 
     /**
@@ -58,7 +60,7 @@ public:
      * delete the Shadow.
      * @returns @c true when the shadow has been updated, @c false if the property is not set anymore.
      */
-    virtual bool updateShadow();
+    bool updateShadow();
 
     /**
      * Factory Method to create the shadow from the property.
@@ -73,12 +75,6 @@ public:
     static std::unique_ptr<Shadow> createShadow(Window *window);
 
     Window *window() const;
-    /**
-     * Reparents the shadow to @p window.
-     * Used when a window is deleted.
-     * @param window The new parent
-     */
-    void setWindow(Window *window);
 
     bool hasDecorationShadow() const
     {
@@ -86,9 +82,9 @@ public:
     }
     QImage decorationShadowImage() const;
 
-    QWeakPointer<KDecoration2::DecorationShadow> decorationShadow() const
+    std::weak_ptr<KDecoration2::DecorationShadow> decorationShadow() const
     {
-        return m_decorationShadow.toWeakRef();
+        return m_decorationShadow;
     }
 
     enum ShadowElements {
@@ -112,6 +108,10 @@ public:
     {
         return m_offset;
     }
+    inline const QImage &shadowElement(ShadowElements element) const
+    {
+        return m_shadowElements[element];
+    }
 
 Q_SIGNALS:
     void offsetChanged();
@@ -121,25 +121,15 @@ Q_SIGNALS:
 public Q_SLOTS:
     void geometryChanged();
 
-protected:
-    Shadow(Window *window);
-
-    inline const QImage &shadowElement(ShadowElements element) const
-    {
-        return m_shadowElements[element];
-    };
-
-    virtual bool prepareBackend() = 0;
-
 private:
     static std::unique_ptr<Shadow> createShadowFromX11(Window *window);
     static std::unique_ptr<Shadow> createShadowFromDecoration(Window *window);
     static std::unique_ptr<Shadow> createShadowFromWayland(Window *window);
     static std::unique_ptr<Shadow> createShadowFromInternalWindow(Window *window);
-    static QVector<uint32_t> readX11ShadowProperty(xcb_window_t id);
-    bool init(const QVector<uint32_t> &data);
+    static QList<uint32_t> readX11ShadowProperty(xcb_window_t id);
+    bool init(const QList<uint32_t> &data);
     bool init(KDecoration2::Decoration *decoration);
-    bool init(const QPointer<KWaylandServer::ShadowInterface> &shadow);
+    bool init(const QPointer<ShadowInterface> &shadow);
     bool init(const QWindow *window);
     Window *m_window;
     // shadow elements
@@ -149,7 +139,7 @@ private:
     // caches
     QSizeF m_cachedSize;
     // Decoration based shadows
-    QSharedPointer<KDecoration2::DecorationShadow> m_decorationShadow;
+    std::shared_ptr<KDecoration2::DecorationShadow> m_decorationShadow;
 };
 
 }

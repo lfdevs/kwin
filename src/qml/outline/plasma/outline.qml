@@ -4,14 +4,16 @@
 
     SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
-import QtQuick 2.1
-import QtQuick.Window 2.1
-import org.kde.plasma.core 2.0 as PlasmaCore
+import QtQuick
+import QtQuick.Window
+import org.kde.kwin
+import org.kde.ksvg 1.0 as KSvg
+import org.kde.kirigami 2 as Kirigami
 
 Window {
     id: window
 
-    readonly property int animationDuration: units.longDuration
+    readonly property int animationDuration: Kirigami.Units.longDuration
     property bool animationEnabled: false
 
     flags: Qt.BypassWindowManagerHint | Qt.FramelessWindowHint
@@ -56,7 +58,7 @@ Window {
         }
     }
 
-    PlasmaCore.FrameSvgItem {
+    KSvg.FrameSvgItem {
         id: svg
 
         // takes into account the offset inside unified geometry
@@ -75,28 +77,28 @@ Window {
         height: 0
 
         enabledBorders: {
-            var maximizedArea = workspace.clientArea(workspace.MaximizeArea, Qt.point(outline.geometry.x, outline.geometry.y), workspace.currentDesktop);
+            var maximizedArea = Workspace.clientArea(Workspace.MaximizeArea, Workspace.screenAt(Qt.point(outline.geometry.x, outline.geometry.y)), Workspace.currentDesktop);
 
             var left = outline.geometry.x === maximizedArea.x;
             var right = outline.geometry.x + outline.geometry.width === maximizedArea.x + maximizedArea.width;
             var top = outline.geometry.y === maximizedArea.y;
             var bottom = outline.geometry.y + outline.geometry.height === maximizedArea.y + maximizedArea.height;
 
-            var borders = PlasmaCore.FrameSvgItem.AllBorders;
+            var borders = KSvg.FrameSvgItem.AllBorders;
             if (left) {
-                borders = borders & ~PlasmaCore.FrameSvgItem.LeftBorder;
+                borders = borders & ~KSvg.FrameSvgItem.LeftBorder;
             }
             if (right) {
-                borders = borders & ~PlasmaCore.FrameSvgItem.RightBorder;
+                borders = borders & ~KSvg.FrameSvgItem.RightBorder;
             }
             if (top) {
-                borders = borders & ~PlasmaCore.FrameSvgItem.TopBorder;
+                borders = borders & ~KSvg.FrameSvgItem.TopBorder;
             }
             if (bottom) {
-                borders = borders & ~PlasmaCore.FrameSvgItem.BottomBorder;
+                borders = borders & ~KSvg.FrameSvgItem.BottomBorder;
             }
             if (left && right && bottom && top) {
-                borders = PlasmaCore.FrameSvgItem.AllBorders;
+                borders = KSvg.FrameSvgItem.AllBorders;
             }
             return borders;
         }

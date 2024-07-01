@@ -9,6 +9,7 @@
 */
 
 #include "eglhelpers.h"
+#include "opengl/egldisplay.h"
 
 #include <logging.h>
 
@@ -28,7 +29,7 @@ bool isOpenGLES()
     return QOpenGLContext::openGLModuleType() == QOpenGLContext::LibGLES;
 }
 
-EGLConfig configFromFormat(EGLDisplay display, const QSurfaceFormat &surfaceFormat, EGLint surfaceType)
+EGLConfig configFromFormat(EglDisplay *display, const QSurfaceFormat &surfaceFormat, EGLint surfaceType)
 {
     // std::max as these values are initialized to -1 by default.
     const EGLint redSize = std::max(surfaceFormat.redBufferSize(), 0);
@@ -41,7 +42,7 @@ EGLConfig configFromFormat(EGLDisplay display, const QSurfaceFormat &surfaceForm
     const EGLint renderableType = isOpenGLES() ? EGL_OPENGL_ES2_BIT : EGL_OPENGL_BIT;
 
     // Not setting samples as QtQuick doesn't need it.
-    const QVector<EGLint> attributes{
+    const QList<EGLint> attributes{
         EGL_SURFACE_TYPE, surfaceType,
         EGL_RED_SIZE, redSize,
         EGL_GREEN_SIZE, greenSize,
@@ -53,7 +54,7 @@ EGLConfig configFromFormat(EGLDisplay display, const QSurfaceFormat &surfaceForm
         EGL_NONE};
 
     EGLint configCount;
-    if (!eglChooseConfig(display, attributes.data(), nullptr, 0, &configCount)) {
+    if (!eglChooseConfig(display->handle(), attributes.data(), nullptr, 0, &configCount)) {
         qCWarning(KWIN_QPA, "eglChooseConfig failed: %x", eglGetError());
         return EGL_NO_CONFIG_KHR;
     }
@@ -62,8 +63,8 @@ EGLConfig configFromFormat(EGLDisplay display, const QSurfaceFormat &surfaceForm
         return EGL_NO_CONFIG_KHR;
     }
 
-    QVector<EGLConfig> configs(configCount);
-    if (!eglChooseConfig(display, attributes.data(), configs.data(), configCount, &configCount)) {
+    QList<EGLConfig> configs(configCount);
+    if (!eglChooseConfig(display->handle(), attributes.data(), configs.data(), configCount, &configCount)) {
         qCWarning(KWIN_QPA, "eglChooseConfig failed: %x", eglGetError());
         return EGL_NO_CONFIG_KHR;
     }
@@ -74,10 +75,10 @@ EGLConfig configFromFormat(EGLDisplay display, const QSurfaceFormat &surfaceForm
 
     for (const EGLConfig &config : std::as_const(configs)) {
         EGLint redConfig, greenConfig, blueConfig, alphaConfig;
-        eglGetConfigAttrib(display, config, EGL_RED_SIZE, &redConfig);
-        eglGetConfigAttrib(display, config, EGL_GREEN_SIZE, &greenConfig);
-        eglGetConfigAttrib(display, config, EGL_BLUE_SIZE, &blueConfig);
-        eglGetConfigAttrib(display, config, EGL_ALPHA_SIZE, &alphaConfig);
+        eglGetConfigAttrib(display->handle(), config, EGL_RED_SIZE, &redConfig);
+        eglGetConfigAttrib(display->handle(), config, EGL_GREEN_SIZE, &greenConfig);
+        eglGetConfigAttrib(display->handle(), config, EGL_BLUE_SIZE, &blueConfig);
+        eglGetConfigAttrib(display->handle(), config, EGL_ALPHA_SIZE, &alphaConfig);
 
         if ((redSize == 0 || redSize == redConfig) && (greenSize == 0 || greenSize == greenConfig) && (blueSize == 0 || blueSize == blueConfig) && (alphaSize == 0 || alphaSize == alphaConfig)) {
             return config;
@@ -88,7 +89,7 @@ EGLConfig configFromFormat(EGLDisplay display, const QSurfaceFormat &surfaceForm
     return configs[0];
 }
 
-QSurfaceFormat formatFromConfig(EGLDisplay display, EGLConfig config)
+QSurfaceFormat formatFromConfig(EglDisplay *display, EGLConfig config)
 {
     int redSize = 0;
     int blueSize = 0;
@@ -98,13 +99,13 @@ QSurfaceFormat formatFromConfig(EGLDisplay display, EGLConfig config)
     int depthSize = 0;
     int sampleCount = 0;
 
-    eglGetConfigAttrib(display, config, EGL_RED_SIZE, &redSize);
-    eglGetConfigAttrib(display, config, EGL_GREEN_SIZE, &greenSize);
-    eglGetConfigAttrib(display, config, EGL_BLUE_SIZE, &blueSize);
-    eglGetConfigAttrib(display, config, EGL_ALPHA_SIZE, &alphaSize);
-    eglGetConfigAttrib(display, config, EGL_STENCIL_SIZE, &stencilSize);
-    eglGetConfigAttrib(display, config, EGL_DEPTH_SIZE, &depthSize);
-    eglGetConfigAttrib(display, config, EGL_SAMPLES, &sampleCount);
+    eglGetConfigAttrib(display->handle(), config, EGL_RED_SIZE, &redSize);
+    eglGetConfigAttrib(display->handle(), config, EGL_GREEN_SIZE, &greenSize);
+    eglGetConfigAttrib(display->handle(), config, EGL_BLUE_SIZE, &blueSize);
+    eglGetConfigAttrib(display->handle(), config, EGL_ALPHA_SIZE, &alphaSize);
+    eglGetConfigAttrib(display->handle(), config, EGL_STENCIL_SIZE, &stencilSize);
+    eglGetConfigAttrib(display->handle(), config, EGL_DEPTH_SIZE, &depthSize);
+    eglGetConfigAttrib(display->handle(), config, EGL_SAMPLES, &sampleCount);
 
     QSurfaceFormat format;
     format.setRedBufferSize(redSize);

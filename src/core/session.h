@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include <kwinglobals.h>
+#include "effect/globals.h"
 
 #include <QObject>
 #include <QString>

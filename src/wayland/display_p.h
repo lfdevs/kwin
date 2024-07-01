@@ -9,26 +9,20 @@
 
 #include <wayland-server-core.h>
 
-#include <QHash>
+#include "utils/filedescriptor.h"
 #include <QList>
 #include <QSocketNotifier>
 #include <QString>
-#include <QVector>
-
-#include <EGL/egl.h>
 
 struct wl_resource;
 
-namespace KWaylandServer
+namespace KWin
 {
-class ClientBufferIntegration;
-class ClientBuffer;
 class ClientConnection;
 class Display;
 class OutputInterface;
 class OutputDeviceV2Interface;
 class SeatInterface;
-struct ClientBufferDestroyListener;
 
 class DisplayPrivate
 {
@@ -38,9 +32,6 @@ public:
 
     void registerSocketName(const QString &socketName);
 
-    void registerClientBuffer(ClientBuffer *clientBuffer);
-    void unregisterClientBuffer(ClientBuffer *clientBuffer);
-
     Display *q;
     QSocketNotifier *socketNotifier = nullptr;
     wl_display *display = nullptr;
@@ -48,13 +39,31 @@ public:
     bool running = false;
     QList<OutputInterface *> outputs;
     QList<OutputDeviceV2Interface *> outputdevicesV2;
-    QVector<SeatInterface *> seats;
-    QVector<ClientConnection *> clients;
+    QList<SeatInterface *> seats;
+    QList<ClientConnection *> clients;
     QStringList socketNames;
-    EGLDisplay eglDisplay = EGL_NO_DISPLAY;
-    QHash<::wl_resource *, ClientBuffer *> resourceToBuffer;
-    QHash<ClientBuffer *, ClientBufferDestroyListener *> bufferToListener;
-    QList<ClientBufferIntegration *> bufferIntegrations;
 };
 
-} // namespace KWaylandServer
+/**
+ * @brief The SecurityContext is a helper for the SecurityContextProtocol
+ * It stays alive whilst closeFd remains open, listening for new connections on listenFd
+ * Any new clients created via listenFd are tagged with the appId
+ * It is parented to the display
+ */
+class SecurityContext : public QObject
+{
+    Q_OBJECT
+public:
+    SecurityContext(Display *display, FileDescriptor &&listenFd, FileDescriptor &&closeFd, const QString &appId);
+    ~SecurityContext() override;
+
+private:
+    void onCloseFdActivated();
+    void onListenFdActivated(QSocketDescriptor descriptor);
+    Display *m_display;
+    FileDescriptor m_listenFd;
+    FileDescriptor m_closeFd;
+    QString m_appId;
+};
+
+} // namespace KWin

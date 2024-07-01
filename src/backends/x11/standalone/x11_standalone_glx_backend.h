@@ -8,8 +8,9 @@
 */
 #pragma once
 #include "core/outputlayer.h"
-#include "openglbackend.h"
-#include "openglsurfacetexture_x11.h"
+#include "options.h"
+#include "platformsupport/scenes/opengl/openglbackend.h"
+#include "platformsupport/scenes/opengl/openglsurfacetexture_x11.h"
 #include "utils/damagejournal.h"
 #include "x11eventfilter.h"
 
@@ -17,8 +18,8 @@
 #include <fixx11h.h>
 #include <xcb/glx.h>
 
-#include <kwingltexture.h>
-#include <kwingltexture_p.h>
+#include "opengl/gltexture.h"
+#include "opengl/gltexture_p.h"
 
 #include <QHash>
 #include <memory>
@@ -30,10 +31,8 @@ class GlxPixmapTexturePrivate;
 class VsyncMonitor;
 class X11StandaloneBackend;
 class GlxBackend;
-
-// GLX_MESA_swap_interval
-using glXSwapIntervalMESA_func = int (*)(unsigned int interval);
-extern glXSwapIntervalMESA_func glXSwapIntervalMESA;
+class GLRenderTimeQuery;
+class GlxContext;
 
 class FBConfigInfo
 {
@@ -50,10 +49,11 @@ public:
 class SwapEventFilter : public X11EventFilter
 {
 public:
-    SwapEventFilter(xcb_drawable_t drawable, xcb_glx_drawable_t glxDrawable);
+    SwapEventFilter(GlxBackend *backend, xcb_drawable_t drawable, xcb_glx_drawable_t glxDrawable);
     bool event(xcb_generic_event_t *event) override;
 
 private:
+    GlxBackend *m_backend;
     xcb_drawable_t m_drawable;
     xcb_glx_drawable_t m_glxDrawable;
 };
@@ -63,8 +63,10 @@ class GlxLayer : public OutputLayer
 public:
     GlxLayer(GlxBackend *backend);
 
-    std::optional<OutputLayerBeginFrameInfo> beginFrame() override;
-    bool endFrame(const QRegion &renderedRegion, const QRegion &damagedRegion) override;
+    std::optional<OutputLayerBeginFrameInfo> doBeginFrame() override;
+    bool doEndFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame) override;
+    DrmDevice *scanoutDevice() const override;
+    QHash<uint32_t, QList<uint64_t>> supportedDrmFormats() const override;
 
 private:
     GlxBackend *const m_backend;
@@ -78,30 +80,31 @@ class GlxBackend : public OpenGLBackend
     Q_OBJECT
 
 public:
-    GlxBackend(Display *display, X11StandaloneBackend *backend);
+    GlxBackend(::Display *display, X11StandaloneBackend *backend);
     ~GlxBackend() override;
     std::unique_ptr<SurfaceTexture> createSurfaceTextureX11(SurfacePixmapX11 *pixmap) override;
-    OutputLayerBeginFrameInfo beginFrame();
-    void endFrame(const QRegion &renderedRegion, const QRegion &damagedRegion);
-    void present(Output *output) override;
+    OutputLayerBeginFrameInfo doBeginFrame();
+    void endFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame);
+    void present(Output *output, const std::shared_ptr<OutputFrame> &frame) override;
     bool makeCurrent() override;
     void doneCurrent() override;
+    OpenGlContext *openglContext() const override;
     OverlayWindow *overlayWindow() const override;
     void init() override;
     OutputLayer *primaryLayer(Output *output) override;
 
-    Display *display() const
+    ::Display *display() const
     {
         return m_x11Display;
     }
 
-private:
     void vblank(std::chrono::nanoseconds timestamp);
+
+private:
     void present(const QRegion &damage);
     bool initBuffer();
     bool checkVersion();
     void initExtensions();
-    bool initRenderingContext();
     bool initFbConfig();
     void initVisualDepthHashTable();
     void setSwapInterval(int interval);
@@ -117,7 +120,7 @@ private:
     ::Window window;
     GLXFBConfig fbconfig;
     GLXWindow glxWindow;
-    GLXContext ctx;
+    std::shared_ptr<GlxContext> m_context;
     QHash<xcb_visualid_t, FBConfigInfo> m_fbconfigHash;
     QHash<xcb_visualid_t, int> m_visualDepthHash;
     std::unique_ptr<SwapEventFilter> m_swapEventFilter;
@@ -129,38 +132,28 @@ private:
     bool m_haveMESASwapControl = false;
     bool m_haveEXTSwapControl = false;
     bool m_haveSGISwapControl = false;
-    Display *m_x11Display;
+    ::Display *m_x11Display;
     X11StandaloneBackend *m_backend;
     std::unique_ptr<VsyncMonitor> m_vsyncMonitor;
     std::unique_ptr<GlxLayer> m_layer;
-    friend class GlxPixmapTexturePrivate;
+    std::unique_ptr<GLRenderTimeQuery> m_query;
+    Options::GlSwapStrategy m_swapStrategy = Options::AutoSwapStrategy;
+    std::shared_ptr<OutputFrame> m_frame;
+    friend class GlxPixmapTexture;
 };
 
 class GlxPixmapTexture final : public GLTexture
 {
 public:
     explicit GlxPixmapTexture(GlxBackend *backend);
+    ~GlxPixmapTexture();
 
     bool create(SurfacePixmapX11 *texture);
 
 private:
-    Q_DECLARE_PRIVATE(GlxPixmapTexture)
-};
-
-class GlxPixmapTexturePrivate final : public GLTexturePrivate
-{
-public:
-    GlxPixmapTexturePrivate(GlxPixmapTexture *texture, GlxBackend *backend);
-    ~GlxPixmapTexturePrivate() override;
-
-    bool create(SurfacePixmapX11 *texture);
-
-protected:
     void onDamage() override;
 
-private:
-    GlxBackend *m_backend;
-    GlxPixmapTexture *q;
+    GlxBackend *const m_backend;
     GLXPixmap m_glxPixmap;
 };
 

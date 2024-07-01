@@ -10,7 +10,6 @@
 
 #include "core/output.h"
 
-#include <KWayland/Client/buffer.h>
 #include <KWayland/Client/xdgshell.h>
 
 #include <QObject>
@@ -27,13 +26,15 @@ class XdgDecoration;
 }
 }
 
+struct wl_buffer;
+
 namespace KWin
 {
+class OutputFrame;
+
 namespace Wayland
 {
 class WaylandBackend;
-class WaylandEglBackend;
-class WaylandQPainterBackend;
 
 class WaylandCursor
 {
@@ -44,14 +45,12 @@ public:
     KWayland::Client::Pointer *pointer() const;
     void setPointer(KWayland::Client::Pointer *pointer);
 
-    void enable();
-    void disable();
+    void setEnabled(bool enable);
     void update(wl_buffer *buffer, qreal scale, const QPoint &hotspot);
 
 private:
     void sync();
 
-    WaylandBackend *const m_backend;
     KWayland::Client::Pointer *m_pointer = nullptr;
     std::unique_ptr<KWayland::Client::Surface> m_surface;
     wl_buffer *m_buffer = nullptr;
@@ -68,8 +67,7 @@ public:
     ~WaylandOutput() override;
 
     RenderLoop *renderLoop() const override;
-    bool setCursor(CursorSource *source) override;
-    bool moveCursor(const QPoint &position) override;
+    bool updateCursorLayer() override;
 
     void init(const QSize &pixelSize, qreal scale);
 
@@ -84,11 +82,12 @@ public:
     void updateDpmsMode(DpmsMode dpmsMode);
     void updateEnabled(bool enabled);
 
+    void setPendingFrame(const std::shared_ptr<OutputFrame> &frame);
+
 private:
     void handleConfigure(const QSize &size, KWayland::Client::XdgShellSurface::States states, quint32 serial);
     void updateWindowTitle();
-    void renderCursorOpengl(WaylandEglBackend *backend, CursorSource *source);
-    void renderCursorQPainter(WaylandQPainterBackend *backend, CursorSource *source);
+    void applyConfigure(const QSize &size, quint32 serial);
 
     std::unique_ptr<RenderLoop> m_renderLoop;
     std::unique_ptr<KWayland::Client::Surface> m_surface;
@@ -100,6 +99,10 @@ private:
     QTimer m_turnOffTimer;
     bool m_hasPointerLock = false;
     bool m_ready = false;
+    std::shared_ptr<OutputFrame> m_frame;
+    quint32 m_pendingConfigureSerial = 0;
+    QSize m_pendingConfigureSize;
+    QTimer m_configureThrottleTimer;
 };
 
 } // namespace Wayland

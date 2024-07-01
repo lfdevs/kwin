@@ -4,50 +4,59 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#include "rendertarget.h"
-#include "kwinglutils.h"
+#include "core/rendertarget.h"
+#include "opengl/glutils.h"
 
 namespace KWin
 {
 
-RenderTarget::RenderTarget()
+RenderTarget::RenderTarget(GLFramebuffer *fbo, const ColorDescription &colorDescription)
+    : m_framebuffer(fbo)
+    , m_transform(fbo->colorAttachment() ? fbo->colorAttachment()->contentTransform() : OutputTransform())
+    , m_colorDescription(colorDescription)
 {
 }
 
-RenderTarget::RenderTarget(GLFramebuffer *fbo)
-    : m_nativeHandle(fbo)
-{
-}
-
-RenderTarget::RenderTarget(QImage *image)
-    : m_nativeHandle(image)
+RenderTarget::RenderTarget(QImage *image, const ColorDescription &colorDescription)
+    : m_image(image)
+    , m_colorDescription(colorDescription)
 {
 }
 
 QSize RenderTarget::size() const
 {
-    if (auto fbo = std::get_if<GLFramebuffer *>(&m_nativeHandle)) {
-        return (*fbo)->size();
-    } else if (auto image = std::get_if<QImage *>(&m_nativeHandle)) {
-        return (*image)->size();
+    if (m_framebuffer) {
+        return m_framebuffer->size();
+    } else if (m_image) {
+        return m_image->size();
     } else {
         Q_UNREACHABLE();
     }
 }
 
-RenderTarget::NativeHandle RenderTarget::nativeHandle() const
+OutputTransform RenderTarget::transform() const
 {
-    return m_nativeHandle;
+    return m_transform;
 }
 
-void RenderTarget::setDevicePixelRatio(qreal ratio)
+GLFramebuffer *RenderTarget::framebuffer() const
 {
-    m_devicePixelRatio = ratio;
+    return m_framebuffer;
 }
 
-qreal RenderTarget::devicePixelRatio() const
+GLTexture *RenderTarget::texture() const
 {
-    return m_devicePixelRatio;
+    return m_framebuffer->colorAttachment();
+}
+
+QImage *RenderTarget::image() const
+{
+    return m_image;
+}
+
+const ColorDescription &RenderTarget::colorDescription() const
+{
+    return m_colorDescription;
 }
 
 } // namespace KWin

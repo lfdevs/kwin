@@ -8,13 +8,13 @@
 */
 #include "decorationbridge.h"
 
-#include <config-kwin.h>
+#include "config-kwin.h"
 
 #include "decoratedclient.h"
 #include "decorations_logging.h"
 #include "settings.h"
 // KWin core
-#include "wayland/server_decoration_interface.h"
+#include "wayland/server_decoration.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
@@ -40,7 +40,7 @@ namespace Decoration
 static const QString s_aurorae = QStringLiteral("org.kde.kwin.aurorae");
 static const QString s_pluginName = QStringLiteral("org.kde.kdecoration2");
 #if HAVE_BREEZE_DECO
-static const QString s_defaultPlugin = QStringLiteral(BREEZE_KDECORATION_PLUGIN_ID);
+static const QString s_defaultPlugin = BREEZE_KDECORATION_PLUGIN_ID;
 #else
 static const QString s_defaultPlugin = s_aurorae;
 #endif
@@ -85,7 +85,6 @@ bool DecorationBridge::hasPlugin()
 
 void DecorationBridge::init()
 {
-    using namespace KWaylandServer;
     m_noPlugin = readNoPlugin();
     if (m_noPlugin) {
         if (waylandServer()) {
@@ -94,7 +93,7 @@ void DecorationBridge::init()
         return;
     }
     m_plugin = readPlugin();
-    m_settings = QSharedPointer<KDecoration2::DecorationSettings>::create(this);
+    m_settings = std::make_shared<KDecoration2::DecorationSettings>(this);
     if (!initPlugin()) {
         if (m_plugin != s_defaultPlugin) {
             // try loading default plugin
@@ -120,8 +119,7 @@ bool DecorationBridge::initPlugin()
         return false;
     }
     qCDebug(KWIN_DECORATIONS) << "Trying to load decoration plugin: " << metaData.fileName();
-    auto factoryResult = KPluginFactory::loadFactory(metaData);
-    if (factoryResult) {
+    if (auto factoryResult = KPluginFactory::loadFactory(metaData)) {
         m_factory.reset(factoryResult.plugin);
         loadMetaData(metaData.rawData());
         return true;
@@ -133,7 +131,7 @@ bool DecorationBridge::initPlugin()
 
 static void recreateDecorations()
 {
-    Workspace::self()->forEachAbstractClient([](Window *window) {
+    Workspace::self()->forEachWindow([](Window *window) {
         window->invalidateDecoration();
     });
 }
@@ -242,7 +240,7 @@ KDecoration2::Decoration *DecorationBridge::createDecoration(Window *window)
     if (!m_theme.isEmpty()) {
         args.insert(QStringLiteral("theme"), m_theme);
     }
-    auto deco = m_factory->create<KDecoration2::Decoration>(window, QVariantList({args}));
+    auto deco = m_factory->create<KDecoration2::Decoration>(window, QVariantList{args});
     deco->setSettings(m_settings);
     deco->init();
     return deco;
@@ -252,8 +250,8 @@ static QString settingsProperty(const QVariant &variant)
 {
     if (QLatin1String(variant.typeName()) == QLatin1String("KDecoration2::BorderSize")) {
         return QString::number(variant.toInt());
-    } else if (QLatin1String(variant.typeName()) == QLatin1String("QVector<KDecoration2::DecorationButtonType>")) {
-        const auto &b = variant.value<QVector<KDecoration2::DecorationButtonType>>();
+    } else if (QLatin1String(variant.typeName()) == QLatin1String("QList<KDecoration2::DecorationButtonType>")) {
+        const auto &b = variant.value<QList<KDecoration2::DecorationButtonType>>();
         QString buffer;
         for (auto it = b.begin(); it != b.end(); ++it) {
             if (it != b.begin()) {
@@ -289,3 +287,5 @@ QString DecorationBridge::supportInformation() const
 
 } // Decoration
 } // KWin
+
+#include "moc_decorationbridge.cpp"

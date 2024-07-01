@@ -24,7 +24,15 @@ public:
 
     bool isValid() const;
     int get() const;
+    int take();
+    void reset();
     FileDescriptor duplicate() const;
+
+    bool isReadable() const;
+    bool isClosed() const;
+
+    static bool isReadable(int fd);
+    static bool isClosed(int fd);
 
 private:
     int m_fd = -1;

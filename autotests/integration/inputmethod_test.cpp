@@ -9,19 +9,17 @@
 #include "kwin_wayland_test.h"
 
 #include "core/output.h"
-#include "core/outputbackend.h"
-#include "cursor.h"
-#include "deleted.h"
-#include "effects.h"
 #include "inputmethod.h"
+#include "inputpanelv1window.h"
 #include "keyboard_input.h"
+#include "pointer_input.h"
 #include "qwayland-input-method-unstable-v1.h"
 #include "qwayland-text-input-unstable-v3.h"
 #include "virtualkeyboard_dbus.h"
 #include "wayland/clientconnection.h"
 #include "wayland/display.h"
-#include "wayland/seat_interface.h"
-#include "wayland/surface_interface.h"
+#include "wayland/seat.h"
+#include "wayland/surface.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
@@ -59,12 +57,15 @@ private Q_SLOTS:
     void testEnableDisableV3();
     void testEnableActive();
     void testHidePanel();
+    void testReactivateFocus();
     void testSwitchFocusedSurfaces();
     void testV2V3SameClient();
     void testV3Styling();
     void testDisableShowInputPanel();
     void testModifierForwarding();
     void testFakeEventFallback();
+    void testOverlayPositioning_data();
+    void testOverlayPositioning();
 
 private:
     void touchNow()
@@ -79,13 +80,15 @@ void InputMethodTest::initTestCase()
 {
     QDBusConnection::sessionBus().registerService(QStringLiteral("org.kde.kwin.testvirtualkeyboard"));
 
-    qRegisterMetaType<KWin::Deleted *>();
     qRegisterMetaType<KWin::Window *>();
     qRegisterMetaType<KWayland::Client::Output *>();
 
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
-    QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
+    Test::setOutputConfig({
+        QRect(0, 0, 1280, 1024),
+        QRect(1280, 0, 1280, 1024),
+    });
 
     static_cast<WaylandTestApplication *>(kwinApp())->setInputMethodServerToStart("internal");
     kwinApp()->start();
@@ -98,11 +101,12 @@ void InputMethodTest::initTestCase()
 
 void InputMethodTest::init()
 {
-    touchNow();
-    QVERIFY(Test::setupWaylandConnection(Test::AdditionalWaylandInterface::Seat | Test::AdditionalWaylandInterface::TextInputManagerV2 | Test::AdditionalWaylandInterface::InputMethodV1 | Test::AdditionalWaylandInterface::TextInputManagerV3));
-
     workspace()->setActiveOutput(QPoint(640, 512));
-    KWin::Cursors::self()->mouse()->setPos(QPoint(640, 512));
+    KWin::input()->pointer()->warp(QPoint(640, 512));
+
+    touchNow();
+
+    QVERIFY(Test::setupWaylandConnection(Test::AdditionalWaylandInterface::Seat | Test::AdditionalWaylandInterface::TextInputManagerV2 | Test::AdditionalWaylandInterface::InputMethodV1 | Test::AdditionalWaylandInterface::TextInputManagerV3));
 
     kwinApp()->inputMethod()->setEnabled(true);
 }
@@ -150,7 +154,7 @@ void InputMethodTest::testOpenClose()
     Test::render(surface.get(), toplevelConfigureRequestedSpy.last().first().value<QSize>(), Qt::red);
     QVERIFY(frameGeometryChangedSpy.wait());
 
-    QCOMPARE(window->frameGeometry().height(), 1024 - keyboardClient->inputGeometry().height());
+    QCOMPARE(window->frameGeometry().height(), 1024 - keyboardClient->frameGeometry().height());
 
     // Hide the keyboard
     textInput->hideInputPanel();
@@ -171,7 +175,7 @@ void InputMethodTest::testOpenClose()
 
     // Destroy the test window.
     shellSurface.reset();
-    QVERIFY(Test::waitForWindowDestroyed(window));
+    QVERIFY(Test::waitForWindowClosed(window));
 }
 
 void InputMethodTest::testEnableDisableV3()
@@ -209,12 +213,12 @@ void InputMethodTest::testEnableDisableV3()
     kwinApp()->inputMethod()->hide();
     QVERIFY(!keyboardClient->isShown());
 
-    QSignalSpy windowShownSpy(keyboardClient, &Window::windowShown);
+    QSignalSpy hiddenChangedSpy(keyboardClient, &Window::hiddenChanged);
     // Force enable the text input object. This is what's done by Gtk.
     textInputV3->enable();
     textInputV3->commit();
 
-    windowShownSpy.wait();
+    hiddenChangedSpy.wait();
     QVERIFY(keyboardClient->isShown());
 
     // disable text input and ensure that it is not hiding input panel without commit
@@ -258,7 +262,7 @@ void InputMethodTest::testEnableActive()
 
     // Destroy the test window.
     shellSurface.reset();
-    QVERIFY(Test::waitForWindowDestroyed(window));
+    QVERIFY(Test::waitForWindowClosed(window));
 }
 
 void InputMethodTest::testHidePanel()
@@ -301,7 +305,47 @@ void InputMethodTest::testHidePanel()
 
     // Destroy the test window.
     shellSurface.reset();
-    QVERIFY(Test::waitForWindowDestroyed(window));
+    QVERIFY(Test::waitForWindowClosed(window));
+}
+
+void InputMethodTest::testReactivateFocus()
+{
+    touchNow();
+    QVERIFY(!kwinApp()->inputMethod()->isActive());
+
+    std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get()));
+    Window *window = Test::renderAndWaitForShown(surface.get(), QSize(1280, 1024), Qt::red);
+    QVERIFY(window);
+    QVERIFY(window->isActive());
+    QCOMPARE(window->frameGeometry().size(), QSize(1280, 1024));
+
+    // Show the keyboard
+    QSignalSpy windowAddedSpy(workspace(), &Workspace::windowAdded);
+    std::unique_ptr<KWayland::Client::TextInput> textInput(Test::waylandTextInputManager()->createTextInput(Test::waylandSeat()));
+    textInput->enable(surface.get());
+    QSignalSpy paneladded(kwinApp()->inputMethod(), &KWin::InputMethod::panelChanged);
+    QVERIFY(paneladded.wait());
+    textInput->showInputPanel();
+    QVERIFY(windowAddedSpy.wait());
+    QVERIFY(kwinApp()->inputMethod()->isActive());
+
+    QSignalSpy activeSpy(kwinApp()->inputMethod(), &InputMethod::activeChanged);
+
+    // Hide keyboard like keyboardToggle button on navigation panel
+    kwinApp()->inputMethod()->setActive(false);
+    activeSpy.wait(200);
+    QVERIFY(!kwinApp()->inputMethod()->isActive());
+
+    // Reactivate
+    textInput->enable(surface.get());
+    textInput->showInputPanel();
+    activeSpy.wait(200);
+    QVERIFY(kwinApp()->inputMethod()->isActive());
+
+    // Destroy the test window
+    shellSurface.reset();
+    QVERIFY(Test::waitForWindowClosed(window));
 }
 
 void InputMethodTest::testSwitchFocusedSurfaces()
@@ -315,9 +359,9 @@ void InputMethodTest::testSwitchFocusedSurfaces()
     QSignalSpy activateSpy(kwinApp()->inputMethod(), &InputMethod::activeChanged);
     std::unique_ptr<KWayland::Client::TextInput> textInput(Test::waylandTextInputManager()->createTextInput(Test::waylandSeat()));
 
-    QVector<Window *> windows;
+    QList<Window *> windows;
     std::vector<std::unique_ptr<KWayland::Client::Surface>> surfaces;
-    QVector<Test::XdgToplevel *> toplevels;
+    std::vector<std::unique_ptr<Test::XdgToplevel>> toplevels;
     // We create 3 surfaces
     for (int i = 0; i < 3; ++i) {
         std::unique_ptr<KWayland::Client::Surface> surface = Test::createSurface();
@@ -325,7 +369,7 @@ void InputMethodTest::testSwitchFocusedSurfaces()
         windows += Test::renderAndWaitForShown(surface.get(), QSize(1280, 1024), Qt::red);
         QCOMPARE(workspace()->activeWindow(), windows.constLast());
         surfaces.push_back(std::move(surface));
-        toplevels += shellSurface;
+        toplevels.push_back(std::move(shellSurface));
     }
     QCOMPARE(windowAddedSpy.count(), 3);
     waylandServer()->seat()->setFocusedTextInputSurface(windows.constFirst()->surface());
@@ -344,12 +388,6 @@ void InputMethodTest::testSwitchFocusedSurfaces()
     waylandServer()->seat()->setFocusedTextInputSurface(windows.first()->surface());
     QVERIFY(activateSpy.count() || activateSpy.wait());
     QVERIFY(!kwinApp()->inputMethod()->isActive());
-
-    // Destroy the test window.
-    for (int i = 0; i < windows.count(); ++i) {
-        delete toplevels[i];
-        QVERIFY(Test::waitForWindowDestroyed(windows[i]));
-    }
 }
 
 void InputMethodTest::testV2V3SameClient()
@@ -420,7 +458,7 @@ void InputMethodTest::testV2V3SameClient()
     QVERIFY(!kwinApp()->inputMethod()->isActive());
 
     toplevel.reset();
-    QVERIFY(Test::waitForWindowDestroyed(window));
+    QVERIFY(Test::waitForWindowClosed(window));
 }
 
 void InputMethodTest::testV3Styling()
@@ -511,6 +549,10 @@ void InputMethodTest::testV3Styling()
     // Merged range should be [1,6).
     QCOMPARE(textInputPreeditSpy.last().at(1), 1);
     QCOMPARE(textInputPreeditSpy.last().at(2), 6);
+
+    shellSurface.reset();
+    QVERIFY(Test::waitForWindowClosed(window));
+    QVERIFY(!kwinApp()->inputMethod()->isActive());
 }
 
 void InputMethodTest::testDisableShowInputPanel()
@@ -539,10 +581,13 @@ void InputMethodTest::testDisableShowInputPanel()
     QVERIFY(inputMethodActiveSpy.count() || inputMethodActiveSpy.wait());
     QVERIFY(!kwinApp()->inputMethod()->isActive());
 
-    QSignalSpy requestShowInputPanelSpy(waylandServer()->seat()->textInputV2(), &KWaylandServer::TextInputV2Interface::requestShowInputPanel);
+    QSignalSpy requestShowInputPanelSpy(waylandServer()->seat()->textInputV2(), &TextInputV2Interface::requestShowInputPanel);
     textInputV2->showInputPanel();
     QVERIFY(requestShowInputPanelSpy.count() || requestShowInputPanelSpy.wait());
     QVERIFY(!kwinApp()->inputMethod()->isActive());
+
+    shellSurface.reset();
+    QVERIFY(Test::waitForWindowClosed(window));
 }
 
 void InputMethodTest::testModifierForwarding()
@@ -614,6 +659,10 @@ void InputMethodTest::testModifierForwarding()
     QVERIFY(modifierSpy.count() == 3 || modifierSpy.wait());
     disconnect(keyChangedConnection);
     disconnect(modifiersChangedConnection);
+
+    shellSurface.reset();
+    QVERIFY(Test::waitForWindowClosed(window));
+    QVERIFY(!kwinApp()->inputMethod()->isActive());
 }
 
 void InputMethodTest::testFakeEventFallback()
@@ -677,14 +726,79 @@ void InputMethodTest::testFakeEventFallback()
 
     // Special keys are not sent through commit_string but instead use keysym.
     auto enter = input()->keyboard()->xkb()->toKeysym(KEY_ENTER);
-    zwp_input_method_context_v1_keysym(context, 0, 0, enter, uint32_t(KWaylandServer::KeyboardKeyState::Pressed), 0);
-    zwp_input_method_context_v1_keysym(context, 0, 1, enter, uint32_t(KWaylandServer::KeyboardKeyState::Released), 0);
+    zwp_input_method_context_v1_keysym(context, 0, 0, enter, uint32_t(KeyboardKeyState::Pressed), 0);
+    zwp_input_method_context_v1_keysym(context, 0, 1, enter, uint32_t(KeyboardKeyState::Released), 0);
 
     keySpy.wait();
     QVERIFY(keySpy.count() == 2);
 
     compare(keySpy.at(0), KEY_ENTER, KWayland::Client::Keyboard::KeyState::Pressed);
     compare(keySpy.at(1), KEY_ENTER, KWayland::Client::Keyboard::KeyState::Released);
+
+    shellSurface.reset();
+    QVERIFY(Test::waitForWindowClosed(window));
+    kwinApp()->inputMethod()->setActive(false);
+    QVERIFY(!kwinApp()->inputMethod()->isActive());
+}
+
+void InputMethodTest::testOverlayPositioning_data()
+{
+    QTest::addColumn<QRect>("cursorRectangle");
+    QTest::addColumn<QRect>("result");
+
+    QTest::newRow("regular") << QRect(10, 20, 30, 40) << QRect(60, 160, 200, 50);
+    QTest::newRow("offscreen-left") << QRect(-200, 40, 30, 40) << QRect(0, 180, 200, 50);
+    QTest::newRow("offscreen-right") << QRect(1200, 40, 30, 40) << QRect(1080, 180, 200, 50);
+    QTest::newRow("offscreen-top") << QRect(1200, -400, 30, 40) << QRect(1080, 0, 200, 50);
+    // Check it is flipped near the bottom of screen (anchor point 844 + 100 + 40 = 1024 - 40)
+    QTest::newRow("offscreen-bottom-flip") << QRect(1200, 844, 30, 40) << QRect(1080, 894, 200, 50);
+    // Top is (screen height 1024 - window height 50) = 984
+    QTest::newRow("offscreen-bottom-slide") << QRect(1200, 1200, 30, 40) << QRect(1080, 974, 200, 50);
+}
+
+void InputMethodTest::testOverlayPositioning()
+{
+    QFETCH(QRect, cursorRectangle);
+    QFETCH(QRect, result);
+    Test::inputMethod()->setMode(Test::MockInputMethod::Mode::Overlay);
+    QVERIFY(!kwinApp()->inputMethod()->isActive());
+
+    touchNow();
+    QSignalSpy windowAddedSpy(workspace(), &Workspace::windowAdded);
+    QSignalSpy windowRemovedSpy(workspace(), &Workspace::windowRemoved);
+
+    QSignalSpy activateSpy(kwinApp()->inputMethod(), &InputMethod::activeChanged);
+    std::unique_ptr<KWayland::Client::TextInput> textInput(Test::waylandTextInputManager()->createTextInput(Test::waylandSeat()));
+
+    // Create an xdg_toplevel surface and wait for the compositor to catch up.
+    std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get()));
+    // Make the window smaller than the screen and move it.
+    Window *window = Test::renderAndWaitForShown(surface.get(), QSize(1080, 824), Qt::red);
+    window->move(QPointF(50, 100));
+    waylandServer()->seat()->setFocusedTextInputSurface(window->surface());
+
+    textInput->setCursorRectangle(cursorRectangle);
+    textInput->enable(surface.get());
+    // Overlay is shown upon activate
+    QVERIFY(windowAddedSpy.wait());
+
+    QCOMPARE(workspace()->activeWindow(), window);
+
+    QCOMPARE(windowAddedSpy.count(), 2);
+    QVERIFY(activateSpy.count() || activateSpy.wait());
+    QVERIFY(kwinApp()->inputMethod()->isActive());
+
+    auto keyboardWindow = kwinApp()->inputMethod()->panel();
+    QVERIFY(keyboardWindow);
+    // Check the overlay window is placed with cursor rectangle + window position.
+    QCOMPARE(keyboardWindow->frameGeometry(), result);
+
+    // Destroy the test window.
+    shellSurface.reset();
+    QVERIFY(Test::waitForWindowClosed(window));
+
+    Test::inputMethod()->setMode(Test::MockInputMethod::Mode::TopLevel);
 }
 
 WAYLANDTEST_MAIN(InputMethodTest)

@@ -292,7 +292,8 @@ Copyright: 2014-2016 Martin Gräßlin <mgraesslin@kde.org>
            2023 Nate Graham <nate@kde.org>
 License: BSD-3-Clause
 
-Files: examples/plugin/metadata.json
+Files: examples/plugin/CMakeLists.txt
+       examples/plugin/metadata.json
        examples/quick-effect/CMakeLists.txt
        examples/quick-effect/package/metadata.json
        examples/quick-effect/package/contents/config/main.xml

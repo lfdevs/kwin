@@ -1,5 +1,9 @@
 kwin (4:6.1.0-2) UNRELEASED; urgency=medium
 
+  [ Patrick Franz ]
+  * Remove dependency to kwayland-integration as kwayland-integration is
+    Qt 5-only.
+
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Sun, 07 Jul 2024 00:00:25 +0200
 
 kwin (4:6.1.0-1) experimental; urgency=medium

@@ -185,8 +185,7 @@ Description: KDE window manager - devel files
 
 Package: kwin-wayland
 Architecture: any
-Depends: kwayland-integration (>= 6.1.0~),
-         libcap2-bin [linux-any],
+Depends: libcap2-bin [linux-any],
          xwayland,
          ${misc:Depends},
          ${shlibs:Depends},

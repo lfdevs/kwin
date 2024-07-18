@@ -1,3 +1,11 @@
+kwin (4:6.1.0-2) experimental; urgency=medium
+
+  [ Patrick Franz ]
+  * Remove dependency to kwayland-integration as kwayland-integration is
+    Qt 5-only.
+
+ -- Patrick Franz <deltaone@debian.org>  Thu, 18 Jul 2024 18:48:43 +0200
+
 kwin (4:6.1.0-1) experimental; urgency=medium
 
   [ Patrick Franz ]

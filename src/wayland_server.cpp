@@ -188,10 +188,24 @@ public:
     }
 };
 
+static size_t mibToBytes(size_t mib)
+{
+    return mib * (size_t(1) << 20);
+}
+
+static size_t defaultMaxBufferSize()
+{
+    if (int hint = qEnvironmentVariableIntValue("KWIN_WAYLAND_DEFAULT_MAX_CONNECTION_BUFFER_SIZE"); hint > 0) {
+        return hint;
+    }
+    return mibToBytes(1);
+}
+
 WaylandServer::WaylandServer(QObject *parent)
     : QObject(parent)
     , m_display(new KWinDisplay(this))
 {
+    m_display->setDefaultMaxBufferSize(defaultMaxBufferSize());
 }
 
 WaylandServer::~WaylandServer()
@@ -625,16 +639,6 @@ void WaylandServer::initScreenLocker()
     ScreenLocker::KSldApp::self()->setGreeterEnvironment(kwinApp()->processStartupEnvironment());
 
     connect(ScreenLocker::KSldApp::self(), &ScreenLocker::KSldApp::aboutToLock, this, [this, screenLockerApp]() {
-        if (m_screenLockerClientConnection) {
-            // Already sent data to KScreenLocker.
-            return;
-        }
-        int clientFd = createScreenLockerConnection();
-        if (clientFd < 0) {
-            return;
-        }
-        ScreenLocker::KSldApp::self()->setWaylandFd(clientFd);
-
         new LockScreenPresentationWatcher(this);
 
         const QList<SeatInterface *> seatIfaces = m_display->seats();
@@ -642,6 +646,19 @@ void WaylandServer::initScreenLocker()
             connect(seat, &SeatInterface::timestampChanged,
                     screenLockerApp, &ScreenLocker::KSldApp::userActivity);
         }
+    });
+
+    connect(ScreenLocker::KSldApp::self(), &ScreenLocker::KSldApp::aboutToStartGreeter, this, [this]() {
+        if (m_screenLockerClientConnection) {
+            m_screenLockerClientConnection->destroy();
+            delete m_screenLockerClientConnection;
+            m_screenLockerClientConnection = nullptr;
+        }
+        int clientFd = createScreenLockerConnection();
+        if (clientFd < 0) {
+            return;
+        }
+        ScreenLocker::KSldApp::self()->setWaylandFd(clientFd);
     });
 
     connect(ScreenLocker::KSldApp::self(), &ScreenLocker::KSldApp::unlocked, this, [this, screenLockerApp]() {

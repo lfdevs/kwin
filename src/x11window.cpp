@@ -1734,6 +1734,9 @@ bool X11Window::isShadeable() const
 
 void X11Window::doSetShade(ShadeMode previousShadeMode)
 {
+    if (isDeleted()) {
+        return;
+    }
     // TODO: All this unmapping, resizing etc. feels too much duplicated from elsewhere
     if (isShade()) {
         shade_geometry_change = true;
@@ -2031,6 +2034,9 @@ bool X11Window::isCloseable() const
  */
 void X11Window::closeWindow()
 {
+    if (isDeleted()) {
+        return;
+    }
     if (!isCloseable()) {
         return;
     }
@@ -2145,58 +2151,91 @@ void X11Window::killProcess(bool ask, xcb_timestamp_t timestamp)
 
 void X11Window::doSetKeepAbove()
 {
+    if (isDeleted()) {
+        return;
+    }
     info->setState(keepAbove() ? NET::KeepAbove : NET::States(), NET::KeepAbove);
 }
 
 void X11Window::doSetKeepBelow()
 {
+    if (isDeleted()) {
+        return;
+    }
     info->setState(keepBelow() ? NET::KeepBelow : NET::States(), NET::KeepBelow);
 }
 
 void X11Window::doSetSkipTaskbar()
 {
+    if (isDeleted()) {
+        return;
+    }
     info->setState(skipTaskbar() ? NET::SkipTaskbar : NET::States(), NET::SkipTaskbar);
 }
 
 void X11Window::doSetSkipPager()
 {
+    if (isDeleted()) {
+        return;
+    }
     info->setState(skipPager() ? NET::SkipPager : NET::States(), NET::SkipPager);
 }
 
 void X11Window::doSetSkipSwitcher()
 {
+    if (isDeleted()) {
+        return;
+    }
     info->setState(skipSwitcher() ? NET::SkipSwitcher : NET::States(), NET::SkipSwitcher);
 }
 
 void X11Window::doSetDesktop()
 {
+    if (isDeleted()) {
+        return;
+    }
     info->setDesktop(desktopId());
     updateVisibility();
 }
 
 void X11Window::doSetDemandsAttention()
 {
+    if (isDeleted()) {
+        return;
+    }
     info->setState(isDemandingAttention() ? NET::DemandsAttention : NET::States(), NET::DemandsAttention);
 }
 
 void X11Window::doSetHidden()
 {
+    if (isDeleted()) {
+        return;
+    }
     updateVisibility();
 }
 
 void X11Window::doSetHiddenByShowDesktop()
 {
+    if (isDeleted()) {
+        return;
+    }
     updateVisibility();
 }
 
 void X11Window::doSetModal()
 {
+    if (isDeleted()) {
+        return;
+    }
     info->setState(isModal() ? NET::Modal : NET::States(), NET::Modal);
 }
 
 void X11Window::doSetOnActivities(const QStringList &activityList)
 {
 #if KWIN_BUILD_ACTIVITIES
+    if (isDeleted()) {
+        return;
+    }
     if (activityList.isEmpty()) {
         const QByteArray nullUuid = Activities::nullUuid().toUtf8();
         m_client.changeProperty(atoms->activities, XCB_ATOM_STRING, 8, nullUuid.length(), nullUuid.constData());
@@ -4619,11 +4658,7 @@ void X11Window::maximize(MaximizeMode mode)
 
     case MaximizeFull: {
         moveResize(clientArea);
-        if (options->electricBorderMaximize()) {
-            updateQuickTileMode(QuickTileFlag::Maximize);
-        } else {
-            updateQuickTileMode(QuickTileFlag::None);
-        }
+        updateQuickTileMode(QuickTileFlag::None);
         info->setState(NET::Max, NET::Max);
         break;
     }
@@ -4785,7 +4820,19 @@ bool X11Window::isWaitingForInteractiveResizeSync() const
 
 void X11Window::doInteractiveResizeSync(const QRectF &rect)
 {
-    setMoveResizeGeometry(rect);
+    const QRectF moveResizeFrameGeometry = Xcb::fromXNative(Xcb::toXNative(rect));
+    const QRectF moveResizeClientGeometry = frameRectToClientRect(moveResizeFrameGeometry);
+    const QRectF moveResizeBufferGeometry = frameRectToBufferRect(moveResizeFrameGeometry);
+
+    const QRectF xFrameGeometry = moveResizeBufferGeometry;
+    const QRectF xWrapperGeometry = moveResizeClientGeometry.translated(-moveResizeBufferGeometry.topLeft());
+    const QRectF xClientGeometry = QRectF(QPointF(0, 0), moveResizeClientGeometry.size());
+
+    if (m_frame.deviceGeometry() == Xcb::toXNative(xFrameGeometry) && m_wrapper.deviceGeometry() == Xcb::toXNative(xWrapperGeometry) && m_client.deviceGeometry() == Xcb::toXNative(xClientGeometry)) {
+        return;
+    }
+
+    setMoveResizeGeometry(moveResizeFrameGeometry);
 
     if (!m_syncRequest.timeout) {
         m_syncRequest.timeout = new QTimer(this);
@@ -4805,16 +4852,13 @@ void X11Window::doInteractiveResizeSync(const QRectF &rect)
         m_syncRequest.timeout->start(33);
     }
 
-    const QRectF moveResizeClientGeometry = frameRectToClientRect(moveResizeGeometry());
-    const QRectF moveResizeBufferGeometry = frameRectToBufferRect(moveResizeGeometry());
-
     // According to the Composite extension spec, a window will get a new pixmap allocated each time
     // it is mapped or resized. Given that we redirect frame windows and not client windows, we have
     // to resize the frame window in order to forcefully reallocate offscreen storage. If we don't do
     // this, then we might render partially updated client window. I know, it sucks.
-    m_frame.setGeometry(moveResizeBufferGeometry);
-    m_wrapper.setGeometry(moveResizeClientGeometry.translated(-moveResizeBufferGeometry.topLeft()));
-    m_client.setGeometry(QRectF(QPointF(0, 0), moveResizeClientGeometry.size()));
+    m_frame.setGeometry(xFrameGeometry);
+    m_wrapper.setGeometry(xWrapperGeometry);
+    m_client.setGeometry(xClientGeometry);
 }
 
 void X11Window::handleSyncTimeout()
@@ -5261,6 +5305,9 @@ xcb_timestamp_t X11Window::userTime() const
 
 void X11Window::doSetActive()
 {
+    if (isDeleted()) {
+        return;
+    }
     updateUrgency(); // demand attention again if it's still urgent
     info->setState(isActive() ? NET::Focused : NET::States(), NET::Focused);
 }

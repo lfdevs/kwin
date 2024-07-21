@@ -41,6 +41,10 @@ static GLenum closestGLType(QImage::Format format)
 
 static void doGrabTexture(GLTexture *texture, QImage *target)
 {
+    if (texture->size() != target->size()) {
+        return;
+    }
+
     const auto context = OpenGlContext::currentContext();
     const QSize size = texture->size();
     const bool invertNeeded = context->isOpenGLES() ^ (texture->contentTransform() != OutputTransform::FlipY);
@@ -57,12 +61,10 @@ static void doGrabTexture(GLTexture *texture, QImage *target)
     if (context->isOpenGLES() || context->glPlatform()->driver() == Driver_NVidia) {
         GLFramebuffer fbo(texture);
         GLFramebuffer::pushFramebuffer(&fbo);
-        glReadPixels(0, 0, size.width(), size.height(), closestGLType(target->format()), GL_UNSIGNED_BYTE, target->bits());
+        context->glReadnPixels(0, 0, size.width(), size.height(), closestGLType(target->format()), GL_UNSIGNED_BYTE, target->sizeInBytes(), target->bits());
         GLFramebuffer::popFramebuffer();
-    } else if (context->openglVersion() >= Version(4, 5)) {
-        glGetTextureImage(texture->texture(), 0, closestGLType(target->format()), GL_UNSIGNED_BYTE, target->sizeInBytes(), target->bits());
     } else {
-        glGetTexImage(texture->target(), 0, closestGLType(target->format()), GL_UNSIGNED_BYTE, target->bits());
+        context->glGetnTexImage(texture->target(), 0, closestGLType(target->format()), GL_UNSIGNED_BYTE, target->sizeInBytes(), target->bits());
     }
 
     if (invertNeededAndSupported) {

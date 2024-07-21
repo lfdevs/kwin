@@ -145,6 +145,7 @@ void GlideEffect::apply(EffectWindow *window, int mask, WindowPaintData &data, W
         break;
     }
 
+    quads = quads.makeRegularGrid(20, 20);
     for (WindowQuad &quad : quads) {
         for (int i = 0; i < 4; ++i) {
             const QPointF transformed = matrix.map(QPointF(quad[i].x(), quad[i].y()));
@@ -216,20 +217,16 @@ void GlideEffect::windowAdded(EffectWindow *w)
 
 void GlideEffect::windowClosed(EffectWindow *w)
 {
-    if (effects->activeFullScreenEffect()) {
-        return;
-    }
-
-    if (!isGlideWindow(w)) {
-        return;
-    }
-
-    if (!w->isVisible() || w->skipsCloseAnimation()) {
-        return;
-    }
-
     const void *closeGrab = w->data(WindowClosedGrabRole).value<void *>();
     if (closeGrab && closeGrab != this) {
+        return;
+    }
+    if (effects->activeFullScreenEffect() || !isGlideWindow(w) || !w->isVisible() || w->skipsCloseAnimation()) {
+        const auto it = m_animations.find(w);
+        if (it != m_animations.end()) {
+            unredirect(w);
+            m_animations.erase(it);
+        }
         return;
     }
 

@@ -460,16 +460,13 @@ Workspace::~Workspace()
 #endif
 
     if (waylandServer()) {
-        const QList<Window *> waylandWindows = waylandServer()->windows();
-        for (Window *window : waylandWindows) {
-            window->destroyWindow();
+        while (!waylandServer()->windows().isEmpty()) {
+            waylandServer()->windows()[0]->destroyWindow();
         }
     }
 
-    // We need a shadow copy because windows get removed as we go through them.
-    const QList<Window *> windows = m_windows;
-    for (Window *window : windows) {
-        window->destroyWindow();
+    while (!m_windows.isEmpty()) {
+        m_windows[0]->destroyWindow();
     }
 
     m_rulebook.reset();
@@ -496,13 +493,13 @@ bool Workspace::applyOutputConfiguration(const OutputConfiguration &config, cons
         return false;
     }
     updateOutputs(outputOrder);
-    m_outputConfigStore->storeConfig(kwinApp()->outputBackend()->outputs(), m_lidSwitchTracker->isLidClosed(), config, outputOrder);
+    m_outputConfigStore->storeConfig(kwinApp()->outputBackend()->outputs(), m_lidSwitchTracker->isLidClosed(), config, m_outputOrder);
     KConfig cfg(QStringLiteral("kdeglobals"));
     KConfigGroup kscreenGroup = cfg.group(QStringLiteral("KScreen"));
     const bool xwaylandClientsScale = kscreenGroup.readEntry("XwaylandClientsScale", true);
-    if (xwaylandClientsScale && !outputOrder.isEmpty()) {
+    if (xwaylandClientsScale && !m_outputOrder.isEmpty()) {
         double maxScale = 0;
-        for (Output *output : outputOrder) {
+        for (Output *output : m_outputOrder) {
             const auto changeset = config.constChangeSet(output);
             maxScale = std::max(maxScale, changeset ? changeset->scale.value_or(output->scale()) : output->scale());
         }
@@ -1605,7 +1602,7 @@ void Workspace::focusToNull()
 
 bool Workspace::breaksShowingDesktop(Window *window) const
 {
-    return !(window->isUnmanaged() || window->isDock() || window->isDesktop() || window->belongsToDesktop());
+    return !(window->isUnmanaged() || window->isDock() || window->isDesktop() || window->belongsToDesktop() || window->isInputMethod());
 }
 
 void Workspace::setShowingDesktop(bool showing, bool animated)
@@ -3121,7 +3118,11 @@ ScreenEdges *Workspace::screenEdges() const
 
 TileManager *Workspace::tileManager(Output *output)
 {
-    return m_tileManagers.at(output).get();
+    if (auto search = m_tileManagers.find(output); search != m_tileManagers.end()) {
+        return search->second.get();
+    } else {
+        return nullptr;
+    }
 }
 
 #if KWIN_BUILD_TABBOX

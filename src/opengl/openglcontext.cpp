@@ -9,6 +9,8 @@
 #include "openglcontext.h"
 #include "glframebuffer.h"
 #include "glplatform.h"
+#include "glshader.h"
+#include "glshadermanager.h"
 #include "glvertexbuffer.h"
 #include "utils/common.h"
 
@@ -92,7 +94,7 @@ OpenGlContext::OpenGlContext(bool EGL)
     , m_supportsPackedDepthStencil(hasVersion(Version(3, 0)) || hasOpenglExtension(QByteArrayLiteral("GL_OES_packed_depth_stencil")) || hasOpenglExtension(QByteArrayLiteral("GL_ARB_framebuffer_object")) || hasOpenglExtension(QByteArrayLiteral("GL_EXT_packed_depth_stencil")))
     , m_supportsGLES24BitDepthBuffers(m_isOpenglES && (hasVersion(Version(3, 0)) || hasOpenglExtension(QByteArrayLiteral("GL_OES_depth24"))))
     , m_hasMapBufferRange(hasVersion(Version(3, 0)) || hasOpenglExtension(QByteArrayLiteral("GL_EXT_map_buffer_range")) || hasOpenglExtension(QByteArrayLiteral("GL_ARB_map_buffer_range")))
-    , m_haveBufferStorage((m_isOpenglES || hasVersion(Version(4, 4))) || hasOpenglExtension(QByteArrayLiteral("GL_ARB_buffer_storage")) || hasOpenglExtension(QByteArrayLiteral("GL_EXT_buffer_storage")))
+    , m_haveBufferStorage((!m_isOpenglES && hasVersion(Version(4, 4))) || hasOpenglExtension(QByteArrayLiteral("GL_ARB_buffer_storage")) || hasOpenglExtension(QByteArrayLiteral("GL_EXT_buffer_storage")))
     , m_haveSyncFences((m_isOpenglES && hasVersion(Version(3, 0))) || (!m_isOpenglES && hasVersion(Version(3, 2))) || hasOpenglExtension(QByteArrayLiteral("GL_ARB_sync")))
     , m_supportsIndexedQuads(checkIndexedQuads(this))
     , m_supportsPackInvert(hasOpenglExtension(QByteArrayLiteral("GL_MESA_pack_invert")))
@@ -102,6 +104,9 @@ OpenGlContext::OpenGlContext(bool EGL)
 
 OpenGlContext::~OpenGlContext()
 {
+    if (s_currentContext == this) {
+        s_currentContext = nullptr;
+    }
 }
 
 bool OpenGlContext::checkTimerQuerySupport() const
@@ -261,7 +266,14 @@ bool OpenGlContext::checkSupported() const
     const bool supportsNonPowerOfTwoTextures = m_isOpenglES || hasOpenglExtension("GL_ARB_texture_non_power_of_two");
     const bool supports3DTextures = !m_isOpenglES || hasVersion(Version(3, 0)) || hasOpenglExtension("GL_OES_texture_3D");
     const bool supportsFBOs = m_isOpenglES || hasVersion(Version(3, 0)) || hasOpenglExtension("GL_ARB_framebuffer_object") || hasOpenglExtension(QByteArrayLiteral("GL_EXT_framebuffer_object"));
-    return supportsGLSL && supportsNonPowerOfTwoTextures && supports3DTextures && supportsFBOs;
+
+    if (!supportsGLSL || !supportsNonPowerOfTwoTextures || !supports3DTextures || !supportsFBOs) {
+        return false;
+    }
+    // some old hardware only supports very limited shaders. To prevent the shaders KWin uses later on from not working,
+    // test a reasonably complex one here and bail out early if it doesn't work
+    auto shader = m_shaderManager->shader(ShaderTrait::MapTexture | ShaderTrait::TransformColorspace | ShaderTrait::AdjustSaturation | ShaderTrait::Modulate);
+    return shader->isValid();
 }
 
 void OpenGlContext::setShaderManager(ShaderManager *manager)
@@ -322,6 +334,7 @@ void OpenGlContext::glResolveFunctions(const std::function<resolveFuncPtr(const 
         // See https://www.opengl.org/registry/specs/ARB/robustness.txt
         m_glGetGraphicsResetStatus = (glGetGraphicsResetStatus_func)resolveFunction("glGetGraphicsResetStatusARB");
         m_glReadnPixels = (glReadnPixels_func)resolveFunction("glReadnPixelsARB");
+        m_glGetnTexImage = (glGetnTexImage_func)resolveFunction("glGetnTexImageARB");
         m_glGetnUniformfv = (glGetnUniformfv_func)resolveFunction("glGetnUniformfvARB");
     } else if (robustContext && haveExtRobustness) {
         // See https://www.khronos.org/registry/gles/extensions/EXT/EXT_robustness.txt
@@ -419,6 +432,15 @@ void OpenGlContext::glReadnPixels(GLint x, GLint y, GLsizei width, GLsizei heigh
         m_glReadnPixels(x, y, width, height, format, type, bufSize, data);
     } else {
         glReadPixels(x, y, width, height, format, type, data);
+    }
+}
+
+void OpenGlContext::glGetnTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLsizei bufSize, void *pixels)
+{
+    if (m_glGetnTexImage) {
+        m_glGetnTexImage(target, level, format, type, bufSize, pixels);
+    } else {
+        glGetTexImage(target, level, format, type, pixels);
     }
 }
 

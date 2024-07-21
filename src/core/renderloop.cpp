@@ -12,6 +12,8 @@
 #include "window.h"
 #include "workspace.h"
 
+#include <filesystem>
+
 using namespace std::chrono_literals;
 
 namespace KWin
@@ -21,6 +23,8 @@ RenderLoopPrivate *RenderLoopPrivate::get(RenderLoop *loop)
 {
     return loop->d.get();
 }
+
+static const bool s_printDebugInfo = qEnvironmentVariableIntValue("KWIN_LOG_PERFORMANCE_DATA") != 0;
 
 RenderLoopPrivate::RenderLoopPrivate(RenderLoop *q, Output *output)
     : q(q)
@@ -48,11 +52,16 @@ void RenderLoopPrivate::scheduleRepaint(std::chrono::nanoseconds lastTargetTimes
 
     // Estimate when it's a good time to perform the next compositing cycle.
     // the 1ms on top of the safety margin is required for timer and scheduler inaccuracies
-    const std::chrono::nanoseconds expectedCompositingTime = std::min(renderJournal.result() + safetyMargin + 1ms, 2 * vblankInterval);
+    std::chrono::nanoseconds expectedCompositingTime = std::min(renderJournal.result() + safetyMargin + 1ms, 2 * vblankInterval);
 
     if (presentationMode == PresentationMode::VSync) {
         // normal presentation: pageflips only happen at vblank
         const uint64_t pageflipsSince = std::max<int64_t>((currentTime - lastPresentationTimestamp) / vblankInterval, 0);
+        if (pageflipsSince > 100) {
+            // if it's been a while since the last frame, the GPU is likely in a low power state and render time will be increased
+            // -> take that into account and start compositing very early
+            expectedCompositingTime = std::max(vblankInterval - 1us, expectedCompositingTime);
+        }
         const uint64_t pageflipsInAdvance = std::min<int64_t>(expectedCompositingTime / vblankInterval + 1, maxPendingFrameCount);
         const uint64_t pageflipsSinceLastToTarget = std::max<int64_t>(std::round((lastTargetTimestamp - lastPresentationTimestamp).count() / double(vblankInterval.count())), 0);
 
@@ -85,15 +94,27 @@ void RenderLoopPrivate::notifyFrameDropped()
     }
 }
 
-void RenderLoopPrivate::notifyFrameCompleted(std::chrono::nanoseconds timestamp, std::optional<std::chrono::nanoseconds> renderTime, PresentationMode mode)
+void RenderLoopPrivate::notifyFrameCompleted(std::chrono::nanoseconds timestamp, std::optional<RenderTimeSpan> renderTime, PresentationMode mode, OutputFrame *frame)
 {
+    if (output && s_printDebugInfo && !m_debugOutput) {
+        m_debugOutput = std::fstream(qPrintable("kwin perf statistics " + output->name() + ".csv"), std::ios::out);
+        *m_debugOutput << "target pageflip timestamp,pageflip timestamp,render start,render end,safety margin,refresh duration,vrr,tearing,predicted render time\n";
+    }
+    if (m_debugOutput) {
+        auto times = renderTime.value_or(RenderTimeSpan{});
+        const bool vrr = mode == PresentationMode::AdaptiveSync || mode == PresentationMode::AdaptiveAsync;
+        const bool tearing = mode == PresentationMode::Async || mode == PresentationMode::AdaptiveAsync;
+        *m_debugOutput << frame->targetPageflipTime().time_since_epoch().count() << "," << timestamp.count() << "," << times.start.time_since_epoch().count() << "," << times.end.time_since_epoch().count()
+                       << "," << safetyMargin.count() << "," << frame->refreshDuration().count() << "," << (vrr ? 1 : 0) << "," << (tearing ? 1 : 0) << "," << frame->predictedRenderTime().count() << "\n";
+    }
+
     Q_ASSERT(pendingFrameCount > 0);
     pendingFrameCount--;
 
     notifyVblank(timestamp);
 
     if (renderTime) {
-        renderJournal.add(*renderTime, timestamp);
+        renderJournal.add(renderTime->end - renderTime->start, timestamp);
     }
     if (compositeTimer.isActive()) {
         // reschedule to match the new timestamp and render time
@@ -235,6 +256,11 @@ void RenderLoop::setPresentationMode(PresentationMode mode)
 void RenderLoop::setMaxPendingFrameCount(uint32_t maxCount)
 {
     d->maxPendingFrameCount = maxCount;
+}
+
+std::chrono::nanoseconds RenderLoop::predictedRenderTime() const
+{
+    return d->renderJournal.result();
 }
 
 } // namespace KWin

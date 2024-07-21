@@ -453,16 +453,12 @@ void Window::doSetSkipPager()
 
 void Window::setSkipTaskbar(bool b)
 {
-    int was_wants_tab_focus = wantsTabFocus();
     if (b == skipTaskbar()) {
         return;
     }
     m_skipTaskbar = b;
     doSetSkipTaskbar();
     updateWindowRules(Rules::SkipTaskbar);
-    if (was_wants_tab_focus != wantsTabFocus()) {
-        Workspace::self()->focusChain()->update(this, isActive() ? FocusChain::MakeFirst : FocusChain::Update);
-    }
     Q_EMIT skipTaskbarChanged();
 }
 
@@ -3402,8 +3398,6 @@ QRectF Window::quickTileGeometry(QuickTileMode mode, const QPointF &pos) const
         Tile *tile = workspace()->tileManager(output)->bestTileForPosition(pos);
         if (tile) {
             return tile->windowGeometry();
-        } else {
-            return QRectF();
         }
     }
 
@@ -3921,7 +3915,7 @@ void Window::checkWorkspacePosition(QRectF oldGeometry, const VirtualDesktop *ol
         newGeom.setSize(constrainFrameSize(newGeom.size()));
     }
 
-    moveResize(newGeom);
+    moveResize(m_rules.checkGeometry(newGeom));
 }
 
 void Window::checkOffscreenPosition(QRectF *geom, const QRectF &screenArea)

@@ -250,6 +250,15 @@ bool DrmGpu::updateOutputs()
         }
     }
 
+    // update crtc properties
+    for (const auto &crtc : std::as_const(m_crtcs)) {
+        crtc->updateProperties();
+    }
+    // update plane properties
+    for (const auto &plane : std::as_const(m_planes)) {
+        plane->updateProperties();
+    }
+
     // check for added and removed connectors
     QList<DrmConnector *> existing;
     QList<DrmOutput *> addedOutputs;
@@ -292,6 +301,8 @@ bool DrmGpu::updateOutputs()
             // only "enable" VR headsets here; Workspace makes this decision for normal outputs
             pipeline->setEnable(conn->isNonDesktop());
             pipeline->applyPendingChanges();
+        } else {
+            output->updateConnectorProperties();
         }
         if (stillExists) {
             it++;
@@ -301,15 +312,19 @@ bool DrmGpu::updateOutputs()
         }
     }
 
-    // update crtc properties
-    for (const auto &crtc : std::as_const(m_crtcs)) {
-        crtc->updateProperties();
-    }
-    // update plane properties
-    for (const auto &plane : std::as_const(m_planes)) {
-        plane->updateProperties();
-    }
+    // try to apply mode changes triggered above
     DrmPipeline::Error err = testPendingConfiguration();
+    if (err == DrmPipeline::Error::None) {
+        for (const auto &pipeline : std::as_const(m_pipelines)) {
+            pipeline->applyPendingChanges();
+        }
+    } else {
+        for (const auto &pipeline : std::as_const(m_pipelines)) {
+            pipeline->revertPendingChanges();
+        }
+        // try again, with the mode changes reverted
+        err = testPendingConfiguration();
+    }
     if (err == DrmPipeline::Error::None) {
         for (const auto &pipeline : std::as_const(m_pipelines)) {
             pipeline->applyPendingChanges();

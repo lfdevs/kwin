@@ -668,6 +668,9 @@ void XdgToplevelWindow::applyWindowRules()
 
 void XdgToplevelWindow::closeWindow()
 {
+    if (isDeleted()) {
+        return;
+    }
     if (isCloseable()) {
         sendPing(PingReason::CloseWindow);
         m_shellSurface->sendClose();
@@ -1639,15 +1642,7 @@ void XdgToplevelWindow::maximize(MaximizeMode mode)
         }
     }
 
-    if (m_requestedMaximizeMode == MaximizeFull) {
-        if (options->electricBorderMaximize()) {
-            updateQuickTileMode(QuickTileFlag::Maximize);
-        } else {
-            updateQuickTileMode(QuickTileFlag::None);
-        }
-    } else {
-        updateQuickTileMode(QuickTileFlag::None);
-    }
+    updateQuickTileMode(QuickTileFlag::None);
 
     moveResize(geometry);
 
@@ -1677,6 +1672,8 @@ void XdgPopupWindow::handleRoleDestroyed()
 {
     disconnect(transientFor(), &Window::frameGeometryChanged,
                this, &XdgPopupWindow::relayout);
+    disconnect(transientFor(), &Window::closed,
+               this, &XdgPopupWindow::destroyWindow);
     m_shellSurface->disconnect(this);
 
     XdgSurfaceWindow::handleRoleDestroyed();
@@ -1791,10 +1788,7 @@ XdgSurfaceConfigure *XdgPopupWindow::sendRoleConfigure() const
     surface()->setPreferredBufferTransform(preferredBufferTransform());
     surface()->setPreferredColorDescription(preferredColorDescription());
 
-    const QPointF parentPosition = transientFor()->framePosToClientPos(transientFor()->pos());
-    const QPointF popupPosition = moveResizeGeometry().topLeft() - parentPosition;
-
-    const quint32 serial = m_shellSurface->sendConfigure(QRect(popupPosition.toPoint(), moveResizeGeometry().size().toSize()));
+    const quint32 serial = m_shellSurface->sendConfigure(m_relativePlacement.toRect());
 
     XdgSurfaceConfigure *configureEvent = new XdgSurfaceConfigure();
     configureEvent->bounds = moveResizeGeometry();
@@ -1820,6 +1814,7 @@ void XdgPopupWindow::initialize()
 
     updateRelativePlacement();
     connect(parent, &Window::frameGeometryChanged, this, &XdgPopupWindow::relayout);
+    connect(parent, &Window::closed, this, &XdgPopupWindow::destroyWindow);
 
     workspace()->placement()->place(this, QRectF());
     scheduleConfigure();

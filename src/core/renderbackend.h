@@ -42,8 +42,8 @@ public:
 
 struct RenderTimeSpan
 {
-    std::chrono::steady_clock::time_point start;
-    std::chrono::steady_clock::time_point end;
+    std::chrono::steady_clock::time_point start = std::chrono::steady_clock::time_point{std::chrono::nanoseconds::zero()};
+    std::chrono::steady_clock::time_point end = std::chrono::steady_clock::time_point{std::chrono::nanoseconds::zero()};
 
     RenderTimeSpan operator|(const RenderTimeSpan &other) const;
 };
@@ -93,13 +93,16 @@ public:
     void addRenderTimeQuery(std::unique_ptr<RenderTimeQuery> &&query);
 
     std::chrono::steady_clock::time_point targetPageflipTime() const;
+    std::chrono::nanoseconds refreshDuration() const;
+    std::chrono::nanoseconds predictedRenderTime() const;
 
 private:
-    std::optional<std::chrono::nanoseconds> queryRenderTime() const;
+    std::optional<RenderTimeSpan> queryRenderTime() const;
 
     const QPointer<RenderLoop> m_loop;
     const std::chrono::nanoseconds m_refreshDuration;
     const std::chrono::steady_clock::time_point m_targetPageflipTime;
+    const std::chrono::nanoseconds m_predictedRenderTime;
     std::vector<std::unique_ptr<PresentationFeedback>> m_feedbacks;
     std::optional<ContentType> m_contentType;
     PresentationMode m_presentationMode = PresentationMode::VSync;

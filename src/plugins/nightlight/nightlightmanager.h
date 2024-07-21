@@ -250,12 +250,11 @@ private:
     /**
      * Slow shift to daytime target Temperature
      */
-    void resetSlowUpdateTimers(const QDateTime &todayNow = QDateTime::currentDateTime());
+    void resetSlowUpdateTimers();
 
     void updateTargetTemperature();
-    void updateTransitionTimings(bool force, const QDateTime &todayNow = QDateTime::currentDateTime());
+    void updateTransitionTimings(const QDateTime &todayNow);
     DateTimes getSunTimings(const QDateTime &dateTime, double latitude, double longitude, bool morning) const;
-    bool checkAutomaticSunTimings() const;
 
     void commitGammaRamps(int temperature);
 

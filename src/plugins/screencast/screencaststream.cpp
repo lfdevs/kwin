@@ -10,7 +10,6 @@
 #include "compositor.h"
 #include "core/drmdevice.h"
 #include "core/graphicsbufferallocator.h"
-#include "core/outputbackend.h"
 #include "core/renderbackend.h"
 #include "cursor.h"
 #include "kwinscreencast_logging.h"
@@ -20,7 +19,6 @@
 #include "opengl/glutils.h"
 #include "pipewirecore.h"
 #include "platformsupport/scenes/opengl/abstract_egl_backend.h"
-#include "platformsupport/scenes/opengl/openglbackend.h"
 #include "scene/workspacescene.h"
 #include "screencastbuffer.h"
 #include "screencastsource.h"
@@ -129,6 +127,8 @@ void ScreenCastStream::onStreamStateChanged(pw_stream_state old, pw_stream_state
             Q_EMIT ready(nodeId());
         }
         m_pendingFrame.stop();
+        m_pendingDamage = QRegion();
+        m_pendingContents = Contents();
         m_source->pause();
         break;
     case PW_STREAM_STATE_STREAMING:
@@ -299,7 +299,7 @@ ScreenCastStream::ScreenCastStream(ScreenCastSource *source, std::shared_ptr<Pip
     , m_resolution(source->textureSize())
 {
     connect(source, &ScreenCastSource::frame, this, [this](const QRegion &damage) {
-        recordFrame(damage, Content::Video);
+        scheduleRecord(damage, Content::Video);
     });
     connect(source, &ScreenCastSource::closed, this, &ScreenCastStream::close);
 
@@ -323,7 +323,9 @@ ScreenCastStream::ScreenCastStream(ScreenCastSource *source, std::shared_ptr<Pip
 
     m_pendingFrame.setSingleShot(true);
     connect(&m_pendingFrame, &QTimer::timeout, this, [this] {
-        recordFrame(m_pendingDamage, m_pendingContents);
+        record(m_pendingDamage, m_pendingContents);
+        m_pendingDamage = QRegion();
+        m_pendingContents = Contents();
     });
 }
 
@@ -340,6 +342,12 @@ bool ScreenCastStream::init()
 {
     if (!m_pwCore->m_error.isEmpty()) {
         m_error = m_pwCore->m_error;
+        return false;
+    }
+
+    AbstractEglBackend *backend = qobject_cast<AbstractEglBackend *>(Compositor::self()->backend());
+    if (!backend) {
+        m_error = QStringLiteral("OpenGL compositing is required for screencasting");
         return false;
     }
 
@@ -391,7 +399,7 @@ bool ScreenCastStream::createStream()
         m_drmFormat = itModifiers.key();
         m_modifiers = *itModifiers;
     }
-    m_hasDmaBuf = testCreateDmaBuf(m_resolution, m_drmFormat, {DRM_FORMAT_MOD_INVALID}).has_value();
+    m_hasDmaBuf = testCreateDmaBuf(m_resolution, m_drmFormat, m_modifiers).has_value();
 
     char buffer[2048];
     QList<const spa_pod *> params = buildFormats(false, buffer);
@@ -413,7 +421,7 @@ bool ScreenCastStream::createStream()
     case ScreencastV1Interface::Metadata:
         m_cursor.changedConnection = connect(Cursors::self(), &Cursors::currentCursorChanged, this, &ScreenCastStream::invalidateCursor);
         m_cursor.positionChangedConnection = connect(Cursors::self(), &Cursors::positionChanged, this, [this] {
-            recordFrame({}, Content::Cursor);
+            scheduleRecord({}, Content::Cursor);
         });
         break;
     }
@@ -446,7 +454,7 @@ void ScreenCastStream::close()
     Q_EMIT closed();
 }
 
-void ScreenCastStream::recordFrame(const QRegion &damage, Contents contents)
+void ScreenCastStream::scheduleRecord(const QRegion &damage, Contents contents)
 {
     Q_ASSERT(!m_closed);
 
@@ -465,6 +473,12 @@ void ScreenCastStream::recordFrame(const QRegion &damage, Contents contents)
         }
     }
 
+    if (m_pendingFrame.isActive()) {
+        m_pendingDamage += damage;
+        m_pendingContents |= contents;
+        return;
+    }
+
     if (m_videoFormat.max_framerate.num != 0 && m_lastSent.has_value()) {
         const auto now = std::chrono::steady_clock::now();
         const auto frameInterval = std::chrono::milliseconds(1000 * m_videoFormat.max_framerate.denom / m_videoFormat.max_framerate.num);
@@ -472,15 +486,20 @@ void ScreenCastStream::recordFrame(const QRegion &damage, Contents contents)
         if (lastSentAgo < frameInterval) {
             m_pendingDamage += damage;
             m_pendingContents |= contents;
-            if (!m_pendingFrame.isActive()) {
-                m_pendingFrame.start(frameInterval - lastSentAgo);
-            }
+            m_pendingFrame.start(frameInterval - lastSentAgo);
             return;
         }
     }
 
-    m_pendingDamage = {};
-    m_pendingContents = {};
+    record(damage, contents);
+}
+
+void ScreenCastStream::record(const QRegion &damage, Contents contents)
+{
+    AbstractEglBackend *backend = qobject_cast<AbstractEglBackend *>(Compositor::self()->backend());
+    if (!backend) {
+        return;
+    }
 
     struct pw_buffer *pwBuffer = pw_stream_dequeue_buffer(m_pwStream);
     if (!pwBuffer) {
@@ -506,7 +525,7 @@ void ScreenCastStream::recordFrame(const QRegion &damage, Contents contents)
         }
     }
 
-    EglContext *context = static_cast<AbstractEglBackend *>(Compositor::self()->backend())->openglContext();
+    EglContext *context = backend->openglContext();
     context->makeCurrent();
 
     if (effectiveContents & Content::Video) {
@@ -819,7 +838,7 @@ void ScreenCastStream::setCursorMode(ScreencastV1Interface::CursorMode mode, qre
 
 std::optional<ScreenCastDmaBufTextureParams> ScreenCastStream::testCreateDmaBuf(const QSize &size, quint32 format, const QList<uint64_t> &modifiers)
 {
-    AbstractEglBackend *backend = dynamic_cast<AbstractEglBackend *>(Compositor::self()->backend());
+    AbstractEglBackend *backend = qobject_cast<AbstractEglBackend *>(Compositor::self()->backend());
     if (!backend) {
         return std::nullopt;
     }

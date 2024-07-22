@@ -173,8 +173,6 @@ Depends: kwin-common (= ${binary:Version}),
          qt6-declarative-dev (>= 6.6.0+dfsg~),
          ${misc:Depends},
          ${shlibs:Depends},
-Breaks: kde-workspace-dev,
-Replaces: kde-workspace-dev,
 Description: KDE window manager - devel files
  KWin (pronounced as one syllable "kwin") is the window
  manager for the KDE Plasma Desktop. It gives you complete

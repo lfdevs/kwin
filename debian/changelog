@@ -1,3 +1,10 @@
+kwin (4:6.1.3-2) experimental; urgency=medium
+
+  [ Patrick Franz ]
+  * Bump inter-Plasma dependencies.
+
+ -- Patrick Franz <deltaone@debian.org>  Mon, 29 Jul 2024 15:00:25 +0900
+
 kwin (4:6.1.3-1) experimental; urgency=medium
 
   [ Aurélien COUDERC ]

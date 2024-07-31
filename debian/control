@@ -97,7 +97,7 @@ Build-Depends: breeze-dev (>= 4:6.1.3~),
                qt6-sensors-dev (>= 6.6.0~),
                qt6-tools-dev (>= 6.6.0~),
                qt6-wayland-dev (>= 6.6.0~),
-               qtwayland5-dev-tools,
+               qt6-wayland-dev-tools,
                wayland-protocols (>= 1.34~),
                xwayland (>= 2:22.1.7-1~),
 Standards-Version: 4.7.0

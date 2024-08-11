@@ -322,7 +322,9 @@ void XdgSurfaceWindow::installPlasmaShellSurface(PlasmaShellSurfaceInterface *sh
     m_plasmaShellSurface = shellSurface;
 
     auto updatePosition = [this, shellSurface] {
-        move(shellSurface->position());
+        if (!isInteractiveMoveResize()) {
+            move(shellSurface->position());
+        }
     };
     auto showUnderCursor = [this] {
         // Wait for the first commit
@@ -691,8 +693,8 @@ XdgSurfaceConfigure *XdgToplevelWindow::sendRoleConfigure() const
 
     QSizeF nextClientSize = moveResizeGeometry().size();
     if (!nextClientSize.isEmpty()) {
-        nextClientSize.rwidth() -= framePadding.width();
-        nextClientSize.rheight() -= framePadding.height();
+        nextClientSize.setWidth(std::max(1.0, nextClientSize.width() - framePadding.width()));
+        nextClientSize.setHeight(std::max(1.0, nextClientSize.height() - framePadding.height()));
     }
 
     if (nextClientSize.isEmpty()) {

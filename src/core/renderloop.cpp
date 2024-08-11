@@ -62,17 +62,53 @@ void RenderLoopPrivate::scheduleRepaint(std::chrono::nanoseconds lastTargetTimes
             // -> take that into account and start compositing very early
             expectedCompositingTime = std::max(vblankInterval - 1us, expectedCompositingTime);
         }
-        const uint64_t pageflipsInAdvance = std::min<int64_t>(expectedCompositingTime / vblankInterval + 1, maxPendingFrameCount);
         const uint64_t pageflipsSinceLastToTarget = std::max<int64_t>(std::round((lastTargetTimestamp - lastPresentationTimestamp).count() / double(vblankInterval.count())), 0);
+        uint64_t pageflipsInAdvance = std::min<int64_t>(expectedCompositingTime / vblankInterval + 1, maxPendingFrameCount);
 
-        nextPresentationTimestamp = lastPresentationTimestamp + std::max(pageflipsSince + pageflipsInAdvance, pageflipsSinceLastToTarget + 1) * vblankInterval;
-    } else if (presentationMode == PresentationMode::Async || presentationMode == PresentationMode::AdaptiveAsync) {
-        // tearing: pageflips happen ASAP
-        nextPresentationTimestamp = currentTime;
+        // switching from double to triple buffering causes a frame drop
+        // -> apply some amount of hysteresis to avoid switching back and forth constantly
+        if (pageflipsInAdvance > 1) {
+            // immediately switch to triple buffering when needed
+            wasTripleBuffering = true;
+            doubleBufferingCounter = 0;
+        } else if (wasTripleBuffering) {
+            // but wait a bit before switching back to double buffering
+            if (doubleBufferingCounter >= 10) {
+                wasTripleBuffering = false;
+            } else if (expectedCompositingTime >= vblankInterval * 0.95) {
+                // also don't switch back if render times are just barely enough for double buffering
+                pageflipsInAdvance = 2;
+                doubleBufferingCounter = 0;
+                expectedCompositingTime = vblankInterval;
+            } else {
+                doubleBufferingCounter++;
+                pageflipsInAdvance = 2;
+                expectedCompositingTime = vblankInterval;
+            }
+        }
+
+        if (compositeTimer.isActive()) {
+            // we already scheduled this frame, but we got a new timestamp
+            // which might require starting to composite earlier than we planned
+            // It's important here that we do not change the targeted vblank interval,
+            // otherwise with a pessimistic compositing time estimation we might
+            // unnecessarily drop frames
+            const uint32_t intervalsSinceLastTimestamp = std::max<int32_t>(std::round((nextPresentationTimestamp - lastPresentationTimestamp).count() / double(vblankInterval.count())), 0);
+            nextPresentationTimestamp = lastPresentationTimestamp + intervalsSinceLastTimestamp * vblankInterval;
+        } else {
+            nextPresentationTimestamp = lastPresentationTimestamp + std::max(pageflipsSince + pageflipsInAdvance, pageflipsSinceLastToTarget + 1) * vblankInterval;
+        }
     } else {
-        // adaptive sync: pageflips happen after one vblank interval
-        // TODO read minimum refresh rate from the EDID and take it into account here
-        nextPresentationTimestamp = lastPresentationTimestamp + vblankInterval;
+        wasTripleBuffering = false;
+        doubleBufferingCounter = 0;
+        if (presentationMode == PresentationMode::Async || presentationMode == PresentationMode::AdaptiveAsync) {
+            // tearing: pageflips happen ASAP
+            nextPresentationTimestamp = currentTime;
+        } else {
+            // adaptive sync: pageflips happen after one vblank interval
+            // TODO read minimum refresh rate from the EDID and take it into account here
+            nextPresentationTimestamp = lastPresentationTimestamp + vblankInterval;
+        }
     }
 
     const std::chrono::nanoseconds nextRenderTimestamp = nextPresentationTimestamp - expectedCompositingTime;
@@ -151,13 +187,6 @@ void RenderLoopPrivate::dispatch()
     // The Compositor may decide to not repaint when the frameRequested() signal is
     // emitted, in which case the pending repaint flag has to be reset manually.
     pendingRepaint = false;
-}
-
-void RenderLoopPrivate::invalidate()
-{
-    pendingReschedule = false;
-    pendingFrameCount = 0;
-    compositeTimer.stop();
 }
 
 RenderLoop::RenderLoop(Output *output)

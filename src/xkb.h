@@ -39,6 +39,18 @@ class KWIN_EXPORT Xkb : public QObject
 {
     Q_OBJECT
 public:
+    enum Modifier {
+        NoModifier,
+        Shift,
+        Lock,
+        Control,
+        Mod1,
+        Mod2,
+        Mod3,
+        Mod4,
+        Mod5,
+    };
+
     Xkb(bool followLocale1 = false);
     ~Xkb() override;
     void setConfig(const KSharedConfigPtr &config);
@@ -64,8 +76,8 @@ public:
     void switchToPreviousLayout();
     bool switchToLayout(xkb_layout_index_t layout);
 
-    void setModifierLatched(Qt::KeyboardModifier mod, bool latched);
-    void setModifierLocked(Qt::KeyboardModifier mod, bool locked);
+    void setModifierLatched(KWin::Xkb::Modifier mod, bool latched);
+    void setModifierLocked(KWin::Xkb::Modifier mod, bool locked);
 
     LEDs leds() const
     {
@@ -104,7 +116,10 @@ public:
     void setSeat(SeatInterface *seat);
     QByteArray keymapContents() const;
 
-    std::optional<int> keycodeFromKeysym(xkb_keysym_t keysym);
+    /**
+     * Returns a pair of <keycode, level> for the given keysym.
+     */
+    std::optional<std::pair<int, int>> keycodeFromKeysym(xkb_keysym_t keysym);
 
     /**
      * Returns list of candidate keysyms corresponding to the given Qt key.
@@ -141,6 +156,7 @@ private:
     xkb_mod_index_t m_altModifier;
     xkb_mod_index_t m_metaModifier;
     xkb_mod_index_t m_numModifier;
+    xkb_mod_index_t m_mod5Modifier;
     xkb_led_index_t m_numLock;
     xkb_led_index_t m_capsLock;
     xkb_led_index_t m_scrollLock;

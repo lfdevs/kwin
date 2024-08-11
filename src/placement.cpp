@@ -446,8 +446,8 @@ void Placement::placeCentered(Window *c, const QRectF &area, PlacementPolicy /*n
         return;
     }
 
-    const int xp = area.left() + (area.width() - c->width()) / 2;
-    const int yp = area.top() + (area.height() - c->height()) / 2;
+    const int xp = std::max(area.left() + (area.width() - c->width()) / 2, area.left());
+    const int yp = std::max(area.top() + (area.height() - c->height()) / 2, area.top());
 
     // place the window
     c->move(QPoint(xp, yp));
@@ -591,7 +591,7 @@ void Placement::cascadeIfCovering(Window *window, const QRectF &area)
 
     VirtualDesktop *const desktop = window->isOnCurrentDesktop() ? VirtualDesktopManager::self()->currentDesktop() : window->desktops().front();
 
-    QRectF possibleGeo = window->frameGeometry();
+    QRectF possibleGeo = window->moveResizeGeometry();
     bool noOverlap = false;
 
     // cascade until confirmed no total overlap or not enough space to cascade

@@ -28,7 +28,6 @@ public:
     explicit RenderLoopPrivate(RenderLoop *q, Output *output);
 
     void dispatch();
-    void invalidate();
 
     void delayScheduleRepaint();
     void scheduleNextRepaint();
@@ -43,6 +42,8 @@ public:
     std::optional<std::fstream> m_debugOutput;
     std::chrono::nanoseconds lastPresentationTimestamp = std::chrono::nanoseconds::zero();
     std::chrono::nanoseconds nextPresentationTimestamp = std::chrono::nanoseconds::zero();
+    bool wasTripleBuffering = false;
+    int doubleBufferingCounter = 0;
     QTimer compositeTimer;
     RenderJournal renderJournal;
     int refreshRate = 60000;

@@ -54,7 +54,7 @@ std::optional<OutputLayerBeginFrameInfo> EglGbmLayer::doBeginFrame()
     // as the hardware cursor is more important than an incorrectly blended cursor edge
 
     m_scanoutBuffer.reset();
-    return m_surface.startRendering(targetRect().size(), m_pipeline->output()->transform().combine(OutputTransform::FlipY), m_pipeline->formats(m_type), m_pipeline->colorDescription(), m_pipeline->output()->channelFactors(), m_pipeline->iccProfile(), m_pipeline->output()->needsColormanagement(), m_pipeline->output()->brightness());
+    return m_surface.startRendering(targetRect().size(), m_pipeline->output()->transform().combine(OutputTransform::FlipY), m_pipeline->formats(m_type), m_pipeline->colorDescription(), m_pipeline->output()->channelFactors(), m_pipeline->iccProfile(), m_pipeline->output()->needsColormanagement(), m_pipeline->output()->highDynamicRange() ? m_pipeline->output()->brightness() : 1);
 }
 
 bool EglGbmLayer::doEndFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame)
@@ -90,7 +90,10 @@ bool EglGbmLayer::doAttemptScanout(GraphicsBuffer *buffer, const ColorDescriptio
     if (directScanoutDisabled) {
         return false;
     }
-    if (m_pipeline->output()->channelFactors() != QVector3D(1, 1, 1) || (m_pipeline->output()->highDynamicRange() && m_pipeline->output()->brightness() != 1) || m_pipeline->iccProfile()) {
+    if (m_pipeline->output()->colorProfileSource() == Output::ColorProfileSource::ICC && !m_pipeline->output()->highDynamicRange() && m_pipeline->iccProfile()) {
+        return false;
+    }
+    if (m_pipeline->output()->channelFactors() != QVector3D(1, 1, 1) || (m_pipeline->output()->highDynamicRange() && m_pipeline->output()->brightness() != 1)) {
         // TODO use GAMMA_LUT, CTM and DEGAMMA_LUT to allow direct scanout with HDR
         return false;
     }

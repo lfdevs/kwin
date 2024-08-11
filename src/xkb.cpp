@@ -658,6 +658,7 @@ void Xkb::updateKeymap(xkb_keymap *keymap)
     m_altModifier = xkb_keymap_mod_get_index(m_keymap, XKB_MOD_NAME_ALT);
     m_metaModifier = xkb_keymap_mod_get_index(m_keymap, XKB_MOD_NAME_LOGO);
     m_numModifier = xkb_keymap_mod_get_index(m_keymap, XKB_MOD_NAME_NUM);
+    m_mod5Modifier = xkb_keymap_mod_get_index(m_keymap, "Mod5");
 
     m_numLock = xkb_keymap_led_get_index(m_keymap, XKB_LED_NAME_NUM);
     m_capsLock = xkb_keymap_led_get_index(m_keymap, XKB_LED_NAME_CAPS);
@@ -1001,40 +1002,38 @@ bool Xkb::switchToLayout(xkb_layout_index_t layout)
     return true;
 }
 
-void Xkb::setModifierLatched(Qt::KeyboardModifier mod, bool latched)
+void Xkb::setModifierLatched(KWin::Xkb::Modifier mod, bool latched)
 {
     xkb_mod_index_t modifier = XKB_MOD_INVALID;
 
     switch (mod) {
-    case Qt::NoModifier: {
+    case NoModifier: {
         break;
     }
-    case Qt::ShiftModifier: {
+    case Shift: {
         modifier = m_shiftModifier;
         break;
     }
-    case Qt::AltModifier: {
+    case Mod1: {
         modifier = m_altModifier;
         break;
     }
-    case Qt::ControlModifier: {
+    case Control: {
         modifier = m_controlModifier;
         break;
     }
-    case Qt::MetaModifier: {
+    case Mod4: {
         modifier = m_metaModifier;
         break;
     }
-    case Qt::GroupSwitchModifier: {
-        // TODO
+    case Mod5: {
+        modifier = m_mod5Modifier;
         break;
     }
-    case Qt::KeypadModifier: {
+    case Mod2:
+    case Mod3:
+    case Lock:
         break;
-    }
-    case Qt::KeyboardModifierMask: {
-        break;
-    }
     }
 
     if (modifier != XKB_MOD_INVALID) {
@@ -1048,40 +1047,38 @@ void Xkb::setModifierLatched(Qt::KeyboardModifier mod, bool latched)
     }
 }
 
-void Xkb::setModifierLocked(Qt::KeyboardModifier mod, bool locked)
+void Xkb::setModifierLocked(KWin::Xkb::Modifier mod, bool locked)
 {
     xkb_mod_index_t modifier = XKB_MOD_INVALID;
 
     switch (mod) {
-    case Qt::NoModifier: {
+    case NoModifier: {
         break;
     }
-    case Qt::ShiftModifier: {
+    case Shift: {
         modifier = m_shiftModifier;
         break;
     }
-    case Qt::AltModifier: {
+    case Mod1: {
         modifier = m_altModifier;
         break;
     }
-    case Qt::ControlModifier: {
+    case Control: {
         modifier = m_controlModifier;
         break;
     }
-    case Qt::MetaModifier: {
+    case Mod4: {
         modifier = m_metaModifier;
         break;
     }
-    case Qt::GroupSwitchModifier: {
-        // TODO
+    case Mod5: {
+        modifier = m_mod5Modifier;
         break;
     }
-    case Qt::KeypadModifier: {
+    case Mod2:
+    case Mod3:
+    case Lock:
         break;
-    }
-    case Qt::KeyboardModifierMask: {
-        break;
-    }
     }
 
     if (modifier != XKB_MOD_INVALID) {
@@ -1089,7 +1086,7 @@ void Xkb::setModifierLocked(Qt::KeyboardModifier mod, bool locked)
         if (mask.size() > modifier) {
             mask[modifier] = locked;
             m_modifierState.locked = mask.to_ulong();
-            xkb_state_update_mask(m_state, m_modifierState.depressed, m_modifierState.locked, m_modifierState.locked, 0, 0, m_currentLayout);
+            xkb_state_update_mask(m_state, m_modifierState.depressed, m_modifierState.latched, m_modifierState.locked, 0, 0, m_currentLayout);
             m_modifierState.locked = xkb_state_serialize_mods(m_state, xkb_state_component(XKB_STATE_MODS_LOCKED));
         }
     }
@@ -1108,7 +1105,7 @@ void Xkb::setSeat(SeatInterface *seat)
     m_seat = QPointer<SeatInterface>(seat);
 }
 
-std::optional<int> Xkb::keycodeFromKeysym(xkb_keysym_t keysym)
+std::optional<std::pair<int, int>> Xkb::keycodeFromKeysym(xkb_keysym_t keysym)
 {
     auto layout = xkb_state_serialize_layout(m_state, XKB_STATE_LAYOUT_EFFECTIVE);
     const xkb_keycode_t max = xkb_keymap_max_keycode(m_keymap);
@@ -1119,7 +1116,7 @@ std::optional<int> Xkb::keycodeFromKeysym(xkb_keysym_t keysym)
             uint num_syms = xkb_keymap_key_get_syms_by_level(m_keymap, keycode, layout, currentLevel, &syms);
             for (uint sym = 0; sym < num_syms; sym++) {
                 if (syms[sym] == keysym) {
-                    return {keycode - EVDEV_OFFSET};
+                    return {{keycode - EVDEV_OFFSET, currentLevel}};
                 }
             }
         }

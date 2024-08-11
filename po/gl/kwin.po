@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-16 02:25+0000\n"
+"POT-Creation-Date: 2024-07-17 02:28+0000\n"
 "PO-Revision-Date: 2024-05-23 08:34+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
@@ -30,7 +30,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.05.1\n"
+"X-Generator: Lokalize 24.05.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2252,7 +2252,7 @@ msgctxt "Temporarily disable/reenable Night Light"
 msgid "Suspend/Resume Night Light"
 msgstr "Suspender ou retomar a luz nocturna"
 
-#: plugins/nightlight/nightlightmanager.cpp:460
+#: plugins/nightlight/nightlightmanager.cpp:456
 #, kde-format
 msgid "Color Temperature Preview"
 msgstr "Vista previa da temperatura da cor"

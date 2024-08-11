@@ -34,7 +34,9 @@ private Q_SLOTS:
     void init();
     void cleanup();
     void testStick();
+    void testStick_data();
     void testLock();
+    void testLock_data();
 };
 
 void StickyKeysTest::initTestCase()
@@ -42,6 +44,12 @@ void StickyKeysTest::initTestCase()
     KConfig kaccessConfig("kaccessrc");
     kaccessConfig.group(QStringLiteral("Keyboard")).writeEntry("StickyKeys", true);
     kaccessConfig.sync();
+
+    // Use a keyboard layout where right alt triggers Mod5/AltGr
+    KConfig kxkbrc("kxkbrc");
+    kxkbrc.group(QStringLiteral("Layout")).writeEntry("LayoutList", "us");
+    kxkbrc.group(QStringLiteral("Layout")).writeEntry("VariantList", "altgr-intl");
+    kxkbrc.sync();
 
     qRegisterMetaType<KWin::Window *>();
     QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
@@ -68,8 +76,22 @@ void StickyKeysTest::cleanup()
     Test::destroyWaylandConnection();
 }
 
+void StickyKeysTest::testStick_data()
+{
+    QTest::addColumn<int>("modifierKey");
+    QTest::addColumn<int>("expectedMods");
+
+    QTest::addRow("Shift") << KEY_LEFTSHIFT << 1;
+    QTest::addRow("Ctrl") << KEY_LEFTCTRL << 4;
+    QTest::addRow("Alt") << KEY_LEFTALT << 8;
+    QTest::addRow("AltGr") << KEY_RIGHTALT << 128;
+}
+
 void StickyKeysTest::testStick()
 {
+    QFETCH(int, modifierKey);
+    QFETCH(int, expectedMods);
+
     std::unique_ptr<KWayland::Client::Keyboard> keyboard(Test::waylandSeat()->createKeyboard());
 
     std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
@@ -85,32 +107,46 @@ void StickyKeysTest::testStick()
 
     quint32 timestamp = 0;
 
-    // press Ctrl to latch it
-    Test::keyboardKeyPressed(KEY_LEFTCTRL, ++timestamp);
+    // press mod to latch it
+    Test::keyboardKeyPressed(modifierKey, ++timestamp);
     QVERIFY(modifierSpy.wait());
     // arguments are: quint32 depressed, quint32 latched, quint32 locked, quint32 group
-    QCOMPARE(modifierSpy.first()[0], 4); // verify that Ctrl is depressed
-    QCOMPARE(modifierSpy.first()[1], 4); // verify that Ctrl is latched
+    QCOMPARE(modifierSpy.first()[0], expectedMods); // verify that mod is depressed
+    QCOMPARE(modifierSpy.first()[1], expectedMods); // verify that mod is latched
 
     modifierSpy.clear();
-    // release Ctrl, the modified should still be latched
-    Test::keyboardKeyReleased(KEY_LEFTCTRL, ++timestamp);
+    // release mod, the modified should still be latched
+    Test::keyboardKeyReleased(modifierKey, ++timestamp);
     QVERIFY(modifierSpy.wait());
-    QCOMPARE(modifierSpy.first()[0], 0); // verify that Ctrl is not depressed
-    QCOMPARE(modifierSpy.first()[1], 4); // verify that Ctrl is still latched
+    QCOMPARE(modifierSpy.first()[0], 0); // verify that mod is not depressed
+    QCOMPARE(modifierSpy.first()[1], expectedMods); // verify that mod is still latched
 
     // press and release a letter, this unlatches the modifier
     modifierSpy.clear();
     Test::keyboardKeyPressed(KEY_A, ++timestamp);
     QVERIFY(modifierSpy.wait());
-    QCOMPARE(modifierSpy.first()[0], 0); // verify that Ctrl is not depressed
-    QCOMPARE(modifierSpy.first()[1], 0); // verify that Ctrl is not latched any more
+    QCOMPARE(modifierSpy.first()[0], 0); // verify that mod is not depressed
+    QCOMPARE(modifierSpy.first()[1], 0); // verify that mod is not latched any more
 
     Test::keyboardKeyReleased(KEY_A, ++timestamp);
 }
 
+void StickyKeysTest::testLock_data()
+{
+    QTest::addColumn<int>("modifierKey");
+    QTest::addColumn<int>("expectedMods");
+
+    QTest::addRow("Shift") << KEY_LEFTSHIFT << 1;
+    QTest::addRow("Ctrl") << KEY_LEFTCTRL << 4;
+    QTest::addRow("Alt") << KEY_LEFTALT << 8;
+    QTest::addRow("AltGr") << KEY_RIGHTALT << 128;
+}
+
 void StickyKeysTest::testLock()
 {
+    QFETCH(int, modifierKey);
+    QFETCH(int, expectedMods);
+
     KConfig kaccessConfig("kaccessrc");
     kaccessConfig.group(QStringLiteral("Keyboard")).writeEntry("StickyKeysLatch", true);
     kaccessConfig.sync();
@@ -136,27 +172,33 @@ void StickyKeysTest::testLock()
 
     quint32 timestamp = 0;
 
-    // press Ctrl to latch it
-    Test::keyboardKeyPressed(KEY_LEFTCTRL, ++timestamp);
+    // press mod to latch it
+    Test::keyboardKeyPressed(modifierKey, ++timestamp);
     QVERIFY(modifierSpy.wait());
     // arguments are: quint32 depressed, quint32 latched, quint32 locked, quint32 group
-    QCOMPARE(modifierSpy.first()[0], 4); // verify that Ctrl is depressed
-    QCOMPARE(modifierSpy.first()[1], 4); // verify that Ctrl is latched
+    QCOMPARE(modifierSpy.first()[0], expectedMods); // verify that mod is depressed
+    QCOMPARE(modifierSpy.first()[1], expectedMods); // verify that mod is latched
 
     modifierSpy.clear();
-    // release Ctrl, the modified should still be latched
-    Test::keyboardKeyReleased(KEY_LEFTCTRL, ++timestamp);
+    // release mod, the modifier should still be latched
+    Test::keyboardKeyReleased(modifierKey, ++timestamp);
     QVERIFY(modifierSpy.wait());
-    QCOMPARE(modifierSpy.first()[0], 0); // verify that Ctrl is not depressed
-    QCOMPARE(modifierSpy.first()[1], 4); // verify that Ctrl is still latched
+    QCOMPARE(modifierSpy.first()[0], 0); // verify that mod is not depressed
+    QCOMPARE(modifierSpy.first()[1], expectedMods); // verify that mod is still latched
 
-    // press Ctrl again to lock it
+    // press mod again to lock it
     modifierSpy.clear();
-    Test::keyboardKeyPressed(KEY_LEFTCTRL, ++timestamp);
+    Test::keyboardKeyPressed(modifierKey, ++timestamp);
     QVERIFY(modifierSpy.wait());
-    QCOMPARE(modifierSpy.first()[0], 4); // verify that Ctrl is depressed
-    // TODO should it be latched?
-    QCOMPARE(modifierSpy.first()[2], 4); // verify that Ctrl is locked
+    QCOMPARE(modifierSpy.first()[0], expectedMods); // verify that mod is depressed
+    QCOMPARE(modifierSpy.first()[1], 0); // verify that mod is unlatched
+    QCOMPARE(modifierSpy.first()[2], expectedMods); // verify that mod is locked
+
+    // release mod, modifier should still be locked
+    modifierSpy.clear();
+    Test::keyboardKeyReleased(modifierKey, ++timestamp);
+    QVERIFY(modifierSpy.wait());
+    // TODO
 
     // press and release a letter, this does not unlock the modifier
     modifierSpy.clear();
@@ -166,13 +208,14 @@ void StickyKeysTest::testLock()
     Test::keyboardKeyReleased(KEY_A, ++timestamp);
     QVERIFY(!modifierSpy.wait(10));
 
-    // press Ctrl again to unlock it
-    Test::keyboardKeyPressed(KEY_LEFTCTRL, ++timestamp);
+    // press mod again to unlock it
+    Test::keyboardKeyPressed(modifierKey, ++timestamp);
     QVERIFY(modifierSpy.wait());
-    QCOMPARE(modifierSpy.first()[0], 4); // verify that Ctrl is depressed
-    QCOMPARE(modifierSpy.first()[2], 0); // verify that Ctrl is locked
+    QCOMPARE(modifierSpy.first()[0], expectedMods); // verify that mod is depressed
+    QCOMPARE(modifierSpy.first()[1], 0); // verify that mod is unlatched
+    QCOMPARE(modifierSpy.first()[2], 0); // verify that mod is not locked
 
-    Test::keyboardKeyReleased(KEY_LEFTCTRL, ++timestamp);
+    Test::keyboardKeyReleased(modifierKey, ++timestamp);
 }
 }
 

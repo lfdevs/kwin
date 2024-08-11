@@ -149,6 +149,8 @@ Recommends: plasma-desktoptheme,
             qml6-module-qtquick-layouts,
             qml6-module-qtquick-window,
             systemsettings,
+Breaks: kwin-addons (<< 4:6.0.0~),
+Replaces: kwin-addons (<< 4:6.0.0~),
 Description: KDE window manager data files
  KWin (pronounced as one syllable "kwin") is the window
  manager for the KDE Plasma Desktop. It gives you complete

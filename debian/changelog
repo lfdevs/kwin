@@ -4,6 +4,7 @@ kwin (4:6.1.4-1) UNRELEASED; urgency=medium
   * New upstream release (6.1.4).
   * Update build-deps and deps with the info from cmake.
   * Drop backported commits now part of the upstream release.
+  * Ship desktop file for kwin_killer_helper alongside the binary.
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Sun, 11 Aug 2024 23:43:57 +0200
 

@@ -1,4 +1,4 @@
-kwin (4:6.1.5-1) UNRELEASED; urgency=medium
+kwin (4:6.1.5-1) experimental; urgency=medium
 
   [ Aurélien COUDERC ]
   * New upstream release (6.1.5).
@@ -9,7 +9,7 @@ kwin (4:6.1.5-1) UNRELEASED; urgency=medium
   * Drop useless ${shlibs:Depends} for kwin-dev.
   * Recommend xwaylandvideobridge for screen sharing of X11 apps under Wayland.
 
- -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Wed, 11 Sep 2024 19:21:45 +0200
+ -- Aurélien COUDERC <coucouf@debian.org>  Wed, 11 Sep 2024 23:58:09 +0200
 
 kwin (4:6.1.4-1) experimental; urgency=medium
 

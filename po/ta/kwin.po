@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-17 02:28+0000\n"
-"PO-Revision-Date: 2024-06-16 17:49+0530\n"
+"POT-Creation-Date: 2024-09-09 02:31+0000\n"
+"PO-Revision-Date: 2024-09-08 12:55+0200\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -19,12 +19,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.05.1\n"
+"X-Generator: Lokalize 24.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "tamilpc team,"
+msgstr "tamilpc team,tamilpc team,tamilpc team,"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -1035,7 +1035,7 @@ msgstr "விசைப்பலகை"
 #: debug_console.ui:315
 #, kde-format
 msgid "Keymap Layouts"
-msgstr ""
+msgstr "விசைத் தளவமைப்புகள்"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: debug_console.ui:337
@@ -1225,7 +1225,7 @@ msgstr "வரைபலகை %1-க்கு நகர்த்தப்பட�
 msgid "Tablets switched outputs"
 msgstr "வரைபலகை வேறு திரைக்கு மாற்றப்பட்டது"
 
-#: input.cpp:3187
+#: input.cpp:3223
 #, kde-format
 msgid "Touchpad"
 msgstr "தொடுபலகை"
@@ -4157,7 +4157,7 @@ msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(பதிலளிக்கவில்லை)"
 
-#: workspace.cpp:1671
+#: workspace.cpp:1669
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

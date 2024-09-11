@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-17 02:28+0000\n"
+"POT-Creation-Date: 2024-09-09 02:31+0000\n"
 "PO-Revision-Date: 2007-12-20 11:35+0100\n"
 "Last-Translator: Børre Gaup <boerre@skolelinux.no>\n"
 "Language-Team: Northern Sami <l10n-no@lister.huftis.org>\n"
@@ -1213,7 +1213,7 @@ msgstr ""
 msgid "Tablets switched outputs"
 msgstr ""
 
-#: input.cpp:3187
+#: input.cpp:3223
 #, kde-format
 msgid "Touchpad"
 msgstr ""
@@ -2236,7 +2236,6 @@ msgstr ""
 
 #: plugins/overview/kcm/overvieweffectkcm.cpp:60
 #, fuzzy, kde-format
-#| msgid "Toggle Window Raise/Lower"
 msgctxt "@action Grid View is the name of a KWin effect"
 msgid "Toggle Grid View"
 msgstr "Lokte dahje vuolit láse"
@@ -2273,7 +2272,6 @@ msgstr ""
 
 #: plugins/overview/overvieweffect.cpp:151
 #, fuzzy, kde-format
-#| msgid "Toggle Window Raise/Lower"
 msgctxt "@action Grid view is the name of a Kwin effect"
 msgid "Toggle Grid View"
 msgstr "Lokte dahje vuolit láse"
@@ -4112,7 +4110,7 @@ msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr ""
 
-#: workspace.cpp:1671
+#: workspace.cpp:1669
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

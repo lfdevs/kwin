@@ -4,6 +4,10 @@ kwin (4:6.1.5-1) UNRELEASED; urgency=medium
   * New upstream release (6.1.5).
   * Update build-deps and deps with the info from cmake.
   * Tighten Plasma packages inter-dependencies.
+  * Drop obsolete use of python build tools formerly used for some
+    kconf_update scripts.
+  * Drop useless ${shlibs:Depends} for kwin-dev.
+
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Wed, 11 Sep 2024 19:21:45 +0200
 

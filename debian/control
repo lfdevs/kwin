@@ -8,7 +8,6 @@ Build-Depends: breeze-dev (>= 4:6.1.5~),
                cmake (>= 3.16~),
                debhelper-compat (= 13),
                dh-sequence-kf6,
-               dh-sequence-python3,
                extra-cmake-modules (>= 6.2.0~),
                gettext,
                hwdata,
@@ -89,7 +88,6 @@ Build-Depends: breeze-dev (>= 4:6.1.5~),
                libxkbcommon-x11-dev,
                pkgconf,
                plasma-wayland-protocols (>= 1.13.0~),
-               python3:any,
                qt6-5compat-dev (>= 6.6.0~),
                qt6-base-dev (>= 6.6.0+dfsg~),
                qt6-base-private-dev (>= 6.6.0+dfsg~),
@@ -137,7 +135,7 @@ Description: KDE window manager, common files
 Package: kwin-data
 Architecture: all
 Multi-Arch: foreign
-Depends: ${misc:Depends}, ${python3:Depends},
+Depends: ${misc:Depends},
 Recommends: plasma-desktoptheme,
             qml6-module-org-kde-kirigami,
             qml6-module-org-kde-kitemmodels,
@@ -176,7 +174,6 @@ Depends: kwin-common (= ${binary:Version}),
          qt6-base-dev (>= 6.6.0+dfsg~),
          qt6-declarative-dev (>= 6.6.0+dfsg~),
          ${misc:Depends},
-         ${shlibs:Depends},
 Description: KDE window manager - devel files
  KWin (pronounced as one syllable "kwin") is the window
  manager for the KDE Plasma Desktop. It gives you complete

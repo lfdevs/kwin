@@ -7,7 +7,7 @@ kwin (4:6.1.5-1) UNRELEASED; urgency=medium
   * Drop obsolete use of python build tools formerly used for some
     kconf_update scripts.
   * Drop useless ${shlibs:Depends} for kwin-dev.
-
+  * Recommend xwaylandvideobridge for screen sharing of X11 apps under Wayland.
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Wed, 11 Sep 2024 19:21:45 +0200
 

@@ -1,4 +1,4 @@
-kwin (4:6.2.0-1) UNRELEASED; urgency=medium
+kwin (4:6.2.0-1) experimental; urgency=medium
 
   [ Aurélien COUDERC ]
   * New upstream release (6.1.90).
@@ -8,7 +8,7 @@ kwin (4:6.2.0-1) UNRELEASED; urgency=medium
   * Update build-deps and deps with the info from cmake.
   * Tighten inter-Plasma package dependencies.
 
- -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Thu, 12 Sep 2024 23:49:36 +0200
+ -- Aurélien COUDERC <coucouf@debian.org>  Sat, 05 Oct 2024 23:17:51 +0200
 
 kwin (4:6.1.5-1) experimental; urgency=medium
 

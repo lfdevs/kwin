@@ -6,6 +6,7 @@ kwin (4:6.2.0-1) UNRELEASED; urgency=medium
   * Review copyright information.
   * New upstream release (6.2.0).
   * Update build-deps and deps with the info from cmake.
+  * Tighten inter-Plasma package dependencies.
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Thu, 12 Sep 2024 23:49:36 +0200
 

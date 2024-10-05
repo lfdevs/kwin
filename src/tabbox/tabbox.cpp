@@ -207,6 +207,9 @@ QList<Window *> TabBoxHandlerImpl::stackingOrder() const
     const QList<Window *> stacking = Workspace::self()->stackingOrder();
     QList<Window *> ret;
     for (Window *window : stacking) {
+        if (window->isDeleted()) {
+            continue;
+        }
         if (window->isClient()) {
             ret.append(window);
         }
@@ -226,7 +229,7 @@ void TabBoxHandlerImpl::raiseClient(Window *c) const
 
 void TabBoxHandlerImpl::restack(Window *c, Window *under)
 {
-    Workspace::self()->restack(c, under, true);
+    Workspace::self()->stackBelow(c, under);
 }
 
 void TabBoxHandlerImpl::elevateClient(Window *c, QWindow *tabbox, bool b) const
@@ -251,6 +254,9 @@ Window *TabBoxHandlerImpl::desktopClient() const
 {
     const auto stackingOrder = Workspace::self()->stackingOrder();
     for (Window *window : stackingOrder) {
+        if (window->isDeleted()) {
+            continue;
+        }
         if (window->isClient() && window->isDesktop() && window->isOnCurrentDesktop() && window->output() == workspace()->activeOutput()) {
             return window;
         }
@@ -884,6 +890,10 @@ bool TabBox::toggleMode(TabBoxMode mode)
         return false;
     }
     m_noModifierGrab = m_tabGrab = true;
+
+    input()->keyboard()->update();
+    input()->pointer()->setEnableConstraints(false);
+
     setMode(mode);
     reset();
     show();
@@ -897,6 +907,10 @@ bool TabBox::startKDEWalkThroughWindows(TabBoxMode mode)
     }
     m_tabGrab = true;
     m_noModifierGrab = false;
+
+    input()->keyboard()->update();
+    input()->pointer()->setEnableConstraints(false);
+
     setMode(mode);
     reset();
     return true;
@@ -917,6 +931,9 @@ void TabBox::CDEWalkThroughWindows(bool forward)
     //     Q_ASSERT(Workspace::self()->block_stacking_updates == 0);
     for (int i = Workspace::self()->stackingOrder().size() - 1; i >= 0; --i) {
         auto t = Workspace::self()->stackingOrder().at(i);
+        if (t->isDeleted()) {
+            continue;
+        }
         if (t->isClient() && t->isOnCurrentActivity() && t->isOnCurrentDesktop() && !t->isSpecialWindow()
             && !t->isShade() && t->isShown() && t->wantsTabFocus()
             && !t->keepAbove() && !t->keepBelow()) {
@@ -1092,9 +1109,11 @@ void TabBox::close(bool abort)
         removeTabBoxGrab();
     }
     hide(abort);
-    input()->pointer()->setEnableConstraints(true);
     m_tabGrab = false;
     m_noModifierGrab = false;
+
+    input()->keyboard()->update();
+    input()->pointer()->setEnableConstraints(true);
 }
 
 void TabBox::accept(bool closeTabBox)

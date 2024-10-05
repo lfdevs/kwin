@@ -15,10 +15,8 @@
 namespace KWin
 {
 
-DrmAbstractOutput::DrmAbstractOutput(DrmGpu *gpu)
-    : Output(gpu->platform())
-    , m_renderLoop(std::make_unique<RenderLoop>(this))
-    , m_gpu(gpu)
+DrmAbstractOutput::DrmAbstractOutput()
+    : m_renderLoop(std::make_unique<RenderLoop>(this))
 {
 }
 
@@ -27,18 +25,12 @@ RenderLoop *DrmAbstractOutput::renderLoop() const
     return m_renderLoop.get();
 }
 
-DrmGpu *DrmAbstractOutput::gpu() const
-{
-    return m_gpu;
-}
-
 void DrmAbstractOutput::updateEnabled(bool enabled)
 {
     State next = m_state;
     next.enabled = enabled;
     setState(next);
 }
-
 }
 
 #include "moc_drm_abstract_output.cpp"

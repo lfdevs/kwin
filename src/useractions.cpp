@@ -562,9 +562,9 @@ void UserActionsMenu::multipleDesktopsPopupAboutToShow()
         connect(action, &QAction::triggered, this, [this, desktop]() {
             if (m_window) {
                 if (m_window->desktops().contains(desktop)) {
-                    m_window->leaveDesktop(desktop);
+                    Workspace::self()->removeWindowFromDesktop(m_window, desktop);
                 } else {
-                    m_window->enterDesktop(desktop);
+                    Workspace::self()->addWindowToDesktop(m_window, desktop);
                 }
             }
         });
@@ -581,7 +581,7 @@ void UserActionsMenu::multipleDesktopsPopupAboutToShow()
         QAction *action = m_multipleDesktopsMenu->addAction(name);
         connect(action, &QAction::triggered, this, [this, desktop]() {
             if (m_window) {
-                m_window->setDesktops({desktop});
+                Workspace::self()->sendWindowToDesktops(m_window, {desktop}, false);
             }
         });
     }
@@ -597,7 +597,7 @@ void UserActionsMenu::multipleDesktopsPopupAboutToShow()
         }
         VirtualDesktop *desktop = vds->createVirtualDesktop(vds->count());
         if (desktop) {
-            m_window->enterDesktop(desktop);
+            Workspace::self()->addWindowToDesktop(m_window, desktop);
         }
     });
     action->setEnabled(allowNewDesktops);
@@ -609,7 +609,7 @@ void UserActionsMenu::multipleDesktopsPopupAboutToShow()
         }
         VirtualDesktop *desktop = vds->createVirtualDesktop(vds->count());
         if (desktop) {
-            m_window->setDesktops({desktop});
+            Workspace::self()->sendWindowToDesktops(m_window, {desktop}, false);
         }
     });
     action->setEnabled(allowNewDesktops);
@@ -635,7 +635,7 @@ void UserActionsMenu::screenPopupAboutToShow()
         QAction *action = m_screenMenu->addAction(i18nc("@item:inmenu List of all Screens to send a window to. First argument is a number, second the output identifier. E.g. Screen 1 (HDMI1)",
                                                         "Screen &%1 (%2)", (i + 1), output->name()));
         connect(action, &QAction::triggered, this, [this, output]() {
-            workspace()->sendWindowToOutput(m_window, output);
+            m_window->sendToOutput(output);
         });
         action->setCheckable(true);
         if (m_window && output == m_window->output()) {
@@ -1293,49 +1293,49 @@ void Workspace::slotSwitchToNextScreen()
 void Workspace::slotWindowToScreen(Output *output)
 {
     if (USABLE_ACTIVE_WINDOW) {
-        sendWindowToOutput(m_activeWindow, output);
+        m_activeWindow->sendToOutput(output);
     }
 }
 
 void Workspace::slotWindowToLeftScreen()
 {
     if (USABLE_ACTIVE_WINDOW) {
-        sendWindowToOutput(m_activeWindow, findOutput(m_activeWindow->output(), Direction::DirectionWest, true));
+        m_activeWindow->sendToOutput(findOutput(m_activeWindow->output(), Direction::DirectionWest, true));
     }
 }
 
 void Workspace::slotWindowToRightScreen()
 {
     if (USABLE_ACTIVE_WINDOW) {
-        sendWindowToOutput(m_activeWindow, findOutput(m_activeWindow->output(), Direction::DirectionEast, true));
+        m_activeWindow->sendToOutput(findOutput(m_activeWindow->output(), Direction::DirectionEast, true));
     }
 }
 
 void Workspace::slotWindowToAboveScreen()
 {
     if (USABLE_ACTIVE_WINDOW) {
-        sendWindowToOutput(m_activeWindow, findOutput(m_activeWindow->output(), Direction::DirectionNorth, true));
+        m_activeWindow->sendToOutput(findOutput(m_activeWindow->output(), Direction::DirectionNorth, true));
     }
 }
 
 void Workspace::slotWindowToBelowScreen()
 {
     if (USABLE_ACTIVE_WINDOW) {
-        sendWindowToOutput(m_activeWindow, findOutput(m_activeWindow->output(), Direction::DirectionSouth, true));
+        m_activeWindow->sendToOutput(findOutput(m_activeWindow->output(), Direction::DirectionSouth, true));
     }
 }
 
 void Workspace::slotWindowToPrevScreen()
 {
     if (USABLE_ACTIVE_WINDOW) {
-        sendWindowToOutput(m_activeWindow, findOutput(m_activeWindow->output(), Direction::DirectionPrev, true));
+        m_activeWindow->sendToOutput(findOutput(m_activeWindow->output(), Direction::DirectionPrev, true));
     }
 }
 
 void Workspace::slotWindowToNextScreen()
 {
     if (USABLE_ACTIVE_WINDOW) {
-        sendWindowToOutput(m_activeWindow, findOutput(m_activeWindow->output(), Direction::DirectionNext, true));
+        m_activeWindow->sendToOutput(findOutput(m_activeWindow->output(), Direction::DirectionNext, true));
     }
 }
 
@@ -1589,7 +1589,7 @@ void Workspace::switchWindow(Direction direction)
     Window *window = m_activeWindow;
     VirtualDesktop *desktop = VirtualDesktopManager::self()->currentDesktop();
 
-    // Centre of the active window
+    // Center of the active window
     QPoint curPos(window->x() + window->width() / 2, window->y() + window->height() / 2);
 
     if (!switchWindow(window, direction, curPos, desktop)) {
@@ -1624,7 +1624,7 @@ bool Workspace::switchWindow(Window *window, Direction direction, QPoint curPos,
             continue;
         }
         if (other->wantsTabFocus() && *i != window && other->isOnDesktop(desktop) && !other->isMinimized() && (*i)->isOnCurrentActivity()) {
-            // Centre of the other window
+            // Center of the other window
             const QPoint otherCenter(other->x() + other->width() / 2, other->y() + other->height() / 2);
 
             int distance;

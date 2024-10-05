@@ -217,16 +217,22 @@ void GLShader::resolveLocations()
     m_matrix4Locations[Mat4Uniform::WindowTransformation] = uniformLocation("windowTransformation");
     m_matrix4Locations[Mat4Uniform::ScreenTransformation] = uniformLocation("screenTransformation");
     m_matrix4Locations[Mat4Uniform::ColorimetryTransformation] = uniformLocation("colorimetryTransform");
+    m_matrix4Locations[Mat4Uniform::DestinationToLMS] = uniformLocation("destinationToLMS");
+    m_matrix4Locations[Mat4Uniform::LMSToDestination] = uniformLocation("lmsToDestination");
 
     m_vec2Locations[Vec2Uniform::Offset] = uniformLocation("offset");
+    m_vec2Locations[Vec2Uniform::SourceTransferFunctionParams] = uniformLocation("sourceTransferFunctionParams");
+    m_vec2Locations[Vec2Uniform::DestinationTransferFunctionParams] = uniformLocation("destinationTransferFunctionParams");
 
     m_vec3Locations[Vec3Uniform::PrimaryBrightness] = uniformLocation("primaryBrightness");
 
     m_vec4Locations[Vec4Uniform::ModulationConstant] = uniformLocation("modulation");
 
     m_floatLocations[FloatUniform::Saturation] = uniformLocation("saturation");
-    m_floatLocations[FloatUniform::MaxHdrBrightness] = uniformLocation("maxHdrBrightness");
-    m_floatLocations[FloatUniform::SdrBrightness] = uniformLocation("sdrBrightness");
+    m_floatLocations[FloatUniform::MaxDestinationLuminance] = uniformLocation("maxDestinationLuminance");
+    m_floatLocations[FloatUniform::SourceReferenceLuminance] = uniformLocation("sourceReferenceLuminance");
+    m_floatLocations[FloatUniform::DestinationReferenceLuminance] = uniformLocation("destinationReferenceLuminance");
+    m_floatLocations[FloatUniform::MaxTonemappingLuminance] = uniformLocation("maxTonemappingLuminance");
 
     m_colorLocations[ColorUniform::Color] = uniformLocation("geometryColor");
 
@@ -306,6 +312,12 @@ bool GLShader::setUniform(const char *name, float value)
     return setUniform(location, value);
 }
 
+bool GLShader::setUniform(const char *name, double value)
+{
+    const int location = uniformLocation(name);
+    return setUniform(location, value);
+}
+
 bool GLShader::setUniform(const char *name, int value)
 {
     const int location = uniformLocation(name);
@@ -349,6 +361,14 @@ bool GLShader::setUniform(const char *name, const QColor &color)
 }
 
 bool GLShader::setUniform(int location, float value)
+{
+    if (location >= 0) {
+        glUniform1f(location, value);
+    }
+    return (location >= 0);
+}
+
+bool GLShader::setUniform(int location, double value)
 {
     if (location >= 0) {
         glUniform1f(location, value);
@@ -452,27 +472,24 @@ QMatrix4x4 GLShader::getUniformMatrix4x4(const char *name)
     }
 }
 
-bool GLShader::setColorspaceUniforms(const ColorDescription &src, const ColorDescription &dst)
-{
-    const auto &srcColorimetry = src.colorimetry() == NamedColorimetry::BT709 ? dst.sdrColorimetry() : src.colorimetry();
-    return setUniform(GLShader::Mat4Uniform::ColorimetryTransformation, srcColorimetry.toOther(dst.colorimetry()))
-        && setUniform(GLShader::IntUniform::SourceNamedTransferFunction, int(src.transferFunction()))
-        && setUniform(GLShader::IntUniform::DestinationNamedTransferFunction, int(dst.transferFunction()))
-        && setUniform(FloatUniform::SdrBrightness, dst.sdrBrightness())
-        && setUniform(FloatUniform::MaxHdrBrightness, dst.maxHdrHighlightBrightness());
-}
+static bool s_disableTonemapping = qEnvironmentVariableIntValue("KWIN_DISABLE_TONEMAPPING") == 1;
 
-bool GLShader::setColorspaceUniformsFromSRGB(const ColorDescription &dst)
+void GLShader::setColorspaceUniforms(const ColorDescription &src, const ColorDescription &dst, RenderingIntent intent)
 {
-    return setColorspaceUniforms(ColorDescription::sRGB, dst);
-}
-
-bool GLShader::setColorspaceUniformsToSRGB(const ColorDescription &src)
-{
-    return setUniform(GLShader::Mat4Uniform::ColorimetryTransformation, src.colorimetry().toOther(src.sdrColorimetry()))
-        && setUniform(GLShader::IntUniform::SourceNamedTransferFunction, int(src.transferFunction()))
-        && setUniform(GLShader::IntUniform::DestinationNamedTransferFunction, int(NamedTransferFunction::gamma22))
-        && setUniform(FloatUniform::SdrBrightness, src.sdrBrightness())
-        && setUniform(FloatUniform::MaxHdrBrightness, src.sdrBrightness());
+    setUniform(Mat4Uniform::ColorimetryTransformation, src.toOther(dst, intent));
+    setUniform(IntUniform::SourceNamedTransferFunction, src.transferFunction().type);
+    setUniform(Vec2Uniform::SourceTransferFunctionParams, QVector2D(src.transferFunction().minLuminance, src.transferFunction().maxLuminance - src.transferFunction().minLuminance));
+    setUniform(FloatUniform::SourceReferenceLuminance, src.referenceLuminance());
+    setUniform(IntUniform::DestinationNamedTransferFunction, dst.transferFunction().type);
+    setUniform(Vec2Uniform::DestinationTransferFunctionParams, QVector2D(dst.transferFunction().minLuminance, dst.transferFunction().maxLuminance - dst.transferFunction().minLuminance));
+    setUniform(FloatUniform::DestinationReferenceLuminance, dst.referenceLuminance());
+    setUniform(FloatUniform::MaxDestinationLuminance, dst.maxHdrLuminance().value_or(10'000));
+    if (!s_disableTonemapping && intent == RenderingIntent::Perceptual) {
+        setUniform(FloatUniform::MaxTonemappingLuminance, src.maxHdrLuminance().value_or(src.referenceLuminance()) * dst.referenceLuminance() / src.referenceLuminance());
+    } else {
+        setUniform(FloatUniform::MaxTonemappingLuminance, dst.referenceLuminance());
+    }
+    setUniform(Mat4Uniform::DestinationToLMS, dst.containerColorimetry().toLMS());
+    setUniform(Mat4Uniform::LMSToDestination, dst.containerColorimetry().fromLMS());
 }
 }

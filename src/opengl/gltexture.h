@@ -84,7 +84,7 @@ public:
      */
     QMatrix4x4 matrix(TextureCoordinateType type) const;
 
-    void update(const QImage &image, const QPoint &offset = QPoint(0, 0), const QRect &src = QRect());
+    void update(const QImage &image, const QRegion &region, const QPoint &offset = QPoint());
     void bind();
     void unbind();
     void render(const QSizeF &size);
@@ -98,10 +98,6 @@ public:
 
     QImage toImage();
 
-    /** @short
-     * Make the texture fully transparent
-     */
-    void clear();
     /**
      * @deprecated track modifications to the texture yourself
      */

@@ -278,12 +278,14 @@ OpenGlContext *EffectsHandler::openglContext() const
 
 void EffectsHandler::unloadAllEffects()
 {
-    for (const EffectPair &pair : std::as_const(loaded_effects)) {
-        destroyEffect(pair.second);
-    }
-
+    m_activeEffects.clear();
     effect_order.clear();
     m_effectLoader->clear();
+
+    const auto loaded = std::move(loaded_effects);
+    for (const EffectPair &pair : loaded) {
+        destroyEffect(pair.second);
+    }
 
     effectsChanged();
 }
@@ -752,7 +754,7 @@ void EffectsHandler::windowToScreen(EffectWindow *w, Output *screen)
 {
     auto window = w->window();
     if (window->isClient() && !window->isDesktop() && !window->isDock()) {
-        Workspace::self()->sendWindowToOutput(window, screen);
+        window->sendToOutput(screen);
     }
 }
 
@@ -1501,7 +1503,7 @@ void EffectsHandler::renderOffscreenQuickView(const RenderTarget &renderTarget, 
         if (a != 1.0) {
             shader->setUniform(GLShader::Vec4Uniform::ModulationConstant, QVector4D(a, a, a, a));
         }
-        shader->setColorspaceUniformsFromSRGB(renderTarget.colorDescription());
+        shader->setColorspaceUniforms(ColorDescription::sRGB, renderTarget.colorDescription(), RenderingIntent::Perceptual);
 
         const bool alphaBlending = w->hasAlphaChannel() || (a != 1.0);
         if (alphaBlending) {

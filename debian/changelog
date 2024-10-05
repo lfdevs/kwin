@@ -1,3 +1,15 @@
+kwin (4:6.2.0-1) experimental; urgency=medium
+
+  [ Aurélien COUDERC ]
+  * New upstream release (6.1.90).
+  * Update build-deps and deps with the info from cmake.
+  * Review copyright information.
+  * New upstream release (6.2.0).
+  * Update build-deps and deps with the info from cmake.
+  * Tighten inter-Plasma package dependencies.
+
+ -- Aurélien COUDERC <coucouf@debian.org>  Sat, 05 Oct 2024 23:17:51 +0200
+
 kwin (4:6.1.5-1) experimental; urgency=medium
 
   [ Aurélien COUDERC ]

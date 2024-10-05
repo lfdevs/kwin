@@ -290,7 +290,7 @@ void Workspace::raiseOrLowerWindow(Window *window)
 
     const Window *topmost =
         topWindowOnDesktop(VirtualDesktopManager::self()->currentDesktop(),
-                           options->isSeparateScreenFocus() ? window->output() : nullptr);
+                           options->isSeparateScreenFocus() ? window->output() : nullptr, true);
 
     if (window == topmost) {
         lowerWindow(window);
@@ -415,6 +415,7 @@ void Workspace::raiseWindowWithinApplication(Window *window)
     }
 }
 
+#if KWIN_BUILD_X11
 void Workspace::raiseWindowRequest(Window *window, NET::RequestSource src, xcb_timestamp_t timestamp)
 {
     if (src == NET::FromTool || allowFullClientRaising(window, timestamp)) {
@@ -425,7 +426,6 @@ void Workspace::raiseWindowRequest(Window *window, NET::RequestSource src, xcb_t
     }
 }
 
-#if KWIN_BUILD_X11
 void Workspace::lowerWindowRequest(X11Window *window, NET::RequestSource src, xcb_timestamp_t /*timestamp*/)
 {
     // If the window has support for all this focus stealing prevention stuff,
@@ -440,37 +440,41 @@ void Workspace::lowerWindowRequest(X11Window *window, NET::RequestSource src, xc
 }
 #endif
 
-void Workspace::lowerWindowRequest(Window *window)
-{
-    lowerWindowWithinApplication(window);
-}
-
-void Workspace::restack(Window *window, Window *under, bool force)
+void Workspace::stackBelow(Window *window, Window *reference)
 {
     if (window->isDeleted()) {
-        qCWarning(KWIN_CORE) << "Workspace::restack: closed window" << window << "cannot be restacked";
+        qCWarning(KWIN_CORE) << "Workspace::stackBelow: closed window" << window << "cannot be restacked";
         return;
     }
-    if (!force && !Window::belongToSameApplication(under, window)) {
-        // put in the stacking order below _all_ windows belonging to the active application
-        for (int i = 0; i < unconstrained_stacking_order.size(); ++i) {
-            auto other = unconstrained_stacking_order.at(i);
-            if (other->isClient() && other->layer() == window->layer() && Window::belongToSameApplication(under, other)) {
-                under = other;
-                break;
-            }
-        }
-    }
 
-    Q_ASSERT(unconstrained_stacking_order.contains(under));
-    if (under == window) {
+    Q_ASSERT(unconstrained_stacking_order.contains(reference));
+    if (reference == window) {
         return;
     }
 
     unconstrained_stacking_order.removeAll(window);
-    unconstrained_stacking_order.insert(unconstrained_stacking_order.indexOf(under), window);
+    unconstrained_stacking_order.insert(unconstrained_stacking_order.indexOf(reference), window);
 
-    m_focusChain->moveAfterWindow(window, under);
+    m_focusChain->moveAfterWindow(window, reference);
+    updateStackingOrder();
+}
+
+void Workspace::stackAbove(Window *window, Window *reference)
+{
+    if (window->isDeleted()) {
+        qCWarning(KWIN_CORE) << "Workspace::stackAbove: closed window" << window << "cannot be restacked";
+        return;
+    }
+
+    Q_ASSERT(unconstrained_stacking_order.contains(reference));
+    if (reference == window) {
+        return;
+    }
+
+    unconstrained_stacking_order.removeAll(window);
+    unconstrained_stacking_order.insert(unconstrained_stacking_order.indexOf(reference) + 1, window);
+
+    m_focusChain->moveBeforeWindow(window, reference);
     updateStackingOrder();
 }
 
@@ -480,7 +484,20 @@ void Workspace::restackWindowUnderActive(Window *window)
         raiseWindow(window);
         return;
     }
-    restack(window, m_activeWindow);
+
+    Window *reference = m_activeWindow;
+    if (!Window::belongToSameApplication(reference, window)) {
+        // put in the stacking order below _all_ windows belonging to the active application
+        for (int i = 0; i < unconstrained_stacking_order.size(); ++i) {
+            auto other = unconstrained_stacking_order.at(i);
+            if (other->isClient() && other->layer() == window->layer() && Window::belongToSameApplication(reference, other)) {
+                reference = other;
+                break;
+            }
+        }
+    }
+
+    stackBelow(window, reference);
 }
 
 #if KWIN_BUILD_X11

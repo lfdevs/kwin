@@ -146,7 +146,7 @@ void GLTexture::setSize(const QSize &size)
     d->updateMatrix();
 }
 
-void GLTexture::update(const QImage &image, const QPoint &offset, const QRect &src)
+void GLTexture::update(const QImage &image, const QRegion &region, const QPoint &offset)
 {
     if (image.isNull() || isNull()) {
         return;
@@ -161,8 +161,7 @@ void GLTexture::update(const QImage &image, const QPoint &offset, const QRect &s
     if (!context->isOpenGLES()) {
         const QImage::Format index = image.format();
 
-        if (index < sizeof(formatTable) / sizeof(formatTable[0]) && formatTable[index].internalFormat
-            && !(formatTable[index].type == GL_UNSIGNED_SHORT && !context->supports16BitTextures())) {
+        if (index < sizeof(formatTable) / sizeof(formatTable[0]) && formatTable[index].internalFormat) {
             glFormat = formatTable[index].format;
             type = formatTable[index].type;
             uploadFormat = index;
@@ -182,44 +181,28 @@ void GLTexture::update(const QImage &image, const QPoint &offset, const QRect &s
             uploadFormat = QImage::Format_RGBA8888_Premultiplied;
         }
     }
-    bool useUnpack = context->supportsTextureUnpack() && image.format() == uploadFormat && !src.isNull();
 
-    QImage im;
-    if (useUnpack) {
-        im = image;
-        Q_ASSERT(im.depth() % 8 == 0);
-        glPixelStorei(GL_UNPACK_ROW_LENGTH, im.bytesPerLine() / (im.depth() / 8));
-        glPixelStorei(GL_UNPACK_SKIP_PIXELS, src.x());
-        glPixelStorei(GL_UNPACK_SKIP_ROWS, src.y());
-    } else {
-        if (src.isNull()) {
-            im = image;
-        } else {
-            im = image.copy(src);
-        }
-        if (im.format() != uploadFormat) {
-            im.convertTo(uploadFormat);
-        }
-    }
-
-    int width = image.width();
-    int height = image.height();
-    if (!src.isNull()) {
-        width = src.width();
-        height = src.height();
+    QImage im = image;
+    if (im.format() != uploadFormat) {
+        im.convertTo(uploadFormat);
     }
 
     bind();
 
-    glTexSubImage2D(d->m_target, 0, offset.x(), offset.y(), width, height, glFormat, type, im.constBits());
+    for (const QRect &rect : region) {
+        Q_ASSERT(im.depth() % 8 == 0);
+        glPixelStorei(GL_UNPACK_ROW_LENGTH, im.bytesPerLine() / (im.depth() / 8));
+        glPixelStorei(GL_UNPACK_SKIP_PIXELS, rect.x());
+        glPixelStorei(GL_UNPACK_SKIP_ROWS, rect.y());
+
+        glTexSubImage2D(d->m_target, 0, offset.x() + rect.x(), offset.y() + rect.y(), rect.width(), rect.height(), glFormat, type, im.constBits());
+    }
+
+    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+    glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
+    glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
 
     unbind();
-
-    if (useUnpack) {
-        glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-        glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
-        glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
-    }
 }
 
 void GLTexture::bind()
@@ -368,17 +351,6 @@ GLenum GLTexture::filter() const
 GLenum GLTexture::internalFormat() const
 {
     return d->m_internalFormat;
-}
-
-void GLTexture::clear()
-{
-    Q_ASSERT(d->m_owning);
-    GLFramebuffer fbo(this);
-    GLFramebuffer::pushFramebuffer(&fbo);
-    glClearColor(0, 0, 0, 0);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, d->m_texture, 0);
-    glClear(GL_COLOR_BUFFER_BIT);
-    GLFramebuffer::popFramebuffer();
 }
 
 bool GLTexture::isDirty() const
@@ -563,53 +535,60 @@ std::unique_ptr<GLTexture> GLTexture::upload(const QImage &image)
         qCWarning(KWIN_OPENGL, "generating OpenGL texture handle failed");
         return nullptr;
     }
-    glBindTexture(GL_TEXTURE_2D, texture);
 
     const auto context = OpenGlContext::currentContext();
     GLenum internalFormat;
+    GLenum format;
+    GLenum type;
+    QImage::Format uploadFormat;
     if (!context->isOpenGLES()) {
-        QImage im;
-        GLenum format;
-        GLenum type;
-
         const QImage::Format index = image.format();
-
-        if (index < sizeof(formatTable) / sizeof(formatTable[0]) && formatTable[index].internalFormat
-            && !(formatTable[index].type == GL_UNSIGNED_SHORT && !context->supports16BitTextures())) {
+        if (index < sizeof(formatTable) / sizeof(formatTable[0]) && formatTable[index].internalFormat) {
             internalFormat = formatTable[index].internalFormat;
             format = formatTable[index].format;
             type = formatTable[index].type;
-            im = image;
+            uploadFormat = index;
         } else {
-            im = image.convertToFormat(QImage::Format_ARGB32_Premultiplied);
             internalFormat = GL_RGBA8;
             format = GL_BGRA;
             type = GL_UNSIGNED_INT_8_8_8_8_REV;
-        }
-
-        if (context->supportsTextureStorage()) {
-            glTexStorage2D(GL_TEXTURE_2D, 1, internalFormat, im.width(), im.height());
-            glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, im.width(), im.height(),
-                            format, type, im.constBits());
-        } else {
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
-            glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, im.width(), im.height(), 0,
-                         format, type, im.constBits());
+            uploadFormat = QImage::Format_ARGB32_Premultiplied;
         }
     } else {
-        internalFormat = GL_RGBA8;
-
         if (context->supportsARGB32Textures()) {
-            const QImage im = image.convertToFormat(QImage::Format_ARGB32_Premultiplied);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_BGRA_EXT, im.width(), im.height(),
-                         0, GL_BGRA_EXT, GL_UNSIGNED_BYTE, im.constBits());
+            internalFormat = GL_BGRA_EXT;
+            format = GL_BGRA_EXT;
+            type = GL_UNSIGNED_BYTE;
+            uploadFormat = QImage::Format_ARGB32_Premultiplied;
         } else {
-            const QImage im = image.convertToFormat(QImage::Format_RGBA8888_Premultiplied);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, im.width(), im.height(),
-                         0, GL_RGBA, GL_UNSIGNED_BYTE, im.constBits());
+            internalFormat = GL_RGBA;
+            format = GL_RGBA;
+            type = GL_UNSIGNED_BYTE;
+            uploadFormat = QImage::Format_RGBA8888_Premultiplied;
         }
     }
+
+    QImage im = image;
+    if (im.format() != uploadFormat) {
+        im.convertTo(uploadFormat);
+    }
+
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glPixelStorei(GL_UNPACK_ROW_LENGTH, im.bytesPerLine() / (im.depth() / 8));
+    if (!context->isOpenGLES()) {
+        if (context->supportsTextureStorage()) {
+            glTexStorage2D(GL_TEXTURE_2D, 1, internalFormat, im.width(), im.height());
+            glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, im.width(), im.height(), format, type, im.constBits());
+        } else {
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
+            glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, im.width(), im.height(), 0, format, type, im.constBits());
+        }
+    } else {
+        glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, im.width(), im.height(), 0, format, type, im.constBits());
+    }
+    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
     glBindTexture(GL_TEXTURE_2D, 0);
+
     return std::unique_ptr<GLTexture>(new GLTexture(GL_TEXTURE_2D, texture, internalFormat, image.size(), 1, true, OutputTransform::FlipY));
 }
 

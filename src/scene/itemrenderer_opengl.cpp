@@ -163,8 +163,8 @@ void ItemRendererOpenGL::createRenderNode(Item *item, RenderContext *context)
                 .transformMatrix = context->transformStack.top(),
                 .opacity = context->opacityStack.top(),
                 .hasAlpha = true,
-                .coordinateType = UnnormalizedCoordinates,
                 .colorDescription = item->colorDescription(),
+                .renderingIntent = item->renderingIntent(),
                 .bufferReleasePoint = nullptr,
             });
         }
@@ -177,8 +177,8 @@ void ItemRendererOpenGL::createRenderNode(Item *item, RenderContext *context)
                 .transformMatrix = context->transformStack.top(),
                 .opacity = context->opacityStack.top(),
                 .hasAlpha = true,
-                .coordinateType = UnnormalizedCoordinates,
                 .colorDescription = item->colorDescription(),
+                .renderingIntent = item->renderingIntent(),
                 .bufferReleasePoint = nullptr,
             });
         }
@@ -193,8 +193,8 @@ void ItemRendererOpenGL::createRenderNode(Item *item, RenderContext *context)
                     .transformMatrix = context->transformStack.top(),
                     .opacity = context->opacityStack.top(),
                     .hasAlpha = pixmap->hasAlphaChannel(),
-                    .coordinateType = NormalizedCoordinates,
                     .colorDescription = item->colorDescription(),
+                    .renderingIntent = item->renderingIntent(),
                     .bufferReleasePoint = surfaceItem->bufferReleasePoint(),
                 });
             }
@@ -207,8 +207,8 @@ void ItemRendererOpenGL::createRenderNode(Item *item, RenderContext *context)
                 .transformMatrix = context->transformStack.top(),
                 .opacity = context->opacityStack.top(),
                 .hasAlpha = imageItem->image().hasAlphaChannel(),
-                .coordinateType = NormalizedCoordinates,
                 .colorDescription = item->colorDescription(),
+                .renderingIntent = item->renderingIntent(),
                 .bufferReleasePoint = nullptr,
             });
         }
@@ -308,7 +308,7 @@ void ItemRendererOpenGL::renderItem(const RenderTarget &renderTarget, const Rend
         } else {
             texture = std::get<OpenGLSurfaceContents>(renderNode.texture).planes.constFirst().get();
         }
-        renderNode.geometry.postProcessTextureCoordinates(texture->matrix(renderNode.coordinateType));
+        renderNode.geometry.postProcessTextureCoordinates(texture->matrix(UnnormalizedCoordinates));
 
         renderNode.geometry.copy(map->subspan(v));
         v += renderNode.geometry.count();
@@ -354,7 +354,7 @@ void ItemRendererOpenGL::renderItem(const RenderTarget &renderTarget, const Rend
             }
             shader = ShaderManager::instance()->pushShader(traits);
             if (traits & ShaderTrait::AdjustSaturation) {
-                const auto toXYZ = renderTarget.colorDescription().colorimetry().toXYZ();
+                const auto toXYZ = renderTarget.colorDescription().containerColorimetry().toXYZ();
                 shader->setUniform(GLShader::FloatUniform::Saturation, data.saturation());
                 shader->setUniform(GLShader::Vec3Uniform::PrimaryBrightness, QVector3D(toXYZ(1, 0), toXYZ(1, 1), toXYZ(1, 2)));
             }
@@ -369,7 +369,7 @@ void ItemRendererOpenGL::renderItem(const RenderTarget &renderTarget, const Rend
             shader->setUniform(GLShader::Vec4Uniform::ModulationConstant, modulate(renderNode.opacity, data.brightness()));
         }
         if (traits & ShaderTrait::TransformColorspace) {
-            shader->setColorspaceUniforms(renderNode.colorDescription, renderTarget.colorDescription());
+            shader->setColorspaceUniforms(renderNode.colorDescription, renderTarget.colorDescription(), renderNode.renderingIntent);
         }
 
         if (std::holds_alternative<GLTexture *>(renderNode.texture)) {

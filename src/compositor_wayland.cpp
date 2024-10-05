@@ -8,10 +8,12 @@
 */
 
 #include "compositor_wayland.h"
+#include "core/graphicsbufferview.h"
 #include "core/output.h"
 #include "core/outputbackend.h"
 #include "core/renderbackend.h"
 #include "core/renderlayer.h"
+#include "cursorsource.h"
 #include "effect/effecthandler.h"
 #include "ftrace.h"
 #include "main.h"
@@ -271,6 +273,25 @@ static QRect centerBuffer(const QSizeF &bufferSize, const QSize &modeSize)
     }
 }
 
+static bool checkForBlackBackground(SurfaceItem *background)
+{
+    if (!background->pixmap()
+        || !background->pixmap()->buffer()
+        || !background->pixmap()->buffer()->shmAttributes()
+        || background->pixmap()->buffer()->shmAttributes()->size != QSize(1, 1)) {
+        return false;
+    }
+    const GraphicsBufferView view(background->pixmap()->buffer());
+    if (!view.image()) {
+        return false;
+    }
+    const QRgb rgb = view.image()->pixel(0, 0);
+    const QVector3D encoded(qRed(rgb) / 255.0, qGreen(rgb) / 255.0, qBlue(rgb) / 255.0);
+    const QVector3D nits = background->colorDescription().mapTo(encoded, ColorDescription(NamedColorimetry::BT709, TransferFunction(TransferFunction::linear), 100, 0, std::nullopt, std::nullopt), background->renderingIntent());
+    // below 0.1 nits, it shouldn't be noticeable that we replace it with black
+    return nits.lengthSquared() <= (0.1 * 0.1);
+}
+
 void WaylandCompositor::composite(RenderLoop *renderLoop)
 {
     if (m_backend->checkGraphicsReset()) {
@@ -291,6 +312,7 @@ void WaylandCompositor::composite(RenderLoop *renderLoop)
 
     renderLoop->prepareNewFrame();
     auto frame = std::make_shared<OutputFrame>(renderLoop, std::chrono::nanoseconds(1'000'000'000'000 / output->refreshRate()));
+    bool directScanout = false;
 
     if (primaryLayer->needsRepaint() || superLayer->needsRepaint()) {
         auto totalTimeQuery = std::make_unique<CpuRenderTimeQuery>();
@@ -307,22 +329,34 @@ void WaylandCompositor::composite(RenderLoop *renderLoop)
 
         const bool wantsAdaptiveSync = activeWindow && activeWindow->isOnOutput(output) && activeWindow->wantsAdaptiveSync();
         const bool vrr = (output->capabilities() & Output::Capability::Vrr) && (output->vrrPolicy() == VrrPolicy::Always || (output->vrrPolicy() == VrrPolicy::Automatic && wantsAdaptiveSync));
-        const bool tearing = (output->capabilities() & Output::Capability::Tearing) && options->allowTearing() && activeFullscreenItem && activeFullscreenItem->presentationHint() == PresentationModeHint::Async;
+        const bool tearing = (output->capabilities() & Output::Capability::Tearing) && options->allowTearing() && activeFullscreenItem && activeWindow->wantsTearing(activeFullscreenItem->presentationHint() == PresentationModeHint::Async);
         if (vrr) {
             frame->setPresentationMode(tearing ? PresentationMode::AdaptiveAsync : PresentationMode::AdaptiveSync);
         } else {
             frame->setPresentationMode(tearing ? PresentationMode::Async : PresentationMode::VSync);
         }
 
-        bool directScanout = false;
-        if (const auto scanoutCandidate = superLayer->delegate()->scanoutCandidate()) {
+        const uint32_t planeCount = 1;
+        if (const auto scanoutCandidates = superLayer->delegate()->scanoutCandidates(planeCount + 1); !scanoutCandidates.isEmpty()) {
             const auto sublayers = superLayer->sublayers();
-            const bool scanoutPossible = std::none_of(sublayers.begin(), sublayers.end(), [](RenderLayer *sublayer) {
+            bool scanoutPossible = std::none_of(sublayers.begin(), sublayers.end(), [](RenderLayer *sublayer) {
                 return sublayer->isVisible();
             });
+            if (scanoutCandidates.size() > planeCount) {
+                scanoutPossible &= checkForBlackBackground(scanoutCandidates.back());
+            }
             if (scanoutPossible) {
-                primaryLayer->setTargetRect(centerBuffer(output->transform().map(scanoutCandidate->size()), output->modeSize()));
-                directScanout = primaryLayer->attemptScanout(scanoutCandidate, frame);
+                primaryLayer->setTargetRect(centerBuffer(output->transform().map(scanoutCandidates.front()->size()), output->modeSize()));
+                directScanout = primaryLayer->importScanoutBuffer(scanoutCandidates.front(), frame);
+                if (directScanout) {
+                    // if present works, we don't want to touch the frame object again afterwards,
+                    // so end the time query here instead of later
+                    totalTimeQuery->end();
+                    frame->addRenderTimeQuery(std::move(totalTimeQuery));
+                    totalTimeQuery = std::make_unique<CpuRenderTimeQuery>();
+
+                    directScanout &= m_backend->present(output, frame);
+                }
             }
         } else {
             primaryLayer->notifyNoScanoutCandidate();
@@ -341,11 +375,17 @@ void WaylandCompositor::composite(RenderLoop *renderLoop)
         }
 
         postPaintPass(superLayer);
-        totalTimeQuery->end();
-        frame->addRenderTimeQuery(std::move(totalTimeQuery));
+        if (!directScanout) {
+            totalTimeQuery->end();
+            frame->addRenderTimeQuery(std::move(totalTimeQuery));
+        }
     }
 
-    m_backend->present(output, frame);
+    if (!directScanout) {
+        if (!m_backend->present(output, frame)) {
+            m_backend->repairPresentation(output);
+        }
+    }
 
     framePass(superLayer, frame.get());
 
@@ -354,7 +394,9 @@ void WaylandCompositor::composite(RenderLoop *renderLoop)
     if (!Cursors::self()->isCursorHidden()) {
         Cursor *cursor = Cursors::self()->currentCursor();
         if (cursor->geometry().intersects(output->geometry())) {
-            cursor->markAsRendered(frameTime);
+            if (CursorSource *source = cursor->source()) {
+                source->frame(frameTime);
+            }
         }
     }
 }
@@ -374,18 +416,14 @@ void WaylandCompositor::addOutput(Output *output)
     auto cursorLayer = new RenderLayer(output->renderLoop());
     cursorLayer->setVisible(false);
     if (m_backend->compositingType() == OpenGLCompositing) {
-        cursorLayer->setDelegate(std::make_unique<CursorDelegateOpenGL>(output));
+        cursorLayer->setDelegate(std::make_unique<CursorDelegateOpenGL>(m_cursorScene.get(), output));
     } else {
-        cursorLayer->setDelegate(std::make_unique<CursorDelegateQPainter>(output));
+        cursorLayer->setDelegate(std::make_unique<CursorDelegateQPainter>(m_cursorScene.get(), output));
     }
     cursorLayer->setParent(workspaceLayer);
     cursorLayer->setSuperlayer(workspaceLayer);
 
-    // Software cursor is forced for intel devices because there are screen stuttering issues with hardware cursor,
-    // possibly a kernel driver bug. Remove the workaround when https://gitlab.freedesktop.org/drm/intel/-/issues/9571 is fixed.
-    static bool forceSoftwareCursorIsSet;
-    static const bool forceSoftwareCursor = qEnvironmentVariableIntValue("KWIN_FORCE_SW_CURSOR", &forceSoftwareCursorIsSet) == 1
-        || (!forceSoftwareCursorIsSet && scene()->openglContext() && scene()->openglContext()->glPlatform()->isIntel());
+    static const bool forceSoftwareCursor = qEnvironmentVariableIntValue("KWIN_FORCE_SW_CURSOR") == 1;
 
     auto updateCursorLayer = [this, output, cursorLayer]() {
         const Cursor *cursor = Cursors::self()->currentCursor();
@@ -405,11 +443,19 @@ void WaylandCompositor::addOutput(Output *output)
             }
             QRectF nativeCursorRect = output->transform().map(scaledRect(outputLocalRect, output->scale()), output->pixelSize());
             QSize bufferSize(std::ceil(nativeCursorRect.width()), std::ceil(nativeCursorRect.height()));
-            if (const auto fixedSize = outputLayer->fixedSize()) {
-                if (fixedSize->width() < bufferSize.width() || fixedSize->height() < bufferSize.height()) {
+            const auto recommendedSizes = outputLayer->recommendedSizes();
+            if (!recommendedSizes.empty()) {
+                auto bigEnough = recommendedSizes | std::views::filter([bufferSize](const auto &size) {
+                    return size.width() >= bufferSize.width() && size.height() >= bufferSize.height();
+                });
+                const auto it = std::ranges::min_element(bigEnough, [](const auto &left, const auto &right) {
+                    return left.width() * left.height() < right.width() * right.height();
+                });
+                if (it == bigEnough.end()) {
+                    // no size found, this most likely won't work
                     return false;
                 }
-                bufferSize = *fixedSize;
+                bufferSize = *it;
                 nativeCursorRect = output->transform().map(QRectF(outputLocalRect.topLeft() * output->scale(), bufferSize), output->pixelSize());
             }
             outputLayer->setHotspot(output->transform().map(cursor->hotspot() * output->scale(), bufferSize));

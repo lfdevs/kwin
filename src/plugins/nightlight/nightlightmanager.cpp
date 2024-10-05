@@ -3,6 +3,7 @@
     This file is part of the KDE project.
 
     SPDX-FileCopyrightText: 2017 Roman Gilg <subdiff@gmail.com>
+    SPDX-FileCopyrightText: 2024 Vlad Zahorodnii <vlad.zahorodnii@kde.org>
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
@@ -10,16 +11,13 @@
 #include "clockskewnotifier.h"
 #include "colors/colordevice.h"
 #include "colors/colormanager.h"
+#include "core/outputbackend.h"
+#include "core/session.h"
+#include "main.h"
 #include "nightlightdbusinterface.h"
 #include "nightlightlogging.h"
 #include "nightlightsettings.h"
 #include "suncalc.h"
-
-#include <core/outputbackend.h>
-#include <core/session.h>
-#include <input.h>
-#include <main.h>
-#include <workspace.h>
 
 #include <KGlobalAccel>
 #include <KLocalizedString>
@@ -36,22 +34,15 @@ namespace KWin
 
 static const int QUICK_ADJUST_DURATION = 2000;
 static const int TEMPERATURE_STEP = 50;
-static NightLightManager *s_instance = nullptr;
 
-static bool checkLocation(double lat, double lng)
+static bool checkLocation(double latitude, double longitude)
 {
-    return -90 <= lat && lat <= 90 && -180 <= lng && lng <= 180;
-}
-
-NightLightManager *NightLightManager::self()
-{
-    return s_instance;
+    return -90 <= latitude && latitude <= 90 && -180 <= longitude && longitude <= 180;
 }
 
 NightLightManager::NightLightManager()
 {
     NightLightSettings::instance(kwinApp()->config());
-    s_instance = this;
 
     m_iface = new NightLightDBusInterface(this);
     m_skewNotifier = new ClockSkewNotifier(this);
@@ -131,7 +122,6 @@ NightLightManager::NightLightManager()
 
 NightLightManager::~NightLightManager()
 {
-    s_instance = nullptr;
 }
 
 void NightLightManager::hardReset()
@@ -143,7 +133,7 @@ void NightLightManager::hardReset()
 
     if (isEnabled() && !isInhibited()) {
         setRunning(true);
-        commitGammaRamps(currentTargetTemp());
+        commitGammaRamps(currentTargetTemperature());
     }
     resetAllTimers();
 }
@@ -198,7 +188,7 @@ bool NightLightManager::isRunning() const
 
 int NightLightManager::currentTemperature() const
 {
-    return m_currentTemp;
+    return m_currentTemperature;
 }
 
 int NightLightManager::targetTemperature() const
@@ -233,13 +223,13 @@ qint64 NightLightManager::scheduledTransitionDuration() const
 
 void NightLightManager::readConfig()
 {
-    NightLightSettings *s = NightLightSettings::self();
-    s->load();
+    NightLightSettings *settings = NightLightSettings::self();
+    settings->load();
 
-    setEnabled(s->active());
+    setEnabled(settings->active());
 
-    const NightLightMode mode = s->mode();
-    switch (s->mode()) {
+    const NightLightMode mode = settings->mode();
+    switch (settings->mode()) {
     case NightLightMode::Automatic:
     case NightLightMode::Location:
     case NightLightMode::Timings:
@@ -252,47 +242,43 @@ void NightLightManager::readConfig()
         break;
     }
 
-    m_dayTargetTemp = std::clamp(s->dayTemperature(), MIN_TEMPERATURE, DEFAULT_DAY_TEMPERATURE);
-    m_nightTargetTemp = std::clamp(s->nightTemperature(), MIN_TEMPERATURE, DEFAULT_DAY_TEMPERATURE);
+    m_dayTargetTemperature = std::clamp(settings->dayTemperature(), MIN_TEMPERATURE, DEFAULT_DAY_TEMPERATURE);
+    m_nightTargetTemperature = std::clamp(settings->nightTemperature(), MIN_TEMPERATURE, DEFAULT_DAY_TEMPERATURE);
 
-    double lat, lng;
-    auto correctReadin = [&lat, &lng]() {
-        if (!checkLocation(lat, lng)) {
-            // out of domain
-            lat = 0;
-            lng = 0;
-        }
-    };
-    // automatic
-    lat = s->latitudeAuto();
-    lng = s->longitudeAuto();
-    correctReadin();
-    m_latAuto = lat;
-    m_lngAuto = lng;
-    // fixed location
-    lat = s->latitudeFixed();
-    lng = s->longitudeFixed();
-    correctReadin();
-    m_latFixed = lat;
-    m_lngFixed = lng;
+    if (checkLocation(settings->latitudeAuto(), settings->longitudeAuto())) {
+        m_latitudeAuto = settings->latitudeAuto();
+        m_longitudeAuto = settings->longitudeAuto();
+    } else {
+        m_latitudeAuto = 0;
+        m_longitudeAuto = 0;
+    }
+
+    if (checkLocation(settings->latitudeFixed(), settings->longitudeFixed())) {
+        m_latitudeFixed = settings->latitudeFixed();
+        m_longitudeFixed = settings->longitudeFixed();
+    } else {
+        m_latitudeFixed = 0;
+        m_longitudeFixed = 0;
+    }
 
     // fixed timings
-    QTime mrB = QTime::fromString(s->morningBeginFixed(), "hhmm");
-    QTime evB = QTime::fromString(s->eveningBeginFixed(), "hhmm");
+    QTime morning = QTime::fromString(settings->morningBeginFixed(), "hhmm");
+    QTime evening = QTime::fromString(settings->eveningBeginFixed(), "hhmm");
 
-    int diffME = std::abs(mrB.msecsTo(evB));
-    int diffMin = std::min(diffME, MSC_DAY - diffME);
+    const int dayDuration = morning < evening ? morning.msecsTo(evening) : (MSC_DAY - evening.msecsTo(morning));
+    const int nightDuration = MSC_DAY - dayDuration;
+    const int maximumTransitionDuration = std::min(dayDuration, nightDuration);
 
-    int trTime = s->transitionTime() * 1000 * 60;
-    if (trTime < 0 || diffMin <= trTime) {
-        // transition time too long - use defaults
-        mrB = QTime(6, 0);
-        evB = QTime(18, 0);
-        trTime = FALLBACK_SLOW_UPDATE_TIME;
+    int transitionDuration = std::max(settings->transitionTime() * 1000 * 60, MIN_TRANSITION_DURATION);
+    if (maximumTransitionDuration <= transitionDuration) {
+        morning = QTime(6, 0);
+        evening = QTime(18, 0);
+        transitionDuration = DEFAULT_TRANSITION_DURATION;
     }
-    m_morning = mrB;
-    m_evening = evB;
-    m_trTime = std::max(trTime / 1000 / 60, 1);
+
+    m_morning = morning;
+    m_evening = evening;
+    m_transitionDuration = transitionDuration;
 }
 
 void NightLightManager::resetAllTimers()
@@ -302,7 +288,7 @@ void NightLightManager::resetAllTimers()
     // we do this also for active being false in order to reset the temperature back to the day value
     updateTransitionTimings(QDateTime::currentDateTime());
     updateTargetTemperature();
-    resetQuickAdjustTimer(currentTargetTemp());
+    resetQuickAdjustTimer(currentTargetTemperature());
 }
 
 void NightLightManager::cancelAllTimers()
@@ -312,16 +298,16 @@ void NightLightManager::cancelAllTimers()
     m_quickAdjustTimer.reset();
 }
 
-void NightLightManager::resetQuickAdjustTimer(int targetTemp)
+void NightLightManager::resetQuickAdjustTimer(int targetTemperature)
 {
-    int tempDiff = std::abs(targetTemp - m_currentTemp);
+    int tempDiff = std::abs(targetTemperature - m_currentTemperature);
     // allow tolerance of one TEMPERATURE_STEP to compensate if a slow update is coincidental
     if (tempDiff > TEMPERATURE_STEP) {
         cancelAllTimers();
         m_quickAdjustTimer = std::make_unique<QTimer>();
         m_quickAdjustTimer->setSingleShot(false);
-        connect(m_quickAdjustTimer.get(), &QTimer::timeout, this, [this, targetTemp]() {
-            quickAdjust(targetTemp);
+        connect(m_quickAdjustTimer.get(), &QTimer::timeout, this, [this, targetTemperature]() {
+            quickAdjust(targetTemperature);
         });
 
         int interval = (QUICK_ADJUST_DURATION / (m_previewTimer && m_previewTimer->isActive() ? 8 : 1)) / (tempDiff / TEMPERATURE_STEP);
@@ -334,22 +320,21 @@ void NightLightManager::resetQuickAdjustTimer(int targetTemp)
     }
 }
 
-void NightLightManager::quickAdjust(int targetTemp)
+void NightLightManager::quickAdjust(int targetTemperature)
 {
     if (!m_quickAdjustTimer) {
         return;
     }
 
-    int nextTemp;
-
-    if (m_currentTemp < targetTemp) {
-        nextTemp = std::min(m_currentTemp + TEMPERATURE_STEP, targetTemp);
+    int nextTemperature;
+    if (m_currentTemperature < targetTemperature) {
+        nextTemperature = std::min(m_currentTemperature + TEMPERATURE_STEP, targetTemperature);
     } else {
-        nextTemp = std::max(m_currentTemp - TEMPERATURE_STEP, targetTemp);
+        nextTemperature = std::max(m_currentTemperature - TEMPERATURE_STEP, targetTemperature);
     }
-    commitGammaRamps(nextTemp);
+    commitGammaRamps(nextTemperature);
 
-    if (nextTemp == targetTemp) {
+    if (nextTemperature == targetTemperature) {
         // stop timer, we reached the target temp
         m_quickAdjustTimer.reset();
         resetSlowUpdateTimers();
@@ -371,34 +356,28 @@ void NightLightManager::resetSlowUpdateTimers()
         return;
     }
 
-    const QDateTime todayNow = QDateTime::currentDateTime();
-
-    // set up the next slow update
-    m_slowUpdateStartTimer = std::make_unique<QTimer>();
-    m_slowUpdateStartTimer->setSingleShot(true);
-    connect(m_slowUpdateStartTimer.get(), &QTimer::timeout, this, [this]() {
-        resetSlowUpdateTimers();
-    });
-    updateTransitionTimings(todayNow);
+    const QDateTime dateTime = QDateTime::currentDateTime();
+    updateTransitionTimings(dateTime);
     updateTargetTemperature();
 
-    const int diff = todayNow.msecsTo(m_next.first);
+    const int diff = dateTime.msecsTo(m_next.first);
     if (diff <= 0) {
         qCCritical(KWIN_NIGHTLIGHT) << "Error in time calculation. Deactivating Night Light.";
         return;
     }
+    m_slowUpdateStartTimer = std::make_unique<QTimer>();
+    m_slowUpdateStartTimer->setSingleShot(true);
+    connect(m_slowUpdateStartTimer.get(), &QTimer::timeout, this, &NightLightManager::resetSlowUpdateTimers);
     m_slowUpdateStartTimer->start(diff);
 
     // start the current slow update
     m_slowUpdateTimer.reset();
 
-    // We've reached the target color temperature or the transition time is zero.
-    if (m_prev.first == m_prev.second || m_currentTemp == m_targetTemperature) {
-        commitGammaRamps(m_targetTemperature);
+    if (m_currentTemperature == m_targetTemperature) {
         return;
     }
 
-    if (todayNow < m_prev.second) {
+    if (dateTime < m_prev.second) {
         m_slowUpdateTimer = std::make_unique<QTimer>();
         m_slowUpdateTimer->setSingleShot(false);
         connect(m_slowUpdateTimer.get(), &QTimer::timeout, this, [this]() {
@@ -406,7 +385,7 @@ void NightLightManager::resetSlowUpdateTimers()
         });
 
         // calculate interval such as temperature is changed by TEMPERATURE_STEP K per timer timeout
-        int interval = todayNow.msecsTo(m_prev.second) * TEMPERATURE_STEP / std::abs(m_targetTemperature - m_currentTemp);
+        int interval = dateTime.msecsTo(m_prev.second) * TEMPERATURE_STEP / std::abs(m_targetTemperature - m_currentTemperature);
         if (interval == 0) {
             interval = 1;
         }
@@ -416,19 +395,19 @@ void NightLightManager::resetSlowUpdateTimers()
     }
 }
 
-void NightLightManager::slowUpdate(int targetTemp)
+void NightLightManager::slowUpdate(int targetTemperature)
 {
     if (!m_slowUpdateTimer) {
         return;
     }
-    int nextTemp;
-    if (m_currentTemp < targetTemp) {
-        nextTemp = std::min(m_currentTemp + TEMPERATURE_STEP, targetTemp);
+    int nextTemperature;
+    if (m_currentTemperature < targetTemperature) {
+        nextTemperature = std::min(m_currentTemperature + TEMPERATURE_STEP, targetTemperature);
     } else {
-        nextTemp = std::max(m_currentTemp - TEMPERATURE_STEP, targetTemp);
+        nextTemperature = std::max(m_currentTemperature - TEMPERATURE_STEP, targetTemperature);
     }
-    commitGammaRamps(nextTemp);
-    if (nextTemp == targetTemp) {
+    commitGammaRamps(nextTemperature);
+    if (nextTemperature == targetTemperature) {
         // stop timer, we reached the target temp
         m_slowUpdateTimer.reset();
     }
@@ -462,13 +441,13 @@ void NightLightManager::stopPreview()
     if (m_previewTimer && m_previewTimer->isActive()) {
         updateTransitionTimings(QDateTime::currentDateTime());
         updateTargetTemperature();
-        resetQuickAdjustTimer(currentTargetTemp());
+        resetQuickAdjustTimer(currentTargetTemperature());
     }
 }
 
 void NightLightManager::updateTargetTemperature()
 {
-    const int targetTemperature = mode() != NightLightMode::Constant && daylight() ? m_dayTargetTemp : m_nightTargetTemp;
+    const int targetTemperature = mode() != NightLightMode::Constant && daylight() ? m_dayTargetTemperature : m_nightTargetTemperature;
 
     if (m_targetTemperature == targetTemperature) {
         return;
@@ -479,7 +458,7 @@ void NightLightManager::updateTargetTemperature()
     Q_EMIT targetTemperatureChanged();
 }
 
-void NightLightManager::updateTransitionTimings(const QDateTime &todayNow)
+void NightLightManager::updateTransitionTimings(const QDateTime &dateTime)
 {
     const auto oldPrev = m_prev;
     const auto oldNext = m_next;
@@ -495,42 +474,42 @@ void NightLightManager::updateTransitionTimings(const QDateTime &todayNow)
         m_next = DateTimes();
         m_prev = DateTimes();
     } else if (m_mode == NightLightMode::Timings) {
-        const bool passedMorning = todayNow.time().secsTo(m_morning) <= granularity;
-        const bool passedEvening = todayNow.time().secsTo(m_evening) <= granularity;
+        const bool passedMorning = dateTime.time().secsTo(m_morning) <= granularity;
+        const bool passedEvening = dateTime.time().secsTo(m_evening) <= granularity;
 
-        const QDateTime nextMorB = QDateTime(todayNow.date().addDays(passedMorning), m_morning);
-        const QDateTime nextMorE = nextMorB.addSecs(m_trTime * 60);
-        const QDateTime nextEveB = QDateTime(todayNow.date().addDays(passedEvening), m_evening);
-        const QDateTime nextEveE = nextEveB.addSecs(m_trTime * 60);
+        const QDateTime nextEarlyMorning = QDateTime(dateTime.date().addDays(passedMorning), m_morning);
+        const QDateTime nextLateMorning = nextEarlyMorning.addMSecs(m_transitionDuration);
+        const QDateTime nextEarlyEvening = QDateTime(dateTime.date().addDays(passedEvening), m_evening);
+        const QDateTime nextLateEvening = nextEarlyEvening.addMSecs(m_transitionDuration);
 
-        if (nextEveB < nextMorB) {
+        if (nextEarlyEvening < nextEarlyMorning) {
             setDaylight(true);
-            m_next = DateTimes(nextEveB, nextEveE);
-            m_prev = DateTimes(nextMorB.addDays(-1), nextMorE.addDays(-1));
+            m_next = DateTimes(nextEarlyEvening, nextLateEvening);
+            m_prev = DateTimes(nextEarlyMorning.addDays(-1), nextLateMorning.addDays(-1));
         } else {
             setDaylight(false);
-            m_next = DateTimes(nextMorB, nextMorE);
-            m_prev = DateTimes(nextEveB.addDays(-1), nextEveE.addDays(-1));
+            m_next = DateTimes(nextEarlyMorning, nextLateMorning);
+            m_prev = DateTimes(nextEarlyEvening.addDays(-1), nextLateEvening.addDays(-1));
         }
     } else {
-        double lat, lng;
+        double latitude, longitude;
         if (m_mode == NightLightMode::Automatic) {
-            lat = m_latAuto;
-            lng = m_lngAuto;
+            latitude = m_latitudeAuto;
+            longitude = m_longitudeAuto;
         } else {
-            lat = m_latFixed;
-            lng = m_lngFixed;
+            latitude = m_latitudeFixed;
+            longitude = m_longitudeFixed;
         }
 
-        const DateTimes morning = getSunTimings(todayNow, lat, lng, true);
-        if (todayNow.secsTo(morning.first) > granularity) {
+        const DateTimes morning = getSunTimings(dateTime, latitude, longitude, true);
+        if (dateTime.secsTo(morning.first) > granularity) {
             // have not reached the morning yet
             setDaylight(false);
-            m_prev = getSunTimings(todayNow.addDays(-1), lat, lng, false);
+            m_prev = getSunTimings(dateTime.addDays(-1), latitude, longitude, false);
             m_next = morning;
         } else {
-            const DateTimes evening = getSunTimings(todayNow, lat, lng, false);
-            if (todayNow.secsTo(evening.first) > granularity) {
+            const DateTimes evening = getSunTimings(dateTime, latitude, longitude, false);
+            if (dateTime.secsTo(evening.first) > granularity) {
                 // have not reached the evening yet, it's daylight
                 setDaylight(true);
                 m_prev = morning;
@@ -539,7 +518,7 @@ void NightLightManager::updateTransitionTimings(const QDateTime &todayNow)
                 // we are passed the evening, it's night time
                 setDaylight(false);
                 m_prev = evening;
-                m_next = getSunTimings(todayNow.addDays(1), lat, lng, true);
+                m_next = getSunTimings(dateTime.addDays(1), latitude, longitude, true);
             }
         }
     }
@@ -562,16 +541,16 @@ DateTimes NightLightManager::getSunTimings(const QDateTime &dateTime, double lat
     const bool endDefined = !dateTimes.second.isNull();
     if (!beginDefined || !endDefined) {
         if (beginDefined) {
-            dateTimes.second = dateTimes.first.addMSecs(FALLBACK_SLOW_UPDATE_TIME);
+            dateTimes.second = dateTimes.first.addMSecs(DEFAULT_TRANSITION_DURATION);
         } else if (endDefined) {
-            dateTimes.first = dateTimes.second.addMSecs(-FALLBACK_SLOW_UPDATE_TIME);
+            dateTimes.first = dateTimes.second.addMSecs(-DEFAULT_TRANSITION_DURATION);
         } else {
             // Just use default values for morning and evening, but the user
             // will probably deactivate Night Light anyway if he is living
             // in a region without clear sun rise and set.
             const QTime referenceTime = morning ? QTime(6, 0) : QTime(18, 0);
             dateTimes.first = QDateTime(dateTime.date(), referenceTime);
-            dateTimes.second = dateTimes.first.addMSecs(FALLBACK_SLOW_UPDATE_TIME);
+            dateTimes.second = dateTimes.first.addMSecs(DEFAULT_TRANSITION_DURATION);
         }
     }
     return dateTimes;
@@ -582,37 +561,34 @@ bool NightLightManager::daylight() const
     return m_daylight;
 }
 
-int NightLightManager::currentTargetTemp() const
+int NightLightManager::currentTargetTemperature() const
 {
     if (!m_running) {
         return DEFAULT_DAY_TEMPERATURE;
     }
 
     if (m_mode == NightLightMode::Constant) {
-        return m_nightTargetTemp;
+        return m_nightTargetTemperature;
     }
 
-    const QDateTime todayNow = QDateTime::currentDateTime();
+    const QDateTime dateTime = QDateTime::currentDateTime();
 
-    auto f = [this, todayNow](int target1, int target2) {
-        if (todayNow <= m_prev.first) {
+    auto f = [this, dateTime](int target1, int target2) -> int {
+        if (dateTime <= m_prev.first) {
             return target1;
         }
-        if (todayNow >= m_prev.second) {
+        if (dateTime >= m_prev.second) {
             return target2;
         }
 
-        double residueQuota = todayNow.msecsTo(m_prev.second) / (double)m_prev.first.msecsTo(m_prev.second);
-        double ret = (int)((1. - residueQuota) * (double)target2 + residueQuota * (double)target1);
-        // remove single digits
-        ret = ((int)(0.1 * ret)) * 10;
-        return (int)ret;
+        const double progress = double(m_prev.first.msecsTo(dateTime)) / m_prev.first.msecsTo(m_prev.second);
+        return std::lerp(target1, target2, progress);
     };
 
     if (daylight()) {
-        return f(m_nightTargetTemp, m_dayTargetTemp);
+        return f(m_nightTargetTemperature, m_dayTargetTemperature);
     } else {
-        return f(m_dayTargetTemp, m_nightTargetTemp);
+        return f(m_dayTargetTemperature, m_nightTargetTemperature);
     }
 }
 
@@ -635,12 +611,12 @@ void NightLightManager::autoLocationUpdate(double latitude, double longitude)
     }
 
     // we tolerate small deviations with minimal impact on sun timings
-    if (std::abs(m_latAuto - latitude) < 2 && std::abs(m_lngAuto - longitude) < 1) {
+    if (std::abs(m_latitudeAuto - latitude) < 2 && std::abs(m_longitudeAuto - longitude) < 1) {
         return;
     }
     cancelAllTimers();
-    m_latAuto = latitude;
-    m_lngAuto = longitude;
+    m_latitudeAuto = latitude;
+    m_longitudeAuto = longitude;
 
     NightLightSettings *s = NightLightSettings::self();
     s->setLatitudeAuto(latitude);
@@ -671,10 +647,10 @@ void NightLightManager::setRunning(bool running)
 
 void NightLightManager::setCurrentTemperature(int temperature)
 {
-    if (m_currentTemp == temperature) {
+    if (m_currentTemperature == temperature) {
         return;
     }
-    m_currentTemp = temperature;
+    m_currentTemperature = temperature;
     Q_EMIT currentTemperatureChanged();
 }
 

@@ -32,7 +32,6 @@ FocusScope {
     property bool organized: false
 
     property bool verticalDesktopBar: KWinComponents.Workspace.desktopGridHeight >= bar.desktopCount && KWinComponents.Workspace.desktopGridHeight != 1
-    property bool anyDesktopBar: verticalDesktopBar || KWinComponents.Workspace.desktopGridHeight == 1
 
     // The values of overviewVal and gridVal might not be 0 on startup,
     // but we always want to animate from 0 to those values. So, we initially
@@ -272,7 +271,6 @@ FocusScope {
 
     Item {
         id: desktopBar
-        visible: container.anyDesktopBar
 
         // (overviewVal, gridVal) represents the state of the overview
         // in a 2D coordinate plane. Math.atan2 returns the angle between
@@ -308,7 +306,7 @@ FocusScope {
         opacity: desktopBar.opacity
         anchors.left: container.verticalDesktopBar ? desktopBar.right : parent.left
         anchors.right: parent.right
-        anchors.top: container.verticalDesktopBar || !container.anyDesktopBar ? parent.top : desktopBar.bottom
+        anchors.top: container.verticalDesktopBar ? parent.top : desktopBar.bottom
         anchors.topMargin: Kirigami.Units.largeSpacing
         height: searchField.height + 1 * Kirigami.Units.largeSpacing
 
@@ -340,7 +338,7 @@ FocusScope {
 
     // These are the minimum position of maximum size of the desktop preview in the overview
     property int minX: Kirigami.Units.largeSpacing + (container.verticalDesktopBar ? desktopBar.width : 0)
-    property int minY: Kirigami.Units.largeSpacing + topBar.height + (container.verticalDesktopBar || !container.anyDesktopBar ? 0 : desktopBar.height)
+    property int minY: Kirigami.Units.largeSpacing + topBar.height + (container.verticalDesktopBar ? 0 : desktopBar.height)
     property int maxWidth: currentGeometry.width - minX - Kirigami.Units.gridUnit * 2
     property int maxHeight: currentGeometry.height - minY - Kirigami.Units.gridUnit * 2
 
@@ -453,6 +451,9 @@ FocusScope {
                 property real deltaColumn: column - allDesktopHeaps.currentBackgroundItem.column - deltaX
                 property real deltaRow: row - allDesktopHeaps.currentBackgroundItem.row - deltaY
 
+                onDeltaColumnChanged: heap.layout.updateCellsMapping()
+                onDeltaRowChanged: heap.layout.updateCellsMapping()
+
                 Behavior on deltaColumn {
                     enabled: overviewVal > 0 && !container.desktopJustCreated
                     NumberAnimation {
@@ -499,6 +500,7 @@ FocusScope {
                     // Initially places transition desktops in a grid around the current one,
                     // and moves them slighly to avoid overlapping the UI
                     Translate {
+                        id: desktopTranslation
                         x: minX * 0.5 * overviewVal + deltaColumn * width * (1 - gridVal)
                         y: minY * 0.5 * overviewVal + deltaRow * height * (1 - gridVal)
                     }
@@ -606,6 +608,7 @@ FocusScope {
 
                 WindowHeap {
                     id: heap
+                    visible: !effect.filterWindows ? effect.searchText.length === 0 : true
                     width: parent.width * (1 + (backgroundArea.sizeAdjust - 1))
                     height: parent.height * (1 + (backgroundArea.sizeAdjust - 1))
                     x: parent.width / 2 - width / 2
@@ -645,6 +648,12 @@ FocusScope {
                     }
                     delegate: WindowHeapDelegate {
                         windowHeap: heap
+                        offsetX: mainBackground.deltaColumn * container.width * (1 - gridVal) + (dragHandler.active ? (dragHandler.centroid.pressPosition.x - dragHandler.centroid.position.x) : 0)
+                        offsetY: mainBackground.deltaRow * container.height * (1 - gridVal) + (dragHandler.active ? (dragHandler.centroid.pressPosition.y - dragHandler.centroid.position.y) : 0)
+
+                        partialActivationFactor: container.overviewVal + container.gridVal * effect.organizedGrid
+                        // Parent switch needed for the option "organize windows in gridview"  to work correctly
+                        contentItemParent: container.gridVal > 0 ? mainBackground : container
 
                         // This is preferable over using gestureInProgress values since gridVal and
                         // overviewVal are animated even after the gesture ends, and since the partial
@@ -652,10 +661,7 @@ FocusScope {
                         // fluent animation.
                         gestureInProgress: !Number.isInteger(gridVal) || !Number.isInteger(overviewVal)
 
-                        partialActivationFactor: container.overviewVal + container.gridVal * effect.organizedGrid
-
                         targetScale: {
-                            if (!container.anyDesktopBar) return targetScale;
                             if (overviewVal != 1) return targetScale;
                             let coordinate = container.verticalDesktopBar ? 'x' : 'y'
                             if (!activeDragHandler.active) {

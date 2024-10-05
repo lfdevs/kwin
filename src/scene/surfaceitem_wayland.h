@@ -50,6 +50,7 @@ private Q_SLOTS:
     void handleColorDescriptionChanged();
     void handlePresentationModeHintChanged();
     void handleReleasePointChanged();
+    void handleAlphaMultiplierChanged();
 
 protected:
     std::unique_ptr<SurfacePixmap> createPixmap() override;
@@ -94,7 +95,6 @@ public:
     explicit SurfaceItemXwayland(X11Window *window, Item *parent = nullptr);
 
     QRegion opaque() const override;
-    QList<QRectF> shape() const override;
 
 private:
     X11Window *m_window;

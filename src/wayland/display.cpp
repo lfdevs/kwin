@@ -241,6 +241,7 @@ GraphicsBuffer *Display::bufferForResource(wl_resource *resource)
     } else if (auto buffer = ShmClientBuffer::get(resource)) {
         return buffer;
     } else {
+        Q_ASSERT_X(false, Q_FUNC_INFO, "Failed to find matching GraphicsBuffer for wl_resource");
         return nullptr;
     }
 }

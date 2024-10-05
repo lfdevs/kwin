@@ -16,10 +16,14 @@
 
 #include <QAbstractItemModel>
 #include <QList>
+#include <QListWidget>
 #include <QStyledItemDelegate>
+
 #include <functional>
 #include <memory>
 
+class QLabel;
+class QPushButton;
 class QTextEdit;
 
 namespace Ui
@@ -108,20 +112,6 @@ private:
     std::unique_ptr<DebugConsoleFilter> m_inputFilter;
 };
 
-class SurfaceTreeModel : public QAbstractItemModel
-{
-    Q_OBJECT
-public:
-    explicit SurfaceTreeModel(QObject *parent = nullptr);
-    ~SurfaceTreeModel() override;
-
-    int columnCount(const QModelIndex &parent) const override;
-    QVariant data(const QModelIndex &index, int role) const override;
-    QModelIndex index(int row, int column, const QModelIndex &parent) const override;
-    int rowCount(const QModelIndex &parent) const override;
-    QModelIndex parent(const QModelIndex &child) const override;
-};
-
 class DebugConsoleFilter : public InputEventSpy
 {
 public:
@@ -199,4 +189,25 @@ private:
     AbstractDataSource *m_source = nullptr;
     QList<QByteArray> m_data;
 };
-}
+
+class DebugConsoleEffectItem : public QWidget
+{
+    Q_OBJECT
+
+public:
+    explicit DebugConsoleEffectItem(const QString &name, bool loaded, QWidget *parent = nullptr);
+
+private:
+    QString m_name;
+    bool m_loaded = false;
+};
+
+class DebugConsoleEffectsTab : public QListWidget
+{
+    Q_OBJECT
+
+public:
+    explicit DebugConsoleEffectsTab(QWidget *parent = nullptr);
+};
+
+} // namespace KWin

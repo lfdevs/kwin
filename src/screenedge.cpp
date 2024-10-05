@@ -61,7 +61,7 @@ namespace KWin
 static const int DISTANCE_RESET = 30;
 
 // How large the touch target of the area recognizing touch gestures is
-static const int TOUCH_TARGET = 3;
+static const int TOUCH_TARGET = 8;
 
 // How far the user needs to swipe before triggering an action.
 static const int MINIMUM_DELTA = 44;
@@ -239,8 +239,6 @@ bool Edge::activatesForPointer() const
         return false;
     }
 
-    bool isMovingWindow = false;
-
     // Most actions do not handle drag and drop properly yet
     // but at least allow "show desktop" and "application launcher".
     if (waylandServer() && waylandServer()->seat()->isDragPointer()) {
@@ -255,17 +253,20 @@ bool Edge::activatesForPointer() const
         if (!c || c->isInteractiveResize()) {
             return false;
         }
-        isMovingWindow = true;
     }
 
     if (m_client) {
         return true;
     }
-    if (m_edges->isDesktopSwitching()) {
-        return true;
-    }
-    if (m_edges->isDesktopSwitchingMovingClients() && isMovingWindow) {
-        return true;
+    const bool isMovingWindow = Workspace::self()->moveResizeWindow() && !Workspace::self()->moveResizeWindow()->isInteractiveResize();
+    if (m_edges->isDesktopSwitching() || (m_edges->isDesktopSwitchingMovingClients() && isMovingWindow)) {
+        const bool canSwitch = (isLeft() && VirtualDesktopManager::self()->toLeft(nullptr, options->isRollOverDesktops()) != VirtualDesktopManager::self()->currentDesktop())
+            || (isRight() && VirtualDesktopManager::self()->toRight(nullptr, options->isRollOverDesktops()) != VirtualDesktopManager::self()->currentDesktop())
+            || (isBottom() && VirtualDesktopManager::self()->below(nullptr, options->isRollOverDesktops()) != VirtualDesktopManager::self()->currentDesktop())
+            || (isTop() && VirtualDesktopManager::self()->above(nullptr, options->isRollOverDesktops()) != VirtualDesktopManager::self()->currentDesktop());
+        if (canSwitch) {
+            return true;
+        }
     }
     if (!m_callBacks.isEmpty()) {
         return true;
@@ -726,6 +727,7 @@ void Edge::updateApproaching(const QPointF &point)
     }
 }
 
+#if KWIN_BUILD_X11
 quint32 Edge::window() const
 {
     return 0;
@@ -735,6 +737,7 @@ quint32 Edge::approachWindow() const
 {
     return 0;
 }
+#endif
 
 void Edge::setBorder(ElectricBorder border)
 {
@@ -1467,6 +1470,15 @@ bool ScreenEdges::isEntered(QMouseEvent *event)
             continue;
         }
         if (!edge->activatesForPointer()) {
+            if (edge->isApproaching()) {
+                edge->stopApproaching();
+            }
+            continue;
+        }
+        if (edge->client() && effects->activeFullScreenEffect()) {
+            if (edge->isApproaching()) {
+                edge->stopApproaching();
+            }
             continue;
         }
         if (edge->approachGeometry().contains(event->globalPos())) {
@@ -1489,7 +1501,7 @@ bool ScreenEdges::isEntered(QMouseEvent *event)
     }
     if (activatedForClient) {
         for (const auto &edge : m_edges) {
-            if (edge) {
+            if (edge->client()) {
                 edge->markAsTriggered(event->globalPos(), QDateTime::fromMSecsSinceEpoch(event->timestamp(), Qt::UTC));
             }
         }

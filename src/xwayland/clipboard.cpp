@@ -11,6 +11,7 @@
 #include "datasource.h"
 #include "selection_source.h"
 
+#include "wayland/display.h"
 #include "wayland/seat.h"
 #include "wayland_server.h"
 #include "workspace.h"
@@ -52,10 +53,6 @@ Clipboard::Clipboard(xcb_atom_t atom, QObject *parent)
 
 void Clipboard::wlSelectionChanged(AbstractDataSource *dsi)
 {
-    if (m_waitingForTargets) {
-        return;
-    }
-
     if (!ownsSelection(dsi)) {
         // Wayland native window provides new selection
         if (!m_checkConnection) {
@@ -75,10 +72,6 @@ bool Clipboard::ownsSelection(AbstractDataSource *dsi) const
 
 void Clipboard::checkWlSource()
 {
-    if (m_waitingForTargets) {
-        return;
-    }
-
     auto dsi = waylandServer()->seat()->selection();
     auto removeSource = [this] {
         if (wlSource()) {
@@ -127,7 +120,6 @@ void Clipboard::doHandleXfixesNotify(xcb_xfixes_selection_notify_event_t *event)
 
     if (X11Source *source = x11Source()) {
         source->getTargets();
-        m_waitingForTargets = true;
     } else {
         qCWarning(KWIN_XWL) << "Could not create a source from" << event << Qt::hex << (event ? event->owner : -1);
     }
@@ -140,7 +132,6 @@ void Clipboard::x11OfferLost()
 
 void Clipboard::x11OffersChanged(const QStringList &added, const QStringList &removed)
 {
-    m_waitingForTargets = false;
     X11Source *source = x11Source();
     if (!source) {
         qCWarning(KWIN_XWL) << "offers changed when not having an X11Source!?";
@@ -160,11 +151,11 @@ void Clipboard::x11OffersChanged(const QStringList &added, const QStringList &re
         connect(newSelection.get(), &XwlDataSource::dataRequested, source, &X11Source::startTransfer);
         // we keep the old selection around because setSelection needs it to be still alive
         std::swap(m_selectionSource, newSelection);
-        waylandServer()->seat()->setSelection(m_selectionSource.get());
+        waylandServer()->seat()->setSelection(m_selectionSource.get(), waylandServer()->display()->nextSerial());
     } else {
         AbstractDataSource *currentSelection = waylandServer()->seat()->selection();
         if (!ownsSelection(currentSelection)) {
-            waylandServer()->seat()->setSelection(nullptr);
+            waylandServer()->seat()->setSelection(nullptr, waylandServer()->display()->nextSerial());
             m_selectionSource.reset();
         }
     }

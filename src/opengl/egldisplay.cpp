@@ -7,6 +7,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "egldisplay.h"
+#include "core/drmdevice.h"
 #include "core/graphicsbuffer.h"
 #include "opengl/eglutils_p.h"
 #include "opengl/glutils.h"
@@ -73,10 +74,23 @@ std::unique_ptr<EglDisplay> EglDisplay::create(::EGLDisplay display, bool owning
     return std::make_unique<EglDisplay>(display, extensions, owning);
 }
 
+static std::optional<dev_t> devIdForFileName(const QString &path)
+{
+    auto device = DrmDevice::open(path);
+    if (device) {
+        return device->deviceId();
+    } else {
+        qCWarning(KWIN_OPENGL, "couldn't find dev node for drm device %s", qPrintable(path));
+        return std::nullopt;
+    }
+}
+
 EglDisplay::EglDisplay(::EGLDisplay display, const QList<QByteArray> &extensions, bool owning)
     : m_handle(display)
     , m_extensions(extensions)
     , m_owning(owning)
+    , m_renderNode(determineRenderNode())
+    , m_renderDevNode(devIdForFileName(m_renderNode))
     , m_supportsBufferAge(extensions.contains(QByteArrayLiteral("EGL_EXT_buffer_age")) && qgetenv("KWIN_USE_BUFFER_AGE") != "0")
     , m_supportsNativeFence(extensions.contains(QByteArrayLiteral("EGL_ANDROID_native_fence_sync")))
 {
@@ -135,27 +149,7 @@ static bool checkExtension(const QByteArrayView extensions, const QByteArrayView
 
 QString EglDisplay::renderNode() const
 {
-    const char *clientExtensions = eglQueryString(EGL_NO_DISPLAY, EGL_EXTENSIONS);
-    if (checkExtension(clientExtensions, "EGL_EXT_device_query")) {
-        EGLAttrib eglDeviceAttrib;
-        if (eglQueryDisplayAttribEXT(m_handle, EGL_DEVICE_EXT, &eglDeviceAttrib)) {
-            EGLDeviceEXT eglDevice = reinterpret_cast<EGLDeviceEXT>(eglDeviceAttrib);
-
-            const char *deviceExtensions = eglQueryDeviceStringEXT(eglDevice, EGL_EXTENSIONS);
-            if (checkExtension(deviceExtensions, "EGL_EXT_device_drm_render_node")) {
-                if (const char *node = eglQueryDeviceStringEXT(eglDevice, EGL_DRM_RENDER_NODE_FILE_EXT)) {
-                    return QString::fromLocal8Bit(node);
-                }
-            }
-            if (checkExtension(deviceExtensions, "EGL_EXT_device_drm")) {
-                // Fallback to display device.
-                if (const char *node = eglQueryDeviceStringEXT(eglDevice, EGL_DRM_DEVICE_FILE_EXT)) {
-                    return QString::fromLocal8Bit(node);
-                }
-            }
-        }
-    }
-    return QString();
+    return m_renderNode;
 }
 
 bool EglDisplay::supportsBufferAge() const
@@ -326,6 +320,36 @@ QHash<uint32_t, EglDisplay::DrmFormatInfo> EglDisplay::queryImportFormats() cons
         ret.insert(format, drmFormat);
     }
     return ret;
+}
+
+QString EglDisplay::determineRenderNode() const
+{
+    const char *clientExtensions = eglQueryString(EGL_NO_DISPLAY, EGL_EXTENSIONS);
+    if (checkExtension(clientExtensions, "EGL_EXT_device_query")) {
+        EGLAttrib eglDeviceAttrib;
+        if (eglQueryDisplayAttribEXT(m_handle, EGL_DEVICE_EXT, &eglDeviceAttrib)) {
+            EGLDeviceEXT eglDevice = reinterpret_cast<EGLDeviceEXT>(eglDeviceAttrib);
+
+            const char *deviceExtensions = eglQueryDeviceStringEXT(eglDevice, EGL_EXTENSIONS);
+            if (checkExtension(deviceExtensions, "EGL_EXT_device_drm_render_node")) {
+                if (const char *node = eglQueryDeviceStringEXT(eglDevice, EGL_DRM_RENDER_NODE_FILE_EXT)) {
+                    return QString::fromLocal8Bit(node);
+                }
+            }
+            if (checkExtension(deviceExtensions, "EGL_EXT_device_drm")) {
+                // Fallback to display device.
+                if (const char *node = eglQueryDeviceStringEXT(eglDevice, EGL_DRM_DEVICE_FILE_EXT)) {
+                    return QString::fromLocal8Bit(node);
+                }
+            }
+        }
+    }
+    return QString();
+}
+
+std::optional<dev_t> EglDisplay::renderDevNode() const
+{
+    return m_renderDevNode;
 }
 
 EGLImageKHR EglDisplay::createImage(EGLContext ctx, EGLenum target, EGLClientBuffer buffer, const EGLint *attrib_list) const

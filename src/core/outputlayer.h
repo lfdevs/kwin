@@ -42,10 +42,10 @@ public:
     void setHotspot(const QPointF &hotspot);
 
     /**
-     * For most drm drivers, the buffer used for the cursor has to have a fixed size.
-     * If such a fixed size is required by the backend, this function should return it
+     * For some layers it can be beneficial to use specific sizes only.
+     * This returns those specific sizes, if present
      */
-    virtual std::optional<QSize> fixedSize() const;
+    virtual QList<QSize> recommendedSizes() const;
 
     QRegion repaints() const;
     void resetRepaints();
@@ -62,10 +62,11 @@ public:
     bool endFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame);
 
     /**
-     * Tries to import the newest buffer of the surface for direct scanout
-     * Returns @c true if scanout succeeds, @c false if rendering is necessary
+     * Tries to import the newest buffer of the surface for direct scanout and does some early checks
+     * for whether or not direct scanout *could* be successful
+     * A presentation request on the output must however be used afterwards to find out if it's actually successful!
      */
-    bool attemptScanout(SurfaceItem *item, const std::shared_ptr<OutputFrame> &frame);
+    bool importScanoutBuffer(SurfaceItem *item, const std::shared_ptr<OutputFrame> &frame);
 
     /**
      * Notify that there's no scanout candidate this frame
@@ -95,7 +96,7 @@ public:
     OutputTransform bufferTransform() const;
 
 protected:
-    virtual bool doAttemptScanout(GraphicsBuffer *buffer, const ColorDescription &color, const std::shared_ptr<OutputFrame> &frame);
+    virtual bool doImportScanoutBuffer(GraphicsBuffer *buffer, const ColorDescription &color, RenderingIntent intent, const std::shared_ptr<OutputFrame> &frame);
     virtual std::optional<OutputLayerBeginFrameInfo> doBeginFrame() = 0;
     virtual bool doEndFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame) = 0;
 

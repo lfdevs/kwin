@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-13 00:39+0000\n"
-"PO-Revision-Date: 2024-05-28 22:57+0200\n"
+"POT-Creation-Date: 2024-09-27 02:37+0000\n"
+"PO-Revision-Date: 2024-09-26 14:33+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.02.2\n"
+"X-Generator: Lokalize 24.08.0\n"
 
 #: kcmrules.cpp:228
 #, kde-format
@@ -39,22 +39,22 @@ msgstr "Nem fontos"
 
 #: optionsmodel.cpp:199
 #, kde-format
-msgid "Exact Match"
+msgid "Exact match"
 msgstr "Pontos illesztés"
 
 #: optionsmodel.cpp:200
 #, kde-format
-msgid "Substring Match"
+msgid "Substring match"
 msgstr "Részszöveg-illesztés"
 
 #: optionsmodel.cpp:201
 #, kde-format
-msgid "Regular Expression"
+msgid "Regular expression"
 msgstr "Reguláris kifejezés"
 
 #: optionsmodel.cpp:205
 #, kde-format
-msgid "Apply Initially"
+msgid "Apply initially"
 msgstr "Belső alkalmazás"
 
 #: optionsmodel.cpp:206
@@ -70,7 +70,7 @@ msgstr ""
 
 #: optionsmodel.cpp:209
 #, kde-format
-msgid "Apply Now"
+msgid "Apply now"
 msgstr "Alkalmazás most"
 
 #: optionsmodel.cpp:210
@@ -100,7 +100,7 @@ msgstr ""
 
 #: optionsmodel.cpp:217
 #, kde-format
-msgid "Do Not Affect"
+msgid "Do not affect"
 msgstr "Nem befolyásolja"
 
 #: optionsmodel.cpp:218
@@ -127,7 +127,7 @@ msgstr ""
 
 #: optionsmodel.cpp:224
 #, kde-format
-msgid "Force Temporarily"
+msgid "Force temporarily"
 msgstr "Kényszerítés ideiglenesen"
 
 #: optionsmodel.cpp:225
@@ -183,126 +183,126 @@ msgstr ""
 "A rendkívül alacsony átlátszatlansági értékek esetén az olvashatóság "
 "romolhat. 0%-nál az ablak láthatatlanná válik."
 
-#: rulesmodel.cpp:388
+#: rulesmodel.cpp:384
 #, kde-format
 msgid "Description"
 msgstr "Leírás"
 
-#: rulesmodel.cpp:388 rulesmodel.cpp:396 rulesmodel.cpp:404 rulesmodel.cpp:411
-#: rulesmodel.cpp:417 rulesmodel.cpp:425 rulesmodel.cpp:430 rulesmodel.cpp:436
+#: rulesmodel.cpp:384 rulesmodel.cpp:392 rulesmodel.cpp:400 rulesmodel.cpp:407
+#: rulesmodel.cpp:413 rulesmodel.cpp:421 rulesmodel.cpp:426 rulesmodel.cpp:432
 #, kde-format
 msgid "Window matching"
 msgstr "Ablakilleszkedés"
 
-#: rulesmodel.cpp:396
+#: rulesmodel.cpp:392
 #, kde-format
 msgid "Window class (application)"
 msgstr "Ablakosztály (alkalmazás)"
 
-#: rulesmodel.cpp:404
+#: rulesmodel.cpp:400
 #, kde-format
 msgid "Match whole window class"
 msgstr "Teljes ablakosztály illesztése"
 
-#: rulesmodel.cpp:411
+#: rulesmodel.cpp:407
 #, kde-format
 msgid "Whole window class"
 msgstr "Teljes ablakosztály illesztése"
 
-#: rulesmodel.cpp:417
+#: rulesmodel.cpp:413
 #, kde-format
 msgid "Window types"
 msgstr "Ablaktípusok"
 
-#: rulesmodel.cpp:425
+#: rulesmodel.cpp:421
 #, kde-format
 msgid "Window role"
 msgstr "Ablakszerep"
 
-#: rulesmodel.cpp:430
+#: rulesmodel.cpp:426
 #, kde-format
 msgid "Window title"
 msgstr "Ablakcím"
 
-#: rulesmodel.cpp:436
+#: rulesmodel.cpp:432
 #, kde-format
 msgid "Machine (hostname)"
 msgstr "Számítógép (gépnév)"
 
-#: rulesmodel.cpp:442
+#: rulesmodel.cpp:438
 #, kde-format
 msgid "Position"
 msgstr "Elhelyezkedés"
 
-#: rulesmodel.cpp:442 rulesmodel.cpp:448 rulesmodel.cpp:454 rulesmodel.cpp:459
-#: rulesmodel.cpp:467 rulesmodel.cpp:473 rulesmodel.cpp:492 rulesmodel.cpp:508
-#: rulesmodel.cpp:513 rulesmodel.cpp:518 rulesmodel.cpp:523 rulesmodel.cpp:528
-#: rulesmodel.cpp:537 rulesmodel.cpp:552 rulesmodel.cpp:557 rulesmodel.cpp:562
+#: rulesmodel.cpp:438 rulesmodel.cpp:444 rulesmodel.cpp:450 rulesmodel.cpp:455
+#: rulesmodel.cpp:463 rulesmodel.cpp:469 rulesmodel.cpp:488 rulesmodel.cpp:504
+#: rulesmodel.cpp:509 rulesmodel.cpp:514 rulesmodel.cpp:519 rulesmodel.cpp:524
+#: rulesmodel.cpp:531 rulesmodel.cpp:545 rulesmodel.cpp:550 rulesmodel.cpp:555
 #, kde-format
 msgid "Size & Position"
 msgstr "Méret és elhelyezkedés"
 
-#: rulesmodel.cpp:448
+#: rulesmodel.cpp:444
 #, kde-format
 msgid "Size"
 msgstr "Méret"
 
-#: rulesmodel.cpp:454
+#: rulesmodel.cpp:450
 #, kde-format
 msgid "Maximized horizontally"
 msgstr "Maximalizálva vízszintesen"
 
-#: rulesmodel.cpp:459
+#: rulesmodel.cpp:455
 #, kde-format
 msgid "Maximized vertically"
 msgstr "Maximalizálva függőlegesen"
 
-#: rulesmodel.cpp:467
+#: rulesmodel.cpp:463
 #, kde-format
-msgid "Virtual Desktop"
+msgid "Virtual desktop"
 msgstr "Virtuális asztal"
 
-#: rulesmodel.cpp:473
+#: rulesmodel.cpp:469
 #, kde-format
-msgid "Virtual Desktops"
+msgid "Virtual desktops"
 msgstr "Virtuális asztalok"
 
-#: rulesmodel.cpp:492
+#: rulesmodel.cpp:488
 #, kde-format
 msgid "Activities"
 msgstr "Aktivitások"
 
-#: rulesmodel.cpp:508
+#: rulesmodel.cpp:504
 #, kde-format
 msgid "Screen"
 msgstr "Képernyő"
 
-#: rulesmodel.cpp:513 rulesmodel.cpp:927
+#: rulesmodel.cpp:509 rulesmodel.cpp:925
 #, kde-format
 msgid "Fullscreen"
 msgstr "Teljes képernyő"
 
-#: rulesmodel.cpp:518
+#: rulesmodel.cpp:514
 #, kde-format
 msgid "Minimized"
 msgstr "Minimalizálva"
 
-#: rulesmodel.cpp:523
+#: rulesmodel.cpp:519
 #, kde-format
 msgid "Shaded"
 msgstr "Felgördítve"
 
-#: rulesmodel.cpp:528
+#: rulesmodel.cpp:524
 #, kde-format
 msgid "Initial placement"
 msgstr "Kezdeti elhelyezés"
 
-#: rulesmodel.cpp:537
+#: rulesmodel.cpp:531
 #, kde-format
 msgid "Ignore requested geometry"
 msgstr "A kért méret és elhelyezkedés figyelmen kívül hagyása"
 
-#: rulesmodel.cpp:540
+#: rulesmodel.cpp:534
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -321,22 +321,22 @@ msgstr ""
 "interface> állapotokra nem.<nl/><nl/>Ne feledje, hogy a pozíció egy másik "
 "<interface>Képernyőre</interface> leképezésére is használható."
 
-#: rulesmodel.cpp:552
+#: rulesmodel.cpp:545
 #, kde-format
 msgid "Minimum Size"
 msgstr "Minimális méret"
 
-#: rulesmodel.cpp:557
+#: rulesmodel.cpp:550
 #, kde-format
 msgid "Maximum Size"
 msgstr "Maximális méret"
 
-#: rulesmodel.cpp:562
+#: rulesmodel.cpp:555
 #, kde-format
 msgid "Obey geometry restrictions"
 msgstr "Méret- és elhelyezkedéskorlátozások betartása"
 
-#: rulesmodel.cpp:564
+#: rulesmodel.cpp:557
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -354,39 +354,39 @@ msgstr ""
 "lehet olyan ablakok esetében, amelyek maximalizálva nem férnek el a teljes "
 "képernyőfelületen."
 
-#: rulesmodel.cpp:575
+#: rulesmodel.cpp:568
 #, kde-format
 msgid "Keep above other windows"
 msgstr "Maradjon más ablakok fölött"
 
-#: rulesmodel.cpp:575 rulesmodel.cpp:580 rulesmodel.cpp:585 rulesmodel.cpp:591
-#: rulesmodel.cpp:597 rulesmodel.cpp:603
+#: rulesmodel.cpp:568 rulesmodel.cpp:573 rulesmodel.cpp:578 rulesmodel.cpp:584
+#: rulesmodel.cpp:590 rulesmodel.cpp:596
 #, kde-format
 msgid "Arrangement & Access"
 msgstr "Igazítás és elérés"
 
-#: rulesmodel.cpp:580
+#: rulesmodel.cpp:573
 #, kde-format
 msgid "Keep below other windows"
 msgstr "Maradjon más ablakok alatt"
 
-#: rulesmodel.cpp:585
+#: rulesmodel.cpp:578
 #, kde-format
 msgid "Skip taskbar"
 msgstr "Kihagyás a feladatlistából"
 
-#: rulesmodel.cpp:587
+#: rulesmodel.cpp:580
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Controls whether or not the window appears in the Task Manager."
 msgstr "Szabályozza, hogy az ablak megjelenjen-e a Feladatkezelőben."
 
-#: rulesmodel.cpp:591
+#: rulesmodel.cpp:584
 #, kde-format
 msgid "Skip pager"
 msgstr "Kihagyás a lapozóból"
 
-#: rulesmodel.cpp:593
+#: rulesmodel.cpp:586
 #, kde-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -394,12 +394,12 @@ msgid ""
 msgstr ""
 "Szabályozza, hogy az ablak megjelenjen-e a Virtuális asztal kezelőjében."
 
-#: rulesmodel.cpp:597
+#: rulesmodel.cpp:590
 #, kde-format
 msgid "Skip switcher"
 msgstr "Kihagyás az ablakváltóból"
 
-#: rulesmodel.cpp:599
+#: rulesmodel.cpp:592
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -409,45 +409,45 @@ msgstr ""
 "Szabályozza, hogy az ablak megjelenjen-e a <shortcut>Alt+Tab</shortcut> "
 "ablaklistában."
 
-#: rulesmodel.cpp:603
+#: rulesmodel.cpp:596
 #, kde-format
 msgid "Shortcut"
 msgstr "Gyorsbillentyű"
 
-#: rulesmodel.cpp:609
+#: rulesmodel.cpp:602
 #, kde-format
 msgid "No titlebar and frame"
 msgstr "Nincs címsor és keret"
 
-#: rulesmodel.cpp:609 rulesmodel.cpp:614 rulesmodel.cpp:620 rulesmodel.cpp:625
-#: rulesmodel.cpp:631 rulesmodel.cpp:658 rulesmodel.cpp:686 rulesmodel.cpp:692
-#: rulesmodel.cpp:704 rulesmodel.cpp:709 rulesmodel.cpp:714 rulesmodel.cpp:719
-#: rulesmodel.cpp:725
+#: rulesmodel.cpp:602 rulesmodel.cpp:607 rulesmodel.cpp:613 rulesmodel.cpp:618
+#: rulesmodel.cpp:624 rulesmodel.cpp:651 rulesmodel.cpp:679 rulesmodel.cpp:685
+#: rulesmodel.cpp:697 rulesmodel.cpp:702 rulesmodel.cpp:707 rulesmodel.cpp:712
+#: rulesmodel.cpp:718 rulesmodel.cpp:723
 #, kde-format
 msgid "Appearance & Fixes"
 msgstr "Megjelenés és javítás"
 
-#: rulesmodel.cpp:614
+#: rulesmodel.cpp:607
 #, kde-format
 msgid "Titlebar color scheme"
 msgstr "Címsor színséma"
 
-#: rulesmodel.cpp:620
+#: rulesmodel.cpp:613
 #, kde-format
 msgid "Active opacity"
 msgstr "Aktív átlátszatlanság"
 
-#: rulesmodel.cpp:625
+#: rulesmodel.cpp:618
 #, kde-format
 msgid "Inactive opacity"
 msgstr "Inaktív átlátszatlanság"
 
-#: rulesmodel.cpp:631
+#: rulesmodel.cpp:624
 #, kde-format
 msgid "Focus stealing prevention"
 msgstr "Fókuszelvétel megakadályozása"
 
-#: rulesmodel.cpp:633
+#: rulesmodel.cpp:626
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -487,12 +487,12 @@ msgstr ""
 "strong='true'>Extrém:</emphasis> Az ablak soha nem emelkedik fel, és soha "
 "nem kap fókuszt.</item></list>"
 
-#: rulesmodel.cpp:658
+#: rulesmodel.cpp:651
 #, kde-format
 msgid "Focus protection"
 msgstr "Fókuszvédelem"
 
-#: rulesmodel.cpp:660
+#: rulesmodel.cpp:653
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -534,23 +534,23 @@ msgstr ""
 "item><item><emphasis strong='true'>Extrém:</emphasis> Az újonnan megnyitott "
 "ablak soha nem emelkedik fel, és soha nem kap fókuszt.</item></list>"
 
-#: rulesmodel.cpp:686
+#: rulesmodel.cpp:679
 #, kde-format
 msgid "Accept focus"
 msgstr "Fókusz elfogadása"
 
-#: rulesmodel.cpp:688
+#: rulesmodel.cpp:681
 #, kde-format
 msgid "Controls whether or not the window becomes focused when clicked."
 msgstr ""
 "Szabályozza, hogy az ablak fókuszált legyen-e vagy sem, amikor rákattintanak."
 
-#: rulesmodel.cpp:692
+#: rulesmodel.cpp:685
 #, kde-format
 msgid "Ignore global shortcuts"
 msgstr "Globális gyorsbillentyűk mellőzése"
 
-#: rulesmodel.cpp:694
+#: rulesmodel.cpp:687
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -569,37 +569,42 @@ msgstr ""
 "más globális gyorsbillentyűket, például az <shortcut>Alt+Space</shortcut> "
 "billentyűparancsot használni a a KRunner aktiválásához."
 
-#: rulesmodel.cpp:704
+#: rulesmodel.cpp:697
 #, kde-format
 msgid "Closeable"
 msgstr "Bezárható"
 
-#: rulesmodel.cpp:709
+#: rulesmodel.cpp:702
 #, kde-format
 msgid "Desktop file name"
 msgstr "Asztali fájl neve"
 
-#: rulesmodel.cpp:714
+#: rulesmodel.cpp:707
 #, kde-format
 msgid "Block compositing"
 msgstr "Kompozitálás blokkolása"
 
-#: rulesmodel.cpp:719
+#: rulesmodel.cpp:712
 #, kde-format
 msgid "Layer"
 msgstr "Réteg"
 
-#: rulesmodel.cpp:725
+#: rulesmodel.cpp:718
 #, kde-format
-msgid "Adaptive Sync"
+msgid "Adaptive sync"
 msgstr "Adaptív szinkron"
 
-#: rulesmodel.cpp:777
+#: rulesmodel.cpp:723
+#, kde-format
+msgid "Allow tearing"
+msgstr "Képtörés engedélyezése"
+
+#: rulesmodel.cpp:775
 #, kde-format
 msgid "Window class not available"
 msgstr "Az ablakosztály nem érhető el"
 
-#: rulesmodel.cpp:778
+#: rulesmodel.cpp:776
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -614,195 +619,190 @@ msgstr ""
 "ablak címével.<nl/><nl/>Kérjük, fontolja meg, hogy jelentse ezt a hibát az "
 "alkalmazás fejlesztőinek."
 
+#: rulesmodel.cpp:810
+#, kde-format
+msgid "All window types"
+msgstr "Minden ablaktípus"
+
+#: rulesmodel.cpp:811
+#, kde-format
+msgid "Normal window"
+msgstr "Normál ablak"
+
 #: rulesmodel.cpp:812
 #, kde-format
-msgid "All Window Types"
-msgstr "Minden ablaktípus"
+msgid "Dialog window"
+msgstr "Párbeszédablak"
 
 #: rulesmodel.cpp:813
 #, kde-format
-msgid "Normal Window"
-msgstr "Normál ablak"
-
-#: rulesmodel.cpp:814
-#, kde-format
-msgid "Dialog Window"
-msgstr "Párbeszédablak"
-
-#: rulesmodel.cpp:815
-#, kde-format
-msgid "Utility Window"
+msgid "Utility window"
 msgstr "Eszközablak"
 
-#: rulesmodel.cpp:816
+#: rulesmodel.cpp:814
 #, kde-format
 msgid "Dock (panel)"
 msgstr "Dokkolás (a panelbe)"
 
-#: rulesmodel.cpp:817
+#: rulesmodel.cpp:815
 #, kde-format
 msgid "Toolbar"
 msgstr "Eszköztár"
 
-#: rulesmodel.cpp:818
+#: rulesmodel.cpp:816
 #, kde-format
-msgid "Torn-Off Menu"
+msgid "Torn-off menu"
 msgstr "Leválasztható menü"
 
-#: rulesmodel.cpp:819
+#: rulesmodel.cpp:817
 #, kde-format
-msgid "Splash Screen"
+msgid "Splash screen"
 msgstr "Nyitóképernyő"
 
-#: rulesmodel.cpp:820 rulesmodel.cpp:922
+#: rulesmodel.cpp:818 rulesmodel.cpp:920
 #, kde-format
 msgid "Desktop"
 msgstr "Asztal"
 
 #. i18n("Unmanaged Window")},  deprecated
-#: rulesmodel.cpp:822
+#: rulesmodel.cpp:820
 #, kde-format
-msgid "Standalone Menubar"
+msgid "Standalone menubar"
 msgstr "Önálló menüsor"
 
-#: rulesmodel.cpp:823
+#: rulesmodel.cpp:821 rulesmodel.cpp:928
 #, kde-format
-msgid "On Screen Display"
+msgid "On-screen display"
 msgstr "Képernyőkijelzés"
 
-#: rulesmodel.cpp:833
+#: rulesmodel.cpp:831
 #, kde-format
-msgid "All Desktops"
+msgid "All desktops"
 msgstr "Összes asztalra"
 
-#: rulesmodel.cpp:835
+#: rulesmodel.cpp:833
 #, kde-format
 msgctxt "@info:tooltip in the virtual desktop list"
 msgid "Make the window available on all desktops"
 msgstr "Az ablak elérhetővé tétele az összes asztalon"
 
-#: rulesmodel.cpp:854
+#: rulesmodel.cpp:852
 #, kde-format
-msgid "All Activities"
+msgid "All activities"
 msgstr "Összes aktivitásra"
 
-#: rulesmodel.cpp:856
+#: rulesmodel.cpp:854
 #, kde-format
 msgctxt "@info:tooltip in the activity list"
 msgid "Make the window available on all activities"
 msgstr "Az ablak elérhetővé tétele az összes aktivitáson"
 
-#: rulesmodel.cpp:877
+#: rulesmodel.cpp:875
 #, kde-format
 msgid "Default"
 msgstr "Alapértelmezés"
 
-#: rulesmodel.cpp:878
+#: rulesmodel.cpp:876
 #, kde-format
-msgid "No Placement"
+msgid "No placement"
 msgstr "Nincs elhelyezés"
 
-#: rulesmodel.cpp:879
+#: rulesmodel.cpp:877
 #, kde-format
-msgid "Minimal Overlapping"
+msgid "Minimal overlapping"
 msgstr "Minimális átfedés"
 
-#: rulesmodel.cpp:880
+#: rulesmodel.cpp:878
 #, kde-format
 msgid "Maximized"
 msgstr "Maximalizált"
 
-#: rulesmodel.cpp:881
+#: rulesmodel.cpp:879
 #, kde-format
 msgid "Centered"
 msgstr "Középre igazítva"
 
-#: rulesmodel.cpp:882
+#: rulesmodel.cpp:880
 #, kde-format
 msgid "Random"
 msgstr "Véletlenszerűen"
 
-#: rulesmodel.cpp:883
+#: rulesmodel.cpp:881
 #, kde-format
-msgid "In Top-Left Corner"
+msgid "In top-left corner"
 msgstr "Bal felső sarokban"
 
-#: rulesmodel.cpp:884
+#: rulesmodel.cpp:882
 #, kde-format
-msgid "Under Mouse"
+msgid "Under mouse"
 msgstr "Az egér alatt"
 
-#: rulesmodel.cpp:885
+#: rulesmodel.cpp:883
 #, kde-format
-msgid "On Main Window"
+msgid "On main window"
 msgstr "A főablakra"
 
-#: rulesmodel.cpp:892
+#: rulesmodel.cpp:890
 #, kde-format
 msgid "None"
 msgstr "Nincs"
 
-#: rulesmodel.cpp:893
+#: rulesmodel.cpp:891
 #, kde-format
 msgid "Low"
 msgstr "Alacsony"
 
-#: rulesmodel.cpp:894 rulesmodel.cpp:924
+#: rulesmodel.cpp:892 rulesmodel.cpp:922
 #, kde-format
 msgid "Normal"
 msgstr "Normál"
 
-#: rulesmodel.cpp:895
+#: rulesmodel.cpp:893
 #, kde-format
 msgid "High"
 msgstr "Magas"
 
-#: rulesmodel.cpp:896
+#: rulesmodel.cpp:894
 #, kde-format
 msgid "Extreme"
 msgstr "Rendkívüli"
 
-#: rulesmodel.cpp:923
+#: rulesmodel.cpp:921
 #, kde-format
 msgid "Below"
 msgstr "Alá"
 
-#: rulesmodel.cpp:925
+#: rulesmodel.cpp:923
 #, kde-format
 msgid "Above"
 msgstr "Fölé"
 
-#: rulesmodel.cpp:926
+#: rulesmodel.cpp:924
 #, kde-format
 msgid "Notification"
 msgstr "Értesítés"
 
-#: rulesmodel.cpp:928
+#: rulesmodel.cpp:926
 #, kde-format
 msgid "Popup"
 msgstr "Felugró"
 
-#: rulesmodel.cpp:929
+#: rulesmodel.cpp:927
 #, kde-format
-msgid "Critical Notification"
+msgid "Critical notification"
 msgstr "Kritikus értesítés"
 
-#: rulesmodel.cpp:930
-#, kde-format
-msgid "OSD"
-msgstr "OSD"
-
-#: rulesmodel.cpp:931
+#: rulesmodel.cpp:929
 #, kde-format
 msgid "Overlay"
 msgstr "Átfedés"
 
-#: rulesmodel.cpp:956
+#: rulesmodel.cpp:954
 #, kde-format
 msgid "Unmanaged window"
 msgstr "Nem kezelt ablak"
 
-#: rulesmodel.cpp:957
+#: rulesmodel.cpp:955
 #, kde-format
 msgid "Could not detect window properties. The window is not managed by KWin."
 msgstr ""
@@ -819,32 +819,32 @@ msgstr "Fájl kiválasztása"
 msgid "KWin Rules (*.kwinrule)"
 msgstr "KWin szabályok (*.kwinrule)"
 
-#: ui/main.qml:29
+#: ui/main.qml:28
 #, kde-format
 msgid "Add New…"
 msgstr "Új hozzáadása…"
 
-#: ui/main.qml:35
+#: ui/main.qml:34
 #, kde-format
 msgid "Import…"
 msgstr "Importálás…"
 
-#: ui/main.qml:40
+#: ui/main.qml:39
 #, kde-format
 msgid "Cancel Export"
 msgstr "Exportálás megszakítása"
 
-#: ui/main.qml:40
+#: ui/main.qml:39
 #, kde-format
 msgid "Export…"
 msgstr "Exportálás…"
 
-#: ui/main.qml:88
+#: ui/main.qml:87
 #, kde-format
 msgid "No rules for specific windows are currently set"
 msgstr "Nincsenek megadva szabályok adott ablakokhoz"
 
-#: ui/main.qml:89
+#: ui/main.qml:88
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Click <interface>Add New…</interface> to add some"
@@ -852,47 +852,47 @@ msgstr ""
 "Kattintson az <interface>Új hozzáadása…</interface> gombra szabályok "
 "hozzáadásához"
 
-#: ui/main.qml:97
+#: ui/main.qml:96
 #, kde-format
 msgid "Select the rules to export"
 msgstr "Exportálandó szabályok kiválasztása"
 
-#: ui/main.qml:101
+#: ui/main.qml:100
 #, kde-format
 msgid "Unselect All"
 msgstr "Kijelölés megszüntetése"
 
-#: ui/main.qml:101
+#: ui/main.qml:100
 #, kde-format
 msgid "Select All"
 msgstr "Összes kijelölése"
 
-#: ui/main.qml:115
+#: ui/main.qml:114
 #, kde-format
 msgid "Save Rules"
 msgstr "Szabályok mentése"
 
-#: ui/main.qml:196
+#: ui/main.qml:195
 #, kde-format
 msgid "Edit"
 msgstr "Szerkesztés"
 
-#: ui/main.qml:202
+#: ui/main.qml:201
 #, kde-format
 msgid "Duplicate"
 msgstr "Duplikálás"
 
-#: ui/main.qml:208
+#: ui/main.qml:207
 #, kde-format
 msgid "Delete"
 msgstr "Törlés"
 
-#: ui/main.qml:240
+#: ui/main.qml:239
 #, kde-format
 msgid "Import Rules"
 msgstr "Szabályok importálása"
 
-#: ui/main.qml:252
+#: ui/main.qml:251
 #, kde-format
 msgid "Export Rules"
 msgstr "Szabályok exportálása"
@@ -931,58 +931,65 @@ msgstr ""
 
 #: ui/RulesEditor.qml:88
 #, kde-format
-msgid "Close"
-msgstr "Bezárás"
-
-#: ui/RulesEditor.qml:88
-#, kde-format
 msgid "Add Property..."
 msgstr "Tulajdonság hozzáadása…"
 
-#: ui/RulesEditor.qml:101
+#: ui/RulesEditor.qml:99
 #, kde-format
 msgid "Detect Window Properties"
 msgstr "Ablaktulajdonságok felismerése"
 
-#: ui/RulesEditor.qml:117 ui/RulesEditor.qml:124
+#: ui/RulesEditor.qml:115 ui/RulesEditor.qml:122
 #, kde-format
 msgid "Instantly"
 msgstr "Azonnal"
 
-#: ui/RulesEditor.qml:118 ui/RulesEditor.qml:129
+#: ui/RulesEditor.qml:116 ui/RulesEditor.qml:127
 #, kde-format
 msgid "After %1 second"
 msgid_plural "After %1 seconds"
 msgstr[0] "%1 másodperc után"
 msgstr[1] "%1 másodperc után"
 
-#: ui/RulesEditor.qml:176
+#: ui/RulesEditor.qml:174
 #, kde-format
 msgid "Add property to the rule"
 msgstr "Tulajdonság hozzáadása a szabályhoz"
 
-#: ui/RulesEditor.qml:279 ui/ValueEditor.qml:54
+#: ui/RulesEditor.qml:267
+#, kde-format
+msgctxt "@info:placeholder"
+msgid "No properties left to add"
+msgstr "Nincsenek hozzáadandó tulajdonságok"
+
+#: ui/RulesEditor.qml:269
+#, kde-format
+msgctxt "@info:placeholder %1 is a filter text introduced by the user"
+msgid "No properties match \"%1\""
+msgstr "Nincs illeszkedő tulajdonság erre: „%1”"
+
+#: ui/RulesEditor.qml:290 ui/ValueEditor.qml:54
 #, kde-format
 msgid "Yes"
 msgstr "Igen"
 
-#: ui/RulesEditor.qml:279 ui/ValueEditor.qml:60
+#: ui/RulesEditor.qml:290 ui/ValueEditor.qml:60
 #, kde-format
 msgid "No"
 msgstr "Nem"
 
-#: ui/RulesEditor.qml:281 ui/ValueEditor.qml:168 ui/ValueEditor.qml:175
+#: ui/RulesEditor.qml:292 ui/ValueEditor.qml:168 ui/ValueEditor.qml:175
 #, kde-format
 msgid "%1 %"
 msgstr "%1 %"
 
-#: ui/RulesEditor.qml:283
+#: ui/RulesEditor.qml:294
 #, kde-format
 msgctxt "Coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr "(%1, %2)"
 
-#: ui/RulesEditor.qml:285
+#: ui/RulesEditor.qml:296
 #, kde-format
 msgctxt "Size (width, height)"
 msgid "(%1, %2)"
@@ -993,6 +1000,12 @@ msgstr "(%1, %2)"
 msgctxt "(x, y) coordinates separator in size/position"
 msgid "x"
 msgstr "x"
+
+#~ msgid "OSD"
+#~ msgstr "OSD"
+
+#~ msgid "Close"
+#~ msgstr "Bezárás"
 
 #~ msgid "Set window type"
 #~ msgstr "Ablaktípus beállítása"

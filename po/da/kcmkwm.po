@@ -6,37 +6,38 @@
 # Erik Kjær Pedersen <erik@binghamton.edu>, 2002, 2003, 2004, 2005, 2006.
 # Erik K. Pedersen <erik@binghamton.edu>, 2005.
 # Martin Schlander <mschlander@opensuse.org>, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2020.
+# SPDX-FileCopyrightText: 2024 rasmus rosendahl-kaa <rasmus@rosendahl-kaa.name>
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-06 00:39+0000\n"
-"PO-Revision-Date: 2020-02-08 15:20+0100\n"
-"Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
+"POT-Creation-Date: 2024-09-24 02:49+0000\n"
+"PO-Revision-Date: 2024-07-25 12:53+0200\n"
+"Last-Translator: rasmus rosendahl-kaa <rasmus@rosendahl-kaa.name>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "00\n"
-"X-Generator: Lokalize 18.12.3\n"
+"X-Generator: Lokalize 24.05.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: actions.ui:17
+#: actions.ui:20
 #, kde-format
 msgid "Inactive Inner Window Actions"
 msgstr "Handlinger for inaktivt indre vindue"
 
 #. i18n: ectx: property (text), widget (QLabel, label_1)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: actions.ui:26 mouse.ui:177
+#: actions.ui:29 mouse.ui:183
 #, kde-format
 msgid "&Left click:"
 msgstr "&Venstreklik:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandWindow1)
-#: actions.ui:39
+#: actions.ui:42
 #, kde-format
 msgid ""
 "In this row you can customize left click behavior when clicking into an "
@@ -48,7 +49,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindow1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindow2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindow3)
-#: actions.ui:43 actions.ui:83 actions.ui:123
+#: actions.ui:46 actions.ui:86 actions.ui:126
 #, kde-format
 msgid "Activate, raise and pass click"
 msgstr "Aktivér, hæv og videregiv klik"
@@ -56,7 +57,7 @@ msgstr "Aktivér, hæv og videregiv klik"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindow1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindow2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindow3)
-#: actions.ui:48 actions.ui:88 actions.ui:128
+#: actions.ui:51 actions.ui:91 actions.ui:131
 #, kde-format
 msgid "Activate and pass click"
 msgstr "Aktivér og videregiv klik"
@@ -67,8 +68,8 @@ msgstr "Aktivér og videregiv klik"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
-#: actions.ui:53 actions.ui:93 actions.ui:133 mouse.ui:293 mouse.ui:408
-#: mouse.ui:523
+#: actions.ui:56 actions.ui:96 actions.ui:136 mouse.ui:299 mouse.ui:414
+#: mouse.ui:529
 #, kde-format
 msgid "Activate"
 msgstr "Aktivér"
@@ -79,21 +80,21 @@ msgstr "Aktivér"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
-#: actions.ui:58 actions.ui:98 actions.ui:138 mouse.ui:283 mouse.ui:398
-#: mouse.ui:513
+#: actions.ui:61 actions.ui:101 actions.ui:141 mouse.ui:289 mouse.ui:404
+#: mouse.ui:519
 #, kde-format
 msgid "Activate and raise"
 msgstr "Aktivér og hæv"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: actions.ui:66 mouse.ui:200
+#: actions.ui:69 mouse.ui:206
 #, kde-format
 msgid "&Middle click:"
 msgstr "&Midterklik:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandWindow2)
-#: actions.ui:79
+#: actions.ui:82
 #, kde-format
 msgid ""
 "In this row you can customize middle click behavior when clicking into an "
@@ -104,13 +105,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: actions.ui:106 mouse.ui:213
+#: actions.ui:109 mouse.ui:219
 #, kde-format
 msgid "&Right click:"
 msgstr "&Højreklik:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandWindow3)
-#: actions.ui:119
+#: actions.ui:122
 #, kde-format
 msgid ""
 "In this row you can customize right click behavior when clicking into an "
@@ -121,13 +122,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: actions.ui:146 mouse.ui:88
+#: actions.ui:149 mouse.ui:91
 #, kde-format
 msgid "Mouse &wheel:"
 msgstr "M&usehjul:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandWindowWheel)
-#: actions.ui:159
+#: actions.ui:162
 #, kde-format
 msgid ""
 "In this row you can customize behavior when scrolling into an inactive inner "
@@ -137,37 +138,37 @@ msgstr ""
 "indre vindue (\"indre\" betyder: ikke titellinje, ikke ramme)."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindowWheel)
-#: actions.ui:163
+#: actions.ui:166
 #, kde-format
 msgid "Scroll"
 msgstr "Rul"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindowWheel)
-#: actions.ui:168
+#: actions.ui:171
 #, kde-format
 msgid "Activate and scroll"
 msgstr "Aktivér og rul"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindowWheel)
-#: actions.ui:173
+#: actions.ui:176
 #, kde-format
 msgid "Activate, raise and scroll"
 msgstr "Aktivér, hæv og rul"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: actions.ui:184
+#: actions.ui:190
 #, kde-format
 msgid "Inner Window, Titlebar and Frame Actions"
 msgstr "Handlinger for indre vindue, titellinje og ramme"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: actions.ui:195
+#: actions.ui:201
 #, kde-format
 msgid "Mo&difier key:"
 msgstr "Æn&dringstast:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandAllKey)
-#: actions.ui:205
+#: actions.ui:211
 #, kde-format
 msgid ""
 "Here you select whether holding the Meta key or Alt key will allow you to "
@@ -177,32 +178,32 @@ msgstr ""
 "udføre følgende handlinger."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllKey)
-#: actions.ui:209
+#: actions.ui:215
 #, kde-format
 msgid "Meta"
 msgstr "Meta"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllKey)
-#: actions.ui:214
+#: actions.ui:220
 #, kde-format
 msgid "Alt"
 msgstr "Alt"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: actions.ui:236
+#: actions.ui:242
 #, kde-format
 msgid "  + "
 msgstr "  + "
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: actions.ui:248 mouse.ui:601
+#: actions.ui:254 mouse.ui:610
 #, kde-format
 msgid "L&eft click:"
 msgstr "V&enstreklik:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandAll1)
-#: actions.ui:261
+#: actions.ui:267
 #, kde-format
 msgid ""
 "In this row you can customize left click behavior when clicking into the "
@@ -214,7 +215,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll3)
-#: actions.ui:265 actions.ui:335 actions.ui:405
+#: actions.ui:271 actions.ui:341 actions.ui:411
 #, kde-format
 msgid "Move"
 msgstr "Flyt"
@@ -222,7 +223,7 @@ msgstr "Flyt"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll3)
-#: actions.ui:270 actions.ui:340 actions.ui:410
+#: actions.ui:276 actions.ui:346 actions.ui:416
 #, kde-format
 msgid "Activate, raise and move"
 msgstr "Aktivér, hæv og flyt"
@@ -236,8 +237,8 @@ msgstr "Aktivér, hæv og flyt"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
-#: actions.ui:275 actions.ui:345 actions.ui:415 mouse.ui:246 mouse.ui:308
-#: mouse.ui:361 mouse.ui:423 mouse.ui:476 mouse.ui:538
+#: actions.ui:281 actions.ui:351 actions.ui:421 mouse.ui:252 mouse.ui:314
+#: mouse.ui:367 mouse.ui:429 mouse.ui:482 mouse.ui:544
 #, kde-format
 msgid "Toggle raise and lower"
 msgstr "Skift mellem hæv og sænk"
@@ -245,7 +246,7 @@ msgstr "Skift mellem hæv og sænk"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll3)
-#: actions.ui:280 actions.ui:350 actions.ui:420
+#: actions.ui:286 actions.ui:356 actions.ui:426
 #, kde-format
 msgid "Resize"
 msgstr "Ændr størrelse"
@@ -259,8 +260,8 @@ msgstr "Ændr størrelse"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
-#: actions.ui:285 actions.ui:355 actions.ui:425 mouse.ui:236 mouse.ui:298
-#: mouse.ui:351 mouse.ui:413 mouse.ui:466 mouse.ui:528
+#: actions.ui:291 actions.ui:361 actions.ui:431 mouse.ui:242 mouse.ui:304
+#: mouse.ui:357 mouse.ui:419 mouse.ui:472 mouse.ui:534
 #, kde-format
 msgid "Raise"
 msgstr "Hæv"
@@ -276,8 +277,8 @@ msgstr "Hæv"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
-#: actions.ui:290 actions.ui:360 actions.ui:430 mouse.ui:65 mouse.ui:241
-#: mouse.ui:303 mouse.ui:356 mouse.ui:418 mouse.ui:471 mouse.ui:533
+#: actions.ui:296 actions.ui:366 actions.ui:436 mouse.ui:68 mouse.ui:247
+#: mouse.ui:309 mouse.ui:362 mouse.ui:424 mouse.ui:477 mouse.ui:539
 #, kde-format
 msgid "Lower"
 msgstr "Sænk"
@@ -293,8 +294,8 @@ msgstr "Sænk"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
-#: actions.ui:295 actions.ui:365 actions.ui:435 mouse.ui:55 mouse.ui:251
-#: mouse.ui:313 mouse.ui:366 mouse.ui:428 mouse.ui:481 mouse.ui:543
+#: actions.ui:301 actions.ui:371 actions.ui:441 mouse.ui:58 mouse.ui:257
+#: mouse.ui:319 mouse.ui:372 mouse.ui:434 mouse.ui:487 mouse.ui:549
 #, kde-format
 msgid "Minimize"
 msgstr "Minimér"
@@ -302,7 +303,7 @@ msgstr "Minimér"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll3)
-#: actions.ui:300 actions.ui:370 actions.ui:440
+#: actions.ui:306 actions.ui:376 actions.ui:446
 #, kde-format
 msgid "Decrease opacity"
 msgstr "Formindsk ugennemsigtighed"
@@ -310,7 +311,7 @@ msgstr "Formindsk ugennemsigtighed"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll3)
-#: actions.ui:305 actions.ui:375 actions.ui:445
+#: actions.ui:311 actions.ui:381 actions.ui:451
 #, kde-format
 msgid "Increase opacity"
 msgstr "Forøg ugennemsigtighed"
@@ -329,21 +330,21 @@ msgstr "Forøg ugennemsigtighed"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
-#: actions.ui:310 actions.ui:380 actions.ui:450 actions.ui:505 advanced.ui:174
-#: mouse.ui:80 mouse.ui:132 mouse.ui:271 mouse.ui:333 mouse.ui:386 mouse.ui:448
-#: mouse.ui:501 mouse.ui:563
+#: actions.ui:316 actions.ui:386 actions.ui:456 actions.ui:511 advanced.ui:154
+#: mouse.ui:83 mouse.ui:135 mouse.ui:277 mouse.ui:339 mouse.ui:392 mouse.ui:454
+#: mouse.ui:507 mouse.ui:569
 #, kde-format
 msgid "Do nothing"
 msgstr "Gør intet"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: actions.ui:318
+#: actions.ui:324
 #, kde-format
 msgid "Middle &click:"
 msgstr "Midter&klik:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandAll2)
-#: actions.ui:331
+#: actions.ui:337
 #, kde-format
 msgid ""
 "In this row you can customize middle click behavior when clicking into the "
@@ -354,13 +355,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: actions.ui:388 mouse.ui:671
+#: actions.ui:394 mouse.ui:680
 #, kde-format
 msgid "Right clic&k:"
 msgstr "Højre&klik:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandAll3)
-#: actions.ui:401
+#: actions.ui:407
 #, kde-format
 msgid ""
 "In this row you can customize right click behavior when clicking into the "
@@ -370,13 +371,13 @@ msgstr ""
 "titellinjen eller rammen."
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: actions.ui:458
+#: actions.ui:464
 #, kde-format
 msgid "Mo&use wheel:"
 msgstr "M&usehjul:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandAllWheel)
-#: actions.ui:471
+#: actions.ui:477
 #, kde-format
 msgid ""
 "Here you can customize KDE's behavior when scrolling with the mouse wheel in "
@@ -387,42 +388,42 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandTitlebarWheel)
-#: actions.ui:475 mouse.ui:102
+#: actions.ui:481 mouse.ui:105
 #, kde-format
 msgid "Raise/lower"
 msgstr "Hæv/sænk"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandTitlebarWheel)
-#: actions.ui:480 mouse.ui:107
+#: actions.ui:486 mouse.ui:110
 #, kde-format
 msgid "Shade/unshade"
 msgstr "Skyg/afskyg"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandTitlebarWheel)
-#: actions.ui:485 mouse.ui:112
+#: actions.ui:491 mouse.ui:115
 #, kde-format
 msgid "Maximize/restore"
 msgstr "Maksimér/genskab"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandTitlebarWheel)
-#: actions.ui:490 mouse.ui:117
+#: actions.ui:496 mouse.ui:120
 #, kde-format
 msgid "Keep above/below"
 msgstr "Hold over/under andre"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandTitlebarWheel)
-#: actions.ui:495 mouse.ui:122
+#: actions.ui:501 mouse.ui:125
 #, kde-format
 msgid "Move to previous/next desktop"
 msgstr "Flyt til foregående/næste skrivebord"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandTitlebarWheel)
-#: actions.ui:500 mouse.ui:127
+#: actions.ui:506 mouse.ui:130
 #, kde-format
 msgid "Change opacity"
 msgstr "Ændr gennemsigtighed"
@@ -435,23 +436,21 @@ msgstr "&Afskygning af vinduer:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShadeHover)
 #: advanced.ui:32
-#, fuzzy, kde-format
-#| msgid ""
-#| "If Shade Hover is enabled, a shaded window will un-shade automatically "
-#| "when the mouse pointer has been over the title bar for some time."
+#, kde-format
 msgid ""
 "<html><head/><body><p>If this option is enabled, a shaded window will "
 "unshade automatically when the mouse pointer has been over the titlebar for "
 "some time.</p></body></html>"
 msgstr ""
-"Hvis 'Skygsvævning' er slået til, vil et skygget vindue automatisk komme "
-"frem når musemarkøren har været over titellinjen et stykke tid."
+"<html><head/><body><p>Hvis denne indstilling er slået til, vil skyggen på et "
+"vindue automatisk fjernes, når markøren har været over titelinjen i noget "
+"tid.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShadeHover)
 #: advanced.ui:35
 #, kde-format
 msgid "On titlebar hover after:"
-msgstr ""
+msgstr "Når musen er over titelbaren i:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_ShadeHoverInterval)
 #: advanced.ui:42
@@ -466,7 +465,7 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_DelayFocusInterval)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_AutoRaiseInterval)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_ShadeHoverInterval)
-#: advanced.ui:45 focus.ui:85 focus.ui:178
+#: advanced.ui:45 focus.ui:85 focus.ui:181
 #, kde-format
 msgid " ms"
 msgstr " ms"
@@ -479,31 +478,7 @@ msgstr "Vindues&placering:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_Placement)
 #: advanced.ui:76
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p>This option specifies how much KWin will try to prevent unwanted focus "
-#| "stealing caused by unexpected activation of new windows. (Note: This "
-#| "feature does not work with the Focus Under Mouse or Focus Strictly Under "
-#| "Mouse focus policies.)\n"
-#| "<ul>\n"
-#| "<li><em>None:</em> Prevention is turned off and new windows always become "
-#| "activated.</li>\n"
-#| "<li><em>Low:</em> Prevention is enabled; when some window does not have "
-#| "support for the underlying mechanism and KWin cannot reliably decide "
-#| "whether to activate the window or not, it will be activated. This setting "
-#| "may have both worse and better results than the medium level, depending "
-#| "on the applications.</li>\n"
-#| "<li><em>Medium:</em> Prevention is enabled.</li>\n"
-#| "<li><em>High:</em> New windows get activated only if no window is "
-#| "currently active or if they belong to the currently active application. "
-#| "This setting is probably not really usable when not using mouse focus "
-#| "policy.</li>\n"
-#| "<li><em>Extreme:</em> All windows must be explicitly activated by the "
-#| "user.</li>\n"
-#| "</ul></p>\n"
-#| "<p>Windows that are prevented from stealing focus are marked as demanding "
-#| "attention, which by default means their taskbar entry will be "
-#| "highlighted. This can be changed in the Notifications control module.</p>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The placement policy determines where a new window "
 "will appear on the desktop.</p><ul style=\"margin-top: 0px; margin-bottom: "
@@ -529,30 +504,29 @@ msgid ""
 "\"><span style=\" font-style:italic;\">Under mouse</span> will place the "
 "window under the pointer</li></ul></body></html>"
 msgstr ""
-"<p>Dette angiver hvor meget KWin vil forsøge at forhindre at fokus mistes på "
-"uønsket måde på grund af at nye vinduer uventet bliver aktive. (Bemærk: "
-"Denne funktion virker ikke med Fokus under mus eller Fokus strengt under mus "
-"fokuspolitikkerne.)\n"
-"<ul>\n"
-"<li><em>Ingen:</em> Forhindring er slået fra og nye vinduer bliver altid "
-"aktive.</li>\n"
-"<li><em>Lav:</em> Forhindring er aktiveret; når et vindue  ikke har "
-"understøttelse af den underliggende mekanisme og KWin ikke kan finde ud af "
-"om det skal være aktivt eller ej, vil det blive aktiveret. Denne indstilling "
-"kan have både værre og bedre resultater end mellemniveau afhængigt af "
-"programmerne.</li>\n"
-"<li><em>Mellem:</em> Forhindring er aktiv.</li>\n"
-"<li><em>Høj:</em> Nye vinduer bliver kun aktive hvis ingen vinduer er aktive "
-"for øjeblikket eller hvis de tilhører det program der er aktivt for "
-"øjeblikket. Denne indstilling er formodentlig ikke rigtig brugbar uden brug "
-"af musens fokuspolitik.</li>\n"
-"<li><em>Ekstrem:</em> Alle vinduer skal eksplicit aktiveres af brugeren.</"
-"li>\n"
-"</ul></p>\n"
-"<p>Vinduer der er forhindret i at stjæle fokus bliver markerede som krævende "
-"opmærksomhed, hvilket som standard betyder at deres opgavelinjes indgang "
-"bliver fremhævet. Dette kan blive ændret i kontrolmodulet for "
-"bekendtgørelser.</p>"
+"<html><head/><body><p>Placeringspolitikken bestemmer hvor et nyt vindue vil "
+"vises på skrivebordet.</p><ul style=\"margin-top: 0px; margin-bottom: 0px; "
+"margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" "
+"margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-style:italic;"
+"\">Smart</span> vil prøve at minimere, at vinduer overlapper</li><li style="
+"\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-style:italic;"
+"\">Maksimér</span> vil prøve at maksimere hvert vindue, så det fylder hele "
+"skærmen. Dette kan være brugbart for, selektivt, at påvirke placeringen af "
+"nogle vindue ved brug af vinduespecifikke indstillinger .</li><li style="
+"\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-style:italic;"
+"\">Random </span> vil bruge en tilfældig placering</li><li style=\" margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\" font-style:italic;\">Centreret</"
+"span> vil placere vinduet centralt</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-style:italic;\">Nul-hjørnet</span> vil "
+"placere vinduet i det øverste venstre hjørne</li><li style=\" margin-"
+"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\" font-style:italic;\">Under "
+"musen</span> vil placere vinduet under markøren</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:80
@@ -598,6 +572,8 @@ msgid ""
 "windows are allowed to do so. This will override the window placement mode "
 "defined above."
 msgstr ""
+"Hvis slået til, vil apps, der kan huske placeringen af deres vinduer, gøre "
+"det. Dette vil tilsidesætte vindueplaceringenstilstanden defineret ovenfor."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
 #: advanced.ui:116
@@ -605,47 +581,23 @@ msgstr ""
 msgid ""
 "Allow apps to remember the positions of their own windows, if they support it"
 msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
-#: advanced.ui:123
-#, kde-format
-msgid "&Special windows:"
-msgstr "&Specielle vinduer:"
-
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:133
-#, kde-format
-msgid ""
-"When turned on, utility windows (tool windows, torn-off menus,...) of "
-"inactive applications will be hidden and will be shown only when the "
-"application becomes active. Note that applications have to mark the windows "
-"with the proper window type for this feature to work."
-msgstr ""
-"Når dette er slået til, skjules midlertidige vinduer (værktøjsvinduer, "
-"afrevne menuer, ...) for inaktive programmer og vises kun når programmet "
-"bliver aktivt. Bemærk at programmer skal markere vinduerne med den rigtige "
-"vinduestype for at funktionen skal virke."
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideUtilityWindowsForInactive)
-#: advanced.ui:136
-#, kde-format
-msgid "Hide utility windows for inactive applications"
-msgstr "Skjul midlertidige vinduer for inaktive programmer"
+"Tillad apps at huske placeringen af deres egne vinduer, hvis de understøtter "
+"det"
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyLabel)
-#: advanced.ui:143
+#: advanced.ui:123
 #, kde-format
 msgid "Virtual Desktop behavior:"
-msgstr ""
+msgstr "Opførsel af virtuelle skrivebord:"
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyDescriptionLabel)
-#: advanced.ui:153
+#: advanced.ui:133
 #, kde-format
 msgid "When activating a window on a different Virtual Desktop:"
-msgstr ""
+msgstr "Når der aktiveres et vindue på en et andet virtuelt skrivebord:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:160
+#: advanced.ui:140
 #, kde-format
 msgid ""
 "<html><head/><body><p>This setting controls what happens when an open window "
@@ -656,18 +608,25 @@ msgid ""
 "Virtual Desktop</span> will cause the window to jump to the active Virtual "
 "Desktop. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Denne indstilling kontrollerer hvad der sker, når et "
+"åbent vindue placeret på et virtuelt skrivebord, der ikke er det nuværende, "
+"er aktiveret. </p><p><span style=\" font-style:italic;\">Skift til det "
+"virtuelle skrivebord</span> vil skifte til det virtuelle skrivebord, hvor "
+"vinduet er i øjeblikket placeret. </p><p><span style=\" font-style:italic;"
+"\">Bring vindue til nuværende virtuelt skrivebord</span> vil få vinduet til "
+"at hoppe til det aktive virtuelle skrivebord. </p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:164
+#: advanced.ui:144
 #, kde-format
 msgid "Switch to that Virtual Desktop"
-msgstr ""
+msgstr "Skift til det virtuelle skrivebord"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:169
+#: advanced.ui:149
 #, kde-format
 msgid "Bring window to current Virtual Desktop"
-msgstr ""
+msgstr "Bring vinduet til nuværende virtuelle skrivebord"
 
 #. i18n: ectx: property (text), widget (QLabel, windowFocusPolicyLabel)
 #: focus.ui:22
@@ -743,31 +702,7 @@ msgstr "Forhindring af at fokus &stjæles:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_FocusStealingPreventionLevel)
 #: focus.ui:114
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p>This option specifies how much KWin will try to prevent unwanted focus "
-#| "stealing caused by unexpected activation of new windows. (Note: This "
-#| "feature does not work with the Focus Under Mouse or Focus Strictly Under "
-#| "Mouse focus policies.)\n"
-#| "<ul>\n"
-#| "<li><em>None:</em> Prevention is turned off and new windows always become "
-#| "activated.</li>\n"
-#| "<li><em>Low:</em> Prevention is enabled; when some window does not have "
-#| "support for the underlying mechanism and KWin cannot reliably decide "
-#| "whether to activate the window or not, it will be activated. This setting "
-#| "may have both worse and better results than the medium level, depending "
-#| "on the applications.</li>\n"
-#| "<li><em>Medium:</em> Prevention is enabled.</li>\n"
-#| "<li><em>High:</em> New windows get activated only if no window is "
-#| "currently active or if they belong to the currently active application. "
-#| "This setting is probably not really usable when not using mouse focus "
-#| "policy.</li>\n"
-#| "<li><em>Extreme:</em> All windows must be explicitly activated by the "
-#| "user.</li>\n"
-#| "</ul></p>\n"
-#| "<p>Windows that are prevented from stealing focus are marked as demanding "
-#| "attention, which by default means their taskbar entry will be "
-#| "highlighted. This can be changed in the Notifications control module.</p>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>This option specifies how much KWin will try to "
 "prevent unwanted focus stealing caused by unexpected activation of new "
@@ -800,30 +735,32 @@ msgid ""
 "by default means their taskbar entry will be highlighted. This can be "
 "changed in the Notifications control module.</p></body></html>"
 msgstr ""
-"<p>Dette angiver hvor meget KWin vil forsøge at forhindre at fokus mistes på "
-"uønsket måde på grund af at nye vinduer uventet bliver aktive. (Bemærk: "
-"Denne funktion virker ikke med Fokus under mus eller Fokus strengt under mus "
-"fokuspolitikkerne.)\n"
-"<ul>\n"
-"<li><em>Ingen:</em> Forhindring er slået fra og nye vinduer bliver altid "
-"aktive.</li>\n"
-"<li><em>Lav:</em> Forhindring er aktiveret; når et vindue  ikke har "
-"understøttelse af den underliggende mekanisme og KWin ikke kan finde ud af "
-"om det skal være aktivt eller ej, vil det blive aktiveret. Denne indstilling "
-"kan have både værre og bedre resultater end mellemniveau afhængigt af "
-"programmerne.</li>\n"
-"<li><em>Mellem:</em> Forhindring er aktiv.</li>\n"
-"<li><em>Høj:</em> Nye vinduer bliver kun aktive hvis ingen vinduer er aktive "
-"for øjeblikket eller hvis de tilhører det program der er aktivt for "
-"øjeblikket. Denne indstilling er formodentlig ikke rigtig brugbar uden brug "
-"af musens fokuspolitik.</li>\n"
-"<li><em>Ekstrem:</em> Alle vinduer skal eksplicit aktiveres af brugeren.</"
-"li>\n"
-"</ul></p>\n"
-"<p>Vinduer der er forhindret i at stjæle fokus bliver markerede som krævende "
-"opmærksomhed, hvilket som standard betyder at deres opgavelinjes indgang "
-"bliver fremhævet. Dette kan blive ændret i kontrolmodulet for "
-"bekendtgørelser.</p>"
+"<html><head/><body><p>Denne indstilling påvirker hvor meget KWin vil prøve "
+"at forhindre, at uventet aktivering af nye vinduer stjæler opmærksomhed. "
+"(Note: Denne indstilling virker ikke med <span style=\" font-style:italic;"
+"\">Fokus under musen</span>eller <span style=\" font-style:italic;\">Fokusér "
+"udelukkende under musen</span> fokuspolitikkerne.) </p><ul style=\"margin-"
+"top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
+"indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-style:italic;\">Ingen:</span>Forhindring er slået fra, og nye "
+"vinduer vil altid blive aktiveret.</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-style:italic;\">Lavt:</span> Forhindring "
+"er slået til; når nogle vinduer ikke understøtter underliggende mekanismer "
+"og KWin ikke pålideligt kan beslutte om, hvorvidt vinduet skal aktiveres, "
+"vil det ikke blive aktiveret. Denne indstilling kan har både dårligere og "
+"bedre resultater end medium-niveaet, afhængigt at applikationerne.</li><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-style:"
+"italic;\">Medium:</span> Forhindring er slået fra.</li><li style=\" margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\" font-style:italic;\">Højt:</"
+"span> Alle vinduer skal blive eksplicit aktiveret af brugeren.</li></ul><p> "
+"Vinduer, der forhindes i at stjæle fokus er markeret som at kræve "
+"opmærksomhed, hvilket som udgangspunk betyder, at deres opgavelinje er "
+"fremhævet. Dette kan ændres i bekændtgørelseskontrol-modulet.</p></body></"
+"html>"
 
 #. i18n: Focus Stealing Prevention Level
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_BorderSnapZone)
@@ -904,7 +841,7 @@ msgid "&Raise on hover, delayed by:"
 msgstr "&Hæv under musen, forsinket med:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_AutoRaiseInterval)
-#: focus.ui:175
+#: focus.ui:178
 #, kde-format
 msgid ""
 "This is the delay after which the window that the mouse pointer is over will "
@@ -914,68 +851,64 @@ msgstr ""
 "automatisk vil komme frem."
 
 #. i18n: ectx: property (text), widget (QLabel, multiscreenBehaviorLabel)
-#: focus.ui:196
+#: focus.ui:199
 #, kde-format
 msgid "Multiscreen behavior:"
 msgstr "Opførsel ved flere skærme:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SeparateScreenFocus)
-#: focus.ui:203
-#, fuzzy, kde-format
-#| msgid ""
-#| "When this option is enabled, focus operations are limited only to the "
-#| "active Xinerama screen"
+#: focus.ui:206
+#, kde-format
 msgid ""
 "When this option is enabled, focus operations are limited only to the active "
 "screen"
 msgstr ""
 "Når denne indstilling er aktiveret, er fokusoperationer begrænset til kun "
-"den aktive Xinerama-skærm"
+"den aktive skærm"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SeparateScreenFocus)
-#: focus.ui:206
+#: focus.ui:209
 #, kde-format
 msgid "&Separate screen focus"
 msgstr "&Separat skærmfokus"
 
 #. i18n: ectx: property (text), widget (QLabel, windowFocusPolicyDescriptionLabel)
-#: focus.ui:219
-#, fuzzy, kde-format
-#| msgid "Window &activation policy:"
+#: focus.ui:222
+#, kde-format
 msgid "Window activation policy description"
-msgstr "Politik for vindues&aktivering:"
+msgstr "Beskrivelse af politik for vindues aktivering:"
 
-#: main.cpp:79
+#: main.cpp:80
 #, kde-format
 msgid "&Focus"
 msgstr "&Fokus"
 
-#: main.cpp:84
+#: main.cpp:85
 #, kde-format
 msgid "Titlebar A&ctions"
 msgstr "Titellinjeha&ndlinger"
 
-#: main.cpp:89
+#: main.cpp:90
 #, kde-format
 msgid "W&indow Actions"
 msgstr "V&indueshandlinger"
 
-#: main.cpp:94
+#: main.cpp:95
 #, kde-format
 msgid "Mo&vement"
 msgstr "Be&vægelse"
 
-#: main.cpp:99
+#: main.cpp:100
 #, kde-format
 msgid "Adva&nced"
 msgstr "Ava&nceret"
 
-#: main.cpp:178
+#: main.cpp:179
 #, kde-format
 msgid "&Titlebar Actions"
 msgstr "&Titellinjehandlinger"
 
-#: main.cpp:188
+#: main.cpp:189
 #, kde-format
 msgid "Window Actio&ns"
 msgstr "Vindues&handlinger"
@@ -987,13 +920,13 @@ msgid "Titlebar Actions"
 msgstr "Titellinjehandlinger"
 
 #. i18n: ectx: property (text), widget (QLabel, label_1)
-#: mouse.ui:26
+#: mouse.ui:29
 #, kde-format
 msgid "&Double-click:"
 msgstr "&Dobbeltklik:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_TitlebarDoubleClickCommand)
-#: mouse.ui:36
+#: mouse.ui:39
 #, kde-format
 msgid "Behavior on <em>double</em> click into the titlebar."
 msgstr "Opførsel ved <em>dobbelt</em>-klik på titellinjen."
@@ -1003,7 +936,7 @@ msgstr "Opførsel ved <em>dobbelt</em>-klik på titellinjen."
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MaximizeButtonLeftClickCommand)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MaximizeButtonMiddleClickCommand)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MaximizeButtonRightClickCommand)
-#: mouse.ui:40 mouse.ui:615 mouse.ui:650 mouse.ui:685
+#: mouse.ui:43 mouse.ui:624 mouse.ui:659 mouse.ui:694
 #, kde-format
 msgid "Maximize"
 msgstr "Maksimér"
@@ -1013,20 +946,20 @@ msgstr "Maksimér"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MaximizeButtonLeftClickCommand)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MaximizeButtonMiddleClickCommand)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MaximizeButtonRightClickCommand)
-#: mouse.ui:45 mouse.ui:620 mouse.ui:655 mouse.ui:690
+#: mouse.ui:48 mouse.ui:629 mouse.ui:664 mouse.ui:699
 #, kde-format
 msgid "Vertically maximize"
-msgstr ""
+msgstr "Maksimér vertikalt"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TitlebarDoubleClickCommand)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MaximizeButtonLeftClickCommand)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MaximizeButtonMiddleClickCommand)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MaximizeButtonRightClickCommand)
-#: mouse.ui:50 mouse.ui:625 mouse.ui:660 mouse.ui:695
+#: mouse.ui:53 mouse.ui:634 mouse.ui:669 mouse.ui:704
 #, kde-format
 msgid "Horizontally maximize"
-msgstr ""
+msgstr "Maksimér vandret"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TitlebarDoubleClickCommand)
@@ -1036,8 +969,8 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
-#: mouse.ui:60 mouse.ui:256 mouse.ui:318 mouse.ui:371 mouse.ui:433 mouse.ui:486
-#: mouse.ui:548
+#: mouse.ui:63 mouse.ui:262 mouse.ui:324 mouse.ui:377 mouse.ui:439 mouse.ui:492
+#: mouse.ui:554
 #, kde-format
 msgid "Shade"
 msgstr "Skyg"
@@ -1050,39 +983,39 @@ msgstr "Skyg"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
-#: mouse.ui:70 mouse.ui:261 mouse.ui:323 mouse.ui:376 mouse.ui:438 mouse.ui:491
-#: mouse.ui:553
+#: mouse.ui:73 mouse.ui:267 mouse.ui:329 mouse.ui:382 mouse.ui:444 mouse.ui:497
+#: mouse.ui:559
 #, kde-format
 msgid "Close"
 msgstr "Luk"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TitlebarDoubleClickCommand)
-#: mouse.ui:75
+#: mouse.ui:78
 #, kde-format
 msgid "Show on all desktops"
 msgstr "Vis på alle skriveborde"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandTitlebarWheel)
-#: mouse.ui:98
+#: mouse.ui:101
 #, kde-format
 msgid "Behavior on <em>mouse wheel</em> scroll over the titlebar."
 msgstr "Opførsel ved rulning med <em>musehjul</em> over titellinjen."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: mouse.ui:143
+#: mouse.ui:146
 #, kde-format
 msgid "Titlebar and Frame Actions"
 msgstr "Titellinje- og rammehandlinger"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: mouse.ui:167
+#: mouse.ui:173
 #, kde-format
 msgid "Active"
 msgstr "Aktiv"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: mouse.ui:190
+#: mouse.ui:196
 #, kde-format
 msgid "Inactive"
 msgstr "Inaktiv"
@@ -1090,7 +1023,7 @@ msgstr "Inaktiv"
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandActiveTitlebar1)
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandActiveTitlebar2)
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandActiveTitlebar3)
-#: mouse.ui:232 mouse.ui:347 mouse.ui:462
+#: mouse.ui:238 mouse.ui:353 mouse.ui:468
 #, kde-format
 msgid ""
 "Behavior on <em>left</em> click into the titlebar or frame of an <em>active</"
@@ -1105,8 +1038,8 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
-#: mouse.ui:266 mouse.ui:328 mouse.ui:381 mouse.ui:443 mouse.ui:496
-#: mouse.ui:558
+#: mouse.ui:272 mouse.ui:334 mouse.ui:387 mouse.ui:449 mouse.ui:502
+#: mouse.ui:564
 #, kde-format
 msgid "Show actions menu"
 msgstr "Vis handlingsmenu"
@@ -1114,7 +1047,7 @@ msgstr "Vis handlingsmenu"
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandInactiveTitlebar1)
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandInactiveTitlebar3)
-#: mouse.ui:279 mouse.ui:394 mouse.ui:509
+#: mouse.ui:285 mouse.ui:400 mouse.ui:515
 #, kde-format
 msgid ""
 "Behavior on <em>left</em> click into the titlebar or frame of an "
@@ -1126,40 +1059,40 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
-#: mouse.ui:288 mouse.ui:403 mouse.ui:518
+#: mouse.ui:294 mouse.ui:409 mouse.ui:524
 #, kde-format
 msgid "Activate and lower"
 msgstr "Aktivér og sænk"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
-#: mouse.ui:589
+#: mouse.ui:595
 #, kde-format
 msgid "Maximize Button Actions"
 msgstr "Handlinger for maksimér-knap"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_8)
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_MaximizeButtonLeftClickCommand)
-#: mouse.ui:598 mouse.ui:611
+#: mouse.ui:607 mouse.ui:620
 #, kde-format
 msgid "Behavior on <em>left</em> click onto the maximize button."
 msgstr "Opførsel ved <em>venstre</em>-klik på maksimér-knappen."
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_9)
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_MaximizeButtonMiddleClickCommand)
-#: mouse.ui:633 mouse.ui:646
+#: mouse.ui:642 mouse.ui:655
 #, kde-format
 msgid "Behavior on <em>middle</em> click onto the maximize button."
 msgstr "Opførsel ved <em>midter</em>-klik på maksimér-knappen."
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: mouse.ui:636
+#: mouse.ui:645
 #, kde-format
 msgid "Middle c&lick:"
 msgstr "Midterk&lik:"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_10)
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_MaximizeButtonRightClickCommand)
-#: mouse.ui:668 mouse.ui:681
+#: mouse.ui:677 mouse.ui:690
 #, kde-format
 msgid "Behavior on <em>right</em> click onto the maximize button."
 msgstr "Opførsel ved <em>højre</em>-klik på maksimér-knappen."
@@ -1250,30 +1183,17 @@ msgid "Only when overlapping"
 msgstr "Kun ved overlap"
 
 #: windows.cpp:92
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>Click To Focus</b><br>\n"
-#| "A window becomes active when you click into it.<br><br>\n"
-#| "This behaviour is common on other operating systems and<br>\n"
-#| "likely what you want."
+#, kde-format
 msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
 "This behavior is common on other operating systems and likely what you want."
 msgstr ""
-"<b>Klik for fokus</b><br>\n"
-"Et vindue bliver aktivt når du klikker i det.<br><br>\n"
-"Denne opførsel er almindelig på andre styresystemer og er<br>\n"
-"sandsynligvis det du ønsker."
+"<em>Klik for fokus:</em> Et vindue bliver aktivt når du klikker i det.Denne "
+"opførsel er almindelig på andre styresystemer og ersandsynligvis det du "
+"ønsker."
 
 #: windows.cpp:95
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>Click To Focus - Mouse Precedence</b><br>\n"
-#| "This is mostly the same as <i>Click To Focus</i><br><br>\n"
-#| "If an active window has to be chosen by the system<br>\n"
-#| "(eg. because the currently active one was closed) <br>\n"
-#| "the window under the mouse is the preferred candidate.<br><br>\n"
-#| "Unusual, but possible variant of <i>Click To Focus</i>."
+#, kde-format
 msgid ""
 "<em>Click to focus (mouse precedence):</em> Mostly the same as <em>Click to "
 "focus</em>. If an active window has to be chosen by the system (eg. because "
@@ -1281,68 +1201,41 @@ msgid ""
 "preferred candidate. Unusual, but possible variant of <em>Click to focus</"
 "em>."
 msgstr ""
-"<b>Klik for fokus - musen har forrang</b><br>\n"
-"Dette er næsten det samme som <i>Klik for fokus</i><br><br>\n"
-"Hvis et aktivt vindue skal vælges af systemet<br>\n"
-"(f.eks. fordi det aktuelt aktive vindue blev lukket), <br>\n"
-"er vinduet under musen den foretrukne kandidat.<br><br>\n"
-"Usædvanlig, men mulig variant af <i>Klik for fokus</i>."
+"<em>Klik for fokus (musen har forrang):</em> Dette er næsten det samme som "
+"<em>Klik for fokus</em>Hvis et aktivt vindue skal vælges af systemet(f.eks. "
+"fordi det aktuelt aktive vindue blev lukket), er vinduet under musen den "
+"foretrukne kandidat. Usædvanlig, men mulig variant af <em>Klik for fokus</"
+"em>."
 
 #: windows.cpp:98
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>Focus Follows Mouse</b><br>\n"
-#| "Moving the mouse onto a window will activate it.<br><br>\n"
-#| "Eg. windows randomly appearing under the mouse will not gain the focus."
-#| "<br>\n"
-#| "Focus stealing prevention takes place as usual.<br><br>\n"
-#| "Think as <i>Click To Focus</i> just without having to actually click."
+#, kde-format
 msgid ""
 "<em>Focus follows mouse:</em> Moving the mouse onto a window will activate "
 "it. Eg. windows randomly appearing under the mouse will not gain the focus. "
 "<em>Focus stealing prevention</em> takes place as usual. Think as <em>Click "
 "to focus</em> just without having to actually click."
 msgstr ""
-"<b>Fokus følger musen</b><br>\n"
-"Flytning af musen over på et vindue vil aktivere det.<br><br>\n"
-"For eksempel vil vinduer der vilkårligt dukker frem under musen ikke få "
-"fokus.<br>\n"
-"Forhindring af at fokus stjæles, finder sted som normalt.<br><br>\n"
-"Tænk <i>Klik for fokus</i> blot uden at du faktisk behøver klikke."
+"<em>Fokus følger musen:</em> Flytning af musen over på et vindue vil "
+"aktivere det. For eksempel vil vinduer der vilkårligt dukker frem under "
+"musen ikke få fokus. <em>Forhindring af at fokus stjæles</em>, finder sted "
+"som normalt. Tænk <em> Klik for fokus</em> blot uden at du faktisk behøver "
+"klikke."
 
 #: windows.cpp:101
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>Focus Follows Mouse - Mouse Precedence</b><br>\n"
-#| "This is mostly the same as <i>Focus Follows Mouse</i><br><br>\n"
-#| "If an active window has to be chosen by the system<br>\n"
-#| "(eg. because the currently active one was closed) <br>\n"
-#| "the window under the mouse is the preferred candidate.<br><br>\n"
-#| "Choose this, if you want a hover controlled focus."
+#, kde-format
 msgid ""
 "This is mostly the same as <em>Focus follows mouse</em>. If an active window "
 "has to be chosen by the system (eg. because the currently active one was "
 "closed) the window under the mouse is the preferred candidate. Choose this, "
 "if you want a hover controlled focus."
 msgstr ""
-"<b>Fokus følger mus - musen har forrang</b><br>\n"
-"Dette er næsten det samme som <i>Fokus følger musen</i><br><br>\n"
-"Hvis et aktivt vindue skal vælges af systemet<br>\n"
-"(f.eks. fordi det aktuelt aktive vindue blev lukket) <br>\n"
-"er vinduet under musen den foretrukne kandidat.<br><br>\n"
-"Vælg dette hvis du vil have fokus kontrolleret af hvad musen er over."
+"Dette er næsten det samme som <em>Fokus følger musen</em>Hvis et aktivt "
+"vindue skal vælges af systemet(f.eks. fordi det aktuelt aktive vindue blev "
+"lukket)er vinduet under musen den foretrukne kandidat.Vælg dette hvis du vil "
+"have fokus kontrolleret af hvad musen er over."
 
 #: windows.cpp:104
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>Focus Under Mouse</b><br>\n"
-#| "The focus always remains on the window under the mouse.<br><br>\n"
-#| "\n"
-#| "Notice:<br>\n"
-#| "<b>Focus stealing prevention</b> and the <b>tabbox (\"Alt+Tab\")</b><br>\n"
-#| "contradict the policy and <b>will not work</b>.<br><br>\n"
-#| "You very likely want to use<br>\n"
-#| "<i>Focus Follows Mouse - Mouse Precedence</i> instead!"
+#, kde-format
 msgid ""
 "<em>Focus under mouse:</em> The focus always remains on the window under the "
 "mouse.<br/><strong>Warning:</strong> <em>Focus stealing prevention</em> and "
@@ -1350,30 +1243,14 @@ msgid ""
 "not work. You very likely want to use <em>Focus follows mouse (mouse "
 "precedence)</em> instead!"
 msgstr ""
-"<b>Fokus under musen</b><br>\n"
-"Fokus forbliver altid på vinduet under musen.<br><br>\n"
-"\n"
-"Bemærk:<br>\n"
-"<b>Forhindring af at fokus stjæles</b> og <b>tab-boksen (\"Alt+Tab\")</"
-"b><br>\n"
-"er i modstrid med politikken og <b>vil ikke virke</b>.<br><br>\n"
-"Du vil sikkert hellere bruge<br>\n"
-"<i>Fokus følger musen - musen har forrang</i> i stedet for!"
+"<em>Fokus under musen:</em> Fokus forbliver altid på vinduet under musen.<br/"
+"><strong>Bemærk:</strong> <em>Forhindring af at fokus stjæles</em> og "
+"<em>tab-boksen (\"Alt+Tab\")</em> er i modstrid med aktiveringspolitikken og "
+"vil ikke virke. Du vil sikkert hellere bruge<em>Fokus følger musen  (musen "
+"har forrang)</em> i stedet for!"
 
 #: windows.cpp:107
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>Focus Strictly Under Mouse</b><br>\n"
-#| "The focus is always on the window under the mouse - in doubt nowhere -"
-#| "<br>\n"
-#| "very much like the focus behaviour in an unmanaged legacy X11 environment."
-#| "<br><br>\n"
-#| "\n"
-#| "Notice:<br>\n"
-#| "<b>Focus stealing prevention</b> and the <b>tabbox (\"Alt+Tab\")</b><br>\n"
-#| "contradict the policy and <b>will not work</b>.<br><br>\n"
-#| "You very likely want to use<br>\n"
-#| "<i>Focus Follows Mouse - Mouse Precedence</i> instead!"
+#, kde-format
 msgid ""
 "<em>Focus strictly under mouse:</em> The focus is always on the window under "
 "the mouse (in doubt nowhere) very much like the focus behavior in an "
@@ -1382,17 +1259,29 @@ msgid ""
 "activation policy and will not work. You very likely want to use <em>Focus "
 "follows mouse (mouse precedence)</em> instead!"
 msgstr ""
-"<b>Fokus strengt under musen</b><br>\n"
-"Fokus er altid på vinduet under musen - i tvivlstilfælde er fokus ingen "
-"steder -<br>\n"
-"Meget lig fokusopførslen i et gammelt ikke-håndteret X11-miljø.<br><br>\n"
-"\n"
-"Bemærk:<br>\n"
-"<b>Forhindring af at fokus stjæles</b> og <b>tab-boksen (\"Alt+Tab\")</"
-"b><br>\n"
-"er i modstrid med politikken og <b>vil ikke virke</b>.<br><br>\n"
-"Du vil sikkert hellere bruge<br>\n"
-"<i>Fokus følger musen - musen har forrang</i> i stedet for!"
+"<em>Fokus strengt under musen:</em>Fokus er altid på vinduet under musen (i "
+"tvivlstilfælde er fokus ingen steder) meget lig fokusopførslen i et gammelt "
+"ikke-håndteret X11-miljø.<br/><strong>Bemærk:</strong> <em>Forhindring af at "
+"fokus stjæles</em> og <em>tab-boksen (\"Alt+Tab\")</em>er i modstrid med "
+"aktiveringspolitikken og vil ikke virke.Du vil sikkert hellere bruge "
+"<em>Fokus følger musen (musen har forrang)</em> i stedet for!"
+
+#~ msgid "&Special windows:"
+#~ msgstr "&Specielle vinduer:"
+
+#~ msgid ""
+#~ "When turned on, utility windows (tool windows, torn-off menus,...) of "
+#~ "inactive applications will be hidden and will be shown only when the "
+#~ "application becomes active. Note that applications have to mark the "
+#~ "windows with the proper window type for this feature to work."
+#~ msgstr ""
+#~ "Når dette er slået til, skjules midlertidige vinduer (værktøjsvinduer, "
+#~ "afrevne menuer, ...) for inaktive programmer og vises kun når programmet "
+#~ "bliver aktivt. Bemærk at programmer skal markere vinduerne med den "
+#~ "rigtige vinduestype for at funktionen skal virke."
+
+#~ msgid "Hide utility windows for inactive applications"
+#~ msgstr "Skjul midlertidige vinduer for inaktive programmer"
 
 #, fuzzy
 #~| msgid ""

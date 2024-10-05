@@ -9,6 +9,7 @@
         "Description[ca@valencia]": "Reduïx fins que totes les finestres obertes es poden mostrar una al costat de l'altra",
         "Description[ca]": "Redueix fins que totes les finestres obertes es poden mostrar una al costat de l'altra",
         "Description[cs]": "Oddálí plochu, aby byla vidět všechna okna",
+        "Description[da]": "Zoom ud indtil alle åbnede vinduer kan vises side om side",
         "Description[de]": "Verkleinert Fenster auf der Arbeitsfläche, sodass sie alle nebeneinander sichtbar sind",
         "Description[en_GB]": "Zoom out until all opened windows can be displayed side-by-side",
         "Description[eo]": "Malzomi ĝis ĉiuj malfermitaj fenestroj povas esti montrataj flank-al-flanke",
@@ -57,6 +58,7 @@
         "Name[ca@valencia]": "Presenta les finestres",
         "Name[ca]": "Presenta les finestres",
         "Name[cs]": "Prezentace oken",
+        "Name[da]": "Aktuelle vinduer",
         "Name[de]": "Fenster zeigen",
         "Name[en_GB]": "Present Windows",
         "Name[eo]": "Prezenti Fenestrojn",
@@ -95,5 +97,8 @@
         "Name[zh_CN]": "窗口平铺展示",
         "Name[zh_TW]": "展示視窗"
     },
-    "X-KDE-ConfigModule": "kwin_windowview_config"
+    "X-KDE-ConfigModule": "kwin_windowview_config",
+    "org.kde.kwin.effect": {
+        "internal": true
+    }
 }

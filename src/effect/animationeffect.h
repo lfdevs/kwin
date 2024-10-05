@@ -498,12 +498,12 @@ protected:
     /**
      * @internal
      */
-    typedef QMap<EffectWindow *, QPair<QList<AniData>, QRect>> AniMap;
+    typedef std::unordered_map<EffectWindow *, std::pair<std::vector<AniData>, QRect>> AniMap;
 
     /**
      * @internal
      */
-    AniMap state() const;
+    const AniMap &state() const;
 
 private:
     quint64 p_animate(EffectWindow *w, Attribute a, uint meta, int ms, FPx2 to, const QEasingCurve &curve, int delay, FPx2 from, bool keepAtTarget, bool fullScreenEffect, bool keepAlive, GLShader *shader);
@@ -522,9 +522,8 @@ private Q_SLOTS:
 
 private:
     static QElapsedTimer s_clock;
-    const std::unique_ptr<AnimationEffectPrivate> d_ptr;
-    Q_DECLARE_PRIVATE(AnimationEffect)
-    Q_DISABLE_COPY(AnimationEffect)
+    const std::unique_ptr<AnimationEffectPrivate> d;
+    friend class AnimationEffectPrivate;
 };
 
 } // namespace

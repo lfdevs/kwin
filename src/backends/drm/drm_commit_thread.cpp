@@ -59,11 +59,15 @@ DrmCommitThread::DrmCommitThread(DrmGpu *gpu, const QString &name)
                 lock.unlock();
                 std::this_thread::sleep_until(m_targetPageflipTime - m_safetyMargin);
                 lock.lock();
+                // the main thread might've modified the list
+                if (m_commits.empty()) {
+                    continue;
+                }
             }
             optimizeCommits(m_targetPageflipTime);
             if (!m_commits.front()->isReadyFor(m_targetPageflipTime)) {
                 // no commit is ready yet, reschedule
-                if (m_vrr) {
+                if (m_vrr || m_tearing) {
                     m_targetPageflipTime += 50us;
                 } else {
                     m_targetPageflipTime += m_minVblankInterval;
@@ -108,6 +112,7 @@ void DrmCommitThread::submit()
     const bool success = commit->commit();
     if (success) {
         m_vrr = vrr.value_or(m_vrr);
+        m_tearing = commit->isTearing();
         m_committed = std::move(commit);
         m_commits.erase(m_commits.begin());
     } else {
@@ -267,7 +272,9 @@ void DrmCommitThread::addCommit(std::unique_ptr<DrmAtomicCommit> &&commit)
     std::unique_lock lock(m_mutex);
     m_commits.push_back(std::move(commit));
     const auto now = std::chrono::steady_clock::now();
-    if (m_vrr && now >= m_lastPageflip + m_minVblankInterval) {
+    if (m_tearing) {
+        m_targetPageflipTime = now;
+    } else if (m_vrr && now >= m_lastPageflip + m_minVblankInterval) {
         m_targetPageflipTime = now;
     } else {
         m_targetPageflipTime = estimateNextVblank(now);
@@ -323,5 +330,22 @@ TimePoint DrmCommitThread::estimateNextVblank(TimePoint now) const
 std::chrono::nanoseconds DrmCommitThread::safetyMargin() const
 {
     return m_safetyMargin;
+}
+
+bool DrmCommitThread::drain()
+{
+    std::unique_lock lock(m_mutex);
+    if (m_committed) {
+        return true;
+    }
+    if (m_commits.empty()) {
+        return false;
+    }
+    if (m_commits.size() > 1) {
+        m_commits.front() = mergeCommits(m_commits);
+        m_commits.erase(m_commits.begin() + 1, m_commits.end());
+    }
+    submit();
+    return m_committed != nullptr;
 }
 }

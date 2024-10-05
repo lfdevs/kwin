@@ -22,7 +22,7 @@
 namespace KWin
 {
 
-static const quint32 s_version = 8;
+static const quint32 s_version = 9;
 
 static QtWaylandServer::kde_output_device_v2::transform kwinTransformToOutputDeviceTransform(OutputTransform transform)
 {
@@ -57,6 +57,9 @@ static uint32_t kwinCapabilitiesToOutputDeviceCapabilities(Output::Capabilities 
     }
     if (caps & Output::Capability::IccProfile) {
         ret |= QtWaylandServer::kde_output_device_v2::capability_icc_profile;
+    }
+    if (caps & Output::Capability::BrightnessControl) {
+        ret |= QtWaylandServer::kde_output_device_v2::capability_brightness;
     }
     return ret;
 }
@@ -131,7 +134,7 @@ public:
     vrr_policy m_vrrPolicy = vrr_policy_automatic;
     rgb_range m_rgbRange = rgb_range_automatic;
     bool m_highDynamicRange = false;
-    uint32_t m_sdrBrightness = 200;
+    uint32_t m_referenceLuminance = 200;
     bool m_wideColorGamut = false;
     auto_rotate_policy m_autoRotation = auto_rotate_policy::auto_rotate_policy_in_tablet_mode;
     QString m_iccProfilePath;
@@ -253,7 +256,7 @@ OutputDeviceV2Interface::OutputDeviceV2Interface(Display *display, Output *handl
     connect(handle, &Output::rgbRangeChanged,
             this, &OutputDeviceV2Interface::updateRgbRange);
     connect(handle, &Output::highDynamicRangeChanged, this, &OutputDeviceV2Interface::updateHighDynamicRange);
-    connect(handle, &Output::sdrBrightnessChanged, this, &OutputDeviceV2Interface::updateSdrBrightness);
+    connect(handle, &Output::referenceLuminanceChanged, this, &OutputDeviceV2Interface::updateSdrBrightness);
     connect(handle, &Output::wideColorGamutChanged, this, &OutputDeviceV2Interface::updateWideColorGamut);
     connect(handle, &Output::autoRotationPolicyChanged, this, &OutputDeviceV2Interface::updateAutoRotate);
     connect(handle, &Output::iccProfileChanged, this, &OutputDeviceV2Interface::updateIccProfilePath);
@@ -340,9 +343,6 @@ wl_resource *OutputDeviceV2InterfacePrivate::sendNewMode(Resource *resource, Out
 
 void OutputDeviceV2InterfacePrivate::sendCurrentMode(Resource *outputResource)
 {
-    if (!m_currentMode) {
-        return;
-    }
     const auto modeResource = OutputDeviceModeV2InterfacePrivate::get(m_currentMode)->findResource(outputResource);
     send_current_mode(outputResource->handle, modeResource->handle);
 }
@@ -432,7 +432,7 @@ void OutputDeviceV2InterfacePrivate::sendHighDynamicRange(Resource *resource)
 void OutputDeviceV2InterfacePrivate::sendSdrBrightness(Resource *resource)
 {
     if (resource->version() >= KDE_OUTPUT_DEVICE_V2_SDR_BRIGHTNESS_SINCE_VERSION) {
-        send_sdr_brightness(resource->handle, m_sdrBrightness);
+        send_sdr_brightness(resource->handle, m_referenceLuminance);
     }
 }
 
@@ -726,8 +726,8 @@ void OutputDeviceV2Interface::updateHighDynamicRange()
 
 void OutputDeviceV2Interface::updateSdrBrightness()
 {
-    if (d->m_sdrBrightness != d->m_handle->sdrBrightness()) {
-        d->m_sdrBrightness = d->m_handle->sdrBrightness();
+    if (d->m_referenceLuminance != d->m_handle->referenceLuminance()) {
+        d->m_referenceLuminance = d->m_handle->referenceLuminance();
         const auto clientResources = d->resourceMap();
         for (const auto &resource : clientResources) {
             d->sendSdrBrightness(resource);

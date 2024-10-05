@@ -29,6 +29,7 @@ class OutputConfiguration;
 class ColorTransformation;
 class IccProfile;
 class OutputChangeSet;
+class BrightnessDevice;
 
 /**
  * The OutputTransform type is used to describe the transform applied to the output content.
@@ -157,6 +158,7 @@ public:
         AutoRotation = 1 << 6,
         IccProfile = 1 << 7,
         Tearing = 1 << 8,
+        BrightnessControl = 1 << 9,
     };
     Q_DECLARE_FLAGS(Capabilities, Capability)
 
@@ -336,7 +338,7 @@ public:
     OutputTransform panelOrientation() const;
     bool wideColorGamut() const;
     bool highDynamicRange() const;
-    uint32_t sdrBrightness() const;
+    uint32_t referenceLuminance() const;
     AutoRotationPolicy autoRotationPolicy() const;
     std::shared_ptr<IccProfile> iccProfile() const;
     QString iccProfilePath() const;
@@ -345,7 +347,6 @@ public:
      */
     QByteArray mstPath() const;
 
-    virtual bool setGammaRamp(const std::shared_ptr<ColorTransformation> &transformation);
     virtual bool setChannelFactors(const QVector3D &rgb);
 
     virtual bool updateCursorLayer();
@@ -363,6 +364,9 @@ public:
     double brightness() const;
 
     const ColorDescription &colorDescription() const;
+
+    BrightnessDevice *brightnessDevice() const;
+    virtual void setBrightnessDevice(BrightnessDevice *device);
 
 Q_SIGNALS:
     /**
@@ -418,7 +422,7 @@ Q_SIGNALS:
     void vrrPolicyChanged();
     void rgbRangeChanged();
     void wideColorGamutChanged();
-    void sdrBrightnessChanged();
+    void referenceLuminanceChanged();
     void highDynamicRangeChanged();
     void autoRotationPolicyChanged();
     void iccProfileChanged();
@@ -468,7 +472,7 @@ protected:
         RgbRange rgbRange = RgbRange::Automatic;
         bool wideColorGamut = false;
         bool highDynamicRange = false;
-        uint32_t sdrBrightness = 200;
+        uint32_t referenceLuminance = 200;
         AutoRotationPolicy autoRotatePolicy = AutoRotationPolicy::InTabletMode;
         QString iccProfilePath;
         std::shared_ptr<IccProfile> iccProfile;
@@ -489,6 +493,7 @@ protected:
     Information m_information;
     QUuid m_uuid;
     int m_refCount = 1;
+    BrightnessDevice *m_brightnessDevice = nullptr;
 };
 
 inline QRect Output::rect() const

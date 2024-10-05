@@ -9,6 +9,7 @@
 
 #include "effect/effect.h"
 #include "opengl/glutils.h"
+#include "scene/item.h"
 
 #include <QList>
 
@@ -37,6 +38,8 @@ struct BlurEffectData
 
     /// The render data per screen. Screens can have different color spaces.
     std::unordered_map<Output *, BlurRenderData> render;
+
+    ItemEffect windowEffect;
 };
 
 class BlurEffect : public KWin::Effect

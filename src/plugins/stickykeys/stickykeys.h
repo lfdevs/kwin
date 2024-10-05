@@ -27,9 +27,14 @@ public:
 
 private:
     void loadConfig(const KConfigGroup &group);
+    void disableStickyKeys();
 
     KConfigWatcher::Ptr m_configWatcher;
     QMap<int, KeyState> m_keyStates;
     QList<int> m_modifiers = {Qt::Key_Shift, Qt::Key_Control, Qt::Key_Alt, Qt::Key_AltGr, Qt::Key_Meta};
     bool m_lockKeys = false;
+    bool m_showNotificationForLockedKeys = false;
+    bool m_disableOnTwoKeys = false;
+    QSet<int> m_pressedModifiers;
+    bool m_ringBell = false;
 };

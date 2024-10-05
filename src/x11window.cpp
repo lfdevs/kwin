@@ -443,7 +443,7 @@ void X11Window::releaseWindow(bool on_shutdown)
         m_client.deleteProperty(atoms->net_frame_extents);
         m_client.deleteProperty(atoms->kde_net_wm_frame_strut);
         const QPointF grav = calculateGravitation(true);
-        m_client.reparent(kwinApp()->x11RootWindow(), grav.x(), grav.y());
+        m_client.reparent(kwinApp()->x11RootWindow(), Xcb::toXNative(grav.x()), Xcb::toXNative(grav.y()));
         xcb_change_save_set(c, XCB_SET_MODE_DELETE, m_client);
         m_client.selectInput(XCB_EVENT_MASK_NO_EVENT);
         if (on_shutdown) {
@@ -459,10 +459,18 @@ void X11Window::releaseWindow(bool on_shutdown)
         m_frame.reset();
         ungrabXServer();
     }
+
+    if (m_syncRequest.failsafeTimeout) {
+        m_syncRequest.failsafeTimeout->stop();
+    }
+    if (m_syncRequest.timeout) {
+        m_syncRequest.timeout->stop();
+    }
     if (m_syncRequest.alarm != XCB_NONE) {
         xcb_sync_destroy_alarm(kwinApp()->x11Connection(), m_syncRequest.alarm);
         m_syncRequest.alarm = XCB_NONE;
     }
+
     unblockCompositing();
     unref();
 }
@@ -507,6 +515,13 @@ void X11Window::destroyWindow()
         m_wrapper.reset();
         m_frame.reset();
     }
+
+    if (m_syncRequest.failsafeTimeout) {
+        m_syncRequest.failsafeTimeout->stop();
+    }
+    if (m_syncRequest.timeout) {
+        m_syncRequest.timeout->stop();
+    }
     if (m_syncRequest.alarm != XCB_NONE) {
         xcb_sync_destroy_alarm(kwinApp()->x11Connection(), m_syncRequest.alarm);
         m_syncRequest.alarm = XCB_NONE;
@@ -538,9 +553,9 @@ bool X11Window::track(xcb_window_t w)
     m_client.reset(w, false);
 
     Xcb::selectInput(w, attr->your_event_mask | XCB_EVENT_MASK_STRUCTURE_NOTIFY | XCB_EVENT_MASK_PROPERTY_CHANGE);
-    m_bufferGeometry = geo.rect();
-    m_frameGeometry = geo.rect();
-    m_clientGeometry = geo.rect();
+    m_bufferGeometry = Xcb::fromXNative(geo.rect());
+    m_frameGeometry = Xcb::fromXNative(geo.rect());
+    m_clientGeometry = Xcb::fromXNative(geo.rect());
     checkOutput();
     m_visual = attr->visual;
     bit_depth = geo->depth;
@@ -605,7 +620,7 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
     // From this place on, manage() must not return false
     blockGeometryUpdates();
 
-    embedClient(w, attr->visual, attr->colormap, windowGeometry->depth);
+    embedClient(w, attr->visual, attr->colormap, windowGeometry.rect(), windowGeometry->depth);
 
     m_visual = attr->visual;
     bit_depth = windowGeometry->depth;
@@ -805,7 +820,7 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
         setOnActivities(activitiesList);
     }
 
-    QRectF geom = session ? session->geometry : windowGeometry.rect();
+    QRectF geom = session ? session->geometry : Xcb::fromXNative(windowGeometry.rect());
     bool placementDone = false;
 
     QRectF area;
@@ -1194,12 +1209,13 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
 }
 
 // Called only from manage()
-void X11Window::embedClient(xcb_window_t w, xcb_visualid_t visualid, xcb_colormap_t colormap, uint8_t depth)
+void X11Window::embedClient(xcb_window_t w, xcb_visualid_t visualid, xcb_colormap_t colormap, const QRect &nativeGeometry, uint8_t depth)
 {
     Q_ASSERT(m_client == XCB_WINDOW_NONE);
     Q_ASSERT(frameId() == XCB_WINDOW_NONE);
     Q_ASSERT(m_wrapper == XCB_WINDOW_NONE);
-    m_client.reset(w, false);
+
+    m_client.reset(w, false, nativeGeometry);
 
     const uint32_t zero_value = 0;
 
@@ -1269,9 +1285,9 @@ void X11Window::updateInputWindow()
         if (left != 0 || top != 0 || right != 0 || bottom != 0) {
             region = QRegion(-left,
                              -top,
-                             decoration()->size().width() + left + right,
-                             decoration()->size().height() + top + bottom);
-            region = region.subtracted(decoration()->rect());
+                             m_frame.width() + left + right,
+                             m_frame.height() + top + bottom);
+            region = region.subtracted(QRect(0, 0, m_frame.width(), m_frame.height()));
         }
     }
 
@@ -1280,14 +1296,14 @@ void X11Window::updateInputWindow()
         return;
     }
 
-    QRectF bounds = region.boundingRect();
+    QRect bounds = region.boundingRect();
     input_offset = bounds.topLeft();
 
     // Move the bounding rect to screen coordinates
-    bounds.translate(frameGeometry().topLeft());
+    bounds.translate(m_frame.position());
 
     // Move the region to input window coordinates
-    region.translate(-input_offset.toPoint());
+    region.translate(-input_offset);
 
     if (!m_decoInputExtent.isValid()) {
         const uint32_t mask = XCB_CW_OVERRIDE_REDIRECT | XCB_CW_EVENT_MASK;
@@ -1466,19 +1482,6 @@ void X11Window::setClientFrameExtents(const NETStrut &strut)
     moveResize(moveResizeGeometry());
 }
 
-/**
- * Resizes the decoration, and makes sure the decoration widget gets resize event
- * even if the size hasn't changed. This is needed to make sure the decoration
- * re-layouts (e.g. when maximization state changes,
- * the decoration may alter some borders, but the actual size
- * of the decoration stays the same).
- */
-void X11Window::resizeDecoration()
-{
-    triggerDecorationRepaint();
-    updateInputWindow();
-}
-
 bool X11Window::userNoBorder() const
 {
     return noborder;
@@ -1555,8 +1558,8 @@ void X11Window::updateShape()
                               XCB_SHAPE_SK_BOUNDING,
                               XCB_SHAPE_SK_BOUNDING,
                               frameId(),
-                              Xcb::toXNative(wrapperPos().x()),
-                              Xcb::toXNative(wrapperPos().y()),
+                              m_wrapper.x(),
+                              m_wrapper.y(),
                               window());
         }
     } else if (app_noborder) {
@@ -1599,8 +1602,7 @@ void X11Window::updateInputShape()
         if (!shape_helper_window.isValid()) {
             shape_helper_window.create(QRect(0, 0, 1, 1));
         }
-        const QSizeF bufferSize = m_bufferGeometry.size();
-        shape_helper_window.resize(bufferSize);
+        shape_helper_window.resize(m_frame.size());
         xcb_connection_t *c = kwinApp()->x11Connection();
         xcb_shape_combine(c, XCB_SHAPE_SO_SET, XCB_SHAPE_SK_INPUT, XCB_SHAPE_SK_BOUNDING,
                           shape_helper_window, 0, 0, frameId());
@@ -1609,16 +1611,16 @@ void X11Window::updateInputShape()
                           XCB_SHAPE_SK_INPUT,
                           XCB_SHAPE_SK_BOUNDING,
                           shape_helper_window,
-                          Xcb::toXNative(wrapperPos().x()),
-                          Xcb::toXNative(wrapperPos().y()),
+                          m_wrapper.x(),
+                          m_wrapper.y(),
                           window());
         xcb_shape_combine(c,
                           XCB_SHAPE_SO_UNION,
                           XCB_SHAPE_SK_INPUT,
                           XCB_SHAPE_SK_INPUT,
                           shape_helper_window,
-                          Xcb::toXNative(wrapperPos().x()),
-                          Xcb::toXNative(wrapperPos().y()),
+                          m_wrapper.x(),
+                          m_wrapper.y(),
                           window());
         xcb_shape_combine(c, XCB_SHAPE_SO_SET, XCB_SHAPE_SK_INPUT, XCB_SHAPE_SK_INPUT,
                           frameId(), 0, 0, shape_helper_window);
@@ -1751,7 +1753,7 @@ void X11Window::doSetShade(ShadeMode previousShadeMode)
         shade_geometry_change = false;
         if (previousShadeMode == ShadeHover) {
             if (shade_below && workspace()->stackingOrder().indexOf(shade_below) > -1) {
-                workspace()->restack(this, shade_below, true);
+                workspace()->stackBelow(this, shade_below);
             }
             if (isActive()) {
                 workspace()->activateNextWindow(this);
@@ -2926,21 +2928,12 @@ QRectF X11Window::frameRectToBufferRect(const QRectF &rect) const
 }
 
 /**
- * Returns the position of the wrapper window relative to the frame window. On X11, it
- * is the same as QPoint(borderLeft(), borderTop()). On Wayland, it's QPoint(0, 0).
- */
-QPointF X11Window::wrapperPos() const
-{
-    return m_clientGeometry.topLeft() - m_bufferGeometry.topLeft();
-}
-
-/**
  * Returns the natural size of the window, if the window is not shaded it's the same
  * as size().
  */
 QSizeF X11Window::implicitSize() const
 {
-    return clientSizeToFrameSize(m_client.geometry().size());
+    return clientSizeToFrameSize(Xcb::fromXNative(m_client.geometry().size()));
 }
 
 pid_t X11Window::pid() const
@@ -3026,7 +3019,7 @@ bool X11Window::belongsToSameApplication(const Window *other, SameApplicationChe
 
 QSizeF X11Window::resizeIncrements() const
 {
-    return m_geometryHints.resizeIncrements();
+    return Xcb::fromXNative(m_geometryHints.resizeIncrements());
 }
 
 Xcb::StringProperty X11Window::fetchApplicationMenuServiceName() const
@@ -3266,7 +3259,6 @@ void X11Window::setTransient(xcb_window_t new_transient_for_id)
         setTransientFor(transient_for);
         checkGroup(nullptr, true); // force, because transiency has changed
         updateLayer();
-        workspace()->resetUpdateToolWindowsTimer();
         Q_EMIT transientChanged();
     }
 }
@@ -3735,13 +3727,13 @@ QSizeF X11Window::constrainClientSize(const QSizeF &size, SizeMode mode) const
         return QSizeF(w, h);
     }
 
-    qreal width_inc = m_geometryHints.resizeIncrements().width();
-    qreal height_inc = m_geometryHints.resizeIncrements().height();
-    qreal basew_inc = m_geometryHints.baseSize().width();
-    qreal baseh_inc = m_geometryHints.baseSize().height();
+    qreal width_inc = Xcb::fromXNative(m_geometryHints.resizeIncrements()).width();
+    qreal height_inc = Xcb::fromXNative(m_geometryHints.resizeIncrements()).height();
+    qreal basew_inc = Xcb::fromXNative(m_geometryHints.baseSize()).width();
+    qreal baseh_inc = Xcb::fromXNative(m_geometryHints.baseSize()).height();
     if (!m_geometryHints.hasBaseSize()) {
-        basew_inc = m_geometryHints.minSize().width();
-        baseh_inc = m_geometryHints.minSize().height();
+        basew_inc = Xcb::fromXNative(m_geometryHints.minSize()).width();
+        baseh_inc = Xcb::fromXNative(m_geometryHints.minSize()).height();
     }
 
     w = std::floor((w - basew_inc) / width_inc) * width_inc + basew_inc;
@@ -3770,7 +3762,7 @@ QSizeF X11Window::constrainClientSize(const QSizeF &size, SizeMode mode) const
         // According to ICCCM 4.1.2.3 PMinSize should be a fallback for PBaseSize for size increments,
         // but not for aspect ratio. Since this code comes from FVWM, handles both at the same time,
         // and I have no idea how it works, let's hope nobody relies on that.
-        const QSizeF baseSize = m_geometryHints.baseSize();
+        const QSizeF baseSize = Xcb::fromXNative(m_geometryHints.baseSize());
         w -= baseSize.width();
         h -= baseSize.height();
         qreal max_width = max_size.width() - baseSize.width();
@@ -3905,12 +3897,12 @@ void X11Window::getWmNormalHints()
 
 QSizeF X11Window::minSize() const
 {
-    return rules()->checkMinSize(m_geometryHints.minSize());
+    return rules()->checkMinSize(Xcb::fromXNative(m_geometryHints.minSize()));
 }
 
 QSizeF X11Window::maxSize() const
 {
-    return rules()->checkMaxSize(m_geometryHints.maxSize());
+    return rules()->checkMaxSize(Xcb::fromXNative(m_geometryHints.maxSize()));
 }
 
 QSizeF X11Window::basicUnit() const
@@ -3919,7 +3911,7 @@ QSizeF X11Window::basicUnit() const
     if (!isX11Mode) {
         return QSize(1, 1);
     }
-    return m_geometryHints.resizeIncrements();
+    return Xcb::fromXNative(m_geometryHints.resizeIncrements());
 }
 
 /**
@@ -3940,10 +3932,10 @@ void X11Window::sendSyntheticConfigureNotify()
     u.event.response_type = XCB_CONFIGURE_NOTIFY;
     u.event.event = window();
     u.event.window = window();
-    u.event.x = Xcb::toXNative(m_clientGeometry.x());
-    u.event.y = Xcb::toXNative(m_clientGeometry.y());
-    u.event.width = Xcb::toXNative(m_clientGeometry.width());
-    u.event.height = Xcb::toXNative(m_clientGeometry.height());
+    u.event.x = m_frame.x() + m_wrapper.x() + m_client.x();
+    u.event.y = m_frame.y() + m_wrapper.y() + m_client.y();
+    u.event.width = m_client.width();
+    u.event.height = m_client.height();
     u.event.border_width = 0;
     u.event.above_sibling = XCB_WINDOW_NONE;
     u.event.override_redirect = 0;
@@ -3972,48 +3964,48 @@ QPointF X11Window::gravityAdjustment(xcb_gravity_t gravity) const
     switch (gravity) {
     case XCB_GRAVITY_NORTH_WEST: // move down right
     default:
-        dx = borderLeft();
-        dy = borderTop();
+        dx = Xcb::nativeRound(borderLeft());
+        dy = Xcb::nativeRound(borderTop());
         break;
     case XCB_GRAVITY_NORTH: // move right
         dx = 0;
-        dy = borderTop();
+        dy = Xcb::nativeRound(borderTop());
         break;
     case XCB_GRAVITY_NORTH_EAST: // move down left
-        dx = -borderRight();
-        dy = borderTop();
+        dx = -Xcb::nativeRound(borderRight());
+        dy = Xcb::nativeRound(borderTop());
         break;
     case XCB_GRAVITY_WEST: // move right
         dx = borderLeft();
         dy = 0;
         break;
     case XCB_GRAVITY_CENTER:
-        dx = (borderLeft() - borderRight()) / 2;
-        dy = (borderTop() - borderBottom()) / 2;
+        dx = Xcb::fromXNative((int(Xcb::toXNative(borderLeft())) - int(Xcb::toXNative(borderRight()))) / 2);
+        dy = Xcb::fromXNative((int(Xcb::toXNative(borderTop())) - int(Xcb::toXNative(borderBottom()))) / 2);
         break;
     case XCB_GRAVITY_STATIC: // don't move
         dx = 0;
         dy = 0;
         break;
     case XCB_GRAVITY_EAST: // move left
-        dx = -borderRight();
+        dx = -Xcb::nativeRound(borderRight());
         dy = 0;
         break;
     case XCB_GRAVITY_SOUTH_WEST: // move up right
-        dx = borderLeft();
-        dy = -borderBottom();
+        dx = Xcb::nativeRound(borderLeft());
+        dy = -Xcb::nativeRound(borderBottom());
         break;
     case XCB_GRAVITY_SOUTH: // move up
         dx = 0;
-        dy = -borderBottom();
+        dy = -Xcb::nativeRound(borderBottom());
         break;
     case XCB_GRAVITY_SOUTH_EAST: // move up left
-        dx = -borderRight();
-        dy = -borderBottom();
+        dx = -Xcb::nativeRound(borderRight());
+        dy = -Xcb::nativeRound(borderBottom());
         break;
     }
 
-    return QPoint(dx, dy);
+    return QPointF(dx, dy);
 }
 
 const QPointF X11Window::calculateGravitation(bool invert) const
@@ -4021,8 +4013,8 @@ const QPointF X11Window::calculateGravitation(bool invert) const
     const QPointF adjustment = gravityAdjustment(m_geometryHints.windowGravity());
 
     // translate from client movement to frame movement
-    const qreal dx = adjustment.x() - borderLeft();
-    const qreal dy = adjustment.y() - borderTop();
+    const qreal dx = adjustment.x() - Xcb::nativeRound(borderLeft());
+    const qreal dy = adjustment.y() - Xcb::nativeRound(borderTop());
 
     if (!invert) {
         return QPointF(x() + dx, y() + dy);
@@ -4339,9 +4331,10 @@ void X11Window::blockGeometryUpdates(bool block)
         ++m_blockGeometryUpdates;
     } else {
         if (--m_blockGeometryUpdates == 0) {
-            if (m_lastBufferGeometry != m_bufferGeometry || m_lastFrameGeometry != m_frameGeometry || m_lastClientGeometry != m_clientGeometry) {
-                updateServerGeometry();
-            }
+            const QRect nativeFrameGeometry = Xcb::toXNative(m_bufferGeometry);
+            const QRect nativeWrapperGeometry = Xcb::toXNative(m_clientGeometry.translated(-m_bufferGeometry.topLeft()));
+            const QRect nativeClientGeometry = QRect(0, 0, nativeWrapperGeometry.width(), nativeWrapperGeometry.height());
+            configure(nativeFrameGeometry, nativeWrapperGeometry, nativeClientGeometry);
         }
     }
 }
@@ -4382,8 +4375,9 @@ void X11Window::moveResizeInternal(const QRectF &rect, MoveResizeMode mode)
         clientGeometry = frameRectToClientRect(frameGeometry);
     }
     const QRectF bufferGeometry = frameRectToBufferRect(frameGeometry);
+    const qreal bufferScale = kwinApp()->xwaylandScale();
 
-    if (m_bufferGeometry == bufferGeometry && m_clientGeometry == clientGeometry && m_frameGeometry == frameGeometry) {
+    if (m_bufferGeometry == bufferGeometry && m_clientGeometry == clientGeometry && m_frameGeometry == frameGeometry && m_bufferScale == bufferScale) {
         return;
     }
 
@@ -4397,9 +4391,16 @@ void X11Window::moveResizeInternal(const QRectF &rect, MoveResizeMode mode)
     m_frameGeometry = frameGeometry;
     m_clientGeometry = clientGeometry;
     m_bufferGeometry = bufferGeometry;
+    m_bufferScale = bufferScale;
     m_output = workspace()->outputAt(frameGeometry.center());
 
-    updateServerGeometry();
+    if (!areGeometryUpdatesBlocked()) {
+        const QRect nativeFrameGeometry = Xcb::toXNative(m_bufferGeometry);
+        const QRect nativeWrapperGeometry = Xcb::toXNative(m_clientGeometry.translated(-m_bufferGeometry.topLeft()));
+        const QRect nativeClientGeometry = QRect(0, 0, nativeWrapperGeometry.width(), nativeWrapperGeometry.height());
+        configure(nativeFrameGeometry, nativeWrapperGeometry, nativeClientGeometry);
+    }
+
     updateWindowRules(Rules::Position | Rules::Size);
 
     if (isActive()) {
@@ -4422,48 +4423,45 @@ void X11Window::moveResizeInternal(const QRectF &rect, MoveResizeMode mode)
     Q_EMIT shapeChanged();
 }
 
-void X11Window::updateServerGeometry()
+void X11Window::configure(const QRect &nativeFrame, const QRect &nativeWrapper, const QRect &nativeClient)
 {
-    if (areGeometryUpdatesBlocked()) {
-        return;
-    }
-
-    const QRectF oldBufferGeometry = m_lastBufferGeometry;
-
-    // Compute the old client rect, the client geometry is always inside the buffer geometry.
-    const QRectF oldClientRect = m_lastClientGeometry.translated(-m_lastBufferGeometry.topLeft());
-    const QRectF clientRect = m_clientGeometry.translated(-m_bufferGeometry.topLeft());
-
-    if (oldBufferGeometry.size() != m_bufferGeometry.size() || oldClientRect != clientRect) {
-        resizeDecoration();
-        // If the client is being interactively resized, then the frame window, the wrapper window,
-        // and the client window have correct geometry at this point, so we don't have to configure
-        // them again.
-        if (m_frame.geometry() != m_bufferGeometry) {
-            m_frame.setGeometry(m_bufferGeometry);
+    if (m_frame.size() != nativeFrame.size() || m_wrapper.geometry() != nativeWrapper) {
+        if (m_frame.geometry() != nativeFrame) {
+            m_frame.setGeometry(nativeFrame);
         }
         if (!isShade()) {
-            if (m_wrapper.geometry() != clientRect) {
-                m_wrapper.setGeometry(clientRect);
+            const bool resized = m_client.size() != nativeClient.size();
+            if (m_wrapper.geometry() != nativeWrapper) {
+                m_wrapper.setGeometry(nativeWrapper);
             }
-            if (m_client.geometry() != QRectF(QPointF(0, 0), clientRect.size())) {
-                m_client.setGeometry(QRectF(QPointF(0, 0), clientRect.size()));
+            if (m_client.geometry() != nativeClient) {
+                m_client.setGeometry(nativeClient);
             }
-            // SELI - won't this be too expensive?
-            // THOMAS - yes, but gtk+ clients will not resize without ...
-            sendSyntheticConfigureNotify();
-        }
-        updateShape();
-    } else {
-        m_frame.move(m_bufferGeometry.topLeft());
-        sendSyntheticConfigureNotify();
-        // Unconditionally move the input window: it won't affect rendering
-        m_decoInputExtent.move(pos().toPoint() + inputPos());
-    }
 
-    m_lastBufferGeometry = m_bufferGeometry;
-    m_lastFrameGeometry = m_frameGeometry;
-    m_lastClientGeometry = m_clientGeometry;
+            // A synthetic configure notify event has to be sent if the client window is not
+            // resized to let the client know about the new position. See ICCCM 4.1.5.
+            if (!resized) {
+                sendSyntheticConfigureNotify();
+            }
+        }
+
+        // TODO: This is not required on wayland, keep it until we support Xorg session.
+        if (is_shape) {
+            if (!isDecorated()) {
+                xcb_shape_combine(kwinApp()->x11Connection(), XCB_SHAPE_SO_SET, XCB_SHAPE_SK_BOUNDING,
+                                  XCB_SHAPE_SK_BOUNDING, frameId(), m_wrapper.x(), m_wrapper.y(), window());
+            }
+        }
+
+        updateInputShape();
+        updateInputWindow();
+    } else if (m_frame.position() != nativeFrame.topLeft()) {
+        m_frame.move(nativeFrame.topLeft());
+        if (m_decoInputExtent.isValid()) {
+            m_decoInputExtent.move(m_frame.position() + input_offset);
+        }
+        sendSyntheticConfigureNotify();
+    }
 }
 
 static bool changeMaximizeRecursion = false;
@@ -4484,8 +4482,6 @@ void X11Window::maximize(MaximizeMode mode)
     if (!isMaximizable()) {
         return;
     }
-
-    const auto currentQuickTileMode = requestedQuickTileMode();
 
     QRectF clientArea;
     if (isElectricBorderMaximizing()) {
@@ -4824,11 +4820,11 @@ void X11Window::doInteractiveResizeSync(const QRectF &rect)
     const QRectF moveResizeClientGeometry = frameRectToClientRect(moveResizeFrameGeometry);
     const QRectF moveResizeBufferGeometry = frameRectToBufferRect(moveResizeFrameGeometry);
 
-    const QRectF xFrameGeometry = moveResizeBufferGeometry;
-    const QRectF xWrapperGeometry = moveResizeClientGeometry.translated(-moveResizeBufferGeometry.topLeft());
-    const QRectF xClientGeometry = QRectF(QPointF(0, 0), moveResizeClientGeometry.size());
+    const QRect nativeFrameGeometry = Xcb::toXNative(moveResizeBufferGeometry);
+    const QRect nativeWrapperGeometry = Xcb::toXNative(moveResizeClientGeometry.translated(-moveResizeBufferGeometry.topLeft()));
+    const QRect nativeClientGeometry = Xcb::toXNative(QRectF(QPointF(0, 0), moveResizeClientGeometry.size()));
 
-    if (m_frame.deviceGeometry() == Xcb::toXNative(xFrameGeometry) && m_wrapper.deviceGeometry() == Xcb::toXNative(xWrapperGeometry) && m_client.deviceGeometry() == Xcb::toXNative(xClientGeometry)) {
+    if (m_frame.geometry() == nativeFrameGeometry && m_wrapper.geometry() == nativeWrapperGeometry && m_client.geometry() == nativeClientGeometry) {
         return;
     }
 
@@ -4852,13 +4848,7 @@ void X11Window::doInteractiveResizeSync(const QRectF &rect)
         m_syncRequest.timeout->start(33);
     }
 
-    // According to the Composite extension spec, a window will get a new pixmap allocated each time
-    // it is mapped or resized. Given that we redirect frame windows and not client windows, we have
-    // to resize the frame window in order to forcefully reallocate offscreen storage. If we don't do
-    // this, then we might render partially updated client window. I know, it sucks.
-    m_frame.setGeometry(xFrameGeometry);
-    m_wrapper.setGeometry(xWrapperGeometry);
-    m_client.setGeometry(xClientGeometry);
+    configure(nativeFrameGeometry, nativeWrapperGeometry, nativeClientGeometry);
 }
 
 void X11Window::handleSyncTimeout()
@@ -4993,6 +4983,9 @@ void X11Window::damageNotifyEvent()
 
 void X11Window::discardWindowPixmap()
 {
+    if (kwinApp()->operationMode() != Application::OperationModeX11) {
+        return;
+    }
     if (auto item = surfaceItem()) {
         item->discardPixmap();
     }
@@ -5000,6 +4993,9 @@ void X11Window::discardWindowPixmap()
 
 void X11Window::updateWindowPixmap()
 {
+    if (kwinApp()->operationMode() != Application::OperationModeX11) {
+        return;
+    }
     if (auto item = surfaceItem()) {
         item->updatePixmap();
     }
@@ -5337,7 +5333,7 @@ void X11Window::startupIdChanged()
     if (asn_data.xinerama() != -1) {
         Output *output = workspace()->xineramaIndexToOutput(asn_data.xinerama());
         if (output) {
-            workspace()->sendWindowToOutput(this, output);
+            sendToOutput(output);
         }
     }
     const xcb_timestamp_t timestamp = asn_id.timestamp();
@@ -5454,83 +5450,48 @@ bool X11Window::allowWindowActivation(xcb_timestamp_t time, bool focus_in)
     return NET::timestampCompare(time, user_time) >= 0; // time >= user_time
 }
 
-void X11Window::restackWindow(xcb_window_t above, int detail, NET::RequestSource src, xcb_timestamp_t timestamp, bool send_event)
+void X11Window::restackWindow(xcb_window_t above, int detail, NET::RequestSource src, xcb_timestamp_t timestamp)
 {
-    X11Window *other = nullptr;
+    X11Window *other = workspace()->findClient(Predicate::WindowMatch, above);
     if (detail == XCB_STACK_MODE_OPPOSITE) {
-        other = workspace()->findClient(Predicate::WindowMatch, above);
         if (!other) {
             workspace()->raiseOrLowerWindow(this);
             return;
         }
-        auto it = workspace()->stackingOrder().constBegin(),
-             end = workspace()->stackingOrder().constEnd();
-        while (it != end) {
-            if (*it == this) {
+        const auto stack = workspace()->stackingOrder();
+        for (Window *window : stack) {
+            if (window == this) {
                 detail = XCB_STACK_MODE_ABOVE;
                 break;
-            } else if (*it == other) {
+            } else if (window == other) {
                 detail = XCB_STACK_MODE_BELOW;
                 break;
             }
-            ++it;
         }
     } else if (detail == XCB_STACK_MODE_TOP_IF) {
-        other = workspace()->findClient(Predicate::WindowMatch, above);
         if (other && other->frameGeometry().intersects(frameGeometry())) {
             workspace()->raiseWindowRequest(this, src, timestamp);
         }
         return;
     } else if (detail == XCB_STACK_MODE_BOTTOM_IF) {
-        other = workspace()->findClient(Predicate::WindowMatch, above);
         if (other && other->frameGeometry().intersects(frameGeometry())) {
             workspace()->lowerWindowRequest(this, src, timestamp);
         }
         return;
     }
 
-    if (!other) {
-        other = workspace()->findClient(Predicate::WindowMatch, above);
-    }
-
-    if (other && detail == XCB_STACK_MODE_ABOVE) {
-        auto it = workspace()->stackingOrder().constEnd(),
-             begin = workspace()->stackingOrder().constBegin();
-        while (--it != begin) {
-
-            if (*it == other) { // the other one is top on stack
-                it = begin; // invalidate
-                src = NET::FromTool; // force
-                break;
-            }
-            X11Window *window = qobject_cast<X11Window *>(*it);
-
-            if (!window || !((*it)->isNormalWindow() && window->isShown() && (*it)->isOnCurrentDesktop() && (*it)->isOnCurrentActivity() && (*it)->isOnOutput(output()))) {
-                continue; // irrelevant windows
-            }
-
-            if (*(it - 1) == other) {
-                break; // "it" is the one above the target one, stack below "it"
-            }
-        }
-
-        if (it != begin && (*(it - 1) == other)) {
-            other = qobject_cast<X11Window *>(*it);
+    if (detail == XCB_STACK_MODE_ABOVE) {
+        if (other) {
+            workspace()->stackAbove(this, other);
         } else {
-            other = nullptr;
+            workspace()->raiseWindowRequest(this, src, timestamp);
         }
-    }
-
-    if (other) {
-        workspace()->restack(this, other);
     } else if (detail == XCB_STACK_MODE_BELOW) {
-        workspace()->lowerWindowRequest(this, src, timestamp);
-    } else if (detail == XCB_STACK_MODE_ABOVE) {
-        workspace()->raiseWindowRequest(this, src, timestamp);
-    }
-
-    if (send_event) {
-        sendSyntheticConfigureNotify();
+        if (other) {
+            workspace()->stackBelow(this, other);
+        } else {
+            workspace()->lowerWindowRequest(this, src, timestamp);
+        }
     }
 }
 

@@ -10,6 +10,7 @@
 #include "compositor.h"
 #include "core/output.h"
 #include "core/renderloop.h"
+#include "cursor.h"
 #include "opengl/gltexture.h"
 #include "opengl/glutils.h"
 #include "scene/workspacescene.h"
@@ -46,6 +47,11 @@ QSize OutputScreenCastSource::textureSize() const
     return m_output->pixelSize();
 }
 
+qreal OutputScreenCastSource::devicePixelRatio() const
+{
+    return m_output->scale();
+}
+
 void OutputScreenCastSource::render(QImage *target)
 {
     const auto [outputTexture, colorDescription] = Compositor::self()->scene()->textureForOutput(m_output);
@@ -66,7 +72,7 @@ void OutputScreenCastSource::render(GLFramebuffer *target)
     projectionMatrix.scale(1, -1);
     projectionMatrix.ortho(QRect(QPoint(), textureSize()));
     shaderBinder.shader()->setUniform(GLShader::Mat4Uniform::ModelViewProjectionMatrix, projectionMatrix);
-    shaderBinder.shader()->setColorspaceUniformsToSRGB(colorDescription);
+    shaderBinder.shader()->setColorspaceUniforms(colorDescription, ColorDescription::sRGB, RenderingIntent::Perceptual);
 
     GLFramebuffer::pushFramebuffer(target);
     outputTexture->render(textureSize());
@@ -113,6 +119,25 @@ void OutputScreenCastSource::pause()
     }
 
     m_active = false;
+}
+
+bool OutputScreenCastSource::includesCursor(Cursor *cursor) const
+{
+    if (Cursors::self()->isCursorHidden()) {
+        return false;
+    }
+
+    return cursor->isOnOutput(m_output);
+}
+
+QPointF OutputScreenCastSource::mapFromGlobal(const QPointF &point) const
+{
+    return m_output->mapFromGlobal(point);
+}
+
+QRectF OutputScreenCastSource::mapFromGlobal(const QRectF &rect) const
+{
+    return m_output->mapFromGlobal(rect);
 }
 
 } // namespace KWin

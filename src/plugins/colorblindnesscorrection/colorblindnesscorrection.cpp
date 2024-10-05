@@ -9,7 +9,7 @@
 #include "effect/effecthandler.h"
 #include "opengl/glshader.h"
 
-#include "colorblindnesscorrection_settings_singleton.h"
+#include "colorblindnesscorrectionconfig.h"
 
 Q_LOGGING_CATEGORY(KWIN_COLORBLINDNESS_CORRECTION, "kwin_effect_colorblindnesscorrection", QtWarningMsg)
 
@@ -84,7 +84,7 @@ void ColorBlindnessCorrectionEffect::loadData()
         break;
     }
 
-    m_shader = ShaderManager::instance()->generateShaderFromFile(ShaderTrait::MapTexture, QString(), QStringLiteral(":/effects/colorblindnesscorrection/shaders/colorblindesscorrection.frag"));
+    m_shader = ShaderManager::instance()->generateShaderFromFile(ShaderTrait::MapTexture, QString(), QStringLiteral(":/effects/colorblindnesscorrection/shaders/colorblindnesscorrection.frag"));
 
     if (!m_shader->isValid()) {
         qCCritical(KWIN_COLORBLINDNESS_CORRECTION) << "Failed to load the shader!";

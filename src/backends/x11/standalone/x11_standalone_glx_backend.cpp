@@ -13,8 +13,8 @@
 
 // own
 #include "x11_standalone_glx_backend.h"
-#include "../common/kwinxrenderutils.h"
 #include "glxcontext.h"
+#include "kwinxrenderutils.h"
 #include "utils/softwarevsyncmonitor.h"
 #include "x11_standalone_backend.h"
 #include "x11_standalone_glx_context_attribute_builder.h"
@@ -681,7 +681,7 @@ void GlxBackend::endFrame(const QRegion &renderedRegion, const QRegion &damagedR
     m_lastRenderedRegion = renderedRegion;
 }
 
-void GlxBackend::present(Output *output, const std::shared_ptr<OutputFrame> &frame)
+bool GlxBackend::present(Output *output, const std::shared_ptr<OutputFrame> &frame)
 {
     m_frame = frame;
     // If the GLX_INTEL_swap_event extension is not used for getting presentation feedback,
@@ -705,6 +705,7 @@ void GlxBackend::present(Output *output, const std::shared_ptr<OutputFrame> &fra
     if (overlayWindow()->window()) { // show the window only after the first pass,
         overlayWindow()->show(); // since that pass may take long
     }
+    return true;
 }
 
 void GlxBackend::vblank(std::chrono::nanoseconds timestamp)

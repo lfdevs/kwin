@@ -1,15 +1,14 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Stefan Asserhall <stefan.asserhall@gmail.com>, 2012, 2013, 2017, 2018, 2020, 2022.
-# SPDX-FileCopyrightText: 2024 Stefan Asserhäll <stefan.asserhall@bredband.net>
+# SPDX-FileCopyrightText: 2012, 2013, 2017, 2018, 2020, 2022, 2024 Stefan Asserhall <stefan.asserhall@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-14 00:38+0000\n"
-"PO-Revision-Date: 2024-06-09 10:05+0200\n"
-"Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
+"POT-Creation-Date: 2024-09-24 02:49+0000\n"
+"PO-Revision-Date: 2024-06-21 10:56+0200\n"
+"Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
@@ -18,17 +17,17 @@ msgstr ""
 "X-Generator: Lokalize 23.08.5\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: module.cpp:49
+#: module.cpp:52
 #, kde-format
 msgid "Import KWin Script"
 msgstr "Importera Kwin-skript"
 
-#: module.cpp:50
+#: module.cpp:53
 #, kde-format
 msgid "*.kwinscript|KWin scripts (*.kwinscript)"
 msgstr "*.kwinscript|Kwin-skript (*.kwinscript)"
 
-#: module.cpp:61
+#: module.cpp:65
 #, kde-format
 msgctxt "Placeholder is error message returned from the install service"
 msgid ""
@@ -38,13 +37,13 @@ msgstr ""
 "Kan inte importera valt skript.\n"
 "%1"
 
-#: module.cpp:65
+#: module.cpp:69
 #, kde-format
 msgctxt "Placeholder is name of the script that was imported"
 msgid "The script \"%1\" was successfully imported."
 msgstr "Skriptet \"%1\" importerades med lyckat resultat."
 
-#: module.cpp:124
+#: module.cpp:131
 #, kde-format
 msgid "Error when uninstalling KWin Script: %1"
 msgstr "Fel vid avinstallation av Kwin-skript: %1"
@@ -52,13 +51,13 @@ msgstr "Fel vid avinstallation av Kwin-skript: %1"
 #: ui/main.qml:23
 #, kde-format
 msgid "Install from File…"
-msgstr "Installera från fil..."
+msgstr "Installera från fil…"
 
 #: ui/main.qml:27
 #, kde-format
 msgctxt "@action:button get new KWin scripts"
 msgid "Get New…"
-msgstr "Hämta nytt…"
+msgstr "Hämta nya…"
 
 #: ui/main.qml:65
 #, kde-format

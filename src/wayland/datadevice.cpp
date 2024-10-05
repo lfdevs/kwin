@@ -93,7 +93,7 @@ void DataDeviceInterfacePrivate::data_device_start_drag(Resource *resource,
     const bool pointerGrab = seat->hasImplicitPointerGrab(serial) && seat->focusedPointerSurface() == focusSurface;
     if (!pointerGrab) {
         // Client doesn't have pointer grab.
-        const bool touchGrab = seat->hasImplicitTouchGrab(serial) && seat->focusedTouchSurface() == focusSurface;
+        const bool touchGrab = seat->hasImplicitTouchGrab(serial) && seat->isSurfaceTouched(focusSurface);
         if (!touchGrab) {
             // Client neither has pointer nor touch grab. No drag start allowed.
             return;
@@ -140,7 +140,7 @@ void DataDeviceInterfacePrivate::data_device_set_selection(Resource *resource, w
         selection->cancel();
     }
     selection = dataSource;
-    Q_EMIT q->selectionChanged(selection);
+    Q_EMIT q->selectionChanged(selection, serial);
 }
 
 void DataDeviceInterfacePrivate::data_device_release(QtWaylandServer::wl_data_device::Resource *resource)
@@ -214,17 +214,33 @@ void DataDeviceInterface::drop()
         d->drag.sourceActionConnection = QMetaObject::Connection();
         disconnect(d->drag.targetActionConnection);
         d->drag.targetActionConnection = QMetaObject::Connection();
+        disconnect(d->drag.keyboardModifiersConnection);
+        d->drag.keyboardModifiersConnection = QMetaObject::Connection();
     }
 }
 
-static DataDeviceManagerInterface::DnDAction chooseDndAction(AbstractDataSource *source, DataOfferInterface *offer)
+static DataDeviceManagerInterface::DnDAction chooseDndAction(AbstractDataSource *source, DataOfferInterface *offer, Qt::KeyboardModifiers keyboardModifiers)
 {
+    // first compositor picks an action if modifiers are pressed and it's supported both sides
+    if (keyboardModifiers.testFlag(Qt::ControlModifier)) {
+        if (source->supportedDragAndDropActions().testFlag(DataDeviceManagerInterface::DnDAction::Copy) && offer->supportedDragAndDropActions().has_value() && offer->supportedDragAndDropActions()->testFlag(DataDeviceManagerInterface::DnDAction::Copy)) {
+            return DataDeviceManagerInterface::DnDAction::Copy;
+        }
+    }
+    if (keyboardModifiers.testFlag(Qt::ShiftModifier)) {
+        if (source->supportedDragAndDropActions().testFlag(DataDeviceManagerInterface::DnDAction::Move) && offer->supportedDragAndDropActions().has_value() && offer->supportedDragAndDropActions()->testFlag(DataDeviceManagerInterface::DnDAction::Move)) {
+            return DataDeviceManagerInterface::DnDAction::Move;
+        }
+    }
+
+    // otherwise we pick the preferred action from the target if the source supported it
     if (offer->preferredDragAndDropAction().has_value()) {
         if (source->supportedDragAndDropActions().testFlag(*offer->preferredDragAndDropAction())) {
             return *offer->preferredDragAndDropAction();
         }
     }
 
+    // finally pick something everyone supports in a deterministic fashion
     if (offer->supportedDragAndDropActions().has_value()) {
         for (const auto &action : {DataDeviceManagerInterface::DnDAction::Copy, DataDeviceManagerInterface::DnDAction::Move, DataDeviceManagerInterface::DnDAction::Ask}) {
             if (source->supportedDragAndDropActions().testFlag(action) && offer->supportedDragAndDropActions()->testFlag(action)) {
@@ -259,6 +275,10 @@ void DataDeviceInterface::updateDragTarget(SurfaceInterface *surface, quint32 se
         if (d->drag.targetActionConnection) {
             disconnect(d->drag.targetActionConnection);
             d->drag.targetActionConnection = QMetaObject::Connection();
+        }
+        if (d->drag.keyboardModifiersConnection) {
+            disconnect(d->drag.keyboardModifiersConnection);
+            d->drag.keyboardModifiersConnection = QMetaObject::Connection();
         }
         // don't update serial, we need it
     }
@@ -301,7 +321,7 @@ void DataDeviceInterface::updateDragTarget(SurfaceInterface *surface, quint32 se
             d->send_motion(d->seat->timestamp().count(), wl_fixed_from_double(pos.x()), wl_fixed_from_double(pos.y()));
         });
     }
-    d->drag.destroyConnection = connect(d->drag.surface, &QObject::destroyed, this, [this] {
+    d->drag.destroyConnection = connect(d->drag.surface, &SurfaceInterface::aboutToBeDestroyed, this, [this] {
         d->send_leave();
         if (d->drag.posConnection) {
             disconnect(d->drag.posConnection);
@@ -319,17 +339,24 @@ void DataDeviceInterface::updateDragTarget(SurfaceInterface *surface, quint32 se
     if (d->seat->isDragPointer()) {
         pos = d->seat->dragSurfaceTransformation().map(d->seat->pointerPos());
     } else if (d->seat->isDragTouch()) {
-        pos = d->seat->dragSurfaceTransformation().map(d->seat->firstTouchPointPosition());
+        pos = d->seat->dragSurfaceTransformation().map(d->seat->firstTouchPointPosition(surface));
     }
     d->send_enter(serial, surface->resource(), wl_fixed_from_double(pos.x()), wl_fixed_from_double(pos.y()), offer ? offer->resource() : nullptr);
     if (offer) {
-        auto matchOffers = [dragSource, offer] {
-            const DataDeviceManagerInterface::DnDAction action = chooseDndAction(dragSource, offer);
+        auto matchOffers = [this, dragSource, offer] {
+            Qt::KeyboardModifiers keyboardModifiers;
+            if (d->seat->isDrag()) { // ignore keyboard modifiers when in "ask" negotiation
+                keyboardModifiers = dragSource->keyboardModifiers();
+            }
+
+            const DataDeviceManagerInterface::DnDAction action = chooseDndAction(dragSource, offer, keyboardModifiers);
             offer->dndAction(action);
             dragSource->dndAction(action);
         };
+        matchOffers();
         d->drag.targetActionConnection = connect(offer, &DataOfferInterface::dragAndDropActionsChanged, dragSource, matchOffers);
         d->drag.sourceActionConnection = connect(dragSource, &AbstractDataSource::supportedDragAndDropActionsChanged, offer, matchOffers);
+        d->drag.keyboardModifiersConnection = connect(dragSource, &AbstractDataSource::keyboardModifiersChanged, offer, matchOffers);
     }
 }
 

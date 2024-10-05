@@ -50,18 +50,16 @@ FrogColorManagementSurfaceV1::~FrogColorManagementSurfaceV1()
     }
 }
 
-static QtWaylandServer::frog_color_managed_surface::transfer_function kwinToFrogTransferFunction(NamedTransferFunction tf)
+static QtWaylandServer::frog_color_managed_surface::transfer_function kwinToFrogTransferFunction(TransferFunction tf)
 {
-    switch (tf) {
-    case NamedTransferFunction::sRGB:
+    switch (tf.type) {
+    case TransferFunction::sRGB:
         return QtWaylandServer::frog_color_managed_surface::transfer_function_srgb;
-    case NamedTransferFunction::gamma22:
+    case TransferFunction::gamma22:
         return QtWaylandServer::frog_color_managed_surface::transfer_function_gamma_22;
-    case NamedTransferFunction::PerceptualQuantizer:
+    case TransferFunction::PerceptualQuantizer:
         return QtWaylandServer::frog_color_managed_surface::transfer_function_st2084_pq;
-    case NamedTransferFunction::scRGB:
-        return QtWaylandServer::frog_color_managed_surface::transfer_function_scrgb_linear;
-    case NamedTransferFunction::linear:
+    case TransferFunction::linear:
         return QtWaylandServer::frog_color_managed_surface::transfer_function_scrgb_linear;
     }
     return QtWaylandServer::frog_color_managed_surface::transfer_function_undefined;
@@ -74,15 +72,19 @@ uint16_t encodePrimary(float primary)
 
 void FrogColorManagementSurfaceV1::setPreferredColorDescription(const ColorDescription &colorDescription)
 {
-    const auto &color = colorDescription.colorimetry();
+    const auto color = colorDescription.masteringColorimetry().value_or(colorDescription.containerColorimetry());
+    const xyY red = color.red().toxyY();
+    const xyY green = color.green().toxyY();
+    const xyY blue = color.blue().toxyY();
+    const xyY white = color.white().toxyY();
     send_preferred_metadata(kwinToFrogTransferFunction(colorDescription.transferFunction()),
-                            encodePrimary(color.red().x()), encodePrimary(color.red().y()),
-                            encodePrimary(color.green().x()), encodePrimary(color.green().y()),
-                            encodePrimary(color.blue().x()), encodePrimary(color.blue().y()),
-                            encodePrimary(color.white().x()), encodePrimary(color.white().y()),
-                            std::round(colorDescription.maxHdrHighlightBrightness()),
-                            std::round(colorDescription.minHdrBrightness() / 0.0001),
-                            std::round(colorDescription.maxFrameAverageBrightness()));
+                            encodePrimary(red.x), encodePrimary(red.y),
+                            encodePrimary(green.x), encodePrimary(green.y),
+                            encodePrimary(blue.x), encodePrimary(blue.y),
+                            encodePrimary(white.x), encodePrimary(white.y),
+                            std::round(colorDescription.maxHdrLuminance().value_or(0)),
+                            std::round(colorDescription.minLuminance() / 0.0001),
+                            std::round(colorDescription.maxAverageLuminance().value_or(0)));
 }
 
 void FrogColorManagementSurfaceV1::frog_color_managed_surface_set_known_transfer_function(Resource *resource, uint32_t transfer_function)
@@ -91,13 +93,13 @@ void FrogColorManagementSurfaceV1::frog_color_managed_surface_set_known_transfer
     case transfer_function_undefined:
     case transfer_function_srgb:
     case transfer_function_gamma_22:
-        m_transferFunction = NamedTransferFunction::gamma22;
+        m_transferFunction = TransferFunction(TransferFunction::gamma22);
         break;
     case transfer_function_st2084_pq:
-        m_transferFunction = NamedTransferFunction::PerceptualQuantizer;
+        m_transferFunction = TransferFunction(TransferFunction::PerceptualQuantizer);
         break;
     case transfer_function_scrgb_linear:
-        m_transferFunction = NamedTransferFunction::scRGB;
+        m_transferFunction = TransferFunction(TransferFunction::linear, 0.0, 80.0);
         break;
     }
     updateColorDescription();
@@ -108,10 +110,10 @@ void FrogColorManagementSurfaceV1::frog_color_managed_surface_set_known_containe
     switch (primaries) {
     case primaries_undefined:
     case primaries_rec709:
-        m_colorimetry = NamedColorimetry::BT709;
+        m_containerColorimetry = NamedColorimetry::BT709;
         break;
     case primaries_rec2020:
-        m_colorimetry = NamedColorimetry::BT2020;
+        m_containerColorimetry = NamedColorimetry::BT2020;
         break;
     }
     updateColorDescription();
@@ -130,8 +132,30 @@ void FrogColorManagementSurfaceV1::frog_color_managed_surface_set_hdr_metadata(R
                                                                                uint32_t max_display_mastering_luminance, uint32_t min_display_mastering_luminance,
                                                                                uint32_t max_cll, uint32_t max_fall)
 {
-    m_maxPeakBrightness = max_cll;
-    m_maxFrameAverageBrightness = max_fall;
+    // max_display_mastering_luminance and max_cll more or less have the same meaning in practice
+    // it seems that max_cll, if set, is more accurate, so prefer it
+    if (max_cll != 0) {
+        m_maxPeakBrightness = max_cll;
+    } else if (max_display_mastering_luminance != 0) {
+        m_maxPeakBrightness = max_display_mastering_luminance;
+    }
+    if (max_fall != 0 && (!m_maxPeakBrightness || max_fall <= *m_maxPeakBrightness)) {
+        m_maxAverageLuminance = max_fall;
+    }
+    const double minLuminance = min_display_mastering_luminance / 10'000.0;
+    if ((!m_maxPeakBrightness && !m_maxAverageLuminance)
+        || (m_maxPeakBrightness && minLuminance < *m_maxPeakBrightness)
+        || (m_maxAverageLuminance && minLuminance < *m_maxAverageLuminance)) {
+        m_minMasteringLuminance = minLuminance;
+    }
+    if (mastering_display_primary_red_x > 0 && mastering_display_primary_red_y > 0 && mastering_display_primary_green_x > 0 && mastering_display_primary_green_y > 0 && mastering_display_primary_blue_x > 0 && mastering_display_primary_blue_y > 0 && mastering_white_point_x > 0 && mastering_white_point_y > 0) {
+        m_masteringColorimetry = Colorimetry{
+            xy{mastering_display_primary_red_x / 10'000.0, mastering_display_primary_red_y / 10'000.0},
+            xy{mastering_display_primary_green_x / 10'000.0, mastering_display_primary_green_y / 10'000.0},
+            xy{mastering_display_primary_blue_x / 10'000.0, mastering_display_primary_blue_y / 10'000.0},
+            xy{mastering_white_point_x / 10'000.0, mastering_white_point_y / 10'000.0},
+        };
+    }
     updateColorDescription();
 }
 
@@ -148,9 +172,12 @@ void FrogColorManagementSurfaceV1::frog_color_managed_surface_destroy_resource(R
 void FrogColorManagementSurfaceV1::updateColorDescription()
 {
     if (m_surface) {
-        // TODO make brightness values optional in ColorDescription
         SurfaceInterfacePrivate *priv = SurfaceInterfacePrivate::get(m_surface);
-        priv->pending->colorDescription = ColorDescription(m_colorimetry, m_transferFunction, 0, 0, m_maxFrameAverageBrightness, m_maxPeakBrightness);
+        double referenceLuminance = m_transferFunction.maxLuminance;
+        if (!m_transferFunction.isRelative()) {
+            referenceLuminance = priv->preferredColorDescription.value_or(ColorDescription::sRGB).referenceLuminance();
+        }
+        priv->pending->colorDescription = ColorDescription(m_containerColorimetry, m_transferFunction, referenceLuminance, m_minMasteringLuminance.value_or(m_transferFunction.minLuminance), m_maxAverageLuminance, m_maxPeakBrightness, m_masteringColorimetry, Colorimetry::fromName(NamedColorimetry::BT709));
         priv->pending->colorDescriptionIsSet = true;
     }
 }

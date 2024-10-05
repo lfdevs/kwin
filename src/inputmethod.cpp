@@ -11,6 +11,7 @@
 #include "config-kwin.h"
 
 #include "input.h"
+#include "input_event.h"
 #include "inputpanelv1window.h"
 #include "keyboard_input.h"
 #include "utils/common.h"
@@ -21,6 +22,7 @@
 #if KWIN_BUILD_SCREENLOCKER
 #include "screenlockerwatcher.h"
 #endif
+#include "pointer_input.h"
 #include "tablet_input.h"
 #include "touch_input.h"
 #include "wayland/display.h"
@@ -122,6 +124,7 @@ void InputMethod::init()
         new TextInputManagerV2Interface(waylandServer()->display(), this);
         new TextInputManagerV3Interface(waylandServer()->display(), this);
 
+        connect(waylandServer()->seat(), &SeatInterface::focusedKeyboardSurfaceAboutToChange, this, &InputMethod::commitPendingText);
         connect(waylandServer()->seat(), &SeatInterface::focusedTextInputSurfaceChanged, this, &InputMethod::handleFocusedSurfaceChanged);
 
         TextInputV1Interface *textInputV1 = waylandServer()->seat()->textInputV1();
@@ -207,6 +210,18 @@ void InputMethod::refreshActive()
     setActive(active);
 }
 
+void InputMethod::commitPendingText()
+{
+    if (!m_pendingText.isEmpty()) {
+        commitString(m_serial++, m_pendingText);
+        m_pendingText = QString();
+        auto imContext = waylandServer()->inputMethod()->context();
+        if (imContext) {
+            imContext->sendReset();
+        }
+    }
+}
+
 void InputMethod::setActive(bool active)
 {
     const bool wasActive = waylandServer()->inputMethod()->context();
@@ -286,6 +301,9 @@ void InputMethod::setTrackedWindow(Window *trackedWindow)
 
 void InputMethod::handleFocusedSurfaceChanged()
 {
+    resetPendingPreedit();
+    m_pendingText = QString();
+
     auto seat = waylandServer()->seat();
     SurfaceInterface *focusedSurface = seat->focusedTextInputSurface();
 
@@ -447,6 +465,7 @@ void InputMethod::textInputInterfaceV3EnabledChanged()
     } else {
         // reset value of preedit when textinput is disabled
         resetPendingPreedit();
+        m_pendingText = QString();
     }
     auto context = waylandServer()->inputMethod()->context();
     if (context) {
@@ -519,6 +538,9 @@ static quint32 keysymToKeycode(quint32 sym)
 
 void InputMethod::keysymReceived(quint32 serial, quint32 time, quint32 sym, bool pressed, quint32 modifiers)
 {
+    if (pressed) {
+        commitPendingText();
+    }
     if (auto t1 = waylandServer()->seat()->textInputV1(); t1 && t1->isEnabled()) {
         if (pressed) {
             t1->keysymPressed(time, sym, modifiers);
@@ -561,6 +583,7 @@ void InputMethod::commitString(qint32 serial, const QString &text)
         t2->preEdit({}, {});
         return;
     } else if (auto t3 = waylandServer()->seat()->textInputV3(); t3 && t3->isEnabled()) {
+        t3->sendPreEditString(QString(), 0, 0);
         t3->commitString(text);
         t3->done();
         return;
@@ -708,8 +731,8 @@ void InputMethod::setPreeditString(uint32_t serial, const QString &text, const Q
     }
     auto t3 = waylandServer()->seat()->textInputV3();
     if (t3 && t3->isEnabled()) {
-        preedit.text = text;
-        if (!preedit.text.isEmpty()) {
+        m_pendingText = commit;
+        if (!text.isEmpty()) {
             quint32 cursor = 0, cursorEnd = 0;
             if (preedit.cursor > 0) {
                 cursor = cursorEnd = preedit.cursor;
@@ -735,7 +758,7 @@ void InputMethod::setPreeditString(uint32_t serial, const QString &text, const Q
                 }
             }
 
-            t3->sendPreEditString(preedit.text, cursor, cursorEnd);
+            t3->sendPreEditString(text, cursor, cursorEnd);
         }
         t3->done();
     }
@@ -744,6 +767,9 @@ void InputMethod::setPreeditString(uint32_t serial, const QString &text, const Q
 
 void InputMethod::key(quint32 /*serial*/, quint32 /*time*/, quint32 keyCode, bool pressed)
 {
+    if (pressed) {
+        commitPendingText();
+    }
     waylandServer()->seat()->notifyKeyboardKey(keyCode,
                                                pressed ? KeyboardKeyState::Pressed : KeyboardKeyState::Released);
 }
@@ -906,6 +932,10 @@ void InputMethod::startInputMethod()
     // animation.
     environment.insert(QStringLiteral("MALIIT_ENABLE_ANIMATIONS"), QStringLiteral("0"));
 
+    if (qEnvironmentVariableIntValue("KWIN_IM_WAYLAND_DEBUG") == 1) {
+        environment.insert("WAYLAND_DEBUG", QByteArrayLiteral("1"));
+    }
+
     m_inputMethodProcess = new QProcess(this);
     m_inputMethodProcess->setProcessChannelMode(QProcess::ForwardedErrorChannel);
     m_inputMethodProcess->setProcessEnvironment(environment);
@@ -964,9 +994,13 @@ bool InputMethod::isAvailable() const
     return !m_inputMethodCommand.isEmpty();
 }
 
+Window *InputMethod::activeWindow() const
+{
+    return m_trackedWindow;
+}
+
 void InputMethod::resetPendingPreedit()
 {
-    preedit.text = QString();
     preedit.cursor = 0;
     preedit.highlightRanges.clear();
 }

@@ -12,6 +12,7 @@
 
 #include "atoms.h"
 #include "core/session.h"
+#include "kwinxrenderutils.h"
 #include "x11_standalone_cursor.h"
 #include "x11_standalone_edge.h"
 #include "x11_standalone_placeholderoutput.h"
@@ -23,7 +24,6 @@
 #include "x11_standalone_xinputintegration.h"
 #endif
 #include "core/renderloop.h"
-#include "keyboard_input.h"
 #include "opengl/egldisplay.h"
 #include "options.h"
 #include "utils/c_ptr.h"
@@ -39,8 +39,6 @@
 #include "x11_standalone_output.h"
 #include "x11_standalone_screenedges_filter.h"
 #include "xkb.h"
-
-#include "../common/kwinxrenderutils.h"
 
 #include <KConfigGroup>
 #include <KLocalizedString>
@@ -190,10 +188,6 @@ std::unique_ptr<Cursor> X11StandaloneBackend::createPlatformCursor()
     auto c = std::make_unique<X11Cursor>(m_xinputIntegration != nullptr);
     if (m_xinputIntegration) {
         m_xinputIntegration->setCursor(c.get());
-        // we know we have xkb already
-        auto xkb = input()->keyboard()->xkb();
-        xkb->setConfig(kwinApp()->kxkbConfig());
-        xkb->reconfigure();
     }
     return c;
 #else

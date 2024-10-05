@@ -27,8 +27,10 @@ class TearingControlV1Interface;
 class FractionalScaleV1Interface;
 class FrogColorManagementSurfaceV1;
 class PresentationTimeFeedback;
-class XXColorSurfaceV2;
+class XXColorSurfaceV4;
+class XXColorFeedbackSurfaceV4;
 class LinuxDrmSyncObjSurfaceV1;
+class AlphaModifierSurfaceV1;
 
 struct SurfaceState
 {
@@ -59,6 +61,7 @@ struct SurfaceState
     bool contentTypeIsSet = false;
     bool presentationModeHintIsSet = false;
     bool colorDescriptionIsSet = false;
+    bool alphaMultiplierIsSet = false;
     qint32 bufferScale = 1;
     OutputTransform bufferTransform = OutputTransform::Normal;
     wl_list frameCallbacks;
@@ -71,6 +74,7 @@ struct SurfaceState
     ContentType contentType = ContentType::None;
     PresentationModeHint presentationHint = PresentationModeHint::VSync;
     ColorDescription colorDescription = ColorDescription::sRGB;
+    RenderingIntent renderingIntent = RenderingIntent::Perceptual;
     std::unique_ptr<PresentationTimeFeedback> presentationFeedback;
     struct
     {
@@ -78,6 +82,7 @@ struct SurfaceState
         uint64_t point = 0;
     } acquirePoint;
     std::shared_ptr<SyncReleasePoint> releasePoint;
+    double alphaMultiplier = 1;
 
     struct
     {
@@ -176,8 +181,10 @@ public:
     ClientConnection *client = nullptr;
     TearingControlV1Interface *tearing = nullptr;
     FrogColorManagementSurfaceV1 *frogColorManagement = nullptr;
-    XXColorSurfaceV2 *xxColorSurface = nullptr;
+    XXColorSurfaceV4 *xxColorSurface = nullptr;
+    QList<XXColorFeedbackSurfaceV4 *> xxColorFeedbacks;
     LinuxDrmSyncObjSurfaceV1 *syncObjV1 = nullptr;
+    AlphaModifierSurfaceV1 *alphaModifier = nullptr;
 
     struct
     {

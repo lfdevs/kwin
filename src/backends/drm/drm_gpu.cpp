@@ -15,6 +15,7 @@
 #include "drm_backend.h"
 #include "drm_buffer.h"
 #include "drm_commit.h"
+#include "drm_commit_thread.h"
 #include "drm_connector.h"
 #include "drm_crtc.h"
 #include "drm_egl_backend.h"
@@ -23,7 +24,6 @@
 #include "drm_output.h"
 #include "drm_pipeline.h"
 #include "drm_plane.h"
-#include "drm_virtual_output.h"
 // system
 #include <algorithm>
 #include <errno.h>
@@ -40,6 +40,9 @@
 
 #ifndef DRM_CLIENT_CAP_CURSOR_PLANE_HOTSPOT
 #define DRM_CLIENT_CAP_CURSOR_PLANE_HOTSPOT 6
+#endif
+#ifndef DRM_CAP_ATOMIC_ASYNC_PAGE_FLIP
+#define DRM_CAP_ATOMIC_ASYNC_PAGE_FLIP 0x15
 #endif
 
 namespace KWin
@@ -90,8 +93,9 @@ DrmGpu::DrmGpu(DrmBackend *backend, int fd, std::unique_ptr<DrmDevice> &&device)
     initDrmResources();
 
     if (m_atomicModeSetting == false) {
-        // only supported with legacy
         m_asyncPageflipSupported = drmGetCap(fd, DRM_CAP_ASYNC_PAGE_FLIP, &capability) == 0 && capability == 1;
+    } else {
+        m_asyncPageflipSupported = drmGetCap(fd, DRM_CAP_ATOMIC_ASYNC_PAGE_FLIP, &capability) == 0 && capability == 1;
     }
 }
 
@@ -366,10 +370,6 @@ void DrmGpu::removeOutputs()
     for (const auto &output : outputs) {
         removeOutput(output);
     }
-    const auto virtualOutputs = m_virtualOutputs;
-    for (const auto &output : virtualOutputs) {
-        removeVirtualOutput(output);
-    }
 }
 
 DrmPipeline::Error DrmGpu::checkCrtcAssignment(QList<DrmConnector *> connectors, const QList<DrmCrtc *> &crtcs)
@@ -506,10 +506,10 @@ void DrmGpu::waitIdle()
 {
     m_socketNotifier->setEnabled(false);
     while (true) {
-        const bool idle = std::ranges::all_of(m_drmOutputs, [](DrmOutput *output) {
-            return !output->pipeline()->pageflipsPending();
+        const bool hasPendingCommit = std::ranges::any_of(m_pipelines, [](DrmPipeline *pipeline) {
+            return pipeline->commitThread()->drain();
         });
-        if (idle) {
+        if (!hasPendingCommit) {
             break;
         }
         pollfd pfds[1];
@@ -604,22 +604,6 @@ const QList<DrmPipeline *> DrmGpu::pipelines() const
     return m_pipelines;
 }
 
-DrmVirtualOutput *DrmGpu::createVirtualOutput(const QString &name, const QSize &size, double scale)
-{
-    auto output = new DrmVirtualOutput(name, this, size, scale);
-    m_virtualOutputs << output;
-    Q_EMIT outputAdded(output);
-    return output;
-}
-
-void DrmGpu::removeVirtualOutput(DrmVirtualOutput *output)
-{
-    if (m_virtualOutputs.removeOne(output)) {
-        Q_EMIT outputRemoved(output);
-        output->unref();
-    }
-}
-
 std::unique_ptr<DrmLease> DrmGpu::leaseOutputs(const QList<DrmOutput *> &outputs)
 {
     QList<uint32_t> objects;
@@ -645,11 +629,6 @@ std::unique_ptr<DrmLease> DrmGpu::leaseOutputs(const QList<DrmOutput *> &outputs
         }
         return std::make_unique<DrmLease>(this, std::move(fd), lesseeId, outputs);
     }
-}
-
-QList<DrmVirtualOutput *> DrmGpu::virtualOutputs() const
-{
-    return m_virtualOutputs;
 }
 
 QList<DrmOutput *> DrmGpu::drmOutputs() const
@@ -839,9 +818,6 @@ void DrmGpu::releaseBuffers()
             layer->releaseBuffers();
         }
     }
-    for (const auto &output : std::as_const(m_virtualOutputs)) {
-        output->primaryLayer()->releaseBuffers();
-    }
 }
 
 void DrmGpu::recreateSurfaces()
@@ -849,9 +825,6 @@ void DrmGpu::recreateSurfaces()
     for (const auto &pipeline : std::as_const(m_pipelines)) {
         pipeline->setLayers(m_platform->renderBackend()->createDrmPlaneLayer(pipeline, DrmPlane::TypeIndex::Primary), m_platform->renderBackend()->createDrmPlaneLayer(pipeline, DrmPlane::TypeIndex::Cursor));
         pipeline->applyPendingChanges();
-    }
-    for (const auto &output : std::as_const(m_virtualOutputs)) {
-        output->recreateSurface();
     }
 }
 

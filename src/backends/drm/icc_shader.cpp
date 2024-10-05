@@ -22,7 +22,6 @@ IccShader::IccShader()
 {
     m_locations = {
         .src = m_shader->uniformLocation("src"),
-        .sdrBrightness = m_shader->uniformLocation("sdrBrightness"),
         .toXYZD50 = m_shader->uniformLocation("toXYZD50"),
         .bsize = m_shader->uniformLocation("Bsize"),
         .bsampler = m_shader->uniformLocation("Bsampler"),
@@ -40,7 +39,11 @@ IccShader::~IccShader()
 {
 }
 
-static const QVector2D D50 = Colorimetry::xyzToXY(QVector3D(0.9642, 1.0, 0.8249));
+static const XYZ D50{
+    .X = 0.9642,
+    .Y = 1.0,
+    .Z = 0.8249,
+};
 
 bool IccShader::setProfile(const std::shared_ptr<IccProfile> &profile)
 {
@@ -145,7 +148,7 @@ GLShader *IccShader::shader() const
     return m_shader.get();
 }
 
-void IccShader::setUniforms(const std::shared_ptr<IccProfile> &profile, float sdrBrightness, const QVector3D &channelFactors)
+void IccShader::setUniforms(const std::shared_ptr<IccProfile> &profile, const ColorDescription &inputColor, const QVector3D &channelFactors)
 {
     // this failing can be silently ignored, it should only happen with GPU resets and gets corrected later
     setProfile(profile);
@@ -155,7 +158,11 @@ void IccShader::setUniforms(const std::shared_ptr<IccProfile> &profile, float sd
     nightColor(1, 1) = channelFactors.y();
     nightColor(2, 2) = channelFactors.z();
     m_shader->setUniform(m_locations.toXYZD50, m_toXYZD50 * nightColor);
-    m_shader->setUniform(m_locations.sdrBrightness, sdrBrightness);
+    m_shader->setUniform(GLShader::IntUniform::SourceNamedTransferFunction, inputColor.transferFunction().type);
+    m_shader->setUniform(GLShader::Vec2Uniform::SourceTransferFunctionParams, QVector2D(inputColor.transferFunction().minLuminance, inputColor.transferFunction().maxLuminance - inputColor.transferFunction().minLuminance));
+    m_shader->setUniform(GLShader::FloatUniform::SourceReferenceLuminance, inputColor.referenceLuminance());
+    m_shader->setUniform(GLShader::FloatUniform::DestinationReferenceLuminance, inputColor.referenceLuminance());
+    m_shader->setUniform(GLShader::FloatUniform::MaxDestinationLuminance, inputColor.referenceLuminance());
 
     glActiveTexture(GL_TEXTURE1);
     if (m_B) {

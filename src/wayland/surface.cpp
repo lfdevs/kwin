@@ -25,7 +25,7 @@
 #include "surface_p.h"
 #include "transaction.h"
 #include "utils/resource.h"
-#include "xx_colormanagement_v2.h"
+#include "xx_colormanagement_v4.h"
 
 #include <wayland-server.h>
 // std
@@ -589,6 +589,10 @@ void SurfaceState::mergeInto(SurfaceState *target)
         target->colorDescription = colorDescription;
         target->colorDescriptionIsSet = true;
     }
+    if (alphaMultiplierIsSet) {
+        target->alphaMultiplier = alphaMultiplier;
+        target->alphaMultiplierIsSet = true;
+    }
     target->presentationFeedback = std::move(presentationFeedback);
 
     *this = SurfaceState{};
@@ -611,6 +615,7 @@ void SurfaceInterfacePrivate::applyState(SurfaceState *next)
     const bool colorDescriptionChanged = next->colorDescriptionIsSet;
     const bool presentationModeHintChanged = next->presentationModeHintIsSet;
     const bool bufferReleasePointChanged = next->bufferIsSet && current->releasePoint != next->releasePoint;
+    const bool alphaMultiplierChanged = next->alphaMultiplierIsSet;
 
     const QSizeF oldSurfaceSize = surfaceSize;
     const QSize oldBufferSize = bufferSize;
@@ -705,6 +710,9 @@ void SurfaceInterfacePrivate::applyState(SurfaceState *next)
     }
     if (bufferReleasePointChanged) {
         Q_EMIT q->bufferReleasePointChanged();
+    }
+    if (alphaMultiplierChanged) {
+        Q_EMIT q->alphaMultiplierChanged();
     }
 
     if (bufferChanged) {
@@ -860,6 +868,11 @@ QList<SubSurfaceInterface *> SurfaceInterface::above() const
 SubSurfaceInterface *SurfaceInterface::subSurface() const
 {
     return d->subsurface.handle;
+}
+
+SurfaceInterface *SurfaceInterface::mainSurface()
+{
+    return subSurface() ? subSurface()->mainSurface() : this;
 }
 
 QSizeF SurfaceInterface::size() const
@@ -1107,6 +1120,11 @@ const ColorDescription &SurfaceInterface::colorDescription() const
     return d->current->colorDescription;
 }
 
+RenderingIntent SurfaceInterface::renderingIntent() const
+{
+    return d->current->renderingIntent;
+}
+
 void SurfaceInterface::setPreferredColorDescription(const ColorDescription &descr)
 {
     if (d->preferredColorDescription == descr) {
@@ -1116,8 +1134,8 @@ void SurfaceInterface::setPreferredColorDescription(const ColorDescription &desc
     if (d->frogColorManagement) {
         d->frogColorManagement->setPreferredColorDescription(descr);
     }
-    if (d->xxColorSurface) {
-        d->xxColorSurface->setPreferredColorDescription(descr);
+    for (const auto feedbackSurface : std::as_const(d->xxColorFeedbacks)) {
+        feedbackSurface->setPreferredColorDescription(descr);
     }
     for (auto child : std::as_const(d->current->subsurface.below)) {
         child->surface()->setPreferredColorDescription(descr);
@@ -1203,6 +1221,11 @@ void SurfaceInterface::traverseTree(std::function<void(SurfaceInterface *surface
 std::shared_ptr<SyncReleasePoint> SurfaceInterface::bufferReleasePoint() const
 {
     return d->current->releasePoint;
+}
+
+double SurfaceInterface::alphaMultiplier() const
+{
+    return d->current->alphaMultiplier;
 }
 
 } // namespace KWin

@@ -733,7 +733,7 @@ void X11Window::configureRequestEvent(xcb_configure_request_event_t *e)
                          Xcb::fromXNative(e->y), Xcb::fromXNative(e->width), Xcb::fromXNative(e->height), 0, false);
     }
     if (e->value_mask & XCB_CONFIG_WINDOW_STACK_MODE) {
-        restackWindow(e->sibling, e->stack_mode, NET::FromApplication, userTime(), false);
+        restackWindow(e->sibling, e->stack_mode, NET::FromApplication, userTime());
     }
 
     // Sending a synthetic configure notify always is fine, even in cases where
@@ -1182,14 +1182,14 @@ bool X11Window::motionNotifyEvent(xcb_window_t w, int state, int x, int y, int x
         const QPointF delta(QPointF(x, y) - offset);
         if (delta.manhattanLength() >= QApplication::startDragDistance()) {
             if (startInteractiveMoveResize()) {
-                updateInteractiveMoveResize(QPointF(x_root, y_root));
+                updateInteractiveMoveResize(QPointF(x_root, y_root), x11ToQtKeyboardModifiers(state));
             } else {
                 setInteractiveMoveResizePointerButtonDown(false);
             }
             updateCursor();
         }
     } else {
-        updateInteractiveMoveResize(QPointF(x_root, y_root));
+        updateInteractiveMoveResize(QPointF(x_root, y_root), x11ToQtKeyboardModifiers(state));
 
         if (isInteractiveMove()) {
             workspace()->screenEdges()->check(QPoint(x_root, y_root), QDateTime::fromMSecsSinceEpoch(xTime(), Qt::UTC));
@@ -1204,7 +1204,7 @@ void X11Window::focusInEvent(xcb_focus_in_event_t *e)
     if (e->event != window()) {
         return; // only window gets focus
     }
-    if (e->mode == XCB_NOTIFY_MODE_UNGRAB) {
+    if (e->mode == XCB_NOTIFY_MODE_GRAB || e->mode == XCB_NOTIFY_MODE_UNGRAB) {
         return; // we don't care
     }
     if (e->detail == XCB_NOTIFY_DETAIL_POINTER) {
@@ -1236,7 +1236,7 @@ void X11Window::focusOutEvent(xcb_focus_out_event_t *e)
     if (e->event != window()) {
         return; // only window gets focus
     }
-    if (e->mode == XCB_NOTIFY_MODE_GRAB) {
+    if (e->mode == XCB_NOTIFY_MODE_GRAB || e->mode == XCB_NOTIFY_MODE_UNGRAB) {
         return; // we don't care
     }
     if (isShade()) {
@@ -1331,6 +1331,7 @@ void X11Window::NETMoveResize(qreal x_root, qreal y_root, NET::Direction directi
             }
             setInteractiveMoveResizePointerButtonDown(true);
             setInteractiveMoveResizeAnchor(QPointF(x_root, y_root));
+            setInteractiveMoveResizeModifiers(Qt::KeyboardModifiers());
             setInteractiveMoveOffset(QPointF(qreal(x_root - x()) / width(), qreal(y_root - y()) / height())); // map from global
             setUnrestrictedInteractiveMoveResize(false);
             setInteractiveMoveResizeGravity(convert[direction]);

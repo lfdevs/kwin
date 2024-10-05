@@ -51,8 +51,9 @@ protected:
 class DrmAtomicCommit : public DrmCommit
 {
 public:
-    DrmAtomicCommit(const QList<DrmPipeline *> &pipelines);
-    DrmAtomicCommit(const DrmAtomicCommit &copy) = default;
+    explicit DrmAtomicCommit(DrmGpu *gpu);
+    explicit DrmAtomicCommit(const QList<DrmPipeline *> &pipelines);
+    explicit DrmAtomicCommit(const DrmAtomicCommit &copy) = default;
 
     void addProperty(const DrmProperty &prop, uint64_t value);
     template<typename T>
@@ -84,6 +85,7 @@ public:
 
     std::optional<std::chrono::steady_clock::time_point> targetPageflipTime() const;
     bool isReadyFor(std::chrono::steady_clock::time_point pageflipTarget) const;
+    bool isTearing() const;
 
 private:
     bool doCommit(uint32_t flags);
@@ -112,6 +114,7 @@ public:
 
 private:
     DrmPipeline *const m_pipeline;
+    DrmCrtc *const m_crtc;
     const std::shared_ptr<DrmFramebuffer> m_buffer;
     std::shared_ptr<OutputFrame> m_frame;
     PresentationMode m_mode = PresentationMode::VSync;

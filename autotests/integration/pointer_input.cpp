@@ -14,7 +14,7 @@
 #include "effect/effecthandler.h"
 #include "options.h"
 #include "pointer_input.h"
-#include "utils/xcursortheme.h"
+#include "utils/cursortheme.h"
 #include "virtualdesktops.h"
 #include "wayland/seat.h"
 #include "wayland_server.h"
@@ -42,7 +42,7 @@ static PlatformCursorImage loadReferenceThemeCursor(const QByteArray &name)
 {
     const Cursor *pointerCursor = Cursors::self()->mouse();
 
-    const KXcursorTheme theme(pointerCursor->themeName(), pointerCursor->themeSize(), kwinApp()->devicePixelRatio());
+    const CursorTheme theme(pointerCursor->themeName(), pointerCursor->themeSize(), kwinApp()->devicePixelRatio());
     if (theme.isEmpty()) {
         return PlatformCursorImage();
     }
@@ -122,12 +122,7 @@ void PointerInputTest::initTestCase()
 
     kwinApp()->setConfig(KSharedConfig::openConfig(QString(), KConfig::SimpleConfig));
 
-    if (!QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("icons/DMZ-White/index.theme")).isEmpty()) {
-        qputenv("XCURSOR_THEME", QByteArrayLiteral("DMZ-White"));
-    } else {
-        // might be vanilla-dmz (e.g. Arch, FreeBSD)
-        qputenv("XCURSOR_THEME", QByteArrayLiteral("Vanilla-DMZ"));
-    }
+    qputenv("XCURSOR_THEME", QByteArrayLiteral("breeze_cursors"));
     qputenv("XCURSOR_SIZE", QByteArrayLiteral("24"));
     qputenv("XKB_DEFAULT_RULES", "evdev");
 
@@ -1786,10 +1781,10 @@ void PointerInputTest::testMoveCursor()
     Test::pointerButtonPressed(BTN_LEFT, timestamp++);
     QVERIFY(window->isInteractiveMove());
 
-    const PlatformCursorImage sizeAllCursor = loadReferenceThemeCursor(Qt::SizeAllCursor);
-    QVERIFY(!sizeAllCursor.isNull());
-    QCOMPARE(kwinApp()->cursorImage().image(), sizeAllCursor.image());
-    QCOMPARE(kwinApp()->cursorImage().hotSpot(), sizeAllCursor.hotSpot());
+    const PlatformCursorImage moveCursor = loadReferenceThemeCursor(Qt::ClosedHandCursor);
+    QVERIFY(!moveCursor.isNull());
+    QCOMPARE(kwinApp()->cursorImage().image(), moveCursor.image());
+    QCOMPARE(kwinApp()->cursorImage().hotSpot(), moveCursor.hotSpot());
 
     // finish moving the window
     Test::keyboardKeyReleased(KEY_LEFTMETA, timestamp++);

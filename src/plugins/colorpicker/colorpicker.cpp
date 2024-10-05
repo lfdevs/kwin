@@ -10,6 +10,7 @@
 #include "core/rendertarget.h"
 #include "core/renderviewport.h"
 #include "effect/effecthandler.h"
+#include "opengl/openglcontext.h"
 #include <KLocalizedString>
 #include <QDBusConnection>
 #include <QDBusMetaType>
@@ -65,10 +66,10 @@ void ColorPickerEffect::paintScreen(const RenderTarget &renderTarget, const Rend
         std::array<float, 4> data;
         constexpr GLsizei PIXEL_SIZE = 1;
         const QPoint texturePosition = viewport.mapToRenderTarget(m_scheduledPosition).toPoint();
-        const ColorDescription sRGBencoding(Colorimetry::fromName(NamedColorimetry::BT709), NamedTransferFunction::gamma22, renderTarget.colorDescription().sdrBrightness(), 0, renderTarget.colorDescription().sdrBrightness(), renderTarget.colorDescription().sdrBrightness());
+        OpenGlContext *context = effects->openglContext();
 
-        glReadPixels(texturePosition.x(), renderTarget.size().height() - texturePosition.y() - PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE, GL_RGBA, GL_FLOAT, data.data());
-        QVector3D sRGB = 255 * renderTarget.colorDescription().mapTo(QVector3D(data[0], data[1], data[2]), sRGBencoding);
+        context->glReadnPixels(texturePosition.x(), renderTarget.size().height() - texturePosition.y() - PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE, GL_RGBA, GL_FLOAT, sizeof(float) * data.size(), data.data());
+        QVector3D sRGB = 255 * renderTarget.colorDescription().mapTo(QVector3D(data[0], data[1], data[2]), ColorDescription::sRGB, RenderingIntent::RelativeColorimetric);
         QDBusConnection::sessionBus().send(m_replyMessage.createReply(QColor(sRGB.x(), sRGB.y(), sRGB.z())));
         setPicking(false);
         m_scheduledPosition = QPoint(-1, -1);

@@ -199,7 +199,7 @@ void ScreenCastStream::onStreamParamChanged(uint32_t id, const struct spa_pod *f
     }
 
     if (!format || id != SPA_PARAM_Format) {
-        qCDebug(KWIN_SCREENCAST) << objectName() << "stream param request ignored, id:" << id << "and with format:"<< (format != nullptr);
+        qCDebug(KWIN_SCREENCAST) << objectName() << "stream param request ignored, id:" << id << "and with format:" << (format != nullptr);
         return;
     }
 
@@ -220,16 +220,12 @@ void ScreenCastStream::onStreamParamChanged(uint32_t id, const struct spa_pod *f
         }
 
         if (!m_dmabufParams || m_dmabufParams->width != m_resolution.width() || m_dmabufParams->height != m_resolution.height() || !receivedModifiers.contains(m_dmabufParams->modifier)) {
-            if (modifierProperty->flags & SPA_POD_PROP_FLAG_DONT_FIXATE) {
-                // DRM_MOD_INVALID should be used as a last option. Do not just remove it it's the only
-                // item on the list
-                if (receivedModifiers.count() > 1) {
-                    receivedModifiers.removeAll(DRM_FORMAT_MOD_INVALID);
-                }
-                m_dmabufParams = testCreateDmaBuf(m_resolution, m_drmFormat, receivedModifiers);
-            } else {
-                m_dmabufParams = testCreateDmaBuf(m_resolution, m_drmFormat, {DRM_FORMAT_MOD_INVALID});
+            // DRM_MOD_INVALID should be used as a last option. Do not just remove it it's the only
+            // item on the list
+            if (receivedModifiers.count() > 1) {
+                receivedModifiers.removeAll(DRM_FORMAT_MOD_INVALID);
             }
+            m_dmabufParams = testCreateDmaBuf(m_resolution, m_drmFormat, receivedModifiers);
 
             // In case we fail to use any modifier from the list of offered ones, remove these
             // from our all future offerings, otherwise there will be no indication that it cannot
@@ -247,7 +243,7 @@ void ScreenCastStream::onStreamParamChanged(uint32_t id, const struct spa_pod *f
             return;
         }
     } else {
-      m_dmabufParams.reset();
+        m_dmabufParams.reset();
     }
 
     qCDebug(KWIN_SCREENCAST) << objectName() << "Stream format found, defining buffers";
@@ -347,7 +343,7 @@ bool ScreenCastStream::init()
 
     AbstractEglBackend *backend = qobject_cast<AbstractEglBackend *>(Compositor::self()->backend());
     if (!backend) {
-        m_error = QStringLiteral("OpenGL compositing is required for screencasting");
+        m_error = i18n("OpenGL compositing is required for screencasting");
         return false;
     }
 
@@ -468,7 +464,7 @@ void ScreenCastStream::scheduleRecord(const QRegion &damage, Contents contents)
     }
 
     if (contents == Content::Cursor) {
-        if (!m_cursor.visible && !includesCursor(Cursors::self()->currentCursor())) {
+        if (!m_cursor.visible && !m_source->includesCursor(Cursors::self()->currentCursor())) {
             return;
         }
     }
@@ -703,14 +699,6 @@ spa_pod *ScreenCastStream::buildFormat(struct spa_pod_builder *b, enum spa_video
     return (spa_pod *)spa_pod_builder_pop(b, &f[0]);
 }
 
-bool ScreenCastStream::includesCursor(Cursor *cursor) const
-{
-    if (Cursors::self()->isCursorHidden()) {
-        return false;
-    }
-    return m_cursor.viewport.intersects(cursor->geometry());
-}
-
 void ScreenCastStream::addCursorMetadata(spa_buffer *spaBuffer, Cursor *cursor)
 {
     if (!cursor) {
@@ -722,24 +710,21 @@ void ScreenCastStream::addCursorMetadata(spa_buffer *spaBuffer, Cursor *cursor)
         return;
     }
 
-    if (!includesCursor(cursor)) {
+    if (!m_source->includesCursor(cursor)) {
         spaMetaCursor->id = 0;
-        spaMetaCursor->position.x = -1;
-        spaMetaCursor->position.y = -1;
-        spaMetaCursor->hotspot.x = -1;
-        spaMetaCursor->hotspot.y = -1;
-        spaMetaCursor->bitmap_offset = 0;
         m_cursor.visible = false;
         return;
     }
     m_cursor.visible = true;
-    const auto position = (cursor->pos() - m_cursor.viewport.topLeft()) * m_cursor.scale;
+
+    const qreal scale = m_source->devicePixelRatio();
+    const auto position = m_source->mapFromGlobal(cursor->pos()) * scale;
 
     spaMetaCursor->id = 1;
     spaMetaCursor->position.x = position.x();
     spaMetaCursor->position.y = position.y();
-    spaMetaCursor->hotspot.x = cursor->hotspot().x() * m_cursor.scale;
-    spaMetaCursor->hotspot.y = cursor->hotspot().y() * m_cursor.scale;
+    spaMetaCursor->hotspot.x = cursor->hotspot().x() * scale;
+    spaMetaCursor->hotspot.y = cursor->hotspot().y() * scale;
     spaMetaCursor->bitmap_offset = 0;
 
     if (!m_cursor.invalid) {
@@ -749,7 +734,7 @@ void ScreenCastStream::addCursorMetadata(spa_buffer *spaBuffer, Cursor *cursor)
     m_cursor.invalid = false;
     spaMetaCursor->bitmap_offset = sizeof(struct spa_meta_cursor);
 
-    const QSize targetSize = (cursor->rect().size() * m_cursor.scale).toSize();
+    const QSize targetSize = (cursor->rect().size() * scale).toSize();
 
     struct spa_meta_bitmap *spaMetaBitmap = SPA_MEMBER(spaMetaCursor,
                                                        spaMetaCursor->bitmap_offset,
@@ -777,19 +762,18 @@ void ScreenCastStream::addCursorMetadata(spa_buffer *spaBuffer, Cursor *cursor)
 
 QRegion ScreenCastStream::addCursorEmbedded(ScreenCastBuffer *buffer, Cursor *cursor)
 {
-    if (!includesCursor(cursor)) {
+    if (!m_source->includesCursor(cursor)) {
         const QRegion damage = m_cursor.lastRect.toAlignedRect();
         m_cursor.visible = false;
         m_cursor.lastRect = QRectF();
         return damage;
     }
 
-    const QRectF cursorRect = scaledRect(cursor->geometry().translated(-m_cursor.viewport.topLeft()), m_cursor.scale);
+    const QRectF cursorRect = scaledRect(m_source->mapFromGlobal(cursor->geometry()), m_source->devicePixelRatio());
     if (auto memfd = dynamic_cast<MemFdScreenCastBuffer *>(buffer)) {
         QPainter painter(memfd->view.image());
-        const auto position = (cursor->pos() - m_cursor.viewport.topLeft() - cursor->hotspot()) * m_cursor.scale;
         const PlatformCursorImage cursorImage = kwinApp()->cursorImage();
-        painter.drawImage(QRect{position.toPoint(), cursorImage.image().size()}, cursorImage.image());
+        painter.drawImage(cursorRect, cursorImage.image());
     } else if (auto dmabuf = dynamic_cast<DmaBufScreenCastBuffer *>(buffer)) {
         if (m_cursor.invalid) {
             m_cursor.invalid = false;
@@ -829,11 +813,9 @@ QRegion ScreenCastStream::addCursorEmbedded(ScreenCastBuffer *buffer, Cursor *cu
     return damage;
 }
 
-void ScreenCastStream::setCursorMode(ScreencastV1Interface::CursorMode mode, qreal scale, const QRectF &viewport)
+void ScreenCastStream::setCursorMode(ScreencastV1Interface::CursorMode mode)
 {
     m_cursor.mode = mode;
-    m_cursor.scale = scale;
-    m_cursor.viewport = viewport;
 }
 
 std::optional<ScreenCastDmaBufTextureParams> ScreenCastStream::testCreateDmaBuf(const QSize &size, quint32 format, const QList<uint64_t> &modifiers)

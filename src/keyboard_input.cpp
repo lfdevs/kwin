@@ -26,6 +26,9 @@
 #if KWIN_BUILD_SCREENLOCKER
 #include <KScreenLocker/KsldApp>
 #endif
+#if KWIN_BUILD_TABBOX
+#include "tabbox/tabbox.h"
+#endif
 // Frameworks
 #include <KGlobalAccel>
 // Qt
@@ -103,7 +106,11 @@ public:
         if (event->isAutoRepeat()) {
             return;
         }
-        const Qt::KeyboardModifiers mods = event->modifiers();
+
+        // QKeyEvent::modifiers differs from the superclass QInputEvent::modifiers
+        // QKeyEvent tries to special case an old QtXCB behaviour and assumes modifiers aren't processed at
+        // the time of the release and inverts the logic. This is not the case for kwin
+        const Qt::KeyboardModifiers mods = event->QInputEvent::modifiers();
         if (mods == m_modifiers) {
             return;
         }
@@ -154,7 +161,7 @@ void KeyboardInputRedirection::init()
         update();
     });
 #if KWIN_BUILD_SCREENLOCKER
-    if (waylandServer()->hasScreenLockerIntegration()) {
+    if (kwinApp()->supportsLockScreen()) {
         connect(ScreenLocker::KSldApp::self(), &ScreenLocker::KSldApp::lockStateChanged, this, &KeyboardInputRedirection::update);
     }
 #endif
@@ -180,14 +187,8 @@ void KeyboardInputRedirection::reconfigure()
     }
 }
 
-void KeyboardInputRedirection::update()
+Window *KeyboardInputRedirection::pickFocus() const
 {
-    if (!m_inited) {
-        return;
-    }
-    auto seat = waylandServer()->seat();
-    // TODO: this needs better integration
-    Window *found = nullptr;
     if (waylandServer()->isScreenLocked()) {
         const QList<Window *> &stacking = Workspace::self()->stackingOrder();
         if (!stacking.isEmpty()) {
@@ -205,13 +206,33 @@ void KeyboardInputRedirection::update()
                 if (!t->readyForPainting()) {
                     continue;
                 }
-                found = t;
-                break;
+                return t;
             } while (it != stacking.begin());
         }
-    } else if (!input()->isSelectingWindow()) {
-        found = workspace()->activeWindow();
     }
+
+    if (input()->isSelectingWindow()) {
+        return nullptr;
+    }
+
+#if KWIN_BUILD_TABBOX
+    if (workspace()->tabbox()->isGrabbed()) {
+        return nullptr;
+    }
+#endif
+
+    return workspace()->activeWindow();
+}
+
+void KeyboardInputRedirection::update()
+{
+    if (!m_inited) {
+        return;
+    }
+    auto seat = waylandServer()->seat();
+
+    // TODO: this needs better integration
+    Window *found = pickFocus();
     if (found && found->surface()) {
         if (found->surface() != seat->focusedKeyboardSurface()) {
             seat->setFocusedKeyboardSurface(found->surface());
@@ -223,6 +244,11 @@ void KeyboardInputRedirection::update()
 
 void KeyboardInputRedirection::processKey(uint32_t key, InputRedirection::KeyboardKeyState state, std::chrono::microseconds time, InputDevice *device)
 {
+    input()->setLastInputHandler(this);
+    if (!m_inited) {
+        return;
+    }
+
     QEvent::Type type;
     bool autoRepeat = false;
     switch (state) {
@@ -255,13 +281,10 @@ void KeyboardInputRedirection::processKey(uint32_t key, InputRedirection::Keyboa
                    autoRepeat,
                    time,
                    device);
+    event.setAccepted(false);
     event.setModifiersRelevantForGlobalShortcuts(globalShortcutsModifiers);
 
     m_input->processSpies(std::bind(&InputEventSpy::keyEvent, std::placeholders::_1, &event));
-    if (!m_inited) {
-        return;
-    }
-    input()->setLastInputHandler(this);
     m_input->processFilters(std::bind(&InputEventFilter::keyEvent, std::placeholders::_1, &event));
 
     m_xkb->forwardModifiers();

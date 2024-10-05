@@ -4,7 +4,6 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "iccprofile.h"
-#include "colorlut.h"
 #include "colorlut3d.h"
 #include "colorpipelinestage.h"
 #include "colortransformation.h"
@@ -17,21 +16,23 @@
 namespace KWin
 {
 
-IccProfile::IccProfile(cmsHPROFILE handle, const Colorimetry &colorimetry, BToATagData &&bToATag, const std::shared_ptr<ColorTransformation> &vcgt, std::optional<double> brightness)
+IccProfile::IccProfile(cmsHPROFILE handle, const Colorimetry &colorimetry, BToATagData &&bToATag, const std::shared_ptr<ColorTransformation> &vcgt, std::optional<double> minBrightness, std::optional<double> maxBrightness)
     : m_handle(handle)
     , m_colorimetry(colorimetry)
     , m_bToATag(std::move(bToATag))
     , m_vcgt(vcgt)
-    , m_brightness(brightness)
+    , m_minBrightness(minBrightness)
+    , m_maxBrightness(maxBrightness)
 {
 }
 
-IccProfile::IccProfile(cmsHPROFILE handle, const Colorimetry &colorimetry, const std::shared_ptr<ColorTransformation> &inverseEOTF, const std::shared_ptr<ColorTransformation> &vcgt, std::optional<double> brightness)
+IccProfile::IccProfile(cmsHPROFILE handle, const Colorimetry &colorimetry, const std::shared_ptr<ColorTransformation> &inverseEOTF, const std::shared_ptr<ColorTransformation> &vcgt, std::optional<double> minBrightness, std::optional<double> maxBrightness)
     : m_handle(handle)
     , m_colorimetry(colorimetry)
     , m_inverseEOTF(inverseEOTF)
     , m_vcgt(vcgt)
-    , m_brightness(brightness)
+    , m_minBrightness(minBrightness)
+    , m_maxBrightness(maxBrightness)
 {
 }
 
@@ -40,9 +41,14 @@ IccProfile::~IccProfile()
     cmsCloseProfile(m_handle);
 }
 
-std::optional<double> IccProfile::brightness() const
+std::optional<double> IccProfile::minBrightness() const
 {
-    return m_brightness;
+    return m_minBrightness;
+}
+
+std::optional<double> IccProfile::maxBrightness() const
+{
+    return m_maxBrightness;
 }
 
 const Colorimetry &IccProfile::colorimetry() const
@@ -257,11 +263,15 @@ std::unique_ptr<IccProfile> IccProfile::load(const QString &path)
         qCWarning(KWIN_CORE, "profile is missing the wtpt tag");
         return nullptr;
     }
+    if (whitepoint->Y == 0) {
+        qCWarning(KWIN_CORE, "profile has a zero luminance whitepoint");
+        return nullptr;
+    }
 
-    QVector3D red;
-    QVector3D green;
-    QVector3D blue;
-    QVector3D white(whitepoint->X, whitepoint->Y, whitepoint->Z);
+    XYZ red;
+    XYZ green;
+    XYZ blue;
+    XYZ white = XYZ{whitepoint->X, whitepoint->Y, whitepoint->Z};
     std::optional<QMatrix4x4> chromaticAdaptationMatrix;
     if (cmsIsTag(handle, cmsSigChromaticAdaptationTag)) {
         // the chromatic adaptation tag is a 3x3 matrix that converts from the actual whitepoint to D50
@@ -278,12 +288,12 @@ std::unique_ptr<IccProfile> IccProfile::load(const QString &path)
             return nullptr;
         }
         const QVector3D D50(0.9642, 1.0, 0.8249);
-        white = *chromaticAdaptationMatrix * D50;
+        white = XYZ::fromVector(*chromaticAdaptationMatrix * D50);
     }
     if (cmsCIExyYTRIPLE *chrmTag = static_cast<cmsCIExyYTRIPLE *>(cmsReadTag(handle, cmsSigChromaticityTag))) {
-        red = Colorimetry::xyToXYZ(QVector2D(chrmTag->Red.x, chrmTag->Red.y)) * chrmTag->Red.Y;
-        green = Colorimetry::xyToXYZ(QVector2D(chrmTag->Green.x, chrmTag->Green.y)) * chrmTag->Green.Y;
-        blue = Colorimetry::xyToXYZ(QVector2D(chrmTag->Blue.x, chrmTag->Blue.y)) * chrmTag->Blue.Y;
+        red = xyY{chrmTag->Red.x, chrmTag->Red.y, chrmTag->Red.Y}.toXYZ();
+        green = xyY{chrmTag->Green.x, chrmTag->Green.y, chrmTag->Green.Y}.toXYZ();
+        blue = xyY{chrmTag->Blue.x, chrmTag->Blue.y, chrmTag->Blue.Y}.toXYZ();
     } else {
         const cmsCIEXYZ *r = static_cast<cmsCIEXYZ *>(cmsReadTag(handle, cmsSigRedColorantTag));
         const cmsCIEXYZ *g = static_cast<cmsCIEXYZ *>(cmsReadTag(handle, cmsSigGreenColorantTag));
@@ -293,9 +303,9 @@ std::unique_ptr<IccProfile> IccProfile::load(const QString &path)
             return nullptr;
         }
         if (chromaticAdaptationMatrix) {
-            red = *chromaticAdaptationMatrix * QVector3D(r->X, r->Y, r->Z);
-            green = *chromaticAdaptationMatrix * QVector3D(g->X, g->Y, g->Z);
-            blue = *chromaticAdaptationMatrix * QVector3D(b->X, b->Y, b->Z);
+            red = XYZ::fromVector(*chromaticAdaptationMatrix * QVector3D(r->X, r->Y, r->Z));
+            green = XYZ::fromVector(*chromaticAdaptationMatrix * QVector3D(g->X, g->Y, g->Z));
+            blue = XYZ::fromVector(*chromaticAdaptationMatrix * QVector3D(b->X, b->Y, b->Z));
         } else {
             // if the chromatic adaptation tag isn't available, fall back to using the media whitepoint instead
             cmsCIEXYZ adaptedR{};
@@ -307,22 +317,27 @@ std::unique_ptr<IccProfile> IccProfile::load(const QString &path)
             if (!success) {
                 return nullptr;
             }
-            red = QVector3D(adaptedR.X, adaptedR.Y, adaptedR.Z);
-            green = QVector3D(adaptedG.X, adaptedG.Y, adaptedG.Z);
-            blue = QVector3D(adaptedB.X, adaptedB.Y, adaptedB.Z);
+            red = XYZ(adaptedR.X, adaptedR.Y, adaptedR.Z);
+            green = XYZ(adaptedG.X, adaptedG.Y, adaptedG.Z);
+            blue = XYZ(adaptedB.X, adaptedB.Y, adaptedB.Z);
         }
     }
 
-    if (red.y() == 0 || green.y() == 0 || blue.y() == 0 || white.y() == 0) {
+    if (red.Y == 0 || green.Y == 0 || blue.Y == 0 || white.Y == 0) {
         qCWarning(KWIN_CORE, "Profile has invalid primaries");
         return nullptr;
     }
 
-    std::optional<double> brightness;
+    std::optional<double> minBrightness;
+    std::optional<double> maxBrightness;
     if (cmsCIEXYZ *luminance = static_cast<cmsCIEXYZ *>(cmsReadTag(handle, cmsSigLuminanceTag))) {
         // for some reason, lcms exposes the luminance as a XYZ triple...
         // only Y is non-zero, and it's the brightness in nits
-        brightness = luminance->Y;
+        maxBrightness = luminance->Y;
+        cmsCIEXYZ blackPoint;
+        if (cmsDetectDestinationBlackPoint(&blackPoint, handle, INTENT_RELATIVE_COLORIMETRIC, 0)) {
+            minBrightness = blackPoint.Y * luminance->Y;
+        }
     }
 
     BToATagData lutData;
@@ -334,7 +349,7 @@ std::unique_ptr<IccProfile> IccProfile::load(const QString &path)
         // lut based profile, with relative colorimetric intent supported
         auto data = parseBToATag(handle, cmsSigBToA1Tag);
         if (data) {
-            return std::make_unique<IccProfile>(handle, Colorimetry(red, green, blue, white), std::move(*data), vcgt, brightness);
+            return std::make_unique<IccProfile>(handle, Colorimetry(red, green, blue, white), std::move(*data), vcgt, minBrightness, maxBrightness);
         } else {
             qCWarning(KWIN_CORE, "Parsing BToA1 tag failed");
             return nullptr;
@@ -344,7 +359,7 @@ std::unique_ptr<IccProfile> IccProfile::load(const QString &path)
         // lut based profile, with perceptual intent. The ICC docs say to use this as a fallback
         auto data = parseBToATag(handle, cmsSigBToA0Tag);
         if (data) {
-            return std::make_unique<IccProfile>(handle, Colorimetry(red, green, blue, white), std::move(*data), vcgt, brightness);
+            return std::make_unique<IccProfile>(handle, Colorimetry(red, green, blue, white), std::move(*data), vcgt, minBrightness, maxBrightness);
         } else {
             qCWarning(KWIN_CORE, "Parsing BToA0 tag failed");
             return nullptr;
@@ -367,7 +382,7 @@ std::unique_ptr<IccProfile> IccProfile::load(const QString &path)
     std::vector<std::unique_ptr<ColorPipelineStage>> stages;
     stages.push_back(std::make_unique<ColorPipelineStage>(cmsStageAllocToneCurves(nullptr, 3, toneCurves)));
     const auto inverseEOTF = std::make_shared<ColorTransformation>(std::move(stages));
-    return std::make_unique<IccProfile>(handle, Colorimetry(red, green, blue, white), inverseEOTF, vcgt, brightness);
+    return std::make_unique<IccProfile>(handle, Colorimetry(red, green, blue, white), inverseEOTF, vcgt, minBrightness, maxBrightness);
 }
 
 }

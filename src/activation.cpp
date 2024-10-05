@@ -261,7 +261,6 @@ void Workspace::setActiveWindow(Window *window)
         }
     }
 
-    updateToolWindows(false);
     if (window) {
         disableGlobalShortcutsForClient(window->rules()->checkDisableGlobalShortcuts(false));
     } else {

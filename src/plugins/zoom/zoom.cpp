@@ -319,7 +319,7 @@ void ZoomEffect::paintScreen(const RenderTarget &renderTarget, const RenderViewp
         yTranslation = -int(cursorPoint.y() * (zoom - 1.0));
         prevPoint = cursorPoint;
         break;
-    case MouseTrackingCentred:
+    case MouseTrackingCentered:
         prevPoint = cursorPoint;
         // fall through
     case MouseTrackingDisabled:
@@ -399,7 +399,7 @@ void ZoomEffect::paintScreen(const RenderTarget &renderTarget, const RenderViewp
         matrix.translate(offscreen.viewport.x() * scale, offscreen.viewport.y() * scale);
 
         shader->setUniform(GLShader::Mat4Uniform::ModelViewProjectionMatrix, viewport.projectionMatrix() * matrix);
-        shader->setColorspaceUniforms(offscreen.color, renderTarget.colorDescription());
+        shader->setColorspaceUniforms(offscreen.color, renderTarget.colorDescription(), RenderingIntent::Perceptual);
 
         offscreen.texture->render(offscreen.viewport.size() * scale);
     }
@@ -423,7 +423,7 @@ void ZoomEffect::paintScreen(const RenderTarget &renderTarget, const RenderViewp
             glEnable(GL_BLEND);
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
             auto s = ShaderManager::instance()->pushShader(ShaderTrait::MapTexture | ShaderTrait::TransformColorspace);
-            s->setColorspaceUniformsFromSRGB(renderTarget.colorDescription());
+            s->setColorspaceUniforms(ColorDescription::sRGB, renderTarget.colorDescription(), RenderingIntent::Perceptual);
             QMatrix4x4 mvp = viewport.projectionMatrix();
             mvp.translate(p.x() * scale, p.y() * scale);
             s->setUniform(GLShader::Mat4Uniform::ModelViewProjectionMatrix, mvp);
@@ -540,7 +540,16 @@ void ZoomEffect::moveZoomDown()
 
 void ZoomEffect::moveMouseToFocus()
 {
-    QCursor::setPos(focusPoint.x(), focusPoint.y());
+    if (effects->waylandDisplay()) {
+        const auto window = effects->activeWindow();
+        if (!window) {
+            return;
+        }
+        const auto center = window->frameGeometry().center();
+        QCursor::setPos(center.x(), center.y());
+    } else {
+        QCursor::setPos(focusPoint.x(), focusPoint.y());
+    }
 }
 
 void ZoomEffect::moveMouseToCenter()

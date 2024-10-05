@@ -111,7 +111,7 @@ private:
     double zoomFactor;
     enum MouseTrackingType {
         MouseTrackingProportional = 0,
-        MouseTrackingCentred = 1,
+        MouseTrackingCentered = 1,
         MouseTrackingPush = 2,
         MouseTrackingDisabled = 3,
     };

@@ -7,6 +7,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "drm_egl_layer.h"
+#include "core/colorpipeline.h"
 #include "core/iccprofile.h"
 #include "drm_backend.h"
 #include "drm_buffer.h"
@@ -54,7 +55,9 @@ std::optional<OutputLayerBeginFrameInfo> EglGbmLayer::doBeginFrame()
     // as the hardware cursor is more important than an incorrectly blended cursor edge
 
     m_scanoutBuffer.reset();
-    return m_surface.startRendering(targetRect().size(), m_pipeline->output()->transform().combine(OutputTransform::FlipY), m_pipeline->formats(m_type), m_pipeline->colorDescription(), m_pipeline->output()->channelFactors(), m_pipeline->iccProfile(), m_pipeline->output()->needsColormanagement(), m_pipeline->output()->highDynamicRange() ? m_pipeline->output()->brightness() : 1);
+    m_colorPipeline = ColorPipeline{};
+    return m_surface.startRendering(targetRect().size(), m_pipeline->output()->transform().combine(OutputTransform::FlipY), m_pipeline->formats(m_type), m_pipeline->output()->scanoutColorDescription(),
+                                    m_pipeline->output()->needsChannelFactorFallback() ? m_pipeline->output()->effectiveChannelFactors() : QVector3D(1, 1, 1), m_pipeline->iccProfile(), m_pipeline->output()->scale());
 }
 
 bool EglGbmLayer::doEndFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame)
@@ -83,24 +86,29 @@ ColorDescription EglGbmLayer::colorDescription() const
     return m_surface.colorDescription();
 }
 
-bool EglGbmLayer::doAttemptScanout(GraphicsBuffer *buffer, const ColorDescription &color, const std::shared_ptr<OutputFrame> &frame)
+bool EglGbmLayer::doImportScanoutBuffer(GraphicsBuffer *buffer, const ColorDescription &color, RenderingIntent intent, const std::shared_ptr<OutputFrame> &frame)
 {
     static bool valid;
     static const bool directScanoutDisabled = qEnvironmentVariableIntValue("KWIN_DRM_NO_DIRECT_SCANOUT", &valid) == 1 && valid;
     if (directScanoutDisabled) {
         return false;
     }
+    if (m_pipeline->gpu()->needsModeset()) {
+        // don't do direct scanout with modeset, it might lead to locking
+        // the hardware to some buffer format we can't switch away from
+        return false;
+    }
     if (m_pipeline->output()->colorProfileSource() == Output::ColorProfileSource::ICC && !m_pipeline->output()->highDynamicRange() && m_pipeline->iccProfile()) {
+        // TODO make the icc profile output a color pipeline too?
         return false;
     }
-    if (m_pipeline->output()->channelFactors() != QVector3D(1, 1, 1) || (m_pipeline->output()->highDynamicRange() && m_pipeline->output()->brightness() != 1)) {
-        // TODO use GAMMA_LUT, CTM and DEGAMMA_LUT to allow direct scanout with HDR
-        return false;
+    ColorPipeline pipeline = ColorPipeline::create(color, m_pipeline->output()->scanoutColorDescription(), intent);
+    if (m_pipeline->output()->needsChannelFactorFallback()) {
+        pipeline.addTransferFunction(m_pipeline->output()->scanoutColorDescription().transferFunction());
+        pipeline.addMultiplier(m_pipeline->output()->effectiveChannelFactors());
+        pipeline.addInverseTransferFunction(m_pipeline->output()->scanoutColorDescription().transferFunction());
     }
-    const auto &targetColor = m_pipeline->colorDescription();
-    if (color.colorimetry() != targetColor.colorimetry() || color.transferFunction() != targetColor.transferFunction()) {
-        return false;
-    }
+    m_colorPipeline = pipeline;
     // kernel documentation says that
     // "Devices that don’t support subpixel plane coordinates can ignore the fractional part."
     // so we need to make sure that doesn't cause a difference vs the composited result
@@ -116,13 +124,10 @@ bool EglGbmLayer::doAttemptScanout(GraphicsBuffer *buffer, const ColorDescriptio
         return false;
     }
     m_scanoutBuffer = m_pipeline->gpu()->importBuffer(buffer, FileDescriptor{});
-    if (m_scanoutBuffer && m_pipeline->testScanout(frame)) {
+    if (m_scanoutBuffer) {
         m_surface.forgetDamage(); // TODO: Use absolute frame sequence numbers for indexing the DamageJournal. It's more flexible and less error-prone
-        return true;
-    } else {
-        m_scanoutBuffer.reset();
-        return false;
     }
+    return m_scanoutBuffer != nullptr;
 }
 
 std::shared_ptr<DrmFramebuffer> EglGbmLayer::currentBuffer() const
@@ -146,8 +151,13 @@ QHash<uint32_t, QList<uint64_t>> EglGbmLayer::supportedDrmFormats() const
     return m_pipeline->formats(m_type);
 }
 
-std::optional<QSize> EglGbmLayer::fixedSize() const
+QList<QSize> EglGbmLayer::recommendedSizes() const
 {
-    return m_type == DrmPlane::TypeIndex::Cursor ? std::make_optional(m_pipeline->gpu()->cursorSize()) : std::nullopt;
+    return m_pipeline->recommendedSizes(m_type);
+}
+
+const ColorPipeline &EglGbmLayer::colorPipeline() const
+{
+    return m_colorPipeline;
 }
 }

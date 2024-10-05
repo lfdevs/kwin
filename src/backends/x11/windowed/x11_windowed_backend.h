@@ -19,10 +19,9 @@
 #include <QObject>
 #include <QSize>
 
+#include <xcb/render.h>
 #include <xcb/xcb.h>
 
-struct _XDisplay;
-typedef struct _XDisplay Display;
 typedef struct _XCBKeySymbols xcb_key_symbols_t;
 class NETWinInfo;
 class QSocketNotifier;
@@ -98,7 +97,6 @@ public:
     explicit X11WindowedBackend(const X11WindowedBackendOptions &options);
     ~X11WindowedBackend() override;
 
-    ::Display *display() const;
     xcb_connection_t *connection() const;
     xcb_screen_t *screen() const;
     int screenNumer() const;
@@ -106,6 +104,8 @@ public:
     DrmDevice *drmDevice() const;
 
     bool hasXInput() const;
+
+    xcb_render_pictformat_t pictureFormatForDepth(int depth) const;
 
     QHash<uint32_t, QList<uint64_t>> driFormats() const;
     uint32_t driFormatForDepth(int depth) const;
@@ -139,6 +139,7 @@ private:
     void updateSize(xcb_configure_notify_event_t *event);
     void initXInput();
     void initDri3();
+    void initRender();
     X11WindowedOutput *findOutput(xcb_window_t window) const;
     void destroyOutputs();
 
@@ -154,7 +155,6 @@ private:
 
     xcb_atom_t m_protocols = XCB_ATOM_NONE;
     xcb_atom_t m_deleteWindowProtocol = XCB_ATOM_NONE;
-    ::Display *m_display = nullptr;
     bool m_keyboardGrabbed = false;
     std::unique_ptr<QSocketNotifier> m_eventNotifier;
 
@@ -178,6 +178,7 @@ private:
     std::unique_ptr<EglDisplay> m_eglDisplay;
 
     QList<X11WindowedOutput *> m_outputs;
+    QHash<int, xcb_render_pictformat_t> m_pictureFormats;
 };
 
 } // namespace KWin

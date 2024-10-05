@@ -120,7 +120,8 @@ bool InputDevice::isTouchpad() const
 }
 
 ButtonRebindsFilter::ButtonRebindsFilter()
-    : m_configWatcher(KConfigWatcher::create(KSharedConfig::openConfig("kcminputrc")))
+    : KWin::InputEventFilter(KWin::InputFilterOrder::ButtonRebind)
+    , m_configWatcher(KConfigWatcher::create(KSharedConfig::openConfig("kcminputrc")))
 {
     KWin::input()->addInputDevice(&m_inputDevice);
     const QLatin1String groupName("ButtonRebinds");
@@ -189,7 +190,7 @@ void ButtonRebindsFilter::loadConfig(const KConfigGroup &group)
     }
 
     if (foundActions) {
-        KWin::input()->prependInputEventFilter(this);
+        KWin::input()->installInputEventFilter(this);
     }
 }
 
@@ -203,6 +204,15 @@ bool ButtonRebindsFilter::pointerEvent(KWin::MouseEvent *event, quint32 nativeBu
     }
 
     return send(Pointer, {{}, event->button()}, event->type() == QEvent::MouseButtonPress, event->timestamp());
+}
+
+bool ButtonRebindsFilter::tabletToolEvent(KWin::TabletEvent *event)
+{
+    if (RebindScope::isRebinding()) {
+        return false;
+    }
+    m_tabletCursorPos = event->position();
+    return false;
 }
 
 bool ButtonRebindsFilter::tabletPadButtonEvent(uint button, bool pressed, const KWin::TabletPadId &tabletPadId, std::chrono::microseconds time)
@@ -224,24 +234,47 @@ bool ButtonRebindsFilter::tabletToolButtonEvent(uint button, bool pressed, const
 
 void ButtonRebindsFilter::insert(TriggerType type, const Trigger &trigger, const QStringList &entry)
 {
-    if (entry.size() != 2) {
+    if (entry.empty()) {
         qCWarning(KWIN_BUTTONREBINDS) << "Failed to rebind to" << entry;
         return;
     }
     if (entry.first() == QLatin1String("Key")) {
+        if (entry.size() != 2) {
+            qCWarning(KWIN_BUTTONREBINDS) << "Invalid key" << entry;
+            return;
+        }
+
         const auto keys = QKeySequence::fromString(entry.at(1), QKeySequence::PortableText);
         if (!keys.isEmpty()) {
             m_actions.at(type).insert(trigger, keys);
         }
     } else if (entry.first() == QLatin1String("MouseButton")) {
+        if (entry.size() < 2) {
+            qCWarning(KWIN_BUTTONREBINDS) << "Invalid mouse button" << entry;
+            return;
+        }
+
         bool ok = false;
-        const MouseButton mb{entry.last().toUInt(&ok)};
+        MouseButton mb{entry[1].toUInt(&ok), {}};
+
+        // Last bit is the keyboard mods
+        if (entry.size() == 3) {
+            const auto keyboardModsRaw = entry.last().toInt(&ok);
+            mb.modifiers = Qt::KeyboardModifiers{keyboardModsRaw};
+        }
+
         if (ok) {
             m_actions.at(type).insert(trigger, mb);
         } else {
             qCWarning(KWIN_BUTTONREBINDS) << "Could not convert" << entry << "into a mouse button";
         }
     } else if (entry.first() == QLatin1String("TabletToolButton")) {
+        if (entry.size() != 2) {
+            qCWarning(KWIN_BUTTONREBINDS)
+                << "Invalid tablet tool button" << entry;
+            return;
+        }
+
         bool ok = false;
         const TabletToolButton tb{entry.last().toUInt(&ok)};
         if (ok) {
@@ -249,6 +282,8 @@ void ButtonRebindsFilter::insert(TriggerType type, const Trigger &trigger, const
         } else {
             qCWarning(KWIN_BUTTONREBINDS) << "Could not convert" << entry << "into a mouse button";
         }
+    } else if (entry.first() == QLatin1String("Disabled")) {
+        m_actions.at(type).insert(trigger, DisabledButton{});
     }
 }
 
@@ -264,10 +299,18 @@ bool ButtonRebindsFilter::send(TriggerType type, const Trigger &trigger, bool pr
         return sendKeySequence(*seq, pressed, timestamp);
     }
     if (const auto mb = std::get_if<MouseButton>(&action)) {
+        if (pressed && type != Pointer) {
+            sendMousePosition(m_tabletCursorPos, timestamp);
+        }
+        sendKeyModifiers(mb->modifiers, pressed, timestamp);
         return sendMouseButton(mb->button, pressed, timestamp);
     }
     if (const auto tb = std::get_if<TabletToolButton>(&action)) {
         return sendTabletToolButton(tb->button, pressed, timestamp);
+    }
+    if (std::get_if<DisabledButton>(&action)) {
+        // Intentional, we don't want to anything to anybody
+        return true;
     }
     return false;
 }
@@ -352,10 +395,44 @@ bool ButtonRebindsFilter::sendKeySequence(const QKeySequence &keys, bool pressed
     return true;
 }
 
+bool ButtonRebindsFilter::sendKeyModifiers(const Qt::KeyboardModifiers &modifiers, bool pressed, std::chrono::microseconds time)
+{
+    if (modifiers == Qt::NoModifier) {
+        return false;
+    }
+
+    auto sendKey = [this, pressed, time](xkb_keycode_t key) {
+        auto state = pressed ? KWin::InputRedirection::KeyboardKeyPressed : KWin::InputRedirection::KeyboardKeyReleased;
+        Q_EMIT m_inputDevice.keyChanged(key, state, time, &m_inputDevice);
+    };
+
+    if (modifiers.testFlag(Qt::ShiftModifier)) {
+        sendKey(KEY_LEFTSHIFT);
+    }
+    if (modifiers.testFlag(Qt::ControlModifier)) {
+        sendKey(KEY_LEFTCTRL);
+    }
+    if (modifiers.testFlag(Qt::AltModifier)) {
+        sendKey(KEY_LEFTALT);
+    }
+    if (modifiers.testFlag(Qt::MetaModifier)) {
+        sendKey(KEY_LEFTMETA);
+    }
+
+    return true;
+}
+
 bool ButtonRebindsFilter::sendMouseButton(quint32 button, bool pressed, std::chrono::microseconds time)
 {
     RebindScope scope;
     Q_EMIT m_inputDevice.pointerButtonChanged(button, KWin::InputRedirection::PointerButtonState(pressed), time, &m_inputDevice);
+    return true;
+}
+
+bool ButtonRebindsFilter::sendMousePosition(QPointF position, std::chrono::microseconds time)
+{
+    RebindScope scope;
+    Q_EMIT m_inputDevice.pointerMotionAbsolute(position, time, &m_inputDevice);
     return true;
 }
 

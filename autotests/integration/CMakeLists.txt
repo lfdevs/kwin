@@ -2,21 +2,28 @@ add_subdirectory(helper)
 
 add_library(KWinIntegrationTestFramework STATIC)
 
+if (Qt6_VERSION VERSION_GREATER_EQUAL "6.8.0")
+    set(private_code_option  "PRIVATE_CODE")
+endif()
 qt6_generate_wayland_protocol_client_sources(KWinIntegrationTestFramework
+    ${private_code_option}
     NO_INCLUDE_CORE_ONLY
     FILES
         ${WaylandProtocols_DATADIR}/unstable/input-method/input-method-unstable-v1.xml
 )
 qt6_generate_wayland_protocol_client_sources(KWinIntegrationTestFramework
+    ${private_code_option}
     FILES
         ${WaylandProtocols_DATADIR}/unstable/text-input/text-input-unstable-v3.xml
         ${CMAKE_SOURCE_DIR}/src/wayland/protocols/wlr-layer-shell-unstable-v1.xml
         ${WaylandProtocols_DATADIR}/stable/xdg-shell/xdg-shell.xml
         ${WaylandProtocols_DATADIR}/unstable/xdg-decoration/xdg-decoration-unstable-v1.xml
         ${WaylandProtocols_DATADIR}/unstable/idle-inhibit/idle-inhibit-unstable-v1.xml
+        ${WaylandProtocols_DATADIR}/unstable/tablet/tablet-unstable-v2.xml
         ${WaylandProtocols_DATADIR}/staging/fractional-scale/fractional-scale-v1.xml
         ${WaylandProtocols_DATADIR}/staging/cursor-shape/cursor-shape-v1.xml
         ${WaylandProtocols_DATADIR}/staging/security-context/security-context-v1.xml
+        ${WaylandProtocols_DATADIR}/staging/xdg-dialog/xdg-dialog-v1.xml
 
         ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-output-device-v2.xml
         ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-output-management-v2.xml
@@ -24,37 +31,6 @@ qt6_generate_wayland_protocol_client_sources(KWinIntegrationTestFramework
         ${PLASMA_WAYLAND_PROTOCOLS_DIR}/zkde-screencast-unstable-v1.xml
         ${PLASMA_WAYLAND_PROTOCOLS_DIR}/fake-input.xml
 )
-
-if (Qt6_VERSION VERSION_LESS "6.7.1")
-    # the qtwaylandscanner macro cannot handle the mismatched file name and <protocol  name=""
-    find_package(QtWaylandScanner REQUIRED)
-    if (WaylandProtocols_VERSION VERSION_LESS 1.36)
-        ecm_add_qtwayland_client_protocol(KWinIntegrationTestFramework
-            PROTOCOL ${WaylandProtocols_DATADIR}/staging/xdg-dialog/xdg-dialog-v1.xml
-            BASENAME dialog-v1
-        )
-        target_compile_definitions(KWinIntegrationTestFramework PUBLIC
-            -DHAVE_XDG_DIALOG_V1_HEADER=0
-        )
-    else()
-        ecm_add_qtwayland_client_protocol(KWinIntegrationTestFramework
-            PROTOCOL ${WaylandProtocols_DATADIR}/staging/xdg-dialog/xdg-dialog-v1.xml
-            BASENAME xdg-dialog-v1
-        )
-        target_compile_definitions(KWinIntegrationTestFramework PUBLIC
-            -DHAVE_XDG_DIALOG_V1_HEADER=1
-        )
-    endif()
-else()
-    qt6_generate_wayland_protocol_client_sources(KWinIntegrationTestFramework
-        FILES
-            ${WaylandProtocols_DATADIR}/staging/xdg-dialog/xdg-dialog-v1.xml
-    )
-    target_compile_definitions(KWinIntegrationTestFramework PUBLIC
-        -DHAVE_XDG_DIALOG_V1_HEADER=1
-    )
-endif()
-
 target_sources(KWinIntegrationTestFramework PRIVATE
     generic_scene_opengl_test.cpp
     kwin_wayland_test.cpp

@@ -31,13 +31,13 @@ protected:
 class ShmPool : public QtWaylandServer::wl_shm_pool
 {
 public:
-    ShmPool(ShmClientBufferIntegration *integration, wl_client *client, int id, uint32_t version, FileDescriptor &&fd, MemoryMap &&mapping);
+    ShmPool(ShmClientBufferIntegration *integration, wl_client *client, int id, uint32_t version, FileDescriptor &&fd, std::shared_ptr<MemoryMap> mapping);
 
     void ref();
     void unref();
 
     ShmClientBufferIntegration *integration;
-    MemoryMap mapping;
+    std::shared_ptr<MemoryMap> mapping;
     FileDescriptor fd;
     int refCount = 1;
     bool sigbusImpossible = false;
@@ -47,6 +47,13 @@ protected:
     void shm_pool_create_buffer(Resource *resource, uint32_t id, int32_t offset, int32_t width, int32_t height, int32_t stride, uint32_t format) override;
     void shm_pool_destroy(Resource *resource) override;
     void shm_pool_resize(Resource *resource, int32_t size) override;
+};
+
+struct ShmAccess
+{
+    std::shared_ptr<MemoryMap> mapping;
+    int count = 0;
+    std::atomic<ShmAccess *> next = nullptr;
 };
 
 class KWIN_EXPORT ShmClientBuffer : public GraphicsBuffer
@@ -74,6 +81,7 @@ private:
     wl_resource *m_resource = nullptr;
     ShmPool *m_shmPool;
     ShmAttributes m_shmAttributes;
+    std::optional<ShmAccess> m_shmAccess;
 };
 
 } // namespace KWin

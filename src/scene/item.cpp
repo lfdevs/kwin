@@ -12,6 +12,34 @@
 namespace KWin
 {
 
+ItemEffect::ItemEffect(Item *item)
+    : m_item(item)
+{
+    item->addEffect();
+}
+
+ItemEffect::ItemEffect(ItemEffect &&move)
+    : m_item(std::exchange(move.m_item, nullptr))
+{
+}
+
+ItemEffect::ItemEffect()
+{
+}
+
+ItemEffect::~ItemEffect()
+{
+    if (m_item) {
+        m_item->removeEffect();
+    }
+}
+
+ItemEffect &ItemEffect::operator=(ItemEffect &&move)
+{
+    std::swap(m_item, move.m_item);
+    return *this;
+}
+
 Item::Item(Item *parent)
 {
     setParentItem(parent);
@@ -286,7 +314,7 @@ void Item::stackBefore(Item *sibling)
     }
 
     m_parentItem->m_childItems.move(selfIndex, selfIndex > siblingIndex ? siblingIndex : siblingIndex - 1);
-    markSortedChildItemsDirty();
+    m_parentItem->markSortedChildItemsDirty();
 
     scheduleRepaint(boundingRect());
     sibling->scheduleRepaint(sibling->boundingRect());
@@ -314,7 +342,7 @@ void Item::stackAfter(Item *sibling)
     }
 
     m_parentItem->m_childItems.move(selfIndex, selfIndex > siblingIndex ? siblingIndex + 1 : siblingIndex);
-    markSortedChildItemsDirty();
+    m_parentItem->markSortedChildItemsDirty();
 
     scheduleRepaint(boundingRect());
     sibling->scheduleRepaint(sibling->boundingRect());
@@ -491,9 +519,19 @@ const ColorDescription &Item::colorDescription() const
     return m_colorDescription;
 }
 
+RenderingIntent Item::renderingIntent() const
+{
+    return m_renderingIntent;
+}
+
 void Item::setColorDescription(const ColorDescription &description)
 {
     m_colorDescription = description;
+}
+
+void Item::setRenderingIntent(RenderingIntent intent)
+{
+    m_renderingIntent = intent;
 }
 
 PresentationModeHint Item::presentationHint() const
@@ -504,6 +542,22 @@ PresentationModeHint Item::presentationHint() const
 void Item::setPresentationHint(PresentationModeHint hint)
 {
     m_presentationHint = hint;
+}
+
+bool Item::hasEffects() const
+{
+    return m_effectCount != 0;
+}
+
+void Item::addEffect()
+{
+    m_effectCount++;
+}
+
+void Item::removeEffect()
+{
+    Q_ASSERT(m_effectCount > 0);
+    m_effectCount--;
 }
 
 } // namespace KWin

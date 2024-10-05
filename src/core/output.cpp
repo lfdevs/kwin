@@ -8,6 +8,7 @@
 */
 
 #include "output.h"
+#include "brightnessdevice.h"
 #include "iccprofile.h"
 #include "outputconfiguration.h"
 
@@ -340,6 +341,9 @@ Output::Output(QObject *parent)
 
 Output::~Output()
 {
+    if (m_brightnessDevice) {
+        m_brightnessDevice->setOutput(nullptr);
+    }
 }
 
 void Output::ref()
@@ -594,8 +598,8 @@ void Output::setState(const State &state)
     if (oldState.highDynamicRange != state.highDynamicRange) {
         Q_EMIT highDynamicRangeChanged();
     }
-    if (oldState.sdrBrightness != state.sdrBrightness) {
-        Q_EMIT sdrBrightnessChanged();
+    if (oldState.referenceLuminance != state.referenceLuminance) {
+        Q_EMIT referenceLuminanceChanged();
     }
     if (oldState.wideColorGamut != state.wideColorGamut) {
         Q_EMIT wideColorGamutChanged();
@@ -686,11 +690,6 @@ bool Output::setChannelFactors(const QVector3D &rgb)
     return false;
 }
 
-bool Output::setGammaRamp(const std::shared_ptr<ColorTransformation> &transformation)
-{
-    return false;
-}
-
 OutputTransform Output::panelOrientation() const
 {
     return m_information.panelOrientation;
@@ -706,9 +705,9 @@ bool Output::highDynamicRange() const
     return m_state.highDynamicRange;
 }
 
-uint32_t Output::sdrBrightness() const
+uint32_t Output::referenceLuminance() const
 {
-    return m_state.sdrBrightness;
+    return m_state.referenceLuminance;
 }
 
 Output::AutoRotationPolicy Output::autoRotationPolicy() const
@@ -784,6 +783,16 @@ Output::ColorProfileSource Output::colorProfileSource() const
 double Output::brightness() const
 {
     return m_state.brightness;
+}
+
+BrightnessDevice *Output::brightnessDevice() const
+{
+    return m_brightnessDevice;
+}
+
+void Output::setBrightnessDevice(BrightnessDevice *device)
+{
+    m_brightnessDevice = device;
 }
 } // namespace KWin
 

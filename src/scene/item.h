@@ -24,6 +24,23 @@ class SceneDelegate;
 class Scene;
 class SyncReleasePoint;
 class DrmDevice;
+class Item;
+
+class KWIN_EXPORT ItemEffect
+{
+public:
+    explicit ItemEffect(Item *item);
+    explicit ItemEffect(const ItemEffect &copy) = delete;
+    explicit ItemEffect(ItemEffect &&move);
+    explicit ItemEffect();
+    virtual ~ItemEffect();
+
+    ItemEffect &operator=(const ItemEffect &copy) = delete;
+    ItemEffect &operator=(ItemEffect &&move);
+
+private:
+    QPointer<Item> m_item;
+};
 
 /**
  * The Item class is the base class for items in the scene.
@@ -113,7 +130,12 @@ public:
     WindowQuadList quads() const;
     virtual void preprocess();
     const ColorDescription &colorDescription() const;
+    RenderingIntent renderingIntent() const;
     PresentationModeHint presentationHint() const;
+
+    bool hasEffects() const;
+    void addEffect();
+    void removeEffect();
 
 Q_SIGNALS:
     void childAdded(Item *item);
@@ -136,6 +158,7 @@ protected:
     virtual WindowQuadList buildQuads() const;
     void discardQuads();
     void setColorDescription(const ColorDescription &description);
+    void setRenderingIntent(RenderingIntent intent);
     void setPresentationHint(PresentationModeHint hint);
     void setScene(Scene *scene);
 
@@ -169,7 +192,9 @@ private:
     mutable std::optional<WindowQuadList> m_quads;
     mutable std::optional<QList<Item *>> m_sortedChildItems;
     ColorDescription m_colorDescription = ColorDescription::sRGB;
+    RenderingIntent m_renderingIntent = RenderingIntent::Perceptual;
     PresentationModeHint m_presentationHint = PresentationModeHint::VSync;
+    int m_effectCount = 0;
 };
 
 } // namespace KWin

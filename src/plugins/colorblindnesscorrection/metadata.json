@@ -7,6 +7,7 @@
         "Description[bg]": "Подобряване на цветното възприемане при цветна слепота",
         "Description[ca@valencia]": "Millora la percepció del color dels daltònics",
         "Description[ca]": "Millora la percepció del color dels daltònics",
+        "Description[da]": "Forbedrer farveopfattelse for farveblindhed",
         "Description[en_GB]": "Enhances colour perception for colour blindness",
         "Description[eo]": "Plibonigas kolorpercepton por kolora blindeco",
         "Description[es]": "Mejora la percepción del color para el daltonismo",
@@ -48,6 +49,7 @@
         "Name[ca@valencia]": "Correcció del daltonisme",
         "Name[ca]": "Correcció del daltonisme",
         "Name[cs]": "Oprava barvosleposti",
+        "Name[da]": "Korrektion for farveblindhed",
         "Name[en_GB]": "Colourblindness Correction",
         "Name[eo]": "Korekto de Kolorblindeco",
         "Name[es]": "Corrección para daltonismo",
@@ -81,5 +83,7 @@
         "Name[zh_CN]": "色盲校正",
         "Name[zh_TW]": "色盲修正"
     },
-    "X-KDE-ConfigModule": "kwin_colorblindnesscorrection_config"
+    "org.kde.kwin.effect": {
+        "internal": true
+    }
 }

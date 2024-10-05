@@ -46,31 +46,6 @@ DrmPipeline::DrmPipeline(DrmConnector *conn)
 
 DrmPipeline::~DrmPipeline()
 {
-    if (pageflipsPending()) {
-        gpu()->waitIdle();
-    }
-}
-
-bool DrmPipeline::testScanout(const std::shared_ptr<OutputFrame> &frame)
-{
-    if (gpu()->needsModeset()) {
-        return false;
-    }
-    if (gpu()->atomicModeSetting()) {
-        return DrmPipeline::commitPipelinesAtomic({this}, CommitMode::Test, frame, {}) == Error::None;
-    } else {
-        if (m_primaryLayer->currentBuffer()->buffer()->size() != m_pending.mode->size()) {
-            // scaling isn't supported with the legacy API
-            return false;
-        }
-        // no other way to test than to do it.
-        // As we only have a maximum of one test per scanout cycle, this is fine
-        const bool ret = presentLegacy(frame) == Error::None;
-        if (ret) {
-            m_didLegacyScanoutHack = true;
-        }
-        return ret;
-    }
 }
 
 DrmPipeline::Error DrmPipeline::present(const std::shared_ptr<OutputFrame> &frame)
@@ -93,11 +68,6 @@ DrmPipeline::Error DrmPipeline::present(const std::shared_ptr<OutputFrame> &fram
         m_commitThread->addCommit(std::move(primaryPlaneUpdate));
         return Error::None;
     } else {
-        if (m_didLegacyScanoutHack) {
-            // already presented
-            m_didLegacyScanoutHack = false;
-            return Error::None;
-        }
         return presentLegacy(frame);
     }
 }
@@ -212,15 +182,19 @@ DrmPipeline::Error DrmPipeline::prepareAtomicPresentation(DrmAtomicCommit *commi
     if (m_pending.crtc->vrrEnabled.isValid()) {
         commit->setVrr(m_pending.crtc, m_pending.presentationMode == PresentationMode::AdaptiveSync || m_pending.presentationMode == PresentationMode::AdaptiveAsync);
     }
-    if (m_pending.crtc->gammaLut.isValid()) {
-        commit->addBlob(m_pending.crtc->gammaLut, m_pending.gamma ? m_pending.gamma->blob() : nullptr);
-    } else if (m_pending.gamma) {
-        return Error::InvalidArguments;
+
+    if (m_cursorLayer->isEnabled() && m_primaryLayer->colorPipeline() != m_cursorLayer->colorPipeline()) {
+        return DrmPipeline::Error::InvalidArguments;
     }
-    if (m_pending.crtc->ctm.isValid()) {
-        commit->addBlob(m_pending.crtc->ctm, m_pending.ctm);
-    } else if (m_pending.ctm) {
-        return Error::InvalidArguments;
+    const ColorPipeline colorPipeline = m_primaryLayer->colorPipeline().merged(m_pending.crtcColorPipeline);
+    if (!m_pending.crtc->postBlendingPipeline) {
+        if (!colorPipeline.isIdentity()) {
+            return Error::InvalidArguments;
+        }
+    } else {
+        if (!m_pending.crtc->postBlendingPipeline->matchPipeline(commit, colorPipeline)) {
+            return Error::InvalidArguments;
+        }
     }
 
     if (!m_primaryLayer->checkTestBuffer()) {
@@ -316,10 +290,10 @@ bool DrmPipeline::prepareAtomicModeset(DrmAtomicCommit *commit)
     }
     if (m_connector->hdrMetadata.isValid()) {
         commit->addBlob(m_connector->hdrMetadata, createHdrMetadata(m_pending.colorDescription.transferFunction()));
-    } else if (m_pending.colorDescription.transferFunction() != NamedTransferFunction::gamma22) {
+    } else if (m_pending.colorDescription.transferFunction().type != TransferFunction::gamma22) {
         return false;
     }
-    if (m_pending.colorDescription.colorimetry() == NamedColorimetry::BT2020) {
+    if (m_pending.colorDescription.containerColorimetry() == NamedColorimetry::BT2020) {
         if (!m_connector->colorspace.isValid() || !m_connector->colorspace.hasEnum(DrmConnector::Colorspace::BT2020_RGB)) {
             return false;
         }
@@ -337,9 +311,6 @@ bool DrmPipeline::prepareAtomicModeset(DrmAtomicCommit *commit)
 
     commit->addProperty(m_pending.crtc->active, 1);
     commit->addBlob(m_pending.crtc->modeId, m_pending.mode->blob());
-    if (m_pending.crtc->degammaLut.isValid()) {
-        commit->addBlob(m_pending.crtc->degammaLut, nullptr);
-    }
 
     const auto primary = m_pending.crtc->primaryPlane();
     commit->addProperty(primary->crtcId, m_pending.crtc->id());
@@ -486,20 +457,6 @@ QHash<uint32_t, QList<uint64_t>> DrmPipeline::formats(DrmPlane::TypeIndex planeT
     Q_UNREACHABLE();
 }
 
-bool DrmPipeline::hasCTM() const
-{
-    return gpu()->atomicModeSetting() && m_pending.crtc && m_pending.crtc->ctm.isValid();
-}
-
-bool DrmPipeline::hasGammaRamp() const
-{
-    if (gpu()->atomicModeSetting()) {
-        return m_pending.crtc && m_pending.crtc->gammaLut.isValid();
-    } else {
-        return m_pending.crtc && m_pending.crtc->gammaRampSize() > 0;
-    }
-}
-
 bool DrmPipeline::pruneModifier()
 {
     const DmaBufAttributes *dmabufAttributes = m_primaryLayer->currentBuffer() ? m_primaryLayer->currentBuffer()->buffer()->dmabufAttributes() : nullptr;
@@ -513,6 +470,27 @@ bool DrmPipeline::pruneModifier()
         modifiers = implicitModifier;
         return true;
     }
+}
+
+QList<QSize> DrmPipeline::recommendedSizes(DrmPlane::TypeIndex planeType) const
+{
+    switch (planeType) {
+    case DrmPlane::TypeIndex::Primary:
+        if (m_pending.crtc && m_pending.crtc->primaryPlane()) {
+            return m_pending.crtc->primaryPlane()->recommendedSizes();
+        } else {
+            return QList<QSize>{};
+        }
+    case DrmPlane::TypeIndex::Cursor:
+        if (m_pending.crtc && m_pending.crtc->cursorPlane()) {
+            return m_pending.crtc->cursorPlane()->recommendedSizes();
+        } else {
+            return QList<QSize>{gpu()->cursorSize()};
+        }
+    case DrmPlane::TypeIndex::Overlay:
+        return QList<QSize>{};
+    }
+    Q_UNREACHABLE();
 }
 
 bool DrmPipeline::needsModeset() const
@@ -530,9 +508,9 @@ void DrmPipeline::revertPendingChanges()
     m_pending = m_next;
 }
 
-bool DrmPipeline::pageflipsPending() const
+DrmCommitThread *DrmPipeline::commitThread() const
 {
-    return m_commitThread->pageflipsPending();
+    return m_commitThread.get();
 }
 
 bool DrmPipeline::modesetPresentPending() const
@@ -543,30 +521,6 @@ bool DrmPipeline::modesetPresentPending() const
 void DrmPipeline::resetModesetPresentPending()
 {
     m_modesetPresentPending = false;
-}
-
-DrmGammaRamp::DrmGammaRamp(DrmCrtc *crtc, const std::shared_ptr<ColorTransformation> &transformation)
-    : m_lut(transformation, crtc->gammaRampSize())
-{
-    if (crtc->gpu()->atomicModeSetting()) {
-        QList<drm_color_lut> atomicLut(m_lut.size());
-        for (uint32_t i = 0; i < m_lut.size(); i++) {
-            atomicLut[i].red = m_lut.red()[i];
-            atomicLut[i].green = m_lut.green()[i];
-            atomicLut[i].blue = m_lut.blue()[i];
-        }
-        m_blob = DrmBlob::create(crtc->gpu(), atomicLut.data(), sizeof(drm_color_lut) * atomicLut.size());
-    }
-}
-
-const ColorLUT &DrmGammaRamp::lut() const
-{
-    return m_lut;
-}
-
-std::shared_ptr<DrmBlob> DrmGammaRamp::blob() const
-{
-    return m_blob;
 }
 
 DrmCrtc *DrmPipeline::crtc() const
@@ -631,9 +585,6 @@ const std::shared_ptr<IccProfile> &DrmPipeline::iccProfile() const
 
 void DrmPipeline::setCrtc(DrmCrtc *crtc)
 {
-    if (crtc && m_pending.crtc && crtc->gammaRampSize() != m_pending.crtc->gammaRampSize() && m_pending.colorTransformation) {
-        m_pending.gamma = std::make_shared<DrmGammaRamp>(crtc, m_pending.colorTransformation);
-    }
     m_pending.crtc = crtc;
     if (crtc) {
         m_pending.formats = crtc->primaryPlane() ? crtc->primaryPlane()->formats() : legacyFormats;
@@ -678,39 +629,9 @@ void DrmPipeline::setRgbRange(Output::RgbRange range)
     m_pending.rgbRange = range;
 }
 
-void DrmPipeline::setGammaRamp(const std::shared_ptr<ColorTransformation> &transformation)
+void DrmPipeline::setCrtcColorPipeline(const ColorPipeline &pipeline)
 {
-    m_pending.colorTransformation = transformation;
-    if (transformation) {
-        m_pending.gamma = std::make_shared<DrmGammaRamp>(m_pending.crtc, transformation);
-    } else {
-        m_pending.gamma.reset();
-    }
-}
-
-static uint64_t doubleToFixed(double value)
-{
-    // ctm values are in S31.32 sign-magnitude format
-    uint64_t ret = std::abs(value) * (1ull << 32);
-    if (value < 0) {
-        ret |= 1ull << 63;
-    }
-    return ret;
-}
-
-void DrmPipeline::setCTM(const QMatrix3x3 &ctm)
-{
-    if (ctm.isIdentity()) {
-        m_pending.ctm.reset();
-    } else {
-        drm_color_ctm blob = {
-            .matrix = {
-                doubleToFixed(ctm(0, 0)), doubleToFixed(ctm(1, 0)), doubleToFixed(ctm(2, 0)),
-                doubleToFixed(ctm(0, 1)), doubleToFixed(ctm(1, 1)), doubleToFixed(ctm(2, 1)),
-                doubleToFixed(ctm(0, 2)), doubleToFixed(ctm(1, 2)), doubleToFixed(ctm(2, 2))},
-        };
-        m_pending.ctm = DrmBlob::create(gpu(), &blob, sizeof(blob));
-    }
+    m_pending.crtcColorPipeline = pipeline;
 }
 
 void DrmPipeline::setColorDescription(const ColorDescription &description)
@@ -725,14 +646,12 @@ void DrmPipeline::setContentType(DrmConnector::DrmContentType type)
 
 void DrmPipeline::setIccProfile(const std::shared_ptr<IccProfile> &profile)
 {
-    if (m_pending.iccProfile != profile) {
-        m_pending.iccProfile = profile;
-    }
+    m_pending.iccProfile = profile;
 }
 
-std::shared_ptr<DrmBlob> DrmPipeline::createHdrMetadata(NamedTransferFunction transferFunction) const
+std::shared_ptr<DrmBlob> DrmPipeline::createHdrMetadata(TransferFunction transferFunction) const
 {
-    if (transferFunction != NamedTransferFunction::PerceptualQuantizer) {
+    if (transferFunction.type != TransferFunction::PerceptualQuantizer) {
         // for sRGB / gamma 2.2, don't send any metadata, to ensure the non-HDR experience stays the same
         return nullptr;
     }
@@ -740,6 +659,10 @@ std::shared_ptr<DrmBlob> DrmPipeline::createHdrMetadata(NamedTransferFunction tr
         return nullptr;
     }
     const auto colorimetry = m_connector->edid()->colorimetry().value_or(Colorimetry::fromName(NamedColorimetry::BT709));
+    const xyY red = colorimetry.red().toxyY();
+    const xyY green = colorimetry.green().toxyY();
+    const xyY blue = colorimetry.blue().toxyY();
+    const xyY white = colorimetry.white().toxyY();
     const auto to16Bit = [](float value) {
         return uint16_t(std::round(value / 0.00002));
     };
@@ -757,11 +680,11 @@ std::shared_ptr<DrmBlob> DrmPipeline::createHdrMetadata(NamedTransferFunction tr
             .metadata_type = 0,
             // in 0.00002 nits
             .display_primaries = {
-                {to16Bit(colorimetry.red().x()), to16Bit(colorimetry.red().y())},
-                {to16Bit(colorimetry.green().x()), to16Bit(colorimetry.green().y())},
-                {to16Bit(colorimetry.blue().x()), to16Bit(colorimetry.blue().y())},
+                {to16Bit(red.x), to16Bit(red.y)},
+                {to16Bit(green.x), to16Bit(green.y)},
+                {to16Bit(blue.x), to16Bit(blue.y)},
             },
-            .white_point = {to16Bit(colorimetry.white().x()), to16Bit(colorimetry.white().y())},
+            .white_point = {to16Bit(white.x), to16Bit(white.y)},
             // in nits
             .max_display_mastering_luminance = uint16_t(std::round(m_connector->edid()->desiredMaxFrameAverageLuminance().value_or(0))),
             // in 0.0001 nits

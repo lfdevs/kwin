@@ -39,6 +39,11 @@ DrmGpu *DrmCommit::gpu() const
     return m_gpu;
 }
 
+DrmAtomicCommit::DrmAtomicCommit(DrmGpu *gpu)
+    : DrmCommit(gpu)
+{
+}
+
 DrmAtomicCommit::DrmAtomicCommit(const QList<DrmPipeline *> &pipelines)
     : DrmCommit(pipelines.front()->gpu())
     , m_pipelines(pipelines)
@@ -47,6 +52,10 @@ DrmAtomicCommit::DrmAtomicCommit(const QList<DrmPipeline *> &pipelines)
 
 void DrmAtomicCommit::addProperty(const DrmProperty &prop, uint64_t value)
 {
+    if (Q_UNLIKELY(!prop.isValid())) {
+        qCWarning(KWIN_DRM) << "Trying to add an invalid property" << prop.name();
+        return;
+    }
     prop.checkValueInRange(value);
     m_properties[prop.drmObject()->id()][prop.propId()] = value;
 }
@@ -62,8 +71,8 @@ void DrmAtomicCommit::addBuffer(DrmPlane *plane, const std::shared_ptr<DrmFrameb
     addProperty(plane->fbId, buffer ? buffer->framebufferId() : 0);
     m_buffers[plane] = buffer;
     m_frames[plane] = frame;
-    // atomic commits with IN_FENCE_FD fail with NVidia
-    if (plane->inFenceFd.isValid() && !plane->gpu()->isNVidia()) {
+    // atomic commits with IN_FENCE_FD fail with NVidia and (as of kernel 6.9) with tearing
+    if (plane->inFenceFd.isValid() && !plane->gpu()->isNVidia() && !isTearing()) {
         addProperty(plane->inFenceFd, buffer ? buffer->syncFd().get() : -1);
     }
     m_planes.emplace(plane);
@@ -89,7 +98,11 @@ void DrmAtomicCommit::setPresentationMode(PresentationMode mode)
 
 bool DrmAtomicCommit::test()
 {
-    return doCommit(DRM_MODE_ATOMIC_TEST_ONLY | DRM_MODE_ATOMIC_NONBLOCK);
+    uint32_t flags = DRM_MODE_ATOMIC_TEST_ONLY | DRM_MODE_ATOMIC_NONBLOCK;
+    if (isTearing()) {
+        flags |= DRM_MODE_PAGE_FLIP_ASYNC;
+    }
+    return doCommit(flags);
 }
 
 bool DrmAtomicCommit::testAllowModeset()
@@ -99,7 +112,11 @@ bool DrmAtomicCommit::testAllowModeset()
 
 bool DrmAtomicCommit::commit()
 {
-    return doCommit(DRM_MODE_ATOMIC_NONBLOCK | DRM_MODE_PAGE_FLIP_EVENT);
+    uint32_t flags = DRM_MODE_ATOMIC_NONBLOCK | DRM_MODE_PAGE_FLIP_EVENT;
+    if (isTearing()) {
+        flags |= DRM_MODE_PAGE_FLIP_ASYNC;
+    }
+    return doCommit(flags);
 }
 
 bool DrmAtomicCommit::commitModeset()
@@ -235,9 +252,15 @@ bool DrmAtomicCommit::isReadyFor(std::chrono::steady_clock::time_point pageflipT
     return (!m_targetPageflipTime || pageflipTarget + s_pageflipSlop >= *m_targetPageflipTime) && areBuffersReadable();
 }
 
+bool DrmAtomicCommit::isTearing() const
+{
+    return m_mode == PresentationMode::Async || m_mode == PresentationMode::AdaptiveAsync;
+}
+
 DrmLegacyCommit::DrmLegacyCommit(DrmPipeline *pipeline, const std::shared_ptr<DrmFramebuffer> &buffer, const std::shared_ptr<OutputFrame> &frame)
     : DrmCommit(pipeline->gpu())
     , m_pipeline(pipeline)
+    , m_crtc(m_pipeline->crtc())
     , m_buffer(buffer)
     , m_frame(frame)
 {
@@ -246,8 +269,8 @@ DrmLegacyCommit::DrmLegacyCommit(DrmPipeline *pipeline, const std::shared_ptr<Dr
 bool DrmLegacyCommit::doModeset(DrmConnector *connector, DrmConnectorMode *mode)
 {
     uint32_t connectorId = connector->id();
-    if (drmModeSetCrtc(gpu()->fd(), m_pipeline->crtc()->id(), m_buffer->framebufferId(), 0, 0, &connectorId, 1, mode->nativeMode()) == 0) {
-        m_pipeline->crtc()->setCurrent(m_buffer);
+    if (drmModeSetCrtc(gpu()->fd(), m_crtc->id(), m_buffer->framebufferId(), 0, 0, &connectorId, 1, mode->nativeMode()) == 0) {
+        m_crtc->setCurrent(m_buffer);
         return true;
     } else {
         return false;
@@ -261,13 +284,13 @@ bool DrmLegacyCommit::doPageflip(PresentationMode mode)
     if (mode == PresentationMode::Async || mode == PresentationMode::AdaptiveAsync) {
         flags |= DRM_MODE_PAGE_FLIP_ASYNC;
     }
-    return drmModePageFlip(gpu()->fd(), m_pipeline->crtc()->id(), m_buffer->framebufferId(), flags, this) == 0;
+    return drmModePageFlip(gpu()->fd(), m_crtc->id(), m_buffer->framebufferId(), flags, this) == 0;
 }
 
 void DrmLegacyCommit::pageFlipped(std::chrono::nanoseconds timestamp)
 {
     Q_ASSERT(QThread::currentThread() == QApplication::instance()->thread());
-    m_pipeline->crtc()->setCurrent(m_buffer);
+    m_crtc->setCurrent(m_buffer);
     if (m_frame) {
         m_frame->presented(timestamp, m_mode);
         m_frame.reset();

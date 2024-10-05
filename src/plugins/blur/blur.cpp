@@ -15,6 +15,9 @@
 #include "core/renderviewport.h"
 #include "effect/effecthandler.h"
 #include "opengl/glplatform.h"
+#include "scene/decorationitem.h"
+#include "scene/surfaceitem.h"
+#include "scene/windowitem.h"
 #include "wayland/blur.h"
 #include "wayland/display.h"
 #include "wayland/surface.h"
@@ -263,6 +266,7 @@ void BlurEffect::updateBlurRegion(EffectWindow *w)
         BlurEffectData &data = m_windows[w];
         data.content = content;
         data.frame = frame;
+        data.windowEffect = ItemEffect(w->windowItem());
     } else {
         if (auto it = m_windows.find(w); it != m_windows.end()) {
             effects->makeOpenGLContextCurrent();
@@ -385,7 +389,7 @@ QRegion BlurEffect::decorationBlurRegion(const EffectWindow *w) const
         return QRegion();
     }
 
-    QRegion decorationRegion = QRegion(w->decoration()->rect()) - w->decorationInnerRect().toRect();
+    QRegion decorationRegion = QRegion(w->decoration()->rect()) - w->contentsRect().toRect();
     //! we return only blurred regions that belong to decoration region
     return decorationRegion.intersected(w->decoration()->blurRegion());
 }
@@ -401,12 +405,12 @@ QRegion BlurEffect::blurRegion(EffectWindow *w) const
             if (content->isEmpty()) {
                 // An empty region means that the blur effect should be enabled
                 // for the whole window.
-                region = w->rect().toRect();
+                region = w->contentsRect().toRect();
             } else {
-                if (frame.has_value()) {
-                    region = frame.value();
-                }
-                region += content->translated(w->contentsRect().topLeft().toPoint()) & w->decorationInnerRect().toRect();
+                region = content->translated(w->contentsRect().topLeft().toPoint()) & w->contentsRect().toRect();
+            }
+            if (frame.has_value()) {
+                region += frame.value();
             }
         } else if (frame.has_value()) {
             region = frame.value();

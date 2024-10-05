@@ -15,15 +15,10 @@
 #include "scene/itemrenderer.h"
 #include "scene/workspacescene.h"
 
-static void ensureResources()
-{
-    Q_INIT_RESOURCE(shakecursor);
-}
-
 namespace KWin
 {
 
-ShakeCursorItem::ShakeCursorItem(const KXcursorTheme &theme, Item *parent)
+ShakeCursorItem::ShakeCursorItem(const CursorTheme &theme, Item *parent)
     : Item(parent)
 {
     m_source = std::make_unique<ShapeCursorSource>();
@@ -47,7 +42,6 @@ void ShakeCursorItem::refresh()
 ShakeCursorEffect::ShakeCursorEffect()
     : m_cursor(Cursors::self()->mouse())
 {
-    ensureResources();
     input()->installInputEventSpy(this);
 
     m_deflateTimer.setSingleShot(true);
@@ -150,19 +144,10 @@ void ShakeCursorEffect::magnify(qreal magnification)
         if (!m_cursorItem) {
             effects->hideCursor();
 
-            const qreal maxScale = ShakeCursorConfig::magnification() + 4 * ShakeCursorConfig::overMagnification();
-            const KXcursorTheme originalTheme = input()->pointer()->cursorTheme();
+            const qreal maxScale = ShakeCursorConfig::magnification() + 8 * ShakeCursorConfig::overMagnification();
+            const CursorTheme originalTheme = input()->pointer()->cursorTheme();
             if (m_cursorTheme.name() != originalTheme.name() || m_cursorTheme.size() != originalTheme.size() || m_cursorTheme.devicePixelRatio() != maxScale) {
-                static const QStringList embeddedCursorThemes{
-                    QStringLiteral("breeze_cursors"),
-                    QStringLiteral("Breeze_Light"),
-                };
-
-                QStringList searchPaths;
-                if (embeddedCursorThemes.contains(originalTheme.name())) {
-                    searchPaths.append(QStringLiteral(":/effects/shakecursor/cursors"));
-                }
-                m_cursorTheme = KXcursorTheme(originalTheme.name(), originalTheme.size(), maxScale, searchPaths);
+                m_cursorTheme = CursorTheme(originalTheme.name(), originalTheme.size(), maxScale);
             }
 
             m_cursorItem = std::make_unique<ShakeCursorItem>(m_cursorTheme, effects->scene()->overlayItem());

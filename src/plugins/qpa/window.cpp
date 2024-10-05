@@ -104,11 +104,17 @@ QSurfaceFormat Window::format() const
 
 void Window::requestActivateWindow()
 {
-#if QT_VERSION < QT_VERSION_CHECK(6, 7, 0)
-    QWindowSystemInterface::handleWindowActivated(window());
-#else
     QWindowSystemInterface::handleFocusWindowChanged(window());
-#endif
+}
+
+void Window::raise()
+{
+    // Left blank intentionally to suppress warnings in QPlatformWindow::raise().
+}
+
+void Window::lower()
+{
+    // Left blank intentionally to suppress warnings in QPlatformWindow::lower().
 }
 
 void Window::setGeometry(const QRect &rect)

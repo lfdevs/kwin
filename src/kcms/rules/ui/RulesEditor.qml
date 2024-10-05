@@ -85,12 +85,10 @@ KCM.ScrollViewKCM {
 
     footer:  RowLayout {
         QQC2.Button {
-            text: checked ? i18n("Close") : i18n("Add Property...")
-            icon.name: checked ? "dialog-close" : "list-add"
-            checkable: true
-            checked: propertySheet.visible
-            onToggled: {
-                propertySheet.visible = checked;
+            text: i18n("Add Property...")
+            icon.name: "list-add"
+            onClicked: {
+                propertySheet.visible = true;
             }
         }
         Item {
@@ -185,6 +183,7 @@ KCM.ScrollViewKCM {
             model: overlayModel
             Layout.preferredWidth: Kirigami.Units.gridUnit * 28
             clip: true
+            reuseItems: true
 
             section {
                 property: "section"
@@ -258,6 +257,18 @@ KCM.ScrollViewKCM {
                     }
                 }
             }
+
+            Kirigami.PlaceholderMessage {
+                anchors.centerIn: parent
+                width: parent.width - (Kirigami.Units.largeSpacing * 4)
+                visible: overlayModel.count === 0
+                text: {
+                    if (searchField.text.length === 0) {
+                        return i18nc("@info:placeholder", "No properties left to add");
+                    }
+                    return i18nc("@info:placeholder %1 is a filter text introduced by the user", "No properties match \"%1\"", searchField.text);
+                }
+            }
         }
 
         onVisibleChanged: {
@@ -286,7 +297,7 @@ KCM.ScrollViewKCM {
             case RuleItem.Option:
                 return options.textOfValue(value);
             case RuleItem.NetTypes:
-                var selectedValue = value.toString(2).length - 1;
+                const selectedValue = value.toString(2).length - 1;
                 return options.textOfValue(selectedValue);
             case RuleItem.OptionList:
                 return Array.from(value, item => options.textOfValue(item) ).join(", ");
@@ -298,7 +309,7 @@ KCM.ScrollViewKCM {
         id: enabledRulesModel
         sourceModel: kcm.rulesModel
         filterRowCallback: (source_row, source_parent) => {
-            var index = sourceModel.index(source_row, 0, source_parent);
+            const index = sourceModel.index(source_row, 0, source_parent);
             return sourceModel.data(index, RulesModel.EnabledRole);
         }
     }
@@ -314,13 +325,13 @@ KCM.ScrollViewKCM {
 
         filterString: searchField.text.trim().toLowerCase()
         filterRowCallback: (source_row, source_parent) => {
-            var index = sourceModel.index(source_row, 0, source_parent);
+            const index = sourceModel.index(source_row, 0, source_parent);
 
-            var hasSuggestion = sourceModel.data(index, RulesModel.SuggestedValueRole) != null;
-            var isOptional = sourceModel.data(index, RulesModel.SelectableRole);
-            var isEnabled = sourceModel.data(index, RulesModel.EnabledRole);
+            const hasSuggestion = sourceModel.data(index, RulesModel.SuggestedValueRole) != null;
+            const isOptional = sourceModel.data(index, RulesModel.SelectableRole);
+            const isEnabled = sourceModel.data(index, RulesModel.EnabledRole);
 
-            var showItem = hasSuggestion || (!onlySuggestions && isOptional && !isEnabled);
+            const showItem = hasSuggestion || (!onlySuggestions && isOptional && !isEnabled);
 
             if (!showItem) {
                 return false;

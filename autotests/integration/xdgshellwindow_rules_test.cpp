@@ -344,7 +344,7 @@ void TestXdgShellWindowRules::testPositionApply()
 
     const QPointF cursorPos = KWin::Cursors::self()->mouse()->pos();
     m_window->keyPressEvent(Qt::Key_Right);
-    m_window->updateInteractiveMoveResize(KWin::Cursors::self()->mouse()->pos());
+    m_window->updateInteractiveMoveResize(KWin::Cursors::self()->mouse()->pos(), Qt::KeyboardModifiers());
     QCOMPARE(KWin::Cursors::self()->mouse()->pos(), cursorPos + QPoint(8, 0));
     QCOMPARE(interactiveMoveResizeSteppedSpy.count(), 1);
     QCOMPARE(m_window->pos(), QPoint(50, 42));
@@ -393,7 +393,7 @@ void TestXdgShellWindowRules::testPositionRemember()
 
     const QPointF cursorPos = KWin::Cursors::self()->mouse()->pos();
     m_window->keyPressEvent(Qt::Key_Right);
-    m_window->updateInteractiveMoveResize(KWin::Cursors::self()->mouse()->pos());
+    m_window->updateInteractiveMoveResize(KWin::Cursors::self()->mouse()->pos(), Qt::KeyboardModifiers());
     QCOMPARE(KWin::Cursors::self()->mouse()->pos(), cursorPos + QPoint(8, 0));
     QCOMPARE(interactiveMoveResizeSteppedSpy.count(), 1);
     QCOMPARE(m_window->pos(), QPoint(50, 42));
@@ -485,7 +485,7 @@ void TestXdgShellWindowRules::testPositionApplyNow()
 
     const QPointF cursorPos = KWin::Cursors::self()->mouse()->pos();
     m_window->keyPressEvent(Qt::Key_Right);
-    m_window->updateInteractiveMoveResize(KWin::Cursors::self()->mouse()->pos());
+    m_window->updateInteractiveMoveResize(KWin::Cursors::self()->mouse()->pos(), Qt::KeyboardModifiers());
     QCOMPARE(KWin::Cursors::self()->mouse()->pos(), cursorPos + QPoint(8, 0));
     QCOMPARE(interactiveMoveResizeSteppedSpy.count(), 1);
     QCOMPARE(m_window->pos(), QPoint(50, 42));
@@ -613,7 +613,7 @@ void TestXdgShellWindowRules::testSizeApply()
 
     const QPointF cursorPos = KWin::Cursors::self()->mouse()->pos();
     m_window->keyPressEvent(Qt::Key_Right);
-    m_window->updateInteractiveMoveResize(KWin::Cursors::self()->mouse()->pos());
+    m_window->updateInteractiveMoveResize(KWin::Cursors::self()->mouse()->pos(), Qt::KeyboardModifiers());
     QCOMPARE(KWin::Cursors::self()->mouse()->pos(), cursorPos + QPoint(8, 0));
     QVERIFY(m_surfaceConfigureRequestedSpy->wait());
     QCOMPARE(m_surfaceConfigureRequestedSpy->count(), 4);
@@ -710,7 +710,7 @@ void TestXdgShellWindowRules::testSizeRemember()
 
     const QPointF cursorPos = KWin::Cursors::self()->mouse()->pos();
     m_window->keyPressEvent(Qt::Key_Right);
-    m_window->updateInteractiveMoveResize(KWin::Cursors::self()->mouse()->pos());
+    m_window->updateInteractiveMoveResize(KWin::Cursors::self()->mouse()->pos(), Qt::KeyboardModifiers());
     QCOMPARE(KWin::Cursors::self()->mouse()->pos(), cursorPos + QPoint(8, 0));
     QVERIFY(m_surfaceConfigureRequestedSpy->wait());
     QCOMPARE(m_surfaceConfigureRequestedSpy->count(), 4);
@@ -2831,7 +2831,7 @@ void TestXdgShellWindowRules::testScreenDontAffect()
     QCOMPARE(m_window->output()->name(), outputs.at(0)->name());
 
     // The user can still move the window to another screen.
-    workspace()->sendWindowToOutput(m_window, outputs.at(1));
+    m_window->sendToOutput(outputs.at(1));
     QCOMPARE(m_window->output()->name(), outputs.at(1)->name());
 
     destroyTestWindow();
@@ -2850,7 +2850,7 @@ void TestXdgShellWindowRules::testScreenApply()
     QCOMPARE(m_window->output()->name(), outputs.at(1)->name());
 
     // The user can move the window to another screen.
-    workspace()->sendWindowToOutput(m_window, outputs.at(0));
+    m_window->sendToOutput(outputs.at(0));
     QCOMPARE(m_window->output()->name(), outputs.at(0)->name());
 
     destroyTestWindow();
@@ -2868,7 +2868,7 @@ void TestXdgShellWindowRules::testScreenRemember()
     QCOMPARE(m_window->output()->name(), outputs.at(0)->name());
 
     // Move the window to the second screen.
-    workspace()->sendWindowToOutput(m_window, outputs.at(1));
+    m_window->sendToOutput(outputs.at(1));
     QCOMPARE(m_window->output()->name(), outputs.at(1)->name());
 
     // Close and reopen the window.
@@ -2895,7 +2895,7 @@ void TestXdgShellWindowRules::testScreenForce()
     QCOMPARE(m_window->output()->name(), outputs.at(1)->name());
 
     // User should not be able to move the window to another screen.
-    workspace()->sendWindowToOutput(m_window, outputs.at(0));
+    m_window->sendToOutput(outputs.at(0));
     QCOMPARE(m_window->output()->name(), outputs.at(1)->name());
 
     // Disable the output where the window is on, so the window is moved the other screen
@@ -2937,7 +2937,7 @@ void TestXdgShellWindowRules::testScreenApplyNow()
     QCOMPARE(m_window->output()->name(), outputs.at(1)->name());
 
     // The user can move the window to another screen.
-    workspace()->sendWindowToOutput(m_window, outputs.at(0));
+    m_window->sendToOutput(outputs.at(0));
     QCOMPARE(m_window->output()->name(), outputs.at(0)->name());
 
     // The rule should not be applied again.
@@ -2959,7 +2959,7 @@ void TestXdgShellWindowRules::testScreenForceTemporarily()
     QCOMPARE(m_window->output()->name(), outputs.at(1)->name());
 
     // User is not allowed to move it
-    workspace()->sendWindowToOutput(m_window, outputs.at(0));
+    m_window->sendToOutput(outputs.at(0));
     QCOMPARE(m_window->output()->name(), outputs.at(1)->name());
 
     // Close and reopen the window.

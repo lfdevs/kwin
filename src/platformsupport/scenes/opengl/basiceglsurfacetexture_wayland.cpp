@@ -41,6 +41,7 @@ bool BasicEGLSurfaceTextureWayland::create()
     } else if (m_pixmap->buffer()->shmAttributes()) {
         return loadShmTexture(m_pixmap->buffer());
     } else {
+        qCDebug(KWIN_OPENGL) << "Failed to create BasicEGLSurfaceTextureWayland for a buffer of unknown type" << m_pixmap->buffer();
         return false;
     }
 }
@@ -57,6 +58,8 @@ void BasicEGLSurfaceTextureWayland::update(const QRegion &region)
         updateDmabufTexture(m_pixmap->buffer());
     } else if (m_pixmap->buffer()->shmAttributes()) {
         updateShmTexture(m_pixmap->buffer(), region);
+    } else {
+        qCDebug(KWIN_OPENGL) << "Failed to update BasicEGLSurfaceTextureWayland for a buffer of unknown type" << m_pixmap->buffer();
     }
 }
 
@@ -83,6 +86,15 @@ bool BasicEGLSurfaceTextureWayland::loadShmTexture(GraphicsBuffer *buffer)
     return true;
 }
 
+static QRegion simplifyDamage(const QRegion &damage)
+{
+    if (damage.rectCount() < 3) {
+        return damage;
+    } else {
+        return damage.boundingRect();
+    }
+}
+
 void BasicEGLSurfaceTextureWayland::updateShmTexture(GraphicsBuffer *buffer, const QRegion &region)
 {
     if (Q_UNLIKELY(m_bufferType != BufferType::Shm)) {
@@ -96,9 +108,7 @@ void BasicEGLSurfaceTextureWayland::updateShmTexture(GraphicsBuffer *buffer, con
         return;
     }
 
-    for (const QRect &rect : region) {
-        m_texture.planes[0]->update(*view.image(), rect.topLeft(), rect);
-    }
+    m_texture.planes[0]->update(*view.image(), simplifyDamage(region));
 }
 
 bool BasicEGLSurfaceTextureWayland::loadDmabufTexture(GraphicsBuffer *buffer)

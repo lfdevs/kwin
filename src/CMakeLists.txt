@@ -42,8 +42,9 @@ target_sources(kwin PRIVATE
     colors/colormanager.cpp
     compositor.cpp
     compositor_wayland.cpp
-    core/colorlut.cpp
+    core/brightnessdevice.cpp
     core/colorlut3d.cpp
+    core/colorpipeline.cpp
     core/colorpipelinestage.cpp
     core/colorspace.cpp
     core/colortransformation.cpp
@@ -99,6 +100,7 @@ target_sources(kwin PRIVATE
     focuschain.cpp
     ftrace.cpp
     gestures.cpp
+    globalshortcuts.cpp
     hide_cursor_spy.cpp
     idle_inhibition.cpp
     idledetector.cpp
@@ -204,7 +206,9 @@ target_sources(kwin PRIVATE
     tiles/tilemanager.cpp
     touch_input.cpp
     useractions.cpp
+    utils/svgcursorreader.cpp
     utils/version.cpp
+    utils/xcursorreader.cpp
     virtualdesktops.cpp
     virtualdesktopsdbustypes.cpp
     virtualkeyboard_dbus.cpp
@@ -232,8 +236,9 @@ target_link_libraries(kwin
 
     PRIVATE
         Qt::Concurrent
-        Qt::Sensors
         Qt::GuiPrivate
+        Qt::Sensors
+        Qt::Svg
 
         KF6::ColorScheme
         KF6::ConfigGui
@@ -258,7 +263,6 @@ target_link_libraries(kwin
 )
 
 if (TARGET K::KGlobalAccelD)
-    target_sources(kwin PRIVATE globalshortcuts.cpp)
     target_link_libraries(kwin PRIVATE K::KGlobalAccelD)
 endif()
 
@@ -545,8 +549,8 @@ install(FILES
     DESTINATION ${KDE_INSTALL_INCLUDEDIR}/kwin COMPONENT Devel)
 
 install(FILES
-    core/colorlut.h
     core/colorlut3d.h
+    core/colorpipeline.h
     core/colorpipelinestage.h
     core/colorspace.h
     core/colortransformation.h
@@ -582,6 +586,7 @@ install(FILES
 install(FILES
     utils/c_ptr.h
     utils/common.h
+    utils/cursortheme.h
     utils/damagejournal.h
     utils/drm_format_helper.h
     utils/edid.h
@@ -600,7 +605,6 @@ install(FILES
     utils/version.h
     utils/vsyncmonitor.h
     utils/xcbutils.h
-    utils/xcursortheme.h
     DESTINATION ${KDE_INSTALL_INCLUDEDIR}/kwin/utils COMPONENT Devel)
 
 install(FILES
@@ -642,8 +646,29 @@ install(FILES
 )
 
 install(FILES
-    scene/item.h
+    scene/cursordelegate_opengl.h
+    scene/cursordelegate_qpainter.h
+    scene/cursoritem.h
+    scene/cursorscene.h
+    scene/decorationitem.h
+    scene/dndiconitem.h
+    scene/imageitem.h
     scene/itemgeometry.h
+    scene/item.h
+    scene/itemrenderer.h
+    scene/itemrenderer_opengl.h
+    scene/itemrenderer_qpainter.h
+    scene/rootitem.h
+    scene/scene.h
+    scene/shadowitem.h
+    scene/surfaceitem.h
+    scene/surfaceitem_internal.h
+    scene/surfaceitem_wayland.h
+    scene/surfaceitem_x11.h
+    scene/windowitem.h
+    scene/workspacescene.h
+    scene/workspacescene_opengl.h
+    scene/workspacescene_qpainter.h
     DESTINATION ${KDE_INSTALL_INCLUDEDIR}/kwin/scene COMPONENT Devel
 )
 

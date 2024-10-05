@@ -9,10 +9,12 @@
 #include "kwin_wayland_test.h"
 
 #include "pointer_input.h"
+#include "tablet_input.h"
 #include "wayland_server.h"
 #include "workspace.h"
 
 #include <KWayland/Client/keyboard.h>
+#include <KWayland/Client/pointer.h>
 #include <KWayland/Client/seat.h>
 #include <linux/input-event-codes.h>
 
@@ -32,6 +34,20 @@ private Q_SLOTS:
     void testKey_data();
     void testKey();
 
+    void testMouse_data();
+    void testMouse();
+
+    void testMouseKeyboardMod_data();
+    void testMouseKeyboardMod();
+
+    void testDisabled();
+
+    // NOTE: Mouse buttons are not tested because those are used in the other tests
+    void testBindingTabletPad();
+    void testBindingTabletTool();
+
+    void testMouseTabletCursorSync();
+
 private:
     quint32 timestamp = 1;
 };
@@ -39,7 +55,7 @@ private:
 void TestButtonRebind::init()
 {
     QVERIFY(Test::setupWaylandConnection(Test::AdditionalWaylandInterface::Seat));
-    QVERIFY(Test::waitForWaylandKeyboard());
+    QVERIFY(Test::waitForWaylandPointer());
 }
 
 void TestButtonRebind::cleanup()
@@ -103,6 +119,230 @@ void TestButtonRebind::testKey()
         QCOMPARE(keyChangedSpy.at(i).at(1).value<KWayland::Client::Keyboard::KeyState>(), KWayland::Client::Keyboard::KeyState::Pressed);
     }
     Test::pointerButtonReleased(0x119, timestamp++);
+}
+
+void TestButtonRebind::testMouse_data()
+{
+    QTest::addColumn<int>("mouseButton");
+
+    QTest::newRow("left button") << BTN_LEFT;
+    QTest::newRow("middle button") << BTN_MIDDLE;
+    QTest::newRow("right button") << BTN_RIGHT;
+}
+
+void TestButtonRebind::testMouse()
+{
+    KConfigGroup buttonGroup = KSharedConfig::openConfig(QStringLiteral("kcminputrc"))->group(QStringLiteral("ButtonRebinds")).group(QStringLiteral("Mouse"));
+    QFETCH(int, mouseButton);
+    buttonGroup.writeEntry("ExtraButton7", QStringList{"MouseButton", QString::number(mouseButton)}, KConfig::Notify);
+    buttonGroup.sync();
+
+    std::unique_ptr<KWayland::Client::Surface> surface = Test::createSurface();
+    std::unique_ptr<Test::XdgToplevel> shellSurface = Test::createXdgToplevelSurface(surface.get());
+    auto window = Test::renderAndWaitForShown(surface.get(), QSize(100, 50), Qt::blue);
+
+    std::unique_ptr<KWayland::Client::Pointer> pointer(Test::waylandSeat()->createPointer());
+    QSignalSpy enteredSpy(pointer.get(), &KWayland::Client::Pointer::entered);
+    QSignalSpy buttonChangedSpy(pointer.get(), &KWayland::Client::Pointer::buttonStateChanged);
+
+    const QRectF startGeometry = window->frameGeometry();
+    input()->pointer()->warp(startGeometry.center());
+
+    QVERIFY(enteredSpy.wait());
+
+    // 0x119 is Qt::ExtraButton7
+    Test::pointerButtonPressed(0x119, timestamp++);
+
+    QVERIFY(buttonChangedSpy.wait());
+
+    QCOMPARE(buttonChangedSpy.count(), 1);
+    QCOMPARE(buttonChangedSpy.at(0).at(2).value<qint32>(), mouseButton);
+
+    Test::pointerButtonReleased(0x119, timestamp++);
+}
+
+void TestButtonRebind::testMouseKeyboardMod_data()
+{
+    QTest::addColumn<Qt::KeyboardModifiers>("modifiers");
+    QTest::addColumn<QList<quint32>>("expectedKeys");
+
+    QTest::newRow("single ctrl") << Qt::KeyboardModifiers(Qt::ControlModifier) << QList<quint32>{KEY_LEFTCTRL};
+    QTest::newRow("single alt") << Qt::KeyboardModifiers(Qt::AltModifier) << QList<quint32>{KEY_LEFTALT};
+    QTest::newRow("single shift") << Qt::KeyboardModifiers(Qt::ShiftModifier) << QList<quint32>{KEY_LEFTSHIFT};
+
+    // We have to test Meta with another key, because it will most likely trigger KWin to do some window operation.
+    QTest::newRow("meta + alt") << Qt::KeyboardModifiers(Qt::MetaModifier | Qt::AltModifier) << QList<quint32>{KEY_LEFTALT, KEY_LEFTMETA};
+
+    QTest::newRow("ctrl + alt + shift + meta") << Qt::KeyboardModifiers(Qt::ControlModifier | Qt::AltModifier | Qt::ShiftModifier | Qt::MetaModifier) << QList<quint32>{KEY_LEFTSHIFT, KEY_LEFTCTRL, KEY_LEFTALT, KEY_LEFTMETA};
+}
+
+void TestButtonRebind::testMouseKeyboardMod()
+{
+    QFETCH(Qt::KeyboardModifiers, modifiers);
+
+    KConfigGroup buttonGroup = KSharedConfig::openConfig(QStringLiteral("kcminputrc"))->group(QStringLiteral("ButtonRebinds")).group(QStringLiteral("TabletTool")).group(QStringLiteral("Virtual Tablet Tool 1"));
+    buttonGroup.writeEntry(QString::number(BTN_STYLUS), QStringList{"MouseButton", QString::number(BTN_LEFT), QString::number(modifiers.toInt())}, KConfig::Notify);
+    buttonGroup.sync();
+
+    std::unique_ptr<KWayland::Client::Keyboard> keyboard(Test::waylandSeat()->createKeyboard());
+    QSignalSpy keyboardEnteredSpy(keyboard.get(), &KWayland::Client::Keyboard::entered);
+    QSignalSpy keyboardKeyChangedSpy(keyboard.get(), &KWayland::Client::Keyboard::keyChanged);
+
+    std::unique_ptr<KWayland::Client::Surface> surface = Test::createSurface();
+    std::unique_ptr<Test::XdgToplevel> shellSurface = Test::createXdgToplevelSurface(surface.get());
+    auto window = Test::renderAndWaitForShown(surface.get(), QSize(100, 50), Qt::blue);
+    QVERIFY(keyboardEnteredSpy.wait());
+
+    std::unique_ptr<KWayland::Client::Pointer> pointer(Test::waylandSeat()->createPointer());
+    QSignalSpy pointerEnteredSpy(pointer.get(), &KWayland::Client::Pointer::entered);
+    QSignalSpy pointerButtonChangedSpy(pointer.get(), &KWayland::Client::Pointer::buttonStateChanged);
+
+    const QRectF startGeometry = window->frameGeometry();
+
+    input()->pointer()->warp(startGeometry.center());
+    QVERIFY(pointerEnteredSpy.wait());
+
+    // Send the tablet button event so it can be processed by the filter
+    Test::tabletToolButtonPressed(BTN_STYLUS, timestamp++);
+
+    // The keyboard modifier is sent first
+    QVERIFY(keyboardKeyChangedSpy.wait());
+
+    QFETCH(QList<quint32>, expectedKeys);
+    QCOMPARE(keyboardKeyChangedSpy.count(), expectedKeys.count());
+    for (int i = 0; i < keyboardKeyChangedSpy.count(); i++) {
+        QCOMPARE(keyboardKeyChangedSpy.at(i).at(0).value<quint32>(), expectedKeys.at(i));
+        QCOMPARE(keyboardKeyChangedSpy.at(i).at(1).value<KWayland::Client::Keyboard::KeyState>(), KWayland::Client::Keyboard::KeyState::Pressed);
+    }
+
+    // Then the mouse button is
+    QCOMPARE(pointerButtonChangedSpy.count(), 1);
+    QCOMPARE(pointerButtonChangedSpy.at(0).at(2).value<qint32>(), BTN_LEFT);
+
+    Test::tabletToolButtonReleased(BTN_STYLUS, timestamp++);
+}
+
+void TestButtonRebind::testDisabled()
+{
+    KConfigGroup buttonGroup = KSharedConfig::openConfig(QStringLiteral("kcminputrc"))->group(QStringLiteral("ButtonRebinds")).group(QStringLiteral("Mouse"));
+    buttonGroup.writeEntry("ExtraButton7", QStringList{"Disabled"}, KConfig::Notify);
+    buttonGroup.sync();
+
+    std::unique_ptr<KWayland::Client::Surface> surface = Test::createSurface();
+    std::unique_ptr<Test::XdgToplevel> shellSurface = Test::createXdgToplevelSurface(surface.get());
+    auto window = Test::renderAndWaitForShown(surface.get(), QSize(100, 50), Qt::blue);
+
+    std::unique_ptr<KWayland::Client::Pointer> pointer(Test::waylandSeat()->createPointer());
+    QSignalSpy enteredSpy(pointer.get(), &KWayland::Client::Pointer::entered);
+    QSignalSpy buttonChangedSpy(pointer.get(), &KWayland::Client::Pointer::buttonStateChanged);
+
+    const QRectF startGeometry = window->frameGeometry();
+    input()->pointer()->warp(startGeometry.center());
+
+    QVERIFY(enteredSpy.wait());
+
+    // 0x119 is Qt::ExtraButton7
+    Test::pointerButtonPressed(0x119, timestamp++);
+
+    // Qt::ExtraButton7 should not have been emitted if this button is disabled
+    QVERIFY(!buttonChangedSpy.wait(std::chrono::milliseconds(100)));
+    QCOMPARE(buttonChangedSpy.count(), 0);
+
+    Test::pointerButtonReleased(0x119, timestamp++);
+}
+
+void TestButtonRebind::testBindingTabletPad()
+{
+    const QKeySequence sequence(Qt::Key_A);
+
+    KConfigGroup buttonGroup = KSharedConfig::openConfig(QStringLiteral("kcminputrc"))->group(QStringLiteral("ButtonRebinds")).group(QStringLiteral("Tablet")).group(QStringLiteral("Virtual Tablet Pad 1"));
+    buttonGroup.writeEntry("1", QStringList{"Key", sequence.toString(QKeySequence::PortableText)}, KConfig::Notify);
+    buttonGroup.sync();
+
+    std::unique_ptr<KWayland::Client::Surface> surface = Test::createSurface();
+    std::unique_ptr<Test::XdgToplevel> shellSurface = Test::createXdgToplevelSurface(surface.get());
+    Test::renderAndWaitForShown(surface.get(), QSize(100, 50), Qt::blue);
+
+    std::unique_ptr<KWayland::Client::Keyboard> keyboard(Test::waylandSeat()->createKeyboard());
+    QSignalSpy enteredSpy(keyboard.get(), &KWayland::Client::Keyboard::entered);
+    QSignalSpy keyChangedSpy(keyboard.get(), &KWayland::Client::Keyboard::keyChanged);
+    QVERIFY(enteredSpy.wait());
+
+    Test::tabletPadButtonPressed(1, timestamp++);
+
+    QVERIFY(keyChangedSpy.wait());
+    QCOMPARE(keyChangedSpy.count(), 1);
+    QCOMPARE(keyChangedSpy.at(0).at(0), KEY_A);
+
+    Test::tabletPadButtonReleased(1, timestamp++);
+}
+
+void TestButtonRebind::testBindingTabletTool()
+{
+    const QKeySequence sequence(Qt::Key_A);
+
+    KConfigGroup buttonGroup = KSharedConfig::openConfig(QStringLiteral("kcminputrc"))->group(QStringLiteral("ButtonRebinds")).group(QStringLiteral("TabletTool")).group(QStringLiteral("Virtual Tablet Tool 1"));
+    buttonGroup.writeEntry(QString::number(BTN_STYLUS), QStringList{"Key", sequence.toString(QKeySequence::PortableText)}, KConfig::Notify);
+    buttonGroup.sync();
+
+    std::unique_ptr<KWayland::Client::Surface> surface = Test::createSurface();
+    std::unique_ptr<Test::XdgToplevel> shellSurface = Test::createXdgToplevelSurface(surface.get());
+    auto window = Test::renderAndWaitForShown(surface.get(), QSize(100, 50), Qt::blue);
+
+    std::unique_ptr<KWayland::Client::Keyboard> keyboard(Test::waylandSeat()->createKeyboard());
+    QSignalSpy enteredSpy(keyboard.get(), &KWayland::Client::Keyboard::entered);
+    QSignalSpy keyChangedSpy(keyboard.get(), &KWayland::Client::Keyboard::keyChanged);
+    QVERIFY(enteredSpy.wait());
+
+    const QRectF startGeometry = window->frameGeometry();
+    Test::tabletToolEvent(InputRedirection::Proximity, startGeometry.center(), 1.0, 0, 0, 0, false, false, timestamp++);
+
+    Test::tabletToolButtonPressed(BTN_STYLUS, timestamp++);
+
+    QVERIFY(keyChangedSpy.wait());
+    QCOMPARE(keyChangedSpy.count(), 1);
+    QCOMPARE(keyChangedSpy.at(0).at(0), KEY_A);
+
+    Test::tabletToolButtonReleased(BTN_STYLUS, timestamp++);
+}
+
+void TestButtonRebind::testMouseTabletCursorSync()
+{
+    KConfigGroup buttonGroup = KSharedConfig::openConfig(QStringLiteral("kcminputrc"))->group(QStringLiteral("ButtonRebinds")).group(QStringLiteral("TabletTool")).group(QStringLiteral("Virtual Tablet Tool 1"));
+    buttonGroup.writeEntry(QString::number(BTN_STYLUS), QStringList{"MouseButton", QString::number(BTN_LEFT)}, KConfig::Notify);
+    buttonGroup.sync();
+
+    std::unique_ptr<KWayland::Client::Surface> surface = Test::createSurface();
+    std::unique_ptr<Test::XdgToplevel> shellSurface = Test::createXdgToplevelSurface(surface.get());
+    auto window = Test::renderAndWaitForShown(surface.get(), QSize(100, 50), Qt::blue);
+
+    std::unique_ptr<KWayland::Client::Pointer> pointer(Test::waylandSeat()->createPointer());
+    QSignalSpy enteredSpy(pointer.get(), &KWayland::Client::Pointer::entered);
+    QSignalSpy buttonChangedSpy(pointer.get(), &KWayland::Client::Pointer::buttonStateChanged);
+
+    const QRectF startGeometry = window->frameGeometry();
+
+    // Move the mouse cursor to (25, 25)
+    input()->pointer()->warp(startGeometry.topLeft() + QPointF{25.f, 25.5f});
+    QVERIFY(enteredSpy.wait());
+
+    // Move the tablet cursor to (10,10)
+    Test::tabletToolEvent(InputRedirection::Proximity, startGeometry.topLeft() + QPointF{10.f, 10.f}, 1.0, 0, 0, 0, false, false, timestamp++);
+
+    // Verify they are not starting in the same place
+    QVERIFY(input()->pointer()->pos() != input()->tablet()->position());
+
+    // Send the tablet button event so it can be processed by the filter
+    Test::tabletToolButtonPressed(BTN_STYLUS, timestamp++);
+
+    QVERIFY(buttonChangedSpy.wait());
+    QCOMPARE(buttonChangedSpy.count(), 1);
+    QCOMPARE(buttonChangedSpy.at(0).at(2).value<qint32>(), BTN_LEFT);
+
+    Test::tabletToolButtonReleased(BTN_STYLUS, timestamp++);
+
+    // Verify that by using the mouse button binding, the mouse cursor was moved to the tablet cursor position
+    QVERIFY(input()->pointer()->pos() == input()->tablet()->position());
 }
 
 WAYLANDTEST_MAIN(TestButtonRebind)

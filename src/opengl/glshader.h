@@ -46,6 +46,7 @@ public:
     int uniformLocation(const char *name);
 
     bool setUniform(const char *name, float value);
+    bool setUniform(const char *name, double value);
     bool setUniform(const char *name, int value);
     bool setUniform(const char *name, const QVector2D &value);
     bool setUniform(const char *name, const QVector3D &value);
@@ -55,6 +56,7 @@ public:
     bool setUniform(const char *name, const QColor &color);
 
     bool setUniform(int location, float value);
+    bool setUniform(int location, double value);
     bool setUniform(int location, int value);
     bool setUniform(int location, int xValue, int yValue, int zValue);
     bool setUniform(int location, const QVector2D &value);
@@ -83,11 +85,15 @@ public:
         WindowTransformation,
         ScreenTransformation,
         ColorimetryTransformation,
+        DestinationToLMS,
+        LMSToDestination,
         MatrixCount
     };
 
     enum class Vec2Uniform {
         Offset,
+        SourceTransferFunctionParams,
+        DestinationTransferFunctionParams,
         Vec2UniformCount
     };
 
@@ -102,8 +108,10 @@ public:
 
     enum class FloatUniform {
         Saturation,
-        MaxHdrBrightness,
-        SdrBrightness,
+        MaxDestinationLuminance,
+        SourceReferenceLuminance,
+        DestinationReferenceLuminance,
+        MaxTonemappingLuminance,
         FloatUniformCount
     };
 
@@ -133,9 +141,7 @@ public:
     bool setUniform(ColorUniform uniform, const QVector4D &value);
     bool setUniform(ColorUniform uniform, const QColor &value);
 
-    bool setColorspaceUniforms(const ColorDescription &src, const ColorDescription &dst);
-    bool setColorspaceUniformsFromSRGB(const ColorDescription &dst);
-    bool setColorspaceUniformsToSRGB(const ColorDescription &src);
+    void setColorspaceUniforms(const ColorDescription &src, const ColorDescription &dst, RenderingIntent intent);
 
 protected:
     GLShader(unsigned int flags = NoFlags);

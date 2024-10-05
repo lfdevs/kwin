@@ -74,7 +74,7 @@ void EglGbmLayerSurface::destroyResources()
     m_oldSurface = {};
 }
 
-std::optional<OutputLayerBeginFrameInfo> EglGbmLayerSurface::startRendering(const QSize &bufferSize, OutputTransform transformation, const QHash<uint32_t, QList<uint64_t>> &formats, const ColorDescription &colorDescription, const QVector3D &channelFactors, const std::shared_ptr<IccProfile> &iccProfile, bool enableColormanagement, double brightness)
+std::optional<OutputLayerBeginFrameInfo> EglGbmLayerSurface::startRendering(const QSize &bufferSize, OutputTransform transformation, const QHash<uint32_t, QList<uint64_t>> &formats, const ColorDescription &colorDescription, const QVector3D &channelFactors, const std::shared_ptr<IccProfile> &iccProfile, double scale)
 {
     if (!checkSurface(bufferSize, formats)) {
         return std::nullopt;
@@ -94,19 +94,15 @@ std::optional<OutputLayerBeginFrameInfo> EglGbmLayerSurface::startRendering(cons
     }
     slot->framebuffer()->colorAttachment()->setContentTransform(transformation);
     m_surface->currentSlot = slot;
+    m_surface->scale = scale;
 
-    if (m_surface->targetColorDescription != colorDescription || m_surface->channelFactors != channelFactors
-        || m_surface->colormanagementEnabled != enableColormanagement || m_surface->iccProfile != iccProfile
-        || m_surface->brightness != brightness) {
+    if (m_surface->targetColorDescription != colorDescription || m_surface->channelFactors != channelFactors || m_surface->iccProfile != iccProfile) {
         m_surface->damageJournal.clear();
-        m_surface->colormanagementEnabled = enableColormanagement;
+        m_surface->shadowDamageJournal.clear();
+        m_surface->needsShadowBuffer = channelFactors != QVector3D(1, 1, 1) || iccProfile || colorDescription.transferFunction().type != TransferFunction::gamma22;
         m_surface->targetColorDescription = colorDescription;
         m_surface->channelFactors = channelFactors;
-        m_surface->adaptedChannelFactors = Colorimetry::fromName(NamedColorimetry::BT709).toOther(colorDescription.colorimetry()) * channelFactors;
-        // normalize red to be the original brightness value again
-        m_surface->adaptedChannelFactors *= channelFactors.x() / m_surface->adaptedChannelFactors.x();
         m_surface->iccProfile = iccProfile;
-        m_surface->brightness = brightness;
         if (iccProfile) {
             if (!m_surface->iccShader) {
                 m_surface->iccShader = std::make_unique<IccShader>();
@@ -114,42 +110,50 @@ std::optional<OutputLayerBeginFrameInfo> EglGbmLayerSurface::startRendering(cons
         } else {
             m_surface->iccShader.reset();
         }
-        if (enableColormanagement) {
-            m_surface->intermediaryColorDescription = ColorDescription(colorDescription.colorimetry(), NamedTransferFunction::linear,
-                                                                       colorDescription.sdrBrightness(), colorDescription.minHdrBrightness(),
-                                                                       colorDescription.maxFrameAverageBrightness(), colorDescription.maxHdrHighlightBrightness(),
-                                                                       colorDescription.sdrColorimetry());
+        if (m_surface->needsShadowBuffer) {
+            const double maxLuminance = colorDescription.maxHdrLuminance().value_or(colorDescription.referenceLuminance());
+            m_surface->intermediaryColorDescription = ColorDescription(colorDescription.containerColorimetry(), TransferFunction(TransferFunction::gamma22, 0, maxLuminance),
+                                                                       colorDescription.referenceLuminance(), colorDescription.minLuminance(),
+                                                                       colorDescription.maxAverageLuminance(), colorDescription.maxHdrLuminance(),
+                                                                       colorDescription.containerColorimetry(), colorDescription.sdrColorimetry());
         } else {
             m_surface->intermediaryColorDescription = colorDescription;
         }
     }
 
-    const QRegion repaint = bufferAgeEnabled ? m_surface->damageJournal.accumulate(slot->age(), infiniteRegion()) : infiniteRegion();
     m_surface->compositingTimeQuery = std::make_unique<GLRenderTimeQuery>(m_surface->context);
     m_surface->compositingTimeQuery->begin();
-    if (enableColormanagement) {
+    if (m_surface->needsShadowBuffer) {
         if (!m_surface->shadowSwapchain || m_surface->shadowSwapchain->size() != m_surface->gbmSwapchain->size()) {
             const auto formats = m_eglBackend->eglDisplayObject()->nonExternalOnlySupportedDrmFormats();
             const auto createSwapchain = [&formats, this](bool requireAlpha) {
-                for (auto it = formats.begin(); it != formats.end(); it++) {
-                    const auto info = FormatInfo::get(it.key());
-                    if (!info || info->bitsPerColor != 16 || !info->floatingPoint) {
-                        continue;
-                    }
-                    if (requireAlpha && info->alphaBits == 0) {
-                        continue;
-                    }
-                    auto mods = it.value();
-                    if (m_eglBackend->gpu()->isAmdgpu() && qEnvironmentVariableIntValue("KWIN_DRM_NO_DCC_WORKAROUND") == 0) {
-                        // using modifiers with DCC here causes glitches on amdgpu: https://gitlab.freedesktop.org/mesa/mesa/-/issues/10875
-                        if (!mods.contains(DRM_FORMAT_MOD_LINEAR)) {
+                std::array options = {10, 16, 8};
+                if (m_surface->iccProfile) {
+                    // assumption: if you've got an ICC profile set, you care more about color than about power usage
+                    // TODO add a setting for this sort of preference instead
+                    std::swap(options[0], options[1]);
+                }
+                for (const uint32_t bitsPerColor : options) {
+                    for (auto it = formats.begin(); it != formats.end(); it++) {
+                        const auto info = FormatInfo::get(it.key());
+                        if (!info || info->bitsPerColor != bitsPerColor) {
                             continue;
                         }
-                        mods = {DRM_FORMAT_MOD_LINEAR};
-                    }
-                    m_surface->shadowSwapchain = EglSwapchain::create(m_eglBackend->drmDevice()->allocator(), m_eglBackend->openglContext(), m_surface->gbmSwapchain->size(), it.key(), mods);
-                    if (m_surface->shadowSwapchain) {
-                        break;
+                        if (requireAlpha && info->alphaBits == 0) {
+                            continue;
+                        }
+                        auto mods = it.value();
+                        if (info->floatingPoint && m_eglBackend->gpu()->isAmdgpu() && qEnvironmentVariableIntValue("KWIN_DRM_NO_DCC_WORKAROUND") == 0) {
+                            // using modifiers with DCC here causes glitches on amdgpu: https://gitlab.freedesktop.org/mesa/mesa/-/issues/10875
+                            if (!mods.contains(DRM_FORMAT_MOD_LINEAR)) {
+                                continue;
+                            }
+                            mods = {DRM_FORMAT_MOD_LINEAR};
+                        }
+                        m_surface->shadowSwapchain = EglSwapchain::create(m_eglBackend->drmDevice()->allocator(), m_eglBackend->openglContext(), m_surface->gbmSwapchain->size(), it.key(), mods);
+                        if (m_surface->shadowSwapchain) {
+                            return;
+                        }
                     }
                 }
             };
@@ -169,40 +173,41 @@ std::optional<OutputLayerBeginFrameInfo> EglGbmLayerSurface::startRendering(cons
         m_surface->currentShadowSlot->texture()->setContentTransform(m_surface->currentSlot->framebuffer()->colorAttachment()->contentTransform());
         return OutputLayerBeginFrameInfo{
             .renderTarget = RenderTarget(m_surface->currentShadowSlot->framebuffer(), m_surface->intermediaryColorDescription),
-            .repaint = infiniteRegion(),
+            .repaint = bufferAgeEnabled ? m_surface->shadowDamageJournal.accumulate(m_surface->currentShadowSlot->age(), infiniteRegion()) : infiniteRegion(),
         };
     } else {
         m_surface->shadowSwapchain.reset();
         m_surface->currentShadowSlot.reset();
         return OutputLayerBeginFrameInfo{
-            .renderTarget = RenderTarget(m_surface->currentSlot->framebuffer()),
-            .repaint = repaint,
+            .renderTarget = RenderTarget(m_surface->currentSlot->framebuffer(), m_surface->intermediaryColorDescription),
+            .repaint = bufferAgeEnabled ? m_surface->damageJournal.accumulate(slot->age(), infiniteRegion()) : infiniteRegion(),
         };
     }
 }
 
 bool EglGbmLayerSurface::endRendering(const QRegion &damagedRegion, OutputFrame *frame)
 {
-    if (m_surface->colormanagementEnabled) {
+    if (m_surface->needsShadowBuffer) {
+        const QRegion logicalRepaint = damagedRegion | m_surface->damageJournal.accumulate(m_surface->currentSlot->age(), infiniteRegion());
+        m_surface->damageJournal.add(damagedRegion);
+        m_surface->shadowDamageJournal.add(damagedRegion);
+        QRegion repaint;
+        for (const QRect &rect : logicalRepaint) {
+            repaint |= scaledRect(rect, m_surface->scale).toAlignedRect();
+        }
+
         GLFramebuffer *fbo = m_surface->currentSlot->framebuffer();
         GLFramebuffer::pushFramebuffer(fbo);
         ShaderBinder binder = m_surface->iccShader ? ShaderBinder(m_surface->iccShader->shader()) : ShaderBinder(ShaderTrait::MapTexture | ShaderTrait::TransformColorspace);
         if (m_surface->iccShader) {
-            m_surface->iccShader->setUniforms(m_surface->iccProfile, m_surface->intermediaryColorDescription.sdrBrightness(), m_surface->adaptedChannelFactors);
+            m_surface->iccShader->setUniforms(m_surface->iccProfile, m_surface->intermediaryColorDescription, m_surface->channelFactors);
         } else {
-            // enforce a 25 nits minimum sdr brightness
-            constexpr double minBrightness = 25;
-            const double sdrBrightness = m_surface->intermediaryColorDescription.sdrBrightness();
-            const double brightnessFactor = (m_surface->brightness * (1 - (minBrightness / sdrBrightness))) + (minBrightness / sdrBrightness);
+            binder.shader()->setColorspaceUniforms(m_surface->intermediaryColorDescription, m_surface->targetColorDescription, RenderingIntent::RelativeColorimetric);
             QMatrix4x4 ctm;
-            ctm(0, 0) = m_surface->adaptedChannelFactors.x() * brightnessFactor;
-            ctm(1, 1) = m_surface->adaptedChannelFactors.y() * brightnessFactor;
-            ctm(2, 2) = m_surface->adaptedChannelFactors.z() * brightnessFactor;
+            ctm(0, 0) = m_surface->channelFactors.x();
+            ctm(1, 1) = m_surface->channelFactors.y();
+            ctm(2, 2) = m_surface->channelFactors.z();
             binder.shader()->setUniform(GLShader::Mat4Uniform::ColorimetryTransformation, ctm);
-            binder.shader()->setUniform(GLShader::IntUniform::SourceNamedTransferFunction, int(m_surface->intermediaryColorDescription.transferFunction()));
-            binder.shader()->setUniform(GLShader::IntUniform::DestinationNamedTransferFunction, int(m_surface->targetColorDescription.transferFunction()));
-            binder.shader()->setUniform(GLShader::FloatUniform::SdrBrightness, m_surface->intermediaryColorDescription.sdrBrightness());
-            binder.shader()->setUniform(GLShader::FloatUniform::MaxHdrBrightness, m_surface->intermediaryColorDescription.maxHdrHighlightBrightness());
         }
         QMatrix4x4 mat;
         mat.scale(1, -1);
@@ -211,12 +216,13 @@ bool EglGbmLayerSurface::endRendering(const QRegion &damagedRegion, OutputFrame 
         mat.ortho(QRectF(QPointF(), fbo->size()));
         binder.shader()->setUniform(GLShader::Mat4Uniform::ModelViewProjectionMatrix, mat);
         glDisable(GL_BLEND);
-        m_surface->currentShadowSlot->texture()->render(m_surface->gbmSwapchain->size());
+        m_surface->currentShadowSlot->texture()->render(repaint, m_surface->gbmSwapchain->size(), true);
         EGLNativeFence fence(m_surface->context->displayObject());
         m_surface->shadowSwapchain->release(m_surface->currentShadowSlot, fence.takeFileDescriptor());
         GLFramebuffer::popFramebuffer();
+    } else {
+        m_surface->damageJournal.add(damagedRegion);
     }
-    m_surface->damageJournal.add(damagedRegion);
     m_surface->compositingTimeQuery->end();
     if (frame) {
         frame->addRenderTimeQuery(std::move(m_surface->compositingTimeQuery));
@@ -229,7 +235,7 @@ bool EglGbmLayerSurface::endRendering(const QRegion &damagedRegion, OutputFrame 
         glFinish();
     }
     m_surface->gbmSwapchain->release(m_surface->currentSlot, sourceFence.fileDescriptor().duplicate());
-    const auto buffer = importBuffer(m_surface.get(), m_surface->currentSlot.get(), sourceFence.takeFileDescriptor(), frame);
+    const auto buffer = importBuffer(m_surface.get(), m_surface->currentSlot.get(), sourceFence.takeFileDescriptor(), frame, damagedRegion);
     if (buffer) {
         m_surface->currentFramebuffer = buffer;
         return true;
@@ -273,6 +279,12 @@ std::shared_ptr<GLTexture> EglGbmLayerSurface::texture() const
 
 std::shared_ptr<DrmFramebuffer> EglGbmLayerSurface::renderTestBuffer(const QSize &bufferSize, const QHash<uint32_t, QList<uint64_t>> &formats)
 {
+    EglContext *context = m_eglBackend->openglContext();
+    if (!context->makeCurrent()) {
+        qCWarning(KWIN_DRM) << "EglGbmLayerSurface::renderTestBuffer: failed to make opengl context current";
+        return nullptr;
+    }
+
     if (checkSurface(bufferSize, formats)) {
         return m_surface->currentFramebuffer;
     } else {
@@ -284,6 +296,8 @@ void EglGbmLayerSurface::forgetDamage()
 {
     if (m_surface) {
         m_surface->damageJournal.clear();
+        m_surface->importDamageJournal.clear();
+        m_surface->shadowDamageJournal.clear();
     }
 }
 
@@ -398,6 +412,13 @@ std::unique_ptr<EglGbmLayerSurface::Surface> EglGbmLayerSurface::createSurface(c
         std::sort(formats.begin(), formats.end(), sort);
         if (m_gpu == m_eglBackend->gpu()) {
             return doTestFormats(formats, MultiGpuImportMode::None);
+        }
+        // special case, we're using different display devices but the same render device
+        const auto display = m_eglBackend->displayForGpu(m_gpu);
+        if (display && !display->renderNode().isEmpty() && display->renderNode() == m_eglBackend->eglDisplayObject()->renderNode()) {
+            if (auto surface = doTestFormats(formats, MultiGpuImportMode::None)) {
+                return surface;
+            }
         }
         if (auto surface = doTestFormats(formats, MultiGpuImportMode::Egl)) {
             qCDebug(KWIN_DRM) << "chose egl import with format" << formatName(surface->gbmSwapchain->format()).name << "and modifier" << surface->gbmSwapchain->modifier();
@@ -521,7 +542,7 @@ std::shared_ptr<DrmFramebuffer> EglGbmLayerSurface::doRenderTestBuffer(Surface *
     if (!slot) {
         return nullptr;
     }
-    if (const auto ret = importBuffer(surface, slot.get(), FileDescriptor{}, nullptr)) {
+    if (const auto ret = importBuffer(surface, slot.get(), FileDescriptor{}, nullptr, infiniteRegion())) {
         surface->currentSlot = slot;
         surface->currentFramebuffer = ret;
         return ret;
@@ -530,12 +551,12 @@ std::shared_ptr<DrmFramebuffer> EglGbmLayerSurface::doRenderTestBuffer(Surface *
     }
 }
 
-std::shared_ptr<DrmFramebuffer> EglGbmLayerSurface::importBuffer(Surface *surface, EglSwapchainSlot *slot, FileDescriptor &&readFence, OutputFrame *frame) const
+std::shared_ptr<DrmFramebuffer> EglGbmLayerSurface::importBuffer(Surface *surface, EglSwapchainSlot *slot, FileDescriptor &&readFence, OutputFrame *frame, const QRegion &damagedRegion) const
 {
     if (surface->bufferTarget == BufferTarget::Dumb || surface->importMode == MultiGpuImportMode::DumbBuffer) {
         return importWithCpu(surface, slot, frame);
     } else if (surface->importMode == MultiGpuImportMode::Egl) {
-        return importWithEgl(surface, slot->buffer(), std::move(readFence), frame);
+        return importWithEgl(surface, slot->buffer(), std::move(readFence), frame, damagedRegion);
     } else {
         const auto ret = m_gpu->importBuffer(slot->buffer(), std::move(readFence));
         if (!ret) {
@@ -545,7 +566,7 @@ std::shared_ptr<DrmFramebuffer> EglGbmLayerSurface::importBuffer(Surface *surfac
     }
 }
 
-std::shared_ptr<DrmFramebuffer> EglGbmLayerSurface::importWithEgl(Surface *surface, GraphicsBuffer *sourceBuffer, FileDescriptor &&readFence, OutputFrame *frame) const
+std::shared_ptr<DrmFramebuffer> EglGbmLayerSurface::importWithEgl(Surface *surface, GraphicsBuffer *sourceBuffer, FileDescriptor &&readFence, OutputFrame *frame, const QRegion &damagedRegion) const
 {
     Q_ASSERT(surface->importGbmSwapchain);
 
@@ -583,9 +604,15 @@ std::shared_ptr<DrmFramebuffer> EglGbmLayerSurface::importWithEgl(Surface *surfa
         return nullptr;
     }
 
+    QRegion deviceDamage;
+    for (const QRect &logical : damagedRegion) {
+        deviceDamage |= scaledRect(logical, surface->scale).toAlignedRect();
+    }
+    const QRegion repaint = deviceDamage | surface->importDamageJournal.accumulate(slot->age(), infiniteRegion());
+    surface->importDamageJournal.add(deviceDamage);
+
     GLFramebuffer *fbo = slot->framebuffer();
-    glBindFramebuffer(GL_FRAMEBUFFER, fbo->handle());
-    glViewport(0, 0, fbo->size().width(), fbo->size().height());
+    surface->importContext->pushFramebuffer(fbo);
 
     const auto shader = surface->importContext->shaderManager()->pushShader(sourceTexture->target() == GL_TEXTURE_EXTERNAL_OES ? ShaderTrait::MapExternalTexture : ShaderTrait::MapTexture);
     QMatrix4x4 mat;
@@ -594,11 +621,10 @@ std::shared_ptr<DrmFramebuffer> EglGbmLayerSurface::importWithEgl(Surface *surfa
     shader->setUniform(GLShader::Mat4Uniform::ModelViewProjectionMatrix, mat);
 
     sourceTexture->bind();
-    sourceTexture->render(fbo->size());
+    sourceTexture->render(repaint, fbo->size(), true);
     sourceTexture->unbind();
 
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
+    surface->importContext->popFramebuffer();
     surface->importContext->shaderManager()->popShader();
     glFlush();
     EGLNativeFence endFence(display);
@@ -630,16 +656,17 @@ std::shared_ptr<DrmFramebuffer> EglGbmLayerSurface::importWithCpu(Surface *surfa
     }
     const auto size = source->buffer()->size();
     const qsizetype srcStride = 4 * size.width();
+    EglContext *context = m_eglBackend->openglContext();
     GLFramebuffer::pushFramebuffer(source->framebuffer());
     QImage *const dst = slot->view()->image();
     if (dst->bytesPerLine() == srcStride) {
-        glReadPixels(0, 0, dst->width(), dst->height(), GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, dst->bits());
+        context->glReadnPixels(0, 0, dst->width(), dst->height(), GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, dst->sizeInBytes(), dst->bits());
     } else {
         // there's padding, need to copy line by line
         if (surface->cpuCopyCache.size() != dst->size()) {
             surface->cpuCopyCache = QImage(dst->size(), QImage::Format_RGBA8888);
         }
-        glReadPixels(0, 0, dst->width(), dst->height(), GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, surface->cpuCopyCache.bits());
+        context->glReadnPixels(0, 0, dst->width(), dst->height(), GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, surface->cpuCopyCache.sizeInBytes(), surface->cpuCopyCache.bits());
         for (int i = 0; i < dst->height(); i++) {
             std::memcpy(dst->scanLine(i), surface->cpuCopyCache.scanLine(i), srcStride);
         }

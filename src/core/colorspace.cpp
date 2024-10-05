@@ -4,8 +4,9 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "colorspace.h"
+#include "colorpipeline.h"
 
-#include <qassert.h>
+#include <QtAssert>
 
 namespace KWin
 {
@@ -25,18 +26,90 @@ static QMatrix4x4 matrixFromColumns(const QVector3D &first, const QVector3D &sec
     return ret;
 }
 
-QVector3D Colorimetry::xyToXYZ(QVector2D xy)
+XYZ xy::toXYZ() const
 {
-    return QVector3D(xy.x() / xy.y(), 1, (1 - xy.x() - xy.y()) / xy.y());
+    if (y == 0) {
+        return XYZ{0, 0, 0};
+    }
+    return XYZ{
+        .X = x / y,
+        .Y = 1.0,
+        .Z = (1 - x - y) / y,
+    };
 }
 
-QVector2D Colorimetry::xyzToXY(QVector3D xyz)
+XYZ xyY::toXYZ() const
 {
-    xyz /= xyz.y();
-    return QVector2D(xyz.x() / (xyz.x() + xyz.y() + xyz.z()), xyz.y() / (xyz.x() + xyz.y() + xyz.z()));
+    if (y == 0) {
+        return XYZ{0, 0, 0};
+    }
+    return XYZ{
+        .X = Y * x / y,
+        .Y = Y,
+        .Z = Y * (1 - x - y) / y,
+    };
 }
 
-QMatrix4x4 Colorimetry::chromaticAdaptationMatrix(QVector2D sourceWhitepoint, QVector2D destinationWhitepoint)
+xyY XYZ::toxyY() const
+{
+    const double sum = X + Y + Z;
+    if (qFuzzyIsNull(sum)) {
+        // this is nonsense, but at least won't crash
+        return xyY{
+            .x = 0,
+            .y = 0,
+            .Y = 1,
+        };
+    }
+    return xyY{
+        .x = X / sum,
+        .y = Y / sum,
+        .Y = Y,
+    };
+}
+
+XYZ XYZ::operator*(double factor) const
+{
+    return XYZ{
+        .X = X * factor,
+        .Y = Y * factor,
+        .Z = Z * factor,
+    };
+}
+
+XYZ XYZ::operator/(double divisor) const
+{
+    return XYZ{
+        .X = X / divisor,
+        .Y = Y / divisor,
+        .Z = Z / divisor,
+    };
+}
+
+XYZ XYZ::operator+(const XYZ &other) const
+{
+    return XYZ{
+        .X = X + other.X,
+        .Y = Y + other.Y,
+        .Z = Z + other.Z,
+    };
+}
+
+QVector3D XYZ::asVector() const
+{
+    return QVector3D(X, Y, Z);
+}
+
+XYZ XYZ::fromVector(const QVector3D &vector)
+{
+    return XYZ{
+        .X = vector.x(),
+        .Y = vector.y(),
+        .Z = vector.z(),
+    };
+}
+
+QMatrix4x4 Colorimetry::chromaticAdaptationMatrix(XYZ sourceWhitepoint, XYZ destinationWhitepoint)
 {
     static const QMatrix4x4 bradford = []() {
         QMatrix4x4 ret;
@@ -67,7 +140,7 @@ QMatrix4x4 Colorimetry::chromaticAdaptationMatrix(QVector2D sourceWhitepoint, QV
     if (sourceWhitepoint == destinationWhitepoint) {
         return QMatrix4x4{};
     }
-    const QVector3D factors = (bradford * xyToXYZ(destinationWhitepoint)) / (bradford * xyToXYZ(sourceWhitepoint));
+    const QVector3D factors = (bradford * destinationWhitepoint.asVector()) / (bradford * sourceWhitepoint.asVector());
     QMatrix4x4 adaptation{};
     adaptation(0, 0) = factors.x();
     adaptation(1, 1) = factors.y();
@@ -75,15 +148,13 @@ QMatrix4x4 Colorimetry::chromaticAdaptationMatrix(QVector2D sourceWhitepoint, QV
     return inverseBradford * adaptation * bradford;
 }
 
-static QVector3D normalizeToY1(const QVector3D &vect)
+QMatrix4x4 Colorimetry::calculateToXYZMatrix(XYZ red, XYZ green, XYZ blue, XYZ white)
 {
-    return vect.y() == 0 ? vect : QVector3D(vect.x() / vect.y(), 1, vect.z() / vect.y());
-}
-
-QMatrix4x4 Colorimetry::calculateToXYZMatrix(QVector3D red, QVector3D green, QVector3D blue, QVector3D white)
-{
-    const auto component_scale = (matrixFromColumns(red, green, blue)).inverted() * white;
-    return matrixFromColumns(red * component_scale.x(), green * component_scale.y(), blue * component_scale.z());
+    const QVector3D r = red.asVector();
+    const QVector3D g = green.asVector();
+    const QVector3D b = blue.asVector();
+    const auto component_scale = (matrixFromColumns(r, g, b)).inverted() * white.asVector();
+    return matrixFromColumns(r * component_scale.x(), g * component_scale.y(), b * component_scale.z());
 }
 
 Colorimetry Colorimetry::interpolateGamutTo(const Colorimetry &one, double factor) const
@@ -96,24 +167,35 @@ Colorimetry Colorimetry::interpolateGamutTo(const Colorimetry &one, double facto
     };
 }
 
-Colorimetry::Colorimetry(QVector2D red, QVector2D green, QVector2D blue, QVector2D white)
+Colorimetry::Colorimetry(XYZ red, XYZ green, XYZ blue, XYZ white)
     : m_red(red)
     , m_green(green)
     , m_blue(blue)
     , m_white(white)
-    , m_toXYZ(calculateToXYZMatrix(xyToXYZ(red), xyToXYZ(green), xyToXYZ(blue), xyToXYZ(white)))
+    , m_toXYZ(calculateToXYZMatrix(red, green, blue, white))
     , m_fromXYZ(m_toXYZ.inverted())
 {
 }
 
-Colorimetry::Colorimetry(QVector3D red, QVector3D green, QVector3D blue, QVector3D white)
-    : m_red(xyzToXY(red))
-    , m_green(xyzToXY(green))
-    , m_blue(xyzToXY(blue))
-    , m_white(xyzToXY(white))
-    , m_toXYZ(calculateToXYZMatrix(normalizeToY1(red), normalizeToY1(green), normalizeToY1(blue), normalizeToY1(white)))
-    , m_fromXYZ(m_toXYZ.inverted())
+Colorimetry::Colorimetry(xyY red, xyY green, xyY blue, xyY white)
+    : Colorimetry(red.toXYZ(), green.toXYZ(), blue.toXYZ(), white.toXYZ())
 {
+}
+
+Colorimetry::Colorimetry(xy red, xy green, xy blue, xy white)
+    : m_white(xyY(white.x, white.y, 1.0).toXYZ())
+{
+    const auto brightness = (matrixFromColumns(
+                                 xyY(red.x, red.y, 1.0).toXYZ().asVector(),
+                                 xyY(green.x, green.y, 1.0).toXYZ().asVector(),
+                                 xyY(blue.x, blue.y, 1.0).toXYZ().asVector()))
+                                .inverted()
+        * xyY(white.x, white.y, 1.0).toXYZ().asVector();
+    m_red = xyY(red.x, red.y, brightness.x()).toXYZ();
+    m_green = xyY(green.x, green.y, brightness.y()).toXYZ();
+    m_blue = xyY(blue.x, blue.y, brightness.z()).toXYZ();
+    m_toXYZ = calculateToXYZMatrix(m_red, m_green, m_blue, m_white);
+    m_fromXYZ = m_toXYZ.inverted();
 }
 
 const QMatrix4x4 &Colorimetry::toXYZ() const
@@ -126,20 +208,40 @@ const QMatrix4x4 &Colorimetry::fromXYZ() const
     return m_fromXYZ;
 }
 
-QMatrix4x4 Colorimetry::toOther(const Colorimetry &other) const
+// converts from XYZ to LMS suitable for ICtCp
+static const QMatrix4x4 s_xyzToDolbyLMS = []() {
+    QMatrix4x4 ret;
+    ret(0, 0) = 0.3593;
+    ret(0, 1) = 0.6976;
+    ret(0, 2) = -0.0359;
+    ret(1, 0) = -0.1921;
+    ret(1, 1) = 1.1005;
+    ret(1, 2) = 0.0754;
+    ret(2, 0) = 0.0071;
+    ret(2, 1) = 0.0748;
+    ret(2, 2) = 0.8433;
+    return ret;
+}();
+static const QMatrix4x4 s_inverseDolbyLMS = s_xyzToDolbyLMS.inverted();
+
+QMatrix4x4 Colorimetry::toLMS() const
 {
-    // rendering intent is relative colorimetric, so adapt to the different whitepoint
-    return other.fromXYZ() * chromaticAdaptationMatrix(this->white(), other.white()) * toXYZ();
+    return s_xyzToDolbyLMS * m_toXYZ;
 }
 
-Colorimetry Colorimetry::adaptedTo(QVector2D newWhitepoint) const
+QMatrix4x4 Colorimetry::fromLMS() const
 {
-    const auto mat = chromaticAdaptationMatrix(this->white(), newWhitepoint);
+    return m_fromXYZ * s_inverseDolbyLMS;
+}
+
+Colorimetry Colorimetry::adaptedTo(xyY newWhitepoint) const
+{
+    const auto mat = chromaticAdaptationMatrix(this->white(), newWhitepoint.toXYZ());
     return Colorimetry{
-        xyzToXY(mat * xyToXYZ(red())),
-        xyzToXY(mat * xyToXYZ(green())),
-        xyzToXY(mat * xyToXYZ(blue())),
-        newWhitepoint,
+        XYZ::fromVector(mat * red().asVector()),
+        XYZ::fromVector(mat * green().asVector()),
+        XYZ::fromVector(mat * blue().asVector()),
+        newWhitepoint.toXYZ(),
     };
 }
 
@@ -153,38 +255,85 @@ bool Colorimetry::operator==(NamedColorimetry name) const
     return *this == fromName(name);
 }
 
-const QVector2D &Colorimetry::red() const
+const XYZ &Colorimetry::red() const
 {
     return m_red;
 }
 
-const QVector2D &Colorimetry::green() const
+const XYZ &Colorimetry::green() const
 {
     return m_green;
 }
 
-const QVector2D &Colorimetry::blue() const
+const XYZ &Colorimetry::blue() const
 {
     return m_blue;
 }
 
-const QVector2D &Colorimetry::white() const
+const XYZ &Colorimetry::white() const
 {
     return m_white;
 }
 
 static const Colorimetry BT709 = Colorimetry{
-    QVector2D{0.64, 0.33},
-    QVector2D{0.30, 0.60},
-    QVector2D{0.15, 0.06},
-    QVector2D{0.3127, 0.3290},
+    xy{0.64, 0.33},
+    xy{0.30, 0.60},
+    xy{0.15, 0.06},
+    xy{0.3127, 0.3290},
 };
-
+static const Colorimetry PAL_M = Colorimetry{
+    xy{0.67, 0.33},
+    xy{0.21, 0.71},
+    xy{0.14, 0.08},
+    xy{0.310, 0.316},
+};
+static const Colorimetry PAL = Colorimetry{
+    xy{0.640, 0.330},
+    xy{0.290, 0.600},
+    xy{0.150, 0.060},
+    xy{0.3127, 0.3290},
+};
+static const Colorimetry NTSC = Colorimetry{
+    xy{0.630, 0.340},
+    xy{0.310, 0.595},
+    xy{0.155, 0.070},
+    xy{0.3127, 0.3290},
+};
+static const Colorimetry GenericFilm = Colorimetry{
+    xy{0.243, 0.692},
+    xy{0.145, 0.049},
+    xy{0.681, 0.319},
+    xy{0.310, 0.316},
+};
 static const Colorimetry BT2020 = Colorimetry{
-    QVector2D{0.708, 0.292},
-    QVector2D{0.170, 0.797},
-    QVector2D{0.131, 0.046},
-    QVector2D{0.3127, 0.3290},
+    xy{0.708, 0.292},
+    xy{0.170, 0.797},
+    xy{0.131, 0.046},
+    xy{0.3127, 0.3290},
+};
+static const Colorimetry CIEXYZ = Colorimetry{
+    XYZ{1.0, 0.0, 0.0},
+    XYZ{0.0, 1.0, 0.0},
+    XYZ{0.0, 0.0, 1.0},
+    xy{1.0 / 3.0, 1.0 / 3.0}.toXYZ(),
+};
+static const Colorimetry DCIP3 = Colorimetry{
+    xy{0.680, 0.320},
+    xy{0.265, 0.690},
+    xy{0.150, 0.060},
+    xy{0.314, 0.351},
+};
+static const Colorimetry DisplayP3 = Colorimetry{
+    xy{0.680, 0.320},
+    xy{0.265, 0.690},
+    xy{0.150, 0.060},
+    xy{0.3127, 0.3290},
+};
+static const Colorimetry AdobeRGB = Colorimetry{
+    xy{0.6400, 0.3300},
+    xy{0.2100, 0.7100},
+    xy{0.1500, 0.0600},
+    xy{0.3127, 0.3290},
 };
 
 const Colorimetry &Colorimetry::fromName(NamedColorimetry name)
@@ -192,39 +341,85 @@ const Colorimetry &Colorimetry::fromName(NamedColorimetry name)
     switch (name) {
     case NamedColorimetry::BT709:
         return BT709;
+    case NamedColorimetry::PAL_M:
+        return PAL_M;
+    case NamedColorimetry::PAL:
+        return PAL;
+    case NamedColorimetry::NTSC:
+        return NTSC;
+    case NamedColorimetry::GenericFilm:
+        return GenericFilm;
     case NamedColorimetry::BT2020:
         return BT2020;
+    case NamedColorimetry::CIEXYZ:
+        return CIEXYZ;
+    case NamedColorimetry::DCIP3:
+        return DCIP3;
+    case NamedColorimetry::DisplayP3:
+        return DisplayP3;
+    case NamedColorimetry::AdobeRGB:
+        return AdobeRGB;
     }
     Q_UNREACHABLE();
 }
 
-const ColorDescription ColorDescription::sRGB = ColorDescription(NamedColorimetry::BT709, NamedTransferFunction::gamma22, 100, 0, 100, 100);
+std::optional<NamedColorimetry> Colorimetry::name() const
+{
+    constexpr std::array names = {
+        NamedColorimetry::BT709,
+        NamedColorimetry::PAL_M,
+        NamedColorimetry::PAL,
+        NamedColorimetry::NTSC,
+        NamedColorimetry::GenericFilm,
+        NamedColorimetry::BT2020,
+        NamedColorimetry::CIEXYZ,
+        NamedColorimetry::DCIP3,
+        NamedColorimetry::DisplayP3,
+        NamedColorimetry::AdobeRGB,
+    };
+    const auto it = std::ranges::find_if(names, [this](NamedColorimetry name) {
+        return *this == name;
+    });
+    return it != names.end() ? std::optional(*it) : std::nullopt;
+}
 
-ColorDescription::ColorDescription(const Colorimetry &colorimety, NamedTransferFunction tf, double sdrBrightness, double minHdrBrightness, double maxFrameAverageBrightness, double maxHdrHighlightBrightness, const Colorimetry &sdrColorimetry)
-    : m_colorimetry(colorimety)
-    , m_transferFunction(tf)
-    , m_sdrColorimetry(sdrColorimetry)
-    , m_sdrBrightness(sdrBrightness)
-    , m_minHdrBrightness(minHdrBrightness)
-    , m_maxFrameAverageBrightness(maxFrameAverageBrightness)
-    , m_maxHdrHighlightBrightness(maxHdrHighlightBrightness)
+const ColorDescription ColorDescription::sRGB = ColorDescription(NamedColorimetry::BT709, TransferFunction(TransferFunction::gamma22), TransferFunction::defaultReferenceLuminanceFor(TransferFunction::gamma22), TransferFunction::defaultMinLuminanceFor(TransferFunction::gamma22), TransferFunction::defaultMaxLuminanceFor(TransferFunction::gamma22), TransferFunction::defaultMaxLuminanceFor(TransferFunction::gamma22));
+
+ColorDescription::ColorDescription(const Colorimetry &containerColorimetry, TransferFunction tf, double referenceLuminance, double minLuminance, std::optional<double> maxAverageLuminance, std::optional<double> maxHdrLuminance)
+    : ColorDescription(containerColorimetry, tf, referenceLuminance, minLuminance, maxAverageLuminance, maxHdrLuminance, std::nullopt, Colorimetry::fromName(NamedColorimetry::BT709))
 {
 }
 
-ColorDescription::ColorDescription(NamedColorimetry colorimetry, NamedTransferFunction tf, double sdrBrightness, double minHdrBrightness, double maxFrameAverageBrightness, double maxHdrHighlightBrightness, const Colorimetry &sdrColorimetry)
-    : m_colorimetry(Colorimetry::fromName(colorimetry))
-    , m_transferFunction(tf)
-    , m_sdrColorimetry(sdrColorimetry)
-    , m_sdrBrightness(sdrBrightness)
-    , m_minHdrBrightness(minHdrBrightness)
-    , m_maxFrameAverageBrightness(maxFrameAverageBrightness)
-    , m_maxHdrHighlightBrightness(maxHdrHighlightBrightness)
+ColorDescription::ColorDescription(NamedColorimetry containerColorimetry, TransferFunction tf, double referenceLuminance, double minLuminance, std::optional<double> maxAverageLuminance, std::optional<double> maxHdrLuminance)
+    : ColorDescription(Colorimetry::fromName(containerColorimetry), tf, referenceLuminance, minLuminance, maxAverageLuminance, maxHdrLuminance, std::nullopt, Colorimetry::fromName(NamedColorimetry::BT709))
 {
 }
 
-const Colorimetry &ColorDescription::colorimetry() const
+ColorDescription::ColorDescription(const Colorimetry &containerColorimetry, TransferFunction tf, double referenceLuminance, double minLuminance, std::optional<double> maxAverageLuminance, std::optional<double> maxHdrLuminance, std::optional<Colorimetry> masteringColorimetry, const Colorimetry &sdrColorimetry)
+    : m_containerColorimetry(containerColorimetry)
+    , m_masteringColorimetry(masteringColorimetry)
+    , m_transferFunction(tf)
+    , m_sdrColorimetry(sdrColorimetry)
+    , m_referenceLuminance(referenceLuminance)
+    , m_minLuminance(minLuminance)
+    , m_maxAverageLuminance(maxAverageLuminance)
+    , m_maxHdrLuminance(maxHdrLuminance)
 {
-    return m_colorimetry;
+}
+
+ColorDescription::ColorDescription(NamedColorimetry containerColorimetry, TransferFunction tf, double referenceLuminance, double minLuminance, std::optional<double> maxAverageLuminance, std::optional<double> maxHdrLuminance, std::optional<Colorimetry> masteringColorimetry, const Colorimetry &sdrColorimetry)
+    : ColorDescription(Colorimetry::fromName(containerColorimetry), tf, referenceLuminance, minLuminance, maxAverageLuminance, maxHdrLuminance, masteringColorimetry, sdrColorimetry)
+{
+}
+
+const Colorimetry &ColorDescription::containerColorimetry() const
+{
+    return m_containerColorimetry;
+}
+
+const std::optional<Colorimetry> &ColorDescription::masteringColorimetry() const
+{
+    return m_masteringColorimetry;
 }
 
 const Colorimetry &ColorDescription::sdrColorimetry() const
@@ -232,123 +427,242 @@ const Colorimetry &ColorDescription::sdrColorimetry() const
     return m_sdrColorimetry;
 }
 
-NamedTransferFunction ColorDescription::transferFunction() const
+TransferFunction ColorDescription::transferFunction() const
 {
     return m_transferFunction;
 }
 
-double ColorDescription::sdrBrightness() const
+double ColorDescription::referenceLuminance() const
 {
-    return m_sdrBrightness;
+    return m_referenceLuminance;
 }
 
-double ColorDescription::minHdrBrightness() const
+double ColorDescription::minLuminance() const
 {
-    return m_minHdrBrightness;
+    return m_minLuminance;
 }
 
-double ColorDescription::maxFrameAverageBrightness() const
+std::optional<double> ColorDescription::maxAverageLuminance() const
 {
-    return m_maxFrameAverageBrightness;
+    return m_maxAverageLuminance;
 }
 
-double ColorDescription::maxHdrHighlightBrightness() const
+std::optional<double> ColorDescription::maxHdrLuminance() const
 {
-    return m_maxHdrHighlightBrightness;
+    return m_maxHdrLuminance;
 }
 
-static float srgbToLinear(float sRGB)
+QMatrix4x4 ColorDescription::toOther(const ColorDescription &other, RenderingIntent intent) const
 {
-    if (sRGB < 0.04045) {
-        return std::max(sRGB / 12.92, 0.0);
+    QMatrix4x4 luminanceBefore;
+    QMatrix4x4 luminanceAfter;
+    if (intent == RenderingIntent::Perceptual || intent == RenderingIntent::RelativeColorimetricWithBPC) {
+        // add black point compensation: black and reference white from the source color space
+        // should both be mapped to black and reference white in the destination color space
+
+        // before color conversions, map [src min, src ref] to [0, 1]
+        luminanceBefore.scale(1.0 / (referenceLuminance() - minLuminance()));
+        luminanceBefore.translate(-minLuminance(), -minLuminance(), -minLuminance());
+        // afterwards, map [0, 1] again to [dst min, dst ref]
+        luminanceAfter.translate(other.minLuminance(), other.minLuminance(), other.minLuminance());
+        luminanceAfter.scale(other.referenceLuminance() - other.minLuminance());
     } else {
-        return std::clamp(std::pow((sRGB + 0.055) / 1.055, 12.0 / 5.0), 0.0, 1.0);
+        // map only the reference luminance
+        luminanceBefore.scale(other.referenceLuminance() / referenceLuminance());
     }
-}
-
-static float linearToSRGB(float linear)
-{
-    if (linear < 0.0031308) {
-        return std::max(linear / 12.92, 0.0);
-    } else {
-        return std::clamp(std::pow(linear, 5.0 / 12.0) * 1.055 - 0.055, 0.0, 1.0);
+    switch (intent) {
+    case RenderingIntent::Perceptual: {
+        const Colorimetry &srcContainer = containerColorimetry() == NamedColorimetry::BT709 ? other.sdrColorimetry() : containerColorimetry();
+        return luminanceAfter * other.containerColorimetry().fromXYZ() * Colorimetry::chromaticAdaptationMatrix(srcContainer.white(), other.containerColorimetry().white()) * srcContainer.toXYZ() * luminanceBefore;
     }
-}
-
-static float nitsToPQ(float nits)
-{
-    const float normalized = std::clamp(nits / 10000.0f, 0.0f, 1.0f);
-    const float c1 = 0.8359375;
-    const float c2 = 18.8515625;
-    const float c3 = 18.6875;
-    const float m1 = 0.1593017578125;
-    const float m2 = 78.84375;
-    const float powed = std::pow(normalized, m1);
-    const float num = c1 + c2 * powed;
-    const float denum = 1 + c3 * powed;
-    return std::pow(num / denum, m2);
-}
-
-static float pqToNits(float pq)
-{
-    const float c1 = 0.8359375;
-    const float c2 = 18.8515625;
-    const float c3 = 18.6875;
-    const float m1_inv = 1.0 / 0.1593017578125;
-    const float m2_inv = 1.0 / 78.84375;
-    const float powed = std::pow(pq, m2_inv);
-    const float num = std::max(powed - c1, 0.0f);
-    const float den = c2 - c3 * powed;
-    return 10000.0f * std::pow(num / den, m1_inv);
-}
-
-static QVector3D clamp(const QVector3D &vect, float min = 0, float max = 1)
-{
-    return QVector3D(std::clamp(vect.x(), min, max), std::clamp(vect.y(), min, max), std::clamp(vect.z(), min, max));
-}
-
-QVector3D ColorDescription::encodedToNits(const QVector3D &nits, NamedTransferFunction tf, double sdrBrightness)
-{
-    switch (tf) {
-    case NamedTransferFunction::sRGB:
-        return sdrBrightness * QVector3D(srgbToLinear(nits.x()), srgbToLinear(nits.y()), srgbToLinear(nits.z()));
-    case NamedTransferFunction::gamma22:
-        return sdrBrightness * QVector3D(std::pow(nits.x(), 2.2), std::pow(nits.y(), 2.2), std::pow(nits.z(), 2.2));
-    case NamedTransferFunction::linear:
-        return nits;
-    case NamedTransferFunction::scRGB:
-        return nits * 80.0f;
-    case NamedTransferFunction::PerceptualQuantizer:
-        return QVector3D(pqToNits(nits.x()), pqToNits(nits.y()), pqToNits(nits.z()));
+    case RenderingIntent::RelativeColorimetric: {
+        return luminanceAfter * other.containerColorimetry().fromXYZ() * Colorimetry::chromaticAdaptationMatrix(containerColorimetry().white(), other.containerColorimetry().white()) * containerColorimetry().toXYZ() * luminanceBefore;
+    }
+    case RenderingIntent::RelativeColorimetricWithBPC: {
+        return luminanceAfter * other.containerColorimetry().fromXYZ() * Colorimetry::chromaticAdaptationMatrix(containerColorimetry().white(), other.containerColorimetry().white()) * containerColorimetry().toXYZ() * luminanceBefore;
+    }
+    case RenderingIntent::AbsoluteColorimetric: {
+        return luminanceAfter * other.containerColorimetry().fromXYZ() * containerColorimetry().toXYZ() * luminanceBefore;
+    }
     }
     Q_UNREACHABLE();
 }
 
-QVector3D ColorDescription::nitsToEncoded(const QVector3D &rgb, NamedTransferFunction tf, double sdrBrightness)
+QVector3D ColorDescription::mapTo(QVector3D rgb, const ColorDescription &dst, RenderingIntent intent) const
 {
-    switch (tf) {
-    case NamedTransferFunction::sRGB: {
-        const auto clamped = clamp(rgb / sdrBrightness);
-        return QVector3D(linearToSRGB(clamped.x()), linearToSRGB(clamped.y()), linearToSRGB(clamped.z()));
-    }
-    case NamedTransferFunction::gamma22: {
-        const auto clamped = clamp(rgb / sdrBrightness);
-        return QVector3D(std::pow(clamped.x(), 1 / 2.2), std::pow(clamped.y(), 1 / 2.2), std::pow(clamped.z(), 1 / 2.2));
-    }
-    case NamedTransferFunction::linear:
-        return rgb;
-    case NamedTransferFunction::scRGB:
-        return rgb / 80.0f;
-    case NamedTransferFunction::PerceptualQuantizer:
-        return QVector3D(nitsToPQ(rgb.x()), nitsToPQ(rgb.y()), nitsToPQ(rgb.z()));
+    rgb = m_transferFunction.encodedToNits(rgb);
+    rgb = toOther(dst, intent) * rgb;
+    return dst.transferFunction().nitsToEncoded(rgb);
+}
+
+ColorDescription ColorDescription::withTransferFunction(const TransferFunction &func) const
+{
+    return ColorDescription(m_containerColorimetry, func, m_referenceLuminance, m_minLuminance, m_maxAverageLuminance, m_maxHdrLuminance, m_masteringColorimetry, m_sdrColorimetry);
+}
+
+double TransferFunction::defaultMinLuminanceFor(Type type)
+{
+    switch (type) {
+    case Type::sRGB:
+    case Type::gamma22:
+        return 0.02;
+    case Type::linear:
+        return 0;
+    case Type::PerceptualQuantizer:
+        return 0.005;
     }
     Q_UNREACHABLE();
 }
 
-QVector3D ColorDescription::mapTo(QVector3D rgb, const ColorDescription &dst) const
+double TransferFunction::defaultMaxLuminanceFor(Type type)
 {
-    rgb = encodedToNits(rgb, m_transferFunction, m_sdrBrightness);
-    rgb = m_colorimetry.toOther(dst.colorimetry()) * rgb;
-    return nitsToEncoded(rgb, dst.transferFunction(), dst.sdrBrightness());
+    switch (type) {
+    case Type::sRGB:
+    case Type::gamma22:
+        return 80;
+    case Type::linear:
+        return 1;
+    case Type::PerceptualQuantizer:
+        return 10'000;
+    }
+    Q_UNREACHABLE();
 }
+
+double TransferFunction::defaultReferenceLuminanceFor(Type type)
+{
+    switch (type) {
+    case Type::PerceptualQuantizer:
+        return 203;
+    case Type::linear:
+        return 80;
+    case Type::sRGB:
+    case Type::gamma22:
+        return 80;
+    }
+    Q_UNREACHABLE();
+}
+
+bool TransferFunction::operator==(const TransferFunction &other) const
+{
+    // allow for a greater error with large max. luminance, as floating point errors get larger there
+    // and the effect of errors is smaller too
+    return type == other.type
+        && std::abs(other.minLuminance - minLuminance) < ColorPipeline::s_maxResolution
+        && std::abs(other.maxLuminance - maxLuminance) < ColorPipeline::s_maxResolution * maxLuminance;
+}
+
+TransferFunction::TransferFunction(Type tf)
+    : TransferFunction(tf, defaultMinLuminanceFor(tf), defaultMaxLuminanceFor(tf))
+{
+}
+
+TransferFunction::TransferFunction(Type tf, double minLuminance, double maxLuminance)
+    : type(tf)
+    , minLuminance(minLuminance)
+    , maxLuminance(maxLuminance)
+{
+}
+
+double TransferFunction::encodedToNits(double encoded) const
+{
+    switch (type) {
+    case TransferFunction::sRGB: {
+        if (encoded < 0.04045) {
+            return std::max(encoded / 12.92, 0.0) * (maxLuminance - minLuminance) + minLuminance;
+        } else {
+            return std::clamp(std::pow((encoded + 0.055) / 1.055, 12.0 / 5.0), 0.0, 1.0) * (maxLuminance - minLuminance) + minLuminance;
+        }
+    }
+    case TransferFunction::gamma22:
+        return std::pow(encoded, 2.2) * (maxLuminance - minLuminance) + minLuminance;
+    case TransferFunction::linear:
+        return encoded * (maxLuminance - minLuminance) + minLuminance;
+    case TransferFunction::PerceptualQuantizer: {
+        const double c1 = 0.8359375;
+        const double c2 = 18.8515625;
+        const double c3 = 18.6875;
+        const double m1_inv = 1.0 / 0.1593017578125;
+        const double m2_inv = 1.0 / 78.84375;
+        const double powed = std::pow(encoded, m2_inv);
+        const double num = std::max(powed - c1, 0.0);
+        const double den = c2 - c3 * powed;
+        return std::pow(num / den, m1_inv) * (maxLuminance - minLuminance) + minLuminance;
+    }
+    }
+    Q_UNREACHABLE();
+}
+
+QVector3D TransferFunction::encodedToNits(const QVector3D &encoded) const
+{
+    return QVector3D(encodedToNits(encoded.x()), encodedToNits(encoded.y()), encodedToNits(encoded.z()));
+}
+
+double TransferFunction::nitsToEncoded(double nits) const
+{
+    const double normalized = (nits - minLuminance) / (maxLuminance - minLuminance);
+    switch (type) {
+    case TransferFunction::sRGB: {
+        if (normalized < 0.0031308) {
+            return std::max(normalized / 12.92, 0.0);
+        } else {
+            return std::clamp(std::pow(normalized, 5.0 / 12.0) * 1.055 - 0.055, 0.0, 1.0);
+        }
+    }
+    case TransferFunction::gamma22:
+        return std::pow(std::clamp(normalized, 0.0, 1.0), 1.0 / 2.2);
+    case TransferFunction::linear:
+        return normalized;
+    case TransferFunction::PerceptualQuantizer: {
+        const double c1 = 0.8359375;
+        const double c2 = 18.8515625;
+        const double c3 = 18.6875;
+        const double m1 = 0.1593017578125;
+        const double m2 = 78.84375;
+        const double powed = std::pow(std::clamp(normalized, 0.0, 1.0), m1);
+        const double num = c1 + c2 * powed;
+        const double denum = 1 + c3 * powed;
+        return std::pow(num / denum, m2);
+    }
+    }
+    Q_UNREACHABLE();
+}
+
+QVector3D TransferFunction::nitsToEncoded(const QVector3D &nits) const
+{
+    return QVector3D(nitsToEncoded(nits.x()), nitsToEncoded(nits.y()), nitsToEncoded(nits.z()));
+}
+
+bool TransferFunction::isRelative() const
+{
+    switch (type) {
+    case TransferFunction::gamma22:
+    case TransferFunction::sRGB:
+        return true;
+    case TransferFunction::linear:
+    case TransferFunction::PerceptualQuantizer:
+        return false;
+    }
+    Q_UNREACHABLE();
+}
+
+TransferFunction TransferFunction::relativeScaledTo(double referenceLuminance) const
+{
+    if (isRelative()) {
+        return TransferFunction(type, minLuminance * referenceLuminance / maxLuminance, referenceLuminance);
+    } else {
+        return *this;
+    }
+}
+}
+
+QDebug operator<<(QDebug debug, const KWin::TransferFunction &tf)
+{
+    debug << "TransferFunction(" << tf.type << ", [" << tf.minLuminance << "," << tf.maxLuminance << "] )";
+    return debug;
+}
+
+QDebug operator<<(QDebug debug, const KWin::XYZ &xyz)
+{
+    debug << "XYZ(" << xyz.X << xyz.Y << xyz.Z << ")";
+    return debug;
 }

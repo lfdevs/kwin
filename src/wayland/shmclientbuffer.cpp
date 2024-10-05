@@ -6,8 +6,9 @@
 
 #include "config-kwin.h"
 
-#include "wayland/shmclientbuffer.h"
+#include "utils/drm_format_helper.h"
 #include "wayland/display.h"
+#include "wayland/shmclientbuffer.h"
 #include "wayland/shmclientbuffer_p.h"
 
 #include <drm_fourcc.h>
@@ -33,16 +34,11 @@ static constexpr uint32_t s_formats[] = {
     WL_SHM_FORMAT_ABGR16161616,
     WL_SHM_FORMAT_XBGR16161616,
 #endif
+    WL_SHM_FORMAT_BGR888,
+    WL_SHM_FORMAT_RGB888,
 };
 
-class ShmSigbusData
-{
-public:
-    ShmPool *pool = nullptr;
-    int accessCount = 0;
-};
-
-static thread_local ShmSigbusData sigbusData;
+static std::atomic<ShmAccess *> s_accessedBuffers = nullptr;
 static struct sigaction prevSigbusAction;
 
 static uint32_t shmFormatToDrmFormat(uint32_t shmFormat)
@@ -57,7 +53,7 @@ static uint32_t shmFormatToDrmFormat(uint32_t shmFormat)
     }
 }
 
-ShmPool::ShmPool(ShmClientBufferIntegration *integration, wl_client *client, int id, uint32_t version, FileDescriptor &&fd, MemoryMap &&mapping)
+ShmPool::ShmPool(ShmClientBufferIntegration *integration, wl_client *client, int id, uint32_t version, FileDescriptor &&fd, std::shared_ptr<MemoryMap> mapping)
     : QtWaylandServer::wl_shm_pool(client, id, version)
     , integration(integration)
     , mapping(std::move(mapping))
@@ -68,7 +64,7 @@ ShmPool::ShmPool(ShmClientBufferIntegration *integration, wl_client *client, int
     if (seals != -1) {
         struct stat statbuf;
         if ((seals & F_SEAL_SHRINK) && fstat(this->fd.get(), &statbuf) >= 0) {
-            sigbusImpossible = statbuf.st_size >= this->mapping.size();
+            sigbusImpossible = statbuf.st_size >= this->mapping->size();
         }
     }
 #endif
@@ -108,7 +104,7 @@ void ShmPool::shm_pool_create_buffer(Resource *resource, uint32_t id, int32_t of
     }
 
     if (offset < 0 || width <= 0 || height <= 0 || stride < width
-        || INT32_MAX / stride < height || offset > mapping.size() - stride * height) {
+        || INT32_MAX / stride < height || offset > mapping->size() - stride * height) {
         wl_resource_post_error(resource->handle,
                                WL_SHM_ERROR_INVALID_STRIDE,
                                "invalid width, height or stride (%dx%d, %u)",
@@ -116,12 +112,26 @@ void ShmPool::shm_pool_create_buffer(Resource *resource, uint32_t id, int32_t of
         return;
     }
 
+    const uint32_t drmFormat = shmFormatToDrmFormat(format);
+
+    if (auto formatInfo = FormatInfo::get(drmFormat)) {
+        const uint32_t bytesPerPixel = formatInfo->bitsPerPixel / 8;
+        if ((stride % bytesPerPixel) != 0) {
+            wl_resource_post_error(resource->handle,
+                                   WL_SHM_ERROR_INVALID_STRIDE,
+                                   "invalid stride, %d is not a multiple of %d",
+                                   stride,
+                                   bytesPerPixel);
+            return;
+        }
+    }
+
     ShmAttributes attributes{
         .fd = fd.duplicate(),
         .stride = stride,
         .offset = offset,
         .size = QSize(width, height),
-        .format = shmFormatToDrmFormat(format),
+        .format = drmFormat,
     };
 
     new ShmClientBuffer(this, std::move(attributes), resource->client(), id);
@@ -129,13 +139,13 @@ void ShmPool::shm_pool_create_buffer(Resource *resource, uint32_t id, int32_t of
 
 void ShmPool::shm_pool_resize(Resource *resource, int32_t size)
 {
-    if (size < mapping.size()) {
+    if (size < mapping->size()) {
         wl_resource_post_error(resource->handle, WL_SHM_ERROR_INVALID_FD, "shrinking pool invalid");
         return;
     }
 
-    auto remapping = MemoryMap(size, PROT_READ | PROT_WRITE, MAP_SHARED, fd.get(), 0);
-    if (remapping.isValid()) {
+    auto remapping = std::make_shared<MemoryMap>(size, PROT_READ | PROT_WRITE, MAP_SHARED, fd.get(), 0);
+    if (remapping->isValid()) {
         mapping = std::move(remapping);
     } else {
         wl_resource_post_error(resource->handle, WL_SHM_ERROR_INVALID_FD, "failed to map shm pool with the new size");
@@ -211,21 +221,23 @@ static void sigbusHandler(int signum, siginfo_t *info, void *context)
         }
     };
 
-    const ShmPool *pool = sigbusData.pool;
-    if (!pool) {
-        reraise();
-        return;
+    MemoryMap *mapping = nullptr;
+    for (auto access = s_accessedBuffers.load(); access; access = access->next) {
+        const uchar *addr = static_cast<uchar *>(info->si_addr);
+        const uchar *mappingStart = static_cast<uchar *>(access->mapping->data());
+        if (addr >= mappingStart && addr < mappingStart + access->mapping->size()) {
+            mapping = access->mapping.get();
+            break;
+        }
     }
 
-    const uchar *addr = static_cast<uchar *>(info->si_addr);
-    const uchar *mappingStart = static_cast<uchar *>(pool->mapping.data());
-    if (addr < mappingStart || addr >= mappingStart + pool->mapping.size()) {
+    if (!mapping) {
         reraise();
         return;
     }
 
     // Replace the faulty mapping with a new one that's filled with zeros.
-    if (mmap(pool->mapping.data(), pool->mapping.size(), PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_FIXED | MAP_ANONYMOUS, -1, 0) == MAP_FAILED) {
+    if (mmap(mapping->data(), mapping->size(), PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_FIXED | MAP_ANONYMOUS, -1, 0) == MAP_FAILED) {
         reraise();
         return;
     }
@@ -247,29 +259,43 @@ GraphicsBuffer::Map ShmClientBuffer::map(MapFlags flags)
             action.sa_flags = SA_SIGINFO | SA_NODEFER;
             sigaction(SIGBUS, &action, &prevSigbusAction);
         });
-
-        Q_ASSERT(!sigbusData.pool || sigbusData.pool == m_shmPool);
-        sigbusData.pool = m_shmPool;
-        ++sigbusData.accessCount;
     }
 
+    if (!m_shmAccess.has_value()) {
+        ShmAccess &access = m_shmAccess.emplace(m_shmPool->mapping, 0, s_accessedBuffers.load());
+        s_accessedBuffers = &access;
+    }
+
+    m_shmAccess->count++;
     return Map{
-        .data = reinterpret_cast<uchar *>(m_shmPool->mapping.data()) + m_shmAttributes.offset,
+        .data = reinterpret_cast<uchar *>(m_shmAccess->mapping->data()) + m_shmAttributes.offset,
         .stride = uint32_t(m_shmAttributes.stride),
     };
 }
 
 void ShmClientBuffer::unmap()
 {
-    if (m_shmPool->sigbusImpossible) {
+    if (!m_shmAccess.has_value()) {
         return;
     }
 
-    Q_ASSERT(sigbusData.accessCount > 0);
-    --sigbusData.accessCount;
-    if (sigbusData.accessCount == 0) {
-        sigbusData.pool = nullptr;
+    m_shmAccess->count--;
+    if (m_shmAccess->count != 0) {
+        return;
     }
+
+    if (s_accessedBuffers == &m_shmAccess.value()) {
+        s_accessedBuffers = m_shmAccess->next.load();
+    } else {
+        for (auto access = s_accessedBuffers.load(); access; access = access->next) {
+            if (access->next == &m_shmAccess.value()) {
+                access->next = m_shmAccess->next.load();
+                break;
+            }
+        }
+    }
+
+    m_shmAccess.reset();
 }
 
 ShmClientBufferIntegrationPrivate::ShmClientBufferIntegrationPrivate(Display *display, ShmClientBufferIntegration *q)
@@ -294,8 +320,8 @@ void ShmClientBufferIntegrationPrivate::shm_create_pool(Resource *resource, uint
         return;
     }
 
-    auto mapping = MemoryMap(size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
-    if (!mapping.isValid()) {
+    auto mapping = std::make_shared<MemoryMap>(size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+    if (!mapping->isValid()) {
         wl_resource_post_error(resource->handle, error_invalid_fd, "failed to map shm pool");
         return;
     }

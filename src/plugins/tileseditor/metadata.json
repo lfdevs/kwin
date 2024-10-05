@@ -8,6 +8,7 @@
         "Description[ca@valencia]": "Editor per a les àrees de mosaic",
         "Description[ca]": "Editor per a les àrees de mosaic",
         "Description[cs]": "Editor pro oblasti dlaždicování",
+        "Description[da]": "Editor for tiling-områder",
         "Description[de]": "Editor für die kachelartige Anordnung von Fenstern",
         "Description[en_GB]": "Editor for the tiling areas",
         "Description[eo]": "Redaktilo por la kahelaroj",
@@ -50,6 +51,7 @@
         "Name[ca@valencia]": "Editor de mosaic",
         "Name[ca]": "Editor de mosaic",
         "Name[cs]": "Editor dlaždic",
+        "Name[da]": "Tiling editor",
         "Name[de]": "Tiling-Editor",
         "Name[en_GB]": "Tiling Editor",
         "Name[eo]": "Kahela Redaktilo",
@@ -84,5 +86,8 @@
         "Name[zh_CN]": "磁贴编辑器",
         "Name[zh_TW]": "平鋪方塊編輯器"
     },
-    "X-KDE-ConfigModule": "kwin_tileseditor_config"
+    "X-KDE-ConfigModule": "kwin_tileseditor_config",
+    "org.kde.kwin.effect": {
+        "internal": true
+    }
 }

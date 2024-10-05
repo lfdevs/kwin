@@ -521,14 +521,16 @@ MaximizeMode XdgToplevelWindow::requestedMaximizeMode() const
 QSizeF XdgToplevelWindow::minSize() const
 {
     const int enforcedMinimum = m_nextDecoration ? 150 : 20;
-    return rules()->checkMinSize(m_shellSurface->minimumSize()).expandedTo(QSizeF(enforcedMinimum, enforcedMinimum));
+    return rules()->checkMinSize(m_minimumSize).expandedTo(QSizeF(enforcedMinimum, enforcedMinimum));
 }
 
 QSizeF XdgToplevelWindow::maxSize() const
 {
     // enforce the same minimum as for minSize, so that maxSize is always bigger than minSize
     const int enforcedMinimum = m_nextDecoration ? 150 : 20;
-    return rules()->checkMaxSize(m_shellSurface->maximumSize()).expandedTo(QSizeF(enforcedMinimum, enforcedMinimum));
+    return rules()->checkMaxSize(QSizeF(m_maximumSize.width() > 0 ? m_maximumSize.width() : INT_MAX,
+                                        m_maximumSize.height() > 0 ? m_maximumSize.height() : INT_MAX))
+        .expandedTo(QSizeF(enforcedMinimum, enforcedMinimum));
 }
 
 bool XdgToplevelWindow::isFullScreen() const
@@ -699,8 +701,8 @@ XdgSurfaceConfigure *XdgToplevelWindow::sendRoleConfigure() const
 
     if (nextClientSize.isEmpty()) {
         QSizeF bounds = workspace()->clientArea(PlacementArea, this, moveResizeOutput()).size();
-        bounds.rwidth() -= framePadding.width();
-        bounds.rheight() -= framePadding.height();
+        bounds.setWidth(std::max(1.0, bounds.width() - framePadding.width()));
+        bounds.setHeight(std::max(1.0, bounds.height() - framePadding.height()));
         m_shellSurface->sendConfigureBounds(bounds.toSize());
     }
 
@@ -1016,6 +1018,7 @@ void XdgToplevelWindow::handleResizeRequested(SeatInterface *seat, XdgToplevelIn
         cursorPos = input()->tablet()->position();
     }
     setInteractiveMoveResizeAnchor(cursorPos);
+    setInteractiveMoveResizeModifiers(Qt::KeyboardModifiers());
     setInteractiveMoveOffset(QPointF((cursorPos.x() - x()) / width(), (cursorPos.y() - y()) / height())); // map from global
     setUnrestrictedInteractiveMoveResize(false);
     Gravity gravity;
@@ -1212,12 +1215,14 @@ void XdgToplevelWindow::handlePongReceived(quint32 serial)
 
 void XdgToplevelWindow::handleMaximumSizeChanged()
 {
+    m_maximumSize = m_shellSurface->maximumSize();
     updateCapabilities();
     Q_EMIT maximizeableChanged(isMaximizable());
 }
 
 void XdgToplevelWindow::handleMinimumSizeChanged()
 {
+    m_minimumSize = m_shellSurface->minimumSize();
     updateCapabilities();
     Q_EMIT maximizeableChanged(isMaximizable());
 }
@@ -1722,6 +1727,7 @@ bool XdgPopupWindow::hasPopupGrab() const
 void XdgPopupWindow::popupDone()
 {
     m_shellSurface->sendPopupDone();
+    destroyWindow();
 }
 
 bool XdgPopupWindow::isPopupWindow() const

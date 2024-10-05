@@ -82,6 +82,7 @@ class OutputConfigurationStore;
 class LidSwitchTracker;
 class DpmsInputEventFilter;
 class OrientationSensor;
+class BrightnessDevice;
 
 class KWIN_EXPORT Workspace : public QObject
 {
@@ -227,16 +228,15 @@ public:
     QRectF adjustWindowSize(const Window *window, QRectF moveResizeGeom, Gravity gravity) const;
     void raiseWindow(Window *window, bool nogroup = false);
     void lowerWindow(Window *window, bool nogroup = false);
-    void raiseWindowRequest(Window *window, NET::RequestSource src = NET::FromApplication, uint32_t timestamp = 0);
 #if KWIN_BUILD_X11
+    void raiseWindowRequest(Window *window, NET::RequestSource src = NET::FromApplication, uint32_t timestamp = 0);
     void lowerWindowRequest(X11Window *window, NET::RequestSource src, xcb_timestamp_t timestamp);
     void restoreSessionStackingOrder(X11Window *window);
 #endif
-    void lowerWindowRequest(Window *window);
     void restackWindowUnderActive(Window *window);
-    void restack(Window *window, Window *under, bool force = false);
+    void stackBelow(Window *window, Window *reference);
+    void stackAbove(Window *window, Window *reference);
     void raiseOrLowerWindow(Window *window);
-    void resetUpdateToolWindowsTimer();
     void updateStackingOrder(bool propagate_new_windows = false);
     void forceRestacking();
 
@@ -253,6 +253,11 @@ public:
         return m_windows;
     }
 
+    QList<Window *> closed() const
+    {
+        return deleted;
+    }
+
 #if KWIN_BUILD_X11
     void stackScreenEdgesUnderOverrideRedirect();
 #endif
@@ -265,7 +270,7 @@ public:
     TileManager *tileManager(Output *output);
 
 public:
-    QPoint cascadeOffset(const Window *c) const;
+    QPoint cascadeOffset(const QRectF &area) const;
 
 private:
     QTimer *m_quickTileCombineTimer;
@@ -310,10 +315,11 @@ public:
     Window *topWindowOnDesktop(VirtualDesktop *desktop, Output *output = nullptr, bool unconstrained = false,
                                bool only_normal = true) const;
     Window *findDesktop(bool topmost, VirtualDesktop *desktop) const;
+    void addWindowToDesktop(Window *window, VirtualDesktop *desktop);
+    void removeWindowFromDesktop(Window *window, VirtualDesktop *desktop);
     void sendWindowToDesktops(Window *window, const QList<VirtualDesktop *> &desktops, bool dont_activate);
     void windowToPreviousDesktop(Window *window);
     void windowToNextDesktop(Window *window);
-    void sendWindowToOutput(Window *window, Output *output);
 
 #if KWIN_BUILD_X11
     QList<X11Window *> ensureStackingOrder(const QList<X11Window *> &windows) const;
@@ -470,7 +476,7 @@ public:
      * Apply the requested output configuration. Note that you must use this function
      * instead of Platform::applyOutputChanges().
      */
-    bool applyOutputConfiguration(const OutputConfiguration &config, const QList<Output *> &outputOrder = {});
+    bool applyOutputConfiguration(const OutputConfiguration &config, const std::optional<QList<Output *>> &outputOrder = std::nullopt);
 
 public Q_SLOTS:
     void performWindowOperation(KWin::Window *window, Options::WindowOperation op);
@@ -550,7 +556,6 @@ private Q_SLOTS:
 #if KWIN_BUILD_X11
     void selectWmInputEventMask();
 #endif
-    void slotUpdateToolWindows();
     void delayFocus();
     void slotReloadConfig();
     void updateCurrentActivity(const QString &new_activity);
@@ -611,7 +616,6 @@ private:
     void lowerWindowWithinApplication(Window *window);
     bool allowFullClientRaising(const Window *window, uint32_t timestamp);
     void blockStackingUpdates(bool block);
-    void updateToolWindows(bool also_hide);
     void saveOldScreenSizes();
     void addToStack(Window *window);
     void removeFromStack(Window *window);
@@ -638,15 +642,16 @@ private:
 
     void closeActivePopup();
     void updateWindowVisibilityOnDesktopChange(VirtualDesktop *newDesktop);
-    void activateWindowOnNewDesktop(VirtualDesktop *desktop);
+    void activateWindowOnDesktop(VirtualDesktop *desktop);
     Window *findWindowToActivateOnDesktop(VirtualDesktop *desktop);
     void removeWindow(Window *window);
     QString getPlacementTrackerHash();
 
     void updateOutputConfiguration();
-    void updateOutputs(const QList<Output *> &outputOrder = {});
+    void updateOutputs(const std::optional<QList<Output *>> &outputOrder = std::nullopt);
     void createDpmsFilter();
     void maybeDestroyDpmsFilter();
+    void assignBrightnessDevices();
 
     bool breaksShowingDesktop(Window *window) const;
 
@@ -720,8 +725,6 @@ private:
 
     // Timer to collect requests for 'reconfigure'
     QTimer reconfigureTimer;
-
-    QTimer updateToolWindowsTimer;
 
     static Workspace *_self;
 #if KWIN_BUILD_X11

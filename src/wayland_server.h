@@ -51,6 +51,7 @@ class TearingControlManagerV1Interface;
 class XwaylandShellV1Interface;
 class OutputOrderV1Interface;
 class XdgDialogWmV1Interface;
+class ExternalBrightnessV1;
 
 class Window;
 class Output;
@@ -59,27 +60,19 @@ class XdgPopupWindow;
 class XdgSurfaceWindow;
 class XdgToplevelWindow;
 class PresentationTime;
-class XXColorManagerV2;
+class XXColorManagerV4;
 class LinuxDrmSyncObjV1Interface;
 class RenderBackend;
+class AlphaModifierManagerV1;
 
 class KWIN_EXPORT WaylandServer : public QObject
 {
     Q_OBJECT
 
 public:
-    enum class InitializationFlag {
-        NoOptions = 0x0,
-        LockScreen = 0x1,
-        NoLockScreenIntegration = 0x2,
-        NoGlobalShortcuts = 0x4
-    };
-
-    Q_DECLARE_FLAGS(InitializationFlags, InitializationFlag)
-
     ~WaylandServer() override;
-    bool init(const QString &socketName, InitializationFlags flags = InitializationFlag::NoOptions);
-    bool init(InitializationFlags flags = InitializationFlag::NoOptions);
+    bool init(const QString &socketName);
+    bool init();
 
     bool start();
 
@@ -184,15 +177,6 @@ public:
      * @returns true if screen is locked.
      */
     bool isScreenLocked() const;
-    /**
-     * @returns whether integration with KScreenLocker is available.
-     */
-    bool hasScreenLockerIntegration() const;
-
-    /**
-     * @returns whether any kind of global shortcuts are supported.
-     */
-    bool hasGlobalShortcutSupport() const;
 
     void initWorkspace();
 
@@ -235,6 +219,7 @@ public:
     }
 
     LinuxDrmSyncObjV1Interface *linuxSyncObj() const;
+    ExternalBrightnessV1 *externalBrightness() const;
 
     void setRenderBackend(RenderBackend *backend);
 
@@ -300,13 +285,14 @@ private:
     PresentationTime *m_presentationTime = nullptr;
     LinuxDrmSyncObjV1Interface *m_linuxDrmSyncObj = nullptr;
     QList<Window *> m_windows;
-    InitializationFlags m_initFlags;
     QHash<Output *, OutputInterface *> m_waylandOutputs;
     QHash<Output *, OutputDeviceV2Interface *> m_waylandOutputDevices;
     DrmLeaseManagerV1 *m_leaseManager = nullptr;
     OutputOrderV1Interface *m_outputOrder = nullptr;
-    XXColorManagerV2 *m_xxColorManager = nullptr;
+    XXColorManagerV4 *m_xxColorManager = nullptr;
     XdgDialogWmV1Interface *m_xdgDialogWm = nullptr;
+    ExternalBrightnessV1 *m_externalBrightness = nullptr;
+    AlphaModifierManagerV1 *m_alphaModifierManager = nullptr;
     KWIN_SINGLETON(WaylandServer)
 };
 

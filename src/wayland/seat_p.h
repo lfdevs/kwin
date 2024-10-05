@@ -28,6 +28,7 @@ class TextInputV1Interface;
 class TextInputV2Interface;
 class TextInputV3Interface;
 class PrimarySelectionDeviceV1Interface;
+class PrimarySelectionSourceV1Interface;
 class DragAndDropIcon;
 
 class SeatInterfacePrivate : public QtWaylandServer::wl_seat
@@ -68,7 +69,9 @@ public:
 
     // the last thing copied into the clipboard content
     AbstractDataSource *currentSelection = nullptr;
+    quint32 currentSelectionSerial = 0;
     AbstractDataSource *currentPrimarySelection = nullptr;
+    quint32 currentPrimarySelectionSerial = 0;
 
     // Pointer related members
     struct Pointer
@@ -112,16 +115,28 @@ public:
     // Touch related members
     struct Touch
     {
-        struct Focus
+        struct Interaction
         {
+            Interaction()
+            {
+            }
+            Q_DISABLE_COPY(Interaction)
+
+            ~Interaction()
+            {
+                QObject::disconnect(destroyConnection);
+            }
+
             SurfaceInterface *surface = nullptr;
             QMetaObject::Connection destroyConnection;
-            QPointF offset = QPointF();
             QPointF firstTouchPos;
+            QPointF offset;
             QMatrix4x4 transformation;
+            uint refs = 0;
         };
-        Focus focus;
-        QMap<qint32, quint32> ids;
+        std::unordered_map<SurfaceInterface *, std::unique_ptr<Interaction>> focus;
+
+        std::map<qint32, std::unique_ptr<TouchPoint>> ids;
     };
     Touch globalTouch;
 
@@ -151,8 +166,8 @@ protected:
     void seat_release(Resource *resource) override;
 
 private:
-    void updateSelection(DataDeviceInterface *dataDevice);
-    void updatePrimarySelection(PrimarySelectionDeviceV1Interface *primarySelectionDevice);
+    void updateSelection(DataSourceInterface *dataSource, quint32 serial);
+    void updatePrimarySelection(PrimarySelectionSourceV1Interface *dataSource, quint32);
 };
 
 } // namespace KWin

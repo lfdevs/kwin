@@ -12,6 +12,7 @@
 #include "datasource.h"
 #include "selection_source.h"
 
+#include "wayland/display.h"
 #include "wayland/seat.h"
 #include "wayland_server.h"
 #include "workspace.h"
@@ -55,10 +56,6 @@ Primary::~Primary() = default;
 
 void Primary::wlPrimarySelectionChanged(AbstractDataSource *dsi)
 {
-    if (m_waitingForTargets) {
-        return;
-    }
-
     if (!ownsSelection(dsi)) {
         // Wayland native window provides new selection
         if (!m_checkConnection) {
@@ -78,10 +75,6 @@ bool Primary::ownsSelection(AbstractDataSource *dsi) const
 
 void Primary::checkWlSource()
 {
-    if (m_waitingForTargets) {
-        return;
-    }
-
     auto dsi = waylandServer()->seat()->primarySelection();
     auto removeSource = [this] {
         if (wlSource()) {
@@ -138,7 +131,6 @@ void Primary::doHandleXfixesNotify(xcb_xfixes_selection_notify_event_t *event)
 
     if (X11Source *source = x11Source()) {
         source->getTargets();
-        m_waitingForTargets = true;
     } else {
         qCWarning(KWIN_XWL) << "Could not create a source from" << event << Qt::hex << (event ? event->owner : -1);
     }
@@ -151,7 +143,6 @@ void Primary::x11OfferLost()
 
 void Primary::x11OffersChanged(const QStringList &added, const QStringList &removed)
 {
-    m_waitingForTargets = false;
     X11Source *source = x11Source();
     if (!source) {
         qCWarning(KWIN_XWL) << "offers changed when not having an X11Source!?";
@@ -171,11 +162,11 @@ void Primary::x11OffersChanged(const QStringList &added, const QStringList &remo
         connect(newSelection.get(), &XwlDataSource::dataRequested, source, &X11Source::startTransfer);
         // we keep the old selection around because setPrimarySelection needs it to be still alive
         std::swap(m_primarySelectionSource, newSelection);
-        waylandServer()->seat()->setPrimarySelection(m_primarySelectionSource.get());
+        waylandServer()->seat()->setPrimarySelection(m_primarySelectionSource.get(), waylandServer()->display()->nextSerial());
     } else {
         AbstractDataSource *currentSelection = waylandServer()->seat()->primarySelection();
         if (!ownsSelection(currentSelection)) {
-            waylandServer()->seat()->setPrimarySelection(nullptr);
+            waylandServer()->seat()->setPrimarySelection(nullptr, waylandServer()->display()->nextSerial());
             m_primarySelectionSource.reset();
         }
     }

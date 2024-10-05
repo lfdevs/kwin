@@ -32,7 +32,7 @@ class Application;
 namespace Xwl
 {
 class XrandrEventFilter;
-class XwaylandInputSpy;
+class XwaylandInputFilter;
 class XwaylandLauncher;
 class DataBridge;
 
@@ -81,6 +81,8 @@ private:
     bool createX11Connection();
     void destroyX11Connection();
 
+    void runXWaylandStartupScripts();
+
     DragEventReply dragMoveFilter(Window *target) override;
     AbstractDropHandler *xwlDropHandler() override;
     QSocketNotifier *m_socketNotifier = nullptr;
@@ -92,7 +94,7 @@ private:
 
     XrandrEventFilter *m_xrandrEventsFilter = nullptr;
     XwaylandLauncher *m_launcher;
-    std::unique_ptr<XwaylandInputSpy> m_inputSpy;
+    std::unique_ptr<XwaylandInputFilter> m_inputFilter;
 
     Q_DISABLE_COPY(Xwayland)
 };

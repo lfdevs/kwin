@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-13 00:39+0000\n"
+"POT-Creation-Date: 2024-09-27 02:37+0000\n"
 "PO-Revision-Date: 2009-01-07 14:37+0530\n"
 "Last-Translator: Runa Bhattacharjee <runab@redhat.com>\n"
 "Language-Team: Bengali INDIA <fedora-trans-bn_IN@redhat.com>\n"
@@ -39,23 +39,27 @@ msgid "Unimportant"
 msgstr "কম গুরুত্বপূর্ণ"
 
 #: optionsmodel.cpp:199
-#, kde-format
-msgid "Exact Match"
+#, fuzzy, kde-format
+#| msgid "Exact Match"
+msgid "Exact match"
 msgstr "সুনিশ্চিত মিল"
 
 #: optionsmodel.cpp:200
-#, kde-format
-msgid "Substring Match"
+#, fuzzy, kde-format
+#| msgid "Substring Match"
+msgid "Substring match"
 msgstr "আংশিক মিল"
 
 #: optionsmodel.cpp:201
-#, kde-format
-msgid "Regular Expression"
+#, fuzzy, kde-format
+#| msgid "Regular Expression"
+msgid "Regular expression"
 msgstr "রেগুলার এক্সপ্রেশন"
 
 #: optionsmodel.cpp:205
-#, kde-format
-msgid "Apply Initially"
+#, fuzzy, kde-format
+#| msgid "Apply Initially"
+msgid "Apply initially"
 msgstr "প্রাথমিকরূপে প্রয়োগ করা হবে"
 
 #: optionsmodel.cpp:206
@@ -67,8 +71,9 @@ msgid ""
 msgstr ""
 
 #: optionsmodel.cpp:209
-#, kde-format
-msgid "Apply Now"
+#, fuzzy, kde-format
+#| msgid "Apply Now"
+msgid "Apply now"
 msgstr "অবিলম্বে প্রয়োগ করা হবে"
 
 #: optionsmodel.cpp:210
@@ -92,8 +97,9 @@ msgid ""
 msgstr ""
 
 #: optionsmodel.cpp:217
-#, kde-format
-msgid "Do Not Affect"
+#, fuzzy, kde-format
+#| msgid "Do Not Affect"
+msgid "Do not affect"
 msgstr "প্রভাব সৃষ্টি করবে না"
 
 #: optionsmodel.cpp:218
@@ -115,8 +121,9 @@ msgid "The window property will be always forced to the given value."
 msgstr ""
 
 #: optionsmodel.cpp:224
-#, kde-format
-msgid "Force Temporarily"
+#, fuzzy, kde-format
+#| msgid "Force Temporarily"
+msgid "Force temporarily"
 msgstr "সাময়িকভাবে বলপূর্বক করা হবে"
 
 #: optionsmodel.cpp:225
@@ -162,148 +169,148 @@ msgid ""
 "window becomes invisible."
 msgstr ""
 
-#: rulesmodel.cpp:388
+#: rulesmodel.cpp:384
 #, fuzzy, kde-format
 #| msgid "De&scription:"
 msgid "Description"
 msgstr "বিবরণ: (&s)"
 
-#: rulesmodel.cpp:388 rulesmodel.cpp:396 rulesmodel.cpp:404 rulesmodel.cpp:411
-#: rulesmodel.cpp:417 rulesmodel.cpp:425 rulesmodel.cpp:430 rulesmodel.cpp:436
+#: rulesmodel.cpp:384 rulesmodel.cpp:392 rulesmodel.cpp:400 rulesmodel.cpp:407
+#: rulesmodel.cpp:413 rulesmodel.cpp:421 rulesmodel.cpp:426 rulesmodel.cpp:432
 #, fuzzy, kde-format
 #| msgid "&Window"
 msgid "Window matching"
 msgstr "উইন্ডো (&W)"
 
-#: rulesmodel.cpp:396
+#: rulesmodel.cpp:392
 #, fuzzy, kde-format
 #| msgid "Window &class (application type):"
 msgid "Window class (application)"
 msgstr "উইন্ডোর শ্রেণী (অ্যাপ্লিকেশনের প্রকৃতি) (&c)"
 
-#: rulesmodel.cpp:404
+#: rulesmodel.cpp:400
 #, fuzzy, kde-format
 #| msgid "Match w&hole window class"
 msgid "Match whole window class"
 msgstr "সম্পূর্ণ উইন্ডোর শ্রেণী মেলানো হবে (&h)"
 
-#: rulesmodel.cpp:411
+#: rulesmodel.cpp:407
 #, fuzzy, kde-format
 #| msgid "Match w&hole window class"
 msgid "Whole window class"
 msgstr "সম্পূর্ণ উইন্ডোর শ্রেণী মেলানো হবে (&h)"
 
-#: rulesmodel.cpp:417
+#: rulesmodel.cpp:413
 #, fuzzy, kde-format
 #| msgid "Window &types:"
 msgid "Window types"
 msgstr "উইন্ডোর প্রকৃতি: (&t)"
 
-#: rulesmodel.cpp:425
+#: rulesmodel.cpp:421
 #, fuzzy, kde-format
 #| msgid "Window &role:"
 msgid "Window role"
 msgstr "উইন্ডোর ভূমিকা: (&r)"
 
-#: rulesmodel.cpp:430
+#: rulesmodel.cpp:426
 #, fuzzy, kde-format
 #| msgid "Window t&itle:"
 msgid "Window title"
 msgstr "উইন্ডোর শিরোনাম: (&i)"
 
-#: rulesmodel.cpp:436
+#: rulesmodel.cpp:432
 #, fuzzy, kde-format
 #| msgid "&Machine (hostname):"
 msgid "Machine (hostname)"
 msgstr "মেশিন (হোস্ট-নেম): (&M)"
 
-#: rulesmodel.cpp:442
+#: rulesmodel.cpp:438
 #, fuzzy, kde-format
 #| msgid "&Position"
 msgid "Position"
 msgstr "অবস্থান (&P)"
 
-#: rulesmodel.cpp:442 rulesmodel.cpp:448 rulesmodel.cpp:454 rulesmodel.cpp:459
-#: rulesmodel.cpp:467 rulesmodel.cpp:473 rulesmodel.cpp:492 rulesmodel.cpp:508
-#: rulesmodel.cpp:513 rulesmodel.cpp:518 rulesmodel.cpp:523 rulesmodel.cpp:528
-#: rulesmodel.cpp:537 rulesmodel.cpp:552 rulesmodel.cpp:557 rulesmodel.cpp:562
+#: rulesmodel.cpp:438 rulesmodel.cpp:444 rulesmodel.cpp:450 rulesmodel.cpp:455
+#: rulesmodel.cpp:463 rulesmodel.cpp:469 rulesmodel.cpp:488 rulesmodel.cpp:504
+#: rulesmodel.cpp:509 rulesmodel.cpp:514 rulesmodel.cpp:519 rulesmodel.cpp:524
+#: rulesmodel.cpp:531 rulesmodel.cpp:545 rulesmodel.cpp:550 rulesmodel.cpp:555
 #, fuzzy, kde-format
 #| msgid "&Position"
 msgid "Size & Position"
 msgstr "অবস্থান (&P)"
 
-#: rulesmodel.cpp:448
+#: rulesmodel.cpp:444
 #, fuzzy, kde-format
 #| msgid "&Size"
 msgid "Size"
 msgstr "মাপ (&S)"
 
-#: rulesmodel.cpp:454
+#: rulesmodel.cpp:450
 #, fuzzy, kde-format
 #| msgid "Maximized &horizontally"
 msgid "Maximized horizontally"
 msgstr "অনুভূমিক দিশায় সর্বোচ্চ মাপ (&h)"
 
-#: rulesmodel.cpp:459
+#: rulesmodel.cpp:455
 #, fuzzy, kde-format
 #| msgid "Maximized &vertically"
 msgid "Maximized vertically"
 msgstr "উলম্ব দিশায় সর্বোচ্চ মাপ (&v)"
 
-#: rulesmodel.cpp:467
+#: rulesmodel.cpp:463
 #, fuzzy, kde-format
 #| msgid "All Desktops"
-msgid "Virtual Desktop"
+msgid "Virtual desktop"
 msgstr "সকল ডেস্কটপ"
 
-#: rulesmodel.cpp:473
+#: rulesmodel.cpp:469
 #, fuzzy, kde-format
 #| msgid "All Desktops"
-msgid "Virtual Desktops"
+msgid "Virtual desktops"
 msgstr "সকল ডেস্কটপ"
 
-#: rulesmodel.cpp:492
+#: rulesmodel.cpp:488
 #, kde-format
 msgid "Activities"
 msgstr ""
 
-#: rulesmodel.cpp:508
+#: rulesmodel.cpp:504
 #, fuzzy, kde-format
 #| msgid "Splash Screen"
 msgid "Screen"
 msgstr "স্প্ল্যাশ স্ক্রিন"
 
-#: rulesmodel.cpp:513 rulesmodel.cpp:927
+#: rulesmodel.cpp:509 rulesmodel.cpp:925
 #, fuzzy, kde-format
 #| msgid "&Fullscreen"
 msgid "Fullscreen"
 msgstr "সম্পূর্ণ পর্দায় প্রদর্শন (&F)"
 
-#: rulesmodel.cpp:518
+#: rulesmodel.cpp:514
 #, fuzzy, kde-format
 #| msgid "M&inimized"
 msgid "Minimized"
 msgstr "সর্বনিম্ন মাপ (&i)"
 
-#: rulesmodel.cpp:523
+#: rulesmodel.cpp:519
 #, fuzzy, kde-format
 #| msgid "Sh&aded"
 msgid "Shaded"
 msgstr "ছায়াবৃত (&a)"
 
-#: rulesmodel.cpp:528
+#: rulesmodel.cpp:524
 #, fuzzy, kde-format
 #| msgid "P&lacement"
 msgid "Initial placement"
 msgstr "স্থাপনা (&l)"
 
-#: rulesmodel.cpp:537
+#: rulesmodel.cpp:531
 #, fuzzy, kde-format
 #| msgid "Ignore requested &geometry"
 msgid "Ignore requested geometry"
 msgstr "অনুরোধ করা জ্যামিতি উপেক্ষা করা হবে (&g)"
 
-#: rulesmodel.cpp:540
+#: rulesmodel.cpp:534
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -315,24 +322,24 @@ msgid ""
 "can also be used to map to a different <interface>Screen</interface>"
 msgstr ""
 
-#: rulesmodel.cpp:552
+#: rulesmodel.cpp:545
 #, fuzzy, kde-format
 #| msgid "M&inimum size"
 msgid "Minimum Size"
 msgstr "সর্বনিম্ন মাপ (&i)"
 
-#: rulesmodel.cpp:557
+#: rulesmodel.cpp:550
 #, fuzzy, kde-format
 #| msgid "M&aximum size"
 msgid "Maximum Size"
 msgstr "সর্বোচ্চ মাপ (&a)"
 
-#: rulesmodel.cpp:562
+#: rulesmodel.cpp:555
 #, kde-format
 msgid "Obey geometry restrictions"
 msgstr ""
 
-#: rulesmodel.cpp:564
+#: rulesmodel.cpp:557
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -343,54 +350,54 @@ msgid ""
 "windows that can't quite fit the full screen area when maximized."
 msgstr ""
 
-#: rulesmodel.cpp:575
+#: rulesmodel.cpp:568
 #, kde-format
 msgid "Keep above other windows"
 msgstr ""
 
-#: rulesmodel.cpp:575 rulesmodel.cpp:580 rulesmodel.cpp:585 rulesmodel.cpp:591
-#: rulesmodel.cpp:597 rulesmodel.cpp:603
+#: rulesmodel.cpp:568 rulesmodel.cpp:573 rulesmodel.cpp:578 rulesmodel.cpp:584
+#: rulesmodel.cpp:590 rulesmodel.cpp:596
 #, kde-format
 msgid "Arrangement & Access"
 msgstr ""
 
-#: rulesmodel.cpp:580
+#: rulesmodel.cpp:573
 #, kde-format
 msgid "Keep below other windows"
 msgstr ""
 
-#: rulesmodel.cpp:585
+#: rulesmodel.cpp:578
 #, fuzzy, kde-format
 #| msgid "Skip &taskbar"
 msgid "Skip taskbar"
 msgstr "টাস্ক-বার উপেক্ষা করা হবে (&t)"
 
-#: rulesmodel.cpp:587
+#: rulesmodel.cpp:580
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Controls whether or not the window appears in the Task Manager."
 msgstr ""
 
-#: rulesmodel.cpp:591
+#: rulesmodel.cpp:584
 #, fuzzy, kde-format
 #| msgid "Skip pa&ger"
 msgid "Skip pager"
 msgstr "পেজার উপেক্ষা করা হবে (&g)"
 
-#: rulesmodel.cpp:593
+#: rulesmodel.cpp:586
 #, kde-format
 msgctxt "@info:tooltip"
 msgid ""
 "Controls whether or not the window appears in the Virtual Desktop manager."
 msgstr ""
 
-#: rulesmodel.cpp:597
+#: rulesmodel.cpp:590
 #, fuzzy, kde-format
 #| msgid "Skip pa&ger"
 msgid "Skip switcher"
 msgstr "পেজার উপেক্ষা করা হবে (&g)"
 
-#: rulesmodel.cpp:599
+#: rulesmodel.cpp:592
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -398,45 +405,45 @@ msgid ""
 "shortcut> window list."
 msgstr ""
 
-#: rulesmodel.cpp:603
+#: rulesmodel.cpp:596
 #, kde-format
 msgid "Shortcut"
 msgstr "শর্ট-কাট"
 
-#: rulesmodel.cpp:609
+#: rulesmodel.cpp:602
 #, kde-format
 msgid "No titlebar and frame"
 msgstr ""
 
-#: rulesmodel.cpp:609 rulesmodel.cpp:614 rulesmodel.cpp:620 rulesmodel.cpp:625
-#: rulesmodel.cpp:631 rulesmodel.cpp:658 rulesmodel.cpp:686 rulesmodel.cpp:692
-#: rulesmodel.cpp:704 rulesmodel.cpp:709 rulesmodel.cpp:714 rulesmodel.cpp:719
-#: rulesmodel.cpp:725
+#: rulesmodel.cpp:602 rulesmodel.cpp:607 rulesmodel.cpp:613 rulesmodel.cpp:618
+#: rulesmodel.cpp:624 rulesmodel.cpp:651 rulesmodel.cpp:679 rulesmodel.cpp:685
+#: rulesmodel.cpp:697 rulesmodel.cpp:702 rulesmodel.cpp:707 rulesmodel.cpp:712
+#: rulesmodel.cpp:718 rulesmodel.cpp:723
 #, kde-format
 msgid "Appearance & Fixes"
 msgstr ""
 
-#: rulesmodel.cpp:614
+#: rulesmodel.cpp:607
 #, kde-format
 msgid "Titlebar color scheme"
 msgstr ""
 
-#: rulesmodel.cpp:620
+#: rulesmodel.cpp:613
 #, kde-format
 msgid "Active opacity"
 msgstr ""
 
-#: rulesmodel.cpp:625
+#: rulesmodel.cpp:618
 #, kde-format
 msgid "Inactive opacity"
 msgstr ""
 
-#: rulesmodel.cpp:631
+#: rulesmodel.cpp:624
 #, kde-format
 msgid "Focus stealing prevention"
 msgstr ""
 
-#: rulesmodel.cpp:633
+#: rulesmodel.cpp:626
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -458,12 +465,12 @@ msgid ""
 "emphasis> The window will never be raised and focused.</item></list>"
 msgstr ""
 
-#: rulesmodel.cpp:658
+#: rulesmodel.cpp:651
 #, kde-format
 msgid "Focus protection"
 msgstr ""
 
-#: rulesmodel.cpp:660
+#: rulesmodel.cpp:653
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -487,23 +494,23 @@ msgid ""
 "item></list>"
 msgstr ""
 
-#: rulesmodel.cpp:686
+#: rulesmodel.cpp:679
 #, kde-format
 msgid "Accept focus"
 msgstr ""
 
-#: rulesmodel.cpp:688
+#: rulesmodel.cpp:681
 #, kde-format
 msgid "Controls whether or not the window becomes focused when clicked."
 msgstr ""
 
-#: rulesmodel.cpp:692
+#: rulesmodel.cpp:685
 #, fuzzy, kde-format
 #| msgid "Block global shortcuts"
 msgid "Ignore global shortcuts"
 msgstr "সার্বজনীন শর্ট-কাট প্রতিরোধ করা হবে"
 
-#: rulesmodel.cpp:694
+#: rulesmodel.cpp:687
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -515,39 +522,44 @@ msgid ""
 "activate KRunner."
 msgstr ""
 
-#: rulesmodel.cpp:704
+#: rulesmodel.cpp:697
 #, fuzzy, kde-format
 #| msgid "&Closeable"
 msgid "Closeable"
 msgstr "বন্ধ করার যোগ্য (&C)"
 
-#: rulesmodel.cpp:709
+#: rulesmodel.cpp:702
 #, kde-format
 msgid "Desktop file name"
 msgstr ""
 
-#: rulesmodel.cpp:714
+#: rulesmodel.cpp:707
 #, kde-format
 msgid "Block compositing"
 msgstr ""
 
-#: rulesmodel.cpp:719
+#: rulesmodel.cpp:712
 #, kde-format
 msgid "Layer"
 msgstr ""
 
-#: rulesmodel.cpp:725
+#: rulesmodel.cpp:718
 #, kde-format
-msgid "Adaptive Sync"
+msgid "Adaptive sync"
 msgstr ""
 
-#: rulesmodel.cpp:777
+#: rulesmodel.cpp:723
+#, kde-format
+msgid "Allow tearing"
+msgstr ""
+
+#: rulesmodel.cpp:775
 #, fuzzy, kde-format
 #| msgid "Window &class (application type):"
 msgid "Window class not available"
 msgstr "উইন্ডোর শ্রেণী (অ্যাপ্লিকেশনের প্রকৃতি) (&c)"
 
-#: rulesmodel.cpp:778
+#: rulesmodel.cpp:776
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -557,201 +569,205 @@ msgid ""
 ">Please consider reporting this bug to the application's developers."
 msgstr ""
 
-#: rulesmodel.cpp:812
+#: rulesmodel.cpp:810
 #, fuzzy, kde-format
 #| msgid "Window &types:"
-msgid "All Window Types"
+msgid "All window types"
 msgstr "উইন্ডোর প্রকৃতি: (&t)"
+
+#: rulesmodel.cpp:811
+#, fuzzy, kde-format
+#| msgid "Normal Window"
+msgid "Normal window"
+msgstr "স্বাভাবিক উইন্ডো"
+
+#: rulesmodel.cpp:812
+#, fuzzy, kde-format
+#| msgid "Dialog Window"
+msgid "Dialog window"
+msgstr "ডায়লগ উইন্ডো"
 
 #: rulesmodel.cpp:813
 #, kde-format
-msgid "Normal Window"
-msgstr "স্বাভাবিক উইন্ডো"
-
-#: rulesmodel.cpp:814
-#, kde-format
-msgid "Dialog Window"
-msgstr "ডায়লগ উইন্ডো"
-
-#: rulesmodel.cpp:815
-#, kde-format
-msgid "Utility Window"
+msgid "Utility window"
 msgstr ""
 
-#: rulesmodel.cpp:816
+#: rulesmodel.cpp:814
 #, kde-format
 msgid "Dock (panel)"
 msgstr ""
 
-#: rulesmodel.cpp:817
+#: rulesmodel.cpp:815
 #, kde-format
 msgid "Toolbar"
 msgstr "টুল-বার"
 
-#: rulesmodel.cpp:818
+#: rulesmodel.cpp:816
 #, kde-format
-msgid "Torn-Off Menu"
+msgid "Torn-off menu"
 msgstr ""
 
-#: rulesmodel.cpp:819
-#, kde-format
-msgid "Splash Screen"
+#: rulesmodel.cpp:817
+#, fuzzy, kde-format
+#| msgid "Splash Screen"
+msgid "Splash screen"
 msgstr "স্প্ল্যাশ স্ক্রিন"
 
-#: rulesmodel.cpp:820 rulesmodel.cpp:922
+#: rulesmodel.cpp:818 rulesmodel.cpp:920
 #, kde-format
 msgid "Desktop"
 msgstr "ডেস্কটপ"
 
 #. i18n("Unmanaged Window")},  deprecated
-#: rulesmodel.cpp:822
-#, kde-format
-msgid "Standalone Menubar"
+#: rulesmodel.cpp:820
+#, fuzzy, kde-format
+#| msgid "Standalone Menubar"
+msgid "Standalone menubar"
 msgstr "স্বতন্ত্র মেনু-বার"
 
-#: rulesmodel.cpp:823
+#: rulesmodel.cpp:821 rulesmodel.cpp:928
 #, kde-format
-msgid "On Screen Display"
+msgid "On-screen display"
 msgstr ""
 
-#: rulesmodel.cpp:833
-#, kde-format
-msgid "All Desktops"
+#: rulesmodel.cpp:831
+#, fuzzy, kde-format
+#| msgid "All Desktops"
+msgid "All desktops"
 msgstr "সকল ডেস্কটপ"
 
-#: rulesmodel.cpp:835
+#: rulesmodel.cpp:833
 #, kde-format
 msgctxt "@info:tooltip in the virtual desktop list"
 msgid "Make the window available on all desktops"
 msgstr ""
 
-#: rulesmodel.cpp:854
+#: rulesmodel.cpp:852
 #, kde-format
-msgid "All Activities"
+msgid "All activities"
 msgstr ""
 
-#: rulesmodel.cpp:856
+#: rulesmodel.cpp:854
 #, kde-format
 msgctxt "@info:tooltip in the activity list"
 msgid "Make the window available on all activities"
 msgstr ""
 
-#: rulesmodel.cpp:877
+#: rulesmodel.cpp:875
 #, kde-format
 msgid "Default"
 msgstr "ডিফল্ট মান"
 
+#: rulesmodel.cpp:876
+#, fuzzy, kde-format
+#| msgid "P&lacement"
+msgid "No placement"
+msgstr "স্থাপনা (&l)"
+
+#: rulesmodel.cpp:877
+#, kde-format
+msgid "Minimal overlapping"
+msgstr ""
+
 #: rulesmodel.cpp:878
-#, kde-format
-msgid "No Placement"
-msgstr ""
-
-#: rulesmodel.cpp:879
-#, kde-format
-msgid "Minimal Overlapping"
-msgstr ""
-
-#: rulesmodel.cpp:880
 #, fuzzy, kde-format
 #| msgid "M&inimized"
 msgid "Maximized"
 msgstr "সর্বনিম্ন মাপ (&i)"
 
-#: rulesmodel.cpp:881
+#: rulesmodel.cpp:879
 #, kde-format
 msgid "Centered"
 msgstr "কেন্দ্রস্থিত"
 
-#: rulesmodel.cpp:882
+#: rulesmodel.cpp:880
 #, kde-format
 msgid "Random"
 msgstr "যথেচ্ছ"
 
-#: rulesmodel.cpp:883
+#: rulesmodel.cpp:881
 #, fuzzy, kde-format
 #| msgid "Top-Left Corner"
-msgid "In Top-Left Corner"
+msgid "In top-left corner"
 msgstr "উপরে-ডানদিকের কোণায়"
 
-#: rulesmodel.cpp:884
-#, kde-format
-msgid "Under Mouse"
+#: rulesmodel.cpp:882
+#, fuzzy, kde-format
+#| msgid "Under Mouse"
+msgid "Under mouse"
 msgstr "মাউসের নীচে"
 
-#: rulesmodel.cpp:885
-#, kde-format
-msgid "On Main Window"
+#: rulesmodel.cpp:883
+#, fuzzy, kde-format
+#| msgid "On Main Window"
+msgid "On main window"
 msgstr "প্রধান উইন্ডোর মধ্যে"
 
-#: rulesmodel.cpp:892
+#: rulesmodel.cpp:890
 #, fuzzy, kde-format
 #| msgid "None"
 msgid "None"
 msgstr "শূণ্য"
 
-#: rulesmodel.cpp:893
+#: rulesmodel.cpp:891
 #, kde-format
 msgid "Low"
 msgstr "কম"
 
-#: rulesmodel.cpp:894 rulesmodel.cpp:924
+#: rulesmodel.cpp:892 rulesmodel.cpp:922
 #, kde-format
 msgid "Normal"
 msgstr "স্বাভাবিক"
 
-#: rulesmodel.cpp:895
+#: rulesmodel.cpp:893
 #, kde-format
 msgid "High"
 msgstr "বেশি"
 
-#: rulesmodel.cpp:896
+#: rulesmodel.cpp:894
 #, kde-format
 msgid "Extreme"
 msgstr ""
 
-#: rulesmodel.cpp:923
+#: rulesmodel.cpp:921
 #, kde-format
 msgid "Below"
 msgstr ""
 
-#: rulesmodel.cpp:925
+#: rulesmodel.cpp:923
 #, kde-format
 msgid "Above"
 msgstr ""
 
-#: rulesmodel.cpp:926
+#: rulesmodel.cpp:924
 #, fuzzy, kde-format
 #| msgid "&Position"
 msgid "Notification"
 msgstr "অবস্থান (&P)"
 
-#: rulesmodel.cpp:928
+#: rulesmodel.cpp:926
 #, kde-format
 msgid "Popup"
 msgstr ""
 
+#: rulesmodel.cpp:927
+#, fuzzy, kde-format
+#| msgid "&Position"
+msgid "Critical notification"
+msgstr "অবস্থান (&P)"
+
 #: rulesmodel.cpp:929
-#, kde-format
-msgid "Critical Notification"
-msgstr ""
-
-#: rulesmodel.cpp:930
-#, kde-format
-msgid "OSD"
-msgstr ""
-
-#: rulesmodel.cpp:931
 #, kde-format
 msgid "Overlay"
 msgstr ""
 
-#: rulesmodel.cpp:956
+#: rulesmodel.cpp:954
 #, fuzzy, kde-format
 #| msgid "On Main Window"
 msgid "Unmanaged window"
 msgstr "প্রধান উইন্ডোর মধ্যে"
 
-#: rulesmodel.cpp:957
+#: rulesmodel.cpp:955
 #, kde-format
 msgid "Could not detect window properties. The window is not managed by KWin."
 msgstr ""
@@ -766,80 +782,80 @@ msgstr ""
 msgid "KWin Rules (*.kwinrule)"
 msgstr ""
 
-#: ui/main.qml:29
+#: ui/main.qml:28
 #, fuzzy, kde-format
 #| msgid "&New..."
 msgid "Add New…"
 msgstr "নতুন...(&N)"
 
-#: ui/main.qml:35
+#: ui/main.qml:34
 #, kde-format
 msgid "Import…"
 msgstr ""
 
-#: ui/main.qml:40
+#: ui/main.qml:39
 #, kde-format
 msgid "Cancel Export"
 msgstr ""
 
-#: ui/main.qml:40
+#: ui/main.qml:39
 #, fuzzy, kde-format
 #| msgid "Edit..."
 msgid "Export…"
 msgstr "সম্পাদনা..."
 
-#: ui/main.qml:88
+#: ui/main.qml:87
 #, kde-format
 msgid "No rules for specific windows are currently set"
 msgstr ""
 
-#: ui/main.qml:89
+#: ui/main.qml:88
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Click <interface>Add New…</interface> to add some"
 msgstr ""
 
-#: ui/main.qml:97
+#: ui/main.qml:96
 #, kde-format
 msgid "Select the rules to export"
 msgstr ""
 
-#: ui/main.qml:101
+#: ui/main.qml:100
 #, kde-format
 msgid "Unselect All"
 msgstr ""
 
-#: ui/main.qml:101
+#: ui/main.qml:100
 #, kde-format
 msgid "Select All"
 msgstr ""
 
-#: ui/main.qml:115
+#: ui/main.qml:114
 #, kde-format
 msgid "Save Rules"
 msgstr ""
 
-#: ui/main.qml:196
+#: ui/main.qml:195
 #, kde-format
 msgid "Edit"
 msgstr "সম্পাদনা"
 
-#: ui/main.qml:202
+#: ui/main.qml:201
 #, kde-format
 msgid "Duplicate"
 msgstr ""
 
-#: ui/main.qml:208
+#: ui/main.qml:207
 #, kde-format
 msgid "Delete"
 msgstr "মুছে ফেলুন"
 
-#: ui/main.qml:240
+#: ui/main.qml:239
 #, kde-format
 msgid "Import Rules"
 msgstr ""
 
-#: ui/main.qml:252
+#: ui/main.qml:251
 #, kde-format
 msgid "Export Rules"
 msgstr ""
@@ -877,62 +893,70 @@ msgstr ""
 
 #: ui/RulesEditor.qml:88
 #, fuzzy, kde-format
-#| msgid "&Closeable"
-msgid "Close"
-msgstr "বন্ধ করার যোগ্য (&C)"
-
-#: ui/RulesEditor.qml:88
-#, fuzzy, kde-format
 #| msgid "&New..."
 msgid "Add Property..."
 msgstr "নতুন...(&N)"
 
-#: ui/RulesEditor.qml:101
+#: ui/RulesEditor.qml:99
 #, fuzzy, kde-format
 #| msgid "&Detect Window Properties"
 msgid "Detect Window Properties"
 msgstr "উইন্ডোর বৈশিষ্ট্য সনাক্ত করা হবে (&D)"
 
-#: ui/RulesEditor.qml:117 ui/RulesEditor.qml:124
+#: ui/RulesEditor.qml:115 ui/RulesEditor.qml:122
 #, kde-format
 msgid "Instantly"
 msgstr ""
 
-#: ui/RulesEditor.qml:118 ui/RulesEditor.qml:129
+#: ui/RulesEditor.qml:116 ui/RulesEditor.qml:127
 #, kde-format
 msgid "After %1 second"
 msgid_plural "After %1 seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ui/RulesEditor.qml:176
+#: ui/RulesEditor.qml:174
 #, kde-format
 msgid "Add property to the rule"
 msgstr ""
 
-#: ui/RulesEditor.qml:279 ui/ValueEditor.qml:54
+#: ui/RulesEditor.qml:267
+#, fuzzy, kde-format
+#| msgid "&Detect Window Properties"
+msgctxt "@info:placeholder"
+msgid "No properties left to add"
+msgstr "উইন্ডোর বৈশিষ্ট্য সনাক্ত করা হবে (&D)"
+
+#: ui/RulesEditor.qml:269
+#, fuzzy, kde-format
+#| msgid "&Detect Window Properties"
+msgctxt "@info:placeholder %1 is a filter text introduced by the user"
+msgid "No properties match \"%1\""
+msgstr "উইন্ডোর বৈশিষ্ট্য সনাক্ত করা হবে (&D)"
+
+#: ui/RulesEditor.qml:290 ui/ValueEditor.qml:54
 #, kde-format
 msgid "Yes"
 msgstr ""
 
-#: ui/RulesEditor.qml:279 ui/ValueEditor.qml:60
+#: ui/RulesEditor.qml:290 ui/ValueEditor.qml:60
 #, fuzzy, kde-format
 #| msgid "None"
 msgid "No"
 msgstr "শূণ্য"
 
-#: ui/RulesEditor.qml:281 ui/ValueEditor.qml:168 ui/ValueEditor.qml:175
+#: ui/RulesEditor.qml:292 ui/ValueEditor.qml:168 ui/ValueEditor.qml:175
 #, kde-format
 msgid "%1 %"
 msgstr ""
 
-#: ui/RulesEditor.qml:283
+#: ui/RulesEditor.qml:294
 #, kde-format
 msgctxt "Coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr ""
 
-#: ui/RulesEditor.qml:285
+#: ui/RulesEditor.qml:296
 #, kde-format
 msgctxt "Size (width, height)"
 msgid "(%1, %2)"
@@ -943,6 +967,11 @@ msgstr ""
 msgctxt "(x, y) coordinates separator in size/position"
 msgid "x"
 msgstr ""
+
+#, fuzzy
+#~| msgid "&Closeable"
+#~ msgid "Close"
+#~ msgstr "বন্ধ করার যোগ্য (&C)"
 
 #, fuzzy
 #~| msgid "Window &type"

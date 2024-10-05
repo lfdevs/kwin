@@ -26,15 +26,9 @@ public:
 
     Output *output;
     QTimer *updateTimer;
-    uint brightness = 100;
     uint temperature = 6500;
 
     QVector3D temperatureFactors = QVector3D(1, 1, 1);
-    QVector3D brightnessFactors = QVector3D(1, 1, 1);
-
-    std::shared_ptr<ColorTransformation> transformation;
-    // used if only limited per-channel multiplication is available
-    QVector3D simpleTransformation = QVector3D(1, 1, 1);
 };
 
 static qreal interpolate(qreal a, qreal b, qreal blendFactor)
@@ -44,8 +38,6 @@ static qreal interpolate(qreal a, qreal b, qreal blendFactor)
 
 void ColorDevicePrivate::recalculateFactors()
 {
-    brightnessFactors = QVector3D(brightness / 100.0, brightness / 100.0, brightness / 100.0);
-
     if (temperature == 6500) {
         temperatureFactors = QVector3D(1, 1, 1);
     } else {
@@ -63,9 +55,8 @@ void ColorDevicePrivate::recalculateFactors()
                                               blackbodyColor[blackBodyColorIndex + 5],
                                               blendFactor);
         // the values in the blackbodyColor array are "gamma corrected", but we need a linear value
-        temperatureFactors = ColorDescription::encodedToNits(QVector3D(xWhitePoint, yWhitePoint, zWhitePoint), NamedTransferFunction::gamma22, 1);
+        temperatureFactors = TransferFunction(TransferFunction::gamma22, 0, 1).encodedToNits(QVector3D(xWhitePoint, yWhitePoint, zWhitePoint));
     }
-    simpleTransformation = brightnessFactors * temperatureFactors;
 }
 
 ColorDevice::ColorDevice(Output *output, QObject *parent)
@@ -87,25 +78,6 @@ ColorDevice::~ColorDevice()
 Output *ColorDevice::output() const
 {
     return d->output;
-}
-
-uint ColorDevice::brightness() const
-{
-    return d->brightness;
-}
-
-void ColorDevice::setBrightness(uint brightness)
-{
-    if (brightness > 100) {
-        qCWarning(KWIN_CORE) << "Got invalid brightness value:" << brightness;
-        brightness = 100;
-    }
-    if (d->brightness == brightness) {
-        return;
-    }
-    d->brightness = brightness;
-    scheduleUpdate();
-    Q_EMIT brightnessChanged();
 }
 
 uint ColorDevice::temperature() const
@@ -130,7 +102,7 @@ void ColorDevice::setTemperature(uint temperature)
 void ColorDevice::update()
 {
     d->recalculateFactors();
-    d->output->setChannelFactors(d->simpleTransformation);
+    d->output->setChannelFactors(d->temperatureFactors);
 }
 
 void ColorDevice::scheduleUpdate()

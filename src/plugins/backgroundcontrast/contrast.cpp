@@ -13,6 +13,8 @@
 #include "core/rendertarget.h"
 #include "core/renderviewport.h"
 #include "effect/effecthandler.h"
+#include "scene/surfaceitem.h"
+#include "scene/windowitem.h"
 #include "wayland/contrast.h"
 #include "wayland/display.h"
 #include "wayland/surface.h"
@@ -174,6 +176,7 @@ void ContrastEffect::updateContrastRegion(EffectWindow *w)
         Data &data = m_windowData[w];
         data.colorMatrix = matrix;
         data.contrastRegion = region;
+        data.windowEffect = ItemEffect(w->windowItem());
     } else {
         if (auto it = m_windowData.find(w); it != m_windowData.end()) {
             effects->makeOpenGLContextCurrent();
@@ -305,11 +308,11 @@ QRegion ContrastEffect::contrastRegion(const EffectWindow *w) const
     if (const auto it = m_windowData.find(w); it != m_windowData.end()) {
         const QRegion &appRegion = it->second.contrastRegion;
         if (!appRegion.isEmpty()) {
-            region += appRegion.translated(w->contentsRect().topLeft().toPoint()) & w->decorationInnerRect().toRect();
+            region += appRegion.translated(w->contentsRect().topLeft().toPoint()) & w->contentsRect().toRect();
         } else {
-            // An empty region means that the blur effect should be enabled
+            // An empty region means that the contrast effect should be enabled
             // for the whole window.
-            region = w->decorationInnerRect().toRect();
+            region = w->contentsRect().toRect();
         }
     }
 

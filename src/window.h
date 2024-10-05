@@ -386,9 +386,14 @@ class KWIN_EXPORT Window : public QObject
 
     /**
      * The Caption of the Window. Read from WM_NAME property together with a suffix for hostname and shortcut.
-     * To read only the caption as provided by WM_NAME, use the getter with an additional @c false value.
+     * To read only the caption as provided by WM_NAME, use @c captionNormal.
      */
     Q_PROPERTY(QString caption READ caption NOTIFY captionChanged)
+
+    /**
+     * The Caption of the Window. Read from WM_NAME property.
+     */
+    Q_PROPERTY(QString captionNormal READ captionNormal NOTIFY captionNormalChanged)
 
     /**
      * Minimum size as specified in WM_NORMAL_HINTS
@@ -674,9 +679,21 @@ public:
     virtual QSizeF constrainClientSize(const QSizeF &size, SizeMode mode = SizeModeAny) const;
     QSizeF constrainFrameSize(const QSizeF &size, SizeMode mode = SizeModeAny) const;
 
-    void move(const QPointF &point);
+    /**
+     * Moves the window so that the new topLeft corner of the frame is @p topLeft.
+     */
+    void move(const QPointF &topLeft);
+
+    /**
+     * Resizes the window to have a new @p size but stay with the top-left corner in the same position.
+     */
     void resize(const QSizeF &size);
-    void moveResize(const QRectF &rect);
+
+    /**
+     * Requests a new @p geometry for the window that the implementation will need to adopt
+     * within its possibilities.
+     */
+    void moveResize(const QRectF &geometry);
 
     void growHorizontal();
     void shrinkHorizontal();
@@ -999,6 +1016,7 @@ public:
     virtual void setFullScreen(bool set);
 
     bool wantsAdaptiveSync() const;
+    bool wantsTearing(bool tearingRequested) const;
 
     QRectF geometryRestore() const;
     void setGeometryRestore(const QRectF &rect);
@@ -1125,7 +1143,7 @@ public:
     }
     uint32_t interactiveMoveResizeCount() const;
 
-    void updateInteractiveMoveResize(const QPointF &global);
+    void updateInteractiveMoveResize(const QPointF &global, Qt::KeyboardModifiers modifiers);
     /**
      * Ends move resize when all pointer buttons are up again.
      */
@@ -1587,6 +1605,10 @@ protected:
     {
         m_interactiveMoveResize.anchor = anchor;
     }
+    void setInteractiveMoveResizeModifiers(Qt::KeyboardModifiers modifiers)
+    {
+        m_interactiveMoveResize.modifiers = modifiers;
+    }
     /**
      * @returns whether the move resize mode is unrestricted.
      */
@@ -1812,6 +1834,7 @@ protected:
         bool enabled = false;
         bool unrestricted = false;
         QPointF anchor;
+        Qt::KeyboardModifiers modifiers;
         QPointF offset;
         QRectF initialGeometry;
         QRectF initialGeometryRestore;

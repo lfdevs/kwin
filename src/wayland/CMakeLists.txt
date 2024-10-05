@@ -8,26 +8,32 @@ target_link_libraries(WaylandProtocols_xml Qt::Core Wayland::Server)
 target_link_libraries(kwin PRIVATE WaylandProtocols_xml)
 
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${Wayland_DATADIR}/wayland.xml
     BASENAME wayland
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-output-device-v2.xml
     BASENAME kde-output-device-v2
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-output-management-v2.xml
     BASENAME kde-output-management-v2
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/plasma-shell.xml
     BASENAME plasma-shell
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/plasma-virtual-desktop.xml
     BASENAME org-kde-plasma-virtual-desktop
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/plasma-window-management.xml
     BASENAME plasma-window-management
 )
@@ -36,226 +42,274 @@ ecm_add_wayland_server_protocol(WaylandProtocols_xml
     BASENAME qt-surface-extension
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/idle.xml
     BASENAME idle
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/fake-input.xml
     BASENAME fake-input
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/shadow.xml
     BASENAME shadow
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/dpms.xml
     BASENAME dpms
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/blur.xml
     BASENAME blur
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/contrast.xml
     BASENAME contrast
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${WaylandProtocols_DATADIR}/unstable/relative-pointer/relative-pointer-unstable-v1.xml
     BASENAME relative-pointer-unstable-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/slide.xml
     BASENAME slide
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/server-decoration.xml
     BASENAME server-decoration
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${WaylandProtocols_DATADIR}/unstable/text-input/text-input-unstable-v1.xml
     BASENAME text-input-unstable-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/text-input-unstable-v2.xml
     BASENAME text-input-unstable-v2
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${WaylandProtocols_DATADIR}/unstable/text-input/text-input-unstable-v3.xml
     BASENAME text-input-unstable-v3
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${WaylandProtocols_DATADIR}/unstable/pointer-gestures/pointer-gestures-unstable-v1.xml
     BASENAME pointer-gestures-unstable-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${WaylandProtocols_DATADIR}/unstable/pointer-constraints/pointer-constraints-unstable-v1.xml
     BASENAME pointer-constraints-unstable-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${WaylandProtocols_DATADIR}/unstable/xdg-foreign/xdg-foreign-unstable-v2.xml
     BASENAME xdg-foreign-unstable-v2
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${WaylandProtocols_DATADIR}/unstable/idle-inhibit/idle-inhibit-unstable-v1.xml
     BASENAME idle-inhibit-unstable-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/appmenu.xml
     BASENAME appmenu
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/server-decoration-palette.xml
     BASENAME server-decoration-palette
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${WaylandProtocols_DATADIR}/unstable/xdg-output/xdg-output-unstable-v1.xml
     BASENAME xdg-output-unstable-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${WaylandProtocols_DATADIR}/stable/xdg-shell/xdg-shell.xml
     BASENAME xdg-shell
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${WaylandProtocols_DATADIR}/unstable/xdg-decoration/xdg-decoration-unstable-v1.xml
     BASENAME xdg-decoration-unstable-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/keystate.xml
     BASENAME keystate
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${WaylandProtocols_DATADIR}/unstable/linux-dmabuf/linux-dmabuf-unstable-v1.xml
     BASENAME linux-dmabuf-unstable-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${WaylandProtocols_DATADIR}/unstable/tablet/tablet-unstable-v2.xml
     BASENAME tablet-unstable-v2
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${PROJECT_SOURCE_DIR}/src/wayland/protocols/wlr-data-control-unstable-v1.xml
     BASENAME wlr-data-control-unstable-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${PROJECT_SOURCE_DIR}/src/wayland/protocols/wlr-layer-shell-unstable-v1.xml
     BASENAME wlr-layer-shell-unstable-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${WaylandProtocols_DATADIR}/unstable/keyboard-shortcuts-inhibit/keyboard-shortcuts-inhibit-unstable-v1.xml
     BASENAME keyboard-shortcuts-inhibit-unstable-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${WaylandProtocols_DATADIR}/stable/viewporter/viewporter.xml
     BASENAME viewporter
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${WaylandProtocols_DATADIR}/unstable/primary-selection/primary-selection-unstable-v1.xml
     BASENAME wp-primary-selection-unstable-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/zkde-screencast-unstable-v1.xml
     BASENAME zkde-screencast-unstable-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${WaylandProtocols_DATADIR}/unstable/input-method/input-method-unstable-v1.xml
     BASENAME input-method-unstable-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${WaylandProtocols_DATADIR}/staging/xdg-activation/xdg-activation-v1.xml
     BASENAME xdg-activation-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${WaylandProtocols_DATADIR}/staging/drm-lease/drm-lease-v1.xml
     BASENAME drm-lease-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-lockscreen-overlay-v1.xml
     BASENAME kde-lockscreen-overlay-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${WaylandProtocols_DATADIR}/staging/ext-idle-notify/ext-idle-notify-v1.xml
     BASENAME ext-idle-notify-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${WaylandProtocols_DATADIR}/staging/tearing-control/tearing-control-v1.xml
     BASENAME tearing-control-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${WaylandProtocols_DATADIR}/unstable/xwayland-keyboard-grab/xwayland-keyboard-grab-unstable-v1.xml
     BASENAME xwayland-keyboard-grab-unstable-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${WaylandProtocols_DATADIR}/staging/content-type/content-type-v1.xml
     BASENAME content-type-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${WaylandProtocols_DATADIR}/staging/xwayland-shell/xwayland-shell-v1.xml
     BASENAME xwayland-shell-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-output-order-v1.xml
     BASENAME kde-output-order-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${WaylandProtocols_DATADIR}/staging/fractional-scale/fractional-scale-v1.xml
     BASENAME fractional-scale-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${PROJECT_SOURCE_DIR}/src/wayland/protocols/wayland-drm.xml
     BASENAME drm
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-screen-edge-v1.xml
     BASENAME kde-screen-edge-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${WaylandProtocols_DATADIR}/staging/cursor-shape/cursor-shape-v1.xml
     BASENAME cursor-shape-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${WaylandProtocols_DATADIR}/staging/xdg-toplevel-drag/xdg-toplevel-drag-v1.xml
     BASENAME xdg-toplevel-drag-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${PROJECT_SOURCE_DIR}/src/wayland/protocols/frog-color-management-v1.xml
     BASENAME frog-color-management-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${WaylandProtocols_DATADIR}/stable/presentation-time/presentation-time.xml
     BASENAME presentation-time
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${WaylandProtocols_DATADIR}/staging/security-context/security-context-v1.xml
     BASENAME security-context-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
-    PROTOCOL ${PROJECT_SOURCE_DIR}/src/wayland/protocols/xx-color-management-v2.xml
-    BASENAME xx-color-management-v2
+    PRIVATE_CODE
+    PROTOCOL ${PROJECT_SOURCE_DIR}/src/wayland/protocols/xx-color-management-v4.xml
+    BASENAME xx-color-management-v4
 )
-if (WaylandProtocols_VERSION VERSION_LESS 1.36)
-    ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
-        PROTOCOL ${WaylandProtocols_DATADIR}/staging/xdg-dialog/xdg-dialog-v1.xml
-        BASENAME dialog-v1
-    )
-    target_compile_definitions(kwin PRIVATE
-        -DHAVE_XDG_DIALOG_V1_HEADER=0
-    )
-else()
-    ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
-        PROTOCOL ${WaylandProtocols_DATADIR}/staging/xdg-dialog/xdg-dialog-v1.xml
-        BASENAME xdg-dialog-v1
-    )
-    target_compile_definitions(kwin PRIVATE
-        -DHAVE_XDG_DIALOG_V1_HEADER=1
-    )
-endif()
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
+    PROTOCOL ${WaylandProtocols_DATADIR}/staging/xdg-dialog/xdg-dialog-v1.xml
+    BASENAME xdg-dialog-v1
+)
+ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${WaylandProtocols_DATADIR}/staging/linux-drm-syncobj/linux-drm-syncobj-v1.xml
     BASENAME linux-drm-syncobj-v1
+)
+ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
+    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-external-brightness-v1.xml
+    BASENAME kde-external-brightness-v1
+)
+ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PROTOCOL ${WaylandProtocols_DATADIR}/staging/alpha-modifier/alpha-modifier-v1.xml
+    BASENAME alpha-modifier-v1
 )
 
 target_sources(kwin PRIVATE
     abstract_data_source.cpp
     abstract_drop_handler.cpp
+    alphamodifier_v1.cpp
     appmenu.cpp
     blur.cpp
     clientconnection.cpp
@@ -275,6 +329,7 @@ target_sources(kwin PRIVATE
     dpms.cpp
     drmclientbuffer.cpp
     drmlease_v1.cpp
+    externalbrightness_v1.cpp
     filtered_display.cpp
     fractionalscale_v1.cpp
     frog_colormanagement_v1.cpp
@@ -335,10 +390,11 @@ target_sources(kwin PRIVATE
     xdgtopleveldrag_v1.cpp
     xwaylandkeyboardgrab_v1.cpp
     xwaylandshell_v1.cpp
-    xx_colormanagement_v2.cpp
+    xx_colormanagement_v4.cpp
 )
 
 install(FILES
+    alphamodifier_v1.h
     appmenu.h
     blur.h
     clientconnection.h
@@ -357,6 +413,7 @@ install(FILES
     display.h
     dpms.h
     drmlease_v1.h
+    externalbrightness_v1.h
     fractionalscale_v1.h
     frog_colormanagement_v1.h
     idle.h
@@ -411,17 +468,21 @@ install(FILES
     xdgshell.h
     xwaylandkeyboardgrab_v1.h
     xwaylandshell_v1.h
-    xx_colormanagement_v2.h
+    xx_colormanagement_v4.h
 
+    ${CMAKE_CURRENT_BINARY_DIR}/qwayland-server-alpha-modifier-v1.h
     ${CMAKE_CURRENT_BINARY_DIR}/qwayland-server-content-type-v1.h
     ${CMAKE_CURRENT_BINARY_DIR}/qwayland-server-frog-color-management-v1.h
+    ${CMAKE_CURRENT_BINARY_DIR}/qwayland-server-kde-external-brightness-v1.h
     ${CMAKE_CURRENT_BINARY_DIR}/qwayland-server-linux-drm-syncobj-v1.h
     ${CMAKE_CURRENT_BINARY_DIR}/qwayland-server-presentation-time.h
-    ${CMAKE_CURRENT_BINARY_DIR}/qwayland-server-xx-color-management-v2.h
+    ${CMAKE_CURRENT_BINARY_DIR}/qwayland-server-xx-color-management-v4.h
+    ${CMAKE_CURRENT_BINARY_DIR}/wayland-alpha-modifier-v1-server-protocol.h
     ${CMAKE_CURRENT_BINARY_DIR}/wayland-content-type-v1-server-protocol.h
     ${CMAKE_CURRENT_BINARY_DIR}/wayland-frog-color-management-v1-server-protocol.h
+    ${CMAKE_CURRENT_BINARY_DIR}/wayland-kde-external-brightness-v1-server-protocol.h
     ${CMAKE_CURRENT_BINARY_DIR}/wayland-linux-drm-syncobj-v1-server-protocol.h
     ${CMAKE_CURRENT_BINARY_DIR}/wayland-presentation-time-server-protocol.h
-    ${CMAKE_CURRENT_BINARY_DIR}/wayland-xx-color-management-v2-server-protocol.h
+    ${CMAKE_CURRENT_BINARY_DIR}/wayland-xx-color-management-v4-server-protocol.h
 
     DESTINATION ${KDE_INSTALL_INCLUDEDIR}/kwin/wayland COMPONENT Devel)

@@ -13,6 +13,7 @@
 #include "core/rendertarget.h"
 #include "core/renderviewport.h"
 #include "effect/effect.h"
+#include "input.h"
 #include "opengl/gltexture.h"
 #include "opengl/glutils.h"
 #include "scene/itemrenderer.h"
@@ -49,6 +50,11 @@ quint32 WindowScreenCastSource::drmFormat() const
 QSize WindowScreenCastSource::textureSize() const
 {
     return m_window->clientGeometry().size().toSize();
+}
+
+qreal WindowScreenCastSource::devicePixelRatio() const
+{
+    return 1.0;
 }
 
 void WindowScreenCastSource::render(QImage *target)
@@ -116,6 +122,29 @@ void WindowScreenCastSource::resume()
     m_timer.start();
 
     m_active = true;
+}
+
+bool WindowScreenCastSource::includesCursor(Cursor *cursor) const
+{
+    if (Cursors::self()->isCursorHidden()) {
+        return false;
+    }
+
+    if (!m_window->clientGeometry().intersects(cursor->geometry())) {
+        return false;
+    }
+
+    return input()->findToplevel(cursor->pos()) == m_window;
+}
+
+QPointF WindowScreenCastSource::mapFromGlobal(const QPointF &point) const
+{
+    return point - m_window->clientGeometry().topLeft();
+}
+
+QRectF WindowScreenCastSource::mapFromGlobal(const QRectF &rect) const
+{
+    return rect.translated(-m_window->clientGeometry().topLeft());
 }
 
 } // namespace KWin

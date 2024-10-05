@@ -87,11 +87,13 @@ std::optional<RenderTimeSpan> OutputFrame::queryRenderTime() const
 
 void OutputFrame::presented(std::chrono::nanoseconds timestamp, PresentationMode mode)
 {
+    Q_ASSERT(!m_presented);
+    m_presented = true;
+
     const auto renderTime = queryRenderTime();
     if (m_loop) {
         RenderLoopPrivate::get(m_loop)->notifyFrameCompleted(timestamp, renderTime, mode, this);
     }
-    m_presented = true;
     for (const auto &feedback : m_feedbacks) {
         feedback->presented(m_refreshDuration, timestamp, mode);
     }
@@ -147,11 +149,6 @@ std::chrono::nanoseconds OutputFrame::predictedRenderTime() const
     return m_predictedRenderTime;
 }
 
-RenderBackend::RenderBackend(QObject *parent)
-    : QObject(parent)
-{
-}
-
 OutputLayer *RenderBackend::cursorLayer(Output *output)
 {
     return nullptr;
@@ -190,6 +187,10 @@ std::unique_ptr<SurfaceTexture> RenderBackend::createSurfaceTextureX11(SurfacePi
 std::unique_ptr<SurfaceTexture> RenderBackend::createSurfaceTextureWayland(SurfacePixmap *pixmap)
 {
     return nullptr;
+}
+
+void RenderBackend::repairPresentation(Output *output)
+{
 }
 
 } // namespace KWin

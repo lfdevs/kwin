@@ -43,6 +43,14 @@ public:
      */
     std::chrono::nanoseconds safetyMargin() const;
 
+    /**
+     * attempts to submit the currently scheduled commits as a single one,
+     * if there isn't already a commit pending
+     *
+     * @returns if there's a pending commit after this method returns
+     */
+    bool drain();
+
 private:
     void clearDroppedCommits();
     TimePoint estimateNextVblank(TimePoint now) const;
@@ -59,6 +67,7 @@ private:
     std::chrono::nanoseconds m_minVblankInterval;
     std::vector<std::unique_ptr<DrmAtomicCommit>> m_commitsToDelete;
     bool m_vrr = false;
+    bool m_tearing = false;
     std::chrono::nanoseconds m_safetyMargin{0};
 };
 

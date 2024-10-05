@@ -35,7 +35,7 @@ class KWIN_EXPORT DrmOutput : public DrmAbstractOutput
 {
     Q_OBJECT
 public:
-    DrmOutput(const std::shared_ptr<DrmConnector> &connector);
+    explicit DrmOutput(const std::shared_ptr<DrmConnector> &connector);
     ~DrmOutput() override;
 
     DrmConnector *connector() const;
@@ -58,21 +58,33 @@ public:
     void leaseEnded();
 
     bool setChannelFactors(const QVector3D &rgb) override;
-    QVector3D channelFactors() const;
-    bool needsColormanagement() const;
-
+    /**
+     * channel factors adapted to the target color space + brightness setting multiplied in
+     */
+    QVector3D effectiveChannelFactors() const;
     void updateConnectorProperties();
+
+    /**
+     * @returns the color description / encoding that the buffers passed to the CRTC need to have, without a color pipeline to change it
+     */
+    const ColorDescription &scanoutColorDescription() const;
+    /**
+     * @returns whether or not the renderer should apply channel factors
+     */
+    bool needsChannelFactorFallback() const;
 
 private:
     bool setDrmDpmsMode(DpmsMode mode);
     void setDpmsMode(DpmsMode mode) override;
-    bool doSetChannelFactors(const QVector3D &rgb);
+    void tryKmsColorOffloading();
     ColorDescription createColorDescription(const std::shared_ptr<OutputChangeSet> &props) const;
     Capabilities computeCapabilities() const;
     void updateInformation();
+    void setBrightnessDevice(BrightnessDevice *device) override;
 
     QList<std::shared_ptr<OutputMode>> getModes() const;
 
+    DrmGpu *const m_gpu;
     DrmPipeline *m_pipeline;
     const std::shared_ptr<DrmConnector> m_connector;
 
@@ -81,6 +93,8 @@ private:
 
     QVector3D m_channelFactors = {1, 1, 1};
     bool m_channelFactorsNeedShaderFallback = false;
+    ColorDescription m_scanoutColorDescription = ColorDescription::sRGB;
+    PresentationMode m_desiredPresentationMode = PresentationMode::VSync;
 };
 
 }

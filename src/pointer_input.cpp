@@ -22,6 +22,7 @@
 #include "mousebuttons.h"
 #include "osd.h"
 #include "screenedge.h"
+#include "wayland/abstract_data_source.h"
 #include "wayland/display.h"
 #include "wayland/pointer.h"
 #include "wayland/pointerconstraints_v1.h"
@@ -79,7 +80,7 @@ PointerInputRedirection::PointerInputRedirection(InputRedirection *parent)
 
 PointerInputRedirection::~PointerInputRedirection() = default;
 
-KXcursorTheme PointerInputRedirection::cursorTheme() const
+CursorTheme PointerInputRedirection::cursorTheme() const
 {
     return m_cursor->theme();
 }
@@ -106,7 +107,6 @@ void PointerInputRedirection::init()
         }
     });
 
-    connect(Cursors::self()->mouse(), &Cursor::rendered, m_cursor, &CursorImage::markAsRendered);
     connect(m_cursor, &CursorImage::changed, Cursors::self()->mouse(), [this] {
         Cursors::self()->mouse()->setSource(m_cursor->source());
         m_cursor->updateCursorOutputs(m_pos);
@@ -115,7 +115,7 @@ void PointerInputRedirection::init()
 
     connect(workspace(), &Workspace::outputsChanged, this, &PointerInputRedirection::updateAfterScreenChange);
 #if KWIN_BUILD_SCREENLOCKER
-    if (waylandServer()->hasScreenLockerIntegration()) {
+    if (kwinApp()->supportsLockScreen()) {
         connect(ScreenLocker::KSldApp::self(), &ScreenLocker::KSldApp::lockStateChanged, this, [this]() {
             if (waylandServer()->seat()->hasPointer()) {
                 waylandServer()->seat()->cancelPointerPinchGesture();
@@ -266,6 +266,10 @@ void PointerInputRedirection::processMotionInternal(const QPointF &pos, const QP
 void PointerInputRedirection::processButton(uint32_t button, InputRedirection::PointerButtonState state, std::chrono::microseconds time, InputDevice *device)
 {
     input()->setLastInputHandler(this);
+    if (!inited()) {
+        return;
+    }
+
     QEvent::Type type;
     switch (state) {
     case InputRedirection::PointerButtonReleased:
@@ -288,11 +292,6 @@ void PointerInputRedirection::processButton(uint32_t button, InputRedirection::P
     event.setNativeButton(button);
 
     input()->processSpies(std::bind(&InputEventSpy::pointerEvent, std::placeholders::_1, &event));
-
-    if (!inited()) {
-        return;
-    }
-
     input()->processFilters(std::bind(&InputEventFilter::pointerEvent, std::placeholders::_1, &event, button));
 
     if (state == InputRedirection::PointerButtonReleased) {
@@ -304,6 +303,10 @@ void PointerInputRedirection::processAxis(InputRedirection::PointerAxis axis, qr
                                           InputRedirection::PointerAxisSource source, std::chrono::microseconds time, InputDevice *device)
 {
     input()->setLastInputHandler(this);
+    if (!inited()) {
+        return;
+    }
+
     update();
 
     Q_EMIT input()->pointerAxisChanged(axis, delta);
@@ -314,10 +317,6 @@ void PointerInputRedirection::processAxis(InputRedirection::PointerAxis axis, qr
     wheelEvent.setModifiersRelevantForGlobalShortcuts(input()->modifiersRelevantForGlobalShortcuts());
 
     input()->processSpies(std::bind(&InputEventSpy::wheelEvent, std::placeholders::_1, &wheelEvent));
-
-    if (!inited()) {
-        return;
-    }
     input()->processFilters(std::bind(&InputEventFilter::wheelEvent, std::placeholders::_1, &wheelEvent));
 }
 
@@ -966,9 +965,10 @@ CursorImage::CursorImage(PointerInputRedirection *parent)
     m_decoration.cursor = std::make_unique<ShapeCursorSource>();
     m_serverCursor.surface = std::make_unique<SurfaceCursorSource>();
     m_serverCursor.shape = std::make_unique<ShapeCursorSource>();
+    m_dragCursor = std::make_unique<ShapeCursorSource>();
 
 #if KWIN_BUILD_SCREENLOCKER
-    if (waylandServer()->hasScreenLockerIntegration()) {
+    if (kwinApp()->supportsLockScreen()) {
         connect(ScreenLocker::KSldApp::self(), &ScreenLocker::KSldApp::lockStateChanged, this, &CursorImage::reevaluteSource);
     }
 #endif
@@ -990,6 +990,7 @@ CursorImage::CursorImage(PointerInputRedirection *parent)
     m_windowSelectionCursor->setTheme(m_waylandImage.theme());
     m_decoration.cursor->setTheme(m_waylandImage.theme());
     m_serverCursor.shape->setTheme(m_waylandImage.theme());
+    m_dragCursor->setTheme(m_waylandImage.theme());
 
     connect(&m_waylandImage, &WaylandCursorImage::themeChanged, this, [this] {
         m_effectsCursor->setTheme(m_waylandImage.theme());
@@ -998,6 +999,14 @@ CursorImage::CursorImage(PointerInputRedirection *parent)
         m_windowSelectionCursor->setTheme(m_waylandImage.theme());
         m_decoration.cursor->setTheme(m_waylandImage.theme());
         m_serverCursor.shape->setTheme(m_waylandImage.theme());
+        m_dragCursor->setTheme(m_waylandImage.theme());
+    });
+
+    connect(waylandServer()->seat(), &SeatInterface::dragStarted, this, [this]() {
+        m_dragCursor->setShape(Qt::ForbiddenCursor);
+        connect(waylandServer()->seat()->dragSource(), &AbstractDataSource::dndActionChanged, this, &CursorImage::updateDragCursor);
+        connect(waylandServer()->seat()->dragSource(), &AbstractDataSource::acceptedChanged, this, &CursorImage::updateDragCursor);
+        reevaluteSource();
     });
 
     PointerInterface *pointer = waylandServer()->seat()->pointer();
@@ -1018,17 +1027,6 @@ void CursorImage::updateCursorOutputs(const QPointF &pos)
             const QRectF cursorGeometry(pos - m_currentSource->hotspot(), m_currentSource->size());
             cursorSurface->setOutputs(waylandServer()->display()->outputsIntersecting(cursorGeometry.toAlignedRect()),
                                       waylandServer()->display()->largestIntersectingOutput(cursorGeometry.toAlignedRect()));
-        }
-    }
-}
-
-void CursorImage::markAsRendered(std::chrono::milliseconds timestamp)
-{
-    if (m_currentSource == m_serverCursor.surface.get()) {
-        if (auto cursorSurface = m_serverCursor.surface->surface()) {
-            cursorSurface->traverseTree([&timestamp](SurfaceInterface *surface) {
-                surface->frameRendered(timestamp.count());
-            });
         }
     }
 }
@@ -1073,6 +1071,32 @@ void CursorImage::updateMoveResize()
 {
     if (Window *window = workspace()->moveResizeWindow()) {
         m_moveResizeCursor->setShape(window->cursor().name());
+    }
+    reevaluteSource();
+}
+
+void CursorImage::updateDragCursor()
+{
+    AbstractDataSource *dragSource = waylandServer()->seat()->dragSource();
+    if (dragSource && dragSource->isAccepted()) {
+        switch (dragSource->selectedDndAction()) {
+        case DataDeviceManagerInterface::DnDAction::None:
+            m_dragCursor->setShape(Qt::ClosedHandCursor);
+            break;
+        case DataDeviceManagerInterface::DnDAction::Copy:
+            m_dragCursor->setShape(Qt::DragCopyCursor);
+            break;
+        case DataDeviceManagerInterface::DnDAction::Move:
+            m_dragCursor->setShape(Qt::DragMoveCursor);
+            break;
+        case DataDeviceManagerInterface::DnDAction::Ask:
+            // Cursor themes don't have anything better in the themes yet
+            // a dnd-drag-ask is proposed
+            m_dragCursor->setShape(Qt::ClosedHandCursor);
+            break;
+        }
+    } else {
+        m_dragCursor->setShape(Qt::ForbiddenCursor);
     }
     reevaluteSource();
 }
@@ -1125,7 +1149,7 @@ WaylandCursorImage::WaylandCursorImage(QObject *parent)
     connect(workspace(), &Workspace::outputsChanged, this, &WaylandCursorImage::updateCursorTheme);
 }
 
-KXcursorTheme WaylandCursorImage::theme() const
+CursorTheme WaylandCursorImage::theme() const
 {
     return m_cursorTheme;
 }
@@ -1142,14 +1166,14 @@ void WaylandCursorImage::updateCursorTheme()
         }
     }
 
-    m_cursorTheme = KXcursorTheme(pointerCursor->themeName(), pointerCursor->themeSize(), targetDevicePixelRatio);
+    m_cursorTheme = CursorTheme(pointerCursor->themeName(), pointerCursor->themeSize(), targetDevicePixelRatio);
     if (m_cursorTheme.isEmpty()) {
         qCWarning(KWIN_CORE) << "Failed to load cursor theme" << pointerCursor->themeName();
-        m_cursorTheme = KXcursorTheme(Cursor::defaultThemeName(), Cursor::defaultThemeSize(), targetDevicePixelRatio);
+        m_cursorTheme = CursorTheme(Cursor::defaultThemeName(), Cursor::defaultThemeSize(), targetDevicePixelRatio);
 
         if (m_cursorTheme.isEmpty()) {
             qCWarning(KWIN_CORE) << "Failed to load cursor theme" << Cursor::defaultThemeName();
-            m_cursorTheme = KXcursorTheme(Cursor::fallbackThemeName(), Cursor::defaultThemeSize(), targetDevicePixelRatio);
+            m_cursorTheme = CursorTheme(Cursor::fallbackThemeName(), Cursor::defaultThemeSize(), targetDevicePixelRatio);
         }
     }
 
@@ -1164,6 +1188,10 @@ void CursorImage::reevaluteSource()
 {
     if (waylandServer()->isScreenLocked()) {
         setSource(m_serverCursor.cursor);
+        return;
+    }
+    if (waylandServer()->seat()->isDrag()) {
+        setSource(m_dragCursor.get());
         return;
     }
     if (input()->isSelectingWindow()) {
@@ -1204,7 +1232,7 @@ void CursorImage::setSource(CursorSource *source)
     Q_EMIT changed();
 }
 
-KXcursorTheme CursorImage::theme() const
+CursorTheme CursorImage::theme() const
 {
     return m_waylandImage.theme();
 }

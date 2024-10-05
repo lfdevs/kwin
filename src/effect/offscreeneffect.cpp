@@ -11,6 +11,7 @@
 #include "effect/effecthandler.h"
 #include "opengl/gltexture.h"
 #include "opengl/glutils.h"
+#include "scene/windowitem.h"
 
 namespace KWin
 {
@@ -34,6 +35,7 @@ public:
     GLShader *m_shader = nullptr;
     RenderGeometry::VertexSnappingMode m_vertexSnappingMode = RenderGeometry::VertexSnappingMode::Round;
     QMetaObject::Connection m_windowDamagedConnection;
+    ItemEffect m_windowEffect;
 };
 
 class OffscreenEffectPrivate
@@ -65,7 +67,7 @@ void OffscreenEffect::redirect(EffectWindow *window)
     }
     offscreenData = std::make_unique<OffscreenData>();
     offscreenData->setVertexSnappingMode(d->vertexSnappingMode);
-
+    offscreenData->m_windowEffect = ItemEffect(window->windowItem());
     offscreenData->m_windowDamagedConnection =
         connect(window, &EffectWindow::windowDamaged, this, &OffscreenEffect::handleWindowDamaged);
 
@@ -182,14 +184,14 @@ void OffscreenData::paint(const RenderTarget &renderTarget, const RenderViewport
     QMatrix4x4 mvp = viewport.projectionMatrix();
     mvp.translate(std::round(window->x() * scale), std::round(window->y() * scale));
 
-    const auto toXYZ = renderTarget.colorDescription().colorimetry().toXYZ();
+    const auto toXYZ = renderTarget.colorDescription().containerColorimetry().toXYZ();
     shader->setUniform(GLShader::Mat4Uniform::ModelViewProjectionMatrix, mvp * data.toMatrix(scale));
     shader->setUniform(GLShader::Vec4Uniform::ModulationConstant, QVector4D(rgb, rgb, rgb, a));
     shader->setUniform(GLShader::FloatUniform::Saturation, data.saturation());
     shader->setUniform(GLShader::Vec3Uniform::PrimaryBrightness, QVector3D(toXYZ(1, 0), toXYZ(1, 1), toXYZ(1, 2)));
     shader->setUniform(GLShader::IntUniform::TextureWidth, m_texture->width());
     shader->setUniform(GLShader::IntUniform::TextureHeight, m_texture->height());
-    shader->setColorspaceUniformsFromSRGB(renderTarget.colorDescription());
+    shader->setColorspaceUniforms(ColorDescription::sRGB, renderTarget.colorDescription(), RenderingIntent::Perceptual);
 
     const bool clipping = region != infiniteRegion();
     const QRegion clipRegion = clipping ? viewport.mapToRenderTarget(region) : infiniteRegion();
@@ -274,6 +276,11 @@ void OffscreenEffect::setVertexSnappingMode(RenderGeometry::VertexSnappingMode m
     }
 }
 
+bool OffscreenEffect::blocksDirectScanout() const
+{
+    return false;
+}
+
 class CrossFadeWindowData : public OffscreenData
 {
 public:
@@ -356,6 +363,7 @@ void CrossFadeEffect::redirect(EffectWindow *window)
         return;
     }
     offscreenData = std::make_unique<CrossFadeWindowData>();
+    offscreenData->m_windowEffect = ItemEffect(window->windowItem());
 
     // Avoid including blur and contrast effects. During a normal painting cycle they
     // won't be included, but since we call effects->drawWindow() outside usual compositing
@@ -391,6 +399,11 @@ void CrossFadeEffect::setShader(EffectWindow *window, GLShader *shader)
     if (const auto it = d->windows.find(window); it != d->windows.end()) {
         it->second->setShader(shader);
     }
+}
+
+bool CrossFadeEffect::blocksDirectScanout() const
+{
+    return false;
 }
 
 } // namespace KWin

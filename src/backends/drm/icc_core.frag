@@ -1,6 +1,8 @@
 #version 140
 // SPDX-FileCopyrightText: 2023 Xaver Hugl <xaver.hugl@gmail.com>
 // SPDX-License-Identifier: GPL-2.0-or-later
+#include "colormanagement.glsl"
+
 precision highp float;
 precision highp sampler2D;
 precision highp sampler3D;
@@ -10,7 +12,6 @@ in vec2 texcoord0;
 out vec4 fragColor;
 
 uniform sampler2D src;
-uniform float sdrBrightness;
 
 uniform mat4 toXYZD50;
 
@@ -40,8 +41,9 @@ vec3 sample1DLut(in vec3 srcColor, in sampler2D lut, in int lutSize) {
 void main()
 {
     vec4 tex = texture(src, texcoord0);
+    tex = encodingToNits(tex, sourceNamedTransferFunction, sourceTransferFunctionParams.x, sourceTransferFunctionParams.y);
     tex.rgb /= max(tex.a, 0.001);
-    tex.rgb /= sdrBrightness;
+    tex.rgb /= destinationReferenceLuminance;
     tex.rgb = (toXYZD50 * vec4(tex.rgb, 1.0)).rgb;
     if (Bsize > 0) {
         tex.rgb = sample1DLut(tex.rgb, Bsampler, Bsize);

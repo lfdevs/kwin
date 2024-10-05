@@ -100,7 +100,6 @@ public:
     QSizeF frameSizeToClientSize(const QSizeF &size) const override;
     QSizeF clientSizeToFrameSize(const QSizeF &size) const override;
     QRectF frameRectToBufferRect(const QRectF &rect) const;
-    QPointF wrapperPos() const;
     QSizeF implicitSize() const;
 
     void blockGeometryUpdates(bool block);
@@ -136,10 +135,6 @@ public:
     QSizeF minSize() const override;
     QSizeF maxSize() const override;
     QSizeF basicUnit() const;
-    QPointF inputPos() const
-    {
-        return input_offset;
-    } // Inside of geometry()
 
     bool windowEvent(xcb_generic_event_t *e);
     WindowType windowType() const override;
@@ -234,8 +229,7 @@ public:
     void NETMoveResize(qreal x_root, qreal y_root, NET::Direction direction, xcb_button_t button);
     void NETMoveResizeWindow(int flags, qreal x, qreal y, qreal width, qreal height);
     void GTKShowWindowMenu(qreal x_root, qreal y_root);
-    void restackWindow(xcb_window_t above, int detail, NET::RequestSource source, xcb_timestamp_t timestamp,
-                       bool send_event = false);
+    void restackWindow(xcb_window_t above, int detail, NET::RequestSource source, xcb_timestamp_t timestamp);
 
     void gotPing(xcb_timestamp_t timestamp);
 
@@ -394,7 +388,6 @@ private:
     void performInteractiveResize();
     void establishCommandWindowGrab(uint8_t button);
     void establishCommandAllGrab(uint8_t button);
-    void resizeDecoration();
 
     void pingWindow();
     void killProcess(bool ask, xcb_timestamp_t timestamp = XCB_TIME_CURRENT_TIME);
@@ -402,7 +395,7 @@ private:
     static void sendClientMessage(xcb_window_t w, xcb_atom_t a, xcb_atom_t protocol,
                                   uint32_t data1 = 0, uint32_t data2 = 0, uint32_t data3 = 0);
 
-    void embedClient(xcb_window_t w, xcb_visualid_t visualid, xcb_colormap_t colormap, uint8_t depth);
+    void embedClient(xcb_window_t w, xcb_visualid_t visualid, xcb_colormap_t colormap, const QRect &nativeGeometry, uint8_t depth);
     void detectNoBorder();
     void updateFrameExtents();
     void setClientFrameExtents(const NETStrut &strut);
@@ -415,7 +408,7 @@ private:
     void updateHiddenPreview();
 
     void updateInputShape();
-    void updateServerGeometry();
+    void configure(const QRect &nativeFrame, const QRect &nativeWrapper, const QRect &nativeClient);
     void discardWindowPixmap();
     void updateWindowPixmap();
 
@@ -448,6 +441,7 @@ private:
     Xcb::Window m_client;
     Xcb::Window m_wrapper;
     Xcb::Window m_frame;
+    qreal m_bufferScale = 1;
     xcb_window_t m_wmClientLeader = XCB_WINDOW_NONE;
     int m_activityUpdatesBlocked;
     bool m_blockedActivityUpdatesRequireTransients;
@@ -519,7 +513,7 @@ private:
     bool sessionActivityOverride;
 
     Xcb::Window m_decoInputExtent;
-    QPointF input_offset;
+    QPoint input_offset; // in device pixels, valid only on X11
 
     QTimer *m_focusOutTimer;
     QTimer m_releaseTimer;
@@ -527,9 +521,6 @@ private:
     QMetaObject::Connection m_edgeGeometryTrackingConnection;
 
     QMarginsF m_clientFrameExtents;
-    QRectF m_lastBufferGeometry;
-    QRectF m_lastFrameGeometry;
-    QRectF m_lastClientGeometry;
     int m_blockGeometryUpdates = 0; // > 0 = New geometry is remembered, but not actually set
 
     std::unique_ptr<X11DecorationRenderer> m_decorationRenderer;

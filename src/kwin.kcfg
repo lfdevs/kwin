@@ -98,7 +98,7 @@
             <default>false</default>
         </entry>
         <entry name="SeparateScreenFocus" type="Bool">
-            <default>false</default>
+            <default>true</default>
         </entry>
         <entry name="RollOverDesktops" type="Bool">
             <default>false</default>
@@ -204,9 +204,6 @@
         </entry>
         <entry name="KillPingTimeout" type="Int">
             <default>5000</default>
-        </entry>
-        <entry name="HideUtilityWindowsForInactive" type="Bool">
-            <default>true</default>
         </entry>
         <entry name="InactiveTabsSkipTaskbar" type="Bool">
             <default>false</default>

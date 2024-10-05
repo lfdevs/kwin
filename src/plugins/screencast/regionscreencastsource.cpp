@@ -7,6 +7,7 @@
 #include "regionscreencastsource.h"
 #include "screencastutils.h"
 
+#include "cursor.h"
 #include "opengl/gltexture.h"
 #include "opengl/glutils.h"
 #include <compositor.h>
@@ -60,6 +61,11 @@ QSize RegionScreenCastSource::textureSize() const
     return m_region.size() * m_scale;
 }
 
+qreal RegionScreenCastSource::devicePixelRatio() const
+{
+    return m_scale;
+}
+
 quint32 RegionScreenCastSource::drmFormat() const
 {
     return DRM_FORMAT_ARGB8888;
@@ -101,7 +107,7 @@ void RegionScreenCastSource::blit(Output *output)
         projectionMatrix.translate(outputGeometry.left(), outputGeometry.top());
 
         shaderBinder.shader()->setUniform(GLShader::Mat4Uniform::ModelViewProjectionMatrix, projectionMatrix);
-        shaderBinder.shader()->setColorspaceUniformsToSRGB(colorDescription);
+        shaderBinder.shader()->setColorspaceUniforms(colorDescription, ColorDescription::sRGB, RenderingIntent::Perceptual);
 
         outputTexture->render(outputGeometry.size());
         GLFramebuffer::popFramebuffer();
@@ -204,6 +210,25 @@ void RegionScreenCastSource::resume()
     Compositor::self()->scene()->addRepaint(m_region);
 
     m_active = true;
+}
+
+bool RegionScreenCastSource::includesCursor(Cursor *cursor) const
+{
+    if (Cursors::self()->isCursorHidden()) {
+        return false;
+    }
+
+    return cursor->geometry().intersects(m_region);
+}
+
+QPointF RegionScreenCastSource::mapFromGlobal(const QPointF &point) const
+{
+    return point - m_region.topLeft();
+}
+
+QRectF RegionScreenCastSource::mapFromGlobal(const QRectF &rect) const
+{
+    return rect.translated(-m_region.topLeft());
 }
 
 } // namespace KWin

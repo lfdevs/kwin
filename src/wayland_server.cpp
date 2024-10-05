@@ -23,6 +23,7 @@
 #include "utils/kernel.h"
 #include "utils/serviceutils.h"
 #include "virtualdesktops.h"
+#include "wayland/alphamodifier_v1.h"
 #include "wayland/appmenu.h"
 #include "wayland/clientconnection.h"
 #include "wayland/compositor.h"
@@ -34,6 +35,7 @@
 #include "wayland/dpms.h"
 #include "wayland/drmclientbuffer.h"
 #include "wayland/drmlease_v1.h"
+#include "wayland/externalbrightness_v1.h"
 #include "wayland/filtered_display.h"
 #include "wayland/fractionalscale_v1.h"
 #include "wayland/frog_colormanagement_v1.h"
@@ -75,7 +77,7 @@
 #include "wayland/xdgoutput_v1.h"
 #include "wayland/xdgshell.h"
 #include "wayland/xdgtopleveldrag_v1.h"
-#include "wayland/xx_colormanagement_v2.h"
+#include "wayland/xx_colormanagement_v4.h"
 #include "workspace.h"
 #include "xdgactivationv1.h"
 #include "xdgshellintegration.h"
@@ -319,17 +321,16 @@ bool WaylandServer::start()
     return m_display->start();
 }
 
-bool WaylandServer::init(const QString &socketName, InitializationFlags flags)
+bool WaylandServer::init(const QString &socketName)
 {
     if (!m_display->addSocketName(socketName)) {
         return false;
     }
-    return init(flags);
+    return init();
 }
 
-bool WaylandServer::init(InitializationFlags flags)
+bool WaylandServer::init()
 {
-    m_initFlags = flags;
     m_compositor = new CompositorInterface(m_display, m_display);
 #if KWIN_BUILD_X11
     connect(m_compositor, &CompositorInterface::surfaceCreated, this, [this](SurfaceInterface *surface) {
@@ -514,9 +515,7 @@ bool WaylandServer::init(InitializationFlags flags)
 
     new FrogColorManagementV1(m_display, m_display);
     new PresentationTime(m_display, m_display);
-    if (qEnvironmentVariableIntValue("KWIN_ENABLE_XX_COLOR_MANAGEMENT")) {
-        m_xxColorManager = new XXColorManagerV2(m_display, m_display);
-    }
+    m_xxColorManager = new XXColorManagerV4(m_display, m_display);
     m_xdgDialogWm = new KWin::XdgDialogWmV1Interface(m_display, m_display);
     connect(m_xdgDialogWm, &KWin::XdgDialogWmV1Interface::dialogCreated, this, [this](KWin::XdgDialogV1Interface *dialog) {
         if (auto window = findXdgToplevelWindow(dialog->toplevel()->surface())) {
@@ -524,6 +523,8 @@ bool WaylandServer::init(InitializationFlags flags)
         }
     });
 
+    m_externalBrightness = new ExternalBrightnessV1(m_display, m_display);
+    m_alphaModifierManager = new AlphaModifierManagerV1(m_display, m_display);
     return true;
 }
 
@@ -614,7 +615,7 @@ void WaylandServer::initWorkspace()
     connect(workspace(), &Workspace::outputAdded, this, &WaylandServer::handleOutputEnabled);
     connect(workspace(), &Workspace::outputRemoved, this, &WaylandServer::handleOutputDisabled);
 
-    if (hasScreenLockerIntegration()) {
+    if (kwinApp()->supportsLockScreen()) {
         initScreenLocker();
     }
 
@@ -680,7 +681,7 @@ void WaylandServer::initScreenLocker()
 
     ScreenLocker::KSldApp::self()->initialize();
 
-    if (m_initFlags.testFlag(InitializationFlag::LockScreen)) {
+    if (kwinApp()->initiallyLocked()) {
         ScreenLocker::KSldApp::self()->lock(ScreenLocker::EstablishLock::Immediate);
     }
 #endif
@@ -801,27 +802,13 @@ XdgSurfaceWindow *WaylandServer::findXdgSurfaceWindow(SurfaceInterface *surface)
 bool WaylandServer::isScreenLocked() const
 {
 #if KWIN_BUILD_SCREENLOCKER
-    if (!hasScreenLockerIntegration()) {
+    if (!kwinApp()->supportsLockScreen()) {
         return false;
     }
     return ScreenLocker::KSldApp::self()->lockState() == ScreenLocker::KSldApp::Locked || ScreenLocker::KSldApp::self()->lockState() == ScreenLocker::KSldApp::AcquiringLock;
 #else
     return false;
 #endif
-}
-
-bool WaylandServer::hasScreenLockerIntegration() const
-{
-#if KWIN_BUILD_SCREENLOCKER
-    return !m_initFlags.testFlag(InitializationFlag::NoLockScreenIntegration);
-#else
-    return false;
-#endif
-}
-
-bool WaylandServer::hasGlobalShortcutSupport() const
-{
-    return !m_initFlags.testFlag(InitializationFlag::NoGlobalShortcuts);
 }
 
 bool WaylandServer::isKeyboardShortcutsInhibited() const
@@ -853,6 +840,11 @@ QString WaylandServer::socketName() const
 LinuxDrmSyncObjV1Interface *WaylandServer::linuxSyncObj() const
 {
     return m_linuxDrmSyncObj;
+}
+
+ExternalBrightnessV1 *WaylandServer::externalBrightness() const
+{
+    return m_externalBrightness;
 }
 
 void WaylandServer::setRenderBackend(RenderBackend *backend)

@@ -102,14 +102,6 @@ WorkspaceScene::WorkspaceScene(std::unique_ptr<ItemRenderer> renderer)
         connect(waylandServer()->seat(), &SeatInterface::dragStarted, this, &WorkspaceScene::createDndIconItem);
         connect(waylandServer()->seat(), &SeatInterface::dragEnded, this, &WorkspaceScene::destroyDndIconItem);
     }
-
-    connect(m_containerItem.get(), &Item::childAdded, this, [this](Item *item) {
-        connect(item, &Item::destroyed, this, [this]() {
-            if (m_painting) {
-                qFatal("Destroyed an item while painting");
-            }
-        });
-    });
 }
 
 WorkspaceScene::~WorkspaceScene()
@@ -134,7 +126,8 @@ void WorkspaceScene::createDndIconItem()
         connect(waylandServer()->seat(), &SeatInterface::pointerPosChanged, m_dndIcon.get(), updatePosition);
     } else if (waylandServer()->seat()->isDragTouch()) {
         auto updatePosition = [this]() {
-            const auto touchPos = waylandServer()->seat()->firstTouchPointPosition();
+            auto seat = waylandServer()->seat();
+            const auto touchPos = seat->firstTouchPointPosition(seat->dragSurface());
             m_dndIcon->setPosition(touchPos);
             m_dndIcon->setOutput(workspace()->outputAt(touchPos));
         };
@@ -159,57 +152,71 @@ Item *WorkspaceScene::overlayItem() const
     return m_overlayItem.get();
 }
 
-static SurfaceItem *findTopMostSurface(SurfaceItem *item)
+static bool addCandidates(SurfaceItem *item, QList<SurfaceItem *> &candidates, ssize_t maxCount, QRegion &occluded)
 {
-    if (!item->isVisible()) {
-        return nullptr;
-    }
     const QList<Item *> children = item->sortedChildItems();
-    for (const auto &child : children | std::views::reverse) {
-        if (child->z() >= 0) {
-            if (auto item = findTopMostSurface(static_cast<SurfaceItem *>(child))) {
-                return item;
+    auto it = children.rbegin();
+    for (; it != children.rend(); it++) {
+        Item *const child = *it;
+        if (child->z() < 0) {
+            break;
+        }
+        if (child->isVisible() && !occluded.contains(child->mapToScene(child->boundingRect()).toAlignedRect())) {
+            if (!addCandidates(static_cast<SurfaceItem *>(child), candidates, maxCount, occluded)) {
+                return false;
             }
         }
     }
-    return item;
+    if (candidates.size() >= maxCount || item->hasEffects()) {
+        return false;
+    }
+    if (occluded.contains(item->mapToScene(item->boundingRect()).toAlignedRect())) {
+        return true;
+    }
+    candidates.push_back(item);
+    occluded += item->mapToScene(item->opaque());
+    for (; it != children.rend(); it++) {
+        Item *const child = *it;
+        if (child->isVisible() && !occluded.contains(child->mapToScene(child->boundingRect()).toAlignedRect())) {
+            if (!addCandidates(static_cast<SurfaceItem *>(child), candidates, maxCount, occluded)) {
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
-SurfaceItem *WorkspaceScene::scanoutCandidate() const
+QList<SurfaceItem *> WorkspaceScene::scanoutCandidates(ssize_t maxCount) const
 {
     if (!waylandServer()) {
-        return nullptr;
+        return {};
     }
-    SurfaceItem *candidate = nullptr;
+    QList<SurfaceItem *> ret;
     if (!effects->blocksDirectScanout()) {
+        QRegion occlusion;
         for (int i = stacking_order.count() - 1; i >= 0; i--) {
             WindowItem *windowItem = stacking_order[i];
             Window *window = windowItem->window();
             if (window->isOnOutput(painted_screen) && window->opacity() > 0 && windowItem->isVisible()) {
-                if (!window->isClient() || !window->isFullScreen() || window->opacity() != 1.0) {
-                    break;
+                if (!window->isClient() || window->opacity() != 1.0 || !window->isFullScreen() || window->windowItem()->hasEffects()) {
+                    return {};
                 }
-                if (!windowItem->surfaceItem()) {
-                    break;
+
+                SurfaceItem *surfaceItem = window->surfaceItem();
+                if (!surfaceItem || !surfaceItem->isVisible()) {
+                    continue;
                 }
-                SurfaceItem *topMost = findTopMostSurface(windowItem->surfaceItem());
-                if (!topMost) {
-                    break;
+
+                if (!addCandidates(surfaceItem, ret, maxCount, occlusion)) {
+                    return {};
                 }
-                // the subsurface has to be able to cover the whole window
-                if (topMost->position() != QPoint(0, 0)) {
-                    break;
+                if (occlusion.contains(painted_screen->geometry())) {
+                    return ret;
                 }
-                // and it has to be completely opaque
-                if (!topMost->opaque().contains(QRect(0, 0, window->width(), window->height()))) {
-                    break;
-                }
-                candidate = topMost;
-                break;
             }
         }
     }
-    return candidate;
+    return ret;
 }
 
 void WorkspaceScene::frame(SceneDelegate *delegate, OutputFrame *frame)
@@ -253,7 +260,6 @@ void WorkspaceScene::frame(SceneDelegate *delegate, OutputFrame *frame)
 
 QRegion WorkspaceScene::prePaint(SceneDelegate *delegate)
 {
-    m_painting = true;
     createStackingOrder();
 
     painted_delegate = delegate;
@@ -383,8 +389,6 @@ void WorkspaceScene::preparePaintSimpleScreen()
 
 void WorkspaceScene::postPaint()
 {
-    m_painting = false;
-
     for (WindowItem *w : std::as_const(stacking_order)) {
         effects->postPaintWindow(w->effectWindow());
     }
@@ -473,6 +477,47 @@ void WorkspaceScene::paintSimpleScreen(const RenderTarget &renderTarget, const R
 void WorkspaceScene::createStackingOrder()
 {
     QList<Item *> items = m_containerItem->sortedChildItems();
+
+    // NOTE: this ugly chunk of code is to help us debug a random crash that is extremely difficult
+    // to reproduce and that affects many users. Debugging in production builds is absolutely terrible
+    // and you should never ever do it, but we are out of options. :(
+    {
+        const QList<Window *> mapped = workspace()->windows();
+        const QList<Window *> closed = workspace()->closed();
+
+        QList<WindowItem *> aliveWindowItems;
+        for (Window *window : mapped) {
+            if (auto windowItem = window->windowItem()) {
+                aliveWindowItems << windowItem;
+            }
+        }
+        for (Window *window : closed) {
+            if (auto windowItem = window->windowItem()) {
+                aliveWindowItems << windowItem;
+            }
+        }
+        std::sort(aliveWindowItems.begin(), aliveWindowItems.end());
+
+        QList<WindowItem *> sortedWindowItems;
+        for (Item *item : std::as_const(items)) {
+            sortedWindowItems << static_cast<WindowItem *>(item);
+        }
+        std::sort(sortedWindowItems.begin(), sortedWindowItems.end());
+
+        QList<WindowItem *> windowItems;
+        for (Item *item : m_containerItem->childItems()) {
+            windowItems << static_cast<WindowItem *>(item);
+        }
+        std::sort(windowItems.begin(), windowItems.end());
+
+        if (sortedWindowItems != windowItems) {
+            qFatal("sortedWindowItems != windowItems");
+        }
+        if (aliveWindowItems != sortedWindowItems) {
+            qFatal("workspaceWindowItems != sortedWindowItems");
+        }
+    }
+
     for (Item *item : std::as_const(items)) {
         WindowItem *windowItem = static_cast<WindowItem *>(item);
         if (windowItem->isVisible()) {

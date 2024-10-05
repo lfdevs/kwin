@@ -102,6 +102,11 @@ DrmPipeline::Error DrmPipeline::applyPendingChangesLegacy()
         drmModeSetCursor(gpu()->fd(), m_pending.crtc->id(), 0, 0, 0);
     }
     if (activePending()) {
+        if (!m_primaryLayer->colorPipeline().isIdentity() || !m_cursorLayer->colorPipeline().isIdentity()) {
+            // while it's technically possible to set CRTC color management properties,
+            // it may result in glitches
+            return DrmPipeline::Error::InvalidArguments;
+        }
         const bool shouldEnableVrr = m_pending.presentationMode == PresentationMode::AdaptiveSync || m_pending.presentationMode == PresentationMode::AdaptiveAsync;
         if (m_pending.crtc->vrrEnabled.isValid() && !m_pending.crtc->vrrEnabled.setPropertyLegacy(shouldEnableVrr)) {
             qCWarning(KWIN_DRM) << "Setting vrr failed!" << strerror(errno);
@@ -126,7 +131,7 @@ DrmPipeline::Error DrmPipeline::applyPendingChangesLegacy()
             m_connector->hdrMetadata.setPropertyLegacy(blob ? blob->blobId() : 0);
         }
         if (m_connector->colorspace.isValid()) {
-            if (m_pending.colorDescription.colorimetry() == NamedColorimetry::BT2020) {
+            if (m_pending.colorDescription.containerColorimetry() == NamedColorimetry::BT2020) {
                 m_connector->colorspace.setEnumLegacy(DrmConnector::Colorspace::BT2020_RGB);
             } else {
                 m_connector->colorspace.setEnumLegacy(DrmConnector::Colorspace::Default);
@@ -140,7 +145,7 @@ DrmPipeline::Error DrmPipeline::applyPendingChangesLegacy()
                 return err;
             }
         }
-        if (m_pending.gamma != m_currentLegacyGamma) {
+        if (m_pending.crtcColorPipeline != m_currentLegacyGamma) {
             if (Error err = setLegacyGamma(); err != Error::None) {
                 return err;
             }
@@ -159,13 +164,33 @@ DrmPipeline::Error DrmPipeline::applyPendingChangesLegacy()
 
 DrmPipeline::Error DrmPipeline::setLegacyGamma()
 {
-    if (m_pending.gamma) {
-        if (drmModeCrtcSetGamma(gpu()->fd(), m_pending.crtc->id(), m_pending.gamma->lut().size(), m_pending.gamma->lut().red(), m_pending.gamma->lut().green(), m_pending.gamma->lut().blue()) != 0) {
-            qCWarning(KWIN_DRM) << "Setting gamma failed!" << strerror(errno);
-            return errnoToError();
+    QList<uint16_t> red(m_pending.crtc->gammaRampSize());
+    QList<uint16_t> green(m_pending.crtc->gammaRampSize());
+    QList<uint16_t> blue(m_pending.crtc->gammaRampSize());
+    for (int i = 0; i < m_pending.crtc->gammaRampSize(); i++) {
+        const double input = i / double(m_pending.crtc->gammaRampSize() - 1);
+        QVector3D output = QVector3D(input, input, input);
+        for (const auto &op : m_pending.crtcColorPipeline.ops) {
+            if (auto tf = std::get_if<ColorTransferFunction>(&op.operation)) {
+                output = tf->tf.encodedToNits(output);
+            } else if (auto tf = std::get_if<InverseColorTransferFunction>(&op.operation)) {
+                output = tf->tf.nitsToEncoded(output);
+            } else if (auto mult = std::get_if<ColorMultiplier>(&op.operation)) {
+                output *= mult->factors;
+            } else {
+                // not supported
+                return Error::InvalidArguments;
+            }
         }
-        m_currentLegacyGamma = m_pending.gamma;
+        red[i] = std::clamp(output.x(), 0.0f, 1.0f) * std::numeric_limits<uint16_t>::max();
+        green[i] = std::clamp(output.y(), 0.0f, 1.0f) * std::numeric_limits<uint16_t>::max();
+        blue[i] = std::clamp(output.z(), 0.0f, 1.0f) * std::numeric_limits<uint16_t>::max();
     }
+    if (drmModeCrtcSetGamma(gpu()->fd(), m_pending.crtc->id(), m_pending.crtc->gammaRampSize(), red.data(), green.data(), blue.data()) != 0) {
+        qCWarning(KWIN_DRM) << "Setting gamma failed!" << strerror(errno);
+        return errnoToError();
+    }
+    m_currentLegacyGamma = m_pending.crtcColorPipeline;
     return DrmPipeline::Error::None;
 }
 

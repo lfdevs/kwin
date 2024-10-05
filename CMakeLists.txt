@@ -1,15 +1,15 @@
 cmake_minimum_required(VERSION 3.16)
 
-set(PROJECT_VERSION "6.1.5") # Handled by release scripts
+set(PROJECT_VERSION "6.2.0") # Handled by release scripts
 project(KWin VERSION ${PROJECT_VERSION})
 
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(PROJECT_DEP_VERSION "6.1.5")
-set(QT_MIN_VERSION "6.6.0")
-set(KF6_MIN_VERSION "6.2.0")
+set(PROJECT_DEP_VERSION "6.2.0")
+set(QT_MIN_VERSION "6.7.0")
+set(KF6_MIN_VERSION "6.5.0")
 set(KDE_COMPILERSETTINGS_LEVEL "5.82")
 
 find_package(ECM ${KF6_MIN_VERSION} REQUIRED NO_MODULE)
@@ -22,6 +22,7 @@ include(CMakePackageConfigHelpers)
 include(FeatureSummary)
 include(WriteBasicConfigVersionFile)
 include(GenerateExportHeader)
+include(CheckCXXSourceCompiles)
 include(CheckCXXCompilerFlag)
 include(CheckIncludeFile)
 include(CheckIncludeFiles)
@@ -48,7 +49,10 @@ option(KWIN_BUILD_KCMS "Enable building of KWin configuration modules." ON)
 option(KWIN_BUILD_NOTIFICATIONS "Enable building of KWin with knotifications support" ON)
 option(KWIN_BUILD_SCREENLOCKER "Enable building of KWin lockscreen functionality" ON)
 option(KWIN_BUILD_TABBOX "Enable building of KWin Tabbox functionality" ON)
-option(KWIN_BUILD_X11 "Enable building kwin_x11 and Xwayland support" ON)
+option(KWIN_BUILD_X11 "Enable building X11 common code and Xwayland support" ON)
+option(KWIN_BUILD_X11_BACKEND "Enable building kwin_x11" ON)
+option(KWIN_BUILD_GLOBALSHORTCUTS "Enable building of KWin with global shortcuts support" ON)
+option(KWIN_BUILD_RUNNERS "Enable building of KWin with krunner support" ON)
 
 find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
     Concurrent
@@ -60,6 +64,7 @@ find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
     WaylandClient
     Widgets
     Sensors
+    Svg
 )
 
 find_package(Qt6Test ${QT_MIN_VERSION} CONFIG QUIET)
@@ -103,6 +108,12 @@ if(KWIN_BUILD_KCMS)
         NewStuff
         Service
         XmlGui
+    )
+endif()
+
+if(KWIN_BUILD_TABBOX AND KWIN_BUILD_KCMS)
+    find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
+        WidgetsAddons
     )
 endif()
 
@@ -190,19 +201,6 @@ if (epoxy_HAS_GLX)
     endif()
 endif()
 
-check_cxx_source_compiles("
-#include <fcntl.h>
-#include <sys/mman.h>
-#include <unistd.h>
-
-int main() {
-    const int size = 10;
-    int fd = memfd_create(\"test\", MFD_CLOEXEC | MFD_ALLOW_SEALING);
-    ftruncate(fd, size);
-    fcntl(fd, F_ADD_SEALS, F_SEAL_SHRINK | F_SEAL_GROW | F_SEAL_WRITE | F_SEAL_SEAL);
-    mmap(nullptr, size, PROT_WRITE, MAP_SHARED, fd, 0);
-}" HAVE_MEMFD)
-
 find_package(Wayland 1.22)
 set_package_properties(Wayland PROPERTIES
     TYPE REQUIRED
@@ -214,14 +212,14 @@ else()
     set(HAVE_WL_DISPLAY_SET_DEFAULT_MAX_BUFFER_SIZE 0)
 endif()
 
-find_package(WaylandProtocols 1.34)
+find_package(WaylandProtocols 1.36)
 set_package_properties(WaylandProtocols PROPERTIES
     TYPE REQUIRED
     PURPOSE "Collection of Wayland protocols that add functionality not available in the Wayland core protocol"
     URL "https://gitlab.freedesktop.org/wayland/wayland-protocols/"
 )
 
-find_package(PlasmaWaylandProtocols 1.13.0 CONFIG)
+find_package(PlasmaWaylandProtocols 1.14.0 CONFIG)
 set_package_properties(PlasmaWaylandProtocols PROPERTIES
     TYPE REQUIRED
     PURPOSE "Collection of Plasma-specific Wayland protocols"
@@ -238,6 +236,8 @@ if (XKB_VERSION VERSION_GREATER_EQUAL 1.5.0)
 else()
     set(HAVE_XKBCOMMON_NO_SECURE_GETENV 0)
 endif()
+
+find_package(Canberra REQUIRED)
 
 if (KWIN_BUILD_X11)
     pkg_check_modules(XKBX11 IMPORTED_TARGET xkbcommon-x11 REQUIRED)
@@ -292,6 +292,19 @@ if (KWIN_BUILD_X11)
 
     # for kwin internal things
     set(HAVE_X11_XCB ${X11_XCB_FOUND})
+
+    find_package(X11)
+    set_package_properties(X11 PROPERTIES
+        DESCRIPTION "X11 libraries"
+        URL "https://www.x.org"
+        TYPE REQUIRED
+    )
+
+    # Scripts to run on XWayland startup
+    set(XWAYLAND_SESSION_SCRIPTS "/etc/xdg/Xwayland-session.d")
+
+else()
+    set(KWIN_BUILD_X11_BACKEND OFF CACHE BOOL "Enable building kwin_x11" FORCE)
 endif()
 
 find_package(Libinput 1.19)
@@ -327,12 +340,6 @@ endif()
 pkg_check_modules(Libxcvt IMPORTED_TARGET libxcvt>=0.1.1 REQUIRED)
 add_feature_info(Libxcvt Libxcvt_FOUND "Required for generating modes in the drm backend")
 
-find_package(X11)
-set_package_properties(X11 PROPERTIES
-    DESCRIPTION "X11 libraries"
-    URL "https://www.x.org"
-    TYPE REQUIRED
-)
 add_feature_info("XInput" X11_Xi_FOUND "Required for poll-free mouse cursor updates")
 set(HAVE_X11_XINPUT ${X11_Xinput_FOUND})
 
@@ -383,37 +390,17 @@ set(HAVE_ACCESSIBILITY ${QAccessibilityClient6_FOUND})
 pkg_check_modules(libsystemd IMPORTED_TARGET libsystemd)
 add_feature_info(libsystemd libsystemd_FOUND "Required for setting up the service watchdog")
 
-option(KWIN_BUILD_GLOBALSHORTCUTS "Enable building of KWin with global shortcuts support" ON)
 if(KWIN_BUILD_GLOBALSHORTCUTS)
     find_package(KGlobalAccelD REQUIRED)
 endif()
+
 pkg_check_modules(libdisplayinfo IMPORTED_TARGET display-info)
 if (NOT libdisplayinfo_FOUND)
     pkg_check_modules(libdisplayinfo REQUIRED IMPORTED_TARGET libdisplay-info)
 endif()
 add_feature_info(libdisplayinfo libdisplayinfo_FOUND "EDID and DisplayID library: https://gitlab.freedesktop.org/emersion/libdisplay-info")
 
-ecm_find_qmlmodule(QtQuick 2.3)
-ecm_find_qmlmodule(QtQuick.Controls 2.15)
-ecm_find_qmlmodule(QtQuick.Layouts 1.3)
-ecm_find_qmlmodule(QtQuick.Window 2.1)
-ecm_find_qmlmodule(QtMultimedia 5.0)
-ecm_find_qmlmodule(org.kde.kquickcontrolsaddons 2.0)
-ecm_find_qmlmodule(org.kde.plasma.core 2.0)
-ecm_find_qmlmodule(org.kde.plasma.components 2.0)
-
-########### configure tests ###############
-cmake_dependent_option(KWIN_BUILD_ACTIVITIES "Enable building of KWin with kactivities support" ON "PlasmaActivities_FOUND" OFF)
-option(KWIN_BUILD_RUNNERS "Enable building of KWin with krunner support" ON)
-cmake_dependent_option(KWIN_BUILD_EIS "Enable building KWin with libeis support" ON "Libeis-1.0_FOUND" OFF)
-
-check_symbol_exists(SCHED_RESET_ON_FORK "sched.h" HAVE_SCHED_RESET_ON_FORK)
-add_feature_info("SCHED_RESET_ON_FORK"
-                 HAVE_SCHED_RESET_ON_FORK
-                 "Required for running kwin_wayland with real-time scheduling")
-
-
-pkg_check_modules(PipeWire IMPORTED_TARGET libpipewire-0.3>=0.3.29)
+pkg_check_modules(PipeWire IMPORTED_TARGET libpipewire-0.3>=0.3.65)
 add_feature_info(PipeWire PipeWire_FOUND "Required for Wayland screencasting")
 
 if (KWIN_BUILD_NOTIFICATIONS)
@@ -428,13 +415,59 @@ if (KWIN_BUILD_SCREENLOCKER)
     )
 endif()
 
-########### global ###############
+ecm_find_qmlmodule(QtQuick 2.3)
+ecm_find_qmlmodule(QtQuick.Controls 2.15)
+ecm_find_qmlmodule(QtQuick.Layouts 1.3)
+ecm_find_qmlmodule(QtQuick.Window 2.1)
+ecm_find_qmlmodule(QtMultimedia 5.0)
+ecm_find_qmlmodule(org.kde.kquickcontrolsaddons 2.0)
+ecm_find_qmlmodule(org.kde.plasma.core 2.0)
+ecm_find_qmlmodule(org.kde.plasma.components 2.0)
+
+cmake_dependent_option(KWIN_BUILD_ACTIVITIES "Enable building of KWin with kactivities support" ON "PlasmaActivities_FOUND" OFF)
+cmake_dependent_option(KWIN_BUILD_EIS "Enable building KWin with libeis support" ON "Libeis-1.0_FOUND" OFF)
 
 include_directories(BEFORE
     ${CMAKE_CURRENT_BINARY_DIR}/src/wayland
     ${CMAKE_CURRENT_BINARY_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
+
+check_symbol_exists(SCHED_RESET_ON_FORK "sched.h" HAVE_SCHED_RESET_ON_FORK)
+add_feature_info("SCHED_RESET_ON_FORK"
+                 HAVE_SCHED_RESET_ON_FORK
+                 "Required for running kwin_wayland with real-time scheduling")
+
+# clang < 16 does not support ranges and compiling KWin will fail in the middle of the build.
+# clang 14 is still the default clang version on KDE Neon and Clazy is build with it
+check_cxx_source_compiles("
+#include <ranges>
+#include <vector>
+
+int main() {
+    std::vector<int> numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    auto even_numbers = numbers | std::views::filter([](int n) { return n % 2 == 0; });
+    auto squared_numbers = even_numbers | std::views::transform([](int n) { return n * n; });
+    return 0;
+}
+" HAS_RANGES_SUPPORT)
+if(NOT HAS_RANGES_SUPPORT)
+    message(FATAL_ERROR "Compiler does not support C++20 ranges")
+endif()
+
+check_cxx_source_compiles("
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <unistd.h>
+
+int main() {
+    const int size = 10;
+    int fd = memfd_create(\"test\", MFD_CLOEXEC | MFD_ALLOW_SEALING);
+    ftruncate(fd, size);
+    fcntl(fd, F_ADD_SEALS, F_SEAL_SHRINK | F_SEAL_GROW | F_SEAL_WRITE | F_SEAL_SEAL);
+    mmap(nullptr, size, PROT_WRITE, MAP_SHARED, fd, 0);
+    return 0;
+}" HAVE_MEMFD)
 
 check_cxx_compiler_flag(-Wno-unused-parameter COMPILER_UNUSED_PARAMETER_SUPPORTED)
 if (COMPILER_UNUSED_PARAMETER_SUPPORTED)
@@ -496,7 +529,12 @@ configure_package_config_file(KWinDBusInterfaceConfig.cmake.in
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/KWinDBusInterfaceConfig.cmake
     DESTINATION ${CMAKECONFIG_INSTALL_DIR})
 
-ecm_install_configured_files(INPUT plasma-kwin_x11.service.in plasma-kwin_wayland.service.in @ONLY
+ecm_install_configured_files(INPUT plasma-kwin_wayland.service.in @ONLY
             DESTINATION ${KDE_INSTALL_SYSTEMDUSERUNITDIR})
+if (KWIN_BUILD_X11_BACKEND)
+    ecm_install_configured_files(INPUT plasma-kwin_x11.service.in @ONLY
+                DESTINATION ${KDE_INSTALL_SYSTEMDUSERUNITDIR})
+endif()
+
 
 ki18n_install(po)

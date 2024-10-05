@@ -73,6 +73,7 @@ private Q_SLOTS:
     void testShortcut();
     void testScript_data();
     void testScript();
+    void testDontCrashWithMaximizeWindowRule();
 
 private:
     KWayland::Client::ConnectionThread *m_connection = nullptr;
@@ -122,6 +123,9 @@ void QuickTilingTest::init()
 void QuickTilingTest::cleanup()
 {
     Test::destroyWaylandConnection();
+
+    // discard window rules
+    workspace()->rulebook()->load();
 }
 
 void QuickTilingTest::testQuickTiling_data()
@@ -456,7 +460,8 @@ void QuickTilingTest::testQuickTilingPointerMove()
     Test::pointerMotion(pointerPos, timestamp++);
     Test::pointerButtonReleased(BTN_LEFT, timestamp++);
     QTEST(window->requestedQuickTileMode(), "expectedMode");
-    QCOMPARE(window->geometryRestore(), QRect(0, 0, 100, 50));
+    const QPoint tileOutputPositon = workspace()->outputAt(pointerPos)->geometry().topLeft();
+    QCOMPARE(window->geometryRestore(), QRect(tileOutputPositon, QSize(100, 50)));
     QVERIFY(surfaceConfigureRequestedSpy.wait());
     QCOMPARE(surfaceConfigureRequestedSpy.count(), 2);
     QCOMPARE(toplevelConfigureRequestedSpy.last().at(0).toSize(), tileSize);
@@ -492,7 +497,7 @@ void QuickTilingTest::testQuickTilingPointerMove()
     Test::pointerMotion(pointerPos, timestamp++); // tile the window again
     Test::pointerButtonReleased(BTN_LEFT, timestamp++);
     QTEST(window->requestedQuickTileMode(), "expectedMode");
-    QCOMPARE(window->geometryRestore(), QRect(0, 0, 100, 50));
+    QCOMPARE(window->geometryRestore(), QRect(tileOutputPositon, QSize(100, 50)));
     QVERIFY(surfaceConfigureRequestedSpy.wait());
     QCOMPARE(surfaceConfigureRequestedSpy.count(), 4);
     QCOMPARE(toplevelConfigureRequestedSpy.last().at(0).toSize(), tileSize);
@@ -922,6 +927,31 @@ void QuickTilingTest::testScript()
     QCOMPARE(window->frameGeometry(), expectedGeometry);
 }
 
+void QuickTilingTest::testDontCrashWithMaximizeWindowRule()
+{
+    // this test verifies that a force-maximize window rule doesn't cause
+    // setQuickTileMode to loop forever
+
+    workspace()->rulebook()->setConfig(KSharedConfig::openConfig(QFINDTESTDATA("./data/rules/force-maximize"), KConfig::SimpleConfig));
+    workspace()->slotReconfigure();
+
+    std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
+    std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get()));
+    auto window = Test::renderAndWaitForShown(surface.get(), QSize(1280, 800), Qt::blue);
+    QVERIFY(window);
+
+    QSignalSpy toplevelConfigureRequestedSpy(shellSurface.get(), &Test::XdgToplevel::configureRequested);
+    QSignalSpy surfaceConfigureRequestedSpy(shellSurface->xdgSurface(), &Test::XdgSurface::configureRequested);
+    QVERIFY(surfaceConfigureRequestedSpy.wait());
+    QCOMPARE(workspace()->activeWindow(), window);
+    QCOMPARE(window->frameGeometry(), QRect(0, 0, 1280, 800));
+    QCOMPARE(window->requestedQuickTileMode(), QuickTileMode(QuickTileFlag::None));
+    QCOMPARE(window->requestedMaximizeMode(), MaximizeMode::MaximizeFull);
+
+    window->setQuickTileModeAtCurrentPosition(QuickTileFlag::Right);
+    QCOMPARE(window->requestedQuickTileMode(), QuickTileMode(QuickTileFlag::None));
+    QCOMPARE(window->requestedMaximizeMode(), MaximizeMode::MaximizeFull);
+}
 }
 
 WAYLANDTEST_MAIN(KWin::QuickTilingTest)

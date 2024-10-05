@@ -18,6 +18,8 @@
 #include "drm_pointer.h"
 
 #include <drm_fourcc.h>
+#include <ranges>
+#include <span>
 
 namespace KWin
 {
@@ -66,6 +68,7 @@ DrmPlane::DrmPlane(DrmGpu *gpu, uint32_t planeId)
     , vmHotspotX(this, QByteArrayLiteral("HOTSPOT_X"))
     , vmHotspotY(this, QByteArrayLiteral("HOTSPOT_Y"))
     , inFenceFd(this, QByteArrayLiteral("IN_FENCE_FD"))
+    , sizeHints(this, QByteArrayLiteral("SIZE_HINTS"))
 {
 }
 
@@ -97,9 +100,11 @@ bool DrmPlane::updateProperties()
     vmHotspotX.update(props);
     vmHotspotY.update(props);
     inFenceFd.update(props);
+    sizeHints.update(props);
 
     if (!type.isValid() || !srcX.isValid() || !srcY.isValid() || !srcW.isValid() || !srcH.isValid()
         || !crtcX.isValid() || !crtcY.isValid() || !crtcW.isValid() || !crtcH.isValid() || !fbId.isValid()) {
+        qCWarning(KWIN_DRM) << "Failed to update the basic plane properties";
         return false;
     }
 
@@ -122,6 +127,22 @@ bool DrmPlane::updateProperties()
             qCWarning(KWIN_DRM) << "Driver doesn't advertise any formats for this plane. Falling back to XRGB8888 without explicit modifiers";
             m_supportedFormats.insert(DRM_FORMAT_XRGB8888, modifiers);
         }
+    }
+    m_sizeHints.clear();
+    if (sizeHints.isValid() && sizeHints.immutableBlob()) {
+        // TODO switch to drm_plane_size_hint once we require libdrm 2.4.122
+        struct SizeHint
+        {
+            uint16_t width;
+            uint16_t height;
+        };
+        std::span<SizeHint> hints(reinterpret_cast<SizeHint *>(sizeHints.immutableBlob()->data), sizeHints.immutableBlob()->length / sizeof(SizeHint));
+        std::ranges::transform(hints, std::back_inserter(m_sizeHints), [](const SizeHint &hint) {
+            return QSize(hint.width, hint.height);
+        });
+    }
+    if (m_sizeHints.empty() && type.enumValue() == TypeIndex::Cursor) {
+        m_sizeHints = {gpu()->cursorSize()};
     }
     return true;
 }
@@ -199,6 +220,11 @@ DrmPlane::Transformations DrmPlane::outputTransformToPlaneTransform(OutputTransf
 bool DrmPlane::supportsTransformation(OutputTransform transform) const
 {
     return rotation.isValid() && rotation.hasEnum(outputTransformToPlaneTransform(transform));
+}
+
+QList<QSize> DrmPlane::recommendedSizes() const
+{
+    return m_sizeHints;
 }
 }
 

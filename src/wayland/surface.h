@@ -340,8 +340,11 @@ public:
     void setLastTransaction(Transaction *transaction);
 
     const ColorDescription &colorDescription() const;
+    RenderingIntent renderingIntent() const;
 
     void setPreferredColorDescription(const ColorDescription &descr);
+
+    double alphaMultiplier() const;
 
     /**
      * Returns the current release point for the buffer on this surface. The buffer keeps the
@@ -355,6 +358,11 @@ public:
      * Traverses the surface sub-tree with this surface as the root.
      */
     void traverseTree(std::function<void(SurfaceInterface *surface)> callback);
+
+    /**
+     * @returns the last surface found while traversing the subsurfaces parents
+     */
+    SurfaceInterface *mainSurface();
 
 Q_SIGNALS:
     /**
@@ -436,6 +444,7 @@ Q_SIGNALS:
     void colorDescriptionChanged();
     void presentationModeHintChanged();
     void bufferReleasePointChanged();
+    void alphaMultiplierChanged();
 
     /**
      * Emitted when the Surface has been committed.

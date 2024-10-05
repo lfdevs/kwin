@@ -12,6 +12,7 @@
                 "Name[ca@valencia]": "Vlad Zahorodnii",
                 "Name[ca]": "Vlad Zahorodnii",
                 "Name[cs]": "Vlad Zahorodnii",
+                "Name[da]": "Vlad Zahorodnii",
                 "Name[de]": "Vlad Zahorodnii",
                 "Name[en_GB]": "Vlad Zahorodnii",
                 "Name[eo]": "Vlad Zahorodnii",
@@ -59,6 +60,7 @@
         "Description[ca@valencia]": "Fa que els missatges emergents s'encengen o s'apaguen de manera gradual quan es mostren o s'oculten",
         "Description[ca]": "Fa que els missatges emergents s'encenguin o s'apaguin de manera gradual quan es mostren o s'oculten",
         "Description[cs]": "Nechá vyskakovací okna plynule zmizet/objevit se, pokud jsou zobrazeny resp. skryty",
+        "Description[da]": "Få pop-ups til at fade jævnt ind og ud når de vises eller skjules",
         "Description[de]": "Blendet Aufklappfenster beim Öffnen/Schließen langsam ein bzw. aus",
         "Description[en_GB]": "Make popups smoothly fade in and out when they are shown or hidden",
         "Description[eo]": "Fari ŝprucfenestrojn glate mal- kaj fordissolvi kiam ili estas montritaj aŭ kaŝitaj",
@@ -107,6 +109,7 @@
         "Name[ca@valencia]": "Missatges emergents esvaïts",
         "Name[ca]": "Missatges emergents esvaïts",
         "Name[cs]": "Mizející vyskakovací okna",
+        "Name[da]": "Fadende pop-ups",
         "Name[de]": "Überblendete Aufklappfenster",
         "Name[en_GB]": "Fading Popups",
         "Name[eo]": "Fading Popups",
@@ -145,7 +148,6 @@
         "Name[zh_CN]": "气泡显隐渐变动画",
         "Name[zh_TW]": "淡化彈出視窗"
     },
-    "X-KDE-BlocksDirectScanout": false,
     "X-KDE-Ordering": 60,
     "X-Plasma-API": "javascript"
 }

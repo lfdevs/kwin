@@ -108,6 +108,7 @@ void Window::ref()
 
 void Window::unref()
 {
+    Q_ASSERT(m_refCount > 0);
     --m_refCount;
     if (m_refCount) {
         return;
@@ -116,6 +117,10 @@ void Window::unref()
         workspace()->removeDeleted(this);
     }
     delete this;
+
+    if (workspace()->stackingOrder().contains(this)) {
+        qFatal("a deleted window is still in the stack");
+    }
 }
 
 QDebug operator<<(QDebug debug, const Window *window)
@@ -553,9 +558,6 @@ void Window::updateLayer()
     }
     StackingUpdatesBlocker blocker(workspace());
     m_layer = UnknownLayer; // invalidate, will be updated when doing restacking
-    for (auto it = transients().constBegin(), end = transients().constEnd(); it != end; ++it) {
-        (*it)->updateLayer();
-    }
 }
 
 Layer Window::belongsToLayer() const
@@ -1183,47 +1185,6 @@ bool Window::startInteractiveMoveResize()
     m_interactiveMoveResize.initialQuickTileMode = quickTileMode();
     m_interactiveMoveResize.initialGeometryRestore = geometryRestore();
 
-    if (requestedMaximizeMode() != MaximizeRestore) {
-        switch (interactiveMoveResizeGravity()) {
-        case Gravity::Left:
-        case Gravity::Right:
-            // Quit maximized horizontally state if the window is resized horizontally.
-            if (requestedMaximizeMode() & MaximizeHorizontal) {
-                QRectF originalGeometry = geometryRestore();
-                originalGeometry.setX(moveResizeGeometry().x());
-                originalGeometry.setWidth(moveResizeGeometry().width());
-                setGeometryRestore(originalGeometry);
-                maximize(requestedMaximizeMode() ^ MaximizeHorizontal);
-            }
-            break;
-        case Gravity::Top:
-        case Gravity::Bottom:
-            // Quit maximized vertically state if the window is resized vertically.
-            if (requestedMaximizeMode() & MaximizeVertical) {
-                QRectF originalGeometry = geometryRestore();
-                originalGeometry.setY(moveResizeGeometry().y());
-                originalGeometry.setHeight(moveResizeGeometry().height());
-                setGeometryRestore(originalGeometry);
-                maximize(requestedMaximizeMode() ^ MaximizeVertical);
-            }
-            break;
-        case Gravity::TopLeft:
-        case Gravity::BottomLeft:
-        case Gravity::TopRight:
-        case Gravity::BottomRight:
-            // Quit the maximized mode if the window is resized by dragging one of its corners.
-            setGeometryRestore(moveResizeGeometry());
-            maximize(MaximizeRestore);
-            break;
-        default:
-            break;
-        }
-    }
-
-    if (isInteractiveResize() && m_tile && !m_tile->supportsResizeGravity(interactiveMoveResizeGravity())) {
-        setQuickTileModeAtCurrentPosition(QuickTileFlag::None);
-    }
-
     updateElectricGeometryRestore();
     checkUnrestrictedInteractiveMoveResize();
     Q_EMIT interactiveMoveResizeStarted();
@@ -1250,7 +1211,10 @@ void Window::finishInteractiveMoveResize(bool cancel)
             setGeometryRestore(m_interactiveMoveResize.initialGeometryRestore);
         }
     } else if (moveResizeOutput() != interactiveMoveResizeStartOutput()) {
-        workspace()->sendWindowToOutput(this, moveResizeOutput()); // checks rule validity
+        sendToOutput(moveResizeOutput()); // checks rule validity
+        const QRectF oldScreenArea = workspace()->clientArea(MaximizeArea, this, interactiveMoveResizeStartOutput());
+        const QRectF screenArea = workspace()->clientArea(MaximizeArea, this, moveResizeOutput());
+        m_electricGeometryRestore = moveToArea(m_electricGeometryRestore, oldScreenArea, screenArea);
         if (isRequestedFullScreen() || requestedMaximizeMode() != MaximizeRestore) {
             checkWorkspacePosition();
         }
@@ -1259,7 +1223,7 @@ void Window::finishInteractiveMoveResize(bool cancel)
     if (isElectricBorderMaximizing()) {
         setQuickTileMode(electricBorderMode(), m_interactiveMoveResize.anchor);
         setElectricBorderMaximizing(false);
-    } else if (wasMove && (input()->keyboardModifiers() & Qt::ShiftModifier)) {
+    } else if (wasMove && (m_interactiveMoveResize.modifiers & Qt::ShiftModifier)) {
         setQuickTileMode(QuickTileFlag::Custom, m_interactiveMoveResize.anchor);
     }
     setElectricBorderMode(QuickTileMode(QuickTileFlag::None));
@@ -1351,9 +1315,10 @@ void Window::stopDelayedInteractiveMoveResize()
     m_interactiveMoveResize.delayedTimer = nullptr;
 }
 
-void Window::updateInteractiveMoveResize(const QPointF &global)
+void Window::updateInteractiveMoveResize(const QPointF &global, Qt::KeyboardModifiers modifiers)
 {
     setInteractiveMoveResizeAnchor(global);
+    setInteractiveMoveResizeModifiers(modifiers);
 
     // ShadeHover or ShadeActive, ShadeNormal was already avoided above
     const Gravity gravity = interactiveMoveResizeGravity();
@@ -1376,6 +1341,51 @@ void Window::updateInteractiveMoveResize(const QPointF &global)
 
         nextMoveResizeGeom = nextInteractiveResizeGeometry(global);
         if (nextMoveResizeGeom != currentMoveResizeGeom) {
+            if (m_tile && !m_tile->supportsResizeGravity(gravity)) {
+                setGeometryRestore(nextMoveResizeGeom);
+                setQuickTileModeAtCurrentPosition(QuickTileFlag::None);
+                return;
+            }
+
+            if (requestedMaximizeMode() != MaximizeRestore) {
+                switch (interactiveMoveResizeGravity()) {
+                case Gravity::Left:
+                case Gravity::Right:
+                    // Quit maximized horizontally state if the window is resized horizontally.
+                    if (requestedMaximizeMode() & MaximizeHorizontal) {
+                        QRectF originalGeometry = geometryRestore();
+                        originalGeometry.setX(nextMoveResizeGeom.x());
+                        originalGeometry.setWidth(nextMoveResizeGeom.width());
+                        setGeometryRestore(originalGeometry);
+                        maximize(requestedMaximizeMode() ^ MaximizeHorizontal);
+                        return;
+                    }
+                    break;
+                case Gravity::Top:
+                case Gravity::Bottom:
+                    // Quit maximized vertically state if the window is resized vertically.
+                    if (requestedMaximizeMode() & MaximizeVertical) {
+                        QRectF originalGeometry = geometryRestore();
+                        originalGeometry.setY(nextMoveResizeGeom.y());
+                        originalGeometry.setHeight(nextMoveResizeGeom.height());
+                        setGeometryRestore(originalGeometry);
+                        maximize(requestedMaximizeMode() ^ MaximizeVertical);
+                        return;
+                    }
+                    break;
+                case Gravity::TopLeft:
+                case Gravity::BottomLeft:
+                case Gravity::TopRight:
+                case Gravity::BottomRight:
+                    // Quit the maximized mode if the window is resized by dragging one of its corners.
+                    setGeometryRestore(nextMoveResizeGeom);
+                    maximize(MaximizeRestore);
+                    return;
+                default:
+                    Q_UNREACHABLE();
+                }
+            }
+
             doInteractiveResizeSync(nextMoveResizeGeom);
             Q_EMIT interactiveMoveResizeStepped(nextMoveResizeGeom);
         }
@@ -1412,7 +1422,7 @@ void Window::updateInteractiveMoveResize(const QPointF &global)
         }
 
         if (!isRequestedFullScreen()) {
-            if (input()->keyboardModifiers() & Qt::ShiftModifier) {
+            if (modifiers & Qt::ShiftModifier) {
                 resetQuickTilingMaximizationZones();
                 const auto &r = quickTileGeometry(QuickTileFlag::Custom, global);
                 if (r.isEmpty()) {
@@ -1793,6 +1803,7 @@ void Window::setupWindowManagementInterface()
     w->setVirtualDesktopChangeable(true); // FIXME Matches X11Window::actionSupported(), but both should be implemented.
     w->setParentWindow(transientFor() ? transientFor()->windowManagementInterface() : nullptr);
     w->setGeometry(frameGeometry().toRect());
+    w->setClientGeometry(clientGeometry().toRect());
     connect(this, &Window::skipTaskbarChanged, w, [w, this]() {
         w->setSkipTaskbar(skipTaskbar());
     });
@@ -1833,6 +1844,9 @@ void Window::setupWindowManagementInterface()
     });
     connect(this, &Window::frameGeometryChanged, w, [w, this]() {
         w->setGeometry(frameGeometry().toRect());
+    });
+    connect(this, &Window::clientGeometryChanged, w, [w, this]() {
+        w->setClientGeometry(clientGeometry().toRect());
     });
     connect(this, &Window::applicationMenuChanged, w, [w, this]() {
         w->setApplicationMenuPaths(applicationMenuServiceName(), applicationMenuObjectPath());
@@ -1888,17 +1902,18 @@ void Window::setupWindowManagementInterface()
     connect(w, &PlasmaWindowInterface::enterPlasmaVirtualDesktopRequested, this, [this](const QString &desktopId) {
         VirtualDesktop *vd = VirtualDesktopManager::self()->desktopForId(desktopId);
         if (vd) {
-            enterDesktop(vd);
+            Workspace::self()->addWindowToDesktop(this, vd);
         }
     });
     connect(w, &PlasmaWindowInterface::enterNewPlasmaVirtualDesktopRequested, this, [this]() {
         VirtualDesktopManager::self()->setCount(VirtualDesktopManager::self()->count() + 1);
-        enterDesktop(VirtualDesktopManager::self()->desktops().last());
+        auto vd = VirtualDesktopManager::self()->desktops().last();
+        Workspace::self()->addWindowToDesktop(this, vd);
     });
     connect(w, &PlasmaWindowInterface::leavePlasmaVirtualDesktopRequested, this, [this](const QString &desktopId) {
         VirtualDesktop *vd = VirtualDesktopManager::self()->desktopForId(desktopId);
         if (vd) {
-            leaveDesktop(vd);
+            Workspace::self()->removeWindowFromDesktop(this, vd);
         }
     });
 
@@ -2117,6 +2132,7 @@ bool Window::performMouseCommand(Options::MouseCommand cmd, const QPointF &globa
         setInteractiveMoveResizeGravity(Gravity::None);
         setInteractiveMoveResizePointerButtonDown(true);
         setInteractiveMoveResizeAnchor(globalPos);
+        setInteractiveMoveResizeModifiers(Qt::KeyboardModifiers());
         setInteractiveMoveOffset(QPointF(qreal(globalPos.x() - x()) / width(), qreal(globalPos.y() - y()) / height())); // map from global
         setUnrestrictedInteractiveMoveResize((cmd == Options::MouseActivateRaiseAndUnrestrictedMove
                                               || cmd == Options::MouseUnrestrictedMove));
@@ -2136,6 +2152,7 @@ bool Window::performMouseCommand(Options::MouseCommand cmd, const QPointF &globa
         }
         setInteractiveMoveResizePointerButtonDown(true);
         setInteractiveMoveResizeAnchor(globalPos);
+        setInteractiveMoveResizeModifiers(Qt::KeyboardModifiers());
         const QPointF moveOffset = QPointF(globalPos.x() - x(), globalPos.y() - y()); // map from global
         setInteractiveMoveOffset(QPointF(moveOffset.x() / width(), moveOffset.y() / height()));
         int x = moveOffset.x(), y = moveOffset.y();
@@ -2695,7 +2712,7 @@ void Window::processDecorationMove(const QPointF &localPos, const QPointF &globa
             const QPointF delta(localPos - offset);
             if (delta.manhattanLength() >= QApplication::startDragDistance()) {
                 if (startInteractiveMoveResize()) {
-                    updateInteractiveMoveResize(globalPos);
+                    updateInteractiveMoveResize(globalPos, input()->keyboardModifiers());
                 } else {
                     setInteractiveMoveResizePointerButtonDown(false);
                 }
@@ -2775,6 +2792,7 @@ bool Window::processDecorationButtonPress(const QPointF &localPos, const QPointF
         setInteractiveMoveResizeGravity(mouseGravity());
         setInteractiveMoveResizePointerButtonDown(true);
         setInteractiveMoveResizeAnchor(globalPos);
+        setInteractiveMoveResizeModifiers(Qt::KeyboardModifiers());
         setInteractiveMoveOffset(QPointF(qreal(localPos.x()) / width(), qreal(localPos.y()) / height()));
         setUnrestrictedInteractiveMoveResize(false);
         startDelayedInteractiveMoveResize();
@@ -2992,26 +3010,33 @@ QString Window::findDesktopFile(const QString &desktopFileName)
         return {};
     }
 
-    const QString desktopFileNameWithPrefix = desktopFileName + QLatin1String(".desktop");
-    QString desktopFilePath;
+    const QLatin1StringView suffix(".desktop");
+    const QString desktopFileNameWithPrefix = desktopFileName + suffix;
 
     if (QDir::isAbsolutePath(desktopFileName)) {
         if (QFile::exists(desktopFileNameWithPrefix)) {
-            desktopFilePath = desktopFileNameWithPrefix;
-        } else {
-            desktopFilePath = desktopFileName;
+            return desktopFileNameWithPrefix;
         }
+
+        if (desktopFileName.endsWith(suffix)) {
+            if (QFile::exists(desktopFileName)) {
+                return desktopFileName;
+            }
+        }
+
+        return QString();
     }
 
-    if (desktopFilePath.isEmpty()) {
-        desktopFilePath = QStandardPaths::locate(QStandardPaths::ApplicationsLocation,
-                                                 desktopFileNameWithPrefix);
+    const QString filePath = QStandardPaths::locate(QStandardPaths::ApplicationsLocation, desktopFileNameWithPrefix);
+    if (!filePath.isEmpty()) {
+        return filePath;
     }
-    if (desktopFilePath.isEmpty()) {
-        desktopFilePath = QStandardPaths::locate(QStandardPaths::ApplicationsLocation,
-                                                 desktopFileName);
+
+    if (desktopFileName.endsWith(suffix)) {
+        return QStandardPaths::locate(QStandardPaths::ApplicationsLocation, desktopFileName);
     }
-    return desktopFilePath;
+
+    return QString();
 }
 
 bool Window::hasApplicationMenu() const
@@ -3338,6 +3363,10 @@ void Window::setMoveResizeOutput(Output *output)
 
 void Window::move(const QPointF &point)
 {
+    if (isDeleted()) {
+        return;
+    }
+
     const QRectF rect = QRectF(point, m_moveResizeGeometry.size());
 
     setMoveResizeGeometry(rect);
@@ -3346,6 +3375,10 @@ void Window::move(const QPointF &point)
 
 void Window::resize(const QSizeF &size)
 {
+    if (isDeleted()) {
+        return;
+    }
+
     const QRectF rect = QRectF(m_moveResizeGeometry.topLeft(), size);
 
     setMoveResizeGeometry(rect);
@@ -3354,6 +3387,10 @@ void Window::resize(const QSizeF &size)
 
 void Window::moveResize(const QRectF &rect)
 {
+    if (isDeleted()) {
+        return;
+    }
+
     setMoveResizeGeometry(rect);
     moveResizeInternal(rect, MoveResizeMode::MoveResize);
 }
@@ -3542,6 +3579,10 @@ void Window::setQuickTileMode(QuickTileMode mode, const QPointF &tileAtPoint)
     if (requestedMaximizeMode() != MaximizeRestore) {
         m_requestedQuickTileMode = QuickTileFlag::None;
         setMaximize(false, false);
+        if (requestedMaximizeMode() != MaximizeRestore) {
+            // window rules may enforce a different maximize mode, we can't do anything here
+            return;
+        }
         setQuickTileMode(mode, tileAtPoint);
         return;
     }
@@ -4027,6 +4068,11 @@ bool Window::wantsAdaptiveSync() const
     return rules()->checkAdaptiveSync(isFullScreen());
 }
 
+bool Window::wantsTearing(bool tearingRequested) const
+{
+    return rules()->checkTearing(tearingRequested);
+}
+
 /**
  * Returns @c true if the Window can be minimized; otherwise @c false.
  *
@@ -4187,7 +4233,7 @@ void Window::applyWindowRules()
     // MinSize, MaxSize handled by Geometry
     // IgnoreGeometry
     setDesktops(desktops());
-    workspace()->sendWindowToOutput(this, moveResizeOutput());
+    sendToOutput(moveResizeOutput());
     setOnActivities(activities());
     // Type
     maximize(requestedMaximizeMode());

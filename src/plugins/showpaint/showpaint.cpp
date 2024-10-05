@@ -40,8 +40,8 @@ ShowPaintEffect::ShowPaintEffect()
     auto *toggleAction = new QAction(this);
     toggleAction->setObjectName(QStringLiteral("Toggle"));
     toggleAction->setText(i18n("Toggle Show Paint"));
-    KGlobalAccel::self()->setDefaultShortcut(toggleAction, {});
-    KGlobalAccel::self()->setShortcut(toggleAction, {});
+    KGlobalAccel::self()->setDefaultShortcut(toggleAction, QList<QKeySequence>() << (Qt::CTRL | Qt::META | Qt::ALT | Qt::Key_P));
+    KGlobalAccel::self()->setShortcut(toggleAction, QList<QKeySequence>() << (Qt::CTRL | Qt::META | Qt::ALT | Qt::Key_P));
 
     connect(toggleAction, &QAction::triggered, this, &ShowPaintEffect::toggle);
 }
@@ -72,7 +72,7 @@ void ShowPaintEffect::paintGL(const RenderTarget &renderTarget, const QMatrix4x4
     vbo->reset();
     ShaderBinder binder(ShaderTrait::UniformColor | ShaderTrait::TransformColorspace);
     binder.shader()->setUniform(GLShader::Mat4Uniform::ModelViewProjectionMatrix, projection);
-    binder.shader()->setColorspaceUniformsFromSRGB(renderTarget.colorDescription());
+    binder.shader()->setColorspaceUniforms(ColorDescription::sRGB, renderTarget.colorDescription(), RenderingIntent::Perceptual);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     QColor color = s_colors[m_colorIndex];

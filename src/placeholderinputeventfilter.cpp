@@ -14,6 +14,11 @@
 namespace KWin
 {
 
+PlaceholderInputEventFilter::PlaceholderInputEventFilter()
+    : InputEventFilter(InputFilterOrder::PlaceholderOutput)
+{
+}
+
 bool PlaceholderInputEventFilter::pointerEvent(MouseEvent *event, quint32 nativeButton)
 {
     return true;

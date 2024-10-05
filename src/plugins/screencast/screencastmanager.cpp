@@ -48,13 +48,7 @@ void ScreencastManager::streamWindow(ScreencastStreamV1Interface *waylandStream,
 
     auto stream = new ScreenCastStream(new WindowScreenCastSource(window), getPipewireConnection(), this);
     stream->setObjectName(window->desktopFileName());
-    stream->setCursorMode(mode, 1, window->clientGeometry());
-
-    if (mode != ScreencastV1Interface::CursorMode::Hidden) {
-        connect(window, &Window::clientGeometryChanged, stream, [window, stream, mode]() {
-            stream->setCursorMode(mode, 1, window->clientGeometry().toRect());
-        });
-    }
+    stream->setCursorMode(mode);
 
     integrateStreams(waylandStream, stream);
 }
@@ -90,11 +84,7 @@ void ScreencastManager::streamOutput(ScreencastStreamV1Interface *waylandStream,
 
     auto stream = new ScreenCastStream(new OutputScreenCastSource(streamOutput), getPipewireConnection(), this);
     stream->setObjectName(streamOutput->name());
-    stream->setCursorMode(mode, streamOutput->scale(), streamOutput->geometry());
-
-    connect(streamOutput, &Output::changed, stream, [streamOutput, stream, mode]() {
-        stream->setCursorMode(mode, streamOutput->scale(), streamOutput->geometry());
-    });
+    stream->setCursorMode(mode);
 
     integrateStreams(waylandStream, stream);
 }
@@ -114,7 +104,7 @@ void ScreencastManager::streamRegion(ScreencastStreamV1Interface *waylandStream,
     auto source = new RegionScreenCastSource(geometry, scale);
     auto stream = new ScreenCastStream(source, getPipewireConnection(), this);
     stream->setObjectName(rectToString(geometry));
-    stream->setCursorMode(mode, scale, geometry);
+    stream->setCursorMode(mode);
 
     integrateStreams(waylandStream, stream);
 }

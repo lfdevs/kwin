@@ -8,7 +8,6 @@
 */
 #include "debug_console.h"
 #include "compositor.h"
-#include "core/graphicsbufferview.h"
 #include "core/inputdevice.h"
 #include "effect/effecthandler.h"
 #include "input_event.h"
@@ -20,7 +19,6 @@
 #include "platformsupport/scenes/opengl/openglbackend.h"
 #include "scene/workspacescene.h"
 #include "utils/filedescriptor.h"
-#include "utils/subsurfacemonitor.h"
 #include "wayland/abstract_data_source.h"
 #include "wayland/clientconnection.h"
 #include "wayland/datacontrolsource_v1.h"
@@ -28,7 +26,6 @@
 #include "wayland/display.h"
 #include "wayland/primaryselectionsource_v1.h"
 #include "wayland/seat.h"
-#include "wayland/subcompositor.h"
 #include "wayland/surface.h"
 #include "wayland_server.h"
 #include "waylandwindow.h"
@@ -297,7 +294,7 @@ void DebugConsoleFilter::keyEvent(KeyEvent *event)
 
     const auto keyMetaObject = Qt::qt_getEnumMetaObject(Qt::Key());
     const auto enumerator = keyMetaObject->enumerator(keyMetaObject->indexOfEnumerator("Key"));
-    text.append(tableRow(i18nc("The code as read from the input device", "Scan code"), event->nativeScanCode()));
+    text.append(tableRow(i18nc("The code reported by the kernel", "Keycode"), event->nativeScanCode()));
     text.append(tableRow(i18nc("Key according to Qt", "Qt::Key code"),
                          enumerator.valueToKey(event->key())));
     text.append(tableRow(i18nc("The translated code to an Xkb symbol", "Xkb symbol"), event->nativeVirtualKey()));
@@ -575,20 +572,21 @@ static QString sourceString(const AbstractDataSource *const source)
         return QString();
     }
 
-    if (!source->client()) {
-        return QStringLiteral("XWayland source");
+    if (source->client()) {
+        const QString executable = waylandServer()->display()->getConnection(source->client())->executablePath();
+
+        if (auto dataSource = qobject_cast<const DataSourceInterface *const>(source)) {
+            return QStringLiteral("wl_data_source@%1 of %2").arg(wl_resource_get_id(dataSource->resource())).arg(executable);
+        } else if (qobject_cast<const PrimarySelectionSourceV1Interface *const>(source)) {
+            return QStringLiteral("zwp_primary_selection_source_v1 of %1").arg(executable);
+        } else if (qobject_cast<const DataControlSourceV1Interface *const>(source)) {
+            return QStringLiteral("data control by %1").arg(executable);
+        }
+
+        return QStringLiteral("unknown source of").arg(executable);
     }
 
-    const QString executable = waylandServer()->display()->getConnection(source->client())->executablePath();
-
-    if (auto dataSource = qobject_cast<const DataSourceInterface *const>(source)) {
-        return QStringLiteral("wl_data_source@%1 of %2").arg(wl_resource_get_id(dataSource->resource())).arg(executable);
-    } else if (qobject_cast<const PrimarySelectionSourceV1Interface *const>(source)) {
-        return QStringLiteral("zwp_primary_selection_source_v1 of %2").arg(executable);
-    } else if (qobject_cast<const DataControlSourceV1Interface *const>(source)) {
-        return QStringLiteral("data control by %1").arg(executable);
-    }
-    return QStringLiteral("unknown source of").arg(executable);
+    return QStringLiteral("%1(0x%2)").arg(source->metaObject()->className()).arg(qulonglong(source), 0, 16);
 }
 
 DebugConsole::DebugConsole()
@@ -606,34 +604,35 @@ DebugConsole::DebugConsole()
     m_ui->windowsView->header()->setSortIndicatorShown(true);
     m_ui->windowsView->setItemDelegate(new DebugConsoleDelegate(this));
 
-    m_ui->surfacesView->setModel(new SurfaceTreeModel(this));
     m_ui->clipboardContent->setModel(new DataSourceModel(this));
     m_ui->primaryContent->setModel(new DataSourceModel(this));
     m_ui->inputDevicesView->setModel(new InputDeviceModel(this));
     m_ui->inputDevicesView->setItemDelegate(new DebugConsoleDelegate(this));
     m_ui->quitButton->setIcon(QIcon::fromTheme(QStringLiteral("application-exit")));
     m_ui->tabWidget->setTabIcon(0, QIcon::fromTheme(QStringLiteral("view-list-tree")));
-    m_ui->tabWidget->setTabIcon(1, QIcon::fromTheme(QStringLiteral("view-list-tree")));
 
     if (kwinApp()->operationMode() == Application::OperationMode::OperationModeX11) {
-        m_ui->tabWidget->setTabEnabled(1, false);
-        m_ui->tabWidget->setTabEnabled(2, false);
-        m_ui->tabWidget->setTabEnabled(6, false);
+        m_ui->tabWidget->setTabEnabled(1, false); // Input Events
+        m_ui->tabWidget->setTabEnabled(2, false); // Input Devices
+        m_ui->tabWidget->setTabEnabled(4, false); // Keyboard
+        m_ui->tabWidget->setTabEnabled(5, false); // Clipboard
         setWindowFlags(Qt::X11BypassWindowManagerHint);
     }
+
+    m_ui->tabWidget->addTab(new DebugConsoleEffectsTab(), i18nc("@label", "Effects"));
 
     connect(m_ui->quitButton, &QAbstractButton::clicked, this, &DebugConsole::deleteLater);
     connect(m_ui->tabWidget, &QTabWidget::currentChanged, this, [this](int index) {
         // delay creation of input event filter until the tab is selected
-        if (index == 2 && !m_inputFilter) {
+        if (index == m_ui->tabWidget->indexOf(m_ui->input) && !m_inputFilter) {
             m_inputFilter = std::make_unique<DebugConsoleFilter>(m_ui->inputTextEdit);
             input()->installInputEventSpy(m_inputFilter.get());
         }
-        if (index == 5) {
+        if (index == m_ui->tabWidget->indexOf(m_ui->keyboard)) {
             updateKeyboardTab();
             connect(input(), &InputRedirection::keyStateChanged, this, &DebugConsole::updateKeyboardTab);
         }
-        if (index == 6) {
+        if (index == m_ui->tabWidget->indexOf(m_ui->clipboard)) {
             static_cast<DataSourceModel *>(m_ui->clipboardContent->model())->setSource(waylandServer()->seat()->selection());
             m_ui->clipboardSource->setText(sourceString(waylandServer()->seat()->selection()));
             connect(waylandServer()->seat(), &SeatInterface::selectionChanged, this, [this](AbstractDataSource *source) {
@@ -1333,156 +1332,6 @@ X11Window *DebugConsoleModel::unmanaged(const QModelIndex &index) const
     return windowForIndex(index, m_unmanageds, s_x11UnmanagedId);
 }
 
-/////////////////////////////////////// SurfaceTreeModel
-SurfaceTreeModel::SurfaceTreeModel(QObject *parent)
-    : QAbstractItemModel(parent)
-{
-    // TODO: it would be nice to not have to reset the model on each change
-    auto reset = [this] {
-        beginResetModel();
-        endResetModel();
-    };
-
-    auto watchSubsurfaces = [this, reset](Window *c) {
-        if (!c->surface()) {
-            return;
-        }
-        auto monitor = new SubSurfaceMonitor(c->surface(), this);
-        connect(monitor, &SubSurfaceMonitor::subSurfaceAdded, this, reset);
-        connect(monitor, &SubSurfaceMonitor::subSurfaceRemoved, this, reset);
-        connect(c, &QObject::destroyed, monitor, &QObject::deleteLater);
-    };
-
-    for (auto c : workspace()->windows()) {
-        watchSubsurfaces(c);
-    }
-    connect(workspace(), &Workspace::windowAdded, this, [reset, watchSubsurfaces](Window *c) {
-        watchSubsurfaces(c);
-        reset();
-    });
-    connect(workspace(), &Workspace::windowRemoved, this, reset);
-}
-
-SurfaceTreeModel::~SurfaceTreeModel() = default;
-
-int SurfaceTreeModel::columnCount(const QModelIndex &parent) const
-{
-    return 1;
-}
-
-int SurfaceTreeModel::rowCount(const QModelIndex &parent) const
-{
-    if (parent.isValid()) {
-        if (SurfaceInterface *surface = static_cast<SurfaceInterface *>(parent.internalPointer())) {
-            return surface->below().count() + surface->above().count();
-        }
-        return 0;
-    }
-    // toplevel are all windows
-    return workspace()->windows().count();
-}
-
-QModelIndex SurfaceTreeModel::index(int row, int column, const QModelIndex &parent) const
-{
-    if (column != 0) {
-        // invalid column
-        return QModelIndex();
-    }
-
-    if (parent.isValid()) {
-        if (SurfaceInterface *surface = static_cast<SurfaceInterface *>(parent.internalPointer())) {
-            int reference = 0;
-            const auto &below = surface->below();
-            if (row < reference + below.count()) {
-                return createIndex(row, column, below.at(row - reference)->surface());
-            }
-            reference += below.count();
-
-            const auto &above = surface->above();
-            if (row < reference + above.count()) {
-                return createIndex(row, column, above.at(row - reference)->surface());
-            }
-        }
-        return QModelIndex();
-    }
-    // a window
-    const auto &allClients = workspace()->windows();
-    if (row < allClients.count()) {
-        // references a client
-        return createIndex(row, column, allClients.at(row)->surface());
-    }
-    // not found
-    return QModelIndex();
-}
-
-QModelIndex SurfaceTreeModel::parent(const QModelIndex &child) const
-{
-    if (SurfaceInterface *surface = static_cast<SurfaceInterface *>(child.internalPointer())) {
-        const auto &subsurface = surface->subSurface();
-        if (!subsurface) {
-            // doesn't reference a subsurface, this is a top-level window
-            return QModelIndex();
-        }
-        SurfaceInterface *parent = subsurface->parentSurface();
-        if (!parent) {
-            // something is wrong
-            return QModelIndex();
-        }
-        // is the parent a subsurface itself?
-        if (parent->subSurface()) {
-            auto grandParent = parent->subSurface()->parentSurface();
-            if (!grandParent) {
-                // something is wrong
-                return QModelIndex();
-            }
-            int row = 0;
-            const auto &below = grandParent->below();
-            for (int i = 0; i < below.count(); i++) {
-                if (below.at(i) == parent->subSurface()) {
-                    return createIndex(row + i, 0, parent);
-                }
-            }
-            row += below.count();
-            const auto &above = grandParent->above();
-            for (int i = 0; i < above.count(); i++) {
-                if (above.at(i) == parent->subSurface()) {
-                    return createIndex(row + i, 0, parent);
-                }
-            }
-            return QModelIndex();
-        }
-        // not a subsurface, thus it's a true window
-        const auto &allClients = workspace()->windows();
-        for (int row = 0; row < allClients.count(); row++) {
-            if (allClients.at(row)->surface() == parent) {
-                return createIndex(row, 0, parent);
-            }
-        }
-    }
-    return QModelIndex();
-}
-
-QVariant SurfaceTreeModel::data(const QModelIndex &index, int role) const
-{
-    if (!index.isValid()) {
-        return QVariant();
-    }
-    if (SurfaceInterface *surface = static_cast<SurfaceInterface *>(index.internalPointer())) {
-        if (role == Qt::DisplayRole || role == Qt::ToolTipRole) {
-            return QStringLiteral("%1 (%2) - %3").arg(surface->client()->executablePath()).arg(surface->client()->processId()).arg(surface->id());
-        } else if (role == Qt::DecorationRole) {
-            if (surface->buffer()) {
-                const GraphicsBufferView view(surface->buffer());
-                if (const QImage *image = view.image()) {
-                    return image->scaled(QSize(64, 64), Qt::KeepAspectRatio);
-                }
-            }
-            return QImage();
-        }
-    }
-    return QVariant();
-}
-
 InputDeviceModel::InputDeviceModel(QObject *parent)
     : QAbstractItemModel(parent)
     , m_devices(input()->devices())
@@ -1718,6 +1567,62 @@ void DataSourceModel::setSource(AbstractDataSource *source)
     }
     endResetModel();
 }
+
+DebugConsoleEffectItem::DebugConsoleEffectItem(const QString &name, bool loaded, QWidget *parent)
+    : QWidget(parent)
+    , m_name(name)
+    , m_loaded(loaded)
+{
+    QHBoxLayout *layout = new QHBoxLayout(this);
+
+    QLabel *label = new QLabel(name, this);
+    layout->addWidget(label);
+
+    QPushButton *toggleButton = new QPushButton(this);
+    layout->addWidget(toggleButton);
+
+    if (loaded) {
+        toggleButton->setText(i18nc("@action:button unload an effect", "Unload"));
+    } else {
+        toggleButton->setText(i18nc("@action:button load an effect", "Load"));
+    }
+
+    connect(toggleButton, &QPushButton::clicked, this, [this, toggleButton]() {
+        if (m_loaded) {
+            m_loaded = false;
+            effects->unloadEffect(m_name);
+        } else {
+            m_loaded = effects->loadEffect(m_name);
+        }
+
+        if (m_loaded) {
+            toggleButton->setText(i18nc("@action:button unload an effect", "Unload"));
+        } else {
+            toggleButton->setText(i18nc("@action:button load an effect", "Load"));
+        }
+    });
 }
+
+DebugConsoleEffectsTab::DebugConsoleEffectsTab(QWidget *parent)
+    : QListWidget(parent)
+{
+    if (!effects) {
+        return;
+    }
+
+    const QStringList availableEffects = effects->listOfEffects();
+    const QStringList loadedEffects = effects->loadedEffects();
+
+    for (const QString &effectName : availableEffects) {
+        QListWidgetItem *item = new QListWidgetItem(this);
+        DebugConsoleEffectItem *effectItem = new DebugConsoleEffectItem(effectName, loadedEffects.contains(effectName));
+
+        addItem(item);
+        setItemWidget(item, effectItem);
+        item->setSizeHint(effectItem->sizeHint());
+    }
+}
+
+} // namespace KWin
 
 #include "moc_debug_console.cpp"

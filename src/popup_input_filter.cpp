@@ -10,14 +10,18 @@
 #include "keyboard_input.h"
 #include "wayland/seat.h"
 #include "wayland_server.h"
+#include "waylandwindow.h"
 #include "window.h"
 #include "workspace.h"
+
+#include <qpa/qwindowsysteminterface.h>
 
 namespace KWin
 {
 
 PopupInputFilter::PopupInputFilter()
     : QObject()
+    , InputEventFilter(InputFilterOrder::Popup)
 {
     connect(workspace(), &Workspace::windowAdded, this, &PopupInputFilter::handleWindowAdded);
 }
@@ -30,12 +34,13 @@ void PopupInputFilter::handleWindowAdded(Window *window)
     if (window->hasPopupGrab()) {
         // TODO: verify that the Window is allowed as a popup
         m_popupWindows << window;
+        focus(window);
+
         connect(window, &Window::closed, this, [this, window]() {
             m_popupWindows.removeOne(window);
             // Move focus to the parent popup. If that's the last popup, then move focus back to the parent
-            if (!m_popupWindows.isEmpty() && m_popupWindows.last()->surface()) {
-                auto seat = waylandServer()->seat();
-                seat->setFocusedKeyboardSurface(m_popupWindows.last()->surface());
+            if (!m_popupWindows.isEmpty()) {
+                focus(m_popupWindows.constLast());
             } else {
                 input()->keyboard()->update();
             }
@@ -73,17 +78,16 @@ bool PopupInputFilter::keyEvent(KeyEvent *event)
         return false;
     }
 
-    auto seat = waylandServer()->seat();
+    Window *last = m_popupWindows.last();
+    focus(last);
 
-    auto last = m_popupWindows.last();
-    if (last->surface() == nullptr) {
-        return false;
-    }
-
-    seat->setFocusedKeyboardSurface(last->surface());
-
-    if (!passToInputMethod(event)) {
+    if (auto internalWindow = qobject_cast<InternalWindow *>(last)) {
         passToWaylandServer(event);
+        QCoreApplication::sendEvent(internalWindow->handle(), event);
+    } else if (auto waylandWindow = qobject_cast<WaylandWindow *>(last)) {
+        if (!passToInputMethod(event)) {
+            passToWaylandServer(event);
+        }
     }
 
     return true;
@@ -109,6 +113,21 @@ bool PopupInputFilter::touchDown(qint32 id, const QPointF &pos, std::chrono::mic
         }
     }
     return false;
+}
+
+void PopupInputFilter::focus(Window *popup)
+{
+    if (auto internalWindow = qobject_cast<InternalWindow *>(m_popupWindows.constLast())) {
+        waylandServer()->seat()->setFocusedKeyboardSurface(nullptr);
+        if (QGuiApplication::focusWindow() != internalWindow->handle()) {
+            QWindowSystemInterface::handleFocusWindowChanged(internalWindow->handle());
+        }
+    } else if (auto waylandWindow = qobject_cast<WaylandWindow *>(m_popupWindows.constLast())) {
+        if (QGuiApplication::focusWindow()) {
+            QWindowSystemInterface::handleFocusWindowChanged(nullptr);
+        }
+        waylandServer()->seat()->setFocusedKeyboardSurface(waylandWindow->surface());
+    }
 }
 
 void PopupInputFilter::cancelPopups()

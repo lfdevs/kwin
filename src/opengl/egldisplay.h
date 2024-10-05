@@ -15,6 +15,7 @@
 #include <QList>
 #include <QSize>
 #include <epoxy/egl.h>
+#include <sys/types.h>
 
 namespace KWin
 {
@@ -40,6 +41,7 @@ public:
     bool hasExtension(const QByteArray &name) const;
 
     QString renderNode() const;
+    std::optional<dev_t> renderDevNode() const;
 
     bool supportsBufferAge() const;
     bool supportsNativeFence() const;
@@ -59,10 +61,13 @@ public:
 
 private:
     QHash<uint32_t, DrmFormatInfo> queryImportFormats() const;
+    QString determineRenderNode() const;
 
     const ::EGLDisplay m_handle;
     const QList<QByteArray> m_extensions;
     const bool m_owning;
+    const QString m_renderNode;
+    const std::optional<dev_t> m_renderDevNode;
 
     const bool m_supportsBufferAge;
     const bool m_supportsNativeFence;

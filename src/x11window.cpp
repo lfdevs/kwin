@@ -1156,6 +1156,11 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
     m_managed = true;
     blockGeometryUpdates(false);
 
+    static bool awtQuirkDisabled = qEnvironmentVariableIntValue("KWIN_NO_AWT_QUIRK") == 1;
+    if (!awtQuirkDisabled) {
+        sendSyntheticConfigureNotify();
+    }
+
     if (m_userTime == XCB_TIME_CURRENT_TIME || m_userTime == -1U) {
         // No known user time, set something old
         m_userTime = xTime() - 1000000;
@@ -3076,6 +3081,7 @@ void X11Window::handleSync()
 void X11Window::performInteractiveResize()
 {
     resize(moveResizeGeometry().size());
+    setAllowCommits(true);
 }
 
 bool X11Window::belongToSameApplication(const X11Window *c1, const X11Window *c2, SameApplicationChecks checks)
@@ -3950,6 +3956,22 @@ void X11Window::handleXwaylandScaleChanged()
     resize(moveResizeGeometry().size());
 }
 
+void X11Window::setAllowCommits(bool allow)
+{
+    if (!waylandServer()) {
+        return;
+    }
+
+    static bool disabled = qEnvironmentVariableIntValue("KWIN_NO_XWAYLAND_ALLOW_COMMITS") == 1;
+    if (disabled) {
+        return;
+    }
+
+    uint32_t value = allow;
+    xcb_change_property(kwinApp()->x11Connection(), XCB_PROP_MODE_REPLACE, frameId(),
+                        atoms->xwayland_allow_commits, XCB_ATOM_CARDINAL, 32, 1, &value);
+}
+
 QPointF X11Window::gravityAdjustment(xcb_gravity_t gravity) const
 {
     qreal dx = 0;
@@ -4666,6 +4688,13 @@ void X11Window::maximize(MaximizeMode mode)
     updateAllowedActions();
     updateWindowRules(Rules::MaximizeVert | Rules::MaximizeHoriz | Rules::Position | Rules::Size);
 
+    if (!areGeometryUpdatesBlocked()) {
+        static bool awtQuirkDisabled = qEnvironmentVariableIntValue("KWIN_NO_AWT_QUIRK") == 1;
+        if (!awtQuirkDisabled) {
+            sendSyntheticConfigureNotify();
+        }
+    }
+
     if (max_mode != old_mode) {
         Q_EMIT maximizedChanged();
     }
@@ -4829,6 +4858,7 @@ void X11Window::doInteractiveResizeSync(const QRectF &rect)
     }
 
     setMoveResizeGeometry(moveResizeFrameGeometry);
+    setAllowCommits(false);
 
     if (!m_syncRequest.timeout) {
         m_syncRequest.timeout = new QTimer(this);
@@ -5012,9 +5042,7 @@ void X11Window::associate()
     if (surface()->isMapped()) {
         handleMapped();
     } else {
-        // Queued connection because we want to mark the window ready for painting after
-        // the associated surface item has processed the new surface state.
-        connect(surface(), &SurfaceInterface::mapped, this, handleMapped, Qt::QueuedConnection);
+        connect(surface(), &SurfaceInterface::mapped, this, handleMapped);
     }
 
     m_pendingSurfaceId = 0;

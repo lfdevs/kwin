@@ -44,6 +44,7 @@
 
 #include <QDebug>
 #include <QDir>
+#include <QJSEngine>
 #include <QMouseEvent>
 #include <QStyleHints>
 
@@ -65,6 +66,8 @@ Window::Window()
     , m_skipCloseAnimation(false)
     , m_colorScheme(QStringLiteral("kdeglobals"))
 {
+    QJSEngine::setObjectOwnership(this, QJSEngine::CppOwnership);
+
     connect(this, &Window::bufferGeometryChanged, this, &Window::inputTransformationChanged);
 
     connect(this, &Window::interactiveMoveResizeStarted, this, &Window::moveResizedChanged);
@@ -117,10 +120,6 @@ void Window::unref()
         workspace()->removeDeleted(this);
     }
     delete this;
-
-    if (workspace()->stackingOrder().contains(this)) {
-        qFatal("a deleted window is still in the stack");
-    }
 }
 
 QDebug operator<<(QDebug debug, const Window *window)
@@ -4327,7 +4326,7 @@ bool Window::isOffscreenRendering() const
 void Window::maybeSendFrameCallback()
 {
     if (m_surface && !m_windowItem->isVisible()) {
-        const auto timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+        const auto timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();
         m_surface->traverseTree([this, &timestamp](SurfaceInterface *surface) {
             surface->frameRendered(timestamp);
             const auto feedback = surface->takePresentationFeedback(nullptr);

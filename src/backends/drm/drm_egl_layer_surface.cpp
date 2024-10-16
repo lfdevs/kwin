@@ -247,8 +247,14 @@ bool EglGbmLayerSurface::endRendering(const QRegion &damagedRegion, OutputFrame 
         m_surface->damageJournal.add(damagedRegion);
         m_surface->shadowDamageJournal.add(damagedRegion);
         QRegion repaint;
-        for (const QRect &rect : logicalRepaint) {
-            repaint |= scaledRect(rect, m_surface->scale).toAlignedRect() & QRect(QPoint(), m_surface->gbmSwapchain->size());
+        if (logicalRepaint == infiniteRegion()) {
+            repaint = QRect(QPoint(), m_surface->gbmSwapchain->size());
+        } else {
+            const auto mapping = m_surface->currentShadowSlot->framebuffer()->colorAttachment()->contentTransform().combine(OutputTransform::FlipY);
+            const QSize rotatedSize = mapping.map(m_surface->gbmSwapchain->size());
+            for (const QRect rect : logicalRepaint) {
+                repaint |= mapping.map(scaledRect(rect, m_surface->scale), rotatedSize).toAlignedRect() & QRect(QPoint(), m_surface->gbmSwapchain->size());
+            }
         }
 
         GLFramebuffer *fbo = m_surface->currentSlot->framebuffer();
@@ -265,8 +271,6 @@ bool EglGbmLayerSurface::endRendering(const QRegion &damagedRegion, OutputFrame 
             binder.shader()->setUniform(GLShader::Mat4Uniform::ColorimetryTransformation, ctm);
         }
         QMatrix4x4 mat;
-        mat.scale(1, -1);
-        mat *= fbo->colorAttachment()->contentTransform().toMatrix();
         mat.scale(1, -1);
         mat.ortho(QRectF(QPointF(), fbo->size()));
         binder.shader()->setUniform(GLShader::Mat4Uniform::ModelViewProjectionMatrix, mat);
@@ -664,10 +668,16 @@ std::shared_ptr<DrmFramebuffer> EglGbmLayerSurface::importWithEgl(Surface *surfa
     }
 
     QRegion deviceDamage;
-    for (const QRect &logical : damagedRegion) {
-        deviceDamage |= scaledRect(logical, surface->scale).toAlignedRect();
+    if (damagedRegion == infiniteRegion()) {
+        deviceDamage = QRect(QPoint(), surface->gbmSwapchain->size());
+    } else {
+        const auto mapping = surface->currentSlot->framebuffer()->colorAttachment()->contentTransform().combine(OutputTransform::FlipY);
+        const QSize rotatedSize = mapping.map(surface->gbmSwapchain->size());
+        for (const QRect rect : damagedRegion) {
+            deviceDamage |= mapping.map(scaledRect(rect, surface->scale), rotatedSize).toAlignedRect() & QRect(QPoint(), surface->gbmSwapchain->size());
+        }
     }
-    const QRegion repaint = (deviceDamage | surface->importDamageJournal.accumulate(slot->age(), infiniteRegion())) & QRect(QPoint(), m_surface->gbmSwapchain->size());
+    const QRegion repaint = (deviceDamage | surface->importDamageJournal.accumulate(slot->age(), infiniteRegion())) & QRect(QPoint(), surface->gbmSwapchain->size());
     surface->importDamageJournal.add(deviceDamage);
 
     GLFramebuffer *fbo = slot->framebuffer();

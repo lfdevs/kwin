@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.2\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-16 02:36+0000\n"
+"POT-Creation-Date: 2024-11-04 02:27+0000\n"
 "PO-Revision-Date: 2024-09-26 15:12+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -55,17 +55,17 @@ msgstr "- Kimenet letiltva"
 msgid "- Output dimmed"
 msgstr "- Kimenet halványítva"
 
-#: backends/x11/windowed/x11_windowed_backend.cpp:511
+#: backends/x11/windowed/x11_windowed_backend.cpp:512
 #, kde-format
 msgid "Press right control to ungrab input"
 msgstr "Nyomja meg a jobb Controlt a bemenet elengedéséhez"
 
-#: backends/x11/windowed/x11_windowed_backend.cpp:511
+#: backends/x11/windowed/x11_windowed_backend.cpp:512
 #, kde-format
 msgid "Press right control key to grab input"
 msgstr "Nyomja meg a jobb Controlt a bemenet elkapásához"
 
-#: backends/x11/windowed/x11_windowed_backend.cpp:512
+#: backends/x11/windowed/x11_windowed_backend.cpp:513
 #, kde-format
 msgid "KDE Wayland Compositor"
 msgstr "KDE Wayland kompozitor"
@@ -1220,22 +1220,22 @@ msgctxt "@info"
 msgid "Host name: %1"
 msgstr "Gépnév: %1"
 
-#: input.cpp:2122
+#: input.cpp:2126
 #, kde-format
 msgid "Move the tablet to the next output"
 msgstr "Rajztábla áthelyezése a következő kimenetre"
 
-#: input.cpp:2201
+#: input.cpp:2205
 #, kde-format
 msgid "Tablet moved to %1"
 msgstr "Rajztábla áthelyezve ide: %1"
 
-#: input.cpp:2201
+#: input.cpp:2205
 #, kde-format
 msgid "Tablets switched outputs"
 msgstr "A rajztáblák kimenetet váltottak"
 
-#: input.cpp:3322
+#: input.cpp:3326
 #, kde-format
 msgid "Touchpad"
 msgstr "Érintőtábla"
@@ -1454,7 +1454,7 @@ msgstr "Munkamenet indítása képernyőzár támogatás nélkül."
 msgid "Starts the session without global shortcuts support."
 msgstr "Munkamenet indítás a globális billentyűparancsok támogatása nélkül."
 
-#: main_wayland.cpp:403 main_x11.cpp:438
+#: main_wayland.cpp:403 main_x11.cpp:439
 #, kde-format
 msgid "Disable KActivities integration."
 msgstr "KActivities intergráció kikapcsolása."
@@ -1496,7 +1496,7 @@ msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr ""
 "kwin: egy másik ablakkezelő is fut (próbálja a --replace használatát)\n"
 
-#: main_x11.cpp:431
+#: main_x11.cpp:432
 #, kde-format
 msgid "Replace already-running ICCCM2.0-compliant window manager"
 msgstr "Átváltás már futó ICCCM2.0-kompatibilis ablakkezelőről"
@@ -4263,7 +4263,7 @@ msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(Nem válaszol)"
 
-#: workspace.cpp:1626
+#: workspace.cpp:1633
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""
@@ -4285,7 +4285,7 @@ msgstr ""
 "Kérjük töltse fel az alábbi információkat egy szövegmegosztó oldalra, "
 "például a https://paste.kde.org-ra ahelyett, hogy a fórumba illesztené be.\n"
 
-#: xwayland/xwaylandlauncher.cpp:277
+#: xwayland/xwaylandlauncher.cpp:283
 #, kde-format
 msgid "Xwayland has crashed"
 msgstr "Az Xwayland összeomlott"

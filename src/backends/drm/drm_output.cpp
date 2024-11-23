@@ -248,7 +248,7 @@ static const bool s_allowColorspaceNVidia = qEnvironmentVariableIntValue("KWIN_D
 
 Output::Capabilities DrmOutput::computeCapabilities() const
 {
-    Capabilities capabilities = Capability::Dpms | Capability::IccProfile | Capability::BrightnessControl;
+    Capabilities capabilities = Capability::Dpms | Capability::IccProfile;
     if (m_connector->overscan.isValid() || m_connector->underscan.isValid()) {
         capabilities |= Capability::Overscan;
     }
@@ -278,6 +278,9 @@ Output::Capabilities DrmOutput::computeCapabilities() const
     if (m_connector->isInternal()) {
         // TODO only set this if an orientation sensor is available?
         capabilities |= Capability::AutoRotation;
+    }
+    if (m_state.highDynamicRange || m_brightnessDevice || m_state.allowSdrSoftwareBrightness) {
+        capabilities |= Capability::BrightnessControl;
     }
     return capabilities;
 }
@@ -313,6 +316,14 @@ bool DrmOutput::present(const std::shared_ptr<OutputFrame> &frame)
         success = m_pipeline->maybeModeset(frame);
     } else {
         m_pipeline->setPresentationMode(frame->presentationMode());
+        if (m_pipeline->cursorLayer()->isEnabled()) {
+            // the cursor plane needs to be disabled before we enable tearing; see DrmOutput::updateCursorLayer
+            if (frame->presentationMode() == PresentationMode::AdaptiveAsync) {
+                m_pipeline->setPresentationMode(PresentationMode::AdaptiveSync);
+            } else if (frame->presentationMode() == PresentationMode::Async) {
+                m_pipeline->setPresentationMode(PresentationMode::VSync);
+            }
+        }
         DrmPipeline::Error err = m_pipeline->present(frame);
         if (err != DrmPipeline::Error::None && frame->presentationMode() == PresentationMode::AdaptiveAsync) {
             // tearing can fail in various circumstances, but vrr shouldn't
@@ -433,15 +444,17 @@ void DrmOutput::applyQueuedChanges(const std::shared_ptr<OutputChangeSet> &props
     next.brightness = props->brightness.value_or(m_state.brightness);
     next.desiredModeSize = props->desiredModeSize.value_or(m_state.desiredModeSize);
     next.desiredModeRefreshRate = props->desiredModeRefreshRate.value_or(m_state.desiredModeRefreshRate);
+    next.allowSdrSoftwareBrightness = props->allowSdrSoftwareBrightness.value_or(m_state.allowSdrSoftwareBrightness);
     setState(next);
 
-    if (m_brightnessDevice) {
-        if (m_state.highDynamicRange) {
-            m_brightnessDevice->setBrightness(1);
-        } else {
-            m_brightnessDevice->setBrightness(m_state.brightness);
-        }
+    if (m_brightnessDevice && !m_state.highDynamicRange) {
+        m_brightnessDevice->setBrightness(m_state.brightness);
     }
+
+    // allowSdrSoftwareBrightness might change our capabilities
+    Information newInfo = m_information;
+    newInfo.capabilities = computeCapabilities();
+    setInformation(newInfo);
 
     if (!isEnabled() && m_pipeline->needsModeset()) {
         m_gpu->maybeModeset(nullptr);
@@ -458,12 +471,8 @@ void DrmOutput::applyQueuedChanges(const std::shared_ptr<OutputChangeSet> &props
 void DrmOutput::setBrightnessDevice(BrightnessDevice *device)
 {
     Output::setBrightnessDevice(device);
-    if (device) {
-        if (m_state.highDynamicRange) {
-            device->setBrightness(1);
-        } else {
-            device->setBrightness(m_state.brightness);
-        }
+    if (device && !m_state.highDynamicRange) {
+        device->setBrightness(m_state.brightness);
         // reset the brightness factors
         tryKmsColorOffloading();
     }
@@ -540,7 +549,7 @@ QVector3D DrmOutput::effectiveChannelFactors() const
     QVector3D adaptedChannelFactors = ColorDescription::sRGB.toOther(colorDescription(), RenderingIntent::RelativeColorimetric) * m_channelFactors;
     // normalize red to be the original brightness value again
     adaptedChannelFactors *= m_channelFactors.x() / adaptedChannelFactors.x();
-    if (m_state.highDynamicRange || !m_brightnessDevice) {
+    if (m_state.highDynamicRange || (!m_brightnessDevice && m_state.allowSdrSoftwareBrightness)) {
         // enforce a minimum of 25 nits for the reference luminance
         constexpr double minLuminance = 25;
         const double brightnessFactor = (m_state.brightness * (1 - (minLuminance / m_state.referenceLuminance))) + (minLuminance / m_state.referenceLuminance);

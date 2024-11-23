@@ -1,3 +1,24 @@
+kwin (4:6.2.3-1) unstable; urgency=medium
+
+  [ Aurélien COUDERC ]
+  * New upstream release (6.2.3).
+  * Update build-deps and deps with the info from cmake.
+  * Drop patch for backported commit, now part of the upstream release.
+  * Add build dependency to qt6-declarative-private-dev required since
+    cmake 3.31.
+  * Release to unstable.
+
+ -- Aurélien COUDERC <coucouf@debian.org>  Sat, 23 Nov 2024 21:57:37 +0100
+
+kwin (4:6.2.2-1) experimental; urgency=medium
+
+  [ Aurélien COUDERC ]
+  * New upstream release (6.2.2).
+  * Revert upstream minor version bump for build dependencies to avoid
+    rebuilding all Plasma packages.
+
+ -- Aurélien COUDERC <coucouf@debian.org>  Tue, 22 Oct 2024 18:51:17 +0200
+
 kwin (4:6.2.1.1-1) experimental; urgency=medium
 
   [ Patrick Franz ]

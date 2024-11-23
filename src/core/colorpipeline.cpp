@@ -79,8 +79,9 @@ void ColorPipeline::addMultiplier(const QVector3D &factors)
     if (!ops.empty()) {
         auto *lastOp = &ops.back().operation;
         if (const auto mat = std::get_if<ColorMatrix>(lastOp)) {
-            auto newMat = mat->mat;
+            QMatrix4x4 newMat;
             newMat.scale(factors);
+            newMat *= mat->mat;
             ops.erase(ops.end() - 1);
             addMatrix(newMat, output);
             return;
@@ -234,30 +235,31 @@ void ColorPipeline::addMatrix(const QMatrix4x4 &mat, const ValueRange &output)
 }
 
 static const QMatrix4x4 s_toICtCp = QMatrix4x4(
-    2048.0 / 4096.0,   2048.0 / 4096.0,   0.0,             0.0,
-    6610.0 / 4096.0,  -13613.0 / 4096.0,  7003.0 / 4096.0, 0.0,
-    17933.0 / 4096.0, -17390.0 / 4096.0, -543.0 / 4096.0,  0.0,
-    0.0,               0.0,               0.0,             1.0).transposed();
+    2048.0 / 4096.0, 2048.0 / 4096.0, 0.0, 0.0,
+    6610.0 / 4096.0, -13613.0 / 4096.0, 7003.0 / 4096.0, 0.0,
+    17933.0 / 4096.0, -17390.0 / 4096.0, -543.0 / 4096.0, 0.0,
+    0.0, 0.0, 0.0, 1.0);
 static const QMatrix4x4 s_fromICtCp = s_toICtCp.inverted();
 
 void ColorPipeline::addTonemapper(const Colorimetry &containerColorimetry, double referenceLuminance, double maxInputLuminance, double maxOutputLuminance)
 {
     // convert from rgb to ICtCp
     addMatrix(containerColorimetry.toLMS(), currentOutputRange());
-    addTransferFunction(TransferFunction(TransferFunction::PerceptualQuantizer));
+    const TransferFunction PQ(TransferFunction::PerceptualQuantizer, 0, 10'000);
+    addInverseTransferFunction(PQ);
     addMatrix(s_toICtCp, currentOutputRange());
     // apply the tone mapping to the intensity component
     ops.push_back(ColorOp{
         .input = currentOutputRange(),
         .operation = ColorTonemapper(referenceLuminance, maxInputLuminance, maxOutputLuminance),
         .output = ValueRange{
-            .min = currentOutputRange().min,
-            .max = maxOutputLuminance,
+            .min = PQ.nitsToEncoded(currentOutputRange().min),
+            .max = PQ.nitsToEncoded(maxOutputLuminance),
         },
     });
     // convert back to rgb
     addMatrix(s_fromICtCp, currentOutputRange());
-    addInverseTransferFunction(TransferFunction(TransferFunction::PerceptualQuantizer));
+    addTransferFunction(PQ);
     addMatrix(containerColorimetry.fromLMS(), currentOutputRange());
 }
 
@@ -346,7 +348,7 @@ ColorTonemapper::ColorTonemapper(double referenceLuminance, double maxInputLumin
     // 50% HDR headroom should be enough for the tone mapper to do a good enough job, without dimming the image too much
     const double minDecentRange = std::min(m_inputRange, 1.5);
     // if the output doesn't provide enough HDR headroom for the tone mapper to do a good job, dim the image to create some
-    m_referenceDimming = 1.0 / std::clamp(outputRange / minDecentRange, 1.0, minDecentRange);
+    m_referenceDimming = 1.0 / std::clamp(minDecentRange / outputRange, 1.0, minDecentRange);
     m_outputReferenceLuminance = referenceLuminance * m_referenceDimming;
 }
 

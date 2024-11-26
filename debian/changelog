@@ -122,6 +122,14 @@ kwin (4:6.1.0-1) experimental; urgency=medium
 
  -- Patrick Franz <deltaone@debian.org>  Mon, 01 Jul 2024 19:47:04 +0200
 
+kwin (4:5.27.11-2) unstable; urgency=medium
+
+  [ Aurélien COUDERC ]
+  * Rebuild due to ABI conflict bettween kwin and Wayland 1.23. (Closes:
+    #1076729)
+
+ -- Aurélien COUDERC <coucouf@debian.org>  Thu, 25 Jul 2024 09:32:37 +0200
+
 kwin (4:5.27.11-1) unstable; urgency=medium
 
   [ Patrick Franz ]

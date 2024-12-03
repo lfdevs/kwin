@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-04 02:27+0000\n"
+"POT-Creation-Date: 2024-11-26 02:31+0000\n"
 "PO-Revision-Date: 2024-08-30 09:46+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -2401,12 +2401,12 @@ msgctxt "@info:placeholder"
 msgid "No matching windows"
 msgstr "Ez dago bat datorren leihorik"
 
-#: plugins/private/qml/WindowHeapDelegate.qml:219
+#: plugins/private/qml/WindowHeapDelegate.qml:231
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "Behera arrastatu ixteko"
 
-#: plugins/private/qml/WindowHeapDelegate.qml:363
+#: plugins/private/qml/WindowHeapDelegate.qml:375
 #, kde-format
 msgctxt "@info:tooltip as in: 'close this window'"
 msgid "Close window"
@@ -3679,36 +3679,36 @@ msgctxt "@info:placeholder no entries in the task switcher"
 msgid "No open windows"
 msgstr "Ez dago irekitako leihorik"
 
-#: tabbox/tabbox.cpp:360
+#: tabbox/tabbox.cpp:358
 msgid "Walk Through Windows"
 msgstr "Ibili leihoetan zehar"
 
-#: tabbox/tabbox.cpp:361
+#: tabbox/tabbox.cpp:359
 msgid "Walk Through Windows (Reverse)"
 msgstr "Ibili leihoetan zehar (atzerantz)"
 
-#: tabbox/tabbox.cpp:362
+#: tabbox/tabbox.cpp:360
 msgid "Walk Through Windows Alternative"
 msgstr "Ibili leihoetan zehar beste modu batean"
 
-#: tabbox/tabbox.cpp:363
+#: tabbox/tabbox.cpp:361
 msgid "Walk Through Windows Alternative (Reverse)"
 msgstr "Ibili leihoetan zehar beste modu batean (alderantziz)"
 
-#: tabbox/tabbox.cpp:364
+#: tabbox/tabbox.cpp:362
 msgid "Walk Through Windows of Current Application"
 msgstr "Pasatu une honetako aplikazioko leiho batetik bestera"
 
-#: tabbox/tabbox.cpp:365
+#: tabbox/tabbox.cpp:363
 msgid "Walk Through Windows of Current Application (Reverse)"
 msgstr "Pasatu une honetako aplikazioko leiho batetik bestera (alderantziz)"
 
-#: tabbox/tabbox.cpp:366
+#: tabbox/tabbox.cpp:364
 msgid "Walk Through Windows of Current Application Alternative"
 msgstr ""
 "Pasatu une honetako aplikazioko leiho batetik bestera beste modu batean"
 
-#: tabbox/tabbox.cpp:367
+#: tabbox/tabbox.cpp:365
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
 msgstr ""
 "Pasatu une honetako aplikazioko leiho batetik bestera beste modu batean "
@@ -4277,13 +4277,13 @@ msgstr "Aldatu beheko mahaigainera"
 msgid "Switch to Desktop %1"
 msgstr "Aldatu %1 mahaigainera"
 
-#: window.cpp:3119
+#: window.cpp:3130
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(Ez du erantzuten)"
 
-#: workspace.cpp:1633
+#: workspace.cpp:1640
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

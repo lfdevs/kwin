@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-04 02:27+0000\n"
+"POT-Creation-Date: 2024-11-26 02:31+0000\n"
 "PO-Revision-Date: 2023-12-03 14:01+0700\n"
 "Last-Translator: Linerly <linerly@linerly.xyz>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -2505,13 +2505,13 @@ msgctxt "@info:placeholder"
 msgid "No matching windows"
 msgstr "Jendela tak dikelola X11"
 
-#: plugins/private/qml/WindowHeapDelegate.qml:219
+#: plugins/private/qml/WindowHeapDelegate.qml:231
 #, fuzzy, kde-format
 #| msgid "Drag Down To Close"
 msgid "Drag Down To Close"
 msgstr "Sèrèt Turun Untuk Menutup"
 
-#: plugins/private/qml/WindowHeapDelegate.qml:363
+#: plugins/private/qml/WindowHeapDelegate.qml:375
 #, fuzzy, kde-format
 #| msgid "Close Window"
 msgctxt "@info:tooltip as in: 'close this window'"
@@ -3886,35 +3886,35 @@ msgctxt "@info:placeholder no entries in the task switcher"
 msgid "No open windows"
 msgstr "Jendela"
 
-#: tabbox/tabbox.cpp:360
+#: tabbox/tabbox.cpp:358
 msgid "Walk Through Windows"
 msgstr "Berjalan Antar Jendela"
 
-#: tabbox/tabbox.cpp:361
+#: tabbox/tabbox.cpp:359
 msgid "Walk Through Windows (Reverse)"
 msgstr "Berjalan Antar Jendela (Kebalikan)"
 
-#: tabbox/tabbox.cpp:362
+#: tabbox/tabbox.cpp:360
 msgid "Walk Through Windows Alternative"
 msgstr "Berjalan Antar Alternatif Jendela"
 
-#: tabbox/tabbox.cpp:363
+#: tabbox/tabbox.cpp:361
 msgid "Walk Through Windows Alternative (Reverse)"
 msgstr "Berjalan Antar Alternatif Jendela (Kebalikan)"
 
-#: tabbox/tabbox.cpp:364
+#: tabbox/tabbox.cpp:362
 msgid "Walk Through Windows of Current Application"
 msgstr "Berjalan Antar Jendela Aplikasi Saat Ini"
 
-#: tabbox/tabbox.cpp:365
+#: tabbox/tabbox.cpp:363
 msgid "Walk Through Windows of Current Application (Reverse)"
 msgstr "Berjalan Antar Jendela Aplikasi Saat Ini (Kebalikan)"
 
-#: tabbox/tabbox.cpp:366
+#: tabbox/tabbox.cpp:364
 msgid "Walk Through Windows of Current Application Alternative"
 msgstr "Berjalan Antar Alternatif Jendela Aplikasi Saat Ini"
 
-#: tabbox/tabbox.cpp:367
+#: tabbox/tabbox.cpp:365
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
 msgstr "Berjalan Antar Alternatif Jendela Aplikasi Saat Ini (Kebalikan)"
 
@@ -4504,13 +4504,13 @@ msgstr "Alihkan Satu Desktop ke Bawah"
 msgid "Switch to Desktop %1"
 msgstr "Alihkan ke Desktop %1"
 
-#: window.cpp:3119
+#: window.cpp:3130
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(Tidak Merespons)"
 
-#: workspace.cpp:1633
+#: workspace.cpp:1640
 #, fuzzy, kde-format
 #| msgctxt "Introductory text shown in the support information."
 #| msgid ""

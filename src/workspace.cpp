@@ -1229,6 +1229,13 @@ void Workspace::updateOutputs(const std::optional<QList<Output *>> &outputOrder)
     const auto availableOutputs = kwinApp()->outputBackend()->outputs();
     const auto oldOutputs = m_outputs;
 
+    // On X11, we receive spurious output change events when windows move around.
+    if (waylandServer()) {
+        if (m_moveResizeWindow) {
+            m_moveResizeWindow->cancelInteractiveMoveResize();
+        }
+    }
+
     m_outputs.clear();
     for (Output *output : availableOutputs) {
         if (!output->isNonDesktop() && output->isEnabled()) {

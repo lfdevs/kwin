@@ -22,6 +22,7 @@
 #include "core/renderloop_p.h"
 #include "drm_layer.h"
 #include "drm_logging.h"
+#include "utils/kernel.h"
 // Qt
 #include <QCryptographicHash>
 #include <QMatrix4x4>
@@ -116,12 +117,17 @@ DrmLease *DrmOutput::lease() const
     return m_lease;
 }
 
+bool DrmOutput::shouldDisableCursorPlane() const
+{
+    // The kernel rejects async commits that change anything but the primary plane FB_ID
+    // This disables the hardware cursor, so it doesn't interfere with that
+    return m_desiredPresentationMode == PresentationMode::Async || m_desiredPresentationMode == PresentationMode::AdaptiveAsync
+        || m_pipeline->amdgpuVrrWorkaroundActive();
+}
+
 bool DrmOutput::updateCursorLayer()
 {
-    const bool tearingDesired = m_desiredPresentationMode == PresentationMode::Async || m_desiredPresentationMode == PresentationMode::AdaptiveAsync;
-    if (m_pipeline->gpu()->atomicModeSetting() && tearingDesired && m_pipeline->cursorLayer() && m_pipeline->cursorLayer()->isEnabled()) {
-        // The kernel rejects async commits that change anything but the primary plane FB_ID
-        // This disables the hardware cursor, so it doesn't interfere with that
+    if (m_pipeline->gpu()->atomicModeSetting() && shouldDisableCursorPlane() && m_pipeline->cursorLayer() && m_pipeline->cursorLayer()->isEnabled()) {
         return false;
     }
     return m_pipeline->updateCursor();
@@ -141,8 +147,12 @@ QList<std::shared_ptr<OutputMode>> DrmOutput::getModes() const
 
 void DrmOutput::setDpmsMode(DpmsMode mode)
 {
+    if (mode == dpmsMode()) {
+        return;
+    }
     if (mode == DpmsMode::Off) {
         if (!m_turnOffTimer.isActive()) {
+            updateDpmsMode(DpmsMode::AboutToTurnOff);
             Q_EMIT aboutToTurnOff(std::chrono::milliseconds(m_turnOffTimer.interval()));
             m_turnOffTimer.start();
         }
@@ -159,8 +169,8 @@ bool DrmOutput::setDrmDpmsMode(DpmsMode mode)
     if (!isEnabled()) {
         return false;
     }
-    bool active = mode == DpmsMode::On;
-    bool isActive = dpmsMode() == DpmsMode::On;
+    bool active = mode == DpmsMode::On || mode == DpmsMode::AboutToTurnOff;
+    bool isActive = dpmsMode() == DpmsMode::On || dpmsMode() == DpmsMode::AboutToTurnOff;
     if (active == isActive) {
         updateDpmsMode(mode);
         return true;
@@ -267,9 +277,9 @@ Output::Capabilities DrmOutput::computeCapabilities() const
     if (m_connector->colorspace.isValid() && (m_connector->colorspace.hasEnum(DrmConnector::Colorspace::BT2020_RGB) || m_connector->colorspace.hasEnum(DrmConnector::Colorspace::BT2020_YCC)) && m_connector->edid()->supportsBT2020()) {
         bool allowColorspace = true;
         if (m_gpu->isI915()) {
-            allowColorspace &= s_allowColorspaceIntel;
+            allowColorspace &= s_allowColorspaceIntel || linuxKernelVersion() >= Version(6, 11);
         } else if (m_gpu->isNVidia()) {
-            allowColorspace &= s_allowColorspaceNVidia;
+            allowColorspace &= s_allowColorspaceNVidia || m_gpu->nvidiaDriverVersion() >= Version(565, 57, 1);
         }
         if (allowColorspace) {
             capabilities |= Capability::WideColorGamut;

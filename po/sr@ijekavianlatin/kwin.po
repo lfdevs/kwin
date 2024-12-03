@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-04 02:27+0000\n"
+"POT-Creation-Date: 2024-11-26 02:31+0000\n"
 "PO-Revision-Date: 2017-12-03 22:53+0100\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -2639,12 +2639,12 @@ msgctxt "@info:placeholder"
 msgid "No matching windows"
 msgstr "neupravljani X11 prozori"
 
-#: plugins/private/qml/WindowHeapDelegate.qml:219
+#: plugins/private/qml/WindowHeapDelegate.qml:231
 #, kde-format
 msgid "Drag Down To Close"
 msgstr ""
 
-#: plugins/private/qml/WindowHeapDelegate.qml:363
+#: plugins/private/qml/WindowHeapDelegate.qml:375
 #, fuzzy, kde-format
 #| msgid "Close Window"
 msgctxt "@info:tooltip as in: 'close this window'"
@@ -4008,35 +4008,35 @@ msgctxt "@info:placeholder no entries in the task switcher"
 msgid "No open windows"
 msgstr "Pomjeri prozor"
 
-#: tabbox/tabbox.cpp:360
+#: tabbox/tabbox.cpp:358
 msgid "Walk Through Windows"
 msgstr "Mijenjaj prozore"
 
-#: tabbox/tabbox.cpp:361
+#: tabbox/tabbox.cpp:359
 msgid "Walk Through Windows (Reverse)"
 msgstr "Mijenjaj prozore (obratno)"
 
-#: tabbox/tabbox.cpp:362
+#: tabbox/tabbox.cpp:360
 msgid "Walk Through Windows Alternative"
 msgstr "Mijenjaj prozore alternativno"
 
-#: tabbox/tabbox.cpp:363
+#: tabbox/tabbox.cpp:361
 msgid "Walk Through Windows Alternative (Reverse)"
 msgstr "Mijenjaj prozore alternativno (obratno)"
 
-#: tabbox/tabbox.cpp:364
+#: tabbox/tabbox.cpp:362
 msgid "Walk Through Windows of Current Application"
 msgstr "Mijenjaj prozore tekućeg programa"
 
-#: tabbox/tabbox.cpp:365
+#: tabbox/tabbox.cpp:363
 msgid "Walk Through Windows of Current Application (Reverse)"
 msgstr "Mijenjaj prozore tekućeg programa (obratno)"
 
-#: tabbox/tabbox.cpp:366
+#: tabbox/tabbox.cpp:364
 msgid "Walk Through Windows of Current Application Alternative"
 msgstr "Mijenjaj prozore tekućeg programa alternativno"
 
-#: tabbox/tabbox.cpp:367
+#: tabbox/tabbox.cpp:365
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
 msgstr "Mijenjaj prozore tekućeg programa alternativno (obratno)"
 
@@ -4644,13 +4644,13 @@ msgstr "Na prvu površ ispod"
 msgid "Switch to Desktop %1"
 msgstr "Na površ %1"
 
-#: window.cpp:3119
+#: window.cpp:3130
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(ne odaziva se)"
 
-#: workspace.cpp:1633
+#: workspace.cpp:1640
 #, fuzzy, kde-format
 #| msgctxt "Introductory text shown in the support information."
 #| msgid ""

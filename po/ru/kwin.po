@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-04 02:27+0000\n"
+"POT-Creation-Date: 2024-11-26 02:31+0000\n"
 "PO-Revision-Date: 2024-09-17 14:30+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -2430,12 +2430,12 @@ msgctxt "@info:placeholder"
 msgid "No matching windows"
 msgstr "Не найдено ни одного совпадающего окна"
 
-#: plugins/private/qml/WindowHeapDelegate.qml:219
+#: plugins/private/qml/WindowHeapDelegate.qml:231
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "Перетаскивание вниз для закрытия"
 
-#: plugins/private/qml/WindowHeapDelegate.qml:363
+#: plugins/private/qml/WindowHeapDelegate.qml:375
 #, kde-format
 msgctxt "@info:tooltip as in: 'close this window'"
 msgid "Close window"
@@ -3705,35 +3705,35 @@ msgctxt "@info:placeholder no entries in the task switcher"
 msgid "No open windows"
 msgstr "Не открыто ни одно окно"
 
-#: tabbox/tabbox.cpp:360
+#: tabbox/tabbox.cpp:358
 msgid "Walk Through Windows"
 msgstr "На одно окно вперёд"
 
-#: tabbox/tabbox.cpp:361
+#: tabbox/tabbox.cpp:359
 msgid "Walk Through Windows (Reverse)"
 msgstr "На одно окно назад"
 
-#: tabbox/tabbox.cpp:362
+#: tabbox/tabbox.cpp:360
 msgid "Walk Through Windows Alternative"
 msgstr "На одно окно вперёд (альтернативный режим)"
 
-#: tabbox/tabbox.cpp:363
+#: tabbox/tabbox.cpp:361
 msgid "Walk Through Windows Alternative (Reverse)"
 msgstr "На одно окно назад (альтернативный режим)"
 
-#: tabbox/tabbox.cpp:364
+#: tabbox/tabbox.cpp:362
 msgid "Walk Through Windows of Current Application"
 msgstr "На одно окно вперёд текущего приложения"
 
-#: tabbox/tabbox.cpp:365
+#: tabbox/tabbox.cpp:363
 msgid "Walk Through Windows of Current Application (Reverse)"
 msgstr "На одно окно назад текущего приложения"
 
-#: tabbox/tabbox.cpp:366
+#: tabbox/tabbox.cpp:364
 msgid "Walk Through Windows of Current Application Alternative"
 msgstr "На одно окно вперёд текущего приложения (альтернативный режим)"
 
-#: tabbox/tabbox.cpp:367
+#: tabbox/tabbox.cpp:365
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
 msgstr "На одно окно назад текущего приложения (альтернативный режим)"
 
@@ -4302,14 +4302,14 @@ msgstr "Переключиться на один рабочий стол вни�
 msgid "Switch to Desktop %1"
 msgstr "Переключиться на рабочий стол %1"
 
-#: window.cpp:3119
+#: window.cpp:3130
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(не отвечает)"
 
 # BUGME: please proofread this translation, it's full of worms --aspotashev
-#: workspace.cpp:1633
+#: workspace.cpp:1640
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

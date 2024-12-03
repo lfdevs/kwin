@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-04 02:27+0000\n"
+"POT-Creation-Date: 2024-11-26 02:31+0000\n"
 "PO-Revision-Date: 2023-12-02 20:09+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -2408,12 +2408,12 @@ msgctxt "@info:placeholder"
 msgid "No matching windows"
 msgstr "Žiadne zhodné okná"
 
-#: plugins/private/qml/WindowHeapDelegate.qml:219
+#: plugins/private/qml/WindowHeapDelegate.qml:231
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "Ťahaním nadol zatvoríte"
 
-#: plugins/private/qml/WindowHeapDelegate.qml:363
+#: plugins/private/qml/WindowHeapDelegate.qml:375
 #, kde-format
 msgctxt "@info:tooltip as in: 'close this window'"
 msgid "Close window"
@@ -3683,35 +3683,35 @@ msgctxt "@info:placeholder no entries in the task switcher"
 msgid "No open windows"
 msgstr "Žiadne okná"
 
-#: tabbox/tabbox.cpp:360
+#: tabbox/tabbox.cpp:358
 msgid "Walk Through Windows"
 msgstr "Prepínať medzi oknami"
 
-#: tabbox/tabbox.cpp:361
+#: tabbox/tabbox.cpp:359
 msgid "Walk Through Windows (Reverse)"
 msgstr "Prepínať medzi oknami (opačne)"
 
-#: tabbox/tabbox.cpp:362
+#: tabbox/tabbox.cpp:360
 msgid "Walk Through Windows Alternative"
 msgstr "Prepínať medzi oknami alternatívne"
 
-#: tabbox/tabbox.cpp:363
+#: tabbox/tabbox.cpp:361
 msgid "Walk Through Windows Alternative (Reverse)"
 msgstr "Prepínať medzi oknami alternatívne (opačne)"
 
-#: tabbox/tabbox.cpp:364
+#: tabbox/tabbox.cpp:362
 msgid "Walk Through Windows of Current Application"
 msgstr "Prepínať medzi oknami aktuálnej aplikácie"
 
-#: tabbox/tabbox.cpp:365
+#: tabbox/tabbox.cpp:363
 msgid "Walk Through Windows of Current Application (Reverse)"
 msgstr "Prepínať medzi oknami aktuálnej aplikácie (opačne)"
 
-#: tabbox/tabbox.cpp:366
+#: tabbox/tabbox.cpp:364
 msgid "Walk Through Windows of Current Application Alternative"
 msgstr "Prepínať medzi oknami aktuálnej aplikácie alternatívne"
 
-#: tabbox/tabbox.cpp:367
+#: tabbox/tabbox.cpp:365
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
 msgstr "Prepínať medzi oknami aktuálnej aplikácie alternatívne (opačne)"
 
@@ -4277,13 +4277,13 @@ msgstr "Prepnúť o jednu plochu dolu"
 msgid "Switch to Desktop %1"
 msgstr "Prepnúť na plochu %1"
 
-#: window.cpp:3119
+#: window.cpp:3130
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(Neodpovedá)"
 
-#: workspace.cpp:1633
+#: workspace.cpp:1640
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

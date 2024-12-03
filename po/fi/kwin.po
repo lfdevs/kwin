@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-04 02:27+0000\n"
+"POT-Creation-Date: 2024-11-26 02:31+0000\n"
 "PO-Revision-Date: 2024-03-12 10:48+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -2414,12 +2414,12 @@ msgctxt "@info:placeholder"
 msgid "No matching windows"
 msgstr "Ei täsmääviä ikkunoita"
 
-#: plugins/private/qml/WindowHeapDelegate.qml:219
+#: plugins/private/qml/WindowHeapDelegate.qml:231
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "Sulje vetämällä alaspäin"
 
-#: plugins/private/qml/WindowHeapDelegate.qml:363
+#: plugins/private/qml/WindowHeapDelegate.qml:375
 #, kde-format
 msgctxt "@info:tooltip as in: 'close this window'"
 msgid "Close window"
@@ -3684,35 +3684,35 @@ msgctxt "@info:placeholder no entries in the task switcher"
 msgid "No open windows"
 msgstr "Ei avoimia ikkunoita"
 
-#: tabbox/tabbox.cpp:360
+#: tabbox/tabbox.cpp:358
 msgid "Walk Through Windows"
 msgstr "Selaa ikkunoita"
 
-#: tabbox/tabbox.cpp:361
+#: tabbox/tabbox.cpp:359
 msgid "Walk Through Windows (Reverse)"
 msgstr "Selaa ikkunoita taaksepäin"
 
-#: tabbox/tabbox.cpp:362
+#: tabbox/tabbox.cpp:360
 msgid "Walk Through Windows Alternative"
 msgstr "Selaa ikkunoita (vaihtoehtoinen)"
 
-#: tabbox/tabbox.cpp:363
+#: tabbox/tabbox.cpp:361
 msgid "Walk Through Windows Alternative (Reverse)"
 msgstr "Selaa ikkunoita taaksepäin (vaihtoehtoinen)"
 
-#: tabbox/tabbox.cpp:364
+#: tabbox/tabbox.cpp:362
 msgid "Walk Through Windows of Current Application"
 msgstr "Selaa nykyisen sovelluksen ikkunoita"
 
-#: tabbox/tabbox.cpp:365
+#: tabbox/tabbox.cpp:363
 msgid "Walk Through Windows of Current Application (Reverse)"
 msgstr "Selaa nykyisen sovelluksen ikkunoita taaksepäin"
 
-#: tabbox/tabbox.cpp:366
+#: tabbox/tabbox.cpp:364
 msgid "Walk Through Windows of Current Application Alternative"
 msgstr "Selaa nykyisen sovelluksen ikkunoita (vaihtoehtoinen)"
 
-#: tabbox/tabbox.cpp:367
+#: tabbox/tabbox.cpp:365
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
 msgstr "Selaa nykyisen sovelluksen ikkunoita taaksepäin (vaihtoehtoinen)"
 
@@ -4287,13 +4287,13 @@ msgstr "Vaihda työpöytää alas päin"
 msgid "Switch to Desktop %1"
 msgstr "Vaihda työpöydälle %1"
 
-#: window.cpp:3119
+#: window.cpp:3130
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(Ei vastaa)"
 
-#: workspace.cpp:1633
+#: workspace.cpp:1640
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

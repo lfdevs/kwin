@@ -8,15 +8,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-04 02:27+0000\n"
-"PO-Revision-Date: 2024-09-19 19:35+0200\n"
+"POT-Creation-Date: 2024-11-26 02:31+0000\n"
+"PO-Revision-Date: 2024-11-06 23:58+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.07.70\n"
+"X-Generator: Lokalize 24.11.70\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -1180,7 +1180,7 @@ msgid ""
 "<para>\"%1\" of <application>%2</application> is not responding. Do you want "
 "to terminate this application?</para>"
 msgstr ""
-"<para>\"%1\" на <application>%2</application> не реагира. Искате ли да "
+"<para>„%1“ на <application>%2</application> не реагира. Искате ли да "
 "прекратите това приложение?</para>"
 
 #: helpers/killer/killer.cpp:214
@@ -2394,12 +2394,12 @@ msgctxt "@info:placeholder"
 msgid "No matching windows"
 msgstr "Няма съвпадащи прозорци"
 
-#: plugins/private/qml/WindowHeapDelegate.qml:219
+#: plugins/private/qml/WindowHeapDelegate.qml:231
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "Завличане надолу за затваряне"
 
-#: plugins/private/qml/WindowHeapDelegate.qml:363
+#: plugins/private/qml/WindowHeapDelegate.qml:375
 #, kde-format
 msgctxt "@info:tooltip as in: 'close this window'"
 msgid "Close window"
@@ -3662,35 +3662,35 @@ msgctxt "@info:placeholder no entries in the task switcher"
 msgid "No open windows"
 msgstr "Няма отворени прозорци"
 
-#: tabbox/tabbox.cpp:360
+#: tabbox/tabbox.cpp:358
 msgid "Walk Through Windows"
 msgstr "Преминаване през прозорците"
 
-#: tabbox/tabbox.cpp:361
+#: tabbox/tabbox.cpp:359
 msgid "Walk Through Windows (Reverse)"
 msgstr "Преминаване през прозорците (обратно)"
 
-#: tabbox/tabbox.cpp:362
+#: tabbox/tabbox.cpp:360
 msgid "Walk Through Windows Alternative"
 msgstr "Алтернативно преминаване през прозорците"
 
-#: tabbox/tabbox.cpp:363
+#: tabbox/tabbox.cpp:361
 msgid "Walk Through Windows Alternative (Reverse)"
 msgstr "Алтернативно преминаване през прозорците (обратно)"
 
-#: tabbox/tabbox.cpp:364
+#: tabbox/tabbox.cpp:362
 msgid "Walk Through Windows of Current Application"
 msgstr "Преминаване през прозорци на текущото приложение"
 
-#: tabbox/tabbox.cpp:365
+#: tabbox/tabbox.cpp:363
 msgid "Walk Through Windows of Current Application (Reverse)"
 msgstr "Преминаване през прозорци на текущо приложение (назад)"
 
-#: tabbox/tabbox.cpp:366
+#: tabbox/tabbox.cpp:364
 msgid "Walk Through Windows of Current Application Alternative"
 msgstr "Преминаване през прозорци на текущата алтернатива на приложението"
 
-#: tabbox/tabbox.cpp:367
+#: tabbox/tabbox.cpp:365
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
 msgstr ""
 "Преминаване през прозорци на текущата алтернатива на приложението (назад)"
@@ -3716,7 +3716,7 @@ msgstr ""
 "\n"
 "Рамката на прозореца не може да бъде включена с мишката. Ако искате да "
 "включите рамката на прозореца, използвайте системното меню на прозореца, "
-"което се вика с клавишната комбинация \"%1\"."
+"което се вика с клавишната комбинация „%1“."
 
 #: useractions.cpp:169
 #, kde-format
@@ -3730,7 +3730,7 @@ msgstr ""
 "\n"
 "Програмата не може да се върне отново в прозорец с помощта на мишката. Ако "
 "искате да изключите режима на цял екран, използвайте системното меню на "
-"прозореца, което се вика с клавишната комбинация \"%1\"."
+"прозореца, което се вика с клавишната комбинация „%1“."
 
 #: useractions.cpp:216
 #, kde-format
@@ -4260,13 +4260,13 @@ msgstr "Превключване един работен плот надолу"
 msgid "Switch to Desktop %1"
 msgstr "Превключване към работен плот %1"
 
-#: window.cpp:3119
+#: window.cpp:3130
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(Не отговаря)"
 
-#: workspace.cpp:1633
+#: workspace.cpp:1640
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

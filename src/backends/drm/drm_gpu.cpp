@@ -24,17 +24,17 @@
 #include "drm_output.h"
 #include "drm_pipeline.h"
 #include "drm_plane.h"
-// system
+
+#include <QFile>
 #include <algorithm>
+#include <drm_fourcc.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <gbm.h>
+#include <libdrm/drm_mode.h>
 #include <poll.h>
 #include <ranges>
 #include <unistd.h>
-// drm
-#include <drm_fourcc.h>
-#include <gbm.h>
-#include <libdrm/drm_mode.h>
 #include <xf86drm.h>
 #include <xf86drmMode.h>
 
@@ -86,6 +86,12 @@ DrmGpu::DrmGpu(DrmBackend *backend, int fd, std::unique_ptr<DrmDevice> &&device)
     m_isVmwgfx = strstr(version->name, "vmwgfx");
     m_isVirtualMachine = strstr(version->name, "virtio") || strstr(version->name, "qxl")
         || strstr(version->name, "vmwgfx") || strstr(version->name, "vboxvideo");
+    if (m_isNVidia) {
+        QFile moduleVersion("/sys/module/nvidia_drm/version");
+        if (moduleVersion.open(QIODeviceBase::OpenModeFlag::ReadOnly)) {
+            m_nvidiaDriverVersion = Version::parseString(moduleVersion.readLine(100));
+        }
+    }
 
     m_socketNotifier = std::make_unique<QSocketNotifier>(fd, QSocketNotifier::Read);
     connect(m_socketNotifier.get(), &QSocketNotifier::activated, this, &DrmGpu::dispatchEvents);
@@ -711,6 +717,11 @@ bool DrmGpu::isVirtualMachine() const
     return m_isVirtualMachine;
 }
 
+std::optional<Version> DrmGpu::nvidiaDriverVersion() const
+{
+    return m_nvidiaDriverVersion;
+}
+
 bool DrmGpu::isRemoved() const
 {
     return m_isRemoved;
@@ -751,9 +762,11 @@ bool DrmGpu::isActive() const
 
 bool DrmGpu::needsModeset() const
 {
-    return std::any_of(m_pipelines.constBegin(), m_pipelines.constEnd(), [](const auto &pipeline) {
-        return pipeline->needsModeset();
-    }) || m_forceModeset || !m_pendingModesetFrames.empty();
+    return m_forceModeset
+        || !m_pendingModesetFrames.empty()
+        || std::ranges::any_of(m_pipelines, [](DrmPipeline *pipeline) {
+        return !pipeline->output()->lease() && pipeline->needsModeset();
+    });
 }
 
 bool DrmGpu::maybeModeset(const std::shared_ptr<OutputFrame> &frame)

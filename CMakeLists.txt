@@ -1,13 +1,13 @@
 cmake_minimum_required(VERSION 3.16)
 
-set(PROJECT_VERSION "6.2.4") # Handled by release scripts
+set(PROJECT_VERSION "6.2.5") # Handled by release scripts
 project(KWin VERSION ${PROJECT_VERSION})
 
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(PROJECT_DEP_VERSION "6.2.4")
+set(PROJECT_DEP_VERSION "6.2.5")
 set(QT_MIN_VERSION "6.7.0")
 set(KF6_MIN_VERSION "6.5.0")
 set(KDE_COMPILERSETTINGS_LEVEL "5.82")
@@ -168,8 +168,8 @@ set_package_properties(Breeze PROPERTIES
     TYPE OPTIONAL
     PURPOSE "For setting the default window decoration plugin"
 )
-if (${Breeze_FOUND})
-    if (${BREEZE_WITH_KDECORATION})
+if (Breeze_FOUND)
+    if (BREEZE_WITH_KDECORATION)
         set(HAVE_BREEZE_DECO true)
     else()
         set(HAVE_BREEZE_DECO FALSE)

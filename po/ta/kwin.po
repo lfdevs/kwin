@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-26 02:31+0000\n"
-"PO-Revision-Date: 2024-10-27 12:38+0530\n"
+"POT-Creation-Date: 2024-12-21 02:55+0000\n"
+"PO-Revision-Date: 2024-12-15 16:52+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -19,12 +19,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.08.2\n"
+"X-Generator: Lokalize 24.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "tamilpc team,tamilpc team,tamilpc team,"
+msgstr "tamilpc team,tamilpc team,tamilpc team"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -81,7 +81,7 @@ msgstr "வரைகலை முறிவடைந்து மீட்டம�
 #: compositor_x11.cpp:103
 #, kde-format
 msgid "Suspend Compositing"
-msgstr "Compositing-ஐ முடக்கு"
+msgstr "சாளரவரைவை முடக்கு"
 
 #: compositor_x11.cpp:560
 #, kde-format
@@ -91,10 +91,11 @@ msgid ""
 "meanwhile upgraded to a stable driver,<br>you can reset this protection but "
 "<b>be aware that this might result in an immediate crash!</b></p>"
 msgstr ""
-"<b>OpenGL படவரைவு (இயல்பிருப்பானது) இதற்கு முன்பு கேவின்னை முறிவடைய செய்துள்ளது.</"
-"b><br>பெரும்பாலும், சாதனநிரல் (driver) பிழைகளால் இது நேரும்.<p>இடைக்காலத்தில் "
-"சாதனநிரலை நீங்கள் புதுப்பித்திருந்தால்,<br>இந்த பாதுகாப்பு அம்சத்தை மீட்டமைக்கலாம், "
-"ஆனால்<b>இது உடனடியான முறிவை உண்டாக்கலாம்</b> என்பதை நினைவில் கொள்ளவும்!</p>"
+"<b>OpenGL சாளரவரைவு (இயல்பிருப்பான compositing வகை) இதற்கு முன்பு கேவின்னை "
+"முறிவடைய செய்துள்ளது.</b><br>பெரும்பாலும், சாதனநிரல் (driver) பிழைகளால் இது நேரும்."
+"<p>இடைக்காலத்தில் சாதனநிரலை நீங்கள் புதுப்பித்திருந்தால்,<br>இந்த பாதுகாப்பு அம்சத்தை "
+"மீட்டமைக்கலாம், ஆனால்<b>இது உடனடியான முறிவை உண்டாக்கலாம்</b> என்பதை நினைவில் கொள்ளவும்!</"
+"p>"
 
 #: compositor_x11.cpp:567
 #, kde-format
@@ -716,7 +717,7 @@ msgstr ""
 #, kde-format
 msgctxt "@label"
 msgid "Effects"
-msgstr ""
+msgstr "அசைவூட்டங்கள்"
 
 #: debug_console.cpp:796
 #, kde-format
@@ -999,7 +1000,7 @@ msgstr "பதிப்பு:"
 #: debug_console.ui:147
 #, kde-format
 msgid "Shading Language Version:"
-msgstr ""
+msgstr "வரைவு நிரல்மொழி பதிப்பு:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: debug_console.ui:154
@@ -1954,47 +1955,47 @@ msgctxt "Note this is a KRunner keyword"
 msgid "desktop"
 msgstr "பணிமேடை"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:253
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:260
 #, kde-format
 msgid "Switch to desktop %1"
 msgstr "பணிமேடை %1-க்கு தாவு"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:292
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:299
 #, kde-format
 msgid "Close running window on %1"
 msgstr "%1-இலுள்ள சாளரத்தை மூடு"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:295
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:302
 #, kde-format
 msgid "(Un)minimize running window on %1"
 msgstr "%1-இலுள்ள சாளரத்தை ஒதுக்கு/காட்டு"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:298
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:305
 #, kde-format
 msgid "Maximize/restore running window on %1"
 msgstr "%1-இலுள்ள சாளரத்தை அதிகபட்ச பெரிதாக்கு / சிறிதாக்கு"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:301
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:308
 #, kde-format
 msgid "Toggle fullscreen for running window on %1"
 msgstr "%1-இலுள்ள சாளரத்திற்கான முழுத்திரை முறையை நிலைமாற்று"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:304
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:311
 #, kde-format
 msgid "(Un)shade running window on %1"
 msgstr "%1-இலுள்ள சாளரத்திற்கு நிழலிடு/நிழல்நீக்கு"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:307
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:314
 #, kde-format
 msgid "Toggle keep above for running window on %1"
 msgstr "%1-இலுள்ள சாளரத்தை மேலே வைப்பதை நிலைமாற்று"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:310
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:317
 #, kde-format
 msgid "Toggle keep below running window on %1"
 msgstr "%1-இலுள்ள சாளரத்தை கீழே வைப்பதை நிலைமாற்று"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:314
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:321
 #, kde-format
 msgid "Activate running window on %1"
 msgstr "%1-இலுள்ள சாளரத்தை செயல்படுத்து"
@@ -2384,12 +2385,12 @@ msgctxt "@info:placeholder"
 msgid "No matching windows"
 msgstr "எந்த சாளரமும் பொருந்தவில்லை"
 
-#: plugins/private/qml/WindowHeapDelegate.qml:231
+#: plugins/private/qml/WindowHeapDelegate.qml:229
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "மூட கீழே இழுக்கவும்"
 
-#: plugins/private/qml/WindowHeapDelegate.qml:375
+#: plugins/private/qml/WindowHeapDelegate.qml:373
 #, kde-format
 msgctxt "@info:tooltip as in: 'close this window'"
 msgid "Close window"
@@ -2441,7 +2442,7 @@ msgstr "செல்லுபடியாகாத பரப்பளவு"
 #: plugins/screencast/screencaststream.cpp:346
 #, kde-format
 msgid "OpenGL compositing is required for screencasting"
-msgstr "திரைப்பகிர்வுக்கு OpenGL compositing தேவை"
+msgstr "திரைப்பகிர்வுக்கு OpenGL சாளரவரைவு தேவை"
 
 #: plugins/screencast/screencaststream.cpp:354
 #, kde-format
@@ -2470,7 +2471,7 @@ msgstr ""
 #, kde-format
 msgctxt "@label"
 msgid "Compositing"
-msgstr ""
+msgstr "சாளரவரைவு"
 
 #: plugins/showfps/qml/main-fallback.qml:26 plugins/showfps/qml/main.qml:192
 #, kde-format
@@ -2962,7 +2963,7 @@ msgstr "உருப்பெருக்க விகிதம்:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_EnableFocusTracking)
 #: plugins/zoom/zoom_config.ui:66
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "Enable tracking of the focused location. This needs QAccessible to be "
 "enabled per application (\"export QT_LINUX_ACCESSIBILITY_ALWAYS_ON=1\")."
@@ -3430,7 +3431,7 @@ msgstr "தலைப்புப்பட்டையின் நிறத்�
 #: rulesettings.kcfg:312
 #, kde-format
 msgid "Block Compositing"
-msgstr "சாளரநிரலைத் தடு"
+msgstr "சாளரவரைவைத் தடு"
 
 #. i18n: ectx: label, entry (blockcompositingrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:316

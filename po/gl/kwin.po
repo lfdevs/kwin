@@ -21,8 +21,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-26 02:31+0000\n"
-"PO-Revision-Date: 2024-08-22 19:03+0200\n"
+"POT-Creation-Date: 2024-12-21 02:55+0000\n"
+"PO-Revision-Date: 2024-12-08 12:56+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -30,7 +30,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.05.2\n"
+"X-Generator: Lokalize 24.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1077,13 +1077,13 @@ msgstr "Modificadores activos"
 #: debug_console.ui:378
 #, kde-format
 msgid "LEDs"
-msgstr "LEDs"
+msgstr "LED"
 
 #. i18n: ectx: property (title), widget (QGroupBox, activeLedsBox)
 #: debug_console.ui:394
 #, kde-format
 msgid "Active LEDs"
-msgstr "LEDs activos"
+msgstr "LED activos"
 
 #. i18n: ectx: attribute (title), widget (QWidget, clipboard)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
@@ -1973,47 +1973,47 @@ msgctxt "Note this is a KRunner keyword"
 msgid "desktop"
 msgstr "escritorio"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:253
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:260
 #, kde-format
 msgid "Switch to desktop %1"
 msgstr "Ir ao escritorio %1"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:292
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:299
 #, kde-format
 msgid "Close running window on %1"
 msgstr "Pechar a xanela en execución en %1"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:295
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:302
 #, kde-format
 msgid "(Un)minimize running window on %1"
 msgstr "(Des)minimizar a xanela en execución en %1"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:298
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:305
 #, kde-format
 msgid "Maximize/restore running window on %1"
 msgstr "Maximizar/restaurar a xanela en execución en %1"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:301
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:308
 #, kde-format
 msgid "Toggle fullscreen for running window on %1"
 msgstr "Conmutar o modo a pantalla completa para a xanela a executarse en %1"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:304
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:311
 #, kde-format
 msgid "(Un)shade running window on %1"
 msgstr "Repregar/Despregar a xanela en execución en %1"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:307
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:314
 #, kde-format
 msgid "Toggle keep above for running window on %1"
 msgstr "Conmutar o manter en riba para a xanela en execución en %1"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:310
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:317
 #, kde-format
 msgid "Toggle keep below running window on %1"
 msgstr "Conmutar o manter en baixo na xanela en execución en %1"
 
-#: plugins/krunner-integration/windowsrunnerinterface.cpp:314
+#: plugins/krunner-integration/windowsrunnerinterface.cpp:321
 #, kde-format
 msgid "Activate running window on %1"
 msgstr "Activar a xanela en execución en %1"
@@ -2404,12 +2404,12 @@ msgctxt "@info:placeholder"
 msgid "No matching windows"
 msgstr "Ningunha xanela coincide"
 
-#: plugins/private/qml/WindowHeapDelegate.qml:231
+#: plugins/private/qml/WindowHeapDelegate.qml:229
 #, kde-format
 msgid "Drag Down To Close"
 msgstr "Arrastrar abaixo para pechar"
 
-#: plugins/private/qml/WindowHeapDelegate.qml:375
+#: plugins/private/qml/WindowHeapDelegate.qml:373
 #, kde-format
 msgctxt "@info:tooltip as in: 'close this window'"
 msgid "Close window"
@@ -4059,7 +4059,7 @@ msgstr "Dispor rapidamente a xanela en mosaico cara arriba á esquerda"
 #: useractions.cpp:975
 #, kde-format
 msgid "Quick Tile Window to the Bottom Left"
-msgstr "Dispor rapidamente a xanela en mosaico cara o fondo á esquerda"
+msgstr "Dispor rapidamente a xanela en mosaico cara ao fondo á esquerda"
 
 #: useractions.cpp:977
 #, kde-format
@@ -4069,7 +4069,7 @@ msgstr "Dispor rapidamente a xanela en mosaico cara arriba á dereita"
 #: useractions.cpp:979
 #, kde-format
 msgid "Quick Tile Window to the Bottom Right"
-msgstr "Dispor rapidamente a xanela en mosaico cara o fondo á dereita"
+msgstr "Dispor rapidamente a xanela en mosaico cara ao fondo á dereita"
 
 #: useractions.cpp:981
 #, kde-format

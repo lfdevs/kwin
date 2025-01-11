@@ -38,6 +38,7 @@ enum class NamedColorimetry {
     GenericFilm,
     BT2020,
     CIEXYZ,
+    CIEXYZD50,
     DCIP3,
     DisplayP3,
     AdobeRGB
@@ -118,6 +119,11 @@ public:
      */
     Colorimetry adaptedTo(xyY newWhitepoint) const;
     /**
+     * replaces the current whitepoint with the new one
+     * this does not do whitepoint adaptation!
+     */
+    Colorimetry withWhitepoint(xyY newWhitePoint) const;
+    /**
      * interpolates the primaries depending on the passed factor. The whitepoint stays unchanged
      */
     Colorimetry interpolateGamutTo(const Colorimetry &one, double factor) const;
@@ -161,6 +167,8 @@ public:
     double nitsToEncoded(double nits) const;
     QVector3D encodedToNits(const QVector3D &encoded) const;
     QVector3D nitsToEncoded(const QVector3D &nits) const;
+    QVector4D encodedToNits(const QVector4D &encoded) const;
+    QVector4D nitsToEncoded(const QVector4D &nits) const;
 
     Type type;
     /**
@@ -219,14 +227,17 @@ public:
     bool operator==(const ColorDescription &other) const = default;
 
     ColorDescription withTransferFunction(const TransferFunction &func) const;
+    /**
+     * replaces the current whitepoint with the new one
+     * this does not do whitepoint adaptation!
+     */
+    ColorDescription withWhitepoint(xyY newWhitePoint) const;
 
     /**
      * @returns a matrix that transforms from linear RGB in this color description to linear RGB in the other one
      */
     QMatrix4x4 toOther(const ColorDescription &other, RenderingIntent intent) const;
     QVector3D mapTo(QVector3D rgb, const ColorDescription &other, RenderingIntent intent) const;
-
-    void setHdrPassthrough(bool passthrough);
 
     /**
      * This color description describes display-referred sRGB, with a gamma22 transfer function
@@ -242,9 +253,11 @@ private:
     double m_minLuminance;
     std::optional<double> m_maxAverageLuminance;
     std::optional<double> m_maxHdrLuminance;
-    bool m_hdrPassthrough = false;
 };
 }
 
 KWIN_EXPORT QDebug operator<<(QDebug debug, const KWin::TransferFunction &tf);
 KWIN_EXPORT QDebug operator<<(QDebug debug, const KWin::XYZ &xyz);
+KWIN_EXPORT QDebug operator<<(QDebug debug, const KWin::xyY &xyY);
+KWIN_EXPORT QDebug operator<<(QDebug debug, const KWin::Colorimetry &color);
+KWIN_EXPORT QDebug operator<<(QDebug debug, const KWin::ColorDescription &color);

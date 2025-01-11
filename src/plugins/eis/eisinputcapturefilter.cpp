@@ -29,17 +29,24 @@ void EisInputCaptureFilter::clearTouches()
     m_touches.clear();
 }
 
-bool EisInputCaptureFilter::pointerEvent(MouseEvent *event, quint32 nativeButton)
+bool EisInputCaptureFilter::pointerMotion(PointerMotionEvent *event)
 {
     if (!m_manager->activeCapture()) {
         return false;
     }
     if (const auto pointer = m_manager->activeCapture()->pointer()) {
-        if (event->type() == QMouseEvent::MouseMove) {
-            eis_device_pointer_motion(pointer, event->delta().x(), event->delta().y());
-        } else if (event->type() == QMouseEvent::MouseButtonPress || event->type() == QMouseEvent::MouseButtonRelease) {
-            eis_device_button_button(pointer, nativeButton, event->type() == QMouseEvent::MouseButtonPress);
-        }
+        eis_device_pointer_motion(pointer, event->delta.x(), event->delta.y());
+    }
+    return true;
+}
+
+bool EisInputCaptureFilter::pointerButton(PointerButtonEvent *event)
+{
+    if (!m_manager->activeCapture()) {
+        return false;
+    }
+    if (const auto pointer = m_manager->activeCapture()->pointer()) {
+        eis_device_button_button(pointer, event->nativeButton, event->state == PointerButtonState::Pressed);
     }
     return true;
 }
@@ -55,28 +62,28 @@ bool EisInputCaptureFilter::pointerFrame()
     return true;
 }
 
-bool EisInputCaptureFilter::wheelEvent(WheelEvent *event)
+bool EisInputCaptureFilter::pointerAxis(PointerAxisEvent *event)
 {
     if (!m_manager->activeCapture()) {
         return false;
     }
     if (const auto pointer = m_manager->activeCapture()->pointer()) {
-        if (event->delta()) {
-            if (event->deltaV120()) {
-                if (event->orientation() == Qt::Horizontal) {
-                    eis_device_scroll_discrete(pointer, event->deltaV120(), 0);
+        if (event->delta) {
+            if (event->deltaV120) {
+                if (event->orientation == Qt::Horizontal) {
+                    eis_device_scroll_discrete(pointer, event->deltaV120, 0);
                 } else {
-                    eis_device_scroll_discrete(pointer, 0, event->deltaV120());
+                    eis_device_scroll_discrete(pointer, 0, event->deltaV120);
                 }
             } else {
-                if (event->orientation() == Qt::Horizontal) {
-                    eis_device_scroll_delta(pointer, event->delta(), 0);
+                if (event->orientation == Qt::Horizontal) {
+                    eis_device_scroll_delta(pointer, event->delta, 0);
                 } else {
-                    eis_device_scroll_delta(pointer, 0, event->delta());
+                    eis_device_scroll_delta(pointer, 0, event->delta);
                 }
             }
         } else {
-            if (event->orientation() == Qt::Horizontal) {
+            if (event->orientation == Qt::Horizontal) {
                 eis_device_scroll_stop(pointer, true, false);
             } else {
                 eis_device_scroll_stop(pointer, false, true);
@@ -86,14 +93,14 @@ bool EisInputCaptureFilter::wheelEvent(WheelEvent *event)
     return true;
 }
 
-bool EisInputCaptureFilter::keyEvent(KeyEvent *event)
+bool EisInputCaptureFilter::keyboardKey(KeyboardKeyEvent *event)
 {
     if (!m_manager->activeCapture()) {
         return false;
     }
     if (const auto keyboard = m_manager->activeCapture()->keyboard()) {
-        eis_device_keyboard_key(keyboard, event->nativeScanCode(), event->type() == QKeyEvent::KeyPress);
-        eis_device_frame(keyboard, std::chrono::duration_cast<std::chrono::milliseconds>(event->timestamp()).count());
+        eis_device_keyboard_key(keyboard, event->nativeScanCode, event->state != KeyboardKeyState::Released);
+        eis_device_frame(keyboard, std::chrono::duration_cast<std::chrono::milliseconds>(event->timestamp).count());
     }
     return true;
 }

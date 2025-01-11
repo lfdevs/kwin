@@ -100,6 +100,10 @@ private Q_SLOTS:
     void testAlphaNumericKeyboard();
     void testEnabled_data();
     void testEnabled();
+    void testDisableEventsOnExternalMouseEnabledByDefault_data();
+    void testDisableEventsOnExternalMouseEnabledByDefault();
+    void testDisableEventsOnExternalMouse_data();
+    void testDisableEventsOnExternalMouse();
     void testTapToClick_data();
     void testTapToClick();
     void testTapAndDragEnabledByDefault_data();
@@ -155,6 +159,8 @@ private Q_SLOTS:
     void testLoadLmrTapButtonMap();
     void testLoadLeftHanded_data();
     void testLoadLeftHanded();
+    void testLoadPressureCurve_data();
+    void testLoadPressureCurve();
     void testOrientation_data();
     void testOrientation();
     void testCalibrationWithDefault();
@@ -167,11 +173,10 @@ namespace
 template<typename T>
 T dbusProperty(const QString &name, const char *property)
 {
-    QDBusInterface interface {
+    QDBusInterface interface{
         QStringLiteral("org.kde.kwin.tests.libinputdevice"),
-            QStringLiteral("/org/kde/KWin/InputDevice/") + name,
-            QStringLiteral("org.kde.KWin.InputDevice")
-    };
+        QStringLiteral("/org/kde/KWin/InputDevice/") + name,
+        QStringLiteral("org.kde.KWin.InputDevice")};
     return interface.property(property).value<T>();
 }
 }
@@ -1024,14 +1029,17 @@ void TestLibinputDevice::testEnabled_data()
     QTest::addColumn<bool>("initValue");
     QTest::addColumn<bool>("setValue");
     QTest::addColumn<bool>("expectedValue");
+    QTest::addColumn<bool>("disableEventsOnExternalMouse");
 
-    QTest::newRow("unsupported/true") << false << false << true << false << true;
-    QTest::newRow("unsupported/false") << false << false << false << true << true;
-    QTest::newRow("true -> false") << true << false << true << false << false;
-    QTest::newRow("false -> true") << true << false << false << true << true;
-    QTest::newRow("set fails") << true << true << true << false << true;
-    QTest::newRow("true -> true") << true << false << true << true << true;
-    QTest::newRow("false -> false") << true << false << false << false << false;
+    QTest::newRow("unsupported/true") << false << false << true << false << true << false;
+    QTest::newRow("unsupported/false") << false << false << false << true << true << false;
+    QTest::newRow("true -> false") << true << false << true << false << false << false;
+    QTest::newRow("false -> true") << true << false << false << true << true << false;
+    QTest::newRow("true w/ disableEventsOnExternalMouse -> false") << true << false << true << false << false << true;
+    QTest::newRow("set fails") << true << true << true << false << true << false;
+    QTest::newRow("true -> true") << true << false << true << true << true << false;
+    QTest::newRow("true w/ disableEventsOnExternalMouse -> true") << true << false << true << true << true << true;
+    QTest::newRow("false -> false") << true << false << false << false << false << false;
 }
 
 void TestLibinputDevice::testEnabled()
@@ -1040,8 +1048,11 @@ void TestLibinputDevice::testEnabled()
     QFETCH(bool, supported);
     QFETCH(bool, setShouldFail);
     QFETCH(bool, initValue);
+    QFETCH(bool, disableEventsOnExternalMouse);
     device.supportsDisableEvents = supported;
     device.enabled = initValue;
+    device.supportsDisableEventsOnExternalMouse = disableEventsOnExternalMouse;
+    device.disableEventsOnExternalMouse = disableEventsOnExternalMouse;
     device.setEnableModeReturnValue = setShouldFail;
 
     Device d(&device);
@@ -1053,9 +1064,86 @@ void TestLibinputDevice::testEnabled()
     QFETCH(bool, setValue);
     d.setEnabled(setValue);
     QFETCH(bool, expectedValue);
+    QCOMPARE(enabledChangedSpy.isEmpty(), !supported || initValue == expectedValue);
     QCOMPARE(d.isEnabled(), expectedValue);
-
     QCOMPARE(dbusProperty<bool>(d.sysName(), "enabled"), expectedValue);
+
+    // make sure we didn't mess up the other part of Send Events Mode
+    QCOMPARE(d.isDisableEventsOnExternalMouse(), disableEventsOnExternalMouse);
+    QCOMPARE(dbusProperty<bool>(d.sysName(), "disableEventsOnExternalMouse"), disableEventsOnExternalMouse);
+}
+
+void TestLibinputDevice::testDisableEventsOnExternalMouseEnabledByDefault_data()
+{
+    QTest::addColumn<bool>("supported");
+    QTest::addColumn<bool>("expectedValue");
+
+    QTest::newRow("supported") << true << false;
+    QTest::newRow("unsupported") << false << false;
+}
+
+void TestLibinputDevice::testDisableEventsOnExternalMouseEnabledByDefault()
+{
+    QFETCH(bool, supported);
+    QFETCH(bool, expectedValue);
+    libinput_device device;
+    device.supportsDisableEventsOnExternalMouse = supported;
+
+    Device d(&device);
+    QCOMPARE(d.disableEventsOnExternalMouseEnabledByDefault(), expectedValue);
+    QCOMPARE(d.property("disableEventsOnExternalMouseEnabledByDefault").toBool(), expectedValue);
+    QCOMPARE(dbusProperty<bool>(d.sysName(), "disableEventsOnExternalMouseEnabledByDefault"), expectedValue);
+}
+
+void TestLibinputDevice::testDisableEventsOnExternalMouse_data()
+{
+    QTest::addColumn<bool>("supported");
+    QTest::addColumn<bool>("setShouldFail");
+    QTest::addColumn<bool>("initValue");
+    QTest::addColumn<bool>("setValue");
+    QTest::addColumn<bool>("expectedValue");
+    QTest::addColumn<bool>("deviceEnabled");
+
+    QTest::newRow("unsupported/true") << false << false << true << false << false << true;
+    QTest::newRow("unsupported/false") << false << false << false << true << false << true;
+    QTest::newRow("true -> false") << true << false << true << false << false << true;
+    QTest::newRow("false -> true") << true << false << false << true << true << true;
+    QTest::newRow("true -> false with device disabled") << true << false << true << false << false << false;
+    QTest::newRow("false -> true with device disabled") << true << false << false << true << true << false;
+    QTest::newRow("set fails") << true << true << true << false << true << true;
+    QTest::newRow("true -> true") << true << false << true << true << true << true;
+    QTest::newRow("false -> false") << true << false << false << false << false << true;
+}
+
+void TestLibinputDevice::testDisableEventsOnExternalMouse()
+{
+    libinput_device device;
+    QFETCH(bool, supported);
+    QFETCH(bool, setShouldFail);
+    QFETCH(bool, initValue);
+    QFETCH(bool, deviceEnabled);
+    device.supportsDisableEvents = !deviceEnabled;
+    device.enabled = deviceEnabled;
+    device.supportsDisableEventsOnExternalMouse = supported;
+    device.disableEventsOnExternalMouse = initValue;
+    device.setEnableModeReturnValue = setShouldFail;
+
+    Device d(&device);
+    QCOMPARE(d.isDisableEventsOnExternalMouse(), supported && initValue);
+    QCOMPARE(d.property("disableEventsOnExternalMouse").toBool(), supported && initValue);
+    QCOMPARE(dbusProperty<bool>(d.sysName(), "disableEventsOnExternalMouse"), supported && initValue);
+
+    QSignalSpy disableEventsOnExternalMouseChangedSpy(&d, &Device::disableEventsOnExternalMouseChanged);
+    QFETCH(bool, setValue);
+    d.setDisableEventsOnExternalMouse(setValue);
+    QFETCH(bool, expectedValue);
+    QCOMPARE(d.isDisableEventsOnExternalMouse(), expectedValue);
+    QCOMPARE(disableEventsOnExternalMouseChangedSpy.isEmpty(), !supported || initValue == expectedValue);
+    QCOMPARE(dbusProperty<bool>(d.sysName(), "disableEventsOnExternalMouse"), expectedValue);
+
+    // make sure we didn't mess up the other part of Send Events Mode
+    QCOMPARE(d.isEnabled(), deviceEnabled);
+    QCOMPARE(dbusProperty<bool>(d.sysName(), "enabled"), deviceEnabled);
 }
 
 void TestLibinputDevice::testTapToClick_data()
@@ -2183,6 +2271,51 @@ void TestLibinputDevice::testLoadLeftHanded()
     if (configValue != initValue) {
         d.setLeftHanded(initValue);
         QCOMPARE(inputConfig.readEntry("LeftHanded", configValue), initValue);
+    }
+}
+
+void TestLibinputDevice::testLoadPressureCurve_data()
+{
+    QTest::addColumn<QEasingCurve>("initValue");
+    QTest::addColumn<QEasingCurve>("configValue");
+
+    const auto defaultCurve = Device::deserializePressureCurve("0.0,0.0;1.0,1.0;");
+    const auto modifiedCurve = Device::deserializePressureCurve("1.0,0.0;1.0,1.0;");
+
+    QTest::newRow("default -> modified") << defaultCurve << modifiedCurve;
+    QTest::newRow("modified -> default") << modifiedCurve << defaultCurve;
+    QTest::newRow("default -> default") << defaultCurve << defaultCurve;
+}
+
+void TestLibinputDevice::testLoadPressureCurve()
+{
+    auto config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
+    KConfigGroup inputConfig(config, QStringLiteral("Test"));
+
+    QFETCH(QEasingCurve, configValue);
+    const QString configValueString = Device::serializePressureCurve(configValue);
+    QFETCH(QEasingCurve, initValue);
+    const QString initValueString = Device::serializePressureCurve(initValue);
+
+    inputConfig.writeEntry("TabletToolPressureCurve", configValueString);
+
+    libinput_device device;
+    Device d(&device);
+    d.setPressureCurve(initValueString);
+    QCOMPARE(d.pressureCurve(), initValue);
+    // no config group set, should not change
+    d.loadConfiguration();
+    QCOMPARE(d.pressureCurve(), initValue);
+
+    // set the group
+    d.setConfig(inputConfig);
+    d.loadConfiguration();
+    QCOMPARE(d.pressureCurve(), configValue);
+
+    // and try to store
+    if (configValue != initValue) {
+        d.setPressureCurve(initValueString);
+        QCOMPARE(inputConfig.readEntry("TabletToolPressureCurve", configValueString), initValueString);
     }
 }
 

@@ -19,6 +19,11 @@
 
 #include <optional>
 
+namespace KDecoration3
+{
+class DecorationState;
+}
+
 namespace KWin
 {
 
@@ -30,6 +35,7 @@ class ServerSideDecorationPaletteInterface;
 class XdgDialogV1Interface;
 class XdgToplevelDecorationV1Interface;
 class Output;
+class Tile;
 
 class XdgSurfaceConfigure
 {
@@ -47,6 +53,7 @@ public:
     Gravity gravity;
     qreal serial;
     ConfigureFlags flags;
+    double scale;
 };
 
 class XdgSurfaceWindow : public WaylandWindow
@@ -102,8 +109,10 @@ private:
 class XdgToplevelConfigure final : public XdgSurfaceConfigure
 {
 public:
-    std::shared_ptr<KDecoration2::Decoration> decoration;
+    std::shared_ptr<KDecoration3::Decoration> decoration;
+    std::shared_ptr<KDecoration3::DecorationState> decorationState;
     XdgToplevelInterface::States states;
+    QPointer<Tile> tile = nullptr;
 };
 
 class XdgToplevelWindow final : public XdgSurfaceWindow
@@ -145,6 +154,7 @@ public:
     bool userCanSetNoBorder() const override;
     bool noBorder() const override;
     void setNoBorder(bool set) override;
+    KDecoration3::Decoration *nextDecoration() const override;
     void invalidateDecoration() override;
     QString preferredColorScheme() const override;
     bool supportsWindowRules() const override;
@@ -154,7 +164,7 @@ public:
     bool dockWantsInput() const override;
     void setFullScreen(bool set) override;
     void closeWindow() override;
-    void maximize(MaximizeMode mode) override;
+    void maximize(MaximizeMode mode, const QRectF &restore = QRectF()) override;
 
     void installAppMenu(AppMenuInterface *appMenu);
     void installServerDecoration(ServerSideDecorationInterface *decoration);
@@ -177,7 +187,7 @@ protected:
     bool acceptsFocus() const override;
     void doSetQuickTileMode() override;
     void doSetSuspended() override;
-    void doSetPreferredBufferScale() override;
+    void doSetNextTargetScale() override;
     void doSetPreferredBufferTransform() override;
     void doSetPreferredColorDescription() override;
 
@@ -212,7 +222,9 @@ private:
     void configureXdgDecoration(DecorationMode decorationMode);
     void configureServerDecoration(DecorationMode decorationMode);
     void clearDecoration();
+    void processDecorationState(std::shared_ptr<KDecoration3::DecorationState> state);
     void updateCapabilities();
+    void updateIcon();
 
     QPointer<AppMenuInterface> m_appMenuInterface;
     QPointer<ServerSideDecorationPaletteInterface> m_paletteInterface;
@@ -235,7 +247,8 @@ private:
     bool m_userNoBorder = false;
     bool m_isTransient = false;
     QPointer<Output> m_fullScreenRequestedOutput;
-    std::shared_ptr<KDecoration2::Decoration> m_nextDecoration;
+    std::shared_ptr<KDecoration3::Decoration> m_nextDecoration;
+    std::shared_ptr<KDecoration3::DecorationState> m_nextDecorationState;
     std::unique_ptr<KillPrompt> m_killPrompt;
 };
 
@@ -265,7 +278,7 @@ protected:
     bool acceptsFocus() const override;
     XdgSurfaceConfigure *sendRoleConfigure() const override;
     void handleRoleDestroyed() override;
-    void doSetPreferredBufferScale() override;
+    void doSetNextTargetScale() override;
     void doSetPreferredBufferTransform() override;
     void doSetPreferredColorDescription() override;
 

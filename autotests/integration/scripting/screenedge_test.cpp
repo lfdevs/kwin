@@ -22,6 +22,7 @@
 
 Q_DECLARE_METATYPE(KWin::ElectricBorder)
 
+using namespace std::chrono_literals;
 using namespace KWin;
 
 static const QString s_socketName = QStringLiteral("wayland_test_kwin_scripting_screenedge-0");
@@ -47,7 +48,6 @@ private:
 
 void ScreenEdgeTest::initTestCase()
 {
-    QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
     Test::setOutputConfig({QRect(0, 0, 1280, 1024)});
 
@@ -69,11 +69,10 @@ void ScreenEdgeTest::initTestCase()
     kwinApp()->setConfig(config);
 
     kwinApp()->start();
-    QVERIFY(applicationStartedSpy.wait());
     QVERIFY(Scripting::self());
 
-    workspace()->screenEdges()->setTimeThreshold(0);
-    workspace()->screenEdges()->setReActivationThreshold(0);
+    workspace()->screenEdges()->setTimeThreshold(0ms);
+    workspace()->screenEdges()->setReActivationThreshold(0ms);
 }
 
 void ScreenEdgeTest::init()

@@ -42,10 +42,6 @@ private Q_SLOTS:
     void testEnterLeave();
     void testPointerPressRelease();
     void testPointerAxis();
-    void testKeyboard_data();
-    void testKeyboard();
-    void testKeyboardShowWithoutActivating();
-    void testKeyboardTriggersLeave();
     void testTouch();
     void testOpacity();
     void testMove();
@@ -132,20 +128,20 @@ bool HelperWindow::event(QEvent *event)
 
 void HelperWindow::mouseMoveEvent(QMouseEvent *event)
 {
-    m_latestGlobalMousePos = event->globalPos();
-    Q_EMIT mouseMoved(event->globalPos());
+    m_latestGlobalMousePos = event->globalPosition().toPoint();
+    Q_EMIT mouseMoved(m_latestGlobalMousePos);
 }
 
 void HelperWindow::mousePressEvent(QMouseEvent *event)
 {
-    m_latestGlobalMousePos = event->globalPos();
+    m_latestGlobalMousePos = event->globalPosition().toPoint();
     m_pressedButtons = event->buttons();
     Q_EMIT mousePressed();
 }
 
 void HelperWindow::mouseReleaseEvent(QMouseEvent *event)
 {
-    m_latestGlobalMousePos = event->globalPos();
+    m_latestGlobalMousePos = event->globalPosition().toPoint();
     m_pressedButtons = event->buttons();
     Q_EMIT mouseReleased();
 }
@@ -191,7 +187,6 @@ void InternalWindowTest::initTestCase()
 {
     qRegisterMetaType<KWin::Window *>();
     qRegisterMetaType<KWin::InternalWindow *>();
-    QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
     Test::setOutputConfig({
         QRect(0, 0, 1280, 1024),
@@ -200,7 +195,6 @@ void InternalWindowTest::initTestCase()
     kwinApp()->setConfig(KSharedConfig::openConfig(QString(), KConfig::SimpleConfig));
 
     kwinApp()->start();
-    QVERIFY(applicationStartedSpy.wait());
     const auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
     QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
@@ -301,128 +295,6 @@ void InternalWindowTest::testPointerAxis()
     QTRY_COMPARE(wheelSpy.count(), 1);
     Test::pointerAxisHorizontal(5.0, timestamp++);
     QTRY_COMPARE(wheelSpy.count(), 2);
-}
-
-void InternalWindowTest::testKeyboard_data()
-{
-    QTest::addColumn<QPoint>("cursorPos");
-
-    QTest::newRow("on Window") << QPoint(50, 50);
-    QTest::newRow("outside Window") << QPoint(250, 250);
-}
-
-void InternalWindowTest::testKeyboard()
-{
-    QSignalSpy windowAddedSpy(workspace(), &Workspace::windowAdded);
-    HelperWindow win;
-    win.setGeometry(0, 0, 100, 100);
-    win.show();
-    QSignalSpy pressSpy(&win, &HelperWindow::keyPressed);
-    QSignalSpy releaseSpy(&win, &HelperWindow::keyReleased);
-    QTRY_COMPARE(windowAddedSpy.count(), 1);
-    auto internalWindow = windowAddedSpy.first().first().value<InternalWindow *>();
-    QVERIFY(internalWindow);
-    QVERIFY(internalWindow->isInternal());
-    QVERIFY(internalWindow->readyForPainting());
-
-    quint32 timestamp = 1;
-    QFETCH(QPoint, cursorPos);
-    Test::pointerMotion(cursorPos, timestamp++);
-
-    Test::keyboardKeyPressed(KEY_A, timestamp++);
-    QTRY_COMPARE(pressSpy.count(), 1);
-    QCOMPARE(releaseSpy.count(), 0);
-    Test::keyboardKeyReleased(KEY_A, timestamp++);
-    QTRY_COMPARE(releaseSpy.count(), 1);
-    QCOMPARE(pressSpy.count(), 1);
-}
-
-void InternalWindowTest::testKeyboardShowWithoutActivating()
-{
-    QSignalSpy windowAddedSpy(workspace(), &Workspace::windowAdded);
-    HelperWindow win;
-    win.setProperty("_q_showWithoutActivating", true);
-    win.setGeometry(0, 0, 100, 100);
-    win.show();
-    QSignalSpy pressSpy(&win, &HelperWindow::keyPressed);
-    QSignalSpy releaseSpy(&win, &HelperWindow::keyReleased);
-    QTRY_COMPARE(windowAddedSpy.count(), 1);
-    auto internalWindow = windowAddedSpy.first().first().value<InternalWindow *>();
-    QVERIFY(internalWindow);
-    QVERIFY(internalWindow->isInternal());
-    QVERIFY(internalWindow->readyForPainting());
-
-    quint32 timestamp = 1;
-    const QPoint cursorPos = QPoint(50, 50);
-    Test::pointerMotion(cursorPos, timestamp++);
-
-    Test::keyboardKeyPressed(KEY_A, timestamp++);
-    QCOMPARE(pressSpy.count(), 0);
-    QVERIFY(!pressSpy.wait(100));
-    QCOMPARE(releaseSpy.count(), 0);
-    Test::keyboardKeyReleased(KEY_A, timestamp++);
-    QCOMPARE(releaseSpy.count(), 0);
-    QVERIFY(!releaseSpy.wait(100));
-    QCOMPARE(pressSpy.count(), 0);
-}
-
-void InternalWindowTest::testKeyboardTriggersLeave()
-{
-    // this test verifies that a leave event is sent to a window when an internal window
-    // gets a key event
-    std::unique_ptr<KWayland::Client::Keyboard> keyboard(Test::waylandSeat()->createKeyboard());
-    QVERIFY(keyboard != nullptr);
-    QVERIFY(keyboard->isValid());
-    QSignalSpy enteredSpy(keyboard.get(), &KWayland::Client::Keyboard::entered);
-    QSignalSpy leftSpy(keyboard.get(), &KWayland::Client::Keyboard::left);
-    std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
-    std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get()));
-
-    // now let's render
-    auto window = Test::renderAndWaitForShown(surface.get(), QSize(100, 50), Qt::blue);
-    QVERIFY(window);
-    QVERIFY(window->isActive());
-    QVERIFY(!window->isInternal());
-
-    if (enteredSpy.isEmpty()) {
-        QVERIFY(enteredSpy.wait());
-    }
-    QCOMPARE(enteredSpy.count(), 1);
-
-    // create internal window
-    QSignalSpy windowAddedSpy(workspace(), &Workspace::windowAdded);
-    HelperWindow win;
-    win.setGeometry(0, 0, 100, 100);
-    win.show();
-    QSignalSpy pressSpy(&win, &HelperWindow::keyPressed);
-    QSignalSpy releaseSpy(&win, &HelperWindow::keyReleased);
-    QTRY_COMPARE(windowAddedSpy.count(), 1);
-    auto internalWindow = windowAddedSpy.first().first().value<InternalWindow *>();
-    QVERIFY(internalWindow);
-    QVERIFY(internalWindow->isInternal());
-    QVERIFY(internalWindow->readyForPainting());
-
-    QVERIFY(leftSpy.isEmpty());
-    QVERIFY(!leftSpy.wait(100));
-
-    // now let's trigger a key, which should result in a leave
-    quint32 timestamp = 1;
-    Test::keyboardKeyPressed(KEY_A, timestamp++);
-    QVERIFY(leftSpy.wait());
-    QCOMPARE(pressSpy.count(), 1);
-
-    Test::keyboardKeyReleased(KEY_A, timestamp++);
-    QTRY_COMPARE(releaseSpy.count(), 1);
-
-    // after hiding the internal window, next key press should trigger an enter
-    win.hide();
-    Test::keyboardKeyPressed(KEY_A, timestamp++);
-    QVERIFY(enteredSpy.wait());
-    Test::keyboardKeyReleased(KEY_A, timestamp++);
-
-    // Destroy the test window.
-    shellSurface.reset();
-    QVERIFY(Test::waitForWindowClosed(window));
 }
 
 void InternalWindowTest::testTouch()
@@ -611,6 +483,17 @@ void InternalWindowTest::testPopup()
     auto internalWindow = windowAddedSpy.first().first().value<InternalWindow *>();
     QVERIFY(internalWindow);
     QCOMPARE(internalWindow->isPopupWindow(), true);
+
+    QSignalSpy pressSpy(&win, &HelperWindow::keyPressed);
+    QSignalSpy releaseSpy(&win, &HelperWindow::keyReleased);
+
+    quint32 timestamp = 1;
+    Test::keyboardKeyPressed(KEY_A, timestamp++);
+    QTRY_COMPARE(pressSpy.count(), 1);
+    QCOMPARE(releaseSpy.count(), 0);
+    Test::keyboardKeyReleased(KEY_A, timestamp++);
+    QTRY_COMPARE(releaseSpy.count(), 1);
+    QCOMPARE(pressSpy.count(), 1);
 }
 
 void InternalWindowTest::testScale()

@@ -15,7 +15,7 @@
 
 #include "core/output.h"
 #include "cursorsource.h"
-#include "decorations/decoratedclient.h"
+#include "decorations/decoratedwindow.h"
 #include "effect/effecthandler.h"
 #include "input_event.h"
 #include "input_event_spy.h"
@@ -32,7 +32,7 @@
 #include "window.h"
 #include "workspace.h"
 // KDecoration
-#include <KDecoration2/Decoration>
+#include <KDecoration3/Decoration>
 // screenlocker
 #if KWIN_BUILD_SCREENLOCKER
 #include <KScreenLocker/KsldApp>
@@ -253,54 +253,59 @@ void PointerInputRedirection::processMotionInternal(const QPointF &pos, const QP
 
     PositionUpdateBlocker blocker(this);
     updatePosition(pos, time);
-    MouseEvent event(QEvent::MouseMove, m_pos, Qt::NoButton, m_qtButtons,
-                     input()->keyboardModifiers(), time,
-                     delta, deltaNonAccelerated, device, type == MotionType::Warp);
-    event.setModifiersRelevantForGlobalShortcuts(input()->modifiersRelevantForGlobalShortcuts());
+
+    PointerMotionEvent event{
+        .device = device,
+        .position = m_pos,
+        .delta = delta,
+        .deltaUnaccelerated = deltaNonAccelerated,
+        .warp = type == MotionType::Warp,
+        .buttons = m_qtButtons,
+        .modifiers = input()->keyboardModifiers(),
+        .modifiersRelevantForShortcuts = input()->modifiersRelevantForGlobalShortcuts(),
+        .timestamp = time,
+    };
 
     update();
-    input()->processSpies(std::bind(&InputEventSpy::pointerEvent, std::placeholders::_1, &event));
-    input()->processFilters(std::bind(&InputEventFilter::pointerEvent, std::placeholders::_1, &event, 0));
+    input()->processSpies(std::bind(&InputEventSpy::pointerMotion, std::placeholders::_1, &event));
+    input()->processFilters(std::bind(&InputEventFilter::pointerMotion, std::placeholders::_1, &event));
 }
 
-void PointerInputRedirection::processButton(uint32_t button, InputRedirection::PointerButtonState state, std::chrono::microseconds time, InputDevice *device)
+void PointerInputRedirection::processButton(uint32_t button, PointerButtonState state, std::chrono::microseconds time, InputDevice *device)
 {
     input()->setLastInputHandler(this);
     if (!inited()) {
         return;
     }
 
-    QEvent::Type type;
-    switch (state) {
-    case InputRedirection::PointerButtonReleased:
-        type = QEvent::MouseButtonRelease;
-        break;
-    case InputRedirection::PointerButtonPressed:
-        type = QEvent::MouseButtonPress;
+    if (state == PointerButtonState::Pressed) {
         update();
-        break;
-    default:
-        Q_UNREACHABLE();
-        return;
     }
 
     updateButton(button, state);
 
-    MouseEvent event(type, m_pos, buttonToQtMouseButton(button), m_qtButtons,
-                     input()->keyboardModifiers(), time, QPointF(), QPointF(), device, false);
-    event.setModifiersRelevantForGlobalShortcuts(input()->modifiersRelevantForGlobalShortcuts());
-    event.setNativeButton(button);
+    PointerButtonEvent event{
+        .device = device,
+        .position = m_pos,
+        .state = state,
+        .button = buttonToQtMouseButton(button),
+        .nativeButton = button,
+        .buttons = m_qtButtons,
+        .modifiers = input()->keyboardModifiers(),
+        .modifiersRelevantForShortcuts = input()->modifiersRelevantForGlobalShortcuts(),
+        .timestamp = time,
+    };
 
-    input()->processSpies(std::bind(&InputEventSpy::pointerEvent, std::placeholders::_1, &event));
-    input()->processFilters(std::bind(&InputEventFilter::pointerEvent, std::placeholders::_1, &event, button));
+    input()->processSpies(std::bind(&InputEventSpy::pointerButton, std::placeholders::_1, &event));
+    input()->processFilters(std::bind(&InputEventFilter::pointerButton, std::placeholders::_1, &event));
 
-    if (state == InputRedirection::PointerButtonReleased) {
+    if (state == PointerButtonState::Released) {
         update();
     }
 }
 
-void PointerInputRedirection::processAxis(InputRedirection::PointerAxis axis, qreal delta, qint32 deltaV120,
-                                          InputRedirection::PointerAxisSource source, std::chrono::microseconds time, InputDevice *device)
+void PointerInputRedirection::processAxis(PointerAxis axis, qreal delta, qint32 deltaV120,
+                                          PointerAxisSource source, bool inverted, std::chrono::microseconds time, InputDevice *device)
 {
     input()->setLastInputHandler(this);
     if (!inited()) {
@@ -311,13 +316,22 @@ void PointerInputRedirection::processAxis(InputRedirection::PointerAxis axis, qr
 
     Q_EMIT input()->pointerAxisChanged(axis, delta);
 
-    WheelEvent wheelEvent(m_pos, delta, deltaV120,
-                          (axis == InputRedirection::PointerAxisHorizontal) ? Qt::Horizontal : Qt::Vertical,
-                          m_qtButtons, input()->keyboardModifiers(), source, time, device);
-    wheelEvent.setModifiersRelevantForGlobalShortcuts(input()->modifiersRelevantForGlobalShortcuts());
+    PointerAxisEvent event{
+        .device = device,
+        .position = m_pos,
+        .delta = delta,
+        .deltaV120 = deltaV120,
+        .orientation = (axis == PointerAxis::Horizontal) ? Qt::Horizontal : Qt::Vertical,
+        .source = source,
+        .buttons = m_qtButtons,
+        .modifiers = input()->keyboardModifiers(),
+        .modifiersRelevantForGlobalShortcuts = input()->modifiersRelevantForGlobalShortcuts(),
+        .inverted = inverted,
+        .timestamp = time,
+    };
 
-    input()->processSpies(std::bind(&InputEventSpy::wheelEvent, std::placeholders::_1, &wheelEvent));
-    input()->processFilters(std::bind(&InputEventFilter::wheelEvent, std::placeholders::_1, &wheelEvent));
+    input()->processSpies(std::bind(&InputEventSpy::pointerAxis, std::placeholders::_1, &event));
+    input()->processFilters(std::bind(&InputEventFilter::pointerAxis, std::placeholders::_1, &event));
 }
 
 void PointerInputRedirection::processSwipeGestureBegin(int fingerCount, std::chrono::microseconds time, KWin::InputDevice *device)
@@ -460,7 +474,7 @@ void PointerInputRedirection::processFrame(KWin::InputDevice *device)
 bool PointerInputRedirection::areButtonsPressed() const
 {
     for (auto state : m_buttons) {
-        if (state == InputRedirection::PointerButtonPressed) {
+        if (state == PointerButtonState::Pressed) {
             return true;
         }
     }
@@ -486,7 +500,7 @@ bool PointerInputRedirection::focusUpdatesBlocked()
     return false;
 }
 
-void PointerInputRedirection::cleanupDecoration(Decoration::DecoratedClientImpl *old, Decoration::DecoratedClientImpl *now)
+void PointerInputRedirection::cleanupDecoration(Decoration::DecoratedWindowImpl *old, Decoration::DecoratedWindowImpl *now)
 {
     disconnect(m_decorationGeometryConnection);
     m_decorationGeometryConnection = QMetaObject::Connection();
@@ -856,14 +870,14 @@ void PointerInputRedirection::updatePosition(const QPointF &pos, std::chrono::mi
     Q_EMIT input()->globalPointerChanged(m_pos);
 }
 
-void PointerInputRedirection::updateButton(uint32_t button, InputRedirection::PointerButtonState state)
+void PointerInputRedirection::updateButton(uint32_t button, PointerButtonState state)
 {
     m_buttons[button] = state;
 
     // update Qt buttons
     m_qtButtons = Qt::NoButton;
     for (auto it = m_buttons.constBegin(); it != m_buttons.constEnd(); ++it) {
-        if (it.value() == InputRedirection::PointerButtonReleased) {
+        if (it.value() == PointerButtonState::Released) {
             continue;
         }
         m_qtButtons |= buttonToQtMouseButton(it.key());

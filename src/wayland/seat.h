@@ -6,11 +6,12 @@
 */
 #pragma once
 
-#include "kwin_export.h"
+#include "core/inputdevice.h"
 
 #include <QMatrix4x4>
 #include <QObject>
 #include <QPoint>
+#include <QPointer>
 
 struct wl_client;
 struct wl_resource;
@@ -19,6 +20,7 @@ namespace KWin
 {
 class AbstractDataSource;
 class AbstractDropHandler;
+class ClientConnection;
 class DragAndDropIcon;
 class DataDeviceInterface;
 class Display;
@@ -33,74 +35,20 @@ class TextInputV3Interface;
 class TouchInterface;
 class XdgToplevelDragV1Interface;
 
-/**
- * Describes the source types for axis events. This indicates to the
- * client how an axis event was physically generated; a client may
- * adjust the user interface accordingly. For example, scroll events
- * from a "finger" source may be in a smooth coordinate space with
- * kinetic scrolling whereas a "wheel" source may be in discrete steps
- * of a number of lines.
- *
- * The "continuous" axis source is a device generating events in a
- * continuous coordinate space, but using something other than a
- * finger. One example for this source is button-based scrolling where
- * the vertical motion of a device is converted to scroll events while
- * a button is held down.
- *
- * The "wheel tilt" axis source indicates that the actual device is a
- * wheel but the scroll event is not caused by a rotation but a
- * (usually sideways) tilt of the wheel.
- */
-enum class PointerAxisSource {
-    Unknown,
-    Wheel,
-    Finger,
-    Continuous,
-    WheelTilt,
-};
-
-/**
- * Maps to wl_pointer.axis_relative_direction. Currently used for y axis only
- */
-enum class PointerAxisRelativeDirection {
-    Normal,
-    Inverted
-};
-
-/**
- * This enum type is used to describe the state of a pointer button. It
- * is equivalent to the @c wl_pointer.button_state enum.
- */
-enum class PointerButtonState : quint32 {
-    Released = 0,
-    Pressed = 1,
-};
-
-/**
- * This enum type is used to describe the state of a keyboard key. It is
- * equivalent to the @c wl_keyboard.key_state enum.
- */
-enum class KeyboardKeyState : quint32 {
-    Released = 0,
-    Pressed = 1,
-};
-
 class TouchPoint : public QObject
 {
     Q_OBJECT
 public:
-    TouchPoint(quint32 serial, SurfaceInterface *surface, SeatInterface *seat)
-        : serial(serial)
-        , surface(surface)
-        , seat(seat)
-    {
-    }
+    TouchPoint(quint32 serial, SurfaceInterface *surface, SeatInterface *seat);
 
     void setSurfacePosition(const QPointF &offset);
 
     quint32 serial = 0;
-    SurfaceInterface *surface = nullptr;
+    QPointer<ClientConnection> client;
+    QPointer<SurfaceInterface> surface;
     SeatInterface *seat = nullptr;
+    QPointF offset;
+    QMatrix4x4 transformation;
 };
 
 /**
@@ -153,7 +101,7 @@ class KWIN_EXPORT SeatInterface : public QObject
 {
     Q_OBJECT
 public:
-    explicit SeatInterface(Display *display, QObject *parent = nullptr);
+    explicit SeatInterface(Display *display, const QString &name, QObject *parent = nullptr);
     virtual ~SeatInterface();
 
     Display *display() const;
@@ -162,7 +110,6 @@ public:
     bool hasKeyboard() const;
     bool hasTouch() const;
 
-    void setName(const QString &name);
     void setHasPointer(bool has);
     void setHasKeyboard(bool has);
     void setHasTouch(bool has);
@@ -380,7 +327,7 @@ public:
      * @param deltaV120 The high-resolution scrolling axis value.
      * @param source Describes how the axis event was physically generated.
      */
-    void notifyPointerAxis(Qt::Orientation orientation, qreal delta, qint32 deltaV120, PointerAxisSource source, PointerAxisRelativeDirection direction = PointerAxisRelativeDirection::Normal);
+    void notifyPointerAxis(Qt::Orientation orientation, qreal delta, qint32 deltaV120, PointerAxisSource source, bool inverted = false);
     /**
      * @returns true if there is a pressed button with the given @p serial
      */
@@ -568,7 +515,7 @@ public:
      * @see hasKeyboard
      * @see setFocusedTextInputSurface
      */
-    void setFocusedKeyboardSurface(SurfaceInterface *surface);
+    void setFocusedKeyboardSurface(SurfaceInterface *surface, const QList<quint32> &keys = {});
     SurfaceInterface *focusedKeyboardSurface() const;
     KeyboardInterface *keyboard() const;
     void notifyKeyboardKey(quint32 keyCode, KeyboardKeyState state);
@@ -588,6 +535,7 @@ public:
     void notifyTouchCancel();
     bool isTouchSequence() const;
     QPointF firstTouchPointPosition(SurfaceInterface *surface) const;
+    TouchPoint *touchPointByImplicitGrabSerial(quint32 serial) const;
     /**
      * @returns true if there is a touch sequence going on associated with a touch
      * down of the given @p serial.
@@ -677,13 +625,11 @@ public:
     static SeatInterface *get(wl_resource *native);
 
 Q_SIGNALS:
-    void nameChanged(const QString &);
     void hasPointerChanged(bool);
     void hasKeyboardChanged(bool);
     void hasTouchChanged(bool);
     void pointerPosChanged(const QPointF &pos);
     void touchMoved(qint32 id, quint32 serial, const QPointF &globalPosition);
-    void timestampChanged();
 
     /**
      * Emitted whenever the selection changes
@@ -730,8 +676,6 @@ Q_SIGNALS:
     void focusedKeyboardSurfaceAboutToChange(SurfaceInterface *nextSurface);
 
 private:
-    void discardSurfaceTouches(SurfaceInterface *surface);
-
     std::unique_ptr<SeatInterfacePrivate> d;
     friend class SeatInterfacePrivate;
     friend class TouchPoint;

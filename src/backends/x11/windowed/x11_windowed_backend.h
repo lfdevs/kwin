@@ -43,14 +43,10 @@ public:
     void setTouch(bool set);
     void setName(const QString &name);
 
-    QString sysName() const override;
     QString name() const override;
 
     bool isEnabled() const override;
     void setEnabled(bool enabled) override;
-
-    LEDs leds() const override;
-    void setLeds(LEDs leds) override;
 
     bool isKeyboard() const override;
     bool isPointer() const override;

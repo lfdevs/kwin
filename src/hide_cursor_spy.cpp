@@ -14,12 +14,17 @@
 namespace KWin
 {
 
-void HideCursorSpy::pointerEvent(MouseEvent *event)
+void HideCursorSpy::pointerMotion(PointerMotionEvent *event)
 {
     showCursor();
 }
 
-void HideCursorSpy::wheelEvent(KWin::WheelEvent *event)
+void HideCursorSpy::pointerButton(PointerButtonEvent *event)
+{
+    showCursor();
+}
+
+void HideCursorSpy::pointerAxis(KWin::PointerAxisEvent *event)
 {
     showCursor();
 }
@@ -29,7 +34,7 @@ void HideCursorSpy::touchDown(qint32 id, const QPointF &pos, std::chrono::micros
     hideCursor();
 }
 
-void HideCursorSpy::tabletToolEvent(TabletEvent *event)
+void HideCursorSpy::tabletToolProximityEvent(TabletEvent *event)
 {
     if (event->type() == QEvent::Type::TabletLeaveProximity) {
         hideCursor();

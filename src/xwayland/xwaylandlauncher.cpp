@@ -16,6 +16,8 @@
 #include "xwaylandsocket.h"
 
 #include "options.h"
+#include "utils/pipe.h"
+#include "utils/socketpair.h"
 #include "wayland_server.h"
 
 #if KWIN_BUILD_NOTIFICATIONS
@@ -34,6 +36,7 @@
 // system
 #include <cerrno>
 #include <cstring>
+#include <fcntl.h>
 #include <sys/socket.h>
 #include <unistd.h>
 
@@ -90,11 +93,7 @@ void XwaylandLauncher::enable()
 
     for (int socket : std::as_const(m_listenFds)) {
         QSocketNotifier *notifier = new QSocketNotifier(socket, QSocketNotifier::Read, this);
-        connect(notifier, &QSocketNotifier::activated, this, [this]() {
-            if (!m_xwaylandProcess) {
-                start();
-            }
-        });
+        connect(notifier, &QSocketNotifier::activated, this, &XwaylandLauncher::start);
         connect(this, &XwaylandLauncher::started, notifier, [notifier]() {
             notifier->setEnabled(false);
         });
@@ -119,57 +118,30 @@ bool XwaylandLauncher::start()
     if (m_xwaylandProcess) {
         return false;
     }
-    QList<int> fdsToClose;
-    auto cleanup = qScopeGuard([&fdsToClose] {
-        for (const int fd : std::as_const(fdsToClose)) {
-            close(fd);
-        }
-    });
 
-    int pipeFds[2];
-    if (pipe(pipeFds) != 0) {
+    auto displayfd = Pipe::create(O_CLOEXEC);
+    if (!displayfd.has_value()) {
         qCWarning(KWIN_XWL, "Failed to create pipe to start Xwayland: %s", strerror(errno));
         Q_EMIT errorOccurred();
         return false;
     }
-    fdsToClose << pipeFds[1];
 
-    int sx[2];
-    if (socketpair(AF_UNIX, SOCK_STREAM | SOCK_CLOEXEC, 0, sx) < 0) {
+    auto wmfd = SocketPair::create(AF_UNIX, SOCK_STREAM | SOCK_CLOEXEC, 0);
+    if (!wmfd.has_value()) {
         qCWarning(KWIN_XWL, "Failed to open socket for XCB connection: %s", strerror(errno));
         Q_EMIT errorOccurred();
         return false;
     }
-    int fd = dup(sx[1]);
-    if (fd < 0) {
-        qCWarning(KWIN_XWL, "Failed to open socket for XCB connection: %s", strerror(errno));
-        Q_EMIT errorOccurred();
-        return false;
-    } else {
-        fdsToClose << fd;
-        fdsToClose << sx[1];
-    }
 
-    const int waylandSocket = waylandServer()->createXWaylandConnection();
-    if (waylandSocket == -1) {
+    FileDescriptor waylandSocket = waylandServer()->createXWaylandConnection();
+    if (!waylandSocket.isValid()) {
         qCWarning(KWIN_XWL, "Failed to open socket for Xwayland server: %s", strerror(errno));
         Q_EMIT errorOccurred();
         return false;
     }
-    const int wlfd = dup(waylandSocket);
-    if (wlfd < 0) {
-        qCWarning(KWIN_XWL, "Failed to open socket for Xwayland server: %s", strerror(errno));
-        Q_EMIT errorOccurred();
-        return false;
-    } else {
-        fdsToClose << wlfd;
-        fdsToClose << waylandSocket;
-    }
 
-    m_xcbConnectionFd = sx[0];
-
+    QList<int> fdsToPass;
     QStringList arguments;
-
     arguments << m_displayName;
 
     if (!m_listenFds.isEmpty()) {
@@ -179,47 +151,65 @@ bool XwaylandLauncher::start()
         }
 
         for (int socket : std::as_const(m_listenFds)) {
-            int dupSocket = dup(socket);
-            fdsToClose << dupSocket;
-#if HAVE_XWAYLAND_LISTENFD
-            arguments << QStringLiteral("-listenfd") << QString::number(dupSocket);
-#else
-            arguments << QStringLiteral("-listen") << QString::number(dupSocket);
-#endif
+            fdsToPass << socket;
+            arguments << QStringLiteral("-listenfd") << QString::number(socket);
         }
     }
 
-    arguments << QStringLiteral("-displayfd") << QString::number(pipeFds[1]);
+    arguments << QStringLiteral("-displayfd") << QString::number(displayfd->fds[1].get());
+    fdsToPass << displayfd->fds[1].get();
+
+    arguments << QStringLiteral("-wm") << QString::number(wmfd->fds[1].get());
+    fdsToPass << wmfd->fds[1].get();
+
     arguments << QStringLiteral("-rootless");
-    arguments << QStringLiteral("-wm") << QString::number(fd);
 #if HAVE_XWAYLAND_ENABLE_EI_PORTAL
     arguments << QStringLiteral("-enable-ei-portal");
 #endif
 
-    m_xwaylandProcess = new QProcess(this);
-    m_xwaylandProcess->setProcessChannelMode(QProcess::ForwardedErrorChannel);
-    m_xwaylandProcess->setProgram(QStringLiteral("Xwayland"));
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-    env.insert("WAYLAND_SOCKET", QByteArray::number(wlfd));
+
+    env.insert("WAYLAND_SOCKET", QByteArray::number(waylandSocket.get()));
+    fdsToPass << waylandSocket.get();
+
     if (qEnvironmentVariableIntValue("KWIN_XWAYLAND_DEBUG") == 1) {
         env.insert("WAYLAND_DEBUG", QByteArrayLiteral("1"));
     }
-    m_xwaylandProcess->setProcessEnvironment(env);
+
+    m_xwaylandProcess = new QProcess(this);
+    m_xwaylandProcess->setProgram(QStandardPaths::findExecutable("Xwayland"));
     m_xwaylandProcess->setArguments(arguments);
+    m_xwaylandProcess->setProcessChannelMode(QProcess::ForwardedErrorChannel);
+    m_xwaylandProcess->setProcessEnvironment(env);
+    m_xwaylandProcess->setChildProcessModifier([this, fdsToPass]() {
+        for (const int &fd : fdsToPass) {
+            const int originalFlags = fcntl(fd, F_GETFD);
+            if (originalFlags < 0) {
+                m_xwaylandProcess->failChildProcessModifier("failed to get file descriptor flags", errno);
+                break;
+            }
+            if (fcntl(fd, F_SETFD, originalFlags & ~FD_CLOEXEC) < 0) {
+                m_xwaylandProcess->failChildProcessModifier("failed to unset O_CLOEXEC", errno);
+                break;
+            }
+        }
+    });
     connect(m_xwaylandProcess, &QProcess::errorOccurred, this, &XwaylandLauncher::handleXwaylandError);
-    connect(m_xwaylandProcess, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
-            this, &XwaylandLauncher::handleXwaylandFinished);
+    connect(m_xwaylandProcess, &QProcess::finished, this, &XwaylandLauncher::handleXwaylandFinished);
 
     // When Xwayland starts writing the display name to displayfd, it is ready. Alternatively,
     // the Xwayland can send us the SIGUSR1 signal, but it's already reserved for VT hand-off.
-    m_readyNotifier = new QSocketNotifier(pipeFds[0], QSocketNotifier::Read, this);
-    connect(m_readyNotifier, &QSocketNotifier::activated, this, [this]() {
+    m_xcbConnectionFd = std::move(wmfd->fds[0]);
+    m_readyFd = std::move(displayfd->fds[0]);
+    m_readyNotifier = std::make_unique<QSocketNotifier>(m_readyFd.get(), QSocketNotifier::Read);
+    connect(m_readyNotifier.get(), &QSocketNotifier::activated, this, [this]() {
         maybeDestroyReadyNotifier();
-        Q_EMIT started();
+        Q_EMIT ready();
     });
 
     m_xwaylandProcess->start();
 
+    Q_EMIT started();
     return true;
 }
 
@@ -233,9 +223,9 @@ QString XwaylandLauncher::xauthority() const
     return m_xAuthority;
 }
 
-int XwaylandLauncher::xcbConnectionFd() const
+FileDescriptor XwaylandLauncher::takeXcbConnectionFd()
 {
-    return m_xcbConnectionFd;
+    return std::move(m_xcbConnectionFd);
 }
 
 QProcess *XwaylandLauncher::process() const
@@ -252,6 +242,7 @@ void XwaylandLauncher::stop()
 
     maybeDestroyReadyNotifier();
     waylandServer()->destroyXWaylandConnection();
+    m_xcbConnectionFd.reset();
 
     // When the Xwayland process is finally terminated, the finished() signal will be emitted,
     // however we don't actually want to process it anymore. Furthermore, we also don't really
@@ -267,12 +258,8 @@ void XwaylandLauncher::stop()
 
 void XwaylandLauncher::maybeDestroyReadyNotifier()
 {
-    if (m_readyNotifier) {
-        close(m_readyNotifier->socket());
-
-        delete m_readyNotifier;
-        m_readyNotifier = nullptr;
-    }
+    m_readyNotifier.reset();
+    m_readyFd.reset();
 }
 
 void XwaylandLauncher::handleXwaylandFinished(int exitCode, QProcess::ExitStatus exitStatus)

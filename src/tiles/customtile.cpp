@@ -188,9 +188,11 @@ bool CustomTile::supportsResizeGravity(KWin::Gravity gravity)
     return Tile::supportsResizeGravity(gravity);
 }
 
-void CustomTile::split(KWin::Tile::LayoutDirection newDirection)
+QList<CustomTile *> CustomTile::split(KWin::Tile::LayoutDirection newDirection)
 {
     auto *parentT = static_cast<CustomTile *>(parentTile());
+
+    QList<CustomTile *> splitTiles;
 
     // If we are m_rootLayoutTile always create childrens, not siblings
     if (parentT && (parentT->childCount() < 2 || parentT->layoutDirection() == newDirection)) {
@@ -215,7 +217,8 @@ void CustomTile::split(KWin::Tile::LayoutDirection newDirection)
             newGeo.moveTop(newGeo.y() + newGeo.height());
         }
 
-        parentT->createChildAt(newGeo, layoutDirection(), row() + 1);
+        splitTiles << this;
+        splitTiles << parentT->createChildAt(newGeo, layoutDirection(), row() + 1);
     } else {
         // Do a new layout and put tiles inside
         setLayoutDirection(newDirection);
@@ -231,21 +234,23 @@ void CustomTile::split(KWin::Tile::LayoutDirection newDirection)
             newGeo.setTop(std::max(newGeo.top(), relativeGeometry().top()));
             newGeo.setRight(std::min(newGeo.right(), relativeGeometry().right()));
             newGeo.setBottom(std::min(newGeo.bottom(), relativeGeometry().bottom()));
-            createChildAt(newGeo, newDirection, childCount());
+            splitTiles << createChildAt(newGeo, newDirection, childCount());
         } else if (newDirection == LayoutDirection::Horizontal) {
             // Do a new layout with 2 cells inside this one
             newGeo.setWidth(relativeGeometry().width() / 2);
-            createChildAt(newGeo, newDirection, childCount());
+            splitTiles << createChildAt(newGeo, newDirection, childCount());
             newGeo.moveLeft(newGeo.x() + newGeo.width());
-            createChildAt(newGeo, newDirection, childCount());
+            splitTiles << createChildAt(newGeo, newDirection, childCount());
         } else if (newDirection == LayoutDirection::Vertical) {
             // Do a new layout with 2 cells inside this one
             newGeo.setHeight(relativeGeometry().height() / 2);
-            createChildAt(newGeo, newDirection, childCount());
+            splitTiles << createChildAt(newGeo, newDirection, childCount());
             newGeo.moveTop(newGeo.y() + newGeo.height());
-            createChildAt(newGeo, newDirection, childCount());
+            splitTiles << createChildAt(newGeo, newDirection, childCount());
         }
     }
+
+    return splitTiles;
 }
 
 void CustomTile::moveByPixels(const QPointF &delta)
@@ -324,7 +329,7 @@ void CustomTile::remove()
 
     const auto windows = std::exchange(m_windows, {});
     for (Window *window : windows) {
-        window->setTile(m_tiling->bestTileForPosition(window->moveResizeGeometry().center()));
+        window->requestTile(m_tiling->bestTileForPosition(window->moveResizeGeometry().center()));
     }
 
     deleteLater(); // not using "delete this" because QQmlEngine will crash
@@ -335,7 +340,7 @@ CustomTile *CustomTile::nextTileAt(Qt::Edge edge) const
     auto *parentT = static_cast<CustomTile *>(parentTile());
 
     // TODO: implement geometry base searching for floating?
-    if (!parentT || parentT->layoutDirection() == LayoutDirection::Floating) {
+    if (!parentT) {
         return nullptr;
     }
 
@@ -389,6 +394,16 @@ CustomTile *CustomTile::nextTileAt(Qt::Edge edge) const
     } else {
         return parentT->nextTileAt(edge);
     }
+}
+
+CustomTile *CustomTile::nextNonLayoutTileAt(Qt::Edge edge) const
+{
+    auto tile = nextTileAt(edge);
+    // Loop through the tiles until we find a child tile that is not a layout
+    while (tile && tile->isLayout()) {
+        tile = qobject_cast<CustomTile *>(tile->childTiles().first());
+    }
+    return tile;
 }
 
 void CustomTile::setLayoutDirection(Tile::LayoutDirection dir)

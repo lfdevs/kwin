@@ -54,7 +54,6 @@ void DebugConsoleTest::initTestCase()
 {
     qRegisterMetaType<KWin::Window *>();
     qRegisterMetaType<KWin::InternalWindow *>();
-    QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
     Test::setOutputConfig({
         QRect(0, 0, 1280, 1024),
@@ -62,7 +61,6 @@ void DebugConsoleTest::initTestCase()
     });
 
     kwinApp()->start();
-    QVERIFY(applicationStartedSpy.wait());
     const auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
     QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
@@ -242,7 +240,7 @@ void DebugConsoleTest::testX11Unmanaged()
     QVERIFY(!model.index(0, 2, unmanagedTopLevelIndex).isValid());
     QVERIFY(!model.index(1, 0, unmanagedTopLevelIndex).isValid());
 
-    QCOMPARE(model.data(windowIndex, Qt::DisplayRole).toString(), QStringLiteral("0x%1").arg(window, 0, 16));
+    QCOMPARE(model.data(windowIndex, Qt::DisplayRole).toString(), QStringLiteral("0x%1").arg(static_cast<xcb_window_t>(window), 0, 16));
 
     // the windowIndex has children and those are properties
     for (int i = 0; i < model.rowCount(windowIndex); i++) {

@@ -96,6 +96,12 @@ public:
     std::chrono::nanoseconds refreshDuration() const;
     std::chrono::nanoseconds predictedRenderTime() const;
 
+    std::optional<double> brightness() const;
+    void setBrightness(double brightness);
+
+    std::optional<double> artificialHdrHeadroom() const;
+    void setArtificialHdrHeadroom(double edr);
+
 private:
     std::optional<RenderTimeSpan> queryRenderTime() const;
 
@@ -109,6 +115,8 @@ private:
     QRegion m_damage;
     std::vector<std::unique_ptr<RenderTimeQuery>> m_renderTimeQueries;
     bool m_presented = false;
+    std::optional<double> m_brightness;
+    std::optional<double> m_artificialHdrHeadroom;
 };
 
 /**

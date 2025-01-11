@@ -55,7 +55,7 @@ bool HideCursorEffect::isActive() const
     return false;
 }
 
-void HideCursorEffect::pointerEvent(MouseEvent *event)
+void HideCursorEffect::activity()
 {
     showCursor();
     if (m_inactivityDuration > 0) {
@@ -63,34 +63,40 @@ void HideCursorEffect::pointerEvent(MouseEvent *event)
     }
 }
 
-void HideCursorEffect::tabletToolEvent(TabletEvent *event)
+void HideCursorEffect::pointerMotion(PointerMotionEvent *event)
 {
-    showCursor();
-    if (m_inactivityDuration > 0) {
-        m_inactivityTimer.start(m_inactivityDuration);
-    }
+    activity();
 }
 
-void HideCursorEffect::keyEvent(KeyEvent *event)
+void HideCursorEffect::pointerButton(PointerButtonEvent *event)
 {
-    if (m_hideOnTyping && event->type() == QEvent::KeyPress) {
-        auto key = event->key();
-        switch (key) {
-        case Qt::Key_Shift:
-        case Qt::Key_Control:
-        case Qt::Key_Meta:
-        case Qt::Key_Alt:
-        case Qt::Key_AltGr:
-        case Qt::Key_Super_L:
-        case Qt::Key_Super_R:
-        case Qt::Key_Hyper_L:
-        case Qt::Key_Hyper_R:
-        case Qt::Key_Escape:
-            break;
+    activity();
+}
 
-        default:
-            hideCursor();
-        }
+void HideCursorEffect::tabletToolProximityEvent(TabletEvent *event)
+{
+    activity();
+}
+
+void HideCursorEffect::tabletToolAxisEvent(TabletEvent *event)
+{
+    activity();
+}
+
+void HideCursorEffect::tabletToolTipEvent(TabletEvent *event)
+{
+    activity();
+}
+
+void HideCursorEffect::keyboardKey(KeyboardKeyEvent *event)
+{
+    // All functional keys have a Qt key code greater than 0x01000000
+    // https://doc.qt.io/qt-6/qt.html#Key-enum
+    // We don't want to hide the cursor when the user presses a functional key, since they are
+    // usually interleaved with mouse movements.
+    if (m_hideOnTyping && !m_cursorHidden && event->state == KeyboardKeyState::Pressed && event->key < 0x01000000
+        && (event->modifiers == Qt::NoModifier || event->modifiers == Qt::ShiftModifier)) {
+        hideCursor();
     }
 }
 

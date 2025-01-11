@@ -140,7 +140,6 @@ void SessionManager::storeSession(const QString &sessionName, SMSavePhase phase)
     } else { // SMSavePhase2Full
         cg.writeEntry("count", count);
         cg.writeEntry("active", m_sessionActiveClient);
-        cg.writeEntry("desktop", VirtualDesktopManager::self()->current());
     }
     config->sync(); // it previously did some "revert to defaults" stuff for phase1 I think
 }
@@ -241,7 +240,6 @@ void SessionManager::loadSession(const QString &sessionName)
 
 void SessionManager::addSessionInfo(KConfigGroup &cg)
 {
-    workspace()->setInitialDesktop(cg.readEntry("desktop", 1));
     int count = cg.readEntry("count", 0);
     int active_client = cg.readEntry("active", 0);
     for (int i = 1; i <= count; i++) {
@@ -447,9 +445,18 @@ bool SessionManager::closeWaylandWindows()
             connect(toplevelWindow, &XdgToplevelWindow::closed, m_closingWindowsGuard.get(), [this, toplevelWindow, dbusMessage] {
                 m_pendingWindows.removeOne(toplevelWindow);
                 if (m_pendingWindows.empty()) {
+#if KWIN_BUILD_NOTIFICATIONS
+                    if (m_cancelNotification) {
+                        m_cancelNotification->close();
+                        m_cancelNotification = nullptr;
+                    }
+#endif
                     m_closeTimer.stop();
+                    m_logoutAnywayTimer.stop();
                     m_closingWindowsGuard.reset();
                     QDBusConnection::sessionBus().send(dbusMessage.createReply(true));
+                } else {
+                    updateWaylandCancelNotification();
                 }
             });
             m_pendingWindows.push_back(toplevelWindow);
@@ -467,18 +474,10 @@ bool SessionManager::closeWaylandWindows()
     m_closeTimer.setSingleShot(true);
     connect(&m_closeTimer, &QTimer::timeout, m_closingWindowsGuard.get(), [this, dbusMessage] {
 #if KWIN_BUILD_NOTIFICATIONS
-        QStringList apps;
-        apps.reserve(m_pendingWindows.size());
-        std::transform(m_pendingWindows.cbegin(), m_pendingWindows.cend(), std::back_inserter(apps), [](const XdgToplevelWindow *window) -> QString {
-            const auto service = KService::serviceByDesktopName(window->desktopFileName());
-            return QChar(u'•') + (service ? service->name() : window->caption());
-        });
-        apps.removeDuplicates();
-        qCDebug(KWIN_CORE) << "Not closed windows" << apps;
-        auto notification = new KNotification("cancellogout", KNotification::DefaultEvent | KNotification::Persistent);
-        notification->setText(i18n("The following applications did not close:\n%1", apps.join('\n')));
-        auto cancel = notification->addAction(i18nc("@action:button", "Cancel Logout"));
-        auto quit = notification->addAction(i18nc("@action::button", "Log Out Anyway"));
+        m_cancelNotification = new KNotification("cancellogout", KNotification::DefaultEvent | KNotification::Persistent);
+        updateWaylandCancelNotification();
+        auto cancel = m_cancelNotification->addAction(i18nc("@action:button", "Cancel Logout"));
+        auto quit = m_cancelNotification->addAction(i18nc("@action::button", "Log Out Anyway"));
         connect(cancel, &KNotificationAction::activated, m_closingWindowsGuard.get(), [dbusMessage, this] {
             m_closingWindowsGuard.reset();
             QDBusConnection::sessionBus().send(dbusMessage.createReply(false));
@@ -487,17 +486,45 @@ bool SessionManager::closeWaylandWindows()
             m_closingWindowsGuard.reset();
             QDBusConnection::sessionBus().send(dbusMessage.createReply(true));
         });
-        connect(notification, &KNotification::closed, m_closingWindowsGuard.get(), [dbusMessage, this] {
+        connect(m_cancelNotification, &KNotification::closed, m_closingWindowsGuard.get(), [dbusMessage, this] {
             m_closingWindowsGuard.reset();
             QDBusConnection::sessionBus().send(dbusMessage.createReply(false));
         });
-        notification->sendEvent();
+        m_cancelNotification->sendEvent();
 #else
         m_closingWindowsGuard.reset();
         QDBusConnection::sessionBus().send(dbusMessage.createReply(false));
 #endif
     });
+
+    m_logoutAnywayTimer.start(std::chrono::minutes(2));
+    m_logoutAnywayTimer.setSingleShot(true);
+    connect(&m_logoutAnywayTimer, &QTimer::timeout, m_closingWindowsGuard.get(), [this, dbusMessage] {
+        qCInfo(KWIN_CORE) << "Not all windows have closed, logging out anyway";
+        m_closingWindowsGuard.reset();
+        QDBusConnection::sessionBus().send(dbusMessage.createReply(true));
+    });
     return true;
+}
+
+void SessionManager::updateWaylandCancelNotification()
+{
+#if KWIN_BUILD_NOTIFICATIONS
+    if (!m_cancelNotification) {
+        return;
+    }
+
+    QStringList apps;
+    apps.reserve(m_pendingWindows.size());
+    std::transform(m_pendingWindows.cbegin(), m_pendingWindows.cend(), std::back_inserter(apps), [](const XdgToplevelWindow *window) -> QString {
+        const auto service = KService::serviceByDesktopName(window->desktopFileName());
+        return QStringLiteral("• ") + (service ? service->name() : window->caption());
+    });
+    apps.removeDuplicates();
+
+    qCDebug(KWIN_CORE) << "Not closed windows" << apps;
+    m_cancelNotification->setText(i18n("The following applications did not close:\n%1\nLogging out anyway in 2 minutes.", apps.join('\n')));
+#endif
 }
 
 void SessionManager::quit()

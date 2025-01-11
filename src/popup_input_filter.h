@@ -20,9 +20,10 @@ class PopupInputFilter : public QObject, public InputEventFilter
     Q_OBJECT
 public:
     explicit PopupInputFilter();
-    bool pointerEvent(MouseEvent *event, quint32 nativeButton) override;
-    bool keyEvent(KeyEvent *event) override;
+    bool pointerButton(PointerButtonEvent *event) override;
+    bool keyboardKey(KeyboardKeyEvent *event) override;
     bool touchDown(qint32 id, const QPointF &pos, std::chrono::microseconds time) override;
+    bool tabletToolTipEvent(TabletEvent *event) override;
 
 private:
     void handleWindowAdded(Window *client);

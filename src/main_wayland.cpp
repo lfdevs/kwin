@@ -99,7 +99,7 @@ static void restoreNofileLimit()
 //************************************
 
 ApplicationWayland::ApplicationWayland(int &argc, char **argv)
-    : Application(OperationModeWaylandOnly, argc, argv)
+    : Application(OperationModeWayland, argc, argv)
 {
 }
 
@@ -131,12 +131,6 @@ ApplicationWayland::~ApplicationWayland()
 
 void ApplicationWayland::performStartup()
 {
-#if KWIN_BUILD_X11
-    if (m_startXWayland) {
-        setOperationMode(OperationModeXwayland);
-        setXwaylandScale(config()->group(QStringLiteral("Xwayland")).readEntry("Scale", 1.0));
-    }
-#endif
     createOptions();
 
     if (!outputBackend()->initialize()) {
@@ -147,24 +141,23 @@ void ApplicationWayland::performStartup()
     createInputMethod();
     createTabletModeManager();
 
-    WaylandCompositor::create();
+    auto compositor = WaylandCompositor::create();
+    compositor->createRenderer();
     createWorkspace();
     createColorManager();
     createPlugins();
 
-    connect(Compositor::self(), &Compositor::sceneCreated, outputBackend(), &OutputBackend::sceneInitialized);
-    connect(Compositor::self(), &Compositor::sceneCreated, this, &ApplicationWayland::continueStartupWithScene, Qt::SingleShotConnection);
-}
+    compositor->start();
 
-void ApplicationWayland::continueStartupWithScene()
-{
     // Note that we start accepting client connections after creating the Workspace.
     if (!waylandServer()->start()) {
         qFatal("Failed to initialze the Wayland server, exiting now");
     }
 
 #if KWIN_BUILD_X11
-    if (operationMode() == OperationModeXwayland) {
+    if (m_startXWayland) {
+        setXwaylandScale(config()->group(QStringLiteral("Xwayland")).readEntry("Scale", 1.0));
+
         m_xwayland = std::make_unique<Xwl::Xwayland>(this);
         m_xwayland->xwaylandLauncher()->setListenFDs(m_xwaylandListenFds);
         m_xwayland->xwaylandLauncher()->setDisplayName(m_xwaylandDisplay);
@@ -174,7 +167,6 @@ void ApplicationWayland::continueStartupWithScene()
     }
 #endif
     startSession();
-    notifyStarted();
 }
 
 void ApplicationWayland::refreshSettings(const KConfigGroup &group, const QByteArrayList &names)

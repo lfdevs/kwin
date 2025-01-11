@@ -19,7 +19,7 @@
 #include "x11window.h"
 #endif
 
-#include <KDecoration2/Decoration>
+#include <KDecoration3/Decoration>
 
 #include <KWayland/Client/compositor.h>
 #include <KWayland/Client/connection_thread.h>
@@ -53,8 +53,6 @@ void DontCrashCancelAnimationFromAnimationEndedTest::initTestCase()
     });
     kwinApp()->start();
     QVERIFY(Compositor::self());
-    QSignalSpy compositorToggledSpy(Compositor::self(), &Compositor::compositingToggled);
-    QVERIFY(compositorToggledSpy.wait());
     QVERIFY(effects);
 }
 

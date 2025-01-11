@@ -37,10 +37,6 @@ ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
     PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/plasma-window-management.xml
     BASENAME plasma-window-management
 )
-ecm_add_wayland_server_protocol(WaylandProtocols_xml
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/surface-extension.xml
-    BASENAME qt-surface-extension
-)
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
     PRIVATE_CODE
     PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/idle.xml
@@ -302,8 +298,20 @@ ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
     BASENAME kde-external-brightness-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
     PROTOCOL ${WaylandProtocols_DATADIR}/staging/alpha-modifier/alpha-modifier-v1.xml
     BASENAME alpha-modifier-v1
+)
+ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
+    PROTOCOL ${WaylandProtocols_DATADIR}/staging/xdg-system-bell/xdg-system-bell-v1.xml
+    BASENAME xdg-system-bell-v1
+)
+
+ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PRIVATE_CODE
+    PROTOCOL ${WaylandProtocols_DATADIR}/staging/xdg-toplevel-icon/xdg-toplevel-icon-v1.xml
+    BASENAME xdg-toplevel-icon-v1
 )
 
 target_sources(kwin PRIVATE
@@ -331,6 +339,7 @@ target_sources(kwin PRIVATE
     drmlease_v1.cpp
     externalbrightness_v1.cpp
     filtered_display.cpp
+    fixes.cpp
     fractionalscale_v1.cpp
     frog_colormanagement_v1.cpp
     idle.cpp
@@ -387,7 +396,9 @@ target_sources(kwin PRIVATE
     xdgforeign_v2.cpp
     xdgoutput_v1.cpp
     xdgshell.cpp
+    xdgsystembell_v1.cpp
     xdgtopleveldrag_v1.cpp
+    xdgtoplevelicon_v1.cpp
     xwaylandkeyboardgrab_v1.cpp
     xwaylandshell_v1.cpp
     xx_colormanagement_v4.cpp
@@ -466,6 +477,8 @@ install(FILES
     xdgforeign_v2.h
     xdgoutput_v1.h
     xdgshell.h
+    xdgsystembell_v1.h
+    xdgtoplevelicon_v1.h
     xwaylandkeyboardgrab_v1.h
     xwaylandshell_v1.h
     xx_colormanagement_v4.h

@@ -24,7 +24,7 @@ class Window;
 
 namespace Decoration
 {
-class DecoratedClientImpl;
+class DecoratedWindowImpl;
 }
 
 class KWIN_EXPORT TouchInputRedirection : public InputDeviceHandler
@@ -52,14 +52,6 @@ public:
     {
         return m_decorationId;
     }
-    void setInternalPressId(qint32 id)
-    {
-        m_internalId = id;
-    }
-    qint32 internalPressId() const
-    {
-        return m_internalId;
-    }
 
     QPointF position() const override
     {
@@ -72,13 +64,12 @@ public:
     }
 
 private:
-    void cleanupDecoration(Decoration::DecoratedClientImpl *old, Decoration::DecoratedClientImpl *now) override;
+    void cleanupDecoration(Decoration::DecoratedWindowImpl *old, Decoration::DecoratedWindowImpl *now) override;
 
     void focusUpdate(Window *focusOld, Window *focusNow) override;
 
     QSet<qint32> m_activeTouchPoints;
     qint32 m_decorationId = -1;
-    qint32 m_internalId = -1;
     bool m_windowUpdatedInCycle = false;
     QPointF m_lastPosition;
 };

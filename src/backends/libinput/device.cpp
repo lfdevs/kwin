@@ -24,36 +24,84 @@
 
 #include <linux/input.h>
 
-QDBusArgument &operator<<(QDBusArgument &argument, const QMatrix4x4 &matrix)
-{
-    argument.beginArray(qMetaTypeId<double>());
-    for (quint8 row = 0; row < 4; ++row) {
-        for (quint8 col = 0; col < 4; ++col) {
-            argument << matrix(row, col);
-        }
-    }
-    argument.endArray();
-    return argument;
-}
-
-const QDBusArgument &operator>>(const QDBusArgument &argument, QMatrix4x4 &matrix)
-{
-    argument.beginArray();
-    for (quint8 row = 0; row < 4; ++row) {
-        for (quint8 col = 0; col < 4; ++col) {
-            double val;
-            argument >> val;
-            matrix(row, col) = val;
-        }
-    }
-    argument.endArray();
-    return argument;
-}
-
 namespace KWin
 {
 namespace LibInput
 {
+static const QRectF s_identityRect = QRectF(0, 0, 1, 1);
+
+TabletTool::TabletTool(libinput_tablet_tool *handle)
+    : m_handle(libinput_tablet_tool_ref(handle))
+{
+}
+
+TabletTool::~TabletTool()
+{
+    libinput_tablet_tool_unref(m_handle);
+}
+
+libinput_tablet_tool *TabletTool::handle() const
+{
+    return m_handle;
+}
+
+quint64 TabletTool::serialId() const
+{
+    return libinput_tablet_tool_get_serial(m_handle);
+}
+
+quint64 TabletTool::uniqueId() const
+{
+    return libinput_tablet_tool_get_tool_id(m_handle);
+}
+
+TabletTool::Type TabletTool::type() const
+{
+    switch (libinput_tablet_tool_get_type(m_handle)) {
+    case LIBINPUT_TABLET_TOOL_TYPE_PEN:
+        return Type::Pen;
+    case LIBINPUT_TABLET_TOOL_TYPE_ERASER:
+        return Type::Eraser;
+    case LIBINPUT_TABLET_TOOL_TYPE_BRUSH:
+        return Type::Brush;
+    case LIBINPUT_TABLET_TOOL_TYPE_PENCIL:
+        return Type::Pencil;
+    case LIBINPUT_TABLET_TOOL_TYPE_AIRBRUSH:
+        return Type::Airbrush;
+    case LIBINPUT_TABLET_TOOL_TYPE_MOUSE:
+        return Type::Mouse;
+    case LIBINPUT_TABLET_TOOL_TYPE_LENS:
+        return Type::Lens;
+    case LIBINPUT_TABLET_TOOL_TYPE_TOTEM:
+        return Type::Totem;
+    default:
+        return Type();
+    }
+}
+
+QList<TabletTool::Capability> TabletTool::capabilities() const
+{
+    QList<Capability> capabilities;
+    if (libinput_tablet_tool_has_pressure(m_handle)) {
+        capabilities << Capability::Pressure;
+    }
+    if (libinput_tablet_tool_has_distance(m_handle)) {
+        capabilities << Capability::Distance;
+    }
+    if (libinput_tablet_tool_has_rotation(m_handle)) {
+        capabilities << Capability::Rotation;
+    }
+    if (libinput_tablet_tool_has_tilt(m_handle)) {
+        capabilities << Capability::Tilt;
+    }
+    if (libinput_tablet_tool_has_slider(m_handle)) {
+        capabilities << Capability::Slider;
+    }
+    if (libinput_tablet_tool_has_wheel(m_handle)) {
+        capabilities << Capability::Wheel;
+    }
+    return capabilities;
+}
 
 static bool checkAlphaNumericKeyboard(libinput_device *device)
 {
@@ -82,6 +130,7 @@ static bool checkAlphaNumericKeyboard(libinput_device *device)
 
 enum class ConfigKey {
     Enabled,
+    DisableEventsOnExternalMouse,
     LeftHanded,
     DisableWhileTyping,
     PointerAcceleration,
@@ -100,7 +149,11 @@ enum class ConfigKey {
     Calibration,
     OutputName,
     OutputArea,
-    MapToWorkspace
+    MapToWorkspace,
+    TabletToolPressureCurve,
+    TabletToolPressureRangeMin,
+    TabletToolPressureRangeMax,
+    InputArea,
 };
 
 struct ConfigDataBase
@@ -176,20 +229,13 @@ struct ConfigData<CalibrationMatrix> : public ConfigDataBase
 
     void read(Device *device, const KConfigGroup &values) const override
     {
-        if (values.hasKey(key.constData())) {
-            auto list = values.readEntry(key.constData(), QList<float>());
-            if (list.size() == 16) {
-                device->setCalibrationMatrix(QMatrix4x4{list.constData()});
-                return;
-            }
-        }
-
-        device->setCalibrationMatrix(device->defaultCalibrationMatrix());
+        device->setCalibrationMatrix(values.readEntry(key.constData(), device->defaultCalibrationMatrix()));
     }
 };
 
 static const QMap<ConfigKey, std::shared_ptr<ConfigDataBase>> s_configData{
     {ConfigKey::Enabled, std::make_shared<ConfigData<bool>>(QByteArrayLiteral("Enabled"), &Device::setEnabled, &Device::isEnabledByDefault)},
+    {ConfigKey::DisableEventsOnExternalMouse, std::make_shared<ConfigData<bool>>(QByteArrayLiteral("DisableEventsOnExternalMouse"), &Device::setDisableEventsOnExternalMouse, &Device::disableEventsOnExternalMouseEnabledByDefault)},
     {ConfigKey::LeftHanded, std::make_shared<ConfigData<bool>>(QByteArrayLiteral("LeftHanded"), &Device::setLeftHanded, &Device::leftHandedEnabledByDefault)},
     {ConfigKey::DisableWhileTyping, std::make_shared<ConfigData<bool>>(QByteArrayLiteral("DisableWhileTyping"), &Device::setDisableWhileTyping, &Device::disableWhileTypingEnabledByDefault)},
     {ConfigKey::PointerAcceleration, std::make_shared<ConfigData<QString>>(QByteArrayLiteral("PointerAcceleration"), &Device::setPointerAccelerationFromString, &Device::defaultPointerAccelerationToString)},
@@ -206,9 +252,13 @@ static const QMap<ConfigKey, std::shared_ptr<ConfigDataBase>> s_configData{
     {ConfigKey::ScrollFactor, std::make_shared<ConfigData<qreal>>(QByteArrayLiteral("ScrollFactor"), &Device::setScrollFactor, &Device::scrollFactorDefault)},
     {ConfigKey::Orientation, std::make_shared<ConfigData<DeviceOrientation>>()},
     {ConfigKey::Calibration, std::make_shared<ConfigData<CalibrationMatrix>>()},
+    {ConfigKey::TabletToolPressureCurve, std::make_shared<ConfigData<QString>>(QByteArrayLiteral("TabletToolPressureCurve"), &Device::setPressureCurve, &Device::defaultPressureCurve)},
     {ConfigKey::OutputName, std::make_shared<ConfigData<QString>>(QByteArrayLiteral("OutputName"), &Device::setOutputName, &Device::defaultOutputName)},
     {ConfigKey::OutputArea, std::make_shared<ConfigData<QRectF>>(QByteArrayLiteral("OutputArea"), &Device::setOutputArea, &Device::defaultOutputArea)},
     {ConfigKey::MapToWorkspace, std::make_shared<ConfigData<bool>>(QByteArrayLiteral("MapToWorkspace"), &Device::setMapToWorkspace, &Device::defaultMapToWorkspace)},
+    {ConfigKey::TabletToolPressureRangeMin, std::make_shared<ConfigData<double>>(QByteArrayLiteral("TabletToolPressureRangeMin"), &Device::setPressureRangeMin, &Device::defaultPressureRangeMin)},
+    {ConfigKey::TabletToolPressureRangeMax, std::make_shared<ConfigData<double>>(QByteArrayLiteral("TabletToolPressureRangeMax"), &Device::setPressureRangeMax, &Device::defaultPressureRangeMax)},
+    {ConfigKey::InputArea, std::make_shared<ConfigData<QRectF>>(QByteArrayLiteral("InputArea"), &Device::setInputArea, &Device::defaultInputArea)},
 };
 
 namespace
@@ -280,8 +330,10 @@ Device::Device(libinput_device *device, QObject *parent)
     , m_switch(libinput_device_has_capability(m_device, LIBINPUT_DEVICE_CAP_SWITCH))
     , m_lidSwitch(m_switch ? libinput_device_switch_has_switch(m_device, LIBINPUT_SWITCH_LID) : false)
     , m_tabletSwitch(m_switch ? libinput_device_switch_has_switch(m_device, LIBINPUT_SWITCH_TABLET_MODE) : false)
+    , m_touchpad(m_pointer && udev_device_get_property_value(libinput_device_get_udev_device(m_device), "ID_INPUT_TOUCHPAD"))
     , m_name(QString::fromLocal8Bit(libinput_device_get_name(m_device)))
     , m_sysName(QString::fromLocal8Bit(libinput_device_get_sysname(m_device)))
+    , m_sysPath(QString::fromLocal8Bit(udev_device_get_syspath(libinput_device_get_udev_device(m_device))))
     , m_outputName(QString::fromLocal8Bit(libinput_device_get_output_name(m_device)))
     , m_product(libinput_device_get_id_product(m_device))
     , m_vendor(libinput_device_get_id_vendor(m_device))
@@ -321,13 +373,23 @@ Device::Device(libinput_device *device, QObject *parent)
     , m_supportedPointerAccelerationProfiles(libinput_device_config_accel_get_profiles(m_device))
     , m_defaultPointerAccelerationProfile(libinput_device_config_accel_get_default_profile(m_device))
     , m_pointerAccelerationProfile(libinput_device_config_accel_get_profile(m_device))
-    , m_enabled(m_supportsDisableEvents ? libinput_device_config_send_events_get_mode(m_device) == LIBINPUT_CONFIG_SEND_EVENTS_ENABLED : true)
+    , m_enabled(m_supportsDisableEvents ? (libinput_device_config_send_events_get_mode(m_device) & LIBINPUT_CONFIG_SEND_EVENTS_DISABLED) == 0 : true)
+    , m_disableEventsOnExternalMouseEnabledByDefault(m_supportsDisableEventsOnExternalMouse && (libinput_device_config_send_events_get_default_mode(m_device) & LIBINPUT_CONFIG_SEND_EVENTS_DISABLED_ON_EXTERNAL_MOUSE))
+    , m_disableEventsOnExternalMouse(m_supportsDisableEventsOnExternalMouse && (libinput_device_config_send_events_get_mode(m_device) & LIBINPUT_CONFIG_SEND_EVENTS_DISABLED_ON_EXTERNAL_MOUSE))
     , m_config()
     , m_defaultCalibrationMatrix(getMatrix(m_device, &libinput_device_config_calibration_get_default_matrix))
     , m_calibrationMatrix(getMatrix(m_device, &libinput_device_config_calibration_get_matrix))
+    , m_pressureCurve(deserializePressureCurve(defaultPressureCurve()))
     , m_supportedClickMethods(libinput_device_config_click_get_methods(m_device))
     , m_defaultClickMethod(libinput_device_config_click_get_default_method(m_device))
     , m_clickMethod(libinput_device_config_click_get_method(m_device))
+    , m_outputArea(s_identityRect)
+    , m_supportsPressureRange(false)
+    , m_pressureRangeMin(0.0)
+    , m_pressureRangeMax(1.0)
+    , m_defaultPressureRangeMin(0.0)
+    , m_defaultPressureRangeMax(1.0)
+    , m_inputArea(s_identityRect)
 {
     libinput_device_ref(m_device);
     libinput_device_set_user_data(m_device, this);
@@ -361,10 +423,20 @@ Device::Device(libinput_device *device, QObject *parent)
         m_calibrationMatrix = m_defaultCalibrationMatrix;
     }
 
+    if (supportsInputArea() && m_inputArea != defaultInputArea()) {
+#if HAVE_LIBINPUT_INPUT_AREA
+        const libinput_config_area_rectangle rect{
+            .x1 = m_inputArea.topLeft().x(),
+            .y1 = m_inputArea.topLeft().y(),
+            .x2 = m_inputArea.bottomRight().x(),
+            .y2 = m_inputArea.bottomRight().y(),
+        };
+        libinput_device_config_area_set_rectangle(m_device, &rect);
+#endif
+    }
+
     libinput_device_group *group = libinput_device_get_device_group(device);
     m_deviceGroupId = QCryptographicHash::hash(QString::asprintf("%p", group).toLatin1(), QCryptographicHash::Sha1).toBase64();
-
-    qDBusRegisterMetaType<QMatrix4x4>();
 
     QDBusConnection::sessionBus().registerObject(QStringLiteral("/org/kde/KWin/InputDevice/") + m_sysName,
                                                  QStringLiteral("org.kde.KWin.InputDevice"),
@@ -529,20 +601,34 @@ void Device::setLmrTapButtonMap(bool set)
     }
 }
 
-int Device::stripsCount() const
+void *Device::group() const
 {
-    return libinput_device_tablet_pad_get_num_strips(m_device);
+    return libinput_device_get_device_group(m_device);
 }
 
-int Device::ringsCount() const
+int Device::tabletPadButtonCount() const
+{
+    return libinput_device_tablet_pad_get_num_buttons(m_device);
+}
+
+int Device::tabletPadRingCount() const
 {
     return libinput_device_tablet_pad_get_num_rings(m_device);
 }
 
-void *Device::groupUserData() const
+int Device::tabletPadStripCount() const
 {
-    auto deviceGroup = libinput_device_get_device_group(m_device);
-    return libinput_device_group_get_user_data(deviceGroup);
+    return libinput_device_tablet_pad_get_num_strips(m_device);
+}
+
+int Device::tabletPadModeCount() const
+{
+    return libinput_device_tablet_pad_get_num_mode_groups(m_device);
+}
+
+int Device::tabletPadMode() const
+{
+    return libinput_tablet_pad_mode_group_get_mode(libinput_device_tablet_pad_get_mode_group(m_device, 0));
 }
 
 #define CONFIG(method, condition, function, variable, key)                                        \
@@ -580,7 +666,6 @@ CONFIG(setNaturalScroll, !m_supportsNaturalScroll, scroll_set_natural_scroll_ena
         }                                                                                                                                                                \
     }
 
-CONFIG(setEnabled, !m_supportsDisableEvents, send_events_set_mode, SEND_EVENTS, enabled, Enabled)
 CONFIG(setDisableWhileTyping, !m_supportsDisableWhileTyping, dwt_set_enabled, DWT, disableWhileTyping, DisableWhileTyping)
 CONFIG(setTapToClick, m_tapFingerCount == 0, tap_set_enabled, TAP, tapToClick, TapToClick)
 CONFIG(setTapAndDrag, false, tap_set_drag_enabled, DRAG, tapAndDrag, TapAndDrag)
@@ -588,6 +673,39 @@ CONFIG(setTapDragLock, false, tap_set_drag_lock_enabled, DRAG_LOCK, tapDragLock,
 CONFIG(setMiddleEmulation, m_supportsMiddleEmulation == false, middle_emulation_set_enabled, MIDDLE_EMULATION, middleEmulation, MiddleButtonEmulation)
 
 #undef CONFIG
+
+void Device::setEnabled(bool set)
+{
+    if (!m_supportsDisableEvents) {
+        return;
+    }
+    const auto enabledMode = (m_supportsDisableEventsOnExternalMouse && m_disableEventsOnExternalMouse) ? LIBINPUT_CONFIG_SEND_EVENTS_DISABLED_ON_EXTERNAL_MOUSE : LIBINPUT_CONFIG_SEND_EVENTS_ENABLED;
+    const auto mode = set ? enabledMode : LIBINPUT_CONFIG_SEND_EVENTS_DISABLED;
+
+    if (libinput_device_config_send_events_set_mode(m_device, mode) == LIBINPUT_CONFIG_STATUS_SUCCESS) {
+        if (m_enabled != set) {
+            m_enabled = set;
+            writeEntry(ConfigKey::Enabled, m_enabled);
+            Q_EMIT enabledChanged();
+        }
+    }
+}
+
+void Device::setDisableEventsOnExternalMouse(bool set)
+{
+    if (!m_supportsDisableEventsOnExternalMouse) {
+        return;
+    }
+    const auto enabledMode = set ? LIBINPUT_CONFIG_SEND_EVENTS_DISABLED_ON_EXTERNAL_MOUSE : LIBINPUT_CONFIG_SEND_EVENTS_ENABLED;
+
+    if (!m_enabled || libinput_device_config_send_events_set_mode(m_device, enabledMode) == LIBINPUT_CONFIG_STATUS_SUCCESS) {
+        if (m_disableEventsOnExternalMouse != set) {
+            m_disableEventsOnExternalMouse = set;
+            writeEntry(ConfigKey::DisableEventsOnExternalMouse, m_disableEventsOnExternalMouse);
+            Q_EMIT disableEventsOnExternalMouseChanged();
+        }
+    }
+}
 
 void Device::setScrollFactor(qreal factor)
 {
@@ -598,8 +716,9 @@ void Device::setScrollFactor(qreal factor)
     }
 }
 
-void Device::setCalibrationMatrix(const QMatrix4x4 &matrix)
+void Device::setCalibrationMatrix(const QString &value)
 {
+    const auto matrix = deserializeMatrix(value);
     if (!m_supportsCalibrationMatrix || m_calibrationMatrix == matrix) {
         return;
     }
@@ -616,6 +735,69 @@ void Device::setCalibrationMatrix(const QMatrix4x4 &matrix)
         m_calibrationMatrix = matrix;
         Q_EMIT calibrationMatrixChanged();
     }
+}
+
+QString Device::defaultPressureCurve() const
+{
+    QEasingCurve curve(QEasingCurve::Type::BezierSpline);
+    curve.addCubicBezierSegment(QPointF{0.0f, 0.0f}, QPointF{1.0f, 1.0f}, QPointF{1.0f, 1.0f});
+    return serializePressureCurve(curve);
+}
+
+QEasingCurve Device::pressureCurve() const
+{
+    return m_pressureCurve;
+}
+
+QString Device::serializedPressureCurve() const
+{
+    return serializePressureCurve(m_pressureCurve);
+}
+
+void Device::setPressureCurve(const QString &curve)
+{
+    const auto easingCurve = deserializePressureCurve(curve);
+    if (m_pressureCurve != easingCurve) {
+        writeEntry(ConfigKey::TabletToolPressureCurve, curve);
+        m_pressureCurve = easingCurve;
+        Q_EMIT pressureCurveChanged();
+    }
+}
+
+QString Device::serializePressureCurve(const QEasingCurve &curve)
+{
+    // We only care about the first two points. toCubicSpline adds the end point as the third, but to us that's always (1,1).
+    const auto points = curve.toCubicSpline().first(2);
+    QString serializedString;
+    for (const QPointF &pair : points) {
+        serializedString += QString::number(pair.x());
+        serializedString += ',';
+        serializedString += QString::number(pair.y());
+        serializedString += ';';
+    }
+
+    return serializedString;
+}
+
+QEasingCurve Device::deserializePressureCurve(const QString &curve)
+{
+    const QStringList data = curve.split(';');
+
+    QList<QPointF> points;
+    for (const QString &pair : data) {
+        if (pair.indexOf(',') > -1) {
+            points.append({pair.section(',', 0, 0).toDouble(),
+                           pair.section(',', 1, 1).toDouble()});
+        }
+    }
+
+    auto easingCurve = QEasingCurve(QEasingCurve::Type::BezierSpline);
+
+    // We only support 2 points
+    if (points.size() >= 2) {
+        easingCurve.addCubicBezierSegment(points.at(0), points.at(1), QPointF{1.0f, 1.0f});
+    }
+    return easingCurve;
 }
 
 void Device::setOrientation(Qt::ScreenOrientation orientation)
@@ -678,6 +860,12 @@ static libinput_led toLibinputLEDS(LEDs leds)
     if (leds.testFlag(LED::ScrollLock)) {
         libinputLeds = libinputLeds | LIBINPUT_LED_SCROLL_LOCK;
     }
+    if (leds.testFlag(LED::Compose)) {
+        libinputLeds = libinputLeds | LIBINPUT_LED_COMPOSE;
+    }
+    if (leds.testFlag(LED::Kana)) {
+        libinputLeds = libinputLeds | LIBINPUT_LED_KANA;
+    }
     return libinput_led(libinputLeds);
 }
 
@@ -701,7 +889,7 @@ bool Device::supportsOutputArea() const
 
 QRectF Device::defaultOutputArea() const
 {
-    return QRectF(0, 0, 1, 1);
+    return s_identityRect;
 }
 
 QRectF Device::outputArea() const
@@ -725,6 +913,124 @@ void Device::setMapToWorkspace(bool mapToWorkspace)
         writeEntry(ConfigKey::MapToWorkspace, m_mapToWorkspace);
         Q_EMIT mapToWorkspaceChanged();
     }
+}
+
+bool Device::supportsPressureRange() const
+{
+    return m_supportsPressureRange;
+}
+
+void Device::setSupportsPressureRange(const bool supported)
+{
+    if (m_supportsPressureRange != supported) {
+        m_supportsPressureRange = supported;
+        Q_EMIT supportsPressureRangeChanged();
+    }
+}
+
+double Device::pressureRangeMin() const
+{
+    return m_pressureRangeMin;
+}
+
+void Device::setPressureRangeMin(const double value)
+{
+    if (m_pressureRangeMin != value) {
+        m_pressureRangeMin = value;
+        writeEntry(ConfigKey::TabletToolPressureRangeMin, m_pressureRangeMin);
+        Q_EMIT pressureRangeMinChanged();
+    }
+}
+
+double Device::pressureRangeMax() const
+{
+    return m_pressureRangeMax;
+}
+
+void Device::setPressureRangeMax(const double value)
+{
+    if (m_pressureRangeMax != value) {
+        m_pressureRangeMax = value;
+        writeEntry(ConfigKey::TabletToolPressureRangeMax, m_pressureRangeMax);
+        Q_EMIT pressureRangeMaxChanged();
+    }
+}
+
+double Device::defaultPressureRangeMin() const
+{
+    return m_defaultPressureRangeMin;
+}
+
+double Device::defaultPressureRangeMax() const
+{
+    return m_defaultPressureRangeMax;
+}
+
+bool Device::supportsInputArea() const
+{
+#if HAVE_LIBINPUT_INPUT_AREA
+    return true;
+#else
+    return false;
+#endif
+}
+
+QRectF Device::inputArea() const
+{
+    return m_inputArea;
+}
+
+void Device::setInputArea(const QRectF &inputArea)
+{
+    if (m_inputArea != inputArea) {
+        m_inputArea = inputArea;
+
+#if HAVE_LIBINPUT_INPUT_AREA
+        const libinput_config_area_rectangle rect{
+            .x1 = m_inputArea.topLeft().x(),
+            .y1 = m_inputArea.topLeft().y(),
+            .x2 = m_inputArea.bottomRight().x(),
+            .y2 = m_inputArea.bottomRight().y(),
+        };
+        libinput_device_config_area_set_rectangle(m_device, &rect);
+#endif
+
+        writeEntry(ConfigKey::InputArea, m_inputArea);
+        Q_EMIT inputAreaChanged();
+    }
+}
+
+QRectF Device::defaultInputArea() const
+{
+    return s_identityRect;
+}
+
+QString Device::serializeMatrix(const QMatrix4x4 &matrix)
+{
+    QString result;
+    for (int i = 0; i < 16; i++) {
+        result.append(QString::number(matrix.constData()[i]));
+        if (i != 15) {
+            result.append(QLatin1Char(','));
+        }
+    }
+    return result;
+}
+
+QMatrix4x4 Device::deserializeMatrix(const QString &matrix)
+{
+    const auto items = QStringView(matrix).split(QLatin1Char(','));
+    if (items.size() == 16) {
+        QList<float> data;
+        data.reserve(16);
+        std::ranges::transform(std::as_const(items), std::back_inserter(data), [](const QStringView &item) {
+            return item.toFloat();
+        });
+
+        return QMatrix4x4{data.constData()};
+    }
+
+    return QMatrix4x4{};
 }
 }
 }

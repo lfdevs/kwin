@@ -78,7 +78,7 @@ target_sources(kwin PRIVATE
     cursorsource.cpp
     dbusinterface.cpp
     debug_console.cpp
-    decorations/decoratedclient.cpp
+    decorations/decoratedwindow.cpp
     decorations/decorationbridge.cpp
     decorations/decorationpalette.cpp
     decorations/decorations_logging.cpp
@@ -142,6 +142,7 @@ target_sources(kwin PRIVATE
     opengl/gltexture.cpp
     opengl/glutils.cpp
     opengl/glvertexbuffer.cpp
+    opengl/icc_shader.cpp
     opengl/openglcontext.cpp
     options.cpp
     osd.cpp
@@ -246,11 +247,12 @@ target_link_libraries(kwin
         KF6::Crash
         KF6::GlobalAccel
         KF6::I18n
+        KF6::I18nQml
         KF6::Package
         KF6::Service
 
-        KDecoration2::KDecoration
-        KDecoration2::KDecoration2Private
+        KDecoration3::KDecoration
+        KDecoration3::KDecoration3Private
 
         UDev::UDev
         XKB::XKB

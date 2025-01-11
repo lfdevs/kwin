@@ -20,14 +20,10 @@ class KWIN_EXPORT FakeInputDevice : public InputDevice
 public:
     explicit FakeInputDevice(QObject *parent = nullptr);
 
-    QString sysName() const override;
     QString name() const override;
 
     bool isEnabled() const override;
     void setEnabled(bool enabled) override;
-
-    LEDs leds() const override;
-    void setLeds(LEDs leds) override;
 
     bool isKeyboard() const override;
     bool isPointer() const override;

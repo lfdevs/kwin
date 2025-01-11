@@ -20,14 +20,10 @@
 
 class InputDevice : public KWin::InputDevice
 {
-    QString sysName() const override;
     QString name() const override;
 
     bool isEnabled() const override;
     void setEnabled(bool enabled) override;
-
-    void setLeds(KWin::LEDs leds) override;
-    KWin::LEDs leds() const override;
 
     bool isKeyboard() const override;
     bool isPointer() const override;
@@ -74,10 +70,13 @@ public:
     };
 
     explicit ButtonRebindsFilter();
-    bool pointerEvent(KWin::MouseEvent *event, quint32 nativeButton) override;
-    bool tabletToolEvent(KWin::TabletEvent *event) override;
-    bool tabletPadButtonEvent(uint button, bool pressed, const KWin::TabletPadId &tabletPadId, std::chrono::microseconds time) override;
-    bool tabletToolButtonEvent(uint button, bool pressed, const KWin::TabletToolId &tabletToolId, std::chrono::microseconds time) override;
+    ~ButtonRebindsFilter() override;
+    bool pointerButton(KWin::PointerButtonEvent *event) override;
+    bool tabletToolProximityEvent(KWin::TabletEvent *event) override;
+    bool tabletToolAxisEvent(KWin::TabletEvent *event) override;
+    bool tabletToolTipEvent(KWin::TabletEvent *event) override;
+    bool tabletPadButtonEvent(KWin::TabletPadButtonEvent *event) override;
+    bool tabletToolButtonEvent(KWin::TabletToolButtonEvent *event) override;
 
 private:
     void loadConfig(const KConfigGroup &group);
@@ -87,11 +86,12 @@ private:
     bool sendKeyModifiers(const Qt::KeyboardModifiers &modifiers, bool pressed, std::chrono::microseconds time);
     bool sendMouseButton(quint32 button, bool pressed, std::chrono::microseconds time);
     bool sendMousePosition(QPointF position, std::chrono::microseconds time);
+    bool sendMouseFrame();
     bool sendTabletToolButton(quint32 button, bool pressed, std::chrono::microseconds time);
 
     InputDevice m_inputDevice;
     std::array<QHash<Trigger, std::variant<QKeySequence, MouseButton, TabletToolButton, DisabledButton>>, LastType> m_actions;
     KConfigWatcher::Ptr m_configWatcher;
-    std::optional<KWin::TabletToolId> m_tabletTool;
+    QPointer<KWin::InputDeviceTabletTool> m_tabletTool;
     QPointF m_cursorPos, m_tabletCursorPos;
 };

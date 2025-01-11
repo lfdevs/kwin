@@ -23,13 +23,17 @@ public:
     static WaylandCompositor *create(QObject *parent = nullptr);
     ~WaylandCompositor() override;
 
-protected:
+    void createRenderer();
+
     void start() override;
     void stop() override;
+
+protected:
     void composite(RenderLoop *loop) override;
 
 private:
     explicit WaylandCompositor(QObject *parent);
+    void createScene();
 
     bool attemptOpenGLCompositing();
     bool attemptQPainterCompositing();

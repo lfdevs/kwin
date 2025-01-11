@@ -35,7 +35,7 @@ class SurfaceInterface;
 
 namespace Decoration
 {
-class DecoratedClientImpl;
+class DecoratedWindowImpl;
 }
 
 
@@ -91,11 +91,11 @@ public:
     /**
      * @internal
      */
-    void processButton(uint32_t button, InputRedirection::PointerButtonState state, std::chrono::microseconds time, InputDevice *device = nullptr);
+    void processButton(uint32_t button, PointerButtonState state, std::chrono::microseconds time, InputDevice *device = nullptr);
     /**
      * @internal
      */
-    void processAxis(InputRedirection::PointerAxis axis, qreal delta, qint32 deltaV120, InputRedirection::PointerAxisSource source, std::chrono::microseconds time, InputDevice *device = nullptr);
+    void processAxis(PointerAxis axis, qreal delta, qint32 deltaV120, PointerAxisSource source, bool inverted, std::chrono::microseconds time, InputDevice *device = nullptr);
     /**
      * @internal
      */
@@ -160,7 +160,7 @@ private:
         Warp
     };
     void processMotionInternal(const QPointF &pos, const QPointF &delta, const QPointF &deltaNonAccelerated, std::chrono::microseconds time, InputDevice *device, MotionType type);
-    void cleanupDecoration(Decoration::DecoratedClientImpl *old, Decoration::DecoratedClientImpl *now) override;
+    void cleanupDecoration(Decoration::DecoratedWindowImpl *old, Decoration::DecoratedWindowImpl *now) override;
 
     void focusUpdate(Window *focusOld, Window *focusNow) override;
 
@@ -169,7 +169,7 @@ private:
     void updateOnStartMoveResize();
     void updateToReset();
     void updatePosition(const QPointF &pos, std::chrono::microseconds time);
-    void updateButton(uint32_t button, InputRedirection::PointerButtonState state);
+    void updateButton(uint32_t button, PointerButtonState state);
     QPointF applyEdgeBarrier(const QPointF &pos, const Output *currentOutput, std::chrono::microseconds time);
     EdgeBarrierType edgeBarrierType(const QPointF &pos, const QRectF &lastOutputGeometry) const;
     qreal edgeBarrier(EdgeBarrierType type) const;
@@ -180,7 +180,7 @@ private:
     void breakPointerConstraints(SurfaceInterface *surface);
     CursorImage *m_cursor;
     QPointF m_pos;
-    QHash<uint32_t, InputRedirection::PointerButtonState> m_buttons;
+    QHash<uint32_t, PointerButtonState> m_buttons;
     Qt::MouseButtons m_qtButtons;
     QMetaObject::Connection m_focusGeometryConnection;
     QMetaObject::Connection m_constraintsConnection;

@@ -21,9 +21,9 @@
 #include "window.h"
 #include "workspace.h"
 
-#include <KDecoration2/DecoratedClient>
-#include <KDecoration2/Decoration>
-#include <KDecoration2/DecorationSettings>
+#include <KDecoration3/DecoratedWindow>
+#include <KDecoration3/Decoration>
+#include <KDecoration3/DecorationSettings>
 
 #include <KWayland/Client/appmenu.h>
 #include <KWayland/Client/compositor.h>
@@ -198,7 +198,6 @@ void TestXdgShellWindow::initTestCase()
     qRegisterMetaType<KWin::Window *>();
     qRegisterMetaType<KWayland::Client::Output *>();
 
-    QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
     Test::setOutputConfig({
         QRect(0, 0, 1280, 1024),
@@ -206,7 +205,6 @@ void TestXdgShellWindow::initTestCase()
     });
 
     kwinApp()->start();
-    QVERIFY(applicationStartedSpy.wait());
     const auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
     QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
@@ -1841,7 +1839,7 @@ void TestXdgShellWindow::testInteractiveMoveUnmaximizeFull()
     const qreal yOffset = 0.5;
     quint32 timestamp = 0;
     Test::pointerMotion(QPointF(window->x() + window->width() * xOffset, window->y() + window->height() * yOffset), timestamp++);
-    window->performMouseCommand(Options::MouseMove, input()->pointer()->pos());
+    window->performMousePressCommand(Options::MouseMove, input()->pointer()->pos());
     QCOMPARE(interactiveMoveResizeStartedSpy.count(), 1);
     QCOMPARE(window->maximizeMode(), MaximizeFull);
     QCOMPARE(window->requestedMaximizeMode(), MaximizeFull);
@@ -1907,7 +1905,7 @@ void TestXdgShellWindow::testInteractiveMoveUnmaximizeInitiallyFull()
     const qreal yOffset = 0.5;
     quint32 timestamp = 0;
     Test::pointerMotion(QPointF(window->x() + window->width() * xOffset, window->y() + window->height() * yOffset), timestamp++);
-    window->performMouseCommand(Options::MouseMove, input()->pointer()->pos());
+    window->performMousePressCommand(Options::MouseMove, input()->pointer()->pos());
     QCOMPARE(interactiveMoveResizeStartedSpy.count(), 1);
     QCOMPARE(window->maximizeMode(), MaximizeFull);
     QCOMPARE(window->requestedMaximizeMode(), MaximizeFull);
@@ -1985,7 +1983,7 @@ void TestXdgShellWindow::testInteractiveMoveUnmaximizeHorizontal()
     const qreal yOffset = 0.5;
     quint32 timestamp = 0;
     Test::pointerMotion(QPointF(window->x() + window->width() * xOffset, window->y() + window->height() * yOffset), timestamp++);
-    window->performMouseCommand(Options::MouseMove, input()->pointer()->pos());
+    window->performMousePressCommand(Options::MouseMove, input()->pointer()->pos());
     QCOMPARE(interactiveMoveResizeStartedSpy.count(), 1);
     QCOMPARE(window->maximizeMode(), MaximizeHorizontal);
     QCOMPARE(window->requestedMaximizeMode(), MaximizeHorizontal);
@@ -2067,7 +2065,7 @@ void TestXdgShellWindow::testInteractiveMoveUnmaximizeVertical()
     const qreal yOffset = 0.5;
     quint32 timestamp = 0;
     Test::pointerMotion(QPointF(window->x() + window->width() * xOffset, window->y() + window->height() * yOffset), timestamp++);
-    window->performMouseCommand(Options::MouseMove, input()->pointer()->pos());
+    window->performMousePressCommand(Options::MouseMove, input()->pointer()->pos());
     QCOMPARE(interactiveMoveResizeStartedSpy.count(), 1);
     QCOMPARE(window->maximizeMode(), MaximizeVertical);
     QCOMPARE(window->requestedMaximizeMode(), MaximizeVertical);

@@ -52,12 +52,13 @@ public:
     /**
      * @internal
      */
-    void processKey(uint32_t key, InputRedirection::KeyboardKeyState state, std::chrono::microseconds time, InputDevice *device = nullptr);
+    void processKey(uint32_t key, KeyboardKeyState state, std::chrono::microseconds time, InputDevice *device = nullptr);
 
     Xkb *xkb() const;
     Qt::KeyboardModifiers modifiers() const;
     Qt::KeyboardModifiers modifiersRelevantForGlobalShortcuts() const;
     KeyboardLayout *keyboardLayout() const;
+    QList<uint32_t> pressedKeys() const;
 
 Q_SIGNALS:
     void ledsChanged(KWin::LEDs);
@@ -71,6 +72,7 @@ private:
     QMetaObject::Connection m_activeWindowSurfaceChangedConnection;
     ModifiersChangedSpy *m_modifiersChangedSpy = nullptr;
     KeyboardLayout *m_keyboardLayout = nullptr;
+    QList<uint32_t> m_pressedKeys;
 };
 
 }

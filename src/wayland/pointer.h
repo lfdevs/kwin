@@ -7,7 +7,7 @@
 */
 #pragma once
 
-#include "kwin_export.h"
+#include "core/inputdevice.h"
 
 #include <QObject>
 #include <memory>
@@ -22,10 +22,6 @@ class PointerInterfacePrivate;
 class ClientConnection;
 class SeatInterface;
 class SurfaceInterface;
-
-enum class PointerAxisSource;
-enum class PointerAxisRelativeDirection;
-enum class PointerButtonState : quint32;
 
 using PointerCursor = std::variant<PointerSurfaceCursor *, QByteArray>;
 
@@ -62,7 +58,7 @@ public:
     void sendLeave(quint32 serial);
     void sendButton(quint32 button, PointerButtonState state, quint32 serial);
     void sendButton(quint32 button, PointerButtonState state, ClientConnection *client);
-    void sendAxis(Qt::Orientation orientation, qreal delta, qint32 deltaV120, PointerAxisSource source, PointerAxisRelativeDirection direction);
+    void sendAxis(Qt::Orientation orientation, qreal delta, qint32 deltaV120, PointerAxisSource source, bool inverted);
     void sendMotion(const QPointF &position);
     void sendFrame();
 

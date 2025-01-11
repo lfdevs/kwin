@@ -14,6 +14,7 @@
 #include "core/drmdevice.h"
 #include "core/output.h"
 #include "core/outputbackend.h"
+#include "core/session.h"
 #include "idle_inhibition.h"
 #include "inputpanelv1integration.h"
 #include "layershellv1integration.h"
@@ -37,6 +38,7 @@
 #include "wayland/drmlease_v1.h"
 #include "wayland/externalbrightness_v1.h"
 #include "wayland/filtered_display.h"
+#include "wayland/fixes.h"
 #include "wayland/fractionalscale_v1.h"
 #include "wayland/frog_colormanagement_v1.h"
 #include "wayland/idle.h"
@@ -77,6 +79,7 @@
 #include "wayland/xdgoutput_v1.h"
 #include "wayland/xdgshell.h"
 #include "wayland/xdgtopleveldrag_v1.h"
+#include "wayland/xdgtoplevelicon_v1.h"
 #include "wayland/xx_colormanagement_v4.h"
 #include "workspace.h"
 #include "xdgactivationv1.h"
@@ -339,38 +342,8 @@ bool WaylandServer::init(const QString &socketName)
 bool WaylandServer::init()
 {
     m_compositor = new CompositorInterface(m_display, m_display);
+
 #if KWIN_BUILD_X11
-    connect(m_compositor, &CompositorInterface::surfaceCreated, this, [this](SurfaceInterface *surface) {
-        // check whether we have a Window with the Surface's id
-        Workspace *ws = Workspace::self();
-        if (!ws) {
-            // it's possible that a Surface gets created before Workspace is created
-            return;
-        }
-        if (surface->client() != xWaylandConnection()) {
-            // setting surface is only relevant for Xwayland clients
-            return;
-        }
-
-        X11Window *window = ws->findClient([surface](const X11Window *window) {
-            return window->pendingSurfaceId() == surface->id();
-        });
-        if (window) {
-            window->setSurface(surface);
-            return;
-        }
-
-        X11Window *unmanaged = ws->findUnmanaged([surface](const X11Window *unmanaged) {
-            return unmanaged->pendingSurfaceId() == surface->id();
-        });
-        if (unmanaged) {
-            unmanaged->setSurface(surface);
-            return;
-        }
-
-        // The surface will be bound later when a WL_SURFACE_ID message is received.
-    });
-
     m_xwaylandShell = new XwaylandShellV1Interface(m_display, m_display);
     connect(m_xwaylandShell, &XwaylandShellV1Interface::surfaceAssociated, this, [](XwaylandSurfaceV1Interface *surface) {
         X11Window *window = workspace()->findClient([&surface](const X11Window *window) {
@@ -405,7 +378,7 @@ bool WaylandServer::init()
     new SecurityContextManagerV1Interface(m_display, m_display);
     new FractionalScaleManagerV1Interface(m_display, m_display);
     m_display->createShm();
-    m_seat = new SeatInterface(m_display, m_display);
+    m_seat = new SeatInterface(m_display, kwinApp()->session()->seat(), m_display);
     new PointerGesturesV1Interface(m_display, m_display);
     new PointerConstraintsV1Interface(m_display, m_display);
     new RelativePointerManagerV1Interface(m_display, m_display);
@@ -513,6 +486,8 @@ bool WaylandServer::init()
     m_tearingControlInterface = new TearingControlManagerV1Interface(m_display, m_display);
     new XdgToplevelDragManagerV1Interface(m_display, this);
 
+    new XdgToplevelIconManagerV1Interface(m_display, this);
+
     auto screenEdgeManager = new ScreenEdgeManagerV1Interface(m_display, m_display);
     connect(screenEdgeManager, &ScreenEdgeManagerV1Interface::edgeRequested, this, [this](AutoHideScreenEdgeV1Interface *edge) {
         if (auto window = qobject_cast<LayerShellV1Window *>(findWindow(edge->surface()))) {
@@ -532,6 +507,9 @@ bool WaylandServer::init()
 
     m_externalBrightness = new ExternalBrightnessV1(m_display, m_display);
     m_alphaModifierManager = new AlphaModifierManagerV1(m_display, m_display);
+#if HAVE_WL_FIXES
+    new FixesInterface(m_display, m_display);
+#endif
     return true;
 }
 
@@ -646,14 +624,8 @@ void WaylandServer::initScreenLocker()
 
     ScreenLocker::KSldApp::self()->setGreeterEnvironment(kwinApp()->processStartupEnvironment());
 
-    connect(ScreenLocker::KSldApp::self(), &ScreenLocker::KSldApp::aboutToLock, this, [this, screenLockerApp]() {
+    connect(ScreenLocker::KSldApp::self(), &ScreenLocker::KSldApp::aboutToLock, this, [this]() {
         new LockScreenPresentationWatcher(this);
-
-        const QList<SeatInterface *> seatIfaces = m_display->seats();
-        for (auto *seat : seatIfaces) {
-            connect(seat, &SeatInterface::timestampChanged,
-                    screenLockerApp, &ScreenLocker::KSldApp::userActivity);
-        }
     });
 
     connect(ScreenLocker::KSldApp::self(), &ScreenLocker::KSldApp::aboutToStartGreeter, this, [this]() {
@@ -669,18 +641,13 @@ void WaylandServer::initScreenLocker()
         ScreenLocker::KSldApp::self()->setWaylandFd(clientFd);
     });
 
-    connect(ScreenLocker::KSldApp::self(), &ScreenLocker::KSldApp::unlocked, this, [this, screenLockerApp]() {
+    connect(ScreenLocker::KSldApp::self(), &ScreenLocker::KSldApp::unlocked, this, [this]() {
         if (m_screenLockerClientConnection) {
             m_screenLockerClientConnection->destroy();
             delete m_screenLockerClientConnection;
             m_screenLockerClientConnection = nullptr;
         }
 
-        const QList<SeatInterface *> seatIfaces = m_display->seats();
-        for (auto *seat : seatIfaces) {
-            disconnect(seat, &SeatInterface::timestampChanged,
-                       screenLockerApp, &ScreenLocker::KSldApp::userActivity);
-        }
         ScreenLocker::KSldApp::self()->setWaylandFd(-1);
     });
 
@@ -721,11 +688,11 @@ int WaylandServer::createScreenLockerConnection()
 }
 
 #if KWIN_BUILD_X11
-int WaylandServer::createXWaylandConnection()
+FileDescriptor WaylandServer::createXWaylandConnection()
 {
     const auto socket = createConnection();
     if (!socket.connection) {
-        return -1;
+        return FileDescriptor();
     }
     m_xwaylandConnection = socket.connection;
 
@@ -734,7 +701,7 @@ int WaylandServer::createXWaylandConnection()
         m_xwaylandConnection->setScaleOverride(kwinApp()->xwaylandScale());
     });
 
-    return socket.fd;
+    return FileDescriptor(socket.fd);
 }
 
 void WaylandServer::destroyXWaylandConnection()

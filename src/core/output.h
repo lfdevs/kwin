@@ -110,6 +110,7 @@ public:
     enum class Flag : uint {
         Preferred = 0x1,
         Generated = 0x2,
+        Removed = 0x4,
     };
     Q_DECLARE_FLAGS(Flags, Flag)
 
@@ -120,10 +121,12 @@ public:
     uint32_t refreshRate() const;
     Flags flags() const;
 
+    void setRemoved();
+
 private:
     const QSize m_size;
     const uint32_t m_refreshRate;
-    const Flags m_flags;
+    Flags m_flags;
 };
 
 /**
@@ -191,6 +194,11 @@ public:
         ICC,
         EDID,
     };
+    enum class ColorPowerTradeoff {
+        PreferEfficiency = 0,
+        PreferAccuracy,
+    };
+    Q_ENUM(ColorPowerTradeoff);
 
     explicit Output(QObject *parent = nullptr);
     ~Output() override;
@@ -316,7 +324,7 @@ public:
     OutputTransform manualTransform() const;
     QSize orientateSize(const QSize &size) const;
 
-    void applyChanges(const OutputConfiguration &config);
+    virtual void applyChanges(const OutputConfiguration &config);
 
     SubPixel subPixel() const;
     QString description() const;
@@ -362,13 +370,18 @@ public:
     double sdrGamutWideness() const;
     ColorProfileSource colorProfileSource() const;
 
-    double brightness() const;
+    double brightnessSetting() const;
+    std::optional<double> currentBrightness() const;
+    double artificialHdrHeadroom() const;
+    double dimming() const;
 
     const ColorDescription &colorDescription() const;
 
     BrightnessDevice *brightnessDevice() const;
     virtual void setBrightnessDevice(BrightnessDevice *device);
     bool allowSdrSoftwareBrightness() const;
+
+    ColorPowerTradeoff colorPowerTradeoff() const;
 
 Q_SIGNALS:
     /**
@@ -434,6 +447,8 @@ Q_SIGNALS:
     void colorDescriptionChanged();
     void colorProfileSourceChanged();
     void brightnessChanged();
+    void colorPowerTradeoffChanged();
+    void dimmingChanged();
 
 protected:
     struct Information
@@ -485,8 +500,15 @@ protected:
         std::optional<double> minBrightnessOverride;
         double sdrGamutWideness = 0;
         VrrPolicy vrrPolicy = VrrPolicy::Automatic;
-        double brightness = 1.0;
+        /// the desired brightness level as set by the user
+        double brightnessSetting = 1.0;
+        /// the actually applied brightness level
+        std::optional<double> currentBrightness;
         bool allowSdrSoftwareBrightness = true;
+        /// how much HDR headroom is created by increasing the backlight beyond the user setting
+        double artificialHdrHeadroom = 1.0;
+        ColorPowerTradeoff colorPowerTradeoff = ColorPowerTradeoff::PreferEfficiency;
+        double dimming = 1.0;
     };
 
     void setInformation(const Information &information);

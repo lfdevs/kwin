@@ -47,7 +47,7 @@ Tile::~Tile()
     }
     for (auto *w : std::as_const(m_windows)) {
         Tile *tile = m_tiling->bestTileForPosition(w->moveResizeGeometry().center());
-        w->setTile(tile);
+        w->requestTile(tile);
     }
 }
 
@@ -157,6 +157,28 @@ QRectF Tile::maximizedWindowGeometry() const
 {
     const auto geom = absoluteGeometry();
     return geom.intersected(workspace()->clientArea(MaximizeArea, m_tiling->output(), VirtualDesktopManager::self()->currentDesktop()));
+}
+
+Qt::Edges Tile::anchors() const
+{
+    if (m_padding > 0) {
+        return Qt::Edges();
+    }
+    Qt::Edges anchors = Qt::LeftEdge | Qt::TopEdge | Qt::RightEdge | Qt::BottomEdge;
+
+    if (!qFuzzyCompare(m_relativeGeometry.left(), 0)) {
+        anchors &= ~Qt::LeftEdge;
+    }
+    if (!qFuzzyCompare(m_relativeGeometry.top(), 0)) {
+        anchors &= ~Qt::TopEdge;
+    }
+    if (!qFuzzyCompare(m_relativeGeometry.right(), 1)) {
+        anchors &= ~Qt::RightEdge;
+    }
+    if (!qFuzzyCompare(m_relativeGeometry.bottom(), 1)) {
+        anchors &= ~Qt::BottomEdge;
+    }
+    return anchors;
 }
 
 bool Tile::isLayout() const
@@ -289,7 +311,7 @@ void Tile::addWindow(Window *window)
         return;
     }
     if (!m_windows.contains(window)) {
-        window->moveResize(windowGeometry());
+        // Don't resize the window here, it was already resized in the configureEvent
         m_windows.append(window);
         Q_EMIT windowAdded(window);
         Q_EMIT windowsChanged();
@@ -322,7 +344,7 @@ void Tile::insertChild(int position, Tile *item)
         Q_EMIT isLayoutChanged(true);
         for (auto *w : std::as_const(m_windows)) {
             Tile *tile = m_tiling->bestTileForPosition(w->moveResizeGeometry().center());
-            w->setTile(tile);
+            w->requestTile(tile);
         }
     }
 

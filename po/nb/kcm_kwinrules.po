@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-27 02:37+0000\n"
+"POT-Creation-Date: 2024-11-26 00:41+0000\n"
 "PO-Revision-Date: 2014-01-07 11:23+0100\n"
 "Last-Translator: Bjørn Steensrud <bjornst@skogkatt.homelinux.org>\n"
 "Language-Team: Norwegian Bokmål <l10n-no@lister.huftis.org>\n"
@@ -46,25 +46,21 @@ msgstr "Ikke viktig"
 
 #: optionsmodel.cpp:199
 #, fuzzy, kde-format
-#| msgid "Exact Match"
 msgid "Exact match"
 msgstr "Nøyaktig treff"
 
 #: optionsmodel.cpp:200
 #, fuzzy, kde-format
-#| msgid "Substring Match"
 msgid "Substring match"
 msgstr "Treff i delstreng"
 
 #: optionsmodel.cpp:201
 #, fuzzy, kde-format
-#| msgid "Regular Expression"
 msgid "Regular expression"
 msgstr "Regulært uttrykk"
 
 #: optionsmodel.cpp:205
 #, fuzzy, kde-format
-#| msgid "Apply Initially"
 msgid "Apply initially"
 msgstr "Bruk fra start"
 
@@ -78,7 +74,6 @@ msgstr ""
 
 #: optionsmodel.cpp:209
 #, fuzzy, kde-format
-#| msgid "Apply Now"
 msgid "Apply now"
 msgstr "Bruk nå"
 
@@ -104,7 +99,6 @@ msgstr ""
 
 #: optionsmodel.cpp:217
 #, fuzzy, kde-format
-#| msgid "Do Not Affect"
 msgid "Do not affect"
 msgstr "Ikke påvirk"
 
@@ -128,7 +122,6 @@ msgstr ""
 
 #: optionsmodel.cpp:224
 #, fuzzy, kde-format
-#| msgid "Force Temporarily"
 msgid "Force temporarily"
 msgstr "Tving foreløpig"
 
@@ -259,7 +252,6 @@ msgstr ""
 
 #: rulesmodel.cpp:469
 #, fuzzy, kde-format
-#| msgid "All Desktops"
 msgid "Virtual desktops"
 msgstr "Alle skrivebord"
 
@@ -273,7 +265,7 @@ msgstr ""
 msgid "Screen"
 msgstr "Skjerm"
 
-#: rulesmodel.cpp:509 rulesmodel.cpp:925
+#: rulesmodel.cpp:509 rulesmodel.cpp:924
 #, kde-format
 msgid "Fullscreen"
 msgstr ""
@@ -562,19 +554,16 @@ msgstr ""
 
 #: rulesmodel.cpp:811
 #, fuzzy, kde-format
-#| msgid "Normal Window"
 msgid "Normal window"
 msgstr "Normalt vindu"
 
 #: rulesmodel.cpp:812
 #, fuzzy, kde-format
-#| msgid "Dialog Window"
 msgid "Dialog window"
 msgstr "Dialogvindu"
 
 #: rulesmodel.cpp:813
 #, fuzzy, kde-format
-#| msgid "Utility Window"
 msgid "Utility window"
 msgstr "Verktøyvindu"
 
@@ -590,17 +579,15 @@ msgstr "Verktøylinje"
 
 #: rulesmodel.cpp:816
 #, fuzzy, kde-format
-#| msgid "Torn-Off Menu"
 msgid "Torn-off menu"
 msgstr "Avrevet meny"
 
 #: rulesmodel.cpp:817
 #, fuzzy, kde-format
-#| msgid "Splash Screen"
 msgid "Splash screen"
 msgstr "Velkomstbilde"
 
-#: rulesmodel.cpp:818 rulesmodel.cpp:920
+#: rulesmodel.cpp:818 rulesmodel.cpp:919
 #, kde-format
 msgid "Desktop"
 msgstr "Skrivebord"
@@ -608,18 +595,16 @@ msgstr "Skrivebord"
 #. i18n("Unmanaged Window")},  deprecated
 #: rulesmodel.cpp:820
 #, fuzzy, kde-format
-#| msgid "Standalone Menubar"
 msgid "Standalone menubar"
 msgstr "Frittstående menylinje"
 
-#: rulesmodel.cpp:821 rulesmodel.cpp:928
+#: rulesmodel.cpp:821 rulesmodel.cpp:927
 #, kde-format
 msgid "On-screen display"
 msgstr ""
 
 #: rulesmodel.cpp:831
 #, fuzzy, kde-format
-#| msgid "All Desktops"
 msgid "All desktops"
 msgstr "Alle skrivebord"
 
@@ -631,7 +616,6 @@ msgstr ""
 
 #: rulesmodel.cpp:852
 #, fuzzy, kde-format
-#| msgid "All Activities"
 msgid "All activities"
 msgstr "Alle aktiviteter"
 
@@ -648,7 +632,6 @@ msgstr "Standard"
 
 #: rulesmodel.cpp:876
 #, fuzzy, kde-format
-#| msgid "No Placement"
 msgid "No placement"
 msgstr "Ingen plassering"
 
@@ -679,13 +662,11 @@ msgstr ""
 
 #: rulesmodel.cpp:882
 #, fuzzy, kde-format
-#| msgid "Under Mouse"
 msgid "Under mouse"
 msgstr "Under mus"
 
 #: rulesmodel.cpp:883
 #, fuzzy, kde-format
-#| msgid "On Main Window"
 msgid "On main window"
 msgstr "På hovedvindu"
 
@@ -699,7 +680,7 @@ msgstr ""
 msgid "Low"
 msgstr "Lav"
 
-#: rulesmodel.cpp:892 rulesmodel.cpp:922
+#: rulesmodel.cpp:892 rulesmodel.cpp:921
 #, kde-format
 msgid "Normal"
 msgstr "Normal"
@@ -714,42 +695,42 @@ msgstr "Høy"
 msgid "Extreme"
 msgstr "Ekstrem"
 
-#: rulesmodel.cpp:921
+#: rulesmodel.cpp:920
 #, kde-format
 msgid "Below"
 msgstr ""
 
-#: rulesmodel.cpp:923
+#: rulesmodel.cpp:922
 #, kde-format
 msgid "Above"
 msgstr ""
 
-#: rulesmodel.cpp:924
+#: rulesmodel.cpp:923
 #, kde-format
 msgid "Notification"
 msgstr ""
 
-#: rulesmodel.cpp:926
+#: rulesmodel.cpp:925
 #, kde-format
 msgid "Popup"
 msgstr ""
 
-#: rulesmodel.cpp:927
+#: rulesmodel.cpp:926
 #, kde-format
 msgid "Critical notification"
 msgstr ""
 
-#: rulesmodel.cpp:929
+#: rulesmodel.cpp:928
 #, kde-format
 msgid "Overlay"
 msgstr ""
 
-#: rulesmodel.cpp:954
+#: rulesmodel.cpp:953
 #, kde-format
 msgid "Unmanaged window"
 msgstr ""
 
-#: rulesmodel.cpp:955
+#: rulesmodel.cpp:954
 #, kde-format
 msgid "Could not detect window properties. The window is not managed by KWin."
 msgstr ""
@@ -815,27 +796,27 @@ msgstr ""
 msgid "Save Rules"
 msgstr ""
 
-#: ui/main.qml:195
+#: ui/main.qml:201
 #, kde-format
 msgid "Edit"
 msgstr "Rediger"
 
-#: ui/main.qml:201
+#: ui/main.qml:207
 #, kde-format
 msgid "Duplicate"
 msgstr ""
 
-#: ui/main.qml:207
+#: ui/main.qml:213
 #, kde-format
 msgid "Delete"
 msgstr "Slett"
 
-#: ui/main.qml:239
+#: ui/main.qml:245
 #, kde-format
 msgid "Import Rules"
 msgstr "Importer regler"
 
-#: ui/main.qml:251
+#: ui/main.qml:257
 #, kde-format
 msgid "Export Rules"
 msgstr ""

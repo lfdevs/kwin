@@ -17,13 +17,16 @@ class QTabletEvent;
 
 namespace KWin
 {
-class KeyEvent;
-class MouseEvent;
-class WheelEvent;
-class SwitchEvent;
+struct KeyboardKeyEvent;
+struct PointerAxisEvent;
+struct PointerButtonEvent;
+struct PointerMotionEvent;
+struct SwitchEvent;
 class TabletEvent;
-class TabletToolId;
-class TabletPadId;
+struct TabletToolButtonEvent;
+struct TabletPadButtonEvent;
+struct TabletPadStripEvent;
+struct TabletPadRingEvent;
 
 /**
  * Base class for spying on input events inside InputRedirection.
@@ -41,24 +44,20 @@ public:
     InputEventSpy();
     virtual ~InputEventSpy();
 
-    /**
-     * Event spy for pointer events which can be described by a MouseEvent.
-     *
-     * @param event The event information about the move or button press/release
-     */
-    virtual void pointerEvent(MouseEvent *event);
+    virtual void pointerMotion(PointerMotionEvent *event);
+    virtual void pointerButton(PointerButtonEvent *event);
     /**
      * Event spy for pointer axis events.
      *
      * @param event The event information about the axis event
      */
-    virtual void wheelEvent(WheelEvent *event);
+    virtual void pointerAxis(PointerAxisEvent *event);
     /**
      * Event spy for keyboard events.
      *
      * @param event The event information about the key event
      */
-    virtual void keyEvent(KeyEvent *event);
+    virtual void keyboardKey(KeyboardKeyEvent *event);
     virtual void touchDown(qint32 id, const QPointF &pos, std::chrono::microseconds time);
     virtual void touchMotion(qint32 id, const QPointF &pos, std::chrono::microseconds time);
     virtual void touchUp(qint32 id, std::chrono::microseconds time);
@@ -79,11 +78,13 @@ public:
 
     virtual void switchEvent(SwitchEvent *event);
 
-    virtual void tabletToolEvent(TabletEvent *event);
-    virtual void tabletToolButtonEvent(uint button, bool pressed, const TabletToolId &tabletToolId, std::chrono::microseconds time);
-    virtual void tabletPadButtonEvent(uint button, bool pressed, const TabletPadId &tabletPadId, std::chrono::microseconds time);
-    virtual void tabletPadStripEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId, std::chrono::microseconds time);
-    virtual void tabletPadRingEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId, std::chrono::microseconds time);
+    virtual void tabletToolProximityEvent(TabletEvent *event);
+    virtual void tabletToolAxisEvent(TabletEvent *event);
+    virtual void tabletToolTipEvent(TabletEvent *event);
+    virtual void tabletToolButtonEvent(TabletToolButtonEvent *event);
+    virtual void tabletPadButtonEvent(TabletPadButtonEvent *event);
+    virtual void tabletPadStripEvent(TabletPadStripEvent *event);
+    virtual void tabletPadRingEvent(TabletPadRingEvent *event);
 };
 
 } // namespace KWin

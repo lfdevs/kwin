@@ -271,17 +271,96 @@ Window *Workspace::findDesktop(VirtualDesktop *desktop, Output *output) const
     return nullptr;
 }
 
+#if KWIN_BUILD_X11
+static Layer layerForWindow(const X11Window *window)
+{
+    Layer layer = window->layer();
+
+    // Desktop windows cannot be promoted to upper layers.
+    if (layer == DesktopLayer) {
+        return layer;
+    }
+
+    if (const Group *group = window->group()) {
+        const auto members = group->members();
+        for (const X11Window *member : members) {
+            if (member == window) {
+                continue;
+            } else if (member->output() != window->output()) {
+                continue;
+            }
+            if (member->layer() == ActiveLayer) {
+                return ActiveLayer;
+            }
+        }
+    }
+
+    return layer;
+}
+#endif
+
+static Layer computeLayer(const Window *window)
+{
+#if KWIN_BUILD_X11
+    if (auto x11Window = qobject_cast<const X11Window *>(window)) {
+        return layerForWindow(x11Window);
+    }
+#endif
+    return window->layer();
+}
+
+bool Workspace::areConstrained(const Window *below, const Window *above) const
+{
+    for (const auto constraint : std::as_const(m_constraints)) {
+        if (constraint->below == below) {
+            if (constraint->above == above) {
+                return true;
+            } else {
+                for (const auto child : std::as_const(constraint->children)) {
+                    if (areConstrained(child->below, above)) {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+
+    return false;
+}
+
 void Workspace::raiseOrLowerWindow(Window *window)
 {
     if (!window->isOnCurrentDesktop()) {
         return;
     }
 
-    const Window *topmost =
-        topWindowOnDesktop(VirtualDesktopManager::self()->currentDesktop(),
-                           options->isSeparateScreenFocus() ? window->output() : nullptr, true);
+    VirtualDesktop *desktop = VirtualDesktopManager::self()->currentDesktop();
+    Output *output = options->isSeparateScreenFocus() ? window->output() : nullptr;
+    Layer layer = computeLayer(window);
 
-    if (window == topmost) {
+    bool topmost = false;
+    for (auto it = unconstrained_stacking_order.crbegin(); it != unconstrained_stacking_order.crend(); ++it) {
+        if (layer != computeLayer(*it) || !(*it)->isClient() || (*it)->isDeleted()) {
+            continue;
+        }
+        if ((*it)->isOnDesktop(desktop) && (*it)->isShown() && (*it)->isOnCurrentActivity() && !(*it)->isShade()) {
+            if (output && (*it)->output() != output) {
+                continue;
+            }
+            if ((*it)->wantsTabFocus() && !(*it)->isSpecialWindow()) {
+                if (*it == window) {
+                    topmost = true;
+                    break;
+                } else if (areConstrained(window, *it)) {
+                    continue; // window `it' must be above us anyway, ignore it
+                } else {
+                    break;
+                }
+            }
+        }
+    }
+
+    if (topmost) {
         lowerWindow(window);
     } else {
         raiseWindow(window);
@@ -509,43 +588,7 @@ void Workspace::restoreSessionStackingOrder(X11Window *window)
     }
     unconstrained_stacking_order.append(window);
 }
-
-static Layer layerForWindow(const X11Window *window)
-{
-    Layer layer = window->layer();
-
-    // Desktop windows cannot be promoted to upper layers.
-    if (layer == DesktopLayer) {
-        return layer;
-    }
-
-    if (const Group *group = window->group()) {
-        const auto members = group->members();
-        for (const X11Window *member : members) {
-            if (member == window) {
-                continue;
-            } else if (member->output() != window->output()) {
-                continue;
-            }
-            if (member->layer() == ActiveLayer) {
-                return ActiveLayer;
-            }
-        }
-    }
-
-    return layer;
-}
 #endif
-
-static Layer computeLayer(const Window *window)
-{
-#if KWIN_BUILD_X11
-    if (auto x11Window = qobject_cast<const X11Window *>(window)) {
-        return layerForWindow(x11Window);
-    }
-#endif
-    return window->layer();
-}
 
 /**
  * Returns a stacking order based upon \a list that fulfills certain contained.

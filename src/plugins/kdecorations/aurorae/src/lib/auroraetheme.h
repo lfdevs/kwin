@@ -14,7 +14,7 @@
 
 #include <QLoggingCategory>
 
-#include <KDecoration2/DecorationButton>
+#include <KDecoration3/DecorationButton>
 
 Q_DECLARE_LOGGING_CATEGORY(AURORAE)
 
@@ -76,6 +76,7 @@ class /*LIBAURORAE_EXPORT*/ AuroraeTheme : public QObject
     Q_PROPERTY(int buttonWidthAppMenu READ buttonWidthAppMenu NOTIFY themeChanged)
     Q_PROPERTY(int buttonSpacing READ buttonSpacing NOTIFY themeChanged)
     Q_PROPERTY(int buttonMarginTop READ buttonMarginTop NOTIFY themeChanged)
+    Q_PROPERTY(int buttonMarginTopMaximized READ buttonMarginTopMaximized NOTIFY themeChanged)
     Q_PROPERTY(int explicitButtonSpacer READ explicitButtonSpacer NOTIFY themeChanged)
     Q_PROPERTY(qreal buttonSizeFactor READ buttonSizeFactor NOTIFY buttonSizesChanged)
     Q_PROPERTY(int animationTime READ animationTime NOTIFY themeChanged)
@@ -98,6 +99,7 @@ class /*LIBAURORAE_EXPORT*/ AuroraeTheme : public QObject
     Q_PROPERTY(QString keepBelowButtonPath READ keepBelowButtonPath NOTIFY themeChanged)
     Q_PROPERTY(QString shadeButtonPath READ shadeButtonPath NOTIFY themeChanged)
     Q_PROPERTY(QString helpButtonPath READ helpButtonPath NOTIFY themeChanged)
+    Q_PROPERTY(QString appMenuButtonPath READ appMenuButtonPath NOTIFY themeChanged)
     Q_PROPERTY(QColor activeTextColor READ activeTextColor NOTIFY themeChanged)
     Q_PROPERTY(QColor inactiveTextColor READ inactiveTextColor NOTIFY themeChanged)
     Q_PROPERTY(Qt::Alignment horizontalAlignment READ alignment NOTIFY themeChanged)
@@ -135,6 +137,7 @@ public:
     int buttonHeight() const;
     int buttonSpacing() const;
     int buttonMarginTop() const;
+    int buttonMarginTopMaximized() const;
     int explicitButtonSpacer() const;
     int animationTime() const;
     int titleEdgeLeft() const;
@@ -156,6 +159,7 @@ public:
     QString keepBelowButtonPath() const;
     QString shadeButtonPath() const;
     QString helpButtonPath() const;
+    QString appMenuButtonPath() const;
     QColor activeTextColor() const;
     QColor inactiveTextColor() const;
     Qt::Alignment alignment() const;
@@ -172,13 +176,13 @@ public:
      * @returns true if the theme contains a FrameSvg for specified button.
      */
     bool hasButton(AuroraeButtonType button) const;
-    void setBorderSize(KDecoration2::BorderSize size);
+    void setBorderSize(KDecoration3::BorderSize size);
     /**
      * Sets the size of the buttons.
      * The available sizes are identical to border sizes, therefore BorderSize is used.
      * @param size The buttons size
      */
-    void setButtonSize(KDecoration2::BorderSize size);
+    void setButtonSize(KDecoration3::BorderSize size);
     qreal buttonSizeFactor() const;
 
     DecorationPosition decorationPosition() const;

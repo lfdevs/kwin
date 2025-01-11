@@ -294,7 +294,7 @@ void OffscreenQuickView::forwardMouseEvent(QEvent *e)
             d->lastMousePressButton = me->button();
             if (doubleClick) {
                 d->lastMousePressButton = Qt::NoButton;
-                QMouseEvent doubleClickEvent(QEvent::MouseButtonDblClick, me->localPos(), me->windowPos(), me->screenPos(), me->button(), me->buttons(), me->modifiers());
+                QMouseEvent doubleClickEvent(QEvent::MouseButtonDblClick, me->position(), me->globalPosition(), me->button(), me->buttons(), me->modifiers());
                 QCoreApplication::sendEvent(d->m_view.get(), &doubleClickEvent);
             }
         }
@@ -384,6 +384,16 @@ bool OffscreenQuickView::forwardTouchUp(qint32 id, std::chrono::microseconds tim
     d->acceptedTouchPoints.remove(id);
 
     return event.isAccepted();
+}
+
+void OffscreenQuickView::forwardTouchCancel()
+{
+    d->acceptedTouchPoints.clear();
+    d->touchPoints.clear();
+    QTouchEvent event(QEvent::TouchCancel, d->touchDevice, Qt::NoModifier, d->touchPoints);
+    event.setTimestamp(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now().time_since_epoch()).count());
+    event.setAccepted(false);
+    QCoreApplication::sendEvent(d->m_view.get(), &event);
 }
 
 QRect OffscreenQuickView::geometry() const

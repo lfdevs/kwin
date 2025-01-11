@@ -13,6 +13,7 @@
 #include <libinput.h>
 
 #include <KConfigGroup>
+#include <QEasingCurve>
 
 #include <QList>
 #include <QMatrix4x4>
@@ -29,6 +30,26 @@ class Output;
 namespace LibInput
 {
 enum class ConfigKey;
+
+class TabletTool : public InputDeviceTabletTool
+{
+    Q_OBJECT
+
+public:
+    explicit TabletTool(libinput_tablet_tool *handle);
+    ~TabletTool() override;
+
+    libinput_tablet_tool *handle() const;
+
+    quint64 serialId() const override;
+    quint64 uniqueId() const override;
+
+    Type type() const override;
+    QList<Capability> capabilities() const override;
+
+private:
+    libinput_tablet_tool *const m_handle;
+};
 
 class KWIN_EXPORT Device : public InputDevice
 {
@@ -57,8 +78,8 @@ class KWIN_EXPORT Device : public InputDevice
     // advanced
     Q_PROPERTY(int supportedButtons READ supportedButtons CONSTANT)
     Q_PROPERTY(bool supportsCalibrationMatrix READ supportsCalibrationMatrix CONSTANT)
-    Q_PROPERTY(QMatrix4x4 defaultCalibrationMatrix READ defaultCalibrationMatrix CONSTANT)
-    Q_PROPERTY(QMatrix4x4 calibrationMatrix READ calibrationMatrix WRITE setCalibrationMatrix NOTIFY calibrationMatrixChanged)
+    Q_PROPERTY(QString defaultCalibrationMatrix READ defaultCalibrationMatrix CONSTANT)
+    Q_PROPERTY(QString calibrationMatrix READ serializedCalibrationMatrix WRITE setCalibrationMatrix NOTIFY calibrationMatrixChanged)
     Q_PROPERTY(Qt::ScreenOrientation orientation READ orientation WRITE setOrientation NOTIFY orientationChanged)
     Q_PROPERTY(int orientationDBus READ orientation WRITE setOrientationDBus NOTIFY orientationChanged)
 
@@ -67,6 +88,8 @@ class KWIN_EXPORT Device : public InputDevice
     Q_PROPERTY(bool leftHanded READ isLeftHanded WRITE setLeftHanded NOTIFY leftHandedChanged)
 
     Q_PROPERTY(bool supportsDisableEventsOnExternalMouse READ supportsDisableEventsOnExternalMouse CONSTANT)
+    Q_PROPERTY(bool disableEventsOnExternalMouseEnabledByDefault READ disableEventsOnExternalMouseEnabledByDefault CONSTANT)
+    Q_PROPERTY(bool disableEventsOnExternalMouse READ isDisableEventsOnExternalMouse WRITE setDisableEventsOnExternalMouse NOTIFY disableEventsOnExternalMouseChanged)
 
     Q_PROPERTY(bool supportsDisableWhileTyping READ supportsDisableWhileTyping CONSTANT)
     Q_PROPERTY(bool disableWhileTypingEnabledByDefault READ disableWhileTypingEnabledByDefault CONSTANT)
@@ -144,6 +167,18 @@ class KWIN_EXPORT Device : public InputDevice
     Q_PROPERTY(bool defaultMapToWorkspace READ defaultMapToWorkspace CONSTANT)
     Q_PROPERTY(bool mapToWorkspace READ isMapToWorkspace WRITE setMapToWorkspace NOTIFY mapToWorkspaceChanged)
     Q_PROPERTY(QString deviceGroupId READ deviceGroupId CONSTANT)
+    Q_PROPERTY(QString defaultPressureCurve READ defaultPressureCurve CONSTANT)
+    Q_PROPERTY(QString pressureCurve READ serializedPressureCurve WRITE setPressureCurve NOTIFY pressureCurveChanged)
+    Q_PROPERTY(quint32 tabletPadButtonCount READ tabletPadButtonCount CONSTANT)
+    Q_PROPERTY(bool supportsInputArea READ supportsInputArea CONSTANT)
+    Q_PROPERTY(QRectF defaultInputArea READ defaultInputArea CONSTANT)
+    Q_PROPERTY(QRectF inputArea READ inputArea WRITE setInputArea NOTIFY inputAreaChanged)
+
+    Q_PROPERTY(bool supportsPressureRange READ supportsPressureRange NOTIFY supportsPressureRangeChanged)
+    Q_PROPERTY(double pressureRangeMin READ pressureRangeMin WRITE setPressureRangeMin NOTIFY pressureRangeMinChanged)
+    Q_PROPERTY(double pressureRangeMax READ pressureRangeMax WRITE setPressureRangeMax NOTIFY pressureRangeMaxChanged)
+    Q_PROPERTY(double defaultPressureRangeMin READ defaultPressureRangeMin CONSTANT)
+    Q_PROPERTY(double defaultPressureRangeMax READ defaultPressureRangeMax CONSTANT)
 
 public:
     explicit Device(libinput_device *device, QObject *parent = nullptr);
@@ -166,12 +201,10 @@ public:
     }
     bool isTouchpad() const override
     {
-        return m_pointer &&
+        return m_touchpad &&
             // ignore all combined devices. E.g. a touchpad on a keyboard we don't want to toggle
             // as that would result in the keyboard going off as well
-            !(m_keyboard || m_touch || m_tabletPad || m_tabletTool) &&
-            // is this a touch pad? We don't really know, let's do some assumptions
-            (m_tapFingerCount > 0 || m_supportsDisableWhileTyping || m_supportsDisableEventsOnExternalMouse);
+            !(m_keyboard || m_touch || m_tabletPad || m_tabletTool);
     }
     bool isTouch() const override
     {
@@ -193,9 +226,13 @@ public:
     {
         return m_name;
     }
-    QString sysName() const override
+    QString sysName() const
     {
         return m_sysName;
+    }
+    QString sysPath() const override
+    {
+        return m_sysPath;
     }
     QString outputName() const override
     {
@@ -205,14 +242,15 @@ public:
     {
         return m_size;
     }
-    quint32 product() const
+    quint32 product() const override
     {
         return m_product;
     }
-    quint32 vendor() const
+    quint32 vendor() const override
     {
         return m_vendor;
     }
+    void *group() const override;
     Qt::MouseButtons supportedButtons() const
     {
         return m_supportedButtons;
@@ -357,7 +395,7 @@ public:
         return m_middleEmulation;
     }
     void setMiddleEmulation(bool set);
-    bool isNaturalScroll() const override
+    bool isNaturalScroll() const
     {
         return m_naturalScroll;
     }
@@ -422,20 +460,35 @@ public:
      */
     void setLeftHanded(bool set);
 
-    QMatrix4x4 defaultCalibrationMatrix() const
+    QString defaultCalibrationMatrix() const
     {
         auto list = defaultValue("CalibrationMatrix", QList<float>{});
         if (list.size() == 16) {
-            return QMatrix4x4{list.constData()};
+            return serializeMatrix(QMatrix4x4{list.constData()});
         }
 
-        return m_defaultCalibrationMatrix;
+        return serializeMatrix(m_defaultCalibrationMatrix);
     }
     QMatrix4x4 calibrationMatrix() const
     {
         return m_calibrationMatrix;
     }
-    void setCalibrationMatrix(const QMatrix4x4 &matrix);
+    void setCalibrationMatrix(const QString &value);
+    QString serializedCalibrationMatrix() const
+    {
+        return serializeMatrix(m_calibrationMatrix);
+    }
+
+    static QString serializeMatrix(const QMatrix4x4 &matrix);
+    static QMatrix4x4 deserializeMatrix(const QString &matrix);
+
+    QString defaultPressureCurve() const;
+    QEasingCurve pressureCurve() const;
+    QString serializedPressureCurve() const;
+    void setPressureCurve(const QString &curve);
+
+    static QString serializePressureCurve(const QEasingCurve &curve);
+    static QEasingCurve deserializePressureCurve(const QString &curve);
 
     Qt::ScreenOrientation defaultOrientation() const
     {
@@ -569,6 +622,15 @@ public:
     {
         return defaultValue("Enabled", true);
     }
+    bool disableEventsOnExternalMouseEnabledByDefault() const
+    {
+        return defaultValue("DisableEventsOnExternalMouse", m_disableEventsOnExternalMouseEnabledByDefault);
+    }
+    bool isDisableEventsOnExternalMouse() const
+    {
+        return m_disableEventsOnExternalMouse;
+    }
+    void setDisableEventsOnExternalMouse(bool set);
 
     libinput_device *device() const
     {
@@ -618,10 +680,11 @@ public:
         return m_tabletSwitch;
     }
 
-    int stripsCount() const;
-    int ringsCount() const;
-
-    void *groupUserData() const;
+    int tabletPadButtonCount() const override;
+    int tabletPadRingCount() const override;
+    int tabletPadStripCount() const override;
+    int tabletPadModeCount() const override;
+    int tabletPadMode() const override;
 
     Output *output() const;
     void setOutput(Output *output);
@@ -651,6 +714,20 @@ public:
         return m_deviceGroupId;
     }
 
+    bool supportsPressureRange() const;
+    void setSupportsPressureRange(bool supported);
+    double pressureRangeMin() const;
+    void setPressureRangeMin(double value);
+    double pressureRangeMax() const;
+    void setPressureRangeMax(double value);
+    double defaultPressureRangeMin() const;
+    double defaultPressureRangeMax() const;
+
+    bool supportsInputArea() const;
+    QRectF inputArea() const;
+    void setInputArea(const QRectF &inputArea);
+    QRectF defaultInputArea() const;
+
     /**
      * Gets the Device for @p native. @c null if there is no Device for @p native.
      */
@@ -666,6 +743,7 @@ Q_SIGNALS:
     void pointerAccelerationChanged();
     void pointerAccelerationProfileChanged();
     void enabledChanged();
+    void disableEventsOnExternalMouseChanged();
     void tapToClickChanged();
     void tapAndDragChanged();
     void tapDragLockChanged();
@@ -677,6 +755,11 @@ Q_SIGNALS:
     void clickMethodChanged();
     void outputAreaChanged();
     void mapToWorkspaceChanged();
+    void pressureCurveChanged();
+    void supportsPressureRangeChanged();
+    void pressureRangeMinChanged();
+    void pressureRangeMaxChanged();
+    void inputAreaChanged();
 
 private:
     template<typename T>
@@ -703,8 +786,10 @@ private:
     bool m_switch = false;
     bool m_lidSwitch = false;
     bool m_tabletSwitch = false;
+    bool m_touchpad = false;
     QString m_name;
     QString m_sysName;
+    QString m_sysPath;
     QString m_outputName;
     QSizeF m_size;
     quint32 m_product;
@@ -749,6 +834,8 @@ private:
     enum libinput_config_accel_profile m_defaultPointerAccelerationProfile;
     enum libinput_config_accel_profile m_pointerAccelerationProfile;
     bool m_enabled;
+    bool m_disableEventsOnExternalMouseEnabledByDefault;
+    bool m_disableEventsOnExternalMouse;
 
     KConfigGroup m_config;
     KConfigGroup m_defaultConfig;
@@ -758,14 +845,23 @@ private:
     Qt::ScreenOrientation m_orientation = Qt::PrimaryOrientation;
     QMatrix4x4 m_defaultCalibrationMatrix;
     QMatrix4x4 m_calibrationMatrix;
+    QEasingCurve m_pressureCurve;
     quint32 m_supportedClickMethods;
     enum libinput_config_click_method m_defaultClickMethod;
     enum libinput_config_click_method m_clickMethod;
 
     LEDs m_leds;
-    QRectF m_outputArea = QRectF(0, 0, 1, 1);
+    QRectF m_outputArea;
     bool m_mapToWorkspace = false;
     QString m_deviceGroupId;
+
+    bool m_supportsPressureRange;
+    double m_pressureRangeMin;
+    double m_pressureRangeMax;
+    double m_defaultPressureRangeMin;
+    double m_defaultPressureRangeMax;
+
+    QRectF m_inputArea;
 };
 
 }

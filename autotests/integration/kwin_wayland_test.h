@@ -83,6 +83,7 @@ class Xwayland;
 namespace Test
 {
 class VirtualInputDevice;
+class VirtualInputDeviceTabletTool;
 }
 
 class WaylandTestApplication : public Application
@@ -101,7 +102,9 @@ public:
     Test::VirtualInputDevice *virtualKeyboard() const;
     Test::VirtualInputDevice *virtualTouch() const;
     Test::VirtualInputDevice *virtualTabletPad() const;
-    Test::VirtualInputDevice *virtualTabletTool() const;
+    Test::VirtualInputDevice *virtualTablet() const;
+    Test::VirtualInputDeviceTabletTool *virtualTabletTool() const;
+
 #if KWIN_BUILD_X11
     XwaylandInterface *xwayland() const override;
 #endif
@@ -110,7 +113,6 @@ protected:
     void performStartup() override;
 
 private:
-    void continueStartupWithScene();
     void finalizeStartup();
 
     void createVirtualInputDevices();
@@ -126,7 +128,8 @@ private:
     std::unique_ptr<Test::VirtualInputDevice> m_virtualKeyboard;
     std::unique_ptr<Test::VirtualInputDevice> m_virtualTouch;
     std::unique_ptr<Test::VirtualInputDevice> m_virtualTabletPad;
-    std::unique_ptr<Test::VirtualInputDevice> m_virtualTabletTool;
+    std::unique_ptr<Test::VirtualInputDevice> m_virtualTablet;
+    std::unique_ptr<Test::VirtualInputDeviceTabletTool> m_virtualTabletTool;
 };
 
 namespace Test
@@ -605,6 +608,30 @@ enum class AdditionalWaylandInterface {
 };
 Q_DECLARE_FLAGS(AdditionalWaylandInterfaces, AdditionalWaylandInterface)
 
+class VirtualInputDeviceTabletTool : public InputDeviceTabletTool
+{
+    Q_OBJECT
+
+public:
+    explicit VirtualInputDeviceTabletTool(QObject *parent = nullptr);
+
+    void setSerialId(quint64 serialId);
+    void setUniqueId(quint64 uniqueId);
+    void setType(Type type);
+    void setCapabilities(const QList<Capability> &capabilities);
+
+    quint64 serialId() const override;
+    quint64 uniqueId() const override;
+    Type type() const override;
+    QList<Capability> capabilities() const override;
+
+private:
+    quint64 m_serialId = 0;
+    quint64 m_uniqueId = 0;
+    Type m_type = Type::Pen;
+    QList<Capability> m_capabilities;
+};
+
 class VirtualInputDevice : public InputDevice
 {
     Q_OBJECT
@@ -619,15 +646,13 @@ public:
     void setTabletPad(bool set);
     void setTabletTool(bool set);
     void setName(const QString &name);
+    void setGroup(uintptr_t group);
 
-    QString sysName() const override;
     QString name() const override;
+    void *group() const override;
 
     bool isEnabled() const override;
     void setEnabled(bool enabled) override;
-
-    LEDs leds() const override;
-    void setLeds(LEDs leds) override;
 
     bool isKeyboard() const override;
     bool isPointer() const override;
@@ -640,6 +665,7 @@ public:
 
 private:
     QString m_name;
+    void *m_group = nullptr;
     bool m_pointer = false;
     bool m_keyboard = false;
     bool m_touch = false;
@@ -660,11 +686,11 @@ void keyboardKeyReleased(quint32 key, quint32 time);
 void pointerAxisHorizontal(qreal delta,
                            quint32 time,
                            qint32 discreteDelta = 0,
-                           InputRedirection::PointerAxisSource source = InputRedirection::PointerAxisSourceUnknown);
+                           PointerAxisSource source = PointerAxisSource::Unknown);
 void pointerAxisVertical(qreal delta,
                          quint32 time,
                          qint32 discreteDelta = 0,
-                         InputRedirection::PointerAxisSource source = InputRedirection::PointerAxisSourceUnknown);
+                         PointerAxisSource source = PointerAxisSource::Unknown);
 void pointerButtonPressed(quint32 button, quint32 time);
 void pointerButtonReleased(quint32 button, quint32 time);
 void pointerMotion(const QPointF &position, quint32 time);
@@ -677,9 +703,7 @@ void tabletPadButtonPressed(quint32 button, quint32 time);
 void tabletPadButtonReleased(quint32 button, quint32 time);
 void tabletToolButtonPressed(quint32 button, quint32 time);
 void tabletToolButtonReleased(quint32 button, quint32 time);
-void tabletToolEvent(InputRedirection::TabletEventType type, const QPointF &pos,
-                     qreal pressure, int xTilt, int yTilt, qreal rotation, bool tipDown,
-                     bool tipNear, quint32 time);
+void tabletToolProximityEvent(const QPointF &pos, qreal pressure, qreal xTilt, qreal yTilt, qreal rotation, qreal distance, bool tipDown, bool tipNear, quint32 time);
 
 /**
  * Creates a Wayland Connection in a dedicated thread and creates various
@@ -913,6 +937,9 @@ struct OutputInfo
     QRect geometry;
     double scale = 1;
     bool internal = false;
+    QSize physicalSizeInMM;
+    QList<std::tuple<QSize, uint64_t, OutputMode::Flags>> modes;
+    OutputTransform panelOrientation = OutputTransform::Kind::Normal;
 };
 void setOutputConfig(const QList<QRect> &geometries);
 void setOutputConfig(const QList<OutputInfo> &infos);
@@ -934,7 +961,7 @@ Q_DECLARE_METATYPE(QtWayland::zxdg_toplevel_decoration_v1::mode)
         qunsetenv("KDE_SESSION_VERSION");                                                                                                 \
         qunsetenv("XDG_SESSION_DESKTOP");                                                                                                 \
         qunsetenv("XDG_CURRENT_DESKTOP");                                                                                                 \
-        KWin::WaylandTestApplication app(KWin::Application::OperationModeXwayland, argc, argv);                                           \
+        KWin::WaylandTestApplication app(KWin::Application::OperationModeWayland, argc, argv);                                            \
         app.setAttribute(Qt::AA_Use96Dpi, true);                                                                                          \
         TestObject tc;                                                                                                                    \
         return QTest::qExec(&tc, argc, argv);                                                                                             \

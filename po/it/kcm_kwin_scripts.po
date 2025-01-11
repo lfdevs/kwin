@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm-kwin-scripts\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-24 02:49+0000\n"
-"PO-Revision-Date: 2023-06-03 02:25+0200\n"
+"POT-Creation-Date: 2024-09-26 00:40+0000\n"
+"PO-Revision-Date: 2024-09-27 03:30+0200\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -25,8 +25,8 @@ msgstr "Importa script di KWin"
 
 #: module.cpp:53
 #, kde-format
-msgid "*.kwinscript|KWin scripts (*.kwinscript)"
-msgstr "*.kwinscript|Script di KWin (*.kwinscript)"
+msgid "KWin Script (*.kwinscript)"
+msgstr "Script di KWin (*.kwinscript)"
 
 #: module.cpp:65
 #, kde-format

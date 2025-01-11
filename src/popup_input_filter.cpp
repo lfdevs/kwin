@@ -48,13 +48,13 @@ void PopupInputFilter::handleWindowAdded(Window *window)
     }
 }
 
-bool PopupInputFilter::pointerEvent(MouseEvent *event, quint32 nativeButton)
+bool PopupInputFilter::pointerButton(PointerButtonEvent *event)
 {
     if (m_popupWindows.isEmpty()) {
         return false;
     }
-    if (event->type() == QMouseEvent::MouseButtonPress) {
-        auto pointerFocus = input()->findToplevel(event->globalPos());
+    if (event->state == PointerButtonState::Pressed) {
+        auto pointerFocus = input()->findToplevel(event->position);
         if (!pointerFocus || !Window::belongToSameApplication(pointerFocus, m_popupWindows.constLast())) {
             // a press on a window (or no window) not belonging to the popup window
             cancelPopups();
@@ -63,7 +63,7 @@ bool PopupInputFilter::pointerEvent(MouseEvent *event, quint32 nativeButton)
         }
         if (pointerFocus && pointerFocus->isDecorated()) {
             // test whether it is on the decoration
-            if (!exclusiveContains(pointerFocus->clientGeometry(), event->globalPos())) {
+            if (!exclusiveContains(pointerFocus->clientGeometry(), event->position)) {
                 cancelPopups();
                 return true;
             }
@@ -72,7 +72,7 @@ bool PopupInputFilter::pointerEvent(MouseEvent *event, quint32 nativeButton)
     return false;
 }
 
-bool PopupInputFilter::keyEvent(KeyEvent *event)
+bool PopupInputFilter::keyboardKey(KeyboardKeyEvent *event)
 {
     if (m_popupWindows.isEmpty()) {
         return false;
@@ -82,12 +82,23 @@ bool PopupInputFilter::keyEvent(KeyEvent *event)
     focus(last);
 
     if (auto internalWindow = qobject_cast<InternalWindow *>(last)) {
-        passToWaylandServer(event);
-        QCoreApplication::sendEvent(internalWindow->handle(), event);
-    } else if (auto waylandWindow = qobject_cast<WaylandWindow *>(last)) {
+        QWindowSystemInterface::handleExtendedKeyEvent(internalWindow->handle(),
+                                                       event->state != KeyboardKeyState::Released ? QEvent::KeyPress : QEvent::KeyRelease,
+                                                       event->key,
+                                                       event->modifiers,
+                                                       event->nativeScanCode,
+                                                       event->nativeVirtualKey,
+                                                       0,
+                                                       event->text,
+                                                       event->state == KeyboardKeyState::Repeated);
+    } else if (qobject_cast<WaylandWindow *>(last)) {
         if (!passToInputMethod(event)) {
-            waylandServer()->seat()->setTimestamp(event->timestamp());
-            passToWaylandServer(event);
+            if (event->state == KeyboardKeyState::Repeated) {
+                return true;
+            }
+
+            waylandServer()->seat()->setTimestamp(event->timestamp);
+            waylandServer()->seat()->notifyKeyboardKey(event->nativeScanCode, event->state);
         }
     }
 
@@ -116,6 +127,30 @@ bool PopupInputFilter::touchDown(qint32 id, const QPointF &pos, std::chrono::mic
     return false;
 }
 
+bool PopupInputFilter::tabletToolTipEvent(TabletEvent *event)
+{
+    if (m_popupWindows.isEmpty()) {
+        return false;
+    }
+    if (event->type() == QEvent::TabletPress) {
+        auto tabletFocus = input()->findToplevel(event->globalPosition());
+        if (!tabletFocus || !Window::belongToSameApplication(tabletFocus, m_popupWindows.constLast())) {
+            // a touch on a window (or no window) not belonging to the popup window
+            cancelPopups();
+            // filter out this touch
+            return true;
+        }
+        if (tabletFocus && tabletFocus->isDecorated()) {
+            // test whether it is on the decoration
+            if (!exclusiveContains(tabletFocus->clientGeometry(), event->globalPosition())) {
+                cancelPopups();
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 void PopupInputFilter::focus(Window *popup)
 {
     if (auto internalWindow = qobject_cast<InternalWindow *>(m_popupWindows.constLast())) {
@@ -127,7 +162,7 @@ void PopupInputFilter::focus(Window *popup)
         if (QGuiApplication::focusWindow()) {
             QWindowSystemInterface::handleFocusWindowChanged(nullptr);
         }
-        waylandServer()->seat()->setFocusedKeyboardSurface(waylandWindow->surface());
+        waylandServer()->seat()->setFocusedKeyboardSurface(waylandWindow->surface(), input()->keyboard()->pressedKeys());
     }
 }
 

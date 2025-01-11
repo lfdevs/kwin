@@ -17,7 +17,7 @@
 #include "window.h"
 #include "workspace.h"
 
-#include "decorations/decoratedclient.h"
+#include "decorations/decoratedwindow.h"
 #include "decorations/decorationbridge.h"
 #include "decorations/settings.h"
 
@@ -29,8 +29,8 @@
 #include <KWayland/Client/shm_pool.h>
 #include <KWayland/Client/surface.h>
 
-#include <KDecoration2/Decoration>
-#include <KDecoration2/DecorationSettings>
+#include <KDecoration3/Decoration>
+#include <KDecoration3/DecorationSettings>
 
 #include <QSignalSpy>
 
@@ -119,7 +119,6 @@ void DecorationInputTest::initTestCase()
 {
     qRegisterMetaType<KWin::Window *>();
     qRegisterMetaType<KWin::InternalWindow *>();
-    QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
     Test::setOutputConfig({
         QRect(0, 0, 1280, 1024),
@@ -136,7 +135,6 @@ void DecorationInputTest::initTestCase()
     kwinApp()->setConfig(config);
 
     kwinApp()->start();
-    QVERIFY(applicationStartedSpy.wait());
     const auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
     QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
@@ -320,7 +318,7 @@ void DecorationInputTest::testHover()
     //
     // TODO: Test input position with different border sizes.
     // TODO: We should test with the fake decoration to have a fixed test environment.
-    const bool hasBorders = Workspace::self()->decorationBridge()->settings()->borderSize() != KDecoration2::BorderSize::None;
+    const bool hasBorders = Workspace::self()->decorationBridge()->settings()->borderSize() != KDecoration3::BorderSize::None;
     auto deviation = [hasBorders] {
         return hasBorders ? -1 : 0;
     };
@@ -752,7 +750,7 @@ void DecorationInputTest::testTooltipDoesntEatKeyEvents()
     QVERIFY(keyEvent.isValid());
 
     QSignalSpy windowAddedSpy(workspace(), &Workspace::windowAdded);
-    window->decoratedClient()->requestShowToolTip(QStringLiteral("test"));
+    window->decoratedWindow()->requestShowToolTip(QStringLiteral("test"));
     // now we should get an internal window
     QVERIFY(windowAddedSpy.wait());
     InternalWindow *internal = windowAddedSpy.first().first().value<InternalWindow *>();
@@ -766,7 +764,7 @@ void DecorationInputTest::testTooltipDoesntEatKeyEvents()
     Test::keyboardKeyReleased(KEY_A, timestamp++);
     QVERIFY(keyEvent.wait());
 
-    window->decoratedClient()->requestHideToolTip();
+    window->decoratedWindow()->requestHideToolTip();
     Test::waitForWindowClosed(internal);
 }
 

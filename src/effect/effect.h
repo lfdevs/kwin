@@ -17,7 +17,6 @@
 #include <KSharedConfig>
 
 class QKeyEvent;
-class QTabletEvent;
 
 namespace KWin
 {
@@ -27,6 +26,7 @@ class Output;
 class PaintDataPrivate;
 class RenderTarget;
 class RenderViewport;
+class TabletEvent;
 class WindowPaintDataPrivate;
 
 /** @defgroup kwineffects KWin effects library
@@ -790,40 +790,48 @@ public:
      * @since 5.8
      */
     virtual bool touchUp(qint32 id, std::chrono::microseconds time);
+    /**
+     * All touch points were canceled
+     * @since 6.3
+     */
+    virtual void touchCancel();
 
     /**
-     * There has been an event from a drawing tablet tool
-     *
-     * i.e. a pen and the likes.
-     *
-     * @param event the event information
-     * @see QTabletEvent
-     *
-     * @since 5.25
+     * There has been a proximity tablet tool event.
      */
-    virtual bool tabletToolEvent(QTabletEvent *event);
+    virtual bool tabletToolProximity(TabletEvent *event);
+
+    /**
+     * There has been an axis tablet tool event.
+     */
+    virtual bool tabletToolAxis(TabletEvent *event);
+
+    /**
+     * There has been a tip tablet tool event.
+     */
+    virtual bool tabletToolTip(TabletEvent *event);
 
     /**
      * There has been an event from a button on a drawing tablet tool
      *
      * @param button which button
      * @param pressed true if pressed, false when released
-     * @param tabletToolId the identifier of the tool id
+     * @param toolId the identifier of the tool id
      *
      * @since 5.25
      */
-    virtual bool tabletToolButtonEvent(uint button, bool pressed, quint64 tabletToolId);
+    virtual bool tabletToolButtonEvent(uint button, bool pressed, quint64 toolId);
 
     /**
      * There has been an event from a button on a drawing tablet pad
      *
      * @param button which button
      * @param pressed true if pressed, false when released
-     * @param tabletPadId the identifier of the tool id
+     * @param device the identifier of the tool id
      *
      * @since 5.25
      */
-    virtual bool tabletPadButtonEvent(uint button, bool pressed, void *tabletPadId);
+    virtual bool tabletPadButtonEvent(uint button, bool pressed, void *device);
 
     /**
      * There has been an event from a input strip on a drawing tablet pad
@@ -831,11 +839,11 @@ public:
      * @param number which strip
      * @param position the value within the strip that was selected
      * @param isFinger if it was activated with a finger
-     * @param tabletPadId the identifier of the tool id
+     * @param device the identifier of the tool id
      *
      * @since 5.25
      */
-    virtual bool tabletPadStripEvent(int number, int position, bool isFinger, void *tabletPadId);
+    virtual bool tabletPadStripEvent(int number, int position, bool isFinger, void *device);
 
     /**
      * There has been an event from a input ring on a drawing tablet pad
@@ -843,11 +851,11 @@ public:
      * @param number which ring
      * @param position the value within the ring that was selected
      * @param isFinger if it was activated with a finger
-     * @param tabletPadId the identifier of the tool id
+     * @param device the identifier of the tool id
      *
      * @since 5.25
      */
-    virtual bool tabletPadRingEvent(int number, int position, bool isFinger, void *tabletPadId);
+    virtual bool tabletPadRingEvent(int number, int position, bool isFinger, void *device);
 
     static QPointF cursorPos();
 

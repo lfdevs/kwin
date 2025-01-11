@@ -57,6 +57,25 @@ enum clientAreaOption {
     ScreenArea, // one whole screen, ignore struts
 };
 
+/**
+ * Maximize mode. These values specify how a window is maximized.
+ *
+ * @note these values are written to session files, don't change the order
+ */
+enum MaximizeMode {
+    MaximizeRestore = 0, ///< The window is not maximized in any direction.
+    MaximizeVertical = 1, ///< The window is maximized vertically.
+    MaximizeHorizontal = 2, ///< The window is maximized horizontally.
+    /// Equal to @p MaximizeVertical | @p MaximizeHorizontal
+    MaximizeFull = MaximizeVertical | MaximizeHorizontal,
+};
+Q_ENUM_NS(MaximizeMode)
+
+inline MaximizeMode operator^(MaximizeMode m1, MaximizeMode m2)
+{
+    return MaximizeMode(int(m1) ^ int(m2));
+}
+
 enum ElectricBorder {
     ElectricTop,
     ElectricTopRight,
@@ -139,7 +158,9 @@ Q_ENUM_NS(SessionState)
 enum class LED {
     NumLock = 1 << 0,
     CapsLock = 1 << 1,
-    ScrollLock = 1 << 2
+    ScrollLock = 1 << 2,
+    Compose = 1 << 3,
+    Kana = 1 << 4,
 };
 Q_DECLARE_FLAGS(LEDs, LED)
 Q_FLAG_NS(LEDs)
@@ -186,10 +207,14 @@ enum class QuickTileFlag {
     Custom = 1 << 4,
     Horizontal = Left | Right,
     Vertical = Top | Bottom,
-    Maximize = Left | Right | Top | Bottom,
 };
 Q_ENUM_NS(QuickTileFlag)
 Q_DECLARE_FLAGS(QuickTileMode, QuickTileFlag)
+
+inline QuickTileMode operator~(QuickTileFlag flag)
+{
+    return QuickTileMode(~int(flag));
+}
 
 /**
  * Short wrapper for a cursor image provided by the Platform.

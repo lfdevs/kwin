@@ -7,6 +7,7 @@
 */
 
 #include "waylandwindow.h"
+#include "core/pixelgrid.h"
 #include "scene/windowitem.h"
 #include "wayland/clientconnection.h"
 #include "wayland/display.h"
@@ -40,12 +41,10 @@ WaylandWindow::WaylandWindow(SurfaceInterface *surface)
             this, &WaylandWindow::updateShadow);
     connect(this, &WaylandWindow::frameGeometryChanged,
             this, &WaylandWindow::updateClientOutputs);
-    connect(this, &WaylandWindow::desktopFileNameChanged,
-            this, &WaylandWindow::updateIcon);
     connect(workspace(), &Workspace::outputsChanged, this, &WaylandWindow::updateClientOutputs);
 
     updateResourceName();
-    updateIcon();
+    updateShadow();
 }
 
 std::unique_ptr<WindowItem> WaylandWindow::createItem(Item *parentItem)
@@ -160,17 +159,6 @@ void WaylandWindow::updateClientOutputs()
                           waylandServer()->display()->largestIntersectingOutput(rect));
 }
 
-void WaylandWindow::updateIcon()
-{
-    const QString waylandIconName = QStringLiteral("wayland");
-    const QString dfIconName = iconFromDesktopFile();
-    const QString iconName = dfIconName.isEmpty() ? waylandIconName : dfIconName;
-    if (iconName == icon().name()) {
-        return;
-    }
-    setIcon(QIcon::fromTheme(iconName));
-}
-
 void WaylandWindow::updateResourceName()
 {
     const QFileInfo fileInfo(surface()->client()->executablePath());
@@ -226,7 +214,7 @@ void WaylandWindow::cleanGrouping()
 
 QRectF WaylandWindow::frameRectToBufferRect(const QRectF &rect) const
 {
-    return QRectF(rect.topLeft(), surface()->size());
+    return QRectF(rect.topLeft(), snapToPixels(surface()->size(), targetScale()));
 }
 
 void WaylandWindow::updateGeometry(const QRectF &rect)

@@ -476,32 +476,46 @@ bool Effect::touchUp(qint32 id, std::chrono::microseconds time)
     return false;
 }
 
+void Effect::touchCancel()
+{
+}
+
 bool Effect::perform(Feature feature, const QVariantList &arguments)
 {
     return false;
 }
 
-bool Effect::tabletToolEvent(QTabletEvent *event)
+bool Effect::tabletToolProximity(TabletEvent *event)
 {
     return false;
 }
 
-bool Effect::tabletToolButtonEvent(uint button, bool pressed, quint64 tabletToolId)
+bool Effect::tabletToolAxis(TabletEvent *event)
 {
     return false;
 }
 
-bool Effect::tabletPadButtonEvent(uint button, bool pressed, void *tabletPadId)
+bool Effect::tabletToolTip(TabletEvent *event)
 {
     return false;
 }
 
-bool Effect::tabletPadStripEvent(int number, int position, bool isFinger, void *tabletPadId)
+bool Effect::tabletToolButtonEvent(uint button, bool pressed, quint64 toolId)
 {
     return false;
 }
 
-bool Effect::tabletPadRingEvent(int number, int position, bool isFinger, void *tabletPadId)
+bool Effect::tabletPadButtonEvent(uint button, bool pressed, void *device)
+{
+    return false;
+}
+
+bool Effect::tabletPadStripEvent(int number, int position, bool isFinger, void *device)
+{
+    return false;
+}
+
+bool Effect::tabletPadRingEvent(int number, int position, bool isFinger, void *device)
 {
     return false;
 }

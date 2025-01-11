@@ -17,7 +17,7 @@ namespace KWin
 
 namespace Decoration
 {
-class DecoratedClientImpl;
+class DecoratedWindowImpl;
 }
 
 class DecorationRenderer;
@@ -54,13 +54,14 @@ public:
     void postPaint() override;
     void paint(const RenderTarget &renderTarget, const QRegion &region) override;
     void frame(SceneDelegate *delegate, OutputFrame *frame) override;
+    double desiredHdrHeadroom() const override;
 
     virtual bool makeOpenGLContextCurrent();
     virtual void doneOpenGLContextCurrent();
     virtual bool supportsNativeFence() const;
     virtual OpenGlContext *openglContext() const;
 
-    virtual std::unique_ptr<DecorationRenderer> createDecorationRenderer(Decoration::DecoratedClientImpl *) = 0;
+    virtual std::unique_ptr<DecorationRenderer> createDecorationRenderer(Decoration::DecoratedWindowImpl *) = 0;
     virtual std::unique_ptr<ShadowTextureProvider> createShadowTextureProvider(Shadow *shadow) = 0;
 
     /**

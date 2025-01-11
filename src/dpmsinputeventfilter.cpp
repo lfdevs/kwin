@@ -13,7 +13,6 @@
 #include "input_event.h"
 #include "main.h"
 #include "utils/keys.h"
-#include "wayland/seat.h"
 #include "wayland_server.h"
 #include "workspace.h"
 
@@ -37,9 +36,9 @@ DpmsInputEventFilter::~DpmsInputEventFilter()
 {
 }
 
-bool DpmsInputEventFilter::pointerEvent(MouseEvent *event, quint32 nativeButton)
+bool DpmsInputEventFilter::pointerMotion(PointerMotionEvent *event)
 {
-    if (!event->isWarp()) {
+    if (!event->warp) {
         // The intention is to wake the screen on user interactions
         // warp events aren't user interactions, so ignore them.
         notify();
@@ -47,21 +46,27 @@ bool DpmsInputEventFilter::pointerEvent(MouseEvent *event, quint32 nativeButton)
     return true;
 }
 
-bool DpmsInputEventFilter::wheelEvent(WheelEvent *event)
+bool DpmsInputEventFilter::pointerButton(PointerButtonEvent *event)
 {
     notify();
     return true;
 }
 
-bool DpmsInputEventFilter::keyEvent(KeyEvent *event)
+bool DpmsInputEventFilter::pointerAxis(PointerAxisEvent *event)
 {
-    if (isMediaKey(event->key())) {
+    notify();
+    return true;
+}
+
+bool DpmsInputEventFilter::keyboardKey(KeyboardKeyEvent *event)
+{
+    if (isMediaKey(event->key)) {
         // don't wake up the screens for media or volume keys
         return false;
     }
-    if (event->type() == QKeyEvent::KeyPress) {
+    if (event->state == KeyboardKeyState::Pressed) {
         notify();
-    } else if (event->type() == QKeyEvent::KeyRelease) {
+    } else if (event->state == KeyboardKeyState::Released) {
         return false;
     }
     return true;
@@ -98,7 +103,6 @@ bool DpmsInputEventFilter::touchUp(qint32 id, std::chrono::microseconds time)
         m_touchPoints.removeAll(id);
         if (m_touchPoints.isEmpty() && m_doubleTapTimer.isValid() && m_secondTap) {
             if (m_doubleTapTimer.elapsed() < qApp->doubleClickInterval()) {
-                waylandServer()->seat()->setTimestamp(std::chrono::duration_cast<std::chrono::milliseconds>(time));
                 notify();
             }
             m_doubleTapTimer.invalidate();
@@ -114,7 +118,17 @@ bool DpmsInputEventFilter::touchMotion(qint32 id, const QPointF &pos, std::chron
     return true;
 }
 
-bool DpmsInputEventFilter::tabletToolEvent(TabletEvent *event)
+bool DpmsInputEventFilter::tabletToolProximityEvent(TabletEvent *event)
+{
+    return true;
+}
+
+bool DpmsInputEventFilter::tabletToolAxisEvent(TabletEvent *event)
+{
+    return true;
+}
+
+bool DpmsInputEventFilter::tabletToolTipEvent(TabletEvent *event)
 {
     if (event->type() == QEvent::TabletPress) {
         // Only wake when the tool is actually pressed down not just hovered over the tablet
@@ -123,29 +137,29 @@ bool DpmsInputEventFilter::tabletToolEvent(TabletEvent *event)
     return true;
 }
 
-bool DpmsInputEventFilter::tabletToolButtonEvent(uint button, bool pressed, const TabletToolId &tabletToolId, std::chrono::microseconds time)
+bool DpmsInputEventFilter::tabletToolButtonEvent(TabletToolButtonEvent *event)
 {
-    if (pressed) {
+    if (event->pressed) {
         notify();
     }
     return true;
 }
 
-bool DpmsInputEventFilter::tabletPadButtonEvent(uint button, bool pressed, const TabletPadId &tabletPadId, std::chrono::microseconds time)
+bool DpmsInputEventFilter::tabletPadButtonEvent(TabletPadButtonEvent *event)
 {
-    if (pressed) {
+    if (event->pressed) {
         notify();
     }
     return true;
 }
 
-bool DpmsInputEventFilter::tabletPadStripEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId, std::chrono::microseconds time)
+bool DpmsInputEventFilter::tabletPadStripEvent(TabletPadStripEvent *event)
 {
     notify();
     return true;
 }
 
-bool DpmsInputEventFilter::tabletPadRingEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId, std::chrono::microseconds time)
+bool DpmsInputEventFilter::tabletPadRingEvent(TabletPadRingEvent *event)
 {
     notify();
     return true;

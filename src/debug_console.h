@@ -118,9 +118,10 @@ public:
     explicit DebugConsoleFilter(QTextEdit *textEdit);
     ~DebugConsoleFilter() override;
 
-    void pointerEvent(MouseEvent *event) override;
-    void wheelEvent(WheelEvent *event) override;
-    void keyEvent(KeyEvent *event) override;
+    void pointerMotion(PointerMotionEvent *event) override;
+    void pointerButton(PointerButtonEvent *event) override;
+    void pointerAxis(PointerAxisEvent *event) override;
+    void keyboardKey(KeyboardKeyEvent *event) override;
     void touchDown(qint32 id, const QPointF &pos, std::chrono::microseconds time) override;
     void touchMotion(qint32 id, const QPointF &pos, std::chrono::microseconds time) override;
     void touchUp(qint32 id, std::chrono::microseconds time) override;
@@ -137,11 +138,13 @@ public:
 
     void switchEvent(SwitchEvent *event) override;
 
-    void tabletToolEvent(TabletEvent *event) override;
-    void tabletToolButtonEvent(uint button, bool pressed, const TabletToolId &tabletToolId, std::chrono::microseconds time) override;
-    void tabletPadButtonEvent(uint button, bool pressed, const TabletPadId &tabletPadId, std::chrono::microseconds time) override;
-    void tabletPadStripEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId, std::chrono::microseconds time) override;
-    void tabletPadRingEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId, std::chrono::microseconds time) override;
+    void tabletToolProximityEvent(TabletEvent *event) override;
+    void tabletToolAxisEvent(TabletEvent *event) override;
+    void tabletToolTipEvent(TabletEvent *event) override;
+    void tabletToolButtonEvent(TabletToolButtonEvent *event) override;
+    void tabletPadButtonEvent(TabletPadButtonEvent *event) override;
+    void tabletPadStripEvent(TabletPadStripEvent *event) override;
+    void tabletPadRingEvent(TabletPadRingEvent *event) override;
 
 private:
     QTextEdit *m_textEdit;

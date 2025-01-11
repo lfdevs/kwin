@@ -267,10 +267,6 @@ public:
 public:
     QPoint cascadeOffset(const QRectF &area) const;
 
-private:
-    QTimer *m_quickTileCombineTimer;
-    QuickTileMode m_lastTilingMode;
-
     //-------------------------------------------------
     // Unsorted
 
@@ -429,6 +425,7 @@ public:
     }
 
     void quickTileWindow(QuickTileMode mode);
+    void customQuickTileWindow(QuickTileMode mode);
     void switchWindow(Direction direction);
 
     ShortcutDialog *shortcutDialog() const
@@ -443,8 +440,6 @@ public:
      * @internal
      * Used by session management
      */
-    void setInitialDesktop(int desktop);
-
     bool inShouldGetFocus(Window *w) const
     {
         return should_get_focus.contains(w);
@@ -546,6 +541,8 @@ public Q_SLOTS:
     void slotSetupWindowShortcut();
     void setupWindowShortcutDone(bool);
 
+    void slotEndInteractiveMoveResize();
+
 private Q_SLOTS:
     void desktopResized();
 #if KWIN_BUILD_X11
@@ -607,6 +604,7 @@ private:
     bool switchWindow(Window *window, Direction direction, QPoint curPos, VirtualDesktop *desktop);
 
     QList<Window *> constrainedStackingOrder();
+    bool areConstrained(const Window *below, const Window *above) const;
     void raiseWindowWithinApplication(Window *window);
     void lowerWindowWithinApplication(Window *window);
     bool allowFullClientRaising(const Window *window, uint32_t timestamp);
@@ -666,7 +664,6 @@ private:
     QWidget *active_popup;
     Window *m_activePopupWindow;
 
-    int m_initialDesktop;
     void updateTabbox();
 
     QList<Output *> m_outputs;

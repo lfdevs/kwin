@@ -30,6 +30,14 @@
 #include <sys/mman.h>
 #include <unistd.h>
 
+// TODO: drop these ifdefs when xkbcommon >= 1.8.0 is required
+#ifndef XKB_LED_NAME_COMPOSE
+#define XKB_LED_NAME_COMPOSE "Compose"
+#endif
+#ifndef XKB_LED_NAME_KANA
+#define XKB_LED_NAME_KANA "Kana"
+#endif
+
 Q_LOGGING_CATEGORY(KWIN_XKB, "kwin_xkbcommon", QtWarningMsg)
 
 /* The offset between KEY_* numbering, and keycodes in the XKB evdev
@@ -447,6 +455,8 @@ Xkb::Xkb(bool followLocale1)
     , m_numLock(0)
     , m_capsLock(0)
     , m_scrollLock(0)
+    , m_composeLed(0)
+    , m_kanaLed(0)
     , m_modifiers(Qt::NoModifier)
     , m_consumedModifiers(Qt::NoModifier)
     , m_keysym(XKB_KEY_NoSymbol)
@@ -663,6 +673,8 @@ void Xkb::updateKeymap(xkb_keymap *keymap)
     m_numLock = xkb_keymap_led_get_index(m_keymap, XKB_LED_NAME_NUM);
     m_capsLock = xkb_keymap_led_get_index(m_keymap, XKB_LED_NAME_CAPS);
     m_scrollLock = xkb_keymap_led_get_index(m_keymap, XKB_LED_NAME_SCROLL);
+    m_composeLed = xkb_keymap_led_get_index(m_keymap, XKB_LED_NAME_COMPOSE);
+    m_kanaLed = xkb_keymap_led_get_index(m_keymap, XKB_LED_NAME_KANA);
 
     m_currentLayout = xkb_state_serialize_layout(m_state, XKB_STATE_LAYOUT_EFFECTIVE);
 
@@ -751,7 +763,7 @@ void Xkb::updateModifiers(uint32_t modsDepressed, uint32_t modsLatched, uint32_t
     forwardModifiers();
 }
 
-void Xkb::updateKey(uint32_t key, InputRedirection::KeyboardKeyState state)
+void Xkb::updateKey(uint32_t key, KeyboardKeyState state)
 {
     if (!m_keymap || !m_state) {
         return;
@@ -759,7 +771,7 @@ void Xkb::updateKey(uint32_t key, InputRedirection::KeyboardKeyState state)
     const auto sym = toKeysym(key);
     xkb_state_update_key(m_state, key + EVDEV_OFFSET, static_cast<xkb_key_direction>(state));
     if (m_compose.state) {
-        if (state == InputRedirection::KeyboardKeyPressed) {
+        if (state == KeyboardKeyState::Pressed) {
             xkb_compose_state_feed(m_compose.state, sym);
         }
         switch (xkb_compose_state_get_status(m_compose.state)) {
@@ -810,6 +822,12 @@ void Xkb::updateModifiers()
     }
     if (xkb_state_led_index_is_active(m_state, m_scrollLock) == 1) {
         leds = leds | LED::ScrollLock;
+    }
+    if (xkb_state_led_index_is_active(m_state, m_composeLed) == 1) {
+        leds = leds | LED::Compose;
+    }
+    if (xkb_state_led_index_is_active(m_state, m_kanaLed) == 1) {
+        leds = leds | LED::Kana;
     }
     if (m_leds != leds) {
         m_leds = leds;
@@ -1026,10 +1044,17 @@ void Xkb::setModifierLatched(KWin::Xkb::Modifier mod, bool latched)
         modifier = m_mod5Modifier;
         break;
     }
-    case Mod2:
-    case Mod3:
-    case Lock:
+    case Num: {
+        modifier = m_numModifier;
         break;
+    }
+    case Mod3: {
+        break;
+    }
+    case Lock: {
+        modifier = m_capsModifier;
+        break;
+    }
     }
 
     if (modifier != XKB_MOD_INVALID) {
@@ -1041,6 +1066,75 @@ void Xkb::setModifierLatched(KWin::Xkb::Modifier mod, bool latched)
             m_modifierState.latched = xkb_state_serialize_mods(m_state, xkb_state_component(XKB_STATE_MODS_LATCHED));
         }
     }
+}
+
+Xkb::Modifiers Xkb::depressedModifiers() const
+{
+    Xkb::Modifiers result;
+
+    if (xkb_state_mod_index_is_active(m_state, m_altModifier, XKB_STATE_MODS_DEPRESSED) == 1) {
+        result |= Modifier::Mod1;
+    } else if (xkb_state_mod_index_is_active(m_state, m_controlModifier, XKB_STATE_MODS_DEPRESSED) == 1) {
+        result |= Modifier::Control;
+    } else if (xkb_state_mod_index_is_active(m_state, m_shiftModifier, XKB_STATE_MODS_DEPRESSED) == 1) {
+        result |= Modifier::Shift;
+    } else if (xkb_state_mod_index_is_active(m_state, m_metaModifier, XKB_STATE_MODS_DEPRESSED) == 1) {
+        result |= Modifier::Mod4;
+    } else if (xkb_state_mod_index_is_active(m_state, m_mod5Modifier, XKB_STATE_MODS_DEPRESSED) == 1) {
+        result |= Modifier::Mod5;
+    } else if (xkb_state_mod_index_is_active(m_state, m_capsModifier, XKB_STATE_MODS_DEPRESSED) == 1) {
+        result |= Modifier::Lock;
+    } else if (xkb_state_mod_index_is_active(m_state, m_numModifier, XKB_STATE_MODS_DEPRESSED) == 1) {
+        result |= Modifier::Num;
+    }
+
+    return result;
+}
+
+Xkb::Modifiers Xkb::latchedModifiers() const
+{
+    Xkb::Modifiers result;
+
+    if (xkb_state_mod_index_is_active(m_state, m_altModifier, XKB_STATE_MODS_LATCHED) == 1) {
+        result |= Modifier::Mod1;
+    } else if (xkb_state_mod_index_is_active(m_state, m_controlModifier, XKB_STATE_MODS_LATCHED) == 1) {
+        result |= Modifier::Control;
+    } else if (xkb_state_mod_index_is_active(m_state, m_shiftModifier, XKB_STATE_MODS_LATCHED) == 1) {
+        result |= Modifier::Shift;
+    } else if (xkb_state_mod_index_is_active(m_state, m_metaModifier, XKB_STATE_MODS_LATCHED) == 1) {
+        result |= Modifier::Mod4;
+    } else if (xkb_state_mod_index_is_active(m_state, m_mod5Modifier, XKB_STATE_MODS_LATCHED) == 1) {
+        result |= Modifier::Mod5;
+    } else if (xkb_state_mod_index_is_active(m_state, m_capsModifier, XKB_STATE_MODS_LATCHED) == 1) {
+        result |= Modifier::Lock;
+    } else if (xkb_state_mod_index_is_active(m_state, m_numModifier, XKB_STATE_MODS_LATCHED) == 1) {
+        result |= Modifier::Num;
+    }
+
+    return result;
+}
+
+Xkb::Modifiers Xkb::lockedModifiers() const
+{
+    Xkb::Modifiers result;
+
+    if (xkb_state_mod_index_is_active(m_state, m_altModifier, XKB_STATE_MODS_LOCKED) == 1) {
+        result |= Modifier::Mod1;
+    } else if (xkb_state_mod_index_is_active(m_state, m_controlModifier, XKB_STATE_MODS_LOCKED) == 1) {
+        result |= Modifier::Control;
+    } else if (xkb_state_mod_index_is_active(m_state, m_shiftModifier, XKB_STATE_MODS_LOCKED) == 1) {
+        result |= Modifier::Shift;
+    } else if (xkb_state_mod_index_is_active(m_state, m_metaModifier, XKB_STATE_MODS_LOCKED) == 1) {
+        result |= Modifier::Mod4;
+    } else if (xkb_state_mod_index_is_active(m_state, m_mod5Modifier, XKB_STATE_MODS_LOCKED) == 1) {
+        result |= Modifier::Mod5;
+    } else if (xkb_state_mod_index_is_active(m_state, m_capsModifier, XKB_STATE_MODS_LOCKED) == 1) {
+        result |= Modifier::Lock;
+    } else if (xkb_state_mod_index_is_active(m_state, m_numModifier, XKB_STATE_MODS_LOCKED) == 1) {
+        result |= Modifier::Num;
+    }
+
+    return result;
 }
 
 void Xkb::setModifierLocked(KWin::Xkb::Modifier mod, bool locked)
@@ -1071,10 +1165,17 @@ void Xkb::setModifierLocked(KWin::Xkb::Modifier mod, bool locked)
         modifier = m_mod5Modifier;
         break;
     }
-    case Mod2:
-    case Mod3:
-    case Lock:
+    case Num: {
+        modifier = m_numModifier;
         break;
+    }
+    case Mod3: {
+        break;
+    }
+    case Lock: {
+        modifier = m_capsModifier;
+        break;
+    }
     }
 
     if (modifier != XKB_MOD_INVALID) {

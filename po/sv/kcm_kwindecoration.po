@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-29 00:40+0000\n"
-"PO-Revision-Date: 2024-08-29 20:06+0200\n"
+"POT-Creation-Date: 2024-09-18 00:41+0000\n"
+"PO-Revision-Date: 2024-09-18 16:44+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -220,8 +220,8 @@ msgstr "Hämta nytt…"
 
 #: ui/Themes.qml:93
 #, kde-format
-msgid "Edit %1 Theme"
-msgstr "Redigera temat %1"
+msgid "Edit %1 Theme…"
+msgstr "Redigera temat %1…"
 
 #: utils.cpp:25
 #, kde-format

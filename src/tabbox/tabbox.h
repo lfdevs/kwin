@@ -11,6 +11,7 @@
 
 #pragma once
 
+#include "input_event.h"
 #include "tabbox/tabboxhandler.h"
 #include "utils/common.h"
 #include <QKeySequence>
@@ -30,10 +31,14 @@ namespace KWin
 class Workspace;
 class Window;
 class X11EventFilter;
+
 namespace TabBox
 {
 class TabBoxConfig;
 class TabBox;
+
+constexpr int TABBOX_MODE_COUNT = 4;
+
 class TabBoxHandlerImpl : public TabBoxHandler
 {
 public:
@@ -92,6 +97,11 @@ public:
      * Change the currently selected client, and notify the effects.
      */
     void setCurrentClient(Window *newClient);
+
+    /**
+     * Return whether the active client is present in the client list.
+     */
+    bool haveActiveClient();
 
     void setMode(TabBoxMode mode);
     TabBoxMode mode() const
@@ -183,7 +193,7 @@ public:
 
     Window *nextClientStatic(Window *) const;
     Window *previousClientStatic(Window *) const;
-    void keyPress(int key);
+    void keyPress(const KeyboardKeyEvent &keyEvent);
     void modifiersReleased();
 
     bool forcedGlobalMouseGrab() const
@@ -225,10 +235,17 @@ Q_SIGNALS:
     void tabBoxKeyEvent(QKeyEvent *);
 
 private:
+    enum Direction {
+        Backward = -1,
+        Steady = 0,
+        Forward = 1,
+    };
+
+private:
     explicit TabBox(QObject *parent);
     void loadConfig(const KConfigGroup &config, TabBoxConfig &tabBoxConfig);
 
-    bool startKDEWalkThroughWindows(TabBoxMode mode); // TabBoxWindowsMode | TabBoxWindowsAlternativeMode
+    bool startKDEWalkThroughWindows(bool forward, TabBoxMode mode); // TabBoxWindowsMode | TabBoxWindowsAlternativeMode
     void navigatingThroughWindows(bool forward, const QKeySequence &shortcut, TabBoxMode mode); // TabBoxWindowsMode | TabBoxWindowsAlternativeMode
     void KDEWalkThroughWindows(bool forward);
     void CDEWalkThroughWindows(bool forward);
@@ -237,6 +254,8 @@ private:
     void removeTabBoxGrab();
     template<typename Slot>
     void key(const KLazyLocalizedString &actionName, Slot slot, const QKeySequence &shortcut = QKeySequence());
+
+    Direction matchShortcuts(const KeyboardKeyEvent &keyEvent, const QKeySequence &forward, const QKeySequence &backward) const;
 
     void shadeActivate(Window *c);
 

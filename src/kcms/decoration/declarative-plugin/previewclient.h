@@ -7,22 +7,22 @@
 
 #include "../../../decorations/decorationpalette.h"
 
-#include <KDecoration2/Private/DecoratedClientPrivate>
+#include <KDecoration3/Private/DecoratedWindowPrivate>
 #include <QObject>
 #include <QPalette>
 #include <QQmlEngine>
 
 class QAbstractItemModel;
 
-namespace KDecoration2
+namespace KDecoration3
 {
 namespace Preview
 {
-class PreviewClient : public QObject, public ApplicationMenuEnabledDecoratedClientPrivate
+class PreviewClient : public QObject, public DecoratedWindowPrivate
 {
     Q_OBJECT
     QML_ANONYMOUS
-    Q_PROPERTY(KDecoration2::Decoration *decoration READ decoration CONSTANT)
+    Q_PROPERTY(KDecoration3::Decoration *decoration READ decoration CONSTANT)
     Q_PROPERTY(QString caption READ caption WRITE setCaption NOTIFY captionChanged)
     Q_PROPERTY(QIcon icon READ icon WRITE setIcon NOTIFY iconChanged)
     Q_PROPERTY(QString iconName READ iconName WRITE setIconName NOTIFY iconNameChanged)
@@ -49,12 +49,10 @@ class PreviewClient : public QObject, public ApplicationMenuEnabledDecoratedClie
     Q_PROPERTY(bool bordersRightEdge READ bordersRightEdge WRITE setBordersRightEdge NOTIFY bordersRightEdgeChanged)
     Q_PROPERTY(bool bordersBottomEdge READ bordersBottomEdge WRITE setBordersBottomEdge NOTIFY bordersBottomEdgeChanged)
 public:
-    explicit PreviewClient(DecoratedClient *client, Decoration *decoration);
+    explicit PreviewClient(DecoratedWindow *client, Decoration *decoration);
     ~PreviewClient() override;
 
     QString caption() const override;
-    WId decorationId() const override;
-    WId windowId() const override;
     QIcon icon() const override;
     bool isActive() const override;
     bool isCloseable() const override;
@@ -73,13 +71,15 @@ public:
     bool isShaded() const override;
     bool providesContextHelp() const override;
 
-    int width() const override;
-    int height() const override;
-    QSize size() const override;
+    qreal width() const override;
+    qreal height() const override;
+    QSizeF size() const override;
     QPalette palette() const override;
     QColor color(ColorGroup group, ColorRole role) const override;
     Qt::Edges adjacentScreenEdges() const override;
     QString windowClass() const override;
+    qreal scale() const override;
+    qreal nextScale() const override;
 
     bool hasApplicationMenu() const override;
     bool isApplicationMenuActive() const override;
@@ -194,4 +194,4 @@ private:
 };
 
 } // namespace Preview
-} // namespace KDecoration2
+} // namespace KDecoration3

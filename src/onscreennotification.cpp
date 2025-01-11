@@ -32,7 +32,7 @@ class OnScreenNotificationInputEventSpy : public InputEventSpy
 public:
     explicit OnScreenNotificationInputEventSpy(OnScreenNotification *parent);
 
-    void pointerEvent(MouseEvent *event) override;
+    void pointerMotion(PointerMotionEvent *event) override;
 
 private:
     OnScreenNotification *m_parent;
@@ -43,13 +43,9 @@ OnScreenNotificationInputEventSpy::OnScreenNotificationInputEventSpy(OnScreenNot
 {
 }
 
-void OnScreenNotificationInputEventSpy::pointerEvent(MouseEvent *event)
+void OnScreenNotificationInputEventSpy::pointerMotion(PointerMotionEvent *event)
 {
-    if (event->type() != QEvent::MouseMove) {
-        return;
-    }
-
-    m_parent->setContainsPointer(m_parent->geometry().contains(event->globalPos()));
+    m_parent->setContainsPointer(m_parent->geometry().contains(event->position.toPoint()));
 }
 
 OnScreenNotification::OnScreenNotification(QObject *parent)

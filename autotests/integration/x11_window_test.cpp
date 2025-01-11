@@ -138,13 +138,11 @@ void X11WindowTest::initTestCase_data()
 void X11WindowTest::initTestCase()
 {
     qRegisterMetaType<KWin::Window *>();
-    QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
     Test::setOutputConfig({QRect(0, 0, 1280, 1024)});
     kwinApp()->setConfig(KSharedConfig::openConfig(QString(), KConfig::SimpleConfig));
 
     kwinApp()->start();
-    QVERIFY(applicationStartedSpy.wait());
     QVERIFY(KWin::Compositor::self());
 }
 
@@ -191,6 +189,45 @@ static X11Window *createWindow(xcb_connection_t *connection, const QRect &geomet
         return nullptr;
     }
     return windowCreatedSpy.last().first().value<X11Window *>();
+}
+
+enum {
+    MWM_HINTS_FUNCTIONS = (1L << 0),
+
+    MWM_FUNC_ALL = (1L << 0),
+    MWM_FUNC_RESIZE = (1L << 1),
+    MWM_FUNC_MOVE = (1L << 2),
+    MWM_FUNC_MINIMIZE = (1L << 3),
+    MWM_FUNC_MAXIMIZE = (1L << 4),
+    MWM_FUNC_CLOSE = (1L << 5),
+
+    MWM_HINTS_DECORATIONS = (1L << 1),
+
+    MWM_DECOR_ALL = (1L << 0),
+    MWM_DECOR_BORDER = (1L << 1),
+    MWM_DECOR_RESIZEH = (1L << 2),
+    MWM_DECOR_TITLE = (1L << 3),
+    MWM_DECOR_MENU = (1L << 4),
+    MWM_DECOR_MINIMIZE = (1L << 5),
+    MWM_DECOR_MAXIMIZE = (1L << 6),
+};
+
+struct MotifHints
+{
+    uint32_t flags = 0;
+    uint32_t functions = 0;
+    uint32_t decorations = 0;
+    int32_t input_mode = 0;
+    uint32_t status = 0;
+};
+
+static void applyMotifHints(xcb_connection_t *connection, xcb_window_t window, const MotifHints &hints)
+{
+    if (hints.flags) {
+        xcb_change_property(connection, XCB_PROP_MODE_REPLACE, window, atoms->motif_wm_hints, atoms->motif_wm_hints, 32, 5, &hints);
+    } else {
+        xcb_delete_property(connection, window, atoms->motif_wm_hints);
+    }
 }
 
 void X11WindowTest::testMaximizedFull()
@@ -471,7 +508,7 @@ void X11WindowTest::testInteractiveMoveUnmaximizeFull()
     const qreal yOffset = 0.5;
     quint32 timestamp = 0;
     Test::pointerMotion(QPointF(window->x() + window->width() * xOffset, window->y() + window->height() * yOffset), timestamp++);
-    window->performMouseCommand(Options::MouseMove, input()->pointer()->pos());
+    window->performMousePressCommand(Options::MouseMove, input()->pointer()->pos());
     QCOMPARE(interactiveMoveResizeStartedSpy.count(), 1);
     QCOMPARE(window->maximizeMode(), MaximizeFull);
     QCOMPARE(window->requestedMaximizeMode(), MaximizeFull);
@@ -481,7 +518,7 @@ void X11WindowTest::testInteractiveMoveUnmaximizeFull()
     QCOMPARE(interactiveMoveResizeSteppedSpy.count(), 0);
     QCOMPARE(window->maximizeMode(), MaximizeRestore);
     QCOMPARE(window->requestedMaximizeMode(), MaximizeRestore);
-    QCOMPARE(window->frameGeometry(), QRectF(input()->pointer()->pos() - QPointF(originalGeometry.width() * xOffset, originalGeometry.height() * yOffset), originalGeometry.size()));
+    QCOMPARE(window->frameGeometry(), Xcb::fromXNative(Xcb::toXNative(QRectF(input()->pointer()->pos() - QPointF(originalGeometry.width() * xOffset, originalGeometry.height() * yOffset), originalGeometry.size()))));
 
     // Move the window again.
     const QRectF normalGeometry = window->frameGeometry();
@@ -516,7 +553,7 @@ void X11WindowTest::testInteractiveMoveUnmaximizeInitiallyFull()
     const qreal yOffset = 0.5;
     quint32 timestamp = 0;
     Test::pointerMotion(QPointF(window->x() + window->width() * xOffset, window->y() + window->height() * yOffset), timestamp++);
-    window->performMouseCommand(Options::MouseMove, input()->pointer()->pos());
+    window->performMousePressCommand(Options::MouseMove, input()->pointer()->pos());
     QCOMPARE(interactiveMoveResizeStartedSpy.count(), 1);
     QCOMPARE(window->maximizeMode(), MaximizeFull);
     QCOMPARE(window->requestedMaximizeMode(), MaximizeFull);
@@ -527,7 +564,7 @@ void X11WindowTest::testInteractiveMoveUnmaximizeInitiallyFull()
     QCOMPARE(interactiveMoveResizeSteppedSpy.count(), 0);
     QCOMPARE(window->maximizeMode(), MaximizeRestore);
     QCOMPARE(window->requestedMaximizeMode(), MaximizeRestore);
-    QCOMPARE(window->frameGeometry(), QRectF(input()->pointer()->pos() - QPointF(restoredSize.width() * xOffset, restoredSize.height() * yOffset), restoredSize));
+    QCOMPARE(window->frameGeometry(), Xcb::fromXNative(Xcb::toXNative(QRectF(input()->pointer()->pos() - QPointF(restoredSize.width() * xOffset, restoredSize.height() * yOffset), restoredSize))));
 
     // Move the window again.
     const QRectF normalGeometry = window->frameGeometry();
@@ -565,7 +602,7 @@ void X11WindowTest::testInteractiveMoveUnmaximizeHorizontal()
     const qreal yOffset = 0.5;
     quint32 timestamp = 0;
     Test::pointerMotion(QPointF(window->x() + window->width() * xOffset, window->y() + window->height() * yOffset), timestamp++);
-    window->performMouseCommand(Options::MouseMove, input()->pointer()->pos());
+    window->performMousePressCommand(Options::MouseMove, input()->pointer()->pos());
     QCOMPARE(interactiveMoveResizeStartedSpy.count(), 1);
     QCOMPARE(window->maximizeMode(), MaximizeHorizontal);
     QCOMPARE(window->requestedMaximizeMode(), MaximizeHorizontal);
@@ -575,7 +612,7 @@ void X11WindowTest::testInteractiveMoveUnmaximizeHorizontal()
     QCOMPARE(interactiveMoveResizeSteppedSpy.count(), 0);
     QCOMPARE(window->maximizeMode(), MaximizeRestore);
     QCOMPARE(window->requestedMaximizeMode(), MaximizeRestore);
-    QCOMPARE(window->frameGeometry(), QRectF(input()->pointer()->pos() - QPointF(originalGeometry.width() * xOffset, originalGeometry.height() * yOffset), originalGeometry.size()));
+    QCOMPARE(window->frameGeometry(), Xcb::fromXNative(Xcb::toXNative(QRectF(input()->pointer()->pos() - QPointF(originalGeometry.width() * xOffset, originalGeometry.height() * yOffset), originalGeometry.size()))));
 
     // Move the window again.
     const QRectF normalGeometry = window->frameGeometry();
@@ -610,7 +647,7 @@ void X11WindowTest::testInteractiveMoveUnmaximizeInitiallyHorizontal()
     const qreal yOffset = 0.5;
     quint32 timestamp = 0;
     Test::pointerMotion(QPointF(window->x() + window->width() * xOffset, window->y() + window->height() * yOffset), timestamp++);
-    window->performMouseCommand(Options::MouseMove, input()->pointer()->pos());
+    window->performMousePressCommand(Options::MouseMove, input()->pointer()->pos());
     QCOMPARE(interactiveMoveResizeStartedSpy.count(), 1);
     QCOMPARE(window->maximizeMode(), MaximizeHorizontal);
     QCOMPARE(window->requestedMaximizeMode(), MaximizeHorizontal);
@@ -621,7 +658,7 @@ void X11WindowTest::testInteractiveMoveUnmaximizeInitiallyHorizontal()
     QCOMPARE(interactiveMoveResizeSteppedSpy.count(), 0);
     QCOMPARE(window->maximizeMode(), MaximizeRestore);
     QCOMPARE(window->requestedMaximizeMode(), MaximizeRestore);
-    QCOMPARE(window->frameGeometry(), QRectF(input()->pointer()->pos() - QPointF(restoredSize.width() * xOffset, restoredSize.height() * yOffset), restoredSize));
+    QCOMPARE(window->frameGeometry(), Xcb::fromXNative(Xcb::toXNative(QRectF(input()->pointer()->pos() - QPointF(restoredSize.width() * xOffset, restoredSize.height() * yOffset), restoredSize))));
 
     // Move the window again.
     const QRectF normalGeometry = window->frameGeometry();
@@ -659,7 +696,7 @@ void X11WindowTest::testInteractiveMoveUnmaximizeVertical()
     const qreal yOffset = 0.5;
     quint32 timestamp = 0;
     Test::pointerMotion(QPointF(window->x() + window->width() * xOffset, window->y() + window->height() * yOffset), timestamp++);
-    window->performMouseCommand(Options::MouseMove, input()->pointer()->pos());
+    window->performMousePressCommand(Options::MouseMove, input()->pointer()->pos());
     QCOMPARE(interactiveMoveResizeStartedSpy.count(), 1);
     QCOMPARE(window->maximizeMode(), MaximizeVertical);
     QCOMPARE(window->requestedMaximizeMode(), MaximizeVertical);
@@ -669,7 +706,7 @@ void X11WindowTest::testInteractiveMoveUnmaximizeVertical()
     QCOMPARE(interactiveMoveResizeSteppedSpy.count(), 0);
     QCOMPARE(window->maximizeMode(), MaximizeRestore);
     QCOMPARE(window->requestedMaximizeMode(), MaximizeRestore);
-    QCOMPARE(window->frameGeometry(), QRectF(input()->pointer()->pos() - QPointF(originalGeometry.width() * xOffset, originalGeometry.height() * yOffset), originalGeometry.size()));
+    QCOMPARE(window->frameGeometry(), Xcb::fromXNative(Xcb::toXNative(QRectF(input()->pointer()->pos() - QPointF(originalGeometry.width() * xOffset, originalGeometry.height() * yOffset), originalGeometry.size()))));
 
     // Move the window again.
     const QRectF normalGeometry = window->frameGeometry();
@@ -704,7 +741,7 @@ void X11WindowTest::testInteractiveMoveUnmaximizeInitiallyVertical()
     const qreal yOffset = 0.5;
     quint32 timestamp = 0;
     Test::pointerMotion(QPointF(window->x() + window->width() * xOffset, window->y() + window->height() * yOffset), timestamp++);
-    window->performMouseCommand(Options::MouseMove, input()->pointer()->pos());
+    window->performMousePressCommand(Options::MouseMove, input()->pointer()->pos());
     QCOMPARE(interactiveMoveResizeStartedSpy.count(), 1);
     QCOMPARE(window->maximizeMode(), MaximizeVertical);
     QCOMPARE(window->requestedMaximizeMode(), MaximizeVertical);
@@ -715,7 +752,7 @@ void X11WindowTest::testInteractiveMoveUnmaximizeInitiallyVertical()
     QCOMPARE(interactiveMoveResizeSteppedSpy.count(), 0);
     QCOMPARE(window->maximizeMode(), MaximizeRestore);
     QCOMPARE(window->requestedMaximizeMode(), MaximizeRestore);
-    QCOMPARE(window->frameGeometry(), QRectF(input()->pointer()->pos() - QPointF(restoredSize.width() * xOffset, restoredSize.height() * yOffset), restoredSize));
+    QCOMPARE(window->frameGeometry(), Xcb::fromXNative(Xcb::toXNative(QRectF(input()->pointer()->pos() - QPointF(restoredSize.width() * xOffset, restoredSize.height() * yOffset), restoredSize))));
 
     // Move the window again.
     const QRectF normalGeometry = window->frameGeometry();
@@ -1492,7 +1529,6 @@ void X11WindowTest::testNetWmKeyboardResize()
     QSignalSpy interactiveMoveResizeStartedSpy(window, &X11Window::interactiveMoveResizeStarted);
     QSignalSpy interactiveMoveResizeFinishedSpy(window, &X11Window::interactiveMoveResizeFinished);
     QSignalSpy interactiveMoveResizeSteppedSpy(window, &X11Window::interactiveMoveResizeStepped);
-    QSignalSpy frameGeometryChangedSpy(window, &X11Window::frameGeometryChanged);
     QVERIFY(interactiveMoveResizeStartedSpy.wait());
     QCOMPARE(interactiveMoveResizeSteppedSpy.count(), 0);
     QVERIFY(window->isInteractiveResize());
@@ -1503,7 +1539,6 @@ void X11WindowTest::testNetWmKeyboardResize()
     Test::keyboardKeyPressed(KEY_RIGHT, timestamp++);
     Test::keyboardKeyReleased(KEY_RIGHT, timestamp++);
     QCOMPARE(interactiveMoveResizeSteppedSpy.count(), 1);
-    QVERIFY(frameGeometryChangedSpy.wait());
     QCOMPARE(window->frameGeometry(), originalGeometry.adjusted(0, 0, 8, 0));
 
     // Finish the interactive move.
@@ -1531,7 +1566,6 @@ void X11WindowTest::testNetWmKeyboardResizeCancel()
     QSignalSpy interactiveMoveResizeStartedSpy(window, &X11Window::interactiveMoveResizeStarted);
     QSignalSpy interactiveMoveResizeFinishedSpy(window, &X11Window::interactiveMoveResizeFinished);
     QSignalSpy interactiveMoveResizeSteppedSpy(window, &X11Window::interactiveMoveResizeStepped);
-    QSignalSpy frameGeometryChangedSpy(window, &X11Window::frameGeometryChanged);
     QVERIFY(interactiveMoveResizeStartedSpy.wait());
     QCOMPARE(interactiveMoveResizeSteppedSpy.count(), 0);
     QVERIFY(window->isInteractiveResize());
@@ -1542,7 +1576,6 @@ void X11WindowTest::testNetWmKeyboardResizeCancel()
     Test::keyboardKeyPressed(KEY_RIGHT, timestamp++);
     Test::keyboardKeyReleased(KEY_RIGHT, timestamp++);
     QCOMPARE(interactiveMoveResizeSteppedSpy.count(), 1);
-    QVERIFY(frameGeometryChangedSpy.wait());
     QCOMPARE(window->frameGeometry(), originalGeometry.adjusted(0, 0, 8, 0));
 
     // Cancel the interactive move.
@@ -1741,7 +1774,6 @@ void X11WindowTest::testNetWmButtonSize()
     QSignalSpy interactiveMoveResizeStartedSpy(window, &X11Window::interactiveMoveResizeStarted);
     QSignalSpy interactiveMoveResizeFinishedSpy(window, &X11Window::interactiveMoveResizeFinished);
     QSignalSpy interactiveMoveResizeSteppedSpy(window, &X11Window::interactiveMoveResizeStepped);
-    QSignalSpy frameGeometryChangedSpy(window, &X11Window::frameGeometryChanged);
     QVERIFY(interactiveMoveResizeStartedSpy.wait());
     QCOMPARE(interactiveMoveResizeSteppedSpy.count(), 0);
     QVERIFY(window->isInteractiveResize());
@@ -1750,7 +1782,6 @@ void X11WindowTest::testNetWmButtonSize()
     // Resize the window a tiny bit.
     Test::pointerMotionRelative(directionToVector(direction, QSizeF(8, 8)), timestamp++);
     QCOMPARE(interactiveMoveResizeSteppedSpy.count(), 1);
-    QVERIFY(frameGeometryChangedSpy.wait());
     QCOMPARE(window->frameGeometry(), expandRect(originalGeometry, direction, QSizeF(8, 8)));
 
     // Finish the interactive move.
@@ -1803,7 +1834,6 @@ void X11WindowTest::testNetWmButtonSizeCancel()
     QSignalSpy interactiveMoveResizeStartedSpy(window, &X11Window::interactiveMoveResizeStarted);
     QSignalSpy interactiveMoveResizeFinishedSpy(window, &X11Window::interactiveMoveResizeFinished);
     QSignalSpy interactiveMoveResizeSteppedSpy(window, &X11Window::interactiveMoveResizeStepped);
-    QSignalSpy frameGeometryChangedSpy(window, &X11Window::frameGeometryChanged);
     QVERIFY(interactiveMoveResizeStartedSpy.wait());
     QCOMPARE(interactiveMoveResizeSteppedSpy.count(), 0);
     QVERIFY(window->isInteractiveResize());
@@ -1811,7 +1841,6 @@ void X11WindowTest::testNetWmButtonSizeCancel()
     // Resize the window a tiny bit.
     Test::pointerMotionRelative(QPointF(-8, -8), timestamp++);
     QCOMPARE(interactiveMoveResizeSteppedSpy.count(), 1);
-    QVERIFY(frameGeometryChangedSpy.wait());
     QCOMPARE(window->frameGeometry(), originalGeometry.adjusted(-8, -8, 0, 0));
 
     // Cancel the interactive resize.
@@ -1888,7 +1917,7 @@ void X11WindowTest::testMinimumSize()
     window->updateInteractiveMoveResize(KWin::Cursors::self()->mouse()->pos(), Qt::KeyboardModifiers());
     QCOMPARE(KWin::Cursors::self()->mouse()->pos(), cursorPos + QPoint(8, 0));
     QCOMPARE(interactiveMoveResizeSteppedSpy.count(), 1);
-    QVERIFY(frameGeometryChangedSpy.wait());
+    QVERIFY(!frameGeometryChangedSpy.wait(10));
     // whilst X11 window size goes through scale, the increment is a logical value kwin side
     QCOMPARE(window->clientSize().width(), 100 / scale + 8);
 
@@ -1910,7 +1939,7 @@ void X11WindowTest::testMinimumSize()
     window->updateInteractiveMoveResize(KWin::Cursors::self()->mouse()->pos(), Qt::KeyboardModifiers());
     QCOMPARE(KWin::Cursors::self()->mouse()->pos(), cursorPos + QPoint(8, 8));
     QCOMPARE(interactiveMoveResizeSteppedSpy.count(), 2);
-    QVERIFY(frameGeometryChangedSpy.wait());
+    QVERIFY(!frameGeometryChangedSpy.wait(10));
     QCOMPARE(window->clientSize().height(), 200 / scale + 8);
 
     // Finish the resize operation.
@@ -1993,7 +2022,7 @@ void X11WindowTest::testMaximumSize()
     window->updateInteractiveMoveResize(KWin::Cursors::self()->mouse()->pos(), Qt::KeyboardModifiers());
     QCOMPARE(KWin::Cursors::self()->mouse()->pos(), cursorPos + QPoint(-8, 0));
     QCOMPARE(interactiveMoveResizeSteppedSpy.count(), 1);
-    QVERIFY(frameGeometryChangedSpy.wait());
+    QVERIFY(!frameGeometryChangedSpy.wait(10));
     QCOMPARE(window->clientSize().width(), 100 / scale - 8);
 
     window->keyPressEvent(Qt::Key_Down);
@@ -2014,7 +2043,7 @@ void X11WindowTest::testMaximumSize()
     window->updateInteractiveMoveResize(KWin::Cursors::self()->mouse()->pos(), Qt::KeyboardModifiers());
     QCOMPARE(KWin::Cursors::self()->mouse()->pos(), cursorPos + QPoint(-8, -8));
     QCOMPARE(interactiveMoveResizeSteppedSpy.count(), 2);
-    QVERIFY(frameGeometryChangedSpy.wait());
+    QVERIFY(!frameGeometryChangedSpy.wait(10));
     QCOMPARE(window->clientSize().height(), 200 / scale - 8);
 
     // Finish the resize operation.
@@ -3161,12 +3190,25 @@ void X11WindowTest::testStackTopIfFromApplication()
 
     X11Window *window1 = createWindow(c.get(), QRect(100, 0, 100, 100), [&](xcb_window_t windowId) {
         xcb_change_property(c.get(), XCB_PROP_MODE_REPLACE, windowId, atoms->wm_client_leader, XCB_ATOM_WINDOW, 32, 1, &windowId);
+        applyMotifHints(c.get(), windowId, MotifHints{
+                                               .flags = MWM_HINTS_DECORATIONS,
+                                               .decorations = 0,
+                                           });
     });
     X11Window *window2 = createWindow(c.get(), QRect(200, 0, 100, 100), [&](xcb_window_t windowId) {
         xcb_window_t leaderId = window1->window();
         xcb_change_property(c.get(), XCB_PROP_MODE_REPLACE, windowId, atoms->wm_client_leader, XCB_ATOM_WINDOW, 32, 1, &leaderId);
+        applyMotifHints(c.get(), windowId, MotifHints{
+                                               .flags = MWM_HINTS_DECORATIONS,
+                                               .decorations = 0,
+                                           });
     });
-    X11Window *window3 = createWindow(c.get(), QRect(300, 0, 100, 100));
+    X11Window *window3 = createWindow(c.get(), QRect(300, 0, 100, 100), [&](xcb_window_t windowId) {
+        applyMotifHints(c.get(), windowId, MotifHints{
+                                               .flags = MWM_HINTS_DECORATIONS,
+                                               .decorations = 0,
+                                           });
+    });
 
     // Restack window1 above window2, no change will occur because there's no overlap.
     root.restackRequest(window1->window(), NET::FromApplication, window2->window(), XCB_STACK_MODE_TOP_IF, XCB_CURRENT_TIME);
@@ -3195,9 +3237,24 @@ void X11WindowTest::testStackTopIfFromTool()
     QVERIFY(!xcb_connection_has_error(c.get()));
     NETRootInfo root(c.get(), NET::Properties());
 
-    X11Window *window1 = createWindow(c.get(), QRect(100, 0, 100, 100));
-    X11Window *window2 = createWindow(c.get(), QRect(200, 0, 100, 100));
-    X11Window *window3 = createWindow(c.get(), QRect(300, 0, 100, 100));
+    X11Window *window1 = createWindow(c.get(), QRect(100, 0, 100, 100), [&](xcb_window_t windowId) {
+        applyMotifHints(c.get(), windowId, MotifHints{
+                                               .flags = MWM_HINTS_DECORATIONS,
+                                               .decorations = 0,
+                                           });
+    });
+    X11Window *window2 = createWindow(c.get(), QRect(200, 0, 100, 100), [&](xcb_window_t windowId) {
+        applyMotifHints(c.get(), windowId, MotifHints{
+                                               .flags = MWM_HINTS_DECORATIONS,
+                                               .decorations = 0,
+                                           });
+    });
+    X11Window *window3 = createWindow(c.get(), QRect(300, 0, 100, 100), [&](xcb_window_t windowId) {
+        applyMotifHints(c.get(), windowId, MotifHints{
+                                               .flags = MWM_HINTS_DECORATIONS,
+                                               .decorations = 0,
+                                           });
+    });
 
     // Restack window1 above window2, no change will occur because there's no overlap.
     root.restackRequest(window1->window(), NET::FromTool, window2->window(), XCB_STACK_MODE_TOP_IF, XCB_CURRENT_TIME);
@@ -3226,13 +3283,26 @@ void X11WindowTest::testStackBottomIfFromApplication()
     QVERIFY(!xcb_connection_has_error(c.get()));
     NETRootInfo root(c.get(), NET::Properties());
 
-    X11Window *window1 = createWindow(c.get(), QRect(100, 0, 100, 100));
+    X11Window *window1 = createWindow(c.get(), QRect(100, 0, 100, 100), [&](xcb_window_t windowId) {
+        applyMotifHints(c.get(), windowId, MotifHints{
+                                               .flags = MWM_HINTS_DECORATIONS,
+                                               .decorations = 0,
+                                           });
+    });
     X11Window *window2 = createWindow(c.get(), QRect(200, 0, 100, 100), [&](xcb_window_t windowId) {
         xcb_change_property(c.get(), XCB_PROP_MODE_REPLACE, windowId, atoms->wm_client_leader, XCB_ATOM_WINDOW, 32, 1, &windowId);
+        applyMotifHints(c.get(), windowId, MotifHints{
+                                               .flags = MWM_HINTS_DECORATIONS,
+                                               .decorations = 0,
+                                           });
     });
     X11Window *window3 = createWindow(c.get(), QRect(300, 0, 100, 100), [&](xcb_window_t windowId) {
         xcb_window_t leaderId = window2->window();
         xcb_change_property(c.get(), XCB_PROP_MODE_REPLACE, windowId, atoms->wm_client_leader, XCB_ATOM_WINDOW, 32, 1, &leaderId);
+        applyMotifHints(c.get(), windowId, MotifHints{
+                                               .flags = MWM_HINTS_DECORATIONS,
+                                               .decorations = 0,
+                                           });
     });
 
     // Restack window3 below window2, no change will occur because there's no overlap.
@@ -3262,13 +3332,26 @@ void X11WindowTest::testStackBottomIfFromTool()
     QVERIFY(!xcb_connection_has_error(c.get()));
     NETRootInfo root(c.get(), NET::Properties());
 
-    X11Window *window1 = createWindow(c.get(), QRect(100, 0, 100, 100));
+    X11Window *window1 = createWindow(c.get(), QRect(100, 0, 100, 100), [&](xcb_window_t windowId) {
+        applyMotifHints(c.get(), windowId, MotifHints{
+                                               .flags = MWM_HINTS_DECORATIONS,
+                                               .decorations = 0,
+                                           });
+    });
     X11Window *window2 = createWindow(c.get(), QRect(200, 0, 100, 100), [&](xcb_window_t windowId) {
         xcb_change_property(c.get(), XCB_PROP_MODE_REPLACE, windowId, atoms->wm_client_leader, XCB_ATOM_WINDOW, 32, 1, &windowId);
+        applyMotifHints(c.get(), windowId, MotifHints{
+                                               .flags = MWM_HINTS_DECORATIONS,
+                                               .decorations = 0,
+                                           });
     });
     X11Window *window3 = createWindow(c.get(), QRect(300, 0, 100, 100), [&](xcb_window_t windowId) {
         xcb_window_t leaderId = window2->window();
         xcb_change_property(c.get(), XCB_PROP_MODE_REPLACE, windowId, atoms->wm_client_leader, XCB_ATOM_WINDOW, 32, 1, &leaderId);
+        applyMotifHints(c.get(), windowId, MotifHints{
+                                               .flags = MWM_HINTS_DECORATIONS,
+                                               .decorations = 0,
+                                           });
     });
 
     // Restack window3 below window2, no change will occur because there's no overlap.
@@ -3300,12 +3383,25 @@ void X11WindowTest::testStackOppositeFromApplication()
 
     X11Window *window1 = createWindow(c.get(), QRect(100, 0, 100, 100), [&](xcb_window_t windowId) {
         xcb_change_property(c.get(), XCB_PROP_MODE_REPLACE, windowId, atoms->wm_client_leader, XCB_ATOM_WINDOW, 32, 1, &windowId);
+        applyMotifHints(c.get(), windowId, MotifHints{
+                                               .flags = MWM_HINTS_DECORATIONS,
+                                               .decorations = 0,
+                                           });
     });
     X11Window *window2 = createWindow(c.get(), QRect(200, 0, 100, 100), [&](xcb_window_t windowId) {
         xcb_window_t leaderId = window1->window();
         xcb_change_property(c.get(), XCB_PROP_MODE_REPLACE, windowId, atoms->wm_client_leader, XCB_ATOM_WINDOW, 32, 1, &leaderId);
+        applyMotifHints(c.get(), windowId, MotifHints{
+                                               .flags = MWM_HINTS_DECORATIONS,
+                                               .decorations = 0,
+                                           });
     });
-    X11Window *window3 = createWindow(c.get(), QRect(300, 0, 100, 100));
+    X11Window *window3 = createWindow(c.get(), QRect(300, 0, 100, 100), [&](xcb_window_t windowId) {
+        applyMotifHints(c.get(), windowId, MotifHints{
+                                               .flags = MWM_HINTS_DECORATIONS,
+                                               .decorations = 0,
+                                           });
+    });
 
     // window2 is above window1, so it will be lowered
     root.restackRequest(window2->window(), NET::FromApplication, window1->window(), XCB_STACK_MODE_OPPOSITE, XCB_CURRENT_TIME);

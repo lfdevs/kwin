@@ -158,7 +158,7 @@ void UserActionsMenu::helperDialog(const QString &message)
         const auto shortcuts = KGlobalAccel::self()->shortcut(action);
         return QStringLiteral("%1 (%2)").arg(action->text(), shortcuts.isEmpty() ? QString() : shortcuts.first().toString(QKeySequence::NativeText));
     };
-    if (message == QStringLiteral("noborderaltf3")) {
+    if (message == QLatin1StringView("noborderaltf3")) {
         args << QStringLiteral("--msgbox") << i18n("You have selected to show a window without its border.\n"
                                                    "Without the border, you will not be able to enable the border "
                                                    "again using the mouse: use the window operations menu instead, "
@@ -399,7 +399,7 @@ void UserActionsMenu::showHideActivityMenu()
 
 void UserActionsMenu::initDesktopPopup()
 {
-    if (kwinApp()->operationMode() == Application::OperationModeWaylandOnly || kwinApp()->operationMode() == Application::OperationModeXwayland) {
+    if (kwinApp()->operationMode() == Application::OperationModeWayland) {
         if (m_multipleDesktopsMenu) {
             return;
         }
@@ -994,6 +994,15 @@ void Workspace::initShortcuts()
     initShortcut("Window On All Desktops", i18n("Keep Window on All Desktops"),
                  0, &Workspace::slotWindowOnAllDesktops);
 
+    initShortcut("Window Custom Quick Tile Left", i18n("Custom Quick Tile Window to the Left"),
+                 0, std::bind(&Workspace::customQuickTileWindow, this, QuickTileFlag::Left));
+    initShortcut("Window Custom Quick Tile Right", i18n("Custom Quick Tile Window to the Right"),
+                 0, std::bind(&Workspace::customQuickTileWindow, this, QuickTileFlag::Right));
+    initShortcut("Window Custom Quick Tile Top", i18n("Custom Quick Tile Window to the Top"),
+                 0, std::bind(&Workspace::customQuickTileWindow, this, QuickTileFlag::Top));
+    initShortcut("Window Custom Quick Tile Bottom", i18n("Custom Quick Tile Window to the Bottom"),
+                 0, std::bind(&Workspace::customQuickTileWindow, this, QuickTileFlag::Bottom));
+
     VirtualDesktopManager *vds = VirtualDesktopManager::self();
     for (uint i = 0; i < vds->maximum(); ++i) {
         auto handler = [this, i]() {
@@ -1152,16 +1161,16 @@ void Workspace::performWindowOperation(Window *window, Options::WindowOperation 
     }
     switch (op) {
     case Options::MoveOp:
-        window->performMouseCommand(Options::MouseMove, Cursors::self()->mouse()->pos());
+        window->performMousePressCommand(Options::MouseMove, Cursors::self()->mouse()->pos());
         break;
     case Options::UnrestrictedMoveOp:
-        window->performMouseCommand(Options::MouseUnrestrictedMove, Cursors::self()->mouse()->pos());
+        window->performMousePressCommand(Options::MouseUnrestrictedMove, Cursors::self()->mouse()->pos());
         break;
     case Options::ResizeOp:
-        window->performMouseCommand(Options::MouseResize, Cursors::self()->mouse()->pos());
+        window->performMousePressCommand(Options::MouseResize, Cursors::self()->mouse()->pos());
         break;
     case Options::UnrestrictedResizeOp:
-        window->performMouseCommand(Options::MouseUnrestrictedResize, Cursors::self()->mouse()->pos());
+        window->performMousePressCommand(Options::MouseUnrestrictedResize, Cursors::self()->mouse()->pos());
         break;
     case Options::CloseOp:
         QMetaObject::invokeMethod(window, &Window::closeWindow, Qt::QueuedConnection);
@@ -1188,7 +1197,7 @@ void Workspace::performWindowOperation(Window *window, Options::WindowOperation 
         window->setMinimized(true);
         break;
     case Options::ShadeOp:
-        window->performMouseCommand(Options::MouseShade, Cursors::self()->mouse()->pos());
+        window->performMousePressCommand(Options::MouseShade, Cursors::self()->mouse()->pos());
         break;
     case Options::OnAllDesktopsOp:
         window->setOnAllDesktops(!window->isOnAllDesktops());
@@ -1220,7 +1229,7 @@ void Workspace::performWindowOperation(Window *window, Options::WindowOperation 
         break;
     }
     case Options::OperationsOp:
-        window->performMouseCommand(Options::MouseShade, Cursors::self()->mouse()->pos());
+        window->performMousePressCommand(Options::MouseShade, Cursors::self()->mouse()->pos());
         break;
     case Options::WindowRulesOp:
         m_rulebook->edit(window, false);

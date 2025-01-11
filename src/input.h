@@ -11,7 +11,7 @@
 #pragma once
 #include "config-kwin.h"
 
-#include "effect/globals.h"
+#include "core/inputdevice.h"
 #include <QObject>
 #include <QPoint>
 #include <QPointer>
@@ -41,17 +41,20 @@ class PointerInputRedirection;
 class TabletInputRedirection;
 class TouchInputRedirection;
 class WindowSelectorFilter;
-class SwitchEvent;
+struct SwitchEvent;
 class TabletEvent;
-class TabletToolId;
-class TabletPadId;
-class MouseEvent;
-class WheelEvent;
-class KeyEvent;
+struct PointerAxisEvent;
+struct PointerButtonEvent;
+struct PointerMotionEvent;
+struct KeyboardKeyEvent;
+struct TabletToolButtonEvent;
+struct TabletPadButtonEvent;
+struct TabletPadStripEvent;
+struct TabletPadRingEvent;
 
 namespace Decoration
 {
-class DecoratedClientImpl;
+class DecoratedWindowImpl;
 }
 
 class InputBackend;
@@ -69,51 +72,6 @@ class KWIN_EXPORT InputRedirection : public QObject
 {
     Q_OBJECT
 public:
-    enum PointerButtonState {
-        PointerButtonReleased,
-        PointerButtonPressed
-    };
-    enum PointerAxis {
-        PointerAxisVertical,
-        PointerAxisHorizontal
-    };
-    enum PointerAxisSource {
-        PointerAxisSourceUnknown,
-        PointerAxisSourceWheel,
-        PointerAxisSourceFinger,
-        PointerAxisSourceContinuous,
-        PointerAxisSourceWheelTilt
-    };
-    enum KeyboardKeyState {
-        KeyboardKeyReleased,
-        KeyboardKeyPressed,
-        KeyboardKeyAutoRepeat
-    };
-    enum TabletEventType {
-        Axis,
-        Proximity,
-        Tip
-    };
-    enum TabletToolType {
-        Pen,
-        Eraser,
-        Brush,
-        Pencil,
-        Airbrush,
-        Finger,
-        Mouse,
-        Lens,
-        Totem,
-    };
-    enum Capability {
-        Tilt,
-        Pressure,
-        Distance,
-        Rotation,
-        Slider,
-        Wheel,
-    };
-
     ~InputRedirection() override;
     void init();
 
@@ -264,14 +222,14 @@ Q_SIGNALS:
      * @param button The button which changed
      * @param state The new button state
      */
-    void pointerButtonStateChanged(uint32_t button, InputRedirection::PointerButtonState state);
+    void pointerButtonStateChanged(uint32_t button, PointerButtonState state);
     /**
      * @brief Emitted when a pointer axis changed
      *
      * @param axis The axis on which the even occurred
      * @param delta The delta of the event.
      */
-    void pointerAxisChanged(InputRedirection::PointerAxis axis, qreal delta);
+    void pointerAxisChanged(PointerAxis axis, qreal delta);
     /**
      * @brief Emitted when the modifiers changes.
      *
@@ -288,7 +246,7 @@ Q_SIGNALS:
      * @param keyCode The keycode of the key which changed
      * @param state The new key state
      */
-    void keyStateChanged(quint32 keyCode, InputRedirection::KeyboardKeyState state);
+    void keyStateChanged(quint32 keyCode, KeyboardKeyState state);
 
     void hasKeyboardChanged(bool set);
     void hasAlphaNumericKeyboardChanged(bool set);
@@ -342,7 +300,6 @@ private:
     std::unique_ptr<InputEventFilter> m_internalWindowFilter;
     std::unique_ptr<InputEventFilter> m_inputKeyboardFilter;
     std::unique_ptr<InputEventFilter> m_forwardFilter;
-    std::unique_ptr<InputEventFilter> m_tabletFilter;
 
     std::unique_ptr<InputEventSpy> m_hideCursorSpy;
     std::unique_ptr<InputEventSpy> m_userActivitySpy;
@@ -387,7 +344,6 @@ enum Order {
     InternalWindow,
     InputMethod,
     Forward,
-    Tablet
 };
 }
 
@@ -429,19 +385,9 @@ public:
      * The position in the input chain, lower values come first.
      */
     int weight() const;
-    /**
-     * Event filter for pointer events which can be described by a QMouseEvent.
-     *
-     * Please note that the button translation in QMouseEvent cannot cover all
-     * possible buttons. Because of that also the @p nativeButton code is passed
-     * through the filter. For internal areas it's fine to use @p event, but for
-     * passing to client windows the @p nativeButton should be used.
-     *
-     * @param event The event information about the move or button press/release
-     * @param nativeButton The native key code of the button, for move events 0
-     * @return @c true to stop further event processing, @c false to pass to next filter
-     */
-    virtual bool pointerEvent(MouseEvent *event, quint32 nativeButton);
+
+    virtual bool pointerMotion(PointerMotionEvent *event);
+    virtual bool pointerButton(PointerButtonEvent *event);
     virtual bool pointerFrame();
     /**
      * Event filter for pointer axis events.
@@ -449,14 +395,14 @@ public:
      * @param event The event information about the axis event
      * @return @c true to stop further event processing, @c false to pass to next filter
      */
-    virtual bool wheelEvent(WheelEvent *event);
+    virtual bool pointerAxis(PointerAxisEvent *event);
     /**
      * Event filter for keyboard events.
      *
      * @param event The event information about the key event
      * @return @c true to stop further event processing, @c false to pass to next filter.
      */
-    virtual bool keyEvent(KeyEvent *event);
+    virtual bool keyboardKey(KeyboardKeyEvent *event);
     virtual bool touchDown(qint32 id, const QPointF &pos, std::chrono::microseconds time);
     virtual bool touchMotion(qint32 id, const QPointF &pos, std::chrono::microseconds time);
     virtual bool touchUp(qint32 id, std::chrono::microseconds time);
@@ -479,15 +425,16 @@ public:
 
     virtual bool switchEvent(SwitchEvent *event);
 
-    virtual bool tabletToolEvent(TabletEvent *event);
-    virtual bool tabletToolButtonEvent(uint button, bool pressed, const TabletToolId &tabletToolId, std::chrono::microseconds time);
-    virtual bool tabletPadButtonEvent(uint button, bool pressed, const TabletPadId &tabletPadId, std::chrono::microseconds time);
-    virtual bool tabletPadStripEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId, std::chrono::microseconds time);
-    virtual bool tabletPadRingEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId, std::chrono::microseconds time);
+    virtual bool tabletToolProximityEvent(TabletEvent *event);
+    virtual bool tabletToolAxisEvent(TabletEvent *event);
+    virtual bool tabletToolTipEvent(TabletEvent *event);
+    virtual bool tabletToolButtonEvent(TabletToolButtonEvent *event);
+    virtual bool tabletPadButtonEvent(TabletPadButtonEvent *event);
+    virtual bool tabletPadStripEvent(TabletPadStripEvent *event);
+    virtual bool tabletPadRingEvent(TabletPadRingEvent *event);
 
 protected:
-    void passToWaylandServer(QKeyEvent *event);
-    bool passToInputMethod(QKeyEvent *event);
+    bool passToInputMethod(KeyboardKeyEvent *event);
 
 private:
     int m_weight = 0;
@@ -523,12 +470,12 @@ public:
      * @brief The Decoration currently receiving events.
      * @return decoration with pointer focus.
      */
-    Decoration::DecoratedClientImpl *decoration() const;
+    Decoration::DecoratedWindowImpl *decoration() const;
 
     virtual QPointF position() const = 0;
 
     void setFocus(Window *window);
-    void setDecoration(Decoration::DecoratedClientImpl *decoration);
+    void setDecoration(Decoration::DecoratedWindowImpl *decoration);
 
 Q_SIGNALS:
     void decorationChanged();
@@ -536,7 +483,7 @@ Q_SIGNALS:
 protected:
     explicit InputDeviceHandler(InputRedirection *parent);
 
-    virtual void cleanupDecoration(Decoration::DecoratedClientImpl *old, Decoration::DecoratedClientImpl *now) = 0;
+    virtual void cleanupDecoration(Decoration::DecoratedWindowImpl *old, Decoration::DecoratedWindowImpl *now) = 0;
 
     virtual void focusUpdate(Window *old, Window *now) = 0;
 
@@ -577,7 +524,7 @@ private:
     struct
     {
         QPointer<Window> window;
-        QPointer<Decoration::DecoratedClientImpl> decoration;
+        QPointer<Decoration::DecoratedWindowImpl> decoration;
     } m_focus;
 
     bool m_inited = false;
@@ -594,8 +541,3 @@ inline QList<InputDevice *> InputRedirection::devices() const
 }
 
 } // namespace KWin
-
-Q_DECLARE_METATYPE(KWin::InputRedirection::KeyboardKeyState)
-Q_DECLARE_METATYPE(KWin::InputRedirection::PointerButtonState)
-Q_DECLARE_METATYPE(KWin::InputRedirection::PointerAxis)
-Q_DECLARE_METATYPE(KWin::InputRedirection::PointerAxisSource)

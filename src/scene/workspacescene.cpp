@@ -219,6 +219,36 @@ QList<SurfaceItem *> WorkspaceScene::scanoutCandidates(ssize_t maxCount) const
     return ret;
 }
 
+static double getDesiredHdrHeadroom(Item *item)
+{
+    if (!item->isVisible()) {
+        return 1;
+    }
+    double ret = 1;
+    const auto children = item->childItems();
+    for (const auto &child : children) {
+        ret = std::max(ret, getDesiredHdrHeadroom(child));
+    }
+    const auto &color = item->colorDescription();
+    if (color.maxHdrLuminance() && *color.maxHdrLuminance() > color.referenceLuminance()) {
+        return std::max(ret, *color.maxHdrLuminance() / color.referenceLuminance());
+    } else {
+        return ret;
+    }
+}
+
+double WorkspaceScene::desiredHdrHeadroom() const
+{
+    double maxHeadroom = 1;
+    for (const auto &item : stacking_order) {
+        if (!item->window()->isOnOutput(painted_screen)) {
+            continue;
+        }
+        maxHeadroom = std::max(maxHeadroom, getDesiredHdrHeadroom(item));
+    }
+    return maxHeadroom;
+}
+
 void WorkspaceScene::frame(SceneDelegate *delegate, OutputFrame *frame)
 {
     if (waylandServer()) {
@@ -313,8 +343,7 @@ static void resetRepaintsHelper(Item *item, SceneDelegate *delegate)
 
 static void accumulateRepaints(Item *item, SceneDelegate *delegate, QRegion *repaints)
 {
-    *repaints += item->repaints(delegate);
-    item->resetRepaints(delegate);
+    *repaints += item->takeRepaints(delegate);
 
     const auto childItems = item->childItems();
     for (Item *childItem : childItems) {

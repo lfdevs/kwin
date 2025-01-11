@@ -14,6 +14,7 @@
 #include "config-kwin.h"
 
 #include "compositor.h"
+#include "core/inputdevice.h"
 #include "core/output.h"
 #include "core/renderbackend.h"
 #include "core/rendertarget.h"
@@ -55,8 +56,8 @@
 #include "screenlockerwatcher.h"
 #endif
 
-#include <KDecoration2/Decoration>
-#include <KDecoration2/DecorationSettings>
+#include <KDecoration3/Decoration>
+#include <KDecoration3/DecorationSettings>
 
 #include <QFontMetrics>
 #include <QMatrix4x4>
@@ -185,6 +186,7 @@ EffectsHandler::EffectsHandler(Compositor *compositor, WorkspaceScene *scene)
         connect(activities, &Activities::added, this, &EffectsHandler::activityAdded);
         connect(activities, &Activities::removed, this, &EffectsHandler::activityRemoved);
         connect(activities, &Activities::currentChanged, this, &EffectsHandler::currentActivityChanged);
+        connect(activities, &Activities::currentAboutToChange, this, &EffectsHandler::currentActivityAboutToChange);
     }
 #endif
     connect(ws, &Workspace::stackingOrderChanged, this, &EffectsHandler::stackingOrderChanged);
@@ -560,55 +562,84 @@ bool EffectsHandler::touchUp(qint32 id, std::chrono::microseconds time)
     return false;
 }
 
-bool EffectsHandler::tabletToolEvent(TabletEvent *event)
+void EffectsHandler::touchCancel()
+{
+    for (const auto &[name, effect] : std::as_const(loaded_effects)) {
+        effect->touchCancel();
+    }
+}
+
+bool EffectsHandler::tabletToolProximityEvent(TabletEvent *event)
 {
     // TODO: reverse call order?
     for (auto it = loaded_effects.constBegin(); it != loaded_effects.constEnd(); ++it) {
-        if (it->second->tabletToolEvent(event)) {
+        if (it->second->tabletToolProximity(event)) {
             return true;
         }
     }
     return false;
 }
 
-bool EffectsHandler::tabletToolButtonEvent(uint button, bool pressed, const TabletToolId &tabletToolId, std::chrono::microseconds time)
+bool EffectsHandler::tabletToolAxisEvent(TabletEvent *event)
 {
     // TODO: reverse call order?
     for (auto it = loaded_effects.constBegin(); it != loaded_effects.constEnd(); ++it) {
-        if (it->second->tabletToolButtonEvent(button, pressed, tabletToolId.m_uniqueId)) {
+        if (it->second->tabletToolAxis(event)) {
             return true;
         }
     }
     return false;
 }
 
-bool EffectsHandler::tabletPadButtonEvent(uint button, bool pressed, const TabletPadId &tabletPadId, std::chrono::microseconds time)
+bool EffectsHandler::tabletToolTipEvent(TabletEvent *event)
 {
     // TODO: reverse call order?
     for (auto it = loaded_effects.constBegin(); it != loaded_effects.constEnd(); ++it) {
-        if (it->second->tabletPadButtonEvent(button, pressed, tabletPadId.data)) {
+        if (it->second->tabletToolTip(event)) {
             return true;
         }
     }
     return false;
 }
 
-bool EffectsHandler::tabletPadStripEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId, std::chrono::microseconds time)
+bool EffectsHandler::tabletToolButtonEvent(uint button, bool pressed, InputDeviceTabletTool *tool, std::chrono::microseconds time)
 {
     // TODO: reverse call order?
     for (auto it = loaded_effects.constBegin(); it != loaded_effects.constEnd(); ++it) {
-        if (it->second->tabletPadStripEvent(number, position, isFinger, tabletPadId.data)) {
+        if (it->second->tabletToolButtonEvent(button, pressed, tool->uniqueId())) {
             return true;
         }
     }
     return false;
 }
 
-bool EffectsHandler::tabletPadRingEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId, std::chrono::microseconds time)
+bool EffectsHandler::tabletPadButtonEvent(uint button, bool pressed, std::chrono::microseconds time, InputDevice *device)
 {
     // TODO: reverse call order?
     for (auto it = loaded_effects.constBegin(); it != loaded_effects.constEnd(); ++it) {
-        if (it->second->tabletPadRingEvent(number, position, isFinger, tabletPadId.data)) {
+        if (it->second->tabletPadButtonEvent(button, pressed, device)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool EffectsHandler::tabletPadStripEvent(int number, int position, bool isFinger, std::chrono::microseconds time, InputDevice *device)
+{
+    // TODO: reverse call order?
+    for (auto it = loaded_effects.constBegin(); it != loaded_effects.constEnd(); ++it) {
+        if (it->second->tabletPadStripEvent(number, position, isFinger, device)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool EffectsHandler::tabletPadRingEvent(int number, int position, bool isFinger, std::chrono::microseconds time, InputDevice *device)
+{
+    // TODO: reverse call order?
+    for (auto it = loaded_effects.constBegin(); it != loaded_effects.constEnd(); ++it) {
+        if (it->second->tabletPadRingEvent(number, position, isFinger, device)) {
             return true;
         }
     }
@@ -1327,7 +1358,7 @@ QVariant EffectsHandler::kwinOption(KWinOption kwopt)
     case CloseButtonCorner: {
         // TODO: this could become per window and be derived from the actual position in the deco
         const auto settings = Workspace::self()->decorationBridge()->settings();
-        return settings && settings->decorationButtonsLeft().contains(KDecoration2::DecorationButtonType::Close) ? Qt::TopLeftCorner : Qt::TopRightCorner;
+        return settings && settings->decorationButtonsLeft().contains(KDecoration3::DecorationButtonType::Close) ? Qt::TopLeftCorner : Qt::TopRightCorner;
     }
     case SwitchDesktopOnScreenEdge:
         return workspace()->screenEdges()->isDesktopSwitching();

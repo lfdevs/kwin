@@ -17,12 +17,15 @@
 
 namespace KWin
 {
+class Cursor;
+class InputDeviceTabletTool;
+class TabletToolV2Interface;
+class TabletV2Interface;
 class Window;
-class TabletToolId;
 
 namespace Decoration
 {
-class DecoratedClientImpl;
+class DecoratedWindowImpl;
 }
 
 namespace LibInput
@@ -40,15 +43,13 @@ public:
     void tabletPad();
     bool focusUpdatesBlocked() override;
 
-    void tabletToolEvent(KWin::InputRedirection::TabletEventType type, const QPointF &pos,
-                         qreal pressure, int xTilt, int yTilt, qreal rotation, bool tipDown,
-                         bool tipNear, const TabletToolId &tabletToolId,
-                         std::chrono::microseconds time);
-    void tabletToolButtonEvent(uint button, bool isPressed, const TabletToolId &tabletToolId, std::chrono::microseconds time);
-
-    void tabletPadButtonEvent(uint button, bool isPressed, const TabletPadId &tabletPadId, std::chrono::microseconds time);
-    void tabletPadStripEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId, std::chrono::microseconds time);
-    void tabletPadRingEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId, std::chrono::microseconds time);
+    void tabletToolAxisEvent(const QPointF &pos, qreal pressure, qreal xTilt, qreal yTilt, qreal rotation, qreal distance, bool tipDown, bool tipNear, InputDeviceTabletTool *tool, std::chrono::microseconds time, InputDevice *device);
+    void tabletToolProximityEvent(const QPointF &pos, qreal pressure, qreal xTilt, qreal yTilt, qreal rotation, qreal distance, bool tipDown, bool tipNear, InputDeviceTabletTool *tool, std::chrono::microseconds time, InputDevice *device);
+    void tabletToolTipEvent(const QPointF &pos, qreal pressure, qreal xTilt, qreal yTilt, qreal rotation, qreal distance, bool tipDown, bool tipNear, InputDeviceTabletTool *tool, std::chrono::microseconds time, InputDevice *device);
+    void tabletToolButtonEvent(uint button, bool isPressed, InputDeviceTabletTool *tool, std::chrono::microseconds time, InputDevice *device);
+    void tabletPadButtonEvent(uint button, bool isPressed, std::chrono::microseconds time, InputDevice *device);
+    void tabletPadStripEvent(int number, int position, bool isFinger, std::chrono::microseconds time, InputDevice *device);
+    void tabletPadRingEvent(int number, int position, bool isFinger, std::chrono::microseconds time, InputDevice *device);
 
     bool positionValid() const override
     {
@@ -62,16 +63,18 @@ public:
     }
 
 private:
-    void cleanupDecoration(Decoration::DecoratedClientImpl *old,
-                           Decoration::DecoratedClientImpl *now) override;
+    void cleanupDecoration(Decoration::DecoratedWindowImpl *old,
+                           Decoration::DecoratedWindowImpl *now) override;
     void focusUpdate(Window *focusOld, Window *focusNow) override;
-
-    bool m_tipDown = false;
-    bool m_tipNear = false;
+    void integrateDevice(InputDevice *device);
+    void removeDevice(InputDevice *device);
+    void trackNextOutput();
+    void ensureTabletTool(InputDeviceTabletTool *tool);
 
     QPointF m_lastPosition;
     QMetaObject::Connection m_decorationGeometryConnection;
     QMetaObject::Connection m_decorationDestroyedConnection;
+    QHash<InputDeviceTabletTool *, Cursor *> m_cursorByTool;
 };
 
 }

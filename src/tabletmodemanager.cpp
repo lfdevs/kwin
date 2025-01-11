@@ -52,15 +52,15 @@ public:
 
     void switchEvent(SwitchEvent *event) override
     {
-        if (!event->device()->isTabletModeSwitch()) {
+        if (!event->device->isTabletModeSwitch()) {
             return;
         }
 
-        switch (event->state()) {
-        case SwitchEvent::State::Off:
+        switch (event->state) {
+        case SwitchState::Off:
             m_parent->setIsTablet(false);
             break;
-        case SwitchEvent::State::On:
+        case SwitchState::On:
             m_parent->setIsTablet(true);
             break;
         default:
@@ -142,12 +142,12 @@ void KWin::TabletModeManager::refreshSettings()
     KConfigGroup cg = kwinSettings->group(QStringLiteral("Input"));
     const QString tabletModeConfig = cg.readPathEntry("TabletMode", QStringLiteral("auto"));
     const bool oldEffectiveTabletMode = effectiveTabletMode();
-    if (tabletModeConfig == QStringLiteral("on")) {
+    if (tabletModeConfig == QLatin1StringView("on")) {
         m_configuredMode = ConfiguredMode::On;
         if (!m_detecting) {
             Q_EMIT tabletModeAvailableChanged(true);
         }
-    } else if (tabletModeConfig == QStringLiteral("off")) {
+    } else if (tabletModeConfig == QLatin1StringView("off")) {
         m_configuredMode = ConfiguredMode::Off;
     } else {
         m_configuredMode = ConfiguredMode::Auto;

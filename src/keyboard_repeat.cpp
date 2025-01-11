@@ -39,21 +39,21 @@ void KeyboardRepeat::handleKeyRepeat()
     Q_EMIT keyRepeat(m_key, m_time);
 }
 
-void KeyboardRepeat::keyEvent(KeyEvent *event)
+void KeyboardRepeat::keyboardKey(KeyboardKeyEvent *event)
 {
-    if (event->isAutoRepeat()) {
+    if (event->state == KeyboardKeyState::Repeated) {
         return;
     }
-    const quint32 key = event->nativeScanCode();
-    if (event->type() == QEvent::KeyPress) {
+    const quint32 key = event->nativeScanCode;
+    if (event->state == KeyboardKeyState::Pressed) {
         // TODO: don't get these values from WaylandServer
         if (m_xkb->shouldKeyRepeat(key) && waylandServer()->seat()->keyboard()->keyRepeatDelay() != 0) {
             m_timer->setInterval(waylandServer()->seat()->keyboard()->keyRepeatDelay());
             m_key = key;
-            m_time = event->timestamp();
+            m_time = event->timestamp;
             m_timer->start();
         }
-    } else if (event->type() == QEvent::KeyRelease) {
+    } else if (event->state == KeyboardKeyState::Released) {
         if (key == m_key) {
             m_timer->stop();
         }

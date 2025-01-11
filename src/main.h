@@ -91,13 +91,9 @@ public:
          */
         OperationModeX11,
         /**
-         * @brief KWin uses only Wayland
+         * @brief KWin uses Wayland
          */
-        OperationModeWaylandOnly,
-        /**
-         * @brief KWin uses Wayland and controls a nested Xwayland server.
-         */
-        OperationModeXwayland
+        OperationModeWayland,
     };
     Q_ENUM(OperationMode)
     ~Application() override;
@@ -138,7 +134,6 @@ public:
      * @return OperationMode
      */
     OperationMode operationMode() const;
-    void setOperationMode(OperationMode mode);
     bool shouldUseWaylandForCompositing() const;
 
     void setupCommandLine(QCommandLineParser *parser);
@@ -355,14 +350,11 @@ Q_SIGNALS:
     void xwaylandScaleChanged();
     void workspaceCreated();
     void virtualTerminalCreated();
-    void started();
 
 protected:
     Application(OperationMode mode, int &argc, char **argv);
     virtual void performStartup() = 0;
 
-    void notifyKSplash();
-    void notifyStarted();
     void createInput();
     void createWorkspace();
     void createOptions();

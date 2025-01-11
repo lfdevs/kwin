@@ -110,7 +110,10 @@ Connection::Connection(std::unique_ptr<Context> &&input)
                                           QStringLiteral("notifyChange"), this, SLOT(slotKGlobalSettingsNotifyChange(int, int)));
 }
 
-Connection::~Connection() = default;
+Connection::~Connection()
+{
+    qDeleteAll(m_tools);
+}
 
 void Connection::setup()
 {
@@ -194,70 +197,36 @@ QPointF devicePointToGlobalPosition(const QPointF &devicePos, const Output *outp
 }
 #endif
 
-KWin::TabletToolId createTabletId(libinput_tablet_tool *tool, Device *dev)
+static QPointF tabletToolPosition(TabletToolEvent *event)
 {
-    auto serial = libinput_tablet_tool_get_serial(tool);
-    auto toolId = libinput_tablet_tool_get_tool_id(tool);
-    auto type = libinput_tablet_tool_get_type(tool);
-    InputRedirection::TabletToolType toolType;
-    switch (type) {
-    case LIBINPUT_TABLET_TOOL_TYPE_PEN:
-        toolType = InputRedirection::Pen;
-        break;
-    case LIBINPUT_TABLET_TOOL_TYPE_ERASER:
-        toolType = InputRedirection::Eraser;
-        break;
-    case LIBINPUT_TABLET_TOOL_TYPE_BRUSH:
-        toolType = InputRedirection::Brush;
-        break;
-    case LIBINPUT_TABLET_TOOL_TYPE_PENCIL:
-        toolType = InputRedirection::Pencil;
-        break;
-    case LIBINPUT_TABLET_TOOL_TYPE_AIRBRUSH:
-        toolType = InputRedirection::Airbrush;
-        break;
-    case LIBINPUT_TABLET_TOOL_TYPE_MOUSE:
-        toolType = InputRedirection::Mouse;
-        break;
-    case LIBINPUT_TABLET_TOOL_TYPE_LENS:
-        toolType = InputRedirection::Lens;
-        break;
-    case LIBINPUT_TABLET_TOOL_TYPE_TOTEM:
-        toolType = InputRedirection::Totem;
-        break;
+#ifndef KWIN_BUILD_TESTING
+    if (event->device()->isMapToWorkspace()) {
+        return workspace()->geometry().topLeft() + event->transformedPosition(workspace()->geometry().size());
+    } else {
+        Output *output = event->device()->output();
+        if (!output) {
+            output = workspace()->activeOutput();
+        }
+        return devicePointToGlobalPosition(event->transformedPosition(output->modeSize()), output);
     }
-    QList<InputRedirection::Capability> capabilities;
-    if (libinput_tablet_tool_has_pressure(tool)) {
-        capabilities << InputRedirection::Pressure;
-    }
-    if (libinput_tablet_tool_has_distance(tool)) {
-        capabilities << InputRedirection::Distance;
-    }
-    if (libinput_tablet_tool_has_rotation(tool)) {
-        capabilities << InputRedirection::Rotation;
-    }
-    if (libinput_tablet_tool_has_tilt(tool)) {
-        capabilities << InputRedirection::Tilt;
-    }
-    if (libinput_tablet_tool_has_slider(tool)) {
-        capabilities << InputRedirection::Slider;
-    }
-    if (libinput_tablet_tool_has_wheel(tool)) {
-        capabilities << InputRedirection::Wheel;
-    }
-    return {dev->sysName(), toolType, capabilities, serial, toolId, dev->groupUserData(), dev->name()};
+#else
+    return QPointF();
+#endif
 }
 
-static TabletPadId createTabletPadId(LibInput::Device *device)
+TabletTool *Connection::getOrCreateTool(libinput_tablet_tool *handle)
 {
-    if (!device || !device->groupUserData()) {
-        return {};
+    for (TabletTool *tool : std::as_const(m_tools)) {
+        if (tool->handle() == handle) {
+            return tool;
+        }
     }
 
-    return {
-        device->name(),
-        device->groupUserData(),
-    };
+    auto tool = new TabletTool(handle);
+    tool->moveToThread(thread());
+    m_tools.append(tool);
+
+    return tool;
 }
 
 void Connection::processEvents()
@@ -314,11 +283,12 @@ void Connection::processEvents()
         case LIBINPUT_EVENT_POINTER_SCROLL_WHEEL: {
             const PointerEvent *pointerEvent = static_cast<PointerEvent *>(event.get());
             const auto axes = pointerEvent->axis();
-            for (const InputRedirection::PointerAxis &axis : axes) {
+            for (const PointerAxis &axis : axes) {
                 Q_EMIT pointerEvent->device()->pointerAxisChanged(axis,
                                                                   pointerEvent->scrollValue(axis),
                                                                   pointerEvent->scrollValueV120(axis),
-                                                                  InputRedirection::PointerAxisSourceWheel,
+                                                                  PointerAxisSource::Wheel,
+                                                                  pointerEvent->device()->isNaturalScroll(),
                                                                   pointerEvent->time(),
                                                                   pointerEvent->device());
             }
@@ -328,11 +298,12 @@ void Connection::processEvents()
         case LIBINPUT_EVENT_POINTER_SCROLL_FINGER: {
             const PointerEvent *pointerEvent = static_cast<PointerEvent *>(event.get());
             const auto axes = pointerEvent->axis();
-            for (const InputRedirection::PointerAxis &axis : axes) {
+            for (const PointerAxis &axis : axes) {
                 Q_EMIT pointerEvent->device()->pointerAxisChanged(axis,
                                                                   pointerEvent->scrollValue(axis),
                                                                   0,
-                                                                  InputRedirection::PointerAxisSourceFinger,
+                                                                  PointerAxisSource::Finger,
+                                                                  pointerEvent->device()->isNaturalScroll(),
                                                                   pointerEvent->time(),
                                                                   pointerEvent->device());
             }
@@ -342,11 +313,12 @@ void Connection::processEvents()
         case LIBINPUT_EVENT_POINTER_SCROLL_CONTINUOUS: {
             const PointerEvent *pointerEvent = static_cast<PointerEvent *>(event.get());
             const auto axes = pointerEvent->axis();
-            for (const InputRedirection::PointerAxis &axis : axes) {
+            for (const PointerAxis &axis : axes) {
                 Q_EMIT pointerEvent->device()->pointerAxisChanged(axis,
                                                                   pointerEvent->scrollValue(axis),
                                                                   0,
-                                                                  InputRedirection::PointerAxisSourceContinuous,
+                                                                  PointerAxisSource::Continuous,
+                                                                  pointerEvent->device()->isNaturalScroll(),
                                                                   pointerEvent->time(),
                                                                   pointerEvent->device());
             }
@@ -490,71 +462,78 @@ void Connection::processEvents()
         }
         case LIBINPUT_EVENT_SWITCH_TOGGLE: {
             SwitchEvent *se = static_cast<SwitchEvent *>(event.get());
-            switch (se->state()) {
-            case SwitchEvent::State::Off:
-                Q_EMIT se->device()->switchToggledOff(se->time(), se->device());
-                break;
-            case SwitchEvent::State::On:
-                Q_EMIT se->device()->switchToggledOn(se->time(), se->device());
-                break;
-            default:
-                Q_UNREACHABLE();
-            }
+            Q_EMIT se->device()->switchToggle(se->state(), se->time(), se->device());
             break;
         }
-        case LIBINPUT_EVENT_TABLET_TOOL_AXIS:
-        case LIBINPUT_EVENT_TABLET_TOOL_PROXIMITY:
+        case LIBINPUT_EVENT_TABLET_TOOL_AXIS: {
+            auto *tte = static_cast<TabletToolEvent *>(event.get());
+            if (libinput_tablet_tool_config_pressure_range_is_available(tte->tool())) {
+                tte->device()->setSupportsPressureRange(true);
+                libinput_tablet_tool_config_pressure_range_set(tte->tool(), tte->device()->pressureRangeMin(), tte->device()->pressureRangeMax());
+            }
+            Q_EMIT event->device()->tabletToolAxisEvent(tabletToolPosition(tte),
+                                                        tte->device()->pressureCurve().valueForProgress(tte->pressure()),
+                                                        tte->xTilt(),
+                                                        tte->yTilt(),
+                                                        tte->rotation(),
+                                                        tte->distance(),
+                                                        tte->isTipDown(),
+                                                        tte->isNearby(),
+                                                        getOrCreateTool(tte->tool()),
+                                                        tte->time(),
+                                                        tte->device());
+            break;
+        }
+        case LIBINPUT_EVENT_TABLET_TOOL_PROXIMITY: {
+            auto *tte = static_cast<TabletToolEvent *>(event.get());
+            if (libinput_tablet_tool_config_pressure_range_is_available(tte->tool())) {
+                tte->device()->setSupportsPressureRange(true);
+                libinput_tablet_tool_config_pressure_range_set(tte->tool(), tte->device()->pressureRangeMin(), tte->device()->pressureRangeMax());
+            }
+            Q_EMIT event->device()->tabletToolProximityEvent(tabletToolPosition(tte),
+                                                             tte->device()->pressureCurve().valueForProgress(tte->pressure()),
+                                                             tte->xTilt(),
+                                                             tte->yTilt(),
+                                                             tte->rotation(),
+                                                             tte->distance(),
+                                                             tte->isTipDown(),
+                                                             tte->isNearby(),
+                                                             getOrCreateTool(tte->tool()),
+                                                             tte->time(),
+                                                             tte->device());
+            break;
+        }
         case LIBINPUT_EVENT_TABLET_TOOL_TIP: {
             auto *tte = static_cast<TabletToolEvent *>(event.get());
-
-            KWin::InputRedirection::TabletEventType tabletEventType;
-            switch (event->type()) {
-            case LIBINPUT_EVENT_TABLET_TOOL_AXIS:
-                tabletEventType = KWin::InputRedirection::Axis;
-                break;
-            case LIBINPUT_EVENT_TABLET_TOOL_PROXIMITY:
-                tabletEventType = KWin::InputRedirection::Proximity;
-                break;
-            case LIBINPUT_EVENT_TABLET_TOOL_TIP:
-            default:
-                tabletEventType = KWin::InputRedirection::Tip;
-                break;
+            if (libinput_tablet_tool_config_pressure_range_is_available(tte->tool())) {
+                tte->device()->setSupportsPressureRange(true);
+                libinput_tablet_tool_config_pressure_range_set(tte->tool(), tte->device()->pressureRangeMin(), tte->device()->pressureRangeMax());
             }
-
-            if (workspace()) {
-#ifndef KWIN_BUILD_TESTING
-                QPointF globalPos;
-                if (tte->device()->isMapToWorkspace()) {
-                    globalPos = workspace()->geometry().topLeft() + tte->transformedPosition(workspace()->geometry().size());
-                } else {
-                    Output *output = tte->device()->output();
-                    if (!output) {
-                        output = workspace()->activeOutput();
-                    }
-                    globalPos = devicePointToGlobalPosition(tte->transformedPosition(output->modeSize()), output);
-                }
-#else
-                const QPointF globalPos;
-#endif
-                Q_EMIT event->device()->tabletToolEvent(tabletEventType,
-                                                        globalPos, tte->pressure(),
-                                                        tte->xTilt(), tte->yTilt(), tte->rotation(),
-                                                        tte->isTipDown(), tte->isNearby(), createTabletId(tte->tool(), event->device()), tte->time());
-            }
+            Q_EMIT event->device()->tabletToolTipEvent(tabletToolPosition(tte),
+                                                       tte->device()->pressureCurve().valueForProgress(tte->pressure()),
+                                                       tte->xTilt(),
+                                                       tte->yTilt(),
+                                                       tte->rotation(),
+                                                       tte->distance(),
+                                                       tte->isTipDown(),
+                                                       tte->isNearby(),
+                                                       getOrCreateTool(tte->tool()),
+                                                       tte->time(),
+                                                       tte->device());
             break;
         }
         case LIBINPUT_EVENT_TABLET_TOOL_BUTTON: {
             auto *tabletEvent = static_cast<TabletToolButtonEvent *>(event.get());
             Q_EMIT event->device()->tabletToolButtonEvent(tabletEvent->buttonId(),
                                                           tabletEvent->isButtonPressed(),
-                                                          createTabletId(tabletEvent->tool(), event->device()), tabletEvent->time());
+                                                          getOrCreateTool(tabletEvent->tool()), tabletEvent->time(), tabletEvent->device());
             break;
         }
         case LIBINPUT_EVENT_TABLET_PAD_BUTTON: {
             auto *tabletEvent = static_cast<TabletPadButtonEvent *>(event.get());
             Q_EMIT event->device()->tabletPadButtonEvent(tabletEvent->buttonId(),
                                                          tabletEvent->isButtonPressed(),
-                                                         createTabletPadId(event->device()), tabletEvent->time());
+                                                         tabletEvent->time(), tabletEvent->device());
             break;
         }
         case LIBINPUT_EVENT_TABLET_PAD_RING: {
@@ -563,7 +542,7 @@ void Connection::processEvents()
             Q_EMIT event->device()->tabletPadRingEvent(tabletEvent->number(),
                                                        tabletEvent->position(),
                                                        tabletEvent->source() == LIBINPUT_TABLET_PAD_RING_SOURCE_FINGER,
-                                                       createTabletPadId(event->device()), tabletEvent->time());
+                                                       tabletEvent->time(), tabletEvent->device());
             break;
         }
         case LIBINPUT_EVENT_TABLET_PAD_STRIP: {
@@ -571,7 +550,7 @@ void Connection::processEvents()
             Q_EMIT event->device()->tabletPadStripEvent(tabletEvent->number(),
                                                         tabletEvent->position(),
                                                         tabletEvent->source() == LIBINPUT_TABLET_PAD_STRIP_SOURCE_FINGER,
-                                                        createTabletPadId(event->device()), tabletEvent->time());
+                                                        tabletEvent->time(), tabletEvent->device());
             break;
         }
         default:

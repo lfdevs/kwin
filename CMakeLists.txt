@@ -1,15 +1,15 @@
 cmake_minimum_required(VERSION 3.16)
 
-set(PROJECT_VERSION "6.2.5") # Handled by release scripts
+set(PROJECT_VERSION "6.2.90") # Handled by release scripts
 project(KWin VERSION ${PROJECT_VERSION})
 
 set(CMAKE_C_STANDARD 99)
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(PROJECT_DEP_VERSION "6.2.5")
+set(PROJECT_DEP_VERSION "6.2.90")
 set(QT_MIN_VERSION "6.7.0")
-set(KF6_MIN_VERSION "6.5.0")
+set(KF6_MIN_VERSION "6.10.0")
 set(KDE_COMPILERSETTINGS_LEVEL "5.82")
 
 find_package(ECM ${KF6_MIN_VERSION} REQUIRED NO_MODULE)
@@ -43,6 +43,7 @@ include(ECMSetupQtPluginMacroNames)
 include(ECMSetupVersion)
 include(ECMQmlModule)
 include(ECMGenerateQmlTypes)
+include(ECMDeprecationSettings)
 
 option(KWIN_BUILD_DECORATIONS "Enable building of KWin decorations." ON)
 option(KWIN_BUILD_KCMS "Enable building of KWin configuration modules." ON)
@@ -157,11 +158,7 @@ set_package_properties(Plasma PROPERTIES
     TYPE RUNTIME
 )
 
-find_package(KDecoration2 ${PROJECT_DEP_VERSION} CONFIG)
-set_package_properties(KDecoration2 PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Required for server side decoration support"
-)
+find_package(KDecoration3 ${PROJECT_DEP_VERSION} CONFIG REQUIRED)
 
 find_package(Breeze 5.9.0 CONFIG)
 set_package_properties(Breeze PROPERTIES
@@ -211,8 +208,13 @@ if (Wayland_VERSION VERSION_GREATER_EQUAL 1.23)
 else()
     set(HAVE_WL_DISPLAY_SET_DEFAULT_MAX_BUFFER_SIZE 0)
 endif()
+if (Wayland_VERSION VERSION_GREATER_EQUAL 1.23.90)
+    set(HAVE_WL_FIXES 1)
+else()
+    set(HAVE_WL_FIXES 0)
+endif()
 
-find_package(WaylandProtocols 1.36)
+find_package(WaylandProtocols 1.38)
 set_package_properties(WaylandProtocols PROPERTIES
     TYPE REQUIRED
     PURPOSE "Collection of Wayland protocols that add functionality not available in the Wayland core protocol"
@@ -273,14 +275,13 @@ if (KWIN_BUILD_X11)
         TYPE OPTIONAL
     )
 
-    find_package(Xwayland)
+    find_package(Xwayland 23.1.0)
     set_package_properties(Xwayland PROPERTIES
         URL "https://x.org"
         DESCRIPTION "Xwayland X server"
         TYPE RUNTIME
         PURPOSE "Needed for running kwin_wayland"
     )
-    set(HAVE_XWAYLAND_LISTENFD ${Xwayland_HAVE_LISTENFD})
     set(HAVE_XWAYLAND_ENABLE_EI_PORTAL ${Xwayland_HAVE_ENABLE_EI_PORTAL})
 
     set(HAVE_GLX ${epoxy_HAS_GLX})
@@ -307,8 +308,13 @@ else()
     set(KWIN_BUILD_X11_BACKEND OFF CACHE BOOL "Enable building kwin_x11" FORCE)
 endif()
 
-find_package(Libinput 1.19)
+find_package(Libinput 1.26)
 set_package_properties(Libinput PROPERTIES TYPE REQUIRED PURPOSE "Required for input handling on Wayland.")
+if (Libinput_VERSION VERSION_GREATER_EQUAL 1.27)
+    set(HAVE_LIBINPUT_INPUT_AREA 1)
+else()
+    set(HAVE_LIBINPUT_INPUT_AREA 0)
+endif()
 
 find_package(Libeis-1.0)
 set_package_properties(Libeis PROPERTIES TYPE OPTIONAL PURPOSE "Required for emulated input handling.")
@@ -394,13 +400,10 @@ if(KWIN_BUILD_GLOBALSHORTCUTS)
     find_package(KGlobalAccelD REQUIRED)
 endif()
 
-pkg_check_modules(libdisplayinfo IMPORTED_TARGET display-info)
-if (NOT libdisplayinfo_FOUND)
-    pkg_check_modules(libdisplayinfo REQUIRED IMPORTED_TARGET libdisplay-info)
-endif()
+pkg_check_modules(libdisplayinfo REQUIRED IMPORTED_TARGET libdisplay-info>=0.2.0)
 add_feature_info(libdisplayinfo libdisplayinfo_FOUND "EDID and DisplayID library: https://gitlab.freedesktop.org/emersion/libdisplay-info")
 
-pkg_check_modules(PipeWire IMPORTED_TARGET libpipewire-0.3>=0.3.65)
+pkg_check_modules(PipeWire IMPORTED_TARGET libpipewire-0.3>=1.2.0)
 add_feature_info(PipeWire PipeWire_FOUND "Required for Wayland screencasting")
 
 if (KWIN_BUILD_NOTIFICATIONS)
@@ -475,7 +478,6 @@ if (COMPILER_UNUSED_PARAMETER_SUPPORTED)
 endif()
 
 add_definitions(
-    -DQT_DISABLE_DEPRECATED_BEFORE=0
     -DQT_NO_KEYWORDS
     -DQT_USE_QSTRINGBUILDER
     -DQT_NO_URL_CAST_FROM_STRING
@@ -486,6 +488,10 @@ add_definitions(
     -DMESA_EGL_NO_X11_HEADERS
     -DEGL_NO_X11
     -DEGL_NO_PLATFORM_SPECIFIC_TYPES
+)
+
+ecm_set_disabled_deprecation_versions(QT 5.15
+    KF 6.9.0
 )
 
 ecm_setup_qtplugin_macro_names(

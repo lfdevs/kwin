@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "kwin_export.h"
+#include "core/inputdevice.h"
 
 #include <QList>
 #include <QObject>
@@ -30,8 +30,6 @@ class InputPanelV1InterfacePrivate;
 class InputPanelSurfaceV1InterfacePrivate;
 class InputMethodGrabV1;
 class InputKeyboardV1InterfacePrivate;
-
-enum class KeyboardKeyState : quint32;
 
 // This file's classes implment input_method_unstable_v1
 

@@ -34,13 +34,19 @@ public:
      */
     Q_INVOKABLE void moveByPixels(const QPointF &delta);
     Q_INVOKABLE void remove();
-    Q_INVOKABLE void split(KWin::Tile::LayoutDirection newDirection);
+    /**
+     * Splits the current tile, either creating two children or a new sibling
+     * @returns the two new tiles created by splitting this one
+     */
+    Q_INVOKABLE QList<CustomTile *> split(KWin::Tile::LayoutDirection newDirection);
 
     void setLayoutDirection(Tile::LayoutDirection dir);
     // Own direction
     Tile::LayoutDirection layoutDirection() const;
 
     CustomTile *nextTileAt(Qt::Edge edge) const;
+
+    CustomTile *nextNonLayoutTileAt(Qt::Edge edge) const;
 
 Q_SIGNALS:
     void layoutDirectionChanged(Tile::LayoutDirection direction);

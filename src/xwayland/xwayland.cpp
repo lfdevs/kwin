@@ -364,17 +364,17 @@ public:
         }
     }
 
-    bool keyEvent(KWin::KeyEvent *event) override
+    bool keyboardKey(KWin::KeyboardKeyEvent *event) override
     {
         ClientConnection *xwaylandClient = waylandServer()->xWaylandConnection();
         if (!xwaylandClient) {
             return false;
         }
-        if (event->isAutoRepeat()) {
+        if (event->state == KeyboardKeyState::Repeated) {
             return false;
         }
 
-        if (!m_filterKey || !m_filterKey(event->key(), event->modifiers())) {
+        if (!m_filterKey || !m_filterKey(event->key, event->modifiers)) {
             return false;
         }
 
@@ -388,14 +388,13 @@ public:
             }
         }
 
-        KeyboardKeyState state{event->type() == QEvent::KeyPress};
-        if (!updateKey(event->nativeScanCode(), state)) {
+        if (!updateKey(event->nativeScanCode, event->state)) {
             return false;
         }
 
         auto xkb = input()->keyboard()->xkb();
 
-        keyboard->sendKey(event->nativeScanCode(), state, xwaylandClient);
+        keyboard->sendKey(event->nativeScanCode, event->state, xwaylandClient);
 
         bool changed = false;
         if (m_modifiers.depressed != xkb->modifierState().depressed) {
@@ -426,17 +425,13 @@ public:
         return false;
     }
 
-    bool pointerEvent(KWin::MouseEvent *event, quint32 nativeButton) override
+    bool pointerButton(KWin::PointerButtonEvent *event) override
     {
-
         ClientConnection *xwaylandClient = waylandServer()->xWaylandConnection();
         if (!xwaylandClient) {
             return false;
         }
         if (!m_filterMouse) {
-            return false;
-        }
-        if (event->type() != QEvent::MouseButtonPress && event->type() != QEvent::MouseButtonRelease) {
             return false;
         }
 
@@ -450,8 +445,7 @@ public:
             }
         }
 
-        PointerButtonState state{event->type() == QEvent::MouseButtonPress};
-        pointer->sendButton(event->nativeButton(), state, xwaylandClient);
+        pointer->sendButton(event->nativeButton, event->state, xwaylandClient);
         return false;
     }
 
@@ -485,7 +479,7 @@ Xwayland::Xwayland(Application *app)
     : m_app(app)
     , m_launcher(new XwaylandLauncher(this))
 {
-    connect(m_launcher, &XwaylandLauncher::started, this, &Xwayland::handleXwaylandReady);
+    connect(m_launcher, &XwaylandLauncher::ready, this, &Xwayland::handleXwaylandReady);
     connect(m_launcher, &XwaylandLauncher::finished, this, &Xwayland::handleXwaylandFinished);
     connect(m_launcher, &XwaylandLauncher::errorOccurred, this, &Xwayland::errorOccurred);
 }
@@ -678,7 +672,7 @@ void Xwayland::updatePrimary()
 
 bool Xwayland::createX11Connection()
 {
-    xcb_connection_t *connection = xcb_connect_to_fd(m_launcher->xcbConnectionFd(), nullptr);
+    xcb_connection_t *connection = xcb_connect_to_fd(m_launcher->takeXcbConnectionFd().take(), nullptr);
 
     const int errorCode = xcb_connection_has_error(connection);
     if (errorCode) {

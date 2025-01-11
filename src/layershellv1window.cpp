@@ -6,6 +6,7 @@
 
 #include "layershellv1window.h"
 #include "core/output.h"
+#include "core/pixelgrid.h"
 #include "layershellv1integration.h"
 #include "screenedge.h"
 #include "wayland/layershell_v1.h"
@@ -76,6 +77,12 @@ LayerShellV1Window::LayerShellV1Window(LayerSurfaceV1Interface *shellSurface,
             this, &LayerShellV1Window::scheduleRearrange);
     connect(shellSurface, &LayerSurfaceV1Interface::acceptsFocusChanged,
             this, &LayerShellV1Window::handleAcceptsFocusChanged);
+    connect(shellSurface, &LayerSurfaceV1Interface::configureAcknowledged,
+            this, &LayerShellV1Window::handleConfigureAcknowledged);
+
+    m_rescalingTimer.setSingleShot(true);
+    m_rescalingTimer.setInterval(0);
+    connect(&m_rescalingTimer, &QTimer::timeout, this, &LayerShellV1Window::handleTargetScaleChange);
 }
 
 LayerSurfaceV1Interface *LayerShellV1Window::shellSurface() const
@@ -200,8 +207,10 @@ void LayerShellV1Window::destroyWindow()
     m_desiredOutput->disconnect(this);
 
     markAsDeleted();
-    cleanTabBox();
     Q_EMIT closed();
+
+    m_rescalingTimer.stop();
+    cleanTabBox();
     StackingUpdatesBlocker blocker(workspace());
     cleanGrouping();
     waylandServer()->removeWindow(this);
@@ -239,9 +248,17 @@ bool LayerShellV1Window::acceptsFocus() const
 
 void LayerShellV1Window::moveResizeInternal(const QRectF &rect, MoveResizeMode mode)
 {
-    const QSizeF requestedClientSize = frameSizeToClientSize(rect.size());
-    if (requestedClientSize != clientSize()) {
-        m_shellSurface->sendConfigure(rect.size().toSize());
+    const QSize requestedClientSize = nextFrameSizeToClientSize(rect.size()).toSize();
+
+    if (!m_configureEvents.isEmpty()) {
+        const LayerShellV1ConfigureEvent &lastLayerShellV1ConfigureEvent = m_configureEvents.constLast();
+        if (lastLayerShellV1ConfigureEvent.size != requestedClientSize) {
+            const quint32 serial = m_shellSurface->sendConfigure(requestedClientSize);
+            m_configureEvents.append({serial, requestedClientSize});
+        }
+    } else if (requestedClientSize != clientSize()) {
+        const quint32 serial = m_shellSurface->sendConfigure(requestedClientSize);
+        m_configureEvents.append({serial, requestedClientSize});
     } else {
         updateGeometry(rect);
         return;
@@ -253,12 +270,14 @@ void LayerShellV1Window::moveResizeInternal(const QRectF &rect, MoveResizeMode m
     updateGeometry(updateRect);
 }
 
-void LayerShellV1Window::doSetPreferredBufferScale()
+void LayerShellV1Window::doSetNextTargetScale()
 {
     if (isDeleted()) {
         return;
     }
-    surface()->setPreferredBufferScale(preferredBufferScale());
+    surface()->setPreferredBufferScale(nextTargetScale());
+    setTargetScale(nextTargetScale());
+    m_rescalingTimer.start();
 }
 
 void LayerShellV1Window::doSetPreferredBufferTransform()
@@ -275,6 +294,16 @@ void LayerShellV1Window::doSetPreferredColorDescription()
         return;
     }
     surface()->setPreferredColorDescription(preferredColorDescription());
+}
+
+void LayerShellV1Window::handleConfigureAcknowledged(quint32 serial)
+{
+    while (!m_configureEvents.isEmpty()) {
+        const LayerShellV1ConfigureEvent head = m_configureEvents.takeFirst();
+        if (head.serial == serial) {
+            break;
+        }
+    }
 }
 
 void LayerShellV1Window::handleSizeChanged()
@@ -377,6 +406,11 @@ void LayerShellV1Window::deactivateScreenEdge()
 {
     m_screenEdgeActive = false;
     unreserveScreenEdge();
+}
+
+void LayerShellV1Window::handleTargetScaleChange()
+{
+    moveResize(snapToPixels(m_moveResizeGeometry, m_targetScale));
 }
 
 } // namespace KWin

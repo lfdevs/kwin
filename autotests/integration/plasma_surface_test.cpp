@@ -56,12 +56,10 @@ private:
 void PlasmaSurfaceTest::initTestCase()
 {
     qRegisterMetaType<KWin::Window *>();
-    QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
     Test::setOutputConfig({QRect(0, 0, 1280, 1024)});
 
     kwinApp()->start();
-    QVERIFY(applicationStartedSpy.wait());
 }
 
 void PlasmaSurfaceTest::init()
@@ -215,6 +213,7 @@ void PlasmaSurfaceTest::testOSDPlacementManualPosition()
     plasmaSurface->setRole(KWayland::Client::PlasmaShellSurface::Role::OnScreenDisplay);
 
     plasmaSurface->setPosition(QPoint(50, 70));
+    surface->commit(KWayland::Client::Surface::CommitFlag::None);
 
     std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get()));
     QVERIFY(shellSurface != nullptr);

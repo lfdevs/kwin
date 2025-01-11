@@ -210,6 +210,18 @@ void PointerInterface::sendLeave(quint32 serial)
     Q_EMIT focusedSurfaceChanged();
 }
 
+static quint32 pointerButtonStateToWaylandState(PointerButtonState state)
+{
+    switch (state) {
+    case PointerButtonState::Pressed:
+        return WL_POINTER_BUTTON_STATE_PRESSED;
+    case PointerButtonState::Released:
+        return WL_POINTER_BUTTON_STATE_RELEASED;
+    }
+
+    Q_UNREACHABLE();
+}
+
 void PointerInterface::sendButton(quint32 button, PointerButtonState state, quint32 serial)
 {
     if (!d->focusedSurface) {
@@ -217,17 +229,19 @@ void PointerInterface::sendButton(quint32 button, PointerButtonState state, quin
     }
 
     const auto pointerResources = d->pointersForClient(d->focusedSurface->client());
+    const quint32 waylandState = pointerButtonStateToWaylandState(state);
     for (PointerInterfacePrivate::Resource *resource : pointerResources) {
-        d->send_button(resource->handle, serial, d->seat->timestamp().count(), button, quint32(state));
+        d->send_button(resource->handle, serial, d->seat->timestamp().count(), button, waylandState);
     }
 }
 
 void PointerInterface::sendButton(quint32 button, PointerButtonState state, ClientConnection *client)
 {
     const auto pointerResources = d->pointersForClient(client);
+    const quint32 waylandState = pointerButtonStateToWaylandState(state);
     const quint32 serial = d->seat->display()->nextSerial();
     for (PointerInterfacePrivate::Resource *resource : pointerResources) {
-        d->send_button(resource->handle, serial, d->seat->timestamp().count(), button, quint32(state));
+        d->send_button(resource->handle, serial, d->seat->timestamp().count(), button, waylandState);
     }
 }
 
@@ -264,7 +278,7 @@ static void updateAccumulators(Qt::Orientation orientation, qreal delta, qint32 
     }
 }
 
-void PointerInterface::sendAxis(Qt::Orientation orientation, qreal delta, qint32 deltaV120, PointerAxisSource source, PointerAxisRelativeDirection direction)
+void PointerInterface::sendAxis(Qt::Orientation orientation, qreal delta, qint32 deltaV120, PointerAxisSource source, bool inverted)
 {
     if (!d->focusedSurface) {
         return;
@@ -317,7 +331,7 @@ void PointerInterface::sendAxis(Qt::Orientation orientation, qreal delta, qint32
 
         if (delta) {
             if (version >= WL_POINTER_AXIS_RELATIVE_DIRECTION_SINCE_VERSION) {
-                auto wlRelativeDirection = direction == PointerAxisRelativeDirection::Normal ? PointerInterfacePrivate::axis_relative_direction_identical : PointerInterfacePrivate::axis_relative_direction_inverted;
+                auto wlRelativeDirection = inverted ? PointerInterfacePrivate::axis_relative_direction_inverted : PointerInterfacePrivate::axis_relative_direction_identical;
 
                 d->send_axis_relative_direction(resource->handle, wlOrientation, wlRelativeDirection);
             }

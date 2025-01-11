@@ -55,7 +55,7 @@ public:
     ~KeyEvent() override;
 
     uint32_t key() const;
-    InputRedirection::KeyboardKeyState state() const;
+    KeyboardKeyState state() const;
     std::chrono::microseconds time() const;
 
     operator libinput_event_keyboard *()
@@ -82,11 +82,11 @@ public:
     QPointF delta() const;
     QPointF deltaUnaccelerated() const;
     uint32_t button() const;
-    InputRedirection::PointerButtonState buttonState() const;
+    PointerButtonState buttonState() const;
     std::chrono::microseconds time() const;
-    QList<InputRedirection::PointerAxis> axis() const;
-    qreal scrollValue(InputRedirection::PointerAxis a) const;
-    qint32 scrollValueV120(InputRedirection::PointerAxis axis) const;
+    QList<PointerAxis> axis() const;
+    qreal scrollValue(PointerAxis a) const;
+    qint32 scrollValueV120(PointerAxis axis) const;
 
     operator libinput_event_pointer *()
     {
@@ -181,11 +181,7 @@ public:
     SwitchEvent(libinput_event *event, libinput_event_type type);
     ~SwitchEvent() override;
 
-    enum class State {
-        Off,
-        On
-    };
-    State state() const;
+    SwitchState state() const;
 
     std::chrono::microseconds time() const;
 
@@ -262,11 +258,11 @@ public:
     {
         return libinput_event_tablet_tool_get_distance(m_tabletToolEvent);
     }
-    int xTilt() const
+    qreal xTilt() const
     {
         return libinput_event_tablet_tool_get_tilt_x(m_tabletToolEvent);
     }
-    int yTilt() const
+    qreal yTilt() const
     {
         return libinput_event_tablet_tool_get_tilt_y(m_tabletToolEvent);
     }

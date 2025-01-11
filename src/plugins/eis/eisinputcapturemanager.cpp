@@ -19,6 +19,10 @@
 #include "workspace.h"
 #include "xkb.h"
 
+#include <KGlobalAccel>
+#include <KLocalizedString>
+
+#include <QAction>
 #include <QDBusConnection>
 #include <QDBusMessage>
 #include <QDBusMetaType>
@@ -29,6 +33,8 @@
 namespace KWin
 {
 
+constexpr QKeyCombination defaultDisableKeys{Qt::META | Qt::SHIFT, Qt::Key_Escape};
+
 class BarrierSpy : public InputEventSpy
 {
 public:
@@ -36,7 +42,7 @@ public:
         : manager(manager)
     {
     }
-    void pointerEvent(KWin::MouseEvent *event) override
+    void pointerMotion(KWin::PointerMotionEvent *event) override
     {
         if (manager->activeCapture()) {
             return;
@@ -45,20 +51,28 @@ public:
             for (const auto &barrier : capture->barriers()) {
                 // Detect the user trying to move out of the workArea and across the barrier:
                 // Both current and previous positions are on the barrier but there was an orthogonal delta
-                if (barrier.hitTest(event->pos()) && barrier.hitTest(previousPos) && ((barrier.orientation == Qt::Vertical && event->delta().x() != 0) || (barrier.orientation == Qt::Horizontal && event->delta().y() != 0))) {
+                if (barrier.hitTest(event->position) && barrier.hitTest(previousPos) && ((barrier.orientation == Qt::Vertical && event->delta.x() != 0) || (barrier.orientation == Qt::Horizontal && event->delta.y() != 0))) {
                     qCDebug(KWIN_INPUTCAPTURE) << "Activating input capture, crossing"
                                                << "barrier(" << barrier.orientation << barrier.position << "[" << barrier.start << "," << barrier.end << "])"
-                                               << "at" << event->pos() << "with" << event->delta();
-                    manager->barrierHit(capture.get(), event->pos() + event->delta());
+                                               << "at" << event->position << "with" << event->delta;
+                    manager->barrierHit(capture.get(), event->position + event->delta);
                     break;
                 }
             }
         }
-        previousPos = event->pos();
+        previousPos = event->position;
     }
-    void keyEvent(KWin::KeyEvent *event) override
+    void keyboardKey(KWin::KeyboardKeyEvent *event) override
     {
-        if (manager->activeCapture() && event->key() == Qt::Key_Escape && event->modifiers() == (Qt::ControlModifier | Qt::ShiftModifier)) {
+        if (!manager->activeCapture()) {
+            return;
+        }
+        if (event->state != KeyboardKeyState::Pressed) {
+            return;
+        }
+        // Even if the user removed all sequences for this, we use the default one to have an escape hatch
+        auto disableKeySequence = KGlobalAccel::self()->shortcut(manager->m_disableCaptureAction).value(0, defaultDisableKeys)[0];
+        if (event->key == disableKeySequence.key() && event->modifiers == disableKeySequence.keyboardModifiers()) {
             manager->activeCapture()->disable();
         }
     }
@@ -66,10 +80,10 @@ public:
 private:
     QKeyCombination currentCombination;
     EisInputCaptureManager *manager;
-    QPoint previousPos;
+    QPointF previousPos;
 };
 
-bool EisInputCaptureBarrier::hitTest(const QPoint &point) const
+bool EisInputCaptureBarrier::hitTest(const QPointF &point) const
 {
     if (orientation == Qt::Vertical) {
         return point.x() == position && start <= point.y() && point.y() <= end;
@@ -103,6 +117,12 @@ EisInputCaptureManager::EisInputCaptureManager()
         });
         m_serviceWatcher->removeWatchedService(service);
     });
+
+    m_disableCaptureAction = new QAction(this);
+    m_disableCaptureAction->setProperty("componentName", QStringLiteral("kwin"));
+    m_disableCaptureAction->setObjectName(QStringLiteral("disableInputCapture"));
+    m_disableCaptureAction->setText(i18nc("@action shortcut", "Disable Active Input Capture"));
+    KGlobalAccel::setGlobalShortcut(m_disableCaptureAction, QKeySequence(defaultDisableKeys));
 
     QDBusConnection::sessionBus().registerObject("/org/kde/KWin/EIS/InputCapture", "org.kde.KWin.EIS.InputCaptureManager", this, QDBusConnection::ExportAllInvokables | QDBusConnection::ExportAllSignals);
 }

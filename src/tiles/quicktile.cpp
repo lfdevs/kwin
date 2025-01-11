@@ -17,7 +17,7 @@ QuickRootTile::QuickRootTile(TileManager *tiling, Tile *parentItem)
 {
     setPadding(0.0);
     setRelativeGeometry(QRectF(0, 0, 1, 1));
-    setQuickTileMode(QuickTileFlag::Maximize);
+    setQuickTileMode(QuickTileFlag::None);
 
     auto createTile = [this, &tiling](const QRectF &geometry, QuickTileMode tileMode) {
         Tile *tile = new Tile(tiling, this);
@@ -87,16 +87,12 @@ Tile *QuickRootTile::tileForMode(QuickTileMode mode)
 {
     switch (mode) {
     case QuickTileMode(QuickTileFlag::Left):
-    case QuickTileMode(QuickTileFlag::Left | QuickTileFlag::Vertical):
         return m_leftVerticalTile.get();
     case QuickTileMode(QuickTileFlag::Right):
-    case QuickTileMode(QuickTileFlag::Right | QuickTileFlag::Vertical):
         return m_rightVerticalTile.get();
     case QuickTileMode(QuickTileFlag::Top):
-    case QuickTileMode(QuickTileFlag::Top | QuickTileFlag::Horizontal):
         return m_topHorizontalTile.get();
     case QuickTileMode(QuickTileFlag::Bottom):
-    case QuickTileMode(QuickTileFlag::Bottom | QuickTileFlag::Horizontal):
         return m_bottomHorizontalTile.get();
     case QuickTileMode(QuickTileFlag::Left | QuickTileFlag::Top):
         return m_topLeftTile.get();
@@ -106,10 +102,6 @@ Tile *QuickRootTile::tileForMode(QuickTileMode mode)
         return m_bottomLeftTile.get();
     case QuickTileMode(QuickTileFlag::Right | QuickTileFlag::Bottom):
         return m_bottomRightTile.get();
-    case QuickTileMode(QuickTileFlag::Maximize):
-    case QuickTileMode(QuickTileFlag::Horizontal):
-    case QuickTileMode(QuickTileFlag::Vertical):
-        return this;
     default:
         return nullptr;
     }

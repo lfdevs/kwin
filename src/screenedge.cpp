@@ -48,11 +48,12 @@
 #include <QDBusPendingCall>
 #include <QFontDatabase>
 #include <QFontMetrics>
-#include <QMouseEvent>
 #include <QTextStream>
 #include <QTimer>
 #include <QWidget>
 #include <span>
+
+using namespace std::chrono_literals;
 
 namespace KWin
 {
@@ -258,12 +259,15 @@ bool Edge::activatesForPointer() const
     if (m_client) {
         return true;
     }
-    if (m_edges->isDesktopSwitching()) {
-        return true;
-    }
     const bool isMovingWindow = Workspace::self()->moveResizeWindow() && !Workspace::self()->moveResizeWindow()->isInteractiveResize();
-    if (m_edges->isDesktopSwitchingMovingClients() && isMovingWindow) {
-        return true;
+    if (m_edges->isDesktopSwitching() || (m_edges->isDesktopSwitchingMovingClients() && isMovingWindow)) {
+        const bool canSwitch = (isLeft() && VirtualDesktopManager::self()->toLeft(nullptr, options->isRollOverDesktops()) != VirtualDesktopManager::self()->currentDesktop())
+            || (isRight() && VirtualDesktopManager::self()->toRight(nullptr, options->isRollOverDesktops()) != VirtualDesktopManager::self()->currentDesktop())
+            || (isBottom() && VirtualDesktopManager::self()->below(nullptr, options->isRollOverDesktops()) != VirtualDesktopManager::self()->currentDesktop())
+            || (isTop() && VirtualDesktopManager::self()->above(nullptr, options->isRollOverDesktops()) != VirtualDesktopManager::self()->currentDesktop());
+        if (canSwitch) {
+            return true;
+        }
     }
     if (!m_callBacks.isEmpty()) {
         return true;
@@ -320,16 +324,16 @@ bool Edge::triggersFor(const QPoint &cursorPos) const
     return true;
 }
 
-bool Edge::check(const QPoint &cursorPos, const QDateTime &triggerTime, bool forceNoPushBack)
+bool Edge::check(const QPoint &cursorPos, const std::chrono::microseconds &triggerTime, bool forceNoPushBack)
 {
     if (!triggersFor(cursorPos)) {
         if ((cursorPos - m_triggeredPoint).manhattanLength() > DISTANCE_RESET) {
-            m_lastReset = QDateTime(); // invalidate
+            m_lastReset.reset();
         }
         return false;
     }
-    if (m_lastTrigger.isValid() && // still in cooldown
-        m_lastTrigger.msecsTo(triggerTime) < edges()->reActivationThreshold() - edges()->timeThreshold()) {
+    if (m_lastTrigger.has_value() && // still in cooldown
+        (triggerTime - m_lastTrigger.value()) < edges()->reActivationThreshold() - edges()->timeThreshold()) {
         // Reset the time, so the user has to actually keep the mouse still for this long to retrigger
         m_lastTrigger = triggerTime;
         return false;
@@ -347,27 +351,27 @@ bool Edge::check(const QPoint &cursorPos, const QDateTime &triggerTime, bool for
     return false;
 }
 
-void Edge::markAsTriggered(const QPoint &cursorPos, const QDateTime &triggerTime)
+void Edge::markAsTriggered(const QPoint &cursorPos, const std::chrono::microseconds &triggerTime)
 {
     m_lastTrigger = triggerTime;
-    m_lastReset = QDateTime(); // invalidate
+    m_lastReset.reset();
     m_triggeredPoint = cursorPos;
 }
 
-bool Edge::canActivate(const QPoint &cursorPos, const QDateTime &triggerTime)
+bool Edge::canActivate(const QPoint &cursorPos, const std::chrono::microseconds &triggerTime)
 {
     // we check whether either the timer has explicitly been invalidated (successful trigger) or is
     // bigger than the reactivation threshold (activation "aborted", usually due to moving away the cursor
     // from the corner after successful activation)
     // either condition means that "this is the first event in a new attempt"
-    if (!m_lastReset.isValid() || m_lastReset.msecsTo(triggerTime) > edges()->reActivationThreshold()) {
+    if (!m_lastReset.has_value() || (triggerTime - m_lastReset.value()) > edges()->reActivationThreshold()) {
         m_lastReset = triggerTime;
         return false;
     }
-    if (m_lastTrigger.isValid() && m_lastTrigger.msecsTo(triggerTime) < edges()->reActivationThreshold() - edges()->timeThreshold()) {
+    if (m_lastTrigger.has_value() && (triggerTime - m_lastTrigger.value()) < edges()->reActivationThreshold() - edges()->timeThreshold()) {
         return false;
     }
-    if (m_lastReset.msecsTo(triggerTime) < edges()->timeThreshold()) {
+    if ((triggerTime - m_lastReset.value()) < edges()->timeThreshold()) {
         return false;
     }
     // does the check on position make any sense at all?
@@ -818,9 +822,9 @@ void ScreenEdges::init()
 static ElectricBorderAction electricBorderAction(const QString &name)
 {
     QString lowerName = name.toLower();
-    if (lowerName == QStringLiteral("showdesktop")) {
+    if (lowerName == QLatin1StringView("showdesktop")) {
         return ElectricActionShowDesktop;
-    } else if (lowerName == QStringLiteral("lockscreen")) {
+    } else if (lowerName == QLatin1StringView("lockscreen")) {
         return ElectricActionLockScreen;
     } else if (lowerName == QLatin1String("krunner")) {
         return ElectricActionKRunner;
@@ -842,8 +846,8 @@ void ScreenEdges::reconfigure()
 
     // TODO: migrate settings to a group ScreenEdges
     KConfigGroup windowsConfig = m_config->group(QStringLiteral("Windows"));
-    setTimeThreshold(windowsConfig.readEntry("ElectricBorderDelay", 75));
-    setReActivationThreshold(std::max(timeThreshold() + 50, windowsConfig.readEntry("ElectricBorderCooldown", 350)));
+    setTimeThreshold(std::chrono::milliseconds(windowsConfig.readEntry("ElectricBorderDelay", 75)));
+    setReActivationThreshold(std::max(timeThreshold() + 50ms, std::chrono::milliseconds(windowsConfig.readEntry("ElectricBorderCooldown", 350))));
     int desktopSwitching = windowsConfig.readEntry("ElectricBorders", static_cast<int>(ElectricDisabled));
     if (desktopSwitching == ElectricDisabled) {
         setDesktopSwitching(false);
@@ -1420,7 +1424,7 @@ void ScreenEdges::deleteEdgeForClient(Window *window)
     m_edges.erase(it, m_edges.end());
 }
 
-void ScreenEdges::check(const QPoint &pos, const QDateTime &now, bool forceNoPushBack)
+void ScreenEdges::check(const QPoint &pos, const std::chrono::microseconds &now, bool forceNoPushBack)
 {
     bool activatedForClient = false;
     for (const auto &edge : m_edges) {
@@ -1455,11 +1459,8 @@ bool ScreenEdges::inApproachGeometry(const QPoint &pos) const
     return false;
 }
 
-bool ScreenEdges::isEntered(QMouseEvent *event)
+bool ScreenEdges::isEntered(const QPointF &pos, std::chrono::microseconds timestamp)
 {
-    if (event->type() != QEvent::MouseMove) {
-        return false;
-    }
     bool activated = false;
     bool activatedForClient = false;
     for (const auto &edge : m_edges) {
@@ -1478,11 +1479,11 @@ bool ScreenEdges::isEntered(QMouseEvent *event)
             }
             continue;
         }
-        if (edge->approachGeometry().contains(event->globalPos())) {
+        if (edge->approachGeometry().contains(pos.toPoint())) {
             if (!edge->isApproaching()) {
                 edge->startApproaching();
             } else {
-                edge->updateApproaching(event->globalPos());
+                edge->updateApproaching(pos);
             }
         } else {
             if (edge->isApproaching()) {
@@ -1490,7 +1491,7 @@ bool ScreenEdges::isEntered(QMouseEvent *event)
             }
         }
         // always send event to all edges so that they can update their state
-        if (edge->check(event->globalPos(), QDateTime::fromMSecsSinceEpoch(event->timestamp(), Qt::UTC))) {
+        if (edge->check(pos.toPoint(), timestamp)) {
             if (edge->client()) {
                 activatedForClient = true;
             }
@@ -1499,7 +1500,7 @@ bool ScreenEdges::isEntered(QMouseEvent *event)
     if (activatedForClient) {
         for (const auto &edge : m_edges) {
             if (edge->client()) {
-                edge->markAsTriggered(event->globalPos(), QDateTime::fromMSecsSinceEpoch(event->timestamp(), Qt::UTC));
+                edge->markAsTriggered(pos.toPoint(), timestamp);
             }
         }
     }
@@ -1507,7 +1508,7 @@ bool ScreenEdges::isEntered(QMouseEvent *event)
 }
 
 #if KWIN_BUILD_X11
-bool ScreenEdges::handleEnterNotifiy(xcb_window_t window, const QPoint &point, const QDateTime &timestamp)
+bool ScreenEdges::handleEnterNotifiy(xcb_window_t window, const QPoint &point, const std::chrono::microseconds &timestamp)
 {
     bool activated = false;
     bool activatedForClient = false;
@@ -1563,7 +1564,7 @@ bool ScreenEdges::handleDndNotify(xcb_window_t window, const QPoint &point)
         }
         if (edge->isReserved() && edge->window() == window) {
             kwinApp()->updateXTime();
-            edge->check(point, QDateTime::fromMSecsSinceEpoch(xTime(), Qt::UTC), true);
+            edge->check(point, std::chrono::milliseconds(xTime()), true);
             return true;
         }
     }

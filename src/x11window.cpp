@@ -18,7 +18,7 @@
 #include "client_machine.h"
 #include "compositor.h"
 #include "cursor.h"
-#include "decorations/decoratedclient.h"
+#include "decorations/decoratedwindow.h"
 #include "decorations/decorationbridge.h"
 #include "effect/effecthandler.h"
 #include "focuschain.h"
@@ -35,9 +35,10 @@
 #include "wayland/surface.h"
 #include "wayland_server.h"
 #include "workspace.h"
-#include <KDecoration2/DecoratedClient>
-#include <KDecoration2/Decoration>
+#include <KDecoration3/DecoratedWindow>
+#include <KDecoration3/Decoration>
 // KDE
+#include <KApplicationTrader>
 #include <KLocalizedString>
 #include <KStartupInfo>
 #include <KX11Extras>
@@ -166,7 +167,7 @@ const NET::WindowTypes SUPPORTED_UNMANAGED_WINDOW_TYPES_MASK = NET::NormalMask
     | NET::OnScreenDisplayMask
     | NET::CriticalNotificationMask;
 
-X11DecorationRenderer::X11DecorationRenderer(Decoration::DecoratedClientImpl *client)
+X11DecorationRenderer::X11DecorationRenderer(Decoration::DecoratedWindowImpl *client)
     : DecorationRenderer(client)
     , m_scheduleTimer(new QTimer(this))
     , m_gc(XCB_NONE)
@@ -282,7 +283,6 @@ X11Window::X11Window()
     , m_frame()
     , m_activityUpdatesBlocked(false)
     , m_blockedActivityUpdatesRequireTransients(false)
-    , m_moveResizeGrabWindow()
     , move_resize_has_keyboard_grab(false)
     , m_managed(false)
     , m_transientForId(XCB_WINDOW_NONE)
@@ -307,9 +307,11 @@ X11Window::X11Window()
 
     // TODO: Do all as initialization
     m_syncRequest.counter = m_syncRequest.alarm = XCB_NONE;
-    m_syncRequest.timeout = m_syncRequest.failsafeTimeout = nullptr;
+    m_syncRequest.timeout = nullptr;
     m_syncRequest.lastTimestamp = xTime();
-    m_syncRequest.isPending = false;
+    m_syncRequest.enabled = false;
+    m_syncRequest.pending = false;
+    m_syncRequest.acked = false;
     m_syncRequest.interactiveResize = false;
 
     // Set the initial mapping state
@@ -374,6 +376,14 @@ std::unique_ptr<WindowItem> X11Window::createItem(Item *parentItem)
     return std::make_unique<WindowItemX11>(this, parentItem);
 }
 
+void X11Window::doSetNextTargetScale()
+{
+    // the decoration will target the screen's scale,
+    // which may not be the same as Xwayland scale
+    // but there isn't really any other good option here
+    setTargetScale(nextTargetScale());
+}
+
 // Use destroyWindow() or releaseWindow(), Client instances cannot be deleted directly
 void X11Window::deleteClient(X11Window *c)
 {
@@ -412,7 +422,7 @@ void X11Window::releaseWindow(bool on_shutdown)
         if (isInteractiveMoveResize()) {
             Q_EMIT interactiveMoveResizeFinished();
         }
-        setTile(nullptr);
+        commitTile(nullptr);
         workspace()->rulebook()->discardUsed(this, true); // Remove ForceTemporarily rules
         StackingUpdatesBlocker blocker(workspace());
         stopDelayedInteractiveMoveResize();
@@ -460,9 +470,6 @@ void X11Window::releaseWindow(bool on_shutdown)
         ungrabXServer();
     }
 
-    if (m_syncRequest.failsafeTimeout) {
-        m_syncRequest.failsafeTimeout->stop();
-    }
     if (m_syncRequest.timeout) {
         m_syncRequest.timeout->stop();
     }
@@ -497,7 +504,7 @@ void X11Window::destroyWindow()
         if (isInteractiveMoveResize()) {
             Q_EMIT interactiveMoveResizeFinished();
         }
-        setTile(nullptr);
+        commitTile(nullptr);
         workspace()->rulebook()->discardUsed(this, true); // Remove ForceTemporarily rules
         StackingUpdatesBlocker blocker(workspace());
         stopDelayedInteractiveMoveResize();
@@ -516,9 +523,6 @@ void X11Window::destroyWindow()
         m_frame.reset();
     }
 
-    if (m_syncRequest.failsafeTimeout) {
-        m_syncRequest.failsafeTimeout->stop();
-    }
     if (m_syncRequest.timeout) {
         m_syncRequest.timeout->stop();
     }
@@ -582,7 +586,7 @@ bool X11Window::track(xcb_window_t w)
     }
 
     switch (kwinApp()->operationMode()) {
-    case Application::OperationModeXwayland:
+    case Application::OperationModeWayland:
         // The wayland surface is associated with the override-redirect window asynchronously.
         if (surface()) {
             associate();
@@ -595,8 +599,6 @@ bool X11Window::track(xcb_window_t w)
         // as ready for painting after synthetic 50ms delay.
         QTimer::singleShot(50, this, &X11Window::setReadyForPainting);
         break;
-    case Application::OperationModeWaylandOnly:
-        Q_UNREACHABLE();
     }
 
     return true;
@@ -659,6 +661,18 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
     getSyncCounter();
     setCaption(readName());
 
+    if (Compositor::compositing()) {
+        // Sending ConfigureNotify is done when setting mapping state below, getting the
+        // first sync response means window is ready for compositing.
+        //
+        // The sync request will block wl_surface commits, and with Xwayland, it is really
+        // important that wl_surfaces commits are blocked before the frame window is mapped.
+        // Otherwise Xwayland can attach a buffer before the sync request is acked.
+        sendSyncRequest();
+    } else {
+        ready_for_painting = true; // set to true in case compositing is turned on later
+    }
+
     setupWindowRules();
     connect(this, &X11Window::windowClassChanged, this, &X11Window::evaluateWindowRules);
 
@@ -680,6 +694,15 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
     QString desktopFileName = QString::fromUtf8(info->desktopFileName());
     if (desktopFileName.isEmpty()) {
         desktopFileName = QString::fromUtf8(info->gtkApplicationId());
+    }
+    if (desktopFileName.isEmpty()) {
+        // Fallback to StartupWMClass for legacy apps
+        const auto service = KApplicationTrader::query([this](const KService::Ptr &service) {
+            return service->property<QString>("StartupWMClass").compare(resourceName(), Qt::CaseInsensitive) == 0;
+        });
+        if (!service.isEmpty()) {
+            desktopFileName = service.constFirst()->desktopEntryName();
+        }
     }
     setDesktopFileName(rules()->checkDesktopFile(desktopFileName, true));
     getIcons();
@@ -1097,14 +1120,6 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
         workspace()->restoreSessionStackingOrder(this);
     }
 
-    if (Compositor::compositing()) {
-        // Sending ConfigureNotify is done when setting mapping state below,
-        // Getting the first sync response means window is ready for compositing
-        sendSyncRequest();
-    } else {
-        ready_for_painting = true; // set to true in case compositing is turned on later. bug #160393
-    }
-
     if (isShown()) {
         bool allow;
         if (session) {
@@ -1156,11 +1171,6 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
     m_managed = true;
     blockGeometryUpdates(false);
 
-    static bool awtQuirkDisabled = qEnvironmentVariableIntValue("KWIN_NO_AWT_QUIRK") == 1;
-    if (!awtQuirkDisabled) {
-        sendSyntheticConfigureNotify();
-    }
-
     if (m_userTime == XCB_TIME_CURRENT_TIME || m_userTime == -1U) {
         // No known user time, set something old
         m_userTime = xTime() - 1000000;
@@ -1195,7 +1205,7 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
     });
 
     switch (kwinApp()->operationMode()) {
-    case Application::OperationModeXwayland:
+    case Application::OperationModeWayland:
         // The wayland surface is associated with the window asynchronously.
         if (surface()) {
             associate();
@@ -1206,8 +1216,6 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
         break;
     case Application::OperationModeX11:
         break;
-    case Application::OperationModeWaylandOnly:
-        Q_UNREACHABLE();
     }
 
     return true;
@@ -1282,11 +1290,11 @@ void X11Window::updateInputWindow()
     QRegion region;
 
     if (decoration()) {
-        const QMargins &r = decoration()->resizeOnlyBorders();
-        const int left = r.left();
-        const int top = r.top();
-        const int right = r.right();
-        const int bottom = r.bottom();
+        const QMarginsF &r = decoration()->resizeOnlyBorders();
+        const qreal left = r.left();
+        const qreal top = r.top();
+        const qreal right = r.right();
+        const qreal bottom = r.bottom();
         if (left != 0 || top != 0 || right != 0 || bottom != 0) {
             region = QRegion(-left,
                              -top,
@@ -1358,19 +1366,14 @@ void X11Window::invalidateDecoration()
 
 void X11Window::createDecoration()
 {
-    std::shared_ptr<KDecoration2::Decoration> decoration(Workspace::self()->decorationBridge()->createDecoration(this));
+    std::shared_ptr<KDecoration3::Decoration> decoration(Workspace::self()->decorationBridge()->createDecoration(this));
     if (decoration) {
-        connect(decoration.get(), &KDecoration2::Decoration::resizeOnlyBordersChanged, this, [this]() {
+        connect(decoration.get(), &KDecoration3::Decoration::resizeOnlyBordersChanged, this, [this]() {
             if (!isDeleted()) {
                 updateInputWindow();
             }
         });
-        connect(decoration.get(), &KDecoration2::Decoration::bordersChanged, this, [this]() {
-            if (!isDeleted()) {
-                updateFrameExtents();
-            }
-        });
-        connect(decoration.get(), &KDecoration2::Decoration::bordersChanged, this, [this]() {
+        connect(decoration.get(), &KDecoration3::Decoration::bordersChanged, this, [this]() {
             if (isDeleted()) {
                 return;
             }
@@ -1378,10 +1381,18 @@ void X11Window::createDecoration()
             if (!isShade()) {
                 checkWorkspacePosition(oldGeometry);
             }
+            updateFrameExtents();
         });
-        connect(decoratedClient()->decoratedClient(), &KDecoration2::DecoratedClient::sizeChanged, this, [this]() {
+        connect(decoratedWindow()->decoratedWindow(), &KDecoration3::DecoratedWindow::sizeChanged, this, [this]() {
             if (!isDeleted()) {
                 updateInputWindow();
+            }
+        });
+
+        decoration->apply(decoration->nextState()->clone());
+        connect(decoration.get(), &KDecoration3::Decoration::nextStateChanged, this, [this](auto state) {
+            if (!isDeleted()) {
+                m_decoration.decoration->apply(state->clone());
             }
         });
     }
@@ -1407,8 +1418,8 @@ void X11Window::maybeCreateX11DecorationRenderer()
     if (kwinApp()->operationMode() != Application::OperationModeX11) {
         return;
     }
-    if (!Compositor::compositing() && decoratedClient()) {
-        m_decorationRenderer = std::make_unique<X11DecorationRenderer>(decoratedClient());
+    if (!Compositor::compositing() && decoratedWindow()) {
+        m_decorationRenderer = std::make_unique<X11DecorationRenderer>(decoratedWindow());
         decoration()->update();
     }
 }
@@ -1768,8 +1779,8 @@ void X11Window::doSetShade(ShadeMode previousShadeMode)
         }
     } else {
         shade_geometry_change = true;
-        if (decoratedClient()) {
-            decoratedClient()->signalShadeChange();
+        if (decoratedWindow()) {
+            decoratedWindow()->signalShadeChange();
         }
         QSizeF s(implicitSize());
         shade_geometry_change = false;
@@ -2521,35 +2532,16 @@ void X11Window::getIcons()
     setIcon(icon);
 }
 
-/**
- * Returns \c true if X11Client wants to throttle resizes; otherwise returns \c false.
- */
-bool X11Window::wantsSyncCounter() const
-{
-    if (!waylandServer()) {
-        return true;
-    }
-    // When the frame window is resized, the attached buffer will be destroyed by
-    // Xwayland, causing unexpected invalid previous and current window pixmaps.
-    // With the addition of multiple window buffers in Xwayland 1.21, X11 clients
-    // are no longer able to destroy the buffer after it's been committed and not
-    // released by the compositor yet.
-    static const quint32 xwaylandVersion = xcb_get_setup(kwinApp()->x11Connection())->release_number;
-    return xwaylandVersion >= 12100000;
-}
-
 void X11Window::getSyncCounter()
 {
     if (!Xcb::Extensions::self()->isSyncAvailable()) {
-        return;
-    }
-    if (!wantsSyncCounter()) {
         return;
     }
 
     Xcb::Property syncProp(false, window(), atoms->net_wm_sync_request_counter, XCB_ATOM_CARDINAL, 0, 1);
     const xcb_sync_counter_t counter = syncProp.value<xcb_sync_counter_t>(XCB_NONE);
     if (counter != XCB_NONE) {
+        m_syncRequest.enabled = true;
         m_syncRequest.counter = counter;
         m_syncRequest.value.hi = 0;
         m_syncRequest.value.lo = 0;
@@ -2585,35 +2577,16 @@ void X11Window::getSyncCounter()
  */
 void X11Window::sendSyncRequest()
 {
-    if (m_syncRequest.counter == XCB_NONE || m_syncRequest.isPending) {
+    if (!m_syncRequest.enabled || m_syncRequest.pending) {
         return; // do NOT, NEVER send a sync request when there's one on the stack. the clients will just stop respoding. FOREVER! ...
     }
 
-    if (!m_syncRequest.failsafeTimeout) {
-        m_syncRequest.failsafeTimeout = new QTimer(this);
-        connect(m_syncRequest.failsafeTimeout, &QTimer::timeout, this, [this]() {
-            // client does not respond to XSYNC requests in reasonable time, remove support
-            if (!ready_for_painting) {
-                // failed on initial pre-show request
-                setReadyForPainting();
-                return;
-            }
-            // failed during resize
-            m_syncRequest.isPending = false;
-            m_syncRequest.interactiveResize = false;
-            m_syncRequest.counter = XCB_NONE;
-            m_syncRequest.alarm = XCB_NONE;
-            delete m_syncRequest.timeout;
-            delete m_syncRequest.failsafeTimeout;
-            m_syncRequest.timeout = nullptr;
-            m_syncRequest.failsafeTimeout = nullptr;
-            m_syncRequest.lastTimestamp = XCB_CURRENT_TIME;
-        });
-        m_syncRequest.failsafeTimeout->setSingleShot(true);
+    if (!m_syncRequest.timeout) {
+        m_syncRequest.timeout = new QTimer(this);
+        m_syncRequest.timeout->setSingleShot(true);
+        connect(m_syncRequest.timeout, &QTimer::timeout, this, &X11Window::ackSyncTimeout);
     }
-    // if there's no response within 10 seconds, sth. went wrong and we remove XSYNC support from this client.
-    // see events.cpp X11Window::syncEvent()
-    m_syncRequest.failsafeTimeout->start(ready_for_painting ? 10000 : 1000);
+    m_syncRequest.timeout->start(ready_for_painting ? 10000 : 1000);
 
     // We increment before the notify so that after the notify
     // syncCounterSerial will equal the value we are expecting
@@ -2627,10 +2600,10 @@ void X11Window::sendSyncRequest()
         kwinApp()->updateXTime();
     }
 
-    // Send the message to client
+    setAllowCommits(false);
     sendClientMessage(window(), atoms->wm_protocols, atoms->net_wm_sync_request,
                       m_syncRequest.value.lo, m_syncRequest.value.hi);
-    m_syncRequest.isPending = true;
+    m_syncRequest.pending = true;
     m_syncRequest.interactiveResize = isInteractiveResize();
     m_syncRequest.lastTimestamp = xTime();
 }
@@ -2647,7 +2620,7 @@ bool X11Window::acceptsFocus() const
 
 void X11Window::doSetQuickTileMode()
 {
-    setTile(workspace()->tileManager(output())->quickTile(m_requestedQuickTileMode));
+    commitTile(requestedTile());
 }
 
 void X11Window::setBlockingCompositing(bool block)
@@ -2870,6 +2843,11 @@ QPointF X11Window::framePosToClientPos(const QPointF &point) const
     return QPointF(x, y);
 }
 
+QPointF X11Window::nextFramePosToClientPos(const QPointF &point) const
+{
+    return framePosToClientPos(point);
+}
+
 QPointF X11Window::clientPosToFramePos(const QPointF &point) const
 {
     qreal x = point.x();
@@ -2884,6 +2862,11 @@ QPointF X11Window::clientPosToFramePos(const QPointF &point) const
     }
 
     return QPointF(x, y);
+}
+
+QPointF X11Window::nextClientPosToFramePos(const QPointF &point) const
+{
+    return clientPosToFramePos(point);
 }
 
 QSizeF X11Window::frameSizeToClientSize(const QSizeF &size) const
@@ -2905,6 +2888,11 @@ QSizeF X11Window::frameSizeToClientSize(const QSizeF &size) const
     return QSizeF(width, height);
 }
 
+QSizeF X11Window::nextFrameSizeToClientSize(const QSizeF &size) const
+{
+    return frameSizeToClientSize(size);
+}
+
 QSizeF X11Window::clientSizeToFrameSize(const QSizeF &size) const
 {
     qreal width = size.width();
@@ -2924,12 +2912,17 @@ QSizeF X11Window::clientSizeToFrameSize(const QSizeF &size) const
     return QSizeF(width, height);
 }
 
-QRectF X11Window::frameRectToBufferRect(const QRectF &rect) const
+QSizeF X11Window::nextClientSizeToFrameSize(const QSizeF &size) const
+{
+    return clientSizeToFrameSize(size);
+}
+
+QRectF X11Window::nextFrameRectToBufferRect(const QRectF &rect) const
 {
     if (!waylandServer() && isDecorated()) {
         return rect;
     }
-    return frameRectToClientRect(rect);
+    return nextFrameRectToClientRect(rect);
 }
 
 /**
@@ -3059,29 +3052,49 @@ void X11Window::checkApplicationMenuObjectPath()
     readApplicationMenuObjectPath(property);
 }
 
-void X11Window::handleSync()
+void X11Window::ackSync()
 {
-    setReadyForPainting();
-    m_syncRequest.isPending = false;
-    if (m_syncRequest.failsafeTimeout) {
-        m_syncRequest.failsafeTimeout->stop();
+    // Note that a sync request can be ack'ed after the timeout. If that happens, just re-enable
+    // XSync back and do nothing more.
+    m_syncRequest.pending = false;
+    if (!m_syncRequest.enabled) {
+        m_syncRequest.enabled = true;
+        return;
     }
 
-    // Sync request can be acknowledged shortly after finishing resize.
-    if (m_syncRequest.interactiveResize) {
-        m_syncRequest.interactiveResize = false;
-        if (m_syncRequest.timeout) {
-            m_syncRequest.timeout->stop();
-        }
-        performInteractiveResize();
-        updateWindowPixmap();
+    m_syncRequest.acked = true;
+    if (m_syncRequest.timeout) {
+        m_syncRequest.timeout->stop();
     }
+
+    // With Xwayland, the sync request will be completed after the wl_surface is committed.
+    if (!waylandServer()) {
+        finishSync();
+    }
+    setAllowCommits(true);
 }
 
-void X11Window::performInteractiveResize()
+void X11Window::ackSyncTimeout()
 {
-    resize(moveResizeGeometry().size());
+    // If a sync request times out, disable XSync temporarily until the client comes back to its senses.
+    m_syncRequest.enabled = false;
+
+    finishSync();
     setAllowCommits(true);
+}
+
+void X11Window::finishSync()
+{
+    setReadyForPainting();
+
+    if (m_syncRequest.interactiveResize) {
+        m_syncRequest.interactiveResize = false;
+
+        moveResize(moveResizeGeometry());
+        updateWindowPixmap();
+    }
+
+    m_syncRequest.acked = false;
 }
 
 bool X11Window::belongToSameApplication(const X11Window *c1, const X11Window *c2, SameApplicationChecks checks)
@@ -3956,6 +3969,19 @@ void X11Window::handleXwaylandScaleChanged()
     resize(moveResizeGeometry().size());
 }
 
+void X11Window::handleCommitted()
+{
+    if (surface()->isMapped()) {
+        if (m_syncRequest.acked) {
+            finishSync();
+        }
+
+        if (!m_syncRequest.enabled) {
+            setReadyForPainting();
+        }
+    }
+}
+
 void X11Window::setAllowCommits(bool allow)
 {
     if (!waylandServer()) {
@@ -4054,17 +4080,16 @@ void X11Window::configureRequest(int value_mask, qreal rx, qreal ry, qreal rw, q
 
     // "maximized" is a user setting -> we do not allow the client to resize itself
     // away from this & against the users explicit wish
-    qCDebug(KWIN_CORE) << this << bool(value_mask & configureGeometryMask) << bool(maximizeMode() & MaximizeVertical) << bool(maximizeMode() & MaximizeHorizontal);
+    qCDebug(KWIN_CORE) << this << bool(value_mask & configureGeometryMask) << bool(requestedMaximizeMode() & MaximizeVertical) << bool(requestedMaximizeMode() & MaximizeHorizontal);
 
     // we want to (partially) ignore the request when the window is somehow maximized or quicktiled
-    bool ignore = !app_noborder && (quickTileMode() != QuickTileMode(QuickTileFlag::None) || maximizeMode() != MaximizeRestore);
+    bool ignore = !app_noborder && (requestedQuickTileMode() != QuickTileMode(QuickTileFlag::None) || requestedMaximizeMode() != MaximizeRestore);
     // however, the user shall be able to force obedience despite and also disobedience in general
     ignore = rules()->checkIgnoreGeometry(ignore);
     if (!ignore) { // either we're not max'd / q'tiled or the user allowed the client to break that - so break it.
         updateQuickTileMode(QuickTileFlag::None);
-        max_mode = MaximizeRestore;
         Q_EMIT quickTileModeChanged();
-    } else if (!app_noborder && quickTileMode() == QuickTileMode(QuickTileFlag::None) && (maximizeMode() == MaximizeVertical || maximizeMode() == MaximizeHorizontal)) {
+    } else if (!app_noborder && requestedQuickTileMode() == QuickTileMode(QuickTileFlag::None) && (requestedMaximizeMode() == MaximizeVertical || requestedMaximizeMode() == MaximizeHorizontal)) {
         // ignoring can be, because either we do, or the user does explicitly not want it.
         // for partially maximized windows we want to allow configures in the other dimension.
         // so we've to ask the user again - to know whether we just ignored for the partial maximization.
@@ -4072,10 +4097,10 @@ void X11Window::configureRequest(int value_mask, qreal rx, qreal ry, qreal rw, q
         // we cannot distinguish that from passing "false" for partially maximized windows.
         ignore = rules()->checkIgnoreGeometry(false);
         if (!ignore) { // the user is not interested, so we fix up dimensions
-            if (maximizeMode() == MaximizeVertical) {
+            if (requestedMaximizeMode() == MaximizeVertical) {
                 value_mask &= ~(XCB_CONFIG_WINDOW_Y | XCB_CONFIG_WINDOW_HEIGHT);
             }
-            if (maximizeMode() == MaximizeHorizontal) {
+            if (requestedMaximizeMode() == MaximizeHorizontal) {
                 value_mask &= ~(XCB_CONFIG_WINDOW_X | XCB_CONFIG_WINDOW_WIDTH);
             }
             if (!(value_mask & configureGeometryMask)) {
@@ -4283,6 +4308,9 @@ bool X11Window::isMovable() const
     if (rules()->checkPosition(invalidPoint) != invalidPoint) { // forced position
         return false;
     }
+    if (!options->interactiveWindowMoveEnabled()) {
+        return false;
+    }
     return true;
 }
 
@@ -4298,6 +4326,9 @@ bool X11Window::isMovableAcrossScreens() const
         return false;
     }
     if (rules()->checkPosition(invalidPoint) != invalidPoint) { // forced position
+        return false;
+    }
+    if (!options->interactiveWindowMoveEnabled()) {
         return false;
     }
     return true;
@@ -4390,13 +4421,13 @@ void X11Window::moveResizeInternal(const QRectF &rect, MoveResizeMode mode)
         if (frameGeometry.height() == borderTop() + borderBottom()) {
             qCDebug(KWIN_CORE) << "Shaded geometry passed for size:";
         } else {
-            clientGeometry = frameRectToClientRect(frameGeometry);
+            clientGeometry = nextFrameRectToClientRect(frameGeometry);
             frameGeometry.setHeight(borderTop() + borderBottom());
         }
     } else {
-        clientGeometry = frameRectToClientRect(frameGeometry);
+        clientGeometry = nextFrameRectToClientRect(frameGeometry);
     }
-    const QRectF bufferGeometry = frameRectToBufferRect(frameGeometry);
+    const QRectF bufferGeometry = nextFrameRectToBufferRect(frameGeometry);
     const qreal bufferScale = kwinApp()->xwaylandScale();
 
     if (m_bufferGeometry == bufferGeometry && m_clientGeometry == clientGeometry && m_frameGeometry == frameGeometry && m_bufferScale == bufferScale) {
@@ -4487,7 +4518,7 @@ void X11Window::configure(const QRect &nativeFrame, const QRect &nativeWrapper, 
 }
 
 static bool changeMaximizeRecursion = false;
-void X11Window::maximize(MaximizeMode mode)
+void X11Window::maximize(MaximizeMode mode, const QRectF &restore)
 {
     if (isUnmanaged()) {
         qCWarning(KWIN_CORE) << "Cannot change maximized state of unmanaged window" << this;
@@ -4539,23 +4570,27 @@ void X11Window::maximize(MaximizeMode mode)
         sz = size();
     }
 
-    if (quickTileMode() == QuickTileMode(QuickTileFlag::None)) {
-        QRectF savedGeometry = geometryRestore();
-        if (!(old_mode & MaximizeVertical)) {
-            savedGeometry.setTop(y());
-            savedGeometry.setHeight(sz.height());
+    if (!restore.isNull()) {
+        setGeometryRestore(restore);
+    } else {
+        if (requestedQuickTileMode() == QuickTileMode(QuickTileFlag::None)) {
+            QRectF savedGeometry = geometryRestore();
+            if (!(old_mode & MaximizeVertical)) {
+                savedGeometry.setTop(y());
+                savedGeometry.setHeight(sz.height());
+            }
+            if (!(old_mode & MaximizeHorizontal)) {
+                savedGeometry.setLeft(x());
+                savedGeometry.setWidth(sz.width());
+            }
+            setGeometryRestore(savedGeometry);
         }
-        if (!(old_mode & MaximizeHorizontal)) {
-            savedGeometry.setLeft(x());
-            savedGeometry.setWidth(sz.width());
-        }
-        setGeometryRestore(savedGeometry);
     }
 
     // call into decoration update borders
-    if (isDecorated() && decoration()->client() && !(options->borderlessMaximizedWindows() && max_mode == KWin::MaximizeFull)) {
+    if (isDecorated() && decoration()->window() && !(options->borderlessMaximizedWindows() && max_mode == KWin::MaximizeFull)) {
         changeMaximizeRecursion = true;
-        const auto c = decoration()->client();
+        const auto c = decoration()->window();
         if ((max_mode & MaximizeVertical) != (old_mode & MaximizeVertical)) {
             Q_EMIT c->maximizedVerticallyChanged(max_mode & MaximizeVertical);
         }
@@ -4688,13 +4723,6 @@ void X11Window::maximize(MaximizeMode mode)
     updateAllowedActions();
     updateWindowRules(Rules::MaximizeVert | Rules::MaximizeHoriz | Rules::Position | Rules::Size);
 
-    if (!areGeometryUpdatesBlocked()) {
-        static bool awtQuirkDisabled = qEnvironmentVariableIntValue("KWIN_NO_AWT_QUIRK") == 1;
-        if (!awtQuirkDisabled) {
-            sendSyntheticConfigureNotify();
-        }
-    }
-
     if (max_mode != old_mode) {
         Q_EMIT maximizedChanged();
     }
@@ -4799,17 +4827,10 @@ bool X11Window::doStartInteractiveMoveResize()
 {
     if (kwinApp()->operationMode() == Application::OperationModeX11) {
         bool has_grab = false;
-        // This reportedly improves smoothness of the moveresize operation,
-        // something with Enter/LeaveNotify events, looks like XFree performance problem or something *shrug*
-        // (https://lists.kde.org/?t=107302193400001&r=1&w=2)
-        QRectF r = workspace()->clientArea(FullArea, this, moveResizeOutput());
-        m_moveResizeGrabWindow.create(Xcb::toXNative(r), XCB_WINDOW_CLASS_INPUT_ONLY, 0, nullptr, kwinApp()->x11RootWindow());
-        m_moveResizeGrabWindow.map();
-        m_moveResizeGrabWindow.raise();
         kwinApp()->updateXTime();
-        const xcb_grab_pointer_cookie_t cookie = xcb_grab_pointer_unchecked(kwinApp()->x11Connection(), false, m_moveResizeGrabWindow,
+        const xcb_grab_pointer_cookie_t cookie = xcb_grab_pointer(kwinApp()->x11Connection(), false, frameId(),
                                                                             XCB_EVENT_MASK_BUTTON_PRESS | XCB_EVENT_MASK_BUTTON_RELEASE | XCB_EVENT_MASK_POINTER_MOTION | XCB_EVENT_MASK_ENTER_WINDOW | XCB_EVENT_MASK_LEAVE_WINDOW,
-                                                                            XCB_GRAB_MODE_ASYNC, XCB_GRAB_MODE_ASYNC, m_moveResizeGrabWindow, Cursors::self()->mouse()->x11Cursor(cursor()), xTime());
+                                                                            XCB_GRAB_MODE_ASYNC, XCB_GRAB_MODE_ASYNC, XCB_NONE, Cursors::self()->mouse()->x11Cursor(cursor()), xTime());
         UniqueCPtr<xcb_grab_pointer_reply_t> pointerGrab(xcb_grab_pointer_reply(kwinApp()->x11Connection(), cookie, nullptr));
         if (pointerGrab && pointerGrab->status == XCB_GRAB_STATUS_SUCCESS) {
             has_grab = true;
@@ -4818,7 +4839,6 @@ bool X11Window::doStartInteractiveMoveResize()
             has_grab = move_resize_has_keyboard_grab = true;
         }
         if (!has_grab) { // at least one grab is necessary in order to be able to finish move/resize
-            m_moveResizeGrabWindow.reset();
             return false;
         }
     }
@@ -4833,21 +4853,20 @@ void X11Window::leaveInteractiveMoveResize()
         }
         move_resize_has_keyboard_grab = false;
         xcb_ungrab_pointer(kwinApp()->x11Connection(), xTime());
-        m_moveResizeGrabWindow.reset();
     }
     Window::leaveInteractiveMoveResize();
 }
 
 bool X11Window::isWaitingForInteractiveResizeSync() const
 {
-    return m_syncRequest.isPending && m_syncRequest.interactiveResize;
+    return m_syncRequest.enabled && (m_syncRequest.pending || m_syncRequest.acked);
 }
 
 void X11Window::doInteractiveResizeSync(const QRectF &rect)
 {
     const QRectF moveResizeFrameGeometry = Xcb::fromXNative(Xcb::toXNative(rect));
-    const QRectF moveResizeClientGeometry = frameRectToClientRect(moveResizeFrameGeometry);
-    const QRectF moveResizeBufferGeometry = frameRectToBufferRect(moveResizeFrameGeometry);
+    const QRectF moveResizeClientGeometry = nextFrameRectToClientRect(moveResizeFrameGeometry);
+    const QRectF moveResizeBufferGeometry = nextFrameRectToBufferRect(moveResizeFrameGeometry);
 
     const QRect nativeFrameGeometry = Xcb::toXNative(moveResizeBufferGeometry);
     const QRect nativeWrapperGeometry = Xcb::toXNative(moveResizeClientGeometry.translated(-moveResizeBufferGeometry.topLeft()));
@@ -4857,37 +4876,13 @@ void X11Window::doInteractiveResizeSync(const QRectF &rect)
         return;
     }
 
-    setMoveResizeGeometry(moveResizeFrameGeometry);
-    setAllowCommits(false);
-
-    if (!m_syncRequest.timeout) {
-        m_syncRequest.timeout = new QTimer(this);
-        connect(m_syncRequest.timeout, &QTimer::timeout, this, &X11Window::handleSyncTimeout);
-        m_syncRequest.timeout->setSingleShot(true);
-    }
-
-    if (m_syncRequest.counter != XCB_NONE) {
-        m_syncRequest.timeout->start(250);
-        sendSyncRequest();
+    if (!m_syncRequest.enabled) {
+        moveResize(rect);
     } else {
-        // For clients not supporting the XSYNC protocol, we limit the resizes to 30Hz
-        // to take pointless load from X11 and the client, the mouse is still moved at
-        // full speed and no human can control faster resizes anyway.
-        m_syncRequest.isPending = true;
-        m_syncRequest.interactiveResize = true;
-        m_syncRequest.timeout->start(33);
+        setMoveResizeGeometry(moveResizeFrameGeometry);
+        sendSyncRequest();
+        configure(nativeFrameGeometry, nativeWrapperGeometry, nativeClientGeometry);
     }
-
-    configure(nativeFrameGeometry, nativeWrapperGeometry, nativeClientGeometry);
-}
-
-void X11Window::handleSyncTimeout()
-{
-    if (m_syncRequest.counter == XCB_NONE) { // client w/o XSYNC support. allow the next resize event
-        m_syncRequest.isPending = false; // NEVER do this for clients with a valid counter
-        m_syncRequest.interactiveResize = false; // (leads to sync request races in some clients)
-    }
-    performInteractiveResize();
 }
 
 NETExtendedStrut X11Window::strut() const
@@ -5000,7 +4995,7 @@ void X11Window::damageNotifyEvent()
     Q_ASSERT(kwinApp()->operationMode() == Application::OperationModeX11);
 
     if (!readyForPainting()) { // avoid "setReadyForPainting()" function calling overhead
-        if (m_syncRequest.counter == XCB_NONE) { // cannot detect complete redraw, consider done now
+        if (!m_syncRequest.enabled) { // cannot detect complete redraw, consider done now
             setReadyForPainting();
         }
     }
@@ -5033,19 +5028,17 @@ void X11Window::updateWindowPixmap()
 
 void X11Window::associate()
 {
-    auto handleMapped = [this]() {
-        if (syncRequest().counter == XCB_NONE) { // cannot detect complete redraw, consider done now
+    if (surface()->isMapped()) {
+        if (m_syncRequest.acked) {
+            finishSync();
+        }
+
+        if (!m_syncRequest.enabled) {
             setReadyForPainting();
         }
-    };
-
-    if (surface()->isMapped()) {
-        handleMapped();
-    } else {
-        connect(surface(), &SurfaceInterface::mapped, this, handleMapped);
     }
 
-    m_pendingSurfaceId = 0;
+    connect(surface(), &SurfaceInterface::committed, this, &X11Window::handleCommitted);
 }
 
 QWindow *X11Window::findInternalWindow() const

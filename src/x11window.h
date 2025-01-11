@@ -61,7 +61,7 @@ class X11DecorationRenderer : public DecorationRenderer
     Q_OBJECT
 
 public:
-    explicit X11DecorationRenderer(Decoration::DecoratedClientImpl *client);
+    explicit X11DecorationRenderer(Decoration::DecoratedWindowImpl *client);
     ~X11DecorationRenderer() override;
 
 protected:
@@ -96,10 +96,14 @@ public:
     QString wmCommand();
 
     QPointF framePosToClientPos(const QPointF &point) const override;
+    QPointF nextFramePosToClientPos(const QPointF &point) const override;
     QPointF clientPosToFramePos(const QPointF &point) const override;
+    QPointF nextClientPosToFramePos(const QPointF &point) const override;
     QSizeF frameSizeToClientSize(const QSizeF &size) const override;
+    QSizeF nextFrameSizeToClientSize(const QSizeF &size) const override;
     QSizeF clientSizeToFrameSize(const QSizeF &size) const override;
-    QRectF frameRectToBufferRect(const QRectF &rect) const;
+    QSizeF nextClientSizeToFrameSize(const QSizeF &size) const override;
+    QRectF nextFrameRectToBufferRect(const QRectF &rect) const;
     QSizeF implicitSize() const;
 
     void blockGeometryUpdates(bool block);
@@ -154,7 +158,7 @@ public:
     bool isShadeable() const override;
     bool isMaximizable() const override;
     MaximizeMode maximizeMode() const override;
-    void maximize(MaximizeMode mode) override;
+    void maximize(MaximizeMode mode, const QRectF &restore = QRectF()) override;
 
     bool isMinimizable() const override;
     QRectF iconGeometry() const override;
@@ -221,7 +225,6 @@ public:
     using Window::keyPressEvent;
     void keyPressEvent(uint key_code, xcb_timestamp_t time); // FRAME ??
     void updateMouseGrab() override;
-    xcb_window_t moveResizeGrabWindow() const;
 
     QPointF gravityAdjustment(xcb_gravity_t gravity) const;
     const QPointF calculateGravitation(bool invert) const;
@@ -284,24 +287,25 @@ public:
         xcb_sync_int64_t value;
         xcb_sync_alarm_t alarm;
         xcb_timestamp_t lastTimestamp;
-        QTimer *timeout, *failsafeTimeout;
-        bool isPending;
+        QTimer *timeout;
+        bool enabled;
+        bool pending;
+        bool acked;
         bool interactiveResize;
     };
     const SyncRequest &syncRequest() const
     {
         return m_syncRequest;
     }
-    bool wantsSyncCounter() const;
-    void handleSync();
-    void handleSyncTimeout();
+    void ackSync();
+    void ackSyncTimeout();
+    void finishSync();
 
     bool allowWindowActivation(xcb_timestamp_t time = -1U, bool focus_in = false);
 
     static void cleanupX11();
 
     quint64 surfaceSerial() const;
-    quint32 pendingSurfaceId() const;
 
 public Q_SLOTS:
     void closeWindow() override;
@@ -350,6 +354,7 @@ protected:
     void doSetQuickTileMode() override;
     void moveResizeInternal(const QRectF &rect, MoveResizeMode mode) override;
     std::unique_ptr<WindowItem> createItem(Item *parentItem) override;
+    void doSetNextTargetScale() override;
 
 Q_SIGNALS:
     void shapeChanged();
@@ -385,7 +390,6 @@ private:
     void getSyncCounter();
     void sendSyncRequest();
     void leaveInteractiveMoveResize() override;
-    void performInteractiveResize();
     void establishCommandWindowGrab(uint8_t button);
     void establishCommandAllGrab(uint8_t button);
 
@@ -437,6 +441,7 @@ private:
     void checkOutput();
     void associate();
     void handleXwaylandScaleChanged();
+    void handleCommitted();
 
     void setAllowCommits(bool allow);
 
@@ -447,7 +452,6 @@ private:
     xcb_window_t m_wmClientLeader = XCB_WINDOW_NONE;
     int m_activityUpdatesBlocked;
     bool m_blockedActivityUpdatesRequireTransients;
-    Xcb::Window m_moveResizeGrabWindow;
     bool move_resize_has_keyboard_grab;
     bool m_managed;
 
@@ -529,7 +533,6 @@ private:
 
     bool m_unmanaged = false;
     bool m_outline = false;
-    quint32 m_pendingSurfaceId = 0;
     quint64 m_surfaceSerial = 0;
 };
 
@@ -638,11 +641,6 @@ inline bool X11Window::hasUserTimeSupport() const
     return info->userTime() != -1U;
 }
 
-inline xcb_window_t X11Window::moveResizeGrabWindow() const
-{
-    return m_moveResizeGrabWindow;
-}
-
 inline bool X11Window::hiddenPreview() const
 {
     return mapping_state == Kept;
@@ -651,11 +649,6 @@ inline bool X11Window::hiddenPreview() const
 inline quint64 X11Window::surfaceSerial() const
 {
     return m_surfaceSerial;
-}
-
-inline quint32 X11Window::pendingSurfaceId() const
-{
-    return m_pendingSurfaceId;
 }
 
 inline bool X11Window::areGeometryUpdatesBlocked() const

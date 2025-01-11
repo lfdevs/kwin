@@ -19,19 +19,24 @@ PlaceholderInputEventFilter::PlaceholderInputEventFilter()
 {
 }
 
-bool PlaceholderInputEventFilter::pointerEvent(MouseEvent *event, quint32 nativeButton)
+bool PlaceholderInputEventFilter::pointerMotion(PointerMotionEvent *event)
 {
     return true;
 }
 
-bool PlaceholderInputEventFilter::wheelEvent(WheelEvent *event)
+bool PlaceholderInputEventFilter::pointerButton(PointerButtonEvent *event)
 {
     return true;
 }
 
-bool PlaceholderInputEventFilter::keyEvent(KeyEvent *event)
+bool PlaceholderInputEventFilter::pointerAxis(PointerAxisEvent *event)
 {
-    return !isMediaKey(event->key());
+    return true;
+}
+
+bool PlaceholderInputEventFilter::keyboardKey(KeyboardKeyEvent *event)
+{
+    return !isMediaKey(event->key);
 }
 
 bool PlaceholderInputEventFilter::touchDown(qint32 id, const QPointF &pos, std::chrono::microseconds time)

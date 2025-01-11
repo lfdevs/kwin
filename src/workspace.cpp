@@ -69,6 +69,10 @@
 #include "x11window.h"
 #include <KStartupInfo>
 #endif
+// screenlocker
+#if KWIN_BUILD_SCREENLOCKER
+#include <KScreenLocker/KsldApp>
+#endif
 // KDE
 #include <KConfig>
 #include <KConfigGroup>
@@ -99,10 +103,8 @@ Workspace *Workspace::_self = nullptr;
 Workspace::Workspace()
     : QObject(nullptr)
     // Unsorted
-    , m_quickTileCombineTimer(nullptr)
     , active_popup(nullptr)
     , m_activePopupWindow(nullptr)
-    , m_initialDesktop(1)
     , m_activeWindow(nullptr)
     , m_lastActiveWindow(nullptr)
     , m_moveResizeWindow(nullptr)
@@ -123,7 +125,7 @@ Workspace::Workspace()
 
 #if KWIN_BUILD_ACTIVITIES
     if (kwinApp()->usesKActivities()) {
-        m_activities = std::make_unique<Activities>();
+        m_activities = std::make_unique<Activities>(kwinApp()->config());
     }
     if (m_activities) {
         connect(m_activities.get(), &Activities::currentChanged, this, &Workspace::updateCurrentActivity);
@@ -131,9 +133,6 @@ Workspace::Workspace()
 #endif
 
     delayFocusTimer = nullptr;
-
-    m_quickTileCombineTimer = new QTimer(this);
-    m_quickTileCombineTimer->setSingleShot(true);
 
     m_rulebook = std::make_unique<RuleBook>();
     m_rulebook->load();
@@ -146,6 +145,14 @@ Workspace::Workspace()
     VirtualDesktopManager::create(this);
     // dbus interface
     new VirtualDesktopManagerDBusInterface(VirtualDesktopManager::self());
+
+#if KWIN_BUILD_ACTIVITIES
+    if (m_activities) {
+        connect(VirtualDesktopManager::self(), &VirtualDesktopManager::currentChanged, this, [this](VirtualDesktop *previous, VirtualDesktop *current) {
+            m_activities->notifyCurrentDesktopChanged(current);
+        });
+    }
+#endif
 
 #if KWIN_BUILD_TABBOX
     // need to create the tabbox before compositing scene is setup
@@ -181,25 +188,6 @@ void Workspace::init()
     connect(options, &Options::separateScreenFocusChanged, m_focusChain.get(), &FocusChain::setSeparateScreenFocus);
     m_focusChain->setSeparateScreenFocus(options->isSeparateScreenFocus());
 
-    if (waylandServer()) {
-        m_outputConfigStore = std::make_unique<OutputConfigurationStore>();
-
-        const auto applySensorChanges = [this]() {
-            m_orientationSensor->setEnabled(m_outputConfigStore->isAutoRotateActive(kwinApp()->outputBackend()->outputs(), kwinApp()->tabletModeManager()->effectiveTabletMode()));
-            const auto opt = m_outputConfigStore->queryConfig(kwinApp()->outputBackend()->outputs(), m_lidSwitchTracker->isLidClosed(), m_orientationSensor->reading(), kwinApp()->tabletModeManager()->effectiveTabletMode());
-            if (opt) {
-                const auto &[config, order, type] = *opt;
-                applyOutputConfiguration(config, order);
-            }
-        };
-        connect(m_lidSwitchTracker.get(), &LidSwitchTracker::lidStateChanged, this, applySensorChanges);
-        connect(m_orientationSensor.get(), &OrientationSensor::orientationChanged, this, applySensorChanges);
-        connect(kwinApp()->tabletModeManager(), &TabletModeManager::tabletModeChanged, this, applySensorChanges);
-        m_orientationSensor->setEnabled(m_outputConfigStore->isAutoRotateActive(kwinApp()->outputBackend()->outputs(), kwinApp()->tabletModeManager()->effectiveTabletMode()));
-    }
-    slotOutputBackendOutputsQueried();
-    connect(kwinApp()->outputBackend(), &OutputBackend::outputsQueried, this, &Workspace::slotOutputBackendOutputsQueried);
-
     // create VirtualDesktopManager and perform dependency injection
     VirtualDesktopManager *vds = VirtualDesktopManager::self();
     connect(vds, &VirtualDesktopManager::desktopAdded, this, &Workspace::slotDesktopAdded);
@@ -221,7 +209,25 @@ void Workspace::init()
     //  load is needed to be called again when starting xwayalnd to sync to RootInfo, see BUG 385260
     vds->save();
 
-    vds->setCurrent(m_initialDesktop);
+    if (waylandServer()) {
+        m_outputConfigStore = std::make_unique<OutputConfigurationStore>();
+
+        const auto applySensorChanges = [this]() {
+            m_orientationSensor->setEnabled(m_outputConfigStore->isAutoRotateActive(kwinApp()->outputBackend()->outputs(), kwinApp()->tabletModeManager()->effectiveTabletMode()));
+            const auto opt = m_outputConfigStore->queryConfig(kwinApp()->outputBackend()->outputs(), m_lidSwitchTracker->isLidClosed(), m_orientationSensor->reading(), kwinApp()->tabletModeManager()->effectiveTabletMode());
+            if (opt) {
+                const auto &[config, order, type] = *opt;
+                applyOutputConfiguration(config, order);
+            }
+        };
+        connect(m_lidSwitchTracker.get(), &LidSwitchTracker::lidStateChanged, this, applySensorChanges);
+        connect(m_orientationSensor.get(), &OrientationSensor::orientationChanged, this, applySensorChanges);
+        connect(kwinApp()->tabletModeManager(), &TabletModeManager::tabletModeChanged, this, applySensorChanges);
+        m_orientationSensor->setEnabled(m_outputConfigStore->isAutoRotateActive(kwinApp()->outputBackend()->outputs(), kwinApp()->tabletModeManager()->effectiveTabletMode()));
+    }
+
+    slotOutputBackendOutputsQueried();
+    connect(kwinApp()->outputBackend(), &OutputBackend::outputsQueried, this, &Workspace::slotOutputBackendOutputsQueried);
 
     reconfigureTimer.setSingleShot(true);
     m_rearrangeTimer.setSingleShot(true);
@@ -266,6 +272,10 @@ void Workspace::init()
     if (waylandServer()) {
         connect(waylandServer()->externalBrightness(), &ExternalBrightnessV1::devicesChanged, this, &Workspace::updateOutputConfiguration);
     }
+
+#if KWIN_BUILD_SCREENLOCKER
+    connect(ScreenLocker::KSldApp::self(), &ScreenLocker::KSldApp::locked, this, &Workspace::slotEndInteractiveMoveResize);
+#endif
 }
 
 QString Workspace::getPlacementTrackerHash()
@@ -331,12 +341,6 @@ void Workspace::initializeX11()
 #ifndef QT_NO_SESSIONMANAGER
     sessionRestored = qApp->isSessionRestored();
 #endif
-    if (!waylandServer()) {
-        if (!sessionRestored) {
-            m_initialDesktop = client_info.currentDesktop();
-            vds->setCurrent(m_initialDesktop);
-        }
-    }
 
     // TODO: better value
     rootInfo->setActiveWindow(XCB_WINDOW_NONE);
@@ -533,8 +537,8 @@ void Workspace::updateOutputConfiguration()
     const auto setFallbackOutputOrder = [this, &outputs]() {
         auto newOrder = outputs;
         newOrder.erase(std::remove_if(newOrder.begin(), newOrder.end(), [](Output *o) {
-                           return !o->isEnabled();
-                       }),
+            return !o->isEnabled();
+        }),
                        newOrder.end());
         std::sort(newOrder.begin(), newOrder.end(), [](Output *left, Output *right) {
             return left->name() < right->name();
@@ -552,6 +556,7 @@ void Workspace::updateOutputConfiguration()
     for (Output *output : outputs) {
         if (output->brightnessDevice()) {
             cfg.changeSet(output)->allowSdrSoftwareBrightness = false;
+            cfg.changeSet(output)->brightness = output->brightnessSetting();
         }
     }
 
@@ -1273,8 +1278,8 @@ void Workspace::updateOutputs(const std::optional<QList<Output *>> &outputOrder)
             }
         }
         m_outputOrder.erase(std::remove_if(m_outputOrder.begin(), m_outputOrder.end(), [this](Output *output) {
-                                return !m_outputs.contains(output);
-                            }),
+            return !m_outputs.contains(output);
+        }),
                             m_outputOrder.end());
     }
 
@@ -1306,7 +1311,7 @@ void Workspace::updateOutputs(const std::optional<QList<Output *>> &outputOrder)
         tileManager->rootTile()->visitDescendants([](const Tile *child) {
             const QList<Window *> windows = child->windows();
             for (Window *window : windows) {
-                window->setTile(nullptr);
+                window->requestTile(nullptr);
             }
         });
 
@@ -1333,7 +1338,7 @@ void Workspace::updateOutputs(const std::optional<QList<Output *>> &outputOrder)
             Tile *bestTile = m_tileManagers[bestOutput]->quickTile(quickTileMode);
 
             for (Window *window : windows) {
-                window->setTile(bestTile);
+                window->requestTile(bestTile);
             }
         }
     }
@@ -1438,6 +1443,14 @@ void Workspace::slotDesktopRemoved(VirtualDesktop *desktop)
     rearrange();
     m_placement->reinitCascading();
     m_focusChain->removeDesktop(desktop);
+}
+
+void Workspace::slotEndInteractiveMoveResize()
+{
+    auto moveResizeWindow = workspace()->moveResizeWindow();
+    if (moveResizeWindow) {
+        moveResizeWindow->endInteractiveMoveResize();
+    }
 }
 
 #if KWIN_BUILD_X11
@@ -1661,13 +1674,10 @@ QString Workspace::supportInformation() const
     support.append(QStringLiteral("Operation Mode: "));
     switch (kwinApp()->operationMode()) {
     case Application::OperationModeX11:
-        support.append(QStringLiteral("X11 only"));
+        support.append(QStringLiteral("X11"));
         break;
-    case Application::OperationModeWaylandOnly:
-        support.append(QStringLiteral("Wayland Only"));
-        break;
-    case Application::OperationModeXwayland:
-        support.append(QStringLiteral("Xwayland"));
+    case Application::OperationModeWayland:
+        support.append(QStringLiteral("Wayland"));
         break;
     }
     support.append(QStringLiteral("\n\n"));
@@ -1726,7 +1736,7 @@ QString Workspace::supportInformation() const
     support.append(QStringLiteral("=======\n"));
     const QMetaObject *metaOptions = options->metaObject();
     auto printProperty = [](const QVariant &variant) {
-        if (variant.type() == QVariant::Size) {
+        if (variant.typeId() == QMetaType::QSize) {
             const QSize &s = variant.toSize();
             return QStringLiteral("%1x%2").arg(s.width()).arg(s.height());
         }
@@ -1988,8 +1998,8 @@ void Workspace::forEachWindow(std::function<void(Window *)> func)
 bool Workspace::hasWindow(const Window *c)
 {
     return findWindow([&c](const Window *test) {
-               return test == c;
-           })
+        return test == c;
+    })
         != nullptr;
 }
 
@@ -2023,8 +2033,8 @@ void Workspace::setWasUserInteraction()
 #if KWIN_BUILD_X11
     QTimer::singleShot(0, this,
                        [this] {
-                           m_wasUserInteractionFilter.reset();
-                       });
+        m_wasUserInteractionFilter.reset();
+    });
 #endif
 }
 
@@ -2064,11 +2074,6 @@ void Workspace::removeInternalWindow(InternalWindow *window)
 
     updateStackingOrder();
     Q_EMIT windowRemoved(window);
-}
-
-void Workspace::setInitialDesktop(int desktop)
-{
-    m_initialDesktop = desktop;
 }
 
 #if KWIN_BUILD_X11
@@ -2658,27 +2663,27 @@ QPointF Workspace::adjustWindowPosition(const Window *window, QPointF pos, bool 
         if (maxRect.isNull()) {
             maxRect = clientArea(MaximizeArea, window, output);
         }
-        const int xmin = maxRect.left();
-        const int xmax = maxRect.right(); // desk size
-        const int ymin = maxRect.top();
-        const int ymax = maxRect.bottom();
+        const qreal xmin = maxRect.left();
+        const qreal xmax = maxRect.right(); // desk size
+        const qreal ymin = maxRect.top();
+        const qreal ymax = maxRect.bottom();
 
-        const int cx(pos.x());
-        const int cy(pos.y());
-        const int cw(window->width());
-        const int ch(window->height());
-        const int rx(cx + cw);
-        const int ry(cy + ch); // these don't change
+        const qreal cx(pos.x());
+        const qreal cy(pos.y());
+        const qreal cw(window->width());
+        const qreal ch(window->height());
+        const qreal rx(cx + cw);
+        const qreal ry(cy + ch); // these don't change
 
-        int nx(cx), ny(cy); // buffers
-        int deltaX(xmax);
-        int deltaY(ymax); // minimum distance to other windows
+        qreal nx(cx), ny(cy); // buffers
+        qreal deltaX(xmax);
+        qreal deltaY(ymax); // minimum distance to other windows
 
-        int lx, ly, lrx, lry; // coords and size for the comparison window, l
+        qreal lx, ly, lrx, lry; // coords and size for the comparison window, l
 
         // border snap
-        const int borderXSnapZone = borderSnapZone.width() * snapAdjust; // snap trigger
-        const int borderYSnapZone = borderSnapZone.height() * snapAdjust;
+        const qreal borderXSnapZone = borderSnapZone.width() * snapAdjust; // snap trigger
+        const qreal borderYSnapZone = borderSnapZone.height() * snapAdjust;
         if (borderXSnapZone > 0 || borderYSnapZone > 0) {
             if ((sOWO ? (cx < xmin) : true) && (std::abs(xmin - cx) < borderXSnapZone)) {
                 deltaX = xmin - cx;
@@ -2700,7 +2705,7 @@ QPointF Workspace::adjustWindowPosition(const Window *window, QPointF pos, bool 
         }
 
         // windows snap
-        const int windowSnapZone = options->windowSnapZone() * snapAdjust;
+        const qreal windowSnapZone = options->windowSnapZone() * snapAdjust;
         if (windowSnapZone > 0) {
             for (auto l = m_windows.constBegin(); l != m_windows.constEnd(); ++l) {
                 if (!canSnap(window, (*l))) {
@@ -2712,7 +2717,7 @@ QPointF Workspace::adjustWindowPosition(const Window *window, QPointF pos, bool 
                 lrx = lx + (*l)->width();
                 lry = ly + (*l)->height();
 
-                if (!(guideMaximized & MaximizeHorizontal) && (((cy <= lry) && (cy >= ly)) || ((ry >= ly) && (ry <= lry)) || ((cy <= ly) && (ry >= lry)))) {
+                if (!(guideMaximized & MaximizeHorizontal) && (cy <= lry) && (ly <= ry)) {
                     if ((sOWO ? (cx < lrx) : true) && (std::abs(lrx - cx) < windowSnapZone) && (std::abs(lrx - cx) < deltaX)) {
                         deltaX = std::abs(lrx - cx);
                         nx = lrx;
@@ -2723,7 +2728,7 @@ QPointF Workspace::adjustWindowPosition(const Window *window, QPointF pos, bool 
                     }
                 }
 
-                if (!(guideMaximized & MaximizeVertical) && (((cx <= lrx) && (cx >= lx)) || ((rx >= lx) && (rx <= lrx)) || ((cx <= lx) && (rx >= lrx)))) {
+                if (!(guideMaximized & MaximizeVertical) && (cx <= lrx) && (lx <= rx)) {
                     if ((sOWO ? (cy < lry) : true) && (std::abs(lry - cy) < windowSnapZone) && (std::abs(lry - cy) < deltaY)) {
                         deltaY = std::abs(lry - cy);
                         ny = lry;
@@ -2760,10 +2765,10 @@ QPointF Workspace::adjustWindowPosition(const Window *window, QPointF pos, bool 
         }
 
         // center snap
-        const int centerSnapZone = options->centerSnapZone() * snapAdjust;
+        const qreal centerSnapZone = options->centerSnapZone() * snapAdjust;
         if (centerSnapZone > 0) {
-            int diffX = std::abs((xmin + xmax) / 2 - (cx + cw / 2));
-            int diffY = std::abs((ymin + ymax) / 2 - (cy + ch / 2));
+            qreal diffX = std::abs((xmin + xmax) / 2 - (cx + cw / 2));
+            qreal diffY = std::abs((ymin + ymax) / 2 - (cy + ch / 2));
             if (diffX < centerSnapZone && diffY < centerSnapZone && diffX < deltaX && diffY < deltaY) {
                 // Snap to center of screen
                 nx = (xmin + xmax) / 2 - cw / 2;
@@ -2780,7 +2785,7 @@ QPointF Workspace::adjustWindowPosition(const Window *window, QPointF pos, bool 
             }
         }
 
-        pos = QPoint(nx, ny);
+        pos = QPointF(nx, ny);
     }
     return pos;
 }
@@ -2887,9 +2892,9 @@ QRectF Workspace::adjustWindowSize(const Window *window, QRectF moveResizeGeom, 
                     lrx = (*l)->x() + (*l)->width();
                     lry = (*l)->y() + (*l)->height();
 
-#define WITHIN_HEIGHT (((newcy <= lry) && (newcy >= ly)) || ((newry >= ly) && (newry <= lry)) || ((newcy <= ly) && (newry >= lry)))
+#define WITHIN_HEIGHT ((newcy <= lry) && (ly <= newry))
 
-#define WITHIN_WIDTH (((cx <= lrx) && (cx >= lx)) || ((rx >= lx) && (rx <= lrx)) || ((cx <= lx) && (rx >= lrx)))
+#define WITHIN_WIDTH ((cx <= lrx) && (lx <= rx))
 
 #define SNAP_WINDOW_TOP                        \
     if ((sOWO ? (newcy < lry) : true)          \

@@ -26,11 +26,6 @@ void FakeInputDevice::setAuthenticated(bool authenticated)
     m_authenticated = authenticated;
 }
 
-QString FakeInputDevice::sysName() const
-{
-    return QString();
-}
-
 QString FakeInputDevice::name() const
 {
     return m_name;
@@ -42,15 +37,6 @@ bool FakeInputDevice::isEnabled() const
 }
 
 void FakeInputDevice::setEnabled(bool enabled)
-{
-}
-
-LEDs FakeInputDevice::leds() const
-{
-    return LEDs();
-}
-
-void FakeInputDevice::setLeds(LEDs leds)
 {
 }
 

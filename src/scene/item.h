@@ -120,13 +120,16 @@ public:
     bool isVisible() const;
     void setVisible(bool visible);
 
+    QRect paintedArea(SceneDelegate *delegate, const QRectF &rect) const;
+    QRegion paintedArea(SceneDelegate *delegate, const QRegion &region) const;
+
     void scheduleRepaint(const QRectF &region);
     void scheduleSceneRepaint(const QRectF &region);
     void scheduleRepaint(const QRegion &region);
     void scheduleSceneRepaint(const QRegion &region);
     void scheduleRepaint(SceneDelegate *delegate, const QRegion &region);
     void scheduleFrame();
-    QRegion repaints(SceneDelegate *delegate) const;
+    QRegion takeRepaints(SceneDelegate *delegate);
     void resetRepaints(SceneDelegate *delegate);
 
     WindowQuadList quads() const;
@@ -171,6 +174,7 @@ private:
     void updateItemToSceneTransform();
     void scheduleRepaintInternal(const QRegion &region);
     void scheduleRepaintInternal(SceneDelegate *delegate, const QRegion &region);
+    void scheduleSceneRepaintInternal(const QRegion &region);
     void markSortedChildItemsDirty();
 
     bool computeEffectiveVisibility() const;

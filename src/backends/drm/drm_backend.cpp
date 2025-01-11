@@ -132,6 +132,24 @@ bool DrmBackend::initialize()
             m_udevMonitor->enable();
         }
     }
+    updateOutputs();
+
+    if (m_explicitGpus.empty() && m_gpus.size() > 1) {
+        std::ranges::sort(m_gpus, [](const auto &gpu1, const auto &gpu2) {
+            const size_t internalOutputs1 = std::ranges::count_if(gpu1->drmOutputs(), &Output::isInternal);
+            const size_t internalOutputs2 = std::ranges::count_if(gpu2->drmOutputs(), &Output::isInternal);
+            if (internalOutputs1 != internalOutputs2) {
+                return internalOutputs1 > internalOutputs2;
+            }
+            const size_t desktopOutputs1 = std::ranges::count_if(gpu1->drmOutputs(), std::not_fn(&Output::isNonDesktop));
+            const size_t desktopOutputs2 = std::ranges::count_if(gpu2->drmOutputs(), std::not_fn(&Output::isNonDesktop));
+            if (desktopOutputs1 != desktopOutputs2) {
+                return desktopOutputs1 > desktopOutputs2;
+            }
+            return gpu1->drmOutputs().size() > gpu2->drmOutputs().size();
+        });
+        qCDebug(KWIN_DRM) << "chose" << m_gpus.front()->drmDevice()->path() << "as the primary GPU";
+    }
     return true;
 }
 
@@ -153,7 +171,7 @@ void DrmBackend::handleUdevEvent()
             }
         }
 
-        if (device->action() == QStringLiteral("add")) {
+        if (device->action() == QLatin1StringView("add")) {
             DrmGpu *gpu = findGpu(device->devNum());
             if (gpu) {
                 qCWarning(KWIN_DRM) << "Received unexpected add udev event for:" << device->devNode();
@@ -162,7 +180,7 @@ void DrmBackend::handleUdevEvent()
             if (addGpu(device->devNode())) {
                 updateOutputs();
             }
-        } else if (device->action() == QStringLiteral("remove")) {
+        } else if (device->action() == QLatin1StringView("remove")) {
             DrmGpu *gpu = findGpu(device->devNum());
             if (gpu) {
                 if (primaryGpu() == gpu) {
@@ -174,7 +192,7 @@ void DrmBackend::handleUdevEvent()
                     updateOutputs();
                 }
             }
-        } else if (device->action() == QStringLiteral("change")) {
+        } else if (device->action() == QLatin1StringView("change")) {
             DrmGpu *gpu = findGpu(device->devNum());
             if (!gpu) {
                 gpu = addGpu(device->devNode());
@@ -292,20 +310,6 @@ std::unique_ptr<OpenGLBackend> DrmBackend::createOpenGLBackend()
     return std::make_unique<EglGbmBackend>(this);
 }
 
-void DrmBackend::sceneInitialized()
-{
-    if (m_outputs.isEmpty()) {
-        updateOutputs();
-    } else {
-        for (const auto &gpu : m_gpus) {
-            gpu->recreateSurfaces();
-        }
-        for (const auto &virt : std::as_const(m_virtualOutputs)) {
-            virt->recreateSurface();
-        }
-    }
-}
-
 QList<CompositingType> DrmBackend::supportedCompositors() const
 {
     return QList<CompositingType>{OpenGLCompositing, QPainterCompositing};
@@ -324,9 +328,9 @@ QString DrmBackend::supportInformation() const
     return supportInfo;
 }
 
-Output *DrmBackend::createVirtualOutput(const QString &name, const QSize &size, double scale)
+Output *DrmBackend::createVirtualOutput(const QString &name, const QString &description, const QSize &size, double scale)
 {
-    const auto ret = new DrmVirtualOutput(this, name, size, scale);
+    const auto ret = new DrmVirtualOutput(this, name, description, size, scale);
     m_virtualOutputs.push_back(ret);
     addOutput(ret);
     Q_EMIT outputsQueried();
@@ -417,6 +421,16 @@ void DrmBackend::setRenderBackend(DrmRenderBackend *backend)
 DrmRenderBackend *DrmBackend::renderBackend() const
 {
     return m_renderBackend;
+}
+
+void DrmBackend::createLayers()
+{
+    for (const auto &gpu : m_gpus) {
+        gpu->recreateSurfaces();
+    }
+    for (const auto &virt : std::as_const(m_virtualOutputs)) {
+        virt->recreateSurface();
+    }
 }
 
 void DrmBackend::releaseBuffers()

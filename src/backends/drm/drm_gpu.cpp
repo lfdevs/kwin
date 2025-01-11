@@ -189,12 +189,15 @@ void DrmGpu::initDrmResources()
         uint32_t crtcId = resources->crtcs[i];
         QList<DrmPlane *> primaryCandidates;
         QList<DrmPlane *> cursorCandidates;
+        QList<DrmPlane *> overlayCandidates;
         for (const auto &plane : m_planes) {
             if (plane->isCrtcSupported(i) && !assignedPlanes.contains(plane.get())) {
                 if (plane->type.enumValue() == DrmPlane::TypeIndex::Primary) {
                     primaryCandidates.push_back(plane.get());
                 } else if (plane->type.enumValue() == DrmPlane::TypeIndex::Cursor) {
                     cursorCandidates.push_back(plane.get());
+                } else if (plane->type.enumValue() == DrmPlane::TypeIndex::Overlay) {
+                    overlayCandidates.push_back(plane.get());
                 }
             }
         }
@@ -220,8 +223,11 @@ void DrmGpu::initDrmResources()
             return list.empty() ? nullptr : list.front();
         };
         DrmPlane *primary = findBestPlane(primaryCandidates);
-        DrmPlane *cursor = findBestPlane(cursorCandidates);
         assignedPlanes.push_back(primary);
+        DrmPlane *cursor = findBestPlane(cursorCandidates);
+        if (!cursor) {
+            cursor = findBestPlane(overlayCandidates);
+        }
         if (cursor) {
             assignedPlanes.push_back(cursor);
         }
@@ -306,9 +312,9 @@ bool DrmGpu::updateOutputs()
             m_drmOutputs << output;
             addedOutputs << output;
             Q_EMIT outputAdded(output);
-            pipeline->setLayers(m_platform->renderBackend()->createDrmPlaneLayer(pipeline, DrmPlane::TypeIndex::Primary), m_platform->renderBackend()->createDrmPlaneLayer(pipeline, DrmPlane::TypeIndex::Cursor));
             pipeline->setActive(true);
             pipeline->setEnable(false);
+            pipeline->setMode(conn->modes().front());
             pipeline->applyPendingChanges();
         } else {
             output->updateConnectorProperties();
@@ -318,52 +324,6 @@ bool DrmGpu::updateOutputs()
         } else {
             m_allObjects.removeOne(it->get());
             it = m_connectors.erase(it);
-        }
-    }
-
-    // try to apply mode changes triggered above
-    DrmPipeline::Error err = testPendingConfiguration();
-    if (err == DrmPipeline::Error::None) {
-        for (const auto &pipeline : std::as_const(m_pipelines)) {
-            pipeline->applyPendingChanges();
-        }
-    } else {
-        for (const auto &pipeline : std::as_const(m_pipelines)) {
-            pipeline->revertPendingChanges();
-        }
-        // try again, with the mode changes reverted
-        err = testPendingConfiguration();
-    }
-    if (err == DrmPipeline::Error::None) {
-        for (const auto &pipeline : std::as_const(m_pipelines)) {
-            pipeline->applyPendingChanges();
-            if (pipeline->output() && !pipeline->crtc()) {
-                pipeline->setEnable(false);
-                pipeline->output()->updateEnabled(false);
-            }
-        }
-    } else if (err == DrmPipeline::Error::NoPermission) {
-        for (const auto &pipeline : std::as_const(m_pipelines)) {
-            pipeline->revertPendingChanges();
-        }
-        for (const auto &output : std::as_const(addedOutputs)) {
-            removeOutput(output);
-            const auto it = std::ranges::find_if(m_connectors, [output](const auto &conn) {
-                return conn.get() == output->connector();
-            });
-            Q_ASSERT(it != m_connectors.end());
-            m_allObjects.removeOne(it->get());
-            m_connectors.erase(it);
-        }
-    } else {
-        qCWarning(KWIN_DRM, "Failed to find a working setup for new outputs!");
-        for (const auto &pipeline : std::as_const(m_pipelines)) {
-            pipeline->revertPendingChanges();
-        }
-        for (const auto &output : std::as_const(addedOutputs)) {
-            output->updateEnabled(false);
-            output->pipeline()->setEnable(false);
-            output->pipeline()->applyPendingChanges();
         }
     }
     return true;
@@ -461,6 +421,11 @@ DrmPipeline::Error DrmGpu::testPendingConfiguration()
             return c1->crtcId.value() > c2->crtcId.value();
         });
     }
+    for (DrmPipeline *pipeline : m_pipelines) {
+        if (!pipeline->primaryLayer()) {
+            pipeline->setLayers(m_platform->renderBackend()->createDrmPlaneLayer(pipeline, DrmPlane::TypeIndex::Primary), m_platform->renderBackend()->createDrmPlaneLayer(pipeline, DrmPlane::TypeIndex::Cursor));
+        }
+    }
     // reset all outputs to their most basic configuration (primary plane without scaling)
     // for the test, and set the target rects appropriately
     for (const auto output : std::as_const(m_drmOutputs)) {
@@ -521,7 +486,7 @@ void DrmGpu::waitIdle()
         pfds[0].fd = m_fd;
         pfds[0].events = POLLIN;
 
-        const int ready = poll(pfds, 1, 30000);
+        const int ready = poll(pfds, 1, s_pageflipTimeout.count());
         if (ready < 0) {
             if (errno != EINTR) {
                 qCWarning(KWIN_DRM) << Q_FUNC_INFO << "poll() failed:" << strerror(errno);

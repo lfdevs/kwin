@@ -191,7 +191,7 @@ void CompositorWindow::mouseMoveEvent(QMouseEvent *event)
         updateFocus();
     }
     m_seat->setTimestamp(std::chrono::milliseconds(event->timestamp()));
-    m_seat->notifyPointerMotion(event->localPos().toPoint());
+    m_seat->notifyPointerMotion(event->position().toPoint());
     m_seat->notifyPointerFrame();
 }
 
@@ -200,7 +200,7 @@ void CompositorWindow::mousePressEvent(QMouseEvent *event)
     QWidget::mousePressEvent(event);
     if (!m_seat->focusedPointerSurface()) {
         if (!m_stackingOrder.isEmpty()) {
-            m_seat->notifyPointerEnter(m_stackingOrder.last()->surface(), event->globalPos());
+            m_seat->notifyPointerEnter(m_stackingOrder.last()->surface(), event->globalPosition());
         }
     }
     m_seat->setTimestamp(std::chrono::milliseconds(event->timestamp()));
@@ -256,10 +256,9 @@ int main(int argc, char **argv)
 
     auto outputInterface = std::make_unique<OutputInterface>(&display, outputHandle.get());
 
-    SeatInterface *seat = new SeatInterface(&display);
+    SeatInterface *seat = new SeatInterface(&display, QStringLiteral("testSeat0"));
     seat->setHasKeyboard(true);
     seat->setHasPointer(true);
-    seat->setName(QStringLiteral("testSeat0"));
 
     CompositorWindow compositorWindow;
     compositorWindow.setSeat(seat);

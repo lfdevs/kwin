@@ -1561,6 +1561,51 @@ uint32_t WaylandOutputDeviceV2::rgbRange() const
     return m_rgbRange;
 }
 
+VirtualInputDeviceTabletTool::VirtualInputDeviceTabletTool(QObject *parent)
+    : InputDeviceTabletTool(parent)
+{
+}
+
+void VirtualInputDeviceTabletTool::setSerialId(quint64 serialId)
+{
+    m_serialId = serialId;
+}
+
+void VirtualInputDeviceTabletTool::setUniqueId(quint64 uniqueId)
+{
+    m_uniqueId = uniqueId;
+}
+
+void VirtualInputDeviceTabletTool::setType(Type type)
+{
+    m_type = type;
+}
+
+void VirtualInputDeviceTabletTool::setCapabilities(const QList<Capability> &capabilities)
+{
+    m_capabilities = capabilities;
+}
+
+quint64 VirtualInputDeviceTabletTool::serialId() const
+{
+    return m_serialId;
+}
+
+quint64 VirtualInputDeviceTabletTool::uniqueId() const
+{
+    return m_uniqueId;
+}
+
+VirtualInputDeviceTabletTool::Type VirtualInputDeviceTabletTool::type() const
+{
+    return m_type;
+}
+
+QList<VirtualInputDeviceTabletTool::Capability> VirtualInputDeviceTabletTool::capabilities() const
+{
+    return m_capabilities;
+}
+
 VirtualInputDevice::VirtualInputDevice(QObject *parent)
     : InputDevice(parent)
 {
@@ -1601,14 +1646,19 @@ void VirtualInputDevice::setName(const QString &name)
     m_name = name;
 }
 
-QString VirtualInputDevice::sysName() const
+void VirtualInputDevice::setGroup(uintptr_t group)
 {
-    return QString();
+    m_group = reinterpret_cast<void *>(group);
 }
 
 QString VirtualInputDevice::name() const
 {
     return m_name;
+}
+
+void *VirtualInputDevice::group() const
+{
+    return m_group;
 }
 
 bool VirtualInputDevice::isEnabled() const
@@ -1617,15 +1667,6 @@ bool VirtualInputDevice::isEnabled() const
 }
 
 void VirtualInputDevice::setEnabled(bool enabled)
-{
-}
-
-LEDs VirtualInputDevice::leds() const
-{
-    return LEDs();
-}
-
-void VirtualInputDevice::setLeds(LEDs leds)
 {
 }
 
@@ -1682,40 +1723,40 @@ XXColorManagerV4::~XXColorManagerV4()
 void keyboardKeyPressed(quint32 key, quint32 time)
 {
     auto virtualKeyboard = static_cast<WaylandTestApplication *>(kwinApp())->virtualKeyboard();
-    Q_EMIT virtualKeyboard->keyChanged(key, InputRedirection::KeyboardKeyState::KeyboardKeyPressed, std::chrono::milliseconds(time), virtualKeyboard);
+    Q_EMIT virtualKeyboard->keyChanged(key, KeyboardKeyState::Pressed, std::chrono::milliseconds(time), virtualKeyboard);
 }
 
 void keyboardKeyReleased(quint32 key, quint32 time)
 {
     auto virtualKeyboard = static_cast<WaylandTestApplication *>(kwinApp())->virtualKeyboard();
-    Q_EMIT virtualKeyboard->keyChanged(key, InputRedirection::KeyboardKeyState::KeyboardKeyReleased, std::chrono::milliseconds(time), virtualKeyboard);
+    Q_EMIT virtualKeyboard->keyChanged(key, KeyboardKeyState::Released, std::chrono::milliseconds(time), virtualKeyboard);
 }
 
-void pointerAxisHorizontal(qreal delta, quint32 time, qint32 discreteDelta, InputRedirection::PointerAxisSource source)
+void pointerAxisHorizontal(qreal delta, quint32 time, qint32 discreteDelta, PointerAxisSource source)
 {
     auto virtualPointer = static_cast<WaylandTestApplication *>(kwinApp())->virtualPointer();
-    Q_EMIT virtualPointer->pointerAxisChanged(InputRedirection::PointerAxis::PointerAxisHorizontal, delta, discreteDelta, source, std::chrono::milliseconds(time), virtualPointer);
+    Q_EMIT virtualPointer->pointerAxisChanged(PointerAxis::Horizontal, delta, discreteDelta, source, false, std::chrono::milliseconds(time), virtualPointer);
     Q_EMIT virtualPointer->pointerFrame(virtualPointer);
 }
 
-void pointerAxisVertical(qreal delta, quint32 time, qint32 discreteDelta, InputRedirection::PointerAxisSource source)
+void pointerAxisVertical(qreal delta, quint32 time, qint32 discreteDelta, PointerAxisSource source)
 {
     auto virtualPointer = static_cast<WaylandTestApplication *>(kwinApp())->virtualPointer();
-    Q_EMIT virtualPointer->pointerAxisChanged(InputRedirection::PointerAxis::PointerAxisVertical, delta, discreteDelta, source, std::chrono::milliseconds(time), virtualPointer);
+    Q_EMIT virtualPointer->pointerAxisChanged(PointerAxis::Vertical, delta, discreteDelta, source, false, std::chrono::milliseconds(time), virtualPointer);
     Q_EMIT virtualPointer->pointerFrame(virtualPointer);
 }
 
 void pointerButtonPressed(quint32 button, quint32 time)
 {
     auto virtualPointer = static_cast<WaylandTestApplication *>(kwinApp())->virtualPointer();
-    Q_EMIT virtualPointer->pointerButtonChanged(button, InputRedirection::PointerButtonState::PointerButtonPressed, std::chrono::milliseconds(time), virtualPointer);
+    Q_EMIT virtualPointer->pointerButtonChanged(button, PointerButtonState::Pressed, std::chrono::milliseconds(time), virtualPointer);
     Q_EMIT virtualPointer->pointerFrame(virtualPointer);
 }
 
 void pointerButtonReleased(quint32 button, quint32 time)
 {
     auto virtualPointer = static_cast<WaylandTestApplication *>(kwinApp())->virtualPointer();
-    Q_EMIT virtualPointer->pointerButtonChanged(button, InputRedirection::PointerButtonState::PointerButtonReleased, std::chrono::milliseconds(time), virtualPointer);
+    Q_EMIT virtualPointer->pointerButtonChanged(button, PointerButtonState::Released, std::chrono::milliseconds(time), virtualPointer);
     Q_EMIT virtualPointer->pointerFrame(virtualPointer);
 }
 
@@ -1760,48 +1801,34 @@ void touchUp(qint32 id, quint32 time)
 void tabletPadButtonPressed(quint32 button, quint32 time)
 {
     auto virtualTabletPad = static_cast<WaylandTestApplication *>(kwinApp())->virtualTabletPad();
-    TabletPadId padId{
-        .name = virtualTabletPad->name(),
-    };
-    Q_EMIT virtualTabletPad->tabletPadButtonEvent(button, true, padId, std::chrono::milliseconds(time));
+    Q_EMIT virtualTabletPad->tabletPadButtonEvent(button, true, std::chrono::milliseconds(time), virtualTabletPad);
 }
 
 void tabletPadButtonReleased(quint32 button, quint32 time)
 {
     auto virtualTabletPad = static_cast<WaylandTestApplication *>(kwinApp())->virtualTabletPad();
-    TabletPadId padId{
-        .name = virtualTabletPad->name(),
-    };
-    Q_EMIT virtualTabletPad->tabletPadButtonEvent(button, false, padId, std::chrono::milliseconds(time));
+    Q_EMIT virtualTabletPad->tabletPadButtonEvent(button, false, std::chrono::milliseconds(time), virtualTabletPad);
 }
 
 void tabletToolButtonPressed(quint32 button, quint32 time)
 {
-    auto virtualTabletTool = static_cast<WaylandTestApplication *>(kwinApp())->virtualTabletTool();
-    TabletToolId toolId{
-        .m_name = virtualTabletTool->name(),
-    };
-    Q_EMIT virtualTabletTool->tabletToolButtonEvent(button, true, toolId, std::chrono::milliseconds(time));
+    auto tablet = static_cast<WaylandTestApplication *>(kwinApp())->virtualTablet();
+    auto tool = static_cast<WaylandTestApplication *>(kwinApp())->virtualTabletTool();
+    Q_EMIT tablet->tabletToolButtonEvent(button, true, tool, std::chrono::milliseconds(time), tablet);
 }
 
 void tabletToolButtonReleased(quint32 button, quint32 time)
 {
-    auto virtualTabletTool = static_cast<WaylandTestApplication *>(kwinApp())->virtualTabletTool();
-    TabletToolId toolId{
-        .m_name = virtualTabletTool->name(),
-    };
-    Q_EMIT virtualTabletTool->tabletToolButtonEvent(button, false, toolId, std::chrono::milliseconds(time));
+    auto tablet = static_cast<WaylandTestApplication *>(kwinApp())->virtualTablet();
+    auto tool = static_cast<WaylandTestApplication *>(kwinApp())->virtualTabletTool();
+    Q_EMIT tablet->tabletToolButtonEvent(button, false, tool, std::chrono::milliseconds(time), tablet);
 }
 
-void tabletToolEvent(InputRedirection::TabletEventType type, const QPointF &pos,
-                     qreal pressure, int xTilt, int yTilt, qreal rotation, bool tipDown,
-                     bool tipNear, quint32 time)
+void tabletToolProximityEvent(const QPointF &pos, qreal pressure, qreal xTilt, qreal yTilt, qreal rotation, qreal distance, bool tipDown, bool tipNear, quint32 time)
 {
-    auto virtualTabletTool = static_cast<WaylandTestApplication *>(kwinApp())->virtualTabletTool();
-    TabletToolId toolId{
-        .m_name = virtualTabletTool->name(),
-    };
-    Q_EMIT virtualTabletTool->tabletToolEvent(type, pos, pressure, xTilt, yTilt, rotation, tipDown, tipNear, toolId, std::chrono::milliseconds(time));
+    auto tablet = static_cast<WaylandTestApplication *>(kwinApp())->virtualTablet();
+    auto tool = static_cast<WaylandTestApplication *>(kwinApp())->virtualTabletTool();
+    Q_EMIT tablet->tabletToolProximityEvent(pos, pressure, xTilt, yTilt, rotation, distance, tipDown, tipNear, tool, std::chrono::milliseconds(time), tablet);
 }
 }
 }

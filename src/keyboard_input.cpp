@@ -72,6 +72,11 @@ KeyboardLayout *KeyboardInputRedirection::keyboardLayout() const
     return m_keyboardLayout;
 }
 
+QList<uint32_t> KeyboardInputRedirection::pressedKeys() const
+{
+    return m_pressedKeys;
+}
+
 class KeyStateChangedSpy : public InputEventSpy
 {
 public:
@@ -80,12 +85,12 @@ public:
     {
     }
 
-    void keyEvent(KeyEvent *event) override
+    void keyboardKey(KeyboardKeyEvent *event) override
     {
-        if (event->isAutoRepeat()) {
+        if (event->state == KeyboardKeyState::Repeated) {
             return;
         }
-        Q_EMIT m_input->keyStateChanged(event->nativeScanCode(), event->type() == QEvent::KeyPress ? InputRedirection::KeyboardKeyPressed : InputRedirection::KeyboardKeyReleased);
+        Q_EMIT m_input->keyStateChanged(event->nativeScanCode, event->state);
     }
 
 private:
@@ -101,16 +106,13 @@ public:
     {
     }
 
-    void keyEvent(KeyEvent *event) override
+    void keyboardKey(KeyboardKeyEvent *event) override
     {
-        if (event->isAutoRepeat()) {
+        if (event->state == KeyboardKeyState::Repeated) {
             return;
         }
 
-        // QKeyEvent::modifiers differs from the superclass QInputEvent::modifiers
-        // QKeyEvent tries to special case an old QtXCB behaviour and assumes modifiers aren't processed at
-        // the time of the release and inverts the logic. This is not the case for kwin
-        const Qt::KeyboardModifiers mods = event->QInputEvent::modifiers();
+        const Qt::KeyboardModifiers mods = event->modifiers;
         if (mods == m_modifiers) {
             return;
         }
@@ -142,7 +144,7 @@ void KeyboardInputRedirection::init()
 
     KeyboardRepeat *keyRepeatSpy = new KeyboardRepeat(m_xkb.get());
     connect(keyRepeatSpy, &KeyboardRepeat::keyRepeat, this,
-            std::bind(&KeyboardInputRedirection::processKey, this, std::placeholders::_1, InputRedirection::KeyboardKeyAutoRepeat, std::placeholders::_2, nullptr));
+            std::bind(&KeyboardInputRedirection::processKey, this, std::placeholders::_1, KeyboardKeyState::Repeated, std::placeholders::_2, nullptr));
     m_input->installInputEventSpy(keyRepeatSpy);
 
     connect(workspace(), &QObject::destroyed, this, [this] {
@@ -236,64 +238,57 @@ void KeyboardInputRedirection::update()
     Window *found = pickFocus();
     if (found && found->surface()) {
         if (found->surface() != seat->focusedKeyboardSurface()) {
-            seat->setFocusedKeyboardSurface(found->surface());
+            seat->setFocusedKeyboardSurface(found->surface(), pressedKeys());
         }
     } else {
         seat->setFocusedKeyboardSurface(nullptr);
     }
 }
 
-void KeyboardInputRedirection::processKey(uint32_t key, InputRedirection::KeyboardKeyState state, std::chrono::microseconds time, InputDevice *device)
+void KeyboardInputRedirection::processKey(uint32_t key, KeyboardKeyState state, std::chrono::microseconds time, InputDevice *device)
 {
     input()->setLastInputHandler(this);
     if (!m_inited) {
         return;
     }
 
-    QEvent::Type type;
-    bool autoRepeat = false;
-    switch (state) {
-    case InputRedirection::KeyboardKeyAutoRepeat:
-        autoRepeat = true;
-        // fall through
-    case InputRedirection::KeyboardKeyPressed:
-        type = QEvent::KeyPress;
-        break;
-    case InputRedirection::KeyboardKeyReleased:
-        type = QEvent::KeyRelease;
-        break;
-    default:
-        Q_UNREACHABLE();
+    if (state == KeyboardKeyState::Pressed) {
+        if (!m_pressedKeys.contains(key)) {
+            m_pressedKeys.append(key);
+        }
+    } else if (state == KeyboardKeyState::Released) {
+        m_pressedKeys.removeOne(key);
     }
 
     const quint32 previousLayout = m_xkb->currentLayout();
-    if (!autoRepeat) {
+    if (state != KeyboardKeyState::Repeated) {
         m_xkb->updateKey(key, state);
     }
 
     const xkb_keysym_t keySym = m_xkb->toKeysym(key);
     const Qt::KeyboardModifiers globalShortcutsModifiers = m_xkb->modifiersRelevantForGlobalShortcuts(key);
-    KeyEvent event(type,
-                   m_xkb->toQtKey(keySym, key, globalShortcutsModifiers ? Qt::ControlModifier : Qt::KeyboardModifiers()),
-                   m_xkb->modifiers(),
-                   key,
-                   keySym,
-                   m_xkb->toString(m_xkb->currentKeysym()),
-                   autoRepeat,
-                   time,
-                   device);
-    event.setAccepted(false);
-    event.setModifiersRelevantForGlobalShortcuts(globalShortcutsModifiers);
 
-    m_input->processSpies(std::bind(&InputEventSpy::keyEvent, std::placeholders::_1, &event));
-    m_input->processFilters(std::bind(&InputEventFilter::keyEvent, std::placeholders::_1, &event));
+    KeyboardKeyEvent event{
+        .device = device,
+        .state = state,
+        .key = m_xkb->toQtKey(keySym, key, globalShortcutsModifiers ? Qt::ControlModifier : Qt::KeyboardModifiers()),
+        .nativeScanCode = key,
+        .nativeVirtualKey = keySym,
+        .text = m_xkb->toString(m_xkb->currentKeysym()),
+        .modifiers = m_xkb->modifiers(),
+        .modifiersRelevantForGlobalShortcuts = m_xkb->modifiersRelevantForGlobalShortcuts(key),
+        .timestamp = time,
+    };
+
+    m_input->processSpies(std::bind(&InputEventSpy::keyboardKey, std::placeholders::_1, &event));
+    m_input->processFilters(std::bind(&InputEventFilter::keyboardKey, std::placeholders::_1, &event));
 
     m_xkb->forwardModifiers();
     if (auto *inputmethod = kwinApp()->inputMethod()) {
         inputmethod->forwardModifiers(InputMethod::NoForce);
     }
 
-    if (event.modifiersRelevantForGlobalShortcuts() == Qt::KeyboardModifier::NoModifier && type != QEvent::KeyRelease) {
+    if (event.modifiersRelevantForGlobalShortcuts == Qt::KeyboardModifier::NoModifier && state != KeyboardKeyState::Released) {
         m_keyboardLayout->checkLayoutChange(previousLayout);
     }
 }

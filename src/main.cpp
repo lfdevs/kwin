@@ -112,14 +112,9 @@ Application::OperationMode Application::operationMode() const
     return m_operationMode;
 }
 
-void Application::setOperationMode(OperationMode mode)
-{
-    m_operationMode = mode;
-}
-
 bool Application::shouldUseWaylandForCompositing() const
 {
-    return m_operationMode == OperationModeWaylandOnly || m_operationMode == OperationModeXwayland;
+    return m_operationMode == OperationModeWayland;
 }
 
 void Application::start()
@@ -154,11 +149,6 @@ Application::~Application()
     destroyAtoms();
     destroyPlatform();
     m_session.reset();
-}
-
-void Application::notifyStarted()
-{
-    Q_EMIT started();
 }
 
 void Application::destroyAtoms()
@@ -557,7 +547,7 @@ void Application::updateXTime()
         setX11Time(QX11Info::getTimestamp(), TimestampUpdate::Always);
         break;
 
-    case Application::OperationModeXwayland:
+    case Application::OperationModeWayland:
         setX11Time(monotonicTime(), TimestampUpdate::Always);
         break;
 

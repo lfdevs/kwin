@@ -26,7 +26,7 @@
 #include "x11window.h"
 #endif
 
-#include <QQmlEngine>
+#include <QJSEngine>
 
 namespace KWin
 {
@@ -55,6 +55,7 @@ WorkspaceWrapper::WorkspaceWrapper(QObject *parent)
     connect(ws, &Workspace::geometryChanged, this, &WorkspaceWrapper::virtualScreenSizeChanged);
     connect(ws, &Workspace::geometryChanged, this, &WorkspaceWrapper::virtualScreenGeometryChanged);
     connect(ws, &Workspace::outputsChanged, this, &WorkspaceWrapper::screensChanged);
+    connect(ws, &Workspace::outputOrderChanged, this, &WorkspaceWrapper::screenOrderChanged);
     connect(Cursors::self()->mouse(), &Cursor::posChanged, this, &WorkspaceWrapper::cursorPosChanged);
 }
 
@@ -94,7 +95,7 @@ void WorkspaceWrapper::setCurrentActivity(const QString &activity)
 {
 #if KWIN_BUILD_ACTIVITIES
     if (Workspace::self()->activities()) {
-        Workspace::self()->activities()->setCurrent(activity);
+        Workspace::self()->activities()->setCurrent(activity, nullptr);
     }
 #endif
 }
@@ -304,7 +305,7 @@ void WorkspaceWrapper::raiseWindow(KWin::Window *window)
 Window *WorkspaceWrapper::getClient(qulonglong windowId)
 {
     auto window = Workspace::self()->findClient(Predicate::WindowMatch, windowId);
-    QQmlEngine::setObjectOwnership(window, QQmlEngine::CppOwnership);
+    QJSEngine::setObjectOwnership(window, QJSEngine::CppOwnership);
     return window;
 }
 #endif
@@ -381,10 +382,15 @@ QList<Output *> WorkspaceWrapper::screens() const
     return workspace()->outputs();
 }
 
+QList<Output *> WorkspaceWrapper::screenOrder() const
+{
+    return workspace()->outputOrder();
+}
+
 Output *WorkspaceWrapper::screenAt(const QPointF &pos) const
 {
     auto output = workspace()->outputAt(pos);
-    QQmlEngine::setObjectOwnership(output, QQmlEngine::CppOwnership);
+    QJSEngine::setObjectOwnership(output, QJSEngine::CppOwnership);
     return output;
 }
 
@@ -408,7 +414,7 @@ KWin::TileManager *WorkspaceWrapper::tilingForScreen(const QString &screenName) 
     Output *output = kwinApp()->outputBackend()->findOutput(screenName);
     if (output) {
         auto tileManager = workspace()->tileManager(output);
-        QQmlEngine::setObjectOwnership(tileManager, QQmlEngine::CppOwnership);
+        QJSEngine::setObjectOwnership(tileManager, QJSEngine::CppOwnership);
         return tileManager;
     }
     return nullptr;
@@ -417,7 +423,7 @@ KWin::TileManager *WorkspaceWrapper::tilingForScreen(const QString &screenName) 
 KWin::TileManager *WorkspaceWrapper::tilingForScreen(Output *output) const
 {
     auto tileManager = workspace()->tileManager(output);
-    QQmlEngine::setObjectOwnership(tileManager, QQmlEngine::CppOwnership);
+    QJSEngine::setObjectOwnership(tileManager, QJSEngine::CppOwnership);
     return tileManager;
 }
 

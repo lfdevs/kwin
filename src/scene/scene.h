@@ -34,6 +34,7 @@ public:
     QRegion prePaint() override;
     void postPaint() override;
     void paint(const RenderTarget &renderTarget, const QRegion &region) override;
+    double desiredHdrHeadroom() const override;
 
 private:
     Scene *m_scene;
@@ -70,6 +71,7 @@ public:
     ItemRenderer *renderer() const;
 
     void addRepaint(const QRegion &region);
+    void addRepaint(SceneDelegate *delegate, const QRegion &region);
     void addRepaint(int x, int y, int width, int height);
     void addRepaintFull();
     virtual QRegion damage() const;
@@ -86,6 +88,7 @@ public:
     virtual void postPaint() = 0;
     virtual void paint(const RenderTarget &renderTarget, const QRegion &region) = 0;
     virtual void frame(SceneDelegate *delegate, OutputFrame *frame);
+    virtual double desiredHdrHeadroom() const;
 
 Q_SIGNALS:
     void delegateRemoved(SceneDelegate *delegate);

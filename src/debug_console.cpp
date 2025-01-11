@@ -151,7 +151,7 @@ static QString deviceRow(InputDevice *device)
     if (!device) {
         return tableRow(i18n("Input Device"), i18nc("The input device of the event is not known", "Unknown"));
     }
-    return tableRow(i18n("Input Device"), QStringLiteral("%1 (%2)").arg(device->name(), device->sysName()));
+    return tableRow(i18n("Input Device"), QStringLiteral("%1 (%2)").arg(device->name(), device->sysPath()));
 }
 
 static QString buttonsToString(Qt::MouseButtons buttons)
@@ -178,47 +178,51 @@ DebugConsoleFilter::DebugConsoleFilter(QTextEdit *textEdit)
 
 DebugConsoleFilter::~DebugConsoleFilter() = default;
 
-void DebugConsoleFilter::pointerEvent(MouseEvent *event)
+void DebugConsoleFilter::pointerMotion(PointerMotionEvent *event)
 {
     QString text = s_hr;
-    const QString timestamp = timestampRow(event->timestamp());
+    const QString timestamp = timestampRow(event->timestamp);
 
     text.append(s_tableStart);
-    switch (event->type()) {
-    case QEvent::MouseMove: {
-        text.append(tableHeaderRow(i18nc("A mouse pointer motion event", "Pointer Motion")));
-        text.append(deviceRow(event->device()));
-        text.append(timestamp);
-        text.append(timestampRowUsec(event->timestamp()));
-        if (!event->delta().isNull()) {
-            text.append(tableRow(i18nc("The relative mouse movement", "Delta"),
-                                 QStringLiteral("%1/%2").arg(event->delta().x()).arg(event->delta().y())));
-        }
-        if (!event->deltaUnaccelerated().isNull()) {
-            text.append(tableRow(i18nc("The relative mouse movement", "Delta (not accelerated)"),
-                                 QStringLiteral("%1/%2").arg(event->deltaUnaccelerated().x()).arg(event->deltaUnaccelerated().y())));
-        }
-        text.append(tableRow(i18nc("The global mouse pointer position", "Global Position"), QStringLiteral("%1/%2").arg(event->pos().x()).arg(event->pos().y())));
-        break;
+    text.append(tableHeaderRow(i18nc("A mouse pointer motion event", "Pointer Motion")));
+    text.append(deviceRow(event->device));
+    text.append(timestamp);
+    text.append(timestampRowUsec(event->timestamp));
+    if (!event->delta.isNull()) {
+        text.append(tableRow(i18nc("The relative mouse movement", "Delta"),
+                             QStringLiteral("%1/%2").arg(event->delta.x()).arg(event->delta.y())));
     }
-    case QEvent::MouseButtonPress:
+    if (!event->deltaUnaccelerated.isNull()) {
+        text.append(tableRow(i18nc("The relative mouse movement", "Delta (not accelerated)"),
+                             QStringLiteral("%1/%2").arg(event->deltaUnaccelerated.x()).arg(event->deltaUnaccelerated.y())));
+    }
+    text.append(tableRow(i18nc("The global mouse pointer position", "Global Position"), QStringLiteral("%1/%2").arg(event->position.x()).arg(event->position.y())));
+    text.append(s_tableEnd);
+
+    m_textEdit->insertHtml(text);
+    m_textEdit->ensureCursorVisible();
+}
+
+void DebugConsoleFilter::pointerButton(PointerButtonEvent *event)
+{
+    QString text = s_hr;
+    const QString timestamp = timestampRow(event->timestamp);
+
+    text.append(s_tableStart);
+    if (event->state == PointerButtonState::Pressed) {
         text.append(tableHeaderRow(i18nc("A mouse pointer button press event", "Pointer Button Press")));
-        text.append(deviceRow(event->device()));
+        text.append(deviceRow(event->device));
         text.append(timestamp);
-        text.append(tableRow(i18nc("A button in a mouse press/release event", "Button"), buttonToString(event->button())));
-        text.append(tableRow(i18nc("A button in a mouse press/release event", "Native Button code"), event->nativeButton()));
-        text.append(tableRow(i18nc("All currently pressed buttons in a mouse press/release event", "Pressed Buttons"), buttonsToString(event->buttons())));
-        break;
-    case QEvent::MouseButtonRelease:
+        text.append(tableRow(i18nc("A button in a mouse press/release event", "Button"), buttonToString(event->button)));
+        text.append(tableRow(i18nc("A button in a mouse press/release event", "Native Button code"), event->nativeButton));
+        text.append(tableRow(i18nc("All currently pressed buttons in a mouse press/release event", "Pressed Buttons"), buttonsToString(event->buttons)));
+    } else {
         text.append(tableHeaderRow(i18nc("A mouse pointer button release event", "Pointer Button Release")));
-        text.append(deviceRow(event->device()));
+        text.append(deviceRow(event->device));
         text.append(timestamp);
-        text.append(tableRow(i18nc("A button in a mouse press/release event", "Button"), buttonToString(event->button())));
-        text.append(tableRow(i18nc("A button in a mouse press/release event", "Native Button code"), event->nativeButton()));
-        text.append(tableRow(i18nc("All currently pressed buttons in a mouse press/release event", "Pressed Buttons"), buttonsToString(event->buttons())));
-        break;
-    default:
-        break;
+        text.append(tableRow(i18nc("A button in a mouse press/release event", "Button"), buttonToString(event->button)));
+        text.append(tableRow(i18nc("A button in a mouse press/release event", "Native Button code"), event->nativeButton));
+        text.append(tableRow(i18nc("All currently pressed buttons in a mouse press/release event", "Pressed Buttons"), buttonsToString(event->buttons)));
     }
     text.append(s_tableEnd);
 
@@ -226,79 +230,78 @@ void DebugConsoleFilter::pointerEvent(MouseEvent *event)
     m_textEdit->ensureCursorVisible();
 }
 
-void DebugConsoleFilter::wheelEvent(WheelEvent *event)
+void DebugConsoleFilter::pointerAxis(PointerAxisEvent *event)
 {
     QString text = s_hr;
     text.append(s_tableStart);
     text.append(tableHeaderRow(i18nc("A mouse pointer axis (wheel) event", "Pointer Axis")));
-    text.append(deviceRow(event->device()));
-    text.append(timestampRow(event->timestamp()));
-    const Qt::Orientation orientation = event->angleDelta().x() == 0 ? Qt::Vertical : Qt::Horizontal;
+    text.append(deviceRow(event->device));
+    text.append(timestampRow(event->timestamp));
     text.append(tableRow(i18nc("The orientation of a pointer axis event", "Orientation"),
-                         orientation == Qt::Horizontal ? i18nc("An orientation of a pointer axis event", "Horizontal")
-                                                       : i18nc("An orientation of a pointer axis event", "Vertical")));
-    text.append(tableRow(i18nc("The angle delta of a pointer axis event", "Delta"),
-                         orientation == Qt::Horizontal ? event->angleDelta().x() : event->angleDelta().y()));
+                         event->orientation == Qt::Horizontal ? i18nc("An orientation of a pointer axis event", "Horizontal")
+                                                              : i18nc("An orientation of a pointer axis event", "Vertical")));
+    text.append(tableRow(i18nc("The angle delta of a pointer axis event", "Delta"), event->delta));
+    text.append(tableRow(i18nc("The normalized V120 angle delta of a pointer axis event. V120 is a technical term and shouldn't be changed.", "Delta (V120)"), event->deltaV120));
     text.append(s_tableEnd);
 
     m_textEdit->insertHtml(text);
     m_textEdit->ensureCursorVisible();
 }
 
-void DebugConsoleFilter::keyEvent(KeyEvent *event)
+void DebugConsoleFilter::keyboardKey(KeyboardKeyEvent *event)
 {
     QString text = s_hr;
     text.append(s_tableStart);
 
-    switch (event->type()) {
-    case QEvent::KeyPress:
+    switch (event->state) {
+    case KeyboardKeyState::Repeated:
+    case KeyboardKeyState::Pressed:
         text.append(tableHeaderRow(i18nc("A key press event", "Key Press")));
         break;
-    case QEvent::KeyRelease:
+    case KeyboardKeyState::Released:
         text.append(tableHeaderRow(i18nc("A key release event", "Key Release")));
         break;
     default:
         break;
     }
-    text.append(deviceRow(event->device()));
+    text.append(deviceRow(event->device));
     auto modifiersToString = [event] {
         QString ret;
-        if (event->modifiers().testFlag(Qt::ShiftModifier)) {
+        if (event->modifiers.testFlag(Qt::ShiftModifier)) {
             ret.append(i18nc("A keyboard modifier", "Shift"));
             ret.append(QStringLiteral(" "));
         }
-        if (event->modifiers().testFlag(Qt::ControlModifier)) {
+        if (event->modifiers.testFlag(Qt::ControlModifier)) {
             ret.append(i18nc("A keyboard modifier", "Control"));
             ret.append(QStringLiteral(" "));
         }
-        if (event->modifiers().testFlag(Qt::AltModifier)) {
+        if (event->modifiers.testFlag(Qt::AltModifier)) {
             ret.append(i18nc("A keyboard modifier", "Alt"));
             ret.append(QStringLiteral(" "));
         }
-        if (event->modifiers().testFlag(Qt::MetaModifier)) {
+        if (event->modifiers.testFlag(Qt::MetaModifier)) {
             ret.append(i18nc("A keyboard modifier", "Meta"));
             ret.append(QStringLiteral(" "));
         }
-        if (event->modifiers().testFlag(Qt::KeypadModifier)) {
+        if (event->modifiers.testFlag(Qt::KeypadModifier)) {
             ret.append(i18nc("A keyboard modifier", "Keypad"));
             ret.append(QStringLiteral(" "));
         }
-        if (event->modifiers().testFlag(Qt::GroupSwitchModifier)) {
+        if (event->modifiers.testFlag(Qt::GroupSwitchModifier)) {
             ret.append(i18nc("A keyboard modifier", "Group-switch"));
             ret.append(QStringLiteral(" "));
         }
         return ret;
     };
-    text.append(timestampRow(event->timestamp()));
-    text.append(tableRow(i18nc("Whether the event is an automatic key repeat", "Repeat"), event->isAutoRepeat()));
+    text.append(timestampRow(event->timestamp));
+    text.append(tableRow(i18nc("Whether the event is an automatic key repeat", "Repeat"), event->state == KeyboardKeyState::Repeated));
 
     const auto keyMetaObject = Qt::qt_getEnumMetaObject(Qt::Key());
     const auto enumerator = keyMetaObject->enumerator(keyMetaObject->indexOfEnumerator("Key"));
-    text.append(tableRow(i18nc("The code reported by the kernel", "Keycode"), event->nativeScanCode()));
-    text.append(tableRow(i18nc("Key according to Qt", "Qt::Key code"),
-                         enumerator.valueToKey(event->key())));
-    text.append(tableRow(i18nc("The translated code to an Xkb symbol", "Xkb symbol"), event->nativeVirtualKey()));
-    text.append(tableRow(i18nc("The translated code interpreted as text", "Utf8"), event->text()));
+    text.append(tableRow(i18nc("The code reported by the kernel", "Keycode"), event->nativeScanCode));
+    text.append(tableRow(i18nc("Key according to Qt", "Qt::Key code"), enumerator.valueToKey(event->key)));
+    text.append(tableRow(i18nc("The translated code to an Xkb symbol", "Xkb symbol"), event->nativeVirtualKey));
+    text.append(tableRow(i18nc("The translated code interpreted as text", "Utf8"), event->text));
     text.append(tableRow(i18nc("The currently active modifiers", "Modifiers"), modifiersToString()));
 
     text.append(s_tableEnd);
@@ -459,22 +462,22 @@ void DebugConsoleFilter::switchEvent(SwitchEvent *event)
     QString text = s_hr;
     text.append(s_tableStart);
     text.append(tableHeaderRow(i18nc("A hardware switch (e.g. notebook lid) got toggled", "Switch toggled")));
-    text.append(timestampRow(event->timestamp()));
-    text.append(timestampRowUsec(event->timestamp()));
-    text.append(deviceRow(event->device()));
+    text.append(timestampRow(event->timestamp));
+    text.append(timestampRowUsec(event->timestamp));
+    text.append(deviceRow(event->device));
     QString switchName;
-    if (event->device()->isLidSwitch()) {
+    if (event->device->isLidSwitch()) {
         switchName = i18nc("Name of a hardware switch", "Notebook lid");
-    } else if (event->device()->isTabletModeSwitch()) {
+    } else if (event->device->isTabletModeSwitch()) {
         switchName = i18nc("Name of a hardware switch", "Tablet mode");
     }
     text.append(tableRow(i18nc("A hardware switch", "Switch"), switchName));
     QString switchState;
-    switch (event->state()) {
-    case SwitchEvent::State::Off:
+    switch (event->state) {
+    case SwitchState::Off:
         switchState = i18nc("The hardware switch got turned off", "Off");
         break;
-    case SwitchEvent::State::On:
+    case SwitchState::On:
         switchState = i18nc("The hardware switch got turned on", "On");
         break;
     default:
@@ -487,18 +490,12 @@ void DebugConsoleFilter::switchEvent(SwitchEvent *event)
     m_textEdit->ensureCursorVisible();
 }
 
-void DebugConsoleFilter::tabletToolEvent(TabletEvent *event)
+void DebugConsoleFilter::tabletToolProximityEvent(TabletEvent *event)
 {
-    QString typeString;
-    {
-        QDebug d(&typeString);
-        d << event->type();
-    }
-
-    QString text = s_hr + s_tableStart + tableHeaderRow(i18n("Tablet Tool"))
-        + tableRow(i18n("EventType"), typeString)
+    QString text = s_hr + s_tableStart + tableHeaderRow(i18n("Tablet Tool Proximity"))
+        + tableRow(i18n("Proximity"), event->type() == QEvent::TabletEnterProximity ? i18n("In") : i18n("Out"))
         + tableRow(i18n("Position"),
-                   QStringLiteral("%1,%2").arg(event->pos().x()).arg(event->pos().y()))
+                   QStringLiteral("%1,%2").arg(QString::number(event->position().x()), QString::number(event->position().y())))
         + tableRow(i18n("Tilt"),
                    QStringLiteral("%1,%2").arg(event->xTilt()).arg(event->yTilt()))
         + tableRow(i18n("Rotation"), QString::number(event->rotation()))
@@ -511,55 +508,90 @@ void DebugConsoleFilter::tabletToolEvent(TabletEvent *event)
     m_textEdit->ensureCursorVisible();
 }
 
-void DebugConsoleFilter::tabletToolButtonEvent(uint button, bool pressed, const TabletToolId &tabletToolId, std::chrono::microseconds time)
+void DebugConsoleFilter::tabletToolAxisEvent(TabletEvent *event)
 {
-    QString text = s_hr + s_tableStart + tableHeaderRow(i18n("Tablet Tool Button"))
-        + tableRow(i18n("Button"), button)
-        + tableRow(i18n("Pressed"), pressed)
-        + tableRow(i18n("Tablet"), qHash(tabletToolId.m_deviceGroupData))
-        + timestampRow(time)
+    QString text = s_hr + s_tableStart + tableHeaderRow(i18n("Tablet Tool Axis"))
+        + tableRow(i18n("Position"),
+                   QStringLiteral("%1,%2").arg(QString::number(event->position().x()), QString::number(event->position().y())))
+        + tableRow(i18n("Tilt"),
+                   QStringLiteral("%1,%2").arg(event->xTilt()).arg(event->yTilt()))
+        + tableRow(i18n("Rotation"), QString::number(event->rotation()))
+        + tableRow(i18n("Pressure"), QString::number(event->pressure()))
+        + tableRow(i18n("Buttons"), QString::number(event->buttons()))
+        + tableRow(i18n("Modifiers"), QString::number(event->modifiers()))
         + s_tableEnd;
 
     m_textEdit->insertHtml(text);
     m_textEdit->ensureCursorVisible();
 }
 
-void DebugConsoleFilter::tabletPadButtonEvent(uint button, bool pressed, const TabletPadId &tabletPadId, std::chrono::microseconds time)
+void DebugConsoleFilter::tabletToolTipEvent(TabletEvent *event)
+{
+    QString text = s_hr + s_tableStart + tableHeaderRow(i18n("Tablet Tool Tip"))
+        + tableRow(i18n("Tip"), event->type() == QEvent::TabletPress ? i18n("Down") : i18n("Up"))
+        + tableRow(i18n("Position"),
+                   QStringLiteral("%1,%2").arg(QString::number(event->position().x()), QString::number(event->position().y())))
+        + tableRow(i18n("Tilt"),
+                   QStringLiteral("%1,%2").arg(event->xTilt()).arg(event->yTilt()))
+        + tableRow(i18n("Rotation"), QString::number(event->rotation()))
+        + tableRow(i18n("Pressure"), QString::number(event->pressure()))
+        + tableRow(i18n("Buttons"), QString::number(event->buttons()))
+        + tableRow(i18n("Modifiers"), QString::number(event->modifiers()))
+        + s_tableEnd;
+
+    m_textEdit->insertHtml(text);
+    m_textEdit->ensureCursorVisible();
+}
+
+void DebugConsoleFilter::tabletToolButtonEvent(TabletToolButtonEvent *event)
+{
+    QString text = s_hr + s_tableStart + tableHeaderRow(i18n("Tablet Tool Button"))
+        + tableRow(i18n("Button"), event->button)
+        + tableRow(i18n("Pressed"), event->pressed)
+        + tableRow(i18n("Tablet"), event->device->name())
+        + timestampRow(event->time)
+        + s_tableEnd;
+
+    m_textEdit->insertHtml(text);
+    m_textEdit->ensureCursorVisible();
+}
+
+void DebugConsoleFilter::tabletPadButtonEvent(TabletPadButtonEvent *event)
 {
     QString text = s_hr + s_tableStart
         + tableHeaderRow(i18n("Tablet Pad Button"))
-        + tableRow(i18n("Button"), button)
-        + tableRow(i18n("Pressed"), pressed)
-        + tableRow(i18n("Tablet"), qHash(tabletPadId.data))
-        + timestampRow(time)
+        + tableRow(i18n("Button"), event->button)
+        + tableRow(i18n("Pressed"), event->pressed)
+        + tableRow(i18n("Tablet"), event->device->name())
+        + timestampRow(event->time)
         + s_tableEnd;
 
     m_textEdit->insertHtml(text);
     m_textEdit->ensureCursorVisible();
 }
 
-void DebugConsoleFilter::tabletPadStripEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId, std::chrono::microseconds time)
+void DebugConsoleFilter::tabletPadStripEvent(TabletPadStripEvent *event)
 {
     QString text = s_hr + s_tableStart + tableHeaderRow(i18n("Tablet Pad Strip"))
-        + tableRow(i18n("Number"), number)
-        + tableRow(i18n("Position"), position)
-        + tableRow(i18n("isFinger"), isFinger)
-        + tableRow(i18n("Tablet"), qHash(tabletPadId.data))
-        + timestampRow(time)
+        + tableRow(i18n("Number"), event->number)
+        + tableRow(i18n("Position"), event->position)
+        + tableRow(i18n("isFinger"), event->isFinger)
+        + tableRow(i18n("Tablet"), event->device->name())
+        + timestampRow(event->time)
         + s_tableEnd;
 
     m_textEdit->insertHtml(text);
     m_textEdit->ensureCursorVisible();
 }
 
-void DebugConsoleFilter::tabletPadRingEvent(int number, int position, bool isFinger, const TabletPadId &tabletPadId, std::chrono::microseconds time)
+void DebugConsoleFilter::tabletPadRingEvent(TabletPadRingEvent *event)
 {
     QString text = s_hr + s_tableStart + tableHeaderRow(i18n("Tablet Pad Ring"))
-        + tableRow(i18n("Number"), number)
-        + tableRow(i18n("Position"), position)
-        + tableRow(i18n("isFinger"), isFinger)
-        + tableRow(i18n("Tablet"), qHash(tabletPadId.data))
-        + timestampRow(time)
+        + tableRow(i18n("Number"), event->number)
+        + tableRow(i18n("Position"), event->position)
+        + tableRow(i18n("isFinger"), event->isFinger)
+        + tableRow(i18n("Tablet"), event->device->name())
+        + timestampRow(event->time)
         + s_tableEnd;
 
     m_textEdit->insertHtml(text);
@@ -596,6 +628,9 @@ DebugConsole::DebugConsole()
     setAttribute(Qt::WA_ShowWithoutActivating);
     m_ui->setupUi(this);
 
+    // Only on Wayland the window has a proper decoration with a close button.
+    m_ui->quitButton->setVisible(!kwinApp()->shouldUseWaylandForCompositing());
+
     auto windowsModel = new DebugConsoleModel(this);
     QSortFilterProxyModel *proxyWindowsModel = new QSortFilterProxyModel(this);
     proxyWindowsModel->setSourceModel(windowsModel);
@@ -608,7 +643,6 @@ DebugConsole::DebugConsole()
     m_ui->primaryContent->setModel(new DataSourceModel(this));
     m_ui->inputDevicesView->setModel(new InputDeviceModel(this));
     m_ui->inputDevicesView->setItemDelegate(new DebugConsoleDelegate(this));
-    m_ui->quitButton->setIcon(QIcon::fromTheme(QStringLiteral("application-exit")));
     m_ui->tabWidget->setTabIcon(0, QIcon::fromTheme(QStringLiteral("view-list-tree")));
 
     if (kwinApp()->operationMode() == Application::OperationMode::OperationModeX11) {

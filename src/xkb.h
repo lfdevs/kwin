@@ -40,16 +40,18 @@ class KWIN_EXPORT Xkb : public QObject
     Q_OBJECT
 public:
     enum Modifier {
-        NoModifier,
-        Shift,
-        Lock,
-        Control,
-        Mod1,
-        Mod2,
-        Mod3,
-        Mod4,
-        Mod5,
+        NoModifier = 0,
+        Shift = 1 << 0,
+        Lock = 1 << 1,
+        Control = 1 << 2,
+        Mod1 = 1 << 3,
+        Num = 1 << 4,
+        Mod3 = 1 << 5,
+        Mod4 = 1 << 6,
+        Mod5 = 1 << 7,
     };
+    Q_ENUM(Modifier)
+    Q_DECLARE_FLAGS(Modifiers, Modifier)
 
     Xkb(bool followLocale1 = false);
     ~Xkb() override;
@@ -57,7 +59,7 @@ public:
     void setNumLockConfig(const KSharedConfigPtr &config);
 
     void updateModifiers(uint32_t modsDepressed, uint32_t modsLatched, uint32_t modsLocked, uint32_t group);
-    void updateKey(uint32_t key, InputRedirection::KeyboardKeyState state);
+    void updateKey(uint32_t key, KeyboardKeyState state);
     xkb_keysym_t toKeysym(uint32_t key);
     xkb_keysym_t currentKeysym() const
     {
@@ -77,6 +79,10 @@ public:
 
     void setModifierLatched(KWin::Xkb::Modifier mod, bool latched);
     void setModifierLocked(KWin::Xkb::Modifier mod, bool locked);
+
+    Modifiers depressedModifiers() const;
+    Modifiers latchedModifiers() const;
+    Modifiers lockedModifiers() const;
 
     LEDs leds() const
     {
@@ -157,6 +163,8 @@ private:
     xkb_led_index_t m_numLock;
     xkb_led_index_t m_capsLock;
     xkb_led_index_t m_scrollLock;
+    xkb_led_index_t m_composeLed;
+    xkb_led_index_t m_kanaLed;
     Qt::KeyboardModifiers m_modifiers;
     Qt::KeyboardModifiers m_consumedModifiers;
     xkb_keysym_t m_keysym;
@@ -188,3 +196,5 @@ inline Qt::KeyboardModifiers Xkb::modifiers() const
 }
 
 }
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(KWin::Xkb::Modifiers)

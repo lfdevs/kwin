@@ -8,6 +8,7 @@
 */
 #include "kwin_wayland_test.h"
 
+#include "input.h"
 #include "virtualdesktops.h"
 #include "wayland_server.h"
 #include "window.h"
@@ -38,7 +39,6 @@ void TestIdleInhibition::initTestCase()
 {
     qRegisterMetaType<KWin::Window *>();
 
-    QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
     Test::setOutputConfig({
         QRect(0, 0, 1280, 1024),
@@ -46,7 +46,6 @@ void TestIdleInhibition::initTestCase()
     });
 
     kwinApp()->start();
-    QVERIFY(applicationStartedSpy.wait());
 }
 
 void TestIdleInhibition::init()

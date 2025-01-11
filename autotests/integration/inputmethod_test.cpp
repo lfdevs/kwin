@@ -84,7 +84,6 @@ void InputMethodTest::initTestCase()
     qRegisterMetaType<KWin::Window *>();
     qRegisterMetaType<KWayland::Client::Output *>();
 
-    QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
     Test::setOutputConfig({
         QRect(0, 0, 1280, 1024),
@@ -93,7 +92,6 @@ void InputMethodTest::initTestCase()
 
     static_cast<WaylandTestApplication *>(kwinApp())->setInputMethodServerToStart("internal");
     kwinApp()->start();
-    QVERIFY(applicationStartedSpy.wait());
     const auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
     QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
@@ -729,8 +727,8 @@ void InputMethodTest::testFakeEventFallback()
 
     // Special keys are not sent through commit_string but instead use keysym.
     auto enter = input()->keyboard()->xkb()->toKeysym(KEY_ENTER);
-    zwp_input_method_context_v1_keysym(context, 0, 0, enter, uint32_t(KeyboardKeyState::Pressed), 0);
-    zwp_input_method_context_v1_keysym(context, 0, 1, enter, uint32_t(KeyboardKeyState::Released), 0);
+    zwp_input_method_context_v1_keysym(context, 0, 0, enter, uint32_t(WL_KEYBOARD_KEY_STATE_PRESSED), 0);
+    zwp_input_method_context_v1_keysym(context, 0, 1, enter, uint32_t(WL_KEYBOARD_KEY_STATE_RELEASED), 0);
 
     keySpy.wait();
     QVERIFY(keySpy.count() == 2);

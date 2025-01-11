@@ -1,3 +1,13 @@
+kwin (4:6.2.90-1) experimental; urgency=medium
+
+  [ Aurélien COUDERC ]
+  * New upstream release (6.2.90).
+  * Update build-deps and deps with the info from cmake.
+  * Update the list of installed files from the build logs.
+  * Bump inter-plasma versioned dependencies.
+
+ -- Aurélien COUDERC <coucouf@debian.org>  Sun, 12 Jan 2025 00:48:50 +0100
+
 kwin (4:6.2.5-1) unstable; urgency=medium
 
   [ Aurélien COUDERC ]

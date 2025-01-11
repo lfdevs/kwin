@@ -27,10 +27,10 @@ EisDevice::EisDevice(eis_device *device, QObject *parent)
 EisDevice::~EisDevice()
 {
     for (const auto button : pressedButtons) {
-        Q_EMIT pointerButtonChanged(button, InputRedirection::PointerButtonReleased, currentTime(), this);
+        Q_EMIT pointerButtonChanged(button, PointerButtonState::Released, currentTime(), this);
     }
     for (const auto key : pressedKeys) {
-        Q_EMIT keyChanged(key, InputRedirection::KeyboardKeyReleased, currentTime(), this);
+        Q_EMIT keyChanged(key, KeyboardKeyState::Released, currentTime(), this);
     }
     if (!activeTouches.empty()) {
         Q_EMIT touchCanceled(this);
@@ -52,11 +52,6 @@ void EisDevice::changeDevice(eis_device *device)
     }
 }
 
-QString EisDevice::sysName() const
-{
-    return QString();
-}
-
 QString EisDevice::name() const
 {
     return QString::fromUtf8(eis_device_get_name(m_device));
@@ -71,15 +66,6 @@ void EisDevice::setEnabled(bool enabled)
 {
     m_enabled = enabled;
     enabled ? eis_device_resume(m_device) : eis_device_pause(m_device);
-}
-
-LEDs EisDevice::leds() const
-{
-    return LEDs();
-}
-
-void EisDevice::setLeds(LEDs leds)
-{
 }
 
 bool EisDevice::isKeyboard() const

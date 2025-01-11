@@ -67,14 +67,10 @@ public:
     WaylandInputDevice(KWayland::Client::Pointer *pointer, WaylandSeat *seat);
     ~WaylandInputDevice() override;
 
-    QString sysName() const override;
     QString name() const override;
 
     bool isEnabled() const override;
     void setEnabled(bool enabled) override;
-
-    LEDs leds() const override;
-    void setLeds(LEDs leds) override;
 
     bool isKeyboard() const override;
     bool isPointer() const override;
@@ -236,7 +232,7 @@ public:
         return m_outputs;
     }
 
-    Output *createVirtualOutput(const QString &name, const QSize &size, double scale) override;
+    Output *createVirtualOutput(const QString &name, const QString &description, const QSize &size, double scale) override;
     void removeVirtualOutput(Output *output) override;
 
     wl_buffer *importBuffer(GraphicsBuffer *graphicsBuffer);

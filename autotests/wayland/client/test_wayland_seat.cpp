@@ -89,7 +89,6 @@ private Q_SLOTS:
     void init();
     void cleanup();
 
-    void testName();
     void testCapabilities_data();
     void testCapabilities();
     void testPointer();
@@ -196,9 +195,8 @@ void TestWaylandSeat::init()
     registry.setup();
     QVERIFY(compositorSpy.wait());
 
-    m_seatInterface = new SeatInterface(m_display, m_display);
+    m_seatInterface = new SeatInterface(m_display, QStringLiteral("seat0"), m_display);
     QVERIFY(m_seatInterface);
-    m_seatInterface->setName(QStringLiteral("seat0"));
     QVERIFY(seatSpy.wait());
 
     m_compositor = new KWayland::Client::Compositor(this);
@@ -287,21 +285,6 @@ bool TestWaylandSeat::sync()
     WaylandSyncPoint syncPoint(m_connection, m_queue);
     QSignalSpy doneSpy(&syncPoint, &WaylandSyncPoint::done);
     return doneSpy.wait();
-}
-
-void TestWaylandSeat::testName()
-{
-    // no name set yet
-    QCOMPARE(m_seat->name(), QStringLiteral("seat0"));
-
-    QSignalSpy spy(m_seat, &KWayland::Client::Seat::nameChanged);
-
-    const QString name = QStringLiteral("foobar");
-    m_seatInterface->setName(name);
-    QVERIFY(spy.wait());
-    QCOMPARE(m_seat->name(), name);
-    QCOMPARE(spy.count(), 1);
-    QCOMPARE(spy.first().first().toString(), name);
 }
 
 void TestWaylandSeat::testCapabilities_data()
@@ -1403,19 +1386,9 @@ void TestWaylandSeat::testKeyboard()
     QCOMPARE(keyboard->keyRepeatRate(), 25);
     QCOMPARE(keyboard->keyRepeatDelay(), 660);
 
-    std::chrono::milliseconds time(1);
-
-    m_seatInterface->setTimestamp(time++);
-    m_seatInterface->notifyKeyboardKey(KEY_K, KeyboardKeyState::Pressed);
-    m_seatInterface->setTimestamp(time++);
-    m_seatInterface->notifyKeyboardKey(KEY_D, KeyboardKeyState::Pressed);
-    m_seatInterface->setTimestamp(time++);
-    m_seatInterface->notifyKeyboardKey(KEY_E, KeyboardKeyState::Pressed);
-
     QSignalSpy modifierSpy(keyboard, &KWayland::Client::Keyboard::modifiersChanged);
-
     QSignalSpy enteredSpy(keyboard, &KWayland::Client::Keyboard::entered);
-    m_seatInterface->setFocusedKeyboardSurface(serverSurface);
+    m_seatInterface->setFocusedKeyboardSurface(serverSurface, {KEY_K, KEY_D, KEY_E});
     QCOMPARE(m_seatInterface->focusedKeyboardSurface(), serverSurface);
     QCOMPARE(m_seatInterface->keyboard()->focusedSurface(), serverSurface);
 
@@ -1432,6 +1405,7 @@ void TestWaylandSeat::testKeyboard()
 
     QSignalSpy keyChangedSpy(keyboard, &KWayland::Client::Keyboard::keyChanged);
 
+    std::chrono::milliseconds time(1);
     m_seatInterface->setTimestamp(time++);
     m_seatInterface->notifyKeyboardKey(KEY_E, KeyboardKeyState::Released);
     QVERIFY(keyChangedSpy.wait());
@@ -1451,19 +1425,19 @@ void TestWaylandSeat::testKeyboard()
     QCOMPARE(keyChangedSpy.count(), 5);
     QCOMPARE(keyChangedSpy.at(0).at(0).value<quint32>(), quint32(KEY_E));
     QCOMPARE(keyChangedSpy.at(0).at(1).value<KWayland::Client::Keyboard::KeyState>(), KWayland::Client::Keyboard::KeyState::Released);
-    QCOMPARE(keyChangedSpy.at(0).at(2).value<quint32>(), quint32(4));
+    QCOMPARE(keyChangedSpy.at(0).at(2).value<quint32>(), quint32(1));
     QCOMPARE(keyChangedSpy.at(1).at(0).value<quint32>(), quint32(KEY_D));
     QCOMPARE(keyChangedSpy.at(1).at(1).value<KWayland::Client::Keyboard::KeyState>(), KWayland::Client::Keyboard::KeyState::Released);
-    QCOMPARE(keyChangedSpy.at(1).at(2).value<quint32>(), quint32(5));
+    QCOMPARE(keyChangedSpy.at(1).at(2).value<quint32>(), quint32(2));
     QCOMPARE(keyChangedSpy.at(2).at(0).value<quint32>(), quint32(KEY_K));
     QCOMPARE(keyChangedSpy.at(2).at(1).value<KWayland::Client::Keyboard::KeyState>(), KWayland::Client::Keyboard::KeyState::Released);
-    QCOMPARE(keyChangedSpy.at(2).at(2).value<quint32>(), quint32(6));
+    QCOMPARE(keyChangedSpy.at(2).at(2).value<quint32>(), quint32(3));
     QCOMPARE(keyChangedSpy.at(3).at(0).value<quint32>(), quint32(KEY_F1));
     QCOMPARE(keyChangedSpy.at(3).at(1).value<KWayland::Client::Keyboard::KeyState>(), KWayland::Client::Keyboard::KeyState::Pressed);
-    QCOMPARE(keyChangedSpy.at(3).at(2).value<quint32>(), quint32(7));
+    QCOMPARE(keyChangedSpy.at(3).at(2).value<quint32>(), quint32(4));
     QCOMPARE(keyChangedSpy.at(4).at(0).value<quint32>(), quint32(KEY_F1));
     QCOMPARE(keyChangedSpy.at(4).at(1).value<KWayland::Client::Keyboard::KeyState>(), KWayland::Client::Keyboard::KeyState::Released);
-    QCOMPARE(keyChangedSpy.at(4).at(2).value<quint32>(), quint32(8));
+    QCOMPARE(keyChangedSpy.at(4).at(2).value<quint32>(), quint32(5));
 
     // releasing a key which is already released should not set a key changed
     m_seatInterface->notifyKeyboardKey(KEY_F1, KeyboardKeyState::Released);
@@ -1899,6 +1873,40 @@ void TestWaylandSeat::testTouch()
     QCOMPARE(pointMovedSpy.count(), 1);
     QCOMPARE(pointRemovedSpy.count(), 3);
     QCOMPARE(touch->sequence().first()->position(), QPointF(0, 0));
+
+    // destroy touched surface
+    QSignalSpy serverSurfaceDestroyedSpy(serverSurface, &QObject::destroyed);
+    m_seatInterface->setTimestamp(timestamp++);
+    m_seatInterface->notifyTouchDown(serverSurface, surfacePosition, 2, QPointF(10, 15));
+    m_seatInterface->notifyTouchFrame();
+    QVERIFY(frameEndedSpy.wait());
+    QCOMPARE(sequenceStartedSpy.count(), 3);
+    QCOMPARE(sequenceEndedSpy.count(), 1);
+    QCOMPARE(sequenceCanceledSpy.count(), 1);
+    QCOMPARE(frameEndedSpy.count(), 8);
+    QCOMPARE(pointAddedSpy.count(), 2);
+    QCOMPARE(pointMovedSpy.count(), 1);
+    QCOMPARE(pointRemovedSpy.count(), 3);
+
+    delete s;
+    QVERIFY(serverSurfaceDestroyedSpy.wait());
+
+    m_seatInterface->setTimestamp(timestamp++);
+    m_seatInterface->notifyTouchMotion(2, QPointF(10, 20));
+    m_seatInterface->notifyTouchFrame();
+    QVERIFY(!frameEndedSpy.wait(10));
+
+    m_seatInterface->setTimestamp(timestamp++);
+    m_seatInterface->notifyTouchUp(2);
+    m_seatInterface->notifyTouchFrame();
+    QVERIFY(frameEndedSpy.wait());
+    QCOMPARE(sequenceStartedSpy.count(), 3);
+    QCOMPARE(sequenceEndedSpy.count(), 2);
+    QCOMPARE(sequenceCanceledSpy.count(), 1);
+    QCOMPARE(frameEndedSpy.count(), 9);
+    QCOMPARE(pointAddedSpy.count(), 2);
+    QCOMPARE(pointMovedSpy.count(), 1);
+    QCOMPARE(pointRemovedSpy.count(), 4);
 }
 
 void TestWaylandSeat::testKeymap()

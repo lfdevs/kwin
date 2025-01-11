@@ -11,7 +11,9 @@
 #include <QObject>
 #include <QStringList>
 #include <kwin_export.h>
+#include <unordered_map>
 
+#include <KSharedConfig>
 #include <PlasmaActivities/Controller>
 
 namespace KActivities
@@ -22,17 +24,22 @@ class Controller;
 namespace KWin
 {
 class Window;
+class VirtualDesktop;
 
 class KWIN_EXPORT Activities : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit Activities();
+    explicit Activities(const KSharedConfig::Ptr &config);
 
     bool stop(const QString &id);
     bool start(const QString &id);
-    void setCurrent(const QString &activity);
+    /**
+     * Sets the current activity to @param activity, and if desktop isn't nullptr,
+     * ensures that this doesn't interfere with virtual desktop switching
+     */
+    void setCurrent(const QString &activity, VirtualDesktop *desktop);
     /**
      * Adds/removes window \a window to/from \a activity.
      *
@@ -51,6 +58,10 @@ public:
 
 Q_SIGNALS:
     /**
+     * emitted before the current activity actually changes
+     */
+    void currentAboutToChange();
+    /**
      * This signal is emitted when the global
      * activity is changed
      * @param id id of the new current activity
@@ -68,6 +79,9 @@ Q_SIGNALS:
      */
     void removed(const QString &id);
 
+public Q_SLOTS:
+    void notifyCurrentDesktopChanged(VirtualDesktop *desktop);
+
 private Q_SLOTS:
     void slotServiceStatusChanged();
     void slotRemoved(const QString &activity);
@@ -78,6 +92,8 @@ private:
     QString m_previous;
     QString m_current;
     KActivities::Controller *m_controller;
+    std::unordered_map<QString, QString> m_lastVirtualDesktop;
+    KSharedConfig::Ptr m_config;
 };
 
 inline QStringList Activities::all() const

@@ -29,13 +29,18 @@ public:
     void reconfigure(ReconfigureFlags flags) override;
     bool isActive() const override;
 
-    void pointerEvent(MouseEvent *event) override;
-    void keyEvent(KeyEvent *event) override;
-    void tabletToolEvent(TabletEvent *event) override;
+    void pointerMotion(PointerMotionEvent *event) override;
+    void pointerButton(PointerButtonEvent *event) override;
+    void keyboardKey(KeyboardKeyEvent *event) override;
+    void tabletToolProximityEvent(TabletEvent *event) override;
+    void tabletToolAxisEvent(TabletEvent *event) override;
+    void tabletToolTipEvent(TabletEvent *event) override;
 
 private:
     void showCursor();
     void hideCursor();
+
+    void activity();
 
     int m_inactivityDuration;
     bool m_hideOnTyping;

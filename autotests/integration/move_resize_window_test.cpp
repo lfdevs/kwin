@@ -72,11 +72,9 @@ void MoveResizeWindowTest::initTestCase()
 {
     qRegisterMetaType<KWin::Window *>();
     qRegisterMetaType<KWin::MaximizeMode>("MaximizeMode");
-    QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
     Test::setOutputConfig({QRect(0, 0, 1280, 1024)});
     kwinApp()->start();
-    QVERIFY(applicationStartedSpy.wait());
     const auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 1);
     QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
@@ -791,7 +789,7 @@ void MoveResizeWindowTest::testCancelInteractiveMoveResize_data()
     QTest::newRow("quicktile_right") << QuickTileMode(QuickTileFlag::Right) << MaximizeMode::MaximizeRestore;
     QTest::newRow("maximize_vertical") << QuickTileMode(QuickTileFlag::None) << MaximizeMode::MaximizeVertical;
     QTest::newRow("maximize_horizontal") << QuickTileMode(QuickTileFlag::None) << MaximizeMode::MaximizeHorizontal;
-    QTest::newRow("maximize_full") << QuickTileMode(QuickTileFlag::Maximize) << MaximizeMode::MaximizeFull;
+    QTest::newRow("maximize_full") << QuickTileMode(QuickTileFlag::None) << MaximizeMode::MaximizeFull;
 }
 
 void MoveResizeWindowTest::testCancelInteractiveMoveResize()
@@ -821,22 +819,14 @@ void MoveResizeWindowTest::testCancelInteractiveMoveResize()
     } else {
         window->setQuickTileModeAtCurrentPosition(quickTileMode);
     }
-    if (quickTileMode == QuickTileFlag::Maximize) {
-        QCOMPARE(window->requestedQuickTileMode(), QuickTileFlag::None);
-    } else {
-        QCOMPARE(window->requestedQuickTileMode(), quickTileMode);
-    }
+    QCOMPARE(window->requestedQuickTileMode(), quickTileMode);
     QCOMPARE(window->requestedMaximizeMode(), maximizeMode);
 
     QVERIFY(surfaceConfigureRequestedSpy.wait());
     shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy.last().at(0).value<quint32>());
     Test::render(surface.get(), toplevelConfigureRequestedSpy.last().first().toSize(), Qt::blue);
     QVERIFY(frameGeomtryChangedSpy.wait());
-    if (quickTileMode == QuickTileFlag::Maximize) {
-        QCOMPARE(window->quickTileMode(), QuickTileFlag::None);
-    } else {
-        QCOMPARE(window->quickTileMode(), quickTileMode);
-    }
+    QCOMPARE(window->quickTileMode(), quickTileMode);
     const QRectF geometry = window->moveResizeGeometry();
     const QRectF geometryRestore = window->geometryRestore();
 
@@ -869,11 +859,7 @@ void MoveResizeWindowTest::testCancelInteractiveMoveResize()
     Test::render(surface.get(), toplevelConfigureRequestedSpy.last().first().toSize(), Qt::blue);
     QVERIFY(frameGeomtryChangedSpy.wait());
     QCOMPARE(window->moveResizeGeometry(), geometry);
-    if (quickTileMode == QuickTileFlag::Maximize) {
-        QCOMPARE(window->quickTileMode(), QuickTileFlag::None);
-    } else {
-        QCOMPARE(window->quickTileMode(), quickTileMode);
-    }
+    QCOMPARE(window->quickTileMode(), quickTileMode);
     QCOMPARE(window->requestedMaximizeMode(), maximizeMode);
     QCOMPARE(window->geometryRestore(), geometryRestore);
 }

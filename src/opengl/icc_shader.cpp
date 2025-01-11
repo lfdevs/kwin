@@ -11,6 +11,7 @@
 #include "opengl/gllut3D.h"
 #include "opengl/glshader.h"
 #include "opengl/glshadermanager.h"
+#include "utils/common.h"
 
 namespace KWin
 {
@@ -18,7 +19,7 @@ namespace KWin
 static constexpr size_t lutSize = 1 << 12;
 
 IccShader::IccShader()
-    : m_shader(ShaderManager::instance()->generateShaderFromFile(ShaderTrait::MapTexture, QString(), QStringLiteral(":/backends/drm/icc.frag")))
+    : m_shader(ShaderManager::instance()->generateShaderFromFile(ShaderTrait::MapTexture, QString(), QStringLiteral(":/opengl/icc.frag")))
 {
     m_locations = {
         .src = m_shader->uniformLocation("src"),
@@ -45,7 +46,7 @@ static const XYZ D50{
     .Z = 0.8249,
 };
 
-bool IccShader::setProfile(const std::shared_ptr<IccProfile> &profile)
+bool IccShader::setProfile(const std::shared_ptr<IccProfile> &profile, const ColorDescription &inputColor)
 {
     if (!profile) {
         m_toXYZD50.setToIdentity();
@@ -56,7 +57,7 @@ bool IccShader::setProfile(const std::shared_ptr<IccProfile> &profile)
         m_A.reset();
         return false;
     }
-    if (m_profile != profile) {
+    if (m_profile != profile || m_inputColor != inputColor) {
         const auto vcgt = profile->vcgt();
         QMatrix4x4 toXYZD50;
         std::unique_ptr<GlLookUpTable> B;
@@ -64,42 +65,50 @@ bool IccShader::setProfile(const std::shared_ptr<IccProfile> &profile)
         std::unique_ptr<GlLookUpTable> M;
         std::unique_ptr<GlLookUpTable3D> C;
         std::unique_ptr<GlLookUpTable> A;
-        if (const IccProfile::BToATagData *tag = profile->BtToATag()) {
-            toXYZD50 = Colorimetry::chromaticAdaptationMatrix(profile->colorimetry().white(), D50) * profile->colorimetry().toXYZ();
-            if (tag->B) {
-                const auto sample = [&tag](size_t x) {
+        if (const auto tag = profile->BToATag(RenderingIntent::RelativeColorimetric)) {
+            toXYZD50 = Colorimetry::chromaticAdaptationMatrix(inputColor.containerColorimetry().white(), D50) * inputColor.containerColorimetry().toXYZ();
+            auto it = tag->ops.begin();
+            if (it != tag->ops.end() && std::holds_alternative<std::shared_ptr<ColorTransformation>>(it->operation)) {
+                const auto sample = [&op = std::get<std::shared_ptr<ColorTransformation>>(it->operation)](size_t x) {
                     const float relativeX = x / double(lutSize - 1);
-                    return tag->B->transform(QVector3D(relativeX, relativeX, relativeX));
+                    return op->transform(QVector3D(relativeX, relativeX, relativeX));
                 };
                 B = GlLookUpTable::create(sample, lutSize);
                 if (!B) {
                     return false;
                 }
+                it++;
             }
-            matrix2 = tag->matrix.value_or(QMatrix4x4());
-            if (tag->M) {
-                const auto sample = [&tag](size_t x) {
+            if (it != tag->ops.end() && std::holds_alternative<ColorMatrix>(it->operation)) {
+                matrix2 = std::get<ColorMatrix>(it->operation).mat;
+                it++;
+            }
+            if (it != tag->ops.end() && std::holds_alternative<std::shared_ptr<ColorTransformation>>(it->operation)) {
+                const auto sample = [&op = std::get<std::shared_ptr<ColorTransformation>>(it->operation)](size_t x) {
                     const float relativeX = x / double(lutSize - 1);
-                    return tag->M->transform(QVector3D(relativeX, relativeX, relativeX));
+                    return op->transform(QVector3D(relativeX, relativeX, relativeX));
                 };
                 M = GlLookUpTable::create(sample, lutSize);
                 if (!M) {
                     return false;
                 }
+                it++;
             }
-            if (tag->CLut) {
-                const auto sample = [&tag](size_t x, size_t y, size_t z) {
-                    return tag->CLut->sample(x, y, z);
+            if (it != tag->ops.end() && std::holds_alternative<std::shared_ptr<ColorLUT3D>>(it->operation)) {
+                const auto &op = std::get<std::shared_ptr<ColorLUT3D>>(it->operation);
+                const auto sample = [op](size_t x, size_t y, size_t z) {
+                    return op->sample(x, y, z);
                 };
-                C = GlLookUpTable3D::create(sample, tag->CLut->xSize(), tag->CLut->ySize(), tag->CLut->zSize());
+                C = GlLookUpTable3D::create(sample, op->xSize(), op->ySize(), op->zSize());
                 if (!C) {
                     return false;
                 }
+                it++;
             }
-            if (tag->A) {
-                const auto sample = [&tag, vcgt](size_t x) {
+            if (it != tag->ops.end() && std::holds_alternative<std::shared_ptr<ColorTransformation>>(it->operation)) {
+                const auto sample = [&op = std::get<std::shared_ptr<ColorTransformation>>(it->operation), vcgt](size_t x) {
                     const float relativeX = x / double(lutSize - 1);
-                    QVector3D ret = tag->A->transform(QVector3D(relativeX, relativeX, relativeX));
+                    QVector3D ret = op->transform(QVector3D(relativeX, relativeX, relativeX));
                     if (vcgt) {
                         ret = vcgt->transform(ret);
                     }
@@ -109,6 +118,7 @@ bool IccShader::setProfile(const std::shared_ptr<IccProfile> &profile)
                 if (!A) {
                     return false;
                 }
+                it++;
             } else if (vcgt) {
                 const auto sample = [&vcgt](size_t x) {
                     const float relativeX = x / double(lutSize - 1);
@@ -116,8 +126,12 @@ bool IccShader::setProfile(const std::shared_ptr<IccProfile> &profile)
                 };
                 A = GlLookUpTable::create(sample, lutSize);
             }
+            if (it != tag->ops.end()) {
+                qCCritical(KWIN_OPENGL, "Couldn't represent ICC profile in the ICC shader!");
+                return false;
+            }
         } else {
-            const auto inverseEOTF = profile->inverseEOTF();
+            const auto inverseEOTF = profile->inverseTransferFunction();
             const auto sample = [inverseEOTF, vcgt](size_t x) {
                 const float relativeX = x / double(lutSize - 1);
                 QVector3D ret(relativeX, relativeX, relativeX);
@@ -139,6 +153,7 @@ bool IccShader::setProfile(const std::shared_ptr<IccProfile> &profile)
         m_C = std::move(C);
         m_A = std::move(A);
         m_profile = profile;
+        m_inputColor = inputColor;
     }
     return true;
 }
@@ -151,7 +166,7 @@ GLShader *IccShader::shader() const
 void IccShader::setUniforms(const std::shared_ptr<IccProfile> &profile, const ColorDescription &inputColor, const QVector3D &channelFactors)
 {
     // this failing can be silently ignored, it should only happen with GPU resets and gets corrected later
-    setProfile(profile);
+    setProfile(profile, inputColor);
 
     QMatrix4x4 nightColor;
     nightColor(0, 0) = channelFactors.x();

@@ -245,6 +245,17 @@ Colorimetry Colorimetry::adaptedTo(xyY newWhitepoint) const
     };
 }
 
+Colorimetry Colorimetry::withWhitepoint(xyY newWhitePoint) const
+{
+    newWhitePoint.Y = 1;
+    return Colorimetry{
+        m_red,
+        m_green,
+        m_blue,
+        newWhitePoint.toXYZ(),
+    };
+}
+
 bool Colorimetry::operator==(const Colorimetry &other) const
 {
     return red() == other.red() && green() == other.green() && blue() == other.blue() && white() == other.white();
@@ -317,6 +328,12 @@ static const Colorimetry CIEXYZ = Colorimetry{
     XYZ{0.0, 0.0, 1.0},
     xy{1.0 / 3.0, 1.0 / 3.0}.toXYZ(),
 };
+static const Colorimetry CIEXYZD50 = Colorimetry{
+    XYZ{1.0, 0.0, 0.0},
+    XYZ{0.0, 1.0, 0.0},
+    XYZ{0.0, 0.0, 1.0},
+    XYZ(0.9642, 1.0, 0.8249),
+};
 static const Colorimetry DCIP3 = Colorimetry{
     xy{0.680, 0.320},
     xy{0.265, 0.690},
@@ -353,6 +370,8 @@ const Colorimetry &Colorimetry::fromName(NamedColorimetry name)
         return BT2020;
     case NamedColorimetry::CIEXYZ:
         return CIEXYZ;
+    case NamedColorimetry::CIEXYZD50:
+        return CIEXYZD50;
     case NamedColorimetry::DCIP3:
         return DCIP3;
     case NamedColorimetry::DisplayP3:
@@ -456,7 +475,6 @@ QMatrix4x4 ColorDescription::toOther(const ColorDescription &other, RenderingInt
 {
     QMatrix4x4 luminanceBefore;
     QMatrix4x4 luminanceAfter;
-    const double reference = m_hdrPassthrough ? other.referenceLuminance() : referenceLuminance();
     if (intent == RenderingIntent::Perceptual || intent == RenderingIntent::RelativeColorimetricWithBPC) {
         // add black point compensation: black and reference white from the source color space
         // should both be mapped to black and reference white in the destination color space
@@ -465,14 +483,14 @@ QMatrix4x4 ColorDescription::toOther(const ColorDescription &other, RenderingInt
         const double otherEffectiveMin = std::max(other.minLuminance(), other.m_transferFunction.minLuminance);
 
         // before color conversions, map [src min, src ref] to [0, 1]
-        luminanceBefore.scale(1.0 / (reference - minLuminance()));
+        luminanceBefore.scale(1.0 / (referenceLuminance() - minLuminance()));
         luminanceBefore.translate(-effectiveMin, -effectiveMin, -effectiveMin);
         // afterwards, map [0, 1] again to [dst min, dst ref]
         luminanceAfter.translate(otherEffectiveMin, otherEffectiveMin, otherEffectiveMin);
         luminanceAfter.scale(other.referenceLuminance() - other.minLuminance());
     } else {
         // map only the reference luminance
-        luminanceBefore.scale(other.referenceLuminance() / reference);
+        luminanceBefore.scale(other.referenceLuminance() / referenceLuminance());
     }
     switch (intent) {
     case RenderingIntent::Perceptual: {
@@ -504,9 +522,18 @@ ColorDescription ColorDescription::withTransferFunction(const TransferFunction &
     return ColorDescription(m_containerColorimetry, func, m_referenceLuminance, m_minLuminance, m_maxAverageLuminance, m_maxHdrLuminance, m_masteringColorimetry, m_sdrColorimetry);
 }
 
-void ColorDescription::setHdrPassthrough(bool passthrough)
+ColorDescription ColorDescription::withWhitepoint(xyY newWhitePoint) const
 {
-    m_hdrPassthrough = passthrough;
+    return ColorDescription{
+        m_containerColorimetry.withWhitepoint(newWhitePoint),
+        m_transferFunction,
+        m_referenceLuminance,
+        m_minLuminance,
+        m_maxAverageLuminance,
+        m_maxHdrLuminance,
+        m_masteringColorimetry ? std::optional(m_masteringColorimetry->withWhitepoint(newWhitePoint)) : std::nullopt,
+        m_sdrColorimetry,
+    };
 }
 
 double TransferFunction::defaultMinLuminanceFor(Type type)
@@ -606,6 +633,11 @@ QVector3D TransferFunction::encodedToNits(const QVector3D &encoded) const
     return QVector3D(encodedToNits(encoded.x()), encodedToNits(encoded.y()), encodedToNits(encoded.z()));
 }
 
+QVector4D TransferFunction::encodedToNits(const QVector4D &encoded) const
+{
+    return QVector4D(encodedToNits(encoded.x()), encodedToNits(encoded.y()), encodedToNits(encoded.z()), encoded.w());
+}
+
 double TransferFunction::nitsToEncoded(double nits) const
 {
     const double normalized = (nits - minLuminance) / (maxLuminance - minLuminance);
@@ -641,6 +673,11 @@ QVector3D TransferFunction::nitsToEncoded(const QVector3D &nits) const
     return QVector3D(nitsToEncoded(nits.x()), nitsToEncoded(nits.y()), nitsToEncoded(nits.z()));
 }
 
+QVector4D TransferFunction::nitsToEncoded(const QVector4D &nits) const
+{
+    return QVector4D(nitsToEncoded(nits.x()), nitsToEncoded(nits.y()), nitsToEncoded(nits.z()), nits.w());
+}
+
 bool TransferFunction::isRelative() const
 {
     switch (type) {
@@ -673,5 +710,23 @@ QDebug operator<<(QDebug debug, const KWin::TransferFunction &tf)
 QDebug operator<<(QDebug debug, const KWin::XYZ &xyz)
 {
     debug << "XYZ(" << xyz.X << xyz.Y << xyz.Z << ")";
+    return debug;
+}
+
+QDebug operator<<(QDebug debug, const KWin::xyY &xyY)
+{
+    debug << "xyY(" << xyY.x << xyY.y << xyY.Y << ")";
+    return debug;
+}
+
+QDebug operator<<(QDebug debug, const KWin::Colorimetry &color)
+{
+    debug << "Colorimetry(" << color.red() << color.green() << color.blue() << color.white() << ")";
+    return debug;
+}
+
+QDebug operator<<(QDebug debug, const KWin::ColorDescription &color)
+{
+    debug << "ColorDescription(" << color.containerColorimetry() << color.transferFunction() << "ref" << color.referenceLuminance() << "min" << color.minLuminance() << "max. avg" << color.maxAverageLuminance() << "max" << color.maxHdrLuminance() << ")";
     return debug;
 }

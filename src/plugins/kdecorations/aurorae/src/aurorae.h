@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include <KDecoration2/Decoration>
-#include <KDecoration2/DecorationThemeProvider>
+#include <KDecoration3/Decoration>
+#include <KDecoration3/DecorationThemeProvider>
 #include <KPluginMetaData>
 #include <QElapsedTimer>
 #include <QVariant>
@@ -28,16 +28,17 @@ class OffscreenQuickView;
 namespace Aurorae
 {
 
-class Decoration : public KDecoration2::Decoration
+class Decoration : public KDecoration3::Decoration
 {
     Q_OBJECT
-    Q_PROPERTY(KDecoration2::DecoratedClient *client READ client CONSTANT)
+    // TODO Plasma 7, maybe? Rename this to "window"
+    Q_PROPERTY(KDecoration3::DecoratedWindow *client READ window CONSTANT)
     Q_PROPERTY(QQuickItem *item READ item)
 public:
     explicit Decoration(QObject *parent = nullptr, const QVariantList &args = QVariantList());
     ~Decoration() override;
 
-    void paint(QPainter *painter, const QRect &repaintRegion) override;
+    void paint(QPainter *painter, const QRectF &repaintRegion) override;
 
     Q_INVOKABLE QVariant readConfig(const QString &key, const QVariant &defaultValue = QVariant());
 
@@ -69,7 +70,7 @@ private:
 
     bool m_supportsMask{false};
 
-    QRect m_contentRect; // the geometry of the part of the buffer that is not a shadow when buffer was created.
+    QRectF m_contentRect; // the geometry of the part of the buffer that is not a shadow when buffer was created.
     std::unique_ptr<QQuickItem> m_item;
     std::unique_ptr<QQmlContext> m_qmlContext;
     KWin::Borders *m_borders;
@@ -81,13 +82,13 @@ private:
     std::unique_ptr<KWin::OffscreenQuickView> m_view;
 };
 
-class ThemeProvider : public KDecoration2::DecorationThemeProvider
+class ThemeProvider : public KDecoration3::DecorationThemeProvider
 {
     Q_OBJECT
 public:
     explicit ThemeProvider(QObject *parent, const KPluginMetaData &data);
 
-    QList<KDecoration2::DecorationThemeMetaData> themes() const override
+    QList<KDecoration3::DecorationThemeMetaData> themes() const override
     {
         return m_themes;
     }
@@ -97,7 +98,7 @@ private:
     void findAllQmlThemes();
     void findAllSvgThemes();
     bool hasConfiguration(const QString &theme);
-    QList<KDecoration2::DecorationThemeMetaData> m_themes;
+    QList<KDecoration3::DecorationThemeMetaData> m_themes;
     const KPluginMetaData m_data;
 };
 }

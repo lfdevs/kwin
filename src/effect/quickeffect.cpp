@@ -76,12 +76,12 @@ public:
 
 bool QuickSceneEffectPrivate::isItemOnScreen(QQuickItem *item, Output *screen) const
 {
-    if (!item || !screen || !views.contains(screen)) {
+    if (!item || !screen) {
         return false;
     }
 
-    const auto &view = views.at(screen);
-    return item->window() == view->window();
+    const auto it = views.find(screen);
+    return it != views.end() && item->window() == it->second->window();
 }
 
 QuickSceneView::QuickSceneView(QuickSceneEffect *effect, Output *screen)
@@ -546,7 +546,7 @@ void QuickSceneEffect::windowInputMouseEvent(QEvent *event)
     QPoint globalPosition;
     if (QMouseEvent *mouseEvent = dynamic_cast<QMouseEvent *>(event)) {
         buttons = mouseEvent->buttons();
-        globalPosition = mouseEvent->globalPos();
+        globalPosition = mouseEvent->globalPosition().toPoint();
     } else if (QWheelEvent *wheelEvent = dynamic_cast<QWheelEvent *>(event)) {
         buttons = wheelEvent->buttons();
         globalPosition = wheelEvent->globalPosition().toPoint();
@@ -617,6 +617,13 @@ bool QuickSceneEffect::touchUp(qint32 id, std::chrono::microseconds time)
         }
     }
     return false;
+}
+
+void QuickSceneEffect::touchCancel()
+{
+    for (const auto &[screen, screenView] : d->views) {
+        screenView->forwardTouchCancel();
+    }
 }
 
 } // namespace KWin

@@ -8,6 +8,7 @@
 */
 
 #include "compositor_wayland.h"
+#include "core/brightnessdevice.h"
 #include "core/graphicsbufferview.h"
 #include "core/output.h"
 #include "core/outputbackend.h"
@@ -34,7 +35,6 @@
 #include <KNotification>
 #endif
 #include <KLocalizedString>
-
 #include <QQuickWindow>
 
 namespace KWin
@@ -92,11 +92,7 @@ bool WaylandCompositor::attemptOpenGLCompositing()
         qCDebug(KWIN_CORE) << "OpenGL 2.0 is not supported";
         return false;
     }
-
-    m_scene = std::make_unique<WorkspaceSceneOpenGL>(backend.get());
-    m_cursorScene = std::make_unique<CursorScene>(std::make_unique<ItemRendererOpenGL>(backend->eglDisplayObject()));
     m_backend = std::move(backend);
-
     qCDebug(KWIN_CORE) << "OpenGL compositing has been successfully initialized";
     return true;
 }
@@ -107,27 +103,13 @@ bool WaylandCompositor::attemptQPainterCompositing()
     if (!backend || backend->isFailed()) {
         return false;
     }
-
-    m_scene = std::make_unique<WorkspaceSceneQPainter>(backend.get());
-    m_cursorScene = std::make_unique<CursorScene>(std::make_unique<ItemRendererQPainter>());
     m_backend = std::move(backend);
-
     qCDebug(KWIN_CORE) << "QPainter compositing has been successfully initialized";
     return true;
 }
 
-void WaylandCompositor::start()
+void WaylandCompositor::createRenderer()
 {
-    if (kwinApp()->isTerminating()) {
-        return;
-    }
-    if (m_state != State::Off) {
-        return;
-    }
-
-    Q_EMIT aboutToToggleCompositing();
-    m_state = State::Starting;
-
     // If compositing has been restarted, try to use the last used compositing type.
     const QList<CompositingType> availableCompositors = kwinApp()->outputBackend()->supportedCompositors();
     QList<CompositingType> candidateCompositors;
@@ -170,6 +152,36 @@ void WaylandCompositor::start()
             qApp->quit();
         }
     }
+}
+
+void WaylandCompositor::createScene()
+{
+    if (const auto openglBackend = qobject_cast<OpenGLBackend *>(m_backend.get())) {
+        m_scene = std::make_unique<WorkspaceSceneOpenGL>(openglBackend);
+        m_cursorScene = std::make_unique<CursorScene>(std::make_unique<ItemRendererOpenGL>(openglBackend->eglDisplayObject()));
+    } else {
+        const auto qpainterBackend = static_cast<QPainterBackend *>(m_backend.get());
+        m_scene = std::make_unique<WorkspaceSceneQPainter>(qpainterBackend);
+        m_cursorScene = std::make_unique<CursorScene>(std::make_unique<ItemRendererQPainter>());
+    }
+    Q_EMIT sceneCreated();
+}
+
+void WaylandCompositor::start()
+{
+    if (kwinApp()->isTerminating()) {
+        return;
+    }
+    if (m_state != State::Off) {
+        return;
+    }
+
+    Q_EMIT aboutToToggleCompositing();
+    m_state = State::Starting;
+
+    if (!m_backend) {
+        createRenderer();
+    }
 
     if (!m_backend) {
         m_state = State::Off;
@@ -195,7 +207,7 @@ void WaylandCompositor::start()
         }
     }
 
-    Q_EMIT sceneCreated();
+    createScene();
 
     const QList<Output *> outputs = workspace()->outputs();
     for (Output *output : outputs) {
@@ -313,6 +325,23 @@ void WaylandCompositor::composite(RenderLoop *renderLoop)
     renderLoop->prepareNewFrame();
     auto frame = std::make_shared<OutputFrame>(renderLoop, std::chrono::nanoseconds(1'000'000'000'000 / output->refreshRate()));
     bool directScanout = false;
+    std::optional<double> desiredArtificalHdrHeadroom;
+
+    // brightness animations should be skipped when
+    // - the output is new, and we didn't have the output configuration applied yet
+    // - there's not enough steps to do a smooth animation
+    // - the brightness device is external, most of them do an animation on their own
+    if (!output->currentBrightness().has_value()
+        || (!output->highDynamicRange() && output->brightnessDevice() && !output->isInternal())
+        || (!output->highDynamicRange() && output->brightnessDevice() && output->brightnessDevice()->brightnessSteps() < 5)) {
+        frame->setBrightness(output->brightnessSetting() * output->dimming());
+    } else {
+        constexpr double changePerSecond = 3;
+        const double maxChangePerFrame = changePerSecond * 1'000.0 / renderLoop->refreshRate();
+        // brightness perception is non-linear, gamma 2.2 encoding *roughly* represents that
+        const double current = std::pow(*output->currentBrightness(), 1.0 / 2.2);
+        frame->setBrightness(std::pow(std::clamp(std::pow(output->brightnessSetting() * output->dimming(), 1.0 / 2.2), current - maxChangePerFrame, current + maxChangePerFrame), 2.2));
+    }
 
     if (primaryLayer->needsRepaint() || superLayer->needsRepaint()) {
         auto totalTimeQuery = std::make_unique<CpuRenderTimeQuery>();
@@ -322,6 +351,28 @@ void WaylandCompositor::composite(RenderLoop *renderLoop)
         primaryLayer->resetRepaints();
         prePaintPass(superLayer, &surfaceDamage);
         frame->setDamage(surfaceDamage);
+
+        // slowly adjust the artificial HDR headroom for the next frame
+        // note that this is only done for internal displays, because external displays usually apply slow animations to brightness changes
+        if (!output->highDynamicRange() && output->brightnessDevice() && output->currentBrightness() && output->artificialHdrHeadroom() && output->isInternal() && output->colorProfileSource() != Output::ColorProfileSource::ICC) {
+            const auto desiredHdrHeadroom = superLayer->delegate()->desiredHdrHeadroom();
+            // just a rough estimate from the Framework 13 laptop. The less accurate this is, the more the screen will flicker during backlight changes
+            constexpr double relativeLuminanceAtZeroBrightness = 0.04;
+            // the higher this is, the more likely the user is to notice the change in backlight brightness
+            // at the same time, if it's too low, it takes ages until the user sees the HDR effect
+            constexpr double changePerSecond = 0.5;
+            // to restrict HDR videos from using all the battery and burning your eyes
+            // TODO make it a setting, and/or dependent on the power management state?
+            constexpr double maxHdrHeadroom = 3.0;
+            // = the headroom at 100% backlight
+            const double maxPossibleHeadroom = (1 + relativeLuminanceAtZeroBrightness) / (relativeLuminanceAtZeroBrightness + *output->currentBrightness());
+            desiredArtificalHdrHeadroom = std::clamp(desiredHdrHeadroom, 1.0, std::min(maxPossibleHeadroom, maxHdrHeadroom));
+            const double changePerFrame = changePerSecond * double(frame->refreshDuration().count()) / 1'000'000'000;
+            const double newHeadroom = std::clamp(*desiredArtificalHdrHeadroom, output->artificialHdrHeadroom() - changePerFrame, output->artificialHdrHeadroom() + changePerFrame);
+            frame->setArtificialHdrHeadroom(newHeadroom);
+        } else {
+            frame->setArtificialHdrHeadroom(1);
+        }
 
         Window *const activeWindow = workspace()->activeWindow();
         SurfaceItem *const activeFullscreenItem = activeWindow && activeWindow->isFullScreen() && activeWindow->isOnOutput(output) ? activeWindow->surfaceItem() : nullptr;
@@ -388,6 +439,12 @@ void WaylandCompositor::composite(RenderLoop *renderLoop)
     }
 
     framePass(superLayer, frame.get());
+
+    if ((frame->brightness() && std::abs(*frame->brightness() - output->brightnessSetting()) > 0.001)
+        || (desiredArtificalHdrHeadroom && frame->artificialHdrHeadroom() && std::abs(*frame->artificialHdrHeadroom() - *desiredArtificalHdrHeadroom) > 0.001)) {
+        // we're currently running an animation to change the brightness
+        renderLoop->scheduleRepaint();
+    }
 
     // TODO: move this into the cursor layer
     const auto frameTime = std::chrono::duration_cast<std::chrono::milliseconds>(output->renderLoop()->lastPresentationTimestamp());

@@ -38,6 +38,7 @@
 #include <KConfigPropertyMap>
 #include <KGlobalAccel>
 #include <KLocalizedContext>
+#include <KLocalizedQmlContext>
 #include <KPackage/PackageLoader>
 // Qt
 #include <QDBusConnection>
@@ -221,16 +222,16 @@ void KWin::Script::slotScriptLoadedFromFile()
 
     // Make the options object visible to QJSEngine.
     QJSValue optionsObject = m_engine->newQObject(options);
-    QQmlEngine::setObjectOwnership(options, QQmlEngine::CppOwnership);
+    QJSEngine::setObjectOwnership(options, QJSEngine::CppOwnership);
     m_engine->globalObject().setProperty(QStringLiteral("options"), optionsObject);
 
     // Make the workspace visible to QJSEngine.
     QJSValue workspaceObject = m_engine->newQObject(Scripting::self()->workspaceWrapper());
-    QQmlEngine::setObjectOwnership(Scripting::self()->workspaceWrapper(), QQmlEngine::CppOwnership);
+    QJSEngine::setObjectOwnership(Scripting::self()->workspaceWrapper(), QJSEngine::CppOwnership);
     m_engine->globalObject().setProperty(QStringLiteral("workspace"), workspaceObject);
 
     QJSValue self = m_engine->newQObject(this);
-    QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
+    QJSEngine::setObjectOwnership(this, QJSEngine::CppOwnership);
 
     static const QStringList globalProperties{
         QStringLiteral("readConfig"),
@@ -630,7 +631,7 @@ KWin::Scripting::Scripting(QObject *parent)
     , m_workspaceWrapper(new QtScriptWorkspaceWrapper(this))
 {
     m_qmlEngine->setProperty("_kirigamiTheme", QStringLiteral("KirigamiPlasmaStyle"));
-    m_qmlEngine->rootContext()->setContextObject(new KLocalizedContext(m_qmlEngine));
+    m_qmlEngine->rootContext()->setContextObject(new KLocalizedQmlContext(m_qmlEngine));
     init();
     QDBusConnection::sessionBus().registerObject(QStringLiteral("/Scripting"), this, QDBusConnection::ExportScriptableContents | QDBusConnection::ExportScriptableInvokables);
     connect(Workspace::self(), &Workspace::configChanged, this, &Scripting::start);

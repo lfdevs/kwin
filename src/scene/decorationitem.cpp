@@ -8,34 +8,34 @@
 #include "scene/decorationitem.h"
 #include "compositor.h"
 #include "core/output.h"
-#include "decorations/decoratedclient.h"
+#include "decorations/decoratedwindow.h"
 #include "scene/workspacescene.h"
 #include "window.h"
 
 #include <cmath>
 
-#include <KDecoration2/DecoratedClient>
-#include <KDecoration2/Decoration>
+#include <KDecoration3/DecoratedWindow>
+#include <KDecoration3/Decoration>
 
 namespace KWin
 {
 
-DecorationRenderer::DecorationRenderer(Decoration::DecoratedClientImpl *client)
+DecorationRenderer::DecorationRenderer(Decoration::DecoratedWindowImpl *client)
     : m_client(client)
     , m_imageSizesDirty(true)
 {
-    connect(client->decoration(), &KDecoration2::Decoration::damaged,
+    connect(client->decoration(), &KDecoration3::Decoration::damaged,
             this, &DecorationRenderer::addDamage);
 
-    connect(client->decoration(), &KDecoration2::Decoration::bordersChanged,
+    connect(client->decoration(), &KDecoration3::Decoration::bordersChanged,
             this, &DecorationRenderer::invalidate);
-    connect(client->decoratedClient(), &KDecoration2::DecoratedClient::sizeChanged,
+    connect(client->decoratedWindow(), &KDecoration3::DecoratedWindow::sizeChanged,
             this, &DecorationRenderer::invalidate);
 
     invalidate();
 }
 
-Decoration::DecoratedClientImpl *DecorationRenderer::client() const
+Decoration::DecoratedWindowImpl *DecorationRenderer::client() const
 {
     return m_client;
 }
@@ -83,31 +83,30 @@ void DecorationRenderer::setDevicePixelRatio(qreal dpr)
     }
 }
 
-void DecorationRenderer::renderToPainter(QPainter *painter, const QRect &rect)
+void DecorationRenderer::renderToPainter(QPainter *painter, const QRectF &rect)
 {
     client()->decoration()->paint(painter, rect);
 }
 
-DecorationItem::DecorationItem(KDecoration2::Decoration *decoration, Window *window, Item *parent)
+DecorationItem::DecorationItem(KDecoration3::Decoration *decoration, Window *window, Item *parent)
     : Item(parent)
     , m_window(window)
     , m_decoration(decoration)
 {
-    m_renderer = Compositor::self()->scene()->createDecorationRenderer(window->decoratedClient());
+    m_renderer = Compositor::self()->scene()->createDecorationRenderer(window->decoratedWindow());
 
-    connect(window, &Window::outputChanged,
-            this, &DecorationItem::handleOutputChanged);
+    connect(window, &Window::targetScaleChanged, this, &DecorationItem::updateScale);
 
-    connect(decoration->client(), &KDecoration2::DecoratedClient::sizeChanged,
+    connect(decoration->window(), &KDecoration3::DecoratedWindow::sizeChanged,
             this, &DecorationItem::handleDecorationGeometryChanged);
-    connect(decoration, &KDecoration2::Decoration::bordersChanged,
+    connect(decoration, &KDecoration3::Decoration::bordersChanged,
             this, &DecorationItem::handleDecorationGeometryChanged);
 
     connect(renderer(), &DecorationRenderer::damaged,
             this, qOverload<const QRegion &>(&Item::scheduleRepaint));
 
     setSize(decoration->size());
-    handleOutputChanged();
+    updateScale();
 }
 
 QList<QRectF> DecorationItem::shape() const
@@ -146,25 +145,11 @@ void DecorationItem::preprocess()
     }
 }
 
-void DecorationItem::handleOutputChanged()
+void DecorationItem::updateScale()
 {
-    if (m_output) {
-        disconnect(m_output, &Output::scaleChanged, this, &DecorationItem::handleOutputScaleChanged);
-    }
-
-    m_output = m_window->output();
-
-    if (m_output) {
-        handleOutputScaleChanged();
-        connect(m_output, &Output::scaleChanged, this, &DecorationItem::handleOutputScaleChanged);
-    }
-}
-
-void DecorationItem::handleOutputScaleChanged()
-{
-    const qreal dpr = m_output->scale();
-    if (m_renderer->devicePixelRatio() != dpr) {
-        m_renderer->setDevicePixelRatio(dpr);
+    const double scale = m_window->targetScale();
+    if (m_renderer->devicePixelRatio() != scale) {
+        m_renderer->setDevicePixelRatio(scale);
         discardQuads();
     }
 }
@@ -188,20 +173,19 @@ Window *DecorationItem::window() const
 WindowQuad buildQuad(const QRectF &partRect, const QPoint &textureOffset,
                      const qreal devicePixelRatio, bool rotated)
 {
-    const QRectF &r = partRect;
     const int p = DecorationRenderer::TexturePad;
 
-    const int x0 = r.x();
-    const int y0 = r.y();
-    const int x1 = r.x() + r.width();
-    const int y1 = r.y() + r.height();
+    const double x0 = partRect.x();
+    const double y0 = partRect.y();
+    const double x1 = partRect.x() + partRect.width();
+    const double y1 = partRect.y() + partRect.height();
 
     WindowQuad quad;
     if (rotated) {
         const int u0 = textureOffset.y() + p;
         const int v0 = textureOffset.x() + p;
-        const int u1 = textureOffset.y() + p + std::round(r.width() * devicePixelRatio);
-        const int v1 = textureOffset.x() + p + std::round(r.height() * devicePixelRatio);
+        const int u1 = textureOffset.y() + p + std::round(partRect.width() * devicePixelRatio);
+        const int v1 = textureOffset.x() + p + std::round(partRect.height() * devicePixelRatio);
 
         quad[0] = WindowVertex(x0, y0, v0, u1); // Top-left
         quad[1] = WindowVertex(x1, y0, v0, u0); // Top-right
@@ -210,8 +194,8 @@ WindowQuad buildQuad(const QRectF &partRect, const QPoint &textureOffset,
     } else {
         const int u0 = textureOffset.x() + p;
         const int v0 = textureOffset.y() + p;
-        const int u1 = textureOffset.x() + p + std::round(r.width() * devicePixelRatio);
-        const int v1 = textureOffset.y() + p + std::round(r.height() * devicePixelRatio);
+        const int u1 = textureOffset.x() + p + std::round(partRect.width() * devicePixelRatio);
+        const int v1 = textureOffset.y() + p + std::round(partRect.height() * devicePixelRatio);
 
         quad[0] = WindowVertex(x0, y0, u0, v0); // Top-left
         quad[1] = WindowVertex(x1, y0, u1, v0); // Top-right

@@ -20,7 +20,7 @@
 #include "x11window.h"
 #endif
 
-#include <KDecoration2/Decoration>
+#include <KDecoration3/Decoration>
 
 namespace KWin
 {
@@ -270,7 +270,7 @@ void WindowItem::updateDecorationItem()
         } else if (m_surfaceItem) {
             m_decorationItem->stackBefore(m_surfaceItem.get());
         }
-        connect(m_window->decoration(), &KDecoration2::Decoration::damaged, this, &WindowItem::markDamaged);
+        connect(m_window->decoration(), &KDecoration3::Decoration::damaged, this, &WindowItem::markDamaged);
         markDamaged();
     } else {
         m_decorationItem.reset();
@@ -319,15 +319,13 @@ void WindowItemX11::initialize()
     case Application::OperationModeX11:
         updateSurfaceItem(std::make_unique<SurfaceItemX11>(static_cast<X11Window *>(window()), this));
         break;
-    case Application::OperationModeXwayland:
+    case Application::OperationModeWayland:
         if (!window()->surface()) {
             updateSurfaceItem(nullptr);
         } else {
             updateSurfaceItem(std::make_unique<SurfaceItemXwayland>(static_cast<X11Window *>(window()), this));
         }
         break;
-    case Application::OperationModeWaylandOnly:
-        Q_UNREACHABLE();
     }
 }
 #endif

@@ -13,10 +13,12 @@
 #include "scene/windowitem.h"
 #include "workspace.h"
 
-#include <KDecoration2/Decoration>
+#include <KDecoration3/Decoration>
 
 #include <QMouseEvent>
 #include <QWindow>
+
+#include <qpa/qwindowsysteminterface.h>
 
 Q_DECLARE_METATYPE(NET::WindowType)
 
@@ -173,7 +175,7 @@ QString InternalWindow::windowRole() const
 void InternalWindow::closeWindow()
 {
     if (!isDeleted()) {
-        m_handle->hide();
+        QWindowSystemInterface::handleCloseEvent<QWindowSystemInterface::AsynchronousDelivery>(m_handle);
     }
 }
 
@@ -184,6 +186,9 @@ bool InternalWindow::isCloseable() const
 
 bool InternalWindow::isMovable() const
 {
+    if (!options->interactiveWindowMoveEnabled()) {
+        return false;
+    }
     return !m_internalWindowFlags.testFlag(Qt::BypassWindowManagerHint) && !m_internalWindowFlags.testFlag(Qt::Popup);
 }
 
@@ -249,7 +254,7 @@ QRectF InternalWindow::resizeWithChecks(const QRectF &geometry, const QSizeF &si
 
 void InternalWindow::moveResizeInternal(const QRectF &rect, MoveResizeMode mode)
 {
-    const QSizeF requestedClientSize = frameSizeToClientSize(rect.size());
+    const QSizeF requestedClientSize = nextFrameSizeToClientSize(rect.size());
     if (clientSize() == requestedClientSize) {
         commitGeometry(rect);
     } else {
@@ -276,13 +281,23 @@ void InternalWindow::setNoBorder(bool set)
 
 void InternalWindow::createDecoration(const QRectF &oldGeometry)
 {
-    setDecoration(std::shared_ptr<KDecoration2::Decoration>(Workspace::self()->decorationBridge()->createDecoration(this)));
-    moveResize(QRectF(oldGeometry.topLeft(), clientSizeToFrameSize(clientSize())));
+    std::shared_ptr<KDecoration3::Decoration> decoration(Workspace::self()->decorationBridge()->createDecoration(this));
+    if (decoration) {
+        decoration->apply(decoration->nextState()->clone());
+        connect(decoration.get(), &KDecoration3::Decoration::nextStateChanged, this, [this](auto state) {
+            if (!isDeleted()) {
+                m_decoration.decoration->apply(state->clone());
+            }
+        });
+    }
+
+    setDecoration(decoration);
+    moveResize(QRectF(oldGeometry.topLeft(), nextClientSizeToFrameSize(clientSize())));
 }
 
 void InternalWindow::destroyDecoration()
 {
-    const QSizeF clientSize = frameSizeToClientSize(moveResizeGeometry().size());
+    const QSizeF clientSize = nextFrameSizeToClientSize(moveResizeGeometry().size());
     setDecoration(nullptr);
     resize(clientSize);
 }
@@ -330,7 +345,7 @@ void InternalWindow::destroyWindow()
 
     Q_EMIT closed();
 
-    setTile(nullptr);
+    commitTile(nullptr);
     workspace()->removeInternalWindow(this);
     m_handle = nullptr;
 

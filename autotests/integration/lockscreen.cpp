@@ -184,7 +184,6 @@ void LockScreenTest::initTestCase()
     qRegisterMetaType<KWin::Window *>();
     qRegisterMetaType<KWin::ElectricBorder>("ElectricBorder");
 
-    QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
     Test::setOutputConfig({
         QRect(0, 0, 1280, 1024),
@@ -192,7 +191,6 @@ void LockScreenTest::initTestCase()
     });
 
     kwinApp()->start();
-    QVERIFY(applicationStartedSpy.wait());
     const auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
     QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
@@ -579,20 +577,20 @@ void LockScreenTest::testMoveWindow()
     Test::keyboardKeyReleased(KEY_RIGHT, timestamp++);
     QCOMPARE(interactiveMoveResizeSteppedSpy.count(), 1);
 
-    // while locking our window should continue to be in move resize
+    // interactive move resize session should end when the screen is locked
     LOCK;
-    QCOMPARE(workspace()->moveResizeWindow(), window);
-    QVERIFY(window->isInteractiveMove());
+    QCOMPARE(workspace()->moveResizeWindow(), nullptr);
+    QVERIFY(!window->isInteractiveMove());
     Test::keyboardKeyPressed(KEY_RIGHT, timestamp++);
     Test::keyboardKeyReleased(KEY_RIGHT, timestamp++);
     QCOMPARE(interactiveMoveResizeSteppedSpy.count(), 1);
 
     UNLOCK;
-    QCOMPARE(workspace()->moveResizeWindow(), window);
-    QVERIFY(window->isInteractiveMove());
+    QCOMPARE(workspace()->moveResizeWindow(), nullptr);
+    QVERIFY(!window->isInteractiveMove());
     Test::keyboardKeyPressed(KEY_RIGHT, timestamp++);
     Test::keyboardKeyReleased(KEY_RIGHT, timestamp++);
-    QCOMPARE(interactiveMoveResizeSteppedSpy.count(), 2);
+    QCOMPARE(interactiveMoveResizeSteppedSpy.count(), 1);
     Test::keyboardKeyPressed(KEY_ESC, timestamp++);
     Test::keyboardKeyReleased(KEY_ESC, timestamp++);
     QVERIFY(!window->isInteractiveMove());

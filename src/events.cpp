@@ -36,7 +36,7 @@
 #include "tabbox/tabbox.h"
 #endif
 
-#include <KDecoration2/Decoration>
+#include <KDecoration3/Decoration>
 
 #include <QApplication>
 #include <QDebug>
@@ -659,13 +659,6 @@ void X11Window::clientMessageEvent(xcb_client_message_event_t *e)
                 setSurface(xwaylandSurface->surface());
             }
         }
-    } else if (e->type == atoms->wl_surface_id) {
-        m_pendingSurfaceId = e->data.data32[0];
-        if (auto w = waylandServer()) {
-            if (auto s = SurfaceInterface::get(m_pendingSurfaceId, w->xWaylandConnection())) {
-                setSurface(s);
-            }
-        }
     }
 
     if (e->window != window()) {
@@ -999,41 +992,37 @@ bool X11Window::buttonPressEvent(xcb_window_t w, int button, int state, int x, i
             return true;
         }
 
-        Options::MouseCommand com = Options::MouseNothing;
-        bool was_action = false;
+        std::optional<Options::MouseCommand> command;
         if (bModKeyHeld) {
-            was_action = true;
             switch (button) {
             case XCB_BUTTON_INDEX_1:
-                com = options->commandAll1();
+                command = options->commandAll1();
                 break;
             case XCB_BUTTON_INDEX_2:
-                com = options->commandAll2();
+                command = options->commandAll2();
                 break;
             case XCB_BUTTON_INDEX_3:
-                com = options->commandAll3();
+                command = options->commandAll3();
                 break;
             case XCB_BUTTON_INDEX_4:
             case XCB_BUTTON_INDEX_5:
-                com = options->operationWindowMouseWheel(button == XCB_BUTTON_INDEX_4 ? 120 : -120);
+                command = options->operationWindowMouseWheel(button == XCB_BUTTON_INDEX_4 ? 120 : -120);
                 break;
             }
         } else {
             if (w == wrapperId()) {
                 if (button < 4) {
-                    com = getMouseCommand(x11ToQtMouseButton(button), &was_action);
+                    command = getMousePressCommand(x11ToQtMouseButton(button));
                 } else if (button < 6) {
-                    com = getWheelCommand(Qt::Vertical, &was_action);
+                    command = getWheelCommand(Qt::Vertical);
                 }
             }
         }
-        if (was_action) {
-            bool replay = performMouseCommand(com, QPoint(x_root, y_root));
-
+        if (command) {
+            bool replay = performMousePressCommand(*command, QPoint(x_root, y_root));
             if (isSpecialWindow()) {
                 replay = true;
             }
-
             if (w == wrapperId()) { // these can come only from a grab
                 xcb_allow_events(kwinApp()->x11Connection(), replay ? XCB_ALLOW_REPLAY_POINTER : XCB_ALLOW_SYNC_POINTER, XCB_TIME_CURRENT_TIME); // xTime());
             }
@@ -1071,7 +1060,7 @@ bool X11Window::buttonPressEvent(xcb_window_t w, int button, int state, int x, i
             QCoreApplication::sendEvent(decoration(), &event);
             if (!event.isAccepted() && !hor) {
                 if (titlebarPositionUnderMouse()) {
-                    performMouseCommand(options->operationTitlebarMouseWheel(delta), QPoint(x_root, y_root));
+                    performMousePressCommand(options->operationTitlebarMouseWheel(delta), QPoint(x_root, y_root));
                 }
             }
         } else {
@@ -1116,7 +1105,7 @@ bool X11Window::buttonReleaseEvent(xcb_window_t w, int button, int state, int x,
         xcb_allow_events(kwinApp()->x11Connection(), XCB_ALLOW_SYNC_POINTER, XCB_TIME_CURRENT_TIME); // xTime());
         return true;
     }
-    if (w != frameId() && w != inputId() && w != moveResizeGrabWindow()) {
+    if (w != frameId() && w != inputId()) {
         return true;
     }
     if (w == frameId() && workspace()->userActionsMenu() && workspace()->userActionsMenu()->isShown()) {
@@ -1152,7 +1141,7 @@ bool X11Window::motionNotifyEvent(xcb_window_t w, int state, int x, int y, int x
         QHoverEvent event(QEvent::HoverMove, QPointF(x, y), QPointF(x, y));
         QCoreApplication::instance()->sendEvent(decoration(), &event);
     }
-    if (w != frameId() && w != inputId() && w != moveResizeGrabWindow()) {
+    if (w != frameId() && w != inputId()) {
         return true; // care only about the whole frame
     }
     if (!isInteractiveMoveResizePointerButtonDown()) {
@@ -1172,10 +1161,6 @@ bool X11Window::motionNotifyEvent(xcb_window_t w, int state, int x, int y, int x
         }
         return false;
     }
-    if (w == moveResizeGrabWindow()) {
-        x = this->x(); // translate from grab window to local coords
-        y = this->y();
-    }
 
     if (!isInteractiveMoveResize()) {
         const QPointF offset(interactiveMoveOffset().x() * width(), interactiveMoveOffset().y() * height());
@@ -1192,7 +1177,7 @@ bool X11Window::motionNotifyEvent(xcb_window_t w, int state, int x, int y, int x
         updateInteractiveMoveResize(QPointF(x_root, y_root), x11ToQtKeyboardModifiers(state));
 
         if (isInteractiveMove()) {
-            workspace()->screenEdges()->check(QPoint(x_root, y_root), QDateTime::fromMSecsSinceEpoch(xTime(), Qt::UTC));
+            workspace()->screenEdges()->check(QPoint(x_root, y_root), std::chrono::milliseconds(xTime()));
         }
     }
 
@@ -1312,7 +1297,7 @@ void X11Window::NETMoveResize(qreal x_root, qreal y_root, NET::Direction directi
             // the expectation is that the cursor is already at the provided position,
             // thus it's more a safety measurement
             Cursors::self()->mouse()->setPos(QPointF(x_root, y_root));
-            performMouseCommand(Options::MouseMove, QPointF(x_root, y_root));
+            performMousePressCommand(Options::MouseMove, QPointF(x_root, y_root));
         } else {
             static const Gravity convert[] = {
                 Gravity::TopLeft,
@@ -1343,11 +1328,11 @@ void X11Window::NETMoveResize(qreal x_root, qreal y_root, NET::Direction directi
     } else if (direction == NET::KeyboardMove) {
         // ignore mouse coordinates given in the message, mouse position is used by the moving algorithm
         Cursors::self()->mouse()->setPos(frameGeometry().center());
-        performMouseCommand(Options::MouseUnrestrictedMove, frameGeometry().center());
+        performMousePressCommand(Options::MouseUnrestrictedMove, frameGeometry().center());
     } else if (direction == NET::KeyboardSize) {
         // ignore mouse coordinates given in the message, mouse position is used by the resizing algorithm
         Cursors::self()->mouse()->setPos(frameGeometry().bottomRight());
-        performMouseCommand(Options::MouseUnrestrictedResize, frameGeometry().bottomRight());
+        performMousePressCommand(Options::MouseUnrestrictedResize, frameGeometry().bottomRight());
     }
 }
 

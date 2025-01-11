@@ -9,6 +9,7 @@
 #include "core/output.h"
 #include "core/outputbackend.h"
 #include "core/outputconfiguration.h"
+#include "outputconfigurationstore.h"
 #include "pointer_input.h"
 #include "tiles/tilemanager.h"
 #include "wayland_server.h"
@@ -17,6 +18,7 @@
 #include "x11window.h"
 
 #include <KWayland/Client/surface.h>
+#include <QOrientationSensor>
 #include <netwm.h>
 #include <xcb/xcb_icccm.h>
 
@@ -59,13 +61,16 @@ private Q_SLOTS:
 
     void testWindowNotRestoredAfterMovingWindowAndEnablingOutput();
     void testLaptopLidClosed();
+    void testGenerateConfigs_data();
+    void testGenerateConfigs();
+    void testAutorotate_data();
+    void testAutorotate();
 };
 
 void OutputChangesTest::initTestCase()
 {
     qRegisterMetaType<Window *>();
 
-    QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
     Test::setOutputConfig({
         QRect(0, 0, 1280, 1024),
@@ -73,7 +78,6 @@ void OutputChangesTest::initTestCase()
     });
 
     kwinApp()->start();
-    QVERIFY(applicationStartedSpy.wait());
     const auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
     QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
@@ -487,6 +491,7 @@ void OutputChangesTest::testQuickTiledWindowRestoredAfterEnablingOutput()
     // kwin will send a configure event with the actived state.
     QSignalSpy toplevelConfigureRequestedSpy(shellSurface.get(), &Test::XdgToplevel::configureRequested);
     QSignalSpy surfaceConfigureRequestedSpy(shellSurface->xdgSurface(), &Test::XdgSurface::configureRequested);
+    QSignalSpy quickTileChangedSpy(window, &Window::quickTileModeChanged);
     QVERIFY(surfaceConfigureRequestedSpy.wait());
 
     // Move the window to the right monitor and tile it to the right.
@@ -524,6 +529,10 @@ void OutputChangesTest::testQuickTiledWindowRestoredAfterEnablingOutput()
         changeSet->enabled = true;
     }
     workspace()->applyOutputConfiguration(config2);
+    QVERIFY(surfaceConfigureRequestedSpy.wait());
+    shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy.last().at(0).value<quint32>());
+    Test::render(surface.get(), QSize(1280 / 2, 1024), Qt::blue);
+    QVERIFY(quickTileChangedSpy.wait());
 
     // The window will be moved back to the right monitor, and put in the correct tile
     QCOMPARE(window->frameGeometry(), rightQuickTileGeom);
@@ -1089,15 +1098,15 @@ void OutputChangesTest::testLaptopLidClosed()
     input()->addInputDevice(lidSwitch.get());
 
     auto timestamp = 1ms;
-    Q_EMIT lidSwitch->switchToggledOff(timestamp++, lidSwitch.get());
+    Q_EMIT lidSwitch->switchToggle(SwitchState::Off, timestamp++, lidSwitch.get());
     QVERIFY(internal->isEnabled());
     QVERIFY(external->isEnabled());
 
-    Q_EMIT lidSwitch->switchToggledOn(timestamp++, lidSwitch.get());
+    Q_EMIT lidSwitch->switchToggle(SwitchState::On, timestamp++, lidSwitch.get());
     QVERIFY(!internal->isEnabled());
     QVERIFY(external->isEnabled());
 
-    Q_EMIT lidSwitch->switchToggledOff(timestamp++, lidSwitch.get());
+    Q_EMIT lidSwitch->switchToggle(SwitchState::Off, timestamp++, lidSwitch.get());
     QVERIFY(internal->isEnabled());
     QVERIFY(external->isEnabled());
 
@@ -1176,6 +1185,171 @@ void OutputChangesTest::testXwaylandScaleChange()
     // the window should be back in its original geometry
     QCOMPARE(kwinApp()->xwaylandScale(), 2);
     QCOMPARE(window->frameGeometry(), originalGeometry);
+}
+
+using ModeInfo = std::tuple<QSize, uint64_t, OutputMode::Flags>;
+
+void OutputChangesTest::testGenerateConfigs_data()
+{
+    QTest::addColumn<Test::OutputInfo>("outputInfo");
+    QTest::addColumn<std::tuple<QSize, uint64_t, OutputMode::Flags>>("defaultMode");
+    QTest::addColumn<double>("defaultScale");
+
+    QTest::addRow("1080p 27\"") << Test::OutputInfo{
+        .geometry = QRect(0, 0, 1920, 1080),
+        .internal = false,
+        .physicalSizeInMM = QSize(598, 336),
+        .modes = {ModeInfo(QSize(1920, 1080), 60000, OutputMode::Flag::Preferred)},
+    } << ModeInfo(QSize(1920, 1080), 60000ul, OutputMode::Flag::Preferred)
+                                << 1.0;
+
+    QTest::addRow("2160p 27\"") << Test::OutputInfo{
+        .geometry = QRect(0, 0, 3840, 2160),
+        .internal = false,
+        .physicalSizeInMM = QSize(598, 336),
+        .modes = {ModeInfo(QSize(3840, 2160), 60000, OutputMode::Flag::Preferred)},
+    } << ModeInfo(QSize(3840, 2160), 60000ul, OutputMode::Flag::Preferred)
+                                << 1.75;
+
+    QTest::addRow("2160p invalid size") << Test::OutputInfo{
+        .geometry = QRect(0, 0, 3840, 2160),
+        .internal = false,
+        .physicalSizeInMM = QSize(),
+        .modes = {ModeInfo(QSize(3840, 2160), 60000, OutputMode::Flag::Preferred)},
+    } << ModeInfo(QSize(3840, 2160), 60000ul, OutputMode::Flag::Preferred)
+                                        << 1.0;
+
+    QTest::addRow("2160p impossibly tiny size") << Test::OutputInfo{
+        .geometry = QRect(0, 0, 3840, 2160),
+        .internal = false,
+        .physicalSizeInMM = QSize(1, 1),
+        .modes = {ModeInfo(QSize(3840, 2160), 60000, OutputMode::Flag::Preferred)},
+    } << ModeInfo(QSize(3840, 2160), 60000ul, OutputMode::Flag::Preferred)
+                                                << 1.0;
+
+    QTest::addRow("1080p 27\" with non-preferred high refresh option") << Test::OutputInfo{
+        .geometry = QRect(0, 0, 1920, 1080),
+        .internal = false,
+        .physicalSizeInMM = QSize(598, 336),
+        .modes = {ModeInfo(QSize(1920, 1080), 60000, OutputMode::Flag::Preferred), ModeInfo(QSize(1920, 1080), 120000, OutputMode::Flags{})},
+    } << ModeInfo(QSize(1920, 1080), 120000ul, OutputMode::Flags{}) << 1.0;
+
+    QTest::addRow("2160p 27\" with 30Hz preferred mode") << Test::OutputInfo{
+        .geometry = QRect(0, 0, 3840, 2160),
+        .internal = false,
+        .physicalSizeInMM = QSize(598, 336),
+        .modes = {ModeInfo(QSize(3840, 2160), 30000, OutputMode::Flag::Preferred), ModeInfo(QSize(2560, 1440), 60000, OutputMode::Flags{})},
+    } << ModeInfo(QSize(2560, 1440), 60000ul, OutputMode::Flags{})
+                                                         << 1.25;
+
+    QTest::addRow("2160p 27\" with 30Hz preferred and a generated 60Hz mode") << Test::OutputInfo{
+        .geometry = QRect(0, 0, 3840, 2160),
+        .internal = false,
+        .physicalSizeInMM = QSize(598, 336),
+        .modes = {ModeInfo(QSize(3840, 2160), 30000, OutputMode::Flag::Preferred), ModeInfo(QSize(2560, 1440), 60000, OutputMode::Flag::Generated)},
+    } << ModeInfo(QSize(3840, 2160), 30000ul, OutputMode::Flag::Preferred) << 1.75;
+
+    QTest::addRow("1440p 32:9 49\" with two preferred modes") << Test::OutputInfo{
+        .geometry = QRect(0, 0, 5120, 1440),
+        .internal = false,
+        .physicalSizeInMM = QSize(1190, 340),
+        .modes = {ModeInfo(QSize(3840, 1080), 120000, OutputMode::Flag::Preferred), ModeInfo(QSize(5120, 1440), 120000, OutputMode::Flag::Preferred)},
+    } << ModeInfo(QSize(5120, 1440), 120000ul, OutputMode::Flag::Preferred)
+                                                              << 1.0;
+
+    QTest::addRow("2160p 32:9 57\" with non-native preferred mode") << Test::OutputInfo{
+        .geometry = QRect(0, 0, 7680, 2160),
+        .internal = false,
+        .physicalSizeInMM = QSize(1400, 400),
+        .modes = {ModeInfo(QSize(3840, 1080), 60000, OutputMode::Flag::Preferred), ModeInfo(QSize(7680, 2160), 120000, OutputMode::Flags{})},
+    } << ModeInfo(QSize(7680, 2160), 120000ul, OutputMode::Flags{}) << 1.5;
+}
+
+void OutputChangesTest::testGenerateConfigs()
+{
+    // delete the previous config to avoid clashes between test runs
+    QFile(QStandardPaths::locate(QStandardPaths::ConfigLocation, QStringLiteral("kwinoutputconfig.json"))).remove();
+
+    QFETCH(Test::OutputInfo, outputInfo);
+    Test::setOutputConfig({outputInfo});
+    const auto outputs = kwinApp()->outputBackend()->outputs();
+    OutputConfigurationStore configs;
+    auto cfg = configs.queryConfig(outputs, false, nullptr, false);
+    QVERIFY(cfg.has_value());
+    const auto [config, order, type] = *cfg;
+    const auto outputConfig = config.constChangeSet(outputs.front());
+
+    QFETCH(ModeInfo, defaultMode);
+    const auto &[modeSize, modeRefresh, modeFlags] = defaultMode;
+
+    const auto mode = outputConfig->mode->lock();
+    QVERIFY(mode);
+    QCOMPARE(mode->size(), modeSize);
+    QCOMPARE(mode->refreshRate(), modeRefresh);
+    QCOMPARE(mode->flags(), modeFlags);
+
+    QFETCH(double, defaultScale);
+    QVERIFY(outputConfig->scale);
+    QCOMPARE(*outputConfig->scale, defaultScale);
+}
+
+void OutputChangesTest::testAutorotate_data()
+{
+    QTest::addColumn<OutputTransform::Kind>("panelOrientation");
+    QTest::addColumn<QOrientationReading::Orientation>("orientation");
+    QTest::addColumn<OutputTransform::Kind>("expectedRotation");
+
+    QTest::addRow("panel orientation normal, no rotation") << OutputTransform::Kind::Normal << QOrientationReading::Orientation::TopUp << OutputTransform::Kind::Normal;
+    QTest::addRow("panel orientation normal, rotated 90° right") << OutputTransform::Kind::Normal << QOrientationReading::Orientation::LeftUp << OutputTransform::Kind::Rotate90;
+    QTest::addRow("panel orientation normal, rotated 180°") << OutputTransform::Kind::Normal << QOrientationReading::Orientation::TopDown << OutputTransform::Kind::Rotate180;
+    QTest::addRow("panel orientation normal, rotated 90° left") << OutputTransform::Kind::Normal << QOrientationReading::Orientation::RightUp << OutputTransform::Kind::Rotate270;
+
+    QTest::addRow("panel orientation left up, no rotation") << OutputTransform::Kind::Rotate90 << QOrientationReading::Orientation::TopUp << OutputTransform::Kind::Rotate90;
+    QTest::addRow("panel orientation left up, rotated 90° right") << OutputTransform::Kind::Rotate90 << QOrientationReading::Orientation::LeftUp << OutputTransform::Kind::Rotate180;
+    QTest::addRow("panel orientation left up, rotated 180°") << OutputTransform::Kind::Rotate90 << QOrientationReading::Orientation::TopDown << OutputTransform::Kind::Rotate270;
+    QTest::addRow("panel orientation left up, rotated 90° left") << OutputTransform::Kind::Rotate90 << QOrientationReading::Orientation::RightUp << OutputTransform::Kind::Normal;
+
+    QTest::addRow("panel orientation upside down, no rotation") << OutputTransform::Kind::Rotate180 << QOrientationReading::Orientation::TopUp << OutputTransform::Kind::Rotate180;
+    QTest::addRow("panel orientation upside down, rotated 90° right") << OutputTransform::Kind::Rotate180 << QOrientationReading::Orientation::LeftUp << OutputTransform::Kind::Rotate270;
+    QTest::addRow("panel orientation upside down, rotated 180°") << OutputTransform::Kind::Rotate180 << QOrientationReading::Orientation::TopDown << OutputTransform::Kind::Normal;
+    QTest::addRow("panel orientation upside down, rotated 90° left") << OutputTransform::Kind::Rotate180 << QOrientationReading::Orientation::RightUp << OutputTransform::Kind::Rotate90;
+
+    QTest::addRow("panel orientation right up, no rotation") << OutputTransform::Kind::Rotate270 << QOrientationReading::Orientation::TopUp << OutputTransform::Kind::Rotate270;
+    QTest::addRow("panel orientation right up, rotated 90° right") << OutputTransform::Kind::Rotate270 << QOrientationReading::Orientation::LeftUp << OutputTransform::Kind::Normal;
+    QTest::addRow("panel orientation right up, rotated 180°") << OutputTransform::Kind::Rotate270 << QOrientationReading::Orientation::TopDown << OutputTransform::Kind::Rotate90;
+    QTest::addRow("panel orientation right up, rotated 90° left") << OutputTransform::Kind::Rotate270 << QOrientationReading::Orientation::RightUp << OutputTransform::Kind::Rotate180;
+}
+
+void OutputChangesTest::testAutorotate()
+{
+    // delete the previous config to avoid clashes between test runs
+    QFile(QStandardPaths::locate(QStandardPaths::ConfigLocation, QStringLiteral("kwinoutputconfig.json"))).remove();
+
+    QFETCH(OutputTransform::Kind, panelOrientation);
+    Test::setOutputConfig({Test::OutputInfo{
+        .geometry = QRect(0, 0, 1280, 1024),
+        .internal = true,
+        .physicalSizeInMM = QSize(598, 336),
+        .modes = {ModeInfo(QSize(1280, 1024), 60000, OutputMode::Flag::Preferred)},
+        .panelOrientation = panelOrientation,
+    }});
+
+    QFETCH(QOrientationReading::Orientation, orientation);
+    QOrientationReading sensorReading;
+    sensorReading.setOrientation(orientation);
+
+    const auto outputs = kwinApp()->outputBackend()->outputs();
+    OutputConfigurationStore configs;
+    auto cfg = configs.queryConfig(outputs, false, &sensorReading, true);
+    QVERIFY(cfg.has_value());
+    const auto [config, order, type] = *cfg;
+    const auto outputConfig = config.constChangeSet(outputs.front());
+
+    QCOMPARE(outputConfig->autoRotationPolicy, Output::AutoRotationPolicy::InTabletMode);
+
+    QFETCH(OutputTransform::Kind, expectedRotation);
+    QVERIFY(outputConfig->transform.has_value());
+    QCOMPARE(outputConfig->transform->kind(), expectedRotation);
 }
 
 } // namespace KWin

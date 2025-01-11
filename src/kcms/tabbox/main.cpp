@@ -37,12 +37,13 @@
 #include <KPackage/PackageLoader>
 
 // own
-#include "kwinpluginssettings.h"
 #include "kwintabboxconfigform.h"
 #include "kwintabboxdata.h"
 #include "kwintabboxsettings.h"
 #include "layoutpreview.h"
 #include "shortcutsettings.h"
+
+#include <QTabBar>
 
 K_PLUGIN_FACTORY_WITH_JSON(KWinTabBoxConfigFactory, "kcm_kwintabbox.json", registerPlugin<KWin::KWinTabBoxConfig>(); registerPlugin<KWin::TabBox::KWinTabboxData>();)
 
@@ -58,6 +59,8 @@ KWinTabBoxConfig::KWinTabBoxConfig(QObject *parent, const KPluginMetaData &data)
 {
     QTabWidget *tabWidget = new QTabWidget(widget());
     tabWidget->setDocumentMode(true);
+    tabWidget->tabBar()->setExpanding(true);
+
     m_primaryTabBoxUi = new KWinTabBoxConfigForm(KWinTabBoxConfigForm::TabboxType::Main,
                                                  m_data->tabBoxConfig(),
                                                  m_data->shortcutConfig(),
@@ -225,8 +228,6 @@ void KWinTabBoxConfig::load()
     m_data->tabBoxAlternativeConfig()->load();
     m_data->shortcutConfig()->load();
 
-    m_data->pluginsConfig()->load();
-
     m_primaryTabBoxUi->updateUiFromConfig();
     m_alternativeTabBoxUi->updateUiFromConfig();
 
@@ -235,13 +236,6 @@ void KWinTabBoxConfig::load()
 
 void KWinTabBoxConfig::save()
 {
-    // effects
-    const bool highlightWindows = m_primaryTabBoxUi->highlightWindows() || m_alternativeTabBoxUi->highlightWindows();
-
-    // activate effects if they are used otherwise deactivate them.
-    m_data->pluginsConfig()->setHighlightwindowEnabled(highlightWindows);
-    m_data->pluginsConfig()->save();
-
     m_data->tabBoxConfig()->save();
     m_data->tabBoxAlternativeConfig()->save();
     m_data->shortcutConfig()->save();

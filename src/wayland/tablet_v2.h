@@ -17,6 +17,8 @@ namespace KWin
 {
 class ClientConnection;
 class Display;
+class InputDevice;
+class InputDeviceTabletTool;
 class SeatInterface;
 class SurfaceInterface;
 class TabletSurfaceCursorV2;
@@ -126,8 +128,8 @@ public:
     void sendProximityOut();
     void sendUp();
     void sendDown();
-    void sendPressure(quint32 pressure);
-    void sendDistance(quint32 distance);
+    void sendPressure(qreal pressure);
+    void sendDistance(qreal distance);
     void sendTilt(qreal degreesX, qreal degreesY);
     void sendRotation(qreal degrees);
     void sendSlider(qint32 position);
@@ -258,8 +260,6 @@ public:
      */
     bool isSurfaceSupported(SurfaceInterface *surface) const;
 
-    TabletPadV2Interface *pad() const;
-
 private:
     friend class TabletSeatV2Interface;
     friend class TabletSeatV2InterfacePrivate;
@@ -275,24 +275,15 @@ class KWIN_EXPORT TabletSeatV2Interface : public QObject
 public:
     virtual ~TabletSeatV2Interface();
 
-    TabletV2Interface *addTablet(quint32 vendorId, quint32 productId, const QString &sysname, const QString &name, const QStringList &paths);
-    TabletPadV2Interface *addTabletPad(const QString &sysname,
-                                       const QString &name,
-                                       const QStringList &paths,
-                                       quint32 buttons,
-                                       quint32 rings,
-                                       quint32 strips,
-                                       quint32 modes,
-                                       quint32 currentMode,
-                                       TabletV2Interface *tablet);
-    TabletToolV2Interface *
-    addTool(TabletToolV2Interface::Type type, quint64 hardwareSerial, quint64 hardwareId, const QList<TabletToolV2Interface::Capability> &capabilities, const QString &deviceSysName);
+    TabletV2Interface *addTablet(InputDevice *device);
+    TabletPadV2Interface *addPad(InputDevice *device);
+    TabletToolV2Interface *addTool(InputDeviceTabletTool *device);
+    void remove(InputDevice *device);
 
-    TabletToolV2Interface *toolByHardwareId(quint64 hardwareId) const;
-    TabletToolV2Interface *toolByHardwareSerial(quint64 hardwareSerial, TabletToolV2Interface::Type type) const;
-    TabletPadV2Interface *padByName(const QString &sysname) const;
-
-    void removeDevice(const QString &sysname);
+    TabletToolV2Interface *tool(InputDeviceTabletTool *device) const;
+    TabletV2Interface *tablet(InputDevice *device) const;
+    TabletPadV2Interface *pad(InputDevice *device) const;
+    TabletV2Interface *matchingTablet(TabletPadV2Interface *pad) const;
 
     bool isClientSupported(ClientConnection *client) const;
 

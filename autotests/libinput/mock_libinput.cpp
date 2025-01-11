@@ -302,12 +302,14 @@ enum libinput_config_status libinput_device_config_click_set_method(struct libin
 
 uint32_t libinput_device_config_send_events_get_mode(struct libinput_device *device)
 {
-    if (device->enabled) {
-        return LIBINPUT_CONFIG_SEND_EVENTS_ENABLED;
-    } else {
-        // TODO: disabled on eternal mouse
-        return LIBINPUT_CONFIG_SEND_EVENTS_DISABLED;
-    }
+    const uint32_t enabledBits = device->enabled ? LIBINPUT_CONFIG_SEND_EVENTS_ENABLED : LIBINPUT_CONFIG_SEND_EVENTS_DISABLED;
+    const uint32_t externalMouseBits = device->disableEventsOnExternalMouse ? LIBINPUT_CONFIG_SEND_EVENTS_DISABLED_ON_EXTERNAL_MOUSE : 0;
+    return enabledBits | externalMouseBits;
+}
+
+uint32_t libinput_device_config_send_events_get_default_mode(struct libinput_device *device)
+{
+    return LIBINPUT_CONFIG_SEND_EVENTS_ENABLED;
 }
 
 struct libinput_device *libinput_device_ref(struct libinput_device *device)
@@ -379,7 +381,8 @@ enum libinput_config_status libinput_device_config_accel_set_speed(struct libinp
 enum libinput_config_status libinput_device_config_send_events_set_mode(struct libinput_device *device, uint32_t mode)
 {
     if (device->setEnableModeReturnValue == 0) {
-        device->enabled = (mode == LIBINPUT_CONFIG_SEND_EVENTS_ENABLED);
+        device->enabled = (mode & LIBINPUT_CONFIG_SEND_EVENTS_DISABLED) == 0;
+        device->disableEventsOnExternalMouse = mode & LIBINPUT_CONFIG_SEND_EVENTS_DISABLED_ON_EXTERNAL_MOUSE;
         return LIBINPUT_CONFIG_STATUS_SUCCESS;
     }
     return LIBINPUT_CONFIG_STATUS_INVALID;
@@ -922,6 +925,23 @@ int libinput_device_tablet_pad_get_num_buttons(struct libinput_device *device)
     return device->buttonCount;
 }
 
+int libinput_device_tablet_pad_get_num_mode_groups(struct libinput_device *device)
+{
+    return 0;
+}
+
+struct libinput_tablet_pad_mode_group *
+libinput_device_tablet_pad_get_mode_group(struct libinput_device *device, unsigned int index)
+{
+    return nullptr;
+}
+
+unsigned int
+libinput_tablet_pad_mode_group_get_mode(struct libinput_tablet_pad_mode_group *group)
+{
+    return 0;
+}
+
 struct libinput_device_group *
 libinput_device_get_device_group(struct libinput_device *device)
 {
@@ -950,6 +970,11 @@ libinput_device_get_user_data(struct libinput_device *device)
     return device->userData;
 }
 
+udev_device *libinput_device_get_udev_device(struct libinput_device *device)
+{
+    return nullptr;
+}
+
 double
 libinput_event_tablet_tool_get_x_transformed(struct libinput_event_tablet_tool *event,
                                              uint32_t width)
@@ -963,4 +988,82 @@ libinput_event_tablet_tool_get_y_transformed(struct libinput_event_tablet_tool *
                                              uint32_t height)
 {
     return 4;
+}
+
+const char *udev_device_get_syspath(struct udev_device *device)
+{
+    return "";
+}
+
+struct libinput_tablet_tool *
+libinput_tablet_tool_ref(struct libinput_tablet_tool *tool)
+{
+    return tool;
+}
+
+struct libinput_tablet_tool *
+libinput_tablet_tool_unref(struct libinput_tablet_tool *tool)
+{
+    return tool;
+}
+
+uint64_t
+libinput_tablet_tool_get_serial(struct libinput_tablet_tool *tool)
+{
+    return 0;
+}
+
+uint64_t
+libinput_tablet_tool_get_tool_id(struct libinput_tablet_tool *tool)
+{
+    return 0;
+}
+
+enum libinput_tablet_tool_type
+libinput_tablet_tool_get_type(struct libinput_tablet_tool *tool)
+{
+    return LIBINPUT_TABLET_TOOL_TYPE_PEN;
+}
+
+int libinput_tablet_tool_has_pressure(struct libinput_tablet_tool *tool)
+{
+    return 0;
+}
+
+int libinput_tablet_tool_has_distance(struct libinput_tablet_tool *tool)
+{
+    return 0;
+}
+
+int libinput_tablet_tool_has_tilt(struct libinput_tablet_tool *tool)
+{
+    return 0;
+}
+
+int libinput_tablet_tool_has_rotation(struct libinput_tablet_tool *tool)
+{
+    return 0;
+}
+
+int libinput_tablet_tool_has_slider(struct libinput_tablet_tool *tool)
+{
+    return 0;
+}
+
+int libinput_tablet_tool_has_wheel(struct libinput_tablet_tool *tool)
+{
+    return 0;
+}
+
+const char *udev_device_get_property_value(struct udev_device *udev_device,
+                                           const char *key)
+{
+    return "";
+}
+
+libinput_config_status
+libinput_device_config_area_set_rectangle(struct libinput_device *device,
+                                          const struct libinput_config_area_rectangle *rect)
+{
+    return LIBINPUT_CONFIG_STATUS_UNSUPPORTED;
 }

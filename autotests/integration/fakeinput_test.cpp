@@ -43,7 +43,6 @@ private:
 
 void FakeInputTest::initTestCase()
 {
-    QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
     Test::setOutputConfig({
         QRect(0, 0, 1280, 1024),
@@ -51,7 +50,6 @@ void FakeInputTest::initTestCase()
     });
 
     kwinApp()->start();
-    QVERIFY(applicationStartedSpy.wait());
 }
 
 void FakeInputTest::init()
@@ -137,13 +135,13 @@ void FakeInputTest::testPointerButton()
     fakeInput->button(linuxButton, WL_POINTER_BUTTON_STATE_PRESSED);
     QVERIFY(pointerButtonSpy.wait());
     QCOMPARE(pointerButtonSpy.last().at(0).value<quint32>(), linuxButton);
-    QCOMPARE(pointerButtonSpy.last().at(1).value<InputRedirection::PointerButtonState>(), InputRedirection::PointerButtonPressed);
+    QCOMPARE(pointerButtonSpy.last().at(1).value<PointerButtonState>(), PointerButtonState::Pressed);
 
     // and release
     fakeInput->button(linuxButton, WL_POINTER_BUTTON_STATE_RELEASED);
     QVERIFY(pointerButtonSpy.wait());
     QCOMPARE(pointerButtonSpy.last().at(0).value<quint32>(), linuxButton);
-    QCOMPARE(pointerButtonSpy.last().at(1).value<InputRedirection::PointerButtonState>(), InputRedirection::PointerButtonReleased);
+    QCOMPARE(pointerButtonSpy.last().at(1).value<PointerButtonState>(), PointerButtonState::Released);
 }
 
 void FakeInputTest::testPointerVerticalAxis()
@@ -160,7 +158,7 @@ void FakeInputTest::testPointerVerticalAxis()
     fakeInput->authenticate(QStringLiteral("org.kde.foobar"), QStringLiteral("foobar"));
     fakeInput->axis(WL_POINTER_AXIS_VERTICAL_SCROLL, wl_fixed_from_double(15));
     QVERIFY(pointerAxisSpy.wait());
-    QCOMPARE(pointerAxisSpy.last().at(0).value<InputRedirection::PointerAxis>(), InputRedirection::PointerAxisVertical);
+    QCOMPARE(pointerAxisSpy.last().at(0).value<PointerAxis>(), PointerAxis::Vertical);
     QCOMPARE(pointerAxisSpy.last().at(1).value<qreal>(), 15);
 }
 
@@ -178,7 +176,7 @@ void FakeInputTest::testPointerHorizontalAxis()
     fakeInput->authenticate(QStringLiteral("org.kde.foobar"), QStringLiteral("foobar"));
     fakeInput->axis(WL_POINTER_AXIS_HORIZONTAL_SCROLL, wl_fixed_from_double(15));
     QVERIFY(pointerAxisSpy.wait());
-    QCOMPARE(pointerAxisSpy.last().at(0).value<InputRedirection::PointerAxis>(), InputRedirection::PointerAxisHorizontal);
+    QCOMPARE(pointerAxisSpy.last().at(0).value<PointerAxis>(), PointerAxis::Horizontal);
     QCOMPARE(pointerAxisSpy.last().at(1).value<qreal>(), 15);
 }
 
@@ -291,13 +289,13 @@ void FakeInputTest::testKeyboardKey()
     fakeInput->keyboard_key(linuxKey, WL_KEYBOARD_KEY_STATE_PRESSED);
     QVERIFY(keyboardKeySpy.wait());
     QCOMPARE(keyboardKeySpy.last().at(0).value<quint32>(), linuxKey);
-    QCOMPARE(keyboardKeySpy.last().at(1).value<InputRedirection::KeyboardKeyState>(), InputRedirection::KeyboardKeyPressed);
+    QCOMPARE(keyboardKeySpy.last().at(1).value<KeyboardKeyState>(), KeyboardKeyState::Pressed);
 
     // and release
     fakeInput->keyboard_key(linuxKey, WL_KEYBOARD_KEY_STATE_RELEASED);
     QVERIFY(keyboardKeySpy.wait());
     QCOMPARE(keyboardKeySpy.last().at(0).value<quint32>(), linuxKey);
-    QCOMPARE(keyboardKeySpy.last().at(1).value<InputRedirection::KeyboardKeyState>(), InputRedirection::KeyboardKeyReleased);
+    QCOMPARE(keyboardKeySpy.last().at(1).value<KeyboardKeyState>(), KeyboardKeyState::Released);
 }
 
 } // namespace KWin

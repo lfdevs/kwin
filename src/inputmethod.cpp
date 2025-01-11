@@ -606,9 +606,8 @@ void InputMethod::commitString(qint32 serial, const QString &text)
             auto key = *itr;
             QMetaObject::invokeMethod(
                 this, [key]() {
-                    waylandServer()->seat()->notifyKeyboardKey(key, KeyboardKeyState::Released);
-                },
-                Qt::QueuedConnection);
+                waylandServer()->seat()->notifyKeyboardKey(key, KeyboardKeyState::Released);
+            }, Qt::QueuedConnection);
         }
     }
 }

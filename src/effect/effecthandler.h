@@ -50,7 +50,7 @@ class QQmlEngine;
  */
 Q_DECLARE_LOGGING_CATEGORY(KWINEFFECTS)
 
-namespace KDecoration2
+namespace KDecoration3
 {
 class Decoration;
 }
@@ -72,14 +72,14 @@ class Group;
 class Output;
 class Effect;
 class TabletEvent;
-class TabletPadId;
-class TabletToolId;
 class Window;
 class WindowItem;
 class WindowPropertyNotifyX11Filter;
 class WorkspaceScene;
 class VirtualDesktop;
 class OpenGlContext;
+class InputDevice;
+class InputDeviceTabletTool;
 
 typedef QPair<QString, Effect *> EffectPair;
 
@@ -744,12 +744,15 @@ public:
     bool touchDown(qint32 id, const QPointF &pos, std::chrono::microseconds time);
     bool touchMotion(qint32 id, const QPointF &pos, std::chrono::microseconds time);
     bool touchUp(qint32 id, std::chrono::microseconds time);
+    void touchCancel();
 
-    bool tabletToolEvent(KWin::TabletEvent *event);
-    bool tabletToolButtonEvent(uint button, bool pressed, const KWin::TabletToolId &tabletToolId, std::chrono::microseconds time);
-    bool tabletPadButtonEvent(uint button, bool pressed, const KWin::TabletPadId &tabletPadId, std::chrono::microseconds time);
-    bool tabletPadStripEvent(int number, int position, bool isFinger, const KWin::TabletPadId &tabletPadId, std::chrono::microseconds time);
-    bool tabletPadRingEvent(int number, int position, bool isFinger, const KWin::TabletPadId &tabletPadId, std::chrono::microseconds time);
+    bool tabletToolProximityEvent(KWin::TabletEvent *event);
+    bool tabletToolAxisEvent(KWin::TabletEvent *event);
+    bool tabletToolTipEvent(KWin::TabletEvent *event);
+    bool tabletToolButtonEvent(uint button, bool pressed, InputDeviceTabletTool *tool, std::chrono::microseconds time);
+    bool tabletPadButtonEvent(uint button, bool pressed, std::chrono::microseconds time, InputDevice *device);
+    bool tabletPadStripEvent(int number, int position, bool isFinger, std::chrono::microseconds time, InputDevice *device);
+    bool tabletPadRingEvent(int number, int position, bool isFinger, std::chrono::microseconds time, InputDevice *device);
 
     void highlightWindows(const QList<EffectWindow *> &windows);
 
@@ -921,6 +924,11 @@ Q_SIGNALS:
      */
     void propertyNotify(KWin::EffectWindow *w, long atom);
 
+    /**
+     * emitted before the current activity actually changes
+     * @since 6.3
+     */
+    void currentActivityAboutToChange();
     /**
      * This signal is emitted when the global
      * activity is changed

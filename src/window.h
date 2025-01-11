@@ -18,6 +18,7 @@
 
 #include <functional>
 #include <memory>
+#include <optional>
 
 #include <QElapsedTimer>
 #include <QIcon>
@@ -31,7 +32,7 @@
 
 class QMouseEvent;
 
-namespace KDecoration2
+namespace KDecoration3
 {
 class Decoration;
 }
@@ -52,9 +53,11 @@ class WindowItem;
 
 namespace Decoration
 {
-class DecoratedClientImpl;
+class DecoratedWindowImpl;
 class DecorationPalette;
 }
+
+using ElectricBorderMode = std::variant<QuickTileMode, MaximizeMode>;
 
 class KWIN_EXPORT Window : public QObject
 {
@@ -473,6 +476,14 @@ class KWIN_EXPORT Window : public QObject
     Q_PROPERTY(bool maximizable READ isMaximizable)
 
     /**
+     * Whether the window is maximized horizontally, vertically or fully.
+     * This is read only, in order to maximize from a script use
+     * the setMaximize function
+     * @see setMaximize
+     */
+    Q_PROPERTY(KWin::MaximizeMode maximizeMode READ maximizeMode NOTIFY maximizedChanged)
+
+    /**
      * Whether the Window is moveable. Even if it is not moveable, it might be possible to move
      * it to another screen. The property is evaluated each time it is invoked.
      * Because of that there is no notify signal.
@@ -540,7 +551,7 @@ class KWIN_EXPORT Window : public QObject
     /**
      * The Tile this window is associated to, if any
      */
-    Q_PROPERTY(KWin::Tile *tile READ tile WRITE setTile NOTIFY tileChanged)
+    Q_PROPERTY(KWin::Tile *tile READ requestedTile WRITE requestTile NOTIFY tileChanged)
 
     /**
      * Returns whether this window is a input method window.
@@ -633,10 +644,12 @@ public:
      * Calculates the matching client position for the given frame position @p point.
      */
     virtual QPointF framePosToClientPos(const QPointF &point) const;
+    virtual QPointF nextFramePosToClientPos(const QPointF &point) const;
     /**
      * Calculates the matching frame position for the given client position @p point.
      */
     virtual QPointF clientPosToFramePos(const QPointF &point) const;
+    virtual QPointF nextClientPosToFramePos(const QPointF &point) const;
     /**
      * Calculates the matching client size for the given frame size @p size.
      *
@@ -645,6 +658,7 @@ public:
      * Default implementation returns the frame size with frame margins being excluded.
      */
     virtual QSizeF frameSizeToClientSize(const QSizeF &size) const;
+    virtual QSizeF nextFrameSizeToClientSize(const QSizeF &size) const;
     /**
      * Calculates the matching frame size for the given client size @p size.
      *
@@ -653,18 +667,21 @@ public:
      * Default implementation returns the client size with frame margins being included.
      */
     virtual QSizeF clientSizeToFrameSize(const QSizeF &size) const;
+    virtual QSizeF nextClientSizeToFrameSize(const QSizeF &size) const;
     /**
      * Calculates the matching client rect for the given frame rect @p rect.
      *
      * Notice that size constraints won't be applied.
      */
     QRectF frameRectToClientRect(const QRectF &rect) const;
+    QRectF nextFrameRectToClientRect(const QRectF &rect) const;
     /**
      * Calculates the matching frame rect for the given client rect @p rect.
      *
      * Notice that size constraints won't be applied.
      */
     QRectF clientRectToFrameRect(const QRectF &rect) const;
+    QRectF nextClientRectToFrameRect(const QRectF &rect) const;
 
     /**
      * How to resize the window in order to obey constraints (mainly aspect ratios).
@@ -1023,11 +1040,11 @@ public:
     virtual bool isMaximizable() const;
     virtual MaximizeMode maximizeMode() const;
     virtual MaximizeMode requestedMaximizeMode() const;
-    virtual void maximize(MaximizeMode mode);
+    virtual void maximize(MaximizeMode mode, const QRectF &restore = QRectF());
     /**
      * Sets the maximization according to @p vertically and @p horizontally.
      */
-    Q_INVOKABLE void setMaximize(bool vertically, bool horizontally);
+    Q_INVOKABLE void setMaximize(bool vertically, bool horizontally, const QRectF &restore = QRectF());
 
     QPalette palette();
     const Decoration::DecorationPalette *decorationPalette();
@@ -1101,13 +1118,17 @@ public:
     void packTo(qreal left, qreal top);
 
     Tile *tile() const;
-    void setTile(Tile *tile);
+    void commitTile(Tile *tile);
+    Tile *requestedTile() const;
+    void requestTile(Tile *tile);
 
     void handleQuickTileShortcut(QuickTileMode mode);
     void setQuickTileModeAtCurrentPosition(QuickTileMode mode);
     void setQuickTileMode(QuickTileMode mode, const QPointF &tileAtPoint);
     QuickTileMode quickTileMode() const;
     QuickTileMode requestedQuickTileMode() const;
+
+    void handleCustomQuickTileShortcut(QuickTileMode mode);
 
     Layer layer() const;
     void updateLayer();
@@ -1159,32 +1180,27 @@ public:
 
     /**
      * Determines the mouse command for the given @p button in the current state.
-     *
-     * The @p handled argument specifies whether the button was handled or not.
-     * This value should be used to determine whether the mouse button should be
-     * passed to the Window or being filtered out.
      */
-    Options::MouseCommand getMouseCommand(Qt::MouseButton button, bool *handled) const;
-    Options::MouseCommand getWheelCommand(Qt::Orientation orientation, bool *handled) const;
-    bool performMouseCommand(Options::MouseCommand, const QPointF &globalPos);
+    std::optional<Options::MouseCommand> getMousePressCommand(Qt::MouseButton button) const;
+    std::optional<Options::MouseCommand> getMouseReleaseCommand(Qt::MouseButton button) const;
+    std::optional<Options::MouseCommand> getWheelCommand(Qt::Orientation orientation) const;
+    bool performMousePressCommand(Options::MouseCommand, const QPointF &globalPos);
+    bool performMouseReleaseCommand(Options::MouseCommand, const QPointF &globalPos);
 
     // decoration related
     Qt::Edge titlebarPosition() const;
     bool titlebarPositionUnderMouse() const;
-    KDecoration2::Decoration *decoration()
+    KDecoration3::Decoration *decoration() const
     {
         return m_decoration.decoration.get();
     }
-    const KDecoration2::Decoration *decoration() const
-    {
-        return m_decoration.decoration.get();
-    }
+    virtual KDecoration3::Decoration *nextDecoration() const;
     bool isDecorated() const
     {
         return m_decoration.decoration != nullptr;
     }
-    Decoration::DecoratedClientImpl *decoratedClient() const;
-    void setDecoratedClient(Decoration::DecoratedClientImpl *client);
+    Decoration::DecoratedWindowImpl *decoratedWindow() const;
+    void setDecoratedWindow(Decoration::DecoratedWindowImpl *client);
     bool decorationHasAlpha() const;
     void triggerDecorationRepaint();
     void layoutDecorationRects(QRectF &left, QRectF &top, QRectF &right, QRectF &bottom) const;
@@ -1339,8 +1355,9 @@ public:
     void unrefOffscreenRendering();
     bool isOffscreenRendering() const;
 
-    qreal preferredBufferScale() const;
-    void setPreferredBufferScale(qreal scale);
+    qreal targetScale() const;
+    qreal nextTargetScale() const;
+    void setNextTargetScale(qreal scale);
 
     OutputTransform preferredBufferTransform() const;
     void setPreferredBufferTransform(OutputTransform transform);
@@ -1417,6 +1434,7 @@ Q_SIGNALS:
      * This signal is emitted when associated tile has changed, including from and to none
      */
     void tileChanged(KWin::Tile *tile);
+    void requestedTileChanged();
 
     void fullScreenChanged();
     void skipTaskbarChanged();
@@ -1464,6 +1482,8 @@ Q_SIGNALS:
     void maximizeGeometryRestoreChanged();
     void fullscreenGeometryRestoreChanged();
     void offscreenRenderingChanged();
+    void targetScaleChanged();
+    void nextTargetScaleChanged();
 
 protected:
     Window();
@@ -1544,7 +1564,7 @@ protected:
     virtual void doSetHiddenByShowDesktop();
     virtual void doSetSuspended();
     virtual void doSetModal();
-    virtual void doSetPreferredBufferScale();
+    virtual void doSetNextTargetScale();
     virtual void doSetPreferredBufferTransform();
     virtual void doSetPreferredColorDescription();
 
@@ -1558,8 +1578,8 @@ protected:
     bool isActiveFullScreen() const;
 
     // electric border / quick tiling
-    void setElectricBorderMode(QuickTileMode mode);
-    QuickTileMode electricBorderMode() const
+    void setElectricBorderMode(std::optional<ElectricBorderMode> mode);
+    std::optional<ElectricBorderMode> electricBorderMode() const
     {
         return m_electricMode;
     }
@@ -1575,10 +1595,10 @@ protected:
 
     // geometry handling
     void checkOffscreenPosition(QRectF *geom, const QRectF &screenArea);
-    int borderLeft() const;
-    int borderRight() const;
-    int borderTop() const;
-    int borderBottom() const;
+    qreal borderLeft() const;
+    qreal borderRight() const;
+    qreal borderTop() const;
+    qreal borderBottom() const;
 
     enum class MoveResizeMode : uint {
         None,
@@ -1717,7 +1737,7 @@ protected:
      */
     Gravity mouseGravity() const;
 
-    void setDecoration(std::shared_ptr<KDecoration2::Decoration> decoration);
+    void setDecoration(std::shared_ptr<KDecoration3::Decoration> decoration);
     void startDecorationDoubleClickTimer();
     void invalidateDecorationDoubleClickTimer();
     void updateDecorationInputShape();
@@ -1749,9 +1769,10 @@ protected:
     void cleanTabBox();
     void maybeSendFrameCallback();
 
-    void updatePreferredBufferScale();
+    void updateNextTargetScale();
     void updatePreferredBufferTransform();
     void updatePreferredColorDescription();
+    void setTargetScale(qreal scale);
 
     Output *m_output = nullptr;
     QRectF m_frameGeometry;
@@ -1761,7 +1782,8 @@ protected:
     bool m_hidden = false;
     bool m_hiddenByShowDesktop = false;
 
-    qreal m_preferredBufferScale = 1;
+    qreal m_nextTargetScale = 1;
+    qreal m_targetScale = 1;
     OutputTransform m_preferredBufferTransform = OutputTransform::Normal;
     ColorDescription m_preferredColorDescription = ColorDescription::sRGB;
 
@@ -1812,14 +1834,13 @@ protected:
     QList<Window *> m_transients;
     bool m_modal = false;
     Layer m_layer = UnknownLayer;
+    QPointer<Tile> m_requestedTile;
     QPointer<Tile> m_tile;
 
     // electric border/quick tiling
-    QuickTileMode m_electricMode = QuickTileFlag::None;
+    std::optional<ElectricBorderMode> m_electricMode = std::nullopt;
     QRectF m_electricGeometryRestore;
     bool m_electricMaximizing = false;
-    // The requested quick tile mode of this window.
-    QuickTileMode m_requestedQuickTileMode = QuickTileFlag::None;
     QTimer *m_electricMaximizingDelay = nullptr;
 
     // geometry
@@ -1851,8 +1872,8 @@ protected:
 
     struct
     {
-        std::shared_ptr<KDecoration2::Decoration> decoration;
-        QPointer<Decoration::DecoratedClientImpl> client;
+        std::shared_ptr<KDecoration3::Decoration> decoration;
+        QPointer<Decoration::DecoratedWindowImpl> client;
         QElapsedTimer doubleClickTimer;
         QRegion inputRegion;
     } m_decoration;

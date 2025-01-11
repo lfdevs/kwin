@@ -17,7 +17,7 @@
 #include "window.h"
 #include "workspace.h"
 
-#include "decorations/decoratedclient.h"
+#include "decorations/decoratedwindow.h"
 
 #include <KWayland/Client/surface.h>
 
@@ -47,7 +47,6 @@ void PopupOpenCloseAnimationTest::initTestCase()
 
     qRegisterMetaType<KWin::Window *>();
     qRegisterMetaType<KWin::InternalWindow *>();
-    QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
     Test::setOutputConfig({
         QRect(0, 0, 1280, 1024),
@@ -66,7 +65,6 @@ void PopupOpenCloseAnimationTest::initTestCase()
     qputenv("KWIN_EFFECTS_FORCE_ANIMATIONS", QByteArrayLiteral("1"));
 
     kwinApp()->start();
-    QVERIFY(applicationStartedSpy.wait());
 }
 
 void PopupOpenCloseAnimationTest::init()
@@ -220,7 +218,7 @@ void PopupOpenCloseAnimationTest::testAnimateDecorationTooltips()
 
     // Show a decoration tooltip.
     QSignalSpy tooltipAddedSpy(workspace(), &Workspace::windowAdded);
-    window->decoratedClient()->requestShowToolTip(QStringLiteral("KWin rocks!"));
+    window->decoratedWindow()->requestShowToolTip(QStringLiteral("KWin rocks!"));
     QVERIFY(tooltipAddedSpy.wait());
     InternalWindow *tooltip = tooltipAddedSpy.first().first().value<InternalWindow *>();
     QVERIFY(tooltip->isInternal());
@@ -233,7 +231,7 @@ void PopupOpenCloseAnimationTest::testAnimateDecorationTooltips()
 
     // Hide the decoration tooltip.
     QSignalSpy tooltipClosedSpy(tooltip, &InternalWindow::closed);
-    window->decoratedClient()->requestHideToolTip();
+    window->decoratedWindow()->requestHideToolTip();
     QVERIFY(tooltipClosedSpy.wait());
     QVERIFY(effect->isActive());
 

@@ -13,7 +13,7 @@
 #include "workspace.h"
 #include "x11window.h"
 
-#include <KDecoration2/Decoration>
+#include <KDecoration3/Decoration>
 
 #include <QSignalSpy>
 
@@ -33,14 +33,12 @@ private Q_SLOTS:
 void DontCrashGlxgearsTest::initTestCase()
 {
     qRegisterMetaType<KWin::Window *>();
-    QSignalSpy applicationStartedSpy(kwinApp(), &Application::started);
     QVERIFY(waylandServer()->init(s_socketName));
     Test::setOutputConfig({
         QRect(0, 0, 1280, 1024),
         QRect(1280, 0, 1280, 1024),
     });
     kwinApp()->start();
-    QVERIFY(applicationStartedSpy.wait());
 }
 
 void DontCrashGlxgearsTest::testGlxgears()
@@ -61,7 +59,7 @@ void DontCrashGlxgearsTest::testGlxgears()
     Window *glxgearsWindow = workspace()->windows().first();
     QVERIFY(glxgearsWindow->isDecorated());
     QSignalSpy closedSpy(glxgearsWindow, &X11Window::closed);
-    KDecoration2::Decoration *decoration = glxgearsWindow->decoration();
+    KDecoration3::Decoration *decoration = glxgearsWindow->decoration();
     QVERIFY(decoration);
 
     // send a mouse event to the position of the close button

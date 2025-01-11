@@ -36,7 +36,7 @@ class SeatInterfacePrivate : public QtWaylandServer::wl_seat
 public:
     // exported for unit tests
     KWIN_EXPORT static SeatInterfacePrivate *get(SeatInterface *seat);
-    SeatInterfacePrivate(SeatInterface *q, Display *display);
+    SeatInterfacePrivate(SeatInterface *q, Display *display, const QString &name);
 
     void sendCapabilities();
     QList<DataDeviceInterface *> dataDevicesForSurface(SurfaceInterface *surface) const;
@@ -130,8 +130,6 @@ public:
             SurfaceInterface *surface = nullptr;
             QMetaObject::Connection destroyConnection;
             QPointF firstTouchPos;
-            QPointF offset;
-            QMatrix4x4 transformation;
             uint refs = 0;
         };
         std::unordered_map<SurfaceInterface *, std::unique_ptr<Interaction>> focus;

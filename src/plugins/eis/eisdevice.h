@@ -30,14 +30,10 @@ public:
     QSet<quint32> pressedKeys;
     std::vector<int> activeTouches;
 
-    QString sysName() const override;
     QString name() const override;
 
     bool isEnabled() const override;
     void setEnabled(bool enabled) override;
-
-    LEDs leds() const override;
-    void setLeds(LEDs leds) override;
 
     bool isKeyboard() const override;
     bool isPointer() const override;

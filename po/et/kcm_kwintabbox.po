@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-10 00:40+0000\n"
+"POT-Creation-Date: 2024-12-06 00:41+0000\n"
 "PO-Revision-Date: 2019-10-30 14:30+0200\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -29,23 +29,23 @@ msgctxt "An example Desktop Name"
 msgid "Desktop 1"
 msgstr "Töölaud 1"
 
-#: main.cpp:69
+#: main.cpp:72
 #, kde-format
 msgid "Main"
 msgstr "Peamine"
 
-#: main.cpp:70
+#: main.cpp:73
 #, kde-format
 msgid "Alternative"
 msgstr "Alternatiiv"
 
-#: main.cpp:72
+#: main.cpp:75
 #, fuzzy, kde-format
 #| msgid "Get New Task Switchers..."
 msgid "Get New Task Switcher Styles…"
 msgstr "Hangi uusi aknavahetaja paigutusi ..."
 
-#: main.cpp:90
+#: main.cpp:93
 #, kde-format
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."
@@ -217,7 +217,7 @@ msgid "The effect to replace the list window when desktop effects are active."
 msgstr "Loendiakna asendamise efekt, kui töölauaefektid on sisse lülitatud."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HighlightWindows)
-#: main.ui:559
+#: main.ui:562
 #, kde-format
 msgid ""
 "The currently selected window will be highlighted by fading out all other "
@@ -227,7 +227,7 @@ msgstr ""
 "See valik eeldab töölauaefektide sisselülitamist."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HighlightWindows)
-#: main.ui:562
+#: main.ui:565
 #, kde-format
 msgid "Show selected window"
 msgstr "Valitud akna näitamine"

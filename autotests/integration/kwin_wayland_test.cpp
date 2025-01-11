@@ -12,6 +12,7 @@
 #include "compositor_wayland.h"
 #include "core/session.h"
 #include "effect/effecthandler.h"
+#include "input.h"
 #include "inputmethod.h"
 #include "placement.h"
 #include "pluginmanager.h"
@@ -75,10 +76,6 @@ WaylandTestApplication::WaylandTestApplication(OperationMode mode, int &argc, ch
     qunsetenv("XKB_DEFAULT_VARIANT");
     qunsetenv("XKB_DEFAULT_OPTIONS");
 
-    auto breezerc = KSharedConfig::openConfig(QStringLiteral("breezerc"));
-    breezerc->group(QStringLiteral("Common")).writeEntry(QStringLiteral("OutlineIntensity"), QStringLiteral("OutlineOff"));
-    breezerc->sync();
-
     auto config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
     KConfigGroup windowsGroup = config->group(QStringLiteral("Windows"));
     windowsGroup.writeEntry("Placement", Placement::policyToString(PlacementSmart));
@@ -136,16 +133,24 @@ void WaylandTestApplication::createVirtualInputDevices()
     m_virtualTabletPad = std::make_unique<Test::VirtualInputDevice>();
     m_virtualTabletPad->setName(QStringLiteral("Virtual Tablet Pad 1"));
     m_virtualTabletPad->setTabletPad(true);
+    m_virtualTabletPad->setGroup(0xdeadbeef);
 
-    m_virtualTabletTool = std::make_unique<Test::VirtualInputDevice>();
-    m_virtualTabletTool->setName(QStringLiteral("Virtual Tablet Tool 1"));
-    m_virtualTabletTool->setTabletTool(true);
+    m_virtualTablet = std::make_unique<Test::VirtualInputDevice>();
+    m_virtualTablet->setName(QStringLiteral("Virtual Tablet Tool 1"));
+    m_virtualTablet->setTabletTool(true);
+    m_virtualTablet->setGroup(0xdeadbeef);
+
+    m_virtualTabletTool = std::make_unique<Test::VirtualInputDeviceTabletTool>();
+    m_virtualTabletTool->setSerialId(42);
+    m_virtualTabletTool->setUniqueId(42);
+    m_virtualTabletTool->setType(InputDeviceTabletTool::Pen);
+    m_virtualTabletTool->setCapabilities({});
 
     input()->addInputDevice(m_virtualPointer.get());
     input()->addInputDevice(m_virtualTouch.get());
     input()->addInputDevice(m_virtualKeyboard.get());
     input()->addInputDevice(m_virtualTabletPad.get());
-    input()->addInputDevice(m_virtualTabletTool.get());
+    input()->addInputDevice(m_virtualTablet.get());
 }
 
 void WaylandTestApplication::destroyVirtualInputDevices()
@@ -163,7 +168,7 @@ void WaylandTestApplication::destroyVirtualInputDevices()
         input()->removeInputDevice(m_virtualTabletPad.get());
     }
     if (m_virtualTabletTool) {
-        input()->removeInputDevice(m_virtualTabletTool.get());
+        input()->removeInputDevice(m_virtualTablet.get());
     }
 }
 
@@ -188,17 +193,12 @@ void WaylandTestApplication::performStartup()
     createVirtualInputDevices();
     createTabletModeManager();
 
-    WaylandCompositor::create();
+    auto compositor = WaylandCompositor::create();
     createWorkspace();
     createColorManager();
     createPlugins();
 
-    connect(Compositor::self(), &Compositor::sceneCreated, this, &WaylandTestApplication::continueStartupWithScene);
-}
-
-void WaylandTestApplication::continueStartupWithScene()
-{
-    disconnect(Compositor::self(), &Compositor::sceneCreated, this, &WaylandTestApplication::continueStartupWithScene);
+    compositor->start();
 
     waylandServer()->initWorkspace();
 
@@ -207,13 +207,9 @@ void WaylandTestApplication::continueStartupWithScene()
     }
 
 #if KWIN_BUILD_X11
-    if (operationMode() == OperationModeXwayland) {
-        m_xwayland = std::make_unique<Xwl::Xwayland>(this);
-        m_xwayland->init();
-    }
+    m_xwayland = std::make_unique<Xwl::Xwayland>(this);
+    m_xwayland->init();
 #endif
-
-    notifyStarted();
 }
 
 Test::VirtualInputDevice *WaylandTestApplication::virtualPointer() const
@@ -236,7 +232,12 @@ Test::VirtualInputDevice *WaylandTestApplication::virtualTabletPad() const
     return m_virtualTabletPad.get();
 }
 
-Test::VirtualInputDevice *WaylandTestApplication::virtualTabletTool() const
+Test::VirtualInputDevice *WaylandTestApplication::virtualTablet() const
+{
+    return m_virtualTablet.get();
+}
+
+Test::VirtualInputDeviceTabletTool *WaylandTestApplication::virtualTabletTool() const
 {
     return m_virtualTabletTool.get();
 }
@@ -291,6 +292,9 @@ void Test::setOutputConfig(const QList<OutputInfo> &infos)
             .geometry = info.geometry,
             .scale = info.scale,
             .internal = info.internal,
+            .physicalSizeInMM = info.physicalSizeInMM,
+            .modes = info.modes,
+            .panelOrientation = info.panelOrientation,
         };
     });
     static_cast<VirtualBackend *>(kwinApp()->outputBackend())->setVirtualOutputs(converted);

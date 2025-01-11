@@ -52,7 +52,7 @@ public:
     QList<CompositingType> supportedCompositors() const override;
 
     QString supportInformation() const override;
-    Output *createVirtualOutput(const QString &name, const QSize &size, double scale) override;
+    Output *createVirtualOutput(const QString &name, const QString &description, const QSize &size, double scale) override;
     void removeVirtualOutput(Output *output) override;
 
     DrmGpu *primaryGpu() const;
@@ -62,13 +62,11 @@ public:
     void setRenderBackend(DrmRenderBackend *backend);
     DrmRenderBackend *renderBackend() const;
 
+    void createLayers();
     void releaseBuffers();
     void updateOutputs();
 
     const std::vector<std::unique_ptr<DrmGpu>> &gpus() const;
-
-public Q_SLOTS:
-    void sceneInitialized() override;
 
 Q_SIGNALS:
     void gpuAdded(DrmGpu *gpu);

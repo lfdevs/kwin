@@ -44,13 +44,15 @@ private:
 class ExternalBrightnessDeviceV1 : private QtWaylandServer::kde_external_brightness_device_v1, public BrightnessDevice
 {
 public:
-    explicit ExternalBrightnessDeviceV1(ExternalBrightnessV1 *global, wl_client *client, uint32_t version, uint32_t id);
+    explicit ExternalBrightnessDeviceV1(ExternalBrightnessV1 *global, wl_client *client, uint32_t id, uint32_t version);
     ~ExternalBrightnessDeviceV1() override;
 
     void setBrightness(double brightness) override;
 
+    std::optional<double> observedBrightness() const override;
     bool isInternal() const override;
     QByteArray edidBeginning() const override;
+    int brightnessSteps() const override;
 
 private:
     void kde_external_brightness_device_v1_destroy_resource(Resource *resource) override;
@@ -58,12 +60,14 @@ private:
     void kde_external_brightness_device_v1_set_internal(Resource *resource, uint32_t internal) override;
     void kde_external_brightness_device_v1_set_edid(Resource *resource, const QString &string) override;
     void kde_external_brightness_device_v1_set_max_brightness(Resource *resource, uint32_t value) override;
+    void kde_external_brightness_device_v1_set_observed_brightness(Resource *resource, uint32_t value) override;
     void kde_external_brightness_device_v1_commit(Resource *resource) override;
 
     QPointer<ExternalBrightnessV1> m_global;
+    QByteArray m_edidBeginning;
+    std::optional<uint32_t> m_observedBrightness;
     uint32_t m_maxBrightness = 1;
     bool m_internal = false;
-    QByteArray m_edidBeginning;
     bool m_done = false;
 };
 

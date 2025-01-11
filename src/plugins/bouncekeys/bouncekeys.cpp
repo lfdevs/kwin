@@ -33,24 +33,26 @@ void BounceKeysFilter::loadConfig(const KConfigGroup &group)
     }
 }
 
-bool BounceKeysFilter::keyEvent(KWin::KeyEvent *event)
+bool BounceKeysFilter::keyboardKey(KWin::KeyboardKeyEvent *event)
 {
-    if (event->type() != KWin::KeyEvent::KeyPress) {
+    switch (event->state) {
+    case KWin::KeyboardKeyState::Repeated:
+    case KWin::KeyboardKeyState::Pressed:
+        if (auto it = m_lastEvent.find(event->key); it == m_lastEvent.end()) {
+            // first time is always good
+            m_lastEvent[event->key] = event->timestamp;
+            return false;
+        } else {
+            auto last = *it;
+            *it = event->timestamp;
+
+            return event->timestamp - last < m_delay;
+        }
+    case KWin::KeyboardKeyState::Released:
         return false;
     }
 
-    auto it = m_lastEvent.find(event->key());
-
-    if (it == m_lastEvent.end()) {
-        // first time is always good
-        m_lastEvent[event->key()] = event->timestamp();
-        return false;
-    }
-
-    auto last = *it;
-    *it = event->timestamp();
-
-    return event->timestamp() - last < m_delay;
+    Q_UNREACHABLE();
 }
 
 #include "moc_bouncekeys.cpp"

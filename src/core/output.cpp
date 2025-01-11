@@ -64,6 +64,11 @@ OutputMode::Flags OutputMode::flags() const
     return m_flags;
 }
 
+void OutputMode::setRemoved()
+{
+    m_flags |= OutputMode::Flag::Removed;
+}
+
 OutputTransform::Kind OutputTransform::kind() const
 {
     return m_kind;
@@ -526,7 +531,7 @@ void Output::applyChanges(const OutputConfiguration &config)
     next.autoRotatePolicy = props->autoRotationPolicy.value_or(m_state.autoRotatePolicy);
     next.iccProfilePath = props->iccProfilePath.value_or(m_state.iccProfilePath);
     if (props->iccProfilePath) {
-        next.iccProfile = IccProfile::load(*props->iccProfilePath);
+        next.iccProfile = IccProfile::load(*props->iccProfilePath).profile.value_or(nullptr);
     }
     next.vrrPolicy = props->vrrPolicy.value_or(m_state.vrrPolicy);
     next.desiredModeSize = props->desiredModeSize.value_or(m_state.desiredModeSize);
@@ -633,8 +638,14 @@ void Output::setState(const State &state)
     if (oldState.colorProfileSource != state.colorProfileSource) {
         Q_EMIT colorProfileSourceChanged();
     }
-    if (oldState.brightness != state.brightness) {
+    if (oldState.brightnessSetting != state.brightnessSetting) {
         Q_EMIT brightnessChanged();
+    }
+    if (oldState.colorPowerTradeoff != state.colorPowerTradeoff) {
+        Q_EMIT colorPowerTradeoffChanged();
+    }
+    if (oldState.dimming != state.dimming) {
+        Q_EMIT dimmingChanged();
     }
     if (oldState.enabled != state.enabled) {
         Q_EMIT enabledChanged();
@@ -783,9 +794,24 @@ Output::ColorProfileSource Output::colorProfileSource() const
     return m_state.colorProfileSource;
 }
 
-double Output::brightness() const
+double Output::brightnessSetting() const
 {
-    return m_state.brightness;
+    return m_state.brightnessSetting;
+}
+
+double Output::dimming() const
+{
+    return m_state.dimming;
+}
+
+std::optional<double> Output::currentBrightness() const
+{
+    return m_state.currentBrightness;
+}
+
+double Output::artificialHdrHeadroom() const
+{
+    return m_state.artificialHdrHeadroom;
 }
 
 BrightnessDevice *Output::brightnessDevice() const
@@ -801,6 +827,11 @@ void Output::setBrightnessDevice(BrightnessDevice *device)
 bool Output::allowSdrSoftwareBrightness() const
 {
     return m_state.allowSdrSoftwareBrightness;
+}
+
+Output::ColorPowerTradeoff Output::colorPowerTradeoff() const
+{
+    return m_state.colorPowerTradeoff;
 }
 } // namespace KWin
 

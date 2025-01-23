@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-01 00:42+0000\n"
+"POT-Creation-Date: 2025-01-22 02:32+0000\n"
 "PO-Revision-Date: 2024-12-25 17:32+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -1366,7 +1366,7 @@ msgctxt "@info"
 msgid "Host name: %1"
 msgstr "Hostnaam: %1"
 
-#: input.cpp:3292
+#: input.cpp:3338
 #, kde-format
 msgid "Touchpad"
 msgstr "Touchpad"
@@ -4402,12 +4402,12 @@ msgstr "Naar het bureaublad gluren"
 msgid "Kill Window"
 msgstr "Venster geforceerd sluiten"
 
-#: useractions.cpp:1136
+#: useractions.cpp:1138
 #, kde-format
 msgid "Activate Window (%1)"
 msgstr "Venster (%1) activeren"
 
-#: utils/edid.cpp:316
+#: utils/edid.cpp:325
 #, kde-format
 msgid "unknown"
 msgstr "onbekend"
@@ -4485,7 +4485,7 @@ msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(Reageert niet)"
 
-#: workspace.cpp:1653
+#: workspace.cpp:1654
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

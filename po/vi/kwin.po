@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-01 00:42+0000\n"
+"POT-Creation-Date: 2025-01-22 02:32+0000\n"
 "PO-Revision-Date: 2023-02-20 11:15+0100\n"
 "Last-Translator: Phu Hung Nguyen <phu.nguyen@kdemail.net>\n"
 "Language-Team: Vietnamese <kde-l10n-vi@kde.org>\n"
@@ -1364,7 +1364,7 @@ msgctxt "@info"
 msgid "Host name: %1"
 msgstr "tên-máy"
 
-#: input.cpp:3292
+#: input.cpp:3338
 #, kde-format
 msgid "Touchpad"
 msgstr "Bàn cảm ứng"
@@ -4502,12 +4502,12 @@ msgstr "Ngó qua bàn làm việc"
 msgid "Kill Window"
 msgstr "Diệt cửa sổ"
 
-#: useractions.cpp:1136
+#: useractions.cpp:1138
 #, kde-format
 msgid "Activate Window (%1)"
 msgstr "Kích hoạt cửa sổ (%1)"
 
-#: utils/edid.cpp:316
+#: utils/edid.cpp:325
 #, kde-format
 msgid "unknown"
 msgstr "không rõ"
@@ -4583,7 +4583,7 @@ msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(Không hồi đáp)"
 
-#: workspace.cpp:1653
+#: workspace.cpp:1654
 #, fuzzy, kde-format
 #| msgctxt "Introductory text shown in the support information."
 #| msgid ""

@@ -20,6 +20,7 @@ namespace KWin
 {
 
 DrmCommitThread::DrmCommitThread(DrmGpu *gpu, const QString &name)
+    : m_gpu(gpu)
 {
     if (!gpu->atomicModeSetting()) {
         return;
@@ -40,9 +41,28 @@ DrmCommitThread::DrmCommitThread(DrmGpu *gpu, const QString &name)
                 m_commitPending.wait(lock);
             }
             if (m_committed) {
-                // the commit would fail with EBUSY, wait until the pageflip is done
                 if (timeout) {
-                    qCCritical(KWIN_DRM, "Pageflip timed out! This is a kernel bug");
+                    // if the main thread just hung for a while, the pageflip will be processed after the wait
+                    // but not if it's a real pageflip timeout
+                    m_ping = false;
+                    QMetaObject::invokeMethod(this, &DrmCommitThread::handlePing, Qt::ConnectionType::QueuedConnection);
+                    while (!m_ping) {
+                        m_pong.wait(lock);
+                    }
+                    if (m_committed) {
+                        qCCritical(KWIN_DRM, "Pageflip timed out! This is bug in the %s kernel driver", qPrintable(m_gpu->driverName()));
+                        if (m_gpu->isAmdgpu()) {
+                            qCCritical(KWIN_DRM, "Please report this at https://gitlab.freedesktop.org/drm/amd/-/issues");
+                        } else if (m_gpu->isNVidia()) {
+                            qCCritical(KWIN_DRM, "Please report this at https://forums.developer.nvidia.com/c/gpu-graphics/linux");
+                        } else if (m_gpu->isI915()) {
+                            qCCritical(KWIN_DRM, "Please report this at https://gitlab.freedesktop.org/drm/i915/kernel/-/issues");
+                        }
+                    } else {
+                        qCWarning(KWIN_DRM, "The main thread was hanging temporarily!");
+                    }
+                } else {
+                    // the commit would fail with EBUSY, wait until the pageflip is done
                 }
                 continue;
             }
@@ -262,8 +282,13 @@ void DrmCommitThread::optimizeCommits(TimePoint pageflipTarget)
 DrmCommitThread::~DrmCommitThread()
 {
     if (m_thread) {
-        m_thread->requestInterruption();
-        m_commitPending.notify_all();
+        {
+            std::unique_lock lock(m_mutex);
+            m_thread->requestInterruption();
+            m_commitPending.notify_all();
+            m_ping = true;
+            m_pong.notify_all();
+        }
         m_thread->wait();
     }
 }
@@ -348,5 +373,14 @@ bool DrmCommitThread::drain()
     }
     submit();
     return m_committed != nullptr;
+}
+
+void DrmCommitThread::handlePing()
+{
+    // this will process the pageflip and call pageFlipped if there is one
+    m_gpu->dispatchEvents();
+    std::unique_lock lock(m_mutex);
+    m_ping = true;
+    m_pong.notify_one();
 }
 }

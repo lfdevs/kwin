@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-01 00:42+0000\n"
+"POT-Creation-Date: 2025-01-22 02:32+0000\n"
 "PO-Revision-Date: 2024-12-25 08:11+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -1363,7 +1363,7 @@ msgctxt "@info"
 msgid "Host name: %1"
 msgstr "Ostalari-izena: %1"
 
-#: input.cpp:3292
+#: input.cpp:3338
 #, kde-format
 msgid "Touchpad"
 msgstr "Ukimen-sagua"
@@ -4399,12 +4399,12 @@ msgstr "Begirada bat mahaigainari"
 msgid "Kill Window"
 msgstr "Akabatu leihoa"
 
-#: useractions.cpp:1136
+#: useractions.cpp:1138
 #, kde-format
 msgid "Activate Window (%1)"
 msgstr "Aktibatu leihoa (%1)"
 
-#: utils/edid.cpp:316
+#: utils/edid.cpp:325
 #, kde-format
 msgid "unknown"
 msgstr "ezezaguna"
@@ -4480,7 +4480,7 @@ msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(Ez du erantzuten)"
 
-#: workspace.cpp:1653
+#: workspace.cpp:1654
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

@@ -77,6 +77,7 @@
 #include "osd.h"
 #include "wayland/xdgshell.h"
 #include <cmath>
+#include <linux/input.h>
 
 using namespace std::literals;
 
@@ -1035,7 +1036,10 @@ public:
             }
         } else if (event->state == KeyboardKeyState::Repeated || event->state == KeyboardKeyState::Pressed) {
             if (!waylandServer()->isKeyboardShortcutsInhibited()) {
-                return input()->shortcuts()->processKey(event->modifiersRelevantForGlobalShortcuts, event->key);
+                if (input()->shortcuts()->processKey(event->modifiersRelevantForGlobalShortcuts, event->key)) {
+                    input()->keyboard()->addFilteredKey(event->nativeScanCode);
+                    return true;
+                }
             }
         } else if (event->state == KeyboardKeyState::Released) {
             if (!waylandServer()->isKeyboardShortcutsInhibited()) {
@@ -1988,6 +1992,27 @@ public:
 
         return false;
     }
+    bool tabletToolButtonEvent(TabletToolButtonEvent *event) override
+    {
+        Window *window = input()->tablet()->focus();
+        if (!window || !window->isClient()) {
+            return false;
+        }
+
+        if (event->pressed) {
+            const auto command = window->getMousePressCommand(event->button == BTN_STYLUS ? Qt::MiddleButton : Qt::RightButton);
+            if (command) {
+                return !window->performMousePressCommand(*command, input()->tablet()->position());
+            }
+        } else {
+            const auto command = window->getMouseReleaseCommand(event->button == BTN_STYLUS ? Qt::MiddleButton : Qt::RightButton);
+            if (command) {
+                return !window->performMouseReleaseCommand(*command, input()->tablet()->position());
+            }
+        }
+
+        return false;
+    }
 };
 
 class InputMethodEventFilter : public InputEventFilter
@@ -2912,7 +2937,9 @@ class UserActivitySpy : public InputEventSpy
 public:
     void pointerMotion(PointerMotionEvent *event) override
     {
-        notifyActivity();
+        if (!event->warp) {
+            notifyActivity();
+        }
     }
     void pointerButton(PointerButtonEvent *event) override
     {

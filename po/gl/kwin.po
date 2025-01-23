@@ -10,7 +10,7 @@
 # Marce Villarino <mvillarino@kde-espana.es>, 2009, 2011, 2012.
 # Marce Villarino <mvillarino@kde-espana.es>, 2012, 2013, 2014.
 # Adrián Chaves Fernández <adriyetichaves@gmail.com>, 2015, 2016, 2017.
-# SPDX-FileCopyrightText: 2023, 2024 Adrián Chaves (Gallaecio)
+# SPDX-FileCopyrightText: 2023, 2024, 2025 Adrián Chaves (Gallaecio)
 #
 # Proxecto Trasno - Adaptación do software libre á lingua galega:  Se desexas
 # colaborar connosco, podes atopar máis información en http://trasno.gpul.org
@@ -21,8 +21,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-01 00:42+0000\n"
-"PO-Revision-Date: 2024-12-27 18:38+0100\n"
+"POT-Creation-Date: 2025-01-22 02:32+0000\n"
+"PO-Revision-Date: 2025-01-19 13:39+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -1368,7 +1368,7 @@ msgctxt "@info"
 msgid "Host name: %1"
 msgstr "Servidor: %1"
 
-#: input.cpp:3292
+#: input.cpp:3338
 #, kde-format
 msgid "Touchpad"
 msgstr "Área táctil"
@@ -3180,6 +3180,7 @@ msgstr "Puxar"
 msgid "Disabled"
 msgstr "Desactivado"
 
+# skip-rule: trasno-gl_bel
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_EnableFocusTracking)
 #: plugins/zoom/zoom_config.ui:142
 #, kde-format
@@ -3197,6 +3198,7 @@ msgstr ""
 msgid "Enable focus tracking"
 msgstr "Activar o seguimento do foco."
 
+# skip-rule: trasno-gl_bel
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_EnableTextCaretTracking)
 #: plugins/zoom/zoom_config.ui:152
 #, kde-format
@@ -4393,12 +4395,12 @@ msgstr "Ollar o escritorio"
 msgid "Kill Window"
 msgstr "Matar a xanela"
 
-#: useractions.cpp:1136
+#: useractions.cpp:1138
 #, kde-format
 msgid "Activate Window (%1)"
 msgstr "Activar a xanela (%1)"
 
-#: utils/edid.cpp:316
+#: utils/edid.cpp:325
 #, kde-format
 msgid "unknown"
 msgstr "descoñecido"
@@ -4475,7 +4477,7 @@ msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(non responde)"
 
-#: workspace.cpp:1653
+#: workspace.cpp:1654
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

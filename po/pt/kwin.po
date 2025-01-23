@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-01 00:42+0000\n"
+"POT-Creation-Date: 2025-01-22 02:32+0000\n"
 "PO-Revision-Date: 2023-02-15 15:24+0000\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -1381,7 +1381,7 @@ msgctxt "@info"
 msgid "Host name: %1"
 msgstr "hostname"
 
-#: input.cpp:3292
+#: input.cpp:3338
 #, kde-format
 msgid "Touchpad"
 msgstr "Rato por toque"
@@ -4531,12 +4531,12 @@ msgstr "Espreitar o Ecrã"
 msgid "Kill Window"
 msgstr "Matar a Janela"
 
-#: useractions.cpp:1136
+#: useractions.cpp:1138
 #, kde-format
 msgid "Activate Window (%1)"
 msgstr "Activar a Janela (%1)"
 
-#: utils/edid.cpp:316
+#: utils/edid.cpp:325
 #, fuzzy, kde-format
 #| msgctxt "The input device of the event is not known"
 #| msgid "Unknown"
@@ -4614,7 +4614,7 @@ msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(Não Responde)"
 
-#: workspace.cpp:1653
+#: workspace.cpp:1654
 #, fuzzy, kde-format
 #| msgctxt "Introductory text shown in the support information."
 #| msgid ""

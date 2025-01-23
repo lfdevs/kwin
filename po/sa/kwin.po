@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-01 00:42+0000\n"
+"POT-Creation-Date: 2025-01-22 02:32+0000\n"
 "PO-Revision-Date: 2024-12-25 19:14+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -1343,7 +1343,7 @@ msgctxt "@info"
 msgid "Host name: %1"
 msgstr "होस्ट् नाम: %1"
 
-#: input.cpp:3292
+#: input.cpp:3338
 #, kde-format
 msgid "Touchpad"
 msgstr "टचपैड"
@@ -4356,12 +4356,12 @@ msgstr "डेस्कटॉप् इत्यत्र दृष्टिप�
 msgid "Kill Window"
 msgstr "किल विण्डो"
 
-#: useractions.cpp:1136
+#: useractions.cpp:1138
 #, kde-format
 msgid "Activate Window (%1)"
 msgstr "विण्डो सक्रियं कुर्वन्तु (%1) ."
 
-#: utils/edid.cpp:316
+#: utils/edid.cpp:325
 #, kde-format
 msgid "unknown"
 msgstr "अज्ञात"
@@ -4437,7 +4437,7 @@ msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(प्रतिक्रिया न ददाति)"
 
-#: workspace.cpp:1653
+#: workspace.cpp:1654
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

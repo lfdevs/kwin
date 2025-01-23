@@ -92,6 +92,7 @@ DrmGpu::DrmGpu(DrmBackend *backend, int fd, std::unique_ptr<DrmDevice> &&device)
             m_nvidiaDriverVersion = Version::parseString(moduleVersion.readLine(100));
         }
     }
+    m_driverName = version->name;
 
     m_socketNotifier = std::make_unique<QSocketNotifier>(fd, QSocketNotifier::Read);
     connect(m_socketNotifier.get(), &QSocketNotifier::activated, this, &DrmGpu::dispatchEvents);
@@ -475,7 +476,12 @@ DrmOutput *DrmGpu::findOutput(quint32 connector)
 void DrmGpu::waitIdle()
 {
     m_socketNotifier->setEnabled(false);
-    while (true) {
+
+    // CLOCK_MONOTONIC should not count the time when the system is suspended, however the Linux kernel
+    // does not follow this part of the POSIX standard. So a timeout can be reported when it must not be.
+    // As a workaround, multiple poll() attempts are made.
+    int attempt = 0;
+    while (attempt < 5) {
         const bool hasPendingCommit = std::ranges::any_of(m_pipelines, [](DrmPipeline *pipeline) {
             return pipeline->commitThread()->drain();
         });
@@ -493,12 +499,13 @@ void DrmGpu::waitIdle()
                 break;
             }
         } else if (ready == 0) {
-            qCWarning(KWIN_DRM) << "No drm events for gpu" << this << "within last 30 seconds";
-            break;
+            qCWarning(KWIN_DRM) << "No drm events for gpu" << this << "within last 1 second";
+            attempt++;
         } else {
             dispatchEvents();
         }
     };
+
     m_socketNotifier->setEnabled(true);
 }
 
@@ -897,6 +904,11 @@ std::shared_ptr<DrmFramebuffer> DrmGpu::importBuffer(GraphicsBuffer *buffer, Fil
     }
 
     return std::make_shared<DrmFramebuffer>(this, framebufferId, buffer, std::move(readFence));
+}
+
+QString DrmGpu::driverName() const
+{
+    return m_driverName;
 }
 
 DrmLease::DrmLease(DrmGpu *gpu, FileDescriptor &&fd, uint32_t lesseeId, const QList<DrmOutput *> &outputs)

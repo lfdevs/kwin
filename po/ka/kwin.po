@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-01 00:42+0000\n"
+"POT-Creation-Date: 2025-01-22 02:32+0000\n"
 "PO-Revision-Date: 2024-12-25 04:46+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -1350,7 +1350,7 @@ msgctxt "@info"
 msgid "Host name: %1"
 msgstr "ჰოსტის სახელი: %1"
 
-#: input.cpp:3292
+#: input.cpp:3338
 #, kde-format
 msgid "Touchpad"
 msgstr "თაჩპედი"
@@ -4375,12 +4375,12 @@ msgstr "სამუშაო მაგიდაზე გაჭვრეტა"
 msgid "Kill Window"
 msgstr "ფანჯრის ნაძალადევი დაღუპვა"
 
-#: useractions.cpp:1136
+#: useractions.cpp:1138
 #, kde-format
 msgid "Activate Window (%1)"
 msgstr "ფანჯრის გააქტიურება (%1)"
 
-#: utils/edid.cpp:316
+#: utils/edid.cpp:325
 #, kde-format
 msgid "unknown"
 msgstr "unknown"
@@ -4456,7 +4456,7 @@ msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(არ პასუხობს)"
 
-#: workspace.cpp:1653
+#: workspace.cpp:1654
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

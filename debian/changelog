@@ -1,12 +1,13 @@
-kwin (4:6.3.0-1) UNRELEASED; urgency=medium
+kwin (4:6.3.0-1) unstable; urgency=medium
 
   [ Aurélien COUDERC ]
   * New upstream release (6.3.0).
   * Update build-deps and deps with the info from cmake.
   * Revert upstream commits cdcfaf09, 384f6084, 624a12e9 and 8c317be0
     adding test cases and breaking the build with Qt 6.7.
+  * Release to unstable.
 
- -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Mon, 10 Feb 2025 15:07:41 +0100
+ -- Aurélien COUDERC <coucouf@debian.org>  Mon, 10 Feb 2025 15:07:44 +0100
 
 kwin (4:6.2.91-1) experimental; urgency=medium
 

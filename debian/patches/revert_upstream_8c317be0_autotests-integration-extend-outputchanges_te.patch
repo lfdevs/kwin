@@ -1,0 +1,269 @@
+From a403906190a2456cd90520091d8cf70bc044e1bd Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Aur=C3=A9lien=20COUDERC?= <coucouf@coucouf.fr>
+Date: Mon, 10 Feb 2025 23:39:07 +0100
+Subject: [PATCH 4/4] Revert "autotests/integration: extend outputchanges_test
+ to check EDID parsing failure"
+
+This reverts commit 8c317be082af7b5fd05cc3d11af636c757cfbd1f.
+---
+ autotests/integration/kwin_wayland_test.cpp  |   1 -
+ autotests/integration/kwin_wayland_test.h    |   1 -
+ autotests/integration/outputchanges_test.cpp | 100 -------------------
+ src/backends/virtual/virtual_backend.cpp     |   2 +-
+ src/backends/virtual/virtual_backend.h       |   1 -
+ src/backends/virtual/virtual_output.cpp      |   4 +-
+ src/backends/virtual/virtual_output.h        |   2 +-
+ src/utils/edid.cpp                           |   8 --
+ src/utils/edid.h                             |   8 +-
+ 9 files changed, 6 insertions(+), 121 deletions(-)
+
+diff --git a/autotests/integration/kwin_wayland_test.cpp b/autotests/integration/kwin_wayland_test.cpp
+index c48c321c6b..ddd37bd1e3 100644
+--- a/autotests/integration/kwin_wayland_test.cpp
++++ b/autotests/integration/kwin_wayland_test.cpp
+@@ -296,7 +296,6 @@ void Test::setOutputConfig(const QList<OutputInfo> &infos)
+             .modes = info.modes,
+             .panelOrientation = info.panelOrientation,
+             .edid = info.edid,
+-            .edidIdentifierOverride = info.edidIdentifierOverride,
+             .connectorName = info.connectorName,
+             .mstPath = info.mstPath,
+         };
+diff --git a/autotests/integration/kwin_wayland_test.h b/autotests/integration/kwin_wayland_test.h
+index 1f0fa05732..d4f643e33d 100644
+--- a/autotests/integration/kwin_wayland_test.h
++++ b/autotests/integration/kwin_wayland_test.h
+@@ -952,7 +952,6 @@ struct OutputInfo
+     QList<std::tuple<QSize, uint64_t, OutputMode::Flags>> modes;
+     OutputTransform panelOrientation = OutputTransform::Kind::Normal;
+     QByteArray edid;
+-    std::optional<QByteArray> edidIdentifierOverride;
+     std::optional<QString> connectorName;
+     std::optional<QByteArray> mstPath;
+ };
+diff --git a/autotests/integration/outputchanges_test.cpp b/autotests/integration/outputchanges_test.cpp
+index 1eee202ff9..e9988cbecb 100644
+--- a/autotests/integration/outputchanges_test.cpp
++++ b/autotests/integration/outputchanges_test.cpp
+@@ -130,7 +130,6 @@ private Q_SLOTS:
+     void testAutorotate();
+     void testSettingRestoration_data();
+     void testSettingRestoration();
+-    void testSettingRestoration_initialParsingFailure();
+ };
+ 
+ void OutputChangesTest::initTestCase()
+@@ -1587,18 +1586,6 @@ void OutputChangesTest::testSettingRestoration_data()
+                                                                                       << QByteArray{}
+                                                                                       << std::make_optional(QByteArrayLiteral("MST-1-1"))
+                                                                                       << std::make_optional(QByteArrayLiteral("MST-1-2"));
+-    QTest::addRow("Only EDID hash, no connector names, no MST path") << std::optional<QString>()
+-                                                                     << std::optional<QString>()
+-                                                                     << QByteArrayLiteral("bbbbbbbbbbbbbbbb")
+-                                                                     << QByteArrayLiteral("aaaaaaaaaaaaaaaa")
+-                                                                     << std::optional<QByteArray>()
+-                                                                     << std::optional<QByteArray>();
+-    QTest::addRow("One EDID ID, other only EDID hash") << std::optional<QString>()
+-                                                       << std::optional<QString>()
+-                                                       << readEdid(QFINDTESTDATA("data/same serial number/edid.bin"))
+-                                                       << QByteArrayLiteral("aaaaaaaaaaaaaaaa")
+-                                                       << std::optional<QByteArray>()
+-                                                       << std::optional<QByteArray>();
+ }
+ 
+ void OutputChangesTest::testSettingRestoration()
+@@ -1713,93 +1700,6 @@ void OutputChangesTest::testSettingRestoration()
+     }
+ }
+ 
+-void OutputChangesTest::testSettingRestoration_initialParsingFailure()
+-{
+-    // this test checks that when libdisplay-info fails to parse an EDID
+-    // and gets fixed later, we still pick the same settings as before
+-
+-    // delete the previous config to avoid clashes between test runs
+-    QFile(QStandardPaths::locate(QStandardPaths::ConfigLocation, QStringLiteral("kwinoutputconfig.json"))).remove();
+-
+-    QFile file(QFINDTESTDATA("data/same serial number/edid.bin"));
+-    file.open(QIODeviceBase::OpenModeFlag::ReadOnly);
+-    const auto edid = file.readAll();
+-
+-    // first, libdisplay-info failed to parse the EDID and we don't have an EDID ID
+-    Test::setOutputConfig({
+-        Test::OutputInfo{
+-            .geometry = QRect(0, 0, 1280, 1024),
+-            .internal = false,
+-            .physicalSizeInMM = QSize(598, 336),
+-            .modes = {
+-                ModeInfo(QSize(1280, 1024), 60000, OutputMode::Flag::Preferred),
+-                ModeInfo(QSize(640, 480), 60000, OutputMode::Flags{}),
+-            },
+-            .edid = edid,
+-            .edidIdentifierOverride = QByteArray(),
+-            .connectorName = std::nullopt,
+-            .mstPath = std::nullopt,
+-        },
+-    });
+-
+-    auto outputs = kwinApp()->outputBackend()->outputs();
+-    OutputConfigurationStore configs;
+-
+-    {
+-        // query the generated config, like KWin normally would
+-        auto cfg = configs.queryConfig(outputs, false, nullptr, false);
+-        QVERIFY(cfg.has_value());
+-        const auto [config, order, type] = *cfg;
+-        outputs.front()->applyChanges(config);
+-        QCOMPARE(config.constChangeSet(outputs[0])->desiredModeSize.value(), QSize(1280, 1024));
+-    }
+-    {
+-        // change the mode, so that we know if a new config entry was generated
+-        OutputConfiguration config;
+-        const auto changeSet = config.changeSet(outputs[0]);
+-        changeSet->mode = outputs[0]->modes()[1];
+-        changeSet->desiredModeSize = QSize(640, 480);
+-        changeSet->desiredModeRefreshRate = 60000;
+-        outputs.front()->applyChanges(config);
+-        configs.storeConfig(outputs, false, config, outputs);
+-    }
+-    {
+-        // verify that querying the config also shows the changed mode
+-        // things could already go wrong here
+-        auto cfg = configs.queryConfig(outputs, false, nullptr, false);
+-        QVERIFY(cfg.has_value());
+-        const auto [config, order, type] = *cfg;
+-        QCOMPARE(type, OutputConfigurationStore::ConfigType::Preexisting);
+-        outputs.front()->applyChanges(config);
+-        QCOMPARE(config.constChangeSet(outputs[0])->desiredModeSize.value(), QSize(640, 480));
+-    }
+-
+-    // now libdisplay-info was updated, and we have an EDID ID for the same hash
+-    Test::setOutputConfig({
+-        Test::OutputInfo{
+-            .geometry = QRect(0, 0, 1280, 1024),
+-            .internal = false,
+-            .physicalSizeInMM = QSize(598, 336),
+-            .modes = {
+-                ModeInfo(QSize(1280, 1024), 60000, OutputMode::Flag::Preferred),
+-                ModeInfo(QSize(640, 480), 60000, OutputMode::Flags{}),
+-            },
+-            .edid = edid,
+-            .edidIdentifierOverride = std::nullopt,
+-            .connectorName = std::nullopt,
+-            .mstPath = std::nullopt,
+-        },
+-    });
+-    outputs = kwinApp()->outputBackend()->outputs();
+-
+-    {
+-        auto cfg = configs.queryConfig(outputs, false, nullptr, false);
+-        QVERIFY(cfg.has_value());
+-        const auto [config, order, type] = *cfg;
+-        QCOMPARE(config.constChangeSet(outputs[0])->desiredModeSize.value(), QSize(640, 480));
+-    }
+-}
+-
+ } // namespace KWin
+ 
+ WAYLANDTEST_MAIN(KWin::OutputChangesTest)
+diff --git a/src/backends/virtual/virtual_backend.cpp b/src/backends/virtual/virtual_backend.cpp
+index 9d24e0f458..d2bcf5bce7 100644
+--- a/src/backends/virtual/virtual_backend.cpp
++++ b/src/backends/virtual/virtual_backend.cpp
+@@ -102,7 +102,7 @@ Outputs VirtualBackend::outputs() const
+ 
+ VirtualOutput *VirtualBackend::createOutput(const OutputInfo &info)
+ {
+-    VirtualOutput *output = new VirtualOutput(this, info.internal, info.physicalSizeInMM, info.panelOrientation, info.edid, info.edidIdentifierOverride, info.connectorName, info.mstPath);
++    VirtualOutput *output = new VirtualOutput(this, info.internal, info.physicalSizeInMM, info.panelOrientation, info.edid, info.connectorName, info.mstPath);
+     output->init(info.geometry.topLeft(), info.geometry.size() * info.scale, info.scale, info.modes);
+     m_outputs.append(output);
+     Q_EMIT outputAdded(output);
+diff --git a/src/backends/virtual/virtual_backend.h b/src/backends/virtual/virtual_backend.h
+index fb6a41352a..437a4f1bce 100644
+--- a/src/backends/virtual/virtual_backend.h
++++ b/src/backends/virtual/virtual_backend.h
+@@ -42,7 +42,6 @@ public:
+         QList<std::tuple<QSize, uint64_t, OutputMode::Flags>> modes;
+         OutputTransform panelOrientation = OutputTransform::Kind::Normal;
+         QByteArray edid;
+-        std::optional<QByteArray> edidIdentifierOverride;
+         std::optional<QString> connectorName;
+         std::optional<QByteArray> mstPath;
+     };
+diff --git a/src/backends/virtual/virtual_output.cpp b/src/backends/virtual/virtual_output.cpp
+index 59f5e3ba62..4eb845ee45 100644
+--- a/src/backends/virtual/virtual_output.cpp
++++ b/src/backends/virtual/virtual_output.cpp
+@@ -19,7 +19,7 @@
+ namespace KWin
+ {
+ 
+-VirtualOutput::VirtualOutput(VirtualBackend *parent, bool internal, const QSize &physicalSizeInMM, OutputTransform panelOrientation, const QByteArray &edid, std::optional<QByteArray> edidIdentifierOverride, const std::optional<QString> &connectorName, const std::optional<QByteArray> &mstPath)
++VirtualOutput::VirtualOutput(VirtualBackend *parent, bool internal, const QSize &physicalSizeInMM, OutputTransform panelOrientation, const QByteArray &edid, const std::optional<QString> &connectorName, const std::optional<QByteArray> &mstPath)
+     : Output(parent)
+     , m_backend(parent)
+     , m_renderLoop(std::make_unique<RenderLoop>(this))
+@@ -32,7 +32,7 @@ VirtualOutput::VirtualOutput(VirtualBackend *parent, bool internal, const QSize
+     setInformation(Information{
+         .name = connectorName.value_or(QStringLiteral("Virtual-%1").arg(identifier)),
+         .physicalSize = physicalSizeInMM,
+-        .edid = Edid{edid, edidIdentifierOverride},
++        .edid = Edid(edid),
+         .panelOrientation = panelOrientation,
+         .internal = internal,
+         .mstPath = mstPath.value_or(QByteArray()),
+diff --git a/src/backends/virtual/virtual_output.h b/src/backends/virtual/virtual_output.h
+index 126244db24..a6a677f87d 100644
+--- a/src/backends/virtual/virtual_output.h
++++ b/src/backends/virtual/virtual_output.h
+@@ -25,7 +25,7 @@ class VirtualOutput : public Output
+     Q_OBJECT
+ 
+ public:
+-    explicit VirtualOutput(VirtualBackend *parent, bool internal, const QSize &physicalSizeInMM, OutputTransform panelOrientation, const QByteArray &edid, std::optional<QByteArray> edidIdentifierOverride, const std::optional<QString> &connectorName, const std::optional<QByteArray> &mstPath);
++    explicit VirtualOutput(VirtualBackend *parent, bool internal, const QSize &physicalSizeInMM, OutputTransform panelOrientation, const QByteArray &edid, const std::optional<QString> &connectorName, const std::optional<QByteArray> &mstPath);
+     ~VirtualOutput() override;
+ 
+     RenderLoop *renderLoop() const override;
+diff --git a/src/utils/edid.cpp b/src/utils/edid.cpp
+index 4ec1936fbc..798aaaa887 100644
+--- a/src/utils/edid.cpp
++++ b/src/utils/edid.cpp
+@@ -131,14 +131,6 @@ Edid::Edid(const void *data, uint32_t size)
+ {
+ }
+ 
+-Edid::Edid(QByteArrayView data, std::optional<QByteArrayView> identifierOverride)
+-    : Edid(data)
+-{
+-    if (identifierOverride.has_value()) {
+-        m_identifier = QByteArray(*identifierOverride);
+-    }
+-}
+-
+ Edid::Edid(QByteArrayView data)
+ {
+     m_raw = QByteArray(data.data(), data.size());
+diff --git a/src/utils/edid.h b/src/utils/edid.h
+index 2b455d63d5..3eb93becfd 100644
+--- a/src/utils/edid.h
++++ b/src/utils/edid.h
+@@ -29,12 +29,8 @@ class KWIN_EXPORT Edid
+ {
+ public:
+     Edid();
+-    explicit Edid(const void *data, uint32_t size);
+-    explicit Edid(QByteArrayView data);
+-    /**
+-     * for testing purpose, optionally overrides the identifier with the specified value
+-     */
+-    explicit Edid(QByteArrayView data, std::optional<QByteArrayView> identifierOverride);
++    Edid(const void *data, uint32_t size);
++    Edid(QByteArrayView data);
+ 
+     /**
+      * Whether this instance of EDID is valid.
+-- 
+2.47.2
+

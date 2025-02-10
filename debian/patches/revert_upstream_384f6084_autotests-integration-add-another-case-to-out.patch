@@ -1,0 +1,43 @@
+From 5897bdb0331e50abdc1846cea8c4f5d1429a6bc1 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Aur=C3=A9lien=20COUDERC?= <coucouf@coucouf.fr>
+Date: Mon, 10 Feb 2025 23:38:51 +0100
+Subject: [PATCH 2/4] Revert "autotests/integration: add another case to
+ outputchanges_test"
+
+This reverts commit 384f60847909daf1884f5da4ad89130d3c132738.
+---
+ autotests/integration/outputchanges_test.cpp | 18 ------------------
+ 1 file changed, 18 deletions(-)
+
+diff --git a/autotests/integration/outputchanges_test.cpp b/autotests/integration/outputchanges_test.cpp
+index 3e582070f0..7318bce0ff 100644
+--- a/autotests/integration/outputchanges_test.cpp
++++ b/autotests/integration/outputchanges_test.cpp
+@@ -1670,24 +1670,6 @@ void OutputChangesTest::testSettingRestoration_data()
+             .mstPath = std::nullopt,
+         },
+     };
+-
+-    QTest::addRow("three outputs, two with the same EDID, with overlapping MST paths") << QList{
+-        IdentificationData{
+-            .connectorName = std::nullopt,
+-            .edid = readEdid(QFINDTESTDATA("data/same serial number/edid.bin")),
+-            .mstPath = QByteArrayLiteral("MST-1-1"),
+-        },
+-        IdentificationData{
+-            .connectorName = std::nullopt,
+-            .edid = readEdid(QFINDTESTDATA("data/same serial number/edid.bin")),
+-            .mstPath = QByteArrayLiteral("MST-1-2"),
+-        },
+-        IdentificationData{
+-            .connectorName = std::nullopt,
+-            .edid = readEdid(QFINDTESTDATA("data/same serial number/edid2.bin")),
+-            .mstPath = QByteArrayLiteral("MST-1-1"),
+-        },
+-    };
+ }
+ 
+ void OutputChangesTest::testSettingRestoration()
+-- 
+2.47.2
+

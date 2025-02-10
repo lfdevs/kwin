@@ -1697,10 +1697,13 @@ XdgPopupWindow::XdgPopupWindow(XdgPopupInterface *shellSurface)
 
 void XdgPopupWindow::handleRoleDestroyed()
 {
-    disconnect(transientFor(), &Window::frameGeometryChanged,
-               this, &XdgPopupWindow::relayout);
-    disconnect(transientFor(), &Window::closed,
-               this, &XdgPopupWindow::destroyWindow);
+    if (transientFor()) {
+        disconnect(transientFor(), &Window::frameGeometryChanged,
+                   this, &XdgPopupWindow::relayout);
+        disconnect(transientFor(), &Window::closed,
+                   this, &XdgPopupWindow::popupDone);
+    }
+
     m_shellSurface->disconnect(this);
 
     XdgSurfaceWindow::handleRoleDestroyed();
@@ -1833,6 +1836,11 @@ void XdgPopupWindow::handleGrabRequested(SeatInterface *seat, quint32 serial)
 void XdgPopupWindow::initialize()
 {
     Window *parent = waylandServer()->findWindow(m_shellSurface->parentSurface());
+    if (!parent) {
+        popupDone();
+        return;
+    }
+
     parent->addTransient(this);
     setTransientFor(parent);
     setDesktops(parent->desktops());
@@ -1842,7 +1850,7 @@ void XdgPopupWindow::initialize()
 
     updateRelativePlacement();
     connect(parent, &Window::frameGeometryChanged, this, &XdgPopupWindow::relayout);
-    connect(parent, &Window::closed, this, &XdgPopupWindow::destroyWindow);
+    connect(parent, &Window::closed, this, &XdgPopupWindow::popupDone);
 
     workspace()->placement()->place(this, QRectF());
     scheduleConfigure();

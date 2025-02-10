@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-22 02:32+0000\n"
+"POT-Creation-Date: 2025-02-05 02:35+0000\n"
 "PO-Revision-Date: 2025-01-19 13:39+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
@@ -42,29 +42,29 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "xabigf@gmx.net, mvillarino@users.sourceforge.net, adrian@chaves.io"
 
-#: backends/wayland/wayland_output.cpp:275
+#: backends/wayland/wayland_output.cpp:362
 #, kde-format
 msgid "Press right control to ungrab pointer"
 msgstr "Prema o control dereito para soltar o punteiro"
 
-#: backends/wayland/wayland_output.cpp:277
+#: backends/wayland/wayland_output.cpp:364
 #, kde-format
 msgid "Press right control key to grab pointer"
 msgstr "Prema a tecla de control dereita para agarrar o punteiro"
 
-#: backends/wayland/wayland_output.cpp:281
+#: backends/wayland/wayland_output.cpp:368
 #, kde-format
 msgctxt ""
 "Title of nested KWin Wayland with Wayland socket identifier as argument"
 msgid "KDE Wayland Compositor %1"
 msgstr "Compositor de Wayland de KDE %1"
 
-#: backends/wayland/wayland_output.cpp:284
+#: backends/wayland/wayland_output.cpp:371
 #, kde-format
 msgid "- Output disabled"
 msgstr "- Desactivouse a saída"
 
-#: backends/wayland/wayland_output.cpp:286
+#: backends/wayland/wayland_output.cpp:373
 #, kde-format
 msgid "- Output dimmed"
 msgstr "- Escureceuse a saída"
@@ -440,7 +440,7 @@ msgstr "Liberación de botón do punteiro"
 #, kde-format
 msgctxt "A mouse pointer axis (wheel) event"
 msgid "Pointer Axis"
-msgstr "Eixo de punteiro"
+msgstr "Eixe de punteiro"
 
 #: debug_console.cpp:240
 #, kde-format
@@ -2421,7 +2421,7 @@ msgctxt "Temporarily disable/reenable Night Light"
 msgid "Suspend/Resume Night Light"
 msgstr "Suspender ou retomar a luz nocturna"
 
-#: plugins/nightlight/nightlightmanager.cpp:411
+#: plugins/nightlight/nightlightmanager.cpp:417
 #, kde-format
 msgid "Color Temperature Preview"
 msgstr "Vista previa da temperatura da cor"
@@ -4400,7 +4400,7 @@ msgstr "Matar a xanela"
 msgid "Activate Window (%1)"
 msgstr "Activar a xanela (%1)"
 
-#: utils/edid.cpp:325
+#: utils/edid.cpp:340
 #, kde-format
 msgid "unknown"
 msgstr "descoñecido"
@@ -4500,7 +4500,7 @@ msgstr ""
 "servizo de almacenamento de texto\n"
 "como https://paste.kde.org no canto de pegala no fío de asistencia técnica.\n"
 
-#: xwayland/xwaylandlauncher.cpp:270
+#: xwayland/xwaylandlauncher.cpp:269
 #, kde-format
 msgid "Xwayland has crashed"
 msgstr "Xwayland quebrou."

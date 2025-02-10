@@ -128,6 +128,9 @@ private Q_SLOTS:
     void testGenerateConfigs();
     void testAutorotate_data();
     void testAutorotate();
+    void testSettingRestoration_data();
+    void testSettingRestoration();
+    void testSettingRestoration_initialParsingFailure();
 };
 
 void OutputChangesTest::initTestCase()
@@ -1519,6 +1522,382 @@ void OutputChangesTest::testAutorotate()
     QFETCH(OutputTransform::Kind, expectedRotation);
     QVERIFY(outputConfig->transform.has_value());
     QCOMPARE(outputConfig->transform->kind(), expectedRotation);
+}
+
+struct IdentificationData
+{
+    std::optional<QString> connectorName;
+    QByteArray edid;
+    std::optional<QByteArray> mstPath;
+};
+
+void OutputChangesTest::testSettingRestoration_data()
+{
+    QTest::addColumn<QList<IdentificationData>>("outputData");
+
+    const auto readEdid = [](const QString &path) {
+        QFile file(path);
+        file.open(QIODeviceBase::OpenModeFlag::ReadOnly);
+        return file.readAll();
+    };
+
+    QTest::addRow("Same EDID ID, different hash") << QList{
+        IdentificationData{
+            .connectorName = std::nullopt,
+            .edid = readEdid(QFINDTESTDATA("data/same serial number/edid.bin")),
+            .mstPath = std::nullopt,
+        },
+        IdentificationData{
+            .connectorName = std::nullopt,
+            .edid = readEdid(QFINDTESTDATA("data/same serial number/edid2.bin")),
+            .mstPath = std::nullopt,
+        },
+    };
+
+    QTest::addRow("Same EDID") << QList{
+        IdentificationData{
+            .connectorName = QStringLiteral("connector1"),
+            .edid = readEdid(QFINDTESTDATA("data/same serial number/edid.bin")),
+            .mstPath = std::nullopt,
+        },
+        IdentificationData{
+            .connectorName = QStringLiteral("connector2"),
+            .edid = readEdid(QFINDTESTDATA("data/same serial number/edid.bin")),
+            .mstPath = std::nullopt,
+        },
+    };
+
+    QTest::addRow("No EDID") << QList{
+        IdentificationData{
+            .connectorName = QStringLiteral("connector1"),
+            .edid = QByteArray{},
+            .mstPath = std::nullopt,
+        },
+        IdentificationData{
+            .connectorName = QStringLiteral("connector2"),
+            .edid = QByteArray{},
+            .mstPath = std::nullopt,
+        },
+    };
+
+    QTest::addRow("One has EDID, the other doesn't") << QList{
+        IdentificationData{
+            .connectorName = QStringLiteral("connector1"),
+            .edid = readEdid(QFINDTESTDATA("data/same serial number/edid.bin")),
+            .mstPath = std::nullopt,
+        },
+        IdentificationData{
+            .connectorName = QStringLiteral("connector2"),
+            .edid = QByteArray{},
+            .mstPath = std::nullopt,
+        },
+    };
+
+    QTest::addRow("Same EDID, no connector names, different MST paths") << QList{
+        IdentificationData{
+            .connectorName = std::nullopt,
+            .edid = readEdid(QFINDTESTDATA("data/same serial number/edid.bin")),
+            .mstPath = QByteArrayLiteral("MST-1-1"),
+        },
+        IdentificationData{
+            .connectorName = std::nullopt,
+            .edid = readEdid(QFINDTESTDATA("data/same serial number/edid.bin")),
+            .mstPath = QByteArrayLiteral("MST-1-2"),
+        },
+    };
+
+    QTest::addRow("Same EDID ID, different hash, no connector names, different MST paths") << QList{
+        IdentificationData{
+            .connectorName = std::nullopt,
+            .edid = readEdid(QFINDTESTDATA("data/same serial number/edid.bin")),
+            .mstPath = QByteArrayLiteral("MST-1-1"),
+        },
+        IdentificationData{
+            .connectorName = std::nullopt,
+            .edid = readEdid(QFINDTESTDATA("data/same serial number/edid2.bin")),
+            .mstPath = QByteArrayLiteral("MST-1-2"),
+        },
+    };
+
+    QTest::addRow("No EDID, no connector names, different MST paths") << QList{
+        IdentificationData{
+            .connectorName = std::nullopt,
+            .edid = QByteArray{},
+            .mstPath = QByteArrayLiteral("MST-1-1"),
+        },
+        IdentificationData{
+            .connectorName = std::nullopt,
+            .edid = QByteArray{},
+            .mstPath = QByteArrayLiteral("MST-1-2"),
+        },
+    };
+
+    QTest::addRow("One EDID, the other not, no connector names, different MST paths") << QList{
+        IdentificationData{
+            .connectorName = std::nullopt,
+            .edid = readEdid(QFINDTESTDATA("data/same serial number/edid.bin")),
+            .mstPath = QByteArrayLiteral("MST-1-1"),
+        },
+        IdentificationData{
+            .connectorName = std::nullopt,
+            .edid = QByteArray{},
+            .mstPath = QByteArrayLiteral("MST-1-2"),
+        },
+    };
+
+    QTest::addRow("Only EDID hash, no connector names, no MST path") << QList{
+        IdentificationData{
+            .connectorName = std::nullopt,
+            .edid = QByteArrayLiteral("bbbbbbbbbbbbbbbb"),
+            .mstPath = std::nullopt,
+        },
+        IdentificationData{
+            .connectorName = std::nullopt,
+            .edid = QByteArrayLiteral("aaaaaaaaaaaaaaaa"),
+            .mstPath = std::nullopt,
+        },
+    };
+
+    QTest::addRow("One EDID ID, other only EDID hash") << QList{
+        IdentificationData{
+            .connectorName = std::nullopt,
+            .edid = readEdid(QFINDTESTDATA("data/same serial number/edid.bin")),
+            .mstPath = std::nullopt,
+        },
+        IdentificationData{
+            .connectorName = std::nullopt,
+            .edid = QByteArrayLiteral("aaaaaaaaaaaaaaaa"),
+            .mstPath = std::nullopt,
+        },
+    };
+
+    QTest::addRow("three outputs, two with the same EDID, with overlapping MST paths") << QList{
+        IdentificationData{
+            .connectorName = std::nullopt,
+            .edid = readEdid(QFINDTESTDATA("data/same serial number/edid.bin")),
+            .mstPath = QByteArrayLiteral("MST-1-1"),
+        },
+        IdentificationData{
+            .connectorName = std::nullopt,
+            .edid = readEdid(QFINDTESTDATA("data/same serial number/edid.bin")),
+            .mstPath = QByteArrayLiteral("MST-1-2"),
+        },
+        IdentificationData{
+            .connectorName = std::nullopt,
+            .edid = readEdid(QFINDTESTDATA("data/same serial number/edid2.bin")),
+            .mstPath = QByteArrayLiteral("MST-1-1"),
+        },
+    };
+}
+
+void OutputChangesTest::testSettingRestoration()
+{
+    // this test verifies that we restore configs correctly,
+    // even if there's no unique EDID ID to match them with
+
+    // delete the previous config to avoid clashes between test runs
+    QFile(QStandardPaths::locate(QStandardPaths::ConfigLocation, QStringLiteral("kwinoutputconfig.json"))).remove();
+
+    QFETCH(QList<IdentificationData>, outputData);
+
+    Test::setOutputConfig(outputData | std::views::transform([](const IdentificationData &data) {
+        return Test::OutputInfo{
+            .geometry = QRect(0, 0, 1280, 1024),
+            .internal = false,
+            .physicalSizeInMM = QSize(598, 336),
+            .modes = {ModeInfo(QSize(1280, 1024), 60000, OutputMode::Flag::Preferred)},
+            .edid = data.edid,
+            .edidIdentifierOverride = std::nullopt,
+            .connectorName = data.connectorName,
+            .mstPath = data.mstPath,
+        };
+    }) | std::ranges::to<QList>());
+
+    auto outputs = kwinApp()->outputBackend()->outputs();
+    OutputConfigurationStore configs;
+
+    QList<std::optional<QPoint>> outputPositions;
+    {
+        auto cfg = configs.queryConfig(outputs, false, nullptr, false);
+        QVERIFY(cfg.has_value());
+        const auto [config, order, type] = *cfg;
+        for (const auto output : outputs) {
+            output->applyChanges(config);
+            outputPositions.push_back(config.constChangeSet(output)->pos);
+        }
+    }
+
+    // the positions must be independent of the order of outputs in the list
+    std::ranges::reverse(outputs);
+    {
+        auto cfg = configs.queryConfig(outputs, false, nullptr, false);
+        QVERIFY(cfg.has_value());
+        const auto [config, order, type] = *cfg;
+        auto revertedPositions = outputPositions | std::views::reverse;
+        for (int i = 0; i < outputs.size(); i++) {
+            QCOMPARE(revertedPositions[i], config.constChangeSet(outputs[i])->pos);
+        }
+    }
+
+    // this must work if one of the outputs is removed in between as well
+    Test::setOutputConfig({
+        Test::OutputInfo{
+            .geometry = QRect(1280, 0, 1280, 1024),
+            .internal = false,
+            .physicalSizeInMM = QSize(598, 336),
+            .modes = {ModeInfo(QSize(1280, 1024), 60000, OutputMode::Flag::Preferred)},
+            .edid = outputData.back().edid,
+            .edidIdentifierOverride = std::nullopt,
+            .connectorName = outputData.back().connectorName,
+            .mstPath = outputData.back().mstPath,
+        },
+    });
+    outputs = kwinApp()->outputBackend()->outputs();
+    {
+        auto cfg = configs.queryConfig(outputs, false, nullptr, false);
+        const auto [config, order, type] = *cfg;
+        outputs.front()->applyChanges(config);
+    }
+
+    // and add it again, with the inverted order
+    Test::setOutputConfig(outputData | std::views::reverse | std::views::transform([](const IdentificationData &data) {
+        return Test::OutputInfo{
+            .geometry = QRect(0, 0, 1280, 1024),
+            .internal = false,
+            .physicalSizeInMM = QSize(598, 336),
+            .modes = {ModeInfo(QSize(1280, 1024), 60000, OutputMode::Flag::Preferred)},
+            .edid = data.edid,
+            .edidIdentifierOverride = std::nullopt,
+            .connectorName = data.connectorName,
+            .mstPath = data.mstPath,
+        };
+    }) | std::ranges::to<QList>());
+    outputs = kwinApp()->outputBackend()->outputs();
+
+    {
+        auto cfg = configs.queryConfig(outputs, false, nullptr, false);
+        QVERIFY(cfg.has_value());
+        const auto [config, order, type] = *cfg;
+        auto revertedPositions = outputPositions | std::views::reverse;
+        for (int i = 0; i < outputs.size(); i++) {
+            QCOMPARE(revertedPositions[i], config.constChangeSet(outputs[i])->pos);
+        }
+    }
+}
+
+void OutputChangesTest::testSettingRestoration_initialParsingFailure()
+{
+    // this test checks that when libdisplay-info fails to parse an EDID
+    // and gets fixed later, we still pick the same settings as before
+
+    // delete the previous config to avoid clashes between test runs
+    QFile(QStandardPaths::locate(QStandardPaths::ConfigLocation, QStringLiteral("kwinoutputconfig.json"))).remove();
+
+    QFile file(QFINDTESTDATA("data/same serial number/edid.bin"));
+    file.open(QIODeviceBase::OpenModeFlag::ReadOnly);
+    const auto edid = file.readAll();
+
+    // first, libdisplay-info failed to parse the EDID and we don't have an EDID ID
+    // note that this uses two displays with the same EDID,
+    // to additionally test the case when EDID ID isn't unique when this happens
+    Test::setOutputConfig({
+        Test::OutputInfo{
+            .geometry = QRect(0, 0, 1280, 1024),
+            .internal = false,
+            .physicalSizeInMM = QSize(598, 336),
+            .modes = {
+                ModeInfo(QSize(1280, 1024), 60000, OutputMode::Flag::Preferred),
+                ModeInfo(QSize(640, 480), 60000, OutputMode::Flags{}),
+            },
+            .edid = edid,
+            .edidIdentifierOverride = QByteArray(),
+            .connectorName = std::nullopt,
+            .mstPath = QByteArrayLiteral("MST-1-1"),
+        },
+        Test::OutputInfo{
+            .geometry = QRect(0, 0, 1280, 1024),
+            .internal = false,
+            .physicalSizeInMM = QSize(598, 336),
+            .modes = {
+                ModeInfo(QSize(1280, 1024), 60000, OutputMode::Flag::Preferred),
+                ModeInfo(QSize(640, 480), 60000, OutputMode::Flags{}),
+            },
+            .edid = edid,
+            .edidIdentifierOverride = QByteArray(),
+            .connectorName = std::nullopt,
+            .mstPath = QByteArrayLiteral("MST-1-2"),
+        },
+    });
+
+    auto outputs = kwinApp()->outputBackend()->outputs();
+    OutputConfigurationStore configs;
+
+    {
+        // query the generated config, like KWin normally would
+        auto cfg = configs.queryConfig(outputs, false, nullptr, false);
+        QVERIFY(cfg.has_value());
+        const auto [config, order, type] = *cfg;
+        outputs.front()->applyChanges(config);
+        QCOMPARE(config.constChangeSet(outputs[0])->desiredModeSize.value(), QSize(1280, 1024));
+    }
+    {
+        // change the mode, so that we know if a new config entry was generated
+        OutputConfiguration config;
+        const auto changeSet = config.changeSet(outputs[0]);
+        changeSet->mode = outputs[0]->modes()[1];
+        changeSet->desiredModeSize = QSize(640, 480);
+        changeSet->desiredModeRefreshRate = 60000;
+        outputs.front()->applyChanges(config);
+        configs.storeConfig(outputs, false, config, outputs);
+    }
+    {
+        // verify that querying the config also shows the changed mode
+        // things could already go wrong here
+        auto cfg = configs.queryConfig(outputs, false, nullptr, false);
+        QVERIFY(cfg.has_value());
+        const auto [config, order, type] = *cfg;
+        QCOMPARE(type, OutputConfigurationStore::ConfigType::Preexisting);
+        outputs.front()->applyChanges(config);
+        QCOMPARE(config.constChangeSet(outputs[0])->desiredModeSize.value(), QSize(640, 480));
+    }
+
+    // now libdisplay-info was updated, and we have an EDID ID for the same hash
+    Test::setOutputConfig({
+        Test::OutputInfo{
+            .geometry = QRect(0, 0, 1280, 1024),
+            .internal = false,
+            .physicalSizeInMM = QSize(598, 336),
+            .modes = {
+                ModeInfo(QSize(1280, 1024), 60000, OutputMode::Flag::Preferred),
+                ModeInfo(QSize(640, 480), 60000, OutputMode::Flags{}),
+            },
+            .edid = edid,
+            .edidIdentifierOverride = std::nullopt,
+            .connectorName = std::nullopt,
+            .mstPath = QByteArrayLiteral("MST-1-1"),
+        },
+        Test::OutputInfo{
+            .geometry = QRect(0, 0, 1280, 1024),
+            .internal = false,
+            .physicalSizeInMM = QSize(598, 336),
+            .modes = {
+                ModeInfo(QSize(1280, 1024), 60000, OutputMode::Flag::Preferred),
+                ModeInfo(QSize(640, 480), 60000, OutputMode::Flags{}),
+            },
+            .edid = edid,
+            .edidIdentifierOverride = std::nullopt,
+            .connectorName = std::nullopt,
+            .mstPath = QByteArrayLiteral("MST-1-2"),
+        },
+    });
+    outputs = kwinApp()->outputBackend()->outputs();
+
+    {
+        auto cfg = configs.queryConfig(outputs, false, nullptr, false);
+        QVERIFY(cfg.has_value());
+        const auto [config, order, type] = *cfg;
+        QCOMPARE(config.constChangeSet(outputs[0])->desiredModeSize.value(), QSize(640, 480));
+    }
 }
 
 } // namespace KWin

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-22 02:32+0000\n"
+"POT-Creation-Date: 2025-02-05 02:35+0000\n"
 "PO-Revision-Date: 2024-12-25 04:46+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -28,29 +28,29 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "Temuri.doghonadze@gmail.com"
 
-#: backends/wayland/wayland_output.cpp:275
+#: backends/wayland/wayland_output.cpp:362
 #, kde-format
 msgid "Press right control to ungrab pointer"
 msgstr "მაჩვენებლის დათრევის მოსახსნელად მარჯვენა control-ს დააწექით"
 
-#: backends/wayland/wayland_output.cpp:277
+#: backends/wayland/wayland_output.cpp:364
 #, kde-format
 msgid "Press right control key to grab pointer"
 msgstr "მაჩვენებლის დასათრევად მარჯვენა Control-ს დააწექით"
 
-#: backends/wayland/wayland_output.cpp:281
+#: backends/wayland/wayland_output.cpp:368
 #, kde-format
 msgctxt ""
 "Title of nested KWin Wayland with Wayland socket identifier as argument"
 msgid "KDE Wayland Compositor %1"
 msgstr "KDE Wayland კომპოზიტორი %1"
 
-#: backends/wayland/wayland_output.cpp:284
+#: backends/wayland/wayland_output.cpp:371
 #, kde-format
 msgid "- Output disabled"
 msgstr "- გამოტანა გამორთულია"
 
-#: backends/wayland/wayland_output.cpp:286
+#: backends/wayland/wayland_output.cpp:373
 #, kde-format
 msgid "- Output dimmed"
 msgstr "- გამოტანა დამალულია"
@@ -2399,7 +2399,7 @@ msgctxt "Temporarily disable/reenable Night Light"
 msgid "Suspend/Resume Night Light"
 msgstr "ღამის განათების შეჩერება/გაგრძელება"
 
-#: plugins/nightlight/nightlightmanager.cpp:411
+#: plugins/nightlight/nightlightmanager.cpp:417
 #, kde-format
 msgid "Color Temperature Preview"
 msgstr "ფერის ტემპერატურის გადახედვა"
@@ -4380,7 +4380,7 @@ msgstr "ფანჯრის ნაძალადევი დაღუპვ�
 msgid "Activate Window (%1)"
 msgstr "ფანჯრის გააქტიურება (%1)"
 
-#: utils/edid.cpp:325
+#: utils/edid.cpp:340
 #, kde-format
 msgid "unknown"
 msgstr "unknown"
@@ -4480,7 +4480,7 @@ msgstr ""
 "სერვისში, როგორიცაა, მაგალითად,\n"
 "https://paste.kde.org . სრულად ტექსტს ფორუმზე ნუ დააკოპირებთ.\n"
 
-#: xwayland/xwaylandlauncher.cpp:270
+#: xwayland/xwaylandlauncher.cpp:269
 #, kde-format
 msgid "Xwayland has crashed"
 msgstr "Xwayland ავარიულად დასრულდა"

@@ -27,6 +27,7 @@ class XdgDecoration;
 }
 
 struct wl_buffer;
+struct wp_presentation_feedback;
 
 namespace KWin
 {
@@ -82,7 +83,11 @@ public:
     void updateDpmsMode(DpmsMode dpmsMode);
     void updateEnabled(bool enabled);
 
-    void setPendingFrame(const std::shared_ptr<OutputFrame> &frame);
+    void present(const std::shared_ptr<OutputFrame> &frame);
+    void setPrimaryBuffer(wl_buffer *buffer);
+
+    void frameDiscarded();
+    void framePresented(std::chrono::nanoseconds timestamp, uint32_t refreshRate);
 
 private:
     void handleConfigure(const QSize &size, KWayland::Client::XdgShellSurface::States states, quint32 serial);
@@ -100,9 +105,12 @@ private:
     bool m_hasPointerLock = false;
     bool m_ready = false;
     std::shared_ptr<OutputFrame> m_frame;
+    wl_buffer *m_presentationBuffer = nullptr;
     quint32 m_pendingConfigureSerial = 0;
     QSize m_pendingConfigureSize;
     QTimer m_configureThrottleTimer;
+    wp_presentation_feedback *m_presentationFeedback = nullptr;
+    uint32_t m_refreshRate = 60'000;
 };
 
 } // namespace Wayland

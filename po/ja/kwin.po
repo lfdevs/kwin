@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-22 02:32+0000\n"
+"POT-Creation-Date: 2025-02-05 02:35+0000\n"
 "PO-Revision-Date: 2021-10-03 17:31-0700\n"
 "Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -39,29 +39,29 @@ msgstr ""
 "kom@kde.gr.jp,shinobo@leo.bekkoame.ne.jp,ryuk@user.script.nu,okushi@kde.gr."
 "jp,tsuno@ngy.1st.ne.jp"
 
-#: backends/wayland/wayland_output.cpp:275
+#: backends/wayland/wayland_output.cpp:362
 #, kde-format
 msgid "Press right control to ungrab pointer"
 msgstr ""
 
-#: backends/wayland/wayland_output.cpp:277
+#: backends/wayland/wayland_output.cpp:364
 #, kde-format
 msgid "Press right control key to grab pointer"
 msgstr ""
 
-#: backends/wayland/wayland_output.cpp:281
+#: backends/wayland/wayland_output.cpp:368
 #, kde-format
 msgctxt ""
 "Title of nested KWin Wayland with Wayland socket identifier as argument"
 msgid "KDE Wayland Compositor %1"
 msgstr ""
 
-#: backends/wayland/wayland_output.cpp:284
+#: backends/wayland/wayland_output.cpp:371
 #, kde-format
 msgid "- Output disabled"
 msgstr ""
 
-#: backends/wayland/wayland_output.cpp:286
+#: backends/wayland/wayland_output.cpp:373
 #, kde-format
 msgid "- Output dimmed"
 msgstr ""
@@ -2501,7 +2501,7 @@ msgctxt "Temporarily disable/reenable Night Light"
 msgid "Suspend/Resume Night Light"
 msgstr ""
 
-#: plugins/nightlight/nightlightmanager.cpp:411
+#: plugins/nightlight/nightlightmanager.cpp:417
 #, kde-format
 msgid "Color Temperature Preview"
 msgstr ""
@@ -4619,7 +4619,7 @@ msgstr "ウィンドウを強制終了"
 msgid "Activate Window (%1)"
 msgstr "ウィンドウをアクティブに (%1)"
 
-#: utils/edid.cpp:325
+#: utils/edid.cpp:340
 #, kde-format
 msgid "unknown"
 msgstr ""
@@ -4710,7 +4710,7 @@ msgid ""
 "like https://paste.kde.org instead of pasting into support threads.\n"
 msgstr ""
 
-#: xwayland/xwaylandlauncher.cpp:270
+#: xwayland/xwaylandlauncher.cpp:269
 #, kde-format
 msgid "Xwayland has crashed"
 msgstr ""

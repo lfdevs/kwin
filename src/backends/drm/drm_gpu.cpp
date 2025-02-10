@@ -161,8 +161,7 @@ void DrmGpu::initDrmResources()
             qCDebug(KWIN_DRM) << "Number of planes on GPU" << this << ":" << planeResources->count_planes;
             // create the plane objects
             for (unsigned int i = 0; i < planeResources->count_planes; ++i) {
-                DrmUniquePtr<drmModePlane> kplane(drmModeGetPlane(m_fd, planeResources->planes[i]));
-                auto plane = std::make_unique<DrmPlane>(this, kplane->plane_id);
+                auto plane = std::make_unique<DrmPlane>(this, planeResources->planes[i]);
                 if (plane->init()) {
                     m_allObjects << plane.get();
                     m_planes.push_back(std::move(plane));
@@ -249,22 +248,25 @@ bool DrmGpu::updateOutputs()
     waitIdle();
     DrmUniquePtr<drmModeRes> resources(drmModeGetResources(m_fd));
     if (!resources) {
-        qCWarning(KWIN_DRM) << "drmModeGetResources failed";
+        qCWarning(KWIN_DRM) << "drmModeGetResources failed:" << strerror(errno);
         return false;
     }
 
     // In principle these things are supposed to be detected through the wayland protocol.
     // In practice SteamVR doesn't always behave correctly
-    DrmUniquePtr<drmModeLesseeListRes> lessees{drmModeListLessees(m_fd)};
-    for (const auto &output : std::as_const(m_drmOutputs)) {
-        if (output->lease()) {
-            const bool leaseActive = std::ranges::any_of(std::span(lessees->lessees, lessees->count), [output](uint32_t id) {
-                return output->lease()->lesseeId() == id;
-            });
-            if (!leaseActive) {
-                Q_EMIT output->lease()->revokeRequested();
+    if (DrmUniquePtr<drmModeLesseeListRes> lessees{drmModeListLessees(m_fd)}) {
+        for (const auto &output : std::as_const(m_drmOutputs)) {
+            if (output->lease()) {
+                const bool leaseActive = std::ranges::any_of(std::span(lessees->lessees, lessees->count), [output](uint32_t id) {
+                    return output->lease()->lesseeId() == id;
+                });
+                if (!leaseActive) {
+                    Q_EMIT output->lease()->revokeRequested();
+                }
             }
         }
+    } else {
+        qCWarning(KWIN_DRM) << "drmModeListLessees() failed:" << strerror(errno);
     }
 
     // update crtc properties

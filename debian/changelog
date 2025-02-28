@@ -1,3 +1,17 @@
+kwin (4:6.3.2.1-1) unstable; urgency=medium
+
+  [ Aurélien COUDERC ]
+  * New upstream release (6.3.1).
+  * Update build-deps and deps with the info from cmake.
+  * Drop upstream patch now part of the release.
+  * New upstream release (6.3.2.1).
+  * Update build-deps and deps with the info from cmake.
+  * Drop reverted commits, latest release includes the fix for building with
+    Qt 6.7.
+  * Refresh copyright information.
+
+ -- Aurélien COUDERC <coucouf@debian.org>  Fri, 28 Feb 2025 01:01:30 +0100
+
 kwin (4:6.3.0-2) unstable; urgency=medium
 
   [ Aurélien COUDERC ]

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-05 02:35+0000\n"
+"POT-Creation-Date: 2025-02-25 02:34+0000\n"
 "PO-Revision-Date: 2024-12-27 12:10+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
@@ -29,29 +29,29 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "g.sora@tiscali.it"
 
-#: backends/wayland/wayland_output.cpp:362
+#: backends/wayland/wayland_output.cpp:364
 #, kde-format
 msgid "Press right control to ungrab pointer"
 msgstr "Pressa controlo dextere per lassar punctator"
 
-#: backends/wayland/wayland_output.cpp:364
+#: backends/wayland/wayland_output.cpp:366
 #, kde-format
 msgid "Press right control key to grab pointer"
 msgstr "Pressa controlo dextere per prender punctator"
 
-#: backends/wayland/wayland_output.cpp:368
+#: backends/wayland/wayland_output.cpp:370
 #, kde-format
 msgctxt ""
 "Title of nested KWin Wayland with Wayland socket identifier as argument"
 msgid "KDE Wayland Compositor %1"
 msgstr "KDE Wayland Compositor %1"
 
-#: backends/wayland/wayland_output.cpp:371
+#: backends/wayland/wayland_output.cpp:373
 #, kde-format
 msgid "- Output disabled"
 msgstr "- Sortita dishabilitate"
 
-#: backends/wayland/wayland_output.cpp:373
+#: backends/wayland/wayland_output.cpp:375
 #, kde-format
 msgid "- Output dimmed"
 msgstr "- Sortita obscurate"
@@ -71,7 +71,7 @@ msgstr "Pressa clave de controlo dextere per prender entrata"
 msgid "KDE Wayland Compositor"
 msgstr "KDE Wayland Compositor"
 
-#: compositor_wayland.cpp:312 compositor_x11.cpp:457
+#: compositor_wayland.cpp:324 compositor_x11.cpp:457
 #, kde-format
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr ""
@@ -106,22 +106,22 @@ msgstr "Extensiones de X Requirite (XComposite e XDamage) non es disponibile."
 msgid "GLX/OpenGL is not available."
 msgstr "GLX/OpenGL non es disponibile."
 
-#: core/iccprofile.cpp:245
+#: core/iccprofile.cpp:252
 #, kde-format
 msgid "Failed to open ICC profile \"%1\""
 msgstr "Falleva a aperir profilo de ICC \"%1\""
 
-#: core/iccprofile.cpp:247
+#: core/iccprofile.cpp:254
 #, kde-format
 msgid "ICC profile \"%1\" doesn't exist"
 msgstr "Profilo de ICC \"%1\"  non existe"
 
-#: core/iccprofile.cpp:251
+#: core/iccprofile.cpp:258
 #, kde-format
 msgid "ICC profile \"%1\" is not usable for displays"
 msgstr "Profilo de ICC \"%1 non es usabile per monstratores"
 
-#: core/iccprofile.cpp:254
+#: core/iccprofile.cpp:261
 #, kde-format
 msgid ""
 "ICC profile \"%1\" has unsupported connection space, only XYZ is supported"
@@ -129,23 +129,23 @@ msgstr ""
 "Profilo de ICC \"%1\" ha spatio de connexion non supportate, solmente XYZ es "
 "supportate"
 
-#: core/iccprofile.cpp:257
+#: core/iccprofile.cpp:264
 #, kde-format
 msgid "ICC profile \"%1\" is broken, input/output color space isn't RGB"
 msgstr ""
 "Profilo de ICC \"%1\" es rupte, spatio de colo de entrata/exito non es RGB"
 
-#: core/iccprofile.cpp:276
+#: core/iccprofile.cpp:283
 #, kde-format
 msgid "ICC profile \"%1\" is broken, it has no whitepoint"
 msgstr "Profilo de ICC \"%1\" es rupte, il ha nulle punctoblanc"
 
-#: core/iccprofile.cpp:279
+#: core/iccprofile.cpp:286
 #, kde-format
 msgid "ICC profile \"%1\" is broken, its whitepoint is invalid"
 msgstr "Profilo de ICC \"%1\" es rupte, su punctoblanc es invalide"
 
-#: core/iccprofile.cpp:292
+#: core/iccprofile.cpp:299
 #, kde-format
 msgid ""
 "ICC profile \"%1\" is broken, parsing chromatic adaptation matrix failed"
@@ -153,7 +153,7 @@ msgstr ""
 "Profilo de ICC \"%1\" es rupte, il falleva analysar matrice de adaptation "
 "chromatic"
 
-#: core/iccprofile.cpp:297
+#: core/iccprofile.cpp:304
 #, kde-format
 msgid ""
 "ICC profile \"%1\" is broken, inverting chromatic adaptation matrix failed"
@@ -161,27 +161,27 @@ msgstr ""
 "Profilo de ICC \"%1\" es rupte, il falleva inverter matrice de adaptation "
 "chromatic"
 
-#: core/iccprofile.cpp:310
+#: core/iccprofile.cpp:317
 #, kde-format
 msgid "ICC profile \"%1\" is broken, it has no primaries"
 msgstr "Profilo de ICC \"%1\" es rupte, il ha nulle primaris"
 
-#: core/iccprofile.cpp:325
+#: core/iccprofile.cpp:332
 #, kde-format
 msgid "ICC profile \"%1\" is broken, couldn't calculate its primaries"
 msgstr "Profilo de ICC \"%1\" es rupte, il non poteva calcular su primaris"
 
-#: core/iccprofile.cpp:334
+#: core/iccprofile.cpp:341
 #, kde-format
 msgid "ICC profile \"%1\" is broken, its primaries are invalid"
 msgstr "Profilo de ICC \"%1\" es rupte, su primaris es invalide"
 
-#: core/iccprofile.cpp:350
+#: core/iccprofile.cpp:357
 #, kde-format
 msgid "ICC profile \"%1\" with only BToD tags isn't supported"
 msgstr "Profilo de ICC \"%1\" con solmente etiquettas BtoD non es supportate"
 
-#: core/iccprofile.cpp:389
+#: core/iccprofile.cpp:396
 #, kde-format
 msgid "Color profile is missing TRC tags"
 msgstr "Profilo de color es mancante etiquettas TRC"
@@ -1217,83 +1217,83 @@ msgstr "Area de transferentia"
 msgid "Primary Selection"
 msgstr "Selection Primari"
 
-#: helpers/killer/killer.cpp:134
+#: helpers/killer/killer.cpp:159
 #, kde-format
 msgid "Window Manager"
 msgstr "Gerente de Fenestra"
 
-#: helpers/killer/killer.cpp:139
+#: helpers/killer/killer.cpp:164
 #, kde-format
 msgid "PID of the application to terminate"
 msgstr "PID del application de terminar"
 
-#: helpers/killer/killer.cpp:139
+#: helpers/killer/killer.cpp:164
 #, kde-format
 msgid "pid"
 msgstr "pid"
 
-#: helpers/killer/killer.cpp:141
+#: helpers/killer/killer.cpp:166
 #, kde-format
 msgid "Hostname on which the application is running"
 msgstr "Nomine de hospite super le qual le application es exequite"
 
-#: helpers/killer/killer.cpp:141
+#: helpers/killer/killer.cpp:166
 #, kde-format
 msgid "hostname"
 msgstr "nomine de hospite"
 
-#: helpers/killer/killer.cpp:143
+#: helpers/killer/killer.cpp:168
 #, kde-format
 msgid "Caption of the window to be terminated"
 msgstr "Titulo (Caption) del fenestra que il debe esser terminate"
 
-#: helpers/killer/killer.cpp:143
+#: helpers/killer/killer.cpp:168
 #, kde-format
 msgid "caption"
 msgstr "legenda"
 
-#: helpers/killer/killer.cpp:145
+#: helpers/killer/killer.cpp:170
 #, kde-format
 msgid "Name of the application to be terminated"
 msgstr "Nomine de application que il debe esser terminate"
 
-#: helpers/killer/killer.cpp:145
+#: helpers/killer/killer.cpp:170
 #, kde-format
 msgid "name"
 msgstr "nomine"
 
-#: helpers/killer/killer.cpp:147
+#: helpers/killer/killer.cpp:172
 #, kde-format
 msgid "ID of resource belonging to the application"
 msgstr "ID de ressource pertinente al application"
 
-#: helpers/killer/killer.cpp:147
+#: helpers/killer/killer.cpp:172
 #, kde-format
 msgid "id"
 msgstr "id"
 
-#: helpers/killer/killer.cpp:149
+#: helpers/killer/killer.cpp:174
 #, kde-format
 msgid "Time of user action causing termination"
 msgstr "Tempore de action de usator causante termination"
 
-#: helpers/killer/killer.cpp:149
+#: helpers/killer/killer.cpp:174
 #, kde-format
 msgid "time"
 msgstr "tempore"
 
-#: helpers/killer/killer.cpp:151
+#: helpers/killer/killer.cpp:176
 #, kde-format
 msgid "KWin helper utility"
 msgstr "Utilitate de adjuta de KWin"
 
-#: helpers/killer/killer.cpp:187
+#: helpers/killer/killer.cpp:212
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
 msgstr ""
 "Iste utilitate de adjuta il non es supponite de esser appellate directemente."
 
-#: helpers/killer/killer.cpp:209
+#: helpers/killer/killer.cpp:234
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1303,7 +1303,7 @@ msgstr ""
 "<para><application>%1</application> non es respondente. Tu vole  terminar "
 "iste application?</para>"
 
-#: helpers/killer/killer.cpp:211
+#: helpers/killer/killer.cpp:236
 #, kde-kuit-format
 msgctxt "@info \"window title\" of application name is not responding."
 msgid ""
@@ -1313,7 +1313,7 @@ msgstr ""
 "<para>\"%1\" de <application>%2</application> non es respondente. Tu vole "
 "terminar iste application?</para>"
 
-#: helpers/killer/killer.cpp:214
+#: helpers/killer/killer.cpp:239
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1323,37 +1323,37 @@ msgstr ""
 "<para><emphasis strong='true'>Terminar iste application claudera omnes su "
 "fenestras. Ulle datos non salveguardate essera perdite.</emphasis></para>"
 
-#: helpers/killer/killer.cpp:216
+#: helpers/killer/killer.cpp:241
 #, kde-format
 msgctxt "@action:button Terminate app"
 msgid "&Terminate %1"
 msgstr "&Termina  %1"
 
-#: helpers/killer/killer.cpp:217
+#: helpers/killer/killer.cpp:242
 #, kde-format
 msgctxt "@action:button Wait for frozen app to maybe respond again"
 msgid "&Wait Longer"
 msgstr "&Attende plus longe"
 
-#: helpers/killer/killer.cpp:225
+#: helpers/killer/killer.cpp:250
 #, kde-format
 msgctxt "@title:window"
 msgid "Not Responding"
 msgstr "Non respondente"
 
-#: helpers/killer/killer.cpp:241
+#: helpers/killer/killer.cpp:266
 #, kde-format
 msgctxt "@info"
 msgid "Process ID: %1"
 msgstr "ID de processo: %1"
 
-#: helpers/killer/killer.cpp:243
+#: helpers/killer/killer.cpp:268
 #, kde-format
 msgctxt "@info"
 msgid "Host name: %1"
 msgstr "Nomine de hospite: %1"
 
-#: input.cpp:3338
+#: input.cpp:3334
 #, kde-format
 msgid "Touchpad"
 msgstr "Touchpad"
@@ -4465,13 +4465,13 @@ msgstr "Leordine de exito fornite es invalide"
 msgid "The driver rejected the output configuration"
 msgstr "Le driver refusava le configuration de exito"
 
-#: window.cpp:3173
+#: window.cpp:3168
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(non respondente)"
 
-#: workspace.cpp:1654
+#: workspace.cpp:1659
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

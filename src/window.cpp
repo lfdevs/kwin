@@ -53,11 +53,6 @@
 namespace KWin
 {
 
-static inline int sign(int v)
-{
-    return (v > 0) - (v < 0);
-}
-
 QHash<QString, std::weak_ptr<Decoration::DecorationPalette>> Window::s_palettes;
 std::shared_ptr<Decoration::DecorationPalette> Window::s_defaultPalette;
 
@@ -1709,11 +1704,11 @@ QRectF Window::nextInteractiveMoveGeometry(const QPointF &global) const
                 }
             }
 
-            int dx = sign(currentMoveResizeGeom.x() - currentTry.x()),
-                dy = sign(currentMoveResizeGeom.y() - currentTry.y());
-            if (visiblePixels && dx) { // means there's no full width cap -> favor horizontally
+            qreal dx = std::clamp(currentMoveResizeGeom.x() - currentTry.x(), -1.0, 1.0);
+            qreal dy = std::clamp(currentMoveResizeGeom.y() - currentTry.y(), -1.0, 1.0);
+            if (visiblePixels && !qFuzzyIsNull(dx)) { // means there's no full width cap -> favor horizontally
                 dy = 0;
-            } else if (dy) {
+            } else if (!qFuzzyIsNull(dy)) {
                 dx = 0;
             }
 
@@ -4018,25 +4013,29 @@ void Window::checkWorkspacePosition(QRectF oldGeometry, const VirtualDesktop *ol
     auto moveAreaFunc = workspace()->inRearrange() ? &Workspace::previousRestrictedMoveArea : //... the restricted areas changed
         &Workspace::restrictedMoveArea; //... when e.g. active desktop or screen changes
 
-    for (const QRect &r : (workspace()->*moveAreaFunc)(oldDesktop, StrutAreaTop)) {
+    const auto oldStrutsTop = (workspace()->*moveAreaFunc)(oldDesktop, StrutAreaTop);
+    for (const QRect &r : oldStrutsTop) {
         QRect rect = r & oldGeomTall;
         if (!rect.isEmpty()) {
             oldTopMax = std::max(oldTopMax, rect.y() + rect.height());
         }
     }
-    for (const QRect &r : (workspace()->*moveAreaFunc)(oldDesktop, StrutAreaRight)) {
+    const auto oldStrutsRight = (workspace()->*moveAreaFunc)(oldDesktop, StrutAreaRight);
+    for (const QRect &r : oldStrutsRight) {
         QRect rect = r & oldGeomWide;
         if (!rect.isEmpty()) {
             oldRightMax = std::min(oldRightMax, rect.x());
         }
     }
-    for (const QRect &r : (workspace()->*moveAreaFunc)(oldDesktop, StrutAreaBottom)) {
+    const auto oldStrutsBottom = (workspace()->*moveAreaFunc)(oldDesktop, StrutAreaBottom);
+    for (const QRect &r : oldStrutsBottom) {
         QRect rect = r & oldGeomTall;
         if (!rect.isEmpty()) {
             oldBottomMax = std::min(oldBottomMax, rect.y());
         }
     }
-    for (const QRect &r : (workspace()->*moveAreaFunc)(oldDesktop, StrutAreaLeft)) {
+    const auto oldStrutsLeft = (workspace()->*moveAreaFunc)(oldDesktop, StrutAreaLeft);
+    for (const QRect &r : oldStrutsLeft) {
         QRect rect = r & oldGeomWide;
         if (!rect.isEmpty()) {
             oldLeftMax = std::max(oldLeftMax, rect.x() + rect.width());
@@ -4044,25 +4043,29 @@ void Window::checkWorkspacePosition(QRectF oldGeometry, const VirtualDesktop *ol
     }
 
     // These 4 compute new bounds
-    for (const QRect &r : workspace()->restrictedMoveArea(desktop, StrutAreaTop)) {
+    const auto newStrutsTop = workspace()->restrictedMoveArea(desktop, StrutAreaTop);
+    for (const QRect &r : newStrutsTop) {
         QRect rect = r & newGeomTall;
         if (!rect.isEmpty()) {
             topMax = std::max(topMax, rect.y() + rect.height());
         }
     }
-    for (const QRect &r : workspace()->restrictedMoveArea(desktop, StrutAreaRight)) {
+    const auto newStrutsRight = workspace()->restrictedMoveArea(desktop, StrutAreaRight);
+    for (const QRect &r : newStrutsRight) {
         QRect rect = r & newGeomWide;
         if (!rect.isEmpty()) {
             rightMax = std::min(rightMax, rect.x());
         }
     }
-    for (const QRect &r : workspace()->restrictedMoveArea(desktop, StrutAreaBottom)) {
+    const auto newStrutsBottom = workspace()->restrictedMoveArea(desktop, StrutAreaBottom);
+    for (const QRect &r : newStrutsBottom) {
         QRect rect = r & newGeomTall;
         if (!rect.isEmpty()) {
             bottomMax = std::min(bottomMax, rect.y());
         }
     }
-    for (const QRect &r : workspace()->restrictedMoveArea(desktop, StrutAreaLeft)) {
+    const auto newStrutsLeft = workspace()->restrictedMoveArea(desktop, StrutAreaLeft);
+    for (const QRect &r : newStrutsLeft) {
         QRect rect = r & newGeomWide;
         if (!rect.isEmpty()) {
             leftMax = std::max(leftMax, rect.x() + rect.width());

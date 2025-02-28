@@ -43,6 +43,17 @@ QVector2D xy::asVector() const
     return QVector2D(x, y);
 }
 
+bool xy::operator==(const xy &other) const
+{
+    return qFuzzyCompare(x, other.x)
+        && qFuzzyCompare(y, other.y);
+}
+
+bool xy::operator!=(const xy &other) const
+{
+    return !(*this == other);
+}
+
 XYZ xyY::toXYZ() const
 {
     if (y == 0) {
@@ -53,6 +64,18 @@ XYZ xyY::toXYZ() const
         .Y = Y,
         .Z = Y * (1 - x - y) / y,
     };
+}
+
+bool xyY::operator==(const xyY &other) const
+{
+    return qFuzzyCompare(x, other.x)
+        && qFuzzyCompare(y, other.y)
+        && qFuzzyCompare(Y, other.Y);
+}
+
+bool xyY::operator!=(const xyY &other) const
+{
+    return !(*this == other);
 }
 
 xyY XYZ::toxyY() const
@@ -130,6 +153,18 @@ XYZ XYZ::fromVector(const QVector3D &vector)
     };
 }
 
+bool XYZ::operator==(const XYZ &other) const
+{
+    return qFuzzyCompare(X, other.X)
+        && qFuzzyCompare(Y, other.Y)
+        && qFuzzyCompare(Z, other.Z);
+}
+
+bool XYZ::operator!=(const XYZ &other) const
+{
+    return !(*this == other);
+}
+
 QMatrix4x4 Colorimetry::chromaticAdaptationMatrix(XYZ sourceWhitepoint, XYZ destinationWhitepoint)
 {
     static const QMatrix4x4 bradford = []() {
@@ -198,7 +233,7 @@ bool Colorimetry::isValid(xy red, xy green, xy blue, xy white)
     // this is more of a heuristic than a hard rule
     // but if the gamut is too small, it's not really usable
     const double gamutArea = triangleArea(red.asVector(), green.asVector(), blue.asVector());
-    if (gamutArea < 0.1) {
+    if (gamutArea < 0.02) {
         return false;
     }
     // if the white point is inside the gamut triangle,
@@ -400,12 +435,6 @@ static const Colorimetry CIEXYZ = Colorimetry{
     XYZ{0.0, 0.0, 1.0},
     xy{1.0 / 3.0, 1.0 / 3.0}.toXYZ(),
 };
-static const Colorimetry CIEXYZD50 = Colorimetry{
-    XYZ{1.0, 0.0, 0.0},
-    XYZ{0.0, 1.0, 0.0},
-    XYZ{0.0, 0.0, 1.0},
-    XYZ(0.9642, 1.0, 0.8249),
-};
 static const Colorimetry DCIP3 = Colorimetry{
     xy{0.680, 0.320},
     xy{0.265, 0.690},
@@ -442,8 +471,6 @@ const Colorimetry &Colorimetry::fromName(NamedColorimetry name)
         return BT2020;
     case NamedColorimetry::CIEXYZ:
         return CIEXYZ;
-    case NamedColorimetry::CIEXYZD50:
-        return CIEXYZD50;
     case NamedColorimetry::DCIP3:
         return DCIP3;
     case NamedColorimetry::DisplayP3:
@@ -631,9 +658,8 @@ double TransferFunction::defaultMinLuminanceFor(Type type)
     switch (type) {
     case Type::sRGB:
     case Type::gamma22:
-        return 0.02;
     case Type::linear:
-        return 0;
+        return 0.2;
     case Type::PerceptualQuantizer:
         return 0.005;
     }
@@ -645,7 +671,6 @@ double TransferFunction::defaultMaxLuminanceFor(Type type)
     switch (type) {
     case Type::sRGB:
     case Type::gamma22:
-        return 80;
     case Type::linear:
         return 80;
     case Type::PerceptualQuantizer:
@@ -660,7 +685,6 @@ double TransferFunction::defaultReferenceLuminanceFor(Type type)
     case Type::PerceptualQuantizer:
         return 203;
     case Type::linear:
-        return 80;
     case Type::sRGB:
     case Type::gamma22:
         return 80;
@@ -793,36 +817,42 @@ TransferFunction TransferFunction::relativeScaledTo(double referenceLuminance) c
 
 QDebug operator<<(QDebug debug, const KWin::TransferFunction &tf)
 {
-    debug << "TransferFunction(" << tf.type << ", [" << tf.minLuminance << "," << tf.maxLuminance << "] )";
+    QDebugStateSaver state(debug);
+    debug.nospace() << "TransferFunction(" << tf.type << ", [" << tf.minLuminance << "," << tf.maxLuminance << "] )";
     return debug;
 }
 
 QDebug operator<<(QDebug debug, const KWin::XYZ &xyz)
 {
-    debug << "XYZ(" << xyz.X << xyz.Y << xyz.Z << ")";
+    QDebugStateSaver state(debug);
+    debug.nospace() << "XYZ(" << xyz.X << ", " << xyz.Y << ", " << xyz.Z << ")";
     return debug;
 }
 
 QDebug operator<<(QDebug debug, const KWin::xyY &xyY)
 {
-    debug << "xyY(" << xyY.x << xyY.y << xyY.Y << ")";
+    QDebugStateSaver state(debug);
+    debug.nospace() << "xyY(" << xyY.x << ", " << xyY.y << ", " << xyY.Y << ")";
     return debug;
 }
 
 QDebug operator<<(QDebug debug, const KWin::xy &xy)
 {
-    debug << "xy(" << xy.x << xy.y << ")";
+    QDebugStateSaver state(debug);
+    debug.nospace() << "xy(" << xy.x << ", " << xy.y << ")";
     return debug;
 }
 
 QDebug operator<<(QDebug debug, const KWin::Colorimetry &color)
 {
-    debug << "Colorimetry(" << color.red() << color.green() << color.blue() << color.white() << ")";
+    QDebugStateSaver state(debug);
+    debug.nospace() << "Colorimetry(" << color.red() << ", " << color.green() << ", " << color.blue() << ", " << color.white() << ")";
     return debug;
 }
 
 QDebug operator<<(QDebug debug, const KWin::ColorDescription &color)
 {
-    debug << "ColorDescription(" << color.containerColorimetry() << color.transferFunction() << "ref" << color.referenceLuminance() << "min" << color.minLuminance() << "max. avg" << color.maxAverageLuminance() << "max" << color.maxHdrLuminance() << ")";
+    QDebugStateSaver state(debug);
+    debug << "ColorDescription(" << color.containerColorimetry() << ", " << color.transferFunction() << ", ref" << color.referenceLuminance() << ", min" << color.minLuminance() << ", max. avg" << color.maxAverageLuminance() << ", max" << color.maxHdrLuminance() << ")";
     return debug;
 }

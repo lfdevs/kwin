@@ -31,11 +31,16 @@ RenderLoopPrivate::RenderLoopPrivate(RenderLoop *q, Output *output)
     , output(output)
 {
     compositeTimer.setSingleShot(true);
+    compositeTimer.setTimerType(Qt::PreciseTimer);
+
     QObject::connect(&compositeTimer, &QTimer::timeout, q, [this]() {
         dispatch();
     });
+
     delayedVrrTimer.setSingleShot(true);
     delayedVrrTimer.setInterval(1'000 / 30);
+    delayedVrrTimer.setTimerType(Qt::PreciseTimer);
+
     QObject::connect(&delayedVrrTimer, &QTimer::timeout, q, [q]() {
         q->scheduleRepaint(nullptr, nullptr);
     });
@@ -251,7 +256,7 @@ void RenderLoop::setPresentationSafetyMargin(std::chrono::nanoseconds safetyMarg
     d->safetyMargin = safetyMargin;
 }
 
-void RenderLoop::scheduleRepaint(Item *item, RenderLayer *layer)
+void RenderLoop::scheduleRepaint(Item *item, RenderLayer *layer, OutputLayer *outputLayer)
 {
     if (d->pendingRepaint) {
         return;
@@ -260,7 +265,7 @@ void RenderLoop::scheduleRepaint(Item *item, RenderLayer *layer)
     const bool tearing = d->presentationMode == PresentationMode::Async || d->presentationMode == PresentationMode::AdaptiveAsync;
     if ((vrr || tearing) && workspace()->activeWindow() && d->output) {
         Window *const activeWindow = workspace()->activeWindow();
-        if ((item || layer) && activeWindow->isOnOutput(d->output) && activeWindow->surfaceItem() && item != activeWindow->surfaceItem() && activeWindow->surfaceItem()->frameTimeEstimation() <= std::chrono::nanoseconds(1'000'000'000) / 30) {
+        if ((item || layer || outputLayer) && activeWindow->isOnOutput(d->output) && activeWindow->surfaceItem() && item != activeWindow->surfaceItem() && activeWindow->surfaceItem()->frameTimeEstimation() <= std::chrono::nanoseconds(1'000'000'000) / 30) {
             d->delayedVrrTimer.start();
             return;
         }

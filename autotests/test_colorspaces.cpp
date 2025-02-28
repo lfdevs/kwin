@@ -161,15 +161,15 @@ void TestColorspaces::testColorPipeline_data()
     QTest::addRow("sRGB -> rec.2020 relative colorimetric")
         << ColorDescription(NamedColorimetry::BT709, TransferFunction(TransferFunction::gamma22), TransferFunction::defaultReferenceLuminanceFor(TransferFunction::gamma22), 0, std::nullopt, std::nullopt)
         << ColorDescription(NamedColorimetry::BT2020, TransferFunction(TransferFunction::PerceptualQuantizer), 500, 0, std::nullopt, std::nullopt)
-        << QVector3D(0.06729, 0.06729, 0.06729)
-        << QVector3D(0.51667, 0.51667, 0.51667)
+        << QVector3D(0.161408, 0.161408, 0.161408)
+        << QVector3D(0.517483, 0.517483, 0.517483)
         << QVector3D(0.67658, 0.67658, 0.67658)
         << RenderingIntent::RelativeColorimetric;
     QTest::addRow("sRGB -> scRGB relative colorimetric")
         << ColorDescription(NamedColorimetry::BT709, TransferFunction(TransferFunction::gamma22), TransferFunction::defaultReferenceLuminanceFor(TransferFunction::gamma22), 0, std::nullopt, std::nullopt)
         << ColorDescription(NamedColorimetry::BT709, TransferFunction(TransferFunction::linear, 0, 80), 80, 0, std::nullopt, std::nullopt)
-        << QVector3D(0.00025, 0.00025, 0.00025)
-        << QVector3D(0.217833, 0.217833, 0.217833)
+        << QVector3D(0.0025, 0.0025, 0.0025)
+        << QVector3D(0.219594, 0.219594, 0.219594)
         << QVector3D(1, 1, 1)
         << RenderingIntent::RelativeColorimetric;
     QTest::addRow("sRGB -> rec.2020 relative colorimetric with bpc")
@@ -310,11 +310,10 @@ void TestColorspaces::testIccShader_data()
 
     const auto F13 = QFINDTESTDATA("data/Framework 13.icc");
     const auto Samsung = QFINDTESTDATA("data/Samsung CRG49 Shaper Matrix.icc");
-    QTest::addRow("relative colorimetric Framework 13") << F13 << RenderingIntent::RelativeColorimetric << uint32_t(INTENT_RELATIVE_COLORIMETRIC) << 6;
-    QTest::addRow("absolute colorimetric Framework 13") << F13 << RenderingIntent::AbsoluteColorimetric << uint32_t(INTENT_ABSOLUTE_COLORIMETRIC) << 6;
-    // FIXME why is this further away from the LCMS result? It's way simpler to calculate...
-    QTest::addRow("relative colorimetric CRG49") << Samsung << RenderingIntent::RelativeColorimetric << uint32_t(INTENT_RELATIVE_COLORIMETRIC) << 13;
-    QTest::addRow("absolute colorimetric CRG49") << Samsung << RenderingIntent::AbsoluteColorimetric << uint32_t(INTENT_ABSOLUTE_COLORIMETRIC) << 13;
+    QTest::addRow("relative colorimetric Framework 13") << F13 << RenderingIntent::RelativeColorimetric << uint32_t(INTENT_RELATIVE_COLORIMETRIC) << 5;
+    QTest::addRow("absolute colorimetric Framework 13") << F13 << RenderingIntent::AbsoluteColorimetric << uint32_t(INTENT_ABSOLUTE_COLORIMETRIC) << 4;
+    QTest::addRow("relative colorimetric CRG49") << Samsung << RenderingIntent::RelativeColorimetric << uint32_t(INTENT_RELATIVE_COLORIMETRIC) << 2;
+    QTest::addRow("absolute colorimetric CRG49") << Samsung << RenderingIntent::AbsoluteColorimetric << uint32_t(INTENT_ABSOLUTE_COLORIMETRIC) << 2;
 }
 
 void TestColorspaces::testIccShader()
@@ -328,6 +327,7 @@ void TestColorspaces::testIccShader()
             input.setPixel(x, y, qRgba(x, y, (x + y) / 2, 255));
         }
     }
+    const ColorDescription imageColorspace = ColorDescription::sRGB;
 
     QFETCH(QString, iccProfilePath);
     QFETCH(RenderingIntent, intent);
@@ -349,17 +349,27 @@ void TestColorspaces::testIccShader()
                 .Y = primary.Y,
             };
         };
-        const cmsCIExyY sRGBWhite = toCmsxyY(Colorimetry::fromName(NamedColorimetry::BT709).white().toxyY());
+        const cmsCIExyY sRGBWhite = toCmsxyY(imageColorspace.containerColorimetry().white().toxyY());
         const cmsCIExyYTRIPLE sRGBPrimaries{
-            .Red = toCmsxyY(Colorimetry::fromName(NamedColorimetry::BT709).red().toxyY()),
-            .Green = toCmsxyY(Colorimetry::fromName(NamedColorimetry::BT709).green().toxyY()),
-            .Blue = toCmsxyY(Colorimetry::fromName(NamedColorimetry::BT709).blue().toxyY()),
+            .Red = toCmsxyY(imageColorspace.containerColorimetry().red().toxyY()),
+            .Green = toCmsxyY(imageColorspace.containerColorimetry().green().toxyY()),
+            .Blue = toCmsxyY(imageColorspace.containerColorimetry().blue().toxyY()),
         };
-        const std::array<double, 10> params = {2.2};
+        // parametric curve 6 is Y = (a * X + b) ^ gamma + c
+        // Y and X are normalized, so c must be the relative black level lift
+        // b is zero, so it can be simplified to Y = a^gamma * X^gamma + c
+        // Y(1.0) = 1.0, so a = ((max - min) / max) ^ (1/gamma)
+        // or a = (1.0 - min / max) ^ (1 / gamma)
+        const std::array<double, 10> params = {
+            2.2, // gamma
+            std::pow(1.0 - imageColorspace.transferFunction().minLuminance / imageColorspace.transferFunction().maxLuminance, 1.0 / 2.2), // a
+            0, // b
+            imageColorspace.transferFunction().minLuminance / imageColorspace.transferFunction().maxLuminance, // c
+        };
         const std::array toneCurves = {
-            cmsBuildParametricToneCurve(nullptr, 1, params.data()),
-            cmsBuildParametricToneCurve(nullptr, 1, params.data()),
-            cmsBuildParametricToneCurve(nullptr, 1, params.data()),
+            cmsBuildParametricToneCurve(nullptr, 6, params.data()),
+            cmsBuildParametricToneCurve(nullptr, 6, params.data()),
+            cmsBuildParametricToneCurve(nullptr, 6, params.data()),
         };
         // note that we can't just use cmsCreate_sRGBProfile here
         // as that uses the sRGB piece-wise transfer function, which is not correct for our use case
@@ -393,7 +403,7 @@ void TestColorspaces::testIccShader()
     {
         IccShader shader;
         ShaderBinder binder{shader.shader()};
-        shader.setUniforms(profile, ColorDescription::sRGB, intent);
+        shader.setUniforms(profile, imageColorspace, intent);
 
         QMatrix4x4 proj;
         proj.ortho(QRectF(0, 0, input.width(), input.height()));
@@ -454,6 +464,9 @@ void TestColorspaces::testColorimetryCheck_data()
     QTest::addRow("all ones") << false << xy{1, 1} << xy{1, 1} << xy{1, 1} << xy{1, 1};
     QTest::addRow("BT2020") << true << xy{0.708, 0.292} << xy{0.170, 0.797} << xy{0.131, 0.046} << xy{0.3127, 0.3290};
     QTest::addRow("Display P3") << true << xy{0.680, 0.320} << xy{0.265, 0.690} << xy{0.150, 0.060} << xy{0.3127, 0.3290};
+    QTest::addRow("AUO 44944") << true << xy{0.5664, 0.3388} << xy{0.3505, 0.5683} << xy{0.1582, 0.1210} << xy{0.3134, 0.3291};
+    QTest::addRow("SAM 3996") << true << xy{0.6777, 0.3105} << xy{0.2734, 0.6542} << xy{0.1425, 0.0566} << xy{0.3125, 0.3291};
+    QTest::addRow("BOE 3252") << true << xy{0.6523, 0.3320} << xy{0.2949, 0.6230} << xy{0.1464, 0.0488} << xy{0.3134, 0.3291};
 }
 
 void TestColorspaces::testColorimetryCheck()

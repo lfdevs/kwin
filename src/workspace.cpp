@@ -517,6 +517,11 @@ bool Workspace::applyOutputConfiguration(const OutputConfiguration &config, cons
         kwinApp()->setXwaylandScale(1);
     }
     m_orientationSensor->setEnabled(m_outputConfigStore->isAutoRotateActive(kwinApp()->outputBackend()->outputs(), kwinApp()->tabletModeManager()->effectiveTabletMode()));
+
+    for (Output *output : std::as_const(m_outputs)) {
+        output->renderLoop()->scheduleRepaint();
+    }
+
     return true;
 }
 
@@ -555,9 +560,10 @@ void Workspace::updateOutputConfiguration()
 
     assignBrightnessDevices();
     for (Output *output : outputs) {
-        if (output->brightnessDevice()) {
-            cfg.changeSet(output)->allowSdrSoftwareBrightness = false;
-            cfg.changeSet(output)->brightness = output->brightnessSetting();
+        const auto changeset = cfg.changeSet(output);
+        if (output->brightnessDevice() && changeset->allowSdrSoftwareBrightness.value_or(true)) {
+            changeset->allowSdrSoftwareBrightness = false;
+            changeset->brightness = output->brightnessDevice()->observedBrightness();
         }
     }
 
@@ -1046,7 +1052,7 @@ Window *Workspace::findWindowToActivateOnDesktop(VirtualDesktop *desktop)
                 continue;
             }
 
-            if (window->hitTest(Cursors::self()->mouse()->pos())) {
+            if (exclusiveContains(window->frameGeometry(), Cursors::self()->mouse()->pos())) {
                 if (!window->isDesktop()) {
                     return window;
                 }

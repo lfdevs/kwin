@@ -1,5 +1,0 @@
-revert_upstream_cdcfaf09_autotests-integration-make-outputchanges-test.patch
-revert_upstream_384f6084_autotests-integration-add-another-case-to-out.patch
-revert_upstream_624a12e9_autotests-integration-allow-more-outputs-in-t.patch
-revert_upstream_8c317be0_autotests-integration-extend-outputchanges_te.patch
-upstream_c97bc26c_core_outputlayer_guar_against_null_m_output.patch

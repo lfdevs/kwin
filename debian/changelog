@@ -8,6 +8,7 @@ kwin (4:6.3.2.1-1) UNRELEASED; urgency=medium
   * Update build-deps and deps with the info from cmake.
   * Drop reverted commits, latest release includes the fix for building with
     Qt 6.7.
+  * Refresh copyright information.
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Thu, 20 Feb 2025 17:38:35 +0100
 

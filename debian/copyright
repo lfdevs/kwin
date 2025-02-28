@@ -74,7 +74,7 @@ Copyright: 2020, <davidedmundson@kde.org>
            2011, Tamas Krutki <ktamasw@gmail.com>
            2014-2015, Thomas Lübking <thomas.luebking@gmail.com>
            2011, Thomas Lübking <thomas.luebking@web.de>
-           2017-2024, Vlad Zahorodnii <vlad.zahorodnii@kde.org>
+           2017-2025, Vlad Zahorodnii <vlad.zahorodnii@kde.org>
            2001, Waldo Bastian <bastian@kde.org>
            2020-0, Xaver Hugl <xaver.hugl@gmail.com>
            2023, Xaver Hugl <xaver.hugl@kde.org>
@@ -85,54 +85,76 @@ Files: po/*
 Copyright: 2021-2024, A S Alam <aalam@satluj.org>
            2007-2024, A S Alam <aalam@users.sf.net>
            2018-2024, Adrian Chaves <adrian@chaves.io>
-           2023-2024, Adrián Chaves (Gallaecio)
+           2023-2025, Adrián Chaves (Gallaecio)
            2018-2024, Alexander Yavorsky <kekcuha@gmail.com>
-           2010, Cristina Yenyxe González García <the.blue.valkyrie@gmail.com>
-           2009-2024, Eloy Cuadra <ecuadra@eloihr.net>
-           2022-2024, Emir SARI <emir_sari@icloud.com>
+           2013-2024, Antoni Bella Pérez <antonibella5@yahoo.com>
+           2012-2024, Antonis Geralis <capoiosct@gmail.com>
+           1999-2000, Boris Wesslowski <Boris@Wesslowski.com>
+           2010-2011, Cristina Yenyxe González García <the.blue.valkyrie@gmail.com>
+           2005-2024, Eloy Cuadra <ecuadra@eloihr.net>
+           2022-2025, Emir SARI <emir_sari@icloud.com>
            2022-2024, Enol P. <enolp@softastur.org>
+           2007-2008, Enrique Matias Sanchez (aka Quique) <cronopios@gmail.com>
            2024, Flori G <Renner03@protonmail.com>
+           2024, Flori G <renner03@protonmail.com>
            2009-2024, Freek de Kruijf <f.de.kruijf@hetnet.nl>
            2009-2024, Freek de Kruijf <freekdekruijf@kde.nl>
            2010-2024, g.sora <g.sora@tiscali.it>
-           2023-2024, Geraldo Simiao <geraldosimiao@fedoraproject.org>
+           2023-2025, Geraldo Simiao <geraldosimiao@fedoraproject.org>
+           2012-2024, Giovanni Sora <g.sora@tiscali.it>
            2024, Guilherme Marcal Silva <guimarcalsilva@gmail.com>
+           2025, Guilherme Marçal Silva <guimarcalsilva@gmail.com>
            2022-2024, Gummi <gudmundure@gmail.com>
            2022-2024, gummi <gudmundure@gmail.com>
            2022-2024, Guðmundur Erlingsson <gudmundure@gmail.com>
-           2009, Jaime Robles <jaime@kde.org>
+           2003-2009, Jaime Robles <jaime@kde.org>
            2024, Janet Blackquill <uhhadd@gmail.com>
-           2011, Javier Vinal <fjvinal@gmail.com>
+           2011-2012, Javier Vinal <fjvinal@gmail.com>
            2009-2023, Johannes Obermayr <johannesobermayr@gmx.de>
            2001-2024, Josep M. Ferrer <txemaq@gmail.com>
+           2005, Juan Manuel Garcia Molina <juanma@superiodico.net>
            2005-2024, Jure Repinc <jlp@holodeck1.com>
+           2024, kali <shreekantkalwar@gmail.com>
+           2024, kali <skkalwar999@gmail.com>
            2023-2024, KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>
-           2022-2024, Kisaragi Hiu <mail@kisaragi-hiu.com>
-           2021-2024, Kishore G <kishore96@gmail.com>
-           2021-2024, Kristof Kiszel <kiszel.kristof@gmail.com>
-           2021-2024, Kristof Kiszel <ulysses@fsf.hu>
+           2022-2025, Kisaragi Hiu <mail@kisaragi-hiu.com>
+           2021-2025, Kishore G <kishore96@gmail.com>
+           2021-2025, Kristof Kiszel <kiszel.kristof@gmail.com>
+           2021-2025, Kristof Kiszel <ulysses@fsf.hu>
            2023, Linerly <linerly@linerly.xyz>
+           2025, Lucia Mrenica <lucia.mrenica@gmail.com>
            2019-2023, Matej Mrenica <matejm98mthw@gmail.com>
+           2003-2004, Miguel Revilla Rodríguez <yo@miguelrevilla.com>
            2022-2024, Mincho Kondarev <mkondarev@yahoo.de>
            2024, Nicolai Weitkemper <kontakt@nicolaiweitkemper.de>
-           2024, Olesya Gerasimenko <translation-team@basealt.ru>
-           2016-2024, Paolo Zamponi <feus73@gmail.com>
+           2018-2024, Olesya Gerasimenko <gammaray@basealt.ru>
+           2022-2024, Olesya Gerasimenko <translation-team@basealt.ru>
+           2004, Pablo de Vicente <p.devicente@wanadoo.es>
+           2006, Pablo de Vicente <pablo.devicente@gmail.com>
+           2001-2003, Pablo de Vicente <vicente@oan.es>
+           2003, Pablo de Vicente <vicnte@oan.es>
+           2016-2025, Paolo Zamponi <feus73@gmail.com>
+           2024, R. Arp <rarp@7bps.de>
            2024, rasmus rosendahl-kaa <rasmus@rosendahl-kaa.name>
+           2013, Rocío Gallego <traducciones@rociogallego.com>
            2013-2023, Roman Paholík <wizzardsk@gmail.com>
            2023-2024, Ryuichi Yamada <ryuichi_ya220@outlook.jp>
+           2005, Santiago Fernandez Sancho <santi@kde-es.org>
            2007-2024, Shinjo Park <kde@peremen.name>
            2012-2024, Stefan Asserhall <stefan.asserhall@gmail.com>
-           2002-2024, Stefan Asserhäll <stefan.asserhall@gmail.com>
+           2002-2025, Stefan Asserhäll <stefan.asserhall@gmail.com>
            2014-2024, Steve Allewell <steve.allewell@gmail.com>
-           2024, Toms Trasuns <toms.trasuns@posteo.net>
-           2015-2024, Vincenzo Reale <smart2128vr@gmail.com>
+           2009-2025, Tommi Nieminen <translator@legisign.org>
+           2024-2025, Toms Trasuns <toms.trasuns@posteo.net>
+           2014-2024, Vincenzo Reale <smart2128vr@gmail.com>
            2017-2024, Vit Pelcak <vit@pelcak.org>
            2010-2024, Vít Pelčák <vit@pelcak.org>
-           2013-2024, Xavier Besnard <xavier.besnard@kde.org>
+           2017-2024, Wantoyo <wantoyek@gmail.com>
+           2013-2025, Xavier Besnard <xavier.besnard@kde.org>
            2023-2024, Yaron Shahrabani <sh.yaron@gmail.com>
            2008-2024, zayed <zayed.alsaidi@gmail.com>
-           2009-2024, Zayed Al-Saidi <zayed.alsaidi@gmail.com>
-           2011-2024, Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>
+           2009-2025, Zayed Al-Saidi <zayed.alsaidi@gmail.com>
+           2011-2025, Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>
 License: GPL-2.0-or-later
 
 Files: src/plugins/kpackage/CMakeLists.txt
@@ -205,6 +227,7 @@ License: CC0-1.0
 Comment: Some files specify "SPDX-FileCopyrightText: None".
 
 Files: autotests/integration/dbus_interface_test.cpp
+       autotests/integration/input_capture_test.cpp
        autotests/onscreennotificationtest.cpp
        autotests/onscreennotificationtest.h
        examples/plugin/eventlistener.cpp
@@ -438,6 +461,8 @@ Files: autotests/wayland/client/test_datadevice.cpp
        src/wayland/blur.h
        src/wayland/clientconnection.cpp
        src/wayland/clientconnection.h
+       src/wayland/colormanagement_v1.cpp
+       src/wayland/colormanagement_v1.h
        src/wayland/compositor.cpp
        src/wayland/compositor.h
        src/wayland/contenttype_v1.cpp
@@ -478,6 +503,8 @@ Files: autotests/wayland/client/test_datadevice.cpp
        src/wayland/externalbrightness_v1.h
        src/wayland/filtered_display.cpp
        src/wayland/filtered_display.h
+       src/wayland/fixes.cpp
+       src/wayland/fixes.h
        src/wayland/fractionalscale_v1.cpp
        src/wayland/fractionalscale_v1.h
        src/wayland/fractionalscale_v1_p.h
@@ -611,14 +638,16 @@ Files: autotests/wayland/client/test_datadevice.cpp
        src/wayland/xdgshell.cpp
        src/wayland/xdgshell.h
        src/wayland/xdgshell_p.h
+       src/wayland/xdgsystembell_v1.cpp
+       src/wayland/xdgsystembell_v1.h
        src/wayland/xdgtopleveldrag_v1.cpp
        src/wayland/xdgtopleveldrag_v1.h
+       src/wayland/xdgtoplevelicon_v1.cpp
+       src/wayland/xdgtoplevelicon_v1.h
        src/wayland/xwaylandkeyboardgrab_v1.cpp
        src/wayland/xwaylandkeyboardgrab_v1.h
        src/wayland/xwaylandshell_v1.cpp
        src/wayland/xwaylandshell_v1.h
-       src/wayland/xx_colormanagement_v4.cpp
-       src/wayland/xx_colormanagement_v4.h
        tests/copyclient.cpp
        tests/dpmstest.cpp
        tests/paneltest.cpp
@@ -640,10 +669,11 @@ Copyright: 2020, Adrien Faveraux <ad1rie3@hotmail.fr>
            2020, Benjamin Port <benjamin.port@enioka.com>
            2020, Bhushan Shah <bshah@kde.org>
            2014-2015, Collabora, Ltd.
-           2017-2023, David Edmundson <davidedmundson@kde.org>
+           2017-2024, David Edmundson <davidedmundson@kde.org>
            2017-2024, David Edmundson <kde@davidedmundson.co.uk>
            2021-2024, David Redondo <kde@david-redondo.de>
            2018, Fredrik Höglund <fredrik@kde.org>
+           2024, Joaquim Monteiro <joaquim.monteiro@protonmail.com>
            2023, Kai Uwe Broulik <kde@broulik.de>
            2021, Kevin Ottens <kevin.ottens@enioka.com>
            2015-2018, Marco Martin <mart@kde.org>

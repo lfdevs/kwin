@@ -13,4 +13,3 @@ usr/lib/*/qt6/plugins/org.kde.kdecoration3/org.kde.kwin.aurorae.so
 usr/lib/*/qt6/plugins/plasma/kcms/systemsettings/
 usr/lib/*/qt6/plugins/plasma/kcms/systemsettings_qwidgets/
 usr/lib/*/qt6/qml/org/kde/kwin/
-usr/share/applications/org.kde.kwin.killer.desktop

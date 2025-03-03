@@ -1,17 +1,19 @@
 Source: kwin
 Section: kde
 Priority: optional
-Maintainer: Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>
+Maintainer: Kubuntu Developers <kubuntu-devel@lists.ubuntu.com>
+XSBC-Original-Maintainer: Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>
 Uploaders: Aurélien COUDERC <coucouf@debian.org>,
            Patrick Franz <deltaone@debian.org>,
 Build-Depends: debhelper-compat (= 13),
                dh-sequence-kf6,
-               breeze-dev (>= 4:6.2.90~),
+               dh-sequence-python3,
+               breeze-dev (>= 4:6.3.2~),
                cmake (>= 3.16~),
                extra-cmake-modules (>= 6.10.0~),
                gettext,
                hwdata,
-               kscreenlocker-dev (>= 6.2.90~),
+               kscreenlocker-dev (>= 6.3.2~),
                kwayland-dev (>= 4:6.3.2~),
                libcanberra-dev,
                libcap-dev [linux-any],
@@ -40,18 +42,18 @@ Build-Depends: debhelper-compat (= 13),
                libkf6guiaddons-dev (>= 6.10.0~),
                libkf6i18n-dev (>= 6.10.0~),
                libkf6idletime-dev (>= 6.10.0~),
-               libkf6itemviews-dev (>= 6.2.0~),
+               libkf6itemviews-dev (>= 6.10.0~),
                libkf6kcmutils-dev (>= 6.10.0~),
                libkf6newstuff-dev (>= 6.10.0~),
                libkf6notifications-dev (>= 6.10.0~),
                libkf6package-dev (>= 6.10.0~),
-               libkf6runner-dev (>= 6.2.0~),
+               libkf6runner-dev (>= 6.10.0~),
                libkf6service-dev (>= 6.10.0~),
                libkf6svg-dev (>= 6.10.0~),
                libkf6widgetsaddons-dev (>= 6.10.0~),
                libkf6windowsystem-dev (>= 6.10.0~),
                libkf6xmlgui-dev (>= 6.10.0~),
-               libkglobalacceld-dev (>= 6.2.90~),
+               libkglobalacceld-dev (>= 6.3.2~),
                libkirigami-dev (>= 6.10.0~),
                liblcms2-dev,
                libpipewire-0.3-dev (>= 0.3.29),
@@ -90,6 +92,7 @@ Build-Depends: debhelper-compat (= 13),
                libxkbcommon-x11-dev,
                pkgconf,
                plasma-wayland-protocols (>= 1.14.0~),
+               python3:any,
                qt6-5compat-dev (>= 6.7.0~),
                qt6-base-dev (>= 6.7.0~),
                qt6-base-private-dev (>= 6.6.0+dfsg~),
@@ -104,8 +107,8 @@ Build-Depends: debhelper-compat (= 13),
                xwayland (>= 2:22.1.7-1~),
 Standards-Version: 4.7.0
 Homepage: https://projects.kde.org/projects/kde/workspace/kwin
-Vcs-Browser: https://salsa.debian.org/qt-kde-team/kde/kwin
-Vcs-Git: https://salsa.debian.org/qt-kde-team/kde/kwin.git
+Vcs-Browser: https://code.launchpad.net/~kubuntu-packagers/kubuntu-packaging/+git/kwin
+Vcs-Git: https://git.launchpad.net/~kubuntu-packagers/kubuntu-packaging/+git/kwin
 Rules-Requires-Root: no
 
 Package: kwin-common
@@ -123,8 +126,6 @@ Depends: hwdata,
          ${shlibs:Depends},
 Recommends: plasma-desktop (>= 4:6.2.90~),
 Suggests: kwin-addons (>= 4:6.2.90~),
-Breaks: kwin-data (<< 4:6.1.4-1),
-Replaces: kwin-data (<< 4:6.1.4-1),
 Description: KDE window manager, common files
  KWin (pronounced as one syllable "kwin") is the window
  manager for the KDE Plasma Desktop. It gives you complete
@@ -139,7 +140,7 @@ Description: KDE window manager, common files
 Package: kwin-data
 Architecture: all
 Multi-Arch: foreign
-Depends: ${misc:Depends},
+Depends: ${misc:Depends}, ${python3:Depends},
 Recommends: plasma-desktoptheme,
             qml6-module-org-kde-kirigami,
             qml6-module-org-kde-kitemmodels,
@@ -147,14 +148,15 @@ Recommends: plasma-desktoptheme,
             qml6-module-org-kde-ksvg,
             qml6-module-org-kde-quickcharts,
             qml6-module-qt5compat-graphicaleffects,
+            qml6-module-qtqml-workerscript,
             qml6-module-qtmultimedia,
             qml6-module-qtquick,
             qml6-module-qtquick-controls,
             qml6-module-qtquick-layouts,
             qml6-module-qtquick-window,
             systemsettings,
-Breaks: kwin-addons (<< 4:6.0.0~),
-Replaces: kwin-addons (<< 4:6.0.0~),
+Breaks: kwin-addons (<< 4:6.1.4~),
+Replaces: kwin-addons (<< 4:6.1.4~),
 Description: KDE window manager data files
  KWin (pronounced as one syllable "kwin") is the window
  manager for the KDE Plasma Desktop. It gives you complete

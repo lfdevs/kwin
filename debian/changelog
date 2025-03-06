@@ -1,3 +1,10 @@
+kwin (4:6.3.2.1-1ubuntu2) plucky; urgency=medium
+
+  * Add patch recommended by upstream for KDE Bug 500819
+    https://bugs.kde.org/500819
+
+ -- Rik Mills <rikmills@kde.org>  Thu, 06 Mar 2025 00:03:39 +0000
+
 kwin (4:6.3.2.1-1ubuntu1) plucky; urgency=medium
 
   * Merge from Debian unstable. Remaining changes:

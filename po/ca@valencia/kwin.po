@@ -1,5 +1,5 @@
 # Translation of kwin.po to Catalan (Valencian)
-# Copyright (C) 1999-2024 This_file_is_part_of_KDE
+# Copyright (C) 1999-2025 This_file_is_part_of_KDE
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
 #
@@ -7,13 +7,13 @@
 # Sebastià Pla i Sanz <sps@sastia.com>, 1999, 2000, 2001, 2002, 2004, 2005, 2006.
 # Albert Astals Cid <aacid@kde.org>, 2005.
 # Alfredo Vicente <alviboi@gmail.com>, 2019.
-# Josep M. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024.
+# Josep M. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-25 02:34+0000\n"
-"PO-Revision-Date: 2024-12-25 09:03+0100\n"
+"POT-Creation-Date: 2025-03-07 02:40+0000\n"
+"PO-Revision-Date: 2025-02-24 12:44+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -1382,7 +1382,7 @@ msgstr ""
 "retorn.\n"
 "La tecla «Esc» o un clic dret per a cancel·lar."
 
-#: main.cpp:185 plugins/invert/invert_config.cpp:35
+#: main.cpp:186 plugins/invert/invert_config.cpp:35
 #: plugins/magnifier/magnifier_config.cpp:46
 #: plugins/mouseclick/mouseclick_config.cpp:40
 #: plugins/mousemark/mousemark_config.cpp:43
@@ -1397,67 +1397,67 @@ msgstr ""
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:187 main.cpp:211
+#: main.cpp:188 main.cpp:212
 #, kde-format
 msgid "KDE window manager"
 msgstr "El gestor de finestres de KDE"
 
-#: main.cpp:189
+#: main.cpp:190
 #, kde-format
 msgid "(c) 1999-2019, The KDE Developers"
 msgstr "(c) 1999-2019, Els desenvolupadors de KDE"
 
-#: main.cpp:191
+#: main.cpp:192
 #, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:192
+#: main.cpp:193
 #, kde-format
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:193
+#: main.cpp:194
 #, kde-format
 msgid "Daniel M. Duley"
 msgstr "Daniel M. Duley"
 
-#: main.cpp:194
+#: main.cpp:195
 #, kde-format
 msgid "Luboš Luňák"
 msgstr "Luboš Luňák"
 
-#: main.cpp:195
+#: main.cpp:196
 #, kde-format
 msgid "Martin Flöser"
 msgstr "Martin Flöser"
 
-#: main.cpp:196
+#: main.cpp:197
 #, kde-format
 msgid "David Edmundson"
 msgstr "David Edmundson"
 
-#: main.cpp:197
+#: main.cpp:198
 #, kde-format
 msgid "Roman Gilg"
 msgstr "Roman Gilg"
 
-#: main.cpp:198
+#: main.cpp:199
 #, kde-format
 msgid "Vlad Zahorodnii"
 msgstr "Vlad Zahorodnii"
 
-#: main.cpp:199
+#: main.cpp:200
 #, kde-format
 msgid "Xaver Hugl"
 msgstr "Xaver Hugl"
 
-#: main.cpp:208
+#: main.cpp:209
 #, kde-format
 msgid "Disable configuration options"
 msgstr "Desactiva les opcions de configuració"
 
-#: main.cpp:209
+#: main.cpp:210
 #, kde-format
 msgid "Indicate that KWin has recently crashed n times"
 msgstr "Indica que KWin ha fallat recentment n vegades"
@@ -1576,7 +1576,7 @@ msgstr "Inicia la sessió en mode bloquejat."
 #: main_wayland.cpp:385
 #, kde-format
 msgid "Starts the session without lock screen support."
-msgstr "Inicia la sessió sense el suport del bloqueig de pantalla."
+msgstr "Inicia la sessió sense el suport del bloqueig de la pantalla."
 
 #: main_wayland.cpp:390
 #, kde-format
@@ -3821,7 +3821,7 @@ msgstr "Mostra l'escriptori"
 #, kde-format
 msgctxt "@info:placeholder no entries in the task switcher"
 msgid "No open windows"
-msgstr "Sense cap finestra oberta"
+msgstr "Cap finestra oberta"
 
 #: tabbox/tabbox.cpp:358
 msgid "Walk Through Windows"
@@ -4411,7 +4411,7 @@ msgstr "Mata la finestra"
 msgid "Activate Window (%1)"
 msgstr "Activa la finestra (%1)"
 
-#: utils/edid.cpp:340
+#: utils/edid.cpp:335
 #, kde-format
 msgid "unknown"
 msgstr "desconegut"
@@ -4482,13 +4482,13 @@ msgstr "L'ordre d'eixida proporcionada no és vàlid"
 msgid "The driver rejected the output configuration"
 msgstr "El controlador ha rebutjat la configuració de l'eixida"
 
-#: window.cpp:3168
+#: window.cpp:3262
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(No respon)"
 
-#: workspace.cpp:1659
+#: workspace.cpp:1672
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

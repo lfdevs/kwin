@@ -126,6 +126,8 @@ private Q_SLOTS:
     void testStackOppositeFromTool();
     void testStackOppositeNoSibling();
     void testOverrideRedirectReparent();
+    void testOverrideRedirectStackingAbove();
+    void testOverrideRedirectStackingBelow();
 };
 
 void X11WindowTest::initTestCase_data()
@@ -1758,7 +1760,7 @@ void X11WindowTest::testNetWmButtonSize()
     // Create an xcb window.
     Test::XcbConnectionPtr c = Test::createX11Connection();
     QVERIFY(!xcb_connection_has_error(c.get()));
-    X11Window *window = createWindow(c.get(), QRect(100, 100, 100, 200));
+    X11Window *window = createWindow(c.get(), QRect(100, 100, 300, 400));
 
     // Request interactive move.
     const QRectF originalGeometry = window->frameGeometry();
@@ -1797,7 +1799,7 @@ void X11WindowTest::testNetWmButtonSizeNotPressed()
     // Create an xcb window.
     Test::XcbConnectionPtr c = Test::createX11Connection();
     QVERIFY(!xcb_connection_has_error(c.get()));
-    X11Window *window = createWindow(c.get(), QRect(100, 100, 100, 200));
+    X11Window *window = createWindow(c.get(), QRect(100, 100, 300, 400));
 
     // Request interactive move.
     {
@@ -1816,7 +1818,7 @@ void X11WindowTest::testNetWmButtonSizeCancel()
     // Create an xcb window.
     Test::XcbConnectionPtr c = Test::createX11Connection();
     QVERIFY(!xcb_connection_has_error(c.get()));
-    X11Window *window = createWindow(c.get(), QRect(100, 100, 100, 200));
+    X11Window *window = createWindow(c.get(), QRect(100, 100, 300, 400));
 
     // Request interactive resize.
     const QRectF originalGeometry = window->frameGeometry();
@@ -3512,6 +3514,54 @@ void X11WindowTest::testOverrideRedirectReparent()
     xcb_flush(c.get());
     QSignalSpy windowAddedSpy(workspace(), &Workspace::windowAdded);
     QVERIFY(!windowAddedSpy.wait(10));
+}
+
+void X11WindowTest::testOverrideRedirectStackingAbove()
+{
+    Test::XcbConnectionPtr c = Test::createX11Connection();
+    xcb_window_t windowAId = 0;
+    X11Window *windowA = createWindow(c.get(), QRect(0, 0, 100, 100), [&](xcb_window_t windowId) {
+        windowAId = windowId;
+        quint32 value = 1;
+        xcb_change_window_attributes(c.get(), windowId, XCB_CW_OVERRIDE_REDIRECT, &value);
+    });
+    X11Window *windowB = createWindow(c.get(), QRect(0, 0, 100, 100), [&](xcb_window_t windowId) {
+        quint32 value = 1;
+        xcb_change_window_attributes(c.get(), windowId, XCB_CW_OVERRIDE_REDIRECT, &value);
+
+        // restack before showing
+        uint32_t values[] = {windowAId, XCB_STACK_MODE_ABOVE};
+        xcb_configure_window(c.get(), windowId,
+                             XCB_CONFIG_WINDOW_SIBLING | XCB_CONFIG_WINDOW_STACK_MODE,
+                             values);
+    });
+    QVERIFY(workspace()->windows().count() == 2);
+    QVERIFY(workspace()->stackingOrder().indexOf(windowA) == 0);
+    QVERIFY(workspace()->stackingOrder().indexOf(windowB) == 1);
+}
+
+void X11WindowTest::testOverrideRedirectStackingBelow()
+{
+    Test::XcbConnectionPtr c = Test::createX11Connection();
+    xcb_window_t windowAId = 0;
+    X11Window *windowA = createWindow(c.get(), QRect(0, 0, 100, 100), [&](xcb_window_t windowId) {
+        windowAId = windowId;
+        quint32 value = 1;
+        xcb_change_window_attributes(c.get(), windowId, XCB_CW_OVERRIDE_REDIRECT, &value);
+    });
+    X11Window *windowB = createWindow(c.get(), QRect(0, 0, 100, 100), [&](xcb_window_t windowId) {
+        quint32 value = 1;
+        xcb_change_window_attributes(c.get(), windowId, XCB_CW_OVERRIDE_REDIRECT, &value);
+
+        // restack before showing
+        uint32_t values[] = {windowAId, XCB_STACK_MODE_BELOW};
+        xcb_configure_window(c.get(), windowId,
+                             XCB_CONFIG_WINDOW_SIBLING | XCB_CONFIG_WINDOW_STACK_MODE,
+                             values);
+    });
+    QVERIFY(workspace()->windows().count() == 2);
+    QVERIFY(workspace()->stackingOrder().indexOf(windowA) == 1);
+    QVERIFY(workspace()->stackingOrder().indexOf(windowB) == 0);
 }
 
 WAYLANDTEST_MAIN(X11WindowTest)

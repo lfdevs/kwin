@@ -378,23 +378,28 @@ void Workspace::lowerWindow(Window *window, bool nogroup)
 
     StackingUpdatesBlocker blocker(this);
 
-    unconstrained_stacking_order.removeAll(window);
-    unconstrained_stacking_order.prepend(window);
-    // TODO How X11-specific is this implementation?
-#if KWIN_BUILD_X11
-    if (!nogroup && window->isTransient()) {
-        // lower also all windows in the group, in their reversed stacking order
-        QList<X11Window *> wins;
-        if (auto group = window->group()) {
-            wins = ensureStackingOrder(group->members());
+    if (nogroup || (!window->isTransient() && window->transients().isEmpty())) {
+        unconstrained_stacking_order.removeAll(window);
+        unconstrained_stacking_order.prepend(window);
+    } else {
+        auto mainWindows = window->allMainWindows();
+        Window *parent;
+        if (mainWindows.isEmpty()) {
+            parent = window;
+        } else {
+            parent = ensureStackingOrder(mainWindows).front();
         }
-        for (int i = wins.size() - 1; i >= 0; --i) {
-            if (wins[i] != window) {
-                lowerWindow(wins[i], true);
+        QList<Window *> windows{parent};
+        for (int i = 0; i < windows.size(); ++i) {
+            if (!windows[i]->transients().isEmpty()) {
+                windows << windows[i]->transients();
             }
         }
+        windows = ensureStackingOrder(windows);
+        for (int i = windows.size() - 1; i >= 0; --i) {
+            lowerWindow(windows[i], true);
+        }
     }
-#endif
 }
 
 void Workspace::lowerWindowWithinApplication(Window *window)
@@ -719,12 +724,12 @@ QList<Window *> Workspace::unconstrainedStackingOrder() const
 }
 
 #if KWIN_BUILD_X11
-void Workspace::updateXStackingOrder()
+bool Workspace::updateXStackingOrder()
 {
     // we use our stacking order for managed windows, but X's for override-redirect windows
     Xcb::Tree tree(kwinApp()->x11RootWindow());
     if (tree.isNull()) {
-        return;
+        return false;
     }
     xcb_window_t *windows = tree.children();
 
@@ -738,10 +743,7 @@ void Workspace::updateXStackingOrder()
             changed = true;
         }
     }
-
-    if (changed) {
-        updateStackingOrder();
-    }
+    return changed;
 }
 #endif
 

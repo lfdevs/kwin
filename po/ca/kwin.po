@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-25 02:34+0000\n"
+"POT-Creation-Date: 2025-03-07 02:40+0000\n"
 "PO-Revision-Date: 2025-02-24 12:44+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -1381,7 +1381,7 @@ msgstr ""
 "retorn.\n"
 "La tecla Esc o un clic dret per a cancel·lar."
 
-#: main.cpp:185 plugins/invert/invert_config.cpp:35
+#: main.cpp:186 plugins/invert/invert_config.cpp:35
 #: plugins/magnifier/magnifier_config.cpp:46
 #: plugins/mouseclick/mouseclick_config.cpp:40
 #: plugins/mousemark/mousemark_config.cpp:43
@@ -1396,67 +1396,67 @@ msgstr ""
 msgid "KWin"
 msgstr "KWin"
 
-#: main.cpp:187 main.cpp:211
+#: main.cpp:188 main.cpp:212
 #, kde-format
 msgid "KDE window manager"
 msgstr "El gestor de finestres del KDE"
 
-#: main.cpp:189
+#: main.cpp:190
 #, kde-format
 msgid "(c) 1999-2019, The KDE Developers"
 msgstr "(c) 1999-2019, The KDE Developers"
 
-#: main.cpp:191
+#: main.cpp:192
 #, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:192
+#: main.cpp:193
 #, kde-format
 msgid "Cristian Tibirna"
 msgstr "Cristian Tibirna"
 
-#: main.cpp:193
+#: main.cpp:194
 #, kde-format
 msgid "Daniel M. Duley"
 msgstr "Daniel M. Duley"
 
-#: main.cpp:194
+#: main.cpp:195
 #, kde-format
 msgid "Luboš Luňák"
 msgstr "Luboš Luňák"
 
-#: main.cpp:195
+#: main.cpp:196
 #, kde-format
 msgid "Martin Flöser"
 msgstr "Martin Flöser"
 
-#: main.cpp:196
+#: main.cpp:197
 #, kde-format
 msgid "David Edmundson"
 msgstr "David Edmundson"
 
-#: main.cpp:197
+#: main.cpp:198
 #, kde-format
 msgid "Roman Gilg"
 msgstr "Roman Gilg"
 
-#: main.cpp:198
+#: main.cpp:199
 #, kde-format
 msgid "Vlad Zahorodnii"
 msgstr "Vlad Zahorodnii"
 
-#: main.cpp:199
+#: main.cpp:200
 #, kde-format
 msgid "Xaver Hugl"
 msgstr "Xaver Hugl"
 
-#: main.cpp:208
+#: main.cpp:209
 #, kde-format
 msgid "Disable configuration options"
 msgstr "Desactiva les opcions de configuració"
 
-#: main.cpp:209
+#: main.cpp:210
 #, kde-format
 msgid "Indicate that KWin has recently crashed n times"
 msgstr "Indica que el KWin ha fallat recentment n vegades"
@@ -4409,7 +4409,7 @@ msgstr "Mata la finestra"
 msgid "Activate Window (%1)"
 msgstr "Activa la finestra (%1)"
 
-#: utils/edid.cpp:340
+#: utils/edid.cpp:335
 #, kde-format
 msgid "unknown"
 msgstr "desconegut"
@@ -4481,13 +4481,13 @@ msgstr "L'ordre de sortida proporcionada no és vàlid"
 msgid "The driver rejected the output configuration"
 msgstr "El controlador ha rebutjat la configuració de la sortida"
 
-#: window.cpp:3168
+#: window.cpp:3262
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(No respon)"
 
-#: workspace.cpp:1659
+#: workspace.cpp:1672
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""
@@ -4515,94 +4515,3 @@ msgstr ""
 #, kde-format
 msgid "Xwayland has crashed"
 msgstr "L'Xwayland ha fallat"
-
-#~ msgid "EventType"
-#~ msgstr "Tipus d'esdeveniment"
-
-#~ msgid "Red"
-#~ msgstr "Vermell"
-
-#~ msgid "Green"
-#~ msgstr "Verd"
-
-#~ msgid "Blue"
-#~ msgstr "Blau"
-
-#~ msgid "Purple"
-#~ msgstr "Púrpura"
-
-#~ msgctxt "@label"
-#~ msgid "Mode:"
-#~ msgstr "Mode:"
-
-#~ msgctxt "@option"
-#~ msgid "Protanopia (red weak)"
-#~ msgstr "Protanopia (vermell dèbil)"
-
-#~ msgctxt "@option"
-#~ msgid "Deuteranopia (green weak)"
-#~ msgstr "Deuteranopia (verd dèbil)"
-
-#~ msgctxt "@option"
-#~ msgid "Tritanopia (blue-yellow)"
-#~ msgstr "Tritanopia (blau-groc)"
-
-#~ msgctxt "@label"
-#~ msgid "Intensity:"
-#~ msgstr "Intensitat:"
-
-#~ msgctxt "The code as read from the input device"
-#~ msgid "Scan code"
-#~ msgstr "Codi escanejat"
-
-#~ msgid "Surfaces"
-#~ msgstr "Superfícies"
-
-#~ msgid "Inactivity duration (seconds):"
-#~ msgstr "Durada de la inactivitat (segons):"
-
-#~ msgid "Split Horizontally"
-#~ msgstr "Divideix horitzontalment"
-
-#~ msgid "Split Vertically"
-#~ msgstr "Divideix verticalment"
-
-#~ msgctxt "Night Light was disabled"
-#~ msgid "Night Light Off"
-#~ msgstr "Llum de nit desactivada"
-
-#~ msgid "Toggle Night Light"
-#~ msgstr "Commuta la llum de nit"
-
-#~ msgid ""
-#~ "The window manager is configured to consider the screen with the mouse on "
-#~ "it as active one.\n"
-#~ "Therefore it is not possible to switch to a screen explicitly."
-#~ msgstr ""
-#~ "El gestor de finestres està configurat per a considerar com a activa la "
-#~ "pantalla amb el cursor del ratolí.\n"
-#~ "Per tant, no es pot commutar explícitament a una pantalla."
-
-#~ msgid "Region outside the workspace"
-#~ msgstr "Regió situada fora de l'espai de treball"
-
-#~ msgid "Move to %1 %2"
-#~ msgstr "Mou a %1 %2"
-
-#~ msgid "Layout mode:"
-#~ msgstr "Mode de disposició:"
-
-#~ msgid "Closest"
-#~ msgstr "El més proper"
-
-#~ msgid "Natural"
-#~ msgstr "Natural"
-
-#~ msgid "Set window type to"
-#~ msgstr "Estableix el tipus de finestra a"
-
-#~ msgid "Set window type rule type"
-#~ msgstr "Tipus de regla d'establir el tipus de finestra"
-
-#~ msgid "milliseconds"
-#~ msgstr "mil·lisegons"

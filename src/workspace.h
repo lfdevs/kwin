@@ -467,6 +467,7 @@ public:
      * instead of Platform::applyOutputChanges().
      */
     bool applyOutputConfiguration(const OutputConfiguration &config, const std::optional<QList<Output *>> &outputOrder = std::nullopt);
+    void updateXwaylandScale();
 
 public Q_SLOTS:
     void performWindowOperation(KWin::Window *window, Options::WindowOperation op);
@@ -624,7 +625,7 @@ private:
     void addX11Window(X11Window *c);
     X11Window *createUnmanaged(xcb_window_t windowId);
     void addUnmanaged(X11Window *c);
-    void updateXStackingOrder();
+    bool updateXStackingOrder();
 #endif
     void setupWindowConnections(Window *window);
 
@@ -762,6 +763,7 @@ private:
     std::unique_ptr<LidSwitchTracker> m_lidSwitchTracker;
     std::unique_ptr<OrientationSensor> m_orientationSensor;
     std::unique_ptr<DpmsInputEventFilter> m_dpmsFilter;
+    KConfigWatcher::Ptr m_kdeglobalsWatcher;
 
 private:
     friend bool performTransiencyCheck();

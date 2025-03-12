@@ -110,10 +110,10 @@ Rules-Requires-Root: no
 
 Package: kwin-common
 Architecture: any
-Depends: hwdata,
-         kglobalacceld,
+Depends: kglobalacceld,
          kwin-data (= ${source:Version}),
          plasma-desktoptheme,
+         pnp.ids,
          qml6-module-org-kde-kirigami,
          qml6-module-org-kde-ksvg,
          qml6-module-qt5compat-graphicaleffects,

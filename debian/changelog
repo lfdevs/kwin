@@ -1,3 +1,9 @@
+kwin (4:6.3.3-0ubuntu4) plucky; urgency=medium
+
+  * No-change rebuild for Qt 6.8.3 (LP: #2103945).
+
+ -- Simon Quigley <tsimonq2@ubuntu.com>  Sat, 29 Mar 2025 15:14:20 -0500
+
 kwin (4:6.3.3-0ubuntu3) plucky; urgency=medium
 
   * Add upstream_fix-kde-bug-501357.patch to fix kwin/rules kcm options

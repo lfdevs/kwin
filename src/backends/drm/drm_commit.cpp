@@ -39,6 +39,11 @@ DrmGpu *DrmCommit::gpu() const
     return m_gpu;
 }
 
+void DrmCommit::setDefunct()
+{
+    m_defunct = true;
+}
+
 DrmAtomicCommit::DrmAtomicCommit(DrmGpu *gpu)
     : DrmCommit(gpu)
 {
@@ -166,6 +171,9 @@ void DrmAtomicCommit::pageFlipped(std::chrono::nanoseconds timestamp)
     for (const auto &[plane, buffer] : m_buffers) {
         plane->setCurrentBuffer(buffer);
     }
+    if (m_defunct) {
+        return;
+    }
     for (const auto &[plane, frame] : m_frames) {
         if (frame) {
             frame->presented(timestamp, m_mode);
@@ -223,22 +231,26 @@ void DrmAtomicCommit::merge(DrmAtomicCommit *onTop)
     if (onTop->m_vrr) {
         m_vrr = onTop->m_vrr;
     }
-    m_cursorOnly &= onTop->isCursorOnly();
     if (!m_targetPageflipTime) {
         m_targetPageflipTime = onTop->m_targetPageflipTime;
     } else if (onTop->m_targetPageflipTime) {
         *m_targetPageflipTime = std::min(*m_targetPageflipTime, *onTop->m_targetPageflipTime);
     }
+    if (m_allowedVrrDelay && onTop->m_allowedVrrDelay) {
+        *m_allowedVrrDelay = std::min(*m_allowedVrrDelay, *onTop->m_allowedVrrDelay);
+    } else {
+        m_allowedVrrDelay.reset();
+    }
 }
 
-void DrmAtomicCommit::setCursorOnly(bool cursor)
+void DrmAtomicCommit::setAllowedVrrDelay(std::optional<std::chrono::nanoseconds> allowedDelay)
 {
-    m_cursorOnly = cursor;
+    m_allowedVrrDelay = allowedDelay;
 }
 
-bool DrmAtomicCommit::isCursorOnly() const
+std::optional<std::chrono::nanoseconds> DrmAtomicCommit::allowedVrrDelay() const
 {
-    return m_cursorOnly;
+    return m_allowedVrrDelay;
 }
 
 std::optional<std::chrono::steady_clock::time_point> DrmAtomicCommit::targetPageflipTime() const
@@ -291,6 +303,9 @@ void DrmLegacyCommit::pageFlipped(std::chrono::nanoseconds timestamp)
 {
     Q_ASSERT(QThread::currentThread() == QCoreApplication::instance()->thread());
     m_crtc->setCurrent(m_buffer);
+    if (m_defunct) {
+        return;
+    }
     if (m_frame) {
         m_frame->presented(timestamp, m_mode);
         m_frame.reset();

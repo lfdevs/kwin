@@ -39,6 +39,7 @@ class EglDisplay;
 class GraphicsBuffer;
 class GraphicsBufferAllocator;
 class OutputFrame;
+class DrmCommit;
 
 class DrmLease : public QObject
 {
@@ -117,9 +118,10 @@ public:
 
     FileDescriptor createNonMasterFd() const;
     std::unique_ptr<DrmLease> leaseOutputs(const QList<DrmOutput *> &outputs);
-    void waitIdle();
     bool isIdle() const;
     void dispatchEvents();
+
+    void addDefunctCommit(std::unique_ptr<DrmCommit> &&commit);
 
 Q_SIGNALS:
     void activeChanged(bool active);
@@ -160,6 +162,7 @@ private:
     std::vector<std::unique_ptr<DrmPlane>> m_planes;
     std::vector<std::unique_ptr<DrmCrtc>> m_crtcs;
     std::vector<std::shared_ptr<DrmConnector>> m_connectors;
+    std::unordered_map<DrmConnector *, std::unique_ptr<DrmPipeline>> m_pipelineMap;
     QList<DrmObject *> m_allObjects;
     QList<DrmPipeline *> m_pipelines;
 
@@ -169,6 +172,7 @@ private:
     QSize m_cursorSize;
     std::unordered_map<DrmPipeline *, std::shared_ptr<OutputFrame>> m_pendingModesetFrames;
     bool m_inModeset = false;
+    std::vector<std::unique_ptr<DrmCommit>> m_defunctCommits;
 };
 
 }

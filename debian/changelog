@@ -1,3 +1,12 @@
+kwin (4:6.3.4-0ubuntu1) plucky; urgency=medium
+
+  * New upstream release (6.3.4)
+  * Drop no longer required upstream patches.
+    - Remove upstream_fix-kde-bug-501357.patch
+    - Remove bump-project-version.patch
+
+ -- Rik Mills <rikmills@kde.org>  Wed, 02 Apr 2025 08:55:53 +0100
+
 kwin (4:6.3.3-0ubuntu4) plucky; urgency=medium
 
   * No-change rebuild for Qt 6.8.3 (LP: #2103945).

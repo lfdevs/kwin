@@ -41,11 +41,13 @@ public:
 
     DrmGpu *gpu() const;
     virtual void pageFlipped(std::chrono::nanoseconds timestamp) = 0;
+    void setDefunct();
 
 protected:
     DrmCommit(DrmGpu *gpu);
 
     DrmGpu *const m_gpu;
+    bool m_defunct = false;
 };
 
 class DrmAtomicCommit : public DrmCommit
@@ -80,8 +82,8 @@ public:
 
     void merge(DrmAtomicCommit *onTop);
 
-    void setCursorOnly(bool cursor);
-    bool isCursorOnly() const;
+    void setAllowedVrrDelay(std::optional<std::chrono::nanoseconds> allowedDelay);
+    std::optional<std::chrono::nanoseconds> allowedVrrDelay() const;
 
     std::optional<std::chrono::steady_clock::time_point> targetPageflipTime() const;
     bool isReadyFor(std::chrono::steady_clock::time_point pageflipTarget) const;
@@ -92,13 +94,13 @@ private:
 
     const QList<DrmPipeline *> m_pipelines;
     std::optional<std::chrono::steady_clock::time_point> m_targetPageflipTime;
+    std::optional<std::chrono::nanoseconds> m_allowedVrrDelay;
     std::unordered_map<const DrmProperty *, std::shared_ptr<DrmBlob>> m_blobs;
     std::unordered_map<DrmPlane *, std::shared_ptr<DrmFramebuffer>> m_buffers;
     std::unordered_map<DrmPlane *, std::shared_ptr<OutputFrame>> m_frames;
     std::unordered_set<DrmPlane *> m_planes;
     std::optional<bool> m_vrr;
     std::unordered_map<uint32_t /* object */, std::unordered_map<uint32_t /* property */, uint64_t /* value */>> m_properties;
-    bool m_cursorOnly = false;
     bool m_modeset = false;
     PresentationMode m_mode = PresentationMode::VSync;
 };

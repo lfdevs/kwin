@@ -245,7 +245,6 @@ bool DrmGpu::updateOutputs()
     if (!m_isActive) {
         return false;
     }
-    waitIdle();
     DrmUniquePtr<drmModeRes> resources(drmModeGetResources(m_fd));
     if (!resources) {
         qCWarning(KWIN_DRM) << "drmModeGetResources failed:" << strerror(errno);
@@ -309,9 +308,10 @@ bool DrmGpu::updateOutputs()
             }
         } else if (!output) {
             qCDebug(KWIN_DRM, "New %soutput on GPU %s: %s", conn->isNonDesktop() ? "non-desktop " : "", qPrintable(m_drmDevice->path()), qPrintable(conn->modelName()));
-            const auto pipeline = conn->pipeline();
-            m_pipelines << pipeline;
-            auto output = new DrmOutput(*it);
+            auto &pipeline = m_pipelineMap[conn];
+            pipeline = std::make_unique<DrmPipeline>(conn);
+            m_pipelines.push_back(pipeline.get());
+            auto output = new DrmOutput(*it, pipeline.get());
             m_drmOutputs << output;
             addedOutputs << output;
             Q_EMIT outputAdded(output);
@@ -352,7 +352,12 @@ DrmPipeline::Error DrmGpu::checkCrtcAssignment(QList<DrmConnector *> connectors,
     }
     qCDebug(KWIN_DRM) << "Attempting to match" << connectors << "with" << crtcs;
     auto connector = connectors.takeFirst();
-    auto pipeline = connector->pipeline();
+    auto pipelineIt = m_pipelineMap.find(connector);
+    if (pipelineIt == m_pipelineMap.end()) {
+        // this connector doesn't even have a connected output
+        return checkCrtcAssignment(connectors, crtcs);
+    }
+    auto pipeline = pipelineIt->second.get();
     if (!pipeline->enabled() || !connector->isConnected()) {
         // disabled pipelines don't need CRTCs
         pipeline->setCrtc(nullptr);
@@ -433,16 +438,14 @@ DrmPipeline::Error DrmGpu::testPendingConfiguration()
         if (!pipeline->primaryLayer()) {
             pipeline->setLayers(m_platform->renderBackend()->createDrmPlaneLayer(pipeline, DrmPlane::TypeIndex::Primary), m_platform->renderBackend()->createDrmPlaneLayer(pipeline, DrmPlane::TypeIndex::Cursor));
         }
-    }
-    // reset all outputs to their most basic configuration (primary plane without scaling)
-    // for the test, and set the target rects appropriately
-    for (const auto output : std::as_const(m_drmOutputs)) {
-        if (!output->lease()) {
-            const auto primary = output->primaryLayer();
-            primary->setTargetRect(QRect(QPoint(0, 0), output->connector()->pipeline()->mode()->size()));
-            primary->setSourceRect(QRect(QPoint(0, 0), output->connector()->pipeline()->mode()->size()));
+        if (!pipeline->output()->lease()) {
+            // reset all outputs to their most basic configuration (primary plane without scaling)
+            // for the test, and set the target rects appropriately
+            const auto primary = pipeline->output()->primaryLayer();
+            primary->setTargetRect(QRect(QPoint(0, 0), pipeline->mode()->size()));
+            primary->setSourceRect(QRect(QPoint(0, 0), pipeline->mode()->size()));
             primary->setEnabled(true);
-            output->cursorLayer()->setEnabled(false);
+            pipeline->output()->cursorLayer()->setEnabled(false);
         }
     }
     return checkCrtcAssignment(connectors, crtcs);
@@ -450,12 +453,12 @@ DrmPipeline::Error DrmGpu::testPendingConfiguration()
 
 DrmPipeline::Error DrmGpu::testPipelines()
 {
-    if (m_pipelines.isEmpty()) {
+    if (m_pipelines.empty()) {
         // nothing to do
         return DrmPipeline::Error::None;
     }
     QList<DrmPipeline *> inactivePipelines;
-    std::copy_if(m_pipelines.constBegin(), m_pipelines.constEnd(), std::back_inserter(inactivePipelines), [](const auto pipeline) {
+    std::ranges::copy_if(m_pipelines, std::back_inserter(inactivePipelines), [](const auto pipeline) {
         return pipeline->enabled() && !pipeline->active();
     });
     DrmPipeline::Error test = DrmPipeline::commitPipelines(m_pipelines, DrmPipeline::CommitMode::TestAllowModeset, unusedObjects());
@@ -482,42 +485,6 @@ DrmOutput *DrmGpu::findOutput(quint32 connector)
         return *it;
     }
     return nullptr;
-}
-
-void DrmGpu::waitIdle()
-{
-    m_socketNotifier->setEnabled(false);
-
-    // CLOCK_MONOTONIC should not count the time when the system is suspended, however the Linux kernel
-    // does not follow this part of the POSIX standard. So a timeout can be reported when it must not be.
-    // As a workaround, multiple poll() attempts are made.
-    int attempt = 0;
-    while (attempt < 5) {
-        const bool hasPendingCommit = std::ranges::any_of(m_pipelines, [](DrmPipeline *pipeline) {
-            return pipeline->commitThread()->drain();
-        });
-        if (!hasPendingCommit) {
-            break;
-        }
-        pollfd pfds[1];
-        pfds[0].fd = m_fd;
-        pfds[0].events = POLLIN;
-
-        const int ready = poll(pfds, 1, s_pageflipTimeout.count());
-        if (ready < 0) {
-            if (errno != EINTR) {
-                qCWarning(KWIN_DRM) << Q_FUNC_INFO << "poll() failed:" << strerror(errno);
-                break;
-            }
-        } else if (ready == 0) {
-            qCWarning(KWIN_DRM) << "No drm events for gpu" << this << "within last 1 second";
-            attempt++;
-        } else {
-            dispatchEvents();
-        }
-    };
-
-    m_socketNotifier->setEnabled(true);
 }
 
 bool DrmGpu::isIdle() const
@@ -553,6 +520,12 @@ void DrmGpu::pageFlipHandler(int fd, unsigned int sequence, unsigned int sec, un
 {
     const auto commit = static_cast<DrmCommit *>(user_data);
     const auto gpu = commit->gpu();
+    const bool defunct = std::erase_if(gpu->m_defunctCommits, [commit](const auto &defunct) {
+        return defunct.get() == commit;
+    }) != 0;
+    if (defunct) {
+        return;
+    }
 
     // The static_cast<> here are for a 32-bit environment where
     // sizeof(time_t) == sizeof(unsigned int) == 4 . Putting @p sec
@@ -577,13 +550,19 @@ void DrmGpu::dispatchEvents()
     drmHandleEvent(m_fd, &context);
 }
 
+void DrmGpu::addDefunctCommit(std::unique_ptr<DrmCommit> &&commit)
+{
+    m_defunctCommits.push_back(std::move(commit));
+}
+
 void DrmGpu::removeOutput(DrmOutput *output)
 {
     qCDebug(KWIN_DRM) << "Removing output" << output;
-    m_pipelines.removeOne(output->pipeline());
-    output->pipeline()->setLayers(nullptr, nullptr);
     m_drmOutputs.removeOne(output);
     Q_EMIT outputRemoved(output);
+    m_pipelines.removeOne(output->pipeline());
+    m_pipelineMap.erase(output->connector());
+    output->removePipeline();
     output->unref();
     // force a modeset to make sure unused objects are cleaned up
     m_forceModeset = true;

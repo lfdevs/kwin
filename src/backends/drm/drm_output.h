@@ -35,8 +35,7 @@ class KWIN_EXPORT DrmOutput : public DrmAbstractOutput
 {
     Q_OBJECT
 public:
-    explicit DrmOutput(const std::shared_ptr<DrmConnector> &connector);
-    ~DrmOutput() override;
+    explicit DrmOutput(const std::shared_ptr<DrmConnector> &connector, DrmPipeline *pipeline);
 
     DrmConnector *connector() const;
     DrmPipeline *pipeline() const;
@@ -51,7 +50,7 @@ public:
     void updateDpmsMode(DpmsMode dpmsMode);
 
     bool shouldDisableCursorPlane() const;
-    bool updateCursorLayer() override;
+    bool updateCursorLayer(std::optional<std::chrono::nanoseconds> allowedVrrDelay) override;
 
     DrmLease *lease() const;
     bool addLeaseObjects(QList<uint32_t> &objectList);
@@ -73,6 +72,8 @@ public:
      * @returns whether or not the renderer should apply channel factors
      */
     bool needsShadowBuffer() const;
+
+    void removePipeline();
 
 private:
     bool setDrmDpmsMode(DpmsMode mode);

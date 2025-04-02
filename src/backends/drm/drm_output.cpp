@@ -40,9 +40,9 @@ namespace KWin
 static bool s_disableTripleBufferingSet = false;
 static const bool s_disableTripleBuffering = qEnvironmentVariableIntValue("KWIN_DRM_DISABLE_TRIPLE_BUFFERING", &s_disableTripleBufferingSet) == 1;
 
-DrmOutput::DrmOutput(const std::shared_ptr<DrmConnector> &conn)
+DrmOutput::DrmOutput(const std::shared_ptr<DrmConnector> &conn, DrmPipeline *pipeline)
     : m_gpu(conn->gpu())
-    , m_pipeline(conn->pipeline())
+    , m_pipeline(pipeline)
     , m_connector(conn)
 {
     m_pipeline->setOutput(this);
@@ -79,11 +79,6 @@ DrmOutput::DrmOutput(const std::shared_ptr<DrmConnector> &conn)
             Q_EMIT wakeUp();
         }
     });
-}
-
-DrmOutput::~DrmOutput()
-{
-    m_pipeline->setOutput(nullptr);
 }
 
 bool DrmOutput::addLeaseObjects(QList<uint32_t> &objectList)
@@ -125,12 +120,12 @@ bool DrmOutput::shouldDisableCursorPlane() const
         || m_pipeline->amdgpuVrrWorkaroundActive();
 }
 
-bool DrmOutput::updateCursorLayer()
+bool DrmOutput::updateCursorLayer(std::optional<std::chrono::nanoseconds> allowedVrrDelay)
 {
     if (m_pipeline->gpu()->atomicModeSetting() && shouldDisableCursorPlane() && m_pipeline->cursorLayer() && m_pipeline->cursorLayer()->isEnabled()) {
         return false;
     }
-    return m_pipeline->updateCursor();
+    return m_pipeline->updateCursor(allowedVrrDelay);
 }
 
 QList<std::shared_ptr<OutputMode>> DrmOutput::getModes() const
@@ -157,10 +152,13 @@ void DrmOutput::setDpmsMode(DpmsMode mode)
             m_turnOffTimer.start();
         }
     } else {
-        if (m_turnOffTimer.isActive() || (mode != dpmsMode() && setDrmDpmsMode(mode))) {
+        if (m_turnOffTimer.isActive()) {
+            updateDpmsMode(mode);
+            m_turnOffTimer.stop();
+            Q_EMIT wakeUp();
+        } else if (setDrmDpmsMode(mode)) {
             Q_EMIT wakeUp();
         }
-        m_turnOffTimer.stop();
     }
 }
 
@@ -175,11 +173,8 @@ bool DrmOutput::setDrmDpmsMode(DpmsMode mode)
         updateDpmsMode(mode);
         return true;
     }
-    if (!active) {
-        m_gpu->waitIdle();
-    }
     m_pipeline->setActive(active);
-    if (DrmPipeline::commitPipelines({m_pipeline}, active ? DrmPipeline::CommitMode::TestAllowModeset : DrmPipeline::CommitMode::CommitModeset) == DrmPipeline::Error::None) {
+    if (DrmPipeline::commitPipelines({m_pipeline}, DrmPipeline::CommitMode::TestAllowModeset) == DrmPipeline::Error::None) {
         m_pipeline->applyPendingChanges();
         updateDpmsMode(mode);
         if (active) {
@@ -189,6 +184,9 @@ bool DrmOutput::setDrmDpmsMode(DpmsMode mode)
             tryKmsColorOffloading();
         } else {
             m_renderLoop->inhibit();
+            // with the renderloop inhibited, there won't be a new frame
+            // to trigger this automatically
+            m_gpu->maybeModeset(m_pipeline, nullptr);
         }
         return true;
     } else {
@@ -259,9 +257,6 @@ Output::Capabilities DrmOutput::computeCapabilities() const
     if (m_connector->broadcastRGB.isValid()) {
         capabilities |= Capability::RgbRange;
     }
-    if (m_connector->hdrMetadata.isValid() && m_connector->edid()->supportsPQ()) {
-        capabilities |= Capability::HighDynamicRange;
-    }
     if (m_connector->colorspace.isValid() && (m_connector->colorspace.hasEnum(DrmConnector::Colorspace::BT2020_RGB) || m_connector->colorspace.hasEnum(DrmConnector::Colorspace::BT2020_YCC)) && m_connector->edid()->supportsBT2020()) {
         bool allowColorspace = true;
         if (m_gpu->isI915()) {
@@ -272,6 +267,9 @@ Output::Capabilities DrmOutput::computeCapabilities() const
         if (allowColorspace) {
             capabilities |= Capability::WideColorGamut;
         }
+    }
+    if (m_connector->hdrMetadata.isValid() && m_connector->edid()->supportsPQ() && (capabilities & Capability::WideColorGamut)) {
+        capabilities |= Capability::HighDynamicRange;
     }
     if (m_connector->isInternal()) {
         // TODO only set this if an orientation sensor is available?
@@ -363,8 +361,8 @@ bool DrmOutput::queueChanges(const std::shared_ptr<OutputChangeSet> &props)
     if (!mode) {
         return false;
     }
-    const bool bt2020 = props->wideColorGamut.value_or(m_state.wideColorGamut);
-    const bool hdr = props->highDynamicRange.value_or(m_state.highDynamicRange);
+    const bool bt2020 = props->wideColorGamut.value_or(m_state.wideColorGamut) && (capabilities() & Capability::WideColorGamut);
+    const bool hdr = props->highDynamicRange.value_or(m_state.highDynamicRange) && (capabilities() & Capability::HighDynamicRange);
     m_pipeline->setMode(std::static_pointer_cast<DrmConnectorMode>(mode));
     m_pipeline->setOverscan(props->overscan.value_or(m_pipeline->overscan()));
     m_pipeline->setRgbRange(props->rgbRange.value_or(m_pipeline->rgbRange()));
@@ -419,11 +417,11 @@ static std::pair<ColorDescription, QVector3D> applyNightLight(const ColorDescrip
 std::pair<ColorDescription, QVector3D> DrmOutput::createColorDescription(const std::shared_ptr<OutputChangeSet> &props, double brightness) const
 {
     const auto colorSource = props->colorProfileSource.value_or(colorProfileSource());
-    const bool hdr = props->highDynamicRange.value_or(m_state.highDynamicRange);
-    const bool wcg = props->wideColorGamut.value_or(m_state.wideColorGamut);
+    const bool effectiveHdr = props->highDynamicRange.value_or(m_state.highDynamicRange) && (capabilities() & Capability::HighDynamicRange);
+    const bool effectiveWcg = props->wideColorGamut.value_or(m_state.wideColorGamut) && (capabilities() & Capability::WideColorGamut);
     const double sdrGamutWideness = props->sdrGamutWideness.value_or(m_state.sdrGamutWideness);
     const auto iccProfile = props->iccProfile.value_or(m_state.iccProfile);
-    if (colorSource == ColorProfileSource::ICC && !hdr && !wcg && iccProfile) {
+    if (colorSource == ColorProfileSource::ICC && !effectiveHdr && !effectiveWcg && iccProfile) {
         const double minBrightness = iccProfile->minBrightness().value_or(0);
         const double maxBrightness = iccProfile->maxBrightness().value_or(200);
         const auto sdrColor = Colorimetry::fromName(NamedColorimetry::BT709).interpolateGamutTo(iccProfile->colorimetry(), sdrGamutWideness);
@@ -432,9 +430,6 @@ std::pair<ColorDescription, QVector3D> DrmOutput::createColorDescription(const s
         const double effectiveReferenceLuminance = 5 + (maxBrightness - 5) * brightnessFactor;
         return applyNightLight(ColorDescription(iccProfile->colorimetry(), TransferFunction(TransferFunction::gamma22, 0, maxBrightness), effectiveReferenceLuminance, minBrightness, maxBrightness, maxBrightness, iccProfile->colorimetry(), sdrColor), m_channelFactors);
     }
-    const bool supportsHdr = (capabilities() & Capability::HighDynamicRange) && (capabilities() & Capability::WideColorGamut);
-    const bool effectiveHdr = hdr && supportsHdr;
-    const bool effectiveWcg = wcg && supportsHdr;
     const Colorimetry nativeColorimetry = m_information.edid.colorimetry().value_or(Colorimetry::fromName(NamedColorimetry::BT709));
 
     const Colorimetry containerColorimetry = effectiveWcg ? Colorimetry::fromName(NamedColorimetry::BT2020) : (colorSource == ColorProfileSource::EDID ? nativeColorimetry : Colorimetry::fromName(NamedColorimetry::BT709));
@@ -527,6 +522,11 @@ void DrmOutput::setBrightnessDevice(BrightnessDevice *device)
 
 void DrmOutput::updateBrightness(double newBrightness, double newArtificialHdrHeadroom)
 {
+    if (!m_pipeline) {
+        // this can happen when the output gets hot-unplugged
+        // FIXME fix output lifetimes so that this doesn't happen anymore...
+        return;
+    }
     if (m_brightnessDevice && !m_state.highDynamicRange) {
         constexpr double minLuminance = 0.04;
         const double effectiveBrightness = (minLuminance + newBrightness) * m_state.artificialHdrHeadroom - minLuminance;
@@ -570,8 +570,10 @@ bool DrmOutput::setChannelFactors(const QVector3D &rgb)
 void DrmOutput::tryKmsColorOffloading()
 {
     constexpr TransferFunction::Type blendingSpace = TransferFunction::gamma22;
+    const bool hdr = m_state.highDynamicRange && (capabilities() & Capability::HighDynamicRange);
+    const bool wcg = m_state.wideColorGamut && (capabilities() & Capability::WideColorGamut);
     // offloading color operations doesn't make sense when we have to apply the icc shader anyways
-    const bool usesICC = m_state.colorProfileSource == ColorProfileSource::ICC && m_state.iccProfile && !m_state.highDynamicRange && !m_state.wideColorGamut;
+    const bool usesICC = m_state.colorProfileSource == ColorProfileSource::ICC && m_state.iccProfile && !hdr && !wcg;
     const QVector3D channelFactors = adaptedChannelFactors();
     if (colorPowerTradeoff() == ColorPowerTradeoff::PreferAccuracy) {
         setScanoutColorDescription(colorDescription());
@@ -655,6 +657,11 @@ QVector3D DrmOutput::adaptedChannelFactors() const
 const ColorDescription &DrmOutput::scanoutColorDescription() const
 {
     return m_scanoutColorDescription;
+}
+
+void DrmOutput::removePipeline()
+{
+    m_pipeline = nullptr;
 }
 }
 

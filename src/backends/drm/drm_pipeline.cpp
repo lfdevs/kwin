@@ -46,6 +46,9 @@ DrmPipeline::DrmPipeline(DrmConnector *conn)
 
 DrmPipeline::~DrmPipeline()
 {
+    // the commit thread may still access the pipeline until it's stopped
+    // so it must be deleted before everything else
+    m_commitThread.reset();
 }
 
 DrmPipeline::Error DrmPipeline::present(const std::shared_ptr<OutputFrame> &frame)
@@ -259,6 +262,21 @@ void DrmPipeline::prepareAtomicDisable(DrmAtomicCommit *commit)
     }
 }
 
+static const auto s_forceScalingMode = []() -> std::optional<DrmConnector::ScalingMode> {
+    const auto env = qEnvironmentVariable("KWIN_DRM_FORCE_SCALING_MODE");
+    if (env == "NONE") {
+        return DrmConnector::ScalingMode::None;
+    } else if (env == "FULL") {
+        return DrmConnector::ScalingMode::Full;
+    } else if (env == "CENTER") {
+        return DrmConnector::ScalingMode::Center;
+    } else if (env == "FULL_ASPECT") {
+        return DrmConnector::ScalingMode::Full_Aspect;
+    } else {
+        return std::nullopt;
+    }
+}();
+
 bool DrmPipeline::prepareAtomicModeset(DrmAtomicCommit *commit)
 {
     commit->addProperty(m_connector->crtcId, m_pending.crtc->id());
@@ -293,7 +311,13 @@ bool DrmPipeline::prepareAtomicModeset(DrmAtomicCommit *commit)
         commit->addEnum(m_connector->colorspace, DrmConnector::Colorspace::Default);
     }
     if (m_connector->scalingMode.isValid()) {
-        if (m_connector->isInternal() && m_connector->scalingMode.hasEnum(DrmConnector::ScalingMode::Full_Aspect) && (m_pending.mode->flags() & OutputMode::Flag::Generated)) {
+        if (s_forceScalingMode.has_value()) {
+            if (m_connector->scalingMode.hasEnum(*s_forceScalingMode)) {
+                commit->addEnum(m_connector->scalingMode, *s_forceScalingMode);
+            } else if (m_connector->scalingMode.hasEnum(DrmConnector::ScalingMode::None)) {
+                commit->addEnum(m_connector->scalingMode, DrmConnector::ScalingMode::None);
+            }
+        } else if (m_connector->isInternal() && m_connector->scalingMode.hasEnum(DrmConnector::ScalingMode::Full_Aspect) && (m_pending.mode->flags() & OutputMode::Flag::Generated)) {
             commit->addEnum(m_connector->scalingMode, DrmConnector::ScalingMode::Full_Aspect);
         } else if (m_connector->scalingMode.hasEnum(DrmConnector::ScalingMode::None)) {
             commit->addEnum(m_connector->scalingMode, DrmConnector::ScalingMode::None);
@@ -358,7 +382,7 @@ DrmPipeline::Error DrmPipeline::errnoToError()
     }
 }
 
-bool DrmPipeline::updateCursor()
+bool DrmPipeline::updateCursor(std::optional<std::chrono::nanoseconds> allowedVrrDelay)
 {
     if (needsModeset() || !m_pending.crtc || !m_pending.active) {
         return false;
@@ -381,7 +405,7 @@ bool DrmPipeline::updateCursor()
         // only give the actual state update to the commit thread, so that it can potentially reorder the commits
         auto cursorOnly = std::make_unique<DrmAtomicCommit>(QList<DrmPipeline *>{this});
         prepareAtomicCursor(cursorOnly.get());
-        cursorOnly->setCursorOnly(true);
+        cursorOnly->setAllowedVrrDelay(allowedVrrDelay);
         m_commitThread->addCommit(std::move(cursorOnly));
         return true;
     } else {
@@ -399,10 +423,8 @@ void DrmPipeline::applyPendingChanges()
 {
     m_next = m_pending;
     m_commitThread->setModeInfo(m_pending.mode->refreshRate(), m_pending.mode->vblankTime());
-    if (m_output) {
-        m_output->renderLoop()->setPresentationSafetyMargin(m_commitThread->safetyMargin());
-        m_output->renderLoop()->setRefreshRate(m_pending.mode->refreshRate());
-    }
+    m_output->renderLoop()->setPresentationSafetyMargin(m_commitThread->safetyMargin());
+    m_output->renderLoop()->setRefreshRate(m_pending.mode->refreshRate());
 }
 
 DrmConnector *DrmPipeline::connector() const

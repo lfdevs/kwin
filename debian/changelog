@@ -1,3 +1,11 @@
+kwin (4:6.3.4-0ubuntu2) plucky; urgency=medium
+
+  * Backport crash fix requested by KDE developers:
+    https://mail.kde.org/pipermail/distributions/2025-April/001573.html
+    - d/p: upstream_backport-crash-fix-93bf2f98.patch
+
+ -- Rik Mills <rikmills@kde.org>  Thu, 10 Apr 2025 17:56:15 +0100
+
 kwin (4:6.3.4-0ubuntu1) plucky; urgency=medium
 
   * New upstream release (6.3.4)

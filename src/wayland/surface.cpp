@@ -587,6 +587,7 @@ void SurfaceState::mergeInto(SurfaceState *target)
     }
     if (colorDescriptionIsSet) {
         target->colorDescription = colorDescription;
+        target->renderingIntent = renderingIntent;
         target->colorDescriptionIsSet = true;
     }
     if (alphaMultiplierIsSet) {
@@ -1044,6 +1045,15 @@ SurfaceInterface *SurfaceInterface::inputSurfaceAt(const QPointF &position)
     return nullptr;
 }
 
+std::pair<SurfaceInterface *, QPointF> SurfaceInterface::mapToInputSurface(const QPointF &position)
+{
+    auto surface = inputSurfaceAt(position);
+    if (!surface) {
+        surface = this;
+    }
+    return std::make_pair(surface, mapToChild(surface, position));
+}
+
 LockedPointerV1Interface *SurfaceInterface::lockedPointer() const
 {
     return d->lockedPointer;
@@ -1074,11 +1084,7 @@ QPointF SurfaceInterface::mapToChild(SurfaceInterface *child, const QPointF &poi
     QPointF local = point;
     SurfaceInterface *surface = child;
 
-    while (true) {
-        if (surface == this) {
-            return local;
-        }
-
+    while (surface != this) {
         SubSurfaceInterface *subsurface = surface->subSurface();
         if (Q_UNLIKELY(!subsurface)) {
             return QPointF();
@@ -1088,7 +1094,7 @@ QPointF SurfaceInterface::mapToChild(SurfaceInterface *child, const QPointF &poi
         surface = subsurface->parentSurface();
     }
 
-    return QPointF();
+    return local;
 }
 
 QSize SurfaceInterface::bufferSize() const

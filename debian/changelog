@@ -1,3 +1,10 @@
+kwin (4:6.3.5-0ubuntu1) questing; urgency=medium
+
+  * New upstream release (6.3.5)
+  * Drop included upstream_backport-crash-fix-93bf2f98.patch
+
+ -- Rik Mills <rikmills@kde.org>  Tue, 06 May 2025 21:34:10 +0100
+
 kwin (4:6.3.4-0ubuntu2) plucky; urgency=medium
 
   * Backport crash fix requested by KDE developers:

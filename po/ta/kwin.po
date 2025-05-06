@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-19 02:33+0000\n"
-"PO-Revision-Date: 2025-03-16 15:06+0530\n"
+"POT-Creation-Date: 2025-04-26 02:35+0000\n"
+"PO-Revision-Date: 2025-04-13 18:05+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -1213,7 +1213,7 @@ msgstr ""
 #: debug_console.ui:403
 #, kde-format
 msgid "Active LEDs"
-msgstr ""
+msgstr "செயலிலுள்ள LED-கள்"
 
 #. i18n: ectx: attribute (title), widget (QWidget, clipboard)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
@@ -1364,7 +1364,7 @@ msgctxt "@info"
 msgid "Host name: %1"
 msgstr "புரவன் பெயர்: %1"
 
-#: input.cpp:3334
+#: input.cpp:3342
 #, kde-format
 msgid "Touchpad"
 msgstr "தொடுபலகை"
@@ -1700,7 +1700,7 @@ msgstr "சாளர தொகுப்பை (window group-ஐ) பொறுத
 msgid "Fullscreen windows"
 msgstr "முழுத்திரை சாளரங்கள்"
 
-#: plugins/eis/eisinputcapturemanager.cpp:124
+#: plugins/eis/eisinputcapturemanager.cpp:130
 #, kde-format
 msgctxt "@action shortcut"
 msgid "Disable Active Input Capture"
@@ -4462,7 +4462,7 @@ msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(பதிலளிக்கவில்லை)"
 
-#: workspace.cpp:1672
+#: workspace.cpp:1676
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

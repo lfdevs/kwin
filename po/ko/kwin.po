@@ -2,15 +2,15 @@
 # Copyright (C) 2001-2004, 2007-2008 Free Software Foundation, Inc.
 # Sae-keun Kim <segni@susekorea.net>, 2001.
 # Yeo SunHwa <sunwt@mizi.com>, 2001.
-# SPDX-FileCopyrightText: 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Shinjo Park <kde@peremen.name>
+# SPDX-FileCopyrightText: 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Shinjo Park <kde@peremen.name>
 #
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-19 02:33+0000\n"
-"PO-Revision-Date: 2024-12-24 17:50+0100\n"
+"POT-Creation-Date: 2025-04-26 02:35+0000\n"
+"PO-Revision-Date: 2025-04-06 23:38+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 24.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -446,14 +446,12 @@ msgid "Delta"
 msgstr "차이"
 
 #: debug_console.cpp:244
-#, fuzzy, kde-format
-#| msgctxt "Current delta in pinch gesture"
-#| msgid "Delta x"
+#, kde-format
 msgctxt ""
 "The normalized V120 angle delta of a pointer axis event. V120 is a technical "
 "term and shouldn't be changed."
 msgid "Delta (V120)"
-msgstr "x 차이"
+msgstr "차이(V120)"
 
 #: debug_console.cpp:259
 #, kde-format
@@ -1346,7 +1344,7 @@ msgctxt "@info"
 msgid "Host name: %1"
 msgstr "호스트 이름: %1"
 
-#: input.cpp:3334
+#: input.cpp:3342
 #, kde-format
 msgid "Touchpad"
 msgstr "터치패드"
@@ -1679,7 +1677,7 @@ msgstr "창 그룹별"
 msgid "Fullscreen windows"
 msgstr "전체 화면 창"
 
-#: plugins/eis/eisinputcapturemanager.cpp:124
+#: plugins/eis/eisinputcapturemanager.cpp:130
 #, kde-format
 msgctxt "@action shortcut"
 msgid "Disable Active Input Capture"
@@ -4432,7 +4430,7 @@ msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(응답 없음)"
 
-#: workspace.cpp:1672
+#: workspace.cpp:1676
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

@@ -1,3 +1,62 @@
+kwin (4:6.3.5-1) UNRELEASED; urgency=medium
+
+  [ Aurélien COUDERC ]
+  * New upstream release (6.3.5).
+    - Renderloop: take subsurfaces into account for vrr scheduling.
+    - Backends/drm: with "prefer color accuracy", don't allow direct scaonut
+    with color ops. (kde#503742)
+    - Effect/offscreeneffect: guard against allocating zero-size textures.
+    (kde#485884)
+    - Input: set the current surface correctly for tablet events. (kde#499576,
+    kde#498386)
+    - Backends/drm: guard updateCursorLayer for a nullptr pipeline.
+    (kde#502951)
+    - Core/colorpipeline: optimize out black point compensation. (kde#500019)
+    - Revert "plugins/nightlight: Fix conversion between local time and utc
+    time".
+    - Plugins/nightlight: Fix conversion between local time and utc time.
+    - Compositor: fix dimming constantly scheduling repaints.
+    - Input: do not pass power button to lockscreen.
+    - Effect: Allow AnimationEffect running while the screen is locked.
+    - Outputconfigurationstore: disable autorotate when screen is off.
+    - Autotests/x11keyread: fix race condition.
+    - Autotests/x11keyread: re-format the code.
+    - Core/colorspace: fix primaries for generic film.
+    - Ci: Adjust to SUSE CI image changes.
+    - Opengl/eglcontext: only delete the vao if the context is current.
+    - Wayland: fix the rendering intent being ignored, and add a test for it.
+    - Opengl/glshader: ensure no tone mapping gets applied with colorimetric
+    rendering intents.
+    - Wayland/colormanagement: use 203cd/m² reference luminance for Windows
+    scRGB.
+    - Kcms/xwayland: Fix highlighting on first radiobutton.
+    - Plugins/minimizeall: fix unreachable activity check.
+    - Disconnected signal in X11Window::associate().
+    - Break Workspace::outputRemoved connection when a layer shell window is
+    destroyed.
+    - Layershellv1window: close the window when the desired output gets
+    removed.
+    - Simplify xwayland surface association.
+    - Fix a crash in RenderLoop::scheduleRepaint.
+    - Xdgshellwindow: Keep window on output when opening under cursor.
+    (kde#495987)
+    - Xdgactivation: downgrade "cannot grant a token" warning to a debug
+    message. (kde#500393)
+    - Backends/drm: also clean up pending with legacy modesetting.
+    - Backends/drm: set internal display brightness with HDR in
+    applyQueuedChanges.
+    - Backends/drm: set laptop display brightness to 100% with HDR.
+    - Backends/drm: reduce minimum luminance for SDR. (kde#501247)
+    - Avoid synchronizing keyboard modifiers if dnd source is null.
+    (kde#502504)
+    - Backends/drm: immediately force a modeset on bad link status.
+    (kde#502542)
+    - Xwayland: Only pass actual mime type offers to Wayland clients.
+    - Xkb: Guard more methods against not having a keymap or state.
+    - Plugins/eis: Guard against empty keymap.
+
+ -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Thu, 08 May 2025 00:17:28 +0200
+
 kwin (4:6.3.4-3) unstable; urgency=medium
 
   [ Aurélien COUDERC ]

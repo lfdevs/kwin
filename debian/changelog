@@ -54,6 +54,8 @@ kwin (4:6.3.5-1) UNRELEASED; urgency=medium
     - Xwayland: Only pass actual mime type offers to Wayland clients.
     - Xkb: Guard more methods against not having a keymap or state.
     - Plugins/eis: Guard against empty keymap.
+  * Relax inter-plasma versioned dependency constraint so we can upload
+    only 6.3.5 packages that have actual code changes.
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Thu, 08 May 2025 00:17:28 +0200
 

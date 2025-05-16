@@ -62,6 +62,8 @@ kwin (4:6.3.5-1) UNRELEASED; urgency=medium
     authentication prompt to ensure it gets user attention.
     - Fix framerate drops with night light on when changing brightness.
     (kde#495167)
+    - Add support for the MouseKeys accessibility feature also on Wayland.
+    (kde#478620)
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Thu, 08 May 2025 00:17:28 +0200
 

@@ -3,3 +3,4 @@ upstream_3f0a8a88_plugins-dimscreen-Enable-by-default.patch
 upstream_68dbfe7a_backends-drm-prevent-the-main-thread-from-moving-the-target-pageflip-time-forward.patch
 upstream_602072c9_backends-drm-remove-unused-method.patch
 upstream_85eeafa0_backends-drm-dynamically-adjust-the-safety-margin-based-on-commit-time.patch
+upstream_7b93a776_Implement-MouseKeys-on-Wayland.patch

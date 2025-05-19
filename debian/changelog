@@ -64,6 +64,7 @@ kwin (4:6.3.5-1) UNRELEASED; urgency=medium
     (kde#495167)
     - Add support for the MouseKeys accessibility feature also on Wayland.
     (kde#478620)
+    - Fix sticky keys not unlatching after mouse click.
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Thu, 08 May 2025 00:17:28 +0200
 

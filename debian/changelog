@@ -94,6 +94,7 @@ kwin (4:6.3.5-1) UNRELEASED; urgency=medium
     - Fix Severe input latency and limited refresh rate option on resolutions
     other than the native one on kwin wayland. (kde#504655)
     - Fix Firefox download popup drag not working. (kde#497031)
+  * Point upstream source to invent git repo.
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Thu, 08 May 2025 00:17:28 +0200
 

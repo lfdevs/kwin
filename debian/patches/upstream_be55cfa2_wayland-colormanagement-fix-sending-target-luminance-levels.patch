@@ -1,0 +1,26 @@
+From be55cfa27efb7d477ffd96daba438f61b57eb82a Mon Sep 17 00:00:00 2001
+From: Xaver Hugl <xaver.hugl@gmail.com>
+Date: Tue, 20 May 2025 01:06:09 +0200
+Subject: [PATCH] wayland/colormanagement: fix sending target luminance levels
+
+(cherry picked from commit c6ea19d4594de393cf0dbff6dc568c5051fb463b)
+---
+ src/wayland/colormanagement_v1.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/wayland/colormanagement_v1.cpp b/src/wayland/colormanagement_v1.cpp
+index 94859f5b61c..979517f70f6 100644
+--- a/src/wayland/colormanagement_v1.cpp
++++ b/src/wayland/colormanagement_v1.cpp
+@@ -534,7 +534,7 @@ void ImageDescriptionV1::wp_image_description_v1_get_information(Resource *qtRes
+         wp_image_description_info_v1_send_target_max_cll(resource, *maxcll);
+     }
+     wp_image_description_info_v1_send_luminances(resource, std::round(m_description->transferFunction().minLuminance / s_minLuminanceUnit), std::round(m_description->transferFunction().maxLuminance), std::round(m_description->referenceLuminance()));
+-    wp_image_description_info_v1_send_target_luminance(resource, m_description->minLuminance(), m_description->maxHdrLuminance().value_or(800));
++    wp_image_description_info_v1_send_target_luminance(resource, std::round(m_description->minLuminance() / s_minLuminanceUnit), std::round(m_description->maxHdrLuminance().value_or(800)));
+     wp_image_description_info_v1_send_tf_named(resource, kwinTFtoProtoTF(m_description->transferFunction()));
+     wp_image_description_info_v1_send_done(resource);
+     wl_resource_destroy(resource);
+-- 
+GitLab
+

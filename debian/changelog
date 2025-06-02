@@ -61,6 +61,7 @@ kwin (4:6.3.5-1) UNRELEASED; urgency=medium
     - Fix crash on Display disconnect. (kde#504516)
     - core/iccprofile: also estimate black point even if there's no luminance
     tag.
+    - wayland/colormanagement: fix sending target luminance levels.
   * Backport other upstream commits:
     - Dim the rest of the screen when there’s an active system /
     authentication prompt to ensure it gets user attention.

@@ -6,3 +6,4 @@ upstream_85eeafa0_backends-drm-dynamically-adjust-the-safety-margin-based-on-com
 upstream_7b93a776_Implement-MouseKeys-on-Wayland.patch
 upstream_801d31a9_plugins-stickykeys-Unlatch-keys-after-mouse-click.patch
 upstream_f1f25d2d_backends-drm-also-guard-DrmOutput-cursorLayer-for-nullptr-pipeline.patch
+upstream_1c071e40_core-iccprofile-also-estimate-black-point-even-if-there-s-no-luminance-tag.patch

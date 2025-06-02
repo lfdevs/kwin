@@ -59,6 +59,8 @@ kwin (4:6.3.5-1) UNRELEASED; urgency=medium
   * Drop backported patch now part of the upstream release.
   * Backport upstream commits scheduled for 6.3.6:
     - Fix crash on Display disconnect. (kde#504516)
+    - core/iccprofile: also estimate black point even if there's no luminance
+    tag.
   * Backport other upstream commits:
     - Dim the rest of the screen when there’s an active system /
     authentication prompt to ensure it gets user attention.

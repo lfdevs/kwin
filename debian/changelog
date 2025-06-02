@@ -66,6 +66,10 @@ kwin (4:6.3.5-1) UNRELEASED; urgency=medium
     resolution.
     - x11: Add an environment variable to disable _NET_WM_SYNC_REQUEST in
     X11Window.
+    - Fixed several cases where using a color picker to pick a screen color
+    could return a very subtly wrong result when using certain combinations of
+    Night Light, ICC profiles, HDR, 10-bit color, or any other features that
+    globally change all colors on the screen. (kde#491633)
   * Backport other upstream commits:
     - Dim the rest of the screen when there’s an active system /
     authentication prompt to ensure it gets user attention.

@@ -1,0 +1,32 @@
+From 3c724b83719dfb1ea6a09a1ab2b0af832a27e04d Mon Sep 17 00:00:00 2001
+From: Xaver Hugl <xaver.hugl@gmail.com>
+Date: Tue, 20 May 2025 01:13:46 +0200
+Subject: [PATCH] wayland/colormanagement: also around max_fall and max_cll
+
+To be consistent with the other luminance properties
+
+(cherry picked from commit f8e4168a084a350114968e1eb17902c16092f441)
+---
+ src/wayland/colormanagement_v1.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/wayland/colormanagement_v1.cpp b/src/wayland/colormanagement_v1.cpp
+index 979517f70f6..4a721bbc6cd 100644
+--- a/src/wayland/colormanagement_v1.cpp
++++ b/src/wayland/colormanagement_v1.cpp
+@@ -528,10 +528,10 @@ void ImageDescriptionV1::wp_image_description_v1_get_information(Resource *qtRes
+                                                            round(masterWhite.x), round(masterWhite.y));
+     }
+     if (auto maxfall = m_description->maxAverageLuminance()) {
+-        wp_image_description_info_v1_send_target_max_fall(resource, *maxfall);
++        wp_image_description_info_v1_send_target_max_fall(resource, std::round(*maxfall));
+     }
+     if (auto maxcll = m_description->maxHdrLuminance()) {
+-        wp_image_description_info_v1_send_target_max_cll(resource, *maxcll);
++        wp_image_description_info_v1_send_target_max_cll(resource, std::round(*maxcll));
+     }
+     wp_image_description_info_v1_send_luminances(resource, std::round(m_description->transferFunction().minLuminance / s_minLuminanceUnit), std::round(m_description->transferFunction().maxLuminance), std::round(m_description->referenceLuminance()));
+     wp_image_description_info_v1_send_target_luminance(resource, std::round(m_description->minLuminance() / s_minLuminanceUnit), std::round(m_description->maxHdrLuminance().value_or(800)));
+-- 
+GitLab
+

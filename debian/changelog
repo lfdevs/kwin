@@ -81,6 +81,8 @@ kwin (4:6.3.5-1) UNRELEASED; urgency=medium
     - backends/drm: Fix potential crash by adding missing null guard.
     - The Legacy X11 App Support settings now apply accurately no matter what
     keyboard layout you’re using. (kde#500032)
+    - backends/drm: reduce severity of pageflip failure logging to avoid
+    journal spam when playing fullscreen videos. (kde#505028)
   * Backport other upstream commits:
     - Dim the rest of the screen when there’s an active system /
     authentication prompt to ensure it gets user attention.

@@ -20,3 +20,4 @@ upstream_56760937_backends-drm-clear-the-test-buffer-with-legacy-modesetting.pat
 upstream_cc5d1256_outputconfigurationstore-disable-adaptive-sync-by-default.patch
 upstream_7f088c1b_backends-drm-Add-missing-null-guard.patch
 upstream_5c7d2de5_xwayland-Fix-leaking-normal-key-presses-with-keyboard-layouts-other-than-English.patch
+upstream_27d28c9c_backends-drm-reduce-severity-of-pageflip-failure-logging.patch

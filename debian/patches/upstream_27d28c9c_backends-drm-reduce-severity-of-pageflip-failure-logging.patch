@@ -1,0 +1,33 @@
+From 27d28c9cf3070de9b3102bf4d7dd93cf9d9ebf38 Mon Sep 17 00:00:00 2001
+From: Xaver Hugl <xaver.hugl@gmail.com>
+Date: Mon, 2 Jun 2025 14:46:25 +0200
+Subject: [PATCH] backends/drm: reduce severity of pageflip failure logging
+
+It can happen with attempted direct scanout
+
+BUG: 505028
+
+
+(cherry picked from commit f061994d57e2b0cd2d2dd8ddccdd8a349624d4c4)
+
+Co-authored-by: Xaver Hugl <xaver.hugl@kde.org>
+---
+ src/backends/drm/drm_pipeline_legacy.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/backends/drm/drm_pipeline_legacy.cpp b/src/backends/drm/drm_pipeline_legacy.cpp
+index b8099fb59e4..1f796dfa33e 100644
+--- a/src/backends/drm/drm_pipeline_legacy.cpp
++++ b/src/backends/drm/drm_pipeline_legacy.cpp
+@@ -35,7 +35,7 @@ DrmPipeline::Error DrmPipeline::presentLegacy(const std::shared_ptr<OutputFrame>
+     }
+     auto commit = std::make_unique<DrmLegacyCommit>(this, buffer, frame);
+     if (!commit->doPageflip(m_pending.presentationMode)) {
+-        qCWarning(KWIN_DRM) << "Page flip failed:" << strerror(errno);
++        qCDebug(KWIN_DRM) << "Page flip failed:" << strerror(errno);
+         return errnoToError();
+     }
+     m_commitThread->setPendingCommit(std::move(commit));
+-- 
+GitLab
+

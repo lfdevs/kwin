@@ -57,6 +57,8 @@ kwin (4:6.3.5-1) UNRELEASED; urgency=medium
   * Relax inter-plasma versioned dependency constraint so we can upload
     only 6.3.5 packages that have actual code changes.
   * Drop backported patch now part of the upstream release.
+  * Backport upstream commits scheduled for 6.3.6:
+    - Fix crash on Display disconnect. (kde#504516)
   * Backport other upstream commits:
     - Dim the rest of the screen when there’s an active system /
     authentication prompt to ensure it gets user attention.

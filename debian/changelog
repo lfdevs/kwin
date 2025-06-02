@@ -73,6 +73,9 @@ kwin (4:6.3.5-1) UNRELEASED; urgency=medium
     - Don't leak lcms tone curves.
     - When XWayland-using apps deliberately ask to open on a specific screen,
     the screen they open on now more reliably matches the one they wanted.
+    - Fixed a case where junky graphical glitches could briefly be seen on the
+    screen after logging in but before Plasma’s splash screen or desktop
+    loads. (kde#504258)
   * Backport other upstream commits:
     - Dim the rest of the screen when there’s an active system /
     authentication prompt to ensure it gets user attention.

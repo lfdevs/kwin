@@ -1,0 +1,39 @@
+From 56760937743b42f50f46e2ff2a1fa811502132d7 Mon Sep 17 00:00:00 2001
+From: Xaver Hugl <xaver.hugl@gmail.com>
+Date: Fri, 23 May 2025 14:30:44 +0200
+Subject: [PATCH] backends/drm: clear the test buffer with legacy modesetting
+
+With atomic modesetting, we only show the buffer once the compositor has rendered to
+it. With legacy modesetting however, the "test" the drm backend does immediately shows
+the buffer, so not clearing it may mean we show a frame of random VRAM contents.
+
+BUG: 504258
+
+
+(cherry picked from commit ef88b6425278564096d9394537ca9442d750c0cf)
+
+Co-authored-by: Xaver Hugl <xaver.hugl@kde.org>
+---
+ src/backends/drm/drm_egl_layer_surface.cpp | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/src/backends/drm/drm_egl_layer_surface.cpp b/src/backends/drm/drm_egl_layer_surface.cpp
+index 129024da9d7..eb4f9189cf5 100644
+--- a/src/backends/drm/drm_egl_layer_surface.cpp
++++ b/src/backends/drm/drm_egl_layer_surface.cpp
+@@ -594,6 +594,12 @@ std::shared_ptr<DrmFramebuffer> EglGbmLayerSurface::doRenderTestBuffer(Surface *
+     if (!slot) {
+         return nullptr;
+     }
++    if (!m_gpu->atomicModeSetting()) {
++        EglContext::currentContext()->pushFramebuffer(slot->framebuffer());
++        glClearColor(0, 0, 0, 0);
++        glClear(GL_COLOR_BUFFER_BIT);
++        EglContext::currentContext()->popFramebuffer();
++    }
+     if (const auto ret = importBuffer(surface, slot.get(), FileDescriptor{}, nullptr, infiniteRegion())) {
+         surface->currentSlot = slot;
+         surface->currentFramebuffer = ret;
+-- 
+GitLab
+

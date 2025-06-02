@@ -21,3 +21,4 @@ upstream_cc5d1256_outputconfigurationstore-disable-adaptive-sync-by-default.patc
 upstream_7f088c1b_backends-drm-Add-missing-null-guard.patch
 upstream_5c7d2de5_xwayland-Fix-leaking-normal-key-presses-with-keyboard-layouts-other-than-English.patch
 upstream_27d28c9c_backends-drm-reduce-severity-of-pageflip-failure-logging.patch
+upstream_612ec743_backends-drm-also-generate-modes-for-the-native-refresh-rate-of-the-display.patch

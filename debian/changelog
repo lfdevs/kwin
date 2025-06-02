@@ -76,6 +76,8 @@ kwin (4:6.3.5-1) UNRELEASED; urgency=medium
     - Fixed a case where junky graphical glitches could briefly be seen on the
     screen after logging in but before Plasma’s splash screen or desktop
     loads. (kde#504258)
+    - outputconfigurationstore: disable adaptive sync by default since there
+    are too many driver bugs with VRR to make it active by default.
   * Backport other upstream commits:
     - Dim the rest of the screen when there’s an active system /
     authentication prompt to ensure it gets user attention.

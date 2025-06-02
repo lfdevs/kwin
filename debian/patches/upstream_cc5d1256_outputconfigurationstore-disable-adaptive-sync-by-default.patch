@@ -1,0 +1,40 @@
+From cc5d125619bebfa93eb956f2020a014103caab3a Mon Sep 17 00:00:00 2001
+From: Xaver Hugl <xaver.hugl@gmail.com>
+Date: Fri, 23 May 2025 19:35:31 +0200
+Subject: [PATCH] outputconfigurationstore: disable adaptive sync by default
+
+I've seen too many driver bugs with VRR since we added it, ranging from displays blanking for
+a moment when enabling or disabling VRR to even turning off completely while it's actually used.
+There is also a secondary issue that many displays have some amount of brightness flicker while
+VRR is used, which we can't properly limit without new KMS APIs.
+
+Some of these issues are rather bad, and while they're not our fault, it still gives people a
+bad user experience and bad impression of Plasma, so this should be turned off by default at
+least until the most severe issues are resolved.
+
+This change does not affect existing configurations.
+
+
+(cherry picked from commit 701f1cec07753b3b27d11b9a71e95fab929d3a8a)
+
+Co-authored-by: Xaver Hugl <xaver.hugl@kde.org>
+---
+ src/outputconfigurationstore.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/outputconfigurationstore.cpp b/src/outputconfigurationstore.cpp
+index 255fc9dfaa1..dbe6efecf4d 100644
+--- a/src/outputconfigurationstore.cpp
++++ b/src/outputconfigurationstore.cpp
+@@ -509,7 +509,7 @@ std::pair<OutputConfiguration, QList<Output *>> OutputConfigurationStore::genera
+             .manualTransform = existingData.manualTransform.value_or(kscreenChangeSet.transform.value_or(output->panelOrientation())),
+             .overscan = existingData.overscan.value_or(kscreenChangeSet.overscan.value_or(0)),
+             .rgbRange = existingData.rgbRange.value_or(kscreenChangeSet.rgbRange.value_or(Output::RgbRange::Automatic)),
+-            .vrrPolicy = existingData.vrrPolicy.value_or(kscreenChangeSet.vrrPolicy.value_or(VrrPolicy::Automatic)),
++            .vrrPolicy = existingData.vrrPolicy.value_or(kscreenChangeSet.vrrPolicy.value_or(VrrPolicy::Never)),
+             .highDynamicRange = existingData.highDynamicRange.value_or(false),
+             .referenceLuminance = existingData.referenceLuminance.value_or(std::clamp(output->maxAverageBrightness().value_or(200), 200.0, 500.0)),
+             .wideColorGamut = existingData.wideColorGamut.value_or(false),
+-- 
+GitLab
+

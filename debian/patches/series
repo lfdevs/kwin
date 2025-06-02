@@ -10,3 +10,4 @@ upstream_1c071e40_core-iccprofile-also-estimate-black-point-even-if-there-s-no-l
 upstream_be55cfa2_wayland-colormanagement-fix-sending-target-luminance-levels.patch
 upstream_3c724b83_wayland-colormanagement-also-around-max-fall-and-max-cll.patch
 upstream_5cc72fe9_wayland-colormanagement-compare-primaries-with-the-protocol-s-resolution.patch
+upstream_473aebf0_x11-Add-an-environment-variable-to-disable-NET-WM-SYNC-REQUEST-in-X11Window.patch

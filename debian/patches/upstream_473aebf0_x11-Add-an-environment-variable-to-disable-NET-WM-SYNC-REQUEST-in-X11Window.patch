@@ -1,0 +1,35 @@
+From 473aebf0f752c5fccb1c270841c14c1bb345e9d9 Mon Sep 17 00:00:00 2001
+From: Vlad Zahorodnii <vlad.zahorodnii@kde.org>
+Date: Wed, 21 May 2025 20:36:31 +0000
+Subject: [PATCH] x11: Add an environment variable to disable
+ _NET_WM_SYNC_REQUEST in X11Window
+
+This can be useful for debugging purposes.
+
+
+(cherry picked from commit 9b48a9ec8a1be84403f322f7f07d5ef89324ec2e)
+
+Co-authored-by: Vlad Zahorodnii <vlad.zahorodnii@kde.org>
+---
+ src/x11window.cpp | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/src/x11window.cpp b/src/x11window.cpp
+index 218bc76af9a..b0e0b3e52a6 100644
+--- a/src/x11window.cpp
++++ b/src/x11window.cpp
+@@ -2529,6 +2529,11 @@ void X11Window::getSyncCounter()
+         return;
+     }
+ 
++    static bool noXsync = qEnvironmentVariableIntValue("KWIN_X11_NO_SYNC_REQUEST") == 1;
++    if (noXsync) {
++        return;
++    }
++
+     Xcb::Property syncProp(false, window(), atoms->net_wm_sync_request_counter, XCB_ATOM_CARDINAL, 0, 1);
+     const xcb_sync_counter_t counter = syncProp.value<xcb_sync_counter_t>(XCB_NONE);
+     if (counter != XCB_NONE) {
+-- 
+GitLab
+

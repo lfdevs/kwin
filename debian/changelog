@@ -64,6 +64,8 @@ kwin (4:6.3.5-1) UNRELEASED; urgency=medium
     - wayland/colormanagement: fix sending target luminance levels.
     - wayland/colormanagement: compare primaries with the protocol's
     resolution.
+    - x11: Add an environment variable to disable _NET_WM_SYNC_REQUEST in
+    X11Window.
   * Backport other upstream commits:
     - Dim the rest of the screen when there’s an active system /
     authentication prompt to ensure it gets user attention.

@@ -78,6 +78,7 @@ kwin (4:6.3.5-1) UNRELEASED; urgency=medium
     loads. (kde#504258)
     - outputconfigurationstore: disable adaptive sync by default since there
     are too many driver bugs with VRR to make it active by default.
+    - backends/drm: Fix potential crash by adding missing null guard.
   * Backport other upstream commits:
     - Dim the rest of the screen when there’s an active system /
     authentication prompt to ensure it gets user attention.

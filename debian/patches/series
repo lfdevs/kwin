@@ -18,3 +18,4 @@ upstream_8450d9a8_wayland-xdgoutput-round-the-scaled-output-position.patch
 upstream_04713f7b_Map-xinerama-index-to-Output-by-output-name.patch
 upstream_56760937_backends-drm-clear-the-test-buffer-with-legacy-modesetting.patch
 upstream_cc5d1256_outputconfigurationstore-disable-adaptive-sync-by-default.patch
+upstream_7f088c1b_backends-drm-Add-missing-null-guard.patch

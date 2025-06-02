@@ -1,0 +1,35 @@
+From 7f088c1b69a59c3e0d6696886394658ccec38e27 Mon Sep 17 00:00:00 2001
+From: Vlad Zahorodnii <vlad.zahorodnii@kde.org>
+Date: Mon, 26 May 2025 15:59:33 +0000
+Subject: [PATCH] backends/drm: Add missing null guard
+
+The `ret` pointer can be null if a graphics reset occurs.
+
+SENTRY: KWIN-CD0
+
+
+(cherry picked from commit f727f4d3229efc949d2b4d8817a0b868be8ee045)
+
+Co-authored-by: Vlad Zahorodnii <vlad.zahorodnii@kde.org>
+---
+ src/backends/drm/drm_egl_layer.cpp | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/src/backends/drm/drm_egl_layer.cpp b/src/backends/drm/drm_egl_layer.cpp
+index 01d9d6a8062..26dbc57e626 100644
+--- a/src/backends/drm/drm_egl_layer.cpp
++++ b/src/backends/drm/drm_egl_layer.cpp
+@@ -80,7 +80,9 @@ std::shared_ptr<GLTexture> EglGbmLayer::texture() const
+ {
+     if (m_scanoutBuffer) {
+         const auto ret = m_surface.eglBackend()->importDmaBufAsTexture(*m_scanoutBuffer->buffer()->dmabufAttributes());
+-        ret->setContentTransform(offloadTransform().combine(OutputTransform::FlipY));
++        if (ret) {
++            ret->setContentTransform(offloadTransform().combine(OutputTransform::FlipY));
++        }
+         return ret;
+     } else {
+         return m_surface.texture();
+-- 
+GitLab
+

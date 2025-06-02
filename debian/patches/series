@@ -15,3 +15,4 @@ upstream_2d70fe62_plugins-colorpicker-use-BPC-when-converting-to-sRGB.patch
 upstream_cfd044a3_plugins-colorpicker-round-the-result.patch
 upstream_f82034f0_don-t-leak-lcms-tone-curves.patch
 upstream_8450d9a8_wayland-xdgoutput-round-the-scaled-output-position.patch
+upstream_04713f7b_Map-xinerama-index-to-Output-by-output-name.patch

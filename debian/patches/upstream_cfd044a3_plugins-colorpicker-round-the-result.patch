@@ -1,0 +1,29 @@
+From cfd044a3f2c55c83df86bae5b065352199dc3069 Mon Sep 17 00:00:00 2001
+From: Xaver Hugl <xaver.hugl@kde.org>
+Date: Thu, 22 May 2025 01:02:32 +0200
+Subject: [PATCH] plugins/colorpicker: round the result
+
+Otherwise it gets clipped, which means the tiniest of rounding errors can
+change the 8 bit result.
+
+BUG: 491633
+---
+ src/plugins/colorpicker/colorpicker.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/plugins/colorpicker/colorpicker.cpp b/src/plugins/colorpicker/colorpicker.cpp
+index 77ebd1d29bb..8ba8562727d 100644
+--- a/src/plugins/colorpicker/colorpicker.cpp
++++ b/src/plugins/colorpicker/colorpicker.cpp
+@@ -70,7 +70,7 @@ void ColorPickerEffect::paintScreen(const RenderTarget &renderTarget, const Rend
+ 
+         context->glReadnPixels(texturePosition.x(), renderTarget.size().height() - texturePosition.y() - PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE, GL_RGBA, GL_FLOAT, sizeof(float) * data.size(), data.data());
+         QVector3D sRGB = 255 * renderTarget.colorDescription().mapTo(QVector3D(data[0], data[1], data[2]), ColorDescription::sRGB, RenderingIntent::RelativeColorimetricWithBPC);
+-        QDBusConnection::sessionBus().send(m_replyMessage.createReply(QColor(sRGB.x(), sRGB.y(), sRGB.z())));
++        QDBusConnection::sessionBus().send(m_replyMessage.createReply(QColor(std::round(sRGB.x()), std::round(sRGB.y()), std::round(sRGB.z()))));
+         setPicking(false);
+         m_scheduledPosition = QPoint(-1, -1);
+     }
+-- 
+GitLab
+

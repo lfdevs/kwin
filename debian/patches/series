@@ -9,3 +9,4 @@ upstream_f1f25d2d_backends-drm-also-guard-DrmOutput-cursorLayer-for-nullptr-pipe
 upstream_1c071e40_core-iccprofile-also-estimate-black-point-even-if-there-s-no-luminance-tag.patch
 upstream_be55cfa2_wayland-colormanagement-fix-sending-target-luminance-levels.patch
 upstream_3c724b83_wayland-colormanagement-also-around-max-fall-and-max-cll.patch
+upstream_5cc72fe9_wayland-colormanagement-compare-primaries-with-the-protocol-s-resolution.patch

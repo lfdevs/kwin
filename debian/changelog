@@ -62,6 +62,8 @@ kwin (4:6.3.5-1) UNRELEASED; urgency=medium
     - core/iccprofile: also estimate black point even if there's no luminance
     tag.
     - wayland/colormanagement: fix sending target luminance levels.
+    - wayland/colormanagement: compare primaries with the protocol's
+    resolution.
   * Backport other upstream commits:
     - Dim the rest of the screen when there’s an active system /
     authentication prompt to ensure it gets user attention.

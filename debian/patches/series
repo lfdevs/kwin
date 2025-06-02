@@ -13,3 +13,4 @@ upstream_5cc72fe9_wayland-colormanagement-compare-primaries-with-the-protocol-s-
 upstream_473aebf0_x11-Add-an-environment-variable-to-disable-NET-WM-SYNC-REQUEST-in-X11Window.patch
 upstream_2d70fe62_plugins-colorpicker-use-BPC-when-converting-to-sRGB.patch
 upstream_cfd044a3_plugins-colorpicker-round-the-result.patch
+upstream_f82034f0_don-t-leak-lcms-tone-curves.patch

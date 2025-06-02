@@ -70,6 +70,7 @@ kwin (4:6.3.5-1) UNRELEASED; urgency=medium
     could return a very subtly wrong result when using certain combinations of
     Night Light, ICC profiles, HDR, 10-bit color, or any other features that
     globally change all colors on the screen. (kde#491633)
+    - Don't leak lcms tone curves.
   * Backport other upstream commits:
     - Dim the rest of the screen when there’s an active system /
     authentication prompt to ensure it gets user attention.

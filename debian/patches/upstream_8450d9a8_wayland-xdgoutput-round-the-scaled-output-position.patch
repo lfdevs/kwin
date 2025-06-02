@@ -1,0 +1,32 @@
+From 8450d9a8ed43b03eb69bc565297fe846a00c81a5 Mon Sep 17 00:00:00 2001
+From: Xaver Hugl <xaver.hugl@gmail.com>
+Date: Thu, 22 May 2025 17:12:26 +0200
+Subject: [PATCH] wayland/xdgoutput: round the scaled output position
+
+Otherwise it just gets clipped, making the result differ from what
+Xwayland::updatePrimary expects (and potentially overlap with another output)
+
+
+(cherry picked from commit 611be1e7f4a19cd3694e3f0d55d9879fccd83caf)
+
+Co-authored-by: Xaver Hugl <xaver.hugl@kde.org>
+---
+ src/wayland/xdgoutput_v1.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/wayland/xdgoutput_v1.cpp b/src/wayland/xdgoutput_v1.cpp
+index 850af72623a..58da0093bc0 100644
+--- a/src/wayland/xdgoutput_v1.cpp
++++ b/src/wayland/xdgoutput_v1.cpp
+@@ -185,7 +185,7 @@ void XdgOutputV1Interface::sendLogicalPosition(Resource *resource)
+     ClientConnection *connection = output->display()->getConnection(resource->client());
+     qreal scaleOverride = connection->scaleOverride();
+ 
+-    send_logical_position(resource->handle, pos.x() * scaleOverride, pos.y() * scaleOverride);
++    send_logical_position(resource->handle, std::round(pos.x() * scaleOverride), std::round(pos.y() * scaleOverride));
+ }
+ 
+ void XdgOutputV1Interface::sendDone(Resource *resource)
+-- 
+GitLab
+

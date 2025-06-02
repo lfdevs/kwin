@@ -71,6 +71,8 @@ kwin (4:6.3.5-1) UNRELEASED; urgency=medium
     Night Light, ICC profiles, HDR, 10-bit color, or any other features that
     globally change all colors on the screen. (kde#491633)
     - Don't leak lcms tone curves.
+    - When XWayland-using apps deliberately ask to open on a specific screen,
+    the screen they open on now more reliably matches the one they wanted.
   * Backport other upstream commits:
     - Dim the rest of the screen when there’s an active system /
     authentication prompt to ensure it gets user attention.

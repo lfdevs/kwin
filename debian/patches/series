@@ -23,3 +23,4 @@ upstream_5c7d2de5_xwayland-Fix-leaking-normal-key-presses-with-keyboard-layouts-
 upstream_27d28c9c_backends-drm-reduce-severity-of-pageflip-failure-logging.patch
 upstream_612ec743_backends-drm-also-generate-modes-for-the-native-refresh-rate-of-the-display.patch
 upstream_1a6871de_wayland-Fix-focused-surface-check-in-wl-data-device-start-drag.patch
+upstream_fd0eef29_Fix-config-options-for-inactive-window-action.patch

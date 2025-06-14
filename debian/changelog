@@ -1,3 +1,10 @@
+kwin (4:6.3.5-0ubuntu2) questing; urgency=medium
+
+  * Add xorg dependency to kwin-x11 as that dependency will sonn be
+    removed from desktop-common. (LP: #2114015)
+
+ -- Rik Mills <rikmills@kde.org>  Sat, 14 Jun 2025 08:15:21 +0100
+
 kwin (4:6.3.5-0ubuntu1) questing; urgency=medium
 
   * New upstream release (6.3.5)

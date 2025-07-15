@@ -45,6 +45,7 @@ kwin (4:6.3.6-1) UNRELEASED; urgency=medium
     - Backends/drm: also guard DrmOutput::cursorLayer for nullptr pipeline.
     (kde#504516)
   * Drop backported patches now part of the upstreame release.
+  * Refresh patches.
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Mon, 09 Jun 2025 21:41:56 +0200
 

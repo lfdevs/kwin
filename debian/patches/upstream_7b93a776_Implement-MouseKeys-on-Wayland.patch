@@ -28,11 +28,9 @@ BUG: 478620
  create mode 100644 src/plugins/mousekeys/mousekeys.cpp
  create mode 100644 src/plugins/mousekeys/mousekeys.h
 
-diff --git a/autotests/integration/CMakeLists.txt b/autotests/integration/CMakeLists.txt
-index a456d7f9001..59c67b088ae 100644
 --- a/autotests/integration/CMakeLists.txt
 +++ b/autotests/integration/CMakeLists.txt
-@@ -147,6 +147,7 @@ integrationTest(NAME testMouseActions SRCS mouseactions_test.cpp LIBS)
+@@ -145,6 +145,7 @@ integrationTest(NAME testWorkspace SRCS
  integrationTest(NAME testMouseActions SRCS mouseactions_test.cpp LIBS)
  integrationTest(NAME testColorManagement SRCS test_colormanagement.cpp)
  integrationTest(NAME testKeyboardInput SRCS keyboard_input_test.cpp)
@@ -40,9 +38,6 @@ index a456d7f9001..59c67b088ae 100644
  
  if(KWIN_BUILD_X11)
      integrationTest(NAME testDontCrashEmptyDeco SRCS dont_crash_empty_deco.cpp LIBS KDecoration3::KDecoration)
-diff --git a/autotests/integration/mouse_keys_test.cpp b/autotests/integration/mouse_keys_test.cpp
-new file mode 100644
-index 00000000000..9543f9e4398
 --- /dev/null
 +++ b/autotests/integration/mouse_keys_test.cpp
 @@ -0,0 +1,222 @@
@@ -268,8 +263,6 @@ index 00000000000..9543f9e4398
 +
 +WAYLANDTEST_MAIN(KWin::MouseKeysTest)
 +#include "mouse_keys_test.moc"
-diff --git a/src/input.h b/src/input.h
-index 03d49a15fa7..ca4f48a7212 100644
 --- a/src/input.h
 +++ b/src/input.h
 @@ -326,6 +326,7 @@ enum Order {
@@ -280,8 +273,6 @@ index 03d49a15fa7..ca4f48a7212 100644
      EisInput,
  
      VirtualTerminal,
-diff --git a/src/plugins/CMakeLists.txt b/src/plugins/CMakeLists.txt
-index cc92d696d2e..6984b95e69f 100644
 --- a/src/plugins/CMakeLists.txt
 +++ b/src/plugins/CMakeLists.txt
 @@ -79,6 +79,7 @@ add_subdirectory(magnifier)
@@ -292,9 +283,6 @@ index cc92d696d2e..6984b95e69f 100644
  add_subdirectory(mousemark)
  add_subdirectory(nightlight)
  add_subdirectory(outputlocator)
-diff --git a/src/plugins/mousekeys/CMakeLists.txt b/src/plugins/mousekeys/CMakeLists.txt
-new file mode 100644
-index 00000000000..f711c9bd92d
 --- /dev/null
 +++ b/src/plugins/mousekeys/CMakeLists.txt
 @@ -0,0 +1,18 @@
@@ -316,9 +304,6 @@ index 00000000000..f711c9bd92d
 +)
 +target_link_libraries(MouseKeysPlugin PRIVATE kwin)
 +
-diff --git a/src/plugins/mousekeys/main.cpp b/src/plugins/mousekeys/main.cpp
-new file mode 100644
-index 00000000000..ae1e4c266d3
 --- /dev/null
 +++ b/src/plugins/mousekeys/main.cpp
 @@ -0,0 +1,25 @@
@@ -347,9 +332,6 @@ index 00000000000..ae1e4c266d3
 +};
 +
 +#include "main.moc"
-diff --git a/src/plugins/mousekeys/metadata.json b/src/plugins/mousekeys/metadata.json
-new file mode 100644
-index 00000000000..aa304f40935
 --- /dev/null
 +++ b/src/plugins/mousekeys/metadata.json
 @@ -0,0 +1,5 @@
@@ -358,9 +340,6 @@ index 00000000000..aa304f40935
 +        "EnabledByDefault": true
 +    }
 +}
-diff --git a/src/plugins/mousekeys/mousekeys.cpp b/src/plugins/mousekeys/mousekeys.cpp
-new file mode 100644
-index 00000000000..517d97cc584
 --- /dev/null
 +++ b/src/plugins/mousekeys/mousekeys.cpp
 @@ -0,0 +1,249 @@
@@ -613,9 +592,6 @@ index 00000000000..517d97cc584
 +
 +    return false;
 +}
-diff --git a/src/plugins/mousekeys/mousekeys.h b/src/plugins/mousekeys/mousekeys.h
-new file mode 100644
-index 00000000000..02c7e539f6c
 --- /dev/null
 +++ b/src/plugins/mousekeys/mousekeys.h
 @@ -0,0 +1,70 @@
@@ -689,6 +665,3 @@ index 00000000000..02c7e539f6c
 +    int m_delay = 0;
 +    int m_interval = 0;
 +};
--- 
-GitLab
-

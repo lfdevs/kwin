@@ -11,11 +11,9 @@ commit to the queue and overrides the target, the commit thread's action would b
  src/backends/drm/drm_commit_thread.cpp | 9 ++++++---
  1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/src/backends/drm/drm_commit_thread.cpp b/src/backends/drm/drm_commit_thread.cpp
-index 69f8000a549..d3dd4f2a60b 100644
 --- a/src/backends/drm/drm_commit_thread.cpp
 +++ b/src/backends/drm/drm_commit_thread.cpp
-@@ -24,6 +24,7 @@ namespace KWin
+@@ -23,6 +23,7 @@ namespace KWin
  
  DrmCommitThread::DrmCommitThread(DrmGpu *gpu, const QString &name)
      : m_gpu(gpu)
@@ -23,7 +21,7 @@ index 69f8000a549..d3dd4f2a60b 100644
  {
      if (!gpu->atomicModeSetting()) {
          return;
-@@ -314,13 +315,15 @@ void DrmCommitThread::addCommit(std::unique_ptr<DrmAtomicCommit> &&commit)
+@@ -313,13 +314,15 @@ void DrmCommitThread::addCommit(std::uni
      std::unique_lock lock(m_mutex);
      m_commits.push_back(std::move(commit));
      const auto now = std::chrono::steady_clock::now();
@@ -42,6 +40,3 @@ index 69f8000a549..d3dd4f2a60b 100644
      m_commits.back()->setDeadline(m_targetPageflipTime - m_safetyMargin);
      m_commitPending.notify_all();
  }
--- 
-GitLab
-

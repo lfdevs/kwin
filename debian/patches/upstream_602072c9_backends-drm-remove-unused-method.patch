@@ -8,11 +8,9 @@ Subject: [PATCH] backends/drm: remove unused method
  src/backends/drm/drm_commit_thread.h   |  8 --------
  2 files changed, 25 deletions(-)
 
-diff --git a/src/backends/drm/drm_commit_thread.cpp b/src/backends/drm/drm_commit_thread.cpp
-index d3dd4f2a60b..94c786acc78 100644
 --- a/src/backends/drm/drm_commit_thread.cpp
 +++ b/src/backends/drm/drm_commit_thread.cpp
-@@ -383,23 +383,6 @@ std::chrono::nanoseconds DrmCommitThread::safetyMargin() const
+@@ -390,23 +390,6 @@ std::chrono::nanoseconds DrmCommitThread
      return m_safetyMargin;
  }
  
@@ -36,8 +34,6 @@ index d3dd4f2a60b..94c786acc78 100644
  void DrmCommitThread::handlePing()
  {
      // this will process the pageflip and call pageFlipped if there is one
-diff --git a/src/backends/drm/drm_commit_thread.h b/src/backends/drm/drm_commit_thread.h
-index 4c0dada590e..3973a650837 100644
 --- a/src/backends/drm/drm_commit_thread.h
 +++ b/src/backends/drm/drm_commit_thread.h
 @@ -43,14 +43,6 @@ public:
@@ -55,6 +51,3 @@ index 4c0dada590e..3973a650837 100644
  private:
      void clearDroppedCommits();
      TimePoint estimateNextVblank(TimePoint now) const;
--- 
-GitLab
-

@@ -9,11 +9,9 @@ a good default.
  src/plugins/dimscreen/package/metadata.json | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/src/plugins/dimscreen/package/metadata.json b/src/plugins/dimscreen/package/metadata.json
-index 3efb222ceda..cba7dd4dcd0 100644
 --- a/src/plugins/dimscreen/package/metadata.json
 +++ b/src/plugins/dimscreen/package/metadata.json
-@@ -99,7 +99,7 @@
+@@ -101,7 +101,7 @@
          "Description[x-test]": "xxDarkens the entire screen when requesting root privilegesxx",
          "Description[zh_CN]": "系统请求 root 权限时降低屏幕亮度",
          "Description[zh_TW]": "請求 root 權限時將整個螢幕變暗",
@@ -22,6 +20,3 @@ index 3efb222ceda..cba7dd4dcd0 100644
          "Icon": "preferences-system-windows-effect-dimscreen",
          "Id": "dimscreen",
          "License": "GPL",
--- 
-GitLab
-

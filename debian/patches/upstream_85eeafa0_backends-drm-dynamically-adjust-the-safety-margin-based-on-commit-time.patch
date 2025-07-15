@@ -26,11 +26,9 @@ BUG: 495167
  src/backends/drm/drm_pipeline.cpp      |  2 ++
  3 files changed, 29 insertions(+), 2 deletions(-)
 
-diff --git a/src/backends/drm/drm_commit_thread.cpp b/src/backends/drm/drm_commit_thread.cpp
-index 94c786acc78..3761ae241e0 100644
 --- a/src/backends/drm/drm_commit_thread.cpp
 +++ b/src/backends/drm/drm_commit_thread.cpp
-@@ -144,11 +144,31 @@ void DrmCommitThread::submit()
+@@ -143,11 +143,31 @@ void DrmCommitThread::submit()
      const auto vrr = commit->isVrr();
      const bool success = commit->commit();
      if (success) {
@@ -63,7 +61,7 @@ index 94c786acc78..3761ae241e0 100644
      } else {
          if (m_commits.size() > 1) {
              // the failure may have been because of the reordering of commits
-@@ -339,6 +359,8 @@ void DrmCommitThread::clearDroppedCommits()
+@@ -338,6 +358,8 @@ void DrmCommitThread::clearDroppedCommit
      m_commitsToDelete.clear();
  }
  
@@ -72,7 +70,7 @@ index 94c786acc78..3761ae241e0 100644
  static const std::chrono::microseconds s_safetyMarginMinimum = []() {
      bool ok = false;
      int value = qEnvironmentVariableIntValue("KWIN_DRM_OVERRIDE_SAFETY_MARGIN", &ok);
-@@ -347,7 +369,8 @@ void DrmCommitThread::setModeInfo(uint32_t maximum, std::chrono::nanoseconds vbl
+@@ -354,7 +376,8 @@ void DrmCommitThread::setModeInfo(uint32
      m_minVblankInterval = std::chrono::nanoseconds(1'000'000'000'000ull / maximum);
      // the kernel rejects commits that happen during vblank
      // the 1.5ms on top of that was chosen experimentally, for the time it takes to commit + scheduling inaccuracies
@@ -82,8 +80,6 @@ index 94c786acc78..3761ae241e0 100644
  }
  
  void DrmCommitThread::pageFlipped(std::chrono::nanoseconds timestamp)
-diff --git a/src/backends/drm/drm_commit_thread.h b/src/backends/drm/drm_commit_thread.h
-index 3973a650837..aeb6ad007cc 100644
 --- a/src/backends/drm/drm_commit_thread.h
 +++ b/src/backends/drm/drm_commit_thread.h
 @@ -65,6 +65,8 @@ private:
@@ -95,11 +91,9 @@ index 3973a650837..aeb6ad007cc 100644
      bool m_ping = false;
      bool m_pageflipTimeoutDetected = false;
  };
-diff --git a/src/backends/drm/drm_pipeline.cpp b/src/backends/drm/drm_pipeline.cpp
-index 71b52661854..215899629f6 100644
 --- a/src/backends/drm/drm_pipeline.cpp
 +++ b/src/backends/drm/drm_pipeline.cpp
-@@ -458,6 +458,8 @@ void DrmPipeline::pageFlipped(std::chrono::nanoseconds timestamp)
+@@ -444,6 +444,8 @@ void DrmPipeline::pageFlipped(std::chron
  {
      RenderLoopPrivate::get(m_output->renderLoop())->notifyVblank(timestamp);
      m_commitThread->pageFlipped(timestamp);
@@ -108,6 +102,3 @@ index 71b52661854..215899629f6 100644
      if (gpu()->needsModeset()) {
          gpu()->maybeModeset(nullptr, nullptr);
      }
--- 
-GitLab
-

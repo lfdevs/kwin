@@ -1,9 +1,50 @@
-kwin (4:6.3.5-2) UNRELEASED; urgency=medium
+kwin (4:6.3.6-1) UNRELEASED; urgency=medium
 
   [ Aurélien COUDERC ]
   * Backport upstream commits:
     - Fix inactive inner window action "Activate, raise and pass click" not
     raising the window. (kde#501457)
+  * New upstream bugfix release (6.3.6).
+    - Backends/drm: never use DEGAMMA_LUT. (kde#505869)
+    - Workspace: Fix window activation on activity change. (kde#501393)
+    - Don't add deleted windows to the stacking order.
+    - Xwayland: don't forward left/middle/right mouse buttons to Xwayland.
+    (kcde#490057)
+    - Output management: add some safe guards for invalid brightness
+    overrides. (kde#506090)
+    - Wayland/tablet_v2: fix the tablet cursor hotspot with Xwayland scaling.
+    - Core/renderloop: fix subsurfaces vrr scheduling.
+    - Plugins/slideback: Scale smoothness proportionally to adjusted strength
+    from 6.3. (kde#503964)
+    - Plugins/systembell: Throttle visual bell.
+    - Backends/drm: disable direct scanout on secondary GPUs.
+    - Scene/surfaceitem_wayland: handle some missing initial properties.
+    - Plugins/translucency: Fix unsetting animations for minimized windows.
+    (kde#504687)
+    - Autotests/integration/outputchanges: wait for frame callbacks before committing.
+    - Autotests/outputchanges: add a test for evacuating windows from removed outputs.
+    - Scene/workspacescene: restrict frame callbacks based on the output
+    rather than geometry. (kde#479694, kde#498628, kde#505060)
+    - Backends/drm: reduce severity of pageflip failure logging. (kde#505028)
+    - Xwayland: Fix leaking normal key presses with keyboard layouts other
+    than English. (kde#500032)
+    - Backends/drm: Add missing null guard.
+    - Outputconfigurationstore: disable adaptive sync by default.
+    - Map xinerama index to Output by output name.
+    - Backends/drm: clear the test buffer with legacy modesetting.
+    (kde#504258)
+    - Wayland/xdgoutput: round the scaled output position.
+    - Don't leak lcms tone curves.
+    - Plugins/colorpicker: round the result. (kde#491633)
+    - Plugins/colorpicker: use BPC when converting to sRGB. (kde#491633)
+    - X11: Add an environment variable to disable _NET_WM_SYNC_REQUEST in X11Window.
+    - Wayland/colormanagement: compare primaries with the protocol's resolution.
+    - Wayland/colormanagement: also around max_fall and max_cll.
+    - Wayland/colormanagement: fix sending target luminance levels.
+    - Core/iccprofile: also estimate black point even if there's no luminance tag.
+    - Backends/drm: also guard DrmOutput::cursorLayer for nullptr pipeline.
+    (kde#504516)
+  * Drop backported patches now part of the upstreame release.
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Mon, 09 Jun 2025 21:41:56 +0200
 

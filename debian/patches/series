@@ -9,3 +9,4 @@ upstream_612ec743_backends-drm-also-generate-modes-for-the-native-refresh-rate-o
 upstream_1a6871de_wayland-Fix-focused-surface-check-in-wl-data-device-start-drag.patch
 upstream_fd0eef29_Fix-config-options-for-inactive-window-action.patch
 upstream_572fee09_effects-slideback-Also-check-activity-when-matching-windows.patch
+upstream_48ddfb59_wayland-Send-wl-data-source-cancelled-if-wl-data-device-start-drag-is-rejected.patch

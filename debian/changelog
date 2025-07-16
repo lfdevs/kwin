@@ -48,6 +48,8 @@ kwin (4:6.3.6-1) UNRELEASED; urgency=medium
     raising the window. (kde#501457)
     - Fix incorrect window sometimes receiving clicks when slideback effect in
     use. [572fee09] (kde#455429)
+    - wayland: Send wl_data_source.cancelled if wl_data_device.start_drag is
+    rejected similar to what weston does. [48ddfb59]
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Mon, 09 Jun 2025 21:41:56 +0200
 

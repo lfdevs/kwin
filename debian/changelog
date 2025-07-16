@@ -1,9 +1,6 @@
 kwin (4:6.3.6-1) UNRELEASED; urgency=medium
 
   [ Aurélien COUDERC ]
-  * Backport upstream commits:
-    - Fix inactive inner window action "Activate, raise and pass click" not
-    raising the window. (kde#501457)
   * New upstream bugfix release (6.3.6).
     - Backends/drm: never use DEGAMMA_LUT. (kde#505869)
     - Workspace: Fix window activation on activity change. (kde#501393)
@@ -46,6 +43,11 @@ kwin (4:6.3.6-1) UNRELEASED; urgency=medium
     (kde#504516)
   * Drop backported patches now part of the upstreame release.
   * Refresh patches.
+  * Backport upstream commits:
+    - Fix inactive inner window action "Activate, raise and pass click" not
+    raising the window. (kde#501457)
+    - Fix incorrect window sometimes receiving clicks when slideback effect in
+    use. [572fee09] (kde#455429)
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Mon, 09 Jun 2025 21:41:56 +0200
 

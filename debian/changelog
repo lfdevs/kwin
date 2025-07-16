@@ -61,6 +61,9 @@ kwin (4:6.3.6-1) UNRELEASED; urgency=medium
     the display to reach windows underneath the maximized window. [070f5ba6]
     - Fix for multiples instances of screens waking up just after going to
     sleep. [8f331a26] (kde#493879, kde#506135, kde#505953)
+    - Fix some wayland clients crashing in some race conditions when
+    attempting to create an xdg_surface while mapping a window. [225e7360]
+    (kde#506412)
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Mon, 09 Jun 2025 21:41:56 +0200
 

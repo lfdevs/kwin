@@ -18,3 +18,4 @@ upstream_5ba6279b_A11yKeyboardMonitor-Fix-sending-keycodes-to-AT.patch
 upstream_889ffed2_A11yKeyboardMonitor-Distinguish-modifier-and-other-key.patch
 upstream_070f5ba6_xdgshellwindow-Reset-gravity-on-interactive-resize-finish.patch
 upstream_8f331a26_backends-drm-don-t-use-UUID-to-identify-outputs.patch
+upstream_225e7360_wayland-Remove-buffer-checks-in-xdg-surface-and-layer-surface-factory-requests.patch

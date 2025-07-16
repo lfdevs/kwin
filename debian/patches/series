@@ -11,3 +11,4 @@ upstream_fd0eef29_Fix-config-options-for-inactive-window-action.patch
 upstream_572fee09_effects-slideback-Also-check-activity-when-matching-windows.patch
 upstream_48ddfb59_wayland-Send-wl-data-source-cancelled-if-wl-data-device-start-drag-is-rejected.patch
 upstream_9580193a_backends-drm-also-handle-GPU-resets-on-secondary-GPUs.patch
+upstream_98b64e9b_backends-drm-allow-night-light-to-get-closer-to-the-edges-of-the-gamut.patch

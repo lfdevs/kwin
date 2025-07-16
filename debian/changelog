@@ -65,6 +65,7 @@ kwin (4:6.3.6-1) UNRELEASED; urgency=medium
     attempting to create an xdg_surface while mapping a window. [225e7360]
     (kde#506412)
     - backends/drm: Fix memory leak in DrmGpu::createNonMasterFd. [e4e144db]
+    - wayland: Fix resizing with fractional increments. [e8541cf2]
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Mon, 09 Jun 2025 21:41:56 +0200
 

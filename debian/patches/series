@@ -16,3 +16,4 @@ upstream_252c74c0_Implement-org-freedesktop-a11y-KeyboardMonitor-interface.patch
 upstream_cfc05b0e_a11ykeyboardmanager-Grab-keys-when-grabbed-modifier-is-pressed.patch
 upstream_5ba6279b_A11yKeyboardMonitor-Fix-sending-keycodes-to-AT.patch
 upstream_889ffed2_A11yKeyboardMonitor-Distinguish-modifier-and-other-key.patch
+upstream_070f5ba6_xdgshellwindow-Reset-gravity-on-interactive-resize-finish.patch

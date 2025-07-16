@@ -55,6 +55,10 @@ kwin (4:6.3.6-1) UNRELEASED; urgency=medium
     - Implement org.freedesktop.a11y.KeyboardMonitor interface which allows
     screen readers to intercept keys for their own shortcut handling.
     [252c74c0, cfc05b0e, 5ba6279b, 889ffed2]
+    - Fix an issue where windows may be placed at a non-0,0 coordinate after a
+    maximize on fractionally scaled displays if the window was previously
+    resized from the top edge, potentially allowing mouse clicks on the top of
+    the display to reach windows underneath the maximized window. [070f5ba6]
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Mon, 09 Jun 2025 21:41:56 +0200
 

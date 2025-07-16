@@ -52,6 +52,9 @@ kwin (4:6.3.6-1) UNRELEASED; urgency=medium
     rejected similar to what weston does. [48ddfb59]
     - backends/drm: also handle GPU resets on secondary GPUs. [9580193a]
     - Fix night light not tinting properly on wayland. [98b64e9b] (kde#505495)
+    - Implement org.freedesktop.a11y.KeyboardMonitor interface which allows
+    screen readers to intercept keys for their own shortcut handling.
+    [252c74c0]
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Mon, 09 Jun 2025 21:41:56 +0200
 

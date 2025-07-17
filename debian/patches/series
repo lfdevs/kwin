@@ -21,3 +21,4 @@ upstream_8f331a26_backends-drm-don-t-use-UUID-to-identify-outputs.patch
 upstream_225e7360_wayland-Remove-buffer-checks-in-xdg-surface-and-layer-surface-factory-requests.patch
 upstream_e4e144db_backends-drm-Fix-memory-leak-in-DrmGpu-createNonMasterFd.patch
 upstream_e8541cf2_wayland-Fix-resizing-with-fractional-increments.patch
+upstream_51c0880f_wayland-close-popups-upon-window-activation.patch

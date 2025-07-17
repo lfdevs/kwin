@@ -66,6 +66,8 @@ kwin (4:6.3.6-1) UNRELEASED; urgency=medium
     (kde#506412)
     - backends/drm: Fix memory leak in DrmGpu::createNonMasterFd. [e4e144db]
     - wayland: Fix resizing with fractional increments. [e8541cf2]
+    - wayland: close popups upon window activation, fixing GTK4 popups
+    preventing the kicker launcher getting focus. [51c0880f] (kde#497075)
 
  -- Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Mon, 09 Jun 2025 21:41:56 +0200
 

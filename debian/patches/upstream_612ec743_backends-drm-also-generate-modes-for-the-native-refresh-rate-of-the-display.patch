@@ -14,6 +14,9 @@ BUG: 504655
 
 Co-authored-by: Xaver Hugl <xaver.hugl@kde.org>
 ---
+From: Aurélien COUDERC <coucouf@debian.org>
+Adapted to apply against Plasma 6.3
+---
  autotests/drm/drmTest.cpp          | 203 +++++++++++++++++------------
  src/backends/drm/drm_connector.cpp |  33 +++--
  2 files changed, 142 insertions(+), 94 deletions(-)

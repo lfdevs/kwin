@@ -41,6 +41,7 @@ WorkspaceWrapper::WorkspaceWrapper(QObject *parent)
     connect(ws, &Workspace::windowActivated, this, &WorkspaceWrapper::windowActivated);
     connect(vds, &VirtualDesktopManager::desktopAdded, this, &WorkspaceWrapper::desktopsChanged);
     connect(vds, &VirtualDesktopManager::desktopRemoved, this, &WorkspaceWrapper::desktopsChanged);
+    connect(vds, &VirtualDesktopManager::desktopMoved, this, &WorkspaceWrapper::desktopsChanged);
     connect(vds, &VirtualDesktopManager::layoutChanged, this, &WorkspaceWrapper::desktopLayoutChanged);
     connect(vds, &VirtualDesktopManager::currentChanged, this, &WorkspaceWrapper::currentDesktopChanged);
 #if KWIN_BUILD_ACTIVITIES
@@ -71,6 +72,10 @@ QList<VirtualDesktop *> WorkspaceWrapper::desktops() const
 
 void WorkspaceWrapper::setCurrentDesktop(VirtualDesktop *desktop)
 {
+    if (!desktop) {
+        qCWarning(KWIN_SCRIPTING) << "Invalid desktop passed to setCurrentDesktop";
+        return;
+    }
     VirtualDesktopManager::self()->setCurrent(desktop);
 }
 
@@ -266,7 +271,20 @@ void WorkspaceWrapper::createDesktop(int position, const QString &name) const
 
 void WorkspaceWrapper::removeDesktop(VirtualDesktop *desktop) const
 {
+    if (!desktop) {
+        qCWarning(KWIN_SCRIPTING) << "Invalid desktop passed to removeDesktop";
+        return;
+    }
     VirtualDesktopManager::self()->removeVirtualDesktop(desktop->id());
+}
+
+void WorkspaceWrapper::moveDesktop(VirtualDesktop *desktop, int position)
+{
+    if (!desktop) {
+        qCWarning(KWIN_SCRIPTING) << "Invalid desktop passed to moveDesktop";
+        return;
+    }
+    VirtualDesktopManager::self()->moveVirtualDesktop(desktop, position);
 }
 
 QString WorkspaceWrapper::supportInformation() const
@@ -411,6 +429,8 @@ void WorkspaceWrapper::sendClientToScreen(Window *client, Output *output)
 
 KWin::TileManager *WorkspaceWrapper::tilingForScreen(const QString &screenName) const
 {
+    qCWarning(KWIN_CORE) << "workspace.tilingForScreen() is deprecated: use workspace.rootTile() instead";
+
     Output *output = kwinApp()->outputBackend()->findOutput(screenName);
     if (output) {
         auto tileManager = workspace()->tileManager(output);
@@ -422,9 +442,16 @@ KWin::TileManager *WorkspaceWrapper::tilingForScreen(const QString &screenName) 
 
 KWin::TileManager *WorkspaceWrapper::tilingForScreen(Output *output) const
 {
+    qCWarning(KWIN_CORE) << "workspace.tilingForScreen() is deprecated: use workspace.rootTile() instead";
+
     auto tileManager = workspace()->tileManager(output);
     QJSEngine::setObjectOwnership(tileManager, QJSEngine::CppOwnership);
     return tileManager;
+}
+
+Tile *WorkspaceWrapper::rootTile(Output *output, VirtualDesktop *desktop) const
+{
+    return workspace()->rootTile(output, desktop);
 }
 
 QtScriptWorkspaceWrapper::QtScriptWorkspaceWrapper(QObject *parent)

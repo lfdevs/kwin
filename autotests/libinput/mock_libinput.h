@@ -32,6 +32,7 @@ struct libinput_device
     QByteArray outputName;
     quint32 product = 0;
     quint32 vendor = 0;
+    quint32 busType = 3; // BUS_USB
     int tapFingerCount = 0;
     QSizeF deviceSize;
     int deviceSizeReturnValue = 0;
@@ -102,6 +103,8 @@ struct libinput_device
     uint32_t buttonCount = 0;
     uint32_t stripCount = 0;
     uint32_t ringCount = 0;
+    uint32_t dialCount = 0;
+    uint32_t rotation = 0;
 };
 
 struct libinput_event

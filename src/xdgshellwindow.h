@@ -161,7 +161,6 @@ public:
     void applyWindowRules() override;
     bool takeFocus() override;
     bool wantsInput() const override;
-    bool dockWantsInput() const override;
     void setFullScreen(bool set) override;
     void closeWindow() override;
     void maximize(MaximizeMode mode, const QRectF &restore = QRectF()) override;
@@ -178,7 +177,6 @@ protected:
     void handleRolePrecommit() override;
     void handleRoleDestroyed() override;
     void doMinimize() override;
-    void doInteractiveResizeSync(const QRectF &rect) override;
     void doSetActive() override;
     void doSetFullScreen();
     void doSetMaximized();
@@ -193,11 +191,11 @@ protected:
 
 private:
     void handleWindowTitleChanged();
-    void handleWindowClassChanged();
+    void handleAppIdChanged();
     void handleWindowMenuRequested(SeatInterface *seat,
                                    const QPoint &surfacePos, quint32 serial);
     void handleMoveRequested(SeatInterface *seat, quint32 serial);
-    void handleResizeRequested(SeatInterface *seat, XdgToplevelInterface::ResizeAnchor anchor, quint32 serial);
+    void handleResizeRequested(SeatInterface *seat, Gravity anchor, quint32 serial);
     void handleStatesAcknowledged(const XdgToplevelInterface::States &states);
     void handleMaximizeRequested();
     void handleUnmaximizeRequested();
@@ -215,8 +213,20 @@ private:
     void updateMaximizeMode(MaximizeMode maximizeMode);
     void updateFullScreenMode(bool set);
     void sendPing(PingReason reason);
+    QPointF initialPosition() const;
+    QSizeF initialSize() const;
+    bool initialKeepAbove() const;
+    bool initialKeepBelow() const;
+    bool initialSkipSwitcher() const;
+    bool initialSkipPager() const;
+    bool initialSkipTaskbar() const;
+    bool initialMinimizeMode() const;
+    bool initialNoBorder() const;
     MaximizeMode initialMaximizeMode() const;
     bool initialFullScreenMode() const;
+    QVector<VirtualDesktop *> initialDesktops() const;
+    QString initialShortcut() const;
+    QStringList initialActivities() const;
     DecorationMode preferredDecorationMode() const;
     void configureDecoration();
     void configureXdgDecoration(DecorationMode decorationMode);
@@ -264,11 +274,10 @@ public:
     void popupDone() override;
     bool isPopupWindow() const override;
     bool isTransient() const override;
+    bool isPlaceable() const override;
     bool isResizable() const override;
     bool isMovable() const override;
     bool isMovableAcrossScreens() const override;
-    bool hasTransientPlacementHint() const override;
-    QRectF transientPlacement() const override;
     bool isCloseable() const override;
     void closeWindow() override;
     bool wantsInput() const override;
@@ -287,6 +296,7 @@ private:
     void handleRepositionRequested(quint32 token);
     void initialize();
     void updateRelativePlacement();
+    QRectF transientPlacement() const;
     void relayout();
 
     XdgPopupInterface *m_shellSurface;

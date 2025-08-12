@@ -22,7 +22,6 @@ target_link_libraries(zoom PRIVATE
     kwin
 
     KF6::ConfigGui
-    KF6::ConfigWidgets
     KF6::GlobalAccel
     KF6::I18n
 )
@@ -45,6 +44,7 @@ if (KWIN_BUILD_KCMS)
         KF6::CoreAddons
         KF6::GlobalAccel
         KF6::I18n
+        KF6::WindowSystem
         KF6::XmlGui
         KWinEffectsInterface
     )

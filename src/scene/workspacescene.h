@@ -9,32 +9,18 @@
 
 #pragma once
 
-#include "core/colorspace.h"
 #include "scene/scene.h"
 
 namespace KWin
 {
 
-namespace Decoration
-{
-class DecoratedWindowImpl;
-}
-
-class DecorationRenderer;
-class Deleted;
 class DragAndDropIconItem;
 class EffectWindow;
-class GLTexture;
+class EglContext;
 class Item;
-class RenderLoop;
-class WorkspaceScene;
-class Shadow;
-class ShadowItem;
-class ShadowTextureProvider;
 class SurfaceItem;
 class WindowItem;
 class WindowPaintData;
-class OpenGlContext;
 
 class KWIN_EXPORT WorkspaceScene : public Scene
 {
@@ -56,13 +42,7 @@ public:
     void frame(SceneDelegate *delegate, OutputFrame *frame) override;
     double desiredHdrHeadroom() const override;
 
-    virtual bool makeOpenGLContextCurrent();
-    virtual void doneOpenGLContextCurrent();
-    virtual bool supportsNativeFence() const;
-    virtual OpenGlContext *openglContext() const;
-
-    virtual std::unique_ptr<DecorationRenderer> createDecorationRenderer(Decoration::DecoratedWindowImpl *) = 0;
-    virtual std::unique_ptr<ShadowTextureProvider> createShadowTextureProvider(Shadow *shadow) = 0;
+    EglContext *openglContext() const;
 
     /**
      * Whether the Scene is able to drive animations.
@@ -70,12 +50,7 @@ public:
      * If the Scene performs software rendering it is supposed to return @c false,
      * if rendering is hardware accelerated it should return @c true.
      */
-    virtual bool animationsSupported() const = 0;
-
-    virtual std::pair<std::shared_ptr<GLTexture>, ColorDescription> textureForOutput(Output *output) const
-    {
-        return {nullptr, ColorDescription::sRGB};
-    }
+    bool animationsSupported() const;
 
 Q_SIGNALS:
     void preFrameRender();

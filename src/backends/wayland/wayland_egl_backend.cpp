@@ -14,7 +14,6 @@
 #include "opengl/eglswapchain.h"
 #include "opengl/glrendertimequery.h"
 #include "opengl/glutils.h"
-#include "platformsupport/scenes/opengl/basiceglsurfacetexture_wayland.h"
 #include "scene/surfaceitem_wayland.h"
 #include "wayland/surface.h"
 #include "wayland_backend.h"
@@ -91,7 +90,7 @@ std::optional<OutputLayerBeginFrameInfo> WaylandEglPrimaryLayer::doBeginFrame()
     m_query = std::make_unique<GLRenderTimeQuery>(m_backend->openglContextRef());
     m_query->begin();
     return OutputLayerBeginFrameInfo{
-        .renderTarget = RenderTarget(m_buffer->framebuffer()),
+        .renderTarget = RenderTarget(m_buffer->framebuffer(), m_output->colorDescription()),
         .repaint = repair,
     };
 }
@@ -204,7 +203,7 @@ bool WaylandEglCursorLayer::doEndFrame(const QRegion &renderedRegion, const QReg
     wl_buffer *buffer = m_backend->backend()->importBuffer(m_buffer->buffer());
     Q_ASSERT(buffer);
 
-    static_cast<WaylandOutput *>(m_output)->cursor()->update(buffer, scale(), hotspot().toPoint());
+    static_cast<WaylandOutput *>(m_output)->cursor()->update(buffer, m_buffer->buffer()->size() / m_output->scale(), hotspot().toPoint());
 
     EGLNativeFence releaseFence{m_backend->eglDisplayObject()};
     m_swapchain->release(m_buffer, releaseFence.takeFileDescriptor());
@@ -222,8 +221,7 @@ QHash<uint32_t, QList<uint64_t>> WaylandEglCursorLayer::supportedDrmFormats() co
 }
 
 WaylandEglBackend::WaylandEglBackend(WaylandBackend *b)
-    : AbstractEglBackend()
-    , m_backend(b)
+    : m_backend(b)
 {
     connect(m_backend, &WaylandBackend::outputAdded, this, &WaylandEglBackend::createEglWaylandOutput);
     connect(m_backend, &WaylandBackend::outputRemoved, this, [this](Output *output) {
@@ -323,17 +321,12 @@ bool WaylandEglBackend::initRenderingContext()
         return false;
     }
 
-    return makeCurrent();
+    return openglContext()->makeCurrent();
 }
 
 std::pair<std::shared_ptr<KWin::GLTexture>, ColorDescription> WaylandEglBackend::textureForOutput(KWin::Output *output) const
 {
     return std::make_pair(m_outputs.at(output).primaryLayer->texture(), ColorDescription::sRGB);
-}
-
-std::unique_ptr<SurfaceTexture> WaylandEglBackend::createSurfaceTextureWayland(SurfacePixmap *pixmap)
-{
-    return std::make_unique<BasicEGLSurfaceTextureWayland>(this, pixmap);
 }
 
 bool WaylandEglBackend::present(Output *output, const std::shared_ptr<OutputFrame> &frame)

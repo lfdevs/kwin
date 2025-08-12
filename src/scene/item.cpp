@@ -9,6 +9,7 @@
 #include "core/renderlayer.h"
 #include "scene/scene.h"
 #include "utils/common.h"
+#include "workspace.h"
 
 namespace KWin
 {
@@ -629,6 +630,29 @@ void Item::removeEffect()
 {
     Q_ASSERT(m_effectCount > 0);
     m_effectCount--;
+}
+
+void Item::framePainted(Output *output, OutputFrame *frame, std::chrono::milliseconds timestamp)
+{
+    // The visibility of the item itself is not checked here to be able to paint hidden items for
+    // things like screncasts or thumbnails
+    handleFramePainted(output, frame, timestamp);
+    for (const auto child : std::as_const(m_childItems)) {
+        if (child->explicitVisible() && workspace()->outputAt(child->mapToScene(child->boundingRect()).center()) == output) {
+            child->framePainted(output, frame, timestamp);
+        }
+    }
+}
+
+bool Item::isAncestorOf(const Item *item) const
+{
+    return std::ranges::any_of(m_childItems, [item](const Item *child) {
+        return child == item || child->isAncestorOf(item);
+    });
+}
+
+void Item::handleFramePainted(Output *output, OutputFrame *frame, std::chrono::milliseconds timestamp)
+{
 }
 
 } // namespace KWin

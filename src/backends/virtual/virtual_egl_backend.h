@@ -9,7 +9,7 @@
 #pragma once
 
 #include "core/outputlayer.h"
-#include "platformsupport/scenes/opengl/abstract_egl_backend.h"
+#include "opengl/eglbackend.h"
 #include <chrono>
 #include <memory>
 
@@ -47,14 +47,13 @@ private:
 /**
  * @brief OpenGL Backend using Egl on a GBM surface.
  */
-class VirtualEglBackend : public AbstractEglBackend
+class VirtualEglBackend : public EglBackend
 {
     Q_OBJECT
 
 public:
     VirtualEglBackend(VirtualBackend *b);
     ~VirtualEglBackend() override;
-    std::unique_ptr<SurfaceTexture> createSurfaceTextureWayland(SurfacePixmap *pixmap) override;
     std::pair<std::shared_ptr<KWin::GLTexture>, ColorDescription> textureForOutput(Output *output) const override;
     OutputLayer *primaryLayer(Output *output) override;
     bool present(Output *output, const std::shared_ptr<OutputFrame> &frame) override;

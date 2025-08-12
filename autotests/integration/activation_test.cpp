@@ -51,12 +51,11 @@ void ActivationTest::initTestCase()
     qRegisterMetaType<Window *>();
 
     QVERIFY(waylandServer()->init(s_socketName));
+    kwinApp()->start();
     Test::setOutputConfig({
         QRect(0, 0, 1280, 1024),
         QRect(1280, 0, 1280, 1024),
     });
-
-    kwinApp()->start();
     const auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
     QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
@@ -542,8 +541,7 @@ static X11Window *createX11Window(xcb_connection_t *connection, const QRect &geo
                       geometry.height(),
                       0, XCB_WINDOW_CLASS_INPUT_OUTPUT, XCB_COPY_FROM_PARENT, 0, nullptr);
 
-    xcb_size_hints_t hints;
-    memset(&hints, 0, sizeof(hints));
+    xcb_size_hints_t hints{};
     xcb_icccm_size_hints_set_position(&hints, 1, geometry.x(), geometry.y());
     xcb_icccm_size_hints_set_size(&hints, 1, geometry.width(), geometry.height());
     xcb_icccm_set_wm_normal_hints(connection, windowId, &hints);

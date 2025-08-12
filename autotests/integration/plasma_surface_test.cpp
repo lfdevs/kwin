@@ -57,9 +57,8 @@ void PlasmaSurfaceTest::initTestCase()
 {
     qRegisterMetaType<KWin::Window *>();
     QVERIFY(waylandServer()->init(s_socketName));
-    Test::setOutputConfig({QRect(0, 0, 1280, 1024)});
-
     kwinApp()->start();
+    Test::setOutputConfig({QRect(0, 0, 1280, 1024)});
 }
 
 void PlasmaSurfaceTest::init()
@@ -140,7 +139,7 @@ void PlasmaSurfaceTest::testAcceptsFocus_data()
     QTest::addColumn<bool>("active");
 
     QTest::newRow("Desktop") << KWayland::Client::PlasmaShellSurface::Role::Desktop << true << true;
-    QTest::newRow("Panel") << KWayland::Client::PlasmaShellSurface::Role::Panel << true << false;
+    QTest::newRow("Panel") << KWayland::Client::PlasmaShellSurface::Role::Panel << false << false;
     QTest::newRow("OSD") << KWayland::Client::PlasmaShellSurface::Role::OnScreenDisplay << false << false;
     QTest::newRow("Normal") << KWayland::Client::PlasmaShellSurface::Role::Normal << true << true;
     QTest::newRow("Notification") << KWayland::Client::PlasmaShellSurface::Role::Notification << false << false;
@@ -255,7 +254,7 @@ void PlasmaSurfaceTest::testPanelActivate()
     QCOMPARE(panel->windowType(), WindowType::Dock);
     QVERIFY(panel->isDock());
     QFETCH(bool, active);
-    QCOMPARE(panel->dockWantsInput(), active);
+    QCOMPARE(panel->wantsInput(), active);
     QCOMPARE(panel->isActive(), active);
 }
 

@@ -34,6 +34,11 @@ quint32 InputDevice::product() const
     return 0;
 }
 
+quint32 InputDevice::busType() const
+{
+    return 0;
+}
+
 void *InputDevice::group() const
 {
     return nullptr;
@@ -62,24 +67,14 @@ int InputDevice::tabletPadButtonCount() const
     return 0;
 }
 
-int InputDevice::tabletPadRingCount() const
+QList<InputDeviceTabletPadModeGroup> InputDevice::modeGroups() const
 {
-    return 0;
+    return {};
 }
 
-int InputDevice::tabletPadStripCount() const
+bool InputDevice::tabletToolIsRelative() const
 {
-    return 0;
-}
-
-int InputDevice::tabletPadModeCount() const
-{
-    return 0;
-}
-
-int InputDevice::tabletPadMode() const
-{
-    return 0;
+    return false;
 }
 
 } // namespace KWin

@@ -25,7 +25,9 @@
 #include <QDBusMessage>
 #include <QDBusPendingCall>
 #include <QDirIterator>
+#include <QQuickRenderControl>
 #include <QStandardPaths>
+#include <QWindow>
 
 namespace KWin
 {
@@ -84,7 +86,6 @@ QHash<int, QByteArray> EffectsModel::roleNames() const
     roleNames[ServiceNameRole] = "ServiceNameRole";
     roleNames[IconNameRole] = "IconNameRole";
     roleNames[StatusRole] = "StatusRole";
-    roleNames[VideoRole] = "VideoRole";
     roleNames[WebsiteRole] = "WebsiteRole";
     roleNames[SupportedRole] = "SupportedRole";
     roleNames[ExclusiveRole] = "ExclusiveRole";
@@ -151,8 +152,6 @@ QVariant EffectsModel::data(const QModelIndex &index, int role) const
         return effect.iconName;
     case StatusRole:
         return static_cast<int>(effect.status);
-    case VideoRole:
-        return effect.video;
     case WebsiteRole:
         return effect.website;
     case SupportedRole:
@@ -213,7 +212,7 @@ bool EffectsModel::setData(const QModelIndex &index, const QVariant &value, int 
 void EffectsModel::loadBuiltInEffects(const KConfigGroup &kwinConfig)
 {
     const QString rootDirectory = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
-                                                         QStringLiteral("kwin/builtin-effects"),
+                                                         QStringLiteral("kwin-wayland/builtin-effects"),
                                                          QStandardPaths::LocateDirectory);
 
     const QStringList nameFilters{QStringLiteral("*.json")};
@@ -247,7 +246,6 @@ void EffectsModel::loadBuiltInEffects(const KConfigGroup &kwinConfig)
         if (metaData.rawData().contains("org.kde.kwin.effect")) {
             const QJsonObject d(metaData.rawData().value("org.kde.kwin.effect").toObject());
             effect.exclusiveGroup = d.value("exclusiveGroup").toString();
-            effect.video = QUrl::fromUserInput(d.value("video").toString());
             effect.enabledByDefaultFunction = d.value("enabledByDefaultMethod").toBool();
             effect.internal = d.value("internal").toBool();
         }
@@ -271,48 +269,51 @@ void EffectsModel::loadBuiltInEffects(const KConfigGroup &kwinConfig)
 
 void EffectsModel::loadJavascriptEffects(const KConfigGroup &kwinConfig)
 {
-    const auto plugins = KPackage::PackageLoader::self()->listPackages(
-        QStringLiteral("KWin/Effect"),
-        QStringLiteral("kwin/effects"));
-    for (const KPluginMetaData &plugin : plugins) {
-        EffectData effect;
+    const QStringList prefixes{
+        QStringLiteral("kwin-wayland/effects"),
+        QStringLiteral("kwin/effects"),
+    };
+    for (const QString &prefix : prefixes) {
+        const auto plugins = KPackage::PackageLoader::self()->listPackages(QStringLiteral("KWin/Effect"), prefix);
+        for (const KPluginMetaData &plugin : plugins) {
+            EffectData effect;
 
-        effect.name = plugin.name();
-        effect.description = plugin.description();
-        const auto authors = plugin.authors();
-        effect.authorName = !authors.isEmpty() ? authors.first().name() : QString();
-        effect.authorEmail = !authors.isEmpty() ? authors.first().emailAddress() : QString();
-        effect.license = plugin.license();
-        effect.version = plugin.version();
-        effect.untranslatedCategory = plugin.category();
-        effect.category = translatedCategory(plugin.category());
-        effect.serviceName = plugin.pluginId();
-        effect.iconName = plugin.iconName();
-        effect.status = effectStatus(kwinConfig.readEntry(effect.serviceName + "Enabled", plugin.isEnabledByDefault()));
-        effect.originalStatus = effect.status;
-        effect.enabledByDefault = plugin.isEnabledByDefault();
-        effect.enabledByDefaultFunction = false;
-        effect.video = QUrl(plugin.value(QStringLiteral("X-KWin-Video-Url")));
-        effect.website = QUrl(plugin.website());
-        effect.supported = true;
-        effect.exclusiveGroup = plugin.value(QStringLiteral("X-KWin-Exclusive-Category"));
-        effect.internal = plugin.value(QStringLiteral("X-KWin-Internal"), false);
+            effect.name = plugin.name();
+            effect.description = plugin.description();
+            const auto authors = plugin.authors();
+            effect.authorName = !authors.isEmpty() ? authors.first().name() : QString();
+            effect.authorEmail = !authors.isEmpty() ? authors.first().emailAddress() : QString();
+            effect.license = plugin.license();
+            effect.version = plugin.version();
+            effect.untranslatedCategory = plugin.category();
+            effect.category = translatedCategory(plugin.category());
+            effect.serviceName = plugin.pluginId();
+            effect.iconName = plugin.iconName();
+            effect.status = effectStatus(kwinConfig.readEntry(effect.serviceName + "Enabled", plugin.isEnabledByDefault()));
+            effect.originalStatus = effect.status;
+            effect.enabledByDefault = plugin.isEnabledByDefault();
+            effect.enabledByDefaultFunction = false;
+            effect.website = QUrl(plugin.website());
+            effect.supported = true;
+            effect.exclusiveGroup = plugin.value(QStringLiteral("X-KWin-Exclusive-Category"));
+            effect.internal = plugin.value(QStringLiteral("X-KWin-Internal"), false);
 
-        if (const QString configModule = plugin.value(QStringLiteral("X-KDE-ConfigModule")); !configModule.isEmpty()) {
-            if (configModule == QLatin1StringView("kcm_kwin4_genericscripted")) {
-                const QString xmlFile = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("kwin/effects/") + plugin.pluginId() + QLatin1String("/contents/config/main.xml"));
-                const QString uiFile = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("kwin/effects/") + plugin.pluginId() + QLatin1String("/contents/ui/config.ui"));
-                if (QFileInfo::exists(xmlFile) && QFileInfo::exists(uiFile)) {
+            if (const QString configModule = plugin.value(QStringLiteral("X-KDE-ConfigModule")); !configModule.isEmpty()) {
+                if (configModule == QLatin1StringView("kcm_kwin4_genericscripted")) {
+                    const QString xmlFile = QStandardPaths::locate(QStandardPaths::GenericDataLocation, prefix + QLatin1Char('/') + plugin.pluginId() + QLatin1String("/contents/config/main.xml"));
+                    const QString uiFile = QStandardPaths::locate(QStandardPaths::GenericDataLocation, prefix + QLatin1Char('/') + plugin.pluginId() + QLatin1String("/contents/ui/config.ui"));
+                    if (QFileInfo::exists(xmlFile) && QFileInfo::exists(uiFile)) {
+                        effect.configModule = configModule;
+                        effect.configArgs = QVariantList{plugin.pluginId(), QStringLiteral("KWin/Effect")};
+                    }
+                } else {
                     effect.configModule = configModule;
-                    effect.configArgs = QVariantList{plugin.pluginId(), QStringLiteral("KWin/Effect")};
                 }
-            } else {
-                effect.configModule = configModule;
             }
-        }
 
-        if (shouldStore(effect)) {
-            m_pendingEffects << effect;
+            if (shouldStore(effect)) {
+                m_pendingEffects << effect;
+            }
         }
     }
 }
@@ -351,7 +352,6 @@ void EffectsModel::loadPluginEffects(const KConfigGroup &kwinConfig)
         if (pluginEffect.rawData().contains("org.kde.kwin.effect")) {
             const QJsonObject d(pluginEffect.rawData().value("org.kde.kwin.effect").toObject());
             effect.exclusiveGroup = d.value("exclusiveGroup").toString();
-            effect.video = QUrl::fromUserInput(d.value("video").toString());
             effect.enabledByDefaultFunction = d.value("enabledByDefaultMethod").toBool();
         }
 
@@ -476,6 +476,16 @@ void EffectsModel::load(LoadOptions options)
     }
 }
 
+void EffectsModel::setExcludeExclusiveGroups(const QStringList &exclusiveGroups)
+{
+    m_excludeExclusiveGroups = exclusiveGroups;
+}
+
+void EffectsModel::setExcludeEffects(const QStringList &effects)
+{
+    m_excludeEffects = effects;
+}
+
 void EffectsModel::updateEffectStatus(const QModelIndex &rowIndex, Status effectState)
 {
     setData(rowIndex, static_cast<int>(effectState), StatusRole);
@@ -538,29 +548,43 @@ void EffectsModel::save()
     }
 }
 
+void EffectsModel::defaults(const QModelIndex &index)
+{
+    const auto &effect = m_effects.at(index.row());
+    if (effect.enabledByDefaultFunction && effect.status != Status::EnabledUndeterminded) {
+        updateEffectStatus(index, Status::EnabledUndeterminded);
+    } else if (static_cast<bool>(effect.status) != effect.enabledByDefault) {
+        updateEffectStatus(index, effect.enabledByDefault ? Status::Enabled : Status::Disabled);
+    }
+}
+
 void EffectsModel::defaults()
 {
-    for (int i = 0; i < m_effects.count(); ++i) {
-        const auto &effect = m_effects.at(i);
-        if (effect.enabledByDefaultFunction && effect.status != Status::EnabledUndeterminded) {
-            updateEffectStatus(index(i, 0), Status::EnabledUndeterminded);
-        } else if (static_cast<bool>(effect.status) != effect.enabledByDefault) {
-            updateEffectStatus(index(i, 0), effect.enabledByDefault ? Status::Enabled : Status::Disabled);
-        }
+    for (int row = 0; row < rowCount(); ++row) {
+        defaults(index(row, 0));
     }
+}
+
+bool EffectsModel::isDefaults(const QModelIndex &index) const
+{
+    const auto &effect = m_effects.at(index.row());
+    if (effect.enabledByDefaultFunction && effect.status != Status::EnabledUndeterminded) {
+        return false;
+    }
+    if (static_cast<bool>(effect.status) != effect.enabledByDefault) {
+        return false;
+    }
+    return true;
 }
 
 bool EffectsModel::isDefaults() const
 {
-    return std::all_of(m_effects.constBegin(), m_effects.constEnd(), [](const EffectData &effect) {
-        if (effect.enabledByDefaultFunction && effect.status != Status::EnabledUndeterminded) {
+    for (int row = 0; row < rowCount(); ++row) {
+        if (!isDefaults(index(row, 0))) {
             return false;
         }
-        if (static_cast<bool>(effect.status) != effect.enabledByDefault) {
-            return false;
-        }
-        return true;
-    });
+    }
+    return true;
 }
 
 bool EffectsModel::needsSave() const
@@ -583,7 +607,7 @@ QModelIndex EffectsModel::findByPluginId(const QString &pluginId) const
     return index(std::distance(m_effects.constBegin(), it), 0);
 }
 
-void EffectsModel::requestConfigure(const QModelIndex &index, QWindow *transientParent)
+void EffectsModel::requestConfigure(const QModelIndex &index, QQuickItem *context)
 {
     if (!index.isValid()) {
         return;
@@ -595,14 +619,37 @@ void EffectsModel::requestConfigure(const QModelIndex &index, QWindow *transient
     KCMultiDialog *dialog = new KCMultiDialog();
     dialog->addModule(KPluginMetaData(QStringLiteral("kwin/effects/configs/") + effect.configModule), effect.configArgs);
     dialog->setAttribute(Qt::WA_DeleteOnClose);
-    dialog->winId();
-    dialog->windowHandle()->setTransientParent(transientParent);
-    dialog->show();
+
+    if (context && context->window()) {
+        dialog->winId(); // so it creates windowHandle
+        dialog->windowHandle()->setTransientParent(QQuickRenderControl::renderWindowFor(context->window()));
+        dialog->setWindowModality(Qt::WindowModal);
+    }
+
+    dialog->open();
 }
 
 bool EffectsModel::shouldStore(const EffectData &data) const
 {
-    return !data.internal;
+    if (data.internal) {
+        return false;
+    }
+
+    if (m_excludeExclusiveGroups.contains(data.exclusiveGroup)) {
+        return false;
+    }
+
+    if (m_excludeEffects.contains(data.serviceName)) {
+        return false;
+    }
+
+    if (std::any_of(m_pendingEffects.cbegin(), m_pendingEffects.cend(), [&](const EffectData &effect) {
+        return effect.serviceName == data.serviceName;
+    })) {
+        return false;
+    }
+
+    return true;
 }
 
 }

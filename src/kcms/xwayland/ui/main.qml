@@ -19,6 +19,29 @@ KCM.SimpleKCM {
     implicitWidth: Kirigami.Units.gridUnit * 48
     implicitHeight: Kirigami.Units.gridUnit * 33
 
+     header: Kirigami.InlineMessage {
+        id: takeEffectNextTimeMsg
+        Layout.fillWidth: true
+        type: Kirigami.MessageType.Information
+        position: Kirigami.InlineMessage.Position.Header
+        text: i18nc("@info", "Changes will take effect the next time you log in.")
+        actions: [
+            Kirigami.Action {
+                icon.name: "system-log-out-symbolic"
+                text: i18nc("@action:button", "Log Out Now")
+                onTriggered: {
+                    kcm.logout()
+                }
+            }
+        ]
+        Connections {
+            target: kcm
+            function onShowLogoutMessage() {
+                takeEffectNextTimeMsg.visible = true;
+            }
+        }
+    }
+
     ColumnLayout {
         id: column
         spacing: Kirigami.Units.smallSpacing
@@ -37,8 +60,12 @@ KCM.SimpleKCM {
         }
 
         Kirigami.FormLayout {
+            id: eavesdropLayout
+
             Layout.leftMargin: Kirigami.Units.gridUnit
             Layout.rightMargin: Kirigami.Units.gridUnit
+
+            twinFormLayouts: bottomLayout
 
             QQC2.RadioButton {
                 id: never
@@ -110,6 +137,26 @@ KCM.SimpleKCM {
             type: Kirigami.MessageType.Warning
             text: i18n("Note that using this setting will reduce system security to that of the X11 session by permitting malicious software to steal passwords and spy on the text that you type. Make sure you understand and accept this risk.")
             visible: always.checked
+        }
+
+        Kirigami.FormLayout {
+            id: bottomLayout
+
+            Layout.leftMargin: Kirigami.Units.gridUnit
+            Layout.rightMargin: Kirigami.Units.gridUnit
+
+            twinFormLayouts: eavesdropLayout
+
+            Item {
+                Kirigami.FormData.isSection: true
+            }
+
+            QQC2.CheckBox {
+                Kirigami.FormData.label: i18nc("@title:group", "Control of pointer and keyboard:")
+                text: i18nc("@option:check Allow control of pointer and keyboard without asking for permission", "Allow without asking for permission")
+                checked: kcm.settings.xwaylandEisNoPrompt
+                onToggled: kcm.settings.xwaylandEisNoPrompt = checked
+            }
         }
     }
 }

@@ -2,13 +2,12 @@
 # SPDX-License-Identifier: CC0-1.0
 
 Dependencies:
-- 'on': ['@all']
-  'require':
+ - 'on': ['@all']
+   'require':
     'frameworks/breeze-icons': '@latest-kf6'
     'frameworks/extra-cmake-modules': '@latest-kf6'
     'frameworks/kcmutils': '@latest-kf6'
     'frameworks/kconfig': '@latest-kf6'
-    'frameworks/kconfigwidgets': '@latest-kf6'
     'frameworks/kcoreaddons': '@latest-kf6'
     'frameworks/kcrash': '@latest-kf6'
     'frameworks/kdeclarative': '@latest-kf6'
@@ -24,9 +23,9 @@ Dependencies:
     'frameworks/kwidgetsaddons': '@latest-kf6'
     'frameworks/kwindowsystem': '@latest-kf6'
     'frameworks/kxmlgui': '@latest-kf6'
+    'frameworks/kcolorscheme': '@latest-kf6'
     'libraries/libqaccessibilityclient': '@latest-kf6'
     'libraries/plasma-wayland-protocols': '@latest-kf6'
-    'plasma/breeze': '@same'
     'plasma/plasma-activities': '@same'
     'plasma/kdecoration': '@same'
     'plasma/kglobalacceld': '@same'
@@ -37,13 +36,18 @@ Dependencies:
     'third-party/wayland-protocols': '@latest'
 
 RuntimeDependencies:
-- 'on': ['@all']
-  'require':
+ - 'on': ['@all']
+   'require':
     'frameworks/kirigami': '@latest-kf6'
+    'plasma/aurorae': '@same'
+    'plasma/breeze': '@same'
     'plasma/libplasma': '@same'
     'plasma/plasma-workspace': '@same' # kscreenlocker needs it
 
 Options:
-  ctest-arguments: '--repeat until-pass:5'
-  use-ccache: True
-  require-passing-tests-on: ['Linux']
+ ctest-arguments: '--repeat until-pass:5'
+ use-ccache: True
+ cppcheck-arguments: '--enable=warning,style,performance --library=kwin-cppcheck.xml --suppress-xml=cppcheck-suppressions.xml'
+ cppcheck-ignore-files:
+  - autotests
+ require-passing-tests-on: ['Linux/Qt6']

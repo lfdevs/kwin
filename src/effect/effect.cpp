@@ -485,17 +485,17 @@ bool Effect::perform(Feature feature, const QVariantList &arguments)
     return false;
 }
 
-bool Effect::tabletToolProximity(TabletEvent *event)
+bool Effect::tabletToolProximity(TabletToolProximityEvent *event)
 {
     return false;
 }
 
-bool Effect::tabletToolAxis(TabletEvent *event)
+bool Effect::tabletToolAxis(TabletToolAxisEvent *event)
 {
     return false;
 }
 
-bool Effect::tabletToolTip(TabletEvent *event)
+bool Effect::tabletToolTip(TabletToolTipEvent *event)
 {
     return false;
 }
@@ -516,6 +516,11 @@ bool Effect::tabletPadStripEvent(int number, int position, bool isFinger, void *
 }
 
 bool Effect::tabletPadRingEvent(int number, int position, bool isFinger, void *device)
+{
+    return false;
+}
+
+bool Effect::tabletPadDialEvent(int number, double delta, void *device)
 {
     return false;
 }

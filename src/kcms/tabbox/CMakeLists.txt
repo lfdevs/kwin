@@ -3,9 +3,7 @@ add_definitions(-DTRANSLATION_DOMAIN=\"kcm_kwintabbox\")
 
 set(kcm_kwintabbox_PART_SRCS
     ${KWin_SOURCE_DIR}/src/tabbox/tabboxconfig.cpp
-    layoutpreview.cpp
     main.cpp
-    thumbnailitem.cpp
     kwintabboxconfigform.cpp
     kwintabboxdata.cpp
     shortcutsettings.cpp
@@ -19,7 +17,6 @@ kcoreaddons_add_plugin(kcm_kwintabbox SOURCES ${kcm_kwintabbox_PART_SRCS} INSTAL
 
 kcmutils_generate_desktop_file(kcm_kwintabbox)
 target_link_libraries(kcm_kwintabbox
-    Qt::Quick
     KF6::GlobalAccel
     KF6::I18n
     KF6::KCMUtils
@@ -35,11 +32,27 @@ if (KWIN_BUILD_X11)
     )
 endif()
 
-########### install files ###############
-install(FILES thumbnails/falkon.png
-              thumbnails/kmail.png
-              thumbnails/systemsettings.png
-              thumbnails/dolphin.png
-              thumbnails/desktop.png
-        DESTINATION ${KDE_INSTALL_DATADIR}/kwin/kcm_kwintabbox)
+# TabBox preview helper
+add_executable(kwin-tabbox-preview
+    layoutpreview.cpp
+    thumbnailitem.cpp
+)
+qt_add_resources(kwin-tabbox-preview "thumbnails"
+    PREFIX "/kwin-tabbox-preview"
+    BASE "thumbnails"
+    FILES
+        thumbnails/falkon.png
+        thumbnails/kmail.png
+        thumbnails/systemsettings.png
+        thumbnails/dolphin.png
+        thumbnails/desktop.png
+)
+target_link_libraries(kwin-tabbox-preview
+    Qt::Quick
+    KF6::I18n
+    KF6::I18nQml
+)
+install(TARGETS kwin-tabbox-preview DESTINATION ${KDE_INSTALL_LIBEXECDIR})
+
+# KNewStuff
 install(FILES kwinswitcher.knsrc DESTINATION ${KDE_INSTALL_KNSRCDIR})

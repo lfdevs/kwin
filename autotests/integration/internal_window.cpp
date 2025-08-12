@@ -39,6 +39,7 @@ private Q_SLOTS:
     void initTestCase();
     void init();
     void cleanup();
+    void testGeometry();
     void testEnterLeave();
     void testPointerPressRelease();
     void testPointerAxis();
@@ -188,13 +189,13 @@ void InternalWindowTest::initTestCase()
     qRegisterMetaType<KWin::Window *>();
     qRegisterMetaType<KWin::InternalWindow *>();
     QVERIFY(waylandServer()->init(s_socketName));
+    kwinApp()->setConfig(KSharedConfig::openConfig(QString(), KConfig::SimpleConfig));
+
+    kwinApp()->start();
     Test::setOutputConfig({
         QRect(0, 0, 1280, 1024),
         QRect(1280, 0, 1280, 1024),
     });
-    kwinApp()->setConfig(KSharedConfig::openConfig(QString(), KConfig::SimpleConfig));
-
-    kwinApp()->start();
     const auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
     QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
@@ -211,6 +212,71 @@ void InternalWindowTest::init()
 void InternalWindowTest::cleanup()
 {
     Test::destroyWaylandConnection();
+}
+
+void InternalWindowTest::testGeometry()
+{
+    QSignalSpy windowAddedSpy(workspace(), &Workspace::windowAdded);
+    HelperWindow win;
+    win.setGeometry(0, 0, 100, 100);
+    win.show();
+    QTRY_COMPARE(windowAddedSpy.count(), 1);
+    auto internalWindow = windowAddedSpy.first().first().value<InternalWindow *>();
+
+    // client initiated move
+    QSignalSpy frameGeometryChangedSpy(internalWindow, &Window::frameGeometryChanged);
+    win.setPosition(QPoint(20, 30));
+    QCOMPARE(frameGeometryChangedSpy.count(), 1);
+    QCOMPARE(internalWindow->clientGeometry(), QRectF(20, 30, 100, 100));
+    QCOMPARE(win.geometry(), QRect(20, 30, 100, 100));
+
+    win.setPosition(QPoint(20, 30));
+    QCOMPARE(frameGeometryChangedSpy.count(), 1);
+
+    // client initiated resize
+    win.resize(150, 150);
+    QCOMPARE(frameGeometryChangedSpy.count(), 2);
+    QCOMPARE(internalWindow->clientGeometry(), QRectF(20, 30, 150, 150));
+    QCOMPARE(win.geometry(), QRect(20, 30, 150, 150));
+
+    win.resize(150, 150);
+    QCOMPARE(frameGeometryChangedSpy.count(), 2);
+
+    // client initiated move+resize
+    win.setGeometry(QRect(50, 50, 200, 200));
+    QCOMPARE(frameGeometryChangedSpy.count(), 3);
+    QCOMPARE(internalWindow->clientGeometry(), QRectF(50, 50, 200, 200));
+    QCOMPARE(win.geometry(), QRect(50, 50, 200, 200));
+
+    win.setGeometry(QRect(50, 50, 200, 200));
+    QCOMPARE(frameGeometryChangedSpy.count(), 3);
+
+    // server initiated move
+    internalWindow->move(internalWindow->clientPosToFramePos(QPointF(5, 5)));
+    QCOMPARE(frameGeometryChangedSpy.count(), 4);
+    QCOMPARE(internalWindow->clientGeometry(), QRectF(5, 5, 200, 200));
+    QCOMPARE(win.geometry(), QRect(5, 5, 200, 200));
+
+    internalWindow->move(internalWindow->clientPosToFramePos(QPointF(5, 5)));
+    QCOMPARE(frameGeometryChangedSpy.count(), 4);
+
+    // server initiated resize
+    internalWindow->resize(internalWindow->clientSizeToFrameSize(QSizeF(100, 100)));
+    QCOMPARE(frameGeometryChangedSpy.count(), 5);
+    QCOMPARE(internalWindow->clientGeometry(), QRectF(5, 5, 100, 100));
+    QCOMPARE(win.geometry(), QRect(5, 5, 100, 100));
+
+    internalWindow->resize(internalWindow->clientSizeToFrameSize(QSizeF(100, 100)));
+    QCOMPARE(frameGeometryChangedSpy.count(), 5);
+
+    // server initiated move+resize
+    internalWindow->moveResize(internalWindow->clientRectToFrameRect(QRectF(100, 100, 300, 300)));
+    QCOMPARE(frameGeometryChangedSpy.count(), 6);
+    QCOMPARE(internalWindow->clientGeometry(), QRectF(100, 100, 300, 300));
+    QCOMPARE(win.geometry(), QRect(100, 100, 300, 300));
+
+    internalWindow->moveResize(internalWindow->clientRectToFrameRect(QRectF(100, 100, 300, 300)));
+    QCOMPARE(frameGeometryChangedSpy.count(), 6);
 }
 
 void InternalWindowTest::testEnterLeave()
@@ -291,9 +357,9 @@ void InternalWindowTest::testPointerAxis()
     quint32 timestamp = 1;
     Test::pointerMotion(QPoint(50, 50), timestamp++);
 
-    Test::pointerAxisVertical(5.0, timestamp++);
+    Test::pointerAxisVertical(15.0, timestamp++);
     QTRY_COMPARE(wheelSpy.count(), 1);
-    Test::pointerAxisHorizontal(5.0, timestamp++);
+    Test::pointerAxisHorizontal(15.0, timestamp++);
     QTRY_COMPARE(wheelSpy.count(), 2);
 }
 
@@ -465,9 +531,9 @@ void InternalWindowTest::testModifierScroll()
     QCOMPARE(internalWindow->opacity(), 0.5);
     quint32 timestamp = 1;
     Test::keyboardKeyPressed(KEY_LEFTMETA, timestamp++);
-    Test::pointerAxisVertical(-5, timestamp++);
+    Test::pointerAxisVertical(-15, timestamp++);
     QCOMPARE(internalWindow->opacity(), 0.6);
-    Test::pointerAxisVertical(5, timestamp++);
+    Test::pointerAxisVertical(15, timestamp++);
     QCOMPARE(internalWindow->opacity(), 0.5);
     Test::keyboardKeyReleased(KEY_LEFTMETA, timestamp++);
 }

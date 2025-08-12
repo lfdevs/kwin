@@ -12,7 +12,6 @@
 #include "opengl/eglswapchain.h"
 #include "opengl/glrendertimequery.h"
 #include "opengl/glutils.h"
-#include "platformsupport/scenes/opengl/basiceglsurfacetexture_wayland.h"
 #include "utils/softwarevsyncmonitor.h"
 #include "virtual_backend.h"
 #include "virtual_logging.h"
@@ -36,11 +35,11 @@ std::shared_ptr<GLTexture> VirtualEglLayer::texture() const
 
 std::optional<OutputLayerBeginFrameInfo> VirtualEglLayer::doBeginFrame()
 {
-    m_backend->makeCurrent();
+    m_backend->openglContext()->makeCurrent();
 
     const QSize nativeSize = m_output->modeSize();
     if (!m_swapchain || m_swapchain->size() != nativeSize) {
-        m_swapchain = EglSwapchain::create(m_backend->drmDevice()->allocator(), m_backend->openglContext(), nativeSize, DRM_FORMAT_XRGB8888, {DRM_FORMAT_MOD_INVALID});
+        m_swapchain = EglSwapchain::create(m_backend->drmDevice()->allocator(), m_backend->openglContext(), nativeSize, DRM_FORMAT_XRGB8888, m_backend->supportedFormats()[DRM_FORMAT_XRGB8888]);
         if (!m_swapchain) {
             return std::nullopt;
         }
@@ -79,8 +78,7 @@ QHash<uint32_t, QList<uint64_t>> VirtualEglLayer::supportedDrmFormats() const
 }
 
 VirtualEglBackend::VirtualEglBackend(VirtualBackend *b)
-    : AbstractEglBackend()
-    , m_backend(b)
+    : m_backend(b)
 {
 }
 
@@ -139,7 +137,6 @@ void VirtualEglBackend::init()
         return;
     }
 
-    setSupportsBufferAge(false);
     initWayland();
 
     const auto outputs = m_backend->outputs();
@@ -153,24 +150,19 @@ void VirtualEglBackend::init()
 
 bool VirtualEglBackend::initRenderingContext()
 {
-    return createContext(EGL_NO_CONFIG_KHR) && makeCurrent();
+    return createContext(EGL_NO_CONFIG_KHR) && openglContext()->makeCurrent();
 }
 
 void VirtualEglBackend::addOutput(Output *output)
 {
-    makeCurrent();
+    openglContext()->makeCurrent();
     m_outputs[output] = std::make_unique<VirtualEglLayer>(output, this);
 }
 
 void VirtualEglBackend::removeOutput(Output *output)
 {
-    makeCurrent();
+    openglContext()->makeCurrent();
     m_outputs.erase(output);
-}
-
-std::unique_ptr<SurfaceTexture> VirtualEglBackend::createSurfaceTextureWayland(SurfacePixmap *pixmap)
-{
-    return std::make_unique<BasicEGLSurfaceTextureWayland>(this, pixmap);
 }
 
 OutputLayer *VirtualEglBackend::primaryLayer(Output *output)

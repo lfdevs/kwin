@@ -31,6 +31,9 @@ class ColorSurfaceV1;
 class ColorFeedbackSurfaceV1;
 class LinuxDrmSyncObjSurfaceV1;
 class AlphaModifierSurfaceV1;
+class FifoV1Surface;
+class FifoBarrier;
+class ColorRepresentationSurfaceV1;
 
 struct SurfaceState
 {
@@ -39,29 +42,35 @@ struct SurfaceState
     ~SurfaceState();
     SurfaceState &operator=(SurfaceState &&mv) = default;
 
+    enum class Field {
+        Input = 1 << 0,
+        Opaque = 1 << 1,
+        Buffer = 1 << 2,
+        Shadow = 1 << 3,
+        Blur = 1 << 4,
+        Contrast = 1 << 5,
+        Slide = 1 << 6,
+        SubsurfaceOrder = 1 << 7,
+        SubsurfacePosition = 1 << 8,
+        BufferScale = 1 << 9,
+        BufferTransform = 1 << 10,
+        ContentType = 1 << 11,
+        PresentationModeHint = 1 << 12,
+        ColorDescription = 1 << 13,
+        AlphaMultiplier = 1 << 14,
+        YuvCoefficients = 1 << 15,
+        SourceGeometry = 1 << 16,
+        DestinationSize = 1 << 17,
+    };
+    Q_DECLARE_FLAGS(Fields, Field)
+
     void mergeInto(SurfaceState *target);
 
-    quint32 serial = 0;
-
+    Fields committed;
     QRegion damage = QRegion();
     QRegion bufferDamage = QRegion();
     QRegion opaque = QRegion();
     QRegion input = infiniteRegion();
-    bool inputIsSet = false;
-    bool opaqueIsSet = false;
-    bool bufferIsSet = false;
-    bool shadowIsSet = false;
-    bool blurIsSet = false;
-    bool contrastIsSet = false;
-    bool slideIsSet = false;
-    bool subsurfaceOrderChanged = false;
-    bool subsurfacePositionChanged = false;
-    bool bufferScaleIsSet = false;
-    bool bufferTransformIsSet = false;
-    bool contentTypeIsSet = false;
-    bool presentationModeHintIsSet = false;
-    bool colorDescriptionIsSet = false;
-    bool alphaMultiplierIsSet = false;
     qint32 bufferScale = 1;
     OutputTransform bufferTransform = OutputTransform::Normal;
     wl_list frameCallbacks;
@@ -83,6 +92,10 @@ struct SurfaceState
     } acquirePoint;
     std::shared_ptr<SyncReleasePoint> releasePoint;
     double alphaMultiplier = 1;
+    YUVMatrixCoefficients yuvCoefficients = YUVMatrixCoefficients::Identity;
+    EncodingRange range = EncodingRange::Full;
+    bool fifoBarrier = false;
+    bool hasFifoWaitCondition = false;
 
     struct
     {
@@ -100,9 +113,9 @@ struct SurfaceState
     {
         QRectF sourceGeometry = QRectF();
         QSize destinationSize = QSize();
-        bool sourceGeometryIsSet = false;
-        bool destinationSizeIsSet = false;
     } viewport;
+
+    std::unordered_map<RawSurfaceExtension *, std::unique_ptr<RawSurfaceAttachedState>> extensions;
 };
 
 class SurfaceInterfacePrivate : public QtWaylandServer::wl_surface
@@ -147,7 +160,6 @@ public:
     SurfaceRole *role = nullptr;
     std::unique_ptr<SurfaceState> current;
     std::unique_ptr<SurfaceState> pending;
-    QSize bufferSize = QSize(0, 0);
     QRectF bufferSourceBox;
     QSizeF surfaceSize = QSizeF(0, 0);
 
@@ -185,6 +197,8 @@ public:
     QList<ColorFeedbackSurfaceV1 *> colorFeedbackSurfaces;
     LinuxDrmSyncObjSurfaceV1 *syncObjV1 = nullptr;
     AlphaModifierSurfaceV1 *alphaModifier = nullptr;
+    FifoV1Surface *fifoSurface = nullptr;
+    ColorRepresentationSurfaceV1 *colorRepresentation = nullptr;
 
     struct
     {
@@ -193,6 +207,8 @@ public:
     } subsurface;
 
     std::vector<std::unique_ptr<PresentationTimeFeedback>> pendingPresentationFeedbacks;
+
+    bool m_tearingDown = false;
 
 protected:
     void surface_destroy_resource(Resource *resource) override;
@@ -214,3 +230,5 @@ private:
 };
 
 } // namespace KWin
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(KWin::SurfaceState::Fields)

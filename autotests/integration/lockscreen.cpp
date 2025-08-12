@@ -185,12 +185,12 @@ void LockScreenTest::initTestCase()
     qRegisterMetaType<KWin::ElectricBorder>("ElectricBorder");
 
     QVERIFY(waylandServer()->init(s_socketName));
+
+    kwinApp()->start();
     Test::setOutputConfig({
         QRect(0, 0, 1280, 1024),
         QRect(1280, 0, 1280, 1024),
     });
-
-    kwinApp()->start();
     const auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
     QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
@@ -339,7 +339,7 @@ void LockScreenTest::testPointerAxis()
     // and simulate axis
     Test::pointerAxisHorizontal(5.0, timestamp++);
     QVERIFY(!axisChangedSpy.wait(10));
-    Test::pointerAxisVertical(5.0, timestamp++);
+    Test::pointerAxisVertical(15.0, timestamp++);
     QVERIFY(!axisChangedSpy.wait(10));
 
     // and unlock
@@ -348,9 +348,9 @@ void LockScreenTest::testPointerAxis()
     QCOMPARE(enteredSpy.count(), 2);
 
     // and move axis again
-    Test::pointerAxisHorizontal(5.0, timestamp++);
+    Test::pointerAxisHorizontal(15.0, timestamp++);
     QVERIFY(axisChangedSpy.wait());
-    Test::pointerAxisVertical(5.0, timestamp++);
+    Test::pointerAxisVertical(15.0, timestamp++);
     QVERIFY(axisChangedSpy.wait());
 }
 
@@ -643,10 +643,10 @@ void LockScreenTest::testAxisShortcut_data()
     QTest::addColumn<Qt::Orientation>("direction");
     QTest::addColumn<int>("sign");
 
-    QTest::newRow("up") << Qt::Vertical << 1;
-    QTest::newRow("down") << Qt::Vertical << -1;
-    QTest::newRow("left") << Qt::Horizontal << 1;
-    QTest::newRow("right") << Qt::Horizontal << -1;
+    QTest::newRow("up") << Qt::Vertical << -1;
+    QTest::newRow("down") << Qt::Vertical << 1;
+    QTest::newRow("left") << Qt::Horizontal << -1;
+    QTest::newRow("right") << Qt::Horizontal << 1;
 }
 
 void LockScreenTest::testAxisShortcut()
@@ -657,26 +657,26 @@ void LockScreenTest::testAxisShortcut()
     QFETCH(int, sign);
     PointerAxisDirection axisDirection = PointerAxisUp;
     if (direction == Qt::Vertical) {
-        axisDirection = sign > 0 ? PointerAxisUp : PointerAxisDown;
+        axisDirection = sign < 0 ? PointerAxisUp : PointerAxisDown;
     } else {
-        axisDirection = sign > 0 ? PointerAxisLeft : PointerAxisRight;
+        axisDirection = sign < 0 ? PointerAxisLeft : PointerAxisRight;
     }
     input()->registerAxisShortcut(Qt::MetaModifier, axisDirection, action.get());
 
     // try to trigger the shortcut
     quint32 timestamp = 1;
-#define PERFORM(expectedCount)                                    \
-    do {                                                          \
-        Test::keyboardKeyPressed(KEY_LEFTMETA, timestamp++);      \
-        if (direction == Qt::Vertical)                            \
-            Test::pointerAxisVertical(sign * 5.0, timestamp++);   \
-        else                                                      \
-            Test::pointerAxisHorizontal(sign * 5.0, timestamp++); \
-        QCoreApplication::instance()->processEvents();            \
-        QCOMPARE(actionSpy.count(), expectedCount);               \
-        Test::keyboardKeyReleased(KEY_LEFTMETA, timestamp++);     \
-        QCoreApplication::instance()->processEvents();            \
-        QCOMPARE(actionSpy.count(), expectedCount);               \
+#define PERFORM(expectedCount)                                     \
+    do {                                                           \
+        Test::keyboardKeyPressed(KEY_LEFTMETA, timestamp++);       \
+        if (direction == Qt::Vertical)                             \
+            Test::pointerAxisVertical(sign * 15.0, timestamp++);   \
+        else                                                       \
+            Test::pointerAxisHorizontal(sign * 15.0, timestamp++); \
+        QCoreApplication::instance()->processEvents();             \
+        QCOMPARE(actionSpy.count(), expectedCount);                \
+        Test::keyboardKeyReleased(KEY_LEFTMETA, timestamp++);      \
+        QCoreApplication::instance()->processEvents();             \
+        QCOMPARE(actionSpy.count(), expectedCount);                \
     } while (false)
 
     PERFORM(1);

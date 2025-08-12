@@ -60,24 +60,18 @@
 #include "core/renderloop.h"
 #include "core/renderviewport.h"
 #include "effect/effecthandler.h"
-#include "internalwindow.h"
+#include "opengl/eglbackend.h"
+#include "opengl/eglcontext.h"
 #include "scene/decorationitem.h"
 #include "scene/dndiconitem.h"
 #include "scene/itemrenderer.h"
 #include "scene/rootitem.h"
-#include "scene/shadowitem.h"
 #include "scene/surfaceitem.h"
 #include "scene/windowitem.h"
-#include "shadow.h"
 #include "wayland/seat.h"
-#include "wayland/surface.h"
 #include "wayland_server.h"
-#include "waylandwindow.h"
 #include "window.h"
 #include "workspace.h"
-#if KWIN_BUILD_X11
-#include "x11window.h"
-#endif
 
 #include <QtMath>
 
@@ -260,37 +254,10 @@ void WorkspaceScene::frame(SceneDelegate *delegate, OutputFrame *frame)
 {
     if (waylandServer()) {
         Output *output = delegate->output();
-        const std::chrono::milliseconds frameTime =
-            std::chrono::duration_cast<std::chrono::milliseconds>(output->renderLoop()->lastPresentationTimestamp());
-
-        const QList<Item *> items = m_containerItem->sortedChildItems();
-        for (Item *item : items) {
-            if (!item->isVisible()) {
-                continue;
-            }
-            Window *window = static_cast<WindowItem *>(item)->window();
-            if (!window->isOnOutput(output)) {
-                continue;
-            }
-            if (auto surface = window->surface()) {
-                surface->traverseTree([&frameTime, &frame, &output](SurfaceInterface *surface) {
-                    surface->frameRendered(frameTime.count());
-                    if (auto feedback = surface->takePresentationFeedback(output)) {
-                        frame->addFeedback(std::move(feedback));
-                    }
-                });
-            }
-        }
-
+        const auto frameTime = std::chrono::duration_cast<std::chrono::milliseconds>(output->renderLoop()->lastPresentationTimestamp());
+        m_containerItem->framePainted(output, frame, frameTime);
         if (m_dndIcon) {
-            if (auto surface = m_dndIcon->surface()) {
-                surface->traverseTree([&frameTime, &frame, &output](SurfaceInterface *surface) {
-                    surface->frameRendered(frameTime.count());
-                    if (auto feedback = surface->takePresentationFeedback(output)) {
-                        frame->addFeedback(std::move(feedback));
-                    }
-                });
-            }
+            m_dndIcon->framePainted(output, frame, frameTime);
         }
     }
 }
@@ -300,11 +267,7 @@ QRegion WorkspaceScene::prePaint(SceneDelegate *delegate)
     createStackingOrder();
 
     painted_delegate = delegate;
-    if (kwinApp()->operationMode() == Application::OperationModeX11) {
-        painted_screen = workspace()->outputs().constFirst();
-    } else {
-        painted_screen = painted_delegate->output();
-    }
+    painted_screen = painted_delegate->output();
 
     const RenderLoop *renderLoop = painted_screen->renderLoop();
     const std::chrono::milliseconds presentTime =
@@ -436,8 +399,7 @@ void WorkspaceScene::postPaint()
 
 void WorkspaceScene::paint(const RenderTarget &renderTarget, const QRegion &region)
 {
-    Output *output = kwinApp()->operationMode() == Application::OperationMode::OperationModeX11 ? nullptr : painted_screen;
-    RenderViewport viewport(output ? output->geometryF() : workspace()->geometry(), output ? output->scale() : 1, renderTarget);
+    RenderViewport viewport(painted_screen->geometryF(), painted_screen->scale(), renderTarget);
 
     m_renderer->beginFrame(renderTarget, viewport);
 
@@ -548,23 +510,18 @@ void WorkspaceScene::finalDrawWindow(const RenderTarget &renderTarget, const Ren
     m_renderer->renderItem(renderTarget, viewport, w->windowItem(), mask, region, data);
 }
 
-bool WorkspaceScene::makeOpenGLContextCurrent()
+EglContext *WorkspaceScene::openglContext() const
 {
-    return false;
-}
-
-void WorkspaceScene::doneOpenGLContextCurrent()
-{
-}
-
-bool WorkspaceScene::supportsNativeFence() const
-{
-    return false;
-}
-
-OpenGlContext *WorkspaceScene::openglContext() const
-{
+    if (auto eglBackend = qobject_cast<EglBackend *>(Compositor::self()->backend())) {
+        return eglBackend->openglContext();
+    }
     return nullptr;
+}
+
+bool WorkspaceScene::animationsSupported() const
+{
+    const auto context = openglContext();
+    return context && !context->isSoftwareRenderer();
 }
 
 } // namespace

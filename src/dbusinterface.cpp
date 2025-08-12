@@ -71,16 +71,6 @@ void DBusInterface::killWindow()
     Workspace::self()->slotKillWindow();
 }
 
-void DBusInterface::cascadeDesktop()
-{
-    workspace()->placement()->cascadeDesktop();
-}
-
-void DBusInterface::unclutterDesktop()
-{
-    workspace()->placement()->unclutterDesktop();
-}
-
 QString DBusInterface::supportInformation()
 {
     return Workspace::self()->supportInformation();
@@ -271,9 +261,6 @@ CompositorDBusInterface::CompositorDBusInterface(Compositor *parent)
 
 QString CompositorDBusInterface::compositingType() const
 {
-    if (!m_compositor->compositing()) {
-        return QStringLiteral("none");
-    }
     switch (m_compositor->backend()->compositingType()) {
     case OpenGLCompositing:
         if (QOpenGLContext::openGLModuleType() == QOpenGLContext::LibGLES) {
@@ -296,22 +283,22 @@ bool CompositorDBusInterface::isActive() const
 
 bool CompositorDBusInterface::isCompositingPossible() const
 {
-    return m_compositor->compositingPossible();
+    return true;
 }
 
 QString CompositorDBusInterface::compositingNotPossibleReason() const
 {
-    return m_compositor->compositingNotPossibleReason();
+    return QString();
 }
 
 bool CompositorDBusInterface::isOpenGLBroken() const
 {
-    return m_compositor->openGLCompositingIsBroken();
+    return false;
 }
 
 bool CompositorDBusInterface::platformRequiresCompositing() const
 {
-    return kwinApp()->operationMode() != Application::OperationModeX11; // TODO: Remove this property?
+    return true;
 }
 
 void CompositorDBusInterface::reinitialize()
@@ -321,19 +308,7 @@ void CompositorDBusInterface::reinitialize()
 
 QStringList CompositorDBusInterface::supportedOpenGLPlatformInterfaces() const
 {
-    QStringList interfaces;
-    bool supportsGlx = false;
-#if HAVE_GLX
-    supportsGlx = (kwinApp()->operationMode() == Application::OperationModeX11);
-#endif
-    if (QOpenGLContext::openGLModuleType() == QOpenGLContext::LibGLES) {
-        supportsGlx = false;
-    }
-    if (supportsGlx) {
-        interfaces << QStringLiteral("glx");
-    }
-    interfaces << QStringLiteral("egl");
-    return interfaces;
+    return {QStringLiteral("egl")};
 }
 
 VirtualDesktopManagerDBusInterface::VirtualDesktopManagerDBusInterface(VirtualDesktopManager *parent)

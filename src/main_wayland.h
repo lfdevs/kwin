@@ -11,6 +11,10 @@
 #include <KConfigWatcher>
 #include <QTimer>
 
+#include "utils/filedescriptor.h"
+
+#include <vector>
+
 namespace KWin
 {
 namespace Xwl
@@ -41,6 +45,14 @@ public:
     void setXwaylandXauthority(const QString &xauthority)
     {
         m_xwaylandXauthority = xauthority;
+    }
+    void addExtraXWaylandEnvrionmentVariable(const QString &variable, const QString &value)
+    {
+        m_xwaylandExtraEnvironment.insert(variable, value);
+    }
+    void passFdToXwayland(FileDescriptor &&fd)
+    {
+        m_xwaylandFds.push_back(std::move(fd));
     }
     XwaylandInterface *xwayland() const override;
 #endif
@@ -74,6 +86,8 @@ private:
     QList<int> m_xwaylandListenFds;
     QString m_xwaylandDisplay;
     QString m_xwaylandXauthority;
+    QMap<QString, QString> m_xwaylandExtraEnvironment;
+    std::vector<FileDescriptor> m_xwaylandFds;
 #endif
     KConfigWatcher::Ptr m_settingsWatcher;
 };

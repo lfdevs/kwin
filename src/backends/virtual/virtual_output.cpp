@@ -95,18 +95,13 @@ void VirtualOutput::applyChanges(const OutputConfiguration &config)
     if (!next.currentMode) {
         next.currentMode = next.modes.front();
     }
+    next.uuid = props->uuid.value_or(m_state.uuid);
+    next.replicationSource = props->replicationSource.value_or(m_state.replicationSource);
     setState(next);
     m_renderLoop->setRefreshRate(next.currentMode->refreshRate());
     m_vsyncMonitor->setRefreshRate(next.currentMode->refreshRate());
 
     Q_EMIT changed();
-}
-
-void VirtualOutput::updateEnabled(bool enabled)
-{
-    State next = m_state;
-    next.enabled = enabled;
-    setState(next);
 }
 
 void VirtualOutput::vblank(std::chrono::nanoseconds timestamp)

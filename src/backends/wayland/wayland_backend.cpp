@@ -463,19 +463,18 @@ void WaylandBackend::createOutputs()
     // create an output window of this size in the end
     const QSize pixelSize = m_options.outputSize * m_options.outputScale;
     for (int i = 0; i < m_options.outputCount; i++) {
-        WaylandOutput *output = createOutput(QStringLiteral("WL-%1").arg(i), pixelSize, m_options.outputScale);
+        WaylandOutput *output = createOutput(QStringLiteral("WL-%1").arg(i), pixelSize, m_options.outputScale, m_options.fullscreen);
         m_outputs << output;
         Q_EMIT outputAdded(output);
-        output->updateEnabled(true);
     }
 
     Q_EMIT outputsQueried();
 }
 
-WaylandOutput *WaylandBackend::createOutput(const QString &name, const QSize &size, qreal scale)
+WaylandOutput *WaylandBackend::createOutput(const QString &name, const QSize &size, qreal scale, bool fullscreen)
 {
     WaylandOutput *waylandOutput = new WaylandOutput(name, this);
-    waylandOutput->init(size, scale);
+    waylandOutput->init(size, scale, fullscreen);
 
     // Wait until the output window is configured by the host compositor.
     while (!waylandOutput->isReady()) {
@@ -489,7 +488,6 @@ void WaylandBackend::destroyOutputs()
 {
     while (!m_outputs.isEmpty()) {
         WaylandOutput *output = m_outputs.takeLast();
-        output->updateEnabled(false);
         Q_EMIT outputRemoved(output);
         delete output;
     }
@@ -500,7 +498,7 @@ std::unique_ptr<InputBackend> WaylandBackend::createInputBackend()
     return std::make_unique<WaylandInputBackend>(this);
 }
 
-std::unique_ptr<OpenGLBackend> WaylandBackend::createOpenGLBackend()
+std::unique_ptr<EglBackend> WaylandBackend::createOpenGLBackend()
 {
     return std::make_unique<WaylandEglBackend>(this);
 }
@@ -564,14 +562,13 @@ Outputs WaylandBackend::outputs() const
 
 Output *WaylandBackend::createVirtualOutput(const QString &name, const QString &description, const QSize &size, double scale)
 {
-    return createOutput(name, size * scale, scale);
+    return createOutput(name, size * scale, scale, false);
 }
 
 void WaylandBackend::removeVirtualOutput(Output *output)
 {
     WaylandOutput *waylandOutput = dynamic_cast<WaylandOutput *>(output);
     if (waylandOutput && m_outputs.removeAll(waylandOutput)) {
-        waylandOutput->updateEnabled(false);
         Q_EMIT outputRemoved(waylandOutput);
         Q_EMIT outputsQueried();
         waylandOutput->unref();

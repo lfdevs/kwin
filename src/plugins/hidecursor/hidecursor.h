@@ -24,17 +24,15 @@ public:
     HideCursorEffect();
     ~HideCursorEffect() override;
 
-    static bool supported();
-
     void reconfigure(ReconfigureFlags flags) override;
     bool isActive() const override;
 
     void pointerMotion(PointerMotionEvent *event) override;
     void pointerButton(PointerButtonEvent *event) override;
     void keyboardKey(KeyboardKeyEvent *event) override;
-    void tabletToolProximityEvent(TabletEvent *event) override;
-    void tabletToolAxisEvent(TabletEvent *event) override;
-    void tabletToolTipEvent(TabletEvent *event) override;
+    void tabletToolProximityEvent(TabletToolProximityEvent *event) override;
+    void tabletToolAxisEvent(TabletToolAxisEvent *event) override;
+    void tabletToolTipEvent(TabletToolTipEvent *event) override;
 
 private:
     void showCursor();

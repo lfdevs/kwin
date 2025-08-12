@@ -7,7 +7,6 @@ set(kwinrules_SRCS
     ../../rules.cpp
     ../../utils/common.cpp
     ../../virtualdesktopsdbustypes.cpp
-    kwinsrc.cpp
     optionsmodel.cpp
     ruleitem.cpp
     rulesmodel.cpp
@@ -36,6 +35,7 @@ set(kcm_libs
     KF6::KCMUtilsQuick
     KF6::WindowSystem
     KF6::XmlGui
+    KF6::ColorScheme
 )
 
 if (KWIN_BUILD_ACTIVITIES)

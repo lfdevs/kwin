@@ -349,9 +349,6 @@ Output::Output(QObject *parent)
 
 Output::~Output()
 {
-    if (m_brightnessDevice) {
-        m_brightnessDevice->setOutput(nullptr);
-    }
 }
 
 void Output::ref()
@@ -373,9 +370,9 @@ QString Output::name() const
     return m_information.name;
 }
 
-QUuid Output::uuid() const
+QString Output::uuid() const
 {
-    return m_uuid;
+    return m_state.uuid;
 }
 
 OutputTransform Output::transform() const
@@ -531,11 +528,13 @@ void Output::applyChanges(const OutputConfiguration &config)
     next.autoRotatePolicy = props->autoRotationPolicy.value_or(m_state.autoRotatePolicy);
     next.iccProfilePath = props->iccProfilePath.value_or(m_state.iccProfilePath);
     if (props->iccProfilePath) {
-        next.iccProfile = IccProfile::load(*props->iccProfilePath).profile.value_or(nullptr);
+        next.iccProfile = IccProfile::load(*props->iccProfilePath).value_or(nullptr);
     }
     next.vrrPolicy = props->vrrPolicy.value_or(m_state.vrrPolicy);
     next.desiredModeSize = props->desiredModeSize.value_or(m_state.desiredModeSize);
     next.desiredModeRefreshRate = props->desiredModeRefreshRate.value_or(m_state.desiredModeRefreshRate);
+    next.uuid = props->uuid.value_or(m_state.uuid);
+    next.replicationSource = props->replicationSource.value_or(m_state.replicationSource);
 
     setState(next);
 
@@ -552,21 +551,10 @@ QString Output::description() const
     return manufacturer() + ' ' + model();
 }
 
-static QUuid generateOutputId(const QString &eisaId, const QString &model,
-                              const QString &serialNumber, const QString &name)
-{
-    static const QUuid urlNs = QUuid("6ba7b811-9dad-11d1-80b4-00c04fd430c8"); // NameSpace_URL
-    static const QUuid kwinNs = QUuid::createUuidV5(urlNs, QStringLiteral("https://kwin.kde.org/o/"));
-
-    const QString payload = QStringList{name, eisaId, model, serialNumber}.join(':');
-    return QUuid::createUuidV5(kwinNs, payload);
-}
-
 void Output::setInformation(const Information &information)
 {
     const auto oldInfo = m_information;
     m_information = information;
-    m_uuid = generateOutputId(eisaId(), model(), serialNumber(), name());
     if (oldInfo.capabilities != information.capabilities) {
         Q_EMIT capabilitiesChanged();
     }
@@ -646,6 +634,23 @@ void Output::setState(const State &state)
     }
     if (oldState.dimming != state.dimming) {
         Q_EMIT dimmingChanged();
+    }
+    if (oldState.uuid != state.uuid) {
+        Q_EMIT uuidChanged();
+    }
+    if (oldState.replicationSource != state.replicationSource) {
+        Q_EMIT replicationSourceChanged();
+    }
+    // detectedDdcCi is ignored here, it should result in capabilitiesChanged() instead
+    if (oldState.allowDdcCi != state.allowDdcCi) {
+        Q_EMIT allowDdcCiChanged();
+    }
+    if (oldState.maxBitsPerColor != state.maxBitsPerColor
+        || oldState.automaticMaxBitsPerColorLimit != state.automaticMaxBitsPerColorLimit) {
+        Q_EMIT maxBitsPerColorChanged();
+    }
+    if (oldState.edrPolicy != state.edrPolicy) {
+        Q_EMIT edrPolicyChanged();
     }
     if (oldState.enabled != state.enabled) {
         Q_EMIT enabledChanged();
@@ -816,12 +821,14 @@ double Output::artificialHdrHeadroom() const
 
 BrightnessDevice *Output::brightnessDevice() const
 {
-    return m_brightnessDevice;
+    return m_state.brightnessDevice;
 }
 
-void Output::setBrightnessDevice(BrightnessDevice *device)
+void Output::unsetBrightnessDevice()
 {
-    m_brightnessDevice = device;
+    State next;
+    next.brightnessDevice = nullptr;
+    setState(next);
 }
 
 bool Output::allowSdrSoftwareBrightness() const
@@ -833,6 +840,60 @@ Output::ColorPowerTradeoff Output::colorPowerTradeoff() const
 {
     return m_state.colorPowerTradeoff;
 }
+
+QString Output::replicationSource() const
+{
+    return m_state.replicationSource;
+}
+
+bool Output::detectedDdcCi() const
+{
+    return m_state.detectedDdcCi;
+}
+
+bool Output::allowDdcCi() const
+{
+    return m_state.allowDdcCi;
+}
+
+uint32_t Output::maxBitsPerColor() const
+{
+    return m_state.maxBitsPerColor;
+}
+
+Output::BpcRange Output::bitsPerColorRange() const
+{
+    return m_information.bitsPerColorRange;
+}
+
+std::optional<uint32_t> Output::automaticMaxBitsPerColorLimit() const
+{
+    return m_state.automaticMaxBitsPerColorLimit;
+}
+
+Output::EdrPolicy Output::edrPolicy() const
+{
+    return m_state.edrPolicy;
+}
+
+std::optional<uint32_t> Output::minVrrRefreshRateHz() const
+{
+    return m_information.minVrrRefreshRateHz;
+}
+
+// TODO move these quirks to libdisplay-info?
+static const std::array s_brokenDdcCi = {
+    std::make_pair(QByteArrayLiteral("SAM"), QByteArrayLiteral("Odyssey G5")),
+};
+
+bool Output::isDdcCiKnownBroken() const
+{
+    return m_information.edid.isValid() && std::ranges::any_of(s_brokenDdcCi, [this](const auto &pair) {
+        return m_information.edid.eisaId() == pair.first
+            && m_information.edid.monitorName() == pair.second;
+    });
+}
+
 } // namespace KWin
 
 #include "moc_output.cpp"

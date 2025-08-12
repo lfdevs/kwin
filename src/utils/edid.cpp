@@ -13,6 +13,7 @@
 
 #include "c_ptr.h"
 #include "common.h"
+#include "envvar.h"
 
 #include <QFile>
 #include <QStandardPaths>
@@ -139,15 +140,7 @@ Edid::Edid(QByteArrayView data, std::optional<QByteArrayView> identifierOverride
     }
 }
 
-static const auto s_forceHdrSupport = []() -> std::optional<bool> {
-    bool ok = false;
-    int ret = qEnvironmentVariableIntValue("KWIN_FORCE_ASSUME_HDR_SUPPORT", &ok);
-    if (ok) {
-        return ret == 1;
-    } else {
-        return std::nullopt;
-    }
-}();
+static const std::optional<bool> s_forceHdrSupport = environmentVariableBoolValue("KWIN_FORCE_ASSUME_HDR_SUPPORT");
 
 Edid::Edid(QByteArrayView data)
 {
@@ -173,6 +166,7 @@ Edid::Edid(QByteArrayView data)
     // basic output information
     m_physicalSize = determineScreenPhysicalSizeMm(edid);
     m_eisaId = parseEisaId(bytes);
+    m_pnpId = parsePnpId(bytes);
     UniqueCPtr<char> monitorName{di_info_get_model(info)};
     m_monitorName = QByteArray(monitorName.get());
     UniqueCPtr<char> serial{di_info_get_serial(info)};
@@ -183,71 +177,78 @@ Edid::Edid(QByteArrayView data)
         + QByteArray::number(productInfo->manufacture_week) + " " + QByteArray::number(productInfo->manufacture_year) + " " + QByteArray::number(productInfo->model_year);
 
     // colorimetry and HDR metadata
-    const auto chromaticity = di_edid_get_chromaticity_coords(edid);
-    if (chromaticity) {
-        const xy red{chromaticity->red_x, chromaticity->red_y};
-        const xy green{chromaticity->green_x, chromaticity->green_y};
-        const xy blue{chromaticity->blue_x, chromaticity->blue_y};
-        const xy white{chromaticity->white_x, chromaticity->white_y};
+    m_defaultColorimetry.reset();
+    const auto chromaticity = di_info_get_default_color_primaries(info);
+    if (chromaticity->has_primaries && chromaticity->has_default_white_point) {
+        const xy red{chromaticity->primary[0].x, chromaticity->primary[0].y};
+        const xy green{chromaticity->primary[1].x, chromaticity->primary[1].y};
+        const xy blue{chromaticity->primary[2].x, chromaticity->primary[2].y};
+        const xy white{chromaticity->default_white.x, chromaticity->default_white.y};
         if (Colorimetry::isReal(red, green, blue, white)) {
-            m_colorimetry = Colorimetry{
+            m_defaultColorimetry = Colorimetry{
                 red,
                 green,
                 blue,
                 white,
             };
         } else {
-            qCWarning(KWIN_CORE) << "EDID colorimetry" << red << green << blue << white << "is is invalid";
-        }
-    } else {
-        m_colorimetry.reset();
-    }
-
-    const di_edid_cta *cta = nullptr;
-    const di_displayid *displayid = nullptr;
-    const di_edid_ext *const *exts = di_edid_get_extensions(edid);
-    const di_cta_hdr_static_metadata_block *hdr_static_metadata = nullptr;
-    const di_cta_colorimetry_block *colorimetry = nullptr;
-    for (; *exts != nullptr; exts++) {
-        if (!cta && (cta = di_edid_ext_get_cta(*exts))) {
-            continue;
-        }
-        if (!displayid && (displayid = di_edid_ext_get_displayid(*exts))) {
-            continue;
+            qCWarning(KWIN_CORE) << "EDID default colorimetry" << red << green << blue << white << "is invalid";
         }
     }
-    if (cta) {
-        const di_cta_data_block *const *blocks = di_edid_cta_get_data_blocks(cta);
-        for (; *blocks != nullptr; blocks++) {
-            if (!hdr_static_metadata && (hdr_static_metadata = di_cta_data_block_get_hdr_static_metadata(*blocks))) {
-                continue;
-            }
-            if (!colorimetry && (colorimetry = di_cta_data_block_get_colorimetry(*blocks))) {
-                continue;
-            }
-        }
-        if (hdr_static_metadata) {
-            m_hdrMetadata = HDRMetadata{
-                .desiredContentMinLuminance = hdr_static_metadata->desired_content_min_luminance,
-                .desiredContentMaxLuminance = hdr_static_metadata->desired_content_max_luminance > 0 ? std::make_optional(hdr_static_metadata->desired_content_max_luminance) : std::nullopt,
-                .desiredMaxFrameAverageLuminance = hdr_static_metadata->desired_content_max_frame_avg_luminance > 0 ? std::make_optional(hdr_static_metadata->desired_content_max_frame_avg_luminance) : std::nullopt,
-                .supportsPQ = hdr_static_metadata->eotfs->pq,
-                .supportsBT2020 = colorimetry && colorimetry->bt2020_rgb,
-            };
-        }
-    }
-    if (s_forceHdrSupport.has_value()) {
-        if (!m_hdrMetadata) {
-            m_hdrMetadata = HDRMetadata{
-                .desiredContentMinLuminance = 0,
-                .desiredContentMaxLuminance = std::nullopt,
-                .desiredMaxFrameAverageLuminance = std::nullopt,
-                .supportsPQ = *s_forceHdrSupport,
-                .supportsBT2020 = *s_forceHdrSupport,
+    m_nativeColorimetry.reset();
+    if (const auto chromaticity = di_edid_get_chromaticity_coords(edid)) {
+        const xy red{chromaticity->red_x, chromaticity->red_y};
+        const xy green{chromaticity->green_x, chromaticity->green_y};
+        const xy blue{chromaticity->blue_x, chromaticity->blue_y};
+        const xy white{chromaticity->white_x, chromaticity->white_y};
+        if (Colorimetry::isReal(red, green, blue, white)) {
+            m_nativeColorimetry = Colorimetry{
+                red,
+                green,
+                blue,
+                white,
             };
         } else {
-            m_hdrMetadata->supportsPQ = *s_forceHdrSupport;
-            m_hdrMetadata->supportsBT2020 = *s_forceHdrSupport;
+            qCWarning(KWIN_CORE) << "EDID colorimetry" << red << green << blue << white << "is invalid";
+        }
+    }
+    if (!m_nativeColorimetry.has_value() && m_defaultColorimetry.has_value()) {
+        // better than nothing I guess?
+        m_nativeColorimetry = m_defaultColorimetry;
+    }
+
+    const auto metadata = di_info_get_hdr_static_metadata(info);
+    const auto colorimetry = di_info_get_supported_signal_colorimetry(info);
+    m_hdrMetadata = HDRMetadata{
+        .desiredContentMinLuminance = metadata->desired_content_min_luminance,
+        .desiredContentMaxLuminance = metadata->desired_content_max_luminance > 0 ? std::make_optional(metadata->desired_content_max_luminance) : std::nullopt,
+        .desiredMaxFrameAverageLuminance = metadata->desired_content_max_frame_avg_luminance > 0 ? std::make_optional(metadata->desired_content_max_frame_avg_luminance) : std::nullopt,
+        .supportsPQ = metadata->pq,
+        .supportsBT2020 = colorimetry->bt2020_rgb || colorimetry->bt2020_ycc || colorimetry->bt2020_cycc,
+    };
+    if (s_forceHdrSupport.has_value()) {
+        m_hdrMetadata->supportsPQ = *s_forceHdrSupport;
+        m_hdrMetadata->supportsBT2020 = *s_forceHdrSupport;
+    }
+
+    const di_edid_display_descriptor *const *descriptors = di_edid_get_display_descriptors(edid);
+    const di_edid_display_range_limits *limits = nullptr;
+    for (; *descriptors != nullptr; descriptors++) {
+        if (!limits && (limits = di_edid_display_descriptor_get_range_limits(*descriptors))) {
+            break;
+        }
+    }
+    if (limits && limits->min_vert_rate_hz) {
+        m_minVrrRefreshRateHz = limits->min_vert_rate_hz;
+    } else {
+        m_minVrrRefreshRateHz.reset();
+    }
+
+    const di_displayid *displayid = nullptr;
+    const di_edid_ext *const *exts = di_edid_get_extensions(edid);
+    for (; *exts != nullptr; exts++) {
+        if (!displayid && (displayid = di_edid_ext_get_displayid(*exts))) {
+            continue;
         }
     }
     if (displayid) {
@@ -365,9 +366,14 @@ QString Edid::hash() const
     return m_hash;
 }
 
-std::optional<Colorimetry> Edid::colorimetry() const
+std::optional<Colorimetry> Edid::defaultColorimetry() const
 {
-    return m_colorimetry;
+    return m_defaultColorimetry;
+}
+
+std::optional<Colorimetry> Edid::nativeColorimetry() const
+{
+    return m_nativeColorimetry;
 }
 
 double Edid::desiredMinLuminance() const
@@ -398,6 +404,16 @@ bool Edid::supportsBT2020() const
 QByteArray Edid::identifier() const
 {
     return m_identifier;
+}
+
+QByteArray Edid::pnpId() const
+{
+    return m_pnpId;
+}
+
+std::optional<uint32_t> Edid::minVrrRefreshRateHz() const
+{
+    return m_minVrrRefreshRateHz;
 }
 
 } // namespace KWin

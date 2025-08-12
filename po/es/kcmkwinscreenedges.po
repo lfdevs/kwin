@@ -1,6 +1,8 @@
-# Translation of kcmkwinscreenedges to Spanish
+# Spanish translations for kcmkwinscreenedges.po package.
+# Copyright (C) 2009-2025 This file is copyright:
+# This file is distributed under the same license as the kwin package.
 #
-# SPDX-FileCopyrightText: 2009, 2012, 2013, 2014, 2016, 2017, 2018, 2019, 2021, 2022, 2023, 2024 Eloy Cuadra <ecuadra@eloihr.net>
+# SPDX-FileCopyrightText: 2009, 2012, 2013, 2014, 2016, 2017, 2018, 2019, 2021, 2022, 2023, 2024, 2025 Eloy Cuadra <ecuadra@eloihr.net>
 # SPDX-FileCopyrightText: 2009 Jaime Robles <jaime@kde.org>
 # SPDX-FileCopyrightText: 2010 Cristina Yenyxe González García <the.blue.valkyrie@gmail.com>
 # SPDX-FileCopyrightText: 2011 Javier Vinal <fjvinal@gmail.com>
@@ -8,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-28 00:40+0000\n"
-"PO-Revision-Date: 2024-08-29 01:04+0200\n"
+"POT-Creation-Date: 2025-06-24 02:36+0000\n"
+"PO-Revision-Date: 2025-05-18 14:55+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -19,72 +21,72 @@ msgstr ""
 "X-Generator: Lokalize 24.08.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: main.cpp:151 touch.cpp:118
+#: main.cpp:152 touch.cpp:118
 #, kde-format
 msgid "No Action"
 msgstr "Ninguna acción"
 
-#: main.cpp:152 touch.cpp:119
+#: main.cpp:153 touch.cpp:119
 #, kde-format
 msgid "Peek at Desktop"
 msgstr "Dar un vistazo al escritorio"
 
-#: main.cpp:153 touch.cpp:120
+#: main.cpp:154 touch.cpp:120
 #, kde-format
 msgid "Lock Screen"
 msgstr "Bloquear la pantalla"
 
-#: main.cpp:154 touch.cpp:121
+#: main.cpp:155 touch.cpp:121
 #, kde-format
 msgid "Show KRunner"
 msgstr "Mostrar KRunner"
 
-#: main.cpp:155 touch.cpp:122
+#: main.cpp:156 touch.cpp:122
 #, kde-format
 msgid "Activity Manager"
 msgstr "Gestor de actividades"
 
-#: main.cpp:156 touch.cpp:123
+#: main.cpp:157 touch.cpp:123
 #, kde-format
 msgid "Application Launcher"
 msgstr "Lanzador de aplicaciones"
 
-#: main.cpp:160 touch.cpp:127
+#: main.cpp:161 touch.cpp:127
 #, kde-format
 msgid "Present Windows"
 msgstr "Presentar ventanas"
 
-#: main.cpp:161 touch.cpp:128
+#: main.cpp:162 touch.cpp:128
 #, kde-format
 msgid "%1 - All Desktops"
 msgstr "%1 - Todos los escritorios"
 
-#: main.cpp:162 touch.cpp:129
+#: main.cpp:163 touch.cpp:129
 #, kde-format
 msgid "%1 - Current Desktop"
 msgstr "%1 - Escritorio actual"
 
-#: main.cpp:163 touch.cpp:130
+#: main.cpp:164 touch.cpp:130
 #, kde-format
 msgid "%1 - Current Application"
 msgstr "%1 - Aplicación actual"
 
-#: main.cpp:165 touch.cpp:132
+#: main.cpp:166 touch.cpp:132
 #, kde-format
 msgid "Overview"
 msgstr "Vista general"
 
-#: main.cpp:166 touch.cpp:133
+#: main.cpp:167 touch.cpp:133
 #, kde-format
 msgid "Grid"
 msgstr "Cuadrícula"
 
-#: main.cpp:168 touch.cpp:135
+#: main.cpp:169 touch.cpp:135
 #, kde-format
 msgid "Toggle window switching"
 msgstr "Conmutar el intercambio de ventanas"
 
-#: main.cpp:169 touch.cpp:136
+#: main.cpp:170 touch.cpp:136
 #, kde-format
 msgid "Toggle alternative window switching"
 msgstr "Conmutar a un intercambio alternativo de ventanas"
@@ -313,14 +315,3 @@ msgid ""
 msgstr ""
 "Puede provocar una acción al deslizar el dedo desde el borde de la pantalla "
 "hacia el centro de la misma."
-
-#~ msgctxt "NAME OF TRANSLATORS"
-#~ msgid "Your names"
-#~ msgstr "Eloy Cuadra"
-
-#~ msgctxt "EMAIL OF TRANSLATORS"
-#~ msgid "Your emails"
-#~ msgstr "ecuadra@eloihr.net"
-
-#~ msgid "Show Desktop"
-#~ msgstr "Mostrar el escritorio"

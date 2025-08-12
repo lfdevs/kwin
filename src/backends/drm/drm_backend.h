@@ -41,7 +41,7 @@ public:
 
     std::unique_ptr<InputBackend> createInputBackend() override;
     std::unique_ptr<QPainterBackend> createQPainterBackend() override;
-    std::unique_ptr<OpenGLBackend> createOpenGLBackend() override;
+    std::unique_ptr<EglBackend> createOpenGLBackend() override;
     EglDisplay *sceneEglDisplayObject() const override;
 
     bool initialize() override;
@@ -73,7 +73,7 @@ Q_SIGNALS:
     void gpuRemoved(DrmGpu *gpu);
 
 protected:
-    bool applyOutputChanges(const OutputConfiguration &config) override;
+    OutputConfigurationError applyOutputChanges(const OutputConfiguration &config) override;
 
 private:
     friend class DrmGpu;
@@ -87,7 +87,7 @@ private:
     std::unique_ptr<QSocketNotifier> m_socketNotifier;
     Session *m_session;
     QList<DrmAbstractOutput *> m_outputs;
-    QList<QUuid> m_recentlyUnpluggedDpmsOffOutputs;
+    QList<QString> m_recentlyUnpluggedDpmsOffOutputs;
 
     const QStringList m_explicitGpus;
     std::vector<std::unique_ptr<DrmGpu>> m_gpus;

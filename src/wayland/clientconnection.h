@@ -13,7 +13,6 @@
 #include <memory>
 
 struct wl_client;
-struct wl_resource;
 
 namespace KWin
 {
@@ -35,13 +34,16 @@ public:
     virtual ~ClientConnection();
 
     /**
+     * Returns @c true if the client connection is being terminated; otherwise returns @c false.
+     *
+     * The connection will be marked as tearing down after the aboutToBeDestroyed() signal is emitted.
+     */
+    bool tearingDown() const;
+
+    /**
      * Flushes the connection to this client. Ensures that all events are pushed to the client.
      */
     void flush();
-    /**
-     * Get the wl_resource associated with the given @p id.
-     */
-    wl_resource *getResource(quint32 id) const;
 
     /**
      * @returns the native wl_client this ClientConnection represents.
@@ -127,20 +129,22 @@ public:
     void setSecurityContextAppId(const QString &appId);
     QString securityContextAppId() const;
 
+    /**
+     * Returns the associated client connection object for the specified @a native wl_client object.
+     */
+    static ClientConnection *get(wl_client *native);
+
 Q_SIGNALS:
     /**
      * This signal is emitted when the client is about to be destroyed.
      */
     void aboutToBeDestroyed();
-    /**
-     * Signal emitted when the ClientConnection got disconnected from the server.
-     */
-    void disconnected(KWin::ClientConnection *);
 
     void scaleOverrideChanged();
 
 private:
-    friend class Display;
+    friend class ClientConnectionPrivate;
+    friend class DisplayPrivate;
     explicit ClientConnection(wl_client *c, Display *parent);
     std::unique_ptr<ClientConnectionPrivate> d;
 };

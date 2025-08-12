@@ -34,10 +34,6 @@ private Q_SLOTS:
 void XwaylandServerRestartTest::initTestCase()
 {
     QVERIFY(waylandServer()->init(s_socketName));
-    Test::setOutputConfig({
-        QRect(0, 0, 1280, 1024),
-        QRect(1280, 0, 1280, 1024),
-    });
 
     KSharedConfig::Ptr config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
     KConfigGroup xwaylandGroup = config->group(QStringLiteral("Xwayland"));
@@ -46,6 +42,10 @@ void XwaylandServerRestartTest::initTestCase()
     kwinApp()->setConfig(config);
 
     kwinApp()->start();
+    Test::setOutputConfig({
+        QRect(0, 0, 1280, 1024),
+        QRect(1280, 0, 1280, 1024),
+    });
 }
 
 static void kwin_safe_kill(QProcess *process)
@@ -81,8 +81,7 @@ void XwaylandServerRestartTest::testRestart()
     xcb_create_window(c.get(), XCB_COPY_FROM_PARENT, windowId, rootWindow(),
                       rect.x(), rect.y(), rect.width(), rect.height(), 0,
                       XCB_WINDOW_CLASS_INPUT_OUTPUT, XCB_COPY_FROM_PARENT, 0, nullptr);
-    xcb_size_hints_t hints;
-    memset(&hints, 0, sizeof(hints));
+    xcb_size_hints_t hints{};
     xcb_icccm_size_hints_set_position(&hints, 1, rect.x(), rect.y());
     xcb_icccm_size_hints_set_size(&hints, 1, rect.width(), rect.height());
     xcb_icccm_size_hints_set_min_size(&hints, rect.width(), rect.height());

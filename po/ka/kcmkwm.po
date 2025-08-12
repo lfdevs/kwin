@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-10 00:41+0000\n"
+"POT-Creation-Date: 2025-05-24 02:37+0000\n"
 "PO-Revision-Date: 2024-12-10 05:49+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -26,7 +26,7 @@ msgstr "არააქტიური შიდა ფანჯრის ქმ
 
 #. i18n: ectx: property (text), widget (QLabel, label_1)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: actions.ui:29 mouse.ui:183
+#: actions.ui:29 mouse.ui:173
 #, kde-format
 msgid "&Left click:"
 msgstr "&მარცხენა-წკაპი:"
@@ -69,8 +69,8 @@ msgstr "გაააქტიურეთ და დააწკაპუნე�
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
-#: actions.ui:63 actions.ui:112 actions.ui:152 mouse.ui:299 mouse.ui:414
-#: mouse.ui:529
+#: actions.ui:63 actions.ui:112 actions.ui:152 mouse.ui:284 mouse.ui:389
+#: mouse.ui:494
 #, kde-format
 msgid "Activate"
 msgstr "აქტივაცია"
@@ -81,8 +81,8 @@ msgstr "აქტივაცია"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
-#: actions.ui:68 actions.ui:117 actions.ui:157 mouse.ui:289 mouse.ui:404
-#: mouse.ui:519
+#: actions.ui:68 actions.ui:117 actions.ui:157 mouse.ui:274 mouse.ui:379
+#: mouse.ui:484
 #, kde-format
 msgid "Activate and raise"
 msgstr "გაააქტიურეთ და აწიეთ"
@@ -99,7 +99,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: actions.ui:85 mouse.ui:206
+#: actions.ui:85 mouse.ui:196
 #, kde-format
 msgid "&Middle click:"
 msgstr "&შუა-წკაპი:"
@@ -116,7 +116,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: actions.ui:125 mouse.ui:219
+#: actions.ui:125 mouse.ui:209
 #, kde-format
 msgid "&Right click:"
 msgstr "&მარჯვენა წკაპი:"
@@ -133,7 +133,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: actions.ui:165 mouse.ui:91
+#: actions.ui:165 mouse.ui:86
 #, kde-format
 msgid "Mouse &wheel:"
 msgstr "თაგუნას &რგოლი:"
@@ -208,7 +208,7 @@ msgstr "  + "
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: actions.ui:270 mouse.ui:617
+#: actions.ui:270 mouse.ui:577
 #, kde-format
 msgid "L&eft click:"
 msgstr "მარცხენა წკაპი:"
@@ -226,7 +226,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll3)
-#: actions.ui:287 actions.ui:357 actions.ui:427
+#: actions.ui:287 actions.ui:362 actions.ui:437
 #, kde-format
 msgid "Move"
 msgstr "გადაადგილება"
@@ -234,7 +234,7 @@ msgstr "გადაადგილება"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll3)
-#: actions.ui:292 actions.ui:362 actions.ui:432
+#: actions.ui:292 actions.ui:367 actions.ui:442
 #, kde-format
 msgid "Activate, raise and move"
 msgstr "გაააქტიურეთ, აწიეთ და გადაათრიეთ"
@@ -248,8 +248,8 @@ msgstr "გაააქტიურეთ, აწიეთ და გადა�
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
-#: actions.ui:297 actions.ui:367 actions.ui:437 mouse.ui:252 mouse.ui:314
-#: mouse.ui:367 mouse.ui:429 mouse.ui:482 mouse.ui:544
+#: actions.ui:297 actions.ui:372 actions.ui:447 mouse.ui:242 mouse.ui:299
+#: mouse.ui:347 mouse.ui:404 mouse.ui:452 mouse.ui:509
 #, kde-format
 msgid "Toggle raise and lower"
 msgstr "აწევისა და დაწევის გადართვა"
@@ -257,7 +257,7 @@ msgstr "აწევისა და დაწევის გადართვ
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll3)
-#: actions.ui:302 actions.ui:372 actions.ui:442
+#: actions.ui:302 actions.ui:377 actions.ui:452
 #, kde-format
 msgid "Resize"
 msgstr "ზომის შეცვლა"
@@ -271,8 +271,8 @@ msgstr "ზომის შეცვლა"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
-#: actions.ui:307 actions.ui:377 actions.ui:447 mouse.ui:242 mouse.ui:304
-#: mouse.ui:357 mouse.ui:419 mouse.ui:472 mouse.ui:534
+#: actions.ui:307 actions.ui:382 actions.ui:457 mouse.ui:232 mouse.ui:289
+#: mouse.ui:337 mouse.ui:394 mouse.ui:442 mouse.ui:499
 #, kde-format
 msgid "Raise"
 msgstr "აწევა"
@@ -288,8 +288,8 @@ msgstr "აწევა"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
-#: actions.ui:312 actions.ui:382 actions.ui:452 mouse.ui:68 mouse.ui:247
-#: mouse.ui:309 mouse.ui:362 mouse.ui:424 mouse.ui:477 mouse.ui:539
+#: actions.ui:312 actions.ui:387 actions.ui:462 mouse.ui:63 mouse.ui:237
+#: mouse.ui:294 mouse.ui:342 mouse.ui:399 mouse.ui:447 mouse.ui:504
 #, kde-format
 msgid "Lower"
 msgstr "დაწევა"
@@ -305,8 +305,8 @@ msgstr "დაწევა"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
-#: actions.ui:317 actions.ui:387 actions.ui:457 mouse.ui:58 mouse.ui:257
-#: mouse.ui:319 mouse.ui:372 mouse.ui:434 mouse.ui:487 mouse.ui:549
+#: actions.ui:317 actions.ui:392 actions.ui:467 mouse.ui:58 mouse.ui:247
+#: mouse.ui:304 mouse.ui:352 mouse.ui:409 mouse.ui:457 mouse.ui:514
 #, kde-format
 msgid "Minimize"
 msgstr "ჩაკეცვა"
@@ -314,7 +314,7 @@ msgstr "ჩაკეცვა"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll3)
-#: actions.ui:322 actions.ui:392 actions.ui:462
+#: actions.ui:322 actions.ui:397 actions.ui:472
 #, kde-format
 msgid "Decrease opacity"
 msgstr "გაუმჭვირვალობის დაწევა"
@@ -322,10 +322,25 @@ msgstr "გაუმჭვირვალობის დაწევა"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll3)
-#: actions.ui:327 actions.ui:397 actions.ui:467
+#: actions.ui:327 actions.ui:402 actions.ui:477
 #, kde-format
 msgid "Increase opacity"
 msgstr "გაუმჭვირვალობის აწევა"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll1)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll2)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll3)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar1)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar1)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar2)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar3)
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
+#: actions.ui:332 actions.ui:407 actions.ui:482 mouse.ui:257 mouse.ui:314
+#: mouse.ui:362 mouse.ui:419 mouse.ui:467 mouse.ui:524
+#, kde-format
+msgid "Show actions menu"
+msgstr "ქმედებების მენიუს ჩვენება"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll1)
@@ -341,21 +356,21 @@ msgstr "გაუმჭვირვალობის აწევა"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
-#: actions.ui:332 actions.ui:402 actions.ui:472 actions.ui:527 advanced.ui:154
-#: mouse.ui:83 mouse.ui:135 mouse.ui:277 mouse.ui:339 mouse.ui:392 mouse.ui:454
-#: mouse.ui:507 mouse.ui:569
+#: actions.ui:337 actions.ui:412 actions.ui:487 actions.ui:537 advanced.ui:108
+#: mouse.ui:78 mouse.ui:125 mouse.ui:262 mouse.ui:319 mouse.ui:367 mouse.ui:424
+#: mouse.ui:472 mouse.ui:529
 #, kde-format
 msgid "Do nothing"
 msgstr "არაფერი"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: actions.ui:340
+#: actions.ui:345
 #, kde-format
 msgid "Middle &click:"
 msgstr "შუა-წკაპი:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandAll2)
-#: actions.ui:353
+#: actions.ui:358
 #, kde-format
 msgid ""
 "In this row you can customize middle click behavior when clicking into the "
@@ -366,13 +381,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: actions.ui:410 mouse.ui:687
+#: actions.ui:420 mouse.ui:647
 #, kde-format
 msgid "Right clic&k:"
 msgstr "მარჯვენა წკაპი:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandAll3)
-#: actions.ui:423
+#: actions.ui:433
 #, kde-format
 msgid ""
 "In this row you can customize right click behavior when clicking into the "
@@ -382,13 +397,13 @@ msgstr ""
 "ქცევა შეგიძლიათ მოირგოთ."
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: actions.ui:480
+#: actions.ui:495
 #, kde-format
 msgid "Mo&use wheel:"
 msgstr "&თაგუნას ბორბალი:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandAllWheel)
-#: actions.ui:493
+#: actions.ui:508
 #, kde-format
 msgid ""
 "Here you can customize KDE's behavior when scrolling with the mouse wheel in "
@@ -399,96 +414,47 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandTitlebarWheel)
-#: actions.ui:497 mouse.ui:105
+#: actions.ui:512 mouse.ui:100
 #, kde-format
 msgid "Raise/lower"
 msgstr "აწევა/დაწევა"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandTitlebarWheel)
-#: actions.ui:502 mouse.ui:110
-#, kde-format
-msgid "Shade/unshade"
-msgstr "დაჩრდილვა/განჩრდილვა"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandTitlebarWheel)
-#: actions.ui:507 mouse.ui:115
+#: actions.ui:517 mouse.ui:105
 #, kde-format
 msgid "Maximize/restore"
 msgstr "გადიდება/ჩაკეცვა"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandTitlebarWheel)
-#: actions.ui:512 mouse.ui:120
+#: actions.ui:522 mouse.ui:110
 #, kde-format
 msgid "Keep above/below"
 msgstr "ზემოდან დატოვება/ფანჯრის ქვემოთ ჩატანა"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandTitlebarWheel)
-#: actions.ui:517 mouse.ui:125
+#: actions.ui:527 mouse.ui:115
 #, kde-format
 msgid "Move to previous/next desktop"
 msgstr "წინა/შემდეგ სამუშაო მაგიდაზე გადატანა"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandTitlebarWheel)
-#: actions.ui:522 mouse.ui:130
+#: actions.ui:532 mouse.ui:120
 #, kde-format
 msgid "Change opacity"
 msgstr "გაუმჭვირვალობის შეცვლა"
 
-#. i18n: ectx: property (text), widget (QLabel, shadeHoverLabel)
-#: advanced.ui:20
-#, kde-format
-msgid "Window &unshading:"
-msgstr "ფანჯრის &განჩრდილვა:"
-
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShadeHover)
-#: advanced.ui:32
-#, kde-format
-msgid ""
-"<html><head/><body><p>If this option is enabled, a shaded window will "
-"unshade automatically when the mouse pointer has been over the titlebar for "
-"some time.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>თუ ეს პარამეტრი ჩართულია, როცა თაგუნას მაჩვენებელს "
-"სათაურის ზოლზე ცოტა ხანს გააჩერებთ, დაჩრდილული ფანჯარა ავტომატურად "
-"განიჩრდილება.</p></body></html>"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShadeHover)
-#: advanced.ui:35
-#, kde-format
-msgid "On titlebar hover after:"
-msgstr "სათაურზე თაგუნას გადატარების შემდეგ:"
-
-#. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_ShadeHoverInterval)
-#: advanced.ui:42
-#, kde-format
-msgid ""
-"Sets the time in milliseconds before the window unshades when the mouse "
-"pointer goes over the shaded window."
-msgstr ""
-"დრო მილიწამებში, რომლის შემდეგაც დაჩრდილული ფანჯრის განჩრდილვა მოხდება, როცა "
-"თაგუნას კურსორს დაჩრდილულ ფანჯარაზე გადაატარებთ."
-
-#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_DelayFocusInterval)
-#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_AutoRaiseInterval)
-#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_ShadeHoverInterval)
-#: advanced.ui:45 focus.ui:85 focus.ui:181
-#, kde-format
-msgid " ms"
-msgstr " მწმ"
-
 #. i18n: ectx: property (text), widget (QLabel, windowPlacementLabel)
-#: advanced.ui:66
+#: advanced.ui:20
 #, kde-format
 msgid "Window &placement:"
 msgstr "ფანჯრის &მდებარეობა:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_Placement)
-#: advanced.ui:76
+#: advanced.ui:30
 #, kde-format
 msgid ""
 "<html><head/><body><p>The placement policy determines where a new window "
@@ -540,43 +506,43 @@ msgstr ""
 "body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:80
+#: advanced.ui:34
 #, kde-format
 msgid "Minimal Overlapping"
 msgstr "მინიმალური გადაფარვა"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:85
+#: advanced.ui:39
 #, kde-format
 msgid "Maximized"
 msgstr "გაშლილი"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:90
+#: advanced.ui:44
 #, kde-format
 msgid "Random"
 msgstr "შემთხვევითი"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:95
+#: advanced.ui:49
 #, kde-format
 msgid "Centered"
 msgstr "შუაზე გასწორებული"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:100
+#: advanced.ui:54
 #, kde-format
 msgid "In Top-Left Corner"
 msgstr "ზედა მარცხენა კუთხეში"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
-#: advanced.ui:105
+#: advanced.ui:59
 #, kde-format
 msgid "Under mouse"
 msgstr "თაგუნას ქვეშ"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:113
+#: advanced.ui:67
 #, kde-format
 msgid ""
 "When turned on, apps which are able to remember the positions of their "
@@ -588,7 +554,7 @@ msgstr ""
 "მოთავსების რეჟიმს, რომელიც ზემოთ აირჩიეთ."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowKDEAppsToRememberWindowPositions)
-#: advanced.ui:116
+#: advanced.ui:70
 #, kde-format
 msgid ""
 "Allow apps to remember the positions of their own windows, if they support it"
@@ -597,19 +563,19 @@ msgstr ""
 "მდებარეობის დამახსოვრების უფლების მიცემა"
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyLabel)
-#: advanced.ui:123
+#: advanced.ui:77
 #, kde-format
 msgid "Virtual Desktop behavior:"
 msgstr "ვირტუალური სამუშაო მაგიდის ქცევა:"
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyDescriptionLabel)
-#: advanced.ui:133
+#: advanced.ui:87
 #, kde-format
 msgid "When activating a window on a different Virtual Desktop:"
 msgstr "ფანჯრის სხვა ვირტუალურ სამუშაო მაგიდაზე აქტივაციისას:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:140
+#: advanced.ui:94
 #, kde-format
 msgid ""
 "<html><head/><body><p>This setting controls what happens when an open window "
@@ -629,13 +595,13 @@ msgstr ""
 "ვირტუალურ სამუშაო მაგიდაზე გადმოტანას გამოიწვევს. </p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:144
+#: advanced.ui:98
 #, kde-format
 msgid "Switch to that Virtual Desktop"
 msgstr "იმ ვირტუალურ სამუშაო მაგიდაზე გადართვა"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ActivationDesktopPolicy)
-#: advanced.ui:149
+#: advanced.ui:103
 #, kde-format
 msgid "Bring window to current Virtual Desktop"
 msgstr "ფანჯრის მიმდინარე ვირტუალურ სამუშაო მაგიდაზე გადმოტანა"
@@ -706,6 +672,13 @@ msgid ""
 msgstr ""
 "პაუზა, რომლის გავლის შემდეგაც ფანჯარა, რომელზეც თაგუნას კურსორი მიუთითებს, "
 "ფოკუსს ავტომატურად მიიღებს."
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_DelayFocusInterval)
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_AutoRaiseInterval)
+#: focus.ui:85 focus.ui:181
+#, kde-format
+msgid " ms"
+msgstr " მწმ"
 
 #. i18n: ectx: property (text), widget (QLabel, focusStealingLabel)
 #: focus.ui:101
@@ -950,7 +923,7 @@ msgstr "<em>ორმაგი</em> წკაპის ქცევა ფან
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MaximizeButtonLeftClickCommand)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MaximizeButtonMiddleClickCommand)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MaximizeButtonRightClickCommand)
-#: mouse.ui:43 mouse.ui:631 mouse.ui:666 mouse.ui:701
+#: mouse.ui:43 mouse.ui:591 mouse.ui:626 mouse.ui:661
 #, kde-format
 msgid "Maximize"
 msgstr "გადიდება"
@@ -960,7 +933,7 @@ msgstr "გადიდება"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MaximizeButtonLeftClickCommand)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MaximizeButtonMiddleClickCommand)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MaximizeButtonRightClickCommand)
-#: mouse.ui:48 mouse.ui:636 mouse.ui:671 mouse.ui:706
+#: mouse.ui:48 mouse.ui:596 mouse.ui:631 mouse.ui:666
 #, kde-format
 msgid "Vertically maximize"
 msgstr "ვერტიკალურად გადიდება"
@@ -970,7 +943,7 @@ msgstr "ვერტიკალურად გადიდება"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MaximizeButtonLeftClickCommand)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MaximizeButtonMiddleClickCommand)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MaximizeButtonRightClickCommand)
-#: mouse.ui:53 mouse.ui:641 mouse.ui:676 mouse.ui:711
+#: mouse.ui:53 mouse.ui:601 mouse.ui:636 mouse.ui:671
 #, kde-format
 msgid "Horizontally maximize"
 msgstr "ჰორიზონტალურად გადიდება"
@@ -983,53 +956,39 @@ msgstr "ჰორიზონტალურად გადიდება"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar3)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
-#: mouse.ui:63 mouse.ui:262 mouse.ui:324 mouse.ui:377 mouse.ui:439 mouse.ui:492
-#: mouse.ui:554
-#, kde-format
-msgid "Shade"
-msgstr "დაჩრდილვა"
-
-#. i18n: @item:inlistbox behavior on double click
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TitlebarDoubleClickCommand)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar1)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar1)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar2)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar3)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
-#: mouse.ui:73 mouse.ui:267 mouse.ui:329 mouse.ui:382 mouse.ui:444 mouse.ui:497
-#: mouse.ui:559
+#: mouse.ui:68 mouse.ui:252 mouse.ui:309 mouse.ui:357 mouse.ui:414 mouse.ui:462
+#: mouse.ui:519
 #, kde-format
 msgid "Close"
 msgstr "დახურვა"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_TitlebarDoubleClickCommand)
-#: mouse.ui:78
+#: mouse.ui:73
 #, kde-format
 msgid "Show on all desktops"
 msgstr "ყველა სამუშაო მაგიდაზე ჩვენება"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandTitlebarWheel)
-#: mouse.ui:101
+#: mouse.ui:96
 #, kde-format
 msgid "Behavior on <em>mouse wheel</em> scroll over the titlebar."
 msgstr "<em>თაგუნას ბორბლის</em> ქცევა სათაურის ზოლზე დატრიალებისას."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: mouse.ui:146
+#: mouse.ui:136
 #, kde-format
 msgid "Titlebar and Frame Actions"
 msgstr "სათაურის პანელის და ჩარჩოს ქმედებები"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: mouse.ui:173
+#: mouse.ui:163
 #, kde-format
 msgid "Active"
 msgstr "აქტიური"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: mouse.ui:196
+#: mouse.ui:186
 #, kde-format
 msgid "Inactive"
 msgstr "არააქტიური"
@@ -1037,7 +996,7 @@ msgstr "არააქტიური"
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandActiveTitlebar1)
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandActiveTitlebar2)
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandActiveTitlebar3)
-#: mouse.ui:238 mouse.ui:353 mouse.ui:468
+#: mouse.ui:228 mouse.ui:333 mouse.ui:438
 #, kde-format
 msgid ""
 "Behavior on <em>left</em> click into the titlebar or frame of an <em>active</"
@@ -1046,22 +1005,10 @@ msgstr ""
 "თაგუნას <em>მარცხენა</em> ღილაკის ქცევა <em>აქტიური</em> ფანჯრის სათაურის "
 "ზოლზე ან ჩარჩოზე დაწკაპუნებისას."
 
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar1)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar1)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar2)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandActiveTitlebar3)
-#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
-#: mouse.ui:272 mouse.ui:334 mouse.ui:387 mouse.ui:449 mouse.ui:502
-#: mouse.ui:564
-#, kde-format
-msgid "Show actions menu"
-msgstr "ქმედებების მენიუს ჩვენება"
-
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandInactiveTitlebar1)
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandInactiveTitlebar3)
-#: mouse.ui:285 mouse.ui:400 mouse.ui:515
+#: mouse.ui:270 mouse.ui:375 mouse.ui:480
 #, kde-format
 msgid ""
 "Behavior on <em>left</em> click into the titlebar or frame of an "
@@ -1073,46 +1020,46 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar2)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandInactiveTitlebar3)
-#: mouse.ui:294 mouse.ui:409 mouse.ui:524
+#: mouse.ui:279 mouse.ui:384 mouse.ui:489
 #, kde-format
 msgid "Activate and lower"
 msgstr "აქტივაცია და დაწევა"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DoubleClickBorderToMaximize)
-#: mouse.ui:577
+#: mouse.ui:537
 #, kde-format
 msgid "Maximize window by double clicking its frame"
 msgstr "ფანჯრის გაშლა მის ჩარჩოზე ორჯერ დაწკაპუნებით"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
-#: mouse.ui:602
+#: mouse.ui:562
 #, kde-format
 msgid "Maximize Button Actions"
 msgstr "მთელ ეკრანზე გაშლის ღილაკის ქმედებები"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_8)
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_MaximizeButtonLeftClickCommand)
-#: mouse.ui:614 mouse.ui:627
+#: mouse.ui:574 mouse.ui:587
 #, kde-format
 msgid "Behavior on <em>left</em> click onto the maximize button."
 msgstr "<em>მარცხენა</em> ღილაკის ქცევა გადიდების ღილაკზე.."
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_9)
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_MaximizeButtonMiddleClickCommand)
-#: mouse.ui:649 mouse.ui:662
+#: mouse.ui:609 mouse.ui:622
 #, kde-format
 msgid "Behavior on <em>middle</em> click onto the maximize button."
 msgstr "<em>შუა</em> ღილაკის ქცევა გადიდების ღილაკზე.."
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: mouse.ui:652
+#: mouse.ui:612
 #, kde-format
 msgid "Middle c&lick:"
 msgstr "შუა &წკაპი:"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_10)
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_MaximizeButtonRightClickCommand)
-#: mouse.ui:684 mouse.ui:697
+#: mouse.ui:644 mouse.ui:657
 #, kde-format
 msgid "Behavior on <em>right</em> click onto the maximize button."
 msgstr "<em>მარჯვენა</em> წკაპის ქცევა გადიდების ღილაკზე."
@@ -1283,6 +1230,34 @@ msgstr ""
 "აცილება</em> და <em>ამოცანების გადართვა ('Alt+Tab')</em> ხელს უშლიან "
 "აქტივაციის პოლიტიკას და არ იმუშავებენ. ალბათ <em>ფოკუსი თაგუნას დაყვება</em> "
 "პოლიტიკა გირჩევნიათ!"
+
+#~ msgid "Shade/unshade"
+#~ msgstr "დაჩრდილვა/განჩრდილვა"
+
+#~ msgid "Window &unshading:"
+#~ msgstr "ფანჯრის &განჩრდილვა:"
+
+#~ msgid ""
+#~ "<html><head/><body><p>If this option is enabled, a shaded window will "
+#~ "unshade automatically when the mouse pointer has been over the titlebar "
+#~ "for some time.</p></body></html>"
+#~ msgstr ""
+#~ "<html><head/><body><p>თუ ეს პარამეტრი ჩართულია, როცა თაგუნას მაჩვენებელს "
+#~ "სათაურის ზოლზე ცოტა ხანს გააჩერებთ, დაჩრდილული ფანჯარა ავტომატურად "
+#~ "განიჩრდილება.</p></body></html>"
+
+#~ msgid "On titlebar hover after:"
+#~ msgstr "სათაურზე თაგუნას გადატარების შემდეგ:"
+
+#~ msgid ""
+#~ "Sets the time in milliseconds before the window unshades when the mouse "
+#~ "pointer goes over the shaded window."
+#~ msgstr ""
+#~ "დრო მილიწამებში, რომლის შემდეგაც დაჩრდილული ფანჯრის განჩრდილვა მოხდება, "
+#~ "როცა თაგუნას კურსორს დაჩრდილულ ფანჯარაზე გადაატარებთ."
+
+#~ msgid "Shade"
+#~ msgstr "დაჩრდილვა"
 
 #~ msgid "&Special windows:"
 #~ msgstr "&სპეციალური ფუნქციები:"

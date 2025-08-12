@@ -190,6 +190,7 @@ struct WaylandBackendOptions
     int outputCount = 1;
     qreal outputScale = 1;
     QSize outputSize = QSize(1024, 768);
+    bool fullscreen = false;
 };
 
 /**
@@ -208,7 +209,7 @@ public:
     bool initialize() override;
 
     std::unique_ptr<InputBackend> createInputBackend() override;
-    std::unique_ptr<OpenGLBackend> createOpenGLBackend() override;
+    std::unique_ptr<EglBackend> createOpenGLBackend() override;
     std::unique_ptr<QPainterBackend> createQPainterBackend() override;
 
     WaylandDisplay *display() const
@@ -252,7 +253,7 @@ Q_SIGNALS:
 private:
     void createOutputs();
     void destroyOutputs();
-    WaylandOutput *createOutput(const QString &name, const QSize &size, qreal scale);
+    WaylandOutput *createOutput(const QString &name, const QSize &size, qreal scale, bool fullscreen);
 
     WaylandBackendOptions m_options;
     std::unique_ptr<WaylandDisplay> m_display;

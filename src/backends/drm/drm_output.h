@@ -11,6 +11,7 @@
 #include "drm_abstract_output.h"
 #include "drm_object.h"
 #include "drm_plane.h"
+#include "utils/filedescriptor.h"
 
 #include <QList>
 #include <QObject>
@@ -58,16 +59,16 @@ public:
     void leaseEnded();
 
     bool setChannelFactors(const QVector3D &rgb) override;
-    /**
-     * channel factors adapted to the target color space + brightness setting multiplied in
-     */
-    QVector3D adaptedChannelFactors() const;
     void updateConnectorProperties();
 
     /**
      * @returns the color description / encoding that the buffers passed to the CRTC need to have, without a color pipeline to change it
      */
     const ColorDescription &scanoutColorDescription() const;
+    /**
+     * @returns the color description that compositing and blending need to happen in
+     */
+    const ColorDescription &blendingColorDescription() const;
     /**
      * @returns whether or not the renderer should apply channel factors
      */
@@ -79,12 +80,14 @@ private:
     bool setDrmDpmsMode(DpmsMode mode);
     void setDpmsMode(DpmsMode mode) override;
     void tryKmsColorOffloading();
-    std::pair<ColorDescription, QVector3D> createColorDescription(const std::shared_ptr<OutputChangeSet> &props, double brightness) const;
+    ColorDescription createColorDescription(const State &next) const;
     Capabilities computeCapabilities() const;
     void updateInformation();
-    void setBrightnessDevice(BrightnessDevice *device) override;
+    void unsetBrightnessDevice() override;
     void updateBrightness(double newBrightness, double newArtificialHdrHeadroom);
     void setScanoutColorDescription(const ColorDescription &description);
+    void setBlendingColorDescription(const ColorDescription &description);
+    std::optional<uint32_t> decideAutomaticBpcLimit() const;
 
     QList<std::shared_ptr<OutputMode>> getModes() const;
 
@@ -93,12 +96,13 @@ private:
     const std::shared_ptr<DrmConnector> m_connector;
 
     QTimer m_turnOffTimer;
+    FileDescriptor m_sleepInhibitor;
     DrmLease *m_lease = nullptr;
 
-    QVector3D m_channelFactors = {1, 1, 1};
-    QVector3D m_adaptedChannelFactors = {1, 1, 1};
+    QVector3D m_sRgbChannelFactors = {1, 1, 1};
     bool m_needsShadowBuffer = false;
     ColorDescription m_scanoutColorDescription = ColorDescription::sRGB;
+    ColorDescription m_blendingColorDescription = ColorDescription::sRGB;
     PresentationMode m_desiredPresentationMode = PresentationMode::VSync;
 };
 

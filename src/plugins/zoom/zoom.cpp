@@ -22,7 +22,7 @@
 #include <KConfigGroup>
 #include <KGlobalAccel>
 #include <KLocalizedString>
-#include <KStandardAction>
+#include <KStandardActions>
 
 #include <QAction>
 
@@ -43,19 +43,36 @@ ZoomEffect::ZoomEffect()
 
     ZoomConfig::instance(effects->config());
     QAction *a = nullptr;
-    a = KStandardAction::zoomIn(this, &ZoomEffect::zoomIn, this);
+    a = KStandardActions::zoomIn(this, &ZoomEffect::zoomIn, this);
     KGlobalAccel::self()->setDefaultShortcut(a, QList<QKeySequence>() << (Qt::META | Qt::Key_Plus) << (Qt::META | Qt::Key_Equal));
     KGlobalAccel::self()->setShortcut(a, QList<QKeySequence>() << (Qt::META | Qt::Key_Plus) << (Qt::META | Qt::Key_Equal));
-    effects->registerAxisShortcut(Qt::ControlModifier | Qt::MetaModifier, PointerAxisDown, a);
 
-    a = KStandardAction::zoomOut(this, &ZoomEffect::zoomOut, this);
+    a = KStandardActions::zoomOut(this, &ZoomEffect::zoomOut, this);
     KGlobalAccel::self()->setDefaultShortcut(a, QList<QKeySequence>() << (Qt::META | Qt::Key_Minus));
     KGlobalAccel::self()->setShortcut(a, QList<QKeySequence>() << (Qt::META | Qt::Key_Minus));
-    effects->registerAxisShortcut(Qt::ControlModifier | Qt::MetaModifier, PointerAxisUp, a);
 
-    a = KStandardAction::actualSize(this, &ZoomEffect::actualSize, this);
+    a = KStandardActions::actualSize(this, &ZoomEffect::actualSize, this);
     KGlobalAccel::self()->setDefaultShortcut(a, QList<QKeySequence>() << (Qt::META | Qt::Key_0));
     KGlobalAccel::self()->setShortcut(a, QList<QKeySequence>() << (Qt::META | Qt::Key_0));
+
+    m_touchpadAction = std::make_unique<QAction>();
+    connect(m_touchpadAction.get(), &QAction::triggered, this, [this]() {
+        const double threshold = 1.15;
+        if (m_targetZoom < threshold) {
+            zoomTo(1.0);
+        }
+        m_lastPinchProgress = 0;
+    });
+    effects->registerTouchpadPinchShortcut(PinchDirection::Expanding, 3, m_touchpadAction.get(), [this](qreal progress) {
+        const qreal delta = progress - m_lastPinchProgress;
+        m_lastPinchProgress = progress;
+        realtimeZoom(delta);
+    });
+    effects->registerTouchpadPinchShortcut(PinchDirection::Contracting, 3, m_touchpadAction.get(), [this](qreal progress) {
+        const qreal delta = progress - m_lastPinchProgress;
+        m_lastPinchProgress = progress;
+        realtimeZoom(-delta);
+    });
 
     a = new QAction(this);
     a->setObjectName(QStringLiteral("MoveZoomLeft"));
@@ -107,6 +124,7 @@ ZoomEffect::ZoomEffect()
     connect(effects, &EffectsHandler::screenRemoved, this, &ZoomEffect::slotScreenRemoved);
 
 #if HAVE_ACCESSIBILITY
+    // TODO: Decide what to do about it.
     if (!effects->waylandDisplay()) {
         // on Wayland, the accessibility integration can cause KWin to hang
         m_accessibilityIntegration = new ZoomAccessibilityIntegration(this);
@@ -206,6 +224,29 @@ void ZoomEffect::hideCursor()
     }
 }
 
+static Qt::KeyboardModifiers stringToKeyboardModifiers(const QString &string)
+{
+    const QStringList parts = string.split(QLatin1Char('+'));
+    if (parts.isEmpty()) {
+        return Qt::KeyboardModifiers();
+    }
+
+    Qt::KeyboardModifiers modifiers;
+    for (const QString &part : parts) {
+        if (part == QLatin1String("Meta")) {
+            modifiers |= Qt::MetaModifier;
+        } else if (part == QLatin1String("Ctrl")) {
+            modifiers |= Qt::ControlModifier;
+        } else if (part == QLatin1String("Alt")) {
+            modifiers |= Qt::AltModifier;
+        } else if (part == QLatin1String("Shift")) {
+            modifiers |= Qt::ShiftModifier;
+        }
+    }
+
+    return modifiers;
+}
+
 void ZoomEffect::reconfigure(ReconfigureFlags)
 {
     ZoomConfig::self()->read();
@@ -228,6 +269,23 @@ void ZoomEffect::reconfigure(ReconfigureFlags)
     m_focusDelay = std::max(uint(0), ZoomConfig::focusDelay());
     // The factor the zoom-area will be moved on touching an edge on push-mode or using the navigation KAction's.
     m_moveFactor = std::max(0.1, ZoomConfig::moveFactor());
+
+    const Qt::KeyboardModifiers pointerAxisModifiers = stringToKeyboardModifiers(ZoomConfig::pointerAxisGestureModifiers());
+    if (m_axisModifiers != pointerAxisModifiers) {
+        m_zoomInAxisAction.reset();
+        m_zoomOutAxisAction.reset();
+        m_axisModifiers = pointerAxisModifiers;
+
+        if (pointerAxisModifiers) {
+            m_zoomInAxisAction = std::make_unique<QAction>();
+            connect(m_zoomInAxisAction.get(), &QAction::triggered, this, &ZoomEffect::zoomIn);
+            effects->registerAxisShortcut(pointerAxisModifiers, PointerAxisUp, m_zoomInAxisAction.get());
+
+            m_zoomOutAxisAction = std::make_unique<QAction>();
+            connect(m_zoomOutAxisAction.get(), &QAction::triggered, this, &ZoomEffect::zoomOut);
+            effects->registerAxisShortcut(pointerAxisModifiers, PointerAxisDown, m_zoomOutAxisAction.get());
+        }
+    }
 }
 
 void ZoomEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseconds presentTime)
@@ -261,7 +319,7 @@ ZoomEffect::OffscreenData *ZoomEffect::ensureOffscreenData(const RenderTarget &r
 {
     const QSize nativeSize = renderTarget.size();
 
-    OffscreenData &data = m_offscreenData[effects->waylandDisplay() ? screen : nullptr];
+    OffscreenData &data = m_offscreenData[screen];
     data.viewport = viewport.renderRect();
     data.color = renderTarget.colorDescription();
 
@@ -467,7 +525,6 @@ void ZoomEffect::zoomTo(double to)
     if (m_mouseTracking == MouseTrackingDisabled) {
         m_prevPoint = m_cursorPoint;
     }
-    effects->addRepaintFull();
 }
 
 void ZoomEffect::zoomOut()
@@ -480,14 +537,12 @@ void ZoomEffect::zoomOut()
     if (m_mouseTracking == MouseTrackingDisabled) {
         m_prevPoint = effects->cursorPos().toPoint();
     }
-    effects->addRepaintFull();
 }
 
 void ZoomEffect::actualSize()
 {
     m_sourceZoom = m_zoom;
     setTargetZoom(1);
-    effects->addRepaintFull();
 }
 
 void ZoomEffect::timelineFrameChanged(int /* frame */)
@@ -547,16 +602,12 @@ void ZoomEffect::moveZoomDown()
 
 void ZoomEffect::moveMouseToFocus()
 {
-    if (effects->waylandDisplay() || !ZoomEffect::isActive()) {
-        const auto window = effects->activeWindow();
-        if (!window) {
-            return;
-        }
-        const auto center = window->frameGeometry().center();
-        QCursor::setPos(center.x(), center.y());
-    } else {
-        QCursor::setPos(m_focusPoint.x(), m_focusPoint.y());
+    const auto window = effects->activeWindow();
+    if (!window) {
+        return;
     }
+    const auto center = window->frameGeometry().center();
+    QCursor::setPos(center.x(), center.y());
 }
 
 void ZoomEffect::moveMouseToCenter()
@@ -655,15 +706,33 @@ bool ZoomEffect::screenExistsAt(const QPoint &point) const
 
 void ZoomEffect::setTargetZoom(double value)
 {
-    value = std::min(value, 100.0);
+    value = std::clamp(value, 1.0, 100.0);
+    if (m_targetZoom == value) {
+        return;
+    }
     const bool newActive = value != 1.0;
     const bool oldActive = m_targetZoom != 1.0;
     if (newActive && !oldActive) {
         connect(effects, &EffectsHandler::mouseChanged, this, &ZoomEffect::slotMouseChanged);
+        m_cursorPoint = effects->cursorPos().toPoint();
     } else if (!newActive && oldActive) {
         disconnect(effects, &EffectsHandler::mouseChanged, this, &ZoomEffect::slotMouseChanged);
     }
     m_targetZoom = value;
+    effects->addRepaintFull();
+}
+
+void ZoomEffect::realtimeZoom(double delta)
+{
+    // for the change speed to feel roughly linear,
+    // we have to increase the delta at higher zoom levels
+    delta *= m_targetZoom / 2;
+    setTargetZoom(m_targetZoom + delta);
+    // skip the animation, we want this to be real time
+    m_zoom = m_targetZoom;
+    if (m_zoom == 1.0) {
+        showCursor();
+    }
 }
 
 } // namespace

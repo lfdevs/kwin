@@ -8,8 +8,6 @@ usr/lib/*/libkcmkwincommon.so.6
 usr/lib/*/libkcmkwincommon.so.6.*
 usr/lib/*/qt6/plugins/kf6/packagestructure/
 usr/lib/*/qt6/plugins/kwin/
-usr/lib/*/qt6/plugins/org.kde.kdecoration3.kcm/kcm_auroraedecoration.so
-usr/lib/*/qt6/plugins/org.kde.kdecoration3/org.kde.kwin.aurorae.so
 usr/lib/*/qt6/plugins/plasma/kcms/systemsettings/
 usr/lib/*/qt6/plugins/plasma/kcms/systemsettings_qwidgets/
 usr/lib/*/qt6/qml/org/kde/kwin/

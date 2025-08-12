@@ -13,8 +13,7 @@
 #include "backends/drm/drm_backend.h"
 #include "backends/virtual/virtual_backend.h"
 #include "backends/wayland/wayland_backend.h"
-#include "backends/x11/windowed/x11_windowed_backend.h"
-#include "compositor_wayland.h"
+#include "compositor.h"
 #include "core/outputbackend.h"
 #include "core/session.h"
 #include "effect/effecthandler.h"
@@ -27,6 +26,7 @@
 #include "workspace.h"
 
 #if KWIN_BUILD_X11
+#include "backends/x11/x11_windowed_backend.h"
 #include "xwayland/xwayland.h"
 #include "xwayland/xwaylandlauncher.h"
 #endif
@@ -99,7 +99,7 @@ static void restoreNofileLimit()
 //************************************
 
 ApplicationWayland::ApplicationWayland(int &argc, char **argv)
-    : Application(OperationModeWayland, argc, argv)
+    : Application(argc, argv)
 {
 }
 
@@ -141,7 +141,7 @@ void ApplicationWayland::performStartup()
     createInputMethod();
     createTabletModeManager();
 
-    auto compositor = WaylandCompositor::create();
+    auto compositor = Compositor::create();
     compositor->createRenderer();
     createWorkspace();
     createColorManager();
@@ -162,6 +162,8 @@ void ApplicationWayland::performStartup()
         m_xwayland->xwaylandLauncher()->setListenFDs(m_xwaylandListenFds);
         m_xwayland->xwaylandLauncher()->setDisplayName(m_xwaylandDisplay);
         m_xwayland->xwaylandLauncher()->setXauthority(m_xwaylandXauthority);
+        m_xwayland->xwaylandLauncher()->addEnvironmentVariables(m_xwaylandExtraEnvironment);
+        m_xwayland->xwaylandLauncher()->passFileDescriptors(std::move(m_xwaylandFds));
         m_xwayland->init();
         connect(m_xwayland.get(), &Xwl::Xwayland::started, this, &ApplicationWayland::applyXwaylandScale);
     }
@@ -316,6 +318,10 @@ int main(int argc, char *argv[])
                                     QStringLiteral("height"));
     heightOption.setDefaultValue(QString::number(768));
 
+    QCommandLineOption fullscreenOption(QStringLiteral("fullscreen"),
+                                        i18n("Whether or not to make windowed mode fullscreen"),
+                                        QStringLiteral("fullscreen"));
+
     QCommandLineOption scaleOption(QStringLiteral("scale"),
                                    i18n("The scale for windowed mode. Default value is 1."),
                                    QStringLiteral("scale"));
@@ -370,6 +376,7 @@ int main(int argc, char *argv[])
     parser.addOption(outputCountOption);
     parser.addOption(drmOption);
     parser.addOption(locale1Option);
+    parser.addOption(fullscreenOption);
 
     QCommandLineOption inputMethodOption(QStringLiteral("inputmethod"),
                                          i18n("Input method that KWin starts."),
@@ -427,7 +434,9 @@ int main(int argc, char *argv[])
 
     enum class BackendType {
         Kms,
+#if KWIN_BUILD_X11
         X11,
+#endif
         Wayland,
         Virtual,
     };
@@ -453,9 +462,11 @@ int main(int argc, char *argv[])
         if (qEnvironmentVariableIsSet("WAYLAND_DISPLAY")) {
             qInfo("No backend specified, automatically choosing Wayland because WAYLAND_DISPLAY is set");
             backendType = BackendType::Wayland;
+#if KWIN_BUILD_X11
         } else if (qEnvironmentVariableIsSet("DISPLAY")) {
             qInfo("No backend specified, automatically choosing X11 because DISPLAY is set");
             backendType = BackendType::X11;
+#endif
         } else {
             qInfo("No backend specified, automatically choosing drm");
             backendType = BackendType::Kms;
@@ -484,6 +495,7 @@ int main(int argc, char *argv[])
         std::cerr << "FATAL ERROR incorrect value for scale" << std::endl;
         return 1;
     }
+    const bool fullscreen = parser.isSet(fullscreenOption);
 
     outputScale = scale;
     initialWindowSize = QSize(width, height);
@@ -541,6 +553,7 @@ int main(int argc, char *argv[])
             .outputCount = outputCount,
             .outputScale = outputScale,
             .outputSize = initialWindowSize,
+            .fullscreen = fullscreen,
         }));
         break;
     }

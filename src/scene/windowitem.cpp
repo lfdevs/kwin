@@ -11,7 +11,6 @@
 #include "scene/shadowitem.h"
 #include "scene/surfaceitem_internal.h"
 #include "scene/surfaceitem_wayland.h"
-#include "scene/surfaceitem_x11.h"
 #include "virtualdesktops.h"
 #include "wayland_server.h"
 #include "window.h"
@@ -156,7 +155,7 @@ bool WindowItem::computeVisibility() const
     if (!m_window->readyForPainting()) {
         return false;
     }
-    if (waylandServer() && waylandServer()->isScreenLocked()) {
+    if (waylandServer()->isScreenLocked()) {
         return m_window->isLockScreen() || m_window->isInputMethod() || m_window->isLockScreenOverlay();
     }
     if (!m_window->isOnCurrentDesktop()) {
@@ -315,17 +314,10 @@ WindowItemX11::WindowItemX11(X11Window *window, Item *parent)
 
 void WindowItemX11::initialize()
 {
-    switch (kwinApp()->operationMode()) {
-    case Application::OperationModeX11:
-        updateSurfaceItem(std::make_unique<SurfaceItemX11>(static_cast<X11Window *>(window()), this));
-        break;
-    case Application::OperationModeWayland:
-        if (!window()->surface()) {
-            updateSurfaceItem(nullptr);
-        } else {
-            updateSurfaceItem(std::make_unique<SurfaceItemXwayland>(static_cast<X11Window *>(window()), this));
-        }
-        break;
+    if (!window()->surface()) {
+        updateSurfaceItem(nullptr);
+    } else {
+        updateSurfaceItem(std::make_unique<SurfaceItemXwayland>(static_cast<X11Window *>(window()), this));
     }
 }
 #endif

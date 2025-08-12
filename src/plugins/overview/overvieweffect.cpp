@@ -337,59 +337,6 @@ void OverviewEffect::reverseCycle()
     }
 }
 
-void OverviewEffect::grabbedKeyboardEvent(QKeyEvent *keyEvent)
-{
-    if (!effects->waylandDisplay()) {
-        if (m_cycleShortcut.contains(keyEvent->key() | keyEvent->modifiers())) {
-            if (keyEvent->type() == QEvent::KeyPress) {
-                cycle();
-            }
-            return;
-        }
-        if (m_reverseCycleShortcut.contains(keyEvent->key() | keyEvent->modifiers())) {
-            if (keyEvent->type() == QEvent::KeyPress) {
-                reverseCycle();
-            }
-            return;
-        }
-        if (m_overviewShortcut.contains(keyEvent->key() | keyEvent->modifiers())) {
-            if (keyEvent->type() == QEvent::KeyPress) {
-                m_overviewState->toggle();
-            }
-            return;
-        }
-        if (m_gridShortcut.contains(keyEvent->key() | keyEvent->modifiers())) {
-            if (keyEvent->type() == QEvent::KeyPress) {
-                m_gridState->toggle();
-            }
-            return;
-        }
-    }
-    QuickSceneEffect::grabbedKeyboardEvent(keyEvent);
-}
-
-void OverviewEffect::swapDesktops(VirtualDesktop *from, VirtualDesktop *to)
-{
-    QList<EffectWindow *> fromList;
-    QList<EffectWindow *> toList;
-    for (auto *w : effects->stackingOrder()) {
-        if (!w->isNormalWindow() || !w->isOnCurrentActivity()) {
-            continue;
-        }
-        if (w->isOnDesktop(from)) {
-            fromList << w;
-        } else if (w->isOnDesktop(to)) {
-            toList << w;
-        }
-    }
-    for (auto *w : fromList) {
-        effects->windowToDesktops(w, {to});
-    }
-    for (auto *w : toList) {
-        effects->windowToDesktops(w, {from});
-    }
-}
-
 } // namespace KWin
 
 #include "moc_overvieweffect.cpp"

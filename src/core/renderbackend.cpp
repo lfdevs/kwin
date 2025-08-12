@@ -6,7 +6,6 @@
 
 #include "renderbackend.h"
 #include "renderloop_p.h"
-#include "scene/surfaceitem.h"
 #include "syncobjtimeline.h"
 
 #include <QCoreApplication>
@@ -174,11 +173,6 @@ OutputLayer *RenderBackend::cursorLayer(Output *output)
     return nullptr;
 }
 
-OverlayWindow *RenderBackend::overlayWindow() const
-{
-    return nullptr;
-}
-
 bool RenderBackend::checkGraphicsReset()
 {
     return false;
@@ -197,16 +191,6 @@ bool RenderBackend::testImportBuffer(GraphicsBuffer *buffer)
 QHash<uint32_t, QList<uint64_t>> RenderBackend::supportedFormats() const
 {
     return QHash<uint32_t, QList<uint64_t>>{{DRM_FORMAT_XRGB8888, QList<uint64_t>{DRM_FORMAT_MOD_LINEAR}}};
-}
-
-std::unique_ptr<SurfaceTexture> RenderBackend::createSurfaceTextureX11(SurfacePixmapX11 *pixmap)
-{
-    return nullptr;
-}
-
-std::unique_ptr<SurfaceTexture> RenderBackend::createSurfaceTextureWayland(SurfacePixmap *pixmap)
-{
-    return nullptr;
 }
 
 void RenderBackend::repairPresentation(Output *output)

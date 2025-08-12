@@ -221,8 +221,8 @@ void XdgShellTest::testCreateSurface()
     // verify base things
     auto serverToplevel = xdgSurfaceCreatedSpy.first().first().value<XdgToplevelInterface *>();
     QVERIFY(serverToplevel);
-    QCOMPARE(serverToplevel->windowTitle(), QString());
-    QCOMPARE(serverToplevel->windowClass(), QByteArray());
+    QCOMPARE(serverToplevel->title(), QString());
+    QCOMPARE(serverToplevel->appId(), QByteArray());
     QCOMPARE(serverToplevel->parentXdgToplevel(), nullptr);
     QCOMPARE(serverToplevel->surface(), serverSurface);
 
@@ -239,15 +239,15 @@ void XdgShellTest::testTitle()
     SURFACE
 
     // should not have a title yet
-    QCOMPARE(serverXdgToplevel->windowTitle(), QString());
+    QCOMPARE(serverXdgToplevel->title(), QString());
 
     // lets' change the title
-    QSignalSpy titleChangedSpy(serverXdgToplevel, &XdgToplevelInterface::windowTitleChanged);
+    QSignalSpy titleChangedSpy(serverXdgToplevel, &XdgToplevelInterface::titleChanged);
     xdgSurface->setTitle(QStringLiteral("foo"));
     QVERIFY(titleChangedSpy.wait());
     QCOMPARE(titleChangedSpy.count(), 1);
     QCOMPARE(titleChangedSpy.first().first().toString(), QStringLiteral("foo"));
-    QCOMPARE(serverXdgToplevel->windowTitle(), QStringLiteral("foo"));
+    QCOMPARE(serverXdgToplevel->title(), QStringLiteral("foo"));
 }
 
 void XdgShellTest::testWindowClass()
@@ -257,15 +257,15 @@ void XdgShellTest::testWindowClass()
     SURFACE
 
     // should not have a window class yet
-    QCOMPARE(serverXdgToplevel->windowClass(), QByteArray());
+    QCOMPARE(serverXdgToplevel->appId(), QByteArray());
 
     // let's change the window class
-    QSignalSpy windowClassChanged(serverXdgToplevel, &XdgToplevelInterface::windowClassChanged);
+    QSignalSpy windowClassChanged(serverXdgToplevel, &XdgToplevelInterface::appIdChanged);
     xdgSurface->setAppId(QByteArrayLiteral("org.kde.xdgsurfacetest"));
     QVERIFY(windowClassChanged.wait());
     QCOMPARE(windowClassChanged.count(), 1);
     QCOMPARE(windowClassChanged.first().first().toByteArray(), QByteArrayLiteral("org.kde.xdgsurfacetest"));
-    QCOMPARE(serverXdgToplevel->windowClass(), QByteArrayLiteral("org.kde.xdgsurfacetest"));
+    QCOMPARE(serverXdgToplevel->appId(), QByteArrayLiteral("org.kde.xdgsurfacetest"));
 }
 
 void XdgShellTest::testMaximize()
@@ -372,17 +372,17 @@ void XdgShellTest::testMove()
 void XdgShellTest::testResize_data()
 {
     QTest::addColumn<Qt::Edges>("edges");
-    QTest::addColumn<XdgToplevelInterface::ResizeAnchor>("anchor");
+    QTest::addColumn<KWin::Gravity>("gravity");
 
-    QTest::newRow("none") << Qt::Edges() << XdgToplevelInterface::ResizeAnchor::None;
-    QTest::newRow("top") << Qt::Edges(Qt::TopEdge) << XdgToplevelInterface::ResizeAnchor::Top;
-    QTest::newRow("bottom") << Qt::Edges(Qt::BottomEdge) << XdgToplevelInterface::ResizeAnchor::Bottom;
-    QTest::newRow("left") << Qt::Edges(Qt::LeftEdge) << XdgToplevelInterface::ResizeAnchor::Left;
-    QTest::newRow("top left") << Qt::Edges(Qt::TopEdge | Qt::LeftEdge) << XdgToplevelInterface::ResizeAnchor::TopLeft;
-    QTest::newRow("bottom left") << Qt::Edges(Qt::BottomEdge | Qt::LeftEdge) << XdgToplevelInterface::ResizeAnchor::BottomLeft;
-    QTest::newRow("right") << Qt::Edges(Qt::RightEdge) << XdgToplevelInterface::ResizeAnchor::Right;
-    QTest::newRow("top right") << Qt::Edges(Qt::TopEdge | Qt::RightEdge) << XdgToplevelInterface::ResizeAnchor::TopRight;
-    QTest::newRow("bottom right") << Qt::Edges(Qt::BottomEdge | Qt::RightEdge) << XdgToplevelInterface::ResizeAnchor::BottomRight;
+    QTest::newRow("none") << Qt::Edges() << KWin::Gravity::None;
+    QTest::newRow("top") << Qt::Edges(Qt::TopEdge) << KWin::Gravity::Top;
+    QTest::newRow("bottom") << Qt::Edges(Qt::BottomEdge) << KWin::Gravity::Bottom;
+    QTest::newRow("left") << Qt::Edges(Qt::LeftEdge) << KWin::Gravity::Left;
+    QTest::newRow("top left") << Qt::Edges(Qt::TopEdge | Qt::LeftEdge) << KWin::Gravity::TopLeft;
+    QTest::newRow("bottom left") << Qt::Edges(Qt::BottomEdge | Qt::LeftEdge) << KWin::Gravity::BottomLeft;
+    QTest::newRow("right") << Qt::Edges(Qt::RightEdge) << KWin::Gravity::Right;
+    QTest::newRow("top right") << Qt::Edges(Qt::TopEdge | Qt::RightEdge) << KWin::Gravity::TopRight;
+    QTest::newRow("bottom right") << Qt::Edges(Qt::BottomEdge | Qt::RightEdge) << KWin::Gravity::BottomRight;
 }
 
 void XdgShellTest::testResize()
@@ -402,7 +402,7 @@ void XdgShellTest::testResize()
     QVERIFY(resizeSpy.wait());
     QCOMPARE(resizeSpy.count(), 1);
     QCOMPARE(resizeSpy.first().at(0).value<SeatInterface *>(), m_seatInterface);
-    QTEST(resizeSpy.first().at(1).value<XdgToplevelInterface::ResizeAnchor>(), "anchor");
+    QTEST(resizeSpy.first().at(1).value<Gravity>(), "gravity");
     QCOMPARE(resizeSpy.first().at(2).value<quint32>(), 60u);
 }
 

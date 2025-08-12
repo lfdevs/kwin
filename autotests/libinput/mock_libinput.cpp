@@ -62,6 +62,11 @@ unsigned int libinput_device_get_id_vendor(struct libinput_device *device)
     return device->vendor;
 }
 
+unsigned int libinput_device_get_id_bustype(struct libinput_device *device)
+{
+    return device->busType;
+}
+
 int libinput_device_config_tap_get_finger_count(struct libinput_device *device)
 {
     return device->tapFingerCount;
@@ -920,6 +925,11 @@ int libinput_device_tablet_pad_get_num_rings(struct libinput_device *device)
     return device->ringCount;
 }
 
+int libinput_device_tablet_pad_get_num_dials(struct libinput_device *device)
+{
+    return device->dialCount;
+}
+
 int libinput_device_tablet_pad_get_num_buttons(struct libinput_device *device)
 {
     return device->buttonCount;
@@ -927,7 +937,7 @@ int libinput_device_tablet_pad_get_num_buttons(struct libinput_device *device)
 
 int libinput_device_tablet_pad_get_num_mode_groups(struct libinput_device *device)
 {
-    return 0;
+    return 1;
 }
 
 struct libinput_tablet_pad_mode_group *
@@ -940,6 +950,36 @@ unsigned int
 libinput_tablet_pad_mode_group_get_mode(struct libinput_tablet_pad_mode_group *group)
 {
     return 0;
+}
+
+unsigned int
+libinput_tablet_pad_mode_group_get_num_modes(struct libinput_tablet_pad_mode_group *group)
+{
+    return 1;
+}
+
+int libinput_tablet_pad_mode_group_has_button(struct libinput_tablet_pad_mode_group *group,
+                                              unsigned int button)
+{
+    return 1;
+}
+
+int libinput_tablet_pad_mode_group_has_ring(struct libinput_tablet_pad_mode_group *group,
+                                            unsigned int ring)
+{
+    return 1;
+}
+
+int libinput_tablet_pad_mode_group_has_strip(struct libinput_tablet_pad_mode_group *group,
+                                             unsigned int strip)
+{
+    return 1;
+}
+
+int libinput_tablet_pad_mode_group_has_dial(struct libinput_tablet_pad_mode_group *group,
+                                            unsigned int dial)
+{
+    return 1;
 }
 
 struct libinput_device_group *
@@ -1066,4 +1106,34 @@ libinput_device_config_area_set_rectangle(struct libinput_device *device,
                                           const struct libinput_config_area_rectangle *rect)
 {
     return LIBINPUT_CONFIG_STATUS_UNSUPPORTED;
+}
+
+int libinput_device_config_rotation_is_available(struct libinput_device *device)
+{
+    return device->pointer;
+}
+
+unsigned int libinput_device_config_rotation_get_angle(struct libinput_device *device)
+{
+    return device->pointer ? device->rotation : 0;
+}
+
+enum libinput_config_status
+libinput_device_config_rotation_set_angle(struct libinput_device *device,
+					  unsigned int degrees_cw)
+{
+    if (!device->pointer) {
+        return LIBINPUT_CONFIG_STATUS_UNSUPPORTED;
+    }
+    if (degrees_cw >= 360) {
+        return LIBINPUT_CONFIG_STATUS_INVALID;
+    }
+    device->rotation = degrees_cw;
+    return LIBINPUT_CONFIG_STATUS_SUCCESS;
+}
+
+unsigned int
+libinput_device_config_rotation_get_default_angle(struct libinput_device *device)
+{
+    return 0u;
 }

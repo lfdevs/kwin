@@ -77,6 +77,7 @@ class PlaceholderInputEventFilter;
 class PlaceholderOutput;
 class Placement;
 class OutputConfiguration;
+class RootTile;
 class TileManager;
 class OutputConfigurationStore;
 class LidSwitchTracker;
@@ -248,21 +249,27 @@ public:
     /**
      * @returns List of all windows (either X11 or Wayland) currently managed by Workspace
      */
-    const QList<Window *> windows() const
+    QList<Window *> windows() const
     {
         return m_windows;
     }
-
-#if KWIN_BUILD_X11
-    void stackScreenEdgesUnderOverrideRedirect();
-#endif
 
     SessionManager *sessionManager() const;
 
     /**
      * @returns the TileManager associated to a given output
      */
-    TileManager *tileManager(Output *output);
+    TileManager *tileManager(Output *output) const;
+
+    /**
+     * Returns the root tile for the given @a output on the current virtual desktop.
+     */
+    RootTile *rootTile(Output *output) const;
+
+    /**
+     * Returns the root tile for the given @a output and @a desktop.
+     */
+    RootTile *rootTile(Output *output, VirtualDesktop *desktop) const;
 
 public:
     QPoint cascadeOffset(const QRectF &area) const;
@@ -357,6 +364,7 @@ public:
         DirectionNext
     };
     Output *findOutput(Output *reference, Direction direction, bool wrapAround = false) const;
+    Output *findOutput(const QString &name) const;
     void switchToOutput(Output *output);
 
     QList<Output *> outputs() const;
@@ -466,7 +474,7 @@ public:
      * Apply the requested output configuration. Note that you must use this function
      * instead of Platform::applyOutputChanges().
      */
-    bool applyOutputConfiguration(const OutputConfiguration &config, const std::optional<QList<Output *>> &outputOrder = std::nullopt);
+    OutputConfigurationError applyOutputConfiguration(OutputConfiguration &config, const std::optional<QList<Output *>> &outputOrder = std::nullopt);
     void updateXwaylandScale();
 
 public Q_SLOTS:
@@ -636,6 +644,7 @@ private:
 
     void closeActivePopup();
     void updateWindowVisibilityOnDesktopChange(VirtualDesktop *newDesktop);
+    void updateWindowVisibilityAndActivateOnDesktopChange(VirtualDesktop *newDesktop);
     void activateWindowOnDesktop(VirtualDesktop *desktop);
     Window *findWindowToActivateOnDesktop(VirtualDesktop *desktop);
     void removeWindow(Window *window);
@@ -645,7 +654,7 @@ private:
     void updateOutputs(const std::optional<QList<Output *>> &outputOrder = std::nullopt);
     void aboutToTurnOff();
     void wakeUp();
-    void assignBrightnessDevices();
+    void assignBrightnessDevices(OutputConfiguration &outputConfig);
 
     bool breaksShowingDesktop(Window *window) const;
 
@@ -696,9 +705,7 @@ private:
     bool was_user_interaction;
 #if KWIN_BUILD_X11
     QList<xcb_window_t> manual_overlays; // Topmost last
-    std::unique_ptr<X11EventFilter> m_wasUserInteractionFilter;
     std::unique_ptr<Xcb::Window> m_nullFocus;
-    std::unique_ptr<X11EventFilter> m_movingClientFilter;
     std::unique_ptr<X11EventFilter> m_syncAlarmFilter;
 #endif
 

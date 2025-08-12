@@ -13,6 +13,7 @@
 #include <KWayland/Client/xdgshell.h>
 
 #include <QObject>
+#include <QSize>
 #include <QTimer>
 
 namespace KWayland
@@ -28,6 +29,11 @@ class XdgDecoration;
 
 struct wl_buffer;
 struct wp_presentation_feedback;
+struct wp_tearing_control_v1;
+struct wp_color_management_surface_v1;
+struct wp_fractional_scale_v1;
+struct wp_fractional_scale_v1_listener;
+struct wp_viewport;
 
 namespace KWin
 {
@@ -36,6 +42,7 @@ class OutputFrame;
 namespace Wayland
 {
 class WaylandBackend;
+class ColorSurfaceFeedback;
 
 class WaylandCursor
 {
@@ -47,7 +54,7 @@ public:
     void setPointer(KWayland::Client::Pointer *pointer);
 
     void setEnabled(bool enable);
-    void update(wl_buffer *buffer, qreal scale, const QPoint &hotspot);
+    void update(wl_buffer *buffer, const QSize &logicalSize, const QPoint &hotspot);
 
 private:
     void sync();
@@ -55,8 +62,9 @@ private:
     KWayland::Client::Pointer *m_pointer = nullptr;
     std::unique_ptr<KWayland::Client::Surface> m_surface;
     wl_buffer *m_buffer = nullptr;
+    wp_viewport *m_viewport = nullptr;
     QPoint m_hotspot;
-    qreal m_scale = 1;
+    QSize m_size;
     bool m_enabled = true;
 };
 
@@ -70,7 +78,7 @@ public:
     RenderLoop *renderLoop() const override;
     bool updateCursorLayer(std::optional<std::chrono::nanoseconds> allowedVrrDelay) override;
 
-    void init(const QSize &pixelSize, qreal scale);
+    void init(const QSize &pixelSize, qreal scale, bool fullscreen);
 
     bool isReady() const;
     KWayland::Client::Surface *surface() const;
@@ -78,10 +86,8 @@ public:
     WaylandBackend *backend() const;
 
     void lockPointer(KWayland::Client::Pointer *pointer, bool lock);
-    void resize(const QSize &pixelSize);
     void setDpmsMode(DpmsMode mode) override;
     void updateDpmsMode(DpmsMode dpmsMode);
-    void updateEnabled(bool enabled);
 
     void present(const std::shared_ptr<OutputFrame> &frame);
     void setPrimaryBuffer(wl_buffer *buffer);
@@ -89,10 +95,16 @@ public:
     void frameDiscarded();
     void framePresented(std::chrono::nanoseconds timestamp, uint32_t refreshRate);
 
+    void applyChanges(const OutputConfiguration &config) override;
+
 private:
     void handleConfigure(const QSize &size, KWayland::Client::XdgShellSurface::States states, quint32 serial);
     void updateWindowTitle();
     void applyConfigure(const QSize &size, quint32 serial);
+    void updateColor();
+
+    static const wp_fractional_scale_v1_listener s_fractionalScaleListener;
+    static void handleFractionalScaleChanged(void *data, struct wp_fractional_scale_v1 *wp_fractional_scale_v1, uint32_t scale120);
 
     std::unique_ptr<RenderLoop> m_renderLoop;
     std::unique_ptr<KWayland::Client::Surface> m_surface;
@@ -110,7 +122,13 @@ private:
     QSize m_pendingConfigureSize;
     QTimer m_configureThrottleTimer;
     wp_presentation_feedback *m_presentationFeedback = nullptr;
+    wp_tearing_control_v1 *m_tearingControl = nullptr;
+    wp_color_management_surface_v1 *m_colorSurface = nullptr;
+    std::unique_ptr<ColorSurfaceFeedback> m_colorSurfaceFeedback;
+    wp_fractional_scale_v1 *m_fractionalScale = nullptr;
+    wp_viewport *m_viewport = nullptr;
     uint32_t m_refreshRate = 60'000;
+    qreal m_pendingScale = 1.0;
 };
 
 } // namespace Wayland

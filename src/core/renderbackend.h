@@ -19,11 +19,7 @@ namespace KWin
 
 class GraphicsBuffer;
 class Output;
-class OverlayWindow;
 class OutputLayer;
-class SurfacePixmap;
-class SurfacePixmapX11;
-class SurfaceTexture;
 class PresentationFeedback;
 class RenderLoop;
 class DrmDevice;
@@ -128,7 +124,6 @@ class KWIN_EXPORT RenderBackend : public QObject
 
 public:
     virtual CompositingType compositingType() const = 0;
-    virtual OverlayWindow *overlayWindow() const;
 
     virtual bool checkGraphicsReset();
 
@@ -141,9 +136,6 @@ public:
 
     virtual bool testImportBuffer(GraphicsBuffer *buffer);
     virtual QHash<uint32_t, QList<uint64_t>> supportedFormats() const;
-
-    virtual std::unique_ptr<SurfaceTexture> createSurfaceTextureX11(SurfacePixmapX11 *pixmap);
-    virtual std::unique_ptr<SurfaceTexture> createSurfaceTextureWayland(SurfacePixmap *pixmap);
 };
 
 } // namespace KWin

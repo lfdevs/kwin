@@ -106,19 +106,17 @@ BlurEffect::BlurEffect()
     }
 #endif
 
-    if (effects->waylandDisplay()) {
-        if (!s_blurManagerRemoveTimer) {
-            s_blurManagerRemoveTimer = new QTimer(QCoreApplication::instance());
-            s_blurManagerRemoveTimer->setSingleShot(true);
-            s_blurManagerRemoveTimer->callOnTimeout([]() {
-                s_blurManager->remove();
-                s_blurManager = nullptr;
-            });
-        }
-        s_blurManagerRemoveTimer->stop();
-        if (!s_blurManager) {
-            s_blurManager = new BlurManagerInterface(effects->waylandDisplay(), s_blurManagerRemoveTimer);
-        }
+    if (!s_blurManagerRemoveTimer) {
+        s_blurManagerRemoveTimer = new QTimer(QCoreApplication::instance());
+        s_blurManagerRemoveTimer->setSingleShot(true);
+        s_blurManagerRemoveTimer->callOnTimeout([]() {
+            s_blurManager->remove();
+            s_blurManager = nullptr;
+        });
+    }
+    s_blurManagerRemoveTimer->stop();
+    if (!s_blurManager) {
+        s_blurManager = new BlurManagerInterface(effects->waylandDisplay(), s_blurManagerRemoveTimer);
     }
 
     connect(effects, &EffectsHandler::windowAdded, this, &BlurEffect::slotWindowAdded);
@@ -375,7 +373,7 @@ bool BlurEffect::enabledByDefault()
 
 bool BlurEffect::supported()
 {
-    return effects->openglContext() && (effects->openglContext()->supportsBlits() || effects->waylandDisplay());
+    return effects->isOpenGLCompositing();
 }
 
 bool BlurEffect::decorationSupportsBlurBehind(const EffectWindow *w) const
@@ -424,7 +422,7 @@ void BlurEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseco
 {
     m_paintedArea = QRegion();
     m_currentBlur = QRegion();
-    m_currentScreen = effects->waylandDisplay() ? data.screen : nullptr;
+    m_currentScreen = data.screen;
 
     effects->prePaintScreen(data, presentTime);
 }
@@ -621,9 +619,9 @@ void BlurEffect::blur(const RenderTarget &renderTarget, const RenderViewport &vi
                 qCWarning(KWIN_BLUR) << "Failed to create an offscreen framebuffer";
                 return;
             }
-            OpenGlContext::currentContext()->pushFramebuffer(framebuffer.get());
+            EglContext::currentContext()->pushFramebuffer(framebuffer.get());
             glClear(GL_COLOR_BUFFER_BIT);
-            OpenGlContext::currentContext()->popFramebuffer();
+            EglContext::currentContext()->popFramebuffer();
             renderInfo.textures.push_back(std::move(texture));
             renderInfo.framebuffers.push_back(std::move(framebuffer));
         }

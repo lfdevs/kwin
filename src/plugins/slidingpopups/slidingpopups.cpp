@@ -38,31 +38,21 @@ SlidingPopupsEffect::SlidingPopupsEffect()
 {
     SlidingPopupsConfig::instance(effects->config());
 
-    Display *display = effects->waylandDisplay();
-    if (display) {
-        if (!s_slideManagerRemoveTimer) {
-            s_slideManagerRemoveTimer = new QTimer(QCoreApplication::instance());
-            s_slideManagerRemoveTimer->setSingleShot(true);
-            s_slideManagerRemoveTimer->callOnTimeout([]() {
-                s_slideManager->remove();
-                s_slideManager = nullptr;
-            });
-        }
-        s_slideManagerRemoveTimer->stop();
-        if (!s_slideManager) {
-            s_slideManager = new SlideManagerInterface(display, s_slideManagerRemoveTimer);
-        }
+    if (!s_slideManagerRemoveTimer) {
+        s_slideManagerRemoveTimer = new QTimer(QCoreApplication::instance());
+        s_slideManagerRemoveTimer->setSingleShot(true);
+        s_slideManagerRemoveTimer->callOnTimeout([]() {
+            s_slideManager->remove();
+            s_slideManager = nullptr;
+        });
+    }
+    s_slideManagerRemoveTimer->stop();
+    if (!s_slideManager) {
+        s_slideManager = new SlideManagerInterface(effects->waylandDisplay(), s_slideManagerRemoveTimer);
     }
 
     m_slideLength = QFontMetrics(QGuiApplication::font()).height() * 8;
 
-#if KWIN_BUILD_X11
-    m_atom = effects->announceSupportProperty("_KDE_SLIDE", this);
-    connect(effects, &EffectsHandler::xcbConnectionChanged, this, [this]() {
-        m_atom = effects->announceSupportProperty(QByteArrayLiteral("_KDE_SLIDE"), this);
-    });
-    connect(effects, &EffectsHandler::propertyNotify, this, &SlidingPopupsEffect::slotPropertyNotify);
-#endif
     connect(effects, &EffectsHandler::windowAdded, this, &SlidingPopupsEffect::slotWindowAdded);
     connect(effects, &EffectsHandler::windowClosed, this, &SlidingPopupsEffect::slotWindowClosed);
     connect(effects, &EffectsHandler::windowDeleted, this, &SlidingPopupsEffect::slotWindowDeleted);
@@ -209,14 +199,6 @@ void SlidingPopupsEffect::setupSlideData(EffectWindow *w)
 {
     connect(w, &EffectWindow::windowHiddenChanged, this, &SlidingPopupsEffect::slotWindowHiddenChanged);
 
-#if KWIN_BUILD_X11
-    // X11
-    if (m_atom != XCB_ATOM_NONE) {
-        slotPropertyNotify(w, m_atom);
-    }
-#endif
-
-    // Wayland
     if (effects->inputPanel() == w) {
         setupInputPanelSlide();
     } else if (auto surf = w->surface()) {
@@ -260,85 +242,6 @@ void SlidingPopupsEffect::slotWindowHiddenChanged(EffectWindow *w)
         slideIn(w);
     }
 }
-
-#if KWIN_BUILD_X11
-void SlidingPopupsEffect::slotPropertyNotify(EffectWindow *w, long atom)
-{
-    if (!w || atom != m_atom || m_atom == XCB_ATOM_NONE) {
-        return;
-    }
-
-    // _KDE_SLIDE atom format(each field is an uint32_t):
-    // <offset> <location> [<slide in duration>] [<slide out duration>] [<slide length>]
-    //
-    // If offset is equal to -1, this effect will decide what offset to use
-    // given edge of the screen, from which the window has to slide.
-    //
-    // If slide in duration is equal to 0 milliseconds, the default slide in
-    // duration will be used. Same with the slide out duration.
-    //
-    // NOTE: If only slide in duration has been provided, then it will be
-    // also used as slide out duration. I.e. if you provided only slide in
-    // duration, then slide in duration == slide out duration.
-
-    const QByteArray rawAtomData = w->readProperty(m_atom, m_atom, 32);
-
-    if (rawAtomData.isEmpty()) {
-        // Property was removed, thus also remove the effect for window
-        if (w->data(WindowClosedGrabRole).value<void *>() == this) {
-            w->setData(WindowClosedGrabRole, QVariant());
-        }
-        m_animations.erase(w);
-        m_animationsData.remove(w);
-        return;
-    }
-
-    // Offset and location are required.
-    if (static_cast<size_t>(rawAtomData.size()) < sizeof(uint32_t) * 2) {
-        return;
-    }
-
-    const auto *atomData = reinterpret_cast<const uint32_t *>(rawAtomData.data());
-    AnimationData &animData = m_animationsData[w];
-    animData.offset = atomData[0];
-
-    switch (atomData[1]) {
-    case 0: // West
-        animData.location = Location::Left;
-        break;
-    case 1: // North
-        animData.location = Location::Top;
-        break;
-    case 2: // East
-        animData.location = Location::Right;
-        break;
-    case 3: // South
-    default:
-        animData.location = Location::Bottom;
-        break;
-    }
-
-    if (static_cast<size_t>(rawAtomData.size()) >= sizeof(uint32_t) * 3) {
-        animData.slideInDuration = std::chrono::milliseconds(atomData[2]);
-        if (static_cast<size_t>(rawAtomData.size()) >= sizeof(uint32_t) * 4) {
-            animData.slideOutDuration = std::chrono::milliseconds(atomData[3]);
-        } else {
-            animData.slideOutDuration = animData.slideInDuration;
-        }
-    } else {
-        animData.slideInDuration = m_slideInDuration;
-        animData.slideOutDuration = m_slideOutDuration;
-    }
-
-    if (static_cast<size_t>(rawAtomData.size()) >= sizeof(uint32_t) * 5) {
-        animData.slideLength = atomData[4];
-    } else {
-        animData.slideLength = 0;
-    }
-
-    setupAnimData(w);
-}
-#endif
 
 void SlidingPopupsEffect::setupAnimData(EffectWindow *w)
 {
@@ -566,6 +469,7 @@ void SlidingPopupsEffect::slideOut(EffectWindow *w)
     animation.timeLine.setDuration((*dataIt).slideOutDuration);
     // this is effectively InCubic because the direction is reversed
     animation.timeLine.setEasingCurve(QEasingCurve::OutCubic);
+    animation.windowEffect = ItemEffect(w->windowItem());
 
     // If the opposite animation (In) was active and it had shorter duration,
     // at this point, the timeline can end up in the "done" state. Thus, we have

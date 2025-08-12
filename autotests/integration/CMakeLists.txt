@@ -15,14 +15,16 @@ qt6_generate_wayland_protocol_client_sources(KWinIntegrationTestFramework
     ${private_code_option}
     FILES
         ${CMAKE_SOURCE_DIR}/src/wayland/protocols/wlr-layer-shell-unstable-v1.xml
-        ${PROJECT_SOURCE_DIR}/src/wayland/protocols/color-management-v1.xml
+        ${WaylandProtocols_DATADIR}/stable/presentation-time/presentation-time.xml
         ${WaylandProtocols_DATADIR}/stable/xdg-shell/xdg-shell.xml
+        ${WaylandProtocols_DATADIR}/staging/color-management/color-management-v1.xml
+        ${WaylandProtocols_DATADIR}/stable/tablet/tablet-v2.xml
         ${WaylandProtocols_DATADIR}/staging/cursor-shape/cursor-shape-v1.xml
+        ${WaylandProtocols_DATADIR}/staging/fifo/fifo-v1.xml
         ${WaylandProtocols_DATADIR}/staging/fractional-scale/fractional-scale-v1.xml
         ${WaylandProtocols_DATADIR}/staging/security-context/security-context-v1.xml
         ${WaylandProtocols_DATADIR}/staging/xdg-dialog/xdg-dialog-v1.xml
         ${WaylandProtocols_DATADIR}/unstable/idle-inhibit/idle-inhibit-unstable-v1.xml
-        ${WaylandProtocols_DATADIR}/unstable/tablet/tablet-unstable-v2.xml
         ${WaylandProtocols_DATADIR}/unstable/text-input/text-input-unstable-v3.xml
         ${WaylandProtocols_DATADIR}/unstable/xdg-decoration/xdg-decoration-unstable-v1.xml
 
@@ -122,10 +124,9 @@ integrationTest(NAME testInputMethod SRCS inputmethod_test.cpp LIBS XKB::XKB)
 integrationTest(NAME testScreens SRCS screens_test.cpp)
 integrationTest(NAME testScreenEdges SRCS screenedges_test.cpp LIBS XCB::ICCCM)
 integrationTest(NAME testOutputChanges SRCS outputchanges_test.cpp LIBS XCB::ICCCM Qt::Sensors)
-integrationTest(NAME testTiles SRCS tiles_test.cpp)
+integrationTest(NAME testTiles SRCS tiles_test.cpp LIBS XCB::ICCCM)
 integrationTest(NAME testFractionalScaling SRCS fractional_scaling_test.cpp)
 integrationTest(NAME testMoveResize SRCS move_resize_window_test.cpp LIBS XCB::ICCCM)
-integrationTest(NAME testStruts SRCS struts_test.cpp LIBS XCB::ICCCM KDecoration3::KDecoration)
 integrationTest(NAME testShade SRCS shade_test.cpp LIBS XCB::ICCCM KDecoration3::KDecoration)
 integrationTest(NAME testDontCrashAuroraeDestroyDeco SRCS dont_crash_aurorae_destroy_deco.cpp LIBS XCB::ICCCM KDecoration3::KDecoration)
 integrationTest(NAME testPlasmaWindow SRCS plasmawindow_test.cpp LIBS XCB::ICCCM)
@@ -145,6 +146,8 @@ integrationTest(NAME testWorkspace SRCS workspace_test.cpp)
 integrationTest(NAME testMouseActions SRCS mouseactions_test.cpp LIBS)
 integrationTest(NAME testColorManagement SRCS test_colormanagement.cpp)
 integrationTest(NAME testKeyboardInput SRCS keyboard_input_test.cpp)
+integrationTest(NAME testFifo SRCS test_fifo.cpp)
+integrationTest(NAME testMouseKeys SRCS mouse_keys_test.cpp)
 
 if(KWIN_BUILD_X11)
     integrationTest(NAME testDontCrashEmptyDeco SRCS dont_crash_empty_deco.cpp LIBS KDecoration3::KDecoration)

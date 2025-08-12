@@ -81,6 +81,10 @@ private:
     void updateBrightness();
     void updateColorPowerTradeoff();
     void updateDimming();
+    void updateReplicationSource();
+    void updateDdcCiAllowed();
+    void updateMaxBpc();
+    void updateEdrPolicy();
 
     void scheduleDone();
 

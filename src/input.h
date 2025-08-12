@@ -38,19 +38,24 @@ class InputEventFilter;
 class InputEventSpy;
 class KeyboardInputRedirection;
 class PointerInputRedirection;
+class SeatInterface;
 class TabletInputRedirection;
 class TouchInputRedirection;
 class WindowSelectorFilter;
 struct SwitchEvent;
-class TabletEvent;
+struct TabletToolTipEvent;
+struct TabletToolAxisEvent;
 struct PointerAxisEvent;
 struct PointerButtonEvent;
 struct PointerMotionEvent;
 struct KeyboardKeyEvent;
+struct TabletToolProximityEvent;
+struct TabletToolTipEvent;
 struct TabletToolButtonEvent;
 struct TabletPadButtonEvent;
 struct TabletPadStripEvent;
 struct TabletPadRingEvent;
+struct TabletPadDialEvent;
 
 namespace Decoration
 {
@@ -93,6 +98,8 @@ public:
 
     bool supportsPointerWarping() const;
     void warpPointer(const QPointF &pos);
+
+    std::optional<QPointF> implicitGrabPositionBySerial(SeatInterface *seat, uint32_t serial) const;
 
     void installInputEventFilter(InputEventFilter *filter);
     void uninstallInputEventFilter(InputEventFilter *filter);
@@ -198,11 +205,6 @@ public:
     void startInteractivePositionSelection(std::function<void(const QPoint &)> callback);
     bool isSelectingWindow() const;
 
-    void enableOrDisableTouchpads(bool enable);
-    void toggleTouchpads();
-    void enableTouchpads();
-    void disableTouchpads();
-
     void addInputDevice(InputDevice *device);
     void removeInputDevice(InputDevice *device);
     void addInputBackend(std::unique_ptr<InputBackend> &&inputBackend);
@@ -260,7 +262,6 @@ private Q_SLOTS:
 
 private:
     void setupInputBackends();
-    void setupTouchpadShortcuts();
     void setupWorkspace();
     void setupInputFilters();
     void updateLeds(LEDs leds);
@@ -326,6 +327,7 @@ enum Order {
     ButtonRebind,
     BounceKeys,
     StickyKeys,
+    MouseKeys,
     EisInput,
 
     VirtualTerminal,
@@ -425,13 +427,14 @@ public:
 
     virtual bool switchEvent(SwitchEvent *event);
 
-    virtual bool tabletToolProximityEvent(TabletEvent *event);
-    virtual bool tabletToolAxisEvent(TabletEvent *event);
-    virtual bool tabletToolTipEvent(TabletEvent *event);
+    virtual bool tabletToolProximityEvent(TabletToolProximityEvent *event);
+    virtual bool tabletToolAxisEvent(TabletToolAxisEvent *event);
+    virtual bool tabletToolTipEvent(TabletToolTipEvent *event);
     virtual bool tabletToolButtonEvent(TabletToolButtonEvent *event);
     virtual bool tabletPadButtonEvent(TabletPadButtonEvent *event);
     virtual bool tabletPadStripEvent(TabletPadStripEvent *event);
     virtual bool tabletPadRingEvent(TabletPadRingEvent *event);
+    virtual bool tabletPadDialEvent(TabletPadDialEvent *event);
 
 protected:
     bool passToInputMethod(KeyboardKeyEvent *event);

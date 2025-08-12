@@ -11,6 +11,7 @@
 
 #include <QMatrix4x4>
 #include <QString>
+#include <expected>
 #include <memory>
 #include <optional>
 
@@ -25,7 +26,7 @@ class ColorLUT3D;
 class KWIN_EXPORT IccProfile
 {
 public:
-    explicit IccProfile(cmsHPROFILE handle, const Colorimetry &colorimetry, std::optional<ColorPipeline> &&bToA0Tag, std::optional<ColorPipeline> &&bToA1Tag, const std::shared_ptr<ColorTransformation> &inverseEOTF, const std::shared_ptr<ColorTransformation> &vcgt, std::optional<double> minBrightness, std::optional<double> maxBrightness);
+    explicit IccProfile(cmsHPROFILE handle, const Colorimetry &colorimetry, std::optional<ColorPipeline> &&bToA0Tag, std::optional<ColorPipeline> &&bToA1Tag, const std::shared_ptr<ColorTransformation> &inverseEOTF, const std::shared_ptr<ColorTransformation> &vcgt, std::optional<double> relativeBlackPoint, std::optional<double> maxBrightness);
     ~IccProfile();
 
     /**
@@ -44,25 +45,10 @@ public:
      */
     std::shared_ptr<ColorTransformation> vcgt() const;
     const Colorimetry &colorimetry() const;
-    std::optional<double> minBrightness() const;
+    std::optional<double> relativeBlackPoint() const;
     std::optional<double> maxBrightness() const;
 
-    // TODO Plasma 6.4 port this back to std::expected
-    struct Expected
-    {
-        Expected(std::unique_ptr<IccProfile> &&profile)
-            : profile(std::move(profile))
-        {
-        }
-        Expected(const QString &error)
-            : error(error)
-        {
-        }
-
-        std::optional<std::unique_ptr<IccProfile>> profile;
-        QString error;
-    };
-    static Expected load(const QString &path);
+    static std::expected<std::unique_ptr<IccProfile>, QString> load(const QString &path);
     static const ColorDescription s_connectionSpace;
 
 private:
@@ -72,7 +58,7 @@ private:
     const std::optional<ColorPipeline> m_bToA1Tag;
     const std::shared_ptr<ColorTransformation> m_inverseEOTF;
     const std::shared_ptr<ColorTransformation> m_vcgt;
-    const std::optional<double> m_minBrightness;
+    const std::optional<double> m_relativeBlackPoint;
     const std::optional<double> m_maxBrightness;
 };
 

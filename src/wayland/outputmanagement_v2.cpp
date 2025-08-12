@@ -24,7 +24,7 @@
 namespace KWin
 {
 
-static const quint32 s_version = 12;
+static const quint32 s_version = 16;
 
 class OutputManagementV2InterfacePrivate : public QtWaylandServer::kde_output_management_v2
 {
@@ -72,6 +72,10 @@ protected:
     void kde_output_configuration_v2_set_brightness(Resource *resource, wl_resource *outputdevice, uint32_t brightness) override;
     void kde_output_configuration_v2_set_color_power_tradeoff(Resource *resource, wl_resource *outputdevice, uint32_t preference) override;
     void kde_output_configuration_v2_set_dimming(Resource *resource, ::wl_resource *outputdevice, uint32_t multiplier) override;
+    void kde_output_configuration_v2_set_replication_source(Resource *resource, struct ::wl_resource *outputdevice, const QString &source) override;
+    void kde_output_configuration_v2_set_ddc_ci_allowed(Resource *resource, ::wl_resource *outputdevice, uint32_t allow_ddc_ci) override;
+    void kde_output_configuration_v2_set_max_bits_per_color(Resource *resource, struct ::wl_resource *outputdevice, uint32_t max_bpc) override;
+    void kde_output_configuration_v2_set_edr_policy(Resource *resource, struct ::wl_resource *outputdevice, uint32_t edrPolicy) override;
 
     void sendFailure(Resource *resource, const QString &reason);
 };
@@ -311,10 +315,10 @@ void OutputConfigurationV2Interface::kde_output_configuration_v2_set_icc_profile
     if (OutputDeviceV2Interface *output = OutputDeviceV2Interface::get(outputdevice)) {
         const auto set = config.changeSet(output->handle());
         set->iccProfilePath = profile_path;
-        if (auto ret = IccProfile::load(profile_path); ret.profile.has_value()) {
-            set->iccProfile = std::move(ret.profile.value());
+        if (auto profile = IccProfile::load(profile_path)) {
+            set->iccProfile = std::move(profile.value());
         } else {
-            failureReason = ret.error;
+            failureReason = profile.error();
         }
     }
 }
@@ -322,6 +326,14 @@ void OutputConfigurationV2Interface::kde_output_configuration_v2_set_icc_profile
 void OutputConfigurationV2Interface::kde_output_configuration_v2_set_brightness_overrides(Resource *resource, wl_resource *outputdevice, int32_t max_peak_brightness, int32_t max_average_brightness, int32_t min_brightness)
 {
     if (invalid) {
+        return;
+    }
+    if (max_peak_brightness != -1 && max_peak_brightness < 50) {
+        failureReason = QStringLiteral("Invalid peak brightness override requested");
+        return;
+    }
+    if (max_average_brightness != -1 && max_average_brightness < 50) {
+        failureReason = QStringLiteral("Invalid max average brightness override requested");
         return;
     }
     if (OutputDeviceV2Interface *output = OutputDeviceV2Interface::get(outputdevice)) {
@@ -403,6 +415,60 @@ void OutputConfigurationV2Interface::kde_output_configuration_v2_set_dimming(Res
     }
 }
 
+void OutputConfigurationV2Interface::kde_output_configuration_v2_set_replication_source(Resource *resource, struct ::wl_resource *outputdevice, const QString &source)
+{
+    if (invalid) {
+        return;
+    }
+    if (OutputDeviceV2Interface *output = OutputDeviceV2Interface::get(outputdevice)) {
+        config.changeSet(output->handle())->replicationSource = source;
+    }
+}
+
+void OutputConfigurationV2Interface::kde_output_configuration_v2_set_ddc_ci_allowed(Resource *resource, ::wl_resource *outputdevice, uint32_t allow_ddc_ci)
+{
+    if (invalid) {
+        return;
+    }
+    if (OutputDeviceV2Interface *output = OutputDeviceV2Interface::get(outputdevice)) {
+        const auto changeset = config.changeSet(output->handle());
+        changeset->allowDdcCi = allow_ddc_ci;
+        if (!allow_ddc_ci) {
+            changeset->allowSdrSoftwareBrightness = true;
+            changeset->brightnessDevice = nullptr;
+        }
+    }
+}
+
+void OutputConfigurationV2Interface::kde_output_configuration_v2_set_max_bits_per_color(Resource *resource, ::wl_resource *outputdevice, uint32_t max_bpc)
+{
+    if (invalid) {
+        return;
+    }
+    if (OutputDeviceV2Interface *output = OutputDeviceV2Interface::get(outputdevice)) {
+        config.changeSet(output->handle())->maxBitsPerColor = max_bpc;
+    }
+}
+
+void OutputConfigurationV2Interface::kde_output_configuration_v2_set_edr_policy(Resource *resource, struct ::wl_resource *outputdevice, uint32_t edrPolicy)
+{
+    if (invalid) {
+        return;
+    }
+    OutputDeviceV2Interface *output = OutputDeviceV2Interface::get(outputdevice);
+    if (!output) {
+        return;
+    }
+    switch (edrPolicy) {
+    case edr_policy_never:
+        config.changeSet(output->handle())->edrPolicy = Output::EdrPolicy::Never;
+        break;
+    case edr_policy_always:
+        config.changeSet(output->handle())->edrPolicy = Output::EdrPolicy::Always;
+        break;
+    }
+}
+
 void OutputConfigurationV2Interface::kde_output_configuration_v2_destroy(Resource *resource)
 {
     wl_resource_destroy(resource->handle);
@@ -439,7 +505,7 @@ void OutputConfigurationV2Interface::kde_output_configuration_v2_apply(Resource 
     }
 
     const auto allOutputs = kwinApp()->outputBackend()->outputs();
-    const bool allDisabled = !std::any_of(allOutputs.begin(), allOutputs.end(), [this](const auto &output) {
+    const bool allDisabled = !std::any_of(allOutputs.begin(), allOutputs.end(), [this](Output *output) {
         const auto changeset = config.constChangeSet(output);
         if (changeset && changeset->enabled.has_value()) {
             return *changeset->enabled;
@@ -462,13 +528,13 @@ void OutputConfigurationV2Interface::kde_output_configuration_v2_apply(Resource 
             return;
         }
         outputOrder.erase(std::remove_if(outputOrder.begin(), outputOrder.end(), [this](const auto &pair) {
-                              const auto changeset = config.constChangeSet(pair.second->handle());
-                              if (changeset && changeset->enabled.has_value()) {
-                                  return !changeset->enabled.value();
-                              } else {
-                                  return !pair.second->handle()->isEnabled();
-                              }
-                          }),
+            const auto changeset = config.constChangeSet(pair.second->handle());
+            if (changeset && changeset->enabled.has_value()) {
+                return !changeset->enabled.value();
+            } else {
+                return !pair.second->handle()->isEnabled();
+            }
+        }),
                           outputOrder.end());
         std::sort(outputOrder.begin(), outputOrder.end(), [](const auto &pair1, const auto &pair2) {
             return pair1.first < pair2.first;
@@ -487,11 +553,15 @@ void OutputConfigurationV2Interface::kde_output_configuration_v2_apply(Resource 
             return pair.second->handle();
         });
     }
-    if (workspace()->applyOutputConfiguration(config, sortedOrder)) {
+    switch (workspace()->applyOutputConfiguration(config, sortedOrder)) {
+    case OutputConfigurationError::None:
         send_applied();
-    } else {
+        break;
+    case OutputConfigurationError::Unknown:
+    case OutputConfigurationError::TooManyEnabledOutputs:
         // TODO provide a more accurate error reason once the driver actually gives us anything
         sendFailure(resource, i18n("The driver rejected the output configuration"));
+        break;
     }
 }
 

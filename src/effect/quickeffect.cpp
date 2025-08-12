@@ -15,6 +15,7 @@
 #include <QQmlIncubator>
 #include <QQuickItem>
 #include <QQuickWindow>
+#include <qpa/qwindowsysteminterface.h>
 
 namespace KWin
 {
@@ -361,11 +362,7 @@ void QuickSceneEffect::activateView(QuickSceneView *view)
 
     for (const auto &[screen, otherView] : d->views) {
         if (otherView.get() == view && !view->window()->activeFocusItem()) {
-            QFocusEvent focusEvent(QEvent::FocusIn, Qt::ActiveWindowFocusReason);
-            qApp->sendEvent(view->window(), &focusEvent);
-        } else if (otherView.get() != view && otherView->window()->activeFocusItem()) {
-            QFocusEvent focusEvent(QEvent::FocusOut, Qt::ActiveWindowFocusReason);
-            qApp->sendEvent(otherView->window(), &focusEvent);
+            QWindowSystemInterface::handleFocusWindowChanged(view->window());
         }
     }
 
@@ -375,34 +372,18 @@ void QuickSceneEffect::activateView(QuickSceneView *view)
 void QuickSceneEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseconds presentTime)
 {
     data.mask |= PAINT_SCREEN_TRANSFORMED;
-    if (!effects->waylandDisplay()) {
-        // this has to be done before paintScreen, to avoid changing the OpenGL context
-        // which breaks rendering on X11
-        for (const auto &[screen, screenView] : d->views) {
-            if (screenView->isDirty()) {
-                screenView->resetDirty();
-                screenView->update();
-            }
-        }
-    }
 }
 
 void QuickSceneEffect::paintScreen(const RenderTarget &renderTarget, const RenderViewport &viewport, int mask, const QRegion &region, Output *screen)
 {
-    if (effects->waylandDisplay()) {
-        const auto it = d->views.find(screen);
-        if (it != d->views.end()) {
-            const auto &screenView = it->second;
-            if (screenView->isDirty()) {
-                screenView->resetDirty();
-                screenView->update();
-            }
-            effects->renderOffscreenQuickView(renderTarget, viewport, screenView.get());
+    const auto it = d->views.find(screen);
+    if (it != d->views.end()) {
+        const auto &screenView = it->second;
+        if (screenView->isDirty()) {
+            screenView->resetDirty();
+            screenView->update();
         }
-    } else {
-        for (const auto &[screen, screenView] : d->views) {
-            effects->renderOffscreenQuickView(renderTarget, viewport, screenView.get());
-        }
+        effects->renderOffscreenQuickView(renderTarget, viewport, screenView.get());
     }
 }
 

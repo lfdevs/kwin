@@ -187,12 +187,12 @@ void TestXdgShellWindowRules::initTestCase()
     qRegisterMetaType<KWin::Window *>();
 
     QVERIFY(waylandServer()->init(s_socketName));
+
+    kwinApp()->start();
     Test::setOutputConfig({
         QRect(0, 0, 1280, 1024),
         QRect(1280, 0, 1280, 1024),
     });
-
-    kwinApp()->start();
     const auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
     QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
@@ -287,8 +287,9 @@ template<typename T>
 void TestXdgShellWindowRules::setWindowRule(const QString &property, const T &value, int policy)
 {
     // Initialize RuleBook with the test rule.
-    m_config->group(QStringLiteral("General")).writeEntry("count", 1);
-    KConfigGroup group = m_config->group(QStringLiteral("1"));
+    const QString ruleGroupName = QStringLiteral("test-rule");
+    m_config->group(QStringLiteral("General")).writeEntry("rules", QStringList{ruleGroupName});
+    KConfigGroup group = m_config->group(ruleGroupName);
 
     group.writeEntry(property, value);
     group.writeEntry(QStringLiteral("%1rule").arg(property), policy);

@@ -11,8 +11,8 @@
 #include "effect/effecthandler.h"
 
 #include "logging_p.h"
+#include "opengl/eglcontext.h"
 #include "opengl/glutils.h"
-#include "opengl/openglcontext.h"
 
 #include <QGuiApplication>
 #include <QQmlComponent>
@@ -215,7 +215,7 @@ void OffscreenQuickView::update()
     }
 
     bool usingGl = d->m_glcontext != nullptr;
-    OpenGlContext *previousContext = OpenGlContext::currentContext();
+    EglContext *previousContext = EglContext::currentContext();
 
     if (usingGl) {
         if (!d->m_glcontext->makeCurrent(d->m_offscreenSurface.get())) {
@@ -317,7 +317,7 @@ void OffscreenQuickView::forwardMouseEvent(QEvent *e)
     case QEvent::HoverLeave:
     case QEvent::HoverMove: {
         QHoverEvent *he = static_cast<QHoverEvent *>(e);
-        const QPointF widgetPos = d->m_view->mapFromGlobal(he->pos());
+        const QPointF widgetPos = d->m_view->mapFromGlobal(he->position());
         const QPointF oldWidgetPos = d->m_view->mapFromGlobal(he->oldPos());
         QHoverEvent cloneEvent(he->type(), widgetPos, oldWidgetPos, he->modifiers());
         cloneEvent.setAccepted(false);

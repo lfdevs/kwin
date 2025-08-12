@@ -648,7 +648,8 @@ void Xkb::updateKeymap(xkb_keymap *keymap)
     }
 
     // save Locks
-    bool numLockIsOn, capsLockIsOn;
+    bool numLockIsOn = false;
+    bool capsLockIsOn = false;
     static bool s_startup = true;
     if (!s_startup) {
         numLockIsOn = xkb_state_mod_index_is_active(m_state, m_numModifier, XKB_STATE_MODS_LOCKED);
@@ -1257,9 +1258,9 @@ std::optional<std::pair<int, int>> Xkb::keycodeFromKeysym(xkb_keysym_t keysym)
     return {};
 }
 
-QList<xkb_keysym_t> Xkb::keysymsFromQtKey(int keyQt)
+QList<xkb_keysym_t> Xkb::keysymsFromQtKey(QKeyCombination keyQt)
 {
-    const int symQt = keyQt & ~Qt::KeyboardModifierMask;
+    const int symQt = keyQt.key();
     QList<xkb_keysym_t> syms;
 
     if (symQt >= Qt::Key_F1 && symQt <= Qt::Key_F35) {
@@ -1267,7 +1268,7 @@ QList<xkb_keysym_t> Xkb::keysymsFromQtKey(int keyQt)
         return syms;
     }
 
-    const bool hasKeypadMod = keyQt & Qt::KeypadModifier;
+    const bool hasKeypadMod = keyQt.keyboardModifiers() & Qt::KeypadModifier;
     if (hasKeypadMod) {
         if (symQt >= Qt::Key_0 && symQt <= Qt::Key_9) {
             syms.append(XKB_KEY_KP_0 + (symQt - Qt::Key_0));
@@ -1276,7 +1277,7 @@ QList<xkb_keysym_t> Xkb::keysymsFromQtKey(int keyQt)
     } else if (QXkbCommon::isLatin1(symQt)) {
         xkb_keysym_t lower, upper;
         QXkbCommon::xkbcommon_XConvertCase(symQt, &lower, &upper);
-        if (keyQt & Qt::ShiftModifier) {
+        if (keyQt.keyboardModifiers() & Qt::ShiftModifier) {
             syms.append(upper);
         } else {
             syms.append(lower);

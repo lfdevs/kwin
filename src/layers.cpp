@@ -65,7 +65,6 @@
 */
 
 #include "compositor.h"
-#include "effect/effecthandler.h"
 #include "focuschain.h"
 #include "internalwindow.h"
 #include "rules.h"
@@ -114,28 +113,10 @@ void Workspace::updateStackingOrder(bool propagate_new_windows)
         }
 
         Q_EMIT stackingOrderChanged();
-
-        if (m_activeWindow) {
-            m_activeWindow->updateMouseGrab();
-        }
     }
 }
 
 #if KWIN_BUILD_X11
-/**
- * Some fullscreen effects have to raise the screenedge on top of an input window, thus all windows
- * this function puts them back where they belong for regular use and is some cheap variant of
- * the regular propagateWindows function in that it completely ignores managed windows and everything
- * else and also does not update the NETWM property.
- * Called from Effects::destroyInputWindow so far.
- */
-void Workspace::stackScreenEdgesUnderOverrideRedirect()
-{
-    if (!rootInfo()) {
-        return;
-    }
-    Xcb::restackWindows(QList<xcb_window_t>() << rootInfo()->supportWindow() << workspace()->screenEdges()->windows());
-}
 
 /**
  * Propagates the managed windows to the world.
@@ -157,8 +138,6 @@ void Workspace::propagateWindows(bool propagate_new_windows)
     // windows (e.g. popups).
     newWindowStack << rootInfo()->supportWindow();
 
-    newWindowStack << workspace()->screenEdges()->windows();
-
     newWindowStack << manual_overlays;
 
     newWindowStack.reserve(newWindowStack.size() + 2 * stacking_order.size()); // *2 for inputWindow
@@ -167,11 +146,6 @@ void Workspace::propagateWindows(bool propagate_new_windows)
         X11Window *window = qobject_cast<X11Window *>(stacking_order.at(i));
         if (!window || window->isDeleted() || window->isUnmanaged() || window->hiddenPreview()) {
             continue;
-        }
-
-        if (window->inputId()) {
-            // Stack the input window above the frame
-            newWindowStack << window->inputId();
         }
 
         newWindowStack << window->frameId();
@@ -210,7 +184,7 @@ void Workspace::propagateWindows(bool propagate_new_windows)
     cl.clear();
     for (auto it = stacking_order.constBegin(); it != stacking_order.constEnd(); ++it) {
         X11Window *window = qobject_cast<X11Window *>(*it);
-        if (window && !window->isUnmanaged()) {
+        if (window && !window->isDeleted() && !window->isUnmanaged()) {
             cl.push_back(window->window());
         }
     }
@@ -673,9 +647,6 @@ void Workspace::blockStackingUpdates(bool block)
     } else // !block
         if (--m_blockStackingUpdates == 0) {
             updateStackingOrder(m_blockedPropagatingNewWindows);
-            if (effects) {
-                effects->checkInputWindowStacking();
-            }
         }
 }
 

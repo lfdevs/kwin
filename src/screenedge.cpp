@@ -32,9 +32,6 @@
 #include "wayland_server.h"
 #include <window.h>
 #include <workspace.h>
-#if KWIN_BUILD_X11
-#include "x11window.h"
-#endif
 // DBus generated
 #if KWIN_BUILD_SCREENLOCKER
 #include "screenlocker_interface.h"
@@ -45,12 +42,6 @@
 #include <QAbstractEventDispatcher>
 #include <QAction>
 #include <QDBusInterface>
-#include <QDBusPendingCall>
-#include <QFontDatabase>
-#include <QFontMetrics>
-#include <QTextStream>
-#include <QTimer>
-#include <QWidget>
 #include <span>
 
 using namespace std::chrono_literals;
@@ -242,7 +233,7 @@ bool Edge::activatesForPointer() const
 
     // Most actions do not handle drag and drop properly yet
     // but at least allow "show desktop" and "application launcher".
-    if (waylandServer() && waylandServer()->seat()->isDragPointer()) {
+    if (waylandServer()->seat()->isDragPointer()) {
         if (!m_edges->isDesktopSwitching() && m_action != ElectricActionNone && m_action != ElectricActionShowDesktop && m_action != ElectricActionApplicationLauncher) {
             return false;
         }
@@ -339,7 +330,7 @@ bool Edge::check(const QPoint &cursorPos, const std::chrono::microseconds &trigg
         return false;
     }
     // no pushback so we have to activate at once
-    bool directActivate = forceNoPushBack || edges()->cursorPushBackDistance().isNull();
+    bool directActivate = forceNoPushBack || edges()->cursorPushBackDistance().isEmpty();
     if (directActivate || canActivate(cursorPos, triggerTime)) {
         markAsTriggered(cursorPos, triggerTime);
         handle(cursorPos);
@@ -529,7 +520,7 @@ void Edge::switchDesktop(const QPoint &cursorPos)
     vds->setCurrent(desktop);
     if (vds->currentDesktop() != oldDesktop) {
         m_pushBackBlocked = true;
-        Cursors::self()->mouse()->setPos(pos);
+        input()->pointer()->warp(pos);
         auto unblockPush = [this] {
             m_pushBackBlocked = false;
         };
@@ -542,9 +533,13 @@ void Edge::pushCursorBack(const QPoint &cursorPos)
     if (m_pushBackBlocked) {
         return;
     }
+    const QSize &distance = edges()->cursorPushBackDistance();
+    if (distance.isEmpty()) {
+        return;
+    }
+
     int x = cursorPos.x();
     int y = cursorPos.y();
-    const QSize &distance = edges()->cursorPushBackDistance();
     if (isLeft()) {
         x += distance.width();
     }
@@ -557,7 +552,7 @@ void Edge::pushCursorBack(const QPoint &cursorPos)
     if (isBottom()) {
         y -= distance.height();
     }
-    Cursors::self()->mouse()->setPos(QPoint(x, y));
+    input()->pointer()->warp(QPoint(x, y));
 }
 
 void Edge::setGeometry(const QRect &geometry)
@@ -594,7 +589,6 @@ void Edge::setGeometry(const QRect &geometry)
         }
     }
     m_approachGeometry = QRect(x, y, width, height);
-    doGeometryUpdate();
 
     if (isScreenEdge()) {
         const Output *output = workspace()->outputAt(m_geometry.center());
@@ -618,15 +612,6 @@ void Edge::checkBlocking()
     if (wasTouch != activatesForTouchGesture()) {
         Q_EMIT activatesForTouchGestureChanged();
     }
-    doUpdateBlocking();
-}
-
-void Edge::doUpdateBlocking()
-{
-}
-
-void Edge::doGeometryUpdate()
-{
 }
 
 void Edge::activate()
@@ -634,21 +619,11 @@ void Edge::activate()
     if (activatesForTouchGesture()) {
         m_edges->gestureRecognizer()->registerSwipeGesture(m_gesture.get());
     }
-    doActivate();
-}
-
-void Edge::doActivate()
-{
 }
 
 void Edge::deactivate()
 {
     m_edges->gestureRecognizer()->unregisterSwipeGesture(m_gesture.get());
-    doDeactivate();
-}
-
-void Edge::doDeactivate()
-{
 }
 
 void Edge::startApproaching()
@@ -657,13 +632,8 @@ void Edge::startApproaching()
         return;
     }
     m_approaching = true;
-    doStartApproaching();
     m_lastApproachingFactor = 0;
     Q_EMIT approaching(border(), 0.0, m_approachGeometry);
-}
-
-void Edge::doStartApproaching()
-{
 }
 
 void Edge::stopApproaching()
@@ -672,13 +642,8 @@ void Edge::stopApproaching()
         return;
     }
     m_approaching = false;
-    doStopApproaching();
     m_lastApproachingFactor = 0;
     Q_EMIT approaching(border(), 0.0, m_approachGeometry);
-}
-
-void Edge::doStopApproaching()
-{
 }
 
 void Edge::updateApproaching(const QPointF &point)
@@ -727,18 +692,6 @@ void Edge::updateApproaching(const QPointF &point)
         stopApproaching();
     }
 }
-
-#if KWIN_BUILD_X11
-quint32 Edge::window() const
-{
-    return 0;
-}
-
-quint32 Edge::approachWindow() const
-{
-    return 0;
-}
-#endif
 
 void Edge::setBorder(ElectricBorder border)
 {
@@ -807,10 +760,9 @@ ScreenEdges::ScreenEdges()
     , m_actionBottom(ElectricActionNone)
     , m_actionBottomLeft(ElectricActionNone)
     , m_actionLeft(ElectricActionNone)
+    , m_cornerOffset(40)
     , m_gestureRecognizer(new GestureRecognizer(this))
 {
-    const int gridUnit = QFontMetrics(QFontDatabase::systemFont(QFontDatabase::GeneralFont)).boundingRect(QLatin1Char('M')).height();
-    m_cornerOffset = 4 * gridUnit;
 }
 
 void ScreenEdges::init()
@@ -1203,7 +1155,7 @@ void ScreenEdges::createHorizontalEdge(ElectricBorder border, const QRect &scree
 
 std::unique_ptr<Edge> ScreenEdges::createEdge(ElectricBorder border, int x, int y, int width, int height, Output *output, bool createAction)
 {
-    std::unique_ptr<Edge> edge = kwinApp()->createScreenEdge(this);
+    std::unique_ptr<Edge> edge = std::make_unique<Edge>(this);
     // Edges can not have negative size.
     Q_ASSERT(width >= 0);
     Q_ASSERT(height >= 0);
@@ -1364,41 +1316,28 @@ bool ScreenEdges::createEdgeForClient(Window *client, ElectricBorder border)
 
     Output *output = client->output();
     const QRect geo = client->frameGeometry().toRect();
-    const QRect fullArea = workspace()->geometry();
 
     const QRect screen = output->geometry();
     switch (border) {
     case ElectricTop:
-        if (!waylandServer() && !isTopScreen(screen, fullArea)) {
-            return false;
-        }
         y = screen.y();
         x = geo.x();
         height = 1;
         width = geo.width();
         break;
     case ElectricBottom:
-        if (!waylandServer() && !isBottomScreen(screen, fullArea)) {
-            return false;
-        }
         y = screen.y() + screen.height() - 1;
         x = geo.x();
         height = 1;
         width = geo.width();
         break;
     case ElectricLeft:
-        if (!waylandServer() && !isLeftScreen(screen, fullArea)) {
-            return false;
-        }
         x = screen.x();
         y = geo.y();
         width = 1;
         height = geo.height();
         break;
     case ElectricRight:
-        if (!waylandServer() && !isRightScreen(screen, fullArea)) {
-            return false;
-        }
         x = screen.x() + screen.width() - 1;
         y = geo.y();
         width = 1;
@@ -1423,31 +1362,6 @@ void ScreenEdges::deleteEdgeForClient(Window *window)
         return edge->client() == window;
     });
     m_edges.erase(it, m_edges.end());
-}
-
-void ScreenEdges::check(const QPoint &pos, const std::chrono::microseconds &now, bool forceNoPushBack)
-{
-    bool activatedForClient = false;
-    for (const auto &edge : m_edges) {
-        if (!edge->isReserved() || edge->isBlocked()) {
-            continue;
-        }
-        if (!edge->activatesForPointer()) {
-            continue;
-        }
-        if (edge->approachGeometry().contains(pos)) {
-            edge->startApproaching();
-        }
-        if (edge->client() != nullptr && activatedForClient) {
-            edge->markAsTriggered(pos, now);
-            continue;
-        }
-        if (edge->check(pos, now, forceNoPushBack)) {
-            if (edge->client()) {
-                activatedForClient = true;
-            }
-        }
-    }
 }
 
 bool ScreenEdges::inApproachGeometry(const QPoint &pos) const
@@ -1507,88 +1421,6 @@ bool ScreenEdges::isEntered(const QPointF &pos, std::chrono::microseconds timest
     }
     return activated;
 }
-
-#if KWIN_BUILD_X11
-bool ScreenEdges::handleEnterNotifiy(xcb_window_t window, const QPoint &point, const std::chrono::microseconds &timestamp)
-{
-    bool activated = false;
-    bool activatedForClient = false;
-    for (const auto &edge : m_edges) {
-        if (!edge || edge->window() == XCB_WINDOW_NONE) {
-            continue;
-        }
-        if (!edge->isReserved() || edge->isBlocked()) {
-            continue;
-        }
-        if (!edge->activatesForPointer()) {
-            continue;
-        }
-        if (edge->window() == window) {
-            if (edge->check(point, timestamp)) {
-                if (edge->client()) {
-                    activatedForClient = true;
-                }
-            }
-            activated = true;
-            break;
-        }
-        if (edge->approachWindow() == window) {
-            edge->startApproaching();
-            // TODO: if it's a corner, it should also trigger for other windows
-            return true;
-        }
-    }
-    if (activatedForClient) {
-        for (const auto &edge : m_edges) {
-            if (edge->client()) {
-                edge->markAsTriggered(point, timestamp);
-            }
-        }
-    }
-    return activated;
-}
-#endif
-
-void ScreenEdges::ensureOnTop()
-{
-#if KWIN_BUILD_X11
-    Xcb::restackWindowsWithRaise(windows());
-#endif
-}
-
-#if KWIN_BUILD_X11
-bool ScreenEdges::handleDndNotify(xcb_window_t window, const QPoint &point)
-{
-    for (const auto &edge : m_edges) {
-        if (!edge || edge->window() == XCB_WINDOW_NONE) {
-            continue;
-        }
-        if (edge->isReserved() && edge->window() == window) {
-            kwinApp()->updateXTime();
-            edge->check(point, std::chrono::milliseconds(xTime()), true);
-            return true;
-        }
-    }
-    return false;
-}
-
-QList<xcb_window_t> ScreenEdges::windows() const
-{
-    QList<xcb_window_t> wins;
-    for (const auto &edge : m_edges) {
-        xcb_window_t w = edge->window();
-        if (w != XCB_WINDOW_NONE) {
-            wins.append(w);
-        }
-        // TODO:  lambda
-        w = edge->approachWindow();
-        if (w != XCB_WINDOW_NONE) {
-            wins.append(w);
-        }
-    }
-    return wins;
-}
-#endif
 
 void ScreenEdges::setRemainActiveOnFullscreen(bool remainActive)
 {

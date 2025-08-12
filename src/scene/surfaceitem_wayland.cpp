@@ -5,9 +5,7 @@
 */
 
 #include "scene/surfaceitem_wayland.h"
-#include "compositor.h"
 #include "core/drmdevice.h"
-#include "core/graphicsbuffer.h"
 #include "core/renderbackend.h"
 #include "wayland/linuxdmabufv1clientbuffer.h"
 #include "wayland/subcompositor.h"
@@ -27,8 +25,8 @@ SurfaceItemWayland::SurfaceItemWayland(SurfaceInterface *surface, Item *parent)
 {
     connect(surface, &SurfaceInterface::sizeChanged,
             this, &SurfaceItemWayland::handleSurfaceSizeChanged);
-    connect(surface, &SurfaceInterface::bufferSizeChanged,
-            this, &SurfaceItemWayland::handleBufferSizeChanged);
+    connect(surface, &SurfaceInterface::bufferChanged,
+            this, &SurfaceItemWayland::handleBufferChanged);
     connect(surface, &SurfaceInterface::bufferSourceBoxChanged,
             this, &SurfaceItemWayland::handleBufferSourceBoxChanged);
     connect(surface, &SurfaceInterface::bufferTransformChanged,
@@ -65,9 +63,16 @@ SurfaceItemWayland::SurfaceItemWayland(SurfaceInterface *surface, Item *parent)
     setDestinationSize(surface->size());
     setBufferTransform(surface->bufferTransform());
     setBufferSourceBox(surface->bufferSourceBox());
-    setBufferSize(surface->bufferSize());
+    setBuffer(surface->buffer());
+    m_bufferReleasePoint = m_surface->bufferReleasePoint();
     setColorDescription(surface->colorDescription());
+    setRenderingIntent(surface->renderingIntent());
+    setPresentationHint(surface->presentationModeHint());
     setOpacity(surface->alphaMultiplier());
+
+    m_fifoFallbackTimer.setInterval(1000 / 20);
+    m_fifoFallbackTimer.setSingleShot(true);
+    connect(&m_fifoFallbackTimer, &QTimer::timeout, this, &SurfaceItemWayland::handleFifoFallback);
 }
 
 QList<QRectF> SurfaceItemWayland::shape() const
@@ -93,9 +98,9 @@ void SurfaceItemWayland::handleSurfaceSizeChanged()
     setDestinationSize(m_surface->size());
 }
 
-void SurfaceItemWayland::handleBufferSizeChanged()
+void SurfaceItemWayland::handleBufferChanged()
 {
-    setBufferSize(m_surface->bufferSize());
+    setBuffer(m_surface->buffer());
 }
 
 void SurfaceItemWayland::handleBufferSourceBoxChanged()
@@ -110,7 +115,10 @@ void SurfaceItemWayland::handleBufferTransformChanged()
 
 void SurfaceItemWayland::handleSurfaceCommitted()
 {
-    if (m_surface->hasFrameCallbacks()) {
+    if (m_surface->hasFifoBarrier()) {
+        m_fifoFallbackTimer.start();
+    }
+    if (m_surface->hasFrameCallbacks() || m_surface->hasFifoBarrier() || m_surface->hasPresentationFeedback()) {
         scheduleFrame();
     }
 }
@@ -155,11 +163,6 @@ void SurfaceItemWayland::handleSubSurfaceMappedChanged()
     setVisible(m_surface->isMapped());
 }
 
-std::unique_ptr<SurfacePixmap> SurfaceItemWayland::createPixmap()
-{
-    return std::make_unique<SurfacePixmapWayland>(this);
-}
-
 ContentType SurfaceItemWayland::contentType() const
 {
     return m_surface ? m_surface->contentType() : ContentType::None;
@@ -200,6 +203,7 @@ void SurfaceItemWayland::freeze()
     }
 
     m_surface = nullptr;
+    m_fifoFallbackTimer.stop();
 }
 
 void SurfaceItemWayland::handleColorDescriptionChanged()
@@ -223,28 +227,36 @@ void SurfaceItemWayland::handleAlphaMultiplierChanged()
     setOpacity(m_surface->alphaMultiplier());
 }
 
-SurfacePixmapWayland::SurfacePixmapWayland(SurfaceItemWayland *item, QObject *parent)
-    : SurfacePixmap(Compositor::self()->backend()->createSurfaceTextureWayland(this), parent)
-    , m_item(item)
+void SurfaceItemWayland::handleFramePainted(Output *output, OutputFrame *frame, std::chrono::milliseconds timestamp)
 {
-}
-
-void SurfacePixmapWayland::create()
-{
-    update();
-}
-
-void SurfacePixmapWayland::update()
-{
-    SurfaceInterface *surface = m_item->surface();
-    if (surface) {
-        setBuffer(surface->buffer());
+    if (!m_surface) {
+        return;
+    }
+    m_surface->frameRendered(timestamp.count());
+    if (frame) {
+        // FIXME make frame always valid
+        if (auto feedback = m_surface->takePresentationFeedback(output)) {
+            frame->addFeedback(std::move(feedback));
+        }
+    }
+    // TODO only call this once per refresh cycle
+    m_surface->clearFifoBarrier();
+    if (m_fifoFallbackTimer.isActive() && output) {
+        // TODO once we can rely on frame being not-nullptr, use its refresh duration instead
+        const auto refreshDuration = std::chrono::nanoseconds(1'000'000'000'000) / output->refreshRate();
+        // some games don't work properly if the refresh rate goes too low with FIFO. 30Hz is assumed to be fine here.
+        // this must still be slower than the actual screen though, or fifo behavior would be broken!
+        const auto fallbackRefreshDuration = std::max(refreshDuration * 5 / 4, std::chrono::nanoseconds(1'000'000'000) / 30);
+        // reset the timer, it should only trigger if we don't present fast enough
+        m_fifoFallbackTimer.start(std::chrono::duration_cast<std::chrono::milliseconds>(fallbackRefreshDuration));
     }
 }
 
-bool SurfacePixmapWayland::isValid() const
+void SurfaceItemWayland::handleFifoFallback()
 {
-    return m_bufferRef;
+    if (m_surface) {
+        m_surface->clearFifoBarrier();
+    }
 }
 
 #if KWIN_BUILD_X11

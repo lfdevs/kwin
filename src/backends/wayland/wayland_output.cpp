@@ -7,7 +7,9 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "wayland_output.h"
+#include "color_manager.h"
 #include "compositor.h"
+#include "core/outputconfiguration.h"
 #include "core/outputlayer.h"
 #include "core/renderbackend.h"
 #include "core/renderloop_p.h"
@@ -20,7 +22,11 @@
 #include <KWayland/Client/surface.h>
 #include <KWayland/Client/xdgdecoration.h>
 
+#include "wayland-fractional-scale-v1-client-protocol.h"
 #include "wayland-presentation-time-client-protocol.h"
+#include "wayland-tearing-control-v1-client-protocol.h"
+#include "wayland-viewporter-client-protocol.h"
+#include "workspace.h"
 
 #include <KLocalizedString>
 
@@ -34,14 +40,21 @@ namespace Wayland
 {
 
 using namespace KWayland::Client;
-static const int s_refreshRate = 60000; // TODO: can we get refresh rate data from Wayland host?
 
 WaylandCursor::WaylandCursor(WaylandBackend *backend)
     : m_surface(backend->display()->compositor()->createSurface())
 {
+    if (auto viewporter = backend->display()->viewporter()) {
+        m_viewport = wp_viewporter_get_viewport(viewporter, *m_surface);
+    }
 }
 
-WaylandCursor::~WaylandCursor() = default;
+WaylandCursor::~WaylandCursor()
+{
+    if (m_viewport) {
+        wp_viewport_destroy(m_viewport);
+    }
+}
 
 KWayland::Client::Pointer *WaylandCursor::pointer() const
 {
@@ -67,11 +80,11 @@ void WaylandCursor::setEnabled(bool enable)
     }
 }
 
-void WaylandCursor::update(wl_buffer *buffer, qreal scale, const QPoint &hotspot)
+void WaylandCursor::update(wl_buffer *buffer, const QSize &logicalSize, const QPoint &hotspot)
 {
-    if (m_buffer != buffer || m_scale != scale || m_hotspot != hotspot) {
+    if (m_buffer != buffer || m_size != logicalSize || m_hotspot != hotspot) {
         m_buffer = buffer;
-        m_scale = scale;
+        m_size = logicalSize;
         m_hotspot = hotspot;
 
         sync();
@@ -84,8 +97,10 @@ void WaylandCursor::sync()
         m_surface->attachBuffer(KWayland::Client::Buffer::Ptr());
         m_surface->commit(KWayland::Client::Surface::CommitFlag::None);
     } else {
+        if (m_viewport) {
+            wp_viewport_set_destination(m_viewport, m_size.width(), m_size.height());
+        }
         m_surface->attachBuffer(m_buffer);
-        m_surface->setScale(std::ceil(m_scale));
         m_surface->damageBuffer(QRect(0, 0, INT32_MAX, INT32_MAX));
         m_surface->commit(KWayland::Client::Surface::CommitFlag::None);
     }
@@ -94,6 +109,15 @@ void WaylandCursor::sync()
         m_pointer->setCursor(m_surface.get(), m_hotspot);
     }
 }
+
+void WaylandOutput::handleFractionalScaleChanged(void *data, struct wp_fractional_scale_v1 *wp_fractional_scale_v1, uint32_t scale120)
+{
+    reinterpret_cast<WaylandOutput *>(data)->m_pendingScale = scale120 / 120.0;
+}
+
+const wp_fractional_scale_v1_listener WaylandOutput::s_fractionalScaleListener{
+    .preferred_scale = &WaylandOutput::handleFractionalScaleChanged,
+};
 
 WaylandOutput::WaylandOutput(const QString &name, WaylandBackend *backend)
     : Output(backend)
@@ -108,10 +132,33 @@ WaylandOutput::WaylandOutput(const QString &name, WaylandBackend *backend)
         m_xdgDecoration->setMode(KWayland::Client::XdgDecoration::Mode::ServerSide);
     }
 
+    Capabilities caps = Capability::Dpms;
+    if (auto manager = backend->display()->tearingControl()) {
+        caps |= Capability::Tearing;
+        m_tearingControl = wp_tearing_control_manager_v1_get_tearing_control(manager, *m_surface);
+    }
+    if (auto manager = backend->display()->colorManager()) {
+        const bool supportsMinFeatures = manager->supportsFeature(WP_COLOR_MANAGER_V1_FEATURE_PARAMETRIC)
+            && manager->supportsFeature(WP_COLOR_MANAGER_V1_FEATURE_SET_PRIMARIES)
+            && manager->supportsFeature(WP_COLOR_MANAGER_V1_FEATURE_SET_LUMINANCES)
+            && manager->supportsTransferFunction(WP_COLOR_MANAGER_V1_TRANSFER_FUNCTION_GAMMA22);
+        if (supportsMinFeatures) {
+            m_colorSurface = wp_color_manager_v1_get_surface(manager->object(), *m_surface);
+            m_colorSurfaceFeedback = std::make_unique<ColorSurfaceFeedback>(wp_color_manager_v1_get_surface_feedback(manager->object(), *m_surface));
+            connect(m_colorSurfaceFeedback.get(), &ColorSurfaceFeedback::preferredColorChanged, this, &WaylandOutput::updateColor);
+        }
+    }
+    if (auto manager = backend->display()->fractionalScale()) {
+        m_fractionalScale = wp_fractional_scale_manager_v1_get_fractional_scale(manager, *m_surface);
+        wp_fractional_scale_v1_add_listener(m_fractionalScale, &s_fractionalScaleListener, this);
+    }
+    if (auto viewporter = backend->display()->viewporter()) {
+        m_viewport = wp_viewporter_get_viewport(viewporter, *m_surface);
+    }
     setInformation(Information{
         .name = name,
         .model = name,
-        .capabilities = Capability::Dpms,
+        .capabilities = caps,
     });
 
     m_turnOffTimer.setSingleShot(true);
@@ -145,9 +192,43 @@ WaylandOutput::~WaylandOutput()
         wp_presentation_feedback_destroy(m_presentationFeedback);
         m_presentationFeedback = nullptr;
     }
+    if (m_tearingControl) {
+        wp_tearing_control_v1_destroy(m_tearingControl);
+        m_tearingControl = nullptr;
+    }
+    if (m_colorSurface) {
+        wp_color_management_surface_v1_destroy(m_colorSurface);
+        m_colorSurface = nullptr;
+    }
+    if (m_viewport) {
+        wp_viewport_destroy(m_viewport);
+        m_viewport = nullptr;
+    }
     m_xdgDecoration.reset();
     m_xdgShellSurface.reset();
     m_surface.reset();
+}
+
+void WaylandOutput::updateColor()
+{
+    const auto &preferred = m_colorSurfaceFeedback->preferredColor();
+    const auto tf = TransferFunction(TransferFunction::gamma22, preferred.transferFunction().minLuminance, preferred.transferFunction().maxLuminance);
+    State next = m_state;
+    next.colorDescription = ColorDescription{
+        preferred.containerColorimetry(),
+        tf,
+        preferred.referenceLuminance(),
+        preferred.minLuminance(),
+        preferred.maxAverageLuminance(),
+        preferred.maxHdrLuminance(),
+    };
+    next.originalColorDescription = next.colorDescription;
+    setState(next);
+    if (m_colorSurface) {
+        const auto imageDescription = m_backend->display()->colorManager()->createImageDescription(next.colorDescription);
+        wp_color_management_surface_v1_set_image_description(m_colorSurface, imageDescription, WP_COLOR_MANAGER_V1_RENDER_INTENT_PERCEPTUAL);
+        wp_image_description_v1_destroy(imageDescription);
+    }
 }
 
 void WaylandOutput::setPrimaryBuffer(wl_buffer *buffer)
@@ -195,9 +276,20 @@ void WaylandOutput::present(const std::shared_ptr<OutputFrame> &frame)
     if (!m_presentationBuffer) {
         return;
     }
+    if (m_tearingControl) {
+        if (frame->presentationMode() == PresentationMode::Async) {
+            wp_tearing_control_v1_set_presentation_hint(m_tearingControl, WP_TEARING_CONTROL_V1_PRESENTATION_HINT_ASYNC);
+        } else {
+            wp_tearing_control_v1_set_presentation_hint(m_tearingControl, WP_TEARING_CONTROL_V1_PRESENTATION_HINT_VSYNC);
+        }
+        m_renderLoop->setPresentationMode(frame->presentationMode());
+    }
+    if (m_viewport) {
+        wp_viewport_set_destination(m_viewport, geometry().width(), geometry().height());
+    }
     m_surface->attachBuffer(m_presentationBuffer);
     m_surface->damage(frame->damage());
-    m_surface->setScale(std::ceil(scale()));
+    m_surface->setScale(1);
     m_presentationBuffer = nullptr;
     if (auto presentationTime = m_backend->display()->presentationTime()) {
         m_presentationFeedback = wp_presentation_feedback(presentationTime, *m_surface);
@@ -238,6 +330,26 @@ void WaylandOutput::framePresented(std::chrono::nanoseconds timestamp, uint32_t 
     }
 }
 
+void WaylandOutput::applyChanges(const OutputConfiguration &config)
+{
+    const auto props = config.constChangeSet(this);
+    if (!props) {
+        return;
+    }
+    State next = m_state;
+    next.enabled = props->enabled.value_or(m_state.enabled);
+    next.transform = props->transform.value_or(m_state.transform);
+    next.position = props->pos.value_or(m_state.position);
+    // intentionally ignored, as it would get overwritten
+    // with the fractional scale protocol anyways
+    // next.scale = props->scale.value_or(m_state.scale);
+    next.desiredModeSize = props->desiredModeSize.value_or(m_state.desiredModeSize);
+    next.desiredModeRefreshRate = props->desiredModeRefreshRate.value_or(m_state.desiredModeRefreshRate);
+    next.uuid = props->uuid.value_or(m_state.uuid);
+    next.replicationSource = props->replicationSource.value_or(m_state.replicationSource);
+    setState(next);
+}
+
 bool WaylandOutput::isReady() const
 {
     return m_ready;
@@ -275,7 +387,7 @@ bool WaylandOutput::updateCursorLayer(std::optional<std::chrono::nanoseconds> al
     }
 }
 
-void WaylandOutput::init(const QSize &pixelSize, qreal scale)
+void WaylandOutput::init(const QSize &pixelSize, qreal scale, bool fullscreen)
 {
     m_renderLoop->setRefreshRate(m_refreshRate);
 
@@ -287,19 +399,8 @@ void WaylandOutput::init(const QSize &pixelSize, qreal scale)
     initialState.scale = scale;
     setState(initialState);
 
+    m_xdgShellSurface->setFullscreen(fullscreen);
     m_surface->commit(KWayland::Client::Surface::CommitFlag::None);
-}
-
-void WaylandOutput::resize(const QSize &pixelSize)
-{
-    auto mode = std::make_shared<OutputMode>(pixelSize, m_refreshRate);
-
-    State next = m_state;
-    next.modes = {mode};
-    next.currentMode = mode;
-    setState(next);
-
-    Q_EMIT m_backend->outputsQueried();
 }
 
 void WaylandOutput::setDpmsMode(DpmsMode mode)
@@ -325,13 +426,6 @@ void WaylandOutput::updateDpmsMode(DpmsMode dpmsMode)
     setState(next);
 }
 
-void WaylandOutput::updateEnabled(bool enabled)
-{
-    State next = m_state;
-    next.enabled = enabled;
-    setState(next);
-}
-
 void WaylandOutput::handleConfigure(const QSize &size, XdgShellSurface::States states, quint32 serial)
 {
     if (!m_ready) {
@@ -353,7 +447,15 @@ void WaylandOutput::applyConfigure(const QSize &size, quint32 serial)
 {
     m_xdgShellSurface->ackConfigure(serial);
     if (!size.isEmpty()) {
-        resize(size * scale());
+        auto mode = std::make_shared<OutputMode>(size * m_pendingScale, m_refreshRate);
+
+        State next = m_state;
+        next.modes = {mode};
+        next.currentMode = mode;
+        next.scale = m_pendingScale;
+        setState(next);
+
+        Q_EMIT m_backend->outputsQueried();
     }
 }
 

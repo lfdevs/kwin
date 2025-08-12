@@ -14,6 +14,7 @@
 #include "opengl/gltexture.h"
 #include "opengl/glutils.h"
 #include "scene/workspacescene.h"
+#include "workspace.h"
 
 #include <drm_fourcc.h>
 
@@ -24,9 +25,8 @@ OutputScreenCastSource::OutputScreenCastSource(Output *output, QObject *parent)
     : ScreenCastSource(parent)
     , m_output(output)
 {
-    connect(m_output, &QObject::destroyed, this, &ScreenCastSource::closed);
-    connect(m_output, &Output::enabledChanged, this, [this] {
-        if (!m_output->isEnabled()) {
+    connect(workspace(), &Workspace::outputRemoved, this, [this](Output *output) {
+        if (m_output == output) {
             Q_EMIT closed();
         }
     });
@@ -54,7 +54,7 @@ qreal OutputScreenCastSource::devicePixelRatio() const
 
 void OutputScreenCastSource::render(QImage *target)
 {
-    const auto [outputTexture, colorDescription] = Compositor::self()->scene()->textureForOutput(m_output);
+    const auto [outputTexture, colorDescription] = Compositor::self()->textureForOutput(m_output);
     if (outputTexture) {
         grabTexture(outputTexture.get(), target);
     }
@@ -62,17 +62,25 @@ void OutputScreenCastSource::render(QImage *target)
 
 void OutputScreenCastSource::render(GLFramebuffer *target)
 {
-    const auto [outputTexture, colorDescription] = Compositor::self()->scene()->textureForOutput(m_output);
+    const auto [outputTexture, colorDescription] = Compositor::self()->textureForOutput(m_output);
     if (!outputTexture) {
         return;
     }
 
-    ShaderBinder shaderBinder(ShaderTrait::MapTexture | ShaderTrait::TransformColorspace);
+    const bool yuv = colorDescription.yuvCoefficients() != YUVMatrixCoefficients::Identity;
+    ShaderBinder shaderBinder((yuv ? ShaderTrait::MapYUVTexture : ShaderTrait::MapTexture) | ShaderTrait::TransformColorspace);
     QMatrix4x4 projectionMatrix;
     projectionMatrix.scale(1, -1);
     projectionMatrix.ortho(QRect(QPoint(), textureSize()));
     shaderBinder.shader()->setUniform(GLShader::Mat4Uniform::ModelViewProjectionMatrix, projectionMatrix);
     shaderBinder.shader()->setColorspaceUniforms(colorDescription, ColorDescription::sRGB, RenderingIntent::RelativeColorimetricWithBPC);
+    if (yuv) {
+        shaderBinder.shader()->setUniform(GLShader::Mat4Uniform::YuvToRgb, colorDescription.yuvMatrix());
+        shaderBinder.shader()->setUniform(GLShader::IntUniform::Sampler, 0);
+        shaderBinder.shader()->setUniform(GLShader::IntUniform::Sampler1, 1);
+    } else {
+        shaderBinder.shader()->setUniform(GLShader::IntUniform::Sampler, 0);
+    }
 
     GLFramebuffer::pushFramebuffer(target);
     outputTexture->render(textureSize());

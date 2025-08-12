@@ -19,8 +19,6 @@
 
 #include <kwin_export.h>
 
-#define KWIN_QT5_PORTING 0
-
 namespace KWin
 {
 KWIN_EXPORT Q_NAMESPACE
@@ -35,15 +33,8 @@ KWIN_EXPORT Q_NAMESPACE
          * use EffectsHandler::isOpenGLCompositing().
          */
         OpenGLCompositing = 1,
-        /* XRenderCompositing = 1<<1, */
         QPainterCompositing = 1 << 2,
     };
-
-enum OpenGLPlatformInterface {
-    NoOpenGLPlatformInterface = 0,
-    GlxPlatformInterface,
-    EglPlatformInterface,
-};
 
 enum clientAreaOption {
     PlacementArea, // geometry where a window will be initially placed after being mapped
@@ -450,6 +441,12 @@ enum WindowTypeMask {
     AllTypesMask = 0U - 1, ///< All window types.
 };
 Q_DECLARE_FLAGS(WindowTypes, WindowTypeMask)
+
+enum class OutputConfigurationError {
+    None,
+    Unknown,
+    TooManyEnabledOutputs,
+};
 
 } // namespace
 

@@ -8,6 +8,7 @@
 #include "blur.h"
 #include "clientconnection.h"
 #include "colormanagement_v1.h"
+#include "colorrepresentation_v1.h"
 #include "compositor.h"
 #include "contrast.h"
 #include "display.h"
@@ -27,10 +28,10 @@
 #include "transaction.h"
 #include "utils/resource.h"
 
-#include <wayland-server.h>
-// std
 #include <algorithm>
 #include <cmath>
+#include <drm_fourcc.h>
+#include <wayland-server.h>
 
 namespace KWin
 {
@@ -144,7 +145,7 @@ bool SurfaceInterfacePrivate::raiseChild(SubSurfaceInterface *subsurface, Surfac
     }
 
     anchorList->insert(anchorIndex + 1, subsurface);
-    pending->subsurfaceOrderChanged = true;
+    pending->committed |= SurfaceState::Field::SubsurfaceOrder;
     return true;
 }
 
@@ -171,32 +172,32 @@ bool SurfaceInterfacePrivate::lowerChild(SubSurfaceInterface *subsurface, Surfac
     }
 
     anchorList->insert(anchorIndex, subsurface);
-    pending->subsurfaceOrderChanged = true;
+    pending->committed |= SurfaceState::Field::SubsurfaceOrder;
     return true;
 }
 
 void SurfaceInterfacePrivate::setShadow(const QPointer<ShadowInterface> &shadow)
 {
     pending->shadow = shadow;
-    pending->shadowIsSet = true;
+    pending->committed |= SurfaceState::Field::Shadow;
 }
 
 void SurfaceInterfacePrivate::setBlur(const QPointer<BlurInterface> &blur)
 {
     pending->blur = blur;
-    pending->blurIsSet = true;
+    pending->committed |= SurfaceState::Field::Blur;
 }
 
 void SurfaceInterfacePrivate::setSlide(const QPointer<SlideInterface> &slide)
 {
     pending->slide = slide;
-    pending->slideIsSet = true;
+    pending->committed |= SurfaceState::Field::Slide;
 }
 
 void SurfaceInterfacePrivate::setContrast(const QPointer<ContrastInterface> &contrast)
 {
     pending->contrast = contrast;
-    pending->contrastIsSet = true;
+    pending->committed |= SurfaceState::Field::Contrast;
 }
 
 void SurfaceInterfacePrivate::installPointerConstraint(LockedPointerV1Interface *lock)
@@ -293,15 +294,12 @@ void SurfaceInterfacePrivate::surface_attach(Resource *resource, struct ::wl_res
         pending->offset = QPoint(x, y);
     }
 
-    pending->bufferIsSet = true;
+    pending->committed |= SurfaceState::Field::Buffer;
     if (!buffer) {
-        // got a null buffer, deletes content in next frame
         pending->buffer = nullptr;
-        pending->damage = QRegion();
-        pending->bufferDamage = QRegion();
-        return;
+    } else {
+        pending->buffer = Display::bufferForResource(buffer);
     }
-    pending->buffer = Display::bufferForResource(buffer);
 }
 
 void SurfaceInterfacePrivate::surface_damage(Resource *, int32_t x, int32_t y, int32_t width, int32_t height)
@@ -331,14 +329,14 @@ void SurfaceInterfacePrivate::surface_set_opaque_region(Resource *resource, stru
 {
     RegionInterface *r = RegionInterface::get(region);
     pending->opaque = r ? r->region() : QRegion();
-    pending->opaqueIsSet = true;
+    pending->committed |= SurfaceState::Field::Opaque;
 }
 
 void SurfaceInterfacePrivate::surface_set_input_region(Resource *resource, struct ::wl_resource *region)
 {
     RegionInterface *r = RegionInterface::get(region);
     pending->input = r ? r->region() : infiniteRegion();
-    pending->inputIsSet = true;
+    pending->committed |= SurfaceState::Field::Input;
 }
 
 void SurfaceInterfacePrivate::surface_commit(Resource *resource)
@@ -348,9 +346,71 @@ void SurfaceInterfacePrivate::surface_commit(Resource *resource)
     if (syncObjV1 && syncObjV1->maybeEmitProtocolErrors()) {
         return;
     }
+    if (colorRepresentation && colorRepresentation->maybeEmitProtocolErrors()) {
+        return;
+    }
+
+    if ((pending->committed & SurfaceState::Field::Buffer) && !pending->buffer) {
+        pending->damage = QRegion();
+        pending->bufferDamage = QRegion();
+    }
+
+    // unless a protocol overrides the properties, we need to assume some YUV->RGB conversion
+    // matrix and color space to be attached to YUV formats
+    const bool hasColorManagementProtocol = colorSurface || frogColorManagement;
+    const bool hasColorRepresentation = colorRepresentation != nullptr;
+    if (pending->buffer && pending->buffer->dmabufAttributes()) {
+        switch (pending->buffer->dmabufAttributes()->format) {
+        case DRM_FORMAT_NV12:
+            if (!hasColorRepresentation) {
+                pending->yuvCoefficients = YUVMatrixCoefficients::BT709;
+                pending->range = EncodingRange::Limited;
+                pending->committed |= SurfaceState::Field::YuvCoefficients;
+            }
+            if (!hasColorManagementProtocol) {
+                pending->colorDescription = ColorDescription::sRGB;
+                pending->committed |= SurfaceState::Field::ColorDescription;
+            }
+            break;
+        case DRM_FORMAT_P010:
+            if (!hasColorRepresentation) {
+                pending->yuvCoefficients = YUVMatrixCoefficients::BT2020;
+                pending->range = EncodingRange::Limited;
+                pending->committed |= SurfaceState::Field::YuvCoefficients;
+            }
+            if (!hasColorManagementProtocol) {
+                pending->colorDescription = ColorDescription(Colorimetry::BT2020, TransferFunction(TransferFunction::PerceptualQuantizer));
+                pending->committed |= SurfaceState::Field::ColorDescription;
+            }
+            break;
+        default:
+            if (!hasColorRepresentation) {
+                pending->yuvCoefficients = YUVMatrixCoefficients::Identity;
+                pending->range = EncodingRange::Full;
+                pending->committed |= SurfaceState::Field::YuvCoefficients;
+            }
+            if (!hasColorManagementProtocol) {
+                pending->colorDescription = ColorDescription::sRGB;
+                pending->committed |= SurfaceState::Field::ColorDescription;
+            }
+        }
+    } else {
+        if (!hasColorRepresentation) {
+            pending->yuvCoefficients = YUVMatrixCoefficients::Identity;
+            pending->range = EncodingRange::Full;
+            pending->committed |= SurfaceState::Field::YuvCoefficients;
+        }
+        if (!hasColorManagementProtocol) {
+            pending->colorDescription = ColorDescription::sRGB;
+            pending->committed |= SurfaceState::Field::ColorDescription;
+        }
+    }
 
     Transaction *transaction;
     if (sync) {
+        // if the surface is in effectively synchronized mode at commit time,
+        // the fifo wait condition must be ignored
+        pending->hasFifoWaitCondition = false;
         if (!subsurface.transaction) {
             subsurface.transaction = std::make_unique<Transaction>();
         }
@@ -378,8 +438,6 @@ void SurfaceInterfacePrivate::surface_commit(Resource *resource)
     if (!sync) {
         transaction->commit();
     }
-
-    pending->serial++;
 }
 
 void SurfaceInterfacePrivate::surface_set_buffer_transform(Resource *resource, int32_t transform)
@@ -389,7 +447,7 @@ void SurfaceInterfacePrivate::surface_set_buffer_transform(Resource *resource, i
         return;
     }
     pending->bufferTransform = OutputTransform::Kind(transform);
-    pending->bufferTransformIsSet = true;
+    pending->committed |= SurfaceState::Field::BufferTransform;
 }
 
 void SurfaceInterfacePrivate::surface_set_buffer_scale(Resource *resource, int32_t scale)
@@ -399,7 +457,7 @@ void SurfaceInterfacePrivate::surface_set_buffer_scale(Resource *resource, int32
         return;
     }
     pending->bufferScale = scale;
-    pending->bufferScaleIsSet = true;
+    pending->committed |= SurfaceState::Field::BufferScale;
 }
 
 void SurfaceInterfacePrivate::surface_damage_buffer(Resource *resource, int32_t x, int32_t y, int32_t width, int32_t height)
@@ -418,7 +476,7 @@ SurfaceInterface::SurfaceInterface(CompositorInterface *compositor, wl_resource 
 {
     d->compositor = compositor;
     d->init(resource);
-    d->client = compositor->display()->getConnection(d->resource()->client());
+    d->client = ClientConnection::get(d->resource()->client());
 
     d->pendingScaleOverride = d->client->scaleOverride();
     d->scaleOverride = d->pendingScaleOverride;
@@ -429,6 +487,38 @@ SurfaceInterface::SurfaceInterface(CompositorInterface *compositor, wl_resource 
 
 SurfaceInterface::~SurfaceInterface()
 {
+    d->m_tearingDown = true;
+    if (d->firstTransaction) {
+        d->firstTransaction->tryApply();
+    }
+}
+
+RawSurfaceAttachedState *SurfaceInterface::addExtension(RawSurfaceExtension *extension)
+{
+    const auto &[it, inserted] = d->pending->extensions.emplace(extension, extension->createState());
+    return it->second.get();
+}
+
+void SurfaceInterface::removeExtension(RawSurfaceExtension *extension)
+{
+    d->pending->extensions.erase(extension);
+
+    if (d->subsurface.transaction) {
+        d->subsurface.transaction->amend(this, [extension](SurfaceState *state) {
+            state->extensions.erase(extension);
+        });
+    }
+
+    for (auto transaction = d->firstTransaction; transaction; transaction = transaction->next(this)) {
+        transaction->amend(this, [extension](SurfaceState *state) {
+            state->extensions.erase(extension);
+        });
+    }
+}
+
+bool SurfaceInterface::tearingDown() const
+{
+    return d->m_tearingDown;
 }
 
 SurfaceRole *SurfaceInterface::role() const
@@ -481,6 +571,11 @@ std::unique_ptr<PresentationFeedback> SurfaceInterface::takePresentationFeedback
     return std::move(d->current->presentationFeedback);
 }
 
+bool SurfaceInterface::hasPresentationFeedback() const
+{
+    return d->current->presentationFeedback.get();
+}
+
 bool SurfaceInterface::hasFrameCallbacks() const
 {
     return !wl_list_empty(&d->current->frameCallbacks);
@@ -489,10 +584,10 @@ bool SurfaceInterface::hasFrameCallbacks() const
 QRectF SurfaceInterfacePrivate::computeBufferSourceBox() const
 {
     if (!current->viewport.sourceGeometry.isValid()) {
-        return QRectF(0, 0, bufferSize.width(), bufferSize.height());
+        return QRectF(QPointF(0, 0), current->buffer->size());
     }
 
-    const QSizeF bounds = current->bufferTransform.map(bufferSize);
+    const QSizeF bounds = current->bufferTransform.map(current->buffer->size());
     const QRectF box(current->viewport.sourceGeometry.x() * current->bufferScale,
                      current->viewport.sourceGeometry.y() * current->bufferScale,
                      current->viewport.sourceGeometry.width() * current->bufferScale,
@@ -518,108 +613,76 @@ SurfaceState::~SurfaceState()
 
 void SurfaceState::mergeInto(SurfaceState *target)
 {
-    target->serial = serial;
-
-    if (bufferIsSet) {
+    if (committed & SurfaceState::Field::Buffer) {
         target->buffer = buffer;
         target->offset = offset;
-        target->damage = damage;
-        target->bufferDamage = bufferDamage;
-        target->acquirePoint.timeline = std::exchange(acquirePoint.timeline, nullptr);
-        target->acquirePoint.point = acquirePoint.point;
+        target->damage = std::move(damage);
+        target->bufferDamage = std::move(bufferDamage);
+        target->acquirePoint = std::move(acquirePoint);
         target->releasePoint = std::move(releasePoint);
-        target->bufferIsSet = true;
     }
-    if (viewport.sourceGeometryIsSet) {
-        target->viewport.sourceGeometry = viewport.sourceGeometry;
-        target->viewport.sourceGeometryIsSet = true;
-    }
-    if (viewport.destinationSizeIsSet) {
-        target->viewport.destinationSize = viewport.destinationSize;
-        target->viewport.destinationSizeIsSet = true;
-    }
-
-    target->subsurface = subsurface;
-    target->subsurfaceOrderChanged = subsurfaceOrderChanged;
-    target->subsurfacePositionChanged = subsurfacePositionChanged;
 
     wl_list_insert_list(&target->frameCallbacks, &frameCallbacks);
+    wl_list_init(&frameCallbacks);
 
-    if (shadowIsSet) {
-        target->shadow = shadow;
-        target->shadowIsSet = true;
-    }
-    if (blurIsSet) {
-        target->blur = blur;
-        target->blurIsSet = true;
-    }
-    if (contrastIsSet) {
-        target->contrast = contrast;
-        target->contrastIsSet = true;
-    }
-    if (slideIsSet) {
-        target->slide = slide;
-        target->slideIsSet = true;
-    }
-    if (inputIsSet) {
-        target->input = input;
-        target->inputIsSet = true;
-    }
-    if (opaqueIsSet) {
-        target->opaque = opaque;
-        target->opaqueIsSet = true;
-    }
-    if (bufferScaleIsSet) {
-        target->bufferScale = bufferScale;
-        target->bufferScaleIsSet = true;
-    }
-    if (bufferTransformIsSet) {
-        target->bufferTransform = bufferTransform;
-        target->bufferTransformIsSet = true;
-    }
-    if (contentTypeIsSet) {
-        target->contentType = contentType;
-        target->contentTypeIsSet = true;
-    }
-    if (presentationModeHintIsSet) {
-        target->presentationHint = presentationHint;
-        target->presentationModeHintIsSet = true;
-    }
-    if (colorDescriptionIsSet) {
-        target->colorDescription = colorDescription;
-        target->renderingIntent = renderingIntent;
-        target->colorDescriptionIsSet = true;
-    }
-    if (alphaMultiplierIsSet) {
-        target->alphaMultiplier = alphaMultiplier;
-        target->alphaMultiplierIsSet = true;
-    }
+    target->viewport.sourceGeometry = viewport.sourceGeometry;
+    target->viewport.destinationSize = viewport.destinationSize;
+    target->subsurface = subsurface;
+    target->shadow = shadow;
+    target->blur = blur;
+    target->contrast = contrast;
+    target->slide = slide;
+    target->input = input;
+    target->opaque = opaque;
+    target->bufferScale = bufferScale;
+    target->bufferTransform = bufferTransform;
+    target->contentType = contentType;
+    target->presentationHint = presentationHint;
+    target->colorDescription = colorDescription;
+    target->renderingIntent = renderingIntent;
+    target->alphaMultiplier = alphaMultiplier;
+    target->yuvCoefficients = yuvCoefficients;
+    target->fifoBarrier = std::exchange(fifoBarrier, false);
+    target->hasFifoWaitCondition = std::exchange(hasFifoWaitCondition, false);
+    target->yuvCoefficients = yuvCoefficients;
+    target->range = range;
     target->presentationFeedback = std::move(presentationFeedback);
 
-    *this = SurfaceState{};
-    serial = target->serial;
-    subsurface = target->subsurface;
-    wl_list_init(&frameCallbacks);
+    auto previousExtensions = std::exchange(target->extensions, {});
+    for (const auto &[extension, sourceState] : extensions) {
+        std::unique_ptr<RawSurfaceAttachedState> targetState;
+
+        if (auto it = previousExtensions.find(extension); it != previousExtensions.end()) {
+            targetState = std::move(it->second);
+        } else {
+            targetState = extension->createState();
+        }
+
+        sourceState->mergeInto(targetState.get());
+        target->extensions[extension] = std::move(targetState);
+    }
+
+    target->committed |= std::exchange(committed, SurfaceState::Fields{});
 }
 
 void SurfaceInterfacePrivate::applyState(SurfaceState *next)
 {
-    const bool bufferChanged = next->bufferIsSet;
-    const bool opaqueRegionChanged = next->opaqueIsSet;
-    const bool transformChanged = next->bufferTransformIsSet && (current->bufferTransform != next->bufferTransform);
-    const bool shadowChanged = next->shadowIsSet;
-    const bool blurChanged = next->blurIsSet;
-    const bool contrastChanged = next->contrastIsSet;
-    const bool slideChanged = next->slideIsSet;
-    const bool subsurfaceOrderChanged = next->subsurfaceOrderChanged;
-    const bool visibilityChanged = bufferChanged && bool(current->buffer) != bool(next->buffer);
-    const bool colorDescriptionChanged = next->colorDescriptionIsSet;
-    const bool presentationModeHintChanged = next->presentationModeHintIsSet;
-    const bool bufferReleasePointChanged = next->bufferIsSet && current->releasePoint != next->releasePoint;
-    const bool alphaMultiplierChanged = next->alphaMultiplierIsSet;
+    const bool bufferChanged = (next->committed & SurfaceState::Field::Buffer) && (current->buffer != next->buffer);
+    const bool opaqueRegionChanged = (next->committed & SurfaceState::Field::Opaque);
+    const bool transformChanged = (next->committed & SurfaceState::Field::BufferTransform) && (current->bufferTransform != next->bufferTransform);
+    const bool shadowChanged = (next->committed & SurfaceState::Field::Shadow);
+    const bool blurChanged = (next->committed & SurfaceState::Field::Blur);
+    const bool contrastChanged = (next->committed & SurfaceState::Field::Contrast);
+    const bool slideChanged = (next->committed & SurfaceState::Field::Slide);
+    const bool subsurfaceOrderChanged = (next->committed & SurfaceState::Field::SubsurfaceOrder);
+    const bool visibilityChanged = (next->committed & SurfaceState::Field::Buffer) && bool(current->buffer) != bool(next->buffer);
+    const bool colorDescriptionChanged = (next->committed & SurfaceState::Field::ColorDescription) && (current->colorDescription != next->colorDescription);
+    const bool presentationModeHintChanged = (next->committed & SurfaceState::Field::PresentationModeHint);
+    const bool bufferReleasePointChanged = (next->committed & SurfaceState::Field::Buffer) && current->releasePoint != next->releasePoint;
+    const bool alphaMultiplierChanged = (next->committed & SurfaceState::Field::AlphaMultiplier);
+    const bool yuvCoefficientsChanged = (next->committed & SurfaceState::Field::YuvCoefficients) && (current->yuvCoefficients != next->yuvCoefficients);
 
     const QSizeF oldSurfaceSize = surfaceSize;
-    const QSize oldBufferSize = bufferSize;
     const QRectF oldBufferSourceBox = bufferSourceBox;
     const QRegion oldInputRegion = inputRegion;
 
@@ -631,7 +694,6 @@ void SurfaceInterfacePrivate::applyState(SurfaceState *next)
     scaleOverride = pendingScaleOverride;
 
     if (current->buffer) {
-        bufferSize = current->buffer->size();
         bufferSourceBox = computeBufferSourceBox();
 
         if (current->viewport.destinationSize.isValid()) {
@@ -642,27 +704,35 @@ void SurfaceInterfacePrivate::applyState(SurfaceState *next)
             surfaceSize = current->bufferTransform.map(current->buffer->size() / current->bufferScale);
         }
 
-        const QRectF surfaceRect(QPoint(0, 0), surfaceSize);
-        inputRegion = current->input & surfaceRect.toAlignedRect();
+        const QRect surfaceRect = QRectF(QPointF(0, 0), surfaceSize).toAlignedRect();
+        const QRect bufferRect = QRect(QPoint(0, 0), current->buffer->size());
+
+        inputRegion = current->input & surfaceRect;
 
         if (!current->buffer->hasAlphaChannel()) {
-            opaqueRegion = surfaceRect.toAlignedRect();
+            opaqueRegion = surfaceRect;
         } else {
-            opaqueRegion = current->opaque & surfaceRect.toAlignedRect();
+            opaqueRegion = current->opaque & surfaceRect;
         }
 
-        QMatrix4x4 scaleOverrideMatrix;
-        if (scaleOverride != 1.) {
-            scaleOverrideMatrix.scale(1. / scaleOverride, 1. / scaleOverride);
-        }
+        bufferDamage = current->bufferDamage
+                           .united(mapToBuffer(current->damage.intersected(surfaceRect)))
+                           .intersected(bufferRect);
+        current->damage = QRegion();
+        current->bufferDamage = QRegion();
 
-        opaqueRegion = map_helper(scaleOverrideMatrix, opaqueRegion);
-        inputRegion = map_helper(scaleOverrideMatrix, inputRegion);
-        surfaceSize = surfaceSize / scaleOverride;
+        if (scaleOverride != 1.0) {
+            QMatrix4x4 scaleOverrideMatrix;
+            scaleOverrideMatrix.scale(1.0 / scaleOverride, 1.0 / scaleOverride);
+
+            opaqueRegion = map_helper(scaleOverrideMatrix, opaqueRegion);
+            inputRegion = map_helper(scaleOverrideMatrix, inputRegion);
+            surfaceSize = surfaceSize / scaleOverride;
+        }
     } else {
         surfaceSize = QSizeF(0, 0);
-        bufferSize = QSize(0, 0);
         bufferSourceBox = QRectF();
+        bufferDamage = QRegion();
         inputRegion = QRegion();
         opaqueRegion = QRegion();
     }
@@ -682,8 +752,8 @@ void SurfaceInterfacePrivate::applyState(SurfaceState *next)
     if (bufferSourceBox != oldBufferSourceBox) {
         Q_EMIT q->bufferSourceBoxChanged();
     }
-    if (bufferSize != oldBufferSize) {
-        Q_EMIT q->bufferSizeChanged();
+    if (bufferChanged) {
+        Q_EMIT q->bufferChanged();
     }
     if (surfaceSize != oldSurfaceSize) {
         Q_EMIT q->sizeChanged();
@@ -703,7 +773,8 @@ void SurfaceInterfacePrivate::applyState(SurfaceState *next)
     if (subsurfaceOrderChanged) {
         Q_EMIT q->childSubSurfacesChanged();
     }
-    if (colorDescriptionChanged) {
+    if (colorDescriptionChanged || yuvCoefficientsChanged) {
+        current->colorDescription = current->colorDescription.withYuvCoefficients(current->yuvCoefficients, current->range);
         Q_EMIT q->colorDescriptionChanged();
     }
     if (presentationModeHintChanged) {
@@ -715,27 +786,22 @@ void SurfaceInterfacePrivate::applyState(SurfaceState *next)
     if (alphaMultiplierChanged) {
         Q_EMIT q->alphaMultiplierChanged();
     }
-
-    if (bufferChanged) {
-        if (current->buffer && (!current->damage.isEmpty() || !current->bufferDamage.isEmpty())) {
-            const QRect surfaceRect = QRectF(QPointF(0, 0), surfaceSize).toAlignedRect();
-            const QRect bufferRect = QRect(QPoint(0, 0), current->buffer->size());
-            bufferDamage = current->bufferDamage
-                               .united(mapToBuffer(current->damage.intersected(surfaceRect)))
-                               .intersected(bufferRect);
-            Q_EMIT q->damaged(bufferDamage);
-        }
+    if (!bufferDamage.isEmpty()) {
+        Q_EMIT q->damaged(bufferDamage);
     }
 
     // The position of a sub-surface is applied when its parent is committed.
     for (SubSurfaceInterface *subsurface : std::as_const(current->subsurface.below)) {
-        subsurface->parentApplyState(next->serial);
+        subsurface->parentApplyState();
     }
     for (SubSurfaceInterface *subsurface : std::as_const(current->subsurface.above)) {
-        subsurface->parentApplyState(next->serial);
+        subsurface->parentApplyState();
     }
 
-    Q_EMIT q->stateApplied(next->serial);
+    for (const auto &[extension, state] : current->extensions) {
+        extension->applyState(state.get());
+    }
+
     Q_EMIT q->committed();
 }
 
@@ -795,7 +861,7 @@ QRegion SurfaceInterfacePrivate::mapToBuffer(const QRegion &region) const
         return QRegion();
     }
 
-    const QRectF sourceBox = current->bufferTransform.inverted().map(bufferSourceBox, bufferSize);
+    const QRectF sourceBox = current->bufferTransform.inverted().map(bufferSourceBox, current->buffer->size());
     const qreal xScale = sourceBox.width() / surfaceSize.width();
     const qreal yScale = sourceBox.height() / surfaceSize.height();
 
@@ -845,14 +911,6 @@ SurfaceInterface *SurfaceInterface::get(wl_resource *native)
 {
     if (auto surfacePrivate = resource_cast<SurfaceInterfacePrivate *>(native)) {
         return surfacePrivate->q;
-    }
-    return nullptr;
-}
-
-SurfaceInterface *SurfaceInterface::get(quint32 id, const ClientConnection *client)
-{
-    if (client) {
-        return get(client->getResource(id));
     }
     return nullptr;
 }
@@ -1097,11 +1155,6 @@ QPointF SurfaceInterface::mapToChild(SurfaceInterface *child, const QPointF &poi
     return local;
 }
 
-QSize SurfaceInterface::bufferSize() const
-{
-    return d->bufferSize;
-}
-
 qreal SurfaceInterface::scaleOverride() const
 {
     return d->scaleOverride;
@@ -1233,6 +1286,21 @@ std::shared_ptr<SyncReleasePoint> SurfaceInterface::bufferReleasePoint() const
 double SurfaceInterface::alphaMultiplier() const
 {
     return d->current->alphaMultiplier;
+}
+
+void SurfaceInterface::clearFifoBarrier()
+{
+    if (d->current->fifoBarrier) {
+        d->current->fifoBarrier = false;
+        if (d->firstTransaction) {
+            d->firstTransaction->tryApply();
+        }
+    }
+}
+
+bool SurfaceInterface::hasFifoBarrier() const
+{
+    return d->current->fifoBarrier;
 }
 
 } // namespace KWin

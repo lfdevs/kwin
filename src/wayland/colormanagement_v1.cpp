@@ -94,14 +94,14 @@ void ColorManagerV1::wp_color_manager_v1_create_parametric_creator(Resource *res
 void ColorManagerV1::wp_color_manager_v1_create_windows_scrgb(Resource *resource, uint32_t image_description)
 {
     const auto scrgb = ColorDescription{
-        NamedColorimetry::BT709,
+        Colorimetry::BT709,
         TransferFunction(TransferFunction::linear, 0, 80),
         203,
         0,
         std::nullopt,
         std::nullopt,
-        Colorimetry::fromName(NamedColorimetry::BT2020),
-        Colorimetry::fromName(NamedColorimetry::BT709),
+        Colorimetry::BT2020,
+        Colorimetry::BT709,
     };
     new ImageDescriptionV1(resource->client(), image_description, resource->version(), scrgb);
 }
@@ -159,7 +159,7 @@ ColorSurfaceV1::~ColorSurfaceV1()
     if (m_surface) {
         const auto priv = SurfaceInterfacePrivate::get(m_surface);
         priv->pending->colorDescription = ColorDescription::sRGB;
-        priv->pending->colorDescriptionIsSet = true;
+        priv->pending->committed |= SurfaceState::Field::ColorDescription;
         priv->colorSurface = nullptr;
     }
 }
@@ -209,7 +209,7 @@ void ColorSurfaceV1::wp_color_management_surface_v1_set_image_description(Resour
     const auto priv = SurfaceInterfacePrivate::get(m_surface);
     priv->pending->colorDescription = *ImageDescriptionV1::get(image_description)->description();
     priv->pending->renderingIntent = *intent;
-    priv->pending->colorDescriptionIsSet = true;
+    priv->pending->committed |= SurfaceState::Field::ColorDescription;
 }
 
 void ColorSurfaceV1::wp_color_management_surface_v1_unset_image_description(Resource *resource)
@@ -219,7 +219,7 @@ void ColorSurfaceV1::wp_color_management_surface_v1_unset_image_description(Reso
     }
     const auto priv = SurfaceInterfacePrivate::get(m_surface);
     priv->pending->colorDescription = ColorDescription::sRGB;
-    priv->pending->colorDescriptionIsSet = true;
+    priv->pending->committed |= SurfaceState::Field::ColorDescription;
 }
 
 ColorParametricCreatorV1::ColorParametricCreatorV1(wl_client *client, uint32_t id, uint32_t version)
@@ -265,7 +265,7 @@ void ColorParametricCreatorV1::wp_image_description_creator_params_v1_create(Res
         m_minMasteringLuminance = func.minLuminance;
     }
     if (Colorimetry::isValid(m_colorimetry->red().toxy(), m_colorimetry->green().toxy(), m_colorimetry->blue().toxy(), m_colorimetry->white().toxy())) {
-        new ImageDescriptionV1(resource->client(), image_description, resource->version(), ColorDescription(*m_colorimetry, func, referenceLuminance, m_minMasteringLuminance.value_or(func.minLuminance), maxFrameAverageLuminance, maxHdrLuminance, m_masteringColorimetry, Colorimetry::fromName(NamedColorimetry::BT709)));
+        new ImageDescriptionV1(resource->client(), image_description, resource->version(), ColorDescription(*m_colorimetry, func, referenceLuminance, m_minMasteringLuminance.value_or(func.minLuminance), maxFrameAverageLuminance, maxHdrLuminance.value_or(func.maxLuminance), m_masteringColorimetry, Colorimetry::BT709));
     } else {
         new ImageDescriptionV1(resource->client(), image_description, resource->version(), std::nullopt);
     }
@@ -308,34 +308,34 @@ void ColorParametricCreatorV1::wp_image_description_creator_params_v1_set_primar
     }
     switch (primaries) {
     case QtWaylandServer::wp_color_manager_v1::primaries::primaries_srgb:
-        m_colorimetry = Colorimetry::fromName(NamedColorimetry::BT709);
+        m_colorimetry = Colorimetry::BT709;
         return;
     case QtWaylandServer::wp_color_manager_v1::primaries::primaries_pal_m:
-        m_colorimetry = Colorimetry::fromName(NamedColorimetry::PAL_M);
+        m_colorimetry = Colorimetry::PAL_M;
         return;
     case QtWaylandServer::wp_color_manager_v1::primaries::primaries_pal:
-        m_colorimetry = Colorimetry::fromName(NamedColorimetry::PAL);
+        m_colorimetry = Colorimetry::PAL;
         return;
     case QtWaylandServer::wp_color_manager_v1::primaries::primaries_ntsc:
-        m_colorimetry = Colorimetry::fromName(NamedColorimetry::NTSC);
+        m_colorimetry = Colorimetry::NTSC;
         return;
     case QtWaylandServer::wp_color_manager_v1::primaries::primaries_generic_film:
-        m_colorimetry = Colorimetry::fromName(NamedColorimetry::GenericFilm);
+        m_colorimetry = Colorimetry::GenericFilm;
         return;
     case QtWaylandServer::wp_color_manager_v1::primaries::primaries_bt2020:
-        m_colorimetry = Colorimetry::fromName(NamedColorimetry::BT2020);
+        m_colorimetry = Colorimetry::BT2020;
         return;
     case QtWaylandServer::wp_color_manager_v1::primaries::primaries_cie1931_xyz:
-        m_colorimetry = Colorimetry::fromName(NamedColorimetry::CIEXYZ);
+        m_colorimetry = Colorimetry::CIEXYZ;
         return;
     case QtWaylandServer::wp_color_manager_v1::primaries::primaries_dci_p3:
-        m_colorimetry = Colorimetry::fromName(NamedColorimetry::DCIP3);
+        m_colorimetry = Colorimetry::DCIP3;
         return;
     case QtWaylandServer::wp_color_manager_v1::primaries::primaries_display_p3:
-        m_colorimetry = Colorimetry::fromName(NamedColorimetry::DisplayP3);
+        m_colorimetry = Colorimetry::DisplayP3;
         return;
     case QtWaylandServer::wp_color_manager_v1::primaries::primaries_adobe_rgb:
-        m_colorimetry = Colorimetry::fromName(NamedColorimetry::AdobeRGB);
+        m_colorimetry = Colorimetry::AdobeRGB;
         return;
     default:
         wl_resource_post_error(resource->handle, error::error_invalid_primaries_named, "unsupported named primaries");
@@ -467,31 +467,51 @@ static uint32_t kwinTFtoProtoTF(TransferFunction tf)
     Q_UNREACHABLE();
 }
 
-static uint32_t kwinPrimariesToProtoPrimaires(NamedColorimetry primaries)
+static bool compareXY(double left, double right)
 {
-    switch (primaries) {
-    case NamedColorimetry::BT709:
+    return std::round(left / s_primaryUnit) == std::round(right / s_primaryUnit);
+}
+
+static bool compareXY(xy left, xy right)
+{
+    return compareXY(left.x, right.x) && compareXY(left.y, right.y);
+}
+
+static bool comparePrimaries(const Colorimetry &left, const Colorimetry &right)
+{
+    // this can't just use Colorimetry::operator==
+    // as that has a different resolution from the Wayland protocol
+    return compareXY(left.red().toxy(), right.red().toxy())
+        && compareXY(left.green().toxy(), right.green().toxy())
+        && compareXY(left.blue().toxy(), right.blue().toxy())
+        && compareXY(left.white().toxy(), right.white().toxy());
+}
+
+static std::optional<uint32_t> kwinPrimariesToProtoPrimaires(const Colorimetry &primaries)
+{
+    if (comparePrimaries(primaries, Colorimetry::BT709)) {
         return QtWaylandServer::wp_color_manager_v1::primaries::primaries_srgb;
-    case NamedColorimetry::PAL_M:
+    } else if (comparePrimaries(primaries, Colorimetry::PAL_M)) {
         return QtWaylandServer::wp_color_manager_v1::primaries::primaries_pal_m;
-    case NamedColorimetry::PAL:
+    } else if (comparePrimaries(primaries, Colorimetry::PAL)) {
         return QtWaylandServer::wp_color_manager_v1::primaries::primaries_pal;
-    case NamedColorimetry::NTSC:
+    } else if (comparePrimaries(primaries, Colorimetry::NTSC)) {
         return QtWaylandServer::wp_color_manager_v1::primaries::primaries_ntsc;
-    case NamedColorimetry::GenericFilm:
+    } else if (comparePrimaries(primaries, Colorimetry::GenericFilm)) {
         return QtWaylandServer::wp_color_manager_v1::primaries::primaries_generic_film;
-    case NamedColorimetry::BT2020:
+    } else if (comparePrimaries(primaries, Colorimetry::BT2020)) {
         return QtWaylandServer::wp_color_manager_v1::primaries::primaries_bt2020;
-    case NamedColorimetry::CIEXYZ:
+    } else if (comparePrimaries(primaries, Colorimetry::CIEXYZ)) {
         return QtWaylandServer::wp_color_manager_v1::primaries::primaries_cie1931_xyz;
-    case NamedColorimetry::DCIP3:
+    } else if (comparePrimaries(primaries, Colorimetry::DCIP3)) {
         return QtWaylandServer::wp_color_manager_v1::primaries::primaries_dci_p3;
-    case NamedColorimetry::DisplayP3:
+    } else if (comparePrimaries(primaries, Colorimetry::DisplayP3)) {
         return QtWaylandServer::wp_color_manager_v1::primaries::primaries_display_p3;
-    case NamedColorimetry::AdobeRGB:
+    } else if (comparePrimaries(primaries, Colorimetry::AdobeRGB)) {
         return QtWaylandServer::wp_color_manager_v1::primaries::primaries_adobe_rgb;
+    } else {
+        return std::nullopt;
     }
-    Q_UNREACHABLE();
 }
 
 void ImageDescriptionV1::wp_image_description_v1_get_information(Resource *qtResource, uint32_t information)
@@ -513,8 +533,8 @@ void ImageDescriptionV1::wp_image_description_v1_get_information(Resource *qtRes
                                                 round(containerGreen.x), round(containerGreen.y),
                                                 round(containerBlue.x), round(containerBlue.y),
                                                 round(containerWhite.x), round(containerWhite.y));
-    if (auto name = m_description->containerColorimetry().name()) {
-        wp_image_description_info_v1_send_primaries_named(resource, kwinPrimariesToProtoPrimaires(*name));
+    if (auto name = kwinPrimariesToProtoPrimaires(m_description->containerColorimetry())) {
+        wp_image_description_info_v1_send_primaries_named(resource, *name);
     }
     if (auto m = m_description->masteringColorimetry()) {
         const xyY masterRed = m->red().toxyY();
@@ -528,13 +548,13 @@ void ImageDescriptionV1::wp_image_description_v1_get_information(Resource *qtRes
                                                            round(masterWhite.x), round(masterWhite.y));
     }
     if (auto maxfall = m_description->maxAverageLuminance()) {
-        wp_image_description_info_v1_send_target_max_fall(resource, *maxfall);
+        wp_image_description_info_v1_send_target_max_fall(resource, std::round(*maxfall));
     }
     if (auto maxcll = m_description->maxHdrLuminance()) {
-        wp_image_description_info_v1_send_target_max_cll(resource, *maxcll);
+        wp_image_description_info_v1_send_target_max_cll(resource, std::round(*maxcll));
     }
     wp_image_description_info_v1_send_luminances(resource, std::round(m_description->transferFunction().minLuminance / s_minLuminanceUnit), std::round(m_description->transferFunction().maxLuminance), std::round(m_description->referenceLuminance()));
-    wp_image_description_info_v1_send_target_luminance(resource, m_description->minLuminance(), m_description->maxHdrLuminance().value_or(800));
+    wp_image_description_info_v1_send_target_luminance(resource, std::round(m_description->minLuminance() / s_minLuminanceUnit), std::round(m_description->maxHdrLuminance().value_or(800)));
     wp_image_description_info_v1_send_tf_named(resource, kwinTFtoProtoTF(m_description->transferFunction()));
     wp_image_description_info_v1_send_done(resource);
     wl_resource_destroy(resource);

@@ -16,7 +16,6 @@
 #endif
 
 // kwin
-#include "scene/decorationitem.h"
 #include "utils/xcbutils.h"
 #include "window.h"
 // Qt
@@ -24,9 +23,9 @@
 #include <QFlags>
 #include <QPixmap>
 #include <QPointer>
-#include <QWindow>
 // X
 #include <NETWM>
+#include <xcb/res.h>
 #include <xcb/sync.h>
 
 // TODO: Cleanup the order of things in this .h file
@@ -50,29 +49,6 @@ enum class Predicate {
     WindowMatch,
     WrapperIdMatch,
     FrameIdMatch,
-    InputIdMatch,
-};
-
-/**
- * @todo Remove when the X11 platform support is dropped. This decoration renderer
- * will be used if compositing is off.
- */
-class X11DecorationRenderer : public DecorationRenderer
-{
-    Q_OBJECT
-
-public:
-    explicit X11DecorationRenderer(Decoration::DecoratedWindowImpl *client);
-    ~X11DecorationRenderer() override;
-
-protected:
-    void render(const QRegion &region) override;
-
-private:
-    void update();
-
-    QTimer *m_scheduleTimer;
-    xcb_gcontext_t m_gc;
 };
 
 class KWIN_EXPORT X11Window : public Window
@@ -88,10 +64,6 @@ public:
     xcb_window_t frameId() const;
     xcb_window_t window() const;
     xcb_window_t wrapperId() const;
-    xcb_window_t inputId() const
-    {
-        return m_decoInputExtent;
-    }
 
     int desktopId() const;
     QByteArray sessionId() const;
@@ -164,7 +136,6 @@ public:
     void maximize(MaximizeMode mode, const QRectF &restore = QRectF()) override;
 
     bool isMinimizable() const override;
-    QRectF iconGeometry() const override;
 
     bool isFullScreenable() const override;
     void setFullScreen(bool set) override;
@@ -199,9 +170,9 @@ public:
     void updateShape();
 
     /// resizeWithChecks() resizes according to gravity, and checks workarea position
-    QRectF resizeWithChecks(const QRectF &geometry, const QSizeF &size) override;
-    QRectF resizeWithChecks(const QRectF &geometry, qreal w, qreal h, xcb_gravity_t gravity);
-    QRectF resizeWithChecks(const QRectF &geometry, const QSizeF &s, xcb_gravity_t gravity);
+    QRectF resizeWithChecks(const QRectF &geometry, const QSizeF &size) const override;
+    QRectF resizeWithChecks(const QRectF &geometry, qreal w, qreal h, xcb_gravity_t gravity) const;
+    QRectF resizeWithChecks(const QRectF &geometry, const QSizeF &s, xcb_gravity_t gravity) const;
     QSizeF constrainClientSize(const QSizeF &size, SizeMode mode = SizeModeAny) const override;
 
     bool providesContextHelp() const override;
@@ -209,12 +180,6 @@ public:
     /// Updates visibility depending on being shaded, virtual desktop, etc.
     void updateVisibility();
     bool hiddenPreview() const; ///< Window is mapped in order to get a window pixmap
-
-    bool setupCompositing() override;
-    void finishCompositing() override;
-    void setBlockingCompositing(bool block);
-    void blockCompositing();
-    void unblockCompositing();
 
     QString captionNormal() const override
     {
@@ -224,10 +189,6 @@ public:
     {
         return cap_suffix;
     }
-
-    using Window::keyPressEvent;
-    void keyPressEvent(uint key_code, xcb_timestamp_t time); // FRAME ??
-    void updateMouseGrab() override;
 
     QPointF gravityAdjustment(xcb_gravity_t gravity) const;
     const QPointF calculateGravitation(bool invert) const;
@@ -253,9 +214,6 @@ public:
     void showContextHelp() override;
     void checkActiveModal();
 
-    StrutRect strutRect(StrutArea area) const override;
-    bool hasStrut() const override;
-
     bool isClientSideDecorated() const;
 
     Xcb::StringProperty fetchPreferredColorScheme() const;
@@ -269,12 +227,6 @@ public:
     bool isUnmanaged() const override;
 
     void cancelFocusOutTimer();
-
-    /**
-     * Restores the Client after it had been hidden due to show on screen edge functionality.
-     * In addition the property gets deleted so that the Client knows that it is visible again.
-     */
-    void showOnScreenEdge() override;
 
     Xcb::StringProperty fetchApplicationMenuServiceName() const;
     void readApplicationMenuServiceName(Xcb::StringProperty &property);
@@ -306,8 +258,6 @@ public:
 
     bool allowWindowActivation(xcb_timestamp_t time = -1U, bool focus_in = false);
 
-    static void cleanupX11();
-
     quint64 surfaceSerial() const;
 
 public Q_SLOTS:
@@ -323,15 +273,8 @@ private:
     void configureRequestEvent(xcb_configure_request_event_t *e);
     void propertyNotifyEvent(xcb_property_notify_event_t *e);
     void clientMessageEvent(xcb_client_message_event_t *e);
-    void enterNotifyEvent(xcb_enter_notify_event_t *e);
-    void leaveNotifyEvent(xcb_leave_notify_event_t *e);
     void focusInEvent(xcb_focus_in_event_t *e);
     void focusOutEvent(xcb_focus_out_event_t *e);
-    void damageNotifyEvent();
-
-    bool buttonPressEvent(xcb_window_t w, int button, int state, int x, int y, int x_root, int y_root, xcb_timestamp_t time = XCB_CURRENT_TIME);
-    bool buttonReleaseEvent(xcb_window_t w, int button, int state, int x, int y, int x_root, int y_root);
-    bool motionNotifyEvent(xcb_window_t w, int state, int x, int y, int x_root, int y_root);
 
 protected:
     bool belongsToSameApplication(const Window *other, SameApplicationChecks checks) const override;
@@ -349,7 +292,6 @@ protected:
     void doSetHiddenByShowDesktop() override;
     void doSetModal() override;
     bool belongsToDesktop() const override;
-    bool doStartInteractiveMoveResize() override;
     bool isWaitingForInteractiveResizeSync() const override;
     void doInteractiveResizeSync(const QRectF &rect) override;
     QSizeF resizeIncrements() const override;
@@ -388,13 +330,9 @@ private:
     void getSkipCloseAnimation();
 
     void configureRequest(int value_mask, qreal rx, qreal ry, qreal rw, qreal rh, int gravity, bool from_tool);
-    NETExtendedStrut strut() const;
     int checkShadeGeometry(int w, int h);
     void getSyncCounter();
     void sendSyncRequest();
-    void leaveInteractiveMoveResize() override;
-    void establishCommandWindowGrab(uint8_t button);
-    void establishCommandAllGrab(uint8_t button);
 
     void pingWindow();
     void killProcess(bool ask, xcb_timestamp_t timestamp = XCB_TIME_CURRENT_TIME);
@@ -416,31 +354,19 @@ private:
 
     void updateInputShape();
     void configure(const QRect &nativeFrame, const QRect &nativeWrapper, const QRect &nativeClient);
-    void discardWindowPixmap();
-    void updateWindowPixmap();
 
     xcb_timestamp_t readUserTimeMapTimestamp(const KStartupInfoId *asn_id, const KStartupInfoData *asn_data,
                                              bool session) const;
     xcb_timestamp_t readUserCreationTime() const;
     void startupIdChanged();
 
-    void updateInputWindow();
+    xcb_res_query_client_ids_cookie_t fetchPid() const;
+    void readPid(xcb_res_query_client_ids_cookie_t cookie);
 
-    Xcb::Property fetchShowOnScreenEdge() const;
-    void readShowOnScreenEdge(Xcb::Property &property);
-    /**
-     * Reads the property and creates/destroys the screen edge if required
-     * and shows/hides the client.
-     */
-    void updateShowOnScreenEdge();
-
-    void maybeCreateX11DecorationRenderer();
-    void maybeDestroyX11DecorationRenderer();
     void updateDecoration(bool check_workspace_pos, bool force = false);
     void createDecoration();
     void destroyDecoration();
 
-    QWindow *findInternalWindow() const;
     void checkOutput();
     void handleXwaylandScaleChanged();
     void handleCommitted();
@@ -452,9 +378,6 @@ private:
     Xcb::Window m_frame;
     qreal m_bufferScale = 1;
     xcb_window_t m_wmClientLeader = XCB_WINDOW_NONE;
-    int m_activityUpdatesBlocked;
-    bool m_blockedActivityUpdatesRequireTransients;
-    bool move_resize_has_keyboard_grab;
     bool m_managed;
 
     Xcb::GeometryHints m_geometryHints;
@@ -476,6 +399,8 @@ private:
     void cleanGrouping();
     void checkGroupTransients();
     void setTransient(xcb_window_t new_transient_for_id);
+    void setNetWmDesktop(VirtualDesktop *desktop);
+    void updateNetWmDesktopId();
 
     NETWinInfo *info = nullptr;
     xcb_window_t m_transientForId;
@@ -485,7 +410,6 @@ private:
     uint noborder : 1;
     uint app_noborder : 1; ///< App requested no border via window type, shape extension, etc.
     uint ignore_focus_stealing : 1; ///< Don't apply focus stealing prevention to this client
-    bool blocks_compositing;
     bool is_shape = false;
 
     enum FullScreenMode {
@@ -500,6 +424,7 @@ private:
     std::unique_ptr<KillPrompt> m_killPrompt;
     xcb_timestamp_t m_pingTimestamp;
     xcb_timestamp_t m_userTime;
+    pid_t m_pid = 0;
     NET::Actions allowed_actions;
     bool shade_geometry_change;
     SyncRequest m_syncRequest;
@@ -520,18 +445,14 @@ private:
 
     bool sessionActivityOverride;
 
-    Xcb::Window m_decoInputExtent;
-    QPoint input_offset; // in device pixels, valid only on X11
-
     QTimer *m_focusOutTimer;
     QTimer m_releaseTimer;
+    QPointer<VirtualDesktop> m_netWmDesktop;
 
     QMetaObject::Connection m_edgeGeometryTrackingConnection;
 
     QMarginsF m_clientFrameExtents;
     int m_blockGeometryUpdates = 0; // > 0 = New geometry is remembered, but not actually set
-
-    std::unique_ptr<X11DecorationRenderer> m_decorationRenderer;
 
     bool m_unmanaged = false;
     bool m_outline = false;
@@ -628,12 +549,12 @@ inline bool X11Window::isManaged() const
     return m_managed;
 }
 
-inline QRectF X11Window::resizeWithChecks(const QRectF &geometry, const QSizeF &s)
+inline QRectF X11Window::resizeWithChecks(const QRectF &geometry, const QSizeF &s) const
 {
     return resizeWithChecks(geometry, s.width(), s.height(), XCB_GRAVITY_BIT_FORGET);
 }
 
-inline QRectF X11Window::resizeWithChecks(const QRectF &geometry, const QSizeF &s, xcb_gravity_t gravity)
+inline QRectF X11Window::resizeWithChecks(const QRectF &geometry, const QSizeF &s, xcb_gravity_t gravity) const
 {
     return resizeWithChecks(geometry, s.width(), s.height(), gravity);
 }

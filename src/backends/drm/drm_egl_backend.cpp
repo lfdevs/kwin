@@ -7,7 +7,6 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "drm_egl_backend.h"
-#include "platformsupport/scenes/opengl/basiceglsurfacetexture_wayland.h"
 // kwin
 #include "core/syncobjtimeline.h"
 #include "drm_abstract_output.h"
@@ -96,7 +95,7 @@ void EglGbmBackend::init()
 
 bool EglGbmBackend::initRenderingContext()
 {
-    return createContext(EGL_NO_CONFIG_KHR) && makeCurrent();
+    return createContext(EGL_NO_CONFIG_KHR) && openglContext()->makeCurrent();
 }
 
 EglDisplay *EglGbmBackend::displayForGpu(DrmGpu *gpu)
@@ -132,9 +131,9 @@ std::shared_ptr<EglContext> EglGbmBackend::contextForGpu(DrmGpu *gpu)
     return ret;
 }
 
-std::unique_ptr<SurfaceTexture> EglGbmBackend::createSurfaceTextureWayland(SurfacePixmap *pixmap)
+void EglGbmBackend::resetContextForGpu(DrmGpu *gpu)
 {
-    return std::make_unique<BasicEGLSurfaceTextureWayland>(this, pixmap);
+    m_contexts.erase(gpu->eglDisplay());
 }
 
 DrmDevice *EglGbmBackend::drmDevice() const

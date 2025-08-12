@@ -26,8 +26,8 @@ RegionScreenCastScrapper::RegionScreenCastScrapper(RegionScreenCastSource *sourc
     : m_source(source)
     , m_output(output)
 {
-    connect(output, &Output::enabledChanged, this, [this]() {
-        if (!m_output->isEnabled()) {
+    connect(workspace(), &Workspace::outputRemoved, this, [this](Output *output) {
+        if (m_output == output) {
             m_source->close();
         }
     });
@@ -93,7 +93,7 @@ void RegionScreenCastSource::blit(Output *output)
     m_last = output->renderLoop()->lastPresentationTimestamp();
 
     if (m_renderedTexture) {
-        const auto [outputTexture, colorDescription] = Compositor::self()->scene()->textureForOutput(output);
+        const auto [outputTexture, colorDescription] = Compositor::self()->textureForOutput(output);
         const auto outputGeometry = snapToPixelGridF(scaledRect(output->geometryF(), m_scale));
         if (!outputTexture) {
             return;

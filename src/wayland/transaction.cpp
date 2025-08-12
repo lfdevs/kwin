@@ -10,118 +10,58 @@
 #include "wayland/clientconnection.h"
 #include "wayland/subcompositor.h"
 #include "wayland/surface_p.h"
-#include "wayland/transaction_p.h"
+
+#if defined(Q_OS_LINUX)
+#include <linux/dma-buf.h>
+#include <xf86drm.h>
+#endif
 
 namespace KWin
 {
 
-TransactionDmaBufLocker *TransactionDmaBufLocker::get(GraphicsBuffer *buffer)
-{
-    static QHash<GraphicsBuffer *, TransactionDmaBufLocker *> lockers;
-    if (auto it = lockers.find(buffer); it != lockers.end()) {
-        return *it;
-    }
-
-    const DmaBufAttributes *attributes = buffer->dmabufAttributes();
-    if (!attributes) {
-        return nullptr;
-    }
-
-    auto locker = new TransactionDmaBufLocker(attributes);
-    lockers[buffer] = locker;
-    QObject::connect(buffer, &QObject::destroyed, [buffer]() {
-        delete lockers.take(buffer);
-    });
-
-    return locker;
-}
-
-TransactionDmaBufLocker::TransactionDmaBufLocker(const DmaBufAttributes *attributes)
-{
-    for (int i = 0; i < attributes->planeCount; ++i) {
-        auto notifier = new QSocketNotifier(attributes->fd[i].get(), QSocketNotifier::Read);
-        notifier->setEnabled(false);
-        connect(notifier, &QSocketNotifier::activated, this, [this, notifier]() {
-            notifier->setEnabled(false);
-            m_pending.removeOne(notifier);
-            if (m_pending.isEmpty()) {
-                const auto transactions = m_transactions; // unlock() may destroy this
-                m_transactions.clear();
-                for (Transaction *transition : transactions) {
-                    transition->unlock();
-                }
-            }
-        });
-        m_notifiers.emplace_back(notifier);
-    }
-}
-
-void TransactionDmaBufLocker::add(Transaction *transition)
-{
-    if (arm()) {
-        transition->lock();
-        m_transactions.append(transition);
-    }
-}
-
-bool TransactionDmaBufLocker::arm()
-{
-    if (!m_pending.isEmpty()) {
-        return true;
-    }
-    for (const auto &notifier : m_notifiers) {
-        if (!FileDescriptor::isReadable(notifier->socket())) {
-            notifier->setEnabled(true);
-            m_pending.append(notifier.get());
-        }
-    }
-    return !m_pending.isEmpty();
-}
-
-TransactionEventFdLocker::TransactionEventFdLocker(Transaction *transaction, FileDescriptor &&eventFd, ClientConnection *client)
+TransactionFence::TransactionFence(Transaction *transaction, FileDescriptor &&fileDescriptor)
     : m_transaction(transaction)
-    , m_client(client)
-    , m_eventFd(std::move(eventFd))
-    , m_notifier(m_eventFd.get(), QSocketNotifier::Type::Read)
+    , m_fileDescriptor(std::move(fileDescriptor))
 {
-    transaction->lock();
-    connect(&m_notifier, &QSocketNotifier::activated, this, &TransactionEventFdLocker::unlock);
-    // when the client quits, the eventfd may never be signaled
-    connect(m_client, &ClientConnection::aboutToBeDestroyed, this, &TransactionEventFdLocker::unlock);
+    m_notifier = std::make_unique<QSocketNotifier>(m_fileDescriptor.get(), QSocketNotifier::Read);
+    QObject::connect(m_notifier.get(), &QSocketNotifier::activated, [this]() {
+        m_notifier->setEnabled(false);
+        m_transaction->tryApply();
+    });
 }
 
-void TransactionEventFdLocker::unlock()
+bool TransactionFence::isWaiting() const
 {
-    m_transaction->unlock();
-    delete this;
+    return m_notifier->isEnabled();
+}
+
+bool TransactionEntry::isDiscarded() const
+{
+    return !surface || surface->tearingDown() || surface->client()->tearingDown();
 }
 
 Transaction::Transaction()
 {
 }
 
-void Transaction::lock()
-{
-    m_locks++;
-}
-
-void Transaction::unlock()
-{
-    Q_ASSERT(m_locks > 0);
-    m_locks--;
-    if (m_locks == 0) {
-        tryApply();
-    }
-}
-
 bool Transaction::isReady() const
 {
-    if (m_locks) {
-        return false;
-    }
-
     return std::none_of(m_entries.cbegin(), m_entries.cend(), [](const TransactionEntry &entry) {
-        return entry.previousTransaction;
+        if (entry.previousTransaction) {
+            return true;
+        }
+
+        if (entry.isDiscarded()) {
+            return false;
+        }
+
+        for (const auto &fence : entry.fences) {
+            if (fence->isWaiting()) {
+                return true;
+            }
+        }
+
+        return entry.state->hasFifoWaitCondition && entry.surface->hasFifoBarrier();
     });
 }
 
@@ -141,7 +81,7 @@ void Transaction::add(SurfaceInterface *surface)
 
     for (TransactionEntry &entry : m_entries) {
         if (entry.surface == surface) {
-            if (pending->bufferIsSet) {
+            if (pending->committed & SurfaceState::Field::Buffer) {
                 entry.buffer = GraphicsBufferRef(pending->buffer);
             }
             pending->mergeInto(entry.state.get());
@@ -225,7 +165,7 @@ void Transaction::apply()
     });
 
     for (TransactionEntry &entry : m_entries) {
-        if (entry.surface) {
+        if (!entry.isDiscarded()) {
             SurfaceInterfacePrivate::get(entry.surface)->applyState(entry.state.get());
         }
     }
@@ -254,13 +194,11 @@ void Transaction::apply()
     delete this;
 }
 
-bool Transaction::tryApply()
+void Transaction::tryApply()
 {
-    if (!isReady()) {
-        return false;
+    if (isReady()) {
+        apply();
     }
-    apply();
-    return true;
 }
 
 void Transaction::commit()
@@ -270,15 +208,12 @@ void Transaction::commit()
             continue;
         }
 
-        if (entry.state->bufferIsSet && entry.state->buffer) {
+        if ((entry.state->committed & SurfaceState::Field::Buffer) && entry.state->buffer) {
             // Avoid applying the transaction until all graphics buffers have become idle.
             if (entry.state->acquirePoint.timeline) {
-                auto eventFd = entry.state->acquirePoint.timeline->eventFd(entry.state->acquirePoint.point);
-                if (entry.surface && eventFd.isValid()) {
-                    new TransactionEventFdLocker(this, std::move(eventFd), entry.surface->client());
-                }
-            } else if (auto locker = TransactionDmaBufLocker::get(entry.state->buffer)) {
-                locker->add(this);
+                watchSyncObj(&entry);
+            } else {
+                watchDmaBuf(&entry);
             }
         }
 
@@ -297,13 +232,58 @@ void Transaction::commit()
         entry.surface->setLastTransaction(this);
     }
 
-    if (!tryApply()) {
-        for (const TransactionEntry &entry : m_entries) {
-            Q_EMIT entry.surface->stateStashed(entry.state->serial);
+    tryApply();
+}
+
+void Transaction::watchSyncObj(TransactionEntry *entry)
+{
+    auto eventFd = entry->state->acquirePoint.timeline->eventFd(entry->state->acquirePoint.point);
+    if (!eventFd.isValid()) {
+        return;
+    }
+
+    if (eventFd.isReadable()) {
+        return;
+    }
+
+    entry->fences.emplace_back(std::make_unique<TransactionFence>(this, std::move(eventFd)));
+}
+
+#if defined(Q_OS_LINUX)
+static FileDescriptor exportWaitSyncFile(const FileDescriptor &fileDescriptor)
+{
+    dma_buf_export_sync_file request{
+        .flags = DMA_BUF_SYNC_READ,
+        .fd = -1,
+    };
+    if (drmIoctl(fileDescriptor.get(), DMA_BUF_IOCTL_EXPORT_SYNC_FILE, &request) == 0) {
+        return FileDescriptor(request.fd);
+    }
+
+    return FileDescriptor{};
+}
+#endif
+
+void Transaction::watchDmaBuf(TransactionEntry *entry)
+{
+#if defined(Q_OS_LINUX)
+    const DmaBufAttributes *attributes = entry->buffer->dmabufAttributes();
+    if (!attributes) {
+        return;
+    }
+
+    for (int i = 0; i < attributes->planeCount; ++i) {
+        const FileDescriptor &fileDescriptor = attributes->fd[i];
+        if (fileDescriptor.isReadable()) {
+            continue;
+        }
+
+        auto syncFile = exportWaitSyncFile(fileDescriptor);
+        if (syncFile.isValid()) {
+            entry->fences.emplace_back(std::make_unique<TransactionFence>(this, std::move(syncFile)));
         }
     }
+#endif
 }
 
 } // namespace KWin
-
-#include "moc_transaction.cpp"

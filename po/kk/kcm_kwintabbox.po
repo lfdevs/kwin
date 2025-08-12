@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-06 00:41+0000\n"
+"POT-Creation-Date: 2025-08-05 03:05+0000\n"
 "PO-Revision-Date: 2013-03-12 04:44+0600\n"
 "Last-Translator: Sairan Kikkarin <sairan@computer.org>\n"
 "Language-Team: Kazakh <kde-i18n-doc@kde.org>\n"
@@ -17,36 +17,75 @@ msgstr ""
 "X-Generator: Lokalize 1.2\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: layoutpreview.cpp:127
+#: layoutpreview.cpp:28
+#, kde-format
+msgid "Launch an interactive preview for a tabbox switcher"
+msgstr ""
+
+#: layoutpreview.cpp:29
+#, kde-format
+msgid "Path to the Window Switcher QML main file"
+msgstr ""
+
+#: layoutpreview.cpp:30
+#, kde-format
+msgid "Show also a thumbnail for the desktop"
+msgstr ""
+
+#: layoutpreview.cpp:158
+#, kde-format
+msgctxt "The name of KDE's file manager in this language, if translated"
+msgid "Dolphin"
+msgstr ""
+
+#: layoutpreview.cpp:162
+#, kde-format
+msgctxt "The name of KDE's web browser in this language, if translated"
+msgid "Konqueror"
+msgstr ""
+
+#: layoutpreview.cpp:166
+#, kde-format
+msgctxt "The name of KDE's email client in this language, if translated"
+msgid "KMail"
+msgstr ""
+
+#: layoutpreview.cpp:170
+#, kde-format
+msgctxt "The name of KDE's System Settings app in this language, if translated"
+msgid "System Settings"
+msgstr ""
+
+#: layoutpreview.cpp:176
 #, fuzzy, kde-format
 #| msgctxt "An example Desktop Name"
 #| msgid "Desktop 1"
 msgid "Show Desktop"
 msgstr "1-үстел"
 
-#: layoutpreview.cpp:157
+#: layoutpreview.cpp:206
 #, kde-format
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
 msgstr "1-үстел"
 
-#: main.cpp:72
+#: main.cpp:74
 #, kde-format
 msgid "Main"
 msgstr "Негізгі"
 
-#: main.cpp:73
+#: main.cpp:75
 #, kde-format
 msgid "Alternative"
 msgstr "Басқаша"
 
-#: main.cpp:75
+#: main.cpp:77
 #, fuzzy, kde-format
 #| msgid "Get New Window Switcher Layout"
 msgid "Get New Task Switcher Styles…"
 msgstr "Жаңа терезе ауыстырғышының қалыпын табу"
 
-#: main.cpp:93
+#: main.cpp:95
 #, kde-format
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."
@@ -199,26 +238,35 @@ msgstr "Бүкіл терезелер"
 msgid "Reverse"
 msgstr "Кері"
 
+#. i18n: ectx: property (text), widget (QLabel, scCurrentReverseOr)
+#. i18n: ectx: property (text), widget (QLabel, scCurrentOr)
+#. i18n: ectx: property (text), widget (QLabel, scAllReverseOr)
+#. i18n: ectx: property (text), widget (QLabel, scAllOr)
+#: main.ui:474 main.ui:506 main.ui:554 main.ui:586
+#, kde-format
+msgid "or"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: main.ui:480
+#: main.ui:538
 #, kde-format
 msgid "Current application"
 msgstr "Назардағы қолданба"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: main.ui:499
+#: main.ui:615
 #, kde-format
 msgid "Visualization"
 msgstr "Көрсету"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, effectCombo)
-#: main.ui:529
+#: main.ui:645
 #, kde-format
 msgid "The effect to replace the list window when desktop effects are active."
 msgstr "Үстел эффекттері белсенді болғанда терезелер тізімін ығыстыру эффекті."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HighlightWindows)
-#: main.ui:562
+#: main.ui:678
 #, kde-format
 msgid ""
 "The currently selected window will be highlighted by fading out all other "
@@ -228,50 +276,50 @@ msgstr ""
 "эффекттері белсенді болу керек."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HighlightWindows)
-#: main.ui:565
+#: main.ui:681
 #, kde-format
 msgid "Show selected window"
 msgstr "Таңдалған терезе көрсетілсін"
 
-#: shortcutsettings.cpp:132
+#: shortcutsettings.cpp:131
 #, kde-format
 msgid "Walk Through Windows"
 msgstr "Терезелерді аралау"
 
-#: shortcutsettings.cpp:133
+#: shortcutsettings.cpp:132
 #, kde-format
 msgid "Walk Through Windows (Reverse)"
 msgstr "Терезелерді аралау (кері)"
 
-#: shortcutsettings.cpp:134
+#: shortcutsettings.cpp:133
 #, fuzzy, kde-format
 #| msgid "Walk Through Windows Alternative"
 msgid "Walk Through Windows of Current Application"
 msgstr "Терезелерді басқаша аралау"
 
-#: shortcutsettings.cpp:135
+#: shortcutsettings.cpp:134
 #, fuzzy, kde-format
 #| msgid "Walk Through Windows Alternative (Reverse)"
 msgid "Walk Through Windows of Current Application (Reverse)"
 msgstr "Терезелерді басқаша аралау (кері)"
 
-#: shortcutsettings.cpp:137
+#: shortcutsettings.cpp:136
 #, kde-format
 msgid "Walk Through Windows Alternative"
 msgstr "Терезелерді басқаша аралау"
 
-#: shortcutsettings.cpp:138
+#: shortcutsettings.cpp:137
 #, kde-format
 msgid "Walk Through Windows Alternative (Reverse)"
 msgstr "Терезелерді басқаша аралау (кері)"
 
-#: shortcutsettings.cpp:139
+#: shortcutsettings.cpp:138
 #, fuzzy, kde-format
 #| msgid "Walk Through Windows Alternative"
 msgid "Walk Through Windows of Current Application Alternative"
 msgstr "Терезелерді басқаша аралау"
 
-#: shortcutsettings.cpp:140
+#: shortcutsettings.cpp:139
 #, fuzzy, kde-format
 #| msgid "Walk Through Windows Alternative (Reverse)"
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"

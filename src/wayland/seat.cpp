@@ -265,7 +265,6 @@ void SeatInterfacePrivate::cancelDrag()
         drag.target = nullptr;
     }
     drag = Drag();
-    Q_EMIT q->dragSurfaceChanged();
     Q_EMIT q->dragEnded();
 }
 
@@ -302,7 +301,6 @@ void SeatInterfacePrivate::endDrag()
     }
 
     drag = Drag();
-    Q_EMIT q->dragSurfaceChanged();
     Q_EMIT q->dragEnded();
 }
 
@@ -501,8 +499,6 @@ void SeatInterface::setDragTarget(AbstractDropHandler *dropTarget,
     } else {
         d->drag.surface = nullptr;
     }
-    Q_EMIT dragSurfaceChanged();
-    return;
 }
 
 void SeatInterface::setDragTarget(AbstractDropHandler *target, SurfaceInterface *surface, const QMatrix4x4 &inputTransformation)
@@ -1301,7 +1297,6 @@ void SeatInterface::startDrag(AbstractDataSource *dragSource, SurfaceInterface *
     if (d->drag.mode != SeatInterfacePrivate::Drag::Mode::None) {
         return;
     }
-    originSurface = originSurface->mainSurface();
 
     if (hasImplicitPointerGrab(dragSerial)) {
         d->drag.mode = SeatInterfacePrivate::Drag::Mode::Pointer;
@@ -1337,7 +1332,6 @@ void SeatInterface::startDrag(AbstractDataSource *dragSource, SurfaceInterface *
         d->drag.target->updateDragTarget(originSurface, display()->nextSerial());
     }
     Q_EMIT dragStarted();
-    Q_EMIT dragSurfaceChanged();
 }
 
 DragAndDropIcon *SeatInterface::dragIcon() const

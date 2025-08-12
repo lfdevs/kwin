@@ -96,12 +96,11 @@ void ColorManagementTest::initTestCase()
     qRegisterMetaType<Window *>();
 
     QVERIFY(waylandServer()->init(s_socketName));
+    kwinApp()->start();
     Test::setOutputConfig({
         QRect(0, 0, 1280, 1024),
         QRect(1280, 0, 1280, 1024),
     });
-
-    kwinApp()->start();
     const auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
     QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
@@ -133,38 +132,34 @@ void ColorManagementTest::testSetImageDescription_data()
     QTest::addColumn<bool>("shouldSucceed");
     QTest::addColumn<std::optional<ColorDescription>>("expectedResult");
 
-    QTest::addRow("sRGB")
-        << ColorDescription::sRGB
-        << RenderingIntent::Perceptual
-        << false << true
-        << std::optional<ColorDescription>();
+    // sRGB is not tested, because it's the default (and thus no change signal will be emitted)
     QTest::addRow("rec.2020 PQ")
-        << ColorDescription(NamedColorimetry::BT2020, TransferFunction(TransferFunction::PerceptualQuantizer), 203, 0, 400, 400)
+        << ColorDescription(Colorimetry::BT2020, TransferFunction(TransferFunction::PerceptualQuantizer), 203, 0, 400, 400)
         << RenderingIntent::Perceptual
         << false << true
         << std::optional<ColorDescription>();
     QTest::addRow("scRGB")
-        << ColorDescription(NamedColorimetry::BT709, TransferFunction(TransferFunction::linear, 0, 80), 80, 0, 80, 80)
+        << ColorDescription(Colorimetry::BT709, TransferFunction(TransferFunction::linear, 0, 80), 80, 0, 80, 80)
         << RenderingIntent::Perceptual
         << false << true
         << std::optional<ColorDescription>();
     QTest::addRow("custom")
-        << ColorDescription(NamedColorimetry::BT2020, TransferFunction(TransferFunction::gamma22, 0.05, 400), 203, 0, 400, 400)
+        << ColorDescription(Colorimetry::BT2020, TransferFunction(TransferFunction::gamma22, 0.05, 400), 203, 0, 400, 400)
         << RenderingIntent::Perceptual
         << false << true
         << std::optional<ColorDescription>();
     QTest::addRow("invalid tf")
-        << ColorDescription(NamedColorimetry::BT2020, TransferFunction(TransferFunction::gamma22, 204, 205), 203, 0, 400, 400)
+        << ColorDescription(Colorimetry::BT2020, TransferFunction(TransferFunction::gamma22, 204, 205), 203, 0, 400, 400)
         << RenderingIntent::Perceptual
         << true << false
         << std::optional<ColorDescription>();
     QTest::addRow("invalid HDR metadata")
-        << ColorDescription(NamedColorimetry::BT2020, TransferFunction(TransferFunction::PerceptualQuantizer), 203, 500, 400, 400)
+        << ColorDescription(Colorimetry::BT2020, TransferFunction(TransferFunction::PerceptualQuantizer), 203, 500, 400, 400)
         << RenderingIntent::Perceptual
         << true << false
         << std::optional<ColorDescription>();
     QTest::addRow("rec.2020 PQ with out of bounds white point")
-        << ColorDescription(Colorimetry::fromName(NamedColorimetry::BT2020).withWhitepoint(xyY{0.9, 0.9, 1}), TransferFunction(TransferFunction::PerceptualQuantizer), 203, 0, 400, 400)
+        << ColorDescription(Colorimetry::BT2020.withWhitepoint(xyY{0.9, 0.9, 1}), TransferFunction(TransferFunction::PerceptualQuantizer), 203, 0, 400, 400)
         << RenderingIntent::Perceptual
         << false << false
         << std::optional<ColorDescription>();
@@ -174,23 +169,23 @@ void ColorManagementTest::testSetImageDescription_data()
         << false << false
         << std::optional<ColorDescription>();
     QTest::addRow("custom PQ luminances are ignored")
-        << ColorDescription(NamedColorimetry::BT2020, TransferFunction(TransferFunction::PerceptualQuantizer, 10, 100), 203, 0, 400, 400)
+        << ColorDescription(Colorimetry::BT2020, TransferFunction(TransferFunction::PerceptualQuantizer, 10, 100), 203, 0, 400, 400)
         << RenderingIntent::Perceptual
         << false << true
-        << std::make_optional<ColorDescription>(NamedColorimetry::BT2020, TransferFunction(TransferFunction::PerceptualQuantizer, 10, 10'010), 203, 0, 400, 400);
+        << std::make_optional<ColorDescription>(Colorimetry::BT2020, TransferFunction(TransferFunction::PerceptualQuantizer, 10, 10'010), 203, 0, 400, 400);
 
     QTest::addRow("rec.2020 PQ relative colorimetric")
-        << ColorDescription(NamedColorimetry::BT2020, TransferFunction(TransferFunction::PerceptualQuantizer), 203, 0, 400, 400)
+        << ColorDescription(Colorimetry::BT2020, TransferFunction(TransferFunction::PerceptualQuantizer), 203, 0, 400, 400)
         << RenderingIntent::RelativeColorimetric
         << false << true
         << std::optional<ColorDescription>();
     QTest::addRow("rec.2020 PQ relative colorimetric bpc")
-        << ColorDescription(NamedColorimetry::BT2020, TransferFunction(TransferFunction::PerceptualQuantizer), 203, 0, 400, 400)
+        << ColorDescription(Colorimetry::BT2020, TransferFunction(TransferFunction::PerceptualQuantizer), 203, 0, 400, 400)
         << RenderingIntent::RelativeColorimetricWithBPC
         << false << true
         << std::optional<ColorDescription>();
     QTest::addRow("rec.2020 PQ absolute colorimetric")
-        << ColorDescription(NamedColorimetry::BT2020, TransferFunction(TransferFunction::PerceptualQuantizer), 203, 0, 400, 400)
+        << ColorDescription(Colorimetry::BT2020, TransferFunction(TransferFunction::PerceptualQuantizer), 203, 0, 400, 400)
         << RenderingIntent::AbsoluteColorimetric
         << false << true
         << std::optional<ColorDescription>();

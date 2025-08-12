@@ -13,7 +13,9 @@
 #include "linuxdmabufv1clientbuffer_p.h"
 #include "output.h"
 #include "shmclientbuffer_p.h"
+#include "singlepixelbuffer.h"
 #include "utils/common.h"
+#include "utils/containerof.h"
 
 #include <poll.h>
 #include <string.h>
@@ -42,16 +44,31 @@ void DisplayPrivate::registerSocketName(const QString &socketName)
     Q_EMIT q->socketNamesChanged();
 }
 
+void DisplayPrivate::clientCreatedCallback(wl_listener *listener, void *data)
+{
+    DisplayPrivate *displayPrivate = containerOf(listener, &DisplayPrivate::clientCreatedListener);
+    Display *display = displayPrivate->q;
+
+    wl_client *client = static_cast<wl_client *>(data);
+    ClientConnection *connection = new ClientConnection(client, display);
+    Q_EMIT display->clientConnected(connection);
+}
+
 Display::Display(QObject *parent)
     : QObject(parent)
     , d(new DisplayPrivate(this))
 {
     d->display = wl_display_create();
     d->loop = wl_display_get_event_loop(d->display);
+
+    d->clientCreatedListener.notify = DisplayPrivate::clientCreatedCallback;
+    wl_display_add_client_created_listener(d->display, &d->clientCreatedListener);
 }
 
 Display::~Display()
 {
+    wl_list_remove(&d->clientCreatedListener.link);
+
     wl_display_destroy_clients(d->display);
     wl_display_destroy(d->display);
 }
@@ -200,29 +217,6 @@ QList<SeatInterface *> Display::seats() const
     return d->seats;
 }
 
-ClientConnection *Display::getConnection(wl_client *client)
-{
-    // TODO: Use wl_client_set_user_data() when we start requiring libwayland-server that has it, and remove client lists here and in ClientConnection.
-    Q_ASSERT(client);
-    auto it = std::find_if(d->clients.constBegin(), d->clients.constEnd(), [client](ClientConnection *c) {
-        return c->client() == client;
-    });
-    if (it != d->clients.constEnd()) {
-        return *it;
-    }
-    // no ConnectionData yet, create it
-    auto c = new ClientConnection(client, this);
-    d->clients << c;
-    connect(c, &ClientConnection::disconnected, this, [this](ClientConnection *c) {
-        Q_EMIT clientDisconnected(c);
-    });
-    connect(c, &ClientConnection::destroyed, this, [this, c]() {
-        d->clients.removeOne(c);
-    });
-    Q_EMIT clientConnected(c);
-    return c;
-}
-
 ClientConnection *Display::createClient(int fd)
 {
     Q_ASSERT(fd != -1);
@@ -231,7 +225,7 @@ ClientConnection *Display::createClient(int fd)
     if (!c) {
         return nullptr;
     }
-    return getConnection(c);
+    return ClientConnection::get(c);
 }
 
 GraphicsBuffer *Display::bufferForResource(wl_resource *resource)
@@ -239,6 +233,8 @@ GraphicsBuffer *Display::bufferForResource(wl_resource *resource)
     if (auto buffer = LinuxDmaBufV1ClientBuffer::get(resource)) {
         return buffer;
     } else if (auto buffer = ShmClientBuffer::get(resource)) {
+        return buffer;
+    } else if (auto buffer = SinglePixelClientBuffer::get(resource)) {
         return buffer;
     } else {
         Q_ASSERT_X(false, Q_FUNC_INFO, "Failed to find matching GraphicsBuffer for wl_resource");

@@ -14,6 +14,7 @@
 #include "core/colorspace.h"
 #include "effect/effect.h"
 
+#include <QAction>
 #include <QTime>
 #include <QTimeLine>
 
@@ -105,6 +106,7 @@ private:
 
     void moveZoom(int x, int y);
     bool screenExistsAt(const QPoint &point) const;
+    void realtimeZoom(double delta);
 
     void showCursor();
     void hideCursor();
@@ -140,6 +142,11 @@ private:
     std::map<Output *, OffscreenData> m_offscreenData;
     std::unique_ptr<GLShader> m_pixelGridShader;
     double m_pixelGridZoom;
+    std::unique_ptr<QAction> m_zoomInAxisAction;
+    std::unique_ptr<QAction> m_zoomOutAxisAction;
+    Qt::KeyboardModifiers m_axisModifiers;
+    std::unique_ptr<QAction> m_touchpadAction;
+    double m_lastPinchProgress = 0;
 };
 
 } // namespace

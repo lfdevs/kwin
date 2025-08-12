@@ -180,6 +180,12 @@ class KWIN_EXPORT Device : public InputDevice
     Q_PROPERTY(double defaultPressureRangeMin READ defaultPressureRangeMin CONSTANT)
     Q_PROPERTY(double defaultPressureRangeMax READ defaultPressureRangeMax CONSTANT)
 
+    Q_PROPERTY(bool tabletToolIsRelative READ tabletToolIsRelative WRITE setTabletToolRelative NOTIFY tabletToolRelativeChanged)
+    Q_PROPERTY(bool supportsRotation READ supportsRotation CONSTANT)
+    /// rotation angle, as 0 to 360 degrees
+    Q_PROPERTY(uint32_t rotation READ rotation WRITE setRotation NOTIFY rotationChanged)
+    Q_PROPERTY(uint32_t defaultRotation READ defaultRotation CONSTANT)
+
 public:
     explicit Device(libinput_device *device, QObject *parent = nullptr);
     ~Device() override;
@@ -249,6 +255,10 @@ public:
     quint32 vendor() const override
     {
         return m_vendor;
+    }
+    quint32 busType() const override
+    {
+        return m_busType;
     }
     void *group() const override;
     Qt::MouseButtons supportedButtons() const
@@ -681,10 +691,7 @@ public:
     }
 
     int tabletPadButtonCount() const override;
-    int tabletPadRingCount() const override;
-    int tabletPadStripCount() const override;
-    int tabletPadModeCount() const override;
-    int tabletPadMode() const override;
+    QList<InputDeviceTabletPadModeGroup> modeGroups() const override;
 
     Output *output() const;
     void setOutput(Output *output);
@@ -728,6 +735,23 @@ public:
     void setInputArea(const QRectF &inputArea);
     QRectF defaultInputArea() const;
 
+    bool tabletToolIsRelative() const override
+    {
+        return m_tabletToolIsRelative;
+    }
+
+    void setTabletToolRelative(bool relative);
+
+    bool defaultTabletToolIsRelative() const
+    {
+        return defaultValue("TabletToolRelativeMode", false);
+    }
+
+    bool supportsRotation() const;
+    uint32_t rotation() const;
+    void setRotation(uint32_t degrees_cw);
+    uint32_t defaultRotation() const;
+
     /**
      * Gets the Device for @p native. @c null if there is no Device for @p native.
      */
@@ -760,6 +784,8 @@ Q_SIGNALS:
     void pressureRangeMinChanged();
     void pressureRangeMaxChanged();
     void inputAreaChanged();
+    void tabletToolRelativeChanged();
+    void rotationChanged();
 
 private:
     template<typename T>
@@ -794,6 +820,7 @@ private:
     QSizeF m_size;
     quint32 m_product;
     quint32 m_vendor;
+    quint32 m_busType;
     Qt::MouseButtons m_supportedButtons = Qt::NoButton;
     int m_tapFingerCount;
     enum libinput_config_tap_button_map m_defaultTapButtonMap;
@@ -862,6 +889,7 @@ private:
     double m_defaultPressureRangeMax;
 
     QRectF m_inputArea;
+    bool m_tabletToolIsRelative = false;
 };
 
 }

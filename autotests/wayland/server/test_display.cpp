@@ -72,17 +72,17 @@ void TestWaylandServerDisplay::testClientConnection()
     display.addSocketName(QStringLiteral("kwin-wayland-server-display-test-client-connection"));
     display.start();
     QSignalSpy connectedSpy(&display, &KWin::Display::clientConnected);
-    QSignalSpy disconnectedSpy(&display, &KWin::Display::clientDisconnected);
 
     int sv[2];
     QVERIFY(socketpair(AF_UNIX, SOCK_STREAM, 0, sv) >= 0);
 
     auto client = wl_client_create(display, sv[0]);
     QVERIFY(client);
+    QCOMPARE(connectedSpy.count(), 1);
 
-    QVERIFY(connectedSpy.isEmpty());
-    ClientConnection *connection = display.getConnection(client);
+    ClientConnection *connection = ClientConnection::get(client);
     QVERIFY(connection);
+    QCOMPARE(connectedSpy.first().first().value<ClientConnection *>(), connection);
     QCOMPARE(connection->client(), client);
     if (getuid() == 0) {
         QEXPECT_FAIL("", "Please don't run test as root", Continue);
@@ -98,10 +98,8 @@ void TestWaylandServerDisplay::testClientConnection()
     QCOMPARE((wl_client *)*connection, client);
     const ClientConnection &constRef = *connection;
     QCOMPARE((wl_client *)constRef, client);
-    QCOMPARE(connectedSpy.count(), 1);
-    QCOMPARE(connectedSpy.first().first().value<ClientConnection *>(), connection);
 
-    QCOMPARE(connection, display.getConnection(client));
+    QCOMPARE(connection, ClientConnection::get(client));
     QCOMPARE(connectedSpy.count(), 1);
 
     // create a second client
@@ -109,7 +107,7 @@ void TestWaylandServerDisplay::testClientConnection()
     QVERIFY(socketpair(AF_UNIX, SOCK_STREAM, 0, sv2) >= 0);
     auto client2 = display.createClient(sv2[0]);
     QVERIFY(client2);
-    ClientConnection *connection2 = display.getConnection(client2->client());
+    ClientConnection *connection2 = ClientConnection::get(client2->client());
     QVERIFY(connection2);
     QCOMPARE(connection2, client2);
     QCOMPARE(connectedSpy.count(), 2);
@@ -118,13 +116,12 @@ void TestWaylandServerDisplay::testClientConnection()
     QCOMPARE(connectedSpy.last().first().value<ClientConnection *>(), client2);
 
     // and destroy
-    QVERIFY(disconnectedSpy.isEmpty());
+    QSignalSpy clientDestroyedSpy(connection, &QObject::destroyed);
     wl_client_destroy(client);
-    QCOMPARE(disconnectedSpy.count(), 1);
-    QSignalSpy clientDestroyedSpy(client2, &QObject::destroyed);
-    client2->destroy();
     QCOMPARE(clientDestroyedSpy.count(), 1);
-    QCOMPARE(disconnectedSpy.count(), 2);
+    QSignalSpy client2DestroyedSpy(client2, &QObject::destroyed);
+    client2->destroy();
+    QCOMPARE(client2DestroyedSpy.count(), 1);
     close(sv[0]);
     close(sv[1]);
     close(sv2[0]);

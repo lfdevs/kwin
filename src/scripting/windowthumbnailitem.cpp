@@ -12,6 +12,7 @@
 #include "core/rendertarget.h"
 #include "core/renderviewport.h"
 #include "effect/effect.h"
+#include "opengl/eglcontext.h"
 #include "opengl/glframebuffer.h"
 #include "scene/itemrenderer.h"
 #include "scene/windowitem.h"
@@ -66,7 +67,7 @@ WindowThumbnailSource::~WindowThumbnailSource()
         return;
     }
     if (!QOpenGLContext::currentContext()) {
-        Compositor::self()->scene()->makeOpenGLContextCurrent();
+        Compositor::self()->scene()->openglContext()->makeCurrent();
     }
     m_offscreenTarget.reset();
     m_offscreenTexture.reset();
@@ -290,34 +291,25 @@ void WindowThumbnailItem::updateSource()
 
 QSGNode *WindowThumbnailItem::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintNodeData *)
 {
-    if (Compositor::compositing()) {
-        if (!m_source) {
-            return oldNode;
-        }
-
-        auto [texture, acquireFence] = m_source->acquire();
-        if (!texture) {
-            return oldNode;
-        }
-
-        // Wait for rendering commands to the offscreen texture complete if there are any.
-        if (acquireFence) {
-            glWaitSync(acquireFence, 0, GL_TIMEOUT_IGNORED);
-            glDeleteSync(acquireFence);
-        }
-
-        if (!m_provider) {
-            m_provider = new ThumbnailTextureProvider(window());
-        }
-        m_provider->setTexture(texture);
-    } else {
-        if (!m_provider) {
-            m_provider = new ThumbnailTextureProvider(window());
-        }
-
-        const QImage placeholderImage = fallbackImage();
-        m_provider->setTexture(window()->createTextureFromImage(placeholderImage));
+    if (!m_source) {
+        return oldNode;
     }
+
+    auto [texture, acquireFence] = m_source->acquire();
+    if (!texture) {
+        return oldNode;
+    }
+
+    // Wait for rendering commands to the offscreen texture complete if there are any.
+    if (acquireFence) {
+        glWaitSync(acquireFence, 0, GL_TIMEOUT_IGNORED);
+        glDeleteSync(acquireFence);
+    }
+
+    if (!m_provider) {
+        m_provider = new ThumbnailTextureProvider(window());
+    }
+    m_provider->setTexture(texture);
 
     QSGImageNode *node = static_cast<QSGImageNode *>(oldNode);
     if (!node) {
@@ -398,22 +390,10 @@ QImage WindowThumbnailItem::fallbackImage() const
     return QImage();
 }
 
-static QRectF centeredSize(const QRectF &boundingRect, const QSizeF &size)
-{
-    const QSizeF scaled = size.scaled(boundingRect.size(), Qt::KeepAspectRatio);
-    const qreal x = boundingRect.x() + (boundingRect.width() - scaled.width()) / 2;
-    const qreal y = boundingRect.y() + (boundingRect.height() - scaled.height()) / 2;
-    return QRectF(QPointF(x, y), scaled);
-}
-
 QRectF WindowThumbnailItem::paintedRect() const
 {
     if (!m_client) {
         return QRectF();
-    }
-    if (!Compositor::compositing()) {
-        const QSizeF iconSize = m_client->icon().actualSize(window(), boundingRect().size().toSize());
-        return centeredSize(boundingRect(), iconSize);
     }
 
     const QRectF visibleGeometry = m_client->visibleGeometry();

@@ -9,6 +9,9 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "main.h"
+
+#include "config-kwin.h"
+
 #include <kwin_effects_interface.h>
 
 // Qt
@@ -18,9 +21,9 @@
 #include <QDialogButtonBox>
 #include <QHBoxLayout>
 #include <QPointer>
+#include <QProcess>
 #include <QPushButton>
 #include <QSpacerItem>
-#include <QStandardItemModel>
 #include <QStandardPaths>
 #include <QStyle>
 #include <QTabWidget>
@@ -40,7 +43,6 @@
 #include "kwintabboxconfigform.h"
 #include "kwintabboxdata.h"
 #include "kwintabboxsettings.h"
-#include "layoutpreview.h"
 #include "shortcutsettings.h"
 
 #include <QTabBar>
@@ -154,10 +156,9 @@ static QList<KPackage::Package> availableLnFPackages()
 
 void KWinTabBoxConfig::initLayoutLists()
 {
-    QList<KPluginMetaData> offers = KPackage::PackageLoader::self()->listPackages("KWin/WindowSwitcher");
-    QStandardItemModel *model = new QStandardItemModel;
+    auto model = std::make_unique<QStandardItemModel>();
 
-    auto addToModel = [model](const QString &name, const QString &pluginId, const QString &path) {
+    auto addToModel = [model = model.get()](const QString &name, const QString &pluginId, const QString &path) {
         QStandardItem *item = new QStandardItem(name);
         item->setData(pluginId, Qt::UserRole);
         item->setData(path, KWinTabBoxConfigForm::LayoutPath);
@@ -177,22 +178,31 @@ void KWinTabBoxConfig::initLayoutLists()
         addToModel(metaData.name(), metaData.pluginId(), switcherFile);
     }
 
-    for (const auto &offer : offers) {
-        const QString pluginName = offer.pluginId();
-        const QString scriptFile = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
-                                                          QLatin1String("kwin/tabbox/") + pluginName + QLatin1String("/contents/ui/main.qml"));
-        if (scriptFile.isEmpty()) {
-            qWarning() << "scriptfile is null" << pluginName;
-            continue;
-        }
+    const QStringList packageRoots{
+        QStringLiteral("kwin-wayland/tabbox"),
+        QStringLiteral("kwin/tabbox"),
+    };
+    for (const QString &packageRoot : packageRoots) {
+        const QList<KPluginMetaData> offers = KPackage::PackageLoader::self()->listPackages(QStringLiteral("KWin/WindowSwitcher"), packageRoot);
+        for (const auto &offer : offers) {
+            const QString pluginName = offer.pluginId();
+            const QString scriptFile = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
+                                                              packageRoot + QLatin1Char('/') + pluginName + QLatin1String("/contents/ui/main.qml"));
+            if (scriptFile.isEmpty()) {
+                qWarning() << "scriptfile is null" << pluginName;
+                continue;
+            }
 
-        addToModel(offer.name(), pluginName, scriptFile);
+            addToModel(offer.name(), pluginName, scriptFile);
+        }
     }
 
     model->sort(0);
 
-    m_primaryTabBoxUi->setEffectComboModel(model);
-    m_alternativeTabBoxUi->setEffectComboModel(model);
+    m_primaryTabBoxUi->setEffectComboModel(model.get());
+    m_alternativeTabBoxUi->setEffectComboModel(model.get());
+
+    m_switcherModel = std::move(model);
 }
 
 void KWinTabBoxConfig::createConnections(KWinTabBoxConfigForm *form)
@@ -260,17 +270,47 @@ void KWinTabBoxConfig::defaults()
     KCModule::defaults();
     updateUnmanagedState();
 }
+
 void KWinTabBoxConfig::configureEffectClicked()
 {
     auto form = qobject_cast<KWinTabBoxConfigForm *>(sender());
     Q_ASSERT(form);
 
-    if (form->effectComboCurrentData(KWinTabBoxConfigForm::AddonEffect).toBool()) {
-        // Show the preview for addon effect
-        new LayoutPreview(form->effectComboCurrentData(KWinTabBoxConfigForm::LayoutPath).toString(),
-                          form->config()->showDesktopMode(),
-                          this);
+    if (!form->effectComboCurrentData(KWinTabBoxConfigForm::AddonEffect).toBool()) {
+        return;
     }
+
+    // The process will close when losing focus, but check in case of multiple calls
+    if (m_previewProcess && m_previewProcess->state() != QProcess::NotRunning) {
+        return;
+    }
+
+    // Launch the preview helper executable with the required env var
+    // that allows the PlasmaDialog to position itself
+    // QT_WAYLAND_DISABLE_FIXED_POSITIONS=1 kwin-tabbox-preview <path> [--show-desktop]
+
+    const QString previewHelper = QStandardPaths::findExecutable("kwin-tabbox-preview", {LIBEXEC_DIR});
+    if (previewHelper.isEmpty()) {
+        qWarning() << "Cannot find tabbox preview helper executable \"kwin-tabbox-preview\" in" << LIBEXEC_DIR;
+        return;
+    }
+
+    QStringList args;
+    args << form->effectComboCurrentData(KWinTabBoxConfigForm::LayoutPath).toString();
+    if (form->config()->showDesktopMode()) {
+        args << QStringLiteral("--show-desktop");
+    }
+
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    env.insert(QStringLiteral("QT_WAYLAND_DISABLE_FIXED_POSITIONS"),
+               QStringLiteral("1"));
+
+    m_previewProcess = std::make_unique<QProcess>();
+    m_previewProcess->setArguments(args);
+    m_previewProcess->setProgram(previewHelper);
+    m_previewProcess->setProcessEnvironment(env);
+    m_previewProcess->setProcessChannelMode(QProcess::ForwardedChannels);
+    m_previewProcess->start();
 }
 
 } // namespace

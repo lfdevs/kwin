@@ -9,6 +9,7 @@
 
 #include "customtile.h"
 #include "core/output.h"
+#include "effect/globals.h"
 #include "tilemanager.h"
 #include "window.h"
 
@@ -42,9 +43,10 @@ CustomTile *CustomTile::createChildAt(const QRectF &relativeGeometry, LayoutDire
     connect(tile, &CustomTile::layoutModified, this, &CustomTile::layoutModified);
     tile->setRelativeGeometry(relativeGeometry);
     tile->setLayoutDirection(layoutDirection);
-    manager()->model()->beginInsertTile(tile, position);
+    TileModel *model = static_cast<RootTile *>(rootTile())->model();
+    model->beginInsertTile(tile, position);
     insertChild(position, tile);
-    manager()->model()->endInsertTile();
+    model->endInsertTile();
     return tile;
 }
 
@@ -277,10 +279,11 @@ void CustomTile::remove()
     auto *prev = previousSibling();
     auto *next = nextSibling();
 
-    manager()->model()->beginRemoveTile(this);
+    TileModel *model = static_cast<RootTile *>(rootTile())->model();
+    model->beginRemoveTile(this);
     parentT->removeChild(this);
     m_parentTile = nullptr;
-    manager()->model()->endRemoveTile();
+    model->endRemoveTile();
     manager()->tileRemoved(this);
 
     if (parentT->layoutDirection() == LayoutDirection::Horizontal) {
@@ -320,7 +323,7 @@ void CustomTile::remove()
     }
 
     // On linear layouts remove the last one and promote the layout as leaf
-    if (parentT->layoutDirection() != Tile::LayoutDirection::Floating && parentT->childCount() == 1) {
+    if (!parentT->isRoot() && parentT->childCount() == 1 && parentT->layoutDirection() != Tile::LayoutDirection::Floating) {
         auto *lastTile = static_cast<CustomTile *>(parentT->childTile(0));
         if (lastTile->childCount() == 0) {
             lastTile->remove();
@@ -329,7 +332,10 @@ void CustomTile::remove()
 
     const auto windows = std::exchange(m_windows, {});
     for (Window *window : windows) {
-        window->requestTile(m_tiling->bestTileForPosition(window->moveResizeGeometry().center()));
+        Tile *tile = m_tiling->rootTile(m_desktop)->pick(window->moveResizeGeometry().center());
+        if (tile) {
+            tile->manage(window);
+        }
     }
 
     deleteLater(); // not using "delete this" because QQmlEngine will crash
@@ -421,11 +427,63 @@ Tile::LayoutDirection CustomTile::layoutDirection() const
     return m_layoutDirection;
 }
 
-RootTile::RootTile(TileManager *tiling)
+RootTile::RootTile(TileManager *tiling, VirtualDesktop *desktop)
     : CustomTile(tiling, nullptr)
+    , m_tileModel(new TileModel(this))
 {
+    m_desktop = desktop;
     setParent(tiling);
     setRelativeGeometry({0, 0, 1, 1});
+}
+
+Tile *RootTile::tileForWindow(Window *window)
+{
+    if (windows().contains(window)) {
+        return this;
+    }
+
+    for (Tile *tile : descendants()) {
+        if (tile->windows().contains(window)) {
+            return tile;
+        }
+    }
+
+    return nullptr;
+}
+
+TileModel *RootTile::model() const
+{
+    return m_tileModel.get();
+}
+
+Tile *RootTile::pick(const QPointF &point) const
+{
+    const auto tiles = descendants();
+    qreal minimumDistance = std::numeric_limits<qreal>::max();
+    Tile *ret = nullptr;
+
+    for (auto *t : tiles) {
+        if (!t->isLayout()) {
+            const auto r = t->absoluteGeometry();
+            // It's possible for tiles to overlap, so take the one which center is nearer to mouse pos
+            qreal distance = (r.center() - point).manhattanLength();
+            if (!exclusiveContains(r, point)) {
+                // This gives a strong preference for tiles that contain the point
+                // still base on distance though as floating tiles can overlap
+                distance += m_tiling->output()->geometryF().width();
+            }
+            if (distance < minimumDistance) {
+                minimumDistance = distance;
+                ret = t;
+            }
+        }
+    }
+    return ret;
+}
+
+Tile *RootTile::pick(qreal x, qreal y) const
+{
+    return pick(QPointF(x, y));
 }
 
 } // namespace KWin

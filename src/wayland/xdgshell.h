@@ -31,6 +31,9 @@ class XdgPositionerData;
 class XdgToplevelInterface;
 class XdgPopupInterface;
 class XdgSurfaceInterface;
+class XdgToplevelSessionV1Interface;
+
+enum class Gravity;
 
 /**
  * The XdgShellInterface class represents an extension for destrop-style user interfaces.
@@ -225,19 +228,6 @@ public:
     };
     Q_DECLARE_FLAGS(States, State)
 
-    enum class ResizeAnchor {
-        None = 0,
-        Top = 1,
-        Bottom = 2,
-        Left = 4,
-        TopLeft = 5,
-        BottomLeft = 6,
-        Right = 8,
-        TopRight = 9,
-        BottomRight = 10,
-    };
-    Q_ENUM(ResizeAnchor)
-
     enum class Capability {
         WindowMenu = 0x1,
         Maximize = 0x2,
@@ -287,12 +277,22 @@ public:
     /**
      * Returns the window title of the toplevel surface.
      */
-    QString windowTitle() const;
+    QString title() const;
 
     /**
-     * Returns the window class of the toplevel surface.
+     * Returns the app id of the toplevel surface.
      */
-    QString windowClass() const;
+    QString appId() const;
+
+    /**
+     * @returns a tag on the window, set by the client
+     */
+    QString tag() const;
+
+    /**
+     * @returns a description of the window, set by the client
+     */
+    QString description() const;
 
     /**
      * Returns the minimum window geometry size of the toplevel surface.
@@ -305,6 +305,11 @@ public:
     QSize maximumSize() const;
 
     QIcon customIcon() const;
+
+    /**
+     * Returns the xdg-toplevel-session associated with this surface, or @c null.
+     */
+    XdgToplevelSessionV1Interface *session() const;
 
     /**
      * Sends a configure event to the client. \a size specifies the new window geometry size. A size
@@ -333,6 +338,8 @@ public:
      */
     static XdgToplevelInterface *get(::wl_resource *resource);
 
+    wl_resource *resource() const;
+
 Q_SIGNALS:
     /**
      * This signal is emitted when the xdg-toplevel is about to be destroyed.
@@ -353,12 +360,12 @@ Q_SIGNALS:
     /**
      * This signal is emitted when the toplevel's title has been changed.
      */
-    void windowTitleChanged(const QString &windowTitle);
+    void titleChanged(const QString &windowTitle);
 
     /**
      * This signal is emitted when the toplevel's application id has been changed.
      */
-    void windowClassChanged(const QString &windowClass);
+    void appIdChanged(const QString &windowClass);
 
     /**
      * This signal is emitted when the toplevel has requested the window menu to be shown at
@@ -385,11 +392,11 @@ Q_SIGNALS:
     void moveRequested(KWin::SeatInterface *seat, quint32 serial);
 
     /**
-     * This signal is emitted when the toplevel wants to be interactively resized by dragging
-     * the specified \a anchor. The \a seat and the \a serial indicate the user action
+     * This signal is emitted when the toplevel wants to be interactively resized with
+     * the specified \a gravity. The \a seat and the \a serial indicate the user action
      * in response to which this request has been issued.
      */
-    void resizeRequested(KWin::SeatInterface *seat, KWin::XdgToplevelInterface::ResizeAnchor anchor, quint32 serial);
+    void resizeRequested(KWin::SeatInterface *seat, KWin::Gravity gravity, quint32 serial);
 
     /**
      * This signal is emitted when the toplevel surface wants to become maximized.
@@ -420,6 +427,16 @@ Q_SIGNALS:
      * This signal is emitted when the parent toplevel has changed.
      */
     void parentXdgToplevelChanged();
+
+    /**
+     * This signal is emitted when the toplevel tag has changed
+     */
+    void tagChanged();
+
+    /**
+     * This signal is emitted when the toplevel description has changed
+     */
+    void descriptionChanged();
 
 private:
     std::unique_ptr<XdgToplevelInterfacePrivate> d;

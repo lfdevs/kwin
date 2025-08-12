@@ -477,17 +477,32 @@ void Connection::processEvents()
                 tte->device()->setSupportsPressureRange(true);
                 libinput_tablet_tool_config_pressure_range_set(tte->tool(), tte->device()->pressureRangeMin(), tte->device()->pressureRangeMax());
             }
-            Q_EMIT event->device()->tabletToolAxisEvent(tabletToolPosition(tte),
-                                                        tte->device()->pressureCurve().valueForProgress(tte->pressure()),
-                                                        tte->xTilt(),
-                                                        tte->yTilt(),
-                                                        tte->rotation(),
-                                                        tte->distance(),
-                                                        tte->isTipDown(),
-                                                        tte->isNearby(),
-                                                        getOrCreateTool(tte->tool()),
-                                                        tte->time(),
-                                                        tte->device());
+
+            if (event->device()->tabletToolIsRelative()) {
+                Q_EMIT event->device()->tabletToolAxisEventRelative(tte->delta(),
+                                                                    tte->device()->pressureCurve().valueForProgress(tte->pressure()),
+                                                                    tte->xTilt(),
+                                                                    tte->yTilt(),
+                                                                    tte->rotation(),
+                                                                    tte->distance(),
+                                                                    tte->isTipDown(),
+                                                                    tte->sliderPosition(),
+                                                                    getOrCreateTool(tte->tool()),
+                                                                    tte->time(),
+                                                                    tte->device());
+            } else {
+                Q_EMIT event->device()->tabletToolAxisEvent(tabletToolPosition(tte),
+                                                            tte->device()->pressureCurve().valueForProgress(tte->pressure()),
+                                                            tte->xTilt(),
+                                                            tte->yTilt(),
+                                                            tte->rotation(),
+                                                            tte->distance(),
+                                                            tte->isTipDown(),
+                                                            tte->sliderPosition(),
+                                                            getOrCreateTool(tte->tool()),
+                                                            tte->time(),
+                                                            tte->device());
+            }
             break;
         }
         case LIBINPUT_EVENT_TABLET_TOOL_PROXIMITY: {
@@ -497,13 +512,12 @@ void Connection::processEvents()
                 libinput_tablet_tool_config_pressure_range_set(tte->tool(), tte->device()->pressureRangeMin(), tte->device()->pressureRangeMax());
             }
             Q_EMIT event->device()->tabletToolProximityEvent(tabletToolPosition(tte),
-                                                             tte->device()->pressureCurve().valueForProgress(tte->pressure()),
                                                              tte->xTilt(),
                                                              tte->yTilt(),
                                                              tte->rotation(),
                                                              tte->distance(),
-                                                             tte->isTipDown(),
                                                              tte->isNearby(),
+                                                             tte->sliderPosition(),
                                                              getOrCreateTool(tte->tool()),
                                                              tte->time(),
                                                              tte->device());
@@ -522,7 +536,7 @@ void Connection::processEvents()
                                                        tte->rotation(),
                                                        tte->distance(),
                                                        tte->isTipDown(),
-                                                       tte->isNearby(),
+                                                       tte->sliderPosition(),
                                                        getOrCreateTool(tte->tool()),
                                                        tte->time(),
                                                        tte->device());
@@ -539,6 +553,9 @@ void Connection::processEvents()
             auto *tabletEvent = static_cast<TabletPadButtonEvent *>(event.get());
             Q_EMIT event->device()->tabletPadButtonEvent(tabletEvent->buttonId(),
                                                          tabletEvent->isButtonPressed(),
+                                                         tabletEvent->group(),
+                                                         tabletEvent->mode(),
+                                                         tabletEvent->isModeSwitch(),
                                                          tabletEvent->time(), tabletEvent->device());
             break;
         }
@@ -548,6 +565,7 @@ void Connection::processEvents()
             Q_EMIT event->device()->tabletPadRingEvent(tabletEvent->number(),
                                                        tabletEvent->position(),
                                                        tabletEvent->source() == LIBINPUT_TABLET_PAD_RING_SOURCE_FINGER,
+                                                       tabletEvent->group(),
                                                        tabletEvent->time(), tabletEvent->device());
             break;
         }
@@ -556,7 +574,13 @@ void Connection::processEvents()
             Q_EMIT event->device()->tabletPadStripEvent(tabletEvent->number(),
                                                         tabletEvent->position(),
                                                         tabletEvent->source() == LIBINPUT_TABLET_PAD_STRIP_SOURCE_FINGER,
+                                                        tabletEvent->group(),
                                                         tabletEvent->time(), tabletEvent->device());
+            break;
+        }
+        case LIBINPUT_EVENT_TABLET_PAD_DIAL: {
+            auto *tabletEvent = static_cast<TabletPadDialEvent *>(event.get());
+            Q_EMIT event->device()->tabletPadDialEvent(tabletEvent->number(), tabletEvent->delta(), tabletEvent->group(), tabletEvent->time(), tabletEvent->device());
             break;
         }
         default:

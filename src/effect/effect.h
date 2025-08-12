@@ -26,7 +26,9 @@ class Output;
 class PaintDataPrivate;
 class RenderTarget;
 class RenderViewport;
-class TabletEvent;
+struct TabletToolProximityEvent;
+struct TabletToolTipEvent;
+struct TabletToolAxisEvent;
 class WindowPaintDataPrivate;
 
 /** @defgroup kwineffects KWin effects library
@@ -799,17 +801,17 @@ public:
     /**
      * There has been a proximity tablet tool event.
      */
-    virtual bool tabletToolProximity(TabletEvent *event);
+    virtual bool tabletToolProximity(TabletToolProximityEvent *event);
 
     /**
      * There has been an axis tablet tool event.
      */
-    virtual bool tabletToolAxis(TabletEvent *event);
+    virtual bool tabletToolAxis(TabletToolAxisEvent *event);
 
     /**
      * There has been a tip tablet tool event.
      */
-    virtual bool tabletToolTip(TabletEvent *event);
+    virtual bool tabletToolTip(TabletToolTipEvent *event);
 
     /**
      * There has been an event from a button on a drawing tablet tool
@@ -856,6 +858,17 @@ public:
      * @since 5.25
      */
     virtual bool tabletPadRingEvent(int number, int position, bool isFinger, void *device);
+
+    /**
+     * There has been an event from a input dial on a drawing tablet pad
+     *
+     * @param number which dial
+     * @param delta the delta value
+     * @param device the identifier of the tool id
+     *
+     * @since 6.4
+     */
+    virtual bool tabletPadDialEvent(int number, double delta, void *device);
 
     static QPointF cursorPos();
 

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-06 00:41+0000\n"
-"PO-Revision-Date: 2024-09-11 21:14+0400\n"
+"POT-Creation-Date: 2025-08-05 03:05+0000\n"
+"PO-Revision-Date: 2025-08-04 21:06+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -15,36 +15,75 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
-"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
 "X-Generator: Lokalize 23.08.5\n"
 
-#: layoutpreview.cpp:127
+#: layoutpreview.cpp:28
+#, kde-format
+msgid "Launch an interactive preview for a tabbox switcher"
+msgstr "أطلق معاينة تفاعلية لمبدل الألسنة"
+
+#: layoutpreview.cpp:29
+#, kde-format
+msgid "Path to the Window Switcher QML main file"
+msgstr "المسار إلى الملف الرئيسي لـ Window Switcher QML"
+
+#: layoutpreview.cpp:30
+#, kde-format
+msgid "Show also a thumbnail for the desktop"
+msgstr "إظهار أيضًا صورة مصغرة لسطح المكتب"
+
+#: layoutpreview.cpp:158
+#, kde-format
+msgctxt "The name of KDE's file manager in this language, if translated"
+msgid "Dolphin"
+msgstr "دولفين"
+
+#: layoutpreview.cpp:162
+#, kde-format
+msgctxt "The name of KDE's web browser in this language, if translated"
+msgid "Konqueror"
+msgstr "كنكر"
+
+#: layoutpreview.cpp:166
+#, kde-format
+msgctxt "The name of KDE's email client in this language, if translated"
+msgid "KMail"
+msgstr "بريدك"
+
+#: layoutpreview.cpp:170
+#, kde-format
+msgctxt "The name of KDE's System Settings app in this language, if translated"
+msgid "System Settings"
+msgstr "إعدادات النّظام"
+
+#: layoutpreview.cpp:176
 #, kde-format
 msgid "Show Desktop"
 msgstr "أظهر سطح المكتب"
 
-#: layoutpreview.cpp:157
+#: layoutpreview.cpp:206
 #, kde-format
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
 msgstr "سطح المكتب 1"
 
-#: main.cpp:72
+#: main.cpp:74
 #, kde-format
 msgid "Main"
 msgstr "الرّئيسيّ"
 
-#: main.cpp:73
+#: main.cpp:75
 #, kde-format
 msgid "Alternative"
 msgstr "البديل"
 
-#: main.cpp:75
+#: main.cpp:77
 #, kde-format
 msgid "Get New Task Switcher Styles…"
 msgstr "احصل على أنماط لمُبدِّل مهام جديدة…"
 
-#: main.cpp:93
+#: main.cpp:95
 #, kde-format
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."
@@ -102,7 +141,7 @@ msgstr "رشّح النّوافذ حسب"
 #: main.ui:123
 #, kde-format
 msgid "Virtual desktops"
-msgstr "أسطح المكتب الوهميّة"
+msgstr "أسطح المكتب الافتراضية"
 
 #. i18n: ectx: property (text), widget (QRadioButton, currentDesktop)
 #: main.ui:167
@@ -196,26 +235,35 @@ msgstr "كلّ النّوافذ"
 msgid "Reverse"
 msgstr "اعكس"
 
+#. i18n: ectx: property (text), widget (QLabel, scCurrentReverseOr)
+#. i18n: ectx: property (text), widget (QLabel, scCurrentOr)
+#. i18n: ectx: property (text), widget (QLabel, scAllReverseOr)
+#. i18n: ectx: property (text), widget (QLabel, scAllOr)
+#: main.ui:474 main.ui:506 main.ui:554 main.ui:586
+#, kde-format
+msgid "or"
+msgstr "أو"
+
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: main.ui:480
+#: main.ui:538
 #, kde-format
 msgid "Current application"
 msgstr "التّطبيق الحاليّ"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: main.ui:499
+#: main.ui:615
 #, kde-format
 msgid "Visualization"
 msgstr "مرئي"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, effectCombo)
-#: main.ui:529
+#: main.ui:645
 #, kde-format
 msgid "The effect to replace the list window when desktop effects are active."
 msgstr "تأثير لاستبدال قائمة النوافذ عندما تكون تأثيرات سطح المكتب نشطة."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HighlightWindows)
-#: main.ui:562
+#: main.ui:678
 #, kde-format
 msgid ""
 "The currently selected window will be highlighted by fading out all other "
@@ -225,47 +273,47 @@ msgstr ""
 "الخيار تفعيل تأثيرات سطح المكتب. "
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HighlightWindows)
-#: main.ui:565
+#: main.ui:681
 #, kde-format
 msgid "Show selected window"
 msgstr "اعرض النافذة المحددة"
 
-#: shortcutsettings.cpp:132
+#: shortcutsettings.cpp:131
 #, kde-format
 msgid "Walk Through Windows"
 msgstr "تنقّل بين النّوافذ"
 
-#: shortcutsettings.cpp:133
+#: shortcutsettings.cpp:132
 #, kde-format
 msgid "Walk Through Windows (Reverse)"
 msgstr "تنقّل بين النّوافذ (بالعكس)"
 
-#: shortcutsettings.cpp:134
+#: shortcutsettings.cpp:133
 #, kde-format
 msgid "Walk Through Windows of Current Application"
 msgstr "تنقّل بين نوافذ التّطبيق الحاليّ"
 
-#: shortcutsettings.cpp:135
+#: shortcutsettings.cpp:134
 #, kde-format
 msgid "Walk Through Windows of Current Application (Reverse)"
 msgstr "تنقّل بين نوافذ التّطبيق الحاليّ (بالعكس)"
 
-#: shortcutsettings.cpp:137
+#: shortcutsettings.cpp:136
 #, kde-format
 msgid "Walk Through Windows Alternative"
 msgstr "تنقّل بين النّوافذ البديلة"
 
-#: shortcutsettings.cpp:138
+#: shortcutsettings.cpp:137
 #, kde-format
 msgid "Walk Through Windows Alternative (Reverse)"
 msgstr "تنقّل بين النّوافذ البديلة (بالعكس)"
 
-#: shortcutsettings.cpp:139
+#: shortcutsettings.cpp:138
 #, kde-format
 msgid "Walk Through Windows of Current Application Alternative"
 msgstr "تنقّل بين نوافذ التّطبيق الحاليّ البديلة"
 
-#: shortcutsettings.cpp:140
+#: shortcutsettings.cpp:139
 #, kde-format
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
 msgstr "تنقّل بين نوافذ التّطبيق الحاليّ البديلة (بالعكس)"

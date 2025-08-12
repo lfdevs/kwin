@@ -40,13 +40,8 @@ void DontCrashAuroraeDestroyDecoTest::initTestCase()
         QSKIP("no render node available");
         return;
     }
-    qputenv("XDG_DATA_DIRS", QCoreApplication::applicationDirPath().toUtf8());
     qRegisterMetaType<KWin::Window *>();
     QVERIFY(waylandServer()->init(s_socketName));
-    Test::setOutputConfig({
-        QRect(0, 0, 1280, 1024),
-        QRect(1280, 0, 1280, 1024),
-    });
 
     KSharedConfig::Ptr config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
     config->group(QStringLiteral("org.kde.kdecoration2")).writeEntry("library", "org.kde.kwin.aurorae");
@@ -56,6 +51,10 @@ void DontCrashAuroraeDestroyDecoTest::initTestCase()
     // this test needs to enforce OpenGL compositing to get into the crashy condition
     qputenv("KWIN_COMPOSE", QByteArrayLiteral("O2"));
     kwinApp()->start();
+    Test::setOutputConfig({
+        QRect(0, 0, 1280, 1024),
+        QRect(1280, 0, 1280, 1024),
+    });
     const auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
     QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));

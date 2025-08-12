@@ -9,8 +9,8 @@
 #pragma once
 #include "drm_plane.h"
 #include "drm_render_backend.h"
+#include "opengl/eglbackend.h"
 #include "opengl/glutils.h"
-#include "platformsupport/scenes/opengl/abstract_egl_backend.h"
 
 #include <QHash>
 #include <QPointer>
@@ -35,14 +35,12 @@ class EglDisplay;
 /**
  * @brief OpenGL Backend using Egl on a GBM surface.
  */
-class EglGbmBackend : public AbstractEglBackend, public DrmRenderBackend
+class EglGbmBackend : public EglBackend, public DrmRenderBackend
 {
     Q_OBJECT
 public:
     EglGbmBackend(DrmBackend *drmBackend);
     ~EglGbmBackend() override;
-
-    std::unique_ptr<SurfaceTexture> createSurfaceTextureWayland(SurfacePixmap *pixmap) override;
 
     DrmDevice *drmDevice() const override;
 
@@ -61,6 +59,7 @@ public:
 
     EglDisplay *displayForGpu(DrmGpu *gpu);
     std::shared_ptr<EglContext> contextForGpu(DrmGpu *gpu);
+    void resetContextForGpu(DrmGpu *gpu);
 
 private:
     bool initializeEgl();

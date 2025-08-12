@@ -17,16 +17,6 @@ OutputLayer::OutputLayer(Output *output)
 {
 }
 
-qreal OutputLayer::scale() const
-{
-    return m_scale;
-}
-
-void OutputLayer::setScale(qreal scale)
-{
-    m_scale = scale;
-}
-
 QPointF OutputLayer::hotspot() const
 {
     return m_hotspot;
@@ -50,9 +40,7 @@ QRegion OutputLayer::repaints() const
 void OutputLayer::addRepaint(const QRegion &region)
 {
     m_repaints += region;
-    if (m_output) {
-        m_output->renderLoop()->scheduleRepaint(nullptr, nullptr, this);
-    }
+    m_output->renderLoop()->scheduleRepaint(nullptr, nullptr, this);
 }
 
 void OutputLayer::resetRepaints()

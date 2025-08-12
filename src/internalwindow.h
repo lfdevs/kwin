@@ -19,7 +19,7 @@ struct InternalWindowFrame
 {
     GraphicsBuffer *buffer = nullptr;
     QRegion bufferDamage;
-    GraphicsBufferOrigin bufferOrigin = GraphicsBufferOrigin::TopLeft;
+    OutputTransform bufferTransform = OutputTransform::Normal;
 };
 
 class KWIN_EXPORT InternalWindow : public Window
@@ -53,7 +53,7 @@ public:
     bool isInternal() const override;
     bool isLockScreen() const override;
     bool isOutline() const override;
-    QRectF resizeWithChecks(const QRectF &geometry, const QSizeF &size) override;
+    QRectF resizeWithChecks(const QRectF &geometry, const QSizeF &size) const override;
     bool takeFocus() override;
     void setNoBorder(bool set) override;
     void invalidateDecoration() override;
@@ -65,27 +65,27 @@ public:
     void pointerLeaveEvent() override;
 
     GraphicsBuffer *graphicsBuffer() const;
-    GraphicsBufferOrigin graphicsBufferOrigin() const;
+    OutputTransform bufferTransform() const;
 
     void present(const InternalWindowFrame &frame);
     qreal bufferScale() const;
+    void doSetNextTargetScale() override;
     QWindow *handle() const;
+
+Q_SIGNALS:
+    void presented(const InternalWindowFrame &frame);
 
 protected:
     bool acceptsFocus() const override;
     bool belongsToSameApplication(const Window *other, SameApplicationChecks checks) const override;
-    void doInteractiveResizeSync(const QRectF &rect) override;
     void updateCaption() override;
     void moveResizeInternal(const QRectF &rect, MoveResizeMode mode) override;
     std::unique_ptr<WindowItem> createItem(Item *parentItem) override;
 
 private:
-    void requestGeometry(const QRectF &rect);
     void commitGeometry(const QRectF &rect);
     void setCaption(const QString &caption);
     void markAsMapped();
-    void syncGeometryToInternalWindow();
-    void updateInternalWindowGeometry();
     void updateDecoration(bool check_workspace_pos, bool force = false);
     void createDecoration(const QRectF &oldGeometry);
     void destroyDecoration();
@@ -96,7 +96,7 @@ private:
     Qt::WindowFlags m_internalWindowFlags = Qt::WindowFlags();
     bool m_userNoBorder = false;
     GraphicsBufferRef m_graphicsBufferRef;
-    GraphicsBufferOrigin m_graphicsBufferOrigin;
+    OutputTransform m_bufferTransform = OutputTransform::Normal;
 
     Q_DISABLE_COPY(InternalWindow)
 };

@@ -163,6 +163,10 @@ public:
         IccProfile = 1 << 7,
         Tearing = 1 << 8,
         BrightnessControl = 1 << 9,
+        BuiltInColorProfile = 1 << 10,
+        DdcCi = 1 << 11,
+        MaxBitsPerColor = 1 << 12,
+        Edr = 1 << 13,
     };
     Q_DECLARE_FLAGS(Capabilities, Capability)
 
@@ -200,6 +204,12 @@ public:
     };
     Q_ENUM(ColorPowerTradeoff);
 
+    enum class EdrPolicy {
+        Never = 0,
+        Always,
+    };
+    Q_ENUM(EdrPolicy);
+
     explicit Output(QObject *parent = nullptr);
     ~Output() override;
 
@@ -231,8 +241,10 @@ public:
 
     /**
      * Returns the identifying uuid of this output.
+     * NOTE that this is set by the output configuration store, and
+     * can potentially change on hotplug events, because displays are terrible
      */
-    QUuid uuid() const;
+    QString uuid() const;
 
     /**
      * Returns @c true if the output is enabled; otherwise returns @c false.
@@ -375,13 +387,29 @@ public:
     double artificialHdrHeadroom() const;
     double dimming() const;
 
+    bool detectedDdcCi() const;
+    bool allowDdcCi() const;
+    bool isDdcCiKnownBroken() const;
+
     const ColorDescription &colorDescription() const;
 
     BrightnessDevice *brightnessDevice() const;
-    virtual void setBrightnessDevice(BrightnessDevice *device);
+    virtual void unsetBrightnessDevice();
     bool allowSdrSoftwareBrightness() const;
 
     ColorPowerTradeoff colorPowerTradeoff() const;
+    QString replicationSource() const;
+    uint32_t maxBitsPerColor() const;
+    struct BpcRange
+    {
+        uint32_t min = 0;
+        uint32_t max = 0;
+        auto operator<=>(const BpcRange &) const = default;
+    };
+    BpcRange bitsPerColorRange() const;
+    std::optional<uint32_t> automaticMaxBitsPerColorLimit() const;
+    EdrPolicy edrPolicy() const;
+    std::optional<uint32_t> minVrrRefreshRateHz() const;
 
 Q_SIGNALS:
     /**
@@ -449,6 +477,11 @@ Q_SIGNALS:
     void brightnessChanged();
     void colorPowerTradeoffChanged();
     void dimmingChanged();
+    void uuidChanged();
+    void replicationSourceChanged();
+    void allowDdcCiChanged();
+    void maxBitsPerColorChanged();
+    void edrPolicyChanged();
 
 protected:
     struct Information
@@ -470,6 +503,8 @@ protected:
         std::optional<double> maxPeakBrightness;
         std::optional<double> maxAverageBrightness;
         double minBrightness = 0;
+        BpcRange bitsPerColorRange;
+        std::optional<uint32_t> minVrrRefreshRateHz;
     };
 
     struct State
@@ -494,6 +529,8 @@ protected:
         QString iccProfilePath;
         std::shared_ptr<IccProfile> iccProfile;
         ColorProfileSource colorProfileSource = ColorProfileSource::sRGB;
+        // color description without night light applied
+        ColorDescription originalColorDescription = ColorDescription::sRGB;
         ColorDescription colorDescription = ColorDescription::sRGB;
         std::optional<double> maxPeakBrightnessOverride;
         std::optional<double> maxAverageBrightnessOverride;
@@ -509,6 +546,14 @@ protected:
         double artificialHdrHeadroom = 1.0;
         ColorPowerTradeoff colorPowerTradeoff = ColorPowerTradeoff::PreferEfficiency;
         double dimming = 1.0;
+        BrightnessDevice *brightnessDevice = nullptr;
+        QString uuid;
+        QString replicationSource;
+        bool detectedDdcCi = false;
+        bool allowDdcCi = true;
+        uint32_t maxBitsPerColor = 0;
+        std::optional<uint32_t> automaticMaxBitsPerColorLimit;
+        EdrPolicy edrPolicy = EdrPolicy::Always;
     };
 
     void setInformation(const Information &information);
@@ -516,9 +561,7 @@ protected:
 
     State m_state;
     Information m_information;
-    QUuid m_uuid;
     int m_refCount = 1;
-    BrightnessDevice *m_brightnessDevice = nullptr;
 };
 
 inline QRect Output::rect() const

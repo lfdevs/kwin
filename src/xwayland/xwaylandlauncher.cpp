@@ -72,6 +72,19 @@ void XwaylandLauncher::setXauthority(const QString &xauthority)
     m_xAuthority = xauthority;
 }
 
+void XwaylandLauncher::addEnvironmentVariables(const QMap<QString, QString> &extraEnvironment)
+{
+    m_extraEnvironment.insert(extraEnvironment);
+}
+
+void XwaylandLauncher::passFileDescriptors(std::vector<FileDescriptor> &&fds)
+{
+    m_fdsToPreserve.reserve(m_fdsToPreserve.size() + fds.size());
+    for (auto & fd : fds) {
+        m_fdsToPreserve.emplace_back(std::move(fd));
+    }
+}
+
 void XwaylandLauncher::enable()
 {
     if (m_enabled) {
@@ -163,8 +176,11 @@ bool XwaylandLauncher::start()
     fdsToPass << wmfd->fds[1].get();
 
     arguments << QStringLiteral("-rootless");
+
 #if HAVE_XWAYLAND_ENABLE_EI_PORTAL
-    arguments << QStringLiteral("-enable-ei-portal");
+    if (!options->xwaylandEisNoPrompt()) {
+        arguments << QStringLiteral("-enable-ei-portal");
+    }
 #endif
 
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
@@ -176,11 +192,20 @@ bool XwaylandLauncher::start()
         env.insert("WAYLAND_DEBUG", QByteArrayLiteral("1"));
     }
 
+    for (const auto &[variable, value] : m_extraEnvironment.asKeyValueRange()) {
+        env.insert(variable, value);
+    }
+
+    for (const auto &fd : m_fdsToPreserve) {
+        fdsToPass.push_back(fd.get());
+    }
+
     m_xwaylandProcess = new QProcess(this);
     m_xwaylandProcess->setProgram(QStandardPaths::findExecutable("Xwayland"));
     m_xwaylandProcess->setArguments(arguments);
     m_xwaylandProcess->setProcessChannelMode(QProcess::ForwardedErrorChannel);
     m_xwaylandProcess->setProcessEnvironment(env);
+    m_xwaylandProcess->setUnixProcessParameters(QProcess::UnixProcessFlag::UseVFork);
     m_xwaylandProcess->setChildProcessModifier([this, fdsToPass]() {
         for (const int &fd : fdsToPass) {
             const int originalFlags = fcntl(fd, F_GETFD);
@@ -194,6 +219,7 @@ bool XwaylandLauncher::start()
             }
         }
     });
+
     connect(m_xwaylandProcess, &QProcess::errorOccurred, this, &XwaylandLauncher::handleXwaylandError);
     connect(m_xwaylandProcess, &QProcess::finished, this, &XwaylandLauncher::handleXwaylandFinished);
 

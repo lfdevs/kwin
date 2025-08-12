@@ -59,6 +59,11 @@ class DecorationPalette;
 
 using ElectricBorderMode = std::variant<QuickTileMode, MaximizeMode>;
 
+/**
+ * The PlacementCommand type specifies how a window should be placed in the workspace when it's shown.
+ */
+using PlacementCommand = std::variant<QPointF, QRectF, MaximizeMode>;
+
 class KWIN_EXPORT Window : public QObject
 {
     Q_OBJECT
@@ -460,7 +465,7 @@ class KWIN_EXPORT Window : public QObject
      * The decision whether a window has a border or not belongs to the window manager.
      * If this property gets abused by application developers, it will be removed again.
      */
-    Q_PROPERTY(bool noBorder READ noBorder WRITE setNoBorder)
+    Q_PROPERTY(bool noBorder READ noBorder WRITE setNoBorder NOTIFY noBorderChanged)
 
     /**
      * Whether the Window provides context help. Mostly needed by decorations to decide whether to
@@ -551,13 +556,25 @@ class KWIN_EXPORT Window : public QObject
     /**
      * The Tile this window is associated to, if any
      */
-    Q_PROPERTY(KWin::Tile *tile READ requestedTile WRITE requestTile NOTIFY tileChanged)
+    Q_PROPERTY(KWin::Tile *tile READ requestedTile WRITE setTileCompatibility NOTIFY tileChanged)
 
     /**
      * Returns whether this window is a input method window.
      * This is only used for Wayland.
      */
     Q_PROPERTY(bool inputMethod READ isInputMethod)
+
+    /**
+     * A client-provided tag of the window.
+     * Not necessarily unique, but can be used to identify similar windows
+     * across application restarts
+     */
+    Q_PROPERTY(QString tag READ tag NOTIFY tagChanged)
+
+    /**
+     * A client-provided description of the window
+     */
+    Q_PROPERTY(QString description READ description NOTIFY descriptionChanged)
 
 public:
     ~Window() override;
@@ -712,13 +729,23 @@ public:
      */
     void moveResize(const QRectF &geometry);
 
+    /**
+     * Returns @c true if the window has already been placed in the workspace; otherwise returns @c false.
+     */
+    bool isPlaced() const;
+
+    /**
+     * Places the window in the workspace as specified by the @a placement command.
+     */
+    void place(const PlacementCommand &placement);
+
     void growHorizontal();
     void shrinkHorizontal();
     void growVertical();
     void shrinkVertical();
 
-    virtual QRectF resizeWithChecks(const QRectF &geometry, const QSizeF &s) = 0;
-    QRectF keepInArea(QRectF geometry, QRectF area, bool partial = false);
+    virtual QRectF resizeWithChecks(const QRectF &geometry, const QSizeF &s) const = 0;
+    QRectF keepInArea(QRectF geometry, QRectF area, bool partial = false) const;
 
     // prefer isXXX() instead
     virtual WindowType windowType() const = 0;
@@ -791,8 +818,8 @@ public:
     bool readyForPainting() const; // true if the window has been already painted its contents
     void setOpacity(qreal opacity);
     qreal opacity() const;
-    virtual bool setupCompositing();
-    virtual void finishCompositing();
+    bool setupCompositing();
+    void finishCompositing();
     EffectWindow *effectWindow();
     const EffectWindow *effectWindow() const;
     SurfaceItem *surfaceItem() const;
@@ -946,7 +973,6 @@ public:
 
     void cancelAutoRaise();
 
-    virtual void updateMouseGrab();
     /**
      * @returns The caption consisting of captionNormal and captionSuffix
      * @see captionNormal
@@ -974,16 +1000,6 @@ public:
     void setHiddenByShowDesktop(bool hidden);
     Window *findModal() const;
     virtual bool isTransient() const;
-    /**
-     * @returns Whether there is a hint available to place the Window on it's parent, default @c false.
-     * @see transientPlacementHint
-     */
-    virtual bool hasTransientPlacementHint() const;
-    /**
-     * Only valid id hasTransientPlacementHint is true
-     * @returns The position the transient wishes to position itself
-     */
-    virtual QRectF transientPlacement() const;
     const Window *transientFor() const;
     Window *transientFor();
     void setTransientFor(Window *transientFor);
@@ -1013,7 +1029,7 @@ public:
     }
     void setShortcut(const QString &cut);
 
-    virtual QRectF iconGeometry() const;
+    QRectF iconGeometry() const;
 
     void setMinimized(bool set);
     bool isMinimized() const
@@ -1094,22 +1110,10 @@ public:
     bool wantsTabFocus() const;
     virtual bool takeFocus() = 0;
     virtual bool wantsInput() const = 0;
-    /**
-     * Whether a dock window wants input.
-     *
-     * By default KWin doesn't pass focus to a dock window unless a force activate
-     * request is provided.
-     *
-     * This method allows to have dock windows take focus also through flags set on
-     * the window.
-     *
-     * The default implementation returns @c false.
-     */
-    virtual bool dockWantsInput() const;
     void checkWorkspacePosition(QRectF oldGeometry = QRectF(), const VirtualDesktop *oldDesktop = nullptr);
     virtual xcb_timestamp_t userTime() const;
 
-    void keyPressEvent(uint key_code);
+    void keyPressEvent(QKeyCombination key_code);
 
     virtual void pointerEnterEvent(const QPointF &globalPos);
     virtual void pointerLeaveEvent();
@@ -1121,6 +1125,8 @@ public:
     void commitTile(Tile *tile);
     Tile *requestedTile() const;
     void requestTile(Tile *tile);
+    void forgetTile(Tile *tile);
+    void setTileCompatibility(Tile *tile);
 
     void handleQuickTileShortcut(QuickTileMode mode);
     void setQuickTileModeAtCurrentPosition(QuickTileMode mode);
@@ -1184,8 +1190,12 @@ public:
     std::optional<Options::MouseCommand> getMousePressCommand(Qt::MouseButton button) const;
     std::optional<Options::MouseCommand> getMouseReleaseCommand(Qt::MouseButton button) const;
     std::optional<Options::MouseCommand> getWheelCommand(Qt::Orientation orientation) const;
+    bool mousePressCommandConsumesEvent(Options::MouseCommand command) const;
+    /**
+     * @returns whether or not the command consumes the event that triggered it
+     */
     bool performMousePressCommand(Options::MouseCommand, const QPointF &globalPos);
-    bool performMouseReleaseCommand(Options::MouseCommand, const QPointF &globalPos);
+    void performMouseReleaseCommand(Options::MouseCommand, const QPointF &globalPos);
 
     // decoration related
     Qt::Edge titlebarPosition() const;
@@ -1365,6 +1375,9 @@ public:
     const ColorDescription &preferredColorDescription() const;
     void setPreferredColorDescription(const ColorDescription &description);
 
+    QString tag() const;
+    QString description() const;
+
 public Q_SLOTS:
     virtual void closeWindow() = 0;
 
@@ -1484,6 +1497,9 @@ Q_SIGNALS:
     void offscreenRenderingChanged();
     void targetScaleChanged();
     void nextTargetScaleChanged();
+    void noBorderChanged();
+    void tagChanged();
+    void descriptionChanged();
 
 protected:
     Window();
@@ -1496,6 +1512,7 @@ protected:
     void autoRaise();
     bool isMostRecentlyRaised() const;
     void markAsDeleted();
+    void markAsPlaced();
     /**
      * Whether the window accepts focus.
      * The difference to wantsInput is that the implementation should not check rules and return
@@ -1591,7 +1608,7 @@ protected:
     void updateElectricGeometryRestore();
     QRectF quickTileGeometryRestore() const;
     QRectF quickTileGeometry(QuickTileMode mode, const QPointF &pos) const;
-    void updateQuickTileMode(QuickTileMode newMode);
+    void exitQuickTileMode();
 
     // geometry handling
     void checkOffscreenPosition(QRectF *geom, const QRectF &screenArea);
@@ -1720,8 +1737,6 @@ protected:
     /**
      * Called during handling a resize. Implementing subclasses can use this
      * method to perform windowing system specific syncing.
-     *
-     * Default implementation does nothing.
      */
     virtual void doInteractiveResizeSync(const QRectF &rect);
     qreal titlebarThickness() const;
@@ -1774,6 +1789,8 @@ protected:
     void updatePreferredColorDescription();
     void setTargetScale(qreal scale);
 
+    void setDescription(const QString &description);
+
     Output *m_output = nullptr;
     QRectF m_frameGeometry;
     QRectF m_clientGeometry;
@@ -1809,6 +1826,7 @@ protected:
     QIcon m_icon;
     bool m_active = false;
     bool m_deleted = false;
+    bool m_placed = false;
     bool m_keepAbove = false;
     bool m_keepBelow = false;
     bool m_demandsAttention = false;
@@ -1892,6 +1910,9 @@ protected:
     bool m_lockScreenOverlay = false;
     uint32_t m_offscreenRenderCount = 0;
     QTimer m_offscreenFramecallbackTimer;
+
+    QString m_tag;
+    QString m_description;
 };
 
 inline QRectF Window::bufferGeometry() const

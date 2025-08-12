@@ -10,11 +10,11 @@
 #include "outputbackend.h"
 
 #include "inputbackend.h"
+#include "opengl/eglbackend.h"
 #include "opengl/egldisplay.h"
 #include "output.h"
 #include "outputconfiguration.h"
-#include "platformsupport/scenes/opengl/openglbackend.h"
-#include "platformsupport/scenes/qpainter/qpainterbackend.h"
+#include "qpainter/qpainterbackend.h"
 
 namespace KWin
 {
@@ -33,7 +33,7 @@ std::unique_ptr<InputBackend> OutputBackend::createInputBackend()
     return nullptr;
 }
 
-std::unique_ptr<OpenGLBackend> OutputBackend::createOpenGLBackend()
+std::unique_ptr<EglBackend> OutputBackend::createOpenGLBackend()
 {
     return nullptr;
 }
@@ -43,12 +43,12 @@ std::unique_ptr<QPainterBackend> OutputBackend::createQPainterBackend()
     return nullptr;
 }
 
-bool OutputBackend::applyOutputChanges(const OutputConfiguration &config)
+OutputConfigurationError OutputBackend::applyOutputChanges(const OutputConfiguration &config)
 {
     const auto availableOutputs = outputs();
     QList<Output *> toBeEnabledOutputs;
     QList<Output *> toBeDisabledOutputs;
-    for (const auto &output : availableOutputs) {
+    for (Output *output : availableOutputs) {
         if (const auto changeset = config.constChangeSet(output)) {
             if (changeset->enabled.value_or(output->isEnabled())) {
                 toBeEnabledOutputs << output;
@@ -57,13 +57,13 @@ bool OutputBackend::applyOutputChanges(const OutputConfiguration &config)
             }
         }
     }
-    for (const auto &output : toBeEnabledOutputs) {
+    for (Output *output : toBeEnabledOutputs) {
         output->applyChanges(config);
     }
-    for (const auto &output : toBeDisabledOutputs) {
+    for (Output *output : toBeDisabledOutputs) {
         output->applyChanges(config);
     }
-    return true;
+    return OutputConfigurationError::None;
 }
 
 Output *OutputBackend::findOutput(const QString &name) const

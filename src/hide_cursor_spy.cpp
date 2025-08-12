@@ -36,10 +36,13 @@ void HideCursorSpy::touchDown(qint32 id, const QPointF &pos, std::chrono::micros
     hideCursor();
 }
 
-void HideCursorSpy::tabletToolProximityEvent(TabletEvent *event)
+void HideCursorSpy::tabletToolProximityEvent(TabletToolProximityEvent *event)
 {
-    if (event->type() == QEvent::Type::TabletLeaveProximity) {
-        hideCursor();
+    if (event->type == TabletToolProximityEvent::Type::LeaveProximity) {
+        // If the tablet is in relative/mouse mode, keep it on the screen even if the pen is no longer in proximity
+        if (!event->device->tabletToolIsRelative()) {
+            hideCursor();
+        }
     } else {
         showCursor();
     }

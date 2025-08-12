@@ -37,11 +37,13 @@ public:
     };
     std::optional<std::tuple<OutputConfiguration, QList<Output *>, ConfigType>> queryConfig(const QList<Output *> &outputs, bool isLidClosed, QOrientationReading *orientation, bool isTabletMode);
     void storeConfig(const QList<Output *> &allOutputs, bool isLidClosed, const OutputConfiguration &config, const QList<Output *> &outputOrder);
-    std::pair<OutputConfiguration, QList<Output *>> generateConfig(const QList<Output *> &outputs, bool isLidClosed);
 
+    void applyMirroring(OutputConfiguration &config, const QList<Output *> &outputs);
     bool isAutoRotateActive(const QList<Output *> &outputs, bool isTabletMode) const;
 
 private:
+    std::pair<OutputConfiguration, QList<Output *>> generateConfig(const QList<Output *> &outputs, bool isLidClosed);
+    void registerOutputs(const QList<Output *> &outputs);
     void applyOrientationReading(OutputConfiguration &config, const QList<Output *> &outputs, QOrientationReading *orientation, bool isTabletMode);
     std::optional<std::pair<OutputConfiguration, QList<Output *>>> generateLidClosedConfig(const QList<Output *> &outputs);
     std::shared_ptr<OutputMode> chooseMode(Output *output) const;
@@ -82,6 +84,11 @@ private:
         std::optional<double> brightness;
         std::optional<bool> allowSdrSoftwareBrightness;
         std::optional<Output::ColorPowerTradeoff> colorPowerTradeoff;
+        std::optional<QString> uuid;
+        std::optional<bool> detectedDdcCi;
+        std::optional<bool> allowDdcCi;
+        std::optional<uint32_t> maxBitsPerColor;
+        std::optional<Output::EdrPolicy> edrPolicy;
     };
     struct SetupState
     {
@@ -89,6 +96,7 @@ private:
         QPoint position;
         bool enabled;
         int priority;
+        QString replicationSource;
     };
     struct Setup
     {

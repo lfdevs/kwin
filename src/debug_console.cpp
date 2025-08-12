@@ -14,9 +14,9 @@
 #include "internalwindow.h"
 #include "keyboard_input.h"
 #include "main.h"
+#include "opengl/eglbackend.h"
 #include "opengl/glplatform.h"
 #include "opengl/glutils.h"
-#include "platformsupport/scenes/opengl/openglbackend.h"
 #include "scene/workspacescene.h"
 #include "utils/filedescriptor.h"
 #include "wayland/abstract_data_source.h"
@@ -45,6 +45,7 @@
 #include <QMetaProperty>
 #include <QMetaType>
 #include <QMouseEvent>
+#include <QPushButton>
 #include <QScopeGuard>
 #include <QSortFilterProxyModel>
 #include <QWindow>
@@ -490,53 +491,48 @@ void DebugConsoleFilter::switchEvent(SwitchEvent *event)
     m_textEdit->ensureCursorVisible();
 }
 
-void DebugConsoleFilter::tabletToolProximityEvent(TabletEvent *event)
+void DebugConsoleFilter::tabletToolProximityEvent(TabletToolProximityEvent *event)
 {
     QString text = s_hr + s_tableStart + tableHeaderRow(i18n("Tablet Tool Proximity"))
-        + tableRow(i18n("Proximity"), event->type() == QEvent::TabletEnterProximity ? i18n("In") : i18n("Out"))
+        + tableRow(i18n("Proximity"), event->type == TabletToolProximityEvent::EnterProximity ? i18n("In") : i18n("Out"))
         + tableRow(i18n("Position"),
-                   QStringLiteral("%1,%2").arg(QString::number(event->position().x()), QString::number(event->position().y())))
+                   QStringLiteral("%1,%2").arg(QString::number(event->position.x()), QString::number(event->position.y())))
         + tableRow(i18n("Tilt"),
-                   QStringLiteral("%1,%2").arg(event->xTilt()).arg(event->yTilt()))
-        + tableRow(i18n("Rotation"), QString::number(event->rotation()))
-        + tableRow(i18n("Pressure"), QString::number(event->pressure()))
-        + tableRow(i18n("Buttons"), QString::number(event->buttons()))
-        + tableRow(i18n("Modifiers"), QString::number(event->modifiers()))
+                   QStringLiteral("%1,%2").arg(event->xTilt).arg(event->yTilt))
+        + tableRow(i18n("Rotation"), QString::number(event->rotation))
         + s_tableEnd;
 
     m_textEdit->insertHtml(text);
     m_textEdit->ensureCursorVisible();
 }
 
-void DebugConsoleFilter::tabletToolAxisEvent(TabletEvent *event)
+void DebugConsoleFilter::tabletToolAxisEvent(TabletToolAxisEvent *event)
 {
     QString text = s_hr + s_tableStart + tableHeaderRow(i18n("Tablet Tool Axis"))
         + tableRow(i18n("Position"),
-                   QStringLiteral("%1,%2").arg(QString::number(event->position().x()), QString::number(event->position().y())))
+                   QStringLiteral("%1,%2").arg(QString::number(event->position.x()), QString::number(event->position.y())))
         + tableRow(i18n("Tilt"),
-                   QStringLiteral("%1,%2").arg(event->xTilt()).arg(event->yTilt()))
-        + tableRow(i18n("Rotation"), QString::number(event->rotation()))
-        + tableRow(i18n("Pressure"), QString::number(event->pressure()))
-        + tableRow(i18n("Buttons"), QString::number(event->buttons()))
-        + tableRow(i18n("Modifiers"), QString::number(event->modifiers()))
+                   QStringLiteral("%1,%2").arg(event->xTilt).arg(event->yTilt))
+        + tableRow(i18n("Rotation"), QString::number(event->rotation))
+        + tableRow(i18n("Pressure"), QString::number(event->pressure))
+        + tableRow(i18n("Buttons"), QString::number(event->buttons))
         + s_tableEnd;
 
     m_textEdit->insertHtml(text);
     m_textEdit->ensureCursorVisible();
 }
 
-void DebugConsoleFilter::tabletToolTipEvent(TabletEvent *event)
+void DebugConsoleFilter::tabletToolTipEvent(TabletToolTipEvent *event)
 {
     QString text = s_hr + s_tableStart + tableHeaderRow(i18n("Tablet Tool Tip"))
-        + tableRow(i18n("Tip"), event->type() == QEvent::TabletPress ? i18n("Down") : i18n("Up"))
+        + tableRow(i18n("Tip"), event->type == TabletToolTipEvent::Press ? i18n("Down") : i18n("Up"))
         + tableRow(i18n("Position"),
-                   QStringLiteral("%1,%2").arg(QString::number(event->position().x()), QString::number(event->position().y())))
+                   QStringLiteral("%1,%2").arg(QString::number(event->position.x()), QString::number(event->position.y())))
         + tableRow(i18n("Tilt"),
-                   QStringLiteral("%1,%2").arg(event->xTilt()).arg(event->yTilt()))
-        + tableRow(i18n("Rotation"), QString::number(event->rotation()))
-        + tableRow(i18n("Pressure"), QString::number(event->pressure()))
-        + tableRow(i18n("Buttons"), QString::number(event->buttons()))
-        + tableRow(i18n("Modifiers"), QString::number(event->modifiers()))
+                   QStringLiteral("%1,%2").arg(event->xTilt).arg(event->yTilt))
+        + tableRow(i18n("Rotation"), QString::number(event->rotation))
+        + tableRow(i18n("Pressure"), QString::number(event->pressure))
+        + tableRow(i18n("Buttons"), QString::number(event->buttons))
         + s_tableEnd;
 
     m_textEdit->insertHtml(text);
@@ -598,6 +594,19 @@ void DebugConsoleFilter::tabletPadRingEvent(TabletPadRingEvent *event)
     m_textEdit->ensureCursorVisible();
 }
 
+void DebugConsoleFilter::tabletPadDialEvent(TabletPadDialEvent *event)
+{
+    QString text = s_hr + s_tableStart + tableHeaderRow(i18n("Tablet Pad Dial"))
+        + tableRow(i18n("Number"), event->number)
+        + tableRow(i18n("Delta"), event->delta)
+        + tableRow(i18n("Tablet"), event->device->name())
+        + timestampRow(event->time)
+        + s_tableEnd;
+
+    m_textEdit->insertHtml(text);
+    m_textEdit->ensureCursorVisible();
+}
+
 static QString sourceString(const AbstractDataSource *const source)
 {
     if (!source) {
@@ -605,7 +614,7 @@ static QString sourceString(const AbstractDataSource *const source)
     }
 
     if (source->client()) {
-        const QString executable = waylandServer()->display()->getConnection(source->client())->executablePath();
+        const QString executable = ClientConnection::get(source->client())->executablePath();
 
         if (auto dataSource = qobject_cast<const DataSourceInterface *const>(source)) {
             return QStringLiteral("wl_data_source@%1 of %2").arg(wl_resource_get_id(dataSource->resource())).arg(executable);
@@ -628,9 +637,6 @@ DebugConsole::DebugConsole()
     setAttribute(Qt::WA_ShowWithoutActivating);
     m_ui->setupUi(this);
 
-    // Only on Wayland the window has a proper decoration with a close button.
-    m_ui->quitButton->setVisible(!kwinApp()->shouldUseWaylandForCompositing());
-
     auto windowsModel = new DebugConsoleModel(this);
     QSortFilterProxyModel *proxyWindowsModel = new QSortFilterProxyModel(this);
     proxyWindowsModel->setSourceModel(windowsModel);
@@ -645,17 +651,8 @@ DebugConsole::DebugConsole()
     m_ui->inputDevicesView->setItemDelegate(new DebugConsoleDelegate(this));
     m_ui->tabWidget->setTabIcon(0, QIcon::fromTheme(QStringLiteral("view-list-tree")));
 
-    if (kwinApp()->operationMode() == Application::OperationMode::OperationModeX11) {
-        m_ui->tabWidget->setTabEnabled(1, false); // Input Events
-        m_ui->tabWidget->setTabEnabled(2, false); // Input Devices
-        m_ui->tabWidget->setTabEnabled(4, false); // Keyboard
-        m_ui->tabWidget->setTabEnabled(5, false); // Clipboard
-        setWindowFlags(Qt::X11BypassWindowManagerHint);
-    }
-
     m_ui->tabWidget->addTab(new DebugConsoleEffectsTab(), i18nc("@label", "Effects"));
 
-    connect(m_ui->quitButton, &QAbstractButton::clicked, this, &DebugConsole::deleteLater);
     connect(m_ui->tabWidget, &QTabWidget::currentChanged, this, [this](int index) {
         // delay creation of input event filter until the tab is selected
         if (index == m_ui->tabWidget->indexOf(m_ui->input) && !m_inputFilter) {
@@ -715,7 +712,7 @@ void DebugConsole::initGLTab()
         return text;
     };
 
-    const OpenGLBackend *backend = static_cast<OpenGLBackend *>(Compositor::self()->backend());
+    const EglBackend *backend = static_cast<EglBackend *>(Compositor::self()->backend());
     m_ui->platformExtensionsLabel->setText(extensionsString(backend->extensions()));
     m_ui->openGLExtensionsLabel->setText(extensionsString(backend->openglContext()->openglExtensions()));
 }
@@ -1023,7 +1020,7 @@ int DebugConsoleModel::columnCount(const QModelIndex &parent) const
 
 int DebugConsoleModel::topLevelRowCount() const
 {
-    return kwinApp()->shouldUseWaylandForCompositing() ? 4 : 2;
+    return 4;
 }
 
 template<class T>

@@ -28,6 +28,7 @@
 #include "inputmethod.h"
 #include "inputpanelv1window.h"
 #include "keyboard_input.h"
+#include "opengl/eglcontext.h"
 #include "opengl/glshader.h"
 #include "opengl/glshadermanager.h"
 #include "opengl/gltexture.h"
@@ -61,6 +62,7 @@
 
 #include <QFontMetrics>
 #include <QMatrix4x4>
+#include <QMouseEvent>
 #include <QPainter>
 #include <QPixmap>
 #include <QTimeLine>
@@ -109,6 +111,15 @@ static xcb_atom_t registerSupportProperty(const QByteArray &propertyName)
     xcb_change_property(c, XCB_PROP_MODE_REPLACE, kwinApp()->x11RootWindow(), atomReply->atom, atomReply->atom, 8, 1, &dummy);
     // TODO: add to _NET_SUPPORTED
     return atomReply->atom;
+}
+
+static void unregisterSupportProperty(xcb_atom_t atom)
+{
+    auto c = kwinApp()->x11Connection();
+    if (!c) {
+        return;
+    }
+    xcb_delete_property(c, kwinApp()->x11RootWindow(), atom);
 }
 #endif
 
@@ -178,7 +189,7 @@ EffectsHandler::EffectsHandler(Compositor *compositor, WorkspaceScene *scene)
     });
     connect(vds, &VirtualDesktopManager::desktopAdded, this, &EffectsHandler::desktopAdded);
     connect(vds, &VirtualDesktopManager::desktopRemoved, this, &EffectsHandler::desktopRemoved);
-    connect(Cursors::self()->mouse(), &Cursor::mouseChanged, this, &EffectsHandler::mouseChanged);
+    connect(vds, &VirtualDesktopManager::desktopMoved, this, &EffectsHandler::desktopMoved);
     connect(ws, &Workspace::geometryChanged, this, &EffectsHandler::virtualScreenSizeChanged);
     connect(ws, &Workspace::geometryChanged, this, &EffectsHandler::virtualScreenGeometryChanged);
 #if KWIN_BUILD_ACTIVITIES
@@ -203,6 +214,37 @@ EffectsHandler::EffectsHandler(Compositor *compositor, WorkspaceScene *scene)
     connect(kwinApp()->screenLockerWatcher(), &ScreenLockerWatcher::aboutToLock, this, &EffectsHandler::screenAboutToLock);
 #endif
 
+    m_cursor.position = input()->globalPointer();
+    m_cursor.buttons = input()->qtButtonStates();
+    m_cursor.modifiers = input()->keyboardModifiers();
+
+    connect(input(), &InputRedirection::globalPointerChanged, this, [this]() {
+        const QPointF oldPos = m_cursor.position;
+        m_cursor.position = input()->globalPointer();
+
+        Q_EMIT mouseChanged(m_cursor.position, oldPos,
+                            m_cursor.buttons, m_cursor.buttons,
+                            m_cursor.modifiers, m_cursor.modifiers);
+    });
+
+    connect(input(), &InputRedirection::pointerButtonStateChanged, this, [this]() {
+        const Qt::MouseButtons oldButtons = m_cursor.buttons;
+        m_cursor.buttons = input()->qtButtonStates();
+
+        Q_EMIT mouseChanged(m_cursor.position, m_cursor.position,
+                            m_cursor.buttons, oldButtons,
+                            m_cursor.modifiers, m_cursor.modifiers);
+    });
+
+    connect(input(), &InputRedirection::keyboardModifiersChanged, this, [this]() {
+        const Qt::KeyboardModifiers oldModifiers = m_cursor.modifiers;
+        m_cursor.modifiers = input()->keyboardModifiers();
+
+        Q_EMIT mouseChanged(m_cursor.position, m_cursor.position,
+                            m_cursor.buttons, m_cursor.buttons,
+                            m_cursor.modifiers, oldModifiers);
+    });
+
 #if KWIN_BUILD_X11
     connect(kwinApp(), &Application::x11ConnectionChanged, this, [this]() {
         registered_atoms.clear();
@@ -211,7 +253,6 @@ EffectsHandler::EffectsHandler(Compositor *compositor, WorkspaceScene *scene)
             if (atom == XCB_ATOM_NONE) {
                 continue;
             }
-            m_compositor->keepSupportProperty(atom);
             m_managedProperties.insert(*it, atom);
             registerPropertyType(atom, true);
         }
@@ -273,7 +314,7 @@ bool EffectsHandler::isOpenGLCompositing() const
     return compositing_type & OpenGLCompositing;
 }
 
-OpenGlContext *EffectsHandler::openglContext() const
+EglContext *EffectsHandler::openglContext() const
 {
     return m_scene->openglContext();
 }
@@ -449,28 +490,15 @@ bool EffectsHandler::grabKeyboard(Effect *effect)
     if (keyboard_grab_effect != nullptr) {
         return false;
     }
-    if (!doGrabKeyboard()) {
-        return false;
-    }
     keyboard_grab_effect = effect;
-    return true;
-}
-
-bool EffectsHandler::doGrabKeyboard()
-{
     return true;
 }
 
 void EffectsHandler::ungrabKeyboard()
 {
     Q_ASSERT(keyboard_grab_effect != nullptr);
-    doUngrabKeyboard();
     keyboard_grab_effect = nullptr;
     input()->keyboard()->update();
-}
-
-void EffectsHandler::doUngrabKeyboard()
-{
 }
 
 void EffectsHandler::grabbedKeyboardEvent(QKeyEvent *e)
@@ -489,11 +517,7 @@ void EffectsHandler::startMouseInterception(Effect *effect, Qt::CursorShape shap
     if (m_grabbedMouseEffects.size() != 1) {
         return;
     }
-    doStartMouseInterception(shape);
-}
 
-void EffectsHandler::doStartMouseInterception(Qt::CursorShape shape)
-{
     input()->pointer()->setEffectsOverrideCursor(shape);
 
     // We want to allow global shortcuts to be triggered when moving a
@@ -515,13 +539,8 @@ void EffectsHandler::stopMouseInterception(Effect *effect)
     }
     m_grabbedMouseEffects.removeAll(effect);
     if (m_grabbedMouseEffects.isEmpty()) {
-        doStopMouseInterception();
+        input()->pointer()->removeEffectsOverrideCursor();
     }
-}
-
-void EffectsHandler::doStopMouseInterception()
-{
-    input()->pointer()->removeEffectsOverrideCursor();
 }
 
 bool EffectsHandler::isMouseInterception() const
@@ -569,7 +588,7 @@ void EffectsHandler::touchCancel()
     }
 }
 
-bool EffectsHandler::tabletToolProximityEvent(TabletEvent *event)
+bool EffectsHandler::tabletToolProximityEvent(TabletToolProximityEvent *event)
 {
     // TODO: reverse call order?
     for (auto it = loaded_effects.constBegin(); it != loaded_effects.constEnd(); ++it) {
@@ -580,7 +599,7 @@ bool EffectsHandler::tabletToolProximityEvent(TabletEvent *event)
     return false;
 }
 
-bool EffectsHandler::tabletToolAxisEvent(TabletEvent *event)
+bool EffectsHandler::tabletToolAxisEvent(TabletToolAxisEvent *event)
 {
     // TODO: reverse call order?
     for (auto it = loaded_effects.constBegin(); it != loaded_effects.constEnd(); ++it) {
@@ -591,7 +610,7 @@ bool EffectsHandler::tabletToolAxisEvent(TabletEvent *event)
     return false;
 }
 
-bool EffectsHandler::tabletToolTipEvent(TabletEvent *event)
+bool EffectsHandler::tabletToolTipEvent(TabletToolTipEvent *event)
 {
     // TODO: reverse call order?
     for (auto it = loaded_effects.constBegin(); it != loaded_effects.constEnd(); ++it) {
@@ -640,6 +659,17 @@ bool EffectsHandler::tabletPadRingEvent(int number, int position, bool isFinger,
     // TODO: reverse call order?
     for (auto it = loaded_effects.constBegin(); it != loaded_effects.constEnd(); ++it) {
         if (it->second->tabletPadRingEvent(number, position, isFinger, device)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool EffectsHandler::tabletPadDialEvent(int number, double delta, std::chrono::microseconds time, InputDevice *device)
+{
+    // TODO: reverse call order?
+    for (auto it = loaded_effects.constBegin(); it != loaded_effects.constEnd(); ++it) {
+        if (it->second->tabletPadDialEvent(number, delta, device)) {
             return true;
         }
     }
@@ -704,7 +734,6 @@ xcb_atom_t EffectsHandler::announceSupportProperty(const QByteArray &propertyNam
     if (atom == XCB_ATOM_NONE) {
         return atom;
     }
-    m_compositor->keepSupportProperty(atom);
     m_managedProperties.insert(propertyName, atom);
     registerPropertyType(atom, true);
     return atom;
@@ -729,7 +758,7 @@ void EffectsHandler::removeSupportProperty(const QByteArray &propertyName, Effec
     const xcb_atom_t atom = m_managedProperties.take(propertyName);
     registerPropertyType(atom, false);
     m_propertiesForEffects.remove(propertyName);
-    m_compositor->removeSupportProperty(atom); // delayed removal
+    unregisterSupportProperty(atom);
 }
 #endif
 
@@ -1104,18 +1133,6 @@ bool EffectsHandler::checkInputWindowEvent(QWheelEvent *e)
     return true;
 }
 
-void EffectsHandler::checkInputWindowStacking()
-{
-    if (m_grabbedMouseEffects.isEmpty()) {
-        return;
-    }
-    doCheckInputWindowStacking();
-}
-
-void EffectsHandler::doCheckInputWindowStacking()
-{
-}
-
 QPointF EffectsHandler::cursorPos() const
 {
     return Cursors::self()->mouse()->pos();
@@ -1414,12 +1431,17 @@ QString EffectsHandler::debug(const QString &name, const QString &parameter) con
 
 bool EffectsHandler::makeOpenGLContextCurrent()
 {
-    return m_scene->makeOpenGLContextCurrent();
+    if (!isOpenGLCompositing()) {
+        return false;
+    }
+    return m_scene->openglContext()->makeCurrent();
 }
 
 void EffectsHandler::doneOpenGLContextCurrent()
 {
-    m_scene->doneOpenGLContextCurrent();
+    if (isOpenGLCompositing()) {
+        m_scene->openglContext()->doneCurrent();
+    }
 }
 
 bool EffectsHandler::animationsSupported() const

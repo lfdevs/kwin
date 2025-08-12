@@ -41,7 +41,6 @@ class QMatrix4x4;
 class QMouseEvent;
 class QWheelEvent;
 class QAction;
-class QTabletEvent;
 class QQmlEngine;
 
 /**
@@ -71,13 +70,15 @@ class OffscreenQuickView;
 class Group;
 class Output;
 class Effect;
-class TabletEvent;
+struct TabletToolProximityEvent;
+struct TabletToolAxisEvent;
+struct TabletToolTipEvent;
 class Window;
 class WindowItem;
 class WindowPropertyNotifyX11Filter;
 class WorkspaceScene;
 class VirtualDesktop;
-class OpenGlContext;
+class EglContext;
 class InputDevice;
 class InputDeviceTabletTool;
 
@@ -182,7 +183,7 @@ public:
      * @see startMouseInterception
      * @since 4.11
      */
-    virtual void defineCursor(Qt::CursorShape shape);
+    void defineCursor(Qt::CursorShape shape);
     QPointF cursorPos() const;
     bool grabKeyboard(Effect *effect);
     void ungrabKeyboard();
@@ -211,7 +212,6 @@ public:
 
     bool checkInputWindowEvent(QMouseEvent *e);
     bool checkInputWindowEvent(QWheelEvent *e);
-    void checkInputWindowStacking();
 
     void grabbedKeyboardEvent(QKeyEvent *e);
     bool hasKeyboardGrab() const;
@@ -469,7 +469,7 @@ public:
      * @return bool @c true in case of OpenGL based Compositor, @c false otherwise
      */
     bool isOpenGLCompositing() const;
-    OpenGlContext *openglContext() const;
+    EglContext *openglContext() const;
     /**
      * @brief Provides access to the QPainter which is rendering to the back buffer.
      *
@@ -746,13 +746,14 @@ public:
     bool touchUp(qint32 id, std::chrono::microseconds time);
     void touchCancel();
 
-    bool tabletToolProximityEvent(KWin::TabletEvent *event);
-    bool tabletToolAxisEvent(KWin::TabletEvent *event);
-    bool tabletToolTipEvent(KWin::TabletEvent *event);
+    bool tabletToolProximityEvent(KWin::TabletToolProximityEvent *event);
+    bool tabletToolAxisEvent(KWin::TabletToolAxisEvent *event);
+    bool tabletToolTipEvent(KWin::TabletToolTipEvent *event);
     bool tabletToolButtonEvent(uint button, bool pressed, InputDeviceTabletTool *tool, std::chrono::microseconds time);
     bool tabletPadButtonEvent(uint button, bool pressed, std::chrono::microseconds time, InputDevice *device);
     bool tabletPadStripEvent(int number, int position, bool isFinger, std::chrono::microseconds time, InputDevice *device);
     bool tabletPadRingEvent(int number, int position, bool isFinger, std::chrono::microseconds time, InputDevice *device);
+    bool tabletPadDialEvent(int number, double delta, std::chrono::microseconds time, InputDevice *device);
 
     void highlightWindows(const QList<EffectWindow *> &windows);
 
@@ -792,6 +793,7 @@ Q_SIGNALS:
     void desktopChangingCancelled();
     void desktopAdded(KWin::VirtualDesktop *desktop);
     void desktopRemoved(KWin::VirtualDesktop *desktop);
+    void desktopMoved(KWin::VirtualDesktop *desktop, int position);
 
     /**
      * Emitted when the virtual desktop grid layout changes
@@ -1072,36 +1074,19 @@ protected:
     void effectsChanged();
     void setupWindowConnections(KWin::Window *window);
 
-    /**
-     * Default implementation does nothing and returns @c true.
-     */
-    virtual bool doGrabKeyboard();
-    /**
-     * Default implementation does nothing.
-     */
-    virtual void doUngrabKeyboard();
-
-    /**
-     * Default implementation sets Effects override cursor on the PointerInputRedirection.
-     */
-    virtual void doStartMouseInterception(Qt::CursorShape shape);
-
-    /**
-     * Default implementation removes the Effects override cursor on the PointerInputRedirection.
-     */
-    virtual void doStopMouseInterception();
-
-    /**
-     * Default implementation does nothing
-     */
-    virtual void doCheckInputWindowStacking();
-
     void registerPropertyType(long atom, bool reg);
     void destroyEffect(Effect *effect);
     void reconfigureEffects();
 
     typedef QList<Effect *> EffectsList;
     typedef EffectsList::const_iterator EffectsIterator;
+
+    struct
+    {
+        QPointF position;
+        Qt::MouseButtons buttons;
+        Qt::KeyboardModifiers modifiers;
+    } m_cursor;
 
     Effect *keyboard_grab_effect;
     Effect *fullscreen_effect;

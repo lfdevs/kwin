@@ -1,3 +1,14 @@
+kwin (4:6.4.4-0ubuntu1) questing; urgency=medium
+
+  * New upstream release (6.4.4)
+  * Build depend on libxcb-res0-dev
+  * Bump plasma-wayland-protocols build dep to 1.18.0
+  * Also bump waylamd-protocols to 1.44
+  * Update install files.
+  * kwin-x11 transitional package until source accepted.
+
+ -- Rik Mills <rikmills@kde.org>  Tue, 12 Aug 2025 17:29:02 +0100
+
 kwin (4:6.3.5-0ubuntu2) questing; urgency=medium
 
   * Add xorg dependency to kwin-x11 as that dependency will sonn be

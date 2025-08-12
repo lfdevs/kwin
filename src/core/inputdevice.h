@@ -79,6 +79,15 @@ public:
     virtual QList<Capability> capabilities() const = 0;
 };
 
+struct InputDeviceTabletPadModeGroup
+{
+    int modeCount = 0;
+    QList<int> buttons;
+    QList<int> rings;
+    QList<int> strips;
+    QList<int> dials;
+};
+
 /**
  * The InputDevice class represents an input device, e.g. a mouse, or a keyboard, etc.
  */
@@ -93,6 +102,7 @@ public:
     virtual QString name() const = 0;
     virtual quint32 vendor() const;
     virtual quint32 product() const;
+    virtual quint32 busType() const;
 
     virtual void *group() const;
 
@@ -115,10 +125,10 @@ public:
     virtual void setOutputName(const QString &outputName);
 
     virtual int tabletPadButtonCount() const;
-    virtual int tabletPadRingCount() const;
-    virtual int tabletPadStripCount() const;
-    virtual int tabletPadModeCount() const;
-    virtual int tabletPadMode() const;
+
+    virtual QList<InputDeviceTabletPadModeGroup> modeGroups() const;
+
+    virtual bool tabletToolIsRelative() const;
 
 Q_SIGNALS:
     void keyChanged(quint32 key, KeyboardKeyState, std::chrono::microseconds time, InputDevice *device);
@@ -144,13 +154,16 @@ Q_SIGNALS:
     void holdGestureEnd(std::chrono::microseconds time, InputDevice *device);
     void holdGestureCancelled(std::chrono::microseconds time, InputDevice *device);
     void switchToggle(SwitchState state, std::chrono::microseconds time, InputDevice *device);
-    void tabletToolAxisEvent(const QPointF &pos, qreal pressure, qreal xTilt, qreal yTilt, qreal rotation, qreal distance, bool tipDown, bool tipNear, InputDeviceTabletTool *tool, std::chrono::microseconds time, InputDevice *device);
-    void tabletToolProximityEvent(const QPointF &pos, qreal pressure, qreal xTilt, qreal yTilt, qreal rotation, qreal distance, bool tipDown, bool tipNear, InputDeviceTabletTool *tool, std::chrono::microseconds time, InputDevice *device);
-    void tabletToolTipEvent(const QPointF &pos, qreal pressure, qreal xTilt, qreal yTilt, qreal rotation, qreal distance, bool tipDown, bool tipNear, InputDeviceTabletTool *tool, std::chrono::microseconds time, InputDevice *device);
+    void tabletToolAxisEvent(const QPointF &pos, qreal pressure, qreal xTilt, qreal yTilt, qreal rotation, qreal distance, bool tipDown, qreal sliderPosition, InputDeviceTabletTool *tool, std::chrono::microseconds time, InputDevice *device);
+    void tabletToolAxisEventRelative(const QPointF &delta,
+                                     qreal pressure, qreal xTilt, qreal yTilt, qreal rotation, qreal distance, bool tipDown, qreal sliderPosition, InputDeviceTabletTool *tool, std::chrono::microseconds time, InputDevice *device);
+    void tabletToolProximityEvent(const QPointF &pos, qreal xTilt, qreal yTilt, qreal rotation, qreal distance, bool tipNear, qreal sliderPosition, InputDeviceTabletTool *tool, std::chrono::microseconds time, InputDevice *device);
+    void tabletToolTipEvent(const QPointF &pos, qreal pressure, qreal xTilt, qreal yTilt, qreal rotation, qreal distance, bool tipDown, qreal sliderPosition, InputDeviceTabletTool *tool, std::chrono::microseconds time, InputDevice *device);
     void tabletToolButtonEvent(uint button, bool isPressed, InputDeviceTabletTool *tool, std::chrono::microseconds time, InputDevice *device);
-    void tabletPadButtonEvent(uint button, bool isPressed, std::chrono::microseconds time, InputDevice *device);
-    void tabletPadStripEvent(int number, int position, bool isFinger, std::chrono::microseconds time, InputDevice *device);
-    void tabletPadRingEvent(int number, int position, bool isFinger, std::chrono::microseconds time, InputDevice *device);
+    void tabletPadButtonEvent(uint button, bool isPressed, quint32 group, quint32 mode, bool isModeSwitch, std::chrono::microseconds time, InputDevice *device);
+    void tabletPadStripEvent(int number, int position, bool isFinger, quint32 group, std::chrono::microseconds time, InputDevice *device);
+    void tabletPadRingEvent(int number, int position, bool isFinger, quint32 group, std::chrono::microseconds time, InputDevice *device);
+    void tabletPadDialEvent(int number, double delta, quint32 group, std::chrono::microseconds time, InputDevice *device);
 };
 
 } // namespace KWin

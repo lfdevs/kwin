@@ -5,13 +5,13 @@
 # pan93412 <pan93412@gmail.com>, 2018.
 # Frank Weng (a.k.a. Franklin) <franklin at goodhorse dot idv dot tw>, 2009, 2010.
 # Jeff Huang <s8321414@gmail.com>, 2022.
-# SPDX-FileCopyrightText: 2022, 2023, 2024 Kisaragi Hiu <mail@kisaragi-hiu.com>
+# SPDX-FileCopyrightText: 2022, 2023, 2024, 2025 Kisaragi Hiu <mail@kisaragi-hiu.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-06 00:41+0000\n"
-"PO-Revision-Date: 2024-09-17 07:54+0900\n"
+"POT-Creation-Date: 2025-08-05 03:05+0000\n"
+"PO-Revision-Date: 2025-04-20 15:12+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -19,36 +19,75 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "dot tw>\n"
-"X-Generator: Lokalize 24.04.70\n"
+"X-Generator: Lokalize 25.07.70\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: layoutpreview.cpp:127
+#: layoutpreview.cpp:28
+#, kde-format
+msgid "Launch an interactive preview for a tabbox switcher"
+msgstr "啟動 Alt-tab 視窗切換器的互動式預覽"
+
+#: layoutpreview.cpp:29
+#, kde-format
+msgid "Path to the Window Switcher QML main file"
+msgstr "視窗切換器 QML 主檔案的路徑"
+
+#: layoutpreview.cpp:30
+#, kde-format
+msgid "Show also a thumbnail for the desktop"
+msgstr "也為桌面顯示縮圖"
+
+#: layoutpreview.cpp:158
+#, kde-format
+msgctxt "The name of KDE's file manager in this language, if translated"
+msgid "Dolphin"
+msgstr "Dolphin"
+
+#: layoutpreview.cpp:162
+#, kde-format
+msgctxt "The name of KDE's web browser in this language, if translated"
+msgid "Konqueror"
+msgstr "Konqueror 征服家"
+
+#: layoutpreview.cpp:166
+#, kde-format
+msgctxt "The name of KDE's email client in this language, if translated"
+msgid "KMail"
+msgstr "KMail"
+
+#: layoutpreview.cpp:170
+#, kde-format
+msgctxt "The name of KDE's System Settings app in this language, if translated"
+msgid "System Settings"
+msgstr "系統設定"
+
+#: layoutpreview.cpp:176
 #, kde-format
 msgid "Show Desktop"
 msgstr "顯示桌面"
 
-#: layoutpreview.cpp:157
+#: layoutpreview.cpp:206
 #, kde-format
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
 msgstr "桌面 1"
 
-#: main.cpp:72
+#: main.cpp:74
 #, kde-format
 msgid "Main"
 msgstr "主要"
 
-#: main.cpp:73
+#: main.cpp:75
 #, kde-format
 msgid "Alternative"
 msgstr "替代"
 
-#: main.cpp:75
+#: main.cpp:77
 #, kde-format
 msgid "Get New Task Switcher Styles…"
 msgstr "取得新的工作切換器風格…"
 
-#: main.cpp:93
+#: main.cpp:95
 #, kde-format
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."
@@ -200,26 +239,35 @@ msgstr "所有視窗"
 msgid "Reverse"
 msgstr "反轉"
 
+#. i18n: ectx: property (text), widget (QLabel, scCurrentReverseOr)
+#. i18n: ectx: property (text), widget (QLabel, scCurrentOr)
+#. i18n: ectx: property (text), widget (QLabel, scAllReverseOr)
+#. i18n: ectx: property (text), widget (QLabel, scAllOr)
+#: main.ui:474 main.ui:506 main.ui:554 main.ui:586
+#, kde-format
+msgid "or"
+msgstr "或"
+
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: main.ui:480
+#: main.ui:538
 #, kde-format
 msgid "Current application"
 msgstr "目前的應用程式"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: main.ui:499
+#: main.ui:615
 #, kde-format
 msgid "Visualization"
 msgstr "視覺化"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, effectCombo)
-#: main.ui:529
+#: main.ui:645
 #, kde-format
 msgid "The effect to replace the list window when desktop effects are active."
 msgstr "啟動桌面效果時，取代列出視窗的效果"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HighlightWindows)
-#: main.ui:562
+#: main.ui:678
 #, kde-format
 msgid ""
 "The currently selected window will be highlighted by fading out all other "
@@ -227,47 +275,47 @@ msgid ""
 msgstr "會用將其它視窗淡出的方式來突顯目前選取的視窗。此功能需要開啟桌面效果。"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HighlightWindows)
-#: main.ui:565
+#: main.ui:681
 #, kde-format
 msgid "Show selected window"
 msgstr "顯示選取的視窗"
 
-#: shortcutsettings.cpp:132
+#: shortcutsettings.cpp:131
 #, kde-format
 msgid "Walk Through Windows"
 msgstr "瀏覽已開啟視窗"
 
-#: shortcutsettings.cpp:133
+#: shortcutsettings.cpp:132
 #, kde-format
 msgid "Walk Through Windows (Reverse)"
 msgstr "瀏覽已開啟視窗 (反向)"
 
-#: shortcutsettings.cpp:134
+#: shortcutsettings.cpp:133
 #, kde-format
 msgid "Walk Through Windows of Current Application"
 msgstr "瀏覽目前應用程式的視窗"
 
-#: shortcutsettings.cpp:135
+#: shortcutsettings.cpp:134
 #, kde-format
 msgid "Walk Through Windows of Current Application (Reverse)"
 msgstr "瀏覽目前應用程式的視窗（反向）"
 
-#: shortcutsettings.cpp:137
+#: shortcutsettings.cpp:136
 #, kde-format
 msgid "Walk Through Windows Alternative"
 msgstr "瀏覽已開啟視窗（替代按鍵）"
 
-#: shortcutsettings.cpp:138
+#: shortcutsettings.cpp:137
 #, kde-format
 msgid "Walk Through Windows Alternative (Reverse)"
 msgstr "瀏覽已開啟視窗（替代按鍵/反向）"
 
-#: shortcutsettings.cpp:139
+#: shortcutsettings.cpp:138
 #, kde-format
 msgid "Walk Through Windows of Current Application Alternative"
 msgstr "瀏覽目前應用程式視窗（替代按鍵）"
 
-#: shortcutsettings.cpp:140
+#: shortcutsettings.cpp:139
 #, kde-format
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
 msgstr "瀏覽目前應用程式視窗（替代按鍵/反向）"

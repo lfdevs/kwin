@@ -46,15 +46,19 @@ std::optional<std::tuple<OutputConfiguration, QList<Output *>, OutputConfigurati
     if (relevantOutputs.isEmpty()) {
         return std::nullopt;
     }
+    // assigns uuids, if the outputs don't have one yet
+    registerOutputs(outputs);
     if (const auto opt = findSetup(relevantOutputs, isLidClosed)) {
         const auto &[setup, outputStates] = *opt;
         auto [config, order] = setupToConfig(setup, outputStates);
         applyOrientationReading(config, relevantOutputs, orientation, isTabletMode);
+        applyMirroring(config, relevantOutputs);
         storeConfig(relevantOutputs, isLidClosed, config, order);
         return std::make_tuple(config, order, ConfigType::Preexisting);
     }
     auto [config, order] = generateConfig(relevantOutputs, isLidClosed);
     applyOrientationReading(config, relevantOutputs, orientation, isTabletMode);
+    applyMirroring(config, relevantOutputs);
     storeConfig(relevantOutputs, isLidClosed, config, order);
     return std::make_tuple(config, order, ConfigType::Generated);
 }
@@ -93,6 +97,85 @@ void OutputConfigurationStore::applyOrientationReading(OutputConfiguration &conf
     case QOrientationReading::Orientation::Undefined:
         changeset->transform = changeset->manualTransform;
         return;
+    }
+}
+
+void OutputConfigurationStore::applyMirroring(OutputConfiguration &config, const QList<Output *> &outputs)
+{
+    for (const auto output : outputs) {
+        const auto changeset = config.changeSet(output);
+        const QString mirrorSource = changeset->replicationSource.value_or(output->replicationSource());
+        if (mirrorSource.isEmpty()) {
+            continue;
+        }
+        const auto sourceIt = std::ranges::find_if(outputs, [&](Output *o) {
+            return config.changeSet(o)->uuid.value_or(o->uuid()) == mirrorSource;
+        });
+        if (sourceIt == outputs.end()) {
+            continue;
+        }
+        Output *const source = *sourceIt;
+        if (source == output) {
+            qCWarning(KWIN_CORE, "Output %s is trying to mirror itself, that shouldn't happen!", qPrintable(output->name()));
+            continue;
+        }
+        const auto sourceChange = config.changeSet(source);
+        auto sourceMode = sourceChange->mode.value_or(source->currentMode()).lock();
+        if (!sourceMode) {
+            continue;
+        }
+        const auto sourcePosition = sourceChange->pos.value_or(source->geometry().topLeft());
+        const auto sourceScale = sourceChange->scale.value_or(source->scale());
+        const auto sourceTransform = sourceChange->transform.value_or(source->transform());
+        const auto sourceModeSize = sourceTransform.map(sourceMode->size());
+        const auto logicalSourceSize = sourceModeSize / sourceScale;
+        const auto transform = changeset->transform.value_or(output->transform());
+        const auto modes = output->modes();
+        auto sameAspect = modes | std::views::filter([sourceModeSize, transform](const auto &mode) {
+            const double aspect1 = sourceModeSize.width() / double(sourceModeSize.height());
+            const auto size = transform.map(mode->size());
+            const double aspect2 = size.width() / double(size.height());
+            return std::abs(aspect1 - aspect2) < 0.01;
+        });
+        if (!sameAspect.empty()) {
+            changeset->mode = sameAspect.front();
+            changeset->scale = std::round(transform.map(sameAspect.front()->size()).width() / double(logicalSourceSize.width()) * 120) / 120.0;
+            changeset->pos = sourcePosition;
+            continue;
+        }
+        const auto mode = changeset->mode.value_or(output->currentMode()).lock();
+        if (!mode) {
+            continue;
+        }
+        // we can't do anything good here without additional infrastructure to handle mirroring explicitly
+        // next-best workaround for now: make the outputs equal height or width through scaling, and then center it on the other axis
+        const auto modeSize = transform.map(mode->size());
+        if (modeSize.width() > modeSize.height()) {
+            changeset->scale = std::round(modeSize.height() / double(logicalSourceSize.height()) * 120) / 120.0;
+            const QSize logicalSize = modeSize / *changeset->scale;
+            changeset->pos = QPoint(sourcePosition.x() + logicalSourceSize.width() / 2 - logicalSize.width() / 2, sourcePosition.y());
+        } else {
+            changeset->scale = std::round(modeSize.width() / double(logicalSourceSize.width()) * 120) / 120.0;
+            const QSize logicalSize = modeSize / *changeset->scale;
+            changeset->pos = QPoint(sourcePosition.x(), sourcePosition.y() + logicalSourceSize.height() / 2 - logicalSize.height() / 2);
+        }
+    }
+    // the fallback logic above may push some output into negative coordinates,
+    // which causes issues with Xwayland -> shift all of them to be positive
+    for (Output *output : outputs) {
+        const auto changeset = config.changeSet(output);
+        if (!changeset->pos.has_value()) {
+            continue;
+        }
+        const QPoint pos = *changeset->pos;
+        if (pos.x() >= 0 && pos.y() >= 0) {
+            continue;
+        }
+        for (Output *output : outputs) {
+            const auto changeset = config.changeSet(output);
+            const auto otherPos = changeset->pos.value_or(output->geometry().topLeft());
+            changeset->pos = otherPos - QPoint(std::min(pos.x(), 0), std::min(pos.y(), 0));
+        }
     }
 }
 
@@ -232,6 +315,7 @@ void OutputConfigurationStore::storeConfig(const QList<Output *> &allOutputs, bo
     if (relevantOutputs.isEmpty()) {
         return;
     }
+    registerOutputs(allOutputs);
     const auto opt = findSetup(relevantOutputs, isLidClosed);
     Setup *setup = nullptr;
     if (opt) {
@@ -243,10 +327,7 @@ void OutputConfigurationStore::storeConfig(const QList<Output *> &allOutputs, bo
     }
     for (Output *output : relevantOutputs) {
         auto outputIndex = findOutput(output, outputOrder);
-        if (!outputIndex) {
-            m_outputs.push_back(OutputState{});
-            outputIndex = m_outputs.size() - 1;
-        }
+        Q_ASSERT(outputIndex.has_value());
         auto outputIt = std::find_if(setup->outputs.begin(), setup->outputs.end(), [outputIndex](const auto &output) {
             return output.outputIndex == outputIndex;
         });
@@ -254,6 +335,7 @@ void OutputConfigurationStore::storeConfig(const QList<Output *> &allOutputs, bo
             setup->outputs.push_back(SetupState{});
             outputIt = setup->outputs.end() - 1;
         }
+        const std::optional<QString> existingUuid = m_outputs[*outputIndex].uuid;
         if (const auto changeSet = config.constChangeSet(output)) {
             QSize modeSize = changeSet->desiredModeSize.value_or(output->desiredModeSize());
             if (modeSize.isEmpty()) {
@@ -291,12 +373,18 @@ void OutputConfigurationStore::storeConfig(const QList<Output *> &allOutputs, bo
                 .brightness = changeSet->brightness.value_or(output->brightnessSetting()),
                 .allowSdrSoftwareBrightness = changeSet->allowSdrSoftwareBrightness.value_or(output->allowSdrSoftwareBrightness()),
                 .colorPowerTradeoff = changeSet->colorPowerTradeoff.value_or(output->colorPowerTradeoff()),
+                .uuid = existingUuid,
+                .detectedDdcCi = changeSet->detectedDdcCi.value_or(output->detectedDdcCi()),
+                .allowDdcCi = changeSet->allowDdcCi.value_or(output->allowDdcCi()),
+                .maxBitsPerColor = changeSet->maxBitsPerColor.value_or(output->maxBitsPerColor()),
+                .edrPolicy = changeSet->edrPolicy.value_or(output->edrPolicy()),
             };
             *outputIt = SetupState{
                 .outputIndex = *outputIndex,
                 .position = changeSet->pos.value_or(output->geometry().topLeft()),
                 .enabled = changeSet->enabled.value_or(output->isEnabled()),
                 .priority = int(outputOrder.indexOf(output)),
+                .replicationSource = changeSet->replicationSource.value_or(output->replicationSource()),
             };
         } else {
             QSize modeSize = output->desiredModeSize();
@@ -335,12 +423,18 @@ void OutputConfigurationStore::storeConfig(const QList<Output *> &allOutputs, bo
                 .brightness = output->brightnessSetting(),
                 .allowSdrSoftwareBrightness = output->allowSdrSoftwareBrightness(),
                 .colorPowerTradeoff = output->colorPowerTradeoff(),
+                .uuid = existingUuid,
+                .detectedDdcCi = output->detectedDdcCi(),
+                .allowDdcCi = output->allowDdcCi(),
+                .maxBitsPerColor = output->maxBitsPerColor(),
+                .edrPolicy = output->edrPolicy(),
             };
             *outputIt = SetupState{
                 .outputIndex = *outputIndex,
                 .position = output->geometry().topLeft(),
                 .enabled = output->isEnabled(),
                 .priority = int(outputOrder.indexOf(output)),
+                .replicationSource = output->replicationSource(),
             };
         }
     }
@@ -383,7 +477,7 @@ std::pair<OutputConfiguration, QList<Output *>> OutputConfigurationStore::setupT
             .wideColorGamut = state.wideColorGamut,
             .autoRotationPolicy = state.autoRotation,
             .iccProfilePath = state.iccProfilePath,
-            .iccProfile = state.iccProfilePath ? IccProfile::load(*state.iccProfilePath).profile.value_or(nullptr) : nullptr,
+            .iccProfile = state.iccProfilePath ? IccProfile::load(*state.iccProfilePath).value_or(nullptr) : nullptr,
             .maxPeakBrightnessOverride = state.maxPeakBrightnessOverride,
             .maxAverageBrightnessOverride = state.maxAverageBrightnessOverride,
             .minBrightnessOverride = state.minBrightnessOverride,
@@ -392,6 +486,12 @@ std::pair<OutputConfiguration, QList<Output *>> OutputConfigurationStore::setupT
             .brightness = state.brightness,
             .allowSdrSoftwareBrightness = state.allowSdrSoftwareBrightness,
             .colorPowerTradeoff = state.colorPowerTradeoff,
+            .uuid = state.uuid,
+            .replicationSource = setupState.replicationSource,
+            .detectedDdcCi = state.detectedDdcCi,
+            .allowDdcCi = state.allowDdcCi,
+            .maxBitsPerColor = state.maxBitsPerColor,
+            .edrPolicy = state.edrPolicy,
         };
         if (setupState.enabled) {
             priorities.push_back(std::make_pair(output, setupState.priority));
@@ -509,7 +609,7 @@ std::pair<OutputConfiguration, QList<Output *>> OutputConfigurationStore::genera
             .manualTransform = existingData.manualTransform.value_or(kscreenChangeSet.transform.value_or(output->panelOrientation())),
             .overscan = existingData.overscan.value_or(kscreenChangeSet.overscan.value_or(0)),
             .rgbRange = existingData.rgbRange.value_or(kscreenChangeSet.rgbRange.value_or(Output::RgbRange::Automatic)),
-            .vrrPolicy = existingData.vrrPolicy.value_or(kscreenChangeSet.vrrPolicy.value_or(VrrPolicy::Automatic)),
+            .vrrPolicy = existingData.vrrPolicy.value_or(kscreenChangeSet.vrrPolicy.value_or(VrrPolicy::Never)),
             .highDynamicRange = existingData.highDynamicRange.value_or(false),
             .referenceLuminance = existingData.referenceLuminance.value_or(std::clamp(output->maxAverageBrightness().value_or(200), 200.0, 500.0)),
             .wideColorGamut = existingData.wideColorGamut.value_or(false),
@@ -518,6 +618,11 @@ std::pair<OutputConfiguration, QList<Output *>> OutputConfigurationStore::genera
             .brightness = existingData.brightness.value_or(1.0),
             .allowSdrSoftwareBrightness = existingData.allowSdrSoftwareBrightness.value_or(output->brightnessDevice() == nullptr),
             .colorPowerTradeoff = existingData.colorPowerTradeoff.value_or(Output::ColorPowerTradeoff::PreferEfficiency),
+            .uuid = existingData.uuid,
+            .detectedDdcCi = existingData.detectedDdcCi.value_or(false),
+            .allowDdcCi = existingData.allowDdcCi.value_or(!output->isDdcCiKnownBroken()),
+            .maxBitsPerColor = existingData.maxBitsPerColor,
+            .edrPolicy = existingData.edrPolicy.value_or(Output::EdrPolicy::Always),
         };
         if (enable) {
             const auto modeSize = changeset->transform->map(mode->size());
@@ -650,9 +755,38 @@ double OutputConfigurationStore::chooseScale(Output *output, OutputMode *mode) c
     const double maxScaleY = std::clamp(mode->size().height() / minSize, 1.0, 3.0);
     const double scaleY = std::clamp(dpiY / targetDpi, 1.0, maxScaleY);
 
-    const double scale = std::min(scaleX, scaleY);
+    double scale = std::min(scaleX, scaleY);
     const double steps = 5;
-    return std::round(100.0 * scale / steps) * steps / 100.0;
+    scale = std::round(100.0 * scale / steps) * steps / 100.0;
+
+    // Low-but-not-1 scale factors look like a blurry mess; 1x is better here
+    if (scale < 1.20) {
+        scale = 1.0;
+    }
+
+    return scale;
+}
+
+void OutputConfigurationStore::registerOutputs(const QList<Output *> &outputs)
+{
+    for (Output *output : outputs) {
+        if (output->isNonDesktop() || output->isPlaceholder()) {
+            continue;
+        }
+        auto index = findOutput(output, outputs);
+        if (!index) {
+            index = m_outputs.size();
+            m_outputs.push_back(OutputState{});
+        }
+        auto &state = m_outputs[*index];
+        state.edidIdentifier = output->edid().identifier();
+        state.connectorName = output->name();
+        state.edidHash = output->edid().hash();
+        state.mstPath = output->mstPath();
+        if (!state.uuid.has_value()) {
+            state.uuid = QUuid::createUuid().toString(QUuid::StringFormat::WithoutBraces);
+        }
+    }
 }
 
 void OutputConfigurationStore::load()
@@ -825,9 +959,17 @@ void OutputConfigurationStore::load()
         }
         if (const auto it = data.find("maxPeakBrightnessOverride"); it != data.end() && it->isDouble()) {
             state.maxPeakBrightnessOverride = it->toDouble();
+            if (*state.maxPeakBrightnessOverride < 50) {
+                // clearly nonsense
+                state.maxPeakBrightnessOverride.reset();
+            }
         }
         if (const auto it = data.find("maxAverageBrightnessOverride"); it != data.end() && it->isDouble()) {
             state.maxAverageBrightnessOverride = it->toDouble();
+            if (*state.maxAverageBrightnessOverride < 50) {
+                // clearly nonsense
+                state.maxAverageBrightnessOverride.reset();
+            }
         }
         if (const auto it = data.find("minBrightnessOverride"); it != data.end() && it->isDouble()) {
             state.minBrightnessOverride = it->toDouble();
@@ -866,6 +1008,29 @@ void OutputConfigurationStore::load()
                 state.colorPowerTradeoff = Output::ColorPowerTradeoff::PreferAccuracy;
             }
         }
+        if (const auto it = data.find("uuid"); it != data.end() && !it->toString().isEmpty()) {
+            state.uuid = it->toString();
+        }
+        if (const auto it = data.find("detectedDdcCi"); it != data.end() && it->isBool()) {
+            state.detectedDdcCi = it->toBool();
+        }
+        if (const auto it = data.find("allowDdcCi"); it != data.end() && it->isBool()) {
+            state.allowDdcCi = it->toBool();
+        }
+        if (const auto it = data.find("maxBitsPerColor"); it != data.end()) {
+            uint64_t bpc = it->toInteger(0);
+            if (bpc >= 6 && bpc <= 16) {
+                state.maxBitsPerColor = bpc;
+            }
+        }
+        if (const auto it = data.find("edrPolicy"); it != data.end()) {
+            const auto str = it->toString();
+            if (str == "never") {
+                state.edrPolicy = Output::EdrPolicy::Never;
+            } else if (str == "always") {
+                state.edrPolicy = Output::EdrPolicy::Always;
+            }
+        }
         outputDatas.push_back(state);
     }
 
@@ -899,6 +1064,9 @@ void OutputConfigurationStore::load()
                     break;
                 }
                 state.outputIndex = index;
+            } else {
+                fail = true;
+                break;
             }
             if (const auto it = outputData.find("position"); it != outputData.end()) {
                 const auto obj = it->toObject();
@@ -919,6 +1087,11 @@ void OutputConfigurationStore::load()
                     fail = true;
                     break;
                 }
+            } else {
+                state.priority = INT_MAX;
+            }
+            if (const auto it = outputData.find("replicationSource"); it != outputData.end()) {
+                state.replicationSource = it->toString();
             }
             setup.outputs.push_back(state);
         }
@@ -970,6 +1143,14 @@ void OutputConfigurationStore::load()
                 setupIt++;
             }
         } else {
+            // ensure that uuids are actually unique in the config
+            const int count = std::ranges::count_if(outputDatas, [i, &outputDatas](const auto &data) {
+                return data.has_value() && data->uuid == outputDatas[i]->uuid;
+            });
+            if (count > 1) {
+                // a new uuid will be generated when the data gets used
+                outputDatas[i]->uuid.reset();
+            }
             i++;
         }
     }
@@ -1111,6 +1292,28 @@ void OutputConfigurationStore::save()
                 break;
             }
         }
+        if (output.uuid.has_value()) {
+            o["uuid"] = *output.uuid;
+        }
+        if (output.detectedDdcCi) {
+            o["detectedDdcCi"] = *output.detectedDdcCi;
+        }
+        if (output.allowDdcCi) {
+            o["allowDdcCi"] = *output.allowDdcCi;
+        }
+        if (output.maxBitsPerColor.has_value()) {
+            o["maxBitsPerColor"] = int(*output.maxBitsPerColor);
+        }
+        if (output.edrPolicy.has_value()) {
+            switch (*output.edrPolicy) {
+            case Output::EdrPolicy::Never:
+                o["edrPolicy"] = "never";
+                break;
+            case Output::EdrPolicy::Always:
+                o["edrPolicy"] = "always";
+                break;
+            }
+        }
         outputsData.append(o);
     }
     outputs["data"] = outputsData;
@@ -1133,6 +1336,7 @@ void OutputConfigurationStore::save()
             pos["x"] = output.position.x();
             pos["y"] = output.position.y();
             o["position"] = pos;
+            o["replicationSource"] = output.replicationSource;
 
             outputs.append(o);
         }

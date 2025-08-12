@@ -25,6 +25,8 @@
 #include "drm_logging.h"
 #include "drm_output.h"
 #include "drm_plane.h"
+#include "utils/envvar.h"
+#include "utils/kernel.h"
 
 #include <drm_fourcc.h>
 #include <gbm.h>
@@ -104,25 +106,25 @@ DrmPipeline::Error DrmPipeline::commitPipelinesAtomic(const QList<DrmPipeline *>
             mode = CommitMode::TestAllowModeset;
         }
     }
-    for (const auto &pipeline : pipelines) {
+    for (DrmPipeline *pipeline : pipelines) {
         if (Error err = pipeline->prepareAtomicCommit(commit.get(), mode, frame); err != Error::None) {
             return err;
         }
     }
-    for (const auto &unused : unusedObjects) {
+    for (DrmObject *unused : unusedObjects) {
         unused->disable(commit.get());
     }
     switch (mode) {
     case CommitMode::TestAllowModeset: {
         if (!commit->testAllowModeset()) {
-            qCDebug(KWIN_DRM) << "Atomic modeset test failed!" << strerror(errno);
+            qCWarning(KWIN_DRM) << "Atomic modeset test failed!" << strerror(errno);
             return errnoToError();
         }
         const bool withoutModeset = std::ranges::all_of(pipelines, [&frame](DrmPipeline *pipeline) {
             auto commit = std::make_unique<DrmAtomicCommit>(QVector<DrmPipeline *>{pipeline});
             return pipeline->prepareAtomicCommit(commit.get(), CommitMode::TestAllowModeset, frame) == Error::None && commit->test();
         });
-        for (const auto &pipeline : pipelines) {
+        for (DrmPipeline *pipeline : pipelines) {
             pipeline->m_pending.needsModeset = !withoutModeset;
             pipeline->m_pending.needsModesetProperties = true;
         }
@@ -221,13 +223,30 @@ DrmPipeline::Error DrmPipeline::prepareAtomicPresentation(DrmAtomicCommit *commi
     }
     primary->set(commit, m_primaryLayer->sourceRect().toRect(), m_primaryLayer->targetRect());
     commit->addBuffer(m_pending.crtc->primaryPlane(), fb, frame);
-    if (fb->buffer()->dmabufAttributes()->format == DRM_FORMAT_NV12) {
+    switch (m_primaryLayer->colorDescription().yuvCoefficients()) {
+    case YUVMatrixCoefficients::Identity:
+        break;
+    case YUVMatrixCoefficients::BT601:
         if (!primary->colorEncoding.isValid() || !primary->colorRange.isValid()) {
-            // don't allow NV12 direct scanout if we don't know what the driver will do
+            return Error::InvalidArguments;
+        }
+        commit->addEnum(primary->colorEncoding, DrmPlane::ColorEncoding::BT601_YCbCr);
+        commit->addEnum(primary->colorRange, DrmPlane::ColorRange::Limited_YCbCr);
+        break;
+    case YUVMatrixCoefficients::BT709:
+        if (!primary->colorEncoding.isValid() || !primary->colorRange.isValid()) {
             return Error::InvalidArguments;
         }
         commit->addEnum(primary->colorEncoding, DrmPlane::ColorEncoding::BT709_YCbCr);
         commit->addEnum(primary->colorRange, DrmPlane::ColorRange::Limited_YCbCr);
+        break;
+    case YUVMatrixCoefficients::BT2020:
+        if (!primary->colorEncoding.isValid() || !primary->colorRange.isValid()) {
+            return Error::InvalidArguments;
+        }
+        commit->addEnum(primary->colorEncoding, DrmPlane::ColorEncoding::BT2020_YCbCr);
+        commit->addEnum(primary->colorRange, DrmPlane::ColorRange::Limited_YCbCr);
+        break;
     }
     return Error::None;
 }
@@ -326,6 +345,9 @@ bool DrmPipeline::prepareAtomicModeset(DrmAtomicCommit *commit)
 
     commit->addProperty(m_pending.crtc->active, 1);
     commit->addBlob(m_pending.crtc->modeId, m_pending.mode->blob());
+    if (m_pending.crtc->degammaLut.isValid()) {
+        commit->addProperty(m_pending.crtc->degammaLut, 0);
+    }
 
     const auto primary = m_pending.crtc->primaryPlane();
     commit->addProperty(primary->crtcId, m_pending.crtc->id());
@@ -415,7 +437,7 @@ bool DrmPipeline::updateCursor(std::optional<std::chrono::nanoseconds> allowedVr
 
 bool DrmPipeline::amdgpuVrrWorkaroundActive() const
 {
-    static const bool s_env = qEnvironmentVariableIntValue("KWIN_DRM_DONT_FORCE_AMD_SW_CURSOR") == 1;
+    static const bool s_env = environmentVariableBoolValue("KWIN_DRM_DONT_FORCE_AMD_SW_CURSOR").value_or(linuxKernelVersion() >= Version(6, 11));
     return !s_env && gpu()->isAmdgpu() && (m_pending.presentationMode == PresentationMode::AdaptiveSync || m_pending.presentationMode == PresentationMode::AdaptiveAsync);
 }
 
@@ -441,6 +463,8 @@ void DrmPipeline::pageFlipped(std::chrono::nanoseconds timestamp)
 {
     RenderLoopPrivate::get(m_output->renderLoop())->notifyVblank(timestamp);
     m_commitThread->pageFlipped(timestamp);
+    // the commit thread adjusts the safety margin on every commit
+    m_output->renderLoop()->setPresentationSafetyMargin(m_commitThread->safetyMargin());
     if (gpu()->needsModeset()) {
         gpu()->maybeModeset(nullptr, nullptr);
     }
@@ -679,7 +703,7 @@ std::shared_ptr<DrmBlob> DrmPipeline::createHdrMetadata(TransferFunction::Type t
     if (!m_connector->edid()->supportsPQ()) {
         return nullptr;
     }
-    const auto colorimetry = m_connector->edid()->colorimetry().value_or(Colorimetry::fromName(NamedColorimetry::BT709));
+    const auto colorimetry = m_connector->edid()->nativeColorimetry().value_or(Colorimetry::BT709);
     const xyY red = colorimetry.red().toxyY();
     const xyY green = colorimetry.green().toxyY();
     const xyY blue = colorimetry.blue().toxyY();

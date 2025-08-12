@@ -84,7 +84,7 @@ void DataDeviceInterfacePrivate::data_device_start_drag(Resource *resource,
                                                         wl_resource *iconResource,
                                                         uint32_t serial)
 {
-    SurfaceInterface *focusSurface = SurfaceInterface::get(originResource);
+    SurfaceInterface *focusSurface = SurfaceInterface::get(originResource)->mainSurface();
     DataSourceInterface *dataSource = nullptr;
     if (sourceResource) {
         dataSource = DataSourceInterface::get(sourceResource);
@@ -96,6 +96,9 @@ void DataDeviceInterfacePrivate::data_device_start_drag(Resource *resource,
         const bool touchGrab = seat->hasImplicitTouchGrab(serial) && seat->isSurfaceTouched(focusSurface);
         if (!touchGrab) {
             // Client neither has pointer nor touch grab. No drag start allowed.
+            if (dataSource) {
+                dataSource->dndCancelled();
+            }
             return;
         }
     }
@@ -242,7 +245,7 @@ static DataDeviceManagerInterface::DnDAction chooseDndAction(AbstractDataSource 
 
     // finally pick something everyone supports in a deterministic fashion
     if (offer->supportedDragAndDropActions().has_value()) {
-        for (const auto &action : {DataDeviceManagerInterface::DnDAction::Copy, DataDeviceManagerInterface::DnDAction::Move, DataDeviceManagerInterface::DnDAction::Ask}) {
+        for (const DataDeviceManagerInterface::DnDAction action : {DataDeviceManagerInterface::DnDAction::Copy, DataDeviceManagerInterface::DnDAction::Move, DataDeviceManagerInterface::DnDAction::Ask}) {
             if (source->supportedDragAndDropActions().testFlag(action) && offer->supportedDragAndDropActions()->testFlag(action)) {
                 return action;
             }
@@ -258,6 +261,8 @@ void DataDeviceInterface::updateDragTarget(SurfaceInterface *surface, quint32 se
         return;
     }
 
+    auto dragSource = d->seat->dragSource();
+
     if (d->drag.surface) {
         d->send_leave();
 
@@ -268,21 +273,26 @@ void DataDeviceInterface::updateDragTarget(SurfaceInterface *surface, quint32 se
         disconnect(d->drag.destroyConnection);
         d->drag.destroyConnection = QMetaObject::Connection();
         d->drag.surface = nullptr;
-        if (d->drag.sourceActionConnection) {
-            disconnect(d->drag.sourceActionConnection);
-            d->drag.sourceActionConnection = QMetaObject::Connection();
-        }
-        if (d->drag.targetActionConnection) {
-            disconnect(d->drag.targetActionConnection);
-            d->drag.targetActionConnection = QMetaObject::Connection();
-        }
-        if (d->drag.keyboardModifiersConnection) {
-            disconnect(d->drag.keyboardModifiersConnection);
-            d->drag.keyboardModifiersConnection = QMetaObject::Connection();
-        }
         // don't update serial, we need it
     }
-    auto dragSource = d->seat->dragSource();
+
+    if (d->drag.offer) {
+        disconnect(d->drag.sourceActionConnection);
+        d->drag.sourceActionConnection = QMetaObject::Connection();
+        disconnect(d->drag.targetActionConnection);
+        d->drag.targetActionConnection = QMetaObject::Connection();
+        disconnect(d->drag.keyboardModifiersConnection);
+        d->drag.keyboardModifiersConnection = QMetaObject::Connection();
+
+        // Keep the data offer alive so the target client can retrieve data after a drop. The
+        // data offer will be destroyed after the target client has finished using it.
+        if (!dragSource || !dragSource->isDropPerformed()) {
+            delete d->drag.offer;
+        }
+
+        d->drag.offer = nullptr;
+    }
+
     if (!surface || !dragSource) {
         if (auto s = dragSource) {
             s->dndAction(DataDeviceManagerInterface::DnDAction::None);
@@ -293,8 +303,8 @@ void DataDeviceInterface::updateDragTarget(SurfaceInterface *surface, quint32 se
     if (dragSource) {
         dragSource->accept(QString());
     }
-    DataOfferInterface *offer = d->createDataOffer(dragSource);
-    offer->sendSourceActions();
+    d->drag.offer = d->createDataOffer(dragSource);
+    d->drag.offer->sendSourceActions();
 
     d->drag.surface = surface;
     if (d->seat->isDragPointer()) {
@@ -326,11 +336,12 @@ void DataDeviceInterface::updateDragTarget(SurfaceInterface *surface, quint32 se
         if (d->drag.posConnection) {
             disconnect(d->drag.posConnection);
         }
-        if (d->drag.sourceActionConnection) {
+        if (d->drag.offer) {
             disconnect(d->drag.sourceActionConnection);
-        }
-        if (d->drag.targetActionConnection) {
             disconnect(d->drag.targetActionConnection);
+            disconnect(d->drag.keyboardModifiersConnection);
+
+            delete d->drag.offer;
         }
         d->drag = DataDeviceInterfacePrivate::Drag();
     });
@@ -341,22 +352,22 @@ void DataDeviceInterface::updateDragTarget(SurfaceInterface *surface, quint32 se
     } else if (d->seat->isDragTouch()) {
         pos = d->seat->dragSurfaceTransformation().map(d->seat->firstTouchPointPosition(surface));
     }
-    d->send_enter(serial, surface->resource(), wl_fixed_from_double(pos.x()), wl_fixed_from_double(pos.y()), offer ? offer->resource() : nullptr);
-    if (offer) {
-        auto matchOffers = [this, dragSource, offer] {
+    d->send_enter(serial, surface->resource(), wl_fixed_from_double(pos.x()), wl_fixed_from_double(pos.y()), d->drag.offer ? d->drag.offer->resource() : nullptr);
+    if (d->drag.offer) {
+        auto matchOffers = [this, dragSource] {
             Qt::KeyboardModifiers keyboardModifiers;
             if (d->seat->isDrag()) { // ignore keyboard modifiers when in "ask" negotiation
                 keyboardModifiers = dragSource->keyboardModifiers();
             }
 
-            const DataDeviceManagerInterface::DnDAction action = chooseDndAction(dragSource, offer, keyboardModifiers);
-            offer->dndAction(action);
+            const DataDeviceManagerInterface::DnDAction action = chooseDndAction(dragSource, d->drag.offer, keyboardModifiers);
+            d->drag.offer->dndAction(action);
             dragSource->dndAction(action);
         };
         matchOffers();
-        d->drag.targetActionConnection = connect(offer, &DataOfferInterface::dragAndDropActionsChanged, dragSource, matchOffers);
-        d->drag.sourceActionConnection = connect(dragSource, &AbstractDataSource::supportedDragAndDropActionsChanged, offer, matchOffers);
-        d->drag.keyboardModifiersConnection = connect(dragSource, &AbstractDataSource::keyboardModifiersChanged, offer, matchOffers);
+        d->drag.targetActionConnection = connect(d->drag.offer, &DataOfferInterface::dragAndDropActionsChanged, dragSource, matchOffers);
+        d->drag.sourceActionConnection = connect(dragSource, &AbstractDataSource::supportedDragAndDropActionsChanged, d->drag.offer, matchOffers);
+        d->drag.keyboardModifiersConnection = connect(dragSource, &AbstractDataSource::keyboardModifiersChanged, d->drag.offer, matchOffers);
     }
 }
 

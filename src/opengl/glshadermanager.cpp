@@ -9,6 +9,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "glshadermanager.h"
+#include "eglcontext.h"
 #include "glplatform.h"
 #include "glshader.h"
 #include "glvertexbuffer.h"
@@ -22,7 +23,7 @@ namespace KWin
 
 ShaderManager *ShaderManager::instance()
 {
-    return OpenGlContext::currentContext()->shaderManager();
+    return EglContext::currentContext()->shaderManager();
 }
 
 ShaderManager::ShaderManager()
@@ -41,7 +42,7 @@ QByteArray ShaderManager::generateVertexSource(ShaderTraits traits) const
     QByteArray source;
     QTextStream stream(&source);
 
-    const auto context = OpenGlContext::currentContext();
+    const auto context = EglContext::currentContext();
     QByteArray attribute, varying;
 
     if (!context->isOpenGLES()) {
@@ -65,7 +66,7 @@ QByteArray ShaderManager::generateVertexSource(ShaderTraits traits) const
     }
 
     stream << attribute << " vec4 position;\n";
-    if (traits & (ShaderTrait::MapTexture | ShaderTrait::MapExternalTexture)) {
+    if (traits & (ShaderTrait::MapTexture | ShaderTrait::MapExternalTexture | ShaderTrait::MapYUVTexture)) {
         stream << attribute << " vec4 texcoord;\n\n";
         stream << varying << " vec2 texcoord0;\n\n";
     } else {
@@ -75,7 +76,7 @@ QByteArray ShaderManager::generateVertexSource(ShaderTraits traits) const
     stream << "uniform mat4 modelViewProjectionMatrix;\n\n";
 
     stream << "void main()\n{\n";
-    if (traits & (ShaderTrait::MapTexture | ShaderTrait::MapExternalTexture)) {
+    if (traits & (ShaderTrait::MapTexture | ShaderTrait::MapExternalTexture | ShaderTrait::MapYUVTexture)) {
         stream << "    texcoord0 = texcoord.st;\n";
     }
 
@@ -91,7 +92,7 @@ QByteArray ShaderManager::generateFragmentSource(ShaderTraits traits) const
     QByteArray source;
     QTextStream stream(&source);
 
-    const auto context = OpenGlContext::currentContext();
+    const auto context = EglContext::currentContext();
     QByteArray varying, output, textureLookup;
 
     if (!context->isOpenGLES()) {
@@ -123,8 +124,11 @@ QByteArray ShaderManager::generateFragmentSource(ShaderTraits traits) const
 
     if (traits & ShaderTrait::MapTexture) {
         stream << "uniform sampler2D sampler;\n";
+        stream << varying << " vec2 texcoord0;\n";
+    } else if (traits & ShaderTrait::MapYUVTexture) {
+        stream << "uniform sampler2D sampler;\n";
         stream << "uniform sampler2D sampler1;\n";
-        stream << "uniform int converter;\n";
+        stream << "uniform mat4 yuvToRgb;\n";
         stream << varying << " vec2 texcoord0;\n";
     } else if (traits & ShaderTrait::MapExternalTexture) {
         stream << "#extension GL_OES_EGL_image_external : require\n\n";
@@ -147,28 +151,13 @@ QByteArray ShaderManager::generateFragmentSource(ShaderTraits traits) const
         stream << "\nout vec4 " << output << ";\n";
     }
 
-    if (traits & ShaderTrait::MapTexture) {
-        // limited range BT601 in -> full range BT709 out
-        stream << "vec4 transformY_UV(sampler2D tex0, sampler2D tex1, vec2 texcoord0) {\n";
-        stream << "    float y = 1.16438356 * (" << textureLookup << "(tex0, texcoord0).x - 0.0625);\n";
-        stream << "    float u = " << textureLookup << "(tex1, texcoord0).r - 0.5;\n";
-        stream << "    float v = " << textureLookup << "(tex1, texcoord0).g - 0.5;\n";
-        stream << "    return vec4(y + 1.59602678 * v"
-                  "              , y - 0.39176229 * u - 0.81296764 * v"
-                  "              , y + 2.01723214 * u"
-                  "              , 1);\n";
-        stream << "}\n";
-        stream << "\n";
-    }
-
     stream << "\nvoid main(void)\n{\n";
     stream << "    vec4 result;\n";
     if (traits & ShaderTrait::MapTexture) {
-        stream << "    if (converter == 0) {\n";
-        stream << "        result = " << textureLookup << "(sampler, texcoord0);\n";
-        stream << "    } else {\n";
-        stream << "        result = transformY_UV(sampler, sampler1, texcoord0);\n";
-        stream << "    }\n";
+        stream << "    result = " << textureLookup << "(sampler, texcoord0);\n";
+    } else if (traits & ShaderTrait::MapYUVTexture) {
+        stream << "    result = yuvToRgb * vec4(" << textureLookup << "(sampler, texcoord0).x, " << textureLookup << "(sampler1, texcoord0).rg, 1.0);\n";
+        stream << "    result.a = 1.0;\n";
     } else if (traits & ShaderTrait::MapExternalTexture) {
         // external textures require texture2D for sampling
         stream << "    result = texture2D(sampler, texcoord0);\n";
@@ -256,7 +245,7 @@ static QString resolveShaderFilePath(const QString &filePath)
     QString suffix;
     QString extension;
 
-    const auto context = OpenGlContext::currentContext();
+    const auto context = EglContext::currentContext();
     const Version coreVersionNumber = context->isOpenGLES() ? Version(3, 0) : Version(1, 40);
     if (context->glslVersion() >= coreVersionNumber) {
         suffix = QStringLiteral("_core");

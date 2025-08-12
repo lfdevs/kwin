@@ -56,15 +56,8 @@ Options::Options(QObject *parent)
     , m_xwaylandMaxCrashCount(Options::defaultXwaylandMaxCrashCount())
     , m_xwaylandEavesdrops(Options::defaultXwaylandEavesdrops())
     , m_xwaylandEavesdropsMouse(Options::defaultXwaylandEavesdropsMouse())
+    , m_xwaylandEisNoPrompt(Options::defaultXwaylandEisNoPrompt())
     , m_compositingMode(Options::defaultCompositingMode())
-    , m_useCompositing(Options::defaultUseCompositing())
-    , m_hiddenPreviews(Options::defaultHiddenPreviews())
-    , m_glSmoothScale(Options::defaultGlSmoothScale())
-    , m_glStrictBinding(Options::defaultGlStrictBinding())
-    , m_glStrictBindingFollowsDriver(Options::defaultGlStrictBindingFollowsDriver())
-    , m_glPreferBufferSwap(Options::defaultGlPreferBufferSwap())
-    , m_glPlatformInterface(Options::defaultGlPlatformInterface())
-    , m_windowsBlockCompositing(true)
     , OpTitlebarDblClick(Options::defaultOperationTitlebarDblClick())
     , CmdActiveTitlebar1(Options::defaultCommandActiveTitlebar1())
     , CmdActiveTitlebar2(Options::defaultCommandActiveTitlebar2())
@@ -164,6 +157,15 @@ void Options::setXwaylandEavesdropsMouse(bool eavesdropsMouse)
     }
     m_xwaylandEavesdropsMouse = eavesdropsMouse;
     Q_EMIT xwaylandEavesdropsChanged();
+}
+
+void Options::setXWaylandEisNoPrompt(bool doNotPrompt)
+{
+    if (m_xwaylandEisNoPrompt == doNotPrompt) {
+        return;
+    }
+    m_xwaylandEisNoPrompt = doNotPrompt;
+    Q_EMIT xwaylandEisNoPromptChanged();
 }
 
 void Options::setClickRaise(bool clickRaise)
@@ -573,69 +575,6 @@ void Options::setCompositingMode(int compositingMode)
     Q_EMIT compositingModeChanged();
 }
 
-void Options::setUseCompositing(bool useCompositing)
-{
-    if (m_useCompositing == useCompositing) {
-        return;
-    }
-    m_useCompositing = useCompositing;
-    Q_EMIT useCompositingChanged();
-}
-
-void Options::setHiddenPreviews(int hiddenPreviews)
-{
-    if (m_hiddenPreviews == static_cast<HiddenPreviews>(hiddenPreviews)) {
-        return;
-    }
-    m_hiddenPreviews = static_cast<HiddenPreviews>(hiddenPreviews);
-    Q_EMIT hiddenPreviewsChanged();
-}
-
-void Options::setGlSmoothScale(int glSmoothScale)
-{
-    if (m_glSmoothScale == glSmoothScale) {
-        return;
-    }
-    m_glSmoothScale = glSmoothScale;
-    Q_EMIT glSmoothScaleChanged();
-}
-
-void Options::setGlStrictBinding(bool glStrictBinding)
-{
-    if (m_glStrictBinding == glStrictBinding) {
-        return;
-    }
-    m_glStrictBinding = glStrictBinding;
-    Q_EMIT glStrictBindingChanged();
-}
-
-void Options::setGlStrictBindingFollowsDriver(bool glStrictBindingFollowsDriver)
-{
-    if (m_glStrictBindingFollowsDriver == glStrictBindingFollowsDriver) {
-        return;
-    }
-    m_glStrictBindingFollowsDriver = glStrictBindingFollowsDriver;
-    Q_EMIT glStrictBindingFollowsDriverChanged();
-}
-
-void Options::setWindowsBlockCompositing(bool value)
-{
-    if (m_windowsBlockCompositing == value) {
-        return;
-    }
-    m_windowsBlockCompositing = value;
-    Q_EMIT windowsBlockCompositingChanged();
-}
-
-void Options::setGlPreferBufferSwap(char glPreferBufferSwap)
-{
-    if (m_glPreferBufferSwap == (GlSwapStrategy)glPreferBufferSwap) {
-        return;
-    }
-    m_glPreferBufferSwap = (GlSwapStrategy)glPreferBufferSwap;
-    Q_EMIT glPreferBufferSwapChanged();
-}
-
 bool Options::allowTearing() const
 {
     return m_allowTearing;
@@ -660,43 +599,6 @@ void Options::setInteractiveWindowMoveEnabled(bool set)
         m_interactiveWindowMoveEnabled = set;
         Q_EMIT interactiveWindowMoveEnabledChanged();
     }
-}
-
-void Options::setGlPlatformInterface(OpenGLPlatformInterface interface)
-{
-    // check environment variable
-    const QByteArray envOpenGLInterface(qgetenv("KWIN_OPENGL_INTERFACE"));
-    if (!envOpenGLInterface.isEmpty()) {
-        if (qstrcmp(envOpenGLInterface, "egl") == 0) {
-            qCDebug(KWIN_CORE) << "Forcing EGL native interface through environment variable";
-            interface = EglPlatformInterface;
-        } else if (qstrcmp(envOpenGLInterface, "glx") == 0) {
-            qCDebug(KWIN_CORE) << "Forcing GLX native interface through environment variable";
-            interface = GlxPlatformInterface;
-        }
-    }
-    if (kwinApp()->shouldUseWaylandForCompositing() && interface == GlxPlatformInterface) {
-        // Glx is impossible on Wayland, enforce egl
-        qCDebug(KWIN_CORE) << "Forcing EGL native interface for Wayland mode";
-        interface = EglPlatformInterface;
-    }
-#if !HAVE_GLX
-    qCDebug(KWIN_CORE) << "Forcing EGL native interface as compiled without GLX support";
-    interface = EglPlatformInterface;
-#endif
-    if (QOpenGLContext::openGLModuleType() == QOpenGLContext::LibGLES) {
-        qCDebug(KWIN_CORE) << "Forcing EGL native interface as Qt uses OpenGL ES";
-        interface = EglPlatformInterface;
-    } else if (qstrcmp(qgetenv("KWIN_COMPOSE"), "O2ES") == 0) {
-        qCDebug(KWIN_CORE) << "Forcing EGL native interface as OpenGL ES requested through KWIN_COMPOSE environment variable.";
-        interface = EglPlatformInterface;
-    }
-
-    if (m_glPlatformInterface == interface) {
-        return;
-    }
-    m_glPlatformInterface = interface;
-    Q_EMIT glPlatformInterfaceChanged();
 }
 
 void Options::reparseConfiguration()
@@ -746,7 +648,6 @@ void Options::loadConfig()
 
     // Compositing
     config = KConfigGroup(m_settings->config(), QStringLiteral("Compositing"));
-    bool useCompositing = false;
     CompositingType compositingMode = NoCompositing;
     QString compositingBackend = config.readEntry("Backend", "OpenGL");
     if (compositingBackend == "QPainter") {
@@ -760,20 +661,10 @@ void Options::loadConfig()
         case 'O':
             qCDebug(KWIN_CORE) << "Compositing forced to OpenGL mode by environment variable";
             compositingMode = OpenGLCompositing;
-            useCompositing = true;
             break;
         case 'Q':
             qCDebug(KWIN_CORE) << "Compositing forced to QPainter mode by environment variable";
             compositingMode = QPainterCompositing;
-            useCompositing = true;
-            break;
-        case 'N':
-            if (getenv("KDE_FAILSAFE")) {
-                qCDebug(KWIN_CORE) << "Compositing disabled forcefully by KDE failsafe mode";
-            } else {
-                qCDebug(KWIN_CORE) << "Compositing disabled forcefully by environment variable";
-            }
-            compositingMode = NoCompositing;
             break;
         default:
             qCDebug(KWIN_CORE) << "Unknown KWIN_COMPOSE mode set, ignoring";
@@ -781,57 +672,6 @@ void Options::loadConfig()
         }
     }
     setCompositingMode(compositingMode);
-    setUseCompositing(useCompositing || config.readEntry("Enabled", Options::defaultUseCompositing()));
-
-    setGlSmoothScale(std::clamp(config.readEntry("GLTextureFilter", Options::defaultGlSmoothScale()), -1, 2));
-    setGlStrictBindingFollowsDriver(!config.hasKey("GLStrictBinding"));
-    if (!isGlStrictBindingFollowsDriver()) {
-        setGlStrictBinding(config.readEntry("GLStrictBinding", Options::defaultGlStrictBinding()));
-    }
-
-    char c = 0;
-    const QString s = config.readEntry("GLPreferBufferSwap", QString(QLatin1Char(Options::defaultGlPreferBufferSwap())));
-    if (!s.isEmpty()) {
-        c = s.at(0).toLatin1();
-    }
-    if (c != 'a' && c != 'c' && c != 'p' && c != 'e') {
-        c = Options::defaultGlPreferBufferSwap();
-    }
-    setGlPreferBufferSwap(c);
-
-    if (kwinApp()->operationMode() == Application::OperationModeX11) {
-        HiddenPreviews previews = Options::defaultHiddenPreviews();
-        // 4 - off, 5 - shown, 6 - always, other are old values
-        int hps = config.readEntry("HiddenPreviews", 5);
-        if (hps == 4) {
-            previews = HiddenPreviewsNever;
-        } else if (hps == 5) {
-            previews = HiddenPreviewsShown;
-        } else if (hps == 6) {
-            previews = HiddenPreviewsAlways;
-        }
-        setHiddenPreviews(previews);
-    }
-
-    auto interfaceToKey = [](OpenGLPlatformInterface interface) {
-        switch (interface) {
-        case GlxPlatformInterface:
-            return QStringLiteral("glx");
-        case EglPlatformInterface:
-            return QStringLiteral("egl");
-        default:
-            return QString();
-        }
-    };
-    auto keyToInterface = [](const QString &key) {
-        if (key == QLatin1StringView("glx")) {
-            return GlxPlatformInterface;
-        } else if (key == QLatin1StringView("egl")) {
-            return EglPlatformInterface;
-        }
-        return defaultGlPlatformInterface();
-    };
-    setGlPlatformInterface(keyToInterface(config.readEntry("GLPlatformInterface", interfaceToKey(m_glPlatformInterface))));
 }
 
 void Options::syncFromKcfgc()
@@ -847,6 +687,7 @@ void Options::syncFromKcfgc()
     setXwaylandMaxCrashCount(m_settings->xwaylandMaxCrashCount());
     setXwaylandEavesdrops(XwaylandEavesdropsMode(m_settings->xwaylandEavesdrops()));
     setXwaylandEavesdropsMouse(m_settings->xwaylandEavesdropsMouse());
+    setXWaylandEisNoPrompt(m_settings->xwaylandEisNoPrompt());
     setPlacement(m_settings->placement());
     setAutoRaise(m_settings->autoRaise());
     setAutoRaiseInterval(m_settings->autoRaiseInterval());
@@ -865,7 +706,6 @@ void Options::syncFromKcfgc()
     setElectricBorderMaximize(m_settings->electricBorderMaximize());
     setElectricBorderTiling(m_settings->electricBorderTiling());
     setElectricBorderCornerRatio(m_settings->electricBorderCornerRatio());
-    setWindowsBlockCompositing(m_settings->windowsBlockCompositing());
     setAllowTearing(m_settings->allowTearing());
     setInteractiveWindowMoveEnabled(m_settings->interactiveWindowMoveEnabled());
     setDoubleClickBorderToMaximize(m_settings->doubleClickBorderToMaximize());
@@ -1007,7 +847,7 @@ bool Options::condensedTitle() const
     return condensed_title;
 }
 
-Options::MouseCommand Options::wheelToMouseCommand(MouseWheelCommand com, int delta) const
+Options::MouseCommand Options::wheelToMouseCommand(MouseWheelCommand com, qreal delta) const
 {
     switch (com) {
     case MouseWheelRaiseLower:
@@ -1041,11 +881,6 @@ Options::WindowOperation Options::operationMaxButtonClick(Qt::MouseButtons butto
 {
     return button == Qt::RightButton ? opMaxButtonRightClick : button == Qt::MiddleButton ? opMaxButtonMiddleClick
                                                                                           : opMaxButtonLeftClick;
-}
-
-bool Options::isUseCompositing() const
-{
-    return m_useCompositing;
 }
 
 } // namespace

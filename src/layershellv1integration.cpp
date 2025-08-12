@@ -149,7 +149,7 @@ static void rearrangeLayer(const QList<LayerShellV1Window *> &windows, QRect *wo
         window->updateLayer();
 
         if (geometry.isValid()) {
-            window->moveResize(geometry);
+            window->place(geometry);
         } else {
             qCWarning(KWIN_CORE) << "Closing a layer shell window due to invalid geometry";
             window->closeWindow();
@@ -160,6 +160,11 @@ static void rearrangeLayer(const QList<LayerShellV1Window *> &windows, QRect *wo
             adjustWorkArea(shellSurface, workArea);
         }
     }
+}
+
+static int weightForWindow(const LayerShellV1Window *window)
+{
+    return (window->shellSurface()->anchor() & AnchorHorizontal) == AnchorHorizontal ? 1 : 0;
 }
 
 static QList<LayerShellV1Window *> windowsForOutput(Output *output)
@@ -175,6 +180,15 @@ static QList<LayerShellV1Window *> windowsForOutput(Output *output)
             result.append(layerShellWindow);
         }
     }
+    std::stable_sort(result.begin(), result.end(), [](LayerShellV1Window *a, LayerShellV1Window *b) {
+        if (a->layer() < b->layer()) {
+            return false;
+        } else if (a->layer() > b->layer()) {
+            return true;
+        } else {
+            return weightForWindow(a) > weightForWindow(b);
+        }
+    });
     return result;
 }
 

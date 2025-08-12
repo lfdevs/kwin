@@ -17,13 +17,15 @@
 #include "surface_p.h"
 #include "utils/common.h"
 
+#include <cstdint>
 #include <errno.h>
 #include <fcntl.h>
+#include <qtypes.h>
 #include <unistd.h>
 
 namespace KWin
 {
-static const int s_version = 4;
+static const int s_version = 5;
 
 LinuxDmaBufV1ClientBufferIntegrationPrivate::LinuxDmaBufV1ClientBufferIntegrationPrivate(LinuxDmaBufV1ClientBufferIntegration *q, Display *display)
     : QtWaylandServer::zwp_linux_dmabuf_v1(*display, s_version)
@@ -36,9 +38,9 @@ void LinuxDmaBufV1ClientBufferIntegrationPrivate::zwp_linux_dmabuf_v1_bind_resou
 {
     if (resource->version() < ZWP_LINUX_DMABUF_V1_GET_DEFAULT_FEEDBACK_SINCE_VERSION) {
         for (auto it = supportedModifiers.constBegin(); it != supportedModifiers.constEnd(); ++it) {
-            const uint32_t &format = it.key();
+            const uint32_t format = it.key();
             const auto &modifiers = it.value();
-            for (const uint64_t &modifier : std::as_const(modifiers)) {
+            for (const uint64_t modifier : std::as_const(modifiers)) {
                 if (resource->version() >= ZWP_LINUX_DMABUF_V1_MODIFIER_SINCE_VERSION) {
                     const uint32_t modifier_lo = modifier & 0xffffffff;
                     const uint32_t modifier_hi = modifier >> 32;
@@ -102,34 +104,33 @@ void LinuxDmaBufParamsV1::zwp_linux_buffer_params_v1_destroy(Resource *resource)
 }
 
 void LinuxDmaBufParamsV1::zwp_linux_buffer_params_v1_add(Resource *resource,
-                                                         int32_t fd,
+                                                         int32_t fd_num,
                                                          uint32_t plane_idx,
                                                          uint32_t offset,
                                                          uint32_t stride,
                                                          uint32_t modifier_hi,
                                                          uint32_t modifier_lo)
 {
+    FileDescriptor fd{fd_num};
     if (Q_UNLIKELY(m_isUsed)) {
         wl_resource_post_error(resource->handle, error_already_used, "the params object has already been used to create a wl_buffer");
-        close(fd);
         return;
     }
 
     if (Q_UNLIKELY(plane_idx >= 4)) {
         wl_resource_post_error(resource->handle, error_plane_idx, "plane index %d is out of bounds", plane_idx);
-        close(fd);
         return;
     }
 
     if (Q_UNLIKELY(m_attrs.fd[plane_idx].isValid())) {
         wl_resource_post_error(resource->handle, error_plane_set, "the plane index %d was already set", plane_idx);
-        close(fd);
         return;
     }
-    m_attrs.fd[plane_idx] = FileDescriptor{fd};
+    m_attrs.fd[plane_idx] = std::move(fd);
     m_attrs.offset[plane_idx] = offset;
     m_attrs.pitch[plane_idx] = stride;
     m_attrs.modifier = (quint64(modifier_hi) << 32) | modifier_lo;
+    m_modifiers[plane_idx] = m_attrs.modifier;
     m_attrs.planeCount++;
 }
 
@@ -284,6 +285,11 @@ bool LinuxDmaBufParamsV1::test(Resource *resource, uint32_t width, uint32_t heig
             wl_resource_post_error(resource->handle, error_out_of_bounds, "invalid buffer stride of height for plane %d", i);
             return false;
         }
+
+        if (Q_UNLIKELY(m_attrs.modifier != m_modifiers[i])) {
+            wl_resource_post_error(resource->handle, error_invalid_format, "Tried to set a different modifier for different planes");
+            return false;
+        }
     }
 
     return true;
@@ -400,8 +406,8 @@ void LinuxDmaBufV1Feedback::setTranches(const QList<Tranche> &tranches)
 {
     if (d->m_tranches != tranches) {
         d->m_tranches = tranches;
-        const auto &map = d->resourceMap();
-        for (const auto &resource : map) {
+        const auto map = d->resourceMap();
+        for (auto resource : map) {
             d->send(resource);
         }
     }
@@ -416,7 +422,7 @@ QList<LinuxDmaBufV1Feedback::Tranche> LinuxDmaBufV1Feedback::createScanoutTranch
             const uint32_t format = it.key();
             const auto trancheModifiers = it.value();
             const auto drmModifiers = formats[format];
-            for (const auto &mod : trancheModifiers) {
+            for (const uint64_t mod : trancheModifiers) {
                 if (drmModifiers.contains(mod)) {
                     scanoutTranche.formatTable[format] << mod;
                 }
@@ -447,13 +453,13 @@ void LinuxDmaBufV1FeedbackPrivate::send(Resource *resource)
     QByteArray bytes;
     bytes.append(reinterpret_cast<const char *>(&m_bufferintegration->mainDevice), sizeof(dev_t));
     send_main_device(resource->handle, bytes);
-    const auto &sendTranche = [this, resource](const LinuxDmaBufV1Feedback::Tranche &tranche) {
+    const auto sendTranche = [this, resource](const LinuxDmaBufV1Feedback::Tranche &tranche) {
         QByteArray targetDevice;
         targetDevice.append(reinterpret_cast<const char *>(&tranche.device), sizeof(dev_t));
         QByteArray indices;
         for (auto it = tranche.formatTable.begin(); it != tranche.formatTable.end(); it++) {
             const uint32_t format = it.key();
-            for (const auto &mod : std::as_const(it.value())) {
+            for (const uint64_t mod : std::as_const(it.value())) {
                 uint16_t index = m_bufferintegration->table->indices[std::pair<uint32_t, uint64_t>(format, mod)];
                 indices.append(reinterpret_cast<const char *>(&index), 2);
             }

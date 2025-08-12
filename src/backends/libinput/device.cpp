@@ -154,6 +154,8 @@ enum class ConfigKey {
     TabletToolPressureRangeMin,
     TabletToolPressureRangeMax,
     InputArea,
+    TabletToolRelativeMode,
+    Rotation,
 };
 
 struct ConfigDataBase
@@ -259,6 +261,8 @@ static const QMap<ConfigKey, std::shared_ptr<ConfigDataBase>> s_configData{
     {ConfigKey::TabletToolPressureRangeMin, std::make_shared<ConfigData<double>>(QByteArrayLiteral("TabletToolPressureRangeMin"), &Device::setPressureRangeMin, &Device::defaultPressureRangeMin)},
     {ConfigKey::TabletToolPressureRangeMax, std::make_shared<ConfigData<double>>(QByteArrayLiteral("TabletToolPressureRangeMax"), &Device::setPressureRangeMax, &Device::defaultPressureRangeMax)},
     {ConfigKey::InputArea, std::make_shared<ConfigData<QRectF>>(QByteArrayLiteral("InputArea"), &Device::setInputArea, &Device::defaultInputArea)},
+    {ConfigKey::TabletToolRelativeMode, std::make_shared<ConfigData<bool>>(QByteArrayLiteral("TabletToolRelativeMode"), &Device::setTabletToolRelative, &Device::defaultTabletToolIsRelative)},
+    {ConfigKey::Rotation, std::make_shared<ConfigData<uint32_t>>(QByteArrayLiteral("Rotation"), &Device::setRotation, &Device::defaultRotation)},
 };
 
 namespace
@@ -337,6 +341,7 @@ Device::Device(libinput_device *device, QObject *parent)
     , m_outputName(QString::fromLocal8Bit(libinput_device_get_output_name(m_device)))
     , m_product(libinput_device_get_id_product(m_device))
     , m_vendor(libinput_device_get_id_vendor(m_device))
+    , m_busType(libinput_device_get_id_bustype(m_device))
     , m_tapFingerCount(libinput_device_config_tap_get_finger_count(m_device))
     , m_defaultTapButtonMap(libinput_device_config_tap_get_default_button_map(m_device))
     , m_tapButtonMap(libinput_device_config_tap_get_button_map(m_device))
@@ -611,24 +616,57 @@ int Device::tabletPadButtonCount() const
     return libinput_device_tablet_pad_get_num_buttons(m_device);
 }
 
-int Device::tabletPadRingCount() const
+QList<InputDeviceTabletPadModeGroup> Device::modeGroups() const
 {
-    return libinput_device_tablet_pad_get_num_rings(m_device);
-}
+    QList<InputDeviceTabletPadModeGroup> result;
 
-int Device::tabletPadStripCount() const
-{
-    return libinput_device_tablet_pad_get_num_strips(m_device);
-}
+    int numGroups = libinput_device_tablet_pad_get_num_mode_groups(m_device);
 
-int Device::tabletPadModeCount() const
-{
-    return libinput_device_tablet_pad_get_num_mode_groups(m_device);
-}
+    for (int groupIndex = 0; groupIndex < numGroups; ++groupIndex) {
+        libinput_tablet_pad_mode_group *group = libinput_device_tablet_pad_get_mode_group(m_device, groupIndex);
+        int modeCount = libinput_tablet_pad_mode_group_get_num_modes(group);
 
-int Device::tabletPadMode() const
-{
-    return libinput_tablet_pad_mode_group_get_mode(libinput_device_tablet_pad_get_mode_group(m_device, 0));
+        QList<int> buttons;
+        int totalButtons = libinput_device_tablet_pad_get_num_buttons(m_device);
+        for (int buttonIndex = 0; buttonIndex < totalButtons; ++buttonIndex) {
+            if (libinput_tablet_pad_mode_group_has_button(group, buttonIndex)) {
+                buttons << buttonIndex;
+            }
+        }
+
+        QList<int> rings;
+        int totalRings = libinput_device_tablet_pad_get_num_rings(m_device);
+        for (int ringIndex = 0; ringIndex < totalRings; ++ringIndex) {
+            if (libinput_tablet_pad_mode_group_has_ring(group, ringIndex)) {
+                rings << ringIndex;
+            }
+        }
+
+        QList<int> strips;
+        int totalStrips = libinput_device_tablet_pad_get_num_strips(m_device);
+        for (int stripIndex = 0; stripIndex < totalStrips; ++stripIndex) {
+            if (libinput_tablet_pad_mode_group_has_strip(group, stripIndex)) {
+                strips << stripIndex;
+            }
+        }
+
+        QList<int> dials;
+        int totalDials = libinput_device_tablet_pad_get_num_dials(m_device);
+        for (int dialIndex = 0; dialIndex < totalDials; ++dialIndex) {
+            if (libinput_tablet_pad_mode_group_has_dial(group, dialIndex)) {
+                dials << dialIndex;
+            }
+        }
+
+        result << InputDeviceTabletPadModeGroup{
+            .modeCount = modeCount,
+            .buttons = buttons,
+            .rings = rings,
+            .strips = strips,
+            .dials = dials,
+        };
+    }
+    return result;
 }
 
 #define CONFIG(method, condition, function, variable, key)                                        \
@@ -1032,6 +1070,41 @@ QMatrix4x4 Device::deserializeMatrix(const QString &matrix)
 
     return QMatrix4x4{};
 }
+
+void Device::setTabletToolRelative(bool relative)
+{
+    if (relative == m_tabletToolIsRelative) {
+        return;
+    }
+
+    m_tabletToolIsRelative = relative;
+    writeEntry(ConfigKey::TabletToolRelativeMode, m_tabletToolIsRelative);
+    Q_EMIT tabletToolRelativeChanged();
+}
+
+bool Device::supportsRotation() const
+{
+    return libinput_device_config_rotation_is_available(m_device);
+}
+
+uint32_t Device::rotation() const
+{
+    return libinput_device_config_rotation_get_angle(m_device);
+}
+
+void Device::setRotation(uint32_t degrees_cw)
+{
+    if (rotation() != degrees_cw && libinput_device_config_rotation_set_angle(m_device, degrees_cw) == LIBINPUT_CONFIG_STATUS_SUCCESS) {
+        writeEntry(ConfigKey::Rotation, degrees_cw);
+        Q_EMIT rotationChanged();
+    }
+}
+
+uint32_t Device::defaultRotation() const
+{
+    return libinput_device_config_rotation_get_default_angle(m_device);
+}
+
 }
 }
 

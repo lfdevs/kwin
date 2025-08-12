@@ -21,7 +21,7 @@
 #include "opengl/gllut.h"
 #include "opengl/glrendertimequery.h"
 #include "opengl/icc_shader.h"
-#include "platformsupport/scenes/qpainter/qpainterswapchain.h"
+#include "qpainter/qpainterswapchain.h"
 #include "utils/drm_format_helper.h"
 
 #include <drm_fourcc.h>
@@ -110,11 +110,12 @@ static QList<FormatInfo> filterAndSortFormats(const QHash<uint32_t, QList<uint64
     return ret;
 }
 
-std::optional<OutputLayerBeginFrameInfo> EglGbmLayerSurface::startRendering(const QSize &bufferSize, OutputTransform transformation, const QHash<uint32_t, QList<uint64_t>> &formats, const ColorDescription &colorDescription, const QVector3D &channelFactors, const std::shared_ptr<IccProfile> &iccProfile, double scale, Output::ColorPowerTradeoff tradeoff)
+std::optional<OutputLayerBeginFrameInfo> EglGbmLayerSurface::startRendering(const QSize &bufferSize, OutputTransform transformation, const QHash<uint32_t, QList<uint64_t>> &formats, const ColorDescription &blendingColor, const ColorDescription &scanoutColor, const std::shared_ptr<IccProfile> &iccProfile, double scale, Output::ColorPowerTradeoff tradeoff, bool useShadowBuffer)
 {
     if (!checkSurface(bufferSize, formats, tradeoff)) {
         return std::nullopt;
     }
+    m_oldSurface.reset();
 
     if (!m_eglBackend->openglContext()->makeCurrent()) {
         return std::nullopt;
@@ -132,12 +133,12 @@ std::optional<OutputLayerBeginFrameInfo> EglGbmLayerSurface::startRendering(cons
     m_surface->currentSlot = slot;
     m_surface->scale = scale;
 
-    if (m_surface->targetColorDescription != colorDescription || m_surface->channelFactors != channelFactors || m_surface->iccProfile != iccProfile) {
+    if (m_surface->blendingColor != blendingColor || m_surface->scanoutColor != scanoutColor || m_surface->iccProfile != iccProfile) {
         m_surface->damageJournal.clear();
         m_surface->shadowDamageJournal.clear();
-        m_surface->needsShadowBuffer = channelFactors != QVector3D(1, 1, 1) || iccProfile || colorDescription.transferFunction().type != TransferFunction::gamma22;
-        m_surface->targetColorDescription = colorDescription;
-        m_surface->channelFactors = channelFactors;
+        m_surface->needsShadowBuffer = useShadowBuffer;
+        m_surface->blendingColor = blendingColor;
+        m_surface->scanoutColor = scanoutColor;
         m_surface->iccProfile = iccProfile;
         if (iccProfile) {
             if (!m_surface->iccShader) {
@@ -145,15 +146,6 @@ std::optional<OutputLayerBeginFrameInfo> EglGbmLayerSurface::startRendering(cons
             }
         } else {
             m_surface->iccShader.reset();
-        }
-        if (m_surface->needsShadowBuffer) {
-            const double maxLuminance = colorDescription.maxHdrLuminance().value_or(colorDescription.referenceLuminance());
-            m_surface->intermediaryColorDescription = ColorDescription(colorDescription.containerColorimetry(), TransferFunction(TransferFunction::gamma22, 0, maxLuminance),
-                                                                       colorDescription.referenceLuminance(), colorDescription.minLuminance(),
-                                                                       colorDescription.maxAverageLuminance(), colorDescription.maxHdrLuminance(),
-                                                                       colorDescription.containerColorimetry(), colorDescription.sdrColorimetry());
-        } else {
-            m_surface->intermediaryColorDescription = colorDescription;
         }
     }
 
@@ -188,14 +180,14 @@ std::optional<OutputLayerBeginFrameInfo> EglGbmLayerSurface::startRendering(cons
         }
         m_surface->currentShadowSlot->texture()->setContentTransform(m_surface->currentSlot->framebuffer()->colorAttachment()->contentTransform());
         return OutputLayerBeginFrameInfo{
-            .renderTarget = RenderTarget(m_surface->currentShadowSlot->framebuffer(), m_surface->intermediaryColorDescription),
+            .renderTarget = RenderTarget(m_surface->currentShadowSlot->framebuffer(), m_surface->blendingColor),
             .repaint = bufferAgeEnabled ? m_surface->shadowDamageJournal.accumulate(m_surface->currentShadowSlot->age(), infiniteRegion()) : infiniteRegion(),
         };
     } else {
         m_surface->shadowSwapchain.reset();
         m_surface->currentShadowSlot.reset();
         return OutputLayerBeginFrameInfo{
-            .renderTarget = RenderTarget(m_surface->currentSlot->framebuffer(), m_surface->intermediaryColorDescription),
+            .renderTarget = RenderTarget(m_surface->currentSlot->framebuffer(), m_surface->blendingColor),
             .repaint = bufferAgeEnabled ? m_surface->damageJournal.accumulate(slot->age(), infiniteRegion()) : infiniteRegion(),
         };
     }
@@ -276,16 +268,11 @@ bool EglGbmLayerSurface::endRendering(const QRegion &damagedRegion, OutputFrame 
         GLFramebuffer *fbo = m_surface->currentSlot->framebuffer();
         GLFramebuffer::pushFramebuffer(fbo);
         ShaderBinder binder = m_surface->iccShader ? ShaderBinder(m_surface->iccShader->shader()) : ShaderBinder(ShaderTrait::MapTexture | ShaderTrait::TransformColorspace);
+        // this transform is absolute colorimetric, whitepoint adjustment is done in compositing already
         if (m_surface->iccShader) {
-            // absolute colorimetric, because whitepoint adjustment is done in compositing already
-            m_surface->iccShader->setUniforms(m_surface->iccProfile, m_surface->intermediaryColorDescription, RenderingIntent::AbsoluteColorimetric);
+            m_surface->iccShader->setUniforms(m_surface->iccProfile, m_surface->blendingColor, RenderingIntent::AbsoluteColorimetric);
         } else {
-            binder.shader()->setColorspaceUniforms(m_surface->intermediaryColorDescription, m_surface->targetColorDescription, RenderingIntent::RelativeColorimetric);
-            QMatrix4x4 ctm;
-            ctm(0, 0) = m_surface->channelFactors.x();
-            ctm(1, 1) = m_surface->channelFactors.y();
-            ctm(2, 2) = m_surface->channelFactors.z();
-            binder.shader()->setUniform(GLShader::Mat4Uniform::ColorimetryTransformation, ctm);
+            binder.shader()->setColorspaceUniforms(m_surface->blendingColor, m_surface->scanoutColor, RenderingIntent::AbsoluteColorimetric);
         }
         QMatrix4x4 mat;
         mat.scale(1, -1);
@@ -337,7 +324,7 @@ std::shared_ptr<DrmFramebuffer> EglGbmLayerSurface::currentBuffer() const
 const ColorDescription &EglGbmLayerSurface::colorDescription() const
 {
     if (m_surface) {
-        return m_surface->currentShadowSlot ? m_surface->intermediaryColorDescription : m_surface->targetColorDescription;
+        return m_surface->blendingColor;
     } else {
         return ColorDescription::sRGB;
     }
@@ -408,7 +395,7 @@ bool EglGbmLayerSurface::checkSurface(const QSize &size, const QHash<uint32_t, Q
 
 bool EglGbmLayerSurface::doesSurfaceFit(Surface *surface, const QSize &size, const QHash<uint32_t, QList<uint64_t>> &formats, Output::ColorPowerTradeoff tradeoff) const
 {
-    if (!surface || !surface->gbmSwapchain || surface->gbmSwapchain->size() != size) {
+    if (!surface || surface->needsRecreation || !surface->gbmSwapchain || surface->gbmSwapchain->size() != size) {
         return false;
     }
     if (surface->tradeoff != tradeoff) {
@@ -444,7 +431,7 @@ std::unique_ptr<EglGbmLayerSurface::Surface> EglGbmLayerSurface::createSurface(c
     if (m_gpu == m_eglBackend->gpu()) {
         const bool needsLinear = std::ranges::all_of(sortedFormats, [&formats](const FormatInfo &fmt) {
             const auto &mods = formats[fmt.drmFormat];
-            return std::ranges::all_of(mods, [](const auto &mod) {
+            return std::ranges::all_of(mods, [](uint64_t mod) {
                 return mod == DRM_FORMAT_MOD_LINEAR;
             });
         });
@@ -594,6 +581,12 @@ std::shared_ptr<DrmFramebuffer> EglGbmLayerSurface::doRenderTestBuffer(Surface *
     if (!slot) {
         return nullptr;
     }
+    if (!m_gpu->atomicModeSetting()) {
+        EglContext::currentContext()->pushFramebuffer(slot->framebuffer());
+        glClearColor(0, 0, 0, 0);
+        glClear(GL_COLOR_BUFFER_BIT);
+        EglContext::currentContext()->popFramebuffer();
+    }
     if (const auto ret = importBuffer(surface, slot.get(), FileDescriptor{}, nullptr, infiniteRegion())) {
         surface->currentSlot = slot;
         surface->currentFramebuffer = ret;
@@ -629,6 +622,19 @@ std::shared_ptr<DrmFramebuffer> EglGbmLayerSurface::importWithEgl(Surface *surfa
     }
 
     if (!surface->importContext->makeCurrent()) {
+        qCWarning(KWIN_DRM, "Failed to make import context current");
+        // this is probably caused by a GPU reset, let's not take any chances
+        surface->needsRecreation = true;
+        m_eglBackend->resetContextForGpu(m_gpu);
+        return nullptr;
+    }
+    const auto restoreContext = qScopeGuard([this]() {
+        m_eglBackend->openglContext()->makeCurrent();
+    });
+    if (surface->importContext->checkGraphicsResetStatus() != GL_NO_ERROR) {
+        qCWarning(KWIN_DRM, "Detected GPU reset on secondary GPU %s", qPrintable(m_gpu->drmDevice()->path()));
+        surface->needsRecreation = true;
+        m_eglBackend->resetContextForGpu(m_gpu);
         return nullptr;
     }
     std::unique_ptr<GLRenderTimeQuery> renderTime;
@@ -697,8 +703,6 @@ std::shared_ptr<DrmFramebuffer> EglGbmLayerSurface::importWithEgl(Surface *surfa
         frame->addRenderTimeQuery(std::move(renderTime));
     }
 
-    // restore the old context
-    m_eglBackend->makeCurrent();
     return m_gpu->importBuffer(slot->buffer(), endFence.takeFileDescriptor());
 }
 

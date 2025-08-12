@@ -81,16 +81,16 @@ void NoGlobalShortcutsTest::initTestCase()
     qRegisterMetaType<KWin::ElectricBorder>("ElectricBorder");
     kwinApp()->setSupportsGlobalShortcuts(false);
     QVERIFY(waylandServer()->init(s_socketName));
-    Test::setOutputConfig({
-        QRect(0, 0, 1280, 1024),
-        QRect(1280, 0, 1280, 1024),
-    });
 
     kwinApp()->setConfig(KSharedConfig::openConfig(QString(), KConfig::SimpleConfig));
     qputenv("KWIN_XKB_DEFAULT_KEYMAP", "1");
     qputenv("XKB_DEFAULT_RULES", "evdev");
 
     kwinApp()->start();
+    Test::setOutputConfig({
+        QRect(0, 0, 1280, 1024),
+        QRect(1280, 0, 1280, 1024),
+    });
 }
 
 void NoGlobalShortcutsTest::init()
@@ -152,10 +152,10 @@ void NoGlobalShortcutsTest::testAxisShortcut_data()
     QTest::addColumn<Qt::Orientation>("direction");
     QTest::addColumn<int>("sign");
 
-    QTest::newRow("up") << Qt::Vertical << 1;
-    QTest::newRow("down") << Qt::Vertical << -1;
-    QTest::newRow("left") << Qt::Horizontal << 1;
-    QTest::newRow("right") << Qt::Horizontal << -1;
+    QTest::newRow("up") << Qt::Vertical << -1;
+    QTest::newRow("down") << Qt::Vertical << 1;
+    QTest::newRow("left") << Qt::Horizontal << -1;
+    QTest::newRow("right") << Qt::Horizontal << 1;
 }
 
 void NoGlobalShortcutsTest::testAxisShortcut()
@@ -167,9 +167,9 @@ void NoGlobalShortcutsTest::testAxisShortcut()
     QFETCH(int, sign);
     PointerAxisDirection axisDirection = PointerAxisUp;
     if (direction == Qt::Vertical) {
-        axisDirection = sign > 0 ? PointerAxisUp : PointerAxisDown;
+        axisDirection = sign < 0 ? PointerAxisUp : PointerAxisDown;
     } else {
-        axisDirection = sign > 0 ? PointerAxisLeft : PointerAxisRight;
+        axisDirection = sign < 0 ? PointerAxisLeft : PointerAxisRight;
     }
     input()->registerAxisShortcut(Qt::MetaModifier, axisDirection, action.get());
 
@@ -177,9 +177,9 @@ void NoGlobalShortcutsTest::testAxisShortcut()
     quint32 timestamp = 1;
     Test::keyboardKeyPressed(KEY_LEFTMETA, timestamp++);
     if (direction == Qt::Vertical) {
-        Test::pointerAxisVertical(sign * 5.0, timestamp++);
+        Test::pointerAxisVertical(sign * 15.0, timestamp++);
     } else {
-        Test::pointerAxisHorizontal(sign * 5.0, timestamp++);
+        Test::pointerAxisHorizontal(sign * 15.0, timestamp++);
     }
     QCoreApplication::instance()->processEvents();
     QCOMPARE(actionSpy.count(), 0);

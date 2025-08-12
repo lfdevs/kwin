@@ -8,6 +8,7 @@
 
 #include "scene/surfaceitem.h"
 
+#include <QTimer>
 #include <unordered_map>
 
 namespace KWin
@@ -39,7 +40,7 @@ public:
 private Q_SLOTS:
     void handleSurfaceCommitted();
     void handleSurfaceSizeChanged();
-    void handleBufferSizeChanged();
+    void handleBufferChanged();
     void handleBufferSourceBoxChanged();
     void handleBufferTransformChanged();
 
@@ -52,11 +53,11 @@ private Q_SLOTS:
     void handleReleasePointChanged();
     void handleAlphaMultiplierChanged();
 
-protected:
-    std::unique_ptr<SurfacePixmap> createPixmap() override;
+    void handleFifoFallback();
 
 private:
     SurfaceItemWayland *getOrCreateSubSurfaceItem(SubSurfaceInterface *s);
+    void handleFramePainted(Output *output, OutputFrame *frame, std::chrono::milliseconds timestamp) override;
 
     QPointer<SurfaceInterface> m_surface;
     struct ScanoutFeedback
@@ -66,21 +67,7 @@ private:
     };
     std::optional<ScanoutFeedback> m_scanoutFeedback;
     std::unordered_map<SubSurfaceInterface *, std::unique_ptr<SurfaceItemWayland>> m_subsurfaces;
-};
-
-class KWIN_EXPORT SurfacePixmapWayland final : public SurfacePixmap
-{
-    Q_OBJECT
-
-public:
-    explicit SurfacePixmapWayland(SurfaceItemWayland *item, QObject *parent = nullptr);
-
-    void create() override;
-    void update() override;
-    bool isValid() const override;
-
-private:
-    SurfaceItemWayland *m_item;
+    QTimer m_fifoFallbackTimer;
 };
 
 #if KWIN_BUILD_X11

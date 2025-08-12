@@ -9,6 +9,7 @@
 
 #pragma once
 
+#include "scripting/tilemodel.h"
 #include "tile.h"
 
 #include <kwin_export.h>
@@ -57,11 +58,23 @@ private:
     bool m_geometryLock = false;
 };
 
-class RootTile : public CustomTile
+class KWIN_EXPORT RootTile : public CustomTile
 {
     Q_OBJECT
+    Q_PROPERTY(KWin::TileModel *model READ model CONSTANT)
+
 public:
-    RootTile(TileManager *tiling);
+    RootTile(TileManager *tiling, VirtualDesktop *desktop);
+
+    Tile *tileForWindow(Window *window);
+
+    TileModel *model() const;
+
+    Q_INVOKABLE KWin::Tile *pick(const QPointF &point) const;
+    Q_INVOKABLE KWin::Tile *pick(qreal x, qreal y) const;
+
+private:
+    std::unique_ptr<TileModel> m_tileModel = nullptr;
 };
 
 KWIN_EXPORT QDebug operator<<(QDebug debug, const CustomTile *tile);

@@ -27,6 +27,7 @@
 
 #include <QFile>
 #include <algorithm>
+#include <cstdint>
 #include <drm_fourcc.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -121,6 +122,7 @@ FileDescriptor DrmGpu::createNonMasterFd() const
 {
     char *path = drmGetDeviceNameFromFd2(m_fd);
     FileDescriptor fd{open(path, O_RDWR | O_CLOEXEC)};
+    free(path);
     if (!fd.isValid()) {
         qCWarning(KWIN_DRM) << "Could not open DRM fd for leasing!" << strerror(errno);
     } else {
@@ -213,13 +215,6 @@ void DrmGpu::initDrmResources()
             if (connected != list.end()) {
                 return *connected;
             }
-            // don't take away planes from other crtcs. The kernel currently rejects such commits
-            const auto notconnected = std::ranges::find_if(list, [](DrmPlane *plane) {
-                return plane->crtcId.value() == 0;
-            });
-            if (notconnected != list.end()) {
-                return *notconnected;
-            }
             return list.empty() ? nullptr : list.front();
         };
         DrmPlane *primary = findBestPlane(primaryCandidates);
@@ -254,7 +249,7 @@ bool DrmGpu::updateOutputs()
     // In principle these things are supposed to be detected through the wayland protocol.
     // In practice SteamVR doesn't always behave correctly
     if (DrmUniquePtr<drmModeLesseeListRes> lessees{drmModeListLessees(m_fd)}) {
-        for (const auto &output : std::as_const(m_drmOutputs)) {
+        for (const DrmOutput *output : std::as_const(m_drmOutputs)) {
             if (output->lease()) {
                 const bool leaseActive = std::ranges::any_of(std::span(lessees->lessees, lessees->count), [output](uint32_t id) {
                     return output->lease()->lesseeId() == id;
@@ -340,19 +335,19 @@ bool DrmGpu::updateOutputs()
 void DrmGpu::removeOutputs()
 {
     const auto outputs = m_drmOutputs;
-    for (const auto &output : outputs) {
+    for (DrmOutput *output : outputs) {
         removeOutput(output);
     }
 }
 
 DrmPipeline::Error DrmGpu::checkCrtcAssignment(QList<DrmConnector *> connectors, const QList<DrmCrtc *> &crtcs)
 {
+    qCDebug(KWIN_DRM) << "Attempting to match" << connectors << "with" << crtcs;
     if (connectors.isEmpty()) {
         const auto result = testPipelines();
         qCDebug(KWIN_DRM) << "Testing CRTC assignment..." << (result == DrmPipeline::Error::None ? "passed" : "failed");
         return result;
     }
-    qCDebug(KWIN_DRM) << "Attempting to match" << connectors << "with" << crtcs;
     auto connector = connectors.takeFirst();
     auto pipelineIt = m_pipelineMap.find(connector);
     if (pipelineIt == m_pipelineMap.end()) {
@@ -368,14 +363,14 @@ DrmPipeline::Error DrmGpu::checkCrtcAssignment(QList<DrmConnector *> connectors,
     }
     if (crtcs.isEmpty()) {
         // we have no crtc left to drive this connector
-        qCDebug(KWIN_DRM) << "Ran out of CRTCs";
-        return DrmPipeline::Error::InvalidArguments;
+        qCWarning(KWIN_DRM) << "No matching CRTC for connector" << connector->id();
+        return DrmPipeline::Error::NotEnoughCrtcs;
     }
     DrmCrtc *currentCrtc = nullptr;
     if (m_atomicModeSetting) {
         // try the crtc that this connector is already connected to first
         const uint32_t id = connector->crtcId.value();
-        auto it = std::ranges::find_if(crtcs, [id](const auto &crtc) {
+        auto it = std::ranges::find_if(crtcs, [id](const DrmCrtc *crtc) {
             return id == crtc->id();
         });
         if (it != crtcs.end()) {
@@ -392,7 +387,7 @@ DrmPipeline::Error DrmGpu::checkCrtcAssignment(QList<DrmConnector *> connectors,
             } while (pipeline->pruneModifier());
         }
     }
-    for (const auto &crtc : std::as_const(crtcs)) {
+    for (DrmCrtc *crtc : std::as_const(crtcs)) {
         if (connector->isCrtcSupported(crtc) && crtc != currentCrtc) {
             auto crtcsLeft = crtcs;
             crtcsLeft.removeOne(crtc);
@@ -610,13 +605,13 @@ std::unique_ptr<DrmLease> DrmGpu::leaseOutputs(const QList<DrmOutput *> &outputs
     if (!fd.isValid()) {
         qCWarning(KWIN_DRM) << "Could not create DRM lease!" << strerror(errno);
         qCWarning(KWIN_DRM) << "Tried to lease the following" << objects.count() << "resources:";
-        for (const auto &res : std::as_const(objects)) {
+        for (const uint32_t res : std::as_const(objects)) {
             qCWarning(KWIN_DRM) << res;
         }
         return nullptr;
     } else {
         qCDebug(KWIN_DRM) << "Created lease for" << objects.count() << "resources:";
-        for (const auto &res : std::as_const(objects)) {
+        for (const uint32_t res : std::as_const(objects)) {
             qCDebug(KWIN_DRM) << res;
         }
         return std::make_unique<DrmLease>(this, std::move(fd), lesseeId, outputs);
@@ -708,17 +703,17 @@ void DrmGpu::setActive(bool active)
     if (m_isActive != active) {
         m_isActive = active;
         if (active) {
-            for (const auto &output : std::as_const(m_drmOutputs)) {
+            for (const DrmOutput *output : std::as_const(m_drmOutputs)) {
                 output->renderLoop()->uninhibit();
             }
-            for (const auto &output : std::as_const(m_drmOutputs)) {
+            for (const DrmOutput *output : std::as_const(m_drmOutputs)) {
                 // force a modeset with legacy, we can't reliably know if one is needed
                 if (!atomicModeSetting()) {
                     output->pipeline()->forceLegacyModeset();
                 }
             }
         } else {
-            for (const auto &output : std::as_const(m_drmOutputs)) {
+            for (const DrmOutput *output : std::as_const(m_drmOutputs)) {
                 output->renderLoop()->inhibit();
             }
         }
@@ -746,12 +741,12 @@ void DrmGpu::maybeModeset(DrmPipeline *pipeline, const std::shared_ptr<OutputFra
         m_pendingModesetFrames.emplace(pipeline, frame);
     }
     auto pipelines = m_pipelines;
-    for (const auto &output : std::as_const(m_drmOutputs)) {
+    for (const DrmOutput *output : std::as_const(m_drmOutputs)) {
         if (output->lease()) {
             pipelines.removeOne(output->pipeline());
         }
     }
-    const bool presentPendingForAll = std::ranges::all_of(pipelines, [](const auto &pipeline) {
+    const bool presentPendingForAll = std::ranges::all_of(pipelines, [](const DrmPipeline *pipeline) {
         return pipeline->modesetPresentPending() || !pipeline->activePending();
     });
     if (!presentPendingForAll) {
@@ -791,7 +786,7 @@ void DrmGpu::maybeModeset(DrmPipeline *pipeline, const std::shared_ptr<OutputFra
 QList<DrmObject *> DrmGpu::unusedObjects() const
 {
     QList<DrmObject *> ret = m_allObjects;
-    for (const auto &pipeline : m_pipelines) {
+    for (const DrmPipeline *pipeline : m_pipelines) {
         ret.removeOne(pipeline->connector());
         if (pipeline->crtc()) {
             ret.removeOne(pipeline->crtc());
@@ -815,7 +810,7 @@ void DrmGpu::releaseBuffers()
     for (const auto &crtc : std::as_const(m_crtcs)) {
         crtc->releaseCurrentBuffer();
     }
-    for (const auto &pipeline : std::as_const(m_pipelines)) {
+    for (const DrmPipeline *pipeline : std::as_const(m_pipelines)) {
         if (DrmPipelineLayer *layer = pipeline->primaryLayer()) {
             layer->releaseBuffers();
         }
@@ -827,7 +822,7 @@ void DrmGpu::releaseBuffers()
 
 void DrmGpu::recreateSurfaces()
 {
-    for (const auto &pipeline : std::as_const(m_pipelines)) {
+    for (DrmPipeline *pipeline : std::as_const(m_pipelines)) {
         pipeline->setLayers(m_platform->renderBackend()->createDrmPlaneLayer(pipeline, DrmPlane::TypeIndex::Primary), m_platform->renderBackend()->createDrmPlaneLayer(pipeline, DrmPlane::TypeIndex::Cursor));
         pipeline->applyPendingChanges();
     }
@@ -838,6 +833,11 @@ std::shared_ptr<DrmFramebuffer> DrmGpu::importBuffer(GraphicsBuffer *buffer, Fil
     const DmaBufAttributes *attributes = buffer->dmabufAttributes();
     if (Q_UNLIKELY(!attributes)) {
         return nullptr;
+    }
+
+    const auto it = m_fbCache.constFind(buffer);
+    if (it != m_fbCache.constEnd()) {
+        return std::make_shared<DrmFramebuffer>(it->lock(), buffer, std::move(readFence));
     }
 
     uint32_t handles[] = {0, 0, 0, 0};
@@ -908,7 +908,21 @@ std::shared_ptr<DrmFramebuffer> DrmGpu::importBuffer(GraphicsBuffer *buffer, Fil
         return nullptr;
     }
 
-    return std::make_shared<DrmFramebuffer>(this, framebufferId, buffer, std::move(readFence));
+    auto fbData = std::make_shared<DrmFramebufferData>(this, framebufferId, buffer);
+    m_fbCache[buffer] = fbData;
+    connect(buffer, &GraphicsBuffer::destroyed, this, &DrmGpu::forgetBufferObject);
+    return std::make_shared<DrmFramebuffer>(fbData, buffer, std::move(readFence));
+}
+
+void DrmGpu::forgetBuffer(GraphicsBuffer *buf)
+{
+    disconnect(buf, &GraphicsBuffer::destroyed, this, &DrmGpu::forgetBufferObject);
+    m_fbCache.remove(buf);
+}
+
+void DrmGpu::forgetBufferObject(QObject *buf)
+{
+    m_fbCache.remove(static_cast<GraphicsBuffer *>(buf));
 }
 
 QString DrmGpu::driverName() const
@@ -931,7 +945,7 @@ DrmLease::~DrmLease()
 {
     qCDebug(KWIN_DRM, "Revoking lease with leaseID %d", m_lesseeId);
     drmModeRevokeLease(m_gpu->fd(), m_lesseeId);
-    for (const auto &output : m_outputs) {
+    for (DrmOutput *output : m_outputs) {
         output->leaseEnded();
         output->pipeline()->setEnable(false);
     }

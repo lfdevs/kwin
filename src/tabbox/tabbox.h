@@ -13,7 +13,7 @@
 
 #include "input_event.h"
 #include "tabbox/tabboxhandler.h"
-#include "utils/common.h"
+
 #include <QKeySequence>
 #include <QModelIndex>
 #include <QTimer>
@@ -30,7 +30,6 @@ namespace KWin
 
 class Workspace;
 class Window;
-class X11EventFilter;
 
 namespace TabBox
 {
@@ -48,7 +47,6 @@ public:
     int activeScreen() const override;
     Window *activeClient() const override;
     QString desktopName(Window *client) const override;
-    bool isKWinCompositing() const override;
     Window *nextClientFocusChain(Window *client) const override;
     Window *firstClientFocusChain() const override;
     bool isInFocusChain(Window *client) const override;
@@ -246,16 +244,16 @@ private:
     void loadConfig(const KConfigGroup &config, TabBoxConfig &tabBoxConfig);
 
     bool startKDEWalkThroughWindows(bool forward, TabBoxMode mode); // TabBoxWindowsMode | TabBoxWindowsAlternativeMode
-    void navigatingThroughWindows(bool forward, const QKeySequence &shortcut, TabBoxMode mode); // TabBoxWindowsMode | TabBoxWindowsAlternativeMode
+    void navigatingThroughWindows(bool forward, const QList<QKeySequence> &shortcut, TabBoxMode mode); // TabBoxWindowsMode | TabBoxWindowsAlternativeMode
     void KDEWalkThroughWindows(bool forward);
     void CDEWalkThroughWindows(bool forward);
     void KDEOneStepThroughWindows(bool forward, TabBoxMode mode); // TabBoxWindowsMode | TabBoxWindowsAlternativeMode
     bool establishTabBoxGrab();
     void removeTabBoxGrab();
     template<typename Slot>
-    void key(const KLazyLocalizedString &actionName, Slot slot, const QKeySequence &shortcut = QKeySequence());
+    void key(const KLazyLocalizedString &actionName, Slot slot, const QList<QKeySequence> &shortcuts = QList<QKeySequence>());
 
-    Direction matchShortcuts(const KeyboardKeyEvent &keyEvent, const QKeySequence &forward, const QKeySequence &backward) const;
+    Direction matchShortcuts(const KeyboardKeyEvent &keyEvent, const QList<QKeySequence> &forward, const QList<QKeySequence> &backward) const;
 
     void shadeActivate(Window *c);
 
@@ -263,7 +261,7 @@ private:
 
 private Q_SLOTS:
     void reconfigure();
-    void globalShortcutChanged(QAction *action, const QKeySequence &seq);
+    void globalShortcutChanged(QAction *action, const QList<QKeySequence> &seq);
 
 private:
     TabBoxMode m_tabBoxMode;
@@ -283,19 +281,15 @@ private:
     bool m_tabGrab;
     // true if tabbox is in modal mode which does not require holding a modifier
     bool m_noModifierGrab;
-    QKeySequence m_cutWalkThroughWindows, m_cutWalkThroughWindowsReverse;
-    QKeySequence m_cutWalkThroughWindowsAlternative, m_cutWalkThroughWindowsAlternativeReverse;
-    QKeySequence m_cutWalkThroughCurrentAppWindows, m_cutWalkThroughCurrentAppWindowsReverse;
-    QKeySequence m_cutWalkThroughCurrentAppWindowsAlternative, m_cutWalkThroughCurrentAppWindowsAlternativeReverse;
+    QList<QKeySequence> m_cutWalkThroughWindows, m_cutWalkThroughWindowsReverse;
+    QList<QKeySequence> m_cutWalkThroughWindowsAlternative, m_cutWalkThroughWindowsAlternativeReverse;
+    QList<QKeySequence> m_cutWalkThroughCurrentAppWindows, m_cutWalkThroughCurrentAppWindowsReverse;
+    QList<QKeySequence> m_cutWalkThroughCurrentAppWindowsAlternative, m_cutWalkThroughCurrentAppWindowsAlternativeReverse;
     bool m_forcedGlobalMouseGrab;
     bool m_ready; // indicates whether the config is completely loaded
     QList<ElectricBorder> m_borderActivate, m_borderAlternativeActivate;
     QHash<ElectricBorder, QAction *> m_touchActivate;
     QHash<ElectricBorder, QAction *> m_touchAlternativeActivate;
-
-#if KWIN_BUILD_X11
-    std::unique_ptr<X11EventFilter> m_x11EventFilter;
-#endif
 };
 
 } // namespace TabBox

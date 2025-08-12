@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-16 02:32+0000\n"
-"PO-Revision-Date: 2024-03-09 06:28+0100\n"
+"POT-Creation-Date: 2025-05-20 02:37+0000\n"
+"PO-Revision-Date: 2025-06-06 06:08+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,9 +16,21 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Poedit 3.6\n"
 
-#: ui/main.qml:29
+#: ui/main.qml:27
+#, kde-format
+msgctxt "@info"
+msgid "Changes will take effect the next time you log in."
+msgstr "ცვლილებების ეფექტს შემდეგ შესვლაზე დაინახავთ."
+
+#: ui/main.qml:31
+#, kde-format
+msgctxt "@action:button"
+msgid "Log Out Now"
+msgstr "გასვლა ახლავე"
+
+#: ui/main.qml:52
 #, kde-format
 msgid ""
 "Some legacy X11 apps require the ability to read keystrokes typed in other "
@@ -36,24 +48,24 @@ msgstr ""
 "აპები გამოიყენოთ, აქ შეგიძლიათ აირჩიოთ ბალანსი უსაფრთხოებასა და ფუნქციონალს "
 "შორის."
 
-#: ui/main.qml:45
+#: ui/main.qml:72
 #, kde-format
 msgid "Allow legacy X11 apps to read keystrokes typed in all apps:"
 msgstr ""
 "მოძველებული X11 აპებისთვის სხვა აპებში აკრეფილი ღილაკების მიმდევრობის "
 "წაკითხვის უფლების მიცემა:"
 
-#: ui/main.qml:46
+#: ui/main.qml:73
 #, kde-format
 msgid "Never"
 msgstr "არასდროს"
 
-#: ui/main.qml:57
+#: ui/main.qml:84
 #, kde-format
 msgid "Only Meta, Control, Alt and Shift keys"
 msgstr "მხოლოდ Meta, Control, Alt და Shift ღილაკები"
 
-#: ui/main.qml:68
+#: ui/main.qml:95
 #, kde-format
 msgid ""
 "As above, plus any key typed while the Control, Alt, or Meta keys are pressed"
@@ -61,17 +73,17 @@ msgstr ""
 "როგორც ზემოთ, დამატებით ნებისმიერი ღილაკი, რომელზეც Ctrl, Alt ან Meta "
 "ღილაკთან ერთად დააჭირეთ"
 
-#: ui/main.qml:80
+#: ui/main.qml:107
 #, kde-format
 msgid "Always"
 msgstr "ყოველთვის"
 
-#: ui/main.qml:95
+#: ui/main.qml:122
 #, kde-format
 msgid "Additionally include mouse buttons"
 msgstr "დამატებით თაგუნას ღილაკების ჩასმა"
 
-#: ui/main.qml:111
+#: ui/main.qml:138
 #, kde-format
 msgid ""
 "Note that using this setting will reduce system security to that of the X11 "
@@ -82,6 +94,20 @@ msgstr ""
 "X11-ის სესია, რომელიც საეჭვო პროგრამებს პაროლების მოპარვის და თქვენზე "
 "ჯაშუშობის უფლებას აძლევს, ცუდი იდეაა. დარწმუნდით, რომ იაზრებთ და ეთანხმებით "
 "ამ რისკს."
+
+#: ui/main.qml:155
+#, kde-format
+msgctxt "@title:group"
+msgid "Control of pointer and keyboard:"
+msgstr "კურსორის და კლავიატურის მართვა:"
+
+#: ui/main.qml:156
+#, kde-format
+msgctxt ""
+"@option:check Allow control of pointer and keyboard without asking for "
+"permission"
+msgid "Allow without asking for permission"
+msgstr "დაშვება წვდომის მოთხოვნის გარეშე"
 
 #~ msgid "Only non-character keys"
 #~ msgstr "მხოლოდ არა-სიმბოლოს ღილაკები"

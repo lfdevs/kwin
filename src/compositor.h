@@ -9,22 +9,20 @@
 */
 #pragma once
 
-#include "config-kwin.h"
-#include <kwin_export.h>
-
-#if KWIN_BUILD_X11
-#include <xcb/xcb.h>
-#endif
+#include "effect/globals.h"
+#include "kwin_export.h"
 
 #include <QHash>
 #include <QObject>
 #include <QRegion>
-#include <QTimer>
+
 #include <memory>
 
 namespace KWin
 {
 
+class ColorDescription;
+class GLTexture;
 class Output;
 class CursorScene;
 class RenderBackend;
@@ -39,6 +37,8 @@ class KWIN_EXPORT Compositor : public QObject
 {
     Q_OBJECT
 public:
+    static Compositor *create(QObject *parent = nullptr);
+
     enum class State {
         On = 0,
         Off,
@@ -49,14 +49,14 @@ public:
     ~Compositor() override;
     static Compositor *self();
 
-    virtual void start() = 0;
-    virtual void stop() = 0;
+    void start();
+    void stop();
 
     /**
      * Re-initializes the Compositor completely.
      * Connected to the D-Bus signal org.kde.KWin /KWin reinitCompositing
      */
-    virtual void reinitialize();
+    void reinitialize();
 
     /**
      * Whether the Compositor is active. That is a Scene is present and the Compositor is
@@ -77,50 +77,9 @@ public:
         return m_backend.get();
     }
 
-    /**
-     * @brief Static check to test whether the Compositor is available and active.
-     *
-     * @return bool @c true if there is a Compositor and it is active, @c false otherwise
-     */
-    static bool compositing()
-    {
-        return s_compositor != nullptr && s_compositor->isActive();
-    }
+    void createRenderer();
 
-#if KWIN_BUILD_X11
-    // for delayed supportproperty management of effects
-    void keepSupportProperty(xcb_atom_t atom);
-    void removeSupportProperty(xcb_atom_t atom);
-#endif
-
-    /**
-     * Whether Compositing is possible in the Platform.
-     * Returning @c false in this method makes only sense if requiresCompositing returns @c false.
-     *
-     * The default implementation returns @c true.
-     * @see requiresCompositing
-     */
-    virtual bool compositingPossible() const;
-    /**
-     * Returns a user facing text explaining why compositing is not possible in case
-     * compositingPossible returns @c false.
-     *
-     * The default implementation returns an empty string.
-     * @see compositingPossible
-     */
-    virtual QString compositingNotPossibleReason() const;
-    /**
-     * Whether OpenGL compositing is broken.
-     * The Platform can implement this method if it is able to detect whether OpenGL compositing
-     * broke (e.g. triggered a crash in a previous run).
-     *
-     * Default implementation returns @c false.
-     * @see createOpenGLSafePoint
-     */
-    virtual bool openGLCompositingIsBroken() const;
-
-    virtual void inhibit(Window *window);
-    virtual void uninhibit(Window *window);
+    std::pair<std::shared_ptr<GLTexture>, ColorDescription> textureForOutput(Output *output) const;
 
 Q_SIGNALS:
     void compositingToggled(bool active);
@@ -134,16 +93,12 @@ protected:
     static Compositor *s_compositor;
 
 protected Q_SLOTS:
-    virtual void composite(RenderLoop *renderLoop) = 0;
+    void composite(RenderLoop *renderLoop);
 
 private Q_SLOTS:
     void handleFrameRequested(RenderLoop *renderLoop);
 
 protected:
-#if KWIN_BUILD_X11
-    void deleteUnusedSupportProperties();
-#endif
-
     Output *findOutput(RenderLoop *loop) const;
 
     void addSuperLayer(RenderLayer *layer);
@@ -154,11 +109,15 @@ protected:
     void paintPass(RenderLayer *layer, const RenderTarget &renderTarget, const QRegion &region);
     void framePass(RenderLayer *layer, OutputFrame *frame);
 
+    void createScene();
+    bool attemptOpenGLCompositing();
+    bool attemptQPainterCompositing();
+    void addOutput(Output *output);
+    void removeOutput(Output *output);
+
+    CompositingType m_selectedCompositor = NoCompositing;
+
     State m_state = State::Off;
-#if KWIN_BUILD_X11
-    QList<xcb_atom_t> m_unusedSupportProperties;
-    QTimer m_unusedSupportPropertyTimer;
-#endif
     std::unique_ptr<WorkspaceScene> m_scene;
     std::unique_ptr<CursorScene> m_cursorScene;
     std::unique_ptr<RenderBackend> m_backend;

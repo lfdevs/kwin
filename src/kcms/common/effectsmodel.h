@@ -15,9 +15,9 @@
 #include <KSharedConfig>
 
 #include <QAbstractItemModel>
+#include <QQuickItem>
 #include <QString>
 #include <QUrl>
-#include <QWindow>
 
 namespace KWin
 {
@@ -74,10 +74,6 @@ public:
          */
         StatusRole,
         /**
-         * Link to a video demonstration of the effect.
-         */
-        VideoRole,
-        /**
          * Link to the home page of the effect.
          */
         WebsiteRole,
@@ -110,6 +106,7 @@ public:
          */
         EnabledByDefaultFunctionRole,
     };
+    Q_ENUM(AdditionalRoles);
 
     /**
      * This enum type is used to specify the status of a given effect.
@@ -141,6 +138,20 @@ public:
     int columnCount(const QModelIndex &parent = {}) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
+
+    /**
+     * Specify exclusive groups that the model should not store.
+     *
+     * @param exclusiveGroups A list of exclusive group strings for the model to ignore.
+     */
+    void setExcludeExclusiveGroups(const QStringList &exclusiveGroups);
+
+    /**
+     * Specify effect IDs that the model should not store.
+     *
+     * @param effects A list of effects by ServiceNameRole.
+     */
+    void setExcludeEffects(const QStringList &effects);
 
     /**
      * Changes the status of a given effect.
@@ -175,11 +186,23 @@ public:
     void save();
 
     /**
+     * Resets the status of the effect to the default state.
+     *
+     * @note In order to actually apply the change, you have to call save().
+     */
+    void defaults(const QModelIndex &index);
+
+    /**
      * Resets the status of each effect to the default state.
      *
      * @note In order to actually apply the change, you have to call save().
      */
     void defaults();
+
+    /**
+     * Whether the status of the effect is its default state.
+     */
+    bool isDefaults(const QModelIndex &index) const;
 
     /**
      * Whether the status of each effect is its default state.
@@ -200,9 +223,9 @@ public:
      * Shows a configuration dialog for a given effect.
      *
      * @param index An effect represented by the given index.
-     * @param transientParent The transient parent of the configuration dialog.
+     * @param context The context in which to open configuration dialog.
      */
-    void requestConfigure(const QModelIndex &index, QWindow *transientParent);
+    void requestConfigure(const QModelIndex &index, QQuickItem *context);
 
 Q_SIGNALS:
     /**
@@ -229,7 +252,6 @@ protected:
         Status originalStatus;
         bool enabledByDefault;
         bool enabledByDefaultFunction;
-        QUrl video;
         QUrl website;
         bool supported;
         QString exclusiveGroup;
@@ -254,6 +276,8 @@ private:
 
     QList<EffectData> m_effects;
     QList<EffectData> m_pendingEffects;
+    QStringList m_excludeExclusiveGroups;
+    QStringList m_excludeEffects;
     int m_lastSerial = -1;
 
     Q_DISABLE_COPY(EffectsModel)

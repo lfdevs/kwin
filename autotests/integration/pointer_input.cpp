@@ -9,6 +9,7 @@
 #include "kwin_wayland_test.h"
 
 #include "core/output.h"
+#include "core/outputconfiguration.h"
 #include "cursor.h"
 #include "cursorsource.h"
 #include "effect/effecthandler.h"
@@ -114,10 +115,6 @@ void PointerInputTest::initTestCase()
 {
     qRegisterMetaType<KWin::Window *>();
     QVERIFY(waylandServer()->init(s_socketName));
-    Test::setOutputConfig({
-        QRect(0, 0, 1280, 1024),
-        QRect(1280, 0, 1280, 1024),
-    });
 
     kwinApp()->setConfig(KSharedConfig::openConfig(QString(), KConfig::SimpleConfig));
 
@@ -126,6 +123,10 @@ void PointerInputTest::initTestCase()
     qputenv("XKB_DEFAULT_RULES", "evdev");
 
     kwinApp()->start();
+    Test::setOutputConfig({
+        QRect(0, 0, 1280, 1024),
+        QRect(1280, 0, 1280, 1024),
+    });
     const auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
     QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
@@ -695,9 +696,9 @@ void PointerInputTest::testModifierScrollOpacity()
     }
     QFETCH(int, modifierKey);
     Test::keyboardKeyPressed(modifierKey, timestamp++);
-    Test::pointerAxisVertical(-5, timestamp++);
+    Test::pointerAxisVertical(-15, timestamp++);
     QCOMPARE(window->opacity(), 0.6);
-    Test::pointerAxisVertical(5, timestamp++);
+    Test::pointerAxisVertical(15, timestamp++);
     QCOMPARE(window->opacity(), 0.5);
     Test::keyboardKeyReleased(modifierKey, timestamp++);
     if (capsLock) {
@@ -753,9 +754,9 @@ void PointerInputTest::testModifierScrollOpacityGlobalShortcutsDisabled()
     // simulate modifier+wheel
     quint32 timestamp = 1;
     Test::keyboardKeyPressed(KEY_LEFTMETA, timestamp++);
-    Test::pointerAxisVertical(-5, timestamp++);
+    Test::pointerAxisVertical(-15, timestamp++);
     QCOMPARE(window->opacity(), 0.5);
-    Test::pointerAxisVertical(5, timestamp++);
+    Test::pointerAxisVertical(15, timestamp++);
     QCOMPARE(window->opacity(), 0.5);
     Test::keyboardKeyReleased(KEY_LEFTMETA, timestamp++);
 
@@ -799,6 +800,11 @@ void PointerInputTest::testScrollAction()
     input()->pointer()->warp(window1->frameGeometry().center());
 
     quint32 timestamp = 1;
+    QVERIFY(!window1->isActive());
+    // the action should be triggered only once enough delta is accumulated
+    Test::pointerAxisVertical(5, timestamp++);
+    QVERIFY(!window1->isActive());
+    Test::pointerAxisVertical(5, timestamp++);
     QVERIFY(!window1->isActive());
     Test::pointerAxisVertical(5, timestamp++);
     QVERIFY(window1->isActive());

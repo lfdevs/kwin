@@ -23,12 +23,14 @@
 #include "qwayland-color-management-v1.h"
 #include "qwayland-cursor-shape-v1.h"
 #include "qwayland-fake-input.h"
+#include "qwayland-fifo-v1.h"
 #include "qwayland-fractional-scale-v1.h"
 #include "qwayland-idle-inhibit-unstable-v1.h"
 #include "qwayland-input-method-unstable-v1.h"
 #include "qwayland-kde-output-device-v2.h"
 #include "qwayland-kde-output-management-v2.h"
 #include "qwayland-kde-screen-edge-v1.h"
+#include "qwayland-presentation-time.h"
 #include "qwayland-security-context-v1.h"
 #include "qwayland-text-input-unstable-v3.h"
 #include "qwayland-wlr-layer-shell-unstable-v1.h"
@@ -44,11 +46,13 @@ namespace Client
 class AppMenuManager;
 class ConnectionThread;
 class Compositor;
+class EventQueue;
 class Output;
 class PlasmaShell;
 class PlasmaWindowManagement;
 class Pointer;
 class PointerConstraints;
+class Registry;
 class Seat;
 class ShadowManager;
 class ShmPool;
@@ -90,7 +94,7 @@ class WaylandTestApplication : public Application
 {
     Q_OBJECT
 public:
-    WaylandTestApplication(OperationMode mode, int &argc, char **argv);
+    WaylandTestApplication(int &argc, char **argv);
     ~WaylandTestApplication() override;
 
     void setInputMethodServerToStart(const QString &inputMethodServer)
@@ -605,6 +609,8 @@ enum class AdditionalWaylandInterface {
     SecurityContextManagerV1 = 1 << 20,
     XdgDialogV1 = 1 << 21,
     ColorManagement = 1 << 22,
+    FifoV1 = 1 << 23,
+    PresentationTime = 1 << 24,
 };
 Q_DECLARE_FLAGS(AdditionalWaylandInterfaces, AdditionalWaylandInterface)
 
@@ -681,6 +687,78 @@ public:
     ~ColorManagerV1() override;
 };
 
+class FifoManagerV1 : public QtWayland::wp_fifo_manager_v1
+{
+public:
+    explicit FifoManagerV1(::wl_registry *registry, uint32_t id, int version);
+    ~FifoManagerV1() override;
+};
+
+class PresentationTime : public QtWayland::wp_presentation
+{
+public:
+    explicit PresentationTime(::wl_registry *registry, uint32_t id, int version);
+    ~PresentationTime() override;
+};
+
+class WpPresentationFeedback : public QObject, public QtWayland::wp_presentation_feedback
+{
+    Q_OBJECT
+public:
+    explicit WpPresentationFeedback(struct ::wp_presentation_feedback *obj);
+    ~WpPresentationFeedback() override;
+
+Q_SIGNALS:
+    void presented(std::chrono::nanoseconds timestamp, std::chrono::nanoseconds refreshDuration);
+    void discarded();
+
+private:
+    void wp_presentation_feedback_presented(uint32_t tv_sec_hi, uint32_t tv_sec_lo, uint32_t tv_nsec, uint32_t refresh, uint32_t seq_hi, uint32_t seq_lo, uint32_t flags) override;
+    void wp_presentation_feedback_discarded() override;
+};
+
+struct Connection
+{
+    static std::unique_ptr<Connection> setup(AdditionalWaylandInterfaces interfaces = AdditionalWaylandInterfaces());
+    ~Connection();
+
+    KWayland::Client::ConnectionThread *connection = nullptr;
+    KWayland::Client::EventQueue *queue = nullptr;
+    KWayland::Client::Compositor *compositor = nullptr;
+    KWayland::Client::SubCompositor *subCompositor = nullptr;
+    KWayland::Client::ShadowManager *shadowManager = nullptr;
+    XdgShell *xdgShell = nullptr;
+    KWayland::Client::ShmPool *shm = nullptr;
+    KWayland::Client::Seat *seat = nullptr;
+    KWayland::Client::PlasmaShell *plasmaShell = nullptr;
+    KWayland::Client::PlasmaWindowManagement *windowManagement = nullptr;
+    KWayland::Client::PointerConstraints *pointerConstraints = nullptr;
+    KWayland::Client::Registry *registry = nullptr;
+    WaylandOutputManagementV2 *outputManagementV2 = nullptr;
+    QThread *thread = nullptr;
+    QList<KWayland::Client::Output *> outputs;
+    QList<WaylandOutputDeviceV2 *> outputDevicesV2;
+    IdleInhibitManagerV1 *idleInhibitManagerV1 = nullptr;
+    KWayland::Client::AppMenuManager *appMenu = nullptr;
+    XdgDecorationManagerV1 *xdgDecorationManagerV1 = nullptr;
+    KWayland::Client::TextInputManager *textInputManager = nullptr;
+    QtWayland::zwp_input_panel_v1 *inputPanelV1 = nullptr;
+    MockInputMethod *inputMethodV1 = nullptr;
+    QtWayland::zwp_input_method_context_v1 *inputMethodContextV1 = nullptr;
+    LayerShellV1 *layerShellV1 = nullptr;
+    TextInputManagerV3 *textInputManagerV3 = nullptr;
+    FractionalScaleManagerV1 *fractionalScaleManagerV1 = nullptr;
+    ScreencastingV1 *screencastingV1 = nullptr;
+    ScreenEdgeManagerV1 *screenEdgeManagerV1 = nullptr;
+    CursorShapeManagerV1 *cursorShapeManagerV1 = nullptr;
+    FakeInput *fakeInput = nullptr;
+    SecurityContextManagerV1 *securityContextManagerV1 = nullptr;
+    XdgWmDialogV1 *xdgWmDialogV1;
+    std::unique_ptr<ColorManagerV1> colorManager;
+    std::unique_ptr<FifoManagerV1> fifoManager;
+    std::unique_ptr<PresentationTime> presentationTime;
+};
+
 void keyboardKeyPressed(quint32 key, quint32 time);
 void keyboardKeyReleased(quint32 key, quint32 time);
 void pointerAxisHorizontal(qreal delta,
@@ -703,7 +781,7 @@ void tabletPadButtonPressed(quint32 button, quint32 time);
 void tabletPadButtonReleased(quint32 button, quint32 time);
 void tabletToolButtonPressed(quint32 button, quint32 time);
 void tabletToolButtonReleased(quint32 button, quint32 time);
-void tabletToolProximityEvent(const QPointF &pos, qreal pressure, qreal xTilt, qreal yTilt, qreal rotation, qreal distance, bool tipDown, bool tipNear, quint32 time);
+void tabletToolProximityEvent(const QPointF &pos, qreal xTilt, qreal yTilt, qreal rotation, qreal distance, bool tipNear, qreal sliderPosition, quint32 time);
 
 /**
  * Creates a Wayland Connection in a dedicated thread and creates various
@@ -740,6 +818,8 @@ QList<WaylandOutputDeviceV2 *> waylandOutputDevicesV2();
 FakeInput *waylandFakeInput();
 SecurityContextManagerV1 *waylandSecurityContextManagerV1();
 ColorManagerV1 *colorManager();
+FifoManagerV1 *fifoManager();
+PresentationTime *presentationTime();
 
 bool waitForWaylandSurface(Window *window);
 
@@ -865,6 +945,38 @@ struct XcbConnectionDeleter
 };
 typedef std::unique_ptr<xcb_connection_t, XcbConnectionDeleter> XcbConnectionPtr;
 XcbConnectionPtr createX11Connection();
+
+enum {
+    MWM_HINTS_FUNCTIONS = (1L << 0),
+
+    MWM_FUNC_ALL = (1L << 0),
+    MWM_FUNC_RESIZE = (1L << 1),
+    MWM_FUNC_MOVE = (1L << 2),
+    MWM_FUNC_MINIMIZE = (1L << 3),
+    MWM_FUNC_MAXIMIZE = (1L << 4),
+    MWM_FUNC_CLOSE = (1L << 5),
+
+    MWM_HINTS_DECORATIONS = (1L << 1),
+
+    MWM_DECOR_ALL = (1L << 0),
+    MWM_DECOR_BORDER = (1L << 1),
+    MWM_DECOR_RESIZEH = (1L << 2),
+    MWM_DECOR_TITLE = (1L << 3),
+    MWM_DECOR_MENU = (1L << 4),
+    MWM_DECOR_MINIMIZE = (1L << 5),
+    MWM_DECOR_MAXIMIZE = (1L << 6),
+};
+
+struct MotifHints
+{
+    uint32_t flags = 0;
+    uint32_t functions = 0;
+    uint32_t decorations = 0;
+    int32_t input_mode = 0;
+    uint32_t status = 0;
+};
+
+void applyMotifHints(xcb_connection_t *connection, xcb_window_t window, const MotifHints &hints);
 #endif
 
 MockInputMethod *inputMethod();
@@ -976,7 +1088,7 @@ Q_DECLARE_METATYPE(QtWayland::zxdg_toplevel_decoration_v1::mode)
         qunsetenv("KDE_SESSION_VERSION");                                                                                                 \
         qunsetenv("XDG_SESSION_DESKTOP");                                                                                                 \
         qunsetenv("XDG_CURRENT_DESKTOP");                                                                                                 \
-        KWin::WaylandTestApplication app(KWin::Application::OperationModeWayland, argc, argv);                                            \
+        KWin::WaylandTestApplication app(argc, argv);                                                                                     \
         app.setAttribute(Qt::AA_Use96Dpi, true);                                                                                          \
         TestObject tc;                                                                                                                    \
         return QTest::qExec(&tc, argc, argv);                                                                                             \

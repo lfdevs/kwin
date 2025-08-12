@@ -23,7 +23,7 @@
 namespace KWin
 {
 
-static const quint32 s_version = 11;
+static const quint32 s_version = 16;
 
 static QtWaylandServer::kde_output_device_v2::transform kwinTransformToOutputDeviceTransform(OutputTransform transform)
 {
@@ -62,6 +62,18 @@ static uint32_t kwinCapabilitiesToOutputDeviceCapabilities(Output::Capabilities 
     if (caps & Output::Capability::BrightnessControl) {
         ret |= QtWaylandServer::kde_output_device_v2::capability_brightness;
     }
+    if (caps & Output::Capability::BuiltInColorProfile) {
+        ret |= QtWaylandServer::kde_output_device_v2::capability_built_in_color;
+    }
+    if (caps & Output::Capability::DdcCi) {
+        ret |= QtWaylandServer::kde_output_device_v2::capability_ddc_ci;
+    }
+    if (caps & Output::Capability::MaxBitsPerColor) {
+        ret |= QtWaylandServer::kde_output_device_v2::capability_max_bits_per_color;
+    }
+    if (caps & Output::Capability::Edr) {
+        ret |= QtWaylandServer::kde_output_device_v2::capability_edr;
+    }
     return ret;
 }
 
@@ -78,6 +90,11 @@ static QtWaylandServer::kde_output_device_v2::rgb_range kwinRgbRangeToOutputDevi
 static QtWaylandServer::kde_output_device_v2::auto_rotate_policy kwinAutoRotationToOutputDeviceAutoRotation(Output::AutoRotationPolicy policy)
 {
     return static_cast<QtWaylandServer::kde_output_device_v2::auto_rotate_policy>(policy);
+}
+
+static QtWaylandServer::kde_output_device_v2::edr_policy kwinEdrPolicyToOutputDevice(Output::EdrPolicy policy)
+{
+    return static_cast<QtWaylandServer::kde_output_device_v2::edr_policy>(policy);
 }
 
 class OutputDeviceV2InterfacePrivate : public QtWaylandServer::kde_output_device_v2
@@ -113,6 +130,10 @@ public:
     void sendBrightness(Resource *resource);
     void sendColorPowerTradeoff(Resource *resource);
     void sendDimming(Resource *resource);
+    void sendReplicationSource(Resource *resource);
+    void sendDdcCiAllowed(Resource *resource);
+    void sendMaxBpc(Resource *resource);
+    void sendEdrPolicy(Resource *resource);
 
     OutputDeviceV2Interface *q;
     QPointer<Display> m_display;
@@ -131,7 +152,7 @@ public:
     OutputDeviceModeV2Interface *m_currentMode = nullptr;
     QByteArray m_edid;
     bool m_enabled = true;
-    QUuid m_uuid;
+    QString m_uuid;
     uint32_t m_capabilities = 0;
     uint32_t m_overscan = 0;
     vrr_policy m_vrrPolicy = vrr_policy_automatic;
@@ -153,6 +174,12 @@ public:
     color_power_tradeoff m_powerColorTradeoff = color_power_tradeoff_efficiency;
     QTimer m_doneTimer;
     uint32_t m_dimming = 10'000;
+    QString m_replicationSource;
+    bool m_ddcCiAllowed = true;
+    uint32_t m_maxBpc = 0;
+    Output::BpcRange m_maxBpcRange;
+    std::optional<uint32_t> m_automaticMaxBitsPerColorLimit;
+    Output::EdrPolicy m_edrPolicy = Output::EdrPolicy::Always;
 
 protected:
     void kde_output_device_v2_bind_resource(Resource *resource) override;
@@ -242,6 +269,10 @@ OutputDeviceV2Interface::OutputDeviceV2Interface(Display *display, Output *handl
     updateBrightness();
     updateColorPowerTradeoff();
     updateDimming();
+    updateReplicationSource();
+    updateDdcCiAllowed();
+    updateMaxBpc();
+    updateEdrPolicy();
 
     connect(handle, &Output::geometryChanged,
             this, &OutputDeviceV2Interface::updateGlobalPosition);
@@ -275,13 +306,18 @@ OutputDeviceV2Interface::OutputDeviceV2Interface(Display *display, Output *handl
     connect(handle, &Output::brightnessChanged, this, &OutputDeviceV2Interface::updateBrightness);
     connect(handle, &Output::colorPowerTradeoffChanged, this, &OutputDeviceV2Interface::updateColorPowerTradeoff);
     connect(handle, &Output::dimmingChanged, this, &OutputDeviceV2Interface::updateDimming);
+    connect(handle, &Output::uuidChanged, this, &OutputDeviceV2Interface::updateUuid);
+    connect(handle, &Output::replicationSourceChanged, this, &OutputDeviceV2Interface::updateReplicationSource);
+    connect(handle, &Output::allowDdcCiChanged, this, &OutputDeviceV2Interface::updateDdcCiAllowed);
+    connect(handle, &Output::maxBitsPerColorChanged, this, &OutputDeviceV2Interface::updateMaxBpc);
+    connect(handle, &Output::edrPolicyChanged, this, &OutputDeviceV2Interface::updateEdrPolicy);
 
     // Delay the done event to batch property updates.
     d->m_doneTimer.setSingleShot(true);
     d->m_doneTimer.setInterval(0);
     connect(&d->m_doneTimer, &QTimer::timeout, this, [this]() {
         const auto resources = d->resourceMap();
-        for (const auto &resource : resources) {
+        for (auto resource : resources) {
             d->sendDone(resource);
         }
     });
@@ -354,6 +390,10 @@ void OutputDeviceV2InterfacePrivate::kde_output_device_v2_bind_resource(Resource
     sendBrightness(resource);
     sendColorPowerTradeoff(resource);
     sendDimming(resource);
+    sendReplicationSource(resource);
+    sendDdcCiAllowed(resource);
+    sendMaxBpc(resource);
+    sendEdrPolicy(resource);
     sendDone(resource);
 }
 
@@ -428,7 +468,7 @@ void OutputDeviceV2InterfacePrivate::sendEnabled(Resource *resource)
 
 void OutputDeviceV2InterfacePrivate::sendUuid(Resource *resource)
 {
-    send_uuid(resource->handle, m_uuid.toString(QUuid::WithoutBraces));
+    send_uuid(resource->handle, m_uuid);
 }
 
 void OutputDeviceV2InterfacePrivate::sendCapabilities(Resource *resource)
@@ -535,10 +575,40 @@ void OutputDeviceV2InterfacePrivate::sendDimming(Resource *resource)
     }
 }
 
+void OutputDeviceV2InterfacePrivate::sendReplicationSource(Resource *resource)
+{
+    if (resource->version() >= KDE_OUTPUT_DEVICE_V2_REPLICATION_SOURCE_SINCE_VERSION) {
+        send_replication_source(resource->handle, m_replicationSource);
+    }
+}
+
+void OutputDeviceV2InterfacePrivate::sendDdcCiAllowed(Resource *resource)
+{
+    if (resource->version() >= KDE_OUTPUT_DEVICE_V2_DDC_CI_ALLOWED_SINCE_VERSION) {
+        send_ddc_ci_allowed(resource->handle, m_ddcCiAllowed);
+    }
+}
+
+void OutputDeviceV2InterfacePrivate::sendMaxBpc(Resource *resource)
+{
+    if (resource->version() >= KDE_OUTPUT_DEVICE_V2_MAX_BITS_PER_COLOR_SINCE_VERSION) {
+        send_max_bits_per_color(resource->handle, m_maxBpc);
+        send_automatic_max_bits_per_color_limit(resource->handle, m_automaticMaxBitsPerColorLimit.value_or(0));
+        send_max_bits_per_color_range(resource->handle, m_maxBpcRange.min, m_maxBpcRange.max);
+    }
+}
+
+void OutputDeviceV2InterfacePrivate::sendEdrPolicy(Resource *resource)
+{
+    if (resource->version() >= KDE_OUTPUT_DEVICE_V2_EDR_POLICY_SINCE_VERSION) {
+        send_edr_policy(resource->handle, kwinEdrPolicyToOutputDevice(m_edrPolicy));
+    }
+}
+
 void OutputDeviceV2Interface::updateGeometry()
 {
     const auto clientResources = d->resourceMap();
-    for (const auto &resource : clientResources) {
+    for (auto resource : clientResources) {
         d->sendGeometry(resource);
     }
     scheduleDone();
@@ -610,7 +680,7 @@ void OutputDeviceV2Interface::updateScale()
     }
     d->m_scale = scale;
     const auto clientResources = d->resourceMap();
-    for (const auto &resource : clientResources) {
+    for (auto resource : clientResources) {
         d->sendScale(resource);
     }
     scheduleDone();
@@ -668,7 +738,7 @@ void OutputDeviceV2Interface::updateEdid()
 {
     d->m_edid = d->m_handle->edid().raw();
     const auto clientResources = d->resourceMap();
-    for (const auto &resource : clientResources) {
+    for (auto resource : clientResources) {
         d->sendEdid(resource);
     }
     scheduleDone();
@@ -680,7 +750,7 @@ void OutputDeviceV2Interface::updateEnabled()
     if (d->m_enabled != enabled) {
         d->m_enabled = enabled;
         const auto clientResources = d->resourceMap();
-        for (const auto &resource : clientResources) {
+        for (auto resource : clientResources) {
             d->sendEnabled(resource);
         }
         scheduleDone();
@@ -689,11 +759,11 @@ void OutputDeviceV2Interface::updateEnabled()
 
 void OutputDeviceV2Interface::updateUuid()
 {
-    const QUuid uuid = d->m_handle->uuid();
+    const QString uuid = d->m_handle->uuid();
     if (d->m_uuid != uuid) {
         d->m_uuid = uuid;
         const auto clientResources = d->resourceMap();
-        for (const auto &resource : clientResources) {
+        for (auto resource : clientResources) {
             d->sendUuid(resource);
         }
         scheduleDone();
@@ -706,7 +776,7 @@ void OutputDeviceV2Interface::updateCapabilities()
     if (d->m_capabilities != cap) {
         d->m_capabilities = cap;
         const auto clientResources = d->resourceMap();
-        for (const auto &resource : clientResources) {
+        for (auto resource : clientResources) {
             d->sendCapabilities(resource);
         }
         scheduleDone();
@@ -719,7 +789,7 @@ void OutputDeviceV2Interface::updateOverscan()
     if (d->m_overscan != overscan) {
         d->m_overscan = overscan;
         const auto clientResources = d->resourceMap();
-        for (const auto &resource : clientResources) {
+        for (auto resource : clientResources) {
             d->sendOverscan(resource);
         }
         scheduleDone();
@@ -732,7 +802,7 @@ void OutputDeviceV2Interface::updateVrrPolicy()
     if (d->m_vrrPolicy != policy) {
         d->m_vrrPolicy = policy;
         const auto clientResources = d->resourceMap();
-        for (const auto &resource : clientResources) {
+        for (auto resource : clientResources) {
             d->sendVrrPolicy(resource);
         }
         scheduleDone();
@@ -745,7 +815,7 @@ void OutputDeviceV2Interface::updateRgbRange()
     if (d->m_rgbRange != rgbRange) {
         d->m_rgbRange = rgbRange;
         const auto clientResources = d->resourceMap();
-        for (const auto &resource : clientResources) {
+        for (auto resource : clientResources) {
             d->sendRgbRange(resource);
         }
         scheduleDone();
@@ -757,7 +827,7 @@ void OutputDeviceV2Interface::updateHighDynamicRange()
     if (d->m_highDynamicRange != d->m_handle->highDynamicRange()) {
         d->m_highDynamicRange = d->m_handle->highDynamicRange();
         const auto clientResources = d->resourceMap();
-        for (const auto &resource : clientResources) {
+        for (auto resource : clientResources) {
             d->sendHighDynamicRange(resource);
         }
         scheduleDone();
@@ -769,7 +839,7 @@ void OutputDeviceV2Interface::updateSdrBrightness()
     if (d->m_referenceLuminance != d->m_handle->referenceLuminance()) {
         d->m_referenceLuminance = d->m_handle->referenceLuminance();
         const auto clientResources = d->resourceMap();
-        for (const auto &resource : clientResources) {
+        for (auto resource : clientResources) {
             d->sendSdrBrightness(resource);
         }
         scheduleDone();
@@ -781,7 +851,7 @@ void OutputDeviceV2Interface::updateWideColorGamut()
     if (d->m_wideColorGamut != d->m_handle->wideColorGamut()) {
         d->m_wideColorGamut = d->m_handle->wideColorGamut();
         const auto clientResources = d->resourceMap();
-        for (const auto &resource : clientResources) {
+        for (auto resource : clientResources) {
             d->sendWideColorGamut(resource);
         }
         scheduleDone();
@@ -794,7 +864,7 @@ void OutputDeviceV2Interface::updateAutoRotate()
     if (d->m_autoRotation != policy) {
         d->m_autoRotation = policy;
         const auto clientResources = d->resourceMap();
-        for (const auto &resource : clientResources) {
+        for (auto resource : clientResources) {
             d->sendAutoRotationPolicy(resource);
         }
         scheduleDone();
@@ -806,7 +876,7 @@ void OutputDeviceV2Interface::updateIccProfilePath()
     if (d->m_iccProfilePath != d->m_handle->iccProfilePath()) {
         d->m_iccProfilePath = d->m_handle->iccProfilePath();
         const auto clientResources = d->resourceMap();
-        for (const auto &resource : clientResources) {
+        for (auto resource : clientResources) {
             d->sendIccProfilePath(resource);
         }
         scheduleDone();
@@ -820,7 +890,7 @@ void OutputDeviceV2Interface::updateBrightnessMetadata()
         d->m_maxAverageBrightness = d->m_handle->maxAverageBrightness();
         d->m_minBrightness = d->m_handle->minBrightness();
         const auto clientResources = d->resourceMap();
-        for (const auto &resource : clientResources) {
+        for (auto resource : clientResources) {
             d->sendBrightnessMetadata(resource);
         }
         scheduleDone();
@@ -834,7 +904,7 @@ void OutputDeviceV2Interface::updateBrightnessOverrides()
         d->m_maxAverageBrightnessOverride = d->m_handle->maxAverageBrightnessOverride();
         d->m_minBrightnessOverride = d->m_handle->minBrightnessOverride();
         const auto clientResources = d->resourceMap();
-        for (const auto &resource : clientResources) {
+        for (auto resource : clientResources) {
             d->sendBrightnessOverrides(resource);
         }
         scheduleDone();
@@ -846,7 +916,7 @@ void OutputDeviceV2Interface::updateSdrGamutWideness()
     if (d->m_sdrGamutWideness != d->m_handle->sdrGamutWideness()) {
         d->m_sdrGamutWideness = d->m_handle->sdrGamutWideness();
         const auto clientResources = d->resourceMap();
-        for (const auto &resource : clientResources) {
+        for (auto resource : clientResources) {
             d->sendSdrGamutWideness(resource);
         }
         scheduleDone();
@@ -869,7 +939,7 @@ void OutputDeviceV2Interface::updateColorProfileSource()
     if (d->m_colorProfile != waylandColorProfileSource) {
         d->m_colorProfile = waylandColorProfileSource;
         const auto clientResources = d->resourceMap();
-        for (const auto &resource : clientResources) {
+        for (auto resource : clientResources) {
             d->sendColorProfileSource(resource);
         }
         scheduleDone();
@@ -882,7 +952,7 @@ void OutputDeviceV2Interface::updateBrightness()
     if (d->m_brightness != newBrightness) {
         d->m_brightness = newBrightness;
         const auto clientResources = d->resourceMap();
-        for (const auto &resource : clientResources) {
+        for (auto resource : clientResources) {
             d->sendBrightness(resource);
         }
         scheduleDone();
@@ -903,7 +973,7 @@ void OutputDeviceV2Interface::updateColorPowerTradeoff()
     if (d->m_powerColorTradeoff != colorPowerTradeoff) {
         d->m_powerColorTradeoff = colorPowerTradeoff;
         const auto clientResources = d->resourceMap();
-        for (const auto &resource : clientResources) {
+        for (auto resource : clientResources) {
             d->sendColorPowerTradeoff(resource);
             d->sendDone(resource);
         }
@@ -916,8 +986,60 @@ void OutputDeviceV2Interface::updateDimming()
     if (d->m_dimming != newDimming) {
         d->m_dimming = newDimming;
         const auto clientResources = d->resourceMap();
-        for (const auto &resource : clientResources) {
+        for (auto resource : clientResources) {
             d->sendDimming(resource);
+        }
+        scheduleDone();
+    }
+}
+
+void OutputDeviceV2Interface::updateReplicationSource()
+{
+    const QString newSource = d->m_handle->replicationSource();
+    if (d->m_replicationSource != newSource) {
+        d->m_replicationSource = newSource;
+        const auto clientResources = d->resourceMap();
+        for (auto resource : clientResources) {
+            d->sendReplicationSource(resource);
+        }
+    }
+}
+
+void OutputDeviceV2Interface::updateMaxBpc()
+{
+    if (d->m_maxBpc != d->m_handle->maxBitsPerColor()
+        || d->m_maxBpcRange != d->m_handle->bitsPerColorRange()
+        || d->m_automaticMaxBitsPerColorLimit != d->m_handle->automaticMaxBitsPerColorLimit()) {
+        d->m_maxBpc = d->m_handle->maxBitsPerColor();
+        d->m_maxBpcRange = d->m_handle->bitsPerColorRange();
+        d->m_automaticMaxBitsPerColorLimit = d->m_handle->automaticMaxBitsPerColorLimit();
+        const auto clientResources = d->resourceMap();
+        for (const auto &resource : clientResources) {
+            d->sendMaxBpc(resource);
+        }
+        scheduleDone();
+    }
+}
+
+void OutputDeviceV2Interface::updateDdcCiAllowed()
+{
+    const bool newDdcCiAllowed = d->m_handle->allowDdcCi();
+    if (d->m_ddcCiAllowed != newDdcCiAllowed) {
+        d->m_ddcCiAllowed = newDdcCiAllowed;
+        const auto clientResources = d->resourceMap();
+        for (const auto &resource : clientResources) {
+            d->sendDdcCiAllowed(resource);
+        }
+    }
+}
+
+void OutputDeviceV2Interface::updateEdrPolicy()
+{
+    if (d->m_edrPolicy != d->m_handle->edrPolicy()) {
+        d->m_edrPolicy = d->m_handle->edrPolicy();
+        const auto clientResources = d->resourceMap();
+        for (const auto &resource : clientResources) {
+            d->sendEdrPolicy(resource);
         }
         scheduleDone();
     }
@@ -967,7 +1089,7 @@ OutputDeviceModeV2InterfacePrivate::Resource *OutputDeviceModeV2InterfacePrivate
 OutputDeviceModeV2InterfacePrivate::Resource *OutputDeviceModeV2InterfacePrivate::findResource(OutputDeviceV2InterfacePrivate::Resource *output) const
 {
     const auto resources = resourceMap();
-    for (const auto &resource : resources) {
+    for (auto resource : resources) {
         auto modeResource = static_cast<ModeResource *>(resource);
         if (modeResource->output == output) {
             return resource;

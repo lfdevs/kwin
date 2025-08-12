@@ -101,7 +101,7 @@
         "Description[x-test]": "xxDarkens the entire screen when requesting root privilegesxx",
         "Description[zh_CN]": "系统请求 root 权限时降低屏幕亮度",
         "Description[zh_TW]": "請求 root 權限時將整個螢幕變暗",
-        "EnabledByDefault": false,
+        "EnabledByDefault": true,
         "Icon": "preferences-system-windows-effect-dimscreen",
         "Id": "dimscreen",
         "License": "GPL",
@@ -154,6 +154,5 @@
         "Name[zh_TW]": "為管理員模式暗化螢幕"
     },
     "X-KDE-Ordering": 60,
-    "X-KWin-Video-Url": "https://files.kde.org/plasma/kwin/effect-videos/dim_administration.mp4",
     "X-Plasma-API": "javascript"
 }

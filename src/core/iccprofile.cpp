@@ -27,14 +27,14 @@ static const Colorimetry CIEXYZD50 = Colorimetry{
 
 const ColorDescription IccProfile::s_connectionSpace = ColorDescription(CIEXYZD50, TransferFunction(TransferFunction::linear, 0, 1), 1, 0, 1, 1);
 
-IccProfile::IccProfile(cmsHPROFILE handle, const Colorimetry &colorimetry, std::optional<ColorPipeline> &&bToA0Tag, std::optional<ColorPipeline> &&bToA1Tag, const std::shared_ptr<ColorTransformation> &inverseEOTF, const std::shared_ptr<ColorTransformation> &vcgt, std::optional<double> minBrightness, std::optional<double> maxBrightness)
+IccProfile::IccProfile(cmsHPROFILE handle, const Colorimetry &colorimetry, std::optional<ColorPipeline> &&bToA0Tag, std::optional<ColorPipeline> &&bToA1Tag, const std::shared_ptr<ColorTransformation> &inverseEOTF, const std::shared_ptr<ColorTransformation> &vcgt, std::optional<double> relativeBlackPoint, std::optional<double> maxBrightness)
     : m_handle(handle)
     , m_colorimetry(colorimetry)
     , m_bToA0Tag(std::move(bToA0Tag))
     , m_bToA1Tag(std::move(bToA1Tag))
     , m_inverseEOTF(inverseEOTF)
     , m_vcgt(vcgt)
-    , m_minBrightness(minBrightness)
+    , m_relativeBlackPoint(relativeBlackPoint)
     , m_maxBrightness(maxBrightness)
 {
 }
@@ -44,9 +44,9 @@ IccProfile::~IccProfile()
     cmsCloseProfile(m_handle);
 }
 
-std::optional<double> IccProfile::minBrightness() const
+std::optional<double> IccProfile::relativeBlackPoint() const
 {
-    return m_minBrightness;
+    return m_relativeBlackPoint;
 }
 
 std::optional<double> IccProfile::maxBrightness() const
@@ -241,49 +241,43 @@ static constexpr XYZ D50{
     .Z = 0.8249,
 };
 
-IccProfile::Expected IccProfile::load(const QString &path)
+std::expected<std::unique_ptr<IccProfile>, QString> IccProfile::load(const QString &path)
 {
     if (path.isEmpty()) {
-        return std::unique_ptr<IccProfile>();
+        return nullptr;
     }
     cmsHPROFILE handle = cmsOpenProfileFromFile(path.toUtf8(), "r");
     if (!handle) {
         if (QFileInfo::exists(path)) {
-            return Expected(i18n("Failed to open ICC profile \"%1\"", path));
+            return std::unexpected(i18n("Failed to open ICC profile \"%1\"", path));
         } else {
-            return Expected(i18n("ICC profile \"%1\" doesn't exist", path));
+            return std::unexpected(i18n("ICC profile \"%1\" doesn't exist", path));
         }
     }
     if (cmsGetDeviceClass(handle) != cmsSigDisplayClass) {
-        return Expected(i18n("ICC profile \"%1\" is not usable for displays", path));
+        return std::unexpected(i18n("ICC profile \"%1\" is not usable for displays", path));
     }
     if (cmsGetPCS(handle) != cmsColorSpaceSignature::cmsSigXYZData) {
-        return Expected(i18n("ICC profile \"%1\" has unsupported connection space, only XYZ is supported", path));
+        return std::unexpected(i18n("ICC profile \"%1\" has unsupported connection space, only XYZ is supported", path));
     }
     if (cmsGetColorSpace(handle) != cmsColorSpaceSignature::cmsSigRgbData) {
-        return Expected(i18n("ICC profile \"%1\" is broken, input/output color space isn't RGB", path));
+        return std::unexpected(i18n("ICC profile \"%1\" is broken, input/output color space isn't RGB", path));
     }
 
     std::shared_ptr<ColorTransformation> vcgt;
     cmsToneCurve **vcgtTag = static_cast<cmsToneCurve **>(cmsReadTag(handle, cmsSigVcgtTag));
     if (vcgtTag && vcgtTag[0]) {
-        // Need to duplicate the VCGT tone curves as they are owned by the profile.
-        cmsToneCurve *toneCurves[] = {
-            cmsDupToneCurve(vcgtTag[0]),
-            cmsDupToneCurve(vcgtTag[1]),
-            cmsDupToneCurve(vcgtTag[2]),
-        };
         std::vector<std::unique_ptr<ColorPipelineStage>> stages;
-        stages.push_back(std::make_unique<ColorPipelineStage>(cmsStageAllocToneCurves(nullptr, 3, toneCurves)));
+        stages.push_back(std::make_unique<ColorPipelineStage>(cmsStageAllocToneCurves(nullptr, 3, vcgtTag)));
         vcgt = std::make_shared<ColorTransformation>(std::move(stages));
     }
 
     const cmsCIEXYZ *whitepoint = static_cast<cmsCIEXYZ *>(cmsReadTag(handle, cmsSigMediaWhitePointTag));
     if (!whitepoint) {
-        return Expected(i18n("ICC profile \"%1\" is broken, it has no whitepoint", path));
+        return std::unexpected(i18n("ICC profile \"%1\" is broken, it has no whitepoint", path));
     }
     if (whitepoint->Y == 0) {
-        return Expected(i18n("ICC profile \"%1\" is broken, its whitepoint is invalid", path));
+        return std::unexpected(i18n("ICC profile \"%1\" is broken, its whitepoint is invalid", path));
     }
 
     XYZ red;
@@ -296,12 +290,12 @@ IccProfile::Expected IccProfile::load(const QString &path)
         const auto data = readTagRaw(handle, cmsSigChromaticAdaptationTag);
         const auto mat = parseMatrix(std::span(data).subspan(8), false);
         if (!mat) {
-            return Expected(i18n("ICC profile \"%1\" is broken, parsing chromatic adaptation matrix failed", path));
+            return std::unexpected(i18n("ICC profile \"%1\" is broken, parsing chromatic adaptation matrix failed", path));
         }
         bool invertable = false;
         chromaticAdaptationMatrix = mat->inverted(&invertable);
         if (!invertable) {
-            return Expected(i18n("ICC profile \"%1\" is broken, inverting chromatic adaptation matrix failed", path));
+            return std::unexpected(i18n("ICC profile \"%1\" is broken, inverting chromatic adaptation matrix failed", path));
         }
         white = XYZ::fromVector(*chromaticAdaptationMatrix * D50.asVector());
     }
@@ -314,7 +308,7 @@ IccProfile::Expected IccProfile::load(const QString &path)
         const cmsCIEXYZ *g = static_cast<cmsCIEXYZ *>(cmsReadTag(handle, cmsSigGreenColorantTag));
         const cmsCIEXYZ *b = static_cast<cmsCIEXYZ *>(cmsReadTag(handle, cmsSigBlueColorantTag));
         if (!r || !g || !b) {
-            return Expected(i18n("ICC profile \"%1\" is broken, it has no primaries", path));
+            return std::unexpected(i18n("ICC profile \"%1\" is broken, it has no primaries", path));
         }
         if (chromaticAdaptationMatrix) {
             red = XYZ::fromVector(*chromaticAdaptationMatrix * QVector3D(r->X, r->Y, r->Z));
@@ -329,7 +323,7 @@ IccProfile::Expected IccProfile::load(const QString &path)
             success &= cmsAdaptToIlluminant(&adaptedG, cmsD50_XYZ(), whitepoint, g);
             success &= cmsAdaptToIlluminant(&adaptedB, cmsD50_XYZ(), whitepoint, b);
             if (!success) {
-                return Expected(i18n("ICC profile \"%1\" is broken, couldn't calculate its primaries", path));
+                return std::unexpected(i18n("ICC profile \"%1\" is broken, couldn't calculate its primaries", path));
             }
             red = XYZ(adaptedR.X, adaptedR.Y, adaptedR.Z);
             green = XYZ(adaptedG.X, adaptedG.Y, adaptedG.Z);
@@ -338,23 +332,23 @@ IccProfile::Expected IccProfile::load(const QString &path)
     }
 
     if (red.Y == 0 || green.Y == 0 || blue.Y == 0 || white.Y == 0) {
-        return Expected(i18n("ICC profile \"%1\" is broken, its primaries are invalid", path));
+        return std::unexpected(i18n("ICC profile \"%1\" is broken, its primaries are invalid", path));
     }
 
-    std::optional<double> minBrightness;
     std::optional<double> maxBrightness;
     if (cmsCIEXYZ *luminance = static_cast<cmsCIEXYZ *>(cmsReadTag(handle, cmsSigLuminanceTag))) {
         // for some reason, lcms exposes the luminance as a XYZ triple...
         // only Y is non-zero, and it's the brightness in nits
         maxBrightness = luminance->Y;
-        cmsCIEXYZ blackPoint;
-        if (cmsDetectDestinationBlackPoint(&blackPoint, handle, INTENT_RELATIVE_COLORIMETRIC, 0)) {
-            minBrightness = blackPoint.Y * luminance->Y;
-        }
+    }
+    std::optional<double> relativeBlackPoint;
+    cmsCIEXYZ blackPoint;
+    if (cmsDetectDestinationBlackPoint(&blackPoint, handle, INTENT_RELATIVE_COLORIMETRIC, 0)) {
+        relativeBlackPoint = blackPoint.Y;
     }
 
     if (cmsIsTag(handle, cmsSigBToD1Tag) && !cmsIsTag(handle, cmsSigBToA1Tag) && !cmsIsTag(handle, cmsSigBToA0Tag)) {
-        return Expected(i18n("ICC profile \"%1\" with only BToD tags isn't supported", path));
+        return std::unexpected(i18n("ICC profile \"%1\" with only BToD tags isn't supported", path));
     }
     std::optional<ColorPipeline> bToA0;
     std::optional<ColorPipeline> bToA1;
@@ -393,7 +387,7 @@ IccProfile::Expected IccProfile::load(const QString &path)
         cmsToneCurve *g = static_cast<cmsToneCurve *>(cmsReadTag(handle, cmsSigGreenTRCTag));
         cmsToneCurve *b = static_cast<cmsToneCurve *>(cmsReadTag(handle, cmsSigBlueTRCTag));
         if (!r || !g || !b) {
-            return Expected(i18n("Color profile is missing TRC tags"));
+            return std::unexpected(i18n("Color profile is missing TRC tags"));
         }
         toneCurves = {
             cmsReverseToneCurveEx(trcSize, r),
@@ -403,8 +397,11 @@ IccProfile::Expected IccProfile::load(const QString &path)
     }
     std::vector<std::unique_ptr<ColorPipelineStage>> stages;
     stages.push_back(std::make_unique<ColorPipelineStage>(cmsStageAllocToneCurves(nullptr, toneCurves.size(), toneCurves.data())));
+    for (auto toneCurve : toneCurves) {
+        cmsFreeToneCurve(toneCurve);
+    }
     const auto inverseEOTF = std::make_shared<ColorTransformation>(std::move(stages));
-    return std::make_unique<IccProfile>(handle, Colorimetry(red, green, blue, white), std::move(bToA0), std::move(bToA1), inverseEOTF, vcgt, minBrightness, maxBrightness);
+    return std::make_unique<IccProfile>(handle, Colorimetry(red, green, blue, white), std::move(bToA0), std::move(bToA1), inverseEOTF, vcgt, relativeBlackPoint, maxBrightness);
 }
 
 }

@@ -61,6 +61,8 @@ qreal KWIN_EXPORT nativeRound(qreal value);
  */
 QRectF KWIN_EXPORT nativeFloor(const QRectF &value);
 
+QString KWIN_EXPORT atomName(xcb_atom_t atom);
+
 // forward declaration of methods
 static void defineCursor(xcb_window_t window, xcb_cursor_t cursor);
 static void setInputFocus(xcb_window_t window, uint8_t revertTo = XCB_INPUT_FOCUS_POINTER_ROOT, xcb_timestamp_t time = xTime());
@@ -1154,16 +1156,16 @@ public:
     {
         m_hints = m_prop.value<MwmHints *>(32, m_atom, nullptr);
     }
-    bool hasDecoration() const
+    bool hasDecorationsFlag() const
     {
         if (!m_window || !m_hints) {
             return false;
         }
         return m_hints->flags & uint32_t(Hints::Decorations);
     }
-    bool noBorder() const
+    bool noDecorations() const
     {
-        if (!hasDecoration()) {
+        if (!hasDecorationsFlag()) {
             return false;
         }
         return !m_hints->decorations;
@@ -1264,6 +1266,13 @@ public:
             return nullptr;
         }
         return xcb_randr_get_screen_resources_names(data());
+    }
+    inline xcb_randr_output_t *outputs()
+    {
+        if (isNull()) {
+            return nullptr;
+        }
+        return xcb_randr_get_screen_resources_outputs(data());
     }
 };
 
@@ -1493,11 +1502,6 @@ public:
         return m_randr.present;
     }
     int randrNotifyEvent() const;
-    bool isDamageAvailable() const
-    {
-        return m_damage.present;
-    }
-    int damageNotifyEvent() const;
     bool isCompositeAvailable() const
     {
         return m_composite.version > 0;
@@ -1520,17 +1524,9 @@ public:
     }
     int syncAlarmNotifyEvent() const;
     QList<ExtensionData> extensions() const;
-    bool hasGlx() const
+    bool hasRes() const
     {
-        return m_glx.present;
-    }
-    int glxEventBase() const
-    {
-        return m_glx.eventBase;
-    }
-    int glxMajorOpcode() const
-    {
-        return m_glx.majorOpcode;
+        return m_res.present;
     }
 
     static Extensions *self();
@@ -1544,14 +1540,13 @@ private:
     void initVersion(T cookie, F f, ExtensionData *dataToFill);
     void extensionQueryReply(const xcb_query_extension_reply_t *extension, ExtensionData *dataToFill);
 
+    ExtensionData m_res;
     ExtensionData m_shape;
     ExtensionData m_randr;
-    ExtensionData m_damage;
     ExtensionData m_composite;
     ExtensionData m_render;
     ExtensionData m_fixes;
     ExtensionData m_sync;
-    ExtensionData m_glx;
 
     static Extensions *s_self;
 };

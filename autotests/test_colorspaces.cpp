@@ -44,6 +44,8 @@ private Q_SLOTS:
     void dontCrashWithWeirdHdrMetadata();
     void testColorimetryCheck_data();
     void testColorimetryCheck();
+    void testYCbCr_data();
+    void testYCbCr();
     void testBlackPointCompensation();
 };
 
@@ -62,23 +64,23 @@ static const double s_resolution10bit = std::pow(1.0 / 2.0, 10);
 
 void TestColorspaces::roundtripConversion_data()
 {
-    QTest::addColumn<NamedColorimetry>("srcColorimetry");
+    QTest::addColumn<Colorimetry>("srcColorimetry");
     QTest::addColumn<TransferFunction::Type>("srcTransferFunction");
-    QTest::addColumn<NamedColorimetry>("dstColorimetry");
+    QTest::addColumn<Colorimetry>("dstColorimetry");
     QTest::addColumn<TransferFunction::Type>("dstTransferFunction");
     QTest::addColumn<double>("requiredAccuracy");
 
-    QTest::addRow("BT709 (sRGB) <-> BT2020 (linear)") << NamedColorimetry::BT709 << TransferFunction::sRGB << NamedColorimetry::BT2020 << TransferFunction::linear << s_resolution10bit;
-    QTest::addRow("BT709 (gamma 2.2) <-> BT2020 (linear)") << NamedColorimetry::BT709 << TransferFunction::gamma22 << NamedColorimetry::BT2020 << TransferFunction::linear << s_resolution10bit;
-    QTest::addRow("BT709 (linear) <-> BT2020 (linear)") << NamedColorimetry::BT709 << TransferFunction::linear << NamedColorimetry::BT2020 << TransferFunction::linear << s_resolution10bit;
-    QTest::addRow("BT709 (PQ) <-> BT2020 (linear)") << NamedColorimetry::BT709 << TransferFunction::PerceptualQuantizer << NamedColorimetry::BT2020 << TransferFunction::linear << 3 * s_resolution10bit;
+    QTest::addRow("BT709 (sRGB) <-> BT2020 (linear)") << Colorimetry::BT709 << TransferFunction::sRGB << Colorimetry::BT2020 << TransferFunction::linear << s_resolution10bit;
+    QTest::addRow("BT709 (gamma 2.2) <-> BT2020 (linear)") << Colorimetry::BT709 << TransferFunction::gamma22 << Colorimetry::BT2020 << TransferFunction::linear << s_resolution10bit;
+    QTest::addRow("BT709 (linear) <-> BT2020 (linear)") << Colorimetry::BT709 << TransferFunction::linear << Colorimetry::BT2020 << TransferFunction::linear << s_resolution10bit;
+    QTest::addRow("BT709 (PQ) <-> BT2020 (linear)") << Colorimetry::BT709 << TransferFunction::PerceptualQuantizer << Colorimetry::BT2020 << TransferFunction::linear << 3 * s_resolution10bit;
 }
 
 void TestColorspaces::roundtripConversion()
 {
-    QFETCH(NamedColorimetry, srcColorimetry);
+    QFETCH(Colorimetry, srcColorimetry);
     QFETCH(TransferFunction::Type, srcTransferFunction);
-    QFETCH(NamedColorimetry, dstColorimetry);
+    QFETCH(Colorimetry, dstColorimetry);
     QFETCH(TransferFunction::Type, dstTransferFunction);
     QFETCH(double, requiredAccuracy);
 
@@ -113,22 +115,22 @@ void TestColorspaces::testXYZ_XYconversions()
 
 void TestColorspaces::testIdentityTransformation_data()
 {
-    QTest::addColumn<NamedColorimetry>("colorimetry");
+    QTest::addColumn<Colorimetry>("colorimetry");
     QTest::addColumn<TransferFunction::Type>("transferFunction");
 
-    QTest::addRow("BT709 (sRGB)") << NamedColorimetry::BT709 << TransferFunction::sRGB;
-    QTest::addRow("BT709 (gamma22)") << NamedColorimetry::BT709 << TransferFunction::gamma22;
-    QTest::addRow("BT709 (PQ)") << NamedColorimetry::BT709 << TransferFunction::PerceptualQuantizer;
-    QTest::addRow("BT709 (linear)") << NamedColorimetry::BT709 << TransferFunction::linear;
-    QTest::addRow("BT2020 (sRGB)") << NamedColorimetry::BT2020 << TransferFunction::sRGB;
-    QTest::addRow("BT2020 (gamma22)") << NamedColorimetry::BT2020 << TransferFunction::gamma22;
-    QTest::addRow("BT2020 (PQ)") << NamedColorimetry::BT2020 << TransferFunction::PerceptualQuantizer;
-    QTest::addRow("BT2020 (linear)") << NamedColorimetry::BT2020 << TransferFunction::linear;
+    QTest::addRow("BT709 (sRGB)") << Colorimetry::BT709 << TransferFunction::sRGB;
+    QTest::addRow("BT709 (gamma22)") << Colorimetry::BT709 << TransferFunction::gamma22;
+    QTest::addRow("BT709 (PQ)") << Colorimetry::BT709 << TransferFunction::PerceptualQuantizer;
+    QTest::addRow("BT709 (linear)") << Colorimetry::BT709 << TransferFunction::linear;
+    QTest::addRow("BT2020 (sRGB)") << Colorimetry::BT2020 << TransferFunction::sRGB;
+    QTest::addRow("BT2020 (gamma22)") << Colorimetry::BT2020 << TransferFunction::gamma22;
+    QTest::addRow("BT2020 (PQ)") << Colorimetry::BT2020 << TransferFunction::PerceptualQuantizer;
+    QTest::addRow("BT2020 (linear)") << Colorimetry::BT2020 << TransferFunction::linear;
 }
 
 void TestColorspaces::testIdentityTransformation()
 {
-    QFETCH(NamedColorimetry, colorimetry);
+    QFETCH(Colorimetry, colorimetry);
     QFETCH(TransferFunction::Type, transferFunction);
     const TransferFunction tf(transferFunction);
     const ColorDescription src(colorimetry, tf, 100, tf.minLuminance, tf.maxLuminance, tf.maxLuminance);
@@ -160,29 +162,29 @@ void TestColorspaces::testColorPipeline_data()
     QTest::addColumn<RenderingIntent>("intent");
 
     QTest::addRow("sRGB -> rec.2020 relative colorimetric")
-        << ColorDescription(NamedColorimetry::BT709, TransferFunction(TransferFunction::gamma22), TransferFunction::defaultReferenceLuminanceFor(TransferFunction::gamma22), 0, std::nullopt, std::nullopt)
-        << ColorDescription(NamedColorimetry::BT2020, TransferFunction(TransferFunction::PerceptualQuantizer), 500, 0, std::nullopt, std::nullopt)
+        << ColorDescription(Colorimetry::BT709, TransferFunction(TransferFunction::gamma22), TransferFunction::defaultReferenceLuminanceFor(TransferFunction::gamma22), 0, std::nullopt, std::nullopt)
+        << ColorDescription(Colorimetry::BT2020, TransferFunction(TransferFunction::PerceptualQuantizer), 500, 0, std::nullopt, std::nullopt)
         << QVector3D(0.161408, 0.161408, 0.161408)
         << QVector3D(0.517483, 0.517483, 0.517483)
         << QVector3D(0.67658, 0.67658, 0.67658)
         << RenderingIntent::RelativeColorimetric;
     QTest::addRow("sRGB -> scRGB relative colorimetric")
-        << ColorDescription(NamedColorimetry::BT709, TransferFunction(TransferFunction::gamma22), TransferFunction::defaultReferenceLuminanceFor(TransferFunction::gamma22), 0, std::nullopt, std::nullopt)
-        << ColorDescription(NamedColorimetry::BT709, TransferFunction(TransferFunction::linear, 0, 80), 80, 0, std::nullopt, std::nullopt)
+        << ColorDescription(Colorimetry::BT709, TransferFunction(TransferFunction::gamma22), TransferFunction::defaultReferenceLuminanceFor(TransferFunction::gamma22), 0, std::nullopt, std::nullopt)
+        << ColorDescription(Colorimetry::BT709, TransferFunction(TransferFunction::linear, 0, 80), 80, 0, std::nullopt, std::nullopt)
         << QVector3D(0.0025, 0.0025, 0.0025)
         << QVector3D(0.219594, 0.219594, 0.219594)
         << QVector3D(1, 1, 1)
         << RenderingIntent::RelativeColorimetric;
     QTest::addRow("sRGB -> rec.2020 relative colorimetric with bpc")
-        << ColorDescription(NamedColorimetry::BT709, TransferFunction(TransferFunction::gamma22, 0.2, 80), 80, 0.2, std::nullopt, std::nullopt)
-        << ColorDescription(NamedColorimetry::BT2020, TransferFunction(TransferFunction::PerceptualQuantizer, 0.005, 10'000), 500, 0.005, std::nullopt, std::nullopt)
+        << ColorDescription(Colorimetry::BT709, TransferFunction(TransferFunction::gamma22, 0.2, 80), 80, 0.2, std::nullopt, std::nullopt)
+        << ColorDescription(Colorimetry::BT2020, TransferFunction(TransferFunction::PerceptualQuantizer, 0.005, 10'000), 500, 0.005, std::nullopt, std::nullopt)
         << QVector3D(0, 0, 0)
         << QVector3D(0.51667, 0.51667, 0.51667)
         << QVector3D(0.67658, 0.67658, 0.67658)
         << RenderingIntent::RelativeColorimetricWithBPC;
     QTest::addRow("scRGB -> scRGB relative colorimetric with bpc")
-        << ColorDescription(NamedColorimetry::BT709, TransferFunction(TransferFunction::linear, 0, 80), TransferFunction::defaultReferenceLuminanceFor(TransferFunction::gamma22), 0, std::nullopt, std::nullopt)
-        << ColorDescription(NamedColorimetry::BT709, TransferFunction(TransferFunction::linear, 8, 80), 80, 8, std::nullopt, std::nullopt)
+        << ColorDescription(Colorimetry::BT709, TransferFunction(TransferFunction::linear, 0, 80), TransferFunction::defaultReferenceLuminanceFor(TransferFunction::gamma22), 0, std::nullopt, std::nullopt)
+        << ColorDescription(Colorimetry::BT709, TransferFunction(TransferFunction::linear, 8, 80), 80, 8, std::nullopt, std::nullopt)
         << QVector3D(0, 0, 0)
         << QVector3D(0.5, 0.5, 0.5)
         << QVector3D(1, 1, 1)
@@ -209,22 +211,9 @@ void TestColorspaces::testColorPipeline()
     QVERIFY(compareVectors(inversePipeline.evaluate(dstWhite), QVector3D(1, 1, 1), s_resolution10bit));
 }
 
-static bool isFuzzyIdentity(const QMatrix4x4 &mat)
-{
-    for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 4; j++) {
-            const float targetValue = i == j ? 1 : 0;
-            if (std::abs(mat(i, j) - targetValue) > ColorPipeline::s_maxResolution) {
-                return false;
-            }
-        }
-    }
-    return true;
-}
-
 void TestColorspaces::testXYZ()
 {
-    Colorimetry xyz = Colorimetry::fromName(NamedColorimetry::CIEXYZ);
+    Colorimetry xyz = Colorimetry::CIEXYZ;
     QVERIFY(isFuzzyIdentity(xyz.toXYZ()));
     QVERIFY(isFuzzyIdentity(xyz.fromXYZ()));
 }
@@ -249,8 +238,8 @@ void TestColorspaces::testOpenglShader()
     const auto display = EglDisplay::create(eglGetDisplay(EGL_DEFAULT_DISPLAY));
     const auto context = EglContext::create(display.get(), EGL_NO_CONFIG_KHR, EGL_NO_CONTEXT);
 
-    const ColorDescription src(NamedColorimetry::BT709, TransferFunction(TransferFunction::linear, 0, 400), 100, 0, 200, 400);
-    const ColorDescription dst(NamedColorimetry::BT709, TransferFunction(TransferFunction::gamma22), 100, 0, 100, 100);
+    const ColorDescription src(Colorimetry::BT709, TransferFunction(TransferFunction::linear, 0, 400), 100, 0, 200, 400);
+    const ColorDescription dst(Colorimetry::BT709, TransferFunction(TransferFunction::gamma22), 100, 0, 100, 100);
 
     QImage input(255, 255, QImage::Format_RGBA8888_Premultiplied);
     for (int x = 0; x < input.width(); x++) {
@@ -309,13 +298,12 @@ void TestColorspaces::testIccShader_data()
     QTest::addColumn<uint32_t>("lcmsIntent");
     QTest::addColumn<int>("maxAllowedError");
 
-    // fixing a bug with some less invasive changes required breaking the commented out test cases (6.3 only)
     const auto F13 = QFINDTESTDATA("data/Framework 13.icc");
     const auto Samsung = QFINDTESTDATA("data/Samsung CRG49 Shaper Matrix.icc");
     QTest::addRow("relative colorimetric Framework 13") << F13 << RenderingIntent::RelativeColorimetric << uint32_t(INTENT_RELATIVE_COLORIMETRIC) << 5;
-    // QTest::addRow("absolute colorimetric Framework 13") << F13 << RenderingIntent::AbsoluteColorimetric << uint32_t(INTENT_ABSOLUTE_COLORIMETRIC) << 4;
+    QTest::addRow("absolute colorimetric Framework 13") << F13 << RenderingIntent::AbsoluteColorimetric << uint32_t(INTENT_ABSOLUTE_COLORIMETRIC) << 4;
     QTest::addRow("relative colorimetric CRG49") << Samsung << RenderingIntent::RelativeColorimetric << uint32_t(INTENT_RELATIVE_COLORIMETRIC) << 2;
-    // QTest::addRow("absolute colorimetric CRG49") << Samsung << RenderingIntent::AbsoluteColorimetric << uint32_t(INTENT_ABSOLUTE_COLORIMETRIC) << 2;
+    QTest::addRow("absolute colorimetric CRG49") << Samsung << RenderingIntent::AbsoluteColorimetric << uint32_t(INTENT_ABSOLUTE_COLORIMETRIC) << 2;
 }
 
 void TestColorspaces::testIccShader()
@@ -335,7 +323,7 @@ void TestColorspaces::testIccShader()
     QFETCH(RenderingIntent, intent);
     QFETCH(uint32_t, lcmsIntent);
 
-    const std::shared_ptr<IccProfile> profile = IccProfile::load(iccProfilePath).profile.value_or(nullptr);
+    const std::shared_ptr<IccProfile> profile = IccProfile::load(iccProfilePath).value_or(nullptr);
     QVERIFY(profile);
 
     QImage pipelineResult(input.width(), input.height(), QImage::Format_RGBA8888_Premultiplied);
@@ -444,8 +432,8 @@ void TestColorspaces::dontCrashWithWeirdHdrMetadata()
 {
     // verify that weird display metadata with max. luminance < reference luminance
     // doesn't crash KWin
-    ColorDescription in(NamedColorimetry::BT709, TransferFunction(TransferFunction::linear, 0, 80), 80, 0, 60, 60);
-    ColorDescription out(NamedColorimetry::BT709, TransferFunction(TransferFunction::linear, 0, 80), 80, 0, 40, 40);
+    ColorDescription in(Colorimetry::BT709, TransferFunction(TransferFunction::linear, 0, 80), 80, 0, 60, 60);
+    ColorDescription out(Colorimetry::BT709, TransferFunction(TransferFunction::linear, 0, 80), 80, 0, 40, 40);
     const auto pipeline = ColorPipeline::create(in, out, RenderingIntent::Perceptual);
     QCOMPARE(pipeline.evaluate(QVector3D()), QVector3D());
 }
@@ -479,6 +467,36 @@ void TestColorspaces::testColorimetryCheck()
     QFETCH(xy, blue);
     QFETCH(xy, white);
     QCOMPARE(Colorimetry::isValid(red, green, blue, white), expectedResult);
+}
+
+void TestColorspaces::testYCbCr_data()
+{
+    QTest::addColumn<YUVMatrixCoefficients>("yuvCoefficients");
+
+    QTest::addRow("BT601") << YUVMatrixCoefficients::BT601;
+    QTest::addRow("BT709") << YUVMatrixCoefficients::BT709;
+    QTest::addRow("BT2020") << YUVMatrixCoefficients::BT2020;
+}
+
+static float limitedLuma(float value)
+{
+    return (16 + 219 * value) / 255.0;
+}
+static float limitedChroma(float value)
+{
+    return (128 + 224 * value) / 255.0;
+};
+
+void TestColorspaces::testYCbCr()
+{
+    QFETCH(YUVMatrixCoefficients, yuvCoefficients);
+    ColorDescription limitedRange{Colorimetry::BT709, TransferFunction(TransferFunction::gamma22), yuvCoefficients, EncodingRange::Limited};
+    QVERIFY(compareVectors(limitedRange.yuvMatrix() * QVector3D(limitedLuma(1), limitedChroma(0), limitedChroma(0)), QVector3D(1, 1, 1), 0.005));
+    QVERIFY(compareVectors(limitedRange.yuvMatrix() * QVector3D(limitedLuma(0), limitedChroma(0), limitedChroma(0)), QVector3D(0, 0, 0), 0.005));
+
+    ColorDescription fullRange{Colorimetry::BT709, TransferFunction(TransferFunction::gamma22), yuvCoefficients, EncodingRange::Full};
+    QVERIFY(compareVectors(fullRange.yuvMatrix() * QVector3D(1, 0.5, 0.5), QVector3D(1, 1, 1), 0.005));
+    QVERIFY(compareVectors(fullRange.yuvMatrix() * QVector3D(0, 0.5, 0.5), QVector3D(0, 0, 0), 0.005));
 }
 
 void TestColorspaces::testBlackPointCompensation()

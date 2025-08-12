@@ -29,6 +29,7 @@
 #include "cursor.h"
 #include "input.h"
 #include "options.h"
+#include "pointer_input.h"
 #include "scripting/scripting.h"
 #include "useractions.h"
 #include "virtualdesktops.h"
@@ -80,7 +81,6 @@ UserActionsMenu::UserActionsMenu(QObject *parent)
     , m_resizeOperation(nullptr)
     , m_moveOperation(nullptr)
     , m_maximizeOperation(nullptr)
-    , m_shadeOperation(nullptr)
     , m_keepAboveOperation(nullptr)
     , m_keepBelowOperation(nullptr)
     , m_fullScreenOperation(nullptr)
@@ -241,12 +241,6 @@ void UserActionsMenu::init()
     m_fullScreenOperation->setCheckable(true);
     m_fullScreenOperation->setData(Options::FullScreenOp);
 
-    m_shadeOperation = advancedMenu->addAction(i18n("&Shade"));
-    m_shadeOperation->setIcon(QIcon::fromTheme(QStringLiteral("window-shade")));
-    setShortcut(m_shadeOperation, QStringLiteral("Window Shade"));
-    m_shadeOperation->setCheckable(true);
-    m_shadeOperation->setData(Options::ShadeOp);
-
     m_noBorderOperation = advancedMenu->addAction(i18n("&No Titlebar and Frame"));
     m_noBorderOperation->setIcon(QIcon::fromTheme(QStringLiteral("edit-none-border")));
     setShortcut(m_noBorderOperation, QStringLiteral("Window No Border"));
@@ -334,8 +328,6 @@ void UserActionsMenu::menuAboutToShow()
     m_moveOperation->setEnabled(m_window->isMovableAcrossScreens());
     m_maximizeOperation->setEnabled(m_window->isMaximizable());
     m_maximizeOperation->setChecked(m_window->maximizeMode() == MaximizeFull);
-    m_shadeOperation->setEnabled(m_window->isShadeable());
-    m_shadeOperation->setChecked(m_window->shadeMode() != ShadeNone);
     m_keepAboveOperation->setChecked(m_window->keepAbove());
     m_keepBelowOperation->setChecked(m_window->keepBelow());
     m_fullScreenOperation->setEnabled(m_window->isFullScreenable());
@@ -399,34 +391,18 @@ void UserActionsMenu::showHideActivityMenu()
 
 void UserActionsMenu::initDesktopPopup()
 {
-    if (kwinApp()->operationMode() == Application::OperationModeWayland) {
-        if (m_multipleDesktopsMenu) {
-            return;
-        }
-
-        m_multipleDesktopsMenu = new QMenu(m_menu);
-        connect(m_multipleDesktopsMenu, &QMenu::aboutToShow, this, &UserActionsMenu::multipleDesktopsPopupAboutToShow);
-
-        QAction *action = m_multipleDesktopsMenu->menuAction();
-        // set it as the first item
-        m_menu->insertAction(m_maximizeOperation, action);
-        action->setText(i18n("&Desktops"));
-        action->setIcon(QIcon::fromTheme(QStringLiteral("virtual-desktops")));
-
-    } else {
-        if (m_desktopMenu) {
-            return;
-        }
-
-        m_desktopMenu = new QMenu(m_menu);
-        connect(m_desktopMenu, &QMenu::aboutToShow, this, &UserActionsMenu::desktopPopupAboutToShow);
-
-        QAction *action = m_desktopMenu->menuAction();
-        // set it as the first item
-        m_menu->insertAction(m_maximizeOperation, action);
-        action->setText(i18n("Move to &Desktop"));
-        action->setIcon(QIcon::fromTheme(QStringLiteral("virtual-desktops")));
+    if (m_multipleDesktopsMenu) {
+        return;
     }
+
+    m_multipleDesktopsMenu = new QMenu(m_menu);
+    connect(m_multipleDesktopsMenu, &QMenu::aboutToShow, this, &UserActionsMenu::multipleDesktopsPopupAboutToShow);
+
+    QAction *action = m_multipleDesktopsMenu->menuAction();
+    // set it as the first item
+    m_menu->insertAction(m_maximizeOperation, action);
+    action->setText(i18n("&Desktops"));
+    action->setIcon(QIcon::fromTheme(QStringLiteral("virtual-desktops")));
 }
 
 void UserActionsMenu::initScreenPopup()
@@ -1156,10 +1132,10 @@ void Workspace::performWindowOperation(Window *window, Options::WindowOperation 
         return;
     }
     if (op == Options::MoveOp || op == Options::UnrestrictedMoveOp) {
-        Cursors::self()->mouse()->setPos(window->frameGeometry().center());
+        input()->pointer()->warp(window->frameGeometry().center());
     }
     if (op == Options::ResizeOp || op == Options::UnrestrictedResizeOp) {
-        Cursors::self()->mouse()->setPos(window->frameGeometry().bottomRight());
+        input()->pointer()->warp(window->frameGeometry().bottomRight());
     }
     switch (op) {
     case Options::MoveOp:

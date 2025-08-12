@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-06 00:41+0000\n"
+"POT-Creation-Date: 2025-08-05 03:05+0000\n"
 "PO-Revision-Date: 2012-06-24 08:58+0200\n"
 "Last-Translator: Dimitrios Glentadakis <dglent@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -19,33 +19,72 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Lokalize 1.4\n"
 
-#: layoutpreview.cpp:127
+#: layoutpreview.cpp:28
+#, kde-format
+msgid "Launch an interactive preview for a tabbox switcher"
+msgstr ""
+
+#: layoutpreview.cpp:29
+#, kde-format
+msgid "Path to the Window Switcher QML main file"
+msgstr ""
+
+#: layoutpreview.cpp:30
+#, kde-format
+msgid "Show also a thumbnail for the desktop"
+msgstr ""
+
+#: layoutpreview.cpp:158
+#, kde-format
+msgctxt "The name of KDE's file manager in this language, if translated"
+msgid "Dolphin"
+msgstr ""
+
+#: layoutpreview.cpp:162
+#, kde-format
+msgctxt "The name of KDE's web browser in this language, if translated"
+msgid "Konqueror"
+msgstr ""
+
+#: layoutpreview.cpp:166
+#, kde-format
+msgctxt "The name of KDE's email client in this language, if translated"
+msgid "KMail"
+msgstr ""
+
+#: layoutpreview.cpp:170
+#, kde-format
+msgctxt "The name of KDE's System Settings app in this language, if translated"
+msgid "System Settings"
+msgstr ""
+
+#: layoutpreview.cpp:176
 #, kde-format
 msgid "Show Desktop"
 msgstr "Εμφάνιση επιφάνειας εργασίας"
 
-#: layoutpreview.cpp:157
+#: layoutpreview.cpp:206
 #, kde-format
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
 msgstr "Επιφάνεια εργασίας 1"
 
-#: main.cpp:72
+#: main.cpp:74
 #, kde-format
 msgid "Main"
 msgstr "Βασική"
 
-#: main.cpp:73
+#: main.cpp:75
 #, kde-format
 msgid "Alternative"
 msgstr "Εναλλακτική"
 
-#: main.cpp:75
+#: main.cpp:77
 #, kde-format
 msgid "Get New Task Switcher Styles…"
 msgstr "Λήψη νέας διάταξης εναλλαγής παραθύρων…"
 
-#: main.cpp:93
+#: main.cpp:95
 #, kde-format
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."
@@ -199,20 +238,29 @@ msgstr "Όλα τα παράθυρα"
 msgid "Reverse"
 msgstr "Αντιστροφή"
 
+#. i18n: ectx: property (text), widget (QLabel, scCurrentReverseOr)
+#. i18n: ectx: property (text), widget (QLabel, scCurrentOr)
+#. i18n: ectx: property (text), widget (QLabel, scAllReverseOr)
+#. i18n: ectx: property (text), widget (QLabel, scAllOr)
+#: main.ui:474 main.ui:506 main.ui:554 main.ui:586
+#, kde-format
+msgid "or"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: main.ui:480
+#: main.ui:538
 #, kde-format
 msgid "Current application"
 msgstr "Τρέχουσα εφαρμογή"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: main.ui:499
+#: main.ui:615
 #, kde-format
 msgid "Visualization"
 msgstr "Οπτικοποίηση"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, effectCombo)
-#: main.ui:529
+#: main.ui:645
 #, kde-format
 msgid "The effect to replace the list window when desktop effects are active."
 msgstr ""
@@ -220,7 +268,7 @@ msgstr ""
 "εργασίας είναι ενεργά."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HighlightWindows)
-#: main.ui:562
+#: main.ui:678
 #, kde-format
 msgid ""
 "The currently selected window will be highlighted by fading out all other "
@@ -230,50 +278,50 @@ msgstr ""
 "παραθύρων. Η επιλογή απαιτεί να είναι ενεργά τα εφέ επιφάνειας εργασίας."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HighlightWindows)
-#: main.ui:565
+#: main.ui:681
 #, kde-format
 msgid "Show selected window"
 msgstr "Εμφάνιση επιλεγμένου παραθύρου"
 
-#: shortcutsettings.cpp:132
+#: shortcutsettings.cpp:131
 #, kde-format
 msgid "Walk Through Windows"
 msgstr "Διάσχιση παραθύρων"
 
-#: shortcutsettings.cpp:133
+#: shortcutsettings.cpp:132
 #, kde-format
 msgid "Walk Through Windows (Reverse)"
 msgstr "Διάσχιση παραθύρων (Αντίστροφη)"
 
-#: shortcutsettings.cpp:134
+#: shortcutsettings.cpp:133
 #, fuzzy, kde-format
 #| msgid "Walk Through Windows Alternative"
 msgid "Walk Through Windows of Current Application"
 msgstr "Εναλλακτική διάσχιση παραθύρων"
 
-#: shortcutsettings.cpp:135
+#: shortcutsettings.cpp:134
 #, fuzzy, kde-format
 #| msgid "Walk Through Windows Alternative (Reverse)"
 msgid "Walk Through Windows of Current Application (Reverse)"
 msgstr "Εναλλακτική διάσχιση παραθύρων (Αντίστροφη)"
 
-#: shortcutsettings.cpp:137
+#: shortcutsettings.cpp:136
 #, kde-format
 msgid "Walk Through Windows Alternative"
 msgstr "Εναλλακτική διάσχιση παραθύρων"
 
-#: shortcutsettings.cpp:138
+#: shortcutsettings.cpp:137
 #, kde-format
 msgid "Walk Through Windows Alternative (Reverse)"
 msgstr "Εναλλακτική διάσχιση παραθύρων (Αντίστροφη)"
 
-#: shortcutsettings.cpp:139
+#: shortcutsettings.cpp:138
 #, fuzzy, kde-format
 #| msgid "Walk Through Windows Alternative"
 msgid "Walk Through Windows of Current Application Alternative"
 msgstr "Εναλλακτική διάσχιση παραθύρων"
 
-#: shortcutsettings.cpp:140
+#: shortcutsettings.cpp:139
 #, fuzzy, kde-format
 #| msgid "Walk Through Windows Alternative (Reverse)"
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"

@@ -40,13 +40,11 @@ class ColorManager;
 class ScreenLockerWatcher;
 class TabletModeManager;
 class XwaylandInterface;
-class Cursor;
 class Edge;
 class ScreenEdges;
 class Outline;
 class OutlineVisual;
 class Compositor;
-class WorkspaceScene;
 class Window;
 
 class XcbEventFilter : public QAbstractNativeEventFilter
@@ -79,23 +77,6 @@ class KWIN_EXPORT Application : public QApplication
     Q_PROPERTY(KSharedConfigPtr config READ config WRITE setConfig)
     Q_PROPERTY(KSharedConfigPtr kxkbConfig READ kxkbConfig WRITE setKxkbConfig)
 public:
-    /**
-     * @brief This enum provides the various operation modes of KWin depending on the available
-     * Windowing Systems at startup. For example whether KWin only talks to X11 or also to a Wayland
-     * Compositor.
-     *
-     */
-    enum OperationMode {
-        /**
-         * @brief KWin uses only X11 for managing windows and compositing
-         */
-        OperationModeX11,
-        /**
-         * @brief KWin uses Wayland
-         */
-        OperationModeWayland,
-    };
-    Q_ENUM(OperationMode)
     ~Application() override;
 
     void setConfigLock(bool lock);
@@ -133,13 +114,6 @@ public:
     }
 
     void start();
-    /**
-     * @brief The operation mode used by KWin.
-     *
-     * @return OperationMode
-     */
-    OperationMode operationMode() const;
-    bool shouldUseWaylandForCompositing() const;
 
     void setupCommandLine(QCommandLineParser *parser);
     void processCommandLine(QCommandLineParser *parser);
@@ -287,11 +261,6 @@ public:
     void createAtoms();
     void destroyAtoms();
 
-    virtual std::unique_ptr<Edge> createScreenEdge(ScreenEdges *parent);
-    virtual std::unique_ptr<Cursor> createPlatformCursor();
-    virtual std::unique_ptr<OutlineVisual> createOutline(Outline *outline);
-    virtual void createEffectsHandler(Compositor *compositor, WorkspaceScene *scene);
-
     static void setupMalloc();
     static void setupLocalizedString();
 
@@ -357,7 +326,7 @@ Q_SIGNALS:
     void virtualTerminalCreated();
 
 protected:
-    Application(OperationMode mode, int &argc, char **argv);
+    Application(int &argc, char **argv);
     virtual void performStartup() = 0;
 
     void createInput();
@@ -399,7 +368,6 @@ private:
     KSharedConfigPtr m_kxkbConfig;
     KSharedConfigPtr m_inputConfig;
     KSharedConfigPtr m_kdeglobals;
-    OperationMode m_operationMode;
 #if KWIN_BUILD_X11
     xcb_timestamp_t m_x11Time = XCB_TIME_CURRENT_TIME;
     xcb_window_t m_rootWindow = XCB_WINDOW_NONE;
@@ -421,7 +389,6 @@ private:
 #if KWIN_BUILD_SCREENLOCKER
     std::unique_ptr<ScreenLockerWatcher> m_screenLockerWatcher;
 #endif
-    std::unique_ptr<Cursor> m_platformCursor;
 };
 
 inline bool Application::initiallyLocked() const

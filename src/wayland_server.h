@@ -53,6 +53,7 @@ class XwaylandShellV1Interface;
 class OutputOrderV1Interface;
 class XdgDialogWmV1Interface;
 class ExternalBrightnessV1;
+class XdgToplevelTagManagerV1;
 
 class Window;
 class Output;
@@ -65,6 +66,9 @@ class ColorManagerV1;
 class LinuxDrmSyncObjV1Interface;
 class RenderBackend;
 class AlphaModifierManagerV1;
+class FifoManagerV1;
+class SinglePixelBufferManagerV1;
+class ColorRepresentationManagerV1;
 
 class KWIN_EXPORT WaylandServer : public QObject
 {
@@ -183,10 +187,7 @@ public:
 
     ClientConnection *xWaylandConnection() const;
     ClientConnection *inputMethodConnection() const;
-    ClientConnection *screenLockerClientConnection() const
-    {
-        return m_screenLockerClientConnection;
-    }
+    ClientConnection *screenLockerClientConnection() const;
 
     /**
      * Struct containing information for a created Wayland connection through a
@@ -274,7 +275,7 @@ private:
     QPointer<ClientConnection> m_xwaylandConnection;
     InputMethodV1Interface *m_inputMethod = nullptr;
     QPointer<ClientConnection> m_inputMethodServerConnection;
-    ClientConnection *m_screenLockerClientConnection = nullptr;
+    QPointer<ClientConnection> m_screenLockerClientConnection;
     XdgForeignV2Interface *m_XdgForeign = nullptr;
     XdgActivationV1Integration *m_xdgActivationIntegration = nullptr;
 #if KWIN_BUILD_X11
@@ -294,6 +295,10 @@ private:
     XdgDialogWmV1Interface *m_xdgDialogWm = nullptr;
     ExternalBrightnessV1 *m_externalBrightness = nullptr;
     AlphaModifierManagerV1 *m_alphaModifierManager = nullptr;
+    FifoManagerV1 *m_fifoManager = nullptr;
+    SinglePixelBufferManagerV1 *m_singlePixelBuffer = nullptr;
+    XdgToplevelTagManagerV1 *m_toplevelTag = nullptr;
+    ColorRepresentationManagerV1 *m_colorRepresentation = nullptr;
     KWIN_SINGLETON(WaylandServer)
 };
 

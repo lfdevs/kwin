@@ -16,6 +16,9 @@ struct wl_registry;
 struct wl_shm;
 struct zwp_linux_dmabuf_v1;
 struct wp_presentation;
+struct wp_tearing_control_manager_v1;
+struct wp_fractional_scale_manager_v1;
+struct wp_viewporter;
 
 namespace KWayland
 {
@@ -38,6 +41,7 @@ namespace Wayland
 
 class WaylandEventThread;
 class WaylandLinuxDmabufFeedbackV1;
+class ColorManager;
 
 class WaylandLinuxDmabufV1
 {
@@ -78,6 +82,10 @@ public:
     KWayland::Client::XdgShell *xdgShell() const;
     WaylandLinuxDmabufV1 *linuxDmabuf() const;
     wp_presentation *presentationTime() const;
+    wp_tearing_control_manager_v1 *tearingControl() const;
+    ColorManager *colorManager() const;
+    wp_fractional_scale_manager_v1 *fractionalScale() const;
+    wp_viewporter *viewporter() const;
 
 public Q_SLOTS:
     void flush();
@@ -90,6 +98,10 @@ private:
     wl_registry *m_registry = nullptr;
     wl_shm *m_shm = nullptr;
     wp_presentation *m_presentationTime = nullptr;
+    wp_tearing_control_manager_v1 *m_tearingControl = nullptr;
+    wp_fractional_scale_manager_v1 *m_fractionalScaleV1 = nullptr;
+    wp_viewporter *m_viewporter = nullptr;
+    std::unique_ptr<ColorManager> m_colorManager;
     std::unique_ptr<WaylandEventThread> m_eventThread;
     std::unique_ptr<WaylandLinuxDmabufV1> m_linuxDmabuf;
     std::unique_ptr<KWayland::Client::Compositor> m_compositor;

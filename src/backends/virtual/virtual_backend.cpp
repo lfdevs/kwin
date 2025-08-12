@@ -90,7 +90,7 @@ std::unique_ptr<QPainterBackend> VirtualBackend::createQPainterBackend()
     return std::make_unique<VirtualQPainterBackend>(this);
 }
 
-std::unique_ptr<OpenGLBackend> VirtualBackend::createOpenGLBackend()
+std::unique_ptr<EglBackend> VirtualBackend::createOpenGLBackend()
 {
     return std::make_unique<VirtualEglBackend>(this);
 }
@@ -106,7 +106,6 @@ VirtualOutput *VirtualBackend::createOutput(const OutputInfo &info)
     output->init(info.geometry.topLeft(), info.geometry.size() * info.scale, info.scale, info.modes);
     m_outputs.append(output);
     Q_EMIT outputAdded(output);
-    output->updateEnabled(true);
     return output;
 }
 
@@ -126,7 +125,6 @@ void VirtualBackend::setVirtualOutputs(const QList<OutputInfo> &infos)
     }
 
     for (VirtualOutput *output : removed) {
-        output->updateEnabled(false);
         m_outputs.removeOne(output);
         Q_EMIT outputRemoved(output);
         output->unref();

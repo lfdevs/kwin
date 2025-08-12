@@ -21,6 +21,7 @@
 #include "layershellv1window.h"
 #include "main.h"
 #include "options.h"
+#include "utils/envvar.h"
 #include "utils/kernel.h"
 #include "utils/serviceutils.h"
 #include "virtualdesktops.h"
@@ -28,6 +29,7 @@
 #include "wayland/appmenu.h"
 #include "wayland/clientconnection.h"
 #include "wayland/colormanagement_v1.h"
+#include "wayland/colorrepresentation_v1.h"
 #include "wayland/compositor.h"
 #include "wayland/contenttype_v1.h"
 #include "wayland/cursorshape_v1.h"
@@ -38,6 +40,7 @@
 #include "wayland/drmclientbuffer.h"
 #include "wayland/drmlease_v1.h"
 #include "wayland/externalbrightness_v1.h"
+#include "wayland/fifo_v1.h"
 #include "wayland/filtered_display.h"
 #include "wayland/fixes.h"
 #include "wayland/fractionalscale_v1.h"
@@ -69,6 +72,7 @@
 #include "wayland/server_decoration.h"
 #include "wayland/server_decoration_palette.h"
 #include "wayland/shadow.h"
+#include "wayland/singlepixelbuffer.h"
 #include "wayland/subcompositor.h"
 #include "wayland/tablet_v2.h"
 #include "wayland/tearingcontrol_v1.h"
@@ -78,9 +82,11 @@
 #include "wayland/xdgdialog_v1.h"
 #include "wayland/xdgforeign_v2.h"
 #include "wayland/xdgoutput_v1.h"
+#include "wayland/xdgsession_v1.h"
 #include "wayland/xdgshell.h"
 #include "wayland/xdgtopleveldrag_v1.h"
 #include "wayland/xdgtoplevelicon_v1.h"
+#include "wayland/xdgtopleveltag_v1.h"
 #include "workspace.h"
 #include "xdgactivationv1.h"
 #include "xdgshellintegration.h"
@@ -228,6 +234,11 @@ ClientConnection *WaylandServer::inputMethodConnection() const
     return m_inputMethodServerConnection;
 }
 
+ClientConnection *WaylandServer::screenLockerClientConnection() const
+{
+    return m_screenLockerClientConnection;
+}
+
 void WaylandServer::registerWindow(Window *window)
 {
     if (window->readyForPainting()) {
@@ -366,6 +377,11 @@ bool WaylandServer::init()
 
     m_tabletManagerV2 = new TabletManagerV2Interface(m_display, m_display);
     m_keyboardShortcutsInhibitManager = new KeyboardShortcutsInhibitManagerV1Interface(m_display, m_display);
+
+    if (qEnvironmentVariableIntValue("KWIN_WAYLAND_SUPPORT_XX_SESSION_MANAGER") == 1) {
+        auto storage = new XdgSessionConfigStorageV1(KSharedConfig::openStateConfig(QStringLiteral("kwinsessionrc")), this);
+        new XdgSessionManagerV1Interface(m_display, storage, m_display);
+    }
 
     m_xdgDecorationManagerV1 = new XdgDecorationManagerV1Interface(m_display, m_display);
     connect(m_xdgDecorationManagerV1, &XdgDecorationManagerV1Interface::decorationCreated, this, [this](XdgToplevelDecorationV1Interface *decoration) {
@@ -510,12 +526,19 @@ bool WaylandServer::init()
 #if HAVE_WL_FIXES
     new FixesInterface(m_display, m_display);
 #endif
+    m_fifoManager = new FifoManagerV1(m_display, m_display);
+    m_singlePixelBuffer = new SinglePixelBufferManagerV1(m_display, m_display);
+    m_toplevelTag = new XdgToplevelTagManagerV1(m_display, m_display);
+    m_colorRepresentation = new ColorRepresentationManagerV1(m_display, m_display);
     return true;
 }
 
+// re-enabled by default until Mesa Amber branch no longer breaks without wl_drm
+static const bool s_reenableWlDrm = environmentVariableBoolValue("KWIN_WAYLAND_REENABLE_WL_DRM").value_or(true);
+
 DrmClientBufferIntegration *WaylandServer::drm()
 {
-    if (!m_drm) {
+    if (!m_drm && s_reenableWlDrm) {
         m_drm = new DrmClientBufferIntegration(m_display);
     }
     return m_drm;
@@ -681,9 +704,6 @@ int WaylandServer::createScreenLockerConnection()
         return -1;
     }
     m_screenLockerClientConnection = socket.connection;
-    connect(m_screenLockerClientConnection, &ClientConnection::disconnected, this, [this]() {
-        m_screenLockerClientConnection = nullptr;
-    });
     return socket.fd;
 }
 

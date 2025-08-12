@@ -85,7 +85,7 @@ Atoms *atoms;
 #endif
 int Application::crashes = 0;
 
-Application::Application(Application::OperationMode mode, int &argc, char **argv)
+Application::Application(int &argc, char **argv)
     : QApplication(argc, argv)
 #if KWIN_BUILD_X11
     , m_eventFilter(new XcbEventFilter())
@@ -94,7 +94,6 @@ Application::Application(Application::OperationMode mode, int &argc, char **argv
     , m_config(KSharedConfig::openConfig(QStringLiteral("kwinrc")))
     , m_kxkbConfig()
     , m_kdeglobals(KSharedConfig::openConfig(QStringLiteral("kdeglobals")))
-    , m_operationMode(mode)
 {
     qRegisterMetaType<Options::WindowOperation>("Options::WindowOperation");
     qRegisterMetaType<KWin::EffectWindow *>();
@@ -106,16 +105,6 @@ Application::Application(Application::OperationMode mode, int &argc, char **argv
 void Application::setConfigLock(bool lock)
 {
     m_configLock = lock;
-}
-
-Application::OperationMode Application::operationMode() const
-{
-    return m_operationMode;
-}
-
-bool Application::shouldUseWaylandForCompositing() const
-{
-    return m_operationMode == OperationModeWayland;
 }
 
 void Application::start()
@@ -263,7 +252,6 @@ void Application::createInput()
 #endif
     auto input = InputRedirection::create(this);
     input->init();
-    m_platformCursor = createPlatformCursor();
 }
 
 void Application::createAtoms()
@@ -343,29 +331,6 @@ void Application::destroyColorManager()
 void Application::destroyInputMethod()
 {
     m_inputMethod.reset();
-}
-
-std::unique_ptr<Edge> Application::createScreenEdge(ScreenEdges *edges)
-{
-    return std::make_unique<Edge>(edges);
-}
-
-std::unique_ptr<Cursor> Application::createPlatformCursor()
-{
-    return std::make_unique<InputRedirectionCursor>();
-}
-
-std::unique_ptr<OutlineVisual> Application::createOutline(Outline *outline)
-{
-    if (Compositor::compositing()) {
-        return std::make_unique<CompositedOutlineVisual>(outline);
-    }
-    return nullptr;
-}
-
-void Application::createEffectsHandler(Compositor *compositor, WorkspaceScene *scene)
-{
-    new EffectsHandler(compositor, scene);
 }
 
 #if KWIN_BUILD_X11
@@ -543,19 +508,7 @@ static quint32 monotonicTime()
 
 void Application::updateXTime()
 {
-    switch (operationMode()) {
-    case Application::OperationModeX11:
-        setX11Time(QX11Info::getTimestamp(), TimestampUpdate::Always);
-        break;
-
-    case Application::OperationModeWayland:
-        setX11Time(monotonicTime(), TimestampUpdate::Always);
-        break;
-
-    default:
-        // Do not update the current X11 time stamp if it's the Wayland only session.
-        break;
-    }
+    setX11Time(monotonicTime(), TimestampUpdate::Always);
 }
 
 void Application::updateX11Time(xcb_generic_event_t *event)
@@ -622,9 +575,6 @@ void Application::updateX11Time(xcb_generic_event_t *event)
         if (Xcb::Extensions::self()) {
             if (eventType == Xcb::Extensions::self()->shapeNotifyEvent()) {
                 time = reinterpret_cast<xcb_shape_notify_event_t *>(event)->server_time;
-            }
-            if (eventType == Xcb::Extensions::self()->damageNotifyEvent()) {
-                time = reinterpret_cast<xcb_damage_notify_event_t *>(event)->timestamp;
             }
         }
         break;

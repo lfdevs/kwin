@@ -30,19 +30,6 @@ enum class RenderingIntent {
     RelativeColorimetricWithBPC,
 };
 
-enum class NamedColorimetry {
-    BT709,
-    PAL_M,
-    PAL,
-    NTSC,
-    GenericFilm,
-    BT2020,
-    CIEXYZ,
-    DCIP3,
-    DisplayP3,
-    AdobeRGB
-};
-
 struct XYZ;
 /**
  * xyY, with Y unspecified
@@ -55,7 +42,6 @@ struct KWIN_EXPORT xy
     XYZ toXYZ() const;
     QVector2D asVector() const;
     bool operator==(const xy &other) const;
-    bool operator!=(const xy &other) const;
 };
 struct KWIN_EXPORT xyY
 {
@@ -65,7 +51,6 @@ struct KWIN_EXPORT xyY
 
     XYZ toXYZ() const;
     bool operator==(const xyY &other) const;
-    bool operator!=(const xyY &other) const;
 };
 struct KWIN_EXPORT XYZ
 {
@@ -80,7 +65,6 @@ struct KWIN_EXPORT XYZ
     XYZ operator/(double factor) const;
     XYZ operator+(const XYZ &other) const;
     bool operator==(const XYZ &other) const;
-    bool operator!=(const XYZ &other) const;
 
     static XYZ fromVector(const QVector3D &vector);
 };
@@ -93,7 +77,17 @@ struct KWIN_EXPORT XYZ
 class KWIN_EXPORT Colorimetry
 {
 public:
-    static const Colorimetry &fromName(NamedColorimetry name);
+    static const Colorimetry BT709;
+    static const Colorimetry PAL_M;
+    static const Colorimetry PAL;
+    static const Colorimetry NTSC;
+    static const Colorimetry GenericFilm;
+    static const Colorimetry BT2020;
+    static const Colorimetry CIEXYZ;
+    static const Colorimetry DCIP3;
+    static const Colorimetry DisplayP3;
+    static const Colorimetry AdobeRGB;
+
     /**
      * @returns a matrix adapting XYZ values from the source whitepoint to the destination whitepoint with the Bradford transform
      */
@@ -126,7 +120,6 @@ public:
     QMatrix4x4 fromLMS() const;
 
     bool operator==(const Colorimetry &other) const;
-    bool operator==(NamedColorimetry name) const;
     /**
      * @returns this colorimetry, adapted to the new whitepoint using the Bradford transform
      */
@@ -142,13 +135,12 @@ public:
     Colorimetry interpolateGamutTo(const Colorimetry &one, double factor) const;
 
     QMatrix4x4 relativeColorimetricTo(const Colorimetry &other) const;
+    QMatrix4x4 absoluteColorimetricTo(const Colorimetry &other) const;
 
     const XYZ &red() const;
     const XYZ &green() const;
     const XYZ &blue() const;
     const XYZ &white() const;
-
-    std::optional<NamedColorimetry> name() const;
 
 private:
     XYZ m_red;
@@ -200,6 +192,18 @@ public:
     static double defaultReferenceLuminanceFor(Type type);
 };
 
+enum class YUVMatrixCoefficients {
+    Identity,
+    BT601,
+    BT709,
+    BT2020,
+};
+
+enum class EncodingRange {
+    Limited,
+    Full,
+};
+
 /**
  * Describes the meaning of encoded color values, with additional metadata for how to convert between different encodings
  * Note that not all properties of this description are relevant in all contexts
@@ -216,10 +220,9 @@ public:
      * @param maxHdrLuminance the maximum brightness of HDR content, for a small part of the screen only
      * @param sdrColorimetry
      */
-    explicit ColorDescription(const Colorimetry &containerColorimetry, TransferFunction tf, double referenceLuminance, double minLuminance, std::optional<double> maxAverageLuminance, std::optional<double> maxHdrLuminance);
-    explicit ColorDescription(NamedColorimetry containerColorimetry, TransferFunction tf, double referenceLuminance, double minLuminance, std::optional<double> maxAverageLuminance, std::optional<double> maxHdrLuminance);
-    explicit ColorDescription(const Colorimetry &containerColorimetry, TransferFunction tf, double referenceLuminance, double minLuminance, std::optional<double> maxAverageLuminance, std::optional<double> maxHdrLuminance, std::optional<Colorimetry> masteringColorimetry, const Colorimetry &sdrColorimetry);
-    explicit ColorDescription(NamedColorimetry containerColorimetry, TransferFunction tf, double referenceLuminance, double minLuminance, std::optional<double> maxAverageLuminance, std::optional<double> maxHdrLuminance, std::optional<Colorimetry> masteringColorimetry, const Colorimetry &sdrColorimetry);
+    explicit ColorDescription(const Colorimetry &containerColorimetry, TransferFunction tf, double referenceLuminance, double minLuminance, std::optional<double> maxAverageLuminance, std::optional<double> maxHdrLuminance, YUVMatrixCoefficients yuvCoefficients = YUVMatrixCoefficients::Identity, EncodingRange range = EncodingRange::Full);
+    explicit ColorDescription(const Colorimetry &containerColorimetry, TransferFunction tf, double referenceLuminance, double minLuminance, std::optional<double> maxAverageLuminance, std::optional<double> maxHdrLuminance, std::optional<Colorimetry> masteringColorimetry, const Colorimetry &sdrColorimetry, YUVMatrixCoefficients yuvCoefficients = YUVMatrixCoefficients::Identity, EncodingRange range = EncodingRange::Full);
+    explicit ColorDescription(const Colorimetry &containerColorimetry, TransferFunction tf, YUVMatrixCoefficients yuvCoefficients = YUVMatrixCoefficients::Identity, EncodingRange range = EncodingRange::Full);
 
     /**
      * The primaries and whitepoint that colors are encoded for. This is used to convert between different colorspaces.
@@ -238,6 +241,14 @@ public:
     double minLuminance() const;
     std::optional<double> maxAverageLuminance() const;
     std::optional<double> maxHdrLuminance() const;
+    YUVMatrixCoefficients yuvCoefficients() const;
+    EncodingRange range() const;
+
+    /**
+     * @returns the matrix that converts from this ColorDescription's encoding to full range RGB
+     * TODO move this to ColorPipeline, to deal with ICtCp
+     */
+    QMatrix4x4 yuvMatrix() const;
 
     bool operator==(const ColorDescription &other) const = default;
 
@@ -248,6 +259,8 @@ public:
      */
     ColorDescription withWhitepoint(xyY newWhitePoint) const;
     ColorDescription dimmed(double brightnessFactor) const;
+    ColorDescription withReference(double referenceLuminance) const;
+    ColorDescription withYuvCoefficients(YUVMatrixCoefficients coefficient, EncodingRange range) const;
 
     /**
      * @returns a matrix that transforms from linear RGB in this color description to linear RGB in the other one
@@ -269,6 +282,8 @@ private:
     double m_minLuminance;
     std::optional<double> m_maxAverageLuminance;
     std::optional<double> m_maxHdrLuminance;
+    YUVMatrixCoefficients m_yuvCoefficients = YUVMatrixCoefficients::Identity;
+    EncodingRange m_range = EncodingRange::Full;
 };
 }
 

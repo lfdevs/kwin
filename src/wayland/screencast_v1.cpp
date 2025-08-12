@@ -74,7 +74,7 @@ class ScreencastV1InterfacePrivate : public QtWaylandServer::zkde_screencast_uns
 {
 public:
     ScreencastV1InterfacePrivate(Display *display, ScreencastV1Interface *q)
-        : QtWaylandServer::zkde_screencast_unstable_v1(*display, std::min(s_version, interfaceVersion())) // plasma-wayland-protocols 1.17.0 is not a hard dependency
+        : QtWaylandServer::zkde_screencast_unstable_v1(*display, s_version)
         , q(q)
     {
     }

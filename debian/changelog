@@ -1,3 +1,10 @@
+kwin (4:6.4.4-0ubuntu2) questing; urgency=medium
+
+  * Add upstream requested patch upstream_backport-7d36003c.patch
+    https://bugs.kde.org/508350
+
+ -- Rik Mills <rikmills@kde.org>  Thu, 21 Aug 2025 14:04:23 +0100
+
 kwin (4:6.4.4-0ubuntu1) questing; urgency=medium
 
   * New upstream release (6.4.4)

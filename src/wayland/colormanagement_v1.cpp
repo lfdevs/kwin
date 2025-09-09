@@ -60,7 +60,7 @@ void ColorManagerV1::wp_color_manager_v1_destroy(Resource *resource)
 
 void ColorManagerV1::wp_color_manager_v1_get_output(Resource *resource, uint32_t id, struct ::wl_resource *output)
 {
-    new ColorManagementOutputV1(resource->client(), id, resource->version(), OutputInterface::get(output)->handle());
+    new ColorManagementOutputV1(resource->client(), id, resource->version(), OutputInterface::get(output));
 }
 
 void ColorManagerV1::wp_color_manager_v1_get_surface(Resource *resource, uint32_t id, struct ::wl_resource *surface)
@@ -194,6 +194,7 @@ static std::optional<RenderingIntent> waylandToKwinIntent(uint32_t intent)
 void ColorSurfaceV1::wp_color_management_surface_v1_set_image_description(Resource *resource, struct ::wl_resource *image_description, uint32_t render_intent)
 {
     if (!m_surface) {
+        wl_resource_post_error(resource->handle, WP_COLOR_MANAGEMENT_SURFACE_V1_ERROR_INERT, "the associated surface was already destroyed");
         return;
     }
     const std::optional<RenderingIntent> intent = waylandToKwinIntent(render_intent);
@@ -215,6 +216,7 @@ void ColorSurfaceV1::wp_color_management_surface_v1_set_image_description(Resour
 void ColorSurfaceV1::wp_color_management_surface_v1_unset_image_description(Resource *resource)
 {
     if (!m_surface) {
+        wl_resource_post_error(resource->handle, WP_COLOR_MANAGEMENT_SURFACE_V1_ERROR_INERT, "the associated surface was already destroyed");
         return;
     }
     const auto priv = SurfaceInterfacePrivate::get(m_surface);
@@ -574,12 +576,15 @@ ImageDescriptionV1 *ImageDescriptionV1::get(wl_resource *resource)
     }
 }
 
-ColorManagementOutputV1::ColorManagementOutputV1(wl_client *client, uint32_t id, uint32_t version, Output *output)
+ColorManagementOutputV1::ColorManagementOutputV1(wl_client *client, uint32_t id, uint32_t version, OutputInterface *output)
     : QtWaylandServer::wp_color_management_output_v1(client, id, version)
     , m_output(output)
-    , m_colorDescription(output->colorDescription())
 {
-    connect(output, &Output::colorDescriptionChanged, this, &ColorManagementOutputV1::colorDescriptionChanged);
+    if (!m_output || m_output->isRemoved()) {
+        return;
+    }
+
+    connect(output->handle(), &Output::colorDescriptionChanged, this, &ColorManagementOutputV1::colorDescriptionChanged);
 }
 
 void ColorManagementOutputV1::wp_color_management_output_v1_destroy_resource(Resource *resource)
@@ -594,12 +599,19 @@ void ColorManagementOutputV1::wp_color_management_output_v1_destroy(Resource *re
 
 void ColorManagementOutputV1::wp_color_management_output_v1_get_image_description(Resource *resource, uint32_t image_description)
 {
-    new ImageDescriptionV1(resource->client(), image_description, resource->version(), m_colorDescription);
+    if (!m_output || m_output->isRemoved()) {
+        new ImageDescriptionV1(resource->client(), image_description, resource->version(), std::nullopt);
+    } else {
+        new ImageDescriptionV1(resource->client(), image_description, resource->version(), m_output->handle()->colorDescription());
+    }
 }
 
 void ColorManagementOutputV1::colorDescriptionChanged()
 {
-    m_colorDescription = m_output->colorDescription();
+    if (!m_output || m_output->isRemoved()) {
+        return;
+    }
+
     send_image_description_changed();
 }
 

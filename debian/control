@@ -195,7 +195,7 @@ Description: KDE window manager - devel files
 Package: kwin-wayland
 Architecture: any
 Depends: libcap2-bin [linux-any], xwayland, ${misc:Depends}, ${shlibs:Depends},
-Recommends: xwaylandvideobridge,
+Recommends: kwin-style-aurorae, xwaylandvideobridge,
 Provides: kwin,
 Description: KDE window manager, Wayland version
  KWin (pronounced as one syllable "kwin") is the window
@@ -209,11 +209,6 @@ Description: KDE window manager, Wayland version
  This package provides the wayland version, which is still a work in progress
  project, and is available as a PREVIEW release. Don't expect the same
  stability as with the x11 version.
-
-Package: kwin-x11
-Architecture: any
-Description: KDE window manager, X11 transitional dummy package
- Transitional dummy package.
 
 Package: libkwin6
 Section: libs

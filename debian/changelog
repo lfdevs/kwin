@@ -1,3 +1,10 @@
+kwin (4:6.4.5-0ubuntu2) questing; urgency=medium
+
+  * Drop transitional kwin-x11 package.
+  * Recommend kwin-style-aurorae.
+
+ -- Rik Mills <rikmills@kde.org>  Sun, 14 Sep 2025 21:55:35 +0100
+
 kwin (4:6.4.5-0ubuntu1) questing; urgency=medium
 
   * New upstream release (6.4.5)

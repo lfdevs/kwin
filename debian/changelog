@@ -1,3 +1,9 @@
+kwin (4:6.4.5-0ubuntu3) questing; urgency=medium
+
+  * No-change rebuild for Qt 6.9.2 private ABI.
+
+ -- Rik Mills <rikmills@kde.org>  Thu, 18 Sep 2025 00:14:18 +0100
+
 kwin (4:6.4.5-0ubuntu2) questing; urgency=medium
 
   * Drop transitional kwin-x11 package.

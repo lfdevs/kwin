@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-20 02:37+0000\n"
-"PO-Revision-Date: 2024-09-18 06:04+0200\n"
+"POT-Creation-Date: 2025-05-30 00:44+0000\n"
+"PO-Revision-Date: 2025-05-30 04:36+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,12 +16,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Poedit 3.6\n"
 
 #: declarative-plugin/buttonsmodel.cpp:55
 #, kde-format
-msgid "More actions for this window"
-msgstr "მეტი ქმედება ამ ფანჯრისთვის"
+msgid "Window menu"
+msgstr "ფანჯრის მენიუ"
 
 #: declarative-plugin/buttonsmodel.cpp:57
 #, kde-format
@@ -175,14 +175,14 @@ msgstr "სათაურის ქუდის ღილაკები"
 #: ui/ConfigureTitlebar.qml:35
 #, kde-format
 msgctxt "checkbox label"
-msgid "Close windows by double clicking the menu button"
-msgstr "დახურეთ ფანჯარა მენიუს ღილაკზე ორჯერ დაწკაპუნებით"
+msgid "Close windows by double clicking the window menu button"
+msgstr "ფანჰრების დახურვა ფანჯრის მენიუს ღილაკზე ორჯერ დაწკაპუნებით"
 
 #: ui/ConfigureTitlebar.qml:52
 #, kde-format
 msgctxt "popup tip"
-msgid "Click and hold on the menu button to show the menu."
-msgstr "მენიუს საჩვენებლად დააწექით და გეჭიროთ მენიუს ღილაკზე."
+msgid "Click and hold on the window menu button to show the menu."
+msgstr "მენიუს საჩვენებლად დააწექით და გეჭიროთ ფანჯრის მენიუს ღილაკზე."
 
 #: ui/ConfigureTitlebar.qml:59
 #, kde-format
@@ -258,6 +258,9 @@ msgstr "უსინდისოდ დიდი ფანჯრის საზ
 msgid "Oversized window borders"
 msgstr "არანორმალურად დიდი ფანჯრის საზღვრები"
 
+#~ msgid "More actions for this window"
+#~ msgstr "მეტი ქმედება ამ ფანჯრისთვის"
+
 #~ msgid "Shade"
 #~ msgstr "დაჩრდილვა"
 
@@ -299,9 +302,6 @@ msgstr "არანორმალურად დიდი ფანჯრი�
 #~ msgctxt "EMAIL OF TRANSLATORS"
 #~ msgid "Your emails"
 #~ msgstr "Temuri.doghonadze@gmail.com"
-
-#~ msgid "Window Decorations"
-#~ msgstr "ფანჯრის დეკორაციები"
 
 #~ msgid "Valerio Pilo"
 #~ msgstr "Valerio Pilo"

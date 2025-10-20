@@ -10,6 +10,7 @@
 #include "display.h"
 #include "output.h"
 #include "seat.h"
+#include "utils/gravity.h"
 #include "utils/resource.h"
 
 #include <QTimer>
@@ -181,7 +182,7 @@ void XdgSurfaceInterfacePrivate::xdg_surface_destroy_resource(Resource *resource
 
 void XdgSurfaceInterfacePrivate::xdg_surface_destroy(Resource *resource)
 {
-    if (toplevel || popup) {
+    if (!toplevel.isNull() || !popup.isNull() || !pip.isNull()) {
         qWarning() << "Tried to destroy xdg_surface before its role object";
     }
     wl_resource_destroy(resource->handle);

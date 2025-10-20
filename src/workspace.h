@@ -52,6 +52,7 @@ namespace TabBox
 class TabBox;
 }
 
+class Gravity;
 class Window;
 class Output;
 class Compositor;
@@ -66,7 +67,6 @@ class X11EventFilter;
 class FocusChain;
 class ApplicationMenu;
 class PlacementTracker;
-enum class Predicate;
 class Outline;
 class RuleBook;
 class ScreenEdges;
@@ -102,52 +102,10 @@ public:
 #if KWIN_BUILD_X11
     bool workspaceEvent(xcb_generic_event_t *);
 
-    /**
-     * @brief Finds the first Client matching the condition expressed by passed in @p func.
-     *
-     * Internally findClient uses the std::find_if algorithm and that determines how the function
-     * needs to be implemented. An example usage for finding a Client with a matching windowId
-     * @code
-     * xcb_window_t w; // our test window
-     * X11Window *client = findClient([w](const X11Window *c) -> bool {
-     *     return c->window() == w;
-     * });
-     * @endcode
-     *
-     * For the standard cases of matching the window id with one of the Client's windows use
-     * the simplified overload method findClient(Predicate, xcb_window_t). Above example
-     * can be simplified to:
-     * @code
-     * xcb_window_t w; // our test window
-     * X11Window *client = findClient(Predicate::WindowMatch, w);
-     * @endcode
-     *
-     * @param func Unary function that accepts a X11Window *as argument and
-     * returns a value convertible to bool. The value returned indicates whether the
-     * X11Window *is considered a match in the context of this function.
-     * The function shall not modify its argument.
-     * This can either be a function pointer or a function object.
-     * @return KWin::X11Window *The found Client or @c null
-     * @see findClient(Predicate, xcb_window_t)
-     */
     X11Window *findClient(std::function<bool(const X11Window *)> func) const;
-    /**
-     * @brief Finds the Client matching the given match @p predicate for the given window.
-     *
-     * @param predicate Which window should be compared
-     * @param w The window id to test against
-     * @return KWin::X11Window *The found Client or @c null
-     * @see findClient(std::function<bool (const X11Window *)>)
-     */
-    X11Window *findClient(Predicate predicate, xcb_window_t w) const;
+    X11Window *findClient(xcb_window_t w) const;
     void forEachClient(std::function<void(X11Window *)> func);
     X11Window *findUnmanaged(std::function<bool(const X11Window *)> func) const;
-    /**
-     * @brief Finds the Unmanaged with the given window id.
-     *
-     * @param w The window id to search for
-     * @return KWin::Unmanaged* Found Unmanaged or @c null if there is no Unmanaged with given Id.
-     */
     X11Window *findUnmanaged(xcb_window_t w) const;
 #endif
 
@@ -333,8 +291,7 @@ public:
 #endif
 
     /**
-     * Shows the menu operations menu for the window and makes it active if
-     * it's not already.
+     * Shows the window menu and makes it active if it's not already.
      */
     void showWindowMenu(const QRect &pos, Window *cl);
     UserActionsMenu *userActionsMenu() const
@@ -367,6 +324,7 @@ public:
     Output *findOutput(const QString &name) const;
     void switchToOutput(Output *output);
 
+    QString outputLayoutId() const;
     QList<Output *> outputs() const;
     Output *outputAt(const QPointF &pos) const;
 
@@ -395,6 +353,9 @@ public:
     void addDeleted(Window *);
 
     void focusToNull(); // SELI TODO: Public?
+#if KWIN_BUILD_X11
+    xcb_window_t nullFocusWindow() const;
+#endif
 
     void windowShortcutUpdated(Window *window);
     bool shortcutAvailable(const QKeySequence &cut, Window *ignore = nullptr) const;
@@ -477,6 +438,9 @@ public:
     OutputConfigurationError applyOutputConfiguration(OutputConfiguration &config, const std::optional<QList<Output *>> &outputOrder = std::nullopt);
     void updateXwaylandScale();
 
+    void setActivationToken(const QString &token, uint32_t serial, const QString &appId);
+    bool mayActivate(Window *window, const QString &token) const;
+
 public Q_SLOTS:
     void performWindowOperation(KWin::Window *window, Options::WindowOperation op);
     // Keybindings
@@ -505,7 +469,6 @@ public Q_SLOTS:
     void slotWindowMaximizeVertical();
     void slotWindowMaximizeHorizontal();
     void slotWindowMinimize();
-    void slotWindowShade();
     void slotWindowRaise();
     void slotWindowLower();
     void slotWindowRaiseOrLower();
@@ -606,9 +569,9 @@ private:
     void init();
     void initShortcuts();
     template<typename Slot>
-    void initShortcut(const QString &actionName, const QString &description, const QKeySequence &shortcut, Slot slot);
+    void initShortcut(const QString &actionName, const QString &description, const QKeySequence &shortcut, Slot slot, bool autoRepeat);
     template<typename T, typename Slot>
-    void initShortcut(const QString &actionName, const QString &description, const QKeySequence &shortcut, T *receiver, Slot slot);
+    void initShortcut(const QString &actionName, const QString &description, const QKeySequence &shortcut, T *receiver, Slot slot, bool autoRepeat);
     void setupWindowShortcut(Window *window);
     bool switchWindow(Window *window, Direction direction, QPoint curPos, VirtualDesktop *desktop);
 
@@ -648,7 +611,6 @@ private:
     void activateWindowOnDesktop(VirtualDesktop *desktop);
     Window *findWindowToActivateOnDesktop(VirtualDesktop *desktop);
     void removeWindow(Window *window);
-    QString getPlacementTrackerHash();
 
     void updateOutputConfiguration();
     void updateOutputs(const std::optional<QList<Output *>> &outputOrder = std::nullopt);
@@ -706,6 +668,7 @@ private:
 #if KWIN_BUILD_X11
     QList<xcb_window_t> manual_overlays; // Topmost last
     std::unique_ptr<Xcb::Window> m_nullFocus;
+    std::unique_ptr<Xcb::Window> m_guardWindow;
     std::unique_ptr<X11EventFilter> m_syncAlarmFilter;
 #endif
 
@@ -771,6 +734,10 @@ private:
     std::unique_ptr<OrientationSensor> m_orientationSensor;
     std::unique_ptr<DpmsInputEventFilter> m_dpmsFilter;
     KConfigWatcher::Ptr m_kdeglobalsWatcher;
+
+    QString m_activationToken;
+    QString m_activationTokenAppId;
+    uint32_t m_activationTokenSerial = 0;
 
 private:
     friend bool performTransiencyCheck();

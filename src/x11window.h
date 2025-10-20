@@ -40,17 +40,6 @@ namespace KWin
 class KillPrompt;
 class XwaylandSurfaceV1Interface;
 
-/**
- * @brief Defines Predicates on how to search for a Client.
- *
- * Used by Workspace::findClient.
- */
-enum class Predicate {
-    WindowMatch,
-    WrapperIdMatch,
-    FrameIdMatch,
-};
-
 class KWIN_EXPORT X11Window : public Window
 {
     Q_OBJECT
@@ -61,9 +50,7 @@ public:
 
     void associate(XwaylandSurfaceV1Interface *shellSurface);
 
-    xcb_window_t frameId() const;
     xcb_window_t window() const;
-    xcb_window_t wrapperId() const;
 
     int desktopId() const;
     QByteArray sessionId() const;
@@ -79,7 +66,6 @@ public:
     QSizeF clientSizeToFrameSize(const QSizeF &size) const override;
     QSizeF nextClientSizeToFrameSize(const QSizeF &size) const override;
     QRectF nextFrameRectToBufferRect(const QRectF &rect) const;
-    QSizeF implicitSize() const;
 
     void blockGeometryUpdates(bool block);
     void blockGeometryUpdates();
@@ -130,7 +116,6 @@ public:
     void doSetOnActivities(const QStringList &newActivitiesList) override;
     void updateActivities(bool includeTransients) override;
 
-    bool isShadeable() const override;
     bool isMaximizable() const override;
     MaximizeMode maximizeMode() const override;
     void maximize(MaximizeMode mode, const QRectF &restore = QRectF()) override;
@@ -166,8 +151,6 @@ public:
 
     void invalidateDecoration() override;
 
-    void detectShape();
-    void updateShape();
 
     /// resizeWithChecks() resizes according to gravity, and checks workarea position
     QRectF resizeWithChecks(const QRectF &geometry, const QSizeF &size) const override;
@@ -177,7 +160,6 @@ public:
 
     bool providesContextHelp() const override;
 
-    /// Updates visibility depending on being shaded, virtual desktop, etc.
     void updateVisibility();
     bool hiddenPreview() const; ///< Window is mapped in order to get a window pixmap
 
@@ -260,13 +242,14 @@ public:
 
     quint64 surfaceSerial() const;
 
+    bool hitTest(const QPointF &point) const override;
+
 public Q_SLOTS:
     void closeWindow() override;
     void updateCaption() override;
 
 private:
-    // Handlers for X11 events
-    bool mapRequestEvent(xcb_map_request_event_t *e);
+    void mapRequestEvent(xcb_map_request_event_t *e);
     void unmapNotifyEvent(xcb_unmap_notify_event_t *e);
     void destroyNotifyEvent(xcb_destroy_notify_event_t *e);
     void configureNotifyEvent(xcb_configure_notify_event_t *e);
@@ -275,13 +258,13 @@ private:
     void clientMessageEvent(xcb_client_message_event_t *e);
     void focusInEvent(xcb_focus_in_event_t *e);
     void focusOutEvent(xcb_focus_out_event_t *e);
+    void shapeNotifyEvent(xcb_shape_notify_event_t *e);
 
 protected:
     bool belongsToSameApplication(const Window *other, SameApplicationChecks checks) const override;
     void doSetActive() override;
     void doSetKeepAbove() override;
     void doSetKeepBelow() override;
-    void doSetShade(ShadeMode previousShadeMode) override;
     void doSetDesktop() override;
     void doMinimize() override;
     void doSetSkipPager() override;
@@ -315,7 +298,7 @@ private:
     void getMotifHints();
     void getIcons();
     void getWmOpaqueRegion();
-    void discardShapeRegion();
+    void updateShapeRegion();
     void fetchName();
     void fetchIconicName();
     QString readName() const;
@@ -330,7 +313,6 @@ private:
     void getSkipCloseAnimation();
 
     void configureRequest(int value_mask, qreal rx, qreal ry, qreal rw, qreal rh, int gravity, bool from_tool);
-    int checkShadeGeometry(int w, int h);
     void getSyncCounter();
     void sendSyncRequest();
 
@@ -350,10 +332,8 @@ private:
     void internalKeep();
     void map();
     void unmap();
-    void updateHiddenPreview();
 
-    void updateInputShape();
-    void configure(const QRect &nativeFrame, const QRect &nativeWrapper, const QRect &nativeClient);
+    void configure(const QRect &nativeGeometry);
 
     xcb_timestamp_t readUserTimeMapTimestamp(const KStartupInfoId *asn_id, const KStartupInfoData *asn_data,
                                              bool session) const;
@@ -374,8 +354,6 @@ private:
     void setAllowCommits(bool allow);
 
     Xcb::Window m_client;
-    Xcb::Window m_wrapper;
-    Xcb::Window m_frame;
     qreal m_bufferScale = 1;
     xcb_window_t m_wmClientLeader = XCB_WINDOW_NONE;
     bool m_managed;
@@ -405,7 +383,6 @@ private:
     NETWinInfo *info = nullptr;
     xcb_window_t m_transientForId;
     xcb_window_t m_originalTransientForId;
-    X11Window *shade_below;
     Xcb::MotifHints m_motif;
     uint noborder : 1;
     uint app_noborder : 1; ///< App requested no border via window type, shape extension, etc.
@@ -426,15 +403,13 @@ private:
     xcb_timestamp_t m_userTime;
     pid_t m_pid = 0;
     NET::Actions allowed_actions;
-    bool shade_geometry_change;
     SyncRequest m_syncRequest;
     static bool check_active_modal; ///< \see X11Window::checkActiveModal()
     int sm_stacking_order;
     xcb_visualid_t m_visual = XCB_NONE;
     int bit_depth = 24;
     QRegion opaque_region;
-    mutable QList<QRectF> m_shapeRegion;
-    mutable bool m_shapeRegionIsValid = false;
+    QList<QRectF> m_shapeRegion;
     friend struct ResetupRulesProcedure;
 
     friend bool performTransiencyCheck();
@@ -457,6 +432,7 @@ private:
     bool m_unmanaged = false;
     bool m_outline = false;
     quint64 m_surfaceSerial = 0;
+    int m_inflightUnmaps = 0;
 };
 
 /**

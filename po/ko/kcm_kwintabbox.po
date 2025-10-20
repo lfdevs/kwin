@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-06 02:50+0000\n"
-"PO-Revision-Date: 2025-04-22 01:27+0200\n"
+"POT-Creation-Date: 2025-09-25 02:40+0000\n"
+"PO-Revision-Date: 2025-10-09 01:05+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -58,8 +58,8 @@ msgstr "시스템 설정"
 
 #: layoutpreview.cpp:177
 #, kde-format
-msgid "Show Desktop"
-msgstr "바탕 화면 표시"
+msgid "Peek at Desktop"
+msgstr "바탕 화면 엿보기"
 
 #: layoutpreview.cpp:207
 #, kde-format
@@ -97,8 +97,8 @@ msgstr "내용"
 #. i18n: ectx: property (text), widget (QCheckBox, showDesktop)
 #: main.ui:41
 #, kde-format
-msgid "Include \"Show Desktop\" entry"
-msgstr "\"바탕 화면 표시\" 항목 포함"
+msgid "Include \"Peek at Desktop\" entry"
+msgstr "\"바탕 화면 엿보기\" 항목 포함"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, switchingModeCombo)
 #: main.ui:55
@@ -316,6 +316,9 @@ msgstr "현재 앱의 창간 다르게 이동"
 #, kde-format
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
 msgstr "현재 앱의 창간 거꾸로 다르게 이동"
+
+#~ msgid "Show Desktop"
+#~ msgstr "바탕 화면 표시"
 
 #~ msgid "KWin"
 #~ msgstr "KWin"

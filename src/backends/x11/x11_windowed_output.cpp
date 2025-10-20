@@ -28,6 +28,7 @@
 #include <QPainter>
 
 #include <drm_fourcc.h>
+#include <ranges>
 #include <xcb/dri3.h>
 #include <xcb/shm.h>
 #include <xcb/xinput.h>
@@ -344,16 +345,10 @@ QPointF X11WindowedOutput::mapFromGlobal(const QPointF &pos) const
     return (pos - hostPosition() + internalPosition()) / scale();
 }
 
-bool X11WindowedOutput::updateCursorLayer(std::optional<std::chrono::nanoseconds> allowedVrrDelay)
+bool X11WindowedOutput::presentAsync(OutputLayer *layer, std::optional<std::chrono::nanoseconds> allowedVrrDelay)
 {
-    const auto layer = Compositor::self()->backend()->cursorLayer(this);
-    if (layer->isEnabled()) {
-        xcb_xfixes_show_cursor(m_backend->connection(), m_window);
-        // the cursor layers update the image on their own already
-    } else {
-        xcb_xfixes_hide_cursor(m_backend->connection(), m_window);
-    }
-    return true;
+    // Xorg moves the cursor, there's nothing to do
+    return layer->type() == OutputLayerType::CursorOnly;
 }
 
 xcb_pixmap_t X11WindowedOutput::importDmaBufBuffer(const DmaBufAttributes *attributes)
@@ -443,9 +438,70 @@ xcb_pixmap_t X11WindowedOutput::importBuffer(GraphicsBuffer *graphicsBuffer)
     return x11Buffer->pixmap();
 }
 
-void X11WindowedOutput::framePending(const std::shared_ptr<OutputFrame> &frame)
+void X11WindowedOutput::setPrimaryBuffer(GraphicsBuffer *buffer)
 {
+    m_pendingBuffer = importBuffer(buffer);
+}
+
+bool X11WindowedOutput::testPresentation(const std::shared_ptr<OutputFrame> &frame)
+{
+    return true;
+}
+
+bool X11WindowedOutput::present(const QList<OutputLayer *> &layersToUpdate, const std::shared_ptr<OutputFrame> &frame)
+{
+    auto cursorLayers = Compositor::self()->backend()->compatibleOutputLayers(this) | std::views::filter([](OutputLayer *layer) {
+        return layer->type() == OutputLayerType::CursorOnly;
+    });
+    if (!cursorLayers.empty()) {
+        if (cursorLayers.front()->isEnabled()) {
+            xcb_xfixes_show_cursor(m_backend->connection(), m_window);
+            // the cursor layers update the image on their own already
+        } else {
+            xcb_xfixes_hide_cursor(m_backend->connection(), m_window);
+        }
+    }
+    // we still present the window, even if the primary layer isn't in the list
+    // in order to get presentation feedback
+    if (!m_pendingBuffer) {
+        return false;
+    }
+
+    xcb_xfixes_region_t valid = 0;
+    xcb_xfixes_region_t update = 0;
+    uint32_t serial = 0;
+    uint32_t options = 0;
+    uint64_t targetMsc = 0;
+
+    xcb_present_pixmap(backend()->connection(),
+                       window(),
+                       m_pendingBuffer,
+                       serial,
+                       valid,
+                       update,
+                       0,
+                       0,
+                       XCB_NONE,
+                       XCB_NONE,
+                       XCB_NONE,
+                       options,
+                       targetMsc,
+                       0,
+                       0,
+                       0,
+                       nullptr);
     m_frame = frame;
+    return true;
+}
+
+void X11WindowedOutput::setOutputLayers(std::vector<std::unique_ptr<OutputLayer>> &&layers)
+{
+    m_layers = std::move(layers);
+}
+
+QList<OutputLayer *> X11WindowedOutput::outputLayers() const
+{
+    return m_layers | std::views::transform(&std::unique_ptr<OutputLayer>::get) | std::ranges::to<QList>();
 }
 
 } // namespace KWin

@@ -117,7 +117,6 @@ void TestDbusInterface::testGetWindowInfoXdgShellClient()
         {QStringLiteral("height"), window->height()},
         {QStringLiteral("desktops"), window->desktopIds()},
         {QStringLiteral("minimized"), false},
-        {QStringLiteral("shaded"), false},
         {QStringLiteral("fullscreen"), false},
         {QStringLiteral("keepAbove"), false},
         {QStringLiteral("keepBelow"), false},
@@ -185,7 +184,6 @@ void TestDbusInterface::testGetWindowInfoXdgShellClient()
     QVERIFY(window->skipSwitcher());
     QCOMPARE(verifyProperty(QStringLiteral("skipSwitcher")), true);
 
-    // not testing shaded as that's X11
     // not testing fullscreen, maximizeHorizontal, maximizeVertical and noBorder as those require window geometry changes
 
     const QList<VirtualDesktop *> desktops = VirtualDesktopManager::self()->desktops();
@@ -255,7 +253,6 @@ void TestDbusInterface::testGetWindowInfoX11Client()
         {QStringLiteral("height"), window->height()},
         {QStringLiteral("desktops"), window->desktopIds()},
         {QStringLiteral("minimized"), false},
-        {QStringLiteral("shaded"), false},
         {QStringLiteral("fullscreen"), false},
         {QStringLiteral("keepAbove"), false},
         {QStringLiteral("keepBelow"), false},
@@ -324,13 +321,6 @@ void TestDbusInterface::testGetWindowInfoX11Client()
     QVERIFY(window->skipSwitcher());
     QCOMPARE(verifyProperty(QStringLiteral("skipSwitcher")), true);
 
-    QVERIFY(!window->isShade());
-    window->setShade(ShadeNormal);
-    QVERIFY(window->isShade());
-    QCOMPARE(verifyProperty(QStringLiteral("shaded")), true);
-    window->setShade(ShadeNone);
-    QVERIFY(!window->isShade());
-
     QVERIFY(!window->noBorder());
     window->setNoBorder(true);
     QVERIFY(window->noBorder());
@@ -360,12 +350,11 @@ void TestDbusInterface::testGetWindowInfoX11Client()
 
     const auto id = window->internalId();
     // destroy the window
-    xcb_unmap_window(c.get(), windowId);
+    xcb_destroy_window(c.get(), windowId);
     xcb_flush(c.get());
 
     QSignalSpy windowClosedSpy(window, &X11Window::closed);
     QVERIFY(windowClosedSpy.wait());
-    xcb_destroy_window(c.get(), windowId);
     c.reset();
 
     reply = getWindowInfo(id);

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-06 02:50+0000\n"
+"POT-Creation-Date: 2025-09-25 02:40+0000\n"
 "PO-Revision-Date: 2011-07-26 23:05+0530\n"
 "Last-Translator: Danishka Navin <danishka@gmail.com>\n"
 "Language-Team: Sinhala <info@hanthana.org>\n"
@@ -58,9 +58,9 @@ msgstr ""
 
 #: layoutpreview.cpp:177
 #, fuzzy, kde-format
-#| msgid "All Desktops"
-msgid "Show Desktop"
-msgstr "සියළු වැඩතල"
+#| msgid "Current Desktop"
+msgid "Peek at Desktop"
+msgstr "වත්මන් වැඩතලය"
 
 #: layoutpreview.cpp:207
 #, fuzzy, kde-format
@@ -100,7 +100,7 @@ msgstr ""
 #: main.ui:41
 #, fuzzy, kde-format
 #| msgid "Include desktop"
-msgid "Include \"Show Desktop\" entry"
+msgid "Include \"Peek at Desktop\" entry"
 msgstr "වැඩතලයද ඇතුළුව"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, switchingModeCombo)
@@ -335,6 +335,11 @@ msgstr "කවුළු විකල්ප අතරින් ඇවිද ය�
 #| msgid "Walk Through Windows Alternative (Reverse)"
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
 msgstr "කවුළු විකල්ප අතරින් ඇවිද යාම (ආපසු)"
+
+#, fuzzy
+#~| msgid "All Desktops"
+#~ msgid "Show Desktop"
+#~ msgstr "සියළු වැඩතල"
 
 #, fuzzy
 #~| msgid "Show outline of selected window"

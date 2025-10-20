@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwintabbox\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-06 02:50+0000\n"
-"PO-Revision-Date: 2025-04-19 12:35+0200\n"
+"POT-Creation-Date: 2025-09-25 02:40+0000\n"
+"PO-Revision-Date: 2025-09-26 15:06+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -59,8 +59,8 @@ msgstr "Системни настройки"
 
 #: layoutpreview.cpp:177
 #, kde-format
-msgid "Show Desktop"
-msgstr "Показване на работния плот"
+msgid "Peek at Desktop"
+msgstr "Поглед върху работния плот"
 
 #: layoutpreview.cpp:207
 #, kde-format
@@ -100,8 +100,8 @@ msgstr "Съдържание"
 #. i18n: ectx: property (text), widget (QCheckBox, showDesktop)
 #: main.ui:41
 #, kde-format
-msgid "Include \"Show Desktop\" entry"
-msgstr "Включване на елемента \"Показване на работния плот\""
+msgid "Include \"Peek at Desktop\" entry"
+msgstr "Включване на елемента „Поглед върху работния плот“"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, switchingModeCombo)
 #: main.ui:55
@@ -323,3 +323,6 @@ msgstr "Алтернативно преминаване през прозорц�
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
 msgstr ""
 "Алтернативно преминаване през прозорци на текущото приложение (в обратен ред)"
+
+#~ msgid "Show Desktop"
+#~ msgstr "Показване на работния плот"

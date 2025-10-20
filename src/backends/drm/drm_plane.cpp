@@ -69,6 +69,8 @@ DrmPlane::DrmPlane(DrmGpu *gpu, uint32_t planeId)
     , vmHotspotY(this, QByteArrayLiteral("HOTSPOT_Y"))
     , inFenceFd(this, QByteArrayLiteral("IN_FENCE_FD"))
     , sizeHints(this, QByteArrayLiteral("SIZE_HINTS"))
+    , inFormatsForTearing(this, QByteArrayLiteral("IN_FORMATS_ASYNC"))
+    , zpos(this, QByteArrayLiteral("zpos"))
 {
 }
 
@@ -106,6 +108,8 @@ bool DrmPlane::updateProperties()
     vmHotspotY.update(props);
     inFenceFd.update(props);
     sizeHints.update(props);
+    inFormatsForTearing.update(props);
+    zpos.update(props);
 
     if (!type.isValid() || !srcX.isValid() || !srcY.isValid() || !srcW.isValid() || !srcH.isValid()
         || !crtcX.isValid() || !crtcY.isValid() || !crtcW.isValid() || !crtcH.isValid() || !fbId.isValid()) {
@@ -133,6 +137,11 @@ bool DrmPlane::updateProperties()
             m_supportedFormats.insert(DRM_FORMAT_XRGB8888, modifiers);
         }
     }
+    m_implicitModifierOnlyFormats.clear();
+    for (auto it = m_supportedFormats.begin(); it != m_supportedFormats.end(); it++) {
+        m_implicitModifierOnlyFormats.insert(it.key(), {DRM_FORMAT_MOD_INVALID});
+    }
+
     m_sizeHints.clear();
     if (sizeHints.isValid() && sizeHints.immutableBlob()) {
         // TODO switch to drm_plane_size_hint once we require libdrm 2.4.122
@@ -148,6 +157,16 @@ bool DrmPlane::updateProperties()
     }
     if (m_sizeHints.empty() && type.enumValue() == TypeIndex::Cursor) {
         m_sizeHints = {gpu()->cursorSize()};
+    }
+
+    if (inFormatsForTearing.isValid() && inFormatsForTearing.immutableBlob() && gpu()->addFB2ModifiersSupported()) {
+        m_supportedTearingFormats.clear();
+        drmModeFormatModifierIterator iterator{};
+        while (drmModeFormatModifierBlobIterNext(inFormatsForTearing.immutableBlob(), &iterator)) {
+            m_supportedTearingFormats[iterator.fmt].push_back(iterator.mod);
+        }
+    } else {
+        m_supportedTearingFormats = m_supportedFormats;
     }
     return true;
 }
@@ -170,9 +189,19 @@ bool DrmPlane::isCrtcSupported(int pipeIndex) const
     return (m_possibleCrtcs & (1 << pipeIndex));
 }
 
+QHash<uint32_t, QList<uint64_t>> DrmPlane::implicitModifierOnlyFormats() const
+{
+    return m_implicitModifierOnlyFormats;
+}
+
 QHash<uint32_t, QList<uint64_t>> DrmPlane::formats() const
 {
     return m_supportedFormats;
+}
+
+QHash<uint32_t, QList<uint64_t>> DrmPlane::tearingFormats() const
+{
+    return m_supportedTearingFormats;
 }
 
 std::shared_ptr<DrmFramebuffer> DrmPlane::currentBuffer() const
@@ -187,7 +216,7 @@ void DrmPlane::setCurrentBuffer(const std::shared_ptr<DrmFramebuffer> &b)
     }
 
     m_current = b;
-    if (b) {
+    if (b && !m_lastBuffers.contains(b->data())) {
         m_lastBuffers.prepend(b->data());
         m_lastBuffers.resize(4);
     }

@@ -252,7 +252,7 @@ void Connection::processEvents()
 
             connect(device, &Device::outputNameChanged, this, [this, device] {
                 // If the output name changes from something to empty we need to
-                // re-run the assignment heuristic so that an output is assinged
+                // re-run the assignment heuristic so that an output is assigned
                 if (device->outputName().isEmpty()) {
                     applyScreenToDevice(device);
                 }
@@ -566,6 +566,7 @@ void Connection::processEvents()
                                                        tabletEvent->position(),
                                                        tabletEvent->source() == LIBINPUT_TABLET_PAD_RING_SOURCE_FINGER,
                                                        tabletEvent->group(),
+                                                       tabletEvent->mode(),
                                                        tabletEvent->time(), tabletEvent->device());
             break;
         }
@@ -575,6 +576,7 @@ void Connection::processEvents()
                                                         tabletEvent->position(),
                                                         tabletEvent->source() == LIBINPUT_TABLET_PAD_STRIP_SOURCE_FINGER,
                                                         tabletEvent->group(),
+                                                        tabletEvent->mode(),
                                                         tabletEvent->time(), tabletEvent->device());
             break;
         }

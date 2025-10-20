@@ -48,10 +48,12 @@ private Q_SLOTS:
 
 private:
     QRect magnifierArea(QPointF pos = cursorPos()) const;
+    QRect visibleArea(QPointF pos = cursorPos()) const;
     void setTargetZoom(double zoomFactor);
 
     double m_zoom;
     double m_targetZoom;
+    double m_zoomFactor;
     std::chrono::milliseconds m_lastPresentTime;
     QSize m_magnifierSize;
     std::unique_ptr<GLTexture> m_texture;

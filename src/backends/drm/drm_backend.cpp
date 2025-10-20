@@ -91,17 +91,6 @@ Outputs DrmBackend::outputs() const
 
 bool DrmBackend::initialize()
 {
-    connect(m_session, &Session::aboutToSleep, this, [this]() {
-        for (auto output : std::as_const(m_outputs)) {
-            output->setDpmsMode(Output::DpmsMode::Off);
-        }
-    });
-    connect(m_session, &Session::awoke, this, [this]() {
-        // TODO make powerdevil do this instead
-        for (auto output : std::as_const(m_outputs)) {
-            output->setDpmsMode(Output::DpmsMode::On);
-        }
-    });
     connect(m_session, &Session::devicePaused, this, [this](dev_t deviceId) {
         if (const auto gpu = findGpu(deviceId)) {
             gpu->setActive(false);
@@ -242,6 +231,9 @@ DrmGpu *DrmBackend::addGpu(const QString &fileName)
     qCDebug(KWIN_DRM, "adding GPU %s", qPrintable(fileName));
     connect(gpu, &DrmGpu::outputAdded, this, &DrmBackend::addOutput);
     connect(gpu, &DrmGpu::outputRemoved, this, &DrmBackend::removeOutput);
+    if (m_renderBackend) {
+        gpu->createLayers();
+    }
     Q_EMIT gpuAdded(gpu);
     return gpu;
 }
@@ -442,6 +434,9 @@ OutputConfigurationError DrmBackend::applyOutputChanges(const OutputConfiguratio
             output->applyQueuedChanges(changeset);
         }
     }
+    for (const auto &gpu : m_gpus) {
+        gpu->releaseUnusedBuffers();
+    }
     // only then apply changes to the virtual outputs
     for (DrmVirtualOutput *output : std::as_const(m_virtualOutputs)) {
         output->applyChanges(config);
@@ -462,7 +457,7 @@ DrmRenderBackend *DrmBackend::renderBackend() const
 void DrmBackend::createLayers()
 {
     for (const auto &gpu : m_gpus) {
-        gpu->recreateSurfaces();
+        gpu->createLayers();
     }
     for (DrmVirtualOutput *virt : std::as_const(m_virtualOutputs)) {
         virt->recreateSurface();

@@ -1,19 +1,19 @@
 # Translation for kcm_kwindecoration.po to Euskara/Basque (eu).
-# Copyright (C) 2003-2024 This file is copyright:
+# Copyright (C) 2003-2025 This file is copyright:
 # This file is distributed under the same license as the kwin package.
-# SPDX-FileCopyrightText: 2024, 2025 KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>
+# SPDX-FileCopyrightText: 2024, 2025 KDE euskaratzeko proiektuaren arduraduna <xalba@ni.eus>
 #
 # Translators:
 # Marcos  <marcos@euskalgnu.org>, 2003, 2005, 2006, 2007.
 # Juan Irigoien <juanirigoien@irakasle.net>, 2004.
 # Asier Urio Larrea <asieriko@gmail.com>, 2008.
-# Iñigo Salvador Azurmendi <xalba@ni.eus>, 2011, 2014, 2018, 2019, 2021, 2023, 2024.
+# Iñigo Salvador Azurmendi <xalba@ni.eus>, 2011, 2014, 2018, 2019, 2021, 2023, 2024, 2025.
 # Hizkuntza Politikarako Sailburuordetza <hizpol@ej-gv.es>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-20 02:37+0000\n"
+"POT-Creation-Date: 2025-05-30 00:44+0000\n"
 "PO-Revision-Date: 2025-07-23 14:09+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -26,8 +26,8 @@ msgstr ""
 
 #: declarative-plugin/buttonsmodel.cpp:55
 #, kde-format
-msgid "More actions for this window"
-msgstr "Leiho honetarako ekintza gehiago"
+msgid "Window menu"
+msgstr "Leihoaren menua"
 
 #: declarative-plugin/buttonsmodel.cpp:57
 #, kde-format
@@ -186,14 +186,14 @@ msgstr "Titulu-barrako botoiak"
 #: ui/ConfigureTitlebar.qml:35
 #, kde-format
 msgctxt "checkbox label"
-msgid "Close windows by double clicking the menu button"
-msgstr "Itxi leihoak menu-botoian klik bikoitza eginez"
+msgid "Close windows by double clicking the window menu button"
+msgstr "Itxi leihoak menuaren botoian klik bikoitza eginez"
 
 #: ui/ConfigureTitlebar.qml:52
 #, kde-format
 msgctxt "popup tip"
-msgid "Click and hold on the menu button to show the menu."
-msgstr "Egin klik eta eutsi menu botoia menua erakusteko"
+msgid "Click and hold on the window menu button to show the menu."
+msgstr "Egin klik eta eutsi menuaren botoiaren gainean menua erakusteko."
 
 #: ui/ConfigureTitlebar.qml:59
 #, kde-format
@@ -268,6 +268,9 @@ msgstr "Leiho-ertz oso itzelak"
 #, kde-format
 msgid "Oversized window borders"
 msgstr "Neurriz kanpoko leiho-ertzak"
+
+#~ msgid "More actions for this window"
+#~ msgstr "Leiho honetarako ekintza gehiago"
 
 #~ msgid "Shade"
 #~ msgstr "Bildu"
@@ -426,10 +429,6 @@ msgstr "Neurriz kanpoko leiho-ertzak"
 
 #~ msgid "Help"
 #~ msgstr "Laguntza"
-
-#~ msgctxt "Button showing window actions menu"
-#~ msgid "Window Menu"
-#~ msgstr "Leiho-menua"
 
 #~ msgid "--- spacer ---"
 #~ msgstr "--- bereizgailua ---"

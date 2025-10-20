@@ -29,6 +29,7 @@ Dependencies:
     'plasma/plasma-activities': '@same'
     'plasma/kdecoration': '@same'
     'plasma/kglobalacceld': '@same'
+    'plasma/knighttime': '@same'
     'plasma/kpipewire': '@same'
     'plasma/kscreenlocker': '@same'
     'plasma/kwayland': '@same'
@@ -51,3 +52,4 @@ Options:
  cppcheck-ignore-files:
   - autotests
  require-passing-tests-on: ['Linux/Qt6']
+ run-qmllint: True

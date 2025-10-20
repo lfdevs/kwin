@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-20 02:37+0000\n"
-"PO-Revision-Date: 2024-09-18 13:00+0200\n"
+"POT-Creation-Date: 2025-05-30 00:44+0000\n"
+"PO-Revision-Date: 2025-05-31 07:46+0200\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -23,8 +23,8 @@ msgstr ""
 
 #: declarative-plugin/buttonsmodel.cpp:55
 #, kde-format
-msgid "More actions for this window"
-msgstr "Altre azioni per questa finestra"
+msgid "Window menu"
+msgstr "Menu della finestra"
 
 #: declarative-plugin/buttonsmodel.cpp:57
 #, kde-format
@@ -187,14 +187,17 @@ msgstr "Pulsanti della barra del titolo"
 #: ui/ConfigureTitlebar.qml:35
 #, kde-format
 msgctxt "checkbox label"
-msgid "Close windows by double clicking the menu button"
-msgstr "Chiudi le finestre con un doppio clic sul pulsante del menu"
+msgid "Close windows by double clicking the window menu button"
+msgstr ""
+"Chiudi le finestre con un doppio clic sul pulsante del menu della finestra"
 
 #: ui/ConfigureTitlebar.qml:52
 #, kde-format
 msgctxt "popup tip"
-msgid "Click and hold on the menu button to show the menu."
-msgstr "Fai clic e tieni premuto il pulsante del menu per visualizzarlo."
+msgid "Click and hold on the window menu button to show the menu."
+msgstr ""
+"Fai clic e tieni premuto il pulsante del menu della finestra per "
+"visualizzarlo."
 
 #: ui/ConfigureTitlebar.qml:59
 #, kde-format
@@ -269,6 +272,9 @@ msgstr "Dimensione del bordo giganti"
 #, kde-format
 msgid "Oversized window borders"
 msgstr "Bordi delle finestre sovradimensionati"
+
+#~ msgid "More actions for this window"
+#~ msgstr "Altre azioni per questa finestra"
 
 #~ msgid "Shade"
 #~ msgstr "Arrotola"
@@ -417,10 +423,6 @@ msgstr "Bordi delle finestre sovradimensionati"
 
 #~ msgid "Help"
 #~ msgstr "Aiuto"
-
-#~ msgctxt "Button showing window actions menu"
-#~ msgid "Window Menu"
-#~ msgstr "Menu della finestra"
 
 #~ msgid "--- spacer ---"
 #~ msgstr "—spazio—"

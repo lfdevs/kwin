@@ -1407,19 +1407,19 @@ void TestWaylandSeat::testKeyboard()
 
     std::chrono::milliseconds time(1);
     m_seatInterface->setTimestamp(time++);
-    m_seatInterface->notifyKeyboardKey(KEY_E, KeyboardKeyState::Released);
+    m_seatInterface->notifyKeyboardKey(KEY_E, KeyboardKeyState::Released, m_display->nextSerial());
     QVERIFY(keyChangedSpy.wait());
     m_seatInterface->setTimestamp(time++);
-    m_seatInterface->notifyKeyboardKey(KEY_D, KeyboardKeyState::Released);
+    m_seatInterface->notifyKeyboardKey(KEY_D, KeyboardKeyState::Released, m_display->nextSerial());
     QVERIFY(keyChangedSpy.wait());
     m_seatInterface->setTimestamp(time++);
-    m_seatInterface->notifyKeyboardKey(KEY_K, KeyboardKeyState::Released);
+    m_seatInterface->notifyKeyboardKey(KEY_K, KeyboardKeyState::Released, m_display->nextSerial());
     QVERIFY(keyChangedSpy.wait());
     m_seatInterface->setTimestamp(time++);
-    m_seatInterface->notifyKeyboardKey(KEY_F1, KeyboardKeyState::Pressed);
+    m_seatInterface->notifyKeyboardKey(KEY_F1, KeyboardKeyState::Pressed, m_display->nextSerial());
     QVERIFY(keyChangedSpy.wait());
     m_seatInterface->setTimestamp(time++);
-    m_seatInterface->notifyKeyboardKey(KEY_F1, KeyboardKeyState::Released);
+    m_seatInterface->notifyKeyboardKey(KEY_F1, KeyboardKeyState::Released, m_display->nextSerial());
     QVERIFY(keyChangedSpy.wait());
 
     QCOMPARE(keyChangedSpy.count(), 5);
@@ -1440,19 +1440,19 @@ void TestWaylandSeat::testKeyboard()
     QCOMPARE(keyChangedSpy.at(4).at(2).value<quint32>(), quint32(5));
 
     // releasing a key which is already released should not set a key changed
-    m_seatInterface->notifyKeyboardKey(KEY_F1, KeyboardKeyState::Released);
+    m_seatInterface->notifyKeyboardKey(KEY_F1, KeyboardKeyState::Released, m_display->nextSerial());
     QVERIFY(sync());
     QCOMPARE(keyChangedSpy.count(), 5);
     // let's press it again
-    m_seatInterface->notifyKeyboardKey(KEY_F1, KeyboardKeyState::Pressed);
+    m_seatInterface->notifyKeyboardKey(KEY_F1, KeyboardKeyState::Pressed, m_display->nextSerial());
     QVERIFY(keyChangedSpy.wait());
     QCOMPARE(keyChangedSpy.count(), 6);
     // press again should be ignored
-    m_seatInterface->notifyKeyboardKey(KEY_F1, KeyboardKeyState::Pressed);
+    m_seatInterface->notifyKeyboardKey(KEY_F1, KeyboardKeyState::Pressed, m_display->nextSerial());
     QVERIFY(sync());
     QCOMPARE(keyChangedSpy.count(), 6);
     // and release
-    m_seatInterface->notifyKeyboardKey(KEY_F1, KeyboardKeyState::Released);
+    m_seatInterface->notifyKeyboardKey(KEY_F1, KeyboardKeyState::Released, m_display->nextSerial());
     QVERIFY(keyChangedSpy.wait());
     QCOMPARE(keyChangedSpy.count(), 7);
 
@@ -1713,9 +1713,6 @@ void TestWaylandSeat::testTouch()
     QVERIFY(surfaceCreatedSpy.wait());
     SurfaceInterface *serverSurface = surfaceCreatedSpy.first().first().value<KWin::SurfaceInterface *>();
     QVERIFY(serverSurface);
-
-    // no keyboard yet
-    QCOMPARE(m_seatInterface->isSurfaceTouched(serverSurface), false);
 
     KWayland::Client::Touch *touch = m_seat->createTouch(m_seat);
     QVERIFY(touch->isValid());

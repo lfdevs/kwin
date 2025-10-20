@@ -100,24 +100,20 @@ bool PopupInputFilter::keyboardKey(KeyboardKeyEvent *event)
                                                        event->state == KeyboardKeyState::Repeated);
     } else if (qobject_cast<WaylandWindow *>(last)) {
         if (!passToInputMethod(event)) {
-            if (event->state == KeyboardKeyState::Repeated) {
-                return true;
-            }
-
             waylandServer()->seat()->setTimestamp(event->timestamp);
-            waylandServer()->seat()->notifyKeyboardKey(event->nativeScanCode, event->state);
+            waylandServer()->seat()->notifyKeyboardKey(event->nativeScanCode, event->state, event->serial);
         }
     }
 
     return true;
 }
 
-bool PopupInputFilter::touchDown(qint32 id, const QPointF &pos, std::chrono::microseconds time)
+bool PopupInputFilter::touchDown(TouchDownEvent *event)
 {
     if (m_popupWindows.isEmpty()) {
         return false;
     }
-    auto pointerFocus = input()->findToplevel(pos);
+    auto pointerFocus = input()->findToplevel(event->pos);
     if (!pointerFocus || !Window::belongToSameApplication(pointerFocus, m_popupWindows.constLast())) {
         // a touch on a window (or no window) not belonging to the popup window
         cancelPopups();
@@ -126,7 +122,7 @@ bool PopupInputFilter::touchDown(qint32 id, const QPointF &pos, std::chrono::mic
     }
     if (pointerFocus && pointerFocus->isDecorated()) {
         // test whether it is on the decoration
-        if (!exclusiveContains(pointerFocus->clientGeometry(), pos)) {
+        if (!exclusiveContains(pointerFocus->clientGeometry(), event->pos)) {
             cancelPopups();
             return true;
         }

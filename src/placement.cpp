@@ -48,6 +48,8 @@ std::optional<PlacementCommand> Placement::place(const Window *c, const QRectF &
         return placeOnScreenDisplay(c, area.toRect());
     } else if (c->isTransient() && c->surface()) {
         return placeDialog(c, area.toRect(), options->placement());
+    } else if (c->isPictureInPicture()) {
+        return placePictureInPicture(c, area.toRect());
     } else {
         return place(c, area, options->placement());
     }
@@ -138,7 +140,6 @@ static inline bool isIrrelevant(const Window *window, const Window *regarding, V
     return window == regarding
         || !window->isClient()
         || !window->isShown()
-        || window->isShade()
         || !window->isOnDesktop(desktop)
         || !window->isOnCurrentActivity()
         || window->isDesktop();
@@ -403,6 +404,35 @@ std::optional<PlacementCommand> Placement::placeDialog(const Window *c, const QR
     return placeOnMainWindow(c, area, nextPlacement);
 }
 
+std::optional<PlacementCommand> Placement::placePictureInPicture(const Window *c, const QRect &area)
+{
+    Q_ASSERT(area.isValid());
+
+    const QSizeF size = c->size();
+    if (size.isEmpty()) {
+        return std::nullopt;
+    }
+
+    const int margin = options->pictureInPictureMargin();
+    switch (options->pictureInPictureHomeCorner()) {
+    case Qt::TopLeftCorner:
+        return QPointF(area.x() + margin, area.y() + margin);
+
+    case Qt::TopRightCorner:
+        return QPointF(area.x() + area.width() - size.width() - margin, area.y() + margin);
+
+    case Qt::BottomRightCorner:
+        return QPointF(area.x() + area.width() - size.width() - margin,
+                       area.y() + area.height() - size.height() - margin);
+
+    case Qt::BottomLeftCorner:
+        return QPointF(area.x() + margin, area.y() + area.height() - size.height() - margin);
+    }
+
+    Q_UNREACHABLE();
+}
+
+
 std::optional<PlacementCommand> Placement::placeUnderMouse(const Window *c, const QRect &area, PlacementPolicy /*next*/)
 {
     const QSizeF size = c->size();
@@ -634,7 +664,7 @@ void Workspace::slotWindowExpandHorizontal()
 
 void Window::growHorizontal()
 {
-    if (!isResizable() || isShade()) {
+    if (!isResizable()) {
         return;
     }
     QRectF geom = moveResizeGeometry();
@@ -668,7 +698,7 @@ void Workspace::slotWindowShrinkHorizontal()
 
 void Window::shrinkHorizontal()
 {
-    if (!isResizable() || isShade()) {
+    if (!isResizable()) {
         return;
     }
     QRectF geom = moveResizeGeometry();
@@ -693,7 +723,7 @@ void Workspace::slotWindowExpandVertical()
 
 void Window::growVertical()
 {
-    if (!isResizable() || isShade()) {
+    if (!isResizable()) {
         return;
     }
     QRectF geom = moveResizeGeometry();
@@ -725,7 +755,7 @@ void Workspace::slotWindowShrinkVertical()
 
 void Window::shrinkVertical()
 {
-    if (!isResizable() || isShade()) {
+    if (!isResizable()) {
         return;
     }
     QRectF geom = moveResizeGeometry();

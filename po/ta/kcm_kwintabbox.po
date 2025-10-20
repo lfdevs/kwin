@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-06 02:50+0000\n"
+"POT-Creation-Date: 2025-09-25 02:40+0000\n"
 "PO-Revision-Date: 2025-04-13 18:02+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -57,9 +57,10 @@ msgid "System Settings"
 msgstr "கணினி அமைப்புகள்"
 
 #: layoutpreview.cpp:177
-#, kde-format
-msgid "Show Desktop"
-msgstr "பணிமேடையை காட்டு"
+#, fuzzy, kde-format
+#| msgid "Current desktop"
+msgid "Peek at Desktop"
+msgstr "தற்போதைய பணிமேடை"
 
 #: layoutpreview.cpp:207
 #, kde-format
@@ -96,8 +97,9 @@ msgstr "உள்ளடக்கம்"
 
 #. i18n: ectx: property (text), widget (QCheckBox, showDesktop)
 #: main.ui:41
-#, kde-format
-msgid "Include \"Show Desktop\" entry"
+#, fuzzy, kde-format
+#| msgid "Include \"Show Desktop\" entry"
+msgid "Include \"Peek at Desktop\" entry"
 msgstr "பணிமேடையை காட்டுவதற்கான பதிவை காட்டு"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, switchingModeCombo)
@@ -316,6 +318,9 @@ msgstr "தற்போதைய செயலியின் சாளரங்�
 #, kde-format
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
 msgstr "தற்போதைய செயலியின் சாளரங்களின் பட்டியலில் வேறுவிதமாக பின்னே செல்"
+
+#~ msgid "Show Desktop"
+#~ msgstr "பணிமேடையை காட்டு"
 
 #~ msgid "KWin"
 #~ msgstr "கேவின்"

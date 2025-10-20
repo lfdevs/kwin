@@ -58,6 +58,11 @@ MagnifierEffect::MagnifierEffect()
     }
 
     reconfigure(ReconfigureAll);
+
+    const double initialZoom = MagnifierConfig::initialZoom();
+    if (initialZoom > 1.0) {
+        setTargetZoom(initialZoom);
+    }
 }
 
 MagnifierEffect::~MagnifierEffect()
@@ -75,12 +80,18 @@ bool MagnifierEffect::supported()
 void MagnifierEffect::reconfigure(ReconfigureFlags)
 {
     MagnifierConfig::self()->read();
+
+    const QRect oldVisibleArea = visibleArea();
+
     int width, height;
     width = MagnifierConfig::width();
     height = MagnifierConfig::height();
     m_magnifierSize = QSize(width, height);
-    // Load the saved zoom value.
-    setTargetZoom(MagnifierConfig::initialZoom());
+    m_zoomFactor = MagnifierConfig::zoomFactor();
+
+    if (m_zoom > 1.0) {
+        effects->addRepaint(oldVisibleArea.united(visibleArea()));
+    }
 }
 
 void MagnifierEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseconds presentTime)
@@ -99,14 +110,16 @@ void MagnifierEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono::mill
         // zoom ended - delete FBO and texture
         m_fbo.reset();
         m_texture.reset();
-    } else if (!m_fbo) {
-        m_texture = GLTexture::allocate(GL_RGBA16F, m_magnifierSize);
-        if (!m_texture) {
-            effects->prePaintScreen(data, presentTime);
-            return;
+    } else if (!m_texture || m_texture->size() != m_magnifierSize) {
+        if (auto texture = GLTexture::allocate(GL_RGBA16F, m_magnifierSize)) {
+            texture->setWrapMode(GL_CLAMP_TO_EDGE);
+            texture->setFilter(GL_LINEAR);
+
+            if (auto fbo = std::make_unique<GLFramebuffer>(texture.get()); fbo->valid()) {
+                m_texture = std::move(texture);
+                m_fbo = std::move(fbo);
+            }
         }
-        m_texture->setContentTransform(OutputTransform());
-        m_fbo = std::make_unique<GLFramebuffer>(m_texture.get());
     }
 
     if (m_zoom != m_targetZoom) {
@@ -117,7 +130,7 @@ void MagnifierEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono::mill
 
     effects->prePaintScreen(data, presentTime);
     if (m_zoom != 1.0) {
-        data.paint += magnifierArea().adjusted(-FRAME_WIDTH, -FRAME_WIDTH, FRAME_WIDTH, FRAME_WIDTH);
+        data.paint += visibleArea();
     }
 }
 
@@ -191,8 +204,7 @@ void MagnifierEffect::paintScreen(const RenderTarget &renderTarget, const Render
 void MagnifierEffect::postPaintScreen()
 {
     if (m_zoom != m_targetZoom) {
-        QRect framedarea = magnifierArea().adjusted(-FRAME_WIDTH, -FRAME_WIDTH, FRAME_WIDTH, FRAME_WIDTH);
-        effects->addRepaint(framedarea);
+        effects->addRepaint(visibleArea());
     }
     effects->postPaintScreen();
 }
@@ -203,14 +215,19 @@ QRect MagnifierEffect::magnifierArea(QPointF pos) const
                  m_magnifierSize.width(), m_magnifierSize.height());
 }
 
+QRect MagnifierEffect::visibleArea(QPointF pos) const
+{
+    return magnifierArea(pos).adjusted(-FRAME_WIDTH, -FRAME_WIDTH, FRAME_WIDTH, FRAME_WIDTH);
+}
+
 void MagnifierEffect::zoomIn()
 {
-    setTargetZoom(m_targetZoom * 1.2);
+    setTargetZoom(m_targetZoom * m_zoomFactor);
 }
 
 void MagnifierEffect::zoomOut()
 {
-    setTargetZoom(m_targetZoom / 1.2);
+    setTargetZoom(m_targetZoom / m_zoomFactor);
 }
 
 void MagnifierEffect::toggle()
@@ -269,13 +286,7 @@ void MagnifierEffect::setTargetZoom(double zoomFactor)
     }
 
     m_targetZoom = effectiveTargetZoom;
-    if (m_targetZoom == 1.0 && m_zoom == 1.0 && m_fbo) {
-        effects->makeOpenGLContextCurrent();
-        m_fbo.reset();
-        m_texture.reset();
-    }
-
-    effects->addRepaint(magnifierArea().adjusted(-FRAME_WIDTH, -FRAME_WIDTH, FRAME_WIDTH, FRAME_WIDTH));
+    effects->addRepaint(visibleArea());
 }
 
 } // namespace

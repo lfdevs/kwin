@@ -154,6 +154,7 @@ public:
     {
         return !planes.isEmpty();
     }
+    QVarLengthArray<GLTexture *, 4> toVarLengthArray() const;
 
     QList<std::shared_ptr<GLTexture>> planes;
 };
@@ -209,5 +210,15 @@ protected:
     SurfacePixmap *m_pixmap;
     QImage m_image;
 };
+
+inline QVarLengthArray<GLTexture *, 4> OpenGLSurfaceContents::toVarLengthArray() const
+{
+    Q_ASSERT(planes.size() <= 4);
+    QVarLengthArray<GLTexture *, 4> ret;
+    for (const auto &plane : planes) {
+        ret << plane.get();
+    }
+    return ret;
+}
 
 } // namespace KWin

@@ -1,3 +1,12 @@
+kwin (4:6.5.0-0ubuntu1) resolute; urgency=medium
+
+  * New upstream release (6.5.0)
+  * Bump plasma-wayland-protocols bd to 1.19.0
+  * New build dep on knighttime-dev.
+  * Update install files.
+
+ -- Rik Mills <rikmills@kde.org>  Mon, 20 Oct 2025 18:37:22 +0100
+
 kwin (4:6.4.5-0ubuntu3) questing; urgency=medium
 
   * No-change rebuild for Qt 6.9.2 private ABI.
@@ -194,7 +203,7 @@ kwin (4:6.2.91-0ubuntu2) plucky; urgency=medium
 
 kwin (4:6.2.91-0ubuntu1) plucky; urgency=medium
 
-  * New upstream (beta) release (6.2.91)
+  * New upstream release (6.2.91)
 
  -- Rik Mills <rikmills@kde.org>  Thu, 23 Jan 2025 13:41:54 +0000
 
@@ -210,7 +219,7 @@ kwin (4:6.2.90-1) experimental; urgency=medium
 
 kwin (4:6.2.90-0ubuntu1) plucky; urgency=medium
 
-  * New upstream (beta) release (6.2.90)
+  * New upstream release (6.2.90)
   * Switch kdecorations build dep to libkdecorations3-dev
   * Update install files.
 

@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-20 02:37+0000\n"
+"POT-Creation-Date: 2025-05-30 00:44+0000\n"
 "PO-Revision-Date: 2025-05-31 11:01+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -28,8 +28,8 @@ msgstr ""
 
 #: declarative-plugin/buttonsmodel.cpp:55
 #, kde-format
-msgid "More actions for this window"
-msgstr "إجراءات أكثر لهذه النافذة"
+msgid "Window menu"
+msgstr "قائمة النافذة"
 
 #: declarative-plugin/buttonsmodel.cpp:57
 #, kde-format
@@ -181,14 +181,14 @@ msgstr "أزرار شريط العنوان"
 #: ui/ConfigureTitlebar.qml:35
 #, kde-format
 msgctxt "checkbox label"
-msgid "Close windows by double clicking the menu button"
-msgstr "أغلق النّوافذ بنقر مزدوج على زر القائمة"
+msgid "Close windows by double clicking the window menu button"
+msgstr "أغلق النّوافذ بالنقر المزدوج على زر قائمة النافذة"
 
 #: ui/ConfigureTitlebar.qml:52
 #, kde-format
 msgctxt "popup tip"
-msgid "Click and hold on the menu button to show the menu."
-msgstr "انقر وامسك على زر القائمة لإظهار القائمة"
+msgid "Click and hold on the window menu button to show the menu."
+msgstr "انقر وامسك على زر قائمة النافذة لإظهار القائمة"
 
 #: ui/ConfigureTitlebar.qml:59
 #, kde-format
@@ -264,6 +264,9 @@ msgstr "حدود ضخمة جداً للنوافذ"
 msgid "Oversized window borders"
 msgstr "حدود عملاقة للنوافذ"
 
+#~ msgid "More actions for this window"
+#~ msgstr "إجراءات أكثر لهذه النافذة"
+
 #~ msgid "Shade"
 #~ msgstr "ظلّل"
 
@@ -305,9 +308,6 @@ msgstr "حدود عملاقة للنوافذ"
 #~ msgctxt "EMAIL OF TRANSLATORS"
 #~ msgid "Your emails"
 #~ msgstr "metehyi@free.fr ,zayed.alsaidi@gmail.com"
-
-#~ msgid "Window Decorations"
-#~ msgstr "زخارف النوافذ"
 
 #~ msgid "Valerio Pilo"
 #~ msgstr "Valerio Pilo"

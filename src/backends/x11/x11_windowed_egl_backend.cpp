@@ -21,7 +21,7 @@ namespace KWin
 {
 
 X11WindowedEglPrimaryLayer::X11WindowedEglPrimaryLayer(X11WindowedEglBackend *backend, X11WindowedOutput *output)
-    : OutputLayer(output)
+    : OutputLayer(output, OutputLayerType::Primary)
     , m_output(output)
     , m_backend(backend)
 {
@@ -70,49 +70,10 @@ bool X11WindowedEglPrimaryLayer::doEndFrame(const QRegion &renderedRegion, const
 {
     m_query->end();
     frame->addRenderTimeQuery(std::move(m_query));
-    return true;
-}
-
-void X11WindowedEglPrimaryLayer::present()
-{
-    if (!m_buffer) {
-        return;
-    }
-
-    xcb_pixmap_t pixmap = m_output->importBuffer(m_buffer->buffer());
-    Q_ASSERT(pixmap != XCB_PIXMAP_NONE);
-
-    xcb_xfixes_region_t valid = 0;
-    xcb_xfixes_region_t update = 0;
-    uint32_t serial = 0;
-    uint32_t options = 0;
-    uint64_t targetMsc = 0;
-
-    xcb_present_pixmap(m_output->backend()->connection(),
-                       m_output->window(),
-                       pixmap,
-                       serial,
-                       valid,
-                       update,
-                       0,
-                       0,
-                       XCB_NONE,
-                       XCB_NONE,
-                       XCB_NONE,
-                       options,
-                       targetMsc,
-                       0,
-                       0,
-                       0,
-                       nullptr);
-
     EGLNativeFence releaseFence{m_backend->eglDisplayObject()};
     m_swapchain->release(m_buffer, releaseFence.fileDescriptor().duplicate());
-}
-
-std::shared_ptr<GLTexture> X11WindowedEglPrimaryLayer::texture() const
-{
-    return m_buffer->texture();
+    m_output->setPrimaryBuffer(m_buffer->buffer());
+    return true;
 }
 
 DrmDevice *X11WindowedEglPrimaryLayer::scanoutDevice() const
@@ -125,8 +86,14 @@ QHash<uint32_t, QList<uint64_t>> X11WindowedEglPrimaryLayer::supportedDrmFormats
     return m_backend->backend()->driFormats();
 }
 
+void X11WindowedEglPrimaryLayer::releaseBuffers()
+{
+    m_buffer.reset();
+    m_swapchain.reset();
+}
+
 X11WindowedEglCursorLayer::X11WindowedEglCursorLayer(X11WindowedEglBackend *backend, X11WindowedOutput *output)
-    : OutputLayer(output)
+    : OutputLayer(output, OutputLayerType::CursorOnly)
     , m_backend(backend)
 {
 }
@@ -144,8 +111,7 @@ std::optional<OutputLayerBeginFrameInfo> X11WindowedEglCursorLayer::doBeginFrame
         return std::nullopt;
     }
 
-    const auto tmp = targetRect().size().expandedTo(QSize(64, 64));
-    const QSize bufferSize(std::ceil(tmp.width()), std::ceil(tmp.height()));
+    const auto bufferSize = targetRect().size();
     if (!m_texture || m_texture->size() != bufferSize) {
         m_texture = GLTexture::allocate(GL_RGBA8, bufferSize);
         if (!m_texture) {
@@ -172,7 +138,7 @@ bool X11WindowedEglCursorLayer::doEndFrame(const QRegion &renderedRegion, const 
     context->glReadnPixels(0, 0, buffer.width(), buffer.height(), GL_RGBA, GL_UNSIGNED_BYTE, buffer.sizeInBytes(), buffer.bits());
     GLFramebuffer::popFramebuffer();
 
-    static_cast<X11WindowedOutput *>(m_output)->cursor()->update(buffer.mirrored(false, true), hotspot());
+    static_cast<X11WindowedOutput *>(m_output.get())->cursor()->update(buffer.mirrored(false, true), hotspot());
     m_query->end();
     if (frame) {
         frame->addRenderTimeQuery(std::move(m_query));
@@ -191,6 +157,10 @@ QHash<uint32_t, QList<uint64_t>> X11WindowedEglCursorLayer::supportedDrmFormats(
     return m_backend->supportedFormats();
 }
 
+void X11WindowedEglCursorLayer::releaseBuffers()
+{
+}
+
 X11WindowedEglBackend::X11WindowedEglBackend(X11WindowedBackend *backend)
     : m_backend(backend)
 {
@@ -198,7 +168,10 @@ X11WindowedEglBackend::X11WindowedEglBackend(X11WindowedBackend *backend)
 
 X11WindowedEglBackend::~X11WindowedEglBackend()
 {
-    m_outputs.clear();
+    const auto outputs = m_backend->outputs();
+    for (Output *output : outputs) {
+        static_cast<X11WindowedOutput *>(output)->setOutputLayers({});
+    }
     cleanup();
 }
 
@@ -262,38 +235,16 @@ void X11WindowedEglBackend::init()
     const auto &outputs = m_backend->outputs();
     for (const auto &output : outputs) {
         X11WindowedOutput *x11Output = static_cast<X11WindowedOutput *>(output);
-        m_outputs[output] = Layers{
-            .primaryLayer = std::make_unique<X11WindowedEglPrimaryLayer>(this, x11Output),
-            .cursorLayer = std::make_unique<X11WindowedEglCursorLayer>(this, x11Output),
-        };
+        std::vector<std::unique_ptr<OutputLayer>> layers;
+        layers.push_back(std::make_unique<X11WindowedEglPrimaryLayer>(this, x11Output));
+        layers.push_back(std::make_unique<X11WindowedEglCursorLayer>(this, x11Output));
+        x11Output->setOutputLayers(std::move(layers));
     }
 }
 
-bool X11WindowedEglBackend::present(Output *output, const std::shared_ptr<OutputFrame> &frame)
+QList<OutputLayer *> X11WindowedEglBackend::compatibleOutputLayers(Output *output)
 {
-    m_outputs[output].primaryLayer->present();
-    Q_EMIT static_cast<X11WindowedOutput *>(output)->outputChange(frame->damage());
-    static_cast<X11WindowedOutput *>(output)->framePending(frame);
-    return true;
-}
-
-OutputLayer *X11WindowedEglBackend::primaryLayer(Output *output)
-{
-    return m_outputs[output].primaryLayer.get();
-}
-
-OutputLayer *X11WindowedEglBackend::cursorLayer(Output *output)
-{
-    return m_outputs[output].cursorLayer.get();
-}
-
-std::pair<std::shared_ptr<GLTexture>, ColorDescription> X11WindowedEglBackend::textureForOutput(Output *output) const
-{
-    auto it = m_outputs.find(output);
-    if (it == m_outputs.end()) {
-        return {nullptr, ColorDescription::sRGB};
-    }
-    return std::make_pair(it->second.primaryLayer->texture(), ColorDescription::sRGB);
+    return static_cast<X11WindowedOutput *>(output)->outputLayers();
 }
 
 } // namespace

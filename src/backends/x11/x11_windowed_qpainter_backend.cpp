@@ -23,7 +23,7 @@ namespace KWin
 {
 
 X11WindowedQPainterPrimaryLayer::X11WindowedQPainterPrimaryLayer(X11WindowedOutput *output, X11WindowedQPainterBackend *backend)
-    : OutputLayer(output)
+    : OutputLayer(output, OutputLayerType::Primary)
     , m_output(output)
     , m_backend(backend)
 {
@@ -59,37 +59,8 @@ bool X11WindowedQPainterPrimaryLayer::doEndFrame(const QRegion &renderedRegion, 
 {
     m_renderTime->end();
     frame->addRenderTimeQuery(std::move(m_renderTime));
+    m_output->setPrimaryBuffer(m_current->buffer());
     return true;
-}
-
-void X11WindowedQPainterPrimaryLayer::present()
-{
-    xcb_pixmap_t pixmap = m_output->importBuffer(m_current->buffer());
-    Q_ASSERT(pixmap != XCB_PIXMAP_NONE);
-
-    xcb_xfixes_region_t valid = 0;
-    xcb_xfixes_region_t update = 0;
-    uint32_t serial = 0;
-    uint32_t options = 0;
-    uint64_t targetMsc = 0;
-
-    xcb_present_pixmap(m_output->backend()->connection(),
-                       m_output->window(),
-                       pixmap,
-                       serial,
-                       valid,
-                       update,
-                       0,
-                       0,
-                       XCB_NONE,
-                       XCB_NONE,
-                       XCB_NONE,
-                       options,
-                       targetMsc,
-                       0,
-                       0,
-                       0,
-                       nullptr);
 }
 
 DrmDevice *X11WindowedQPainterPrimaryLayer::scanoutDevice() const
@@ -102,16 +73,21 @@ QHash<uint32_t, QList<uint64_t>> X11WindowedQPainterPrimaryLayer::supportedDrmFo
     return m_backend->supportedFormats();
 }
 
+void X11WindowedQPainterPrimaryLayer::releaseBuffers()
+{
+    m_current.reset();
+    m_swapchain.reset();
+}
+
 X11WindowedQPainterCursorLayer::X11WindowedQPainterCursorLayer(X11WindowedOutput *output)
-    : OutputLayer(output)
+    : OutputLayer(output, OutputLayerType::CursorOnly)
     , m_output(output)
 {
 }
 
 std::optional<OutputLayerBeginFrameInfo> X11WindowedQPainterCursorLayer::doBeginFrame()
 {
-    const auto tmp = targetRect().size().expandedTo(QSize(64, 64));
-    const QSize bufferSize(std::ceil(tmp.width()), std::ceil(tmp.height()));
+    const auto bufferSize = targetRect().size();
     if (m_buffer.size() != bufferSize) {
         m_buffer = QImage(bufferSize, QImage::Format_ARGB32_Premultiplied);
     }
@@ -143,6 +119,10 @@ QHash<uint32_t, QList<uint64_t>> X11WindowedQPainterCursorLayer::supportedDrmFor
     return {{DRM_FORMAT_ARGB8888, {DRM_FORMAT_MOD_LINEAR}}};
 }
 
+void X11WindowedQPainterCursorLayer::releaseBuffers()
+{
+}
+
 X11WindowedQPainterBackend::X11WindowedQPainterBackend(X11WindowedBackend *backend)
     : QPainterBackend()
     , m_backend(backend)
@@ -154,26 +134,23 @@ X11WindowedQPainterBackend::X11WindowedQPainterBackend(X11WindowedBackend *backe
     }
 
     connect(backend, &X11WindowedBackend::outputAdded, this, &X11WindowedQPainterBackend::addOutput);
-    connect(backend, &X11WindowedBackend::outputRemoved, this, &X11WindowedQPainterBackend::removeOutput);
 }
 
 X11WindowedQPainterBackend::~X11WindowedQPainterBackend()
 {
-    m_outputs.clear();
+    const auto outputs = m_backend->outputs();
+    for (Output *output : outputs) {
+        static_cast<X11WindowedOutput *>(output)->setOutputLayers({});
+    }
 }
 
 void X11WindowedQPainterBackend::addOutput(Output *output)
 {
     X11WindowedOutput *x11Output = static_cast<X11WindowedOutput *>(output);
-    m_outputs[output] = Layers{
-        .primaryLayer = std::make_unique<X11WindowedQPainterPrimaryLayer>(x11Output, this),
-        .cursorLayer = std::make_unique<X11WindowedQPainterCursorLayer>(x11Output),
-    };
-}
-
-void X11WindowedQPainterBackend::removeOutput(Output *output)
-{
-    m_outputs.erase(output);
+    std::vector<std::unique_ptr<OutputLayer>> layers;
+    layers.push_back(std::make_unique<X11WindowedQPainterPrimaryLayer>(x11Output, this));
+    layers.push_back(std::make_unique<X11WindowedQPainterCursorLayer>(x11Output));
+    x11Output->setOutputLayers(std::move(layers));
 }
 
 GraphicsBufferAllocator *X11WindowedQPainterBackend::graphicsBufferAllocator() const
@@ -181,21 +158,9 @@ GraphicsBufferAllocator *X11WindowedQPainterBackend::graphicsBufferAllocator() c
     return m_allocator.get();
 }
 
-bool X11WindowedQPainterBackend::present(Output *output, const std::shared_ptr<OutputFrame> &frame)
+QList<OutputLayer *> X11WindowedQPainterBackend::compatibleOutputLayers(Output *output)
 {
-    m_outputs[output].primaryLayer->present();
-    static_cast<X11WindowedOutput *>(output)->framePending(frame);
-    return true;
-}
-
-OutputLayer *X11WindowedQPainterBackend::primaryLayer(Output *output)
-{
-    return m_outputs[output].primaryLayer.get();
-}
-
-OutputLayer *X11WindowedQPainterBackend::cursorLayer(Output *output)
-{
-    return m_outputs[output].cursorLayer.get();
+    return static_cast<X11WindowedOutput *>(output)->outputLayers();
 }
 
 }

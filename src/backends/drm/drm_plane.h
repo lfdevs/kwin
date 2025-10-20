@@ -37,7 +37,9 @@ public:
     void disable(DrmAtomicCommit *commit) override;
 
     bool isCrtcSupported(int pipeIndex) const;
+    QHash<uint32_t, QList<uint64_t>> implicitModifierOnlyFormats() const;
     QHash<uint32_t, QList<uint64_t>> formats() const;
+    QHash<uint32_t, QList<uint64_t>> tearingFormats() const;
     bool supportsTransformation(OutputTransform transform) const;
 
     std::shared_ptr<DrmFramebuffer> currentBuffer() const;
@@ -100,12 +102,16 @@ public:
     DrmProperty vmHotspotY;
     DrmProperty inFenceFd;
     DrmProperty sizeHints;
+    DrmProperty inFormatsForTearing;
+    DrmProperty zpos;
 
 private:
     std::shared_ptr<DrmFramebuffer> m_current;
     QList<std::shared_ptr<DrmFramebufferData>> m_lastBuffers;
 
     QHash<uint32_t, QList<uint64_t>> m_supportedFormats;
+    QHash<uint32_t, QList<uint64_t>> m_implicitModifierOnlyFormats;
+    QHash<uint32_t, QList<uint64_t>> m_supportedTearingFormats;
     uint32_t m_possibleCrtcs = 0;
     QList<QSize> m_sizeHints;
 };

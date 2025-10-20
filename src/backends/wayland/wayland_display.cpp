@@ -39,6 +39,7 @@
 #include "wayland-pointer-gestures-unstable-v1-server-protocol.h"
 #include "wayland-presentation-time-client-protocol.h"
 #include "wayland-relative-pointer-unstable-v1-client-protocol.h"
+#include "wayland-single-pixel-buffer-v1-client-protocol.h"
 #include "wayland-tearing-control-v1-client-protocol.h"
 #include "wayland-viewporter-client-protocol.h"
 #include "wayland-xdg-decoration-unstable-v1-client-protocol.h"
@@ -329,6 +330,7 @@ WaylandDisplay::~WaylandDisplay()
     m_eventThread.reset();
 
     m_compositor.reset();
+    m_subCompositor.reset();
     m_pointerConstraints.reset();
     m_pointerGestures.reset();
     m_relativePointerManager.reset();
@@ -352,6 +354,9 @@ WaylandDisplay::~WaylandDisplay()
     }
     if (m_viewporter) {
         wp_viewporter_destroy(m_viewporter);
+    }
+    if (m_singlePixelManager) {
+        wp_single_pixel_buffer_manager_v1_destroy(m_singlePixelManager);
     }
     if (m_registry) {
         wl_registry_destroy(m_registry);
@@ -386,6 +391,34 @@ bool WaylandDisplay::initialize(const QString &socketName)
     wl_display_roundtrip(m_display);
     wl_display_roundtrip(m_display); // get dmabuf formats
 
+    if (!m_compositor) {
+        qCWarning(KWIN_WAYLAND_BACKEND, "wl_compositor isn't supported by the host compositor");
+        return false;
+    }
+    if (!m_subCompositor) {
+        qCWarning(KWIN_WAYLAND_BACKEND, "wl_subcompositor isn't supported by the host compositor");
+        return false;
+    }
+    if (!m_xdgShell) {
+        qCWarning(KWIN_WAYLAND_BACKEND, "xdg_shell isn't supported by the host compositor");
+        return false;
+    }
+    if (!m_singlePixelManager) {
+        qCWarning(KWIN_WAYLAND_BACKEND, "wp_single_pixel_buffer_manager_v1 isn't supported by the host compositor");
+        return false;
+    }
+    if (!m_viewporter) {
+        qCWarning(KWIN_WAYLAND_BACKEND, "wp_viewporter isn't supported by the host compositor");
+        return false;
+    }
+    if (!m_seat) {
+        qCWarning(KWIN_WAYLAND_BACKEND, "wl_seat isn't supported by the host compositor");
+        return false;
+    }
+    if (!m_pointerConstraints) {
+        qCWarning(KWIN_WAYLAND_BACKEND, "zwp_pointer_constraints_v1 isn't supported by the host compositor");
+        return false;
+    }
     return true;
 }
 
@@ -397,6 +430,11 @@ wl_display *WaylandDisplay::nativeDisplay() const
 KWayland::Client::Compositor *WaylandDisplay::compositor() const
 {
     return m_compositor.get();
+}
+
+KWayland::Client::SubCompositor *WaylandDisplay::subCompositor() const
+{
+    return m_subCompositor.get();
 }
 
 KWayland::Client::PointerConstraints *WaylandDisplay::pointerConstraints() const
@@ -464,6 +502,11 @@ wp_fractional_scale_manager_v1 *WaylandDisplay::fractionalScale() const
     return m_fractionalScaleV1;
 }
 
+wp_single_pixel_buffer_manager_v1 *WaylandDisplay::singlePixelManager() const
+{
+    return m_singlePixelManager;
+}
+
 void WaylandDisplay::registry_global(void *data, wl_registry *registry, uint32_t name, const char *interface, uint32_t version)
 {
     WaylandDisplay *display = static_cast<WaylandDisplay *>(data);
@@ -502,8 +545,8 @@ void WaylandDisplay::registry_global(void *data, wl_registry *registry, uint32_t
         display->m_linuxDmabuf = std::make_unique<WaylandLinuxDmabufV1>(registry, name, std::min(version, 4u));
     } else if (strcmp(interface, wp_presentation_interface.name) == 0) {
         display->m_presentationTime = reinterpret_cast<wp_presentation *>(wl_registry_bind(registry, name, &wp_presentation_interface, std::min(version, 2u)));
-    } else if (strcmp(interface, wp_tearing_control_v1_interface.name) == 0) {
-        display->m_tearingControl = reinterpret_cast<wp_tearing_control_manager_v1 *>(wl_registry_bind(registry, name, &wp_tearing_control_v1_interface, 1));
+    } else if (strcmp(interface, wp_tearing_control_manager_v1_interface.name) == 0) {
+        display->m_tearingControl = reinterpret_cast<wp_tearing_control_manager_v1 *>(wl_registry_bind(registry, name, &wp_tearing_control_manager_v1_interface, 1));
     } else if (strcmp(interface, wp_color_manager_v1_interface.name) == 0) {
         const auto global = reinterpret_cast<wp_color_manager_v1 *>(wl_registry_bind(registry, name, &wp_color_manager_v1_interface, 1));
         display->m_colorManager = std::make_unique<ColorManager>(global);
@@ -511,6 +554,11 @@ void WaylandDisplay::registry_global(void *data, wl_registry *registry, uint32_t
         display->m_fractionalScaleV1 = reinterpret_cast<wp_fractional_scale_manager_v1 *>(wl_registry_bind(registry, name, &wp_fractional_scale_manager_v1_interface, 1));
     } else if (strcmp(interface, wp_viewporter_interface.name) == 0) {
         display->m_viewporter = reinterpret_cast<wp_viewporter *>(wl_registry_bind(registry, name, &wp_viewporter_interface, 1));
+    } else if (strcmp(interface, wl_subcompositor_interface.name) == 0) {
+        display->m_subCompositor = std::make_unique<KWayland::Client::SubCompositor>();
+        display->m_subCompositor->setup(static_cast<wl_subcompositor *>(wl_registry_bind(registry, name, &wl_subcompositor_interface, 1)));
+    } else if (strcmp(interface, wp_single_pixel_buffer_manager_v1_interface.name) == 0) {
+        display->m_singlePixelManager = reinterpret_cast<wp_single_pixel_buffer_manager_v1 *>(wl_registry_bind(registry, name, &wp_single_pixel_buffer_manager_v1_interface, 1));
     }
 }
 

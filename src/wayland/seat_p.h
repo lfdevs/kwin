@@ -43,8 +43,6 @@ public:
     void registerPrimarySelectionDevice(PrimarySelectionDeviceV1Interface *primarySelectionDevice);
     void registerDataDevice(DataDeviceInterface *dataDevice);
     void registerDataControlDevice(DataControlDeviceV1Interface *dataDevice);
-    void endDrag();
-    void cancelDrag();
     bool dragInhibitsPointer(SurfaceInterface *surface) const;
 
     SeatInterface *q;
@@ -55,6 +53,7 @@ public:
     std::unique_ptr<KeyboardInterface> keyboard;
     std::unique_ptr<PointerInterface> pointer;
     std::unique_ptr<TouchInterface> touch;
+    std::map<qint32, std::unique_ptr<TouchPoint>> touchPoints;
     QList<DataDeviceInterface *> dataDevices;
     QList<PrimarySelectionDeviceV1Interface *> primarySelectionDevices;
     QList<DataControlDeviceV1Interface *> dataControlDevices;
@@ -112,49 +111,27 @@ public:
     };
     Keyboard globalKeyboard;
 
-    // Touch related members
-    struct Touch
-    {
-        struct Interaction
-        {
-            Interaction()
-            {
-            }
-            Q_DISABLE_COPY(Interaction)
-
-            ~Interaction()
-            {
-                QObject::disconnect(destroyConnection);
-            }
-
-            SurfaceInterface *surface = nullptr;
-            QMetaObject::Connection destroyConnection;
-            QPointF firstTouchPos;
-            uint refs = 0;
-        };
-        std::unordered_map<SurfaceInterface *, std::unique_ptr<Interaction>> focus;
-
-        std::map<qint32, std::unique_ptr<TouchPoint>> ids;
-    };
-    Touch globalTouch;
-
     struct Drag
     {
         enum class Mode {
             None,
             Pointer,
             Touch,
+            Tablet,
         };
         Mode mode = Mode::None;
         AbstractDataSource *source = nullptr;
         QPointer<SurfaceInterface> surface;
         QPointer<AbstractDropHandler> target;
         QPointer<DragAndDropIcon> dragIcon;
+        QPointF position;
         QMatrix4x4 transformation;
         std::optional<quint32> dragImplicitGrabSerial;
         QMetaObject::Connection dragSourceDestroyConnection;
     };
     Drag drag;
+
+    bool startDrag(Drag::Mode mode, AbstractDataSource *source, SurfaceInterface *sourceSurface, const QPointF &position, const QMatrix4x4 &inputTransformation, quint32 dragSerial, DragAndDropIcon *dragIcon);
 
 protected:
     void seat_bind_resource(Resource *resource) override;

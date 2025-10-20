@@ -449,6 +449,29 @@ Device::Device(libinput_device *device, QObject *parent)
     libinput_device_group *group = libinput_device_get_device_group(device);
     m_deviceGroupId = QCryptographicHash::hash(QString::asprintf("%p", group).toLatin1(), QCryptographicHash::Sha1).toBase64();
 
+    const int numGroups = libinput_device_tablet_pad_get_num_mode_groups(m_device);
+    m_currentModes.reserve(numGroups);
+
+    for (int groupIndex = 0; groupIndex < numGroups; ++groupIndex) {
+        const auto modeGroup = libinput_device_tablet_pad_get_mode_group(m_device, groupIndex);
+        m_currentModes.push_back(libinput_tablet_pad_mode_group_get_mode(modeGroup));
+    }
+
+    connect(this, &Device::tabletPadButtonEvent, this, [this](uint, bool, quint32 group, quint32 mode, bool isModeSwitch, std::chrono::microseconds, InputDevice *) {
+        Q_ASSERT(group < m_currentModes.length());
+        m_currentModes[group] = mode;
+        Q_EMIT currentModesChanged();
+    });
+
+    const auto udevDevice = libinput_device_get_udev_device(m_device);
+    if (udevDevice != nullptr) {
+        const auto devPath = udev_device_get_devpath(udevDevice);
+
+        // In UDev, all virtual uinput devices have a devpath start with /devices/virtual
+        m_isVirtual = strstr(devPath, "/devices/virtual/") != nullptr;
+        udev_device_unref(udevDevice);
+    }
+
     QDBusConnection::sessionBus().registerObject(QStringLiteral("/org/kde/KWin/InputDevice/") + m_sysName,
                                                  QStringLiteral("org.kde.KWin.InputDevice"),
                                                  this,
@@ -620,6 +643,21 @@ void *Device::group() const
 int Device::tabletPadButtonCount() const
 {
     return libinput_device_tablet_pad_get_num_buttons(m_device);
+}
+
+int Device::tabletPadDialCount() const
+{
+    return libinput_device_tablet_pad_get_num_dials(m_device);
+}
+
+int Device::tabletPadRingCount() const
+{
+    return libinput_device_tablet_pad_get_num_rings(m_device);
+}
+
+int Device::tabletPadStripCount() const
+{
+    return libinput_device_tablet_pad_get_num_strips(m_device);
 }
 
 QList<InputDeviceTabletPadModeGroup> Device::modeGroups() const
@@ -1111,6 +1149,24 @@ void Device::setTabletToolRelative(bool relative)
     Q_EMIT tabletToolRelativeChanged();
 }
 
+QList<unsigned int> Device::numModes() const
+{
+    const int numGroups = libinput_device_tablet_pad_get_num_mode_groups(m_device);
+
+    QList<unsigned int> numModes;
+    numModes.reserve(numGroups);
+
+    for (int groupIndex = 0; groupIndex < numGroups; ++groupIndex) {
+        numModes.push_back(libinput_tablet_pad_mode_group_get_num_modes(libinput_device_tablet_pad_get_mode_group(m_device, groupIndex)));
+    }
+    return numModes;
+}
+
+QList<unsigned int> Device::currentModes() const
+{
+    return m_currentModes;
+}
+
 bool Device::supportsRotation() const
 {
     return libinput_device_config_rotation_is_available(m_device);
@@ -1134,6 +1190,10 @@ uint32_t Device::defaultRotation() const
     return libinput_device_config_rotation_get_default_angle(m_device);
 }
 
+bool Device::isVirtual() const
+{
+    return m_isVirtual;
+}
 }
 }
 

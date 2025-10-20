@@ -7,26 +7,26 @@
 # Serdar Soytetir <tulliana@gmail.com>, 2008, 2009, 2010.
 # Onur Küçük <onur@pardus.org.tr>, 2010.
 # Volkan Gezer <volkangezer@gmail.com>, 2013, 2014, 2015, 2017, 2021.
-# SPDX-FileCopyrightText: 2022, 2023, 2024 Emir SARI <emir_sari@icloud.com>
+# SPDX-FileCopyrightText: 2022, 2023, 2024, 2025 Emir SARI <emir_sari@icloud.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-20 02:37+0000\n"
-"PO-Revision-Date: 2024-09-19 19:35+0300\n"
-"Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
+"POT-Creation-Date: 2025-05-30 00:44+0000\n"
+"PO-Revision-Date: 2025-05-31 00:15+0300\n"
+"Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.11.70\n"
+"X-Generator: Lokalize 25.04.1\n"
 
 #: declarative-plugin/buttonsmodel.cpp:55
 #, kde-format
-msgid "More actions for this window"
-msgstr "Bu pencere için diğer eylemler"
+msgid "Window menu"
+msgstr "Pencere menüsü"
 
 #: declarative-plugin/buttonsmodel.cpp:57
 #, kde-format
@@ -181,14 +181,15 @@ msgstr "Başlık Çubuğu Düğmeleri"
 #: ui/ConfigureTitlebar.qml:35
 #, kde-format
 msgctxt "checkbox label"
-msgid "Close windows by double clicking the menu button"
-msgstr "Menü düğmesine çift tıklayarak pencereleri kapat"
+msgid "Close windows by double clicking the window menu button"
+msgstr "Pencere menüsü düğmesine çift tıklayarak pencereleri kapat"
 
 #: ui/ConfigureTitlebar.qml:52
 #, kde-format
 msgctxt "popup tip"
-msgid "Click and hold on the menu button to show the menu."
-msgstr "Menüyü göstermek için menü düğmesine tıklayın ve basılı tutun."
+msgid "Click and hold on the window menu button to show the menu."
+msgstr ""
+"Menüyü göstermek için pencere menüsü düğmesine tıklayın ve basılı tutun."
 
 #: ui/ConfigureTitlebar.qml:59
 #, kde-format
@@ -263,6 +264,9 @@ msgstr "En büyük pencere kenarlıkları"
 #, kde-format
 msgid "Oversized window borders"
 msgstr "Devasa pencere kenarlıkları"
+
+#~ msgid "More actions for this window"
+#~ msgstr "Bu pencere için diğer eylemler"
 
 #~ msgid "Shade"
 #~ msgstr "Panjuru Kapat"

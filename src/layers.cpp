@@ -140,7 +140,7 @@ void Workspace::propagateWindows(bool propagate_new_windows)
 
     newWindowStack << manual_overlays;
 
-    newWindowStack.reserve(newWindowStack.size() + 2 * stacking_order.size()); // *2 for inputWindow
+    newWindowStack.reserve(newWindowStack.size() + stacking_order.size());
 
     for (int i = stacking_order.size() - 1; i >= 0; --i) {
         X11Window *window = qobject_cast<X11Window *>(stacking_order.at(i));
@@ -148,8 +148,10 @@ void Workspace::propagateWindows(bool propagate_new_windows)
             continue;
         }
 
-        newWindowStack << window->frameId();
+        newWindowStack << window->window();
     }
+
+    newWindowStack << *m_guardWindow;
 
     // when having hidden previews, stack hidden windows below everything else
     // (as far as pure X stacking order is concerned), in order to avoid having
@@ -159,8 +161,9 @@ void Workspace::propagateWindows(bool propagate_new_windows)
         if (!window || window->isDeleted() || window->isUnmanaged() || !window->hiddenPreview()) {
             continue;
         }
-        newWindowStack << window->frameId();
+        newWindowStack << window->window();
     }
+
     // TODO isn't it too inefficient to restack always all windows?
     // TODO don't restack not visible windows?
     Q_ASSERT(newWindowStack.at(0) == rootInfo()->supportWindow());
@@ -215,7 +218,7 @@ Window *Workspace::topWindowOnDesktop(VirtualDesktop *desktop, Output *output, b
         if (!window->isClient() || window->isDeleted()) {
             continue;
         }
-        if (window->isOnDesktop(desktop) && window->isShown() && window->isOnCurrentActivity() && !window->isShade()) {
+        if (window->isOnDesktop(desktop) && window->isShown() && window->isOnCurrentActivity()) {
             if (output && window->output() != output) {
                 continue;
             }
@@ -317,7 +320,7 @@ void Workspace::raiseOrLowerWindow(Window *window)
         if (layer != computeLayer(*it) || !(*it)->isClient() || (*it)->isDeleted()) {
             continue;
         }
-        if ((*it)->isOnDesktop(desktop) && (*it)->isShown() && (*it)->isOnCurrentActivity() && !(*it)->isShade()) {
+        if ((*it)->isOnDesktop(desktop) && (*it)->isShown() && (*it)->isOnCurrentActivity()) {
             if (output && (*it)->output() != output) {
                 continue;
             }

@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-06 02:50+0000\n"
-"PO-Revision-Date: 2025-05-30 14:51+0200\n"
+"POT-Creation-Date: 2025-09-25 02:40+0000\n"
+"PO-Revision-Date: 2025-09-26 13:24+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 25.04.1\n"
+"X-Generator: Lokalize 25.08.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: layoutpreview.cpp:28
@@ -58,8 +58,8 @@ msgstr "Systeminställningar"
 
 #: layoutpreview.cpp:177
 #, kde-format
-msgid "Show Desktop"
-msgstr "Visa skrivbord"
+msgid "Peek at Desktop"
+msgstr "Kika på skrivbord"
 
 #: layoutpreview.cpp:207
 #, kde-format
@@ -98,8 +98,8 @@ msgstr "Innehåll"
 #. i18n: ectx: property (text), widget (QCheckBox, showDesktop)
 #: main.ui:41
 #, kde-format
-msgid "Include \"Show Desktop\" entry"
-msgstr "Inkludera alternativet \"Visa skrivbord\""
+msgid "Include \"Peek at Desktop\" entry"
+msgstr "Inkludera alternativet \"Kika på skrivbord\""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, switchingModeCombo)
 #: main.ui:55
@@ -318,6 +318,9 @@ msgstr "Stega genom nuvarande programs fönster alternativt"
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
 msgstr "Stega genom nuvarande programs fönster alternativt (omvänd ordning)"
 
+#~ msgid "Show Desktop"
+#~ msgstr "Visa skrivbord"
+
 #~ msgid "KWin"
 #~ msgstr "Kwin"
 
@@ -352,9 +355,6 @@ msgstr "Stega genom nuvarande programs fönster alternativt (omvänd ordning)"
 
 #~ msgid "These settings are used by the \"Walk Through Windows\" actions."
 #~ msgstr "Inställningarna används av åtgärden \"Stega genom fönster\"."
-
-#~ msgid "Desktop:"
-#~ msgstr "Skrivbord:"
 
 #~ msgid "Windows from all desktops"
 #~ msgstr "Fönster från alla skrivbord"

@@ -40,9 +40,9 @@ WlToXDrag::WlToXDrag(Dnd *dnd)
 {
 }
 
-DragEventReply WlToXDrag::moveFilter(Window *target)
+bool WlToXDrag::moveFilter(Window *target, const QPointF &position)
 {
-    return DragEventReply::Wayland;
+    return false;
 }
 
 bool WlToXDrag::handleClientMessage(xcb_client_message_event_t *event)
@@ -199,20 +199,14 @@ void Xvisit::receiveOffer()
     retrieveSupportedActions();
     connect(m_dataSource, &AbstractDataSource::supportedDragAndDropActionsChanged,
             this, &Xvisit::retrieveSupportedActions);
-    enter();
 }
 
-void Xvisit::enter()
+void Xvisit::enter(const QPointF &globalPos)
 {
     m_state.entered = true;
-    // send enter event and current position to X client
-    sendEnter();
-    sendPosition(waylandServer()->seat()->pointerPos());
 
-    // proxy future pointer position changes
-    m_motionConnection = connect(waylandServer()->seat(),
-                                 &SeatInterface::pointerPosChanged,
-                                 this, &Xvisit::sendPosition);
+    sendEnter();
+    sendPosition(globalPos);
 }
 
 void Xvisit::sendEnter()
@@ -340,9 +334,8 @@ void Xvisit::drop()
 {
     Q_ASSERT(!m_state.finished);
     m_state.dropRequested = true;
-    // stop further updates
+
     // TODO: revisit when we allow ask action
-    stopConnections();
     if (!m_state.entered) {
         // wait for enter (init + offers)
         return;
@@ -370,16 +363,7 @@ void Xvisit::doFinish()
 {
     m_state.finished = true;
     m_pos.cached = false;
-    stopConnections();
     Q_EMIT finished();
-}
-
-void Xvisit::stopConnections()
-{
-    // final outcome has been determined from Wayland side
-    // no more updates needed
-    disconnect(m_motionConnection);
-    m_motionConnection = QMetaObject::Connection();
 }
 
 } // namespace Xwl

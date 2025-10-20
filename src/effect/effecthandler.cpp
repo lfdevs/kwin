@@ -54,7 +54,7 @@
 #include "tabbox/tabbox.h"
 #endif
 #if KWIN_BUILD_SCREENLOCKER
-#include "screenlockerwatcher.h"
+#include <KScreenLocker/KsldApp>
 #endif
 
 #include <KDecoration3/Decoration>
@@ -210,8 +210,12 @@ EffectsHandler::EffectsHandler(Compositor *compositor, WorkspaceScene *scene)
 #endif
     connect(workspace()->screenEdges(), &ScreenEdges::approaching, this, &EffectsHandler::screenEdgeApproaching);
 #if KWIN_BUILD_SCREENLOCKER
-    connect(kwinApp()->screenLockerWatcher(), &ScreenLockerWatcher::locked, this, &EffectsHandler::screenLockingChanged);
-    connect(kwinApp()->screenLockerWatcher(), &ScreenLockerWatcher::aboutToLock, this, &EffectsHandler::screenAboutToLock);
+    connect(ScreenLocker::KSldApp::self(), &ScreenLocker::KSldApp::lockStateChanged, this, [this] {
+        const bool locked = ScreenLocker::KSldApp::self()->lockState() == ScreenLocker::KSldApp::Locked;
+        Q_EMIT screenLockingChanged(locked);
+    });
+
+    connect(ScreenLocker::KSldApp::self(), &ScreenLocker::KSldApp::aboutToLock, this, &EffectsHandler::screenAboutToLock);
 #endif
 
     m_cursor.position = input()->globalPointer();
@@ -282,6 +286,8 @@ EffectsHandler::EffectsHandler(Compositor *compositor, WorkspaceScene *scene)
     }
 
     connect(Cursors::self()->mouse(), &Cursor::cursorChanged, this, &EffectsHandler::cursorShapeChanged);
+
+    connect(scene, &WorkspaceScene::viewRemoved, this, &EffectsHandler::viewRemoved);
 
     reconfigure();
 }
@@ -933,7 +939,7 @@ double EffectsHandler::animationTimeFactor() const
 EffectWindow *EffectsHandler::findWindow(WId id) const
 {
 #if KWIN_BUILD_X11
-    if (X11Window *w = Workspace::self()->findClient(Predicate::WindowMatch, id)) {
+    if (X11Window *w = Workspace::self()->findClient(id)) {
         return w->effectWindow();
     }
     if (X11Window *w = Workspace::self()->findUnmanaged(id)) {
@@ -1412,7 +1418,7 @@ QString EffectsHandler::supportInformation(const QString &name) const
 bool EffectsHandler::isScreenLocked() const
 {
 #if KWIN_BUILD_SCREENLOCKER
-    return kwinApp()->screenLockerWatcher()->isLocked();
+    return ScreenLocker::KSldApp::self()->lockState() == ScreenLocker::KSldApp::Locked;
 #else
     return false;
 #endif

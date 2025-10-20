@@ -83,5 +83,8 @@
         "Name[uk]": "Показувати композицію",
         "Name[zh_CN]": "显示特效合成活动指示器",
         "Name[zh_TW]": "顯示合成器狀態"
+    },
+    "org.kde.kwin.effect": {
+        "internal": true
     }
 }

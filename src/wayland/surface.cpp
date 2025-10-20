@@ -87,7 +87,7 @@ void SurfaceInterfacePrivate::addChild(SubSurfaceInterface *child)
     if (preferredBufferTransform.has_value()) {
         child->surface()->setPreferredBufferTransform(preferredBufferTransform.value());
     }
-    if (preferredColorDescription) {
+    if (preferredColorDescription.has_value()) {
         child->surface()->setPreferredColorDescription(preferredColorDescription.value());
     }
 
@@ -379,7 +379,7 @@ void SurfaceInterfacePrivate::surface_commit(Resource *resource)
                 pending->committed |= SurfaceState::Field::YuvCoefficients;
             }
             if (!hasColorManagementProtocol) {
-                pending->colorDescription = ColorDescription(Colorimetry::BT2020, TransferFunction(TransferFunction::PerceptualQuantizer));
+                pending->colorDescription = ColorDescription::BT2020PQ;
                 pending->committed |= SurfaceState::Field::ColorDescription;
             }
             break;
@@ -563,12 +563,12 @@ void SurfaceInterface::frameRendered(quint32 msec)
     }
 }
 
-std::unique_ptr<PresentationFeedback> SurfaceInterface::takePresentationFeedback(Output *output)
+std::shared_ptr<PresentationFeedback> SurfaceInterface::presentationFeedback(Output *output)
 {
     if (output && (!d->primaryOutput || d->primaryOutput->handle() != output)) {
         return nullptr;
     }
-    return std::move(d->current->presentationFeedback);
+    return d->current->presentationFeedback;
 }
 
 bool SurfaceInterface::hasPresentationFeedback() const
@@ -692,6 +692,10 @@ void SurfaceInterfacePrivate::applyState(SurfaceState *next)
     if (bufferRef && current->releasePoint) {
         bufferRef->addReleasePoint(current->releasePoint);
     }
+    if (!bufferRef) {
+        // we can't present an unmapped surface
+        current->presentationFeedback.reset();
+    }
     scaleOverride = pendingScaleOverride;
 
     if (current->buffer) {
@@ -775,7 +779,7 @@ void SurfaceInterfacePrivate::applyState(SurfaceState *next)
         Q_EMIT q->childSubSurfacesChanged();
     }
     if (colorDescriptionChanged || yuvCoefficientsChanged) {
-        current->colorDescription = current->colorDescription.withYuvCoefficients(current->yuvCoefficients, current->range);
+        current->colorDescription = current->colorDescription->withYuvCoefficients(current->yuvCoefficients, current->range);
         Q_EMIT q->colorDescriptionChanged();
     }
     if (presentationModeHintChanged) {
@@ -934,6 +938,15 @@ SubSurfaceInterface *SurfaceInterface::subSurface() const
 SurfaceInterface *SurfaceInterface::mainSurface()
 {
     return subSurface() ? subSurface()->mainSurface() : this;
+}
+
+QPointF SurfaceInterface::mapToMainSurface(const QPointF &localPoint) const
+{
+    if (subSurface()) {
+        return subSurface()->parentSurface()->mapToMainSurface(localPoint + subSurface()->position());
+    } else {
+        return localPoint;
+    }
 }
 
 QSizeF SurfaceInterface::size() const
@@ -1176,7 +1189,7 @@ PresentationModeHint SurfaceInterface::presentationModeHint() const
     return d->current->presentationHint;
 }
 
-const ColorDescription &SurfaceInterface::colorDescription() const
+const std::shared_ptr<ColorDescription> &SurfaceInterface::colorDescription() const
 {
     return d->current->colorDescription;
 }
@@ -1186,7 +1199,7 @@ RenderingIntent SurfaceInterface::renderingIntent() const
     return d->current->renderingIntent;
 }
 
-void SurfaceInterface::setPreferredColorDescription(const ColorDescription &descr)
+void SurfaceInterface::setPreferredColorDescription(const std::shared_ptr<ColorDescription> &descr)
 {
     if (d->preferredColorDescription == descr) {
         return;

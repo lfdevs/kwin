@@ -311,147 +311,184 @@ void DebugConsoleFilter::keyboardKey(KeyboardKeyEvent *event)
     m_textEdit->ensureCursorVisible();
 }
 
-void DebugConsoleFilter::touchDown(qint32 id, const QPointF &pos, std::chrono::microseconds time)
+void DebugConsoleFilter::touchDown(TouchDownEvent *event)
 {
     QString text = s_hr;
     text.append(s_tableStart);
     text.append(tableHeaderRow(i18nc("A touch down event", "Touch down")));
-    text.append(timestampRow(time));
-    text.append(tableRow(i18nc("The id of the touch point in the touch event", "Point identifier"), id));
+    text.append(timestampRow(event->time));
+    text.append(tableRow(i18nc("The id of the touch point in the touch event", "Point identifier"), event->id));
     text.append(tableRow(i18nc("The global position of the touch point", "Global position"),
-                         QStringLiteral("%1/%2").arg(pos.x()).arg(pos.y())));
+                         QStringLiteral("%1/%2").arg(event->pos.x()).arg(event->pos.y())));
     text.append(s_tableEnd);
 
     m_textEdit->insertHtml(text);
     m_textEdit->ensureCursorVisible();
 }
 
-void DebugConsoleFilter::touchMotion(qint32 id, const QPointF &pos, std::chrono::microseconds time)
+void DebugConsoleFilter::touchMotion(TouchMotionEvent *event)
 {
     QString text = s_hr;
     text.append(s_tableStart);
     text.append(tableHeaderRow(i18nc("A touch motion event", "Touch Motion")));
-    text.append(timestampRow(time));
-    text.append(tableRow(i18nc("The id of the touch point in the touch event", "Point identifier"), id));
+    text.append(timestampRow(event->time));
+    text.append(tableRow(i18nc("The id of the touch point in the touch event", "Point identifier"), event->id));
     text.append(tableRow(i18nc("The global position of the touch point", "Global position"),
-                         QStringLiteral("%1/%2").arg(pos.x()).arg(pos.y())));
+                         QStringLiteral("%1/%2").arg(event->pos.x()).arg(event->pos.y())));
     text.append(s_tableEnd);
 
     m_textEdit->insertHtml(text);
     m_textEdit->ensureCursorVisible();
 }
 
-void DebugConsoleFilter::touchUp(qint32 id, std::chrono::microseconds time)
+void DebugConsoleFilter::touchUp(TouchUpEvent *event)
 {
     QString text = s_hr;
     text.append(s_tableStart);
     text.append(tableHeaderRow(i18nc("A touch up event", "Touch Up")));
-    text.append(timestampRow(time));
-    text.append(tableRow(i18nc("The id of the touch point in the touch event", "Point identifier"), id));
+    text.append(timestampRow(event->time));
+    text.append(tableRow(i18nc("The id of the touch point in the touch event", "Point identifier"), event->id));
     text.append(s_tableEnd);
 
     m_textEdit->insertHtml(text);
     m_textEdit->ensureCursorVisible();
 }
 
-void DebugConsoleFilter::pinchGestureBegin(int fingerCount, std::chrono::microseconds time)
+void DebugConsoleFilter::pinchGestureBegin(PointerPinchGestureBeginEvent *event)
 {
     QString text = s_hr;
     text.append(s_tableStart);
     text.append(tableHeaderRow(i18nc("A pinch gesture is started", "Pinch start")));
-    text.append(timestampRow(time));
-    text.append(tableRow(i18nc("Number of fingers in this pinch gesture", "Finger count"), fingerCount));
+    text.append(timestampRow(event->time));
+    text.append(tableRow(i18nc("Number of fingers in this pinch gesture", "Finger count"), event->fingerCount));
     text.append(s_tableEnd);
 
     m_textEdit->insertHtml(text);
     m_textEdit->ensureCursorVisible();
 }
 
-void DebugConsoleFilter::pinchGestureUpdate(qreal scale, qreal angleDelta, const QPointF &delta, std::chrono::microseconds time)
+void DebugConsoleFilter::pinchGestureUpdate(PointerPinchGestureUpdateEvent *event)
 {
     QString text = s_hr;
     text.append(s_tableStart);
     text.append(tableHeaderRow(i18nc("A pinch gesture is updated", "Pinch update")));
-    text.append(timestampRow(time));
-    text.append(tableRow(i18nc("Current scale in pinch gesture", "Scale"), scale));
-    text.append(tableRow(i18nc("Current angle in pinch gesture", "Angle delta"), angleDelta));
-    text.append(tableRow(i18nc("Current delta in pinch gesture", "Delta x"), delta.x()));
-    text.append(tableRow(i18nc("Current delta in pinch gesture", "Delta y"), delta.y()));
+    text.append(timestampRow(event->time));
+    text.append(tableRow(i18nc("Current scale in pinch gesture", "Scale"), event->scale));
+    text.append(tableRow(i18nc("Current angle in pinch gesture", "Angle delta"), event->angleDelta));
+    text.append(tableRow(i18nc("Current delta in pinch gesture", "Delta x"), event->delta.x()));
+    text.append(tableRow(i18nc("Current delta in pinch gesture", "Delta y"), event->delta.y()));
     text.append(s_tableEnd);
 
     m_textEdit->insertHtml(text);
     m_textEdit->ensureCursorVisible();
 }
 
-void DebugConsoleFilter::pinchGestureEnd(std::chrono::microseconds time)
+void DebugConsoleFilter::pinchGestureEnd(PointerPinchGestureEndEvent *event)
 {
     QString text = s_hr;
     text.append(s_tableStart);
     text.append(tableHeaderRow(i18nc("A pinch gesture ended", "Pinch end")));
-    text.append(timestampRow(time));
+    text.append(timestampRow(event->time));
     text.append(s_tableEnd);
 
     m_textEdit->insertHtml(text);
     m_textEdit->ensureCursorVisible();
 }
 
-void DebugConsoleFilter::pinchGestureCancelled(std::chrono::microseconds time)
+void DebugConsoleFilter::pinchGestureCancelled(PointerPinchGestureCancelEvent *event)
 {
     QString text = s_hr;
     text.append(s_tableStart);
     text.append(tableHeaderRow(i18nc("A pinch gesture got cancelled", "Pinch cancelled")));
-    text.append(timestampRow(time));
+    text.append(timestampRow(event->time));
     text.append(s_tableEnd);
 
     m_textEdit->insertHtml(text);
     m_textEdit->ensureCursorVisible();
 }
 
-void DebugConsoleFilter::swipeGestureBegin(int fingerCount, std::chrono::microseconds time)
+void DebugConsoleFilter::swipeGestureBegin(PointerSwipeGestureBeginEvent *event)
 {
     QString text = s_hr;
     text.append(s_tableStart);
     text.append(tableHeaderRow(i18nc("A swipe gesture is started", "Swipe start")));
-    text.append(timestampRow(time));
-    text.append(tableRow(i18nc("Number of fingers in this swipe gesture", "Finger count"), fingerCount));
+    text.append(timestampRow(event->time));
+    text.append(tableRow(i18nc("Number of fingers in this swipe gesture", "Finger count"), event->fingerCount));
     text.append(s_tableEnd);
 
     m_textEdit->insertHtml(text);
     m_textEdit->ensureCursorVisible();
 }
 
-void DebugConsoleFilter::swipeGestureUpdate(const QPointF &delta, std::chrono::microseconds time)
+void DebugConsoleFilter::swipeGestureUpdate(PointerSwipeGestureUpdateEvent *event)
 {
     QString text = s_hr;
     text.append(s_tableStart);
     text.append(tableHeaderRow(i18nc("A swipe gesture is updated", "Swipe update")));
-    text.append(timestampRow(time));
-    text.append(tableRow(i18nc("Current delta in swipe gesture", "Delta x"), delta.x()));
-    text.append(tableRow(i18nc("Current delta in swipe gesture", "Delta y"), delta.y()));
+    text.append(timestampRow(event->time));
+    text.append(tableRow(i18nc("Current delta in swipe gesture", "Delta x"), event->delta.x()));
+    text.append(tableRow(i18nc("Current delta in swipe gesture", "Delta y"), event->delta.y()));
     text.append(s_tableEnd);
 
     m_textEdit->insertHtml(text);
     m_textEdit->ensureCursorVisible();
 }
 
-void DebugConsoleFilter::swipeGestureEnd(std::chrono::microseconds time)
+void DebugConsoleFilter::swipeGestureEnd(PointerSwipeGestureEndEvent *event)
 {
     QString text = s_hr;
     text.append(s_tableStart);
     text.append(tableHeaderRow(i18nc("A swipe gesture ended", "Swipe end")));
-    text.append(timestampRow(time));
+    text.append(timestampRow(event->time));
     text.append(s_tableEnd);
 
     m_textEdit->insertHtml(text);
     m_textEdit->ensureCursorVisible();
 }
 
-void DebugConsoleFilter::swipeGestureCancelled(std::chrono::microseconds time)
+void DebugConsoleFilter::swipeGestureCancelled(PointerSwipeGestureCancelEvent *event)
 {
     QString text = s_hr;
     text.append(s_tableStart);
     text.append(tableHeaderRow(i18nc("A swipe gesture got cancelled", "Swipe cancelled")));
-    text.append(timestampRow(time));
+    text.append(timestampRow(event->time));
+    text.append(s_tableEnd);
+
+    m_textEdit->insertHtml(text);
+    m_textEdit->ensureCursorVisible();
+}
+
+void DebugConsoleFilter::holdGestureBegin(PointerHoldGestureBeginEvent *event)
+{
+    QString text = s_hr;
+    text.append(s_tableStart);
+    text.append(tableHeaderRow(i18nc("A hold gesture is started", "Hold start")));
+    text.append(timestampRow(event->time));
+    text.append(tableRow(i18nc("Number of fingers in this hold gesture", "Finger count"), event->fingerCount));
+    text.append(s_tableEnd);
+
+    m_textEdit->insertHtml(text);
+    m_textEdit->ensureCursorVisible();
+}
+
+void DebugConsoleFilter::holdGestureEnd(PointerHoldGestureEndEvent *event)
+{
+    QString text = s_hr;
+    text.append(s_tableStart);
+    text.append(tableHeaderRow(i18nc("A hold gesture ended", "Hold end")));
+    text.append(timestampRow(event->time));
+    text.append(s_tableEnd);
+
+    m_textEdit->insertHtml(text);
+    m_textEdit->ensureCursorVisible();
+}
+
+void DebugConsoleFilter::holdGestureCancelled(PointerHoldGestureCancelEvent *event)
+{
+    QString text = s_hr;
+    text.append(s_tableStart);
+    text.append(tableHeaderRow(i18nc("A hold gesture got cancelled", "Hold cancelled")));
+    text.append(timestampRow(event->time));
     text.append(s_tableEnd);
 
     m_textEdit->insertHtml(text);
@@ -532,6 +569,8 @@ void DebugConsoleFilter::tabletToolTipEvent(TabletToolTipEvent *event)
                    QStringLiteral("%1,%2").arg(event->xTilt).arg(event->yTilt))
         + tableRow(i18n("Rotation"), QString::number(event->rotation))
         + tableRow(i18n("Pressure"), QString::number(event->pressure))
+        + tableRow(i18n("Distance"), QString::number(event->distance))
+        + tableRow(i18n("Slider Position"), QString::number(event->sliderPosition))
         + tableRow(i18n("Buttons"), QString::number(event->buttons))
         + s_tableEnd;
 
@@ -558,6 +597,9 @@ void DebugConsoleFilter::tabletPadButtonEvent(TabletPadButtonEvent *event)
         + tableHeaderRow(i18n("Tablet Pad Button"))
         + tableRow(i18n("Button"), event->button)
         + tableRow(i18n("Pressed"), event->pressed)
+        + tableRow(i18n("Group"), event->group)
+        + tableRow(i18n("Mode"), event->mode)
+        + tableRow(i18n("Is Mode Switch"), event->isModeSwitch)
         + tableRow(i18n("Tablet"), event->device->name())
         + timestampRow(event->time)
         + s_tableEnd;
@@ -572,6 +614,8 @@ void DebugConsoleFilter::tabletPadStripEvent(TabletPadStripEvent *event)
         + tableRow(i18n("Number"), event->number)
         + tableRow(i18n("Position"), event->position)
         + tableRow(i18n("isFinger"), event->isFinger)
+        + tableRow(i18n("Group"), event->group)
+        + tableRow(i18n("Mode"), event->mode)
         + tableRow(i18n("Tablet"), event->device->name())
         + timestampRow(event->time)
         + s_tableEnd;
@@ -586,6 +630,8 @@ void DebugConsoleFilter::tabletPadRingEvent(TabletPadRingEvent *event)
         + tableRow(i18n("Number"), event->number)
         + tableRow(i18n("Position"), event->position)
         + tableRow(i18n("isFinger"), event->isFinger)
+        + tableRow(i18n("Group"), event->group)
+        + tableRow(i18n("Mode"), event->mode)
         + tableRow(i18n("Tablet"), event->device->name())
         + timestampRow(event->time)
         + s_tableEnd;
@@ -1641,16 +1687,59 @@ DebugConsoleEffectsTab::DebugConsoleEffectsTab(QWidget *parent)
         return;
     }
 
-    const QStringList availableEffects = effects->listOfEffects();
+    QStringList availableEffects = effects->listOfEffects();
     const QStringList loadedEffects = effects->loadedEffects();
 
-    for (const QString &effectName : availableEffects) {
+    // Remove any duplicates with the same name
+    availableEffects.removeDuplicates();
+
+    // Show these debugging effects at the top of the list, sort the rest so they can be easily found
+    const QStringList priorityEffects = {QStringLiteral("showcompositing"), QStringLiteral("showfps"), QStringLiteral("showpaint")};
+    std::sort(availableEffects.begin(), availableEffects.end(), [&priorityEffects](const QString &a, const QString &b) {
+        const int indexA = priorityEffects.indexOf(a);
+        const int indexB = priorityEffects.indexOf(b);
+
+        if (indexA != -1 && indexB != -1) {
+            return a < b;
+        } else if (indexA != -1) {
+            return true;
+        } else if (indexB != -1) {
+            return false;
+        }
+
+        return a < b;
+    });
+
+    // Determine the index of the last priority effect so we can insert a separator beneath
+    int lastPriorityIndex = -1;
+    for (int i = 0; i < availableEffects.count(); ++i) {
+        if (priorityEffects.contains(availableEffects[i])) {
+            lastPriorityIndex = i;
+        } else {
+            break;
+        }
+    }
+
+    for (int i = 0; i < availableEffects.count(); ++i) {
+        const QString &effectName = availableEffects[i];
+
         QListWidgetItem *item = new QListWidgetItem(this);
         DebugConsoleEffectItem *effectItem = new DebugConsoleEffectItem(effectName, loadedEffects.contains(effectName));
 
         addItem(item);
         setItemWidget(item, effectItem);
         item->setSizeHint(effectItem->sizeHint());
+
+        if (i == lastPriorityIndex) {
+            QListWidgetItem *separatorItem = new QListWidgetItem(this);
+            separatorItem->setFlags(Qt::NoItemFlags);
+
+            QFrame *separator = new QFrame();
+            separator->setFrameShape(QFrame::HLine);
+
+            addItem(separatorItem);
+            setItemWidget(separatorItem, separator);
+        }
     }
 }
 

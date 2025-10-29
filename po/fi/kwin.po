@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-15 02:34+0000\n"
-"PO-Revision-Date: 2025-07-17 18:19+0300\n"
+"POT-Creation-Date: 2025-10-24 02:35+0000\n"
+"PO-Revision-Date: 2025-10-15 19:32+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 25.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -41,29 +41,29 @@ msgstr ""
 "ilpo@iki.fi, mikko.piippo@helsinki.fi, lliehu@kolumbus.fi, "
 "translator@legisign.org"
 
-#: backends/wayland/wayland_output.cpp:461
+#: backends/wayland/wayland_output.cpp:496
 #, kde-format
 msgid "Press right control to ungrab pointer"
 msgstr "Peru osoittimen kaappaus painamalla oikeaa Ctrl-näppäintä"
 
-#: backends/wayland/wayland_output.cpp:463
+#: backends/wayland/wayland_output.cpp:498
 #, kde-format
 msgid "Press right control key to grab pointer"
 msgstr "Kaappaa osoitin painamalla oikeaa Ctrl-näppäintä"
 
-#: backends/wayland/wayland_output.cpp:467
+#: backends/wayland/wayland_output.cpp:502
 #, kde-format
 msgctxt ""
 "Title of nested KWin Wayland with Wayland socket identifier as argument"
 msgid "KDE Wayland Compositor %1"
 msgstr "KDE:n Wayland-koostin %1"
 
-#: backends/wayland/wayland_output.cpp:470
+#: backends/wayland/wayland_output.cpp:505
 #, kde-format
 msgid "- Output disabled"
 msgstr "– Ulostulo ei käytössä"
 
-#: backends/wayland/wayland_output.cpp:472
+#: backends/wayland/wayland_output.cpp:507
 #, kde-format
 msgid "- Output dimmed"
 msgstr "– Ulostulo himmennetty"
@@ -84,7 +84,7 @@ msgstr "Kaappaa syöte painamalla oikeaa Ctrl-näppäintä"
 msgid "KDE Wayland Compositor"
 msgstr "KDE:n Wayland-koostin"
 
-#: compositor.cpp:575
+#: compositor.cpp:578
 #, kde-format
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr ""
@@ -658,12 +658,10 @@ msgstr "Pyyhkäisy peruttu"
 #, kde-format
 msgctxt "A hold gesture is started"
 msgid "Hold start"
-msgstr ""
+msgstr "Pidon aloitus"
 
 #: debug_console.cpp:467
-#, fuzzy, kde-format
-#| msgctxt "Number of fingers in this pinch gesture"
-#| msgid "Finger count"
+#, kde-format
 msgctxt "Number of fingers in this hold gesture"
 msgid "Finger count"
 msgstr "Sormien määrä"
@@ -672,15 +670,13 @@ msgstr "Sormien määrä"
 #, kde-format
 msgctxt "A hold gesture ended"
 msgid "Hold end"
-msgstr ""
+msgstr "Pidon lopetus"
 
 #: debug_console.cpp:490
-#, fuzzy, kde-format
-#| msgctxt "A pinch gesture got cancelled"
-#| msgid "Pinch cancelled"
+#, kde-format
 msgctxt "A hold gesture got cancelled"
 msgid "Hold cancelled"
-msgstr "Nipistys peruttu"
+msgstr "Pito peruttu"
 
 #: debug_console.cpp:502
 #, kde-format
@@ -3523,8 +3519,7 @@ msgstr ""
 "Kirjaudutaan silti ulos 2 minuutissa."
 
 #: tabbox/clientmodel.cpp:58
-#, fuzzy, kde-format
-#| msgid "Peek at Desktop"
+#, kde-format
 msgctxt "Special entry in alt+tab list for temporarily hiding all windows"
 msgid "Peek at Desktop"
 msgstr "Kurkista työpöydälle"

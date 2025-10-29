@@ -1186,7 +1186,7 @@ void Workspace::updateOutputs(const std::optional<QList<Output *>> &outputOrder)
         }
     }
 
-    if (!m_activeOutput || !m_outputs.contains(m_activeOutput)) {
+    if (!m_activeOutput) {
         setActiveOutput(m_outputs[0]);
     }
 
@@ -2106,6 +2106,10 @@ void Workspace::desktopResized()
 
     rearrange();
 
+    if (!m_outputs.contains(m_activeOutput)) {
+        setActiveOutput(m_outputs[0]);
+    }
+
     const auto stack = stackingOrder();
     for (Window *window : stack) {
         window->setMoveResizeOutput(outputAt(window->moveResizeGeometry().center()));
@@ -2437,9 +2441,6 @@ Output *Workspace::activeOutput() const
 
 void Workspace::setActiveOutput(Output *output)
 {
-    if (!m_outputs.contains(output)) {
-        qFatal("unknown active output");
-    }
     m_activeOutput = output;
 }
 

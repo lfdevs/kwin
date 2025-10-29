@@ -367,6 +367,13 @@ Item *ItemView::item() const
     return m_item;
 }
 
+double ItemView::desiredHdrHeadroom() const
+{
+    const auto &color = m_item->colorDescription();
+    const double max = color->maxHdrLuminance().value_or(color->referenceLuminance());
+    return max / color->referenceLuminance();
+}
+
 ItemTreeView::ItemTreeView(SceneView *parentView, Item *item, Output *output, OutputLayer *layer)
     : ItemView(parentView, item, output, layer)
 {
@@ -417,9 +424,8 @@ QRegion ItemTreeView::collectDamage()
     QRegion ret;
     accumulateRepaints(m_item, this, &ret);
     // FIXME damage tracking for this layer still has some bugs, this effectively disables it
-    ret = viewport().toAlignedRect();
-    // FIXME this offset should really not be rounded
-    return ret.translated(-viewport().topLeft().toPoint());
+    ret = infiniteRegion();
+    return ret;
 }
 
 void ItemTreeView::paint(const RenderTarget &renderTarget, const QRegion &region)
@@ -487,6 +493,23 @@ bool ItemTreeView::canSkipMoveRepaint(Item *item)
 {
     // this could be more generic, but it's all we need for now
     return m_layer && item == m_item;
+}
+
+static double recursiveMaxHdrHeadroom(Item *item)
+{
+    const auto &color = item->colorDescription();
+    const double max = color->maxHdrLuminance().value_or(color->referenceLuminance());
+    double headroom = max / color->referenceLuminance();
+    const auto children = item->childItems();
+    for (Item *child : children) {
+        headroom = std::max(headroom, recursiveMaxHdrHeadroom(child));
+    }
+    return headroom;
+}
+
+double ItemTreeView::desiredHdrHeadroom() const
+{
+    return recursiveMaxHdrHeadroom(m_item);
 }
 
 Scene::Scene(std::unique_ptr<ItemRenderer> &&renderer)

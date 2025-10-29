@@ -22,12 +22,14 @@ namespace KWin
 {
 class AbstractDataSource;
 class DataDeviceInterface;
+class DataOfferInterface;
 class DataSourceInterface;
 class DataControlDeviceV1Interface;
 class TextInputV1Interface;
 class TextInputV2Interface;
 class TextInputV3Interface;
 class PrimarySelectionDeviceV1Interface;
+class PrimarySelectionOfferV1Interface;
 class PrimarySelectionSourceV1Interface;
 class DragAndDropIcon;
 
@@ -40,10 +42,16 @@ public:
 
     void sendCapabilities();
     QList<DataDeviceInterface *> dataDevicesForSurface(SurfaceInterface *surface) const;
+    QList<PrimarySelectionDeviceV1Interface *> primarySelectionDevicesForSurface(SurfaceInterface *surface) const;
     void registerPrimarySelectionDevice(PrimarySelectionDeviceV1Interface *primarySelectionDevice);
     void registerDataDevice(DataDeviceInterface *dataDevice);
     void registerDataControlDevice(DataControlDeviceV1Interface *dataDevice);
     bool dragInhibitsPointer(SurfaceInterface *surface) const;
+
+    void offerSelection(DataDeviceInterface *device);
+    void offerSelection(DataControlDeviceV1Interface *device);
+    void offerPrimarySelection(PrimarySelectionDeviceV1Interface *device);
+    void offerPrimarySelection(DataControlDeviceV1Interface *device);
 
     SeatInterface *q;
     QPointer<Display> display;
@@ -101,15 +109,21 @@ public:
     {
         struct Focus
         {
-            SurfaceInterface *surface = nullptr;
-            QMetaObject::Connection destroyConnection;
-            quint32 serial = 0;
-            QList<DataDeviceInterface *> selections;
-            QList<PrimarySelectionDeviceV1Interface *> primarySelections;
+            QPointer<SurfaceInterface> surface;
         };
         Focus focus;
     };
     Keyboard globalKeyboard;
+
+    struct DataDevice
+    {
+        QPointer<ClientConnection> client;
+        QList<DataDeviceInterface *> selections;
+        QList<DataOfferInterface *> selectionOffers;
+        QList<PrimarySelectionDeviceV1Interface *> primarySelections;
+        QList<PrimarySelectionOfferV1Interface *> primarySelectionOffers;
+    };
+    DataDevice globalDataDevice;
 
     struct Drag
     {

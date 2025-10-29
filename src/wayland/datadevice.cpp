@@ -123,14 +123,7 @@ void DataDeviceInterfacePrivate::data_device_set_selection(Resource *resource, w
         return;
     }
 
-    if (selection == dataSource) {
-        return;
-    }
-    if (selection) {
-        selection->cancel();
-    }
-    selection = dataSource;
-    Q_EMIT q->selectionChanged(selection, serial);
+    Q_EMIT q->selectionChanged(dataSource, serial);
 }
 
 void DataDeviceInterfacePrivate::data_device_release(QtWaylandServer::wl_data_device::Resource *resource)
@@ -178,15 +171,11 @@ SeatInterface *DataDeviceInterface::seat() const
     return d->seat;
 }
 
-DataSourceInterface *DataDeviceInterface::selection() const
-{
-    return d->selection;
-}
-
-void DataDeviceInterface::sendSelection(AbstractDataSource *other)
+DataOfferInterface *DataDeviceInterface::sendSelection(AbstractDataSource *other)
 {
     auto r = other ? d->createDataOffer(other) : nullptr;
     d->send_selection(r ? r->resource() : nullptr);
+    return r;
 }
 
 void DataDeviceInterface::drop()

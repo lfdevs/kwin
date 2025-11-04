@@ -93,10 +93,6 @@ protected:
     }
     // must be called in order to provide data from Wl to X
     void ownSelection(bool own);
-    void setWindow(xcb_window_t window)
-    {
-        m_window = window;
-    }
 
 private:
     bool handleSelectionRequest(xcb_selection_request_event_t *event);
@@ -112,9 +108,10 @@ private:
     void endTimeoutTransfersTimer();
 
     xcb_atom_t m_atom = XCB_ATOM_NONE;
+    xcb_window_t m_owner = XCB_WINDOW_NONE;
     xcb_window_t m_window = XCB_WINDOW_NONE;
     xcb_window_t m_requestorWindow = XCB_WINDOW_NONE;
-    xcb_timestamp_t m_timestamp;
+    xcb_timestamp_t m_timestamp = 0;
 
     // Active source, if any. Only one of them at max can exist
     // at the same time.
@@ -125,8 +122,6 @@ private:
     QList<TransferWltoX *> m_wlToXTransfers;
     QList<TransferXtoWl *> m_xToWlTransfers;
     QTimer *m_timeoutTransfers = nullptr;
-
-    bool m_disownPending = false;
 
     Q_DISABLE_COPY(Selection)
 };

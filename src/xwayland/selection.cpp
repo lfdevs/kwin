@@ -86,16 +86,23 @@ bool Selection::handleXfixesNotify(xcb_xfixes_selection_notify_event_t *event)
     if (event->selection != m_atom) {
         return false;
     }
-    if (m_disownPending) {
-        // notify of our own disown - ignore it
-        m_disownPending = false;
-        return true;
+
+    const xcb_window_t previousOwner = m_owner;
+    m_owner = event->owner;
+
+    if (m_owner == XCB_WINDOW_NONE) {
+        if (previousOwner == m_window) {
+            return true;
+        }
     }
-    if (event->owner == m_window && m_waylandSource) {
+
+    if (event->owner == m_window) {
         // When we claim a selection we must use XCB_TIME_CURRENT,
         // grab the actual timestamp here to answer TIMESTAMP requests
         // correctly
-        m_waylandSource->setTimestamp(event->timestamp);
+        if (m_waylandSource) {
+            m_waylandSource->setTimestamp(event->timestamp);
+        }
         m_timestamp = event->timestamp;
         return true;
     }
@@ -163,9 +170,11 @@ void Selection::setWlSource(WlSource *source)
         m_waylandSource->deleteLater();
         m_waylandSource = nullptr;
     }
-    delete m_xSource;
-    m_xSource = nullptr;
+
     if (source) {
+        delete m_xSource;
+        m_xSource = nullptr;
+
         m_waylandSource = source;
         connect(source, &WlSource::transferReady, this, &Selection::startTransferToX);
     }
@@ -175,9 +184,12 @@ void Selection::createX11Source(xcb_xfixes_selection_notify_event_t *event)
 {
     if (!event || event->owner == XCB_WINDOW_NONE) {
         x11OfferLost();
-        setWlSource(nullptr);
+
+        delete m_xSource;
+        m_xSource = nullptr;
         return;
     }
+
     setWlSource(nullptr);
 
     m_xSource = new X11Source(this, event);
@@ -194,11 +206,12 @@ void Selection::ownSelection(bool own)
                                 m_atom,
                                 XCB_TIME_CURRENT_TIME);
     } else {
-        m_disownPending = true;
-        xcb_set_selection_owner(xcbConn,
-                                XCB_WINDOW_NONE,
-                                m_atom,
-                                m_timestamp);
+        if (m_owner == m_window) {
+            xcb_set_selection_owner(xcbConn,
+                                    XCB_WINDOW_NONE,
+                                    m_atom,
+                                    m_timestamp);
+        }
     }
     xcb_flush(xcbConn);
 }

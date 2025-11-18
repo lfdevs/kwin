@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-24 02:35+0000\n"
-"PO-Revision-Date: 2025-10-30 18:31+0300\n"
+"POT-Creation-Date: 2025-11-17 14:41+0000\n"
+"PO-Revision-Date: 2025-11-13 15:30+0300\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -98,22 +98,22 @@ msgid "Desktop effects were restarted due to a graphics reset"
 msgstr ""
 "Подсистема эффектов рабочего стола была перезапущена из-за сброса графики"
 
-#: core/iccprofile.cpp:252
+#: core/iccprofile.cpp:334
 #, kde-format
 msgid "Failed to open ICC profile \"%1\""
 msgstr "Не удалось открыть ICC-профиль «%1»"
 
-#: core/iccprofile.cpp:254
+#: core/iccprofile.cpp:336
 #, kde-format
 msgid "ICC profile \"%1\" doesn't exist"
 msgstr "ICC-профиль «%1» не существует"
 
-#: core/iccprofile.cpp:258
+#: core/iccprofile.cpp:340
 #, kde-format
 msgid "ICC profile \"%1\" is not usable for displays"
 msgstr "ICC-профиль «%1» нельзя использовать для экранов"
 
-#: core/iccprofile.cpp:261
+#: core/iccprofile.cpp:343
 #, kde-format
 msgid ""
 "ICC profile \"%1\" has unsupported connection space, only XYZ is supported"
@@ -121,24 +121,24 @@ msgstr ""
 "У ICC-профиля «%1» неподдерживаемое пространство связи, поддерживается "
 "только XYZ"
 
-#: core/iccprofile.cpp:264
+#: core/iccprofile.cpp:346
 #, kde-format
 msgid "ICC profile \"%1\" is broken, input/output color space isn't RGB"
 msgstr ""
 "ICC-профиль «%1» повреждён, входное/выходное цветовое пространство отлично "
 "от RGB"
 
-#: core/iccprofile.cpp:277
+#: core/iccprofile.cpp:359
 #, kde-format
 msgid "ICC profile \"%1\" is broken, it has no whitepoint"
 msgstr "ICC-профиль «%1» повреждён, отсутствует точка белого"
 
-#: core/iccprofile.cpp:280
+#: core/iccprofile.cpp:362
 #, kde-format
 msgid "ICC profile \"%1\" is broken, its whitepoint is invalid"
 msgstr "ICC-профиль «%1» повреждён, некорректная точка белого"
 
-#: core/iccprofile.cpp:293
+#: core/iccprofile.cpp:375
 #, kde-format
 msgid ""
 "ICC profile \"%1\" is broken, parsing chromatic adaptation matrix failed"
@@ -146,7 +146,7 @@ msgstr ""
 "ICC-профиль «%1» повреждён, не удалось распознать матрицу хроматической "
 "адаптации"
 
-#: core/iccprofile.cpp:298
+#: core/iccprofile.cpp:380
 #, kde-format
 msgid ""
 "ICC profile \"%1\" is broken, inverting chromatic adaptation matrix failed"
@@ -154,27 +154,27 @@ msgstr ""
 "ICC-профиль «%1» повреждён, не удалось инвертировать матрицу хроматической "
 "адаптации"
 
-#: core/iccprofile.cpp:311
+#: core/iccprofile.cpp:393
 #, kde-format
 msgid "ICC profile \"%1\" is broken, it has no primaries"
 msgstr "ICC-профиль «%1» повреждён, отсутствуют основные цвета"
 
-#: core/iccprofile.cpp:326
+#: core/iccprofile.cpp:408
 #, kde-format
 msgid "ICC profile \"%1\" is broken, couldn't calculate its primaries"
 msgstr "ICC-профиль «%1» повреждён, не удалось вычислить основные цвета"
 
-#: core/iccprofile.cpp:335
+#: core/iccprofile.cpp:417
 #, kde-format
 msgid "ICC profile \"%1\" is broken, its primaries are invalid"
 msgstr "ICC-профиль «%1» повреждён, некорректные основные цвета"
 
-#: core/iccprofile.cpp:351
+#: core/iccprofile.cpp:433
 #, kde-format
 msgid "ICC profile \"%1\" with only BToD tags isn't supported"
 msgstr "ICC-профиль «%1» только с метками BToD не поддерживается"
 
-#: core/iccprofile.cpp:390
+#: core/iccprofile.cpp:472
 #, kde-format
 msgid "Color profile is missing TRC tags"
 msgstr "У цветового профиля отсутствуют метки TRC"
@@ -678,7 +678,7 @@ msgstr "Отмена прокрутки"
 #, kde-format
 msgctxt "A hold gesture is started"
 msgid "Hold start"
-msgstr ""
+msgstr "Начало удержания"
 
 #: debug_console.cpp:467
 #, kde-format
@@ -690,15 +690,13 @@ msgstr "Количество пальцев"
 #, kde-format
 msgctxt "A hold gesture ended"
 msgid "Hold end"
-msgstr ""
+msgstr "Завершение удержания"
 
 #: debug_console.cpp:490
-#, fuzzy, kde-format
-#| msgctxt "A pinch gesture got cancelled"
-#| msgid "Pinch cancelled"
+#, kde-format
 msgctxt "A hold gesture got cancelled"
 msgid "Hold cancelled"
-msgstr "Отмена сжатия"
+msgstr "Удержание отменено"
 
 #: debug_console.cpp:502
 #, kde-format
@@ -1124,153 +1122,153 @@ msgid "Debug Console"
 msgstr "Отладочная консоль"
 
 #. i18n: ectx: attribute (title), widget (QWidget, windows)
-#: debug_console.ui:44
+#: debug_console.ui:27
 #, kde-format
 msgid "Windows"
 msgstr "Окна"
 
 #. i18n: ectx: attribute (title), widget (QWidget, input)
-#: debug_console.ui:58
+#: debug_console.ui:41
 #, kde-format
 msgid "Input Events"
 msgstr "События ввода"
 
 #. i18n: ectx: attribute (title), widget (QWidget, inputDevices)
-#: debug_console.ui:75
+#: debug_console.ui:58
 #, kde-format
 msgid "Input Devices"
 msgstr "Устройства ввода"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
-#: debug_console.ui:85
+#: debug_console.ui:68
 #, kde-format
 msgid "OpenGL"
 msgstr "OpenGL"
 
 #. i18n: ectx: property (text), widget (QLabel, noOpenGLLabel)
-#: debug_console.ui:91
+#: debug_console.ui:74
 #, kde-format
 msgid "No OpenGL compositor running"
 msgstr "Не запущен композитный диспетчер окон на основе OpenGL."
 
 #. i18n: ectx: property (title), widget (QGroupBox, driverInfoBox)
-#: debug_console.ui:119
+#: debug_console.ui:102
 #, kde-format
 msgid "OpenGL (ES) driver information"
 msgstr "Сведения о драйвере OpenGL (ES)"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: debug_console.ui:125
+#: debug_console.ui:108
 #, kde-format
 msgid "Vendor:"
 msgstr "Производитель:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: debug_console.ui:132
+#: debug_console.ui:115
 #, kde-format
 msgid "Renderer:"
 msgstr "Модуль отрисовки:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: debug_console.ui:139
+#: debug_console.ui:122
 #, kde-format
 msgid "Version:"
 msgstr "Версия:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: debug_console.ui:146
+#: debug_console.ui:129
 #, kde-format
 msgid "Shading Language Version:"
 msgstr "Версия языка шейдеров:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: debug_console.ui:153
+#: debug_console.ui:136
 #, kde-format
 msgid "Driver:"
 msgstr "Драйвер:"
 
 # E.g. NV10, R600, EVERGREEN, ... --aspotashev
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: debug_console.ui:160
+#: debug_console.ui:143
 #, kde-format
 msgid "GPU class:"
 msgstr "Серия графического процессора:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: debug_console.ui:167
+#: debug_console.ui:150
 #, kde-format
 msgid "OpenGL Version:"
 msgstr "Версия OpenGL:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: debug_console.ui:174
+#: debug_console.ui:157
 #, kde-format
 msgid "GLSL Version:"
 msgstr "Версия GLSL:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, platformExtensionsBox)
-#: debug_console.ui:240
+#: debug_console.ui:223
 #, kde-format
 msgid "Platform Extensions"
 msgstr "Расширения платформы"
 
 #. i18n: ectx: property (title), widget (QGroupBox, glExtensionsBox)
-#: debug_console.ui:256
+#: debug_console.ui:239
 #, kde-format
 msgid "OpenGL (ES) Extensions"
 msgstr "Расширения OpenGL (ES)"
 
 #. i18n: ectx: attribute (title), widget (QWidget, keyboard)
-#: debug_console.ui:277
+#: debug_console.ui:260
 #, kde-format
 msgid "Keyboard"
 msgstr "Клавиатура"
 
 #. i18n: ectx: property (title), widget (QGroupBox, layoutBox)
-#: debug_console.ui:304
+#: debug_console.ui:287
 #, kde-format
 msgid "Keymap Layouts"
 msgstr "Раскладки клавиатуры"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: debug_console.ui:326
+#: debug_console.ui:309
 #, kde-format
 msgid "Current Layout:"
 msgstr "Текущая раскладка:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, modifiersBox)
-#: debug_console.ui:345
+#: debug_console.ui:328
 #, kde-format
 msgid "Modifiers"
 msgstr "Клавиши-модификаторы"
 
 #. i18n: ectx: property (title), widget (QGroupBox, activeModifiersBox)
-#: debug_console.ui:361
+#: debug_console.ui:344
 #, kde-format
 msgid "Active Modifiers"
 msgstr "Активные клавиши-модификаторы"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ledsBox)
-#: debug_console.ui:377
+#: debug_console.ui:360
 #, kde-format
 msgid "LEDs"
 msgstr "Светодиодные индикаторы"
 
 #. i18n: ectx: property (title), widget (QGroupBox, activeLedsBox)
-#: debug_console.ui:393
+#: debug_console.ui:376
 #, kde-format
 msgid "Active LEDs"
 msgstr "Активные светодиодные индикаторы"
 
 #. i18n: ectx: attribute (title), widget (QWidget, clipboard)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: debug_console.ui:414 debug_console.ui:434
+#: debug_console.ui:397 debug_console.ui:417
 #, kde-format
 msgid "Clipboard"
 msgstr "Буфер обмена"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
-#: debug_console.ui:480
+#: debug_console.ui:463
 #, kde-format
 msgid "Primary Selection"
 msgstr "Первоначальный выбор"
@@ -3551,11 +3549,10 @@ msgstr ""
 "Сеанс будет завершён через 2 минуты."
 
 #: tabbox/clientmodel.cpp:58
-#, fuzzy, kde-format
-#| msgid "Peek at Desktop"
+#, kde-format
 msgctxt "Special entry in alt+tab list for temporarily hiding all windows"
 msgid "Peek at Desktop"
-msgstr "Взглянуть на рабочий стол"
+msgstr "Быстрый просмотр рабочего стола"
 
 #: tabbox/switchers/thumbnail_grid/contents/ui/main.qml:207
 #, kde-format
@@ -3621,7 +3618,7 @@ msgid "Tablets switched outputs"
 msgstr "Переключённые выводы планшета"
 
 #: useractions.cpp:161
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "You have selected to show a window without its border.\n"
 "Without the border, you will not be able to enable the border again using "
@@ -3634,7 +3631,7 @@ msgstr ""
 "комбинацией клавиш %1."
 
 #: useractions.cpp:168
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "You have selected to show a window in fullscreen mode.\n"
 "If the application itself does not have an option to turn the fullscreen "
@@ -3780,9 +3777,9 @@ msgid "<b>%1</b> is used by %2 in %3"
 msgstr "<b>%1</b> уже используется для действия «%2» в приложении %3"
 
 #: useractions.cpp:818
-#, fuzzy, kde-format
+#, kde-format
 msgid "Window Menu"
-msgstr "Роль окна"
+msgstr "Меню «Окно»"
 
 #: useractions.cpp:820
 #, kde-format
@@ -3847,12 +3844,12 @@ msgstr "Скрыть или показать заголовок и границ�
 #: useractions.cpp:844
 #, kde-format
 msgid "Keep Window Above Others"
-msgstr "Поместить окно на передний план"
+msgstr "Поддерживать окно поверх остальных"
 
 #: useractions.cpp:846
 #, kde-format
 msgid "Keep Window Below Others"
-msgstr "Поместить окно на задний план"
+msgstr "Поддерживать окно ниже остальных"
 
 #: useractions.cpp:848
 #, kde-format
@@ -3892,12 +3889,12 @@ msgstr "Переместить окно вниз"
 #: useractions.cpp:862
 #, kde-format
 msgid "Expand Window Horizontally"
-msgstr "Распахнуть окно по горизонтали"
+msgstr "Расширить окно по горизонтали"
 
 #: useractions.cpp:864
 #, kde-format
 msgid "Expand Window Vertically"
-msgstr "Распахнуть окно по вертикали"
+msgstr "Расширить окно по вертикали"
 
 #: useractions.cpp:866
 #, kde-format

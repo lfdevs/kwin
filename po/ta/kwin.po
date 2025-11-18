@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-24 02:35+0000\n"
+"POT-Creation-Date: 2025-11-17 14:41+0000\n"
 "PO-Revision-Date: 2025-04-13 18:05+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -78,22 +78,22 @@ msgstr "கே.டீ.யீ. Wayland சாளரநிரல்"
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr "வரைகலை முறிவடைந்து மீட்டமைக்கப்பட்டதால் பணிமேடை அசைவூட்டங்கள் மீள்துவக்கப்பட்டன"
 
-#: core/iccprofile.cpp:252
+#: core/iccprofile.cpp:334
 #, kde-format
 msgid "Failed to open ICC profile \"%1\""
 msgstr "\"%1\" எனும் ICC பயன்முறையை திறக்க முடியவில்லை"
 
-#: core/iccprofile.cpp:254
+#: core/iccprofile.cpp:336
 #, kde-format
 msgid "ICC profile \"%1\" doesn't exist"
 msgstr "\"%1\" எனும் ICC பயன்முறை இல்லை"
 
-#: core/iccprofile.cpp:258
+#: core/iccprofile.cpp:340
 #, kde-format
 msgid "ICC profile \"%1\" is not usable for displays"
 msgstr "\"%1\" எனும் ICC பயன்முறையை திரைகளுக்கு பயன்படுத்த முடியாது"
 
-#: core/iccprofile.cpp:261
+#: core/iccprofile.cpp:343
 #, kde-format
 msgid ""
 "ICC profile \"%1\" has unsupported connection space, only XYZ is supported"
@@ -101,26 +101,26 @@ msgstr ""
 "\"%1\" எனும் ICC பயன்முறை ஆதரிக்கப்படா இணைப்புகளை குறிப்பிடுகிறுது. XYZ மட்டுமே "
 "ஆதரிக்கப்படும்"
 
-#: core/iccprofile.cpp:264
+#: core/iccprofile.cpp:346
 #, kde-format
 msgid "ICC profile \"%1\" is broken, input/output color space isn't RGB"
 msgstr "\"%1\" எனும் ICC பயன்முறை செல்லுபடியாகாதது. நிறவீச்சு RGB-யாக இல்லை"
 
-#: core/iccprofile.cpp:277
+#: core/iccprofile.cpp:359
 #, kde-format
 msgid "ICC profile \"%1\" is broken, it has no whitepoint"
 msgstr ""
 "\"%1\" எனும் ICC பயன்முறை செல்லுபடியாகாதது. வெள்ளை நிறம் எது என்பதை அது "
 "குறிப்பிடவில்லை."
 
-#: core/iccprofile.cpp:280
+#: core/iccprofile.cpp:362
 #, kde-format
 msgid "ICC profile \"%1\" is broken, its whitepoint is invalid"
 msgstr ""
 "\"%1\" எனும் ICC பயன்முறை செல்லுபடியாகாதது. அது குறிப்பிடும் வெள்ளை நிறம் "
 "செல்லுபடியாகாதது."
 
-#: core/iccprofile.cpp:293
+#: core/iccprofile.cpp:375
 #, kde-format
 msgid ""
 "ICC profile \"%1\" is broken, parsing chromatic adaptation matrix failed"
@@ -128,7 +128,7 @@ msgstr ""
 "\"%1\" எனும் ICC பயன்முறை செல்லுபடியாகாதது. அதன் நிறமாற்ற அணியை (chromatic "
 "adaptation matrix-ஐ) புரிந்துகொள்ள முடியவில்லை."
 
-#: core/iccprofile.cpp:298
+#: core/iccprofile.cpp:380
 #, kde-format
 msgid ""
 "ICC profile \"%1\" is broken, inverting chromatic adaptation matrix failed"
@@ -136,31 +136,31 @@ msgstr ""
 "\"%1\" எனும் ICC பயன்முறை செல்லுபடியாகாதது. அதன் நிறமாற்ற அணியின் (chromatic "
 "adaptation matrix-இன்) நேர்மாறு அணியைக் கணிக்க முடியவில்லை."
 
-#: core/iccprofile.cpp:311
+#: core/iccprofile.cpp:393
 #, kde-format
 msgid "ICC profile \"%1\" is broken, it has no primaries"
 msgstr ""
 "\"%1\" எனும் ICC பயன்முறை செல்லுபடியாகாதது. முதன்மை நிரங்கள் எவை என்பதை அது "
 "குறிப்பிடவில்லை"
 
-#: core/iccprofile.cpp:326
+#: core/iccprofile.cpp:408
 #, kde-format
 msgid "ICC profile \"%1\" is broken, couldn't calculate its primaries"
 msgstr ""
 "\"%1\" எனும் ICC பயன்முறை செல்லுபடியாகாதது. அதன் முதன்மை நிரங்களை கணிக்க முடியவில்லை"
 
-#: core/iccprofile.cpp:335
+#: core/iccprofile.cpp:417
 #, kde-format
 msgid "ICC profile \"%1\" is broken, its primaries are invalid"
 msgstr ""
 "\"%1\" எனும் ICC பயன்முறை செல்லுபடியாகாதது. அதன் முதன்மை நிரங்கள் செல்லுபடியாகாதவை"
 
-#: core/iccprofile.cpp:351
+#: core/iccprofile.cpp:433
 #, kde-format
 msgid "ICC profile \"%1\" with only BToD tags isn't supported"
 msgstr "BToD குறிச்சொற்களை மட்டும் கொண்ட \"%1\" எனும் ICC பயன்முறை ஆதரிக்கப்படாதது"
 
-#: core/iccprofile.cpp:390
+#: core/iccprofile.cpp:472
 #, kde-format
 msgid "Color profile is missing TRC tags"
 msgstr "நிறப்பயன்முறையில் TRC குறிச்சொற்களை காணவில்லை."
@@ -1110,152 +1110,152 @@ msgid "Debug Console"
 msgstr "பிழைநீக்க முனையம்"
 
 #. i18n: ectx: attribute (title), widget (QWidget, windows)
-#: debug_console.ui:44
+#: debug_console.ui:27
 #, kde-format
 msgid "Windows"
 msgstr "சாளரங்கள்"
 
 #. i18n: ectx: attribute (title), widget (QWidget, input)
-#: debug_console.ui:58
+#: debug_console.ui:41
 #, kde-format
 msgid "Input Events"
 msgstr "உள்ளீடு நிகழ்வுகள்"
 
 #. i18n: ectx: attribute (title), widget (QWidget, inputDevices)
-#: debug_console.ui:75
+#: debug_console.ui:58
 #, kde-format
 msgid "Input Devices"
 msgstr "உள்ளீடு கருவிகள்"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
-#: debug_console.ui:85
+#: debug_console.ui:68
 #, kde-format
 msgid "OpenGL"
 msgstr "OpenGL"
 
 #. i18n: ectx: property (text), widget (QLabel, noOpenGLLabel)
-#: debug_console.ui:91
+#: debug_console.ui:74
 #, kde-format
 msgid "No OpenGL compositor running"
 msgstr "எந்த OpenGL சாளரநிரலும் இயங்கவில்லை"
 
 #. i18n: ectx: property (title), widget (QGroupBox, driverInfoBox)
-#: debug_console.ui:119
+#: debug_console.ui:102
 #, kde-format
 msgid "OpenGL (ES) driver information"
 msgstr "OpenGL (ES) சாதனநிரல் விவரங்கள்"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: debug_console.ui:125
+#: debug_console.ui:108
 #, kde-format
 msgid "Vendor:"
 msgstr "வியாபாரி:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: debug_console.ui:132
+#: debug_console.ui:115
 #, kde-format
 msgid "Renderer:"
 msgstr "வரைநிரல்:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: debug_console.ui:139
+#: debug_console.ui:122
 #, kde-format
 msgid "Version:"
 msgstr "பதிப்பு:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: debug_console.ui:146
+#: debug_console.ui:129
 #, kde-format
 msgid "Shading Language Version:"
 msgstr "வரைவு நிரல்மொழி பதிப்பு:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: debug_console.ui:153
+#: debug_console.ui:136
 #, kde-format
 msgid "Driver:"
 msgstr "சாதனநிரல்:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: debug_console.ui:160
+#: debug_console.ui:143
 #, kde-format
 msgid "GPU class:"
 msgstr "GPU வகை"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: debug_console.ui:167
+#: debug_console.ui:150
 #, kde-format
 msgid "OpenGL Version:"
 msgstr "OpenGL பதிப்பு:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: debug_console.ui:174
+#: debug_console.ui:157
 #, kde-format
 msgid "GLSL Version:"
 msgstr "GLSL பதிப்பு:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, platformExtensionsBox)
-#: debug_console.ui:240
+#: debug_console.ui:223
 #, kde-format
 msgid "Platform Extensions"
 msgstr "இயக்குதள நீட்டிப்புகள்"
 
 #. i18n: ectx: property (title), widget (QGroupBox, glExtensionsBox)
-#: debug_console.ui:256
+#: debug_console.ui:239
 #, kde-format
 msgid "OpenGL (ES) Extensions"
 msgstr "OpenGL (ES) நீட்டிப்புகள்"
 
 #. i18n: ectx: attribute (title), widget (QWidget, keyboard)
-#: debug_console.ui:277
+#: debug_console.ui:260
 #, kde-format
 msgid "Keyboard"
 msgstr "விசைப்பலகை"
 
 #. i18n: ectx: property (title), widget (QGroupBox, layoutBox)
-#: debug_console.ui:304
+#: debug_console.ui:287
 #, kde-format
 msgid "Keymap Layouts"
 msgstr "விசைத் தளவமைப்புகள்"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: debug_console.ui:326
+#: debug_console.ui:309
 #, kde-format
 msgid "Current Layout:"
 msgstr "தற்போதைய தளவமைப்பு:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, modifiersBox)
-#: debug_console.ui:345
+#: debug_console.ui:328
 #, kde-format
 msgid "Modifiers"
 msgstr "மாற்றிவிசைகள்"
 
 #. i18n: ectx: property (title), widget (QGroupBox, activeModifiersBox)
-#: debug_console.ui:361
+#: debug_console.ui:344
 #, kde-format
 msgid "Active Modifiers"
 msgstr "செயலிலுள்ள மாற்றிகள்"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ledsBox)
-#: debug_console.ui:377
+#: debug_console.ui:360
 #, kde-format
 msgid "LEDs"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, activeLedsBox)
-#: debug_console.ui:393
+#: debug_console.ui:376
 #, kde-format
 msgid "Active LEDs"
 msgstr "செயலிலுள்ள LED-கள்"
 
 #. i18n: ectx: attribute (title), widget (QWidget, clipboard)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: debug_console.ui:414 debug_console.ui:434
+#: debug_console.ui:397 debug_console.ui:417
 #, kde-format
 msgid "Clipboard"
 msgstr "பிடிப்புப்பலகை"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
-#: debug_console.ui:480
+#: debug_console.ui:463
 #, kde-format
 msgid "Primary Selection"
 msgstr "முதன்மையான தேர்வு"

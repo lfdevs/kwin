@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-24 02:35+0000\n"
-"PO-Revision-Date: 2025-09-17 11:39+0300\n"
+"POT-Creation-Date: 2025-11-17 14:41+0000\n"
+"PO-Revision-Date: 2025-11-11 09:16+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Lokalize 25.08.0\n"
+"X-Generator: Lokalize 25.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -87,75 +87,75 @@ msgstr "מנהל חלונאי KDE Wayland"
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr "אפקטים של שולחן עבודה הופעלן מחגד"
 
-#: core/iccprofile.cpp:252
+#: core/iccprofile.cpp:334
 #, kde-format
 msgid "Failed to open ICC profile \"%1\""
 msgstr "פתיחת פרופיל ה־ICC ‏„%1” נכשלה"
 
-#: core/iccprofile.cpp:254
+#: core/iccprofile.cpp:336
 #, kde-format
 msgid "ICC profile \"%1\" doesn't exist"
 msgstr "פרופיל ה־ICC ‏„%1” לא קיים"
 
-#: core/iccprofile.cpp:258
+#: core/iccprofile.cpp:340
 #, kde-format
 msgid "ICC profile \"%1\" is not usable for displays"
 msgstr "פרופיל ה־ICC ‏„%1” לא זמין לצגים"
 
-#: core/iccprofile.cpp:261
+#: core/iccprofile.cpp:343
 #, kde-format
 msgid ""
 "ICC profile \"%1\" has unsupported connection space, only XYZ is supported"
 msgstr "לפרופיל ה־ICC ‏„%1” יש מרחב חיבורים לא נתמך, יש תמיכה רק ב־XYZ"
 
-#: core/iccprofile.cpp:264
+#: core/iccprofile.cpp:346
 #, kde-format
 msgid "ICC profile \"%1\" is broken, input/output color space isn't RGB"
 msgstr "פרופיל ה־ICC‏ „%1” פגום, מרחב צבע קלט/פלט אינו RGB"
 
-#: core/iccprofile.cpp:277
+#: core/iccprofile.cpp:359
 #, kde-format
 msgid "ICC profile \"%1\" is broken, it has no whitepoint"
 msgstr "פרופיל ה־ICC‏ „%1” פגום, אין לו נקודה לבנה"
 
-#: core/iccprofile.cpp:280
+#: core/iccprofile.cpp:362
 #, kde-format
 msgid "ICC profile \"%1\" is broken, its whitepoint is invalid"
 msgstr "פרופיל ה־ICC‏ „%1” פגום, הנקודה הלבנה שלו פגומה"
 
-#: core/iccprofile.cpp:293
+#: core/iccprofile.cpp:375
 #, kde-format
 msgid ""
 "ICC profile \"%1\" is broken, parsing chromatic adaptation matrix failed"
 msgstr "פרופיל ה־ICC‏ „%1” פגום, פענוח מטריצת ההתאמה הכרומטית נכשל"
 
-#: core/iccprofile.cpp:298
+#: core/iccprofile.cpp:380
 #, kde-format
 msgid ""
 "ICC profile \"%1\" is broken, inverting chromatic adaptation matrix failed"
 msgstr "פרופיל ה־ICC‏ „%1” פגום, היפוך מטריצת ההתאמה הכרומטית נכשל"
 
-#: core/iccprofile.cpp:311
+#: core/iccprofile.cpp:393
 #, kde-format
 msgid "ICC profile \"%1\" is broken, it has no primaries"
 msgstr "פרופיל ה־ICC‏ „%1” פגום, אין לו צבעי יסוד"
 
-#: core/iccprofile.cpp:326
+#: core/iccprofile.cpp:408
 #, kde-format
 msgid "ICC profile \"%1\" is broken, couldn't calculate its primaries"
 msgstr "פרופיל ה־ICC‏ „%1” פגום, לא ניתן לחשב את צבעי היסוד שלו"
 
-#: core/iccprofile.cpp:335
+#: core/iccprofile.cpp:417
 #, kde-format
 msgid "ICC profile \"%1\" is broken, its primaries are invalid"
 msgstr "פרופיל ה־ICC‏ „%1” פגום, צבעי היסוד שלו שגויים"
 
-#: core/iccprofile.cpp:351
+#: core/iccprofile.cpp:433
 #, kde-format
 msgid "ICC profile \"%1\" with only BToD tags isn't supported"
 msgstr "אין תמיכה בפרופיל ICC‏ „%1” עם תגיות BToD בלבד"
 
-#: core/iccprofile.cpp:390
+#: core/iccprofile.cpp:472
 #, kde-format
 msgid "Color profile is missing TRC tags"
 msgstr "לפרופיל הצבע חסרות תגיות TRC (צבע אמיתי)"
@@ -1093,152 +1093,152 @@ msgid "Debug Console"
 msgstr "מסוף ניפוי תקלות"
 
 #. i18n: ectx: attribute (title), widget (QWidget, windows)
-#: debug_console.ui:44
+#: debug_console.ui:27
 #, kde-format
 msgid "Windows"
 msgstr "חלונות"
 
 #. i18n: ectx: attribute (title), widget (QWidget, input)
-#: debug_console.ui:58
+#: debug_console.ui:41
 #, kde-format
 msgid "Input Events"
 msgstr "אירועי קלט"
 
 #. i18n: ectx: attribute (title), widget (QWidget, inputDevices)
-#: debug_console.ui:75
+#: debug_console.ui:58
 #, kde-format
 msgid "Input Devices"
 msgstr "התקני קלט"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
-#: debug_console.ui:85
+#: debug_console.ui:68
 #, kde-format
 msgid "OpenGL"
 msgstr "OpenGL"
 
 #. i18n: ectx: property (text), widget (QLabel, noOpenGLLabel)
-#: debug_console.ui:91
+#: debug_console.ui:74
 #, kde-format
 msgid "No OpenGL compositor running"
 msgstr "אין מנהל חלונאי מסוג OpenGL פעיל"
 
 #. i18n: ectx: property (title), widget (QGroupBox, driverInfoBox)
-#: debug_console.ui:119
+#: debug_console.ui:102
 #, kde-format
 msgid "OpenGL (ES) driver information"
 msgstr "פרטי מנהל ההתקן OpenGL (ES)"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: debug_console.ui:125
+#: debug_console.ui:108
 #, kde-format
 msgid "Vendor:"
 msgstr "יצרן:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: debug_console.ui:132
+#: debug_console.ui:115
 #, kde-format
 msgid "Renderer:"
 msgstr "מעבד צלימה:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: debug_console.ui:139
+#: debug_console.ui:122
 #, kde-format
 msgid "Version:"
 msgstr "גרסה:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: debug_console.ui:146
+#: debug_console.ui:129
 #, kde-format
 msgid "Shading Language Version:"
 msgstr "גרסת שפת הצללה:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: debug_console.ui:153
+#: debug_console.ui:136
 #, kde-format
 msgid "Driver:"
 msgstr "מנהל התקן:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: debug_console.ui:160
+#: debug_console.ui:143
 #, kde-format
 msgid "GPU class:"
 msgstr "מחלקת מעבד גרפי:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: debug_console.ui:167
+#: debug_console.ui:150
 #, kde-format
 msgid "OpenGL Version:"
 msgstr "גרסת OpenGL:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: debug_console.ui:174
+#: debug_console.ui:157
 #, kde-format
 msgid "GLSL Version:"
 msgstr "גרסת GLSL:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, platformExtensionsBox)
-#: debug_console.ui:240
+#: debug_console.ui:223
 #, kde-format
 msgid "Platform Extensions"
 msgstr "הרחבות פלטפורמה"
 
 #. i18n: ectx: property (title), widget (QGroupBox, glExtensionsBox)
-#: debug_console.ui:256
+#: debug_console.ui:239
 #, kde-format
 msgid "OpenGL (ES) Extensions"
 msgstr "הרחבות OpenGL (ES)"
 
 #. i18n: ectx: attribute (title), widget (QWidget, keyboard)
-#: debug_console.ui:277
+#: debug_console.ui:260
 #, kde-format
 msgid "Keyboard"
 msgstr "מקלדת"
 
 #. i18n: ectx: property (title), widget (QGroupBox, layoutBox)
-#: debug_console.ui:304
+#: debug_console.ui:287
 #, kde-format
 msgid "Keymap Layouts"
 msgstr "פריסות מפות תווים"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: debug_console.ui:326
+#: debug_console.ui:309
 #, kde-format
 msgid "Current Layout:"
 msgstr "פריסה נוכחית:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, modifiersBox)
-#: debug_console.ui:345
+#: debug_console.ui:328
 #, kde-format
 msgid "Modifiers"
 msgstr "מחליפים"
 
 #. i18n: ectx: property (title), widget (QGroupBox, activeModifiersBox)
-#: debug_console.ui:361
+#: debug_console.ui:344
 #, kde-format
 msgid "Active Modifiers"
 msgstr "מחליפים פעילים"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ledsBox)
-#: debug_console.ui:377
+#: debug_console.ui:360
 #, kde-format
 msgid "LEDs"
 msgstr "נוריות"
 
 #. i18n: ectx: property (title), widget (QGroupBox, activeLedsBox)
-#: debug_console.ui:393
+#: debug_console.ui:376
 #, kde-format
 msgid "Active LEDs"
 msgstr "נוריות פעילות"
 
 #. i18n: ectx: attribute (title), widget (QWidget, clipboard)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: debug_console.ui:414 debug_console.ui:434
+#: debug_console.ui:397 debug_console.ui:417
 #, kde-format
 msgid "Clipboard"
 msgstr "לוח גזירים"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
-#: debug_console.ui:480
+#: debug_console.ui:463
 #, kde-format
 msgid "Primary Selection"
 msgstr "בחירה עיקרית"
@@ -3495,11 +3495,10 @@ msgstr ""
 "הוצאת המשתמש תתבצע בכל זאת בעוד 2 דקות."
 
 #: tabbox/clientmodel.cpp:58
-#, fuzzy, kde-format
-#| msgid "Peek at Desktop"
+#, kde-format
 msgctxt "Special entry in alt+tab list for temporarily hiding all windows"
 msgid "Peek at Desktop"
-msgstr "הצצה בשולחן העבודה"
+msgstr "הצצה על שולחן העבודה"
 
 #: tabbox/switchers/thumbnail_grid/contents/ui/main.qml:207
 #, kde-format

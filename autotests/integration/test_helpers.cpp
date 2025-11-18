@@ -26,6 +26,7 @@
 #include <KWayland/Client/compositor.h>
 #include <KWayland/Client/connection_thread.h>
 #include <KWayland/Client/datadevicemanager.h>
+#include <KWayland/Client/datasource.h>
 #include <KWayland/Client/event_queue.h>
 #include <KWayland/Client/output.h>
 #include <KWayland/Client/plasmashell.h>
@@ -557,6 +558,11 @@ std::unique_ptr<Connection> Connection::setup(AdditionalWaylandInterfaces flags)
                 c->primarySelectionManager = std::make_unique<WpPrimarySelectionDeviceManagerV1>(*c->registry, name, version);
             }
         }
+        if (flags & AdditionalWaylandInterface::XdgToplevelDragV1) {
+            if (interface == xdg_toplevel_drag_manager_v1_interface.name) {
+                c->toplevelDragManager = std::make_unique<XdgToplevelDragManagerV1>(*c->registry, name, version);
+            }
+        }
     });
 
     QSignalSpy allAnnounced(registry, &KWayland::Client::Registry::interfacesAnnounced);
@@ -700,6 +706,7 @@ Connection::~Connection()
     tabletManager.reset();
     keyState.reset();
     primarySelectionManager.reset();
+    toplevelDragManager.reset();
 
     delete queue; // Must be destroyed last
     queue = nullptr;
@@ -892,6 +899,11 @@ KeyStateV1 *keyState()
 WpPrimarySelectionDeviceManagerV1 *primarySelectionManager()
 {
     return s_waylandConnection->primarySelectionManager.get();
+}
+
+XdgToplevelDragManagerV1 *toplevelDragManager()
+{
+    return s_waylandConnection->toplevelDragManager.get();
 }
 
 bool waitForWaylandSurface(Window *window)
@@ -1353,7 +1365,7 @@ bool unlockScreen()
 }
 #endif // KWIN_BUILD_LOCKSCREEN
 
-bool renderNodeAvailable()
+static bool haveDrmNode(int type)
 {
 #if !HAVE_LIBDRM_FAUX
 #if defined(Q_OS_LINUX)
@@ -1377,9 +1389,19 @@ bool renderNodeAvailable()
         drmFreeDevices(devices.data(), devices.size());
     });
 
-    return std::any_of(devices.constBegin(), devices.constEnd(), [](drmDevice *device) {
-        return device->available_nodes & (1 << DRM_NODE_RENDER);
+    return std::any_of(devices.constBegin(), devices.constEnd(), [type](drmDevice *device) {
+        return device->available_nodes & (1 << type);
     });
+}
+
+bool renderNodeAvailable()
+{
+    return haveDrmNode(DRM_NODE_RENDER);
+}
+
+bool primaryNodeAvailable()
+{
+    return haveDrmNode(DRM_NODE_PRIMARY);
 }
 
 #if KWIN_BUILD_X11
@@ -2210,6 +2232,31 @@ std::unique_ptr<WpPrimarySelectionDeviceV1> WpPrimarySelectionDeviceManagerV1::g
 std::unique_ptr<WpPrimarySelectionSourceV1> WpPrimarySelectionDeviceManagerV1::createSource()
 {
     return std::make_unique<WpPrimarySelectionSourceV1>(create_source());
+}
+
+XdgToplevelDragManagerV1::XdgToplevelDragManagerV1(::wl_registry *registry, uint32_t id, int version)
+    : QtWayland::xdg_toplevel_drag_manager_v1(registry, id, version)
+{
+}
+
+std::unique_ptr<XdgToplevelDragV1> XdgToplevelDragManagerV1::createDrag(KWayland::Client::DataSource *source)
+{
+    return std::make_unique<XdgToplevelDragV1>(get_xdg_toplevel_drag(*source));
+}
+
+XdgToplevelDragManagerV1::~XdgToplevelDragManagerV1()
+{
+    destroy();
+}
+
+XdgToplevelDragV1::XdgToplevelDragV1(::xdg_toplevel_drag_v1 *id)
+    : QtWayland::xdg_toplevel_drag_v1(id)
+{
+}
+
+XdgToplevelDragV1::~XdgToplevelDragV1()
+{
+    destroy();
 }
 
 void keyboardKeyPressed(quint32 key, quint32 time)

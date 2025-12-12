@@ -1,3 +1,10 @@
+kwin (4:6.5.4-0ubuntu3) resolute; urgency=medium
+
+  * Add upstream_fix-kde-bug-513151.patch
+    https://bugs.kde.org/513151
+
+ -- Rik Mills <rikmills@kde.org>  Fri, 12 Dec 2025 18:00:03 +0000
+
 kwin (4:6.5.4-0ubuntu2) resolute; urgency=high
 
   * Rebuild for release.

@@ -16,15 +16,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 14:41+0000\n"
-"PO-Revision-Date: 2025-09-22 03:45+0900\n"
+"POT-Creation-Date: 2026-01-09 02:38+0000\n"
+"PO-Revision-Date: 2025-12-21 04:56+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 25.07.70\n"
+"X-Generator: Lokalize 25.11.70\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #, kde-format
@@ -81,7 +81,7 @@ msgstr "按下右側 Ctrl 鍵來抓取輸入"
 msgid "KDE Wayland Compositor"
 msgstr "KDE Wayland 合成器"
 
-#: compositor.cpp:578
+#: compositor.cpp:583
 #, kde-format
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr "桌面效果會重新啟動，因為圖形已重置"
@@ -3486,8 +3486,7 @@ msgstr ""
 "將在 2 分鐘後無視它們直接登出。"
 
 #: tabbox/clientmodel.cpp:58
-#, fuzzy, kde-format
-#| msgid "Peek at Desktop"
+#, kde-format
 msgctxt "Special entry in alt+tab list for temporarily hiding all windows"
 msgid "Peek at Desktop"
 msgstr "看一下桌面"
@@ -4110,17 +4109,17 @@ msgstr "有關的一個輸出已不再可用"
 msgid "Disabling all outputs through configuration changes is not allowed"
 msgstr "不允許透過設定值變更來停用所有輸出"
 
-#: wayland/outputmanagement_v2.cpp:527
+#: wayland/outputmanagement_v2.cpp:544
 #, kde-format
 msgid "The provided output order doesn't contain all outputs"
 msgstr "提供的輸出順序沒有包含所有輸出"
 
-#: wayland/outputmanagement_v2.cpp:545
+#: wayland/outputmanagement_v2.cpp:562
 #, kde-format
 msgid "The provided output order is invalid"
 msgstr "提供的輸出順序是無效的"
 
-#: wayland/outputmanagement_v2.cpp:563
+#: wayland/outputmanagement_v2.cpp:580
 #, kde-format
 msgid "The driver rejected the output configuration"
 msgstr "驅動程式回絕了提供的輸出配置"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 14:41+0000\n"
+"POT-Creation-Date: 2026-01-09 02:38+0000\n"
 "PO-Revision-Date: 2025-03-02 14:47+0530\n"
 "Last-Translator: Shreekant Kalwar <skkalwar999@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -71,7 +71,7 @@ msgstr "इनपुट् ग्रहीतुं right control key नुद�
 msgid "KDE Wayland Compositor"
 msgstr "केडीई वेलैण्ड रचनाकार"
 
-#: compositor.cpp:578
+#: compositor.cpp:583
 #, kde-format
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr "ग्राफिक्स् रीसेट् इत्यस्य कारणेन डेस्कटॉप् प्रभावाः पुनः आरब्धाः"
@@ -4138,17 +4138,17 @@ msgstr "प्रासंगिकनिर्गमानाम् एकं �
 msgid "Disabling all outputs through configuration changes is not allowed"
 msgstr "विन्यासपरिवर्तनद्वारा सर्वाणि निर्गमानाम् अक्षमीकरणं न अनुमतम्"
 
-#: wayland/outputmanagement_v2.cpp:527
+#: wayland/outputmanagement_v2.cpp:544
 #, kde-format
 msgid "The provided output order doesn't contain all outputs"
 msgstr "प्रदत्तनिर्गमक्रमे सर्वाणि निर्गमाः न सन्ति"
 
-#: wayland/outputmanagement_v2.cpp:545
+#: wayland/outputmanagement_v2.cpp:562
 #, kde-format
 msgid "The provided output order is invalid"
 msgstr "प्रदत्तः आउटपुट् क्रमः अमान्यः अस्ति"
 
-#: wayland/outputmanagement_v2.cpp:563
+#: wayland/outputmanagement_v2.cpp:580
 #, kde-format
 msgid "The driver rejected the output configuration"
 msgstr "चालकः निर्गमविन्यासं अङ्गीकृतवान्"

@@ -1,3 +1,10 @@
+kwin (4:6.5.5-0ubuntu1) resolute; urgency=medium
+
+  * New upstream release (6.5.5)
+  * Drop included upstream patches.
+
+ -- Rik Mills <rikmills@kde.org>  Tue, 13 Jan 2026 14:55:59 +0000
+
 kwin (4:6.5.4-0ubuntu3) resolute; urgency=medium
 
   * Add upstream_fix-kde-bug-513151.patch

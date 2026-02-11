@@ -1,3 +1,9 @@
+kwin (4:6.5.5-0ubuntu2) resolute; urgency=medium
+
+  * Stop recommending obsolete xwaylandvideobridge.
+
+ -- Rik Mills <rikmills@kde.org>  Wed, 11 Feb 2026 06:38:44 +0000
+
 kwin (4:6.5.5-0ubuntu1) resolute; urgency=medium
 
   * New upstream release (6.5.5)

@@ -1,3 +1,15 @@
+kwin (4:6.5.5-0ubuntu4) resolute; urgency=medium
+
+  * Update build deps for Qt 6.10
+
+ -- Rik Mills <rikmills@kde.org>  Tue, 17 Feb 2026 07:28:52 +0000
+
+kwin (4:6.5.5-0ubuntu3) resolute; urgency=medium
+
+  * No-change rebuild for Qt 6.10.2 private ABI.
+
+ -- Rik Mills <rikmills@kde.org>  Sun, 15 Feb 2026 12:55:07 +0000
+
 kwin (4:6.5.5-0ubuntu2) resolute; urgency=medium
 
   * Stop recommending obsolete xwaylandvideobridge.

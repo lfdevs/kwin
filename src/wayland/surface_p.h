@@ -7,6 +7,7 @@
 #pragma once
 
 #include "core/graphicsbuffer.h"
+#include "core/region.h"
 #include "surface.h"
 // Qt
 #include <QHash>
@@ -67,10 +68,10 @@ struct SurfaceState
     void mergeInto(SurfaceState *target);
 
     Fields committed;
-    QRegion damage = QRegion();
-    QRegion bufferDamage = QRegion();
-    QRegion opaque = QRegion();
-    QRegion input = infiniteRegion();
+    Region damage = Region();
+    Region bufferDamage = Region();
+    Region opaque = Region();
+    Region input = Region::infinite();
     qint32 bufferScale = 1;
     OutputTransform bufferTransform = OutputTransform::Normal;
     wl_list frameCallbacks;
@@ -83,6 +84,7 @@ struct SurfaceState
     ContentType contentType = ContentType::None;
     PresentationModeHint presentationHint = PresentationModeHint::VSync;
     std::shared_ptr<ColorDescription> colorDescription = ColorDescription::sRGB;
+    ColorDescriptionType colorDescriptionType = ColorDescriptionType::Normal;
     RenderingIntent renderingIntent = RenderingIntent::Perceptual;
     std::shared_ptr<PresentationTimeFeedback> presentationFeedback;
     struct
@@ -111,7 +113,7 @@ struct SurfaceState
 
     struct
     {
-        QRectF sourceGeometry = QRectF();
+        RectF sourceGeometry = RectF();
         QSize destinationSize = QSize();
     } viewport;
 
@@ -140,8 +142,9 @@ public:
     void installPointerConstraint(ConfinedPointerV1Interface *confinement);
     void installIdleInhibitor(IdleInhibitorV1Interface *inhibitor);
     void removeIdleInhibitor(IdleInhibitorV1Interface *inhibitor);
+    void recursivelyEmitIdleInhibitChanged();
 
-    QRectF computeBufferSourceBox() const;
+    RectF computeBufferSourceBox() const;
     void applyState(SurfaceState *next);
 
     bool computeEffectiveMapped() const;
@@ -153,20 +156,20 @@ public:
      */
     bool contains(const QPointF &position) const;
     bool inputContains(const QPointF &position) const;
-    QRegion mapToBuffer(const QRegion &region) const;
+    Region mapToBuffer(const Region &region) const;
 
     CompositorInterface *compositor;
     SurfaceInterface *q;
     SurfaceRole *role = nullptr;
     std::unique_ptr<SurfaceState> current;
     std::unique_ptr<SurfaceState> pending;
-    QRectF bufferSourceBox;
+    RectF bufferSourceBox;
     QSizeF surfaceSize = QSizeF(0, 0);
 
-    QRegion inputRegion;
-    QRegion opaqueRegion;
+    Region inputRegion;
+    Region opaqueRegion;
     GraphicsBufferRef bufferRef;
-    QRegion bufferDamage;
+    Region bufferDamage;
     bool mapped = false;
     qreal scaleOverride = 1.;
     qreal pendingScaleOverride = 1.;

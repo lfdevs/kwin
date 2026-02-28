@@ -55,8 +55,8 @@ void TabBoxTest::initTestCase()
 
     kwinApp()->start();
     Test::setOutputConfig({
-        QRect(0, 0, 1280, 1024),
-        QRect(1280, 0, 1280, 1024),
+        Rect(0, 0, 1280, 1024),
+        Rect(1280, 0, 1280, 1024),
     });
 }
 
@@ -306,7 +306,7 @@ void TabBoxTest::testActiveClientOutsideModel()
     // 2) the selection should not be advanced initially if the active window
     //    is not part of the client list.
 
-    const auto outputs = kwinApp()->outputBackend()->outputs();
+    const auto outputs = workspace()->outputs();
 
     // Initially, set up MultiScreenMode such that alt+tab will only switch
     // within windows on the same screen.

@@ -26,6 +26,7 @@ namespace KWin
 
 WindowItem::WindowItem(Window *window, Item *parent)
     : Item(parent)
+    , m_windowContainer(std::make_unique<Item>(this))
     , m_window(window)
 {
     connect(window, &Window::decorationChanged, this, &WindowItem::updateDecorationItem);
@@ -34,12 +35,9 @@ WindowItem::WindowItem(Window *window, Item *parent)
     connect(window, &Window::shadowChanged, this, &WindowItem::updateShadowItem);
     updateShadowItem();
 
-    connect(window, &Window::frameGeometryChanged, this, &WindowItem::updatePosition);
-    updatePosition();
+    connect(window, &Window::frameGeometryChanged, this, &WindowItem::updateGeometry);
+    updateGeometry();
 
-    if (waylandServer()) {
-        connect(waylandServer(), &WaylandServer::lockStateChanged, this, &WindowItem::updateVisibility);
-    }
     if (!window->readyForPainting()) {
         connect(window, &Window::readyForPaintingChanged, this, &WindowItem::updateVisibility);
     }
@@ -50,6 +48,7 @@ WindowItem::WindowItem(Window *window, Item *parent)
     connect(window, &Window::activitiesChanged, this, &WindowItem::updateVisibility);
     connect(window, &Window::desktopsChanged, this, &WindowItem::updateVisibility);
     connect(window, &Window::offscreenRenderingChanged, this, &WindowItem::updateVisibility);
+    connect(waylandServer(), &WaylandServer::lockStateChanged, this, &WindowItem::updateVisibility);
     connect(workspace(), &Workspace::currentActivityChanged, this, &WindowItem::updateVisibility);
     connect(workspace(), &Workspace::currentDesktopChanged, this, &WindowItem::updateVisibility);
     updateVisibility();
@@ -191,9 +190,10 @@ void WindowItem::updateVisibility()
     }
 }
 
-void WindowItem::updatePosition()
+void WindowItem::updateGeometry()
 {
     setPosition(m_window->pos());
+    m_windowContainer->setSize(m_window->frameGeometry().size());
 }
 
 void WindowItem::addSurfaceItemDamageConnects(Item *item)
@@ -216,29 +216,29 @@ void WindowItem::updateSurfaceItem(std::unique_ptr<SurfaceItem> &&surfaceItem)
     if (m_surfaceItem) {
         connect(m_window, &Window::bufferGeometryChanged, this, &WindowItem::updateSurfacePosition);
         connect(m_window, &Window::frameGeometryChanged, this, &WindowItem::updateSurfacePosition);
-        connect(m_window, &Window::borderRadiusChanged, this, &WindowItem::updateSurfaceBorderRadius);
+        connect(m_window, &Window::borderRadiusChanged, this, &WindowItem::updateBorderRadius);
         addSurfaceItemDamageConnects(m_surfaceItem.get());
 
         updateSurfacePosition();
-        updateSurfaceBorderRadius();
+        updateBorderRadius();
     } else {
         disconnect(m_window, &Window::bufferGeometryChanged, this, &WindowItem::updateSurfacePosition);
         disconnect(m_window, &Window::frameGeometryChanged, this, &WindowItem::updateSurfacePosition);
-        disconnect(m_window, &Window::borderRadiusChanged, this, &WindowItem::updateSurfaceBorderRadius);
+        disconnect(m_window, &Window::borderRadiusChanged, this, &WindowItem::updateBorderRadius);
     }
 }
 
 void WindowItem::updateSurfacePosition()
 {
-    const QRectF bufferGeometry = m_window->bufferGeometry();
-    const QRectF frameGeometry = m_window->frameGeometry();
+    const RectF bufferGeometry = m_window->bufferGeometry();
+    const RectF frameGeometry = m_window->frameGeometry();
 
     m_surfaceItem->setPosition(bufferGeometry.topLeft() - frameGeometry.topLeft());
 }
 
-void WindowItem::updateSurfaceBorderRadius()
+void WindowItem::updateBorderRadius()
 {
-    m_surfaceItem->setBorderRadius(m_window->borderRadius());
+    m_windowContainer->setBorderRadius(m_window->borderRadius());
 }
 
 void WindowItem::updateShadowItem()
@@ -248,11 +248,7 @@ void WindowItem::updateShadowItem()
         if (!m_shadowItem || m_shadowItem->shadow() != shadow) {
             m_shadowItem = std::make_unique<ShadowItem>(shadow, m_window, this);
         }
-        if (m_decorationItem) {
-            m_shadowItem->stackBefore(m_decorationItem.get());
-        } else if (m_surfaceItem) {
-            m_shadowItem->stackBefore(m_surfaceItem.get());
-        }
+        m_shadowItem->stackBefore(m_windowContainer.get());
         markDamaged();
     } else {
         m_shadowItem.reset();
@@ -265,10 +261,8 @@ void WindowItem::updateDecorationItem()
         return;
     }
     if (m_window->decoration()) {
-        m_decorationItem = std::make_unique<DecorationItem>(m_window->decoration(), m_window, this);
-        if (m_shadowItem) {
-            m_decorationItem->stackAfter(m_shadowItem.get());
-        } else if (m_surfaceItem) {
+        m_decorationItem = std::make_unique<DecorationItem>(m_window->decoration(), m_window, m_windowContainer.get());
+        if (m_surfaceItem) {
             m_decorationItem->stackBefore(m_surfaceItem.get());
         }
         connect(m_window->decoration(), &KDecoration3::Decoration::damaged, this, &WindowItem::markDamaged);
@@ -319,7 +313,7 @@ void WindowItemX11::initialize()
     if (!window()->surface()) {
         updateSurfaceItem(nullptr);
     } else {
-        updateSurfaceItem(std::make_unique<SurfaceItemXwayland>(static_cast<X11Window *>(window()), this));
+        updateSurfaceItem(std::make_unique<SurfaceItemXwayland>(static_cast<X11Window *>(window()), m_windowContainer.get()));
     }
 }
 #endif
@@ -327,13 +321,13 @@ void WindowItemX11::initialize()
 WindowItemWayland::WindowItemWayland(Window *window, Item *parent)
     : WindowItem(window, parent)
 {
-    updateSurfaceItem(std::make_unique<SurfaceItemWayland>(window->surface(), this));
+    updateSurfaceItem(std::make_unique<SurfaceItemWayland>(window->surface(), m_windowContainer.get()));
 }
 
 WindowItemInternal::WindowItemInternal(InternalWindow *window, Item *parent)
     : WindowItem(window, parent)
 {
-    updateSurfaceItem(std::make_unique<SurfaceItemInternal>(window, this));
+    updateSurfaceItem(std::make_unique<SurfaceItemInternal>(window, m_windowContainer.get()));
 }
 
 } // namespace KWin

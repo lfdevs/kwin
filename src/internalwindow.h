@@ -18,7 +18,7 @@ namespace KWin
 struct InternalWindowFrame
 {
     GraphicsBuffer *buffer = nullptr;
-    QRegion bufferDamage;
+    Region bufferDamage;
     OutputTransform bufferTransform = OutputTransform::Normal;
 };
 
@@ -47,15 +47,13 @@ public:
     bool isMovableAcrossScreens() const override;
     bool isResizable() const override;
     bool isPlaceable() const override;
-    bool noBorder() const override;
-    bool userCanSetNoBorder() const override;
     bool wantsInput() const override;
     bool isInternal() const override;
     bool isLockScreen() const override;
     bool isOutline() const override;
-    QRectF resizeWithChecks(const QRectF &geometry, const QSizeF &size) const override;
-    bool takeFocus() override;
-    void setNoBorder(bool set) override;
+    RectF resizeWithChecks(const RectF &geometry, const QSizeF &size) const override;
+    DecorationPolicy decorationPolicy() const override;
+    void setDecorationPolicy(DecorationPolicy policy) override;
     void invalidateDecoration() override;
     void destroyWindow() override;
     bool hasPopupGrab() const override;
@@ -79,22 +77,23 @@ protected:
     bool acceptsFocus() const override;
     bool belongsToSameApplication(const Window *other, SameApplicationChecks checks) const override;
     void updateCaption() override;
-    void moveResizeInternal(const QRectF &rect, MoveResizeMode mode) override;
+    void moveResizeInternal(const RectF &rect, MoveResizeMode mode) override;
     std::unique_ptr<WindowItem> createItem(Item *parentItem) override;
 
 private:
-    void commitGeometry(const QRectF &rect);
+    void commitGeometry(const RectF &rect);
     void setCaption(const QString &caption);
     void markAsMapped();
+    DecorationMode preferredDecorationMode() const;
     void updateDecoration(bool check_workspace_pos, bool force = false);
-    void createDecoration(const QRectF &oldGeometry);
+    void createDecoration(const RectF &oldGeometry);
     void destroyDecoration();
 
     QWindow *m_handle = nullptr;
     QString m_captionNormal;
     QString m_captionSuffix;
     Qt::WindowFlags m_internalWindowFlags = Qt::WindowFlags();
-    bool m_userNoBorder = false;
+    DecorationPolicy m_decorationPolicy = DecorationPolicy::PreferredByClient;
     GraphicsBufferRef m_graphicsBufferRef;
     OutputTransform m_bufferTransform = OutputTransform::Normal;
 

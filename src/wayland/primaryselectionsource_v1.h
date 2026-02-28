@@ -10,6 +10,8 @@
 #include "abstract_data_source.h"
 #include "primaryselectiondevicemanager_v1.h"
 
+struct wl_resource;
+
 namespace KWin
 {
 class PrimarySelectionSourceV1InterfacePrivate;
@@ -24,7 +26,7 @@ class KWIN_EXPORT PrimarySelectionSourceV1Interface : public AbstractDataSource
 public:
     ~PrimarySelectionSourceV1Interface() override;
 
-    void requestData(const QString &mimeType, qint32 fd) override;
+    void requestData(const QString &mimeType, FileDescriptor fd) override;
     void cancel() override;
 
     QStringList mimeTypes() const override;

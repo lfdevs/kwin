@@ -590,7 +590,7 @@ void X11WindowedBackend::handleExpose(xcb_expose_event_t *event)
 {
     X11WindowedOutput *output = findOutput(event->window);
     if (output) {
-        output->addExposedArea(QRect(event->x, event->y, event->width, event->height));
+        output->addExposedArea(Rect(event->x, event->y, event->width, event->height));
         output->renderLoop()->scheduleRepaint();
     }
 }
@@ -773,9 +773,9 @@ QList<CompositingType> X11WindowedBackend::supportedCompositors() const
     return ret;
 }
 
-Outputs X11WindowedBackend::outputs() const
+QList<BackendOutput *> X11WindowedBackend::outputs() const
 {
-    return m_outputs;
+    return m_outputs | std::ranges::to<QList<BackendOutput *>>();
 }
 
 void X11WindowedBackend::destroyOutputs()

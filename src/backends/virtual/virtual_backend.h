@@ -12,8 +12,6 @@
 #include "core/outputbackend.h"
 #include "utils/filedescriptor.h"
 
-#include <QRect>
-
 namespace KWin
 {
 class VirtualBackend;
@@ -33,12 +31,12 @@ public:
     std::unique_ptr<QPainterBackend> createQPainterBackend() override;
     std::unique_ptr<EglBackend> createOpenGLBackend() override;
 
-    Output *createVirtualOutput(const QString &name, const QString &description, const QSize &size, qreal scale) override;
-    void removeVirtualOutput(Output *output) override;
+    BackendOutput *createVirtualOutput(const QString &name, const QString &description, const QSize &size, qreal scale) override;
+    void removeVirtualOutput(BackendOutput *output) override;
 
     struct OutputInfo
     {
-        QRect geometry;
+        Rect geometry;
         double scale = 1;
         bool internal = false;
         QSize physicalSizeInMM;
@@ -49,10 +47,10 @@ public:
         std::optional<QString> connectorName;
         std::optional<QByteArray> mstPath;
     };
-    Output *addOutput(const OutputInfo &info);
+    BackendOutput *addOutput(const OutputInfo &info);
     void setVirtualOutputs(const QList<OutputInfo> &infos);
 
-    Outputs outputs() const override;
+    QList<BackendOutput *> outputs() const override;
 
     QList<CompositingType> supportedCompositors() const override;
 

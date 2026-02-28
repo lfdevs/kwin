@@ -14,15 +14,13 @@
 #error Do not include on non-X11 builds
 #endif
 
-#include "effect/globals.h"
+#include "core/rect.h"
 #include "effect/xcb.h"
 #include "main.h"
 #include "utils/c_ptr.h"
 #include "utils/version.h"
 
 #include <QList>
-#include <QRect>
-#include <QRegion>
 
 #include <xcb/composite.h>
 #include <xcb/randr.h>
@@ -43,9 +41,9 @@ typedef xcb_window_t WindowId;
 uint32_t KWIN_EXPORT toXNative(qreal value);
 QPoint KWIN_EXPORT toXNative(const QPointF &value);
 QSize KWIN_EXPORT toXNative(const QSizeF &value);
-QRect KWIN_EXPORT toXNative(const QRectF &value);
+Rect KWIN_EXPORT toXNative(const RectF &value);
 qreal KWIN_EXPORT fromXNative(int value);
-QRectF KWIN_EXPORT fromXNative(const QRect &value);
+RectF KWIN_EXPORT fromXNative(const Rect &value);
 QSizeF KWIN_EXPORT fromXNative(const QSize &value);
 
 /**
@@ -59,13 +57,15 @@ qreal KWIN_EXPORT nativeRound(qreal value);
  *  Use when flooring to ints from Xwayland
  *  i.e floor(a/scale) * scale
  */
-QRectF KWIN_EXPORT nativeFloor(const QRectF &value);
+RectF KWIN_EXPORT nativeFloor(const RectF &value);
 
 QString KWIN_EXPORT atomName(xcb_atom_t atom);
 
+QStringList KWIN_EXPORT atomToMimeTypes(xcb_atom_t atom);
+xcb_atom_t KWIN_EXPORT mimeTypeToAtom(const QString &mimeType);
+
 // forward declaration of methods
 static void defineCursor(xcb_window_t window, xcb_cursor_t cursor);
-static void setInputFocus(xcb_window_t window, uint8_t revertTo = XCB_INPUT_FOCUS_POINTER_ROOT, xcb_timestamp_t time = xTime());
 static void moveWindow(xcb_window_t window, const QPoint &pos);
 static void moveWindow(xcb_window_t window, int32_t x, int32_t y);
 static void lowerWindow(xcb_window_t window);
@@ -606,13 +606,13 @@ public:
     {
     }
 
-    inline QRect rect()
+    inline Rect rect()
     {
         const xcb_get_geometry_reply_t *geometry = data();
         if (!geometry) {
-            return QRect();
+            return Rect();
         }
-        return QRect(geometry->x, geometry->y, geometry->width, geometry->height);
+        return Rect(geometry->x, geometry->y, geometry->width, geometry->height);
     }
 
     inline QSize size()
@@ -753,38 +753,31 @@ public:
      * Note: for the automatic format detection the size of the type T may not vary between
      * architectures. Thus one needs to use e.g. uint32_t instead of long. In general all xcb
      * data types can be used, all Xlib data types can not be used.
-     *
-     * @param defaultValue The default value to return in case of error
-     * @param ok Set to @c false in case of error, @c true in case of success
-     * @return The read value or @p defaultValue in error case
      */
     template<typename T>
-    inline typename std::enable_if<!std::is_pointer<T>::value, T>::type value(T defaultValue = T(), bool *ok = nullptr)
+        requires(!std::is_pointer_v<T>)
+    inline std::optional<T> value()
     {
-        return value<T>(sizeof(T) * 8, m_type, defaultValue, ok);
+        return value<T>(sizeof(T) * 8, m_type);
     }
     /**
      * @brief Reads the property as a POD type.
      *
-     * Returns the first value of the property data. In case of @p format or @p type mismatch
-     * the @p defaultValue is returned. The optional argument @p ok is set
-     * to @c false in case of error and to @c true in case of successful reading of
-     * the property.
+     * Returns the first value of the property data, or in case of @p format or @p type
+     * mismatch, std::nullopt.
      *
      * @param format The expected format of the property value, e.g. 32 for XCB_ATOM_CARDINAL
      * @param type The expected type of the property value, e.g. XCB_ATOM_CARDINAL
-     * @param defaultValue The default value to return in case of error
-     * @param ok Set to @c false in case of error, @c true in case of success
-     * @return The read value or @p defaultValue in error case
      */
     template<typename T>
-    inline typename std::enable_if<!std::is_pointer<T>::value, T>::type value(uint8_t format, xcb_atom_t type, T defaultValue = T(), bool *ok = nullptr)
+        requires(!std::is_pointer_v<T>)
+    inline std::optional<T> value(uint8_t format, xcb_atom_t type)
     {
-        T *reply = value<T *>(format, type, nullptr, ok);
-        if (!reply) {
-            return defaultValue;
+        const auto ret = array<T>(format, type);
+        if (!ret || ret->empty()) {
+            return std::nullopt;
         }
-        return reply[0];
+        return ret->front();
     }
     /**
      * @brief Overloaded method for convenience.
@@ -793,15 +786,12 @@ public:
      * Note: for the automatic format detection the size of the type T may not vary between
      * architectures. Thus one needs to use e.g. uint32_t instead of long. In general all xcb
      * data types can be used, all Xlib data types can not be used.
-     *
-     * @param defaultValue The default value to return in case of error
-     * @param ok Set to @c false in case of error, @c true in case of success
-     * @return The read value or @p defaultValue in error case
      */
     template<typename T>
-    inline typename std::enable_if<std::is_pointer<T>::value, T>::type value(T defaultValue = nullptr, bool *ok = nullptr)
+        requires(!std::is_pointer_v<T>)
+    inline std::optional<std::span<T>> array()
     {
-        return value<T>(sizeof(typename std::remove_pointer<T>::type) * 8, m_type, defaultValue, ok);
+        return array<T>(sizeof(typename std::remove_pointer<T>::type) * 8, m_type);
     }
     /**
      * @brief Reads the property as an array of T.
@@ -809,107 +799,73 @@ public:
      * This method is an overload for the case that T is a pointer type.
      *
      * Return the property value casted to the pointer type T. In case of @p format
-     * or @p type mismatch the @p defaultValue is returned. Also if the value length
-     * is @c 0 the @p defaultValue is returned. The optional argument @p ok is set
-     * to @c false in case of error and to @c true in case of successful reading of
-     * the property. Ok will always be true if the property exists and has been
-     * successfully read, even in the case the property is empty and its length is 0
+     * or @p type mismatch, std::nullopt is returned.
      *
      * @param format The expected format of the property value, e.g. 32 for XCB_ATOM_CARDINAL
      * @param type The expected type of the property value, e.g. XCB_ATOM_CARDINAL
-     * @param defaultValue The default value to return in case of error
-     * @param ok Set to @c false in case of error, @c true in case of success
-     * @return The read value or @p defaultValue in error case
      */
     template<typename T>
-    inline typename std::enable_if<std::is_pointer<T>::value, T>::type value(uint8_t format, xcb_atom_t type, T defaultValue = nullptr, bool *ok = nullptr)
+        requires(!std::is_pointer_v<T>)
+    inline std::optional<std::span<T>> array(uint8_t format, xcb_atom_t type)
     {
-        if (ok) {
-            *ok = false;
-        }
         const PropertyData::reply_type *reply = data();
         if (!reply) {
-            return defaultValue;
+            return std::nullopt;
         }
         if (reply->type != type) {
-            return defaultValue;
+            return std::nullopt;
         }
         if (reply->format != format) {
-            return defaultValue;
+            return std::nullopt;
         }
-
-        if (ok) {
-            *ok = true;
-        }
-        if (xcb_get_property_value_length(reply) == 0) {
-            return defaultValue;
-        }
-
-        return reinterpret_cast<T>(xcb_get_property_value(reply));
+        Q_ASSERT(format == sizeof(T) * 8);
+        return std::span(reinterpret_cast<T *>(xcb_get_property_value(reply)), reply->value_len);
     }
     /**
      * @brief Reads the property as string and returns a QByteArray.
      *
      * In case of error this method returns a null QByteArray.
      */
-    inline QByteArray toByteArray(uint8_t format = 8, xcb_atom_t type = XCB_ATOM_STRING, bool *ok = nullptr)
+    inline std::optional<QByteArray> toByteArray(uint8_t format, xcb_atom_t type)
     {
-        bool valueOk = false;
-        const char *reply = value<const char *>(format, type, nullptr, &valueOk);
-        if (ok) {
-            *ok = valueOk;
+        const PropertyData::reply_type *reply = data();
+        if (!reply) {
+            return std::nullopt;
         }
-
-        if (valueOk && !reply) {
+        if (reply->type != type) {
+            return std::nullopt;
+        }
+        if (reply->format != format) {
+            return std::nullopt;
+        }
+        if (reply->value_len == 0) {
             return QByteArray("", 0); // valid, not null, but empty data
-        } else if (!valueOk) {
-            return QByteArray(); // Property not found, data empty and null
+        } else {
+            return QByteArray(static_cast<const char *>(xcb_get_property_value(reply)), xcb_get_property_value_length(reply));
         }
-        return QByteArray(reply, xcb_get_property_value_length(data()));
     }
     /**
      * @brief Overloaded method for convenience.
      */
-    inline QByteArray toByteArray(bool *ok)
+    inline std::optional<QByteArray> toByteArray()
     {
-        return toByteArray(8, m_type, ok);
+        return toByteArray(8, m_type);
     }
     /**
      * @brief Reads the property as a boolean value.
      *
+     * The format is assumed to be @c 32.
+     *
      * If the property reply length is @c 1 the first element is interpreted as a boolean
      * value returning @c true for any value unequal to @c 0 and @c false otherwise.
-     *
-     * In case of error this method returns @c false. Thus it is not possible to distinguish
-     * between error case and a read @c false value. Use the optional argument @p ok to
-     * distinguish the error case.
-     *
-     * @param format Expected format. Defaults to 32.
-     * @param type Expected type Defaults to XCB_ATOM_CARDINAL.
-     * @param ok Set to @c false in case of error, @c true in case of success
-     * @return bool The first element interpreted as a boolean value or @c false in error case
-     * @see value
      */
-    inline bool toBool(uint8_t format = 32, xcb_atom_t type = XCB_ATOM_CARDINAL, bool *ok = nullptr)
+    inline std::optional<bool> toBool()
     {
-        bool *reply = value<bool *>(format, type, nullptr, ok);
-        if (!reply) {
-            return false;
+        const auto ret = array<uint32_t>(32, m_type);
+        if (!ret || ret->size() != 1) {
+            return std::nullopt;
         }
-        if (data()->value_len != 1) {
-            if (ok) {
-                *ok = false;
-            }
-            return false;
-        }
-        return reply[0] != 0;
-    }
-    /**
-     * @brief Overloaded method for convenience.
-     */
-    inline bool toBool(bool *ok)
-    {
-        return toBool(32, m_type, ok);
+        return bool((*ret)[0]);
     }
 
 private:
@@ -926,7 +882,7 @@ public:
     }
     operator QByteArray()
     {
-        return toByteArray();
+        return toByteArray().value_or(QByteArray());
     }
 };
 
@@ -938,20 +894,9 @@ public:
     {
     }
 
-    /**
-     * @brief Fill given window pointer with the WM_TRANSIENT_FOR property of a window.
-     * @param prop WM_TRANSIENT_FOR property value.
-     * @returns @c true on success, @c false otherwise
-     */
-    inline bool getTransientFor(WindowId *prop)
+    inline std::optional<WindowId> getTransientFor()
     {
-        WindowId *windows = value<WindowId *>();
-        if (!windows) {
-            return false;
-        }
-
-        *prop = *windows;
-        return true;
+        return value<WindowId>();
     }
 };
 
@@ -975,44 +920,44 @@ public:
             return;
         }
         m_sizeHints = nullptr;
-        m_hints = NormalHints(m_window);
+        m_property = Xcb::Property(0, m_window, XCB_ATOM_WM_NORMAL_HINTS, XCB_ATOM_WM_SIZE_HINTS, 0, 18);
     }
     void read()
     {
-        m_sizeHints = m_hints.sizeHints();
+        m_sizeHints = NormalHints::fromProperty(m_property);
     }
 
     bool hasPosition() const
     {
-        return testFlag(NormalHints::SizeHints::UserPosition) || testFlag(NormalHints::SizeHints::ProgramPosition);
+        return testFlag(NormalHints::UserPosition) || testFlag(NormalHints::ProgramPosition);
     }
     bool hasSize() const
     {
-        return testFlag(NormalHints::SizeHints::UserSize) || testFlag(NormalHints::SizeHints::ProgramSize);
+        return testFlag(NormalHints::UserSize) || testFlag(NormalHints::ProgramSize);
     }
     bool hasMinSize() const
     {
-        return testFlag(NormalHints::SizeHints::MinSize);
+        return testFlag(NormalHints::MinSize);
     }
     bool hasMaxSize() const
     {
-        return testFlag(NormalHints::SizeHints::MaxSize);
+        return testFlag(NormalHints::MaxSize);
     }
     bool hasResizeIncrements() const
     {
-        return testFlag(NormalHints::SizeHints::ResizeIncrements);
+        return testFlag(NormalHints::ResizeIncrements);
     }
     bool hasAspect() const
     {
-        return testFlag(NormalHints::SizeHints::Aspect);
+        return testFlag(NormalHints::Aspect);
     }
     bool hasBaseSize() const
     {
-        return testFlag(NormalHints::SizeHints::BaseSize);
+        return testFlag(NormalHints::BaseSize);
     }
     bool hasWindowGravity() const
     {
-        return testFlag(NormalHints::SizeHints::WindowGravity);
+        return testFlag(NormalHints::WindowGravity);
     }
     QSize maxSize() const
     {
@@ -1072,50 +1017,46 @@ private:
     /**
      * NormalHints as specified in ICCCM 4.1.2.3.
      */
-    class NormalHints : public Property
+    struct NormalHints
     {
-    public:
-        struct SizeHints
-        {
-            enum Flags {
-                UserPosition = 1,
-                UserSize = 2,
-                ProgramPosition = 4,
-                ProgramSize = 8,
-                MinSize = 16,
-                MaxSize = 32,
-                ResizeIncrements = 64,
-                Aspect = 128,
-                BaseSize = 256,
-                WindowGravity = 512
-            };
-            qint32 flags = 0;
-            qint32 pad[4] = {0, 0, 0, 0};
-            qint32 minWidth = 0;
-            qint32 minHeight = 0;
-            qint32 maxWidth = 0;
-            qint32 maxHeight = 0;
-            qint32 widthInc = 0;
-            qint32 heightInc = 0;
-            qint32 minAspect[2] = {0, 0};
-            qint32 maxAspect[2] = {0, 0};
-            qint32 baseWidth = 0;
-            qint32 baseHeight = 0;
-            qint32 winGravity = 0;
+        enum Flags {
+            UserPosition = 1,
+            UserSize = 2,
+            ProgramPosition = 4,
+            ProgramSize = 8,
+            MinSize = 16,
+            MaxSize = 32,
+            ResizeIncrements = 64,
+            Aspect = 128,
+            BaseSize = 256,
+            WindowGravity = 512
         };
-        explicit NormalHints()
-            : Property(){};
-        explicit NormalHints(WindowId window)
-            : Property(0, window, XCB_ATOM_WM_NORMAL_HINTS, XCB_ATOM_WM_SIZE_HINTS, 0, 18)
+        qint32 flags = 0;
+        qint32 pad[4] = {0, 0, 0, 0};
+        qint32 minWidth = 0;
+        qint32 minHeight = 0;
+        qint32 maxWidth = 0;
+        qint32 maxHeight = 0;
+        qint32 widthInc = 0;
+        qint32 heightInc = 0;
+        qint32 minAspect[2] = {0, 0};
+        qint32 maxAspect[2] = {0, 0};
+        qint32 baseWidth = 0;
+        qint32 baseHeight = 0;
+        qint32 winGravity = 0;
+
+        static const NormalHints *fromProperty(Xcb::Property &property)
         {
-        }
-        inline SizeHints *sizeHints()
-        {
-            return value<SizeHints *>(32, XCB_ATOM_WM_SIZE_HINTS, nullptr);
+            const auto cardinals = property.array<qint32>();
+            if (!cardinals || cardinals->size_bytes() != sizeof(NormalHints)) {
+                return nullptr;
+            }
+            return reinterpret_cast<const NormalHints *>(cardinals->data());
         }
     };
+
     friend TestXcbSizeHints;
-    bool testFlag(NormalHints::SizeHints::Flags flag) const
+    bool testFlag(NormalHints::Flags flag) const
     {
         if (!m_window || !m_sizeHints) {
             return false;
@@ -1123,8 +1064,8 @@ private:
         return m_sizeHints->flags & flag;
     }
     xcb_window_t m_window = XCB_WINDOW_NONE;
-    NormalHints m_hints;
-    NormalHints::SizeHints *m_sizeHints = nullptr;
+    Xcb::Property m_property;
+    const NormalHints *m_sizeHints = nullptr;
 };
 
 class MotifHints
@@ -1149,12 +1090,12 @@ public:
         if (!m_window) {
             return;
         }
-        m_hints = nullptr;
+        m_hints.reset();
         m_prop = Property(0, m_window, m_atom, m_atom, 0, 5);
     }
     void read()
     {
-        m_hints = m_prop.value<MwmHints *>(32, m_atom, nullptr);
+        m_hints = MwmHints::fromProperty(m_prop);
     }
     bool hasDecorationsFlag() const
     {
@@ -1197,8 +1138,17 @@ private:
         uint32_t flags;
         uint32_t functions;
         uint32_t decorations;
-        int32_t input_mode;
+        uint32_t input_mode;
         uint32_t status;
+
+        static std::optional<MwmHints> fromProperty(Xcb::Property &property)
+        {
+            const auto cardinals = property.array<uint32_t>();
+            if (!cardinals || cardinals->size_bytes() != sizeof(MwmHints)) {
+                return std::nullopt;
+            }
+            return *reinterpret_cast<MwmHints *>(cardinals->data());
+        }
     };
     enum class Hints {
         Functions = (1L << 0),
@@ -1230,7 +1180,7 @@ private:
     xcb_window_t m_window = XCB_WINDOW_NONE;
     Property m_prop;
     xcb_atom_t m_atom;
-    MwmHints *m_hints = nullptr;
+    std::optional<MwmHints> m_hints;
 };
 
 namespace RandR
@@ -1310,13 +1260,13 @@ public:
     {
     }
 
-    inline QRect rect()
+    inline Rect rect()
     {
         const CrtcInfoData::reply_type *info = data();
         if (!info || info->num_outputs == 0 || info->mode == XCB_NONE || info->status != XCB_RANDR_SET_CONFIG_SUCCESS) {
-            return QRect();
+            return Rect();
         }
-        return QRect(info->x, info->y, info->width, info->height);
+        return Rect(info->x, info->y, info->width, info->height);
     }
     inline xcb_randr_output_t *outputs()
     {
@@ -1584,7 +1534,7 @@ public:
      * @param values The values to be passed to xcb_create_window
      * @param parent The parent window
      */
-    Window(const QRect &geometry, uint32_t mask = 0, const uint32_t *values = nullptr, xcb_window_t parent = rootWindow());
+    Window(const Rect &geometry, uint32_t mask = 0, const uint32_t *values = nullptr, xcb_window_t parent = rootWindow());
     /**
      * Creates an xcb_window_t and manages it. It's a convenient method to create a window with
      * depth and visual being copied from parent and border being @c 0.
@@ -1594,7 +1544,7 @@ public:
      * @param values The values to be passed to xcb_create_window
      * @param parent The parent window
      */
-    Window(const QRect &geometry, uint16_t windowClass, uint32_t mask = 0, const uint32_t *values = nullptr, xcb_window_t parent = rootWindow());
+    Window(const Rect &geometry, uint16_t windowClass, uint32_t mask = 0, const uint32_t *values = nullptr, xcb_window_t parent = rootWindow());
     Window(const Window &other) = delete;
     ~Window();
 
@@ -1608,7 +1558,7 @@ public:
      * @param values The values to be passed to xcb_create_window
      * @param parent The parent window
      */
-    void create(const QRect &geometry, uint32_t mask = 0, const uint32_t *values = nullptr, xcb_window_t parent = rootWindow());
+    void create(const Rect &geometry, uint32_t mask = 0, const uint32_t *values = nullptr, xcb_window_t parent = rootWindow());
     /**
      * Creates a new window for which the responsibility is taken over. If a window had been managed
      * before it is freed.
@@ -1620,14 +1570,14 @@ public:
      * @param values The values to be passed to xcb_create_window
      * @param parent The parent window
      */
-    void create(const QRect &geometry, uint16_t windowClass, uint32_t mask = 0, const uint32_t *values = nullptr, xcb_window_t parent = rootWindow());
+    void create(const Rect &geometry, uint16_t windowClass, uint32_t mask = 0, const uint32_t *values = nullptr, xcb_window_t parent = rootWindow());
     /**
      * Frees the existing window and starts to manage the new @p window.
      * If @p destroy is @c true the new managed window will be destroyed together with this
      * object or when reset is called again. If @p destroy is @c false the window will not
      * be destroyed. It is then the responsibility of the caller to destroy the window.
      */
-    void reset(xcb_window_t window = XCB_WINDOW_NONE, bool destroy = true, const QRect &geometry = QRect());
+    void reset(xcb_window_t window = XCB_WINDOW_NONE, bool destroy = true, const Rect &geometry = Rect());
     /**
      * @returns @c true if a window is managed, @c false otherwise.
      */
@@ -1656,7 +1606,7 @@ public:
     {
         return m_geometry.size();
     }
-    QRect geometry() const
+    Rect geometry() const
     {
         return m_geometry;
     }
@@ -1664,7 +1614,7 @@ public:
      * Configures the window with a new geometry.
      * @param geometry The new window geometry to be used
      */
-    void setGeometry(const QRect &geometry);
+    void setGeometry(const Rect &geometry);
     void setGeometry(int x, int y, int width, int height);
     void move(const QPoint &pos);
     void move(int x, int y);
@@ -1699,11 +1649,11 @@ public:
     operator xcb_window_t() const;
 
 private:
-    xcb_window_t doCreate(const QRect &geometry, uint16_t windowClass, uint32_t mask = 0, const uint32_t *values = nullptr, xcb_window_t parent = rootWindow());
+    xcb_window_t doCreate(const Rect &geometry, uint16_t windowClass, uint32_t mask = 0, const uint32_t *values = nullptr, xcb_window_t parent = rootWindow());
     void destroy();
     xcb_window_t m_window;
     bool m_destroy;
-    QRect m_geometry;
+    Rect m_geometry;
 };
 
 inline Window::Window(xcb_window_t window, bool destroy)
@@ -1712,13 +1662,13 @@ inline Window::Window(xcb_window_t window, bool destroy)
 {
 }
 
-inline Window::Window(const QRect &geometry, uint32_t mask, const uint32_t *values, xcb_window_t parent)
+inline Window::Window(const Rect &geometry, uint32_t mask, const uint32_t *values, xcb_window_t parent)
     : m_window(doCreate(geometry, XCB_COPY_FROM_PARENT, mask, values, parent))
     , m_destroy(true)
 {
 }
 
-inline Window::Window(const QRect &geometry, uint16_t windowClass, uint32_t mask, const uint32_t *values, xcb_window_t parent)
+inline Window::Window(const Rect &geometry, uint16_t windowClass, uint32_t mask, const uint32_t *values, xcb_window_t parent)
     : m_window(doCreate(geometry, windowClass, mask, values, parent))
     , m_destroy(true)
 {
@@ -1748,18 +1698,18 @@ inline Window::operator xcb_window_t() const
     return m_window;
 }
 
-inline void Window::create(const QRect &geometry, uint16_t windowClass, uint32_t mask, const uint32_t *values, xcb_window_t parent)
+inline void Window::create(const Rect &geometry, uint16_t windowClass, uint32_t mask, const uint32_t *values, xcb_window_t parent)
 {
     destroy();
     m_window = doCreate(geometry, windowClass, mask, values, parent);
 }
 
-inline void Window::create(const QRect &geometry, uint32_t mask, const uint32_t *values, xcb_window_t parent)
+inline void Window::create(const Rect &geometry, uint32_t mask, const uint32_t *values, xcb_window_t parent)
 {
     create(geometry, XCB_COPY_FROM_PARENT, mask, values, parent);
 }
 
-inline xcb_window_t Window::doCreate(const QRect &geometry, uint16_t windowClass, uint32_t mask, const uint32_t *values, xcb_window_t parent)
+inline xcb_window_t Window::doCreate(const Rect &geometry, uint16_t windowClass, uint32_t mask, const uint32_t *values, xcb_window_t parent)
 {
     m_geometry = geometry;
     xcb_window_t w = xcb_generate_id(connection());
@@ -1772,7 +1722,7 @@ inline xcb_window_t Window::doCreate(const QRect &geometry, uint16_t windowClass
     return w;
 }
 
-inline void Window::reset(xcb_window_t window, bool shouldDestroy, const QRect &geometry)
+inline void Window::reset(xcb_window_t window, bool shouldDestroy, const Rect &geometry)
 {
     destroy();
     m_window = window;
@@ -1780,7 +1730,7 @@ inline void Window::reset(xcb_window_t window, bool shouldDestroy, const QRect &
     m_geometry = geometry;
 }
 
-inline void Window::setGeometry(const QRect &geometry)
+inline void Window::setGeometry(const Rect &geometry)
 {
     setGeometry(geometry.x(), geometry.y(), geometry.width(), geometry.height());
 }
@@ -1931,7 +1881,7 @@ inline void Window::defineCursor(xcb_cursor_t cursor)
 
 inline void Window::focus(uint8_t revertTo, xcb_timestamp_t time)
 {
-    setInputFocus(m_window, revertTo, time);
+    xcb_set_input_focus(connection(), revertTo, m_window, time);
 }
 
 inline void Window::selectInput(uint32_t events)
@@ -1945,7 +1895,7 @@ inline void Window::kill()
 }
 
 // helper functions
-static inline void moveResizeWindow(WindowId window, const QRect &geometry)
+static inline void moveResizeWindow(WindowId window, const Rect &geometry)
 {
     const uint16_t mask = XCB_CONFIG_WINDOW_X | XCB_CONFIG_WINDOW_Y | XCB_CONFIG_WINDOW_WIDTH | XCB_CONFIG_WINDOW_HEIGHT;
 
@@ -1971,7 +1921,7 @@ static inline void lowerWindow(xcb_window_t window)
     xcb_configure_window(connection(), window, XCB_CONFIG_WINDOW_STACK_MODE, values);
 }
 
-static inline WindowId createInputWindow(const QRect &geometry, uint32_t mask, const uint32_t *values)
+static inline WindowId createInputWindow(const Rect &geometry, uint32_t mask, const uint32_t *values)
 {
     WindowId window = xcb_generate_id(connection());
     xcb_create_window(connection(), 0, window, rootWindow(),
@@ -2016,34 +1966,9 @@ static inline int defaultDepth()
     return defaultScreen()->root_depth;
 }
 
-static inline xcb_rectangle_t fromQt(const QRect &rect)
-{
-    xcb_rectangle_t rectangle;
-    rectangle.x = rect.x();
-    rectangle.y = rect.y();
-    rectangle.width = rect.width();
-    rectangle.height = rect.height();
-    return rectangle;
-}
-
-static inline QList<xcb_rectangle_t> regionToRects(const QRegion &region)
-{
-    QList<xcb_rectangle_t> rects;
-    rects.reserve(region.rectCount());
-    for (const QRect &rect : region) {
-        rects.append(Xcb::fromQt(rect));
-    }
-    return rects;
-}
-
 static inline void defineCursor(xcb_window_t window, xcb_cursor_t cursor)
 {
     xcb_change_window_attributes(connection(), window, XCB_CW_CURSOR, &cursor);
-}
-
-static inline void setInputFocus(xcb_window_t window, uint8_t revertTo, xcb_timestamp_t time)
-{
-    xcb_set_input_focus(connection(), revertTo, window, time);
 }
 
 static inline void setTransientFor(xcb_window_t window, xcb_window_t transient_for_window)

@@ -18,7 +18,7 @@ namespace KWin
 {
 
 class GraphicsBuffer;
-class Output;
+class LogicalOutput;
 class OutputLayer;
 class PresentationFeedback;
 class RenderLoop;
@@ -93,6 +93,9 @@ public:
     std::optional<double> brightness() const;
     void setBrightness(double brightness);
 
+    std::optional<double> dimmingFactor() const;
+    void setDimmingFactor(double factor);
+
     std::optional<double> artificialHdrHeadroom() const;
     void setArtificialHdrHeadroom(double edr);
 
@@ -109,6 +112,7 @@ private:
     std::vector<std::unique_ptr<RenderTimeQuery>> m_renderTimeQueries;
     bool m_presented = false;
     std::optional<double> m_brightness;
+    std::optional<double> m_dimmingFactor;
     std::optional<double> m_artificialHdrHeadroom;
 };
 
@@ -124,7 +128,7 @@ public:
 
     virtual bool checkGraphicsReset();
 
-    virtual QList<OutputLayer *> compatibleOutputLayers(Output *output) = 0;
+    virtual QList<OutputLayer *> compatibleOutputLayers(BackendOutput *output) = 0;
 
     virtual DrmDevice *drmDevice() const;
 

@@ -33,7 +33,7 @@
 
 using namespace KWin;
 
-typedef std::function<QPointF(const QRectF &)> PointerFunc;
+typedef std::function<QPointF(const RectF &)> PointerFunc;
 Q_DECLARE_METATYPE(PointerFunc)
 
 static const QString s_socketName = QStringLiteral("wayland_test_kwin_pointer_constraints-0");
@@ -68,13 +68,13 @@ void TestPointerConstraints::initTestCase()
 
     kwinApp()->start();
     Test::setOutputConfig({
-        QRect(0, 0, 1280, 1024),
-        QRect(1280, 0, 1280, 1024),
+        Rect(0, 0, 1280, 1024),
+        Rect(1280, 0, 1280, 1024),
     });
     const auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
-    QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
-    QCOMPARE(outputs[1]->geometry(), QRect(1280, 0, 1280, 1024));
+    QCOMPARE(outputs[0]->geometry(), Rect(0, 0, 1280, 1024));
+    QCOMPARE(outputs[1]->geometry(), Rect(1280, 0, 1280, 1024));
 }
 
 void TestPointerConstraints::init()
@@ -96,17 +96,17 @@ void TestPointerConstraints::testConfinedPointer_data()
     QTest::addColumn<PointerFunc>("positionFunction");
     QTest::addColumn<int>("xOffset");
     QTest::addColumn<int>("yOffset");
-    PointerFunc bottomLeft = [](const QRectF &rect) {
-        return rect.toRect().bottomLeft();
+    PointerFunc bottomLeft = [](const RectF &rect) {
+        return QPointF(rect.left(), rect.bottom() - 1);
     };
-    PointerFunc bottomRight = [](const QRectF &rect) {
-        return rect.toRect().bottomRight();
+    PointerFunc bottomRight = [](const RectF &rect) {
+        return QPointF(rect.right() - 1, rect.bottom() - 1);
     };
-    PointerFunc topRight = [](const QRectF &rect) {
-        return rect.toRect().topRight();
+    PointerFunc topRight = [](const RectF &rect) {
+        return QPointF(rect.right() - 1, rect.top());
     };
-    PointerFunc topLeft = [](const QRectF &rect) {
-        return rect.toRect().topLeft();
+    PointerFunc topLeft = [](const RectF &rect) {
+        return QPointF(rect.left(), rect.top());
     };
 
     QTest::newRow("XdgWmBase - bottomLeft") << bottomLeft << -1 << 1;
@@ -132,7 +132,7 @@ void TestPointerConstraints::testConfinedPointer()
     if (window->pos() == QPoint(0, 0)) {
         window->move(QPoint(1, 1));
     }
-    QVERIFY(!exclusiveContains(window->frameGeometry(), KWin::Cursors::self()->mouse()->pos()));
+    QVERIFY(!window->frameGeometry().contains(KWin::Cursors::self()->mouse()->pos()));
 
     // now let's confine
     QCOMPARE(input()->pointer()->isConstrained(), false);
@@ -281,7 +281,7 @@ void TestPointerConstraints::testLockedPointer()
     // now map the window
     auto window = Test::renderAndWaitForShown(surface.get(), QSize(100, 100), Qt::blue);
     QVERIFY(window);
-    QVERIFY(!exclusiveContains(window->frameGeometry(), KWin::Cursors::self()->mouse()->pos()));
+    QVERIFY(!window->frameGeometry().contains(KWin::Cursors::self()->mouse()->pos()));
 
     // now let's lock
     QCOMPARE(input()->pointer()->isConstrained(), false);
@@ -343,7 +343,7 @@ void TestPointerConstraints::testCloseWindowWithLockedPointer()
     // now map the window
     auto window = Test::renderAndWaitForShown(surface.get(), QSize(100, 100), Qt::blue);
     QVERIFY(window);
-    QVERIFY(!exclusiveContains(window->frameGeometry(), KWin::Cursors::self()->mouse()->pos()));
+    QVERIFY(!window->frameGeometry().contains(KWin::Cursors::self()->mouse()->pos()));
 
     // now let's lock
     QCOMPARE(input()->pointer()->isConstrained(), false);

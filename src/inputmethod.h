@@ -11,17 +11,12 @@
 #include "input_event.h"
 #include "wayland/textinput_v2.h"
 
-#include <utility>
-#include <vector>
-
 #include <QObject>
-#include <QRect>
-
-#include "input_event_spy.h"
-#include <kwin_export.h>
-
 #include <QPointer>
 #include <QTimer>
+
+#include <utility>
+#include <vector>
 
 class QProcess;
 
@@ -82,7 +77,7 @@ public:
         return m_internalContext;
     }
 
-    QRect cursorRectangle() const;
+    RectF cursorRectangle() const;
 
 Q_SIGNALS:
     void panelChanged();
@@ -135,6 +130,7 @@ private:
     void resetPendingPreedit();
     void refreshActive();
     void forwardKeyToEffects(KWin::KeyboardKeyState state, int keyCode, int keySym);
+    void forwardKeySym(int keySym);
 
     // buffered till the preedit text is set
     struct

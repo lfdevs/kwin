@@ -45,13 +45,13 @@ void ScreensTest::initTestCase()
 
     kwinApp()->start();
     Test::setOutputConfig({
-        QRect(0, 0, 1280, 1024),
-        QRect(1280, 0, 1280, 1024),
+        Rect(0, 0, 1280, 1024),
+        Rect(1280, 0, 1280, 1024),
     });
     const auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
-    QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
-    QCOMPARE(outputs[1]->geometry(), QRect(1280, 0, 1280, 1024));
+    QCOMPARE(outputs[0]->geometry(), Rect(0, 0, 1280, 1024));
+    QCOMPARE(outputs[1]->geometry(), Rect(1280, 0, 1280, 1024));
 }
 
 void ScreensTest::init()
@@ -83,21 +83,21 @@ void ScreensTest::cleanup()
 
     // Reset the screen layout of the test environment.
     Test::setOutputConfig({
-        QRect(0, 0, 1280, 1024),
-        QRect(1280, 0, 1280, 1024),
+        Rect(0, 0, 1280, 1024),
+        Rect(1280, 0, 1280, 1024),
     });
 }
 
 void ScreensTest::testActiveOutputFollowsMouse_data()
 {
-    QTest::addColumn<QList<QRect>>("geometries");
+    QTest::addColumn<QList<Rect>>("geometries");
     QTest::addColumn<QPoint>("cursorPos");
     QTest::addColumn<int>("expectedId");
 
-    QTest::newRow("cloned") << QList<QRect>{{QRect{0, 0, 200, 100}, QRect{0, 0, 200, 100}}} << QPoint(50, 50) << 0;
-    QTest::newRow("adjacent-0") << QList<QRect>{{QRect{0, 0, 200, 100}, QRect{200, 100, 400, 300}}} << QPoint(199, 99) << 0;
-    QTest::newRow("adjacent-1") << QList<QRect>{{QRect{0, 0, 200, 100}, QRect{200, 100, 400, 300}}} << QPoint(200, 100) << 1;
-    QTest::newRow("gap") << QList<QRect>{{QRect{0, 0, 10, 20}, QRect{20, 40, 10, 20}}} << QPoint(15, 30) << 1;
+    QTest::newRow("cloned") << QList<Rect>{{Rect{0, 0, 200, 100}, Rect{0, 0, 200, 100}}} << QPoint(50, 50) << 0;
+    QTest::newRow("adjacent-0") << QList<Rect>{{Rect{0, 0, 200, 100}, Rect{200, 100, 400, 300}}} << QPoint(199, 99) << 0;
+    QTest::newRow("adjacent-1") << QList<Rect>{{Rect{0, 0, 200, 100}, Rect{200, 100, 400, 300}}} << QPoint(200, 100) << 1;
+    QTest::newRow("gap") << QList<Rect>{{Rect{0, 0, 10, 20}, Rect{20, 40, 10, 20}}} << QPoint(15, 30) << 1;
 }
 
 void ScreensTest::testActiveOutputFollowsMouse()
@@ -108,32 +108,32 @@ void ScreensTest::testActiveOutputFollowsMouse()
     edgeBarrierGroup.sync();
     workspace()->slotReconfigure();
 
-    QFETCH(QList<QRect>, geometries);
+    QFETCH(QList<Rect>, geometries);
     Test::setOutputConfig(geometries);
 
     QFETCH(QPoint, cursorPos);
     KWin::input()->pointer()->warp(cursorPos);
 
     QFETCH(int, expectedId);
-    Output *expected = workspace()->outputs().at(expectedId);
+    LogicalOutput *expected = workspace()->outputs().at(expectedId);
     QCOMPARE(workspace()->activeOutput(), expected);
 }
 
 void ScreensTest::testCurrentPoint_data()
 {
-    QTest::addColumn<QList<QRect>>("geometries");
+    QTest::addColumn<QList<Rect>>("geometries");
     QTest::addColumn<QPoint>("cursorPos");
     QTest::addColumn<int>("expectedId");
 
-    QTest::newRow("cloned") << QList<QRect>{{QRect{0, 0, 200, 100}, QRect{0, 0, 200, 100}}} << QPoint(50, 50) << 0;
-    QTest::newRow("adjacent-0") << QList<QRect>{{QRect{0, 0, 200, 100}, QRect{200, 100, 400, 300}}} << QPoint(199, 99) << 0;
-    QTest::newRow("adjacent-1") << QList<QRect>{{QRect{0, 0, 200, 100}, QRect{200, 100, 400, 300}}} << QPoint(200, 100) << 1;
-    QTest::newRow("gap") << QList<QRect>{{QRect{0, 0, 10, 20}, QRect{20, 40, 10, 20}}} << QPoint(15, 30) << 1;
+    QTest::newRow("cloned") << QList<Rect>{{Rect{0, 0, 200, 100}, Rect{0, 0, 200, 100}}} << QPoint(50, 50) << 0;
+    QTest::newRow("adjacent-0") << QList<Rect>{{Rect{0, 0, 200, 100}, Rect{200, 100, 400, 300}}} << QPoint(199, 99) << 0;
+    QTest::newRow("adjacent-1") << QList<Rect>{{Rect{0, 0, 200, 100}, Rect{200, 100, 400, 300}}} << QPoint(200, 100) << 1;
+    QTest::newRow("gap") << QList<Rect>{{Rect{0, 0, 10, 20}, Rect{20, 40, 10, 20}}} << QPoint(15, 30) << 1;
 }
 
 void ScreensTest::testCurrentPoint()
 {
-    QFETCH(QList<QRect>, geometries);
+    QFETCH(QList<Rect>, geometries);
     Test::setOutputConfig(geometries);
 
     // Disable "active screen follows mouse"
@@ -146,7 +146,7 @@ void ScreensTest::testCurrentPoint()
     workspace()->setActiveOutput(cursorPos);
 
     QFETCH(int, expectedId);
-    Output *expected = workspace()->outputs().at(expectedId);
+    LogicalOutput *expected = workspace()->outputs().at(expectedId);
     QCOMPARE(workspace()->activeOutput(), expected);
 }
 

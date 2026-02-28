@@ -50,7 +50,7 @@ XdgActivationV1Integration::XdgActivationV1Integration(XdgActivationV1Interface 
     connect(activation, &XdgActivationV1Interface::activateRequested, this, &XdgActivationV1Integration::activateSurface);
 }
 
-QString XdgActivationV1Integration::requestToken(bool isPrivileged, SurfaceInterface *surface, uint serial, SeatInterface *seat, const QString &appId)
+QString XdgActivationV1Integration::requestToken(bool isPrivileged, SurfaceInterface *surface, UInt32Serial serial, SeatInterface *seat, const QString &appId)
 {
     auto window = waylandServer()->findWindow(surface);
     if (!isPrivileged) {
@@ -104,15 +104,17 @@ void XdgActivationV1Integration::activateSurface(SurfaceInterface *surface, cons
         return;
     }
 
-    if (!ws->mayActivate(window, token)) {
-        window->demandAttention();
+    if (!window->readyForPainting()) {
+        window->setActivationToken(token);
         return;
     }
-    if (window->readyForPainting()) {
+
+    if (ws->mayActivate(window, token)) {
         ws->activateWindow(window);
     } else {
-        window->setActivationToken(token);
+        window->demandAttention();
     }
+
     clearFeedback();
 }
 

@@ -43,13 +43,13 @@ void XWaylandInputTest::initTestCase()
 
     kwinApp()->start();
     Test::setOutputConfig({
-        QRect(0, 0, 1280, 1024),
-        QRect(1280, 0, 1280, 1024),
+        Rect(0, 0, 1280, 1024),
+        Rect(1280, 0, 1280, 1024),
     });
     const auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
-    QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
-    QCOMPARE(outputs[1]->geometry(), QRect(1280, 0, 1280, 1024));
+    QCOMPARE(outputs[0]->geometry(), Rect(0, 0, 1280, 1024));
+    QCOMPARE(outputs[1]->geometry(), Rect(1280, 0, 1280, 1024));
     setenv("QT_QPA_PLATFORM", "wayland", true);
 }
 
@@ -127,7 +127,7 @@ void XWaylandInputTest::testPointerEnterLeaveSsd()
     QSignalSpy leftSpy(&eventReader, &X11EventReaderHelper::left);
 
     xcb_window_t windowId = xcb_generate_id(c.get());
-    const QRect windowGeometry = QRect(0, 0, 100, 200);
+    const Rect windowGeometry = Rect(0, 0, 100, 200);
     const uint32_t values[] = {
         XCB_EVENT_MASK_ENTER_WINDOW | XCB_EVENT_MASK_LEAVE_WINDOW};
     xcb_create_window(c.get(), XCB_COPY_FROM_PARENT, windowId, rootWindow(),
@@ -158,7 +158,7 @@ void XWaylandInputTest::testPointerEnterLeaveSsd()
     QVERIFY(Test::waitForWaylandSurface(window));
 
     // move pointer into the window, should trigger an enter
-    QVERIFY(!exclusiveContains(window->frameGeometry(), Cursors::self()->mouse()->pos()));
+    QVERIFY(!window->frameGeometry().contains(Cursors::self()->mouse()->pos()));
     QVERIFY(enteredSpy.isEmpty());
     input()->pointer()->warp(window->frameGeometry().center().toPoint());
     QCOMPARE(waylandServer()->seat()->focusedPointerSurface(), window->surface());
@@ -235,15 +235,15 @@ void XWaylandInputTest::testPointerEventLeaveCsd()
     QVERIFY(window);
     QVERIFY(!window->isDecorated());
     QVERIFY(window->isClientSideDecorated());
-    QCOMPARE(window->bufferGeometry(), QRectF(0, 0, 120, 225));
-    QCOMPARE(window->frameGeometry(), QRectF(10, 5, 100, 200));
+    QCOMPARE(window->bufferGeometry(), RectF(0, 0, 120, 225));
+    QCOMPARE(window->frameGeometry(), RectF(10, 5, 100, 200));
 
     QMetaObject::invokeMethod(window, "setReadyForPainting");
     QVERIFY(window->readyForPainting());
     QVERIFY(Test::waitForWaylandSurface(window));
 
     // Move pointer into the window, should trigger an enter.
-    QVERIFY(!exclusiveContains(window->frameGeometry(), Cursors::self()->mouse()->pos()));
+    QVERIFY(!window->frameGeometry().contains(Cursors::self()->mouse()->pos()));
     QVERIFY(enteredSpy.isEmpty());
     input()->pointer()->warp(window->frameGeometry().center().toPoint());
     QCOMPARE(waylandServer()->seat()->focusedPointerSurface(), window->surface());

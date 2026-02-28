@@ -14,7 +14,7 @@ class GLFramebuffer;
 class ScreenshotLayer : public OutputLayer
 {
 public:
-    explicit ScreenshotLayer(Output *output, GLFramebuffer *buffer);
+    explicit ScreenshotLayer(LogicalOutput *output, GLFramebuffer *buffer);
 
     DrmDevice *scanoutDevice() const override;
     QHash<uint32_t, QList<uint64_t>> supportedDrmFormats() const override;
@@ -22,7 +22,7 @@ public:
 
 private:
     std::optional<OutputLayerBeginFrameInfo> doBeginFrame() override;
-    bool doEndFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame) override;
+    bool doEndFrame(const Region &renderedRegion, const Region &damagedRegion, OutputFrame *frame) override;
 
     GLFramebuffer *const m_buffer;
 };

@@ -37,15 +37,15 @@ QString DesktopBackgroundItem::outputName() const
 
 void DesktopBackgroundItem::setOutputName(const QString &name)
 {
-    setOutput(kwinApp()->outputBackend()->findOutput(name));
+    setOutput(workspace()->findOutput(name));
 }
 
-Output *DesktopBackgroundItem::output() const
+LogicalOutput *DesktopBackgroundItem::output() const
 {
     return m_output;
 }
 
-void DesktopBackgroundItem::setOutput(Output *output)
+void DesktopBackgroundItem::setOutput(LogicalOutput *output)
 {
     if (m_output != output) {
         m_output = output;

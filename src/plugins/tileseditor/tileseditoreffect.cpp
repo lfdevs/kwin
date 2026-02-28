@@ -30,6 +30,7 @@ TilesEditorEffect::TilesEditorEffect()
     connect(m_toggleAction.get(), &QAction::triggered, this, &TilesEditorEffect::toggle);
     m_toggleAction->setObjectName(QStringLiteral("Edit Tiles"));
     m_toggleAction->setText(i18n("Toggle Tiles Editor"));
+    m_toggleAction->setAutoRepeat(false);
     KGlobalAccel::self()->setDefaultShortcut(m_toggleAction.get(), {defaultToggleShortcut});
     KGlobalAccel::self()->setShortcut(m_toggleAction.get(), {defaultToggleShortcut});
     m_toggleShortcut = KGlobalAccel::self()->shortcut(m_toggleAction.get());
@@ -41,7 +42,7 @@ TilesEditorEffect::~TilesEditorEffect()
 {
 }
 
-QVariantMap TilesEditorEffect::initialProperties(Output *screen)
+QVariantMap TilesEditorEffect::initialProperties(LogicalOutput *screen)
 {
     return QVariantMap{
         {QStringLiteral("effect"), QVariant::fromValue(this)},

@@ -119,7 +119,6 @@ ApplicationWayland::~ApplicationWayland()
 #if KWIN_BUILD_X11
     m_xwayland.reset();
 #endif
-    destroyColorManager();
     destroyWorkspace();
 
     destroyInputMethod();
@@ -144,7 +143,6 @@ void ApplicationWayland::performStartup()
     auto compositor = Compositor::create();
     compositor->createRenderer();
     createWorkspace();
-    createColorManager();
     createPlugins();
 
     compositor->start();
@@ -249,6 +247,15 @@ XwaylandInterface *ApplicationWayland::xwayland() const
 {
     return m_xwayland.get();
 }
+
+pid_t ApplicationWayland::xwaylandPid() const
+{
+    if (m_xwayland && m_xwayland->xwaylandLauncher()->process() && m_xwayland->xwaylandLauncher()->process()->state() == QProcess::Running) {
+        return m_xwayland->xwaylandLauncher()->process()->processId();
+    }
+    return -1;
+}
+
 #endif
 
 } // namespace
@@ -442,7 +449,6 @@ int main(int argc, char *argv[])
     };
 
     BackendType backendType;
-    QString pluginName;
     QSize initialWindowSize;
     int outputCount = 1;
     qreal outputScale = 1;
@@ -518,7 +524,7 @@ int main(int argc, char *argv[])
         auto outputBackend = std::make_unique<KWin::VirtualBackend>();
         for (int i = 0; i < outputCount; ++i) {
             outputBackend->addOutput(KWin::VirtualBackend::OutputInfo{
-                .geometry = QRect(QPoint(), initialWindowSize),
+                .geometry = KWin::Rect(QPoint(), initialWindowSize),
                 .scale = outputScale,
             });
         }

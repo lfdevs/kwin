@@ -2,24 +2,24 @@ add_subdirectory(helper)
 
 add_library(KWinIntegrationTestFramework STATIC)
 
-if (Qt6_VERSION VERSION_GREATER_EQUAL "6.8.0")
-    set(private_code_option  "PRIVATE_CODE")
-endif()
 qt6_generate_wayland_protocol_client_sources(KWinIntegrationTestFramework
-    ${private_code_option}
+    PRIVATE_CODE
     NO_INCLUDE_CORE_ONLY
     FILES
         ${WaylandProtocols_DATADIR}/unstable/input-method/input-method-unstable-v1.xml
+        ${WaylandProtocols_DATADIR}/unstable/linux-dmabuf/linux-dmabuf-unstable-v1.xml
 )
 qt6_generate_wayland_protocol_client_sources(KWinIntegrationTestFramework
-    ${private_code_option}
+    PRIVATE_CODE
     FILES
         ${CMAKE_SOURCE_DIR}/src/wayland/protocols/wlr-layer-shell-unstable-v1.xml
         ${CMAKE_SOURCE_DIR}/src/wayland/protocols/xx-session-management-v1.xml
         ${WaylandProtocols_DATADIR}/stable/presentation-time/presentation-time.xml
         ${WaylandProtocols_DATADIR}/stable/tablet/tablet-v2.xml
+        ${WaylandProtocols_DATADIR}/stable/viewporter/viewporter.xml
         ${WaylandProtocols_DATADIR}/stable/xdg-shell/xdg-shell.xml
         ${WaylandProtocols_DATADIR}/staging/color-management/color-management-v1.xml
+        ${WaylandProtocols_DATADIR}/staging/color-representation/color-representation-v1.xml
         ${WaylandProtocols_DATADIR}/staging/cursor-shape/cursor-shape-v1.xml
         ${WaylandProtocols_DATADIR}/staging/fifo/fifo-v1.xml
         ${WaylandProtocols_DATADIR}/staging/fractional-scale/fractional-scale-v1.xml
@@ -98,6 +98,9 @@ if (KWIN_BUILD_SCREENLOCKER)
 endif()
 integrationTest(NAME testBounceKeys SRCS bounce_keys_test.cpp)
 integrationTest(NAME testButtonRebind SRCS buttonrebind_test.cpp)
+if (KWIN_BUILD_GAMECONTROLLER)
+    integrationTest(NAME testGameController SRCS gamecontroller_test.cpp LIBS KF6::IdleTime PkgConfig::libevdev)
+endif()
 integrationTest(NAME testDecorationInput SRCS decoration_input_test.cpp LIBS KDecoration3::KDecoration KDecoration3::KDecoration3Private)
 integrationTest(NAME testInternalWindow SRCS internal_window.cpp)
 integrationTest(NAME testTouchInput SRCS touch_input_test.cpp)
@@ -133,7 +136,7 @@ integrationTest(NAME testActivation SRCS activation_test.cpp OPTIONAL_LIBS XCB::
 integrationTest(NAME testInputMethod SRCS inputmethod_test.cpp LIBS XKB::XKB)
 integrationTest(NAME testScreens SRCS screens_test.cpp)
 integrationTest(NAME testScreenEdges SRCS screenedges_test.cpp)
-integrationTest(NAME testOutputChanges SRCS outputchanges_test.cpp LIBS Qt::Sensors OPTIONAL_LIBS XCB::ICCCM)
+integrationTest(NAME testOutputChanges SRCS outputchanges_test.cpp OPTIONAL_LIBS XCB::ICCCM)
 integrationTest(NAME testTiles SRCS tiles_test.cpp OPTIONAL_LIBS XCB::ICCCM)
 integrationTest(NAME testFractionalScaling SRCS fractional_scaling_test.cpp)
 integrationTest(NAME testMoveResize SRCS move_resize_window_test.cpp)
@@ -143,22 +146,28 @@ integrationTest(NAME testStackingOrder SRCS stacking_order_test.cpp OPTIONAL_LIB
 integrationTest(NAME testDbusInterface SRCS dbus_interface_test.cpp OPTIONAL_LIBS XCB::ICCCM)
 integrationTest(NAME testFakeInput SRCS fakeinput_test.cpp)
 integrationTest(NAME testSecurityContext SRCS security_context_test.cpp)
+integrationTest(NAME testSlowKeys SRCS slow_keys_test.cpp)
 integrationTest(NAME testStickyKeys SRCS sticky_keys_test.cpp)
 integrationTest(NAME testWorkspace SRCS workspace_test.cpp)
 integrationTest(NAME testMouseActions SRCS mouseactions_test.cpp LIBS)
-integrationTest(NAME testColorManagement SRCS test_colormanagement.cpp)
+if (HAVE_WAYLAND_PROTOCOLS_147)
+    integrationTest(NAME testColorManagement SRCS test_colormanagement.cpp)
+endif()
 integrationTest(NAME testKeyboardInput SRCS keyboard_input_test.cpp)
 integrationTest(NAME testFifo SRCS test_fifo.cpp)
 integrationTest(NAME testMouseKeys SRCS mouse_keys_test.cpp)
 integrationTest(NAME testXdgSession SRCS xdgsession_test.cpp)
 integrationTest(NAME testDnd SRCS dnd_test.cpp)
 integrationTest(NAME testFractionalRepaint SRCS fractional_repaint_test.cpp)
-integrationTest(NAME testSelection SRCS selection_test.cpp)
 integrationTest(NAME testDrm SRCS drm_test.cpp)
 integrationTest(NAME testDrmLegacy SRCS drm_test.cpp)
 target_compile_definitions(testDrmLegacy PRIVATE FORCE_DRM_LEGACY=1)
+integrationTest(NAME testDrmNoModifiers SRCS drm_test.cpp)
+target_compile_definitions(testDrmNoModifiers PRIVATE FORCE_NO_DRM_MODIFIERS=1)
+integrationTest(NAME testSelection SRCS selection_test.cpp)
 integrationTest(NAME testToplevelDrag SRCS topleveldrag_test.cpp)
 integrationTest(NAME testA11yKeyboardMonitor SRCS a11ykeyboardmonitor_test.cpp)
+integrationTest(NAME testSubsurface SRCS test_subsurface.cpp)
 
 if(KWIN_BUILD_X11)
     integrationTest(NAME testDontCrashEmptyDeco SRCS dont_crash_empty_deco.cpp LIBS KDecoration3::KDecoration)
@@ -169,7 +178,6 @@ if(KWIN_BUILD_X11)
     integrationTest(NAME testXwaylandInput SRCS xwayland_input_test.cpp LIBS XCB::ICCCM)
     integrationTest(NAME testXwaylandServerCrash SRCS xwaylandserver_crash_test.cpp LIBS XCB::ICCCM)
     integrationTest(NAME testXwaylandServerRestart SRCS xwaylandserver_restart_test.cpp LIBS XCB::ICCCM)
-    integrationTest(NAME testX11DesktopWindow SRCS desktop_window_x11_test.cpp LIBS XCB::ICCCM)
     integrationTest(NAME testWindowRules SRCS window_rules_test.cpp LIBS XCB::ICCCM)
     integrationTest(NAME testX11Window SRCS x11_window_test.cpp LIBS XCB::ICCCM XCB::PRESENT XCB::SHM)
     integrationTest(NAME testDontCrashAuroraeDestroyDeco SRCS dont_crash_aurorae_destroy_deco.cpp LIBS KDecoration3::KDecoration LIBS XCB::ICCCM)
@@ -179,8 +187,8 @@ qt_add_dbus_interfaces(DBUS_SRCS ${CMAKE_BINARY_DIR}/src/org.kde.kwin.VirtualKey
 integrationTest(NAME testVirtualKeyboardDBus SRCS test_virtualkeyboard_dbus.cpp ${DBUS_SRCS})
 
 if (KWIN_BUILD_GLOBALSHORTCUTS)
-integrationTest(NAME testGlobalShortcuts SRCS globalshortcuts_test.cpp LIBS XCB::ICCCM KF6::GlobalAccel KF6::I18n XKB::XKB)
-integrationTest(NAME testKWinBindings SRCS kwinbindings_test.cpp LIBS KF6::I18n)
+    integrationTest(NAME testGlobalShortcuts SRCS globalshortcuts_test.cpp LIBS XCB::ICCCM KF6::GlobalAccel KF6::I18n XKB::XKB)
+    integrationTest(NAME testKWinBindings SRCS kwinbindings_test.cpp LIBS KF6::I18n)
 endif()
 if (TARGET K::KPipeWire)
     integrationTest(NAME testScreencasting SRCS screencasting_test.cpp LIBS K::KPipeWire)

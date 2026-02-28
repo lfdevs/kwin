@@ -61,7 +61,7 @@ private:
     {
         QSizeF initiallyConfiguredSize;
         Test::XdgToplevel::States initiallyConfiguredStates;
-        QRectF finalGeometry;
+        RectF finalGeometry;
     };
     /*
      * Create a window and return relevant results for testing
@@ -93,13 +93,13 @@ void TestPlacement::initTestCase()
 
     kwinApp()->start();
     Test::setOutputConfig({
-        QRect(0, 0, 1280, 1024),
-        QRect(1280, 0, 1280, 1024),
+        Rect(0, 0, 1280, 1024),
+        Rect(1280, 0, 1280, 1024),
     });
     const auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
-    QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
-    QCOMPARE(outputs[1]->geometry(), QRect(1280, 0, 1280, 1024));
+    QCOMPARE(outputs[0]->geometry(), Rect(0, 0, 1280, 1024));
+    QCOMPARE(outputs[1]->geometry(), Rect(1280, 0, 1280, 1024));
 }
 
 void TestPlacement::setPlacementPolicy(PlacementPolicy policy)
@@ -146,22 +146,22 @@ std::tuple<TestPlacement::PlaceWindowResult, TestPlacement::WindowHandle> TestPl
 void TestPlacement::testPlaceSmart()
 {
     const auto outputs = workspace()->outputs();
-    const QList<QRect> desiredGeometries{
-        QRect(0, 0, 600, 500),
-        QRect(600, 0, 600, 500),
-        QRect(0, 500, 600, 500),
-        QRect(600, 500, 600, 500),
-        QRect(680, 524, 600, 500),
-        QRect(680, 0, 600, 500),
-        QRect(0, 524, 600, 500),
-        QRect(0, 0, 600, 500),
+    const QList<Rect> desiredGeometries{
+        Rect(0, 0, 600, 500),
+        Rect(600, 0, 600, 500),
+        Rect(0, 500, 600, 500),
+        Rect(600, 500, 600, 500),
+        Rect(680, 524, 600, 500),
+        Rect(680, 0, 600, 500),
+        Rect(0, 524, 600, 500),
+        Rect(0, 0, 600, 500),
     };
 
     setPlacementPolicy(PlacementSmart);
 
     std::vector<WindowHandle> handles;
 
-    for (const QRect &desiredGeometry : desiredGeometries) {
+    for (const Rect &desiredGeometry : desiredGeometries) {
         auto [windowPlacement, handle] = createAndPlaceWindow(QSize(600, 500));
         handles.push_back(std::move(handle));
 
@@ -197,7 +197,7 @@ void TestPlacement::testPlaceMaximized()
         auto [windowPlacement, handle] = createAndPlaceWindow(QSize(600, 500));
         QVERIFY(windowPlacement.initiallyConfiguredStates & Test::XdgToplevel::State::Maximized);
         QCOMPARE(windowPlacement.initiallyConfiguredSize, QSize(1280, 1024 - 20));
-        QCOMPARE(windowPlacement.finalGeometry, QRect(0, 20, 1280, 1024 - 20)); // under the panel
+        QCOMPARE(windowPlacement.finalGeometry, RectF(0, 20, 1280, 1024 - 20)); // under the panel
         handles.push_back(std::move(handle));
     }
 }
@@ -237,7 +237,7 @@ void TestPlacement::testPlaceMaximizedLeavesFullscreen()
 
         QVERIFY(initiallyConfiguredStates & Test::XdgToplevel::State::Fullscreen);
         QCOMPARE(initiallyConfiguredSize, QSize(1280, 1024));
-        QCOMPARE(window->frameGeometry(), QRect(0, 0, 1280, 1024));
+        QCOMPARE(window->frameGeometry(), RectF(0, 0, 1280, 1024));
 
         handles.emplace_back(WindowHandle{
             .window = window,
@@ -260,7 +260,7 @@ void TestPlacement::testPlaceCentered()
     std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get()));
     Window *window = Test::renderAndWaitForShown(surface.get(), QSize(100, 50), Qt::red);
     QVERIFY(window);
-    QCOMPARE(window->frameGeometry(), QRect(590, 487, 100, 50));
+    QCOMPARE(window->frameGeometry(), RectF(590, 487, 100, 50));
 
     shellSurface.reset();
     QVERIFY(Test::waitForWindowClosed(window));
@@ -282,7 +282,7 @@ void TestPlacement::testPlaceUnderMouse()
     std::unique_ptr<Test::XdgToplevel> shellSurface(Test::createXdgToplevelSurface(surface.get()));
     Window *window = Test::renderAndWaitForShown(surface.get(), QSize(100, 50), Qt::red);
     QVERIFY(window);
-    QCOMPARE(window->frameGeometry(), QRect(150, 275, 100, 50));
+    QCOMPARE(window->frameGeometry(), RectF(150, 275, 100, 50));
 
     shellSurface.reset();
     QVERIFY(Test::waitForWindowClosed(window));
@@ -366,7 +366,7 @@ void TestPlacement::testPlaceRandom()
 
 void TestPlacement::testFullscreen()
 {
-    const QList<Output *> outputs = workspace()->outputs();
+    const QList<LogicalOutput *> outputs = workspace()->outputs();
 
     setPlacementPolicy(PlacementSmart);
     std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
@@ -388,11 +388,11 @@ void TestPlacement::testFullscreen()
     shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy.last().at(0).value<quint32>());
     Test::render(surface.get(), toplevelConfigureRequestedSpy.last().at(0).toSize(), Qt::red);
     QVERIFY(geometryChangedSpy.wait());
-    QCOMPARE(window->frameGeometry(), outputs[0]->geometry());
+    QCOMPARE(window->frameGeometry(), RectF(outputs[0]->geometry()));
 
     // this doesn't require a round trip, so should be immediate
     window->sendToOutput(outputs[1]);
-    QCOMPARE(window->frameGeometry(), outputs[1]->geometry());
+    QCOMPARE(window->frameGeometry(), RectF(outputs[1]->geometry()));
     QCOMPARE(geometryChangedSpy.count(), 2);
 }
 

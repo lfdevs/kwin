@@ -8,8 +8,6 @@
 
 <article id="kwindecoration" lang="&language;">
 <articleinfo>
-<title
->Decoraciones de la ventana</title>
 <authorgroup>
 <author
 >&Rik.Hemsley; &Rik.Hemsley.mail;</author>
@@ -204,7 +202,7 @@
 
 <para
 >Marque <guilabel
->Cerrar ventanas al hacer doble clic en el botón de menú de la ventana</guilabel
+>Cerrar ventanas al hacer doble clic en el botón de menú</guilabel
 > para disponer de la opción adicional al botón «Cerrar» o si ha eliminado del botón «Cerrar» de la barra de título. </para>
 
 <para

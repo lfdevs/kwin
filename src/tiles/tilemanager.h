@@ -18,7 +18,6 @@
 
 #include <QAbstractItemModel>
 #include <QObject>
-#include <QRectF>
 
 #include <QJsonValue>
 
@@ -27,7 +26,7 @@ class QTimer;
 namespace KWin
 {
 
-class Output;
+class LogicalOutput;
 class Tile;
 class TileModel;
 
@@ -41,12 +40,12 @@ class KWIN_EXPORT TileManager : public QObject
     Q_PROPERTY(TileModel *model READ model NOTIFY modelChanged)
 
 public:
-    explicit TileManager(Output *parent = nullptr);
+    explicit TileManager(LogicalOutput *parent = nullptr);
     ~TileManager() override;
 
     bool tearingDown() const;
 
-    Output *output() const;
+    LogicalOutput *output() const;
 
     Q_INVOKABLE KWin::Tile *bestTileForPosition(qreal x, qreal y); // For scripting
     RootTile *rootTile(VirtualDesktop *desktop) const;
@@ -69,11 +68,11 @@ private:
     void readSettings(RootTile *rootTile);
     void saveSettings();
     QJsonObject tileToJSon(CustomTile *parentTile);
-    CustomTile *parseTilingJSon(const QJsonValue &val, const QRectF &availableArea, CustomTile *parentTile);
+    CustomTile *parseTilingJSon(const QJsonValue &val, const RectF &availableArea, CustomTile *parentTile);
 
     Q_DISABLE_COPY(TileManager)
 
-    Output *m_output = nullptr;
+    LogicalOutput *m_output = nullptr;
     std::unique_ptr<QTimer> m_saveTimer;
 
     QHash<VirtualDesktop *, RootTile *> m_rootTiles;

@@ -82,7 +82,7 @@ class XXPipV1Commit : public SurfaceAttachedState<XXPipV1Commit>, public XdgSurf
 {
 public:
     QPointer<SurfaceInterface> origin;
-    QRect originRect;
+    Rect originRect;
 };
 
 class XXPipV1InterfacePrivate : public SurfaceExtension<XXPipV1InterfacePrivate, XXPipV1Commit>, public QtWaylandServer::xx_pip_v1
@@ -90,7 +90,7 @@ class XXPipV1InterfacePrivate : public SurfaceExtension<XXPipV1InterfacePrivate,
 public:
     XXPipV1InterfacePrivate(XXPipV1Interface *q, XXPipShellV1Interface *shell, XdgSurfaceInterface *xdgSurface);
 
-    void apply(XXPipV1Commit *comit);
+    void apply(XXPipV1Commit *commit);
     void reset();
 
     XXPipV1Interface *q;
@@ -98,7 +98,7 @@ public:
     XdgSurfaceInterface *xdgSurface;
     QString applicationId;
     QPointer<SurfaceInterface> origin;
-    QRect originRect;
+    Rect originRect;
 
 protected:
     void xx_pip_v1_destroy_resource(Resource *resource) override;
@@ -180,7 +180,7 @@ void XXPipV1InterfacePrivate::xx_pip_v1_set_origin(Resource *resource, struct ::
 
 void XXPipV1InterfacePrivate::xx_pip_v1_set_origin_rect(Resource *resource, int32_t x, int32_t y, uint32_t width, uint32_t height)
 {
-    pending->originRect = QRect(x, y, width, height);
+    pending->originRect = Rect(x, y, width, height);
 }
 
 void XXPipV1InterfacePrivate::xx_pip_v1_move(Resource *resource, struct ::wl_resource *seat_resource, uint32_t serial)

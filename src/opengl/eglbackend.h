@@ -14,14 +14,13 @@
 #include "opengl/egldisplay.h"
 #include "wayland/linuxdmabufv1clientbuffer.h"
 
-#include <QRegion>
 #include <memory>
 
 #include <epoxy/egl.h>
 
 namespace KWin
 {
-class Output;
+class LogicalOutput;
 class GLTexture;
 class EglContext;
 class EglDisplay;

@@ -8,12 +8,12 @@
 # Svanur Palsson <svanur@tern.is>, 2004.
 # Arnar Leosson <leosson@frisurf.no>, 2005.
 # SPDX-FileCopyrightText: 2008, 2009, 2011, 2025 Sveinn í Felli <sveinki@nett.is>
-# SPDX-FileCopyrightText: 2022, 2023, 2024 gummi <gudmundure@gmail.com>
+# SPDX-FileCopyrightText: 2022, 2023, 2024, 2025 gummi <gudmundure@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwm\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 14:41+0000\n"
+"POT-Creation-Date: 2025-11-17 11:53+0000\n"
 "PO-Revision-Date: 2025-12-06 13:48+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
@@ -764,7 +764,7 @@ msgstr "Ekkert"
 #: focus.ui:123
 #, kde-format
 msgid "Low"
-msgstr "Lág"
+msgstr "Lágt"
 
 #. i18n: Focus Stealing Prevention Level
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FocusStealingPreventionLevel)
@@ -778,14 +778,14 @@ msgstr "Miðlungs"
 #: focus.ui:133
 #, kde-format
 msgid "High"
-msgstr "Há"
+msgstr "Hátt"
 
 #. i18n: Focus Stealing Prevention Level
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FocusStealingPreventionLevel)
 #: focus.ui:138
 #, kde-format
 msgid "Extreme"
-msgstr "Mjög há"
+msgstr "Mjög hátt"
 
 #. i18n: ectx: property (text), widget (QLabel, raisingWindowsLabel)
 #: focus.ui:146
@@ -989,13 +989,13 @@ msgstr "Aðgerðir titilstiku og ramma"
 #: mouse.ui:163
 #, kde-format
 msgid "Active"
-msgstr "Virkt"
+msgstr "Virkur"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: mouse.ui:186
 #, kde-format
 msgid "Inactive"
-msgstr "Óvirkt"
+msgstr "Óvirkur"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandActiveTitlebar1)
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandActiveTitlebar2)

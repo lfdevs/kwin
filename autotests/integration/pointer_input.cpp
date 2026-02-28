@@ -128,13 +128,13 @@ void PointerInputTest::initTestCase()
 
     kwinApp()->start();
     Test::setOutputConfig({
-        QRect(0, 0, 1280, 1024),
-        QRect(1280, 0, 1280, 1024),
+        Rect(0, 0, 1280, 1024),
+        Rect(1280, 0, 1280, 1024),
     });
     const auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
-    QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
-    QCOMPARE(outputs[1]->geometry(), QRect(1280, 0, 1280, 1024));
+    QCOMPARE(outputs[0]->geometry(), Rect(0, 0, 1280, 1024));
+    QCOMPARE(outputs[1]->geometry(), Rect(1280, 0, 1280, 1024));
     setenv("QT_QPA_PLATFORM", "wayland", true);
 }
 
@@ -309,22 +309,22 @@ void PointerInputTest::testUpdateFocusAfterScreenChange()
     QVERIFY(windowAddedSpy.wait());
     Window *window = workspace()->activeWindow();
     QVERIFY(window);
-    QVERIFY(exclusiveContains(window->frameGeometry(), Cursors::self()->mouse()->pos()));
+    QVERIFY(window->frameGeometry().contains(Cursors::self()->mouse()->pos()));
     QVERIFY(enteredSpy.wait());
     QCOMPARE(enteredSpy.count(), 1);
 
     // move the cursor to the second screen
     input()->pointer()->warp(QPointF(1500, 300));
-    QVERIFY(!exclusiveContains(window->frameGeometry(), Cursors::self()->mouse()->pos()));
+    QVERIFY(!window->frameGeometry().contains(Cursors::self()->mouse()->pos()));
     QVERIFY(leftSpy.wait());
 
     // now let's remove the screen containing the cursor
-    Test::setOutputConfig({QRect(0, 0, 1280, 1024)});
+    Test::setOutputConfig({Rect(0, 0, 1280, 1024)});
     QCOMPARE(workspace()->outputs().count(), 1);
 
     // this should have warped the cursor
-    QCOMPARE(Cursors::self()->mouse()->pos(), QPoint(639, 511));
-    QVERIFY(exclusiveContains(window->frameGeometry(), Cursors::self()->mouse()->pos()));
+    QCOMPARE(Cursors::self()->mouse()->pos(), QPoint(640, 512));
+    QVERIFY(window->frameGeometry().contains(Cursors::self()->mouse()->pos()));
 
     // and we should get an enter event
     QVERIFY(enteredSpy.wait());
@@ -403,7 +403,7 @@ void PointerInputTest::testUpdateFocusOnDecorationDestroy()
     shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy.last().at(0).value<quint32>());
     Test::render(surface.get(), QSize(1280, 1024), Qt::blue);
     QVERIFY(frameGeometryChangedSpy.wait());
-    QCOMPARE(window->frameGeometry(), QRect(0, 0, 1280, 1024));
+    QCOMPARE(window->frameGeometry(), RectF(0, 0, 1280, 1024));
     QCOMPARE(window->maximizeMode(), MaximizeFull);
     QCOMPARE(window->requestedMaximizeMode(), MaximizeFull);
     QCOMPARE(window->isDecorated(), false);
@@ -532,8 +532,8 @@ void PointerInputTest::testModifierClickUnrestrictedFullscreenMove()
     // this test ensures that Meta+mouse button press triggers unrestricted move for fullscreen windows
     if (workspace()->outputs().size() < 2) {
         Test::setOutputConfig({
-            QRect(0, 0, 1280, 1024),
-            QRect(1280, 0, 1280, 1024),
+            Rect(0, 0, 1280, 1024),
+            Rect(1280, 0, 1280, 1024),
         });
     }
 
@@ -871,8 +871,8 @@ void PointerInputTest::testFocusFollowsMouse()
     QVERIFY(window2->isActive());
 
     // move on top of first window
-    QVERIFY(exclusiveContains(window1->frameGeometry(), QPointF(10, 10)));
-    QVERIFY(!exclusiveContains(window2->frameGeometry(), QPointF(10, 10)));
+    QVERIFY(window1->frameGeometry().contains(QPointF(10, 10)));
+    QVERIFY(!window2->frameGeometry().contains(QPointF(10, 10)));
     input()->pointer()->warp(QPointF(10, 10));
     QVERIFY(stackingOrderChangedSpy.wait());
     QCOMPARE(stackingOrderChangedSpy.count(), 1);
@@ -953,8 +953,8 @@ void PointerInputTest::testMouseActionInactiveWindow()
     QVERIFY(window2->isActive());
 
     // move on top of first window
-    QVERIFY(exclusiveContains(window1->frameGeometry(), QPointF(10, 10)));
-    QVERIFY(!exclusiveContains(window2->frameGeometry(), QPointF(10, 10)));
+    QVERIFY(window1->frameGeometry().contains(QPointF(10, 10)));
+    QVERIFY(!window2->frameGeometry().contains(QPointF(10, 10)));
     input()->pointer()->warp(QPointF(10, 10));
     // no focus follows mouse
     QVERIFY(stackingOrderChangedSpy.isEmpty());
@@ -1039,8 +1039,8 @@ void PointerInputTest::testMouseActionActiveWindow()
     QSignalSpy stackingOrderChangedSpy(workspace(), &Workspace::stackingOrderChanged);
 
     // move on top of second window
-    QVERIFY(!exclusiveContains(window1->frameGeometry(), QPointF(900, 900)));
-    QVERIFY(exclusiveContains(window2->frameGeometry(), QPointF(900, 900)));
+    QVERIFY(!window1->frameGeometry().contains(QPointF(900, 900)));
+    QVERIFY(window2->frameGeometry().contains(QPointF(900, 900)));
     input()->pointer()->warp(QPointF(900, 900));
 
     // and click
@@ -1225,7 +1225,7 @@ void PointerInputTest::testEffectOverrideCursorImage()
     QVERIFY(window);
 
     // and move cursor to the window
-    QVERIFY(!exclusiveContains(window->frameGeometry(), QPoint(800, 800)));
+    QVERIFY(!window->frameGeometry().contains(QPoint(800, 800)));
     input()->pointer()->warp(window->frameGeometry().center());
     QVERIFY(enteredSpy.wait());
     cursorShapeDevice->set_shape(enteredSpy.last().at(0).value<quint32>(), Test::CursorShapeDeviceV1::shape_wait);
@@ -1290,7 +1290,7 @@ void PointerInputTest::testPopup()
     QVERIFY(window);
     QCOMPARE(window->hasPopupGrab(), false);
     // move pointer into window
-    QVERIFY(!exclusiveContains(window->frameGeometry(), QPoint(800, 800)));
+    QVERIFY(!window->frameGeometry().contains(QPoint(800, 800)));
     input()->pointer()->warp(window->frameGeometry().center());
     QVERIFY(enteredSpy.wait());
     // click inside window to create serial
@@ -1371,7 +1371,7 @@ void PointerInputTest::testDecoCancelsPopup()
     QVERIFY(window->isDecorated());
 
     // move pointer into window
-    QVERIFY(!exclusiveContains(window->frameGeometry(), QPoint(800, 800)));
+    QVERIFY(!window->frameGeometry().contains(QPoint(800, 800)));
     input()->pointer()->warp(window->frameGeometry().center());
     QVERIFY(enteredSpy.wait());
     // click inside window to create serial
@@ -1433,7 +1433,7 @@ void PointerInputTest::testWindowUnderCursorWhileButtonPressed()
     QVERIFY(window);
 
     // move cursor over window
-    QVERIFY(!exclusiveContains(window->frameGeometry(), QPoint(800, 800)));
+    QVERIFY(!window->frameGeometry().contains(QPoint(800, 800)));
     input()->pointer()->warp(window->frameGeometry().center());
     QVERIFY(enteredSpy.wait());
     // click inside window
@@ -1455,8 +1455,8 @@ void PointerInputTest::testWindowUnderCursorWhileButtonPressed()
     auto popupWindow = windowAddedSpy.last().first().value<Window *>();
     QVERIFY(popupWindow);
     QVERIFY(popupWindow != window);
-    QVERIFY(exclusiveContains(window->frameGeometry(), Cursors::self()->mouse()->pos()));
-    QVERIFY(exclusiveContains(popupWindow->frameGeometry(), Cursors::self()->mouse()->pos()));
+    QVERIFY(window->frameGeometry().contains(Cursors::self()->mouse()->pos()));
+    QVERIFY(popupWindow->frameGeometry().contains(Cursors::self()->mouse()->pos()));
     QVERIFY(Test::waylandSync());
     QCOMPARE(leftSpy.count(), 0);
 
@@ -1525,11 +1525,11 @@ void PointerInputTest::testConfineToScreenGeometry()
     // after moving it to off-screen area
 
     // setup screen layout
-    const QList<QRect> geometries{
-        QRect(0, 0, 1280, 1024),
-        QRect(1280, 0, 1280, 1024),
-        QRect(2560, 0, 1280, 1024),
-        QRect(1280, 1024, 1280, 1024)};
+    const QList<Rect> geometries{
+        Rect(0, 0, 1280, 1024),
+        Rect(1280, 0, 1280, 1024),
+        Rect(2560, 0, 1280, 1024),
+        Rect(1280, 1024, 1280, 1024)};
     Test::setOutputConfig(geometries);
 
     const auto outputs = workspace()->outputs();
@@ -1597,11 +1597,11 @@ void PointerInputTest::testEdgeBarrier_data()
 void PointerInputTest::testEdgeBarrier()
 {
     // setup screen layout
-    const QList<QRect> geometries{
-        QRect(0, 0, 1280, 1024),
-        QRect(1280, 0, 1280, 1024),
-        QRect(2560, 0, 1280, 1024),
-        QRect(1280, 1024, 1280, 1024)};
+    const QList<Rect> geometries{
+        Rect(0, 0, 1280, 1024),
+        Rect(1280, 0, 1280, 1024),
+        Rect(2560, 0, 1280, 1024),
+        Rect(1280, 1024, 1280, 1024)};
     Test::setOutputConfig(geometries);
 
     const auto outputs = workspace()->outputs();
@@ -1893,7 +1893,7 @@ void PointerInputTest::testUnfocusedModifiers()
     // Create an xcb window.
     Test::XcbConnectionPtr c = Test::createX11Connection();
     QVERIFY(!xcb_connection_has_error(c.get()));
-    const QRect windowGeometry(0, 0, 10, 10);
+    const Rect windowGeometry(0, 0, 10, 10);
     xcb_window_t windowId = xcb_generate_id(c.get());
     xcb_create_window(c.get(), XCB_COPY_FROM_PARENT, windowId, rootWindow(),
                       windowGeometry.x(),

@@ -179,6 +179,9 @@
         <entry name="ElectricBorderMaximize" type="Bool">
             <default>true</default>
         </entry>
+        <entry name="ElectricBorderAllScreenCorner" type="Bool">
+            <default>true</default>
+        </entry>
         <entry name="ElectricBorderTiling" type="Bool">
             <default>true</default>
         </entry>
@@ -246,6 +249,10 @@
     <group name="ScreenEdges">
         <entry name="RemainActiveOnFullscreen" type="Bool">
             <default>false</default>
+        </entry>
+        <entry name="TouchTarget" type="Int">
+            <default>8</default>
+            <min>1</min>
         </entry>
     </group>
     <group name="Compositing">

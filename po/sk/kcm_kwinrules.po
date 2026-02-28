@@ -7,19 +7,20 @@
 # Mthw <jari_45@hotmail.com>, 2018, 2019.
 # Ferdinand Galko <galko.ferdinand@gmail.com>, 2023.
 # Matej Mrenica <matejm98mthw@gmail.com>, 2023.
+# SPDX-FileCopyrightText: 2026 Lucia Mrenica <lucia.mrenica@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 14:41+0000\n"
-"PO-Revision-Date: 2023-12-02 20:10+0100\n"
-"Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
+"POT-Creation-Date: 2026-01-23 02:42+0000\n"
+"PO-Revision-Date: 2026-01-17 20:18+0100\n"
+"Last-Translator: Lucia Mrenica <lucia.mrenica@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.01.80\n"
+"X-Generator: Lokalize 25.12.1\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: kcmrules.cpp:228
@@ -43,26 +44,22 @@ msgid "Unimportant"
 msgstr "Nedôležité"
 
 #: optionsmodel.cpp:199
-#, fuzzy, kde-format
-#| msgid "Exact Match"
+#, kde-format
 msgid "Exact match"
 msgstr "Presná zhoda"
 
 #: optionsmodel.cpp:200
-#, fuzzy, kde-format
-#| msgid "Substring Match"
+#, kde-format
 msgid "Substring match"
 msgstr "Zhoda s podreťazcom"
 
 #: optionsmodel.cpp:201
-#, fuzzy, kde-format
-#| msgid "Regular Expression"
+#, kde-format
 msgid "Regular expression"
 msgstr "Regulárny výraz"
 
 #: optionsmodel.cpp:205
-#, fuzzy, kde-format
-#| msgid "Apply Initially"
+#, kde-format
 msgid "Apply initially"
 msgstr "Aplikovať na začiatku"
 
@@ -77,10 +74,9 @@ msgstr ""
 "Žiadne ďalšie zmeny nebudú ovplyvnené."
 
 #: optionsmodel.cpp:209
-#, fuzzy, kde-format
-#| msgid "Apply Now"
+#, kde-format
 msgid "Apply now"
-msgstr "Aplikovať teraz"
+msgstr "Použiť teraz"
 
 #: optionsmodel.cpp:210
 #, kde-format
@@ -108,8 +104,7 @@ msgstr ""
 "posledná zapamätaná hodnota."
 
 #: optionsmodel.cpp:217
-#, fuzzy, kde-format
-#| msgid "Do Not Affect"
+#, kde-format
 msgid "Do not affect"
 msgstr "Neovplyvňovať"
 
@@ -135,8 +130,7 @@ msgid "The window property will be always forced to the given value."
 msgstr "Vlastnosť okna bude vždy vynútená na zadanú hodnotu."
 
 #: optionsmodel.cpp:224
-#, fuzzy, kde-format
-#| msgid "Force Temporarily"
+#, kde-format
 msgid "Force temporarily"
 msgstr "Vynútiť dočasne"
 
@@ -241,10 +235,9 @@ msgid "Machine (hostname)"
 msgstr "Počítač (hostiteľ):"
 
 #: rulesmodel.cpp:440
-#, fuzzy, kde-format
-#| msgid "Window types"
+#, kde-format
 msgid "Window tag"
-msgstr "Typy okien:"
+msgstr "Tag okna"
 
 #: rulesmodel.cpp:447
 #, kde-format
@@ -275,16 +268,14 @@ msgid "Maximized vertically"
 msgstr "Maximalizované vertikálne"
 
 #: rulesmodel.cpp:472
-#, fuzzy, kde-format
-#| msgid "Virtual Desktop"
+#, kde-format
 msgid "Virtual desktop"
 msgstr "Virtuálna plocha"
 
 #: rulesmodel.cpp:478
-#, fuzzy, kde-format
-#| msgid "Virtual Desktops"
+#, kde-format
 msgid "Virtual desktops"
-msgstr "Virtuálne pracovné plochy"
+msgstr "Virtuálne plochy"
 
 #: rulesmodel.cpp:497
 #, kde-format
@@ -598,17 +589,17 @@ msgstr "Blokovať kompozíciu"
 #: rulesmodel.cpp:716
 #, kde-format
 msgid "Layer"
-msgstr ""
+msgstr "Vrstva"
 
 #: rulesmodel.cpp:722
 #, kde-format
 msgid "Adaptive sync"
-msgstr ""
+msgstr "Adaptívna synchronizácia"
 
 #: rulesmodel.cpp:727
 #, kde-format
 msgid "Allow tearing"
-msgstr ""
+msgstr "Povoliť trhanie"
 
 #: rulesmodel.cpp:778
 #, kde-format
@@ -631,26 +622,22 @@ msgstr ""
 "vývojárom aplikácie."
 
 #: rulesmodel.cpp:813
-#, fuzzy, kde-format
-#| msgid "All Window Types"
+#, kde-format
 msgid "All window types"
 msgstr "Všetky typy okien"
 
 #: rulesmodel.cpp:814
-#, fuzzy, kde-format
-#| msgid "Normal Window"
+#, kde-format
 msgid "Normal window"
 msgstr "Normálne okno"
 
 #: rulesmodel.cpp:815
-#, fuzzy, kde-format
-#| msgid "Dialog Window"
+#, kde-format
 msgid "Dialog window"
 msgstr "Dialógové okno"
 
 #: rulesmodel.cpp:816
-#, fuzzy, kde-format
-#| msgid "Utility Window"
+#, kde-format
 msgid "Utility window"
 msgstr "Nástrojové okno"
 
@@ -665,14 +652,12 @@ msgid "Toolbar"
 msgstr "Panel nástrojov"
 
 #: rulesmodel.cpp:819
-#, fuzzy, kde-format
-#| msgid "Torn-Off Menu"
+#, kde-format
 msgid "Torn-off menu"
 msgstr "Odtrhnutá ponuka"
 
 #: rulesmodel.cpp:820
-#, fuzzy, kde-format
-#| msgid "Splash Screen"
+#, kde-format
 msgid "Splash screen"
 msgstr "Úvodná obrazovka"
 
@@ -683,20 +668,17 @@ msgstr "Plocha"
 
 #. i18n("Unmanaged Window")},  deprecated
 #: rulesmodel.cpp:823
-#, fuzzy, kde-format
-#| msgid "Standalone Menubar"
+#, kde-format
 msgid "Standalone menubar"
 msgstr "Samostatná ponuka"
 
 #: rulesmodel.cpp:824 rulesmodel.cpp:930
-#, fuzzy, kde-format
-#| msgid "On Screen Display"
+#, kde-format
 msgid "On-screen display"
 msgstr "Zobrazenie na obrazovke"
 
 #: rulesmodel.cpp:834
-#, fuzzy, kde-format
-#| msgid "All Desktops"
+#, kde-format
 msgid "All desktops"
 msgstr "Všetky plochy"
 
@@ -707,8 +689,7 @@ msgid "Make the window available on all desktops"
 msgstr "Sprístupniť okno na všetkých plochách"
 
 #: rulesmodel.cpp:855
-#, fuzzy, kde-format
-#| msgid "All Activities"
+#, kde-format
 msgid "All activities"
 msgstr "Všetky aktivity"
 
@@ -724,14 +705,12 @@ msgid "Default"
 msgstr "Štandardné"
 
 #: rulesmodel.cpp:879
-#, fuzzy, kde-format
-#| msgid "No Placement"
+#, kde-format
 msgid "No placement"
 msgstr "Bez umiestnenia"
 
 #: rulesmodel.cpp:880
-#, fuzzy, kde-format
-#| msgid "Minimal Overlapping"
+#, kde-format
 msgid "Minimal overlapping"
 msgstr "Minimálne prekrývanie"
 
@@ -751,20 +730,17 @@ msgid "Random"
 msgstr "Náhodné"
 
 #: rulesmodel.cpp:884
-#, fuzzy, kde-format
-#| msgid "In Top-Left Corner"
+#, kde-format
 msgid "In top-left corner"
 msgstr "V ľavom hornom rohu"
 
 #: rulesmodel.cpp:885
-#, fuzzy, kde-format
-#| msgid "Under Mouse"
+#, kde-format
 msgid "Under mouse"
 msgstr "Pod myšou"
 
 #: rulesmodel.cpp:886
-#, fuzzy, kde-format
-#| msgid "On Main Window"
+#, kde-format
 msgid "On main window"
 msgstr "Na hlavné okno"
 
@@ -796,34 +772,32 @@ msgstr "Extrémna"
 #: rulesmodel.cpp:923
 #, kde-format
 msgid "Below"
-msgstr ""
+msgstr "Pod"
 
 #: rulesmodel.cpp:925
 #, kde-format
 msgid "Above"
-msgstr ""
+msgstr "Nad"
 
 #: rulesmodel.cpp:926
-#, fuzzy, kde-format
-#| msgid "Position"
+#, kde-format
 msgid "Notification"
-msgstr "Pozícia"
+msgstr "Upozornenie"
 
 #: rulesmodel.cpp:928
 #, kde-format
 msgid "Popup"
-msgstr ""
+msgstr "Vyskakovacie okno"
 
 #: rulesmodel.cpp:929
-#, fuzzy, kde-format
-#| msgid "Position"
+#, kde-format
 msgid "Critical notification"
-msgstr "Pozícia"
+msgstr "Kritické upozornenie"
 
 #: rulesmodel.cpp:931
 #, kde-format
 msgid "Overlay"
-msgstr ""
+msgstr "Prekrytie"
 
 #: rulesmodel.cpp:956
 #, kde-format
@@ -871,14 +845,10 @@ msgid "No rules for specific windows are currently set"
 msgstr "Žiadne pravidlá pre konkrétne okná nie sú aktuálne nastavené"
 
 #: ui/main.qml:89
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid "Click the <interface>Add New…</interface> button below to add some"
+#, kde-kuit-format
 msgctxt "@info"
 msgid "Click <interface>Add New…</interface> to add some"
-msgstr ""
-"Kliknite na tlačidlo <interface>Pridať nové</interface> nižšie a pridajte "
-"nejaké"
+msgstr "Kliknutím na <interface>Pridať nové...</interface> pridáte ďalšie"
 
 #: ui/main.qml:97
 #, kde-format
@@ -968,12 +938,12 @@ msgstr "Pridať vlastnosť..."
 msgid "Detect Window Properties"
 msgstr "Zistiť vlastnosti okna"
 
-#: ui/RulesEditor.qml:115 ui/RulesEditor.qml:122
+#: ui/RulesEditor.qml:115 ui/RulesEditor.qml:126
 #, kde-format
 msgid "Instantly"
 msgstr "Okamžite"
 
-#: ui/RulesEditor.qml:116 ui/RulesEditor.qml:127
+#: ui/RulesEditor.qml:116 ui/RulesEditor.qml:131
 #, kde-format
 msgid "After %1 second"
 msgid_plural "After %1 seconds"
@@ -981,47 +951,45 @@ msgstr[0] "Po %1 sekunde"
 msgstr[1] "Po %1 sekundách"
 msgstr[2] "Po %1 sekundách"
 
-#: ui/RulesEditor.qml:174
+#: ui/RulesEditor.qml:178
 #, kde-format
 msgid "Add property to the rule"
 msgstr "Pridať vlastnosť tomuto pravidlu"
 
-#: ui/RulesEditor.qml:267
-#, fuzzy, kde-format
-#| msgid "No window properties changed"
+#: ui/RulesEditor.qml:271
+#, kde-format
 msgctxt "@info:placeholder"
 msgid "No properties left to add"
-msgstr "Nezmenili sa žiadne vlastnosti okna"
+msgstr "Nezostali žiadne vlastnosti na pridanie"
 
-#: ui/RulesEditor.qml:269
-#, fuzzy, kde-format
-#| msgid "No window properties changed"
+#: ui/RulesEditor.qml:273
+#, kde-format
 msgctxt "@info:placeholder %1 is a filter text introduced by the user"
 msgid "No properties match \"%1\""
-msgstr "Nezmenili sa žiadne vlastnosti okna"
+msgstr "Žiadne vlastnosti sa nezhodujú s \"%1\""
 
-#: ui/RulesEditor.qml:290 ui/ValueEditor.qml:54
+#: ui/RulesEditor.qml:294 ui/ValueEditor.qml:54
 #, kde-format
 msgid "Yes"
 msgstr "Áno"
 
-#: ui/RulesEditor.qml:290 ui/ValueEditor.qml:60
+#: ui/RulesEditor.qml:294 ui/ValueEditor.qml:60
 #, kde-format
 msgid "No"
 msgstr "Nie"
 
-#: ui/RulesEditor.qml:292 ui/ValueEditor.qml:168 ui/ValueEditor.qml:175
+#: ui/RulesEditor.qml:296 ui/ValueEditor.qml:168 ui/ValueEditor.qml:175
 #, kde-format
 msgid "%1 %"
 msgstr "%1 %"
 
-#: ui/RulesEditor.qml:294
+#: ui/RulesEditor.qml:298
 #, kde-format
 msgctxt "Coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr "(%1, %2)"
 
-#: ui/RulesEditor.qml:296
+#: ui/RulesEditor.qml:300
 #, kde-format
 msgctxt "Size (width, height)"
 msgid "(%1, %2)"

@@ -9,23 +9,17 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "drag_x.h"
-
+#include "atoms.h"
 #include "databridge.h"
 #include "datasource.h"
 #include "dnd.h"
-#include "selection_source.h"
-#include "xwayland.h"
-
-#include "atoms.h"
-#include "wayland/datadevice.h"
-#include "wayland/datasource.h"
 #include "wayland/seat.h"
 #include "wayland/surface.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
+#include "xwayland.h"
 
-#include <QMouseEvent>
 #include <QTimer>
 
 namespace KWin
@@ -33,80 +27,39 @@ namespace KWin
 namespace Xwl
 {
 
-using DnDAction = KWin::DataDeviceManagerInterface::DnDAction;
-using DnDActions = KWin::DataDeviceManagerInterface::DnDActions;
-
-static QStringList atomToMimeTypes(xcb_atom_t atom)
-{
-    QStringList mimeTypes;
-
-    if (atom == atoms->utf8_string) {
-        mimeTypes << QString::fromLatin1("text/plain;charset=utf-8");
-    } else if (atom == atoms->text) {
-        mimeTypes << QString::fromLatin1("text/plain");
-    } else if (atom == atoms->uri_list) {
-        mimeTypes << QString::fromLatin1("text/uri-list") << QString::fromLatin1("text/x-uri");
-    } else if (atom == atoms->moz_url) {
-        mimeTypes << QStringLiteral("text/x-moz-url");
-    } else if (atom == atoms->netscape_url) {
-        mimeTypes << QStringLiteral("_NETSCAPE_URL");
-    } else {
-        mimeTypes << Xcb::atomName(atom);
-    }
-    return mimeTypes;
-}
-
-XToWlDrag::XToWlDrag(X11Source *source, Dnd *dnd)
+XToWlDrag::XToWlDrag(XwlDataSource *source, Dnd *dnd)
     : m_dnd(dnd)
     , m_source(source)
 {
-    connect(m_dnd, &Dnd::transferFinished, this, [this](xcb_timestamp_t eventTime) {
-        // we use this mechanism, because the finished call is not
-        // reliable done by Wayland clients
-        auto it = std::find_if(m_dataRequests.begin(), m_dataRequests.end(), [eventTime](const QPair<xcb_timestamp_t, bool> &req) {
-            return req.first == eventTime && req.second == false;
-        });
-        if (it == m_dataRequests.end()) {
-            // transfer finished for a different drag
-            return;
-        }
-        (*it).second = true;
-        checkForFinished();
-    });
-    connect(source, &X11Source::transferReady, this, [this](xcb_atom_t target, qint32 fd) {
-        m_dataRequests << QPair<xcb_timestamp_t, bool>(m_source->timestamp(), false);
-    });
-    connect(source->dataSource(), &XwlDataSource::dropped, this, [this] {
-        m_performed = true;
+    // Supported source actions are not known for sure, so we set all actions. When an XdndPosition
+    // message arrives, the user action in it will be forced. If the target surface doesn't support
+    // the user action, "none" action will be chosen instead.
+    source->setSupportedDndActions(DnDAction::Copy | DnDAction::Move | DnDAction::Ask);
+    source->setExclusiveAction(DnDAction::None);
+
+    connect(source, &XwlDataSource::dropped, this, [this] {
         if (m_visit) {
             connect(m_visit, &WlVisit::finish, this, [this](WlVisit *visit) {
-                checkForFinished();
+                tryFinish();
             });
 
             QTimer::singleShot(2000, this, [this] {
-                if (!m_visit->entered() || !m_visit->dropHandled()) {
-                    // X client timed out
-                    Q_EMIT finish(this);
-                } else if (m_dataRequests.size() == 0) {
-                    // Wl client timed out
+                if (m_visit->isEntered() && m_visit->isDropHandled()) {
                     m_visit->sendFinished();
-                    Q_EMIT finish(this);
                 }
+                Q_EMIT finish(this);
             });
         }
-        // Dave do we need this async finish check anymore?
-        checkForFinished();
     });
-    connect(source->dataSource(), &XwlDataSource::finished, this, [this] {
-        checkForFinished();
+    connect(source, &XwlDataSource::finished, this, [this] {
+        tryFinish();
     });
-    connect(source->dataSource(), &XwlDataSource::cancelled, this, [this] {
+    connect(source, &XwlDataSource::cancelled, this, [this] {
         if (m_visit && !m_visit->leave()) {
-            connect(m_visit, &WlVisit::finish, this, &XToWlDrag::checkForFinished);
+            connect(m_visit, &WlVisit::finish, this, &XToWlDrag::tryFinish);
         }
-        checkForFinished();
+        tryFinish();
     });
-    connect(source->dataSource(), &XwlDataSource::dataRequested, source, &X11Source::startTransfer);
 }
 
 XToWlDrag::~XToWlDrag()
@@ -154,7 +107,7 @@ bool XToWlDrag::moveFilter(Window *target, const QPointF &position)
     // new Wl native target
     auto *ac = static_cast<Window *>(target);
     m_visit = new WlVisit(ac, this, m_dnd);
-    connect(m_visit, &WlVisit::offersReceived, this, &XToWlDrag::setOffers);
+    connect(m_visit, &WlVisit::entered, this, &XToWlDrag::setMimeTypes);
     return true;
 }
 
@@ -173,41 +126,19 @@ bool XToWlDrag::handleClientMessage(xcb_client_message_event_t *event)
 
 void XToWlDrag::setDragAndDropAction(DnDAction action)
 {
-    m_source->dataSource()->setSupportedDndActions(action);
+    m_source->setExclusiveAction(action);
 }
 
 DnDAction XToWlDrag::selectedDragAndDropAction()
 {
-    return m_source->dataSource()->selectedDndAction();
+    return m_source->selectedDndAction();
 }
 
-void XToWlDrag::setOffers(const Mimes &offers)
+void XToWlDrag::setMimeTypes(const QStringList &mimeTypes)
 {
-    m_source->setOffers(offers);
-    if (offers.isEmpty()) {
-        // There are no offers, so just directly set the drag target,
-        // no transfer possible anyways.
-        setDragTarget();
-        return;
-    }
-    if (m_offers == offers) {
-        // offers had been set already by a previous visit
-        // Wl side is already configured
-        setDragTarget();
-        return;
-    }
-
-    m_offers = offers;
-    QStringList mimeTypes;
-    mimeTypes.reserve(offers.size());
-    for (const auto &mimePair : offers) {
-        mimeTypes.append(mimePair.first);
-    }
-    m_source->dataSource()->setMimeTypes(mimeTypes);
+    m_source->setMimeTypes(mimeTypes);
     setDragTarget();
 }
-
-using Mime = QPair<QString, xcb_atom_t>;
 
 void XToWlDrag::setDragTarget()
 {
@@ -226,29 +157,26 @@ void XToWlDrag::setDragTarget()
     seat->setDragTarget(dropTarget, ac->surface(), seat->pointerPos(), ac->inputTransformation());
 }
 
-bool XToWlDrag::checkForFinished()
+void XToWlDrag::tryFinish()
 {
     if (!m_visit) {
         // not dropped above Wl native target
         Q_EMIT finish(this);
-        return true;
+        return;
     }
-    if (!m_visit->finished()) {
-        return false;
+
+    // Avoid sending XdndFinish if neither XdndDrop nor XdndLeave event has been received yet.
+    if (!m_visit->isFinished()) {
+        return;
     }
-    if (m_dataRequests.size() == 0 && m_source->dataSource()->isAccepted()) {
-        // need to wait for first data request
-        return false;
+
+    // Avoid sending XdndFinish if wl_data_offer.finish has not been called yet.
+    if (!m_source->isDndCancelled() && !m_source->isDndFinished()) {
+        return;
     }
-    const bool transfersFinished = std::all_of(m_dataRequests.begin(), m_dataRequests.end(),
-                                               [](QPair<xcb_timestamp_t, bool> req) {
-                                                   return req.second;
-                                               });
-    if (transfersFinished) {
-        m_visit->sendFinished();
-        Q_EMIT finish(this);
-    }
-    return transfersFinished;
+
+    m_visit->sendFinished();
+    Q_EMIT finish(this);
 }
 
 WlVisit::WlVisit(Window *target, XToWlDrag *drag, Dnd *dnd)
@@ -260,7 +188,6 @@ WlVisit::WlVisit(Window *target, XToWlDrag *drag, Dnd *dnd)
     xcb_connection_t *xcbConn = kwinApp()->x11Connection();
 
     m_window = xcb_generate_id(xcbConn);
-    m_dnd->overwriteRequestorWindow(m_window);
 
     const uint32_t dndValues[] = {XCB_EVENT_MASK_SUBSTRUCTURE_NOTIFY | XCB_EVENT_MASK_PROPERTY_CHANGE};
     xcb_create_window(xcbConn,
@@ -287,7 +214,6 @@ WlVisit::WlVisit(Window *target, XToWlDrag *drag, Dnd *dnd)
     workspace()->addManualOverlay(m_window);
     workspace()->updateStackingOrder(true);
 
-    xcb_flush(xcbConn);
     m_mapped = true;
 }
 
@@ -295,12 +221,10 @@ WlVisit::~WlVisit()
 {
     xcb_connection_t *xcbConn = kwinApp()->x11Connection();
     xcb_destroy_window(xcbConn, m_window);
-    xcb_flush(xcbConn);
 }
 
 bool WlVisit::leave()
 {
-    m_dnd->overwriteRequestorWindow(XCB_WINDOW_NONE);
     unmapProxyWindow();
     return m_finished;
 }
@@ -324,18 +248,25 @@ bool WlVisit::handleClientMessage(xcb_client_message_event_t *event)
     return false;
 }
 
-static bool hasMimeName(const Mimes &mimes, const QString &name)
+static QList<xcb_atom_t> mimeTypeListFromWindow(xcb_window_t window)
 {
-    return std::any_of(mimes.begin(), mimes.end(),
-                       [name](const Mime &m) {
-                           return m.first == name;
-                       });
+    const uint32_t length = 0x1fffffff;
+    xcb_get_property_cookie_t cookie = xcb_get_property(kwinApp()->x11Connection(), 0, window, atoms->xdnd_type_list, XCB_ATOM_ATOM, 0, length);
+    xcb_get_property_reply_t *reply = xcb_get_property_reply(kwinApp()->x11Connection(), cookie, nullptr);
+    if (!reply) {
+        return QList<xcb_atom_t>();
+    }
+
+    const xcb_atom_t *mimeAtoms = static_cast<xcb_atom_t *>(xcb_get_property_value(reply));
+    const QList<xcb_atom_t> atoms(mimeAtoms, mimeAtoms + reply->value_len);
+    free(reply);
+
+    return atoms;
 }
 
 bool WlVisit::handleEnter(xcb_client_message_event_t *event)
 {
     if (m_entered) {
-        // a drag already entered
         return true;
     }
     m_entered = true;
@@ -344,58 +275,21 @@ bool WlVisit::handleEnter(xcb_client_message_event_t *event)
     m_srcWindow = data->data32[0];
     m_version = data->data32[1] >> 24;
 
-    // get types
-    Mimes offers;
-    if (!(data->data32[1] & 1)) {
-        // message has only max 3 types (which are directly in data)
-        for (size_t i = 0; i < 3; i++) {
-            xcb_atom_t mimeAtom = data->data32[2 + i];
-            const auto mimeStrings = atomToMimeTypes(mimeAtom);
-            for (const auto &mime : mimeStrings) {
-                if (!hasMimeName(offers, mime)) {
-                    offers << Mime(mime, mimeAtom);
-                }
-            }
+    // Bit 0 in data32[1] indicates whether mime types are stored in the XdndTypeList property or in data32[2..5].
+    QStringList mimeTypes;
+    if (data->data32[1] & 1) {
+        const auto atoms = mimeTypeListFromWindow(m_srcWindow);
+        for (const xcb_atom_t &atom : atoms) {
+            mimeTypes += Xcb::atomToMimeTypes(atom);
         }
     } else {
-        // more than 3 types -> in window property
-        getMimesFromWinProperty(offers);
-    }
-
-    Q_EMIT offersReceived(offers);
-    return true;
-}
-
-void WlVisit::getMimesFromWinProperty(Mimes &offers)
-{
-    xcb_connection_t *xcbConn = kwinApp()->x11Connection();
-    auto cookie = xcb_get_property(xcbConn,
-                                   0,
-                                   m_srcWindow,
-                                   atoms->xdnd_type_list,
-                                   XCB_GET_PROPERTY_TYPE_ANY,
-                                   0, 0x1fffffff);
-
-    auto *reply = xcb_get_property_reply(xcbConn, cookie, nullptr);
-    if (reply == nullptr) {
-        return;
-    }
-    if (reply->type != XCB_ATOM_ATOM || reply->value_len == 0) {
-        // invalid reply value
-        free(reply);
-        return;
-    }
-
-    xcb_atom_t *mimeAtoms = static_cast<xcb_atom_t *>(xcb_get_property_value(reply));
-    for (size_t i = 0; i < reply->value_len; ++i) {
-        const auto mimeStrings = atomToMimeTypes(mimeAtoms[i]);
-        for (const auto &mime : mimeStrings) {
-            if (!hasMimeName(offers, mime)) {
-                offers << Mime(mime, mimeAtoms[i]);
-            }
+        for (int i = 2; i < 5; i++) {
+            mimeTypes += Xcb::atomToMimeTypes(data->data32[i]);
         }
     }
-    free(reply);
+
+    Q_EMIT entered(mimeTypes);
+    return true;
 }
 
 bool WlVisit::handlePosition(xcb_client_message_event_t *event)
@@ -412,7 +306,7 @@ bool WlVisit::handlePosition(xcb_client_message_event_t *event)
     }
 
     const xcb_timestamp_t timestamp = data->data32[3];
-    m_drag->x11Source()->setTimestamp(timestamp);
+    m_drag->selection()->setTimestamp(timestamp);
 
     xcb_atom_t actionAtom = m_version > 1 ? data->data32[4] : atoms->xdnd_action_copy;
     auto action = Dnd::atomToClientAction(actionAtom);
@@ -440,10 +334,10 @@ bool WlVisit::handleDrop(xcb_client_message_event_t *event)
     xcb_client_message_data_t *data = &event->data;
     m_srcWindow = data->data32[0];
     const xcb_timestamp_t timestamp = data->data32[2];
-    m_drag->x11Source()->setTimestamp(timestamp);
+    m_drag->selection()->setTimestamp(timestamp);
 
     // we do nothing more here, the drop is being processed
-    // through the X11Source object
+    // through the XwlDataSource object
     doFinish();
     return true;
 }
@@ -466,7 +360,6 @@ bool WlVisit::handleLeave(xcb_client_message_event_t *event)
 
 void WlVisit::sendStatus()
 {
-    // receive position events
     uint32_t flags = 1 << 1;
     if (targetAcceptsAction()) {
         // accept the drop
@@ -481,7 +374,7 @@ void WlVisit::sendStatus()
 
 void WlVisit::sendFinished()
 {
-    const bool accepted = m_entered && m_action != DnDAction::None;
+    const bool accepted = m_entered && targetAcceptsAction();
     xcb_client_message_data_t data = {};
     data.data32[0] = m_window;
     data.data32[1] = accepted;
@@ -507,7 +400,6 @@ void WlVisit::unmapProxyWindow()
     xcb_unmap_window(xcbConn, m_window);
     workspace()->removeManualOverlay(m_window);
     workspace()->updateStackingOrder(true);
-    xcb_flush(xcbConn);
     m_mapped = false;
 }
 

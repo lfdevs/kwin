@@ -8,10 +8,10 @@
 
 #include <kwin_export.h>
 
-#include <QObject>
+#include <KSharedDataCache>
 
-#include <KSharedConfig>
-#include <kconfigconversioncheck_p.h>
+#include <QObject>
+#include <QVariant>
 
 #include <memory>
 
@@ -22,11 +22,12 @@ namespace KWin
 
 class Display;
 class XdgApplicationSessionV1InterfacePrivate;
-class XdgSessionStorageV1Private;
+class XdgSessionDataV1;
 class XdgSessionManagerV1InterfacePrivate;
 class XdgToplevelInterface;
 class XdgToplevelSessionV1Interface;
 class XdgToplevelSessionV1InterfacePrivate;
+class XdgSessionDataV1Private;
 
 /**
  * The XdgSessionStorageV1 class represents the storage for the compositor's session data.
@@ -34,37 +35,37 @@ class XdgToplevelSessionV1InterfacePrivate;
  * XdgSessionStorageV1 stores toplevel surface session data such as the frame geometry, the
  * maximize mode, etc. No restrictions are imposed on the data type, the compositor can store
  * data of any kind in the storage, for example QRect, QSize, QString, etc.
- *
- * Note that it is the responsibility of the compositor to decide when the storage must be
- * sync'ed.
  */
-class KWIN_EXPORT XdgSessionStorageV1 : public QObject
+class KWIN_EXPORT XdgSessionStorageV1
 {
-    Q_OBJECT
-
 public:
-    explicit XdgSessionStorageV1(QObject *parent = nullptr);
-    explicit XdgSessionStorageV1(KSharedConfigPtr config, QObject *parent = nullptr);
-    ~XdgSessionStorageV1() override;
+    XdgSessionStorageV1(const QString &cacheName, unsigned defaultCacheSize, unsigned expectedItemSize = 0);
+    ~XdgSessionStorageV1();
 
-    /**
-     * Returns the config object attached to this session storage.
-     */
-    KSharedConfigPtr config() const;
-
-    /**
-     * Sets the config object for this session storage to @a config.
-     */
-    void setConfig(KSharedConfigPtr config);
-
-    bool contains(const QString &sessionId, const QString &toplevelId = QString()) const;
-    QVariant read(const QString &sessionId, const QString &toplevelId, const QString &key, const QMetaType &metaType) const;
-    void write(const QString &sessionid, const QString &toplevelId, const QString &key, const QVariant &value);
-    void remove(const QString &sessionId, const QString &toplevelId = QString());
-    void sync();
+    KSharedDataCache *store() const;
 
 private:
-    std::unique_ptr<XdgSessionStorageV1Private> d;
+    std::unique_ptr<KSharedDataCache> m_store;
+};
+
+/**
+ * The XdgSessionDataV1 type represents data associated with an xdg session.
+ */
+class KWIN_EXPORT XdgSessionDataV1
+{
+public:
+    explicit XdgSessionDataV1(XdgSessionStorageV1 *store, const QString &sessionId);
+    ~XdgSessionDataV1();
+
+    bool isEmpty() const;
+    bool contains(const QString &toplevelId) const;
+    QVariant read(const QString &toplevelId) const;
+    void write(const QString &toplevelId, const QVariant &value);
+    void remove();
+    void remove(const QString &toplevelId);
+
+private:
+    std::unique_ptr<XdgSessionDataV1Private> d;
 };
 
 /**
@@ -78,13 +79,8 @@ class KWIN_EXPORT XdgSessionManagerV1Interface : public QObject
     Q_OBJECT
 
 public:
-    XdgSessionManagerV1Interface(Display *display, XdgSessionStorageV1 *storage, QObject *parent = nullptr);
+    XdgSessionManagerV1Interface(Display *display, std::unique_ptr<XdgSessionStorageV1> &&storage, QObject *parent = nullptr);
     ~XdgSessionManagerV1Interface() override;
-
-    /**
-     * Returns the backing storage for the compositor's session data.
-     */
-    XdgSessionStorageV1 *storage() const;
 
 private:
     std::unique_ptr<XdgSessionManagerV1InterfacePrivate> d;
@@ -101,7 +97,7 @@ class KWIN_EXPORT XdgApplicationSessionV1Interface : public QObject
     Q_OBJECT
 
 public:
-    XdgApplicationSessionV1Interface(XdgSessionStorageV1 *storage, const QString &handle, wl_client *client, int id, int version);
+    XdgApplicationSessionV1Interface(std::unique_ptr<XdgSessionDataV1> &&storage, const QString &handle, wl_client *client, int id, int version);
     ~XdgApplicationSessionV1Interface() override;
 
     /**
@@ -112,7 +108,7 @@ public:
     /**
      * Returns the session storage for this application session.
      */
-    XdgSessionStorageV1 *storage() const;
+    XdgSessionDataV1 *storage() const;
 
     /**
      * Returns the handle that uniquely identifies this application session object.
@@ -170,44 +166,18 @@ public:
     void sendRestored();
 
     /**
-     * Returns the value for the property @a key. If the session storage doesn't contain any
-     * property with the specified key, this function returns @c std::nullopt.
+     * Returns the data stored for this session.
      */
-    template<typename T>
-    std::optional<T> read(const QString &key) const;
+    QVariant read() const;
 
     /**
-     * Sets the value of property @a key to @a value. If the key already exists, the previous
-     * value is overwritten.
+     * Stores the specified @a value for this session.
      */
-    template<typename T>
-    void write(const QString &key, const T &value);
+    void write(const QVariant &value);
 
 private:
-    QVariant rawRead(const QString &key, const QMetaType &metaType) const;
-    void rawWrite(const QString &key, const QVariant &value);
-
     std::unique_ptr<XdgToplevelSessionV1InterfacePrivate> d;
     friend class XdgToplevelSessionV1InterfacePrivate;
 };
-
-template<typename T>
-std::optional<T> XdgToplevelSessionV1Interface::read(const QString &key) const
-{
-    KConfigConversionCheck::to_QVariant<T>();
-    const QVariant value = rawRead(key, QMetaType::fromType<T>());
-    if (value.isNull()) {
-        return std::nullopt;
-    } else {
-        return value.value<T>();
-    }
-}
-
-template<typename T>
-void XdgToplevelSessionV1Interface::write(const QString &key, const T &value)
-{
-    KConfigConversionCheck::to_QVariant<T>();
-    rawWrite(key, QVariant::fromValue(value));
-}
 
 } // namespace KWin

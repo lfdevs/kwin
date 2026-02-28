@@ -41,9 +41,9 @@ public:
     QList<SurfaceItem *> scanoutCandidates(ssize_t maxCount) const override;
     OverlayCandidates overlayCandidates(ssize_t maxTotalCount, ssize_t maxOverlayCount, ssize_t maxUnderlayCount) const override;
     void prePaint(SceneView *delegate) override;
-    QRegion collectDamage() override;
+    Region collectDamage() override;
     void postPaint() override;
-    void paint(const RenderTarget &renderTarget, const QRegion &region) override;
+    void paint(const RenderTarget &renderTarget, const QPoint &deviceOffset, const Region &deviceRegion) override;
     void frame(SceneView *delegate, OutputFrame *frame) override;
     double desiredHdrHeadroom() const override;
 
@@ -66,39 +66,39 @@ protected:
     void clearStackingOrder();
     friend class EffectsHandler;
     // called after all effects had their paintScreen() called
-    void finalPaintScreen(const RenderTarget &renderTarget, const RenderViewport &viewport, int mask, const QRegion &region, Output *screen);
+    void finalPaintScreen(const RenderTarget &renderTarget, const RenderViewport &viewport, int mask, const Region &deviceRegion, LogicalOutput *screen);
     // shared implementation of painting the screen in the generic
     // (unoptimized) way
     void preparePaintGenericScreen();
-    void paintGenericScreen(const RenderTarget &renderTarget, const RenderViewport &viewport, int mask, Output *screen);
+    void paintGenericScreen(const RenderTarget &renderTarget, const RenderViewport &viewport, int mask, LogicalOutput *screen);
     // shared implementation of painting the screen in an optimized way
     void preparePaintSimpleScreen();
-    void paintSimpleScreen(const RenderTarget &renderTarget, const RenderViewport &viewport, int mask, const QRegion &region);
+    void paintSimpleScreen(const RenderTarget &renderTarget, const RenderViewport &viewport, int mask, const Region &deviceRegion);
     // called after all effects had their paintWindow() called
-    void finalPaintWindow(const RenderTarget &renderTarget, const RenderViewport &viewport, EffectWindow *w, int mask, const QRegion &region, WindowPaintData &data);
+    void finalPaintWindow(const RenderTarget &renderTarget, const RenderViewport &viewport, EffectWindow *w, int mask, const Region &deviceRegion, WindowPaintData &data);
     // shared implementation, starts painting the window
-    void paintWindow(const RenderTarget &renderTarget, const RenderViewport &viewport, WindowItem *w, int mask, const QRegion &region);
+    void paintWindow(const RenderTarget &renderTarget, const RenderViewport &viewport, WindowItem *w, int mask, const Region &deviceRegion);
     // called after all effects had their drawWindow() called
-    void finalDrawWindow(const RenderTarget &renderTarget, const RenderViewport &viewport, EffectWindow *w, int mask, const QRegion &region, WindowPaintData &data);
+    void finalDrawWindow(const RenderTarget &renderTarget, const RenderViewport &viewport, EffectWindow *w, int mask, const Region &deviceRegion, WindowPaintData &data);
 
     // saved data for 2nd pass of optimized screen painting
     struct Phase2Data
     {
         WindowItem *item = nullptr;
-        QRegion region;
-        QRegion opaque;
+        Region deviceRegion;
+        Region deviceOpaque;
         int mask = 0;
     };
 
     struct PaintContext
     {
-        QRegion damage;
+        Region deviceDamage;
         int mask = 0;
         QList<Phase2Data> phase2Data;
     };
 
     // The screen that is being currently painted
-    Output *painted_screen = nullptr;
+    LogicalOutput *painted_screen = nullptr;
     SceneView *painted_delegate = nullptr;
 
     // windows in their stacking order

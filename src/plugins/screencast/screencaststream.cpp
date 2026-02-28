@@ -18,7 +18,6 @@
 #include "opengl/eglnativefence.h"
 #include "opengl/glplatform.h"
 #include "opengl/gltexture.h"
-#include "opengl/glutils.h"
 #include "pipewirecore.h"
 #include "scene/workspacescene.h"
 #include "screencastbuffer.h"
@@ -607,10 +606,10 @@ void ScreenCastStream::record(Contents contents)
 
     spa_meta_sync_timeline *synctmeta = nullptr;
 
-    QRegion damage;
+    Region damage;
     if (effectiveContents & Content::Video) {
         if (auto memfd = dynamic_cast<MemFdScreenCastBuffer *>(buffer)) {
-            damage = m_source->render(memfd->view.image(), m_damageJournal.accumulate(memfd->m_age, infiniteRegion()));
+            damage = m_source->render(memfd->view.image(), m_damageJournal.accumulate(memfd->m_age, Region::infinite()));
             bumpBufferAge(memfd);
         } else if (auto dmabuf = dynamic_cast<DmaBufScreenCastBuffer *>(buffer)) {
             if (dmabuf->synctimeline) {
@@ -624,7 +623,7 @@ void ScreenCastStream::record(Contents contents)
                 }
             }
 
-            damage = m_source->render(dmabuf->framebuffer.get(), m_damageJournal.accumulate(dmabuf->m_age, infiniteRegion()));
+            damage = m_source->render(dmabuf->framebuffer.get(), m_damageJournal.accumulate(dmabuf->m_age, Region::infinite()));
             bumpBufferAge(dmabuf);
         }
         m_damageJournal.add(damage);
@@ -707,20 +706,20 @@ void ScreenCastStream::corruptHeader(spa_buffer *spaBuffer)
     }
 }
 
-void ScreenCastStream::addDamage(spa_buffer *spaBuffer, const QRegion &damagedRegion)
+void ScreenCastStream::addDamage(spa_buffer *spaBuffer, const Region &damagedRegion)
 {
     if (spa_meta *vdMeta = spa_buffer_find_meta(spaBuffer, SPA_META_VideoDamage)) {
         struct spa_meta_region *r = (spa_meta_region *)spa_meta_first(vdMeta);
 
         // If there's too many rectangles, we just send the bounding rect
-        if (damagedRegion.rectCount() > videoDamageRegionCount - 1) {
+        if (damagedRegion.rects().size() > videoDamageRegionCount - 1) {
             if (spa_meta_check(r, vdMeta)) {
                 auto rect = damagedRegion.boundingRect();
                 r->region = SPA_REGION(rect.x(), rect.y(), quint32(rect.width()), quint32(rect.height()));
                 r++;
             }
         } else {
-            for (const QRect &rect : damagedRegion) {
+            for (const Rect &rect : damagedRegion.rects()) {
                 if (spa_meta_check(r, vdMeta)) {
                     r->region = SPA_REGION(rect.x(), rect.y(), quint32(rect.width()), quint32(rect.height()));
                     r++;
@@ -862,7 +861,7 @@ void ScreenCastStream::addCursorMetadata(spa_buffer *spaBuffer, Cursor *cursor)
     const QImage image = kwinApp()->cursorImage().image();
     if (!image.isNull()) {
         QPainter painter(&dest);
-        painter.drawImage(QRect({0, 0}, targetSize), image);
+        painter.drawImage(Rect({0, 0}, targetSize), image);
     }
 }
 

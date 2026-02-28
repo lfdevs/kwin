@@ -8,7 +8,7 @@
 */
 #pragma once
 
-#include "core/output.h"
+#include "core/backendoutput.h"
 #include <kwin_export.h>
 
 #include <QObject>
@@ -73,7 +73,7 @@ private:
 /**
  * Wayland outputs in a nested X11 setup
  */
-class KWIN_EXPORT X11WindowedOutput : public Output
+class KWIN_EXPORT X11WindowedOutput : public BackendOutput
 {
     Q_OBJECT
 public:
@@ -105,8 +105,8 @@ public:
 
     bool presentAsync(OutputLayer *layer, std::optional<std::chrono::nanoseconds> allowedVrrDelay) override;
 
-    QRegion exposedArea() const;
-    void addExposedArea(const QRect &rect);
+    Region exposedArea() const;
+    void addExposedArea(const Rect &rect);
     void clearExposedArea();
 
     void handlePresentCompleteNotify(xcb_present_complete_notify_event_t *event);
@@ -134,7 +134,7 @@ private:
     std::unique_ptr<X11WindowedCursor> m_cursor;
     std::unordered_map<GraphicsBuffer *, std::unique_ptr<X11WindowedBuffer>> m_buffers;
     QPoint m_hostPosition;
-    QRegion m_exposedArea;
+    Region m_exposedArea;
     std::shared_ptr<OutputFrame> m_frame;
 
     X11WindowedBackend *m_backend;

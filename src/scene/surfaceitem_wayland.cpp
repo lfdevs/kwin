@@ -5,6 +5,7 @@
 */
 
 #include "scene/surfaceitem_wayland.h"
+#include "core/backendoutput.h"
 #include "core/drmdevice.h"
 #include "core/renderbackend.h"
 #include "wayland/linuxdmabufv1clientbuffer.h"
@@ -76,17 +77,17 @@ SurfaceItemWayland::SurfaceItemWayland(SurfaceInterface *surface, Item *parent)
     connect(&m_fifoFallbackTimer, &QTimer::timeout, this, &SurfaceItemWayland::handleFifoFallback);
 }
 
-QList<QRectF> SurfaceItemWayland::shape() const
+QList<RectF> SurfaceItemWayland::shape() const
 {
     return {rect()};
 }
 
-QRegion SurfaceItemWayland::opaque() const
+Region SurfaceItemWayland::opaque() const
 {
     if (m_surface) {
         return m_surface->opaque();
     }
-    return QRegion();
+    return Region();
 }
 
 SurfaceInterface *SurfaceItemWayland::surface() const
@@ -209,7 +210,14 @@ void SurfaceItemWayland::freeze()
 
 void SurfaceItemWayland::handleColorDescriptionChanged()
 {
-    setColorDescription(m_surface->colorDescription());
+    auto description = m_surface->colorDescription();
+    if (m_surface->colorDescriptionType() == ColorDescriptionType::Windows) {
+        // TODO also react to config changes after the image description is set?
+        const auto group = kwinApp()->config()->group("Windows_HDR");
+        description = description->withReference(group.readEntry("Reference", 203.0));
+        description = description->withHdrMetadata(group.readEntry("MaxFrameAverage", 600), group.readEntry("MaxLuminance", 1'000));
+    }
+    setColorDescription(description);
     setRenderingIntent(m_surface->renderingIntent());
 }
 
@@ -228,7 +236,7 @@ void SurfaceItemWayland::handleAlphaMultiplierChanged()
     setOpacity(m_surface->alphaMultiplier());
 }
 
-void SurfaceItemWayland::handleFramePainted(Output *output, OutputFrame *frame, std::chrono::milliseconds timestamp)
+void SurfaceItemWayland::handleFramePainted(LogicalOutput *output, OutputFrame *frame, std::chrono::milliseconds timestamp)
 {
     if (!m_surface) {
         return;
@@ -244,7 +252,7 @@ void SurfaceItemWayland::handleFramePainted(Output *output, OutputFrame *frame, 
     m_surface->clearFifoBarrier();
     if (m_fifoFallbackTimer.isActive() && output) {
         // TODO once we can rely on frame being not-nullptr, use its refresh duration instead
-        const auto refreshDuration = std::chrono::nanoseconds(1'000'000'000'000) / output->refreshRate();
+        const auto refreshDuration = std::chrono::nanoseconds(1'000'000'000'000) / output->backendOutput()->refreshRate();
         // some games don't work properly if the refresh rate goes too low with FIFO. 30Hz is assumed to be fine here.
         // this must still be slower than the actual screen though, or fifo behavior would be broken!
         const auto fallbackRefreshDuration = std::max(refreshDuration * 5 / 4, std::chrono::nanoseconds(1'000'000'000) / 30);
@@ -271,7 +279,7 @@ SurfaceItemXwayland::SurfaceItemXwayland(X11Window *window, Item *parent)
 void SurfaceItemXwayland::handleShapeChange()
 {
     const auto newShape = m_window->shapeRegion();
-    QRegion newBufferShape;
+    Region newBufferShape;
     for (const auto &rect : newShape) {
         newBufferShape |= rect.toAlignedRect();
     }
@@ -280,19 +288,19 @@ void SurfaceItemXwayland::handleShapeChange()
     discardQuads();
 }
 
-QList<QRectF> SurfaceItemXwayland::shape() const
+QList<RectF> SurfaceItemXwayland::shape() const
 {
-    QList<QRectF> shape = m_window->shapeRegion();
-    for (QRectF &shapePart : shape) {
+    QList<RectF> shape = m_window->shapeRegion();
+    for (RectF &shapePart : shape) {
         shapePart = shapePart.intersected(rect());
     }
     return shape;
 }
 
-QRegion SurfaceItemXwayland::opaque() const
+Region SurfaceItemXwayland::opaque() const
 {
-    QRegion shapeRegion;
-    for (const QRectF &shapePart : shape()) {
+    Region shapeRegion;
+    for (const RectF &shapePart : shape()) {
         shapeRegion += shapePart.toRect();
     }
     if (!m_window->hasAlpha()) {
@@ -300,7 +308,7 @@ QRegion SurfaceItemXwayland::opaque() const
     } else {
         return m_window->opaqueRegion() & shapeRegion;
     }
-    return QRegion();
+    return Region();
 }
 #endif
 } // namespace KWin

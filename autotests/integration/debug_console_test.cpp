@@ -58,13 +58,13 @@ void DebugConsoleTest::initTestCase()
 
     kwinApp()->start();
     Test::setOutputConfig({
-        QRect(0, 0, 1280, 1024),
-        QRect(1280, 0, 1280, 1024),
+        Rect(0, 0, 1280, 1024),
+        Rect(1280, 0, 1280, 1024),
     });
     const auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
-    QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
-    QCOMPARE(outputs[1]->geometry(), QRect(1280, 0, 1280, 1024));
+    QCOMPARE(outputs[0]->geometry(), Rect(0, 0, 1280, 1024));
+    QCOMPARE(outputs[1]->geometry(), Rect(1280, 0, 1280, 1024));
     setenv("QT_QPA_PLATFORM", "wayland", true);
 }
 
@@ -218,7 +218,7 @@ void DebugConsoleTest::testX11Unmanaged()
 
     // let's create an override redirect window
     const uint32_t values[] = {true};
-    Xcb::Window window(QRect(0, 0, 10, 10), XCB_CW_OVERRIDE_REDIRECT, values);
+    Xcb::Window window(Rect(0, 0, 10, 10), XCB_CW_OVERRIDE_REDIRECT, values);
     window.map();
 
     QVERIFY(rowsInsertedSpy.wait());

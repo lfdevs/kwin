@@ -8,10 +8,9 @@
 */
 #pragma once
 
-#include "core/output.h"
+#include "core/backendoutput.h"
 
 #include <QObject>
-#include <QRect>
 
 namespace KWin
 {
@@ -20,7 +19,7 @@ class SoftwareVsyncMonitor;
 class VirtualBackend;
 class OutputFrame;
 
-class VirtualOutput : public Output
+class VirtualOutput : public BackendOutput
 {
     Q_OBJECT
 

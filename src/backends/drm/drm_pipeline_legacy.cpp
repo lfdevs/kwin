@@ -16,6 +16,7 @@
 #include "drm_gpu.h"
 #include "drm_layer.h"
 #include "drm_logging.h"
+#include "drm_output.h"
 #include "drm_pipeline.h"
 
 #include <errno.h>
@@ -43,7 +44,7 @@ DrmPipeline::Error DrmPipeline::presentLegacy(const QList<OutputLayer *> &layers
     // always present on the crtc, for presentation feedback
     const auto primary = findLayer(m_pending.layers, OutputLayerType::Primary);
     const auto buffer = primary->currentBuffer();
-    if (primary->sourceRect() != primary->targetRect() || primary->targetRect() != QRect(QPoint(0, 0), buffer->buffer()->size())) {
+    if (primary->sourceRect() != primary->targetRect() || primary->targetRect() != Rect(QPoint(0, 0), buffer->buffer()->size())) {
         return Error::InvalidArguments;
     }
     auto commit = std::make_unique<DrmLegacyCommit>(this, buffer, frame);
@@ -70,7 +71,7 @@ DrmPipeline::Error DrmPipeline::legacyModeset()
     if (!buffer) {
         return Error::InvalidArguments;
     }
-    if (primary->sourceRect() != QRect(QPoint(0, 0), buffer->buffer()->size())) {
+    if (primary->sourceRect() != RectF(QPoint(0, 0), buffer->buffer()->size())) {
         return Error::InvalidArguments;
     }
     auto commit = std::make_unique<DrmLegacyCommit>(this, buffer, nullptr);

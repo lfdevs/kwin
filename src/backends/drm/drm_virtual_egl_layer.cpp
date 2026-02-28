@@ -17,7 +17,6 @@
 #include "scene/surfaceitem_wayland.h"
 #include "wayland/surface.h"
 
-#include <QRegion>
 #include <drm_fourcc.h>
 #include <errno.h>
 #include <gbm.h>
@@ -73,19 +72,19 @@ std::optional<OutputLayerBeginFrameInfo> VirtualEglGbmLayer::doBeginFrame()
     m_query = std::make_unique<GLRenderTimeQuery>(m_eglBackend->openglContextRef());
     m_query->begin();
 
-    const QRegion repair = m_damageJournal.accumulate(slot->age(), infiniteRegion());
+    const Region repair = m_damageJournal.accumulate(slot->age(), Region::infinite());
     return OutputLayerBeginFrameInfo{
         .renderTarget = RenderTarget(slot->framebuffer()),
         .repaint = repair,
     };
 }
 
-bool VirtualEglGbmLayer::doEndFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame)
+bool VirtualEglGbmLayer::doEndFrame(const Region &renderedDeviceRegion, const Region &damagedDeviceRegion, OutputFrame *frame)
 {
     m_query->end();
     frame->addRenderTimeQuery(std::move(m_query));
     glFlush();
-    m_damageJournal.add(damagedRegion);
+    m_damageJournal.add(damagedDeviceRegion);
 
     EGLNativeFence releaseFence{m_eglBackend->eglDisplayObject()};
     m_gbmSwapchain->release(m_currentSlot, releaseFence.takeFileDescriptor());
@@ -147,10 +146,7 @@ void VirtualEglGbmLayer::releaseBuffers()
     m_gbmSwapchain.reset();
     m_oldGbmSwapchain.reset();
     m_currentSlot.reset();
-    if (m_scanoutBuffer) {
-        m_scanoutBuffer->unref();
-        m_scanoutBuffer = nullptr;
-    }
+    m_scanoutBuffer.reset();
 }
 
 DrmDevice *VirtualEglGbmLayer::scanoutDevice() const

@@ -1,3 +1,12 @@
+kwin (4:6.6.1-0ubuntu1) resolute; urgency=medium
+
+  * New upstream release (6.6.0)
+  * For now disable build of new game controller plugin, as this FTBFS
+    on armhf.
+  * New upstream release (6.6.1)
+
+ -- Rik Mills <rikmills@kde.org>  Sat, 28 Feb 2026 22:14:07 +0000
+
 kwin (4:6.5.5-0ubuntu4) resolute; urgency=medium
 
   * Update build deps for Qt 6.10

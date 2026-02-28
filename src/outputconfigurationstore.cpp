@@ -9,20 +9,19 @@
 #include "outputconfigurationstore.h"
 #include "core/iccprofile.h"
 #include "core/inputdevice.h"
-#include "core/output.h"
 #include "core/outputbackend.h"
 #include "core/outputconfiguration.h"
 #include "input.h"
 #include "input_event.h"
 #include "kscreenintegration.h"
 #include "outputconfiglogging.h"
+#include "utils/orientationsensor.h"
 #include "workspace.h"
 
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QOrientationReading>
 #include <ranges>
 
 namespace KWin
@@ -38,10 +37,10 @@ OutputConfigurationStore::~OutputConfigurationStore()
     save();
 }
 
-std::optional<std::tuple<OutputConfiguration, QList<Output *>, OutputConfigurationStore::ConfigType>> OutputConfigurationStore::queryConfig(const QList<Output *> &outputs, bool isLidClosed, QOrientationReading *orientation, bool isTabletMode)
+std::optional<std::pair<OutputConfiguration, OutputConfigurationStore::ConfigType>> OutputConfigurationStore::queryConfig(const QList<BackendOutput *> &outputs, bool isLidClosed, AccelerometerOrientation orientation, bool isTabletMode)
 {
-    QList<Output *> relevantOutputs;
-    std::copy_if(outputs.begin(), outputs.end(), std::back_inserter(relevantOutputs), [](Output *output) {
+    QList<BackendOutput *> relevantOutputs;
+    std::copy_if(outputs.begin(), outputs.end(), std::back_inserter(relevantOutputs), [](BackendOutput *output) {
         return !output->isNonDesktop() && !output->isPlaceholder();
     });
     if (relevantOutputs.isEmpty()) {
@@ -51,22 +50,22 @@ std::optional<std::tuple<OutputConfiguration, QList<Output *>, OutputConfigurati
     registerOutputs(outputs);
     if (const auto opt = findSetup(relevantOutputs, isLidClosed)) {
         const auto &[setup, outputStates] = *opt;
-        auto [config, order] = setupToConfig(setup, outputStates);
+        auto config = setupToConfig(setup, outputStates);
         applyOrientationReading(config, relevantOutputs, orientation, isTabletMode);
         applyMirroring(config, relevantOutputs);
-        storeConfig(relevantOutputs, isLidClosed, config, order);
-        return std::make_tuple(config, order, ConfigType::Preexisting);
+        storeConfig(relevantOutputs, isLidClosed, config);
+        return std::make_tuple(config, ConfigType::Preexisting);
     }
-    auto [config, order] = generateConfig(relevantOutputs, isLidClosed);
+    auto config = generateConfig(relevantOutputs, isLidClosed);
     applyOrientationReading(config, relevantOutputs, orientation, isTabletMode);
     applyMirroring(config, relevantOutputs);
-    storeConfig(relevantOutputs, isLidClosed, config, order);
-    return std::make_tuple(config, order, ConfigType::Generated);
+    storeConfig(relevantOutputs, isLidClosed, config);
+    return std::make_tuple(config, ConfigType::Generated);
 }
 
-void OutputConfigurationStore::applyOrientationReading(OutputConfiguration &config, const QList<Output *> &outputs, QOrientationReading *orientation, bool isTabletMode)
+void OutputConfigurationStore::applyOrientationReading(OutputConfiguration &config, const QList<BackendOutput *> &outputs, AccelerometerOrientation orientation, bool isTabletMode)
 {
-    const auto output = std::find_if(outputs.begin(), outputs.end(), [&config](Output *output) {
+    const auto output = std::find_if(outputs.begin(), outputs.end(), [&config](BackendOutput *output) {
         return output->isInternal() && config.changeSet(output)->enabled.value_or(output->isEnabled());
     });
     if (output == outputs.end()) {
@@ -78,113 +77,93 @@ void OutputConfigurationStore::applyOrientationReading(OutputConfiguration &conf
         changeset->transform = changeset->manualTransform;
         return;
     }
-    const auto panelOrientation = (*output)->panelOrientation();
-    switch (orientation->orientation()) {
-    case QOrientationReading::Orientation::TopUp:
-        changeset->transform = panelOrientation;
+    // NOTE that udev "corrects" orientation sensors to match the panel orientation,
+    // the sensor values we get are already relative to the display, not the device.
+    switch (orientation) {
+    case AccelerometerOrientation::TopUp:
+        changeset->transform = OutputTransform::Kind::Normal;
         return;
-    case QOrientationReading::Orientation::TopDown:
-        changeset->transform = panelOrientation.combine(OutputTransform::Kind::Rotate180);
+    case AccelerometerOrientation::TopDown:
+        changeset->transform = OutputTransform::Kind::Rotate180;
         return;
-    case QOrientationReading::Orientation::LeftUp:
-        changeset->transform = panelOrientation.combine(OutputTransform::Kind::Rotate90);
+    case AccelerometerOrientation::LeftUp:
+        changeset->transform = OutputTransform::Kind::Rotate90;
         return;
-    case QOrientationReading::Orientation::RightUp:
-        changeset->transform = panelOrientation.combine(OutputTransform::Kind::Rotate270);
+    case AccelerometerOrientation::RightUp:
+        changeset->transform = OutputTransform::Kind::Rotate270;
         return;
-    case QOrientationReading::Orientation::FaceUp:
-    case QOrientationReading::Orientation::FaceDown:
+    case AccelerometerOrientation::FaceUp:
+    case AccelerometerOrientation::FaceDown:
         return;
-    case QOrientationReading::Orientation::Undefined:
+    case AccelerometerOrientation::Undefined:
         changeset->transform = changeset->manualTransform;
         return;
     }
 }
 
-void OutputConfigurationStore::applyMirroring(OutputConfiguration &config, const QList<Output *> &outputs)
+static QSize calculatePixelSize(OutputChangeSet *change, BackendOutput *output)
 {
-    for (const auto output : outputs) {
-        const auto changeset = config.changeSet(output);
-        const QString mirrorSource = changeset->replicationSource.value_or(output->replicationSource());
-        if (mirrorSource.isEmpty()) {
-            continue;
-        }
-        const auto sourceIt = std::ranges::find_if(outputs, [&](Output *o) {
-            return config.changeSet(o)->uuid.value_or(o->uuid()) == mirrorSource;
+    const auto mode = change->mode.value_or(output->currentMode()).lock();
+    Q_ASSERT(mode);
+    const auto transform = change->transform.value_or(output->transform());
+    return transform.map(mode->size());
+}
+
+static double mirrorScale(QSize srcPixelSize, double srcScale, QSize dstPixelSize)
+{
+    const double wScale = dstPixelSize.width() / double(srcPixelSize.width());
+    const double hScale = dstPixelSize.height() / double(srcPixelSize.height());
+    return std::min(wScale, hScale) * srcScale;
+}
+
+static QPoint calculateRenderOffset(QSize srcPixelSize, double srcScale, QSize dstResolution, double dstScale)
+{
+    // the output is mirroring another screen -> center and scale the viewport
+    const QSize usedArea = (QSizeF(srcPixelSize) / srcScale * dstScale).toSize();
+    const QSize offset = (dstResolution - usedArea) / 2;
+    return QPoint(offset.width(), offset.height());
+}
+
+void OutputConfigurationStore::applyMirroring(OutputConfiguration &config, const QList<BackendOutput *> &outputs)
+{
+    const auto enabledOutputs = outputs | std::views::filter([&config](BackendOutput *output) {
+        return config.changeSet(output)->enabled.value_or(output->isEnabled());
+    }) | std::ranges::to<QList>();
+    for (BackendOutput *output : enabledOutputs) {
+        auto cfg = config.changeSet(output);
+        const auto srcIt = std::ranges::find_if(enabledOutputs, [&cfg, &config, output](BackendOutput *other) {
+            if (output == other) {
+                return false;
+            }
+            const QString source = cfg->replicationSource.value_or(output->replicationSource());
+            if (source.isEmpty()) {
+                return false;
+            }
+            const QString uuid = config.changeSet(other)->uuid.value_or(other->uuid());
+            return source == uuid;
         });
-        if (sourceIt == outputs.end()) {
+        if (srcIt == enabledOutputs.end()) {
+            // not mirroring anything
+            cfg->scale = cfg->scaleSetting.value_or(output->scaleSetting());
+            cfg->deviceOffset = QPoint();
             continue;
         }
-        Output *const source = *sourceIt;
-        if (source == output) {
-            qCWarning(KWIN_OUTPUT_CONFIG, "Output %s is trying to mirror itself, that shouldn't happen!", qPrintable(output->name()));
-            continue;
-        }
-        const auto sourceChange = config.changeSet(source);
-        auto sourceMode = sourceChange->mode.value_or(source->currentMode()).lock();
-        if (!sourceMode) {
-            continue;
-        }
-        const auto sourcePosition = sourceChange->pos.value_or(source->geometry().topLeft());
-        const auto sourceScale = sourceChange->scale.value_or(source->scale());
-        const auto sourceTransform = sourceChange->transform.value_or(source->transform());
-        const auto sourceModeSize = sourceTransform.map(sourceMode->size());
-        const auto logicalSourceSize = sourceModeSize / sourceScale;
-        const auto transform = changeset->transform.value_or(output->transform());
-        const auto modes = output->modes();
-        auto sameAspect = modes | std::views::filter([sourceModeSize, transform](const auto &mode) {
-            const double aspect1 = sourceModeSize.width() / double(sourceModeSize.height());
-            const auto size = transform.map(mode->size());
-            const double aspect2 = size.width() / double(size.height());
-            return std::abs(aspect1 - aspect2) < 0.01;
-        });
-        if (!sameAspect.empty()) {
-            changeset->mode = sameAspect.front();
-            changeset->scale = std::round(transform.map(sameAspect.front()->size()).width() / double(logicalSourceSize.width()) * 120) / 120.0;
-            changeset->pos = sourcePosition;
-            continue;
-        }
-        const auto mode = changeset->mode.value_or(output->currentMode()).lock();
-        if (!mode) {
-            continue;
-        }
-        // we can't do anything good here without additional infrastructure to handle mirroring explicitly
-        // next-best workaround for now: make the outputs equal height or width through scaling, and then center it on the other axis
-        const auto modeSize = transform.map(mode->size());
-        if (modeSize.width() > modeSize.height()) {
-            changeset->scale = std::round(modeSize.height() / double(logicalSourceSize.height()) * 120) / 120.0;
-            const QSize logicalSize = modeSize / *changeset->scale;
-            changeset->pos = QPoint(sourcePosition.x() + logicalSourceSize.width() / 2 - logicalSize.width() / 2, sourcePosition.y());
-        } else {
-            changeset->scale = std::round(modeSize.width() / double(logicalSourceSize.width()) * 120) / 120.0;
-            const QSize logicalSize = modeSize / *changeset->scale;
-            changeset->pos = QPoint(sourcePosition.x(), sourcePosition.y() + logicalSourceSize.height() / 2 - logicalSize.height() / 2);
-        }
-    }
-    // the fallback logic above may push some output into negative coordinates,
-    // which causes issues with Xwayland -> shift all of them to be positive
-    for (Output *output : outputs) {
-        const auto changeset = config.changeSet(output);
-        if (!changeset->pos.has_value()) {
-            continue;
-        }
-        const QPoint pos = *changeset->pos;
-        if (pos.x() >= 0 && pos.y() >= 0) {
-            continue;
-        }
-        for (Output *output : outputs) {
-            const auto changeset = config.changeSet(output);
-            const auto otherPos = changeset->pos.value_or(output->geometry().topLeft());
-            changeset->pos = otherPos - QPoint(std::min(pos.x(), 0), std::min(pos.y(), 0));
-        }
+        // mirroring -> adjust scale and offset
+        BackendOutput *source = *srcIt;
+        const auto srcConfig = config.changeSet(source);
+        const QSize srcPixelSize = calculatePixelSize(srcConfig.get(), source);
+        const double srcScale = config.changeSet(source)->scaleSetting.value_or(source->scaleSetting());
+        const QSize dstPixelSize = calculatePixelSize(cfg.get(), output);
+        cfg->scale = mirrorScale(srcPixelSize, srcScale, dstPixelSize);
+        cfg->deviceOffset = calculateRenderOffset(srcPixelSize, srcScale, dstPixelSize, *cfg->scale);
     }
 }
 
-std::optional<std::pair<OutputConfigurationStore::Setup *, std::unordered_map<Output *, size_t>>> OutputConfigurationStore::findSetup(const QList<Output *> &outputs, bool lidClosed)
+std::optional<OutputConfigurationStore::SetupWithOutputs> OutputConfigurationStore::findSetup(const QList<BackendOutput *> &outputs, bool lidClosed)
 {
-    std::unordered_map<Output *, size_t> outputStates;
-    for (Output *output : outputs) {
-        if (auto opt = findOutput(output, outputs)) {
+    std::unordered_map<BackendOutput *, size_t> outputStates;
+    for (BackendOutput *output : outputs) {
+        if (auto opt = findOutputIndex(output, outputs)) {
             outputStates[output] = *opt;
         } else {
             return std::nullopt;
@@ -203,11 +182,14 @@ std::optional<std::pair<OutputConfigurationStore::Setup *, std::unordered_map<Ou
     if (setup == m_setups.end()) {
         return std::nullopt;
     } else {
-        return std::make_pair(&(*setup), outputStates);
+        return SetupWithOutputs{
+            .setup = &*setup,
+            .globalOutputIndices = outputStates,
+        };
     }
 }
 
-std::optional<size_t> OutputConfigurationStore::findOutput(Output *output, const QList<Output *> &allOutputs) const
+std::optional<size_t> OutputConfigurationStore::findOutputIndex(BackendOutput *output, const QList<BackendOutput *> &allOutputs) const
 {
     struct Properties
     {
@@ -237,13 +219,13 @@ std::optional<size_t> OutputConfigurationStore::findOutput(Output *output, const
         return ret;
     };
 
-    const bool edidIdUniqueAmongOutputs = !output->edid().identifier().isEmpty() && std::ranges::count_if(allOutputs, [output](Output *otherOutput) {
+    const bool edidIdUniqueAmongOutputs = !output->edid().identifier().isEmpty() && std::ranges::count_if(allOutputs, [output](BackendOutput *otherOutput) {
         return output->edid().identifier() == otherOutput->edid().identifier();
     }) == 1;
-    const bool edidHashUniqueAmongOutputs = std::ranges::count_if(allOutputs, [output](Output *otherOutput) {
+    const bool edidHashUniqueAmongOutputs = std::ranges::count_if(allOutputs, [output](BackendOutput *otherOutput) {
         return output->edid().hash() == otherOutput->edid().hash();
     }) == 1;
-    const bool mstPathUniqueAmongOutputs = !output->mstPath().isEmpty() && std::ranges::count_if(allOutputs, [output](Output *other) {
+    const bool mstPathUniqueAmongOutputs = !output->mstPath().isEmpty() && std::ranges::count_if(allOutputs, [output](BackendOutput *other) {
         return output->edid().hash() == other->edid().hash()
             && output->mstPath() == other->mstPath();
     }) == 1;
@@ -307,10 +289,10 @@ std::optional<size_t> OutputConfigurationStore::findOutput(Output *output, const
     }
 }
 
-void OutputConfigurationStore::storeConfig(const QList<Output *> &allOutputs, bool isLidClosed, const OutputConfiguration &config, const QList<Output *> &outputOrder)
+void OutputConfigurationStore::storeConfig(const QList<BackendOutput *> &allOutputs, bool isLidClosed, const OutputConfiguration &config)
 {
-    QList<Output *> relevantOutputs;
-    std::copy_if(allOutputs.begin(), allOutputs.end(), std::back_inserter(relevantOutputs), [](Output *output) {
+    QList<BackendOutput *> relevantOutputs;
+    std::copy_if(allOutputs.begin(), allOutputs.end(), std::back_inserter(relevantOutputs), [](BackendOutput *output) {
         return !output->isNonDesktop() && !output->isPlaceholder();
     });
     if (relevantOutputs.isEmpty()) {
@@ -320,14 +302,14 @@ void OutputConfigurationStore::storeConfig(const QList<Output *> &allOutputs, bo
     const auto opt = findSetup(relevantOutputs, isLidClosed);
     Setup *setup = nullptr;
     if (opt) {
-        setup = opt->first;
+        setup = opt->setup;
     } else {
         m_setups.push_back(Setup{});
         setup = &m_setups.back();
         setup->lidClosed = isLidClosed;
     }
-    for (Output *output : relevantOutputs) {
-        auto outputIndex = findOutput(output, outputOrder);
+    for (BackendOutput *output : relevantOutputs) {
+        auto outputIndex = findOutputIndex(output, allOutputs);
         Q_ASSERT(outputIndex.has_value());
         auto outputIt = std::find_if(setup->outputs.begin(), setup->outputs.end(), [outputIndex](const auto &output) {
             return output.outputIndex == outputIndex;
@@ -355,7 +337,7 @@ void OutputConfigurationStore::storeConfig(const QList<Output *> &allOutputs, bo
                     .size = modeSize,
                     .refreshRate = refreshRate,
                 },
-                .scale = changeSet->scale.value_or(output->scale()),
+                .scaleSetting = changeSet->scaleSetting.value_or(output->scaleSetting()),
                 .transform = changeSet->transform.value_or(output->transform()),
                 .manualTransform = changeSet->manualTransform.value_or(output->manualTransform()),
                 .overscan = changeSet->overscan.value_or(output->overscan()),
@@ -379,12 +361,16 @@ void OutputConfigurationStore::storeConfig(const QList<Output *> &allOutputs, bo
                 .allowDdcCi = changeSet->allowDdcCi.value_or(output->allowDdcCi()),
                 .maxBitsPerColor = changeSet->maxBitsPerColor.value_or(output->maxBitsPerColor()),
                 .edrPolicy = changeSet->edrPolicy.value_or(output->edrPolicy()),
+                .sharpness = changeSet->sharpness.value_or(output->sharpnessSetting()),
+                .customModes = changeSet->customModes.value_or(output->customModes()),
+                .automaticBrightness = changeSet->automaticBrightness.value_or(output->automaticBrightness()),
+                .autoBrightnessCurve = changeSet->autoBrightnessCurve.value_or(output->autoBrightnessCurve()),
             };
             *outputIt = SetupState{
                 .outputIndex = *outputIndex,
-                .position = changeSet->pos.value_or(output->geometry().topLeft()),
+                .position = changeSet->pos.value_or(output->position()),
                 .enabled = changeSet->enabled.value_or(output->isEnabled()),
-                .priority = int(outputOrder.indexOf(output)),
+                .priority = int(output->priority()),
                 .replicationSource = changeSet->replicationSource.value_or(output->replicationSource()),
             };
         } else {
@@ -405,7 +391,7 @@ void OutputConfigurationStore::storeConfig(const QList<Output *> &allOutputs, bo
                     .size = modeSize,
                     .refreshRate = refreshRate,
                 },
-                .scale = output->scale(),
+                .scaleSetting = output->scaleSetting(),
                 .transform = output->transform(),
                 .manualTransform = output->manualTransform(),
                 .overscan = output->overscan(),
@@ -429,12 +415,16 @@ void OutputConfigurationStore::storeConfig(const QList<Output *> &allOutputs, bo
                 .allowDdcCi = output->allowDdcCi(),
                 .maxBitsPerColor = output->maxBitsPerColor(),
                 .edrPolicy = output->edrPolicy(),
+                .sharpness = output->sharpnessSetting(),
+                .customModes = output->customModes(),
+                .automaticBrightness = output->automaticBrightness(),
+                .autoBrightnessCurve = output->autoBrightnessCurve(),
             };
             *outputIt = SetupState{
                 .outputIndex = *outputIndex,
-                .position = output->geometry().topLeft(),
+                .position = output->position(),
                 .enabled = output->isEnabled(),
-                .priority = int(outputOrder.indexOf(output)),
+                .priority = int(output->priority()),
                 .replicationSource = output->replicationSource(),
             };
         }
@@ -442,10 +432,10 @@ void OutputConfigurationStore::storeConfig(const QList<Output *> &allOutputs, bo
     save();
 }
 
-std::pair<OutputConfiguration, QList<Output *>> OutputConfigurationStore::setupToConfig(Setup *setup, const std::unordered_map<Output *, size_t> &outputMap) const
+OutputConfiguration OutputConfigurationStore::setupToConfig(Setup *setup, const std::unordered_map<BackendOutput *, size_t> &outputMap) const
 {
     OutputConfiguration ret;
-    QList<std::pair<Output *, size_t>> priorities;
+    QList<std::pair<BackendOutput *, size_t>> priorities;
     for (const auto &[output, outputIndex] : outputMap) {
         const OutputState &state = m_outputs[outputIndex];
         const auto &setupState = *std::find_if(setup->outputs.begin(), setup->outputs.end(), [outputIndex = outputIndex](const auto &state) {
@@ -470,7 +460,8 @@ std::pair<OutputConfiguration, QList<Output *>> OutputConfigurationStore::setupT
             .desiredModeRefreshRate = state.mode.has_value() ? std::make_optional(state.mode->refreshRate) : std::nullopt,
             .enabled = setupState.enabled,
             .pos = setupState.position,
-            .scale = state.scale,
+            .scale = state.scaleSetting,
+            .scaleSetting = state.scaleSetting,
             .transform = state.transform,
             .manualTransform = state.manualTransform,
             .overscan = state.overscan,
@@ -496,24 +487,19 @@ std::pair<OutputConfiguration, QList<Output *>> OutputConfigurationStore::setupT
             .allowDdcCi = state.allowDdcCi,
             .maxBitsPerColor = state.maxBitsPerColor,
             .edrPolicy = state.edrPolicy,
+            .sharpness = state.sharpness,
+            .priority = setupState.priority,
+            .customModes = state.customModes,
+            .automaticBrightness = state.automaticBrightness,
+            .autoBrightnessCurve = state.autoBrightnessCurve,
         };
-        if (setupState.enabled) {
-            priorities.push_back(std::make_pair(output, setupState.priority));
-        }
     }
-    std::sort(priorities.begin(), priorities.end(), [](const auto &left, const auto &right) {
-        return left.second < right.second;
-    });
-    QList<Output *> order;
-    std::transform(priorities.begin(), priorities.end(), std::back_inserter(order), [](const auto &pair) {
-        return pair.first;
-    });
-    return std::make_pair(ret, order);
+    return ret;
 }
 
-std::optional<std::pair<OutputConfiguration, QList<Output *>>> OutputConfigurationStore::generateLidClosedConfig(const QList<Output *> &outputs)
+std::optional<OutputConfiguration> OutputConfigurationStore::generateLidClosedConfig(const QList<BackendOutput *> &outputs)
 {
-    const auto internalIt = std::find_if(outputs.begin(), outputs.end(), [](Output *output) {
+    const auto internalIt = std::find_if(outputs.begin(), outputs.end(), [](BackendOutput *output) {
         return output->isInternal();
     });
     if (internalIt == outputs.end()) {
@@ -523,24 +509,23 @@ std::optional<std::pair<OutputConfiguration, QList<Output *>>> OutputConfigurati
     if (!setup) {
         return std::nullopt;
     }
-    Output *const internalOutput = *internalIt;
-    auto [config, order] = setupToConfig(setup->first, setup->second);
+    BackendOutput *const internalOutput = *internalIt;
+    auto config = setupToConfig(setup->setup, setup->globalOutputIndices);
     auto internalChangeset = config.changeSet(internalOutput);
     if (!internalChangeset->enabled.value_or(internalOutput->isEnabled())) {
-        return std::make_pair(config, order);
+        return config;
     }
 
     internalChangeset->enabled = false;
-    order.removeOne(internalOutput);
 
-    const bool anyEnabled = std::any_of(outputs.begin(), outputs.end(), [&config = config](Output *output) {
+    const bool anyEnabled = std::any_of(outputs.begin(), outputs.end(), [&config = config](BackendOutput *output) {
         return config.changeSet(output)->enabled.value_or(output->isEnabled());
     });
     if (!anyEnabled) {
         return std::nullopt;
     }
 
-    const auto getSize = [](OutputChangeSet *changeset, Output *output) {
+    const auto getSize = [](OutputChangeSet *changeset, BackendOutput *output) {
         auto mode = changeset->mode ? changeset->mode->lock() : nullptr;
         if (!mode) {
             mode = output->currentMode();
@@ -548,11 +533,11 @@ std::optional<std::pair<OutputConfiguration, QList<Output *>>> OutputConfigurati
         const auto scale = changeset->scale.value_or(output->scale());
         return QSize(std::ceil(mode->size().width() / scale), std::ceil(mode->size().height() / scale));
     };
-    const QPoint internalPos = internalChangeset->pos.value_or(internalOutput->geometry().topLeft());
+    const QPoint internalPos = internalChangeset->pos.value_or(internalOutput->position());
     const QSize internalSize = getSize(internalChangeset.get(), internalOutput);
-    for (Output *otherOutput : outputs) {
+    for (BackendOutput *otherOutput : outputs) {
         auto changeset = config.changeSet(otherOutput);
-        QPoint otherPos = changeset->pos.value_or(otherOutput->geometry().topLeft());
+        QPoint otherPos = changeset->pos.value_or(otherOutput->position());
         if (otherPos.x() >= internalPos.x() + internalSize.width()) {
             otherPos.rx() -= std::floor(internalSize.width());
         }
@@ -561,22 +546,63 @@ std::optional<std::pair<OutputConfiguration, QList<Output *>>> OutputConfigurati
         }
         // make sure this doesn't make outputs overlap, which is neither supported nor expected by users
         const QSize otherSize = getSize(changeset.get(), otherOutput);
-        const bool overlap = std::any_of(outputs.begin(), outputs.end(), [&, &config = config](Output *output) {
+        const bool overlap = std::any_of(outputs.begin(), outputs.end(), [&, &config = config](BackendOutput *output) {
             if (otherOutput == output) {
                 return false;
             }
             const auto changeset = config.changeSet(output);
-            const QPoint pos = changeset->pos.value_or(output->geometry().topLeft());
-            return QRect(pos, otherSize).intersects(QRect(otherPos, getSize(changeset.get(), output)));
+            const QPoint pos = changeset->pos.value_or(output->position());
+            return Rect(pos, otherSize).intersects(Rect(otherPos, getSize(changeset.get(), output)));
         });
         if (!overlap) {
             changeset->pos = otherPos;
         }
     }
-    return std::make_pair(config, order);
+    return config;
 }
 
-std::pair<OutputConfiguration, QList<Output *>> OutputConfigurationStore::generateConfig(const QList<Output *> &outputs, bool isLidClosed)
+std::optional<OutputConfigurationStore::SetupWithOutputs> OutputConfigurationStore::findPartialSetup(const QList<BackendOutput *> &outputs, bool lidClosed)
+{
+    std::unordered_map<BackendOutput *, size_t> outputStates;
+    for (BackendOutput *output : outputs) {
+        if (auto index = findOutputIndex(output, outputs)) {
+            outputStates[output] = *index;
+        }
+    }
+    const auto matchCount = [lidClosed, &outputStates](const Setup &setup) -> size_t {
+        if (setup.lidClosed != lidClosed) {
+            return 0;
+        }
+        // Skip the setup if it contains outputs that aren't currently connected
+        const bool otherOutputs = std::ranges::any_of(setup.outputs, [&](const SetupState &state) {
+            return std::ranges::none_of(outputStates, [&state](const auto &outputIt) {
+                return outputIt.second == state.outputIndex;
+            });
+        });
+        if (otherOutputs) {
+            return 0;
+        }
+        // now just count how many outputs are relevant
+        return std::ranges::count_if(outputStates, [&setup](const auto &outputIt) {
+            return std::ranges::any_of(setup.outputs, [&outputIt](const auto &outputInfo) {
+                return outputInfo.outputIndex == outputIt.second;
+            });
+        });
+    };
+    const auto bestSetup = std::ranges::max_element(m_setups, [&](const auto &left, const auto &right) {
+        return matchCount(left) < matchCount(right);
+    });
+    if (bestSetup == m_setups.end() || matchCount(*bestSetup) == 0) {
+        return std::nullopt;
+    } else {
+        return SetupWithOutputs{
+            .setup = &*bestSetup,
+            .globalOutputIndices = outputStates,
+        };
+    }
+}
+
+OutputConfiguration OutputConfigurationStore::generateConfig(const QList<BackendOutput *> &outputs, bool isLidClosed)
 {
     qCDebug(KWIN_OUTPUT_CONFIG, "Generating new config for %lld outputs", outputs.size());
     if (isLidClosed) {
@@ -584,15 +610,38 @@ std::pair<OutputConfiguration, QList<Output *>> OutputConfigurationStore::genera
             return *closedConfig;
         }
     }
+    const auto closestSetup = findPartialSetup(outputs, isLidClosed);
     const auto kscreenConfig = KScreenIntegration::readOutputConfig(outputs, KScreenIntegration::connectedOutputsHash(outputs, isLidClosed));
     OutputConfiguration ret;
-    QList<Output *> outputOrder;
-    QPoint pos(0, 0);
-    for (const auto output : outputs) {
-        const auto kscreenChangeSetPtr = kscreenConfig ? kscreenConfig->first.constChangeSet(output) : nullptr;
+    QPoint rightMostPosition(0, 0);
+    int priority = 0;
+
+    QList<BackendOutput *> sortedOutputs = outputs;
+    if (closestSetup.has_value()) {
+        // place outputs we already have settings for first
+        std::ranges::partition(sortedOutputs, [&closestSetup](BackendOutput *output) {
+            return closestSetup->globalOutputIndices.contains(output);
+        });
+    }
+    for (BackendOutput *output : sortedOutputs) {
+        const auto kscreenChangeSetPtr = kscreenConfig ? kscreenConfig->constChangeSet(output) : nullptr;
         const auto kscreenChangeSet = kscreenChangeSetPtr ? *kscreenChangeSetPtr : OutputChangeSet{};
 
-        const auto outputIndex = findOutput(output, outputs);
+        std::optional<SetupState> setupState;
+        if (closestSetup.has_value()) {
+            const auto indexIt = closestSetup->globalOutputIndices.find(output);
+            if (indexIt != closestSetup->globalOutputIndices.end()) {
+                const auto &[output, index] = *indexIt;
+                for (const SetupState &state : closestSetup->setup->outputs) {
+                    if (state.outputIndex == index) {
+                        setupState = state;
+                        break;
+                    }
+                }
+            }
+        }
+
+        const auto outputIndex = findOutputIndex(output, outputs);
         const bool enable = kscreenChangeSet.enabled.value_or(!isLidClosed || !output->isInternal() || outputs.size() == 1);
         const OutputState existingData = outputIndex ? m_outputs[*outputIndex] : OutputState{};
 
@@ -609,49 +658,53 @@ std::pair<OutputConfiguration, QList<Output *>> OutputConfigurationStore::genera
             .mode = mode,
             .desiredModeSize = mode->size(),
             .desiredModeRefreshRate = mode->refreshRate(),
-            .enabled = kscreenChangeSet.enabled.value_or(enable),
-            .pos = pos,
+            .enabled = setupState ? setupState->enabled : enable,
+            .pos = setupState ? setupState->position : rightMostPosition,
             // kscreen scale is unreliable because it gets overwritten with the value 1 on Xorg,
             // and we don't know if it's from Xorg or the 5.27 Wayland session... so just ignore it
-            .scale = existingData.scale.value_or(chooseScale(output, mode.get())),
+            .scaleSetting = existingData.scaleSetting.value_or(chooseScale(output, mode.get())),
             .transform = existingData.transform.value_or(kscreenChangeSet.transform.value_or(output->panelOrientation())),
             .manualTransform = existingData.manualTransform.value_or(kscreenChangeSet.transform.value_or(output->panelOrientation())),
             .overscan = existingData.overscan.value_or(kscreenChangeSet.overscan.value_or(0)),
-            .rgbRange = existingData.rgbRange.value_or(kscreenChangeSet.rgbRange.value_or(Output::RgbRange::Automatic)),
+            .rgbRange = existingData.rgbRange.value_or(kscreenChangeSet.rgbRange.value_or(BackendOutput::RgbRange::Automatic)),
             .vrrPolicy = existingData.vrrPolicy.value_or(kscreenChangeSet.vrrPolicy.value_or(VrrPolicy::Never)),
             .highDynamicRange = existingData.highDynamicRange.value_or(false),
-            .referenceLuminance = existingData.referenceLuminance.value_or(std::clamp(output->maxAverageBrightness().value_or(200), 200.0, 500.0)),
+            .referenceLuminance = existingData.referenceLuminance.value_or(std::clamp(output->maxAverageBrightnessOverride().value_or(output->advertisedMaxAverageBrightness().value_or(200)), 200.0, 500.0)),
             .wideColorGamut = existingData.wideColorGamut.value_or(false),
-            .autoRotationPolicy = existingData.autoRotation.value_or(Output::AutoRotationPolicy::InTabletMode),
-            .colorProfileSource = existingData.colorProfileSource.value_or(Output::ColorProfileSource::sRGB),
+            .autoRotationPolicy = existingData.autoRotation.value_or(BackendOutput::AutoRotationPolicy::InTabletMode),
+            .colorProfileSource = existingData.colorProfileSource.value_or(BackendOutput::ColorProfileSource::sRGB),
             .brightness = existingData.brightness.value_or(1.0),
             .allowSdrSoftwareBrightness = existingData.allowSdrSoftwareBrightness.value_or(output->brightnessDevice() == nullptr),
-            .colorPowerTradeoff = existingData.colorPowerTradeoff.value_or(Output::ColorPowerTradeoff::PreferEfficiency),
+            .colorPowerTradeoff = existingData.colorPowerTradeoff.value_or(BackendOutput::ColorPowerTradeoff::PreferEfficiency),
             .uuid = existingData.uuid,
             .detectedDdcCi = existingData.detectedDdcCi.value_or(false),
             .allowDdcCi = existingData.allowDdcCi.value_or(!output->isDdcCiKnownBroken()),
             .maxBitsPerColor = existingData.maxBitsPerColor,
-            .edrPolicy = existingData.edrPolicy.value_or(Output::EdrPolicy::Always),
+            .edrPolicy = existingData.edrPolicy.value_or(BackendOutput::EdrPolicy::Always),
+            .sharpness = existingData.sharpness.value_or(0),
+            .priority = setupState ? setupState->priority : priority,
+            .customModes = existingData.customModes,
+            .automaticBrightness = existingData.automaticBrightness.value_or(false),
+            // TODO generate a more fitting brightness map per screen?
+            .autoBrightnessCurve = existingData.autoBrightnessCurve,
         };
-        if (enable) {
+        if (setupState) {
+            priority = std::max(setupState->priority + 1, priority);
+        } else {
+            priority++;
+        }
+        if (*changeset->enabled) {
             const auto modeSize = changeset->transform->map(mode->size());
-            pos.setX(std::ceil(pos.x() + modeSize.width() / *changeset->scale));
-            outputOrder.push_back(output);
+            const QPoint topRight = QPoint(std::ceil(changeset->pos->x() + modeSize.width() / *changeset->scaleSetting), changeset->pos->y());
+            if (topRight.x() > rightMostPosition.x() || (topRight.x() == rightMostPosition.x() && topRight.y() < rightMostPosition.y())) {
+                rightMostPosition = topRight;
+            }
         }
     }
-    if (kscreenConfig && kscreenConfig->second.size() == outputOrder.size()) {
-        // make sure the old output order is consistent with the enablement states of the outputs
-        const bool consistent = std::ranges::all_of(outputOrder, [&kscreenConfig](const auto output) {
-            return kscreenConfig->second.contains(output);
-        });
-        if (consistent) {
-            outputOrder = kscreenConfig->second;
-        }
-    }
-    return std::make_pair(ret, outputOrder);
+    return ret;
 }
 
-std::shared_ptr<OutputMode> OutputConfigurationStore::chooseMode(Output *output) const
+std::shared_ptr<OutputMode> OutputConfigurationStore::chooseMode(BackendOutput *output) const
 {
     const auto findBiggestFastest = [](const auto &left, const auto &right) {
         const uint64_t leftPixels = left->size().width() * left->size().height();
@@ -674,21 +727,25 @@ std::shared_ptr<OutputMode> OutputConfigurationStore::chooseMode(Output *output)
         return *std::ranges::max_element(modes, findBiggestFastest);
     }
 
-    // 32:9 displays often advertise a lower resolution mode as preferred, special case them
-    auto only32by9 = notPotentiallyBroken | std::ranges::views::filter([](const auto &mode) {
-        const double aspectRatio = mode->size().width() / double(mode->size().height());
-        return aspectRatio > 31 / 9.0 && aspectRatio < 33 / 9.0;
-    });
-    const auto best32By9 = std::ranges::max_element(only32by9, findBiggestFastest);
-    if (best32By9 != only32by9.end()) {
-        return *best32By9;
-    }
-
     // try to figure out the native resolution; the biggest preferred mode usually has that
     auto preferredOnly = notPotentiallyBroken | std::ranges::views::filter([](const auto &mode) {
         return (mode->flags() & OutputMode::Flag::Preferred);
     });
     const auto nativeSize = std::ranges::max_element(preferredOnly, findBiggestFastest);
+
+    auto is32by9 = [](const auto &mode) {
+        const double aspectRatio = mode->size().width() / double(mode->size().height());
+        return aspectRatio > 31 / 9.0 && aspectRatio < 33 / 9.0;
+    };
+
+    if (nativeSize == preferredOnly.end() || is32by9(*nativeSize)) {
+        // 32:9 displays often advertise a lower resolution mode as preferred, special case them
+        auto only32by9 = notPotentiallyBroken | std::ranges::views::filter(is32by9);
+        const auto best32By9 = std::ranges::max_element(only32by9, findBiggestFastest);
+        if (best32By9 != only32by9.end()) {
+            return *best32By9;
+        }
+    }
 
     // Non-default modes have a decent chance of not working on VGA,
     // so avoid doing anything out of the ordinary there
@@ -722,7 +779,7 @@ std::shared_ptr<OutputMode> OutputConfigurationStore::chooseMode(Output *output)
     }
 }
 
-double OutputConfigurationStore::chooseScale(Output *output, OutputMode *mode) const
+double OutputConfigurationStore::chooseScale(BackendOutput *output, OutputMode *mode) const
 {
     if (output->physicalSize().height() < 3 || output->physicalSize().width() < 3) {
         // A screen less than 3mm wide or tall doesn't make any sense; these are
@@ -755,8 +812,18 @@ double OutputConfigurationStore::chooseScale(Output *output, OutputMode *mode) c
             minSize = 360;
         }
     } else {
-        // "normal" 1x scale desktop monitor dpi
-        targetDpi = 96;
+        // NOTE that height is checked instead of diagonal size to avoid
+        // applying the TV heuristic to ultrawide monitors
+        if (output->physicalSize().height() > 500) {
+            // This is a pretty big screen, most likely a TV.
+            // As you generally sit much further away from TVs than desktop monitors,
+            // user elements on it should also be much larger as well.
+            // The specific value results in a scale of 200% for 77" 4k TVs.
+            targetDpi = 30.5;
+        } else {
+            // "normal" 1x scale desktop monitor dpi
+            targetDpi = 96;
+        }
         minSize = 800;
     }
 
@@ -780,13 +847,13 @@ double OutputConfigurationStore::chooseScale(Output *output, OutputMode *mode) c
     return scale;
 }
 
-void OutputConfigurationStore::registerOutputs(const QList<Output *> &outputs)
+void OutputConfigurationStore::registerOutputs(const QList<BackendOutput *> &outputs)
 {
-    for (Output *output : outputs) {
+    for (BackendOutput *output : outputs) {
         if (output->isNonDesktop() || output->isPlaceholder()) {
             continue;
         }
-        auto index = findOutput(output, outputs);
+        auto index = findOutputIndex(output, outputs);
         if (!index) {
             index = m_outputs.size();
             m_outputs.push_back(OutputState{});
@@ -869,7 +936,7 @@ void OutputConfigurationStore::load()
             // without an identifier the settings are useless
             // we still have to push something into the list so that the indices stay correct
             outputDatas.push_back(std::nullopt);
-            qCWarning(KWIN_OUTPUT_CONFIG, "Output in config is missing identifiers");
+            qCWarning(KWIN_OUTPUT_CONFIG, "BackendOutput in config is missing identifiers");
             continue;
         }
         const bool hasDuplicate = std::any_of(outputDatas.begin(), outputDatas.end(), [&state](const auto &data) {
@@ -900,7 +967,7 @@ void OutputConfigurationStore::load()
         if (const auto it = data.find("scale"); it != data.end()) {
             const double scale = it->toDouble(0);
             if (scale > 0 && scale <= 5) {
-                state.scale = scale;
+                state.scaleSetting = scale;
             }
         }
         if (const auto it = data.find("transform"); it != data.end()) {
@@ -932,11 +999,11 @@ void OutputConfigurationStore::load()
         if (const auto it = data.find("rgbRange"); it != data.end()) {
             const auto str = it->toString();
             if (str == "Automatic") {
-                state.rgbRange = Output::RgbRange::Automatic;
+                state.rgbRange = BackendOutput::RgbRange::Automatic;
             } else if (str == "Limited") {
-                state.rgbRange = Output::RgbRange::Limited;
+                state.rgbRange = BackendOutput::RgbRange::Limited;
             } else if (str == "Full") {
-                state.rgbRange = Output::RgbRange::Full;
+                state.rgbRange = BackendOutput::RgbRange::Full;
             }
         }
         if (const auto it = data.find("vrrPolicy"); it != data.end()) {
@@ -961,11 +1028,11 @@ void OutputConfigurationStore::load()
         if (const auto it = data.find("autoRotation"); it != data.end()) {
             const auto str = it->toString();
             if (str == "Never") {
-                state.autoRotation = Output::AutoRotationPolicy::Never;
+                state.autoRotation = BackendOutput::AutoRotationPolicy::Never;
             } else if (str == "InTabletMode") {
-                state.autoRotation = Output::AutoRotationPolicy::InTabletMode;
+                state.autoRotation = BackendOutput::AutoRotationPolicy::InTabletMode;
             } else if (str == "Always") {
-                state.autoRotation = Output::AutoRotationPolicy::Always;
+                state.autoRotation = BackendOutput::AutoRotationPolicy::Always;
             }
         }
         if (const auto it = data.find("iccProfilePath"); it != data.end()) {
@@ -994,18 +1061,18 @@ void OutputConfigurationStore::load()
         if (const auto it = data.find("colorProfileSource"); it != data.end()) {
             const auto str = it->toString();
             if (str == "sRGB") {
-                state.colorProfileSource = Output::ColorProfileSource::sRGB;
+                state.colorProfileSource = BackendOutput::ColorProfileSource::sRGB;
             } else if (str == "ICC") {
-                state.colorProfileSource = Output::ColorProfileSource::ICC;
+                state.colorProfileSource = BackendOutput::ColorProfileSource::ICC;
             } else if (str == "EDID") {
-                state.colorProfileSource = Output::ColorProfileSource::EDID;
+                state.colorProfileSource = BackendOutput::ColorProfileSource::EDID;
             }
         } else {
             const bool icc = state.iccProfilePath && !state.iccProfilePath->isEmpty() && !state.highDynamicRange.value_or(false) && !state.wideColorGamut.value_or(false);
             if (icc) {
-                state.colorProfileSource = Output::ColorProfileSource::ICC;
+                state.colorProfileSource = BackendOutput::ColorProfileSource::ICC;
             } else {
-                state.colorProfileSource = Output::ColorProfileSource::sRGB;
+                state.colorProfileSource = BackendOutput::ColorProfileSource::sRGB;
             }
         }
         if (const auto it = data.find("brightness"); it != data.end() && it->isDouble()) {
@@ -1017,9 +1084,9 @@ void OutputConfigurationStore::load()
         if (const auto it = data.find("colorPowerTradeoff"); it != data.end()) {
             const auto str = it->toString();
             if (str == "PreferEfficiency") {
-                state.colorPowerTradeoff = Output::ColorPowerTradeoff::PreferEfficiency;
+                state.colorPowerTradeoff = BackendOutput::ColorPowerTradeoff::PreferEfficiency;
             } else if (str == "PreferAccuracy") {
-                state.colorPowerTradeoff = Output::ColorPowerTradeoff::PreferAccuracy;
+                state.colorPowerTradeoff = BackendOutput::ColorPowerTradeoff::PreferAccuracy;
             }
         }
         if (const auto it = data.find("uuid"); it != data.end() && !it->toString().isEmpty()) {
@@ -1040,10 +1107,38 @@ void OutputConfigurationStore::load()
         if (const auto it = data.find("edrPolicy"); it != data.end()) {
             const auto str = it->toString();
             if (str == "never") {
-                state.edrPolicy = Output::EdrPolicy::Never;
+                state.edrPolicy = BackendOutput::EdrPolicy::Never;
             } else if (str == "always") {
-                state.edrPolicy = Output::EdrPolicy::Always;
+                state.edrPolicy = BackendOutput::EdrPolicy::Always;
             }
+        }
+        if (const auto it = data.find("sharpness"); it != data.end() && it->isDouble()) {
+            state.sharpness = std::clamp(it->toDouble(), 0.0, 1.0);
+        }
+        if (const auto it = data.find("customModes"); it != data.end() && it->isArray()) {
+            const auto arr = it->toArray();
+            QList<CustomModeDefinition> modes;
+            for (const auto &value : arr) {
+                const auto obj = value.toObject();
+                const int width = obj["width"].toInt(0);
+                const int height = obj["height"].toInt(0);
+                const int refreshRate = obj["refreshRate"].toInt(0);
+                const int flags = obj["flags"].toInt(0);
+                if (width > 0 && height > 0 && refreshRate > 0) {
+                    modes.push_back(CustomModeDefinition{
+                        .size = QSize(width, height),
+                        .refreshRate = uint32_t(refreshRate),
+                        .flags = OutputMode::Flags(flags),
+                    });
+                }
+            }
+            state.customModes = modes;
+        }
+        if (const auto it = data.find("automaticBrightness"); it != data.end() && it->isBool()) {
+            state.automaticBrightness = it->toBool();
+        }
+        if (const auto it = data.find("autoBrightnessCurve"); it != data.end() && it->isArray()) {
+            state.autoBrightnessCurve = AutoBrightnessCurve::fromArray(it->toArray());
         }
         outputDatas.push_back(state);
     }
@@ -1065,7 +1160,7 @@ void OutputConfigurationStore::load()
             }
             if (const auto it = outputData.find("outputIndex"); it != outputData.end()) {
                 const int index = it->toInt(-1);
-                if (index <= -1 || size_t(index) >= outputDatas.size()) {
+                if (index <= -1 || size_t(index) >= outputDatas.size() || !outputDatas[index].has_value()) {
                     fail = true;
                     break;
                 }
@@ -1105,7 +1200,11 @@ void OutputConfigurationStore::load()
                 state.priority = INT_MAX;
             }
             if (const auto it = outputData.find("replicationSource"); it != outputData.end()) {
-                state.replicationSource = it->toString();
+                const QString replicationSource = it->toString();
+                const OutputState &sharedState = outputDatas[state.outputIndex].value();
+                if (sharedState.uuid != replicationSource) {
+                    state.replicationSource = replicationSource;
+                }
             }
             setup.outputs.push_back(state);
         }
@@ -1203,8 +1302,8 @@ void OutputConfigurationStore::save()
             mode["refreshRate"] = int(output.mode->refreshRate);
             o["mode"] = mode;
         }
-        if (output.scale) {
-            o["scale"] = *output.scale;
+        if (output.scaleSetting) {
+            o["scale"] = *output.scaleSetting;
         }
         if (output.manualTransform == OutputTransform::Kind::Normal) {
             o["transform"] = "Normal";
@@ -1226,11 +1325,11 @@ void OutputConfigurationStore::save()
         if (output.overscan) {
             o["overscan"] = int(*output.overscan);
         }
-        if (output.rgbRange == Output::RgbRange::Automatic) {
+        if (output.rgbRange == BackendOutput::RgbRange::Automatic) {
             o["rgbRange"] = "Automatic";
-        } else if (output.rgbRange == Output::RgbRange::Limited) {
+        } else if (output.rgbRange == BackendOutput::RgbRange::Limited) {
             o["rgbRange"] = "Limited";
-        } else if (output.rgbRange == Output::RgbRange::Full) {
+        } else if (output.rgbRange == BackendOutput::RgbRange::Full) {
             o["rgbRange"] = "Full";
         }
         if (output.vrrPolicy == VrrPolicy::Never) {
@@ -1251,13 +1350,13 @@ void OutputConfigurationStore::save()
         }
         if (output.autoRotation) {
             switch (*output.autoRotation) {
-            case Output::AutoRotationPolicy::Never:
+            case BackendOutput::AutoRotationPolicy::Never:
                 o["autoRotation"] = "Never";
                 break;
-            case Output::AutoRotationPolicy::InTabletMode:
+            case BackendOutput::AutoRotationPolicy::InTabletMode:
                 o["autoRotation"] = "InTabletMode";
                 break;
-            case Output::AutoRotationPolicy::Always:
+            case BackendOutput::AutoRotationPolicy::Always:
                 o["autoRotation"] = "Always";
                 break;
             }
@@ -1279,13 +1378,13 @@ void OutputConfigurationStore::save()
         }
         if (output.colorProfileSource) {
             switch (*output.colorProfileSource) {
-            case Output::ColorProfileSource::sRGB:
+            case BackendOutput::ColorProfileSource::sRGB:
                 o["colorProfileSource"] = "sRGB";
                 break;
-            case Output::ColorProfileSource::ICC:
+            case BackendOutput::ColorProfileSource::ICC:
                 o["colorProfileSource"] = "ICC";
                 break;
-            case Output::ColorProfileSource::EDID:
+            case BackendOutput::ColorProfileSource::EDID:
                 o["colorProfileSource"] = "EDID";
                 break;
             }
@@ -1298,10 +1397,10 @@ void OutputConfigurationStore::save()
         }
         if (output.colorPowerTradeoff) {
             switch (*output.colorPowerTradeoff) {
-            case Output::ColorPowerTradeoff::PreferEfficiency:
+            case BackendOutput::ColorPowerTradeoff::PreferEfficiency:
                 o["colorPowerTradeoff"] = "PreferEfficiency";
                 break;
-            case Output::ColorPowerTradeoff::PreferAccuracy:
+            case BackendOutput::ColorPowerTradeoff::PreferAccuracy:
                 o["colorPowerTradeoff"] = "PreferAccuracy";
                 break;
             }
@@ -1320,13 +1419,33 @@ void OutputConfigurationStore::save()
         }
         if (output.edrPolicy.has_value()) {
             switch (*output.edrPolicy) {
-            case Output::EdrPolicy::Never:
+            case BackendOutput::EdrPolicy::Never:
                 o["edrPolicy"] = "never";
                 break;
-            case Output::EdrPolicy::Always:
+            case BackendOutput::EdrPolicy::Always:
                 o["edrPolicy"] = "always";
                 break;
             }
+        }
+        if (output.sharpness) {
+            o["sharpness"] = *output.sharpness;
+        }
+        if (output.customModes.has_value()) {
+            QJsonArray modes;
+            for (const auto &mode : *output.customModes) {
+                QJsonObject obj;
+                obj["width"] = mode.size.width();
+                obj["height"] = mode.size.height();
+                obj["refreshRate"] = int(mode.refreshRate);
+                obj["flags"] = int(mode.flags);
+                modes.append(obj);
+            }
+        }
+        if (output.automaticBrightness) {
+            o["automaticBrightness"] = *output.automaticBrightness;
+        }
+        if (output.autoBrightnessCurve) {
+            o["autoBrightnessCurve"] = output.autoBrightnessCurve->toArray();
         }
         outputsData.append(o);
     }
@@ -1372,27 +1491,36 @@ void OutputConfigurationStore::save()
     f.flush();
 }
 
-bool OutputConfigurationStore::isAutoRotateActive(const QList<Output *> &outputs, bool isTabletMode) const
+bool OutputConfigurationStore::isAutoRotateActive(const QList<BackendOutput *> &outputs, bool isTabletMode) const
 {
-    const auto internalIt = std::find_if(outputs.begin(), outputs.end(), [](Output *output) {
+    const auto internalIt = std::find_if(outputs.begin(), outputs.end(), [](BackendOutput *output) {
         return output->isInternal() && output->isEnabled();
     });
     if (internalIt == outputs.end()) {
         return false;
     }
-    Output *internal = *internalIt;
+    BackendOutput *internal = *internalIt;
     // if output is not on, disable auto-rotate
-    if (internal->dpmsMode() != Output::DpmsMode::On) {
+    if (internal->dpmsMode() != BackendOutput::DpmsMode::On) {
         return false;
     }
     switch (internal->autoRotationPolicy()) {
-    case Output::AutoRotationPolicy::Never:
+    case BackendOutput::AutoRotationPolicy::Never:
         return false;
-    case Output::AutoRotationPolicy::InTabletMode:
+    case BackendOutput::AutoRotationPolicy::InTabletMode:
         return isTabletMode;
-    case Output::AutoRotationPolicy::Always:
+    case BackendOutput::AutoRotationPolicy::Always:
         return true;
     }
     Q_UNREACHABLE();
+}
+
+bool OutputConfigurationStore::isAutoBrightnessActive(const QList<BackendOutput *> &outputs) const
+{
+    return std::ranges::any_of(outputs, [](BackendOutput *output) {
+        return output->isEnabled()
+            && output->automaticBrightness()
+            && output->dpmsMode() == BackendOutput::DpmsMode::On;
+    });
 }
 }

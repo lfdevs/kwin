@@ -204,9 +204,9 @@ void EffectWindow::unrefVisible(const EffectWindowVisibleRef *holder)
     d->m_windowItem->unrefVisible(holder->reason());
 }
 
-void EffectWindow::addRepaint(const QRect &r)
+void EffectWindow::addRepaint(const Rect &r)
 {
-    d->m_windowItem->scheduleRepaint(QRegion(r));
+    d->m_windowItem->scheduleRepaint(Region(r));
 }
 
 void EffectWindow::addRepaintFull()
@@ -214,7 +214,7 @@ void EffectWindow::addRepaintFull()
     d->m_windowItem->scheduleRepaint(d->m_windowItem->boundingRect());
 }
 
-void EffectWindow::addLayerRepaint(const QRect &r)
+void EffectWindow::addLayerRepaint(const Rect &r)
 {
     d->m_windowItem->scheduleRepaint(d->m_windowItem->mapFromScene(r));
 }
@@ -239,7 +239,7 @@ void EffectWindow::unrefWindow()
     d->m_window->unref();
 }
 
-Output *EffectWindow::screen() const
+LogicalOutput *EffectWindow::screen() const
 {
     return d->m_window->output();
 }
@@ -281,6 +281,7 @@ WINDOW_HELPER(bool, isComboBox, isComboBox)
 WINDOW_HELPER(bool, isDNDIcon, isDNDIcon)
 WINDOW_HELPER(bool, isDeleted, isDeleted)
 WINDOW_HELPER(QString, windowRole, windowRole)
+WINDOW_HELPER(QString, tag, tag)
 WINDOW_HELPER(QStringList, activities, activities)
 WINDOW_HELPER(bool, skipsCloseAnimation, skipsCloseAnimation)
 WINDOW_HELPER(SurfaceInterface *, surface, surface)
@@ -374,7 +375,7 @@ QByteArray EffectWindow::readProperty(long atom, long type, int format) const
             len *= 2;
             continue;
         }
-        return prop.toByteArray(format, type);
+        return prop.toByteArray(format, type).value_or(QByteArray());
     }
 #endif
     return {};

@@ -47,7 +47,7 @@ void TestXcbSizeHints::initTestCase()
 void TestXcbSizeHints::init()
 {
     const uint32_t values[] = {true};
-    m_testWindow.create(QRect(0, 0, 10, 10), XCB_WINDOW_CLASS_INPUT_ONLY, XCB_CW_OVERRIDE_REDIRECT, values);
+    m_testWindow.create(Rect(0, 0, 10, 10), XCB_WINDOW_CLASS_INPUT_ONLY, XCB_CW_OVERRIDE_REDIRECT, values);
     QVERIFY(m_testWindow.isValid());
 }
 
@@ -216,7 +216,7 @@ void TestXcbSizeHints::testSizeHints()
     QCOMPARE(sizeHints->winGravity, gravity);
 
     // copy
-    Xcb::GeometryHints::NormalHints::SizeHints sizeHints2 = *sizeHints;
+    Xcb::GeometryHints::NormalHints sizeHints2 = *sizeHints;
     QTEST(sizeHints2.flags, "expectedFlags");
     QTEST(sizeHints2.pad[0], "expectedPad0");
     QTEST(sizeHints2.pad[1], "expectedPad1");

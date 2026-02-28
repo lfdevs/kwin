@@ -19,6 +19,7 @@
 #include "scene/cursoritem.h"
 #include "scene/workspacescene.h"
 #include "textcarettracker.h"
+#include "utils/keys.h"
 #include "zoomconfig.h"
 
 #include <KConfigGroup>
@@ -27,6 +28,7 @@
 #include <KStandardActions>
 
 #include <QAction>
+#include <QTimer>
 
 using namespace std::chrono_literals;
 
@@ -42,6 +44,11 @@ namespace KWin
 ZoomEffect::ZoomEffect()
 {
     ensureResources();
+
+    m_configurationTimer = std::make_unique<QTimer>();
+    m_configurationTimer->setInterval(1s);
+    m_configurationTimer->setSingleShot(true);
+    connect(m_configurationTimer.get(), &QTimer::timeout, this, &ZoomEffect::saveInitialZoom);
 
     ZoomConfig::instance(effects->config());
     QAction *a = nullptr;
@@ -143,8 +150,7 @@ ZoomEffect::~ZoomEffect()
     // switch off and free resources
     showCursor();
     // Save the zoom value.
-    ZoomConfig::setInitialZoom(m_targetZoom);
-    ZoomConfig::self()->save();
+    saveInitialZoom();
 }
 
 QPointF ZoomEffect::calculateCursorItemPosition() const
@@ -180,33 +186,10 @@ void ZoomEffect::hideCursor()
     }
 }
 
-static Qt::KeyboardModifiers stringToKeyboardModifiers(const QString &string)
-{
-    const QStringList parts = string.split(QLatin1Char('+'));
-    if (parts.isEmpty()) {
-        return Qt::KeyboardModifiers();
-    }
-
-    Qt::KeyboardModifiers modifiers;
-    for (const QString &part : parts) {
-        if (part == QLatin1String("Meta")) {
-            modifiers |= Qt::MetaModifier;
-        } else if (part == QLatin1String("Ctrl") || part == QLatin1String("Control")) {
-            // NOTE: "Meta+Control" is provided KQuickControls.KeySequenceItem instead of "Meta+Ctrl"
-            modifiers |= Qt::ControlModifier;
-        } else if (part == QLatin1String("Alt")) {
-            modifiers |= Qt::AltModifier;
-        } else if (part == QLatin1String("Shift")) {
-            modifiers |= Qt::ShiftModifier;
-        }
-    }
-
-    return modifiers;
-}
-
 void ZoomEffect::reconfigure(ReconfigureFlags)
 {
     ZoomConfig::self()->read();
+    // when mouse is set to centered on-screen, turning this on lets the zoom area extend beyond workspace bounds
     // On zoom-in and zoom-out change the zoom by the defined zoom-factor.
     m_zoomFactor = std::max(0.1, ZoomConfig::zoomFactor());
     m_pixelGridZoom = ZoomConfig::pixelGridZoom();
@@ -300,7 +283,14 @@ void ZoomEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseco
         break;
     case MouseTrackingCentered:
         m_prevPoint = m_cursorPoint;
-        // fall through
+        m_xTranslation = std::min(0, std::max(int(screenSize.width() - screenSize.width() * m_zoom), int(screenSize.width() / 2 - m_prevPoint.x() * m_zoom)));
+        m_yTranslation = std::min(0, std::max(int(screenSize.height() - screenSize.height() * m_zoom), int(screenSize.height() / 2 - m_prevPoint.y() * m_zoom)));
+        break;
+    case MouseTrackingCenteredStrict:
+        m_prevPoint = m_cursorPoint;
+        m_xTranslation = int(screenSize.width() / 2 - m_prevPoint.x() * m_zoom);
+        m_yTranslation = int(screenSize.height() / 2 - m_prevPoint.y() * m_zoom);
+        break;
     case MouseTrackingDisabled:
         m_xTranslation = std::min(0, std::max(int(screenSize.width() - screenSize.width() * m_zoom), int(screenSize.width() / 2 - m_prevPoint.x() * m_zoom)));
         m_yTranslation = std::min(0, std::max(int(screenSize.height() - screenSize.height() * m_zoom), int(screenSize.height() / 2 - m_prevPoint.y() * m_zoom)));
@@ -310,7 +300,7 @@ void ZoomEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseco
         const int x = m_cursorPoint.x() * m_zoom - m_prevPoint.x() * (m_zoom - 1.0);
         const int y = m_cursorPoint.y() * m_zoom - m_prevPoint.y() * (m_zoom - 1.0);
         const int threshold = 4;
-        const QRectF currScreen = effects->screenAt(QPoint(x, y))->geometry();
+        const RectF currScreen = effects->screenAt(QPoint(x, y))->geometry();
 
         // bounds of the screen the cursor's on
         const int screenTop = currScreen.top();
@@ -373,10 +363,11 @@ void ZoomEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseco
     effects->prePaintScreen(data, presentTime);
 }
 
-ZoomEffect::OffscreenData *ZoomEffect::ensureOffscreenData(const RenderTarget &renderTarget, const RenderViewport &viewport, Output *screen)
+ZoomEffect::OffscreenData *ZoomEffect::ensureOffscreenData(const RenderTarget &renderTarget, const RenderViewport &viewport, LogicalOutput *screen)
 {
-    const QSize nativeSize = renderTarget.size();
+    const QSize nativeSize = viewport.deviceSize();
 
+    // TODO this should be per view, rather than per logical screen.
     OffscreenData &data = m_offscreenData[screen];
     data.viewport = viewport.renderRect();
     data.color = renderTarget.colorDescription();
@@ -392,7 +383,6 @@ ZoomEffect::OffscreenData *ZoomEffect::ensureOffscreenData(const RenderTarget &r
         data.framebuffer = std::make_unique<GLFramebuffer>(data.texture.get());
     }
 
-    data.texture->setContentTransform(renderTarget.transform());
     return &data;
 }
 
@@ -408,7 +398,7 @@ GLShader *ZoomEffect::shaderForZoom(double zoom)
     }
 }
 
-void ZoomEffect::paintScreen(const RenderTarget &renderTarget, const RenderViewport &viewport, int mask, const QRegion &region, Output *screen)
+void ZoomEffect::paintScreen(const RenderTarget &renderTarget, const RenderViewport &viewport, int mask, const Region &deviceRegion, LogicalOutput *screen)
 {
     OffscreenData *offscreenData = ensureOffscreenData(renderTarget, viewport, screen);
     if (!offscreenData) {
@@ -417,9 +407,9 @@ void ZoomEffect::paintScreen(const RenderTarget &renderTarget, const RenderViewp
 
     // Render the scene in an offscreen texture and then upscale it.
     RenderTarget offscreenRenderTarget(offscreenData->framebuffer.get(), renderTarget.colorDescription());
-    RenderViewport offscreenViewport(viewport.renderRect(), viewport.scale(), offscreenRenderTarget);
+    RenderViewport offscreenViewport(viewport.renderRect(), viewport.scale(), offscreenRenderTarget, QPoint());
     GLFramebuffer::pushFramebuffer(offscreenData->framebuffer.get());
-    effects->paintScreen(offscreenRenderTarget, offscreenViewport, mask, region, screen);
+    effects->paintScreen(offscreenRenderTarget, offscreenViewport, mask, deviceRegion, screen);
     GLFramebuffer::popFramebuffer();
 
     const auto scale = viewport.scale();
@@ -592,7 +582,7 @@ void ZoomEffect::slotWindowDamaged()
     }
 }
 
-void ZoomEffect::slotScreenRemoved(Output *screen)
+void ZoomEffect::slotScreenRemoved(LogicalOutput *screen)
 {
     if (auto it = m_offscreenData.find(screen); it != m_offscreenData.end()) {
         effects->makeOpenGLContextCurrent();
@@ -650,9 +640,15 @@ qreal ZoomEffect::targetZoom() const
     return m_targetZoom;
 }
 
+void ZoomEffect::saveInitialZoom()
+{
+    ZoomConfig::setInitialZoom(m_targetZoom);
+    ZoomConfig::self()->save();
+}
+
 bool ZoomEffect::screenExistsAt(const QPoint &point) const
 {
-    const Output *output = effects->screenAt(point);
+    const LogicalOutput *output = effects->screenAt(point);
     return output && output->geometry().contains(point);
 }
 
@@ -682,6 +678,7 @@ void ZoomEffect::setTargetZoom(double value)
         disconnect(effects, &EffectsHandler::mouseChanged, this, &ZoomEffect::slotMouseChanged);
     }
     m_targetZoom = value;
+    m_configurationTimer->start();
     effects->addRepaintFull();
 }
 

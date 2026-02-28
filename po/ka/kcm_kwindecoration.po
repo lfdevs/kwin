@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 14:41+0000\n"
-"PO-Revision-Date: 2025-05-30 04:36+0200\n"
+"POT-Creation-Date: 2026-01-28 02:43+0000\n"
+"PO-Revision-Date: 2026-01-17 03:17+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,59 +16,64 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Poedit 3.8\n"
 
-#: declarative-plugin/buttonsmodel.cpp:55
+#: declarative-plugin/buttonsmodel.cpp:56
 #, kde-format
 msgid "Window menu"
 msgstr "ფანჯრის მენიუ"
 
-#: declarative-plugin/buttonsmodel.cpp:57
+#: declarative-plugin/buttonsmodel.cpp:58
 #, kde-format
 msgid "Application menu"
 msgstr "პროგრამის მენიუ"
 
-#: declarative-plugin/buttonsmodel.cpp:59
+#: declarative-plugin/buttonsmodel.cpp:60
 #, kde-format
 msgid "On all desktops"
 msgstr "ყველა სამუშაო მაგიდაზე"
 
-#: declarative-plugin/buttonsmodel.cpp:61
+#: declarative-plugin/buttonsmodel.cpp:62
 #, kde-format
 msgid "Minimize"
 msgstr "ჩაკეცვა"
 
-#: declarative-plugin/buttonsmodel.cpp:63
+#: declarative-plugin/buttonsmodel.cpp:64
 #, kde-format
 msgid "Maximize"
 msgstr "გადიდება"
 
-#: declarative-plugin/buttonsmodel.cpp:65
+#: declarative-plugin/buttonsmodel.cpp:66
 #, kde-format
 msgid "Close"
 msgstr "დახურვა"
 
-#: declarative-plugin/buttonsmodel.cpp:67
+#: declarative-plugin/buttonsmodel.cpp:68
 #, kde-format
 msgid "Context help"
 msgstr "კონტექსტური დახმარება"
 
-#: declarative-plugin/buttonsmodel.cpp:69
+#: declarative-plugin/buttonsmodel.cpp:70
 #, kde-format
 msgid "Keep below other windows"
 msgstr "დანარჩენი ფანჯრების ქვემოთ ქონა"
 
-#: declarative-plugin/buttonsmodel.cpp:71
+#: declarative-plugin/buttonsmodel.cpp:72
 #, kde-format
 msgid "Keep above other windows"
 msgstr "დანარჩენი ფანჯრების ზემოთ ქონა"
 
-#: declarative-plugin/buttonsmodel.cpp:73
+#: declarative-plugin/buttonsmodel.cpp:74
+#, kde-format
+msgid "Hide from screencast"
+msgstr "დამალვა ეკრანის გადაცემიდან"
+
+#: declarative-plugin/buttonsmodel.cpp:76
 #, kde-format
 msgid "Spacer"
 msgstr "დაშორება"
 
-#: kcm.cpp:177
+#: kcm.cpp:186
 #, kde-format
 msgctxt "%1 is the name of a border size"
 msgid "Theme default (%1)"
@@ -189,6 +194,34 @@ msgstr "მენიუს საჩვენებლად დააწექ�
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
 msgstr "სათაურის ქუდის ღილაკების მინიშნებების ჩვენება"
+
+#: ui/ConfigureTitlebar.qml:73
+#, fuzzy, kde-format
+#| msgctxt "@option:check"
+#| msgid "Always show \"Hide from Screencast\" buttonX"
+msgctxt "@option:check"
+msgid "Always show \"Hide from Screencast\" button"
+msgstr "ღილაკის 'ეკრანის გადაცემიდან დამალვა' ყოველთვის ჩვენება"
+
+#: ui/ConfigureTitlebar.qml:85
+#, kde-format
+msgctxt "@info:tooltip"
+msgid ""
+"When unchecked the button only appears if the window is hidden from "
+"screencast"
+msgstr ""
+"როცა გამორთულია, ღილაკი, მხოლოდ, მაშინ ჩანს, თუ ფანჯარა დამალულია ეკრანის "
+"გადაცემიდან"
+
+#: ui/ConfigureTitlebar.qml:86
+#, kde-format
+msgctxt "@info:tooltip"
+msgid ""
+"To enable this option, add the \"Hide from screencast\" button to the "
+"titlebar first"
+msgstr ""
+"ამ პარამეტრის გასააქტიურებლად, ჯერ დაამატეთ ღილაკი \"ეკრანის გადაცემიდან "
+"დამალვა\" სათაურის ზოლში"
 
 #: ui/main.qml:29
 #, kde-format

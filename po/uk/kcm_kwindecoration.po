@@ -6,13 +6,13 @@
 # Andriy Rysin <rysin@kde.org>, 2002, 2003, 2004.
 # Eugene Onischenko <oneugene@ukr.net>, 2004, 2005.
 # Ivan Petrouchtchak <fr.ivan@ukrainian-orthodox.org>, 2005, 2006, 2007.
-# Yuri Chornoivan <yurchor@ukr.net>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2018, 2019, 2020, 2021, 2023, 2024, 2025.
+# Yuri Chornoivan <yurchor@ukr.net>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2018, 2019, 2020, 2021, 2023, 2024, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 14:41+0000\n"
-"PO-Revision-Date: 2025-05-30 09:17+0300\n"
+"POT-Creation-Date: 2026-01-28 02:43+0000\n"
+"PO-Revision-Date: 2026-01-28 16:17+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -23,57 +23,62 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: declarative-plugin/buttonsmodel.cpp:55
+#: declarative-plugin/buttonsmodel.cpp:56
 #, kde-format
 msgid "Window menu"
 msgstr "Меню вікна"
 
-#: declarative-plugin/buttonsmodel.cpp:57
+#: declarative-plugin/buttonsmodel.cpp:58
 #, kde-format
 msgid "Application menu"
 msgstr "Меню програм"
 
-#: declarative-plugin/buttonsmodel.cpp:59
+#: declarative-plugin/buttonsmodel.cpp:60
 #, kde-format
 msgid "On all desktops"
 msgstr "На всіх стільницях"
 
-#: declarative-plugin/buttonsmodel.cpp:61
+#: declarative-plugin/buttonsmodel.cpp:62
 #, kde-format
 msgid "Minimize"
 msgstr "Мінімізувати"
 
-#: declarative-plugin/buttonsmodel.cpp:63
+#: declarative-plugin/buttonsmodel.cpp:64
 #, kde-format
 msgid "Maximize"
 msgstr "Максимізувати"
 
-#: declarative-plugin/buttonsmodel.cpp:65
+#: declarative-plugin/buttonsmodel.cpp:66
 #, kde-format
 msgid "Close"
 msgstr "Закрити"
 
-#: declarative-plugin/buttonsmodel.cpp:67
+#: declarative-plugin/buttonsmodel.cpp:68
 #, kde-format
 msgid "Context help"
 msgstr "Контекстна довідка"
 
-#: declarative-plugin/buttonsmodel.cpp:69
+#: declarative-plugin/buttonsmodel.cpp:70
 #, kde-format
 msgid "Keep below other windows"
 msgstr "Утримувати під іншими вікнами"
 
-#: declarative-plugin/buttonsmodel.cpp:71
+#: declarative-plugin/buttonsmodel.cpp:72
 #, kde-format
 msgid "Keep above other windows"
 msgstr "Утримувати над іншими вікнами"
 
-#: declarative-plugin/buttonsmodel.cpp:73
+#: declarative-plugin/buttonsmodel.cpp:74
+#, kde-format
+msgid "Hide from screencast"
+msgstr "Приховати на записі з екрана"
+
+#: declarative-plugin/buttonsmodel.cpp:76
 #, kde-format
 msgid "Spacer"
 msgstr "Розпірка"
 
-#: kcm.cpp:177
+#: kcm.cpp:186
 #, kde-format
 msgctxt "%1 is the name of a border size"
 msgid "Theme default (%1)"
@@ -196,6 +201,32 @@ msgstr "Натисніть і утримуйте кнопку меню вікн�
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
 msgstr "Показувати підказки кнопок заголовків вікон"
+
+#: ui/ConfigureTitlebar.qml:73
+#, kde-format
+msgctxt "@option:check"
+msgid "Always show \"Hide from Screencast\" button"
+msgstr "Завжди показувати кнопку «Приховати на записі з екрана»"
+
+#: ui/ConfigureTitlebar.qml:85
+#, kde-format
+msgctxt "@info:tooltip"
+msgid ""
+"When unchecked the button only appears if the window is hidden from "
+"screencast"
+msgstr ""
+"Якщо не позначено, кнопку буде показано, лише якщо вікно приховано на записі "
+"з екрана"
+
+#: ui/ConfigureTitlebar.qml:86
+#, kde-format
+msgctxt "@info:tooltip"
+msgid ""
+"To enable this option, add the \"Hide from screencast\" button to the "
+"titlebar first"
+msgstr ""
+"Якщо позначити цей пункт, на смужку заголовка спочатку буде додано кнопку "
+"«Приховати на записі з екрана»"
 
 #: ui/main.qml:29
 #, kde-format

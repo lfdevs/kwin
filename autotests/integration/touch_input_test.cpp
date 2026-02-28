@@ -64,13 +64,13 @@ void TouchInputTest::initTestCase()
 
     kwinApp()->start();
     Test::setOutputConfig({
-        QRect(0, 0, 1280, 1024),
-        QRect(1280, 0, 1280, 1024),
+        Rect(0, 0, 1280, 1024),
+        Rect(1280, 0, 1280, 1024),
     });
     const auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
-    QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
-    QCOMPARE(outputs[1]->geometry(), QRect(1280, 0, 1280, 1024));
+    QCOMPARE(outputs[0]->geometry(), Rect(0, 0, 1280, 1024));
+    QCOMPARE(outputs[1]->geometry(), Rect(1280, 0, 1280, 1024));
 }
 
 void TouchInputTest::init()
@@ -184,7 +184,7 @@ void TouchInputTest::testMultipleTouchPoints()
     auto [window2, surface2, shellSurface2, decoration2] = showWindow(decorated);
     QCOMPARE(window2->isDecorated(), decorated);
     QVERIFY(window2);
-    window2->moveResize(QRect(0, 0, 100, 50));
+    window2->moveResize(Rect(0, 0, 100, 50));
 
     // a point outside the window, where window2 is
     Test::touchDown(2, window->mapFromLocal(QPointF(-100, -100)), timestamp++);
@@ -352,7 +352,7 @@ void TouchInputTest::testUpdateFocusOnDecorationDestroy()
     shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy.last().at(0).value<quint32>());
     Test::render(surface.get(), QSize(1280, 1024), Qt::blue);
     QVERIFY(frameGeometryChangedSpy.wait());
-    QCOMPARE(window->frameGeometry(), QRect(0, 0, 1280, 1024));
+    QCOMPARE(window->frameGeometry(), RectF(0, 0, 1280, 1024));
     QCOMPARE(window->maximizeMode(), MaximizeFull);
     QCOMPARE(window->requestedMaximizeMode(), MaximizeFull);
     QCOMPARE(window->isDecorated(), false);

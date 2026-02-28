@@ -7,77 +7,79 @@
 # Mthw <jari_45@hotmail.com>, 2018, 2019.
 # Matej Mrenica <matejm98mthw@gmail.com>, 2019, 2021.
 # Ferdinand Galko <galko.ferdinand@gmail.com>, 2023.
+# SPDX-FileCopyrightText: 2026 Lucia Mrenica <lucia.mrenica@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 14:41+0000\n"
-"PO-Revision-Date: 2023-05-06 18:16+0200\n"
-"Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
-"Language-Team: Slovak <opensuse-translation@opensuse.org>\n"
+"POT-Creation-Date: 2026-01-28 02:43+0000\n"
+"PO-Revision-Date: 2026-01-28 16:33+0100\n"
+"Last-Translator: Lucia Mrenica <lucia.mrenica@gmail.com>\n"
+"Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 21.12.3\n"
+"X-Generator: Lokalize 25.12.1\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: declarative-plugin/buttonsmodel.cpp:55
-#, fuzzy, kde-format
-#| msgctxt "Button showing window actions menu"
-#| msgid "Window Menu"
+#: declarative-plugin/buttonsmodel.cpp:56
+#, kde-format
 msgid "Window menu"
 msgstr "Ponuka okna"
 
-#: declarative-plugin/buttonsmodel.cpp:57
+#: declarative-plugin/buttonsmodel.cpp:58
 #, kde-format
 msgid "Application menu"
 msgstr "Aplikačná ponuka"
 
-#: declarative-plugin/buttonsmodel.cpp:59
+#: declarative-plugin/buttonsmodel.cpp:60
 #, kde-format
 msgid "On all desktops"
 msgstr "Na všetkých plochách"
 
-#: declarative-plugin/buttonsmodel.cpp:61
+#: declarative-plugin/buttonsmodel.cpp:62
 #, kde-format
 msgid "Minimize"
 msgstr "Minimalizovať"
 
-#: declarative-plugin/buttonsmodel.cpp:63
+#: declarative-plugin/buttonsmodel.cpp:64
 #, kde-format
 msgid "Maximize"
 msgstr "Maximalizovať"
 
-#: declarative-plugin/buttonsmodel.cpp:65
+#: declarative-plugin/buttonsmodel.cpp:66
 #, kde-format
 msgid "Close"
 msgstr "Zavrieť"
 
-#: declarative-plugin/buttonsmodel.cpp:67
+#: declarative-plugin/buttonsmodel.cpp:68
 #, kde-format
 msgid "Context help"
 msgstr "Kontextový pomocník"
 
-#: declarative-plugin/buttonsmodel.cpp:69
+#: declarative-plugin/buttonsmodel.cpp:70
 #, kde-format
 msgid "Keep below other windows"
 msgstr "Držať pod ostatnými oknami"
 
-#: declarative-plugin/buttonsmodel.cpp:71
+#: declarative-plugin/buttonsmodel.cpp:72
 #, kde-format
 msgid "Keep above other windows"
 msgstr "Držať nad ostatnými oknami"
 
-#: declarative-plugin/buttonsmodel.cpp:73
+#: declarative-plugin/buttonsmodel.cpp:74
+#, kde-format
+msgid "Hide from screencast"
+msgstr "Skryť zo Screencastu"
+
+#: declarative-plugin/buttonsmodel.cpp:76
 #, kde-format
 msgid "Spacer"
-msgstr ""
+msgstr "Oddeľovač"
 
-#: kcm.cpp:177
-#, fuzzy, kde-format
-#| msgctxt "%1 is the name of a border size"
-#| msgid "Theme's default (%1)"
+#: kcm.cpp:186
+#, kde-format
 msgctxt "%1 is the name of a border size"
 msgid "Theme default (%1)"
 msgstr "Predvolené z témy (%1)"
@@ -185,26 +187,48 @@ msgid "Titlebar Buttons"
 msgstr "Tlačidlá záhlavia"
 
 #: ui/ConfigureTitlebar.qml:35
-#, fuzzy, kde-format
-#| msgctxt "checkbox label"
-#| msgid "Close windows by double clicking the menu button"
+#, kde-format
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the window menu button"
-msgstr "Zavrieť okná dvojklikom na tlačidlo ponuky"
+msgstr "Zatvorte okná dvojitým kliknutím na tlačidlo ponuky okna."
 
 #: ui/ConfigureTitlebar.qml:52
-#, fuzzy, kde-format
-#| msgctxt "popup tip"
-#| msgid "Click and hold on the menu button to show the menu."
+#, kde-format
 msgctxt "popup tip"
 msgid "Click and hold on the window menu button to show the menu."
-msgstr "Ponuku zobrazíte kliknutím a podržaním na tlačidla ponuky."
+msgstr "Kliknite a podržte tlačidlo ponuky okna, aby sa zobrazila ponuka."
 
 #: ui/ConfigureTitlebar.qml:59
 #, kde-format
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
 msgstr "Zobrazovať popisy tlačidiel záhlavia"
+
+#: ui/ConfigureTitlebar.qml:73
+#, kde-format
+msgctxt "@option:check"
+msgid "Always show \"Hide from Screencast\" button"
+msgstr "Vždy zobrazovať tlačidlo \"Skryť zo Screencastu\""
+
+#: ui/ConfigureTitlebar.qml:85
+#, kde-format
+msgctxt "@info:tooltip"
+msgid ""
+"When unchecked the button only appears if the window is hidden from "
+"screencast"
+msgstr ""
+"Ak nie je zaškrtnuté, tlačidlo sa zobrazí len v prípade, že je okno skryté z "
+"screencastu."
+
+#: ui/ConfigureTitlebar.qml:86
+#, kde-format
+msgctxt "@info:tooltip"
+msgid ""
+"To enable this option, add the \"Hide from screencast\" button to the "
+"titlebar first"
+msgstr ""
+"Ak chcete túto možnosť aktivovať, najskôr pridajte tlačidlo \"Skryť zo "
+"screencastu“ do hlavného panela."
 
 #: ui/main.qml:29
 #, kde-format
@@ -225,62 +249,52 @@ msgid "Get New…"
 msgstr "Získať nové..."
 
 #: ui/Themes.qml:93
-#, fuzzy, kde-format
-#| msgid "Edit %1 Theme"
+#, kde-format
 msgid "Edit %1 Theme…"
-msgstr "Upraviť tému %1"
+msgstr "Upraviť tému %1..."
 
 #: utils.cpp:25
-#, fuzzy, kde-format
-#| msgid "No Window Borders"
+#, kde-format
 msgid "No window borders"
 msgstr "Žiadne okraje okien"
 
 #: utils.cpp:26
-#, fuzzy, kde-format
-#| msgid "No Side Window Borders"
+#, kde-format
 msgid "No side window borders"
 msgstr "Žiadne bočné okraje okien"
 
 #: utils.cpp:27
-#, fuzzy, kde-format
-#| msgid "Tiny Window Borders"
+#, kde-format
 msgid "Tiny window borders"
 msgstr "Drobné okraje okien"
 
 #: utils.cpp:28
-#, fuzzy, kde-format
-#| msgid "Normal Window Borders"
+#, kde-format
 msgid "Normal window borders"
 msgstr "Normálne okraje okien"
 
 #: utils.cpp:29
-#, fuzzy, kde-format
-#| msgid "Large Window Borders"
+#, kde-format
 msgid "Large window borders"
 msgstr "Veľké okraje okien"
 
 #: utils.cpp:30
-#, fuzzy, kde-format
-#| msgid "Very Large Window Borders"
+#, kde-format
 msgid "Very large window borders"
 msgstr "Veľmi veľké okraje okien"
 
 #: utils.cpp:31
-#, fuzzy, kde-format
-#| msgid "Huge Window Borders"
+#, kde-format
 msgid "Huge window borders"
 msgstr "Obrovské okraje okien"
 
 #: utils.cpp:32
-#, fuzzy, kde-format
-#| msgid "Very Huge Window Borders"
+#, kde-format
 msgid "Very huge window borders"
 msgstr "Veľmi obrovské okraje okien"
 
 #: utils.cpp:33
-#, fuzzy, kde-format
-#| msgid "Oversized Window Borders"
+#, kde-format
 msgid "Oversized window borders"
 msgstr "Nadrozmerné okraje okien"
 

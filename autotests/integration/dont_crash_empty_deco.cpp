@@ -45,13 +45,13 @@ void DontCrashEmptyDecorationTest::initTestCase()
     qputenv("KWIN_COMPOSE", QByteArrayLiteral("O2"));
     kwinApp()->start();
     Test::setOutputConfig({
-        QRect(0, 0, 1280, 1024),
-        QRect(1280, 0, 1280, 1024),
+        Rect(0, 0, 1280, 1024),
+        Rect(1280, 0, 1280, 1024),
     });
     const auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
-    QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
-    QCOMPARE(outputs[1]->geometry(), QRect(1280, 0, 1280, 1024));
+    QCOMPARE(outputs[0]->geometry(), Rect(0, 0, 1280, 1024));
+    QCOMPARE(outputs[1]->geometry(), Rect(1280, 0, 1280, 1024));
     setenv("QT_QPA_PLATFORM", "wayland", true);
 }
 
@@ -89,7 +89,7 @@ void DontCrashEmptyDecorationTest::testBug361551()
 
     // let's set a stupid geometry
     window->moveResize({0, 0, 0, 0});
-    QCOMPARE(window->frameGeometry(), QRect(0, 0, 0, 0));
+    QCOMPARE(window->frameGeometry(), RectF(0, 0, 0, 0));
 
     // and destroy the window again
     xcb_unmap_window(c, windowId);

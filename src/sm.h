@@ -10,16 +10,16 @@
 
 #pragma once
 
-#include <QDBusContext>
-#include <QDataStream>
-#include <QPointer>
-#include <QRect>
-#include <QStringList>
-#include <QTimer>
+#include "core/rect.h"
+#include "effect/globals.h"
 
 #include <KConfigGroup>
 
-#include "effect/globals.h"
+#include <QDBusContext>
+#include <QDataStream>
+#include <QPointer>
+#include <QStringList>
+#include <QTimer>
 
 class KNotification;
 
@@ -29,6 +29,8 @@ namespace KWin
 class X11Window;
 struct SessionInfo;
 class XdgToplevelWindow;
+
+enum class DecorationPolicy;
 
 class SessionManager : public QObject, public QDBusContext
 {
@@ -97,9 +99,9 @@ struct SessionInfo
     QString resourceName;
     QString resourceClass;
 
-    QRect geometry;
-    QRect restore;
-    QRect fsrestore;
+    RectF geometry;
+    RectF restore;
+    RectF fsrestore;
     int maximized;
     int fullscreen;
     int desktop;
@@ -110,7 +112,7 @@ struct SessionInfo
     bool skipTaskbar;
     bool skipPager;
     bool skipSwitcher;
-    bool noBorder;
+    DecorationPolicy decorationPolicy;
     WindowType windowType;
     QString shortcut;
     bool active; // means 'was active in the saved session'

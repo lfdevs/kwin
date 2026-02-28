@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include "core/backendoutput.h"
 #include "core/colorpipeline.h"
 #include "core/rendertarget.h"
 #include "kwin_export.h"
@@ -14,7 +15,7 @@
 
 #include <QObject>
 #include <QPointer>
-#include <QRegion>
+
 #include <chrono>
 #include <optional>
 
@@ -30,7 +31,7 @@ class GLTexture;
 struct OutputLayerBeginFrameInfo
 {
     RenderTarget renderTarget;
-    QRegion repaint;
+    Region repaint;
 };
 
 enum class OutputLayerType {
@@ -59,13 +60,13 @@ class KWIN_EXPORT OutputLayer : public QObject
 {
     Q_OBJECT
 public:
-    explicit OutputLayer(Output *output, OutputLayerType type);
-    explicit OutputLayer(Output *output, OutputLayerType type, int zpos, int minZpos, int maxZpos);
+    explicit OutputLayer(BackendOutput *output, OutputLayerType type);
+    explicit OutputLayer(BackendOutput *output, OutputLayerType type, int zpos, int minZpos, int maxZpos);
 
     OutputLayerType type() const;
 
     void setRenderLoop(RenderLoop *loop);
-    void setOutput(Output *output);
+    void setOutput(BackendOutput *output);
 
     QPointF hotspot() const;
     void setHotspot(const QPointF &hotspot);
@@ -76,13 +77,10 @@ public:
      */
     virtual QList<QSize> recommendedSizes() const;
 
-    QRegion repaints() const;
+    Region deviceRepaints() const;
     void resetRepaints();
     void scheduleRepaint(Item *item);
-    /**
-     * adds a repaint in layer-local logical coordinates
-     */
-    void addRepaint(const QRegion &region);
+    void addDeviceRepaint(const Region &region);
     bool needsRepaint() const;
 
     /**
@@ -98,7 +96,7 @@ public:
     virtual bool preparePresentationTest();
 
     std::optional<OutputLayerBeginFrameInfo> beginFrame();
-    bool endFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame);
+    bool endFrame(const Region &renderedDeviceRegion, const Region &damagedDeviceRegion, OutputFrame *frame);
 
     /**
      * Tries to import the newest buffer of the surface for direct scanout and does some early checks
@@ -116,13 +114,13 @@ public:
     /**
      * Returns the source rect this output layer should sample from, in buffer local coordinates
      */
-    QRectF sourceRect() const;
-    void setSourceRect(const QRectF &rect);
+    RectF sourceRect() const;
+    void setSourceRect(const RectF &rect);
     /**
      * Returns the target rect this output layer should be shown at, in device coordinates
      */
-    QRect targetRect() const;
-    void setTargetRect(const QRect &rect);
+    Rect targetRect() const;
+    void setTargetRect(const Rect &rect);
     /**
      * Returns the transform this layer will apply to content passed to it
      */
@@ -149,7 +147,7 @@ public:
     int minZpos() const;
     int maxZpos() const;
 
-    static QList<FormatInfo> filterAndSortFormats(const QHash<uint32_t, QList<uint64_t>> &formats, uint32_t requiredAlphaBits, Output::ColorPowerTradeoff tradeoff);
+    static QList<FormatInfo> filterAndSortFormats(const QHash<uint32_t, QList<uint64_t>> &formats, uint32_t requiredAlphaBits, BackendOutput::ColorPowerTradeoff tradeoff);
 
     virtual void releaseBuffers() = 0;
 
@@ -158,13 +156,13 @@ Q_SIGNALS:
 
 protected:
     virtual std::optional<OutputLayerBeginFrameInfo> doBeginFrame() = 0;
-    virtual bool doEndFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame) = 0;
+    virtual bool doEndFrame(const Region &renderedDeviceRegion, const Region &damagedDeviceRegion, OutputFrame *frame) = 0;
 
     const OutputLayerType m_type;
-    QRegion m_repaints;
+    Region m_repaints;
     QPointF m_hotspot;
-    QRectF m_sourceRect;
-    QRect m_targetRect;
+    RectF m_sourceRect;
+    Rect m_targetRect;
     qreal m_scale = 1.0;
     bool m_enabled = false;
     OutputTransform m_offloadTransform = OutputTransform::Kind::Normal;
@@ -173,7 +171,7 @@ protected:
     std::shared_ptr<ColorDescription> m_color = ColorDescription::sRGB;
     RenderingIntent m_renderingIntent = RenderingIntent::Perceptual;
     QPointer<SurfaceItem> m_scanoutCandidate;
-    QPointer<Output> m_output;
+    QPointer<BackendOutput> m_output;
     uint32_t m_requiredAlphaBits = 0;
     bool m_repaintScheduled = false;
     RenderLoop *m_renderLoop = nullptr;

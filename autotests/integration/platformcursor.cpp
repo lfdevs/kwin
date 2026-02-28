@@ -31,8 +31,8 @@ void PlatformCursorTest::initTestCase()
     QVERIFY(waylandServer()->init(s_socketName));
     kwinApp()->start();
     Test::setOutputConfig({
-        QRect(0, 0, 1280, 1024),
-        QRect(1280, 0, 1280, 1024),
+        Rect(0, 0, 1280, 1024),
+        Rect(1280, 0, 1280, 1024),
     });
 
     // QCursor requires QScreen but our QPA will create QScreen later on a timer timeout.
@@ -46,8 +46,7 @@ void PlatformCursorTest::testPos()
     // that is QCursor should work just like KWin::Cursor
 
     // cursor should be centered on screen
-    QCOMPARE(Cursors::self()->mouse()->pos(), QPoint(639, 511));
-    QCOMPARE(Cursors::self()->mouse()->pos(), QPoint(639, 511));
+    QCOMPARE(Cursors::self()->mouse()->pos(), QPoint(640, 512));
 
     // let's set the pos through QCursor API
     QCursor::setPos(QPoint(10, 10));

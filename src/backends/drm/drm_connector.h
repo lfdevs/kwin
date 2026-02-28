@@ -8,13 +8,14 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #pragma once
+#include "kwin_export.h"
 
 #include <QPoint>
 #include <QSize>
 
 #include <QSize>
 
-#include "core/output.h"
+#include "core/backendoutput.h"
 #include "drm_blob.h"
 #include "drm_object.h"
 #include "drm_pointer.h"
@@ -47,7 +48,7 @@ private:
     std::shared_ptr<DrmBlob> m_blob;
 };
 
-class DrmConnector : public DrmObject
+class KWIN_EXPORT DrmConnector : public DrmObject
 {
 public:
     DrmConnector(DrmGpu *gpu, uint32_t connectorId);
@@ -72,9 +73,9 @@ public:
     QByteArray mstPath() const;
 
     QList<std::shared_ptr<DrmConnectorMode>> modes() const;
-    std::shared_ptr<DrmConnectorMode> findMode(const drmModeModeInfo &modeInfo) const;
+    std::shared_ptr<DrmConnectorMode> generateMode(const QSize &size, float refreshRate, OutputMode::Flags flags);
 
-    Output::SubPixel subpixel() const;
+    BackendOutput::SubPixel subpixel() const;
 
     enum class UnderscanOptions : uint64_t {
         Off = 0,
@@ -138,12 +139,12 @@ public:
 
     static DrmContentType kwinToDrmContentType(ContentType type);
     static OutputTransform toKWinTransform(PanelOrientation orientation);
-    static BroadcastRgbOptions rgbRangeToBroadcastRgb(Output::RgbRange rgbRange);
-    static Output::RgbRange broadcastRgbToRgbRange(BroadcastRgbOptions rgbRange);
+    static BroadcastRgbOptions rgbRangeToBroadcastRgb(BackendOutput::RgbRange rgbRange);
+    static BackendOutput::RgbRange broadcastRgbToRgbRange(BroadcastRgbOptions rgbRange);
+    static uint32_t refreshRateForMode(_drmModeModeInfo *m);
 
 private:
     QList<std::shared_ptr<DrmConnectorMode>> generateCommonModes();
-    std::shared_ptr<DrmConnectorMode> generateMode(const QSize &size, float refreshRate);
 
     DrmUniquePtr<drmModeConnector> m_conn;
     Edid m_edid;

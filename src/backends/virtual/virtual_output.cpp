@@ -20,7 +20,7 @@ namespace KWin
 {
 
 VirtualOutput::VirtualOutput(VirtualBackend *parent, bool internal, const QSize &physicalSizeInMM, OutputTransform panelOrientation, const QByteArray &edid, std::optional<QByteArray> edidIdentifierOverride, const std::optional<QString> &connectorName, const std::optional<QByteArray> &mstPath)
-    : Output(parent)
+    : BackendOutput()
     , m_backend(parent)
     , m_renderLoop(std::make_unique<RenderLoop>(this))
     , m_vsyncMonitor(SoftwareVsyncMonitor::create())
@@ -33,6 +33,7 @@ VirtualOutput::VirtualOutput(VirtualBackend *parent, bool internal, const QSize 
         .name = connectorName.value_or(QStringLiteral("Virtual-%1").arg(identifier)),
         .physicalSize = physicalSizeInMM,
         .edid = Edid{edid, edidIdentifierOverride},
+        .capabilities = Capability::CustomModes,
         .panelOrientation = panelOrientation,
         .internal = internal,
         .mstPath = mstPath.value_or(QByteArray()),
@@ -78,6 +79,7 @@ void VirtualOutput::init(const QPoint &logicalPosition, const QSize &pixelSize, 
         .scale = scale,
         .modes = modeList,
         .currentMode = modeList.front(),
+        .scaleSetting = scale,
     });
 }
 
@@ -94,6 +96,7 @@ void VirtualOutput::applyChanges(const OutputConfiguration &config)
     next.transform = props->transform.value_or(m_state.transform);
     next.position = props->pos.value_or(m_state.position);
     next.scale = props->scale.value_or(m_state.scale);
+    next.scaleSetting = props->scaleSetting.value_or(m_state.scaleSetting);
     next.desiredModeSize = props->desiredModeSize.value_or(m_state.desiredModeSize);
     next.desiredModeRefreshRate = props->desiredModeRefreshRate.value_or(m_state.desiredModeRefreshRate);
     next.currentMode = props->mode.value_or(m_state.currentMode).lock();
@@ -102,6 +105,24 @@ void VirtualOutput::applyChanges(const OutputConfiguration &config)
     }
     next.uuid = props->uuid.value_or(m_state.uuid);
     next.replicationSource = props->replicationSource.value_or(m_state.replicationSource);
+    next.priority = props->priority.value_or(m_state.priority);
+    next.deviceOffset = props->deviceOffset.value_or(m_state.deviceOffset);
+    if (props->customModes.has_value()) {
+        next.customModes = *props->customModes;
+
+        QList<std::shared_ptr<OutputMode>> newModes;
+        for (const auto &mode : next.modes) {
+            if (mode->flags() & OutputMode::Flag::Custom) {
+                continue;
+            }
+            newModes.push_back(mode);
+        }
+        for (const auto &custom : next.customModes) {
+            newModes.push_back(std::make_shared<OutputMode>(custom.size, custom.refreshRate, custom.flags | OutputMode::Flag::Custom));
+        }
+        next.modes = newModes;
+    }
+
     setState(next);
     m_renderLoop->setRefreshRate(next.currentMode->refreshRate());
     m_vsyncMonitor->setRefreshRate(next.currentMode->refreshRate());

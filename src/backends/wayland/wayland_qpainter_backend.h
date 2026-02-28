@@ -19,7 +19,7 @@
 
 namespace KWin
 {
-class Output;
+class BackendOutput;
 class GraphicsBufferAllocator;
 class QPainterSwapchainSlot;
 class QPainterSwapchain;
@@ -38,12 +38,12 @@ public:
     ~WaylandQPainterPrimaryLayer() override;
 
     std::optional<OutputLayerBeginFrameInfo> doBeginFrame() override;
-    bool doEndFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame) override;
+    bool doEndFrame(const Region &renderedDeviceRegion, const Region &damagedDeviceRegion, OutputFrame *frame) override;
     DrmDevice *scanoutDevice() const override;
     QHash<uint32_t, QList<uint64_t>> supportedDrmFormats() const override;
     void releaseBuffers() override;
 
-    QRegion accumulateDamage(int bufferAge) const;
+    Region accumulateDamage(int bufferAge) const;
 
 private:
     WaylandOutput *m_waylandOutput;
@@ -66,7 +66,7 @@ public:
     ~WaylandQPainterCursorLayer() override;
 
     std::optional<OutputLayerBeginFrameInfo> doBeginFrame() override;
-    bool doEndFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame) override;
+    bool doEndFrame(const Region &renderedDeviceRegion, const Region &damagedDeviceRegion, OutputFrame *frame) override;
     DrmDevice *scanoutDevice() const override;
     QHash<uint32_t, QList<uint64_t>> supportedDrmFormats() const override;
     void releaseBuffers() override;
@@ -86,10 +86,10 @@ public:
     ~WaylandQPainterBackend() override;
 
     GraphicsBufferAllocator *graphicsBufferAllocator() const;
-    QList<OutputLayer *> compatibleOutputLayers(Output *output) override;
+    QList<OutputLayer *> compatibleOutputLayers(BackendOutput *output) override;
 
 private:
-    void createOutput(Output *waylandOutput);
+    void createOutput(BackendOutput *waylandOutput);
 
     WaylandBackend *m_backend;
     std::unique_ptr<GraphicsBufferAllocator> m_allocator;

@@ -11,7 +11,6 @@
 #include "core/renderbackend.h"
 
 #include <QObject>
-#include <QRegion>
 
 struct wl_resource;
 
@@ -35,6 +34,11 @@ class Transaction;
 class SyncReleasePoint;
 class RawSurfaceAttachedState;
 class RawSurfaceExtension;
+
+enum class ColorDescriptionType {
+    Normal,
+    Windows,
+};
 
 /**
  * The SurfaceRole class represents a role assigned to a wayland surface.
@@ -82,15 +86,7 @@ private:
 class KWIN_EXPORT SurfaceInterface : public QObject
 {
     Q_OBJECT
-    /**
-     * The opaque region for a translucent buffer.
-     */
-    Q_PROPERTY(QRegion opaque READ opaque NOTIFY opaqueChanged)
-    /**
-     * The current input region.
-     */
-    Q_PROPERTY(QRegion input READ input NOTIFY inputChanged)
-    Q_PROPERTY(QSizeF size READ size NOTIFY sizeChanged)
+
 public:
     explicit SurfaceInterface(CompositorInterface *compositor, wl_resource *resource);
     ~SurfaceInterface() override;
@@ -138,13 +134,13 @@ public:
     void frameRendered(quint32 msec);
     bool hasFrameCallbacks() const;
 
-    std::shared_ptr<PresentationFeedback> presentationFeedback(Output *output);
+    std::shared_ptr<PresentationFeedback> presentationFeedback(LogicalOutput *output);
     bool hasPresentationFeedback() const;
 
-    QRegion opaque() const;
-    QRegion input() const;
-    QRegion bufferDamage() const;
-    QRectF bufferSourceBox() const;
+    Region opaque() const;
+    Region input() const;
+    Region bufferDamage() const;
+    RectF bufferSourceBox() const;
     /**
      * Returns the buffer transform that had been applied to the buffer to compensate for
      * output rotation.
@@ -170,7 +166,7 @@ public:
      *
      * QPoint(0, 0) corresponds to the upper left corner of this surface.
      */
-    QRectF boundingRect() const;
+    RectF boundingRect() const;
 
     /**
      * @returns The SubSurface for this Surface in case there is one.
@@ -275,7 +271,7 @@ public:
     LockedPointerV1Interface *lockedPointer() const;
 
     /**
-     * @returns Whether this SurfaceInterface wants idle to be inhibited on the Output it is shown
+     * @returns Whether this SurfaceInterface wants idle to be inhibited on the LogicalOutput it is shown
      * @see inhibitsIdleChanged
      */
     bool inhibitsIdle() const;
@@ -341,6 +337,7 @@ public:
     Transaction *lastTransaction() const;
     void setLastTransaction(Transaction *transaction);
 
+    ColorDescriptionType colorDescriptionType() const;
     const std::shared_ptr<ColorDescription> &colorDescription() const;
     RenderingIntent renderingIntent() const;
 
@@ -410,9 +407,9 @@ Q_SIGNALS:
      * @see buffer
      * @see damage
      */
-    void damaged(const QRegion &);
-    void opaqueChanged(const QRegion &);
-    void inputChanged(const QRegion &);
+    void damaged(const Region &);
+    void opaqueChanged(const Region &);
+    void inputChanged(const Region &);
     /**
      * This signal is emitted when the buffer transform has changed.
      */

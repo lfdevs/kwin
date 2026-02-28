@@ -55,7 +55,7 @@ namespace KWin
 static bool screenContainsPos(const QPointF &pos)
 {
     const auto outputs = workspace()->outputs();
-    for (const Output *output : outputs) {
+    for (const LogicalOutput *output : outputs) {
         if (output->geometry().contains(flooredPoint(pos))) {
             return true;
         }
@@ -63,7 +63,7 @@ static bool screenContainsPos(const QPointF &pos)
     return false;
 }
 
-static QPointF confineToBoundingBox(const QPointF &pos, const QRectF &boundingBox)
+static QPointF confineToBoundingBox(const QPointF &pos, const RectF &boundingBox)
 {
     return QPointF(
         std::clamp(pos.x(), boundingBox.left(), boundingBox.right() - 1.0),
@@ -144,7 +144,7 @@ void PointerInputRedirection::init()
     connect(workspace(), &Workspace::windowAdded, this, setupMoveResizeConnection);
 
     // warp the cursor to center of screen containing the workspace center
-    if (const Output *output = workspace()->outputAt(workspace()->geometry().center())) {
+    if (const LogicalOutput *output = workspace()->outputAt(workspace()->geometry().center())) {
         warp(output->geometry().center());
     }
     updateAfterScreenChange();
@@ -264,7 +264,7 @@ void PointerInputRedirection::processMotionInternal(const QPointF &pos, const QP
     }
 
     PositionUpdateBlocker blocker(this);
-    updatePosition(pos, time);
+    updatePosition(pos, delta, time);
 
     PointerMotionEvent event{
         .device = device,
@@ -761,7 +761,7 @@ void PointerInputRedirection::updatePointerConstraints()
                 lock->setLocked(false);
                 m_locked = false;
                 disconnectLockedPointerAboutToBeUnboundConnection();
-                if (!(hint.x() < 0 || hint.y() < 0) && focus()) {
+                if (hint.x() >= 0 && hint.y() >= 0 && focus() && hint.x() < focus()->width() && hint.y() < focus()->height()) {
                     processWarp(focus()->mapFromLocal(hint), waylandServer()->seat()->timestamp());
                 }
             }
@@ -775,7 +775,7 @@ void PointerInputRedirection::updatePointerConstraints()
             // In this case the cached cursor position hint must be fetched before the resource goes away
             m_lockedPointerAboutToBeUnboundConnection = connect(lock, &LockedPointerV1Interface::aboutToBeDestroyed, this, [this, lock]() {
                 const auto hint = lock->cursorPositionHint();
-                if (hint.x() < 0 || hint.y() < 0 || !focus()) {
+                if (hint.x() < 0 || hint.y() < 0 || !focus() || hint.x() >= focus()->width() || hint.y() >= focus()->height()) {
                     return;
                 }
                 auto globalHint = focus()->mapFromLocal(hint);
@@ -831,7 +831,7 @@ QPointF PointerInputRedirection::applyPointerConfinement(const QPointF &pos) con
     return m_pos;
 }
 
-PointerInputRedirection::EdgeBarrierType PointerInputRedirection::edgeBarrierType(const QPointF &pos, const QRectF &lastOutputGeometry) const
+PointerInputRedirection::EdgeBarrierType PointerInputRedirection::edgeBarrierType(const QPointF &pos, const RectF &lastOutputGeometry) const
 {
     constexpr qreal cornerThreshold = 15;
     const auto moveResizeWindow = workspace()->moveResizeWindow();
@@ -871,14 +871,19 @@ qreal PointerInputRedirection::edgeBarrier(EdgeBarrierType type) const
     }
 }
 
-QPointF PointerInputRedirection::applyEdgeBarrier(const QPointF &pos, const Output *currentOutput, std::chrono::microseconds time)
+QPointF PointerInputRedirection::applyEdgeBarrier(const QPointF &pos, const QPointF &relativeMotion, const LogicalOutput *currentOutput, std::chrono::microseconds time)
 {
-    // optimization to avoid looping over all outputs
-    if (exclusiveContains(currentOutput->geometry(), m_pos)) {
+    // edge barriers are counter-productive for absolute motion
+    if (relativeMotion.isNull()) {
         m_movementInEdgeBarrier = QPointF();
         return pos;
     }
-    const Output *lastOutput = workspace()->outputAt(m_pos);
+    // optimization to avoid looping over all outputs
+    if (currentOutput->geometryF().contains(m_pos)) {
+        m_movementInEdgeBarrier = QPointF();
+        return pos;
+    }
+    const LogicalOutput *lastOutput = workspace()->outputAt(m_pos);
     QPointF newPos = confineToBoundingBox(pos, lastOutput->geometry());
     const auto type = edgeBarrierType(newPos, lastOutput->geometry());
     if (m_lastEdgeBarrierType != type) {
@@ -911,7 +916,7 @@ QPointF PointerInputRedirection::applyEdgeBarrier(const QPointF &pos, const Outp
     return newPos;
 }
 
-void PointerInputRedirection::updatePosition(const QPointF &pos, std::chrono::microseconds time)
+void PointerInputRedirection::updatePosition(const QPointF &pos, const QPointF &relativeMotion, std::chrono::microseconds time)
 {
     m_lastMoveTime = time;
     if (m_locked) {
@@ -919,9 +924,9 @@ void PointerInputRedirection::updatePosition(const QPointF &pos, std::chrono::mi
         return;
     }
     // verify that at least one screen contains the pointer position
-    const Output *currentOutput = workspace()->outputAt(pos);
+    const LogicalOutput *currentOutput = workspace()->outputAt(pos);
     QPointF p = confineToBoundingBox(pos, currentOutput->geometry());
-    p = applyEdgeBarrier(p, currentOutput, time);
+    p = applyEdgeBarrier(p, relativeMotion, currentOutput, time);
     p = applyPointerConfinement(p);
     if (p == m_pos) {
         // didn't change due to confinement
@@ -975,7 +980,7 @@ void PointerInputRedirection::updateAfterScreenChange()
         return;
     }
 
-    Output *output = nullptr;
+    LogicalOutput *output = nullptr;
     if (m_lastOutputWasPlaceholder) {
         // previously we've positioned our pointer on a placeholder screen, try
         // to get us onto the real "primary" screen instead.
@@ -1109,7 +1114,7 @@ void CursorImage::updateCursorOutputs(const QPointF &pos)
     if (m_currentSource == m_serverCursor.surface.get()) {
         auto cursorSurface = m_serverCursor.surface->surface();
         if (cursorSurface) {
-            const QRectF cursorGeometry(pos - m_currentSource->hotspot(), m_currentSource->size());
+            const RectF cursorGeometry(pos - m_currentSource->hotspot(), m_currentSource->size());
             cursorSurface->setOutputs(waylandServer()->display()->outputsIntersecting(cursorGeometry.toAlignedRect()),
                                       waylandServer()->display()->largestIntersectingOutput(cursorGeometry.toAlignedRect()));
         }
@@ -1165,16 +1170,16 @@ void CursorImage::updateDragCursor()
     AbstractDataSource *dragSource = waylandServer()->seat()->dragSource();
     if (dragSource && dragSource->isAccepted()) {
         switch (dragSource->selectedDndAction()) {
-        case DataDeviceManagerInterface::DnDAction::None:
+        case DnDAction::None:
             m_dragCursor->setShape(Qt::ClosedHandCursor);
             break;
-        case DataDeviceManagerInterface::DnDAction::Copy:
+        case DnDAction::Copy:
             m_dragCursor->setShape(Qt::DragCopyCursor);
             break;
-        case DataDeviceManagerInterface::DnDAction::Move:
+        case DnDAction::Move:
             m_dragCursor->setShape(Qt::DragMoveCursor);
             break;
-        case DataDeviceManagerInterface::DnDAction::Ask:
+        case DnDAction::Ask:
             // Cursor themes don't have anything better in the themes yet
             // a dnd-drag-ask is proposed
             m_dragCursor->setShape(Qt::ClosedHandCursor);
@@ -1245,7 +1250,7 @@ void WaylandCursorImage::updateCursorTheme()
     qreal targetDevicePixelRatio = 1;
 
     const auto outputs = workspace()->outputs();
-    for (const Output *output : outputs) {
+    for (const LogicalOutput *output : outputs) {
         if (output->scale() > targetDevicePixelRatio) {
             targetDevicePixelRatio = output->scale();
         }

@@ -33,7 +33,7 @@
 namespace KWin
 {
 
-static QPointF confineToBoundingBox(const QPointF &pos, const QRectF &boundingBox)
+static QPointF confineToBoundingBox(const QPointF &pos, const RectF &boundingBox)
 {
     return QPointF(
         std::clamp(pos.x(), boundingBox.left(), boundingBox.right() - 1.0),
@@ -89,6 +89,11 @@ TabletInputRedirection::TabletInputRedirection(InputRedirection *parent)
 
 TabletInputRedirection::~TabletInputRedirection() = default;
 
+bool TabletInputRedirection::haveImplicitGrab() const
+{
+    return m_tipDown || m_buttonDown;
+}
+
 void TabletInputRedirection::init()
 {
     Q_ASSERT(!inited());
@@ -112,7 +117,7 @@ void TabletInputRedirection::init()
     auto tabletNextOutput = new QAction(this);
     tabletNextOutput->setProperty("componentName", QStringLiteral("kwin"));
     tabletNextOutput->setText(i18n("Move the tablet to the next output"));
-    tabletNextOutput->setObjectName(QStringLiteral("Move Tablet to Next Output"));
+    tabletNextOutput->setObjectName(QStringLiteral("Move Tablet to Next LogicalOutput"));
     KGlobalAccel::setGlobalShortcut(tabletNextOutput, QList<QKeySequence>());
     connect(tabletNextOutput, &QAction::triggered, this, &TabletInputRedirection::trackNextOutput);
 }
@@ -255,7 +260,7 @@ void TabletInputRedirection::tabletToolAxisEventRelative(const QPointF &delta,
     m_lastPosition += delta;
 
     // Make sure pointer doesn't go outside of the screens range
-    Output *output = Workspace::self()->outputAt(m_lastPosition);
+    LogicalOutput *output = Workspace::self()->outputAt(m_lastPosition);
     m_lastPosition = confineToBoundingBox(m_lastPosition, output->geometryF());
 
     m_cursorByTool[tool]->setPos(m_lastPosition);
@@ -352,7 +357,6 @@ void TabletInputRedirection::tabletToolTipEvent(const QPointF &pos, qreal pressu
         .device = device,
         .rotation = rotation,
         .position = m_lastPosition,
-        .buttons = tipDown ? Qt::LeftButton : Qt::NoButton,
         .pressure = pressure,
         .sliderPosition = sliderPosition,
         .xTilt = xTilt,
@@ -437,7 +441,7 @@ void KWin::TabletInputRedirection::tabletPadStripEvent(int number, qreal positio
     input()->setLastInputHandler(this);
 }
 
-void KWin::TabletInputRedirection::tabletPadRingEvent(int number, int position, bool isFinger, quint32 group, quint32 mode, std::chrono::microseconds time, InputDevice *device)
+void KWin::TabletInputRedirection::tabletPadRingEvent(int number, qreal position, bool isFinger, quint32 group, quint32 mode, std::chrono::microseconds time, InputDevice *device)
 {
     TabletPadRingEvent event{
         .device = device,
@@ -472,7 +476,7 @@ void KWin::TabletInputRedirection::tabletPadDialEvent(int number, double delta, 
 
 bool TabletInputRedirection::focusUpdatesBlocked()
 {
-    return input()->isSelectingWindow() || m_tipDown || m_buttonDown;
+    return input()->isSelectingWindow() || haveImplicitGrab();
 }
 
 void TabletInputRedirection::cleanupDecoration(Decoration::DecoratedWindowImpl *old,

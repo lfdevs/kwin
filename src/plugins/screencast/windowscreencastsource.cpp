@@ -9,25 +9,26 @@
 #include "screencastutils.h"
 
 #include "compositor.h"
-#include "core/output.h"
+#include "core/backendoutput.h"
 #include "core/renderloop.h"
 #include "core/rendertarget.h"
 #include "core/renderviewport.h"
 #include "effect/effect.h"
 #include "input.h"
+#include "opengl/glframebuffer.h"
 #include "opengl/gltexture.h"
-#include "opengl/glutils.h"
 #include "scene/itemrenderer.h"
 #include "scene/windowitem.h"
 #include "scene/workspacescene.h"
 #include "workspace.h"
+
 #include <drm_fourcc.h>
 
 namespace KWin
 {
 
-WindowScreenCastSource::WindowScreenCastSource(Window *window, QObject *parent)
-    : ScreenCastSource(parent)
+WindowScreenCastSource::WindowScreenCastSource(Window *window)
+    : ScreenCastSource()
 {
     add(window);
 
@@ -38,6 +39,9 @@ WindowScreenCastSource::WindowScreenCastSource(Window *window, QObject *parent)
                 Q_EMIT frame();
             }
         }
+    });
+    connect(Compositor::self(), &Compositor::aboutToToggleCompositing, this, [this]() {
+        Q_EMIT closed();
     });
 }
 
@@ -104,24 +108,24 @@ void WindowScreenCastSource::setRenderCursor(bool enable)
     m_renderCursor = enable;
 }
 
-QRegion WindowScreenCastSource::render(QImage *target, const QRegion &bufferDamage)
+Region WindowScreenCastSource::render(QImage *target, const Region &bufferDamage)
 {
     const auto offscreenTexture = GLTexture::allocate(GL_RGBA8, target->size());
     if (!offscreenTexture) {
-        return QRegion{};
+        return Region{};
     }
     offscreenTexture->setContentTransform(OutputTransform::FlipY);
 
     GLFramebuffer offscreenTarget(offscreenTexture.get());
-    render(&offscreenTarget, infiniteRegion());
+    render(&offscreenTarget, Region::infinite());
     grabTexture(offscreenTexture.get(), target);
-    return QRect(QPoint(), target->size());
+    return Rect(QPoint(), target->size());
 }
 
-QRegion WindowScreenCastSource::render(GLFramebuffer *target, const QRegion &bufferDamage)
+Region WindowScreenCastSource::render(GLFramebuffer *target, const Region &bufferDamage)
 {
     RenderTarget renderTarget(target);
-    RenderViewport viewport(boundingRect(), devicePixelRatio(), renderTarget);
+    RenderViewport viewport(boundingRect(), devicePixelRatio(), renderTarget, QPoint());
 
     WorkspaceScene *scene = Compositor::self()->scene();
 
@@ -129,18 +133,18 @@ QRegion WindowScreenCastSource::render(GLFramebuffer *target, const QRegion &buf
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glClear(GL_COLOR_BUFFER_BIT);
     for (const auto &window : m_windows) {
-        scene->renderer()->renderItem(renderTarget, viewport, window->windowItem(), Scene::PAINT_WINDOW_TRANSFORMED, infiniteRegion(), WindowPaintData{}, {}, {});
+        scene->renderer()->renderItem(renderTarget, viewport, window->windowItem(), Scene::PAINT_WINDOW_TRANSFORMED, Region::infinite(), WindowPaintData{}, {}, {});
     }
     if (m_renderCursor && scene->cursorItem()->isVisible()) {
-        scene->renderer()->renderItem(renderTarget, viewport, scene->cursorItem(), 0, infiniteRegion(), WindowPaintData{}, {}, {});
+        scene->renderer()->renderItem(renderTarget, viewport, scene->cursorItem(), 0, Region::infinite(), WindowPaintData{}, {}, {});
     }
     scene->renderer()->endFrame();
-    return QRect(QPoint(), target->size());
+    return Rect(QPoint(), target->size());
 }
 
 std::chrono::nanoseconds WindowScreenCastSource::clock() const
 {
-    return m_windows[0]->output()->renderLoop()->lastPresentationTimestamp();
+    return m_windows[0]->output()->backendOutput()->renderLoop()->lastPresentationTimestamp();
 }
 
 uint WindowScreenCastSource::refreshRate() const
@@ -192,14 +196,14 @@ QPointF WindowScreenCastSource::mapFromGlobal(const QPointF &point) const
     return point - boundingRect().topLeft();
 }
 
-QRectF WindowScreenCastSource::mapFromGlobal(const QRectF &rect) const
+RectF WindowScreenCastSource::mapFromGlobal(const RectF &rect) const
 {
     return rect.translated(-boundingRect().topLeft());
 }
 
-QRectF WindowScreenCastSource::boundingRect() const
+RectF WindowScreenCastSource::boundingRect() const
 {
-    QRectF boundingRect;
+    RectF boundingRect;
     for (const auto &window : m_windows) {
         boundingRect = boundingRect.united(window->frameGeometry());
     }

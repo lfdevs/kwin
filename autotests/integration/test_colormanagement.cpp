@@ -7,22 +7,29 @@
 #include "kwin_wayland_test.h"
 
 #include "core/colorpipeline.h"
+#include "core/drmdevice.h"
+#include "core/graphicsbuffer.h"
 #include "core/output.h"
 #include "core/outputbackend.h"
 #include "core/outputconfiguration.h"
 #include "outputconfigurationstore.h"
 #include "pointer_input.h"
 #include "tiles/tilemanager.h"
+#include "wayland-client/linuxdmabuf.h"
 #include "wayland/surface.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
 
 #include <KWayland/Client/connection_thread.h>
+#include <KWayland/Client/shm_pool.h>
 #include <KWayland/Client/surface.h>
+#include <drm_fourcc.h>
+#include <fcntl.h>
 #include <format>
 
 #include "qwayland-color-management-v1.h"
+#include "wayland-linux-dmabuf-unstable-v1-client-protocol.h"
 
 using namespace std::chrono_literals;
 
@@ -45,7 +52,7 @@ public:
         wp_image_description_v1_destroy(object());
     }
 
-    void wp_image_description_v1_ready(uint32_t identity) override
+    void wp_image_description_v1_ready2(uint32_t identity_hi, uint32_t identity_lo) override
     {
         Q_EMIT ready();
     }
@@ -95,27 +102,29 @@ private Q_SLOTS:
 
 void ColorManagementTest::initTestCase()
 {
-    qRegisterMetaType<Window *>();
+    QSKIP("v1 is forced because v2 breaks Firefox");
+    qputenv("KWIN_COMPOSE", QByteArrayLiteral("O2"));
 
     QVERIFY(waylandServer()->init(s_socketName));
     kwinApp()->start();
     Test::setOutputConfig({
-        QRect(0, 0, 1280, 1024),
-        QRect(1280, 0, 1280, 1024),
+        Rect(0, 0, 1280, 1024),
+        Rect(1280, 0, 1280, 1024),
     });
     const auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
-    QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
-    QCOMPARE(outputs[1]->geometry(), QRect(1280, 0, 1280, 1024));
+    QCOMPARE(outputs[0]->geometry(), Rect(0, 0, 1280, 1024));
+    QCOMPARE(outputs[1]->geometry(), Rect(1280, 0, 1280, 1024));
 }
 
 void ColorManagementTest::init()
 {
     Test::setOutputConfig({
-        QRect(0, 0, 1280, 1024),
-        QRect(1280, 0, 1280, 1024),
+        Rect(0, 0, 1280, 1024),
+        Rect(1280, 0, 1280, 1024),
     });
-    QVERIFY(Test::setupWaylandConnection(Test::AdditionalWaylandInterface::ColorManagement));
+    QVERIFY(Test::setupWaylandConnection(Test::AdditionalWaylandInterface::ColorManagement
+                                         | Test::AdditionalWaylandInterface::ColorRepresentation));
 
     workspace()->setActiveOutput(QPoint(640, 512));
     input()->pointer()->warp(QPoint(640, 512));
@@ -263,19 +272,18 @@ void ColorManagementTest::testSetImageDescription_data()
         << RenderingIntent::RelativeColorimetricWithBPC
         << false << true
         << std::optional<std::shared_ptr<ColorDescription>>();
-    // TODO uncomment this once a matching rendering intent is added to the Wayland protocol
-    // QTest::addRow("rec.2020 PQ absolute colorimetric")
-    //     << std::make_shared<ColorDescription>(ColorDescription{
-    //            Colorimetry::BT2020,
-    //            TransferFunction(TransferFunction::PerceptualQuantizer),
-    //            203,
-    //            0,
-    //            400,
-    //            400,
-    //        })
-    //     << RenderingIntent::AbsoluteColorimetricNoAdaptation
-    //     << false << true
-    //     << std::optional<std::shared_ptr<ColorDescription>>();
+    QTest::addRow("rec.2020 PQ absolute colorimetric")
+        << std::make_shared<ColorDescription>(ColorDescription{
+               Colorimetry::BT2020,
+               TransferFunction(TransferFunction::PerceptualQuantizer),
+               203,
+               0,
+               400,
+               400,
+           })
+        << RenderingIntent::AbsoluteColorimetricNoAdaptation
+        << false << true
+        << std::optional<std::shared_ptr<ColorDescription>>();
     QTest::addRow("rec.709 + BT1886")
         << std::make_shared<ColorDescription>(ColorDescription{
                Colorimetry::BT709,
@@ -284,6 +292,37 @@ void ColorManagementTest::testSetImageDescription_data()
                0.1,
                100,
                100,
+           })
+        << RenderingIntent::Perceptual
+        << false << true
+        << std::optional<std::shared_ptr<ColorDescription>>();
+
+    QTest::addRow("rec601 limited range YUV")
+        << std::make_shared<ColorDescription>(ColorDescription{
+               Colorimetry::BT709,
+               TransferFunction(TransferFunction::BT1886),
+               YUVMatrixCoefficients::BT601,
+               EncodingRange::Limited,
+           })
+        << RenderingIntent::Perceptual
+        << false << true
+        << std::optional<std::shared_ptr<ColorDescription>>();
+    QTest::addRow("rec709 full range YUV")
+        << std::make_shared<ColorDescription>(ColorDescription{
+               Colorimetry::BT709,
+               TransferFunction(TransferFunction::BT1886),
+               YUVMatrixCoefficients::BT709,
+               EncodingRange::Full,
+           })
+        << RenderingIntent::Perceptual
+        << false << true
+        << std::optional<std::shared_ptr<ColorDescription>>();
+    QTest::addRow("rec2020 limited range YUV")
+        << std::make_shared<ColorDescription>(ColorDescription{
+               Colorimetry::BT709,
+               TransferFunction(TransferFunction::PerceptualQuantizer),
+               YUVMatrixCoefficients::BT2020,
+               EncodingRange::Limited,
            })
         << RenderingIntent::Perceptual
         << false << true
@@ -304,7 +343,7 @@ static ImageDescription createImageDescription(ColorManagementSurface *surface, 
                           std::round(1'000'000.0 * color.containerColorimetry().white().toxyY().y));
     switch (color.transferFunction().type) {
     case TransferFunction::sRGB:
-        creator.set_tf_named(WP_COLOR_MANAGER_V1_TRANSFER_FUNCTION_SRGB);
+        creator.set_tf_named(WP_COLOR_MANAGER_V1_TRANSFER_FUNCTION_COMPOUND_POWER_2_4);
         break;
     case TransferFunction::gamma22:
         creator.set_tf_named(WP_COLOR_MANAGER_V1_TRANSFER_FUNCTION_GAMMA22);
@@ -327,6 +366,44 @@ static ImageDescription createImageDescription(ColorManagementSurface *surface, 
     return ImageDescription(wp_image_description_creator_params_v1_create(creator.object()));
 }
 
+static const std::unordered_map<YUVMatrixCoefficients, wp_color_representation_surface_v1_coefficients> s_coefficientsMap = {
+    {YUVMatrixCoefficients::Identity, WP_COLOR_REPRESENTATION_SURFACE_V1_COEFFICIENTS_IDENTITY},
+    {YUVMatrixCoefficients::BT601, WP_COLOR_REPRESENTATION_SURFACE_V1_COEFFICIENTS_BT601},
+    {YUVMatrixCoefficients::BT709, WP_COLOR_REPRESENTATION_SURFACE_V1_COEFFICIENTS_BT709},
+    {YUVMatrixCoefficients::BT2020, WP_COLOR_REPRESENTATION_SURFACE_V1_COEFFICIENTS_BT2020},
+};
+static const std::unordered_map<EncodingRange, wp_color_representation_surface_v1_range> s_rangeMap = {
+    {EncodingRange::Limited, WP_COLOR_REPRESENTATION_SURFACE_V1_RANGE_LIMITED},
+    {EncodingRange::Full, WP_COLOR_REPRESENTATION_SURFACE_V1_RANGE_FULL},
+};
+
+static std::unique_ptr<Test::ColorRepresentationSurfaceV1> createRepresentation(KWayland::Client::Surface *surf,
+                                                                                const std::shared_ptr<ColorDescription> &color)
+{
+    auto ret = std::make_unique<Test::ColorRepresentationSurfaceV1>(Test::colorRepresentation()->get_surface(*surf));
+    ret->set_coefficients_and_range(s_coefficientsMap.at(color->yuvCoefficients()), s_rangeMap.at(color->range()));
+    return ret;
+}
+
+#if HAVE_MEMFD
+static wl_buffer *createYuvBuffer(const QSize &size)
+{
+    FileDescriptor fd{memfd_create("kwayland-shared", MFD_CLOEXEC | MFD_ALLOW_SEALING)};
+    if (!fd.isValid()) {
+        return nullptr;
+    }
+    const uint32_t bytesPerPixel = 4;
+    if (ftruncate(fd.get(), size.width() * size.height() * bytesPerPixel) < 0) {
+        return nullptr;
+    }
+    fcntl(fd.get(), F_ADD_SEALS, F_SEAL_SHRINK | F_SEAL_SEAL);
+    wl_shm_pool *pool = wl_shm_create_pool(Test::waylandShmPool()->shm(), fd.get(), size.width() * size.height() * bytesPerPixel);
+    wl_buffer *buffer = wl_shm_pool_create_buffer(pool, 0, size.width(), size.height(), size.width() * bytesPerPixel, DRM_FORMAT_XYUV8888);
+    wl_shm_pool_destroy(pool);
+    return buffer;
+}
+#endif
+
 void ColorManagementTest::testSetImageDescription()
 {
     std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
@@ -340,6 +417,19 @@ void ColorManagementTest::testSetImageDescription()
     QFETCH(RenderingIntent, renderingIntent);
 
     ImageDescription imageDescr = createImageDescription(cmSurf.get(), *input);
+    auto representation = createRepresentation(surface.get(), input);
+
+    // YUV color descriptions require YUV buffers
+    wl_buffer *buffer = nullptr;
+    if (input->yuvCoefficients() != YUVMatrixCoefficients::Identity) {
+#if HAVE_MEMFD
+        buffer = createYuvBuffer(QSize(100, 50));
+        QVERIFY(buffer);
+        surface->attachBuffer(buffer);
+#else
+        Q_SKIP("YUV tests without memfd aren't implemented");
+#endif
+    }
 
     QFETCH(bool, protocolError);
     if (protocolError) {
@@ -360,7 +450,7 @@ void ColorManagementTest::testSetImageDescription()
         waylandRenderIntent = WP_COLOR_MANAGER_V1_RENDER_INTENT_RELATIVE_BPC;
         break;
     case RenderingIntent::AbsoluteColorimetricNoAdaptation:
-        Q_UNREACHABLE();
+        waylandRenderIntent = WP_COLOR_MANAGER_V1_RENDER_INTENT_ABSOLUTE_NO_ADAPTATION;
         break;
     default:
         Q_UNREACHABLE();
@@ -388,6 +478,9 @@ void ColorManagementTest::testSetImageDescription()
         QSignalSpy error(Test::waylandConnection(), &KWayland::Client::ConnectionThread::errorOccurred);
         cmSurf->set_image_description(imageDescr.object(), waylandRenderIntent);
         QVERIFY(error.wait(50ms));
+    }
+    if (buffer) {
+        wl_buffer_destroy(buffer);
     }
 }
 

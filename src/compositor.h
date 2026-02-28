@@ -14,7 +14,6 @@
 
 #include <QHash>
 #include <QObject>
-#include <QRegion>
 
 #include <memory>
 
@@ -23,7 +22,8 @@ namespace KWin
 
 class ColorDescription;
 class GLTexture;
-class Output;
+class LogicalOutput;
+class BackendOutput;
 class RenderBackend;
 class OutputLayer;
 class RenderLoop;
@@ -33,6 +33,7 @@ class Window;
 class OutputFrame;
 class SceneView;
 class ItemView;
+class RenderLoopDrivenQAnimationDriver;
 
 class KWIN_EXPORT Compositor : public QObject
 {
@@ -94,14 +95,15 @@ private Q_SLOTS:
     void handleFrameRequested(RenderLoop *renderLoop);
 
 protected:
-    Output *findOutput(RenderLoop *loop) const;
+    BackendOutput *findOutput(RenderLoop *loop) const;
 
     void createScene();
     bool attemptOpenGLCompositing();
     bool attemptQPainterCompositing();
-    void addOutput(Output *output);
-    void removeOutput(Output *output);
-    void assignOutputLayers(Output *output);
+    void handleOutputsChanged();
+    void addOutput(LogicalOutput *logicalOutput, BackendOutput *backendOutput);
+    void removeOutput(BackendOutput *output);
+    void assignOutputLayers(LogicalOutput *logicalOutput, BackendOutput *backendOutput);
 
     CompositingType m_selectedCompositor = NoCompositing;
 
@@ -111,6 +113,8 @@ protected:
     std::unordered_map<RenderLoop *, std::unique_ptr<SceneView>> m_primaryViews;
     std::unordered_map<RenderLoop *, std::unordered_map<OutputLayer *, std::unique_ptr<ItemView>>> m_overlayViews;
     std::unordered_set<RenderLoop *> m_brokenCursors;
+    std::optional<bool> m_allowOverlaysEnv;
+    RenderLoopDrivenQAnimationDriver *m_renderLoopDrivenAnimationDriver;
 };
 
 } // namespace KWin

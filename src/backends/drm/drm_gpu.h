@@ -7,6 +7,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #pragma once
+#include "kwin_export.h"
 
 #include "core/drmdevice.h"
 #include "drm_buffer.h"
@@ -62,7 +63,7 @@ private:
     const QList<DrmOutput *> m_outputs;
 };
 
-class DrmGpu : public QObject
+class KWIN_EXPORT DrmGpu : public QObject
 {
     Q_OBJECT
 public:
@@ -86,11 +87,13 @@ public:
     bool addFB2ModifiersSupported() const;
     bool forceLowBandwidthMode() const;
     bool asyncPageflipSupported() const;
+    bool colorPipelineSupported() const;
     bool isI915() const;
     bool isNVidia() const;
     bool isAmdgpu() const;
     bool isVmwgfx() const;
     bool isVirtualMachine() const;
+    bool sharpnessSupported() const;
     std::optional<Version> nvidiaDriverVersion() const;
     QString driverName() const;
     EglDisplay *eglDisplay() const;
@@ -119,7 +122,7 @@ public:
     void forgetBuffer(GraphicsBuffer *buf);
     void releaseBuffers();
     void createLayers();
-    QList<OutputLayer *> compatibleOutputLayers(Output *output) const;
+    QList<OutputLayer *> compatibleOutputLayers(BackendOutput *output) const;
 
     FileDescriptor createNonMasterFd() const;
     std::unique_ptr<DrmLease> leaseOutputs(const QList<DrmOutput *> &outputs);
@@ -140,7 +143,7 @@ private:
     void forgetBufferObject(QObject *buf);
     void doModeset();
 
-    DrmPipeline::Error checkCrtcAssignment(QList<DrmConnector *> connectors, const QList<DrmCrtc *> &crtcs);
+    DrmPipeline::Error checkCrtcAssignment(QList<DrmConnector *> connectors, const QList<DrmCrtc *> &crtcs, std::chrono::steady_clock::time_point deadline);
     DrmPipeline::Error testPipelines();
     QList<DrmObject *> unusedModesetObjects() const;
     void assignOutputLayers();
@@ -159,10 +162,13 @@ private:
     QString m_driverName;
     bool m_supportsCursorPlaneHotspot = false;
     bool m_asyncPageflipSupported = false;
+    bool m_colorPipelineSupported = false;
     bool m_isRemoved = false;
     bool m_isActive = true;
     bool m_forceModeset = false;
     bool m_forceLowBandwidthMode = false;
+    bool m_forceImplicitModifiers = false;
+    bool m_sharpnessSupported = false;
     clockid_t m_presentationClock;
     std::unique_ptr<EglDisplay> m_eglDisplay;
     DrmBackend *const m_platform;

@@ -3,15 +3,15 @@
 # Andrea Rizzi <rizzi@kde.org>, 2003, 2005.
 # Andrea RIZZI <arizzi@pi.infn.it>, 2004.
 # Luciano Montanaro <mikelima@cirulla.net>, 2007, 2010, 2012.
-# SPDX-FileCopyrightText: 2015, 2018, 2019, 2020, 2021, 2023, 2024, 2025 Vincenzo Reale <smart2128vr@gmail.com>
+# SPDX-FileCopyrightText: 2015, 2018, 2019, 2020, 2021, 2023, 2024, 2025, 2026 Vincenzo Reale <smart2128vr@gmail.com>
 # Paolo Zamponi <feus73@gmail.com>, 2019.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 14:41+0000\n"
-"PO-Revision-Date: 2025-05-31 07:46+0200\n"
+"POT-Creation-Date: 2026-01-28 02:43+0000\n"
+"PO-Revision-Date: 2026-01-29 15:23+0100\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -19,59 +19,64 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 25.04.1\n"
+"X-Generator: Lokalize 25.12.1\n"
 
-#: declarative-plugin/buttonsmodel.cpp:55
+#: declarative-plugin/buttonsmodel.cpp:56
 #, kde-format
 msgid "Window menu"
 msgstr "Menu della finestra"
 
-#: declarative-plugin/buttonsmodel.cpp:57
+#: declarative-plugin/buttonsmodel.cpp:58
 #, kde-format
 msgid "Application menu"
 msgstr "Menu dell'applicazione"
 
-#: declarative-plugin/buttonsmodel.cpp:59
+#: declarative-plugin/buttonsmodel.cpp:60
 #, kde-format
 msgid "On all desktops"
 msgstr "Su tutti i desktop"
 
-#: declarative-plugin/buttonsmodel.cpp:61
+#: declarative-plugin/buttonsmodel.cpp:62
 #, kde-format
 msgid "Minimize"
 msgstr "Minimizza"
 
-#: declarative-plugin/buttonsmodel.cpp:63
+#: declarative-plugin/buttonsmodel.cpp:64
 #, kde-format
 msgid "Maximize"
 msgstr "Massimizza"
 
-#: declarative-plugin/buttonsmodel.cpp:65
+#: declarative-plugin/buttonsmodel.cpp:66
 #, kde-format
 msgid "Close"
 msgstr "Chiudi"
 
-#: declarative-plugin/buttonsmodel.cpp:67
+#: declarative-plugin/buttonsmodel.cpp:68
 #, kde-format
 msgid "Context help"
 msgstr "Aiuto contestuale"
 
-#: declarative-plugin/buttonsmodel.cpp:69
+#: declarative-plugin/buttonsmodel.cpp:70
 #, kde-format
 msgid "Keep below other windows"
 msgstr "Mantieni sotto le altre finestre"
 
-#: declarative-plugin/buttonsmodel.cpp:71
+#: declarative-plugin/buttonsmodel.cpp:72
 #, kde-format
 msgid "Keep above other windows"
 msgstr "Mantieni sopra le altre finestre"
 
-#: declarative-plugin/buttonsmodel.cpp:73
+#: declarative-plugin/buttonsmodel.cpp:74
+#, kde-format
+msgid "Hide from screencast"
+msgstr "Nascondi dalla registrazione dello schermo"
+
+#: declarative-plugin/buttonsmodel.cpp:76
 #, kde-format
 msgid "Spacer"
 msgstr "Spaziatore"
 
-#: kcm.cpp:177
+#: kcm.cpp:186
 #, kde-format
 msgctxt "%1 is the name of a border size"
 msgid "Theme default (%1)"
@@ -204,6 +209,32 @@ msgstr ""
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
 msgstr "Mostra i suggerimenti per i pulsanti della barra del titolo"
+
+#: ui/ConfigureTitlebar.qml:73
+#, kde-format
+msgctxt "@option:check"
+msgid "Always show \"Hide from Screencast\" button"
+msgstr "Mostra sempre il pulsante «Nascondi dalla registrazione dello schermo»"
+
+#: ui/ConfigureTitlebar.qml:85
+#, kde-format
+msgctxt "@info:tooltip"
+msgid ""
+"When unchecked the button only appears if the window is hidden from "
+"screencast"
+msgstr ""
+"Se non selezionata, il pulsante appare solo se la finestra è nascosta dalla "
+"registrazione dello schermo"
+
+#: ui/ConfigureTitlebar.qml:86
+#, kde-format
+msgctxt "@info:tooltip"
+msgid ""
+"To enable this option, add the \"Hide from screencast\" button to the "
+"titlebar first"
+msgstr ""
+"Per abilitare questa opzione, aggiungi prima il pulsante «Nascondi dalla "
+"registrazione dello schermo» alla barra del titolo"
 
 #: ui/main.qml:29
 #, kde-format

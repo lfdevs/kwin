@@ -50,13 +50,13 @@ void TestDontCrashUseractionsMenu::initTestCase()
 
     kwinApp()->start();
     Test::setOutputConfig({
-        QRect(0, 0, 1280, 1024),
-        QRect(1280, 0, 1280, 1024),
+        Rect(0, 0, 1280, 1024),
+        Rect(1280, 0, 1280, 1024),
     });
     const auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
-    QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
-    QCOMPARE(outputs[1]->geometry(), QRect(1280, 0, 1280, 1024));
+    QCOMPARE(outputs[0]->geometry(), Rect(0, 0, 1280, 1024));
+    QCOMPARE(outputs[1]->geometry(), Rect(1280, 0, 1280, 1024));
 }
 
 void TestDontCrashUseractionsMenu::init()
@@ -80,7 +80,7 @@ void TestDontCrashUseractionsMenu::testShowHideShowUseractionsMenu()
     auto window = Test::renderAndWaitForShown(surface1.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window);
 
-    workspace()->showWindowMenu(QRect(), window);
+    workspace()->showWindowMenu(Rect(), window);
     auto userActionsMenu = workspace()->userActionsMenu();
     QTRY_VERIFY(userActionsMenu->isShown());
     QVERIFY(userActionsMenu->hasWindow());
@@ -91,7 +91,7 @@ void TestDontCrashUseractionsMenu::testShowHideShowUseractionsMenu()
     QVERIFY(!userActionsMenu->hasWindow());
 
     // and show again, this triggers BUG 382063
-    workspace()->showWindowMenu(QRect(), window);
+    workspace()->showWindowMenu(Rect(), window);
     QTRY_VERIFY(userActionsMenu->isShown());
     QVERIFY(userActionsMenu->hasWindow());
 }

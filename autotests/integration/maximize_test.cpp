@@ -53,13 +53,13 @@ void TestMaximized::initTestCase()
 
     kwinApp()->start();
     Test::setOutputConfig({
-        QRect(0, 0, 1280, 1024),
-        QRect(1280, 0, 1280, 1024),
+        Rect(0, 0, 1280, 1024),
+        Rect(1280, 0, 1280, 1024),
     });
     const auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
-    QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
-    QCOMPARE(outputs[1]->geometry(), QRect(1280, 0, 1280, 1024));
+    QCOMPARE(outputs[0]->geometry(), Rect(0, 0, 1280, 1024));
+    QCOMPARE(outputs[1]->geometry(), Rect(1280, 0, 1280, 1024));
 }
 
 void TestMaximized::init()
@@ -187,7 +187,7 @@ void TestMaximized::testInitiallyMaximizedBorderless()
     QVERIFY(window->isMaximizable());
     QCOMPARE(window->maximizeMode(), MaximizeMode::MaximizeFull);
     QCOMPARE(window->requestedMaximizeMode(), MaximizeMode::MaximizeFull);
-    QCOMPARE(window->frameGeometry(), QRect(0, 0, 1280, 1024));
+    QCOMPARE(window->frameGeometry(), RectF(0, 0, 1280, 1024));
     QCOMPARE(decorationConfigureRequestedSpy.last().at(0).value<Test::XdgToplevelDecorationV1::mode>(),
              Test::XdgToplevelDecorationV1::mode_server_side);
 
@@ -245,7 +245,7 @@ void TestMaximized::testBorderlessMaximizedWindow()
     QVERIFY(!states.testFlag(Test::XdgToplevel::State::Maximized));
 
     // Maximize the window.
-    const QRectF maximizeRestoreGeometry = window->frameGeometry();
+    const RectF maximizeRestoreGeometry = window->frameGeometry();
     workspace()->slotWindowMaximize();
     QVERIFY(surfaceConfigureRequestedSpy.wait());
     QCOMPARE(surfaceConfigureRequestedSpy.count(), 3);
@@ -258,7 +258,7 @@ void TestMaximized::testBorderlessMaximizedWindow()
     shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy.last().at(0).value<quint32>());
     Test::render(surface.get(), QSize(1280, 1024), Qt::blue);
     QVERIFY(frameGeometryChangedSpy.wait());
-    QCOMPARE(window->frameGeometry(), QRect(0, 0, 1280, 1024));
+    QCOMPARE(window->frameGeometry(), RectF(0, 0, 1280, 1024));
     QCOMPARE(window->maximizeMode(), MaximizeMode::MaximizeFull);
     QCOMPARE(window->requestedMaximizeMode(), MaximizeMode::MaximizeFull);
     QCOMPARE(window->isDecorated(), false);

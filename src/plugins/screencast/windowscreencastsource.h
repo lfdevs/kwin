@@ -20,7 +20,7 @@ class WindowScreenCastSource : public ScreenCastSource
     Q_OBJECT
 
 public:
-    explicit WindowScreenCastSource(Window *window, QObject *parent = nullptr);
+    explicit WindowScreenCastSource(Window *window);
     ~WindowScreenCastSource() override;
 
     quint32 drmFormat() const override;
@@ -29,8 +29,8 @@ public:
     uint refreshRate() const override;
 
     void setRenderCursor(bool enable) override;
-    QRegion render(GLFramebuffer *target, const QRegion &bufferDamage) override;
-    QRegion render(QImage *target, const QRegion &bufferDamage) override;
+    Region render(GLFramebuffer *target, const Region &bufferDamage) override;
+    Region render(QImage *target, const Region &bufferDamage) override;
     std::chrono::nanoseconds clock() const override;
 
     void resume() override;
@@ -39,13 +39,13 @@ public:
     bool includesCursor(Cursor *cursor) const override;
 
     QPointF mapFromGlobal(const QPointF &point) const override;
-    QRectF mapFromGlobal(const QRectF &rect) const override;
+    RectF mapFromGlobal(const RectF &rect) const override;
 
 private:
     void add(Window *window);
     void watch(Window *window);
     void unwatch(Window *window);
-    QRectF boundingRect() const;
+    RectF boundingRect() const;
 
     QList<Window *> m_windows;
     bool m_active = false;

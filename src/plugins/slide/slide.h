@@ -57,11 +57,11 @@ public:
     void reconfigure(ReconfigureFlags) override;
 
     void prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseconds presentTime) override;
-    void paintScreen(const RenderTarget &renderTarget, const RenderViewport &viewport, int mask, const QRegion &region, Output *screen) override;
+    void paintScreen(const RenderTarget &renderTarget, const RenderViewport &viewport, int mask, const Region &deviceRegion, LogicalOutput *screen) override;
     void postPaintScreen() override;
 
-    void prePaintWindow(EffectWindow *w, WindowPrePaintData &data, std::chrono::milliseconds presentTime) override;
-    void paintWindow(const RenderTarget &renderTarget, const RenderViewport &viewport, EffectWindow *w, int mask, QRegion region, WindowPaintData &data) override;
+    void prePaintWindow(RenderView *view, EffectWindow *w, WindowPrePaintData &data, std::chrono::milliseconds presentTime) override;
+    void paintWindow(const RenderTarget &renderTarget, const RenderViewport &viewport, EffectWindow *w, int mask, const Region &deviceGeometry, WindowPaintData &data) override;
 
     bool isActive() const override;
     int requestedEffectChainPosition() const override;
@@ -80,7 +80,7 @@ private Q_SLOTS:
     void windowDeleted(EffectWindow *w);
 
 private:
-    QPoint getDrawCoords(QPointF pos, Output *screen);
+    QPoint getDrawCoords(QPointF pos, LogicalOutput *screen);
     bool isTranslated(const EffectWindow *w) const;
     bool willBePainted(const EffectWindow *w) const;
     bool shouldElevate(const EffectWindow *w) const;

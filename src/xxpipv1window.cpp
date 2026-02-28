@@ -76,25 +76,20 @@ bool XXPipV1Window::wantsInput() const
     return false;
 }
 
-bool XXPipV1Window::takeFocus()
-{
-    return false;
-}
-
 bool XXPipV1Window::acceptsFocus() const
 {
     return false;
 }
 
-XdgSurfaceConfigure *XXPipV1Window::sendRoleConfigure() const
+XdgSurfaceConfigure *XXPipV1Window::sendRoleConfigure()
 {
     surface()->setPreferredBufferScale(nextTargetScale());
     surface()->setPreferredBufferTransform(preferredBufferTransform());
     surface()->setPreferredColorDescription(preferredColorDescription());
 
-    const QRectF geometry = moveResizeGeometry();
+    const RectF geometry = moveResizeGeometry();
     if (geometry.isEmpty()) {
-        const QRectF workArea = workspace()->clientArea(PlacementArea, this, moveResizeOutput());
+        const RectF workArea = workspace()->clientArea(PlacementArea, this, moveResizeOutput());
         m_shellSurface->sendConfigureBounds(workArea.size() * 0.25);
     }
 

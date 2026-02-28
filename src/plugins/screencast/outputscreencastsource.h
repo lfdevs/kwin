@@ -6,7 +6,6 @@
 
 #pragma once
 
-#include "core/outputlayer.h"
 #include "screencastsource.h"
 
 #include <QPointer>
@@ -14,10 +13,9 @@
 namespace KWin
 {
 
-class Output;
-class SceneView;
+class FilteredSceneView;
 class ItemTreeView;
-class EglContext;
+class LogicalOutput;
 class ScreencastLayer;
 
 class OutputScreenCastSource : public ScreenCastSource
@@ -25,7 +23,7 @@ class OutputScreenCastSource : public ScreenCastSource
     Q_OBJECT
 
 public:
-    explicit OutputScreenCastSource(Output *output, QObject *parent = nullptr);
+    explicit OutputScreenCastSource(LogicalOutput *output, std::optional<pid_t> pidToHide);
     ~OutputScreenCastSource() override;
 
     uint refreshRate() const override;
@@ -34,8 +32,8 @@ public:
     quint32 drmFormat() const override;
 
     void setRenderCursor(bool enable) override;
-    QRegion render(GLFramebuffer *target, const QRegion &bufferRepair) override;
-    QRegion render(QImage *target, const QRegion &bufferRepair) override;
+    Region render(GLFramebuffer *target, const Region &bufferRepair) override;
+    Region render(QImage *target, const Region &bufferRepair) override;
     std::chrono::nanoseconds clock() const override;
 
     void resume() override;
@@ -44,15 +42,16 @@ public:
     bool includesCursor(Cursor *cursor) const override;
 
     QPointF mapFromGlobal(const QPointF &point) const override;
-    QRectF mapFromGlobal(const QRectF &rect) const override;
+    RectF mapFromGlobal(const RectF &rect) const override;
 
 private:
-    void updateView();
-    QPointer<Output> m_output;
+    QPointer<LogicalOutput> m_output;
+    std::optional<pid_t> m_pidToHide;
     std::unique_ptr<ScreencastLayer> m_layer;
-    std::unique_ptr<SceneView> m_sceneView;
+    std::unique_ptr<FilteredSceneView> m_sceneView;
     std::unique_ptr<ItemTreeView> m_cursorView;
     bool m_active = false;
+    bool m_renderCursor = false;
 };
 
 } // namespace KWin

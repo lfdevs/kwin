@@ -3,14 +3,12 @@
     This file is part of the KDE project.
 
     SPDX-FileCopyrightText: 2019 Roman Gilg <subdiff@gmail.com>
+    SPDX-FileCopyrightText: 2025 Vlad Zahorodnii <vlad.zahorodnii@kde.org>
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "clipboard.h"
-
 #include "datasource.h"
-#include "selection_source.h"
-
 #include "main.h"
 #include "wayland/display.h"
 #include "wayland/seat.h"
@@ -31,12 +29,11 @@ namespace Xwl
 Clipboard::Clipboard(xcb_atom_t atom, QObject *parent)
     : Selection(atom, parent)
 {
-    xcb_connection_t *xcbConn = kwinApp()->x11Connection();
-
     const uint32_t clipboardValues[] = {XCB_EVENT_MASK_SUBSTRUCTURE_NOTIFY | XCB_EVENT_MASK_PROPERTY_CHANGE};
-    xcb_create_window(xcbConn,
+    m_window = xcb_generate_id(kwinApp()->x11Connection());
+    xcb_create_window(kwinApp()->x11Connection(),
                       XCB_COPY_FROM_PARENT,
-                      window(),
+                      m_window,
                       kwinApp()->x11RootWindow(),
                       0, 0,
                       10, 10,
@@ -46,15 +43,17 @@ Clipboard::Clipboard(xcb_atom_t atom, QObject *parent)
                       XCB_CW_EVENT_MASK,
                       clipboardValues);
     registerXfixes();
-    xcb_flush(xcbConn);
 
     connect(waylandServer()->seat(), &SeatInterface::selectionChanged, this, &Clipboard::onSelectionChanged);
     connect(workspace(), &Workspace::windowActivated, this, &Clipboard::onActiveWindowChanged);
 }
 
-bool Clipboard::ownsSelection(AbstractDataSource *dsi) const
+Clipboard::~Clipboard()
 {
-    return dsi && dsi == m_selectionSource.get();
+    // If m_xSource is the current selection, we do not want onSelectionChanged() to get called
+    // while the Clipboard is already partially destroyed.
+    disconnect(waylandServer()->seat(), &SeatInterface::selectionChanged, this, &Clipboard::onSelectionChanged);
+    m_xSource.reset();
 }
 
 bool Clipboard::x11ClientsCanAccessSelection() const
@@ -69,16 +68,12 @@ void Clipboard::onSelectionChanged()
     }
 
     auto currentSelection = waylandServer()->seat()->selection();
-    if (!currentSelection || ownsSelection(currentSelection)) {
-        if (wlSource()) {
-            setWlSource(nullptr);
-            ownSelection(false);
-        }
+    if (!currentSelection || ownsDataSource(currentSelection)) {
+        setWlSource(nullptr);
         return;
     }
 
-    setWlSource(new WlSource(currentSelection, this));
-    ownSelection(true);
+    setWlSource(currentSelection);
 }
 
 void Clipboard::onActiveWindowChanged()
@@ -90,64 +85,33 @@ void Clipboard::onActiveWindowChanged()
 
     // If the current selection is owned by an X11 client => do nothing. If the selection is
     // owned by a Wayland client, X11 clients can access it only when they are focused.
-    if (!ownsSelection(currentSelection)) {
+    if (!ownsDataSource(currentSelection)) {
         if (x11ClientsCanAccessSelection()) {
-            setWlSource(new WlSource(currentSelection, this));
-            ownSelection(true);
+            setWlSource(currentSelection);
         } else {
-            if (wlSource()) {
-                setWlSource(nullptr);
-                ownSelection(false);
-            }
+            setWlSource(nullptr);
         }
     }
 }
 
-void Clipboard::doHandleXfixesNotify(xcb_xfixes_selection_notify_event_t *event)
+void Clipboard::selectionDisowned()
 {
-    createX11Source(event);
-
-    if (X11Source *source = x11Source()) {
-        source->getTargets();
-    } else {
-        qCWarning(KWIN_XWL) << "Could not create a source from" << event << Qt::hex << (event ? event->owner : -1);
-    }
+    m_xSource.reset();
 }
 
-void Clipboard::x11OfferLost()
+void Clipboard::selectionClaimed(xcb_xfixes_selection_notify_event_t *event)
 {
-    m_selectionSource.reset();
+    requestTargets();
 }
 
-void Clipboard::x11OffersChanged(const QStringList &added, const QStringList &removed)
+void Clipboard::targetsReceived(const QStringList &mimeTypes)
 {
-    X11Source *source = x11Source();
-    if (!source) {
-        qCWarning(KWIN_XWL) << "offers changed when not having an X11Source!?";
-        return;
-    }
+    auto newSelection = std::make_unique<XwlDataSource>(this);
+    newSelection->setMimeTypes(mimeTypes);
 
-    const Mimes offers = source->offers();
-
-    if (!offers.isEmpty()) {
-        QStringList mimeTypes;
-        mimeTypes.reserve(offers.size());
-        std::transform(offers.begin(), offers.end(), std::back_inserter(mimeTypes), [](const Mimes::value_type &pair) {
-            return pair.first;
-        });
-        auto newSelection = std::make_unique<XwlDataSource>();
-        newSelection->setMimeTypes(mimeTypes);
-        connect(newSelection.get(), &XwlDataSource::dataRequested, source, &X11Source::startTransfer);
-        // we keep the old selection around because setSelection needs it to be still alive
-        std::swap(m_selectionSource, newSelection);
-        waylandServer()->seat()->setSelection(m_selectionSource.get(), waylandServer()->display()->nextSerial());
-    } else {
-        AbstractDataSource *currentSelection = waylandServer()->seat()->selection();
-        if (ownsSelection(currentSelection)) {
-            waylandServer()->seat()->setSelection(nullptr, waylandServer()->display()->nextSerial());
-            m_selectionSource.reset();
-        }
-    }
+    // we keep the old selection around because setSelection needs it to be still alive
+    std::swap(m_xSource, newSelection);
+    waylandServer()->seat()->setSelection(m_xSource.get(), waylandServer()->display()->nextSerial());
 }
 
 } // namespace Xwl

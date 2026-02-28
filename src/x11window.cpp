@@ -26,6 +26,7 @@
 #include "placement.h"
 #include "scene/windowitem.h"
 #include "shadow.h"
+#include "utils/envvar.h"
 #include "virtualdesktops.h"
 #include "wayland/surface.h"
 #include "wayland/xwaylandshell_v1.h"
@@ -123,24 +124,12 @@ X11Window::X11Window()
     setOutput(workspace()->activeOutput());
     setMoveResizeOutput(workspace()->activeOutput());
 
-    // TODO: Do all as initialization
-    m_syncRequest.counter = m_syncRequest.alarm = XCB_NONE;
-    m_syncRequest.timeout = nullptr;
-    m_syncRequest.lastTimestamp = xTime();
-    m_syncRequest.enabled = false;
-    m_syncRequest.pending = false;
-    m_syncRequest.acked = false;
-    m_syncRequest.interactiveResize = false;
-
     // Set the initial mapping state
     mapping_state = Withdrawn;
 
     info = nullptr;
 
     m_fullscreenMode = FullScreenNone;
-    noborder = false;
-    app_noborder = false;
-    ignore_focus_stealing = false;
     check_active_modal = false;
 
     max_mode = MaximizeRestore;
@@ -334,7 +323,6 @@ bool X11Window::track(xcb_window_t w)
     m_frameGeometry = Xcb::fromXNative(geo.rect());
     m_clientGeometry = Xcb::fromXNative(geo.rect());
     checkOutput();
-    m_visual = attr->visual;
     bit_depth = geo->depth;
     info = new NETWinInfo(kwinApp()->x11Connection(), w, kwinApp()->x11RootWindow(),
                           NET::WMWindowType,
@@ -358,6 +346,8 @@ bool X11Window::track(xcb_window_t w)
 
 bool X11Window::manage(xcb_window_t w, bool isMapped)
 {
+    Q_ASSERT(m_client == XCB_WINDOW_NONE);
+
     StackingUpdatesBlocker stacking_blocker(workspace());
 
     Xcb::WindowAttributes attr(w);
@@ -369,9 +359,10 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
     // From this place on, manage() must not return false
     blockGeometryUpdates();
 
-    embedClient(w, attr->visual, attr->colormap, windowGeometry.rect(), windowGeometry->depth);
+    m_client.reset(w, false, windowGeometry.rect());
+    m_client.setBorderWidth(0);
+    m_client.selectInput(XCB_EVENT_MASK_FOCUS_CHANGE | XCB_EVENT_MASK_PROPERTY_CHANGE);
 
-    m_visual = attr->visual;
     bit_depth = windowGeometry->depth;
 
     // SELI TODO: Order all these things in some sane manner
@@ -476,13 +467,13 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
     std::optional<SessionInfo> session = workspace()->sessionManager()->takeSessionInfo(this);
     if (session) {
         init_minimize = session->minimized;
-        noborder = session->noBorder;
+        m_decorationPolicy = session->decorationPolicy;
     }
 
     setShortcut(rules()->checkShortcut(session ? session->shortcut : QString(), true));
 
     init_minimize = rules()->checkMinimize(init_minimize, !isMapped);
-    noborder = rules()->checkNoBorder(noborder, !isMapped);
+    m_decorationPolicy = rules()->checkDecorationPolicy(m_decorationPolicy, !isMapped);
 
     readActivities(activitiesCookie);
 
@@ -590,16 +581,16 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
         setOnActivities(activitiesList);
     }
 
-    QRectF geom = session ? session->geometry : Xcb::fromXNative(windowGeometry.rect());
+    RectF geom = session ? session->geometry : Xcb::fromXNative(windowGeometry.rect());
     bool placementDone = false;
 
-    QRectF area;
+    RectF area;
     bool partial_keep_in_area = isMapped || session;
     if (isMapped || session) {
         area = workspace()->clientArea(FullArea, this, geom.center());
         checkOffscreenPosition(&geom, area);
     } else {
-        Output *output = nullptr;
+        LogicalOutput *output = nullptr;
         if (asn_data.xinerama() != -1) {
             output = workspace()->xineramaIndexToOutput(asn_data.xinerama());
         }
@@ -702,7 +693,7 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
     // Maximization for oversized windows must happen NOW.
     // If we effectively pass keepInArea(), the window will resizeWithChecks() - i.e. constrained
     // to the combo of all screen MINUS all struts on the edges
-    // If only one screen struts, this will affect screens as a side-effect, the window is artificially shrinked
+    // If only one screen struts, this will affect screens as a side-effect, the window is artificially shrunk
     // below the screen size and as result no more maximized what breaks KMainWindow's stupid width+1, height+1 hack
     // TODO: get KMainWindow a correct state storage what will allow to store the restore size as well.
 
@@ -712,7 +703,7 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
             // Window is too large for the screen, maximize in the
             // directions necessary
             const QSizeF ss = workspace()->clientArea(ScreenArea, this, area.center()).size();
-            const QRectF fsa = workspace()->clientArea(FullArea, this, geom.center());
+            const RectF fsa = workspace()->clientArea(FullArea, this, geom.center());
             const QSizeF cs = clientSize();
             int pseudo_max = ((info->state() & NET::MaxVert) ? MaximizeVertical : 0) | ((info->state() & NET::MaxHoriz) ? MaximizeHorizontal : 0);
             if (width() >= area.width()) {
@@ -744,7 +735,7 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
                 maximize((MaximizeMode)pseudo_max);
                 // from now on, care about maxmode, since the maximization call will override mode for fix aspects
                 dontKeepInArea |= (max_mode == MaximizeFull);
-                QRectF savedGeometry; // Use placement when unmaximizing ...
+                RectF savedGeometry; // Use placement when unmaximizing ...
                 if (!(max_mode & MaximizeVertical)) {
                     savedGeometry.setY(y()); // ...but only for horizontal direction
                     savedGeometry.setHeight(height());
@@ -813,10 +804,10 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
             setFullScreen(true);
             setFullscreenGeometryRestore(session->fsrestore);
         }
-        QRectF checkedGeometryRestore = geometryRestore();
+        RectF checkedGeometryRestore = geometryRestore();
         checkOffscreenPosition(&checkedGeometryRestore, area);
         setGeometryRestore(checkedGeometryRestore);
-        QRectF checkedFullscreenGeometryRestore = fullscreenGeometryRestore();
+        RectF checkedFullscreenGeometryRestore = fullscreenGeometryRestore();
         checkOffscreenPosition(&checkedFullscreenGeometryRestore, area);
         setFullscreenGeometryRestore(checkedFullscreenGeometryRestore);
     } else {
@@ -846,7 +837,7 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
         if (info->state() & NET::Modal) {
             setModal(true);
         }
-        setOpacity(info->opacityF());
+        setOpacity(rules()->checkOpacityInactive(info->opacityF()));
 
         setFullScreen(rules()->checkFullScreen(info->state() & NET::FullScreen, !isMapped));
     }
@@ -918,9 +909,9 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
 
     if (m_userTime == XCB_TIME_CURRENT_TIME || m_userTime == -1U) {
         // No known user time, set something old
-        m_userTime = xTime() - 1000000;
+        m_userTime = kwinApp()->x11Time() - 1000000;
         if (m_userTime == XCB_TIME_CURRENT_TIME || m_userTime == -1U) { // Let's be paranoid
-            m_userTime = xTime() - 1000000 + 10;
+            m_userTime = kwinApp()->x11Time() - 1000000 + 10;
         }
     }
 
@@ -936,27 +927,62 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
     return true;
 }
 
-// Called only from manage()
-void X11Window::embedClient(xcb_window_t w, xcb_visualid_t visualid, xcb_colormap_t colormap, const QRect &nativeGeometry, uint8_t depth)
+DecorationPolicy X11Window::decorationPolicy() const
 {
-    Q_ASSERT(m_client == XCB_WINDOW_NONE);
+    return m_decorationPolicy;
+}
 
-    m_client.reset(w, false, nativeGeometry);
-    m_client.setBorderWidth(0);
-    m_client.selectInput(XCB_EVENT_MASK_FOCUS_CHANGE | XCB_EVENT_MASK_PROPERTY_CHANGE);
+void X11Window::setDecorationPolicy(DecorationPolicy policy)
+{
+    const DecorationPolicy effectivePolicy = rules()->checkDecorationPolicy(policy);
+    if (m_decorationPolicy == effectivePolicy) {
+        return;
+    }
+    m_decorationPolicy = effectivePolicy;
+    updateDecoration(true, false);
+    updateWindowRules(Rules::NoBorder);
+    Q_EMIT decorationPolicyChanged();
+}
+
+DecorationMode X11Window::preferredDecorationMode() const
+{
+    if (!Decoration::DecorationBridge::hasPlugin()) {
+        return DecorationMode::Client;
+    } else if (isRequestedFullScreen()) {
+        return DecorationMode::None;
+    }
+
+    switch (m_decorationPolicy) {
+    case DecorationPolicy::None:
+        return DecorationMode::None;
+    case DecorationPolicy::Server:
+        return DecorationMode::Server;
+    case DecorationPolicy::PreferredByClient:
+        if (!m_clientFrameExtents.isNull()) {
+            return DecorationMode::Client;
+        } else if (m_wantsNoDecoration) {
+            return DecorationMode::None;
+        } else {
+            return DecorationMode::Server;
+        }
+    }
+
+    Q_UNREACHABLE();
 }
 
 void X11Window::updateDecoration(bool check_workspace_pos, bool force)
 {
-    if (!force && ((!isDecorated() && noBorder()) || (isDecorated() && !noBorder()))) {
+    const bool wantsDecoration = preferredDecorationMode() == DecorationMode::Server;
+
+    if (!force && (isDecorated() == wantsDecoration)) {
         return;
     }
-    QRectF oldgeom = moveResizeGeometry();
+    RectF oldgeom = moveResizeGeometry();
     blockGeometryUpdates(true);
     if (force) {
         destroyDecoration();
     }
-    if (!noBorder()) {
+    if (wantsDecoration) {
         createDecoration();
     } else {
         destroyDecoration();
@@ -982,7 +1008,7 @@ void X11Window::createDecoration()
             if (isDeleted()) {
                 return;
             }
-            const QRectF oldGeometry = moveResizeGeometry();
+            const RectF oldGeometry = moveResizeGeometry();
             checkWorkspacePosition(oldGeometry);
             updateFrameExtents();
         });
@@ -996,7 +1022,7 @@ void X11Window::createDecoration()
     }
     setDecoration(decoration);
 
-    moveResize(QRectF(calculateGravitation(false), clientSizeToFrameSize(clientSize())));
+    moveResize(RectF(calculateGravitation(false), clientSizeToFrameSize(clientSize())));
 }
 
 void X11Window::destroyDecoration()
@@ -1004,7 +1030,7 @@ void X11Window::destroyDecoration()
     if (isDecorated()) {
         QPointF grav = calculateGravitation(true);
         setDecoration(nullptr);
-        moveResize(QRectF(grav, clientSizeToFrameSize(clientSize())));
+        moveResize(RectF(grav, clientSizeToFrameSize(clientSize())));
     }
 }
 
@@ -1019,8 +1045,7 @@ void X11Window::detectNoBorder()
     case WindowType::OnScreenDisplay:
     case WindowType::CriticalNotification:
     case WindowType::AppletPopup:
-        noborder = true;
-        app_noborder = true;
+        m_wantsNoDecoration = true;
         break;
     case WindowType::Unknown:
     case WindowType::Normal:
@@ -1028,7 +1053,7 @@ void X11Window::detectNoBorder()
     case WindowType::Menu:
     case WindowType::Dialog:
     case WindowType::Utility:
-        noborder = false;
+        m_wantsNoDecoration = false;
         break;
     default:
         Q_UNREACHABLE();
@@ -1037,8 +1062,7 @@ void X11Window::detectNoBorder()
     // just meaning "noborder", so let's treat it only as such flag, and ignore it as
     // a window type otherwise (SUPPORTED_WINDOW_TYPES_MASK doesn't include it)
     if (WindowType(info->windowType(NET::OverrideMask)) == WindowType::Override) {
-        noborder = true;
-        app_noborder = true;
+        m_wantsNoDecoration = true;
     }
 }
 
@@ -1071,11 +1095,6 @@ void X11Window::setClientFrameExtents(const NETStrut &strut)
     moveResize(moveResizeGeometry());
 }
 
-bool X11Window::userNoBorder() const
-{
-    return noborder;
-}
-
 bool X11Window::isFullScreenable() const
 {
     if (isUnmanaged()) {
@@ -1086,45 +1105,6 @@ bool X11Window::isFullScreenable() const
     }
     // don't check size constrains - some apps request fullscreen despite requesting fixed size
     return isNormalWindow() || isDialog(); // also better disallow only weird types to go fullscreen
-}
-
-bool X11Window::noBorder() const
-{
-    return userNoBorder() || isFullScreen();
-}
-
-bool X11Window::userCanSetNoBorder() const
-{
-    if (isUnmanaged()) {
-        return false;
-    }
-
-    // Client-side decorations and server-side decorations are mutually exclusive.
-    if (isClientSideDecorated()) {
-        return false;
-    }
-
-    return !isFullScreen();
-}
-
-void X11Window::setNoBorder(bool set)
-{
-    if (!userCanSetNoBorder()) {
-        return;
-    }
-    set = rules()->checkNoBorder(set);
-    if (noborder == set) {
-        return;
-    }
-    noborder = set;
-    updateDecoration(true, false);
-    updateWindowRules(Rules::NoBorder);
-    Q_EMIT noBorderChanged();
-}
-
-void X11Window::checkNoBorder()
-{
-    setNoBorder(app_noborder);
 }
 
 /**
@@ -1178,7 +1158,6 @@ void X11Window::doMinimize()
         }
     }
     updateVisibility();
-    updateAllowedActions();
     workspace()->updateMinimizedOfTransients(this);
 }
 
@@ -1241,6 +1220,7 @@ void X11Window::internalShow()
     }
     MappingState old = mapping_state;
     mapping_state = Mapped;
+    setFrameCallbackHeartbeat(false);
     if (old == Unmapped || old == Withdrawn) {
         map();
     }
@@ -1256,6 +1236,7 @@ void X11Window::internalHide()
     }
     MappingState old = mapping_state;
     mapping_state = Unmapped;
+    setFrameCallbackHeartbeat(false);
     if (old == Mapped || old == Kept) {
         unmap();
     }
@@ -1271,6 +1252,7 @@ void X11Window::internalKeep()
     }
     MappingState old = mapping_state;
     mapping_state = Kept;
+    setFrameCallbackHeartbeat(wantsFrameCallbackHeartbeat());
     if (old == Unmapped || old == Withdrawn) {
         map();
     }
@@ -1297,7 +1279,38 @@ void X11Window::unmap()
     exportMappingState(XCB_ICCCM_WM_STATE_ICONIC);
 }
 
-void X11Window::sendClientMessage(xcb_window_t w, xcb_atom_t a, xcb_atom_t protocol, uint32_t data1, uint32_t data2, uint32_t data3)
+bool X11Window::wantsFrameCallbackHeartbeat() const
+{
+    // By default, if Xwayland receives no frame callbacks from the compositor, it falls back to
+    // sending present complete notify events at approximately 1Hz. Video games and other apps handle
+    // this very poorly, some of them even completely freeze and remain frozen even after getting
+    // brought back to foreground. The main purpose of frame callback heartbeats is to prevent
+    // X11 applications breaking due to frame callback starvation.
+    //
+    // Note that the behavior is different for unmapped windows. In that case, Xwayland will send
+    // present complete notify events at approximately 60Hz. The only problematic case is when a
+    // mapped window temporarily stops getting frame callbacks.
+
+    static bool wants = !environmentVariableBoolValue("KWIN_X11_NO_FRAME_CALLBACK_HEARTBEAT").value_or(false);
+    return wants;
+}
+
+void X11Window::setFrameCallbackHeartbeat(bool enabled)
+{
+    if (m_frameCallbackHeartbeat == enabled) {
+        return;
+    }
+
+    m_frameCallbackHeartbeat = enabled;
+
+    if (enabled) {
+        refOffscreenRendering();
+    } else {
+        unrefOffscreenRendering();
+    }
+}
+
+void X11Window::sendClientMessage(xcb_window_t w, xcb_atom_t a, xcb_atom_t protocol, xcb_timestamp_t time, uint32_t data1, uint32_t data2, uint32_t data3)
 {
     xcb_client_message_event_t ev{};
     // Every X11 event is 32 bytes (see man xcb_send_event), so XCB will copy
@@ -1309,7 +1322,7 @@ void X11Window::sendClientMessage(xcb_window_t w, xcb_atom_t a, xcb_atom_t proto
     ev.type = a;
     ev.format = 32;
     ev.data.data32[0] = protocol;
-    ev.data.data32[1] = xTime();
+    ev.data.data32[1] = time;
     ev.data.data32[2] = data1;
     ev.data.data32[3] = data2;
     ev.data.data32[4] = data3;
@@ -1342,10 +1355,11 @@ void X11Window::closeWindow()
     }
 
     // Update user time, because the window may create a confirming dialog.
-    updateUserTime();
+    const xcb_timestamp_t time = kwinApp()->x11Time();
+    updateUserTime(time);
 
     if (info->supportsProtocol(NET::DeleteWindowProtocol)) {
-        sendClientMessage(window(), atoms->wm_protocols, atoms->wm_delete_window);
+        sendClientMessage(window(), atoms->wm_protocols, atoms->wm_delete_window, time);
         pingWindow();
     } else { // Client will not react on wm_delete_window. We have not choice
         // but destroy his connection to the XServer.
@@ -1402,7 +1416,7 @@ void X11Window::pingWindow()
     // we'll run the timer twice, at first we'll desaturate the window
     // and the second time we'll show the "do you want to kill" prompt
     ping_timer->start(options->killPingTimeout() / 2);
-    m_pingTimestamp = xTime();
+    m_pingTimestamp = kwinApp()->x11Time();
     rootInfo()->sendPing(window(), m_pingTimestamp);
 }
 
@@ -1596,32 +1610,20 @@ QStringList X11Window::activities() const
 /**
  * Performs the actual focusing of the window using XSetInputFocus and WM_TAKE_FOCUS
  */
-bool X11Window::takeFocus()
+void X11Window::takeFocus()
 {
     const bool effectiveAcceptFocus = rules()->checkAcceptFocus(info->input());
     const bool effectiveTakeFocus = rules()->checkAcceptFocus(info->supportsProtocol(NET::TakeFocusProtocol));
+    Q_ASSERT(effectiveAcceptFocus || effectiveTakeFocus);
 
     if (effectiveAcceptFocus) {
-        xcb_void_cookie_t cookie = xcb_set_input_focus_checked(kwinApp()->x11Connection(),
-                                                               XCB_INPUT_FOCUS_POINTER_ROOT,
-                                                               window(), XCB_TIME_CURRENT_TIME);
-        UniqueCPtr<xcb_generic_error_t> error(xcb_request_check(kwinApp()->x11Connection(), cookie));
-        if (error) {
-            qCWarning(KWIN_CORE, "Failed to focus 0x%x (error %d)", window(), error->error_code);
-            return false;
-        }
-    } else {
-        demandAttention(false); // window cannot take input, at least withdraw urgency
-    }
-    if (effectiveTakeFocus) {
-        kwinApp()->updateXTime();
-        sendClientMessage(window(), atoms->wm_protocols, atoms->wm_take_focus);
+        const xcb_void_cookie_t cookie = xcb_set_input_focus(kwinApp()->x11Connection(), XCB_INPUT_FOCUS_POINTER_ROOT, m_client, XCB_TIME_CURRENT_TIME);
+        workspace()->setX11FocusSerial(cookie.sequence);
     }
 
-    if (effectiveAcceptFocus || effectiveTakeFocus) {
-        workspace()->setShouldGetFocus(this);
+    if (effectiveTakeFocus) {
+        sendClientMessage(window(), atoms->wm_protocols, atoms->wm_take_focus, kwinApp()->x11Time());
     }
-    return true;
 }
 
 /**
@@ -1645,7 +1647,7 @@ bool X11Window::providesContextHelp() const
 void X11Window::showContextHelp()
 {
     if (info->supportsProtocol(NET::ContextHelpProtocol)) {
-        sendClientMessage(window(), atoms->wm_protocols, atoms->net_wm_context_help);
+        sendClientMessage(window(), atoms->wm_protocols, atoms->net_wm_context_help, kwinApp()->x11Time());
     }
 }
 
@@ -1766,20 +1768,13 @@ void X11Window::fetchIconicName()
 void X11Window::getMotifHints()
 {
     const bool wasClosable = isCloseable();
-    const bool wasNoBorder = m_motif.noDecorations();
     if (m_managed) { // only on property change, initial read is prefetched
         m_motif.fetch();
     }
     m_motif.read();
-    if (m_motif.hasDecorationsFlag() && m_motif.noDecorations() != wasNoBorder) {
-        // If we just got a hint telling us to hide decorations, we do so.
-        if (m_motif.noDecorations()) {
-            noborder = rules()->checkNoBorder(true);
-            // If the Motif hint is now telling us to show decorations, we only do so if the app didn't
-            // instruct us to hide decorations in some other way, though.
-        } else if (!app_noborder) {
-            noborder = rules()->checkNoBorder(false);
-        }
+
+    if (m_motif.hasDecorationsFlag()) {
+        m_wantsNoDecoration = m_motif.noDecorations();
     }
 
     // mminimize; - Ignore, bogus - E.g. shading or sending to another desktop is "minimizing" too
@@ -1852,7 +1847,7 @@ void X11Window::getSyncCounter()
     }
 
     Xcb::Property syncProp(false, window(), atoms->net_wm_sync_request_counter, XCB_ATOM_CARDINAL, 0, 1);
-    const xcb_sync_counter_t counter = syncProp.value<xcb_sync_counter_t>(XCB_NONE);
+    const xcb_sync_counter_t counter = syncProp.value<xcb_sync_counter_t>().value_or(XCB_NONE);
     if (counter != XCB_NONE) {
         m_syncRequest.enabled = true;
         m_syncRequest.counter = counter;
@@ -1908,16 +1903,12 @@ void X11Window::sendSyncRequest()
     if (oldLo > m_syncRequest.value.lo) {
         m_syncRequest.value.hi++;
     }
-    if (m_syncRequest.lastTimestamp >= xTime()) {
-        kwinApp()->updateXTime();
-    }
 
     setAllowCommits(false);
-    sendClientMessage(window(), atoms->wm_protocols, atoms->net_wm_sync_request,
+    sendClientMessage(window(), atoms->wm_protocols, atoms->net_wm_sync_request, kwinApp()->x11Time(),
                       m_syncRequest.value.lo, m_syncRequest.value.hi);
     m_syncRequest.pending = true;
     m_syncRequest.interactiveResize = isInteractiveResize();
-    m_syncRequest.lastTimestamp = xTime();
 }
 
 bool X11Window::wantsInput() const
@@ -2185,7 +2176,7 @@ QSizeF X11Window::nextClientSizeToFrameSize(const QSizeF &size) const
     return clientSizeToFrameSize(size);
 }
 
-QRectF X11Window::nextFrameRectToBufferRect(const QRectF &rect) const
+RectF X11Window::nextFrameRectToBufferRect(const RectF &rect) const
 {
     return nextFrameRectToClientRect(rect);
 }
@@ -2433,15 +2424,9 @@ Xcb::TransientFor X11Window::fetchTransient() const
 
 void X11Window::readTransientProperty(Xcb::TransientFor &transientFor)
 {
-    xcb_window_t new_transient_for_id = XCB_WINDOW_NONE;
-    if (transientFor.getTransientFor(&new_transient_for_id)) {
-        m_originalTransientForId = new_transient_for_id;
-        new_transient_for_id = verifyTransientFor(new_transient_for_id, true);
-    } else {
-        m_originalTransientForId = XCB_WINDOW_NONE;
-        new_transient_for_id = verifyTransientFor(XCB_WINDOW_NONE, false);
-    }
-    setTransient(new_transient_for_id);
+    const auto newTransientForId = transientFor.getTransientFor();
+    m_originalTransientForId = newTransientForId.value_or(XCB_WINDOW_NONE);
+    setTransient(verifyTransientFor(m_originalTransientForId, newTransientForId.has_value()));
 }
 
 void X11Window::readTransient()
@@ -2641,7 +2626,7 @@ xcb_window_t X11Window::verifyTransientFor(xcb_window_t new_transient_for, bool 
 void X11Window::addTransient(Window *cl)
 {
     Window::addTransient(cl);
-    if (workspace()->mostRecentlyActivatedWindow() == this && cl->isModal()) {
+    if (workspace()->activeWindow() == this && cl->isModal()) {
         check_active_modal = true;
     }
 }
@@ -2879,7 +2864,7 @@ void X11Window::checkActiveModal()
     // if the active window got new modal transient, activate it.
     // cannot be done in AddTransient(), because there may temporarily
     // exist loops, breaking findModal
-    X11Window *check_modal = dynamic_cast<X11Window *>(workspace()->mostRecentlyActivatedWindow());
+    X11Window *check_modal = dynamic_cast<X11Window *>(workspace()->activeWindow());
     if (check_modal != nullptr && check_modal->check_active_modal) {
         X11Window *new_modal = dynamic_cast<X11Window *>(check_modal->findModal());
         if (new_modal != nullptr && new_modal != check_modal) {
@@ -3118,12 +3103,12 @@ void X11Window::getWmNormalHints()
         // update to match restrictions
         QSizeF new_size = clientSizeToFrameSize(constrainClientSize(clientSize()));
         if (new_size != size() && !isFullScreen()) {
-            QRectF origClientGeometry = m_clientGeometry;
+            RectF origClientGeometry = m_clientGeometry;
             moveResize(resizeWithChecks(moveResizeGeometry(), new_size));
             if ((!isSpecialWindow() || isToolbar()) && !isFullScreen()) {
                 // try to keep the window in its xinerama screen if possible,
                 // if that fails at least keep it visible somewhere
-                QRectF area = workspace()->clientArea(MovementArea, this, moveResizeOutput());
+                RectF area = workspace()->clientArea(MovementArea, this, moveResizeOutput());
                 if (area.contains(origClientGeometry)) {
                     moveResize(keepInArea(moveResizeGeometry(), area));
                 }
@@ -3298,12 +3283,12 @@ void X11Window::configureRequest(int value_mask, qreal rx, qreal ry, qreal rw, q
     qCDebug(KWIN_CORE) << this << bool(value_mask & configureGeometryMask) << bool(requestedMaximizeMode() & MaximizeVertical) << bool(requestedMaximizeMode() & MaximizeHorizontal);
 
     // we want to (partially) ignore the request when the window is somehow maximized or quicktiled
-    bool ignore = !app_noborder && (requestedQuickTileMode() != QuickTileMode(QuickTileFlag::None) || requestedMaximizeMode() != MaximizeRestore);
+    bool ignore = !m_wantsNoDecoration && (requestedQuickTileMode() != QuickTileMode(QuickTileFlag::None) || requestedMaximizeMode() != MaximizeRestore);
     // however, the user shall be able to force obedience despite and also disobedience in general
     ignore = rules()->checkIgnoreGeometry(ignore);
     if (!ignore) { // either we're not max'd / q'tiled or the user allowed the client to break that - so break it.
         exitQuickTileMode();
-    } else if (!app_noborder && requestedQuickTileMode() == QuickTileMode(QuickTileFlag::None) && (requestedMaximizeMode() == MaximizeVertical || requestedMaximizeMode() == MaximizeHorizontal)) {
+    } else if (!m_wantsNoDecoration && requestedQuickTileMode() == QuickTileMode(QuickTileFlag::None) && (requestedMaximizeMode() == MaximizeVertical || requestedMaximizeMode() == MaximizeHorizontal)) {
         // ignoring can be, because either we do, or the user does explicitly not want it.
         // for partially maximized windows we want to allow configures in the other dimension.
         // so we've to ask the user again - to know whether we just ignored for the partial maximization.
@@ -3358,13 +3343,13 @@ void X11Window::configureRequest(int value_mask, qreal rx, qreal ry, qreal rw, q
         requestedFrameSize = rules()->checkSize(requestedFrameSize);
         new_pos = rules()->checkPosition(new_pos);
 
-        Output *newOutput = workspace()->outputAt(QRectF(new_pos, requestedFrameSize).center());
+        LogicalOutput *newOutput = workspace()->outputAt(RectF(new_pos, requestedFrameSize).center());
         if (newOutput != rules()->checkOutput(newOutput)) {
             return; // not allowed by rule
         }
 
-        QRectF geometry = QRectF(new_pos, requestedFrameSize);
-        const QRectF area = workspace()->clientArea(WorkArea, this, geometry.center());
+        RectF geometry = RectF(new_pos, requestedFrameSize);
+        const RectF area = workspace()->clientArea(WorkArea, this, geometry.center());
         if (!from_tool && (!isSpecialWindow() || isToolbar()) && !isFullScreen() && area.contains(clientGeometry())) {
             geometry = keepInArea(geometry, area);
         }
@@ -3386,11 +3371,11 @@ void X11Window::configureRequest(int value_mask, qreal rx, qreal ry, qreal rw, q
         const QSizeF requestedFrameSize = rules()->checkSize(clientSizeToFrameSize(requestedClientSize));
 
         if (requestedFrameSize != size()) { // don't restore if some app sets its own size again
-            QRectF geometry = resizeWithChecks(moveResizeGeometry(), requestedFrameSize, xcb_gravity_t(gravity));
+            RectF geometry = resizeWithChecks(moveResizeGeometry(), requestedFrameSize, xcb_gravity_t(gravity));
             if (!from_tool && (!isSpecialWindow() || isToolbar()) && !isFullScreen()) {
                 // try to keep the window in its xinerama screen if possible,
                 // if that fails at least keep it visible somewhere
-                QRectF area = workspace()->clientArea(MovementArea, this, geometry.center());
+                RectF area = workspace()->clientArea(MovementArea, this, geometry.center());
                 if (area.contains(clientGeometry())) {
                     geometry = keepInArea(geometry, area);
                 }
@@ -3407,11 +3392,11 @@ void X11Window::configureRequest(int value_mask, qreal rx, qreal ry, qreal rw, q
     // Handling of the real ConfigureRequest event forces sending it, as there it's necessary.
 }
 
-QRectF X11Window::resizeWithChecks(const QRectF &geometry, qreal w, qreal h, xcb_gravity_t gravity) const
+RectF X11Window::resizeWithChecks(const RectF &geometry, qreal w, qreal h, xcb_gravity_t gravity) const
 {
     qreal newx = geometry.x();
     qreal newy = geometry.y();
-    QRectF area = workspace()->clientArea(WorkArea, this, geometry.center());
+    RectF area = workspace()->clientArea(WorkArea, this, geometry.center());
     // don't allow growing larger than workarea
     if (w > area.width()) {
         w = area.width();
@@ -3461,7 +3446,7 @@ QRectF X11Window::resizeWithChecks(const QRectF &geometry, qreal w, qreal h, xcb
         newy = newy + geometry.height() - h;
         break;
     }
-    return QRectF{newx, newy, w, h};
+    return RectF{newx, newy, w, h};
 }
 
 // _NET_MOVERESIZE_WINDOW
@@ -3489,7 +3474,7 @@ void X11Window::NETMoveResizeWindow(int flags, qreal x, qreal y, qreal width, qr
 void X11Window::GTKShowWindowMenu(qreal x_root, qreal y_root)
 {
     QPoint globalPos(x_root, y_root);
-    workspace()->showWindowMenu(QRect(globalPos, globalPos), this);
+    workspace()->showWindowMenu(Rect(globalPos, globalPos), this);
 }
 
 bool X11Window::isMovable() const
@@ -3593,16 +3578,16 @@ void X11Window::blockGeometryUpdates(bool block)
 /**
  * Reimplemented to inform the client about the new window position.
  */
-void X11Window::moveResizeInternal(const QRectF &rect, MoveResizeMode mode)
+void X11Window::moveResizeInternal(const RectF &rect, MoveResizeMode mode)
 {
     if (isUnmanaged()) {
         qCWarning(KWIN_CORE) << "Cannot move or resize unmanaged window" << this;
         return;
     }
 
-    const QRectF frameGeometry = Xcb::fromXNative(Xcb::toXNative(rect));
-    const QRectF clientGeometry = nextFrameRectToClientRect(frameGeometry);
-    const QRectF bufferGeometry = nextFrameRectToBufferRect(frameGeometry);
+    const RectF frameGeometry = Xcb::fromXNative(Xcb::toXNative(rect));
+    const RectF clientGeometry = nextFrameRectToClientRect(frameGeometry);
+    const RectF bufferGeometry = nextFrameRectToBufferRect(frameGeometry);
     const qreal bufferScale = kwinApp()->xwaylandScale();
 
     if (m_bufferGeometry == bufferGeometry && m_clientGeometry == clientGeometry && m_frameGeometry == frameGeometry && m_bufferScale == bufferScale) {
@@ -3611,10 +3596,10 @@ void X11Window::moveResizeInternal(const QRectF &rect, MoveResizeMode mode)
 
     Q_EMIT frameGeometryAboutToChange();
 
-    const QRectF oldBufferGeometry = m_bufferGeometry;
-    const QRectF oldFrameGeometry = m_frameGeometry;
-    const QRectF oldClientGeometry = m_clientGeometry;
-    const Output *oldOutput = m_output;
+    const RectF oldBufferGeometry = m_bufferGeometry;
+    const RectF oldFrameGeometry = m_frameGeometry;
+    const RectF oldClientGeometry = m_clientGeometry;
+    const LogicalOutput *oldOutput = m_output;
 
     m_frameGeometry = frameGeometry;
     m_clientGeometry = clientGeometry;
@@ -3648,27 +3633,25 @@ void X11Window::moveResizeInternal(const QRectF &rect, MoveResizeMode mode)
     updateShapeRegion();
 }
 
-void X11Window::configure(const QRect &nativeGeometry)
+void X11Window::configure(const Rect &nativeGeometry)
 {
     // handle xrandr emulation: If a fullscreen client requests mode changes,
     // - Xwayland will set _XWAYLAND_RANDR_EMU_MONITOR_RECTS on all windows of the client
     // - we need to configure the window to match the emulated size
     // - Xwayland will set up the viewport to present the window properly on the Wayland side
-    QRect effectiveGeometry = nativeGeometry;
+    Rect effectiveGeometry = nativeGeometry;
     if (m_fullscreenMode == X11Window::FullScreenMode::FullScreenNormal) {
         Xcb::Property property(0, m_client, atoms->xwayland_xrandr_emulation, XCB_ATOM_CARDINAL, 0, workspace()->outputs().size() * 4);
-        const uint32_t *values = property.value<uint32_t *>();
-        if (values) {
+        const auto values = property.array<uint32_t>();
+        if (values.has_value()) {
             const QPoint xwaylandOutputPos = Xcb::toXNative(m_moveResizeOutput->geometryF().topLeft());
-            // "length" is in number of 32 bit words
-            const int numOfOutputs = property.data()->value_len / 4;
-            for (int i = 0; i < numOfOutputs; i++) {
+            for (size_t i = 0; i < values->size() / 4; i++) {
                 // the format of the property is: x,y of the screen + emulated width,height
-                const uint32_t x = values[i * 4];
-                const uint32_t y = values[i * 4 + 1];
+                const uint32_t x = (*values)[i * 4];
+                const uint32_t y = (*values)[i * 4 + 1];
                 if (xwaylandOutputPos == QPoint(x, y)) {
-                    effectiveGeometry.setWidth(values[i * 4 + 2]);
-                    effectiveGeometry.setHeight(values[i * 4 + 3]);
+                    effectiveGeometry.setWidth((*values)[i * 4 + 2]);
+                    effectiveGeometry.setHeight((*values)[i * 4 + 3]);
                     break;
                 }
             }
@@ -3686,7 +3669,7 @@ void X11Window::configure(const QRect &nativeGeometry)
 }
 
 static bool changeMaximizeRecursion = false;
-void X11Window::maximize(MaximizeMode mode, const QRectF &restore)
+void X11Window::maximize(MaximizeMode mode, const RectF &restore)
 {
     if (isUnmanaged()) {
         qCWarning(KWIN_CORE) << "Cannot change maximized state of unmanaged window" << this;
@@ -3701,7 +3684,7 @@ void X11Window::maximize(MaximizeMode mode, const QRectF &restore)
         return;
     }
 
-    QRectF clientArea;
+    RectF clientArea;
     if (isElectricBorderMaximizing()) {
         clientArea = workspace()->clientArea(MaximizeArea, this, interactiveMoveResizeAnchor());
     } else {
@@ -3734,7 +3717,7 @@ void X11Window::maximize(MaximizeMode mode, const QRectF &restore)
         setGeometryRestore(restore);
     } else {
         if (requestedQuickTileMode() == QuickTileMode(QuickTileFlag::None)) {
-            QRectF savedGeometry = geometryRestore();
+            RectF savedGeometry = geometryRestore();
             if (!(old_mode & MaximizeVertical)) {
                 savedGeometry.setTop(y());
                 savedGeometry.setHeight(sz.height());
@@ -3767,7 +3750,7 @@ void X11Window::maximize(MaximizeMode mode, const QRectF &restore)
         // triggers a maximize change.
         // The next setNoBorder iteration will exit since there's no change but the first recursion pullutes the restore geometry
         changeMaximizeRecursion = true;
-        setNoBorder(rules()->checkNoBorder(app_noborder || (m_motif.hasDecorationsFlag() && m_motif.noDecorations()) || max_mode == MaximizeFull));
+        setNoBorder(max_mode == MaximizeFull);
         changeMaximizeRecursion = false;
     }
 
@@ -3783,11 +3766,11 @@ void X11Window::maximize(MaximizeMode mode, const QRectF &restore)
                     place(*placement);
                 }
             } else {
-                moveResize(QRectF(QPointF(geometryRestore().x(), clientArea.top()),
-                                  QSize(geometryRestore().width(), clientArea.height())));
+                moveResize(RectF(QPointF(geometryRestore().x(), clientArea.top()),
+                                 QSize(geometryRestore().width(), clientArea.height())));
             }
         } else {
-            moveResize(QRectF(x(), clientArea.top(), width(), clientArea.height()));
+            moveResize(RectF(x(), clientArea.top(), width(), clientArea.height()));
         }
         exitQuickTileMode();
         info->setState(NET::MaxVert, NET::Max);
@@ -3804,11 +3787,11 @@ void X11Window::maximize(MaximizeMode mode, const QRectF &restore)
                     place(*placement);
                 }
             } else {
-                moveResize(QRectF(QPoint(clientArea.left(), geometryRestore().y()),
-                                  QSize(clientArea.width(), geometryRestore().height())));
+                moveResize(RectF(QPoint(clientArea.left(), geometryRestore().y()),
+                                 QSize(clientArea.width(), geometryRestore().height())));
             }
         } else {
-            moveResize(QRectF(clientArea.left(), y(), clientArea.width(), height()));
+            moveResize(RectF(clientArea.left(), y(), clientArea.width(), height()));
         }
         exitQuickTileMode();
         info->setState(NET::MaxHoriz, NET::Max);
@@ -3816,7 +3799,7 @@ void X11Window::maximize(MaximizeMode mode, const QRectF &restore)
     }
 
     case MaximizeRestore: {
-        QRectF restore = moveResizeGeometry();
+        RectF restore = moveResizeGeometry();
         // when only partially maximized, geom_restore may not have the other dimension remembered
         if (old_mode & MaximizeVertical) {
             restore.setTop(geometryRestore().top());
@@ -3931,7 +3914,7 @@ void X11Window::setFullScreen(bool set)
         }
     } else {
         Q_ASSERT(!fullscreenGeometryRestore().isNull());
-        moveResize(QRectF(fullscreenGeometryRestore().topLeft(), constrainFrameSize(fullscreenGeometryRestore().size())));
+        moveResize(RectF(fullscreenGeometryRestore().topLeft(), constrainFrameSize(fullscreenGeometryRestore().size())));
     }
 
     markAsPlaced();
@@ -3964,9 +3947,9 @@ void X11Window::updateFullscreenMonitors(NETFullscreenMonitors topology)
  * Calculates the bounding rectangle defined by the 4 monitor indices indicating the
  * top, bottom, left, and right edges of the window when the fullscreen state is enabled.
  */
-QRect X11Window::fullscreenMonitorsArea(NETFullscreenMonitors requestedTopology) const
+Rect X11Window::fullscreenMonitorsArea(NETFullscreenMonitors requestedTopology) const
 {
-    QRect total;
+    Rect total;
 
     if (auto output = workspace()->xineramaIndexToOutput(requestedTopology.top)) {
         total = total.united(output->geometry());
@@ -3989,11 +3972,11 @@ bool X11Window::isWaitingForInteractiveResizeSync() const
     return m_syncRequest.enabled && (m_syncRequest.pending || m_syncRequest.acked);
 }
 
-void X11Window::doInteractiveResizeSync(const QRectF &rect)
+void X11Window::doInteractiveResizeSync(const RectF &rect)
 {
-    const QRectF moveResizeFrameGeometry = Xcb::fromXNative(Xcb::toXNative(rect));
-    const QRectF moveResizeBufferGeometry = nextFrameRectToBufferRect(moveResizeFrameGeometry);
-    const QRect nativeBufferGeometry = Xcb::toXNative(moveResizeBufferGeometry);
+    const RectF moveResizeFrameGeometry = Xcb::fromXNative(Xcb::toXNative(rect));
+    const RectF moveResizeBufferGeometry = nextFrameRectToBufferRect(moveResizeFrameGeometry);
+    const Rect nativeBufferGeometry = Xcb::toXNative(moveResizeBufferGeometry);
 
     if (m_client.geometry() == nativeBufferGeometry) {
         return;
@@ -4056,21 +4039,21 @@ void X11Window::checkOutput()
 void X11Window::getWmOpaqueRegion()
 {
     const auto rects = info->opaqueRegion();
-    QRegion new_opaque_region;
+    Region new_opaque_region;
     for (const auto &r : rects) {
-        new_opaque_region += Xcb::fromXNative(QRect(r.pos.x, r.pos.y, r.size.width, r.size.height)).toRect();
+        new_opaque_region += Xcb::fromXNative(Rect(r.pos.x, r.pos.y, r.size.width, r.size.height)).toRect();
     }
     opaque_region = new_opaque_region;
 }
 
-QList<QRectF> X11Window::shapeRegion() const
+QList<RectF> X11Window::shapeRegion() const
 {
     return m_shapeRegion;
 }
 
 void X11Window::updateShapeRegion()
 {
-    const QRectF bufferGeometry = this->bufferGeometry();
+    const RectF bufferGeometry = this->bufferGeometry();
     const auto previousRegion = m_shapeRegion;
     if (Xcb::Extensions::self()->hasShape(window())) {
         auto cookie = xcb_shape_get_rectangles_unchecked(kwinApp()->x11Connection(), window(), XCB_SHAPE_SK_BOUNDING);
@@ -4080,17 +4063,17 @@ void X11Window::updateShapeRegion()
             const xcb_rectangle_t *rects = xcb_shape_get_rectangles_rectangles(reply.get());
             const int rectCount = xcb_shape_get_rectangles_rectangles_length(reply.get());
             for (int i = 0; i < rectCount; ++i) {
-                QRectF region = Xcb::fromXNative(QRect(rects[i].x, rects[i].y, rects[i].width, rects[i].height));
+                RectF region = Xcb::fromXNative(Rect(rects[i].x, rects[i].y, rects[i].width, rects[i].height));
                 // make sure the shape is sane (X is async, maybe even XShape is broken)
-                region = region.intersected(QRectF(QPointF(0, 0), bufferGeometry.size()));
+                region = region.intersected(RectF(QPointF(0, 0), bufferGeometry.size()));
 
                 m_shapeRegion += region;
             }
         } else {
-            m_shapeRegion = {QRectF(0, 0, bufferGeometry.width(), bufferGeometry.height())};
+            m_shapeRegion = {RectF(0, 0, bufferGeometry.width(), bufferGeometry.height())};
         }
     } else {
-        m_shapeRegion = {QRectF(0, 0, bufferGeometry.width(), bufferGeometry.height())};
+        m_shapeRegion = {RectF(0, 0, bufferGeometry.width(), bufferGeometry.height())};
     }
     if (m_shapeRegion != previousRegion) {
         Q_EMIT shapeChanged();
@@ -4104,7 +4087,7 @@ Xcb::Property X11Window::fetchWmClientLeader() const
 
 void X11Window::readWmClientLeader(Xcb::Property &prop)
 {
-    m_wmClientLeader = prop.value<xcb_window_t>(window());
+    m_wmClientLeader = prop.value<xcb_window_t>().value_or(window());
 }
 
 void X11Window::getWmClientLeader()
@@ -4172,7 +4155,7 @@ Xcb::Property X11Window::fetchSkipCloseAnimation() const
 
 void X11Window::readSkipCloseAnimation(Xcb::Property &property)
 {
-    setSkipCloseAnimation(property.toBool());
+    setSkipCloseAnimation(property.toBool().value_or(false));
 }
 
 void X11Window::getSkipCloseAnimation()
@@ -4189,8 +4172,7 @@ void X11Window::updateUserTime(xcb_timestamp_t time)
 {
     // copied in Group::updateUserTime
     if (time == XCB_TIME_CURRENT_TIME) {
-        kwinApp()->updateXTime();
-        time = xTime();
+        time = kwinApp()->x11Time();
     }
     if (time != -1U
         && (m_userTime == XCB_TIME_CURRENT_TIME
@@ -4203,7 +4185,7 @@ void X11Window::updateUserTime(xcb_timestamp_t time)
 xcb_timestamp_t X11Window::readUserCreationTime() const
 {
     Xcb::Property prop(false, window(), atoms->kde_net_wm_user_creation_time, XCB_ATOM_CARDINAL, 0, 1);
-    return prop.value<xcb_timestamp_t>(-1);
+    return prop.value<xcb_timestamp_t>().value_or(-1);
 }
 
 xcb_timestamp_t X11Window::readUserTimeMapTimestamp(const KStartupInfoId *asn_id, const KStartupInfoData *asn_data,
@@ -4230,7 +4212,7 @@ xcb_timestamp_t X11Window::readUserTimeMapTimestamp(const KStartupInfoId *asn_id
         // Otherwise, refuse activation of a window
         // from already running application if this application
         // is not the active one (unless focus stealing prevention is turned off).
-        X11Window *act = dynamic_cast<X11Window *>(workspace()->mostRecentlyActivatedWindow());
+        X11Window *act = dynamic_cast<X11Window *>(workspace()->activeWindow());
         if (act != nullptr && !belongToSameApplication(act, this, SameApplicationCheck::RelaxedForActive)) {
             bool first_window = true;
             auto sameApplicationActiveHackPredicate = [this](const X11Window *cl) {
@@ -4339,7 +4321,7 @@ void X11Window::startupIdChanged()
     }
 
     if (asn_data.xinerama() != -1) {
-        Output *output = workspace()->xineramaIndexToOutput(asn_data.xinerama());
+        LogicalOutput *output = workspace()->xineramaIndexToOutput(asn_data.xinerama());
         if (output) {
             sendToOutput(output);
         }
@@ -4381,14 +4363,14 @@ bool X11Window::allowWindowActivation(xcb_timestamp_t time, bool focus_in)
     if (workspace()->sessionManager()->state() == SessionState::Saving && level <= FocusStealingPreventionLevel::Medium) { // <= normal
         return true;
     }
-    Window *ac = workspace()->mostRecentlyActivatedWindow();
+    Window *ac = workspace()->activeWindow();
     if (focus_in) {
-        if (workspace()->inShouldGetFocus(window)) {
-            return true; // FocusIn was result of KWin's action
+        // TODO: Remove when the KWIN_ENABLE_FOCUS_OUT environment variable is dropped.
+        if (!ac) {
+            // Before getting FocusIn, the active Client already
+            // got FocusOut, and therefore got deactivated.
+            ac = workspace()->lastActiveWindow();
         }
-        // Before getting FocusIn, the active Client already
-        // got FocusOut, and therefore got deactivated.
-        ac = workspace()->lastActiveWindow();
     }
     if (time == 0) { // explicitly asked not to get focus
         if (!window->rules()->checkAcceptFocus(false)) {
@@ -4526,8 +4508,8 @@ bool X11Window::hitTest(const QPointF &point) const
     if (!m_surface || (m_surface->isMapped() && !m_surface->inputSurfaceAt(mapToLocal(point)))) {
         return false;
     }
-    return std::ranges::any_of(m_shapeRegion, [local = mapToLocal(point)](const QRectF &rect) {
-        return exclusiveContains(rect, local);
+    return std::ranges::any_of(m_shapeRegion, [local = mapToLocal(point)](const RectF &rect) {
+        return rect.contains(local);
     });
 }
 

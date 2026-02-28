@@ -454,7 +454,7 @@ void DrmTest::testModeset()
     layer->beginFrame();
     output->renderLoop()->prepareNewFrame();
     const auto frame = std::make_shared<OutputFrame>(output->renderLoop(), std::chrono::nanoseconds(1'000'000'000'000 / output->refreshRate()));
-    layer->endFrame(infiniteRegion(), infiniteRegion(), frame.get());
+    layer->endFrame(Region::infinite(), Region::infinite(), frame.get());
     QVERIFY(output->present({layer}, frame));
 
     gpu.reset();
@@ -477,15 +477,15 @@ void DrmTest::testVrrChange()
 
     QVERIFY(gpu->updateOutputs());
     const auto output = gpu->drmOutputs().front();
-    QVERIFY(!(output->capabilities() & Output::Capability::Vrr));
+    QVERIFY(!(output->capabilities() & BackendOutput::Capability::Vrr));
 
-    QSignalSpy capsChanged(output, &Output::capabilitiesChanged);
+    QSignalSpy capsChanged(output, &BackendOutput::capabilitiesChanged);
 
     conn->setVrrCapable(true);
     QVERIFY(gpu->updateOutputs());
     QCOMPARE(gpu->drmOutputs().front(), output);
     QCOMPARE(capsChanged.count(), 1);
-    QVERIFY(output->capabilities() & Output::Capability::Vrr);
+    QVERIFY(output->capabilities() & BackendOutput::Capability::Vrr);
 }
 
 QTEST_GUILESS_MAIN(DrmTest)

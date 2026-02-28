@@ -13,6 +13,7 @@
 #include "core/outputlayer.h"
 #include "core/renderbackend.h"
 #include "core/renderloop_p.h"
+#include "wayland-client/viewporter.h"
 #include "wayland_backend.h"
 #include "wayland_display.h"
 #include "wayland_layer.h"
@@ -20,14 +21,16 @@
 #include <KWayland/Client/compositor.h>
 #include <KWayland/Client/pointer.h>
 #include <KWayland/Client/pointerconstraints.h>
+#include <KWayland/Client/seat.h>
 #include <KWayland/Client/surface.h>
 #include <KWayland/Client/xdgdecoration.h>
 
 #include "wayland-fractional-scale-v1-client-protocol.h"
+#include "wayland-keyboard-shortcuts-inhibit-unstable-v1-client-protocol.h"
 #include "wayland-presentation-time-client-protocol.h"
 #include "wayland-single-pixel-buffer-v1-client-protocol.h"
 #include "wayland-tearing-control-v1-client-protocol.h"
-#include "wayland-viewporter-client-protocol.h"
+#include "wayland-xdg-toplevel-icon-v1-client-protocol.h"
 #include "workspace.h"
 
 #include <KLocalizedString>
@@ -46,17 +49,12 @@ using namespace KWayland::Client;
 
 WaylandCursor::WaylandCursor(WaylandBackend *backend)
     : m_surface(backend->display()->compositor()->createSurface())
+    , m_viewport(backend->display()->viewporter()->createViewport(*m_surface))
 {
-    if (auto viewporter = backend->display()->viewporter()) {
-        m_viewport = wp_viewporter_get_viewport(viewporter, *m_surface);
-    }
 }
 
 WaylandCursor::~WaylandCursor()
 {
-    if (m_viewport) {
-        wp_viewport_destroy(m_viewport);
-    }
 }
 
 KWayland::Client::Pointer *WaylandCursor::pointer() const
@@ -100,9 +98,7 @@ void WaylandCursor::sync()
         m_surface->attachBuffer(KWayland::Client::Buffer::Ptr());
         m_surface->commit(KWayland::Client::Surface::CommitFlag::None);
     } else {
-        if (m_viewport) {
-            wp_viewport_set_destination(m_viewport, m_size.width(), m_size.height());
-        }
+        m_viewport->setDestination(m_size);
         m_surface->attachBuffer(m_buffer);
         m_surface->damageBuffer(QRect(0, 0, INT32_MAX, INT32_MAX));
         m_surface->commit(KWayland::Client::Surface::CommitFlag::None);
@@ -123,7 +119,7 @@ const wp_fractional_scale_v1_listener WaylandOutput::s_fractionalScaleListener{
 };
 
 WaylandOutput::WaylandOutput(const QString &name, WaylandBackend *backend)
-    : Output(backend)
+    : BackendOutput()
     , m_renderLoop(std::make_unique<RenderLoop>(this))
     , m_surface(backend->display()->compositor()->createSurface())
     , m_xdgShellSurface(backend->display()->xdgShell()->createSurface(m_surface.get()))
@@ -153,17 +149,11 @@ WaylandOutput::WaylandOutput(const QString &name, WaylandBackend *backend)
         m_fractionalScale = wp_fractional_scale_manager_v1_get_fractional_scale(manager, *m_surface);
         wp_fractional_scale_v1_add_listener(m_fractionalScale, &s_fractionalScaleListener, this);
     }
-    m_viewport = wp_viewporter_get_viewport(backend->display()->viewporter(), *m_surface);
+    m_viewport = backend->display()->viewporter()->createViewport(*m_surface);
     setInformation(Information{
         .name = name,
         .model = name,
         .capabilities = caps,
-    });
-
-    m_turnOffTimer.setSingleShot(true);
-    m_turnOffTimer.setInterval(dimAnimationTime());
-    connect(&m_turnOffTimer, &QTimer::timeout, this, [this] {
-        updateDpmsMode(DpmsMode::Off);
     });
 
     m_configureThrottleTimer.setSingleShot(true);
@@ -172,6 +162,12 @@ WaylandOutput::WaylandOutput(const QString &name, WaylandBackend *backend)
     });
 
     updateWindowTitle();
+    if (auto toplevelIconManager = backend->display()->toplevelIconManager()) {
+        auto toplevelIcon = xdg_toplevel_icon_manager_v1_create_icon(toplevelIconManager);
+        xdg_toplevel_icon_v1_set_name(toplevelIcon, "kwin");
+        xdg_toplevel_icon_manager_v1_set_icon(toplevelIconManager, *m_xdgShellSurface, toplevelIcon);
+        xdg_toplevel_icon_v1_destroy(toplevelIcon);
+    }
 
     connect(m_xdgShellSurface.get(), &XdgShellSurface::configureRequested, this, &WaylandOutput::handleConfigure);
     connect(m_xdgShellSurface.get(), &XdgShellSurface::closeRequested, qApp, &QCoreApplication::quit);
@@ -182,7 +178,10 @@ WaylandOutput::WaylandOutput(const QString &name, WaylandBackend *backend)
 WaylandOutput::~WaylandOutput()
 {
     m_frames.clear();
-    wp_viewport_destroy(m_viewport);
+    if (m_shortcutInhibition) {
+        zwp_keyboard_shortcuts_inhibitor_v1_destroy(m_shortcutInhibition);
+    }
+    m_viewport.reset();
     m_xdgDecoration.reset();
     m_xdgShellSurface.reset();
     m_surface.reset();
@@ -313,7 +312,7 @@ bool WaylandOutput::present(const QList<OutputLayer *> &layersToUpdate, const st
         m_surface->attachBuffer(buffer);
         m_mapped = true;
     }
-    wp_viewport_set_destination(m_viewport, geometry().width(), geometry().height());
+    m_viewport->setDestination(QSize(std::round(modeSize().width() / scale()), std::round(modeSize().height() / scale())));
     m_surface->setScale(1);
     // commit the subsurfaces before the main surface
     for (OutputLayer *layer : layersToUpdate) {
@@ -383,6 +382,15 @@ void WaylandOutput::applyChanges(const OutputConfiguration &config)
     next.desiredModeRefreshRate = props->desiredModeRefreshRate.value_or(m_state.desiredModeRefreshRate);
     next.uuid = props->uuid.value_or(m_state.uuid);
     next.replicationSource = props->replicationSource.value_or(m_state.replicationSource);
+    next.dpmsMode = props->dpmsMode.value_or(m_state.dpmsMode);
+    if (next.dpmsMode != m_state.dpmsMode) {
+        if (next.dpmsMode == DpmsMode::On) {
+            m_renderLoop->uninhibit();
+        } else {
+            m_renderLoop->inhibit();
+        }
+    }
+    next.priority = props->priority.value_or(m_state.priority);
     setState(next);
 }
 
@@ -433,29 +441,6 @@ void WaylandOutput::init(const QSize &pixelSize, qreal scale, bool fullscreen)
     m_surface->commit(KWayland::Client::Surface::CommitFlag::None);
 }
 
-void WaylandOutput::setDpmsMode(DpmsMode mode)
-{
-    if (mode == DpmsMode::Off) {
-        if (!m_turnOffTimer.isActive()) {
-            Q_EMIT aboutToTurnOff(std::chrono::milliseconds(m_turnOffTimer.interval()));
-            m_turnOffTimer.start();
-        }
-    } else {
-        m_turnOffTimer.stop();
-        if (mode != dpmsMode()) {
-            updateDpmsMode(mode);
-            Q_EMIT wakeUp();
-        }
-    }
-}
-
-void WaylandOutput::updateDpmsMode(DpmsMode dpmsMode)
-{
-    State next = m_state;
-    next.dpmsMode = dpmsMode;
-    setState(next);
-}
-
 void WaylandOutput::handleConfigure(const QSize &size, XdgShellSurface::States states, quint32 serial)
 {
     if (!m_ready) {
@@ -463,7 +448,7 @@ void WaylandOutput::handleConfigure(const QSize &size, XdgShellSurface::States s
 
         applyConfigure(size, serial);
     } else {
-        // Output resizing is a resource intensive task, so the configure events are throttled.
+        // LogicalOutput resizing is a resource intensive task, so the configure events are throttled.
         m_pendingConfigureSerial = serial;
         m_pendingConfigureSize = size;
 
@@ -518,6 +503,7 @@ void WaylandOutput::lockPointer(Pointer *pointer, bool lock)
         m_pointerLock.reset();
         m_hasPointerLock = false;
         if (surfaceWasLocked) {
+            inhibitShortcuts(false);
             updateWindowTitle();
             Q_EMIT m_backend->pointerLockChanged(false);
         }
@@ -532,15 +518,36 @@ void WaylandOutput::lockPointer(Pointer *pointer, bool lock)
     }
     connect(m_pointerLock.get(), &LockedPointer::locked, this, [this]() {
         m_hasPointerLock = true;
+        inhibitShortcuts(true);
         updateWindowTitle();
         Q_EMIT m_backend->pointerLockChanged(true);
     });
     connect(m_pointerLock.get(), &LockedPointer::unlocked, this, [this]() {
         m_pointerLock.reset();
+        inhibitShortcuts(false);
         m_hasPointerLock = false;
         updateWindowTitle();
         Q_EMIT m_backend->pointerLockChanged(false);
     });
+}
+
+void WaylandOutput::inhibitShortcuts(bool inhibit)
+{
+    if (!inhibit) {
+        if (m_shortcutInhibition) {
+            zwp_keyboard_shortcuts_inhibitor_v1_destroy(m_shortcutInhibition);
+            m_shortcutInhibition = nullptr;
+        }
+        return;
+    }
+
+    auto *inhibitionManager = m_backend->display()->keyboardShortcutsInhibitManager();
+    if (!inhibitionManager) {
+        return;
+    }
+
+    Q_ASSERT(!m_shortcutInhibition);
+    m_shortcutInhibition = zwp_keyboard_shortcuts_inhibit_manager_v1_inhibit_shortcuts(inhibitionManager, *m_surface, *(m_backend->display()->seat()));
 }
 
 void WaylandOutput::setOutputLayers(std::vector<std::unique_ptr<OutputLayer>> &&layers)

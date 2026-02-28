@@ -8,7 +8,7 @@
 */
 #pragma once
 
-#include "kwin_export.h"
+#include "core/rect.h"
 
 // Qt
 #include <QHash>
@@ -19,7 +19,7 @@ namespace KWin
 {
 
 class CursorSource;
-class Output;
+class LogicalOutput;
 
 namespace ExtendedCursor
 {
@@ -114,8 +114,8 @@ public:
     void setPos(const QPointF &pos);
 
     QPointF hotspot() const;
-    QRectF geometry() const;
-    QRectF rect() const;
+    RectF geometry() const;
+    RectF rect() const;
 
     CursorSource *source() const;
     void setSource(CursorSource *source);
@@ -123,7 +123,7 @@ public:
     /**
      * Returns @c true if the cursor is visible on the given output; otherwise returns @c false.
      */
-    bool isOnOutput(Output *output) const;
+    bool isOnOutput(LogicalOutput *output) const;
 
 Q_SIGNALS:
     void posChanged(const QPointF &pos);

@@ -24,7 +24,7 @@ namespace KWin
 
 static const bool s_bufferAgeEnabled = qEnvironmentVariable("KWIN_USE_BUFFER_AGE") != QStringLiteral("0");
 
-VirtualEglLayer::VirtualEglLayer(Output *output, VirtualEglBackend *backend)
+VirtualEglLayer::VirtualEglLayer(BackendOutput *output, VirtualEglBackend *backend)
     : OutputLayer(output, OutputLayerType::Primary)
     , m_backend(backend)
 {
@@ -57,17 +57,17 @@ std::optional<OutputLayerBeginFrameInfo> VirtualEglLayer::doBeginFrame()
 
     return OutputLayerBeginFrameInfo{
         .renderTarget = RenderTarget(m_current->framebuffer()),
-        .repaint = s_bufferAgeEnabled ? m_damageJournal.accumulate(m_current->age(), infiniteRegion()) : infiniteRegion(),
+        .repaint = s_bufferAgeEnabled ? m_damageJournal.accumulate(m_current->age(), Region::infinite()) : Region::infinite(),
     };
 }
 
-bool VirtualEglLayer::doEndFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame)
+bool VirtualEglLayer::doEndFrame(const Region &renderedDeviceRegion, const Region &damagedDeviceRegion, OutputFrame *frame)
 {
     m_query->end();
     frame->addRenderTimeQuery(std::move(m_query));
     glFlush(); // flush pending rendering commands.
     m_swapchain->release(m_current, FileDescriptor{});
-    m_damageJournal.add(damagedRegion);
+    m_damageJournal.add(damagedDeviceRegion);
     return true;
 }
 
@@ -100,7 +100,7 @@ VirtualEglBackend::VirtualEglBackend(VirtualBackend *b)
 VirtualEglBackend::~VirtualEglBackend()
 {
     const auto outputs = m_backend->outputs();
-    for (Output *output : outputs) {
+    for (BackendOutput *output : outputs) {
         static_cast<VirtualOutput *>(output)->setOutputLayer(nullptr);
     }
     cleanup();
@@ -158,7 +158,7 @@ void VirtualEglBackend::init()
     initWayland();
 
     const auto outputs = m_backend->outputs();
-    for (Output *output : outputs) {
+    for (BackendOutput *output : outputs) {
         addOutput(output);
     }
 
@@ -170,13 +170,13 @@ bool VirtualEglBackend::initRenderingContext()
     return createContext(EGL_NO_CONFIG_KHR) && openglContext()->makeCurrent();
 }
 
-void VirtualEglBackend::addOutput(Output *output)
+void VirtualEglBackend::addOutput(BackendOutput *output)
 {
     openglContext()->makeCurrent();
     static_cast<VirtualOutput *>(output)->setOutputLayer(std::make_unique<VirtualEglLayer>(output, this));
 }
 
-QList<OutputLayer *> VirtualEglBackend::compatibleOutputLayers(Output *output)
+QList<OutputLayer *> VirtualEglBackend::compatibleOutputLayers(BackendOutput *output)
 {
     return {static_cast<VirtualOutput *>(output)->outputLayer()};
 }

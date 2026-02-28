@@ -10,7 +10,7 @@
 
 #include "kwin_export.h"
 
-#include "output.h"
+#include "backendoutput.h"
 
 #include <QPoint>
 #include <QSize>
@@ -30,28 +30,29 @@ public:
     std::optional<bool> enabled;
     std::optional<QPoint> pos;
     std::optional<double> scale;
+    std::optional<double> scaleSetting;
     std::optional<OutputTransform> transform;
     std::optional<OutputTransform> manualTransform;
     std::optional<uint32_t> overscan;
-    std::optional<Output::RgbRange> rgbRange;
+    std::optional<BackendOutput::RgbRange> rgbRange;
     std::optional<VrrPolicy> vrrPolicy;
     std::optional<bool> highDynamicRange;
     std::optional<uint32_t> referenceLuminance;
     std::optional<bool> wideColorGamut;
-    std::optional<Output::AutoRotationPolicy> autoRotationPolicy;
+    std::optional<BackendOutput::AutoRotationPolicy> autoRotationPolicy;
     std::optional<QString> iccProfilePath;
     std::optional<std::shared_ptr<IccProfile>> iccProfile;
     std::optional<std::optional<double>> maxPeakBrightnessOverride;
     std::optional<std::optional<double>> maxAverageBrightnessOverride;
     std::optional<std::optional<double>> minBrightnessOverride;
     std::optional<double> sdrGamutWideness;
-    std::optional<Output::ColorProfileSource> colorProfileSource;
+    std::optional<BackendOutput::ColorProfileSource> colorProfileSource;
     std::optional<double> brightness;
     // setting "brightness" may trigger animations;
     // setting the current brightness doesn't
-    std::optional<double> currentBrightness;
+    std::optional<double> currentHardwareBrightness;
     std::optional<bool> allowSdrSoftwareBrightness;
-    std::optional<Output::ColorPowerTradeoff> colorPowerTradeoff;
+    std::optional<BackendOutput::ColorPowerTradeoff> colorPowerTradeoff;
     std::optional<double> dimming;
     std::optional<BrightnessDevice *> brightnessDevice;
     std::optional<QString> uuid;
@@ -59,17 +60,39 @@ public:
     std::optional<bool> detectedDdcCi;
     std::optional<bool> allowDdcCi;
     std::optional<uint32_t> maxBitsPerColor;
-    std::optional<Output::EdrPolicy> edrPolicy;
+    std::optional<BackendOutput::EdrPolicy> edrPolicy;
+    std::optional<double> sharpness;
+    std::optional<BackendOutput::DpmsMode> dpmsMode;
+    std::optional<uint32_t> priority;
+    std::optional<QList<CustomModeDefinition>> customModes;
+    std::optional<QPoint> deviceOffset;
+    std::optional<bool> automaticBrightness;
+    std::optional<AutoBrightnessCurve> autoBrightnessCurve;
+    std::optional<BackendOutput::BrightnessReason> brightnessReason;
 };
 
 class KWIN_EXPORT OutputConfiguration
 {
 public:
-    std::shared_ptr<OutputChangeSet> changeSet(Output *output);
-    std::shared_ptr<OutputChangeSet> constChangeSet(Output *output) const;
+    std::shared_ptr<OutputChangeSet> changeSet(BackendOutput *output);
+    std::shared_ptr<OutputChangeSet> constChangeSet(BackendOutput *output) const;
+
+    enum class Source {
+        /**
+         * The output configuration is provided by the user, for example after changing
+         * display settings in system settings.
+         */
+        User,
+        /**
+         * The output configuration is provided by the system/compositor, for example
+         * when automatically adjusting the brightness of a monitor, etc.
+         */
+        System,
+    };
+    Source source = Source::System;
 
 private:
-    QMap<Output *, std::shared_ptr<OutputChangeSet>> m_properties;
+    QMap<BackendOutput *, std::shared_ptr<OutputChangeSet>> m_properties;
 };
 
 }

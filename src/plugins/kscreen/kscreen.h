@@ -23,8 +23,8 @@ public:
 
     void prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseconds presentTime) override;
     void postPaintScreen() override;
-    void prePaintWindow(EffectWindow *w, WindowPrePaintData &data, std::chrono::milliseconds presentTime) override;
-    void paintWindow(const RenderTarget &renderTarget, const RenderViewport &viewport, EffectWindow *w, int mask, QRegion region, WindowPaintData &data) override;
+    void prePaintWindow(RenderView *view, EffectWindow *w, WindowPrePaintData &data, std::chrono::milliseconds presentTime) override;
+    void paintWindow(const RenderTarget &renderTarget, const RenderViewport &viewport, EffectWindow *w, int mask, const Region &deviceRegion, WindowPaintData &data) override;
 
     void reconfigure(ReconfigureFlags flags) override;
     bool isActive() const override;
@@ -50,11 +50,11 @@ private:
 
     void switchState(ScreenState &state);
     void setState(ScreenState &state, FadeOutState newState);
-    void addScreen(Output *screen);
-    bool isScreenActive(Output *screen) const;
+    void dpmsChanged(std::chrono::milliseconds animationTime);
+    bool isScreenActive(LogicalOutput *screen) const;
 
-    QHash<Output *, ScreenState> m_states;
-    Output *m_currentScreen = nullptr;
+    QHash<LogicalOutput *, ScreenState> m_states;
+    LogicalOutput *m_currentScreen = nullptr;
 };
 
 } // namespace KWin

@@ -44,9 +44,9 @@ static QFuture<QByteArray> readMimeTypeData(KWayland::Client::DataOffer *offer, 
         return QFuture<QByteArray>();
     }
 
-    offer->receive(mimeType, pipe->fds[1].get());
+    offer->receive(mimeType, pipe->writeEndpoint.get());
 
-    return QtConcurrent::run([fd = std::move(pipe->fds[0])] {
+    return QtConcurrent::run([fd = std::move(pipe->readEndpoint)] {
         QFile file;
         if (!file.open(fd.get(), QFile::ReadOnly | QFile::Text)) {
             return QByteArray();
@@ -113,13 +113,13 @@ void DndTest::initTestCase()
     QVERIFY(waylandServer()->init(s_socketName));
     kwinApp()->start();
     Test::setOutputConfig({
-        QRect(0, 0, 1280, 1024),
-        QRect(1280, 0, 1280, 1024),
+        Rect(0, 0, 1280, 1024),
+        Rect(1280, 0, 1280, 1024),
     });
     const auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
-    QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
-    QCOMPARE(outputs[1]->geometry(), QRect(1280, 0, 1280, 1024));
+    QCOMPARE(outputs[0]->geometry(), Rect(0, 0, 1280, 1024));
+    QCOMPARE(outputs[1]->geometry(), Rect(1280, 0, 1280, 1024));
 
     // Generate tablet tool events so the corresponding tablet tool device is registered.
     Test::tabletToolProximityEvent(QPointF(640, 480), 0, 0, 0, 0, true, 0, 0);

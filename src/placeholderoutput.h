@@ -6,12 +6,12 @@
 
 #pragma once
 
-#include "core/output.h"
+#include "core/backendoutput.h"
 
 namespace KWin
 {
 
-class PlaceholderOutput : public Output
+class PlaceholderOutput : public BackendOutput
 {
     Q_OBJECT
 

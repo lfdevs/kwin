@@ -9,9 +9,8 @@
 
 #pragma once
 
+#include "core/region.h"
 #include "effect/globals.h"
-
-#include <QRegion>
 
 #include <KPluginFactory>
 #include <KSharedConfig>
@@ -22,7 +21,7 @@ namespace KWin
 {
 
 class EffectWindow;
-class Output;
+class LogicalOutput;
 class PaintDataPrivate;
 class RenderTarget;
 class RenderViewport;
@@ -102,7 +101,7 @@ class RenderView;
 
 #define KWIN_EFFECT_API_MAKE_VERSION(major, minor) ((major) << 8 | (minor))
 #define KWIN_EFFECT_API_VERSION_MAJOR 0
-#define KWIN_EFFECT_API_VERSION_MINOR 236
+#define KWIN_EFFECT_API_VERSION_MINOR 237
 #define KWIN_EFFECT_API_VERSION KWIN_EFFECT_API_MAKE_VERSION( \
     KWIN_EFFECT_API_VERSION_MAJOR, KWIN_EFFECT_API_VERSION_MINOR)
 
@@ -280,14 +279,14 @@ class KWIN_EXPORT WindowPrePaintData
 public:
     int mask;
     /**
-     * Region that will be painted, in screen coordinates.
+     * Region that will be painted, in device coordinates.
      */
-    QRegion paint;
+    Region devicePaint;
     /**
      * Region indicating the opaque content. It can be used to avoid painting
      * windows occluded by the opaque region.
      */
-    QRegion opaque;
+    Region deviceOpaque;
     /**
      * Simple helper that sets data to say the window will be painted as non-opaque.
      * Takes also care of changing the regions.
@@ -435,8 +434,8 @@ class KWIN_EXPORT ScreenPrePaintData
 {
 public:
     int mask;
-    QRegion paint;
-    Output *screen = nullptr;
+    Region paint;
+    LogicalOutput *screen = nullptr;
     RenderView *view = nullptr;
 };
 
@@ -609,7 +608,7 @@ public:
      * In OpenGL based compositing, the frameworks ensures that the context is current
      * when this method is invoked.
      */
-    virtual void paintScreen(const RenderTarget &renderTarget, const RenderViewport &viewport, int mask, const QRegion &region, Output *screen);
+    virtual void paintScreen(const RenderTarget &renderTarget, const RenderViewport &viewport, int mask, const Region &deviceRegion, LogicalOutput *screen);
     /**
      * Called after all the painting has been finished.
      * In this method you can:
@@ -635,7 +634,7 @@ public:
      * @a presentTime specifies the expected monotonic time when the rendered frame
      * will be displayed on the screen.
      */
-    virtual void prePaintWindow(EffectWindow *w, WindowPrePaintData &data,
+    virtual void prePaintWindow(RenderView *view, EffectWindow *w, WindowPrePaintData &data,
                                 std::chrono::milliseconds presentTime);
     /**
      * This is the main method for painting windows.
@@ -647,17 +646,7 @@ public:
      * In OpenGL based compositing, the frameworks ensures that the context is current
      * when this method is invoked.
      */
-    virtual void paintWindow(const RenderTarget &renderTarget, const RenderViewport &viewport, EffectWindow *w, int mask, QRegion region, WindowPaintData &data);
-    /**
-     * Called for every window after all painting has been finished.
-     * In this method you can:
-     * @li schedule next repaint for individual window(s) in case of animations
-     * You shouldn't paint anything here.
-     *
-     * In OpenGL based compositing, the frameworks ensures that the context is current
-     * when this method is invoked.
-     */
-    virtual void postPaintWindow(EffectWindow *w);
+    virtual void paintWindow(const RenderTarget &renderTarget, const RenderViewport &viewport, EffectWindow *w, int mask, const Region &deviceRegion, WindowPaintData &data);
 
     /**
      * Called on Transparent resizes.
@@ -686,7 +675,7 @@ public:
      * In OpenGL based compositing, the frameworks ensures that the context is current
      * when this method is invoked.
      */
-    virtual void drawWindow(const RenderTarget &renderTarget, const RenderViewport &viewport, EffectWindow *w, int mask, const QRegion &region, WindowPaintData &data);
+    virtual void drawWindow(const RenderTarget &renderTarget, const RenderViewport &viewport, EffectWindow *w, int mask, const Region &deviceRegion, WindowPaintData &data);
 
     virtual void windowInputMouseEvent(QEvent *e);
     virtual void grabbedKeyboardEvent(QKeyEvent *e);
@@ -859,7 +848,7 @@ public:
      *
      * @since 5.25
      */
-    virtual bool tabletPadRingEvent(int number, int position, bool isFinger, void *device);
+    virtual bool tabletPadRingEvent(int number, qreal position, bool isFinger, void *device);
 
     /**
      * There has been an event from a input dial on a drawing tablet pad
@@ -905,11 +894,11 @@ public:
     {
         return x * (1 - a) + y * a;
     }
-    /** Helper to set WindowPaintData and QRegion to necessary transformations so that
+    /** Helper to set WindowPaintData and Region to necessary transformations so that
      * a following drawWindow() would put the window at the requested geometry (useful for thumbnails)
      */
-    static void setPositionTransformations(WindowPaintData &data, QRect &region, EffectWindow *w,
-                                           const QRect &r, Qt::AspectRatioMode aspect);
+    static void setPositionTransformations(WindowPaintData &data, Rect &logicalRegion, EffectWindow *w,
+                                           const Rect &r, Qt::AspectRatioMode aspect);
 
     /**
      * overwrite this method to return false if your effect does not need to be drawn over opaque fullscreen windows

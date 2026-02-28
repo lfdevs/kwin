@@ -31,7 +31,7 @@ LayerShellV1Integration::LayerShellV1Integration(QObject *parent)
 
 void LayerShellV1Integration::createWindow(LayerSurfaceV1Interface *shellSurface)
 {
-    Output *output;
+    LogicalOutput *output;
     if (OutputInterface *preferredOutput = shellSurface->output()) {
         if (preferredOutput->isRemoved()) {
             shellSurface->sendClosed();
@@ -63,7 +63,7 @@ void LayerShellV1Integration::destroyWindow(LayerSurfaceV1Interface *shellSurfac
     }
 }
 
-static void adjustWorkArea(const LayerSurfaceV1Interface *shellSurface, QRect *workArea)
+static void adjustWorkArea(const LayerSurfaceV1Interface *shellSurface, Rect *workArea)
 {
     switch (shellSurface->exclusiveEdge()) {
     case Qt::LeftEdge:
@@ -81,7 +81,7 @@ static void adjustWorkArea(const LayerSurfaceV1Interface *shellSurface, QRect *w
     }
 }
 
-static void rearrangeLayer(const QList<LayerShellV1Window *> &windows, QRect *workArea,
+static void rearrangeLayer(const QList<LayerShellV1Window *> &windows, Rect *workArea,
                            LayerSurfaceV1Interface::Layer layer, bool exclusive)
 {
     for (LayerShellV1Window *window : windows) {
@@ -94,14 +94,14 @@ static void rearrangeLayer(const QList<LayerShellV1Window *> &windows, QRect *wo
             continue;
         }
 
-        QRect bounds;
+        Rect bounds;
         if (shellSurface->exclusiveZone() == -1) {
             bounds = window->desiredOutput()->geometry();
         } else {
             bounds = *workArea;
         }
 
-        QRect geometry(QPoint(0, 0), shellSurface->desiredSize());
+        Rect geometry(QPoint(0, 0), shellSurface->desiredSize());
 
         if ((shellSurface->anchor() & AnchorHorizontal) && geometry.width() == 0) {
             geometry.setLeft(bounds.left());
@@ -167,7 +167,7 @@ static int weightForWindow(const LayerShellV1Window *window)
     return (window->shellSurface()->anchor() & AnchorHorizontal) == AnchorHorizontal ? 1 : 0;
 }
 
-static QList<LayerShellV1Window *> windowsForOutput(Output *output)
+static QList<LayerShellV1Window *> windowsForOutput(LogicalOutput *output)
 {
     QList<LayerShellV1Window *> result;
     const QList<Window *> windows = waylandServer()->windows();
@@ -192,11 +192,11 @@ static QList<LayerShellV1Window *> windowsForOutput(Output *output)
     return result;
 }
 
-static void rearrangeOutput(Output *output)
+static void rearrangeOutput(LogicalOutput *output)
 {
     const QList<LayerShellV1Window *> windows = windowsForOutput(output);
     if (!windows.isEmpty()) {
-        QRect workArea = output->geometry();
+        Rect workArea = output->geometry();
 
         rearrangeLayer(windows, &workArea, LayerSurfaceV1Interface::OverlayLayer, true);
         rearrangeLayer(windows, &workArea, LayerSurfaceV1Interface::TopLayer, true);
@@ -212,8 +212,8 @@ static void rearrangeOutput(Output *output)
 
 void LayerShellV1Integration::rearrange()
 {
-    const QList<Output *> outputs = workspace()->outputs();
-    for (Output *output : outputs) {
+    const QList<LogicalOutput *> outputs = workspace()->outputs();
+    for (LogicalOutput *output : outputs) {
         rearrangeOutput(output);
     }
 }

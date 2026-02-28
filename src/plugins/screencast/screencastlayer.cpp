@@ -8,13 +8,15 @@
 namespace KWin
 {
 
-ScreencastLayer::ScreencastLayer(Output *output, const QHash<uint32_t, QList<uint64_t>> &formats)
-    : OutputLayer(output, OutputLayerType::Primary)
+ScreencastLayer::ScreencastLayer(LogicalOutput *output, const QHash<uint32_t, QList<uint64_t>> &formats)
+    : OutputLayer(output->backendOutput(), OutputLayerType::Primary)
     , m_formats(formats)
 {
+    // prevent the layer from scheduling frames on the actual output
+    setRenderLoop(nullptr);
 }
 
-void ScreencastLayer::setFramebuffer(GLFramebuffer *buffer, const QRegion &bufferDamage)
+void ScreencastLayer::setFramebuffer(GLFramebuffer *buffer, const Region &bufferDamage)
 {
     // TODO is there a better way to deal with this?
     m_buffer = buffer;
@@ -39,7 +41,7 @@ std::optional<OutputLayerBeginFrameInfo> ScreencastLayer::doBeginFrame()
     };
 }
 
-bool ScreencastLayer::doEndFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame)
+bool ScreencastLayer::doEndFrame(const Region &renderedRegion, const Region &damagedRegion, OutputFrame *frame)
 {
     return true;
 }

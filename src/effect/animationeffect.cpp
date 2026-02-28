@@ -9,6 +9,7 @@
 */
 
 #include "effect/animationeffect.h"
+#include "core/renderviewport.h"
 #include "effect/anidata_p.h"
 #include "effect/effecthandler.h"
 #include "opengl/glshader.h"
@@ -421,7 +422,7 @@ void AnimationEffect::genericAnimation(EffectWindow *w, WindowPaintData &data, f
 {
 }
 
-static qreal xCoord(const QRectF &r, int flag)
+static qreal xCoord(const RectF &r, int flag)
 {
     if (flag & AnimationEffect::Left) {
         return r.x();
@@ -432,7 +433,7 @@ static qreal xCoord(const QRectF &r, int flag)
     }
 }
 
-static qreal yCoord(const QRectF &r, int flag)
+static qreal yCoord(const RectF &r, int flag)
 {
     if (flag & AnimationEffect::Top) {
         return r.y();
@@ -443,9 +444,9 @@ static qreal yCoord(const QRectF &r, int flag)
     }
 }
 
-QRect AnimationEffect::clipRect(const QRect &geo, const AniData &anim) const
+Rect AnimationEffect::clipRect(const Rect &geo, const AniData &anim) const
 {
-    QRect clip = geo;
+    Rect clip = geo;
     FPx2 ratio = anim.from + progress(anim) * (anim.to - anim.from);
     if (anim.from[0] < 1.0 || anim.to[0] < 1.0) {
         clip.setWidth(clip.width() * ratio[0]);
@@ -453,8 +454,8 @@ QRect AnimationEffect::clipRect(const QRect &geo, const AniData &anim) const
     if (anim.from[1] < 1.0 || anim.to[1] < 1.0) {
         clip.setHeight(clip.height() * ratio[1]);
     }
-    const QRect center = geo.adjusted(clip.width() / 2, clip.height() / 2,
-                                      -(clip.width() + 1) / 2, -(clip.height() + 1) / 2);
+    const Rect center = geo.adjusted(clip.width() / 2, clip.height() / 2,
+                                     -(clip.width() + 1) / 2, -(clip.height() + 1) / 2);
     const qreal x[2] = {xCoord(center, metaData(SourceAnchor, anim.meta)),
                         xCoord(center, metaData(TargetAnchor, anim.meta))};
     const qreal y[2] = {yCoord(center, metaData(SourceAnchor, anim.meta)),
@@ -464,7 +465,7 @@ QRect AnimationEffect::clipRect(const QRect &geo, const AniData &anim) const
     return clip;
 }
 
-void AnimationEffect::prePaintWindow(EffectWindow *w, WindowPrePaintData &data, std::chrono::milliseconds presentTime)
+void AnimationEffect::prePaintWindow(RenderView *view, EffectWindow *w, WindowPrePaintData &data, std::chrono::milliseconds presentTime)
 {
     auto entry = d->m_animations.find(w);
     if (entry != d->m_animations.end()) {
@@ -486,7 +487,7 @@ void AnimationEffect::prePaintWindow(EffectWindow *w, WindowPrePaintData &data, 
             }
         }
     }
-    effects->prePaintWindow(w, data, presentTime);
+    effects->prePaintWindow(view, w, data, presentTime);
 }
 
 static inline float geometryCompensation(int flags, float v)
@@ -500,13 +501,14 @@ static inline float geometryCompensation(int flags, float v)
     return 0.5 * (1.0 - v); // half compensation
 }
 
-void AnimationEffect::paintWindow(const RenderTarget &renderTarget, const RenderViewport &viewport, EffectWindow *w, int mask, QRegion region, WindowPaintData &data)
+void AnimationEffect::paintWindow(const RenderTarget &renderTarget, const RenderViewport &viewport, EffectWindow *w, int mask, const Region &deviceRegion, WindowPaintData &data)
 {
     auto it = d->m_animations.find(w);
     if (it == d->m_animations.end()) {
-        effects->paintWindow(renderTarget, viewport, w, mask, region, data);
+        effects->paintWindow(renderTarget, viewport, w, mask, deviceRegion, data);
         return;
     }
+    Region effectiveDeviceRegion = deviceRegion;
     auto &[window, pair] = *it;
     auto &[list, rect] = pair;
     for (auto &anim : list) {
@@ -546,7 +548,7 @@ void AnimationEffect::paintWindow(const RenderTarget &renderTarget, const Render
             break;
         }
         case Clip:
-            region = clipRect(w->expandedGeometry().toAlignedRect(), anim);
+            effectiveDeviceRegion &= viewport.mapToDeviceCoordinatesAligned(clipRect(w->expandedGeometry().toAlignedRect(), anim));
             break;
         case Translation:
             data += QPointF(interpolated(anim, 0), interpolated(anim, 1));
@@ -626,7 +628,7 @@ void AnimationEffect::paintWindow(const RenderTarget &renderTarget, const Render
             break;
         }
     }
-    effects->paintWindow(renderTarget, viewport, w, mask, region, data);
+    effects->paintWindow(renderTarget, viewport, w, mask, effectiveDeviceRegion, data);
 }
 
 void AnimationEffect::postPaintScreen()

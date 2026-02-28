@@ -10,6 +10,7 @@
 #include "kscreen.h"
 #include "core/output.h"
 #include "effect/effecthandler.h"
+#include "workspace.h"
 // KConfigSkeleton
 #include "kscreenconfig.h"
 
@@ -24,28 +25,36 @@ KscreenEffect::KscreenEffect()
     KscreenConfig::instance(effects->config());
     reconfigure(ReconfigureAll);
 
-    const QList<Output *> screens = effects->screens();
-    for (auto screen : screens) {
-        addScreen(screen);
-    }
-    connect(effects, &EffectsHandler::screenAdded, this, &KscreenEffect::addScreen);
-    connect(effects, &EffectsHandler::screenRemoved, this, [this](KWin::Output *screen) {
+    connect(workspace(), &Workspace::dpmsStateChanged, this, &KscreenEffect::dpmsChanged);
+    connect(effects, &EffectsHandler::screenRemoved, this, [this](LogicalOutput *screen) {
         m_states.remove(screen);
     });
 }
 
-void KscreenEffect::addScreen(Output *screen)
+void KscreenEffect::dpmsChanged(std::chrono::milliseconds animationTime)
 {
-    connect(screen, &Output::wakeUp, this, [this, screen] {
-        auto &state = m_states[screen];
-        state.m_timeLine.setDuration(std::chrono::milliseconds(animationTime<KscreenConfig>(250ms)));
-        setState(state, StateFadingIn);
-    });
-    connect(screen, &Output::aboutToTurnOff, this, [this, screen](std::chrono::milliseconds dimmingIn) {
-        auto &state = m_states[screen];
-        state.m_timeLine.setDuration(dimmingIn);
-        setState(state, StateFadingOut);
-    });
+    switch (workspace()->dpmsState()) {
+    case Workspace::DpmsState::On: {
+        const auto screens = effects->screens();
+        for (LogicalOutput *screen : screens) {
+            auto &state = m_states[screen];
+            state.m_timeLine.setDuration(animationTime);
+            setState(state, StateFadingIn);
+        }
+        break;
+    }
+    case Workspace::DpmsState::AboutToTurnOff: {
+        const auto screens = effects->screens();
+        for (LogicalOutput *screen : screens) {
+            auto &state = m_states[screen];
+            state.m_timeLine.setDuration(animationTime);
+            setState(state, StateFadingOut);
+        }
+        break;
+    }
+    case Workspace::DpmsState::Off:
+        break;
+    }
 }
 
 void KscreenEffect::reconfigure(ReconfigureFlags flags)
@@ -85,7 +94,7 @@ void KscreenEffect::postPaintScreen()
     effects->postPaintScreen();
 }
 
-void KscreenEffect::prePaintWindow(EffectWindow *w, WindowPrePaintData &data, std::chrono::milliseconds presentTime)
+void KscreenEffect::prePaintWindow(RenderView *view, EffectWindow *w, WindowPrePaintData &data, std::chrono::milliseconds presentTime)
 {
     auto screen = w->screen();
     if (isScreenActive(screen)) {
@@ -94,10 +103,10 @@ void KscreenEffect::prePaintWindow(EffectWindow *w, WindowPrePaintData &data, st
             data.setTranslucent();
         }
     }
-    effects->prePaintWindow(w, data, presentTime);
+    effects->prePaintWindow(view, w, data, presentTime);
 }
 
-void KscreenEffect::paintWindow(const RenderTarget &renderTarget, const RenderViewport &viewport, EffectWindow *w, int mask, QRegion region, WindowPaintData &data)
+void KscreenEffect::paintWindow(const RenderTarget &renderTarget, const RenderViewport &viewport, EffectWindow *w, int mask, const Region &deviceRegion, WindowPaintData &data)
 {
     auto screen = w->screen();
     if (isScreenActive(screen)) {
@@ -121,7 +130,7 @@ void KscreenEffect::paintWindow(const RenderTarget &renderTarget, const RenderVi
             break;
         }
     }
-    effects->paintWindow(renderTarget, viewport, w, mask, region, data);
+    effects->paintWindow(renderTarget, viewport, w, mask, deviceRegion, data);
 }
 
 void KscreenEffect::setState(ScreenState &state, FadeOutState newState)
@@ -149,7 +158,7 @@ bool KscreenEffect::isActive() const
     return !m_states.isEmpty();
 }
 
-bool KscreenEffect::isScreenActive(Output *screen) const
+bool KscreenEffect::isScreenActive(LogicalOutput *screen) const
 {
     return m_states.contains(screen);
 }

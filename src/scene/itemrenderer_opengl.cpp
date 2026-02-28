@@ -86,23 +86,23 @@ static RenderGeometry clipQuads(const Item *item, const ItemRendererOpenGL::Rend
 {
     const WindowQuadList quads = item->quads();
 
-    // Item to world translation.
-    const QPointF worldTranslation = context->transformStack.top().map(QPointF(0., 0.));
     const qreal scale = context->renderTargetScale;
+    const QPointF itemToDeviceTranslation = context->transformStack.top().map(QPointF(0., 0.))
+                                          - context->viewportOrigin
+                                          + context->renderOffset;
 
     RenderGeometry geometry;
     geometry.reserve(quads.count() * 6);
 
     // split all quads in bounding rect with the actual rects in the region
     for (const WindowQuad &quad : std::as_const(quads)) {
-        if (context->clip != infiniteRegion() && !context->hardwareClipping) {
+        if (context->deviceClip != Region::infinite() && !context->hardwareClipping) {
             // Scale to device coordinates, rounding as needed.
-            QRectF deviceBounds = snapToPixelGridF(scaledRect(quad.bounds(), scale));
+            const RectF deviceBounds = snapToPixelGridF(scaledRect(quad.bounds(), scale));
 
-            for (const QRect &clipRect : std::as_const(context->clip)) {
-                QRectF deviceClipRect = snapToPixelGridF(scaledRect(clipRect, scale)).translated(-worldTranslation);
-
-                const QRectF &intersected = deviceClipRect.intersected(deviceBounds);
+            for (const Rect &deviceClipRect : context->deviceClip.rects()) {
+                const RectF relativeDeviceClipRect = RectF(deviceClipRect).translated(-itemToDeviceTranslation);
+                const RectF intersected = relativeDeviceClipRect.intersected(deviceBounds);
                 if (intersected.isValid()) {
                     if (deviceBounds == intersected) {
                         // case 1: completely contains, include and do not check other rects
@@ -159,7 +159,7 @@ void ItemRendererOpenGL::createRenderNode(Item *item, RenderContext *context, co
     }
 
     if (const BorderRadius radius = item->borderRadius(); !radius.isNull()) {
-        const QRectF nativeRect = snapToPixelGridF(scaledRect(item->rect(), context->renderTargetScale));
+        const RectF nativeRect = snapToPixelGridF(scaledRect(item->rect(), context->renderTargetScale));
         const BorderRadius nativeRadius = radius.scaled(context->renderTargetScale).rounded();
         context->cornerStack.push({
             .box = nativeRect,
@@ -216,36 +216,37 @@ void ItemRendererOpenGL::createRenderNode(Item *item, RenderContext *context, co
             }
         }
     } else if (auto surfaceItem = qobject_cast<SurfaceItem *>(item)) {
-        SurfacePixmap *pixmap = surfaceItem->pixmap();
-        if (pixmap) {
+        auto texture = static_cast<OpenGLSurfaceTexture *>(surfaceItem->texture());
+        if (texture && texture->isValid()) {
             if (!geometry.isEmpty()) {
-                OpenGLSurfaceTexture *surfaceTexture = static_cast<OpenGLSurfaceTexture *>(pixmap->texture());
-                if (surfaceTexture->isValid()) {
-                    RenderNode &renderNode = context->renderNodes.emplace_back(RenderNode{
-                        .traits = surfaceTexture->texture().planes.count() == 1 ? ShaderTrait::MapTexture : ShaderTrait::MapYUVTexture,
-                        .textures = surfaceTexture->texture().toVarLengthArray(),
-                        .geometry = geometry,
-                        .transformMatrix = context->transformStack.top(),
-                        .opacity = context->opacityStack.top(),
-                        .hasAlpha = pixmap->hasAlphaChannel(),
-                        .colorDescription = item->colorDescription(),
-                        .renderingIntent = item->renderingIntent(),
-                        .bufferReleasePoint = surfaceItem->bufferReleasePoint(),
-                        .paintHole = hole,
-                    });
-                    renderNode.geometry.postProcessTextureCoordinates(surfaceTexture->texture().planes.at(0)->matrix(UnnormalizedCoordinates));
+                RenderNode &renderNode = context->renderNodes.emplace_back(RenderNode{
+                    .traits = texture->texture().planes.count() == 1 ? ShaderTrait::MapTexture : ShaderTrait::MapMultiPlaneTexture,
+                    .textures = texture->texture().toVarLengthArray(),
+                    .geometry = geometry,
+                    .transformMatrix = context->transformStack.top(),
+                    .opacity = context->opacityStack.top(),
+                    .hasAlpha = surfaceItem->hasAlphaChannel(),
+                    .colorDescription = item->colorDescription(),
+                    .renderingIntent = item->renderingIntent(),
+                    .bufferReleasePoint = surfaceItem->bufferReleasePoint(),
+                    .paintHole = hole,
+                    .hasFloatingPointColor = texture->isFloatingPoint(),
+                });
+                renderNode.geometry.postProcessTextureCoordinates(texture->texture().planes.at(0)->matrix(UnnormalizedCoordinates));
+                if (surfaceItem->colorDescription()->yuvCoefficients() != YUVMatrixCoefficients::Identity) {
+                    renderNode.traits |= ShaderTrait::YuvConversion;
+                }
 
-                    if (!context->cornerStack.isEmpty()) {
-                        const auto &top = context->cornerStack.top();
+                if (!context->cornerStack.isEmpty()) {
+                    const auto &top = context->cornerStack.top();
 
-                        renderNode.traits |= ShaderTrait::RoundedCorners;
-                        renderNode.hasAlpha = true;
-                        renderNode.box = QVector4D(top.box.x() + top.box.width() * 0.5,
-                                                   top.box.y() + top.box.height() * 0.5,
-                                                   top.box.width() * 0.5,
-                                                   top.box.height() * 0.5),
-                        renderNode.borderRadius = top.radius.toVector();
-                    }
+                    renderNode.traits |= ShaderTrait::RoundedCorners;
+                    renderNode.hasAlpha = true;
+                    renderNode.box = QVector4D(top.box.x() + top.box.width() * 0.5,
+                                               top.box.y() + top.box.height() * 0.5,
+                                               top.box.width() * 0.5,
+                                               top.box.height() * 0.5),
+                    renderNode.borderRadius = top.radius.toVector();
                 }
             }
         }
@@ -271,8 +272,8 @@ void ItemRendererOpenGL::createRenderNode(Item *item, RenderContext *context, co
         if (!geometry.isEmpty()) {
             const BorderOutline outline = borderItem->outline();
             const int thickness = std::round(outline.thickness() * context->renderTargetScale);
-            const QRectF outerRect = snapToPixelGridF(scaledRect(borderItem->rect(), context->renderTargetScale));
-            const QRectF innerRect = outerRect.adjusted(thickness, thickness, -thickness, -thickness);
+            const RectF outerRect = snapToPixelGridF(scaledRect(borderItem->rect(), context->renderTargetScale));
+            const RectF innerRect = outerRect.adjusted(thickness, thickness, -thickness, -thickness);
             context->renderNodes.append(RenderNode{
                 .traits = ShaderTrait::Border,
                 .geometry = geometry,
@@ -309,19 +310,20 @@ void ItemRendererOpenGL::createRenderNode(Item *item, RenderContext *context, co
     }
 }
 
-void ItemRendererOpenGL::renderBackground(const RenderTarget &renderTarget, const RenderViewport &viewport, const QRegion &region)
+void ItemRendererOpenGL::renderBackground(const RenderTarget &renderTarget, const RenderViewport &viewport, const Region &deviceRegion)
 {
-    if (region == infiniteRegion() || (region.rectCount() == 1 && (*region.begin()) == viewport.renderRect())) {
+    const auto clipped = deviceRegion & renderTarget.transformedRect();
+    if (clipped == renderTarget.transformedRect()) {
         glClearColor(0, 0, 0, 0);
         glClear(GL_COLOR_BUFFER_BIT);
-    } else if (!region.isEmpty()) {
+    } else if (!clipped.isEmpty()) {
         glClearColor(0, 0, 0, 0);
         glEnable(GL_SCISSOR_TEST);
 
         const auto targetSize = renderTarget.size();
-        for (const QRect &r : region) {
-            const auto deviceRect = viewport.mapToRenderTarget(r);
-            glScissor(deviceRect.x(), targetSize.height() - (deviceRect.y() + deviceRect.height()), deviceRect.width(), deviceRect.height());
+        for (const Rect &deviceRect : clipped.rects()) {
+            const auto bufferRect = viewport.transform().map(deviceRect, renderTarget.transformedSize());
+            glScissor(bufferRect.x(), targetSize.height() - (bufferRect.y() + bufferRect.height()), bufferRect.width(), bufferRect.height());
             glClear(GL_COLOR_BUFFER_BIT);
         }
 
@@ -329,18 +331,20 @@ void ItemRendererOpenGL::renderBackground(const RenderTarget &renderTarget, cons
     }
 }
 
-void ItemRendererOpenGL::renderItem(const RenderTarget &renderTarget, const RenderViewport &viewport, Item *item, int mask, const QRegion &region, const WindowPaintData &data, const std::function<bool(Item *)> &filter, const std::function<bool(Item *)> &holeFilter)
+void ItemRendererOpenGL::renderItem(const RenderTarget &renderTarget, const RenderViewport &viewport, Item *item, int mask, const Region &deviceRegion, const WindowPaintData &data, const std::function<bool(Item *)> &filter, const std::function<bool(Item *)> &holeFilter)
 {
-    if (region.isEmpty()) {
+    if (deviceRegion.isEmpty()) {
         return;
     }
 
     RenderContext renderContext{
         .projectionMatrix = viewport.projectionMatrix(),
         .rootTransform = data.toMatrix(viewport.scale()), // TODO: unify transforms
-        .clip = region,
-        .hardwareClipping = region != infiniteRegion() && ((mask & Scene::PAINT_WINDOW_TRANSFORMED) || (mask & Scene::PAINT_SCREEN_TRANSFORMED)),
+        .deviceClip = (deviceRegion & renderTarget.transformedRect()),
+        .hardwareClipping = (deviceRegion != Region::infinite() && ((mask & Scene::PAINT_WINDOW_TRANSFORMED) || (mask & Scene::PAINT_SCREEN_TRANSFORMED))) || !viewport.renderOffset().isNull(),
         .renderTargetScale = viewport.scale(),
+        .viewportOrigin = viewport.scaledRenderRect().topLeft(),
+        .renderOffset = viewport.renderOffset(),
     };
 
     renderContext.transformStack.push(QMatrix4x4());
@@ -384,9 +388,10 @@ void ItemRendererOpenGL::renderItem(const RenderTarget &renderTarget, const Rend
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
     // The scissor region must be in the render target local coordinate system.
-    QRegion scissorRegion = infiniteRegion();
+    const QSize bufferOffset = renderTarget.transform().map(QSize(viewport.renderOffset().x(), viewport.renderOffset().y()));
+    Region scissorRegion = Rect(QPoint(bufferOffset.width(), bufferOffset.height()), renderTarget.size() - 2 * bufferOffset);
     if (renderContext.hardwareClipping) {
-        scissorRegion = viewport.mapToRenderTarget(region);
+        scissorRegion &= viewport.transform().map(deviceRegion & renderTarget.transformedRect(), renderTarget.transformedSize());
     }
 
     ShaderTraits lastTraits;
@@ -405,7 +410,8 @@ void ItemRendererOpenGL::renderItem(const RenderTarget &renderTarget, const Rend
             // make sure that brightness and saturation adjustments are always applied in linear space
             traits |= ShaderTrait::TransformColorspace;
         } else {
-            const auto colorTransformation = ColorPipeline::create(renderNode.colorDescription, renderTarget.colorDescription(), renderNode.renderingIntent);
+            const auto colorTransformation = ColorPipeline::create(renderNode.colorDescription, renderTarget.colorDescription(), renderNode.renderingIntent,
+                                                                   renderNode.hasFloatingPointColor ? ColorPipeline::InputType::FloatingPoint : ColorPipeline::InputType::FixedPoint);
             if (!colorTransformation.isIdentity()) {
                 traits |= ShaderTrait::TransformColorspace;
             }
@@ -434,7 +440,7 @@ void ItemRendererOpenGL::renderItem(const RenderTarget &renderTarget, const Rend
 
             if (traits & ShaderTrait::MapTexture) {
                 shader->setUniform(GLShader::IntUniform::Sampler, 0);
-            } else if (traits & ShaderTrait::MapYUVTexture) {
+            } else if (traits & ShaderTrait::MapMultiPlaneTexture) {
                 shader->setUniform(GLShader::IntUniform::Sampler, 0);
                 shader->setUniform(GLShader::IntUniform::Sampler1, 1);
             }
@@ -446,7 +452,7 @@ void ItemRendererOpenGL::renderItem(const RenderTarget &renderTarget, const Rend
         if (traits & ShaderTrait::TransformColorspace) {
             shader->setColorspaceUniforms(renderNode.colorDescription, renderTarget.colorDescription(), renderNode.renderingIntent);
         }
-        if (traits & ShaderTrait::MapYUVTexture) {
+        if (traits & ShaderTrait::YuvConversion) {
             shader->setUniform(GLShader::Mat4Uniform::YuvToRgb, renderNode.colorDescription->yuvMatrix());
         }
         if (traits & ShaderTrait::RoundedCorners) {
@@ -499,7 +505,7 @@ void ItemRendererOpenGL::renderItem(const RenderTarget &renderTarget, const Rend
     }
 }
 
-void ItemRendererOpenGL::visualizeFractional(const RenderViewport &viewport, const QRegion &region, const RenderContext &renderContext)
+void ItemRendererOpenGL::visualizeFractional(const RenderViewport &viewport, const Region &logicalRegion, const RenderContext &renderContext)
 {
     if (!m_debug.fractionalShader) {
         m_debug.fractionalShader = ShaderManager::instance()->generateShaderFromFile(
@@ -533,7 +539,7 @@ void ItemRendererOpenGL::visualizeFractional(const RenderViewport &viewport, con
         m_debug.fractionalShader->setUniform("geometrySize", size);
         m_debug.fractionalShader->setUniform(GLShader::Mat4Uniform::ModelViewProjectionMatrix, renderContext.projectionMatrix * renderNode.transformMatrix);
 
-        vbo->draw(region, GL_TRIANGLES, renderNode.firstVertex,
+        vbo->draw(logicalRegion, GL_TRIANGLES, renderNode.firstVertex,
                   renderNode.vertexCount, renderContext.hardwareClipping);
     }
 }

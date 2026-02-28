@@ -26,6 +26,7 @@ static constexpr int s_version = 2;
 static constexpr uint32_t s_formats[] = {
     WL_SHM_FORMAT_ARGB8888,
     WL_SHM_FORMAT_XRGB8888,
+    WL_SHM_FORMAT_XYUV8888,
 #if Q_BYTE_ORDER == Q_LITTLE_ENDIAN
     WL_SHM_FORMAT_ARGB2101010,
     WL_SHM_FORMAT_XRGB2101010,
@@ -185,6 +186,7 @@ ShmClientBuffer::ShmClientBuffer(ShmPool *pool, ShmAttributes attributes, wl_cli
 
 ShmClientBuffer::~ShmClientBuffer()
 {
+    Q_ASSERT(!m_shmAccess);
     m_shmPool->unref();
 }
 
@@ -246,7 +248,7 @@ static void sigbusHandler(int signum, siginfo_t *info, void *context)
 GraphicsBuffer::Map ShmClientBuffer::map(MapFlags flags)
 {
     if (!m_shmPool->sigbusImpossible) {
-        // A SIGBUS signal may be emitted if the backing file is shrinked and we access now
+        // A SIGBUS signal may be emitted if the backing file is shrunk and we access now
         // removed pages. Install a signal handler to handle this case. Note that if the
         // backing file has F_SEAL_SHRINK seal, then we don't need to do anything.
 

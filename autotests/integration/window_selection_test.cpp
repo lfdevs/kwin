@@ -56,13 +56,13 @@ void TestWindowSelection::initTestCase()
 
     kwinApp()->start();
     Test::setOutputConfig({
-        QRect(0, 0, 1280, 1024),
-        QRect(1280, 0, 1280, 1024),
+        Rect(0, 0, 1280, 1024),
+        Rect(1280, 0, 1280, 1024),
     });
     const auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
-    QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
-    QCOMPARE(outputs[1]->geometry(), QRect(1280, 0, 1280, 1024));
+    QCOMPARE(outputs[0]->geometry(), Rect(0, 0, 1280, 1024));
+    QCOMPARE(outputs[1]->geometry(), Rect(1280, 0, 1280, 1024));
 }
 
 void TestWindowSelection::init()
@@ -176,7 +176,7 @@ void TestWindowSelection::testSelectOnWindowKeyboard()
     auto window = Test::renderAndWaitForShown(surface.get(), QSize(100, 50), Qt::blue);
     QVERIFY(window);
     QVERIFY(keyboardEnteredSpy.wait());
-    QVERIFY(!exclusiveContains(window->frameGeometry(), KWin::Cursors::self()->mouse()->pos()));
+    QVERIFY(!window->frameGeometry().contains(KWin::Cursors::self()->mouse()->pos()));
 
     Window *selectedWindow = nullptr;
     auto callback = [&selectedWindow](Window *t) {

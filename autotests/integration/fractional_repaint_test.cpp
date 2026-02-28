@@ -66,48 +66,33 @@ void FractionalRepaintTest::testBottomRow()
     // this test verifies that with odd resolution + scale factor combinations,
     // the row of pixels "rounded away" by the logical coordinate grid still gets
     // repainted properly and doesn't have any glitches in it
-    Output *output = workspace()->outputs().front();
+    LogicalOutput *output = workspace()->outputs().front();
     QCOMPARE(output->geometry().height(), 860);
     QCOMPARE(output->geometry().height() * output->scale(), 2279);
     QCOMPARE(output->geometryF().height() * output->scale(), 2280);
 
     // render a window that goes beyond the integer logical part of the screen
-    auto surface = Test::createSurface();
-    auto toplevel = Test::createXdgToplevelSurface(surface.get());
-    auto window = Test::renderAndWaitForShown(surface.get(), QSize(1080, 861), Qt::red);
-    window->move(output->geometry().topLeft());
+    Test::XdgToplevelWindow window;
+    QVERIFY(window.show(QSize(1080, 861), Qt::red));
+    window.m_window->move(output->geometry().topLeft());
 
     Cursors::self()->hideCursor();
 
     // render a few frames, to make sure the swapchain is entirely red
     for (int i = 0; i < 3; i++) {
-        auto feedback = std::make_unique<Test::WpPresentationFeedback>(Test::presentationTime()->feedback(*surface));
-        surface->commit(KWayland::Client::Surface::CommitFlag::None);
-        QSignalSpy spy(feedback.get(), &Test::WpPresentationFeedback::presented);
-        QVERIFY(spy.wait());
+        QVERIFY(window.presentWait());
     }
 
-    const auto layer = static_cast<VirtualEglLayer *>(Compositor::self()->backend()->compatibleOutputLayers(output).front());
+    const auto layer = static_cast<VirtualEglLayer *>(Compositor::self()->backend()->compatibleOutputLayers(output->backendOutput()).front());
 
     QImage img(QSize(1080, 2280), QImage::Format::Format_RGBA8888_Premultiplied);
     img.fill(Qt::red);
     QCOMPARE(layer->texture()->toImage(), img);
 
     // maximize the window
-    window->maximize(MaximizeMode::MaximizeFull);
-    QSignalSpy toplevelConfigure(toplevel.get(), &Test::XdgToplevel::configureRequested);
-    QSignalSpy surfaceConfigure(toplevel->xdgSurface(), &Test::XdgSurface::configureRequested);
-    QVERIFY(toplevelConfigure.wait());
-    QCOMPARE(toplevelConfigure.last().at(0).toSize(), QSize(408, 860));
-    toplevel->xdgSurface()->ack_configure(surfaceConfigure.last().at(0).value<quint32>());
-    Test::render(surface.get(), toplevelConfigure.last().at(0).toSize(), Qt::blue);
-
-    {
-        auto feedback = std::make_unique<Test::WpPresentationFeedback>(Test::presentationTime()->feedback(*surface));
-        surface->commit(KWayland::Client::Surface::CommitFlag::None);
-        QSignalSpy spy(feedback.get(), &Test::WpPresentationFeedback::presented);
-        QVERIFY(spy.wait());
-    }
+    window.m_window->maximize(MaximizeMode::MaximizeFull);
+    QCOMPARE(window.handleConfigure(Qt::blue), QSize(408, 860));
+    QVERIFY(window.presentWait());
 
     img.fill(Qt::blue);
     // the last row of pixels should be black, not red

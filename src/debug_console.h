@@ -65,7 +65,7 @@ private:
     QModelIndex indexForProperty(int row, int column, const QModelIndex &parent, T *(DebugConsoleModel::*filter)(const QModelIndex &) const) const;
     template<class T>
     int propertyCount(const QModelIndex &parent, T *(DebugConsoleModel::*filter)(const QModelIndex &) const) const;
-    QVariant propertyData(QObject *object, const QModelIndex &index, int role) const;
+    QVariant propertyData(Window *object, const QModelIndex &index, int role) const;
     template<class T>
     QVariant windowData(const QModelIndex &index, int role, const QList<T *> windows, const std::function<QString(T *)> &toString) const;
     template<class T>
@@ -206,7 +206,11 @@ public:
     explicit DebugConsoleEffectItem(const QString &name, bool loaded, QWidget *parent = nullptr);
 
 private:
+    void updateToggleButton();
+
     QString m_name;
+    QLabel *m_label;
+    QPushButton *m_toggleButton;
     bool m_loaded = false;
 };
 

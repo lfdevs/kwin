@@ -88,8 +88,8 @@ class ContrastInterfacePrivate : public QtWaylandServer::org_kde_kwin_contrast
 public:
     ContrastInterfacePrivate(ContrastInterface *_q, wl_resource *resource);
 
-    QRegion pendingRegion;
-    QRegion currentRegion;
+    Region pendingRegion;
+    Region currentRegion;
     qreal pendingContrast;
     qreal currentContrast;
     qreal pendingIntensity;
@@ -127,7 +127,7 @@ void ContrastInterfacePrivate::org_kde_kwin_contrast_set_region(Resource *resour
     if (r) {
         pendingRegion = r->region();
     } else {
-        pendingRegion = QRegion();
+        pendingRegion = Region();
     }
 }
 
@@ -180,7 +180,7 @@ ContrastInterface::ContrastInterface(wl_resource *resource)
 
 ContrastInterface::~ContrastInterface() = default;
 
-QRegion ContrastInterface::region() const
+Region ContrastInterface::region() const
 {
     return d->currentRegion;
 }

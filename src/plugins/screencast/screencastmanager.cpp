@@ -7,12 +7,16 @@
 */
 
 #include "screencastmanager.h"
+#include "compositor.h"
+#include "core/backendoutput.h"
 #include "core/output.h"
 #include "core/outputbackend.h"
+#include "core/renderbackend.h"
 #include "outputscreencastsource.h"
 #include "pipewirecore.h"
 #include "regionscreencastsource.h"
 #include "screencaststream.h"
+#include "wayland/clientconnection.h"
 #include "wayland/display.h"
 #include "wayland/output.h"
 #include "wayland_server.h"
@@ -36,10 +40,23 @@ ScreencastManager::ScreencastManager()
     connect(m_screencast, &ScreencastV1Interface::regionScreencastRequested, this, &ScreencastManager::streamRegion);
 }
 
+static bool isSupportedCompositingType()
+{
+    if (auto backend = Compositor::self()->backend()) {
+        return backend->compositingType() == OpenGLCompositing;
+    }
+    return false;
+}
+
 void ScreencastManager::streamWindow(ScreencastStreamV1Interface *waylandStream,
                                      const QString &winid,
                                      ScreencastV1Interface::CursorMode mode)
 {
+    if (!isSupportedCompositingType()) {
+        waylandStream->sendFailed(i18n("Unsupported compositing type"));
+        return;
+    }
+
     auto window = Workspace::self()->findWindow(QUuid(winid));
     if (!window) {
         waylandStream->sendFailed(i18n("Could not find window id %1", winid));
@@ -60,8 +77,13 @@ void ScreencastManager::streamVirtualOutput(ScreencastStreamV1Interface *stream,
                                             double scale,
                                             ScreencastV1Interface::CursorMode mode)
 {
+    if (!isSupportedCompositingType()) {
+        stream->sendFailed(i18n("Unsupported compositing type"));
+        return;
+    }
+
     auto output = kwinApp()->outputBackend()->createVirtualOutput(name, description, size, scale);
-    streamOutput(stream, output, mode);
+    streamOutput(stream, workspace()->findOutput(output), mode);
     connect(stream, &ScreencastStreamV1Interface::finished, output, [output] {
         kwinApp()->outputBackend()->removeVirtualOutput(output);
     });
@@ -71,11 +93,25 @@ void ScreencastManager::streamWaylandOutput(ScreencastStreamV1Interface *wayland
                                             OutputInterface *output,
                                             ScreencastV1Interface::CursorMode mode)
 {
+    if (!isSupportedCompositingType()) {
+        waylandStream->sendFailed(i18n("Unsupported compositing type"));
+        return;
+    }
+
     streamOutput(waylandStream, output->handle(), mode);
 }
 
+static std::optional<pid_t> getPid(ScreencastStreamV1Interface *waylandStream)
+{
+    if (waylandStream->connection()->executablePath().contains("xdg-desktop-portal-kde")) {
+        // HACK to avoid the portal's windows being hidden
+        return std::nullopt;
+    }
+    return waylandStream->connection()->processId();
+}
+
 void ScreencastManager::streamOutput(ScreencastStreamV1Interface *waylandStream,
-                                     Output *streamOutput,
+                                     LogicalOutput *streamOutput,
                                      ScreencastV1Interface::CursorMode mode)
 {
     if (!streamOutput) {
@@ -83,24 +119,24 @@ void ScreencastManager::streamOutput(ScreencastStreamV1Interface *waylandStream,
         return;
     }
 
-    auto stream = new ScreenCastStream(new OutputScreenCastSource(streamOutput), getPipewireConnection(), this);
+    auto stream = new ScreenCastStream(new OutputScreenCastSource(streamOutput, getPid(waylandStream)), getPipewireConnection(), this);
     stream->setObjectName(streamOutput->name());
     stream->setCursorMode(mode);
 
     integrateStreams(waylandStream, stream);
 }
 
-static QString rectToString(const QRect &rect)
+static QString rectToString(const Rect &rect)
 {
     return QStringLiteral("%1,%2 %3x%4").arg(rect.x()).arg(rect.y()).arg(rect.width()).arg(rect.height());
 }
 
-static qreal devicePixelRatioForRegion(const QRect &region)
+static qreal devicePixelRatioForRegion(const Rect &region)
 {
     qreal devicePixelRatio = 1.0;
 
     const auto outputs = workspace()->outputs();
-    for (const Output *output : outputs) {
+    for (const LogicalOutput *output : outputs) {
         if (output->geometry().intersects(region)) {
             devicePixelRatio = std::max(devicePixelRatio, output->scale());
         }
@@ -109,8 +145,13 @@ static qreal devicePixelRatioForRegion(const QRect &region)
     return devicePixelRatio;
 }
 
-void ScreencastManager::streamRegion(ScreencastStreamV1Interface *waylandStream, const QRect &geometry, qreal scale, ScreencastV1Interface::CursorMode mode)
+void ScreencastManager::streamRegion(ScreencastStreamV1Interface *waylandStream, const Rect &geometry, qreal scale, ScreencastV1Interface::CursorMode mode)
 {
+    if (!isSupportedCompositingType()) {
+        waylandStream->sendFailed(i18n("Unsupported compositing type"));
+        return;
+    }
+
     if (!geometry.isValid()) {
         waylandStream->sendFailed(i18n("Invalid region"));
         return;
@@ -120,7 +161,7 @@ void ScreencastManager::streamRegion(ScreencastStreamV1Interface *waylandStream,
         scale = devicePixelRatioForRegion(geometry);
     }
 
-    auto source = new RegionScreenCastSource(geometry, scale);
+    auto source = new RegionScreenCastSource(geometry, scale, getPid(waylandStream));
     auto stream = new ScreenCastStream(source, getPipewireConnection(), this);
     stream->setObjectName(rectToString(geometry));
     stream->setCursorMode(mode);

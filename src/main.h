@@ -36,7 +36,6 @@ class Session;
 class X11EventFilter;
 class PluginManager;
 class InputMethod;
-class ColorManager;
 class TabletModeManager;
 class XwaylandInterface;
 class Edge;
@@ -69,7 +68,6 @@ class KWIN_EXPORT Application : public QApplication
 {
     Q_OBJECT
 #if KWIN_BUILD_X11
-    Q_PROPERTY(quint32 x11Time READ x11Time WRITE setX11Time)
     Q_PROPERTY(quint32 x11RootWindow READ x11RootWindow CONSTANT)
     Q_PROPERTY(void *x11Connection READ x11Connection NOTIFY x11ConnectionChanged)
 #endif
@@ -117,32 +115,6 @@ public:
     void setupCommandLine(QCommandLineParser *parser);
     void processCommandLine(QCommandLineParser *parser);
 
-#if KWIN_BUILD_X11
-    void registerEventFilter(X11EventFilter *filter);
-    void unregisterEventFilter(X11EventFilter *filter);
-    bool dispatchEvent(xcb_generic_event_t *event);
-
-    xcb_timestamp_t x11Time() const
-    {
-        return m_x11Time;
-    }
-    enum class TimestampUpdate {
-        OnlyIfLarger,
-        Always
-    };
-    void setX11Time(xcb_timestamp_t timestamp, TimestampUpdate force = TimestampUpdate::OnlyIfLarger)
-    {
-        if ((timestamp > m_x11Time || force == TimestampUpdate::Always) && timestamp != 0) {
-            m_x11Time = timestamp;
-        }
-    }
-    /**
-     * Queries the current X11 time stamp of the X server.
-     */
-    void updateXTime();
-    void updateX11Time(xcb_generic_event_t *event);
-#endif
-
     static void setCrashCount(int count);
     static bool wasCrash();
     void resetCrashesCount();
@@ -160,14 +132,6 @@ public:
     xcb_window_t x11RootWindow() const
     {
         return m_rootWindow;
-    }
-
-    /**
-     * @returns the X11 composite overlay window handle.
-     */
-    xcb_window_t x11CompositeWindow() const
-    {
-        return m_compositeWindow;
     }
 
     /**
@@ -193,10 +157,21 @@ public:
     {
         m_connection = c;
     }
-    void setX11CompositeWindow(xcb_window_t window)
+
+    /**
+     * Returns the current X11 server time.
+     */
+    xcb_timestamp_t x11Time() const;
+
+    void registerEventFilter(X11EventFilter *filter);
+    void unregisterEventFilter(X11EventFilter *filter);
+    bool dispatchEvent(xcb_generic_event_t *event);
+
+    virtual pid_t xwaylandPid() const
     {
-        m_compositeWindow = window;
+        return -1;
     }
+
 #endif
 
     qreal xwaylandScale() const
@@ -265,7 +240,6 @@ public:
 
     PluginManager *pluginManager() const;
     InputMethod *inputMethod() const;
-    ColorManager *colorManager() const;
     virtual XwaylandInterface *xwayland() const;
     TabletModeManager *tabletModeManager() const;
 
@@ -329,14 +303,12 @@ protected:
     void createWorkspace();
     void createOptions();
     void createPlugins();
-    void createColorManager();
     void createInputMethod();
     void createTabletModeManager();
     void destroyInput();
     void destroyWorkspace();
     void destroyCompositor();
     void destroyPlugins();
-    void destroyColorManager();
     void destroyInputMethod();
     void destroyPlatform();
     void applyXwaylandScale();
@@ -365,9 +337,7 @@ private:
     KSharedConfigPtr m_inputConfig;
     KSharedConfigPtr m_kdeglobals;
 #if KWIN_BUILD_X11
-    xcb_timestamp_t m_x11Time = XCB_TIME_CURRENT_TIME;
     xcb_window_t m_rootWindow = XCB_WINDOW_NONE;
-    xcb_window_t m_compositeWindow = XCB_WINDOW_NONE;
     xcb_connection_t *m_connection = nullptr;
 #endif
 #if KWIN_BUILD_ACTIVITIES
@@ -380,7 +350,6 @@ private:
     QProcessEnvironment m_processEnvironment;
     std::unique_ptr<PluginManager> m_pluginManager;
     std::unique_ptr<InputMethod> m_inputMethod;
-    std::unique_ptr<ColorManager> m_colorManager;
     std::unique_ptr<TabletModeManager> m_tabletModeManager;
 };
 

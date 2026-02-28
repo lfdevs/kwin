@@ -36,9 +36,9 @@ WaylandQPainterPrimaryLayer::~WaylandQPainterPrimaryLayer()
 {
 }
 
-QRegion WaylandQPainterPrimaryLayer::accumulateDamage(int bufferAge) const
+Region WaylandQPainterPrimaryLayer::accumulateDamage(int bufferAge) const
 {
-    return m_damageJournal.accumulate(bufferAge, infiniteRegion());
+    return m_damageJournal.accumulate(bufferAge, Region::infinite());
 }
 
 std::optional<OutputLayerBeginFrameInfo> WaylandQPainterPrimaryLayer::doBeginFrame()
@@ -60,12 +60,12 @@ std::optional<OutputLayerBeginFrameInfo> WaylandQPainterPrimaryLayer::doBeginFra
     };
 }
 
-bool WaylandQPainterPrimaryLayer::doEndFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame)
+bool WaylandQPainterPrimaryLayer::doEndFrame(const Region &renderedDeviceRegion, const Region &damagedDeviceRegion, OutputFrame *frame)
 {
     m_renderTime->end();
     frame->addRenderTimeQuery(std::move(m_renderTime));
-    m_damageJournal.add(damagedRegion);
-    setBuffer(m_waylandOutput->backend()->importBuffer(m_back->buffer()), damagedRegion);
+    m_damageJournal.add(damagedDeviceRegion);
+    setBuffer(m_waylandOutput->backend()->importBuffer(m_back->buffer()), damagedDeviceRegion);
     m_swapchain->release(m_back);
     return true;
 }
@@ -111,11 +111,11 @@ std::optional<OutputLayerBeginFrameInfo> WaylandQPainterCursorLayer::doBeginFram
     m_renderTime = std::make_unique<CpuRenderTimeQuery>();
     return OutputLayerBeginFrameInfo{
         .renderTarget = RenderTarget(m_back->view()->image()),
-        .repaint = infiniteRegion(),
+        .repaint = Region::infinite(),
     };
 }
 
-bool WaylandQPainterCursorLayer::doEndFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame)
+bool WaylandQPainterCursorLayer::doEndFrame(const Region &renderedDeviceRegion, const Region &damagedDeviceRegion, OutputFrame *frame)
 {
     m_renderTime->end();
     if (frame) {
@@ -165,7 +165,7 @@ WaylandQPainterBackend::~WaylandQPainterBackend()
     }
 }
 
-void WaylandQPainterBackend::createOutput(Output *output)
+void WaylandQPainterBackend::createOutput(BackendOutput *output)
 {
     const auto waylandOutput = static_cast<WaylandOutput *>(output);
     std::vector<std::unique_ptr<OutputLayer>> layers;
@@ -179,10 +179,11 @@ GraphicsBufferAllocator *WaylandQPainterBackend::graphicsBufferAllocator() const
     return m_allocator.get();
 }
 
-QList<OutputLayer *> WaylandQPainterBackend::compatibleOutputLayers(Output *output)
+QList<OutputLayer *> WaylandQPainterBackend::compatibleOutputLayers(BackendOutput *output)
 {
     return static_cast<WaylandOutput *>(output)->outputLayers();
 }
+
 }
 }
 

@@ -36,15 +36,6 @@
 namespace KWin
 {
 
-static QRegion map_helper(const QMatrix4x4 &matrix, const QRegion &region)
-{
-    QRegion result;
-    for (const QRect &rect : region) {
-        result += matrix.mapRect(QRectF(rect)).toAlignedRect();
-    }
-    return result;
-}
-
 SurfaceRole::SurfaceRole(const QByteArray &name)
     : m_name(name)
 {
@@ -91,6 +82,9 @@ void SurfaceInterfacePrivate::addChild(SubSurfaceInterface *child)
         child->surface()->setPreferredColorDescription(preferredColorDescription.value());
     }
 
+    if (child->surface()->inhibitsIdle()) {
+        Q_EMIT q->inhibitsIdleChanged();
+    }
     Q_EMIT q->childSubSurfaceAdded(child);
     Q_EMIT q->childSubSurfacesChanged();
 }
@@ -118,6 +112,10 @@ void SurfaceInterfacePrivate::removeChild(SubSurfaceInterface *child)
         });
     }
 
+    if (!child->surface() || child->surface()->inhibitsIdle()) {
+        // TODO solve this in a better way
+        Q_EMIT q->inhibitsIdleChanged();
+    }
     Q_EMIT q->childSubSurfaceRemoved(child);
     Q_EMIT q->childSubSurfacesChanged();
 }
@@ -256,11 +254,20 @@ void SurfaceInterfacePrivate::installPointerConstraint(ConfinedPointerV1Interfac
     Q_EMIT q->pointerConstraintsChanged();
 }
 
+void SurfaceInterfacePrivate::recursivelyEmitIdleInhibitChanged()
+{
+    Q_EMIT q->inhibitsIdleChanged();
+    if (!subsurface.handle || !subsurface.handle->parentSurface()) {
+        return;
+    }
+    SurfaceInterfacePrivate::get(subsurface.handle->parentSurface())->recursivelyEmitIdleInhibitChanged();
+}
+
 void SurfaceInterfacePrivate::installIdleInhibitor(IdleInhibitorV1Interface *inhibitor)
 {
     idleInhibitors << inhibitor;
     if (idleInhibitors.count() == 1) {
-        Q_EMIT q->inhibitsIdleChanged();
+        recursivelyEmitIdleInhibitChanged();
     }
 }
 
@@ -268,7 +275,7 @@ void SurfaceInterfacePrivate::removeIdleInhibitor(IdleInhibitorV1Interface *inhi
 {
     idleInhibitors.removeOne(inhibitor);
     if (idleInhibitors.isEmpty()) {
-        Q_EMIT q->inhibitsIdleChanged();
+        recursivelyEmitIdleInhibitChanged();
     }
 }
 
@@ -304,7 +311,7 @@ void SurfaceInterfacePrivate::surface_attach(Resource *resource, struct ::wl_res
 
 void SurfaceInterfacePrivate::surface_damage(Resource *, int32_t x, int32_t y, int32_t width, int32_t height)
 {
-    pending->damage += QRect(x, y, width, height);
+    pending->damage += Rect(x, y, width, height);
 }
 
 void SurfaceInterfacePrivate::surface_frame(Resource *resource, uint32_t callback)
@@ -328,14 +335,14 @@ void SurfaceInterfacePrivate::surface_frame(Resource *resource, uint32_t callbac
 void SurfaceInterfacePrivate::surface_set_opaque_region(Resource *resource, struct ::wl_resource *region)
 {
     RegionInterface *r = RegionInterface::get(region);
-    pending->opaque = r ? r->region() : QRegion();
+    pending->opaque = r ? r->region() : Region();
     pending->committed |= SurfaceState::Field::Opaque;
 }
 
 void SurfaceInterfacePrivate::surface_set_input_region(Resource *resource, struct ::wl_resource *region)
 {
     RegionInterface *r = RegionInterface::get(region);
-    pending->input = r ? r->region() : infiniteRegion();
+    pending->input = r ? r->region() : Region::infinite();
     pending->committed |= SurfaceState::Field::Input;
 }
 
@@ -351,8 +358,8 @@ void SurfaceInterfacePrivate::surface_commit(Resource *resource)
     }
 
     if ((pending->committed & SurfaceState::Field::Buffer) && !pending->buffer) {
-        pending->damage = QRegion();
-        pending->bufferDamage = QRegion();
+        pending->damage = Region();
+        pending->bufferDamage = Region();
     }
 
     // unless a protocol overrides the properties, we need to assume some YUV->RGB conversion
@@ -362,6 +369,7 @@ void SurfaceInterfacePrivate::surface_commit(Resource *resource)
     if (pending->buffer && pending->buffer->dmabufAttributes()) {
         switch (pending->buffer->dmabufAttributes()->format) {
         case DRM_FORMAT_NV12:
+        case DRM_FORMAT_XYUV8888:
             if (!hasColorRepresentation) {
                 pending->yuvCoefficients = YUVMatrixCoefficients::BT709;
                 pending->range = EncodingRange::Limited;
@@ -462,7 +470,7 @@ void SurfaceInterfacePrivate::surface_set_buffer_scale(Resource *resource, int32
 
 void SurfaceInterfacePrivate::surface_damage_buffer(Resource *resource, int32_t x, int32_t y, int32_t width, int32_t height)
 {
-    pending->bufferDamage += QRect(x, y, width, height);
+    pending->bufferDamage += Rect(x, y, width, height);
 }
 
 void SurfaceInterfacePrivate::surface_offset(Resource *resource, int32_t x, int32_t y)
@@ -563,7 +571,7 @@ void SurfaceInterface::frameRendered(quint32 msec)
     }
 }
 
-std::shared_ptr<PresentationFeedback> SurfaceInterface::presentationFeedback(Output *output)
+std::shared_ptr<PresentationFeedback> SurfaceInterface::presentationFeedback(LogicalOutput *output)
 {
     if (output && (!d->primaryOutput || d->primaryOutput->handle() != output)) {
         return nullptr;
@@ -581,17 +589,17 @@ bool SurfaceInterface::hasFrameCallbacks() const
     return !wl_list_empty(&d->current->frameCallbacks);
 }
 
-QRectF SurfaceInterfacePrivate::computeBufferSourceBox() const
+RectF SurfaceInterfacePrivate::computeBufferSourceBox() const
 {
     if (!current->viewport.sourceGeometry.isValid()) {
-        return QRectF(QPointF(0, 0), current->buffer->size());
+        return RectF(QPointF(0, 0), current->buffer->size());
     }
 
     const QSizeF bounds = current->bufferTransform.map(current->buffer->size());
-    const QRectF box(current->viewport.sourceGeometry.x() * current->bufferScale,
-                     current->viewport.sourceGeometry.y() * current->bufferScale,
-                     current->viewport.sourceGeometry.width() * current->bufferScale,
-                     current->viewport.sourceGeometry.height() * current->bufferScale);
+    const RectF box(current->viewport.sourceGeometry.x() * current->bufferScale,
+                    current->viewport.sourceGeometry.y() * current->bufferScale,
+                    current->viewport.sourceGeometry.width() * current->bufferScale,
+                    current->viewport.sourceGeometry.height() * current->bufferScale);
 
     return current->bufferTransform.map(box, bounds);
 }
@@ -616,8 +624,6 @@ void SurfaceState::mergeInto(SurfaceState *target)
     if (committed & SurfaceState::Field::Buffer) {
         target->buffer = buffer;
         target->offset = offset;
-        target->damage = std::move(damage);
-        target->bufferDamage = std::move(bufferDamage);
         target->acquirePoint = std::move(acquirePoint);
         target->releasePoint = std::move(releasePoint);
     }
@@ -625,6 +631,10 @@ void SurfaceState::mergeInto(SurfaceState *target)
     wl_list_insert_list(&target->frameCallbacks, &frameCallbacks);
     wl_list_init(&frameCallbacks);
 
+    target->damage |= damage;
+    damage = Region();
+    target->bufferDamage |= bufferDamage;
+    bufferDamage = Region();
     target->viewport.sourceGeometry = viewport.sourceGeometry;
     target->viewport.destinationSize = viewport.destinationSize;
     target->subsurface = subsurface;
@@ -639,6 +649,7 @@ void SurfaceState::mergeInto(SurfaceState *target)
     target->contentType = contentType;
     target->presentationHint = presentationHint;
     target->colorDescription = colorDescription;
+    target->colorDescriptionType = colorDescriptionType;
     target->renderingIntent = renderingIntent;
     target->alphaMultiplier = alphaMultiplier;
     target->yuvCoefficients = yuvCoefficients;
@@ -684,8 +695,8 @@ void SurfaceInterfacePrivate::applyState(SurfaceState *next)
     const bool yuvCoefficientsChanged = (next->committed & SurfaceState::Field::YuvCoefficients) && (current->yuvCoefficients != next->yuvCoefficients);
 
     const QSizeF oldSurfaceSize = surfaceSize;
-    const QRectF oldBufferSourceBox = bufferSourceBox;
-    const QRegion oldInputRegion = inputRegion;
+    const RectF oldBufferSourceBox = bufferSourceBox;
+    const Region oldInputRegion = inputRegion;
 
     next->mergeInto(current.get());
     bufferRef = current->buffer;
@@ -709,8 +720,8 @@ void SurfaceInterfacePrivate::applyState(SurfaceState *next)
             surfaceSize = current->bufferTransform.map(current->buffer->size() / current->bufferScale);
         }
 
-        const QRect surfaceRect = QRectF(QPointF(0, 0), surfaceSize).toAlignedRect();
-        const QRect bufferRect = QRect(QPoint(0, 0), current->buffer->size());
+        const Rect surfaceRect = RectF(QPointF(0, 0), surfaceSize).toAlignedRect();
+        const Rect bufferRect = Rect(QPoint(0, 0), current->buffer->size());
 
         inputRegion = current->input & surfaceRect;
 
@@ -723,23 +734,22 @@ void SurfaceInterfacePrivate::applyState(SurfaceState *next)
         bufferDamage = current->bufferDamage
                            .united(mapToBuffer(current->damage.intersected(surfaceRect)))
                            .intersected(bufferRect);
-        current->damage = QRegion();
-        current->bufferDamage = QRegion();
+        current->damage = Region();
+        current->bufferDamage = Region();
 
         if (scaleOverride != 1.0) {
-            QMatrix4x4 scaleOverrideMatrix;
-            scaleOverrideMatrix.scale(1.0 / scaleOverride, 1.0 / scaleOverride);
-
-            opaqueRegion = map_helper(scaleOverrideMatrix, opaqueRegion);
-            inputRegion = map_helper(scaleOverrideMatrix, inputRegion);
+            // Rounding out is not great with opaque regions. Ideally, we should only round, but
+            // it can make 1px wide or tall rects disappear with scale factors less than 100%.
+            opaqueRegion = opaqueRegion.scaledAndRoundedOut(1.0 / scaleOverride);
+            inputRegion = inputRegion.scaledAndRoundedOut(1.0 / scaleOverride);
             surfaceSize = surfaceSize / scaleOverride;
         }
     } else {
         surfaceSize = QSizeF(0, 0);
-        bufferSourceBox = QRectF();
-        bufferDamage = QRegion();
-        inputRegion = QRegion();
-        opaqueRegion = QRegion();
+        bufferSourceBox = RectF();
+        bufferDamage = Region();
+        inputRegion = Region();
+        opaqueRegion = Region();
     }
 
     if (opaqueRegionChanged) {
@@ -860,39 +870,39 @@ bool SurfaceInterfacePrivate::inputContains(const QPointF &position) const
     return contains(position) && inputRegion.contains(QPoint(std::floor(position.x()), std::floor(position.y())));
 }
 
-QRegion SurfaceInterfacePrivate::mapToBuffer(const QRegion &region) const
+Region SurfaceInterfacePrivate::mapToBuffer(const Region &region) const
 {
     if (region.isEmpty()) {
-        return QRegion();
+        return Region();
     }
 
-    const QRectF sourceBox = current->bufferTransform.inverted().map(bufferSourceBox, current->buffer->size());
+    const RectF sourceBox = current->bufferTransform.inverted().map(bufferSourceBox, current->buffer->size());
     const qreal xScale = sourceBox.width() / surfaceSize.width();
     const qreal yScale = sourceBox.height() / surfaceSize.height();
 
-    QRegion result;
-    for (QRectF rect : region) {
-        result += current->bufferTransform.map(QRectF(rect.x() * xScale, rect.y() * yScale, rect.width() * xScale, rect.height() * yScale), sourceBox.size()).translated(bufferSourceBox.topLeft()).toAlignedRect();
+    Region result;
+    for (const Rect &rect : region.rects()) {
+        result += current->bufferTransform.map(rect.scaled(xScale, yScale), sourceBox.size()).translated(bufferSourceBox.topLeft()).roundedOut();
     }
     return result;
 }
 
-QRegion SurfaceInterface::bufferDamage() const
+Region SurfaceInterface::bufferDamage() const
 {
     return d->bufferDamage;
 }
 
-QRegion SurfaceInterface::opaque() const
+Region SurfaceInterface::opaque() const
 {
     return d->opaqueRegion;
 }
 
-QRegion SurfaceInterface::input() const
+Region SurfaceInterface::input() const
 {
     return d->inputRegion;
 }
 
-QRectF SurfaceInterface::bufferSourceBox() const
+RectF SurfaceInterface::bufferSourceBox() const
 {
     return d->bufferSourceBox;
 }
@@ -954,9 +964,9 @@ QSizeF SurfaceInterface::size() const
     return d->surfaceSize;
 }
 
-QRectF SurfaceInterface::boundingRect() const
+RectF SurfaceInterface::boundingRect() const
 {
-    QRectF rect(QPoint(0, 0), size());
+    RectF rect(QPoint(0, 0), size());
 
     for (const SubSurfaceInterface *subSurface : std::as_const(d->current->subsurface.below)) {
         const SurfaceInterface *childSurface = subSurface->surface();
@@ -1138,7 +1148,12 @@ ConfinedPointerV1Interface *SurfaceInterface::confinedPointer() const
 
 bool SurfaceInterface::inhibitsIdle() const
 {
-    return !d->idleInhibitors.isEmpty();
+    return !d->idleInhibitors.isEmpty()
+        || std::ranges::any_of(d->current->subsurface.above, [](SubSurfaceInterface *sub) {
+        return sub->surface()->inhibitsIdle();
+    }) || std::ranges::any_of(d->current->subsurface.below, [](SubSurfaceInterface *sub) {
+        return sub->surface()->inhibitsIdle();
+    });
 }
 
 LinuxDmaBufV1Feedback *SurfaceInterface::dmabufFeedbackV1() const
@@ -1187,6 +1202,11 @@ QPointF SurfaceInterface::toSurfaceLocal(const QPointF &point) const
 PresentationModeHint SurfaceInterface::presentationModeHint() const
 {
     return d->current->presentationHint;
+}
+
+ColorDescriptionType SurfaceInterface::colorDescriptionType() const
+{
+    return d->current->colorDescriptionType;
 }
 
 const std::shared_ptr<ColorDescription> &SurfaceInterface::colorDescription() const

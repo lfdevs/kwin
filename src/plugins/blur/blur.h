@@ -32,10 +32,10 @@ struct BlurRenderData
 struct BlurEffectData
 {
     /// The region that should be blurred behind the window
-    std::optional<QRegion> content;
+    std::optional<Region> content;
 
     /// The region that should be blurred behind the frame
-    std::optional<QRegion> frame;
+    std::optional<Region> frame;
 
     /**
      * The render data per render view, as they can have different
@@ -45,8 +45,10 @@ struct BlurEffectData
 
     ItemEffect windowEffect;
 
-    qreal contrast = 1.0;
-    qreal saturation = 1.0;
+    /**
+     * Color transformation matrix (contrast, and saturation).
+     */
+    std::optional<QMatrix4x4> colorMatrix;
 };
 
 class BlurEffect : public KWin::Effect
@@ -62,8 +64,8 @@ public:
 
     void reconfigure(ReconfigureFlags flags) override;
     void prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseconds presentTime) override;
-    void prePaintWindow(EffectWindow *w, WindowPrePaintData &data, std::chrono::milliseconds presentTime) override;
-    void drawWindow(const RenderTarget &renderTarget, const RenderViewport &viewport, EffectWindow *w, int mask, const QRegion &region, WindowPaintData &data) override;
+    void prePaintWindow(RenderView *view, EffectWindow *w, WindowPrePaintData &data, std::chrono::milliseconds presentTime) override;
+    void drawWindow(const RenderTarget &renderTarget, const RenderViewport &viewport, EffectWindow *w, int mask, const Region &deviceRegion, WindowPaintData &data) override;
 
     bool provides(Feature feature) override;
     bool isActive() const override;
@@ -88,13 +90,12 @@ public Q_SLOTS:
 
 private:
     void initBlurStrengthValues();
-    QMatrix4x4 colorMatrix(qreal contrast, qreal saturation);
-    QRegion blurRegion(EffectWindow *w) const;
-    QRegion decorationBlurRegion(const EffectWindow *w) const;
+    Region blurRegion(EffectWindow *w) const;
+    Region decorationBlurRegion(const EffectWindow *w) const;
     bool decorationSupportsBlurBehind(const EffectWindow *w) const;
     bool shouldBlur(const EffectWindow *w, int mask, const WindowPaintData &data) const;
     void updateBlurRegion(EffectWindow *w);
-    void blur(const RenderTarget &renderTarget, const RenderViewport &viewport, EffectWindow *w, int mask, const QRegion &region, WindowPaintData &data);
+    void blur(const RenderTarget &renderTarget, const RenderViewport &viewport, EffectWindow *w, int mask, const Region &deviceRegion, WindowPaintData &data);
     GLTexture *ensureNoiseTexture();
 
 private:
@@ -105,7 +106,7 @@ private:
         int colorMatrixLocation;
         int offsetLocation;
         int halfpixelLocation;
-    } m_contrastPass;
+    } m_onscreenPass;
 
     struct
     {
@@ -117,7 +118,7 @@ private:
         int boxLocation;
         int cornerRadiusLocation;
         int opacityLocation;
-    } m_roundedContrastPass;
+    } m_roundedOnscreenPass;
 
     struct
     {
@@ -150,10 +151,11 @@ private:
 #if KWIN_BUILD_X11
     long net_wm_blur_region = 0;
 #endif
-    QRegion m_paintedArea; // keeps track of all painted areas (from bottom to top)
-    QRegion m_currentBlur; // keeps track of currently blurred area of the windows (from bottom to top)
+    Region m_paintedDeviceArea; // keeps track of all painted areas (from bottom to top)
+    Region m_currentDeviceBlur; // keeps track of currently blurred area of the windows (from bottom to top)
     RenderView *m_currentView = nullptr;
 
+    QMatrix4x4 m_colorMatrix;
     size_t m_iterationCount; // number of times the texture will be downsized to half size
     int m_offset;
     int m_expandSize;

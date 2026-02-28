@@ -21,7 +21,7 @@ void WindowPrePaintData::setTranslucent()
 {
     mask |= Effect::PAINT_WINDOW_TRANSLUCENT;
     mask &= ~Effect::PAINT_WINDOW_OPAQUE;
-    opaque = QRegion(); // cannot clip, will be transparent
+    deviceOpaque = Region(); // cannot clip, will be transparent
 }
 
 void WindowPrePaintData::setTransformed()
@@ -378,9 +378,9 @@ void Effect::prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseconds 
     effects->prePaintScreen(data, presentTime);
 }
 
-void Effect::paintScreen(const RenderTarget &renderTarget, const RenderViewport &viewport, int mask, const QRegion &region, Output *screen)
+void Effect::paintScreen(const RenderTarget &renderTarget, const RenderViewport &viewport, int mask, const Region &deviceRegion, LogicalOutput *screen)
 {
-    effects->paintScreen(renderTarget, viewport, mask, region, screen);
+    effects->paintScreen(renderTarget, viewport, mask, deviceRegion, screen);
 }
 
 void Effect::postPaintScreen()
@@ -388,19 +388,14 @@ void Effect::postPaintScreen()
     effects->postPaintScreen();
 }
 
-void Effect::prePaintWindow(EffectWindow *w, WindowPrePaintData &data, std::chrono::milliseconds presentTime)
+void Effect::prePaintWindow(RenderView *view, EffectWindow *w, WindowPrePaintData &data, std::chrono::milliseconds presentTime)
 {
-    effects->prePaintWindow(w, data, presentTime);
+    effects->prePaintWindow(view, w, data, presentTime);
 }
 
-void Effect::paintWindow(const RenderTarget &renderTarget, const RenderViewport &viewport, EffectWindow *w, int mask, QRegion region, WindowPaintData &data)
+void Effect::paintWindow(const RenderTarget &renderTarget, const RenderViewport &viewport, EffectWindow *w, int mask, const Region &deviceRegion, WindowPaintData &data)
 {
-    effects->paintWindow(renderTarget, viewport, w, mask, region, data);
-}
-
-void Effect::postPaintWindow(EffectWindow *w)
-{
-    effects->postPaintWindow(w);
+    effects->paintWindow(renderTarget, viewport, w, mask, deviceRegion, data);
 }
 
 bool Effect::provides(Feature)
@@ -418,13 +413,13 @@ QString Effect::debug(const QString &) const
     return QString();
 }
 
-void Effect::drawWindow(const RenderTarget &renderTarget, const RenderViewport &viewport, EffectWindow *w, int mask, const QRegion &region, WindowPaintData &data)
+void Effect::drawWindow(const RenderTarget &renderTarget, const RenderViewport &viewport, EffectWindow *w, int mask, const Region &deviceRegion, WindowPaintData &data)
 {
-    effects->drawWindow(renderTarget, viewport, w, mask, region, data);
+    effects->drawWindow(renderTarget, viewport, w, mask, deviceRegion, data);
 }
 
-void Effect::setPositionTransformations(WindowPaintData &data, QRect &region, EffectWindow *w,
-                                        const QRect &r, Qt::AspectRatioMode aspect)
+void Effect::setPositionTransformations(WindowPaintData &data, Rect &logicalRegion, EffectWindow *w,
+                                        const Rect &r, Qt::AspectRatioMode aspect)
 {
     QSizeF size = w->size();
     size.scale(r.size(), aspect);
@@ -434,7 +429,7 @@ void Effect::setPositionTransformations(WindowPaintData &data, QRect &region, Ef
     int height = int(w->height() * data.yScale());
     int x = r.x() + (r.width() - width) / 2;
     int y = r.y() + (r.height() - height) / 2;
-    region = QRect(x, y, width, height);
+    logicalRegion = Rect(x, y, width, height);
     data.setXTranslation(x - w->x());
     data.setYTranslation(y - w->y());
 }
@@ -515,7 +510,7 @@ bool Effect::tabletPadStripEvent(int number, qreal position, bool isFinger, void
     return false;
 }
 
-bool Effect::tabletPadRingEvent(int number, int position, bool isFinger, void *device)
+bool Effect::tabletPadRingEvent(int number, qreal position, bool isFinger, void *device)
 {
     return false;
 }

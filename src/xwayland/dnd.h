@@ -10,7 +10,7 @@
 
 #include "selection.h"
 
-#include "wayland/datadevicemanager.h"
+#include "wayland/abstract_data_source.h"
 
 #include <QPoint>
 
@@ -34,19 +34,17 @@ class Dnd : public Selection
 
 public:
     explicit Dnd(xcb_atom_t atom, QObject *parent);
+    ~Dnd() override;
 
     static uint32_t version();
     XwlDropHandler *dropHandler() const;
 
-    void doHandleXfixesNotify(xcb_xfixes_selection_notify_event_t *event) override;
-    void x11OfferLost() override;
-    void x11OffersChanged(const QStringList &added, const QStringList &removed) override;
+    void selectionDisowned() override;
+    void selectionClaimed(xcb_xfixes_selection_notify_event_t *event) override;
     bool handleClientMessage(xcb_client_message_event_t *event) override;
 
     bool dragMoveFilter(Window *target, const QPointF &position);
 
-    using DnDAction = DataDeviceManagerInterface::DnDAction;
-    using DnDActions = DataDeviceManagerInterface::DnDActions;
     static DnDAction atomToClientAction(xcb_atom_t atom);
     static xcb_atom_t clientActionToAtom(DnDAction action);
 

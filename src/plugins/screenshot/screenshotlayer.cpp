@@ -8,8 +8,8 @@
 namespace KWin
 {
 
-ScreenshotLayer::ScreenshotLayer(Output *output, GLFramebuffer *buffer)
-    : OutputLayer(output, OutputLayerType::Primary)
+ScreenshotLayer::ScreenshotLayer(LogicalOutput *output, GLFramebuffer *buffer)
+    : OutputLayer(output->backendOutput(), OutputLayerType::Primary)
     , m_buffer(buffer)
 {
 }
@@ -28,11 +28,11 @@ std::optional<OutputLayerBeginFrameInfo> ScreenshotLayer::doBeginFrame()
 {
     return OutputLayerBeginFrameInfo{
         .renderTarget = RenderTarget(m_buffer),
-        .repaint = infiniteRegion(),
+        .repaint = Region::infinite(),
     };
 }
 
-bool ScreenshotLayer::doEndFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame)
+bool ScreenshotLayer::doEndFrame(const Region &renderedRegion, const Region &damagedRegion, OutputFrame *frame)
 {
     return true;
 }

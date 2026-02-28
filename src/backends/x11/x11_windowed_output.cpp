@@ -137,7 +137,7 @@ void X11WindowedCursor::update(const QImage &image, const QPointF &hotspot)
 }
 
 X11WindowedOutput::X11WindowedOutput(X11WindowedBackend *backend)
-    : Output(backend)
+    : BackendOutput()
     , m_renderLoop(std::make_unique<RenderLoop>(this))
     , m_backend(backend)
 {
@@ -160,19 +160,19 @@ X11WindowedOutput::~X11WindowedOutput()
     xcb_flush(m_backend->connection());
 }
 
-QRegion X11WindowedOutput::exposedArea() const
+Region X11WindowedOutput::exposedArea() const
 {
     return m_exposedArea;
 }
 
-void X11WindowedOutput::addExposedArea(const QRect &rect)
+void X11WindowedOutput::addExposedArea(const Rect &rect)
 {
     m_exposedArea += rect;
 }
 
 void X11WindowedOutput::clearExposedArea()
 {
-    m_exposedArea = QRegion();
+    m_exposedArea = Region();
 }
 
 RenderLoop *X11WindowedOutput::renderLoop() const
@@ -332,7 +332,7 @@ void X11WindowedOutput::setWindowTitle(const QString &title)
 
 QPoint X11WindowedOutput::internalPosition() const
 {
-    return geometry().topLeft();
+    return BackendOutput::position();
 }
 
 void X11WindowedOutput::setHostPosition(const QPoint &pos)
@@ -490,6 +490,8 @@ bool X11WindowedOutput::present(const QList<OutputLayer *> &layersToUpdate, cons
                        0,
                        0,
                        nullptr);
+
+    Q_ASSERT(!m_frame);
     m_frame = frame;
     return true;
 }

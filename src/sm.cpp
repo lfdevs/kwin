@@ -157,8 +157,8 @@ void SessionManager::storeClient(KConfigGroup &cg, int num, X11Window *c)
     cg.writeEntry(QLatin1String("resourceName") + n, c->resourceName());
     cg.writeEntry(QLatin1String("resourceClass") + n, c->resourceClass());
     cg.writeEntry(QLatin1String("geometry") + n, QRectF(c->calculateGravitation(true), c->clientSize()).toRect()); // FRAME
-    cg.writeEntry(QLatin1String("restore") + n, c->geometryRestore());
-    cg.writeEntry(QLatin1String("fsrestore") + n, c->fullscreenGeometryRestore());
+    cg.writeEntry(QLatin1String("restore") + n, QRectF(c->geometryRestore()));
+    cg.writeEntry(QLatin1String("fsrestore") + n, QRectF(c->fullscreenGeometryRestore()));
     cg.writeEntry(QLatin1String("maximize") + n, (int)c->maximizeMode());
     cg.writeEntry(QLatin1String("fullscreen") + n, (int)c->fullScreenMode());
     cg.writeEntry(QLatin1String("desktop") + n, c->desktopId());
@@ -174,8 +174,7 @@ void SessionManager::storeClient(KConfigGroup &cg, int num, X11Window *c)
     cg.writeEntry(QLatin1String("skipTaskbar") + n, c->originalSkipTaskbar());
     cg.writeEntry(QLatin1String("skipPager") + n, c->skipPager());
     cg.writeEntry(QLatin1String("skipSwitcher") + n, c->skipSwitcher());
-    // not really just set by user, but name kept for back. comp. reasons
-    cg.writeEntry(QLatin1String("userNoBorder") + n, c->userNoBorder());
+    cg.writeEntry(QLatin1String("decorationPolicy") + n, uint(c->decorationPolicy()));
     cg.writeEntry(QLatin1String("windowType") + n, windowTypeToTxt(c->windowType()));
     cg.writeEntry(QLatin1String("shortcut") + n, c->shortcut().toString());
     cg.writeEntry(QLatin1String("stackingOrder") + n, workspace()->unconstrainedStackingOrder().indexOf(c));
@@ -208,9 +207,9 @@ void SessionManager::addSessionInfo(KConfigGroup &cg)
         info.wmCommand = cg.readEntry(QLatin1String("wmCommand") + n, QString()).toLatin1();
         info.resourceName = cg.readEntry(QLatin1String("resourceName") + n, QString());
         info.resourceClass = cg.readEntry(QLatin1String("resourceClass") + n, QString()).toLower();
-        info.geometry = cg.readEntry(QLatin1String("geometry") + n, QRect());
-        info.restore = cg.readEntry(QLatin1String("restore") + n, QRect());
-        info.fsrestore = cg.readEntry(QLatin1String("fsrestore") + n, QRect());
+        info.geometry = cg.readEntry(QLatin1String("geometry") + n, QRectF());
+        info.restore = cg.readEntry(QLatin1String("restore") + n, QRectF());
+        info.fsrestore = cg.readEntry(QLatin1String("fsrestore") + n, QRectF());
         info.maximized = cg.readEntry(QLatin1String("maximize") + n, 0);
         info.fullscreen = cg.readEntry(QLatin1String("fullscreen") + n, 0);
         info.desktop = cg.readEntry(QLatin1String("desktop") + n, 0);
@@ -222,7 +221,7 @@ void SessionManager::addSessionInfo(KConfigGroup &cg)
         info.skipTaskbar = cg.readEntry(QLatin1String("skipTaskbar") + n, false);
         info.skipPager = cg.readEntry(QLatin1String("skipPager") + n, false);
         info.skipSwitcher = cg.readEntry(QLatin1String("skipSwitcher") + n, false);
-        info.noBorder = cg.readEntry(QLatin1String("userNoBorder") + n, false);
+        info.decorationPolicy = DecorationPolicy(cg.readEntry(QLatin1String("decorationPolicy") + n, uint(DecorationPolicy::PreferredByClient)));
         info.windowType = txtToWindowType(cg.readEntry(QLatin1String("windowType") + n, QString()).toLatin1().constData());
         info.shortcut = cg.readEntry(QLatin1String("shortcut") + n, QString());
         info.active = (active_client == i);
@@ -368,9 +367,6 @@ void SessionManager::finishSaveSession(const QString &name)
 bool SessionManager::closeWaylandWindows()
 {
     Q_ASSERT(calledFromDBus());
-    if (!waylandServer()) {
-        return true;
-    }
 
     if (m_closingWindowsGuard) {
         sendErrorReply(QDBusError::Failed, u"Operation already in progress"_s);

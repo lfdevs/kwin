@@ -32,7 +32,7 @@ namespace KWin
 static const QString s_socketName = QStringLiteral("wayland_test_kwin_transient_placement-0");
 
 #if KWIN_BUILD_X11
-static X11Window *createWindow(xcb_connection_t *connection, const QRect &geometry, std::function<void(xcb_window_t)> setup = {})
+static X11Window *createWindow(xcb_connection_t *connection, const Rect &geometry, std::function<void(xcb_window_t)> setup = {})
 {
     xcb_window_t windowId = xcb_generate_id(connection);
     xcb_create_window(connection, XCB_COPY_FROM_PARENT, windowId, rootWindow(),
@@ -79,13 +79,12 @@ private Q_SLOTS:
     void sendToOutputX11();
     void tileAndMaximize();
     void evacuateFromRemovedDesktop();
-    void evacuateFromRemovedOutput();
 
 private:
     void createSimpleLayout();
     void createComplexLayout();
 
-    Output *m_output;
+    LogicalOutput *m_output;
     TileManager *m_tileManager;
     CustomTile *m_rootTile;
 };
@@ -97,13 +96,13 @@ void TilesTest::initTestCase()
 
     kwinApp()->start();
     Test::setOutputConfig({
-        QRect(0, 0, 1280, 1024),
-        QRect(1280, 0, 1280, 1024),
+        Rect(0, 0, 1280, 1024),
+        Rect(1280, 0, 1280, 1024),
     });
     const auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
-    QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
-    QCOMPARE(outputs[1]->geometry(), QRect(1280, 0, 1280, 1024));
+    QCOMPARE(outputs[0]->geometry(), Rect(0, 0, 1280, 1024));
+    QCOMPARE(outputs[1]->geometry(), Rect(1280, 0, 1280, 1024));
     setenv("QT_QPA_PLATFORM", "wayland", true);
 }
 
@@ -133,7 +132,7 @@ void TilesTest::createSimpleLayout()
     std::vector<qreal> leftTileWidths = {0.5, 0.45, 0.4, 0.35, 0.3, 0.25};
     int i = 0;
     for (VirtualDesktop *desk : VirtualDesktopManager::self()->desktops()) {
-        for (Output *out : workspace()->outputs()) {
+        for (LogicalOutput *out : workspace()->outputs()) {
             qreal leftTileWidth = leftTileWidths[i++];
             CustomTile *rootTile = workspace()->rootTile(out, desk);
             while (rootTile->childCount() > 0) {
@@ -149,10 +148,10 @@ void TilesTest::createSimpleLayout()
             QVERIFY(leftTile);
             QVERIFY(rightTile);
 
-            leftTile->setRelativeGeometry(QRectF(0, 0, leftTileWidth, 1));
+            leftTile->setRelativeGeometry(RectF(0, 0, leftTileWidth, 1));
 
-            QCOMPARE(leftTile->relativeGeometry(), QRectF(0, 0, leftTileWidth, 1));
-            QCOMPARE(rightTile->relativeGeometry(), QRectF(leftTileWidth, 0, 1 - leftTileWidth, 1));
+            QCOMPARE(leftTile->relativeGeometry(), RectF(0, 0, leftTileWidth, 1));
+            QCOMPARE(rightTile->relativeGeometry(), RectF(leftTileWidth, 0, 1 - leftTileWidth, 1));
         }
     }
 }
@@ -172,23 +171,23 @@ void TilesTest::createComplexLayout()
     QVERIFY(leftTile);
     QVERIFY(rightTile);
 
-    QCOMPARE(leftTile->relativeGeometry(), QRectF(0, 0, 0.5, 1));
-    QCOMPARE(rightTile->relativeGeometry(), QRectF(0.5, 0, 0.5, 1));
+    QCOMPARE(leftTile->relativeGeometry(), RectF(0, 0, 0.5, 1));
+    QCOMPARE(rightTile->relativeGeometry(), RectF(0.5, 0, 0.5, 1));
 
     // Splitting with the same layout direction creates a sibling, not 2 children
     rightTile->split(CustomTile::LayoutDirection::Horizontal);
     auto newRightTile = qobject_cast<CustomTile *>(m_rootTile->childTiles().last());
 
     QCOMPARE(m_rootTile->childCount(), 3);
-    QCOMPARE(m_rootTile->relativeGeometry(), QRectF(0, 0, 1, 1));
-    QCOMPARE(leftTile->relativeGeometry(), QRectF(0, 0, 0.5, 1));
-    QCOMPARE(rightTile->relativeGeometry(), QRectF(0.5, 0, 0.25, 1));
-    QCOMPARE(newRightTile->relativeGeometry(), QRectF(0.75, 0, 0.25, 1));
+    QCOMPARE(m_rootTile->relativeGeometry(), RectF(0, 0, 1, 1));
+    QCOMPARE(leftTile->relativeGeometry(), RectF(0, 0, 0.5, 1));
+    QCOMPARE(rightTile->relativeGeometry(), RectF(0.5, 0, 0.25, 1));
+    QCOMPARE(newRightTile->relativeGeometry(), RectF(0.75, 0, 0.25, 1));
 
-    QCOMPARE(m_rootTile->windowGeometry(), QRectF(4, 4, 1272, 1016));
-    QCOMPARE(leftTile->windowGeometry(), QRectF(4, 4, 634, 1016));
-    QCOMPARE(rightTile->windowGeometry(), QRectF(642, 4, 316, 1016));
-    QCOMPARE(newRightTile->windowGeometry(), QRectF(962, 4, 314, 1016));
+    QCOMPARE(m_rootTile->windowGeometry(), RectF(4, 4, 1272, 1016));
+    QCOMPARE(leftTile->windowGeometry(), RectF(4, 4, 634, 1016));
+    QCOMPARE(rightTile->windowGeometry(), RectF(642, 4, 316, 1016));
+    QCOMPARE(newRightTile->windowGeometry(), RectF(962, 4, 314, 1016));
 
     // Splitting with a different layout direction creates 2 children in the tile
     QVERIFY(!rightTile->isLayout());
@@ -201,13 +200,13 @@ void TilesTest::createComplexLayout()
 
     // geometry of rightTile should be the same
     QCOMPARE(m_rootTile->childCount(), 3);
-    QCOMPARE(rightTile->relativeGeometry(), QRectF(0.5, 0, 0.25, 1));
-    QCOMPARE(rightTile->windowGeometry(), QRectF(642, 4, 316, 1016));
+    QCOMPARE(rightTile->relativeGeometry(), RectF(0.5, 0, 0.25, 1));
+    QCOMPARE(rightTile->windowGeometry(), RectF(642, 4, 316, 1016));
 
-    QCOMPARE(verticalTopTile->relativeGeometry(), QRectF(0.5, 0, 0.25, 0.5));
-    QCOMPARE(verticalBottomTile->relativeGeometry(), QRectF(0.5, 0.5, 0.25, 0.5));
-    QCOMPARE(verticalTopTile->windowGeometry(), QRectF(642, 4, 316, 506));
-    QCOMPARE(verticalBottomTile->windowGeometry(), QRectF(642, 514, 316, 506));
+    QCOMPARE(verticalTopTile->relativeGeometry(), RectF(0.5, 0, 0.25, 0.5));
+    QCOMPARE(verticalBottomTile->relativeGeometry(), RectF(0.5, 0.5, 0.25, 0.5));
+    QCOMPARE(verticalTopTile->windowGeometry(), RectF(642, 4, 316, 506));
+    QCOMPARE(verticalBottomTile->windowGeometry(), RectF(642, 514, 316, 506));
 
     // TODO: add tests for the tile flags
 }
@@ -241,7 +240,7 @@ void TilesTest::testWindowInteraction()
     shellSurface->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy.last().at(0).value<quint32>());
     Test::render(surface.get(), toplevelConfigureRequestedSpy.last().first().value<QSize>(), Qt::blue);
     QVERIFY(frameGeometryChangedSpy.wait());
-    QCOMPARE(rootWindow->frameGeometry(), leftTile->windowGeometry().toRect());
+    QCOMPARE(rootWindow->frameGeometry(), RectF(leftTile->windowGeometry().toRect()));
 
     QCOMPARE(toplevelConfigureRequestedSpy.last().first().value<QSize>(), leftTile->windowGeometry().toRect().size());
 
@@ -260,7 +259,7 @@ void TilesTest::testWindowInteraction()
 
     Test::render(surface.get(), toplevelConfigureRequestedSpy.last().first().value<QSize>(), Qt::blue);
     QVERIFY(frameGeometryChangedSpy.wait());
-    QCOMPARE(rootWindow->frameGeometry(), leftTile->windowGeometry().toRect());
+    QCOMPARE(rootWindow->frameGeometry(), RectF(leftTile->windowGeometry().toRect()));
 
     auto middleTile = qobject_cast<CustomTile *>(m_rootTile->childTiles()[1]);
     QVERIFY(middleTile);
@@ -271,11 +270,11 @@ void TilesTest::testWindowInteraction()
     auto verticalBottomTile = qobject_cast<CustomTile *>(middleTile->childTiles().last());
     QVERIFY(verticalBottomTile);
 
-    QCOMPARE(leftTile->relativeGeometry(), QRectF(0, 0, 0.4, 1));
-    QCOMPARE(middleTile->relativeGeometry(), QRectF(0.4, 0, 0.35, 1));
-    QCOMPARE(rightTile->relativeGeometry(), QRectF(0.75, 0, 0.25, 1));
-    QCOMPARE(verticalTopTile->relativeGeometry(), QRectF(0.4, 0, 0.35, 0.5));
-    QCOMPARE(verticalBottomTile->relativeGeometry(), QRectF(0.4, 0.5, 0.35, 0.5));
+    QCOMPARE(leftTile->relativeGeometry(), RectF(0, 0, 0.4, 1));
+    QCOMPARE(middleTile->relativeGeometry(), RectF(0.4, 0, 0.35, 1));
+    QCOMPARE(rightTile->relativeGeometry(), RectF(0.75, 0, 0.25, 1));
+    QCOMPARE(verticalTopTile->relativeGeometry(), RectF(0.4, 0, 0.35, 0.5));
+    QCOMPARE(verticalBottomTile->relativeGeometry(), RectF(0.4, 0.5, 0.35, 0.5));
 }
 
 void TilesTest::testAssignedTileDeletion()
@@ -315,11 +314,11 @@ void TilesTest::testAssignedTileDeletion()
 
     Test::render(rootSurface.get(), toplevelConfigureRequestedSpy.last().first().value<QSize>(), Qt::blue);
     QVERIFY(frameGeometryChangedSpy.wait());
-    QCOMPARE(rootWindow->frameGeometry(), middleBottomTile->windowGeometry().toRect());
+    QCOMPARE(rootWindow->frameGeometry(), RectF(middleBottomTile->windowGeometry().toRect()));
 
     QCOMPARE(toplevelConfigureRequestedSpy.last().first().value<QSize>(), middleBottomTile->windowGeometry().toRect().size());
 
-    QCOMPARE(middleBottomTile->windowGeometry().toRect(), QRect(514, 514, 444, 506));
+    QCOMPARE(middleBottomTile->windowGeometry().toRect(), Rect(514, 514, 444, 506));
 
     middleBottomTile->remove();
 
@@ -334,7 +333,7 @@ void TilesTest::testAssignedTileDeletion()
 
     Test::render(rootSurface.get(), toplevelConfigureRequestedSpy.last().first().value<QSize>(), Qt::blue);
     QVERIFY(frameGeometryChangedSpy.wait());
-    QCOMPARE(rootWindow->frameGeometry(), middleTile->windowGeometry().toRect());
+    QCOMPARE(rootWindow->frameGeometry(), RectF(middleTile->windowGeometry().toRect()));
 
     // Both children have been deleted as the system avoids tiles with ha single child
     QCOMPARE(middleTile->isLayout(), false);
@@ -370,20 +369,20 @@ void TilesTest::resizeTileFromWindow()
     auto leftTile = qobject_cast<CustomTile *>(m_rootTile->childTiles().first());
     QVERIFY(leftTile);
     leftTile->setRelativeGeometry({0, 0, 0.4, 1});
-    QCOMPARE(leftTile->windowGeometry(), QRectF(4, 4, 506, 1016));
+    QCOMPARE(leftTile->windowGeometry(), RectF(4, 4, 506, 1016));
 
     auto middleTile = qobject_cast<CustomTile *>(m_rootTile->childTiles()[1]);
     QVERIFY(middleTile);
-    QCOMPARE(middleTile->windowGeometry(), QRectF(514, 4, 444, 1016));
+    QCOMPARE(middleTile->windowGeometry(), RectF(514, 4, 444, 1016));
 
     leftTile->split(CustomTile::LayoutDirection::Vertical);
     auto topLeftTile = qobject_cast<CustomTile *>(leftTile->childTiles().first());
     QVERIFY(topLeftTile);
-    QCOMPARE(topLeftTile->windowGeometry(), QRectF(4, 4, 506, 506));
+    QCOMPARE(topLeftTile->windowGeometry(), RectF(4, 4, 506, 506));
     QSignalSpy tileGeometryChangedSpy(topLeftTile, &Tile::windowGeometryChanged);
     auto bottomLeftTile = qobject_cast<CustomTile *>(leftTile->childTiles().last());
     QVERIFY(bottomLeftTile);
-    QCOMPARE(bottomLeftTile->windowGeometry(), QRectF(4, 514, 506, 506));
+    QCOMPARE(bottomLeftTile->windowGeometry(), RectF(4, 514, 506, 506));
 
     topLeftTile->manage(window);
     QVERIFY(surfaceConfigureRequestedSpy.wait());
@@ -395,7 +394,7 @@ void TilesTest::resizeTileFromWindow()
     QCOMPARE(toplevelConfigureRequestedSpy.last().first().value<QSize>(), topLeftTile->windowGeometry().toRect().size());
     Test::render(rootSurface.get(), toplevelConfigureRequestedSpy.last().first().value<QSize>(), Qt::blue);
     QVERIFY(frameGeometryChangedSpy.wait());
-    QCOMPARE(window->frameGeometry(), QRect(4, 4, 506, 506));
+    QCOMPARE(window->frameGeometry(), RectF(4, 4, 506, 506));
 
     QCOMPARE(workspace()->activeWindow(), window);
     QSignalSpy interactiveMoveResizeStartedSpy(window, &Window::interactiveMoveResizeStarted);
@@ -414,7 +413,7 @@ void TilesTest::resizeTileFromWindow()
     QCOMPARE(interactiveMoveResizeStartedSpy.count(), 1);
     QCOMPARE(moveResizedChangedSpy.count(), 1);
     QCOMPARE(window->isInteractiveResize(), true);
-    QCOMPARE(window->geometryRestore(), QRect(0, 0, 100, 100));
+    QCOMPARE(window->geometryRestore(), RectF(0, 0, 100, 100));
     QVERIFY(surfaceConfigureRequestedSpy.wait());
     QCOMPARE(surfaceConfigureRequestedSpy.count(), 3);
     QCOMPARE(toplevelConfigureRequestedSpy.count(), 3);
@@ -440,14 +439,14 @@ void TilesTest::resizeTileFromWindow()
     root->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy.last().at(0).value<quint32>());
     Test::render(rootSurface.get(), toplevelConfigureRequestedSpy.last().first().value<QSize>(), Qt::blue);
     QVERIFY(frameGeometryChangedSpy.wait());
-    QCOMPARE(window->frameGeometry(), QRect(4, 4, 516, 508));
+    QCOMPARE(window->frameGeometry(), RectF(4, 4, 516, 508));
 
     QTRY_COMPARE(tileGeometryChangedSpy.count(), 2);
     QCOMPARE(window->tile(), topLeftTile);
-    QCOMPARE(topLeftTile->windowGeometry(), QRect(4, 4, 516, 508));
-    QCOMPARE(bottomLeftTile->windowGeometry(), QRect(4, 516, 516, 504));
-    QCOMPARE(leftTile->windowGeometry(), QRect(4, 4, 516, 1016));
-    QCOMPARE(middleTile->windowGeometry(), QRect(524, 4, 434, 1016));
+    QCOMPARE(topLeftTile->windowGeometry(), Rect(4, 4, 516, 508));
+    QCOMPARE(bottomLeftTile->windowGeometry(), Rect(4, 516, 516, 504));
+    QCOMPARE(leftTile->windowGeometry(), Rect(4, 4, 516, 1016));
+    QCOMPARE(middleTile->windowGeometry(), Rect(524, 4, 434, 1016));
 
     // Resize vertically
     workspace()->slotWindowResize();
@@ -455,7 +454,7 @@ void TilesTest::resizeTileFromWindow()
     QCOMPARE(interactiveMoveResizeStartedSpy.count(), 2);
     QCOMPARE(moveResizedChangedSpy.count(), 3);
     QCOMPARE(window->isInteractiveResize(), true);
-    QCOMPARE(window->geometryRestore(), QRect(0, 0, 100, 100));
+    QCOMPARE(window->geometryRestore(), RectF(0, 0, 100, 100));
     QVERIFY(surfaceConfigureRequestedSpy.wait());
     QCOMPARE(surfaceConfigureRequestedSpy.count(), 5);
     QCOMPARE(toplevelConfigureRequestedSpy.count(), 5);
@@ -482,14 +481,14 @@ void TilesTest::resizeTileFromWindow()
     root->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy.last().at(0).value<quint32>());
     Test::render(rootSurface.get(), toplevelConfigureRequestedSpy.last().first().value<QSize>(), Qt::blue);
     QVERIFY(frameGeometryChangedSpy.wait());
-    QCOMPARE(window->frameGeometry(), QRect(4, 4, 518, 518));
+    QCOMPARE(window->frameGeometry(), RectF(4, 4, 518, 518));
 
     QTRY_COMPARE(tileGeometryChangedSpy.count(), 5);
     QCOMPARE(window->tile(), topLeftTile);
-    QCOMPARE(topLeftTile->windowGeometry(), QRect(4, 4, 518, 518));
-    QCOMPARE(bottomLeftTile->windowGeometry(), QRect(4, 526, 518, 494));
-    QCOMPARE(leftTile->windowGeometry(), QRect(4, 4, 518, 1016));
-    QCOMPARE(middleTile->windowGeometry(), QRect(526, 4, 432, 1016));
+    QCOMPARE(topLeftTile->windowGeometry(), Rect(4, 4, 518, 518));
+    QCOMPARE(bottomLeftTile->windowGeometry(), Rect(4, 526, 518, 494));
+    QCOMPARE(leftTile->windowGeometry(), Rect(4, 4, 518, 1016));
+    QCOMPARE(middleTile->windowGeometry(), Rect(526, 4, 432, 1016));
 }
 
 void TilesTest::shortcuts()
@@ -602,7 +601,7 @@ void TilesTest::testPerDesktopTiles()
         ackConfigure();
         QVERIFY(tileChangedSpy.wait());
         QCOMPARE(window->tile(), rightTileD1);
-        QCOMPARE(window->frameGeometry(), rightTileD1->windowGeometry());
+        QCOMPARE(window->frameGeometry(), RectF(rightTileD1->windowGeometry()));
     }
 
     // Set current Desktop 2
@@ -611,7 +610,7 @@ void TilesTest::testPerDesktopTiles()
         ackConfigure();
         QVERIFY(tileChangedSpy.wait());
         QCOMPARE(window->tile(), nullptr);
-        QCOMPARE(window->frameGeometry(), QRectF(0, 0, 100, 100));
+        QCOMPARE(window->frameGeometry(), RectF(0, 0, 100, 100));
     }
 
     // Set a new tile for Desktop 2
@@ -620,7 +619,7 @@ void TilesTest::testPerDesktopTiles()
         ackConfigure();
         QVERIFY(tileChangedSpy.wait());
         QCOMPARE(window->tile(), leftTileD2);
-        QCOMPARE(window->frameGeometry(), leftTileD2->windowGeometry());
+        QCOMPARE(window->frameGeometry(), RectF(leftTileD2->windowGeometry()));
     }
 
     // Go back to desktop 1, we go back to rightTileD1
@@ -629,7 +628,7 @@ void TilesTest::testPerDesktopTiles()
         ackConfigure();
         QVERIFY(tileChangedSpy.wait());
         QCOMPARE(window->tile(), rightTileD1);
-        QCOMPARE(window->frameGeometry(), rightTileD1->windowGeometry());
+        QCOMPARE(window->frameGeometry(), RectF(rightTileD1->windowGeometry()));
     }
 
     // Switch to desktop 2
@@ -638,7 +637,7 @@ void TilesTest::testPerDesktopTiles()
         ackConfigure();
         QVERIFY(tileChangedSpy.wait());
         QCOMPARE(window->tile(), leftTileD2);
-        QCOMPARE(window->frameGeometry(), leftTileD2->windowGeometry());
+        QCOMPARE(window->frameGeometry(), RectF(leftTileD2->windowGeometry()));
     }
 }
 
@@ -675,7 +674,7 @@ void TilesTest::sendToOutput()
         QVERIFY(tileChangedSpy.wait());
         QCOMPARE(window->tile(), firstTile);
         QCOMPARE(window->requestedTile(), firstTile);
-        QCOMPARE(window->frameGeometry(), firstTile->windowGeometry());
+        QCOMPARE(window->frameGeometry(), RectF(firstTile->windowGeometry()));
     }
 
     // Tile window on desktop 2
@@ -686,7 +685,7 @@ void TilesTest::sendToOutput()
         QVERIFY(tileChangedSpy.wait());
         QCOMPARE(window->tile(), secondTile);
         QCOMPARE(window->requestedTile(), secondTile);
-        QCOMPARE(window->frameGeometry(), secondTile->windowGeometry());
+        QCOMPARE(window->frameGeometry(), RectF(secondTile->windowGeometry()));
     }
 
     // Send window to the second output
@@ -708,7 +707,7 @@ void TilesTest::sendToOutputX11()
 #if KWIN_BUILD_X11
     Test::XcbConnectionPtr c = Test::createX11Connection();
     QVERIFY(!xcb_connection_has_error(c.get()));
-    X11Window *window = createWindow(c.get(), QRect(0, 0, 100, 200));
+    X11Window *window = createWindow(c.get(), Rect(0, 0, 100, 200));
     window->setOnAllDesktops(true);
 
     const auto desktops = VirtualDesktopManager::self()->desktops();
@@ -722,7 +721,7 @@ void TilesTest::sendToOutputX11()
         firstTile->manage(window);
         QCOMPARE(window->tile(), firstTile);
         QCOMPARE(window->requestedTile(), firstTile);
-        QCOMPARE(window->frameGeometry(), firstTile->windowGeometry());
+        QCOMPARE(window->frameGeometry(), RectF(firstTile->windowGeometry()));
     }
 
     // Tile window on desktop 2
@@ -731,7 +730,7 @@ void TilesTest::sendToOutputX11()
         secondTile->manage(window);
         QCOMPARE(window->tile(), secondTile);
         QCOMPARE(window->requestedTile(), secondTile);
-        QCOMPARE(window->frameGeometry(), secondTile->windowGeometry());
+        QCOMPARE(window->frameGeometry(), RectF(secondTile->windowGeometry()));
     }
 
     // Send window to the second output
@@ -753,7 +752,7 @@ void TilesTest::tileAndMaximize()
 
     auto leftQuickTileD1 = m_tileManager->quickTile(QuickTileFlag::Left);
 
-    const QList<Output *> outputs = workspace()->outputs();
+    const QList<LogicalOutput *> outputs = workspace()->outputs();
     TileManager *out2TileMan = workspace()->tileManager(outputs[1]);
     auto rootTileD3O2 = out2TileMan->rootTile(VirtualDesktopManager::self()->desktops()[2]);
     auto leftTileD3O2 = qobject_cast<CustomTile *>(rootTileD3O2->childTiles()[0]);
@@ -782,7 +781,7 @@ void TilesTest::tileAndMaximize()
         ackConfigure();
         QVERIFY(tileChangedSpy.wait());
         QCOMPARE(window->tile(), leftQuickTileD1);
-        QCOMPARE(window->frameGeometry(), leftQuickTileD1->windowGeometry());
+        QCOMPARE(window->frameGeometry(), RectF(leftQuickTileD1->windowGeometry()));
     }
 
     // Set current Desktop 2
@@ -793,7 +792,7 @@ void TilesTest::tileAndMaximize()
         ackConfigure();
         QVERIFY(tileChangedSpy.wait());
         QCOMPARE(window->tile(), rightTileD2);
-        QCOMPARE(window->frameGeometry(), rightTileD2->windowGeometry());
+        QCOMPARE(window->frameGeometry(), RectF(rightTileD2->windowGeometry()));
     }
 
     // Add the window also on a tile of another output
@@ -807,7 +806,7 @@ void TilesTest::tileAndMaximize()
         ackConfigure();
         QVERIFY(tileChangedSpy.wait());
         QCOMPARE(window->tile(), nullptr);
-        QCOMPARE(window->frameGeometry(), QRectF(0, 0, 1280, 1024));
+        QCOMPARE(window->frameGeometry(), RectF(0, 0, 1280, 1024));
 
         // Both tiles have an empty window list now
         QVERIFY(leftQuickTileD1->windows().isEmpty());
@@ -824,7 +823,7 @@ void TilesTest::tileAndMaximize()
         QVERIFY(tileChangedSpy.wait());
         QCOMPARE(window->tile(), rightTileD2);
         QCOMPARE(window->maximizeMode(), MaximizeRestore);
-        QCOMPARE(window->frameGeometry(), rightTileD2->windowGeometry());
+        QCOMPARE(window->frameGeometry(), RectF(rightTileD2->windowGeometry()));
     }
 }
 
@@ -859,7 +858,7 @@ void TilesTest::evacuateFromRemovedDesktop()
         QCOMPARE(window->requestedTile(), rightTileD2);
         ackConfigure();
         QCOMPARE(window->tile(), rightTileD2);
-        QCOMPARE(window->frameGeometry(), rightTileD2->windowGeometry());
+        QCOMPARE(window->frameGeometry(), RectF(rightTileD2->windowGeometry()));
     }
 
     // Set current Desktop 3
@@ -869,7 +868,7 @@ void TilesTest::evacuateFromRemovedDesktop()
         QCOMPARE(window->requestedTile(), leftTileD3);
         ackConfigure();
         QCOMPARE(window->tile(), leftTileD3);
-        QCOMPARE(window->frameGeometry(), leftTileD3->windowGeometry());
+        QCOMPARE(window->frameGeometry(), RectF(leftTileD3->windowGeometry()));
     }
 
     // Remove the current desktop 3, the window will be tiled again to rightTileD2
@@ -878,7 +877,7 @@ void TilesTest::evacuateFromRemovedDesktop()
         QCOMPARE(window->requestedTile(), rightTileD2);
         ackConfigure();
         QCOMPARE(window->tile(), rightTileD2);
-        QCOMPARE(window->frameGeometry(), rightTileD2->windowGeometry());
+        QCOMPARE(window->frameGeometry(), RectF(rightTileD2->windowGeometry()));
     }
 
     // Remove the current desktop 2, the window is now untiles
@@ -887,56 +886,8 @@ void TilesTest::evacuateFromRemovedDesktop()
         QCOMPARE(window->requestedTile(), nullptr);
         ackConfigure();
         QCOMPARE(window->tile(), nullptr);
-        QCOMPARE(window->frameGeometry(), QRectF(0, 0, 100, 100));
+        QCOMPARE(window->frameGeometry(), RectF(0, 0, 100, 100));
     }
-}
-
-void TilesTest::evacuateFromRemovedOutput()
-{
-    const QList<Output *> outputs = workspace()->outputs();
-    auto rightTileD1O2 = workspace()->rootTile(outputs[1])->childTiles()[1];
-
-    std::unique_ptr<KWayland::Client::Surface> surface(Test::createSurface());
-    std::unique_ptr<Test::XdgToplevel> root(Test::createXdgToplevelSurface(surface.get()));
-    auto window = Test::renderAndWaitForShown(surface.get(), QSize(100, 100), Qt::cyan);
-    window->setOnAllDesktops(true);
-
-    QSignalSpy surfaceConfigureRequestedSpy(root->xdgSurface(), &Test::XdgSurface::configureRequested);
-    QSignalSpy toplevelConfigureRequestedSpy(root.get(), &Test::XdgToplevel::configureRequested);
-    QVERIFY(surfaceConfigureRequestedSpy.wait());
-
-    auto ackConfigure = [&]() {
-        QVERIFY(surfaceConfigureRequestedSpy.wait());
-        root->xdgSurface()->ack_configure(surfaceConfigureRequestedSpy.last().at(0).value<quint32>());
-        Test::render(surface.get(), toplevelConfigureRequestedSpy.last().first().value<QSize>(), Qt::blue);
-        QVERIFY(Test::waylandSync());
-    };
-
-    // tile a window in output 2
-    {
-        rightTileD1O2->manage(window);
-        QCOMPARE(window->requestedTile(), rightTileD1O2);
-        ackConfigure();
-        QCOMPARE(window->tile(), rightTileD1O2);
-        QCOMPARE(window->frameGeometry(), rightTileD1O2->windowGeometry());
-    }
-
-    // Remove output 2, the window should lose the tile
-    {
-        Test::setOutputConfig({
-            QRect(0, 0, 1280, 1024),
-        });
-
-        QCOMPARE(window->requestedTile(), nullptr);
-        ackConfigure();
-        QCOMPARE(window->tile(), nullptr);
-        QCOMPARE(window->frameGeometry(), QRectF(0, 0, 100, 100));
-    }
-
-    Test::setOutputConfig({
-        QRect(0, 0, 1280, 1024),
-        QRect(1280, 0, 1280, 1024),
-    });
 }
 }
 

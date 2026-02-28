@@ -18,7 +18,7 @@ namespace KWin
 class EglBackend;
 class GLTexture;
 class QPainterBackend;
-class SurfacePixmap;
+class SurfaceTexture;
 class Window;
 
 /**
@@ -35,8 +35,8 @@ public:
     GraphicsBuffer *buffer() const;
     void setBuffer(GraphicsBuffer *buffer);
 
-    QRectF bufferSourceBox() const;
-    void setBufferSourceBox(const QRectF &box);
+    RectF bufferSourceBox() const;
+    void setBufferSourceBox(const RectF &box);
 
     OutputTransform bufferTransform() const;
     void setBufferTransform(OutputTransform transform);
@@ -44,17 +44,19 @@ public:
     QSize bufferSize() const;
     void setBufferSize(const QSize &size);
 
+    bool hasAlphaChannel() const;
+
     std::shared_ptr<SyncReleasePoint> bufferReleasePoint() const;
 
-    QRegion mapFromBuffer(const QRegion &region) const;
+    Region mapFromBuffer(const Region &region) const;
 
-    void addDamage(const QRegion &region);
+    void addDamage(const Region &region);
     void resetDamage();
-    QRegion damage() const;
+    Region damage() const;
 
-    void destroyPixmap();
+    void destroyTexture();
 
-    SurfacePixmap *pixmap() const;
+    SurfaceTexture *texture() const;
 
     virtual ContentType contentType() const;
     virtual void setScanoutHint(DrmDevice *device, const QHash<uint32_t, QList<uint64_t>> &drmFormats);
@@ -64,8 +66,8 @@ public:
     /**
      * like frameTimeEstimation, but takes child items into account
      */
-    std::chrono::nanoseconds recursiveFrameTimeEstimation() const;
-    std::chrono::nanoseconds frameTimeEstimation() const;
+    std::optional<std::chrono::nanoseconds> recursiveFrameTimeEstimation() const;
+    std::optional<std::chrono::nanoseconds> frameTimeEstimation() const;
 
 Q_SIGNALS:
     void damaged();
@@ -76,17 +78,18 @@ protected:
     void preprocess() override;
     WindowQuadList buildQuads() const override;
 
-    QRegion m_damage;
+    Region m_damage;
     OutputTransform m_bufferToSurfaceTransform;
     OutputTransform m_surfaceToBufferTransform;
     GraphicsBufferRef m_bufferRef;
-    QRectF m_bufferSourceBox;
+    RectF m_bufferSourceBox;
     QSize m_bufferSize;
     QSizeF m_destinationSize;
-    std::unique_ptr<SurfacePixmap> m_pixmap;
+    bool m_hasAlphaChannel = false;
+    std::unique_ptr<SurfaceTexture> m_texture;
     std::deque<std::chrono::nanoseconds> m_lastDamageTimeDiffs;
     std::optional<std::chrono::steady_clock::time_point> m_lastDamage;
-    std::chrono::nanoseconds m_frameTimeEstimation = std::chrono::days(1000);
+    std::optional<std::chrono::nanoseconds> m_frameTimeEstimation;
     std::shared_ptr<SyncReleasePoint> m_bufferReleasePoint;
 };
 
@@ -98,37 +101,13 @@ public:
     virtual bool isValid() const = 0;
 
     virtual bool create() = 0;
-    virtual void update(const QRegion &region) = 0;
-};
+    virtual void update(const Region &region) = 0;
 
-/**
- * TODO: Drop SurfacePixmap after kwin_wayland and kwin_x11 are split.
- */
-class KWIN_EXPORT SurfacePixmap : public QObject
-{
-    Q_OBJECT
-
-public:
-    explicit SurfacePixmap(SurfaceItem *item);
-
-    SurfaceItem *item() const;
-    SurfaceTexture *texture() const;
-
-    bool hasAlphaChannel() const;
+    // TODO: create()/update() steps are unnecessary now, consider removing size().
     QSize size() const;
 
-    void create();
-    void update();
-    bool isValid() const;
-
 protected:
-    SurfaceItem *m_item;
     QSize m_size;
-    bool m_valid = false;
-    bool m_hasAlphaChannel = false;
-
-private:
-    std::unique_ptr<SurfaceTexture> m_texture;
 };
 
 class KWIN_EXPORT OpenGLSurfaceContents
@@ -162,18 +141,19 @@ public:
 class KWIN_EXPORT OpenGLSurfaceTexture : public SurfaceTexture
 {
 public:
-    explicit OpenGLSurfaceTexture(EglBackend *backend, SurfacePixmap *pixmap);
+    explicit OpenGLSurfaceTexture(EglBackend *backend, SurfaceItem *item);
     ~OpenGLSurfaceTexture() override;
 
     bool create() override;
-    void update(const QRegion &region) override;
+    void update(const Region &region) override;
     bool isValid() const override;
+    bool isFloatingPoint() const;
 
     OpenGLSurfaceContents texture() const;
 
 private:
     bool loadShmTexture(GraphicsBuffer *buffer);
-    void updateShmTexture(GraphicsBuffer *buffer, const QRegion &region);
+    void updateShmTexture(GraphicsBuffer *buffer, const Region &region);
     bool loadDmabufTexture(GraphicsBuffer *buffer);
     void updateDmabufTexture(GraphicsBuffer *buffer);
     bool loadSinglePixelTexture(GraphicsBuffer *buffer);
@@ -188,18 +168,19 @@ private:
     };
 
     BufferType m_bufferType = BufferType::None;
+    bool m_isFloatingPoint = false;
     EglBackend *m_backend;
-    SurfacePixmap *m_pixmap;
+    SurfaceItem *m_item;
     OpenGLSurfaceContents m_texture;
 };
 
 class KWIN_EXPORT QPainterSurfaceTexture : public SurfaceTexture
 {
 public:
-    QPainterSurfaceTexture(QPainterBackend *backend, SurfacePixmap *pixmap);
+    QPainterSurfaceTexture(QPainterBackend *backend, SurfaceItem *item);
 
     bool create() override;
-    void update(const QRegion &region) override;
+    void update(const Region &region) override;
     bool isValid() const override;
 
     QPainterBackend *backend() const;
@@ -207,7 +188,7 @@ public:
 
 protected:
     QPainterBackend *m_backend;
-    SurfacePixmap *m_pixmap;
+    SurfaceItem *m_item;
     QImage m_image;
 };
 

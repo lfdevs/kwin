@@ -9,18 +9,16 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-const blacklist = [
+const blacklist = {
     // The logout screen has to be animated only by the logout effect.
-    "ksmserver ksmserver",
-    "ksmserver-logout-greeter ksmserver-logout-greeter",
+    "ksmserver ksmserver": [],
+    "ksmserver-logout-greeter ksmserver-logout-greeter": [],
 
-    // The splash screen has to be animated only by the login effect.
-    "ksplashqml ksplashqml",
+    // KDE Plasma splash screen has to be animated only by the login effect.
+    "ksplashqml ksplashqml": [],
 
-    // Spectacle needs to be blacklisted in order to stay out of its own screenshots.
-    "spectacle spectacle", // x11
-    "spectacle org.kde.spectacle", // wayland
-];
+    "spectacle org.kde.spectacle": ["region-editor"],
+};
 
 class FadeEffect {
     constructor() {
@@ -38,7 +36,8 @@ class FadeEffect {
     }
 
     static isFadeWindow(w) {
-        if (blacklist.indexOf(w.windowClass) != -1) {
+        const blacklistedTags = blacklist[w.windowClass];
+        if (blacklistedTags && (blacklistedTags.length === 0 || blacklistedTags.includes(w.tag))) {
             return false;
         }
         if (w.popupWindow) {

@@ -26,6 +26,7 @@
 #include "workspace_wrapper.h"
 
 #include "core/output.h"
+#include "core/rect.h"
 #include "input.h"
 #include "options.h"
 #include "screenedge.h"
@@ -56,7 +57,7 @@
 
 #include "scriptadaptor.h"
 
-static QRect scriptValueToRect(const QJSValue &value)
+static QRect scriptValueToQRect(const QJSValue &value)
 {
     return QRect(value.property(QStringLiteral("x")).toInt(),
                  value.property(QStringLiteral("y")).toInt(),
@@ -64,7 +65,7 @@ static QRect scriptValueToRect(const QJSValue &value)
                  value.property(QStringLiteral("height")).toInt());
 }
 
-static QRectF scriptValueToRectF(const QJSValue &value)
+static QRectF scriptValueToQRectF(const QJSValue &value)
 {
     return QRectF(value.property(QStringLiteral("x")).toNumber(),
                   value.property(QStringLiteral("y")).toNumber(),
@@ -137,10 +138,10 @@ KWin::Script::Script(int id, QString scriptName, QString pluginName, QObject *pa
 {
     // TODO: Remove in kwin 6. We have these converters only for compatibility reasons.
     if (!QMetaType::hasRegisteredConverterFunction<QJSValue, QRect>()) {
-        QMetaType::registerConverter<QJSValue, QRect>(scriptValueToRect);
+        QMetaType::registerConverter<QJSValue, QRect>(scriptValueToQRect);
     }
     if (!QMetaType::hasRegisteredConverterFunction<QJSValue, QRectF>()) {
-        QMetaType::registerConverter<QJSValue, QRectF>(scriptValueToRectF);
+        QMetaType::registerConverter<QJSValue, QRectF>(scriptValueToQRectF);
     }
 
     if (!QMetaType::hasRegisteredConverterFunction<QJSValue, QPoint>()) {
@@ -630,6 +631,51 @@ KWin::Scripting::Scripting(QObject *parent)
     , m_declarativeScriptSharedContext(new QQmlContext(m_qmlEngine, this))
     , m_workspaceWrapper(new QtScriptWorkspaceWrapper(this))
 {
+    // For plain JavaScript extensions. There's no Rect factory function, we accept any object
+    // with x, y, width, and height properties as rects.
+    if (!QMetaType::hasRegisteredConverterFunction<QJSValue, Rect>()) {
+        QMetaType::registerConverter<QJSValue, Rect>([](const QJSValue &value) {
+            return Rect(value.property(QStringLiteral("x")).toInt(),
+                        value.property(QStringLiteral("y")).toInt(),
+                        value.property(QStringLiteral("width")).toInt(),
+                        value.property(QStringLiteral("height")).toInt());
+        });
+    }
+
+    if (!QMetaType::hasRegisteredConverterFunction<QJSValue, RectF>()) {
+        QMetaType::registerConverter<QJSValue, RectF>([](const QJSValue &value) {
+            return RectF(value.property(QStringLiteral("x")).toNumber(),
+                         value.property(QStringLiteral("y")).toNumber(),
+                         value.property(QStringLiteral("width")).toNumber(),
+                         value.property(QStringLiteral("height")).toNumber());
+        });
+    }
+
+    // For QML extensions.
+    if (!QMetaType::hasRegisteredConverterFunction<QRect, Rect>()) {
+        QMetaType::registerConverter<QRect, Rect>([](const QRect &rect) {
+            return Rect(rect.x(), rect.y(), rect.width(), rect.height());
+        });
+    }
+
+    if (!QMetaType::hasRegisteredConverterFunction<Rect, QRect>()) {
+        QMetaType::registerConverter<Rect, QRect>([](const Rect &rect) {
+            return QRect(rect.x(), rect.y(), rect.width(), rect.height());
+        });
+    }
+
+    if (!QMetaType::hasRegisteredConverterFunction<QRectF, RectF>()) {
+        QMetaType::registerConverter<QRectF, RectF>([](const QRectF &rect) {
+            return RectF(rect.x(), rect.y(), rect.width(), rect.height());
+        });
+    }
+
+    if (!QMetaType::hasRegisteredConverterFunction<RectF, QRectF>()) {
+        QMetaType::registerConverter<RectF, QRectF>([](const RectF &rect) {
+            return QRectF(rect.x(), rect.y(), rect.width(), rect.height());
+        });
+    }
+
     m_qmlEngine->setProperty("_kirigamiTheme", QStringLiteral("KirigamiPlasmaStyle"));
     m_qmlEngine->rootContext()->setContextObject(new KLocalizedQmlContext(m_qmlEngine));
     init();
@@ -640,7 +686,7 @@ KWin::Scripting::Scripting(QObject *parent)
 
 void KWin::Scripting::init()
 {
-    qRegisterMetaType<QList<KWin::Output *>>();
+    qRegisterMetaType<QList<KWin::LogicalOutput *>>();
     qRegisterMetaType<QList<KWin::Window *>>();
     qRegisterMetaType<QList<KWin::VirtualDesktop *>>();
 
@@ -663,7 +709,7 @@ void KWin::Scripting::init()
     qmlRegisterSingletonInstance("org.kde.kwin", 3, 0, "Options", options);
 
     qmlRegisterAnonymousType<KConfigPropertyMap>("org.kde.kwin", 3);
-    qmlRegisterAnonymousType<KWin::Output>("org.kde.kwin", 3);
+    qmlRegisterAnonymousType<KWin::LogicalOutput>("org.kde.kwin", 3);
     qmlRegisterAnonymousType<KWin::Window>("org.kde.kwin", 3);
     qmlRegisterAnonymousType<KWin::VirtualDesktop>("org.kde.kwin", 3);
     qmlRegisterAnonymousType<QAbstractItemModel>("org.kde.kwin", 3);

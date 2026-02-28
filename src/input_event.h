@@ -194,7 +194,6 @@ public:
     InputDevice *device;
     qreal rotation;
     QPointF position;
-    Qt::MouseButtons buttons;
     qreal pressure;
     qreal sliderPosition;
     qreal xTilt;
@@ -255,7 +254,7 @@ struct TabletPadRingEvent
 {
     InputDevice *device;
     int number;
-    int position;
+    qreal position;
     bool isFinger;
     quint32 group;
     quint32 mode;

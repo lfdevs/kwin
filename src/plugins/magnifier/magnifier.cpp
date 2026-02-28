@@ -14,6 +14,7 @@
 #include "magnifierconfig.h"
 
 #include <QAction>
+#include <QTimer>
 
 #include <KStandardActions>
 
@@ -21,6 +22,7 @@
 #include "effect/effecthandler.h"
 #include "opengl/eglcontext.h"
 #include "opengl/glutils.h"
+#include "utils/keys.h"
 #include <KGlobalAccel>
 
 using namespace std::chrono_literals;
@@ -35,6 +37,11 @@ MagnifierEffect::MagnifierEffect()
     , m_targetZoom(1)
     , m_lastPresentTime(std::chrono::milliseconds::zero())
 {
+    m_configurationTimer = std::make_unique<QTimer>();
+    m_configurationTimer->setSingleShot(true);
+    m_configurationTimer->setInterval(1s);
+    connect(m_configurationTimer.get(), &QTimer::timeout, this, &MagnifierEffect::saveInitialZoom);
+
     MagnifierConfig::instance(effects->config());
     QAction *a;
     a = KStandardActions::zoomIn(this, &MagnifierEffect::zoomIn, this);
@@ -48,6 +55,25 @@ MagnifierEffect::MagnifierEffect()
     a = KStandardActions::actualSize(this, &MagnifierEffect::toggle, this);
     KGlobalAccel::self()->setDefaultShortcut(a, QList<QKeySequence>() << (Qt::META | Qt::Key_0));
     KGlobalAccel::self()->setShortcut(a, QList<QKeySequence>() << (Qt::META | Qt::Key_0));
+
+    m_touchpadAction = std::make_unique<QAction>();
+    connect(m_touchpadAction.get(), &QAction::triggered, this, [this]() {
+        const double threshold = 1.15;
+        if (m_targetZoom < threshold) {
+            setTargetZoom(1.0); // zoomTo
+        }
+        m_lastPinchProgress = 0;
+    });
+    effects->registerTouchpadPinchShortcut(PinchDirection::Expanding, 3, m_touchpadAction.get(), [this](qreal progress) {
+        const qreal delta = progress - m_lastPinchProgress;
+        m_lastPinchProgress = progress;
+        realtimeZoom(delta);
+    });
+    effects->registerTouchpadPinchShortcut(PinchDirection::Contracting, 3, m_touchpadAction.get(), [this](qreal progress) {
+        const qreal delta = progress - m_lastPinchProgress;
+        m_lastPinchProgress = progress;
+        realtimeZoom(-delta);
+    });
 
     connect(effects, &EffectsHandler::mouseChanged, this, &MagnifierEffect::slotMouseChanged);
     connect(effects, &EffectsHandler::windowAdded, this, &MagnifierEffect::slotWindowAdded);
@@ -68,8 +94,7 @@ MagnifierEffect::MagnifierEffect()
 MagnifierEffect::~MagnifierEffect()
 {
     // Save the zoom value.
-    MagnifierConfig::setInitialZoom(m_targetZoom);
-    MagnifierConfig::self()->save();
+    saveInitialZoom();
 }
 
 bool MagnifierEffect::supported()
@@ -88,6 +113,23 @@ void MagnifierEffect::reconfigure(ReconfigureFlags)
     height = MagnifierConfig::height();
     m_magnifierSize = QSize(width, height);
     m_zoomFactor = MagnifierConfig::zoomFactor();
+
+    const Qt::KeyboardModifiers pointerAxisModifiers = stringToKeyboardModifiers(MagnifierConfig::pointerAxisGestureModifiers());
+    if (m_axisModifiers != pointerAxisModifiers) {
+        m_zoomInAxisAction.reset();
+        m_zoomOutAxisAction.reset();
+        m_axisModifiers = pointerAxisModifiers;
+
+        if (pointerAxisModifiers) {
+            m_zoomInAxisAction = std::make_unique<QAction>();
+            connect(m_zoomInAxisAction.get(), &QAction::triggered, this, &MagnifierEffect::zoomIn);
+            effects->registerAxisShortcut(pointerAxisModifiers, PointerAxisUp, m_zoomInAxisAction.get());
+
+            m_zoomOutAxisAction = std::make_unique<QAction>();
+            connect(m_zoomOutAxisAction.get(), &QAction::triggered, this, &MagnifierEffect::zoomOut);
+            effects->registerAxisShortcut(pointerAxisModifiers, PointerAxisDown, m_zoomOutAxisAction.get());
+        }
+    }
 
     if (m_zoom > 1.0) {
         effects->addRepaint(oldVisibleArea.united(visibleArea()));
@@ -134,9 +176,9 @@ void MagnifierEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono::mill
     }
 }
 
-void MagnifierEffect::paintScreen(const RenderTarget &renderTarget, const RenderViewport &viewport, int mask, const QRegion &region, Output *screen)
+void MagnifierEffect::paintScreen(const RenderTarget &renderTarget, const RenderViewport &viewport, int mask, const Region &deviceRegion, LogicalOutput *screen)
 {
-    effects->paintScreen(renderTarget, viewport, mask, region, screen); // paint normal screen
+    effects->paintScreen(renderTarget, viewport, mask, deviceRegion, screen); // paint normal screen
     if (m_zoom != 1.0 && m_fbo) {
         // get the right area from the current rendered screen
         const QRect area = magnifierArea();
@@ -278,6 +320,12 @@ qreal MagnifierEffect::targetZoom() const
     return m_targetZoom;
 }
 
+void MagnifierEffect::saveInitialZoom()
+{
+    MagnifierConfig::setInitialZoom(m_targetZoom);
+    MagnifierConfig::self()->save();
+}
+
 void MagnifierEffect::setTargetZoom(double zoomFactor)
 {
     const double effectiveTargetZoom = std::clamp(zoomFactor, 1.0, 100.0);
@@ -287,6 +335,17 @@ void MagnifierEffect::setTargetZoom(double zoomFactor)
 
     m_targetZoom = effectiveTargetZoom;
     effects->addRepaint(visibleArea());
+    m_configurationTimer->start();
+}
+
+void MagnifierEffect::realtimeZoom(double delta)
+{
+    // for the change speed to feel roughly linear,
+    // we have to increase the delta at higher zoom levels
+    delta *= m_targetZoom / 2;
+    setTargetZoom(m_targetZoom + delta);
+    // skip the animation, we want this to be real time
+    m_zoom = m_targetZoom;
 }
 
 } // namespace

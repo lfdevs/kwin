@@ -12,50 +12,52 @@
 #include <QList>
 #include <QObject>
 #include <QPointer>
-#include <QRegion>
-#include <QPointer>
 #include <memory>
 
 namespace KWin
 {
 
 class ItemRenderer;
-class Output;
+class LogicalOutput;
 class Scene;
 class OutputLayer;
 class OutputFrame;
 class Item;
 class SurfaceItem;
+class Window;
 
 class KWIN_EXPORT RenderView : public QObject
 {
     Q_OBJECT
 public:
-    explicit RenderView(Output *output, OutputLayer *layer);
+    explicit RenderView(LogicalOutput *logicalOutput, BackendOutput *backendOutput, OutputLayer *layer);
 
-    Output *output() const;
+    LogicalOutput *logicalOutput() const;
+    /**
+     * may be nullptr.
+     */
+    BackendOutput *backendOutput() const;
     OutputLayer *layer() const;
 
     void setLayer(OutputLayer *layer);
 
     virtual bool isVisible() const;
     virtual QPointF hotspot() const;
-    virtual QRectF viewport() const = 0;
-    virtual qreal scale() const;
+    virtual RectF viewport() const = 0;
+    virtual qreal scale() const = 0;
     virtual QList<SurfaceItem *> scanoutCandidates(ssize_t maxCount) const = 0;
-    virtual void frame(OutputFrame *frame) = 0;
     virtual void prePaint() = 0;
-    virtual QRegion collectDamage() = 0;
-    virtual void paint(const RenderTarget &renderTarget, const QRegion &region) = 0;
+    virtual Region collectDamage() = 0;
+    virtual void paint(const RenderTarget &renderTarget, const QPoint &deviceOffset, const Region &logicalRegion) = 0;
     virtual void postPaint() = 0;
     virtual bool shouldRenderItem(Item *item) const;
     virtual bool shouldRenderHole(Item *item) const;
     virtual double desiredHdrHeadroom() const = 0;
 
     /**
-     * add a repaint in layer-local logical coordinates
+     * add a repaint in layer-local device coordinates
      */
-    void addRepaint(const QRegion &region);
+    void addDeviceRepaint(const Region &deviceRegion);
     void scheduleRepaint(Item *item);
     /**
      * @returns true if the layer can be moved with the Item
@@ -65,30 +67,51 @@ public:
 
     virtual void setExclusive(bool enable);
 
+    RectF mapToDeviceCoordinates(const RectF &logicalGeometry) const;
+    Rect mapToDeviceCoordinatesAligned(const Rect &logicalGeometry) const;
+    Rect mapToDeviceCoordinatesAligned(const RectF &logicalGeometry) const;
+    Rect mapToDeviceCoordinatesContained(const Rect &logicalGeometry) const;
+    Region mapToDeviceCoordinatesAligned(const Region &logicalGeometry) const;
+    Region mapToDeviceCoordinatesContained(const Region &logicalGeometry) const;
+
+    RectF mapFromDeviceCoordinates(const RectF &deviceGeometry) const;
+    Rect mapFromDeviceCoordinatesAligned(const Rect &deviceGeometry) const;
+    Region mapFromDeviceCoordinatesAligned(const Region &deviceGeometry) const;
+
+    /**
+     * @returns Rect(renderOffset(), deviceSize())
+     */
+    Rect deviceRect() const;
+    QSize deviceSize() const;
+
+    QPoint renderOffset() const;
+    void setRenderOffset(const QPoint &offset);
+
 protected:
-    Output *m_output = nullptr;
+    LogicalOutput *m_logicalOutput = nullptr;
+    BackendOutput *m_backendOutput = nullptr;
     OutputLayer *m_layer = nullptr;
+    QPoint m_renderOffset;
 };
 
 class KWIN_EXPORT SceneView : public RenderView
 {
     Q_OBJECT
 public:
-    explicit SceneView(Scene *scene, Output *output, OutputLayer *layer);
+    explicit SceneView(Scene *scene, LogicalOutput *logicalOutput, BackendOutput *backendOutput, OutputLayer *layer);
     ~SceneView() override;
 
     Scene *scene() const;
-    QRectF viewport() const override;
+    RectF viewport() const override;
     qreal scale() const override;
 
-    void setViewport(const QRectF &viewport);
+    void setViewport(const RectF &viewport);
     void setScale(qreal scale);
 
     QList<SurfaceItem *> scanoutCandidates(ssize_t maxCount) const override;
-    void frame(OutputFrame *frame) override;
     void prePaint() override;
-    QRegion collectDamage() override;
-    void paint(const RenderTarget &renderTarget, const QRegion &region) override;
+    Region collectDamage() override;
+    void paint(const RenderTarget &renderTarget, const QPoint &deviceOffset, const Region &deviceRegion) override;
     void postPaint() override;
     double desiredHdrHeadroom() const override;
 
@@ -102,31 +125,35 @@ public:
     bool shouldRenderItem(Item *item) const override;
     bool shouldRenderHole(Item *item) const override;
 
+    void addWindowFilter(std::function<bool(Window *)> filter);
+    bool shouldHideWindow(Window *window) const;
+
 private:
     Scene *m_scene;
-    Output *m_output = nullptr;
+    LogicalOutput *m_logicalOutput = nullptr;
     OutputLayer *m_layer = nullptr;
-    QRectF m_viewport;
+    RectF m_viewport;
     qreal m_scale = 1.0;
     QList<RenderView *> m_exclusiveViews;
     QList<RenderView *> m_underlayViews;
+    QList<std::function<bool(Window *)>> m_windowFilters;
 };
 
 class KWIN_EXPORT ItemView : public RenderView
 {
 public:
-    explicit ItemView(SceneView *parentView, Item *item, Output *output, OutputLayer *layer);
+    explicit ItemView(SceneView *parentView, Item *item, LogicalOutput *logicalOutput, BackendOutput *backendOutput, OutputLayer *layer);
     ~ItemView() override;
 
+    qreal scale() const override;
     QPointF hotspot() const override;
-    QRectF viewport() const override;
+    RectF viewport() const override;
     bool isVisible() const override;
     QList<SurfaceItem *> scanoutCandidates(ssize_t maxCount) const override;
-    void frame(OutputFrame *frame) override;
     void prePaint() override;
-    QRegion collectDamage() override;
+    Region collectDamage() override;
     void postPaint() override;
-    void paint(const RenderTarget &renderTarget, const QRegion &region) override;
+    void paint(const RenderTarget &renderTarget, const QPoint &deviceOffset, const Region &logicalRegion) override;
     bool shouldRenderItem(Item *item) const override;
     void setExclusive(bool enable) override;
     void setUnderlay(bool underlay);
@@ -138,7 +165,7 @@ public:
     double desiredHdrHeadroom() const override;
 
 protected:
-    QRectF calculateViewport(const QRectF &itemRect) const;
+    RectF calculateViewport(const RectF &itemRect) const;
 
     SceneView *const m_parentView;
     const QPointer<Item> m_item;
@@ -149,14 +176,14 @@ protected:
 class KWIN_EXPORT ItemTreeView : public ItemView
 {
 public:
-    explicit ItemTreeView(SceneView *parentView, Item *item, Output *output, OutputLayer *layer);
+    explicit ItemTreeView(SceneView *parentView, Item *item, LogicalOutput *logicalOutput, BackendOutput *backendOutput, OutputLayer *layer);
     ~ItemTreeView() override;
 
-    QRectF viewport() const override;
+    RectF viewport() const override;
     bool isVisible() const override;
     QList<SurfaceItem *> scanoutCandidates(ssize_t maxCount) const override;
-    QRegion collectDamage() override;
-    void paint(const RenderTarget &renderTarget, const QRegion &region) override;
+    Region collectDamage() override;
+    void paint(const RenderTarget &renderTarget, const QPoint &deviceOffset, const Region &logicalRegion) override;
     bool shouldRenderItem(Item *item) const override;
     void setExclusive(bool enable) override;
     bool needsRepaint() override;
@@ -193,14 +220,15 @@ public:
 
     ItemRenderer *renderer() const;
 
-    void addRepaint(const QRegion &region);
-    void addRepaint(RenderView *delegate, const QRegion &region);
-    void addRepaint(int x, int y, int width, int height);
+    void addLogicalRepaint(const Region &logicalRegion);
+    void addLogicalRepaint(RenderView *view, const Region &logicalRegion);
+    void addDeviceRepaint(RenderView *view, const Region &deviceRegion);
+    void addLogicalRepaint(int x, int y, int width, int height);
     void addRepaintFull();
-    virtual QRegion damage() const;
+    virtual Region damage() const;
 
-    QRect geometry() const;
-    void setGeometry(const QRect &rect);
+    Rect geometry() const;
+    void setGeometry(const Rect &rect);
 
     QList<RenderView *> views() const;
     void addView(RenderView *view);
@@ -209,16 +237,16 @@ public:
     virtual QList<SurfaceItem *> scanoutCandidates(ssize_t maxCount) const;
     struct OverlayCandidates
     {
-        QList<SurfaceItem *> overlays;
-        QList<SurfaceItem *> underlays;
+        QList<Item *> overlays;
+        QList<Item *> underlays;
     };
     virtual OverlayCandidates overlayCandidates(ssize_t maxTotalCount, ssize_t maxOverlayCount, ssize_t maxUnderlayCount) const = 0;
-    virtual void prePaint(SceneView *delegate) = 0;
-    virtual QRegion collectDamage() = 0;
-    virtual void paint(const RenderTarget &renderTarget, const QRegion &region) = 0;
+    virtual void prePaint(SceneView *view) = 0;
+    virtual Region collectDamage() = 0;
+    virtual void paint(const RenderTarget &renderTarget, const QPoint &deviceOffset, const Region &deviceRegion) = 0;
     virtual void postPaint() = 0;
-    virtual void frame(SceneView *delegate, OutputFrame *frame);
-    virtual double desiredHdrHeadroom() const;
+    virtual void frame(SceneView *delegate, OutputFrame *frame) = 0;
+    virtual double desiredHdrHeadroom() const = 0;
 
 Q_SIGNALS:
     void viewRemoved(RenderView *delegate);
@@ -226,7 +254,7 @@ Q_SIGNALS:
 protected:
     std::unique_ptr<ItemRenderer> m_renderer;
     QList<RenderView *> m_views;
-    QRect m_geometry;
+    Rect m_geometry;
 };
 
 } // namespace KWin

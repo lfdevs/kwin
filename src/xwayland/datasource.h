@@ -1,5 +1,7 @@
 /*
     SPDX-FileCopyrightText: 2021 David Redondo <kde@david-redondo.de>
+    SPDX-FileCopyrightText: 2025 Vlad Zahorodnii <vlad.zahorodnii@kde.org>
+
     SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
@@ -11,6 +13,8 @@ namespace KWin
 {
 namespace Xwl
 {
+
+class Selection;
 
 /**
  * The XwlDataSource class represents a data source owned by the Xwayland data bridge. It's
@@ -24,19 +28,20 @@ class XwlDataSource final : public AbstractDataSource
     Q_OBJECT
 
 public:
+    explicit XwlDataSource(Selection *selection);
     ~XwlDataSource() override;
 
-    void requestData(const QString &mimeType, qint32 fd) override;
+    void requestData(const QString &mimeType, FileDescriptor fd) override;
     void cancel() override;
     QStringList mimeTypes() const override;
     void setMimeTypes(const QStringList &mimeTypes);
 
     void accept(const QString &mimeType) override;
-    DataDeviceManagerInterface::DnDActions supportedDragAndDropActions() const override;
-    void setSupportedDndActions(DataDeviceManagerInterface::DnDActions dndActions);
+    DnDActions supportedDragAndDropActions() const override;
+    void setSupportedDndActions(DnDActions dndActions);
 
-    DataDeviceManagerInterface::DnDAction selectedDndAction() const override;
-    void dndAction(DataDeviceManagerInterface::DnDAction action) override;
+    DnDAction selectedDndAction() const override;
+    void dndAction(DnDAction action) override;
 
     void dropPerformed() override
     {
@@ -45,26 +50,30 @@ public:
     }
     void dndFinished() override
     {
+        m_dndFinished = true;
         Q_EMIT finished();
     }
     void dndCancelled() override
     {
+        AbstractDataSource::dndCancelled();
         Q_EMIT cancelled();
     }
 
     bool isAccepted() const override;
+    bool isDndFinished() const;
 
 Q_SIGNALS:
-    void dataRequested(const QString &mimeType, qint32 fd);
     void dropped();
     void finished();
     void cancelled();
 
 private:
+    Selection *m_selection;
     QStringList m_mimeTypes;
-    DataDeviceManagerInterface::DnDActions m_supportedDndActions;
-    DataDeviceManagerInterface::DnDAction m_dndAction = DataDeviceManagerInterface::DnDAction::None;
+    DnDActions m_supportedDndActions;
+    DnDAction m_dndAction = DnDAction::None;
     bool m_accepted = false;
+    bool m_dndFinished = false;
 };
 }
 }

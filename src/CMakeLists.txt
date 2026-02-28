@@ -33,9 +33,8 @@ target_sources(kwin PRIVATE
     activation.cpp
     appmenu.cpp
     client_machine.cpp
-    colors/colordevice.cpp
-    colors/colormanager.cpp
     compositor.cpp
+    core/backendoutput.cpp
     core/colorlut3d.cpp
     core/colorpipeline.cpp
     core/colorpipelinestage.cpp
@@ -53,6 +52,8 @@ target_sources(kwin PRIVATE
     core/outputbackend.cpp
     core/outputconfiguration.cpp
     core/outputlayer.cpp
+    core/rect.cpp
+    core/region.cpp
     core/renderbackend.cpp
     core/renderjournal.cpp
     core/renderloop.cpp
@@ -149,6 +150,7 @@ target_sources(kwin PRIVATE
     popup_input_filter.cpp
     qpainter/qpainterbackend.cpp
     qpainter/qpainterswapchain.cpp
+    renderloopdrivenqanimationdriver.cpp
     resources.qrc
     rulebooksettings.cpp
     rules.cpp
@@ -233,7 +235,6 @@ target_link_libraries(kwin
     PRIVATE
         Qt::Concurrent
         Qt::GuiPrivate
-        Qt::Sensors
         Qt::Svg
 
         KF6::ColorScheme
@@ -318,6 +319,11 @@ qt_add_dbus_adaptor(kwin_dbus_SRCS org.kde.KWin.Session.xml sm.h KWin::SessionMa
 qt_add_dbus_adaptor(kwin_dbus_SRCS org.kde.KWin.Plugins.xml dbusinterface.h KWin::PluginManagerDBusInterface)
 qt_add_dbus_interface(kwin_dbus_SRCS org.freedesktop.DBus.Properties.xml dbusproperties_interface)
 
+set_source_files_properties(net.hadess.SensorProxy.xml PROPERTIES
+    NO_NAMESPACE ON
+)
+qt_add_dbus_interface(kwin_dbus_SRCS net.hadess.SensorProxy.xml sensorproxy_interface)
+
 if (KWIN_BUILD_SCREENLOCKER)
     qt_add_dbus_interface(kwin_dbus_SRCS ${KSCREENLOCKER_DBUS_INTERFACES_DIR}/kf6_org.freedesktop.ScreenSaver.xml screenlocker_interface)
 endif()
@@ -332,6 +338,7 @@ add_subdirectory(backends)
 add_subdirectory(plugins)
 add_subdirectory(utils)
 add_subdirectory(wayland)
+add_subdirectory(wayland-client)
 
 if (KWIN_BUILD_X11)
     add_subdirectory(xwayland)
@@ -516,6 +523,7 @@ install(FILES
     DESTINATION ${KDE_INSTALL_INCLUDEDIR}/kwin COMPONENT Devel)
 
 install(FILES
+    core/backendoutput.h
     core/colorlut3d.h
     core/colorpipeline.h
     core/colorpipelinestage.h
@@ -534,6 +542,8 @@ install(FILES
     core/outputconfiguration.h
     core/outputlayer.h
     core/pixelgrid.h
+    core/rect.h
+    core/region.h
     core/renderbackend.h
     core/renderjournal.h
     core/renderloop.h
@@ -563,6 +573,7 @@ install(FILES
     utils/ramfile.h
     utils/realtime.h
     utils/resource.h
+    utils/serial.h
     utils/serviceutils.h
     utils/softwarevsyncmonitor.h
     utils/subsurfacemonitor.h

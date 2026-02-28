@@ -43,9 +43,9 @@ static QFuture<QByteArray> readMimeTypeData(const Offer &offer, const QMimeType 
         return QFuture<QByteArray>();
     }
 
-    offer->receive(mimeType.name(), pipe->fds[1].get());
+    offer->receive(mimeType.name(), pipe->writeEndpoint.get());
 
-    return QtConcurrent::run([fd = std::move(pipe->fds[0])] {
+    return QtConcurrent::run([fd = std::move(pipe->readEndpoint)] {
         QFile file;
         if (!file.open(fd.get(), QFile::ReadOnly | QFile::Text)) {
             return QByteArray();
@@ -64,6 +64,18 @@ static bool waitFuture(const QFuture<T> &future)
     return finishedSpy.wait();
 }
 
+static QMimeType plainText()
+{
+    static QMimeType mimeType = QMimeDatabase().mimeTypeForName(QStringLiteral("text/plain"));
+    return mimeType;
+}
+
+static QMimeType htmlText()
+{
+    static QMimeType mimeType = QMimeDatabase().mimeTypeForName(QStringLiteral("text/html"));
+    return mimeType;
+}
+
 class SelectionTest : public QObject
 {
     Q_OBJECT
@@ -77,15 +89,16 @@ private Q_SLOTS:
     void destroySelection();
     void invalidSerialForSelection();
     void unsetSupersededSelection();
+    void receiveFromWithdrawnSelectionOffer();
+    void singleSelectionPerClient();
 
     void primarySelection();
     void internalPrimarySelection();
     void destroyPrimarySelection();
     void invalidSerialForPrimarySelection();
     void unsetSupersededPrimarySelection();
-
-private:
-    QMimeDatabase m_mimeDatabase;
+    void receiveFromWithdrawnPrimarySelectionOffer();
+    void singlePrimarySelectionPerClient();
 };
 
 void SelectionTest::initTestCase()
@@ -95,13 +108,13 @@ void SelectionTest::initTestCase()
     QVERIFY(waylandServer()->init(s_socketName));
     kwinApp()->start();
     Test::setOutputConfig({
-        QRect(0, 0, 1280, 1024),
-        QRect(1280, 0, 1280, 1024),
+        Rect(0, 0, 1280, 1024),
+        Rect(1280, 0, 1280, 1024),
     });
     const auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
-    QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
-    QCOMPARE(outputs[1]->geometry(), QRect(1280, 0, 1280, 1024));
+    QCOMPARE(outputs[0]->geometry(), Rect(0, 0, 1280, 1024));
+    QCOMPARE(outputs[1]->geometry(), Rect(1280, 0, 1280, 1024));
 }
 
 void SelectionTest::init()
@@ -114,16 +127,13 @@ void SelectionTest::selection()
 {
     // This test verifies that the clipboard works as expected between two clients.
 
-    const QMimeType plainText = m_mimeDatabase.mimeTypeForName(QStringLiteral("text/plain"));
-    const QMimeType htmlText = m_mimeDatabase.mimeTypeForName(QStringLiteral("text/html"));
-
     auto sourceConnection = Test::Connection::setup(Test::AdditionalWaylandInterface::Seat | Test::AdditionalWaylandInterface::DataDeviceManager);
     auto targetConnection = Test::Connection::setup(Test::AdditionalWaylandInterface::Seat | Test::AdditionalWaylandInterface::DataDeviceManager);
 
     // Setup the source side.
     std::unique_ptr<KWayland::Client::DataDevice> sourceDataDevice(sourceConnection->dataDeviceManager->getDataDevice(sourceConnection->seat));
     std::unique_ptr<KWayland::Client::DataSource> dataSource(sourceConnection->dataDeviceManager->createDataSource());
-    dataSource->offer(plainText);
+    dataSource->offer(plainText());
     connect(dataSource.get(), &KWayland::Client::DataSource::sendDataRequested, this, [](const QString &mimeType, int fd) {
         const auto data = QByteArrayLiteral("foo");
         write(fd, data.data(), data.size());
@@ -158,15 +168,15 @@ void SelectionTest::selection()
     workspace()->activateWindow(targetWindow);
     QVERIFY(targetDataDeviceSelectionOfferedSpy.wait());
     KWayland::Client::DataOffer *offer = targetDataDevice->offeredSelection();
-    QCOMPARE(offer->offeredMimeTypes(), QList<QMimeType>{plainText});
+    QCOMPARE(offer->offeredMimeTypes(), QList<QMimeType>{plainText()});
 
     // Ask for data.
-    const QFuture<QByteArray> plainData = readMimeTypeData(offer, plainText);
+    const QFuture<QByteArray> plainData = readMimeTypeData(offer, plainText());
     QVERIFY(waitFuture(plainData));
     QCOMPARE(plainData.result(), QByteArrayLiteral("foo"));
 
     // text/html hasn't been offered, so this should fail.
-    const QFuture<QByteArray> htmlData = readMimeTypeData(offer, htmlText);
+    const QFuture<QByteArray> htmlData = readMimeTypeData(offer, htmlText());
     QVERIFY(waitFuture(htmlData));
     QCOMPARE(htmlData.result(), QByteArray());
 
@@ -180,14 +190,11 @@ void SelectionTest::internalSelection()
 {
     // This test verifies that the source client also receives a wl_data_offer for its own selection.
 
-    const QMimeType plainText = m_mimeDatabase.mimeTypeForName(QStringLiteral("text/plain"));
-    const QMimeType htmlText = m_mimeDatabase.mimeTypeForName(QStringLiteral("text/html"));
-
     auto connection = Test::Connection::setup(Test::AdditionalWaylandInterface::Seat | Test::AdditionalWaylandInterface::DataDeviceManager);
 
     std::unique_ptr<KWayland::Client::DataDevice> dataDevice(connection->dataDeviceManager->getDataDevice(connection->seat));
     std::unique_ptr<KWayland::Client::DataSource> dataSource(connection->dataDeviceManager->createDataSource());
-    dataSource->offer(plainText);
+    dataSource->offer(plainText());
     connect(dataSource.get(), &KWayland::Client::DataSource::sendDataRequested, this, [](const QString &mimeType, int fd) {
         const auto data = QByteArrayLiteral("foo");
         write(fd, data.data(), data.size());
@@ -210,15 +217,15 @@ void SelectionTest::internalSelection()
     QSignalSpy dataDeviceSelectionOfferedSpy(dataDevice.get(), &KWayland::Client::DataDevice::selectionOffered);
     QVERIFY(dataDeviceSelectionOfferedSpy.wait());
     KWayland::Client::DataOffer *offer = dataDevice->offeredSelection();
-    QCOMPARE(offer->offeredMimeTypes(), QList<QMimeType>{plainText});
+    QCOMPARE(offer->offeredMimeTypes(), QList<QMimeType>{plainText()});
 
     // Ask for data.
-    const QFuture<QByteArray> plainData = readMimeTypeData(offer, plainText);
+    const QFuture<QByteArray> plainData = readMimeTypeData(offer, plainText());
     QVERIFY(waitFuture(plainData));
     QCOMPARE(plainData.result(), QByteArrayLiteral("foo"));
 
     // text/html hasn't been offered, so this should fail.
-    const QFuture<QByteArray> htmlData = readMimeTypeData(offer, htmlText);
+    const QFuture<QByteArray> htmlData = readMimeTypeData(offer, htmlText());
     QVERIFY(waitFuture(htmlData));
     QCOMPARE(htmlData.result(), QByteArray());
 
@@ -232,15 +239,13 @@ void SelectionTest::destroySelection()
 {
     // This test verifies that the wl_data_offer will be withdrawn if the associated data source is destroyed.
 
-    const QMimeType plainText = m_mimeDatabase.mimeTypeForName(QStringLiteral("text/plain"));
-
     auto sourceConnection = Test::Connection::setup(Test::AdditionalWaylandInterface::Seat | Test::AdditionalWaylandInterface::DataDeviceManager);
     auto targetConnection = Test::Connection::setup(Test::AdditionalWaylandInterface::Seat | Test::AdditionalWaylandInterface::DataDeviceManager);
 
     // Setup the source side.
     std::unique_ptr<KWayland::Client::DataDevice> sourceDataDevice(sourceConnection->dataDeviceManager->getDataDevice(sourceConnection->seat));
     std::unique_ptr<KWayland::Client::DataSource> dataSource(sourceConnection->dataDeviceManager->createDataSource());
-    dataSource->offer(plainText);
+    dataSource->offer(plainText());
     connect(dataSource.get(), &KWayland::Client::DataSource::sendDataRequested, this, [](const QString &mimeType, int fd) {
         const auto data = QByteArrayLiteral("foo");
         write(fd, data.data(), data.size());
@@ -273,7 +278,7 @@ void SelectionTest::destroySelection()
     workspace()->activateWindow(targetWindow);
     QVERIFY(targetDataDeviceSelectionOfferedSpy.wait());
     KWayland::Client::DataOffer *offer = targetDataDevice->offeredSelection();
-    QCOMPARE(offer->offeredMimeTypes(), QList<QMimeType>{plainText});
+    QCOMPARE(offer->offeredMimeTypes(), QList<QMimeType>{plainText()});
 
     // Destroy the data source.
     QSignalSpy targetDataDeviceSelectionClearedSpy(targetDataDevice.get(), &KWayland::Client::DataDevice::selectionCleared);
@@ -315,9 +320,6 @@ void SelectionTest::unsetSupersededSelection()
 {
     // This test verifies that the current selection won't be unset if the previous selection is unset with set_selection(null).
 
-    const QMimeType plainText = m_mimeDatabase.mimeTypeForName(QStringLiteral("text/plain"));
-    const QMimeType htmlText = m_mimeDatabase.mimeTypeForName(QStringLiteral("text/html"));
-
     // Setup the first client.
     auto firstConnection = Test::Connection::setup(Test::AdditionalWaylandInterface::Seat | Test::AdditionalWaylandInterface::DataDeviceManager);
     QVERIFY(Test::waitForWaylandKeyboard(firstConnection->seat));
@@ -325,7 +327,7 @@ void SelectionTest::unsetSupersededSelection()
     std::unique_ptr<KWayland::Client::Keyboard> firstKeyboard(firstConnection->seat->createKeyboard());
     std::unique_ptr<KWayland::Client::DataDevice> firstDataDevice(firstConnection->dataDeviceManager->getDataDevice(firstConnection->seat));
     std::unique_ptr<KWayland::Client::DataSource> firstDataSource(firstConnection->dataDeviceManager->createDataSource());
-    firstDataSource->offer(plainText);
+    firstDataSource->offer(plainText());
     connect(firstDataSource.get(), &KWayland::Client::DataSource::sendDataRequested, this, [](const QString &mimeType, int fd) {
         const auto data = QByteArrayLiteral("foo");
         write(fd, data.data(), data.size());
@@ -343,7 +345,7 @@ void SelectionTest::unsetSupersededSelection()
     std::unique_ptr<KWayland::Client::Keyboard> secondKeyboard(secondConnection->seat->createKeyboard());
     std::unique_ptr<KWayland::Client::DataDevice> secondDataDevice(secondConnection->dataDeviceManager->getDataDevice(secondConnection->seat));
     std::unique_ptr<KWayland::Client::DataSource> secondDataSource(secondConnection->dataDeviceManager->createDataSource());
-    secondDataSource->offer(htmlText);
+    secondDataSource->offer(htmlText());
     connect(secondDataSource.get(), &KWayland::Client::DataSource::sendDataRequested, this, [](const QString &mimeType, int fd) {
         const auto data = QByteArrayLiteral("bar");
         write(fd, data.data(), data.size());
@@ -384,12 +386,177 @@ void SelectionTest::unsetSupersededSelection()
     QVERIFY(secondDataDeviceSelectionClearedSpy.wait());
 }
 
+void SelectionTest::receiveFromWithdrawnSelectionOffer()
+{
+    // This test verifies that a client cannot receive data from a withdrawn selection offer.
+
+    auto sourceConnection = Test::Connection::setup(Test::AdditionalWaylandInterface::Seat | Test::AdditionalWaylandInterface::DataDeviceManager);
+    auto targetConnection = Test::Connection::setup(Test::AdditionalWaylandInterface::Seat | Test::AdditionalWaylandInterface::DataDeviceManager);
+
+    // Setup the source side.
+    std::unique_ptr<KWayland::Client::DataDevice> sourceDataDevice(sourceConnection->dataDeviceManager->getDataDevice(sourceConnection->seat));
+    std::unique_ptr<KWayland::Client::DataSource> dataSource(sourceConnection->dataDeviceManager->createDataSource());
+    dataSource->offer(plainText());
+    connect(dataSource.get(), &KWayland::Client::DataSource::sendDataRequested, this, [](const QString &mimeType, int fd) {
+        const auto data = QByteArrayLiteral("foo");
+        write(fd, data.data(), data.size());
+        close(fd);
+    });
+
+    auto sourceSurface = Test::createSurface(sourceConnection->compositor);
+    auto sourceShellSurface = Test::createXdgToplevelSurface(sourceConnection->xdgShell, sourceSurface.get());
+    auto sourceWindow = Test::renderAndWaitForShown(sourceConnection->shm, sourceSurface.get(), QSize(100, 100), Qt::red);
+
+    // Setup the target side.
+    std::unique_ptr<KWayland::Client::DataDevice> targetDataDevice(targetConnection->dataDeviceManager->getDataDevice(targetConnection->seat));
+
+    auto targetSurface = Test::createSurface(targetConnection->compositor);
+    auto targetShellSurface = Test::createXdgToplevelSurface(targetConnection->xdgShell, targetSurface.get());
+    auto targetWindow = Test::renderAndWaitForShown(targetConnection->shm, targetSurface.get(), QSize(100, 100), Qt::blue);
+
+    // Focus the source window, and set the selection.
+    std::unique_ptr<KWayland::Client::Keyboard> sourceKeyboard(sourceConnection->seat->createKeyboard());
+    QSignalSpy sourceKeyboardEnteredSpy(sourceKeyboard.get(), &KWayland::Client::Keyboard::entered);
+    workspace()->activateWindow(sourceWindow);
+    QVERIFY(sourceKeyboardEnteredSpy.wait());
+    const quint32 sourceEnteredSerial = sourceKeyboardEnteredSpy.last().at(0).value<quint32>();
+    sourceDataDevice->setSelection(sourceEnteredSerial, dataSource.get());
+
+    // The target client should be offered the selection when its window gets focused.
+    QSignalSpy targetDataDeviceSelectionOfferedSpy(targetDataDevice.get(), &KWayland::Client::DataDevice::selectionOffered);
+    workspace()->activateWindow(targetWindow);
+    QVERIFY(targetDataDeviceSelectionOfferedSpy.wait());
+    std::unique_ptr<KWayland::Client::DataOffer> offer = targetDataDevice->takeOfferedSelection();
+    QCOMPARE(offer->offeredMimeTypes(), QList<QMimeType>{plainText()});
+
+    // Ask for data.
+    const QFuture<QByteArray> plainData = readMimeTypeData(offer, plainText());
+    QVERIFY(waitFuture(plainData));
+    QCOMPARE(plainData.result(), QByteArrayLiteral("foo"));
+
+    // Remove focus from the target window, it should not be able to receive data anymore.
+    workspace()->activateWindow(nullptr);
+
+    const QFuture<QByteArray> emptyData = readMimeTypeData(offer, plainText());
+    QVERIFY(waitFuture(emptyData));
+    QCOMPARE(emptyData.result(), QByteArray());
+}
+
+void SelectionTest::singleSelectionPerClient()
+{
+    // This test verifies that only one selection event will be sent when switching between two
+    // surfaces that belong to the same client.
+
+    // Setup the first client.
+    auto firstConnection = Test::Connection::setup(Test::AdditionalWaylandInterface::Seat | Test::AdditionalWaylandInterface::DataDeviceManager);
+    QVERIFY(Test::waitForWaylandKeyboard(firstConnection->seat));
+
+    std::unique_ptr<KWayland::Client::Keyboard> firstKeyboard(firstConnection->seat->createKeyboard());
+    std::unique_ptr<KWayland::Client::DataDevice> firstDataDevice(firstConnection->dataDeviceManager->getDataDevice(firstConnection->seat));
+    std::unique_ptr<KWayland::Client::DataSource> firstDataSource(firstConnection->dataDeviceManager->createDataSource());
+    firstDataSource->offer(plainText());
+    connect(firstDataSource.get(), &KWayland::Client::DataSource::sendDataRequested, this, [](const QString &mimeType, int fd) {
+        const auto data = QByteArrayLiteral("foo");
+        write(fd, data.data(), data.size());
+        close(fd);
+    });
+
+    auto firstSurface = Test::createSurface(firstConnection->compositor);
+    auto firstShellSurface = Test::createXdgToplevelSurface(firstConnection->xdgShell, firstSurface.get());
+    auto firstWindow = Test::renderAndWaitForShown(firstConnection->shm, firstSurface.get(), QSize(100, 100), Qt::red);
+
+    // Setup the second client.
+    auto secondConnection = Test::Connection::setup(Test::AdditionalWaylandInterface::Seat | Test::AdditionalWaylandInterface::DataDeviceManager);
+    QVERIFY(Test::waitForWaylandKeyboard(secondConnection->seat));
+
+    std::unique_ptr<KWayland::Client::Keyboard> secondKeyboard(secondConnection->seat->createKeyboard());
+    std::unique_ptr<KWayland::Client::DataDevice> secondDataDevice(secondConnection->dataDeviceManager->getDataDevice(secondConnection->seat));
+
+    auto secondSurface = Test::createSurface(secondConnection->compositor);
+    auto secondShellSurface = Test::createXdgToplevelSurface(secondConnection->xdgShell, secondSurface.get());
+    auto secondWindow = Test::renderAndWaitForShown(secondConnection->shm, secondSurface.get(), QSize(100, 100), Qt::blue);
+
+    auto thirdSurface = Test::createSurface(secondConnection->compositor);
+    auto thirdShellSurface = Test::createXdgToplevelSurface(secondConnection->xdgShell, thirdSurface.get());
+    auto thirdWindow = Test::renderAndWaitForShown(secondConnection->shm, thirdSurface.get(), QSize(100, 100), Qt::green);
+
+    // Activate the first window and set the selection.
+    QSignalSpy firstKeyboardEnteredSpy(firstKeyboard.get(), &KWayland::Client::Keyboard::entered);
+    workspace()->activateWindow(firstWindow);
+    QVERIFY(firstKeyboardEnteredSpy.wait());
+    const quint32 firstEnteredSerial = firstKeyboardEnteredSpy.last().at(0).value<quint32>();
+    firstDataDevice->setSelection(firstEnteredSerial, firstDataSource.get());
+
+    QSignalSpy firstDataDeviceSelectionOfferedSpy(firstDataDevice.get(), &KWayland::Client::DataDevice::selectionOffered);
+    QSignalSpy firstDataDeviceSelectionClearedSpy(firstDataDevice.get(), &KWayland::Client::DataDevice::selectionCleared);
+    QSignalSpy secondDataDeviceSelectionOfferedSpy(secondDataDevice.get(), &KWayland::Client::DataDevice::selectionOffered);
+    QSignalSpy secondDataDeviceSelectionClearedSpy(secondDataDevice.get(), &KWayland::Client::DataDevice::selectionCleared);
+
+    QVERIFY(firstDataDeviceSelectionOfferedSpy.wait());
+
+    QCOMPARE(firstDataDeviceSelectionOfferedSpy.count(), 1);
+    QCOMPARE(firstDataDeviceSelectionClearedSpy.count(), 0);
+    QCOMPARE(secondDataDeviceSelectionOfferedSpy.count(), 0);
+    QCOMPARE(secondDataDeviceSelectionClearedSpy.count(), 0);
+
+    // Activate the 2nd window.
+    workspace()->activateWindow(secondWindow);
+    QVERIFY(secondDataDeviceSelectionOfferedSpy.wait());
+
+    QCOMPARE(firstDataDeviceSelectionOfferedSpy.count(), 1);
+    QCOMPARE(firstDataDeviceSelectionClearedSpy.count(), 0);
+    QCOMPARE(secondDataDeviceSelectionOfferedSpy.count(), 1);
+    QCOMPARE(secondDataDeviceSelectionClearedSpy.count(), 0);
+
+    // Activate the 3rd window (the 2nd and the 3rd window belong to the same client).
+    workspace()->activateWindow(thirdWindow);
+    QVERIFY(!secondDataDeviceSelectionOfferedSpy.wait(100));
+
+    QCOMPARE(firstDataDeviceSelectionOfferedSpy.count(), 1);
+    QCOMPARE(firstDataDeviceSelectionClearedSpy.count(), 0);
+    QCOMPARE(secondDataDeviceSelectionOfferedSpy.count(), 1);
+    QCOMPARE(secondDataDeviceSelectionClearedSpy.count(), 0);
+
+    // Activate the 2nd window (the 2nd and the 3rd window belong to the same client).
+    workspace()->activateWindow(secondWindow);
+    QVERIFY(!secondDataDeviceSelectionOfferedSpy.wait(100));
+
+    QCOMPARE(firstDataDeviceSelectionOfferedSpy.count(), 1);
+    QCOMPARE(firstDataDeviceSelectionClearedSpy.count(), 0);
+    QCOMPARE(secondDataDeviceSelectionOfferedSpy.count(), 1);
+    QCOMPARE(secondDataDeviceSelectionClearedSpy.count(), 0);
+
+    // Activate the 1st window (different connection from the 2nd and 3rd window).
+    workspace()->activateWindow(firstWindow);
+    QVERIFY(firstDataDeviceSelectionOfferedSpy.wait());
+
+    QCOMPARE(firstDataDeviceSelectionOfferedSpy.count(), 2);
+    QCOMPARE(firstDataDeviceSelectionClearedSpy.count(), 0);
+    QCOMPARE(secondDataDeviceSelectionOfferedSpy.count(), 1);
+    QCOMPARE(secondDataDeviceSelectionClearedSpy.count(), 0);
+
+    // Clear the selection.
+    firstDataDevice->setSelection(firstEnteredSerial, nullptr);
+    QVERIFY(firstDataDeviceSelectionClearedSpy.wait());
+
+    QCOMPARE(firstDataDeviceSelectionOfferedSpy.count(), 2);
+    QCOMPARE(firstDataDeviceSelectionClearedSpy.count(), 1);
+    QCOMPARE(secondDataDeviceSelectionOfferedSpy.count(), 1);
+    QCOMPARE(secondDataDeviceSelectionClearedSpy.count(), 0);
+
+    // Activate the 2nd window (different connection from the 1st window).
+    workspace()->activateWindow(secondWindow);
+    QVERIFY(!secondDataDeviceSelectionOfferedSpy.wait(100));
+
+    QCOMPARE(firstDataDeviceSelectionOfferedSpy.count(), 2);
+    QCOMPARE(firstDataDeviceSelectionClearedSpy.count(), 1);
+    QCOMPARE(secondDataDeviceSelectionOfferedSpy.count(), 1);
+    QCOMPARE(secondDataDeviceSelectionClearedSpy.count(), 1); // 1 because a null selection is sent
+}
+
 void SelectionTest::primarySelection()
 {
     // This test verifies that the primary selection works as expected between two clients.
-
-    const QMimeType plainText = m_mimeDatabase.mimeTypeForName(QStringLiteral("text/plain"));
-    const QMimeType htmlText = m_mimeDatabase.mimeTypeForName(QStringLiteral("text/html"));
 
     auto sourceConnection = Test::Connection::setup(Test::AdditionalWaylandInterface::Seat | Test::AdditionalWaylandInterface::WpPrimarySelectionV1);
     auto targetConnection = Test::Connection::setup(Test::AdditionalWaylandInterface::Seat | Test::AdditionalWaylandInterface::WpPrimarySelectionV1);
@@ -397,7 +564,7 @@ void SelectionTest::primarySelection()
     // Setup the source side.
     std::unique_ptr<Test::WpPrimarySelectionDeviceV1> sourceDataDevice(sourceConnection->primarySelectionManager->getDevice(sourceConnection->seat));
     std::unique_ptr<Test::WpPrimarySelectionSourceV1> dataSource(sourceConnection->primarySelectionManager->createSource());
-    dataSource->offer(plainText.name());
+    dataSource->offer(plainText().name());
     connect(dataSource.get(), &Test::WpPrimarySelectionSourceV1::sendDataRequested, this, [](const QString &mimeType, int fd) {
         const auto data = QByteArrayLiteral("foo");
         write(fd, data.data(), data.size());
@@ -432,15 +599,15 @@ void SelectionTest::primarySelection()
     workspace()->activateWindow(targetWindow);
     QVERIFY(targetDataDeviceSelectionOfferedSpy.wait());
     Test::WpPrimarySelectionOfferV1 *offer = targetDataDevice->offer();
-    QCOMPARE(offer->mimeTypes(), QList<QMimeType>{plainText});
+    QCOMPARE(offer->mimeTypes(), QList<QMimeType>{plainText()});
 
     // Ask for data.
-    const QFuture<QByteArray> plainData = readMimeTypeData(offer, plainText);
+    const QFuture<QByteArray> plainData = readMimeTypeData(offer, plainText());
     QVERIFY(waitFuture(plainData));
     QCOMPARE(plainData.result(), QByteArrayLiteral("foo"));
 
     // text/html hasn't been offered, so this should fail.
-    const QFuture<QByteArray> htmlData = readMimeTypeData(offer, htmlText);
+    const QFuture<QByteArray> htmlData = readMimeTypeData(offer, htmlText());
     QVERIFY(waitFuture(htmlData));
     QCOMPARE(htmlData.result(), QByteArray());
 
@@ -454,14 +621,11 @@ void SelectionTest::internalPrimarySelection()
 {
     // This test verifies that the source client also receives a wp_primary_selection_offer_v1 for its own selection.
 
-    const QMimeType plainText = m_mimeDatabase.mimeTypeForName(QStringLiteral("text/plain"));
-    const QMimeType htmlText = m_mimeDatabase.mimeTypeForName(QStringLiteral("text/html"));
-
     auto connection = Test::Connection::setup(Test::AdditionalWaylandInterface::Seat | Test::AdditionalWaylandInterface::WpPrimarySelectionV1);
 
     std::unique_ptr<Test::WpPrimarySelectionDeviceV1> dataDevice(connection->primarySelectionManager->getDevice(connection->seat));
     std::unique_ptr<Test::WpPrimarySelectionSourceV1> dataSource(connection->primarySelectionManager->createSource());
-    dataSource->offer(plainText.name());
+    dataSource->offer(plainText().name());
     connect(dataSource.get(), &Test::WpPrimarySelectionSourceV1::sendDataRequested, this, [](const QString &mimeType, int fd) {
         const auto data = QByteArrayLiteral("foo");
         write(fd, data.data(), data.size());
@@ -484,15 +648,15 @@ void SelectionTest::internalPrimarySelection()
     QSignalSpy dataDeviceSelectionOfferedSpy(dataDevice.get(), &Test::WpPrimarySelectionDeviceV1::selectionOffered);
     QVERIFY(dataDeviceSelectionOfferedSpy.wait());
     Test::WpPrimarySelectionOfferV1 *offer = dataDevice->offer();
-    QCOMPARE(offer->mimeTypes(), QList<QMimeType>{plainText});
+    QCOMPARE(offer->mimeTypes(), QList<QMimeType>{plainText()});
 
     // Ask for data.
-    const QFuture<QByteArray> plainData = readMimeTypeData(offer, plainText);
+    const QFuture<QByteArray> plainData = readMimeTypeData(offer, plainText());
     QVERIFY(waitFuture(plainData));
     QCOMPARE(plainData.result(), QByteArrayLiteral("foo"));
 
     // text/html hasn't been offered, so this should fail.
-    const QFuture<QByteArray> htmlData = readMimeTypeData(offer, htmlText);
+    const QFuture<QByteArray> htmlData = readMimeTypeData(offer, htmlText());
     QVERIFY(waitFuture(htmlData));
     QCOMPARE(htmlData.result(), QByteArray());
 
@@ -506,15 +670,13 @@ void SelectionTest::destroyPrimarySelection()
 {
     // This test verifies that the wp_primary_selection_offer_v1 will be withdrawn if the associated data source is destroyed.
 
-    const QMimeType plainText = m_mimeDatabase.mimeTypeForName(QStringLiteral("text/plain"));
-
     auto sourceConnection = Test::Connection::setup(Test::AdditionalWaylandInterface::Seat | Test::AdditionalWaylandInterface::WpPrimarySelectionV1);
     auto targetConnection = Test::Connection::setup(Test::AdditionalWaylandInterface::Seat | Test::AdditionalWaylandInterface::WpPrimarySelectionV1);
 
     // Setup the source side.
     std::unique_ptr<Test::WpPrimarySelectionDeviceV1> sourceDataDevice(sourceConnection->primarySelectionManager->getDevice(sourceConnection->seat));
     std::unique_ptr<Test::WpPrimarySelectionSourceV1> dataSource(sourceConnection->primarySelectionManager->createSource());
-    dataSource->offer(plainText.name());
+    dataSource->offer(plainText().name());
     connect(dataSource.get(), &Test::WpPrimarySelectionSourceV1::sendDataRequested, this, [](const QString &mimeType, int fd) {
         const auto data = QByteArrayLiteral("foo");
         write(fd, data.data(), data.size());
@@ -547,7 +709,7 @@ void SelectionTest::destroyPrimarySelection()
     workspace()->activateWindow(targetWindow);
     QVERIFY(targetDataDeviceSelectionOfferedSpy.wait());
     Test::WpPrimarySelectionOfferV1 *offer = targetDataDevice->offer();
-    QCOMPARE(offer->mimeTypes(), QList<QMimeType>{plainText});
+    QCOMPARE(offer->mimeTypes(), QList<QMimeType>{plainText()});
 
     // Destroy the data source.
     QSignalSpy targetDataDeviceSelectionClearedSpy(targetDataDevice.get(), &Test::WpPrimarySelectionDeviceV1::selectionCleared);
@@ -589,9 +751,6 @@ void SelectionTest::unsetSupersededPrimarySelection()
 {
     // This test verifies that the current selection won't be unset if the previous selection is unset with set_selection(null).
 
-    const QMimeType plainText = m_mimeDatabase.mimeTypeForName(QStringLiteral("text/plain"));
-    const QMimeType htmlText = m_mimeDatabase.mimeTypeForName(QStringLiteral("text/html"));
-
     // Setup the first client.
     auto firstConnection = Test::Connection::setup(Test::AdditionalWaylandInterface::Seat | Test::AdditionalWaylandInterface::WpPrimarySelectionV1);
     QVERIFY(Test::waitForWaylandKeyboard(firstConnection->seat));
@@ -599,7 +758,7 @@ void SelectionTest::unsetSupersededPrimarySelection()
     std::unique_ptr<KWayland::Client::Keyboard> firstKeyboard(firstConnection->seat->createKeyboard());
     std::unique_ptr<Test::WpPrimarySelectionDeviceV1> firstDataDevice(firstConnection->primarySelectionManager->getDevice(firstConnection->seat));
     std::unique_ptr<Test::WpPrimarySelectionSourceV1> firstDataSource(firstConnection->primarySelectionManager->createSource());
-    firstDataSource->offer(plainText.name());
+    firstDataSource->offer(plainText().name());
     connect(firstDataSource.get(), &Test::WpPrimarySelectionSourceV1::sendDataRequested, this, [](const QString &mimeType, int fd) {
         const auto data = QByteArrayLiteral("foo");
         write(fd, data.data(), data.size());
@@ -617,7 +776,7 @@ void SelectionTest::unsetSupersededPrimarySelection()
     std::unique_ptr<KWayland::Client::Keyboard> secondKeyboard(secondConnection->seat->createKeyboard());
     std::unique_ptr<Test::WpPrimarySelectionDeviceV1> secondDataDevice(secondConnection->primarySelectionManager->getDevice(secondConnection->seat));
     std::unique_ptr<Test::WpPrimarySelectionSourceV1> secondDataSource(secondConnection->primarySelectionManager->createSource());
-    secondDataSource->offer(htmlText.name());
+    secondDataSource->offer(htmlText().name());
     connect(secondDataSource.get(), &Test::WpPrimarySelectionSourceV1::sendDataRequested, this, [](const QString &mimeType, int fd) {
         const auto data = QByteArrayLiteral("bar");
         write(fd, data.data(), data.size());
@@ -656,6 +815,174 @@ void SelectionTest::unsetSupersededPrimarySelection()
     // Attempt to unset the second selection.
     secondDataDevice->set_selection(nullptr, secondEnteredSerial);
     QVERIFY(secondDataDeviceSelectionClearedSpy.wait());
+}
+
+void SelectionTest::receiveFromWithdrawnPrimarySelectionOffer()
+{
+    // This test verifies that a client cannot receive data from a withdrawn primary selection offer.
+
+    auto sourceConnection = Test::Connection::setup(Test::AdditionalWaylandInterface::Seat | Test::AdditionalWaylandInterface::WpPrimarySelectionV1);
+    auto targetConnection = Test::Connection::setup(Test::AdditionalWaylandInterface::Seat | Test::AdditionalWaylandInterface::WpPrimarySelectionV1);
+
+    // Setup the source side.
+    std::unique_ptr<Test::WpPrimarySelectionDeviceV1> sourceDataDevice(sourceConnection->primarySelectionManager->getDevice(sourceConnection->seat));
+    std::unique_ptr<Test::WpPrimarySelectionSourceV1> dataSource(sourceConnection->primarySelectionManager->createSource());
+    dataSource->offer(plainText().name());
+    connect(dataSource.get(), &Test::WpPrimarySelectionSourceV1::sendDataRequested, this, [](const QString &mimeType, int fd) {
+        const auto data = QByteArrayLiteral("foo");
+        write(fd, data.data(), data.size());
+        close(fd);
+    });
+
+    auto sourceSurface = Test::createSurface(sourceConnection->compositor);
+    auto sourceShellSurface = Test::createXdgToplevelSurface(sourceConnection->xdgShell, sourceSurface.get());
+    auto sourceWindow = Test::renderAndWaitForShown(sourceConnection->shm, sourceSurface.get(), QSize(100, 100), Qt::red);
+
+    // Setup the target side.
+    std::unique_ptr<Test::WpPrimarySelectionDeviceV1> targetDataDevice(targetConnection->primarySelectionManager->getDevice(targetConnection->seat));
+
+    auto targetSurface = Test::createSurface(targetConnection->compositor);
+    auto targetShellSurface = Test::createXdgToplevelSurface(targetConnection->xdgShell, targetSurface.get());
+    auto targetWindow = Test::renderAndWaitForShown(targetConnection->shm, targetSurface.get(), QSize(100, 100), Qt::blue);
+
+    // Focus the source window, and set the primary selection.
+    std::unique_ptr<KWayland::Client::Keyboard> sourceKeyboard(sourceConnection->seat->createKeyboard());
+    QSignalSpy sourceKeyboardEnteredSpy(sourceKeyboard.get(), &KWayland::Client::Keyboard::entered);
+    workspace()->activateWindow(sourceWindow);
+    QVERIFY(sourceKeyboardEnteredSpy.wait());
+    const quint32 sourceEnteredSerial = sourceKeyboardEnteredSpy.last().at(0).value<quint32>();
+    sourceDataDevice->set_selection(dataSource->object(), sourceEnteredSerial);
+
+    // The target client should be offered the selection when its window gets focused.
+    QSignalSpy targetDataDeviceSelectionOfferedSpy(targetDataDevice.get(), &Test::WpPrimarySelectionDeviceV1::selectionOffered);
+    workspace()->activateWindow(targetWindow);
+    QVERIFY(targetDataDeviceSelectionOfferedSpy.wait());
+    std::unique_ptr<Test::WpPrimarySelectionOfferV1> offer = targetDataDevice->takeOffer();
+    QCOMPARE(offer->mimeTypes(), QList<QMimeType>{plainText()});
+
+    // Ask for data.
+    const QFuture<QByteArray> plainData = readMimeTypeData(offer, plainText());
+    QVERIFY(waitFuture(plainData));
+    QCOMPARE(plainData.result(), QByteArrayLiteral("foo"));
+
+    // Remove focus from the target window, it should not be able to receive data anymore.
+    workspace()->activateWindow(nullptr);
+
+    const QFuture<QByteArray> emptyData = readMimeTypeData(offer, plainText());
+    QVERIFY(waitFuture(emptyData));
+    QCOMPARE(emptyData.result(), QByteArray());
+}
+
+void SelectionTest::singlePrimarySelectionPerClient()
+{
+    // This test verifies that only one selection event will be sent when switching between two
+    // surfaces that belong to the same client.
+
+    // Setup the first client.
+    auto firstConnection = Test::Connection::setup(Test::AdditionalWaylandInterface::Seat | Test::AdditionalWaylandInterface::WpPrimarySelectionV1);
+    QVERIFY(Test::waitForWaylandKeyboard(firstConnection->seat));
+
+    std::unique_ptr<KWayland::Client::Keyboard> firstKeyboard(firstConnection->seat->createKeyboard());
+    std::unique_ptr<Test::WpPrimarySelectionDeviceV1> firstDataDevice(firstConnection->primarySelectionManager->getDevice(firstConnection->seat));
+    std::unique_ptr<Test::WpPrimarySelectionSourceV1> firstDataSource(firstConnection->primarySelectionManager->createSource());
+    firstDataSource->offer(plainText().name());
+    connect(firstDataSource.get(), &Test::WpPrimarySelectionSourceV1::sendDataRequested, this, [](const QString &mimeType, int fd) {
+        const auto data = QByteArrayLiteral("foo");
+        write(fd, data.data(), data.size());
+        close(fd);
+    });
+
+    auto firstSurface = Test::createSurface(firstConnection->compositor);
+    auto firstShellSurface = Test::createXdgToplevelSurface(firstConnection->xdgShell, firstSurface.get());
+    auto firstWindow = Test::renderAndWaitForShown(firstConnection->shm, firstSurface.get(), QSize(100, 100), Qt::red);
+
+    // Setup the second client.
+    auto secondConnection = Test::Connection::setup(Test::AdditionalWaylandInterface::Seat | Test::AdditionalWaylandInterface::WpPrimarySelectionV1);
+    QVERIFY(Test::waitForWaylandKeyboard(secondConnection->seat));
+
+    std::unique_ptr<KWayland::Client::Keyboard> secondKeyboard(secondConnection->seat->createKeyboard());
+    std::unique_ptr<Test::WpPrimarySelectionDeviceV1> secondDataDevice(secondConnection->primarySelectionManager->getDevice(secondConnection->seat));
+
+    auto secondSurface = Test::createSurface(secondConnection->compositor);
+    auto secondShellSurface = Test::createXdgToplevelSurface(secondConnection->xdgShell, secondSurface.get());
+    auto secondWindow = Test::renderAndWaitForShown(secondConnection->shm, secondSurface.get(), QSize(100, 100), Qt::blue);
+
+    auto thirdSurface = Test::createSurface(secondConnection->compositor);
+    auto thirdShellSurface = Test::createXdgToplevelSurface(secondConnection->xdgShell, thirdSurface.get());
+    auto thirdWindow = Test::renderAndWaitForShown(secondConnection->shm, thirdSurface.get(), QSize(100, 100), Qt::green);
+
+    // Activate the first window and set the selection.
+    QSignalSpy firstKeyboardEnteredSpy(firstKeyboard.get(), &KWayland::Client::Keyboard::entered);
+    workspace()->activateWindow(firstWindow);
+    QVERIFY(firstKeyboardEnteredSpy.wait());
+    const quint32 firstEnteredSerial = firstKeyboardEnteredSpy.last().at(0).value<quint32>();
+    firstDataDevice->set_selection(firstDataSource->object(), firstEnteredSerial);
+
+    QSignalSpy firstDataDeviceSelectionOfferedSpy(firstDataDevice.get(), &Test::WpPrimarySelectionDeviceV1::selectionOffered);
+    QSignalSpy firstDataDeviceSelectionClearedSpy(firstDataDevice.get(), &Test::WpPrimarySelectionDeviceV1::selectionCleared);
+    QSignalSpy secondDataDeviceSelectionOfferedSpy(secondDataDevice.get(), &Test::WpPrimarySelectionDeviceV1::selectionOffered);
+    QSignalSpy secondDataDeviceSelectionClearedSpy(secondDataDevice.get(), &Test::WpPrimarySelectionDeviceV1::selectionCleared);
+
+    QVERIFY(firstDataDeviceSelectionOfferedSpy.wait());
+
+    QCOMPARE(firstDataDeviceSelectionOfferedSpy.count(), 1);
+    QCOMPARE(firstDataDeviceSelectionClearedSpy.count(), 0);
+    QCOMPARE(secondDataDeviceSelectionOfferedSpy.count(), 0);
+    QCOMPARE(secondDataDeviceSelectionClearedSpy.count(), 0);
+
+    // Activate the 2nd window.
+    workspace()->activateWindow(secondWindow);
+    QVERIFY(secondDataDeviceSelectionOfferedSpy.wait());
+
+    QCOMPARE(firstDataDeviceSelectionOfferedSpy.count(), 1);
+    QCOMPARE(firstDataDeviceSelectionClearedSpy.count(), 0);
+    QCOMPARE(secondDataDeviceSelectionOfferedSpy.count(), 1);
+    QCOMPARE(secondDataDeviceSelectionClearedSpy.count(), 0);
+
+    // Activate the 3rd window (the 2nd and the 3rd window belong to the same client).
+    workspace()->activateWindow(thirdWindow);
+    QVERIFY(!secondDataDeviceSelectionOfferedSpy.wait(100));
+
+    QCOMPARE(firstDataDeviceSelectionOfferedSpy.count(), 1);
+    QCOMPARE(firstDataDeviceSelectionClearedSpy.count(), 0);
+    QCOMPARE(secondDataDeviceSelectionOfferedSpy.count(), 1);
+    QCOMPARE(secondDataDeviceSelectionClearedSpy.count(), 0);
+
+    // Activate the 2nd window (the 2nd and the 3rd window belong to the same client).
+    workspace()->activateWindow(secondWindow);
+    QVERIFY(!secondDataDeviceSelectionOfferedSpy.wait(100));
+
+    QCOMPARE(firstDataDeviceSelectionOfferedSpy.count(), 1);
+    QCOMPARE(firstDataDeviceSelectionClearedSpy.count(), 0);
+    QCOMPARE(secondDataDeviceSelectionOfferedSpy.count(), 1);
+    QCOMPARE(secondDataDeviceSelectionClearedSpy.count(), 0);
+
+    // Activate the 1st window (different connection from the 2nd and 3rd window).
+    workspace()->activateWindow(firstWindow);
+    QVERIFY(firstDataDeviceSelectionOfferedSpy.wait());
+
+    QCOMPARE(firstDataDeviceSelectionOfferedSpy.count(), 2);
+    QCOMPARE(firstDataDeviceSelectionClearedSpy.count(), 0);
+    QCOMPARE(secondDataDeviceSelectionOfferedSpy.count(), 1);
+    QCOMPARE(secondDataDeviceSelectionClearedSpy.count(), 0);
+
+    // Clear the selection.
+    firstDataDevice->set_selection(nullptr, firstEnteredSerial);
+    QVERIFY(firstDataDeviceSelectionClearedSpy.wait());
+
+    QCOMPARE(firstDataDeviceSelectionOfferedSpy.count(), 2);
+    QCOMPARE(firstDataDeviceSelectionClearedSpy.count(), 1);
+    QCOMPARE(secondDataDeviceSelectionOfferedSpy.count(), 1);
+    QCOMPARE(secondDataDeviceSelectionClearedSpy.count(), 0);
+
+    // Activate the 2nd window (different connection from the 1st window).
+    workspace()->activateWindow(secondWindow);
+    QVERIFY(!secondDataDeviceSelectionOfferedSpy.wait(100));
+
+    QCOMPARE(firstDataDeviceSelectionOfferedSpy.count(), 2);
+    QCOMPARE(firstDataDeviceSelectionClearedSpy.count(), 1);
+    QCOMPARE(secondDataDeviceSelectionOfferedSpy.count(), 1);
+    QCOMPARE(secondDataDeviceSelectionClearedSpy.count(), 1); // 1 because a null selection is sent
 }
 
 } // namespace KWin

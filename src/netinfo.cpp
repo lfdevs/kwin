@@ -164,7 +164,7 @@ void RootInfo::changeActiveWindow(xcb_window_t w, NET::RequestSource src, xcb_ti
         }
         if (src == NET::FromTool) {
             workspace->activateWindow(c, true); // force
-        } else if (c == workspace->mostRecentlyActivatedWindow()) {
+        } else if (c == workspace->activeWindow()) {
             return; // WORKAROUND? With > 1 plasma activities, we cause this ourselves. bug #240673
         } else { // NET::FromApplication
             X11Window *c2;
@@ -207,7 +207,6 @@ void RootInfo::moveResize(xcb_window_t w, int x_root, int y_root, unsigned long 
 {
     X11Window *c = Workspace::self()->findClient(w);
     if (c) {
-        kwinApp()->updateXTime(); // otherwise grabbing may have old timestamp - this message should include timestamp
         c->NETMoveResize(Xcb::fromXNative(x_root), Xcb::fromXNative(y_root), (Direction)direction, button);
     }
 }

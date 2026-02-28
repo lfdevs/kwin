@@ -10,7 +10,6 @@
 #pragma once
 
 #include <QList>
-#include <QRectF>
 
 #include "options.h"
 #include "utils/common.h"
@@ -22,11 +21,13 @@ namespace KWin
 {
 
 class Window;
-class Output;
+class LogicalOutput;
 class Rules;
 class RuleSettings;
 class RuleBookSettings;
 class VirtualDesktop;
+
+enum class DecorationPolicy;
 
 #ifndef KCMRULES // only for kwin core
 
@@ -39,19 +40,19 @@ public:
     bool contains(const Rules *rule) const;
     void remove(Rules *rule);
     PlacementPolicy checkPlacement(PlacementPolicy placement) const;
-    QRectF checkGeometry(QRectF rect, bool init = false) const;
-    QRectF checkGeometrySafe(QRectF rect, bool init = false) const;
-    // use 'invalidPoint' with checkPosition, unlike QSize() and QRect(), QPoint() is a valid point
+    RectF checkGeometry(RectF rect, bool init = false) const;
+    RectF checkGeometrySafe(RectF rect, bool init = false) const;
+    // use 'invalidPoint' with checkPosition, unlike QSize() and Rect(), QPoint() is a valid point
     QPointF checkPositionSafe(QPointF pos, bool init = false) const;
     QPointF checkPosition(QPointF pos, bool init = false) const;
     QSizeF checkSize(QSizeF s, bool init = false) const;
     QSizeF checkMinSize(QSizeF s) const;
     QSizeF checkMaxSize(QSizeF s) const;
-    int checkOpacityActive(int s) const;
-    int checkOpacityInactive(int s) const;
+    qreal checkOpacityActive(qreal s) const;
+    qreal checkOpacityInactive(qreal s) const;
     bool checkIgnoreGeometry(bool ignore, bool init = false) const;
     QList<VirtualDesktop *> checkDesktops(QList<VirtualDesktop *> desktops, bool init = false) const;
-    Output *checkOutput(Output *output, bool init = false) const;
+    LogicalOutput *checkOutput(LogicalOutput *output, bool init = false) const;
     QStringList checkActivity(QStringList activity, bool init = false) const;
     MaximizeMode checkMaximize(MaximizeMode mode, bool init = false) const;
     bool checkMinimize(bool minimized, bool init = false) const;
@@ -62,6 +63,7 @@ public:
     bool checkKeepBelow(bool below, bool init = false) const;
     bool checkFullScreen(bool fs, bool init = false) const;
     bool checkNoBorder(bool noborder, bool init = false) const;
+    DecorationPolicy checkDecorationPolicy(DecorationPolicy policy, bool init = false) const;
     QString checkDecoColor(QString schemeFile) const;
     bool checkBlockCompositing(bool block) const;
     FocusStealingPreventionLevel checkFSP(FocusStealingPreventionLevel fsp) const;
@@ -150,14 +152,14 @@ public:
     bool match(const Window *c) const;
     bool update(Window *, int selection);
     bool applyPlacement(PlacementPolicy &placement) const;
-    bool applyGeometry(QRectF &rect, bool init) const;
-    // use 'invalidPoint' with applyPosition, unlike QSize() and QRect(), QPoint() is a valid point
+    bool applyGeometry(RectF &rect, bool init) const;
+    // use 'invalidPoint' with applyPosition, unlike QSize() and Rect(), QPoint() is a valid point
     bool applyPosition(QPointF &pos, bool init) const;
     bool applySize(QSizeF &s, bool init) const;
     bool applyMinSize(QSizeF &s) const;
     bool applyMaxSize(QSizeF &s) const;
-    bool applyOpacityActive(int &s) const;
-    bool applyOpacityInactive(int &s) const;
+    bool applyOpacityActive(qreal &s) const;
+    bool applyOpacityInactive(qreal &s) const;
     bool applyIgnoreGeometry(bool &ignore, bool init) const;
     bool applyDesktops(QList<VirtualDesktop *> &desktops, bool init) const;
     bool applyScreen(int &desktop, bool init) const;

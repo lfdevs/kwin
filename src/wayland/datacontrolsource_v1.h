@@ -10,6 +10,8 @@
 #include "abstract_data_source.h"
 #include "datacontroldevicemanager_v1.h"
 
+struct wl_resource;
+
 namespace KWin
 {
 class DataControlSourceV1InterfacePrivate;
@@ -26,7 +28,7 @@ class KWIN_EXPORT DataControlSourceV1Interface : public AbstractDataSource
 public:
     ~DataControlSourceV1Interface() override;
 
-    void requestData(const QString &mimeType, qint32 fd) override;
+    void requestData(const QString &mimeType, FileDescriptor fd) override;
     void cancel() override;
 
     QStringList mimeTypes() const override;

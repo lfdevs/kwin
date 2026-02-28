@@ -6,6 +6,7 @@
 
 #include "kwin_wayland_test.h"
 
+#include "core/outputbackend.h"
 #include "core/outputconfiguration.h"
 #include "pointer_input.h"
 #include "wayland_server.h"
@@ -48,8 +49,8 @@ void WorkspaceTest::initTestCase()
 void WorkspaceTest::init()
 {
     Test::setOutputConfig({
-        QRect(0, 0, 1280, 1024),
-        QRect(1280, 0, 1280, 1024),
+        Rect(0, 0, 1280, 1024),
+        Rect(1280, 0, 1280, 1024),
     });
 
     QVERIFY(Test::setupWaylandConnection());
@@ -80,7 +81,7 @@ void WorkspaceTest::evacuateMappedWindowFromRemovedOutput()
     QSignalSpy outputChangedSpy(window, &Window::outputChanged);
     {
         OutputConfiguration config;
-        config.changeSet(firstOutput)->enabled = false;
+        config.changeSet(firstOutput->backendOutput())->enabled = false;
         workspace()->applyOutputConfiguration(config);
     }
     QCOMPARE(outputChangedSpy.count(), 1);
@@ -110,7 +111,7 @@ void WorkspaceTest::evacuateUnmappedWindowFromRemovedOutput()
     QSignalSpy outputChangedSpy(window, &Window::outputChanged);
     {
         OutputConfiguration config;
-        config.changeSet(firstOutput)->enabled = false;
+        config.changeSet(firstOutput->backendOutput())->enabled = false;
         workspace()->applyOutputConfiguration(config);
     }
     QCOMPARE(outputChangedSpy.count(), 1);
@@ -236,9 +237,9 @@ void WorkspaceTest::activeOutputDoesntFollowInactiveWindow()
     // This test verifies that the active output doesn't follow inactive windows.
 
     Test::setOutputConfig({
-        QRect(0, 0, 1280, 1024),
-        QRect(1280, 0, 1280, 1024),
-        QRect(2560, 0, 1280, 1024),
+        Rect(0, 0, 1280, 1024),
+        Rect(1280, 0, 1280, 1024),
+        Rect(2560, 0, 1280, 1024),
     });
 
     const auto firstOutput = workspace()->outputs()[0];
@@ -274,7 +275,7 @@ void WorkspaceTest::disableActiveOutput()
 
     OutputConfiguration config;
     {
-        auto changeSet = config.changeSet(workspace()->activeOutput());
+        auto changeSet = config.changeSet(workspace()->activeOutput()->backendOutput());
         changeSet->enabled = false;
     }
     workspace()->applyOutputConfiguration(config);
@@ -286,8 +287,8 @@ void WorkspaceTest::activeOutputAfterActivateNextWindowOnOutputAdded()
     // This test verifies that the workspace doesn't end up with corrupted state when the Workspace::outputAdded() signal is emitted.
     // activateNextWindow() is interesting because it changes the active output.
 
-    const auto firstOutput = workspace()->outputs()[0];
-    const auto secondOutput = workspace()->outputs()[1];
+    const auto firstOutput = kwinApp()->outputBackend()->outputs()[0];
+    const auto secondOutput = kwinApp()->outputBackend()->outputs()[1];
 
     {
         OutputConfiguration config;
@@ -325,7 +326,7 @@ void WorkspaceTest::activeOutputAfterActivateNextWindowOnOutputAdded()
     }
 
     QCOMPARE(workspace()->activeWindow(), firstWindow);
-    QCOMPARE(workspace()->activeOutput(), firstOutput);
+    QCOMPARE(workspace()->activeOutput()->backendOutput(), firstOutput);
 }
 
 void WorkspaceTest::activeOutputAfterActivateNextWindowOnOutputRemoved_data()
@@ -345,9 +346,9 @@ void WorkspaceTest::activeOutputAfterActivateNextWindowOnOutputRemoved()
     options->setSeparateScreenFocus(separateScreenFocus);
 
     Test::setOutputConfig({
-        QRect(0, 0, 1280, 1024),
-        QRect(1280, 0, 1280, 1024),
-        QRect(2560, 0, 1280, 1024),
+        Rect(0, 0, 1280, 1024),
+        Rect(1280, 0, 1280, 1024),
+        Rect(2560, 0, 1280, 1024),
     });
 
     const auto firstOutput = workspace()->outputs()[0];
@@ -367,7 +368,7 @@ void WorkspaceTest::activeOutputAfterActivateNextWindowOnOutputRemoved()
     workspace()->activateWindow(firstWindow);
     QCOMPARE(workspace()->activeWindow(), firstWindow);
 
-    connect(workspace(), &Workspace::outputRemoved, firstWindow, [firstOutput, firstWindow](Output *output) {
+    connect(workspace(), &Workspace::outputRemoved, firstWindow, [firstOutput, firstWindow](LogicalOutput *output) {
         if (output == firstOutput) {
             workspace()->activateNextWindow(firstWindow);
         }
@@ -376,15 +377,15 @@ void WorkspaceTest::activeOutputAfterActivateNextWindowOnOutputRemoved()
     {
         OutputConfiguration config;
         {
-            auto changeSet = config.changeSet(firstOutput);
+            auto changeSet = config.changeSet(firstOutput->backendOutput());
             changeSet->enabled = false;
         }
         {
-            auto changeSet = config.changeSet(secondOutput);
+            auto changeSet = config.changeSet(secondOutput->backendOutput());
             changeSet->enabled = false;
         }
         {
-            auto changeSet = config.changeSet(thirdOutput);
+            auto changeSet = config.changeSet(thirdOutput->backendOutput());
             changeSet->pos = QPoint(0, 0);
         }
         workspace()->applyOutputConfiguration(config);

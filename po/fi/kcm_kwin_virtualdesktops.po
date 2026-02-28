@@ -1,13 +1,13 @@
 # Copyright (C) 2024 This file is copyright:
 # This file is distributed under the same license as the kwin package.
-# SPDX-FileCopyrightText: 2019, 2021, 2023, 2024 Tommi Nieminen <translator@legisign.org>
+# SPDX-FileCopyrightText: 2019, 2021, 2023, 2024, 2026 Tommi Nieminen <translator@legisign.org>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 14:41+0000\n"
-"PO-Revision-Date: 2024-10-16 21:12+0300\n"
+"POT-Creation-Date: 2025-12-23 00:42+0000\n"
+"PO-Revision-Date: 2026-01-05 17:33+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.08.2\n"
+"X-Generator: Lokalize 25.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -62,25 +62,31 @@ msgctxt "@action:button"
 msgid "Add Desktop"
 msgstr "Lisää työpöytä"
 
-#: ui/main.qml:123
+#: ui/main.qml:90
 #, kde-format
-msgctxt "@info:tooltip"
+msgctxt "@action:button"
 msgid "Rename"
 msgstr "Muuta nimeä"
 
-#: ui/main.qml:135
-#, kde-format
-msgctxt "@info:tooltip"
-msgid "Confirm new name"
-msgstr "Vahvista uusi nimi"
-
-#: ui/main.qml:144
+#: ui/main.qml:100
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Remove"
 msgstr "Poista"
 
-#: ui/main.qml:177
+#: ui/main.qml:119
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Apply new name"
+msgstr "Ota uusi nimi käyttöön"
+
+#: ui/main.qml:132
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Cancel rename"
+msgstr "Peru nimen muuttaminen"
+
+#: ui/main.qml:179
 #, kde-format
 msgid ""
 "Virtual desktops have been changed outside this settings application. Saving "
@@ -89,37 +95,37 @@ msgstr ""
 "Virtuaalityöpöytiä on muutettu tämän asetussovelluksen ulkopuolelta. "
 "Tallentaminen nyt korvaa nämä muutokset."
 
-#: ui/main.qml:193
+#: ui/main.qml:195
 #, kde-format
 msgid "Row %1"
 msgstr "Rivi %1"
 
-#: ui/main.qml:207
+#: ui/main.qml:209
 #, kde-format
 msgid "Options:"
 msgstr "Valinnat:"
 
-#: ui/main.qml:209
+#: ui/main.qml:211
 #, kde-format
 msgid "Navigation wraps around"
 msgstr "Navigointi kiertää ympäri"
 
-#: ui/main.qml:227
+#: ui/main.qml:229
 #, kde-format
 msgid "Show animation when switching:"
 msgstr "Näytä animointi vaihdettaessa:"
 
-#: ui/main.qml:278
+#: ui/main.qml:280
 #, kde-format
 msgid "Show on-screen display when switching:"
 msgstr "Näytä kuvaruutunäyttö vaihdettaessa:"
 
-#: ui/main.qml:297
+#: ui/main.qml:299
 #, kde-format
 msgid "%1 ms"
 msgstr "%1 ms"
 
-#: ui/main.qml:321
+#: ui/main.qml:323
 #, kde-format
 msgid "Show desktop layout indicators"
 msgstr "Näytä työpöytäasettelun osoittimet"

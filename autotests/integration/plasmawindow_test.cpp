@@ -61,13 +61,13 @@ void PlasmaWindowTest::initTestCase()
     QVERIFY(waylandServer()->init(s_socketName));
     kwinApp()->start();
     Test::setOutputConfig({
-        QRect(0, 0, 1280, 1024),
-        QRect(1280, 0, 1280, 1024),
+        Rect(0, 0, 1280, 1024),
+        Rect(1280, 0, 1280, 1024),
     });
     const auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
-    QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
-    QCOMPARE(outputs[1]->geometry(), QRect(1280, 0, 1280, 1024));
+    QCOMPARE(outputs[0]->geometry(), Rect(0, 0, 1280, 1024));
+    QCOMPARE(outputs[1]->geometry(), Rect(1280, 0, 1280, 1024));
     setenv("QT_QPA_PLATFORM", "wayland", true);
     setenv("QMLSCENE_DEVICE", "softwarecontext", true);
 }
@@ -96,7 +96,7 @@ void PlasmaWindowTest::testCreateDestroyX11PlasmaWindow()
     // create an xcb window
     Test::XcbConnectionPtr c = Test::createX11Connection();
     QVERIFY(!xcb_connection_has_error(c.get()));
-    const QRect windowGeometry(0, 0, 100, 200);
+    const Rect windowGeometry(0, 0, 100, 200);
     xcb_window_t windowId = xcb_generate_id(c.get());
     xcb_create_window(c.get(), XCB_COPY_FROM_PARENT, windowId, rootWindow(),
                       windowGeometry.x(),
@@ -132,7 +132,7 @@ void PlasmaWindowTest::testCreateDestroyX11PlasmaWindow()
     QCOMPARE(plasmaWindowCreatedSpy.count(), 1);
     QCOMPARE(m_windowManagement->windows().count(), 1);
     auto pw = m_windowManagement->windows().first();
-    QCOMPARE(pw->geometry(), window->frameGeometry());
+    QCOMPARE(pw->geometry(), QRect(window->frameGeometry().toRect()));
     QSignalSpy geometryChangedSpy(pw, &KWayland::Client::PlasmaWindow::geometryChanged);
 
     QSignalSpy unmappedSpy(m_windowManagement->windows().first(), &KWayland::Client::PlasmaWindow::unmapped);

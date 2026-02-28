@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 14:41+0000\n"
+"POT-Creation-Date: 2026-01-28 02:43+0000\n"
 "PO-Revision-Date: 2024-12-20 21:52+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -19,57 +19,62 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n>2);\n"
 "X-Generator: Lokalize 24.08.2\n"
 
-#: declarative-plugin/buttonsmodel.cpp:55
+#: declarative-plugin/buttonsmodel.cpp:56
 #, kde-format
 msgid "Window menu"
 msgstr ""
 
-#: declarative-plugin/buttonsmodel.cpp:57
+#: declarative-plugin/buttonsmodel.cpp:58
 #, kde-format
 msgid "Application menu"
 msgstr "अनुप्रयोग मेनू"
 
-#: declarative-plugin/buttonsmodel.cpp:59
+#: declarative-plugin/buttonsmodel.cpp:60
 #, kde-format
 msgid "On all desktops"
 msgstr "सर्वेषु डेस्कटॉप् मध्ये"
 
-#: declarative-plugin/buttonsmodel.cpp:61
+#: declarative-plugin/buttonsmodel.cpp:62
 #, kde-format
 msgid "Minimize"
 msgstr "न्यूनतमं कुरुत"
 
-#: declarative-plugin/buttonsmodel.cpp:63
+#: declarative-plugin/buttonsmodel.cpp:64
 #, kde-format
 msgid "Maximize"
 msgstr "अधिकतमं कुरुत"
 
-#: declarative-plugin/buttonsmodel.cpp:65
+#: declarative-plugin/buttonsmodel.cpp:66
 #, kde-format
 msgid "Close"
 msgstr "पिधानं करोतु"
 
-#: declarative-plugin/buttonsmodel.cpp:67
+#: declarative-plugin/buttonsmodel.cpp:68
 #, kde-format
 msgid "Context help"
 msgstr "सन्दर्भ सहायता"
 
-#: declarative-plugin/buttonsmodel.cpp:69
+#: declarative-plugin/buttonsmodel.cpp:70
 #, kde-format
 msgid "Keep below other windows"
 msgstr "अन्येषां खिडकीनां अधः स्थापयन्तु"
 
-#: declarative-plugin/buttonsmodel.cpp:71
+#: declarative-plugin/buttonsmodel.cpp:72
 #, kde-format
 msgid "Keep above other windows"
 msgstr "अन्येषां खिडकीनां उपरि स्थापयन्तु"
 
-#: declarative-plugin/buttonsmodel.cpp:73
+#: declarative-plugin/buttonsmodel.cpp:74
+#, kde-format
+msgid "Hide from screencast"
+msgstr ""
+
+#: declarative-plugin/buttonsmodel.cpp:76
 #, kde-format
 msgid "Spacer"
 msgstr "स्पेसर"
 
-#: kcm.cpp:177
+#: kcm.cpp:186
 #, kde-format
 msgctxt "%1 is the name of a border size"
 msgid "Theme default (%1)"
@@ -192,6 +197,28 @@ msgstr "मेनू दर्शयितुं मेनू बटन् न�
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
 msgstr "शीर्षकपट्टिकाबटनसाधनसूचनानि दर्शयतु"
+
+#: ui/ConfigureTitlebar.qml:73
+#, kde-format
+msgctxt "@option:check"
+msgid "Always show \"Hide from Screencast\" button"
+msgstr ""
+
+#: ui/ConfigureTitlebar.qml:85
+#, kde-format
+msgctxt "@info:tooltip"
+msgid ""
+"When unchecked the button only appears if the window is hidden from "
+"screencast"
+msgstr ""
+
+#: ui/ConfigureTitlebar.qml:86
+#, kde-format
+msgctxt "@info:tooltip"
+msgid ""
+"To enable this option, add the \"Hide from screencast\" button to the "
+"titlebar first"
+msgstr ""
 
 #: ui/main.qml:29
 #, kde-format

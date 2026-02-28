@@ -20,7 +20,6 @@
 #include "utils/envvar.h"
 #include "wayland/surface.h"
 
-#include <QRegion>
 #include <drm_fourcc.h>
 #include <errno.h>
 #include <gbm.h>
@@ -65,9 +64,9 @@ std::optional<OutputLayerBeginFrameInfo> EglGbmLayer::doBeginFrame()
                                     m_requiredAlphaBits);
 }
 
-bool EglGbmLayer::doEndFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame)
+bool EglGbmLayer::doEndFrame(const Region &renderedDeviceRegion, const Region &damagedDeviceRegion, OutputFrame *frame)
 {
-    return m_surface.endRendering(damagedRegion, frame);
+    return m_surface.endRendering(damagedDeviceRegion, frame);
 }
 
 bool EglGbmLayer::preparePresentationTest()
@@ -76,7 +75,7 @@ bool EglGbmLayer::preparePresentationTest()
         return false;
     }
     m_scanoutBuffer.reset();
-    return m_surface.renderTestBuffer(targetRect().size(), supportedDrmFormats(), drmOutput()->colorPowerTradeoff(), m_requiredAlphaBits) != nullptr;
+    return m_surface.renderTestBuffer(targetRect().size(), supportedDrmFormats(), drmOutput()->nextState().colorPowerTradeoff, m_requiredAlphaBits) != nullptr;
 }
 
 bool EglGbmLayer::importScanoutBuffer(GraphicsBuffer *buffer, const std::shared_ptr<OutputFrame> &frame)
@@ -108,7 +107,7 @@ bool EglGbmLayer::importScanoutBuffer(GraphicsBuffer *buffer, const std::shared_
         // Right now this just assumes all buffers are on the primary GPU
         return false;
     }
-    if (!m_colorPipeline.isIdentity() && drmOutput()->colorPowerTradeoff() == Output::ColorPowerTradeoff::PreferAccuracy) {
+    if (!m_colorPipeline.isIdentity() && drmOutput()->colorPowerTradeoff() == BackendOutput::ColorPowerTradeoff::PreferAccuracy) {
         return false;
     }
     // kernel documentation says that

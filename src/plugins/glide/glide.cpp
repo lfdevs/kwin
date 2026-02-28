@@ -37,9 +37,6 @@ static const QSet<QString> s_blacklist{
     QStringLiteral("ksmserver ksmserver"),
     QStringLiteral("ksmserver-logout-greeter ksmserver-logout-greeter"),
     QStringLiteral("ksplashqml ksplashqml"),
-    // Spectacle needs to be blacklisted in order to stay out of its own screenshots.
-    QStringLiteral("spectacle spectacle"), // x11
-    QStringLiteral("spectacle org.kde.spectacle"), // wayland
 };
 
 GlideEffect::GlideEffect()
@@ -76,7 +73,7 @@ void GlideEffect::reconfigure(ReconfigureFlags flags)
     m_outParams.opacity.to = GlideConfig::outOpacity();
 }
 
-void GlideEffect::prePaintWindow(EffectWindow *w, WindowPrePaintData &data, std::chrono::milliseconds presentTime)
+void GlideEffect::prePaintWindow(RenderView *view, EffectWindow *w, WindowPrePaintData &data, std::chrono::milliseconds presentTime)
 {
     auto animationIt = m_animations.find(w);
     if (animationIt != m_animations.end()) {
@@ -84,7 +81,7 @@ void GlideEffect::prePaintWindow(EffectWindow *w, WindowPrePaintData &data, std:
         data.setTransformed();
     }
 
-    effects->prePaintWindow(w, data, presentTime);
+    effects->prePaintWindow(view, w, data, presentTime);
 }
 
 void GlideEffect::apply(EffectWindow *window, int mask, WindowPaintData &data, WindowQuadList &quads)
@@ -158,9 +155,10 @@ void GlideEffect::apply(EffectWindow *window, int mask, WindowPaintData &data, W
     data.multiplyOpacity(interpolate(params.opacity.from, params.opacity.to, t));
 }
 
-void GlideEffect::postPaintWindow(EffectWindow *w)
+void GlideEffect::postPaintScreen()
 {
-    if (auto animationIt = m_animations.find(w); animationIt != m_animations.end()) {
+    for (auto animationIt = m_animations.begin(); animationIt != m_animations.end();) {
+        EffectWindow *w = animationIt->first;
         w->addRepaintFull();
 
         if (animationIt->second.timeLine.done()) {
@@ -171,7 +169,7 @@ void GlideEffect::postPaintWindow(EffectWindow *w)
         }
     }
 
-    effects->postPaintWindow(w);
+    effects->postPaintScreen();
 }
 
 bool GlideEffect::isActive() const
@@ -265,6 +263,11 @@ bool GlideEffect::isGlideWindow(EffectWindow *w) const
     if (w->windowClass() == QLatin1String("plasmashell plasmashell")
         || w->windowClass() == QLatin1String("plasmashell org.kde.plasmashell")) {
         return w->hasDecoration();
+    }
+
+    if (w->windowClass() == QLatin1String("spectacle org.kde.spectacle")
+        && w->tag() == QLatin1String("region-editor")) {
+        return false;
     }
 
     if (s_blacklist.contains(w->windowClass())) {

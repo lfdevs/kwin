@@ -18,7 +18,7 @@
 #include "xwaylandlauncher.h"
 #include "xwldrophandler.h"
 
-#include "core/output.h"
+#include "core/backendoutput.h"
 #include "keyboard_input.h"
 #include "main_wayland.h"
 #include "utils/common.h"
@@ -528,7 +528,7 @@ void Xwayland::updatePrimary()
         return;
     }
 
-    Output *const primaryOutput = workspace()->outputOrder().front();
+    LogicalOutput *const primaryOutput = workspace()->outputOrder().front();
     const QString primaryOutputName = primaryOutput->name();
     for (int i = 0; i < resources->num_outputs; i++) {
         Xcb::RandR::OutputInfo outputInfo(outputs[i], resources->config_timestamp);
@@ -576,7 +576,6 @@ void Xwayland::destroyX11Connection()
 
     Q_EMIT m_app->x11ConnectionAboutToBeDestroyed();
 
-    Xcb::setInputFocus(XCB_INPUT_FOCUS_POINTER_ROOT);
     m_app->destroyAtoms();
     m_app->removeNativeX11EventFilter();
 

@@ -65,18 +65,16 @@ public:
     QSizeF nextFrameSizeToClientSize(const QSizeF &size) const override;
     QSizeF clientSizeToFrameSize(const QSizeF &size) const override;
     QSizeF nextClientSizeToFrameSize(const QSizeF &size) const override;
-    QRectF nextFrameRectToBufferRect(const QRectF &rect) const;
+    RectF nextFrameRectToBufferRect(const RectF &rect) const;
 
     void blockGeometryUpdates(bool block);
     void blockGeometryUpdates();
     void unblockGeometryUpdates();
     bool areGeometryUpdatesBlocked() const;
 
-    xcb_visualid_t visual() const;
-    int depth() const;
     bool hasAlpha() const;
-    QRegion opaqueRegion() const;
-    QList<QRectF> shapeRegion() const;
+    Region opaqueRegion() const;
+    QList<RectF> shapeRegion() const;
 
     pid_t pid() const override;
     QString windowRole() const override;
@@ -118,7 +116,7 @@ public:
 
     bool isMaximizable() const override;
     MaximizeMode maximizeMode() const override;
-    void maximize(MaximizeMode mode, const QRectF &restore = QRectF()) override;
+    void maximize(MaximizeMode mode, const RectF &restore = RectF()) override;
 
     bool isMinimizable() const override;
 
@@ -130,11 +128,8 @@ public:
         return m_fullscreenMode; // only for session saving
     }
 
-    bool userNoBorder() const;
-    bool noBorder() const override;
-    void setNoBorder(bool set) override;
-    bool userCanSetNoBorder() const override;
-    void checkNoBorder() override;
+    DecorationPolicy decorationPolicy() const override;
+    void setDecorationPolicy(DecorationPolicy policy) override;
     void checkActivities() override;
 
     int sessionStackingOrder() const;
@@ -147,15 +142,15 @@ public:
     bool isMovableAcrossScreens() const override;
     bool isCloseable() const override; ///< May be closed by the user (May have a close button)
 
-    bool takeFocus() override;
+    void takeFocus() override;
 
     void invalidateDecoration() override;
 
 
     /// resizeWithChecks() resizes according to gravity, and checks workarea position
-    QRectF resizeWithChecks(const QRectF &geometry, const QSizeF &size) const override;
-    QRectF resizeWithChecks(const QRectF &geometry, qreal w, qreal h, xcb_gravity_t gravity) const;
-    QRectF resizeWithChecks(const QRectF &geometry, const QSizeF &s, xcb_gravity_t gravity) const;
+    RectF resizeWithChecks(const RectF &geometry, const QSizeF &size) const override;
+    RectF resizeWithChecks(const RectF &geometry, qreal w, qreal h, xcb_gravity_t gravity) const;
+    RectF resizeWithChecks(const RectF &geometry, const QSizeF &s, xcb_gravity_t gravity) const;
     QSizeF constrainClientSize(const QSizeF &size, SizeMode mode = SizeModeAny) const override;
 
     bool providesContextHelp() const override;
@@ -220,15 +215,14 @@ public:
 
     struct SyncRequest
     {
-        xcb_sync_counter_t counter;
+        xcb_sync_counter_t counter = XCB_NONE;
         xcb_sync_int64_t value;
-        xcb_sync_alarm_t alarm;
-        xcb_timestamp_t lastTimestamp;
-        QTimer *timeout;
-        bool enabled;
-        bool pending;
-        bool acked;
-        bool interactiveResize;
+        xcb_sync_alarm_t alarm = XCB_NONE;
+        QTimer *timeout = nullptr;
+        bool enabled = false;
+        bool pending = false;
+        bool acked = false;
+        bool interactiveResize = false;
     };
     const SyncRequest &syncRequest() const
     {
@@ -256,7 +250,7 @@ private:
     void configureRequestEvent(xcb_configure_request_event_t *e);
     void propertyNotifyEvent(xcb_property_notify_event_t *e);
     void clientMessageEvent(xcb_client_message_event_t *e);
-    void focusInEvent(xcb_focus_in_event_t *e);
+    void focusInEvent(xcb_generic_event_t *e);
     void focusOutEvent(xcb_focus_out_event_t *e);
     void shapeNotifyEvent(xcb_shape_notify_event_t *e);
 
@@ -276,11 +270,11 @@ protected:
     void doSetModal() override;
     bool belongsToDesktop() const override;
     bool isWaitingForInteractiveResizeSync() const override;
-    void doInteractiveResizeSync(const QRectF &rect) override;
+    void doInteractiveResizeSync(const RectF &rect) override;
     QSizeF resizeIncrements() const override;
     bool acceptsFocus() const override;
     void doSetQuickTileMode() override;
-    void moveResizeInternal(const QRectF &rect, MoveResizeMode mode) override;
+    void moveResizeInternal(const RectF &rect, MoveResizeMode mode) override;
     std::unique_ptr<WindowItem> createItem(Item *parentItem) override;
     void doSetNextTargetScale() override;
 
@@ -291,7 +285,7 @@ private:
     void exportMappingState(int s); // ICCCM 4.1.3.1, 4.1.4, NETWM 2.5.1
     bool isManaged() const; ///< Returns false if this client is not yet managed
     void updateAllowedActions(bool force = false);
-    QRect fullscreenMonitorsArea(NETFullscreenMonitors topology) const;
+    Rect fullscreenMonitorsArea(NETFullscreenMonitors topology) const;
     void getResourceClass();
     void getWmNormalHints();
     void getWmClientMachine();
@@ -319,10 +313,9 @@ private:
     void pingWindow();
     void killProcess(bool ask, xcb_timestamp_t timestamp = XCB_TIME_CURRENT_TIME);
     void updateUrgency();
-    static void sendClientMessage(xcb_window_t w, xcb_atom_t a, xcb_atom_t protocol,
+    static void sendClientMessage(xcb_window_t w, xcb_atom_t a, xcb_atom_t protocol, xcb_timestamp_t time,
                                   uint32_t data1 = 0, uint32_t data2 = 0, uint32_t data3 = 0);
 
-    void embedClient(xcb_window_t w, xcb_visualid_t visualid, xcb_colormap_t colormap, const QRect &nativeGeometry, uint8_t depth);
     void detectNoBorder();
     void updateFrameExtents();
     void setClientFrameExtents(const NETStrut &strut);
@@ -333,7 +326,7 @@ private:
     void map();
     void unmap();
 
-    void configure(const QRect &nativeGeometry);
+    void configure(const Rect &nativeGeometry);
 
     xcb_timestamp_t readUserTimeMapTimestamp(const KStartupInfoId *asn_id, const KStartupInfoData *asn_data,
                                              bool session) const;
@@ -343,6 +336,7 @@ private:
     xcb_res_query_client_ids_cookie_t fetchPid() const;
     void readPid(xcb_res_query_client_ids_cookie_t cookie);
 
+    DecorationMode preferredDecorationMode() const;
     void updateDecoration(bool check_workspace_pos, bool force = false);
     void createDecoration();
     void destroyDecoration();
@@ -380,13 +374,16 @@ private:
     void setNetWmDesktop(VirtualDesktop *desktop);
     void updateNetWmDesktopId();
 
+    bool wantsFrameCallbackHeartbeat() const;
+    void setFrameCallbackHeartbeat(bool enabled);
+
     NETWinInfo *info = nullptr;
     xcb_window_t m_transientForId;
     xcb_window_t m_originalTransientForId;
     Xcb::MotifHints m_motif;
-    uint noborder : 1;
-    uint app_noborder : 1; ///< App requested no border via window type, shape extension, etc.
-    uint ignore_focus_stealing : 1; ///< Don't apply focus stealing prevention to this client
+    DecorationPolicy m_decorationPolicy = DecorationPolicy::PreferredByClient;
+    bool m_wantsNoDecoration = false;
+    bool ignore_focus_stealing = false; ///< Don't apply focus stealing prevention to this client
     bool is_shape = false;
 
     enum FullScreenMode {
@@ -406,10 +403,9 @@ private:
     SyncRequest m_syncRequest;
     static bool check_active_modal; ///< \see X11Window::checkActiveModal()
     int sm_stacking_order;
-    xcb_visualid_t m_visual = XCB_NONE;
     int bit_depth = 24;
-    QRegion opaque_region;
-    QList<QRectF> m_shapeRegion;
+    Region opaque_region;
+    QList<RectF> m_shapeRegion;
     friend struct ResetupRulesProcedure;
 
     friend bool performTransiencyCheck();
@@ -431,6 +427,7 @@ private:
 
     bool m_unmanaged = false;
     bool m_outline = false;
+    bool m_frameCallbackHeartbeat = false;
     quint64 m_surfaceSerial = 0;
     int m_inflightUnmaps = 0;
 };
@@ -455,22 +452,12 @@ private:
     X11Window *cl;
 };
 
-inline xcb_visualid_t X11Window::visual() const
-{
-    return m_visual;
-}
-
-inline int X11Window::depth() const
-{
-    return bit_depth;
-}
-
 inline bool X11Window::hasAlpha() const
 {
-    return depth() == 32;
+    return bit_depth == 32;
 }
 
-inline QRegion X11Window::opaqueRegion() const
+inline Region X11Window::opaqueRegion() const
 {
     return opaque_region;
 }
@@ -525,12 +512,12 @@ inline bool X11Window::isManaged() const
     return m_managed;
 }
 
-inline QRectF X11Window::resizeWithChecks(const QRectF &geometry, const QSizeF &s) const
+inline RectF X11Window::resizeWithChecks(const RectF &geometry, const QSizeF &s) const
 {
     return resizeWithChecks(geometry, s.width(), s.height(), XCB_GRAVITY_BIT_FORGET);
 }
 
-inline QRectF X11Window::resizeWithChecks(const QRectF &geometry, const QSizeF &s, xcb_gravity_t gravity) const
+inline RectF X11Window::resizeWithChecks(const RectF &geometry, const QSizeF &s, xcb_gravity_t gravity) const
 {
     return resizeWithChecks(geometry, s.width(), s.height(), gravity);
 }

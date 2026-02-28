@@ -57,7 +57,7 @@ class XdgToplevelTagManagerV1;
 class PointerWarpV1;
 
 class Window;
-class Output;
+class LogicalOutput;
 class XdgActivationV1Integration;
 class XdgPopupWindow;
 class XdgSurfaceWindow;
@@ -70,6 +70,7 @@ class AlphaModifierManagerV1;
 class FifoManagerV1;
 class SinglePixelBufferManagerV1;
 class ColorRepresentationManagerV1;
+class BackendOutput;
 
 class KWIN_EXPORT WaylandServer : public QObject
 {
@@ -228,6 +229,7 @@ public:
     void setRenderBackend(RenderBackend *backend);
 
 Q_SIGNALS:
+    void windowCreated(KWin::Window *);
     void windowAdded(KWin::Window *);
     void windowRemoved(KWin::Window *);
     void initialized();
@@ -241,10 +243,10 @@ private:
     void registerXdgToplevelWindow(XdgToplevelWindow *window);
     void registerXdgPopupWindow(XdgPopupWindow *window);
     void registerWindow(Window *window);
-    void handleOutputAdded(Output *output);
-    void handleOutputRemoved(Output *output);
-    void handleOutputEnabled(Output *output);
-    void handleOutputDisabled(Output *output);
+    void handleOutputAdded(BackendOutput *output);
+    void handleOutputRemoved(BackendOutput *output);
+    void handleOutputEnabled(LogicalOutput *output);
+    void handleOutputDisabled(LogicalOutput *output);
 
     class LockScreenPresentationWatcher : public QObject
     {
@@ -252,7 +254,7 @@ private:
         LockScreenPresentationWatcher(WaylandServer *server);
 
     private:
-        QSet<Output *> m_signaledOutputs;
+        QSet<LogicalOutput *> m_signaledOutputs;
     };
 
     Display *m_display = nullptr;
@@ -289,8 +291,8 @@ private:
     PresentationTime *m_presentationTime = nullptr;
     LinuxDrmSyncObjV1Interface *m_linuxDrmSyncObj = nullptr;
     QList<Window *> m_windows;
-    QHash<Output *, OutputInterface *> m_waylandOutputs;
-    QHash<Output *, OutputDeviceV2Interface *> m_waylandOutputDevices;
+    QHash<LogicalOutput *, OutputInterface *> m_waylandOutputs;
+    QHash<BackendOutput *, OutputDeviceV2Interface *> m_waylandOutputDevices;
     DrmLeaseManagerV1 *m_leaseManager = nullptr;
     OutputOrderV1Interface *m_outputOrder = nullptr;
     ColorManagerV1 *m_colorManager = nullptr;

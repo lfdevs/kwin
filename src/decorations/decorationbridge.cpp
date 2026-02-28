@@ -40,12 +40,28 @@ static const QString s_configKeyName = QStringLiteral("org.kde.kdecoration2");
 static const QString s_defaultPlugin = QStringLiteral("org.kde.breeze");
 static const QString s_fallbackPlugin = QStringLiteral("org.kde.kwin.aurorae");
 
+static void migrateAuroraeTheme()
+{
+    const QString themeName = kwinApp()->config()->group(s_configKeyName).readEntry("theme");
+    if (!themeName.startsWith(QLatin1String("__aurorae__svg__"))) {
+        return;
+    }
+
+    const QString pluginName = kwinApp()->config()->group(s_configKeyName).readEntry("library");
+    if (pluginName != QLatin1String("org.kde.kwin.aurorae")) {
+        return;
+    }
+
+    kwinApp()->config()->group(s_configKeyName).writeEntry("library", "org.kde.kwin.aurorae.v2");
+}
+
 DecorationBridge::DecorationBridge()
     : m_factory(nullptr)
     , m_showToolTips(false)
     , m_settings()
     , m_noPlugin(false)
 {
+    migrateAuroraeTheme();
     readDecorationOptions();
 }
 
@@ -82,9 +98,7 @@ void DecorationBridge::init()
 {
     m_noPlugin = readNoPlugin();
     if (m_noPlugin) {
-        if (waylandServer()) {
-            waylandServer()->decorationManager()->setDefaultMode(ServerSideDecorationManagerInterface::Mode::None);
-        }
+        waylandServer()->decorationManager()->setDefaultMode(ServerSideDecorationManagerInterface::Mode::None);
         return;
     }
     m_settings = std::make_shared<KDecoration3::DecorationSettings>(this);
@@ -101,9 +115,7 @@ void DecorationBridge::init()
         }
     }
 
-    if (waylandServer()) {
-        waylandServer()->decorationManager()->setDefaultMode(m_factory ? ServerSideDecorationManagerInterface::Mode::Server : ServerSideDecorationManagerInterface::Mode::None);
-    }
+    waylandServer()->decorationManager()->setDefaultMode(m_factory ? ServerSideDecorationManagerInterface::Mode::Server : ServerSideDecorationManagerInterface::Mode::None);
 }
 
 bool DecorationBridge::initPlugin(const QString &pluginId)

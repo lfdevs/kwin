@@ -50,30 +50,31 @@ void ItemRendererQPainter::endFrame()
     m_painter->end();
 }
 
-void ItemRendererQPainter::renderBackground(const RenderTarget &renderTarget, const RenderViewport &viewport, const QRegion &region)
+void ItemRendererQPainter::renderBackground(const RenderTarget &renderTarget, const RenderViewport &viewport, const Region &deviceRegion)
 {
     m_painter->setCompositionMode(QPainter::CompositionMode_Source);
-    for (const QRect &rect : region) {
-        m_painter->fillRect(rect, Qt::transparent);
+    const Region clipped = deviceRegion & renderTarget.transformedRect();
+    for (const Rect &rect : clipped.rects()) {
+        m_painter->fillRect(viewport.mapFromDeviceCoordinates(rect), Qt::transparent);
     }
     m_painter->setCompositionMode(QPainter::CompositionMode_SourceOver);
 }
 
-void ItemRendererQPainter::renderItem(const RenderTarget &renderTarget, const RenderViewport &viewport, Item *item, int mask, const QRegion &_region, const WindowPaintData &data, const std::function<bool(Item *)> &filter, const std::function<bool(Item *)> &holeFilter)
+void ItemRendererQPainter::renderItem(const RenderTarget &renderTarget, const RenderViewport &viewport, Item *item, int mask, const Region &deviceRegion, const WindowPaintData &data, const std::function<bool(Item *)> &filter, const std::function<bool(Item *)> &holeFilter)
 {
-    QRegion region = _region;
+    Region effectiveRegion = deviceRegion;
 
-    const QRect boundingRect = item->mapToScene(item->boundingRect()).toAlignedRect();
     if (!(mask & (Scene::PAINT_WINDOW_TRANSFORMED | Scene::PAINT_SCREEN_TRANSFORMED))) {
-        region &= boundingRect;
+        const Rect boundingRect = viewport.mapToRenderTarget(item->mapToScene(item->boundingRect())).roundedOut();
+        effectiveRegion &= boundingRect;
     }
 
-    if (region.isEmpty()) {
+    if (effectiveRegion.isEmpty()) {
         return;
     }
 
     m_painter->save();
-    m_painter->setClipRegion(region);
+    m_painter->setClipRegion(QRegion(viewport.mapFromDeviceCoordinatesAligned(effectiveRegion)));
     m_painter->setClipping(true);
     m_painter->setOpacity(data.opacity());
 
@@ -130,13 +131,10 @@ void ItemRendererQPainter::renderItem(QPainter *painter, Item *item, const std::
 
 void ItemRendererQPainter::renderSurfaceItem(QPainter *painter, SurfaceItem *surfaceItem) const
 {
-    const SurfacePixmap *surfaceTexture = surfaceItem->pixmap();
+    const auto surfaceTexture = static_cast<QPainterSurfaceTexture *>(surfaceItem->texture());
     if (!surfaceTexture || !surfaceTexture->isValid()) {
         return;
     }
-
-    QPainterSurfaceTexture *platformSurfaceTexture =
-        static_cast<QPainterSurfaceTexture *>(surfaceTexture->texture());
 
     const OutputTransform surfaceToBufferTransform = surfaceItem->bufferTransform();
     const QSizeF transformedSize = surfaceToBufferTransform.map(surfaceItem->destinationSize());
@@ -177,19 +175,19 @@ void ItemRendererQPainter::renderSurfaceItem(QPainter *painter, SurfaceItem *sur
         break;
     }
 
-    const QRectF sourceBox = surfaceItem->bufferSourceBox();
+    const RectF sourceBox = surfaceItem->bufferSourceBox();
     const qreal xSourceBoxScale = sourceBox.width() / transformedSize.width();
     const qreal ySourceBoxScale = sourceBox.height() / transformedSize.height();
 
-    const QList<QRectF> shape = surfaceItem->shape();
-    for (const QRectF rect : shape) {
+    const QList<RectF> shape = surfaceItem->shape();
+    for (const RectF rect : shape) {
         const QRectF target = surfaceToBufferTransform.map(rect, surfaceItem->size());
         const QRectF source(sourceBox.x() + target.x() * xSourceBoxScale,
                             sourceBox.y() + target.y() * ySourceBoxScale,
                             target.width() * xSourceBoxScale,
                             target.height() * ySourceBoxScale);
 
-        painter->drawImage(target, platformSurfaceTexture->image(), source);
+        painter->drawImage(target, surfaceTexture->image(), source);
     }
 
     painter->restore();
@@ -198,7 +196,7 @@ void ItemRendererQPainter::renderSurfaceItem(QPainter *painter, SurfaceItem *sur
 void ItemRendererQPainter::renderDecorationItem(QPainter *painter, DecorationItem *decorationItem) const
 {
     const auto renderer = static_cast<const SceneQPainterDecorationRenderer *>(decorationItem->renderer());
-    QRectF dtr, dlr, drr, dbr;
+    RectF dtr, dlr, drr, dbr;
     decorationItem->window()->layoutDecorationRects(dlr, dtr, drr, dbr);
 
     painter->drawImage(dtr, renderer->image(SceneQPainterDecorationRenderer::DecorationPart::Top));

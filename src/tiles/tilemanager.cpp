@@ -8,7 +8,7 @@
 */
 
 #include "tilemanager.h"
-#include "core/output.h"
+#include "core/backendoutput.h"
 #include "quicktile.h"
 #include "virtualdesktops.h"
 #include "window.h"
@@ -54,7 +54,7 @@ QDebug operator<<(QDebug debug, const TileManager *tileManager)
     return debug;
 }
 
-TileManager::TileManager(Output *parent)
+TileManager::TileManager(LogicalOutput *parent)
     : QObject(parent)
     , m_output(parent)
 {
@@ -68,7 +68,7 @@ TileManager::TileManager(Output *parent)
         m_rootTiles[desk] = rootTile;
         m_quickRootTiles[desk] = new QuickRootTile(this, desk);
 
-        rootTile->setRelativeGeometry(QRectF(0, 0, 1, 1));
+        rootTile->setRelativeGeometry(RectF(0, 0, 1, 1));
         connect(rootTile, &CustomTile::paddingChanged, m_saveTimer.get(), static_cast<void (QTimer::*)()>(&QTimer::start));
         connect(rootTile, &CustomTile::layoutModified, m_saveTimer.get(), static_cast<void (QTimer::*)()>(&QTimer::start));
 
@@ -102,7 +102,7 @@ bool TileManager::tearingDown() const
     return m_tearingDown;
 }
 
-Output *TileManager::output() const
+LogicalOutput *TileManager::output() const
 {
     return m_output;
 }
@@ -191,7 +191,7 @@ Tile::LayoutDirection strToLayoutDirection(const QString &dir)
     }
 }
 
-CustomTile *TileManager::parseTilingJSon(const QJsonValue &val, const QRectF &availableArea, CustomTile *parentTile)
+CustomTile *TileManager::parseTilingJSon(const QJsonValue &val, const RectF &availableArea, CustomTile *parentTile)
 {
     if (availableArea.isEmpty()) {
         return nullptr;
@@ -202,7 +202,7 @@ CustomTile *TileManager::parseTilingJSon(const QJsonValue &val, const QRectF &av
         CustomTile *createdTile = nullptr;
 
         if (parentTile->layoutDirection() == Tile::LayoutDirection::Horizontal) {
-            QRectF rect = availableArea;
+            RectF rect = availableArea;
             const auto width = obj.value(QStringLiteral("width"));
             if (width.isDouble()) {
                 rect.setWidth(std::min(width.toDouble(), availableArea.width()));
@@ -212,7 +212,7 @@ CustomTile *TileManager::parseTilingJSon(const QJsonValue &val, const QRectF &av
             }
 
         } else if (parentTile->layoutDirection() == Tile::LayoutDirection::Vertical) {
-            QRectF rect = availableArea;
+            RectF rect = availableArea;
             const auto height = obj.value(QStringLiteral("height"));
             if (height.isDouble()) {
                 rect.setHeight(std::min(height.toDouble(), availableArea.height()));
@@ -222,11 +222,11 @@ CustomTile *TileManager::parseTilingJSon(const QJsonValue &val, const QRectF &av
             }
 
         } else if (parentTile->layoutDirection() == Tile::LayoutDirection::Floating) {
-            QRectF rect(0, 0, 1, 1);
-            rect = QRectF(obj.value(QStringLiteral("x")).toDouble(),
-                          obj.value(QStringLiteral("y")).toDouble(),
-                          obj.value(QStringLiteral("width")).toDouble(),
-                          obj.value(QStringLiteral("height")).toDouble());
+            RectF rect(0, 0, 1, 1);
+            rect = RectF(obj.value(QStringLiteral("x")).toDouble(),
+                         obj.value(QStringLiteral("y")).toDouble(),
+                         obj.value(QStringLiteral("width")).toDouble(),
+                         obj.value(QStringLiteral("height")).toDouble());
 
             if (!rect.isEmpty()) {
                 createdTile = parentTile->createChildAt(rect, parentTile->layoutDirection(), parentTile->childCount());
@@ -273,22 +273,24 @@ CustomTile *TileManager::parseTilingJSon(const QJsonValue &val, const QRectF &av
 
 // this is the old output UUID format from Plasma 6.3
 // to not reset the config on updates, attempt to load the settings with this uuid too!
-static QString generateOutputId(Output *output)
+static QString generateOutputId(LogicalOutput *output)
 {
     static const QUuid urlNs = QUuid("6ba7b811-9dad-11d1-80b4-00c04fd430c8"); // NameSpace_URL
     static const QUuid kwinNs = QUuid::createUuidV5(urlNs, QStringLiteral("https://kwin.kde.org/o/"));
 
-    const QString payload = QStringList{output->name(), output->eisaId(), output->model(), output->serialNumber()}.join(':');
+    const QString payload = QStringList{output->name(), output->backendOutput()->eisaId(), output->model(), output->serialNumber()}.join(':');
     return QUuid::createUuidV5(kwinNs, payload).toString(QUuid::StringFormat::WithoutBraces);
 }
 
 void TileManager::readSettings(RootTile *rootTile)
 {
     KConfigGroup cg = kwinApp()->config()->group(QStringLiteral("Tiling"));
-    qreal padding = cg.readEntry("padding", 4);
+    qreal padding = cg.readEntry("padding", 4); // Fall back to the "global" padding set previously
+    cg.deleteEntry("padding"); // clean up residual value, TODO clean after 6.7 or 6.8 is out
     VirtualDesktop *desk = rootTile->desktop();
     KConfigGroup desktopCg = KConfigGroup(&cg, desk->id());
     cg = KConfigGroup(&desktopCg, m_output->uuid());
+    padding = cg.readEntry("padding", padding);
 
     Q_ASSERT(m_rootTiles.contains(desk));
 
@@ -327,7 +329,7 @@ void TileManager::readSettings(RootTile *rootTile)
         const auto arr = doc.object().value(QStringLiteral("tiles"));
         if (arr.isArray() && arr.toArray().count() > 0) {
             rootTile->setLayoutDirection(strToLayoutDirection(doc.object().value(QStringLiteral("layoutDirection")).toString()));
-            parseTilingJSon(arr, QRectF(0, 0, 1, 1), rootTile);
+            parseTilingJSon(arr, RectF(0, 0, 1, 1), rootTile);
         }
     }
 
@@ -385,7 +387,6 @@ QJsonObject TileManager::tileToJSon(CustomTile *tile)
 void TileManager::saveSettings()
 {
     KConfigGroup cg = kwinApp()->config()->group(QStringLiteral("Tiling"));
-    cg.writeEntry("padding", rootTile()->padding());
 
     for (auto it = m_rootTiles.constBegin(); it != m_rootTiles.constEnd(); it++) {
         VirtualDesktop *desk = it.key();
@@ -395,6 +396,7 @@ void TileManager::saveSettings()
         KConfigGroup tileGroup(&cg, desk->id());
         tileGroup = KConfigGroup(&tileGroup, m_output->uuid());
         tileGroup.writeEntry("tiles", doc.toJson(QJsonDocument::Compact));
+        tileGroup.writeEntry("padding", rootTile->padding());
     }
     cg.sync(); // FIXME: less frequent?
 }

@@ -6,6 +6,8 @@
 
 #include "wayland_display.h"
 #include "utils/memorymap.h"
+#include "wayland-client/linuxdmabuf.h"
+#include "wayland-client/viewporter.h"
 #include "wayland_logging.h"
 
 #include <KWayland/Client/compositor.h>
@@ -34,6 +36,7 @@
 
 // Generated in src/wayland.
 #include "wayland-fractional-scale-v1-client-protocol.h"
+#include "wayland-keyboard-shortcuts-inhibit-unstable-v1-client-protocol.h"
 #include "wayland-linux-dmabuf-unstable-v1-client-protocol.h"
 #include "wayland-pointer-constraints-unstable-v1-client-protocol.h"
 #include "wayland-pointer-gestures-unstable-v1-server-protocol.h"
@@ -44,6 +47,7 @@
 #include "wayland-viewporter-client-protocol.h"
 #include "wayland-xdg-decoration-unstable-v1-client-protocol.h"
 #include "wayland-xdg-shell-client-protocol.h"
+#include "wayland-xdg-toplevel-icon-v1-client-protocol.h"
 
 namespace KWin
 {
@@ -158,168 +162,6 @@ private:
     bool m_quitting;
 };
 
-static dev_t deserializeDeviceId(wl_array *data)
-{
-    Q_ASSERT(sizeof(dev_t) == data->size);
-    dev_t ret;
-    std::memcpy(&ret, data->data, data->size);
-    return ret;
-}
-
-class WaylandLinuxDmabufFeedbackV1
-{
-public:
-    WaylandLinuxDmabufFeedbackV1(zwp_linux_dmabuf_feedback_v1 *feedback)
-        : feedback(feedback)
-    {
-        static const struct zwp_linux_dmabuf_feedback_v1_listener feedbackListener = {
-            .done = done,
-            .format_table = format_table,
-            .main_device = main_device,
-            .tranche_done = tranche_done,
-            .tranche_target_device = tranche_target_device,
-            .tranche_formats = tranche_formats,
-            .tranche_flags = tranche_flags,
-        };
-        zwp_linux_dmabuf_feedback_v1_add_listener(feedback, &feedbackListener, this);
-    }
-
-    ~WaylandLinuxDmabufFeedbackV1()
-    {
-        zwp_linux_dmabuf_feedback_v1_destroy(feedback);
-    }
-
-    zwp_linux_dmabuf_feedback_v1 *feedback;
-    QByteArray mainDevice;
-    dev_t mainDeviceId = 0;
-    dev_t trancheDeviceId = 0;
-    MemoryMap formatTable;
-    QHash<uint32_t, QList<uint64_t>> formats;
-
-private:
-    static void done(void *data, zwp_linux_dmabuf_feedback_v1 *zwp_linux_dmabuf_feedback_v1)
-    {
-        // Nothing to do
-    }
-
-    static void format_table(void *data, zwp_linux_dmabuf_feedback_v1 *zwp_linux_dmabuf_feedback_v1, int32_t fd, uint32_t size)
-    {
-        WaylandLinuxDmabufFeedbackV1 *feedback = static_cast<WaylandLinuxDmabufFeedbackV1 *>(data);
-
-        feedback->formatTable = MemoryMap(size, PROT_READ, MAP_PRIVATE, fd, 0);
-        close(fd);
-    }
-
-    static void main_device(void *data, zwp_linux_dmabuf_feedback_v1 *zwp_linux_dmabuf_feedback_v1, wl_array *deviceId)
-    {
-        WaylandLinuxDmabufFeedbackV1 *feedback = static_cast<WaylandLinuxDmabufFeedbackV1 *>(data);
-
-        feedback->mainDeviceId = deserializeDeviceId(deviceId);
-
-        drmDevice *device = nullptr;
-        if (drmGetDeviceFromDevId(feedback->mainDeviceId, 0, &device) != 0) {
-            qCWarning(KWIN_WAYLAND_BACKEND) << "drmGetDeviceFromDevId() failed";
-            return;
-        }
-
-        if (device->available_nodes & (1 << DRM_NODE_RENDER)) {
-            feedback->mainDevice = QByteArray(device->nodes[DRM_NODE_RENDER]);
-        } else if (device->available_nodes & (1 << DRM_NODE_PRIMARY)) {
-            // We can't reliably find the render node from the primary node if the display and
-            // render devices are split, so just fallback to the primary node.
-            feedback->mainDevice = QByteArray(device->nodes[DRM_NODE_PRIMARY]);
-        }
-
-        drmFreeDevice(&device);
-    }
-
-    static void tranche_done(void *data, zwp_linux_dmabuf_feedback_v1 *zwp_linux_dmabuf_feedback_v1)
-    {
-        WaylandLinuxDmabufFeedbackV1 *feedback = static_cast<WaylandLinuxDmabufFeedbackV1 *>(data);
-
-        feedback->trancheDeviceId = 0;
-    }
-
-    static void tranche_target_device(void *data, zwp_linux_dmabuf_feedback_v1 *zwp_linux_dmabuf_feedback_v1, wl_array *deviceId)
-    {
-        WaylandLinuxDmabufFeedbackV1 *feedback = static_cast<WaylandLinuxDmabufFeedbackV1 *>(data);
-
-        feedback->trancheDeviceId = deserializeDeviceId(deviceId);
-    }
-
-    static void tranche_formats(void *data, zwp_linux_dmabuf_feedback_v1 *zwp_linux_dmabuf_feedback_v1, wl_array *indices)
-    {
-        WaylandLinuxDmabufFeedbackV1 *feedback = static_cast<WaylandLinuxDmabufFeedbackV1 *>(data);
-        if (!feedback->formatTable.isValid()) {
-            return;
-        }
-        if (feedback->mainDeviceId != feedback->trancheDeviceId) {
-            return;
-        }
-
-        struct linux_dmabuf_feedback_v1_table_entry
-        {
-            uint32_t format;
-            uint32_t pad; // unused
-            uint64_t modifier;
-        };
-
-        const auto entries = static_cast<linux_dmabuf_feedback_v1_table_entry *>(feedback->formatTable.data());
-        for (const uint16_t &index : std::span(static_cast<uint16_t *>(indices->data), indices->size / sizeof(uint16_t))) {
-            const linux_dmabuf_feedback_v1_table_entry &entry = entries[index];
-            feedback->formats[entry.format].append(entry.modifier);
-        }
-    }
-
-    static void tranche_flags(void *data, zwp_linux_dmabuf_feedback_v1 *zwp_linux_dmabuf_feedback_v1, uint32_t flags)
-    {
-        // Nothing to do
-    }
-};
-
-WaylandLinuxDmabufV1::WaylandLinuxDmabufV1(wl_registry *registry, uint32_t name, uint32_t version)
-{
-    m_dmabuf = static_cast<zwp_linux_dmabuf_v1 *>(wl_registry_bind(registry, name, &zwp_linux_dmabuf_v1_interface, version));
-
-    static const struct zwp_linux_dmabuf_v1_listener dmabufListener = {
-        .format = format,
-        .modifier = modifier,
-    };
-    zwp_linux_dmabuf_v1_add_listener(m_dmabuf, &dmabufListener, this);
-
-    m_defaultFeedback = std::make_unique<WaylandLinuxDmabufFeedbackV1>(zwp_linux_dmabuf_v1_get_default_feedback(m_dmabuf));
-}
-
-WaylandLinuxDmabufV1::~WaylandLinuxDmabufV1()
-{
-    zwp_linux_dmabuf_v1_destroy(m_dmabuf);
-}
-
-zwp_linux_dmabuf_v1 *WaylandLinuxDmabufV1::handle() const
-{
-    return m_dmabuf;
-}
-
-QByteArray WaylandLinuxDmabufV1::mainDevice() const
-{
-    return m_defaultFeedback->mainDevice;
-}
-
-QHash<uint32_t, QList<uint64_t>> WaylandLinuxDmabufV1::formats() const
-{
-    return m_defaultFeedback->formats;
-}
-
-void WaylandLinuxDmabufV1::format(void *data, struct zwp_linux_dmabuf_v1 *zwp_linux_dmabuf_v1, uint32_t format)
-{
-    // Not sent in v4 and onward.
-}
-
-void WaylandLinuxDmabufV1::modifier(void *data, struct zwp_linux_dmabuf_v1 *zwp_linux_dmabuf_v1, uint32_t format, uint32_t modifier_hi, uint32_t modifier_lo)
-{
-    // Not sent in v4 and onward.
-}
-
 WaylandDisplay::WaylandDisplay()
 {
 }
@@ -339,6 +181,7 @@ WaylandDisplay::~WaylandDisplay()
     m_xdgShell.reset();
     m_linuxDmabuf.reset();
     m_colorManager.reset();
+    m_viewporter.reset();
 
     if (m_shm) {
         wl_shm_destroy(m_shm);
@@ -352,11 +195,14 @@ WaylandDisplay::~WaylandDisplay()
     if (m_fractionalScaleV1) {
         wp_fractional_scale_manager_v1_destroy(m_fractionalScaleV1);
     }
-    if (m_viewporter) {
-        wp_viewporter_destroy(m_viewporter);
-    }
     if (m_singlePixelManager) {
         wp_single_pixel_buffer_manager_v1_destroy(m_singlePixelManager);
+    }
+    if (m_toplevelIconManager) {
+        xdg_toplevel_icon_manager_v1_destroy(m_toplevelIconManager);
+    }
+    if (m_keyboardShortcutsInhibitManager) {
+        zwp_keyboard_shortcuts_inhibit_manager_v1_destroy(m_keyboardShortcutsInhibitManager);
     }
     if (m_registry) {
         wl_registry_destroy(m_registry);
@@ -423,6 +269,14 @@ bool WaylandDisplay::initialize(const QString &socketName)
         qCWarning(KWIN_WAYLAND_BACKEND, "wp_presentation_time isn't supported by the host compositor");
         return false;
     }
+    if (!m_toplevelIconManager) {
+        qCWarning(KWIN_WAYLAND_BACKEND, "xdg_toplevel_icon_manager_v1 isn't supported by the host compositor");
+        // Not fatal, can live without it.
+    }
+    if (!m_keyboardShortcutsInhibitManager) {
+        qCWarning(KWIN_WAYLAND_BACKEND, "zwp_keyboard_shortcuts_inhibit_manager_v1 isn't supported by the host compositor");
+        // Not fatal, can live without it.
+    }
     return true;
 }
 
@@ -476,7 +330,7 @@ KWayland::Client::XdgDecorationManager *WaylandDisplay::xdgDecorationManager() c
     return m_xdgDecorationManager.get();
 }
 
-WaylandLinuxDmabufV1 *WaylandDisplay::linuxDmabuf() const
+WaylandClient::LinuxDmabufV1 *WaylandDisplay::linuxDmabuf() const
 {
     return m_linuxDmabuf.get();
 }
@@ -491,9 +345,9 @@ wp_tearing_control_manager_v1 *WaylandDisplay::tearingControl() const
     return m_tearingControl;
 }
 
-wp_viewporter *WaylandDisplay::viewporter() const
+WaylandClient::Viewporter *WaylandDisplay::viewporter() const
 {
-    return m_viewporter;
+    return m_viewporter.get();
 }
 
 ColorManager *WaylandDisplay::colorManager() const
@@ -509,6 +363,16 @@ wp_fractional_scale_manager_v1 *WaylandDisplay::fractionalScale() const
 wp_single_pixel_buffer_manager_v1 *WaylandDisplay::singlePixelManager() const
 {
     return m_singlePixelManager;
+}
+
+xdg_toplevel_icon_manager_v1 *WaylandDisplay::toplevelIconManager() const
+{
+    return m_toplevelIconManager;
+}
+
+zwp_keyboard_shortcuts_inhibit_manager_v1 *WaylandDisplay::keyboardShortcutsInhibitManager() const
+{
+    return m_keyboardShortcutsInhibitManager;
 }
 
 void WaylandDisplay::registry_global(void *data, wl_registry *registry, uint32_t name, const char *interface, uint32_t version)
@@ -546,7 +410,7 @@ void WaylandDisplay::registry_global(void *data, wl_registry *registry, uint32_t
             qWarning("zwp_linux_dmabuf_v1 v4 or newer is needed");
             return;
         }
-        display->m_linuxDmabuf = std::make_unique<WaylandLinuxDmabufV1>(registry, name, std::min(version, 4u));
+        display->m_linuxDmabuf = std::make_unique<WaylandClient::LinuxDmabufV1>(registry, name, std::min(version, 4u));
     } else if (strcmp(interface, wp_presentation_interface.name) == 0) {
         display->m_presentationTime = reinterpret_cast<wp_presentation *>(wl_registry_bind(registry, name, &wp_presentation_interface, std::min(version, 2u)));
     } else if (strcmp(interface, wp_tearing_control_manager_v1_interface.name) == 0) {
@@ -557,12 +421,16 @@ void WaylandDisplay::registry_global(void *data, wl_registry *registry, uint32_t
     } else if (strcmp(interface, wp_fractional_scale_manager_v1_interface.name) == 0) {
         display->m_fractionalScaleV1 = reinterpret_cast<wp_fractional_scale_manager_v1 *>(wl_registry_bind(registry, name, &wp_fractional_scale_manager_v1_interface, 1));
     } else if (strcmp(interface, wp_viewporter_interface.name) == 0) {
-        display->m_viewporter = reinterpret_cast<wp_viewporter *>(wl_registry_bind(registry, name, &wp_viewporter_interface, 1));
+        display->m_viewporter = std::make_unique<WaylandClient::Viewporter>(registry, name, 1u);
     } else if (strcmp(interface, wl_subcompositor_interface.name) == 0) {
         display->m_subCompositor = std::make_unique<KWayland::Client::SubCompositor>();
         display->m_subCompositor->setup(static_cast<wl_subcompositor *>(wl_registry_bind(registry, name, &wl_subcompositor_interface, 1)));
     } else if (strcmp(interface, wp_single_pixel_buffer_manager_v1_interface.name) == 0) {
         display->m_singlePixelManager = reinterpret_cast<wp_single_pixel_buffer_manager_v1 *>(wl_registry_bind(registry, name, &wp_single_pixel_buffer_manager_v1_interface, 1));
+    } else if (strcmp(interface, xdg_toplevel_icon_manager_v1_interface.name) == 0) {
+        display->m_toplevelIconManager = reinterpret_cast<xdg_toplevel_icon_manager_v1 *>(wl_registry_bind(registry, name, &xdg_toplevel_icon_manager_v1_interface, 1));
+    } else if (strcmp(interface, zwp_keyboard_shortcuts_inhibit_manager_v1_interface.name) == 0) {
+        display->m_keyboardShortcutsInhibitManager = reinterpret_cast<zwp_keyboard_shortcuts_inhibit_manager_v1 *>(wl_registry_bind(registry, name, &zwp_keyboard_shortcuts_inhibit_manager_v1_interface, 1));
     }
 }
 

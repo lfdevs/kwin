@@ -13,14 +13,13 @@
 #include <memory>
 
 class QImage;
-class QRegion;
 class QSize;
 class QString;
 
 namespace KWin
 {
 
-class Output;
+class LogicalOutput;
 
 class KWIN_EXPORT QPainterBackend : public RenderBackend
 {

@@ -40,7 +40,7 @@ public:
 
     GLFramebuffer *fbo() const;
     std::optional<OutputLayerBeginFrameInfo> doBeginFrame() override;
-    bool doEndFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame) override;
+    bool doEndFrame(const Region &renderedDeviceRegion, const Region &damagedDeviceRegion, OutputFrame *frame) override;
     bool importScanoutBuffer(GraphicsBuffer *buffer, const std::shared_ptr<OutputFrame> &frame) override;
     DrmDevice *scanoutDevice() const override;
     QHash<uint32_t, QList<uint64_t>> supportedDrmFormats() const override;
@@ -65,7 +65,7 @@ public:
     ~WaylandEglCursorLayer() override;
 
     std::optional<OutputLayerBeginFrameInfo> doBeginFrame() override;
-    bool doEndFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame) override;
+    bool doEndFrame(const Region &renderedDeviceRegion, const Region &damagedDeviceRegion, OutputFrame *frame) override;
     DrmDevice *scanoutDevice() const override;
     QHash<uint32_t, QList<uint64_t>> supportedDrmFormats() const override;
     void releaseBuffers() override;
@@ -100,12 +100,12 @@ public:
     DrmDevice *drmDevice() const override;
 
     void init() override;
-    QList<OutputLayer *> compatibleOutputLayers(Output *output) override;
+    QList<OutputLayer *> compatibleOutputLayers(BackendOutput *output) override;
 
 private:
     bool initializeEgl();
     bool initRenderingContext();
-    void createOutputLayers(Output *output);
+    void createOutputLayers(BackendOutput *output);
     void cleanupSurfaces() override;
 
     WaylandBackend *m_backend;

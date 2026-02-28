@@ -11,6 +11,7 @@
 #include "compositor.h"
 #include "core/drmdevice.h"
 #include "input.h"
+#include "wayland-client/linuxdmabuf.h"
 #include "wayland_display.h"
 #include "wayland_egl_backend.h"
 #include "wayland_logging.h"
@@ -32,6 +33,7 @@
 #include <fcntl.h>
 #include <gbm.h>
 #include <linux/input.h>
+#include <ranges>
 #include <unistd.h>
 #include <wayland-client-core.h>
 
@@ -92,7 +94,7 @@ WaylandInputDevice::WaylandInputDevice(KWayland::Client::Pointer *pointer, Wayla
     connect(pointer, &Pointer::left, this, [this]() {
         // wl_pointer.leave carries the wl_surface, but KWayland::Client::Pointer::left does not.
         const auto outputs = m_seat->backend()->outputs();
-        for (Output *output : outputs) {
+        for (BackendOutput *output : outputs) {
             WaylandOutput *waylandOutput = static_cast<WaylandOutput *>(output);
             if (waylandOutput->cursor()->pointer()) {
                 waylandOutput->cursor()->setPointer(nullptr);
@@ -103,7 +105,7 @@ WaylandInputDevice::WaylandInputDevice(KWayland::Client::Pointer *pointer, Wayla
         WaylandOutput *output = m_seat->backend()->findOutput(m_pointer->enteredSurface());
         Q_ASSERT(output);
         const auto subsurface = m_seat->backend()->findSubSurface(m_pointer->enteredSurface());
-        const QPointF absolutePos = output->geometry().topLeft() + relativeToSurface
+        const QPointF absolutePos = output->position() + relativeToSurface
             + (subsurface ? subsurface->position() : QPoint());
         Q_EMIT pointerMotionAbsolute(absolutePos, std::chrono::milliseconds(time), this);
     });
@@ -195,13 +197,13 @@ WaylandInputDevice::WaylandInputDevice(KWayland::Client::Touch *touch, WaylandSe
     connect(touch, &Touch::sequenceStarted, this, [this](TouchPoint *tp) {
         auto o = m_seat->backend()->findOutput(tp->surface());
         Q_ASSERT(o);
-        const QPointF position = o->geometry().topLeft() + tp->position();
+        const QPointF position = o->position() + tp->position();
         Q_EMIT touchDown(tp->id(), position, std::chrono::milliseconds(tp->time()), this);
     });
     connect(touch, &Touch::pointAdded, this, [this](TouchPoint *tp) {
         auto o = m_seat->backend()->findOutput(tp->surface());
         Q_ASSERT(o);
-        const QPointF position = o->geometry().topLeft() + tp->position();
+        const QPointF position = o->position() + tp->position();
         Q_EMIT touchDown(tp->id(), position, std::chrono::milliseconds(tp->time()), this);
     });
     connect(touch, &Touch::pointRemoved, this, [this](TouchPoint *tp) {
@@ -210,7 +212,7 @@ WaylandInputDevice::WaylandInputDevice(KWayland::Client::Touch *touch, WaylandSe
     connect(touch, &Touch::pointMoved, this, [this](TouchPoint *tp) {
         auto o = m_seat->backend()->findOutput(tp->surface());
         Q_ASSERT(o);
-        const QPointF position = o->geometry().topLeft() + tp->position();
+        const QPointF position = o->position() + tp->position();
         Q_EMIT touchMotion(tp->id(), position, std::chrono::milliseconds(tp->time()), this);
     });
 }
@@ -435,7 +437,7 @@ bool WaylandBackend::initialize()
         return false;
     }
 
-    if (WaylandLinuxDmabufV1 *dmabuf = m_display->linuxDmabuf()) {
+    if (WaylandClient::LinuxDmabufV1 *dmabuf = m_display->linuxDmabuf()) {
         m_drmDevice = DrmDevice::open(dmabuf->mainDevice());
         if (!m_drmDevice) {
             qCWarning(KWIN_WAYLAND_BACKEND) << "Failed to open drm render node" << dmabuf->mainDevice();
@@ -591,17 +593,17 @@ QList<CompositingType> WaylandBackend::supportedCompositors() const
     return ret;
 }
 
-Outputs WaylandBackend::outputs() const
+QList<BackendOutput *> WaylandBackend::outputs() const
 {
-    return m_outputs;
+    return m_outputs | std::ranges::to<QList<BackendOutput *>>();
 }
 
-Output *WaylandBackend::createVirtualOutput(const QString &name, const QString &description, const QSize &size, double scale)
+BackendOutput *WaylandBackend::createVirtualOutput(const QString &name, const QString &description, const QSize &size, double scale)
 {
     return createOutput(name, size * scale, scale, false);
 }
 
-void WaylandBackend::removeVirtualOutput(Output *output)
+void WaylandBackend::removeVirtualOutput(BackendOutput *output)
 {
     WaylandOutput *waylandOutput = dynamic_cast<WaylandOutput *>(output);
     if (waylandOutput && m_outputs.removeAll(waylandOutput)) {
@@ -609,25 +611,6 @@ void WaylandBackend::removeVirtualOutput(Output *output)
         Q_EMIT outputsQueried();
         waylandOutput->unref();
     }
-}
-
-static wl_buffer *importDmaBufBuffer(WaylandDisplay *display, const DmaBufAttributes *attributes)
-{
-    zwp_linux_buffer_params_v1 *params = zwp_linux_dmabuf_v1_create_params(display->linuxDmabuf()->handle());
-    for (int i = 0; i < attributes->planeCount; ++i) {
-        zwp_linux_buffer_params_v1_add(params,
-                                       attributes->fd[i].get(),
-                                       i,
-                                       attributes->offset[i],
-                                       attributes->pitch[i],
-                                       attributes->modifier >> 32,
-                                       attributes->modifier & 0xffffffff);
-    }
-
-    wl_buffer *buffer = zwp_linux_buffer_params_v1_create_immed(params, attributes->width, attributes->height, attributes->format, 0);
-    zwp_linux_buffer_params_v1_destroy(params);
-
-    return buffer;
 }
 
 static wl_buffer *importShmBuffer(WaylandDisplay *display, const ShmAttributes *attributes)
@@ -663,7 +646,7 @@ wl_buffer *WaylandBackend::importBuffer(GraphicsBuffer *graphicsBuffer)
     if (!buffer) {
         wl_buffer *handle = nullptr;
         if (const DmaBufAttributes *attributes = graphicsBuffer->dmabufAttributes()) {
-            handle = importDmaBufBuffer(m_display.get(), attributes);
+            handle = m_display->linuxDmabuf()->importBuffer(graphicsBuffer);
         } else if (const ShmAttributes *attributes = graphicsBuffer->shmAttributes()) {
             handle = importShmBuffer(m_display.get(), attributes);
         } else {

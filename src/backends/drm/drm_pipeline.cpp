@@ -65,11 +65,7 @@ DrmPipeline::Error DrmPipeline::present(const QList<OutputLayer *> &layersToUpda
 {
     Q_ASSERT(m_pending.crtc);
     if (gpu()->atomicModeSetting()) {
-        // TODO once the compositor tests presentation,
-        // drop this unnecessary additional test
-        if (auto err = testPresent(frame); err != Error::None) {
-            return err;
-        }
+        // NOTE that this assumes testPresentation has been called before and succeeded
         // only give the actual state update to the commit thread, so that it can potentially reorder the commits
         auto partialUpdate = std::make_unique<DrmAtomicCommit>(QList<DrmPipeline *>{this});
         if (Error err = prepareAtomicPresentation(partialUpdate.get(), frame); err != Error::None) {
@@ -143,6 +139,11 @@ DrmPipeline::Error DrmPipeline::commitPipelinesAtomic(const QList<DrmPipeline *>
             return errnoToError();
         }
         const bool withoutModeset = std::ranges::all_of(pipelines, [&frame](DrmPipeline *pipeline) {
+            // always require a modeset for turning off displays, it makes other logic easier to follow
+            const bool oldActive = pipeline->m_next.enabled && pipeline->m_next.active;
+            if (oldActive && !pipeline->activePending()) {
+                return false;
+            }
             auto commit = std::make_unique<DrmAtomicCommit>(QVector<DrmPipeline *>{pipeline});
             return pipeline->prepareAtomicCommit(commit.get(), CommitMode::TestAllowModeset, frame) == Error::None && commit->test();
         });
@@ -211,13 +212,7 @@ DrmPipeline::Error DrmPipeline::prepareAtomicPresentation(DrmAtomicCommit *commi
         commit->setVrr(m_pending.crtc, m_pending.presentationMode == PresentationMode::AdaptiveSync || m_pending.presentationMode == PresentationMode::AdaptiveAsync);
     }
 
-    const bool differentPipelines = std::ranges::any_of(m_pending.layers | std::views::drop(1), [&](OutputLayer *layer) {
-        return layer->isEnabled() && layer->colorPipeline() != m_pending.layers.front()->colorPipeline();
-    });
-    if (differentPipelines) {
-        return DrmPipeline::Error::InvalidArguments;
-    }
-    const ColorPipeline colorPipeline = m_pending.layers.front()->colorPipeline().merged(m_pending.crtcColorPipeline);
+    const ColorPipeline &colorPipeline = m_pending.crtcColorPipeline;
     if (!m_pending.crtc->postBlendingPipeline) {
         if (!colorPipeline.isIdentity()) {
             return Error::InvalidArguments;
@@ -273,6 +268,26 @@ DrmPipeline::Error DrmPipeline::prepareAtomicPlane(DrmAtomicCommit *commit, DrmP
         commit->addProperty(plane->zpos, layer->zpos());
     }
 
+    const auto colorPipelines = plane->colorPipelines();
+    if (layer->colorPipeline().isIdentity()) {
+        if (plane->colorPipeline.isValid()) {
+            commit->addProperty(plane->colorPipeline, 0);
+        }
+    } else {
+        const auto it = std::ranges::find_if(colorPipelines, [&](DrmColorOp *pipeline) {
+            return pipeline->colorOp()->matchPipeline(commit, layer->colorPipeline());
+        });
+        if (it == colorPipelines.end()) {
+            // TODO re-allow merging with post-blending pipeline
+            return DrmPipeline::Error::InvalidArguments;
+        }
+        commit->addProperty(plane->colorPipeline, (*it)->id());
+    }
+
+    if (plane->colorPipeline.isValid() && layer->colorDescription()->yuvCoefficients() != YUVMatrixCoefficients::Identity) {
+        // color pipelines don't support the color encoding and color range properties yet
+        return Error::InvalidArguments;
+    }
     DrmPlane::ColorRange range = DrmPlane::ColorRange::Limited_YCbCr;
     if (layer->colorDescription()->range() == EncodingRange::Full) {
         range = DrmPlane::ColorRange::Full_YCbCr;
@@ -376,7 +391,10 @@ bool DrmPipeline::prepareAtomicModeset(DrmAtomicCommit *commit)
             } else if (m_connector->scalingMode.hasEnum(DrmConnector::ScalingMode::None)) {
                 commit->addEnum(m_connector->scalingMode, DrmConnector::ScalingMode::None);
             }
-        } else if (m_connector->isInternal() && m_connector->scalingMode.hasEnum(DrmConnector::ScalingMode::Full_Aspect) && (m_pending.mode->flags() & OutputMode::Flag::Generated)) {
+        } else if (m_connector->isInternal()
+                   && m_connector->scalingMode.hasEnum(DrmConnector::ScalingMode::Full_Aspect)
+                   && (m_pending.mode->flags() & OutputMode::Flag::Generated)
+                   && !(m_pending.mode->flags() & OutputMode::Flag::Custom)) {
             commit->addEnum(m_connector->scalingMode, DrmConnector::ScalingMode::Full_Aspect);
         } else if (m_connector->scalingMode.hasEnum(DrmConnector::ScalingMode::None)) {
             commit->addEnum(m_connector->scalingMode, DrmConnector::ScalingMode::None);
@@ -387,6 +405,12 @@ bool DrmPipeline::prepareAtomicModeset(DrmAtomicCommit *commit)
     commit->addBlob(m_pending.crtc->modeId, m_pending.mode->blob());
     if (m_pending.crtc->degammaLut.isValid()) {
         commit->addProperty(m_pending.crtc->degammaLut, 0);
+    }
+
+    if (m_pending.crtc->sharpnessStrength.isValid()) {
+        const int maxValue = m_pending.crtc->sharpnessStrength.maxValue();
+        const int sharpness = std::clamp<int>(std::round(m_output->nextState().sharpnessSetting * maxValue), 0, maxValue);
+        commit->addProperty(m_pending.crtc->sharpnessStrength, sharpness);
     }
 
     return true;
@@ -451,14 +475,10 @@ bool DrmPipeline::presentAsync(OutputLayer *layer, std::optional<std::chrono::na
 
 void DrmPipeline::applyPendingChanges()
 {
-    const bool layersChanged = m_next.layers != m_pending.layers;
     m_next = m_pending;
     m_commitThread->setModeInfo(m_pending.mode->refreshRate(), m_pending.mode->vblankTime());
     m_output->renderLoop()->setPresentationSafetyMargin(m_commitThread->safetyMargin());
     m_output->renderLoop()->setRefreshRate(m_pending.mode->refreshRate());
-    if (layersChanged) {
-        Q_EMIT m_output->outputLayersChanged();
-    }
 }
 
 DrmConnector *DrmPipeline::connector() const
@@ -477,6 +497,7 @@ void DrmPipeline::pageFlipped(std::chrono::nanoseconds timestamp)
     m_commitThread->pageFlipped(timestamp);
     // the commit thread adjusts the safety margin on every commit
     m_output->renderLoop()->setPresentationSafetyMargin(m_commitThread->safetyMargin());
+    m_output->maybeUpdateDpmsState();
     if (gpu()->needsModeset()) {
         gpu()->maybeModeset(nullptr, nullptr);
     }
@@ -560,7 +581,7 @@ uint32_t DrmPipeline::overscan() const
     return m_pending.overscan;
 }
 
-Output::RgbRange DrmPipeline::rgbRange() const
+BackendOutput::RgbRange DrmPipeline::rgbRange() const
 {
     return m_pending.rgbRange;
 }
@@ -613,7 +634,7 @@ void DrmPipeline::setOverscan(uint32_t overscan)
     m_pending.overscan = overscan;
 }
 
-void DrmPipeline::setRgbRange(Output::RgbRange range)
+void DrmPipeline::setRgbRange(BackendOutput::RgbRange range)
 {
     m_pending.rgbRange = range;
 }

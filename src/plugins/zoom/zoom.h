@@ -45,7 +45,7 @@ public:
 
     void reconfigure(ReconfigureFlags flags) override;
     void prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseconds presentTime) override;
-    void paintScreen(const RenderTarget &renderTarget, const RenderViewport &viewport, int mask, const QRegion &region, Output *screen) override;
+    void paintScreen(const RenderTarget &renderTarget, const RenderViewport &viewport, int mask, const Region &deviceRegion, LogicalOutput *screen) override;
     void postPaintScreen() override;
     bool isActive() const override;
     int requestedEffectChainPosition() const override;
@@ -59,6 +59,7 @@ public:
     qreal targetZoom() const;
 
 private Q_SLOTS:
+    void saveInitialZoom();
     void zoomIn();
     void zoomTo(double to);
     void zoomOut();
@@ -74,7 +75,7 @@ private Q_SLOTS:
     void slotMouseChanged(const QPointF &pos, const QPointF &old);
     void slotWindowAdded(EffectWindow *w);
     void slotWindowDamaged();
-    void slotScreenRemoved(Output *screen);
+    void slotScreenRemoved(LogicalOutput *screen);
     void setTargetZoom(double value);
 
 private:
@@ -83,6 +84,7 @@ private:
         MouseTrackingCentered = 1,
         MouseTrackingPush = 2,
         MouseTrackingDisabled = 3,
+        MouseTrackingCenteredStrict = 4,
     };
 
     enum MousePointerType {
@@ -107,13 +109,14 @@ private:
     void showCursor();
     void hideCursor();
     GLTexture *ensureCursorTexture();
-    OffscreenData *ensureOffscreenData(const RenderTarget &renderTarget, const RenderViewport &viewport, Output *screen);
+    OffscreenData *ensureOffscreenData(const RenderTarget &renderTarget, const RenderViewport &viewport, LogicalOutput *screen);
     void markCursorTextureDirty();
 
     GLShader *shaderForZoom(double zoom);
     void trackTextCaret();
     void trackFocus();
 
+    std::unique_ptr<QTimer> m_configurationTimer;
     double m_zoom = 1.0;
     double m_targetZoom = 1.0;
     double m_sourceZoom = 1.0;
@@ -132,7 +135,7 @@ private:
     int m_yTranslation = 0;
     double m_moveFactor = 20.0;
     std::chrono::milliseconds m_lastPresentTime = std::chrono::milliseconds::zero();
-    std::map<Output *, OffscreenData> m_offscreenData;
+    std::map<LogicalOutput *, OffscreenData> m_offscreenData;
     std::unique_ptr<GLShader> m_pixelGridShader;
     double m_pixelGridZoom;
     std::unique_ptr<QAction> m_zoomInAxisAction;

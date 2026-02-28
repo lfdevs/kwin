@@ -48,6 +48,7 @@ private Q_SLOTS:
     void testYCbCr();
     void testBlackPointCompensation();
     void testSCRGB();
+    void testNightLightNoTonemapping();
 };
 
 static bool compareVectors(const QVector3D &one, const QVector3D &two, float maxDifference)
@@ -379,16 +380,22 @@ void TestColorspaces::testOpenglShader()
 void TestColorspaces::testIccShader_data()
 {
     QTest::addColumn<QString>("iccProfilePath");
+    QTest::addColumn<QString>("lcmsIccProfilePath");
     QTest::addColumn<RenderingIntent>("intent");
     QTest::addColumn<uint32_t>("lcmsIntent");
     QTest::addColumn<int>("maxAllowedError");
 
     const auto F13 = QFINDTESTDATA("data/Framework 13.icc");
     const auto Samsung = QFINDTESTDATA("data/Samsung CRG49 Shaper Matrix.icc");
-    QTest::addRow("relative colorimetric Framework 13") << F13 << RenderingIntent::RelativeColorimetric << uint32_t(INTENT_RELATIVE_COLORIMETRIC) << 5;
-    QTest::addRow("absolute colorimetric Framework 13") << F13 << RenderingIntent::AbsoluteColorimetricNoAdaptation << uint32_t(INTENT_ABSOLUTE_COLORIMETRIC) << 4;
-    QTest::addRow("relative colorimetric CRG49") << Samsung << RenderingIntent::RelativeColorimetric << uint32_t(INTENT_RELATIVE_COLORIMETRIC) << 2;
-    QTest::addRow("absolute colorimetric CRG49") << Samsung << RenderingIntent::AbsoluteColorimetricNoAdaptation << uint32_t(INTENT_ABSOLUTE_COLORIMETRIC) << 2;
+    QTest::addRow("relative colorimetric Framework 13") << F13 << F13 << RenderingIntent::RelativeColorimetric << uint32_t(INTENT_RELATIVE_COLORIMETRIC) << 5;
+    QTest::addRow("absolute colorimetric Framework 13") << F13 << F13 << RenderingIntent::AbsoluteColorimetricNoAdaptation << uint32_t(INTENT_ABSOLUTE_COLORIMETRIC) << 4;
+    QTest::addRow("relative colorimetric CRG49") << Samsung << Samsung << RenderingIntent::RelativeColorimetric << uint32_t(INTENT_RELATIVE_COLORIMETRIC) << 2;
+    QTest::addRow("absolute colorimetric CRG49") << Samsung << Samsung << RenderingIntent::AbsoluteColorimetricNoAdaptation << uint32_t(INTENT_ABSOLUTE_COLORIMETRIC) << 2;
+
+    // NOTE that LCMS doesn't apply the MHC2 tag, so we compare with the native profile instead
+    // The margin for error has to be a bit higher because of that
+    QTest::addRow("absolute colorimetry with MHC2") << QFINDTESTDATA("data/HP 'sRGB' profile with MHC2.icc") << QFINDTESTDATA("data/HP 'Native' profile.icc")
+                                                    << RenderingIntent::AbsoluteColorimetricNoAdaptation << uint32_t(INTENT_ABSOLUTE_COLORIMETRIC) << 7;
 }
 
 void TestColorspaces::testIccShader()
@@ -405,6 +412,7 @@ void TestColorspaces::testIccShader()
     const auto imageColorspace = ColorDescription::sRGB;
 
     QFETCH(QString, iccProfilePath);
+    QFETCH(QString, lcmsIccProfilePath);
     QFETCH(RenderingIntent, intent);
     QFETCH(uint32_t, lcmsIntent);
 
@@ -450,7 +458,7 @@ void TestColorspaces::testIccShader()
         // as that uses the sRGB piece-wise transfer function, which is not correct for our use case
         cmsHPROFILE sRGBHandle = cmsCreateRGBProfile(&sRGBWhite, &sRGBPrimaries, toneCurves.data());
 
-        cmsHPROFILE handle = cmsOpenProfileFromFile(iccProfilePath.toUtf8(), "r");
+        cmsHPROFILE handle = cmsOpenProfileFromFile(lcmsIccProfilePath.toUtf8(), "r");
         QVERIFY(handle);
 
         const auto transform = cmsCreateTransform(sRGBHandle, TYPE_RGB_8, handle, TYPE_RGB_8, lcmsIntent, cmsFLAGS_NOOPTIMIZE);
@@ -534,7 +542,7 @@ void TestColorspaces::dontCrashWithWeirdHdrMetadata()
         40,
     });
     const auto pipeline = ColorPipeline::create(in, out, RenderingIntent::Perceptual);
-    QCOMPARE(pipeline.evaluate(QVector3D()), QVector3D());
+    QVERIFY(compareVectors(pipeline.evaluate(QVector3D()), QVector3D(), 0.000001));
 }
 
 void TestColorspaces::testColorimetryCheck_data()
@@ -665,6 +673,20 @@ void TestColorspaces::testSCRGB()
         QCOMPARE_LE(out.z(), direct.z() + 1);
         QCOMPARE_GE(out.z(), direct.z() - 1);
     }
+}
+
+void TestColorspaces::testNightLightNoTonemapping()
+{
+    const auto src = ColorDescription::sRGB;
+    const xyY newWhite = XYZ::fromVector(src->containerColorimetry().toXYZ() * QVector3D(1.0, 0.8, 0.5)).toxyY();
+    const auto dst = src->withWhitepoint(newWhite)->dimmed(newWhite.Y);
+
+    // the color pipeline should not have any tonemapping steps in it
+    const auto pipeline = ColorPipeline::create(src, dst, RenderingIntent::Perceptual);
+    QCOMPARE(pipeline.ops.size(), 3);
+    QVERIFY(std::holds_alternative<ColorTransferFunction>(pipeline.ops[0].operation));
+    QVERIFY(std::holds_alternative<ColorMatrix>(pipeline.ops[1].operation));
+    QVERIFY(std::holds_alternative<InverseColorTransferFunction>(pipeline.ops[2].operation));
 }
 
 QTEST_MAIN(TestColorspaces)

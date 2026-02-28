@@ -5,43 +5,36 @@
 */
 
 #include "regionscreencastsource.h"
+#include "filteredsceneview.h"
+#include "screencastlayer.h"
 #include "screencastutils.h"
 
 #include "compositor.h"
 #include "core/output.h"
-#include "core/pixelgrid.h"
 #include "cursor.h"
 #include "opengl/eglbackend.h"
+#include "opengl/glframebuffer.h"
 #include "opengl/gltexture.h"
-#include "opengl/glutils.h"
 #include "scene/workspacescene.h"
-#include "screencastlayer.h"
 #include "workspace.h"
 
-#include <QPainter>
 #include <drm_fourcc.h>
 
 namespace KWin
 {
 
-RegionScreenCastSource::RegionScreenCastSource(const QRect &region, qreal scale, QObject *parent)
-    : ScreenCastSource(parent)
+RegionScreenCastSource::RegionScreenCastSource(const Rect &region, qreal scale, std::optional<pid_t> pidToHide)
+    : ScreenCastSource()
     , m_region(region)
     , m_scale(scale)
-    , m_layer(std::make_unique<ScreencastLayer>(workspace()->outputs().front(), static_cast<EglBackend *>(Compositor::self()->backend())->openglContext()->displayObject()->nonExternalOnlySupportedDrmFormats()))
-    , m_sceneView(std::make_unique<SceneView>(Compositor::self()->scene(), workspace()->outputs().front(), m_layer.get()))
-    , m_cursorView(std::make_unique<ItemTreeView>(m_sceneView.get(), Compositor::self()->scene()->cursorItem(), workspace()->outputs().front(), nullptr))
+    , m_pidToHide(pidToHide)
 {
-    m_sceneView->setViewport(m_region);
-    m_sceneView->setScale(m_scale);
-    // prevent the layer from scheduling frames on the actual output
-    m_layer->setRenderLoop(nullptr);
-    // always hide the cursor from the primary view
-    m_cursorView->setExclusive(true);
     Q_ASSERT(m_region.isValid());
     Q_ASSERT(m_scale > 0);
+
     // TODO once the layer doesn't depend on the output anymore, remove this?
     connect(workspace(), &Workspace::outputsChanged, this, &RegionScreenCastSource::close);
+    connect(Compositor::self(), &Compositor::aboutToToggleCompositing, this, &RegionScreenCastSource::close);
 }
 
 RegionScreenCastSource::~RegionScreenCastSource()
@@ -71,40 +64,43 @@ std::chrono::nanoseconds RegionScreenCastSource::clock() const
 
 void RegionScreenCastSource::setRenderCursor(bool enable)
 {
-    m_cursorView->setExclusive(!enable);
+    m_renderCursor = enable;
+    if (m_cursorView) {
+        m_cursorView->setExclusive(!enable);
+    }
 }
 
-QRegion RegionScreenCastSource::render(GLFramebuffer *target, const QRegion &bufferRepair)
+Region RegionScreenCastSource::render(GLFramebuffer *target, const Region &bufferRepair)
 {
     m_last = std::chrono::steady_clock::now().time_since_epoch();
-    m_layer->setFramebuffer(target, scaleRegion(bufferRepair, 1.0 / devicePixelRatio(), QRect(QPoint(), m_sceneView->viewport().size().toSize())));
+    m_layer->setFramebuffer(target, bufferRepair & Rect(QPoint(), target->size()));
     if (!m_layer->preparePresentationTest()) {
-        return QRegion{};
+        return Region{};
     }
     const auto beginInfo = m_layer->beginFrame();
     if (!beginInfo) {
-        return QRegion{};
+        return Region{};
     }
     m_sceneView->prePaint();
-    const auto logicalDamage = m_layer->repaints() | m_sceneView->collectDamage();
-    const auto repaints = beginInfo->repaint | logicalDamage;
+    const auto bufferDamage = (m_layer->deviceRepaints() | m_sceneView->collectDamage()) & Rect(QPoint(), target->size());
+    const auto repaints = beginInfo->repaint | bufferDamage;
     m_layer->resetRepaints();
-    m_sceneView->paint(beginInfo->renderTarget, repaints);
+    m_sceneView->paint(beginInfo->renderTarget, QPoint(), repaints);
     m_sceneView->postPaint();
-    if (!m_layer->endFrame(repaints, logicalDamage, nullptr)) {
-        return QRegion{};
+    if (!m_layer->endFrame(repaints, bufferDamage, nullptr)) {
+        return Region{};
     }
-    return scaleRegion(logicalDamage, devicePixelRatio(), QRect(QPoint(), textureSize()));
+    return bufferDamage;
 }
 
-QRegion RegionScreenCastSource::render(QImage *target, const QRegion &bufferRepair)
+Region RegionScreenCastSource::render(QImage *target, const Region &bufferRepair)
 {
     auto texture = GLTexture::allocate(GL_RGBA8, target->size());
     if (!texture) {
-        return QRegion{};
+        return Region{};
     }
     GLFramebuffer buffer(texture.get());
-    const QRegion ret = render(&buffer, infiniteRegion());
+    const Region ret = render(&buffer, Region::infinite());
     grabTexture(texture.get(), target);
     return ret;
 }
@@ -137,6 +133,10 @@ void RegionScreenCastSource::pause()
 
     m_active = false;
     disconnect(m_layer.get(), &OutputLayer::repaintScheduled, this, &RegionScreenCastSource::frame);
+
+    m_cursorView.reset();
+    m_sceneView.reset();
+    m_layer.reset();
 }
 
 void RegionScreenCastSource::resume()
@@ -144,6 +144,15 @@ void RegionScreenCastSource::resume()
     if (m_active) {
         return;
     }
+
+    m_layer = std::make_unique<ScreencastLayer>(workspace()->outputs().front(), static_cast<EglBackend *>(Compositor::self()->backend())->openglContext()->displayObject()->nonExternalOnlySupportedDrmFormats());
+
+    m_sceneView = std::make_unique<FilteredSceneView>(Compositor::self()->scene(), workspace()->outputs().front(), m_layer.get(), m_pidToHide);
+    m_sceneView->setViewport(m_region);
+    m_sceneView->setScale(m_scale);
+
+    m_cursorView = std::make_unique<ItemTreeView>(m_sceneView.get(), Compositor::self()->scene()->cursorItem(), workspace()->outputs().front(), nullptr, nullptr);
+    m_cursorView->setExclusive(!m_renderCursor);
 
     m_active = true;
     connect(m_layer.get(), &OutputLayer::repaintScheduled, this, &RegionScreenCastSource::frame);
@@ -164,7 +173,7 @@ QPointF RegionScreenCastSource::mapFromGlobal(const QPointF &point) const
     return point - m_region.topLeft();
 }
 
-QRectF RegionScreenCastSource::mapFromGlobal(const QRectF &rect) const
+RectF RegionScreenCastSource::mapFromGlobal(const RectF &rect) const
 {
     return rect.translated(-m_region.topLeft());
 }

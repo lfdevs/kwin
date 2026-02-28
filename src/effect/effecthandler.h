@@ -13,6 +13,7 @@
 #pragma once
 
 #include "config-kwin.h"
+
 #include "effect/effect.h"
 #include "effect/effectwindow.h"
 
@@ -20,13 +21,14 @@
 #include <QIcon>
 #include <QPair>
 #include <QRect>
-#include <QRegion>
 #include <QSet>
 
 #include <QHash>
 #include <QList>
 #include <QLoggingCategory>
 #include <QStack>
+
+#include <KConfigWatcher>
 
 #include <functional>
 
@@ -68,7 +70,7 @@ class EffectWindow;
 class EffectWindowGroup;
 class OffscreenQuickView;
 class Group;
-class Output;
+class LogicalOutput;
 class Effect;
 struct TabletToolProximityEvent;
 struct TabletToolAxisEvent;
@@ -128,7 +130,7 @@ class KWIN_EXPORT EffectsHandler : public QObject
     Q_PROPERTY(int workspaceHeight READ workspaceHeight)
     Q_PROPERTY(QList<KWin::VirtualDesktop *> desktops READ desktops)
     Q_PROPERTY(bool optionRollOverDesktops READ optionRollOverDesktops)
-    Q_PROPERTY(KWin::Output *activeScreen READ activeScreen)
+    Q_PROPERTY(KWin::LogicalOutput *activeScreen READ activeScreen)
     /**
      * Factor by which animation speed in the effect should be modified (multiplied).
      * If configurable in the effect itself, the option should have also 'default'
@@ -160,7 +162,7 @@ class KWIN_EXPORT EffectsHandler : public QObject
     friend class Effect;
 
 public:
-    using TouchBorderCallback = std::function<void(ElectricBorder border, const QPointF &, Output *screen)>;
+    using TouchBorderCallback = std::function<void(ElectricBorder border, const QPointF &, LogicalOutput *screen)>;
 
     EffectsHandler(Compositor *compositor, WorkspaceScene *scene);
     ~EffectsHandler() override;
@@ -170,13 +172,12 @@ public:
 
     // for use by effects
     void prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseconds presentTime);
-    void paintScreen(const RenderTarget &renderTarget, const RenderViewport &viewport, int mask, const QRegion &region, Output *screen);
+    void paintScreen(const RenderTarget &renderTarget, const RenderViewport &viewport, int mask, const Region &deviceRegion, LogicalOutput *screen);
     void postPaintScreen();
-    void prePaintWindow(EffectWindow *w, WindowPrePaintData &data, std::chrono::milliseconds presentTime);
-    void paintWindow(const RenderTarget &renderTarget, const RenderViewport &viewport, EffectWindow *w, int mask, const QRegion &region, WindowPaintData &data);
-    void postPaintWindow(EffectWindow *w);
-    void drawWindow(const RenderTarget &renderTarget, const RenderViewport &viewport, EffectWindow *w, int mask, const QRegion &region, WindowPaintData &data);
-    void renderWindow(const RenderTarget &renderTarget, const RenderViewport &viewport, EffectWindow *w, int mask, const QRegion &region, WindowPaintData &data);
+    void prePaintWindow(RenderView *view, EffectWindow *w, WindowPrePaintData &data, std::chrono::milliseconds presentTime);
+    void paintWindow(const RenderTarget &renderTarget, const RenderViewport &viewport, EffectWindow *w, int mask, const Region &deviceRegion, WindowPaintData &data);
+    void drawWindow(const RenderTarget &renderTarget, const RenderViewport &viewport, EffectWindow *w, int mask, const Region &deviceRegion, WindowPaintData &data);
+    void renderWindow(const RenderTarget &renderTarget, const RenderViewport &viewport, EffectWindow *w, int mask, const Region &deviceRegion, WindowPaintData &data);
     QVariant kwinOption(KWinOption kwopt);
     /**
      * Sets the cursor while the mouse is intercepted.
@@ -309,7 +310,7 @@ public:
      */
     Q_SCRIPTABLE void windowToDesktops(KWin::EffectWindow *w, const QList<KWin::VirtualDesktop *> &desktops);
 
-    Q_SCRIPTABLE void windowToScreen(KWin::EffectWindow *w, Output *screen);
+    Q_SCRIPTABLE void windowToScreen(KWin::EffectWindow *w, LogicalOutput *screen);
     void setShowingDesktop(bool showing);
 
     // Activities
@@ -386,8 +387,8 @@ public:
     Q_SCRIPTABLE QString desktopName(KWin::VirtualDesktop *desktop) const;
     bool optionRollOverDesktops() const;
 
-    Output *activeScreen() const; // Xinerama
-    QRectF clientArea(clientAreaOption, const Output *screen, const VirtualDesktop *desktop) const;
+    LogicalOutput *activeScreen() const; // Xinerama
+    QRectF clientArea(clientAreaOption, const LogicalOutput *screen, const VirtualDesktop *desktop) const;
     QRectF clientArea(clientAreaOption, const EffectWindow *c) const;
     QRectF clientArea(clientAreaOption, const QPoint &p, const VirtualDesktop *desktop) const;
 
@@ -457,9 +458,12 @@ public:
      *  affect the current painting.
      */
     Q_SCRIPTABLE void addRepaintFull();
-    Q_SCRIPTABLE void addRepaint(const QRectF &r);
-    Q_SCRIPTABLE void addRepaint(const QRect &r);
-    Q_SCRIPTABLE void addRepaint(const QRegion &r);
+    // TODO Plasma 7: rename these to "addLogicalRepaint"
+    Q_SCRIPTABLE void addRepaint(const QRectF &logicalRegion);
+    Q_SCRIPTABLE void addRepaint(const QRect &logicalRegion);
+    Q_SCRIPTABLE void addRepaint(const RectF &logicalRegion);
+    Q_SCRIPTABLE void addRepaint(const Rect &logicalRegion);
+    Q_SCRIPTABLE void addRepaint(const Region &logicalRegion);
     Q_SCRIPTABLE void addRepaint(int x, int y, int w, int h);
 
     CompositingType compositingType() const;
@@ -721,10 +725,10 @@ public:
     /**
      * Returns the list of all the screens connected to the system.
      */
-    QList<Output *> screens() const;
-    Output *screenAt(const QPoint &point) const;
-    Output *findScreen(const QString &name) const;
-    Output *findScreen(int screenId) const;
+    QList<LogicalOutput *> screens() const;
+    LogicalOutput *screenAt(const QPoint &point) const;
+    LogicalOutput *findScreen(const QString &name) const;
+    LogicalOutput *findScreen(int screenId) const;
 
     KWin::EffectWindow *inputPanel() const;
     bool isInputPanelOverlay() const;
@@ -752,7 +756,7 @@ public:
     bool tabletToolButtonEvent(uint button, bool pressed, InputDeviceTabletTool *tool, std::chrono::microseconds time);
     bool tabletPadButtonEvent(uint button, bool pressed, std::chrono::microseconds time, InputDevice *device);
     bool tabletPadStripEvent(int number, qreal position, bool isFinger, std::chrono::microseconds time, InputDevice *device);
-    bool tabletPadRingEvent(int number, int position, bool isFinger, std::chrono::microseconds time, InputDevice *device);
+    bool tabletPadRingEvent(int number, qreal position, bool isFinger, std::chrono::microseconds time, InputDevice *device);
     bool tabletPadDialEvent(int number, double delta, std::chrono::microseconds time, InputDevice *device);
 
     void highlightWindows(const QList<EffectWindow *> &windows);
@@ -768,11 +772,11 @@ Q_SIGNALS:
     /**
      * This signal is emitted whenever a new @a screen is added to the system.
      */
-    void screenAdded(KWin::Output *screen);
+    void screenAdded(KWin::LogicalOutput *screen);
     /**
      * This signal is emitted whenever a @a screen is removed from the system.
      */
-    void screenRemoved(KWin::Output *screen);
+    void screenRemoved(KWin::LogicalOutput *screen);
     /**
      * Signal emitted when the current desktop changed.
      * @param oldDesktop The previously current desktop
@@ -1079,6 +1083,7 @@ protected:
     void registerPropertyType(long atom, bool reg);
     void destroyEffect(Effect *effect);
     void reconfigureEffects();
+    void configChanged(const KConfigGroup &group, const QByteArrayList &names);
 
     typedef QList<Effect *> EffectsList;
     typedef EffectsList::const_iterator EffectsIterator;
@@ -1112,6 +1117,7 @@ protected:
     QList<Effect *> m_grabbedMouseEffects;
     EffectLoader *m_effectLoader;
     std::unique_ptr<WindowPropertyNotifyX11Filter> m_x11WindowPropertyNotify;
+    KConfigWatcher::Ptr m_configWatcher;
 };
 
 /**

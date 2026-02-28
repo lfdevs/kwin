@@ -459,7 +459,7 @@ bool Scanner::process()
     if (m_basename.isEmpty())
         m_basename = QByteArray(m_protocolName).replace('_', '-');
 
-    // We should convert - to _ so that the preprocessor wont generate code which will lead to unexpected behavior
+    // We should convert - to _ so that the preprocessor won't generate code which will lead to unexpected behavior
     const QByteArray preProcessorProtocolName = QByteArray(m_basename).replace('-', '_').toUpper();
 
     std::vector<WaylandInterface> interfaces;
@@ -882,7 +882,7 @@ bool Scanner::process()
             printf("\n");
             printf("        struct wl_event_loop *event_loop = wl_display_get_event_loop(m_display);\n");
             printf("        m_globalRemovedEvent = wl_event_loop_add_timer(event_loop, deferred_destroy_global_func, this);\n");
-            printf("        wl_event_source_timer_update(m_globalRemovedEvent, 5000);\n");
+            printf("        wl_event_source_timer_update(m_globalRemovedEvent, 300000);\n");
             printf("    }\n");
             printf("\n");
 

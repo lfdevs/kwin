@@ -1,15 +1,15 @@
 cmake_minimum_required(VERSION 3.16)
 
-set(PROJECT_VERSION "6.5.5") # Handled by release scripts
+set(PROJECT_VERSION "6.6.1") # Handled by release scripts
 project(KWin VERSION ${PROJECT_VERSION})
 
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(PROJECT_DEP_VERSION "6.5.5")
-set(QT_MIN_VERSION "6.9.0")
-set(KF6_MIN_VERSION "6.18.0")
+set(PROJECT_DEP_VERSION "6.6.1")
+set(QT_MIN_VERSION "6.10.0")
+set(KF6_MIN_VERSION "6.22.0")
 set(KDE_COMPILERSETTINGS_LEVEL "5.82")
 
 find_package(ECM ${KF6_MIN_VERSION} REQUIRED NO_MODULE)
@@ -64,7 +64,6 @@ find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
     UiTools
     WaylandClient
     Widgets
-    Sensors
     Svg
 )
 
@@ -213,8 +212,13 @@ set_package_properties(WaylandProtocols PROPERTIES
     PURPOSE "Collection of Wayland protocols that add functionality not available in the Wayland core protocol"
     URL "https://gitlab.freedesktop.org/wayland/wayland-protocols/"
 )
+if (WaylandProtocols_VERSION VERSION_GREATER_EQUAL 1.47)
+    set(HAVE_WAYLAND_PROTOCOLS_147 1)
+else()
+    set(HAVE_WAYLAND_PROTOCOLS_147 0)
+endif()
 
-find_package(PlasmaWaylandProtocols 1.19.0 CONFIG)
+find_package(PlasmaWaylandProtocols 1.20.0 CONFIG)
 set_package_properties(PlasmaWaylandProtocols PROPERTIES
     TYPE REQUIRED
     PURPOSE "Collection of Plasma-specific Wayland protocols"
@@ -288,15 +292,10 @@ if (KWIN_BUILD_X11)
     set(XWAYLAND_SESSION_SCRIPTS "/etc/xdg/Xwayland-session.d")
 endif()
 
-find_package(Libinput 1.26)
+find_package(Libinput 1.28)
 set_package_properties(Libinput PROPERTIES TYPE REQUIRED PURPOSE "Required for input handling on Wayland.")
-if (Libinput_VERSION VERSION_GREATER_EQUAL 1.27)
-    set(HAVE_LIBINPUT_INPUT_AREA 1)
-else()
-    set(HAVE_LIBINPUT_INPUT_AREA 0)
-endif()
 
-find_package(Libeis-1.0)
+find_package(Libeis-1.0 1.4)
 set_package_properties(Libeis-1.0 PROPERTIES TYPE OPTIONAL PURPOSE "Required for emulated input handling.")
 
 find_package(UDev)
@@ -343,19 +342,6 @@ set_package_properties(lcms2 PROPERTIES
     PURPOSE "Required for the color management system"
 )
 
-find_package(Freetype)
-set_package_properties(Freetype PROPERTIES
-    DESCRIPTION "A font rendering engine"
-    URL "https://www.freetype.org"
-    TYPE REQUIRED
-    PURPOSE "Needed for KWin's QPA plugin."
-)
-find_package(Fontconfig)
-set_package_properties(Fontconfig PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Needed for KWin's QPA plugin."
-)
-
 find_package(hwdata)
 set_package_properties(hwdata PROPERTIES
     TYPE RUNTIME
@@ -396,6 +382,9 @@ if (KWIN_BUILD_SCREENLOCKER)
     )
 endif()
 
+pkg_check_modules(libevdev IMPORTED_TARGET libevdev)
+add_feature_info(libevdev libevdev_FOUND "Required for game controller support")
+
 ecm_find_qmlmodule(QtQuick 2.3)
 ecm_find_qmlmodule(QtQuick.Controls 2.15)
 ecm_find_qmlmodule(QtQuick.Layouts 1.3)
@@ -407,6 +396,7 @@ ecm_find_qmlmodule(org.kde.plasma.components 2.0)
 cmake_dependent_option(KWIN_BUILD_ACTIVITIES "Enable building of KWin with kactivities support" ON "PlasmaActivities_FOUND" OFF)
 cmake_dependent_option(KWIN_BUILD_EIS "Enable building KWin with libeis support" ON "Libeis-1.0_FOUND" OFF)
 cmake_dependent_option(KWIN_BUILD_QACCESSIBILITYCLIENT "Enable building KWin with libqaccessibilitysupport" ON "QAccessibilityClient6_FOUND" OFF)
+cmake_dependent_option(KWIN_BUILD_GAMECONTROLLER "Enable building of KWin Game Controller functionality" ON "libevdev_FOUND" OFF)
 
 include_directories(BEFORE
     ${CMAKE_CURRENT_BINARY_DIR}/src/wayland

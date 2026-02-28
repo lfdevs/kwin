@@ -38,7 +38,7 @@ void ScreenChangesTest::initTestCase()
     QVERIFY(waylandServer()->init(s_socketName));
 
     kwinApp()->start();
-    Test::setOutputConfig({QRect(0, 0, 1280, 1024)});
+    Test::setOutputConfig({Rect(0, 0, 1280, 1024)});
     setenv("QT_QPA_PLATFORM", "wayland", true);
 }
 
@@ -79,7 +79,7 @@ void ScreenChangesTest::testScreenAddRemove()
     outputAnnouncedSpy.clear();
 
     // let's announce a new output
-    const QList<QRect> geometries{QRect(0, 0, 1280, 1024), QRect(1280, 0, 1280, 1024)};
+    const QList<Rect> geometries{Rect(0, 0, 1280, 1024), Rect(1280, 0, 1280, 1024)};
     Test::setOutputConfig(geometries);
     auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
@@ -109,14 +109,14 @@ void ScreenChangesTest::testScreenAddRemove()
     QVERIFY(o1->isValid());
     QSignalSpy o1ChangedSpy(o1.get(), &KWayland::Client::Output::changed);
     QVERIFY(o1ChangedSpy.wait());
-    KWin::Output *serverOutput1 = kwinApp()->outputBackend()->findOutput(o1->name()); // use wl_output.name to find the compositor side output
+    KWin::LogicalOutput *serverOutput1 = workspace()->findOutput(o1->name()); // use wl_output.name to find the compositor side output
     QCOMPARE(o1->globalPosition(), serverOutput1->geometry().topLeft());
     QCOMPARE(o1->pixelSize(), serverOutput1->modeSize());
     std::unique_ptr<KWayland::Client::Output> o2(registry.createOutput(outputAnnouncedSpy.last().first().value<quint32>(), outputAnnouncedSpy.last().last().value<quint32>()));
     QVERIFY(o2->isValid());
     QSignalSpy o2ChangedSpy(o2.get(), &KWayland::Client::Output::changed);
     QVERIFY(o2ChangedSpy.wait());
-    KWin::Output *serverOutput2 = kwinApp()->outputBackend()->findOutput(o2->name()); // use wl_output.name to find the compositor side output
+    KWin::LogicalOutput *serverOutput2 = workspace()->findOutput(o2->name()); // use wl_output.name to find the compositor side output
     QCOMPARE(o2->globalPosition(), serverOutput2->geometry().topLeft());
     QCOMPARE(o2->pixelSize(), serverOutput2->modeSize());
 
@@ -143,7 +143,7 @@ void ScreenChangesTest::testScreenAddRemove()
     QSignalSpy o1RemovedSpy(o1.get(), &KWayland::Client::Output::removed);
     QSignalSpy o2RemovedSpy(o2.get(), &KWayland::Client::Output::removed);
 
-    const QList<QRect> geometries2{QRect(0, 0, 1280, 1024)};
+    const QList<Rect> geometries2{Rect(0, 0, 1280, 1024)};
     Test::setOutputConfig(geometries2);
     outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 1);

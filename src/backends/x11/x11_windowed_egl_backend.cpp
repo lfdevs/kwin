@@ -55,7 +55,7 @@ std::optional<OutputLayerBeginFrameInfo> X11WindowedEglPrimaryLayer::doBeginFram
         return std::nullopt;
     }
 
-    QRegion repaint = m_output->exposedArea() + m_output->rect();
+    Region repaint = Region::infinite();
     m_output->clearExposedArea();
 
     m_query = std::make_unique<GLRenderTimeQuery>(m_backend->openglContextRef());
@@ -66,7 +66,7 @@ std::optional<OutputLayerBeginFrameInfo> X11WindowedEglPrimaryLayer::doBeginFram
     };
 }
 
-bool X11WindowedEglPrimaryLayer::doEndFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame)
+bool X11WindowedEglPrimaryLayer::doEndFrame(const Region &renderedDeviceRegion, const Region &damagedDeviceRegion, OutputFrame *frame)
 {
     m_query->end();
     frame->addRenderTimeQuery(std::move(m_query));
@@ -125,11 +125,11 @@ std::optional<OutputLayerBeginFrameInfo> X11WindowedEglCursorLayer::doBeginFrame
     m_query->begin();
     return OutputLayerBeginFrameInfo{
         .renderTarget = RenderTarget(m_framebuffer.get()),
-        .repaint = infiniteRegion(),
+        .repaint = Region::infinite(),
     };
 }
 
-bool X11WindowedEglCursorLayer::doEndFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame)
+bool X11WindowedEglCursorLayer::doEndFrame(const Region &renderedDeviceRegion, const Region &damagedDeviceRegion, OutputFrame *frame)
 {
     EglContext *context = m_backend->openglContext();
     QImage buffer(m_framebuffer->size(), QImage::Format_RGBA8888_Premultiplied);
@@ -169,7 +169,7 @@ X11WindowedEglBackend::X11WindowedEglBackend(X11WindowedBackend *backend)
 X11WindowedEglBackend::~X11WindowedEglBackend()
 {
     const auto outputs = m_backend->outputs();
-    for (Output *output : outputs) {
+    for (BackendOutput *output : outputs) {
         static_cast<X11WindowedOutput *>(output)->setOutputLayers({});
     }
     cleanup();
@@ -242,7 +242,7 @@ void X11WindowedEglBackend::init()
     }
 }
 
-QList<OutputLayer *> X11WindowedEglBackend::compatibleOutputLayers(Output *output)
+QList<OutputLayer *> X11WindowedEglBackend::compatibleOutputLayers(BackendOutput *output)
 {
     return static_cast<X11WindowedOutput *>(output)->outputLayers();
 }

@@ -23,6 +23,16 @@ RenderTarget::RenderTarget(QImage *image, const std::shared_ptr<ColorDescription
 {
 }
 
+QSize RenderTarget::transformedSize() const
+{
+    return m_transform.map(size());
+}
+
+Rect RenderTarget::transformedRect() const
+{
+    return Rect(QPoint(0, 0), transformedSize());
+}
+
 QSize RenderTarget::size() const
 {
     if (m_framebuffer) {

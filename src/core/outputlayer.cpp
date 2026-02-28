@@ -12,7 +12,7 @@
 namespace KWin
 {
 
-OutputLayer::OutputLayer(Output *output, OutputLayerType type)
+OutputLayer::OutputLayer(BackendOutput *output, OutputLayerType type)
     : m_type(type)
     , m_output(output)
     , m_renderLoop(output ? output->renderLoop() : nullptr)
@@ -22,7 +22,7 @@ OutputLayer::OutputLayer(Output *output, OutputLayerType type)
 {
 }
 
-OutputLayer::OutputLayer(Output *output, OutputLayerType type, int zpos, int minZpos, int maxZpos)
+OutputLayer::OutputLayer(BackendOutput *output, OutputLayerType type, int zpos, int minZpos, int maxZpos)
     : m_type(type)
     , m_output(output)
     , m_renderLoop(output ? output->renderLoop() : nullptr)
@@ -42,12 +42,12 @@ void OutputLayer::setRenderLoop(RenderLoop *loop)
     m_renderLoop = loop;
 }
 
-void OutputLayer::setOutput(Output *output)
+void OutputLayer::setOutput(BackendOutput *output)
 {
     m_output = output;
     if (output) {
         m_renderLoop = output->renderLoop();
-        addRepaint(infiniteRegion());
+        addDeviceRepaint(Region::infinite());
     } else {
         m_renderLoop = nullptr;
     }
@@ -68,7 +68,7 @@ QList<QSize> OutputLayer::recommendedSizes() const
     return {};
 }
 
-QRegion OutputLayer::repaints() const
+Region OutputLayer::deviceRepaints() const
 {
     return m_repaints;
 }
@@ -85,7 +85,7 @@ void OutputLayer::scheduleRepaint(Item *item)
     Q_EMIT repaintScheduled();
 }
 
-void OutputLayer::addRepaint(const QRegion &region)
+void OutputLayer::addDeviceRepaint(const Region &region)
 {
     if (region.isEmpty() || !m_output) {
         return;
@@ -100,7 +100,7 @@ void OutputLayer::addRepaint(const QRegion &region)
 void OutputLayer::resetRepaints()
 {
     m_repaintScheduled = false;
-    m_repaints = QRegion();
+    m_repaints = Region();
 }
 
 bool OutputLayer::needsRepaint() const
@@ -118,9 +118,9 @@ std::optional<OutputLayerBeginFrameInfo> OutputLayer::beginFrame()
     return doBeginFrame();
 }
 
-bool OutputLayer::endFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame)
+bool OutputLayer::endFrame(const Region &renderedDeviceRegion, const Region &damagedDeviceRegion, OutputFrame *frame)
 {
-    return doEndFrame(renderedRegion, damagedRegion, frame);
+    return doEndFrame(renderedDeviceRegion, damagedDeviceRegion, frame);
 }
 
 void OutputLayer::setScanoutCandidate(SurfaceItem *item)
@@ -144,12 +144,12 @@ bool OutputLayer::isEnabled() const
     return m_enabled;
 }
 
-QRectF OutputLayer::sourceRect() const
+RectF OutputLayer::sourceRect() const
 {
     return m_sourceRect;
 }
 
-void OutputLayer::setSourceRect(const QRectF &rect)
+void OutputLayer::setSourceRect(const RectF &rect)
 {
     m_sourceRect = rect;
 }
@@ -164,12 +164,12 @@ OutputTransform OutputLayer::bufferTransform() const
     return m_bufferTransform;
 }
 
-QRect OutputLayer::targetRect() const
+Rect OutputLayer::targetRect() const
 {
     return m_targetRect;
 }
 
-void OutputLayer::setTargetRect(const QRect &rect)
+void OutputLayer::setTargetRect(const Rect &rect)
 {
     m_targetRect = rect;
 }
@@ -243,7 +243,7 @@ int OutputLayer::maxZpos() const
     return m_maxZpos;
 }
 
-QList<FormatInfo> OutputLayer::filterAndSortFormats(const QHash<uint32_t, QList<uint64_t>> &formats, uint32_t requiredAlphaBits, Output::ColorPowerTradeoff tradeoff)
+QList<FormatInfo> OutputLayer::filterAndSortFormats(const QHash<uint32_t, QList<uint64_t>> &formats, uint32_t requiredAlphaBits, BackendOutput::ColorPowerTradeoff tradeoff)
 {
     QList<FormatInfo> ret;
     for (auto it = formats.begin(); it != formats.end(); it++) {
@@ -260,7 +260,7 @@ QList<FormatInfo> OutputLayer::filterAndSortFormats(const QHash<uint32_t, QList<
         ret.push_back(*info);
     }
     std::ranges::sort(ret, [tradeoff](const FormatInfo &before, const FormatInfo &after) {
-        if (tradeoff == Output::ColorPowerTradeoff::PreferAccuracy && before.bitsPerColor != after.bitsPerColor) {
+        if (tradeoff == BackendOutput::ColorPowerTradeoff::PreferAccuracy && before.bitsPerColor != after.bitsPerColor) {
             return before.bitsPerColor > after.bitsPerColor;
         }
         if (before.floatingPoint != after.floatingPoint) {

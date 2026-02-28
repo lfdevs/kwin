@@ -45,7 +45,7 @@ ScreenTransformEffect::ScreenTransformEffect()
     m_previousTextureLocation = m_shader->uniformLocation("previousTexture");
     m_currentTextureLocation = m_shader->uniformLocation("currentTexture");
 
-    const QList<Output *> screens = effects->screens();
+    const QList<LogicalOutput *> screens = effects->screens();
     for (auto screen : screens) {
         addScreen(screen);
     }
@@ -70,9 +70,9 @@ qreal transformAngle(OutputTransform current, OutputTransform old)
     return ensureShort((int(current.kind()) % 4 - int(old.kind()) % 4) * 90);
 }
 
-void ScreenTransformEffect::addScreen(Output *screen)
+void ScreenTransformEffect::addScreen(LogicalOutput *screen)
 {
-    connect(screen, &Output::aboutToChange, this, [this, screen](OutputChangeSet *changeSet) {
+    connect(screen, &LogicalOutput::aboutToChange, this, [this, screen](OutputChangeSet *changeSet) {
         const OutputTransform transform = changeSet->transform.value_or(screen->transform());
         if (screen->transform() == transform) {
             return;
@@ -101,16 +101,16 @@ void ScreenTransformEffect::addScreen(Output *screen)
         RenderTarget renderTarget(state.m_prev.framebuffer.get(), screen->blendingColor());
 
         Scene *scene = effects->scene();
-        SceneView delegate(scene, screen, nullptr);
+        SceneView delegate(scene, screen, nullptr, nullptr);
         delegate.setViewport(screen->geometryF());
         delegate.setScale(screen->scale());
         scene->prePaint(&delegate);
-        scene->paint(renderTarget, screen->geometry());
+        scene->paint(renderTarget, QPoint(), screen->geometry());
         scene->postPaint();
     });
 }
 
-void ScreenTransformEffect::removeScreen(Output *screen)
+void ScreenTransformEffect::removeScreen(LogicalOutput *screen)
 {
     screen->disconnect(this);
     if (auto it = m_states.find(screen); it != m_states.end()) {
@@ -121,6 +121,7 @@ void ScreenTransformEffect::removeScreen(Output *screen)
 
 void ScreenTransformEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseconds presentTime)
 {
+    m_currentView = data.view;
     auto it = m_states.find(data.screen);
     if (it != m_states.end()) {
         it->m_timeLine.advance(presentTime);
@@ -192,11 +193,11 @@ static QRectF lerp(const QRectF &a, const QRectF &b, qreal t)
     return ret;
 }
 
-void ScreenTransformEffect::paintScreen(const RenderTarget &renderTarget, const RenderViewport &viewport, int mask, const QRegion &region, KWin::Output *screen)
+void ScreenTransformEffect::paintScreen(const RenderTarget &renderTarget, const RenderViewport &viewport, int mask, const Region &deviceRegion, LogicalOutput *screen)
 {
     auto it = m_states.find(screen);
-    if (it == m_states.end()) {
-        effects->paintScreen(renderTarget, viewport, mask, region, screen);
+    if (it == m_states.end() || m_currentView->backendOutput() != screen->backendOutput()) {
+        effects->paintScreen(renderTarget, viewport, mask, deviceRegion, screen);
         return;
     }
 
@@ -213,14 +214,14 @@ void ScreenTransformEffect::paintScreen(const RenderTarget &renderTarget, const 
     }
 
     RenderTarget fboRenderTarget(it->m_current.framebuffer.get(), renderTarget.colorDescription());
-    RenderViewport fboViewport(viewport.renderRect(), viewport.scale(), fboRenderTarget);
+    RenderViewport fboViewport(viewport.renderRect(), viewport.scale(), fboRenderTarget, QPoint());
 
     GLFramebuffer::pushFramebuffer(it->m_current.framebuffer.get());
-    effects->paintScreen(fboRenderTarget, fboViewport, mask, region, screen);
+    effects->paintScreen(fboRenderTarget, fboViewport, mask, deviceRegion, screen);
     GLFramebuffer::popFramebuffer();
 
     const qreal blendFactor = it->m_timeLine.value();
-    const QRectF screenRect = screen->geometry();
+    const RectF screenRect = screen->geometry();
     const qreal angle = it->m_angle * (1 - blendFactor);
 
     const auto scale = viewport.scale();

@@ -309,9 +309,9 @@ bool SeatInterfacePrivate::dragInhibitsPointer(SurfaceInterface *surface) const
     return targetHasDataDevice;
 }
 
-void SeatInterfacePrivate::updateSelection(DataSourceInterface *dataSource, quint32 serial)
+void SeatInterfacePrivate::updateSelection(DataSourceInterface *dataSource, UInt32Serial serial)
 {
-    if (currentSelectionSerial - serial < UINT32_MAX / 2 && currentSelectionSerial != serial) {
+    if (serial < currentSelectionSerial) {
         if (dataSource) {
             dataSource->cancel();
         }
@@ -320,9 +320,9 @@ void SeatInterfacePrivate::updateSelection(DataSourceInterface *dataSource, quin
     q->setSelection(dataSource, serial);
 }
 
-void SeatInterfacePrivate::updatePrimarySelection(PrimarySelectionSourceV1Interface *dataSource, quint32 serial)
+void SeatInterfacePrivate::updatePrimarySelection(PrimarySelectionSourceV1Interface *dataSource, UInt32Serial serial)
 {
-    if (currentPrimarySelectionSerial - serial < UINT32_MAX / 2 && currentPrimarySelectionSerial != serial) {
+    if (serial < currentPrimarySelectionSerial) {
         if (dataSource) {
             dataSource->cancel();
         }
@@ -926,10 +926,6 @@ void SeatInterface::notifyTouchCancel()
         d->touch->sendCancel(touchPoint->surface);
     }
 
-    if (d->drag.mode == SeatInterfacePrivate::Drag::Mode::Touch) {
-        // cancel the drag, don't drop. serial does not matter
-        cancelDrag();
-    }
     d->touchPoints.clear();
 }
 
@@ -953,8 +949,9 @@ TouchPoint *SeatInterface::touchPointByImplicitGrabSerial(quint32 serial) const
     return nullptr;
 }
 
-TouchPoint::TouchPoint(quint32 serial, SurfaceInterface *surface, SeatInterface *seat)
-    : serial(serial)
+TouchPoint::TouchPoint(qint32 id, quint32 serial, SurfaceInterface *surface, SeatInterface *seat)
+    : id(id)
+    , serial(serial)
     , client(surface->client())
     , surface(surface)
     , seat(seat)
@@ -979,7 +976,7 @@ TouchPoint *SeatInterface::notifyTouchDown(SurfaceInterface *surface, const QPoi
     const quint32 serial = display()->nextSerial();
     d->touch->sendDown(effectiveTouchedSurface, id, serial, pos);
 
-    auto touchPoint = std::make_unique<TouchPoint>(serial, surface, this);
+    auto touchPoint = std::make_unique<TouchPoint>(id, serial, surface, this);
     touchPoint->position = globalPosition;
     touchPoint->offset = surfacePosition;
     touchPoint->transformation = QMatrix4x4();
@@ -1005,9 +1002,7 @@ void SeatInterface::notifyTouchMotion(qint32 id, const QPointF &globalPosition)
     TouchPoint *touchPoint = it->second.get();
     touchPoint->position = globalPosition;
 
-    if (isDragTouch()) {
-        // handled by DataDevice
-    } else if (touchPoint->surface) {
+    if (touchPoint->surface) {
         const auto [effectiveTouchedSurface, pos] = touchPoint->surface->mapToInputSurface(globalPosition - touchPoint->offset);
         d->touch->sendMotion(effectiveTouchedSurface, id, pos);
     }
@@ -1029,11 +1024,6 @@ void SeatInterface::notifyTouchUp(qint32 id)
     }
 
     TouchPoint *touchPoint = it->second.get();
-    if (d->drag.mode == SeatInterfacePrivate::Drag::Mode::Touch && d->drag.dragImplicitGrabSerial == touchPoint->serial) {
-        // the implicitly grabbing touch point has been upped
-        endDrag();
-    }
-
     if (touchPoint->client) {
         d->touch->sendUp(touchPoint->client, id, d->display->nextSerial());
     }
@@ -1167,7 +1157,7 @@ AbstractDataSource *SeatInterface::selection() const
     return d->currentSelection;
 }
 
-void SeatInterface::setSelection(AbstractDataSource *selection, quint32 serial)
+void SeatInterface::setSelection(AbstractDataSource *selection, UInt32Serial serial)
 {
     if (d->currentSelection == selection) {
         return;
@@ -1207,7 +1197,7 @@ AbstractDataSource *SeatInterface::primarySelection() const
     return d->currentPrimarySelection;
 }
 
-void SeatInterface::setPrimarySelection(AbstractDataSource *selection, quint32 serial)
+void SeatInterface::setPrimarySelection(AbstractDataSource *selection, UInt32Serial serial)
 {
     if (d->currentPrimarySelection == selection) {
         return;
@@ -1249,16 +1239,11 @@ void SeatInterface::setFocusedDataDeviceSurface(SurfaceInterface *surface)
 
     d->globalDataDevice.client = client;
 
-    // This code is commented out because there are issues with the keyboard focus flow from
-    // closed dialogs to their respective parent windows. The keyboard focus doesn't jump immediately
-    // from the child dialog to the parent window, instead it jumps to a null window, and then
-    // from the null window to the parent window.
-    //
-    // qDeleteAll(d->globalDataDevice.selectionOffers);
-    // d->globalDataDevice.selectionOffers.clear();
-    //
-    // qDeleteAll(d->globalDataDevice.primarySelectionOffers);
-    // d->globalDataDevice.primarySelectionOffers.clear();
+    qDeleteAll(d->globalDataDevice.selectionOffers);
+    d->globalDataDevice.selectionOffers.clear();
+
+    qDeleteAll(d->globalDataDevice.primarySelectionOffers);
+    d->globalDataDevice.primarySelectionOffers.clear();
 
     d->globalDataDevice.selections = d->dataDevicesForSurface(surface);
     for (DataDeviceInterface *device : std::as_const(d->globalDataDevice.selections)) {

@@ -14,7 +14,6 @@
 #if KWIN_BUILD_X11
 #include "atoms.h"
 #endif
-#include "colors/colormanager.h"
 #include "compositor.h"
 #include "core/outputbackend.h"
 #include "core/rendertarget.h"
@@ -262,11 +261,6 @@ void Application::createPlugins()
     m_pluginManager = std::make_unique<PluginManager>();
 }
 
-void Application::createColorManager()
-{
-    m_colorManager = std::make_unique<ColorManager>();
-}
-
 void Application::createInputMethod()
 {
     m_inputMethod = std::make_unique<InputMethod>();
@@ -314,38 +308,10 @@ void Application::destroyPlugins()
     m_pluginManager.reset();
 }
 
-void Application::destroyColorManager()
-{
-    m_colorManager.reset();
-}
-
 void Application::destroyInputMethod()
 {
     m_inputMethod.reset();
 }
-
-#if KWIN_BUILD_X11
-void Application::registerEventFilter(X11EventFilter *filter)
-{
-    if (filter->isGenericEvent()) {
-        m_genericEventFilters.append(new X11EventFilterContainer(filter));
-    } else {
-        m_eventFilters.append(new X11EventFilterContainer(filter));
-    }
-}
-
-static X11EventFilterContainer *takeEventFilter(X11EventFilter *eventFilter,
-                                                QList<QPointer<X11EventFilterContainer>> &list)
-{
-    for (int i = 0; i < list.count(); ++i) {
-        X11EventFilterContainer *container = list.at(i);
-        if (container->filter() == eventFilter) {
-            return list.takeAt(i);
-        }
-    }
-    return nullptr;
-}
-#endif
 
 void Application::setXwaylandScale(qreal scale)
 {
@@ -380,6 +346,27 @@ void Application::applyXwaylandScale()
 }
 
 #if KWIN_BUILD_X11
+void Application::registerEventFilter(X11EventFilter *filter)
+{
+    if (filter->isGenericEvent()) {
+        m_genericEventFilters.append(new X11EventFilterContainer(filter));
+    } else {
+        m_eventFilters.append(new X11EventFilterContainer(filter));
+    }
+}
+
+static X11EventFilterContainer *takeEventFilter(X11EventFilter *eventFilter,
+                                                QList<QPointer<X11EventFilterContainer>> &list)
+{
+    for (int i = 0; i < list.count(); ++i) {
+        X11EventFilterContainer *container = list.at(i);
+        if (container->filter() == eventFilter) {
+            return list.takeAt(i);
+        }
+    }
+    return nullptr;
+}
+
 void Application::unregisterEventFilter(X11EventFilter *filter)
 {
     X11EventFilterContainer *container = nullptr;
@@ -412,8 +399,6 @@ bool Application::dispatchEvent(xcb_generic_event_t *event)
                                                  QByteArrayLiteral("BadLength"),
                                                  QByteArrayLiteral("BadImplementation"),
                                                  QByteArrayLiteral("Unknown")});
-
-    kwinApp()->updateX11Time(event);
 
     const uint8_t x11EventType = event->response_type & ~0x80;
     if (!x11EventType) {
@@ -497,80 +482,9 @@ static quint32 monotonicTime()
     return ts.tv_sec * 1000 + ts.tv_nsec / 1000000L;
 }
 
-void Application::updateXTime()
+xcb_timestamp_t Application::x11Time() const
 {
-    setX11Time(monotonicTime(), TimestampUpdate::Always);
-}
-
-void Application::updateX11Time(xcb_generic_event_t *event)
-{
-    xcb_timestamp_t time = XCB_TIME_CURRENT_TIME;
-    const uint8_t eventType = event->response_type & ~0x80;
-    switch (eventType) {
-    case XCB_KEY_PRESS:
-    case XCB_KEY_RELEASE:
-        time = reinterpret_cast<xcb_key_press_event_t *>(event)->time;
-        break;
-    case XCB_BUTTON_PRESS:
-    case XCB_BUTTON_RELEASE:
-        time = reinterpret_cast<xcb_button_press_event_t *>(event)->time;
-        break;
-    case XCB_MOTION_NOTIFY:
-        time = reinterpret_cast<xcb_motion_notify_event_t *>(event)->time;
-        break;
-    case XCB_ENTER_NOTIFY:
-    case XCB_LEAVE_NOTIFY:
-        time = reinterpret_cast<xcb_enter_notify_event_t *>(event)->time;
-        break;
-    case XCB_FOCUS_IN:
-    case XCB_FOCUS_OUT:
-    case XCB_KEYMAP_NOTIFY:
-    case XCB_EXPOSE:
-    case XCB_GRAPHICS_EXPOSURE:
-    case XCB_NO_EXPOSURE:
-    case XCB_VISIBILITY_NOTIFY:
-    case XCB_CREATE_NOTIFY:
-    case XCB_DESTROY_NOTIFY:
-    case XCB_UNMAP_NOTIFY:
-    case XCB_MAP_NOTIFY:
-    case XCB_MAP_REQUEST:
-    case XCB_REPARENT_NOTIFY:
-    case XCB_CONFIGURE_NOTIFY:
-    case XCB_CONFIGURE_REQUEST:
-    case XCB_GRAVITY_NOTIFY:
-    case XCB_RESIZE_REQUEST:
-    case XCB_CIRCULATE_NOTIFY:
-    case XCB_CIRCULATE_REQUEST:
-        // no timestamp
-        return;
-    case XCB_PROPERTY_NOTIFY:
-        time = reinterpret_cast<xcb_property_notify_event_t *>(event)->time;
-        break;
-    case XCB_SELECTION_CLEAR:
-        time = reinterpret_cast<xcb_selection_clear_event_t *>(event)->time;
-        break;
-    case XCB_SELECTION_REQUEST:
-        time = reinterpret_cast<xcb_selection_request_event_t *>(event)->time;
-        break;
-    case XCB_SELECTION_NOTIFY:
-        time = reinterpret_cast<xcb_selection_notify_event_t *>(event)->time;
-        break;
-    case XCB_COLORMAP_NOTIFY:
-    case XCB_CLIENT_MESSAGE:
-    case XCB_MAPPING_NOTIFY:
-    case XCB_GE_GENERIC:
-        // no timestamp
-        return;
-    default:
-        // extension handling
-        if (Xcb::Extensions::self()) {
-            if (eventType == Xcb::Extensions::self()->shapeNotifyEvent()) {
-                time = reinterpret_cast<xcb_shape_notify_event_t *>(event)->server_time;
-            }
-        }
-        break;
-    }
-    setX11Time(time);
+    return monotonicTime();
 }
 
 bool XcbEventFilter::nativeEventFilter(const QByteArray &eventType, void *message, qintptr *result)
@@ -615,11 +529,6 @@ InputMethod *Application::inputMethod() const
     return m_inputMethod.get();
 }
 
-ColorManager *Application::colorManager() const
-{
-    return m_colorManager.get();
-}
-
 XwaylandInterface *Application::xwayland() const
 {
     return nullptr;
@@ -632,7 +541,7 @@ static PlatformCursorImage grabCursorOpenGL()
         return PlatformCursorImage{};
     }
     Cursor *cursor = Cursors::self()->currentCursor();
-    Output *output = workspace()->outputAt(cursor->pos());
+    LogicalOutput *output = workspace()->outputAt(cursor->pos());
 
     const auto texture = GLTexture::allocate(GL_RGBA8, (cursor->geometry().size() * output->scale()).toSize());
     if (!texture) {
@@ -642,10 +551,10 @@ static PlatformCursorImage grabCursorOpenGL()
     GLFramebuffer framebuffer(texture.get());
     RenderTarget renderTarget(&framebuffer);
 
-    SceneView sceneView(scene, output, nullptr);
-    ItemTreeView cursorView(&sceneView, scene->cursorItem(), output, nullptr);
+    SceneView sceneView(scene, output, nullptr, nullptr);
+    ItemTreeView cursorView(&sceneView, scene->cursorItem(), output, nullptr, nullptr);
     cursorView.prePaint();
-    cursorView.paint(renderTarget, infiniteRegion());
+    cursorView.paint(renderTarget, QPoint(), Region::infinite());
     cursorView.postPaint();
 
     QImage image = texture->toImage();
@@ -661,15 +570,15 @@ static PlatformCursorImage grabCursorSoftware()
         return PlatformCursorImage{};
     }
     Cursor *cursor = Cursors::self()->currentCursor();
-    Output *output = workspace()->outputAt(cursor->pos());
+    LogicalOutput *output = workspace()->outputAt(cursor->pos());
 
     QImage image((cursor->geometry().size() * output->scale()).toSize(), QImage::Format_ARGB32_Premultiplied);
     RenderTarget renderTarget(&image);
 
-    SceneView sceneView(scene, output, nullptr);
-    ItemTreeView cursorView(&sceneView, scene->cursorItem(), output, nullptr);
+    SceneView sceneView(scene, output, nullptr, nullptr);
+    ItemTreeView cursorView(&sceneView, scene->cursorItem(), output, nullptr, nullptr);
     cursorView.prePaint();
-    cursorView.paint(renderTarget, infiniteRegion());
+    cursorView.paint(renderTarget, QPoint(), Region::infinite());
     cursorView.postPaint();
 
     image.setDevicePixelRatio(output->scale());

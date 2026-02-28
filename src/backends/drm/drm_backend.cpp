@@ -88,9 +88,9 @@ Session *DrmBackend::session() const
     return m_session;
 }
 
-Outputs DrmBackend::outputs() const
+QList<BackendOutput *> DrmBackend::outputs() const
 {
-    return m_outputs;
+    return m_outputs | std::ranges::to<QList<BackendOutput *>>();
 }
 
 bool DrmBackend::initialize()
@@ -154,13 +154,13 @@ bool DrmBackend::initialize()
 
     if (m_explicitGpus.empty() && m_gpus.size() > 1) {
         std::ranges::sort(m_gpus, [](const auto &gpu1, const auto &gpu2) {
-            const size_t internalOutputs1 = std::ranges::count_if(gpu1->drmOutputs(), &Output::isInternal);
-            const size_t internalOutputs2 = std::ranges::count_if(gpu2->drmOutputs(), &Output::isInternal);
+            const size_t internalOutputs1 = std::ranges::count_if(gpu1->drmOutputs(), &BackendOutput::isInternal);
+            const size_t internalOutputs2 = std::ranges::count_if(gpu2->drmOutputs(), &BackendOutput::isInternal);
             if (internalOutputs1 != internalOutputs2) {
                 return internalOutputs1 > internalOutputs2;
             }
-            const size_t desktopOutputs1 = std::ranges::count_if(gpu1->drmOutputs(), std::not_fn(&Output::isNonDesktop));
-            const size_t desktopOutputs2 = std::ranges::count_if(gpu2->drmOutputs(), std::not_fn(&Output::isNonDesktop));
+            const size_t desktopOutputs1 = std::ranges::count_if(gpu1->drmOutputs(), std::not_fn(&BackendOutput::isNonDesktop));
+            const size_t desktopOutputs2 = std::ranges::count_if(gpu2->drmOutputs(), std::not_fn(&BackendOutput::isNonDesktop));
             if (desktopOutputs1 != desktopOutputs2) {
                 return desktopOutputs1 > desktopOutputs2;
             }
@@ -264,54 +264,14 @@ DrmGpu *DrmBackend::addGpu(const QString &fileName)
     return gpu;
 }
 
-static QString earlyIdentifier(Output *output)
-{
-    // We can't use the output's UUID because that's only set later, by the output config system.
-    // This doesn't need to be perfectly accurate though, sometimes getting a false positive is ok,
-    // so this just uses EDID ID, EDID hash or connector name, whichever is available
-    if (output->edid().isValid()) {
-        if (!output->edid().identifier().isEmpty()) {
-            return output->edid().identifier();
-        } else {
-            return output->edid().hash();
-        }
-    } else {
-        return output->name();
-    }
-}
-
 void DrmBackend::addOutput(DrmAbstractOutput *o)
 {
-    const bool allOff = std::ranges::all_of(m_outputs, [](Output *output) {
-        return !output->isEnabled() || output->dpmsMode() != Output::DpmsMode::On;
-    });
-    if (allOff && m_recentlyUnpluggedDpmsOffOutputs.contains(earlyIdentifier(o))) {
-        if (DrmOutput *drmOutput = qobject_cast<DrmOutput *>(o)) {
-            // When the system is in dpms power saving mode, KWin turns on all outputs if the user plugs a new output in
-            // as that's an intentional action and they expect to see the output light up.
-            // Some outputs however temporarily disconnect in some situations, most often shortly after they go into standby.
-            // To not turn on outputs in that case, restore the previous dpms state
-            drmOutput->updateDpmsMode(Output::DpmsMode::Off);
-            drmOutput->pipeline()->setActive(false);
-            drmOutput->renderLoop()->inhibit();
-            m_recentlyUnpluggedDpmsOffOutputs.removeOne(earlyIdentifier(drmOutput));
-        }
-    }
     m_outputs.append(o);
     Q_EMIT outputAdded(o);
 }
 
-static const int s_dpmsTimeout = environmentVariableIntValue("KWIN_DPMS_WORKAROUND_TIMEOUT").value_or(2000);
-
 void DrmBackend::removeOutput(DrmAbstractOutput *o)
 {
-    if (o->dpmsMode() == Output::DpmsMode::Off) {
-        const QString id = earlyIdentifier(o);
-        m_recentlyUnpluggedDpmsOffOutputs.push_back(id);
-        QTimer::singleShot(s_dpmsTimeout, this, [this, id]() {
-            m_recentlyUnpluggedDpmsOffOutputs.removeOne(id);
-        });
-    }
     m_outputs.removeOne(o);
     Q_EMIT outputRemoved(o);
 }
@@ -374,7 +334,7 @@ QString DrmBackend::supportInformation() const
     return supportInfo;
 }
 
-Output *DrmBackend::createVirtualOutput(const QString &name, const QString &description, const QSize &size, double scale)
+BackendOutput *DrmBackend::createVirtualOutput(const QString &name, const QString &description, const QSize &size, double scale)
 {
     const auto ret = new DrmVirtualOutput(this, name, description, size, scale);
     m_virtualOutputs.push_back(ret);
@@ -383,7 +343,7 @@ Output *DrmBackend::createVirtualOutput(const QString &name, const QString &desc
     return ret;
 }
 
-void DrmBackend::removeVirtualOutput(Output *output)
+void DrmBackend::removeVirtualOutput(BackendOutput *output)
 {
     auto virtualOutput = qobject_cast<DrmVirtualOutput *>(output);
     Q_ASSERT(virtualOutput);
@@ -443,6 +403,8 @@ OutputConfigurationError DrmBackend::applyOutputChanges(const OutputConfiguratio
             if (error == DrmPipeline::Error::NotEnoughCrtcs) {
                 // TODO make this more specific, this is per GPU!
                 return OutputConfigurationError::TooManyEnabledOutputs;
+            } else if (error == DrmPipeline::Error::Timeout) {
+                return OutputConfigurationError::Timeout;
             } else {
                 return OutputConfigurationError::Unknown;
             }

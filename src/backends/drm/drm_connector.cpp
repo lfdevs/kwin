@@ -28,11 +28,11 @@ static QSize resolutionForMode(const drmModeModeInfo *info)
     return QSize(info->hdisplay, info->vdisplay);
 }
 
-static quint64 refreshRateForMode(_drmModeModeInfo *m)
+uint32_t DrmConnector::refreshRateForMode(_drmModeModeInfo *m)
 {
     // Calculate higher precision (mHz) refresh rate
     // logic based on Weston, see compositor-drm.c
-    quint64 refreshRate = (m->clock * 1000000LL / m->htotal + m->vtotal / 2) / m->vtotal;
+    uint64_t refreshRate = (m->clock * 1000000LL / m->htotal + m->vtotal / 2) / m->vtotal;
     if (m->flags & DRM_MODE_FLAG_INTERLACE) {
         refreshRate *= 2;
     }
@@ -55,7 +55,7 @@ static OutputMode::Flags flagsForMode(const drmModeModeInfo *info, OutputMode::F
 }
 
 DrmConnectorMode::DrmConnectorMode(DrmConnector *connector, drmModeModeInfo nativeMode, Flags additionalFlags)
-    : OutputMode(resolutionForMode(&nativeMode), refreshRateForMode(&nativeMode), flagsForMode(&nativeMode, additionalFlags))
+    : OutputMode(resolutionForMode(&nativeMode), DrmConnector::refreshRateForMode(&nativeMode), flagsForMode(&nativeMode, additionalFlags))
     , m_connector(connector)
     , m_nativeMode(nativeMode)
 {
@@ -219,31 +219,23 @@ QList<std::shared_ptr<DrmConnectorMode>> DrmConnector::modes() const
     return m_modes;
 }
 
-std::shared_ptr<DrmConnectorMode> DrmConnector::findMode(const drmModeModeInfo &modeInfo) const
-{
-    const auto it = std::ranges::find_if(m_modes, [&modeInfo](const auto &mode) {
-        return checkIfEqual(mode->nativeMode(), &modeInfo);
-    });
-    return it == m_modes.constEnd() ? nullptr : *it;
-}
-
-Output::SubPixel DrmConnector::subpixel() const
+BackendOutput::SubPixel DrmConnector::subpixel() const
 {
     switch (m_conn->subpixel) {
     case DRM_MODE_SUBPIXEL_UNKNOWN:
-        return Output::SubPixel::Unknown;
+        return BackendOutput::SubPixel::Unknown;
     case DRM_MODE_SUBPIXEL_HORIZONTAL_RGB:
-        return Output::SubPixel::Horizontal_RGB;
+        return BackendOutput::SubPixel::Horizontal_RGB;
     case DRM_MODE_SUBPIXEL_HORIZONTAL_BGR:
-        return Output::SubPixel::Horizontal_BGR;
+        return BackendOutput::SubPixel::Horizontal_BGR;
     case DRM_MODE_SUBPIXEL_VERTICAL_RGB:
-        return Output::SubPixel::Vertical_RGB;
+        return BackendOutput::SubPixel::Vertical_RGB;
     case DRM_MODE_SUBPIXEL_VERTICAL_BGR:
-        return Output::SubPixel::Vertical_BGR;
+        return BackendOutput::SubPixel::Vertical_BGR;
     case DRM_MODE_SUBPIXEL_NONE:
-        return Output::SubPixel::None;
+        return BackendOutput::SubPixel::None;
     default:
-        return Output::SubPixel::Unknown;
+        return BackendOutput::SubPixel::Unknown;
     }
 }
 
@@ -404,7 +396,7 @@ QList<std::shared_ptr<DrmConnectorMode>> DrmConnector::generateCommonModes()
             if (size.width() > maxSize.width() || size.height() > maxSize.height() || bandwidthEstimation > maxBandwidthEstimation) {
                 continue;
             }
-            const auto generatedMode = generateMode(size, refreshRate / 1000.0);
+            const auto generatedMode = generateMode(size, refreshRate / 1000.0, OutputMode::Flags{});
             const bool alreadyExists = std::ranges::any_of(m_driverModes, [generatedMode](const auto &mode) {
                 return mode->size() == generatedMode->size()
                     && std::round(mode->refreshRate() / 1000.0) == std::round(generatedMode->refreshRate() / 1000.0);
@@ -418,9 +410,9 @@ QList<std::shared_ptr<DrmConnectorMode>> DrmConnector::generateCommonModes()
     return ret;
 }
 
-std::shared_ptr<DrmConnectorMode> DrmConnector::generateMode(const QSize &size, float refreshRate)
+std::shared_ptr<DrmConnectorMode> DrmConnector::generateMode(const QSize &size, float refreshRate, OutputMode::Flags flags)
 {
-    auto modeInfo = libxcvt_gen_mode_info(size.width(), size.height(), refreshRate, false, false);
+    auto modeInfo = libxcvt_gen_mode_info(size.width(), size.height(), refreshRate, flags & OutputMode::Flag::ReducedBlanking, false);
 
     drmModeModeInfo mode{
         .clock = uint32_t(modeInfo->dot_clock),
@@ -441,7 +433,7 @@ std::shared_ptr<DrmConnectorMode> DrmConnector::generateMode(const QSize &size, 
     sprintf(mode.name, "%dx%d@%d", size.width(), size.height(), mode.vrefresh);
 
     free(modeInfo);
-    return std::make_shared<DrmConnectorMode>(this, mode, OutputMode::Flag::Generated);
+    return std::make_shared<DrmConnectorMode>(this, mode, flags | OutputMode::Flag::Generated);
 }
 
 QDebug &operator<<(QDebug &s, const KWin::DrmConnector *obj)
@@ -496,29 +488,29 @@ OutputTransform DrmConnector::toKWinTransform(PanelOrientation orientation)
     }
 }
 
-DrmConnector::BroadcastRgbOptions DrmConnector::rgbRangeToBroadcastRgb(Output::RgbRange rgbRange)
+DrmConnector::BroadcastRgbOptions DrmConnector::rgbRangeToBroadcastRgb(BackendOutput::RgbRange rgbRange)
 {
     switch (rgbRange) {
-    case Output::RgbRange::Automatic:
+    case BackendOutput::RgbRange::Automatic:
         return BroadcastRgbOptions::Automatic;
-    case Output::RgbRange::Full:
+    case BackendOutput::RgbRange::Full:
         return BroadcastRgbOptions::Full;
-    case Output::RgbRange::Limited:
+    case BackendOutput::RgbRange::Limited:
         return BroadcastRgbOptions::Limited;
     default:
         Q_UNREACHABLE();
     }
 }
 
-Output::RgbRange DrmConnector::broadcastRgbToRgbRange(BroadcastRgbOptions rgbRange)
+BackendOutput::RgbRange DrmConnector::broadcastRgbToRgbRange(BroadcastRgbOptions rgbRange)
 {
     switch (rgbRange) {
     case BroadcastRgbOptions::Automatic:
-        return Output::RgbRange::Automatic;
+        return BackendOutput::RgbRange::Automatic;
     case BroadcastRgbOptions::Full:
-        return Output::RgbRange::Full;
+        return BackendOutput::RgbRange::Full;
     case BroadcastRgbOptions::Limited:
-        return Output::RgbRange::Limited;
+        return BackendOutput::RgbRange::Limited;
     default:
         Q_UNREACHABLE();
     }

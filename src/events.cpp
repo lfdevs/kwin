@@ -148,8 +148,7 @@ bool Workspace::workspaceEvent(xcb_generic_event_t *e)
         const auto *event = reinterpret_cast<xcb_create_notify_event_t *>(e);
         if (event->parent == kwinApp()->x11RootWindow() && !event->override_redirect) {
             // see comments for allowWindowActivation()
-            kwinApp()->updateXTime();
-            const xcb_timestamp_t t = xTime();
+            const xcb_timestamp_t t = kwinApp()->x11Time();
             xcb_change_property(kwinApp()->x11Connection(), XCB_PROP_MODE_REPLACE, event->window, atoms->kde_net_wm_user_creation_time, XCB_ATOM_CARDINAL, 32, 1, &t);
         }
         break;
@@ -159,8 +158,6 @@ bool Workspace::workspaceEvent(xcb_generic_event_t *e)
         return (event->event != event->window); // hide wm typical event from Qt
     }
     case XCB_MAP_REQUEST: {
-        kwinApp()->updateXTime();
-
         const auto *event = reinterpret_cast<xcb_map_request_event_t *>(e);
         if (!createX11Window(event->window, false)) {
             xcb_map_window(kwinApp()->x11Connection(), event->window);
@@ -233,20 +230,15 @@ bool Workspace::workspaceEvent(xcb_generic_event_t *e)
         if (event->event == kwinApp()->x11RootWindow()
             && (event->detail == XCB_NOTIFY_DETAIL_NONE || event->detail == XCB_NOTIFY_DETAIL_POINTER_ROOT || event->detail == XCB_NOTIFY_DETAIL_INFERIOR)) {
             Xcb::CurrentInput currentInput;
-            kwinApp()->updateXTime(); // focusToNull() uses xTime(), which is old now (FocusIn has no timestamp)
             if (!currentInput.isNull()) {
                 // it seems we can "loose" focus reversions when the closing window hold a grab
                 // => catch the typical pattern (though we don't want the focus on the root anyway) #348935
                 const bool lostFocusPointerToRoot = currentInput->focus == kwinApp()->x11RootWindow() && event->detail == XCB_NOTIFY_DETAIL_INFERIOR;
                 if (currentInput->focus == XCB_WINDOW_NONE || currentInput->focus == XCB_INPUT_FOCUS_POINTER_ROOT || lostFocusPointerToRoot) {
-                    // kWarning( 1212 ) << "X focus set to None/PointerRoot, resetting focus" ;
-                    Window *window = mostRecentlyActivatedWindow();
-                    if (window != nullptr) {
+                    if (Window *window = activeWindow()) {
                         requestFocus(window, true);
-                    } else if (activateNextWindow(nullptr)) {
-                        ; // ok, activated
                     } else {
-                        focusToNull();
+                        activateNextWindow(nullptr);
                     }
                 }
             }
@@ -292,14 +284,6 @@ bool X11Window::windowEvent(xcb_generic_event_t *e)
             destroyWindow();
             break;
         case XCB_UNMAP_NOTIFY: {
-            // unmap notify might have been emitted due to a destroy notify
-            // but unmap notify gets emitted before the destroy notify, nevertheless at this
-            // point the window is already destroyed. This means any XCB request with the window
-            // will cause an error.
-            // To not run into these errors we try to wait for the destroy notify. For this we
-            // generate a round trip to the X server and wait a very short time span before
-            // handling the release.
-            kwinApp()->updateXTime();
             // using 1 msec to not just move it at the end of the event loop but add an very short
             // timespan to cover cases like unmap() followed by destroy(). The only other way to
             // ensure that the window is not destroyed when we do the release handling is to grab
@@ -392,7 +376,7 @@ bool X11Window::windowEvent(xcb_generic_event_t *e)
         propertyNotifyEvent(reinterpret_cast<xcb_property_notify_event_t *>(e));
         break;
     case XCB_FOCUS_IN:
-        focusInEvent(reinterpret_cast<xcb_focus_in_event_t *>(e));
+        focusInEvent(e);
         break;
     case XCB_FOCUS_OUT:
         focusOutEvent(reinterpret_cast<xcb_focus_out_event_t *>(e));
@@ -468,11 +452,11 @@ void X11Window::clientMessageEvent(xcb_client_message_event_t *e)
 
 void X11Window::configureNotifyEvent(xcb_configure_notify_event_t *e)
 {
-    QRectF newgeom(Xcb::fromXNative(e->x), Xcb::fromXNative(e->y), Xcb::fromXNative(e->width), Xcb::fromXNative(e->height));
+    RectF newgeom(Xcb::fromXNative(e->x), Xcb::fromXNative(e->y), Xcb::fromXNative(e->width), Xcb::fromXNative(e->height));
     if (newgeom != m_frameGeometry) {
         Q_EMIT frameGeometryAboutToChange();
 
-        QRectF old = m_frameGeometry;
+        RectF old = m_frameGeometry;
         m_clientGeometry = newgeom;
         m_frameGeometry = newgeom;
         m_bufferGeometry = newgeom;
@@ -574,12 +558,14 @@ void X11Window::propertyNotifyEvent(xcb_property_notify_event_t *e)
     }
 }
 
-void X11Window::focusInEvent(xcb_focus_in_event_t *e)
+void X11Window::focusInEvent(xcb_generic_event_t *event)
 {
-    if (e->mode == XCB_NOTIFY_MODE_GRAB || e->mode == XCB_NOTIFY_MODE_UNGRAB) {
+    const auto focusEvent = reinterpret_cast<xcb_focus_in_event_t *>(event);
+
+    if (focusEvent->mode == XCB_NOTIFY_MODE_GRAB || focusEvent->mode == XCB_NOTIFY_MODE_UNGRAB) {
         return; // we don't care
     }
-    if (e->detail == XCB_NOTIFY_DETAIL_POINTER) {
+    if (focusEvent->detail == XCB_NOTIFY_DETAIL_POINTER) {
         return; // we don't care
     }
     if (!isShown() || !isOnCurrentDesktop()) { // we unmapped it, but it got focus meanwhile ->
@@ -588,17 +574,46 @@ void X11Window::focusInEvent(xcb_focus_in_event_t *e)
     workspace()->forEachClient([](X11Window *window) {
         window->cancelFocusOutTimer();
     });
-    // check if this window is in should_get_focus list or if activation is allowed
-    bool activate = allowWindowActivation(-1U, true);
-    workspace()->gotFocusIn(this); // remove from should_get_focus list
-    if (activate) {
-        setActive(true);
+
+    // Note that xcb_focus_in_event_t::sequence is a uint16_t serial.
+    const UInt32Serial serial = event->full_sequence;
+
+    // This is a FocusIn event from an XSetInputFocus() request that was issued before ours, it will
+    // be superseded later, so don't bother updating the active window.
+    if (serial < workspace()->x11FocusSerial()) {
+        return;
+    }
+
+    // This is a FocusIn event in response to the XSetInputFocus() getting called by us or somebody
+    // else tried to focus their window around the same time, in which case consult with our focus
+    // stealing prevention policies.
+    if (serial == workspace()->x11FocusSerial()) {
+        if (isActive()) {
+            return;
+        }
+    }
+
+    // Somebody focused their window but they opted in only to the WM_TAKE_FOCUS protocol or somebody
+    // tried to steal input focus. If we've attempted to focus that window, then just update the
+    // focus serial, and that's it, otherwise check if this FocusIn event is fine according to our
+    // focus stealing prevention policies.
+    if (serial > workspace()->x11FocusSerial()) {
+        if (isActive()) {
+            workspace()->setX11FocusSerial(serial);
+            return;
+        }
+    }
+
+    if (allowWindowActivation(-1U, true)) {
+        workspace()->setX11FocusSerial(serial);
+        workspace()->setActiveWindow(this);
     } else {
         if (workspace()->restoreFocus()) {
             demandAttention();
         } else {
             qCWarning(KWIN_CORE, "Failed to restore focus. Activating 0x%x", window());
-            setActive(true);
+            workspace()->setX11FocusSerial(serial);
+            workspace()->setActiveWindow(this);
         }
     }
 }
@@ -643,7 +658,9 @@ void X11Window::focusOutEvent(xcb_focus_out_event_t *e)
         m_focusOutTimer->setSingleShot(true);
         m_focusOutTimer->setInterval(0);
         connect(m_focusOutTimer, &QTimer::timeout, this, [this]() {
-            setActive(false);
+            if (workspace()->activeWindow() == this) {
+                workspace()->setActiveWindow(nullptr);
+            }
         });
     }
     m_focusOutTimer->start();

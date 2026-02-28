@@ -17,6 +17,7 @@
 namespace KWin
 {
 
+class Rect;
 class ScreenShotManager;
 class ScreenShotSinkPipe2;
 class ScreenShotSource2;
@@ -57,10 +58,11 @@ public Q_SLOTS:
                                  QDBusUnixFileDescriptor pipe);
 
 private:
-    void takeScreenShot(Output *screen, ScreenShotFlags flags, ScreenShotSinkPipe2 *sink);
-    void takeScreenShot(const QRect &area, ScreenShotFlags flags, ScreenShotSinkPipe2 *sink);
+    void takeScreenShot(LogicalOutput *screen, ScreenShotFlags flags, ScreenShotSinkPipe2 *sink, std::optional<pid_t> pid);
+    void takeScreenShot(const Rect &area, ScreenShotFlags flags, ScreenShotSinkPipe2 *sink, std::optional<pid_t> pid);
     void takeScreenShot(Window *window, ScreenShotFlags flags, ScreenShotSinkPipe2 *sink);
-    bool checkPermissions() const;
+    std::optional<pid_t> determineCallerPid() const;
+    bool checkPermissions(std::optional<pid_t> pid) const;
 
     ScreenShotManager *m_effect;
 };

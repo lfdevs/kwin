@@ -83,7 +83,7 @@ ScreenShotManager::~ScreenShotManager()
 
 // TODO share code with the screencast plugin?
 
-std::optional<QImage> ScreenShotManager::takeScreenShot(Output *screen, ScreenShotFlags flags)
+std::optional<QImage> ScreenShotManager::takeScreenShot(LogicalOutput *screen, ScreenShotFlags flags, std::optional<pid_t> pidToHide)
 {
     const auto eglBackend = dynamic_cast<EglBackend *>(Compositor::self()->backend());
     if (!eglBackend) {
@@ -119,17 +119,22 @@ std::optional<QImage> ScreenShotManager::takeScreenShot(Output *screen, ScreenSh
     if (!beginInfo) {
         return std::nullopt;
     }
-    SceneView sceneView(Compositor::self()->scene(), screen, &layer);
+    SceneView sceneView(Compositor::self()->scene(), screen, nullptr, &layer);
     std::unique_ptr<ItemTreeView> cursorView;
     if (!(flags & ScreenShotIncludeCursor)) {
-        cursorView = std::make_unique<ItemTreeView>(&sceneView, Compositor::self()->scene()->cursorItem(), workspace()->outputs().front(), nullptr);
+        cursorView = std::make_unique<ItemTreeView>(&sceneView, Compositor::self()->scene()->cursorItem(), workspace()->outputs().front(), nullptr, nullptr);
         cursorView->setExclusive(true);
     }
-    const QRect fullDamage = QRect(QPoint(), screen->geometry().size());
+    if (pidToHide.has_value()) {
+        sceneView.addWindowFilter([pid = *pidToHide](Window *window) {
+            return window->pid() == pid;
+        });
+    }
+    const Rect fullDamage = Rect(QPoint(), target->size());
     sceneView.setViewport(screen->geometryF());
     sceneView.setScale(scale);
     sceneView.prePaint();
-    sceneView.paint(beginInfo->renderTarget, fullDamage);
+    sceneView.paint(beginInfo->renderTarget, QPoint(), fullDamage);
     sceneView.postPaint();
     if (!layer.endFrame(fullDamage, fullDamage, nullptr)) {
         return std::nullopt;
@@ -145,7 +150,7 @@ std::optional<QImage> ScreenShotManager::takeScreenShot(Output *screen, ScreenSh
     return snapshot;
 }
 
-std::optional<QImage> ScreenShotManager::takeScreenShot(const QRect &area, ScreenShotFlags flags)
+std::optional<QImage> ScreenShotManager::takeScreenShot(const Rect &area, ScreenShotFlags flags, std::optional<pid_t> pidToHide)
 {
     const auto eglBackend = dynamic_cast<EglBackend *>(Compositor::self()->backend());
     if (!eglBackend) {
@@ -159,7 +164,7 @@ std::optional<QImage> ScreenShotManager::takeScreenShot(const QRect &area, Scree
     qreal scale = 1.0;
     if (flags & ScreenShotNativeResolution) {
         const auto outputs = workspace()->outputs();
-        for (Output *output : outputs) {
+        for (LogicalOutput *output : outputs) {
             scale = std::max(scale, output->scale());
         }
     }
@@ -184,17 +189,22 @@ std::optional<QImage> ScreenShotManager::takeScreenShot(const QRect &area, Scree
     if (!beginInfo) {
         return std::nullopt;
     }
-    SceneView sceneView(Compositor::self()->scene(), workspace()->outputs().front(), &layer);
+    SceneView sceneView(Compositor::self()->scene(), workspace()->outputs().front(), nullptr, &layer);
     std::unique_ptr<ItemTreeView> cursorView;
     if (!(flags & ScreenShotIncludeCursor)) {
-        cursorView = std::make_unique<ItemTreeView>(&sceneView, Compositor::self()->scene()->cursorItem(), workspace()->outputs().front(), nullptr);
+        cursorView = std::make_unique<ItemTreeView>(&sceneView, Compositor::self()->scene()->cursorItem(), workspace()->outputs().front(), nullptr, nullptr);
         cursorView->setExclusive(true);
     }
-    const QRect fullDamage = QRect(QPoint(), area.size());
+    if (pidToHide.has_value()) {
+        sceneView.addWindowFilter([pid = *pidToHide](Window *window) {
+            return window->pid() == pid;
+        });
+    }
+    const Rect fullDamage = Rect(QPoint(), target->size());
     sceneView.setViewport(area);
     sceneView.setScale(scale);
     sceneView.prePaint();
-    sceneView.paint(beginInfo->renderTarget, fullDamage);
+    sceneView.paint(beginInfo->renderTarget, QPoint(), fullDamage);
     sceneView.postPaint();
     if (!layer.endFrame(fullDamage, fullDamage, nullptr)) {
         return std::nullopt;
@@ -222,7 +232,7 @@ std::optional<QImage> ScreenShotManager::takeScreenShot(Window *window, ScreenSh
     }
 
     const qreal scale = window->targetScale();
-    QRectF geometry = window->visibleGeometry();
+    RectF geometry = window->visibleGeometry();
     if (window->windowItem()->decorationItem() && !(flags & ScreenShotIncludeDecoration)) {
         geometry = window->clientGeometry();
     } else if (!(flags & ScreenShotIncludeShadow)) {
@@ -237,21 +247,21 @@ std::optional<QImage> ScreenShotManager::takeScreenShot(Window *window, ScreenSh
     GLFramebuffer offscreenTarget(offscreenTexture.get());
 
     RenderTarget renderTarget(&offscreenTarget);
-    RenderViewport viewport(geometry, scale, renderTarget);
+    RenderViewport viewport(geometry, scale, renderTarget, QPoint());
 
     WorkspaceScene *scene = Compositor::self()->scene();
 
     scene->renderer()->beginFrame(renderTarget, viewport);
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glClear(GL_COLOR_BUFFER_BIT);
-    scene->renderer()->renderItem(renderTarget, viewport, window->windowItem(), Scene::PAINT_WINDOW_TRANSFORMED, infiniteRegion(), WindowPaintData{}, [flags, w = window->windowItem()](Item *item) {
+    scene->renderer()->renderItem(renderTarget, viewport, window->windowItem(), Scene::PAINT_WINDOW_TRANSFORMED, Region::infinite(), WindowPaintData{}, [flags, w = window->windowItem()](Item *item) {
         const bool deco = flags & ScreenShotFlag::ScreenShotIncludeDecoration;
         const bool shadow = deco && (flags & ScreenShotFlag::ScreenShotIncludeShadow);
         return (!deco && item == w->decorationItem())
             || (!shadow && item == w->shadowItem());
     }, {});
     if ((flags & ScreenShotFlag::ScreenShotIncludeCursor) && scene->cursorItem()->isVisible()) {
-        scene->renderer()->renderItem(renderTarget, viewport, scene->cursorItem(), 0, infiniteRegion(), WindowPaintData{}, {}, {});
+        scene->renderer()->renderItem(renderTarget, viewport, scene->cursorItem(), 0, Region::infinite(), WindowPaintData{}, {}, {});
     }
     scene->renderer()->endFrame();
 

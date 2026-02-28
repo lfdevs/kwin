@@ -7,6 +7,7 @@
 #pragma once
 
 #include "core/inputdevice.h"
+#include "utils/serial.h"
 
 #include <QMatrix4x4>
 #include <QObject>
@@ -39,10 +40,11 @@ class TouchPoint : public QObject
 {
     Q_OBJECT
 public:
-    TouchPoint(quint32 serial, SurfaceInterface *surface, SeatInterface *seat);
+    TouchPoint(qint32 id, quint32 serial, SurfaceInterface *surface, SeatInterface *seat);
 
     void setSurfacePosition(const QPointF &offset);
 
+    qint32 id;
     quint32 serial = 0;
     QPointer<ClientConnection> client;
     QPointer<SurfaceInterface> surface;
@@ -611,10 +613,10 @@ public:
      * @see selection
      * @see selectionChanged
      */
-    void setSelection(AbstractDataSource *selection, quint32 serial);
+    void setSelection(AbstractDataSource *selection, UInt32Serial serial);
 
     AbstractDataSource *primarySelection() const;
-    void setPrimarySelection(AbstractDataSource *selection, quint32 serial);
+    void setPrimarySelection(AbstractDataSource *selection, UInt32Serial serial);
 
     void setFocusedDataDeviceSurface(SurfaceInterface *surface);
 

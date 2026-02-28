@@ -46,9 +46,7 @@ KeyboardInputRedirection::KeyboardInputRedirection(InputRedirection *parent)
     , m_xkb(new Xkb(kwinApp()->followLocale1()))
 {
     connect(m_xkb.get(), &Xkb::ledsChanged, this, &KeyboardInputRedirection::ledsChanged);
-    if (waylandServer()) {
-        m_xkb->setSeat(waylandServer()->seat());
-    }
+    m_xkb->setSeat(waylandServer()->seat());
 }
 
 KeyboardInputRedirection::~KeyboardInputRedirection() = default;
@@ -285,9 +283,11 @@ void KeyboardInputRedirection::processKey(uint32_t key, KeyboardKeyState state, 
         return;
     }
 
-    const bool ret = m_a11yKeyboardMonitor.processKey(key, state, time);
-    if (ret) {
-        return;
+    if (!waylandServer()->isKeyboardShortcutsInhibited()) {
+        const bool ret = m_a11yKeyboardMonitor.processKey(key, state, time);
+        if (ret) {
+            return;
+        }
     }
 
     if (state == KeyboardKeyState::Pressed) {

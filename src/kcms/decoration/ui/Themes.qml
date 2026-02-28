@@ -7,7 +7,7 @@
 import QtQuick
 
 import org.kde.kcmutils as KCM
-import org.kde.kirigami 2.20 as Kirigami
+import org.kde.kirigami as Kirigami
 import org.kde.kwin.private.kdecoration as KDecoration
 
 KCM.GridView {
@@ -91,7 +91,7 @@ KCM.GridView {
             Kirigami.Action {
                 icon.name: "edit-entry"
                 tooltip: i18n("Edit %1 Theme…", model.display)
-                enabled: model.configureable
+                enabled: model.configurable
                 onTriggered: {
                     kcm.theme = index;
                     view.currentIndex = index;

@@ -27,6 +27,7 @@
 #include <xkbcommon/xkbcommon.h>
 
 #include "qwayland-color-management-v1.h"
+#include "qwayland-color-representation-v1.h"
 #include "qwayland-cursor-shape-v1.h"
 #include "qwayland-fake-input.h"
 #include "qwayland-fifo-v1.h"
@@ -60,7 +61,7 @@ class ConnectionThread;
 class Compositor;
 class DataSource;
 class EventQueue;
-class Output;
+class LogicalOutput;
 class PlasmaShell;
 class PlasmaWindowManagement;
 class Pointer;
@@ -88,6 +89,12 @@ class ScreencastingV1;
 
 namespace KWin
 {
+
+namespace WaylandClient
+{
+class LinuxDmabufV1;
+class Viewporter;
+}
 
 class WaylandServer;
 
@@ -310,12 +317,14 @@ public:
     XdgSurface *xdgSurface() const;
 
 Q_SIGNALS:
-    void configureRequested(const QRect &rect);
+    void configureRequested(const Rect &rect);
     void doneReceived();
+    void repositioned(quint32 token);
 
 protected:
     void xdg_popup_configure(int32_t x, int32_t y, int32_t width, int32_t height) override;
     void xdg_popup_popup_done() override;
+    void xdg_popup_repositioned(uint32_t token) override;
 
 private:
     std::unique_ptr<XdgSurface> m_xdgSurface;
@@ -718,6 +727,7 @@ public:
     ~WpPrimarySelectionDeviceV1() override;
 
     WpPrimarySelectionOfferV1 *offer() const;
+    std::unique_ptr<WpPrimarySelectionOfferV1> takeOffer();
 
 Q_SIGNALS:
     void selectionOffered(WpPrimarySelectionOfferV1 *offer);
@@ -757,7 +767,7 @@ public:
     std::unique_ptr<XdgToplevelDragV1> createDrag(KWayland::Client::DataSource *source);
 };
 
-enum class AdditionalWaylandInterface {
+enum class AdditionalWaylandInterface : uint64_t {
     Seat = 1 << 0,
     DataDeviceManager = 1 << 1,
     PlasmaShell = 1 << 2,
@@ -789,6 +799,9 @@ enum class AdditionalWaylandInterface {
     KeyState = 1 << 28,
     WpPrimarySelectionV1 = 1 << 29,
     XdgToplevelDragV1 = 1 << 30,
+    LinuxDmabuf = 1ull << 31,
+    ColorRepresentation = 1ull << 32,
+    Viewporter = 1ull << 33,
 };
 Q_DECLARE_FLAGS(AdditionalWaylandInterfaces, AdditionalWaylandInterface)
 
@@ -982,6 +995,20 @@ private:
     void org_kde_kwin_keystate_stateChanged(uint32_t key, uint32_t state) override;
 };
 
+class ColorRepresentationV1 : public QtWayland::wp_color_representation_manager_v1
+{
+public:
+    explicit ColorRepresentationV1(::wl_registry *registry, uint32_t id, int version);
+    ~ColorRepresentationV1() override;
+};
+
+class ColorRepresentationSurfaceV1 : public QtWayland::wp_color_representation_surface_v1
+{
+public:
+    explicit ColorRepresentationSurfaceV1(::wp_color_representation_surface_v1 *object);
+    ~ColorRepresentationSurfaceV1() override;
+};
+
 struct Connection
 {
     static std::unique_ptr<Connection> setup(AdditionalWaylandInterfaces interfaces = AdditionalWaylandInterfaces());
@@ -1031,6 +1058,9 @@ struct Connection
     std::unique_ptr<KeyStateV1> keyState;
     std::unique_ptr<WpPrimarySelectionDeviceManagerV1> primarySelectionManager;
     std::unique_ptr<XdgToplevelDragManagerV1> toplevelDragManager;
+    std::unique_ptr<WaylandClient::LinuxDmabufV1> linuxDmabuf;
+    std::unique_ptr<ColorRepresentationV1> colorRepresentation;
+    std::unique_ptr<WaylandClient::Viewporter> viewporter;
 };
 
 void keyboardKeyPressed(quint32 key, quint32 time);
@@ -1054,7 +1084,7 @@ void touchUp(qint32 id, quint32 time);
 void tabletPadButtonPressed(quint32 button, quint32 time);
 void tabletPadButtonReleased(quint32 button, quint32 time);
 void tabletPadDialEvent(double delta, int number, quint32 time);
-void tabletPadRingEvent(int position, int number, quint32 group, quint32 mode, quint32 time);
+void tabletPadRingEvent(qreal position, int number, quint32 group, quint32 mode, quint32 time);
 void tabletToolButtonPressed(quint32 button, quint32 time);
 void tabletToolButtonReleased(quint32 button, quint32 time);
 void tabletToolProximityEvent(const QPointF &pos, qreal xTilt, qreal yTilt, qreal rotation, qreal distance, bool tipNear, qreal sliderPosition, quint32 time);
@@ -1104,6 +1134,9 @@ WpTabletManagerV2 *tabletManager();
 KeyStateV1 *keyState();
 WpPrimarySelectionDeviceManagerV1 *primarySelectionManager();
 XdgToplevelDragManagerV1 *toplevelDragManager();
+WaylandClient::LinuxDmabufV1 *linuxDmabuf();
+ColorRepresentationV1 *colorRepresentation();
+WaylandClient::Viewporter *viewporter();
 
 bool waitForWaylandSurface(Window *window);
 
@@ -1372,7 +1405,7 @@ private:
 
 struct OutputInfo
 {
-    QRect geometry;
+    Rect geometry;
     double scale = 1;
     bool internal = false;
     QSize physicalSizeInMM;
@@ -1383,8 +1416,34 @@ struct OutputInfo
     std::optional<QString> connectorName;
     std::optional<QByteArray> mstPath;
 };
-void setOutputConfig(const QList<QRect> &geometries);
+void setOutputConfig(const QList<Rect> &geometries);
 void setOutputConfig(const QList<OutputInfo> &infos);
+
+class XdgToplevelWindow
+{
+public:
+    explicit XdgToplevelWindow(const std::function<void(KWayland::Client::Surface *surface, XdgToplevel *toplevel)> &setup);
+    explicit XdgToplevelWindow(const std::function<void(XdgToplevel *toplevel)> &setup = {});
+    XdgToplevelWindow(const XdgToplevelWindow &copy) = delete;
+    ~XdgToplevelWindow();
+
+    bool show(const QSize &size = QSize(100, 100), const QColor &color = Qt::blue);
+    bool show(const QImage &image);
+    void unmap();
+    bool unmapAndWaitForClosed();
+
+    /**
+     * Commits and waits for the commit to be presented.
+     * NOTE that this requires the presentation time protocol!
+     */
+    bool presentWait();
+    bool waitSurfaceConfigure();
+    std::optional<QSize> handleConfigure(const QColor &color = Qt::blue);
+
+    std::unique_ptr<KWayland::Client::Surface> m_surface;
+    std::unique_ptr<XdgToplevel> m_toplevel;
+    Window *m_window = nullptr;
+};
 }
 
 }
@@ -1404,6 +1463,9 @@ Q_DECLARE_METATYPE(QtWayland::zxdg_toplevel_decoration_v1::mode)
         qunsetenv("XDG_SESSION_DESKTOP");                                                                                                 \
         qunsetenv("XDG_CURRENT_DESKTOP");                                                                                                 \
         KWin::WaylandTestApplication app(argc, argv, useDrm);                                                                             \
+        qunsetenv("QT_QPA_PLATFORM");                                                                                                     \
+        qunsetenv("QT_QPA_PLATFORM_PLUGIN_PATH");                                                                                         \
+        qunsetenv("KWIN_FORCE_OWN_QPA");                                                                                                  \
         app.setAttribute(Qt::AA_Use96Dpi, true);                                                                                          \
         TestObject tc;                                                                                                                    \
         return QTest::qExec(&tc, argc, argv);                                                                                             \

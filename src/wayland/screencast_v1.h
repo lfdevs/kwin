@@ -8,6 +8,8 @@
 
 #include "kwin_export.h"
 
+#include "core/rect.h"
+
 #include <QObject>
 #include <memory>
 
@@ -20,6 +22,7 @@ class OutputInterface;
 class ScreencastV1InterfacePrivate;
 class ScreencastStreamV1InterfacePrivate;
 class ScreencastStreamV1Interface;
+class ClientConnection;
 
 class KWIN_EXPORT ScreencastStreamV1Interface : public QObject
 {
@@ -30,6 +33,8 @@ public:
     void sendCreated(quint32 nodeid);
     void sendFailed(const QString &error);
     void sendClosed();
+
+    ClientConnection *connection() const;
 
 Q_SIGNALS:
     void finished();
@@ -59,7 +64,7 @@ Q_SIGNALS:
     void outputScreencastRequested(ScreencastStreamV1Interface *stream, OutputInterface *output, CursorMode mode);
     void virtualOutputScreencastRequested(ScreencastStreamV1Interface *stream, const QString &name, const QString &description, const QSize &size, double scaling, CursorMode mode);
     void windowScreencastRequested(ScreencastStreamV1Interface *stream, const QString &winid, CursorMode mode);
-    void regionScreencastRequested(ScreencastStreamV1Interface *stream, const QRect &geometry, qreal scaling, CursorMode mode);
+    void regionScreencastRequested(ScreencastStreamV1Interface *stream, const Rect &geometry, qreal scaling, CursorMode mode);
 
 private:
     std::unique_ptr<ScreencastV1InterfacePrivate> d;

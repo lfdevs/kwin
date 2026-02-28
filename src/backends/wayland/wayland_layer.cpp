@@ -8,6 +8,7 @@
 */
 #include "wayland_layer.h"
 #include "color_manager.h"
+#include "wayland-client/viewporter.h"
 #include "wayland_backend.h"
 #include "wayland_display.h"
 #include "wayland_output.h"
@@ -19,7 +20,6 @@
 
 #include "wayland-presentation-time-client-protocol.h"
 #include "wayland-tearing-control-v1-client-protocol.h"
-#include "wayland-viewporter-client-protocol.h"
 
 namespace KWin
 {
@@ -46,7 +46,7 @@ WaylandLayer::WaylandLayer(WaylandOutput *output, OutputLayerType type, int zpos
             m_colorSurface = wp_color_manager_v1_get_surface(manager->object(), *m_surface);
         }
     }
-    m_viewport = wp_viewporter_get_viewport(display->viewporter(), *m_surface);
+    m_viewport = display->viewporter()->createViewport(*m_surface);
 }
 
 WaylandLayer::~WaylandLayer()
@@ -56,9 +56,6 @@ WaylandLayer::~WaylandLayer()
     }
     if (m_colorSurface) {
         wp_color_management_surface_v1_destroy(m_colorSurface);
-    }
-    if (m_viewport) {
-        wp_viewport_destroy(m_viewport);
     }
 }
 
@@ -80,30 +77,26 @@ bool WaylandLayer::test() const
     return true;
 }
 
-void WaylandLayer::setBuffer(wl_buffer *buffer, const QRegion &logicalDamagedRegion)
+void WaylandLayer::setBuffer(wl_buffer *buffer, const Region &deviceDamagedRegion)
 {
     m_surface->attachBuffer(buffer);
-    m_surface->damage(logicalDamagedRegion);
+    m_surface->damageBuffer(QRegion(deviceDamagedRegion));
 }
 
 void WaylandLayer::commit(PresentationMode presentationMode)
 {
     if (!isEnabled()) {
-        setBuffer(nullptr, QRegion{});
+        setBuffer(nullptr, Region{});
         m_surface->commit(KWayland::Client::Surface::CommitFlag::None);
         return;
     }
     // this is a bit annoying, we need a new Wayland protocol
     // to do this properly with fractional scaling. Until we
     // have that, it may cause blurriness in some cases!
-    const QRect logicalTarget = scaledRect(targetRect(), 1.0 / m_output->scale()).toRect();
+    const Rect logicalTarget = targetRect().scaled(1.0 / m_output->scale()).rounded();
     if (m_viewport) {
-        wp_viewport_set_source(m_viewport,
-                               wl_fixed_from_double(sourceRect().x()),
-                               wl_fixed_from_double(sourceRect().y()),
-                               wl_fixed_from_double(sourceRect().width()),
-                               wl_fixed_from_double(sourceRect().height()));
-        wp_viewport_set_destination(m_viewport, logicalTarget.width(), logicalTarget.height());
+        m_viewport->setSource(sourceRect());
+        m_viewport->setDestination(logicalTarget.size());
     }
     m_subSurface->setPosition(logicalTarget.topLeft());
     if (m_colorSurface && m_color != m_previousColor) {

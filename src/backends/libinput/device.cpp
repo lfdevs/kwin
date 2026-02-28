@@ -11,11 +11,13 @@
 #include "config-kwin.h"
 
 #include "core/output.h"
-#include "core/outputbackend.h"
 #include "libinput_logging.h"
 #include "main.h"
 #include "mousebuttons.h"
 #include "pointer_input.h"
+#ifndef KWIN_BUILD_TESTING
+#include "workspace.h"
+#endif
 
 #include <QCryptographicHash>
 #include <QDBusArgument>
@@ -435,7 +437,6 @@ Device::Device(libinput_device *device, QObject *parent)
     }
 
     if (supportsInputArea() && m_inputArea != defaultInputArea()) {
-#if HAVE_LIBINPUT_INPUT_AREA
         const libinput_config_area_rectangle rect{
             .x1 = m_inputArea.topLeft().x(),
             .y1 = m_inputArea.topLeft().y(),
@@ -443,7 +444,6 @@ Device::Device(libinput_device *device, QObject *parent)
             .y2 = m_inputArea.bottomRight().y(),
         };
         libinput_device_config_area_set_rectangle(m_device, &rect);
-#endif
     }
 
     libinput_device_group *group = libinput_device_get_device_group(device);
@@ -903,7 +903,7 @@ void Device::setOutputName(const QString &name)
     }
     m_outputName = name;
     const auto outputs = workspace()->outputs();
-    const auto it = std::ranges::find_if(outputs, [&name](Output *output) {
+    const auto it = std::ranges::find_if(outputs, [&name](LogicalOutput *output) {
         return output->name() == name;
     });
     if (it == outputs.end()) {
@@ -939,7 +939,7 @@ void Device::setOutputUuid(const QString &uuid)
     }
     m_outputUuid = uuid;
     const auto outputs = workspace()->outputs();
-    const auto it = std::ranges::find_if(outputs, [&uuid](Output *output) {
+    const auto it = std::ranges::find_if(outputs, [&uuid](LogicalOutput *output) {
         return output->uuid() == uuid;
     });
     if (it == outputs.end()) {
@@ -955,12 +955,12 @@ void Device::setOutputUuid(const QString &uuid)
 #endif
 }
 
-Output *Device::output() const
+LogicalOutput *Device::output() const
 {
     return m_output;
 }
 
-void Device::setOutput(Output *output)
+void Device::setOutput(LogicalOutput *output)
 {
     m_output = output;
 }
@@ -1085,11 +1085,7 @@ double Device::defaultPressureRangeMax() const
 
 bool Device::supportsInputArea() const
 {
-#if HAVE_LIBINPUT_INPUT_AREA
-    return true;
-#else
-    return false;
-#endif
+    return libinput_device_config_area_has_rectangle(m_device);
 }
 
 QRectF Device::inputArea() const
@@ -1102,7 +1098,6 @@ void Device::setInputArea(const QRectF &inputArea)
     if (m_inputArea != inputArea) {
         m_inputArea = inputArea;
 
-#if HAVE_LIBINPUT_INPUT_AREA
         const libinput_config_area_rectangle rect{
             .x1 = m_inputArea.topLeft().x(),
             .y1 = m_inputArea.topLeft().y(),
@@ -1110,7 +1105,6 @@ void Device::setInputArea(const QRectF &inputArea)
             .y2 = m_inputArea.bottomRight().y(),
         };
         libinput_device_config_area_set_rectangle(m_device, &rect);
-#endif
 
         writeEntry(ConfigKey::InputArea, m_inputArea);
         Q_EMIT inputAreaChanged();

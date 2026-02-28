@@ -87,6 +87,7 @@ UserActionsMenu::UserActionsMenu(QObject *parent)
     , m_minimizeOperation(nullptr)
     , m_closeOperation(nullptr)
     , m_shortcutOperation(nullptr)
+    , m_excludeFromCapture(nullptr)
 {
 }
 
@@ -118,7 +119,7 @@ bool UserActionsMenu::isMenuWindow(const Window *window) const
     return window && window == m_window;
 }
 
-void UserActionsMenu::show(const QRect &pos, Window *window)
+void UserActionsMenu::show(const Rect &pos, Window *window)
 {
     Q_ASSERT(window);
     QPointer<Window> windowPtr(window);
@@ -247,6 +248,12 @@ void UserActionsMenu::init()
     m_noBorderOperation->setCheckable(true);
     m_noBorderOperation->setData(Options::NoBorderOp);
 
+    m_excludeFromCapture = advancedMenu->addAction(i18n("&Hide from Screencast"));
+    m_excludeFromCapture->setIcon(QIcon::fromTheme(QStringLiteral("view-private")));
+    setShortcut(m_excludeFromCapture, QStringLiteral("Window Exclude From Capture"));
+    m_excludeFromCapture->setCheckable(true);
+    m_excludeFromCapture->setData(Options::ExcludeFromCaptureOp);
+
     advancedMenu->addSeparator();
 
     m_shortcutOperation = advancedMenu->addAction(i18n("Set Window Short&cut…"));
@@ -331,6 +338,7 @@ void UserActionsMenu::menuAboutToShow()
     m_fullScreenOperation->setChecked(m_window->isFullScreen());
     m_noBorderOperation->setEnabled(m_window->userCanSetNoBorder());
     m_noBorderOperation->setChecked(m_window->noBorder());
+    m_excludeFromCapture->setChecked(m_window->excludeFromCapture());
     m_minimizeOperation->setEnabled(m_window->isMinimizable());
     m_closeOperation->setEnabled(m_window->isCloseable());
     m_shortcutOperation->setEnabled(m_window->rules()->checkShortcut(QString()).isNull());
@@ -535,7 +543,7 @@ void UserActionsMenu::screenPopupAboutToShow()
 
     const auto outputs = workspace()->outputs();
     for (int i = 0; i < outputs.count(); ++i) {
-        Output *output = outputs[i];
+        LogicalOutput *output = outputs[i];
         // assumption: there are not more than 9 screens attached.
         QAction *action = m_screenMenu->addAction(i18nc("@item:inmenu List of all Screens to send a window to. First argument is a number, second the output identifier. E.g. Screen 1 (HDMI1)",
                                                         "Screen &%1 (%2)", (i + 1), output->name()));
@@ -993,7 +1001,7 @@ void Workspace::setupWindowShortcut(Window *window)
     m_windowKeysDialog = new ShortcutDialog(window->shortcut());
     m_windowKeysWindow = window;
     connect(m_windowKeysDialog, &ShortcutDialog::dialogDone, this, &Workspace::setupWindowShortcutDone);
-    QRect r = clientArea(ScreenArea, window).toRect();
+    RectF r = clientArea(ScreenArea, window);
     QSize size = m_windowKeysDialog->sizeHint();
     QPointF pos(window->frameGeometry().left() + window->frameMargins().left(),
                 window->frameGeometry().top() + window->frameMargins().top());
@@ -1021,9 +1029,6 @@ void Workspace::setupWindowShortcutDone(bool ok)
     m_windowKeysDialog->deleteLater();
     m_windowKeysDialog = nullptr;
     m_windowKeysWindow = nullptr;
-    if (m_activeWindow) {
-        m_activeWindow->takeFocus();
-    }
 }
 
 void Workspace::windowShortcutUpdated(Window *window)
@@ -1086,19 +1091,23 @@ void Workspace::performWindowOperation(Window *window, Options::WindowOperation 
         window->maximize(window->maximizeMode() == MaximizeFull
                              ? MaximizeRestore
                              : MaximizeFull);
-        takeActivity(window, ActivityFocus | ActivityRaise);
+        raiseWindow(window);
+        requestFocus(window);
         break;
     case Options::HMaximizeOp:
         window->maximize(window->maximizeMode() ^ MaximizeHorizontal);
-        takeActivity(window, ActivityFocus | ActivityRaise);
+        raiseWindow(window);
+        requestFocus(window);
         break;
     case Options::VMaximizeOp:
         window->maximize(window->maximizeMode() ^ MaximizeVertical);
-        takeActivity(window, ActivityFocus | ActivityRaise);
+        raiseWindow(window);
+        requestFocus(window);
         break;
     case Options::RestoreOp:
         window->maximize(MaximizeRestore);
-        takeActivity(window, ActivityFocus | ActivityRaise);
+        raiseWindow(window);
+        requestFocus(window);
         break;
     case Options::MinimizeOp:
         window->setMinimized(true);
@@ -1113,6 +1122,9 @@ void Workspace::performWindowOperation(Window *window, Options::WindowOperation 
         if (window->userCanSetNoBorder()) {
             window->setNoBorder(!window->noBorder());
         }
+        break;
+    case Options::ExcludeFromCaptureOp:
+        window->setExcludeFromCapture(!window->excludeFromCapture());
         break;
     case Options::KeepAboveOp: {
         StackingUpdatesBlocker blocker(this);
@@ -1165,7 +1177,7 @@ void Workspace::slotWindowToDesktop(VirtualDesktop *desktop)
     }
 }
 
-void Workspace::slotSwitchToScreen(Output *output)
+void Workspace::slotSwitchToScreen(LogicalOutput *output)
 {
     switchToOutput(output);
 }
@@ -1200,7 +1212,7 @@ void Workspace::slotSwitchToNextScreen()
     switchToOutput(findOutput(activeOutput(), Direction::DirectionNext, true));
 }
 
-void Workspace::slotWindowToScreen(Output *output)
+void Workspace::slotWindowToScreen(LogicalOutput *output)
 {
     if (USABLE_ACTIVE_WINDOW) {
         m_activeWindow->sendToOutput(output);
@@ -1350,6 +1362,13 @@ void Workspace::slotWindowNoBorder()
 {
     if (USABLE_ACTIVE_WINDOW) {
         performWindowOperation(m_activeWindow, Options::NoBorderOp);
+    }
+}
+
+void Workspace::slotWindowExcludeFromCapture()
+{
+    if (USABLE_ACTIVE_WINDOW) {
+        performWindowOperation(m_activeWindow, Options::ExcludeFromCaptureOp);
     }
 }
 
@@ -1591,15 +1610,15 @@ void Workspace::slotWindowOperations()
     }
     const QPoint pos(m_activeWindow->frameGeometry().left() + m_activeWindow->frameMargins().left(),
                      m_activeWindow->frameGeometry().top() + m_activeWindow->frameMargins().top());
-    showWindowMenu(QRect(pos, pos), m_activeWindow);
+    showWindowMenu(Rect(pos, pos), m_activeWindow);
 }
 
-void Workspace::showWindowMenu(const QRect &pos, Window *window)
+void Workspace::showWindowMenu(const Rect &pos, Window *window)
 {
     m_userActionsMenu->show(pos, window);
 }
 
-void Workspace::showApplicationMenu(const QRect &pos, Window *window, int actionId)
+void Workspace::showApplicationMenu(const Rect &pos, Window *window, int actionId)
 {
     Workspace::self()->applicationMenu()->showApplicationMenu(window->pos().toPoint() + pos.bottomLeft(), window, actionId);
 }

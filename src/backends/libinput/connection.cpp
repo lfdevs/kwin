@@ -32,6 +32,7 @@
 
 #include <cmath>
 #include <libinput.h>
+#include <ranges>
 
 namespace KWin
 {
@@ -62,7 +63,7 @@ public:
         QDBusConnection::sessionBus().registerObject(QStringLiteral("/org/kde/KWin/InputDevice"),
                                                      QStringLiteral("org.kde.KWin.InputDeviceManager"),
                                                      this,
-                                                     QDBusConnection::ExportAllProperties | QDBusConnection::ExportAllSignals);
+                                                     QDBusConnection::ExportAllProperties | QDBusConnection::ExportAllSignals | QDBusConnection::ExportScriptableContents);
     }
 
     ~ConnectionAdaptor() override
@@ -73,6 +74,19 @@ public:
     QStringList devicesSysNames()
     {
         return m_con->devicesSysNames();
+    }
+
+    Q_SCRIPTABLE QStringList ListPointers() const
+    {
+        return m_con->ListPointers();
+    }
+    Q_SCRIPTABLE QStringList ListKeyboards() const
+    {
+        return m_con->ListKeyboards();
+    }
+    Q_SCRIPTABLE QStringList ListTouch() const
+    {
+        return m_con->ListTouch();
     }
 
 Q_SIGNALS:
@@ -175,7 +189,7 @@ void Connection::handleEvent()
 }
 
 #ifndef KWIN_BUILD_TESTING
-QPointF devicePointToGlobalPosition(const QPointF &devicePos, const Output *output)
+QPointF devicePointToGlobalPosition(const QPointF &devicePos, const LogicalOutput *output)
 {
     QPointF pos = devicePos;
     // TODO: Do we need to handle the flipped cases differently?
@@ -212,7 +226,7 @@ static QPointF tabletToolPosition(TabletToolEvent *event)
     if (event->device()->isMapToWorkspace()) {
         return workspace()->geometry().topLeft() + event->transformedPosition(workspace()->geometry().size());
     } else {
-        Output *output = event->device()->output();
+        LogicalOutput *output = event->device()->output();
         if (!output) {
             output = workspace()->activeOutput();
         }
@@ -564,7 +578,6 @@ void Connection::processEvents()
         }
         case LIBINPUT_EVENT_TABLET_PAD_RING: {
             auto *tabletEvent = static_cast<TabletPadRingEvent *>(event.get());
-            tabletEvent->position();
             Q_EMIT event->device()->tabletPadRingEvent(tabletEvent->number(),
                                                        tabletEvent->position(),
                                                        tabletEvent->source() == LIBINPUT_TABLET_PAD_RING_SOURCE_FINGER,
@@ -611,23 +624,20 @@ void Connection::applyScreenToDevice(Device *device)
         return;
     }
 
-    Output *deviceOutput = nullptr;
-    const QList<Output *> outputs = workspace()->outputs();
+    LogicalOutput *deviceOutput = nullptr;
+    const QList<LogicalOutput *> outputs = workspace()->outputs();
 
     // let's try to find a screen for it
     if (!device->outputUuid().isEmpty()) {
         // use the UUID if possible, which is more stable than the output name
-        const auto it = std::ranges::find_if(outputs, [device](Output *output) {
+        const auto it = std::ranges::find_if(outputs, [device](LogicalOutput *output) {
             return output->uuid() == device->outputUuid();
         });
         deviceOutput = it == outputs.end() ? nullptr : *it;
     }
     if (!deviceOutput && !device->outputName().isEmpty()) {
         // we have an output name, try to find a screen with matching name
-        for (Output *output : outputs) {
-            if (!output->isEnabled()) {
-                continue;
-            }
+        for (LogicalOutput *output : outputs) {
             if (output->name() == device->outputName()) {
                 deviceOutput = output;
                 break;
@@ -636,14 +646,14 @@ void Connection::applyScreenToDevice(Device *device)
     }
     if (!deviceOutput && device->isTouch()) {
         // do we have an internal screen?
-        Output *internalOutput = nullptr;
-        for (Output *output : outputs) {
+        LogicalOutput *internalOutput = nullptr;
+        for (LogicalOutput *output : outputs) {
             if (output->isInternal()) {
                 internalOutput = output;
                 break;
             }
         }
-        auto testScreenMatches = [device](const Output *output) {
+        auto testScreenMatches = [device](const LogicalOutput *output) {
             const auto &size = device->size();
             const auto &screenSize = output->physicalSize();
             return std::round(size.width()) == std::round(screenSize.width())
@@ -653,7 +663,7 @@ void Connection::applyScreenToDevice(Device *device)
             deviceOutput = internalOutput;
         }
         // let's compare all screens for size
-        for (Output *output : outputs) {
+        for (LogicalOutput *output : outputs) {
             if (testScreenMatches(output)) {
                 deviceOutput = output;
                 break;
@@ -665,11 +675,8 @@ void Connection::applyScreenToDevice(Device *device)
                 // we have an internal id, so let's use that
                 deviceOutput = internalOutput;
             } else {
-                for (Output *output : outputs) {
-                    // just take first screen, we have no clue
-                    deviceOutput = output;
-                    break;
-                }
+                // just take first screen, we have no clue
+                deviceOutput = outputs.front();
             }
         }
     }
@@ -723,6 +730,29 @@ QStringList Connection::devicesSysNames() const
     return sl;
 }
 
+QStringList Connection::ListPointers() const
+{
+    return m_devices
+        | std::views::filter(&Device::isPointer)
+        | std::views::transform(&Device::sysName)
+        | std::ranges::to<QStringList>();
+}
+
+QStringList Connection::ListKeyboards() const
+{
+    return m_devices
+        | std::views::filter(&Device::isKeyboard)
+        | std::views::transform(&Device::sysName)
+        | std::ranges::to<QStringList>();
+}
+
+QStringList Connection::ListTouch() const
+{
+    return m_devices
+        | std::views::filter(&Device::isTouch)
+        | std::views::transform(&Device::sysName)
+        | std::ranges::to<QStringList>();
+}
 }
 }
 

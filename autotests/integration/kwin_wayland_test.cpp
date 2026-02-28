@@ -8,7 +8,6 @@
 */
 #include "kwin_wayland_test.h"
 
-#include "backends/drm/drm_backend.h"
 #include "backends/virtual/virtual_backend.h"
 #include "compositor.h"
 #include "core/outputconfiguration.h"
@@ -20,6 +19,7 @@
 #include "pluginmanager.h"
 #include "wayland_server.h"
 #include "workspace.h"
+#include "backends/drm/drm_backend.h"
 
 #include <KWayland/Client/seat.h>
 
@@ -65,7 +65,6 @@ WaylandTestApplication::WaylandTestApplication(int &argc, char **argv, bool runO
         QStringLiteral("kcminputrc"),
         QStringLiteral("kxkbrc"),
         QStringLiteral("kwinoutputconfig.json"),
-        QStringLiteral("kwinsessionrc"),
     };
     for (const QString &config : configs) {
         if (const QString &fileName = QStandardPaths::locate(QStandardPaths::ConfigLocation, config); !fileName.isEmpty()) {
@@ -127,11 +126,11 @@ WaylandTestApplication::~WaylandTestApplication()
     if (effects) {
         effects->unloadAllEffects();
     }
+    destroyPlugins();
 #if KWIN_BUILD_X11
     m_xwayland.reset();
 #endif
     destroyVirtualInputDevices();
-    destroyColorManager();
     destroyWorkspace();
     destroyInputMethod();
     destroyCompositor();
@@ -219,7 +218,6 @@ void WaylandTestApplication::performStartup()
     auto compositor = Compositor::create();
     compositor->createRenderer();
     createWorkspace();
-    createColorManager();
     createPlugins();
 
     compositor->start();
@@ -297,9 +295,9 @@ void Test::FractionalScaleV1::wp_fractional_scale_v1_preferred_scale(uint32_t sc
     Q_EMIT preferredScaleChanged();
 }
 
-void Test::setOutputConfig(const QList<QRect> &geometries)
+void Test::setOutputConfig(const QList<Rect> &geometries)
 {
-    setOutputConfig(geometries | std::views::transform([](const QRect &geometry) {
+    setOutputConfig(geometries | std::views::transform([](const Rect &geometry) {
         return OutputInfo{
             .geometry = geometry,
         };
@@ -335,9 +333,10 @@ void Test::setOutputConfig(const QList<OutputInfo> &infos)
             .enabled = true,
             .pos = info.geometry.topLeft(),
             .scale = info.scale,
+            .scaleSetting = info.scale,
         };
     }
-    workspace()->applyOutputConfiguration(config, outputs);
+    workspace()->applyOutputConfiguration(config);
 }
 
 Test::SimpleKeyboard::SimpleKeyboard(QObject *parent)

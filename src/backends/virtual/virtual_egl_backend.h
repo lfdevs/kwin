@@ -30,11 +30,11 @@ class GLRenderTimeQuery;
 class KWIN_EXPORT VirtualEglLayer : public OutputLayer
 {
 public:
-    VirtualEglLayer(Output *output, VirtualEglBackend *backend);
+    VirtualEglLayer(BackendOutput *output, VirtualEglBackend *backend);
     ~VirtualEglLayer() override;
 
     std::optional<OutputLayerBeginFrameInfo> doBeginFrame() override;
-    bool doEndFrame(const QRegion &renderedRegion, const QRegion &damagedRegion, OutputFrame *frame) override;
+    bool doEndFrame(const Region &renderedDeviceRegion, const Region &damagedDeviceRegion, OutputFrame *frame) override;
 
     DrmDevice *scanoutDevice() const override;
     QHash<uint32_t, QList<uint64_t>> supportedDrmFormats() const override;
@@ -60,7 +60,8 @@ class VirtualEglBackend : public EglBackend
 public:
     VirtualEglBackend(VirtualBackend *b);
     ~VirtualEglBackend() override;
-    QList<OutputLayer *> compatibleOutputLayers(Output *output) override;
+
+    QList<OutputLayer *> compatibleOutputLayers(BackendOutput *output) override;
     void init() override;
 
     VirtualBackend *backend() const;
@@ -70,7 +71,7 @@ private:
     bool initializeEgl();
     bool initRenderingContext();
 
-    void addOutput(Output *output);
+    void addOutput(BackendOutput *output);
 
     VirtualBackend *m_backend;
 };

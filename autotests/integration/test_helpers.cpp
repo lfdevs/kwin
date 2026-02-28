@@ -17,10 +17,14 @@
 #endif
 #include "input_event.h"
 #include "inputmethod.h"
+#include "wayland-client/linuxdmabuf.h"
+#include "wayland-client/viewporter.h"
+#include "wayland-linux-dmabuf-unstable-v1-client-protocol.h"
+#include "wayland-viewporter-client-protocol.h"
+#include "wayland-zkde-screencast-unstable-v1-client-protocol.h"
 #include "wayland/display.h"
 #include "wayland_server.h"
 #include "workspace.h"
-#include <wayland-zkde-screencast-unstable-v1-client-protocol.h>
 
 #include <KWayland/Client/appmenu.h>
 #include <KWayland/Client/compositor.h>
@@ -190,12 +194,17 @@ XdgSurface *XdgPopup::xdgSurface() const
 
 void XdgPopup::xdg_popup_configure(int32_t x, int32_t y, int32_t width, int32_t height)
 {
-    Q_EMIT configureRequested(QRect(x, y, width, height));
+    Q_EMIT configureRequested(Rect(x, y, width, height));
 }
 
 void XdgPopup::xdg_popup_popup_done()
 {
     Q_EMIT doneReceived();
+}
+
+void XdgPopup::xdg_popup_repositioned(uint32_t token)
+{
+    Q_EMIT repositioned(token);
 }
 
 XdgDecorationManagerV1::~XdgDecorationManagerV1()
@@ -530,10 +539,8 @@ std::unique_ptr<Connection> Connection::setup(AdditionalWaylandInterfaces flags)
                 c->fifoManager = std::make_unique<FifoManagerV1>(*c->registry, name, version);
             }
         }
-        if (flags & AdditionalWaylandInterface::PresentationTime) {
-            if (interface == wp_presentation_interface.name) {
-                c->presentationTime = std::make_unique<PresentationTime>(*c->registry, name, version);
-            }
+        if (interface == wp_presentation_interface.name) {
+            c->presentationTime = std::make_unique<PresentationTime>(*c->registry, name, version);
         }
         if (flags & AdditionalWaylandInterface::XdgActivation) {
             if (interface == xdg_activation_v1_interface.name) {
@@ -562,6 +569,15 @@ std::unique_ptr<Connection> Connection::setup(AdditionalWaylandInterfaces flags)
             if (interface == xdg_toplevel_drag_manager_v1_interface.name) {
                 c->toplevelDragManager = std::make_unique<XdgToplevelDragManagerV1>(*c->registry, name, version);
             }
+        }
+        if (flags & AdditionalWaylandInterface::LinuxDmabuf && interface == zwp_linux_dmabuf_v1_interface.name) {
+            c->linuxDmabuf = std::make_unique<WaylandClient::LinuxDmabufV1>(*c->registry, name, version);
+        }
+        if (flags & AdditionalWaylandInterface::ColorRepresentation && interface == wp_color_representation_manager_v1_interface.name) {
+            c->colorRepresentation = std::make_unique<ColorRepresentationV1>(*c->registry, name, version);
+        }
+        if (flags & AdditionalWaylandInterface::Viewporter && interface == wp_viewporter_interface.name) {
+            c->viewporter = std::make_unique<WaylandClient::Viewporter>(*c->registry, name, 1u);
         }
     });
 
@@ -707,6 +723,9 @@ Connection::~Connection()
     keyState.reset();
     primarySelectionManager.reset();
     toplevelDragManager.reset();
+    linuxDmabuf.reset();
+    colorRepresentation.reset();
+    viewporter.reset();
 
     delete queue; // Must be destroyed last
     queue = nullptr;
@@ -904,6 +923,21 @@ WpPrimarySelectionDeviceManagerV1 *primarySelectionManager()
 XdgToplevelDragManagerV1 *toplevelDragManager()
 {
     return s_waylandConnection->toplevelDragManager.get();
+}
+
+WaylandClient::LinuxDmabufV1 *linuxDmabuf()
+{
+    return s_waylandConnection->linuxDmabuf.get();
+}
+
+ColorRepresentationV1 *colorRepresentation()
+{
+    return s_waylandConnection->colorRepresentation.get();
+}
+
+WaylandClient::Viewporter *viewporter()
+{
+    return s_waylandConnection->viewporter.get();
 }
 
 bool waitForWaylandSurface(Window *window)
@@ -1186,7 +1220,9 @@ std::unique_ptr<XdgToplevel> createXdgToplevelSurface(XdgShell *shell, KWayland:
     XdgSurface *xdgSurface = new XdgSurface(shell, surface);
     std::unique_ptr<XdgToplevel> xdgToplevel = std::make_unique<XdgToplevel>(xdgSurface);
 
-    setup(xdgToplevel.get());
+    if (setup) {
+        setup(xdgToplevel.get());
+    }
     waitForConfigured(xdgSurface);
 
     return xdgToplevel;
@@ -1890,6 +1926,26 @@ ColorManagerV1::~ColorManagerV1()
     wp_color_manager_v1_destroy(object());
 }
 
+ColorRepresentationV1::ColorRepresentationV1(::wl_registry *registry, uint32_t id, int version)
+    : QtWayland::wp_color_representation_manager_v1(registry, id, version)
+{
+}
+
+ColorRepresentationV1::~ColorRepresentationV1()
+{
+    destroy();
+}
+
+ColorRepresentationSurfaceV1::ColorRepresentationSurfaceV1(::wp_color_representation_surface_v1 *object)
+    : QtWayland::wp_color_representation_surface_v1(object)
+{
+}
+
+ColorRepresentationSurfaceV1::~ColorRepresentationSurfaceV1()
+{
+    destroy();
+}
+
 FifoManagerV1::FifoManagerV1(::wl_registry *registry, uint32_t id, int version)
     : QtWayland::wp_fifo_manager_v1(registry, id, version)
 {
@@ -2199,6 +2255,11 @@ WpPrimarySelectionOfferV1 *WpPrimarySelectionDeviceV1::offer() const
     return m_offer.get();
 }
 
+std::unique_ptr<WpPrimarySelectionOfferV1> WpPrimarySelectionDeviceV1::takeOffer()
+{
+    return std::move(m_offer);
+}
+
 void WpPrimarySelectionDeviceV1::zwp_primary_selection_device_v1_data_offer(::zwp_primary_selection_offer_v1 *offer)
 {
     m_offer = std::make_unique<WpPrimarySelectionOfferV1>(offer);
@@ -2355,7 +2416,7 @@ void tabletPadDialEvent(double delta, int number, quint32 time)
     Q_EMIT virtualTabletPad->tabletPadDialEvent(number, delta, 0, std::chrono::milliseconds(time), virtualTabletPad);
 }
 
-void tabletPadRingEvent(int position, int number, quint32 group, quint32 mode, quint32 time)
+void tabletPadRingEvent(qreal position, int number, quint32 group, quint32 mode, quint32 time)
 {
     auto virtualTabletPad = static_cast<WaylandTestApplication *>(kwinApp())->virtualTabletPad();
     Q_EMIT virtualTabletPad->tabletPadRingEvent(number, position, true, group, mode, std::chrono::milliseconds(time), virtualTabletPad);
@@ -2394,6 +2455,91 @@ void tabletToolTipEvent(const QPointF &pos, qreal pressure, qreal xTilt, qreal y
     auto tablet = static_cast<WaylandTestApplication *>(kwinApp())->virtualTablet();
     auto tool = static_cast<WaylandTestApplication *>(kwinApp())->virtualTabletTool();
     Q_EMIT tablet->tabletToolTipEvent(pos, pressure, xTilt, yTilt, rotation, distance, tipDown, sliderPosition, tool, std::chrono::milliseconds(time), tablet);
+}
+
+XdgToplevelWindow::XdgToplevelWindow(const std::function<void(XdgToplevel *toplevel)> &setup)
+    : m_surface(createSurface())
+    , m_toplevel(createXdgToplevelSurface(m_surface.get(), setup))
+{
+}
+
+XdgToplevelWindow::XdgToplevelWindow(const std::function<void(KWayland::Client::Surface *surface, XdgToplevel *toplevel)> &setup)
+    : m_surface(createSurface())
+    , m_toplevel(createXdgToplevelSurface(m_surface.get(), [this, &setup](XdgToplevel *toplevel) {
+        setup(m_surface.get(), toplevel);
+    }))
+{
+}
+
+XdgToplevelWindow::~XdgToplevelWindow()
+{
+    if (m_window) {
+        m_toplevel.reset();
+        m_surface.reset();
+        waitForWindowClosed(m_window);
+    }
+}
+
+bool XdgToplevelWindow::show(const QSize &size, const QColor &color)
+{
+    m_window = renderAndWaitForShown(m_surface.get(), size, color);
+    return m_window != nullptr;
+}
+
+bool XdgToplevelWindow::show(const QImage &image)
+{
+    m_window = renderAndWaitForShown(m_surface.get(), image);
+    return m_window != nullptr;
+}
+
+void XdgToplevelWindow::unmap()
+{
+    m_surface->attachBuffer((wl_buffer *)nullptr);
+    m_surface->commit(KWayland::Client::Surface::CommitFlag::None);
+    // unmapping destroys the KWin::Window
+    m_window = nullptr;
+}
+
+bool XdgToplevelWindow::unmapAndWaitForClosed()
+{
+    Window *window = m_window;
+    unmap();
+    return waitForWindowClosed(window);
+}
+
+bool XdgToplevelWindow::presentWait()
+{
+    const auto feedback = std::make_unique<Test::WpPresentationFeedback>(Test::presentationTime()->feedback(*m_surface));
+    m_surface->commit(KWayland::Client::Surface::CommitFlag::None);
+    QSignalSpy spy(feedback.get(), &Test::WpPresentationFeedback::presented);
+    return spy.wait();
+}
+
+bool XdgToplevelWindow::waitSurfaceConfigure()
+{
+    QSignalSpy surfaceConfigure(m_toplevel->xdgSurface(), &Test::XdgSurface::configureRequested);
+    return surfaceConfigure.wait();
+}
+
+std::optional<QSize> XdgToplevelWindow::handleConfigure(const QColor &color)
+{
+    QSignalSpy toplevelConfigure(m_toplevel.get(), &Test::XdgToplevel::configureRequested);
+    QSignalSpy surfaceConfigure(m_toplevel->xdgSurface(), &Test::XdgSurface::configureRequested);
+    if (!toplevelConfigure.wait()) {
+        return std::nullopt;
+    }
+    m_toplevel->xdgSurface()->ack_configure(surfaceConfigure.last().at(0).value<quint32>());
+    const QSize ret = toplevelConfigure.last().at(0).toSize();
+    if (ret == m_surface->size()) {
+        m_surface->commit(KWayland::Client::Surface::CommitFlag::None);
+        return ret;
+    }
+    Test::render(m_surface.get(), toplevelConfigure.last().at(0).toSize(), color);
+    QSignalSpy frameGeometryChanged(m_window, &KWin::Window::frameGeometryChanged);
+    if (!frameGeometryChanged.wait()) {
+        return std::nullopt;
+    }
+    return ret;
 }
 }
 }

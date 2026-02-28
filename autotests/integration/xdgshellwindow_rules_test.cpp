@@ -12,6 +12,7 @@
 #include "kwin_wayland_test.h"
 
 #include "core/output.h"
+#include "core/outputbackend.h"
 #include "core/outputconfiguration.h"
 #include "cursor.h"
 #include "rules.h"
@@ -190,13 +191,13 @@ void TestXdgShellWindowRules::initTestCase()
 
     kwinApp()->start();
     Test::setOutputConfig({
-        QRect(0, 0, 1280, 1024),
-        QRect(1280, 0, 1280, 1024),
+        Rect(0, 0, 1280, 1024),
+        Rect(1280, 0, 1280, 1024),
     });
     const auto outputs = workspace()->outputs();
     QCOMPARE(outputs.count(), 2);
-    QCOMPARE(outputs[0]->geometry(), QRect(0, 0, 1280, 1024));
-    QCOMPARE(outputs[1]->geometry(), QRect(1280, 0, 1280, 1024));
+    QCOMPARE(outputs[0]->geometry(), Rect(0, 0, 1280, 1024));
+    QCOMPARE(outputs[1]->geometry(), Rect(1280, 0, 1280, 1024));
 
     m_config = KSharedConfig::openConfig(QStringLiteral("kwinrulesrc"), KConfig::SimpleConfig);
     workspace()->rulebook()->setConfig(m_config);
@@ -1124,7 +1125,7 @@ void TestXdgShellWindowRules::testMaximizeForce()
     QVERIFY(states.testFlag(Test::XdgToplevel::State::Maximized));
 
     // Any attempt to change the maximized state should not succeed.
-    const QRectF oldGeometry = m_window->frameGeometry();
+    const RectF oldGeometry = m_window->frameGeometry();
     workspace()->slotWindowMaximize();
     QVERIFY(!m_surfaceConfigureRequestedSpy->wait(100));
     QCOMPARE(m_window->maximizeMode(), MaximizeMode::MaximizeFull);
@@ -1230,7 +1231,7 @@ void TestXdgShellWindowRules::testMaximizeApplyNow()
     QCOMPARE(m_window->requestedMaximizeMode(), MaximizeMode::MaximizeRestore);
 
     // The rule should be discarded after it's been applied.
-    const QRectF oldGeometry = m_window->frameGeometry();
+    const RectF oldGeometry = m_window->frameGeometry();
     m_window->evaluateWindowRules();
     QVERIFY(!m_surfaceConfigureRequestedSpy->wait(100));
     QCOMPARE(m_window->maximizeMode(), MaximizeMode::MaximizeRestore);
@@ -1273,7 +1274,7 @@ void TestXdgShellWindowRules::testMaximizeForceTemporarily()
     QVERIFY(states.testFlag(Test::XdgToplevel::State::Maximized));
 
     // Any attempt to change the maximized state should not succeed.
-    const QRectF oldGeometry = m_window->frameGeometry();
+    const RectF oldGeometry = m_window->frameGeometry();
     workspace()->slotWindowMaximize();
     QVERIFY(!m_surfaceConfigureRequestedSpy->wait(100));
     QCOMPARE(m_window->maximizeMode(), MaximizeMode::MaximizeFull);
@@ -2637,7 +2638,7 @@ void TestXdgShellWindowRules::testInactiveOpacityDontAffect()
     QVERIFY(m_window->isActive());
 
     // Make the window inactive.
-    workspace()->setActiveWindow(nullptr);
+    workspace()->activateWindow(nullptr);
     QVERIFY(!m_window->isActive());
 
     // The opacity of the window should not be affected by the rule.
@@ -2655,7 +2656,7 @@ void TestXdgShellWindowRules::testInactiveOpacityForce()
     QCOMPARE(m_window->opacity(), 1.0);
 
     // Make the window inactive.
-    workspace()->setActiveWindow(nullptr);
+    workspace()->activateWindow(nullptr);
     QVERIFY(!m_window->isActive());
 
     // The opacity should be forced by the rule.
@@ -2673,7 +2674,7 @@ void TestXdgShellWindowRules::testInactiveOpacityForceTemporarily()
     QCOMPARE(m_window->opacity(), 1.0);
 
     // Make the window inactive.
-    workspace()->setActiveWindow(nullptr);
+    workspace()->activateWindow(nullptr);
     QVERIFY(!m_window->isActive());
 
     // The opacity should be forced by the rule.
@@ -2685,7 +2686,7 @@ void TestXdgShellWindowRules::testInactiveOpacityForceTemporarily()
 
     QVERIFY(m_window->isActive());
     QCOMPARE(m_window->opacity(), 1.0);
-    workspace()->setActiveWindow(nullptr);
+    workspace()->activateWindow(nullptr);
     QVERIFY(!m_window->isActive());
     QCOMPARE(m_window->opacity(), 1.0);
 
@@ -2821,7 +2822,7 @@ void TestXdgShellWindowRules::testNoBorderForceTemporarily()
 
 void TestXdgShellWindowRules::testScreenDontAffect()
 {
-    const QList<KWin::Output *> outputs = workspace()->outputs();
+    const QList<KWin::LogicalOutput *> outputs = workspace()->outputs();
 
     setWindowRule("screen", int(1), int(Rules::DontAffect));
 
@@ -2839,7 +2840,7 @@ void TestXdgShellWindowRules::testScreenDontAffect()
 
 void TestXdgShellWindowRules::testScreenApply()
 {
-    const QList<KWin::Output *> outputs = workspace()->outputs();
+    const QList<KWin::LogicalOutput *> outputs = workspace()->outputs();
 
     setWindowRule("screen", int(1), int(Rules::Apply));
 
@@ -2858,7 +2859,7 @@ void TestXdgShellWindowRules::testScreenApply()
 
 void TestXdgShellWindowRules::testScreenRemember()
 {
-    const QList<KWin::Output *> outputs = workspace()->outputs();
+    const QList<KWin::LogicalOutput *> outputs = workspace()->outputs();
 
     setWindowRule("screen", int(1), int(Rules::Remember));
 
@@ -2884,7 +2885,7 @@ void TestXdgShellWindowRules::testScreenRemember()
 
 void TestXdgShellWindowRules::testScreenForce()
 {
-    const QList<KWin::Output *> outputs = workspace()->outputs();
+    const QList<KWin::BackendOutput *> outputs = kwinApp()->outputBackend()->outputs();
 
     createTestWindow();
     QVERIFY(m_window->isActive());
@@ -2895,7 +2896,7 @@ void TestXdgShellWindowRules::testScreenForce()
     QCOMPARE(m_window->output()->name(), outputs.at(1)->name());
 
     // User should not be able to move the window to another screen.
-    m_window->sendToOutput(outputs.at(0));
+    m_window->sendToOutput(workspace()->findOutput(outputs.at(0)));
     QCOMPARE(m_window->output()->name(), outputs.at(1)->name());
 
     // Disable the output where the window is on, so the window is moved the other screen
@@ -2926,7 +2927,7 @@ void TestXdgShellWindowRules::testScreenForce()
 
 void TestXdgShellWindowRules::testScreenApplyNow()
 {
-    const QList<KWin::Output *> outputs = workspace()->outputs();
+    const QList<KWin::LogicalOutput *> outputs = workspace()->outputs();
 
     createTestWindow();
 
@@ -2949,7 +2950,7 @@ void TestXdgShellWindowRules::testScreenApplyNow()
 
 void TestXdgShellWindowRules::testScreenForceTemporarily()
 {
-    const QList<KWin::Output *> outputs = workspace()->outputs();
+    const QList<KWin::LogicalOutput *> outputs = workspace()->outputs();
 
     createTestWindow();
 

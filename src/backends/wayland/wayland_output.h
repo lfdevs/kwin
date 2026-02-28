@@ -8,7 +8,7 @@
 */
 #pragma once
 
-#include "core/output.h"
+#include "core/backendoutput.h"
 
 #include <KWayland/Client/xdgshell.h>
 #include <QObject>
@@ -33,13 +33,17 @@ struct wp_tearing_control_v1;
 struct wp_color_management_surface_v1;
 struct wp_fractional_scale_v1;
 struct wp_fractional_scale_v1_listener;
-struct wp_viewport;
+struct zwp_keyboard_shortcuts_inhibitor_v1;
 struct wl_callback;
 struct wl_callback_listener;
 
 namespace KWin
 {
 class OutputFrame;
+namespace WaylandClient
+{
+class Viewport;
+}
 
 namespace Wayland
 {
@@ -64,13 +68,13 @@ private:
     KWayland::Client::Pointer *m_pointer = nullptr;
     std::unique_ptr<KWayland::Client::Surface> m_surface;
     wl_buffer *m_buffer = nullptr;
-    wp_viewport *m_viewport = nullptr;
+    std::unique_ptr<WaylandClient::Viewport> m_viewport;
     QPoint m_hotspot;
     QSize m_size;
     bool m_enabled = true;
 };
 
-class WaylandOutput : public Output
+class WaylandOutput : public BackendOutput
 {
     Q_OBJECT
 public:
@@ -88,8 +92,6 @@ public:
     WaylandBackend *backend() const;
 
     void lockPointer(KWayland::Client::Pointer *pointer, bool lock);
-    void setDpmsMode(DpmsMode mode) override;
-    void updateDpmsMode(DpmsMode dpmsMode);
 
     bool testPresentation(const std::shared_ptr<OutputFrame> &frame) override;
     bool present(const QList<OutputLayer *> &layersToUpdate, const std::shared_ptr<OutputFrame> &frame) override;
@@ -107,6 +109,7 @@ private:
     void updateWindowTitle();
     void applyConfigure(const QSize &size, quint32 serial);
     void updateColor();
+    void inhibitShortcuts(bool inhibit);
 
     static const wp_fractional_scale_v1_listener s_fractionalScaleListener;
     static void handleFractionalScaleChanged(void *data, struct wp_fractional_scale_v1 *wp_fractional_scale_v1, uint32_t scale120);
@@ -121,7 +124,6 @@ private:
     std::unique_ptr<KWayland::Client::XdgDecoration> m_xdgDecoration;
     WaylandBackend *const m_backend;
     std::unique_ptr<WaylandCursor> m_cursor;
-    QTimer m_turnOffTimer;
     bool m_hasPointerLock = false;
     bool m_ready = false;
     bool m_mapped = false;
@@ -142,7 +144,8 @@ private:
     QTimer m_configureThrottleTimer;
     std::unique_ptr<ColorSurfaceFeedback> m_colorSurfaceFeedback;
     wp_fractional_scale_v1 *m_fractionalScale = nullptr;
-    wp_viewport *m_viewport = nullptr;
+    std::unique_ptr<WaylandClient::Viewport> m_viewport;
+    zwp_keyboard_shortcuts_inhibitor_v1 *m_shortcutInhibition = nullptr;
     uint32_t m_refreshRate = 60'000;
     qreal m_pendingScale = 1.0;
 };

@@ -607,7 +607,7 @@ bool Rules::update(Window *c, int selection)
 
 APPLY_FORCE_RULE(placement, Placement, PlacementPolicy)
 
-bool Rules::applyGeometry(QRectF &rect, bool init) const
+bool Rules::applyGeometry(RectF &rect, bool init) const
 {
     QPointF p = rect.topLeft();
     QSizeF s = rect.size();
@@ -639,10 +639,28 @@ bool Rules::applySize(QSizeF &s, bool init) const
     return checkSetStop(sizerule);
 }
 
+bool Rules::applyOpacityActive(qreal &s) const
+{
+    if (checkForceRule(opacityactiverule)) {
+        s = opacityactive / 100.0;
+    } else if (checkForceRule(opacityinactiverule)) {
+        s = 1.0;
+    }
+    return checkForceStop(opacityactiverule) || checkForceStop(opacityinactiverule);
+}
+
+bool Rules::applyOpacityInactive(qreal &s) const
+{
+    if (checkForceRule(opacityinactiverule)) {
+        s = opacityinactive / 100.0;
+    } else if (checkForceRule(opacityactiverule)) {
+        s = 1.0;
+    }
+    return checkForceStop(opacityactiverule) || checkForceStop(opacityinactiverule);
+}
+
 APPLY_FORCE_RULE(minsize, MinSize, QSizeF)
 APPLY_FORCE_RULE(maxsize, MaxSize, QSizeF)
-APPLY_FORCE_RULE(opacityactive, OpacityActive, int)
-APPLY_FORCE_RULE(opacityinactive, OpacityInactive, int)
 APPLY_RULE(ignoregeometry, IgnoreGeometry, bool)
 
 APPLY_RULE(screen, Screen, int)
@@ -822,14 +840,14 @@ void WindowRules::update(Window *c, int selection)
 
 CHECK_FORCE_RULE(Placement, PlacementPolicy)
 
-QRectF WindowRules::checkGeometry(QRectF rect, bool init) const
+RectF WindowRules::checkGeometry(RectF rect, bool init) const
 {
-    return QRectF(checkPosition(rect.topLeft(), init), checkSize(rect.size(), init));
+    return RectF(checkPosition(rect.topLeft(), init), checkSize(rect.size(), init));
 }
 
-QRectF WindowRules::checkGeometrySafe(QRectF rect, bool init) const
+RectF WindowRules::checkGeometrySafe(RectF rect, bool init) const
 {
-    return QRectF(checkPositionSafe(rect.topLeft(), init), checkSize(rect.size(), init));
+    return RectF(checkPositionSafe(rect.topLeft(), init), checkSize(rect.size(), init));
 }
 
 QPointF WindowRules::checkPositionSafe(QPointF pos, bool init) const
@@ -853,8 +871,8 @@ CHECK_RULE(Position, QPointF)
 CHECK_RULE(Size, QSizeF)
 CHECK_FORCE_RULE(MinSize, QSizeF)
 CHECK_FORCE_RULE(MaxSize, QSizeF)
-CHECK_FORCE_RULE(OpacityActive, int)
-CHECK_FORCE_RULE(OpacityInactive, int)
+CHECK_FORCE_RULE(OpacityActive, qreal)
+CHECK_FORCE_RULE(OpacityInactive, qreal)
 CHECK_RULE(IgnoreGeometry, bool)
 
 CHECK_RULE(Desktops, QList<VirtualDesktop *>)
@@ -869,7 +887,7 @@ MaximizeMode WindowRules::checkMaximize(MaximizeMode mode, bool init) const
     return static_cast<MaximizeMode>((vert ? MaximizeVertical : 0) | (horiz ? MaximizeHorizontal : 0));
 }
 
-Output *WindowRules::checkOutput(Output *output, bool init) const
+LogicalOutput *WindowRules::checkOutput(LogicalOutput *output, bool init) const
 {
     if (rules.isEmpty()) {
         return output;
@@ -880,8 +898,20 @@ Output *WindowRules::checkOutput(Output *output, bool init) const
             break;
         }
     }
-    Output *ruleOutput = workspace()->outputs().value(ret);
+    LogicalOutput *ruleOutput = workspace()->outputs().value(ret);
     return ruleOutput ? ruleOutput : output;
+}
+
+DecorationPolicy WindowRules::checkDecorationPolicy(DecorationPolicy policy, bool init) const
+{
+    if (checkNoBorder(true, init) == false) {
+        return DecorationPolicy::Server;
+    }
+    if (checkNoBorder(false, init) == true) {
+        return DecorationPolicy::None;
+    }
+
+    return policy;
 }
 
 CHECK_RULE(Minimize, bool)

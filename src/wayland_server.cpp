@@ -11,8 +11,8 @@
 #include "config-kwin.h"
 
 #include "backends/drm/drm_backend.h"
+#include "core/backendoutput.h"
 #include "core/drmdevice.h"
-#include "core/output.h"
 #include "core/outputbackend.h"
 #include "core/session.h"
 #include "idle_inhibition.h"
@@ -137,7 +137,6 @@ public:
     const QSet<QByteArray> interfacesBlackList = {
         QByteArrayLiteral("org_kde_plasma_window_management"),
         QByteArrayLiteral("org_kde_kwin_fake_input"),
-        QByteArrayLiteral("org_kde_kwin_keystate"),
         QByteArrayLiteral("zkde_screencast_unstable_v1"),
         QByteArrayLiteral("org_kde_plasma_activation_feedback"),
         QByteArrayLiteral("kde_lockscreen_overlay_v1"),
@@ -251,6 +250,7 @@ void WaylandServer::registerWindow(Window *window)
         });
     }
     m_windows << window;
+    Q_EMIT windowCreated(window);
 }
 
 void WaylandServer::registerXdgToplevelWindow(XdgToplevelWindow *window)
@@ -301,23 +301,23 @@ void WaylandServer::registerXdgGenericWindow(Window *window)
     qCDebug(KWIN_CORE) << "Received invalid xdg shell window:" << window->surface();
 }
 
-void WaylandServer::handleOutputAdded(Output *output)
+void WaylandServer::handleOutputAdded(BackendOutput *output)
 {
     if (!output->isPlaceholder() && !output->isNonDesktop()) {
         m_waylandOutputDevices.insert(output, new OutputDeviceV2Interface(m_display, output));
     }
 }
 
-void WaylandServer::handleOutputRemoved(Output *output)
+void WaylandServer::handleOutputRemoved(BackendOutput *output)
 {
     if (auto outputDevice = m_waylandOutputDevices.take(output)) {
         outputDevice->remove();
     }
 }
 
-void WaylandServer::handleOutputEnabled(Output *output)
+void WaylandServer::handleOutputEnabled(LogicalOutput *output)
 {
-    if (!output->isPlaceholder() && !output->isNonDesktop()) {
+    if (!output->isPlaceholder()) {
         auto waylandOutput = new OutputInterface(waylandServer()->display(), output);
         m_xdgOutputManagerV1->offer(waylandOutput);
 
@@ -325,7 +325,7 @@ void WaylandServer::handleOutputEnabled(Output *output)
     }
 }
 
-void WaylandServer::handleOutputDisabled(Output *output)
+void WaylandServer::handleOutputDisabled(LogicalOutput *output)
 {
     if (auto waylandOutput = m_waylandOutputs.take(output)) {
         waylandOutput->remove();
@@ -381,8 +381,11 @@ bool WaylandServer::init()
     m_keyboardShortcutsInhibitManager = new KeyboardShortcutsInhibitManagerV1Interface(m_display, m_display);
 
     if (qEnvironmentVariableIntValue("KWIN_WAYLAND_SUPPORT_XX_SESSION_MANAGER") == 1) {
-        auto storage = new XdgSessionStorageV1(KSharedConfig::openStateConfig(QStringLiteral("kwinsessionrc")), this);
-        new XdgSessionManagerV1Interface(m_display, storage, m_display);
+        const int defaultStoreSizeInBytes = 5 * 1024 * 1024;
+        const int expectedSessionSizeInBytes = 512;
+        auto storage = std::make_unique<XdgSessionStorageV1>(QStringLiteral("kwinsession"), defaultStoreSizeInBytes, expectedSessionSizeInBytes);
+
+        new XdgSessionManagerV1Interface(m_display, std::move(storage), m_display);
     }
 
     m_xdgDecorationManagerV1 = new XdgDecorationManagerV1Interface(m_display, m_display);
@@ -534,8 +537,7 @@ bool WaylandServer::init()
     return true;
 }
 
-// re-enabled by default until Mesa Amber branch no longer breaks without wl_drm
-static const bool s_reenableWlDrm = environmentVariableBoolValue("KWIN_WAYLAND_REENABLE_WL_DRM").value_or(true);
+static const bool s_reenableWlDrm = environmentVariableBoolValue("KWIN_WAYLAND_REENABLE_WL_DRM").value_or(false);
 
 DrmClientBufferIntegration *WaylandServer::drm()
 {
@@ -617,14 +619,14 @@ void WaylandServer::initWorkspace()
     }
 
     const auto availableOutputs = kwinApp()->outputBackend()->outputs();
-    for (Output *output : availableOutputs) {
+    for (BackendOutput *output : availableOutputs) {
         handleOutputAdded(output);
     }
     connect(kwinApp()->outputBackend(), &OutputBackend::outputAdded, this, &WaylandServer::handleOutputAdded);
     connect(kwinApp()->outputBackend(), &OutputBackend::outputRemoved, this, &WaylandServer::handleOutputRemoved);
 
     const auto outputs = workspace()->outputs();
-    for (Output *output : outputs) {
+    for (LogicalOutput *output : outputs) {
         handleOutputEnabled(output);
     }
     connect(workspace(), &Workspace::outputAdded, this, &WaylandServer::handleOutputEnabled);
@@ -883,7 +885,7 @@ WaylandServer::LockScreenPresentationWatcher::LockScreenPresentationWatcher(Wayl
     connect(server, &WaylandServer::windowAdded, this, [this](Window *window) {
         if (window->isLockScreen()) {
             // only signal lockScreenShown once all outputs have been presented at least once
-            connect(window->output()->renderLoop(), &RenderLoop::framePresented, this, [this, windowGuard = QPointer(window)]() {
+            connect(window->output()->backendOutput()->renderLoop(), &RenderLoop::framePresented, this, [this, windowGuard = QPointer(window)]() {
                 // window might be destroyed before a frame is presented, so it's wrapped in QPointer
                 if (windowGuard) {
                     m_signaledOutputs << windowGuard->output();

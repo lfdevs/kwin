@@ -11,7 +11,6 @@
 #include "core/outputlayer.h"
 #include "drm_plane.h"
 
-#include <QRegion>
 #include <memory>
 #include <optional>
 
@@ -27,8 +26,8 @@ class DrmOutput;
 class DrmOutputLayer : public OutputLayer
 {
 public:
-    explicit DrmOutputLayer(Output *output, OutputLayerType type);
-    explicit DrmOutputLayer(Output *output, OutputLayerType type, int zpos, int minZpos, int maxZpos);
+    explicit DrmOutputLayer(BackendOutput *output, OutputLayerType type);
+    explicit DrmOutputLayer(BackendOutput *output, OutputLayerType type, int zpos, int minZpos, int maxZpos);
     virtual ~DrmOutputLayer();
 };
 

@@ -1,3 +1,10 @@
+kwin (4:6.6.2-0ubuntu1) resolute; urgency=medium
+
+  * New upstream release (6.6.2)
+  * Drop included upstream patches.
+
+ -- Rik Mills <rikmills@kde.org>  Tue, 03 Mar 2026 12:22:27 +0000
+
 kwin (4:6.6.1-0ubuntu2) resolute; urgency=medium
 
   * Add upstream patch to fix build of game controller plugin on 32bit

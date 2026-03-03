@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-24 02:42+0000\n"
-"PO-Revision-Date: 2025-12-11 05:14+0100\n"
+"POT-Creation-Date: 2026-03-03 02:57+0000\n"
+"PO-Revision-Date: 2026-03-01 04:58+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -157,10 +157,9 @@ msgid "Color profile is missing TRC tags"
 msgstr "ფერების პროფილს TRC ჭდეები აკლია"
 
 #: core/iccprofile.cpp:534
-#, fuzzy, kde-format
-#| msgid "Failed to open ICC profile \"%1\""
+#, kde-format
 msgid "Couldn't invert tone curves of ICC profile \"%1\""
-msgstr "ვერ გავხსენი ICC პროფილი \"%1\""
+msgstr "ICC პროფილის \"%1\" ტონის მრუდების ინვერსია შეუძლებელია"
 
 #: debug_console.cpp:86
 #, kde-format
@@ -4178,7 +4177,7 @@ msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(არ პასუხობს)"
 
-#: workspace.cpp:1755
+#: workspace.cpp:1764
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""

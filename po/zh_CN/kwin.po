@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-03-03 02:57+0000\n"
+"POT-Creation-Date: 2026-03-15 02:43+0000\n"
 "PO-Revision-Date: 2024-04-22 15:58\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -2125,7 +2125,7 @@ msgstr "圆环环数："
 #: plugins/mouseclick/mouseclick_config.ui:210
 #, kde-format
 msgid "Text"
-msgstr "文字"
+msgstr "文本"
 
 #. i18n: ectx: property (text), widget (QLabel, font_label)
 #: plugins/mouseclick/mouseclick_config.ui:216
@@ -2137,7 +2137,7 @@ msgstr "字体："
 #: plugins/mouseclick/mouseclick_config.ui:233
 #, kde-format
 msgid "Show Text:"
-msgstr "显示文字："
+msgstr "显示文本："
 
 #: plugins/mousemark/mousemark.cpp:43
 #, kde-format
@@ -2154,7 +2154,7 @@ msgstr "清除上一条鼠标画线"
 msgid "Clear Mouse Marks"
 msgstr "清除鼠标画线"
 
-#: plugins/mousemark/mousemark_config.cpp:87
+#: plugins/mousemark/mousemark_config.cpp:88
 #, kde-format
 msgctxt "Suffix"
 msgid " pixel"

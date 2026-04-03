@@ -1,3 +1,13 @@
+kwin (4:6.6.3-0ubuntu3) resolute; urgency=medium
+
+  * Add fix-drm-open-fallback-to-logind-fd.patch: Fall back to logind
+    file descriptor when direct DRM node open fails. Fixes SDDM greeter
+    compositor failing to start after logout because sddm user lacks
+    filesystem-level permissions on /dev/dri/card* during session switch.
+    (LP: #2147233)
+
+ -- Erich Eickmeyer <eeickmeyer@kfocus.org>  Fri, 03 Apr 2026 14:40:00 -0700
+
 kwin (4:6.6.3-0ubuntu2) resolute; urgency=medium
 
   * Add upstream_fix-kde-bug-517556.patch, recommended by KDE to work

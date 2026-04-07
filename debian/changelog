@@ -1,3 +1,10 @@
+kwin (4:6.6.4-0ubuntu1) resolute; urgency=medium
+
+  * New upstream bugfix release (6.6.4)
+  * Drop included upstream_fix-kde-bug-517556.patch
+
+ -- Rik Mills <rikmills@kde.org>  Tue, 07 Apr 2026 13:07:48 +0100
+
 kwin (4:6.6.3-0ubuntu3) resolute; urgency=medium
 
   * Add fix-drm-open-fallback-to-logind-fd.patch: Fall back to logind

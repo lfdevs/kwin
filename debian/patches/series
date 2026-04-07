@@ -1,2 +1,1 @@
-upstream_fix-kde-bug-517556.patch
 fix-drm-open-fallback-to-logind-fd.patch

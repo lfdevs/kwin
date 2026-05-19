@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-06 02:37+0000\n"
-"PO-Revision-Date: 2026-02-03 23:54+0100\n"
+"POT-Creation-Date: 2026-04-24 02:42+0000\n"
+"PO-Revision-Date: 2026-04-26 21:31+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -30,29 +30,29 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "kde@peremen.name"
 
-#: backends/wayland/wayland_output.cpp:481
+#: backends/wayland/wayland_output.cpp:482
 #, kde-format
 msgid "Press right control to ungrab pointer"
 msgstr "오른쪽 Ctrl 키를 누르면 포인터 잡기를 해제함"
 
-#: backends/wayland/wayland_output.cpp:483
+#: backends/wayland/wayland_output.cpp:484
 #, kde-format
 msgid "Press right control key to grab pointer"
 msgstr "오른쪽 Ctrl 키를 누르면 포인터를 잡음"
 
-#: backends/wayland/wayland_output.cpp:487
+#: backends/wayland/wayland_output.cpp:488
 #, kde-format
 msgctxt ""
 "Title of nested KWin Wayland with Wayland socket identifier as argument"
 msgid "KDE Wayland Compositor %1"
 msgstr "KDE Wayland 컴포지터 %1"
 
-#: backends/wayland/wayland_output.cpp:490
+#: backends/wayland/wayland_output.cpp:491
 #, kde-format
 msgid "- Output disabled"
 msgstr "- 출력 비활성화됨"
 
-#: backends/wayland/wayland_output.cpp:492
+#: backends/wayland/wayland_output.cpp:493
 #, kde-format
 msgid "- Output dimmed"
 msgstr "- 출력 어두워짐"
@@ -151,10 +151,9 @@ msgid "Color profile is missing TRC tags"
 msgstr "색 프로필에 TRC 태그가 없음"
 
 #: core/iccprofile.cpp:534
-#, fuzzy, kde-format
-#| msgid "Failed to open ICC profile \"%1\""
+#, kde-format
 msgid "Couldn't invert tone curves of ICC profile \"%1\""
-msgstr "\"%1\" ICC 프로필을 열 수 없음"
+msgstr "\"%1\" ICC 프로필의 톤 커브를 반전할 수 없음"
 
 #: debug_console.cpp:86
 #, kde-format
@@ -3571,8 +3570,8 @@ msgid ""
 "the mouse: use the window menu instead, activated using the %1 keyboard "
 "shortcut."
 msgstr ""
-"창의 경계선이 보이지 않게 하도록 설정했습니다.\n"
-"경계선이 없을 때는 마우스를 사용해서 경계선을 다시 보이게 할 수 없습니다. 키"
+"창의 테두리가 보이지 않게 하도록 설정했습니다.\n"
+"테두리가 없을 때는 마우스를 사용해서 테두리를 다시 보이게 할 수 없습니다. 키"
 "보드 단축키 %1을(를) 사용해서 창 메뉴를 호출하십시오."
 
 #: useractions.cpp:169
@@ -4075,72 +4074,72 @@ msgstr "창 활성화(%1)"
 msgid "unknown"
 msgstr "알 수 없음"
 
-#: virtualdesktops.cpp:731 virtualdesktops.cpp:810
+#: virtualdesktops.cpp:732 virtualdesktops.cpp:811
 #, kde-format
 msgid "Desktop %1"
 msgstr "바탕 화면 %1"
 
-#: virtualdesktops.cpp:817
+#: virtualdesktops.cpp:818
 #, kde-format
 msgid "Switch to Next Desktop"
 msgstr "다음 바탕 화면으로 전환"
 
-#: virtualdesktops.cpp:818
+#: virtualdesktops.cpp:819
 #, kde-format
 msgid "Switch to Previous Desktop"
 msgstr "이전 바탕 화면으로 전환"
 
-#: virtualdesktops.cpp:821
+#: virtualdesktops.cpp:822
 #, kde-format
 msgid "Switch One Desktop to the Right"
 msgstr "오른쪽 바탕 화면으로 전환"
 
-#: virtualdesktops.cpp:822
+#: virtualdesktops.cpp:823
 #, kde-format
 msgid "Switch One Desktop to the Left"
 msgstr "왼쪽 바탕 화면으로 전환"
 
-#: virtualdesktops.cpp:823
+#: virtualdesktops.cpp:824
 #, kde-format
 msgid "Switch One Desktop Up"
 msgstr "위쪽 바탕 화면으로 전환"
 
-#: virtualdesktops.cpp:824
+#: virtualdesktops.cpp:825
 #, kde-format
 msgid "Switch One Desktop Down"
 msgstr "아래쪽 바탕 화면으로 전환"
 
-#: virtualdesktops.cpp:912
+#: virtualdesktops.cpp:913
 #, kde-format
 msgid "Switch to Desktop %1"
 msgstr "바탕 화면 %1(으)로 전환"
 
-#: wayland/outputmanagement_v2.cpp:602
+#: wayland/outputmanagement_v2.cpp:603
 #, kde-format
 msgid "One of the relevant outputs is no longer available"
 msgstr "하나 이상의 출력을 사용할 수 없음"
 
-#: wayland/outputmanagement_v2.cpp:620
+#: wayland/outputmanagement_v2.cpp:621
 #, kde-format
 msgid "Disabling all outputs through configuration changes is not allowed"
 msgstr "설정 변경으로 모든 출력 비활성화는 허용되지 않음"
 
-#: wayland/outputmanagement_v2.cpp:637
+#: wayland/outputmanagement_v2.cpp:638
 #, kde-format
 msgid "Cannot add a custom mode with an empty size"
 msgstr "크기가 비어 있는 사용자 정의 모드를 추가할 수 없음"
 
-#: wayland/outputmanagement_v2.cpp:641
+#: wayland/outputmanagement_v2.cpp:642
 #, kde-format
 msgid "Cannot add a custom mode with a refresh rate of zero Hz"
 msgstr "화면 주사율이 0 Hz인 사용자 정의 모드를 추가할 수 없음"
 
-#: wayland/outputmanagement_v2.cpp:659
+#: wayland/outputmanagement_v2.cpp:660
 #, kde-format
 msgid "Position of output %s is way too large (%d, %d)"
 msgstr "출력 %s의 위치가 너무 큼(%d, %d)"
 
-#: wayland/outputmanagement_v2.cpp:676
+#: wayland/outputmanagement_v2.cpp:677
 #, kde-format
 msgid "The driver rejected the output configuration"
 msgstr "드라이버에서 출력 설정을 거부함"

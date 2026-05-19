@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.2\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-06 02:37+0000\n"
+"POT-Creation-Date: 2026-04-24 02:42+0000\n"
 "PO-Revision-Date: 2025-05-30 23:12+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -28,30 +28,30 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "ulysses@fsf.hu"
 
-#: backends/wayland/wayland_output.cpp:481
+#: backends/wayland/wayland_output.cpp:482
 #, kde-format
 msgid "Press right control to ungrab pointer"
 msgstr "Nyomja meg a jobb Controlt a mutató elengedéséhez"
 
-#: backends/wayland/wayland_output.cpp:483
+#: backends/wayland/wayland_output.cpp:484
 #, kde-format
 msgid "Press right control key to grab pointer"
 msgstr "Nyomja meg a jobb Controlt a mutató elkapásához"
 
-#: backends/wayland/wayland_output.cpp:487
+#: backends/wayland/wayland_output.cpp:488
 #, kde-format
 msgctxt ""
 "Title of nested KWin Wayland with Wayland socket identifier as argument"
 msgid "KDE Wayland Compositor %1"
 msgstr "KDE Wayland kompozitor %1"
 
-#: backends/wayland/wayland_output.cpp:490
+#: backends/wayland/wayland_output.cpp:491
 #, fuzzy, kde-format
 #| msgid "- Output disabled"
 msgid "- Output disabled"
 msgstr "- Kimenet letiltva"
 
-#: backends/wayland/wayland_output.cpp:492
+#: backends/wayland/wayland_output.cpp:493
 #, fuzzy, kde-format
 #| msgid "- Output dimmed"
 msgid "- Output dimmed"
@@ -4123,72 +4123,72 @@ msgstr "Ablak aktiválása (%1)"
 msgid "unknown"
 msgstr "ismeretlen"
 
-#: virtualdesktops.cpp:731 virtualdesktops.cpp:810
+#: virtualdesktops.cpp:732 virtualdesktops.cpp:811
 #, kde-format
 msgid "Desktop %1"
 msgstr "%1. asztal"
 
-#: virtualdesktops.cpp:817
+#: virtualdesktops.cpp:818
 #, kde-format
 msgid "Switch to Next Desktop"
 msgstr "Váltás a következő asztalra"
 
-#: virtualdesktops.cpp:818
+#: virtualdesktops.cpp:819
 #, kde-format
 msgid "Switch to Previous Desktop"
 msgstr "Váltás az előző asztalra"
 
-#: virtualdesktops.cpp:821
+#: virtualdesktops.cpp:822
 #, kde-format
 msgid "Switch One Desktop to the Right"
 msgstr "Váltás a jobbra eső asztalra"
 
-#: virtualdesktops.cpp:822
+#: virtualdesktops.cpp:823
 #, kde-format
 msgid "Switch One Desktop to the Left"
 msgstr "Váltás a balra eső asztalra"
 
-#: virtualdesktops.cpp:823
+#: virtualdesktops.cpp:824
 #, kde-format
 msgid "Switch One Desktop Up"
 msgstr "Váltás a felfelé eső asztalra"
 
-#: virtualdesktops.cpp:824
+#: virtualdesktops.cpp:825
 #, kde-format
 msgid "Switch One Desktop Down"
 msgstr "Váltás a lefelé eső asztalra"
 
-#: virtualdesktops.cpp:912
+#: virtualdesktops.cpp:913
 #, kde-format
 msgid "Switch to Desktop %1"
 msgstr "Váltás a(z) %1. asztalra"
 
-#: wayland/outputmanagement_v2.cpp:602
+#: wayland/outputmanagement_v2.cpp:603
 #, kde-format
 msgid "One of the relevant outputs is no longer available"
 msgstr "Az egyik releváns kimenet már nem érhető el"
 
-#: wayland/outputmanagement_v2.cpp:620
+#: wayland/outputmanagement_v2.cpp:621
 #, kde-format
 msgid "Disabling all outputs through configuration changes is not allowed"
 msgstr "Az összes kimenet letiltása beállításmódosítással nem engedélyezett"
 
-#: wayland/outputmanagement_v2.cpp:637
+#: wayland/outputmanagement_v2.cpp:638
 #, kde-format
 msgid "Cannot add a custom mode with an empty size"
 msgstr ""
 
-#: wayland/outputmanagement_v2.cpp:641
+#: wayland/outputmanagement_v2.cpp:642
 #, kde-format
 msgid "Cannot add a custom mode with a refresh rate of zero Hz"
 msgstr ""
 
-#: wayland/outputmanagement_v2.cpp:659
+#: wayland/outputmanagement_v2.cpp:660
 #, kde-format
 msgid "Position of output %s is way too large (%d, %d)"
 msgstr ""
 
-#: wayland/outputmanagement_v2.cpp:676
+#: wayland/outputmanagement_v2.cpp:677
 #, kde-format
 msgid "The driver rejected the output configuration"
 msgstr "Az illesztőprogram elutasította a kimenetbeállítást"

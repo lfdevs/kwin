@@ -1,3 +1,11 @@
+kwin (4:6.6.5-0ubuntu0.1) resolute; urgency=medium
+
+  * New upstream release (6.6.5) (LP: #2152276)
+  * Add relax-plasma-internal-build-deps.patch to avoid rebuilding
+    sources with just a version bump.
+
+ -- Rik Mills <rikmills@kde.org>  Tue, 19 May 2026 10:27:24 +0100
+
 kwin (4:6.6.4-0ubuntu1) resolute; urgency=medium
 
   * New upstream bugfix release (6.6.4)

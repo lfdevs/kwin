@@ -12,7 +12,7 @@
 # Nicolas Ternisien <nicolas.ternisien@gmail.com>, 2005, 2008, 2010.
 # Sébastien Renard <Sebastien.Renard@digitalfox.org>, 2008.
 # Anne-Marie Mahfouf <annemarie.mahfouf@free.fr>, 2009, 2011, 2012.
-# SPDX-FileCopyrightText: 2013, 2024, 2025, 2026 Xavier Besnard <xavier.besnard@kde.org>
+# SPDX-FileCopyrightText: 2013, 2024-2026 Xavier Besnard <xavier.besnard@kde.org>
 # Sebastien Renard <renard@kde.org>, 2013, 2014, 2015.
 # Vincent Pinon <vpinon@kde.org>, 2016, 2017.
 # Yoann Laissus <yoann.laissus@gmail.com>, 2017, 2018.
@@ -24,10 +24,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-06 02:37+0000\n"
-"PO-Revision-Date: 2026-03-26 18:13+0100\n"
+"POT-Creation-Date: 2026-04-24 02:42+0000\n"
+"PO-Revision-Date: 2026-05-03 17:13+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
-"Language-Team: \n"
+"Language-Team: fr\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,7 +35,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Accelerator-Marker: &\n"
 "X-Environment: kde\n"
-"X-Generator: Lokalize 25.12.3\n"
+"X-Generator: Lokalize 26.04.0\n"
 "X-Text-Markup: kde4\n"
 
 #, kde-format
@@ -54,29 +54,29 @@ msgstr ""
 "cousin@kde.org,gerard@delafond.org, yann.verley@free.fr, nicolas."
 "ternisien@gmail.com,renard@kde.org,sdepiets@gmail.com, xavier.besnard@kde.org"
 
-#: backends/wayland/wayland_output.cpp:481
+#: backends/wayland/wayland_output.cpp:482
 #, kde-format
 msgid "Press right control to ungrab pointer"
 msgstr "Appuyez sur la touche de contrôle droit pour libérer le pointeur"
 
-#: backends/wayland/wayland_output.cpp:483
+#: backends/wayland/wayland_output.cpp:484
 #, kde-format
 msgid "Press right control key to grab pointer"
 msgstr "Appuyez sur la touche de contrôle droit pour saisir le pointeur"
 
-#: backends/wayland/wayland_output.cpp:487
+#: backends/wayland/wayland_output.cpp:488
 #, kde-format
 msgctxt ""
 "Title of nested KWin Wayland with Wayland socket identifier as argument"
 msgid "KDE Wayland Compositor %1"
 msgstr "Compositeur %1 Wayland de KDE"
 
-#: backends/wayland/wayland_output.cpp:490
+#: backends/wayland/wayland_output.cpp:491
 #, kde-format
 msgid "- Output disabled"
 msgstr "- Sortie désactivée"
 
-#: backends/wayland/wayland_output.cpp:492
+#: backends/wayland/wayland_output.cpp:493
 #, kde-format
 msgid "- Output dimmed"
 msgstr "- Sortie ajustée"
@@ -2510,8 +2510,8 @@ msgid ""
 "Select window to screen shot with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
-"Sélectionnez une fenêtre pour en faire une copie d'écran avec un clic gauche "
-"ou un appui sur la touche « Entrée ».\n"
+"Sélectionnez une fenêtre pour en faire une capture d'écran avec un clic "
+"gauche ou un appui sur la touche « Entrée ».\n"
 "Appuyez sur la touche « Échap » ou faire un clic droit pour annuler."
 
 #: plugins/screenshot/screenshotdbusinterface2.cpp:443
@@ -2520,7 +2520,7 @@ msgid ""
 "Create screen shot with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
-"Créer une copie d'écran avec un clic gauche ou un appui sur la touche "
+"Créer une capture d'écran avec un clic gauche ou un appui sur la touche "
 "« Entrée ».\n"
 "Appuyez sur la touche « Échap » ou faire un clic droit pour annuler."
 
@@ -4157,76 +4157,76 @@ msgstr "Activer la fenêtre (%1)"
 msgid "unknown"
 msgstr "inconnu"
 
-#: virtualdesktops.cpp:731 virtualdesktops.cpp:810
+#: virtualdesktops.cpp:732 virtualdesktops.cpp:811
 #, kde-format
 msgid "Desktop %1"
 msgstr "Bureau %1"
 
-#: virtualdesktops.cpp:817
+#: virtualdesktops.cpp:818
 #, kde-format
 msgid "Switch to Next Desktop"
 msgstr "Passer au bureau suivant"
 
-#: virtualdesktops.cpp:818
+#: virtualdesktops.cpp:819
 #, kde-format
 msgid "Switch to Previous Desktop"
 msgstr "Passer au bureau précédent"
 
-#: virtualdesktops.cpp:821
+#: virtualdesktops.cpp:822
 #, kde-format
 msgid "Switch One Desktop to the Right"
 msgstr "Passer au bureau de droite"
 
-#: virtualdesktops.cpp:822
+#: virtualdesktops.cpp:823
 #, kde-format
 msgid "Switch One Desktop to the Left"
 msgstr "Passer au bureau de gauche"
 
-#: virtualdesktops.cpp:823
+#: virtualdesktops.cpp:824
 #, kde-format
 msgid "Switch One Desktop Up"
 msgstr "Passer au bureau du dessus"
 
-#: virtualdesktops.cpp:824
+#: virtualdesktops.cpp:825
 #, kde-format
 msgid "Switch One Desktop Down"
 msgstr "Passer au bureau du dessous"
 
-#: virtualdesktops.cpp:912
+#: virtualdesktops.cpp:913
 #, kde-format
 msgid "Switch to Desktop %1"
 msgstr "Passer au bureau %1"
 
-#: wayland/outputmanagement_v2.cpp:602
+#: wayland/outputmanagement_v2.cpp:603
 #, kde-format
 msgid "One of the relevant outputs is no longer available"
 msgstr "L'une des sorties pertinentes n'est plus disponible."
 
-#: wayland/outputmanagement_v2.cpp:620
+#: wayland/outputmanagement_v2.cpp:621
 #, kde-format
 msgid "Disabling all outputs through configuration changes is not allowed"
 msgstr ""
 "La désactivation de toutes les sorties grâce à des modifications de "
 "configuration n'est pas autorisée."
 
-#: wayland/outputmanagement_v2.cpp:637
+#: wayland/outputmanagement_v2.cpp:638
 #, kde-format
 msgid "Cannot add a custom mode with an empty size"
 msgstr "Impossible d'ajouter un mode personnalisé avec une taille vide"
 
-#: wayland/outputmanagement_v2.cpp:641
+#: wayland/outputmanagement_v2.cpp:642
 #, kde-format
 msgid "Cannot add a custom mode with a refresh rate of zero Hz"
 msgstr ""
 "Impossible d'ajouter un mode personnalisé avec une fréquence de "
 "rafraîchissement de 0 Hz"
 
-#: wayland/outputmanagement_v2.cpp:659
+#: wayland/outputmanagement_v2.cpp:660
 #, kde-format
 msgid "Position of output %s is way too large (%d, %d)"
 msgstr "La position de la sortie %s est bien trop grande (%d, %d)"
 
-#: wayland/outputmanagement_v2.cpp:676
+#: wayland/outputmanagement_v2.cpp:677
 #, kde-format
 msgid "The driver rejected the output configuration"
 msgstr "Le pilote a rejeté la configuration de sortie."

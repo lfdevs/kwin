@@ -1,1 +1,2 @@
+relax-plasma-internal-build-deps.patch
 fix-drm-open-fallback-to-logind-fd.patch

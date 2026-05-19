@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-06 02:37+0000\n"
-"PO-Revision-Date: 2026-02-22 08:31+0200\n"
+"POT-Creation-Date: 2026-04-24 02:42+0000\n"
+"PO-Revision-Date: 2026-04-13 08:02+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Lokalize 25.12.1\n"
+"X-Generator: Lokalize 25.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -40,29 +40,29 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "kde-l10n-he@kde.org"
 
-#: backends/wayland/wayland_output.cpp:481
+#: backends/wayland/wayland_output.cpp:482
 #, kde-format
 msgid "Press right control to ungrab pointer"
 msgstr "לחיצה על ה־Ctrl הימני תבטל אחיזת סמן"
 
-#: backends/wayland/wayland_output.cpp:483
+#: backends/wayland/wayland_output.cpp:484
 #, kde-format
 msgid "Press right control key to grab pointer"
 msgstr "לחיצה על ה־Ctrl הימני תאחוז את הסמן"
 
-#: backends/wayland/wayland_output.cpp:487
+#: backends/wayland/wayland_output.cpp:488
 #, kde-format
 msgctxt ""
 "Title of nested KWin Wayland with Wayland socket identifier as argument"
 msgid "KDE Wayland Compositor %1"
 msgstr "מנהל חלונאי KDE Wayland %1"
 
-#: backends/wayland/wayland_output.cpp:490
+#: backends/wayland/wayland_output.cpp:491
 #, kde-format
 msgid "- Output disabled"
 msgstr "- פלט מושבת"
 
-#: backends/wayland/wayland_output.cpp:492
+#: backends/wayland/wayland_output.cpp:493
 #, kde-format
 msgid "- Output dimmed"
 msgstr "- פלט מעומעם"
@@ -1617,7 +1617,7 @@ msgstr "קלה"
 #: plugins/blur/blur_config.ui:168
 #, kde-format
 msgid "Strong"
-msgstr "חזק"
+msgstr "חזקה"
 
 #. i18n: ectx: property (text), widget (QLabel, labelConstantNoiseDescription)
 #: plugins/blur/blur_config.ui:74
@@ -4091,72 +4091,72 @@ msgstr "הפעלת חלון (%1)"
 msgid "unknown"
 msgstr "לא ידוע"
 
-#: virtualdesktops.cpp:731 virtualdesktops.cpp:810
+#: virtualdesktops.cpp:732 virtualdesktops.cpp:811
 #, kde-format
 msgid "Desktop %1"
 msgstr "שולחן עבודה %1"
 
-#: virtualdesktops.cpp:817
+#: virtualdesktops.cpp:818
 #, kde-format
 msgid "Switch to Next Desktop"
 msgstr "מעבר לשולחן העבודה הבא"
 
-#: virtualdesktops.cpp:818
+#: virtualdesktops.cpp:819
 #, kde-format
 msgid "Switch to Previous Desktop"
 msgstr "מעבר לשולחן העבודה הקודם"
 
-#: virtualdesktops.cpp:821
+#: virtualdesktops.cpp:822
 #, kde-format
 msgid "Switch One Desktop to the Right"
 msgstr "מעבר שולחן עבודה אחד ימינה"
 
-#: virtualdesktops.cpp:822
+#: virtualdesktops.cpp:823
 #, kde-format
 msgid "Switch One Desktop to the Left"
 msgstr "מעבר שולחן עבודה אחד שמאלה"
 
-#: virtualdesktops.cpp:823
+#: virtualdesktops.cpp:824
 #, kde-format
 msgid "Switch One Desktop Up"
 msgstr "מעבר שולחן עבודה אחד למעלה"
 
-#: virtualdesktops.cpp:824
+#: virtualdesktops.cpp:825
 #, kde-format
 msgid "Switch One Desktop Down"
 msgstr "מעבר שולחן עבודה אחד למטה"
 
-#: virtualdesktops.cpp:912
+#: virtualdesktops.cpp:913
 #, kde-format
 msgid "Switch to Desktop %1"
 msgstr "מעבר לשולחן עבודה %1"
 
-#: wayland/outputmanagement_v2.cpp:602
+#: wayland/outputmanagement_v2.cpp:603
 #, kde-format
 msgid "One of the relevant outputs is no longer available"
 msgstr "אחד מצגי הפלט התואמים לא זמין עוד"
 
-#: wayland/outputmanagement_v2.cpp:620
+#: wayland/outputmanagement_v2.cpp:621
 #, kde-format
 msgid "Disabling all outputs through configuration changes is not allowed"
 msgstr "השבתת כל צדי הפלט דרך שינויי הגדרות אסורה"
 
-#: wayland/outputmanagement_v2.cpp:637
+#: wayland/outputmanagement_v2.cpp:638
 #, kde-format
 msgid "Cannot add a custom mode with an empty size"
 msgstr "לא ניתן להוסיף מצב מותאם אישית בגודל ריק"
 
-#: wayland/outputmanagement_v2.cpp:641
+#: wayland/outputmanagement_v2.cpp:642
 #, kde-format
 msgid "Cannot add a custom mode with a refresh rate of zero Hz"
 msgstr "לא ניתן להוסיף מצב מותאם אישית עם קצב ריענון של אפס הרץ"
 
-#: wayland/outputmanagement_v2.cpp:659
+#: wayland/outputmanagement_v2.cpp:660
 #, kde-format
 msgid "Position of output %s is way too large (%d, %d)"
 msgstr "המקום של הפלט %s הוא גדול מדי (%d, %d)"
 
-#: wayland/outputmanagement_v2.cpp:676
+#: wayland/outputmanagement_v2.cpp:677
 #, kde-format
 msgid "The driver rejected the output configuration"
 msgstr "מנהל ההתקן דחה את הגדרות הפלט"

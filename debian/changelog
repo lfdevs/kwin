@@ -1,3 +1,12 @@
+kwin (4:6.6.4-0ubuntu90) resolute; urgency=medium
+
+  * Add Add-support-for-Anland-display-daemon.patch:
+    This introduces a new complete output backend implementation
+    in src/backends/anland/ to support rendering KWin to the Anland
+    display daemon.
+
+ -- lfdevs <lfdevs@lfdevs.com>  Fri, 26 Jun 2026 00:09:00 +0800
+
 kwin (4:6.6.4-0ubuntu1) resolute; urgency=medium
 
   * New upstream bugfix release (6.6.4)

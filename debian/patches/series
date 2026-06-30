@@ -1,2 +1,3 @@
 fix-drm-open-fallback-to-logind-fd.patch
 Add-support-for-Anland-display-daemon.patch
+Add-support-for-running-without-a-DRM-device.patch

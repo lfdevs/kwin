@@ -1,3 +1,9 @@
+kwin (4:6.6.4-0ubuntu92) resolute; urgency=medium
+
+  * Add Add-support-for-running-without-a-DRM-device.patch fot test
+
+ -- lfdevs <lfdevs@lfdevs.com>  Tue, 30 Jun 2026 15:35:00 +0800
+
 kwin (4:6.6.4-0ubuntu91) resolute; urgency=medium
 
   * Update included Add-support-for-Anland-display-daemon.patch to 5.8

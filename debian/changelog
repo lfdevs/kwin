@@ -1,3 +1,9 @@
+kwin (4:6.6.4-0ubuntu91) resolute; urgency=medium
+
+  * Update included Add-support-for-Anland-display-daemon.patch to 5.8
+
+ -- lfdevs <lfdevs@lfdevs.com>  Tue, 30 Jun 2026 11:35:00 +0800
+
 kwin (4:6.6.4-0ubuntu90) resolute; urgency=medium
 
   * Add Add-support-for-Anland-display-daemon.patch:

@@ -1,15 +1,21 @@
 From: superturtlee <160681686+superturtlee@users.noreply.github.com>
-Date: Thu, 25 Jun 2026 23:49:20 +0800
+Date: Tue, 30 Jun 2026 11:27:47 +0800
 Subject: Add support for Anland display daemon
 
-This commit introduces a new complete output backend implementation
+This patch introduces a new complete output backend implementation
 in `src/backends/anland/` to support rendering KWin to the Anland
 display daemon.
 
 Key changes:
 - anland backend: Add the complete implementation of the Anland
-  backend (including output rendering, input event handling, and
-  session management) and integrate it into the CMake build system.
+  backend (including output rendering, EGL integration, input event
+  handling, and session management) and integrate it into the CMake
+  build system.
+- anland audio & camera: Implement PipeWire-based audio (playback and
+  capture) and camera engines to bridge host Linux applications and the
+  Android consumer.
+- display_producer: Vendor `libdisplay_producer` and socket utilities
+  to handle the communication protocol with the Anland daemon.
 - main_wayland: Add an `--anland` command-line option and support
   for the `ANLAND_SOCKET` environment variable to initialize and
   use the `AnlandBackend`.
@@ -19,33 +25,41 @@ Key changes:
   text directly into KWin's input routing.
 
 Based-on-patch:
-https://github.com/superturtlee/anland/blob/4.1/producers/kde/ubuntu2604_v4/kwin.patch
-and https://github.com/superturtlee/anland/tree/4.1/producers/kde/anland_backend_v4/src/backends/anland
+https://github.com/superturtlee/anland/blob/5.8/producers/kde/ubuntu2604_v5/kwin.patch
+https://github.com/superturtlee/anland/tree/5.8/producers/kde/anland_backend_v5/src/backends/anland
 ---
  src/backends/CMakeLists.txt                |   1 +
- src/backends/anland/CMakeLists.txt         |  13 +
- src/backends/anland/anland_backend.cpp     | 644 +++++++++++++++++++++++++++++
- src/backends/anland/anland_backend.h       | 126 ++++++
- src/backends/anland/anland_egl_backend.cpp | 334 +++++++++++++++
- src/backends/anland/anland_egl_backend.h   | 101 +++++
- src/backends/anland/anland_input.cpp       | 170 ++++++++
- src/backends/anland/anland_input.h         |  72 ++++
+ src/backends/anland/CMakeLists.txt         |  18 +
+ src/backends/anland/anland_audio.c         | 541 ++++++++++++++++++
+ src/backends/anland/anland_audio.h         |  41 ++
+ src/backends/anland/anland_backend.cpp     | 728 ++++++++++++++++++++++++
+ src/backends/anland/anland_backend.h       | 126 +++++
+ src/backends/anland/anland_camera.c        | 856 +++++++++++++++++++++++++++++
+ src/backends/anland/anland_camera.h        |  54 ++
+ src/backends/anland/anland_egl_backend.cpp | 334 +++++++++++
+ src/backends/anland/anland_egl_backend.h   | 101 ++++
+ src/backends/anland/anland_input.cpp       | 170 ++++++
+ src/backends/anland/anland_input.h         |  72 +++
  src/backends/anland/anland_logging.cpp     |   8 +
  src/backends/anland/anland_logging.h       |  10 +
- src/backends/anland/anland_output.cpp      | 190 +++++++++
- src/backends/anland/anland_output.h        |  92 +++++
- src/backends/anland/display_producer.c     | 462 +++++++++++++++++++++
- src/backends/anland/display_producer.h     |  74 ++++
- src/backends/anland/protocol.h             | 128 ++++++
- src/backends/anland/socket_utils.c         | 121 ++++++
+ src/backends/anland/anland_output.cpp      | 190 +++++++
+ src/backends/anland/anland_output.h        |  92 ++++
+ src/backends/anland/display_producer.c     | 523 ++++++++++++++++++
+ src/backends/anland/display_producer.h     |  92 ++++
+ src/backends/anland/protocol.h             | 194 +++++++
+ src/backends/anland/socket_utils.c         | 121 ++++
  src/backends/anland/socket_utils.h         |  18 +
  src/inputmethod.cpp                        |  10 +
  src/inputmethod.h                          |   7 +
  src/main_wayland.cpp                       |  16 +-
- 20 files changed, 2596 insertions(+), 1 deletion(-)
+ 24 files changed, 4322 insertions(+), 1 deletion(-)
  create mode 100644 src/backends/anland/CMakeLists.txt
+ create mode 100644 src/backends/anland/anland_audio.c
+ create mode 100644 src/backends/anland/anland_audio.h
  create mode 100644 src/backends/anland/anland_backend.cpp
  create mode 100644 src/backends/anland/anland_backend.h
+ create mode 100644 src/backends/anland/anland_camera.c
+ create mode 100644 src/backends/anland/anland_camera.h
  create mode 100644 src/backends/anland/anland_egl_backend.cpp
  create mode 100644 src/backends/anland/anland_egl_backend.h
  create mode 100644 src/backends/anland/anland_input.cpp
@@ -71,29 +85,628 @@ index e94a1c6..82d377c 100644
  add_subdirectory(libinput)
 diff --git a/src/backends/anland/CMakeLists.txt b/src/backends/anland/CMakeLists.txt
 new file mode 100644
-index 0000000..04985ef
+index 0000000..c16fc63
 --- /dev/null
 +++ b/src/backends/anland/CMakeLists.txt
-@@ -0,0 +1,13 @@
+@@ -0,0 +1,18 @@
 +target_sources(kwin PRIVATE
 +    anland_backend.cpp
 +    anland_egl_backend.cpp
 +    anland_input.cpp
 +    anland_logging.cpp
 +    anland_output.cpp
++    # PipeWire audio engine: sink-monitor capture + virtual mic source
++    anland_audio.c
++    # PipeWire camera engine: virtual Video/Source nodes fed by the Android camera
++    anland_camera.c
 +    # vendored libdisplay_producer (talks to the Android display daemon)
 +    display_producer.c
 +    socket_utils.c
 +)
 +
 +target_include_directories(kwin PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
-+target_link_libraries(kwin PRIVATE Libdrm::Libdrm)
++# PkgConfig::PipeWire is already resolved at the top level for the screencast plugin.
++target_link_libraries(kwin PRIVATE Libdrm::Libdrm PkgConfig::PipeWire)
+diff --git a/src/backends/anland/anland_audio.c b/src/backends/anland/anland_audio.c
+new file mode 100644
+index 0000000..67f3251
+--- /dev/null
++++ b/src/backends/anland/anland_audio.c
+@@ -0,0 +1,541 @@
++#define _GNU_SOURCE
++#include "anland_audio.h"
++#include "protocol.h"
++
++#include <errno.h>
++#include <stdbool.h>
++#include <stdint.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <sys/socket.h>
++#include <time.h>
++#include <unistd.h>
++
++#include <pipewire/pipewire.h>
++#include <spa/param/audio/format-utils.h>
++#include <spa/pod/builder.h>
++#include <spa/utils/hook.h>
++
++/* Default formats until the consumer negotiates the real device formats (protocol.h):
++ * playback stereo L,R, mic mono, both S16LE. */
++#define DEFAULT_RATE          48000
++#define DEFAULT_PLAY_CHANNELS 2
++#define DEFAULT_CAP_CHANNELS  1
++/* ~1s of stereo S16 mic audio; bounds added latency, old samples drop on overflow.
++ * Sized for the worst case (stereo) so the ring never under-allocates. */
++#define MIC_RING_BYTES        (48000 * 2 * (int)sizeof(int16_t))
++#define MAX_DGRAM             (64 * 1024)
++/* Retry cadence after the PipeWire connection is lost (sound service restart, etc). */
++#define RECONNECT_SECS    1
++
++struct anland_audio {
++    struct pw_thread_loop *loop;
++    struct pw_context     *context;
++    struct pw_core        *core;
++    struct spa_hook        core_listener;
++    struct spa_source     *reconnect_timer;
++    bool                   pw_connected;   /* core + streams are up */
++
++    struct pw_stream      *capture;   /* virtual Audio/Sink  -> socket (playback) */
++    struct spa_hook        capture_listener;
++    struct pw_stream      *source;    /* virtual Audio/Source <- socket (capture) */
++    struct spa_hook        source_listener;
++
++    /* Negotiated formats (the consumer owns the hardware and dictates these via
++     * AUDIO_MSG_FORMAT). Defaults stand until the consumer's formats arrive. */
++    uint32_t               play_rate, play_channels;   /* the Audio/Sink format   */
++    uint32_t               cap_rate, cap_channels;      /* the Audio/Source format */
++    /* Requested buffer (frames) per stream from the consumer's latency preset;
++     * 0 = let PipeWire choose the graph quantum. Applied as node.latency. */
++    uint32_t               play_quantum, cap_quantum;
++
++    int                    audio_fd;  /* borrowed; -1 when detached */
++    struct spa_source     *io;        /* loop io source watching audio_fd for reads */
++
++    /* Mic ring buffer. Only ever touched from the loop thread (the io read callback
++     * fills it, the source process callback drains it), so it needs no lock. */
++    uint8_t               *ring;
++    size_t                 ring_size, ring_head, ring_tail, ring_fill;
++
++    uint8_t                rx[MAX_DGRAM];
++};
++
++static struct anland_audio *g_audio = NULL;
++
++static int connect_stream(struct pw_stream *stream, enum spa_direction direction,
++                          uint32_t rate, uint32_t channels, uint32_t quantum);
++static const struct spa_pod *build_format(struct spa_pod_builder *bld,
++                                          uint32_t rate, uint32_t channels);
++static void set_latency(struct pw_stream *stream, uint32_t quantum, uint32_t rate);
++
++/* ---- mic ring buffer (single-threaded: loop thread only) ---- */
++
++static void ring_reset(struct anland_audio *a)
++{
++    a->ring_head = a->ring_tail = a->ring_fill = 0;
++}
++
++static void ring_write(struct anland_audio *a, const uint8_t *p, size_t n)
++{
++    if (n > a->ring_size) {           /* keep only the newest ring_size bytes */
++        p += n - a->ring_size;
++        n = a->ring_size;
++    }
++    if (a->ring_fill + n > a->ring_size) {   /* drop oldest to make room */
++        size_t drop = a->ring_fill + n - a->ring_size;
++        a->ring_tail = (a->ring_tail + drop) % a->ring_size;
++        a->ring_fill -= drop;
++    }
++    size_t first = a->ring_size - a->ring_head;
++    if (first > n)
++        first = n;
++    memcpy(a->ring + a->ring_head, p, first);
++    memcpy(a->ring, p + first, n - first);
++    a->ring_head = (a->ring_head + n) % a->ring_size;
++    a->ring_fill += n;
++}
++
++static size_t ring_read(struct anland_audio *a, uint8_t *p, size_t n)
++{
++    size_t got = n < a->ring_fill ? n : a->ring_fill;
++    size_t first = a->ring_size - a->ring_tail;
++    if (first > got)
++        first = got;
++    memcpy(p, a->ring + a->ring_tail, first);
++    memcpy(p + first, a->ring, got - first);
++    a->ring_tail = (a->ring_tail + got) % a->ring_size;
++    a->ring_fill -= got;
++    return got;
++}
++
++/* ---- stream process callbacks (run on the loop thread, RT context) ---- */
++
++/* Desktop audio captured from the default sink's monitor -> push to the socket so
++ * the consumer plays it. Dropped (still drained) while detached. */
++static void on_capture_process(void *data)
++{
++    struct anland_audio *a = data;
++    struct pw_buffer *b = pw_stream_dequeue_buffer(a->capture);
++    if (!b)
++        return;
++
++    struct spa_data *d = &b->buffer->datas[0];
++    if (d->data && d->chunk->size > 0 && a->audio_fd >= 0) {
++        struct audio_msg h = { .type = AUDIO_MSG_PCM, .size = d->chunk->size };
++        struct iovec iov[2] = {
++            { .iov_base = &h, .iov_len = sizeof(h) },
++            { .iov_base = (uint8_t *)d->data + d->chunk->offset, .iov_len = d->chunk->size },
++        };
++        struct msghdr m = { .msg_iov = iov, .msg_iovlen = 2 };
++        /* Non-blocking: the loop thread must never stall on a slow/dead consumer.
++         * One SEQPACKET datagram per period; drop on EAGAIN. */
++        sendmsg(a->audio_fd, &m, MSG_DONTWAIT | MSG_NOSIGNAL);
++    }
++    pw_stream_queue_buffer(a->capture, b);
++}
++
++/* Fill the virtual mic source from the ring buffer (fed by Android). Silence-pads
++ * when the ring underruns or while detached, so the source never glitches/vanishes. */
++static void on_source_process(void *data)
++{
++    struct anland_audio *a = data;
++    struct pw_buffer *b = pw_stream_dequeue_buffer(a->source);
++    if (!b)
++        return;
++
++    struct spa_data *d = &b->buffer->datas[0];
++    const uint32_t stride = sizeof(int16_t) * a->cap_channels;
++    uint32_t frames = d->maxsize / stride;
++    if (b->requested && b->requested < frames)
++        frames = b->requested;
++    uint32_t bytes = frames * stride;
++
++    size_t got = ring_read(a, d->data, bytes);
++    if (got < bytes)
++        memset((uint8_t *)d->data + got, 0, bytes - got);
++
++    d->chunk->offset = 0;
++    d->chunk->stride = stride;
++    d->chunk->size = bytes;
++    pw_stream_queue_buffer(a->source, b);
++}
++
++static const struct pw_stream_events capture_events = {
++    PW_VERSION_STREAM_EVENTS,
++    .process = on_capture_process,
++};
++
++static const struct pw_stream_events source_events = {
++    PW_VERSION_STREAM_EVENTS,
++    .process = on_source_process,
++};
++
++/* Apply a consumer-announced format. The virtual device stays continuously online
++ * and is hot-plugged (disconnect + reconnect) ONLY when the format actually changes
++ * versus what the stream is currently running -- an unchanged announcement (the common
++ * case, including every consumer reconnect that re-sends the same format) is a no-op,
++ * so the node never churns and plasma-pa keeps resolving the default sink/source.
++ *
++ * Defaults are role-correct: a field left 0 means "device default", which must equal
++ * the value the stream was built with, otherwise the comparison below would treat an
++ * unset field as a change and re-plug on every announcement. (One bug was a CAPTURE
++ * announce with channels==0 defaulting to 2, never matching the mono source.)
++ *
++ * Every change is applied IN PLACE -- the node object (anland-speaker / anland-mic) is
++ * never destroyed, so WirePlumber/plasma-pa keep their default reference and never log
++ * "No object for name anland-speaker". A rate/channels change renegotiates the port
++ * format via pw_stream_update_params(); a quantum-only change (AAudio's framesPerBurst
++ * legitimately varies between opens) just updates node.latency. Neither disconnects.
++ *
++ * Runs on the loop thread, so the pw_stream calls are safe. */
++static void apply_format(struct anland_audio *a, const struct audio_format *f)
++{
++    const bool playback = (f->role == AUDIO_ROLE_PLAYBACK);
++    const uint32_t rate = f->rate ? f->rate : DEFAULT_RATE;
++    const uint32_t channels = f->channels ? f->channels
++                                          : (playback ? DEFAULT_PLAY_CHANNELS : DEFAULT_CAP_CHANNELS);
++
++    uint32_t *cur_rate     = playback ? &a->play_rate : &a->cap_rate;
++    uint32_t *cur_channels = playback ? &a->play_channels : &a->cap_channels;
++    uint32_t *cur_quantum  = playback ? &a->play_quantum : &a->cap_quantum;
++    struct pw_stream *stream = playback ? a->capture : a->source;
++
++    const bool format_changed = (rate != *cur_rate || channels != *cur_channels);
++    const bool quantum_changed = (f->quantum != *cur_quantum);
++    if (!format_changed && !quantum_changed)
++        return;   /* unchanged -> keep the device online, no hot-plug */
++
++    *cur_rate = rate;
++    *cur_channels = channels;
++    *cur_quantum = f->quantum;
++
++    if (!a->pw_connected || !stream)
++        return;   /* build_pw() will pick up the new values when it (re)creates the stream */
++
++    if (format_changed) {
++        /* Renegotiate the port format on the LIVE stream. update_params keeps the node
++         * object alive (same id) and re-runs format negotiation, so the default sink/
++         * source reference is never lost -- no churn, no plasma-pa "No object" spam. */
++        set_latency(stream, f->quantum, rate);
++        uint8_t buffer[1024];
++        struct spa_pod_builder bld = SPA_POD_BUILDER_INIT(buffer, sizeof(buffer));
++        const struct spa_pod *params[1] = { build_format(&bld, rate, channels) };
++        pw_stream_update_params(stream, params, 1);
++    } else if (f->quantum > 0) {
++        /* Latency-only tweak: node.latency in place, nothing renegotiates. */
++        set_latency(stream, f->quantum, rate);
++    }
++}
++
++/* Mic PCM / format announcements arriving from the consumer. Runs on the loop thread. */
++static void on_audio_readable(void *data, int fd, uint32_t mask)
++{
++    struct anland_audio *a = data;
++    if (mask & (SPA_IO_ERR | SPA_IO_HUP))
++        return;
++    if (!(mask & SPA_IO_IN))
++        return;
++
++    for (;;) {
++        ssize_t n = recv(fd, a->rx, sizeof(a->rx), MSG_DONTWAIT);
++        if (n <= 0)
++            break;
++        if ((size_t)n < sizeof(struct audio_msg))
++            continue;
++        struct audio_msg h;
++        memcpy(&h, a->rx, sizeof(h));
++        size_t avail = (size_t)n - sizeof(struct audio_msg);
++
++        if (h.type == AUDIO_MSG_FORMAT) {
++            if (avail >= sizeof(struct audio_format)) {
++                struct audio_format f;
++                memcpy(&f, a->rx + sizeof(struct audio_msg), sizeof(f));
++                apply_format(a, &f);
++            }
++            continue;
++        }
++        if (h.type != AUDIO_MSG_PCM)
++            continue;
++        size_t size = h.size < avail ? h.size : avail;
++        ring_write(a, a->rx + sizeof(struct audio_msg), size);
++    }
++}
++
++/* ---- PipeWire connection lifecycle (build / teardown / auto-reconnect) ---- */
++
++static void arm_reconnect(struct anland_audio *a)
++{
++    struct timespec val = { .tv_sec = RECONNECT_SECS, .tv_nsec = 0 };
++    pw_loop_update_timer(pw_thread_loop_get_loop(a->loop), a->reconnect_timer,
++                         &val, NULL, false);
++}
++
++/* Fatal, non-recoverable error on the core proxy means the sound service connection
++ * was lost (e.g. pipewire/wireplumber restarted). Drop the dead core+streams and
++ * schedule a rebuild; the audio socket / mic ring are untouched so the consumer side
++ * keeps working and resumes the moment PipeWire is back. */
++static void on_core_error(void *data, uint32_t id, int seq, int res, const char *message)
++{
++    struct anland_audio *a = data;
++    (void)seq;
++    (void)message;
++    if (id == PW_ID_CORE && res == -EPIPE) {
++        a->pw_connected = false;
++        arm_reconnect(a);   /* teardown + rebuild happens in the timer, not here */
++    }
++}
++
++static const struct pw_core_events core_events = {
++    PW_VERSION_CORE_EVENTS,
++    .error = on_core_error,
++};
++
++/* Build an S16LE EnumFormat POD for rate/channels into the caller's builder. Stereo is
++ * L,R (FL,FR); anything else collapses to a plain mono channel. */
++static const struct spa_pod *build_format(struct spa_pod_builder *bld,
++                                          uint32_t rate, uint32_t channels)
++{
++    struct spa_audio_info_raw info = {
++        .format = SPA_AUDIO_FORMAT_S16_LE,
++        .rate = rate,
++        .channels = channels,
++    };
++    if (channels >= 2) {
++        info.position[0] = SPA_AUDIO_CHANNEL_FL;
++        info.position[1] = SPA_AUDIO_CHANNEL_FR;
++    } else {
++        info.position[0] = SPA_AUDIO_CHANNEL_MONO;
++    }
++    return spa_format_audio_raw_build(bld, SPA_PARAM_EnumFormat, &info);
++}
++
++/* node.latency = "quantum/rate" asks PipeWire to run this node at that buffer size.
++ * quantum == 0 leaves the graph default. Applied in place -- never re-plugs the node. */
++static void set_latency(struct pw_stream *stream, uint32_t quantum, uint32_t rate)
++{
++    if (quantum == 0)
++        return;
++    char latency[32];
++    snprintf(latency, sizeof(latency), "%u/%u", quantum, rate);
++    struct spa_dict_item items[] = {
++        SPA_DICT_ITEM_INIT(PW_KEY_NODE_LATENCY, latency),
++    };
++    struct spa_dict dict = SPA_DICT_INIT(items, 1);
++    pw_stream_update_properties(stream, &dict);
++}
++
++static int connect_stream(struct pw_stream *stream, enum spa_direction direction,
++                          uint32_t rate, uint32_t channels, uint32_t quantum)
++{
++    set_latency(stream, quantum, rate);
++
++    uint8_t buffer[1024];
++    struct spa_pod_builder bld = SPA_POD_BUILDER_INIT(buffer, sizeof(buffer));
++    const struct spa_pod *params[1] = { build_format(&bld, rate, channels) };
++
++    return pw_stream_connect(stream, direction, PW_ID_ANY,
++                             PW_STREAM_FLAG_AUTOCONNECT | PW_STREAM_FLAG_MAP_BUFFERS |
++                                 PW_STREAM_FLAG_RT_PROCESS,
++                             params, 1);
++}
++
++/* Tear down the core proxy and both streams, leaving the loop, context, timer, mic
++ * ring and audio-socket io source intact. Idempotent. */
++static void teardown_pw(struct anland_audio *a)
++{
++    if (a->capture) {
++        spa_hook_remove(&a->capture_listener);
++        pw_stream_destroy(a->capture);
++        a->capture = NULL;
++    }
++    if (a->source) {
++        spa_hook_remove(&a->source_listener);
++        pw_stream_destroy(a->source);
++        a->source = NULL;
++    }
++    if (a->core) {
++        spa_hook_remove(&a->core_listener);
++        pw_core_disconnect(a->core);
++        a->core = NULL;
++    }
++}
++
++/* (Re)connect the core and (re)create both streams. Returns 0 on success. */
++static int build_pw(struct anland_audio *a)
++{
++    a->core = pw_context_connect(a->context, NULL, 0);
++    if (!a->core)
++        return -1;
++    pw_core_add_listener(a->core, &a->core_listener, &core_events, a);
++
++    /* Own a virtual sink so the container has a real output device instead of only
++     * the auto-null "Dummy Output": apps play into this Audio/Sink, WirePlumber makes
++     * it the default (high priority beats auto_null), and on_capture_process receives
++     * the mixed PCM directly -- no monitor capture, nothing bound to the dummy. */
++    a->capture = pw_stream_new(a->core, "anland-speaker",
++        pw_properties_new(
++            PW_KEY_MEDIA_TYPE, "Audio",
++            PW_KEY_MEDIA_CLASS, "Audio/Sink",
++            PW_KEY_NODE_NAME, "anland-speaker",
++            PW_KEY_NODE_DESCRIPTION, "Anland remote speaker",
++            PW_KEY_PRIORITY_SESSION, "1010",   /* outrank the auto-null dummy sink */
++            PW_KEY_PRIORITY_DRIVER, "1010",
++            NULL));
++    if (!a->capture)
++        return -1;
++    pw_stream_add_listener(a->capture, &a->capture_listener, &capture_events, a);
++
++    /* Expose the Android mic to Linux apps as a recordable source. */
++    a->source = pw_stream_new(a->core, "anland-mic",
++        pw_properties_new(
++            PW_KEY_MEDIA_TYPE, "Audio",
++            PW_KEY_MEDIA_CLASS, "Audio/Source",
++            PW_KEY_NODE_NAME, "anland-mic",
++            PW_KEY_NODE_DESCRIPTION, "Anland remote microphone",
++            PW_KEY_PRIORITY_SESSION, "1010",   /* outrank the auto-null dummy source */
++            PW_KEY_PRIORITY_DRIVER, "1010",
++            NULL));
++    if (!a->source)
++        return -1;
++    pw_stream_add_listener(a->source, &a->source_listener, &source_events, a);
++
++    if (connect_stream(a->capture, PW_DIRECTION_INPUT, a->play_rate, a->play_channels,
++                       a->play_quantum) < 0)
++        return -1;
++    if (connect_stream(a->source, PW_DIRECTION_OUTPUT, a->cap_rate, a->cap_channels,
++                       a->cap_quantum) < 0)
++        return -1;
++
++    return 0;
++}
++
++static void on_reconnect_timer(void *data, uint64_t expirations)
++{
++    struct anland_audio *a = data;
++    (void)expirations;
++    if (a->pw_connected)
++        return;
++
++    teardown_pw(a);            /* clear any half-built state from a failed attempt */
++    if (build_pw(a) == 0) {
++        a->pw_connected = true;
++    } else {
++        teardown_pw(a);
++        arm_reconnect(a);      /* sound service still down -- keep retrying */
++    }
++}
++
++/* ---- public API ---- */
++
++void anland_audio_set_fd(int audio_fd)
++{
++    struct anland_audio *a = g_audio;
++    if (!a)
++        return;
++
++    pw_thread_loop_lock(a->loop);
++
++    struct pw_loop *loop = pw_thread_loop_get_loop(a->loop);
++    if (a->io) {
++        pw_loop_destroy_source(loop, a->io);
++        a->io = NULL;
++    }
++    a->audio_fd = audio_fd;
++    ring_reset(a);   /* drop stale mic audio across a reconnect */
++
++    if (audio_fd >= 0) {
++        /* close=false: the fd is borrowed from display_producer, never closed here.
++         * The consumer announces both device formats (AUDIO_MSG_FORMAT) right after
++         * this socket comes up; on_audio_readable applies them and reconfigures the
++         * PipeWire streams, so we don't dictate any format here. */
++        a->io = pw_loop_add_io(loop, audio_fd, SPA_IO_IN, false, on_audio_readable, a);
++    }
++
++    pw_thread_loop_unlock(a->loop);
++}
++
++int anland_audio_start(void)
++{
++    if (g_audio)
++        return 0;
++
++    pw_init(NULL, NULL);
++
++    struct anland_audio *a = calloc(1, sizeof(*a));
++    if (!a)
++        return -1;
++    a->audio_fd = -1;
++    a->play_rate = DEFAULT_RATE;
++    a->play_channels = DEFAULT_PLAY_CHANNELS;
++    a->cap_rate = DEFAULT_RATE;
++    a->cap_channels = DEFAULT_CAP_CHANNELS;
++    a->ring_size = MIC_RING_BYTES;
++    a->ring = malloc(a->ring_size);
++    if (!a->ring)
++        goto fail;
++
++    a->loop = pw_thread_loop_new("anland-audio", NULL);
++    if (!a->loop)
++        goto fail;
++
++    a->context = pw_context_new(pw_thread_loop_get_loop(a->loop), NULL, 0);
++    if (!a->context)
++        goto fail;
++
++    a->reconnect_timer = pw_loop_add_timer(pw_thread_loop_get_loop(a->loop),
++                                           on_reconnect_timer, a);
++    if (!a->reconnect_timer)
++        goto fail;
++
++    if (pw_thread_loop_start(a->loop) < 0)
++        goto fail;
++
++    /* First connection attempt under the loop lock. If PipeWire is not up yet, fall
++     * back to the reconnect timer instead of failing -- audio will come up when the
++     * sound service appears. Either way the engine object exists. */
++    pw_thread_loop_lock(a->loop);
++    if (build_pw(a) == 0) {
++        a->pw_connected = true;
++    } else {
++        teardown_pw(a);
++        arm_reconnect(a);
++    }
++    pw_thread_loop_unlock(a->loop);
++
++    g_audio = a;
++    return 0;
++
++fail:
++    if (a->loop)
++        pw_thread_loop_destroy(a->loop);
++    if (a->context)
++        pw_context_destroy(a->context);
++    free(a->ring);
++    free(a);
++    pw_deinit();
++    return -1;
++}
++
++void anland_audio_stop(void)
++{
++    struct anland_audio *a = g_audio;
++    if (!a)
++        return;
++    g_audio = NULL;
++
++    if (a->loop)
++        pw_thread_loop_stop(a->loop);
++    teardown_pw(a);
++    if (a->io)
++        pw_loop_destroy_source(pw_thread_loop_get_loop(a->loop), a->io);
++    if (a->reconnect_timer)
++        pw_loop_destroy_source(pw_thread_loop_get_loop(a->loop), a->reconnect_timer);
++    if (a->context)
++        pw_context_destroy(a->context);
++    if (a->loop)
++        pw_thread_loop_destroy(a->loop);
++    free(a->ring);
++    free(a);
++    pw_deinit();
++}
+diff --git a/src/backends/anland/anland_audio.h b/src/backends/anland/anland_audio.h
+new file mode 100644
+index 0000000..5acf1f1
+--- /dev/null
++++ b/src/backends/anland/anland_audio.h
+@@ -0,0 +1,41 @@
++#ifndef ANLAND_AUDIO_H
++#define ANLAND_AUDIO_H
++
++/*
++ * Producer-side audio engine.
++ *
++ * Owns a persistent PipeWire thread-loop with two streams that live for the whole
++ * KWin session, independent of whether a consumer is connected:
++ *
++ *   - a sink-monitor capture stream  -> desktop playback PCM written to the audio
++ *                                        socket (heard on the Android speaker);
++ *   - a virtual Audio/Source stream  <- microphone PCM read from the audio socket
++ *                                        (so Linux apps can record the Android mic).
++ *
++ * The streams are NEVER torn down on consumer disconnect: while detached the capture
++ * stream simply drops its PCM and the source feeds silence, so PipeWire (and every
++ * recording app) never sees the device disappear. Only the socket fd is hot-swapped:
++ * anland_audio_set_fd(fd) on (re)connect, anland_audio_set_fd(-1) on fallback. The fd
++ * is borrowed -- the engine never closes it (display_producer owns its lifetime).
++ */
++
++#ifdef __cplusplus
++extern "C" {
++#endif
++
++/* Create the thread-loop and both streams. Returns 0 on success, -1 on failure.
++ * Idempotent: a second call while already started is a no-op returning 0. */
++int  anland_audio_start(void);
++
++/* Stop and destroy the engine. Safe to call when not started. */
++void anland_audio_stop(void);
++
++/* Point the engine at the current audio socket, or -1 to detach (drop/silence).
++ * Re-pointing resets the mic buffer and re-announces the playback format. */
++void anland_audio_set_fd(int audio_fd);
++
++#ifdef __cplusplus
++}
++#endif
++
++#endif
 diff --git a/src/backends/anland/anland_backend.cpp b/src/backends/anland/anland_backend.cpp
 new file mode 100644
-index 0000000..bb1faa3
+index 0000000..5876416
 --- /dev/null
 +++ b/src/backends/anland/anland_backend.cpp
-@@ -0,0 +1,644 @@
+@@ -0,0 +1,728 @@
 +/*
 +    KWin - the KDE window manager
 +    This file is part of the KDE project.
@@ -101,6 +714,8 @@ index 0000000..bb1faa3
 +    SPDX-License-Identifier: GPL-2.0-or-later
 +*/
 +#include "anland_backend.h"
++#include "anland_audio.h"
++#include "anland_camera.h"
 +#include "anland_egl_backend.h"
 +#include "anland_input.h"
 +#include "anland_logging.h"
@@ -118,6 +733,7 @@ index 0000000..bb1faa3
 +#include "wayland/seat.h"
 +#include "wayland_server.h"
 +
++#include <QFutureWatcher>
 +#include <QScopeGuard>
 +#include <QSocketNotifier>
 +#include <QTimer>
@@ -183,6 +799,10 @@ index 0000000..bb1faa3
 +AnlandBackend::~AnlandBackend()
 +{
 +    teardownNotifiers();
++    // Stop the audio engine before disconnect() closes the audio fd it borrows.
++    anland_audio_stop();
++    // Stop the camera engine (it owns its own resource fds; closes them itself).
++    anland_camera_stop();
 +    if (m_reconnectTimer) {
 +        m_reconnectTimer->stop();
 +    }
@@ -236,6 +856,21 @@ index 0000000..bb1faa3
 +    m_reconnectTimer = new QTimer(this);
 +    m_reconnectTimer->setInterval(s_reconnectIntervalMs);
 +    connect(m_reconnectTimer, &QTimer::timeout, this, &AnlandBackend::onReconnectTimer);
++
++    // Bring up the audio engine up front: its PipeWire sink-monitor capture and
++    // virtual mic Source live for the whole session, independent of the consumer,
++    // so Linux apps never see the devices appear/disappear as the consumer comes and
++    // goes. The socket fd is attached later (onReconnectTimer) and detached in
++    // enterFallback(). Audio is non-critical, so a failure here is not fatal.
++    if (anland_audio_start() < 0) {
++        qCWarning(KWIN_ANLAND) << "failed to start audio engine; continuing without audio";
++    }
++
++    // The camera engine is NOT started here: its PipeWire thread-loop is brought up
++    // lazily on the first resource delivery (anland_camera_set_resources), i.e. only
++    // once a consumer with the camera enabled actually hands over its fds. The backend
++    // requests SERVICE_TYPE_CAMERA on every reconnect (onReconnectTimer); a consumer
++    // that has the camera disabled never replies, so the engine never starts.
 +
 +    // connect_to_deamon() only fetched screen info; the context is still in
 +    // fallback with no consumer fds or dmabufs. Enter fallback explicitly so the
@@ -435,6 +1070,32 @@ index 0000000..bb1faa3
 +        }
 +        break;
 +    }
++    case INPUT_TYPE_RESOURCE: {
++        // The consumer is handing back the fds for a service we requested. The fdnum
++        // fds follow as a separate DATA_MSG_INPUT_EXTEND_FDS message; receive them now
++        // (synchronously, before the next poll_input_event) and route to the engine.
++        const uint32_t service = ev.resource.type;
++        const uint32_t fdnum = ev.resource.fdnum;
++        constexpr int kMaxFds = 1 + 8; // ctrl + up to MAX_CAMERAS streams
++        if (fdnum == 0 || fdnum > kMaxFds)
++            break;
++        int fds[kMaxFds];
++        int got = 0;
++        if (poll_input_event_extend_fds(m_display, fds, static_cast<int>(fdnum), &got, 5000) != 1
++            || got < static_cast<int>(fdnum)) {
++            for (int i = 0; i < got; i++)
++                ::close(fds[i]);
++            break;
++        }
++        if (service == SERVICE_TYPE_CAMERA) {
++            // fds[0] = shared control socket, fds[1..] = per-camera stream sockets.
++            anland_camera_set_resources(fds[0], &fds[1], got - 1);
++        } else {
++            for (int i = 0; i < got; i++)
++                ::close(fds[i]);
++        }
++        break;
++    }
 +    default:
 +        break;
 +    }
@@ -494,6 +1155,14 @@ index 0000000..bb1faa3
 +    m_consumerReady = false;
 +    m_inFallback = true;
 +
++    // Detach the audio socket: the streams keep running (capture drops its PCM, the
++    // mic Source feeds silence) so PipeWire never perceives the disconnect.
++    anland_audio_set_fd(-1);
++
++    // The consumer's camera fds are now dead: stop recording, destroy the virtual
++    // camera nodes and close the fds. New ones arrive on the next reconnect.
++    anland_camera_clear();
++
 +    if (m_reconnectTimer) {
 +        m_reconnectTimer->start();
 +    }
@@ -527,6 +1196,14 @@ index 0000000..bb1faa3
 +        layer->importBuffers(get_buf_count(m_display));
 +    }
 +    setupNotifiers();
++    // Attach the fresh audio socket (a new socketpair was installed by pickup_fds).
++    anland_audio_set_fd(get_audio_fd(m_display));
++    // Render loop is resuming and the data channel is live: immediately request the
++    // camera service. The consumer replies asynchronously with an INPUT_TYPE_RESOURCE
++    // event whose fds onInputReadable() hands to the camera engine. If the consumer
++    // has the camera disabled it simply never registers the service and never replies,
++    // so this is a harmless no-op in that case.
++    push_resources_request(m_display, SERVICE_TYPE_CAMERA, nullptr);
 +    m_outputs[0]->resumeRendering();
 +    if (layer) {
 +        layer->scheduleRepaint(nullptr);
@@ -569,14 +1246,19 @@ index 0000000..bb1faa3
 +}
 +
 +/*
-+ * Read the text/plain content of a Wayland AbstractDataSource (the clipboard
-+ * selection).  Picks text/plain;charset=utf-8 preferentially, falls back to
-+ * text/plain.  Returns an empty QByteArray if nothing useful is available.
++ * Ask a Wayland AbstractDataSource (the clipboard selection) to serve its
++ * text/plain content into a pipe.  Picks text/plain;charset=utf-8 preferentially,
++ * falls back to text/plain.  Returns the pipe's read endpoint that the caller
++ * should drain with readDataFromFd(), or nullopt if nothing useful is available.
++ *
++ * This touches the Wayland server (requestData/flush) and so must run on the
++ * compositor's main thread; the blocking drain of the returned fd can then be
++ * handed off to a worker thread.
 + */
-+static QByteArray requestClipboardText(AbstractDataSource *source)
++static std::optional<FileDescriptor> requestClipboardData(AbstractDataSource *source)
 +{
 +    if (!source)
-+        return QByteArray();
++        return std::nullopt;
 +
 +    const QStringList types = source->mimeTypes();
 +    QString mimeType;
@@ -585,15 +1267,15 @@ index 0000000..bb1faa3
 +    else if (types.contains(QStringLiteral("text/plain")))
 +        mimeType = QStringLiteral("text/plain");
 +    else
-+        return QByteArray(); // no text type available
++        return std::nullopt; // no text type available
 +
 +    std::optional<Pipe> pipe = Pipe::create(O_CLOEXEC);
 +    if (!pipe)
-+        return QByteArray();
++        return std::nullopt;
 +
 +    source->requestData(mimeType, std::move(pipe->writeEndpoint));
 +    waylandServer()->display()->flush();
-+    return readDataFromFd(pipe->readEndpoint);
++    return std::move(pipe->readEndpoint);
 +}
 +
 +/*
@@ -608,13 +1290,28 @@ index 0000000..bb1faa3
 +        return;
 +
 +    AbstractDataSource *source = waylandServer()->seat()->selection();
-+    QByteArray text = requestClipboardText(source);
++    std::optional<FileDescriptor> readFd = requestClipboardData(source);
++    if (!readFd)
++        return;
++    // Draining the pipe can block for up to a second waiting for the owning
++    // client to serve the data. Do it on a worker thread so the compositor's
++    // main loop never stalls, then deliver the result back here.
++    auto *watcher = new QFutureWatcher<QByteArray>(this);
++    connect(watcher, &QFutureWatcher<QByteArray>::finished, this, [this, watcher]() {
++        watcher->deleteLater();
++        if (m_inFallback)
++            return;
 +
-+    if (text == m_clipboardText)
-+        return; // already in sync
++        const QByteArray text = watcher->result();
++        if (text == m_clipboardText)
++            return; // already in sync
 +
-+    m_clipboardText = text;
-+    sendClipboardToConsumer(text);
++        m_clipboardText = text;
++        sendClipboardToConsumer(text);
++    });
++    watcher->setFuture(QtConcurrent::run([fd = std::move(*readFd)]() mutable {
++        return readDataFromFd(fd);
++    }));
 +}
 +
 +/*
@@ -870,6 +1567,928 @@ index 0000000..f2178c4
 +};
 +
 +} // namespace KWin
+diff --git a/src/backends/anland/anland_camera.c b/src/backends/anland/anland_camera.c
+new file mode 100644
+index 0000000..b29cfb6
+--- /dev/null
++++ b/src/backends/anland/anland_camera.c
+@@ -0,0 +1,856 @@
++#define _GNU_SOURCE
++#include "anland_camera.h"
++#include "protocol.h"
++
++#include <errno.h>
++#include <poll.h>
++#include <stdbool.h>
++#include <stdint.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <sys/socket.h>
++#include <time.h>
++#include <unistd.h>
++
++#include <sys/mman.h>
++
++#include <pipewire/pipewire.h>
++#include <spa/param/video/format-utils.h>
++#include <spa/param/buffers.h>
++#include <spa/pod/builder.h>
++#include <spa/utils/hook.h>
++
++/*
++ * Control-channel protocol + stream/shm protocol. MUST stay in sync with the
++ * consumer's camera_service.h.
++ */
++struct camera_ctrl_msg {
++    uint8_t  type;
++    uint8_t  reserved;
++    uint16_t len;
++    uint8_t  payload[];
++} __attribute__((packed));
++
++#define CAMERA_CTRL_GET_INFO     0x01
++#define CAMERA_CTRL_START_RECORD 0x02   /* payload: id(1B) w(2B,LE) h(2B,LE) */
++#define CAMERA_CTRL_STOP_RECORD  0x03   /* payload: id(1B) */
++#define CAMERA_CTRL_INFO_REPLY   0x81
++
++/* stream_fd control protocol (SEQPACKET). Frame pixels travel through shared memory;
++ * this only carries the shm hand-off and the READY/DONE pacing. */
++#define CAMERA_SLOTS 2
++struct cam_stream_msg {
++    uint8_t  type;
++    uint8_t  slot;
++    uint16_t fmt;   /* READY: CAM_FMT_*; else 0 */
++    uint32_t a;     /* SHM_OFFER: slot_bytes; READY: width  */
++    uint32_t b;     /* READY: height                        */
++} __attribute__((packed));
++
++#define CAM_STREAM_GET_SHM   1
++#define CAM_STREAM_SHM_OFFER 2
++#define CAM_STREAM_READY     3
++#define CAM_STREAM_DONE      4
++
++/* Pixel layout in a slot (matches consumer camera_service.h). All are w*h*3/2 bytes,
++ * single block, Y-stride = w, so only the announced SPA format differs. */
++#define CAM_FMT_I420 0
++#define CAM_FMT_NV12 1
++#define CAM_FMT_NV21 2
++
++/* Default resolution we advertise + request before anything is negotiated. The node
++ * format then FOLLOWS whatever the consumer actually delivers (every READY carries the
++ * real w/h): if the device's CameraX picks a different size, the first frame triggers a
++ * re-negotiation so the node always matches the real frames -- no garbage, no truncation. */
++#define CAM_DEF_W   1280
++#define CAM_DEF_H   720
++#define CAM_FPS     30
++
++#define MAX_CAMERAS 8
++#define RECONNECT_SECS 1
++
++struct cam {
++    struct anland_camera *owner;
++    int                   index;        /* camera id, for ctrl messages */
++
++    /* Persistent virtual webcam node -- created when a camera first appears, kept
++     * alive across consumer disconnects (blank frames keep flowing), destroyed only
++     * when the camera count shrinks or the engine stops. */
++    struct pw_stream     *node;
++    struct spa_hook       listener;
++    bool                  streaming;    /* an app is consuming this node */
++    bool                  recording;    /* we've told the consumer to START on ctrl */
++    bool                  process_seen; /* one-shot debug: on_process was called */
++
++    /* Current negotiated node format. The node always advertises exactly this, and we
++     * re-negotiate it to match the resolution + pixel layout the consumer actually sends. */
++    uint32_t              fmt_w, fmt_h;
++    int                   fmt_code;   /* CAM_FMT_* currently announced */
++
++    /* Hot-swapped per (re)connect. -1 while detached -> the node emits blank frames. */
++    int                   stream_fd;
++    struct spa_source    *io;
++
++    /* Per-camera shared-memory double buffer, offered by the consumer over stream_fd.
++     * On READY we copy the named slot out into our own `frame` (so the consumer can
++     * reuse the slot immediately) and DONE it; on_process emits `frame` at app pace. */
++    int                   shm_fd;       /* owned dup of the consumer's ashmem, -1 none */
++    uint8_t              *shm;          /* mmap (PROT_READ), CAMERA_SLOTS*slot_bytes    */
++    size_t                shm_bytes;
++    size_t                slot_bytes;
++    bool                  shm_requested;
++
++    /* Producer-owned copy of the latest frame (loop thread only). */
++    uint8_t              *frame;
++    size_t                frame_cap;
++    size_t                frame_size;
++    bool                  have_frame;
++};
++
++struct anland_camera {
++    struct pw_thread_loop *loop;
++    struct pw_context     *context;
++    struct pw_core        *core;
++    struct spa_hook        core_listener;
++    struct spa_source     *reconnect_timer;
++    bool                   pw_connected;
++
++    int                    ctrl_fd;     /* owned; shared control socket, -1 when none */
++    int                    num_cameras; /* number of live nodes */
++    struct cam             cams[MAX_CAMERAS];
++};
++
++static struct anland_camera *g_cam = NULL;
++
++static int  build_pw(struct anland_camera *c);
++static void teardown_pw(struct anland_camera *c);
++static void create_nodes(struct anland_camera *c);
++static void destroy_nodes(struct anland_camera *c);
++static void attach_fd(struct cam *cam, int fd);
++static void detach_fd(struct cam *cam);
++static const struct spa_pod *build_video_format(struct spa_pod_builder *b,
++                                                uint32_t w, uint32_t h, int fmt_code);
++
++/* ---- control channel ---- */
++
++static void send_ctrl(struct anland_camera *c, uint8_t type,
++                      const uint8_t *payload, uint16_t len)
++{
++    if (c->ctrl_fd < 0)
++        return;
++    uint8_t buf[sizeof(struct camera_ctrl_msg) + 8];
++    if (len > sizeof(buf) - sizeof(struct camera_ctrl_msg))
++        return;
++    struct camera_ctrl_msg *h = (struct camera_ctrl_msg *)buf;
++    h->type = type;
++    h->reserved = 0;
++    h->len = len;
++    if (len)
++        memcpy(buf + sizeof(*h), payload, len);
++    send(c->ctrl_fd, buf, sizeof(*h) + len, MSG_NOSIGNAL | MSG_DONTWAIT);
++}
++
++/* Send a fixed stream-control message (GET_SHM / DONE) on a camera's stream socket. */
++static void send_stream(struct cam *cam, uint8_t type, uint8_t slot)
++{
++    if (cam->stream_fd < 0)
++        return;
++    struct cam_stream_msg m = { .type = type, .slot = slot };
++    send(cam->stream_fd, &m, sizeof(m), MSG_NOSIGNAL | MSG_DONTWAIT);
++}
++
++/* Ask the consumer to hand over the shm fd (once per (re)attach, while streaming). */
++static void request_shm(struct cam *cam)
++{
++    if (!cam->streaming || cam->stream_fd < 0 || cam->shm || cam->shm_requested)
++        return;
++    cam->shm_requested = true;
++    send_stream(cam, CAM_STREAM_GET_SHM, 0);
++}
++
++/* Reconcile the "should the consumer be recording?" state with what we've told it.
++ * Recording is wanted when an app is consuming the node AND we have a live control
++ * socket + stream fd. Requests the consumer at the node's current format. */
++static void update_recording(struct cam *cam)
++{
++    const bool want = cam->streaming && cam->stream_fd >= 0 && cam->owner->ctrl_fd >= 0;
++    if (want == cam->recording)
++        return;
++    if (want) {
++        uint8_t p[5];
++        uint16_t w = (uint16_t)cam->fmt_w, h = (uint16_t)cam->fmt_h;
++        p[0] = (uint8_t)cam->index;
++        memcpy(p + 1, &w, sizeof(w));
++        memcpy(p + 3, &h, sizeof(h));
++        send_ctrl(cam->owner, CAMERA_CTRL_START_RECORD, p, sizeof(p));
++        fprintf(stderr, "anland-camera: START_RECORD cam=%d %ux%u\n",
++                cam->index, cam->fmt_w, cam->fmt_h);
++        request_shm(cam);   /* pull the shm fd so frames can flow */
++    } else if (cam->owner->ctrl_fd >= 0) {
++        uint8_t id = (uint8_t)cam->index;
++        send_ctrl(cam->owner, CAMERA_CTRL_STOP_RECORD, &id, 1);
++        fprintf(stderr, "anland-camera: STOP_RECORD cam=%d\n", cam->index);
++    }
++    cam->recording = want;
++}
++
++/* ---- frame emission ---- */
++
++/* The graph calls this whenever the consuming app needs a frame. Emit the latest
++ * received frame, or neutral gray while detached / before the first frame arrives, so
++ * a consuming app always gets a feed. Runs on the loop thread, same as the stream-
++ * socket reader, so cam->frame needs no lock. */
++static void on_process(void *data)
++{
++    struct cam *cam = data;
++    if (!cam->node)
++        return;
++
++    struct pw_buffer *pwb = pw_stream_dequeue_buffer(cam->node);
++    if (!cam->process_seen) {
++        fprintf(stderr, "anland-camera: cam=%d on_process called, buffer=%s\n",
++                cam->index, pwb ? "ok" : "NULL(out of buffers)");
++        cam->process_seen = true;
++    }
++    if (!pwb)
++        return;
++    struct spa_data *d = &pwb->buffer->datas[0];
++    if (d->data) {
++        const bool live = cam->have_frame && cam->stream_fd >= 0;
++        uint32_t fmt_bytes = cam->fmt_w * cam->fmt_h * 3 / 2;
++        uint32_t avail = live ? (uint32_t)cam->frame_size : fmt_bytes;
++        uint32_t copy = avail < d->maxsize ? avail : d->maxsize;
++        if (live)
++            memcpy(d->data, cam->frame, copy);
++        else
++            memset(d->data, 128, copy);   /* neutral gray: valid I420 at any size */
++        d->chunk->offset = 0;
++        d->chunk->stride = cam->fmt_w;   /* I420 Y-plane stride */
++        d->chunk->size = copy;
++    }
++    pw_stream_queue_buffer(cam->node, pwb);
++}
++
++/* Re-announce the node's format to match what the consumer is actually sending (size
++ * AND pixel layout), so the advertised caps always equal the real frames. The app
++ * renegotiates and on_param_changed resizes the buffer pool. fmt_* are updated
++ * optimistically so this doesn't re-fire on every subsequent frame. */
++static void renegotiate_format(struct cam *cam, uint32_t w, uint32_t h, int fmt_code)
++{
++    if (!cam->node || w == 0 || h == 0)
++        return;
++    fprintf(stderr, "anland-camera: cam=%d renegotiate %ux%u/fmt%d -> %ux%u/fmt%d\n",
++            cam->index, cam->fmt_w, cam->fmt_h, cam->fmt_code, w, h, fmt_code);
++    cam->fmt_w = w;
++    cam->fmt_h = h;
++    cam->fmt_code = fmt_code;
++    uint8_t buffer[1024];
++    struct spa_pod_builder b = SPA_POD_BUILDER_INIT(buffer, sizeof(buffer));
++    const struct spa_pod *params[1] = { build_video_format(&b, w, h, fmt_code) };
++    pw_stream_update_params(cam->node, params, 1);
++}
++
++/* ---- stream socket: shm hand-off + READY/DONE pacing ---- */
++
++static void unmap_shm(struct cam *cam)
++{
++    if (cam->shm) {
++        munmap(cam->shm, cam->shm_bytes);
++        cam->shm = NULL;
++    }
++    if (cam->shm_fd >= 0) {
++        close(cam->shm_fd);
++        cam->shm_fd = -1;
++    }
++    cam->shm_bytes = cam->slot_bytes = 0;
++    cam->shm_requested = false;
++}
++
++static void handle_stream_msg(struct cam *cam, const struct cam_stream_msg *m, int rfd)
++{
++    switch (m->type) {
++    case CAM_STREAM_SHM_OFFER: {
++        if (rfd < 0)
++            return;
++        size_t slot_bytes = m->a;
++        size_t total = (size_t)CAMERA_SLOTS * slot_bytes;
++        if (cam->shm)
++            munmap(cam->shm, cam->shm_bytes);
++        if (cam->shm_fd >= 0)
++            close(cam->shm_fd);
++        cam->shm_fd = rfd;
++        cam->slot_bytes = slot_bytes;
++        cam->shm_bytes = total;
++        cam->shm = mmap(NULL, total, PROT_READ, MAP_SHARED, rfd, 0);
++        if (cam->shm == MAP_FAILED) {
++            cam->shm = NULL;
++            close(rfd);
++            cam->shm_fd = -1;
++            cam->shm_bytes = cam->slot_bytes = 0;
++            return;
++        }
++        fprintf(stderr, "anland-camera: cam=%d shm mapped %zu B/slot\n",
++                cam->index, slot_bytes);
++        break;
++    }
++    case CAM_STREAM_READY: {
++        if (rfd >= 0)
++            close(rfd);   /* READY carries no fd */
++        uint8_t slot = m->slot;
++        uint32_t w = m->a, h = m->b;
++        int fmt = m->fmt;
++        if (cam->shm && slot < CAMERA_SLOTS) {
++            size_t bytes = (size_t)w * h * 3 / 2;
++            if (bytes > cam->slot_bytes)
++                bytes = cam->slot_bytes;
++            if (cam->frame_cap < bytes) {
++                uint8_t *nb = realloc(cam->frame, bytes);
++                if (nb) {
++                    cam->frame = nb;
++                    cam->frame_cap = bytes;
++                }
++            }
++            if (cam->frame_cap >= bytes && bytes > 0) {
++                /* Copy out of the slot promptly so the consumer can reuse it. */
++                memcpy(cam->frame, cam->shm + (size_t)slot * cam->slot_bytes, bytes);
++                cam->frame_size = bytes;
++                if (!cam->have_frame)
++                    fprintf(stderr, "anland-camera: cam=%d first frame %ux%u\n",
++                            cam->index, w, h);
++                cam->have_frame = true;
++            }
++        }
++        /* Release the slot (even if we couldn't read, so the consumer never wedges). */
++        send_stream(cam, CAM_STREAM_DONE, slot);
++        if (w && h && (w != cam->fmt_w || h != cam->fmt_h || fmt != cam->fmt_code))
++            renegotiate_format(cam, w, h, fmt);
++        break;
++    }
++    default:
++        if (rfd >= 0)
++            close(rfd);
++        break;
++    }
++}
++
++static void on_stream_readable(void *data, int fd, uint32_t mask)
++{
++    struct cam *cam = data;
++    if (mask & (SPA_IO_ERR | SPA_IO_HUP))
++        return;
++    if (!(mask & SPA_IO_IN))
++        return;
++
++    for (;;) {
++        struct cam_stream_msg m;
++        int rfd = -1;
++        struct iovec iov = { .iov_base = &m, .iov_len = sizeof(m) };
++        union {
++            char buf[CMSG_SPACE(sizeof(int))];
++            struct cmsghdr align;
++        } cmsg;
++        struct msghdr msg = { .msg_iov = &iov, .msg_iovlen = 1,
++                              .msg_control = cmsg.buf, .msg_controllen = sizeof(cmsg.buf) };
++        ssize_t n = recvmsg(fd, &msg, MSG_DONTWAIT);
++        if (n <= 0)
++            break;
++        struct cmsghdr *c = CMSG_FIRSTHDR(&msg);
++        if (c && c->cmsg_type == SCM_RIGHTS)
++            memcpy(&rfd, CMSG_DATA(c), sizeof(int));
++        if (n >= (ssize_t)sizeof(m))
++            handle_stream_msg(cam, &m, rfd);
++        else if (rfd >= 0)
++            close(rfd);
++    }
++}
++
++/* Point a camera at a fresh stream socket (or -1 to detach). Drops the old shm mapping
++ * (the new connection re-offers it) so a stale region never bleeds into the new one. */
++static void attach_fd(struct cam *cam, int fd)
++{
++    struct pw_loop *loop = pw_thread_loop_get_loop(cam->owner->loop);
++    if (cam->io) {
++        pw_loop_destroy_source(loop, cam->io);
++        cam->io = NULL;
++    }
++    if (cam->stream_fd >= 0)
++        close(cam->stream_fd);
++    cam->stream_fd = fd;
++    unmap_shm(cam);                   /* re-requested on the new connection */
++    cam->have_frame = false;          /* show blank until a fresh frame arrives */
++    if (fd >= 0)
++        cam->io = pw_loop_add_io(loop, fd, SPA_IO_IN, false, on_stream_readable, cam);
++    update_recording(cam);            /* START + GET_SHM if an app is consuming */
++    request_shm(cam);                 /* also (re)request if already streaming */
++}
++
++static void detach_fd(struct cam *cam)
++{
++    attach_fd(cam, -1);
++}
++
++/* ---- Video/Source node ---- */
++
++static uint32_t spa_video_fmt(int code)
++{
++    switch (code) {
++    case CAM_FMT_NV12: return SPA_VIDEO_FORMAT_NV12;
++    case CAM_FMT_NV21: return SPA_VIDEO_FORMAT_NV21;
++    default:           return SPA_VIDEO_FORMAT_I420;
++    }
++}
++
++static const struct spa_pod *build_video_format(struct spa_pod_builder *b,
++                                                uint32_t w, uint32_t h, int fmt_code)
++{
++    struct spa_video_info_raw info;
++    spa_zero(info);
++    info.format = spa_video_fmt(fmt_code);
++    info.size = SPA_RECTANGLE(w, h);
++    info.framerate = SPA_FRACTION(CAM_FPS, 1);
++    return spa_format_video_raw_build(b, SPA_PARAM_EnumFormat, &info);
++}
++
++static void on_stream_state_changed(void *data, enum pw_stream_state old,
++                                    enum pw_stream_state state, const char *error)
++{
++    struct cam *cam = data;
++    (void)error;
++    fprintf(stderr, "anland-camera: cam=%d state %s -> %s\n", cam->index,
++            pw_stream_state_as_string(old), pw_stream_state_as_string(state));
++    const bool streaming = (state == PW_STREAM_STATE_STREAMING);
++    if (streaming == cam->streaming)
++        return;
++    cam->streaming = streaming;
++    update_recording(cam);
++}
++
++/* The format was negotiated: parse it and declare a buffer pool of the matching size.
++ * Without this PipeWire never allocates correctly-sized buffers and
++ * pw_stream_dequeue_buffer() returns NULL forever, so on_process can never emit. */
++static void on_param_changed(void *data, uint32_t id, const struct spa_pod *param)
++{
++    struct cam *cam = data;
++    if (!param || id != SPA_PARAM_Format)
++        return;
++
++    uint32_t mtype, msubtype;
++    if (spa_format_parse(param, &mtype, &msubtype) < 0 ||
++        mtype != SPA_MEDIA_TYPE_video || msubtype != SPA_MEDIA_SUBTYPE_raw)
++        return;
++
++    struct spa_video_info_raw raw;
++    spa_zero(raw);
++    if (spa_format_video_raw_parse(param, &raw) < 0)
++        return;
++    if (raw.size.width)
++        cam->fmt_w = raw.size.width;
++    if (raw.size.height)
++        cam->fmt_h = raw.size.height;
++
++    uint32_t frame_bytes = cam->fmt_w * cam->fmt_h * 3 / 2;
++    fprintf(stderr, "anland-camera: cam=%d format negotiated %ux%u (%ub), declaring buffers\n",
++            cam->index, cam->fmt_w, cam->fmt_h, frame_bytes);
++
++    uint8_t buffer[512];
++    struct spa_pod_builder b = SPA_POD_BUILDER_INIT(buffer, sizeof(buffer));
++    const struct spa_pod *params[1];
++    params[0] = spa_pod_builder_add_object(&b,
++        SPA_TYPE_OBJECT_ParamBuffers, SPA_PARAM_Buffers,
++        SPA_PARAM_BUFFERS_buffers,  SPA_POD_CHOICE_RANGE_Int(4, 2, 8),
++        SPA_PARAM_BUFFERS_blocks,   SPA_POD_Int(1),
++        SPA_PARAM_BUFFERS_size,     SPA_POD_Int((int)frame_bytes),
++        SPA_PARAM_BUFFERS_stride,   SPA_POD_Int((int)cam->fmt_w),
++        SPA_PARAM_BUFFERS_dataType, SPA_POD_CHOICE_FLAGS_Int(
++            (1 << SPA_DATA_MemPtr) | (1 << SPA_DATA_MemFd)));
++    pw_stream_update_params(cam->node, params, 1);
++}
++
++static const struct pw_stream_events stream_events = {
++    PW_VERSION_STREAM_EVENTS,
++    .state_changed = on_stream_state_changed,
++    .param_changed = on_param_changed,
++    .process = on_process,
++};
++
++static int connect_node(struct cam *cam)
++{
++    char name[32], desc[48];
++    snprintf(name, sizeof(name), "anland-camera-%d", cam->index);
++    snprintf(desc, sizeof(desc), "Anland remote camera %d", cam->index);
++
++    cam->node = pw_stream_new(cam->owner->core, name,
++        pw_properties_new(
++            PW_KEY_MEDIA_TYPE, "Video",
++            PW_KEY_MEDIA_CATEGORY, "Capture",
++            PW_KEY_MEDIA_CLASS, "Video/Source",
++            PW_KEY_MEDIA_ROLE, "Camera",
++            PW_KEY_NODE_NAME, name,
++            PW_KEY_NODE_DESCRIPTION, desc,
++            NULL));
++    if (!cam->node)
++        return -1;
++    pw_stream_add_listener(cam->node, &cam->listener, &stream_events, cam);
++
++    uint8_t buffer[1024];
++    struct spa_pod_builder b = SPA_POD_BUILDER_INIT(buffer, sizeof(buffer));
++    const struct spa_pod *params[1] = {
++        build_video_format(&b, cam->fmt_w, cam->fmt_h, cam->fmt_code) };
++
++    /* No DRIVER flag: the consuming app (graph) drives, so PipeWire calls on_process
++     * on demand. No RT_PROCESS either, so on_process runs on the same loop thread as
++     * the stream-socket reader and shares cam->frame without a lock. */
++    return pw_stream_connect(cam->node, PW_DIRECTION_OUTPUT, PW_ID_ANY,
++                             PW_STREAM_FLAG_MAP_BUFFERS,
++                             params, 1);
++}
++
++/* Create the node for one camera slot (no fd attached yet). PipeWire drives its
++ * .process whenever an app consumes it. */
++static int create_node(struct cam *cam)
++{
++    if (cam->node)
++        return 0;
++    cam->streaming = false;
++    cam->recording = false;
++    cam->process_seen = false;
++    if (cam->fmt_w == 0 || cam->fmt_h == 0) {
++        cam->fmt_w = CAM_DEF_W;
++        cam->fmt_h = CAM_DEF_H;
++    }
++    /* The consumer always delivers NV21, so advertise it from the start -- no live
++     * format switch (which crashes downstream gst). Only resolution ever renegotiates. */
++    cam->fmt_code = CAM_FMT_NV21;
++    return connect_node(cam);
++}
++
++/* (Re)create nodes for the current camera count, e.g. after a PipeWire reconnect.
++ * The stream fds in cam->stream_fd are preserved, so readers are re-armed. */
++static void create_nodes(struct anland_camera *c)
++{
++    if (!c->pw_connected || !c->core)
++        return;
++    struct pw_loop *loop = pw_thread_loop_get_loop(c->loop);
++    for (int i = 0; i < c->num_cameras; i++) {
++        struct cam *cam = &c->cams[i];
++        if (cam->node)
++            continue;
++        create_node(cam);
++        if (cam->stream_fd >= 0 && !cam->io)
++            cam->io = pw_loop_add_io(loop, cam->stream_fd, SPA_IO_IN, false,
++                                     on_stream_readable, cam);
++    }
++}
++
++/* Destroy one camera's node and reader. Keeps stream_fd (caller decides). */
++static void destroy_node(struct cam *cam)
++{
++    struct pw_loop *loop = cam->owner && cam->owner->loop
++                               ? pw_thread_loop_get_loop(cam->owner->loop) : NULL;
++    if (cam->node) {
++        spa_hook_remove(&cam->listener);
++        pw_stream_destroy(cam->node);
++        cam->node = NULL;
++    }
++    if (cam->io && loop) {
++        pw_loop_destroy_source(loop, cam->io);
++        cam->io = NULL;
++    }
++    cam->streaming = false;
++    cam->recording = false;
++}
++
++static void destroy_nodes(struct anland_camera *c)
++{
++    for (int i = 0; i < MAX_CAMERAS; i++)
++        destroy_node(&c->cams[i]);
++}
++
++/* ---- PipeWire connection lifecycle (mirrors the audio engine) ---- */
++
++static void arm_reconnect(struct anland_camera *c)
++{
++    struct timespec val = { .tv_sec = RECONNECT_SECS, .tv_nsec = 0 };
++    pw_loop_update_timer(pw_thread_loop_get_loop(c->loop), c->reconnect_timer,
++                         &val, NULL, false);
++}
++
++static void on_core_error(void *data, uint32_t id, int seq, int res, const char *message)
++{
++    struct anland_camera *c = data;
++    (void)seq;
++    (void)message;
++    if (id == PW_ID_CORE && res == -EPIPE) {
++        c->pw_connected = false;
++        arm_reconnect(c);
++    }
++}
++
++static const struct pw_core_events core_events = {
++    PW_VERSION_CORE_EVENTS,
++    .error = on_core_error,
++};
++
++static int build_pw(struct anland_camera *c)
++{
++    c->core = pw_context_connect(c->context, NULL, 0);
++    if (!c->core)
++        return -1;
++    pw_core_add_listener(c->core, &c->core_listener, &core_events, c);
++    return 0;
++}
++
++static void teardown_pw(struct anland_camera *c)
++{
++    destroy_nodes(c);
++    if (c->core) {
++        spa_hook_remove(&c->core_listener);
++        pw_core_disconnect(c->core);
++        c->core = NULL;
++    }
++}
++
++static void on_reconnect_timer(void *data, uint64_t expirations)
++{
++    struct anland_camera *c = data;
++    (void)expirations;
++    if (c->pw_connected)
++        return;
++
++    teardown_pw(c);
++    if (build_pw(c) == 0) {
++        c->pw_connected = true;
++        create_nodes(c);   /* rebuild nodes from the still-valid stream fds */
++    } else {
++        teardown_pw(c);
++        arm_reconnect(c);
++    }
++}
++
++/* Round-trip GET_INFO over the control socket to learn each camera's max sensor
++ * resolution, used to seed the initial node format. Blocking with a short timeout;
++ * called off the PipeWire loop thread (so it never stalls the RT loop). Fills
++ * w[i]/h[i], left at 0 when unknown. */
++static void query_max_res(int ctrl_fd, uint32_t *w, uint32_t *h, int n)
++{
++    struct camera_ctrl_msg req = { .type = CAMERA_CTRL_GET_INFO, .reserved = 0, .len = 0 };
++    if (send(ctrl_fd, &req, sizeof(req), MSG_NOSIGNAL) < 0)
++        return;
++
++    struct pollfd pfd = { .fd = ctrl_fd, .events = POLLIN };
++    if (poll(&pfd, 1, 300) <= 0)
++        return;
++
++    uint8_t buf[sizeof(struct camera_ctrl_msg) + 1 + MAX_CAMERAS * 4];
++    ssize_t r = recv(ctrl_fd, buf, sizeof(buf), 0);
++    if (r < (ssize_t)sizeof(struct camera_ctrl_msg))
++        return;
++    struct camera_ctrl_msg *hdr = (struct camera_ctrl_msg *)buf;
++    if (hdr->type != CAMERA_CTRL_INFO_REPLY)
++        return;
++
++    uint8_t *pl = buf + sizeof(struct camera_ctrl_msg);
++    size_t avail = (size_t)r - sizeof(struct camera_ctrl_msg);
++    if (avail < 1)
++        return;
++    int num = pl[0];
++    size_t off = 1;
++    for (int i = 0; i < num && i < n; i++) {
++        if (off + 4 > avail)
++            break;
++        uint16_t w16, h16;
++        memcpy(&w16, pl + off, sizeof(w16));
++        memcpy(&h16, pl + off + 2, sizeof(h16));
++        off += 4;
++        w[i] = w16;
++        h[i] = h16;
++    }
++}
++
++/* ---- public API ---- */
++
++void anland_camera_set_resources(int ctrl_fd, const int *stream_fds, int num_cameras)
++{
++    /* Lazily bring the engine up on the first resource delivery: the PipeWire
++     * thread-loop is only started once a consumer actually hands over a camera,
++     * never just because the backend is running. */
++    if (!g_cam && anland_camera_start() < 0) {
++        if (ctrl_fd >= 0)
++            close(ctrl_fd);
++        for (int i = 0; i < num_cameras; i++)
++            if (stream_fds[i] >= 0)
++                close(stream_fds[i]);
++        return;
++    }
++    struct anland_camera *c = g_cam;
++    if (num_cameras > MAX_CAMERAS)
++        num_cameras = MAX_CAMERAS;
++
++    /* Only worth the blocking GET_INFO round-trip when we'll actually create a NEW
++     * node: existing (persistent) nodes keep their negotiated format across reconnects,
++     * so re-querying for them would just waste a round-trip and discard the result. */
++    bool need_query = false;
++    for (int i = 0; i < num_cameras; i++) {
++        if (!c->cams[i].node) {
++            need_query = true;
++            break;
++        }
++    }
++
++    /* Done BEFORE taking the loop lock so the blocking round-trip never stalls the
++     * RT loop. New nodes are then created at the real sensor resolution. */
++    uint32_t qw[MAX_CAMERAS] = {0}, qh[MAX_CAMERAS] = {0};
++    if (ctrl_fd >= 0 && need_query)
++        query_max_res(ctrl_fd, qw, qh, num_cameras);
++
++    pw_thread_loop_lock(c->loop);
++
++    /* Swap in the new control socket. */
++    if (c->ctrl_fd >= 0)
++        close(c->ctrl_fd);
++    c->ctrl_fd = ctrl_fd;
++
++    /* Pop excess cameras if the new connection exposes fewer than before. */
++    for (int i = num_cameras; i < c->num_cameras; i++) {
++        destroy_node(&c->cams[i]);
++        detach_fd(&c->cams[i]);   /* closes the now-stale stream fd */
++    }
++
++    /* Create any newly-appeared cameras, then (re)attach every live one's stream fd.
++     * Existing nodes are kept (apply-in-place, like the audio engine hot-swaps its
++     * socket) so consuming apps never see the webcam disappear across a reconnect. */
++    c->num_cameras = num_cameras;
++    for (int i = 0; i < num_cameras; i++) {
++        struct cam *cam = &c->cams[i];
++        cam->owner = c;
++        cam->index = i;
++        /* Seed a NEW node's format from the reported sensor max. For an existing node we
++         * must not touch fmt_w/h -- it would desync on_process's stride from the node's
++         * live negotiated format. (No upper cap: we use the camera's real max; only a
++         * missing/zero reply leaves create_node's 720p default in place.) */
++        if (!cam->node && qw[i] >= 64 && qh[i] >= 64) {
++            cam->fmt_w = qw[i];
++            cam->fmt_h = qh[i];
++        }
++        create_node(cam);
++        attach_fd(cam, stream_fds[i]);
++    }
++
++    pw_thread_loop_unlock(c->loop);
++}
++
++void anland_camera_clear(void)
++{
++    struct anland_camera *c = g_cam;
++    if (!c)
++        return;
++
++    pw_thread_loop_lock(c->loop);
++    /* Consumer is gone: drop the control socket and detach every camera's stream fd.
++     * The nodes stay alive and keep emitting blank frames, so PipeWire and any
++     * capturing app never see the cameras disappear -- the audio engine's detach
++     * behaviour. */
++    if (c->ctrl_fd >= 0) {
++        close(c->ctrl_fd);
++        c->ctrl_fd = -1;
++    }
++    for (int i = 0; i < c->num_cameras; i++) {
++        c->cams[i].recording = false;   /* the consumer that we told to record is gone */
++        detach_fd(&c->cams[i]);
++    }
++    pw_thread_loop_unlock(c->loop);
++}
++
++int anland_camera_start(void)
++{
++    if (g_cam)
++        return 0;
++
++    pw_init(NULL, NULL);
++
++    struct anland_camera *c = calloc(1, sizeof(*c));
++    if (!c)
++        return -1;
++    c->ctrl_fd = -1;
++    for (int i = 0; i < MAX_CAMERAS; i++) {
++        c->cams[i].stream_fd = -1;
++        c->cams[i].shm_fd = -1;
++    }
++
++    c->loop = pw_thread_loop_new("anland-camera", NULL);
++    if (!c->loop)
++        goto fail;
++
++    c->context = pw_context_new(pw_thread_loop_get_loop(c->loop), NULL, 0);
++    if (!c->context)
++        goto fail;
++
++    c->reconnect_timer = pw_loop_add_timer(pw_thread_loop_get_loop(c->loop),
++                                           on_reconnect_timer, c);
++    if (!c->reconnect_timer)
++        goto fail;
++
++    if (pw_thread_loop_start(c->loop) < 0)
++        goto fail;
++
++    pw_thread_loop_lock(c->loop);
++    if (build_pw(c) == 0) {
++        c->pw_connected = true;
++    } else {
++        teardown_pw(c);
++        arm_reconnect(c);
++    }
++    pw_thread_loop_unlock(c->loop);
++
++    g_cam = c;
++    return 0;
++
++fail:
++    if (c->loop)
++        pw_thread_loop_destroy(c->loop);
++    if (c->context)
++        pw_context_destroy(c->context);
++    free(c);
++    pw_deinit();
++    return -1;
++}
++
++void anland_camera_stop(void)
++{
++    struct anland_camera *c = g_cam;
++    if (!c)
++        return;
++    g_cam = NULL;
++
++    if (c->loop)
++        pw_thread_loop_lock(c->loop);
++    teardown_pw(c);
++    for (int i = 0; i < MAX_CAMERAS; i++) {
++        struct cam *cam = &c->cams[i];
++        if (cam->stream_fd >= 0) {
++            close(cam->stream_fd);
++            cam->stream_fd = -1;
++        }
++        unmap_shm(cam);
++        free(cam->frame);
++        cam->frame = NULL;
++    }
++    if (c->ctrl_fd >= 0) {
++        close(c->ctrl_fd);
++        c->ctrl_fd = -1;
++    }
++    if (c->reconnect_timer)
++        pw_loop_destroy_source(pw_thread_loop_get_loop(c->loop), c->reconnect_timer);
++    if (c->loop)
++        pw_thread_loop_unlock(c->loop);
++
++    if (c->loop)
++        pw_thread_loop_stop(c->loop);
++    if (c->context)
++        pw_context_destroy(c->context);
++    if (c->loop)
++        pw_thread_loop_destroy(c->loop);
++    free(c);
++    pw_deinit();
++}
+diff --git a/src/backends/anland/anland_camera.h b/src/backends/anland/anland_camera.h
+new file mode 100644
+index 0000000..d16aafc
+--- /dev/null
++++ b/src/backends/anland/anland_camera.h
+@@ -0,0 +1,54 @@
++#ifndef ANLAND_CAMERA_H
++#define ANLAND_CAMERA_H
++
++/*
++ * Producer-side camera engine.
++ *
++ * Owns a persistent PipeWire thread-loop for the whole KWin session (like the audio
++ * engine), but unlike audio the camera *nodes* are dynamic: they exist only while a
++ * consumer is connected and has handed over its camera resources.
++ *
++ * Lifecycle, driven by the backend state machine:
++ *   - anland_camera_start()                      once, at backend init
++ *   - on leaving fallback: the backend requests SERVICE_TYPE_CAMERA; when the
++ *     consumer replies with { ctrl_fd, stream_fd_0..N-1 } the backend calls
++ *     anland_camera_set_resources(), which creates one virtual Video/Source node per
++ *     camera so Linux apps see them as webcams.
++ *   - on entering fallback: anland_camera_clear() stops any recording, destroys the
++ *     nodes and closes the fds.
++ *   - anland_camera_stop()                       once, at backend teardown
++ *
++ * The camera only physically turns on when an app actually consumes a node: the node's
++ * stream going live sends CAMERA_CTRL_START_RECORD to the consumer over ctrl_fd (and
++ * STOP_RECORD when the last consumer goes away). Frames (I420) arrive on each stream_fd
++ * and are emitted by that camera's Video/Source.
++ *
++ * All fds passed to set_resources are OWNED by the engine (SCM_RIGHTS dups) and closed
++ * in clear()/stop().
++ */
++
++#ifdef __cplusplus
++extern "C" {
++#endif
++
++/* Create the thread-loop and connect to PipeWire. Returns 0 on success, -1 on
++ * failure. Idempotent: a second call while already started is a no-op returning 0. */
++int  anland_camera_start(void);
++
++/* Stop and destroy the engine (also clears any active resources). Safe when stopped. */
++void anland_camera_stop(void);
++
++/* Adopt the consumer's camera resources and build one Video/Source per camera.
++ * fds layout matches the consumer's camera_allocate_resource(): fds[0] is the shared
++ * control socket, fds[1..n_streams] are the per-camera stream sockets. Replaces any
++ * previously-set resources. Takes ownership of all fds. */
++void anland_camera_set_resources(int ctrl_fd, const int *stream_fds, int num_cameras);
++
++/* Tear down the nodes, stop recording, and close all resource fds. Idempotent. */
++void anland_camera_clear(void);
++
++#ifdef __cplusplus
++}
++#endif
++
++#endif /* ANLAND_CAMERA_H */
 diff --git a/src/backends/anland/anland_egl_backend.cpp b/src/backends/anland/anland_egl_backend.cpp
 new file mode 100644
 index 0000000..61f7d72
@@ -1897,10 +3516,10 @@ index 0000000..f99687c
 +} // namespace KWin
 diff --git a/src/backends/anland/display_producer.c b/src/backends/anland/display_producer.c
 new file mode 100644
-index 0000000..58b4dc7
+index 0000000..a9deafd
 --- /dev/null
 +++ b/src/backends/anland/display_producer.c
-@@ -0,0 +1,462 @@
+@@ -0,0 +1,523 @@
 +#define _GNU_SOURCE
 +#include "display_producer.h"
 +#include "socket_utils.h"
@@ -1924,6 +3543,7 @@ index 0000000..58b4dc7
 +    int      buf_ready_efd;
 +    int      fence_fd;        /* write end of the dedicated render-done fence channel */
 +    int      shm_fd;
++    int      audio_fd;        /* local end of the bidirectional audio socketpair (hello slot 4) */
 +    int      pending_render_fence; /* render-done fence for the in-flight frame */
 +    volatile uint32_t *shm_ptr;
 +    uint32_t screen_w, screen_h;
@@ -1957,6 +3577,7 @@ index 0000000..58b4dc7
 +    if (ctx->data_fd >= 0)          { close(ctx->data_fd);          ctx->data_fd = -1; }
 +    if (ctx->buf_ready_efd >= 0)    { close(ctx->buf_ready_efd);    ctx->buf_ready_efd = -1; }
 +    if (ctx->fence_fd >= 0)         { close(ctx->fence_fd);         ctx->fence_fd = -1; }
++    if (ctx->audio_fd >= 0)         { close(ctx->audio_fd);         ctx->audio_fd = -1; }
 +    if (ctx->pending_render_fence >= 0) { close(ctx->pending_render_fence); ctx->pending_render_fence = -1; }
 +    if (ctx->shm_ptr)               { munmap((void *)ctx->shm_ptr, sizeof(uint32_t)); ctx->shm_ptr = NULL; }
 +    if (ctx->shm_fd >= 0)           { close(ctx->shm_fd);           ctx->shm_fd = -1; }
@@ -1990,22 +3611,24 @@ index 0000000..58b4dc7
 +    if (poll(&pfd, 1, HANDSHAKE_TIMEOUT_MS) <= 0)
 +        return -1;
 +
-+    int fds[4];
++    int fds[5];
 +    int fd_count = 0;
 +    struct ctrl_msg resp;
-+    int n = recv_fds(ctx->ctrl_fd, &resp, sizeof(resp), fds, 4, &fd_count);
-+    if (n <= 0 || resp.type != CTRL_MSG_FDS_READY || fd_count < 4) {
++    int n = recv_fds(ctx->ctrl_fd, &resp, sizeof(resp), fds, 5, &fd_count);
++    if (n <= 0 || resp.type != CTRL_MSG_FDS_READY || fd_count < 5) {
 +        for (int i = 0; i < fd_count; i++)
 +            close(fds[i]);
 +        return -1;
 +    }
 +
-+    /* Slot order matches the consumer's send_hello_fds(): { buf_ready, fence, data, shm }.
-+     * fence_fd is the write end of the dedicated producer->consumer render-done channel. */
++    /* Slot order matches the consumer's send_hello_fds(): { buf_ready, fence, data, shm, audio }.
++     * fence_fd is the write end of the dedicated producer->consumer render-done channel;
++     * audio_fd is the full-duplex PCM socket (producer writes playback, reads mic). */
 +    ctx->buf_ready_efd    = fds[0];
 +    ctx->fence_fd         = fds[1];
 +    ctx->data_fd          = fds[2];
 +    ctx->shm_fd           = fds[3];
++    ctx->audio_fd         = fds[4];
 +
 +    ctx->shm_ptr = mmap(NULL, sizeof(uint32_t), PROT_READ, MAP_SHARED, ctx->shm_fd, 0);
 +    if (ctx->shm_ptr == MAP_FAILED) {
@@ -2078,6 +3701,7 @@ index 0000000..58b4dc7
 +    ctx->buf_ready_efd = -1;
 +    ctx->fence_fd = -1;
 +    ctx->shm_fd = -1;
++    ctx->audio_fd = -1;
 +    ctx->pending_render_fence = -1;
 +    ctx->shm_ptr = NULL;
 +    ctx->fallback = true; // stay in fallback until try_exit_fallback() succeeds
@@ -2228,6 +3852,54 @@ index 0000000..58b4dc7
 +    memcpy(event, msg_buf + sizeof(struct data_msg), sizeof(*event));
 +    return 1;
 +}
++int poll_input_event_extend_fds(display_ctx *ctx, int *fds, int max_fds,
++                                int *fd_count, int timeout_ms)
++{
++    *fd_count = 0;
++    if (ctx->fallback)
++        return 0;
++
++    struct pollfd pfd = { .fd = ctx->data_fd, .events = POLLIN };
++    int ret = poll(&pfd, 1, timeout_ms);
++    if (ret <= 0)
++        return 0;
++
++    if (pfd.revents & (POLLHUP | POLLERR)) {
++        enter_fallback(ctx);
++        return -1;
++    }
++
++    struct data_msg hdr;
++    int got = 0;
++    int n = recv_fds(ctx->data_fd, &hdr, sizeof(hdr), fds, max_fds, &got);
++    if (n < (int)sizeof(struct data_msg)) {
++        for (int i = 0; i < got; i++)
++            close(fds[i]);
++        return -1;
++    }
++    if (hdr.type != DATA_MSG_INPUT_EXTEND_FDS) {
++        for (int i = 0; i < got; i++)
++            close(fds[i]);
++        return -1;
++    }
++    *fd_count = got;
++    return 1;
++}
++
++int push_resources_request(display_ctx *ctx, uint32_t service_type, const uint32_t *args)
++{
++    struct OutputEvent ev;
++    memset(&ev, 0, sizeof(ev));
++    ev.type = OUTPUT_TYPE_RESOURCES_REQUEST;
++    ev.resources_request.type = service_type;
++    if (args) {
++        ev.resources_request.args[0] = args[0];
++        ev.resources_request.args[1] = args[1];
++        ev.resources_request.args[2] = args[2];
++    }
++    return push_output_event(ctx, &ev);
++}
++
 +int push_output_event(display_ctx *ctx, const struct OutputEvent *event)
 +{
 +    if (ctx->fallback)
@@ -2321,6 +3993,14 @@ index 0000000..58b4dc7
 +    return ctx->data_fd;
 +}
 +
++/* Current local end of the audio socketpair, or -1 in fallback. The value changes
++ * across reconnects (each pickup installs a fresh socket), so the audio engine must
++ * be re-pointed via anland_audio_set_fd() rather than caching it. */
++int get_audio_fd(display_ctx *ctx)
++{
++    return ctx->fallback ? -1 : ctx->audio_fd;
++}
++
 +int get_buffer_ready_fd(display_ctx *ctx)
 +{
 +    return ctx->buf_ready_efd;
@@ -2365,10 +4045,10 @@ index 0000000..58b4dc7
 +}
 diff --git a/src/backends/anland/display_producer.h b/src/backends/anland/display_producer.h
 new file mode 100644
-index 0000000..8f187f6
+index 0000000..53a5cdd
 --- /dev/null
 +++ b/src/backends/anland/display_producer.h
-@@ -0,0 +1,74 @@
+@@ -0,0 +1,92 @@
 +#ifndef DISPLAY_PRODUCER_H
 +#define DISPLAY_PRODUCER_H
 +
@@ -2414,6 +4094,21 @@ index 0000000..8f187f6
 +int  poll_input_event(display_ctx *ctx, struct InputEvent *event, int timeout_ms);
 +int poll_input_event_extend_data(display_ctx *ctx, void* payload, size_t size, int timeout_ms);
 +
++/* Receive the fds that follow an INPUT_TYPE_RESOURCE event (a DATA_MSG_INPUT_EXTEND_FDS
++ * message carrying the service's fds as SCM_RIGHTS). Call this right after
++ * poll_input_event() returns an INPUT_TYPE_RESOURCE event, using event.resource.fdnum
++ * as the expected count. Writes up to max_fds received fds into fds[] and the actual
++ * count into *fd_count. Returns 1 on success, 0 if nothing was pending, -1 on error
++ * (consumer loss). The caller owns the received fds and must close them. */
++int  poll_input_event_extend_fds(display_ctx *ctx, int *fds, int max_fds,
++                                 int *fd_count, int timeout_ms);
++
++/* Ask the consumer for a service's resources (e.g. SERVICE_TYPE_CAMERA). Sends an
++ * OUTPUT_TYPE_RESOURCES_REQUEST; the consumer replies asynchronously with an
++ * INPUT_TYPE_RESOURCE event + fds on the data channel. args may be NULL (treated as
++ * three zeros). No-op (returns 0) in fallback. */
++int  push_resources_request(display_ctx *ctx, uint32_t service_type, const uint32_t *args);
++
 +int push_output_event(display_ctx *ctx, const struct OutputEvent *event);
 +//接收到输出事件时，可能会有额外的数据需要接收，所以增加一个带长度的版本
 +//但是发送方必须设置变长事件的size字段，表示随后数据的大小，而且必须紧跟事件发送数据
@@ -2434,6 +4129,9 @@ index 0000000..8f187f6
 +int  try_exit_fallback(display_ctx *ctx);
 +
 +int  get_data_fd(display_ctx *ctx);
++/* Current local end of the audio socketpair, or -1 in fallback. Changes across
++ * reconnects; re-point the audio engine on each exit/enter fallback. */
++int  get_audio_fd(display_ctx *ctx);
 +int  get_buffer_ready_fd(display_ctx *ctx);
 +int  get_buf_count(display_ctx *ctx);
 +int  get_selected_idx(display_ctx *ctx);
@@ -2445,10 +4143,10 @@ index 0000000..8f187f6
 +#endif
 diff --git a/src/backends/anland/protocol.h b/src/backends/anland/protocol.h
 new file mode 100644
-index 0000000..16a8882
+index 0000000..c76b506
 --- /dev/null
 +++ b/src/backends/anland/protocol.h
-@@ -0,0 +1,128 @@
+@@ -0,0 +1,194 @@
 +#ifndef DISPLAY_PROTOCOL_H
 +#define DISPLAY_PROTOCOL_H
 +
@@ -2465,6 +4163,7 @@ index 0000000..16a8882
 +#define DATA_MSG_REFRESH_DONE    101
 +#define DATA_MSG_INPUT_EVENT     102
 +#define DATA_MSG_OUTPUT_EVENT    103
++#define DATA_MSG_INPUT_EXTEND_FDS  104
 +#define DATA_MSG_BUFS_READY      200
 +
 +#define MAX_BUFS 8
@@ -2511,6 +4210,14 @@ index 0000000..16a8882
 +#define INPUT_TYPE_DISPLAY_REFRESH 7
 +#define INPUT_TYPE_CLIPBOARD      8
 +#define INPUT_TYPE_TEXT_INPUT      9
++#define INPUT_TYPE_ACTION         10
++/* Consumer -> producer: hands back the fds for a requested service (e.g. camera).
++ * The InputEvent carries { service type, fdnum }; the fdnum fds follow as a
++ * separate DATA_MSG_INPUT_EXTEND_FDS message (SCM_RIGHTS). */
++#define INPUT_TYPE_RESOURCE       11
++
++/* Service identifiers used by OUTPUT_TYPE_RESOURCES_REQUEST / INPUT_TYPE_RESOURCE. */
++#define SERVICE_TYPE_CAMERA 1
 +
 +#define INPUT_ACTION_DOWN    0
 +#define INPUT_ACTION_UP      1
@@ -2554,6 +4261,14 @@ index 0000000..16a8882
 +            uint32_t size; //这个packet只是通知包 作为header真正数据会集中发送,这里通知随后数据的大小
 +        } text_input;
 +        struct {
++            uint32_t action;
++            int32_t value;
++        } input_action;
++        struct {
++            uint32_t type;
++            uint32_t fdnum;//fdnum是fd的数量,后续会有fdnum个fd跟随在这个结构体后面
++        } resource;
++        struct {
 +            uint32_t padding[4];
 +        };
 +    };
@@ -2565,6 +4280,10 @@ index 0000000..16a8882
 +        struct {
 +            uint32_t size; //这个packet只是通知包 作为header真正数据会集中发送,这里通知随后数据的大小
 +        } clipboard;
++        struct {
++            uint32_t type;
++            uint32_t args[3]; //support 3 args
++        } resources_request;
 +        struct
 +        {
 +            uint32_t padding[4];
@@ -2574,6 +4293,51 @@ index 0000000..16a8882
 +} __attribute__((packed));
 +
 +#define OUTPUT_TYPE_CLIPBOARD 1
++#define OUTPUT_TYPE_RESOURCES_REQUEST 2
++
++/*
++ * Audio runs on its own dedicated bidirectional socketpair (hello fd slot 4),
++ * deliberately kept off the data channel so a burst of PCM never head-of-line
++ * blocks input/clipboard. The socket is full duplex: the producer writes desktop
++ * playback PCM that the consumer reads, and the consumer writes microphone PCM
++ * that the producer reads -- each side only ever reads what the other wrote.
++ * Every direction sends one AUDIO_MSG_FORMAT, then a stream of AUDIO_MSG_PCM.
++ *
++ * PCM is interleaved per frame. For stereo (channels == 2) the sample order
++ * within each frame is LEFT then RIGHT, i.e. channel positions FL, FR -- the
++ * producer's SPA channel map and the consumer's AAudio stereo layout must both
++ * honour this order so the left/right channels are never swapped.
++ *
++ * Audio quality is negotiated, not pinned: the consumer owns the real hardware,
++ * so on connect it opens its AAudio streams, reads back the rate/channels the
++ * device actually chose, and sends one AUDIO_MSG_FORMAT per direction (tagged with
++ * role) to the producer. The producer builds its PipeWire sink/source to match,
++ * so neither side resamples blindly and the PCM byte math lines up on both ends.
++ */
++#define AUDIO_MSG_FORMAT 1
++#define AUDIO_MSG_PCM    2
++#define AUDIO_MSG_SHM 3 //请求使用共享内存环形缓冲区传输音频数据,而不是使用socket传输,这样可以减少数据拷贝和延迟
++#define AUDIO_MSG_SHM_FD 4 //producer -> consumer: 共享内存fd, consumer mmap后可以直接读取音频数据
++
++/* PCM sample format codes for struct audio_format.format. */
++#define AUDIO_FORMAT_S16LE 0
++
++/* Which direction a struct audio_format describes. */
++#define AUDIO_ROLE_PLAYBACK 0   /* producer -> consumer (desktop sound -> speaker) */
++#define AUDIO_ROLE_CAPTURE  1   /* consumer -> producer (mic -> virtual source)    */
++
++struct audio_format {
++    uint32_t rate;       /* frames per second the device chose, e.g. 48000 / 44100 */
++    uint32_t channels;   /* interleaved; stereo is L,R (FL,FR) */
++    uint32_t format;     /* AUDIO_FORMAT_* */
++    uint32_t role;       /* AUDIO_ROLE_* -- which direction this describes */
++    uint32_t quantum;    /* requested buffer in frames (latency preset); 0 = engine default */
++} __attribute__((packed));
++
++struct audio_msg {
++    uint32_t type;       /* AUDIO_MSG_FORMAT | AUDIO_MSG_PCM */
++    uint32_t size;       /* payload bytes that follow this header */
++} __attribute__((packed));
 +
 +
 +#endif

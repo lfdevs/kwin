@@ -23,3 +23,5 @@ upstream_e4e144db_backends-drm-Fix-memory-leak-in-DrmGpu-createNonMasterFd.patch
 upstream_e8541cf2_wayland-Fix-resizing-with-fractional-increments.patch
 upstream_51c0880f_wayland-close-popups-upon-window-activation.patch
 upstream_267fa4ec_Fix-activate-and-raise-action-with-panels.patch
+Add-support-for-Anland-display-daemon.patch
+backends-anland-Add-support-for-running-without-a-DR.patch

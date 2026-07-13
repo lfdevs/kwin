@@ -1,3 +1,10 @@
+kwin (4:6.6.6-0ubuntu0.1) resolute; urgency=medium
+
+  * New upstream bugfix release (6.6.6) (LP: #2159979)
+  * Update relax-plasma-internal-build-deps.patch.
+
+ -- Rik Mills <rikmills@kde.org>  Mon, 13 Jul 2026 10:54:09 +0100
+
 kwin (4:6.6.5-0ubuntu0.1) resolute; urgency=medium
 
   * New upstream release (6.6.5) (LP: #2152276)

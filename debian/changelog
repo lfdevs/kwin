@@ -1,3 +1,9 @@
+kwin (4:6.6.4-0ubuntu93) resolute; urgency=medium
+
+  * screencast: Fall back to memfd without a DRM device.
+
+ -- lfdevs <lfdevs@lfdevs.com>  Thu, 23 Jul 2026 00:41:00 +0800
+
 kwin (4:6.6.4-0ubuntu92) resolute; urgency=medium
 
   * Add Add-support-for-running-without-a-DRM-device.patch fot test

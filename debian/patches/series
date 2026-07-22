@@ -25,3 +25,4 @@ upstream_51c0880f_wayland-close-popups-upon-window-activation.patch
 upstream_267fa4ec_Fix-activate-and-raise-action-with-panels.patch
 Add-support-for-Anland-display-daemon.patch
 backends-anland-Add-support-for-running-without-a-DR.patch
+screencast-Fall-back-to-memfd-without-a-DRM-device.patch

@@ -1,10 +1,17 @@
+kwin (4:6.3.6-93) unstable; urgency=medium
+
+  [ lfdevs ]
+  * screencast: Fall back to memfd without a DRM device.
+
+ -- lfdevs <lfdevs@lfdevs.com>  Thu, 23 Jul 2026 00:18:00 +0800
+
 kwin (4:6.3.6-92) unstable; urgency=medium
 
   [ lfdevs ]
   * Add support for Anland display daemon.
   * backends/anland: Add support for running without a DRM device.
 
- -- lfdevs <lfdevs@lfdevs.com>  Sun, 05 Jun 2026 15:28:00 +0800
+ -- lfdevs <lfdevs@lfdevs.com>  Sun, 05 Jul 2026 15:28:00 +0800
 
 kwin (4:6.3.6-1) unstable; urgency=medium
 

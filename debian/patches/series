@@ -26,3 +26,5 @@ upstream_267fa4ec_Fix-activate-and-raise-action-with-panels.patch
 Add-support-for-Anland-display-daemon.patch
 backends-anland-Add-support-for-running-without-a-DR.patch
 screencast-Fall-back-to-memfd-without-a-DRM-device.patch
+backends-anland-Harden-and-trace-consumer-reconnects.patch
+backends-anland-Detach-audio-before-closing-transport-fds.patch

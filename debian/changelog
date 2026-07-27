@@ -1,3 +1,10 @@
+kwin (4:6.6.4-0ubuntu94) resolute; urgency=medium
+
+  * backends/anland: Harden and trace consumer reconnects.
+  * backends/anland: Detach audio before closing transport fds.
+
+ -- lfdevs <lfdevs@lfdevs.com>  Mon, 27 Jul 2026 22:53:00 +0800
+
 kwin (4:6.6.4-0ubuntu93) resolute; urgency=medium
 
   * screencast: Fall back to memfd without a DRM device.

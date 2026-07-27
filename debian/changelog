@@ -1,3 +1,11 @@
+kwin (4:6.3.6-94) unstable; urgency=medium
+
+  [ lfdevs ]
+  * backends/anland: Harden and trace consumer reconnects.
+  * backends/anland: Detach audio before closing transport fds.
+
+ -- lfdevs <lfdevs@lfdevs.com>  Mon, 27 Jul 2026 22:28:00 +0800
+
 kwin (4:6.3.6-93) unstable; urgency=medium
 
   [ lfdevs ]

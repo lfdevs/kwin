@@ -53,7 +53,7 @@ jobs:
         run: |
           cd ~/kwin
           short_hash=$(git rev-parse --short HEAD)
-          echo "XWAYLAND_RELEASE_NAME_SUFFIX=${short_hash}_ubuntu_resolute_arm64" >> "$GITHUB_ENV"
+          echo "KWIN_RELEASE_NAME_SUFFIX=${short_hash}_ubuntu_resolute_arm64" >> "$GITHUB_ENV"
 
       - name: Build KWin
         shell: bash
@@ -84,7 +84,7 @@ jobs:
       - name: Upload build artifacts
         uses: actions/upload-artifact@v7
         with:
-          name: kwin_${{ env.XWAYLAND_RELEASE_NAME_SUFFIX }}
+          name: kwin_${{ env.KWIN_RELEASE_NAME_SUFFIX }}
           path: |
             ~/*.deb
             ~/sha256sums.txt

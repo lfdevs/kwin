@@ -74,6 +74,23 @@ jobs:
           path: /root/.ccache
           key: ccache-kwin-${{ runner.os }}-${{ runner.arch }}-${{ github.run_id }}-${{ github.run_attempt }}
 
+      - name: Collect packages for debug
+        shell: bash
+        run: |
+          cd ~
+          echo "Calculating sha256 checksums..."
+          find . -maxdepth 1 \( -name "*.deb" \) -type f -printf "%P\0" | xargs -0 sha256sum | sort -k2 > sha256sums_debug.txt
+          cat sha256sums_debug.txt && echo
+
+      - name: Upload build artifacts for debug
+        uses: actions/upload-artifact@v7
+        with:
+          name: kwin_${{ env.KWIN_RELEASE_NAME_SUFFIX }}_debug
+          path: |
+            ~/*.deb
+            ~/sha256sums_debug.txt
+          retention-days: 90
+
       - name: Collect packages
         shell: bash
         run: |

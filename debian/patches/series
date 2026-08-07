@@ -4,3 +4,4 @@ Add-support-for-running-without-a-DRM-device.patch
 Fall-back-to-memfd-without-a-DRM-device.patch
 backends-anland-Harden-and-trace-consumer-reconnects.patch
 backends-anland-Detach-audio-before-closing-transport-fds.patch
+plugins-qpa-avoid-null-paint-devices-after-buffer-failures.patch

@@ -1,3 +1,10 @@
+kwin (4:6.6.4-0ubuntu95) resolute; urgency=medium
+
+  * plugins/qpa: avoid null paint devices after buffer failures
+  * plugins/qpa: fall back to software without a DRM device
+
+ -- lfdevs <lfdevs@lfdevs.com>  Sat, 15 Aug 2026 14:03:03 +0800
+
 kwin (4:6.6.4-0ubuntu94) resolute; urgency=medium
 
   * backends/anland: Harden and trace consumer reconnects.

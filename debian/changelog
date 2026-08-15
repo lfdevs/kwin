@@ -1,3 +1,10 @@
+kwin (4:6.3.6-95) unstable; urgency=medium
+
+  * plugins/qpa: avoid null paint devices after buffer failures
+  * plugins/qpa: fall back to software without a DRM device
+
+ -- lfdevs <lfdevs@lfdevs.com>  Sat, 15 Aug 2026 13:59:28 +0800
+
 kwin (4:6.3.6-94) unstable; urgency=medium
 
   [ lfdevs ]

@@ -32,3 +32,4 @@ plugins-qpa-avoid-null-paint-devices-after-buffer-failures.patch
 plugins-qpa-fall-back-to-software-without-a-DRM-device.patch
 backends-anland-handle-audio-socket-read-errors.patch
 backends-anland-fix-audio-socket-lifetime-during-fallback.patch
+wayland-optimize-dma-buf-synchronization-for-Anland.patch

@@ -1,5 +1,11 @@
 kwin (4:6.6.6-0ubuntu0.1) resolute; urgency=medium
 
+  * Bump to 4:6.6.6-0ubuntu90
+
+ -- lfdevs <lfdevs@lfdevs.com>  Sun, 11 Oct 2026 19:13:21 +0800
+
+kwin (4:6.6.6-0ubuntu0.1) resolute; urgency=medium
+
   * New upstream bugfix release (6.6.6) (LP: #2159979)
   * Update relax-plasma-internal-build-deps.patch.
 

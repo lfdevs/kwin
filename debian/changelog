@@ -1,3 +1,18 @@
+kwin (4:6.6.6-0ubuntu0.1) resolute; urgency=medium
+
+  * New upstream bugfix release (6.6.6) (LP: #2159979)
+  * Update relax-plasma-internal-build-deps.patch.
+
+ -- Rik Mills <rikmills@kde.org>  Mon, 13 Jul 2026 10:54:09 +0100
+
+kwin (4:6.6.5-0ubuntu0.1) resolute; urgency=medium
+
+  * New upstream release (6.6.5) (LP: #2152276)
+  * Add relax-plasma-internal-build-deps.patch to avoid rebuilding
+    sources with just a version bump.
+
+ -- Rik Mills <rikmills@kde.org>  Tue, 19 May 2026 10:27:24 +0100
+
 kwin (4:6.6.4-0ubuntu95) resolute; urgency=medium
 
   * plugins/qpa: avoid null paint devices after buffer failures

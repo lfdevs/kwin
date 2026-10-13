@@ -1,0 +1,524 @@
+From: lfdevs <lfdevs@lfdevs.com>
+Date: Tue, 13 Oct 2026 22:56:49 +0800
+Subject: [PATCH] backends/anland: render only for KWin repaint requests
+
+Negotiate idle rendering with the consumer before disabling buffer-driven
+repaints. Preserve accumulated buffer damage and legacy consumer pacing.
+
+Submit only rendered frames, drop failed frames without presentation
+feedback, and wait for buffer availability before resuming rendering.
+Recover import failures with bounded reconnect backoff and handle fence
+response failures immediately.
+
+Based-on-patch: https://github.com/lfdevs/anland-termux/issues/53#issuecomment-5967846798
+Co-authored-by: paleahn <paleahn@gmail.com>
+---
+ src/backends/anland/anland_backend.cpp     | 74 +++++++++++++++++++++---------
+ src/backends/anland/anland_backend.h       |  7 +++
+ src/backends/anland/anland_egl_backend.cpp | 16 ++++++-
+ src/backends/anland/anland_egl_backend.h   |  3 ++
+ src/backends/anland/anland_output.cpp      | 50 ++++++++++++++------
+ src/backends/anland/anland_output.h        |  3 +-
+ src/backends/anland/display_producer.c     | 44 ++++++++++++++----
+ src/backends/anland/display_producer.h     |  9 +++-
+ src/backends/anland/protocol.h             | 10 ++++
+ 9 files changed, 168 insertions(+), 48 deletions(-)
+
+diff --git a/src/backends/anland/anland_backend.cpp b/src/backends/anland/anland_backend.cpp
+index 153f47d..a2b2f27 100644
+--- a/src/backends/anland/anland_backend.cpp
++++ b/src/backends/anland/anland_backend.cpp
+@@ -32,6 +32,7 @@
+ 
+ #include <xf86drm.h>
+ 
++#include <algorithm>
+ #include <fcntl.h>
+ #include <poll.h>
+ #include <sys/eventfd.h>
+@@ -229,13 +230,34 @@ void AnlandBackend::setEglDisplay(std::unique_ptr<EglDisplay> &&display)
+ bool AnlandBackend::notifyFramePresented()
+ {
+     if (m_consumerReady) {
+-        trigger_refresh(m_display);
++        const int result = trigger_refresh(m_display);
+         m_consumerReady = false;
+-        return true;
++        if (result == 0 && !m_inFallback) {
++            m_reconnectDelay = 200;
++            m_reconnectTimer->setInterval(m_reconnectDelay);
++            return true;
++        }
+     }
+     return false;
+ }
+ 
++void AnlandBackend::waitForBuffer()
++{
++    m_waitingForBuffer = true;
++    m_outputs[0]->stopRendering();
++}
++
++void AnlandBackend::recoverRenderFailure()
++{
++    // Reimport on a fresh connection, but do not spin on unsupported buffers.
++    m_reconnectDelay = std::min(m_reconnectDelay * 2, 5000);
++    m_reconnectTimer->setInterval(m_reconnectDelay);
++    if (m_idleRendering && hasAvailableBuffer()) {
++        trigger_frame_abort(m_display);
++    }
++    request_consumer_reconnect(m_display);
++}
++
+ void AnlandBackend::setupNotifiers()
+ {
+     teardownNotifiers();
+@@ -373,6 +395,13 @@ void AnlandBackend::processInputEvent(const InputEvent &ev)
+         }
+         break;
+     }
++    case INPUT_TYPE_CAPABILITIES:
++        if (!m_idleRendering && (ev.capabilities.features & ANLAND_FEATURE_IDLE_RENDERING)) {
++            // Older consumers retain their five-second watchdog and need the
++            // legacy buffer-driven repaint cycle. Enable idle only after ACK.
++            m_idleRendering = confirm_idle_rendering(m_display) == 0 && !m_inFallback;
++        }
++        break;
+     case INPUT_TYPE_RESOURCE: {
+         // The consumer is handing back the fds for a service we requested. The fdnum
+         // fds follow as a separate DATA_MSG_INPUT_EXTEND_FDS message; receive them now
+@@ -410,21 +439,27 @@ void AnlandBackend::onBufferReady()
+         return;
+     }
+ 
+-    // The dmabuf set is already in hand (try_exit_fallback() received it when we
+-    // left fallback), so buffer-ready is purely a frame-completion signal: drain
+-    // the eventfd and pace the render cycle.
++    // Availability and acknowledgement, not necessarily a repaint request.
+     const int fd = get_buffer_ready_fd(m_display);
+     if (fd >= 0) {
+         eventfd_t val;
+-        eventfd_read(fd, &val);
++        if (eventfd_read(fd, &val) < 0) {
++            return;
++        }
++    } else {
++        return;
+     }
+ 
+     m_consumerReady = true;
+ 
+-    // Buffer-ready is our frame-completion signal: complete the in-flight frame
+-    // (if any) and schedule the next one, keeping the render cycle paced by the
+-    // consumer rather than a timer.
+     m_outputs[0]->onConsumerReady();
++    if (m_waitingForBuffer) {
++        m_waitingForBuffer = false;
++        m_outputs[0]->resumeRendering();
++        if (AnlandEglLayer *layer = m_outputs[0]->eglLayer()) {
++            layer->addRepaint(infiniteRegion());
++        }
++    }
+ }
+ 
+ void AnlandBackend::fallbackTrampoline(void *data)
+@@ -457,6 +492,8 @@ void AnlandBackend::enterFallback()
+     }
+ 
+     m_consumerReady = false;
++    m_waitingForBuffer = false;
++    m_idleRendering = false;
+     m_inFallback = true;
+ 
+     // The consumer's camera fds are now dead: stop recording, destroy the virtual
+@@ -482,21 +519,19 @@ void AnlandBackend::onReconnectTimer()
+     qCInfo(KWIN_ANLAND) << "consumer reconnected";
+     m_inFallback = false;
+     m_consumerReady = false;
++    m_waitingForBuffer = true;
++    m_idleRendering = false;
+     m_reconnectTimer->stop();
+ 
+-    // try_exit_fallback() already received a fresh dmabuf set. Import it into the
+-    // layer (which arms an infinite/full-output repaint on every rotation buffer),
+-    // resume the RenderLoop (uninhibit, balancing the inhibit from onConsumerLost),
+-    // and mark the layer dirty. addRepaint() marks the full output dirty so the next
+-    // composite() paints into the new dmabufs even on an idle desktop.
+-    // resumeRendering() runs unconditionally to keep inhibit/uninhibit
+-    // balanced regardless of whether the GL layer is attached yet.
++    // Import the fresh set, then wait for a selected buffer before resuming.
+     AnlandEglLayer *layer = m_outputs[0]->eglLayer();
+     if (layer) {
+         const int bufferCount = get_buf_count(m_display);
+         qCDebug(KWIN_ANLAND) << "reconnect: importing" << bufferCount << "buffers";
+         if (!layer->importBuffers(bufferCount)) {
+             qCWarning(KWIN_ANLAND) << "reconnect: buffer import failed";
++            recoverRenderFailure();
++            return;
+         } else {
+             qCDebug(KWIN_ANLAND) << "reconnect: buffer import complete";
+         }
+@@ -517,12 +552,7 @@ void AnlandBackend::onReconnectTimer()
+     if (m_inFallback) {
+         return;
+     }
+-    m_outputs[0]->resumeRendering();
+-    qCDebug(KWIN_ANLAND) << "reconnect: render loop resumed";
+-    if (layer) {
+-        layer->addRepaint(infiniteRegion());
+-        qCDebug(KWIN_ANLAND) << "reconnect: repaint scheduled";
+-    }
++    // Keep the loop inhibited until the consumer actually selects a buffer.
+ }
+ 
+ // ---------------------------------------------------------------------------
+diff --git a/src/backends/anland/anland_backend.h b/src/backends/anland/anland_backend.h
+index 523ab82..783c8e3 100644
+--- a/src/backends/anland/anland_backend.h
++++ b/src/backends/anland/anland_backend.h
+@@ -72,6 +72,10 @@ public:
+     }
+ 
+     bool notifyFramePresented();
++    bool hasAvailableBuffer() const { return m_consumerReady && !m_inFallback; }
++    bool idleRendering() const { return m_idleRendering; }
++    void waitForBuffer();
++    void recoverRenderFailure();
+ 
+     /** Re-run the Workspace output layout after an output changed its mode at
+      *  runtime (AnlandOutput::resize). The backend mutates the mode directly via
+@@ -118,6 +122,9 @@ private:
+     QTimer *m_reconnectTimer = nullptr;
+ 
+     bool m_consumerReady = false;
++    bool m_waitingForBuffer = false;
++    bool m_idleRendering = false;
++    int m_reconnectDelay = 200;
+     bool m_inFallback = false;
+     bool m_noDrmDeviceMode = false;
+ 
+diff --git a/src/backends/anland/anland_egl_backend.cpp b/src/backends/anland/anland_egl_backend.cpp
+index 9ecab43..e5c57c1 100644
+--- a/src/backends/anland/anland_egl_backend.cpp
++++ b/src/backends/anland/anland_egl_backend.cpp
+@@ -70,6 +70,7 @@ AnlandEglLayer::~AnlandEglLayer()
+ 
+ void AnlandEglLayer::releaseBuffers()
+ {
++    m_frameResult = FrameResult::None;
+     // Destroying the GL textures/framebuffers needs the context current. Callers
+     // (backend state machine on fallback, ~AnlandEglLayer) may run outside a frame.
+     m_backend->openglContext()->makeCurrent();
+@@ -197,6 +198,11 @@ void AnlandEglLayer::onOutputTransformChanged()
+ 
+ std::optional<OutputLayerBeginFrameInfo> AnlandEglLayer::doBeginFrame()
+ {
++    m_frameResult = FrameResult::Deferred;
++    if (!m_backend->backend()->hasAvailableBuffer()) {
++        return std::nullopt;
++    }
++    m_frameResult = FrameResult::Failed;
+     m_backend->openglContext()->makeCurrent();
+ 
+     m_currentIndex = get_selected_idx(m_display);
+@@ -230,7 +236,7 @@ bool AnlandEglLayer::doEndFrame(const QRegion &renderedDeviceRegion, const QRegi
+     m_accumDamage[m_currentIndex] = QRegion();
+ 
+     m_damageFlags &= ~(uint8_t)(1 << m_currentIndex);
+-    if (m_damageFlags != 0)
++    if (m_damageFlags != 0 && !m_backend->backend()->idleRendering())
+         addRepaint(infiniteRegion());
+ 
+     // Instead of CPU-blocking on glFinish, create a fence for the just-submitted
+@@ -241,6 +247,7 @@ bool AnlandEglLayer::doEndFrame(const QRegion &renderedDeviceRegion, const QRegi
+     const bool fenceValid = fence.isValid();
+     const int fenceFd = fence.takeFileDescriptor().take();
+     set_render_fence(m_display, fenceFd);
++    m_frameResult = FrameResult::Rendered;
+     if (m_traceNextFrame) {
+         qCDebug(KWIN_ANLAND) << "finished first frame after buffer import with index"
+                              << m_currentIndex << "native fence valid" << fenceValid
+@@ -250,6 +257,13 @@ bool AnlandEglLayer::doEndFrame(const QRegion &renderedDeviceRegion, const QRegi
+     return true;
+ }
+ 
++AnlandEglLayer::FrameResult AnlandEglLayer::takeFrameResult()
++{
++    const auto result = m_frameResult;
++    m_frameResult = FrameResult::None;
++    return result;
++}
++
+ DrmDevice *AnlandEglLayer::scanoutDevice() const
+ {
+     return m_backend->drmDevice();
+diff --git a/src/backends/anland/anland_egl_backend.h b/src/backends/anland/anland_egl_backend.h
+index 1252a76..6283069 100644
+--- a/src/backends/anland/anland_egl_backend.h
++++ b/src/backends/anland/anland_egl_backend.h
+@@ -40,6 +40,7 @@ class AnlandOutput;
+ class AnlandEglLayer : public OutputLayer
+ {
+ public:
++    enum class FrameResult { None, Deferred, Failed, Rendered };
+     AnlandEglLayer(AnlandOutput *output, AnlandEglBackend *backend);
+     ~AnlandEglLayer() override;
+ 
+@@ -49,6 +50,7 @@ public:
+     QHash<uint32_t, QList<uint64_t>> supportedDrmFormats() const override;
+     bool importBuffers(int count);
+     void releaseBuffers();
++    FrameResult takeFrameResult();
+ 
+ private:
+     void onOutputTransformChanged();
+@@ -62,6 +64,7 @@ private:
+     uint8_t m_damageFlags = 0;
+     uint8_t m_damageMask = 0;
+     bool m_traceNextFrame = false;
++    FrameResult m_frameResult = FrameResult::None;
+     std::array<std::shared_ptr<GLTexture>, MAX_BUFS> m_textures;
+     std::array<std::unique_ptr<GLFramebuffer>, MAX_BUFS> m_fbos;
+     std::array<std::optional<RenderTarget>, MAX_BUFS> m_renderTargets;
+diff --git a/src/backends/anland/anland_output.cpp b/src/backends/anland/anland_output.cpp
+index d73b2f5..24aeb92 100644
+--- a/src/backends/anland/anland_output.cpp
++++ b/src/backends/anland/anland_output.cpp
+@@ -6,6 +6,7 @@
+ */
+ #include "anland_output.h"
+ #include "anland_backend.h"
++#include "anland_egl_backend.h"
+ #include "anland_logging.h"
+ 
+ #include "core/renderbackend.h" // OutputFrame
+@@ -21,6 +22,7 @@ AnlandOutput::AnlandOutput(AnlandBackend *parent, const QString &name)
+     , m_backend(parent)
+     , m_renderLoop(std::make_unique<RenderLoop>(this))
+ {
++    m_renderLoop->setMaxPendingFrameCount(1);
+     setInformation(Information{
+         .name = name,
+         .manufacturer = QStringLiteral("anland"),
+@@ -40,18 +42,38 @@ RenderLoop *AnlandOutput::renderLoop() const
+ 
+ void AnlandOutput::present(const std::shared_ptr<OutputFrame> &frame)
+ {
+-    // The scene has already been rendered into the daemon's dmabuf by the layer
+-    // (AnlandEglLayer::doEndFrame). Hand it to the consumer now.
+     m_frame = frame;
+-    const bool handedToConsumer = m_backend->notifyFramePresented();
+-    if (handedToConsumer) {
+-        // The consumer will present the buffer and then signal buffer-ready;
+-        // defer frame completion until then (see onConsumerReady()).
+-        m_awaitingPresent = true;
+-    } else {
+-        // Nothing was handed to the consumer this frame, so no buffer-ready will
+-        // arrive for it — complete it now so the RenderLoop never stalls.
+-        completeFrame();
++    const auto result = m_eglLayer ? m_eglLayer->takeFrameResult() : AnlandEglLayer::FrameResult::Failed;
++    switch (result) {
++    case AnlandEglLayer::FrameResult::Rendered:
++        if (m_backend->notifyFramePresented()) {
++            m_awaitingPresent = true;
++        } else {
++            m_frame.reset();
++        }
++        break;
++    case AnlandEglLayer::FrameResult::None:
++        // No scene damage: the existing displayed content remains valid.
++        if (!m_backend->idleRendering() && m_backend->hasAvailableBuffer()) {
++            // Legacy consumers expect a response even for an unchanged buffer.
++            if (m_backend->notifyFramePresented()) {
++                m_awaitingPresent = true;
++            } else {
++                m_frame.reset();
++            }
++        } else {
++            completeFrame();
++        }
++        break;
++    case AnlandEglLayer::FrameResult::Deferred:
++        m_backend->waitForBuffer();
++        m_frame.reset();
++        break;
++    case AnlandEglLayer::FrameResult::Failed:
++        m_backend->recoverRenderFailure();
++        // OutputFrame's destructor reports a dropped frame, not a presentation.
++        m_frame.reset();
++        break;
+     }
+ }
+ 
+@@ -114,9 +136,9 @@ void AnlandOutput::onConsumerReady()
+         m_awaitingPresent = false;
+         completeFrame();
+     }
+-    // Render the next frame in lockstep with the consumer, exactly as the 5.27
+-    // backend did: the consumer's buffer-ready drives scheduleRepaint().
+-    m_renderLoop->scheduleRepaint();
++    if (!m_backend->idleRendering()) {
++        m_renderLoop->scheduleRepaint();
++    }
+ }
+ 
+ void AnlandOutput::resize(const QSize &newSize)
+diff --git a/src/backends/anland/anland_output.h b/src/backends/anland/anland_output.h
+index cfed72b..735f1e4 100644
+--- a/src/backends/anland/anland_output.h
++++ b/src/backends/anland/anland_output.h
+@@ -49,7 +49,8 @@ public:
+     void setRefreshRate(int refresh);
+ 
+     /** Consumer signalled buffer-ready (buf_ready_efd): complete the in-flight
+-     *  frame and schedule the next one, keeping the cycle consumer-paced. */
++     *  frame. With idle rendering negotiated, only scene damage requests another
++     *  repaint; older consumers retain the buffer-paced render cycle. */
+     void onConsumerReady();
+ 
+     /** Reconfigure the output when the consumer uses a different buffer size
+diff --git a/src/backends/anland/display_producer.c b/src/backends/anland/display_producer.c
+index aaf7470..d8e4068 100644
+--- a/src/backends/anland/display_producer.c
++++ b/src/backends/anland/display_producer.c
+@@ -256,14 +256,14 @@ void set_render_fence(display_ctx *ctx, int fence_fd)
+     ctx->pending_render_fence = fence_fd;
+ }
+ 
+-int trigger_refresh(display_ctx *ctx)
++static int send_fence_response(display_ctx *ctx, char response)
+ {
+     if (ctx->fallback) {
+         if (ctx->pending_render_fence >= 0) {
+             close(ctx->pending_render_fence);
+             ctx->pending_render_fence = -1;
+         }
+-        return 0;
++        return -1;
+     }
+ 
+     /* Send exactly one render-done message per frame on the dedicated fence channel
+@@ -274,11 +274,10 @@ int trigger_refresh(display_ctx *ctx)
+      * with -1). The consumer hands the fence to queueBuffer -> SurfaceFlinger waits
+      * GPU-side. NON-BLOCKING: this runs on kwin's main thread, which must never block
+      * on our socket. In lockstep the consumer always drains, so the one-message
+-     * buffer never fills; a momentary miss self-heals via the consumer's 5s
+-     * poll->fallback rather than freezing the compositor. data_fd's reverse direction
++     * buffer never fills. Send failure must enter fallback immediately, since an
++     * idle-capable consumer no longer has a per-frame watchdog. data_fd's reverse direction
+      * is intentionally left unused (reserved for future extension). */
+-    char b = 0;
+-    struct iovec iov = { .iov_base = &b, .iov_len = 1 };
++    struct iovec iov = { .iov_base = &response, .iov_len = 1 };
+     union {
+         char buf[CMSG_SPACE(sizeof(int))];
+         struct cmsghdr align;
+@@ -287,7 +286,7 @@ int trigger_refresh(display_ctx *ctx)
+         .msg_iov = &iov,
+         .msg_iovlen = 1,
+     };
+-    if (ctx->pending_render_fence >= 0) {
++    if (response == FENCE_MSG_RENDERED && ctx->pending_render_fence >= 0) {
+         msg.msg_control = cmsg.buf;
+         msg.msg_controllen = sizeof(cmsg.buf);
+         struct cmsghdr *c = CMSG_FIRSTHDR(&msg);
+@@ -296,14 +295,41 @@ int trigger_refresh(display_ctx *ctx)
+         c->cmsg_len = CMSG_LEN(sizeof(int));
+         memcpy(CMSG_DATA(c), &ctx->pending_render_fence, sizeof(int));
+     }
+-    sendmsg(ctx->fence_fd, &msg, MSG_NOSIGNAL | MSG_DONTWAIT);
+-    if (ctx->pending_render_fence >= 0) {
++    ssize_t sent;
++    do {
++        sent = sendmsg(ctx->fence_fd, &msg, MSG_NOSIGNAL | MSG_DONTWAIT);
++    } while (sent < 0 && errno == EINTR);
++    if (response != FENCE_MSG_IDLE_CAPABLE && ctx->pending_render_fence >= 0) {
+         close(ctx->pending_render_fence);
+         ctx->pending_render_fence = -1;
+     }
++    if (sent != 1) {
++        enter_fallback(ctx);
++        return -1;
++    }
+     return 0;
+ }
+ 
++int trigger_refresh(display_ctx *ctx)
++{
++    return send_fence_response(ctx, FENCE_MSG_RENDERED);
++}
++
++int trigger_frame_abort(display_ctx *ctx)
++{
++    return send_fence_response(ctx, FENCE_MSG_ABORTED);
++}
++
++int confirm_idle_rendering(display_ctx *ctx)
++{
++    return send_fence_response(ctx, FENCE_MSG_IDLE_CAPABLE);
++}
++
++void request_consumer_reconnect(display_ctx *ctx)
++{
++    enter_fallback(ctx);
++}
++
+ int poll_input_event(display_ctx *ctx, struct InputEvent *event, int timeout_ms)
+ {
+     if (ctx->fallback)
+diff --git a/src/backends/anland/display_producer.h b/src/backends/anland/display_producer.h
+index 9a72e05..1972338 100644
+--- a/src/backends/anland/display_producer.h
++++ b/src/backends/anland/display_producer.h
+@@ -35,8 +35,15 @@ int  get_screen_info(display_ctx *ctx, uint32_t *width, uint32_t *height, uint32
+ void set_render_fence(display_ctx *ctx, int fence_fd);
+ 
+ /* Signal the consumer that the current frame is done by sending one message (with
+- * the render fence, if any) on the dedicated fence channel. No-op in fallback. */
++ * the render fence, if any) on the dedicated fence channel. Returns -1 on send
++ * failure or in fallback; send failure immediately enters fallback. */
+ int  trigger_refresh(display_ctx *ctx);
++/* Abort without presenting, or acknowledge idle support without consuming the
++ * selected buffer or its pending render fence. Same send-error contract. */
++int  trigger_frame_abort(display_ctx *ctx);
++int  confirm_idle_rendering(display_ctx *ctx);
++/* Drop the transport so a fresh buffer set can be imported after render errors. */
++void request_consumer_reconnect(display_ctx *ctx);
+ 
+ /* Pull one pending input event. Returns 1 if an event was written, 0 if none was
+  * available, -1 on consumer loss. No-op (returns 0) in fallback. */
+diff --git a/src/backends/anland/protocol.h b/src/backends/anland/protocol.h
+index c76b506..4668939 100644
+--- a/src/backends/anland/protocol.h
++++ b/src/backends/anland/protocol.h
+@@ -17,6 +17,12 @@
+ #define DATA_MSG_INPUT_EXTEND_FDS  104
+ #define DATA_MSG_BUFS_READY      200
+ 
++/* Fence responses. Idle mode requires an explicit capability acknowledgement. */
++#define FENCE_MSG_RENDERED 0
++#define FENCE_MSG_ABORTED 1
++#define FENCE_MSG_IDLE_CAPABLE 2
++#define ANLAND_FEATURE_IDLE_RENDERING (1u << 0)
++
+ #define MAX_BUFS 8
+ 
+ struct ctrl_msg {
+@@ -66,6 +72,7 @@ struct buf_info {
+  * The InputEvent carries { service type, fdnum }; the fdnum fds follow as a
+  * separate DATA_MSG_INPUT_EXTEND_FDS message (SCM_RIGHTS). */
+ #define INPUT_TYPE_RESOURCE       11
++#define INPUT_TYPE_CAPABILITIES   12
+ 
+ /* Service identifiers used by OUTPUT_TYPE_RESOURCES_REQUEST / INPUT_TYPE_RESOURCE. */
+ #define SERVICE_TYPE_CAMERA 1
+@@ -119,6 +126,9 @@ struct InputEvent {
+             uint32_t type;
+             uint32_t fdnum;//fdnum是fd的数量,后续会有fdnum个fd跟随在这个结构体后面
+         } resource;
++        struct {
++            uint32_t features;
++        } capabilities;
+         struct {
+             uint32_t padding[4];
+         };

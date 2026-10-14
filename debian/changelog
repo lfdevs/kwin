@@ -1,4 +1,15 @@
-kwin (4:6.6.6-0ubuntu0.1) resolute; urgency=medium
+kwin (4:6.6.6-0ubuntu91) resolute; urgency=medium
+
+  [ 龟仙人 ]
+  * [PATCH] backends/anland: fix audio socket handling on read errors
+
+  [ Goldzxcbug ]
+  * [PATCH] backends/anland: fix audio socket lifetime during fallback
+  * [PATCH] wayland: optimize dma-buf synchronization for Anland
+
+ -- lfdevs <lfdevs@lfdevs.com>  Wed, 14 Oct 2026 16:38:32 +0800
+
+kwin (4:6.6.6-0ubuntu90) resolute; urgency=medium
 
   * Bump to 4:6.6.6-0ubuntu90
 

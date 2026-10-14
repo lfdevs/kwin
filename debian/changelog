@@ -1,3 +1,14 @@
+kwin (4:6.3.6-96) unstable; urgency=medium
+
+  [ superturtlee ]
+  * backends/anland: handle audio socket read errors
+
+  [ Goldzxcbug ]
+  * backends/anland: fix audio socket lifetime during fallback
+  * wayland: optimize dma-buf synchronization for Anland
+
+ -- lfdevs <lfdevs@lfdevs.com>  Wed, 14 Oct 2026 16:35:56 +0800
+
 kwin (4:6.3.6-95) unstable; urgency=medium
 
   * plugins/qpa: avoid null paint devices after buffer failures
